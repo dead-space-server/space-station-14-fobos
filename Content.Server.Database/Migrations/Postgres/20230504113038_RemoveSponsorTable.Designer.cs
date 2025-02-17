@@ -8,22 +8,21 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using NpgsqlTypes;
 
 #nullable disable
 
 namespace Content.Server.Database.Migrations.Postgres
 {
     [DbContext(typeof(PostgresServerDbContext))]
-    [Migration("20240301130641_ClothingRemoval")]
-    partial class ClothingRemoval
+    [Migration("20230504113038_RemoveSponsorTable")]
+    partial class RemoveSponsorTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "7.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -88,13 +87,16 @@ namespace Content.Server.Database.Migrations.Postgres
 
             modelBuilder.Entity("Content.Server.Database.AdminLog", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("admin_log_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
                     b.Property<int>("RoundId")
                         .HasColumnType("integer")
                         .HasColumnName("round_id");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("integer")
-                        .HasColumnName("admin_log_id");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone")
@@ -118,7 +120,7 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("integer")
                         .HasColumnName("type");
 
-                    b.HasKey("RoundId", "Id")
+                    b.HasKey("Id", "RoundId")
                         .HasName("PK_admin_log");
 
                     b.HasIndex("Date");
@@ -128,114 +130,65 @@ namespace Content.Server.Database.Migrations.Postgres
 
                     NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Message"), "GIN");
 
+                    b.HasIndex("RoundId")
+                        .HasDatabaseName("IX_admin_log_round_id");
+
                     b.HasIndex("Type")
                         .HasDatabaseName("IX_admin_log_type");
 
                     b.ToTable("admin_log", (string)null);
                 });
 
+            modelBuilder.Entity("Content.Server.Database.AdminLogEntity", b =>
+                {
+                    b.Property<int>("Uid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("uid");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Uid"));
+
+                    b.Property<int?>("AdminLogId")
+                        .HasColumnType("integer")
+                        .HasColumnName("admin_log_id");
+
+                    b.Property<int?>("AdminLogRoundId")
+                        .HasColumnType("integer")
+                        .HasColumnName("admin_log_round_id");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.HasKey("Uid")
+                        .HasName("PK_admin_log_entity");
+
+                    b.HasIndex("AdminLogId", "AdminLogRoundId")
+                        .HasDatabaseName("IX_admin_log_entity_admin_log_id_admin_log_round_id");
+
+                    b.ToTable("admin_log_entity", (string)null);
+                });
+
             modelBuilder.Entity("Content.Server.Database.AdminLogPlayer", b =>
                 {
-                    b.Property<int>("RoundId")
-                        .HasColumnType("integer")
-                        .HasColumnName("round_id");
+                    b.Property<Guid>("PlayerUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("player_user_id");
 
                     b.Property<int>("LogId")
                         .HasColumnType("integer")
                         .HasColumnName("log_id");
 
-                    b.Property<Guid>("PlayerUserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("player_user_id");
-
-                    b.HasKey("RoundId", "LogId", "PlayerUserId")
-                        .HasName("PK_admin_log_player");
-
-                    b.HasIndex("PlayerUserId")
-                        .HasDatabaseName("IX_admin_log_player_player_user_id");
-
-                    b.ToTable("admin_log_player", (string)null);
-                });
-
-            modelBuilder.Entity("Content.Server.Database.AdminMessage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("admin_messages_id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<Guid?>("CreatedById")
-                        .HasColumnType("uuid")
-                        .HasColumnName("created_by_id");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("deleted");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<Guid?>("DeletedById")
-                        .HasColumnType("uuid")
-                        .HasColumnName("deleted_by_id");
-
-                    b.Property<DateTime?>("ExpirationTime")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("expiration_time");
-
-                    b.Property<DateTime?>("LastEditedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("last_edited_at");
-
-                    b.Property<Guid?>("LastEditedById")
-                        .HasColumnType("uuid")
-                        .HasColumnName("last_edited_by_id");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasMaxLength(4096)
-                        .HasColumnType("character varying(4096)")
-                        .HasColumnName("message");
-
-                    b.Property<Guid?>("PlayerUserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("player_user_id");
-
-                    b.Property<TimeSpan>("PlaytimeAtNote")
-                        .HasColumnType("interval")
-                        .HasColumnName("playtime_at_note");
-
-                    b.Property<int?>("RoundId")
+                    b.Property<int>("RoundId")
                         .HasColumnType("integer")
                         .HasColumnName("round_id");
 
-                    b.Property<bool>("Seen")
-                        .HasColumnType("boolean")
-                        .HasColumnName("seen");
+                    b.HasKey("PlayerUserId", "LogId", "RoundId")
+                        .HasName("PK_admin_log_player");
 
-                    b.HasKey("Id")
-                        .HasName("PK_admin_messages");
+                    b.HasIndex("LogId", "RoundId");
 
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("DeletedById");
-
-                    b.HasIndex("LastEditedById");
-
-                    b.HasIndex("PlayerUserId")
-                        .HasDatabaseName("IX_admin_messages_player_user_id");
-
-                    b.HasIndex("RoundId")
-                        .HasDatabaseName("IX_admin_messages_round_id");
-
-                    b.ToTable("admin_messages", (string)null);
+                    b.ToTable("admin_log_player", (string)null);
                 });
 
             modelBuilder.Entity("Content.Server.Database.AdminNote", b =>
@@ -251,7 +204,7 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<Guid?>("CreatedById")
+                    b.Property<Guid>("CreatedById")
                         .HasColumnType("uuid")
                         .HasColumnName("created_by_id");
 
@@ -267,16 +220,11 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("uuid")
                         .HasColumnName("deleted_by_id");
 
-                    b.Property<DateTime?>("ExpirationTime")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("expiration_time");
-
-                    b.Property<DateTime?>("LastEditedAt")
-                        .IsRequired()
+                    b.Property<DateTime>("LastEditedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("last_edited_at");
 
-                    b.Property<Guid?>("LastEditedById")
+                    b.Property<Guid>("LastEditedById")
                         .HasColumnType("uuid")
                         .HasColumnName("last_edited_by_id");
 
@@ -286,25 +234,17 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("character varying(4096)")
                         .HasColumnName("message");
 
-                    b.Property<Guid?>("PlayerUserId")
+                    b.Property<Guid>("PlayerUserId")
                         .HasColumnType("uuid")
                         .HasColumnName("player_user_id");
-
-                    b.Property<TimeSpan>("PlaytimeAtNote")
-                        .HasColumnType("interval")
-                        .HasColumnName("playtime_at_note");
 
                     b.Property<int?>("RoundId")
                         .HasColumnType("integer")
                         .HasColumnName("round_id");
 
-                    b.Property<bool>("Secret")
+                    b.Property<bool>("ShownToPlayer")
                         .HasColumnType("boolean")
-                        .HasColumnName("secret");
-
-                    b.Property<int>("Severity")
-                        .HasColumnType("integer")
-                        .HasColumnName("severity");
+                        .HasColumnName("shown_to_player");
 
                     b.HasKey("Id")
                         .HasName("PK_admin_notes");
@@ -371,84 +311,6 @@ namespace Content.Server.Database.Migrations.Postgres
                         .IsUnique();
 
                     b.ToTable("admin_rank_flag", (string)null);
-                });
-
-            modelBuilder.Entity("Content.Server.Database.AdminWatchlist", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("admin_watchlists_id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<Guid?>("CreatedById")
-                        .HasColumnType("uuid")
-                        .HasColumnName("created_by_id");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("deleted");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<Guid?>("DeletedById")
-                        .HasColumnType("uuid")
-                        .HasColumnName("deleted_by_id");
-
-                    b.Property<DateTime?>("ExpirationTime")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("expiration_time");
-
-                    b.Property<DateTime?>("LastEditedAt")
-                        .IsRequired()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("last_edited_at");
-
-                    b.Property<Guid?>("LastEditedById")
-                        .HasColumnType("uuid")
-                        .HasColumnName("last_edited_by_id");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasMaxLength(4096)
-                        .HasColumnType("character varying(4096)")
-                        .HasColumnName("message");
-
-                    b.Property<Guid?>("PlayerUserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("player_user_id");
-
-                    b.Property<TimeSpan>("PlaytimeAtNote")
-                        .HasColumnType("interval")
-                        .HasColumnName("playtime_at_note");
-
-                    b.Property<int?>("RoundId")
-                        .HasColumnType("integer")
-                        .HasColumnName("round_id");
-
-                    b.HasKey("Id")
-                        .HasName("PK_admin_watchlists");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("DeletedById");
-
-                    b.HasIndex("LastEditedById");
-
-                    b.HasIndex("PlayerUserId")
-                        .HasDatabaseName("IX_admin_watchlists_player_user_id");
-
-                    b.HasIndex("RoundId")
-                        .HasDatabaseName("IX_admin_watchlists_round_id");
-
-                    b.ToTable("admin_watchlists", (string)null);
                 });
 
             modelBuilder.Entity("Content.Server.Database.Antag", b =>
@@ -530,12 +392,6 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("bytea")
                         .HasColumnName("hwid");
 
-                    b.Property<int>("ServerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValue(0)
-                        .HasColumnName("server_id");
-
                     b.Property<DateTime>("Time")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("time");
@@ -551,9 +407,6 @@ namespace Content.Server.Database.Migrations.Postgres
 
                     b.HasKey("Id")
                         .HasName("PK_connection_log");
-
-                    b.HasIndex("ServerId")
-                        .HasDatabaseName("IX_connection_log_server_id");
 
                     b.HasIndex("UserId");
 
@@ -731,10 +584,20 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("integer")
                         .HasColumnName("age");
 
+                    b.Property<string>("Backpack")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("backpack");
+
                     b.Property<string>("CharacterName")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("char_name");
+
+                    b.Property<string>("Clothing")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("clothing");
 
                     b.Property<string>("EyeColor")
                         .IsRequired()
@@ -797,21 +660,15 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("integer")
                         .HasColumnName("slot");
 
-                    b.Property<int>("SpawnPriority")
-                        .HasColumnType("integer")
-                        .HasColumnName("spawn_priority");
-
                     b.Property<string>("Species")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("species");
 
-                    // Corvax-TTS-Start
                     b.Property<string>("Voice")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("voice");
-                    // Corvax-TTS-End
 
                     b.HasKey("Id")
                         .HasName("PK_profile");
@@ -823,62 +680,6 @@ namespace Content.Server.Database.Migrations.Postgres
                         .IsUnique();
 
                     b.ToTable("profile", (string)null);
-                });
-
-            modelBuilder.Entity("Content.Server.Database.ProfileLoadoutGroup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("profile_loadout_group_id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("GroupName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("group_name");
-
-                    b.Property<string>("LoadoutName")
-                        .HasColumnType("text")
-                        .HasColumnName("loadout_name");
-
-                    b.Property<int>("ProfileRoleLoadoutId")
-                        .HasColumnType("integer")
-                        .HasColumnName("profile_role_loadout_id");
-
-                    b.HasKey("Id")
-                        .HasName("PK_profile_loadout_group");
-
-                    b.HasIndex("ProfileRoleLoadoutId");
-
-                    b.ToTable("profile_loadout_group", (string)null);
-                });
-
-            modelBuilder.Entity("Content.Server.Database.ProfileRoleLoadout", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("profile_role_loadout_id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ProfileId")
-                        .HasColumnType("integer")
-                        .HasColumnName("profile_id");
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("role_name");
-
-                    b.HasKey("Id")
-                        .HasName("PK_profile_role_loadout");
-
-                    b.HasIndex("ProfileId");
-
-                    b.ToTable("profile_role_loadout", (string)null);
                 });
 
             modelBuilder.Entity("Content.Server.Database.Round", b =>
@@ -894,19 +695,11 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("integer")
                         .HasColumnName("server_id");
 
-                    b.Property<DateTime>("StartDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified))
-                        .HasColumnName("start_date");
-
                     b.HasKey("Id")
                         .HasName("PK_round");
 
                     b.HasIndex("ServerId")
                         .HasDatabaseName("IX_round_server_id");
-
-                    b.HasIndex("StartDate");
 
                     b.ToTable("round", (string)null);
                 });
@@ -940,7 +733,7 @@ namespace Content.Server.Database.Migrations.Postgres
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<NpgsqlInet?>("Address")
+                    b.Property<ValueTuple<IPAddress, int>?>("Address")
                         .HasColumnType("inet")
                         .HasColumnName("address");
 
@@ -968,59 +761,27 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("bytea")
                         .HasColumnName("hwid");
 
-                    b.Property<bool>("Hidden")
-                        .HasColumnType("boolean")
-                        .HasColumnName("hidden");
-
-                    b.Property<DateTime?>("LastEditedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("last_edited_at");
-
-                    b.Property<Guid?>("LastEditedById")
-                        .HasColumnType("uuid")
-                        .HasColumnName("last_edited_by_id");
-
-                    b.Property<Guid?>("PlayerUserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("player_user_id");
-
-                    b.Property<TimeSpan>("PlaytimeAtNote")
-                        .HasColumnType("interval")
-                        .HasColumnName("playtime_at_note");
-
                     b.Property<string>("Reason")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("reason");
 
-                    b.Property<int?>("RoundId")
-                        .HasColumnType("integer")
-                        .HasColumnName("round_id");
-
-                    b.Property<int>("Severity")
-                        .HasColumnType("integer")
-                        .HasColumnName("severity");
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
 
                     b.HasKey("Id")
                         .HasName("PK_server_ban");
 
                     b.HasIndex("Address");
 
-                    b.HasIndex("BanningAdmin");
-
-                    b.HasIndex("LastEditedById");
-
-                    b.HasIndex("PlayerUserId")
-                        .HasDatabaseName("IX_server_ban_player_user_id");
-
-                    b.HasIndex("RoundId")
-                        .HasDatabaseName("IX_server_ban_round_id");
+                    b.HasIndex("UserId");
 
                     b.ToTable("server_ban", null, t =>
                         {
                             t.HasCheckConstraint("AddressNotIPv6MappedIPv4", "NOT inet '::ffff:0.0.0.0/96' >>= address");
 
-                            t.HasCheckConstraint("HaveEitherAddressOrUserIdOrHWId", "address IS NOT NULL OR player_user_id IS NOT NULL OR hwid IS NOT NULL");
+                            t.HasCheckConstraint("HaveEitherAddressOrUserIdOrHWId", "address IS NOT NULL OR user_id IS NOT NULL OR hwid IS NOT NULL");
                         });
                 });
 
@@ -1082,7 +843,7 @@ namespace Content.Server.Database.Migrations.Postgres
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<NpgsqlInet?>("Address")
+                    b.Property<ValueTuple<IPAddress, int>?>("Address")
                         .HasColumnType("inet")
                         .HasColumnName("address");
 
@@ -1102,26 +863,6 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("bytea")
                         .HasColumnName("hwid");
 
-                    b.Property<bool>("Hidden")
-                        .HasColumnType("boolean")
-                        .HasColumnName("hidden");
-
-                    b.Property<DateTime?>("LastEditedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("last_edited_at");
-
-                    b.Property<Guid?>("LastEditedById")
-                        .HasColumnType("uuid")
-                        .HasColumnName("last_edited_by_id");
-
-                    b.Property<Guid?>("PlayerUserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("player_user_id");
-
-                    b.Property<TimeSpan>("PlaytimeAtNote")
-                        .HasColumnType("interval")
-                        .HasColumnName("playtime_at_note");
-
                     b.Property<string>("Reason")
                         .IsRequired()
                         .HasColumnType("text")
@@ -1132,34 +873,22 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("text")
                         .HasColumnName("role_id");
 
-                    b.Property<int?>("RoundId")
-                        .HasColumnType("integer")
-                        .HasColumnName("round_id");
-
-                    b.Property<int>("Severity")
-                        .HasColumnType("integer")
-                        .HasColumnName("severity");
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
 
                     b.HasKey("Id")
                         .HasName("PK_server_role_ban");
 
                     b.HasIndex("Address");
 
-                    b.HasIndex("BanningAdmin");
-
-                    b.HasIndex("LastEditedById");
-
-                    b.HasIndex("PlayerUserId")
-                        .HasDatabaseName("IX_server_role_ban_player_user_id");
-
-                    b.HasIndex("RoundId")
-                        .HasDatabaseName("IX_server_role_ban_round_id");
+                    b.HasIndex("UserId");
 
                     b.ToTable("server_role_ban", null, t =>
                         {
                             t.HasCheckConstraint("AddressNotIPv6MappedIPv4", "NOT inet '::ffff:0.0.0.0/96' >>= address");
 
-                            t.HasCheckConstraint("HaveEitherAddressOrUserIdOrHWId", "address IS NOT NULL OR player_user_id IS NOT NULL OR hwid IS NOT NULL");
+                            t.HasCheckConstraint("HaveEitherAddressOrUserIdOrHWId", "address IS NOT NULL OR user_id IS NOT NULL OR hwid IS NOT NULL");
                         });
                 });
 
@@ -1221,6 +950,52 @@ namespace Content.Server.Database.Migrations.Postgres
                         .IsUnique();
 
                     b.ToTable("server_unban", (string)null);
+                });
+
+            modelBuilder.Entity("Content.Server.Database.Sponsor", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.Property<bool>("AllowJob")
+                        .HasColumnType("boolean")
+                        .HasColumnName("allow_job");
+
+                    b.Property<string>("AllowedMarkings")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("allowed_markings");
+
+                    b.Property<DateTime>("ExpireDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("expire_date");
+
+                    b.Property<int>("ExtraSlots")
+                        .HasColumnType("integer")
+                        .HasColumnName("extra_slots");
+
+                    b.Property<bool>("HavePriorityJoin")
+                        .HasColumnType("boolean")
+                        .HasColumnName("have_priority_join");
+
+                    b.Property<string>("OOCColor")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("ooccolor");
+
+                    b.Property<int>("Tier")
+                        .HasColumnType("integer")
+                        .HasColumnName("tier");
+
+                    b.HasKey("UserId")
+                        .HasName("PK_sponsors");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("sponsors", (string)null);
                 });
 
             modelBuilder.Entity("Content.Server.Database.Trait", b =>
@@ -1350,6 +1125,14 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.Navigation("Round");
                 });
 
+            modelBuilder.Entity("Content.Server.Database.AdminLogEntity", b =>
+                {
+                    b.HasOne("Content.Server.Database.AdminLog", null)
+                        .WithMany("Entities")
+                        .HasForeignKey("AdminLogId", "AdminLogRoundId")
+                        .HasConstraintName("FK_admin_log_entity_admin_log_admin_log_id_admin_log_round_id");
+                });
+
             modelBuilder.Entity("Content.Server.Database.AdminLogPlayer", b =>
                 {
                     b.HasOne("Content.Server.Database.Player", "Player")
@@ -1362,60 +1145,14 @@ namespace Content.Server.Database.Migrations.Postgres
 
                     b.HasOne("Content.Server.Database.AdminLog", "Log")
                         .WithMany("Players")
-                        .HasForeignKey("RoundId", "LogId")
+                        .HasForeignKey("LogId", "RoundId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("FK_admin_log_player_admin_log_round_id_log_id");
+                        .HasConstraintName("FK_admin_log_player_admin_log_log_id_round_id");
 
                     b.Navigation("Log");
 
                     b.Navigation("Player");
-                });
-
-            modelBuilder.Entity("Content.Server.Database.AdminMessage", b =>
-                {
-                    b.HasOne("Content.Server.Database.Player", "CreatedBy")
-                        .WithMany("AdminMessagesCreated")
-                        .HasForeignKey("CreatedById")
-                        .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .HasConstraintName("FK_admin_messages_player_created_by_id");
-
-                    b.HasOne("Content.Server.Database.Player", "DeletedBy")
-                        .WithMany("AdminMessagesDeleted")
-                        .HasForeignKey("DeletedById")
-                        .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .HasConstraintName("FK_admin_messages_player_deleted_by_id");
-
-                    b.HasOne("Content.Server.Database.Player", "LastEditedBy")
-                        .WithMany("AdminMessagesLastEdited")
-                        .HasForeignKey("LastEditedById")
-                        .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .HasConstraintName("FK_admin_messages_player_last_edited_by_id");
-
-                    b.HasOne("Content.Server.Database.Player", "Player")
-                        .WithMany("AdminMessagesReceived")
-                        .HasForeignKey("PlayerUserId")
-                        .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("FK_admin_messages_player_player_user_id");
-
-                    b.HasOne("Content.Server.Database.Round", "Round")
-                        .WithMany()
-                        .HasForeignKey("RoundId")
-                        .HasConstraintName("FK_admin_messages_round_round_id");
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("DeletedBy");
-
-                    b.Navigation("LastEditedBy");
-
-                    b.Navigation("Player");
-
-                    b.Navigation("Round");
                 });
 
             modelBuilder.Entity("Content.Server.Database.AdminNote", b =>
@@ -1424,21 +1161,22 @@ namespace Content.Server.Database.Migrations.Postgres
                         .WithMany("AdminNotesCreated")
                         .HasForeignKey("CreatedById")
                         .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("FK_admin_notes_player_created_by_id");
 
                     b.HasOne("Content.Server.Database.Player", "DeletedBy")
                         .WithMany("AdminNotesDeleted")
                         .HasForeignKey("DeletedById")
                         .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
                         .HasConstraintName("FK_admin_notes_player_deleted_by_id");
 
                     b.HasOne("Content.Server.Database.Player", "LastEditedBy")
                         .WithMany("AdminNotesLastEdited")
                         .HasForeignKey("LastEditedById")
                         .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("FK_admin_notes_player_last_edited_by_id");
 
                     b.HasOne("Content.Server.Database.Player", "Player")
@@ -1446,6 +1184,7 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasForeignKey("PlayerUserId")
                         .HasPrincipalKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("FK_admin_notes_player_player_user_id");
 
                     b.HasOne("Content.Server.Database.Round", "Round")
@@ -1476,52 +1215,6 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.Navigation("Rank");
                 });
 
-            modelBuilder.Entity("Content.Server.Database.AdminWatchlist", b =>
-                {
-                    b.HasOne("Content.Server.Database.Player", "CreatedBy")
-                        .WithMany("AdminWatchlistsCreated")
-                        .HasForeignKey("CreatedById")
-                        .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .HasConstraintName("FK_admin_watchlists_player_created_by_id");
-
-                    b.HasOne("Content.Server.Database.Player", "DeletedBy")
-                        .WithMany("AdminWatchlistsDeleted")
-                        .HasForeignKey("DeletedById")
-                        .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .HasConstraintName("FK_admin_watchlists_player_deleted_by_id");
-
-                    b.HasOne("Content.Server.Database.Player", "LastEditedBy")
-                        .WithMany("AdminWatchlistsLastEdited")
-                        .HasForeignKey("LastEditedById")
-                        .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .HasConstraintName("FK_admin_watchlists_player_last_edited_by_id");
-
-                    b.HasOne("Content.Server.Database.Player", "Player")
-                        .WithMany("AdminWatchlistsReceived")
-                        .HasForeignKey("PlayerUserId")
-                        .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("FK_admin_watchlists_player_player_user_id");
-
-                    b.HasOne("Content.Server.Database.Round", "Round")
-                        .WithMany()
-                        .HasForeignKey("RoundId")
-                        .HasConstraintName("FK_admin_watchlists_round_round_id");
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("DeletedBy");
-
-                    b.Navigation("LastEditedBy");
-
-                    b.Navigation("Player");
-
-                    b.Navigation("Round");
-                });
-
             modelBuilder.Entity("Content.Server.Database.Antag", b =>
                 {
                     b.HasOne("Content.Server.Database.Profile", "Profile")
@@ -1532,18 +1225,6 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasConstraintName("FK_antag_profile_profile_id");
 
                     b.Navigation("Profile");
-                });
-
-            modelBuilder.Entity("Content.Server.Database.ConnectionLog", b =>
-                {
-                    b.HasOne("Content.Server.Database.Server", "Server")
-                        .WithMany("ConnectionLogs")
-                        .HasForeignKey("ServerId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired()
-                        .HasConstraintName("FK_connection_log_server_server_id");
-
-                    b.Navigation("Server");
                 });
 
             modelBuilder.Entity("Content.Server.Database.Job", b =>
@@ -1570,30 +1251,6 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.Navigation("Preference");
                 });
 
-            modelBuilder.Entity("Content.Server.Database.ProfileLoadoutGroup", b =>
-                {
-                    b.HasOne("Content.Server.Database.ProfileRoleLoadout", "ProfileRoleLoadout")
-                        .WithMany("Groups")
-                        .HasForeignKey("ProfileRoleLoadoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_profile_loadout_group_profile_role_loadout_profile_role_loa~");
-
-                    b.Navigation("ProfileRoleLoadout");
-                });
-
-            modelBuilder.Entity("Content.Server.Database.ProfileRoleLoadout", b =>
-                {
-                    b.HasOne("Content.Server.Database.Profile", "Profile")
-                        .WithMany("Loadouts")
-                        .HasForeignKey("ProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_profile_role_loadout_profile_profile_id");
-
-                    b.Navigation("Profile");
-                });
-
             modelBuilder.Entity("Content.Server.Database.Round", b =>
                 {
                     b.HasOne("Content.Server.Database.Server", "Server")
@@ -1604,34 +1261,6 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasConstraintName("FK_round_server_server_id");
 
                     b.Navigation("Server");
-                });
-
-            modelBuilder.Entity("Content.Server.Database.ServerBan", b =>
-                {
-                    b.HasOne("Content.Server.Database.Player", "CreatedBy")
-                        .WithMany("AdminServerBansCreated")
-                        .HasForeignKey("BanningAdmin")
-                        .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .HasConstraintName("FK_server_ban_player_banning_admin");
-
-                    b.HasOne("Content.Server.Database.Player", "LastEditedBy")
-                        .WithMany("AdminServerBansLastEdited")
-                        .HasForeignKey("LastEditedById")
-                        .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .HasConstraintName("FK_server_ban_player_last_edited_by_id");
-
-                    b.HasOne("Content.Server.Database.Round", "Round")
-                        .WithMany()
-                        .HasForeignKey("RoundId")
-                        .HasConstraintName("FK_server_ban_round_round_id");
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("LastEditedBy");
-
-                    b.Navigation("Round");
                 });
 
             modelBuilder.Entity("Content.Server.Database.ServerBanHit", b =>
@@ -1653,34 +1282,6 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.Navigation("Ban");
 
                     b.Navigation("Connection");
-                });
-
-            modelBuilder.Entity("Content.Server.Database.ServerRoleBan", b =>
-                {
-                    b.HasOne("Content.Server.Database.Player", "CreatedBy")
-                        .WithMany("AdminServerRoleBansCreated")
-                        .HasForeignKey("BanningAdmin")
-                        .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .HasConstraintName("FK_server_role_ban_player_banning_admin");
-
-                    b.HasOne("Content.Server.Database.Player", "LastEditedBy")
-                        .WithMany("AdminServerRoleBansLastEdited")
-                        .HasForeignKey("LastEditedById")
-                        .HasPrincipalKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .HasConstraintName("FK_server_role_ban_player_last_edited_by_id");
-
-                    b.HasOne("Content.Server.Database.Round", "Round")
-                        .WithMany()
-                        .HasForeignKey("RoundId")
-                        .HasConstraintName("FK_server_role_ban_round_round_id");
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("LastEditedBy");
-
-                    b.Navigation("Round");
                 });
 
             modelBuilder.Entity("Content.Server.Database.ServerRoleUnban", b =>
@@ -1743,6 +1344,8 @@ namespace Content.Server.Database.Migrations.Postgres
 
             modelBuilder.Entity("Content.Server.Database.AdminLog", b =>
                 {
+                    b.Navigation("Entities");
+
                     b.Navigation("Players");
                 });
 
@@ -1762,14 +1365,6 @@ namespace Content.Server.Database.Migrations.Postgres
                 {
                     b.Navigation("AdminLogs");
 
-                    b.Navigation("AdminMessagesCreated");
-
-                    b.Navigation("AdminMessagesDeleted");
-
-                    b.Navigation("AdminMessagesLastEdited");
-
-                    b.Navigation("AdminMessagesReceived");
-
                     b.Navigation("AdminNotesCreated");
 
                     b.Navigation("AdminNotesDeleted");
@@ -1777,22 +1372,6 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.Navigation("AdminNotesLastEdited");
 
                     b.Navigation("AdminNotesReceived");
-
-                    b.Navigation("AdminServerBansCreated");
-
-                    b.Navigation("AdminServerBansLastEdited");
-
-                    b.Navigation("AdminServerRoleBansCreated");
-
-                    b.Navigation("AdminServerRoleBansLastEdited");
-
-                    b.Navigation("AdminWatchlistsCreated");
-
-                    b.Navigation("AdminWatchlistsDeleted");
-
-                    b.Navigation("AdminWatchlistsLastEdited");
-
-                    b.Navigation("AdminWatchlistsReceived");
                 });
 
             modelBuilder.Entity("Content.Server.Database.Preference", b =>
@@ -1806,14 +1385,7 @@ namespace Content.Server.Database.Migrations.Postgres
 
                     b.Navigation("Jobs");
 
-                    b.Navigation("Loadouts");
-
                     b.Navigation("Traits");
-                });
-
-            modelBuilder.Entity("Content.Server.Database.ProfileRoleLoadout", b =>
-                {
-                    b.Navigation("Groups");
                 });
 
             modelBuilder.Entity("Content.Server.Database.Round", b =>
@@ -1823,8 +1395,6 @@ namespace Content.Server.Database.Migrations.Postgres
 
             modelBuilder.Entity("Content.Server.Database.Server", b =>
                 {
-                    b.Navigation("ConnectionLogs");
-
                     b.Navigation("Rounds");
                 });
 
