@@ -34,15 +34,21 @@ public abstract class SharedAirlockSystem : EntitySystem
         if (args.Cancelled)
             return;
 
+        if (!TryComp(uid, out DoorComponent? door))
+            return;
+
         if (!airlock.Safety)
             args.PerformCollisionCheck = false;
+
+        // If the door is pried to close (closed with a crowbar), always check for collisions,
+        // because there is not enough force to crush someone with your hands
+        if (door.IsBeingPried)
+            args.PerformCollisionCheck = true;
 
         // only block based on bolts / power status when initially closing the door, not when its already
         // mid-transition. Particularly relevant for when the door was pried-closed with a crowbar, which bypasses
         // the initial power-check.
-        if (TryComp(uid, out DoorComponent? door)
-            && !door.Partial
-            && !CanChangeState(uid, airlock, door.IsBeingPried))
+        if (!door.Partial && !CanChangeState(uid, airlock, door.IsBeingPried))
         {
             args.Cancel();
         }
@@ -79,8 +85,12 @@ public abstract class SharedAirlockSystem : EntitySystem
 
     private void OnBeforeDoorOpened(EntityUid uid, AirlockComponent component, BeforeDoorOpenedEvent args)
     {
-        if (!CanChangeState(uid, component))
+        if (TryComp(uid, out DoorComponent? door)
+            && !door.Partial
+            && !CanChangeState(uid, component, door.IsBeingPried))
+        {
             args.Cancel();
+        }
     }
 
     private void OnBeforeDoorDenied(EntityUid uid, AirlockComponent component, BeforeDoorDeniedEvent args)

@@ -231,14 +231,15 @@ public abstract partial class SharedDoorSystem : EntitySystem
     {
         if (door.State == DoorState.Closed)
         {
+            door.IsBeingPried = true;
             _adminLog.Add(LogType.Action, LogImpact.Medium, $"{ToPrettyString(args.User)} pried {ToPrettyString(uid)} open");
-            StartOpening(uid, door, args.User, true);
+            TryOpen(uid, door, args.User, true);
         }
         else if (door.State == DoorState.Open)
         {
             door.IsBeingPried = true;
             _adminLog.Add(LogType.Action, LogImpact.Medium, $"{ToPrettyString(args.User)} pried {ToPrettyString(uid)} closed");
-            StartClosing(uid, door, args.User, true);
+            TryClose(uid, door, args.User, true);
         }
     }
 
@@ -383,6 +384,7 @@ public abstract partial class SharedDoorSystem : EntitySystem
 
         SetCollidable(uid, false, door);
         door.Partial = true;
+        door.IsBeingPried = false;
         door.NextStateChange = GameTiming.CurTime + door.CloseTimeTwo;
         _activeDoors.Add((uid, door));
         Dirty(uid, door);
