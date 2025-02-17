@@ -1,4 +1,3 @@
-using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 
 namespace Content.Shared.Cargo.Components;
@@ -9,9 +8,4 @@ namespace Content.Shared.Cargo.Components;
 [RegisterComponent, NetworkedComponent]
 public sealed partial class PriceGunComponent : Component
 {
-    /// <summary>
-    /// The sound that plays when the price gun appraises an object.
-    /// </summary>
-    [DataField]
-    public SoundSpecifier AppraisalSound  = new SoundPathSpecifier("/Audio/Items/appraiser.ogg");
 }
