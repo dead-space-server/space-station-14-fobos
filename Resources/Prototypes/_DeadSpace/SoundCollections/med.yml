@@ -1,0 +1,29 @@
+- type: soundCollection
+  id: MedScreams
+  files:
+  - /Audio/_DeadSpace/Voice/med/scream1.ogg
+  - /Audio/_DeadSpace/Voice/med/scream2.ogg
+
+- type: soundCollection
+  id: MedLaugh
+  files:
+  - /Audio/_DeadSpace/Voice/med/laugh1.ogg
+  - /Audio/_DeadSpace/Voice/med/laugh2.ogg
+  - /Audio/_DeadSpace/Voice/med/laugh3.ogg
+  - /Audio/_DeadSpace/Voice/med/laugh4.ogg
+
+- type: soundCollection
+  id: MedSneezes
+  files:
+  - /Audio/_DeadSpace/Voice/med/sneeze1.ogg
+
+- type: soundCollection
+  id: MedCoughs
+  files:
+  - /Audio/_DeadSpace/Voice/med/cough1.ogg
+
+- type: soundCollection
+  id: MedCry
+  files:
+  - /Audio/_DeadSpace/Voice/med/cry1.ogg
+  - /Audio/_DeadSpace/Voice/med/cry2.ogg
