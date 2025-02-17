@@ -1,4 +1,3 @@
-using Content.Shared.Cargo.Components;
 using Content.Shared.Timing;
 using Content.Shared.Cargo.Systems;
 
@@ -11,9 +10,9 @@ public sealed class ClientPriceGunSystem : SharedPriceGunSystem
 {
     [Dependency] private readonly UseDelaySystem _useDelay = default!;
 
-    protected override bool GetPriceOrBounty(Entity<PriceGunComponent> entity, EntityUid target, EntityUid user)
+    protected override bool GetPriceOrBounty(EntityUid priceGunUid, EntityUid target, EntityUid user)
     {
-        if (!TryComp(entity, out UseDelayComponent? useDelay) || _useDelay.IsDelayed((entity, useDelay)))
+        if (!TryComp(priceGunUid, out UseDelayComponent? useDelay) || _useDelay.IsDelayed((priceGunUid, useDelay)))
             return false;
 
         // It feels worse if the cooldown is predicted but the popup isn't! So only do the cooldown reset on the server.
