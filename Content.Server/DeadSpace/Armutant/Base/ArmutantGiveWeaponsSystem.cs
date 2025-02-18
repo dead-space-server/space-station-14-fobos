@@ -1,4 +1,4 @@
-using Content.Server.DeadSpace.Armutant.Abilities.Components.BladeAblities;
+using Content.Server.DeadSpace.Armutant.Abilities.Components.BladeAbilities;
 using Content.Server.DeadSpace.Armutant.Abilities.Components.FistAbilities;
 using Content.Server.DeadSpace.Armutant.Abilities.Components.GunAbilities;
 using Content.Server.DeadSpace.Armutant.Abilities.Components.ShieldAbilities;

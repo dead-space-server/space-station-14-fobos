@@ -1,4 +1,4 @@
-using Content.Server.DeadSpace.Armutant.Abilities.Components.BladeAblities;
+using Content.Server.DeadSpace.Armutant.Abilities.Components.BladeAbilities;
 using Content.Shared.Actions;
 using Content.Shared.DeadSpace.Armutant;
 using Content.Shared.Hands.EntitySystems;
