@@ -1,6 +1,6 @@
 using Robust.Shared.Prototypes;
 
-namespace Content.Server.DeadSpace.Armutant.Objectives.CreateMapObjective;
+namespace Content.Server.DeadSpace.Armutant.Objectives.CreateMapObjective.Components;
 
 [RegisterComponent, Access(typeof(ObjectiveTeleportToStationSystem))]
 public sealed partial class ObjectiveTeleportToStationComponent : Component

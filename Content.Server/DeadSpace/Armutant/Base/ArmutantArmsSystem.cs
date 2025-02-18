@@ -1,4 +1,3 @@
-using Content.Server.DeadSpace.Armutant.Base.Components;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Inventory;
 using Robust.Shared.Prototypes;
@@ -18,6 +17,7 @@ using System.Linq;
 using Robust.Server.GameObjects;
 using Content.Shared.Cuffs.Components;
 using Content.Server.Cuffs;
+using Content.Server.DeadSpace.Armutant.Base.Components;
 
 namespace Content.Server.DeadSpace.Armutant.Base;
 
