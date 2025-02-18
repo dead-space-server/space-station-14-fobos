@@ -1,5 +1,6 @@
 using System.Numerics;
-using Content.Server.DeadSpace.Armutant.Abilities.Components;
+using Content.Server.DeadSpace.Armutant.Base.Components;
+using Content.Server.DeadSpace.Armutant.Objectives.CreateMapObjective.Components;
 using Content.Shared.Interaction.Events;
 using Robust.Server.GameObjects;
 using Robust.Server.Maps;
