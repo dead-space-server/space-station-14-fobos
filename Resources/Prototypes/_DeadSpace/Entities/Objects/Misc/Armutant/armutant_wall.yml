@@ -1,0 +1,16 @@
+- type: entity
+  id: WallRockChromiteUndestructe
+  parent: WallRockChromite
+  suffix: indestructible
+  components:
+    - type: Destructible
+      enable: false
+
+- type: entity
+  id: WallRockSnowUndestructe
+  name: snowdrift
+  parent: WallRockSnow
+  suffix: indestructible
+  components:
+    - type: Destructible
+      enable: false

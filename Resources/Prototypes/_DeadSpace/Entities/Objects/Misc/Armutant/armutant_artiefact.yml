@@ -1,0 +1,124 @@
+- type: entity
+  id: ArtiefactArmutantObjective
+  name: Артефакт
+  description: Нечто пульсирующие, нечто живое.
+  parent: BaseItem
+  suffix: телепорт
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Armutant/bone_shard.rsi
+      layers:
+      - state: icon
+    - type: PointLight
+      radius: 3
+      energy: 3
+      color: "#ff66cc"
+    - type: ObjectiveCreateMap
+
+- type: entity
+  id: ArtiefactArmutantObjectiveTrue
+  parent: BaseItem
+  name: Серце пустоты
+  description: Нечто пульсирующие, нечто живое.
+  suffix: настоящий
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Armutant/bone_shard.rsi
+      layers:
+      - state: icon
+    - type: PointLight
+      radius: 2
+      energy: 2
+      color: "#ff66cc"
+    - type: StealTarget
+      stealGroup: ArtiefactArmutantObjectiveTrue
+    - type: ObjectiveTeleportToStation
+
+- type: entity
+  id: ObjectiveStorageBox
+  name: защищенная витрина с артефактом
+  description: A sturdy showcase for an expensive exhibit.
+  parent: BaseGlassBox
+  components:
+  - type: Sprite
+    noRot: true
+    sprite: Structures/Storage/glassbox.rsi
+    layers:
+    - state: base
+    - state: caplaser # TODO: Remove it after item scaling in cabinets is implemented.
+      map: ["enum.ItemCabinetVisuals.Layer"]
+      visible: true
+    - state: glass
+      map: ["enum.OpenableVisuals.Layer"]
+    - state: locked
+      shader: unshaded
+      map: ["enum.LockVisualLayers.Lock"]
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.45,-0.45,0.45,0.45"
+        density: 1000
+        mask:
+        - MachineMask
+        layer:
+        - LowImpassable
+        - MidImpassable
+        - BulletImpassable
+  - type: AccessReader
+    access: [ [ "ResearchDirector" ] ]
+  - type: Repairable
+    fuelCost: 15
+    doAfterDelay: 5
+  - type: Lock
+  - type: LockVisuals
+  - type: DamageVisuals
+    thresholds: [4, 8, 12] # TODO: Fix damage visuals on open state.
+    damageDivisor: 7.555
+    trackAllDamage: true
+    damageOverlay:
+      sprite: Structures/Storage/glassbox.rsi
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: Glass
+  - type: MeleeSound
+    soundGroups:
+      Brute:
+        collection: GlassSmash
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 300
+      behaviors:
+      - !type:EmptyAllContainersBehaviour
+      - !type:PlaySoundBehavior
+        sound:
+          collection: WindowShatter
+      - !type:PlaySoundBehavior
+        sound:
+          path: /Audio/Machines/warning_buzzer.ogg
+          params:
+            volume: 10
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          ShardGlassReinforced:
+            min: 3
+            max: 5
+      - !type:ChangeConstructionNodeBehavior
+        node: brokenGlassBox
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: ItemSlots
+    slots:
+      ItemCabinet:
+        ejectOnInteract: true
+        whitelist:
+          tags:
+          - ArtiefactArmutantObjective
+        ejectSound: /Audio/Machines/machine_switch.ogg
+  - type: ContainerFill
+    containers:
+      ItemCabinet:
+      - ArtiefactArmutantObjective
