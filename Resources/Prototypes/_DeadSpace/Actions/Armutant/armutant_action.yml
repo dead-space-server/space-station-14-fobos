@@ -4,7 +4,6 @@
   id: ActionToggleBlade
   name: "[color=red]Преобразовать в клинок[/color]"
   description: Преобразовывает вашу руку в клинок.
-  noSpawn: true
   components:
   - type: InstantAction
     useDelay: 30
@@ -21,7 +20,6 @@
   id: ActionToggleSpawnTalon
   name: "[color=red]Метательный коготь[/color]"
   description: Создает метательный коготь.
-  noSpawn: true
   components:
   - type: InstantAction
     useDelay: 5
@@ -36,7 +34,6 @@
   id: ActionToggleDash
   name: "[color=red]Вход в пустоту[/color]"
   description: Совершает рывок с последующим уроном в выбранной точке.
-  noSpawn: true
   components:
   - type: WorldTargetAction
     itemIconStyle: NoItem
@@ -72,7 +69,6 @@
   id: ActionToggleShield
   name: "[color=yellow]Преобразовать в щит[/color]"
   description: Преобразовывает вашу руку в щит.
-  noSpawn: true
   components:
   - type: InstantAction
     useDelay: 30
@@ -89,7 +85,6 @@
   id: ActionToggleShieldArmor
   name: "[color=yellow]Призыв брони[/color]"
   description: Моментально облачает вас в сильный доспех.
-  noSpawn: true
   components:
   - type: InstantAction
     priority: -13
@@ -105,7 +100,6 @@
   id: ActionToggleShieldStun
   name: "[color=yellow]Сейсмический топот[/color]"
   description: Парализует всех противник, кто оказался около вас.
-  noSpawn: true
   components:
   - type: InstantAction
     useDelay: 15
@@ -121,7 +115,6 @@
   id: ActionToggleVoidShield
   name: "[color=yellow]Пустотный щит[/color]"
   description: Создает вокруг вас ауру, которая дает вам 99% отражения любых снарядов.
-  noSpawn: true
   components:
   - type: InstantAction
     priority: -11
@@ -140,7 +133,6 @@
   id: ActionToggleFist
   name: "[color=green]Преобразовать в щупальце[/color]"
   description: Преобразовывает вашу руку в щупальце.
-  noSpawn: true
   components:
   - type: InstantAction
     useDelay: 30
@@ -157,7 +149,6 @@
   id: ActionToggleFistStunAround
   name: "[color=green]Хватка пустоты[/color]"
   description: Парализует на расстоянии выбранную вами цель.
-  noSpawn: true
   components:
   - type: EntityTargetAction
     useDelay: 10
@@ -174,7 +165,6 @@
   id: ActionToggleFistMendSelf
   name: "[color=green]Затягивание ран[/color]"
   description: Вводит вас особенный реагент, который со временем заживляет ваши раны, также если на вас были надеты наручники, моментально их снимет.
-  noSpawn: true
   components:
   - type: InstantAction
     useDelay: 20
@@ -191,7 +181,6 @@
   id: ActionToggleFistBuffSpeed
   name: "[color=green]Пустотный допинг[/color]"
   description: Увеличивает вашу стандартную скорость на короткий срок.
-  noSpawn: true
   components:
   - type: InstantAction
     useDelay: 30
@@ -209,7 +198,6 @@
   id: ActionToggleGun
   name: "[color=violet]Преобразовать в пушку[/color]"
   description: Преобразовывает вашу руку в пушку.
-  noSpawn: true
   components:
   - type: InstantAction
     useDelay: 30
@@ -226,7 +214,6 @@
   id: ActionToggleGunZoom
   name: "[color=violet]Прицеливание[/color]"
   description: Увеличивает ваш зрительный диапазон.
-  noSpawn: true
   components:
   - type: InstantAction
     itemIconStyle: NoItem

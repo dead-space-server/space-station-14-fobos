@@ -103,7 +103,7 @@
       AggroVisionRadius: !type:Single
         20
   - type: NPCUseActionOnTarget
-    actionId: ActionBloodingTentacle
+    actionId: ActionToggleSporeBlade
   - type: Tag
     tags:
     - CannotSuicide

@@ -114,9 +114,6 @@
     slots:
       ItemCabinet:
         ejectOnInteract: true
-        whitelist:
-          tags:
-          - ArtiefactArmutantObjective
         ejectSound: /Audio/Machines/machine_switch.ogg
   - type: ContainerFill
     containers:

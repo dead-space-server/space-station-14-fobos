@@ -23,8 +23,8 @@
 
 - type: reagent
   id: Shrapnel
-  name: Шрапнель
-  desc: extremely viscous reagent
+  name: reagent-name-shrapnel
+  desc: reagent-desc-shrapnel
   physicalDesc: reagent-physical-desc-energizing
   group: Narcotics
   flavor: sharp
