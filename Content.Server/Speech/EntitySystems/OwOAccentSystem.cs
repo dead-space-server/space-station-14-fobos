@@ -1,11 +1,9 @@
 using Content.Server.Speech.Components;
-using Robust.Shared.Random;
 
 namespace Content.Server.Speech.EntitySystems
 {
     public sealed class OwOAccentSystem : EntitySystem
     {
-        [Dependency] private readonly IRobustRandom _random = default!;
 
         private static readonly IReadOnlyDictionary<string, string> SpecialWords = new Dictionary<string, string>()
         {
