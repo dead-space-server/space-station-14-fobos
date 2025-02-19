@@ -335,7 +335,7 @@ public abstract partial class SharedDoorSystem : EntitySystem
         if (ev.Cancelled)
             return false;
 
-        if (!HasAccess(uid, user, door))
+        if (!HasAccess(uid, user, door) && !door.IsBeingPried) // DS14-airlocks-closing-fix
         {
             if (!quiet)
                 Deny(uid, door, user, predicted: true);
@@ -442,7 +442,7 @@ public abstract partial class SharedDoorSystem : EntitySystem
         if (ev.Cancelled)
             return false;
 
-        if (!HasAccess(uid, user, door))
+        if (!HasAccess(uid, user, door) && !door.IsBeingPried)
             return false;
 
         return !ev.PerformCollisionCheck || !GetColliding(uid).Any();
