@@ -55,7 +55,7 @@
     eyes: ClothingEyesGlassesSecurity
     ears: ClothingHeadsetAltCommand
     shoes: ClothingShoesBootsJackFilled
-    socks: ClothingUnderwearSocksNormal
+    socks: ClothingUnderwearSocksBlueShieldOfficer
     outerClothing: ClothingOuterArmorBasicBlueShield
     belt: ClothingBeltMilitaryWebbingBlueShieldFilled
     gloves: ClothingHandsGlovesCombat
