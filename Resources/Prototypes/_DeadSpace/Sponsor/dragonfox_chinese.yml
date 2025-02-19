@@ -142,7 +142,7 @@
     fixtures:
       fix1:
         shape:
-          !type:PhysShapeCircle
+          !type:PhysShapeAabb
           bounds: "-0.45,-0.45,0.45,0.45"
         density: 1000
         mask:
