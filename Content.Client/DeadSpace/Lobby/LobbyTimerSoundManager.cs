@@ -1,5 +1,8 @@
-﻿using Robust.Client.Audio;
+﻿using Content.Client.GameTicking.Managers;
+using Content.Shared.GameTicking;
+using Robust.Client.Audio;
 using Robust.Shared.Player;
+using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 
 namespace Content.Client.DeadSpace.Lobby;
@@ -7,10 +10,13 @@ namespace Content.Client.DeadSpace.Lobby;
 /// <summary>
 /// Manages the timer sound effects for the lobby, including ticking, pause/resume, and time modifications.
 /// </summary>
-public sealed class LobbyTimerSoundManager
+public sealed class LobbyTimerSoundSystem : EntitySystem
 {
     [Dependency] private readonly IEntityManager _entityManager = default!;
-    private readonly AudioSystem _audioSys;
+    [Dependency] private readonly IGameTiming _gameTiming = default!;
+    [Dependency] private readonly AudioSystem _audio = default!;
+
+    private ClientGameTicker _gameTicker = default!;
 
     /// <summary>
     /// Centralized resource paths for timer sound effects.
@@ -19,11 +25,10 @@ public sealed class LobbyTimerSoundManager
     {
         private static readonly ResPath BasePath = ResPath.Root / "Audio" / "_DeadSpace" / "Lobby" / "Timer";
 
-        public static readonly ResPath Tick = BasePath / "tick.ogg";
-        public static readonly ResPath Pause = BasePath / "pause.ogg";
-        public static readonly ResPath Resume = BasePath / "resume.ogg";
-        public static readonly ResPath Increase = BasePath / "modified.ogg";
-        public static readonly ResPath Decrease = BasePath / "modified.ogg";
+        public static readonly ResPath Tick     = BasePath / "tick.ogg";
+        public static readonly ResPath Pause    = BasePath / "pause.ogg";
+        public static readonly ResPath Resume   = BasePath / "resume.ogg";
+        public static readonly ResPath Modified = BasePath / "modified.ogg";
     }
 
     /// <summary>
@@ -34,76 +39,30 @@ public sealed class LobbyTimerSoundManager
     /// <summary>
     /// Stores the previous target (start) time to detect changes.
     /// </summary>
-    private TimeSpan _lastStartTime;
+    private TimeSpan _lastStartTime = TimeSpan.MinValue;
 
     /// <summary>
     /// Remembers if the game was previously paused.
     /// </summary>
     private bool _wasPaused;
 
-    /// <summary>
-    /// Flag for ignoring timer initialization on lobby enter
-    /// </summary>
-    private bool _firstUpdate = true;
-
-    public LobbyTimerSoundManager()
+    public override void Initialize()
     {
-        IoCManager.InjectDependencies(this);
-        _audioSys = _entityManager.System<AudioSystem>();
-        _lastStartTime = TimeSpan.MinValue;
-        _wasPaused = false;
+        base.Initialize();
+        SubscribeNetworkEvent<TickerLobbyCountdownEvent>(OnTickerLobbyCountdown);
+        _gameTicker = _entityManager.System<ClientGameTicker>();
     }
 
     /// <summary>
-    /// Updates the timer sound effects based on the remaining time and pause state.
+    /// Called every frame to update timer sounds based on the remaining time.
     /// </summary>
-    /// <param name="startTime">The target start time of the game.</param>
-    /// <param name="currentTime">The current time.</param>
-    /// <param name="paused">Indicates whether the game is paused.</param>
-    public void Update(TimeSpan startTime, TimeSpan currentTime, bool paused)
+    public void Update()
     {
-        ProcessTimeModification(startTime);
-        ProcessPauseResume(paused);
-        ProcessTick(startTime, currentTime, paused);
-    }
-
-    private void ProcessTimeModification(TimeSpan startTime)
-    {
-        if (_firstUpdate)
-        {
-            _lastStartTime = startTime;
-            _firstUpdate = false;
+        // Do not process sounds if the game has already started or is paused.
+        if (_gameTicker.IsGameStarted || _gameTicker.Paused)
             return;
-        }
 
-        if (startTime != _lastStartTime)
-        {
-            if (startTime > _lastStartTime)
-                PlaySound(TimerSounds.Increase);
-            else if (startTime < _lastStartTime)
-                PlaySound(TimerSounds.Decrease);
-        }
-        _lastStartTime = startTime;
-    }
-
-    private void ProcessPauseResume(bool paused)
-    {
-        if (paused && !_wasPaused)
-            PlaySound(TimerSounds.Pause);
-        else if (!paused && _wasPaused)
-            PlaySound(TimerSounds.Resume);
-        _wasPaused = paused;
-    }
-
-    private void ProcessTick(TimeSpan startTime, TimeSpan currentTime, bool paused)
-    {
-        if (paused)
-        {
-            _lastTickSecond = -1;
-            return;
-        }
-
-        var remaining = startTime - currentTime;
+        var remaining = _gameTicker.StartTime - _gameTiming.CurTime;
         if (remaining.TotalSeconds is <= 0 or > 60)
         {
             _lastTickSecond = -1;
@@ -111,7 +70,7 @@ public sealed class LobbyTimerSoundManager
         }
 
         var tickInterval = GetTickInterval(remaining.TotalSeconds);
-        var secondsLeft = (int)Math.Ceiling(remaining.TotalSeconds);
+        var secondsLeft = (int)Math.Floor(remaining.TotalSeconds);
 
         if (secondsLeft == _lastTickSecond || secondsLeft % tickInterval != 0)
             return;
@@ -121,10 +80,56 @@ public sealed class LobbyTimerSoundManager
     }
 
     /// <summary>
+    /// Handles lobby countdown network events to process pause/resume and start time modification events.
+    /// </summary>
+    /// <param name="msg">The lobby countdown event message.</param>
+    /// <param name="args">Additional event arguments.</param>
+    private void OnTickerLobbyCountdown(TickerLobbyCountdownEvent msg, EntitySessionEventArgs args)
+    {
+        if (_gameTicker.IsGameStarted)
+            return;
+
+        // First, process pause/resume events.
+        if (!ProcessPauseResume(msg.Paused))
+        {
+            // If there is no change in the pause state, check for modifications to the start time.
+            ProcessStartTimeModification(msg.StartTime);
+        }
+    }
+
+    /// <summary>
+    /// Processes changes to the start time and plays a sound if the time was modified.
+    /// </summary>
+    /// <param name="startTime">The new start time.</param>
+    private void ProcessStartTimeModification(TimeSpan startTime)
+    {
+        if (startTime != _lastStartTime)
+            PlaySound(TimerSounds.Modified);
+
+        _lastStartTime = startTime;
+    }
+
+    /// <summary>
+    /// Processes pause/resume events by comparing the current state to the previous state.
+    /// </summary>
+    /// <param name="paused">The current pause state.</param>
+    /// <returns>True if a pause/resume sound was played; otherwise, false.</returns>
+    private bool ProcessPauseResume(bool paused)
+    {
+        if (paused == _wasPaused)
+            return false;
+
+        PlaySound(paused ? TimerSounds.Pause : TimerSounds.Resume);
+        _wasPaused = paused;
+
+        return true;
+    }
+
+    /// <summary>
     /// Determines the tick interval based on the remaining time.
     /// Rules:
     /// - 5 seconds or less: tick every 1 second.
-    /// - 15 seconds or less: tick every 2 seconds.
+    /// - 14 seconds or less: tick every 2 seconds.
     /// - 30 seconds or less: tick every 3 seconds.
     /// - 60 seconds or less: tick every 5 seconds.
     /// </summary>
@@ -135,7 +140,7 @@ public sealed class LobbyTimerSoundManager
         return remainingSeconds switch
         {
             <= 5 => 1,
-            <= 15 => 2,
+            <= 14 => 2,
             <= 30 => 3,
             _ => 5,
         };
@@ -147,6 +152,6 @@ public sealed class LobbyTimerSoundManager
     /// <param name="soundPath">The resource path to the sound file.</param>
     private void PlaySound(ResPath soundPath)
     {
-        _audioSys.PlayGlobal(soundPath.ToString(), Filter.Broadcast(), false);
+        _audio.PlayGlobal(soundPath.ToString(), Filter.Broadcast(), recordReplay: false);
     }
 }
