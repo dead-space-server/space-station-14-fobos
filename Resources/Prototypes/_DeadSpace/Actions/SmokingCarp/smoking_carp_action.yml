@@ -2,7 +2,6 @@
   id: ActionSmokePunchCarp
   name: "[color=red]Скрежет зубов курящего карпа[/color]"
   description: Быстрые удары в корпус, которые наносят 25 урона по выносливости и 5 обычного урона.
-  noSpawn: true
   components:
   - type: InstantAction
     icon:
@@ -15,8 +14,7 @@
 - type: entity
   id: ActionPowerPunchCarp
   name: "[color=red]Удар крушащей волны[/color]"
-  description: Мощнейнший удар в грудь, который отправляет цель в полет, нанося 40 урона.
-  noSpawn: true
+  description: Мощнейнший удар в грудь, который отправляет цель в полет, нанося 35 урона.
   components:
   - type: InstantAction
     icon:
@@ -30,7 +28,6 @@
   id: ActionTripPunchCarp
   name: "[color=red]Подъем киля[/color]"
   description: Мощный удар ногой, который сбивает всех с ног на секунду вокруг вас.
-  noSpawn: true
   components:
   - type: InstantAction
     icon:
@@ -44,7 +41,6 @@
   id: ActionReflectCarp
   name: "[color=red]Полная концентрация[/color]"
   description: Ваше дыхание учащилось, а мышцы находятся в постоянном напряжении, вы способны отражать любые снаряды голыми руками.
-  noSpawn: true
   components:
   - type: InstantAction
     icon:
