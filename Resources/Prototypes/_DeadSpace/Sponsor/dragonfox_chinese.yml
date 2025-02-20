@@ -269,9 +269,9 @@
   description: Традиционный праздничный костюм, сотканный из яркой, прочной ткани.
   components:
   - type: Sprite
-    sprite: _DeadSpace/Sponsor/DragonFox/Chinese/dragon_red_jumsuit.rsi
+    sprite: _DeadSpace/Sponsor/DragonFox/Chinese/dragon_red_jumpsuit.rsi
   - type: Clothing
-    sprite: _DeadSpace/Sponsor/DragonFox/Chinese/dragon_red_jumsuit.rsi
+    sprite: _DeadSpace/Sponsor/DragonFox/Chinese/dragon_red_jumpsuit.rsi
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHatDragonSuitDragonFox
     slot: head
