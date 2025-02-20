@@ -148,7 +148,9 @@ namespace Content.Client.Lobby
                 {
                     // DS14-lobby-timer-sounds-start
                     // Тут небольшой рефакторинг, чтобы чуть оптимизировать и засунуть вызов update в тело else
-                    text = difference.TotalHours >= 1 ? $"{Math.Floor(difference.TotalHours)}:{difference.Minutes:D2}:{difference.Seconds:D2}" : $"{difference.Minutes}:{difference.Seconds:D2}";
+                    text = difference.TotalHours >= 1
+                        ? $"{Math.Floor(difference.TotalHours)}:{difference.Minutes:D2}:{difference.Seconds:D2}"
+                        : $"{difference.Minutes}:{difference.Seconds:D2}";
 
                     _timerSoundSystem.Update();
                     // DS14-lobby-timer-sounds-end
