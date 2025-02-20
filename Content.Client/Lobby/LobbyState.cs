@@ -11,7 +11,7 @@ using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Configuration;
 using Robust.Shared.Timing;
-using Content.Client.DeadSpace.Lobby;  // DS14-lobby-timer-sounds
+using Content.Client.DeadSpace.Lobby;
 
 namespace Content.Client.Lobby
 {
