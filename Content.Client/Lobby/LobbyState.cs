@@ -40,7 +40,6 @@ namespace Content.Client.Lobby
 
             Lobby = (LobbyGui) _userInterfaceManager.ActiveScreen;
 
-
             var chatController = _userInterfaceManager.GetUIController<ChatUIController>();
             _gameTicker = _entityManager.System<ClientGameTicker>();
             _timerSoundSystem = _entityManager.System<LobbyTimerSoundSystem>(); // DS14-lobby-timer-sounds
