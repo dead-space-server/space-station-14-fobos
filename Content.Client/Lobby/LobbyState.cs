@@ -11,6 +11,7 @@ using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Configuration;
 using Robust.Shared.Timing;
+using Content.Client.DeadSpace.Lobby;
 
 namespace Content.Client.Lobby
 {
@@ -24,6 +25,7 @@ namespace Content.Client.Lobby
         [Dependency] private readonly IVoteManager _voteManager = default!;
         [Dependency] private readonly IConfigurationManager _cfg = default!;
 
+        private LobbyTimerSoundManager _timerSoundManager = default!;
         private ClientGameTicker _gameTicker = default!;
 
         protected override Type? LinkedScreenType { get; } = typeof(LobbyGui);
@@ -37,6 +39,8 @@ namespace Content.Client.Lobby
             }
 
             Lobby = (LobbyGui) _userInterfaceManager.ActiveScreen;
+
+            _timerSoundManager = new LobbyTimerSoundManager();
 
             var chatController = _userInterfaceManager.GetUIController<ChatUIController>();
             _gameTicker = _entityManager.System<ClientGameTicker>();
@@ -152,6 +156,10 @@ namespace Content.Client.Lobby
 
             Lobby!.StartTime.Text = Loc.GetString("lobby-state-round-start-countdown-text", ("timeLeft", text));
             Lobby!.StripeBack.Visible = true;
+
+            // DS14-timer-effects-start
+            _timerSoundManager.Update(_gameTicker.StartTime, _gameTiming.CurTime, _gameTicker.Paused);
+            // DS14-timer-effects-end
         }
 
         private void LobbyStatusUpdated()
