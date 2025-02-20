@@ -93,7 +93,7 @@ public sealed partial class ReviveImplantSystem : EntitySystem
             {
                 ("Epinephrine", 2.5f),
                 ("Saline", 2.5f),
-                ("Omnizine", 1f)
+                ("Omnizine", 5f)
             };
                 TryInjectReagents(uid, reagents);
                 await Task.Delay(5000);
