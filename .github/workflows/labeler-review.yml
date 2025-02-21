@@ -11,10 +11,13 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
+    - name: Check token length
+      run: echo "${{ secrets.LABELER_PAT }}"
     - uses: tspascoal/get-user-teams-membership@v3
       id: checkUserMember
       with:
         username: ${{ github.actor }}
+        organization: dead-space-server
         team: "content-maintainers,junior-maintainers"
         GITHUB_TOKEN: ${{ secrets.LABELER_PAT }}
     - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'true' }}
