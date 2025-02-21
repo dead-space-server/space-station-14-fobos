@@ -15,7 +15,7 @@
         volume: 10
   - type: ItemToggleHot
   - type: Sprite
-    sprite: _DeadSpace/Sponsor/DragonFox/Chinese/сhinese_lantern.rsi
+    sprite: _DeadSpace/Sponsor/DragonFox/Chinese/chinese_lantern.rsi
     layers:
     - state: icon
     - state: fire_icon
@@ -23,7 +23,7 @@
       visible: false
       map: ["enum.ToggleVisuals.Layer"]
   - type: Item
-    sprite: _DeadSpace/Sponsor/DragonFox/Chinese/сhinese_lantern.rsi
+    sprite: _DeadSpace/Sponsor/DragonFox/Chinese/chinese_lantern.rsi
     heldPrefix: lamp
     size: Normal
     inhandVisuals:
@@ -88,7 +88,7 @@
   description: Наполняет пространство теплым светом, создавая уютную атмосферу.
   components:
   - type: Sprite
-    sprite: _DeadSpace/Sponsor/DragonFox/Chinese/сhinese_lamp.rsi
+    sprite: _DeadSpace/Sponsor/DragonFox/Chinese/chinese_lamp.rsi
     layers:
     - state: lantern
     - state: lantern-on
@@ -96,7 +96,7 @@
       visible: false
       map: ["enum.ToggleVisuals.Layer"]
   - type: Item
-    sprite: _DeadSpace/Sponsor/DragonFox/Chinese/сhinese_lamp.rsi
+    sprite: _DeadSpace/Sponsor/DragonFox/Chinese/chinese_lamp.rsi
     heldPrefix: off
     size: Normal
     inhandVisuals:
@@ -117,7 +117,7 @@
       belt:
       - state: on-equipped-BELT
   - type: Clothing
-    sprite: _DeadSpace/Sponsor/DragonFox/Chinese/сhinese_lamp.rsi
+    sprite: _DeadSpace/Sponsor/DragonFox/Chinese/chinese_lamp.rsi
     equippedPrefix: off
     quickEquip: false
     slots:
