@@ -300,7 +300,7 @@
     tags:
     - JianDragonFox
   - type: Sprite
-    sprite: _DeadSpace/Sponsor/DragonFox/Chinese/сhinese_dagger.rsi
+    sprite: _DeadSpace/Sponsor/DragonFox/Chinese/chinese_dagger.rsi
   - type: MeleeWeapon
     damage:
       types:
@@ -308,7 +308,7 @@
     soundHit:
       path: /Audio/Weapons/bladeslice.ogg
   - type: Item
-    sprite: _DeadSpace/Sponsor/DragonFox/Chinese/сhinese_dagger.rsi
+    sprite: _DeadSpace/Sponsor/DragonFox/Chinese/chinese_dagger.rsi
   - type: DisarmMalus
 
 - type: Tag
