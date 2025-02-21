@@ -11,8 +11,10 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-    - run: echo "Token length: $(echo -n '${{ secrets.LABELER_PAT }}' | wc -c)"
-      shell: bash
+    - name: Check LABELER_PAT length
+      run: echo -n "$LABELER_PAT" | wc -c
+      env:
+        LABELER_PAT: ${{ secrets.LABELER_PAT }}
     - uses: tspascoal/get-user-teams-membership@v3
       id: checkUserMember
       with:
