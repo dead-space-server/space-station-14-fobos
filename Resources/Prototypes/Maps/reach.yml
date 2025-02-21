@@ -18,28 +18,23 @@
         - type: StationJobs
           availableJobs:
             Captain: [ 1, 1 ]
-            BlueShieldOfficer: [ 1, 1 ]
             #security
             HeadOfSecurity: [ 1, 1 ]
             SecurityOfficer: [ 1, 3 ]
-            SeniorOfficer: [ 1, 1 ]
             #supply
             Quartermaster: [ 1, 1 ]
             CargoTechnician: [ 1, 1 ]
             SalvageSpecialist: [ 1, 1 ]
-            SeniorSalvageSpecialist: [ 1, 1 ]
             #service
             Bartender: [ 1, 1 ]
             Botanist: [ 1, 1 ]
             Chef: [ 1, 1 ]
             Musician: [ 1, 1 ]
             Janitor: [ 1, 1 ]
-            SeniorAdministrator: [ 1, 1 ]
             #medical
             ChiefMedicalOfficer: [ 1, 1 ]
             MedicalDoctor: [ 1, 2 ]
             Chemist: [ 1, 1 ]
-            SeniorPhysician: [ 1, 1 ]
             #engineering
             ChiefEngineer: [ 1, 1 ]
             AtmosphericTechnician: [ 1, 1 ]
@@ -47,7 +42,14 @@
             #science
             ResearchDirector: [ 1, 1 ]
             Scientist: [ 1, 1 ]
-            SeniorResearcher: [ 1, 1 ]
             #civilian
             Passenger: [ -1, -1 ]
-
+            # seniors
+            SeniorEngineer: [1, 1 ]
+            SeniorOfficer: [ 1, 1 ]
+            SeniorResearcher: [ 1, 1 ]
+            SeniorPhysician: [ 1, 1 ]
+            SeniorAdministrator: [ 1, 1 ]
+            SeniorSalvageSpecialist: [ 1, 1 ]
+            # DS14
+            BlueShieldOfficer: [ 1, 1 ]
