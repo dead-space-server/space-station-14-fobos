@@ -11,17 +11,17 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-    - name: Check WIKI_ROOT_URL length
-      run: echo -n "$WIKI_ROOT_URL" | wc -c
+    - name: Check LABELER_PAT length
+      run: echo -n "$LABELER_PAT" | wc -c
       env:
-        WIKI_ROOT_URL: ${{ secrets.WIKI_ROOT_URL }}
+        LABELER_PAT: ${{ secrets.LABELER_PAT }}
     - uses: tspascoal/get-user-teams-membership@v3
       id: checkUserMember
       with:
         username: ${{ github.actor }}
         organization: dead-space-server
         team: "content-maintainers,junior-maintainers"
-        GITHUB_TOKEN: ${{ secrets.WIKI_ROOT_URL }}
+        GITHUB_TOKEN: ${{ secrets.LABELER_PAT }}
     - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'true' }}
       uses: actions-ecosystem/action-add-labels@v1
       with:
