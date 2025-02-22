@@ -1384,35 +1384,4 @@
 - type: Tag
   id: WriteIgnoreStamps
 
-- type: Tag
-  id: DrinkBeerBottleFull
-
-- type: Tag
-  id: ADTFoodSausageFried
-
-- type: Tag
-  id: FoodCheeseSlice
-
-- type: Tag
-  id: FoodChiliPepper
-
-- type: Tag
-  id: RedFlower
-
-- type: Tag
-  id: DarkFlower
-
-- type: Tag
-  id: PinkFlower
-
-- type: Tag
-  id: WhiteFlower
-
-- type: Tag
-  id: YellowFlower
-
-- type: Tag
-  id: PurpleFlower
-
-
 # ALPHABETICAL

@@ -88,7 +88,7 @@
     sprite: _ADT/Objects/Weapons/Melee/black_bouquet.rsi
   - type: DisarmMalus
   - type: Construction
-    graph: DarkkCraftFlower
+    graph: DarkCraftFlower
     node: darkCraftFlower
 
 - type: entity
