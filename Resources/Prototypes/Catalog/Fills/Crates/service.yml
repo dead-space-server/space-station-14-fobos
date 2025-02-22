@@ -378,14 +378,14 @@
   - type: StorageFill
     contents:
     - id: RedFlower
-      amount: 3
+      amount: 5
     - id: DarkFlower
-      amount: 3
+      amount: 5
     - id: PinkFlower
-      amount: 3
+      amount: 5
     - id: WhiteFlower
-      amount: 3
+      amount: 5
     - id: YellowFlower
-      amount: 3
+      amount: 5
     - id: PurpleFlower
-      amount: 3
+      amount: 5
