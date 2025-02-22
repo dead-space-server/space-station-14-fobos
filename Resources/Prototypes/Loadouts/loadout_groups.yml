@@ -192,9 +192,10 @@
 
 - type: loadoutGroup
   id: HoPShoes
-  name: loadout-group-quartermaster-shoes
+  name: loadout-group-hop-shoes
   loadouts:
-  - ShoesBootsLaceup # DS14
+  - ShoesBootsLaceup
+  - BrownShoes
   
 - type: loadoutGroup
   id: HoPUnderwear
@@ -800,7 +801,7 @@
   loadouts:
   - BrownShoes
   - CargoWinterBoots
-  - ShoesBootsLaceup # DS14
+  - ShoesBootsLaceup
 
 - type: loadoutGroup
   id: QuartermasterUnderwear
@@ -949,7 +950,7 @@
   loadouts:
   - BrownShoes
   - EngineeringWinterBoots
-  - ShoesBootsLaceup # DS14
+  - ShoesBootsLaceup
 
 - type: loadoutGroup
   id: ChiefEngineerUnderwear
@@ -1130,7 +1131,7 @@
   loadouts:
   - BrownShoes
   - ScienceWinterBoots
-  - ShoesBootsLaceup # DS14
+  - ShoesBootsLaceup
 
 - type: loadoutGroup
   id: ResearchDirectorUnderwear
@@ -1275,6 +1276,15 @@
   loadouts:
   - HeadofSecurityCoat
   - HeadofSecurityWinterCoat
+
+- type: loadoutGroup
+  id: HeadofSecurityShoes
+  name: loadout-group-head-of-security-shoes
+  loadouts:
+  - JackSecBoots
+  - CombatBoots
+  - JackBoots
+  - ShoesBootsLaceup
 
 - type: loadoutGroup
   id: HeadofSecurityUnderwear
@@ -1519,7 +1529,7 @@
   loadouts:
   - BrownShoes
   - MedicalWinterBoots
-  - ShoesBootsLaceup # DS14
+  - ShoesBootsLaceup
 
 - type: loadoutGroup
   id: ChiefMedicalOfficerUnderwear

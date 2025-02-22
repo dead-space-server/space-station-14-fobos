@@ -17,6 +17,13 @@
   - BlueShieldOfficerJumpsuit
 
 - type: loadoutGroup
+  id: BlueShieldOfficerShoes
+  name: loadout-group-blue-shield-officer-shoes
+  loadouts:
+  - ShoesBootsLaceup
+  - JackBoots
+
+- type: loadoutGroup
   id: BlueShieldOfficerUnderwear
   name: loadout-group-blue-shield-officer-underwear
   minLimit: 2

@@ -29,6 +29,7 @@ loadout-group-hop-jumpsuit = Глава персонала, комбинезон
 loadout-group-hop-neck = Глава персонала, шея
 loadout-group-hop-backpack = Глава персонала, рюкзак
 loadout-group-hop-outerclothing = Глава персонала, верхняя одежда
+loadout-group-hop-shoes = Глава персонала, обувь
 loadout-group-hop-underwear = Глава персонала, нижнее бельё
 # Civilian
 loadout-group-passenger-jumpsuit = Ассистент, комбинезон
@@ -157,6 +158,7 @@ loadout-group-head-of-security-jumpsuit = Глава службы безопас
 loadout-group-head-of-security-neck = Глава службы безопасности, шея
 loadout-group-head-of-security-outerclothing = Глава службы безопасности, верхняя одежда
 loadout-group-head-of-security-underwear = Глава службы безопасности, нижнее бельё
+loadout-group-head-of-security-shoes = Глава службы безопасности, обувь
 loadout-group-warden-head = Смотритель, голова
 loadout-group-warden-jumpsuit = Смотритель, комбинезон
 loadout-group-warden-outerclothing = Смотритель, верхняя одежда
