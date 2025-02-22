@@ -153,7 +153,7 @@
   - type: DisarmMalus
   - type: Prying
   - type: Clothing #DS14
-    sprite: Objects/Weapons/Melee/crusher-inhands.rsi
+    sprite: Objects/Weapons/Melee/crusher.rsi
     quickEquip: false
     slots:
     - Back
