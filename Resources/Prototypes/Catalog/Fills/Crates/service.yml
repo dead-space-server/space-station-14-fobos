@@ -368,3 +368,24 @@
     contents:
       - id: BoxPhotocopierToners
         amount: 2
+
+- type: entity
+  id: CrateFlowers
+  parent: CrateGenericSteel
+  name: ящик искусственных цветов
+  description: Ящик полный искусственных цветов
+  components:
+  - type: StorageFill
+    contents:
+    - id: RedFlower
+      amount: 3
+    - id: DarkFlower
+      amount: 3
+    - id: PinkFlower
+      amount: 3
+    - id: WhiteFlower
+      amount: 3
+    - id: YellowFlower
+      amount: 3
+    - id: PurpleFlower
+      amount: 3
