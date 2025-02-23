@@ -1,4 +1,7 @@
 - type: Tag
+  id: ADTFoodSausageFried
+
+- type: Tag
   id: BatteryWeaponFireModesSprites
 
 - type: Tag
@@ -23,13 +26,25 @@
   id: BorgModuleSecurity
 
 - type: Tag
+  id: DarkFlower
+
+- type: Tag
   id: DockCentcommERT
+
+- type: Tag
+  id: DrinkBeerBottleFull
 
 - type: Tag
   id: FelinidFood
 
 - type: Tag
   id: FittableInBackpackCase
+
+- type: Tag
+  id: FoodCheeseSlice
+
+- type: Tag
+  id: FoodChiliPepper
 
 - type: Tag
   id: HardHat
@@ -44,13 +59,22 @@
   id: MagazineEagleAP
 
 - type: Tag
+  id: MagazineTommyCapGun
+
+- type: Tag
   id: MukhtarWearable
 
 - type: Tag
   id: Necro
 
 - type: Tag
-  id: MagazineTommyCapGun
+  id: PinkFlower
+
+- type: Tag
+  id: PurpleFlower
+
+- type: Tag
+  id: RedFlower
 
 - type: Tag
   id: ToySword
@@ -59,34 +83,9 @@
   id: SnapPop
 
 - type: Tag
-  id: DrinkBeerBottleFull
-
-- type: Tag
-  id: ADTFoodSausageFried
-
-- type: Tag
-  id: FoodCheeseSlice
-
-- type: Tag
-  id: FoodChiliPepper
-
-- type: Tag
-  id: RedFlower
-
-- type: Tag
-  id: DarkFlower
-
-- type: Tag
-  id: PinkFlower
-
-- type: Tag
   id: WhiteFlower
 
 - type: Tag
   id: YellowFlower
-
-- type: Tag
-  id: PurpleFlower
-
 
   # Обязательно в алфавитном порядке
