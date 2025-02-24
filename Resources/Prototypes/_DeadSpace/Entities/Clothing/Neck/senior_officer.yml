@@ -22,3 +22,5 @@
     interfaces:
       enum.StorageUiKey.Key:
         type: StorageBoundUserInterface
+  - type: Item
+    size: Normal
