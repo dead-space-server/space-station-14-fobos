@@ -8,6 +8,8 @@
     sprite: _DeadSpace/Clothing/OuterClothing/Hardsuits/senior_officer.rsi
   - type: Clothing
     sprite: _DeadSpace/Clothing/OuterClothing/Hardsuits/senior_officer.rsi
+  - type: ExplosionResistance
+    damageCoefficient: 0.5
   - type: ClothingSpeedModifier
     walkModifier: 0.8
     sprintModifier: 0.8
