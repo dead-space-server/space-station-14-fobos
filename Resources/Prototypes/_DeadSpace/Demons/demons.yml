@@ -44,7 +44,7 @@
   - type: Bloodstream
     bloodReagent: DemonsBlood
     bloodMaxVolume: 200
-    bloodlossThreshold: 0.4
+    bloodlossThreshold: 0.3
     bloodRefreshAmount: 2
   - type: CombatMode
   - type: MeleeWeapon
