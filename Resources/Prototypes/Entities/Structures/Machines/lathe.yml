@@ -130,6 +130,8 @@
     - ServiceStatic
     - PowerCellsStatic
     - ElectronicsStatic
+    dynamicPacks:
+    - NightVisionTech
   - type: EmagLatheRecipes
     emagStaticPacks:
     - SecurityAmmoStatic

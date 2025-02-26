@@ -90,3 +90,68 @@
     stampTexture: "/Textures/Interface/Stamps/meow.png"
   - type: Sprite
     state: stamp-greytide
+
+- type: entity
+  name: senior Engineer rubber stamp
+  parent: RubberStampBase
+  id: RubberStampSeniorEngineer
+  categories: [ DoNotMap ]
+  components:
+  - type: Stamp
+    stampedName: stamp-component-stamped-name-seniorEngineer
+    stampedColor: "#c69b17"
+    stampState: "paper_stamp-seniorEngineer"
+  - type: Sprite
+    state: stamp-seniorEngineer
+
+- type: entity
+  name: senior officer rubber stamp
+  parent: RubberStampBase
+  id: RubberStampSeniorOfficer
+  categories: [ DoNotMap ]
+  components:
+  - type: Stamp
+    stampedName: stamp-component-stamped-name-seniorOfficer
+    stampedColor: "#1c8a97"
+    stampState: "paper_stamp-hos"
+  - type: Sprite
+    state: stamp-seniorOfficer
+
+- type: entity
+  name: senior researcher rubber stamp
+  parent: RubberStampBase
+  id: RubberStampSeniorResearcher
+  categories: [ DoNotMap ]
+  components:
+  - type: Stamp
+    stampedName: stamp-component-stamped-name-seniorResearcher
+    stampedColor: "#6d0477"
+    stampState: "paper_stamp-seniorResearcher"
+  - type: Sprite
+    state: stamp-seniorResearcher
+
+- type: entity
+  name: senior physician rubber stamp 
+  parent: RubberStampBase
+  id: RubberStampSeniorPhysician
+  categories: [ DoNotMap ]
+  components:
+  - type: Stamp
+    stampedName: stamp-component-stamped-name-seniorPhysician
+    stampedColor: "#33ccff"
+    stampState: "paper_stamp-cmo"
+  - type: Sprite
+    state: stamp-seniorPhysician
+
+- type: entity
+  name: senior salvage rubber stamp 
+  parent: RubberStampBase
+  id: RubberStampSeniorSalvage
+  categories: [ DoNotMap ]
+  components:
+  - type: Stamp
+    stampedName: stamp-component-stamped-name-seniorSalvage
+    stampedColor: "#6d4719"
+    stampState: "paper_stamp-seniorSalvage"
+  - type: Sprite
+    state: stamp-seniorSalvage

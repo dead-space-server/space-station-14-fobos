@@ -180,6 +180,18 @@
   technologyPrerequisites:
   - SalvageWeapons
 
+- type: technology # DS14
+  id: NightVisionTechnology
+  name: research-technology-night-vision-technology
+  icon:
+    sprite: _DeadSpace/Clothing/Eyes/Hud/pnv.rsi
+    state: icon
+  discipline: Arsenal
+  tier: 2
+  cost: 7500
+  recipeUnlocks:
+  - ClothingEyesPNV
+
 # Tier 3
 
 - type: technology

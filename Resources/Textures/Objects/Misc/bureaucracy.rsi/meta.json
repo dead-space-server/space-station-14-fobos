@@ -263,6 +263,15 @@
     },
     {
       "name": "paper_dotmatrix_grey_words"
+    },
+    {
+      "name": "paper_stamp-seniorEngineer"
+    },
+    {
+      "name": "paper_stamp-seniorResearcher"
+    },
+    {
+      "name": "paper_stamp-seniorSalvage"
     }
   ]
 }

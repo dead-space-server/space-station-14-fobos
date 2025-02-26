@@ -80,6 +80,11 @@
   - TelescopicShield
 
 - type: latheRecipePack
+  id: NightVisionTech
+  recipes:
+  - ClothingEyesPNV # DS14
+
+- type: latheRecipePack
   id: SecurityBoards
   recipes:
   - ShuttleGunDusterCircuitboard

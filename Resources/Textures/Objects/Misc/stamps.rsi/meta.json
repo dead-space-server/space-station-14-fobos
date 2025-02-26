@@ -75,6 +75,21 @@
     },
     {
       "name": "stamp-greytide"
+    },
+    {
+      "name": "stamp-seniorEngineer"
+    },
+    {
+      "name": "stamp-seniorOfficer"
+    },
+    {
+      "name": "stamp-seniorPhysician"
+    },
+    {
+      "name": "stamp-seniorResearcher"
+    },
+    {
+      "name": "stamp-seniorSalvage"
     }
   ]
 }

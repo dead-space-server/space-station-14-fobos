@@ -116,7 +116,7 @@
     stampedColor: "#c69b17"
     stampState: "paper_stamp-ce"
   - type: Sprite
-    state: stamp-ce
+    state: stamp-ce 
 
 - type: entity
   name: chief medical officer's rubber stamp
