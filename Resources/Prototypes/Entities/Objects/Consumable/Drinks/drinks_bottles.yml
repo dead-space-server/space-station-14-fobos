@@ -558,6 +558,7 @@
     tags:
     - Beer
     - DrinkBottle
+    - DrinkBeerBottleFull
 
 - type: entity
   parent: [DrinkBottleVisualsAll, DrinkBottleGlassBaseFull]

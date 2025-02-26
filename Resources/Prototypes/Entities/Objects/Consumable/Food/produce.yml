@@ -1363,6 +1363,7 @@
   - type: Tag
     tags:
     - Vegetable
+    - FoodChiliPepper
   - type: FoodSequenceElement
     entries:
       Taco: ChiliPepper

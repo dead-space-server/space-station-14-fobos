@@ -8,3 +8,80 @@
   description: A toy double-bladed sword created from two toy swords!
   icon: { sprite: Objects/Weapons/Melee/e_sword_double.rsi, state: e_sword_double }
   objectType: Item
+
+- type: construction
+  name: пивной букет
+  id: BouquetCraftBeer
+  graph: BouquetCraftBeer
+  startNode: start
+  targetNode: bouquetCraftBeer
+  category: construction-category-misc
+  description: Будьте уникальным! Подарите букет который можно съесть, заодно опрокинув по бутылочке пивасика.
+  icon: { sprite: _ADT/Objects/Weapons/Melee/bouquet_with_beer.rsi, state: icon }
+  objectType: Item
+
+- type: construction
+  name: белый букет
+  id: WhiteCraftFlower
+  graph: WhiteCraftFlower
+  startNode: start
+  targetNode: whiteCraftFlower
+  category: construction-category-misc
+  description: Букет из белых роз. Классика.
+  icon: { sprite: _ADT/Objects/Weapons/Melee/white_bouquet.rsi, state: icon }
+  objectType: Item
+
+- type: construction
+  name: розовый букет
+  id: PinkCraftFlower
+  graph: PinkCraftFlower
+  startNode: start
+  targetNode: pinkCraftFlower
+  category: construction-category-misc
+  description: Нежный букет из розовых цветов гибискуса. Специально для нее.
+  icon: { sprite: _ADT/Objects/Weapons/Melee/rose_bouquet.rsi, state: icon }
+  objectType: Item
+
+- type: construction
+  name: жёлтый букет
+  id: YellowCraftFlower
+  graph: YellowCraftFlower
+  startNode: start
+  targetNode: yellowCraftFlower
+  category: construction-category-misc
+  description: Это букет из желтых пионов. Специально для ценителей пионов.
+  icon: { sprite: _ADT/Objects/Weapons/Melee/yellow_bouquet.rsi, state: icon }
+  objectType: Item
+
+- type: construction
+  name: чёрный букет
+  id: DarkCraftFlower
+  graph: DarkCraftFlower
+  startNode: start
+  targetNode: darkCraftFlower
+  category: construction-category-misc
+  description: Эти розы точно не окрашены. Они такие были всегда.
+  icon: { sprite: _ADT/Objects/Weapons/Melee/black_bouquet.rsi, state: icon }
+  objectType: Item
+
+- type: construction
+  name: сиреневый букет
+  id: PurpleCraftFlower
+  graph: PurpleCraftFlower
+  startNode: start
+  targetNode: purpleCraftFlower
+  category: construction-category-misc
+  description: Маленький шедевр генетики - розы сорта "Флидефарбен Розен". Приобрели не только цвет, но и запах сирени.
+  icon: { sprite: _ADT/Objects/Weapons/Melee/liliac_bouquet.rsi, state: icon }
+  objectType: Item
+
+- type: construction
+  name: красный букет
+  id: RedCraftFlower
+  graph: RedCraftFlower
+  startNode: start
+  targetNode: redCraftFlower
+  category: construction-category-misc
+  description: Букет из красных роз, очень оригинально!
+  icon: { sprite: _DeadSpace/Objects/Weapons/Melee/red_bouquet.rsi, state: icon }
+  objectType: Item
