@@ -80,3 +80,10 @@
   typingState: plaf0
   idleState: plaf3
   offset: 0.150, 0.250
+
+- type: typingIndicator
+  id: dwarf
+  spritePath: /Textures/_DeadSpace/Effects/speech.rsi # DS14-TypingIndicator
+  typingState: dwarf0
+  idleState: dwarf3
+  offset: 0.075, 0.125
