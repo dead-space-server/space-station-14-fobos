@@ -1242,6 +1242,9 @@
     - mining
     - miningB
   - type: Appearance
+  - type: Construction
+    graph: MiningGirder
+    node: miningWall
 
 - type: entity
   parent: WallShuttleDiagonal
