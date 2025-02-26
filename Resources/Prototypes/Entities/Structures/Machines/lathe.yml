@@ -130,8 +130,6 @@
     - ServiceStatic
     - PowerCellsStatic
     - ElectronicsStatic
-    dynamicPacks:
-    - NightVisionTech
   - type: EmagLatheRecipes
     emagStaticPacks:
     - SecurityAmmoStatic
@@ -208,6 +206,7 @@
     - Instruments
     - Equipment
     - FauxTiles
+    - NightVisionTech
   - type: EmagLatheRecipes
     emagDynamicPacks:
     - SecurityAmmo

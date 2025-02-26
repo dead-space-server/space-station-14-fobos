@@ -32,4 +32,6 @@
     ears: ClothingHeadsetMining
     neck: ClothingNeckCloakMiner
     socks: ClothingUnderwearSocksSeniorSalvage
-    pocket1: RubberStampSeniorSalvage
+  storage:
+    back:
+    - RubberStampSeniorSalvage

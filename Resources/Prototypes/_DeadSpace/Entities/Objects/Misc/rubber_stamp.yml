@@ -92,17 +92,17 @@
     state: stamp-greytide
 
 - type: entity
-  name: senior Engineer rubber stamp
+  name: senior engineer rubber stamp
   parent: RubberStampBase
   id: RubberStampSeniorEngineer
   categories: [ DoNotMap ]
   components:
   - type: Stamp
-    stampedName: stamp-component-stamped-name-seniorEngineer
+    stampedName: stamp-component-stamped-name-senior-engineer
     stampedColor: "#c69b17"
-    stampState: "paper_stamp-seniorEngineer"
+    stampState: "paper_stamp-senior-engineer"
   - type: Sprite
-    state: stamp-seniorEngineer
+    state: stamp-senior-engineer
 
 - type: entity
   name: senior officer rubber stamp
@@ -111,11 +111,11 @@
   categories: [ DoNotMap ]
   components:
   - type: Stamp
-    stampedName: stamp-component-stamped-name-seniorOfficer
+    stampedName: stamp-component-stamped-name-senior-officer
     stampedColor: "#1c8a97"
     stampState: "paper_stamp-hos"
   - type: Sprite
-    state: stamp-seniorOfficer
+    state: stamp-senior-officer
 
 - type: entity
   name: senior researcher rubber stamp
@@ -124,11 +124,11 @@
   categories: [ DoNotMap ]
   components:
   - type: Stamp
-    stampedName: stamp-component-stamped-name-seniorResearcher
+    stampedName: stamp-component-stamped-name-senior-researcher
     stampedColor: "#6d0477"
-    stampState: "paper_stamp-seniorResearcher"
+    stampState: "paper_stamp-senior-researcher"
   - type: Sprite
-    state: stamp-seniorResearcher
+    state: stamp-senior-researcher
 
 - type: entity
   name: senior physician rubber stamp 
@@ -137,11 +137,11 @@
   categories: [ DoNotMap ]
   components:
   - type: Stamp
-    stampedName: stamp-component-stamped-name-seniorPhysician
+    stampedName: stamp-component-stamped-name-senior-physician
     stampedColor: "#33ccff"
     stampState: "paper_stamp-cmo"
   - type: Sprite
-    state: stamp-seniorPhysician
+    state: stamp-senior-physician
 
 - type: entity
   name: senior salvage rubber stamp 
@@ -150,8 +150,8 @@
   categories: [ DoNotMap ]
   components:
   - type: Stamp
-    stampedName: stamp-component-stamped-name-seniorSalvage
+    stampedName: stamp-component-stamped-name-senior-salvage
     stampedColor: "#6d4719"
-    stampState: "paper_stamp-seniorSalvage"
+    stampState: "paper_stamp-senior-salvage"
   - type: Sprite
-    state: stamp-seniorSalvage
+    state: stamp-senior-salvage

@@ -47,7 +47,6 @@
     ears: ClothingHeadsetSecurity
     pocket1: WeaponRevolverDeckard
     socks: ClothingUnderwearSocksSeniorOfficer
-    pocket2: RubberStampSeniorOfficer
   storage:
     back:
     - Flash
@@ -56,3 +55,4 @@
     - SpeedLoaderMagnum
     - HyperLinkBookCorporateLaw
     - HyperLinkBookSOPSecurity
+    - RubberStampSeniorOfficer

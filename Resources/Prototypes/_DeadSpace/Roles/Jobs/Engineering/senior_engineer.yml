@@ -37,4 +37,6 @@
     belt: ClothingBeltUtilityEngineering
     ears: ClothingHeadsetEngineering
     socks: ClothingUnderwearSocksSeniorEngineer
-    pocket1: RubberStampSeniorEngineer
+  storage:
+    back:
+    - RubberStampSeniorEngineer
