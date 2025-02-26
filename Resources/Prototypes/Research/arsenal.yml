@@ -179,8 +179,9 @@
   - ShuttleGunFriendshipCircuitboard
   technologyPrerequisites:
   - SalvageWeapons
-
-- type: technology # DS14
+  
+  # DS14-start
+- type: technology
   id: NightVisionTechnology
   name: research-technology-night-vision-technology
   icon:
@@ -191,6 +192,7 @@
   cost: 7500
   recipeUnlocks:
   - ClothingEyesPNV
+# DS14-end
 
 # Tier 3
 
