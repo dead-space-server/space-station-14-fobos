@@ -29,7 +29,6 @@ marking-HumanHairGlammetal = Глэм-металл
 marking-HumanHairGloomyLong = Длинная мрачная чёлка
 marking-HumanHairGloomyMedium = Средняя мрачная чёлка
 marking-HumanHairGrande = Гранде
-marking-HumanHairGrandeNoTail = Гранде (без хвостика)
 marking-HumanHairHalfshave = Наполовину выбритая 2
 marking-HumanHairHalfshaveglamorous = Наполовину выбритая (Гламурная)
 marking-HumanHairHalfshaveLong = Наполовину выбритая (Длинная)
