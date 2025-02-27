@@ -68,3 +68,22 @@
     materialComposition:
       Plastic: 50
   - type: DnaSubstanceTrace
+  - type: Damageable #DS14
+    damageContainer: Inorganic
+  - type: Destructible #DS14
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 25
+      behaviors:
+      - !type:SpillBehavior { }
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          ScrapBucket:
+            min: 1
+            max: 1
