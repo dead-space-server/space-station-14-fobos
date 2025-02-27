@@ -69,4 +69,4 @@
     quickEquip: false
     slots:
     - back
-    - suitStorage
+    - suitStorage # DS14
