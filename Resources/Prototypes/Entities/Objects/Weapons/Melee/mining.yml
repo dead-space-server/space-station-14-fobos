@@ -201,7 +201,7 @@
   - type: Item
     size: Ginormous
     sprite: Objects/Weapons/Melee/crusher_glaive-inhands.rsi
-  - type: Clothing #DS14
+  - type: Clothing # DS14
     sprite: Objects/Weapons/Melee/crusher_glaive.rsi
     quickEquip: false
     slots:
