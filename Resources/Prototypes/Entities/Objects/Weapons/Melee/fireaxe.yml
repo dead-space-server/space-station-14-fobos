@@ -38,7 +38,7 @@
     quickEquip: false
     slots:
     - back
-    - suitStorage
+    - suitStorage # DS14
   - type: Tool
     qualities:
       - Prying
