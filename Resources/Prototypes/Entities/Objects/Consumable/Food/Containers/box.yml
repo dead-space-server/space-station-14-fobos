@@ -626,6 +626,10 @@
   suffix: Toy Unsafe, Snacks
   name: syndicate snack box
   components:
+  - type: Storage
+    maxItemSize: Small # DS14
+    grid:
+    - 0,0,4,2 # DS14
   - type: StorageFill
     contents:
     # toy
