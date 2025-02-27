@@ -591,6 +591,10 @@
   description: A sus meal with a potentially explosive surprise.
   suffix: Toy Unsafe
   components:
+  - type: Storage
+    maxItemSize: Small # DS14
+    grid:
+    - 0,0,4,2 # DS14
   - type: Sprite
     sprite: Objects/Storage/Happyhonk/nukie.rsi
     state: box
@@ -622,10 +626,6 @@
   suffix: Toy Unsafe, Snacks
   name: syndicate snack box
   components:
-  - type: Storage
-    maxItemSize: Small # DS14
-    grid:
-    - 0,0,4,2 # DS14
   - type: StorageFill
     contents:
     # toy
