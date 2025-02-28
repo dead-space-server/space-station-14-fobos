@@ -206,7 +206,6 @@
     - Instruments
     - Equipment
     - FauxTiles
-    - NightVisionTech
   - type: EmagLatheRecipes
     emagDynamicPacks:
     - SecurityAmmo
