@@ -274,7 +274,7 @@
       prob: 0.10
       orGroup: Pizza
     - id: KnifePlastic
-  
+
 - type: entity
   name: pizza box
   parent: FoodBoxPizzaFilled
@@ -497,9 +497,9 @@
     sprite: Objects/Storage/Happyhonk/clown.rsi
     heldPrefix: box
   - type: Storage
-    maxItemSize: Normal
+    maxItemSize: Small # DS14
     grid:
-    - 0,0,3,3
+    - 0,0,3,2 # DS14
   - type: Tag
     tags:
     - Trash
@@ -591,6 +591,10 @@
   description: A sus meal with a potentially explosive surprise.
   suffix: Toy Unsafe
   components:
+  - type: Storage
+    maxItemSize: Small # DS14
+    grid:
+    - 0,0,5,2
   - type: Sprite
     sprite: Objects/Storage/Happyhonk/nukie.rsi
     state: box
@@ -622,9 +626,6 @@
   suffix: Toy Unsafe, Snacks
   name: syndicate snack box
   components:
-  - type: Storage
-    grid:
-    - 0,0,5,2
   - type: StorageFill
     contents:
     # toy
