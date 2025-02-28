@@ -594,7 +594,7 @@
   - type: Storage
     maxItemSize: Small # DS14
     grid:
-    - 0,0,4,2 # DS14
+    - 0,0,5,2
   - type: Sprite
     sprite: Objects/Storage/Happyhonk/nukie.rsi
     state: box
