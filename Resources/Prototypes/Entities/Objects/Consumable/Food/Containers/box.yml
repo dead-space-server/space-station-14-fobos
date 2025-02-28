@@ -499,7 +499,7 @@
   - type: Storage
     maxItemSize: Small # DS14
     grid:
-    - 0,0,3,1 # DS14
+    - 0,0,3,2 # DS14
   - type: Tag
     tags:
     - Trash
@@ -592,9 +592,9 @@
   suffix: Toy Unsafe
   components:
   - type: Storage
-    maxItemSize: Small
+    maxItemSize: Small # DS14
     grid:
-    - 0,0,5,2
+    - 0,0,4,2 # DS14
   - type: Sprite
     sprite: Objects/Storage/Happyhonk/nukie.rsi
     state: box
