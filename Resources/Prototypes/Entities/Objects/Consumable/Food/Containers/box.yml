@@ -661,10 +661,10 @@
     # food
     - id: FoodSaladValid
       prob: 0.05
-      amount: 3
+      amount: 2
       orGroup: FoodPool
     - id: FoodSnackSyndi
-      amount: 3
+      amount: 4
       orGroup: FoodPool
 
 - type: entity
