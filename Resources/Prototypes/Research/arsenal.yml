@@ -179,7 +179,7 @@
   - ShuttleGunFriendshipCircuitboard
   technologyPrerequisites:
   - SalvageWeapons
-  
+
 # Tier 3
 
 - type: technology
