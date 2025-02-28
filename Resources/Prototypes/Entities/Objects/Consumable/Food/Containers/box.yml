@@ -594,7 +594,7 @@
   - type: Storage
     maxItemSize: Small
     grid:
-    - 0,0,2,2
+    - 0,0,5,2
   - type: Sprite
     sprite: Objects/Storage/Happyhonk/nukie.rsi
     state: box
@@ -661,7 +661,7 @@
     # food
     - id: FoodSaladValid
       prob: 0.05
-      amount: 2
+      amount: 4
       orGroup: FoodPool
     - id: FoodSnackSyndi
       amount: 4
