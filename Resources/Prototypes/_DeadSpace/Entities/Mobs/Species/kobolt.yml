@@ -99,9 +99,9 @@
   - type: Stamina
     critThreshold: 85
   - type: Sanity # DS14
-  - type: FootPrints
-    leftBarePrint: "footprint-left-bare-lizard"
-    rightBarePrint: "footprint-right-bare-lizard"
+  # - type: FootPrints
+    # leftBarePrint: "footprint-left-bare-lizard"
+    # rightBarePrint: "footprint-right-bare-lizard"
 
 
 - type: entity
@@ -129,3 +129,8 @@
           32:
             sprite: Mobs/Species/Human/displacement.rsi
             state: jumpsuit-female
+  - type: Language
+    selectedLanguage: GeneralLanguage
+    knownLanguages:
+    - KoboltLanguage
+    - GeneralLanguage

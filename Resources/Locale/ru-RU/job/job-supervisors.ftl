@@ -18,6 +18,3 @@ job-supervisors-crew = экипажу
 job-supervisors-security-borg = своим законам, офицерам, инструктору, смотрителю, и главе службы безопасности
 job-supervisors-centcom-administrator = администратору станции центрального командования
 job-supervisors-no-one = никому
-job-supervisors-typan-syndicate = командованию Синдиката
-job-supervisors-typan-telecommunications-officer = офицеру телекоммуникаций Синдиката
-job-supervisors-typan-rd = директору исследований Синдиката

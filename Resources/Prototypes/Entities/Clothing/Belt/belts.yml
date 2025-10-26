@@ -1,7 +1,7 @@
 # Belts that need/have visualizers
 
 - type: entity
-  parent: ClothingBeltStorageBase
+  parent: ClothingBeltUtilityBase # DS14
   id: ClothingBeltUtility
   name: utility belt
   description: Can hold various things.
@@ -10,40 +10,6 @@
     sprite: Clothing/Belt/utility.rsi
   - type: Clothing
     sprite: Clothing/Belt/utility.rsi
-  - type: Storage
-    maxItemSize: Normal
-    # TODO: Fill this out more.
-    whitelist:
-      tags:
-        - Powerdrill
-        - Wirecutter
-        - Crowbar
-        - Screwdriver
-        - Flashlight
-        - Wrench
-        - GeigerCounter
-        - Flare
-        - CableCoil
-        - CigPack
-        - Radio
-        - HolofanProjector
-        - Multitool
-        - AppraisalTool
-        - JawsOfLife
-        - GPS
-        - WeldingMask
-      components:
-        - StationMap
-        - SprayPainter
-        - NetworkConfigurator
-        - RCD
-        - RCDAmmo
-        - Welder
-        - PowerCell
-        - Geiger
-        - TrayScanner
-        - GasAnalyzer
-        - HandLabeler
   - type: ItemMapper
     mapLayers:
       drill:
@@ -78,8 +44,34 @@
         whitelist:
           tags:
             - Multitool
+      # DS14-start
+      welding:
+        whitelist:
+          tags:
+          - WeldingMaskGray
+      welding_flameblue:
+        whitelist:
+          tags:
+          - WeldingMaskFlameBlue
+      welding_flame:
+        whitelist:
+          tags:
+          - WeldingMaskFlame
+      welding_gasmask:
+        whitelist:
+          tags:
+          - WeldingMaskWhite
+      welding_painted:
+        whitelist:
+          tags:
+          - WeldingMaskPainted
+      # DS14-end
     sprite: Clothing/Belt/belt_overlay.rsi
   - type: Appearance
+  - type: Tag
+    tags:
+    - UtilityBelt
+    - WhitelistChameleon
 
 - type: entity
   parent: ClothingBeltStorageBase
@@ -115,6 +107,7 @@
       components:
         - StationMap
         - SprayPainter
+        - SprayPainterAmmo
         - NetworkConfigurator
         - RCD
         - RCDAmmo
@@ -225,9 +218,15 @@
         - WetFloorSign
         - HolosignProjector
         - Plunger
-      components:
+        - GoldenPlunger
+        - WireBrush
+        # DS14-start
+        - SoapSyndie
+        - TrashBagBlue
+        - GoldenPlunger
         - LightReplacer
-        - SmokeOnTrigger
+        - CleanerGrenade
+        # DS14-end
     maxItemSize: Large
   - type: ItemMapper
     mapLayers:
@@ -239,10 +238,48 @@
         whitelist:
           tags:
           - Spray
-      wrench:
+      # DS14-start
+      soap:
         whitelist:
           tags:
-          - Wrench
+          - Soap
+      soapsyndie:
+        whitelist:
+          tags:
+          - SoapSyndie
+      trashbag:
+        whitelist:
+          tags:
+          - TrashBag
+      trashbag_blue:
+        whitelist:
+          tags:
+          - TrashBagBlue
+      wetfloorsign:
+        whitelist:
+          tags:
+          - WetFloorSign
+      holosign:
+        whitelist:
+          tags:
+          - HolosignProjector
+      plunger:
+        whitelist:
+          tags:
+          - Plunger
+      golden_plunger:
+        whitelist:
+          tags:
+          - GoldenPlunger
+      cleaner_grenade:
+        whitelist:
+          tags:
+          - CleanerGrenade
+      light_replacer:
+        whitelist:
+          tags:
+          - LightReplacer
+      # DS14-end
     sprite: Clothing/Belt/belt_overlay.rsi
   - type: Appearance
 
@@ -257,6 +294,7 @@
   - type: Clothing
     sprite: Clothing/Belt/medical.rsi
   - type: Storage
+    maxItemSize: Large # DS14
     whitelist:
       tags:
         - Wrench
@@ -272,6 +310,8 @@
         - DiscreteHealthAnalyzer
         - SurgeryTool
         - Dropper
+        - Medkit # DS14
+        - CompactDefibrillator # DS14
       components:
         - Hypospray
         - Injector
@@ -487,6 +527,8 @@
         - MagazineMagnum
         - CombatKnife
         - Truncheon
+        - HandGrenade
+        - EnergyCartridge # DS14
       components:
         - Stunbaton
         - FlashOnTrigger
@@ -622,6 +664,8 @@
         - Gun
         - BallisticAmmoProvider
         - CartridgeAmmo
+  - type: StaticPrice
+    price: 500
 
 - type: entity
   parent: ClothingBeltSecurity
@@ -667,7 +711,9 @@
   - type: Clothing
     sprite: Clothing/Belt/militarywebbing.rsi
   - type: ExplosionResistance
-    damageCoefficient: 0.5
+    damageCoefficient: 0.1
+  - type: StaticPrice
+    price: 500
 
 - type: entity
   parent: ClothingBeltMilitaryWebbing
