@@ -3,6 +3,8 @@
 using Content.Shared.Chemistry.Reagent;
 using Robust.Shared.Prototypes;
 using Content.Server.DeadSpace.Virus.Symptoms;
+using Content.Shared.Whitelist;
+using Content.Shared.Humanoid.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Components;
 
@@ -57,4 +59,16 @@ public sealed partial class VirusComponent : Component
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
     public float Infectivity = 0.1f;
+
+    /// <summary>
+    ///     Допустимые к заражению сущности.
+    /// </summary>
+    [DataField]
+    public EntityWhitelist? EntityWhitelist = new();
+
+    /// <summary>
+    ///     Допустимые к заражению расы.
+    /// </summary>
+    [DataField]
+    public List<ProtoId<SpeciesPrototype>> SpeciesWhitelist = new();
 }

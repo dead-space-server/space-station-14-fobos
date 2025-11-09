@@ -58,4 +58,12 @@ public sealed class CoughSymptom : VirusSymptomBase
             }
         }
     }
+
+    public override IVirusSymptom Clone()
+    {
+        // Создаём новый TimedWindow с теми же параметрами
+        var newTimedWindow = new TimedWindow(EffectTimedWindow.MinSeconds, EffectTimedWindow.MaxSeconds, EffectTimedWindow.Timing, EffectTimedWindow.Random);
+
+        return new CoughSymptom(EntityManager, Timing, newTimedWindow);
+    }
 }

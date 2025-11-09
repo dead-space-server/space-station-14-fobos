@@ -7,8 +7,8 @@ namespace Content.Shared.DeadSpace.TimeWindow;
 
 public sealed class TimedWindow
 {
-    private readonly IRobustRandom _random;
-    private readonly IGameTiming _timing;
+    public readonly IRobustRandom Random;
+    public readonly IGameTiming Timing;
     public float MinSeconds { get; }
     public float MaxSeconds { get; }
 
@@ -21,8 +21,8 @@ public sealed class TimedWindow
     {
         MinSeconds = minSeconds;
         MaxSeconds = maxSeconds;
-        _timing = timing;
-        _random = random;
+        Timing = timing;
+        Random = random;
         Reset();
     }
 
@@ -31,7 +31,7 @@ public sealed class TimedWindow
     /// </summary>
     public void Reset()
     {
-        Remaining = _timing.CurTime + GetRandomDuration();
+        Remaining = Timing.CurTime + GetRandomDuration();
     }
 
     /// <summary>
@@ -39,7 +39,7 @@ public sealed class TimedWindow
     /// </summary>
     public bool IsExpired()
     {
-        return _timing.CurTime >= Remaining;
+        return Timing.CurTime >= Remaining;
     }
 
     private TimeSpan GetRandomDuration()
@@ -47,7 +47,7 @@ public sealed class TimedWindow
         if (MinSeconds == MaxSeconds)
             return TimeSpan.FromSeconds(MinSeconds);
 
-        var seconds = _random.NextFloat(MinSeconds, MaxSeconds);
+        var seconds = Random.NextFloat(MinSeconds, MaxSeconds);
         return TimeSpan.FromSeconds(seconds);
     }
 }

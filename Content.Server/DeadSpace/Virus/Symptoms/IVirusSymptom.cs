@@ -30,4 +30,6 @@ public interface IVirusSymptom
     ///     Запускает эффект симптома.
     /// </summary>
     void DoEffect(EntityUid host, VirusComponent virus);
+
+    IVirusSymptom Clone();
 }

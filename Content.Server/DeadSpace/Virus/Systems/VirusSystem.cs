@@ -3,8 +3,16 @@
 using System.Linq;
 using Content.Server.DeadSpace.Virus.Components;
 using Content.Server.DeadSpace.Virus.Symptoms;
+using Content.Shared.Chemistry.Reagent;
 using Content.Shared.DeadSpace.TimeWindow;
+using Content.Shared.Examine;
+using Content.Shared.Humanoid;
+using Content.Shared.Humanoid.Prototypes;
 using Content.Shared.Inventory;
+using Content.Shared.Mobs.Components;
+using Content.Shared.Virus;
+using Content.Shared.Whitelist;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 
@@ -14,6 +22,11 @@ public sealed partial class VirusSystem : EntitySystem
 {
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly EntityWhitelistSystem _whitelist = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly ExamineSystemShared _examine = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
 
     /// <summary>
     ///     Окно времени обновления вируса.
@@ -81,6 +94,17 @@ public sealed partial class VirusSystem : EntitySystem
                 symptom.OnAdded(uid, component);
             }
         }
+
+        var whitelist = component.EntityWhitelist ??= new EntityWhitelist();
+
+        whitelist.Components ??= Array.Empty<string>();
+        var compList = whitelist.Components.ToHashSet();
+
+        compList.Add("MobState");
+        compList.Add("HumanoidAppearance");
+        compList.Add("Bloodstream");
+
+        whitelist.Components = compList.ToArray();
     }
 
     private void OnShutdown(EntityUid uid, VirusComponent component, ComponentShutdown args)
@@ -135,29 +159,130 @@ public sealed partial class VirusSystem : EntitySystem
         entity.Comp.ActiveSymptomInstances.Remove(symptom);
     }
 
-    private float GetVirusInfectionChance(EntityUid uid, VirusComponent component)
+    /// <summary>
+    ///     Инфецируемый распространяет инфекцию вокруг себя.
+    /// </summary>
+    public void InfectAround(EntityUid host, float range = 1f, VirusComponent? component = null)
     {
-        var chance = zombieComponent.BaseZombieInfectionChance;
+        if (!Resolve(host, ref component, false))
+            return;
 
-        var armorEv = new CoefficientQueryEvent(ProtectiveSlots);
-        RaiseLocalEvent(uid, armorEv);
+        // Берём только мобов
+        var entities = _lookup.GetEntitiesInRange<MobStateComponent>(_transform.GetMapCoordinates(host, Transform(host)), range).ToList();
 
-        foreach (var resistanceEffectiveness in zombieComponent.ResistanceEffectiveness.DamageDict)
+        if (entities.Count <= 0)
+            return;
+
+        foreach (var ent in entities)
         {
-            if (armorEv.DamageModifiers.Coefficients.TryGetValue(resistanceEffectiveness.Key, out var coefficient))
+            var target = ent.Owner;
+
+            if (target == host)
+                continue;
+
+            if (!CanInfect(target, component))
+                continue;
+
+            // Вычисляем шанс заражения
+            var chance = GetVirusInfectionChance(target, component);
+
+            // Бросаем шанс
+            if (_random.Prob(chance))
             {
-                // Scale the coefficient by the resistance effectiveness, very descriptive I know
-                // For example. With 30% slash resist (0.7 coeff), but only a 60% resistance effectiveness for slash,
-                // you'll end up with 1 - (0.3 * 0.6) = 0.82 coefficient, or a 18% resistance
-                var adjustedCoefficient = 1 - ((1 - coefficient) * resistanceEffectiveness.Value.Float());
-                chance *= adjustedCoefficient;
+                InfectEntity((host, component), target);
             }
         }
-
-        var zombificationResistanceEv = new ZombificationResistanceQueryEvent(ProtectiveSlots);
-        RaiseLocalEvent(uid, zombificationResistanceEv);
-        chance *= zombificationResistanceEv.TotalCoefficient;
-
-        return MathF.Max(chance, zombieComponent.MinZombieInfectionChance);
     }
+
+    public void InfectEntity(Entity<VirusComponent?> source, EntityUid target)
+    {
+        if (!Resolve(source, ref source.Comp, false))
+            return;
+
+        CopyVirusComponent(source, target);
+
+        // Активируем симптомы
+        var targetComp = Comp<VirusComponent>(target);
+        foreach (var symptom in targetComp.ActiveSymptomInstances)
+        {
+            symptom.OnAdded(target, targetComp);
+        }
+
+        // Если будет логика на клиенте
+        // Dirty(target, targetComp);
+    }
+
+    public bool CanInfect(EntityUid target, VirusComponent component)
+    {
+        if (HasComp<VirusComponent>(target))
+            return false;
+
+        if (component.EntityWhitelist != null && !_whitelist.IsValid(component.EntityWhitelist, target))
+            return false;
+
+        if (TryComp<HumanoidAppearanceComponent>(target, out var humanoid) && !component.SpeciesWhitelist.Contains(_prototype.Index(humanoid.Species)))
+            return false;
+
+        return true;
+    }
+
+    private float GetVirusInfectionChance(EntityUid target, VirusComponent component)
+    {
+        var resistanceQuery = new VirusResistanceQueryEvent(ProtectiveSlots);
+        RaiseLocalEvent(target, resistanceQuery);
+
+        var finalChance = component.Infectivity * (1 - resistanceQuery.TotalCoefficient);
+
+        // от 0 до 100%
+        finalChance = Math.Clamp(finalChance, 0f, 1.0f);
+
+        return finalChance;
+    }
+
+    private void CopyVirusComponent(Entity<VirusComponent?> source, EntityUid target)
+    {
+        if (!Resolve(source, ref source.Comp, false))
+            return;
+
+        var targetComp = EnsureComp<VirusComponent>(target);
+
+        // Простые поля (примитивы)
+        targetComp.StrainId = source.Comp.StrainId;
+        targetComp.ComplexityVaccine = source.Comp.ComplexityVaccine;
+        targetComp.Threshold = source.Comp.Threshold;
+        targetComp.DefaultMedicineResistance = source.Comp.DefaultMedicineResistance;
+        targetComp.Infectivity = source.Comp.Infectivity;
+
+        // Копируем список симптомов
+        targetComp.ActiveSymptomInstances = source.Comp.ActiveSymptomInstances
+            .Select(symptom => symptom.Clone())
+            .ToList();
+
+        // Копируем сопротивления к лекарствам
+        targetComp.MedicineResistance = new Dictionary<ProtoId<ReagentPrototype>, float>(source.Comp.MedicineResistance);
+
+        // Копируем whitelist
+        if (source.Comp.EntityWhitelist != null)
+        {
+            targetComp.EntityWhitelist = new EntityWhitelist
+            {
+                Components = source.Comp.EntityWhitelist.Components?.ToArray(),
+                Sizes = source.Comp.EntityWhitelist.Sizes?.ToList(),
+                Tags = source.Comp.EntityWhitelist.Tags?.ToList(),
+                RequireAll = source.Comp.EntityWhitelist.RequireAll
+            };
+        }
+        else
+        {
+            targetComp.EntityWhitelist = null;
+        }
+
+        // Копируем список рас
+        targetComp.SpeciesWhitelist = new List<ProtoId<SpeciesPrototype>>(source.Comp.SpeciesWhitelist);
+
+        // Если будет логика на клиенте
+        // Dirty(target, targetComp);
+    }
+
+
 }
