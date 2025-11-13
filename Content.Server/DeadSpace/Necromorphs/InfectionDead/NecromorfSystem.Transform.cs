@@ -122,6 +122,9 @@ public sealed partial class NecromorfSystem
         RemComp<LegsParalyzedComponent>(target);
         RemComp<ComplexInteractionComponent>(target);
 
+        if (HasComp<VirusComponent>(target))
+            RemComp<VirusComponent>(target);
+
         if (!HasComp<ImmunNecroobeliskComponent>(target))
             AddComp<ImmunNecroobeliskComponent>(target);
 

@@ -10,13 +10,13 @@ using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
-public sealed class CoughSymptom : VirusSymptomBase
+public sealed class VomitSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.Cough;
     protected override float AddInfectivity => 0.1f;
     private static readonly ProtoId<EmotePrototype> CoughEmote = "Cough";
 
-    public CoughSymptom(IEntityManager entityManager, IGameTiming timing, TimedWindow effectTimedWindow) : base(entityManager, timing, effectTimedWindow)
+    public VomitSymptom(IEntityManager entityManager, IGameTiming timing, TimedWindow effectTimedWindow) : base(entityManager, timing, effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
@@ -38,27 +38,10 @@ public sealed class CoughSymptom : VirusSymptomBase
     {
         var protoMan = IoCManager.Resolve<IPrototypeManager>();
 
-        var chatSystem = EntityManager.System<ChatSystem>();
+        var vomitSystem  = EntityManager.System<VomitSystem >();
         var virusSystem = EntityManager.System<VirusSystem>();
 
-        if (EntityManager.TryGetComponent<VocalComponent>(host, out var vocal))
-        {
-
-            chatSystem.TryEmoteWithChat(host,
-                            CoughEmote,
-                            ChatTransmitRange.HideChat,
-                            ignoreActionBlocker: true);
-
-            if (vocal.EmoteSounds != null)
-            {
-                chatSystem.TryPlayEmoteSound(
-                    host,
-                    protoMan.Index(vocal.EmoteSounds),
-                    CoughEmote
-                );
-            }
-        }
-
+        vomitSystem.Vomit(host);
         virusSystem.InfectAround(host);
     }
 

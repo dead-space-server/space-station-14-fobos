@@ -10,13 +10,14 @@ using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
-public sealed class CoughSymptom : VirusSymptomBase
+public sealed class RashSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.Cough;
     protected override float AddInfectivity => 0.1f;
     private static readonly ProtoId<EmotePrototype> CoughEmote = "Cough";
+    private const string RashEmote = "чешется";
 
-    public CoughSymptom(IEntityManager entityManager, IGameTiming timing, TimedWindow effectTimedWindow) : base(entityManager, timing, effectTimedWindow)
+    public RashSymptom(IEntityManager entityManager, IGameTiming timing, TimedWindow effectTimedWindow) : base(entityManager, timing, effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
@@ -41,25 +42,12 @@ public sealed class CoughSymptom : VirusSymptomBase
         var chatSystem = EntityManager.System<ChatSystem>();
         var virusSystem = EntityManager.System<VirusSystem>();
 
-        if (EntityManager.TryGetComponent<VocalComponent>(host, out var vocal))
-        {
+        chatSystem.TrySendInGameICMessage(host,
+                            RashEmote,
+                            InGameICChatType.Emote,
+                            ChatTransmitRange.Normal);
 
-            chatSystem.TryEmoteWithChat(host,
-                            CoughEmote,
-                            ChatTransmitRange.HideChat,
-                            ignoreActionBlocker: true);
-
-            if (vocal.EmoteSounds != null)
-            {
-                chatSystem.TryPlayEmoteSound(
-                    host,
-                    protoMan.Index(vocal.EmoteSounds),
-                    CoughEmote
-                );
-            }
-        }
-
-        virusSystem.InfectAround(host);
+        // virusSystem.InfectAround(host);
     }
 
     public override IVirusSymptom Clone()

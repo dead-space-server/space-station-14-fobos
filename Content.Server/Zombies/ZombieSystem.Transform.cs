@@ -111,6 +111,11 @@ public sealed partial class ZombieSystem
         if (HasComp<ZombieComponent>(target) || HasComp<ZombieImmuneComponent>(target))
             return;
 
+        // DS14-start
+        if (HasComp<NecromorfComponent>(target) || HasComp<InfectionDeadComponent>(target))
+            return;
+        // DS14-end
+
         if (!Resolve(target, ref mobState, logMissing: false))
             return;
 
@@ -147,7 +152,9 @@ public sealed partial class ZombieSystem
         RemComp<ComplexInteractionComponent>(target);
         RemComp<SentienceTargetComponent>(target);
 
-        // DS14-Languages-start
+        // DS14-start
+        if (HasComp<VirusComponent>(target))
+            RemComp<VirusComponent>(target);
 
         if (TryComp<LanguageComponent>(target, out var language))
         {
@@ -171,7 +178,7 @@ public sealed partial class ZombieSystem
 
         // EnsureComp<ReplacementAccentComponent>(target).Accent = accentType;
 
-        // DS14-Languages-end
+        // DS14-end
 
 
         //This is needed for stupid entities that fuck up combat mode component

@@ -31,5 +31,8 @@ public interface IVirusSymptom
     /// </summary>
     void DoEffect(EntityUid host, VirusComponent virus);
 
+    /// <summary>
+    ///     Метод для передачи симптомов от одного носителя к другому.
+    /// </summary>
     IVirusSymptom Clone();
 }

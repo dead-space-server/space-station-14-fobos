@@ -27,6 +27,7 @@ public sealed partial class VirusSystem : EntitySystem
     [Dependency] private readonly ExamineSystemShared _examine = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    private readonly ISawmill _sawmill = default!;
 
     /// <summary>
     ///     Окно времени обновления вируса.
@@ -49,6 +50,8 @@ public sealed partial class VirusSystem : EntitySystem
     public override void Initialize()
     {
         base.Initialize();
+
+        _sawmill = _logManager.GetSawmill("VirusSystem");
 
         _virusUpdateWindow = new TimedWindow(1f, 1f, _timing, _random);
         _defaultSymptomWindow = new TimedWindow(15f, 60f, _timing, _random);
@@ -119,11 +122,58 @@ public sealed partial class VirusSystem : EntitySystem
         }
     }
 
+    public bool HasSymptom<T>(Entity<VirusComponent?> entity)
+    where T : IVirusSymptom
+    {
+        if (!Resolve(entity, ref entity.Comp, false))
+        {
+            _sawmill.Warning($"Entity {entity.Owner} не имеет компонента VirusComponent, невозможно проверить наличие симптома {typeof(T).Name}.");
+            return default!;
+        }
+
+        return entity.Comp.ActiveSymptomInstances.Any(s => s is T);
+    }
+
+    public bool TryGetSymptom<T>(Entity<VirusComponent?> entity, out T? symptom)
+    where T : class, IVirusSymptom
+    {
+        symptom = null;
+
+        if (!Resolve(entity, ref entity.Comp, false))
+        {
+            _sawmill.Warning($"Entity {entity.Owner} не имеет компонента VirusComponent, невозможно получить симптом {typeof(T).Name}.");
+            return default!;
+        }
+
+        symptom = entity.Comp.ActiveSymptomInstances.OfType<T>().FirstOrDefault();
+        return symptom != null;
+    }
+
+    public T EnsureSymptom<T>(Entity<VirusComponent?> entity)
+    where T : IVirusSymptom
+    {
+        if (!Resolve(entity, ref entity.Comp, false))
+        {
+            _sawmill.Warning($"Entity {entity.Owner} не имеет компонента VirusComponent, невозможно добавить симптом {typeof(T).Name}.");
+            return default!;
+        }
+
+        // Ищем симптом нужного типа
+        var existing = entity.Comp.ActiveSymptomInstances.OfType<T>().FirstOrDefault();
+        if (existing != null)
+            return existing;
+
+        return AddSymptom<T>(entity);
+    }
+
     public T AddSymptom<T>(Entity<VirusComponent?> entity)
     where T : IVirusSymptom
     {
         if (!Resolve(entity, ref entity.Comp, false))
+        {
+            _sawmill.Warning($"Entity {entity.Owner} не имеет компонента VirusComponent, невозможно добавить симптом {typeof(T).Name}.");
             return default!;
+        }
 
         if (entity.Comp.ActiveSymptomInstances == null)
             entity.Comp.ActiveSymptomInstances = new List<IVirusSymptom>();
@@ -137,6 +187,8 @@ public sealed partial class VirusSystem : EntitySystem
         entity.Comp.ActiveSymptomInstances.Add(symptom);
         symptom.OnAdded(entity.Owner, entity.Comp);
 
+        _sawmill.Debug($"Добавлен симптом {typeof(T).Name} к сущности {entity.Owner}.");
+
         return symptom;
     }
 
@@ -144,7 +196,10 @@ public sealed partial class VirusSystem : EntitySystem
     where T : IVirusSymptom
     {
         if (!Resolve(entity, ref entity.Comp, false))
-            return;
+        {
+            _sawmill.Warning($"Entity {entity.Owner} не имеет компонента VirusComponent, невозможно удалить симптом {typeof(T).Name}.");
+            return default!;
+        }
 
         if (entity.Comp.ActiveSymptomInstances == null)
             return;
@@ -157,6 +212,8 @@ public sealed partial class VirusSystem : EntitySystem
         symptom.OnRemoved(entity.Owner, entity.Comp);
 
         entity.Comp.ActiveSymptomInstances.Remove(symptom);
+
+        _sawmill.Debug($"Удалён симптом {typeof(T).Name} у сущности {entity.Owner}.");
     }
 
     /// <summary>
@@ -212,8 +269,17 @@ public sealed partial class VirusSystem : EntitySystem
         // Dirty(target, targetComp);
     }
 
+    /// <summary>
+    ///     Возможность заразиться вирусом.
+    /// </summary>
     public bool CanInfect(EntityUid target, VirusComponent component)
     {
+        if (HasComp<ZombieComponent>(target)
+            || HasComp<NecromorfComponent>(target)
+            || HasComp<InfectionDeadComponent>(target)
+            || HasComo<PendingZombieComponent>(target))
+            return false;
+
         if (HasComp<VirusComponent>(target))
             return false;
 
