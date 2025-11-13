@@ -46,6 +46,8 @@ using Content.Shared.DeadSpace.Languages.Components;
 using Content.Shared.DeadSpace.Languages.Prototypes;
 using Content.Shared.NPC.Prototypes;
 using Content.Shared.Roles;
+using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
+using Content.Shared.DeadSpace.Virus.Components;
 
 namespace Content.Server.Zombies;
 

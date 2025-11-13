@@ -40,6 +40,8 @@
     headerMargin: 0.0, 0.0, 0.0, 6.0
     backgroundImageTile: true
     backgroundPatchMargin: 0.0, 6.0, 0.0, 6.0
-    contentMargin: 12.0, 0.0, 12.0, 0.0
-    # This is a narrow piece of paper
-    maxWritableArea: 128.0, 0.0
+  # DS14-start
+    contentMargin: 30.0, 0.0, 30.0, 0.0
+    maxWritableArea: 300.0, 0.0
+  
+  # DS14-end

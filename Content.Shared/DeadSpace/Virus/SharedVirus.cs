@@ -1,6 +1,8 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Content.Shared.Inventory;
+using Robust.Shared.Serialization;
+using Content.Shared.DoAfter;
 
 namespace Content.Shared.Virus;
 
@@ -17,3 +19,7 @@ public sealed class VirusResistanceQueryEvent : EntityEventArgs, IInventoryRelay
         TargetSlots = slots;
     }
 }
+
+[Serializable, NetSerializable]
+public sealed partial class CollectVirusDataDoAfterEvent : SimpleDoAfterEvent
+{ }

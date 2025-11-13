@@ -2,25 +2,27 @@
 
 using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.DeadSpace.Virus.Components;
-using Content.Server.DeadSpace.Virus.Systems;
+using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 using Content.Shared.DeadSpace.TimeWindow;
-using Content.Shared.Medical;
+using Content.Shared.Zombies;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
-public sealed class VomitSymptom : VirusSymptomBase
+public sealed class ZombificationSymptom : VirusSymptomBase
 {
-    public override VirusSymptom Type => VirusSymptom.Vomit;
+    public override VirusSymptom Type => VirusSymptom.Zombification;
     protected override float AddInfectivity => 0.1f;
 
-    public VomitSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
+    public ZombificationSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
     {
         base.OnAdded(host, virus);
+
+        InfectZombieVirus(host);
     }
 
     public override void OnRemoved(EntityUid host, VirusComponent virus)
@@ -35,15 +37,23 @@ public sealed class VomitSymptom : VirusSymptomBase
 
     public override void DoEffect(EntityUid host, VirusComponent virus)
     {
-        var vomitSystem = EntityManager.System<VomitSystem>();
-        var virusSystem = EntityManager.System<VirusSystem>();
+        InfectZombieVirus(host);
+    }
 
-        vomitSystem.Vomit(host);
-        virusSystem.InfectAround(host);
+    private void InfectZombieVirus(EntityUid target)
+    {
+        if (EntityManager.HasComponent<ZombieComponent>(target) || EntityManager.HasComponent<ZombieImmuneComponent>(target))
+            return;
+
+        // DS14-start
+        if (EntityManager.HasComponent<NecromorfComponent>(target) || EntityManager.HasComponent<InfectionDeadComponent>(target))
+            return;
+
+        EntityManager.EnsureComponent<PendingZombieComponent>(target);
     }
 
     public override IVirusSymptom Clone()
     {
-        return new VomitSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new ZombificationSymptom(EntityManager, Timing, Random, CloneTimedWindow());
     }
 }

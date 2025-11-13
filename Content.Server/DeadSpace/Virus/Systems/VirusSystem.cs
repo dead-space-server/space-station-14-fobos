@@ -1,9 +1,10 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using System.Linq;
-using Content.Server.DeadSpace.Virus.Components;
-using Content.Server.DeadSpace.Virus.Symptoms;
+using Content.Shared.DeadSpace.Virus.Components;
+using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.Chemistry.Reagent;
+using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 using Content.Shared.DeadSpace.TimeWindow;
 using Content.Shared.Examine;
 using Content.Shared.Humanoid;
@@ -12,6 +13,7 @@ using Content.Shared.Inventory;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Virus;
 using Content.Shared.Whitelist;
+using Content.Shared.Zombies;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
@@ -27,7 +29,8 @@ public sealed partial class VirusSystem : EntitySystem
     [Dependency] private readonly ExamineSystemShared _examine = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
-    private readonly ISawmill _sawmill = default!;
+    [Dependency] private readonly ILogManager _logManager = default!;
+    private ISawmill _sawmill = default!;
 
     /// <summary>
     ///     Окно времени обновления вируса.
@@ -58,6 +61,8 @@ public sealed partial class VirusSystem : EntitySystem
 
         SubscribeLocalEvent<VirusComponent, ComponentInit>(OnComponentInit);
         SubscribeLocalEvent<VirusComponent, ComponentShutdown>(OnShutdown);
+
+        RashInitialize();
     }
 
     public override void Update(float frameTime)
@@ -198,13 +203,12 @@ public sealed partial class VirusSystem : EntitySystem
         if (!Resolve(entity, ref entity.Comp, false))
         {
             _sawmill.Warning($"Entity {entity.Owner} не имеет компонента VirusComponent, невозможно удалить симптом {typeof(T).Name}.");
-            return default!;
+            return;
         }
 
         if (entity.Comp.ActiveSymptomInstances == null)
             return;
 
-        // Находим первый симптом нужного типа
         var symptom = entity.Comp.ActiveSymptomInstances.FirstOrDefault(s => s is T);
         if (symptom == null)
             return;
@@ -237,21 +241,38 @@ public sealed partial class VirusSystem : EntitySystem
             if (target == host)
                 continue;
 
-            if (!CanInfect(target, component))
-                continue;
-
-            // Вычисляем шанс заражения
-            var chance = GetVirusInfectionChance(target, component);
-
-            // Бросаем шанс
-            if (_random.Prob(chance))
-            {
-                InfectEntity((host, component), target);
-            }
+            ProbInfect((host, component), target);
         }
     }
 
-    public void InfectEntity(Entity<VirusComponent?> source, EntityUid target)
+    /// <summary>
+    ///     Заразить с вероятностью.
+    /// </summary>
+    private void ProbInfect(Entity<VirusComponent?> host, EntityUid target)
+    {
+        if (!Resolve(host, ref host.Comp, false))
+            return;
+
+        if (!CanInfect(target, host.Comp))
+            return;
+
+        // Вычисляем шанс заражения
+        var chance = GetVirusInfectionChance(target, host.Comp);
+
+        // Бросаем шанс
+        if (_random.Prob(chance))
+        {
+            _sawmill.Debug($"[{host}] заразил [{target}] вирусом {host.Comp.StrainId} (шанс {chance:P0})");
+            InfectEntity((host, host.Comp), target);
+        }
+        else
+        {
+            _sawmill.Debug($"[{host}] не заразил [{target}] (шанс {chance:P0})");
+        }
+    }
+
+
+    private void InfectEntity(Entity<VirusComponent?> source, EntityUid target)
     {
         if (!Resolve(source, ref source.Comp, false))
             return;
@@ -277,7 +298,7 @@ public sealed partial class VirusSystem : EntitySystem
         if (HasComp<ZombieComponent>(target)
             || HasComp<NecromorfComponent>(target)
             || HasComp<InfectionDeadComponent>(target)
-            || HasComo<PendingZombieComponent>(target))
+            || HasComp<PendingZombieComponent>(target))
             return false;
 
         if (HasComp<VirusComponent>(target))

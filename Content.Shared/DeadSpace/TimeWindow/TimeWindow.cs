@@ -27,6 +27,14 @@ public sealed class TimedWindow
     }
 
     /// <summary>
+    ///     Добавить время окну.
+    /// </summary>
+    public void AddTime(TimeSpan time)
+    {
+        Remaining += time;
+    }
+
+    /// <summary>
     ///     Сбрасывает таймер на новое случайное время.
     /// </summary>
     public void Reset()

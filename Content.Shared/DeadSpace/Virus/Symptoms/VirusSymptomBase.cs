@@ -1,15 +1,17 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
-using Content.Server.DeadSpace.Virus.Components;
+using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
+using Robust.Shared.Random;
 using Robust.Shared.Timing;
 
-namespace Content.Server.DeadSpace.Virus.Symptoms;
+namespace Content.Shared.DeadSpace.Virus.Symptoms;
 
 public abstract class VirusSymptomBase : IVirusSymptom
 {
     protected readonly IEntityManager EntityManager;
     protected readonly IGameTiming Timing;
+    protected readonly IRobustRandom Random;
     public TimedWindow EffectTimedWindow { get; }
 
     /// <summary>
@@ -17,11 +19,12 @@ public abstract class VirusSymptomBase : IVirusSymptom
     /// </summary>
     protected virtual float AddInfectivity { get; } = 0f;
 
-    protected VirusSymptomBase(IEntityManager entityManager, IGameTiming timing, TimedWindow effectTimedWindow)
+    protected VirusSymptomBase(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow)
     {
         EntityManager = entityManager;
         Timing = timing;
         EffectTimedWindow = effectTimedWindow;
+        Random = random;
     }
 
     public abstract VirusSymptom Type { get; }

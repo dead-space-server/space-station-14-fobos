@@ -1,11 +1,14 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Content.Server.Chat.Systems;
-using Content.Server.DeadSpace.Virus.Components;
+using Content.Shared.DeadSpace.Virus.Symptoms;
+using Content.Shared.DeadSpace.Virus.Components;
+using Content.Server.DeadSpace.Virus.Systems;
 using Content.Shared.Chat.Prototypes;
 using Content.Shared.DeadSpace.TimeWindow;
 using Content.Shared.Speech.Components;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Random;
 using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
@@ -16,7 +19,7 @@ public sealed class CoughSymptom : VirusSymptomBase
     protected override float AddInfectivity => 0.1f;
     private static readonly ProtoId<EmotePrototype> CoughEmote = "Cough";
 
-    public CoughSymptom(IEntityManager entityManager, IGameTiming timing, TimedWindow effectTimedWindow) : base(entityManager, timing, effectTimedWindow)
+    public CoughSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
@@ -64,6 +67,6 @@ public sealed class CoughSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new CoughSymptom(EntityManager, Timing, CloneTimedWindow());
+        return new CoughSymptom(EntityManager, Timing, Random, CloneTimedWindow());
     }
 }

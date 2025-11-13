@@ -52,6 +52,7 @@ using Robust.Server.Player;
 using Content.Shared.Zombies;
 using Content.Shared.Sprite;
 using Robust.Shared.Prototypes;
+using Content.Shared.DeadSpace.Virus.Components;
 
 
 namespace Content.Server.DeadSpace.Necromorphs.InfectionDead;
