@@ -7,6 +7,9 @@ namespace Content.Server.DeadSpace.Virus.Components;
 [RegisterComponent]
 public sealed partial class VirusDataCollectorComponent : Component
 {
+    [ViewVariables(VVAccess.ReadOnly)]
+    public string DNA = String.Empty;
+
     /// <summary>
     ///     Длительность сбора материала.
     /// </summary>

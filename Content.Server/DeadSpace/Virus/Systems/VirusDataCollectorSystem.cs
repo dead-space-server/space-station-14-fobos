@@ -13,7 +13,7 @@ using Content.Shared.Humanoid.Prototypes;
 using System.Linq;
 using Content.Shared.Popups;
 
-namespace Content.Server.DeadSpace.Necromorphs.NecroobeliskStoper;
+namespace Content.Server.DeadSpace.Virus.Systems;
 
 public sealed class VirusDataCollectorSystem : EntitySystem
 {
@@ -28,7 +28,7 @@ public sealed class VirusDataCollectorSystem : EntitySystem
         SubscribeLocalEvent<VirusDataCollectorComponent, AfterInteractEvent>(OnAfterInteract);
         SubscribeLocalEvent<VirusDataCollectorComponent, CollectVirusDataDoAfterEvent>(OnDoAfter);
     }
-
+    
     private void OnAfterInteract(Entity<VirusDataCollectorComponent> entity, ref AfterInteractEvent args)
     {
         if (args.Target is not { } target)
@@ -59,6 +59,15 @@ public sealed class VirusDataCollectorSystem : EntitySystem
         if (!TryComp<VirusComponent>(target, out var virus))
             return;
 
+        if (TryComp<DnaComponent>(args.Target, out var dna))
+        {
+            component.DNA = dna.DNA ?? string.Empty;
+        }
+        else
+        {
+            component.DNA = Loc.GetString("drug-collector-dna-not-found");
+        }
+
         // Собираем данные вируса
         var data = new VirusData
         {
@@ -75,6 +84,7 @@ public sealed class VirusDataCollectorSystem : EntitySystem
         };
 
         entity.Comp.Data = data;
+        source.Comp.IsUsed = true;
 
         args.Handled = true;
     }
