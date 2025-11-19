@@ -10,7 +10,7 @@ public sealed partial class VirusResistanceComponent : Component
 {
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public float VirusResistanceCoefficient = 1;
+    public float VirusResistanceCoefficient = 0.1f;
 
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]

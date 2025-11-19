@@ -7,11 +7,45 @@ using Content.Shared.Whitelist;
 using Content.Shared.Humanoid.Prototypes;
 using System.Linq;
 using Robust.Shared.Serialization;
+using Content.Shared.DeadSpace.Virus.Prototypes;
+using Content.Shared.DeadSpace.TimeWindow;
 
 namespace Content.Shared.DeadSpace.Virus.Components;
 
 [RegisterComponent]
 public sealed partial class VirusComponent : Component
+{
+    /// <summary>
+    ///     Данные об вирусе.
+    /// </summary>
+    [DataField]
+    public VirusData Data = new();
+
+    /// <summary>
+    ///     Список активных симптомов для этого инфицированного тела.
+    /// </summary>
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public List<IVirusSymptom> ActiveSymptomInstances = new();
+
+    /// <summary>
+    ///     Окно времени обновления вируса.
+    /// </summary>
+    [ViewVariables(VVAccess.ReadOnly)]
+    public TimedWindow VirusUpdateWindow = default!;
+
+    public VirusComponent(VirusData data)
+    {
+        Data = data;
+    }
+}
+
+
+/// <summary>
+///     Класс содержит данные об вирусе.
+/// </summary>
+[ImplicitDataDefinitionForInheritors, Serializable, NetSerializable]
+public sealed partial class VirusData : ReagentData
 {
     /// <summary>
     ///     ID штамма.
@@ -21,11 +55,11 @@ public sealed partial class VirusComponent : Component
     public string StrainId = string.Empty;
 
     /// <summary>
-    ///     Список активных симптомов для этого инфицированного тела.
+    ///     Список симптомов которые должны быть при инициализации.
     /// </summary>
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public List<IVirusSymptom> ActiveSymptomInstances = new();
+    public List<ProtoId<VirusSymptomPrototype>> ActiveSymptom = new();
 
     /// <summary>
     ///     Сложность разработки вакцины.
@@ -73,38 +107,6 @@ public sealed partial class VirusComponent : Component
     /// </summary>
     [DataField]
     public List<ProtoId<SpeciesPrototype>> SpeciesWhitelist = new();
-}
-
-
-/// <summary>
-///     Класс содержит данные об вирусе.
-/// </summary>
-[ImplicitDataDefinitionForInheritors, Serializable, NetSerializable]
-public sealed partial class VirusData : ReagentData
-{
-    [DataField]
-    public string StrainId = string.Empty;
-
-    [DataField]
-    public List<IVirusSymptom> ActiveSymptomInstances = new();
-
-    [DataField]
-    public float ComplexityVaccine = 0;
-
-    [DataField]
-    public float Threshold = 0f;
-
-    [DataField]
-    public float DefaultMedicineResistance = 0f;
-
-    [DataField]
-    public Dictionary<ProtoId<ReagentPrototype>, float> MedicineResistance = new();
-
-    [DataField]
-    public float Infectivity = 0f;
-
-    [DataField]
-    public List<ProtoId<SpeciesPrototype>> SpeciesWhitelist = new();
 
     public override bool Equals(ReagentData? other)
     {
@@ -133,17 +135,16 @@ public sealed partial class VirusData : ReagentData
             MedicineResistance.Except(o.MedicineResistance).Any())
             return false;
 
-        // Проверяем симптомы по типу, а не по объекту (чтобы не упираться в разные экземпляры)
-        if (ActiveSymptomInstances.Count != o.ActiveSymptomInstances.Count)
+        if (!ActiveSymptom.SequenceEqual(o.ActiveSymptom))
             return false;
 
-        for (var i = 0; i < ActiveSymptomInstances.Count; i++)
-        {
-            if (ActiveSymptomInstances[i].Type != o.ActiveSymptomInstances[i].Type)
-                return false;
-        }
+        if (EntityWhitelist is null && o.EntityWhitelist is null)
+            return true;
 
-        return true;
+        if (EntityWhitelist is null || o.EntityWhitelist is null)
+            return false;
+
+        return EntityWhitelist.Equals(o.EntityWhitelist);
     }
 
     public override ReagentData Clone()
@@ -156,21 +157,29 @@ public sealed partial class VirusData : ReagentData
             DefaultMedicineResistance = DefaultMedicineResistance,
             Infectivity = Infectivity,
 
-            // Глубокое копирование коллекций
-            ActiveSymptomInstances = ActiveSymptomInstances
-                .Select(s => s.Clone())
-                .ToList(),
+            ActiveSymptom = ActiveSymptom,
 
             MedicineResistance = MedicineResistance
                 .ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
 
-            SpeciesWhitelist = new List<ProtoId<SpeciesPrototype>>(SpeciesWhitelist)
+            SpeciesWhitelist = new List<ProtoId<SpeciesPrototype>>(SpeciesWhitelist),
+
+            EntityWhitelist = EntityWhitelist is null
+                ? null
+                : new EntityWhitelist
+                {
+                    Components = EntityWhitelist.Components?.ToArray(),
+                    Sizes = EntityWhitelist.Sizes?.ToList(),
+                    Tags = EntityWhitelist.Tags?.ToList(),
+                    RequireAll = EntityWhitelist.RequireAll
+                }
         };
     }
 
     public override int GetHashCode()
     {
         var hash = new HashCode();
+
         hash.Add(StrainId);
         hash.Add(ComplexityVaccine);
         hash.Add(Threshold);
@@ -178,13 +187,33 @@ public sealed partial class VirusData : ReagentData
         hash.Add(Infectivity);
 
         foreach (var kvp in MedicineResistance)
+        {
             hash.Add(kvp.Key);
+            hash.Add(kvp.Value);
+        }
+
         foreach (var s in SpeciesWhitelist)
             hash.Add(s);
 
-        // Симптомы учитываем по типам
-        foreach (var symptom in ActiveSymptomInstances)
-            hash.Add(symptom.Type);
+        foreach (var symptom in ActiveSymptom)
+            hash.Add(symptom);
+
+        if (EntityWhitelist != null)
+        {
+            if (EntityWhitelist.Components != null)
+                foreach (var c in EntityWhitelist.Components)
+                    hash.Add(c);
+
+            if (EntityWhitelist.Sizes != null)
+                foreach (var s in EntityWhitelist.Sizes)
+                    hash.Add(s);
+
+            if (EntityWhitelist.Tags != null)
+                foreach (var t in EntityWhitelist.Tags)
+                    hash.Add(t);
+
+            hash.Add(EntityWhitelist.RequireAll);
+        }
 
         return hash.ToHashCode();
     }

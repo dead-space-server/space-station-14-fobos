@@ -1,6 +1,8 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Content.Shared.DeadSpace.Virus.Components;
+using Content.Shared.DeviceLinking;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Components;
 
@@ -16,5 +18,5 @@ public sealed partial class VirusDiagnoserDataServerComponent : Component
 
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    Dictionary<string, VirusData> StrainData = new Dictionary<int, VirusData>();
+    public Dictionary<string, VirusData> StrainData = new();
 }

@@ -39,28 +39,14 @@ public sealed class CoughSymptom : VirusSymptomBase
 
     public override void DoEffect(EntityUid host, VirusComponent virus)
     {
-        var protoMan = IoCManager.Resolve<IPrototypeManager>();
-
         var chatSystem = EntityManager.System<ChatSystem>();
         var virusSystem = EntityManager.System<VirusSystem>();
 
-        if (EntityManager.TryGetComponent<VocalComponent>(host, out var vocal))
-        {
-
-            chatSystem.TryEmoteWithChat(host,
+        // Почему-то проигрывается вместо со звуком, хотя раньше такого не было
+        chatSystem.TryEmoteWithChat(host,
                             CoughEmote,
                             ChatTransmitRange.HideChat,
                             ignoreActionBlocker: true);
-
-            if (vocal.EmoteSounds != null)
-            {
-                chatSystem.TryPlayEmoteSound(
-                    host,
-                    protoMan.Index(vocal.EmoteSounds),
-                    CoughEmote
-                );
-            }
-        }
 
         virusSystem.InfectAround(host);
     }

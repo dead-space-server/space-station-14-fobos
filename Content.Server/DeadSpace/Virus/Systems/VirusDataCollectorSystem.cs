@@ -12,6 +12,7 @@ using Robust.Shared.Prototypes;
 using Content.Shared.Humanoid.Prototypes;
 using System.Linq;
 using Content.Shared.Popups;
+using Content.Shared.Forensics.Components;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -28,7 +29,7 @@ public sealed class VirusDataCollectorSystem : EntitySystem
         SubscribeLocalEvent<VirusDataCollectorComponent, AfterInteractEvent>(OnAfterInteract);
         SubscribeLocalEvent<VirusDataCollectorComponent, CollectVirusDataDoAfterEvent>(OnDoAfter);
     }
-    
+
     private void OnAfterInteract(Entity<VirusDataCollectorComponent> entity, ref AfterInteractEvent args)
     {
         if (args.Target is not { } target)
@@ -39,11 +40,11 @@ public sealed class VirusDataCollectorSystem : EntitySystem
 
         _popup.PopupEntity(Loc.GetString("virus-collector-warn-target"), target, target, PopupType.Medium);
 
-        _doAfter.TryStartDoAfter(new DoAfterArgs(EntityManager, args.User, TimeSpan.FromSeconds(entity.Comp.Distance), new CollectVirusDataDoAfterEvent(), entity, target: target, used: entity)
+        _doAfter.TryStartDoAfter(new DoAfterArgs(EntityManager, args.User, TimeSpan.FromSeconds(entity.Comp.Duration), new CollectVirusDataDoAfterEvent(), entity, target: target, used: entity)
         {
             BreakOnDamage = true,
             BreakOnMove = true,
-            DistanceThreshold = 1f
+            DistanceThreshold = entity.Comp.Distance
         });
 
     }
@@ -53,38 +54,30 @@ public sealed class VirusDataCollectorSystem : EntitySystem
         if (args.Cancelled || args.Handled || args.Target is not { } target)
             return;
 
-        if (!CanBeUsed((entity, entity.Comp), target, args.User))
-            return;
-
         if (!TryComp<VirusComponent>(target, out var virus))
             return;
 
         if (TryComp<DnaComponent>(args.Target, out var dna))
-        {
-            component.DNA = dna.DNA ?? string.Empty;
-        }
+            entity.Comp.DNA = dna.DNA ?? string.Empty;
         else
-        {
-            component.DNA = Loc.GetString("drug-collector-dna-not-found");
-        }
+            entity.Comp.DNA = Loc.GetString("drug-collector-dna-not-found");
 
         // Собираем данные вируса
         var data = new VirusData
         {
-            StrainId = virus.StrainId,
-            ComplexityVaccine = virus.ComplexityVaccine,
-            Threshold = virus.Threshold,
-            DefaultMedicineResistance = virus.DefaultMedicineResistance,
-            Infectivity = virus.Infectivity,
-            ActiveSymptomInstances = virus.ActiveSymptomInstances
-                .Select(s => s.Clone())
-                .ToList(),
-            MedicineResistance = new Dictionary<ProtoId<ReagentPrototype>, float>(virus.MedicineResistance),
-            SpeciesWhitelist = new List<ProtoId<SpeciesPrototype>>(virus.SpeciesWhitelist)
+            StrainId = virus.Data.StrainId,
+            ComplexityVaccine = virus.Data.ComplexityVaccine,
+            Threshold = virus.Data.Threshold,
+            DefaultMedicineResistance = virus.Data.DefaultMedicineResistance,
+            Infectivity = virus.Data.Infectivity,
+            ActiveSymptom = virus.Data.ActiveSymptom,
+            EntityWhitelist = virus.Data.EntityWhitelist,
+            MedicineResistance = new Dictionary<ProtoId<ReagentPrototype>, float>(virus.Data.MedicineResistance),
+            SpeciesWhitelist = new List<ProtoId<SpeciesPrototype>>(virus.Data.SpeciesWhitelist)
         };
 
         entity.Comp.Data = data;
-        source.Comp.IsUsed = true;
+        entity.Comp.IsUsed = true;
 
         args.Handled = true;
     }
@@ -101,7 +94,7 @@ public sealed class VirusDataCollectorSystem : EntitySystem
             return false;
         }
 
-        if (!_ingestion.HasMouthAvailable(target, user))
+        if (!_ingestion.HasMouthAvailable(user, target))
         {
             _popup.PopupEntity(Loc.GetString("virus-collector-no-mouth"), user, user);
 

@@ -1,0 +1,29 @@
+- type: virusSymptom
+  id: CoughSymptom
+  name: кашель
+  type: Cough
+
+- type: virusSymptom
+  id: VomitSymptom
+  name: тошнота
+  type: Vomit
+
+- type: virusSymptom
+  id: RashSymptom
+  name: сыпь
+  type: Rash
+
+- type: virusSymptom
+  id: DrowsinessSymptom
+  name: сонливость
+  type: Drowsiness
+
+- type: virusSymptom
+  id: NecrosisSymptom
+  name: некроз
+  type: Necrosis
+  
+- type: virusSymptom
+  id: ZombificationSymptom
+  name: зомби
+  type: Zombification

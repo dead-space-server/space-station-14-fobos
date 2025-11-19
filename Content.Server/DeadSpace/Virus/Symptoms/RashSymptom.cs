@@ -37,8 +37,6 @@ public sealed class RashSymptom : VirusSymptomBase
 
     public override void DoEffect(EntityUid host, VirusComponent virus)
     {
-        var protoMan = IoCManager.Resolve<IPrototypeManager>();
-
         var chatSystem = EntityManager.System<ChatSystem>();
         var virusSystem = EntityManager.System<VirusSystem>();
 

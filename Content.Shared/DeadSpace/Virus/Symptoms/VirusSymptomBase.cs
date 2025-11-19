@@ -31,12 +31,12 @@ public abstract class VirusSymptomBase : IVirusSymptom
 
     public virtual void OnAdded(EntityUid host, VirusComponent virus)
     {
-        virus.Infectivity = Math.Clamp(virus.Infectivity + AddInfectivity, 0, 1);
+        virus.Data.Infectivity = Math.Clamp(virus.Data.Infectivity + AddInfectivity, 0, 1);
     }
 
     public virtual void OnRemoved(EntityUid host, VirusComponent virus)
     {
-        virus.Infectivity = Math.Clamp(virus.Infectivity - AddInfectivity, 0, 1);
+        virus.Data.Infectivity = Math.Clamp(virus.Data.Infectivity - AddInfectivity, 0, 1);
     }
 
     public virtual void OnUpdate(EntityUid host, VirusComponent virus)

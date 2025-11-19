@@ -3,12 +3,9 @@
 using System.Linq;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.Virus.Symptoms;
-using Content.Shared.Chemistry.Reagent;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 using Content.Shared.DeadSpace.TimeWindow;
-using Content.Shared.Examine;
 using Content.Shared.Humanoid;
-using Content.Shared.Humanoid.Prototypes;
 using Content.Shared.Inventory;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Virus;
@@ -17,6 +14,8 @@ using Content.Shared.Zombies;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
+using Content.Server.DeadSpace.Virus.Symptoms;
+using Content.Shared.Tag;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -26,21 +25,18 @@ public sealed partial class VirusSystem : EntitySystem
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly EntityWhitelistSystem _whitelist = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
-    [Dependency] private readonly ExamineSystemShared _examine = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly ILogManager _logManager = default!;
+    [Dependency] private readonly TagSystem _tag = default!;
     private ISawmill _sawmill = default!;
-
-    /// <summary>
-    ///     Окно времени обновления вируса.
-    /// </summary>
-    private TimedWindow _virusUpdateWindow = default!;
 
     /// <summary>
     ///     Стандартное окно времени проявления симптом.
     /// </summary>
     private TimedWindow _defaultSymptomWindow = default!;
+    public readonly ProtoId<TagPrototype> VirusAlwaysInfectableTag = "VirusAlwaysInfectable";
+    public readonly ProtoId<TagPrototype> IgnoreCanInfectTag = "IgnoreCanInfect";
     public const SlotFlags ProtectiveSlots =
             SlotFlags.FEET |
             SlotFlags.HEAD |
@@ -56,7 +52,6 @@ public sealed partial class VirusSystem : EntitySystem
 
         _sawmill = _logManager.GetSawmill("VirusSystem");
 
-        _virusUpdateWindow = new TimedWindow(1f, 1f, _timing, _random);
         _defaultSymptomWindow = new TimedWindow(15f, 60f, _timing, _random);
 
         SubscribeLocalEvent<VirusComponent, ComponentInit>(OnComponentInit);
@@ -72,9 +67,9 @@ public sealed partial class VirusSystem : EntitySystem
         var query = EntityQueryEnumerator<VirusComponent>();
         while (query.MoveNext(out var uid, out var component))
         {
-            if (_virusUpdateWindow.IsExpired())
+            if (component.VirusUpdateWindow != null && component.VirusUpdateWindow.IsExpired())
             {
-                _virusUpdateWindow.Reset();
+                component.VirusUpdateWindow.Reset();
                 UpdateVirus(uid, component);
             }
         }
@@ -84,26 +79,15 @@ public sealed partial class VirusSystem : EntitySystem
     {
         foreach (var symptom in component.ActiveSymptomInstances)
         {
-            if (symptom.EffectTimedWindow.IsExpired())
-            {
-                symptom.EffectTimedWindow.Reset();
-                symptom.DoEffect(uid, component);
-            }
+            symptom.OnUpdate(uid, component);
         }
     }
 
     private void OnComponentInit(EntityUid uid, VirusComponent component, ComponentInit args)
     {
-        foreach (var symptom in component.ActiveSymptomInstances)
-        {
-            if (symptom.EffectTimedWindow.IsExpired())
-            {
-                symptom.EffectTimedWindow.Reset();
-                symptom.OnAdded(uid, component);
-            }
-        }
+        RefreshSymptoms((uid, component));
 
-        var whitelist = component.EntityWhitelist ??= new EntityWhitelist();
+        var whitelist = component.Data.EntityWhitelist ??= new EntityWhitelist();
 
         whitelist.Components ??= Array.Empty<string>();
         var compList = whitelist.Components.ToHashSet();
@@ -113,6 +97,8 @@ public sealed partial class VirusSystem : EntitySystem
         compList.Add("Bloodstream");
 
         whitelist.Components = compList.ToArray();
+
+        component.VirusUpdateWindow = new TimedWindow(1f, 1f, _timing, _random);
     }
 
     private void OnShutdown(EntityUid uid, VirusComponent component, ComponentShutdown args)
@@ -223,6 +209,45 @@ public sealed partial class VirusSystem : EntitySystem
     /// <summary>
     ///     Инфецируемый распространяет инфекцию вокруг себя.
     /// </summary>
+    public void InfectAround(Entity<VirusComponent?> host, float range = 1f)
+    {
+        if (!Resolve(host, ref host.Comp, false))
+            return;
+
+        InfectAround(host, range, host.Comp);
+    }
+
+    /// <summary>
+    ///     Добавляет интерфейсы в компонент из симптомов VirusData.
+    /// </summary>
+    public void RefreshSymptoms(Entity<VirusComponent?> host)
+    {
+        if (!Resolve(host, ref host.Comp, false))
+            return;
+
+        if (host.Comp.Data.ActiveSymptom == null || host.Comp.Data.ActiveSymptom.Count <= 0)
+            return;
+
+        foreach (var protoSymptom in host.Comp.Data.ActiveSymptom)
+        {
+            if (!_prototype.TryIndex(protoSymptom, out var symptom))
+                continue;
+
+            var symptomInstance = CreateSymptomInstance(symptom.Type);
+
+            // Проверяем, есть ли уже экземпляр этого типа симптома
+            if (host.Comp.ActiveSymptomInstances.Any(s => s.Type == symptom.Type))
+                continue;
+
+            if (symptomInstance.EffectTimedWindow.IsExpired())
+                symptomInstance.EffectTimedWindow.Reset();
+
+            host.Comp.ActiveSymptomInstances.Add(symptomInstance);
+
+            symptomInstance.OnAdded(host, host.Comp);
+        }
+    }
+
     public void InfectAround(EntityUid host, float range = 1f, VirusComponent? component = null)
     {
         if (!Resolve(host, ref component, false))
@@ -248,13 +273,19 @@ public sealed partial class VirusSystem : EntitySystem
     /// <summary>
     ///     Заразить с вероятностью.
     /// </summary>
-    private void ProbInfect(Entity<VirusComponent?> host, EntityUid target)
+    public void ProbInfect(Entity<VirusComponent?> host, EntityUid target)
     {
         if (!Resolve(host, ref host.Comp, false))
             return;
 
-        if (!CanInfect(target, host.Comp))
+        if (!CanInfect(target, host.Comp) && !_tag.HasTag(target, IgnoreCanInfectTag))
             return;
+
+        if (_tag.HasTag(target, VirusAlwaysInfectableTag))
+        {
+            InfectEntity((host, host.Comp), target);
+            return;
+        }
 
         // Вычисляем шанс заражения
         var chance = GetVirusInfectionChance(target, host.Comp);
@@ -262,7 +293,7 @@ public sealed partial class VirusSystem : EntitySystem
         // Бросаем шанс
         if (_random.Prob(chance))
         {
-            _sawmill.Debug($"[{host}] заразил [{target}] вирусом {host.Comp.StrainId} (шанс {chance:P0})");
+            _sawmill.Debug($"[{host}] заразил [{target}] вирусом {host.Comp.Data.StrainId} (шанс {chance:P0})");
             InfectEntity((host, host.Comp), target);
         }
         else
@@ -295,19 +326,17 @@ public sealed partial class VirusSystem : EntitySystem
     /// </summary>
     public bool CanInfect(EntityUid target, VirusComponent component)
     {
-        if (HasComp<ZombieComponent>(target)
+        if (HasComp<VirusComponent>(target)
+            || HasComp<ZombieComponent>(target)
             || HasComp<NecromorfComponent>(target)
             || HasComp<InfectionDeadComponent>(target)
             || HasComp<PendingZombieComponent>(target))
             return false;
 
-        if (HasComp<VirusComponent>(target))
+        if (!_whitelist.IsWhitelistPass(component.Data.EntityWhitelist, target))
             return false;
 
-        if (component.EntityWhitelist != null && !_whitelist.IsValid(component.EntityWhitelist, target))
-            return false;
-
-        if (TryComp<HumanoidAppearanceComponent>(target, out var humanoid) && !component.SpeciesWhitelist.Contains(_prototype.Index(humanoid.Species)))
+        if (TryComp<HumanoidAppearanceComponent>(target, out var humanoid) && !component.Data.SpeciesWhitelist.Contains(_prototype.Index(humanoid.Species)))
             return false;
 
         return true;
@@ -318,7 +347,7 @@ public sealed partial class VirusSystem : EntitySystem
         var resistanceQuery = new VirusResistanceQueryEvent(ProtectiveSlots);
         RaiseLocalEvent(target, resistanceQuery);
 
-        var finalChance = component.Infectivity * (1 - resistanceQuery.TotalCoefficient);
+        var finalChance = component.Data.Infectivity * resistanceQuery.TotalCoefficient;
 
         // от 0 до 100%
         finalChance = Math.Clamp(finalChance, 0f, 1.0f);
@@ -333,42 +362,23 @@ public sealed partial class VirusSystem : EntitySystem
 
         var targetComp = EnsureComp<VirusComponent>(target);
 
-        // Простые поля (примитивы)
-        targetComp.StrainId = source.Comp.StrainId;
-        targetComp.ComplexityVaccine = source.Comp.ComplexityVaccine;
-        targetComp.Threshold = source.Comp.Threshold;
-        targetComp.DefaultMedicineResistance = source.Comp.DefaultMedicineResistance;
-        targetComp.Infectivity = source.Comp.Infectivity;
+        targetComp.Data = (VirusData)source.Comp.Data.Clone();
 
-        // Копируем список симптомов
-        targetComp.ActiveSymptomInstances = source.Comp.ActiveSymptomInstances
-            .Select(symptom => symptom.Clone())
-            .ToList();
+        // Dirty(targetComp); // если нужно будет обновить клиент
+    }
 
-        // Копируем сопротивления к лекарствам
-        targetComp.MedicineResistance = new Dictionary<ProtoId<ReagentPrototype>, float>(source.Comp.MedicineResistance);
-
-        // Копируем whitelist
-        if (source.Comp.EntityWhitelist != null)
+    private IVirusSymptom CreateSymptomInstance(VirusSymptom type)
+    {
+        return type switch
         {
-            targetComp.EntityWhitelist = new EntityWhitelist
-            {
-                Components = source.Comp.EntityWhitelist.Components?.ToArray(),
-                Sizes = source.Comp.EntityWhitelist.Sizes?.ToList(),
-                Tags = source.Comp.EntityWhitelist.Tags?.ToList(),
-                RequireAll = source.Comp.EntityWhitelist.RequireAll
-            };
-        }
-        else
-        {
-            targetComp.EntityWhitelist = null;
-        }
-
-        // Копируем список рас
-        targetComp.SpeciesWhitelist = new List<ProtoId<SpeciesPrototype>>(source.Comp.SpeciesWhitelist);
-
-        // Если будет логика на клиенте
-        // Dirty(target, targetComp);
+            VirusSymptom.Cough => new CoughSymptom(EntityManager, _timing, _random, _defaultSymptomWindow),
+            VirusSymptom.Vomit => new VomitSymptom(EntityManager, _timing, _random, _defaultSymptomWindow),
+            VirusSymptom.Rash => new RashSymptom(EntityManager, _timing, _random, _defaultSymptomWindow),
+            VirusSymptom.Drowsiness => new DrowsinessSymptom(EntityManager, _timing, _random, _defaultSymptomWindow),
+            VirusSymptom.Necrosis => new NecrosisSymptom(EntityManager, _timing, _random, _defaultSymptomWindow),
+            VirusSymptom.Zombification => new ZombificationSymptom(EntityManager, _timing, _random, _defaultSymptomWindow),
+            _ => throw new ArgumentOutOfRangeException(nameof(type), $"Unknown virus symptom {type}")
+        };
     }
 
 

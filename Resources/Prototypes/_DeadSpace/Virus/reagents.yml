@@ -1,0 +1,18 @@
+
+- type: reagent
+  id: ViralSolution
+  name: reagent-name-viral-solution
+  group: Toxins
+  desc: reagent-desc-viral-solution
+  physicalDesc: reagent-physical-desc-clear
+  flavor: metallic
+  color: "#8ac7ff"
+  worksOnTheDead: false
+  metabolisms:
+    Medicine:
+      effects:
+        - !type:CauseVirus
+          conditions:
+            - !type:ReagentThreshold
+              min: 5
+

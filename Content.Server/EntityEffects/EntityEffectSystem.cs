@@ -50,6 +50,8 @@ using TemperatureCondition = Content.Shared.EntityEffects.EffectConditions.Tempe
 using PolymorphEffect = Content.Shared.EntityEffects.Effects.Polymorph;
 using Content.Shared.DeadSpace.Languages.Components;
 using Content.Server.DeadSpace.Languages;
+using Content.Server.DeadSpace.Virus.Systems;
+using Content.Shared.DeadSpace.Virus.Components;
 
 namespace Content.Server.EntityEffects;
 
@@ -85,6 +87,7 @@ public sealed class EntityEffectSystem : EntitySystem
     // DS14-start
     [Dependency] private readonly NecromorfSystem _necromorf = default!;
     [Dependency] private readonly InfectionDeadSystem _infectionDead = default!;
+    [Dependency] private readonly VirusSystem _virus = default!;
     // DS14-end
 
     public override void Initialize()
@@ -141,6 +144,7 @@ public sealed class EntityEffectSystem : EntitySystem
         SubscribeLocalEvent<ExecuteEntityEffectEvent<CauseInfectionDead>>(OnExecuteCauseInfectionDead);
         SubscribeLocalEvent<ExecuteEntityEffectEvent<CureInfectionDead>>(OnExecuteCureInfectionDead);
         SubscribeLocalEvent<ExecuteEntityEffectEvent<InfectiodDeadMutation>>(OnExecuteInfectiodDeadMutation);
+        SubscribeLocalEvent<ExecuteEntityEffectEvent<CauseVirus>>(OnExecuteCauseVirus);
         // DS14-end
     }
 
@@ -1002,6 +1006,40 @@ public sealed class EntityEffectSystem : EntitySystem
     }
 
     // DS14-start
+    private void OnExecuteCauseVirus(ref ExecuteEntityEffectEvent<CauseVirus> args)
+    {
+        VirusData? data = null;
+
+        if (args.Args is EntityEffectReagentArgs reagentArgs)
+        {
+            var solution = reagentArgs.Source;
+
+            if (solution == null)
+                return;
+
+            var contents = solution.Contents;
+
+            foreach (var reagent in contents)
+            {
+                var dataList = reagent.Reagent.Data;
+                if (dataList == null)
+                    continue;
+
+                data = dataList.OfType<VirusData>().FirstOrDefault();
+            }
+        }
+
+        if (data == null)
+            return;
+
+        VirusComponent component = new VirusComponent(data);
+
+        if (!_virus.CanInfect(args.Args.TargetEntity, component))
+            return;
+
+        AddComp(args.Args.TargetEntity, component);
+    }
+
     private void OnExecuteCauseInfectionDead(ref ExecuteEntityEffectEvent<CauseInfectionDead> args)
     {
         if (!_infectionDead.IsInfectionPossible(args.Args.TargetEntity))

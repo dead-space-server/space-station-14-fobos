@@ -1,32 +1,59 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
-using Content.Shared.Interaction;
-using Content.Shared.Popups;
 using Robust.Server.Audio;
 using Content.Shared.Examine;
 using Robust.Shared.Containers;
 using Content.Server.DeadSpace.Virus.Components;
+using Content.Shared.Humanoid.Prototypes;
+using Content.Shared.DeviceLinking.Events;
+using Content.Shared.Paper;
+using System.Linq;
+using Content.Server.Power.EntitySystems;
+using Robust.Shared.Prototypes;
+using Content.Shared.DeadSpace.Virus.Components;
+using Robust.Server.GameObjects;
+using Content.Shared.DeadSpace.TimeWindow;
+using Robust.Shared.Timing;
+using Robust.Shared.Random;
+using Content.Shared.Chemistry.Components.SolutionManager;
+using Content.Shared.Chemistry.EntitySystems;
+using Content.Shared.Chemistry.Components;
+using Content.Shared.Chemistry.Reagent;
+using Content.Shared.Virus;
+using Content.Shared.DeadSpace.Virus.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
 public sealed class VirusDiagnoserSystem : EntitySystem
 {
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly AudioSystem _audio = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly VirusDiagnoserConsoleSystem _console = default!;
     [Dependency] private readonly PowerReceiverSystem _powerReceiverSystem = default!;
     [Dependency] private readonly IEntityManager _entityManager = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
-    private const string DnaContainerKey = "dna-container-virus-diagnoser";
-    private const string FlaskContainerKey = "flask-container-virus-diagnoser";
+    [Dependency] private readonly VirusDiagnoserDataServerSystem _dataServer = default!;
+    [Dependency] private readonly PaperSystem _paperSystem = default!;
+    [Dependency] private readonly AppearanceSystem _appearance = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
+    private const string DnaContainerKey = "dna_container_virus_diagnoser";
+    private const string FlaskContainerKey = "flask_container_virus_diagnoser";
+    public ProtoId<ReagentPrototype> Reagent = "ViralSolution";
     public override void Initialize()
     {
         base.Initialize();
 
-        SubscribeLocalEvent<VirusDiagnoserComponent, ExaminedEvent>(OnAfterInteract);
-        SubscribeLocalEvent<VirusDiagnoserComponent, AnchorStateChangedEvent>(OnDoAfter);
-        SubscribeLocalEvent<VirusDiagnoserComponent, PortDisconnectedEvent>(OnDoAfter);
+        SubscribeLocalEvent<VirusDiagnoserComponent, ComponentInit>(OnInit);
+        SubscribeLocalEvent<VirusDiagnoserComponent, ExaminedEvent>(OnExamine);
+        SubscribeLocalEvent<VirusDiagnoserComponent, AnchorStateChangedEvent>(OnAnchor);
+        SubscribeLocalEvent<VirusDiagnoserComponent, PortDisconnectedEvent>(OnPortDisconnected);
+    }
+
+    private void OnInit(Entity<VirusDiagnoserComponent> ent, ref ComponentInit args)
+    {
+        ent.Comp.AnimationWindow = new TimedWindow(ent.Comp.PrintingAnimationDuration, ent.Comp.PrintingAnimationDuration, _timing, _random);
     }
 
     public override void Update(float frameTime)
@@ -34,68 +61,77 @@ public sealed class VirusDiagnoserSystem : EntitySystem
         base.Update(frameTime);
 
         var query = EntityQueryEnumerator<VirusDiagnoserComponent>();
-        while (query.MoveNext(out var uid, out var component))
+        while (query.MoveNext(out var uid, out var comp))
         {
-
+            // Сначала проверяем питание
             if (!_powerReceiverSystem.IsPowered(uid))
             {
-                SetStatus((uid, component), VirusDiagnoserStatus.Off);
-            }
-            else if (component.Status == VirusDiagnoserStatus.Off)
-            {
-                SetStatus((uid, component), VirusDiagnoserStatus.On);
+                SetStatus((uid, comp), VirusDiagnoserStatus.Off);
+                continue; // без питания ничего не делаем
             }
 
-            if (component.Status = VirusDiagnoserStatus.Printing)
+            // Если был выключен — включаем
+            if (comp.Status == VirusDiagnoserStatus.Off)
+                SetStatus((uid, comp), VirusDiagnoserStatus.On);
+
+            switch (comp.Status)
             {
-                if (!_entityManager.EntityExists(component.PrintingSoundEntity))
-                {
-                    PrintReport((uid, component));
-                    SetStatus((uid, component), VirusDiagnoserStatus.On);
-                }
-            }
+                case VirusDiagnoserStatus.Printing:
+                    if (comp.AnimationWindow.IsExpired())
+                    {
+                        EndPrintingReport((uid, comp));
+                        SetStatus((uid, comp), VirusDiagnoserStatus.On);
+                    }
+                    break;
 
-            if (component.Status = VirusDiagnoserStatus.Scanning)
-            {
-                if (!CanScanning((ent, ent.Comp)))
-                    SetStatus((uid, component), VirusDiagnoserStatus.Deniel);
+                case VirusDiagnoserStatus.Scanning:
+                    if (!CanScanning((uid, comp)))
+                    {
+                        SetStatus((uid, comp), VirusDiagnoserStatus.Deniel);
+                        break;
+                    }
 
-                if (!_entityManager.EntityExists(component.ScanningSoundEntity))
-                {
+                    if (!_entityManager.EntityExists(comp.ScanningSoundEntity))
+                    {
+                        EndScanVirus((uid, comp));
+                        SetStatus((uid, comp), VirusDiagnoserStatus.On);
+                    }
+                    break;
 
-                    SetStatus((uid, component), VirusDiagnoserStatus.On);
-                }
-            }
+                case VirusDiagnoserStatus.GenerateVirus:
+                    if (!CanGenerateVirus((uid, comp)))
+                    {
+                        SetStatus((uid, comp), VirusDiagnoserStatus.Deniel);
+                        break;
+                    }
 
-            if (component.Status = VirusDiagnoserStatus.GenerateVirus)
-            {
-                if (!CanGenerateVirus((ent, ent.Comp)))
-                    SetStatus((uid, component), VirusDiagnoserStatus.Deniel);
+                    if (!_entityManager.EntityExists(comp.GenerateVirusSoundEntity))
+                    {
+                        EndGenerateVirus((uid, comp));
+                        SetStatus((uid, comp), VirusDiagnoserStatus.On);
+                    }
+                    break;
 
-                if (!_entityManager.EntityExists(component.GenerateVirusSoundEntity))
-                {
-                    ScanVirus((uid, component));
-                    SetStatus((uid, component), VirusDiagnoserStatus.On);
-                }
-            }
+                case VirusDiagnoserStatus.Deniel:
+                    if (!_entityManager.EntityExists(comp.DenielSoundEntity))
+                        SetStatus((uid, comp), VirusDiagnoserStatus.On);
+                    break;
 
-            if (component.Status = VirusDiagnoserStatus.Deniel)
-            {
-                if (!_entityManager.EntityExists(component.ScaningSoundEntity))
-                    SetStatus((uid, component), VirusDiagnoserStatus.On);
-            }
+                case VirusDiagnoserStatus.Successfully:
+                    if (!_entityManager.EntityExists(comp.SuccessfullySoundEntity))
+                        SetStatus((uid, comp), VirusDiagnoserStatus.On);
+                    break;
 
-            if (component.Status = VirusDiagnoserStatus.Successfully)
-            {
-                if (!_entityManager.EntityExists(component.ScaningSoundEntity))
-                    SetStatus((uid, component), VirusDiagnoserStatus.On);
+                case VirusDiagnoserStatus.On:
+                default:
+                    break;
             }
         }
     }
 
     private void OnPortDisconnected(Entity<VirusDiagnoserComponent> ent, ref PortDisconnectedEvent args)
     {
-        if (args.Port == ent.Comp.VirusDiagnoserReceiver)
+        if (args.Port == ent.Comp.VirusDiagnoserPort)
             ent.Comp.ConnectedConsole = null;
     }
 
@@ -106,15 +142,18 @@ public sealed class VirusDiagnoserSystem : EntitySystem
 
         if (args.Anchored)
         {
-            _console.RecheckConnections(ent.Comp.ConnectedConsole.Value, ent.Owner, console.GeneticScanner, console);
+            _console.RecheckConnections((ent.Comp.ConnectedConsole.Value, console));
             return;
         }
+
         _console.UpdateUserInterface((ent.Comp.ConnectedConsole.Value, console));
     }
 
     private void OnExamine(EntityUid uid, VirusDiagnoserComponent component, ExaminedEvent args)
     {
-        if (_container.TryGetContainer(uid, DnaContainerKey, out var container))
+        BaseContainer? container = default!;
+
+        if (_container.TryGetContainer(uid, DnaContainerKey, out container))
         {
 
             if (container is ContainerSlot slot)
@@ -124,9 +163,8 @@ public sealed class VirusDiagnoserSystem : EntitySystem
             }
         }
 
-        if (_container.TryGetContainer(uid, FlaskContainerKey, out var container))
+        if (_container.TryGetContainer(uid, FlaskContainerKey, out container))
         {
-
             if (container is ContainerSlot slot)
             {
                 if (slot.ContainedEntity != null)
@@ -135,77 +173,81 @@ public sealed class VirusDiagnoserSystem : EntitySystem
         }
     }
 
-    public void SetAppearance(EntityUid uid, DrugInitializeMachineVisualState state, DrugInitializeMachineComponent? component = null, AppearanceComponent? appearanceComponent = null)
+    public void StartPrinting(Entity<VirusDiagnoserComponent?> ent, VirusData? data)
     {
-        if (!Resolve(uid, ref component, ref appearanceComponent, false))
+        if (!Resolve(ent, ref ent.Comp, false))
             return;
 
-        _appearance.SetData(uid, PowerDeviceVisuals.VisualState, state, appearanceComponent);
+        ent.Comp.VirusDataCPU = data;
+        ent.Comp.AnimationWindow.Reset();
+        SetStatus((ent, ent.Comp), VirusDiagnoserStatus.Printing);
     }
 
-    public void OnStartInitialize(EntityUid uid, DrugInitializeMachineComponent component, StartDrugInitializeEvent args)
+    public void StartScanVirus(Entity<VirusDiagnoserComponent?> ent)
     {
-        if (component.IsRunning)
+        if (!Resolve(ent, ref ent.Comp, false))
             return;
 
-        if (!TryComp<DrugTestStickComponent>(args.Stick, out var drugTestStick))
-            return;
-
-        _container.Insert(args.Stick, component.Tube);
-
-        SetAppearance(uid, DrugInitializeMachineVisualState.Running, component);
-        _audio.PlayPvs(component.PrintingSound, uid);
-        component.IsRunning = true;
-        component.RunningTime = _gameTiming.CurTime + component.DurationRunning;
-    }
-
-    private void StartScanVirus(Entity<VirusDiagnoserComponent?> ent)
-    {
-        if (!Resolve(entity, ref entity.Comp, false))
-            return default!;
-        
         if (!CanScanning((ent, ent.Comp)))
         {
-            SetStatus((uid, component), VirusDiagnoserStatus.Deniel);
+            SetStatus((ent, ent.Comp), VirusDiagnoserStatus.Deniel);
             return;
         }
-        
-        SetStatus((uid, component), VirusDiagnoserStatus.Scanning);
+
+        SetStatus((ent, ent.Comp), VirusDiagnoserStatus.Scanning);
     }
 
     private void EndPrintingReport(Entity<VirusDiagnoserComponent?> ent)
     {
-        if (!Resolve(entity, ref entity.Comp, false))
+        if (!Resolve(ent, ref ent.Comp, false))
             return;
 
-        VirusData Data = dataCol.Data;
+        var data = ent.Comp.VirusDataCPU;
 
-        var paper = Spawn(ent.Comp.Paper, Transform(uid).Coordinates);
+        var paper = Spawn(ent.Comp.Paper, Transform(ent).Coordinates);
         if (!TryComp<PaperComponent>(paper, out var paperComp))
         {
             QueueDel(paper);
             return;
         }
 
-        // ----------------------
+        if (data == null)
+        {
+            var noVirusText = Loc.GetString("virus-report-no-virus");
+
+            _paperSystem.SetContent((paper, paperComp), noVirusText);
+            return;
+        }
+
         // Собираем текст отчёта
-        // ----------------------
 
         // 1) симптомы
-        var symptomsText = Data.ActiveSymptomInstances.Count == 0
-            ? Loc.GetString("virus-report-symptoms-none")
-            : string.Join(", ", Data.ActiveSymptomInstances.Select(s => s.Type.ToString()));
+        var symptomsText =
+            data.ActiveSymptom.Count == 0
+                ? Loc.GetString("virus-report-symptoms-none")
+                : string.Join(", ", data.ActiveSymptom.Select(symptom =>
+                {
+                    // Получаем строковый ID,
+                    var id = symptom.ToString();
+
+                    // Если нашли прототип — возвращаем Name
+                    if (_prototypeManager.TryIndex<VirusSymptomPrototype>(id, out var proto))
+                        return proto.Name;
+
+                    // Если прототипа нет — fallback на ToString()
+                    return id;
+                }));
 
         // 2) виды (SpeciesWhitelist)
         string speciesText;
-        if (Data.SpeciesWhitelist == null || Data.SpeciesWhitelist.Count == 0)
+        if (data.SpeciesWhitelist == null || data.SpeciesWhitelist.Count == 0)
         {
             speciesText = Loc.GetString("virus-report-species-any");
         }
         else
         {
             var names = new List<string>();
-            foreach (var protoId in Data.SpeciesWhitelist)
+            foreach (var protoId in data.SpeciesWhitelist)
             {
                 if (_prototypeManager.TryIndex(protoId, out SpeciesPrototype? sp))
                 {
@@ -224,22 +266,21 @@ public sealed class VirusDiagnoserSystem : EntitySystem
 
         // 3) медицина
         string medicineText;
-        if (Data.MedicineResistance == null || Data.MedicineResistance.Count == 0)
+        if (data.MedicineResistance == null || data.MedicineResistance.Count == 0)
         {
             medicineText = Loc.GetString("virus-report-medicine-none");
         }
         else
         {
             var lines = new List<string>();
-            foreach (var kvp in Data.MedicineResistance)
+            foreach (var kvp in data.MedicineResistance)
             {
                 var reagentId = kvp.Key;
                 var value = kvp.Value;
 
-                if (_prototypeManager.TryIndex(reagentId, out ReagentPrototype? rp))
+                if (_prototypeManager.TryIndex(reagentId, out var rp))
                 {
-                    // ReagentPrototype
-                    var reagentName = rp.LocalizedName ?? rp.Name;
+                    var reagentName = rp.LocalizedName;
                     lines.Add(Loc.GetString("virus-report-medicine-entry", ("name", reagentName), ("value", value.ToString("0.00"))));
                 }
                 else
@@ -254,13 +295,13 @@ public sealed class VirusDiagnoserSystem : EntitySystem
         var content = $@"
         [center][b]{Loc.GetString("virus-report-title")}[/b][/center]
 
-        {Loc.GetString("virus-report-strain", ("id", Data.StrainId))}
+        {Loc.GetString("virus-report-strain", ("id", data.StrainId))}
 
-        {Loc.GetString("virus-report-threshold", ("value", Data.Threshold.ToString("0.0")))}
-        {Loc.GetString("virus-report-infectivity", ("value", (Data.Infectivity * 100).ToString("0")))}
-        {Loc.GetString("virus-report-complexity", ("value", Data.ComplexityVaccine.ToString("0.0")))}
+        {Loc.GetString("virus-report-threshold", ("value", data.Threshold.ToString("0.0")))}
+        {Loc.GetString("virus-report-infectivity", ("value", (data.Infectivity * 100).ToString("0")))}
+        {Loc.GetString("virus-report-complexity", ("value", data.ComplexityVaccine.ToString("0.0")))}
 
-        {Loc.GetString("virus-report-default-medicine-resistance", ("value", Data.DefaultMedicineResistance.ToString("0.00")))}
+        {Loc.GetString("virus-report-default-medicine-resistance", ("value", data.DefaultMedicineResistance.ToString("0.00")))}
 
         {Loc.GetString("virus-report-medicine-header")}
         {medicineText}
@@ -274,68 +315,130 @@ public sealed class VirusDiagnoserSystem : EntitySystem
         [small]{Loc.GetString("virus-report-footer")}[/small]
         ";
 
-        // Применяем на бумагу
         _paperSystem.SetContent((paper, paperComp), content);
     }
 
     private void EndScanVirus(Entity<VirusDiagnoserComponent?> ent)
     {
-        if (!Resolve(entity, ref entity.Comp, false))
+        if (!Resolve(ent, ref ent.Comp, false))
             return;
 
-        SetStatus((uid, component), VirusDiagnoserStatus.Successfully);
+        SetStatus((ent, ent.Comp), VirusDiagnoserStatus.Successfully);
 
-        if (!_container.TryGetContainer(target, DnaContainerKey, out var dnaContainer))
+        if (!_container.TryGetContainer(ent, DnaContainerKey, out var dnaContainer))
             return;
 
-        if (container is not ContainerSlot slot)
+        if (dnaContainer is not ContainerSlot slot)
             return;
 
         if (slot.ContainedEntity == null)
             return;
 
-        _container.CleanContainer(dnaContainer);
-
         if (!TryComp<VirusDataCollectorComponent>(slot.ContainedEntity, out var dataCol))
             return;
 
-        
+        if (dataCol.Data == null)
+            return;
+
+        if (ent.Comp.ConnectedConsole == null || !TryComp<VirusDiagnoserConsoleComponent>(ent.Comp.ConnectedConsole, out var console))
+            return;
+
+        if (!TryComp<VirusDiagnoserDataServerComponent>(console.VirusDiagnoserDataServer, out var server))
+            return;
+
+        _dataServer.SaveData((console.VirusDiagnoserDataServer.Value, server), dataCol.Data);
+
+        _container.CleanContainer(dnaContainer);
+
+        _console.UpdateUserInterface((ent.Comp.ConnectedConsole.Value, console));
     }
 
     private void EndGenerateVirus(Entity<VirusDiagnoserComponent?> ent)
     {
-        if (!Resolve(entity, ref entity.Comp, false))
+        if (!Resolve(ent, ref ent.Comp, false))
             return;
 
-        
+        SetStatus((ent, ent.Comp), VirusDiagnoserStatus.Successfully);
+
+        if (ent.Comp.VirusDataCPU == null)
+            return;
+
+        if (!_container.TryGetContainer(ent, FlaskContainerKey, out var dnaContainer))
+            return;
+
+        if (dnaContainer is not ContainerSlot slot)
+            return;
+
+        if (slot.ContainedEntity == null)
+            return;
+
+        var ents = _container.EmptyContainer(dnaContainer);
+
+        foreach (var flask in ents)
+        {
+            if (!TryComp<SolutionContainerManagerComponent>(flask, out var solutionContainerManager))
+                continue;
+
+            if (!TryComp<DrawableSolutionComponent>(flask, out var injectable))
+                continue;
+
+            var entWrapper = new Entity<DrawableSolutionComponent?, SolutionContainerManagerComponent?>(flask, injectable, solutionContainerManager);
+
+            if (!_solutionContainer.TryGetDrawableSolution(entWrapper, out Entity<SolutionComponent>? solutionEntity, out Solution? solution))
+                continue;
+
+            if (solutionEntity != null && solution != null)
+            {
+                _solutionContainer.TryAddReagent(solutionEntity.Value, Reagent, solution.MaxVolume, out _);
+
+                foreach (var reagent in solution.Contents)
+                {
+                    if (reagent.Reagent.Prototype != Reagent)
+                        continue;
+
+                    List<ReagentData> reagentData = reagent.Reagent.EnsureReagentData();
+
+                    reagentData.RemoveAll(x => x is VirusData);
+
+                    reagentData.Add(ent.Comp.VirusDataCPU);
+                }
+            }
+        }
+
     }
 
-    private void StartGenerateVirus(Entity<VirusDiagnoserComponent?> ent)
+    public void StartGenerateVirus(Entity<VirusDiagnoserComponent?> ent, VirusData? data = null)
     {
-        if (!Resolve(entity, ref entity.Comp, false))
+        if (!Resolve(ent, ref ent.Comp, false))
             return;
 
-        if (!CanGenerateVirus((ent, ent.Comp)))
+        if (!CanGenerateVirus((ent, ent.Comp)) || data == null)
         {
-            SetStatus((uid, component), VirusDiagnoserStatus.Deniel);
+            SetStatus((ent, ent.Comp), VirusDiagnoserStatus.Deniel);
             return;
         }
-        
-        SetStatus((uid, component), VirusDiagnoserStatus.GenerateVirus);
+
+        ent.Comp.VirusDataCPU = data;
+        SetStatus((ent, ent.Comp), VirusDiagnoserStatus.GenerateVirus);
     }
 
     private void UpdateAppearance(Entity<VirusDiagnoserComponent> ent)
     {
-        if (TryComp<AppearanceComponent>(uid, out var appearance))
-            _appearance.SetData(uid, VirusDiagnoserVisuals.Status, ent.Comp.Status, appearance);
+        if (TryComp<AppearanceComponent>(ent, out var appearance))
+            _appearance.SetData(ent, VirusDiagnoserVisuals.Status, ent.Comp.Status, appearance);
     }
 
-    public void SetStatus(Entity<VirusDiagnoserComponent?> ent, VirusDiagnoserStatus newStatus)
+    private void SetStatus(Entity<VirusDiagnoserComponent?> ent, VirusDiagnoserStatus newStatus)
     {
-        if (!Resolve(entity, ref entity.Comp, false))
+        if (!Resolve(ent, ref ent.Comp, false))
+            return;
+
+        if (ent.Comp.Status == newStatus)
             return;
 
         ent.Comp.Status = newStatus;
+
+        ClearSounds((ent, ent.Comp));
 
         switch (ent.Comp.Status)
         {
@@ -343,37 +446,21 @@ public sealed class VirusDiagnoserSystem : EntitySystem
 
                 break;
             case VirusDiagnoserStatus.Off:
-
-                if (_entityManager.EntityExists(component.PrintingSoundEntity))
-                    QueueDel(component.PrintingSoundEntity);
-
-                if (_entityManager.EntityExists(component.ScanningSoundEntity))
-                    QueueDel(component.ScanningSoundEntity);
-                
-                if (_entityManager.EntityExists(component.DenielSoundEntity))
-                    QueueDel(component.DenielSoundEntity);
-
-                if (_entityManager.EntityExists(component.SuccessfullySoundEntity))
-                    QueueDel(component.SuccessfullySoundEntity);
-                
-                if (_entityManager.EntityExists(component.GenerateVirusSoundEntity))
-                    QueueDel(component.GenerateVirusSoundEntity);
-
                 break;
             case VirusDiagnoserStatus.Printing:
-                ent.Comp.PrintingSoundEntity = _audio.PlayPvs(ent, ent.Comp.PrintingSound);
+                ent.Comp.PrintingSoundEntity = _audio.PlayPvs(ent.Comp.PrintingSound, ent)?.Entity;
                 break;
             case VirusDiagnoserStatus.Scanning:
-                ent.Comp.ScanningSoundEntity = _audio.PlayPvs(ent, ent.Comp.ScanningSound);
+                ent.Comp.ScanningSoundEntity = _audio.PlayPvs(ent.Comp.ScanningSound, ent)?.Entity;
                 break;
             case VirusDiagnoserStatus.Deniel:
-                ent.Comp.DenielSoundEntity = _audio.PlayPvs(ent, ent.Comp.DenielSound);
+                ent.Comp.DenielSoundEntity = _audio.PlayPvs(ent.Comp.DenielSound, ent)?.Entity;
                 break;
             case VirusDiagnoserStatus.Successfully:
-                ent.Comp.SuccessfullySoundEntity = _audio.PlayPvs(ent, ent.Comp.SuccessfullySound);
+                ent.Comp.SuccessfullySoundEntity = _audio.PlayPvs(ent.Comp.SuccessfullySound, ent)?.Entity;
                 break;
             case VirusDiagnoserStatus.GenerateVirus:
-                ent.Comp.GenerateVirusSoundEntity = _audio.PlayPvs(ent, ent.Comp.GenerateVirusSound);
+                ent.Comp.GenerateVirusSoundEntity = _audio.PlayPvs(ent.Comp.GenerateVirusSound, ent)?.Entity;
                 break;
             default:
 
@@ -383,14 +470,35 @@ public sealed class VirusDiagnoserSystem : EntitySystem
         UpdateAppearance((ent, ent.Comp));
     }
 
+    private void ClearSounds(Entity<VirusDiagnoserComponent?> ent)
+    {
+        if (!Resolve(ent, ref ent.Comp, false))
+            return;
+
+        var sounds = new[]
+        {
+            ent.Comp.PrintingSoundEntity,
+            ent.Comp.ScanningSoundEntity,
+            ent.Comp.DenielSoundEntity,
+            // ent.Comp.SuccessfullySoundEntity,
+            ent.Comp.GenerateVirusSoundEntity
+        };
+
+        foreach (var sound in sounds)
+        {
+            if (_entityManager.EntityExists(sound))
+                QueueDel(sound);
+        }
+    }
+
     public bool CanScanning(Entity<VirusDiagnoserComponent?> ent)
     {
-        if (!Resolve(entity, ref entity.Comp, false))
+        if (!Resolve(ent, ref ent.Comp, false))
             return false;
-        
-        if (!_container.TryGetContainer(target, DnaContainerKey, out var dnaContainer))
+
+        if (!_container.TryGetContainer(ent, DnaContainerKey, out var dnaContainer))
             return false;
-        
+
         if (dnaContainer is not ContainerSlot slot)
             return false;
 
@@ -402,12 +510,12 @@ public sealed class VirusDiagnoserSystem : EntitySystem
 
     public bool CanGenerateVirus(Entity<VirusDiagnoserComponent?> ent)
     {
-        if (!Resolve(entity, ref entity.Comp, false))
+        if (!Resolve(ent, ref ent.Comp, false))
             return false;
-        
-        if (!_container.TryGetContainer(target, FlaskContainerKey, out var container))
+
+        if (!_container.TryGetContainer(ent, FlaskContainerKey, out var container))
             return false;
-        
+
         if (container is not ContainerSlot slot)
             return false;
 

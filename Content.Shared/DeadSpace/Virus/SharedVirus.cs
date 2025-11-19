@@ -12,7 +12,7 @@ namespace Content.Shared.Virus;
 public sealed class VirusResistanceQueryEvent : EntityEventArgs, IInventoryRelayEvent
 {
     public SlotFlags TargetSlots { get; }
-    public float TotalCoefficient = 1.0f;
+    public float TotalCoefficient = 1f;
 
     public VirusResistanceQueryEvent(SlotFlags slots)
     {
