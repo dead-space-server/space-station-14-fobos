@@ -17,7 +17,7 @@ public enum VirusDiagnoserStatus : byte
     On,
     Printing,
     Scanning,
-    Deniel,
+    Denial,
     Successfully,
     GenerateVirus
 }

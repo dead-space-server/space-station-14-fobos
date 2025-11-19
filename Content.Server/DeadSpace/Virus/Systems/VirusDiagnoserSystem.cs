@@ -63,7 +63,6 @@ public sealed class VirusDiagnoserSystem : EntitySystem
         var query = EntityQueryEnumerator<VirusDiagnoserComponent>();
         while (query.MoveNext(out var uid, out var comp))
         {
-            // Сначала проверяем питание
             if (!_powerReceiverSystem.IsPowered(uid))
             {
                 SetStatus((uid, comp), VirusDiagnoserStatus.Off);
@@ -73,6 +72,9 @@ public sealed class VirusDiagnoserSystem : EntitySystem
             // Если был выключен — включаем
             if (comp.Status == VirusDiagnoserStatus.Off)
                 SetStatus((uid, comp), VirusDiagnoserStatus.On);
+
+            if (EntityManager.EntityExists(comp.CurrentSoundEntity))
+                continue;
 
             switch (comp.Status)
             {
@@ -87,45 +89,36 @@ public sealed class VirusDiagnoserSystem : EntitySystem
                 case VirusDiagnoserStatus.Scanning:
                     if (!CanScanning((uid, comp)))
                     {
-                        SetStatus((uid, comp), VirusDiagnoserStatus.Deniel);
+                        SetStatus((uid, comp), VirusDiagnoserStatus.Denial);
                         break;
                     }
 
-                    if (!_entityManager.EntityExists(comp.ScanningSoundEntity))
-                    {
-                        EndScanVirus((uid, comp));
-                        SetStatus((uid, comp), VirusDiagnoserStatus.On);
-                    }
+                    EndScanVirus((uid, comp));
                     break;
 
                 case VirusDiagnoserStatus.GenerateVirus:
                     if (!CanGenerateVirus((uid, comp)))
                     {
-                        SetStatus((uid, comp), VirusDiagnoserStatus.Deniel);
+                        SetStatus((uid, comp), VirusDiagnoserStatus.Denial);
                         break;
                     }
 
-                    if (!_entityManager.EntityExists(comp.GenerateVirusSoundEntity))
-                    {
-                        EndGenerateVirus((uid, comp));
-                        SetStatus((uid, comp), VirusDiagnoserStatus.On);
-                    }
+                    EndGenerateVirus((uid, comp));
                     break;
 
-                case VirusDiagnoserStatus.Deniel:
-                    if (!_entityManager.EntityExists(comp.DenielSoundEntity))
-                        SetStatus((uid, comp), VirusDiagnoserStatus.On);
+                case VirusDiagnoserStatus.Denial:
+                    SetStatus((uid, comp), VirusDiagnoserStatus.On);
                     break;
 
                 case VirusDiagnoserStatus.Successfully:
-                    if (!_entityManager.EntityExists(comp.SuccessfullySoundEntity))
-                        SetStatus((uid, comp), VirusDiagnoserStatus.On);
+                    SetStatus((uid, comp), VirusDiagnoserStatus.On);
                     break;
 
                 case VirusDiagnoserStatus.On:
                 default:
                     break;
             }
+
         }
     }
 
@@ -179,7 +172,6 @@ public sealed class VirusDiagnoserSystem : EntitySystem
             return;
 
         ent.Comp.VirusDataCPU = data;
-        ent.Comp.AnimationWindow.Reset();
         SetStatus((ent, ent.Comp), VirusDiagnoserStatus.Printing);
     }
 
@@ -190,7 +182,7 @@ public sealed class VirusDiagnoserSystem : EntitySystem
 
         if (!CanScanning((ent, ent.Comp)))
         {
-            SetStatus((ent, ent.Comp), VirusDiagnoserStatus.Deniel);
+            SetStatus((ent, ent.Comp), VirusDiagnoserStatus.Denial);
             return;
         }
 
@@ -414,7 +406,7 @@ public sealed class VirusDiagnoserSystem : EntitySystem
 
         if (!CanGenerateVirus((ent, ent.Comp)) || data == null)
         {
-            SetStatus((ent, ent.Comp), VirusDiagnoserStatus.Deniel);
+            SetStatus((ent, ent.Comp), VirusDiagnoserStatus.Denial);
             return;
         }
 
@@ -436,11 +428,12 @@ public sealed class VirusDiagnoserSystem : EntitySystem
         if (ent.Comp.Status == newStatus)
             return;
 
-        ent.Comp.Status = newStatus;
+        if (newStatus != VirusDiagnoserStatus.On)
+            QueueDel(ent.Comp.CurrentSoundEntity);
 
-        ClearSounds((ent, ent.Comp));
+        ent.Comp.CurrentSoundEntity = null;
 
-        switch (ent.Comp.Status)
+        switch (newStatus)
         {
             case VirusDiagnoserStatus.On:
 
@@ -448,47 +441,28 @@ public sealed class VirusDiagnoserSystem : EntitySystem
             case VirusDiagnoserStatus.Off:
                 break;
             case VirusDiagnoserStatus.Printing:
-                ent.Comp.PrintingSoundEntity = _audio.PlayPvs(ent.Comp.PrintingSound, ent)?.Entity;
+                ent.Comp.CurrentSoundEntity = _audio.PlayPvs(ent.Comp.PrintingSound, ent)?.Entity;
                 break;
             case VirusDiagnoserStatus.Scanning:
-                ent.Comp.ScanningSoundEntity = _audio.PlayPvs(ent.Comp.ScanningSound, ent)?.Entity;
+                ent.Comp.CurrentSoundEntity = _audio.PlayPvs(ent.Comp.ScanningSound, ent)?.Entity;
                 break;
-            case VirusDiagnoserStatus.Deniel:
-                ent.Comp.DenielSoundEntity = _audio.PlayPvs(ent.Comp.DenielSound, ent)?.Entity;
+            case VirusDiagnoserStatus.Denial:
+                ent.Comp.CurrentSoundEntity = _audio.PlayPvs(ent.Comp.DenialSound, ent)?.Entity;
                 break;
             case VirusDiagnoserStatus.Successfully:
-                ent.Comp.SuccessfullySoundEntity = _audio.PlayPvs(ent.Comp.SuccessfullySound, ent)?.Entity;
+                ent.Comp.CurrentSoundEntity = _audio.PlayPvs(ent.Comp.SuccessfullySound, ent)?.Entity;
                 break;
             case VirusDiagnoserStatus.GenerateVirus:
-                ent.Comp.GenerateVirusSoundEntity = _audio.PlayPvs(ent.Comp.GenerateVirusSound, ent)?.Entity;
+                ent.Comp.CurrentSoundEntity = _audio.PlayPvs(ent.Comp.GenerateVirusSound, ent)?.Entity;
                 break;
             default:
 
                 break;
         }
 
+        ent.Comp.Status = newStatus;
+
         UpdateAppearance((ent, ent.Comp));
-    }
-
-    private void ClearSounds(Entity<VirusDiagnoserComponent?> ent)
-    {
-        if (!Resolve(ent, ref ent.Comp, false))
-            return;
-
-        var sounds = new[]
-        {
-            ent.Comp.PrintingSoundEntity,
-            ent.Comp.ScanningSoundEntity,
-            ent.Comp.DenielSoundEntity,
-            // ent.Comp.SuccessfullySoundEntity,
-            ent.Comp.GenerateVirusSoundEntity
-        };
-
-        foreach (var sound in sounds)
-        {
-            if (_entityManager.EntityExists(sound))
-                QueueDel(sound);
-        }
     }
 
     public bool CanScanning(Entity<VirusDiagnoserComponent?> ent)

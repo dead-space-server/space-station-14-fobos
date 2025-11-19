@@ -233,10 +233,10 @@ public sealed partial class VirusSystem : EntitySystem
             if (!_prototype.TryIndex(protoSymptom, out var symptom))
                 continue;
 
-            var symptomInstance = CreateSymptomInstance(symptom.Type);
+            var symptomInstance = CreateSymptomInstance(symptom.SymptomType);
 
             // Проверяем, есть ли уже экземпляр этого типа симптома
-            if (host.Comp.ActiveSymptomInstances.Any(s => s.Type == symptom.Type))
+            if (host.Comp.ActiveSymptomInstances.Any(s => s.Type == symptom.SymptomType))
                 continue;
 
             if (symptomInstance.EffectTimedWindow.IsExpired())

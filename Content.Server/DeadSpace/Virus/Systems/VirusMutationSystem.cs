@@ -185,7 +185,7 @@ public sealed class VirusMutationSystem : EntitySystem
                 host.Comp2.Data.ActiveSymptom.Add(available[index]);
 
                 _sawmill.Debug(
-                    $"Попытка мутации #{i + 1}: добавлен новый симптом '{proto.Type}' ({proto.Name}) " +
+                    $"Попытка мутации #{i + 1}: добавлен новый симптом '{proto.SymptomType}' ({proto.Name}) " +
                     $"с шансом {chance:0.00}. Штамм='{host.Comp2.Data.StrainId}'. " +
                     $"ТекущиеСимптомы=[{string.Join(", ", host.Comp2.Data.ActiveSymptom)}]"
                 );

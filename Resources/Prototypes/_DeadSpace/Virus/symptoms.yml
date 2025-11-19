@@ -1,29 +1,29 @@
 - type: virusSymptom
   id: CoughSymptom
   name: кашель
-  type: Cough
+  symptomType: Cough
 
 - type: virusSymptom
   id: VomitSymptom
   name: тошнота
-  type: Vomit
+  symptomType: Vomit
 
 - type: virusSymptom
   id: RashSymptom
   name: сыпь
-  type: Rash
+  symptomType: Rash
 
 - type: virusSymptom
   id: DrowsinessSymptom
   name: сонливость
-  type: Drowsiness
+  symptomType: Drowsiness
 
 - type: virusSymptom
   id: NecrosisSymptom
   name: некроз
-  type: Necrosis
+  symptomType: Necrosis
   
 - type: virusSymptom
   id: ZombificationSymptom
   name: зомби
-  type: Zombification
+  symptomType: Zombification

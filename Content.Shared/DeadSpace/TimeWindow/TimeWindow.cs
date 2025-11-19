@@ -50,6 +50,14 @@ public sealed class TimedWindow
         return Timing.CurTime >= Remaining;
     }
 
+    /// <summary>
+    ///     Проверяет, что окно либо null, либо истекло.
+    /// </summary>
+    public static bool NullOrExpired(TimedWindow? window)
+    {
+        return window == null || window.IsExpired();
+    }
+
     private TimeSpan GetRandomDuration()
     {
         if (MinSeconds == MaxSeconds)

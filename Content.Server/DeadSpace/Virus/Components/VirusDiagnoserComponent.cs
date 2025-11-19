@@ -57,7 +57,7 @@ public sealed partial class VirusDiagnoserComponent : Component
 
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public SoundSpecifier? DenielSound = new SoundPathSpecifier("/Audio/_DeadSpace/Virus/Diagnoser/denial.ogg");
+    public SoundSpecifier? DenialSound = new SoundPathSpecifier("/Audio/_DeadSpace/Virus/Diagnoser/denial.ogg");
 
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
@@ -68,17 +68,5 @@ public sealed partial class VirusDiagnoserComponent : Component
     public SoundSpecifier? GenerateVirusSound = default!;
 
     [ViewVariables(VVAccess.ReadOnly)]
-    public EntityUid? GenerateVirusSoundEntity = default!;
-
-    [ViewVariables(VVAccess.ReadOnly)]
-    public EntityUid? PrintingSoundEntity = default!;
-
-    [ViewVariables(VVAccess.ReadOnly)]
-    public EntityUid? ScanningSoundEntity = default!;
-
-    [ViewVariables(VVAccess.ReadOnly)]
-    public EntityUid? DenielSoundEntity = default!;
-
-    [ViewVariables(VVAccess.ReadOnly)]
-    public EntityUid? SuccessfullySoundEntity = default!;
+    public EntityUid? CurrentSoundEntity = default!;
 }

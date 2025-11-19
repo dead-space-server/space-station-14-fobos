@@ -24,5 +24,5 @@ public sealed partial class VirusSymptomPrototype : IPrototype
     ///     Тип симптома.
     /// </summary>
     [DataField(required: true)]
-    public VirusSymptom Type;
+    public VirusSymptom SymptomType;
 }

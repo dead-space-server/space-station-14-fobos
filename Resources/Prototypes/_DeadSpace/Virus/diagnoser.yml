@@ -48,7 +48,7 @@
           On: {state: "icon"}
           Printing: {state: "running"}
           Scanning: {state: "icon"}
-          Deniel: {state: "icon"}
+          Denial: {state: "icon"}
           Successfully: {state: "icon"}
           GenerateVirus: {state: "icon"}
         terminalLayer:
@@ -56,7 +56,7 @@
           On: {state: "unlit", shader: unshaded}
           Printing: {state: "unlit", shader: unshaded}
           Scanning: {state: "unlit", shader: unshaded}
-          Deniel: {state: "deniel_unlit", shader: unshaded}
+          Denial: {state: "deniel_unlit", shader: unshaded}
           Successfully: {state: "successfully_unlit", shader: unshaded}
           GenerateVirus: {state: "unlit", shader: unshaded}
   - type: Machine
