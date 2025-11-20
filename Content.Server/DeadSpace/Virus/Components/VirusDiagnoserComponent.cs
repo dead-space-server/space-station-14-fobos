@@ -44,10 +44,6 @@ public sealed partial class VirusDiagnoserComponent : Component
 
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public VirusDiagnoserVisuals Visual = VirusDiagnoserVisuals.Status;
-
-    [DataField]
-    [ViewVariables(VVAccess.ReadOnly)]
     public SoundSpecifier? PrintingSound = new SoundPathSpecifier("/Audio/Machines/diagnoser_printing.ogg");
 
     [DataField]
