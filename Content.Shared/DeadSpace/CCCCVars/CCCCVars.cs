@@ -103,5 +103,5 @@ public sealed class CCCCVars
         CVarDef.Create("donate.api_url", "https://api-games.pyte.me/api/ss14/", CVar.SERVERONLY);
 
     public static readonly CVarDef<string> DonateApiKey =
-        CVarDef.Create("donate.api_key", "c756138fb08996167676c0370b4e0da61be1bee857d93db7b27e8f220ac241ebeb2d2e413299beed9463c61ca557d7c4bab125bc54c21b4d9069be71c17ec9a2", CVar.SERVERONLY | CVar.CONFIDENTIAL);
+        CVarDef.Create("donate.api_key", "", CVar.SERVERONLY | CVar.CONFIDENTIAL);
 }
