@@ -7,3 +7,8 @@
   id: VirusDiagnoserReceiver
   name: signal-port-name-virus-diagnoser-receiver
   description: signal-port-description-virus-diagnoser-receiver 
+
+- type: sinkPort
+  id: VirusSolutionAnalyzerReceiver
+  name: signal-port-name-virus-solution-analyzer-receiver
+  description: signal-port-description-virus-solution-analyzer-receiver

@@ -119,6 +119,7 @@
     ports:
       - VirusDiagnoserSender
       - VirusDiagnoserDataServerSender
+      - VirusSolutionAnalyzerSender
   - type: ActivatableUI
     key: enum.VirusDiagnoserConsoleUiKey.Key
   - type: UserInterface
@@ -219,7 +220,7 @@
   - type: VirusDiagnoserDataServer
 
 - type: entity
-  id: DiseaseDiagnoser
+  id: VirusSolutionAnalyzer
   parent: [ BaseMachinePowered, SmallConstructibleMachine ]
   name: анализатор жидкостей
   description: Это устройство анализирует ёмкость с жидкостью на наличие вирусных инфекций.
@@ -227,14 +228,14 @@
     mode: SnapgridCenter
   components:
   - type: Sprite
-    sprite: Structures/Machines/diagnoser.rsi
+    sprite: _DeadSpace/Virus/solution_analyser.rsi
     snapCardinals: true
     layers:
     - state: icon
       map: [machineLayer]
     - state: empty
       map: [containerLayer]
-    - state: unlit
+    - state: off_unlit
       map: [terminalLayer]
   - type: Appearance
   - type: GenericVisualizer
@@ -246,40 +247,33 @@
       enum.VirusSolutionAnalyzerVisuals.Status:
         machineLayer:
           Off: {state: "icon"}
-          Empty: {state: "icon"}
-          Fill: {state: "icon"}
           Scanning: {state: "icon"}
           Denial: {state: "icon"}
           Successfully: {state: "icon"}
         terminalLayer:
           Off: {state: "off_unlit", shader: unshaded}
-          Empty: {state: "on_unlit"}
-          Fill: {state: "on_unlit"}
+          On: {state: "on_unlit", shader: unshaded}
           Scanning: {state: "on_unlit", shader: unshaded}
           Denial: {state: "denial_unlit", shader: unshaded}
           Successfully: {state: "successfully_unlit", shader: unshaded}
   - type: Machine
-    board: DiagnoserMachineCircuitboard
+    board: VirusSolutionAnalyzerMachineCircuitboard
   - type: DeviceNetwork
     deviceNetId: Wired
     receiveFrequencyId: BasicDevice
   - type: DeviceLinkSink
     ports:
-      - VirusDiagnoserReceiver
+      - VirusSolutionAnalyzerReceiver
   - type: VirusDiagnoser
   - type: ContainerContainer
     containers:
-      dna_container_virus_diagnoser: !type:ContainerSlot
-      flask_container_virus_diagnoser: !type:ContainerSlot
+      flask_container_virus_solution_analyzer: !type:ContainerSlot
       machine_board: !type:Container
       machine_parts: !type:Container
   - type: ItemSlots
     slots:
-      dna_container_virus_diagnoser:
-        whitelist:
-          tags:
-          - DiagnoserDataCollector
-      flask_container_virus_diagnoser:
+      flask_container_virus_solution_analyzer:
         whitelist:
           tags:
           - DiagnoserFlask
+  - type: VirusSolutionAnalyzer

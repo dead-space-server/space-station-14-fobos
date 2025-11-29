@@ -26,6 +26,9 @@ namespace Content.Client.DeadSpace.Virus.UI
             _window.ScanVirusButton.OnPressed += _ =>
                 SendMessage(new UiButtonPressedMessage(UiButton.ScanVirus, null));
 
+            _window.StartAnalysButton.OnPressed += _ =>
+                SendMessage(new UiButtonPressedMessage(UiButton.StartAnalys, null));
+
             _window.GenerateVirusButton.OnPressed += _ =>
             {
                 var strainName = _window.StrainList.GetSelected().FirstOrDefault()?.Text;

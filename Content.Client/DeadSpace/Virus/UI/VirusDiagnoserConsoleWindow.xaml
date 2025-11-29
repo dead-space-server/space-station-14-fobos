@@ -140,8 +140,7 @@
                     <Button Name="StartAnalysButton"
                             Access="Public"
                             Text="{Loc 'virus-solution-analyser-start-analys-button'}"
-                            HorizontalAlignment="Center"
-                            Disabled="True" />
+                            HorizontalAlignment="Center" />
 
                 </BoxContainer>
             </PanelContainer>

@@ -14,6 +14,10 @@ public sealed partial class VirusDiagnoserConsoleComponent : Component
     [ViewVariables(VVAccess.ReadOnly)]
     public ProtoId<SourcePortPrototype> VirusDiagnoserDataServerPort = "VirusDiagnoserDataServerSender";
 
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public ProtoId<SourcePortPrototype> VirusSolutionAnalyzerPort = "VirusSolutionAnalyzerSender";
+
     [ViewVariables(VVAccess.ReadOnly)]
     public EntityUid? VirusDiagnoser = null;
 

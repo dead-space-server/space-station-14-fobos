@@ -19,6 +19,7 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
     [Dependency] private readonly PowerReceiverSystem _powerReceiverSystem = default!;
     [Dependency] private readonly VirusDiagnoserDataServerSystem _dataServer = default!;
     [Dependency] private readonly VirusDiagnoserSystem _diagnoser = default!;
+    [Dependency] private readonly VirusSolutionAnalyzerSystem _virusSolutionAnalyzer = default!;
 
     public override void Initialize()
     {
@@ -33,7 +34,7 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
         SubscribeLocalEvent<VirusDiagnoserConsoleComponent, AnchorStateChangedEvent>(OnAnchorChanged);
     }
 
-    private void OnButtonPressed(EntityUid uid, VirusDiagnoserConsoleComponent consoleComponent, UiButtonPressedMessage args)
+    private void OnButtonPressed(EntityUid uid, VirusDiagnoserConsoleComponent component, UiButtonPressedMessage args)
     {
         if (!_powerReceiverSystem.IsPowered(uid))
             return;
@@ -43,61 +44,69 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
 
         switch (args.Button)
         {
-            case UiButton.DeleteData:
+            case UiButton.StartAnalys:
                 {
-                    if (consoleComponent.VirusDiagnoserDataServer == null || !TryComp(consoleComponent.VirusDiagnoserDataServer, out dataServer))
+                    if (component.VirusSolutionAnalyzer == null || !TryComp<VirusSolutionAnalyzerComponent>(component.VirusSolutionAnalyzer, out var virusSolutionAnalyzer))
                         return;
 
-                    if (String.IsNullOrEmpty(args.Strain))
-                        return;
-
-                    _dataServer.DeleteData((consoleComponent.VirusDiagnoserDataServer.Value, dataServer), args.Strain);
+                    _virusSolutionAnalyzer.StartScanVirus((component.VirusSolutionAnalyzer.Value, virusSolutionAnalyzer));
                     break;
                 }
-            case UiButton.GenerateVirus:
+            case UiButton.DeleteData:
                 {
-                    if (consoleComponent.VirusDiagnoser == null || !TryComp(consoleComponent.VirusDiagnoser, out diagnoser))
-                        return;
-
-                    if (consoleComponent.VirusDiagnoserDataServer == null || !TryComp(consoleComponent.VirusDiagnoserDataServer, out dataServer))
+                    if (component.VirusDiagnoserDataServer == null || !TryComp(component.VirusDiagnoserDataServer, out dataServer))
                         return;
 
                     if (string.IsNullOrEmpty(args.Strain))
                         return;
 
-                    VirusData? data = _dataServer.GetData((consoleComponent.VirusDiagnoserDataServer.Value, dataServer), args.Strain);
+                    _dataServer.DeleteData((component.VirusDiagnoserDataServer.Value, dataServer), args.Strain);
+                    break;
+                }
+            case UiButton.GenerateVirus:
+                {
+                    if (component.VirusDiagnoser == null || !TryComp(component.VirusDiagnoser, out diagnoser))
+                        return;
 
-                    _diagnoser.StartGenerateVirus((consoleComponent.VirusDiagnoser.Value, diagnoser), data);
+                    if (component.VirusDiagnoserDataServer == null || !TryComp(component.VirusDiagnoserDataServer, out dataServer))
+                        return;
+
+                    if (string.IsNullOrEmpty(args.Strain))
+                        return;
+
+                    VirusData? data = _dataServer.GetData((component.VirusDiagnoserDataServer.Value, dataServer), args.Strain);
+
+                    _diagnoser.StartGenerateVirus((component.VirusDiagnoser.Value, diagnoser), data);
                     break;
                 }
             case UiButton.PrintReport:
                 {
-                    if (consoleComponent.VirusDiagnoser == null || !TryComp(consoleComponent.VirusDiagnoser, out diagnoser))
+                    if (component.VirusDiagnoser == null || !TryComp(component.VirusDiagnoser, out diagnoser))
                         return;
 
-                    if (consoleComponent.VirusDiagnoserDataServer == null || !TryComp(consoleComponent.VirusDiagnoserDataServer, out dataServer))
+                    if (component.VirusDiagnoserDataServer == null || !TryComp(component.VirusDiagnoserDataServer, out dataServer))
                         return;
 
                     if (String.IsNullOrEmpty(args.Strain))
                         return;
 
-                    VirusData? data = _dataServer.GetData((consoleComponent.VirusDiagnoserDataServer.Value, dataServer), args.Strain);
+                    VirusData? data = _dataServer.GetData((component.VirusDiagnoserDataServer.Value, dataServer), args.Strain);
 
-                    _diagnoser.StartPrinting((consoleComponent.VirusDiagnoser.Value, diagnoser), data);
+                    _diagnoser.StartPrinting((component.VirusDiagnoser.Value, diagnoser), data);
                     break;
                 }
             case UiButton.ScanVirus:
                 {
-                    if (consoleComponent.VirusDiagnoser == null || !TryComp(consoleComponent.VirusDiagnoser, out diagnoser))
+                    if (component.VirusDiagnoser == null || !TryComp(component.VirusDiagnoser, out diagnoser))
                         return;
 
-                    _diagnoser.StartScanVirus((consoleComponent.VirusDiagnoser.Value, diagnoser));
+                    _diagnoser.StartScanVirus((component.VirusDiagnoser.Value, diagnoser));
                     break;
                 }
             default:
                 break;
         }
-        UpdateUserInterface((uid, consoleComponent));
+        UpdateUserInterface((uid, component));
     }
 
     private void OnPowerChanged(EntityUid uid, VirusDiagnoserConsoleComponent component, ref PowerChangedEvent args)
@@ -138,6 +147,12 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
         {
             component.VirusDiagnoserDataServer = args.Sink;
             server.ConnectedConsole = uid;
+        }
+
+        if (TryComp<VirusSolutionAnalyzerComponent>(args.Sink, out var solutionAnalyzer) && args.SourcePort == component.VirusSolutionAnalyzerPort)
+        {
+            component.VirusSolutionAnalyzer = args.Sink;
+            solutionAnalyzer.ConnectedConsole = uid;
         }
 
         RecheckConnections((uid, component));

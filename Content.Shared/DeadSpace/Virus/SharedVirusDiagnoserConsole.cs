@@ -45,6 +45,7 @@ public enum UiButton : byte
     GenerateVirus,
     PrintReport,
     ScanVirus,
+    StartAnalys,
     DeleteData
 }
 

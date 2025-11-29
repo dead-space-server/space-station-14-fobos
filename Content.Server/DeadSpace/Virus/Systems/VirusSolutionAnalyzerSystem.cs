@@ -4,23 +4,15 @@ using Robust.Server.Audio;
 using Content.Shared.Examine;
 using Robust.Shared.Containers;
 using Content.Server.DeadSpace.Virus.Components;
-using Content.Shared.Humanoid.Prototypes;
 using Content.Shared.DeviceLinking.Events;
-using Content.Shared.Paper;
 using System.Linq;
 using Content.Server.Power.EntitySystems;
-using Robust.Shared.Prototypes;
 using Content.Shared.DeadSpace.Virus.Components;
 using Robust.Server.GameObjects;
-using Content.Shared.DeadSpace.TimeWindow;
-using Robust.Shared.Timing;
-using Robust.Shared.Random;
 using Content.Shared.Chemistry.Components.SolutionManager;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Chemistry.Components;
-using Content.Shared.Chemistry.Reagent;
 using Content.Shared.Virus;
-using Content.Shared.DeadSpace.Virus.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -30,13 +22,8 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly VirusDiagnoserConsoleSystem _console = default!;
     [Dependency] private readonly PowerReceiverSystem _powerReceiverSystem = default!;
-    [Dependency] private readonly IEntityManager _entityManager = default!;
-    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly VirusDiagnoserDataServerSystem _dataServer = default!;
-    [Dependency] private readonly PaperSystem _paperSystem = default!;
     [Dependency] private readonly AppearanceSystem _appearance = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
     private const string FlaskContainerKey = "flask_container_virus_solution_analyzer";
     public override void Initialize()
@@ -57,6 +44,7 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
 
     private void OnEntRemoveCont(Entity<VirusSolutionAnalyzerComponent> ent, ref EntRemovedFromContainerMessage args)
     {
+        Console.WriteLine(1);
         UpdateContainerAppearance((ent, ent.Comp));
     }
 
@@ -110,7 +98,7 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
 
     private void OnPortDisconnected(Entity<VirusSolutionAnalyzerComponent> ent, ref PortDisconnectedEvent args)
     {
-        if (args.Port == ent.Comp.VirusDiagnoserPort)
+        if (args.Port == ent.Comp.VirusSolutionAnalyzerPort)
             ent.Comp.ConnectedConsole = null;
     }
 
@@ -142,15 +130,6 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
         }
     }
 
-    public void StartPrinting(Entity<VirusSolutionAnalyzerComponent?> ent, VirusData? data)
-    {
-        if (!Resolve(ent, ref ent.Comp, false))
-            return;
-
-        ent.Comp.VirusDataCPU = data;
-        SetStatus((ent, ent.Comp), VirusSolutionAnalyzerStatus.Printing);
-    }
-
     public void StartScanVirus(Entity<VirusSolutionAnalyzerComponent?> ent)
     {
         if (!Resolve(ent, ref ent.Comp, false))
@@ -172,6 +151,9 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
 
         SetStatus((ent, ent.Comp), VirusSolutionAnalyzerStatus.Successfully);
 
+        if (ent.Comp.ConnectedConsole == null || !TryComp<VirusDiagnoserConsoleComponent>(ent.Comp.ConnectedConsole, out var console))
+            return;
+
         if (!_container.TryGetContainer(ent, FlaskContainerKey, out var flaskContainer))
             return;
 
@@ -181,22 +163,19 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
         if (slot.ContainedEntity == null)
             return;
 
-
         if (!TryComp<SolutionContainerManagerComponent>(slot.ContainedEntity, out var solutionContainerManager))
-            continue;
+            return;
 
         if (!TryComp<DrawableSolutionComponent>(slot.ContainedEntity, out var injectable))
-            continue;
+            return;
 
-        var entWrapper = new Entity<DrawableSolutionComponent?, SolutionContainerManagerComponent?>(slot.ContainedEntity, injectable, solutionContainerManager);
+        var entWrapper = new Entity<DrawableSolutionComponent?, SolutionContainerManagerComponent?>(slot.ContainedEntity.Value, injectable, solutionContainerManager);
 
         if (!_solutionContainer.TryGetDrawableSolution(entWrapper, out Entity<SolutionComponent>? solutionEntity, out Solution? solution))
-            continue;
+            return;
 
         if (solutionEntity != null && solution != null)
         {
-            _solutionContainer.TryAddReagent(solutionEntity.Value, Reagent, solution.MaxVolume, out _);
-            
             var contents = solution.Contents;
 
             foreach (var reagent in contents)
@@ -205,19 +184,10 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
                 if (dataList == null)
                     continue;
 
-                data = dataList.OfType<VirusData>().FirstOrDefault();
-            }
-        
-            foreach (var reagent in solution.Contents)
-            {
-                if (reagent.Reagent.Prototype != Reagent)
-                    continue;
-                
-                var dataList = reagent.Reagent.Data;
-                if (dataList == null)
-                    continue;
+                var data = dataList.OfType<VirusData>();
 
-                data = dataList.OfType<VirusData>();
+                if (!TryComp<VirusDiagnoserDataServerComponent>(console.VirusDiagnoserDataServer, out var server))
+                    return;
 
                 foreach (var virusData in data)
                 {
@@ -238,11 +208,20 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
 
     private void UpdateContainerAppearance(Entity<VirusSolutionAnalyzerComponent> ent)
     {
-        if (_container.TryGetContainer(ent, FlaskContainerKey, out _))
-            _appearance.SetData(ent, VirusSolutionContainerAnalyzerVisuals.Status, VirusSolutionContainerAnalyzerStatus.Fill, appearance);
-        else
+        if (!TryComp<AppearanceComponent>(ent, out var appearance))
+            return;
+
+        if (!_container.TryGetContainer(ent, FlaskContainerKey, out var flaskContainer) ||
+            flaskContainer is not ContainerSlot slot ||
+            slot.ContainedEntity == null)
+        {
             _appearance.SetData(ent, VirusSolutionContainerAnalyzerVisuals.Status, VirusSolutionContainerAnalyzerStatus.Empty, appearance);
+            return;
+        }
+
+        _appearance.SetData(ent, VirusSolutionContainerAnalyzerVisuals.Status, VirusSolutionContainerAnalyzerStatus.Fill, appearance);
     }
+
 
     private void SetStatus(Entity<VirusSolutionAnalyzerComponent?> ent, VirusSolutionAnalyzerStatus newStatus)
     {
@@ -259,11 +238,7 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
 
         switch (newStatus)
         {
-            case VirusSolutionAnalyzerStatus.Empty:
-
-                break;
-            case VirusSolutionAnalyzerStatus.Fill:
-
+            case VirusSolutionAnalyzerStatus.On:
                 break;
             case VirusSolutionAnalyzerStatus.Off:
                 break;

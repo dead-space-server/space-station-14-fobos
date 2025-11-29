@@ -89,11 +89,17 @@ signal-port-description-virus-diagnoser-sender = Передатчик сигна
 signal-port-name-virus-data-server-sender = Сервер данных
 signal-port-description-virus-data-server-sender = Передатчик сигнала серверу данных
 
+signal-port-name-virus-solution-analyzer-sender = Диагност веществ
+signal-port-description-virus-solution-analyzer-sender = Передатчик сигнала диагносту веществ
+
 signal-port-name-virus-diagnoser-receiver = Диагност заболеваний
 signal-port-description-virus-diagnoser-receiver = Принимающий сигнал диагност заболеваний
 
 signal-port-name-virus-data-server-receiver = Сервер данных
 signal-port-description-virus-data-server-receiver = Принимающий сигнал сервер данных
+
+signal-port-name-virus-solution-analyzer-receiver = Диагност веществ
+signal-port-description-virus-solution-analyzer-receiver = Принимающий сигнал диагност веществ
 
 # Другое
 
