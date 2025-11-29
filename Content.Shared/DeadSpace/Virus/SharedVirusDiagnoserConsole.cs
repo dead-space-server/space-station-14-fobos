@@ -16,20 +16,26 @@ public sealed class VirusDiagnoserConsoleBoundUserInterfaceState : BoundUserInte
     public readonly List<string> Strains = new();
     public readonly bool DiagnoserConnected;
     public readonly bool DataServerConnected;
+    public readonly bool SolutionAnalyzerConnected;
     public readonly bool DiagnoserInRange;
     public readonly bool DataServerInRange;
+    public readonly bool SolutionAnalyzerInRange;
     public VirusDiagnoserConsoleBoundUserInterfaceState(
         List<string>? strains = null,
         bool diagnoserConnected = false,
         bool dataServerConnected = false,
+        bool solutionAnalyzerConnected = false,
         bool diagnoserInRange = false,
-        bool dataServerInRange = false)
+        bool dataServerInRange = false,
+        bool solutionAnalyzerInRange = false)
     {
         Strains = strains ?? new List<string>();
         DiagnoserConnected = diagnoserConnected;
         DataServerConnected = dataServerConnected;
+        SolutionAnalyzerConnected = solutionAnalyzerConnected;
         DiagnoserInRange = diagnoserInRange;
         DataServerInRange = dataServerInRange;
+        SolutionAnalyzerInRange = solutionAnalyzerInRange;
     }
 }
 

@@ -27,6 +27,28 @@ public sealed partial class VirusDiagnoserConsoleWindow : DefaultWindow
     {
         _lastUpdate = state;
 
+        // Состояние 1: анализатор веществ недоступен
+        if (!state.SolutionAnalyzerConnected)
+        {
+            SolutionAnalyzerMissing.Visible = true;
+            SolutionAnalyzerFar.Visible = false;
+            SolutionAnalyzerContents.Visible = false;
+        }
+        // Состояние 2: анализатор веществ далеко
+        else if (!state.SolutionAnalyzerInRange)
+        {
+            SolutionAnalyzerMissing.Visible = false;
+            SolutionAnalyzerFar.Visible = true;
+            SolutionAnalyzerContents.Visible = false;
+        }
+        // Состояние 3: анализатор веществ доступен
+        else
+        {
+            SolutionAnalyzerMissing.Visible = false;
+            SolutionAnalyzerFar.Visible = false;
+            SolutionAnalyzerContents.Visible = true;
+        }
+
         // Состояние 1: сервер недоступен
         if (!state.DataServerConnected)
         {

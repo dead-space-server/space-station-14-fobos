@@ -76,6 +76,10 @@ virus-diagnoser-generate-button = Сгенерировать вирус
 virus-diagnoser-missing = Нет соединения с диагностом
 virus-diagnoser-far = Диагност находится слишком далеко
 
+# Solution аналайзер
+virus-solution-analyser-start-analys-button = Запустить анализ
+virus-solution-analyser-missing = Нет соединения с анализатором веществ
+virus-solution-analyser-far = Анализатор веществ находится слишком далеко
 
 # Ports
 

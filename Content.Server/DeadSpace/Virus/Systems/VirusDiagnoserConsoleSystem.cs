@@ -201,12 +201,17 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
         if (console.Comp.VirusDiagnoser != null)
         {
             Transform(console.Comp.VirusDiagnoser.Value).Coordinates.TryDistance(EntityManager, Transform(console).Coordinates, out distance);
-            console.Comp.DiagnoserInRange = distance <= console.Comp.MaxDistanceForDiagnoser;
+            console.Comp.DiagnoserInRange = distance <= console.Comp.MaxDistanceForOther;
         }
         if (console.Comp.VirusDiagnoserDataServer != null)
         {
             Transform(console.Comp.VirusDiagnoserDataServer.Value).Coordinates.TryDistance(EntityManager, Transform(console).Coordinates, out distance);
             console.Comp.DataServerInRange = distance <= console.Comp.MaxDistanceForDataServer;
+        }
+        if (console.Comp.VirusSolutionAnalyzer != null)
+        {
+            Transform(console.Comp.VirusSolutionAnalyzer.Value).Coordinates.TryDistance(EntityManager, Transform(console).Coordinates, out distance);
+            console.Comp.SolutionAnalyzerInRange = distance <= console.Comp.MaxDistanceForOther;
         }
 
         UpdateUserInterface((console, console.Comp));
@@ -224,13 +229,16 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
 
         var diagnoserConnected = console.Comp.VirusDiagnoser != null;
         var dataServerConnected = console.Comp.VirusDiagnoserDataServer != null;
+        var solutionAnalyzerConnected = console.Comp.VirusSolutionAnalyzer != null;
 
         return new VirusDiagnoserConsoleBoundUserInterfaceState(
             strains,
             diagnoserConnected,
             dataServerConnected,
+            solutionAnalyzerConnected,
             console.Comp.DiagnoserInRange,
-            console.Comp.DataServerInRange
+            console.Comp.DataServerInRange,
+            console.Comp.SolutionAnalyzerInRange
         );
     }
 

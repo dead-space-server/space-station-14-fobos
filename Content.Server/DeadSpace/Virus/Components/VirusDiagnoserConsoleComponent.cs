@@ -20,16 +20,22 @@ public sealed partial class VirusDiagnoserConsoleComponent : Component
     [ViewVariables(VVAccess.ReadOnly)]
     public EntityUid? VirusDiagnoserDataServer = null;
 
+    [ViewVariables(VVAccess.ReadOnly)]
+    public EntityUid? VirusSolutionAnalyzer = null;
+
     [DataField]
     public float MaxDistanceForDataServer = 50f;
 
     [DataField]
-    public float MaxDistanceForDiagnoser = 4f;
+    public float MaxDistanceForOther = 4f;
 
     [ViewVariables(VVAccess.ReadOnly)]
     public bool DataServerInRange = true;
 
     [ViewVariables(VVAccess.ReadOnly)]
     public bool DiagnoserInRange = true;
+
+    [ViewVariables(VVAccess.ReadOnly)]
+    public bool SolutionAnalyzerInRange = true;
 }
 
