@@ -601,7 +601,7 @@ public sealed class FaxSystem : EntitySystem
         {
             component.FaxHistory.RemoveAt(0);
         }
-        var shiftTime = _gameTiming.CurTime;
+        var shiftTime = _gameTiming.CurTime.Subtract(_gameTicker.RoundStartTimeSpan);
         component.FaxHistory.Add((TimeSpan.FromSeconds(shiftTime.TotalSeconds).ToString(@"hh\:mm\:ss"),"Получено: "+faxName));
         // DS14-end
 
