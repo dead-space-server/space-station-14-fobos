@@ -49,8 +49,8 @@ virus-report-medicine-none = Не обнаружена
 virus-report-symptoms-header = Активные симптомы:
 virus-report-symptoms-none = Не выявлены
 
-virus-report-species-header = Допустимые к заражению расы/виды:
-virus-report-species-any = Не выявлены
+virus-report-bodyes-header = Допустимые к заражению организмы:
+virus-report-body-any = Не выявлены
 
 virus-report-footer = Отчёт сгенерирован вирусным диагностическим модулем.
 
@@ -80,6 +80,32 @@ virus-diagnoser-far = Диагност находится слишком дал�
 virus-solution-analyser-start-analys-button = Запустить анализ
 virus-solution-analyser-missing = Нет соединения с анализатором веществ
 virus-solution-analyser-far = Анализатор веществ находится слишком далеко
+
+## UI Evolution
+
+### Заголовок окна
+virus-evolution-window-title = Эволюция вируса
+
+### Вкладка симптомов
+virus-evolution-available-symptoms = Доступные симптомы
+virus-evolution-active-symptoms = Активные симптомы
+virus-evolution-buy-button = Купить
+virus-evolution-not-enough-points = Недостаточно очков мутации
+
+### Вкладка whitelist
+virus-evolution-whitelist = Доступные организмы
+virus-evolution-buy-body = Разблокировать организм
+
+### Описание
+virus-evolution-description-header = Описание симптома
+
+### Ошибки
+virus-evolution-error-no-selection = Симптом не выбран
+virus-evolution-error-body-no-selection = Организм не выбран
+
+### Стоимость
+virus-evolution-cost-label = Стоимость: { $cost }
+virus-evolution-mutation-points = Очки мутации: { $points }
 
 # Ports
 

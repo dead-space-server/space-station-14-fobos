@@ -3,6 +3,7 @@ using Robust.Client.UserInterface.CustomControls;
 using Robust.Client.UserInterface.XAML;
 using Content.Shared.Virus;
 using System.Linq;
+using Robust.Shared.Utility;
 
 namespace Content.Client.DeadSpace.Virus.UI;
 
@@ -26,6 +27,11 @@ public sealed partial class VirusDiagnoserConsoleWindow : DefaultWindow
     public void Populate(VirusDiagnoserConsoleBoundUserInterfaceState state)
     {
         _lastUpdate = state;
+
+        var amountMsg = new FormattedMessage();
+        amountMsg.AddMarkupOrThrow(Loc.GetString("research-console-menu-research-points-text",
+            ("points", state.Points)));
+        ResearchAmountLabel.SetMessage(amountMsg);
 
         // Состояние 1: анализатор веществ недоступен
         if (!state.SolutionAnalyzerConnected)
@@ -73,9 +79,9 @@ public sealed partial class VirusDiagnoserConsoleWindow : DefaultWindow
             // Обновление списка штаммов
             StrainList.Clear();
 
-            foreach (var strain in state.Strains)
+            foreach (var record in state.Strains)
             {
-                StrainList.AddItem(strain);
+                StrainList.AddItem(record.Strain + "-" + record.Time);
             }
 
             UpdateServerTabButtons();

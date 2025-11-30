@@ -16,6 +16,7 @@ using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Content.Server.DeadSpace.Virus.Symptoms;
 using Content.Shared.Tag;
+using Content.Shared.Body.Components;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -336,7 +337,10 @@ public sealed partial class VirusSystem : EntitySystem
         if (!_whitelist.IsWhitelistPass(component.Data.EntityWhitelist, target))
             return false;
 
-        if (TryComp<HumanoidAppearanceComponent>(target, out var humanoid) && !component.Data.SpeciesWhitelist.Contains(_prototype.Index(humanoid.Species)))
+        // Должно быть тело!
+        if (TryComp<BodyComponent>(target, out var body)
+            && body.Prototype != null
+            && !component.Data.BodyWhitelist.Contains(_prototype.Index(body.Prototype.Value)))
             return false;
 
         return true;

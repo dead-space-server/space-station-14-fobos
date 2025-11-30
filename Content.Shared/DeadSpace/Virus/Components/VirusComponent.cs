@@ -9,6 +9,7 @@ using System.Linq;
 using Robust.Shared.Serialization;
 using Content.Shared.DeadSpace.Virus.Prototypes;
 using Content.Shared.DeadSpace.TimeWindow;
+using Content.Shared.Body.Prototypes;
 
 namespace Content.Shared.DeadSpace.Virus.Components;
 
@@ -106,7 +107,7 @@ public sealed partial class VirusData : ReagentData
     ///     Допустимые к заражению расы.
     /// </summary>
     [DataField]
-    public List<ProtoId<SpeciesPrototype>> SpeciesWhitelist = new();
+    public List<ProtoId<BodyPrototype>> BodyWhitelist = new();
 
     public override bool Equals(ReagentData? other)
     {
@@ -128,7 +129,7 @@ public sealed partial class VirusData : ReagentData
         if (!MathHelper.CloseTo(Infectivity, o.Infectivity))
             return false;
 
-        if (!SpeciesWhitelist.SequenceEqual(o.SpeciesWhitelist))
+        if (!BodyWhitelist.SequenceEqual(o.BodyWhitelist))
             return false;
 
         if (MedicineResistance.Count != o.MedicineResistance.Count ||
@@ -162,7 +163,7 @@ public sealed partial class VirusData : ReagentData
             MedicineResistance = MedicineResistance
                 .ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
 
-            SpeciesWhitelist = new List<ProtoId<SpeciesPrototype>>(SpeciesWhitelist),
+            BodyWhitelist = BodyWhitelist,
 
             EntityWhitelist = EntityWhitelist is null
                 ? null
@@ -192,7 +193,7 @@ public sealed partial class VirusData : ReagentData
             hash.Add(kvp.Value);
         }
 
-        foreach (var s in SpeciesWhitelist)
+        foreach (var s in BodyWhitelist)
             hash.Add(s);
 
         foreach (var symptom in ActiveSymptom)

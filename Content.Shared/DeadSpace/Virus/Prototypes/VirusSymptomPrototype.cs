@@ -21,6 +21,12 @@ public sealed partial class VirusSymptomPrototype : IPrototype
     public float MutationWeight = 1f;
 
     /// <summary>
+    ///     Цена мутации.
+    /// </summary>
+    [DataField]
+    public float Price = 100f;
+
+    /// <summary>
     ///     Тип симптома.
     /// </summary>
     [DataField(required: true)]

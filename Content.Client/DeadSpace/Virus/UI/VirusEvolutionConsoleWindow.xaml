@@ -1,0 +1,60 @@
+<!--Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT-->
+
+<DefaultWindow xmlns="https://spacestation14.io"
+            Title="{Loc 'virus-evolution-window-title'}"
+            MinSize="750 500"
+            SetSize="900 600">
+
+    <TabContainer Name="MasterTabContainer">
+
+        <!-- Вкладка симптомов -->
+        <BoxContainer Name="EvolutionTab"
+                    Orientation="Horizontal"
+                    HorizontalExpand="True"
+                    VerticalExpand="True">
+
+            <!-- Доступные симптомы -->
+            <PanelContainer MinWidth="200" Margin="10">
+                <Label Text="{Loc 'virus-evolution-available-symptoms'}" />
+                <ScrollContainer>
+                    <ItemList Name="AvailableSymptomsList"
+                            Access="Public"
+                            VerticalExpand="True"
+                            SelectMode="Single" />
+                </ScrollContainer>
+            </PanelContainer>
+
+            <!-- Центральное описание -->
+            <PanelContainer Margin="10" HorizontalExpand="True" VerticalExpand="True">
+                <Label Text="{Loc 'virus-evolution-description-header'}" />
+                <RichTextLabel Name="SymptomDescription"/>
+                <Button Name="BuySymptomButton" Text="{Loc 'virus-evolution-buy-button'}" Disabled="True"/>
+                <Label Name="MutationPointsLabel" Text="{Loc 'virus-evolution-mutation-points'}" />
+                <Label Name="SymptomCostLabel" Text="{Loc 'virus-evolution-cost-label'}" />
+            </PanelContainer>
+
+            <!-- Активные симптомы -->
+            <PanelContainer MinWidth="200" Margin="10">
+                <Label Text="{Loc 'virus-evolution-active-symptoms'}" />
+                <ScrollContainer>
+                    <ItemList Name="ActiveSymptomsList"
+                            Access="Public"
+                            VerticalExpand="True"
+                            SelectMode="None" />
+                </ScrollContainer>
+            </PanelContainer>
+
+        </BoxContainer>
+
+        <!-- Вкладка whitelist -->
+        <BoxContainer Name="WhitelistTab" Orientation="Vertical" Margin="10">
+            <Label Text="{Loc 'virus-evolution-whitelist'}" />
+            <ScrollContainer VerticalExpand="True">
+                <ItemList Name="BodyWhitelistList" VerticalExpand="True" SelectMode="Single" />
+            </ScrollContainer>
+            <Button Name="BuyBodyButton" Text="{Loc 'virus-evolution-buy-body'}" Disabled="True"/>
+        </BoxContainer>
+
+    </TabContainer>
+
+</DefaultWindow>

@@ -21,6 +21,7 @@ using Content.Shared.Chemistry.Components;
 using Content.Shared.Chemistry.Reagent;
 using Content.Shared.Virus;
 using Content.Shared.DeadSpace.Virus.Prototypes;
+using Content.Shared.Body.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -230,18 +231,18 @@ public sealed class VirusDiagnoserSystem : EntitySystem
                     return id;
                 }));
 
-        // 2) виды (SpeciesWhitelist)
-        string speciesText;
-        if (data.SpeciesWhitelist == null || data.SpeciesWhitelist.Count == 0)
+        // 2) виды (BodyWhitelist)
+        string bodyText;
+        if (data.BodyWhitelist == null || data.BodyWhitelist.Count == 0)
         {
-            speciesText = Loc.GetString("virus-report-species-any");
+            bodyText = Loc.GetString("virus-report-body-any");
         }
         else
         {
             var names = new List<string>();
-            foreach (var protoId in data.SpeciesWhitelist)
+            foreach (var protoId in data.BodyWhitelist)
             {
-                if (_prototypeManager.TryIndex(protoId, out SpeciesPrototype? sp))
+                if (_prototypeManager.TryIndex(protoId, out BodyPrototype? sp))
                 {
                     // используем локализованное имя, если доступно; иначе ID
                     var display = sp?.Name ?? protoId.ToString();
@@ -253,7 +254,7 @@ public sealed class VirusDiagnoserSystem : EntitySystem
                 }
             }
 
-            speciesText = string.Join(", ", names);
+            bodyText = string.Join(", ", names);
         }
 
         // 3) медицина
@@ -301,8 +302,8 @@ public sealed class VirusDiagnoserSystem : EntitySystem
         {Loc.GetString("virus-report-symptoms-header")}
         {(string.IsNullOrWhiteSpace(symptomsText) ? Loc.GetString("virus-report-symptoms-none") : symptomsText)}
 
-        {Loc.GetString("virus-report-species-header")}
-        {speciesText}
+        {Loc.GetString("virus-report-bodyes-header")}
+        {bodyText}
 
         [small]{Loc.GetString("virus-report-footer")}[/small]
         ";

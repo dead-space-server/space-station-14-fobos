@@ -23,6 +23,8 @@
 
                     <Label Text="{Loc 'virus-diagnoser-server-strains-label'}"
                            HorizontalAlignment="Center" />
+                    
+                    <RichTextLabel Name="ResearchAmountLabel"/>
 
                     <ItemList Name="StrainList"
                               Access="Public"

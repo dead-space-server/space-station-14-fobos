@@ -13,7 +13,8 @@ public enum VirusDiagnoserConsoleUiKey : byte
 [Serializable, NetSerializable]
 public sealed class VirusDiagnoserConsoleBoundUserInterfaceState : BoundUserInterfaceState
 {
-    public readonly List<string> Strains = new();
+    public readonly List<VirusStrainRecord> Strains = new();
+    public readonly int Points;
     public readonly bool DiagnoserConnected;
     public readonly bool DataServerConnected;
     public readonly bool SolutionAnalyzerConnected;
@@ -21,7 +22,8 @@ public sealed class VirusDiagnoserConsoleBoundUserInterfaceState : BoundUserInte
     public readonly bool DataServerInRange;
     public readonly bool SolutionAnalyzerInRange;
     public VirusDiagnoserConsoleBoundUserInterfaceState(
-        List<string>? strains = null,
+        List<VirusStrainRecord>? strains = null,
+        int points = 0,
         bool diagnoserConnected = false,
         bool dataServerConnected = false,
         bool solutionAnalyzerConnected = false,
@@ -29,7 +31,8 @@ public sealed class VirusDiagnoserConsoleBoundUserInterfaceState : BoundUserInte
         bool dataServerInRange = false,
         bool solutionAnalyzerInRange = false)
     {
-        Strains = strains ?? new List<string>();
+        Strains = strains ?? new List<VirusStrainRecord>();
+        Points = points;
         DiagnoserConnected = diagnoserConnected;
         DataServerConnected = dataServerConnected;
         SolutionAnalyzerConnected = solutionAnalyzerConnected;
@@ -38,6 +41,30 @@ public sealed class VirusDiagnoserConsoleBoundUserInterfaceState : BoundUserInte
         SolutionAnalyzerInRange = solutionAnalyzerInRange;
     }
 }
+
+
+[Serializable, NetSerializable]
+public readonly struct VirusStrainRecord : IEquatable<VirusStrainRecord>
+{
+    public readonly string Strain;
+    public readonly string Time;
+
+    public VirusStrainRecord(string strain, string time)
+    {
+        Strain = strain;
+        Time = time;
+    }
+
+    public bool Equals(VirusStrainRecord other) =>
+        Strain == other.Strain && Time == other.Time;
+
+    public override bool Equals(object? obj) =>
+        obj is VirusStrainRecord other && Equals(other);
+
+    public override int GetHashCode() =>
+        HashCode.Combine(Strain, Time);
+}
+
 
 [Serializable, NetSerializable]
 public enum UiButton : byte

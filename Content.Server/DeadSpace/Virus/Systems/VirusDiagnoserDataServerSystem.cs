@@ -5,6 +5,8 @@ using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeviceLinking.Events;
 using Content.Server.Power.EntitySystems;
 using System.Linq;
+using Content.Shared.Virus;
+using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -12,6 +14,7 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
 {
     [Dependency] private readonly VirusDiagnoserConsoleSystem _console = default!;
     [Dependency] private readonly PowerReceiverSystem _powerReceiverSystem = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
     public override void Initialize()
     {
         base.Initialize();
@@ -20,24 +23,37 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
         SubscribeLocalEvent<VirusDiagnoserDataServerComponent, PortDisconnectedEvent>(OnPortDisconnected);
     }
 
-    private void OnPortDisconnected(Entity<VirusDiagnoserDataServerComponent> ent, ref PortDisconnectedEvent args)
+    private void OnPortDisconnected(Entity<VirusDiagnoserDataServerComponent> server, ref PortDisconnectedEvent args)
     {
-        if (args.Port == ent.Comp.VirusDiagnoserDataServerPort)
-            ent.Comp.ConnectedConsole = null;
+        if (args.Port == server.Comp.VirusDiagnoserDataServerPort)
+            server.Comp.ConnectedConsole = null;
     }
 
-    private void OnAnchor(Entity<VirusDiagnoserDataServerComponent> ent, ref AnchorStateChangedEvent args)
+    private void OnAnchor(Entity<VirusDiagnoserDataServerComponent> server, ref AnchorStateChangedEvent args)
     {
-        if (ent.Comp.ConnectedConsole == null || !TryComp<VirusDiagnoserConsoleComponent>(ent.Comp.ConnectedConsole, out var console))
+        if (server.Comp.ConnectedConsole == null || !TryComp<VirusDiagnoserConsoleComponent>(server.Comp.ConnectedConsole, out var console))
             return;
 
         if (args.Anchored)
         {
-            _console.RecheckConnections((ent.Comp.ConnectedConsole.Value, console));
+            _console.RecheckConnections((server.Comp.ConnectedConsole.Value, console));
             return;
         }
 
-        _console.UpdateUserInterface((ent.Comp.ConnectedConsole.Value, console));
+        _console.UpdateUserInterface((server.Comp.ConnectedConsole.Value, console));
+    }
+
+    public void AddPoints(Entity<VirusDiagnoserDataServerComponent?> server, int points)
+    {
+        if (!Resolve(server, ref server.Comp, false))
+            return;
+
+        server.Comp.Points += points;
+
+        if (server.Comp.ConnectedConsole == null || !TryComp<VirusDiagnoserConsoleComponent>(server.Comp.ConnectedConsole, out var console))
+            return;
+
+        _console.UpdateUserInterface((server.Comp.ConnectedConsole.Value, console));
     }
 
     public void SaveData(Entity<VirusDiagnoserDataServerComponent?> server, VirusData data)
@@ -48,9 +64,15 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
         if (!_powerReceiverSystem.IsPowered(server))
             return;
 
-        server.Comp.StrainData[data.StrainId] = (VirusData)data.Clone();
-    }
+        var timeFormatted = _timing.CurTime.ToString(@"hh\:mm\:ss");
 
+        var record = new VirusStrainRecord(
+            data.StrainId,
+            timeFormatted
+        );
+
+        server.Comp.StrainData[record] = (VirusData)data.Clone();
+    }
 
     public void DeleteData(Entity<VirusDiagnoserDataServerComponent?> server, string strainId)
     {
@@ -60,10 +82,11 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
         if (!_powerReceiverSystem.IsPowered(server))
             return;
 
-        if (!server.Comp.StrainData.ContainsKey(strainId))
-            return;
+        var key = server.Comp.StrainData.Keys
+            .FirstOrDefault(k => k.Strain == strainId);
 
-        server.Comp.StrainData.Remove(strainId);
+        if (!key.Equals(default(VirusStrainRecord)))
+            server.Comp.StrainData.Remove(key);
     }
 
     public VirusData? GetData(Entity<VirusDiagnoserDataServerComponent?> server, string strainId)
@@ -74,16 +97,21 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
         if (!_powerReceiverSystem.IsPowered(server))
             return null;
 
-        if (!server.Comp.StrainData.TryGetValue(strainId, out var data))
+        var entry = server.Comp.StrainData
+                    .FirstOrDefault(kvp => kvp.Key.Strain == strainId);
+
+        // Проверка: если ключ по умолчанию — значит ничего не найдено
+        if (EqualityComparer<KeyValuePair<VirusStrainRecord, VirusData>>.Default.Equals(entry, default))
             return null;
 
+        var data = entry.Value;
         return (VirusData)data.Clone();
     }
 
-    public List<string> GetAllStrains(Entity<VirusDiagnoserDataServerComponent?> server)
+    public List<VirusStrainRecord> GetAllStrains(Entity<VirusDiagnoserDataServerComponent?> server)
     {
         if (!Resolve(server, ref server.Comp, false))
-            return new List<string>();
+            return new List<VirusStrainRecord>();
 
         return server.Comp.StrainData.Keys.ToList();
     }

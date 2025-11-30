@@ -237,10 +237,21 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
         if (!Resolve(console, ref console.Comp, false))
             return default!;
 
-        var strains = console.Comp.VirusDiagnoserDataServer != null &&
-                    TryComp<VirusDiagnoserDataServerComponent>(console.Comp.VirusDiagnoserDataServer, out var dataServer)
-            ? _dataServer.GetAllStrains((console.Comp.VirusDiagnoserDataServer.Value, dataServer))
-            : new List<string>();
+        VirusDiagnoserDataServerComponent? dataServer = null;
+
+        List<VirusStrainRecord> strains;
+
+        if (console.Comp.VirusDiagnoserDataServer != null &&
+            TryComp(console.Comp.VirusDiagnoserDataServer, out dataServer))
+        {
+            strains = _dataServer.GetAllStrains((console.Comp.VirusDiagnoserDataServer.Value, dataServer));
+        }
+        else
+        {
+            strains = new List<VirusStrainRecord>();
+        }
+
+        var points = dataServer?.Points ?? 0;
 
         var diagnoserConnected = console.Comp.VirusDiagnoser != null;
         var dataServerConnected = console.Comp.VirusDiagnoserDataServer != null;
@@ -248,6 +259,7 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
 
         return new VirusDiagnoserConsoleBoundUserInterfaceState(
             strains,
+            points,
             diagnoserConnected,
             dataServerConnected,
             solutionAnalyzerConnected,
@@ -256,6 +268,7 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
             console.Comp.SolutionAnalyzerInRange
         );
     }
+
 
 }
 

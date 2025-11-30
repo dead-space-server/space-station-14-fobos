@@ -14,8 +14,7 @@ namespace Content.Client.DeadSpace.Virus.UI
         private VirusDiagnoserConsoleWindow? _window;
 
         public VirusDiagnoserConsoleBoundUserInterface(EntityUid owner, Enum uiKey) : base(owner, uiKey)
-        {
-        }
+        { }
 
         protected override void Open()
         {
@@ -31,19 +30,19 @@ namespace Content.Client.DeadSpace.Virus.UI
 
             _window.GenerateVirusButton.OnPressed += _ =>
             {
-                var strainName = _window.StrainList.GetSelected().FirstOrDefault()?.Text;
+                var strainName = GenSelectedRecord();
                 SendMessage(new UiButtonPressedMessage(UiButton.GenerateVirus, strainName));
             };
 
             _window.PrintReportButton.OnPressed += _ =>
             {
-                var strainName = _window.StrainList.GetSelected().FirstOrDefault()?.Text;
+                var strainName = GenSelectedRecord();
                 SendMessage(new UiButtonPressedMessage(UiButton.PrintReport, strainName));
             };
 
             _window.DeleteStrainButton.OnPressed += _ =>
             {
-                var strainName = _window.StrainList.GetSelected().FirstOrDefault()?.Text;
+                var strainName = GenSelectedRecord();
                 SendMessage(new UiButtonPressedMessage(UiButton.DeleteData, strainName));
             };
         }
@@ -53,6 +52,19 @@ namespace Content.Client.DeadSpace.Virus.UI
             base.UpdateState(state);
 
             _window?.Populate((VirusDiagnoserConsoleBoundUserInterfaceState)state);
+        }
+
+        private string? GenSelectedRecord()
+        {
+            if (_window == null)
+                return null;
+
+            var strainName = _window.StrainList.GetSelected().FirstOrDefault()?.Text;
+
+            if (strainName == null)
+                return null;
+
+            return strainName.Split('-')[0];
         }
     }
 }

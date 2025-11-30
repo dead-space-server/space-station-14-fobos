@@ -12,12 +12,12 @@ using Robust.Shared.Timing;
 using Robust.Shared.Random;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
-using Content.Shared.DeadSpace.Virus.Symptoms;
 using System.Linq;
 using Content.Shared.Humanoid.Prototypes;
 using Robust.Shared.Prototypes;
 using Content.Shared.Destructible;
 using Content.Shared.DeadSpace.Virus.Prototypes;
+using Content.Shared.Body.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -37,9 +37,9 @@ public sealed class VirusMutationSystem : EntitySystem
     private const float RangeInfectAfteDest = default!;
 
     /// <summary>
-    ///     Список всех Species и симптомов, да, при загрузке прототипа Species его тут не будет.
+    ///     Список всех body и симптомов, да, при загрузке прототипа body его тут не будет.
     /// </summary>
-    private List<ProtoId<SpeciesPrototype>> _allSpeciesCache = new();
+    private List<ProtoId<BodyPrototype>> _allBodyCache = new();
     private List<ProtoId<VirusSymptomPrototype>> _allSymptomsCache = new();
 
 
@@ -49,17 +49,17 @@ public sealed class VirusMutationSystem : EntitySystem
     private const int MutateAttempts = 5;
 
     /// <summary>
-    ///     Вероятность мутации species.
+    ///     Вероятность мутации body.
     /// </summary>
-    private const float SpeciesMutateChance = 0.3f;
+    private const float BodyMutateChance = 0.3f;
     public override void Initialize()
     {
         base.Initialize();
 
         _sawmill = _logManager.GetSawmill("VirusMutationSystem");
 
-        foreach (var proto in _prototype.EnumeratePrototypes<SpeciesPrototype>())
-            _allSpeciesCache.Add(proto.ID);
+        foreach (var proto in _prototype.EnumeratePrototypes<BodyPrototype>())
+            _allBodyCache.Add(proto.ID);
 
         foreach (var proto in _prototype.EnumeratePrototypes<VirusSymptomPrototype>())
             _allSymptomsCache.Add(proto.ID);
@@ -142,7 +142,7 @@ public sealed class VirusMutationSystem : EntitySystem
         MutateSymptom((host, host.Comp1, host.Comp2));
 
         // Попытка мутации расы
-        MutateSpecies((host, host.Comp1, host.Comp2));
+        MutateBody((host, host.Comp1, host.Comp2));
     }
 
     private void MutateSymptom(Entity<VirusMutationComponent?, VirusComponent?> host)
@@ -200,7 +200,7 @@ public sealed class VirusMutationSystem : EntitySystem
 
     }
 
-    private void MutateSpecies(Entity<VirusMutationComponent?, VirusComponent?> host)
+    private void MutateBody(Entity<VirusMutationComponent?, VirusComponent?> host)
     {
         if (!Resolve(host, ref host.Comp1, false))
             return;
@@ -208,25 +208,25 @@ public sealed class VirusMutationSystem : EntitySystem
         if (!Resolve(host, ref host.Comp2, false))
             return;
 
-        var available = _allSpeciesCache
-            .Where(s => !host.Comp2.Data.SpeciesWhitelist.Contains(s))
+        var available = _allBodyCache
+            .Where(s => !host.Comp2.Data.BodyWhitelist.Contains(s))
             .ToList();
 
         if (available.Count == 0)
             return;
 
         // Расчёт стоимостей
-        var finalSpeciesChance = (host.Comp1.AddMutationChance + SpeciesMutateChance) / host.Comp2.Data.SpeciesWhitelist.Count;
+        var finalSpeciesChance = (host.Comp1.AddMutationChance + BodyMutateChance) / host.Comp2.Data.BodyWhitelist.Count;
 
         if (_random.Prob(finalSpeciesChance))
         {
             var pick = _random.Pick(available);
-            host.Comp2.Data.SpeciesWhitelist.Add(pick);
+            host.Comp2.Data.BodyWhitelist.Add(pick);
 
             _sawmill.Debug(
                 $"Добавлена новая раса: '{pick}'. " +
                 $"Штамм='{host.Comp2.Data.StrainId}'. " +
-                $"ТекущийWhitelist=[{string.Join(", ", host.Comp2.Data.SpeciesWhitelist)}]"
+                $"ТекущийWhitelist=[{string.Join(", ", host.Comp2.Data.BodyWhitelist)}]"
             );
         }
     }

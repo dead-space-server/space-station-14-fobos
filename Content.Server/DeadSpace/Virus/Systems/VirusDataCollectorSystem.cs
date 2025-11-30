@@ -13,6 +13,7 @@ using Content.Shared.Humanoid.Prototypes;
 using System.Linq;
 using Content.Shared.Popups;
 using Content.Shared.Forensics.Components;
+using Content.Shared.Body.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -73,7 +74,7 @@ public sealed class VirusDataCollectorSystem : EntitySystem
             ActiveSymptom = virus.Data.ActiveSymptom,
             EntityWhitelist = virus.Data.EntityWhitelist,
             MedicineResistance = new Dictionary<ProtoId<ReagentPrototype>, float>(virus.Data.MedicineResistance),
-            SpeciesWhitelist = new List<ProtoId<SpeciesPrototype>>(virus.Data.SpeciesWhitelist)
+            BodyWhitelist = virus.Data.BodyWhitelist
         };
 
         entity.Comp.Data = data;
