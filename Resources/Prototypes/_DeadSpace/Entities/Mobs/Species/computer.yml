@@ -114,6 +114,7 @@
       Male: IPSIPC
       Female: IPSIPC
       Unsexed: IPSIPC
+  - type: DamagedSiliconAccent
   - type: Language
     selectedLanguage: GeneralLanguage
     knownLanguages:
