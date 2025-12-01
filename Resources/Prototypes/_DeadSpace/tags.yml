@@ -179,6 +179,9 @@
   id: RedFlower
 
 - type: Tag
+  id: Nanopaste
+
+- type: Tag
   id: Necro
 
 - type: Tag
