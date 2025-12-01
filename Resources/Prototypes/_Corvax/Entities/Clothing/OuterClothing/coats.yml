@@ -75,7 +75,7 @@
           Heat: 0.9
 
 - type: entity
-  parent: ClothingOuterStorageFoldableBase
+  parent: ClothingOuterStorageFoldableBase # DS14
   id: ClothingOuterCoatLabSecurityMedic
   name: security medic labcoat
   description: A suit that protects against minor chemical spills.
