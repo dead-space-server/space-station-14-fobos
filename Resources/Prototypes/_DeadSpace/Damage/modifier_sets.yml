@@ -1,4 +1,4 @@
-﻿- type: damageModifierSet
+- type: damageModifierSet
   id: Fur
   coefficients:
     Cold: 0.5
@@ -21,3 +21,12 @@
     Shock: 1.2
     Heat: 1.5
     Caustic: 0.5
+
+- type: damageModifierSet
+  id: SuperSoldier
+  coefficients:
+    Blunt: 0.8
+    Slash: 0.8
+    Piercing: 0.85
+    Cold: 0.5
+    Poison: 0.8
