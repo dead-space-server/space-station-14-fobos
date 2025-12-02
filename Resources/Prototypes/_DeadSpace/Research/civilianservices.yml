@@ -8,6 +8,6 @@
     state: icon
   discipline: CivilianServices
   tier: 3
-  cost: 30000
+  cost: 15000
   recipeUnlocks:
   - CompactDefibrillator
