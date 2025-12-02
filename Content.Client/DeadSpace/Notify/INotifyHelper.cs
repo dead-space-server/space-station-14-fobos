@@ -8,6 +8,7 @@ namespace Content.Client.DeadSpace.NotifySystem.NotifyHelpers
 {
     public interface INotifyHelper
     {
+        void Initialize();
         bool GetValueAccess(string key);
         void SetValueAccess(string key, bool value);
         IReadOnlyDictionary<string, bool> GetDictionaryAccess();

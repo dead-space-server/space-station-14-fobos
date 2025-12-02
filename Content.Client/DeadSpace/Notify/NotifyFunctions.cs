@@ -13,24 +13,16 @@ namespace Content.Client.DeadSpace.NotifySystem.NotifyHelpers;
 
 public sealed class NotifyHelper : INotifyHelper
 {
-    private readonly ILogManager _logManager;
-    private readonly IPrototypeManager _prototypeManager;
-    private readonly IConfigurationManager _cfg;
-    private readonly ISawmill _sawmill;
+    private ISawmill _sawmill = default!;
 
-    public NotifyHelper(ILogManager logManager, IPrototypeManager prototypeManager, IConfigurationManager cfg)
+    [Dependency] private readonly IConfigurationManager _cfg = default!;
+    [Dependency] private readonly ILogManager _logManager = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    public void Initialize()
     {
-        _logManager = logManager;
-        _prototypeManager = prototypeManager;
-        _cfg = cfg;
         _sawmill = _logManager.GetSawmill("NotifyHelper");
     }
 
-    // Остальной код
-
-    //ILogManager _logManager = IoCManager.Resolve<ILogManager>();
-    //IPrototypeManager _prototypeManager = IoCManager.Resolve<IPrototypeManager>();
-    //IConfigurationManager _cfg = IoCManager.Resolve<IConfigurationManager>();
     private ConcurrentDictionary<string, bool> DictCvar = new ConcurrentDictionary<string, bool>();
     private ConcurrentDictionary<string, bool> DictAccess = new ConcurrentDictionary<string, bool>();
 
