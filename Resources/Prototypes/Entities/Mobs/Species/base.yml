@@ -55,6 +55,12 @@
       sprite: Objects/Misc/handcuffs.rsi
       state: body-overlay-2
       visible: false
+    #DS14-start
+    - map: ["enum.HumanoidVisualLayers.RevenantEyes"]
+      sprite: Mobs/Ghosts/revenant.rsi
+      state: revenant_eyes
+      visible: false
+    #DS14-end
     - map: [ "clownedon" ] # Dynamically generated
       sprite: "Effects/creampie.rsi"
       state: "creampie_human"

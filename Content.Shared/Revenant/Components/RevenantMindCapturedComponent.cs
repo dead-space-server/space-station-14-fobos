@@ -4,10 +4,11 @@ using Robust.Shared.Prototypes;
 using Content.Shared.DeadSpace.Languages.Prototypes;
 using Robust.Shared.Containers;
 using Content.Shared.FixedPoint;
+using Robust.Shared.GameStates;
 
-namespace Content.Server.Revenant.Components;
+namespace Content.Shared.Revenant.Components;
 
-[RegisterComponent]
+[RegisterComponent, NetworkedComponent]
 public sealed partial class RevenantMindCapturedComponent : Component
 {
     public RevenantMindCapturedComponent(EntityUid revenant, FixedPoint2 deadThreshold, FixedPoint2 critThreshold)
@@ -46,5 +47,4 @@ public sealed partial class RevenantMindCapturedComponent : Component
 
     [ViewVariables(VVAccess.ReadOnly)]
     public FixedPoint2 CritThreshold = default!;
-
 }

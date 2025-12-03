@@ -1,17 +1,16 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
-using Content.Server.Revenant.Components;
 using Content.Server.Ghost;
 using Content.Shared.Mind;
 using Content.Shared.Damage;
 using Content.Shared.Mobs.Systems;
-using Content.Shared.Mobs.Components;
 using Content.Shared.Ghost;
 using Content.Shared.Corvax.TTS;
 using Content.Shared.Mind.Components;
 using Content.Shared.DeadSpace.Languages.Components;
 using Robust.Shared.Containers;
 using Content.Shared.Mobs;
+using Content.Shared.Revenant.Components;
 
 namespace Content.Server.Revenant.EntitySystems;
 
@@ -28,7 +27,6 @@ public sealed class RevenantMindCapturedSystem : EntitySystem
         SubscribeLocalEvent<RevenantMindCapturedComponent, MindUnvisitedMessage>(OnUnvisited);
         SubscribeLocalEvent<RevenantMindCapturedComponent, MobStateChangedEvent>(OnStateChange);
     }
-
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
