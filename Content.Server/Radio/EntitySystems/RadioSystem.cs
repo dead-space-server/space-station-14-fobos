@@ -19,6 +19,7 @@ using Content.Shared.Access.Components;
 using System.Text.RegularExpressions;
 using Content.Shared.DeadSpace.Languages.Components;
 using Content.Server.DeadSpace.Languages;
+using Content.Shared.DeadSpace.Languages.Prototypes;
 
 namespace Content.Server.Radio.EntitySystems;
 
@@ -82,7 +83,7 @@ public sealed class RadioSystem : EntitySystem
         // DS14-Languages-start
         var msg = args.ChatMsg;
 
-        if (!_language.KnowsLanguage(uid, args.LanguageId))
+        if (args.LanguageId != null && !_language.KnowsLanguage(uid, args.LanguageId.Value))
             msg = args.LexiconChatMsg;
 
         // DS14-Languages-end
@@ -149,12 +150,19 @@ public sealed class RadioSystem : EntitySystem
         }
 
         content = Highlight(content);
+        ProtoId<LanguagePrototype>? languageId = null;
 
-        var wrappedMessage = Loc.GetString(speech.Bold ? "chat-radio-message-wrap-bold" : "chat-radio-message-wrap",
+        if (TryComp<LanguageComponent>(messageSource, out var language))
+            languageId = language.SelectedLanguage;
+
+        string langName = _language.GetLangName(languageId);
+
+        var wrappedMessage = Loc.GetString(speech.Bold ? "chat-radio-message-wrap-bold-lang" : "chat-radio-message-wrap-lang",
             ("channel-color", channel.Color),
             ("fontType", speech.FontId),
             ("fontSize", speech.FontSize),
             ("verb", Loc.GetString(_random.Pick(speech.SpeechVerbStrings))),
+            ("language", Loc.GetString(langName)),
             ("channel", $"\\[{channel.LocalizedName}\\]"),
             ("name", name),
             ("message", content),
@@ -176,7 +184,7 @@ public sealed class RadioSystem : EntitySystem
         var lexiconMessage = message;
         var chatMsgLexicon = chatMsg;
 
-        if (TryComp<LanguageComponent>(messageSource, out var language))
+        if (language != null)
         {
             lexiconMessage = _language.ReplaceWordsWithLexicon(message, language.SelectedLanguage);
 
@@ -207,9 +215,7 @@ public sealed class RadioSystem : EntitySystem
             chatMsgLexicon = new MsgChatMessage { Message = chatLexicon };
         }
 
-        var languageId = language?.SelectedLanguage ?? LanguageSystem.DefaultLanguageId;
-
-        var ev = new RadioReceiveEvent(message, languageId, messageSource, channel, radioSource, chatMsg, chatMsgLexicon, []); // DS14
+        var ev = new RadioReceiveEvent(message, messageSource, channel, radioSource, chatMsg, chatMsgLexicon, [], languageId); // DS14
         // DS14-Languages-end
 
         var sendAttemptEv = new RadioSendAttemptEvent(channel, radioSource);

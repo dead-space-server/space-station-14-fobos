@@ -4,6 +4,7 @@ using Content.Server.Backmen.Body.Components;
 using Content.Server.Body.Components;
 using Content.Server.Body.Systems;
 using Content.Server.Chat.Managers;
+using Content.Server.DeadSpace.Languages;
 using Content.Server.Mind;
 using Content.Server.NPC;
 using Content.Server.NPC.HTN;
@@ -41,6 +42,7 @@ public sealed class ZombieBlobSystem : EntitySystem
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly TriggerSystem _trigger = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
+    [Dependency] private readonly LanguageSystem _language = default!; // DS14
 
     private const int ClimbingCollisionGroup = (int)(CollisionGroup.BlobImpassable);
 
@@ -146,7 +148,8 @@ public sealed class ZombieBlobSystem : EntitySystem
         var lang = EnsureComp<LanguageComponent>(uid);
 
         lang.KnownLanguages.Clear();
-        lang.KnownLanguages.Add(BlobLanguage);
+
+        _language.AddKnowLanguage(uid, BlobLanguage);
         lang.SelectedLanguage = BlobLanguage;
         // DS14-end
 

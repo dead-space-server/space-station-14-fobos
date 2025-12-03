@@ -46,6 +46,7 @@ using Content.Shared.DeadSpace.Languages.Components;
 using Content.Shared.DeadSpace.Languages.Prototypes;
 using Content.Shared.NPC.Prototypes;
 using Content.Shared.Roles;
+using Content.Server.DeadSpace.Languages;
 
 namespace Content.Server.Zombies;
 
@@ -73,6 +74,7 @@ public sealed partial class ZombieSystem
     [Dependency] private readonly NPCSystem _npc = default!;
     [Dependency] private readonly TagSystem _tag = default!;
     [Dependency] private readonly ISharedPlayerManager _player = default!;
+    [Dependency] private readonly LanguageSystem _language = default!; // DS14
 
     private static readonly ProtoId<TagPrototype> InvalidForGlobalSpawnSpellTag = "InvalidForGlobalSpawnSpell";
     private static readonly ProtoId<TagPrototype> CannotSuicideTag = "CannotSuicide";
@@ -152,7 +154,7 @@ public sealed partial class ZombieSystem
         if (TryComp<LanguageComponent>(target, out var language))
         {
             language.KnownLanguages.Clear();
-            language.KnownLanguages.Add(ZombieLanguage);
+            _language.AddKnowLanguage(target, ZombieLanguage);
             language.SelectedLanguage = ZombieLanguage;
         }
         else
