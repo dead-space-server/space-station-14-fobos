@@ -249,7 +249,7 @@ public sealed class DemonShadowSystem : SharedDemonShadowSystem
             {
                 var fixture = fixtures.Fixtures.First();
 
-                _physics.SetCollisionMask(uid, fixture.Key, fixture.Value, (int) CollisionGroup.None, fixtures);
+                _physics.SetCollisionMask(uid, fixture.Key, fixture.Value, 0, fixtures);
                 _physics.SetCollisionLayer(uid, fixture.Key, fixture.Value, 0, fixtures);
             }
         }
@@ -259,7 +259,7 @@ public sealed class DemonShadowSystem : SharedDemonShadowSystem
             {
                 var fixture = fixtures.Fixtures.First();
 
-                _physics.SetCollisionMask(uid, fixture.Key, fixture.Value, (int) (CollisionGroup.SmallMobMask | CollisionGroup.GhostImpassable), fixtures);
+                _physics.SetCollisionMask(uid, fixture.Key, fixture.Value, (int) CollisionGroup.SmallMobMask, fixtures);
                 _physics.SetCollisionLayer(uid, fixture.Key, fixture.Value, (int) CollisionGroup.SmallMobLayer, fixtures);
             }
         }
