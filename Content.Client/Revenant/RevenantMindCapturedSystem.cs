@@ -3,12 +3,10 @@
 using Robust.Client.GameObjects;
 using Content.Shared.Revenant.Components;
 using Content.Shared.Humanoid;
-using Content.Shared.Revenant.EntitySystems;
 namespace Content.Client.Revenant;
 
 public sealed class RevenantMindCapturedSystem : EntitySystem
 {
-    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly SpriteSystem _sprite = default!;
 
     public override void Initialize()
