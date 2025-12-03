@@ -26,6 +26,8 @@ using Content.Shared.Zombies;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
+using Content.Shared.Movement.Components;
+using Content.Shared.Movement.Events;
 
 namespace Content.Server.Zombies
 {
@@ -78,6 +80,8 @@ namespace Content.Server.Zombies
             SubscribeLocalEvent<IncurableZombieComponent, MapInitEvent>(OnPendingMapInit);
 
             SubscribeLocalEvent<ZombifyOnDeathComponent, MobStateChangedEvent>(OnDamageChanged);
+
+            SubscribeLocalEvent<ZombieComponent, ToggleJetpackEvent>(OnJetpackToggle); // DS14
         }
 
         private void OnBeforeRemoveAnomalyOnDeath(Entity<PendingZombieComponent> ent, ref BeforeRemoveAnomalyOnDeathEvent args)
@@ -323,5 +327,14 @@ namespace Content.Server.Zombies
         {
             _role.MindRemoveRole<ZombieRoleComponent>((args.Mind.Owner,  args.Mind.Comp));
         }
+        // DS14-start
+        private void OnJetpackToggle(EntityUid uid, ZombieComponent component, ToggleJetpackEvent args)
+        {
+            if (HasComp<ZombieComponent>(args.Performer))
+            {
+                args.Handled =  true;
+            }
+        }
+        // DS14-end
     }
 }
