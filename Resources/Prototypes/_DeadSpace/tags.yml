@@ -41,6 +41,9 @@
   id: CakeBrain
 
 - type: Tag
+  id: CatEmotes
+
+- type: Tag
   id: CaviarHolo
 
 - type: Tag
@@ -83,7 +86,16 @@
   id: EncryptionTaipan
 
 - type: Tag
+  id: FlamethrowerBackTank
+
+- type: Tag
+  id: FlamethrowerNozzle
+
+- type: Tag
   id: FelinidFood
+
+- type: Tag
+  id: FelinidEmotes
 
 - type: Tag
   id: FittableInBackpackCase
@@ -129,6 +141,9 @@
 
 - type: Tag
   id: LauncherChinaLake
+
+- type: Tag
+  id: Lighter
 
 - type: Tag
   id: LightMachineGunL6
@@ -204,6 +219,9 @@
 
 - type: Tag
   id: SiliconIPSIPCEmotes
+
+- type: Tag
+  id: SlimePersonEmotes
 
 - type: Tag
   id: SMGTommyGun
@@ -294,6 +312,9 @@
 
 - type: Tag
   id: TrashBagBlue
+
+- type: Tag
+  id: VulpkaninEmotes
 
 - type: Tag
   id: WeldingMaskFlame

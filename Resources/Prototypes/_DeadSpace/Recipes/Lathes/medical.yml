@@ -1,0 +1,8 @@
+- type: latheRecipe
+  id: CompactDefibrillator
+  result: DefibrillatorCompactEmpty
+  completetime: 10
+  materials:
+    Steel: 200
+    Silver: 500
+    Gold: 500
