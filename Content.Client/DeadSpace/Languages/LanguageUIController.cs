@@ -103,6 +103,9 @@ public sealed class LanguageUIController : UIController, IOnStateEntered<Gamepla
             .Except(component.CantSpeakLanguages)
             .ToList();
 
+        if (!speakableLanguages.Any())
+            return;
+
         foreach (var protoId in speakableLanguages)
         {
             if (_proto.TryIndex(protoId, out var prototype))
