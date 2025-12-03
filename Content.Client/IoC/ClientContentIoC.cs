@@ -5,6 +5,7 @@ using Content.Client.Chat.Managers;
 using Content.Client.Clickable;
 using Content.Client.Corvax.DiscordAuth;
 using Content.Client.Corvax.JoinQueue;
+using Content.Client._RMC14.Chat;
 using Content.Client.DebugMon;
 using Content.Client.Eui;
 using Content.Client.Fullscreen;
@@ -29,6 +30,7 @@ using Content.Shared.Chat;
 using Content.Shared.IoC;
 using Content.Shared.Players.PlayTimeTracking;
 using Content.Shared.Players.RateLimiting;
+
 
 namespace Content.Client.IoC
 {
@@ -71,6 +73,7 @@ namespace Content.Client.IoC
             // Jukebox-port-edit
             collection.Register<ClientJukeboxSongsSyncManager>();
             // Jukebox-port-edit
+            collection.Register<IEntitySystem, CMChatSystem>(); // RMC14
         }
     }
 }

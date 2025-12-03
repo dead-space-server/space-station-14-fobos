@@ -1,4 +1,5 @@
-﻿using Content.Client.UserInterface.Systems.Chat.Widgets;
+﻿using System.Linq;
+using Content.Client.UserInterface.Systems.Chat.Widgets;
 using Content.Shared._RMC14.RMCCVar;
 using Content.Shared.Chat;
 using Robust.Client.UserInterface.Controls;
@@ -12,6 +13,8 @@ public sealed class CMChatSystem : EntitySystem
     [Dependency] private readonly IConfigurationManager _config = default!;
 
     private int _repeatHistory;
+
+    private readonly ChatChannel[] _notAllowedChannels = { ChatChannel.Admin, ChatChannel.Server, ChatChannel.Unspecified,ChatChannel.Visual };
 
     public override void Initialize()
     {
@@ -37,7 +40,6 @@ public sealed class CMChatSystem : EntitySystem
         bool repeatCheckSender)
     {
         var repeated = false;
-
         foreach (var old in chat.RepeatQueue)
         {
             if (!old.Message.Equals(unwrapped) ||
@@ -46,6 +48,9 @@ public sealed class CMChatSystem : EntitySystem
 
             if (repeatCheckSender &&
                 !old.SenderEntity.Equals(sender))
+                continue;
+
+            if (_notAllowedChannels.Contains(channel))
                 continue;
 
             old.Count++;
