@@ -170,6 +170,7 @@ public abstract class SharedJetpackSystem : EntitySystem
                 return;
             user = container.Owner;
         }
+
         if (enabled)
         {
             SetupUser(user.Value, uid, component);
