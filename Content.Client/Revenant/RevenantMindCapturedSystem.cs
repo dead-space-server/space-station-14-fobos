@@ -3,6 +3,7 @@
 using Robust.Client.GameObjects;
 using Content.Shared.Revenant.Components;
 using Content.Shared.Humanoid;
+
 namespace Content.Client.Revenant;
 
 public sealed class RevenantMindCapturedSystem : EntitySystem
