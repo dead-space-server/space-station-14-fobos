@@ -12,6 +12,6 @@
   components:
   - type: LoadOnStationMapRule
     gridPath: /Maps/Goals/goalRNDgrid.yml
-    radius: 300
+    radius: 200
   - type: DockOnStationMapRule
     gridPath: /Maps/Shuttles/ShuttleEvent/striker.yml

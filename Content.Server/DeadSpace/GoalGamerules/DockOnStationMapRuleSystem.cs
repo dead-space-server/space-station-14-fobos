@@ -19,14 +19,15 @@ namespace Content.Server.DeadSpace.GoalGamerules;
 
 public sealed class DockOnStationMapRuleSystem : StationEventSystem<DockOnStationMapRuleComponent>
 {
-    [Dependency] private readonly MapLoaderSystem _mapLoader = default!;
     [Dependency] private readonly StationSystem _station = default!;
     [Dependency] private readonly EntityManager _entityManager = default!;
+
+    private ISawmill _sawmill = default!;
     protected override void Added(EntityUid uid, DockOnStationMapRuleComponent comp, GameRuleComponent rule, GameRuleAddedEvent args)
     {
         if (comp.GridPath is not {} gridPath)
         {
-            Log.Error($"[LoadOnStationMapRule] No GridPath specified on {ToPrettyString(uid)}");
+            _sawmill.Error($"[LoadOnStationMapRule] No GridPath specified on {ToPrettyString(uid)}");
             ForceEndSelf(uid, rule);
             return;
         }
@@ -53,26 +54,32 @@ public sealed class DockOnStationMapRuleSystem : StationEventSystem<DockOnStatio
                 }
             }
         }
+        if (mapId == MapId.Nullspace || stationGrid == EntityUid.Invalid)
+        {
+            _sawmill.Error("Ошибка: не удалось найти station grid с компонентом BecomesStationComponent");
+            ForceEndSelf(uid, rule);
+            return;
+        }
 
         var opts = DeserializationOptions.Default with { InitializeMaps = true };
         _entityManager.System<MapLoaderSystem>().TryLoadGrid(mapId, gridPath, out var shuttle);
         if (_entityManager.Deleted(shuttle))
         {
-            Log.Error("Ошибка: Шаттл не существует или был удалён.");
+            _sawmill.Error("Ошибка: Шаттл не существует или был удалён.");
             return;
         }
         if (!_entityManager.TryGetComponent(shuttle, out ShuttleComponent? shuttleComponent))
         {
-            Log.Error("Ошибка: Не найден ShuttleComponent у заспавненного шаттла.");
+            _sawmill.Error("Ошибка: Не найден ShuttleComponent у заспавненного шаттла.");
             return;
         }
 
         if (!_entityManager.System<ShuttleSystem>().TryFTLDock(shuttle.Value, shuttleComponent, stationGrid, out _))
         {
-            Log.Warning("Предупреждение: Стыковка не выполнена.");
+            _sawmill.Warning("Предупреждение: Стыковка не выполнена.");
         }
 
-        Log.Info($"[LoadOnStationMapRule] Loaded grid from {gridPath} onto station map {mapId}");
+        _sawmill.Debug($"[LoadOnStationMapRule] Loaded grid from {gridPath} onto station map {mapId}");
 
         var ev = new RuleLoadedGridsEvent(mapId, new List<EntityUid> { shuttle.Value.Owner });
         RaiseLocalEvent(uid, ref ev);

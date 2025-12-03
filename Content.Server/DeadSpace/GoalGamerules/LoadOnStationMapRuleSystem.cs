@@ -21,11 +21,12 @@ public sealed class LoadOnStationMapRuleSystem : StationEventSystem<LoadOnStatio
     [Dependency] private readonly MapLoaderSystem _mapLoader = default!;
     [Dependency] private readonly StationSystem _station = default!;
 
+    private ISawmill _sawmill = default!;
     protected override void Added(EntityUid uid, LoadOnStationMapRuleComponent comp, GameRuleComponent rule, GameRuleAddedEvent args)
     {
         if (comp.GridPath is not {} gridPath)
         {
-            Log.Error($"[LoadOnStationMapRule] No GridPath specified on {ToPrettyString(uid)}");
+            _sawmill.Error($"[LoadOnStationMapRule] No GridPath specified on {ToPrettyString(uid)}");
             ForceEndSelf(uid, rule);
             return;
         }
@@ -54,22 +55,21 @@ public sealed class LoadOnStationMapRuleSystem : StationEventSystem<LoadOnStatio
         }
 
         Random random = new Random();
-        Vector2 vector2d = new Vector2(random.Next(-500,500),random.Next(-500,500));
+        Vector2 vector2d = new Vector2(random.Next((int)comp.Radius * -1,(int)comp.Radius),random.Next((int)comp.Radius * -1,(int)comp.Radius));
         vector2d.Normalize();
         vector2d *= comp.Radius;
         vector2d += stationPos;
 
-        var opts = DeserializationOptions.Default with { InitializeMaps = true };
-        if (!_mapLoader.TryLoadGrid(mapId, gridPath, out var result, opts, vector2d, random.Next(360) ))
+       if (!_mapLoader.TryLoadGrid(mapId, gridPath, out var result, null, vector2d, random.Next(360) ))
         {
-            Log.Error($"[LoadOnStationMapRule] Cannot load grid from {gridPath}");
+            _sawmill.Error($"[LoadOnStationMapRule] Cannot load grid from {gridPath}");
             ForceEndSelf(uid, rule);
             return;
         }
 
         var grid = result.Value.Owner;
 
-        Log.Info($"[LoadOnStationMapRule] Loaded grid from {gridPath} onto station map {mapId}");
+        _sawmill.Info($"[LoadOnStationMapRule] Loaded grid from {gridPath} onto station map {mapId}");
 
         var ev = new RuleLoadedGridsEvent(mapId, new List<EntityUid> { grid });
         RaiseLocalEvent(uid, ref ev);
