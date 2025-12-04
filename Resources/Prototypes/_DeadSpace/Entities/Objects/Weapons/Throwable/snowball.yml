@@ -48,6 +48,8 @@
   - type: Construction
     graph: Snowball
     node: Snowball
+  - type: ChangeTemperatureOnCollide
+    heat: -10000
 
 - type: entity
   id: EffectSnowballHit
@@ -70,3 +72,5 @@
   - type: EmitSoundOnSpawn
     sound:
       path: /Audio/Weapons/dodgeball.ogg
+        params:
+          volume: -10
