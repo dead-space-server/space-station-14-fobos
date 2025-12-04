@@ -45,3 +45,9 @@ stack-plastitanium =
         [few] листа
        *[other] листов
     } пластитана
+stack-snow =
+    { $amount ->
+        [1] блок
+        [few] блока
+       *[other] блоков
+    } снега
