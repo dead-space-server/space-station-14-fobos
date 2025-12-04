@@ -56,3 +56,5 @@
     templateId: snowman
   - type: Transform
     anchored: true
+  - type: Physics
+    bodyType: Dynamic
