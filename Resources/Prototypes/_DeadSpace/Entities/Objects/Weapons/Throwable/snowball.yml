@@ -72,5 +72,3 @@
   - type: EmitSoundOnSpawn
     sound:
       path: /Audio/Weapons/dodgeball.ogg
-        params:
-          volume: -10

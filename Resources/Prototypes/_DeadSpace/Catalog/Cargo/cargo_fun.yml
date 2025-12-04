@@ -27,3 +27,13 @@
   cost: 3000
   category: cargoproduct-category-name-fun
   group: market
+
+- type: cargoProduct
+  id: FunSmallXmasTree
+  icon:
+    sprite: _DeadSpace/Structures/Furniture/small_christmas_tree.rsi
+    state: small_christmas_tree
+  product: SmallXmasTree
+  cost: 900
+  category: cargoproduct-category-name-fun
+  group: market

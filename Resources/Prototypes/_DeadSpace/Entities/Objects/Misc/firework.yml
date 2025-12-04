@@ -9,7 +9,7 @@
     layers:
     - state: firework_box
     - state: holo
-      shared: unshaded
+      shader: unshaded
   - type: TriggerOnActivate
   - type: SpawnOnTrigger
     proto: FireworkSpawner
