@@ -55,9 +55,7 @@ namespace Content.Server.Atmos.Piping.Trinary.EntitySystems
         {
             if (!filter.Enabled
                 || !_nodeContainer.TryGetNodes(uid, filter.InletName, filter.FilterName, filter.OutletName, out PipeNode? inletNode, out PipeNode? filterNode, out PipeNode? outletNode)
-                // DS14-start: based on https://github.com/space-wizards/space-station-14/pull/35211
-                || (outletNode.Air.Pressure >= Atmospherics.MaxOutputPressure && filterNode.Air.Pressure >= Atmospherics.MaxOutputPressure)) // No need to transfer if target is full.
-                // DS14-end
+                || outletNode.Air.Pressure >= Atmospherics.MaxOutputPressure) // No need to transfer if target is full.
             {
                 _ambientSoundSystem.SetAmbience(uid, false);
                 return;
@@ -76,28 +74,17 @@ namespace Content.Server.Atmos.Piping.Trinary.EntitySystems
 
             if (filter.FilteredGas.HasValue)
             {
-                // DS14-start: based on https://github.com/space-wizards/space-station-14/pull/35211
-                var pressureDeltaFilter = Atmospherics.MaxOutputPressure - filterNode.Air.Pressure;
-                var limitMolesFilter = (pressureDeltaFilter * filterNode.Air.Volume) / (removed.Temperature * Atmospherics.R);
+                var filteredOut = new GasMixture() { Temperature = removed.Temperature };
 
-                var availableMoles = removed.GetMoles(filter.FilteredGas.Value);
-                var filteredMoles = Math.Min(limitMolesFilter, availableMoles);
-
-                filterNode.Air.AdjustMoles(filter.FilteredGas.Value, filteredMoles);
+                filteredOut.SetMoles(filter.FilteredGas.Value, removed.GetMoles(filter.FilteredGas.Value));
                 removed.SetMoles(filter.FilteredGas.Value, 0f);
-                inletNode.Air.AdjustMoles(filter.FilteredGas.Value, availableMoles - filteredMoles);
 
-                _ambientSoundSystem.SetAmbience(uid, filteredMoles > 0f);
+                var target = filterNode.Air.Pressure < Atmospherics.MaxOutputPressure ? filterNode : inletNode;
+                _atmosphereSystem.Merge(target.Air, filteredOut);
+                _ambientSoundSystem.SetAmbience(uid, filteredOut.TotalMoles > 0f);
             }
 
-            var pressureDeltaOutlet = Atmospherics.MaxOutputPressure - outletNode.Air.Pressure;
-            var limitMolesOutlet = (pressureDeltaOutlet * outletNode.Air.Volume) / (removed.Temperature * Atmospherics.R);
-            var limitRatioOutlet = limitMolesOutlet / removed.TotalMoles;
-            var passthrough = removed.RemoveRatio(limitRatioOutlet);
-
-            _atmosphereSystem.Merge(outletNode.Air, passthrough);
-            _atmosphereSystem.Merge(inletNode.Air, removed);
-            // DS14-end
+            _atmosphereSystem.Merge(outletNode.Air, removed);
         }
 
         private void OnFilterLeaveAtmosphere(EntityUid uid, GasFilterComponent filter, ref AtmosDeviceDisabledEvent args)
@@ -116,12 +103,10 @@ namespace Content.Server.Atmos.Piping.Trinary.EntitySystems
             if (args.Handled || !args.Complex)
                 return;
 
-            // DS14-start: based on https://github.com/space-wizards/space-station-14/pull/35211
-            if (!EntityManager.TryGetComponent(args.User, out ActorComponent? actor))
+            if (!TryComp(args.User, out ActorComponent? actor))
                 return;
 
-            if (EntityManager.GetComponent<TransformComponent>(uid).Anchored)
-            // DS14-end
+            if (Comp<TransformComponent>(uid).Anchored)
             {
                 _userInterfaceSystem.OpenUi(uid, GasFilterUiKey.Key, actor.PlayerSession);
                 DirtyUI(uid, filter);
