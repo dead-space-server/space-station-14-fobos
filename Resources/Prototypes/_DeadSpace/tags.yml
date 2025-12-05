@@ -260,6 +260,9 @@
   id: SyndieSabre
 
 - type: Tag
+  id: TailEmotes
+
+- type: Tag
   id: Taipan
 
 - type: Tag

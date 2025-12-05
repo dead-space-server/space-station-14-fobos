@@ -3,7 +3,6 @@
   id: Scream
   name: chat-emote-name-scream
   category: Vocal
-  showInMenu: false # DS14-emote panel
   icon: Interface/Emotes/scream.png
   whitelist:
     components:
@@ -536,7 +535,6 @@
 - type: emote
   id: Gasp
   name: chat-emote-name-gasp
-  showInMenu: false # DS14-emote panel
   whitelist:
     components:
     - Respirator
