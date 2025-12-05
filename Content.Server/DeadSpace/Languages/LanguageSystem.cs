@@ -76,7 +76,7 @@ public sealed class LanguageSystem : EntitySystem
                 return TransformAlphabet(hash, proto);
 
             case SpeechMode.Syllable:
-                return TransformSyllable(hash, proto);
+                return TransformSyllableText(word, proto);
 
             case SpeechMode.Pattern:
                 return TransformPattern(word, proto);
@@ -111,24 +111,32 @@ public sealed class LanguageSystem : EntitySystem
         return sb.ToString();
     }
 
-    private string TransformSyllable(int hash, LanguagePrototype proto)
+    private string TransformSyllableText(string text, LanguagePrototype proto)
     {
-        var syll = proto.Syllables;
+        if (string.IsNullOrWhiteSpace(text) || proto.Syllables.Count == 0)
+            return text;
 
-        int count = proto.MinSyllables +
-            (Math.Abs(hash) % (proto.MaxSyllables - proto.MinSyllables + 1));
-
+        var words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
         var sb = new StringBuilder();
-        int localHash = hash;
 
-        for (int i = 0; i < count; i++)
+        foreach (var word in words)
         {
-            Console.WriteLine(i);
-            sb.Append(syll[Math.Abs(localHash) % syll.Count]);
-            localHash = GetDeterministicHashCode(localHash.ToString());
+            var hash = GetDeterministicHashCode(word + proto.ID);
+
+            int count = proto.MinSyllables +
+                (Math.Abs(hash) % (proto.MaxSyllables - proto.MinSyllables + 1));
+
+            var localHash = hash;
+            for (int i = 0; i < count; i++)
+            {
+                sb.Append(proto.Syllables[Math.Abs(localHash) % proto.Syllables.Count]);
+                localHash = GetDeterministicHashCode(localHash.ToString());
+            }
+
+            sb.Append(' ');
         }
 
-        return sb.ToString();
+        return sb.ToString().Trim();
     }
 
     private string TransformPattern(string word, LanguagePrototype proto)

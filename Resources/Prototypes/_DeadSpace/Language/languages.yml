@@ -3,7 +3,7 @@
   name: Обще-галактический
   speechMode: Syllable
   minSyllables: 2
-  maxSyllables: 4
+  maxSyllables: 6
   syllables:
     - ка
     - ло
@@ -13,9 +13,138 @@
     - не
     - зис
     - во
+    - ши
+    - та
+    - фо
+    - ли
+    - ксу
+    - ге
+    - пра
+    - ви
+    - он
+    - се
+    - да
+    - му
+    - ки
+    - раэ
+    - йо
+    - че
+    - бра
+    - ки
+    - но
+    - лу
+    - пи
+    - те
+    - за
   generateTTSForLexicon: false
   lexiconSound:
     path: /Audio/Items/Toys/weh.ogg
+
+
+- type: language
+  id: DwarfLanguage
+  name: Дварфийский
+  speechMode: Pattern
+  minSyllables: 2
+  maxSyllables: 6
+  patterns:
+    - де
+    - мал
+    - муж
+    - жен
+    - дел
+    - не
+    - йа
+    - есть
+    - пе
+    - зна
+    - вы
+    - ты
+    - при
+    - все
+    - от
+    - здр
+    - ме
+    - теб
+    - себ
+    - где
+    - ой
+    - мале
+    - боль
+    - су
+    - да
+    - кон
+    - то
+    - мой
+    - нет
+    - па
+    - ма
+    - ср
+    - но
+    - ста
+    - про
+    - вет
+    - бл
+    - ес
+    - сле
+    - сде
+    - пи
+    - ник
+    - де
+    - зд
+    - оч
+    - син
+    - кап
+    - бе
+  replacements:
+    - дэв
+    - млч
+    - мчш
+    - жчш
+    - дэ
+    - нэ
+    - йэ
+    - йэ
+    - пэр
+    - знат
+    - вы
+    - ты
+    - прыв
+    - всэ
+    - од
+    - здрав
+    - мэн
+    - тэб
+    - сэб
+    - гдэ
+    - ойё
+    - мэл
+    - гром
+    - кн
+    - Ойи
+    - конэ
+    - тож
+    - мойё
+    - нэт
+    - уру
+    - дель
+    - свэ
+    - свэ
+    - быв
+    - врр
+    - эс
+    - слэ
+    - сд
+    - наг
+    - нык
+    - дэ
+    - здар
+    - дыр
+    - зл
+    - кэп
+    - дэри
+    - хы
+    - гы
 
 - type: language
   id: DogLanguage
@@ -26,11 +155,28 @@
     collection: DogLexicon
   speechMode: Lexicon
   lexicon:
-  - гав
-  - гаф
-  - тяф
-  - вуф
-  - ваф
+    - гав
+    - гаф
+    - тяф
+    - вуф
+    - ваф
+    - ррр
+    - рррр
+    - фрр
+    - фуф
+    - бау
+    - бафф
+    - грр
+    - гры
+    - вау
+    - тяв
+    - тявк
+    - фяв
+    - урр
+    - вврр
+    - гыф
+    - зууф
+
 
 - type: language
   id: BlobLanguage
@@ -38,60 +184,116 @@
   icon: /Textures/_DeadSpace/LanguageIcons/zombie.png
   speechMode: Syllable
   minSyllables: 1
-  maxSyllables: 3
+  maxSyllables: 5
   syllables:
     - бл
     - блуб
     - гл
     - глоп
     - умп
+    - бло
+    - блу
+    - глу
+    - блуп
+    - глопп
+    - уля
+    - бля
+    - бум
+    - блум
+    - глум
+    - плуп
+    - блупп
+    - грум
+    - урп
   generateTTSForLexicon: false
   lexiconSound:
     collection: ZombieScreams
+
 
 - type: language
   id: SlimeLanguage
   name: Пузырчатый
   icon: /Textures/_DeadSpace/LanguageIcons/slime.png
   speechMode: Syllable
-  minSyllables: 1
-  maxSyllables: 4
+  minSyllables: 2
+  maxSyllables: 6
   syllables:
     - сли
     - плоп
     - блумп
     - глуп
+    - злю
+    - плью
+    - слип
+    - блип
+    - плуп
+    - глюп
+    - шлю
+    - слиу
+    - блу
+    - флю
+    - плюп
+    - глупп
+    - блуп
+    - шлум
+  generateTTSForLexicon: false
+  lexiconSound:
+    collection: SlimeSounds
 
 - type: language
   id: ArachnidLanguage
   name: Це'хисс
   icon: /Textures/_DeadSpace/LanguageIcons/spider.png
-  speechMode: Pattern
-  patterns:
-    - с
-    - к
-    - ч
-  replacements:
+  speechMode: Syllable
+  minSyllables: 2
+  maxSyllables: 5
+  syllables:
     - сс
     - кк
+    - чш
+    - хс
+    - ск
+    - хр
     - шш
+    - тк
+    - кл
+    - скр
+    - хсс
+    - чс
+    - ср
+    - клш
   generateTTSForLexicon: false
   lexiconSound:
     collection: SpiderLexicon
 
 - type: language
-  id: DionaLanguage
+  id: TreeLanguage
   name: Шелестящий
-  speechMode: Pattern
-  patterns:
+  icon: /Textures/_DeadSpace/LanguageIcons/tree.png
+  speechMode: Syllable
+  minSyllables: 2
+  maxSyllables: 6
+  syllables:
+    - шш
     - сш
-    - т
-  replacements:
-    - сшшшш
-    - ттт
+    - тт
+    - рр
+    - лл
+    - ши
+    - сы
+    - тс
+    - тр
+    - фр
+    - ск
+    - рш
+    - св
+    - лш
+    - хр
+    - фш
   generateTTSForLexicon: false
   lexiconSound:
-    collection: DionaLexicon
+    collection: TreeLexicon
+
 
 - type: language
   id: MothLanguage
@@ -99,61 +301,185 @@
   icon: /Textures/_DeadSpace/LanguageIcons/moth.png
   speechMode: Syllable
   minSyllables: 2
-  maxSyllables: 3
+  maxSyllables: 5
   syllables:
     - та
     - чу
     - лу
     - ми
+    - ши
+    - фу
+    - ци
+    - луф
+    - ту
+    - шиу
+    - чуф
+    - миу
+    - фли
+    - цу
+    - шу
+    - фи
+    - тсу
+    - му
+    - ли
+    - циу
+    - флу
+    - шуф
+    - ти
+    - лю
+    - шиуф
+    - чии
+    - фуи
   generateTTSForLexicon: false
   lexiconSound:
     collection: MothLexicon
+
 
 - type: language
   id: ReptilianLanguage
   name: Синта’Унати
   icon: /Textures/_DeadSpace/LanguageIcons/lawyer.png
-  speechMode: Alphabet
-  generateLength: 3
-  Alphabet:
-    - с
-    - х
-    - р
-    - к
-    - х
+  speechMode: Syllable
+  minSyllables: 2
+  maxSyllables: 5
+  syllables:
+    - сха
+    - кре
+    - шу
+    - зи
+    - тра
+    - ло
+    - гра
+    - фу
+    - хе
+    - ши
+    - крэ
+    - тру
+    - жи
+    - фра
+    - схи
+    - хру
+    - злу
+    - кша
+    - флу
+    - гре
+    - шуи
+    - жра
+    - шиэ
+    - кро
+    - хло
+    - зра
+    - трэ
+    - фли
+    - скру
   generateTTSForLexicon: false
   lexiconSound:
     collection: ReptilianLexicon
 
-- type: language
-  id: VoxLanguage
-  name: Вокс-птичий
-  icon: /Textures/_DeadSpace/LanguageIcons/vox.png
-  speechMode: Alphabet
-  generateLength: 2
-  Alphabet:
-    - в
-    - х
-    - к
-    - т
-    - п
-  generateTTSForLexicon: false
-  lexiconSound:
-    collection: VoxLexicon
 
 - type: language
   id: DemonLanguage
   name: Демонический
   icon: /Textures/_DeadSpace/LanguageIcons/syndibot.png
-  speechMode: Pattern
-  patterns:
-    - а
-    - о
-    - е
-  replacements:
-    - аа
-    - oo
-    - ee
+  speechMode: Syllable
+  minSyllables: 2
+  maxSyllables: 5
+  syllables:
+    - ар
+    - ож
+    - ун
+    - ки
+    - ла
+    - ве
+    - зы
+    - хе
+    - то
+    - ми
+    - жу
+    - ра
+    - фи
+    - со
+    - де
+    - ну
+    - ши
+    - ка
+    - ву
+    - ли
+    - зо
+    - тэ
+    - бо
+    - нэ
+    - ху
+    - ер
+    - жи
+    - эо
+    - ыу
+    - чу
+    - ша
+    - кэ
+    - ри
+    - ма
+    - ва
+    - эи
+    - лу
+    - фэ
+    - ро
+    - си
+    - эя
+    - ыа
+    - юэ
+    - го
+    - иэ
+    - зу
+    - че
+    - ыо
+  generateTTSForLexicon: false
+  lexiconSound:
+    collection: DemonLexicon
+
+- type: language
+  id: DemonLanguage
+  name: Демонический
+  icon: /Textures/_DeadSpace/LanguageIcons/syndibot.png
+  speechMode: Alphabet
+  minSyllables: 3
+  maxSyllables: 5
+  generateLength: 4
+  alphabet:
+    - ᚠ
+    - ᚢ
+    - ᚦ
+    - ᚨ
+    - ᚱ
+    - ᚲ
+    - ᚷ
+    - ᚹ
+    - ᛃ
+    - ᛇ
+    - ᛈ
+    - ᛉ
+    - ᛋ
+    - ᛏ
+    - ᛒ
+    - ᛖ
+    - ᛗ
+    - ᛚ
+    - ᛜ
+    - ᛞ
+    - ᛟ
+    - ᛞ
+    - Ϟ
+    - ϟ
+    - Ѧ
+    - Ѭ
+    - Ѯ
+    - Ӝ
+    - ⸘
+    - ⸙
+  generateTTSForLexicon: false
+  lexiconSound:
+    collection: DemonLexicon
+
 
 - type: language
   id: CatLanguage
@@ -169,6 +495,29 @@
   - тяф
   - вуф
   - ваф
+  - пшш
+  - фрр
+  - мрр
+  - нyaa
+  - хрум
+  - пуу
+  - миу
+  - мррр
+  - шшш
+  - пфу
+  - йяу
+  - ксс
+  - фуу
+  - мяу~!
+  - мурр^
+  - нyaa*
+  - шшш~
+  - мяу<
+  - фрр>
+  - мурр~
+  - тьф*
+  - мяу^
+  - нyaa!
 
 - type: language
   id: MachineLanguage
@@ -181,6 +530,8 @@
     - 1
     - бип
     - боп
+    - ZERO
+    - 'NULL'
   generateTTSForLexicon: false
   lexiconSound:
     collection: MachineLexicon
@@ -191,12 +542,55 @@
   icon: /Textures/_DeadSpace/LanguageIcons/plaf.png
   speechMode: Syllable
   minSyllables: 1
-  maxSyllables: 3
+  maxSyllables: 5
   syllables:
-    - pi
-    - shu
-    - ta
-    - vi
+    - пи
+    - шу
+    - та
+    - ви
+    - ка
+    - ро
+    - зу
+    - ми
+    - ну
+    - са
+    - ли
+    - фо
+    - чи
+    - ве
+    - па
+    - ту
+    - ра
+    - ши
+    - ко
+    - бу
+    - ды
+    - жу
+    - зи
+    - фи
+    - хи
+    - ла
+    - сы
+    - ре
+    - га
+    - до
+    - ки
+    - ли
+    - на
+    - си
+    - ши
+    - та
+    - во
+    - зу
+    - мэ
+    - фу
+    - жи
+    - ро
+    - ва
+  generateTTSForLexicon: false
+  lexiconSound:
+    collection: PlafLexicon
+
 
 - type: language
   id: VulpkaninLanguage
@@ -204,29 +598,82 @@
   icon: /Textures/_DeadSpace/LanguageIcons/vulp.png
   speechMode: Syllable
   minSyllables: 2
-  maxSyllables: 4
+  maxSyllables: 7
   syllables:
-    - ka
-    - nu
-    - lin
-    - tsu
+    - ка
+    - ли
+    - ну
+    - ца
+    - во
+    - ши
+    - ру
+    - ми
+    - фа
+    - та
+    - ле
+    - са
+    - ки
+    - шу
+    - ра
+    - ви
+    - лю
+    - до
+    - же
+    - фи
+    - со
+    - не
+    - ци
+    - ва
+    - хи
+    - ло
+    - гу
+    - пи
+    - те
+    - ки
+    - мо
+    - ри
+    - ха
+    - сы
+    - ли
+    - чу
+    - ве
+    - фо
+    - ди
+    - зу
+    - ши
+    - та
+  generateTTSForLexicon: false
+  lexiconSound:
+    collection: VulpLexicon
+
 
 - type: language
   id: XenomorphLanguage
   name: Эхоглосса
   icon: /Textures/_DeadSpace/LanguageIcons/alien.png
-  speechMode: Pattern
-  patterns:
-    - е
-    - х
-    - о
-  replacements:
-    - ее
+  speechMode: Syllable
+  minSyllables: 2
+  maxSyllables: 5
+  syllables:
+    - χа
+    - ɘо
+    - ɔχ
+    - ʂɪ
+    - ʈʊ
+    - ɑɑ
+    - ƙʀ
+    - ƥɱ
+    - ɳʃ
+    - θð
     - хх
     - оо
+    - сс
+    - тт
+    - ии
   generateTTSForLexicon: false
   lexiconSound:
     collection: XenoLexicon
+
 
 - type: language
   id: CarpDragonLanguage
@@ -234,43 +681,79 @@
   icon: /Textures/_DeadSpace/LanguageIcons/guardian.png
   speechMode: Syllable
   minSyllables: 2
-  maxSyllables: 5
+  maxSyllables: 7
   syllables:
     - ваа
     - хур
     - рис
     - кро
     - хра
+    - дуу
+    - зир
+    - тро
+    - фаа
+    - зху
+    - льо
+    - рии
+    - кар
+    - вуу
+    - гхи
+    - ше
+  generateTTSForLexicon: false
+  lexiconSound:
+    collection: CarpDragonLexicon
+
 
 - type: language
   id: ZombieLanguage
   name: Зомбячий
   icon: /Textures/_DeadSpace/LanguageIcons/zombie.png
-  speechMode: Pattern
-  patterns:
-    - а
-    - р
-    - у
-  replacements:
-    - аа
-    - оо
-    - уу
+  speechMode: Syllable
+  minSyllables: 1
+  maxSyllables: 4
+  syllables:
+    - мааазги
+    - груууа
+    - брууух
+    - уааах
+    - рррр
+    - зооом
+    - гнууу
+    - фрааааг
+    - мзги
+    - шрууу
+    - ваааа
+    - хрууу
+    - маа азги иии
+    - мазги
   generateTTSForLexicon: false
   lexiconSound:
     collection: ZombieScreams
 
+
 - type: language
   id: NecromorfLanguage
   name: Некроморфский
-  speechMode: Pattern
-  patterns:
-    - е
-    - и
-    - а
-  replacements:
-    - ее
-    - ии
-    - аа
+  icon: /Textures/_DeadSpace/LanguageIcons/necromorph.png
+  speechMode: Syllable
+  minSyllables: 1
+  maxSyllables: 5
+  syllables:
+    - кхру
+    - шррр
+    - гнээ
+    - ззуу
+    - фааа
+    - рррг
+    - хууу
+    - тррр
+    - шшрр
+    - вууу
+    - нэээ
+    - гххх
+    - фррр
+    - ххуу
+    - зррр
   generateTTSForLexicon: false
   lexiconSound:
     collection: NecroScreams
@@ -282,3 +765,19 @@
   generateTTSForLexicon: false
   lexiconSound:
     collection: MonkeyLexicon
+  lexicon:
+    - угу
+    - аха
+    - ии
+    - уу
+    - эээ
+    - ооо
+    - кики
+    - ча-ча
+    - ууух
+    - ааа~
+    - ыыы
+    - хи-хи
+    - ооох
+    - ээ-хэ
+    - ууух!
