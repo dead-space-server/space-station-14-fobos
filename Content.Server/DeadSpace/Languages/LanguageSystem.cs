@@ -4,13 +4,13 @@ using Robust.Shared.Random;
 using Content.Shared.DeadSpace.Languages.Prototypes;
 using Content.Shared.DeadSpace.Languages.Components;
 using Robust.Shared.Prototypes;
-using Content.Shared.Actions;
 using Robust.Shared.Player;
 using Content.Shared.DeadSpace.Languages;
 using Robust.Server.Player;
 using Content.Shared.Chat;
 using System.Linq;
 using Content.Shared.Polymorph;
+using Robust.Shared.GameStates;
 
 namespace Content.Server.DeadSpace.Languages;
 
@@ -18,7 +18,6 @@ public sealed class LanguageSystem : EntitySystem
 {
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
-    [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
@@ -28,48 +27,33 @@ public sealed class LanguageSystem : EntitySystem
     {
         base.Initialize();
 
-        SubscribeLocalEvent<LanguageComponent, MapInitEvent>(OnComponentMapInit);
-        SubscribeLocalEvent<LanguageComponent, ComponentShutdown>(OnShutdown);
-        SubscribeLocalEvent<LanguageComponent, SelectLanguageActionEvent>(OnSelect);
+        SubscribeLocalEvent<LanguageComponent, ComponentGetState>(OnGetState);
+
         SubscribeLocalEvent<LanguageComponent, PolymorphedEvent>(OnPolymorphed);
 
-        SubscribeNetworkEvent<SelectLanguageEvent>(OnSelectLanguage);
+        SubscribeAllEvent<SelectLanguageEvent>(OnSelectLanguage);
     }
 
-    private void OnComponentMapInit(EntityUid uid, LanguageComponent component, MapInitEvent args)
+    private void OnSelectLanguage(SelectLanguageEvent msg, EntitySessionEventArgs args)
     {
-        _actionsSystem.AddAction(uid, ref component.SelectLanguageActionEntity, component.SelectLanguageAction);
+        var player = args.SenderSession.AttachedEntity;
+
+        if (!player.HasValue)
+            return;
+
+        if (TryComp<LanguageComponent>(player, out var language))
+            language.SelectedLanguage = msg.PrototypeId;
     }
 
-    private void OnShutdown(EntityUid uid, LanguageComponent component, ComponentShutdown args)
+    private void OnGetState(EntityUid uid, LanguageComponent component, ref ComponentGetState args)
     {
-        _actionsSystem.RemoveAction(uid, component.SelectLanguageActionEntity);
+        args.State = new LanguageComponentState(component.KnownLanguages, component.CantSpeakLanguages);
     }
 
     private void OnPolymorphed(EntityUid uid, LanguageComponent component, PolymorphedEvent args)
     {
         var lang = EnsureComp<LanguageComponent>(args.NewEntity);
         lang.CopyFrom(component);
-    }
-
-    private void OnSelect(EntityUid uid, LanguageComponent component, SelectLanguageActionEvent args)
-    {
-        if (args.Handled)
-            return;
-
-        if (EntityManager.TryGetComponent<ActorComponent?>(uid, out var actorComponent))
-        {
-            var ev = new RequestLanguageMenuEvent(uid.Id, component.KnownLanguages, component.CantSpeakLanguages);
-            RaiseNetworkEvent(ev, actorComponent.PlayerSession);
-        }
-
-        args.Handled = true;
-    }
-
-    private void OnSelectLanguage(SelectLanguageEvent msg)
-    {
-        if (EntityManager.TryGetComponent<LanguageComponent>(new EntityUid(msg.Target), out var language))
-            language.SelectedLanguage = msg.PrototypeId;
     }
 
     public string ReplaceWordsWithLexicon(string message, ProtoId<LanguagePrototype> languageId)
@@ -142,6 +126,15 @@ public sealed class LanguageSystem : EntitySystem
             return true;
 
         return languages.Contains(senderLanguageId);
+    }
+
+    public void AddKnowLanguage(EntityUid uid, ProtoId<LanguagePrototype> languageId, LanguageComponent? component = null)
+    {
+        if (!Resolve(uid, ref component, false))
+            return;
+
+        component.KnownLanguages.Add(languageId);
+        Dirty(uid, component);
     }
 
     public bool NeedGenerateTTS(EntityUid sourceUid, ProtoId<LanguagePrototype> prototypeId, bool isWhisper)
@@ -231,7 +224,10 @@ public sealed class LanguageSystem : EntitySystem
         foreach (var session in _playerManager.Sessions)
         {
             if (session.AttachedEntity == null)
+            {
+                understanding.Add(session);
                 continue;
+            }
 
             if (KnowsLanguage(session.AttachedEntity.Value, languageId))
                 understanding.Add(session);

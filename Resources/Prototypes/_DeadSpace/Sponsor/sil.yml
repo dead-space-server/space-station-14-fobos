@@ -92,19 +92,6 @@
       map: [ "light" ]
   - type: Clothing
     sprite: _DeadSpace/Sponsor/Sil/helmet.rsi
-    clothingVisuals:
-      head:
-      - state: equipped-head
-      - state: equipped-head-unshaded
-        shader: unshaded
-  - type: ToggleableLightVisuals
-    spriteLayer: light
-    clothingVisuals:
-      head:
-      - state: on-equipped-HELMET-unshaded
-        shader: unshaded
-      - state: equipped-head-light
-        shader: unshaded
   - type: PointLight
     color: "#4eb1ae"
   - type: PressureProtection

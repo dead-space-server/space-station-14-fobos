@@ -15,11 +15,6 @@ public sealed class JumpAbilitySystem : EntitySystem
     {
         SubscribeLocalEvent<DeadSpaceJumpAbilityComponent, ComponentHandleState>(OnHandleState);
     }
-
-    private void OnGetState(EntityUid uid, DeadSpaceJumpAbilityComponent component, ref ComponentGetState args)
-    {
-        args.State = new JumpAnimationComponentState();
-    }
     private void OnHandleState(EntityUid uid, DeadSpaceJumpAbilityComponent component, ref ComponentHandleState args)
     {
         if (args.Current is not JumpAnimationComponentState state)

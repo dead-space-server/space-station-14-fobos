@@ -39,6 +39,11 @@ public sealed class RevenantMindCapturedSystem : EntitySystem
         {
             comp.Accumulator += frameTime;
 
+            if (_mind.TryGetMind(comp.RevenantUid, out var _, out var mind)
+            && mind.IsVisitingEntity
+            && mind.VisitingEntity != uid)
+                EndCapture(uid, comp);
+
             if (comp.Accumulator < comp.DurationOfCapture)
                 continue;
 
@@ -65,9 +70,6 @@ public sealed class RevenantMindCapturedSystem : EntitySystem
                 _mobState.ChangeMobState(uid, MobState.Dead);
         }
 
-        if (!_mind.TryGetMind(comp.RevenantUid, out var mindId, out var mind))
-            return;
-
         if (_container.IsEntityInContainer(comp.RevenantUid))
             _container.EmptyContainer(comp.RevenantContainer);
 
@@ -85,10 +87,11 @@ public sealed class RevenantMindCapturedSystem : EntitySystem
             language.KnownLanguages = comp.ReturnKnownLanguages;
         }
 
-        _mind.UnVisit(mindId, mind);
+        if (_mind.TryGetMind(comp.RevenantUid, out var mindId, out var mind) && mind.VisitingEntity == uid)
+            _mind.UnVisit(mindId, mind);
+
         RemCompDeferred(uid, comp);
     }
-
     private void OnUnvisited(EntityUid uid, RevenantMindCapturedComponent comp, MindUnvisitedMessage args)
     {
         if (TryComp<GhostComponent>(comp.TargetUid, out var ghostComponent))

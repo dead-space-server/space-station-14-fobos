@@ -107,7 +107,7 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
         var msg = args.ChatMsg;
         var parent = Transform(uid).ParentUid;
 
-        if (!_language.KnowsLanguage(parent, args.LanguageId))
+        if (args.LanguageId != null && !_language.KnowsLanguage(parent, args.LanguageId.Value))
             msg = args.LexiconChatMsg;
 
         _audio.PlayPvs(component.RadioReceiveSoundPath, uid, AudioParams.Default.WithVolume(-10f));
