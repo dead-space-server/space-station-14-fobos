@@ -44,43 +44,5 @@ public sealed class AntiAlcoholSystem : EntitySystem
             return;
 
         var target = reagentArgs.TargetEntity;
-
-
-        var delay = TimeSpan.FromSeconds(watcher.VomitDelaySeconds);
-        var executeAt = _timing.CurTime + delay;
-
-
-        foreach (var pending in _pendingVomit)
-        {
-            if (pending.Target == target)
-                return;
-        }
-
-        _pendingVomit.Add((target, executeAt));
-    }
-
-    public override void Update(float frameTime)
-    {
-        base.Update(frameTime);
-
-        if (_pendingVomit.Count == 0)
-            return;
-
-        var now = _timing.CurTime;
-
-        for (int i = _pendingVomit.Count - 1; i >= 0; i--)
-        {
-            var item = _pendingVomit[i];
-
-            if (now < item.ExecuteAt)
-                continue;
-
-            _pendingVomit.RemoveAt(i);
-
-            if (Deleted(item.Target))
-                continue;
-
-            _vomit.Vomit(item.Target);
-        }
     }
 }
