@@ -903,6 +903,9 @@
       sprite: Clothing/Uniforms/Jumpsuit/monastic_robe_dark.rsi
     - type: Clothing
       sprite: Clothing/Uniforms/Jumpsuit/monastic_robe_dark.rsi
+    - type: AddAccentClothing
+      accent: ReplacementAccent
+      replacement: priest
 
 - type: entity
   parent: ClothingUniformBase
@@ -914,6 +917,9 @@
       sprite: Clothing/Uniforms/Jumpsuit/monastic_robe_light.rsi
     - type: Clothing
       sprite: Clothing/Uniforms/Jumpsuit/monastic_robe_light.rsi
+    - type: AddAccentClothing
+      accent: ReplacementAccent
+      replacement: priest
 
 - type: entity
   parent: ClothingUniformBase
