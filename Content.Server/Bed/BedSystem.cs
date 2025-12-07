@@ -3,6 +3,7 @@ using Content.Shared.Bed.Components;
 using Content.Shared.Bed.Sleep;
 using Content.Shared.Buckle.Components;
 using Content.Shared.Damage;
+using Content.Shared.DeadSpace.IPC;
 using Content.Shared.Mobs.Systems;
 
 namespace Content.Server.Bed
@@ -40,7 +41,10 @@ namespace Content.Server.Bed
                 {
                     if (_mobStateSystem.IsDead(healedEntity))
                         continue;
-
+                    // DS14-start: IPCs don't get healed by beds.
+                    if (HasComp<IPCComponent>(healedEntity))
+                        continue;
+                    // DS14-end
                     var damage = bedComponent.Damage;
 
                     if (_sleepingQuery.HasComp(healedEntity))
