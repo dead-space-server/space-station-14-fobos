@@ -143,6 +143,9 @@
   id: LauncherChinaLake
 
 - type: Tag
+  id: Lighter
+
+- type: Tag
   id: LightMachineGunL6
 
 - type: Tag
@@ -258,6 +261,9 @@
 
 - type: Tag
   id: SyndieSabre
+
+- type: Tag
+  id: TailEmotes
 
 - type: Tag
   id: Taipan

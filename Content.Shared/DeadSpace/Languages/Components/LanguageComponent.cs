@@ -3,6 +3,7 @@
 using Content.Shared.DeadSpace.Languages.Prototypes;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization;
 
 namespace Content.Shared.DeadSpace.Languages.Components;
 
@@ -26,23 +27,24 @@ public sealed partial class LanguageComponent : Component
 
     [DataField]
     public string SelectedLanguage = String.Empty;
-
-    [DataField]
-    [ViewVariables(VVAccess.ReadOnly)]
-    public EntProtoId SelectLanguageAction = "SelectLanguageAction";
-
-    [DataField]
-    [ViewVariables(VVAccess.ReadOnly)]
-    public EntityUid? SelectLanguageActionEntity;
-
     public void CopyFrom(LanguageComponent other)
     {
         KnownLanguages = other.KnownLanguages;
         CantSpeakLanguages = other.CantSpeakLanguages;
         UnlockLanguagesAfterMakeSentient = other.UnlockLanguagesAfterMakeSentient;
         SelectedLanguage = other.SelectedLanguage;
-        SelectLanguageAction = other.SelectLanguageAction;
-        SelectLanguageActionEntity = other.SelectLanguageActionEntity;
     }
 
+}
+
+[Serializable, NetSerializable]
+public sealed class LanguageComponentState : ComponentState
+{
+    public readonly HashSet<ProtoId<LanguagePrototype>> KnownLanguages = new();
+    public readonly HashSet<ProtoId<LanguagePrototype>> CantSpeakLanguages = new();
+    public LanguageComponentState(HashSet<ProtoId<LanguagePrototype>> knownLanguages, HashSet<ProtoId<LanguagePrototype>> cantSpeakLanguages)
+    {
+        KnownLanguages = knownLanguages;
+        CantSpeakLanguages = cantSpeakLanguages;
+    }
 }

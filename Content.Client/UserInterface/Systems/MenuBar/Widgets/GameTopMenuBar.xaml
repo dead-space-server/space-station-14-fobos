@@ -53,6 +53,18 @@
         HorizontalExpand="True"
         AppendStyleClass="{x:Static style:StyleBase.ButtonSquare}"
         />
+    <!-- DS14-start -->
+    <ui:MenuButton
+        Name="LanguageButton"
+        Access="Internal"
+        Icon="{xe:Tex '/Textures/_DeadSpace/Interface/language-translation-svgrepo.svg.192dpi.png'}"
+        ToolTip="{Loc 'game-hud-open-language-menu-button-tooltip'}"
+        BoundKey = "{x:Static is:ContentKeyFunctions.OpenLanguageMenu}"
+        MinSize="42 64"
+        HorizontalExpand="True"
+        AppendStyleClass="{x:Static style:StyleBase.ButtonSquare}"
+        />
+    <!-- DS14-end -->
     <ui:MenuButton
         Name="CraftingButton"
         Access="Internal"

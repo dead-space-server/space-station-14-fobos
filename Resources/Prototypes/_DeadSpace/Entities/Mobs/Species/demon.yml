@@ -30,6 +30,7 @@
     damage:
       types:
         Piercing: 5
+  - type: Wagging
   - type: Temperature
     heatDamageThreshold: 400
     coldDamageThreshold: 193  #starting temperature damage treshold

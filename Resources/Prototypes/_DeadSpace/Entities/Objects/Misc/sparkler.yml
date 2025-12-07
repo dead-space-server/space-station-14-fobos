@@ -1,0 +1,68 @@
+﻿- type: entity
+  name: бенгальский огонь
+  parent: BaseItem
+  id: Sparkler
+  description: Яркий бенгальский огонь, который можно зажечь для создания праздничной атмосферы. Горит недолго и быстро тухнет.
+  components:
+  - type: SpaceGarbage
+  - type: ExpendableLight
+    glowDuration: 120
+    fadeOutDuration: 15
+    iconStateOn: icon
+    iconStateSpent: flare_spent
+    turnOnBehaviourID: turn_on
+    fadeOutBehaviourID: fade_out
+    litSound:
+      path: /Audio/Items/Flare/flare_on.ogg
+    loopedSound:
+      path: /Audio/Items/Flare/flare_burn.ogg
+      params:
+        loop: true
+        volume: -5
+        maxDistance: 5
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Misc/sparkler.rsi
+    layers:
+      - map: [ enum.ExpendableLightVisualLayers.Overlay ]
+        state: icon
+      - map: [ enum.ExpendableLightVisualLayers.Glow ]
+        state: flare_burn
+        visible: false
+        shader: unshaded
+  - type: Icon
+    sprite: _DeadSpace/Objects/Misc/sparkler.rsi
+    state: icon
+  - type: Item
+    sprite: _DeadSpace/Objects/Misc/sparkler.rsi
+    heldPrefix: unlit
+    size: Tiny
+  - type: Appearance
+  - type: PointLight
+    enabled: false
+    color: "#ffe1af"
+    radius: 0.6
+    energy: 3.0
+    netsync: false
+  - type: IgnitionSource
+    temperature: 1000
+  - type: LightBehaviour
+    behaviours:
+      - !type:FadeBehaviour # have the radius start small and get larger as it starts to burn
+        id: turn_on
+        maxDuration: 0.3
+        startValue: 1.0
+        endValue: 3.0
+      - !type:RandomizeBehaviour # weaker flicker as it fades out
+        id: fade_out
+        interpolate: Nearest
+        minDuration: 0.01
+        maxDuration: 0.03
+        startValue: 2.5
+        endValue: 3.5
+        property: Energy
+        isLooped: true
+      - !type:FadeBehaviour # fade out radius as it burns out
+        id: fade_out
+        maxDuration: 15.0
+        startValue: 3.0
+        endValue: 0.0
