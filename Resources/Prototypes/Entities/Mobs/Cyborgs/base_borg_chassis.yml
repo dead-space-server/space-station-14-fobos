@@ -494,8 +494,15 @@
     - Mothership
     - Xenoborg
     - Binary
-  - type: Repairable
-    doAfterDelay: 13 # 25% more HP, so 30% more time to heal
+  - type: Repairable # DS14 values
+    doAfterDelay: 5
+    fuelCost: 10
+    selfRepairPenalty: 5
+    damage:
+      types:
+        Blunt: -15
+        Piercing: -15
+        Slash: -15
   - type: BorgChassis
     maxModules: 0
     hasMindState: robot_e
