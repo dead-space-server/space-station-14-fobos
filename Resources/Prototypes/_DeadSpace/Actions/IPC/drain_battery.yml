@@ -1,7 +1,7 @@
 ﻿- type: entity
   id: ActionDrainBattery
-  name: Drain battery
-  description: Drain battery
+  name: Переключить зарядку
+  description: Переключает режим зарядки батареи.
   components:
   - type: Action
     icon: _Corvax/Interface/Actions/off.png
