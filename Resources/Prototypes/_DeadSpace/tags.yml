@@ -128,6 +128,9 @@
   id: HolopadAdminNotification
 
 - type: Tag
+  id: HudCommand
+
+- type: Tag
   id: Hypopen
 
 - type: Tag

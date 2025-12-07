@@ -13,7 +13,7 @@
                 state: icon
               doAfter: 5
             - tag: HudCommand
-              name: административный визор
+              name: construction-graph-tag-command-hud
               icon:
                 sprite: Clothing/Eyes/Hud/command.rsi
                 state: icon
