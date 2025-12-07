@@ -238,7 +238,7 @@
     - шлум
   generateTTSForLexicon: false
   lexiconSound:
-    collection: SlimeSounds
+    collection: Squishes
 
 - type: language
   id: ArachnidLanguage
@@ -267,7 +267,7 @@
     collection: SpiderLexicon
 
 - type: language
-  id: TreeLanguage
+  id: DionaLanguage
   name: Шелестящий
   icon: /Textures/_DeadSpace/LanguageIcons/tree.png
   speechMode: Syllable
@@ -292,7 +292,7 @@
     - фш
   generateTTSForLexicon: false
   lexiconSound:
-    collection: TreeLexicon
+    collection: DionaLexicon
 
 
 - type: language
@@ -434,8 +434,6 @@
     - че
     - ыо
   generateTTSForLexicon: false
-  lexiconSound:
-    collection: DemonLexicon
 
 - type: language
   id: DemonLanguage
@@ -588,8 +586,8 @@
     - ро
     - ва
   generateTTSForLexicon: false
-  lexiconSound:
-    collection: PlafLexicon
+  # lexiconSound:
+  #   collection: PlafLexicon
 
 
 - type: language
@@ -644,7 +642,7 @@
     - та
   generateTTSForLexicon: false
   lexiconSound:
-    collection: VulpLexicon
+    collection: DogLexicon
 
 
 - type: language
@@ -699,9 +697,9 @@
     - вуу
     - гхи
     - ше
-  generateTTSForLexicon: false
-  lexiconSound:
-    collection: CarpDragonLexicon
+  generateTTSForLexicon: true
+  # lexiconSound:
+  #   collection: CarpDragonLexicon
 
 
 - type: language
