@@ -495,7 +495,7 @@
     - Xenoborg
     - Binary
   - type: Repairable # DS14 values
-    doAfterDelay: 5
+    doAfterDelay: 3
     fuelCost: 10
     selfRepairPenalty: 5
     damage:
