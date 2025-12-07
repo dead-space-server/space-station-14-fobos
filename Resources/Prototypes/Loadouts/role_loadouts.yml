@@ -39,6 +39,13 @@
   nameDataset: NamesAI
   canCustomizeName: true
 
+# DS14-start
+- type: roleLoadout
+  id: JobBorgSecurity
+  nameDataset: NamesBorg
+  canCustomizeName: true
+# DS14-end
+
 # Civilian
 - type: roleLoadout
   id: JobPassenger

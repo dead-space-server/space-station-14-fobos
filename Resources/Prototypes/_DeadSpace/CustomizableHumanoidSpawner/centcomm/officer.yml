@@ -47,10 +47,10 @@
 - type: loadout
   id: CentralCommandOfficerLoadout
   equipment:
-    jumpsuit: ClothingUniformJumpsuitCentcomOfficial
+    jumpsuit: ClothingUniformJumpsuitCentcomOfficer
     neck: SecurityWhistle
     back: ClothingBackpackMilitarySatchel
-    shoes: ClothingShoesBootsJackSecFilled
+    shoes: ClothingShoesBootsJackFilled
     eyes: ClothingEyesGlassesHiddenSecurity
     suitstorage: WeaponEnergyShotgun
     pocket1: TelescopicShield

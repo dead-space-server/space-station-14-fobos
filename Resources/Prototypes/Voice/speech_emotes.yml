@@ -138,6 +138,7 @@
     # Corvax-Localization-Start
     - свистит
     - свистнул
+    - свистнула
     # Corvax-Localization-End
 
 - type: emote
@@ -263,10 +264,11 @@
     requireAll: true
     components:
     - Vocal
-    - Vulpkanin
+    tags:
+    - VulpkaninEmotes
   blacklist:
-    components:
-    - BorgChassis
+    tags:
+    - SiliconEmotes
     - SiliconIPSIPCEmotes
   chatMessages: ["chat-emote-msg-bark"]
   chatTriggers:
@@ -287,10 +289,11 @@
     requireAll: true
     components:
     - Vocal
-    - Vulpkanin
+    tags:
+    - VulpkaninEmotes
   blacklist:
-    components:
-    - BorgChassis
+    tags:
+    - SiliconEmotes
     - SiliconIPSIPCEmotes
   chatMessages: ["chat-emote-msg-snarl"]
   chatTriggers:
@@ -310,10 +313,11 @@
     requireAll: true
     components:
     - Vocal
-    - Vulpkanin
+    tags:
+    - VulpkaninEmotes
   blacklist:
-    components:
-    - BorgChassis
+    tags:
+    - SiliconEmotes
     - SiliconIPSIPCEmotes
   chatMessages: ["chat-emote-msg-whine"]
   chatTriggers:
@@ -331,14 +335,16 @@
   name: chat-emote-name-howl
   category: Vocal
   available: false
+  icon: _DeadSpace/Interface/Emotes/howl.png # DS14
   whitelist:
     requireAll: true
     components:
     - Vocal
-    - Vulpkanin
+    tags:
+    - VulpkaninEmotes
   blacklist:
-    components:
-    - BorgChassis
+    tags:
+    - SiliconEmotes
     - SiliconIPSIPCEmotes
   chatMessages: ["chat-emote-msg-howl"]
   chatTriggers:
@@ -354,15 +360,17 @@
   id: Growl
   name: chat-emote-name-growl
   category: Vocal
+  icon: _DeadSpace/Interface/Emotes/growl.png # DS14
   available: false
   whitelist:
     requireAll: true
     components:
     - Vocal
-    - Vulpkanin
+    tags:
+    - VulpkaninEmotes
   blacklist:
-    components:
-    - BorgChassis
+    tags:
+    - SiliconEmotes
     - SiliconIPSIPCEmotes
   chatMessages: ["chat-emote-msg-growl"]
   chatTriggers:
@@ -399,7 +407,7 @@
     - хлопает в ладоши
     - хлопнул в ладоши
     - хлопнула в ладоши
-    - апплодирует
+    - аплодирует
     # Corvax-Localization-End
 
 - type: emote
@@ -421,6 +429,11 @@
     - claps her hands together
     - claps his hands together
     - claps its hands together
+# DS14-localization-start
+    - делает хлопок
+    - хлопает один раз
+    - ударяет в ладоши
+# DS14-localization-end
 
 - type: emote
   id: Snap
@@ -534,6 +547,9 @@
    - gasp
    - gasps
    - gasped
+   # DS14-localization-start
+   - задыхается
+   # DS14-localization-end
 
 - type: emote
   id: DefaultDeathgasp

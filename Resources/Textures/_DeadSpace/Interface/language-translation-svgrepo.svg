@@ -1,0 +1,19 @@
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+<svg width="64px" height="64px" viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+<g id="SVGRepo_bgCarrier" stroke-width="0"/>
+<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+<g id="SVGRepo_iconCarrier">
+<defs>
+<style>.cls-1{fill:none;stroke:#ffffff;stroke-miterlimit:10;stroke-width:1.92px;}</style>
+</defs>
+<line class="cls-1" x1="0.5" y1="3.35" x2="12" y2="3.35"/>
+<line class="cls-1" x1="6.25" y1="0.48" x2="6.25" y2="3.35"/>
+<path class="cls-1" d="M9.12,3.35c0,3.52-3.28,8.2-7.66,10.55"/>
+<path class="cls-1" d="M4.51,7.37A16.4,16.4,0,0,0,11,13.9"/>
+<polyline class="cls-1" points="12.96 22.52 16.79 11.98 17.75 11.98 21.58 22.52"/>
+<line class="cls-1" x1="20.43" y1="18.69" x2="15.07" y2="18.69"/>
+<line class="cls-1" x1="11.04" y1="22.52" x2="14.88" y2="22.52"/>
+<line class="cls-1" x1="19.67" y1="22.52" x2="23.5" y2="22.52"/>
+</g>
+</svg>
