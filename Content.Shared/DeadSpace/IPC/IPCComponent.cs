@@ -8,6 +8,16 @@ namespace Content.Shared.DeadSpace.IPC;
 [RegisterComponent, NetworkedComponent]
 public sealed partial class IPCComponent : Component
 {
+    public const short MaxBatteryAlertLevels = 10;
+
+    [DataField]
+    [ViewVariables]
+    public float BatteryLowThreshold = 0.01f;
+
+    [DataField]
+    [ViewVariables]
+    public float MovementPenalty = 0.2f;
+
     [DataField]
     public ProtoId<AlertPrototype> BatteryAlert = "BorgBattery";
 
@@ -18,15 +28,18 @@ public sealed partial class IPCComponent : Component
     public EntProtoId DrainBatteryAction = "ActionDrainBattery";
 
     [DataField]
+    [ViewVariables]
     public EntityUid? ActionEntity;
 
+    [ViewVariables]
     public bool DrainActivated;
 
     [DataField]
+    [ViewVariables]
     public float IdleDrainRate = 2.5f;
 
-    [DataField]
-    public int EmpDamage = 30;
+    [ViewVariables]
+    public short LastBatteryLevel;
 }
 
 public sealed partial class ToggleDrainActionEvent : InstantActionEvent

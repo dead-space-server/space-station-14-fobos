@@ -1,30 +1,23 @@
 ﻿using Content.Shared.Actions;
 using Content.Shared.Actions.Components;
 using Content.Shared.Alert;
-using Content.Shared.Damage;
 using Content.Shared.DeadSpace.IPC;
-using Content.Shared.Emp;
 using Content.Shared.Movement.Systems;
 using Content.Shared.Ninja.Components;
 using Content.Shared.Ninja.Systems;
-using Content.Shared.Power;
 using Content.Shared.Power.Components;
 using Content.Shared.Power.EntitySystems;
+using Content.Shared.Power;
 
 namespace Content.Server.DeadSpace.IPC;
 
 public sealed class IPCSystem : EntitySystem
 {
-    [Dependency] private readonly SharedActionsSystem _action = default!;
+    [Dependency] private readonly SharedActionsSystem _actions = default!;
     [Dependency] private readonly AlertsSystem _alerts = default!;
     [Dependency] private readonly SharedBatteryDrainerSystem _batteryDrainer = default!;
     [Dependency] private readonly SharedBatterySystem _battery = default!;
-    [Dependency] private readonly DamageableSystem _damageable = default!;
-    [Dependency] private readonly MovementSpeedModifierSystem _movement = default!;
-
-    private const float BatteryLowThreshold = 0.01f;
-    private const float MovementPenalty = 0.2f;
-    private const short BatteryAlertLevels = 10;
+    [Dependency] private readonly MovementSpeedModifierSystem _movementSpeedModifier = default!;
 
     public override void Initialize()
     {
@@ -34,7 +27,6 @@ public sealed class IPCSystem : EntitySystem
         SubscribeLocalEvent<IPCComponent, ComponentShutdown>(OnComponentShutdown);
         SubscribeLocalEvent<IPCComponent, ChangeChargeEvent>(OnBatteryChanged);
         SubscribeLocalEvent<IPCComponent, ToggleDrainActionEvent>(OnToggleAction);
-        SubscribeLocalEvent<IPCComponent, EmpPulseEvent>(OnEmpPulse);
         SubscribeLocalEvent<IPCComponent, RefreshMovementSpeedModifiersEvent>(OnRefreshMovement);
     }
 
@@ -42,11 +34,11 @@ public sealed class IPCSystem : EntitySystem
     {
         base.Update(frameTime);
 
-        var query = EntityQueryEnumerator<IPCComponent>();
+        var query = EntityQueryEnumerator<IPCComponent, BatteryComponent>();
 
-        while (query.MoveNext(out var uid, out var comp))
+        while (query.MoveNext(out var uid, out var comp, out var battery))
         {
-            if (!TryComp<BatteryComponent>(uid, out var battery))
+            if (MathHelper.CloseTo(comp.IdleDrainRate, 0f))
                 continue;
 
             var drain = comp.IdleDrainRate * frameTime;
@@ -54,34 +46,36 @@ public sealed class IPCSystem : EntitySystem
                 continue;
 
             _battery.TryUseCharge(uid, drain, battery);
-
-            UpdateBatteryAlert(uid, comp);
+            UpdateBatteryAlert(uid, comp, battery);
         }
     }
 
     private void OnMapInit(EntityUid uid, IPCComponent comp, MapInitEvent args)
     {
-        UpdateBatteryAlert(uid, comp);
+        if (TryComp<BatteryComponent>(uid, out var battery))
+            UpdateBatteryAlert(uid, comp, battery);
 
-        if (TryComp<ActionsComponent>(uid, out _))
+        if (HasComp<ActionsComponent>(uid))
         {
-            comp.ActionEntity = null;
-            _action.AddAction(uid, ref comp.ActionEntity, comp.DrainBatteryAction);
+            _actions.AddAction(uid, ref comp.ActionEntity, comp.DrainBatteryAction);
         }
 
-        _movement.RefreshMovementSpeedModifiers(uid);
+        _movementSpeedModifier.RefreshMovementSpeedModifiers(uid);
     }
 
     private void OnComponentShutdown(EntityUid uid, IPCComponent comp, ComponentShutdown args)
     {
-        _action.RemoveAction(uid, comp.ActionEntity);
+        if (comp.ActionEntity.HasValue)
+        {
+            _actions.RemoveAction(uid, comp.ActionEntity.Value);
+        }
         RemComp<BatteryDrainerComponent>(uid);
     }
 
     private void OnBatteryChanged(EntityUid uid, IPCComponent comp, ChangeChargeEvent args)
     {
-        if (MetaData(uid).EntityLifeStage < EntityLifeStage.Terminating)
-            UpdateBatteryAlert(uid, comp);
+        if (TryComp<BatteryComponent>(uid, out var battery))
+            UpdateBatteryAlert(uid, comp, battery);
     }
 
     private void OnToggleAction(EntityUid uid, IPCComponent comp, ToggleDrainActionEvent args)
@@ -89,11 +83,16 @@ public sealed class IPCSystem : EntitySystem
         if (args.Handled)
             return;
 
-        comp.DrainActivated = !comp.DrainActivated;
-        _action.SetToggled(comp.ActionEntity, comp.DrainActivated);
+        SetDrainActivated(uid, comp, !comp.DrainActivated);
         args.Handled = true;
+    }
 
-        if (comp.DrainActivated && TryComp<BatteryComponent>(uid, out var battery))
+    private void SetDrainActivated(EntityUid uid, IPCComponent comp, bool value)
+    {
+        comp.DrainActivated = value;
+        _actions.SetToggled(comp.ActionEntity, value);
+
+        if (value && TryComp<BatteryComponent>(uid, out _))
         {
             EnsureComp<BatteryDrainerComponent>(uid);
             _batteryDrainer.SetBattery(uid, uid);
@@ -102,47 +101,44 @@ public sealed class IPCSystem : EntitySystem
             RemComp<BatteryDrainerComponent>(uid);
     }
 
-    private void UpdateBatteryAlert(EntityUid uid, IPCComponent comp)
-    {
-        if (!TryComp<BatteryComponent>(uid, out var battery) ||
-            battery.MaxCharge <= 0 ||
-            battery.CurrentCharge / battery.MaxCharge < BatteryLowThreshold)
-        {
-            ShowNoBattery(uid, comp);
-            return;
-        }
-
-        var level = (short)Math.Clamp(
-            MathF.Round(battery.CurrentCharge / battery.MaxCharge * BatteryAlertLevels),
-            1,
-            BatteryAlertLevels);
-
-        _alerts.ClearAlert(uid, comp.NoBatteryAlert);
-        _alerts.ShowAlert(uid, comp.BatteryAlert, level);
-        _movement.RefreshMovementSpeedModifiers(uid);
-    }
-
-    private void ShowNoBattery(EntityUid uid, IPCComponent comp)
-    {
-        _alerts.ClearAlert(uid, comp.BatteryAlert);
-        _alerts.ShowAlert(uid, comp.NoBatteryAlert);
-        _movement.RefreshMovementSpeedModifiers(uid);
-    }
-
     private void OnRefreshMovement(EntityUid uid, IPCComponent comp, RefreshMovementSpeedModifiersEvent args)
     {
-        if (!TryComp<BatteryComponent>(uid, out var battery) ||
-            battery.MaxCharge <= 0 ||
-            battery.CurrentCharge / battery.MaxCharge < BatteryLowThreshold)
-            args.ModifySpeed(MovementPenalty);
+        if (!TryComp<BatteryComponent>(uid, out var battery))
+            return;
+
+        var chargePercent = battery.CurrentCharge / battery.MaxCharge;
+
+        if (chargePercent < comp.BatteryLowThreshold)
+            args.ModifySpeed(comp.MovementPenalty);
     }
 
-    private void OnEmpPulse(EntityUid uid, IPCComponent comp, ref EmpPulseEvent args)
+    private void UpdateBatteryAlert(EntityUid uid, IPCComponent comp, BatteryComponent battery)
     {
-        args.Affected = true;
+        var chargePercent = battery.CurrentCharge / battery.MaxCharge;
+        short newLevel;
+        var maxLevels = IPCComponent.MaxBatteryAlertLevels;
 
-        var damage = new DamageSpecifier();
-        damage.DamageDict.Add("Shock", comp.EmpDamage);
-        _damageable.TryChangeDamage(uid, damage);
+        if (battery.MaxCharge <= 0 || chargePercent < comp.BatteryLowThreshold)
+        {
+            _alerts.ClearAlert(uid, comp.BatteryAlert);
+            _alerts.ShowAlert(uid, comp.NoBatteryAlert);
+            newLevel = 0;
+        }
+        else
+        {
+            newLevel = (short)Math.Clamp(MathF.Round(chargePercent * maxLevels), 1, maxLevels);
+
+            if (comp.LastBatteryLevel != newLevel)
+            {
+                _alerts.ClearAlert(uid, comp.NoBatteryAlert);
+                _alerts.ShowAlert(uid, comp.BatteryAlert, newLevel);
+            }
+        }
+
+        if (comp.LastBatteryLevel == newLevel)
+            return;
+
+        comp.LastBatteryLevel = newLevel;
+        _movementSpeedModifier.RefreshMovementSpeedModifiers(uid);
     }
 }

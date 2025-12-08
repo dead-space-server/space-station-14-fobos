@@ -494,6 +494,7 @@
     - Mothership
     - Xenoborg
     - Binary
+  - type: DamageOnEMP # DS14
   - type: Repairable # DS14 values
     doAfterDelay: 3
     fuelCost: 10
