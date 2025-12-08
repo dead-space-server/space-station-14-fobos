@@ -109,9 +109,16 @@
     - Science
   - type: ZombieImmune
   - type: ImmunitetInfectionDead
-  - type: Repairable
-    doAfterDelay: 10
-    allowSelfRepair: false
+  - type: DamageOnEMP # DS14
+  - type: Repairable # DS14 values
+    doAfterDelay: 3
+    fuelCost: 10
+    selfRepairPenalty: 5
+    damage:
+      types:
+        Blunt: -15
+        Piercing: -15
+        Slash: -15
   - type: BorgChassis
   - type: LockingWhitelist
     blacklist:
@@ -494,16 +501,8 @@
     - Mothership
     - Xenoborg
     - Binary
-  - type: DamageOnEMP # DS14
-  - type: Repairable # DS14 values
-    doAfterDelay: 3
-    fuelCost: 10
-    selfRepairPenalty: 5
-    damage:
-      types:
-        Blunt: -15
-        Piercing: -15
-        Slash: -15
+  - type: Repairable
+    doAfterDelay: 13 # 25% more HP, so 30% more time to heal
   - type: BorgChassis
     maxModules: 0
     hasMindState: robot_e
