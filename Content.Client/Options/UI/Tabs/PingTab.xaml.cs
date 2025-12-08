@@ -7,7 +7,7 @@ using Content.Shared.DeadSpace.GhostRoleNotify.Prototypes;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Configuration;
 using Content.Shared.DeadSpace.CCCCVars;
-using Content.Client.DeadSpace.NotifySystem.NotifyHelpers;
+using Content.Client.DeadSpace.Notify.NotifyHelpers;
 using Content.Client.Options.UI;
 
 namespace Content.Client.Options.UI.Tabs;
@@ -16,28 +16,27 @@ namespace Content.Client.Options.UI.Tabs;
 
 public sealed partial class PingTab : Control
 {
-    //private readonly NotifyHelper _helper = NotifyHelperProvider.Helper;
     private bool _isSaveNeeded = false;
-    private void AddCheckBox(INotifyHelper _helper, string checkBoxName, string id, bool savedSelection)
+    private void AddCheckBox(INotifyHelper helper, string checkBoxName, string id, bool savedSelection)
     {
         CheckBox newCheckBox = new CheckBox() { Text = checkBoxName }; //Loc.GetString(checkBoxName) };
         newCheckBox.Pressed = savedSelection;
         newCheckBox.OnToggled += _ =>
         {
             _isSaveNeeded = true;
-            _helper.SetValueAccess(id, newCheckBox.Pressed);
+            helper.SetValueAccess(id, newCheckBox.Pressed);
         };
 
         PingsCont.AddChild(newCheckBox);
     }
-    private void AddSaveButton(Button ourButton, IConfigurationManager cfg, INotifyHelper _helper)
+    private void AddSaveButton(Button ourButton, IConfigurationManager cfg, INotifyHelper helper)
     {
         ourButton.OnPressed += _ =>
         {
             if (_isSaveNeeded)
             {
                 _isSaveNeeded = false;
-                cfg.SetCVar(CCCCVars.SysNotifyCvar, _helper.PairListToString(_helper.GetDictionaryAccess()));
+                cfg.SetCVar(CCCCVars.SysNotifyCvar, helper.PairListToString(helper.GetDictionaryAccess()));
                 cfg.SaveToFile();
             }
         };
@@ -46,13 +45,13 @@ public sealed partial class PingTab : Control
     {
         var prototypeManager = IoCManager.Resolve<IPrototypeManager>();
         var cfg = IoCManager.Resolve<IConfigurationManager>();
-        var _helper = IoCManager.Resolve<INotifyHelper>();
-        _helper.EnsureInitialized();
+        var helper = IoCManager.Resolve<INotifyHelper>();
+        helper.EnsureInitialized();
         RobustXamlLoader.Load(this);
-        AddSaveButton(SaveButton, cfg, _helper);
+        AddSaveButton(SaveButton, cfg, helper);
         foreach (var proto in prototypeManager.EnumeratePrototypes<GhostRoleGroupNotify>())
         {
-            AddCheckBox(_helper, proto.Name, proto.ID, _helper.GetValueAccess(proto.ID));
+            AddCheckBox(helper, proto.Name, proto.ID, helper.GetValueAccess(proto.ID));
         }
         Control.Initialize();
     }

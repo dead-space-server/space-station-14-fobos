@@ -9,7 +9,7 @@ using Robust.Shared.Log;
 using Robust.Shared.IoC;
 using System.Collections.Generic;
 
-namespace Content.Client.DeadSpace.NotifySystem.NotifyHelpers;
+namespace Content.Client.DeadSpace.Notify.NotifyHelpers;
 
 public sealed class NotifyHelper : INotifyHelper
 {
@@ -23,12 +23,12 @@ public sealed class NotifyHelper : INotifyHelper
         _sawmill = _logManager.GetSawmill("NotifyHelper");
     }
 
-    private ConcurrentDictionary<string, bool> DictCvar = new ConcurrentDictionary<string, bool>();
-    private ConcurrentDictionary<string, bool> DictAccess = new ConcurrentDictionary<string, bool>();
+    private ConcurrentDictionary<string, bool> _dictCvar = new ConcurrentDictionary<string, bool>();
+    private ConcurrentDictionary<string, bool> _dictAccess = new ConcurrentDictionary<string, bool>();
 
     public bool GetValueAccess(string key)
     {
-        if (DictAccess.TryGetValue(key, out bool value))
+        if (_dictAccess.TryGetValue(key, out bool value))
         {
             return value;
         }
@@ -39,11 +39,11 @@ public sealed class NotifyHelper : INotifyHelper
     }
     public void SetValueAccess(string key, bool value)
     {
-        DictAccess[key] = value;
+        _dictAccess[key] = value;
     }
     public IReadOnlyDictionary<string, bool> GetDictionaryAccess()
     {
-        return DictAccess;
+        return _dictAccess;
     }
 
     public ConcurrentDictionary<string, bool> StringToPairList(string input)
@@ -72,7 +72,7 @@ public sealed class NotifyHelper : INotifyHelper
 
     public void EnsureInitialized()
     {
-        if (DictAccess.Count == 0)
+        if (_dictAccess.Count == 0)
         {
             GetDictionaryFromCCvar();
             CreateDictionaryForReciveSys();
@@ -102,20 +102,20 @@ public sealed class NotifyHelper : INotifyHelper
     {
         if (!string.IsNullOrWhiteSpace(_cfg.GetCVar(CCCCVars.SysNotifyCvar)))
         {
-            DictCvar = StringToPairList(_cfg.GetCVar(CCCCVars.SysNotifyCvar));
+            _dictCvar = StringToPairList(_cfg.GetCVar(CCCCVars.SysNotifyCvar));
         }
     }
     private void CreateDictionaryForReciveSys()
     {
         foreach (var proto in _prototypeManager.EnumeratePrototypes<GhostRoleGroupNotify>())
         {
-            if (DictCvar.ContainsKey(proto.ID))
+            if (_dictCvar.ContainsKey(proto.ID))
             {
-                DictAccess.AddOrUpdate(proto.ID, DictCvar[proto.ID], (k, oldValue) => DictCvar[proto.ID]);
+                _dictAccess.AddOrUpdate(proto.ID, _dictCvar[proto.ID], (k, oldValue) => _dictCvar[proto.ID]);
             }
             else
             {
-                DictAccess.TryAdd(proto.ID, false);
+                _dictAccess.TryAdd(proto.ID, false);
             }
         }
     }

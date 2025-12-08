@@ -29,7 +29,7 @@ using Content.Shared.Chat;
 using Content.Shared.IoC;
 using Content.Shared.Players.PlayTimeTracking;
 using Content.Shared.Players.RateLimiting;
-using Content.Client.DeadSpace.NotifySystem.NotifyHelpers;
+using Content.Client.DeadSpace.Notify.NotifyHelpers;
 
 namespace Content.Client.IoC
 {

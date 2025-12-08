@@ -3,13 +3,13 @@ using Content.Shared.DeadSpace.Ghost.SharedGhostPing;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Player;
 using Robust.Shared.Audio;
-using Content.Client.DeadSpace.NotifySystem.NotifyHelpers;
+using Content.Client.DeadSpace.Notify.NotifyHelpers;
 using Content.Shared.DeadSpace.CCCCVars;
 using Robust.Shared.Configuration;
 using Robust.Shared.Log;
 using Robust.Shared.Timing;
 
-namespace Content.Client.DeadSpace.NotifySystem.RecievNotify;
+namespace Content.Client.DeadSpace.Notify.ReceiveNotify;
 
 public sealed partial class ReceiveNotifySystem : EntitySystem
 {

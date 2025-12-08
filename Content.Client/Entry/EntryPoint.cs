@@ -41,7 +41,7 @@ using Robust.Shared.ContentPack;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Replays;
 using Robust.Shared.Timing;
-using Content.Client.DeadSpace.NotifySystem.NotifyHelpers;
+using Content.Client.DeadSpace.Notify.NotifyHelpers;
 
 namespace Content.Client.Entry
 {

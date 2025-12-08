@@ -4,7 +4,7 @@ using Robust.Shared.Configuration;
 using Robust.Shared.Prototypes;
 using System.Collections.Generic;
 
-namespace Content.Client.DeadSpace.NotifySystem.NotifyHelpers
+namespace Content.Client.DeadSpace.Notify.NotifyHelpers
 {
     public interface INotifyHelper
     {
