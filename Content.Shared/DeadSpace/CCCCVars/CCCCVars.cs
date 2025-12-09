@@ -96,12 +96,8 @@ public sealed class CCCCVars
         CVarDef.Create("game.modes_use_total_players", true, CVar.SERVERONLY | CVar.ARCHIVE);
 
     /*
-     * Donate
-     */
-
-    public static readonly CVarDef<string> DonateApiUrl =
-        CVarDef.Create("donate.api_url", "https://api-games.pyte.me/api/ss14/", CVar.SERVERONLY);
-
-    public static readonly CVarDef<string> DonateApiKey =
-        CVarDef.Create("donate.api_key", "", CVar.SERVERONLY | CVar.CONFIDENTIAL);
+    * Donate
+    */
+    public static readonly CVarDef<float> DonateSpawnTimeLimit =
+        CVarDef.Create("donate.spawn_time_limit_minutes", 30f, CVar.SERVER | CVar.CONFIDENTIAL);
 }

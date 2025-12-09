@@ -24,6 +24,7 @@ public sealed class EmeraldItemCard : Control
     private bool _timeAllways;
     private bool _isActive;
     private bool _isSpawned;
+    private bool _isTimeUp;
 
     private readonly Color _bgColor = Color.FromHex("#1a0f2e");
     private readonly Color _borderColor = Color.FromHex("#4a3a6a");
@@ -99,6 +100,16 @@ public sealed class EmeraldItemCard : Control
         set
         {
             _isSpawned = value;
+            InvalidateMeasure();
+        }
+    }
+
+    public bool IsTimeUp
+    {
+        get => _isTimeUp;
+        set
+        {
+            _isTimeUp = value;
             InvalidateMeasure();
         }
     }
@@ -221,9 +232,9 @@ public sealed class EmeraldItemCard : Control
             handle.DrawRect(glowRect, _hoverGlowColor.WithAlpha(0.3f));
         }
 
-        var borderColor = _isSpawned ? _spawnedColor :
-                         _isActive ? _borderColor :
-                         _inactiveColor;
+        var borderColor = _isActive ? _borderColor :
+                        _isSpawned ? _spawnedColor :
+                        _inactiveColor;
         handle.DrawLine(rect.TopLeft, rect.TopRight, borderColor);
         handle.DrawLine(rect.TopRight, rect.BottomRight, borderColor);
         handle.DrawLine(rect.BottomRight, rect.BottomLeft, borderColor);
@@ -234,15 +245,25 @@ public sealed class EmeraldItemCard : Control
         var nameY = 99f;
         var lineHeight = _nameFont.GetLineHeight(1f);
 
-        var nameColor = _isSpawned ? _spawnedColor :
-                       _isActive ? _nameColor :
-                       _inactiveColor;
+        var nameColor = _isActive ? _borderColor :
+                        _isSpawned ? _spawnedColor :
+                        _inactiveColor;
         for (int i = 0; i < lines.Count; i++)
         {
             var line = lines[i];
             var lineWidth = GetTextWidth(line, _nameFont);
             var lineX = (PixelSize.X - lineWidth) / 2f;
             handle.DrawString(_nameFont, new Vector2(lineX, nameY + i * lineHeight), line, 1f, nameColor);
+        }
+
+        if (!_isActive)
+        {
+            var inactiveText = "НЕАКТИВЕН";
+            var inactiveWidth = GetTextWidth(inactiveText, _statusFont);
+            var inactiveX = (PixelSize.X - inactiveWidth) / 2f;
+            var inactiveY = nameY + lines.Count * lineHeight + 4f;
+            handle.DrawString(_statusFont, new Vector2(inactiveX, inactiveY), inactiveText, 1f, _inactiveColor);
+            return;
         }
 
         if (_isSpawned)
@@ -255,13 +276,13 @@ public sealed class EmeraldItemCard : Control
             return;
         }
 
-        if (!_isActive)
+        if (_isTimeUp)
         {
-            var inactiveText = "НЕАКТИВЕН";
-            var inactiveWidth = GetTextWidth(inactiveText, _statusFont);
-            var inactiveX = (PixelSize.X - inactiveWidth) / 2f;
-            var inactiveY = nameY + lines.Count * lineHeight + 4f;
-            handle.DrawString(_statusFont, new Vector2(inactiveX, inactiveY), inactiveText, 1f, _inactiveColor);
+            var timeUpText = "ВРЕМЯ ИСТЕКЛО";
+            var timeUpWidth = GetTextWidth(timeUpText, _statusFont);
+            var timeUpX = (PixelSize.X - timeUpWidth) / 2f;
+            var timeUpY = nameY + lines.Count * lineHeight + 4f;
+            handle.DrawString(_statusFont, new Vector2(timeUpX, timeUpY), timeUpText, 1f, _timeExpiringColor);
             return;
         }
 

@@ -27,6 +27,9 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
     private EmeraldCrystalDisplay _crystalDisplay = default!;
     private EmeraldShopButton _shopButton = default!;
 
+    private Control _topPanel = default!;
+    private Control _tabsContainer = default!;
+
     private EmeraldButton _profileTabButton = default!;
     private EmeraldButton _inventoryTabButton = default!;
 
@@ -48,6 +51,7 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
         MinSize = SetSize = new Vector2(800, 600);
 
         BuildUI();
+        ShowLoading();
     }
 
     private void BuildUI()
@@ -60,13 +64,13 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
             SeparationOverride = 0
         };
 
-        var topPanel = BuildTopPanel();
-        mainContainer.AddChild(topPanel);
+        _topPanel = BuildTopPanel();
+        mainContainer.AddChild(_topPanel);
 
         mainContainer.AddChild(new Control { MinHeight = 10 });
 
-        var tabsContainer = BuildTabsContainer();
-        mainContainer.AddChild(tabsContainer);
+        _tabsContainer = BuildTabsContainer();
+        mainContainer.AddChild(_tabsContainer);
 
         mainContainer.AddChild(new Control { MinHeight = 10 });
 
@@ -86,11 +90,45 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
         SwitchTab(Tab.Profile);
     }
 
+    private void ShowLoading()
+    {
+        _profilePanel.RemoveAllChildren();
+
+        var container = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Vertical,
+            HorizontalExpand = true,
+            VerticalExpand = true,
+            HorizontalAlignment = HAlignment.Center,
+            VerticalAlignment = VAlignment.Center,
+            SeparationOverride = 20
+        };
+
+        var loadingLabel = new Label
+        {
+            Text = "ИДЁТ ЗАГРУЗКА...",
+            HorizontalAlignment = HAlignment.Center,
+            FontColorOverride = Color.FromHex("#d4c5e8")
+        };
+        container.AddChild(loadingLabel);
+
+        var waitLabel = new Label
+        {
+            Text = "Подождите, пожалуйста",
+            HorizontalAlignment = HAlignment.Center,
+            FontColorOverride = Color.FromHex("#c0b3da")
+        };
+        container.AddChild(waitLabel);
+
+        _profilePanel.AddChild(container);
+    }
+
     private Control BuildTopPanel()
     {
         var panel = new EmeraldPanel
         {
             HorizontalExpand = true,
+            Visible = false,
             Margin = new Thickness(2, 0, 0, 0)
         };
 
@@ -150,6 +188,7 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
         {
             Orientation = BoxContainer.LayoutOrientation.Horizontal,
             HorizontalExpand = true,
+            Visible = false,
             SeparationOverride = 10,
             Margin = new Thickness(2, 0, 2, 0)
         };
@@ -185,6 +224,7 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
         {
             Orientation = BoxContainer.LayoutOrientation.Vertical,
             HorizontalExpand = true,
+            VerticalExpand = true,
             SeparationOverride = 12,
             Margin = new Thickness(2)
         };
@@ -268,6 +308,27 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
     {
         _state = state;
 
+        if (state.HasError)
+        {
+            _topPanel.Visible = false;
+            _tabsContainer.Visible = false;
+
+            ShowError(state.ErrorMessage);
+            return;
+        }
+
+        if (!state.IsRegistered)
+        {
+            _topPanel.Visible = false;
+            _tabsContainer.Visible = false;
+
+            ShowRegistrationRequired();
+            return;
+        }
+
+        _topPanel.Visible = false;
+        _tabsContainer.Visible = false;
+
         _levelBar.Level = state.Level;
         _levelBar.Experience = state.Experience;
         _levelBar.RequiredExp = state.RequiredExp;
@@ -279,6 +340,99 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
 
         UpdateProfileContent(state);
         UpdateInventoryContent(state);
+    }
+
+    private void ShowRegistrationRequired()
+    {
+        _profilePanel.RemoveAllChildren();
+
+        var container = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Vertical,
+            HorizontalExpand = true,
+            VerticalExpand = true,
+            HorizontalAlignment = HAlignment.Center,
+            VerticalAlignment = VAlignment.Center,
+            SeparationOverride = 20
+        };
+
+        var title = new Label
+        {
+            Text = "ТРЕБУЕТСЯ РЕГИСТРАЦИЯ",
+            HorizontalAlignment = HAlignment.Center,
+            FontColorOverride = Color.FromHex("#d4c5e8")
+        };
+        container.AddChild(title);
+
+        var message = new Label
+        {
+            Text = "Перейдите по ссылке и зарегистрируйтесь в веб ресурсе.\nДля регистрации может потребоваться VPN.",
+            HorizontalAlignment = HAlignment.Center,
+            VerticalAlignment = VAlignment.Center,
+            FontColorOverride = Color.FromHex("#c0b3da")
+        };
+        container.AddChild(message);
+
+        var button = new Button
+        {
+            Text = "ПЕРЕЙТИ НА САЙТ",
+            HorizontalExpand = true,
+            MinSize = new Vector2(200, 40)
+        };
+        button.OnPressed += (args) =>
+        {
+            _url.OpenUri("https://deadspace14.net");
+        };
+        container.AddChild(button);
+
+        _profilePanel.AddChild(container);
+    }
+
+    private void ShowError(string message)
+    {
+        _profilePanel.RemoveAllChildren();
+
+        var container = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Vertical,
+            HorizontalExpand = true,
+            VerticalExpand = true,
+            HorizontalAlignment = HAlignment.Center,
+            VerticalAlignment = VAlignment.Center,
+            SeparationOverride = 20
+        };
+
+        var title = new Label
+        {
+            Text = "ОШИБКА",
+            HorizontalAlignment = HAlignment.Center,
+            FontColorOverride = Color.FromHex("#FF6B6B")
+        };
+        container.AddChild(title);
+
+        var errorLabel = new Label
+        {
+            Text = message,
+            HorizontalAlignment = HAlignment.Center,
+            VerticalAlignment = VAlignment.Center,
+            FontColorOverride = Color.FromHex("#c0b3da")
+        };
+        container.AddChild(errorLabel);
+
+        var retryButton = new Button
+        {
+            Text = "ПОПРОБОВАТЬ СНОВА",
+            HorizontalExpand = true,
+            MinSize = new Vector2(200, 40)
+        };
+        retryButton.OnPressed += (args) =>
+        {
+            ShowLoading();
+            _entManager.EntityNetManager.SendSystemNetworkMessage(new RequestUpdateDonateShop());
+        };
+        container.AddChild(retryButton);
+
+        _profilePanel.AddChild(container);
     }
 
     private void UpdateProfileContent(DonateShopState state)
@@ -523,7 +677,8 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
                 TimeFinish = item.TimeFinish,
                 TimeAllways = item.TimeAllways,
                 IsActive = item.IsActive,
-                IsSpawned = _state.SpawnedItems.Contains(item.ItemIdInGame ?? "")
+                IsSpawned = _state.SpawnedItems.Contains(item.ItemIdInGame ?? ""),
+                IsTimeUp = _state.IsTimeUp
             };
 
             itemCard.OnSpawnRequest += protoId =>

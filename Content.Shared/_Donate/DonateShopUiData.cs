@@ -3,35 +3,50 @@ using Robust.Shared.Serialization;
 namespace Content.Shared._Donate;
 
 [Serializable, NetSerializable]
+public enum DonateShopUiKey : byte
+{
+    Key
+}
+
+
+[Serializable, NetSerializable]
 public sealed class DonateShopState
 {
-    public string PlayerUserName { get; set; }
-    public string Ss14PlayerId { get; }
-    public string OocColor { get; }
-    public int ExtraSlots { get; }
-    public bool HavePriorityJoinGame { get; }
-    public bool HavePriorityAntageGame { get; }
-    public bool AllowJob { get; }
-    public float Energy { get; }
-    public int Crystals { get; }
-    public int Level { get; }
-    public int Experience { get; }
-    public int RequiredExp { get; }
-    public int ToNextLevel { get; }
-    public float Progress { get; }
+    public string PlayerUserName { get; set; } = "Unknown";
+    public string Ss14PlayerId { get; } = string.Empty;
+    public string OocColor { get; } = "#EEEEEE";
+    public string ErrorMessage { get; } = string.Empty;
+    public int ExtraSlots { get; } = 0;
+    public bool IsRegistered { get; } = false;
+    public bool HasError { get; } = false;
+    public bool HavePriorityJoinGame { get; } = false;
+    public bool HavePriorityAntageGame { get; } = false;
+    public bool AllowJob { get; } = false;
+    public bool IsTimeUp { get; } = false;
+    public float Energy { get; } = 0f;
+    public int Crystals { get; } = 0;
+    public int Level { get; } = 1;
+    public int Experience { get; } = 0;
+    public int RequiredExp { get; } = 10;
+    public int ToNextLevel { get; } = 10;
+    public float Progress { get; } = 0f;
     public PremiumData? CurrentPremium { get; }
-    public List<DonateItemData> Items { get; }
-    public List<DonateSubscribeData> Subscribes { get; }
-    public HashSet<string> SpawnedItems { get; set; }
+    public List<DonateItemData> Items { get; } = new List<DonateItemData>();
+    public List<DonateSubscribeData> Subscribes { get; } = new List<DonateSubscribeData>();
+    public HashSet<string> SpawnedItems { get; set; } = new HashSet<string>();
 
     public DonateShopState(
         string playerUserName,
         string ss14PlayerId,
         string oocColor,
+        string errorMessage,
         int extraSlots,
+        bool isRegistered,
         bool havePriorityJoinGame,
         bool havePriorityAntageGame,
         bool allowJob,
+        bool hasError,
+        bool isTimeUp,
         float energy,
         int crystals,
         int level,
@@ -47,10 +62,14 @@ public sealed class DonateShopState
         PlayerUserName = playerUserName;
         Ss14PlayerId = ss14PlayerId;
         OocColor = oocColor;
+        ErrorMessage = errorMessage;
         ExtraSlots = extraSlots;
+        IsRegistered = isRegistered;
         HavePriorityJoinGame = havePriorityJoinGame;
         HavePriorityAntageGame = havePriorityAntageGame;
         AllowJob = allowJob;
+        HasError = hasError;
+        IsTimeUp = isTimeUp;
         Energy = energy;
         Crystals = crystals;
         Level = level;
@@ -62,6 +81,17 @@ public sealed class DonateShopState
         Items = items;
         Subscribes = subscribes;
         SpawnedItems = spawnedItems ?? new HashSet<string>();
+    }
+
+    public DonateShopState(bool isRegistered)
+    {
+        IsRegistered = isRegistered;
+    }
+
+    public DonateShopState(string errorMessage)
+    {
+        ErrorMessage = errorMessage;
+        HasError = true;
     }
 }
 
@@ -183,12 +213,6 @@ public sealed class PremiumLevelData
         BonusEnergy = bonusEnergy;
         BonusSlots = bonusSlots;
     }
-}
-
-[Serializable, NetSerializable]
-public enum DonateShopUiKey : byte
-{
-    Key
 }
 
 [Serializable, NetSerializable]
