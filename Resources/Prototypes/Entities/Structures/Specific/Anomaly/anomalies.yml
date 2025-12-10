@@ -971,8 +971,11 @@
     - Honk
     - Carpetium
     - JuiceThatMakesYouWeh
-  - type: Drink
+  - type: Edible
+    edible: Drink
     solution: anomaly
+    destroyOnEmpty: false
+    utensil: Spoon
   - type: DrainableSolution
     solution: anomaly
   - type: DrawableSolution
@@ -1147,7 +1150,7 @@
         maxAmount: 5
         maxRange: 5
       spawns:
-      - PresentRandomUnsafe
+     # - PresentRandomUnsafe # DS14-disabled
       - PresentRandom
       - PresentRandomCoal
       - PresentRandomCash
@@ -1159,7 +1162,7 @@
         maxAmount: 20
         maxRange: 6
       spawns:
-      - PresentRandomInsane
+      - PresentRandom # DS14
   - type: ProjectileAnomaly
     projectilePrototype: DrinkLemonLimeCranberryCan
     minProjectiles: 1

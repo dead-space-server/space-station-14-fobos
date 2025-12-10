@@ -46,7 +46,7 @@
   - type: Perishable
   - type: Sanity # DS14
   - type: Inventory
-    speciesId: reptilian # for reptilian masks
+    speciesId: vulpkanin # for vulpkanin helmets
   - type: Vocal
     wilhelm: "/Audio/_DeadSpace/Voice/Felinid/cat_wilhelm.ogg"
     sounds:
@@ -55,7 +55,19 @@
       Unsexed: MaleTajaran
   # - type: Speech
   #   speechSounds: Tajaran
-  - type: CatVocal # For cat emotes
+  - type: Tag
+    tags:
+    - CatEmotes
+    - TailEmotes
+    - CanPilot
+    - FootstepSound
+    - DoorBumpOpener
+    - AnomalyHost
+  - type: Language
+    selectedLanguage: GeneralLanguage
+    knownLanguages:
+    - CatLanguage
+    - GeneralLanguage
   # - type: FootPrints
     # leftBarePrint: "footprint-left-bare-lizard"
     # rightBarePrint: "footprint-right-bare-lizard"

@@ -534,6 +534,13 @@
                   max: 1
             - !type:DoActsBehavior
               acts: [ "Destruction" ]
+# DS14-start
+    - type: Construction
+      graph: TitaniumGirder
+      node: plastitaniumWall
+    - type: StaticPrice
+      price: 340
+# DS14-end
 
 - type: entity
   parent: WallDiagonalBase
@@ -583,6 +590,13 @@
         - !type:PlaySoundBehavior
           sound:
             collection: MetalSlam
+# DS14-start
+  - type: Construction
+    graph: TitaniumGirder
+    node: diagonalplastitaniumWall
+  - type: StaticPrice
+    price: 340
+# DS14-end
 
 - type: entity
   parent: BaseWall
@@ -1596,6 +1610,11 @@
   - type: IconSmooth
     key: cobblebricks
     base: cobblebrick
+# DS14-start
+  - type: Construction
+    graph: BlockWalls
+    node: snowWall
+# DS14-end
 
 - type: entity
   parent: WallCobblebrick

@@ -259,7 +259,26 @@
         Heat: 10 # capable of touching light bulbs and stoves without feeling pain!
   - type: TTS # Corvax-TTS
     voice: TrainingRobot
-  - type: EmotePanel # DS14-Emote-panel
+  - type: Language # DS14
+    selectedLanguage: GeneralLanguage
+    knownLanguages:
+    - GeneralLanguage
+    - ArachnidLanguage
+    - SlimeLanguage
+    - DionaLanguage
+    - MothLanguage
+    - ReptilianLanguage
+    - VoxLanguage
+    - DemonLanguage
+    - CatLanguage
+    - MachineLanguage
+    - ReptilianLanguage
+    - PlafLanguage
+    - VulpkaninLanguage
+    - XenomorphLanguage
+  - type: LightningTarget # DS14
+    priority: 2
+    lightningExplode: false
 
 - type: entity
   abstract: true

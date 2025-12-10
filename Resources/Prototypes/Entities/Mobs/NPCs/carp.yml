@@ -83,8 +83,14 @@
         - Carp
         - DoorBumpOpener
         - CannotSuicide
-    - type: ReplacementAccent
-      accent: genericAggressive
+    # DS14-Languages-start
+    # - type: ReplacementAccent
+    #   accent: genericAggressive
+    - type: Language
+      selectedLanguage: CarpDragonLanguage
+      knownLanguages:
+      - CarpDragonLanguage
+    # DS14-Languages-end
     - type: Speech
       speechVerb: LargeMob
     - type: InteractionPopup
@@ -92,7 +98,12 @@
       interactFailureString: petting-failure-carp
       interactFailureSound:
         path: /Audio/Effects/bite.ogg
-    - type: NightVision # DS14
+    # DS14-start
+    - type: NightVision
+      color: "#22334411"
+      animation: true
+      transitionSpeed: 100
+    # DS14-end
 
 - type: entity
   parent: BaseMobCarp

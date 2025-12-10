@@ -32,11 +32,17 @@
     speechSounds: Pai
   - type: ZombieImmune
   - type: Repairable
-    doAfterDelay: 30
+    doAfterDelay: 3
     fuelCost: 10
-    allowSelfRepair: false
+    selfRepairPenalty: 3
+    damage:
+      types:
+        Blunt: -15
+        Piercing: -15
+        Slash: -15
   - type: Damageable
-    damageContainer: StructuralInorganic
+    damageContainer: Silicon
+    damageModifierSet: IPC
   - type: DamageOnHighSpeedImpact
     damage:
       types:
@@ -79,6 +85,22 @@
       - Heat
       - Shock
     locPrefix: silicon
+  - type: StatusEffects
+    allowed:
+    - Stun
+    - KnockedDown
+    - SlowedDown
+    - Stutter
+    - SeeingRainbows
+    - Electrocution
+    - SlurredSpeech
+    - PressureImmunity
+    - Muted
+    - TemporaryBlindness
+    - Pacified
+  - type: LightningTarget
+    priority: 2
+    lightningExplode: false
   - type: UnpoweredFlashlight
   - type: PointLight
     enabled: false
@@ -92,6 +114,12 @@
       Male: IPSIPC
       Female: IPSIPC
       Unsexed: IPSIPC
+  - type: DamagedSiliconAccent
+  - type: Language
+    selectedLanguage: GeneralLanguage
+    knownLanguages:
+    - MachineLanguage
+    - GeneralLanguage
   - type: Tag
     tags:
     - SiliconIPSIPCEmotes

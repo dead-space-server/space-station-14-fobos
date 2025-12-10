@@ -35,8 +35,6 @@
     - part-container
     - cell_slot
     node: security
-  - type: Speech
-    speechVerb: Robotic
   - type: InteractionPopup
     interactSuccessString: petting-success-generic-cyborg
     interactFailureString: petting-failure-generic-cyborg
@@ -59,11 +57,9 @@
   - type: AccessReader
     access: [["Command"], ["Security"]]
   - type: Damageable
-    damageModifierSet: SecurityBorg
+    damageModifierSet: StandardBorg
   - type: ExplosionResistance
     damageCoefficient: 0.5
-  - type: Loadout
-    prototypes: [ BorgSecurity ]
   - type: TTS
     voice: Glowtron
   - type: FootstepModifier
@@ -89,28 +85,9 @@
         name: power-cell-slot-component-slot-name-default
         startingItem: PowerCellHyper
 
-# Защита для борга
-
-- type: damageModifierSet
-  id: SecurityBorg
-  coefficients:
-    Blunt: 0.75
-    Slash: 0.75
-    Piercing: 0.75
-    Shock: 0.75
-    Heat: 0.75
-
-# Слот под айди карту + сама айди карта
-
 - type: inventoryTemplate
   id: borgSec
   slots:
-  - name: id
-    slotTexture: id
-    slotFlags: IDCARD
-    uiWindowPos: 1,0
-    strippingWindowPos: 2,4
-    displayName: ID
   - name: head
     slotTexture: head
     slotFlags: HEAD
@@ -118,28 +95,6 @@
     strippingWindowPos: 0,0
     displayName: Head
     offset: 0.015, 0.06
-
-- type: startingGear
-  id: BorgSecurity
-  equipment:
-    id: IdBorgSec
-
-- type: entity
-  parent: SecurityIDCard
-  id: IdBorgSec
-  name: киборг службы безопасности
-  description: Карта, необходимая для доступа в различные области станции.
-  categories: [ HideSpawnMenu ]
-  components:
-  - type: Sprite
-    sprite: /Textures/_DeadSpace/SecurityBorg/id_borg_sec.rsi
-    layers:
-    - state: icon
-  - type: IdCard
-    jobTitle: job-name-borg-security
-  - type: Item
-    heldPrefix: blue
-  - type: Unremoveable
 
 # Модули + составляющие
 
@@ -474,7 +429,7 @@
   - type: Construction
     graph: CyborgSec
     node: start
-    defaultTarget: cyborg
+    defaultTarget: security
     containers:
     - part-container
     - cell_slot

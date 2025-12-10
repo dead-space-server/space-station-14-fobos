@@ -30,6 +30,7 @@
     damage:
       types:
         Piercing: 5
+  - type: Wagging
   - type: Temperature
     heatDamageThreshold: 400
     coldDamageThreshold: 193  #starting temperature damage treshold
@@ -50,6 +51,11 @@
       Unsexed: FemaleHuman
   - type: Speech
     speechSounds: Lizard
+  - type: Language
+    selectedLanguage: GeneralLanguage
+    knownLanguages:
+    - DemonLanguage
+    - GeneralLanguage
   # - type: FootPrints
 
 - type: entity

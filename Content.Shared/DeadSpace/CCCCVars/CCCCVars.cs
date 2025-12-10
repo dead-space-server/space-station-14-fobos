@@ -59,6 +59,13 @@ public sealed class CCCCVars
         CVarDef.Create("audio.radio_tts_sounds_enabled", true, CVar.CLIENTONLY | CVar.ARCHIVE);
 
     /*
+	* Jukebox
+	*/
+
+    public static readonly CVarDef<float> JukeboxMusicVolume =
+        CVarDef.Create("jukebox.volume", 1f, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    /*
     * Taipan
     */
 
@@ -91,4 +98,9 @@ public sealed class CCCCVars
 
     public static readonly CVarDef<bool> LobbyUIEnabled =
         CVarDef.Create("ui.lobby_visible", true, CVar.CLIENTONLY | CVar.ARCHIVE);
+    /*
+    * Donate
+    */
+    public static readonly CVarDef<float> DonateSpawnTimeLimit =
+        CVarDef.Create("donate.spawn_time_limit_minutes", 30f, CVar.SERVER | CVar.CONFIDENTIAL);
 }

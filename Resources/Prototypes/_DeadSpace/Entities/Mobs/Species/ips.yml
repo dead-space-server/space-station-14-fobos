@@ -11,11 +11,28 @@
     requiredLegs: 2
   - type: HumanoidAppearance
     species: IPS
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.35
+        density: 300
+        restitution: 0.0
+        mask:
+          - MobMask
+        layer:
+          - MobLayer
   - type: DamageVisuals
     damageOverlayGroups:
       Brute:
         sprite: Mobs/Effects/brute_damage.rsi
         color: "#525252"
+  - type: Language
+    selectedLanguage: GeneralLanguage
+    knownLanguages:
+    - MachineLanguage
+    - GeneralLanguage
 
 - type: entity
   parent: BaseSpeciesDummy
