@@ -1,5 +1,4 @@
 species-name-felinid = Фелинид
-species-name-ips = КПС
 species-name-ipc = КПБ
 species-name-demon = Аркана
 species-name-kobolt = Кобольд
