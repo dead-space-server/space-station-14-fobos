@@ -246,7 +246,7 @@
     - CanPilot
     - SiliconEmotes
     - Unimplantable
-    - SiliconIPSIPCEmotes # DS14
+    - SiliconIPCEmotes # DS14
   - type: Emoting
   - type: GuideHelp
     guides:

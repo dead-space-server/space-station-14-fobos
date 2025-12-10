@@ -107,7 +107,7 @@
       collection: FelinidPurrs
 
 - type: emoteSounds
-  id: IPSIPC
+  id: IPC
   params:
     variation: 0.125
   sounds:
