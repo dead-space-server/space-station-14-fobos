@@ -1,5 +1,5 @@
 - type: marking
-  id: IPSHead1
+  id: IPCHead1
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -9,11 +9,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: blue_s
 
 - type: marking
-  id: IPSHead2
+  id: IPCHead2
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -23,11 +23,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: breakout_s
 
 - type: marking
-  id: IPSHead3
+  id: IPCHead3
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -37,11 +37,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: console_s
 
 - type: marking
-  id: IPSHead4
+  id: IPCHead4
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -51,11 +51,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: eight_s
 
 - type: marking
-  id: IPSHead5
+  id: IPCHead5
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -65,11 +65,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: goggles_hesp_alt_s
 
 - type: marking
-  id: IPSHead6
+  id: IPCHead6
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -79,11 +79,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: goggles_s
 
 - type: marking
-  id: IPSHead7
+  id: IPCHead7
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -93,11 +93,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: gol_glider_s
 
 - type: marking
-  id: IPSHead8
+  id: IPCHead8
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -107,11 +107,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: green_s
 
 - type: marking
-  id: IPSHead9
+  id: IPCHead9
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -121,11 +121,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: heart_s
 
 - type: marking
-  id: IPSHead10
+  id: IPCHead10
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -135,11 +135,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: monoeye_s
 
 - type: marking
-  id: IPSHead11
+  id: IPCHead11
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -149,11 +149,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: music_s
 
 - type: marking
-  id: IPSHead12
+  id: IPCHead12
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -163,11 +163,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: nature_s
 
 - type: marking
-  id: IPSHead13
+  id: IPCHead13
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -177,11 +177,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: off_hesp_alt_s
 
 - type: marking
-  id: IPSHead14
+  id: IPCHead14
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -191,11 +191,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: orange_hesp_alt_s
 
 - type: marking
-  id: IPSHead15
+  id: IPCHead15
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -205,11 +205,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: orange_s
 
 - type: marking
-  id: IPSHead16
+  id: IPCHead16
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -219,11 +219,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: pink_hesp_alt_s
 
 - type: marking
-  id: IPSHead17
+  id: IPCHead17
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -233,11 +233,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: pink_s
 
 - type: marking
-  id: IPSHead18
+  id: IPCHead18
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -247,11 +247,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: purple_s
 
 - type: marking
-  id: IPSHead19
+  id: IPCHead19
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -261,11 +261,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: rainbow_hesp_alt_s
 
 - type: marking
-  id: IPSHead20
+  id: IPCHead20
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -275,11 +275,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: rainbow_s
 
 - type: marking
-  id: IPSHead21
+  id: IPCHead21
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -289,11 +289,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: red_s
 
 - type: marking
-  id: IPSHead22
+  id: IPCHead22
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -303,11 +303,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: rgb_hesp_alt_s
 
 - type: marking
-  id: IPSHead23
+  id: IPCHead23
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -317,11 +317,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: rgb_s
 
 - type: marking
-  id: IPSHead24
+  id: IPCHead24
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -331,11 +331,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: scroll_hesp_alt_s
 
 - type: marking
-  id: IPSHead25
+  id: IPCHead25
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -345,11 +345,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: scroll_s
 
 - type: marking
-  id: IPSHead26
+  id: IPCHead26
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -359,11 +359,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: shower_s
 
 - type: marking
-  id: IPSHead27
+  id: IPCHead27
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -373,11 +373,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: smoking_s
 
 - type: marking
-  id: IPSHead28
+  id: IPCHead28
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -387,11 +387,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: static_s
 
 - type: marking
-  id: IPSHead29
+  id: IPCHead29
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -401,11 +401,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: test_s
 
 - type: marking
-  id: IPSHead30
+  id: IPCHead30
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -415,11 +415,11 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: waiting_s
 
 - type: marking
-  id: IPSHead31
+  id: IPCHead31
   bodyPart: Eyes
   markingCategory: Snout
   coloring:
@@ -429,5 +429,5 @@
           negative: true
   speciesRestriction: [IPC]
   sprites:
-  - sprite: _DeadSpace/Mobs/Customization/ipс_face.rsi
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
     state: yellow_s
