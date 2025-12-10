@@ -164,6 +164,9 @@ public sealed class DonateShopSystem : EntitySystem
 
     private async Task<DonateShopState> FetchDonateData(string userId)
     {
+        if (_donateApiService == null)
+            return new DonateShopState("Веб сервис не доступен.");
+
         var apiResponse = await _donateApiService!.FetchUserDataAsync(userId);
 
         if (apiResponse == null)
