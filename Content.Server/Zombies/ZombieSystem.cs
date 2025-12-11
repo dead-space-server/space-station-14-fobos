@@ -81,7 +81,7 @@ namespace Content.Server.Zombies
 
             SubscribeLocalEvent<ZombifyOnDeathComponent, MobStateChangedEvent>(OnDamageChanged);
 
-            SubscribeLocalEvent<ZombieComponent, AttemptActivateJetpackHandledEvent>(OnJetpackAttempt, before: new []{typeof(SharedJetpackSystem)}); // DS14
+            SubscribeLocalEvent<ZombieComponent, AttemptActivateJetpackHandledEvent>(OnJetpackAttempt); // DS14
         }
 
         private void OnBeforeRemoveAnomalyOnDeath(Entity<PendingZombieComponent> ent, ref BeforeRemoveAnomalyOnDeathEvent args)
