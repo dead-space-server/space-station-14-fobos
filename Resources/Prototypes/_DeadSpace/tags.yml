@@ -188,6 +188,9 @@
   id: RedFlower
 
 - type: Tag
+  id: Nanopaste
+
+- type: Tag
   id: Necro
 
 - type: Tag
@@ -218,7 +221,7 @@
   id: ShotgunBulldog
 
 - type: Tag
-  id: SiliconIPSIPCEmotes
+  id: SiliconIPCEmotes
 
 - type: Tag
   id: SlimePersonEmotes
@@ -258,6 +261,9 @@
 
 - type: Tag
   id: SyndieSabre
+
+- type: Tag
+  id: TailEmotes
 
 - type: Tag
   id: Taipan

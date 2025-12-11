@@ -1,0 +1,27 @@
+﻿- type: constructionGraph
+  id: Snowman
+  start: start
+  graph:
+  - node: start
+    actions:
+    - !type:DestroyEntity {}
+    edges:
+    - to: snowman
+      completed:
+      - !type:SnapToGrid { }
+      steps:
+      - material: Snow
+        amount: 5
+        doAfter: 2
+  - node: snowman
+    entity: Snowman
+    edges:
+    - to: start
+      completed:
+      - !type:EmptyAllContainers
+      - !type:SpawnPrototype
+        prototype: BlockSnow
+        amount: 5
+      steps:
+      - tool: Digging
+        doAfter: 3

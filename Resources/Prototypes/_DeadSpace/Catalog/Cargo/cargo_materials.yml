@@ -1,0 +1,9 @@
+- type: cargoProduct
+  id: BlockSnow
+  icon:
+    sprite: _DeadSpace/Objects/Materials/Blocks/snow.rsi
+    state: snow_3
+  product: CrateBlockSnow
+  cost: 900
+  category: cargoproduct-category-name-materials
+  group: market

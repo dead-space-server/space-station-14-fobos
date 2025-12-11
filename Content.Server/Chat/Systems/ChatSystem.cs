@@ -350,7 +350,7 @@ public sealed partial class ChatSystem : SharedChatSystem
         sender ??= Loc.GetString("chat-manager-sender-announcement");
 
         // DS14-Languages-start
-        string lexiconMessage = _language.ReplaceWordsWithLexicon(message, languageId);
+        string lexiconMessage = _language.TransformWord(message, languageId);
 
         string langName = _language.GetLangName(languageId);
 
@@ -521,7 +521,7 @@ public sealed partial class ChatSystem : SharedChatSystem
         string lexiconMessage = message;
 
         if (TryComp<LanguageComponent>(source, out var language))
-            lexiconMessage = _language.ReplaceWordsWithLexicon(message, language.SelectedLanguage);
+            lexiconMessage = _language.TransformWord(message, language.SelectedLanguage);
 
         string langName = _language.GetLangName(source, language);
 
@@ -544,7 +544,7 @@ public sealed partial class ChatSystem : SharedChatSystem
 
         if (language != null)
         {
-            lexiconMessage = _language.ReplaceWordsWithLexicon(message, language.SelectedLanguage);
+            lexiconMessage = _language.TransformWord(message, language.SelectedLanguage);
 
             lexiconWrappedMessage = wrappedMessageUnk.Replace(FormattedMessage.EscapeText(message), FormattedMessage.EscapeText(lexiconMessage));
         }
@@ -619,7 +619,7 @@ public sealed partial class ChatSystem : SharedChatSystem
         string lexiconMessage = message;
 
         if (TryComp<LanguageComponent>(source, out var language))
-            lexiconMessage = _language.ReplaceWordsWithLexicon(message, language.SelectedLanguage);
+            lexiconMessage = _language.TransformWord(message, language.SelectedLanguage);
 
         string langName = _language.GetLangName(source, language);
 

@@ -99,8 +99,11 @@
   id: EmoteStopTail
   name: chat-emote-name-stop-tail
   category: Animations
-  showInMenu: false # DS14-emote panel
   chatMessages: ["chat-emote-msg-stop-tail"]
+  whitelist:
+    requireAll: true
+    tags:
+    - TailEmotes
   chatTriggers:
     - хвост замирает
     - прекратил вилять хвостом
@@ -112,8 +115,11 @@
   id: EmoteStartTail
   name: chat-emote-name-start-tail
   category: Animations
-  showInMenu: false # DS14-emote panel
   chatMessages: ["chat-emote-msg-start-tail"]
+  whitelist:
+    requireAll: true
+    tags:
+    - TailEmotes
   chatTriggers:
     - виляет хвостом
     - хвост двигается
