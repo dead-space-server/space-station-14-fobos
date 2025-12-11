@@ -8,7 +8,6 @@ using Content.Shared.DeadSpace.CCCCVars;
 using Robust.Shared.Configuration;
 using Robust.Shared.Log;
 using Robust.Shared.Timing;
-
 namespace Content.Client.DeadSpace.Notify.ReceiveNotify;
 
 public sealed partial class ReceiveNotifySystem : EntitySystem
@@ -19,9 +18,6 @@ public sealed partial class ReceiveNotifySystem : EntitySystem
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly INotifyHelper _helper = default!;
     [Dependency] private readonly IConfigurationManager _cfg = default!;
-    //public SoundSpecifier SoundNotify = new SoundPathSpecifier("/Audio/Effects/adminhelp.ogg");
-
-    //private readonly NotifyHelper _helper = NotifyHelperProvider.Helper;
     private ISawmill _sawmill = default!;
 
     private TimeSpan _lastNotifyTime;
