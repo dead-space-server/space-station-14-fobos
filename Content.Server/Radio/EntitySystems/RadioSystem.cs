@@ -186,7 +186,7 @@ public sealed class RadioSystem : EntitySystem
 
         if (language != null)
         {
-            lexiconMessage = _language.ReplaceWordsWithLexicon(message, language.SelectedLanguage);
+            lexiconMessage = _language.TransformWord(message, language.SelectedLanguage);
 
             var lexiconContent = escapeMarkup
             ? FormattedMessage.EscapeText(lexiconMessage)

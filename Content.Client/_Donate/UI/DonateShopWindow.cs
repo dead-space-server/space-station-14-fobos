@@ -1,0 +1,696 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
+using System.Linq;
+using System.Numerics;
+using Content.Client._Donate.Emerald;
+using Content.Shared._Donate;
+using Robust.Client.UserInterface;
+using Robust.Client.UserInterface.Controls;
+
+namespace Content.Client._Donate.UI;
+
+public sealed class DonateShopWindow : EmeraldDefaultWindow
+{
+    [Dependency] private readonly IUriOpener _url = default!;
+    [Dependency] private readonly IEntityManager _entManager = default!;
+
+    private enum Tab
+    {
+        Profile,
+        Inventory
+    }
+
+    private DonateShopState? _state;
+    private string? _currentCategory;
+    private List<string> _categories = new();
+
+    private EmeraldLevelBar _levelBar = default!;
+    private EmeraldBatteryDisplay _batteryDisplay = default!;
+    private EmeraldCrystalDisplay _crystalDisplay = default!;
+    private EmeraldShopButton _shopButton = default!;
+
+    private Control _topPanel = default!;
+    private Control _tabsContainer = default!;
+
+    private EmeraldButton _profileTabButton = default!;
+    private EmeraldButton _inventoryTabButton = default!;
+
+    private BoxContainer _contentContainer = default!;
+    private Control _profileContent = default!;
+    private Control _inventoryContent = default!;
+
+    private BoxContainer _profilePanel = default!;
+    private BoxContainer _categoryTabsContainer = default!;
+    private BoxContainer _categoryItemsPanel = default!;
+    private EmeraldSearchBox _searchBox = default!;
+    private string _searchQuery = "";
+
+    public DonateShopWindow()
+    {
+        IoCManager.InjectDependencies(this);
+
+        Title = "MK TERMINAL";
+        MinSize = SetSize = new Vector2(800, 600);
+
+        BuildUI();
+        ShowLoading();
+    }
+
+    private void BuildUI()
+    {
+        var mainContainer = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Vertical,
+            HorizontalExpand = true,
+            VerticalExpand = true,
+            SeparationOverride = 0
+        };
+
+        _topPanel = BuildTopPanel();
+        mainContainer.AddChild(_topPanel);
+
+        mainContainer.AddChild(new Control { MinHeight = 10 });
+
+        _tabsContainer = BuildTabsContainer();
+        mainContainer.AddChild(_tabsContainer);
+
+        mainContainer.AddChild(new Control { MinHeight = 10 });
+
+        _contentContainer = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Vertical,
+            HorizontalExpand = true,
+            VerticalExpand = true
+        };
+        mainContainer.AddChild(_contentContainer);
+
+        _profileContent = BuildProfileContent();
+        _inventoryContent = BuildInventoryContent();
+
+        AddContent(mainContainer);
+
+        SwitchTab(Tab.Profile);
+    }
+
+    private void ShowLoading()
+    {
+        _profilePanel.RemoveAllChildren();
+
+        var container = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Vertical,
+            HorizontalExpand = true,
+            VerticalExpand = true,
+            HorizontalAlignment = HAlignment.Center,
+            VerticalAlignment = VAlignment.Center,
+            SeparationOverride = 20
+        };
+
+        var loadingLabel = new Label
+        {
+            Text = "ИДЁТ ЗАГРУЗКА...",
+            HorizontalAlignment = HAlignment.Center,
+            FontColorOverride = Color.FromHex("#d4c5e8")
+        };
+        container.AddChild(loadingLabel);
+
+        var waitLabel = new Label
+        {
+            Text = "Подождите, пожалуйста",
+            HorizontalAlignment = HAlignment.Center,
+            FontColorOverride = Color.FromHex("#c0b3da")
+        };
+        container.AddChild(waitLabel);
+
+        _profilePanel.AddChild(container);
+    }
+
+    private Control BuildTopPanel()
+    {
+        var panel = new EmeraldPanel
+        {
+            HorizontalExpand = true,
+            Visible = false,
+            Margin = new Thickness(2, 0, 0, 0)
+        };
+
+        var container = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Horizontal,
+            HorizontalExpand = true,
+            Margin = new Thickness(8, 6),
+            SeparationOverride = 8
+        };
+
+        _levelBar = new EmeraldLevelBar
+        {
+            HorizontalExpand = true,
+            Level = 1,
+            Experience = 0,
+            RequiredExp = 100,
+            ToNextLevel = 100,
+            Progress = 0f
+        };
+        container.AddChild(_levelBar);
+
+        _batteryDisplay = new EmeraldBatteryDisplay
+        {
+            Amount = 0,
+            IconTexturePath = "/Textures/Interface/battery.png",
+            MinSize = new Vector2(180, 0)
+        };
+        container.AddChild(_batteryDisplay);
+
+        _crystalDisplay = new EmeraldCrystalDisplay
+        {
+            Amount = 0,
+            IconTexturePath = "/Textures/Interface/crystal.png",
+            MinSize = new Vector2(180, 0)
+        };
+        container.AddChild(_crystalDisplay);
+
+        _shopButton = new EmeraldShopButton
+        {
+            Text = "МАГАЗИН",
+            MinSize = new Vector2(100, 0)
+        };
+        _shopButton.OnPressed += () =>
+        {
+            _url.OpenUri("https://deadspace14.net");
+        };
+        container.AddChild(_shopButton);
+
+        panel.AddChild(container);
+        return panel;
+    }
+
+    private Control BuildTabsContainer()
+    {
+        var container = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Horizontal,
+            HorizontalExpand = true,
+            Visible = false,
+            SeparationOverride = 10,
+            Margin = new Thickness(2, 0, 2, 0)
+        };
+
+        _profileTabButton = new EmeraldButton
+        {
+            Text = "ПРОФИЛЬ",
+            HorizontalExpand = true
+        };
+        _profileTabButton.OnPressed += () => SwitchTab(Tab.Profile);
+        container.AddChild(_profileTabButton);
+
+        _inventoryTabButton = new EmeraldButton
+        {
+            Text = "ИНВЕНТАРЬ",
+            HorizontalExpand = true
+        };
+        _inventoryTabButton.OnPressed += () => SwitchTab(Tab.Inventory);
+        container.AddChild(_inventoryTabButton);
+
+        return container;
+    }
+
+    private Control BuildProfileContent()
+    {
+        var scrollContainer = new EmeraldScrollContainer
+        {
+            HorizontalExpand = true,
+            VerticalExpand = true
+        };
+
+        _profilePanel = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Vertical,
+            HorizontalExpand = true,
+            VerticalExpand = true,
+            SeparationOverride = 12,
+            Margin = new Thickness(2)
+        };
+
+        scrollContainer.SetContent(_profilePanel);
+        return scrollContainer;
+    }
+
+    private Control BuildInventoryContent()
+    {
+        var mainContainer = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Vertical,
+            HorizontalExpand = true,
+            VerticalExpand = true,
+            SeparationOverride = 10
+        };
+
+        _searchBox = new EmeraldSearchBox
+        {
+            HorizontalExpand = true,
+            Placeholder = "ПОИСК...",
+            Margin = new Thickness(2, 0, 2, 0)
+        };
+        _searchBox.OnTextChanged += text =>
+        {
+            _searchQuery = text.ToLower();
+            if (_state != null && _currentCategory != null)
+                SwitchCategory(_currentCategory);
+        };
+        mainContainer.AddChild(_searchBox);
+
+        _categoryTabsContainer = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Horizontal,
+            HorizontalExpand = true,
+            SeparationOverride = 5,
+            Margin = new Thickness(2, 0, 2, 0)
+        };
+        mainContainer.AddChild(_categoryTabsContainer);
+
+        var scrollContainer = new EmeraldScrollContainer
+        {
+            HorizontalExpand = true,
+            VerticalExpand = true
+        };
+
+        _categoryItemsPanel = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Vertical,
+            HorizontalExpand = true,
+            SeparationOverride = 12,
+            Margin = new Thickness(2)
+        };
+
+        scrollContainer.SetContent(_categoryItemsPanel);
+        mainContainer.AddChild(scrollContainer);
+
+        return mainContainer;
+    }
+
+    private void SwitchTab(Tab tab)
+    {
+        _profileTabButton.IsActive = tab == Tab.Profile;
+        _inventoryTabButton.IsActive = tab == Tab.Inventory;
+
+        _contentContainer.RemoveAllChildren();
+
+        switch (tab)
+        {
+            case Tab.Profile:
+                _contentContainer.AddChild(_profileContent);
+                break;
+            case Tab.Inventory:
+                _contentContainer.AddChild(_inventoryContent);
+                break;
+        }
+    }
+
+    public void ApplyState(DonateShopState state)
+    {
+        _state = state;
+
+        if (state.HasError)
+        {
+            _topPanel.Visible = false;
+            _tabsContainer.Visible = false;
+
+            ShowError(state.ErrorMessage);
+            return;
+        }
+
+        if (!state.IsRegistered)
+        {
+            _topPanel.Visible = false;
+            _tabsContainer.Visible = false;
+
+            ShowRegistrationRequired();
+            return;
+        }
+
+        _topPanel.Visible = false;
+        _tabsContainer.Visible = false;
+
+        _levelBar.Level = state.Level;
+        _levelBar.Experience = state.Experience;
+        _levelBar.RequiredExp = state.RequiredExp;
+        _levelBar.ToNextLevel = state.ToNextLevel;
+        _levelBar.Progress = state.Progress;
+
+        _batteryDisplay.Amount = (int)state.Energy;
+        _crystalDisplay.Amount = state.Crystals;
+
+        UpdateProfileContent(state);
+        UpdateInventoryContent(state);
+    }
+
+    private void ShowRegistrationRequired()
+    {
+        _profilePanel.RemoveAllChildren();
+
+        var container = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Vertical,
+            HorizontalExpand = true,
+            VerticalExpand = true,
+            HorizontalAlignment = HAlignment.Center,
+            VerticalAlignment = VAlignment.Center,
+            SeparationOverride = 20
+        };
+
+        var title = new Label
+        {
+            Text = "ТРЕБУЕТСЯ РЕГИСТРАЦИЯ",
+            HorizontalAlignment = HAlignment.Center,
+            FontColorOverride = Color.FromHex("#d4c5e8")
+        };
+        container.AddChild(title);
+
+        var message = new Label
+        {
+            Text = "Перейдите по ссылке и зарегистрируйтесь в веб ресурсе.\nДля регистрации может потребоваться VPN.",
+            HorizontalAlignment = HAlignment.Center,
+            VerticalAlignment = VAlignment.Center,
+            FontColorOverride = Color.FromHex("#c0b3da")
+        };
+        container.AddChild(message);
+
+        var button = new Button
+        {
+            Text = "ПЕРЕЙТИ НА САЙТ",
+            HorizontalExpand = true,
+            MinSize = new Vector2(200, 40)
+        };
+        button.OnPressed += (args) =>
+        {
+            _url.OpenUri("https://deadspace14.net");
+        };
+        container.AddChild(button);
+
+        _profilePanel.AddChild(container);
+    }
+
+    private void ShowError(string message)
+    {
+        _profilePanel.RemoveAllChildren();
+
+        var container = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Vertical,
+            HorizontalExpand = true,
+            VerticalExpand = true,
+            HorizontalAlignment = HAlignment.Center,
+            VerticalAlignment = VAlignment.Center,
+            SeparationOverride = 20
+        };
+
+        var title = new Label
+        {
+            Text = "ОШИБКА",
+            HorizontalAlignment = HAlignment.Center,
+            FontColorOverride = Color.FromHex("#FF6B6B")
+        };
+        container.AddChild(title);
+
+        var errorLabel = new Label
+        {
+            Text = message,
+            HorizontalAlignment = HAlignment.Center,
+            VerticalAlignment = VAlignment.Center,
+            FontColorOverride = Color.FromHex("#c0b3da")
+        };
+        container.AddChild(errorLabel);
+
+        var retryButton = new Button
+        {
+            Text = "ПОПРОБОВАТЬ СНОВА",
+            HorizontalExpand = true,
+            MinSize = new Vector2(200, 40)
+        };
+        retryButton.OnPressed += (args) =>
+        {
+            ShowLoading();
+            _entManager.EntityNetManager.SendSystemNetworkMessage(new RequestUpdateDonateShop());
+        };
+        container.AddChild(retryButton);
+
+        _profilePanel.AddChild(container);
+    }
+
+    private void UpdateProfileContent(DonateShopState state)
+    {
+        _profilePanel.RemoveAllChildren();
+
+        var profileCard = new EmeraldProfileCard
+        {
+            PlayerName = state.PlayerUserName.ToUpper(),
+            PlayerId = $"ID {state.Ss14PlayerId}",
+            HorizontalExpand = true
+        };
+        _profilePanel.AddChild(profileCard);
+
+        var perksGrid = new GridContainer
+        {
+            Columns = 4,
+            HorizontalExpand = true,
+            HSeparationOverride = 8,
+            VSeparationOverride = 8
+        };
+
+        var oocColor = state.OocColor.StartsWith("#") ? state.OocColor : "#" + state.OocColor;
+
+        var oocCard = new EmeraldPerkCard
+        {
+            Title = "ЦВЕТ OOC",
+            Value = oocColor,
+            ValueColor = Color.FromHex(oocColor)
+        };
+        perksGrid.AddChild(oocCard);
+
+        var slotsCard = new EmeraldPerkCard
+        {
+            Title = "СЛОТЫ ПЕРСОНАЖЕЙ",
+            Value = $"+{state.ExtraSlots}",
+            ValueColor = Color.FromHex("#a589c9")
+        };
+        perksGrid.AddChild(slotsCard);
+
+        var priorityCard = new EmeraldPerkCard
+        {
+            Title = "ПРИОРИТЕТ ВХОДА",
+            Value = state.HavePriorityJoinGame ? "ДА" : "НЕТ",
+            ValueColor = state.HavePriorityJoinGame ? Color.FromHex("#a589c9") : Color.FromHex("#6d5a8a")
+        };
+        perksGrid.AddChild(priorityCard);
+
+        var antagCard = new EmeraldPerkCard
+        {
+            Title = "ПРИОРИТЕТ АНТАГА",
+            Value = state.HavePriorityAntageGame ? "ДА" : "НЕТ",
+            ValueColor = state.HavePriorityAntageGame ? Color.FromHex("#a589c9") : Color.FromHex("#6d5a8a")
+        };
+        perksGrid.AddChild(antagCard);
+
+        _profilePanel.AddChild(perksGrid);
+
+        if (state.CurrentPremium != null)
+        {
+            var premiumCard = new EmeraldPremiumCard
+            {
+                IsActive = state.CurrentPremium.Active,
+                Level = state.CurrentPremium.PremiumLevel.Level,
+                PremName = state.CurrentPremium.PremiumLevel.Name.ToUpper(),
+                Description = state.CurrentPremium.PremiumLevel.Description,
+                BonusXp = state.CurrentPremium.PremiumLevel.BonusXp,
+                BonusEnergy = state.CurrentPremium.PremiumLevel.BonusEnergy,
+                BonusSlots = state.CurrentPremium.PremiumLevel.BonusSlots,
+                ExpiresIn = state.CurrentPremium.ExpiresIn,
+                HorizontalExpand = true
+            };
+            _profilePanel.AddChild(premiumCard);
+        }
+        else
+        {
+            var buyPremiumCard = new EmeraldBuyPremiumCard
+            {
+                HorizontalExpand = true
+            };
+            buyPremiumCard.OnBuyPressed += () =>
+            {
+                _url.OpenUri("https://deadspace14.net");
+            };
+            _profilePanel.AddChild(buyPremiumCard);
+        }
+
+        if (state.Subscribes.Count > 0)
+        {
+            var subsContainer = new BoxContainer
+            {
+                Orientation = BoxContainer.LayoutOrientation.Vertical,
+                HorizontalExpand = true,
+                SeparationOverride = 8
+            };
+
+            foreach (var sub in state.Subscribes)
+            {
+                var subCard = new EmeraldSubscriptionCard
+                {
+                    NameSub = sub.SubscribeName.ToUpper(),
+                    Price = $"{sub.Price} РУБ",
+                    Dates = $"Дата окончания: {sub.FinishDate}",
+                    ItemCount = sub.Items.Count,
+                    HorizontalExpand = true
+                };
+                subsContainer.AddChild(subCard);
+            }
+
+            _profilePanel.AddChild(subsContainer);
+        }
+        else
+        {
+            var buySubCard = new EmeraldBuySubscriptionCard
+            {
+                HorizontalExpand = true
+            };
+            buySubCard.OnBuyPressed += () =>
+            {
+                _url.OpenUri("https://deadspace14.net");
+            };
+            _profilePanel.AddChild(buySubCard);
+        }
+    }
+
+    private void UpdateInventoryContent(DonateShopState state)
+    {
+        _categoryTabsContainer.RemoveAllChildren();
+        _categoryItemsPanel.RemoveAllChildren();
+
+        var allItems = new List<DonateItemData>(state.Items);
+
+        foreach (var sub in state.Subscribes)
+        {
+            foreach (var subItem in sub.Items)
+            {
+                if (allItems.All(i => i.ItemIdInGame != subItem.ItemIdInGame))
+                {
+                    allItems.Add(subItem);
+                }
+            }
+        }
+
+        if (allItems.Count == 0)
+        {
+            var emptyLabel = new EmeraldLabel
+            {
+                Text = "НЕТ ПРЕДМЕТОВ",
+                TextColor = Color.FromHex("#6d5a8a"),
+                Alignment = EmeraldLabel.TextAlignment.Center,
+                Margin = new Thickness(0, 40, 0, 0)
+            };
+            _categoryItemsPanel.AddChild(emptyLabel);
+            return;
+        }
+
+        _categories = allItems
+            .GroupBy(i => i.Category)
+            .OrderBy(g => g.Key)
+            .Select(g => g.Key)
+            .ToList();
+
+        foreach (var category in _categories)
+        {
+            var categoryTab = new EmeraldCategoryTab
+            {
+                Text = category.ToUpper()
+            };
+
+            var capturedCategory = category;
+            categoryTab.OnPressed += () => SwitchCategory(capturedCategory);
+            _categoryTabsContainer.AddChild(categoryTab);
+        }
+
+        if (_categories.Count > 0)
+        {
+            SwitchCategory(_categories[0]);
+        }
+    }
+
+    private void SwitchCategory(string category)
+    {
+        _currentCategory = category;
+        _categoryItemsPanel.RemoveAllChildren();
+
+        foreach (var child in _categoryTabsContainer.Children)
+        {
+            if (child is EmeraldCategoryTab tab)
+            {
+                tab.IsActive = tab.Text == category.ToUpper();
+            }
+        }
+
+        if (_state == null)
+            return;
+
+        var allItems = new List<DonateItemData>(_state.Items);
+
+        foreach (var sub in _state.Subscribes)
+        {
+            foreach (var subItem in sub.Items)
+            {
+                if (allItems.All(i => i.ItemIdInGame != subItem.ItemIdInGame))
+                {
+                    allItems.Add(subItem);
+                }
+            }
+        }
+
+        var categoryItems = allItems
+            .Where(i => i.Category == category)
+            .Where(i => string.IsNullOrEmpty(_searchQuery) || i.ItemName.ToLower().Contains(_searchQuery))
+            .ToList();
+
+        if (categoryItems.Count == 0)
+        {
+            var emptyLabel = new EmeraldLabel
+            {
+                Text = "НЕТ ПРЕДМЕТОВ В ЭТОЙ КАТЕГОРИИ",
+                TextColor = Color.FromHex("#6d5a8a"),
+                Alignment = EmeraldLabel.TextAlignment.Center,
+                Margin = new Thickness(0, 40, 0, 0)
+            };
+            _categoryItemsPanel.AddChild(emptyLabel);
+            return;
+        }
+
+        var itemsGrid = new GridContainer
+        {
+            Columns = 5,
+            HorizontalExpand = true,
+            VSeparationOverride = 8,
+            HSeparationOverride = 8
+        };
+
+        foreach (var item in categoryItems)
+        {
+            var itemCard = new EmeraldItemCard
+            {
+                ItemName = item.ItemName.ToUpper(),
+                ProtoId = item.ItemIdInGame ?? "",
+                TimeFinish = item.TimeFinish,
+                TimeAllways = item.TimeAllways,
+                IsActive = item.IsActive,
+                IsSpawned = _state.SpawnedItems.Contains(item.ItemIdInGame ?? ""),
+                IsTimeUp = _state.IsTimeUp
+            };
+
+            itemCard.OnSpawnRequest += protoId =>
+            {
+                _entManager.EntityNetManager.SendSystemNetworkMessage(new DonateShopSpawnEvent(protoId));
+            };
+
+            itemsGrid.AddChild(itemCard);
+        }
+
+        _categoryItemsPanel.AddChild(itemsGrid);
+    }
+}

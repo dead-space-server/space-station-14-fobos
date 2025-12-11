@@ -76,6 +76,7 @@
 
                             <Button Name="ReadyButton" Access="Public" ToggleMode="True" Text="{Loc 'ui-lobby-ready-up-button'}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinSize="250 50"/>
                             <cc:UICommandButton Command="observe" Name="ObserveButton" Access="Public" Text="{Loc 'ui-lobby-observe-button'}" WindowType="{x:Type lobbyUi:ObserveWarningWindow}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinSize="250 50"/>
+                            <Button Name="DonateButton" Access="Public" Text="Донат" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinSize="250 50"/>
                             <Button Name="CharacterSetup" Access="Public" Text="{Loc 'lobby-character-preview-panel-character-setup-button'}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinSize="250 50"/>
                             <Button Name="OptionsButton" Access="Public" Text="{Loc 'ui-lobby-options-button'}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinSize="250 50"/>
                             <Button Name="LeaveButton" Access="Public" Text="{Loc 'ui-lobby-leave-button'}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinSize="250 50" />

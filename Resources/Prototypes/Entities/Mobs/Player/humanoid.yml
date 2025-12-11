@@ -39,7 +39,6 @@
     - Kobolt
     - Xenomorph
     - IPC
-    - IPS
 
 - type: randomHumanoidSettings
   id: EventHumanoidMindShieldedCentcom
@@ -61,7 +60,6 @@
     - Kobolt
     # - Xenomorph
     - IPC
-    - IPS
 
 - type: randomHumanoidSettings
   id: EventHumanoidERT
@@ -84,7 +82,6 @@
     - Kobolt
     - Xenomorph
     - IPC
-    - IPS
   randomizeName: false
   components:
     - type: NpcFactionMember

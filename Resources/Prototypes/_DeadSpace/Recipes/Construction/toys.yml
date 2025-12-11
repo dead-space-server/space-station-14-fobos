@@ -1,0 +1,7 @@
+﻿- type: construction
+  id: Snowball
+  graph: Snowball
+  startNode: start
+  targetNode: Snowball
+  category: construction-category-misc
+  objectType: Item
