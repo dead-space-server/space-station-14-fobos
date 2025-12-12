@@ -27,10 +27,17 @@ public sealed class DonateShopSystem : EntitySystem
     [Dependency] private readonly GameTicker _gameTicker = default!;
     [Dependency] private readonly SharedHandsSystem _handsSystem = default!;
     [Dependency] private readonly IGameTiming _gameTiming = default!;
+
+    private readonly ISawmill _sawmill = Logger.GetSawmill("donate.uptime");
+
     private readonly Dictionary<string, DonateShopState> _cache = new();
     private readonly Dictionary<string, HashSet<string>> _spawnedItems = new();
     private TimeSpan _timeUntilSpawnBan = TimeSpan.Zero;
     private IDonateApiService? _donateApiService;
+
+    private readonly Dictionary<string, DateTime> _playerEntryTimes = new();
+    private readonly List<(string UserId, DateTime Entry, DateTime Exit)> _pendingSessions = new();
+    private TimeSpan _lastRetryTime = TimeSpan.Zero;
 
     public override void Initialize()
     {
@@ -46,6 +53,55 @@ public sealed class DonateShopSystem : EntitySystem
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestart);
 
         IoCManager.Instance!.TryResolveType(out _donateApiService);
+
+        _sawmill.Info($"DonateShopSystem initialized, API service: {(_donateApiService != null ? "OK" : "NULL")}");
+    }
+
+    public override void Update(float frameTime)
+    {
+        base.Update(frameTime);
+
+        if (_pendingSessions.Count == 0)
+            return;
+
+        if (_gameTiming.CurTime - _lastRetryTime < TimeSpan.FromSeconds(60))
+            return;
+
+        _lastRetryTime = _gameTiming.CurTime;
+
+        _sawmill.Info($"Retrying {_pendingSessions.Count} pending uptime sessions");
+
+        var toRetry = _pendingSessions.ToList();
+        _pendingSessions.Clear();
+
+        foreach (var (userId, entry, exit) in toRetry)
+        {
+            _ = SendUptimeAsync(userId, entry, exit);
+        }
+    }
+
+    private async Task SendUptimeAsync(string userId, DateTime entryTime, DateTime exitTime)
+    {
+        if (_donateApiService == null)
+        {
+            _sawmill.Warning($"API service is null, queueing for retry: {userId}");
+            _pendingSessions.Add((userId, entryTime, exitTime));
+            return;
+        }
+
+        var duration = (exitTime - entryTime).TotalMinutes;
+
+        var success = await _donateApiService.SendUptimeAsync(userId, entryTime, exitTime);
+
+        if (success)
+        {
+            _sawmill.Info($"Uptime sent: {userId}, duration: {duration:F1} min");
+        }
+        else
+        {
+            _sawmill.Warning($"Uptime send failed, queueing for retry: {userId}, duration: {duration:F1} min");
+            _pendingSessions.Add((userId, entryTime, exitTime));
+        }
     }
 
     private void OnRoundRestart(RoundRestartCleanupEvent ev)
@@ -56,13 +112,25 @@ public sealed class DonateShopSystem : EntitySystem
 
     private void OnPlayerStatusChanged(object? sender, SessionStatusEventArgs e)
     {
+        var userId = e.Session.UserId.ToString();
+
         if (e.NewStatus == SessionStatus.Connected)
         {
-            _ = FetchAndCachePlayerData(e.Session.UserId.ToString());
+            _ = FetchAndCachePlayerData(userId);
+            _playerEntryTimes[userId] = DateTime.UtcNow;
+            _sawmill.Info($"Player connected: {userId}");
         }
         else if (e.NewStatus == SessionStatus.Disconnected)
         {
-            _cache.Remove(e.Session.UserId.ToString());
+            _cache.Remove(userId);
+
+            if (_playerEntryTimes.TryGetValue(userId, out var entryTime))
+            {
+                _playerEntryTimes.Remove(userId);
+                var exitTime = DateTime.UtcNow;
+                _sawmill.Info($"Player disconnected: {userId}, sending uptime");
+                _ = SendUptimeAsync(userId, entryTime, exitTime);
+            }
         }
     }
 
