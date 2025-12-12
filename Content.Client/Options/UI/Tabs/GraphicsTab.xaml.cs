@@ -24,7 +24,7 @@ public sealed partial class GraphicsTab : Control
         Control.AddOption(new OptionFullscreen(Control, _cfg, FullscreenCheckBox));
         Control.AddOption(new OptionLightingQuality(Control, _cfg, DropDownLightingQuality));
 
-        #region изменения МК
+        // DS14-start
 
         Control.AddOptionSliderWithStep(
             CVars.DisplayUIScale,
@@ -37,7 +37,7 @@ public sealed partial class GraphicsTab : Control
 
         ResetUIScaleButton.OnPressed += OnResetUIScalePressed;
 
-        #endregion
+        // DS14-end
 
         Control.AddOptionDropDown(
             CCVars.ViewportScalingFilterMode,
@@ -80,7 +80,7 @@ public sealed partial class GraphicsTab : Control
         UpdateViewportSettingsVisibility();
     }
 
-    #region изменения МК
+    // DS14-start
 
     private void OnResetUIScalePressed(BaseButton.ButtonEventArgs obj)
     {
@@ -101,7 +101,7 @@ public sealed partial class GraphicsTab : Control
         UIScaleSlider.ValueLabel.Text = $"{roundedPercent:F0}% (Auto)";
     }
 
-    #endregion
+    // DS14-end
 
     private void UpdateViewportSettingsVisibility()
     {
