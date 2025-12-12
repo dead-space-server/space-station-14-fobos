@@ -175,7 +175,7 @@ public sealed partial class OptionsTabControlRow : Control
         return AddOption(new OptionDropDownCVar<T>(this, _cfg, cVar, dropDown, options));
     }
 
-    #region изменения МК
+    // DS14-start
 
     public SteppedOptionSliderFloatCVar AddOptionSliderWithStep(
             CVarDef<float> cVar,
@@ -213,7 +213,7 @@ public sealed partial class OptionsTabControlRow : Control
         return option;
     }
 
-    #endregion 
+    // DS14-end
 
     /// <summary>
     /// Initializes the control row. This should be called after all options have been added.
