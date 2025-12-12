@@ -103,22 +103,23 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
             VerticalExpand = true,
             HorizontalAlignment = HAlignment.Center,
             VerticalAlignment = VAlignment.Center,
-            SeparationOverride = 20
+            SeparationOverride = 12
         };
 
-        var loadingLabel = new Label
+        var loadingLabel = new EmeraldLabel
         {
             Text = "ИДЁТ ЗАГРУЗКА...",
             HorizontalAlignment = HAlignment.Center,
-            FontColorOverride = Color.FromHex("#d4c5e8")
+            Alignment = EmeraldLabel.TextAlignment.Center,
+            Margin = new Thickness(0, 0, 0, 4)
         };
         container.AddChild(loadingLabel);
 
-        var waitLabel = new Label
+        var waitLabel = new EmeraldLabel
         {
             Text = "Подождите, пожалуйста",
             HorizontalAlignment = HAlignment.Center,
-            FontColorOverride = Color.FromHex("#c0b3da")
+            Alignment = EmeraldLabel.TextAlignment.Center
         };
         container.AddChild(waitLabel);
 
@@ -355,33 +356,36 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
             VerticalExpand = true,
             HorizontalAlignment = HAlignment.Center,
             VerticalAlignment = VAlignment.Center,
-            SeparationOverride = 20
+            SeparationOverride = 16
         };
 
-        var title = new Label
+        var title = new EmeraldLabel
         {
             Text = "ТРЕБУЕТСЯ РЕГИСТРАЦИЯ",
             HorizontalAlignment = HAlignment.Center,
-            FontColorOverride = Color.FromHex("#d4c5e8")
+            Alignment = EmeraldLabel.TextAlignment.Center,
+            Margin = new Thickness(0, 0, 0, 4)
         };
         container.AddChild(title);
 
-        var message = new Label
+        var message = new EmeraldLabel
         {
             Text = "Перейдите по ссылке и зарегистрируйтесь в веб ресурсе.\nДля регистрации может потребоваться VPN.",
             HorizontalAlignment = HAlignment.Center,
             VerticalAlignment = VAlignment.Center,
-            FontColorOverride = Color.FromHex("#c0b3da")
+            Margin = new Thickness(0, 0, 0, 8)
         };
         container.AddChild(message);
 
-        var button = new Button
+        var button = new EmeraldButton
         {
             Text = "ПЕРЕЙТИ НА САЙТ",
-            HorizontalExpand = true,
-            MinSize = new Vector2(200, 40)
+            MinSize = new Vector2(200, 40),
+            HorizontalAlignment = HAlignment.Center,
+            Margin = new Thickness(0, 8, 0, 0)
         };
-        button.OnPressed += (args) =>
+
+        button.OnPressed += () =>
         {
             _url.OpenUri("https://deadspace14.net");
         };
@@ -401,33 +405,36 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
             VerticalExpand = true,
             HorizontalAlignment = HAlignment.Center,
             VerticalAlignment = VAlignment.Center,
-            SeparationOverride = 20
+            SeparationOverride = 16
         };
 
-        var title = new Label
+        var title = new EmeraldLabel
         {
             Text = "ОШИБКА",
             HorizontalAlignment = HAlignment.Center,
-            FontColorOverride = Color.FromHex("#FF6B6B")
+            Alignment = EmeraldLabel.TextAlignment.Center,
+            Margin = new Thickness(0, 0, 0, 4)
         };
         container.AddChild(title);
 
-        var errorLabel = new Label
+        var errorLabel = new EmeraldLabel
         {
             Text = message,
             HorizontalAlignment = HAlignment.Center,
-            VerticalAlignment = VAlignment.Center,
-            FontColorOverride = Color.FromHex("#c0b3da")
+            Alignment = EmeraldLabel.TextAlignment.Center,
+            Margin = new Thickness(0, 0, 0, 8)
         };
         container.AddChild(errorLabel);
 
-        var retryButton = new Button
+        var retryButton = new EmeraldButton
         {
             Text = "ПОПРОБОВАТЬ СНОВА",
-            HorizontalExpand = true,
-            MinSize = new Vector2(200, 40)
+            MinSize = new Vector2(220, 40),
+            HorizontalAlignment = HAlignment.Center,
+            Margin = new Thickness(0, 8, 0, 0)
         };
-        retryButton.OnPressed += (args) =>
+
+        retryButton.OnPressed += () =>
         {
             ShowLoading();
             _entManager.EntityNetManager.SendSystemNetworkMessage(new RequestUpdateDonateShop());
