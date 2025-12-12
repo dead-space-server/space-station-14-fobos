@@ -9,7 +9,7 @@
   blacklist:
     tags:
     - SiliconEmotes
-    - SiliconIPSIPCEmotes
+    - SiliconIPCEmotes
   chatMessages: ["chat-emote-msg-sneeze"]
   chatTriggers:
     - чихает
@@ -25,7 +25,7 @@
   blacklist:
     tags:
     - SiliconEmotes
-    - SiliconIPSIPCEmotes
+    - SiliconIPCEmotes
   chatMessages: ["chat-emote-msg-cough"]
   chatTriggers:
     - cough
@@ -71,7 +71,7 @@
   blacklist:
     tags:
     - SiliconEmotes
-    - SiliconIPSIPCEmotes
+    - SiliconIPCEmotes
   chatMessages: ["chat-emote-msg-yawn"]
   chatTriggers:
     - yawn

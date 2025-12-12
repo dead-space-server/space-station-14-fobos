@@ -111,9 +111,9 @@
   - type: ImmunitetInfectionDead
   - type: Vocal
     sounds:
-      Male: IPSIPC
-      Female: IPSIPC
-      Unsexed: IPSIPC
+      Male: IPC
+      Female: IPC
+      Unsexed: IPC
   - type: DamagedSiliconAccent
   - type: Language
     selectedLanguage: GeneralLanguage
@@ -122,7 +122,7 @@
     - GeneralLanguage
   - type: Tag
     tags:
-    - SiliconIPSIPCEmotes
+    - SiliconIPCEmotes
     - CanPilot
     - FootstepSound
     - DoorBumpOpener

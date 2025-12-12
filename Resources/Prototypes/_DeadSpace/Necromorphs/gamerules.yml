@@ -47,7 +47,6 @@
   - type: AntagLoadProfileRule
     speciesOverride: Human
     speciesOverrideBlacklist:
-    - IPS
     - IPC
     - Diona
     - Xenomorph

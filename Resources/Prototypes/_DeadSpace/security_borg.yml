@@ -177,6 +177,14 @@
     - item: WeaponLaserGunBorg
 
 - type: entity
+  id: BorgModuleArrestSecurityHandcuffPlaceholder
+  parent: BaseItem
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/handcuffs.rsi
+    state: handcuff
+
+- type: entity
   id: BorgModuleArrestSecurity
   parent: [ BaseBorgModuleSecurity, BaseProviderBorgModule ]
   name: арест модуль
@@ -191,6 +199,12 @@
     hands:
     - item: StunbatonBorg
     - item: BorgSecJawsOfLife
+    - hand:
+        emptyRepresentative: BorgModuleArrestSecurityHandcuffPlaceholder
+        emptyLabel: borg-slot-handcuffs-empty
+        whitelist:
+          tags:
+          - Handcuffs
 
 - type: entity
   id: BaseBorgModuleSecurity
