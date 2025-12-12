@@ -333,7 +333,6 @@
       - ParadoxCloneObjectiveBlacklist
   - type: AntagObjectives
     objectives:
-    - ParadoxCloneKillObjective
     - ParadoxCloneLivingObjective
   - type: AntagRandomSpawn # TODO: improve spawning so they only start in maints
   - type: AntagSelection
