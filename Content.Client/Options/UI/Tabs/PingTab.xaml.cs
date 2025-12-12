@@ -9,6 +9,7 @@ using Robust.Shared.Configuration;
 using Content.Shared.DeadSpace.CCCCVars;
 using Content.Client.DeadSpace.Notify.NotifyHelpers;
 using Content.Client.Options.UI;
+using System.Numerics;
 
 namespace Content.Client.Options.UI.Tabs;
 
@@ -17,6 +18,7 @@ namespace Content.Client.Options.UI.Tabs;
 public sealed partial class PingTab : Control
 {
     private bool _isSaveNeeded = false;
+    private string _searchText = string.Empty;
     private void AddCheckBox(INotifyHelper helper, string checkBoxName, string id, bool savedSelection)
     {
         CheckBox newCheckBox = new CheckBox() { Text = checkBoxName }; //Loc.GetString(checkBoxName) };
@@ -41,6 +43,22 @@ public sealed partial class PingTab : Control
             }
         };
     }
+    private bool ButtonIsVisible(CheckBox button)
+    {
+        return string.IsNullOrEmpty(_searchText) || button.Text == null || button.Text.Contains(_searchText, StringComparison.OrdinalIgnoreCase);
+    }
+    private void OnSearchTextChanged(LineEdit.LineEditEventArgs args)
+    {
+        _searchText = args.Text;
+
+        foreach (var child in PingsCont.Children)
+        {
+            if (child is CheckBox button)
+                button.Visible = ButtonIsVisible(button);
+        }
+        // Reset scroll bar so they can see the relevant results.
+        ScrollContainer.SetScrollValue(Vector2.Zero);
+    }
     public PingTab()
     {
         var prototypeManager = IoCManager.Resolve<IPrototypeManager>();
@@ -53,6 +71,7 @@ public sealed partial class PingTab : Control
         {
             AddCheckBox(helper, proto.Name, proto.ID, helper.GetValueAccess(proto.ID));
         }
+        SearchBar.OnTextChanged += OnSearchTextChanged;
         Control.Initialize();
     }
 }
