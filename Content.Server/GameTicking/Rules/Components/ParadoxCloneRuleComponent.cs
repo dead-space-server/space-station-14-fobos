@@ -19,8 +19,10 @@ public sealed partial class ParadoxCloneRuleComponent : Component
     /// <summary>
     ///     Visual effect spawned when gibbing at round end.
     /// </summary>
+
     [DataField]
-    public EntProtoId GibProto = "MobParadoxTimed";
+    // DS 14
+    // public EntProtoId GibProto = "MobParadoxTimed";
 
     /// <summary>
     ///     Entity of the original player.
