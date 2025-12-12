@@ -43,6 +43,7 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
     private BoxContainer _categoryTabsContainer = default!;
     private BoxContainer _categoryItemsPanel = default!;
     private EmeraldSearchBox _searchBox = default!;
+    private GridContainer? _itemsGrid;
     private string _searchQuery = "";
 
     public DonateShopWindow()
@@ -666,9 +667,9 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
             return;
         }
 
-        var itemsGrid = new GridContainer
+        _itemsGrid = new GridContainer
         {
-            Columns = 5,
+            Columns = CalculateColumns(),
             HorizontalExpand = true,
             VSeparationOverride = 8,
             HSeparationOverride = 8
@@ -693,9 +694,31 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
                 _entManager.EntityNetManager.SendSystemNetworkMessage(new DonateShopSpawnEvent(protoId));
             };
 
-            itemsGrid.AddChild(itemCard);
+            _itemsGrid.AddChild(itemCard);
         }
 
-        _categoryItemsPanel.AddChild(itemsGrid);
+        _categoryItemsPanel.AddChild(_itemsGrid);
+    }
+
+    private int CalculateColumns()
+    {
+        const float itemWidth = 145f;
+        const float spacing = 8f;
+        const float padding = 20f;
+
+        var availableWidth = Size.X - padding;
+        var columns = (int)((availableWidth + spacing) / (itemWidth + spacing));
+
+        return Math.Max(1, Math.Min(columns, 6));
+    }
+
+    protected override void Resized()
+    {
+        base.Resized();
+
+        if (_itemsGrid != null)
+        {
+            _itemsGrid.Columns = CalculateColumns();
+        }
     }
 }
