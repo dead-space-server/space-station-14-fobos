@@ -43,8 +43,6 @@ public sealed class DonateShopSystem : EntitySystem
     {
         base.Initialize();
 
-        _cfg.OnValueChanged(CCCCVars.DonateSpawnTimeLimit, v => _timeUntilSpawnBan = _gameTiming.CurTime + TimeSpan.FromMinutes(v), true);
-
         SubscribeNetworkEvent<RequestUpdateDonateShop>(OnUpdate);
         SubscribeNetworkEvent<DonateShopSpawnEvent>(OnSpawnRequest);
 
@@ -55,6 +53,8 @@ public sealed class DonateShopSystem : EntitySystem
         IoCManager.Instance!.TryResolveType(out _donateApiService);
 
         _sawmill.Info($"DonateShopSystem initialized, API service: {(_donateApiService != null ? "OK" : "NULL")}");
+
+        SubscribeLocalEvent<RoundStartAttemptEvent>(_ => { _timeUntilSpawnBan = _gameTiming.CurTime + TimeSpan.FromMinutes(_cfg.GetCVar(CCCCVars.DonateSpawnTimeLimit)); });
     }
 
     public override void Update(float frameTime)

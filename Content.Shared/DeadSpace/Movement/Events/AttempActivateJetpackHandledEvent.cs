@@ -6,5 +6,11 @@ namespace Content.Shared.DeadSpace.Movement.Events;
 public struct AttemptActivateJetpackHandledEvent
 {
     public bool Handled;
+    public bool Enabled;
+
+    public AttemptActivateJetpackHandledEvent (bool enabled)
+    {
+        Enabled = enabled;
+    }
 }
 

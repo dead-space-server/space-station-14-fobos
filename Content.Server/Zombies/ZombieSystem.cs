@@ -330,8 +330,11 @@ namespace Content.Server.Zombies
         // DS14-start
         private void OnJetpackAttempt(EntityUid uid, ZombieComponent component, ref AttemptActivateJetpackHandledEvent args)
         {
+            if (!args.Enabled)
+                return;
+
             _popup.PopupEntity(Loc.GetString("jetpack-user-zombie"), uid, uid);
-            args.Handled =  true;
+            args.Handled = true;
         }
         // DS14-end
     }

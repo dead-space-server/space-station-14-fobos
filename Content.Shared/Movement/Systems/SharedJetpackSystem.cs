@@ -172,7 +172,7 @@ public abstract class SharedJetpackSystem : EntitySystem
             user = container.Owner;
         }
         // DS14-start
-        var ev = new AttemptActivateJetpackHandledEvent();
+        var ev = new AttemptActivateJetpackHandledEvent(enabled);
         RaiseLocalEvent(user.Value, ref ev, true);
         if (ev.Handled)
             return;
