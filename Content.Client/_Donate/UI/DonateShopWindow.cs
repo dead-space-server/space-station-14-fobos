@@ -328,8 +328,8 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
             return;
         }
 
-        _topPanel.Visible = false;
-        _tabsContainer.Visible = false;
+        _topPanel.Visible = true;
+        _tabsContainer.Visible = true;
 
         _levelBar.Level = state.Level;
         _levelBar.Experience = state.Experience;
