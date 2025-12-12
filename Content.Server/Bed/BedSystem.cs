@@ -1,9 +1,9 @@
+using Content.Server.DeadSpace.IPC.Components;
 using Content.Shared.Bed;
 using Content.Shared.Bed.Components;
 using Content.Shared.Bed.Sleep;
 using Content.Shared.Buckle.Components;
 using Content.Shared.Damage;
-using Content.Shared.DeadSpace.IPC;
 using Content.Shared.Mobs.Systems;
 
 namespace Content.Server.Bed

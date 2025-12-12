@@ -1,11 +1,10 @@
 ﻿// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
-using Content.Shared.Actions;
 using Content.Shared.Alert;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
-namespace Content.Shared.DeadSpace.IPC;
+namespace Content.Server.DeadSpace.IPC.Components;
 
 [RegisterComponent, NetworkedComponent]
 public sealed partial class IPCComponent : Component
@@ -39,10 +38,6 @@ public sealed partial class IPCComponent : Component
     [ViewVariables(VVAccess.ReadOnly)]
     public bool DrainActivated;
 
-    [ViewVariables]
+    [ViewVariables(VVAccess.ReadOnly)]
     public short LastBatteryLevel;
-}
-
-public sealed partial class ToggleDrainActionEvent : InstantActionEvent
-{
 }

@@ -1,9 +1,10 @@
 ﻿// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
+using Content.Server.DeadSpace.IPC.Components;
 using Content.Shared.Actions;
 using Content.Shared.Actions.Components;
 using Content.Shared.Alert;
-using Content.Shared.DeadSpace.IPC;
+using Content.Shared.DeadSpace.IPC.Events;
 using Content.Shared.Movement.Systems;
 using Content.Shared.Ninja.Components;
 using Content.Shared.Ninja.Systems;
