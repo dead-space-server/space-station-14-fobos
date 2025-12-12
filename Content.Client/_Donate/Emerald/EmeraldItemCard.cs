@@ -19,6 +19,7 @@ public sealed class EmeraldItemCard : Control
 
     private Font _nameFont = default!;
     private Font _statusFont = default!;
+    private Font _sourceFont = default!;
 
     private string _itemName = "";
     private string _protoId = "";
@@ -27,6 +28,7 @@ public sealed class EmeraldItemCard : Control
     private bool _isActive;
     private bool _isSpawned;
     private bool _isTimeUp;
+    private string? _sourceSubscription;
 
     private readonly Color _bgColor = Color.FromHex("#1a0f2e");
     private readonly Color _borderColor = Color.FromHex("#4a3a6a");
@@ -37,6 +39,8 @@ public sealed class EmeraldItemCard : Control
     private readonly Color _spriteBgColor = Color.FromHex("#0f0a1e");
     private readonly Color _hoverGlowColor = Color.FromHex("#6d5a8a");
     private readonly Color _spawnedColor = Color.FromHex("#4CAF50");
+    private readonly Color _subscriptionColor = Color.FromHex("#d4a574");
+    private readonly Color _purchasedColor = Color.FromHex("#8d7aaa");
 
     private SpriteView? _spriteView;
     private TextureRect? _textureRect;
@@ -116,6 +120,18 @@ public sealed class EmeraldItemCard : Control
         }
     }
 
+    public string? SourceSubscription
+    {
+        get => _sourceSubscription;
+        set
+        {
+            _sourceSubscription = value;
+            InvalidateMeasure();
+        }
+    }
+
+    public bool IsFromSubscription => SourceSubscription != null;
+
     public EmeraldItemCard()
     {
         IoCManager.InjectDependencies(this);
@@ -132,6 +148,9 @@ public sealed class EmeraldItemCard : Control
         _statusFont = new VectorFont(
             _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
             (int)(9 * UIScale));
+        _sourceFont = new VectorFont(
+            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
+            (int)(8 * UIScale));
     }
 
     private void BuildSprite()
@@ -183,7 +202,6 @@ public sealed class EmeraldItemCard : Control
             }
             catch
             {
-                // ignored
             }
         }
 
@@ -207,7 +225,7 @@ public sealed class EmeraldItemCard : Control
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
     {
-        return new Vector2(145, 190);
+        return new Vector2(145, 200);
     }
 
     protected override Vector2 ArrangeOverride(Vector2 finalSize)
@@ -234,7 +252,7 @@ public sealed class EmeraldItemCard : Control
             handle.DrawRect(glowRect, _hoverGlowColor.WithAlpha(0.3f));
         }
 
-        var borderColor = _isActive ? _borderColor :
+        var borderColor = _isActive ? (IsFromSubscription ? _subscriptionColor : _borderColor) :
                         _isSpawned ? _spawnedColor :
                         _inactiveColor;
         handle.DrawLine(rect.TopLeft, rect.TopRight, borderColor);
@@ -243,11 +261,11 @@ public sealed class EmeraldItemCard : Control
         handle.DrawLine(rect.BottomLeft, rect.TopLeft, borderColor);
 
         var maxTextWidth = PixelSize.X - 8f;
-        var lines = WrapText(_itemName, maxTextWidth, _nameFont, 4);
+        var lines = WrapText(_itemName, maxTextWidth, _nameFont, 3);
         var nameY = 99f;
         var lineHeight = _nameFont.GetLineHeight(1f);
 
-        var nameColor = _isActive ? _borderColor :
+        var nameColor = _isActive ? (IsFromSubscription ? _subscriptionColor : _borderColor) :
                         _isSpawned ? _spawnedColor :
                         _inactiveColor;
         for (int i = 0; i < lines.Count; i++)
@@ -258,13 +276,31 @@ public sealed class EmeraldItemCard : Control
             handle.DrawString(_nameFont, new Vector2(lineX, nameY + i * lineHeight), line, 1f, nameColor);
         }
 
+        var statusY = nameY + lines.Count * lineHeight + 4f;
+
+        if (IsFromSubscription)
+        {
+            var sourceText = _sourceSubscription!.ToUpper();
+            var sourceWidth = GetTextWidth(sourceText, _sourceFont);
+            var sourceX = (PixelSize.X - sourceWidth) / 2f;
+            handle.DrawString(_sourceFont, new Vector2(sourceX, statusY), sourceText, 1f, _subscriptionColor);
+            statusY += _sourceFont.GetLineHeight(1f) + 2f;
+        }
+        else
+        {
+            var purchasedText = "КУПЛЕНО";
+            var purchasedWidth = GetTextWidth(purchasedText, _sourceFont);
+            var purchasedX = (PixelSize.X - purchasedWidth) / 2f;
+            handle.DrawString(_sourceFont, new Vector2(purchasedX, statusY), purchasedText, 1f, _purchasedColor);
+            statusY += _sourceFont.GetLineHeight(1f) + 2f;
+        }
+
         if (!_isActive)
         {
             var inactiveText = "НЕАКТИВЕН";
             var inactiveWidth = GetTextWidth(inactiveText, _statusFont);
             var inactiveX = (PixelSize.X - inactiveWidth) / 2f;
-            var inactiveY = nameY + lines.Count * lineHeight + 4f;
-            handle.DrawString(_statusFont, new Vector2(inactiveX, inactiveY), inactiveText, 1f, _inactiveColor);
+            handle.DrawString(_statusFont, new Vector2(inactiveX, statusY), inactiveText, 1f, _inactiveColor);
             return;
         }
 
@@ -273,8 +309,7 @@ public sealed class EmeraldItemCard : Control
             var spawnedText = "ЗАСПАВНЕНО";
             var spawnedWidth = GetTextWidth(spawnedText, _statusFont);
             var spawnedX = (PixelSize.X - spawnedWidth) / 2f;
-            var spawnedY = nameY + lines.Count * lineHeight + 4f;
-            handle.DrawString(_statusFont, new Vector2(spawnedX, spawnedY), spawnedText, 1f, _spawnedColor);
+            handle.DrawString(_statusFont, new Vector2(spawnedX, statusY), spawnedText, 1f, _spawnedColor);
             return;
         }
 
@@ -283,8 +318,7 @@ public sealed class EmeraldItemCard : Control
             var timeUpText = "ВРЕМЯ ИСТЕКЛО";
             var timeUpWidth = GetTextWidth(timeUpText, _statusFont);
             var timeUpX = (PixelSize.X - timeUpWidth) / 2f;
-            var timeUpY = nameY + lines.Count * lineHeight + 4f;
-            handle.DrawString(_statusFont, new Vector2(timeUpX, timeUpY), timeUpText, 1f, _timeExpiringColor);
+            handle.DrawString(_statusFont, new Vector2(timeUpX, statusY), timeUpText, 1f, _timeExpiringColor);
             return;
         }
 
@@ -293,7 +327,7 @@ public sealed class EmeraldItemCard : Control
 
         if (_timeAllways)
         {
-            timeText = "ВСЕГДА";
+            timeText = "НАВСЕГДА";
             timeTextColor = _timeColor;
         }
         else if (!string.IsNullOrEmpty(_timeFinish))
@@ -312,11 +346,11 @@ public sealed class EmeraldItemCard : Control
                     timeTextColor = _timeColor;
                 }
 
-                timeText = finishDate.ToString("dd.MM.yyyy");
+                timeText = "до " + finishDate.ToString("dd.MM.yyyy");
             }
             else
             {
-                timeText = _timeFinish;
+                timeText = "до " + _timeFinish;
                 timeTextColor = _timeColor;
             }
         }
@@ -327,8 +361,7 @@ public sealed class EmeraldItemCard : Control
 
         var timeWidth = GetTextWidth(timeText, _statusFont);
         var timeX = (PixelSize.X - timeWidth) / 2f;
-        var timeY = nameY + lines.Count * lineHeight + 4f;
-        handle.DrawString(_statusFont, new Vector2(timeX, timeY), timeText, 1f, timeTextColor);
+        handle.DrawString(_statusFont, new Vector2(timeX, statusY), timeText, 1f, timeTextColor);
     }
 
     protected override void MouseEntered()

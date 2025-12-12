@@ -567,23 +567,30 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
         }
     }
 
-    private void UpdateInventoryContent(DonateShopState state)
+    private List<DonateItemData> GetAllItems(DonateShopState state)
     {
-        _categoryTabsContainer.RemoveAllChildren();
-        _categoryItemsPanel.RemoveAllChildren();
-
         var allItems = new List<DonateItemData>(state.Items);
 
         foreach (var sub in state.Subscribes)
         {
             foreach (var subItem in sub.Items)
             {
-                if (allItems.All(i => i.ItemIdInGame != subItem.ItemIdInGame))
+                if (allItems.All(i => i.ItemIdInGame != subItem.ItemIdInGame || subItem.ItemIdInGame == null))
                 {
                     allItems.Add(subItem);
                 }
             }
         }
+
+        return allItems;
+    }
+
+    private void UpdateInventoryContent(DonateShopState state)
+    {
+        _categoryTabsContainer.RemoveAllChildren();
+        _categoryItemsPanel.RemoveAllChildren();
+
+        var allItems = GetAllItems(state);
 
         if (allItems.Count == 0)
         {
@@ -599,9 +606,9 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
         }
 
         _categories = allItems
-            .GroupBy(i => i.Category)
-            .OrderBy(g => g.Key)
-            .Select(g => g.Key)
+            .Select(i => i.Category)
+            .Distinct()
+            .OrderBy(c => c)
             .ToList();
 
         foreach (var category in _categories)
@@ -616,10 +623,11 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
             _categoryTabsContainer.AddChild(categoryTab);
         }
 
-        if (_categories.Count > 0)
-        {
-            SwitchCategory(_categories[0]);
-        }
+        var targetCategory = _currentCategory != null && _categories.Contains(_currentCategory)
+            ? _currentCategory
+            : _categories[0];
+
+        SwitchCategory(targetCategory);
     }
 
     private void SwitchCategory(string category)
@@ -638,18 +646,7 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
         if (_state == null)
             return;
 
-        var allItems = new List<DonateItemData>(_state.Items);
-
-        foreach (var sub in _state.Subscribes)
-        {
-            foreach (var subItem in sub.Items)
-            {
-                if (allItems.All(i => i.ItemIdInGame != subItem.ItemIdInGame))
-                {
-                    allItems.Add(subItem);
-                }
-            }
-        }
+        var allItems = GetAllItems(_state);
 
         var categoryItems = allItems
             .Where(i => i.Category == category)
@@ -687,7 +684,8 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
                 TimeAllways = item.TimeAllways,
                 IsActive = item.IsActive,
                 IsSpawned = _state.SpawnedItems.Contains(item.ItemIdInGame ?? ""),
-                IsTimeUp = _state.IsTimeUp
+                IsTimeUp = _state.IsTimeUp,
+                SourceSubscription = item.SourceSubscription
             };
 
             itemCard.OnSpawnRequest += protoId =>

@@ -113,6 +113,7 @@ public sealed class DonateItemData
     public int CoinPrice { get; }
     public int CrystalPrice { get; }
     public int EnergyPrice { get; }
+    public string? SourceSubscription { get; }
 
     public DonateItemData(
         int itemId,
@@ -127,7 +128,8 @@ public sealed class DonateItemData
         string? timeFinish = null,
         int coinPrice = 0,
         int crystalPrice = 0,
-        int energyPrice = 0)
+        int energyPrice = 0,
+        string? sourceSubscription = null)
     {
         ItemId = itemId;
         ItemName = itemName;
@@ -142,6 +144,7 @@ public sealed class DonateItemData
         CoinPrice = coinPrice;
         CrystalPrice = crystalPrice;
         EnergyPrice = energyPrice;
+        SourceSubscription = sourceSubscription;
     }
 }
 
