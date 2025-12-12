@@ -6,7 +6,7 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.IPC.Components;
 
-[RegisterComponent, NetworkedComponent]
+[RegisterComponent]
 public sealed partial class IPCComponent : Component
 {
     public const short MaxBatteryAlertLevels = 10;
