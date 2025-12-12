@@ -18,7 +18,7 @@
     - AnomalyShadow
     - AnomalyTech
     - AnomalyNecro
-    #- AnomalySanta
+    - AnomalySanta # DS14: New Year
     rareChance: 0.3
     rarePrototypes:
     - RandomAnomalyInjectorSpawner

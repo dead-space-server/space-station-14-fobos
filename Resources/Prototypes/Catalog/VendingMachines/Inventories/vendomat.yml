@@ -1,6 +1,7 @@
 - type: vendingMachineInventory
   id: VendomatInventory
   startingInventory:
+    Nanopaste: 2 # DS14
     RemoteSignaller: 1
     Igniter: 2
     Wirecutter: 2

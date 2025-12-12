@@ -120,16 +120,6 @@
     # leftBarePrint: "footprint-left-bare-lizard"
     # rightBarePrint: "footprint-right-bare-lizard"
 
-
-- type: damageModifierSet
-  id: XenoRace
-  coefficients:
-    Blunt: 0.9
-    Slash: 0.95
-    Shock: 1.2
-    Heat: 1.5
-    Caustic: 0.5
-
 - type: entity
   parent: BaseMobSpeciesXenomorph
   id: BaseMobXenomorph

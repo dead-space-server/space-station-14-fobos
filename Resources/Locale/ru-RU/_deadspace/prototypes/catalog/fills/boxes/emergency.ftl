@@ -15,4 +15,4 @@ ent-BoxSurvivalTaipanNonBreather = аварийный запас
     .suffix = Тайпан, Ксеноморф
 ent-BoxSurvivalTaipanRobotNonBreather = аварийный запас для роботов
     .desc = Коробка с базовым набором выживания для не биологических сотрудников.
-    .suffix = Тайпан, Роботы, КПБ, КПС
+    .suffix = Тайпан, Роботы, КПБ

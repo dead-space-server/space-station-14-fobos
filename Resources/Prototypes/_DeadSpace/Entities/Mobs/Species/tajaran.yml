@@ -58,6 +58,7 @@
   - type: Tag
     tags:
     - CatEmotes
+    - TailEmotes
     - CanPilot
     - FootstepSound
     - DoorBumpOpener

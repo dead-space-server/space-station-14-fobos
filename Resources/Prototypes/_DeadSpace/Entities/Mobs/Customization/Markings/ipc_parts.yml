@@ -1,0 +1,769 @@
+﻿# IPC variant
+- type: marking
+  id: IPCHead
+  bodyPart: Head
+  markingCategory: Head
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: ipc_head
+
+- type: marking
+  id: IPCChest
+  bodyPart: Chest
+  markingCategory: Chest
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: ipc_chest
+
+- type: marking
+  id: IPCRArm
+  bodyPart: RArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: ipc_r_arm
+
+- type: marking
+  id: IPCLArm
+  bodyPart: LArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: ipc_l_arm
+
+- type: marking
+  id: IPCRLeg
+  bodyPart: RLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: ipc_r_leg
+
+- type: marking
+  id: IPCLLeg
+  bodyPart: LLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: ipc_l_leg
+
+# IPS variant
+- type: marking
+  id: IPSHead
+  bodyPart: Head
+  markingCategory: Head
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: ips_head
+
+- type: marking
+  id: IPSChest
+  bodyPart: Chest
+  markingCategory: Chest
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: ips_chest
+
+- type: marking
+  id: IPSRArm
+  bodyPart: RArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: ips_r_arm
+
+- type: marking
+  id: IPSLArm
+  bodyPart: LArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: ips_l_arm
+
+- type: marking
+  id: IPSRLeg
+  bodyPart: RLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: ips_r_leg
+
+- type: marking
+  id: IPSLLeg
+  bodyPart: LLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: ips_l_leg
+
+# BSH variant
+- type: marking
+  id: BSHHead
+  bodyPart: Head
+  markingCategory: Head
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: bshipc_head
+
+- type: marking
+  id: BSHChest
+  bodyPart: Chest
+  markingCategory: Chest
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: bshipc_chest
+
+- type: marking
+  id: BSHRArm
+  bodyPart: RArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: bshipc_r_arm
+
+- type: marking
+  id: BSHLArm
+  bodyPart: LArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: bshipc_l_arm
+
+- type: marking
+  id: BSHRLeg
+  bodyPart: RLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: bshipc_r_leg
+
+- type: marking
+  id: BSHLLeg
+  bodyPart: LLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: bshipc_l_leg
+
+# BS2 variant
+- type: marking
+  id: BS2Head
+  bodyPart: Head
+  markingCategory: Head
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: bs2ipc_head
+
+- type: marking
+  id: BS2Chest
+  bodyPart: Chest
+  markingCategory: Chest
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: bs2ipc_chest
+
+- type: marking
+  id: BS2RArm
+  bodyPart: RArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: bs2ipc_r_arm
+
+- type: marking
+  id: BS2LArm
+  bodyPart: LArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: bs2ipc_l_arm
+
+- type: marking
+  id: BS2RLeg
+  bodyPart: RLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: bs2ipc_r_leg
+
+- type: marking
+  id: BS2LLeg
+  bodyPart: LLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: bs2ipc_l_leg
+
+# HSI variant
+- type: marking
+  id: HSIHead
+  bodyPart: Head
+  markingCategory: Head
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: hsiipc_head
+
+- type: marking
+  id: HSIChest
+  bodyPart: Chest
+  markingCategory: Chest
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: hsiipc_chest
+
+- type: marking
+  id: HSIRArm
+  bodyPart: RArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: hsiipc_r_arm
+
+- type: marking
+  id: HSILArm
+  bodyPart: LArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: hsiipc_l_arm
+
+- type: marking
+  id: HSIRLeg
+  bodyPart: RLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: hsiipc_r_leg
+
+- type: marking
+  id: HSILLeg
+  bodyPart: LLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: hsiipc_l_leg
+
+# HI2 variant
+- type: marking
+  id: HI2Head
+  bodyPart: Head
+  markingCategory: Head
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: hi2ipc_head
+
+- type: marking
+  id: HI2Chest
+  bodyPart: Chest
+  markingCategory: Chest
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: hi2ipc_chest
+
+- type: marking
+  id: HI2RArm
+  bodyPart: RArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: hi2ipc_r_arm
+
+- type: marking
+  id: HI2LArm
+  bodyPart: LArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: hi2ipc_l_arm
+
+- type: marking
+  id: HI2RLeg
+  bodyPart: RLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: hi2ipc_r_leg
+
+- type: marking
+  id: HI2LLeg
+  bodyPart: LLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: hi2ipc_l_leg
+
+# SGM variant
+- type: marking
+  id: SGMHead
+  bodyPart: Head
+  markingCategory: Head
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: sgmipc_head
+
+- type: marking
+  id: SGMChest
+  bodyPart: Chest
+  markingCategory: Chest
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: sgmipc_chest
+
+- type: marking
+  id: SGMRArm
+  bodyPart: RArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: sgmipc_r_arm
+
+- type: marking
+  id: SGMLArm
+  bodyPart: LArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: sgmipc_l_arm
+
+- type: marking
+  id: SGMRLeg
+  bodyPart: RLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: sgmipc_r_leg
+
+- type: marking
+  id: SGMLLeg
+  bodyPart: LLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: sgmipc_l_leg
+
+# WTM variant
+- type: marking
+  id: WTMHead
+  bodyPart: Head
+  markingCategory: Head
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: wtmipc_head
+
+- type: marking
+  id: WTMChest
+  bodyPart: Chest
+  markingCategory: Chest
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: wtmipc_chest
+
+- type: marking
+  id: WTMRArm
+  bodyPart: RArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: wtmipc_r_arm
+
+- type: marking
+  id: WTMLArm
+  bodyPart: LArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: wtmipc_l_arm
+
+- type: marking
+  id: WTMRLeg
+  bodyPart: RLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: wtmipc_r_leg
+
+- type: marking
+  id: WTMLLeg
+  bodyPart: LLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: wtmipc_l_leg
+
+# XMG variant
+- type: marking
+  id: XMGHead
+  bodyPart: Head
+  markingCategory: Head
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: xmgipc_head
+
+- type: marking
+  id: XMGChest
+  bodyPart: Chest
+  markingCategory: Chest
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: xmgipc_chest
+
+- type: marking
+  id: XMGRArm
+  bodyPart: RArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: xmgipc_r_arm
+
+- type: marking
+  id: XMGLArm
+  bodyPart: LArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: xmgipc_l_arm
+
+- type: marking
+  id: XMGRLeg
+  bodyPart: RLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: xmgipc_r_leg
+
+- type: marking
+  id: XMGLLeg
+  bodyPart: LLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: xmgipc_l_leg
+
+# XM2 variant
+- type: marking
+  id: XM2Head
+  bodyPart: Head
+  markingCategory: Head
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: xm2ipc_head
+
+- type: marking
+  id: XM2Chest
+  bodyPart: Chest
+  markingCategory: Chest
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: xm2ipc_chest
+
+- type: marking
+  id: XM2RArm
+  bodyPart: RArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: xm2ipc_r_arm
+
+- type: marking
+  id: XM2LArm
+  bodyPart: LArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: xm2ipc_l_arm
+
+- type: marking
+  id: XM2RLeg
+  bodyPart: RLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: xm2ipc_r_leg
+
+- type: marking
+  id: XM2LLeg
+  bodyPart: LLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: xm2ipc_l_leg
+
+# ZHP variant
+- type: marking
+  id: ZHPHead
+  bodyPart: Head
+  markingCategory: Head
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: zhpipc_head
+
+- type: marking
+  id: ZHPChest
+  bodyPart: Chest
+  markingCategory: Chest
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: zhpipc_chest
+
+- type: marking
+  id: ZHPRArm
+  bodyPart: RArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: zhpipc_r_arm
+
+- type: marking
+  id: ZHPLArm
+  bodyPart: LArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: zhpipc_l_arm
+
+- type: marking
+  id: ZHPRLeg
+  bodyPart: RLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: zhpipc_r_leg
+
+- type: marking
+  id: ZHPLLeg
+  bodyPart: LLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: zhpipc_l_leg
+
+# MCG variant
+- type: marking
+  id: MCGHead
+  bodyPart: Head
+  markingCategory: Head
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: mcgipc_head
+
+- type: marking
+  id: MCGChest
+  bodyPart: Chest
+  markingCategory: Chest
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: mcgipc_chest
+
+- type: marking
+  id: MCGRArm
+  bodyPart: RArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: mcgipc_r_arm
+
+- type: marking
+  id: MCGLArm
+  bodyPart: LArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: mcgipc_l_arm
+
+- type: marking
+  id: MCGRLeg
+  bodyPart: RLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: mcgipc_r_leg
+
+- type: marking
+  id: MCGLLeg
+  bodyPart: LLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: mcgipc_l_leg
+
+# Star variant
+- type: marking
+  id: SteampunkHead
+  bodyPart: Head
+  markingCategory: Head
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: staripc_head
+
+- type: marking
+  id: SteampunkChest
+  bodyPart: Chest
+  markingCategory: Chest
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: staripc_chest
+
+- type: marking
+  id: SteampunkRArm
+  bodyPart: RArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: staripc_r_arm
+
+- type: marking
+  id: SteampunkLArm
+  bodyPart: LArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: staripc_l_arm
+
+- type: marking
+  id: SteampunkRLeg
+  bodyPart: RLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: staripc_r_leg
+
+- type: marking
+  id: SteampunkLLeg
+  bodyPart: LLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: staripc_l_leg
+
+# Pawsitrons variant
+- type: marking
+  id: PawsitronsHead
+  bodyPart: Head
+  markingCategory: Head
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: pawsitrons_head
+
+- type: marking
+  id: PawsitronsChest
+  bodyPart: Chest
+  markingCategory: Chest
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: pawsitrons_chest
+
+- type: marking
+  id: PawsitronsRArm
+  bodyPart: RArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: pawsitrons_r_arm
+
+- type: marking
+  id: PawsitronsLArm
+  bodyPart: LArm
+  markingCategory: Arms
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: pawsitrons_l_arm
+
+- type: marking
+  id: PawsitronsRLeg
+  bodyPart: RLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: pawsitrons_r_leg
+
+- type: marking
+  id: PawsitronsLLeg
+  bodyPart: LLeg
+  markingCategory: Legs
+  speciesRestriction: [IPC]
+  sprites:
+    - sprite: _DeadSpace/Mobs/Customization/ipc_parts.rsi
+      state: pawsitrons_l_leg

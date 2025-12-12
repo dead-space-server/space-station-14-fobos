@@ -988,7 +988,7 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      100: Critical
+      # 100: Critical
       200: Dead
   - type: Fixtures
     fixtures:
@@ -1027,7 +1027,7 @@
     countReagent: 20 # Сколько при спавне
     maxCountReagent: 20 #Хранилище реагента
     durationRegenReagent: 10 # Время регена
-    reagent: Stimulants # Что в хранилище    
+    reagent: Stimulants # Что в хранилище
   - type: BloodIncubator
     states:
     - running
@@ -1073,7 +1073,7 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      250: Critical
+      # 250: Critical
       350: Dead
   - type: Fixtures
     fixtures:
@@ -1122,7 +1122,7 @@
     countReagent: 20 # Сколько при спавне
     maxCountReagent: 20 #Хранилище реагента
     durationRegenReagent: 10 # Время регена
-    reagent: Stimulants # Что в хранилище    
+    reagent: Stimulants # Что в хранилище
   - type: ActionGun
     action: ActionSpiderWebShot
     gunProto: SpiderWebGun

@@ -14,7 +14,7 @@
   blacklist:
     tags:
     - SiliconEmotes
-    - SiliconIPSIPCEmotes
+    - SiliconIPCEmotes
   chatMessages: ["chat-emote-msg-bubbling"]
   chatTriggers:
     - громко пузыриться
@@ -35,7 +35,7 @@
   blacklist:
     tags:
     - SiliconEmotes
-    - SiliconIPSIPCEmotes
+    - SiliconIPCEmotes
   chatMessages: ["chat-emote-msg-pop"]
   chatTriggers:
     - издаёт хлопок
@@ -57,7 +57,7 @@
   blacklist:
     tags:
     - SiliconEmotes
-    - SiliconIPSIPCEmotes
+    - SiliconIPCEmotes
   chatMessages: ["chat-emote-msg-hiss"]
   chatTriggers:
     - шипит
@@ -80,7 +80,7 @@
   blacklist:
     tags:
     - SiliconEmotes
-    - SiliconIPSIPCEmotes
+    - SiliconIPCEmotes
   chatMessages: ["chat-emote-msg-meow"]
   chatTriggers:
     - мяукает
@@ -108,7 +108,7 @@
   blacklist:
     tags:
     - SiliconEmotes
-    - SiliconIPSIPCEmotes
+    - SiliconIPCEmotes
   chatMessages: ["chat-emote-msg-mew"]
   chatTriggers:
     - мявкает
@@ -131,7 +131,7 @@
   blacklist:
     tags:
     - SiliconEmotes
-    - SiliconIPSIPCEmotes
+    - SiliconIPCEmotes
   chatMessages: ["chat-emote-msg-purr"]
   chatTriggers:
     - мурлычет

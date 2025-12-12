@@ -135,6 +135,11 @@
 - type: loadout
   id: ArmorVest
   equipment:
+    outerClothing: ClothingOuterArmorBasic
+
+- type: loadout
+  id: ArmorVestSec
+  equipment:
     outerClothing: ClothingOuterVestArmorSec # DS14
 
 - type: loadout

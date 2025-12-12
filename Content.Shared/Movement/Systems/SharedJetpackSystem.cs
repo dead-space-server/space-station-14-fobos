@@ -3,6 +3,7 @@ using Content.Shared.Gravity;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Movement.Components;
 using Content.Shared.Movement.Events;
+using Content.Shared.DeadSpace.Movement.Events;
 using Content.Shared.Popups;
 using Robust.Shared.Containers;
 using Robust.Shared.Physics.Components;
@@ -170,7 +171,12 @@ public abstract class SharedJetpackSystem : EntitySystem
                 return;
             user = container.Owner;
         }
-
+        // DS14-start
+        var ev = new AttemptActivateJetpackHandledEvent();
+        RaiseLocalEvent(user.Value, ref ev, true);
+        if (ev.Handled)
+            return;
+        // DS14-end
         if (enabled)
         {
             SetupUser(user.Value, uid, component);
