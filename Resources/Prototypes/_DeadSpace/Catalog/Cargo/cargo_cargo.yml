@@ -1,0 +1,9 @@
+- type: cargoProduct
+  id: CargoBoxFlare
+  icon:
+    sprite: Objects/Misc/flare.rsi
+    state: icon
+  product: CrateCargoBoxFlare
+  cost: 500
+  category: cargoproduct-category-name-cargo
+  group: market
