@@ -51,7 +51,7 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
         IoCManager.InjectDependencies(this);
 
         Title = "MK TERMINAL";
-        MinSize = SetSize = new Vector2(800, 600);
+        MinSize = SetSize = new Vector2(1024, 780);
 
         BuildUI();
         ShowLoading();
