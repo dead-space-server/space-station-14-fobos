@@ -4,6 +4,6 @@
     sprite: Objects/Misc/flare.rsi
     state: icon
   product: CrateCargoBoxFlare
-  cost: 350
+  cost: 500
   category: cargoproduct-category-name-cargo
   group: market
