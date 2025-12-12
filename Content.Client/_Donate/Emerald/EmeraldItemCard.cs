@@ -41,6 +41,7 @@ public sealed class EmeraldItemCard : Control
     private readonly Color _spawnedColor = Color.FromHex("#4CAF50");
     private readonly Color _subscriptionColor = Color.FromHex("#d4a574");
     private readonly Color _purchasedColor = Color.FromHex("#8d7aaa");
+    private readonly Color _adminColor = Color.FromHex("#FF0000");
 
     private SpriteView? _spriteView;
     private TextureRect? _textureRect;
@@ -252,9 +253,12 @@ public sealed class EmeraldItemCard : Control
             handle.DrawRect(glowRect, _hoverGlowColor.WithAlpha(0.3f));
         }
 
-        var borderColor = _isActive ? (IsFromSubscription ? _subscriptionColor : _borderColor) :
-                        _isSpawned ? _spawnedColor :
-                        _inactiveColor;
+        var isAdmin = IsFromSubscription && (_sourceSubscription?.StartsWith("[ADMIN]") ?? false);
+
+        var borderColor = _isActive ? (isAdmin ? _adminColor : IsFromSubscription ? _subscriptionColor : _borderColor) :
+            _isSpawned ? _spawnedColor :
+            _inactiveColor;
+
         handle.DrawLine(rect.TopLeft, rect.TopRight, borderColor);
         handle.DrawLine(rect.TopRight, rect.BottomRight, borderColor);
         handle.DrawLine(rect.BottomRight, rect.BottomLeft, borderColor);
@@ -265,9 +269,10 @@ public sealed class EmeraldItemCard : Control
         var nameY = 99f;
         var lineHeight = _nameFont.GetLineHeight(1f);
 
-        var nameColor = _isActive ? (IsFromSubscription ? _subscriptionColor : _borderColor) :
-                        _isSpawned ? _spawnedColor :
-                        _inactiveColor;
+        var nameColor = _isActive ? (isAdmin ? _adminColor : IsFromSubscription ? _subscriptionColor : _nameColor) :
+            _isSpawned ? _spawnedColor :
+            _inactiveColor;
+
         for (int i = 0; i < lines.Count; i++)
         {
             var line = lines[i];

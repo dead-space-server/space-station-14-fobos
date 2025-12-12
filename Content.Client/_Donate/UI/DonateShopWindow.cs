@@ -541,12 +541,14 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
 
             foreach (var sub in state.Subscribes)
             {
+                var isAdmin = sub.SubscribeName.StartsWith("[ADMIN]");
                 var subCard = new EmeraldSubscriptionCard
                 {
                     NameSub = sub.SubscribeName.ToUpper(),
-                    Price = $"{sub.Price} РУБ",
-                    Dates = $"Дата окончания: {sub.FinishDate}",
+                    Price = isAdmin ? "БЕСПЛАТНО" : $"{sub.Price} РУБ",
+                    Dates = isAdmin ? "Навсегда" : $"Дата окончания: {sub.FinishDate}",
                     ItemCount = sub.Items.Count,
+                    IsAdmin = isAdmin,
                     HorizontalExpand = true
                 };
                 subsContainer.AddChild(subCard);
