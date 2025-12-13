@@ -79,7 +79,7 @@ public sealed class DonateShopSystem : EntitySystem
         }
     }
 
-    private void OnStartingGearEquipped(StartingGearEquippedEvent ev)
+    private void OnStartingGearEquipped(ref StartingGearEquippedEvent ev)
     {
         if (_donateApiService != null && _actorSystem.TryGetSession(ev.Entity, out var session) && session != null)
             _donateApiService.AddSpawnBanTimerForUser(session.UserId.ToString());
