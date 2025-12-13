@@ -97,7 +97,7 @@ public sealed class EmeraldSubscriptionCard : Control
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
     {
-        var width = float.IsPositiveInfinity(availableSize.X) ? 460 : Math.Min(availableSize.X, 460);
+        var width = float.IsPositiveInfinity(availableSize.X) ? 300 : availableSize.X;
         return new Vector2(width, 70);
     }
 

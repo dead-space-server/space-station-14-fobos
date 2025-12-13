@@ -56,9 +56,8 @@ public sealed class EmeraldBuyPremiumCard : Control
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
     {
-        var width = float.IsPositiveInfinity(availableSize.X) ? 600 : availableSize.X;
+        var width = float.IsPositiveInfinity(availableSize.X) ? 400 : availableSize.X;
 
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (_buyButton != null)
         {
             _buyButton.Measure(availableSize);
@@ -69,7 +68,6 @@ public sealed class EmeraldBuyPremiumCard : Control
 
     protected override Vector2 ArrangeOverride(Vector2 finalSize)
     {
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (_buyButton != null)
         {
             var buttonSize = _buyButton.DesiredSize;

@@ -143,7 +143,7 @@ public sealed class EmeraldPremiumCard : Control
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
     {
-        var width = float.IsPositiveInfinity(availableSize.X) ? 600 : availableSize.X;
+        var width = float.IsPositiveInfinity(availableSize.X) ? 400 : availableSize.X;
         return new Vector2(width, 110);
     }
 
@@ -193,7 +193,7 @@ public sealed class EmeraldPremiumCard : Control
         currentY += _infoFont.GetLineHeight(1f) + 8f;
 
         var bonusesX = padding;
-        var bonusSpacing = 160f;
+        var bonusSpacing = Math.Min(160f, (PixelSize.X - padding * 2) / 3f);
 
         if (_bonusXp > 0)
         {

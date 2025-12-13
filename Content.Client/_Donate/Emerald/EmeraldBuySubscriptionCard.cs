@@ -13,6 +13,7 @@ public sealed class EmeraldBuySubscriptionCard : Control
 
     private Font _titleFont = default!;
     private Font _messageFont = default!;
+    private Font _hintFont = default!;
 
     private readonly Color _bgColor = Color.FromHex("#0f0a1e");
     private readonly Color _borderColor = Color.FromHex("#6d5a8a");
@@ -23,8 +24,6 @@ public sealed class EmeraldBuySubscriptionCard : Control
     private const int TitleFontSize = 14;
     private const int MessageFontSize = 11;
     private const int HintFontSize = 10;
-
-    private Font _hintFont = default!;
 
     private EmeraldButton _buyButton = default!;
 
@@ -63,9 +62,8 @@ public sealed class EmeraldBuySubscriptionCard : Control
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
     {
-        var width = float.IsPositiveInfinity(availableSize.X) ? 600 : availableSize.X;
+        var width = float.IsPositiveInfinity(availableSize.X) ? 400 : availableSize.X;
 
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (_buyButton != null)
         {
             _buyButton.Measure(availableSize);
@@ -76,7 +74,6 @@ public sealed class EmeraldBuySubscriptionCard : Control
 
     protected override Vector2 ArrangeOverride(Vector2 finalSize)
     {
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (_buyButton != null)
         {
             var buttonSize = _buyButton.DesiredSize;
@@ -123,7 +120,7 @@ public sealed class EmeraldBuySubscriptionCard : Control
         var hintWidth = GetTextWidth(hintText, _hintFont);
         var hintX = (PixelSize.X - hintWidth) / 2f;
 
-        handle.DrawString(_hintFont, new Vector2(hintX, currentY), hintText, 1f, _hintColor);
+        handle.DrawString(_hintFont, new Vector2(Math.Max(padding, hintX), currentY), hintText, 1f, _hintColor);
     }
 
     private void DrawBorder(DrawingHandleScreen handle, UIBox2 rect, Color color)
