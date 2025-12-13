@@ -13,8 +13,8 @@ using Robust.Shared.Player;
 using Content.Shared.Humanoid;
 using Content.Shared.Mobs.Systems;
 using Robust.Shared.Configuration;
-using Content.Shared.DeadSpace.CCCCVars;
 using Robust.Shared.Timing;
+using Content.Shared.Roles;
 
 namespace Content.Server._Donate;
 
@@ -27,12 +27,12 @@ public sealed class DonateShopSystem : EntitySystem
     [Dependency] private readonly GameTicker _gameTicker = default!;
     [Dependency] private readonly SharedHandsSystem _handsSystem = default!;
     [Dependency] private readonly IGameTiming _gameTiming = default!;
+    [Dependency] private readonly ActorSystem _actorSystem = default!;
 
     private readonly ISawmill _sawmill = Logger.GetSawmill("donate.uptime");
 
     private readonly Dictionary<string, DonateShopState> _cache = new();
     private readonly Dictionary<string, HashSet<string>> _spawnedItems = new();
-    private TimeSpan _timeUntilSpawnBan = TimeSpan.Zero;
     private IDonateApiService? _donateApiService;
 
     private readonly Dictionary<string, DateTime> _playerEntryTimes = new();
@@ -49,12 +49,11 @@ public sealed class DonateShopSystem : EntitySystem
         _playMan.PlayerStatusChanged += OnPlayerStatusChanged;
 
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestart);
+        SubscribeLocalEvent<StartingGearEquippedEvent>(OnStartingGearEquipped);
 
         IoCManager.Instance!.TryResolveType(out _donateApiService);
 
         _sawmill.Info($"DonateShopSystem initialized, API service: {(_donateApiService != null ? "OK" : "NULL")}");
-
-        SubscribeLocalEvent<RoundStartAttemptEvent>(_ => { _timeUntilSpawnBan = _gameTiming.CurTime + TimeSpan.FromMinutes(_cfg.GetCVar(CCCCVars.DonateSpawnTimeLimit)); });
     }
 
     public override void Update(float frameTime)
@@ -78,6 +77,12 @@ public sealed class DonateShopSystem : EntitySystem
         {
             _ = SendUptimeAsync(userId, entry, exit);
         }
+    }
+
+    private void OnStartingGearEquipped(StartingGearEquippedEvent ev)
+    {
+        if (_donateApiService != null && _actorSystem.TryGetSession(ev.Entity, out var session) && session != null)
+            _donateApiService.AddSpawnBanTimerForUser(session.UserId.ToString());
     }
 
     private async Task SendUptimeAsync(string userId, DateTime entryTime, DateTime exitTime)
@@ -108,6 +113,9 @@ public sealed class DonateShopSystem : EntitySystem
     {
         _cache.Clear();
         _spawnedItems.Clear();
+
+        if (_donateApiService != null)
+            _donateApiService.ClearSpawnBanTimer();
     }
 
     private void OnPlayerStatusChanged(object? sender, SessionStatusEventArgs e)
@@ -137,6 +145,7 @@ public sealed class DonateShopSystem : EntitySystem
     private async Task FetchAndCachePlayerData(string userId)
     {
         var data = await FetchDonateData(userId);
+
         if (data.IsRegistered != false)
         {
             if (_spawnedItems.TryGetValue(userId, out var spawned))
@@ -179,9 +188,6 @@ public sealed class DonateShopSystem : EntitySystem
 
     private void OnSpawnRequest(DonateShopSpawnEvent msg, EntitySessionEventArgs args)
     {
-        if (_gameTiming.CurTime > _timeUntilSpawnBan)
-            return;
-
         var userId = args.SenderSession.UserId.ToString();
 
         if (!_cache.TryGetValue(userId, out var state))
