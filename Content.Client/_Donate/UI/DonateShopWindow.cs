@@ -30,6 +30,7 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
     private EmeraldShopButton _shopButton = default!;
 
     private Control _topPanel = default!;
+    private WrapContainer _topPanelWrap = default!;
     private Control _tabsContainer = default!;
 
     private EmeraldButton _profileTabButton = default!;
@@ -44,6 +45,7 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
     private BoxContainer _categoryItemsPanel = default!;
     private EmeraldSearchBox _searchBox = default!;
     private GridContainer? _itemsGrid;
+    private GridContainer? _perksGrid;
     private string _searchQuery = "";
 
     public DonateShopWindow()
@@ -51,7 +53,8 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
         IoCManager.InjectDependencies(this);
 
         Title = "MK TERMINAL";
-        MinSize = SetSize = new Vector2(1024, 780);
+        MinSize = new Vector2(816, 817);
+        SetSize = new Vector2(816, 817);
 
         BuildUI();
         ShowLoading();
@@ -136,53 +139,68 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
             Margin = new Thickness(2, 0, 0, 0)
         };
 
-        var container = new BoxContainer
+        var mainContainer = new BoxContainer
         {
-            Orientation = BoxContainer.LayoutOrientation.Horizontal,
+            Orientation = BoxContainer.LayoutOrientation.Vertical,
             HorizontalExpand = true,
             Margin = new Thickness(8, 6),
-            SeparationOverride = 8
+            SeparationOverride = 6
+        };
+
+        _topPanelWrap = new WrapContainer
+        {
+            HorizontalExpand = true,
+            LayoutAxis = Axis.Horizontal,
+            SeparationOverride = 8,
+            CrossSeparationOverride = 6
         };
 
         _levelBar = new EmeraldLevelBar
         {
+            MinWidth = 200,
             HorizontalExpand = true,
             Level = 1,
             Experience = 0,
             RequiredExp = 100,
             ToNextLevel = 100,
-            Progress = 0f
+            Progress = 0f,
+            Margin = new Thickness(0, 2)
         };
-        container.AddChild(_levelBar);
+        _topPanelWrap.AddChild(_levelBar);
 
         _batteryDisplay = new EmeraldBatteryDisplay
         {
             Amount = 0,
             IconTexturePath = "/Textures/Interface/battery.png",
-            MinSize = new Vector2(180, 0)
+            MinWidth = 140,
+            Margin = new Thickness(0, 2)
         };
-        container.AddChild(_batteryDisplay);
+        _topPanelWrap.AddChild(_batteryDisplay);
 
         _crystalDisplay = new EmeraldCrystalDisplay
         {
             Amount = 0,
             IconTexturePath = "/Textures/Interface/crystal.png",
-            MinSize = new Vector2(180, 0)
+            MinWidth = 140,
+            Margin = new Thickness(0, 2)
         };
-        container.AddChild(_crystalDisplay);
+        _topPanelWrap.AddChild(_crystalDisplay);
+
+        mainContainer.AddChild(_topPanelWrap);
 
         _shopButton = new EmeraldShopButton
         {
             Text = "МАГАЗИН",
-            MinSize = new Vector2(100, 0)
+            Margin = new Thickness(0, 2),
+            HorizontalAlignment = HAlignment.Center
         };
         _shopButton.OnPressed += () =>
         {
             _url.OpenUri("https://deadspace14.net");
         };
-        container.AddChild(_shopButton);
+        mainContainer.AddChild(_shopButton);
 
-        panel.AddChild(container);
+        panel.AddChild(mainContainer);
         return panel;
     }
 
@@ -457,9 +475,9 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
         };
         _profilePanel.AddChild(profileCard);
 
-        var perksGrid = new GridContainer
+        _perksGrid = new GridContainer
         {
-            Columns = 4,
+            Columns = CalculatePerkColumns(),
             HorizontalExpand = true,
             HSeparationOverride = 8,
             VSeparationOverride = 8
@@ -473,7 +491,7 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
             Value = oocColor,
             ValueColor = Color.FromHex(oocColor)
         };
-        perksGrid.AddChild(oocCard);
+        _perksGrid.AddChild(oocCard);
 
         var slotsCard = new EmeraldPerkCard
         {
@@ -481,7 +499,7 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
             Value = $"+{state.ExtraSlots}",
             ValueColor = Color.FromHex("#a589c9")
         };
-        perksGrid.AddChild(slotsCard);
+        _perksGrid.AddChild(slotsCard);
 
         var priorityCard = new EmeraldPerkCard
         {
@@ -489,7 +507,7 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
             Value = state.HavePriorityJoinGame ? "ДА" : "НЕТ",
             ValueColor = state.HavePriorityJoinGame ? Color.FromHex("#a589c9") : Color.FromHex("#6d5a8a")
         };
-        perksGrid.AddChild(priorityCard);
+        _perksGrid.AddChild(priorityCard);
 
         var antagCard = new EmeraldPerkCard
         {
@@ -497,9 +515,9 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
             Value = state.HavePriorityAntageGame ? "ДА" : "НЕТ",
             ValueColor = state.HavePriorityAntageGame ? Color.FromHex("#a589c9") : Color.FromHex("#6d5a8a")
         };
-        perksGrid.AddChild(antagCard);
+        _perksGrid.AddChild(antagCard);
 
-        _profilePanel.AddChild(perksGrid);
+        _profilePanel.AddChild(_perksGrid);
 
         if (state.CurrentPremium != null)
         {
@@ -711,7 +729,19 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
         var availableWidth = Size.X - padding;
         var columns = (int)((availableWidth + spacing) / (itemWidth + spacing));
 
-        return Math.Max(1, Math.Min(columns, 6));
+        return Math.Max(1, columns);
+    }
+
+    private int CalculatePerkColumns()
+    {
+        const float perkWidth = 140f;
+        const float spacing = 8f;
+        const float padding = 20f;
+
+        var availableWidth = Size.X - padding;
+        var columns = (int)((availableWidth + spacing) / (perkWidth + spacing));
+
+        return Math.Max(1, columns);
     }
 
     protected override void Resized()
@@ -721,6 +751,11 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
         if (_itemsGrid != null)
         {
             _itemsGrid.Columns = CalculateColumns();
+        }
+
+        if (_perksGrid != null)
+        {
+            _perksGrid.Columns = CalculatePerkColumns();
         }
     }
 }
