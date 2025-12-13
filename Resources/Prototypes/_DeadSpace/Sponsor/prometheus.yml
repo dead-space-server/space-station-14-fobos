@@ -9,7 +9,7 @@
   id: ClothingBackpackPrometheus
   name: рюкзак агента
   description: Вместительный рюкзак с множеством карманов, предназначенный для агентов NanoTrasen.
-  #categories: [ HideSpawnMenu ]
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/Prometheus/backpack.rsi
