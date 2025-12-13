@@ -18,13 +18,15 @@
                           Margin="0 0 0 4">
             </BoxContainer>
         </ScrollContainer>
+        <LineEdit Name="SearchBar" PlaceHolder="Search" HorizontalExpand="True" Margin="0 4"  Visible="False"/>
         <!-- DS14-end -->
 
         <BoxContainer Orientation="Horizontal"
                       Margin="0 4 0 0"
                       HorizontalExpand="True"
                       VerticalExpand="True">
-            <ScrollContainer VerticalExpand="True"
+            <ScrollContainer Name= "RoleScroll"
+                             VerticalExpand="True"
                              HScrollEnabled="False"
                              HorizontalExpand="True"
                              MinSize="200 200">

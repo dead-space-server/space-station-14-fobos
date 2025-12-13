@@ -7,6 +7,7 @@ using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.CustomControls;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Utility;
+using Robust.Client.UserInterface;
 
 namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
 {
@@ -23,12 +24,15 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
         private Dictionary<string, int> _categoryRoleCounts = new();
         private HashSet<string> _addedCategories = new();
         private string? _currentCategoryFilter;
+        private string _searchText = string.Empty;
         // DS14-end
 
 
         public GhostRolesWindow()
         {
             RobustXamlLoader.Load(this);
+
+            SearchBar.OnTextChanged += OnSearchTextChanged; // DS14
         }
 
         public void ClearEntries()
@@ -67,6 +71,7 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
         public void AddEntry(string name, string description, string category, bool hasAccess, FormattedMessage? reason, IEnumerable<GhostRoleInfo> roles, SpriteSystem spriteSystem) // DS14 categories
         {
             NoRolesMessage.Visible = false;
+            SearchBar.Visible = true; // DS14
 
             var ghostRoleInfos = roles.ToList();
             var rolesCount = ghostRoleInfos.Count;
@@ -77,7 +82,9 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
             buttons.OnRoleFollow += OnRoleFollow;
             // DS14-start
             info.AddStyleClass(category);
+            info.StyleIdentifier = name;
             buttons.AddStyleClass(category);
+            buttons.StyleIdentifier = name;
             // DS14-end
 
             EntryContainer.AddChild(info);
@@ -179,6 +186,40 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
             }
         }
 
+        private bool ElementIsVisible(GhostRoleInfoBox elem)
+        {
+            return (string.IsNullOrEmpty(_searchText) || elem.StyleIdentifier == null || elem.StyleIdentifier.Contains(_searchText, StringComparison.OrdinalIgnoreCase)) && (_currentCategoryFilter is null || elem.StyleClasses.Contains(_currentCategoryFilter));
+        }
+        private bool ElementIsVisible(GhostRoleButtonsBox elem)
+        {
+            return (string.IsNullOrEmpty(_searchText) || elem.StyleIdentifier == null || elem.StyleIdentifier.Contains(_searchText, StringComparison.OrdinalIgnoreCase)) && (_currentCategoryFilter is null || elem.StyleClasses.Contains(_currentCategoryFilter));
+        }
+        private bool ElementIsVisible(Control elem)
+        {
+            return
+                (string.IsNullOrEmpty(_searchText)
+                 || elem.StyleIdentifier == null
+                 || elem.StyleIdentifier.Contains(_searchText, StringComparison.OrdinalIgnoreCase))
+                && (_currentCategoryFilter is null
+                    || elem.StyleClasses.Contains(_currentCategoryFilter));
+        }
+
+        private void UpdateVisibleElements()
+        {
+            foreach (var child in EntryContainer.Children)
+            {
+                child.Visible = ElementIsVisible(child);
+            }
+        }
+
+        private void OnSearchTextChanged(LineEdit.LineEditEventArgs args)
+        {
+            _searchText = args.Text;
+
+            UpdateVisibleElements();
+            // Reset scroll bar so they can see the relevant results.
+            RoleScroll.SetScrollValue(Vector2.Zero);
+        }
         // DS14-end
     }
 }
