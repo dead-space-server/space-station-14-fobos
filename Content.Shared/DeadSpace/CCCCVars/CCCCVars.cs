@@ -117,3 +117,4 @@ public sealed class CCCCVars
 
     public static readonly CVarDef<string> SysNotifySoundPath =
         CVarDef.Create("sysnotifys.soundpath", "/Audio/Effects/balloon-pop.ogg", CVar.CLIENTONLY | CVar.ARCHIVE);
+}
