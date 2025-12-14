@@ -13,13 +13,24 @@ public sealed partial class VirusDiagnoserDataServerComponent : Component
     [ViewVariables(VVAccess.ReadOnly)]
     public EntityUid? ConnectedConsole = null;
 
+    [ViewVariables(VVAccess.ReadOnly)]
+    public EntityUid? ConnectedEvolutionConsole = null;
+
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
     public ProtoId<SinkPortPrototype> VirusDiagnoserDataServerPort = "VirusDiagnoserDataServerReceiver";
 
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
+    public ProtoId<SinkPortPrototype> VirusEvolutionConsolePort = "VirusEvolutionConsoleReceiver";
+
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
     public Dictionary<VirusStrainRecord, VirusData> StrainData = new();
+
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public EntProtoId Disk = "ResearchDisk";
 
     /// <summary>
     ///     Исследовательские очки.

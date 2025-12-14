@@ -11,8 +11,10 @@ using Content.Shared.DeadSpace.Virus.Components;
 using Robust.Server.GameObjects;
 using Content.Shared.Chemistry.Components.SolutionManager;
 using Content.Shared.Chemistry.EntitySystems;
-using Content.Shared.Chemistry.Components;
 using Content.Shared.Virus;
+using Robust.Shared.Prototypes;
+using Content.Shared.DeadSpace.Virus.Prototypes;
+using Content.Shared.Body.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -25,6 +27,8 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
     [Dependency] private readonly VirusDiagnoserDataServerSystem _dataServer = default!;
     [Dependency] private readonly AppearanceSystem _appearance = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
+    [Dependency] private readonly PrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly VirusEvolutionConsoleSystem _evolutionConsoleSystem = default!;
     private const string FlaskContainerKey = "flask_container_virus_solution_analyzer";
     public override void Initialize()
     {
@@ -44,7 +48,6 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
 
     private void OnEntRemoveCont(Entity<VirusSolutionAnalyzerComponent> ent, ref EntRemovedFromContainerMessage args)
     {
-        Console.WriteLine(1);
         UpdateContainerAppearance((ent, ent.Comp));
     }
 
@@ -100,20 +103,36 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
     {
         if (args.Port == ent.Comp.VirusSolutionAnalyzerPort)
             ent.Comp.ConnectedConsole = null;
+
+        if (args.Port == ent.Comp.VirusEvolutionConsolePort)
+            ent.Comp.ConnectedEvolutionConsole = null;
     }
 
     private void OnAnchor(Entity<VirusSolutionAnalyzerComponent> ent, ref AnchorStateChangedEvent args)
     {
-        if (ent.Comp.ConnectedConsole == null || !TryComp<VirusDiagnoserConsoleComponent>(ent.Comp.ConnectedConsole, out var console))
-            return;
-
-        if (args.Anchored)
+        if (ent.Comp.ConnectedConsole != null && TryComp<VirusDiagnoserConsoleComponent>(ent.Comp.ConnectedConsole, out var console))
         {
-            _console.RecheckConnections((ent.Comp.ConnectedConsole.Value, console));
-            return;
+
+            if (args.Anchored)
+            {
+                _console.RecheckConnections((ent.Comp.ConnectedConsole.Value, console));
+                return;
+            }
+
+            _console.UpdateUserInterface((ent.Comp.ConnectedConsole.Value, console));
         }
 
-        _console.UpdateUserInterface((ent.Comp.ConnectedConsole.Value, console));
+        if (ent.Comp.ConnectedEvolutionConsole != null && TryComp<VirusEvolutionConsoleComponent>(ent.Comp.ConnectedEvolutionConsole, out var evolutionConsole))
+        {
+
+            if (args.Anchored)
+            {
+                _evolutionConsoleSystem.RecheckConnections((ent.Comp.ConnectedEvolutionConsole.Value, evolutionConsole));
+                return;
+            }
+
+            _evolutionConsoleSystem.UpdateUserInterface((ent.Comp.ConnectedEvolutionConsole.Value, evolutionConsole));
+        }
     }
 
     private void OnExamine(EntityUid uid, VirusSolutionAnalyzerComponent component, ExaminedEvent args)
@@ -151,54 +170,119 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
 
         SetStatus((ent, ent.Comp), VirusSolutionAnalyzerStatus.Successfully);
 
-        if (ent.Comp.ConnectedConsole == null || !TryComp<VirusDiagnoserConsoleComponent>(ent.Comp.ConnectedConsole, out var console))
+        if (ent.Comp.ConnectedConsole == null ||
+            !TryComp<VirusDiagnoserConsoleComponent>(
+                ent.Comp.ConnectedConsole,
+                out var console))
             return;
 
-        if (!_container.TryGetContainer(ent, FlaskContainerKey, out var flaskContainer))
+        if (!TryGetVirusDataFromContainer(ent, out var virusData))
             return;
 
-        if (flaskContainer is not ContainerSlot slot)
+        if (!TryComp<VirusDiagnoserDataServerComponent>(
+                console.VirusDiagnoserDataServer,
+                out var server))
             return;
 
-        if (slot.ContainedEntity == null)
-            return;
-
-        if (!TryComp<SolutionContainerManagerComponent>(slot.ContainedEntity, out var solutionContainerManager))
-            return;
-
-        if (!TryComp<DrawableSolutionComponent>(slot.ContainedEntity, out var injectable))
-            return;
-
-        var entWrapper = new Entity<DrawableSolutionComponent?, SolutionContainerManagerComponent?>(slot.ContainedEntity.Value, injectable, solutionContainerManager);
-
-        if (!_solutionContainer.TryGetDrawableSolution(entWrapper, out Entity<SolutionComponent>? solutionEntity, out Solution? solution))
-            return;
-
-        if (solutionEntity != null && solution != null)
+        foreach (var data in virusData)
         {
-            var contents = solution.Contents;
+            _dataServer.SaveData(
+                (console.VirusDiagnoserDataServer.Value, server),
+                data);
+        }
 
-            foreach (var reagent in contents)
+        _console.UpdateUserInterface(
+            (ent.Comp.ConnectedConsole.Value, console));
+    }
+
+
+    public bool TryGetVirusDataFromContainer(
+    EntityUid owner,
+    out List<VirusData> virusData)
+    {
+        virusData = new();
+
+        if (!_container.TryGetContainer(owner, FlaskContainerKey, out var container))
+            return false;
+
+        if (container is not ContainerSlot slot)
+            return false;
+
+        if (slot.ContainedEntity is not { } contained)
+            return false;
+
+        if (!TryComp<SolutionContainerManagerComponent>(contained, out var solutionManager))
+            return false;
+
+        if (!TryComp<DrawableSolutionComponent>(contained, out var drawable))
+            return false;
+
+        var wrapper = new Entity<DrawableSolutionComponent?, SolutionContainerManagerComponent?>(
+            contained,
+            drawable,
+            solutionManager);
+
+        if (!_solutionContainer.TryGetDrawableSolution(
+                wrapper,
+                out _,
+                out var solution))
+            return false;
+
+        if (solution == null)
+            return false;
+
+        foreach (var reagent in solution.Contents)
+        {
+            var dataList = reagent.Reagent.Data;
+            if (dataList == null)
+                continue;
+
+            foreach (var data in dataList.OfType<VirusData>())
             {
-                var dataList = reagent.Reagent.Data;
-                if (dataList == null)
-                    continue;
-
-                var data = dataList.OfType<VirusData>();
-
-                if (!TryComp<VirusDiagnoserDataServerComponent>(console.VirusDiagnoserDataServer, out var server))
-                    return;
-
-                foreach (var virusData in data)
-                {
-                    _dataServer.SaveData((console.VirusDiagnoserDataServer.Value, server), virusData);
-                }
+                virusData.Add(data);
             }
         }
 
-        _console.UpdateUserInterface((ent.Comp.ConnectedConsole.Value, console));
+        return virusData.Count > 0;
     }
 
+    public void AddSymptom(Entity<VirusSolutionAnalyzerComponent?> console, string symptom)
+    {
+        if (!Resolve(console, ref console.Comp, false))
+            return;
+
+        if (_prototypeManager.Index<VirusSymptomPrototype>(symptom) == null)
+            return;
+
+        if (!TryGetVirusDataFromContainer(console, out var virusDataList))
+            return;
+
+        var virusData = virusDataList.FirstOrDefault();
+
+        if (virusData == null)
+            return;
+
+        virusData.ActiveSymptom.Add(symptom);
+    }
+
+    public void AddBody(Entity<VirusSolutionAnalyzerComponent?> console, string body)
+    {
+        if (!Resolve(console, ref console.Comp, false))
+            return;
+
+        if (_prototypeManager.Index<BodyPrototype>(body) == null)
+            return;
+
+        if (!TryGetVirusDataFromContainer(console, out var virusDataList))
+            return;
+
+        var virusData = virusDataList.FirstOrDefault();
+
+        if (virusData == null)
+            return;
+
+        virusData.BodyWhitelist.Add(body);
+    }
 
     private void UpdateAppearance(Entity<VirusSolutionAnalyzerComponent> ent)
     {

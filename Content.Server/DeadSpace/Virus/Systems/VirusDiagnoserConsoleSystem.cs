@@ -132,6 +132,12 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
                 component.VirusDiagnoserDataServer = port;
                 server.ConnectedConsole = uid;
             }
+
+            if (TryComp<VirusSolutionAnalyzerComponent>(port, out var solutionAnalyzer))
+            {
+                component.VirusSolutionAnalyzer = port;
+                solutionAnalyzer.ConnectedConsole = uid;
+            }
         }
     }
 
@@ -162,6 +168,9 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
     {
         if (args.Port == ent.Comp.VirusDiagnoserPort)
             ent.Comp.VirusDiagnoser = null;
+
+        if (args.Port == ent.Comp.VirusSolutionAnalyzerPort)
+            ent.Comp.VirusSolutionAnalyzer = null;
 
         if (args.Port == ent.Comp.VirusDiagnoserDataServerPort)
             ent.Comp.VirusDiagnoserDataServer = null;

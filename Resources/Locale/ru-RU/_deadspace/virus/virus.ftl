@@ -1,5 +1,7 @@
 virus-resistance-coefficient-value = - Шанс [color=violet]заражения вирусом[/color] снижен на [color=purple]{ $value }%[/color].
 
+virus-data-server-get-disk-verb-text = Вытащить диск с данными { $value }.
+
 # При получении урона от некроза
 virus-necrosis-popup-1 = Ты чувствуешь, как [color=darkred]ткань под кожей[/color] медленно умирает...
 virus-necrosis-popup-2 = [color=darkred]Боль пронзает[/color] тело, кожа будто [color=crimson]гниёт изнутри[/color].
@@ -127,8 +129,88 @@ signal-port-description-virus-data-server-receiver = Принимающий си
 signal-port-name-virus-solution-analyzer-receiver = Диагност веществ
 signal-port-description-virus-solution-analyzer-receiver = Принимающий сигнал диагност веществ
 
+signal-port-name-virus-evolution-console-receiver = Консоль эволюции вирусов
+signal-port-description-virus-evolution-console-receiver = Принимающий сигнал консоль эволюции вирусов
 # Другое
 
 research-technology-virology = Вирусология
 
 virus-mutation-verb = Очистить от вируса
+
+
+# Консоль эволюции
+
+### WINDOW ###
+
+virus-evolution-window-title = Эволюция вируса
+
+
+### TABS ###
+
+virus-evolution-tab-evolution = Эволюция
+virus-evolution-tab-whitelist = Белый список
+
+
+### EVOLUTION TAB ###
+
+virus-evolution-available-symptoms = Доступные симптомы
+virus-evolution-active-symptoms = Активные симптомы
+virus-evolution-description-header = Описание
+virus-evolution-buy-button = Купить симптом
+
+virus-evolution-mutation-points =
+    Очки мутации: { $points }
+
+virus-evolution-cost-label =
+    Стоимость: { $cost }
+
+
+### WHITELIST TAB ###
+
+virus-evolution-whitelist = Разрешённые тела
+virus-evolution-buy-body = Добавить тело
+
+
+### DATASERVER STATES ###
+
+virus-evolution-dataserver-missing =
+    Сервер данных не подключён
+
+virus-evolution-dataserver-far =
+    Сервер данных слишком далеко
+
+
+### SOLUTION ANALYZER STATES (на будущее) ###
+
+virus-evolution-solution-analyzer-missing =
+    Анализатор растворов не подключён
+
+virus-evolution-solution-analyzer-far =
+    Анализатор растворов слишком далеко
+
+
+### BUTTON / ACTION ERRORS (если понадобятся) ###
+
+virus-evolution-not-enough-points =
+    Недостаточно очков мутации
+
+virus-evolution-no-selection =
+    Ничего не выбрано
+
+
+### TOOLTIP / INFO ###
+
+virus-evolution-symptom-price-tooltip =
+    Базовая цена: { $price }
+
+virus-evolution-body-price-tooltip =
+    Стоимость тела: { $price }
+
+
+### DEBUG / FALLBACK ###
+
+virus-evolution-unknown-symptom =
+    Неизвестный симптом
+
+virus-evolution-unknown-body =
+    Неизвестное тело

@@ -4,6 +4,11 @@
   description: signal-port-description-virus-data-server-receiver
 
 - type: sinkPort
+  id: VirusEvolutionConsoleReceiver
+  name: signal-port-name-virus-evolution-console-receiver
+  description: signal-port-description-virus-evolution-console-receiver
+
+- type: sinkPort
   id: VirusDiagnoserReceiver
   name: signal-port-name-virus-diagnoser-receiver
   description: signal-port-description-virus-diagnoser-receiver 

@@ -6,22 +6,21 @@ using Robust.Shared.Prototypes;
 namespace Content.Server.DeadSpace.Virus.Components;
 
 [RegisterComponent]
-public sealed partial class VirusDiagnoserConsoleComponent : Component
+public sealed partial class VirusEvolutionConsoleComponent : Component
 {
-    [DataField]
+    /// <summary>
+    ///     Это разумный вирус или машина?
+    /// </summary>
     [ViewVariables(VVAccess.ReadOnly)]
-    public ProtoId<SourcePortPrototype> VirusDiagnoserPort = "VirusDiagnoserSender";
-
-    [DataField]
-    [ViewVariables(VVAccess.ReadOnly)]
-    public ProtoId<SourcePortPrototype> VirusDiagnoserDataServerPort = "VirusDiagnoserDataServerSender";
+    public bool IsVirus = true;
 
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
     public ProtoId<SourcePortPrototype> VirusSolutionAnalyzerPort = "VirusSolutionAnalyzerSender";
 
+    [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public EntityUid? VirusDiagnoser = null;
+    public ProtoId<SourcePortPrototype> VirusDiagnoserDataServerPort = "VirusDiagnoserDataServerSender";
 
     [ViewVariables(VVAccess.ReadOnly)]
     public EntityUid? VirusDiagnoserDataServer = null;
@@ -37,9 +36,6 @@ public sealed partial class VirusDiagnoserConsoleComponent : Component
 
     [ViewVariables(VVAccess.ReadOnly)]
     public bool DataServerInRange = true;
-
-    [ViewVariables(VVAccess.ReadOnly)]
-    public bool DiagnoserInRange = true;
 
     [ViewVariables(VVAccess.ReadOnly)]
     public bool SolutionAnalyzerInRange = true;

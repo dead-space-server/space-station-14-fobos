@@ -13,9 +13,16 @@ public sealed partial class VirusSolutionAnalyzerComponent : Component
     [ViewVariables(VVAccess.ReadOnly)]
     public EntityUid? ConnectedConsole = null;
 
+    [ViewVariables(VVAccess.ReadOnly)]
+    public EntityUid? ConnectedEvolutionConsole = null;
+
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
     public ProtoId<SinkPortPrototype> VirusSolutionAnalyzerPort = "VirusSolutionAnalyzerReceiver";
+
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public ProtoId<SinkPortPrototype> VirusEvolutionConsolePort = "VirusEvolutionConsoleReceiver";
 
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]

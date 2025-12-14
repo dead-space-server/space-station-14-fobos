@@ -161,6 +161,7 @@
   - type: DeviceLinkSink
     ports:
       - VirusDiagnoserDataServerReceiver
+      - VirusEvolutionConsoleReceiver
   - type: Construction
     graph: Machine
     node: machine
@@ -264,6 +265,7 @@
   - type: DeviceLinkSink
     ports:
       - VirusSolutionAnalyzerReceiver
+      - VirusEvolutionConsoleReceiver
   - type: VirusDiagnoser
   - type: ContainerContainer
     containers:
@@ -277,3 +279,53 @@
           tags:
           - DiagnoserFlask
   - type: VirusSolutionAnalyzer
+
+
+
+- type: entity
+  parent: BaseComputerAiAccess
+  id: ComputerVirusEvolutionConsole
+  name: консоль эволюции заболеваний
+  description: Элемент системы вирусологии, для модификации вирусных заболеваний. В нём множество портов и проводов.
+  components:
+  - type: DeviceList
+  - type: DeviceNetwork
+    deviceNetId: Wired
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: dna
+    - map: ["computerLayerKeys"]
+      state: generic_keys
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: ApcPowerReceiver
+    powerLoad: 3100
+  - type: Computer
+    board: ComputerDiagnoserConsoleCircuitboard
+  - type: PointLight
+    radius: 1.5
+    energy: 1.6
+    color: "#1f8c28"
+  - type: DeviceLinkSource
+    range: 50
+    ports:
+      - VirusDiagnoserDataServerSender
+      - VirusSolutionAnalyzerSender
+  - type: ActivatableUI
+    key: enum.VirusDiagnoserConsoleUiKey.Key
+  - type: UserInterface
+    interfaces:
+        enum.VirusDiagnoserConsoleUiKey.Key:
+          type: VirusDiagnoserConsoleBoundUserInterface
+  - type: Speech
+    speechVerb: Robotic
+    speechSounds: Pai
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: StructuralMetallicStrong
+  - type: VirusEvolutionConsole
