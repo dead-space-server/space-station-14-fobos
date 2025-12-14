@@ -1,9 +1,9 @@
 <Document>
 
-# Breakfast Recipes
+  # Завтраки
 
-A wonderful way to start a shift! Or perhaps, to treat the crew to brunch midway through.
+  Отличный вариант начать смену! Или, может, провести ланч для экипажа.
 
-<GuideMicrowaveGroupEmbed Group="Breakfast"/>
+  <GuideMicrowaveGroupEmbed Group="Breakfast"/>
 
 </Document>
