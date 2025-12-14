@@ -1,7 +1,7 @@
 {
     "version": 1,
     "license": "CC-BY-SA-3.0",
-    "copyright": "Made by kabacho4ek_ (discord), resptired all by semkagamez (discord) for Space Station 14 server Мёртвый Космос",
+    "copyright": "banner-spider made by kabacho4ek_ (discord), resptired all by semkagamez (discord). banner-spider made by inspector_jeleshka (discord) for Space Station 14 server Мёртвый Космос",
     "size": {
       "x": 32,
       "y": 32
@@ -18,6 +18,9 @@
             0.2
           ]
         ]
+      },
+      {
+        "name": "banner-deathsquad"
       }
     ]
 }
