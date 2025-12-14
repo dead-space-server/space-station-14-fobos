@@ -84,9 +84,9 @@ public sealed class ParadoxCloneRuleSystem : GameRuleSystem<ParadoxCloneRuleComp
         var targetComp = EnsureComp<TargetOverrideComponent>(clone.Value);
         targetComp.Target = ent.Comp.OriginalMind; // set the kill target
 
-        var gibComp = EnsureComp<GibOnRoundEndComponent>(clone.Value);
-        gibComp.SpawnProto = ent.Comp.GibProto;
-        gibComp.PreventGibbingObjectives = new() { "ParadoxCloneKillObjective" }; // don't gib them if they killed the original.
+        // var gibComp = EnsureComp<GibOnRoundEndComponent>(clone.Value);
+        // gibComp.SpawnProto = ent.Comp.GibProto;
+        // gibComp.PreventGibbingObjectives = new() { "ParadoxCloneKillObjective" }; // don't gib them if they killed the original.
 
         // turn their suit sensors off so they don't immediately get noticed
         _sensor.SetAllSensors(clone.Value, SuitSensorMode.SensorOff);
