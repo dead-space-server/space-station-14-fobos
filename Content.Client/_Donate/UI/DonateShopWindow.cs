@@ -1008,9 +1008,29 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
         if (_energyShopState == null)
             return;
 
+        var ownedItemIds = new HashSet<string>();
+        if (_state != null)
+        {
+            foreach (var item in _state.Items)
+            {
+                if (!string.IsNullOrEmpty(item.ItemIdInGame))
+                    ownedItemIds.Add(item.ItemIdInGame);
+            }
+
+            foreach (var sub in _state.Subscribes)
+            {
+                foreach (var subItem in sub.Items)
+                {
+                    if (!string.IsNullOrEmpty(subItem.ItemIdInGame))
+                        ownedItemIds.Add(subItem.ItemIdInGame);
+                }
+            }
+        }
+
         var categoryItems = _energyShopState.Items
             .Where(i => i.Category == category)
             .Where(i => string.IsNullOrEmpty(_shopSearchQuery) || i.Name.ToLower().Contains(_shopSearchQuery))
+            .Where(i => !i.Owned && !ownedItemIds.Contains(i.ItemIdInGame))
             .ToList();
 
         if (categoryItems.Count == 0)
@@ -1039,19 +1059,20 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
             var itemCard = new EmeraldShopItemCard
             {
                 ItemName = item.Name.ToUpper(),
+                ItemId = item.Id,
                 ProtoId = item.ItemIdInGame,
                 Prices = item.Prices,
                 Owned = item.Owned
             };
 
-            itemCard.OnPurchaseRequest += (protoId, period) =>
+            itemCard.OnPurchaseRequest += (itemId, period) =>
             {
                 if (_isPurchasing)
                     return;
 
                 _isPurchasing = true;
                 ShowPurchaseProcessing();
-                _entManager.EntityNetManager.SendSystemNetworkMessage(new RequestPurchaseEnergyItem(protoId, period));
+                _entManager.EntityNetManager.SendSystemNetworkMessage(new RequestPurchaseEnergyItem(itemId, period));
             };
 
             _shopItemsGrid.AddChild(itemCard);

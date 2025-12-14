@@ -229,7 +229,7 @@ public sealed class DonateShopSystem : EntitySystem
 
     private async Task ProcessPurchase(RequestPurchaseEnergyItem msg, EntitySessionEventArgs args)
     {
-        var userId = args.SenderSession.UserId.ToString();
+        var sessionUserId = args.SenderSession.UserId.ToString();
 
         if (_donateApiService == null)
         {
@@ -237,16 +237,22 @@ public sealed class DonateShopSystem : EntitySystem
             return;
         }
 
-        var result = await _donateApiService.PurchaseEnergyItemAsync(userId, msg.ItemIdInGame, msg.Period);
+        if (!_cache.TryGetValue(sessionUserId, out var cachedData) || cachedData.User == 0)
+        {
+            RaiseNetworkEvent(new PurchaseEnergyItemResult(new PurchaseResult(false, "Данные пользователя не загружены")), args.SenderSession.Channel);
+            return;
+        }
+
+        var result = await _donateApiService.PurchaseEnergyItemAsync(cachedData.User, msg.ItemId, msg.Period);
 
         RaiseNetworkEvent(new PurchaseEnergyItemResult(result), args.SenderSession.Channel);
 
         if (result.Success)
         {
-            _cache.Remove(userId);
-            await FetchAndCachePlayerData(userId);
+            _cache.Remove(sessionUserId);
+            await FetchAndCachePlayerData(sessionUserId);
 
-            if (_cache.TryGetValue(userId, out var newData))
+            if (_cache.TryGetValue(sessionUserId, out var newData))
             {
                 RaiseNetworkEvent(new UpdateDonateShopUIState(newData), args.SenderSession.Channel);
             }
@@ -310,12 +316,12 @@ public sealed class DonateShopSystem : EntitySystem
     private async Task<DonateShopState> FetchDonateData(string userId)
     {
         if (_donateApiService == null)
-            return new DonateShopState("Веб сервис не доступен.");
+            return new DonateShopState("Ведутся технические работы, сервис будет доступен позже.");
 
         var apiResponse = await _donateApiService!.FetchUserDataAsync(userId);
 
         if (apiResponse == null)
-            return new DonateShopState("Ошибка при загрузке данных");
+            return new DonateShopState("Ведутся технические работы, сервис будет доступен позже.");
 
         return apiResponse;
     }

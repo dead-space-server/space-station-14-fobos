@@ -9,6 +9,6 @@ public interface IDonateApiService
     void AddSpawnBanTimerForUser(string userId);
     void ClearSpawnBanTimer();
     Task<EnergyShopState> FetchEnergyShopItemsAsync(int page = 1);
-    Task<PurchaseResult> PurchaseEnergyItemAsync(string userId, string itemIdInGame, PurchasePeriod period);
+    Task<PurchaseResult> PurchaseEnergyItemAsync(int user, int itemId, PurchasePeriod period);
 }
 

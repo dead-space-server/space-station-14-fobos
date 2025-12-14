@@ -23,6 +23,7 @@ public sealed class EmeraldShopItemCard : Control
     private Font _priceFont = default!;
 
     private string _itemName = "";
+    private int _itemId;
     private string _protoId = "";
     private Dictionary<PurchasePeriod, float> _prices = new();
     private PurchasePeriod _selectedPeriod = PurchasePeriod.Month;
@@ -47,7 +48,7 @@ public sealed class EmeraldShopItemCard : Control
     private BoxContainer? _periodSelector;
     private EmeraldButton? _buyButton;
 
-    public event Action<string, PurchasePeriod>? OnPurchaseRequest;
+    public event Action<int, PurchasePeriod>? OnPurchaseRequest;
 
     public string ItemName
     {
@@ -56,6 +57,15 @@ public sealed class EmeraldShopItemCard : Control
         {
             _itemName = value;
             InvalidateMeasure();
+        }
+    }
+
+    public int ItemId
+    {
+        get => _itemId;
+        set
+        {
+            _itemId = value;
         }
     }
 
@@ -158,9 +168,9 @@ public sealed class EmeraldShopItemCard : Control
         };
         _buyButton.OnPressed += () =>
         {
-            if (!_owned && !string.IsNullOrEmpty(_protoId))
+            if (!_owned && _itemId > 0)
             {
-                OnPurchaseRequest?.Invoke(_protoId, _selectedPeriod);
+                OnPurchaseRequest?.Invoke(_itemId, _selectedPeriod);
             }
         };
         AddChild(_buyButton);

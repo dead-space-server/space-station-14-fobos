@@ -42,6 +42,7 @@ public sealed class DonateShopState
     public int RequiredExp { get; } = 10;
     public int ToNextLevel { get; } = 10;
     public float Progress { get; } = 0f;
+    public int User { get; } = 0;
     public PremiumData? CurrentPremium { get; }
     public List<DonateItemData> Items { get; } = new List<DonateItemData>();
     public List<DonateSubscribeData> Subscribes { get; } = new List<DonateSubscribeData>();
@@ -66,6 +67,7 @@ public sealed class DonateShopState
         int requiredExp,
         int toNextLevel,
         float progress,
+        int user,
         PremiumData? currentPremium,
         List<DonateItemData> items,
         List<DonateSubscribeData> subscribes,
@@ -89,6 +91,7 @@ public sealed class DonateShopState
         RequiredExp = requiredExp;
         ToNextLevel = toNextLevel;
         Progress = progress;
+        User = user;
         CurrentPremium = currentPremium;
         Items = items;
         Subscribes = subscribes;
@@ -233,6 +236,7 @@ public sealed class PremiumLevelData
 [Serializable, NetSerializable]
 public sealed class EnergyShopItemData
 {
+    public int Id { get; }
     public string Name { get; }
     public string ItemIdInGame { get; }
     public string ImageUrl { get; }
@@ -242,6 +246,7 @@ public sealed class EnergyShopItemData
     public bool Owned { get; }
 
     public EnergyShopItemData(
+        int id,
         string name,
         string itemIdInGame,
         string imageUrl,
@@ -250,6 +255,7 @@ public sealed class EnergyShopItemData
         Dictionary<PurchasePeriod, float> prices,
         bool owned)
     {
+        Id = id;
         Name = name;
         ItemIdInGame = itemIdInGame;
         ImageUrl = imageUrl;
@@ -346,12 +352,12 @@ public sealed class UpdateEnergyShopState : EntityEventArgs
 [Serializable, NetSerializable]
 public sealed class RequestPurchaseEnergyItem : EntityEventArgs
 {
-    public string ItemIdInGame { get; }
+    public int ItemId { get; }
     public PurchasePeriod Period { get; }
 
-    public RequestPurchaseEnergyItem(string itemIdInGame, PurchasePeriod period)
+    public RequestPurchaseEnergyItem(int itemId, PurchasePeriod period)
     {
-        ItemIdInGame = itemIdInGame;
+        ItemId = itemId;
         Period = period;
     }
 }
