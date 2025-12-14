@@ -39,12 +39,18 @@ public sealed class DonateShopSystem : EntitySystem
     private readonly List<(string UserId, DateTime Entry, DateTime Exit)> _pendingSessions = new();
     private TimeSpan _lastRetryTime = TimeSpan.Zero;
 
+    private EnergyShopState? _energyShopCache;
+    private TimeSpan _energyShopCacheTime = TimeSpan.Zero;
+    private static readonly TimeSpan EnergyShopCacheDuration = TimeSpan.FromMinutes(5);
+
     public override void Initialize()
     {
         base.Initialize();
 
         SubscribeNetworkEvent<RequestUpdateDonateShop>(OnUpdate);
         SubscribeNetworkEvent<DonateShopSpawnEvent>(OnSpawnRequest);
+        SubscribeNetworkEvent<RequestEnergyShopItems>(OnRequestEnergyShop);
+        SubscribeNetworkEvent<RequestPurchaseEnergyItem>(OnPurchaseEnergyItem);
 
         _playMan.PlayerStatusChanged += OnPlayerStatusChanged;
 
@@ -184,6 +190,69 @@ public sealed class DonateShopSystem : EntitySystem
         }
 
         RaiseNetworkEvent(new UpdateDonateShopUIState(data), args.SenderSession.Channel);
+    }
+
+    private void OnRequestEnergyShop(RequestEnergyShopItems msg, EntitySessionEventArgs args)
+    {
+        _ = PrepareEnergyShopUpdate(msg, args);
+    }
+
+    private async Task PrepareEnergyShopUpdate(RequestEnergyShopItems msg, EntitySessionEventArgs args)
+    {
+        if (_donateApiService == null)
+        {
+            RaiseNetworkEvent(new UpdateEnergyShopState(new EnergyShopState("Сервис недоступен")), args.SenderSession.Channel);
+            return;
+        }
+
+        if (msg.Page == 1 && _energyShopCache != null && _gameTiming.CurTime - _energyShopCacheTime < EnergyShopCacheDuration)
+        {
+            RaiseNetworkEvent(new UpdateEnergyShopState(_energyShopCache), args.SenderSession.Channel);
+            return;
+        }
+
+        var state = await _donateApiService.FetchEnergyShopItemsAsync(msg.Page);
+
+        if (msg.Page == 1 && !state.HasError)
+        {
+            _energyShopCache = state;
+            _energyShopCacheTime = _gameTiming.CurTime;
+        }
+
+        RaiseNetworkEvent(new UpdateEnergyShopState(state), args.SenderSession.Channel);
+    }
+
+    private void OnPurchaseEnergyItem(RequestPurchaseEnergyItem msg, EntitySessionEventArgs args)
+    {
+        _ = ProcessPurchase(msg, args);
+    }
+
+    private async Task ProcessPurchase(RequestPurchaseEnergyItem msg, EntitySessionEventArgs args)
+    {
+        var userId = args.SenderSession.UserId.ToString();
+
+        if (_donateApiService == null)
+        {
+            RaiseNetworkEvent(new PurchaseEnergyItemResult(new PurchaseResult(false, "Сервис недоступен")), args.SenderSession.Channel);
+            return;
+        }
+
+        var result = await _donateApiService.PurchaseEnergyItemAsync(userId, msg.ItemIdInGame, msg.Period);
+
+        RaiseNetworkEvent(new PurchaseEnergyItemResult(result), args.SenderSession.Channel);
+
+        if (result.Success)
+        {
+            _cache.Remove(userId);
+            await FetchAndCachePlayerData(userId);
+
+            if (_cache.TryGetValue(userId, out var newData))
+            {
+                RaiseNetworkEvent(new UpdateDonateShopUIState(newData), args.SenderSession.Channel);
+            }
+
+            _energyShopCache = null;
+        }
     }
 
     private void OnSpawnRequest(DonateShopSpawnEvent msg, EntitySessionEventArgs args)

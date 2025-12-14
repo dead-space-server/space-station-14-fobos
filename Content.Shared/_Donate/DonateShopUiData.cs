@@ -10,6 +10,16 @@ public enum DonateShopUiKey : byte
     Key
 }
 
+[Serializable, NetSerializable]
+public enum PurchasePeriod : byte
+{
+    Week,
+    Month,
+    ThreeMonth,
+    SixMonth,
+    Year,
+    Always
+}
 
 [Serializable, NetSerializable]
 public sealed class DonateShopState
@@ -221,6 +231,77 @@ public sealed class PremiumLevelData
 }
 
 [Serializable, NetSerializable]
+public sealed class EnergyShopItemData
+{
+    public string Name { get; }
+    public string ItemIdInGame { get; }
+    public string ImageUrl { get; }
+    public string Category { get; }
+    public string? Subcategory { get; }
+    public Dictionary<PurchasePeriod, float> Prices { get; }
+    public bool Owned { get; }
+
+    public EnergyShopItemData(
+        string name,
+        string itemIdInGame,
+        string imageUrl,
+        string category,
+        string? subcategory,
+        Dictionary<PurchasePeriod, float> prices,
+        bool owned)
+    {
+        Name = name;
+        ItemIdInGame = itemIdInGame;
+        ImageUrl = imageUrl;
+        Category = category;
+        Subcategory = subcategory;
+        Prices = prices;
+        Owned = owned;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class EnergyShopState
+{
+    public List<EnergyShopItemData> Items { get; }
+    public bool HasError { get; }
+    public string ErrorMessage { get; }
+    public int TotalCount { get; }
+    public bool HasNextPage { get; }
+
+    public EnergyShopState(List<EnergyShopItemData> items, int totalCount, bool hasNextPage)
+    {
+        Items = items;
+        TotalCount = totalCount;
+        HasNextPage = hasNextPage;
+        HasError = false;
+        ErrorMessage = string.Empty;
+    }
+
+    public EnergyShopState(string errorMessage)
+    {
+        Items = new List<EnergyShopItemData>();
+        HasError = true;
+        ErrorMessage = errorMessage;
+        TotalCount = 0;
+        HasNextPage = false;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class PurchaseResult
+{
+    public bool Success { get; }
+    public string Message { get; }
+
+    public PurchaseResult(bool success, string message)
+    {
+        Success = success;
+        Message = message;
+    }
+}
+
+[Serializable, NetSerializable]
 public sealed class RequestUpdateDonateShop : EntityEventArgs;
 
 [Serializable, NetSerializable]
@@ -237,5 +318,51 @@ public sealed class DonateShopSpawnEvent : EntityEventArgs
     public DonateShopSpawnEvent(string protoId)
     {
         ProtoId = protoId;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class RequestEnergyShopItems : EntityEventArgs
+{
+    public int Page { get; }
+
+    public RequestEnergyShopItems(int page = 1)
+    {
+        Page = page;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class UpdateEnergyShopState : EntityEventArgs
+{
+    public EnergyShopState State { get; }
+
+    public UpdateEnergyShopState(EnergyShopState state)
+    {
+        State = state;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class RequestPurchaseEnergyItem : EntityEventArgs
+{
+    public string ItemIdInGame { get; }
+    public PurchasePeriod Period { get; }
+
+    public RequestPurchaseEnergyItem(string itemIdInGame, PurchasePeriod period)
+    {
+        ItemIdInGame = itemIdInGame;
+        Period = period;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class PurchaseEnergyItemResult : EntityEventArgs
+{
+    public PurchaseResult Result { get; }
+
+    public PurchaseEnergyItemResult(PurchaseResult result)
+    {
+        Result = result;
     }
 }
