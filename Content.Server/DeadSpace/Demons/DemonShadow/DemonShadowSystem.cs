@@ -33,6 +33,7 @@ using Content.Shared.Interaction;
 using Content.Server.DeadSpace.Abilities.Cocoon;
 using Content.Server.DeadSpace.Demons.DemonShadow.Components;
 using Content.Server.StationEvents.Events;
+using Content.Shared.Ghost;
 
 namespace Content.Server.DeadSpace.Demons.DemonShadow;
 
@@ -248,7 +249,7 @@ public sealed class DemonShadowSystem : SharedDemonShadowSystem
             {
                 var fixture = fixtures.Fixtures.First();
 
-                _physics.SetCollisionMask(uid, fixture.Key, fixture.Value, (int) CollisionGroup.None, fixtures);
+                _physics.SetCollisionMask(uid, fixture.Key, fixture.Value, 0, fixtures);
                 _physics.SetCollisionLayer(uid, fixture.Key, fixture.Value, 0, fixtures);
             }
         }
@@ -258,7 +259,7 @@ public sealed class DemonShadowSystem : SharedDemonShadowSystem
             {
                 var fixture = fixtures.Fixtures.First();
 
-                _physics.SetCollisionMask(uid, fixture.Key, fixture.Value, (int) (CollisionGroup.SmallMobMask | CollisionGroup.GhostImpassable), fixtures);
+                _physics.SetCollisionMask(uid, fixture.Key, fixture.Value, (int) CollisionGroup.SmallMobMask, fixtures);
                 _physics.SetCollisionLayer(uid, fixture.Key, fixture.Value, (int) CollisionGroup.SmallMobLayer, fixtures);
             }
         }
@@ -372,6 +373,12 @@ public sealed class DemonShadowSystem : SharedDemonShadowSystem
         while (pointLightQuery.MoveNext(out var ent, out var lightComp, out var xform))
         {
             if (Transform(uid).MapID != xform.MapID)
+                continue;
+
+            if (HasComp<GhostComponent>(ent))
+                continue;
+
+            if (TryComp<VisibilityComponent>(ent, out var layer) && layer.Layer != (int)VisibilityFlags.Normal)
                 continue;
 
             lightPosition = _transform.GetMapCoordinates(ent);

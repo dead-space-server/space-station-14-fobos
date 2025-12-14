@@ -1,0 +1,287 @@
+﻿- type: entity
+  parent: BaseStructureDynamic
+  id: FireworkBox
+  description: Пускатель фейерверков, который можно активировать для запуска красочных фейерверков в небо. Идеально подходит для праздников и особых мероприятий.
+  name: пускатель фейерверков
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Misc/firework.rsi
+    layers:
+    - state: firework_box
+    - state: holo
+      shader: unshaded
+  - type: TriggerOnActivate
+  - type: SpawnOnTrigger
+    proto: FireworkSpawner
+  - type: InteractionOutline
+  - type: Anchorable
+    delay: 5
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.3,-0.3,0.3,0.3"
+        density: 190
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 50
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: WoodDestroy
+  - type: UseDelay
+    delay: 90
+
+- type: entity
+  name: спавнер фейерверков
+  id: FireworkSpawner
+  parent: MarkerBase
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    layers:
+    - state: red
+    - sprite: _DeadSpace/Objects/Misc/firework.rsi
+      state: firework_box
+    - sprite: _DeadSpace/Objects/Misc/firework.rsi
+      state: holo
+  - type: Timer
+  - type: TimedSpawner
+    prototypes:
+    - FireworkEffectRandom
+    intervalSeconds: 1
+    minimumEntitiesSpawned: 3
+    maximumEntitiesSpawned: 5
+  - type: TimedDespawn
+    lifetime: 90
+
+- type: entity
+  id: FireworkEffectRed
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Effects/sparks.rsi
+    drawdepth: Effects
+    noRot: false
+    layers:
+    - state: sparks
+      color: "#FF4040"
+  - type: PointLight
+    enabled: true
+    color: "#FF4040"
+    radius: 5
+    energy: 14
+    netsync: false
+  - type: LightFade
+    duration: 2
+  - type: TimedDespawn
+    lifetime: 2
+  - type: EmitSoundOnSpawn
+    sound:
+      path: /Audio/Effects/explosionsmallfar.ogg
+
+- type: entity
+  id: FireworkEffectOrange
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Effects/sparks.rsi
+    drawdepth: Effects
+    noRot: false
+    layers:
+    - state: sparks
+      color: "#FF8C00"
+  - type: PointLight
+    enabled: true
+    color: "#FF8C00"
+    radius: 5
+    energy: 14
+    netsync: false
+  - type: LightFade
+    duration: 2
+  - type: TimedDespawn
+    lifetime: 2
+  - type: EmitSoundOnSpawn
+    sound:
+      path: /Audio/Effects/explosionsmallfar.ogg
+
+- type: entity
+  id: FireworkEffectPink
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Effects/sparks.rsi
+    drawdepth: Effects
+    noRot: false
+    layers:
+    - state: sparks
+      color: "#FF69B4"
+  - type: PointLight
+    enabled: true
+    color: "#FF69B4"
+    radius: 5
+    energy: 14
+    netsync: false
+  - type: LightFade
+    duration: 2
+  - type: TimedDespawn
+    lifetime: 2
+  - type: EmitSoundOnSpawn
+    sound:
+      path: /Audio/Effects/explosionsmallfar.ogg
+
+- type: entity
+  id: FireworkEffectGreen
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Effects/sparks.rsi
+    drawdepth: Effects
+    noRot: false
+    layers:
+    - state: sparks
+      color: "#32CD32"
+  - type: PointLight
+    enabled: true
+    color: "#32CD32"
+    radius: 5
+    energy: 17
+    netsync: false
+  - type: LightFade
+    duration: 2
+  - type: TimedDespawn
+    lifetime: 2
+  - type: EmitSoundOnSpawn
+    sound:
+      path: /Audio/Effects/explosionsmallfar.ogg
+
+- type: entity
+  id: FireworkEffectLightBlue
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Effects/sparks.rsi
+    drawdepth: Effects
+    noRot: false
+    layers:
+    - state: sparks
+      color: "#00CED1"
+  - type: PointLight
+    enabled: true
+    color: "#00CED1"
+    radius: 5
+    energy: 16
+    netsync: false
+  - type: LightFade
+    duration: 2
+  - type: TimedDespawn
+    lifetime: 2
+  - type: EmitSoundOnSpawn
+    sound:
+      path: /Audio/Effects/explosionsmallfar.ogg
+
+- type: entity
+  id: FireworkEffectBlue
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Effects/sparks.rsi
+    drawdepth: Effects
+    noRot: false
+    layers:
+    - state: sparks
+      color: "#4682B4"
+  - type: PointLight
+    enabled: true
+    color: "#4682B4"
+    radius: 5
+    energy: 14
+    netsync: false
+  - type: LightFade
+    duration: 2
+  - type: TimedDespawn
+    lifetime: 2
+  - type: EmitSoundOnSpawn
+    sound:
+      path: /Audio/Effects/explosionsmallfar.ogg
+
+- type: entity
+  id: FireworkEffectPurple
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Effects/sparks.rsi
+    drawdepth: Effects
+    noRot: false
+    layers:
+    - state: sparks
+      color: "#9370DB"
+  - type: PointLight
+    enabled: true
+    color: "#9370DB"
+    radius: 5
+    energy: 14
+    netsync: false
+  - type: LightFade
+    duration: 2
+  - type: TimedDespawn
+    lifetime: 2
+  - type: EmitSoundOnSpawn
+    sound:
+      path: /Audio/Effects/explosionsmallfar.ogg
+
+- type: entity
+  parent: MarkerBase
+  id: FireworkEffectRandomBig
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RandomSpawner
+    deleteSpawnerAfterSpawn: true
+    offset: 7
+    prototypes:
+    - FireworkEffectRed
+    - FireworkEffectOrange
+    - FireworkEffectGreen
+    - FireworkEffectBlue
+    - FireworkEffectPink
+    - FireworkEffectLightBlue
+    - FireworkEffectPurple
+
+- type: entity
+  parent: MarkerBase
+  id: FireworkEffectRandomSmall
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RandomSpawner
+    deleteSpawnerAfterSpawn: true
+    offset: 3
+    prototypes:
+    - FireworkEffectRed
+    - FireworkEffectOrange
+    - FireworkEffectGreen
+    - FireworkEffectBlue
+    - FireworkEffectPink
+    - FireworkEffectLightBlue
+    - FireworkEffectPurple
+
+- type: entity
+  parent: MarkerBase
+  id: FireworkEffectRandom
+  name: фейерверк
+  suffix: Моментальный эффект
+  components:
+  - type: RandomSpawner
+    deleteSpawnerAfterSpawn: true
+    offset: 0
+    prototypes:
+    - FireworkEffectRandomBig
+    - FireworkEffectRandomSmall

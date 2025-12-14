@@ -763,6 +763,13 @@
     Telecrystal: 4
   categories:
   - UplinkChemicals
+# DS14-start
+  conditions:
+  - !type:StoreWhitelistCondition
+    blacklist:
+      tags:
+      - NukeOpsUplink
+# DS14-end
 
 - type: listing
   id: UplinkZombieBundle
@@ -909,6 +916,15 @@
           - SurplusBundle
 
 # Deception
+- type: listing
+  id: UplinkSyndicateIDCard
+  name: uplink-syndicate-id-card-name
+  description: uplink-syndicate-id-card-desc
+  productEntity: SyndicateIDCard
+  cost:
+    Telecrystal: 1
+  categories:
+  - UplinkDeception
 
 - type: listing
   id: UplinkAgentIDCard

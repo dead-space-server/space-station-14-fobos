@@ -1,0 +1,10 @@
+- type: entity
+  id: CrateCargoBoxFlare
+  parent: CratePlastic
+  name: Ящик коробок фальшфейеров
+  description: Содержит четыре коробки фальшфейеров.
+  components:
+  - type: StorageFill
+    contents:
+      - id: BoxFlare
+        amount: 4

@@ -46,3 +46,20 @@ stack-plastitanium =
        *[other] листов
     } пластитана
 
+ent-Nanopaste = нанопаста
+    .suffix = Полный
+    .desc = { ent-BaseHealingItem.desc }
+ent-Nanopaste1 = { ent-Nanopaste }
+    .suffix = Один
+    .desc = { ent-Nanopaste.desc }
+ent-Nanopaste5 = { ent-Nanopaste }
+    .suffix = 5
+    .desc = { ent-Nanopaste.desc }
+
+stack-snow =
+    { $amount ->
+        [1] блок
+        [few] блока
+       *[other] блоков
+    } снега
+

@@ -26,6 +26,8 @@ using Content.Shared.Zombies;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
+using Content.Shared.Movement.Systems;
+using Content.Shared.DeadSpace.Movement.Events;
 
 namespace Content.Server.Zombies
 {
@@ -78,6 +80,8 @@ namespace Content.Server.Zombies
             SubscribeLocalEvent<IncurableZombieComponent, MapInitEvent>(OnPendingMapInit);
 
             SubscribeLocalEvent<ZombifyOnDeathComponent, MobStateChangedEvent>(OnDamageChanged);
+
+            SubscribeLocalEvent<ZombieComponent, AttemptActivateJetpackHandledEvent>(OnJetpackAttempt); // DS14
         }
 
         private void OnBeforeRemoveAnomalyOnDeath(Entity<PendingZombieComponent> ent, ref BeforeRemoveAnomalyOnDeathEvent args)
@@ -183,7 +187,7 @@ namespace Content.Server.Zombies
             if (args.Handled)
                 return;
 
-            _protoManager.TryIndex(component.EmoteSoundsId, out var sounds);
+            _protoManager.Resolve(component.EmoteSoundsId, out var sounds);
 
             args.Handled = _chat.TryPlayEmoteSound(uid, sounds, args.Emote);
         }
@@ -323,5 +327,15 @@ namespace Content.Server.Zombies
         {
             _role.MindRemoveRole<ZombieRoleComponent>((args.Mind.Owner,  args.Mind.Comp));
         }
+        // DS14-start
+        private void OnJetpackAttempt(EntityUid uid, ZombieComponent component, ref AttemptActivateJetpackHandledEvent args)
+        {
+            if (!args.Enabled)
+                return;
+
+            _popup.PopupEntity(Loc.GetString("jetpack-user-zombie"), uid, uid);
+            args.Handled = true;
+        }
+        // DS14-end
     }
 }

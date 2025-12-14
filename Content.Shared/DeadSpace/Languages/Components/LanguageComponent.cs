@@ -3,6 +3,7 @@
 using Content.Shared.DeadSpace.Languages.Prototypes;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization;
 
 namespace Content.Shared.DeadSpace.Languages.Components;
 
@@ -10,17 +11,40 @@ namespace Content.Shared.DeadSpace.Languages.Components;
 public sealed partial class LanguageComponent : Component
 {
     [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
     public HashSet<ProtoId<LanguagePrototype>> KnownLanguages = new();
 
     [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
     public HashSet<ProtoId<LanguagePrototype>> CantSpeakLanguages = new();
 
-    [DataField, ViewVariables(VVAccess.ReadOnly)]
-    public ProtoId<LanguagePrototype> SelectedLanguage = default!;
+    /// <summary>
+    ///     Языки, требующие разблокировки для возможности выбора после получения разума в EntityEffectEvent.
+    /// </summary>
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public HashSet<ProtoId<LanguagePrototype>> UnlockLanguagesAfterMakeSentient = new();
 
     [DataField]
-    public EntProtoId SelectLanguageAction = "SelectLanguageAction";
+    public string SelectedLanguage = String.Empty;
+    public void CopyFrom(LanguageComponent other)
+    {
+        KnownLanguages = other.KnownLanguages;
+        CantSpeakLanguages = other.CantSpeakLanguages;
+        UnlockLanguagesAfterMakeSentient = other.UnlockLanguagesAfterMakeSentient;
+        SelectedLanguage = other.SelectedLanguage;
+    }
 
-    [DataField]
-    public EntityUid? SelectLanguageActionEntity;
+}
+
+[Serializable, NetSerializable]
+public sealed class LanguageComponentState : ComponentState
+{
+    public readonly HashSet<ProtoId<LanguagePrototype>> KnownLanguages = new();
+    public readonly HashSet<ProtoId<LanguagePrototype>> CantSpeakLanguages = new();
+    public LanguageComponentState(HashSet<ProtoId<LanguagePrototype>> knownLanguages, HashSet<ProtoId<LanguagePrototype>> cantSpeakLanguages)
+    {
+        KnownLanguages = knownLanguages;
+        CantSpeakLanguages = cantSpeakLanguages;
+    }
 }

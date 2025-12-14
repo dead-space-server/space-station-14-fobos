@@ -39,6 +39,13 @@
   nameDataset: NamesAI
   canCustomizeName: true
 
+# DS14-start
+- type: roleLoadout
+  id: JobBorgSecurity
+  nameDataset: NamesBorg
+  canCustomizeName: true
+# DS14-end
+
 # Civilian
 - type: roleLoadout
   id: JobPassenger
@@ -65,6 +72,7 @@
   - BartenderJumpsuit
   - CommonBackpack
   - BartenderOuterClothing
+  - BartenderGoldenShaker
   - Glasses
   - Survival
   - Trinkets
@@ -207,6 +215,7 @@
 
 - type: roleLoadout
   id: JobMusician
+  canCustomizeName: true
   groups:
   - GroupTankHarness
   - MusicianJumpsuit
@@ -245,6 +254,7 @@
   - CargoTechnicianBackpack
   - CargoTechnicianOuterClothing
   - CargoTechnicianShoes
+#  - CargoTechnicianID # DS14-disabled
   - Glasses
   - Survival
   - Trinkets
@@ -303,7 +313,7 @@
   - StationEngineerBelt # DS14
   - StationEngineerOuterClothing
   - StationEngineerShoes
-  - StationEngineerID
+#  - StationEngineerID # DS14-disabled
   - SurvivalExtended
   - Trinkets
   - GroupSpeciesBreathTool
@@ -352,7 +362,7 @@
   - ScientistOuterClothing
   - ScientistGloves
   - ScientistShoes
-  - ScientistPDA
+#  - ScientistPDA # DS14-disabled
   - Glasses
   - Survival
   - Trinkets
@@ -420,7 +430,7 @@
   - SecurityBackpack
   - SecurityOuterClothing
   - SecurityShoes
-  - SecurityPDA
+#  - SecurityPDA # DS14-disabled
   - SecurityBelt
   - SurvivalSecurity
   - Trinkets
@@ -490,7 +500,7 @@
   - MedicalBackpack
   - MedicalDoctorOuterClothing
   - MedicalShoes
-  - MedicalDoctorPDA
+#  - MedicalDoctorPDA # DS14-disabled
   - MedicalEyewear
   - SurvivalMedical
   - Trinkets
@@ -520,7 +530,7 @@
   - MedicalBackpack
   - MedicalDoctorOuterClothing
   - MedicalShoes
-  - MedicalDoctorPDA
+#  - MedicalDoctorPDA # DS14-disabled
   # - MedicalEyewear
   - SurvivalMedical
   - Trinkets

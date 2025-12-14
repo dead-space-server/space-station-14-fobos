@@ -4,12 +4,15 @@ using Robust.Shared.Random;
 using Content.Shared.DeadSpace.Languages.Prototypes;
 using Content.Shared.DeadSpace.Languages.Components;
 using Robust.Shared.Prototypes;
-using Content.Shared.Actions;
 using Robust.Shared.Player;
 using Content.Shared.DeadSpace.Languages;
 using Robust.Server.Player;
 using Content.Shared.Chat;
 using System.Linq;
+using Content.Shared.Polymorph;
+using Robust.Shared.GameStates;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Content.Server.DeadSpace.Languages;
 
@@ -17,73 +20,177 @@ public sealed class LanguageSystem : EntitySystem
 {
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
-    [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     public static readonly ProtoId<LanguagePrototype> DefaultLanguageId = "GeneralLanguage";
-
+    private readonly Dictionary<ProtoId<LanguagePrototype>, List<Regex>> _regexCache = new();
     public override void Initialize()
     {
         base.Initialize();
 
-        SubscribeLocalEvent<LanguageComponent, MapInitEvent>(OnComponentMapInit);
-        SubscribeLocalEvent<LanguageComponent, ComponentShutdown>(OnShutdown);
-        SubscribeLocalEvent<LanguageComponent, SelectLanguageActionEvent>(OnSelect);
+        SubscribeLocalEvent<LanguageComponent, ComponentGetState>(OnGetState);
 
-        SubscribeNetworkEvent<SelectLanguageEvent>(OnSelectLanguage);
+        SubscribeLocalEvent<LanguageComponent, PolymorphedEvent>(OnPolymorphed);
+
+        SubscribeAllEvent<SelectLanguageEvent>(OnSelectLanguage);
     }
 
-    private void OnComponentMapInit(EntityUid uid, LanguageComponent component, MapInitEvent args)
+    private void OnSelectLanguage(SelectLanguageEvent msg, EntitySessionEventArgs args)
     {
-        _actionsSystem.AddAction(uid, ref component.SelectLanguageActionEntity, component.SelectLanguageAction);
-    }
+        var player = args.SenderSession.AttachedEntity;
 
-    private void OnShutdown(EntityUid uid, LanguageComponent component, ComponentShutdown args)
-    {
-        _actionsSystem.RemoveAction(uid, component.SelectLanguageActionEntity);
-    }
-
-    private void OnSelect(EntityUid uid, LanguageComponent component, SelectLanguageActionEvent args)
-    {
-        if (args.Handled)
+        if (!player.HasValue)
             return;
 
-        if (EntityManager.TryGetComponent<ActorComponent?>(uid, out var actorComponent))
-        {
-            var ev = new RequestLanguageMenuEvent(uid.Id, component.KnownLanguages, component.CantSpeakLanguages);
-            RaiseNetworkEvent(ev, actorComponent.PlayerSession);
-        }
-
-        args.Handled = true;
-    }
-
-    private void OnSelectLanguage(SelectLanguageEvent msg)
-    {
-        if (EntityManager.TryGetComponent<LanguageComponent>(new EntityUid(msg.Target), out var language))
+        if (TryComp<LanguageComponent>(player, out var language))
             language.SelectedLanguage = msg.PrototypeId;
     }
 
-    public string ReplaceWordsWithLexicon(string message, ProtoId<LanguagePrototype> languageId)
+    private void OnGetState(EntityUid uid, LanguageComponent component, ref ComponentGetState args)
     {
-        if (!_prototypeManager.TryIndex(languageId, out var languageProto))
-            return message;
+        args.State = new LanguageComponentState(component.KnownLanguages, component.CantSpeakLanguages);
+    }
 
-        var lexiconWords = languageProto.Lexicon;
+    private void OnPolymorphed(EntityUid uid, LanguageComponent component, PolymorphedEvent args)
+    {
+        var lang = EnsureComp<LanguageComponent>(args.NewEntity);
+        lang.CopyFrom(component);
+    }
 
-        if (lexiconWords == null || lexiconWords.Count == 0)
-            return message;
+    public static int GetDeterministicHashCode(string str) { unchecked { int hash1 = (5381 << 16) + 5381; int hash2 = hash1; for (int i = 0; i < str.Length; i += 2) { hash1 = ((hash1 << 5) + hash1) ^ str[i]; if (i + 1 < str.Length) hash2 = ((hash2 << 5) + hash2) ^ str[i + 1]; } return hash1 + (hash2 * 1566083941); } }
 
-        var words = message.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        for (int i = 0; i < words.Length; i++)
+    public string TransformWord(string word, ProtoId<LanguagePrototype>? languageId)
+    {
+        if (!_prototypeManager.TryIndex(languageId, out var proto))
+            return word;
+
+        var hash = GetDeterministicHashCode(word + proto.ID);
+
+        switch (proto.SpeechMode)
         {
-            if (!string.IsNullOrWhiteSpace(words[i]))
-            {
-                var randIndex = _random.Next(lexiconWords.Count);
-                words[i] = lexiconWords[randIndex];
-            }
+            case SpeechMode.Lexicon:
+                return TransformLexicon(hash, proto);
+
+            case SpeechMode.Alphabet:
+                return TransformAlphabet(hash, proto);
+
+            case SpeechMode.Syllable:
+                return TransformSyllableText(word, proto);
+
+            case SpeechMode.Pattern:
+                return TransformPattern(word, proto);
+
+            default:
+                return word;
         }
-        return string.Join(' ', words);
+    }
+
+    private string TransformLexicon(int hash, LanguagePrototype proto)
+    {
+        var list = proto.Lexicon;
+        return list[Math.Abs(hash) % list.Count];
+    }
+
+    private string TransformAlphabet(int hash, LanguagePrototype proto)
+    {
+        var alphabet = proto.Alphabet;
+        int len = proto.GenerateLength;
+
+        var sb = new StringBuilder();
+
+        int localHash = hash;
+        for (int i = 0; i < len; i++)
+        {
+            int index = Math.Abs(localHash) % alphabet.Count;
+            sb.Append(alphabet[index]);
+
+            localHash = GetDeterministicHashCode(localHash.ToString());
+        }
+
+        return sb.ToString();
+    }
+
+    private string TransformSyllableText(string text, LanguagePrototype proto)
+    {
+        if (string.IsNullOrWhiteSpace(text) || proto.Syllables.Count == 0)
+            return text;
+
+        var words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var sb = new StringBuilder();
+
+        foreach (var word in words)
+        {
+            var hash = GetDeterministicHashCode(word + proto.ID);
+
+            int count = proto.MinSyllables +
+                (Math.Abs(hash) % (proto.MaxSyllables - proto.MinSyllables + 1));
+
+            var localHash = hash;
+            for (int i = 0; i < count; i++)
+            {
+                sb.Append(proto.Syllables[Math.Abs(localHash) % proto.Syllables.Count]);
+                localHash = GetDeterministicHashCode(localHash.ToString());
+            }
+
+            sb.Append(' ');
+        }
+
+        return sb.ToString().Trim();
+    }
+
+    private string TransformPattern(string word, LanguagePrototype proto)
+    {
+        if (!_regexCache.TryGetValue(proto.ID, out var regexList))
+        {
+            regexList = new List<Regex>(proto.Patterns.Count);
+
+            for (int i = 0; i < proto.Patterns.Count; i++)
+            {
+                var r = new Regex(
+                    proto.Patterns[i],
+                    RegexOptions.IgnoreCase | RegexOptions.Compiled
+                );
+                regexList.Add(r);
+            }
+
+            _regexCache[proto.ID] = regexList;
+        }
+
+        string result = word;
+        for (int i = 0; i < regexList.Count; i++)
+            result = regexList[i].Replace(result, proto.Replacements[i]);
+
+        return result;
+    }
+
+    public string GetLangName(ProtoId<LanguagePrototype>? languageId)
+    {
+        var name = "Неизвестно";
+
+        if (String.IsNullOrEmpty(languageId))
+            return name;
+
+        if (_prototypeManager.TryIndex(languageId, out var languageProto))
+            name = languageProto.Name;
+
+        return name;
+    }
+
+    public string GetLangName(EntityUid uid, LanguageComponent? component = null)
+    {
+        var name = "Неизвестно";
+
+        if (!Resolve(uid, ref component, false))
+            return name;
+
+        if (String.IsNullOrEmpty(component.SelectedLanguage))
+            return name;
+
+        if (_prototypeManager.TryIndex<LanguagePrototype>(component.SelectedLanguage, out var languageProto))
+            name = languageProto.Name;
+
+        return name;
     }
 
     public HashSet<ProtoId<LanguagePrototype>>? GetKnownLanguages(EntityUid entity)
@@ -98,14 +205,26 @@ public sealed class LanguageSystem : EntitySystem
     {
         var languages = GetKnownLanguages(receiver);
 
-        if (languages == null) // если нет язков, значит знает всё
+        if (languages == null) // если нет языков, значит знает всё
             return true;
 
         return languages.Contains(senderLanguageId);
     }
 
+    public void AddKnowLanguage(EntityUid uid, ProtoId<LanguagePrototype> languageId, LanguageComponent? component = null)
+    {
+        if (!Resolve(uid, ref component, false))
+            return;
+
+        component.KnownLanguages.Add(languageId);
+        Dirty(uid, component);
+    }
+
     public bool NeedGenerateTTS(EntityUid sourceUid, ProtoId<LanguagePrototype> prototypeId, bool isWhisper)
     {
+        if (String.IsNullOrEmpty(prototypeId))
+            return false;
+
         if (!_prototypeManager.TryIndex(prototypeId, out var languageProto))
             return false;
 
@@ -125,6 +244,9 @@ public sealed class LanguageSystem : EntitySystem
 
     public bool NeedGenerateDirectTTS(EntityUid uid, ProtoId<LanguagePrototype> prototypeId)
     {
+        if (String.IsNullOrEmpty(prototypeId))
+            return false;
+
         if (!_prototypeManager.TryIndex(prototypeId, out var languageProto))
             return false;
 
@@ -140,6 +262,9 @@ public sealed class LanguageSystem : EntitySystem
     public bool NeedGenerateGlobalTTS(ProtoId<LanguagePrototype> prototypeId, out List<ICommonSession> understandings)
     {
         understandings = GetUnderstanding(prototypeId);
+
+        if (String.IsNullOrEmpty(prototypeId))
+            return false;
 
         if (!_prototypeManager.TryIndex(prototypeId, out var languageProto))
             return false;
@@ -182,9 +307,12 @@ public sealed class LanguageSystem : EntitySystem
         foreach (var session in _playerManager.Sessions)
         {
             if (session.AttachedEntity == null)
+            {
+                understanding.Add(session);
                 continue;
+            }
 
-            if (!HasComp<LanguageComponent>(session.AttachedEntity) || KnowsLanguage(session.AttachedEntity.Value, languageId)) // если нет язков, значит знает всё
+            if (KnowsLanguage(session.AttachedEntity.Value, languageId))
                 understanding.Add(session);
         }
 

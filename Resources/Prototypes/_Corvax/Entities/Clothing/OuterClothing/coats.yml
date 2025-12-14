@@ -75,7 +75,7 @@
           Heat: 0.9
 
 - type: entity
-  parent: ClothingOuterStorageBase
+  parent: ClothingOuterStorageFoldableBase
   id: ClothingOuterCoatLabSecurityMedic
   name: security medic labcoat
   description: A suit that protects against minor chemical spills.
@@ -88,6 +88,11 @@
       modifiers:
         coefficients:
           Caustic: 0.75
+
+- type: entity
+  parent: [ClothingOuterStorageFoldableBaseOpened, ClothingOuterCoatLabSecurityMedic]
+  id: ClothingOuterCoatLabSecurityMedicOpened
+  name: security medic labcoat
 
 - type: entity
   parent: ClothingOuterStorageBase

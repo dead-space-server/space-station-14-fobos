@@ -5,7 +5,6 @@ using Content.Server.Body.Components;
 using Content.Server.Chat.Managers;
 using Content.Server.Ghost.Roles.Components;
 using Content.Server.Humanoid;
-using Content.Server.IdentityManagement;
 using Content.Server.Inventory;
 using Content.Server.Mind;
 using Content.Server.NPC;
@@ -48,11 +47,12 @@ using Content.Shared.DeadSpace.Languages.Components;
 using Content.Shared.Interaction.Components;
 using Content.Shared.DeadSpace.Languages.Prototypes;
 using Content.Shared.Body.Components;
+using Content.Shared.IdentityManagement;
 using Robust.Server.Player;
 using Content.Shared.Zombies;
 using Content.Shared.Sprite;
 using Robust.Shared.Prototypes;
-
+using Content.Server.DeadSpace.Languages;
 
 namespace Content.Server.DeadSpace.Necromorphs.InfectionDead;
 
@@ -72,6 +72,7 @@ public sealed partial class NecromorfSystem
     [Dependency] private readonly MobThresholdSystem _mobThreshold = default!;
     [Dependency] private readonly SharedRotationVisualsSystem _sharedRotationVisuals = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
+    [Dependency] private readonly LanguageSystem _language = default!;
     private static readonly ProtoId<LanguagePrototype> NecroLanguage = "NecromorfLanguage";
 
     public void Necrofication(EntityUid target, string prototypeId, InfectionDeadStrainData strainData, MobStateComponent? mobState = null)
@@ -135,7 +136,8 @@ public sealed partial class NecromorfSystem
             RemComp<LanguageComponent>(target);
 
         var langComp = new LanguageComponent();
-        langComp.KnownLanguages.Add(NecroLanguage);
+
+        _language.AddKnowLanguage(target, NecroLanguage);
         langComp.SelectedLanguage = NecroLanguage;
         AddComp(target, langComp);
 

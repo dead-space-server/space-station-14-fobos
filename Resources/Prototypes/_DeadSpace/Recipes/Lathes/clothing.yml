@@ -90,12 +90,24 @@
   id: ClothingOuterWinterCoatSeniorResearcher
   result: ClothingOuterWinterCoatSeniorResearcher
 
+# Outer
+
+- type: latheRecipe
+  parent: BaseCoatRecipe
+  id: ClothingOuterCoatCargoJacket
+  result: ClothingOuterCoatCargoJacket
+
 # Hats
 
 - type: latheRecipe
   parent: BaseHatRecipe
   id: ClothingHeadHatBeretRobotics
   result: ClothingHeadHatBeretRobotics
+
+- type: latheRecipe
+  parent: BaseHatRecipe
+  id: ClothingHeadHatBeretCargo
+  result: ClothingHeadHatBeretCargo
 
 # Taipan
 # Jumpsuit
@@ -427,3 +439,13 @@
     Cloth: 300
     Durathread: 400
     Titanium: 200
+
+# Webbing
+
+- type: latheRecipe
+  id: ClothingBeltMilitaryWebbing
+  result: ClothingBeltMilitaryWebbing
+  completetime: 3
+  materials:
+    Cloth: 200
+    Durathread: 100

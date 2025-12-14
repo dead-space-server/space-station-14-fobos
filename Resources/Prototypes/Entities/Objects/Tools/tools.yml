@@ -486,6 +486,13 @@
   - type: StaticPrice
     price: 25
   - type: Shovel
+# DS14-start
+  - type: Tool
+    qualities:
+    - Digging
+    useSound:
+      path: /Audio/Items/shovel_dig.ogg
+# DS14-end
 
 - type: entity
   parent: BaseItem
@@ -499,6 +506,7 @@
   - type: Item
     sprite: Objects/Tools/rolling_pin.rsi
     size: Small
+    storedRotation: -45
   - type: Clothing
     sprite: Objects/Tools/rolling_pin.rsi
     quickEquip: false

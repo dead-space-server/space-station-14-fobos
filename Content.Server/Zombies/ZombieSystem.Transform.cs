@@ -1,10 +1,11 @@
+using Content.Server.Administration.Managers;
 using Content.Server.Atmos.Components;
 using Content.Server.Body.Components;
 using Content.Server.Chat;
 using Content.Server.Chat.Managers;
+using Content.Server.Ghost;
 using Content.Server.Ghost.Roles.Components;
 using Content.Server.Humanoid;
-using Content.Server.IdentityManagement;
 using Content.Server.Inventory;
 using Content.Server.Mind;
 using Content.Server.NPC;
@@ -14,6 +15,7 @@ using Content.Server.StationEvents.Components;
 using Content.Server.Speech.Components;
 using Content.Server.Temperature.Components;
 using Content.Shared.Body.Components;
+using Content.Shared.Chat;
 using Content.Shared.CombatMode;
 using Content.Shared.CombatMode.Pacification;
 using Content.Shared.Damage;
@@ -36,12 +38,15 @@ using Content.Shared.Prying.Components;
 using Content.Shared.Traits.Assorted;
 using Robust.Shared.Audio.Systems;
 using Content.Shared.Ghost.Roles.Components;
+using Content.Shared.IdentityManagement;
 using Content.Shared.Tag;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Content.Shared.DeadSpace.Languages.Components;
 using Content.Shared.DeadSpace.Languages.Prototypes;
 using Content.Shared.NPC.Prototypes;
+using Content.Shared.Roles;
+using Content.Server.DeadSpace.Languages;
 
 namespace Content.Server.Zombies;
 
@@ -54,24 +59,29 @@ namespace Content.Server.Zombies;
 public sealed partial class ZombieSystem
 {
     [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly IBanManager _ban = default!;
     [Dependency] private readonly IChatManager _chatMan = default!;
     [Dependency] private readonly SharedCombatModeSystem _combat = default!;
     [Dependency] private readonly NpcFactionSystem _faction = default!;
+    [Dependency] private readonly GhostSystem _ghost = default!;
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly HumanoidAppearanceSystem _humanoidAppearance = default!;
     [Dependency] private readonly IdentitySystem _identity = default!;
     [Dependency] private readonly ServerInventorySystem _inventory = default!;
     [Dependency] private readonly MindSystem _mind = default!;
     [Dependency] private readonly MovementSpeedModifierSystem _movementSpeedModifier = default!;
+    [Dependency] private readonly NameModifierSystem _nameMod = default!;
     [Dependency] private readonly NPCSystem _npc = default!;
     [Dependency] private readonly TagSystem _tag = default!;
-    [Dependency] private readonly NameModifierSystem _nameMod = default!;
     [Dependency] private readonly ISharedPlayerManager _player = default!;
+    [Dependency] private readonly LanguageSystem _language = default!; // DS14
 
     private static readonly ProtoId<TagPrototype> InvalidForGlobalSpawnSpellTag = "InvalidForGlobalSpawnSpell";
     private static readonly ProtoId<TagPrototype> CannotSuicideTag = "CannotSuicide";
     private static readonly ProtoId<LanguagePrototype> ZombieLanguage = "ZombieLanguage";
     private static readonly ProtoId<NpcFactionPrototype> ZombieFaction = "Zombie";
+    private static readonly string MindRoleZombie = "MindRoleZombie";
+    private static readonly List<ProtoId<AntagPrototype>> BannableZombiePrototypes = ["Zombie"];
 
     /// <summary>
     /// Handles an entity turning into a zombie when they die or go into crit
@@ -106,6 +116,24 @@ public sealed partial class ZombieSystem
         if (!Resolve(target, ref mobState, logMissing: false))
             return;
 
+        // Detach role-banned players before zombification
+        if (TryComp<ActorComponent>(target, out var actor) && _ban.IsRoleBanned(actor.PlayerSession, BannableZombiePrototypes))
+        {
+            var sess = actor.PlayerSession;
+            var message = Loc.GetString("zombie-roleban-ghosted");
+
+            if (_mind.TryGetMind(sess, out var playerMindEnt, out var playerMind))
+            {
+                // Detach
+                _ghost.SpawnGhost((playerMindEnt, playerMind), target);
+
+                // Notify
+                _chatMan.DispatchServerMessage(sess, message);
+            }
+            else
+                Log.Error($"Mind for session '{sess}' could not be found");
+        }
+
         //you're a real zombie now, son.
         var zombiecomp = AddComp<ZombieComponent>(target);
 
@@ -126,7 +154,7 @@ public sealed partial class ZombieSystem
         if (TryComp<LanguageComponent>(target, out var language))
         {
             language.KnownLanguages.Clear();
-            language.KnownLanguages.Add(ZombieLanguage);
+            _language.AddKnowLanguage(target, ZombieLanguage);
             language.SelectedLanguage = ZombieLanguage;
         }
         else
@@ -230,17 +258,6 @@ public sealed partial class ZombieSystem
         //Give them zombie blood
         _bloodstream.ChangeBloodReagent(target, zombiecomp.NewBloodReagent);
 
-        //This is specifically here to combat insuls, because frying zombies on grilles is funny as shit.
-        _inventory.TryUnequip(target, "gloves", true, true);
-        //Should prevent instances of zombies using comms for information they shouldnt be able to have.
-        _inventory.TryUnequip(target, "ears", true, true);
-        //Needed to deprive a zombie of a jetpack.
-        _inventory.TryUnequip(target, "back", true, true); // DS14
-        //Also needed to deprive zombies of their jetpack.
-        _inventory.TryUnequip(target, "belt", true, true); // DS14
-        //And this is also needed to deprive the zombie of a jetpack.
-        _inventory.TryUnequip(target, "suitstorage", true, true); // DS14
-
         //popup
         _popup.PopupEntity(Loc.GetString("zombie-transform", ("target", target)), target, PopupType.LargeCaution);
 
@@ -274,7 +291,7 @@ public sealed partial class ZombieSystem
         if (hasMind && mind != null && _player.TryGetSessionById(mind.UserId, out var session))
         {
             //Zombie role for player manifest
-            _role.MindAddRole(mindId, "MindRoleZombie", mind: null, silent: true);
+            _role.MindAddRole(mindId, MindRoleZombie, mind: null, silent: true);
 
             //Greeting message for new bebe zombers
             _chatMan.DispatchServerMessage(session, Loc.GetString("zombie-infection-greeting"));
@@ -295,6 +312,7 @@ public sealed partial class ZombieSystem
             ghostRole.RoleName = Loc.GetString("zombie-generic");
             ghostRole.RoleDescription = Loc.GetString("zombie-role-desc");
             ghostRole.RoleRules = Loc.GetString("zombie-role-rules");
+            ghostRole.MindRoles.Add(MindRoleZombie);
         }
 
         if (TryComp<HandsComponent>(target, out var handsComp))

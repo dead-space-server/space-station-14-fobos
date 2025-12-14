@@ -9,8 +9,10 @@
   discipline: TaipanResearch
   tier: 1
   cost: 7500
+  diskAvailable: false
   recipeUnlocks:
   - ProximitySensor
+  - Nanopaste
 
 - type: technology
   id: TaipanBasicAnomalousResearch
@@ -21,11 +23,12 @@
   discipline: TaipanResearch
   tier: 1
   cost: 7500
+  diskAvailable: false
   recipeUnlocks:
   - AnomalyScanner
   - AnomalyLocator
   - AnomalyLocatorWide
-  - APECircuitboard
+  - APECircuitboardTaipan
   - AnomalyVesselCircuitboardTaipan
 
 - type: technology
@@ -37,6 +40,7 @@
   discipline: TaipanResearch
   tier: 1
   cost: 7500
+  diskAvailable: false
   recipeUnlocks:
   - NodeScanner
   - AnalysisComputerCircuitboardTaipan
@@ -51,9 +55,12 @@
   discipline: TaipanResearch
   tier: 1
   cost: 7500
+  diskAvailable: false
   recipeUnlocks:
   - ClothingShoesBootsMagSyndie
   - ClothingShoesBootsMoon
+
+# Tier 2
 
 - type: technology
   id: TaipanEnergyDaggers
@@ -62,12 +69,12 @@
     sprite: Objects/Weapons/Melee/e_dagger.rsi
     state: icon
   discipline: TaipanResearch
-  tier: 1
-  cost: 7500
+  tier: 2
+  cost: 15000
+  diskAvailable: false
   recipeUnlocks:
   - EnergyDagger
-
-# Tier 2
+  - BorgModuleSyndicateWeapon
 
 - type: technology
   id: TaipanAbnormalArtifactManipulation
@@ -78,6 +85,7 @@
   discipline: TaipanResearch
   tier: 2
   cost: 15000
+  diskAvailable: false
   recipeUnlocks:
   - ArtifactCrusherMachineCircuitboard
   - ObeliskStoper
@@ -91,6 +99,7 @@
   discipline: TaipanResearch
   tier: 2
   cost: 15000
+  diskAvailable: false
   recipeUnlocks:
   - WeaponPistolCHIMP
   - WeaponPistolCHIMPUpgradeKit
@@ -109,6 +118,7 @@
   discipline: TaipanResearch
   tier: 2
   cost: 15000
+  diskAvailable: false
   recipeUnlocks:
   - WeaponParticleDecelerator
   - HoloprojectorField
@@ -122,8 +132,11 @@
   discipline: TaipanResearch
   tier: 2
   cost: 15000
+  diskAvailable: false
   recipeUnlocks:
   - ChameleonProjector
+
+# Tier 3
 
 - type: technology
   id: TaipanEnergyWeapons
@@ -132,15 +145,15 @@
     sprite: Objects/Weapons/Melee/e_sword.rsi
     state: icon
   discipline: TaipanResearch
-  tier: 2
-  cost: 15000
+  tier: 3
+  cost: 30000
+  diskAvailable: false
   recipeUnlocks:
   - EnergySword
   - EnergyShield
+  - BorgModuleEsword
   technologyPrerequisites:
   - TaipanEnergyDaggers
-
-# Tier 3
 
 - type: technology
   id: TaipanEmag
@@ -151,8 +164,12 @@
   discipline: TaipanResearch
   tier: 3
   cost: 30000
+  diskAvailable: false
   recipeUnlocks:
   - EmagTaipanLimited
+  - BorgModuleOperative
+
+# Tier 4
 
 - type: technology
   id: TaipanAdvancedMagnetsTech
@@ -161,8 +178,9 @@
     sprite: _ADT/Clothing/Shoes/Boots/advanced.rsi
     state: icon
   discipline: TaipanResearch
-  tier: 3
-  cost: 30000
+  tier: 4
+  cost: 50000
+  diskAvailable: false
   recipeUnlocks:
   - ADTClothingShoesBootsMagAdvSynd
   technologyPrerequisites:
@@ -175,9 +193,11 @@
     sprite: Objects/Weapons/Melee/e_sword_double.rsi
     state: icon
   discipline: TaipanResearch
-  tier: 3
-  cost: 30000
+  tier: 4
+  cost: 50000
+  diskAvailable: false
   recipeUnlocks:
   - EnergySwordDouble
+  - BorgModuleDoubleEsword
   technologyPrerequisites:
   - TaipanEnergyWeapons

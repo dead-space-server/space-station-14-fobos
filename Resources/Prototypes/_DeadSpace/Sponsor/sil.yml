@@ -13,7 +13,7 @@
   id: SilWeaponCrusher
   entity: WeaponCrusherSil
   sponsorOnly: true
-  whitelistJobs: [SalvageSpecialist, SeniorSalvageSpecialist]
+  whitelistJobs: [SalvageSpecialist]
 
 # Hardsuit
 - type: entity
@@ -92,19 +92,6 @@
       map: [ "light" ]
   - type: Clothing
     sprite: _DeadSpace/Sponsor/Sil/helmet.rsi
-    clothingVisuals:
-      head:
-      - state: equipped-head
-      - state: equipped-head-unshaded
-        shader: unshaded
-  - type: ToggleableLightVisuals
-    spriteLayer: light
-    clothingVisuals:
-      head:
-      - state: on-equipped-HELMET-unshaded
-        shader: unshaded
-      - state: equipped-head-light
-        shader: unshaded
   - type: PointLight
     color: "#4eb1ae"
   - type: PressureProtection
@@ -392,6 +379,9 @@
     - id: PlushieSilMila
     - id: PlushieSilRiza
     - id: PlushieSilMuren
+    - id: JukeboxMK
+    - id: TapeRecorderr
+    - id: TapeEmpty
   - type: ToggleableClothing
     clothingPrototype: ClothingOuterHardsuitSil
     requiredSlot: BACK

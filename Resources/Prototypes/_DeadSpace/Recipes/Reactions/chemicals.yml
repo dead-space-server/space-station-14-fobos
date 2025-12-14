@@ -32,3 +32,31 @@
   effects:
     - !type:CreateEntityReactionEffect
       entity: SheetUranium1
+
+- type: reaction
+  id: Methylamine
+  impact: Low
+  reactants:
+    Ammonia:
+      amount: 1
+    Plasma:
+      amount: 1
+      catalyst: true
+    ChloralHydrate:
+      amount: 1
+  products:
+    Methylamine: 2
+
+- type: reaction
+  id: Phenylacetone
+  impact: Medium
+  minTemp: 400
+  reactants:
+    Benzene:
+      amount: 1
+    Phenol:
+      amount: 1
+    Iodine:
+      amount: 1
+  products:
+    Phenylacetone: 2
