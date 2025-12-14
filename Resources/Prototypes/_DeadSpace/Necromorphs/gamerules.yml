@@ -43,7 +43,7 @@
   id: Unitology
   components:
   - type: GameRule
-    minPlayers: 2
+    minPlayers: 40
   - type: AntagLoadProfileRule
     speciesOverride: Human
     speciesOverrideBlacklist:
