@@ -8,8 +8,7 @@
     <GuideEntityEmbed Entity="ToyFigurineCaptain" Caption="Капитан"/>
   </Box>
   <Box>
-    <GuideEntityEmbed Entity="ToyFigurineHeadOfPersonnel" Caption="
-Глава Персонала"/>
+    <GuideEntityEmbed Entity="ToyFigurineHeadOfPersonnel" Caption="Глава Персонала"/>
     <GuideEntityEmbed Entity="ToyFigurineHeadOfSecurity" Caption="Глава Службы Безопасности"/>
     <GuideEntityEmbed Entity="ToyFigurineChiefMedicalOfficer" Caption="Главный Врач"/>
   </Box>
