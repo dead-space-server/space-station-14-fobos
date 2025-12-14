@@ -94,12 +94,6 @@ public sealed class CCCCVars
     /// </summary>
     public static readonly CVarDef<bool> GameModesUseTotalPlayers =
         CVarDef.Create("game.modes_use_total_players", true, CVar.SERVERONLY | CVar.ARCHIVE);
-
-    /*
-    * Donate
-    */
-    public static readonly CVarDef<float> DonateSpawnTimeLimit =
-        CVarDef.Create("donate.spawn_time_limit_minutes", 30f, CVar.SERVER | CVar.CONFIDENTIAL);
     /*
     * SysNotify
     */
@@ -123,4 +117,3 @@ public sealed class CCCCVars
 
     public static readonly CVarDef<string> SysNotifySoundPath =
         CVarDef.Create("sysnotifys.soundpath", "/Audio/Effects/balloon-pop.ogg", CVar.CLIENTONLY | CVar.ARCHIVE);
-}

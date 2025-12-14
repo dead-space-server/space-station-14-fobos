@@ -51,19 +51,9 @@ public sealed class EmeraldShopButton : Control
 
     private void UpdateFont()
     {
-        var fontSize = GetResponsiveFontSize();
         _font = new VectorFont(
             _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(fontSize * UIScale));
-    }
-
-    private int GetResponsiveFontSize()
-    {
-        if (Parent?.Parent?.PixelSize.X < 800)
-            return 10;
-        if (Parent?.Parent?.PixelSize.X < 1200)
-            return 11;
-        return BaseFontSize;
+            (int)(BaseFontSize * UIScale));
     }
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
