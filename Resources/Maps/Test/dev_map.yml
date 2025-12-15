@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 11/15/2025 21:14:06
-  entityCount: 3155
+  time: 12/14/2025 18:25:05
+  entityCount: 3156
 maps:
 - 23
 grids:
@@ -2951,6 +2951,18 @@ entities:
     components:
     - type: Transform
       pos: 70.5,38
+      parent: 1
+- proto: BaseChemistryEmptyVial
+  entities:
+  - uid: 1195
+    components:
+    - type: Transform
+      pos: 57.89737,40.757393
+      parent: 1
+  - uid: 1208
+    components:
+    - type: Transform
+      pos: 57.952927,40.45184
       parent: 1
 - proto: BaseComputer
   entities:
@@ -8811,13 +8823,6 @@ entities:
       rot: 3.141592653589793 rad
       pos: 72.5,-14.5
       parent: 1
-- proto: Chainsaw
-  entities:
-  - uid: 1195
-    components:
-    - type: Transform
-      pos: 59.70333,41.59572
-      parent: 1
 - proto: Chair
   entities:
   - uid: 2710
@@ -8964,13 +8969,6 @@ entities:
       parent: 1
     - type: Fixtures
       fixtures: {}
-- proto: ClothingBackpackDuffelSurgeryFilled
-  entities:
-  - uid: 1218
-    components:
-    - type: Transform
-      pos: 59.32892,41.820488
-      parent: 1
 - proto: ClothingBeltPlantFilled
   entities:
   - uid: 1046
@@ -9314,6 +9312,21 @@ entities:
     - type: Transform
       pos: 56.5,24.5
       parent: 1
+- proto: ComputerVirusEvolutionConsole
+  entities:
+  - uid: 1218
+    components:
+    - type: Transform
+      pos: 59.5,41.5
+      parent: 1
+    - type: DeviceLinkSource
+      linkedPorts:
+        1212:
+        - - VirusSolutionAnalyzerSender
+          - VirusSolutionAnalyzerReceiver
+        1200:
+        - - VirusDiagnoserDataServerSender
+          - VirusDiagnoserDataServerReceiver
 - proto: ConveyorBelt
   entities:
   - uid: 432
@@ -12524,10 +12537,10 @@ entities:
       parent: 1
 - proto: MedicalTechFab
   entities:
-  - uid: 1212
+  - uid: 1267
     components:
     - type: Transform
-      pos: 58.5,41.5
+      pos: 56.5,38.5
       parent: 1
 - proto: MeleeDebug100
   entities:
@@ -15998,11 +16011,6 @@ entities:
     - type: Transform
       pos: 51.5,40.5
       parent: 1
-  - uid: 1208
-    components:
-    - type: Transform
-      pos: 59.5,41.5
-      parent: 1
   - uid: 1254
     components:
     - type: Transform
@@ -16640,6 +16648,13 @@ entities:
     components:
     - type: Transform
       pos: 60.5,40.5
+      parent: 1
+- proto: VirusSolutionAnalyzer
+  entities:
+  - uid: 1212
+    components:
+    - type: Transform
+      pos: 58.5,41.5
       parent: 1
 - proto: VoiceTrigger
   entities:

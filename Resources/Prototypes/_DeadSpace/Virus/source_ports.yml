@@ -4,7 +4,6 @@
   description: signal-port-description-virus-data-server-sender
   defaultLinks: 
   - VirusDiagnoserDataServerReceiver
-  - VirusEvolutionConsoleReceiver
 
 - type: sourcePort
   id: VirusDiagnoserSender
@@ -18,4 +17,3 @@
   description: signal-port-description-virus-solution-analyzer-sender
   defaultLinks: 
   - VirusSolutionAnalyzerReceiver
-  - VirusEvolutionConsoleReceiver

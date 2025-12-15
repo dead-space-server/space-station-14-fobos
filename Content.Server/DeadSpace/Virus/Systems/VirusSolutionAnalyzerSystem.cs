@@ -27,7 +27,7 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
     [Dependency] private readonly VirusDiagnoserDataServerSystem _dataServer = default!;
     [Dependency] private readonly AppearanceSystem _appearance = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
-    [Dependency] private readonly PrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly VirusEvolutionConsoleSystem _evolutionConsoleSystem = default!;
     private const string FlaskContainerKey = "flask_container_virus_solution_analyzer";
     public override void Initialize()
@@ -103,9 +103,6 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
     {
         if (args.Port == ent.Comp.VirusSolutionAnalyzerPort)
             ent.Comp.ConnectedConsole = null;
-
-        if (args.Port == ent.Comp.VirusEvolutionConsolePort)
-            ent.Comp.ConnectedEvolutionConsole = null;
     }
 
     private void OnAnchor(Entity<VirusSolutionAnalyzerComponent> ent, ref AnchorStateChangedEvent args)
@@ -251,6 +248,11 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
         if (!Resolve(console, ref console.Comp, false))
             return;
 
+        if (console.Comp.Status != VirusSolutionAnalyzerStatus.On)
+            return;
+
+        SetStatus((console, console.Comp), VirusSolutionAnalyzerStatus.Successfully);
+
         if (_prototypeManager.Index<VirusSymptomPrototype>(symptom) == null)
             return;
 
@@ -269,6 +271,11 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
     {
         if (!Resolve(console, ref console.Comp, false))
             return;
+
+        if (console.Comp.Status != VirusSolutionAnalyzerStatus.On)
+            return;
+
+        SetStatus((console, console.Comp), VirusSolutionAnalyzerStatus.Successfully);
 
         if (_prototypeManager.Index<BodyPrototype>(body) == null)
             return;

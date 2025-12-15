@@ -92,10 +92,6 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
     {
         if (args.Port == server.Comp.VirusDiagnoserDataServerPort)
             server.Comp.ConnectedConsole = null;
-
-
-        if (args.Port == server.Comp.VirusEvolutionConsolePort)
-            server.Comp.ConnectedEvolutionConsole = null;
     }
 
     private void OnAnchor(Entity<VirusDiagnoserDataServerComponent> server, ref AnchorStateChangedEvent args)

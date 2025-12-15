@@ -14,6 +14,9 @@ public sealed partial class VirusSymptomPrototype : IPrototype
     [DataField(required: true)]
     public string Name { get; private set; } = default!;
 
+    [DataField]
+    public string Description { get; private set; } = default!;
+
     /// <summary>
     ///     Вероятность мутации.
     /// </summary>
@@ -24,7 +27,7 @@ public sealed partial class VirusSymptomPrototype : IPrototype
     ///     Цена мутации.
     /// </summary>
     [DataField]
-    public float Price = 100f;
+    public int Price = 100;
 
     /// <summary>
     ///     Тип симптома.

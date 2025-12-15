@@ -161,7 +161,6 @@
   - type: DeviceLinkSink
     ports:
       - VirusDiagnoserDataServerReceiver
-      - VirusEvolutionConsoleReceiver
   - type: Construction
     graph: Machine
     node: machine
@@ -265,7 +264,6 @@
   - type: DeviceLinkSink
     ports:
       - VirusSolutionAnalyzerReceiver
-      - VirusEvolutionConsoleReceiver
   - type: VirusDiagnoser
   - type: ContainerContainer
     containers:
@@ -306,7 +304,7 @@
   - type: ApcPowerReceiver
     powerLoad: 3100
   - type: Computer
-    board: ComputerDiagnoserConsoleCircuitboard
+    board: ComputerVirusEvolutionConsoleCircuitboard
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -317,11 +315,11 @@
       - VirusDiagnoserDataServerSender
       - VirusSolutionAnalyzerSender
   - type: ActivatableUI
-    key: enum.VirusDiagnoserConsoleUiKey.Key
+    key: enum.VirusEvolutionConsoleUiKey.Key
   - type: UserInterface
     interfaces:
-        enum.VirusDiagnoserConsoleUiKey.Key:
-          type: VirusDiagnoserConsoleBoundUserInterface
+        enum.VirusEvolutionConsoleUiKey.Key:
+          type: VirusEvolutionConsoleBoundUserInterface
   - type: Speech
     speechVerb: Robotic
     speechSounds: Pai

@@ -10,6 +10,17 @@
       prototype: ComputerDiagnoserConsole
 
 - type: entity
+  parent: BaseComputerCircuitboard
+  id: ComputerVirusEvolutionConsoleCircuitboard
+  name: машинная плата консоли эволюции вирусов
+  description: Компьютерная печатная плата для консоли эволюции вирусов.
+  components:
+    - type: Sprite
+      state: cpu_medical
+    - type: ComputerBoard
+      prototype: ComputerVirusEvolutionConsole
+
+- type: entity
   id: DiagnoserMachineCircuitboard
   parent: BaseMachineCircuitboard
   name: diagnoser machine board

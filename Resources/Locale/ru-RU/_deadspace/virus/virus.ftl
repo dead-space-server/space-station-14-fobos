@@ -83,32 +83,6 @@ virus-solution-analyser-start-analys-button = Запустить анализ
 virus-solution-analyser-missing = Нет соединения с анализатором веществ
 virus-solution-analyser-far = Анализатор веществ находится слишком далеко
 
-## UI Evolution
-
-### Заголовок окна
-virus-evolution-window-title = Эволюция вируса
-
-### Вкладка симптомов
-virus-evolution-available-symptoms = Доступные симптомы
-virus-evolution-active-symptoms = Активные симптомы
-virus-evolution-buy-button = Купить
-virus-evolution-not-enough-points = Недостаточно очков мутации
-
-### Вкладка whitelist
-virus-evolution-whitelist = Доступные организмы
-virus-evolution-buy-body = Разблокировать организм
-
-### Описание
-virus-evolution-description-header = Описание симптома
-
-### Ошибки
-virus-evolution-error-no-selection = Симптом не выбран
-virus-evolution-error-body-no-selection = Организм не выбран
-
-### Стоимость
-virus-evolution-cost-label = Стоимость: { $cost }
-virus-evolution-mutation-points = Очки мутации: { $points }
-
 # Ports
 
 signal-port-name-virus-diagnoser-sender = Диагност заболеваний
@@ -128,9 +102,6 @@ signal-port-description-virus-data-server-receiver = Принимающий си
 
 signal-port-name-virus-solution-analyzer-receiver = Диагност веществ
 signal-port-description-virus-solution-analyzer-receiver = Принимающий сигнал диагност веществ
-
-signal-port-name-virus-evolution-console-receiver = Консоль эволюции вирусов
-signal-port-description-virus-evolution-console-receiver = Принимающий сигнал консоль эволюции вирусов
 # Другое
 
 research-technology-virology = Вирусология
@@ -167,17 +138,20 @@ virus-evolution-cost-label =
 
 ### WHITELIST TAB ###
 
-virus-evolution-whitelist = Разрешённые тела
+virus-evolution-whitelist = Доступные тела
 virus-evolution-buy-body = Добавить тело
 
 
 ### DATASERVER STATES ###
 
+virus-evolution-virusdata-missing =
+    Данные об вирусе не найдены
+
 virus-evolution-dataserver-missing =
-    Сервер данных не подключён
+    Сервер данных или анализатор веществ не подключён
 
 virus-evolution-dataserver-far =
-    Сервер данных слишком далеко
+    Сервер данных или анализатор веществ слишком далеко
 
 
 ### SOLUTION ANALYZER STATES (на будущее) ###

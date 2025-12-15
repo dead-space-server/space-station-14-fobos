@@ -8,12 +8,6 @@ namespace Content.Server.DeadSpace.Virus.Components;
 [RegisterComponent]
 public sealed partial class VirusEvolutionConsoleComponent : Component
 {
-    /// <summary>
-    ///     Это разумный вирус или машина?
-    /// </summary>
-    [ViewVariables(VVAccess.ReadOnly)]
-    public bool IsVirus = true;
-
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
     public ProtoId<SourcePortPrototype> VirusSolutionAnalyzerPort = "VirusSolutionAnalyzerSender";

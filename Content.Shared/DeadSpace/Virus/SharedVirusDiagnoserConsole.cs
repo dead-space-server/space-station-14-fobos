@@ -4,6 +4,11 @@ using Robust.Shared.Serialization;
 
 namespace Content.Shared.Virus;
 
+public struct BaseVirusSettings
+{
+    public const int StaticBodyPrice = 500;
+}
+
 [Serializable, NetSerializable]
 public enum VirusDiagnoserConsoleUiKey : byte
 {
@@ -13,14 +18,14 @@ public enum VirusDiagnoserConsoleUiKey : byte
 [Serializable, NetSerializable]
 public sealed class VirusDiagnoserConsoleBoundUserInterfaceState : BoundUserInterfaceState
 {
-    public readonly List<VirusStrainRecord> Strains = new();
-    public readonly int Points;
-    public readonly bool DiagnoserConnected;
-    public readonly bool DataServerConnected;
-    public readonly bool SolutionAnalyzerConnected;
-    public readonly bool DiagnoserInRange;
-    public readonly bool DataServerInRange;
-    public readonly bool SolutionAnalyzerInRange;
+    public List<VirusStrainRecord> Strains = new();
+    public int Points { get; }
+    public bool DiagnoserConnected { get; }
+    public bool DataServerConnected { get; }
+    public bool SolutionAnalyzerConnected { get; }
+    public bool DiagnoserInRange { get; }
+    public bool DataServerInRange { get; }
+    public bool SolutionAnalyzerInRange { get; }
     public VirusDiagnoserConsoleBoundUserInterfaceState(
         List<VirusStrainRecord>? strains = null,
         int points = 0,

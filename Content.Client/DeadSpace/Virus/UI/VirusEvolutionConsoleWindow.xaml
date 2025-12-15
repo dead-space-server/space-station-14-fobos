@@ -42,8 +42,14 @@
                         <BoxContainer Orientation="Vertical"
                                       VerticalExpand="True">
                             <Label Text="{Loc 'virus-evolution-description-header'}" />
-                            <RichTextLabel Name="SymptomDescription"
-                                           VerticalExpand="True"/>
+                            <BoxContainer Orientation="Horizontal"
+                                        HorizontalAlignment="Left">
+                                <RichTextLabel Name="SymptomDescription"
+                                            MinWidth="300"
+                                            MaxWidth="300"
+                                            Margin="5"/>
+                            </BoxContainer>
+
 
                             <Label Name="MutationPointsLabel"/>
                             <Label Name="SymptomCostLabel"/>
@@ -78,6 +84,16 @@
                 <Label HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        Text="{Loc 'virus-evolution-dataserver-missing'}"/>
+            </PanelContainer>
+
+            <!-- !HASVIRUS -->
+            <PanelContainer Name="VirusDataMissing"
+                            StyleClasses="Inset"
+                            VerticalExpand="True"
+                            Margin="5">
+                <Label HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Text="{Loc 'virus-evolution-virusdata-missing'}"/>
             </PanelContainer>
 
             <!-- DATASERVER FAR -->

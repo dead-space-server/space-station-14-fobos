@@ -22,10 +22,6 @@ public sealed partial class VirusDiagnoserDataServerComponent : Component
 
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public ProtoId<SinkPortPrototype> VirusEvolutionConsolePort = "VirusEvolutionConsoleReceiver";
-
-    [DataField]
-    [ViewVariables(VVAccess.ReadOnly)]
     public Dictionary<VirusStrainRecord, VirusData> StrainData = new();
 
     [DataField]

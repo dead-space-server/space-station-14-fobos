@@ -1,29 +1,41 @@
 - type: virusSymptom
   id: CoughSymptom
   name: кашель
+  description: вызывает сильный кашель у зараженного. Повышает шанс распространения вируса при контакте.
   symptomType: Cough
+  price: 1000
 
 - type: virusSymptom
   id: VomitSymptom
   name: тошнота
+  description: вызывает рвоту у зараженного
   symptomType: Vomit
+  price: 1500
 
 - type: virusSymptom
   id: RashSymptom
   name: сыпь
+  description: вызывает кожную сыпь у зараженного. Повышает шанс заражения при контакте.
   symptomType: Rash
+  price: 1500
 
 - type: virusSymptom
   id: DrowsinessSymptom
   name: сонливость
+  description: вызывает сонливость у зараженного
   symptomType: Drowsiness
+  price: 1000
 
 - type: virusSymptom
   id: NecrosisSymptom
   name: некроз
+  description: вызывает некроз тканей у зараженного
   symptomType: Necrosis
+  price: 2500
   
 - type: virusSymptom
   id: ZombificationSymptom
   name: зомби
+  description: превращает зараженного в зомби
   symptomType: Zombification
+  price: 5000

@@ -1,9 +1,7 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Content.Shared.Body.Prototypes;
-using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.Virus.Prototypes;
-using Content.Shared.DeadSpace.Virus.Symptoms;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 
@@ -12,14 +10,16 @@ namespace Content.Shared.Virus;
 [Serializable, NetSerializable]
 public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInterfaceState
 {
-    public readonly int MutationPoints;
-
-    public readonly bool DataServerConnected;
-    public readonly bool SolutionAnalyzerConnected;
-    public readonly bool DataServerInRange;
-    public readonly bool SolutionAnalyzerInRange;
-    public readonly List<ProtoId<VirusSymptomPrototype>>? ActiveSymptoms = null;
-    public readonly List<ProtoId<BodyPrototype>>? BodyWhitelist = null;
+    public int MutationPoints { get; }
+    public int SymptomsCount { get; }
+    public int BodyCount { get; }
+    public bool DataServerConnected { get; }
+    public bool SolutionAnalyzerConnected { get; }
+    public bool DataServerInRange { get; }
+    public bool SolutionAnalyzerInRange { get; }
+    public bool HasVirus { get; }
+    public List<ProtoId<VirusSymptomPrototype>> ActiveSymptoms = new();
+    public List<ProtoId<BodyPrototype>> BodyWhitelist = new();
 
     public VirusEvolutionConsoleBoundUserInterfaceState(
         int mutationPoints,
@@ -27,6 +27,7 @@ public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInte
         bool solutionAnalyzerConnected,
         bool dataServerInRange,
         bool solutionAnalyzerInRange,
+        bool hasVirus = false,
         List<ProtoId<VirusSymptomPrototype>>? activeSymptoms = null,
         List<ProtoId<BodyPrototype>>? bodyWhitelist = null)
     {
@@ -35,8 +36,9 @@ public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInte
         SolutionAnalyzerConnected = solutionAnalyzerConnected;
         DataServerInRange = dataServerInRange;
         SolutionAnalyzerInRange = solutionAnalyzerInRange;
-        ActiveSymptoms = activeSymptoms;
-        BodyWhitelist = bodyWhitelist;
+        ActiveSymptoms = activeSymptoms ?? new List<ProtoId<VirusSymptomPrototype>>();
+        BodyWhitelist = bodyWhitelist ?? new List<ProtoId<BodyPrototype>>();
+        HasVirus = hasVirus;
     }
 }
 
@@ -66,4 +68,10 @@ public enum EvolutionConsoleUiButton : byte
 {
     EvolutionSymptom,
     EvolutionBody
+}
+
+[Serializable, NetSerializable]
+public enum VirusEvolutionConsoleUiKey : byte
+{
+    Key
 }

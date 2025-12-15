@@ -10,6 +10,9 @@ using Robust.Server.GameObjects;
 using Content.Shared.Virus;
 using Content.Server.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.Virus.Components;
+using Robust.Shared.Prototypes;
+using Content.Shared.DeadSpace.Virus.Prototypes;
+using Content.Shared.Body.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -17,8 +20,7 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
 {
     [Dependency] private readonly UserInterfaceSystem _uiSystem = default!;
     [Dependency] private readonly PowerReceiverSystem _powerReceiverSystem = default!;
-    [Dependency] private readonly VirusDiagnoserDataServerSystem _dataServer = default!;
-    [Dependency] private readonly VirusDiagnoserSystem _diagnoser = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly VirusSolutionAnalyzerSystem _virusSolutionAnalyzer = default!;
 
     public override void Initialize()
@@ -39,23 +41,51 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
         if (!_powerReceiverSystem.IsPowered(uid))
             return;
 
-        if (component.VirusSolutionAnalyzer == null || args.NewSymptom == null)
+        if (component.VirusSolutionAnalyzer == null)
             return;
 
         if (TryComp<VirusSolutionAnalyzerComponent>(component.VirusSolutionAnalyzer, out var analyzer))
             return;
 
+        if (component.VirusDiagnoserDataServer == null
+            || !TryComp<VirusDiagnoserDataServerComponent>(component.VirusDiagnoserDataServer, out var server))
+            return;
+
+        VirusData? virusData = null;
+
+        if (_virusSolutionAnalyzer.TryGetVirusDataFromContainer(component.VirusSolutionAnalyzer.Value, out var virusDataList)) 
+            virusData = virusDataList.FirstOrDefault();
+
         switch (args.Button)
         {
             case EvolutionConsoleUiButton.EvolutionSymptom:
                 {
-                    _virusSolutionAnalyzer.AddSymptom((component.VirusSolutionAnalyzer.Value, analyzer), args.NewSymptom);
+                    if (args.NewSymptom == null
+                        || !_prototypeManager.TryIndex<VirusSymptomPrototype>(args.NewSymptom, out var proto)
+                        || virusData == null)
+                        return;
 
+                    if (server.Points < proto.Price * virusData.ActiveSymptom.Count)
+                        return;
+
+                    server.Points -= proto.Price * virusData.ActiveSymptom.Count;
+
+                    _virusSolutionAnalyzer.AddSymptom((component.VirusSolutionAnalyzer.Value, analyzer), args.NewSymptom);
                     break;
                 }
             case EvolutionConsoleUiButton.EvolutionBody:
                 {
-                    _virusSolutionAnalyzer.AddBody((component.VirusSolutionAnalyzer.Value, analyzer), args.NewSymptom);
+                    if (args.NewBodie == null
+                        || !_prototypeManager.TryIndex<BodyPrototype>(args.NewBodie, out var proto)
+                        || virusData == null)
+                        return;
+
+                    if (server.Points < BaseVirusSettings.StaticBodyPrice * virusData.BodyWhitelist.Count)
+                        return;
+
+                    server.Points -= BaseVirusSettings.StaticBodyPrice * virusData.BodyWhitelist.Count;
+
+                    _virusSolutionAnalyzer.AddBody((component.VirusSolutionAnalyzer.Value, analyzer), args.NewBodie);
                     break;
                 }
             default:
@@ -72,9 +102,6 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
 
     private void OnMapInit(EntityUid uid, VirusEvolutionConsoleComponent component, MapInitEvent args)
     {
-        if (component.IsVirus)
-            return;
-
         if (!TryComp<DeviceLinkSourceComponent>(uid, out var receiver))
             return;
 
@@ -96,9 +123,6 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
 
     private void OnNewLink(EntityUid uid, VirusEvolutionConsoleComponent component, NewLinkEvent args)
     {
-        if (component.IsVirus)
-            return;
-
         if (TryComp<VirusDiagnoserDataServerComponent>(args.Sink, out var server) && args.SourcePort == component.VirusDiagnoserDataServerPort)
         {
             component.VirusDiagnoserDataServer = args.Sink;
@@ -116,9 +140,6 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
 
     private void OnPortDisconnected(Entity<VirusEvolutionConsoleComponent> ent, ref PortDisconnectedEvent args)
     {
-        if (ent.Comp.IsVirus)
-            return;
-
         if (args.Port == ent.Comp.VirusSolutionAnalyzerPort)
             ent.Comp.VirusSolutionAnalyzer = null;
 
@@ -152,25 +173,22 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
         if (!TryComp<UserInterfaceComponent>(entity, out var userInterface))
             return;
 
-        if (!_uiSystem.HasUi(entity, VirusDiagnoserConsoleUiKey.Key, userInterface))
+        if (!_uiSystem.HasUi(entity, VirusEvolutionConsoleUiKey.Key, userInterface))
             return;
 
-        if (!_powerReceiverSystem.IsPowered(entity) && !entity.Comp.IsVirus)
+        if (!_powerReceiverSystem.IsPowered(entity))
         {
             _uiSystem.CloseUis((entity, userInterface));
             return;
         }
 
         var newState = GetUserInterfaceState((entity, entity.Comp));
-        _uiSystem.SetUiState((entity, userInterface), VirusDiagnoserConsoleUiKey.Key, newState);
+        _uiSystem.SetUiState((entity, userInterface), VirusEvolutionConsoleUiKey.Key, newState);
     }
 
     public void RecheckConnections(Entity<VirusEvolutionConsoleComponent?> console)
     {
         if (!Resolve(console, ref console.Comp, false))
-            return;
-
-        if (console.Comp.IsVirus)
             return;
 
         var distance = 0f;
@@ -218,6 +236,7 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
             solutionAnalyzerConnected,
             console.Comp.DataServerInRange,
             console.Comp.SolutionAnalyzerInRange,
+            virusData != null,
             virusData?.ActiveSymptom,
             virusData?.BodyWhitelist
         );
