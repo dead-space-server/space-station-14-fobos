@@ -10,17 +10,23 @@ public sealed partial class IPCComponent : Component
 {
     public const short MaxBatteryAlertLevels = 10;
 
-    [DataField]
-    [ViewVariables]
+    /// <summary>
+    /// Пассивный расход энергии
+    /// </summary>
+    [DataField, ViewVariables]
+    public float IdleDrainRate = 3.5f;
+
+    /// <summary>
+    /// Порог низкого заряда батареи
+    /// </summary>
+    [DataField, ViewVariables(VVAccess.ReadOnly)]
     public float BatteryLowThreshold = 0.01f;
 
-    [DataField]
-    [ViewVariables]
+    /// <summary>
+    /// Штраф к передвижению при низком заряде
+    /// </summary>
+    [DataField, ViewVariables(VVAccess.ReadOnly)]
     public float MovementPenalty = 0.2f;
-
-    [DataField]
-    [ViewVariables]
-    public float IdleDrainRate = 2.5f;
 
     [DataField(readOnly: true)]
     public ProtoId<AlertPrototype> BatteryAlert = "BorgBattery";
@@ -39,4 +45,7 @@ public sealed partial class IPCComponent : Component
 
     [ViewVariables(VVAccess.ReadOnly)]
     public short LastBatteryLevel;
+
+    public TimeSpan NextBatteryAlertUpdate;
+
 }

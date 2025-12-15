@@ -11,6 +11,7 @@ using Content.Shared.Ninja.Systems;
 using Content.Shared.Power.Components;
 using Content.Shared.Power.EntitySystems;
 using Content.Shared.Power;
+using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.IPC;
 
@@ -21,6 +22,7 @@ public sealed class IPCSystem : EntitySystem
     [Dependency] private readonly SharedBatteryDrainerSystem _batteryDrainer = default!;
     [Dependency] private readonly SharedBatterySystem _battery = default!;
     [Dependency] private readonly MovementSpeedModifierSystem _movementSpeedModifier = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
 
     public override void Initialize()
     {
@@ -35,8 +37,6 @@ public sealed class IPCSystem : EntitySystem
 
     public override void Update(float frameTime)
     {
-        base.Update(frameTime);
-
         var query = EntityQueryEnumerator<IPCComponent, BatteryComponent>();
 
         while (query.MoveNext(out var uid, out var comp, out var battery))
@@ -44,11 +44,15 @@ public sealed class IPCSystem : EntitySystem
             if (MathHelper.CloseTo(comp.IdleDrainRate, 0f))
                 continue;
 
-            var drain = comp.IdleDrainRate * frameTime;
-            if (drain <= 0)
+            var drain = Math.Min(comp.IdleDrainRate * frameTime, battery.CurrentCharge);
+            if (drain > 0f)
+                _battery.TryUseCharge(uid, drain, battery);
+
+            var now = _timing.CurTime;
+            if (comp.NextBatteryAlertUpdate > now)
                 continue;
 
-            _battery.TryUseCharge(uid, drain, battery);
+            comp.NextBatteryAlertUpdate = now + TimeSpan.FromSeconds(1);
             UpdateBatteryAlert(uid, comp, battery);
         }
     }
@@ -59,9 +63,7 @@ public sealed class IPCSystem : EntitySystem
             UpdateBatteryAlert(uid, comp, battery);
 
         if (HasComp<ActionsComponent>(uid))
-        {
             _actions.AddAction(uid, ref comp.ActionEntity, comp.DrainBatteryAction);
-        }
 
         _movementSpeedModifier.RefreshMovementSpeedModifiers(uid);
     }
@@ -69,16 +71,16 @@ public sealed class IPCSystem : EntitySystem
     private void OnComponentShutdown(EntityUid uid, IPCComponent comp, ComponentShutdown args)
     {
         if (comp.ActionEntity.HasValue)
-        {
             _actions.RemoveAction(uid, comp.ActionEntity.Value);
-        }
         RemComp<BatteryDrainerComponent>(uid);
     }
 
     private void OnBatteryChanged(EntityUid uid, IPCComponent comp, ChangeChargeEvent args)
     {
-        if (TryComp<BatteryComponent>(uid, out var battery))
-            UpdateBatteryAlert(uid, comp, battery);
+        if (!TryComp<BatteryComponent>(uid, out var battery))
+            return;
+
+        UpdateBatteryAlert(uid, comp, battery);
     }
 
     private void OnToggleAction(EntityUid uid, IPCComponent comp, ToggleDrainActionEvent args)
@@ -93,7 +95,8 @@ public sealed class IPCSystem : EntitySystem
     private void SetDrainActivated(EntityUid uid, IPCComponent comp, bool value)
     {
         comp.DrainActivated = value;
-        _actions.SetToggled(comp.ActionEntity, value);
+        if (comp.ActionEntity.HasValue)
+            _actions.SetToggled(comp.ActionEntity.Value, value);
 
         if (value && TryComp<BatteryComponent>(uid, out _))
         {
@@ -109,7 +112,9 @@ public sealed class IPCSystem : EntitySystem
         if (!TryComp<BatteryComponent>(uid, out var battery))
             return;
 
-        var chargePercent = battery.CurrentCharge / battery.MaxCharge;
+        var chargePercent = battery.MaxCharge > 0
+            ? battery.CurrentCharge / battery.MaxCharge
+            : 0f;
 
         if (chargePercent < comp.BatteryLowThreshold)
             args.ModifySpeed(comp.MovementPenalty);
@@ -117,31 +122,33 @@ public sealed class IPCSystem : EntitySystem
 
     private void UpdateBatteryAlert(EntityUid uid, IPCComponent comp, BatteryComponent battery)
     {
-        var chargePercent = battery.CurrentCharge / battery.MaxCharge;
+        var chargePercent = battery.MaxCharge > 0
+            ? battery.CurrentCharge / battery.MaxCharge
+            : 0f;
+
         short newLevel;
         var maxLevels = IPCComponent.MaxBatteryAlertLevels;
 
-        if (battery.MaxCharge <= 0 || chargePercent < comp.BatteryLowThreshold)
-        {
-            _alerts.ClearAlert(uid, comp.BatteryAlert);
-            _alerts.ShowAlert(uid, comp.NoBatteryAlert);
+        if (battery.CurrentCharge <= 0)
             newLevel = 0;
-        }
         else
-        {
-            newLevel = (short)Math.Clamp(MathF.Round(chargePercent * maxLevels), 1, maxLevels);
+            newLevel = (short)Math.Clamp(MathF.Ceiling(chargePercent * maxLevels), 1, maxLevels);
 
-            if (comp.LastBatteryLevel != newLevel)
+        if (comp.LastBatteryLevel != newLevel)
+        {
+            if (newLevel == 0)
+            {
+                _alerts.ClearAlert(uid, comp.BatteryAlert);
+                _alerts.ShowAlert(uid, comp.NoBatteryAlert);
+            }
+            else
             {
                 _alerts.ClearAlert(uid, comp.NoBatteryAlert);
                 _alerts.ShowAlert(uid, comp.BatteryAlert, newLevel);
             }
+
+            comp.LastBatteryLevel = newLevel;
+            _movementSpeedModifier.RefreshMovementSpeedModifiers(uid);
         }
-
-        if (comp.LastBatteryLevel == newLevel)
-            return;
-
-        comp.LastBatteryLevel = newLevel;
-        _movementSpeedModifier.RefreshMovementSpeedModifiers(uid);
     }
 }
