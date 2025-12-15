@@ -41,7 +41,6 @@
     species:
     # DS14-species-start
     - IPC
-    - IPS
     # DS14-species-end
 
 - type: loadoutEffectGroup

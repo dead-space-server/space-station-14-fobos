@@ -13,9 +13,16 @@
     - GeneralLanguage
   - type: TypingIndicator
     proto: vulpkanin
-  - type: Vulpkanin
   - type: Sanity
   - type: RoarAccent
+  - type: Tag
+    tags:
+    - VulpkaninEmotes
+    - TailEmotes
+    - CanPilot
+    - FootstepSound
+    - DoorBumpOpener
+    - AnomalyHost
   # DS14-end
   - type: Hunger
   - type: Thirst

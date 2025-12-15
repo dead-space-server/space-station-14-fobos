@@ -41,6 +41,9 @@
   id: CakeBrain
 
 - type: Tag
+  id: CatEmotes
+
+- type: Tag
   id: CaviarHolo
 
 - type: Tag
@@ -68,6 +71,9 @@
   id: DonkCo
 
 - type: Tag
+  id: Demon
+
+- type: Tag
   id: EnergyCartridge
 
 - type: Tag
@@ -80,7 +86,16 @@
   id: EncryptionTaipan
 
 - type: Tag
+  id: FlamethrowerBackTank
+
+- type: Tag
+  id: FlamethrowerNozzle
+
+- type: Tag
   id: FelinidFood
+
+- type: Tag
+  id: FelinidEmotes
 
 - type: Tag
   id: FittableInBackpackCase
@@ -128,6 +143,9 @@
   id: LauncherChinaLake
 
 - type: Tag
+  id: Lighter
+
+- type: Tag
   id: LightMachineGunL6
 
 - type: Tag
@@ -170,6 +188,9 @@
   id: RedFlower
 
 - type: Tag
+  id: Nanopaste
+
+- type: Tag
   id: Necro
 
 - type: Tag
@@ -188,6 +209,9 @@
   id: Plasteel
 
 - type: Tag
+  id: Radiance
+
+- type: Tag
   id: RealCapfruit
 
 - type: Tag
@@ -197,7 +221,10 @@
   id: ShotgunBulldog
 
 - type: Tag
-  id: SiliconIPSIPCEmotes
+  id: SiliconIPCEmotes
+
+- type: Tag
+  id: SlimePersonEmotes
 
 - type: Tag
   id: SMGTommyGun
@@ -234,6 +261,9 @@
 
 - type: Tag
   id: SyndieSabre
+
+- type: Tag
+  id: TailEmotes
 
 - type: Tag
   id: Taipan
@@ -288,6 +318,9 @@
 
 - type: Tag
   id: TrashBagBlue
+
+- type: Tag
+  id: VulpkaninEmotes
 
 - type: Tag
   id: WeldingMaskFlame

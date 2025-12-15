@@ -7,7 +7,6 @@ using Content.Shared.Damage;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Ghost;
-using Content.Shared.Revenant.Components;
 using Content.Shared.Corvax.TTS;
 using Content.Shared.Mind.Components;
 using Content.Shared.DeadSpace.Languages.Components;
@@ -27,7 +26,9 @@ public sealed class RevenantMindCapturedSystem : EntitySystem
     public override void Initialize()
     {
         SubscribeLocalEvent<RevenantMindCapturedComponent, MindUnvisitedMessage>(OnUnvisited);
+        SubscribeLocalEvent<RevenantMindCapturedComponent, MobStateChangedEvent>(OnStateChange);
     }
+
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
@@ -38,7 +39,9 @@ public sealed class RevenantMindCapturedSystem : EntitySystem
         {
             comp.Accumulator += frameTime;
 
-            if (HasComp<MobStateComponent>(uid) && (_mobState.IsDead(uid) || _mobState.IsCritical(uid)))
+            if (_mind.TryGetMind(comp.RevenantUid, out var _, out var mind)
+            && mind.IsVisitingEntity
+            && mind.VisitingEntity != uid)
                 EndCapture(uid, comp);
 
             if (comp.Accumulator < comp.DurationOfCapture)
@@ -47,20 +50,25 @@ public sealed class RevenantMindCapturedSystem : EntitySystem
             EndCapture(uid, comp);
         }
     }
+
+    private void OnStateChange(EntityUid uid, RevenantMindCapturedComponent comp, MobStateChangedEvent args)
+    {
+        if (!_mobState.IsAlive(uid))
+            EndCapture(uid, comp);
+    }
+
     private void EndCapture(EntityUid uid, RevenantMindCapturedComponent comp)
     {
+        if (_mobThresholdSystem.TryGetThresholdForState(uid, MobState.Critical, out var crit))
+            _mobThresholdSystem.SetMobStateThreshold(uid, comp.CritThreshold, MobState.Critical);
 
-        _mobThresholdSystem.SetMobStateThreshold(uid, comp.DeadThreshold, MobState.Dead);
-        _mobThresholdSystem.SetMobStateThreshold(uid, comp.CritThreshold, MobState.Critical);
+        if (_mobThresholdSystem.TryGetThresholdForState(uid, MobState.Dead, out var dead))
+        {
+            _mobThresholdSystem.SetMobStateThreshold(uid, comp.DeadThreshold, MobState.Dead);
 
-
-        if (!_mind.TryGetMind(comp.RevenantUid, out var mindId, out var mind))
-            return;
-
-        if (!TryComp<DamageableComponent>(uid, out var damageable)
-            || !_mobThresholdSystem.TryGetThresholdForState(uid, MobState.Dead, out var dead)
-            || damageable.TotalDamage > dead.Value)
-            _mobState.ChangeMobState(uid, MobState.Dead);
+            if (TryComp<DamageableComponent>(uid, out var damageable) && damageable.TotalDamage > dead.Value)
+                _mobState.ChangeMobState(uid, MobState.Dead);
+        }
 
         if (_container.IsEntityInContainer(comp.RevenantUid))
             _container.EmptyContainer(comp.RevenantContainer);
@@ -79,13 +87,14 @@ public sealed class RevenantMindCapturedSystem : EntitySystem
             language.KnownLanguages = comp.ReturnKnownLanguages;
         }
 
-        _mind.UnVisit(mindId, mind);
+        if (_mind.TryGetMind(comp.RevenantUid, out var mindId, out var mind) && mind.VisitingEntity == uid)
+            _mind.UnVisit(mindId, mind);
+
         RemCompDeferred(uid, comp);
     }
-
     private void OnUnvisited(EntityUid uid, RevenantMindCapturedComponent comp, MindUnvisitedMessage args)
     {
         if (TryComp<GhostComponent>(comp.TargetUid, out var ghostComponent))
-            _ghost.SetCanReturnToBody(ghostComponent, true);
+            _ghost.SetCanReturnToBody((comp.TargetUid, ghostComponent), true);
     }
 }

@@ -1,0 +1,27 @@
+﻿- type: constructionGraph
+  id: BlockWalls
+  start: start
+  graph:
+  - node: start
+    edges:
+    - to: snowWall
+      completed:
+      - !type:SnapToGrid
+        southRotation: true
+      steps:
+      - material: Snow
+        amount: 4
+        doAfter: 5
+
+  - node: snowWall
+    entity: WallSnowCobblebrick
+    edges:
+    - to: start
+      completed:
+      - !type:SpawnPrototype
+        prototype: BlockSnow1
+        amount: 4
+      - !type:DeleteEntity
+      steps:
+      - tool: Digging
+        doAfter: 10

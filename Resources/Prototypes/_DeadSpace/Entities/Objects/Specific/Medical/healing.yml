@@ -1,0 +1,52 @@
+﻿- type: entity
+  name: нанопаста
+  description: Медицинский препарат, используемый для лечения повреждений у синтетических и кибернетических организмов. Она содержит наноботов, которые восстанавливают поврежденные ткани и улучшают функциональность систем организма.
+  parent: BaseHealingItem
+  id: Nanopaste
+  suffix: Полный
+  components:
+  - type: Tag
+    tags:
+    - Nanopaste
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Specific/Medical/medical.rsi
+    state: nanopaste
+  - type: Item
+    heldPrefix: nanopaste
+  - type: Healing
+    damageContainers:
+    - Silicon
+    damage:
+      types:
+        Heat: -10
+        Shock: -10
+        Blunt: -10
+        Slash: -10
+        Piercing: -10
+    healingBeginSound:
+      path: "/Audio/Items/Medical/ointment_begin.ogg"
+    healingEndSound:
+      path: "/Audio/Items/Medical/ointment_end.ogg"
+  - type: Stack
+    stackType: Nanopaste
+    count: 10
+  - type: StackPrice
+    price: 0
+
+- type: entity
+  id: Nanopaste1
+  parent: Nanopaste
+  suffix: Один
+  components:
+  - type: Stack
+    stackType: Nanopaste
+    count: 1
+
+- type: entity
+  id: Nanopaste5
+  parent: Nanopaste
+  suffix: 5
+  components:
+  - type: Stack
+    stackType: Nanopaste
+    count: 5

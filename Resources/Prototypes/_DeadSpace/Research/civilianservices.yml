@@ -1,0 +1,13 @@
+# Tier 3
+
+- type: technology
+  id: CompactDefibrillatorTechnology
+  name: research-technology-compact-defibrillator
+  icon:
+    sprite: Objects/Specific/Medical/defibsmall.rsi
+    state: icon
+  discipline: CivilianServices
+  tier: 3
+  cost: 15000
+  recipeUnlocks:
+  - CompactDefibrillator

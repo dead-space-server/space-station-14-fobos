@@ -38,7 +38,6 @@ using Content.Shared.Dataset;
 using Content.DeadSpace.Interfaces.Server;
 using Content.Shared.DeadSpace.Languages.Components;
 using Content.Server.DeadSpace.Languages;
-using Content.Shared._RMC14.Chat;
 using Robust.Server.Console;
 using Content.Shared.DeadSpace.Languages.Prototypes;
 
@@ -351,7 +350,7 @@ public sealed partial class ChatSystem : SharedChatSystem
         sender ??= Loc.GetString("chat-manager-sender-announcement");
 
         // DS14-Languages-start
-        string lexiconMessage = _language.ReplaceWordsWithLexicon(message, languageId);
+        string lexiconMessage = _language.TransformWord(message, languageId);
 
         string langName = _language.GetLangName(languageId);
 
@@ -522,7 +521,7 @@ public sealed partial class ChatSystem : SharedChatSystem
         string lexiconMessage = message;
 
         if (TryComp<LanguageComponent>(source, out var language))
-            lexiconMessage = _language.ReplaceWordsWithLexicon(message, language.SelectedLanguage);
+            lexiconMessage = _language.TransformWord(message, language.SelectedLanguage);
 
         string langName = _language.GetLangName(source, language);
 
@@ -545,7 +544,7 @@ public sealed partial class ChatSystem : SharedChatSystem
 
         if (language != null)
         {
-            lexiconMessage = _language.ReplaceWordsWithLexicon(message, language.SelectedLanguage);
+            lexiconMessage = _language.TransformWord(message, language.SelectedLanguage);
 
             lexiconWrappedMessage = wrappedMessageUnk.Replace(FormattedMessage.EscapeText(message), FormattedMessage.EscapeText(lexiconMessage));
         }
@@ -620,7 +619,7 @@ public sealed partial class ChatSystem : SharedChatSystem
         string lexiconMessage = message;
 
         if (TryComp<LanguageComponent>(source, out var language))
-            lexiconMessage = _language.ReplaceWordsWithLexicon(message, language.SelectedLanguage);
+            lexiconMessage = _language.TransformWord(message, language.SelectedLanguage);
 
         string langName = _language.GetLangName(source, language);
 
@@ -685,7 +684,7 @@ public sealed partial class ChatSystem : SharedChatSystem
                 _chatManager.ChatMessageToOne(ChatChannel.Whisper, obfuscatedMessage, wrappedUnknownMessage, source, false, session.Channel);
         }
 
-        _replay.RecordServerMessage(new ChatMessage(ChatChannel.Whisper, message, wrappedMessage, GetNetEntity(source), null, MessageRangeHideChatForReplay(range), repeatCheckSender: !HasComp<ChatRepeatIgnoreSenderComponent>(source))); // RMC14
+        _replay.RecordServerMessage(new ChatMessage(ChatChannel.Whisper, message, wrappedMessage, GetNetEntity(source), null, MessageRangeHideChatForReplay(range)));
 
         var selectedLanguage = language != null ? language.SelectedLanguage : string.Empty; // DS14-Languages
         var ev = new EntitySpokeEvent(source, message, originalMessage, lexiconMessage, selectedLanguage, channel, obfuscatedMessage); // DS14-Languages
@@ -881,7 +880,7 @@ public sealed partial class ChatSystem : SharedChatSystem
             _chatManager.ChatMessageToOne(channel, totalMessage, totalWrappedMessage, source, entHideChat, session.Channel, author: author);
         }
 
-        _replay.RecordServerMessage(new ChatMessage(channel, message, wrappedMessage, GetNetEntity(source), null, MessageRangeHideChatForReplay(range),repeatCheckSender: !HasComp<ChatRepeatIgnoreSenderComponent>(source))); // RMC14
+        _replay.RecordServerMessage(new ChatMessage(channel, message, wrappedMessage, GetNetEntity(source), null, MessageRangeHideChatForReplay(range)));
     }
 
     /// <summary>

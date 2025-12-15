@@ -4,13 +4,15 @@ using Robust.Shared.Random;
 using Content.Shared.DeadSpace.Languages.Prototypes;
 using Content.Shared.DeadSpace.Languages.Components;
 using Robust.Shared.Prototypes;
-using Content.Shared.Actions;
 using Robust.Shared.Player;
 using Content.Shared.DeadSpace.Languages;
 using Robust.Server.Player;
 using Content.Shared.Chat;
 using System.Linq;
 using Content.Shared.Polymorph;
+using Robust.Shared.GameStates;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Content.Server.DeadSpace.Languages;
 
@@ -18,32 +20,36 @@ public sealed class LanguageSystem : EntitySystem
 {
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
-    [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     public static readonly ProtoId<LanguagePrototype> DefaultLanguageId = "GeneralLanguage";
-
+    private readonly Dictionary<ProtoId<LanguagePrototype>, List<Regex>> _regexCache = new();
     public override void Initialize()
     {
         base.Initialize();
 
-        SubscribeLocalEvent<LanguageComponent, MapInitEvent>(OnComponentMapInit);
-        SubscribeLocalEvent<LanguageComponent, ComponentShutdown>(OnShutdown);
-        SubscribeLocalEvent<LanguageComponent, SelectLanguageActionEvent>(OnSelect);
+        SubscribeLocalEvent<LanguageComponent, ComponentGetState>(OnGetState);
+
         SubscribeLocalEvent<LanguageComponent, PolymorphedEvent>(OnPolymorphed);
 
-        SubscribeNetworkEvent<SelectLanguageEvent>(OnSelectLanguage);
+        SubscribeAllEvent<SelectLanguageEvent>(OnSelectLanguage);
     }
 
-    private void OnComponentMapInit(EntityUid uid, LanguageComponent component, MapInitEvent args)
+    private void OnSelectLanguage(SelectLanguageEvent msg, EntitySessionEventArgs args)
     {
-        _actionsSystem.AddAction(uid, ref component.SelectLanguageActionEntity, component.SelectLanguageAction);
+        var player = args.SenderSession.AttachedEntity;
+
+        if (!player.HasValue)
+            return;
+
+        if (TryComp<LanguageComponent>(player, out var language))
+            language.SelectedLanguage = msg.PrototypeId;
     }
 
-    private void OnShutdown(EntityUid uid, LanguageComponent component, ComponentShutdown args)
+    private void OnGetState(EntityUid uid, LanguageComponent component, ref ComponentGetState args)
     {
-        _actionsSystem.RemoveAction(uid, component.SelectLanguageActionEntity);
+        args.State = new LanguageComponentState(component.KnownLanguages, component.CantSpeakLanguages);
     }
 
     private void OnPolymorphed(EntityUid uid, LanguageComponent component, PolymorphedEvent args)
@@ -52,49 +58,110 @@ public sealed class LanguageSystem : EntitySystem
         lang.CopyFrom(component);
     }
 
-    private void OnSelect(EntityUid uid, LanguageComponent component, SelectLanguageActionEvent args)
-    {
-        if (args.Handled)
-            return;
+    public static int GetDeterministicHashCode(string str) { unchecked { int hash1 = (5381 << 16) + 5381; int hash2 = hash1; for (int i = 0; i < str.Length; i += 2) { hash1 = ((hash1 << 5) + hash1) ^ str[i]; if (i + 1 < str.Length) hash2 = ((hash2 << 5) + hash2) ^ str[i + 1]; } return hash1 + (hash2 * 1566083941); } }
 
-        if (EntityManager.TryGetComponent<ActorComponent?>(uid, out var actorComponent))
+    public string TransformWord(string word, ProtoId<LanguagePrototype>? languageId)
+    {
+        if (!_prototypeManager.TryIndex(languageId, out var proto))
+            return word;
+
+        var hash = GetDeterministicHashCode(word + proto.ID);
+
+        switch (proto.SpeechMode)
         {
-            var ev = new RequestLanguageMenuEvent(uid.Id, component.KnownLanguages, component.CantSpeakLanguages);
-            RaiseNetworkEvent(ev, actorComponent.PlayerSession);
+            case SpeechMode.Lexicon:
+                return TransformLexicon(hash, proto);
+
+            case SpeechMode.Alphabet:
+                return TransformAlphabet(hash, proto);
+
+            case SpeechMode.Syllable:
+                return TransformSyllableText(word, proto);
+
+            case SpeechMode.Pattern:
+                return TransformPattern(word, proto);
+
+            default:
+                return word;
+        }
+    }
+
+    private string TransformLexicon(int hash, LanguagePrototype proto)
+    {
+        var list = proto.Lexicon;
+        return list[Math.Abs(hash) % list.Count];
+    }
+
+    private string TransformAlphabet(int hash, LanguagePrototype proto)
+    {
+        var alphabet = proto.Alphabet;
+        int len = proto.GenerateLength;
+
+        var sb = new StringBuilder();
+
+        int localHash = hash;
+        for (int i = 0; i < len; i++)
+        {
+            int index = Math.Abs(localHash) % alphabet.Count;
+            sb.Append(alphabet[index]);
+
+            localHash = GetDeterministicHashCode(localHash.ToString());
         }
 
-        args.Handled = true;
+        return sb.ToString();
     }
 
-    private void OnSelectLanguage(SelectLanguageEvent msg)
+    private string TransformSyllableText(string text, LanguagePrototype proto)
     {
-        if (EntityManager.TryGetComponent<LanguageComponent>(new EntityUid(msg.Target), out var language))
-            language.SelectedLanguage = msg.PrototypeId;
-    }
+        if (string.IsNullOrWhiteSpace(text) || proto.Syllables.Count == 0)
+            return text;
 
-    public string ReplaceWordsWithLexicon(string message, ProtoId<LanguagePrototype> languageId)
-    {
-        if (String.IsNullOrEmpty(languageId))
-            return message;
+        var words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var sb = new StringBuilder();
 
-        if (!_prototypeManager.TryIndex(languageId, out var languageProto))
-            return message;
-
-        var lexiconWords = languageProto.Lexicon;
-
-        if (lexiconWords == null || lexiconWords.Count == 0)
-            return message;
-
-        var words = message.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        for (int i = 0; i < words.Length; i++)
+        foreach (var word in words)
         {
-            if (!string.IsNullOrWhiteSpace(words[i]))
+            var hash = GetDeterministicHashCode(word + proto.ID);
+
+            int count = proto.MinSyllables +
+                (Math.Abs(hash) % (proto.MaxSyllables - proto.MinSyllables + 1));
+
+            var localHash = hash;
+            for (int i = 0; i < count; i++)
             {
-                var randIndex = _random.Next(lexiconWords.Count);
-                words[i] = lexiconWords[randIndex];
+                sb.Append(proto.Syllables[Math.Abs(localHash) % proto.Syllables.Count]);
+                localHash = GetDeterministicHashCode(localHash.ToString());
             }
+
+            sb.Append(' ');
         }
-        return string.Join(' ', words);
+
+        return sb.ToString().Trim();
+    }
+
+    private string TransformPattern(string word, LanguagePrototype proto)
+    {
+        if (!_regexCache.TryGetValue(proto.ID, out var regexList))
+        {
+            regexList = new List<Regex>(proto.Patterns.Count);
+
+            for (int i = 0; i < proto.Patterns.Count; i++)
+            {
+                var r = new Regex(
+                    proto.Patterns[i],
+                    RegexOptions.IgnoreCase | RegexOptions.Compiled
+                );
+                regexList.Add(r);
+            }
+
+            _regexCache[proto.ID] = regexList;
+        }
+
+        string result = word;
+        for (int i = 0; i < regexList.Count; i++)
+            result = regexList[i].Replace(result, proto.Replacements[i]);
+
+        return result;
     }
 
     public string GetLangName(ProtoId<LanguagePrototype>? languageId)
@@ -142,6 +209,15 @@ public sealed class LanguageSystem : EntitySystem
             return true;
 
         return languages.Contains(senderLanguageId);
+    }
+
+    public void AddKnowLanguage(EntityUid uid, ProtoId<LanguagePrototype> languageId, LanguageComponent? component = null)
+    {
+        if (!Resolve(uid, ref component, false))
+            return;
+
+        component.KnownLanguages.Add(languageId);
+        Dirty(uid, component);
     }
 
     public bool NeedGenerateTTS(EntityUid sourceUid, ProtoId<LanguagePrototype> prototypeId, bool isWhisper)
@@ -231,7 +307,10 @@ public sealed class LanguageSystem : EntitySystem
         foreach (var session in _playerManager.Sessions)
         {
             if (session.AttachedEntity == null)
+            {
+                understanding.Add(session);
                 continue;
+            }
 
             if (KnowsLanguage(session.AttachedEntity.Value, languageId))
                 understanding.Add(session);

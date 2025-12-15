@@ -220,3 +220,23 @@
     sprite: _DeadSpace/Clothing/OuterClothing/Coats/cargo_jacket.rsi
   - type: Clothing
     sprite: _DeadSpace/Clothing/OuterClothing/Coats/cargo_jacket.rsi
+
+- type: entity
+  parent: ClothingOuterStorageBase
+  id: ClothingOuterCoatCentcomOfficer
+  name: шинель офицера Центком
+  description: Шинель из плотной ткани с вшитыми элементами брони, которую носят офицеры Центком.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/OuterClothing/Coats/centcom_officer.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/OuterClothing/Coats/centcom_officer.rsi
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.3
+        Heat: 0.9
+  - type: ExplosionResistance
+    damageCoefficient: 0.9

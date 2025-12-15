@@ -1,0 +1,24 @@
+{
+    "version": 1,
+	"license": "CC-BY-SA-3.0",
+	"copyright": "Taken from https://github.com/TauCetiStation/TauCetiClassic/blob/HEAD/icons/holidays/new_year/decorations.dmi",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "small_christmas_tree"
+        },
+        {
+            "name": "small_christmas_tree_lights",
+            "delays": [
+                [
+                    0.2,
+                    0.2,
+                    0.2
+                ]
+            ]
+        }
+    ]
+}
