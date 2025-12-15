@@ -18,6 +18,8 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     private VirusEvolutionConsoleBoundUserInterfaceState? _lastUpdate;
     private readonly List<VirusSymptomPrototype> _availableSymptoms = new();
+    private readonly List<BodyPrototype> _availableBodies = new();
+
 
     public VirusEvolutionConsoleWindow()
     {
@@ -25,12 +27,14 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
         RobustXamlLoader.Load(this);
 
         AvailableSymptomsList.OnItemSelected += OnAvailableSymptomSelected;
+        AvailableBodiesList.OnItemSelected += OnAvailableBodySelected;
     }
 
     public void Populate(VirusEvolutionConsoleBoundUserInterfaceState state)
     {
         _lastUpdate = state;
         MutationPointsLabel.Text = Loc.GetString("virus-evolution-mutation-points", ("points", state.MutationPoints));
+        WhitelistMutationPointsLabel.Text = Loc.GetString("virus-evolution-mutation-points", ("points", state.MutationPoints));
 
         if (state.HasVirus == false)
         {
@@ -40,14 +44,12 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
             EvolutionServerFar.Visible = false;
             EvolutionContents.Visible = false;
 
-            WhitelistServerMissing.Visible = false;
-            WhitelistServerFar.Visible = false;
             WhitelistContents.Visible = false;
 
             BuyBodyButton.Visible = false;
             BuySymptomButton.Visible = false;
             AvailableSymptomsList.Visible = false;
-            BodyWhitelistList.Visible = false;
+
             return;
         }
         else
@@ -61,14 +63,11 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
             EvolutionServerFar.Visible = false;
             EvolutionContents.Visible = false;
 
-            WhitelistServerMissing.Visible = true;
-            WhitelistServerFar.Visible = false;
             WhitelistContents.Visible = false;
 
             BuyBodyButton.Visible = false;
             BuySymptomButton.Visible = false;
             AvailableSymptomsList.Visible = false;
-            BodyWhitelistList.Visible = false;
         }
         else if (!state.DataServerInRange || !state.SolutionAnalyzerInRange)
         {
@@ -76,14 +75,11 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
             EvolutionServerFar.Visible = true;
             EvolutionContents.Visible = false;
 
-            WhitelistServerMissing.Visible = false;
-            WhitelistServerFar.Visible = true;
             WhitelistContents.Visible = false;
 
             BuyBodyButton.Visible = false;
             BuySymptomButton.Visible = false;
             AvailableSymptomsList.Visible = false;
-            BodyWhitelistList.Visible = false;
         }
         else
         {
@@ -91,14 +87,11 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
             EvolutionServerFar.Visible = false;
             EvolutionContents.Visible = true;
 
-            WhitelistServerMissing.Visible = false;
-            WhitelistServerFar.Visible = false;
             WhitelistContents.Visible = true;
 
             BuyBodyButton.Visible = true;
             BuySymptomButton.Visible = true;
             AvailableSymptomsList.Visible = true;
-            BodyWhitelistList.Visible = true;
         }
 
         // Активные симптомы
@@ -120,7 +113,10 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
                     continue;
 
                 var price = proto.Price * Math.Max(1, state.ActiveSymptoms.Count);
-                AvailableSymptomsList.AddItem($"{proto.Name} ({price})");
+                AvailableSymptomsList.AddItem(
+                    $"{proto.Name} ({price})",
+                    metadata: proto.ID
+                );
 
                 _availableSymptoms.Add(proto);
             }
@@ -128,27 +124,35 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
         }
         if (state.BodyWhitelist != null)
         {
-            BodyWhitelistList.Clear();
+            ActiveBodiesList.Clear();
+
             foreach (var body in state.BodyWhitelist)
             {
-                BodyWhitelistList.AddItem(body.ToString());
+                if (_prototype.TryIndex(body, out var proto))
+                    ActiveBodiesList.AddItem(proto.Name);
             }
+
+
+            AvailableBodiesList.Clear();
+            _availableBodies.Clear();
 
             foreach (var proto in _prototype.EnumeratePrototypes<BodyPrototype>())
             {
-                if (!state.BodyWhitelist.Contains(proto.ID))
-                {
-                    var price = BaseVirusSettings.StaticBodyPrice * Math.Max(1, state.BodyWhitelist.Count);
-                    BodyWhitelistList.AddItem($"{proto.Name}-({price})");
-                }
+                if (state.BodyWhitelist.Contains(proto.ID))
+                    continue;
+
+                var price = BaseVirusSettings.StaticBodyPrice
+                            * Math.Max(1, state.BodyWhitelist.Count);
+
+                AvailableBodiesList.AddItem(
+                    $"{proto.Name} ({price})",
+                    metadata: proto.ID
+                );
+
+                _availableBodies.Add(proto);
             }
+
         }
-
-        var selectedBody = BodyWhitelistList.GetSelected();
-        var selectedSymp = AvailableSymptomsList.GetSelected();
-
-        BuyBodyButton.Disabled = !selectedBody.Any();
-        BuySymptomButton.Disabled = !selectedSymp.Any();
     }
 
     private void OnAvailableSymptomSelected(ItemList.ItemListSelectedEventArgs args)
@@ -156,14 +160,27 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
         if (_lastUpdate == null)
             return;
 
-        if (args.ItemIndex < 0 || args.ItemIndex >= _availableSymptoms.Count)
+        if (args.ItemIndex < 0)
+        {
+            BuySymptomButton.Disabled = true;
+            SymptomCostLabel.Text = string.Empty;
+            SymptomDescription.Clear();
             return;
+        }
+
+        if (args.ItemIndex >= _availableSymptoms.Count)
+        {
+            BuySymptomButton.Disabled = true;
+            return;
+        }
 
         var proto = _availableSymptoms[args.ItemIndex];
 
         SymptomDescription.SetMessage(proto.Description);
 
-        var price = proto.Price * Math.Max(1, _lastUpdate.ActiveSymptoms.Count);
+        var price = proto.Price
+                    * Math.Max(1, _lastUpdate.ActiveSymptoms.Count);
+
         SymptomCostLabel.Text = Loc.GetString(
             "virus-evolution-cost-label",
             ("cost", price)
@@ -171,5 +188,32 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
 
         BuySymptomButton.Disabled = _lastUpdate.MutationPoints < price;
     }
+
+    private void OnAvailableBodySelected(ItemList.ItemListSelectedEventArgs args)
+    {
+        if (_lastUpdate == null)
+            return;
+
+        if (args.ItemIndex < 0 || args.ItemIndex >= _availableBodies.Count)
+        {
+            BuyBodyButton.Disabled = true;
+            BodyCostLabel.Text = string.Empty;
+            return;
+        }
+
+        var proto = _availableBodies[args.ItemIndex];
+
+        var price = BaseVirusSettings.StaticBodyPrice
+                    * Math.Max(1, _lastUpdate.BodyWhitelist.Count);
+
+        BodyCostLabel.Text = Loc.GetString(
+            "virus-evolution-cost-label",
+            ("cost", price)
+        );
+
+        BuyBodyButton.Disabled = _lastUpdate.MutationPoints < price;
+    }
+
+
 
 }

@@ -44,7 +44,7 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
         if (component.VirusSolutionAnalyzer == null)
             return;
 
-        if (TryComp<VirusSolutionAnalyzerComponent>(component.VirusSolutionAnalyzer, out var analyzer))
+        if (!TryComp<VirusSolutionAnalyzerComponent>(component.VirusSolutionAnalyzer, out var analyzer))
             return;
 
         if (component.VirusDiagnoserDataServer == null
@@ -53,7 +53,7 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
 
         VirusData? virusData = null;
 
-        if (_virusSolutionAnalyzer.TryGetVirusDataFromContainer(component.VirusSolutionAnalyzer.Value, out var virusDataList)) 
+        if (_virusSolutionAnalyzer.TryGetVirusDataFromContainer(component.VirusSolutionAnalyzer.Value, out var virusDataList))
             virusData = virusDataList.FirstOrDefault();
 
         switch (args.Button)

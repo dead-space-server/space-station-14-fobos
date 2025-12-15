@@ -27,8 +27,6 @@ namespace Content.Client.DeadSpace.Virus.UI
 
             _window.BuySymptomButton.OnPressed += _ =>
                 SendMessage(new EvolutionConsoleUiButtonPressedMessage(EvolutionConsoleUiButton.EvolutionSymptom, newSymptom: GenSelectedSymptom()));
-
-
         }
 
         protected override void UpdateState(BoundUserInterfaceState state)
@@ -43,12 +41,8 @@ namespace Content.Client.DeadSpace.Virus.UI
             if (_window == null)
                 return null;
 
-            var symptom = _window.ActiveSymptomsList.GetSelected().FirstOrDefault()?.Text;
-
-            if (symptom == null)
-                return null;
-
-            return symptom.Split('-')[0];
+            var item = _window.AvailableSymptomsList.GetSelected().FirstOrDefault();
+            return item?.Metadata as string;
         }
 
         private string? GenSelectedBody()
@@ -56,12 +50,8 @@ namespace Content.Client.DeadSpace.Virus.UI
             if (_window == null)
                 return null;
 
-            var body = _window.BodyWhitelistList.GetSelected().FirstOrDefault()?.Text;
-
-            if (body == null)
-                return null;
-
-            return body.Split('-')[0];
+            var item = _window.AvailableBodiesList.GetSelected().FirstOrDefault();
+            return item?.Metadata as string;
         }
 
     }

@@ -138,7 +138,8 @@ virus-evolution-cost-label =
 
 ### WHITELIST TAB ###
 
-virus-evolution-whitelist = Доступные тела
+virus-evolution-available-bodies = Доступные тела
+virus-evolution-active-bodies = Активные тела
 virus-evolution-buy-body = Добавить тело
 
 

@@ -51,7 +51,7 @@
                             </BoxContainer>
 
 
-                            <Label Name="MutationPointsLabel"/>
+                            <Label Name="WhitelistMutationPointsLabel"/>
                             <Label Name="SymptomCostLabel"/>
 
                             <Button Name="BuySymptomButton"
@@ -110,54 +110,61 @@
 
         <!-- ================= WHITELIST TAB ================= -->
         <BoxContainer Name="WhitelistTab"
-                      Orientation="Vertical"
-                      VerticalExpand="True">
+                    Orientation="Vertical"
+                    VerticalExpand="True">
 
-            <!-- CONTENTS -->
             <PanelContainer Name="WhitelistContents"
                             StyleClasses="Inset"
                             VerticalExpand="True"
                             Margin="5">
 
-                <BoxContainer Orientation="Vertical"
-                              Margin="5"
-                              VerticalExpand="True">
+                <BoxContainer Orientation="Horizontal"
+                            HorizontalExpand="True"
+                            VerticalExpand="True">
 
-                    <Label Text="{Loc 'virus-evolution-whitelist'}"/>
+                    <!-- Available bodies -->
+                    <PanelContainer MinWidth="220" Margin="5">
+                        <BoxContainer Orientation="Vertical">
+                            <Label Text="{Loc 'virus-evolution-available-bodies'}"/>
+                            <ScrollContainer VerticalExpand="True">
+                                <ItemList Name="AvailableBodiesList"
+                                        Access="Public"
+                                        SelectMode="Single"/>
+                            </ScrollContainer>
+                        </BoxContainer>
+                    </PanelContainer>
 
-                    <ScrollContainer VerticalExpand="True">
-                        <ItemList Name="BodyWhitelistList"
-                                  Access="Public"
-                                  SelectMode="Single"/>
-                    </ScrollContainer>
+                    <!-- Center -->
+                    <PanelContainer Margin="5"
+                                    HorizontalExpand="True"
+                                    VerticalExpand="True">
+                        <BoxContainer Orientation="Vertical">
+                            <Label Name="MutationPointsLabel"/>
+                            <Label Name="BodyCostLabel"/>
 
-                    <Button Name="BuyBodyButton"
-                            Access="Public"
-                            Text="{Loc 'virus-evolution-buy-body'}"
-                            Disabled="True"/>
+                            <Button Name="BuyBodyButton"
+                                    Access="Public"
+                                    Text="{Loc 'virus-evolution-buy-body'}"
+                                    Disabled="True"/>
+                        </BoxContainer>
+                    </PanelContainer>
+
+                    <!-- Active bodies -->
+                    <PanelContainer MinWidth="220" Margin="5">
+                        <BoxContainer Orientation="Vertical">
+                            <Label Text="{Loc 'virus-evolution-active-bodies'}"/>
+                            <ScrollContainer VerticalExpand="True">
+                                <ItemList Name="ActiveBodiesList"
+                                        Access="Public"
+                                        SelectMode="None"/>
+                            </ScrollContainer>
+                        </BoxContainer>
+                    </PanelContainer>
+
                 </BoxContainer>
-
             </PanelContainer>
 
-            <!-- SERVER MISSING -->
-            <PanelContainer Name="WhitelistServerMissing"
-                            StyleClasses="Inset"
-                            VerticalExpand="True"
-                            Margin="5">
-                <Label HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       Text="{Loc 'virus-evolution-dataserver-missing'}"/>
-            </PanelContainer>
-
-            <!-- SERVER FAR -->
-            <PanelContainer Name="WhitelistServerFar"
-                            StyleClasses="Inset"
-                            VerticalExpand="True"
-                            Margin="5">
-                <Label HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       Text="{Loc 'virus-evolution-dataserver-far'}"/>
-            </PanelContainer>
+            <!-- SERVER MISSING / FAR — без изменений -->
 
         </BoxContainer>
 
