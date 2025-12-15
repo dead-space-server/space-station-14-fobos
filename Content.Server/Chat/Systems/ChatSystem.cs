@@ -379,41 +379,28 @@ public sealed partial class ChatSystem : SharedChatSystem
 
         if (playSound)
         {
-            // DS14-announce-start
-            var soundToPlay = announcementSound;
-            if (soundToPlay == null && isCentcommSender) // DS14-announce
-                soundToPlay = CentComAnnouncementSound; // Corvax-Announcements: Support custom alert sound from admin panel
-
-            _audio.PlayGlobal(
-                soundToPlay ?? DefaultAnnouncementSound,
-                Filter.Broadcast(),
-                true,
-                soundToPlay?.Params ?? AudioParams.Default.WithVolume(-2f));
-
-            string? chosenVoice = null;
-            EntityUid? chosenVoiceAuthor = null;
-
-            if (author != null && TryComp<TTSComponent>(author.Value, out var tts) && !string.IsNullOrEmpty(tts.VoicePrototypeId))
+            if (announcementSound == null)
             {
-                chosenVoice = tts.VoicePrototypeId;
-                chosenVoiceAuthor = author;
-            }
-            else if (usePresetTTS && sender == Loc.GetString("chat-manager-sender-announcement"))
-            {
-                chosenVoice = _centcommTTS;
-                chosenVoiceAuthor = null;
-            }
-            else if (!string.IsNullOrEmpty(voice))
-            {
-                chosenVoice = voice;
-                chosenVoiceAuthor = null;
+                if (sender == Loc.GetString("chat-manager-sender-announcement")) announcementSound = CentComAnnouncementSound; // Corvax-Announcements: Support custom alert sound from admin panel
             }
 
-            if (!string.IsNullOrEmpty(chosenVoice))
+            _audio.PlayGlobal(announcementSound ?? DefaultAnnouncementSound, Filter.Broadcast(), true, announcementSound?.Params ?? AudioParams.Default.WithVolume(-2f));
+
+            if (author != null && TryComp<TTSComponent>(author.Value, out var tts) && tts.VoicePrototypeId != null) // For comms console announcements
             {
-                var ev = new AnnounceSpokeEvent(chosenVoice, originalMessage, lexiconMessage, languageId, chosenVoiceAuthor);
+                var ev = new AnnounceSpokeEvent(tts.VoicePrototypeId, originalMessage, lexiconMessage, languageId, author.Value);
                 RaiseLocalEvent(ev);
-            // DS14-announce-end
+            }
+            else if (usePresetTTS && sender == Loc.GetString("chat-manager-sender-announcement")) // For admin announcements from Centcomm with preset voices
+            {
+                voice = _centcommTTS;
+                var ev = new AnnounceSpokeEvent(voice, originalMessage, lexiconMessage, languageId, null);
+                RaiseLocalEvent(ev);
+            }
+            else if (voice != null) // For admin announcements
+            {
+                var ev = new AnnounceSpokeEvent(voice, originalMessage, lexiconMessage, languageId, null);
+                RaiseLocalEvent(ev);
             }
         }
         _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Global station announcement from {sender}: {message}");
