@@ -6,7 +6,9 @@
   components:
   - type: Action
     useDelay: 1
-    icon: _DeadSpace/Virus/virus.rsi/icon.png
+    icon:
+      sprite: _DeadSpace/Virus/virus.rsi
+      state: icon
   - type: InstantAction
     event: !type:ShopMutationActionEvent
 
@@ -18,7 +20,9 @@
   components:
   - type: Action
     useDelay: 5
-    icon: _DeadSpace/Virus/virus.rsi/primary.png
+    icon:
+      sprite: _DeadSpace/Virus/virus.rsi
+      state: primary
   - type: TargetAction
   - type: EntityTargetAction
     event: !type:SelectPrimaryPatientEvent
@@ -31,6 +35,8 @@
   components:
   - type: Action
     useDelay: 1
-    icon: _DeadSpace/Virus/virus.rsi/teleport.png
+    icon:
+      sprite: _DeadSpace/Virus/virus.rsi
+      state: teleport
   - type: InstantAction
     event: !type:TeleportToPrimaryPatientEvent
