@@ -1,9 +1,11 @@
+using Content.Server.Administration.Logs;
 using Content.Server.Administration.Managers;
 using Content.Server.Chat;
 using Content.Server.Chat.Managers;
 using Content.Server.Chat.Systems;
 using Content.Server.EUI;
 using Content.Shared.Administration;
+using Content.Shared.Database;
 using Content.Shared.Eui;
 using Robust.Shared.Audio;
 using Robust.Shared.ContentPack;
@@ -15,6 +17,7 @@ namespace Content.Server.Administration.UI
         [Dependency] private readonly IAdminManager _adminManager = default!;
         [Dependency] private readonly IChatManager _chatManager = default!;
         [Dependency] private readonly IResourceManager _resourceManager = default!;
+        [Dependency] private readonly IAdminLogManager _adminLogger = default!; // DS14
         private readonly ChatSystem _chatSystem;
 
         public AdminAnnounceEui()
@@ -139,8 +142,20 @@ namespace Content.Server.Administration.UI
                             }
                             break;
                         }
-                            // DS14-announce-end
                     }
+                    _adminLogger.Add(
+                        LogType.Chat,
+                        LogImpact.Low,
+                        $"{Player.Name} has sent admin announcement " +
+                        $"[type={doAnnounce.AnnounceType}] " +
+                        $"[color={hex}] " +
+                        $"[sound={(sound != null ? doAnnounce.SoundPath : "none")}] " +
+                        $"[volume={doAnnounce.SoundVolume}] " +
+                        $"[announcer=\"{doAnnounce.Announcer}\"] " +
+                        $"[sender=\"{doAnnounce.Sender}\"] " +
+                        $": {doAnnounce.Announcement}"
+                    );
+                    // DS14-announce-end
 
                     StateDirty();
 
