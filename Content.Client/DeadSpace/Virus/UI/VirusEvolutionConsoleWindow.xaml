@@ -58,6 +58,11 @@
                                     Access="Public"
                                     Text="{Loc 'virus-evolution-buy-button'}"
                                     Disabled="True"/>
+
+                            <Button Name="DeleteSymptomButton"
+                                    Access="Public"
+                                    Text="{Loc 'virus-evolution-delete-button'}"
+                                    Disabled="True"/>
                         </BoxContainer>
                     </PanelContainer>
 
@@ -68,7 +73,7 @@
                             <ScrollContainer VerticalExpand="True">
                                 <ItemList Name="ActiveSymptomsList"
                                           Access="Public"
-                                          SelectMode="None" />
+                                          SelectMode="Single" />
                             </ScrollContainer>
                         </BoxContainer>
                     </PanelContainer>
@@ -146,6 +151,11 @@
                                     Access="Public"
                                     Text="{Loc 'virus-evolution-buy-body'}"
                                     Disabled="True"/>
+                            
+                            <Button Name="DeleteBodyButton"
+                                    Access="Public"
+                                    Text="{Loc 'virus-evolution-delete-body'}"
+                                    Disabled="True"/>
                         </BoxContainer>
                     </PanelContainer>
 
@@ -156,7 +166,7 @@
                             <ScrollContainer VerticalExpand="True">
                                 <ItemList Name="ActiveBodiesList"
                                         Access="Public"
-                                        SelectMode="None"/>
+                                        SelectMode="Single"/>
                             </ScrollContainer>
                         </BoxContainer>
                     </PanelContainer>

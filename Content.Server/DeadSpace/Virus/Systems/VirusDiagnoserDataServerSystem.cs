@@ -11,6 +11,8 @@ using Content.Shared.Verbs;
 using Robust.Shared.Utility;
 using Content.Shared.Database;
 using Content.Server.Research.Disk;
+using Content.Shared.DeadSpace.TimeWindow;
+using Robust.Shared.Random;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -19,14 +21,73 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
     [Dependency] private readonly VirusDiagnoserConsoleSystem _console = default!;
     [Dependency] private readonly PowerReceiverSystem _powerReceiverSystem = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly VirusEvolutionConsoleSystem _evolutionConsoleSystem = default!;
     public override void Initialize()
     {
         base.Initialize();
 
+        SubscribeLocalEvent<VirusDiagnoserDataServerComponent, ComponentInit>(OnInit);
         SubscribeLocalEvent<VirusDiagnoserDataServerComponent, AnchorStateChangedEvent>(OnAnchor);
         SubscribeLocalEvent<VirusDiagnoserDataServerComponent, PortDisconnectedEvent>(OnPortDisconnected);
         SubscribeLocalEvent<VirusDiagnoserDataServerComponent, GetVerbsEvent<Verb>>(DoSetObeliskVerbs);
+    }
+
+    public override void Update(float frameTime)
+    {
+        base.Update(frameTime);
+
+        var query = EntityQueryEnumerator<VirusDiagnoserDataServerComponent>();
+        while (query.MoveNext(out var uid, out var component))
+        {
+            if (component.UpdateWindow.IsExpired())
+            {
+                component.UpdateWindow.Reset();
+                UpdateServer(uid, component);
+            }
+        }
+    }
+
+    private void UpdateServer(EntityUid uid, VirusDiagnoserDataServerComponent? component = null)
+    {
+        if (!Resolve(uid, ref component))
+            return;
+
+        var totalPoints = 0;
+        foreach (var data in component.StrainData.Values)
+        {
+            totalPoints += data.ActiveSymptom.Count * component.SymptomsPointsMultiply;
+            totalPoints += data.BodyWhitelist.Count * component.BodyPointsMultiply;
+        }
+
+        UpdateConnectedInterfaces(uid, component);
+
+        component.Points += totalPoints;
+    }
+
+    public void UpdateConnectedInterfaces(EntityUid uid, VirusDiagnoserDataServerComponent? component = null)
+    {
+        if (!Resolve(uid, ref component))
+            return;
+
+        if (component.ConnectedConsole == null || !TryComp<VirusDiagnoserConsoleComponent>(component.ConnectedConsole, out var console))
+            return;
+
+        _console.UpdateUserInterface((component.ConnectedConsole.Value, console));
+
+        if (component.ConnectedEvolutionConsole == null || !TryComp<VirusEvolutionConsoleComponent>(component.ConnectedEvolutionConsole, out var evolutionConsole))
+            return;
+
+        _evolutionConsoleSystem.UpdateUserInterface((component.ConnectedEvolutionConsole.Value, evolutionConsole));
+    }
+
+    private void OnInit(Entity<VirusDiagnoserDataServerComponent> server, ref ComponentInit args)
+    {
+        server.Comp.UpdateWindow = new TimedWindow(
+            server.Comp.UpdateDuration,
+            server.Comp.UpdateDuration,
+            _timing,
+            _random);
     }
 
     private void DoSetObeliskVerbs(Entity<VirusDiagnoserDataServerComponent> server, ref GetVerbsEvent<Verb> args)
@@ -80,8 +141,7 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
                         server.Comp.ConnectedEvolutionConsole,
                         out var evolutionConsole))
                 {
-                    _evolutionConsoleSystem.UpdateUserInterface(
-                        (server.Comp.ConnectedEvolutionConsole.Value, evolutionConsole));
+                    UpdateConnectedInterfaces(server, server.Comp);
                 }
             },
             Impact = LogImpact.Medium

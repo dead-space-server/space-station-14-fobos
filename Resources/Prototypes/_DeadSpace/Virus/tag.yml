@@ -3,3 +3,9 @@
 
 - type: Tag
   id: DiagnoserDataCollector
+
+- type: Tag
+  id: VirusAlwaysInfectable
+
+- type: Tag
+  id: IgnoreCanInfect

@@ -4,11 +4,6 @@ using Robust.Shared.Serialization;
 
 namespace Content.Shared.Virus;
 
-public struct BaseVirusSettings
-{
-    public const int StaticBodyPrice = 500;
-}
-
 [Serializable, NetSerializable]
 public enum VirusDiagnoserConsoleUiKey : byte
 {

@@ -43,6 +43,14 @@ public sealed class TimedWindow
     }
 
     /// <summary>
+    ///     Сбрасывает таймер на заданный диапазон времени.
+    /// </summary>
+    public void Reset(float minSeconds, float maxSeconds)
+    {
+        Remaining = Timing.CurTime + GetRandomDuration(minSeconds, maxSeconds);
+    }
+
+    /// <summary>
     ///     Проверяет, истекло ли время окна.
     /// </summary>
     public bool IsExpired()
@@ -64,6 +72,15 @@ public sealed class TimedWindow
             return TimeSpan.FromSeconds(MinSeconds);
 
         var seconds = Random.NextFloat(MinSeconds, MaxSeconds);
+        return TimeSpan.FromSeconds(seconds);
+    }
+
+    private TimeSpan GetRandomDuration(float minSeconds, float maxSeconds)
+    {
+        if (minSeconds == maxSeconds)
+            return TimeSpan.FromSeconds(MinSeconds);
+
+        var seconds = Random.NextFloat(minSeconds, MaxSeconds);
         return TimeSpan.FromSeconds(seconds);
     }
 }

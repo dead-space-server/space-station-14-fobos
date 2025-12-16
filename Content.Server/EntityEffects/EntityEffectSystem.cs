@@ -145,6 +145,7 @@ public sealed class EntityEffectSystem : EntitySystem
         SubscribeLocalEvent<ExecuteEntityEffectEvent<CureInfectionDead>>(OnExecuteCureInfectionDead);
         SubscribeLocalEvent<ExecuteEntityEffectEvent<InfectiodDeadMutation>>(OnExecuteInfectiodDeadMutation);
         SubscribeLocalEvent<ExecuteEntityEffectEvent<CauseVirus>>(OnExecuteCauseVirus);
+        SubscribeLocalEvent<ExecuteEntityEffectEvent<Antibiotic>>(OnAntibiotic);
         // DS14-end
     }
 
@@ -1034,10 +1035,40 @@ public sealed class EntityEffectSystem : EntitySystem
 
         VirusComponent component = new VirusComponent(data);
 
-        if (!_virus.CanInfect(args.Args.TargetEntity, component))
+        _virus.ProbInfect(component.Data, args.Args.TargetEntity);
+    }
+
+    private void OnAntibiotic(ref ExecuteEntityEffectEvent<Antibiotic> args)
+    {
+        if (!TryComp<VirusComponent>(args.Args.TargetEntity, out var virusComponent))
             return;
 
-        AddComp(args.Args.TargetEntity, component);
+        if (args.Args is not EntityEffectReagentArgs reagentArgs)
+            return;
+
+        if (reagentArgs.Reagent == null)
+            return;
+
+        // Базовые множители
+        var quantity = reagentArgs.Quantity.Float();
+        var scale = reagentArgs.Scale.Float();
+
+        // Итоговый множитель воздействия
+        var effectMultiplier = quantity * scale;
+
+        if (effectMultiplier <= 0f)
+            return;
+
+        // Масштабируем урон и рост резиста
+        var finalDamage = args.Effect.BaseDamage * effectMultiplier;
+        var resistanceIncrease = args.Effect.ResistanceIncrease * effectMultiplier;
+
+        _virus.ApplyMedicineDamage(
+            (args.Args.TargetEntity, virusComponent),
+            reagentArgs.Reagent.ID,
+            finalDamage,
+            resistanceIncrease
+        );
     }
 
     private void OnExecuteCauseInfectionDead(ref ExecuteEntityEffectEvent<CauseInfectionDead> args)

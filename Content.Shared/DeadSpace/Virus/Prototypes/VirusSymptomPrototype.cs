@@ -18,12 +18,6 @@ public sealed partial class VirusSymptomPrototype : IPrototype
     public string Description { get; private set; } = default!;
 
     /// <summary>
-    ///     Вероятность мутации.
-    /// </summary>
-    [DataField]
-    public float MutationWeight = 1f;
-
-    /// <summary>
     ///     Цена мутации.
     /// </summary>
     [DataField]

@@ -22,6 +22,7 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
     [Dependency] private readonly PowerReceiverSystem _powerReceiverSystem = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly VirusSolutionAnalyzerSystem _virusSolutionAnalyzer = default!;
+    [Dependency] private readonly SharedVirusSystem _sharedVirusSystem = default!;
 
     public override void Initialize()
     {
@@ -60,32 +61,66 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
         {
             case EvolutionConsoleUiButton.EvolutionSymptom:
                 {
-                    if (args.NewSymptom == null
-                        || !_prototypeManager.TryIndex<VirusSymptomPrototype>(args.NewSymptom, out var proto)
+                    if (args.Symptom == null
+                        || !_prototypeManager.TryIndex<VirusSymptomPrototype>(args.Symptom, out _)
                         || virusData == null)
                         return;
 
-                    if (server.Points < proto.Price * virusData.ActiveSymptom.Count)
+                    var price = _sharedVirusSystem.GetSymptomPrice(virusData, args.Symptom);
+                    if (server.Points < price)
                         return;
 
-                    server.Points -= proto.Price * virusData.ActiveSymptom.Count;
+                    server.Points -= price;
 
-                    _virusSolutionAnalyzer.AddSymptom((component.VirusSolutionAnalyzer.Value, analyzer), args.NewSymptom);
+                    _virusSolutionAnalyzer.AddSymptom((component.VirusSolutionAnalyzer.Value, analyzer), args.Symptom);
                     break;
                 }
             case EvolutionConsoleUiButton.EvolutionBody:
                 {
-                    if (args.NewBodie == null
-                        || !_prototypeManager.TryIndex<BodyPrototype>(args.NewBodie, out var proto)
+                    if (args.Body == null
+                        || !_prototypeManager.TryIndex<BodyPrototype>(args.Body, out _)
                         || virusData == null)
                         return;
 
-                    if (server.Points < BaseVirusSettings.StaticBodyPrice * virusData.BodyWhitelist.Count)
+                    var price = _sharedVirusSystem.GetBodyPrice(virusData);
+                    if (server.Points < price)
                         return;
 
-                    server.Points -= BaseVirusSettings.StaticBodyPrice * virusData.BodyWhitelist.Count;
+                    server.Points -= price;
 
-                    _virusSolutionAnalyzer.AddBody((component.VirusSolutionAnalyzer.Value, analyzer), args.NewBodie);
+                    _virusSolutionAnalyzer.AddBody((component.VirusSolutionAnalyzer.Value, analyzer), args.Body);
+                    break;
+                }
+            case EvolutionConsoleUiButton.DeleteSymptom:
+                {
+                    if (args.Symptom == null
+                        || !_prototypeManager.TryIndex<VirusSymptomPrototype>(args.Symptom, out _)
+                        || virusData == null)
+                        return;
+
+                    var price = _sharedVirusSystem.GetSymptomDeletePrice(virusData.MultiPriceDeleteSymptom);
+                    if (server.Points < price)
+                        return;
+
+                    server.Points -= price;
+
+                    _virusSolutionAnalyzer.RemSymptom((component.VirusSolutionAnalyzer.Value, analyzer), args.Symptom);
+                    break;
+                }
+            case EvolutionConsoleUiButton.DeleteBody:
+                {
+                    if (args.Body == null
+                        || !_prototypeManager.TryIndex<BodyPrototype>(args.Body, out _)
+                        || virusData == null)
+                        return;
+
+                    var price = _sharedVirusSystem.GetBodyDeletePrice();
+                    if (server.Points < price)
+                        return;
+
+                    server.Points -= price;
+
+                    _virusSolutionAnalyzer.RemBody((component.VirusSolutionAnalyzer.Value, analyzer), args.Body);
                     break;
                 }
             default:
@@ -232,6 +267,7 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
 
         return new VirusEvolutionConsoleBoundUserInterfaceState(
             points,
+            virusData?.MultiPriceDeleteSymptom ?? 0,
             dataServerConnected,
             solutionAnalyzerConnected,
             console.Comp.DataServerInRange,

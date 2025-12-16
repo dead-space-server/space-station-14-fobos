@@ -4,6 +4,7 @@ using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
+using Content.Shared.Virus;
 
 namespace Content.Shared.DeadSpace.Virus.Symptoms;
 
@@ -44,6 +45,15 @@ public abstract class VirusSymptomBase : IVirusSymptom
         if (EffectTimedWindow.IsExpired())
         {
             DoEffect(host, virus);
+
+            if (!BaseVirusSettings.DebuffVirusMultipliers.TryGetValue(virus.RegenerationType, out var timeMultiplier))
+                timeMultiplier = 1.0f;
+
+            EffectTimedWindow.Reset(
+                EffectTimedWindow.MinSeconds * 1 / timeMultiplier,
+                EffectTimedWindow.MaxSeconds * 1 / timeMultiplier
+            );
+
             EffectTimedWindow.Reset();
         }
     }

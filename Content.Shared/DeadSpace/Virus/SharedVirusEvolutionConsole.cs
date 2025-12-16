@@ -11,8 +11,7 @@ namespace Content.Shared.Virus;
 public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInterfaceState
 {
     public int MutationPoints { get; }
-    public int SymptomsCount { get; }
-    public int BodyCount { get; }
+    public int MultiPriceDeleteSymptom { get; }
     public bool DataServerConnected { get; }
     public bool SolutionAnalyzerConnected { get; }
     public bool DataServerInRange { get; }
@@ -23,6 +22,7 @@ public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInte
 
     public VirusEvolutionConsoleBoundUserInterfaceState(
         int mutationPoints,
+        int multyPriceDeleteSymptom,
         bool dataServerConnected,
         bool solutionAnalyzerConnected,
         bool dataServerInRange,
@@ -32,6 +32,7 @@ public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInte
         List<ProtoId<BodyPrototype>>? bodyWhitelist = null)
     {
         MutationPoints = mutationPoints;
+        MultiPriceDeleteSymptom = multyPriceDeleteSymptom;
         DataServerConnected = dataServerConnected;
         SolutionAnalyzerConnected = solutionAnalyzerConnected;
         DataServerInRange = dataServerInRange;
@@ -47,18 +48,18 @@ public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInte
 public sealed class EvolutionConsoleUiButtonPressedMessage : BoundUserInterfaceMessage
 {
     public readonly EvolutionConsoleUiButton Button;
-    public string? NewSymptom { get; } = null;
-    public string? NewBodie { get; } = null;
+    public string? Symptom { get; } = null;
+    public string? Body { get; } = null;
 
     public EvolutionConsoleUiButtonPressedMessage(
         EvolutionConsoleUiButton button,
-        string? newSymptom = null,
-        string? newBodie = null
+        string? symptom = null,
+        string? body = null
         )
     {
         Button = button;
-        NewSymptom = newSymptom;
-        NewBodie = newBodie;
+        Symptom = symptom;
+        Body = body;
     }
 }
 
@@ -67,7 +68,9 @@ public sealed class EvolutionConsoleUiButtonPressedMessage : BoundUserInterfaceM
 public enum EvolutionConsoleUiButton : byte
 {
     EvolutionSymptom,
-    EvolutionBody
+    EvolutionBody,
+    DeleteSymptom,
+    DeleteBody
 }
 
 [Serializable, NetSerializable]

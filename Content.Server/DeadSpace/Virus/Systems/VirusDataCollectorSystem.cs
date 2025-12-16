@@ -67,7 +67,6 @@ public sealed class VirusDataCollectorSystem : EntitySystem
         var data = new VirusData
         {
             StrainId = virus.Data.StrainId,
-            ComplexityVaccine = virus.Data.ComplexityVaccine,
             Threshold = virus.Data.Threshold,
             DefaultMedicineResistance = virus.Data.DefaultMedicineResistance,
             Infectivity = virus.Data.Infectivity,

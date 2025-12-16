@@ -1,6 +1,6 @@
 ﻿- type: body
   id: Arachnid
-  name: "arachnid"
+  name: "Арахнид" # DS14
   root: torso
   slots:
     head:

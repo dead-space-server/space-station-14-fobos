@@ -290,9 +290,14 @@ public sealed class VirusDiagnoserSystem : EntitySystem
 
         {Loc.GetString("virus-report-strain", ("id", data.StrainId))}
 
-        {Loc.GetString("virus-report-threshold", ("value", data.Threshold.ToString("0.0")))}
+        {Loc.GetString("virus-report-threshold", ("value", data.MaxThreshold.ToString("0.0")))}
         {Loc.GetString("virus-report-infectivity", ("value", (data.Infectivity * 100).ToString("0")))}
-        {Loc.GetString("virus-report-complexity", ("value", data.ComplexityVaccine.ToString("0.0")))}
+
+        {Loc.GetString("virus-report-damage-when-dead", ("value", data.DamageWhenDead.ToString("0.0")))}
+        {Loc.GetString("virus-report-mutation-points", ("value", (data.MutationPoints * 100).ToString("0")))}
+        {Loc.GetString("virus-report-regen-threshold", ("value", data.RegenThreshold.ToString("0.0")))}
+        {Loc.GetString("virus-report-regen-mutation", ("value", data.RegenMutationPoints.ToString("0.0")))}
+        {Loc.GetString("virus-report-milty-price-delete-symptom", ("value", data.MultiPriceDeleteSymptom.ToString("0.0")))}
 
         {Loc.GetString("virus-report-default-medicine-resistance", ("value", data.DefaultMedicineResistance.ToString("0.00")))}
 

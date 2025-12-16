@@ -1,6 +1,6 @@
 ﻿- type: body
   id: Vox
-  name: "vox"
+  name: "вокс" # DS14
   root: torso
   slots:
     head:

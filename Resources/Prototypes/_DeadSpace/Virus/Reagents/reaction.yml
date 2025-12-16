@@ -1,0 +1,52 @@
+- type: reaction
+  id: Bacterizine
+  reactants:
+    Water:
+      amount: 1
+    TableSalt:
+      amount: 1
+    Oxygen:
+      amount: 1
+  products:
+    Bacterizine: 3
+
+- type: reaction
+  id: Mycocline
+  impact: Medium
+  reactants:
+    Dylovene:
+      amount: 1
+    Nitrogen:
+      amount: 1
+    Sugar:
+      amount: 1
+  products:
+    Mycocline: 3
+
+- type: reaction
+  id: Virucidine
+  impact: High
+  reactants:
+    Hyronalin:
+      amount: 1
+    Ethanol:
+      amount: 1
+    Chlorine:
+      amount: 1
+  products:
+    Virucidine: 2
+
+- type: reaction
+  id: Panacemycin
+  impact: High
+  minTemp: 420
+  reactants:
+    Omnizine:
+      amount: 1
+    UnstableMutagen:
+      amount: 1
+    Plasma:
+      amount: 1
+      catalyst: true
+  products:
+    Panacemycin: 1

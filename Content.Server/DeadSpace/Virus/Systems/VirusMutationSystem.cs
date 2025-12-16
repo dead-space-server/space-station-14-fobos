@@ -1,6 +1,5 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
-using Content.Server.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.Verbs;
 using Content.Shared.Interaction.Components;
@@ -13,11 +12,11 @@ using Robust.Shared.Random;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using System.Linq;
-using Content.Shared.Humanoid.Prototypes;
 using Robust.Shared.Prototypes;
 using Content.Shared.Destructible;
 using Content.Shared.DeadSpace.Virus.Prototypes;
 using Content.Shared.Body.Prototypes;
+using Content.Shared.Virus;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -25,16 +24,18 @@ public sealed class VirusMutationSystem : EntitySystem
 {
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly VirusSystem _virus = default!;
+    [Dependency] private readonly SharedVirusSystem _sharedVirus = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly ILogManager _logManager = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     private ISawmill _sawmill = default!;
 
     /// <summary>
     ///     Зона поражения после разрушения сущности.
     /// </summary>
-    private const float RangeInfectAfteDest = default!;
+    private const float RangeInfectAfteDest = 10f;
 
     /// <summary>
     ///     Список всех body и симптомов, да, при загрузке прототипа body его тут не будет.
@@ -47,11 +48,6 @@ public sealed class VirusMutationSystem : EntitySystem
     ///     Сколько попыток за цикл симптомы будут мутировать.
     /// </summary>
     private const int MutateAttempts = 5;
-
-    /// <summary>
-    ///     Вероятность мутации body.
-    /// </summary>
-    private const float BodyMutateChance = 0.3f;
     public override void Initialize()
     {
         base.Initialize();
@@ -59,7 +55,10 @@ public sealed class VirusMutationSystem : EntitySystem
         _sawmill = _logManager.GetSawmill("VirusMutationSystem");
 
         foreach (var proto in _prototype.EnumeratePrototypes<BodyPrototype>())
-            _allBodyCache.Add(proto.ID);
+        {
+            if (!BaseVirusSettings.BodyBlackList.Contains(proto.ID))
+                _allBodyCache.Add(proto.ID);
+        }
 
         foreach (var proto in _prototype.EnumeratePrototypes<VirusSymptomPrototype>())
             _allSymptomsCache.Add(proto.ID);
@@ -67,6 +66,8 @@ public sealed class VirusMutationSystem : EntitySystem
         SubscribeLocalEvent<VirusMutationComponent, GetVerbsEvent<Verb>>(DoSetVerbs);
         SubscribeLocalEvent<VirusMutationComponent, ComponentInit>(OnInit);
         SubscribeLocalEvent<VirusMutationComponent, DestructionEventArgs>(OnDestr);
+        SubscribeLocalEvent<VirusMutationComponent, CauseVirusEvent>(OnCauseVirus);
+        SubscribeLocalEvent<VirusMutationComponent, CureVirusEvent>(OnCureVirus);
     }
 
     public override void Update(float frameTime)
@@ -85,6 +86,16 @@ public sealed class VirusMutationSystem : EntitySystem
             component.UpdateWindow.Reset();
             ProbMutate((uid, component, virus));
         }
+    }
+
+    private void OnCauseVirus(Entity<VirusMutationComponent> entity, ref CauseVirusEvent args)
+    {
+        UpdateAppearance(entity, entity.Comp, true);
+    }
+
+    private void OnCureVirus(Entity<VirusMutationComponent> entity, ref CureVirusEvent args)
+    {
+        UpdateAppearance(entity, entity.Comp, false);
     }
 
     private void OnInit(Entity<VirusMutationComponent> entity, ref ComponentInit args)
@@ -120,7 +131,7 @@ public sealed class VirusMutationSystem : EntitySystem
             Act = () =>
             {
                 _virus.ProbInfect((uid, virus), args.User);
-                RemComp<VirusComponent>(uid);
+                _virus.CureVirus(uid, virus);
             },
             Impact = LogImpact.Medium
         });
@@ -177,22 +188,21 @@ public sealed class VirusMutationSystem : EntitySystem
             if (!_prototype.TryIndex(available[index], out var proto))
                 continue;
 
-            // Вероятность снижается с ростом числа уже имеющихся симптомов.
-            float chance = (host.Comp1.AddMutationChance + proto.MutationWeight) / (1 + available.Count);
+            var price = _sharedVirus.GetSymptomPrice(host.Comp2.Data, proto);
+            if (host.Comp2.Data.MutationPoints < price)
+                continue;
 
-            if (_random.Prob(chance))
-            {
-                host.Comp2.Data.ActiveSymptom.Add(available[index]);
+            host.Comp2.Data.ActiveSymptom.Add(available[index]);
 
-                _sawmill.Debug(
-                    $"Попытка мутации #{i + 1}: добавлен новый симптом '{proto.SymptomType}' ({proto.Name}) " +
-                    $"с шансом {chance:0.00}. Штамм='{host.Comp2.Data.StrainId}'. " +
-                    $"ТекущиеСимптомы=[{string.Join(", ", host.Comp2.Data.ActiveSymptom)}]"
-                );
+            host.Comp2.Data.MutationPoints -= price;
 
-                available.RemoveAt(index); // удаляем выбранный симптом
-                needRefresh = true;
-            }
+            _sawmill.Debug(
+                $"Попытка мутации #{i + 1}: добавлен новый симптом '{proto.SymptomType}' ({proto.Name}) " +
+                $"ТекущиеСимптомы=[{string.Join(", ", host.Comp2.Data.ActiveSymptom)}]"
+            );
+
+            available.RemoveAt(index); // удаляем выбранный симптом
+            needRefresh = true;
         }
 
         if (needRefresh)
@@ -215,20 +225,20 @@ public sealed class VirusMutationSystem : EntitySystem
         if (available.Count == 0)
             return;
 
-        // Расчёт стоимостей
-        var finalSpeciesChance = (host.Comp1.AddMutationChance + BodyMutateChance) / host.Comp2.Data.BodyWhitelist.Count;
+        var price = _sharedVirus.GetBodyPrice(host.Comp2.Data);
+        if (host.Comp2.Data.MutationPoints < price)
+            return;
 
-        if (_random.Prob(finalSpeciesChance))
-        {
-            var pick = _random.Pick(available);
-            host.Comp2.Data.BodyWhitelist.Add(pick);
+        var pick = _random.Pick(available);
+        host.Comp2.Data.BodyWhitelist.Add(pick);
 
-            _sawmill.Debug(
-                $"Добавлена новая раса: '{pick}'. " +
-                $"Штамм='{host.Comp2.Data.StrainId}'. " +
-                $"ТекущийWhitelist=[{string.Join(", ", host.Comp2.Data.BodyWhitelist)}]"
-            );
-        }
+        host.Comp2.Data.MutationPoints -= price;
+
+        _sawmill.Debug(
+            $"Добавлена новая раса: '{pick}'. " +
+            $"Штамм='{host.Comp2.Data.StrainId}'. " +
+            $"ТекущийWhitelist=[{string.Join(", ", host.Comp2.Data.BodyWhitelist)}]"
+        );
     }
 
     public bool CanMutate(Entity<VirusMutationComponent?, VirusComponent?> host)
@@ -249,4 +259,20 @@ public sealed class VirusMutationSystem : EntitySystem
         return true;
     }
 
+    private void UpdateAppearance(EntityUid uid, VirusMutationComponent component, bool isInfected)
+    {
+        if (!component.ChangeApperance)
+            return;
+
+        if (isInfected)
+        {
+            _appearance.SetData(uid, VirusMutationVisuals.state, false);
+            _appearance.SetData(uid, VirusMutationVisuals.infected, true);
+        }
+        else
+        {
+            _appearance.SetData(uid, VirusMutationVisuals.state, true);
+            _appearance.SetData(uid, VirusMutationVisuals.infected, false);
+        }
+    }
 }

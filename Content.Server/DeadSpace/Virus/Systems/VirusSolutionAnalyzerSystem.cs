@@ -291,6 +291,54 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
         virusData.BodyWhitelist.Add(body);
     }
 
+    public void RemSymptom(Entity<VirusSolutionAnalyzerComponent?> console, string symptom)
+    {
+        if (!Resolve(console, ref console.Comp, false))
+            return;
+
+        if (console.Comp.Status != VirusSolutionAnalyzerStatus.On)
+            return;
+
+        SetStatus((console, console.Comp), VirusSolutionAnalyzerStatus.Successfully);
+
+        if (_prototypeManager.Index<VirusSymptomPrototype>(symptom) == null)
+            return;
+
+        if (!TryGetVirusDataFromContainer(console, out var virusDataList))
+            return;
+
+        var virusData = virusDataList.FirstOrDefault();
+
+        if (virusData == null)
+            return;
+
+        virusData.ActiveSymptom.Remove(symptom);
+    }
+
+    public void RemBody(Entity<VirusSolutionAnalyzerComponent?> console, string body)
+    {
+        if (!Resolve(console, ref console.Comp, false))
+            return;
+
+        if (console.Comp.Status != VirusSolutionAnalyzerStatus.On)
+            return;
+
+        SetStatus((console, console.Comp), VirusSolutionAnalyzerStatus.Successfully);
+
+        if (_prototypeManager.Index<BodyPrototype>(body) == null)
+            return;
+
+        if (!TryGetVirusDataFromContainer(console, out var virusDataList))
+            return;
+
+        var virusData = virusDataList.FirstOrDefault();
+
+        if (virusData == null)
+            return;
+
+        virusData.BodyWhitelist.Remove(body);
+    }
+
     private void UpdateAppearance(Entity<VirusSolutionAnalyzerComponent> ent)
     {
         if (TryComp<AppearanceComponent>(ent, out var appearance))

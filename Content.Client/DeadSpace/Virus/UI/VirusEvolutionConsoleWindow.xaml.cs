@@ -1,6 +1,5 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
-using System.Linq;
 using Content.Shared.Body.Prototypes;
 using Content.Shared.DeadSpace.Virus.Prototypes;
 using Content.Shared.Virus;
@@ -16,9 +15,12 @@ namespace Content.Client.DeadSpace.Virus.UI;
 public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
 {
     [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly IEntityManager _entityManager = default!;
     private VirusEvolutionConsoleBoundUserInterfaceState? _lastUpdate;
     private readonly List<VirusSymptomPrototype> _availableSymptoms = new();
     private readonly List<BodyPrototype> _availableBodies = new();
+    private ProtoId<VirusSymptomPrototype>? _selectedActiveSymptom;
+    private ProtoId<BodyPrototype>? _selectedActiveBody;
 
 
     public VirusEvolutionConsoleWindow()
@@ -28,6 +30,12 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
 
         AvailableSymptomsList.OnItemSelected += OnAvailableSymptomSelected;
         AvailableBodiesList.OnItemSelected += OnAvailableBodySelected;
+
+        ActiveSymptomsList.OnItemSelected += OnActiveSymptomSelected;
+        ActiveBodiesList.OnItemSelected += OnActiveBodySelected;
+
+        DeleteSymptomButton.Disabled = true;
+        DeleteBodyButton.Disabled = true;
     }
 
     public void Populate(VirusEvolutionConsoleBoundUserInterfaceState state)
@@ -35,6 +43,12 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
         _lastUpdate = state;
         MutationPointsLabel.Text = Loc.GetString("virus-evolution-mutation-points", ("points", state.MutationPoints));
         WhitelistMutationPointsLabel.Text = Loc.GetString("virus-evolution-mutation-points", ("points", state.MutationPoints));
+
+        _selectedActiveSymptom = null;
+        _selectedActiveBody = null;
+
+        DeleteSymptomButton.Disabled = true;
+        DeleteBodyButton.Disabled = true;
 
         if (state.HasVirus == false)
         {
@@ -94,14 +108,22 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
             AvailableSymptomsList.Visible = true;
         }
 
+        var sharedVirusSystem = _entityManager.System<SharedVirusSystem>();
+
         // Активные симптомы
         ActiveSymptomsList.Clear();
         if (state.ActiveSymptoms != null)
         {
             foreach (var active in state.ActiveSymptoms)
             {
+                var price = sharedVirusSystem.GetSymptomDeletePrice(state.MultiPriceDeleteSymptom);
                 if (_prototype.TryIndex(active, out var proto))
-                    ActiveSymptomsList.AddItem(proto.Name.ToString());
+                {
+                    ActiveSymptomsList.AddItem(
+                        $"{proto.Name} ({price})",
+                        metadata: active
+                    );
+                }
             }
 
             AvailableSymptomsList.Clear();
@@ -112,7 +134,7 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
                 if (state.ActiveSymptoms.Contains(proto.ID))
                     continue;
 
-                var price = proto.Price * Math.Max(1, state.ActiveSymptoms.Count);
+                var price = sharedVirusSystem.GetSymptomPrice(state.ActiveSymptoms, proto.ID);
                 AvailableSymptomsList.AddItem(
                     $"{proto.Name} ({price})",
                     metadata: proto.ID
@@ -125,13 +147,17 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
         if (state.BodyWhitelist != null)
         {
             ActiveBodiesList.Clear();
-
             foreach (var body in state.BodyWhitelist)
             {
+                var price = sharedVirusSystem.GetBodyDeletePrice();
                 if (_prototype.TryIndex(body, out var proto))
-                    ActiveBodiesList.AddItem(proto.Name);
+                {
+                    ActiveBodiesList.AddItem(
+                        $"{proto.Name} ({price})",
+                        metadata: body
+                    );
+                }
             }
-
 
             AvailableBodiesList.Clear();
             _availableBodies.Clear();
@@ -141,8 +167,10 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
                 if (state.BodyWhitelist.Contains(proto.ID))
                     continue;
 
-                var price = BaseVirusSettings.StaticBodyPrice
-                            * Math.Max(1, state.BodyWhitelist.Count);
+                if (BaseVirusSettings.BodyBlackList.Contains(proto.ID))
+                    continue;
+
+                var price = sharedVirusSystem.GetBodyPrice(state.BodyWhitelist);
 
                 AvailableBodiesList.AddItem(
                     $"{proto.Name} ({price})",
@@ -214,6 +242,46 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
         BuyBodyButton.Disabled = _lastUpdate.MutationPoints < price;
     }
 
+    private void OnActiveSymptomSelected(ItemList.ItemListSelectedEventArgs args)
+    {
+        _selectedActiveSymptom = null;
+        DeleteSymptomButton.Disabled = true;
 
+        if (_lastUpdate == null || args.ItemIndex < 0)
+            return;
+
+        var item = ActiveSymptomsList[args.ItemIndex];
+        if (item.Metadata is not ProtoId<VirusSymptomPrototype> id)
+            return;
+
+        _selectedActiveSymptom = id;
+
+        var sharedVirusSystem = _entityManager.System<SharedVirusSystem>();
+        var deletePrice = sharedVirusSystem.GetSymptomDeletePrice(
+            _lastUpdate.MultiPriceDeleteSymptom
+        );
+
+        DeleteSymptomButton.Disabled = _lastUpdate.MutationPoints < deletePrice;
+    }
+
+    private void OnActiveBodySelected(ItemList.ItemListSelectedEventArgs args)
+    {
+        _selectedActiveBody = null;
+        DeleteBodyButton.Disabled = true;
+
+        if (_lastUpdate == null || args.ItemIndex < 0)
+            return;
+
+        var item = ActiveBodiesList[args.ItemIndex];
+        if (item.Metadata is not ProtoId<BodyPrototype> id)
+            return;
+
+        _selectedActiveBody = id;
+
+        var sharedVirusSystem = _entityManager.System<SharedVirusSystem>();
+        var deletePrice = sharedVirusSystem.GetBodyDeletePrice();
+
+        DeleteBodyButton.Disabled = _lastUpdate.MutationPoints < deletePrice;
+    }
 
 }

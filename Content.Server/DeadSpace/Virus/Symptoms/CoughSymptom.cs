@@ -6,7 +6,6 @@ using Content.Shared.DeadSpace.Virus.Components;
 using Content.Server.DeadSpace.Virus.Systems;
 using Content.Shared.Chat.Prototypes;
 using Content.Shared.DeadSpace.TimeWindow;
-using Content.Shared.Speech.Components;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;

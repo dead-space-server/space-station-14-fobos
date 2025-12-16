@@ -28,6 +28,12 @@ reagent-effect-guidebook-cause-virus =
        *[other] заражает
     } вирусом
 
+reagent-effect-guidebook-antibiotic =
+    { $chance ->
+        [1] Убивает
+       *[other] убивает
+    } вирусы в организме
+
 ## -----------------------
 ##   Вирусный отчёт
 ## -----------------------
@@ -39,7 +45,12 @@ virus-report-title = АНАЛИЗ ВИРУСНОГО ОБРАЗЦА
 virus-report-strain = Идентификатор штамма: {$id}
 virus-report-threshold = Состояние вируса (живучесть): {$value}
 virus-report-infectivity = Инфективность: {$value}%
-virus-report-complexity = Сложность разработки вакцины: {$value}
+
+virus-report-damage-when-dead = Показатель уязвимости, если организм носителя мёртв: {$value}
+virus-report-mutation-points = Очки мутации: {$value}
+virus-report-regen-threshold = Регенерация вируса: {$value}
+virus-report-regen-mutation = Скорость мутации: {$value}
+virus-report-milty-price-delete-symptom = Сложность удаления симптома {$value}
 
 virus-report-default-medicine-resistance = Базовое сопротивление медикаментам: {$value}
 
@@ -128,6 +139,7 @@ virus-evolution-available-symptoms = Доступные симптомы
 virus-evolution-active-symptoms = Активные симптомы
 virus-evolution-description-header = Описание
 virus-evolution-buy-button = Купить симптом
+virus-evolution-delete-button = Удалить симптом
 
 virus-evolution-mutation-points =
     Очки мутации: { $points }
@@ -141,7 +153,7 @@ virus-evolution-cost-label =
 virus-evolution-available-bodies = Доступные тела
 virus-evolution-active-bodies = Активные тела
 virus-evolution-buy-body = Добавить тело
-
+virus-evolution-delete-body = Удалить тело
 
 ### DATASERVER STATES ###
 
@@ -189,3 +201,41 @@ virus-evolution-unknown-symptom =
 
 virus-evolution-unknown-body =
     Неизвестное тело
+
+
+# РАЗУМНЫЙ ВИРУС
+
+sentient-virus-infect-impossible-target = цель невозможно заразить
+sentient-virus-teleport-no-primary-infected = нулевых пациентов не найдено
+sentient-virus-infect-failed-source = вы больше не можете создать нулевого пациента
+sentient-virus-infect-no-points = Не хватает {price} очков мутации.
+
+# АНТИБИОТИКИ
+
+reagent-name-bacterizine = бактеризин
+reagent-desc-bacterizine = Простейший антибиотик, эффективный против слабых вирусов.
+
+reagent-name-mycocline = микоклин
+reagent-desc-mycocline = Антибиотик широкого спектра действия.
+
+reagent-name-virucidine = вируцид
+reagent-desc-virucidine = Агрессивный препарат, подавляющий вирусные структуры.
+
+reagent-name-panacemycin = панацемицин
+reagent-desc-panacemycin = Экспериментальный антибиотик экстремального действия.
+
+ent-ChemistryBottleBacterizine = { ent-BaseChemistryBottleFilled }
+    .suffix = бактеризин
+    .desc = { ent-BaseChemistryBottleFilled.desc }
+
+ent-ChemistryBottleMycocline = { ent-BaseChemistryBottleFilled }
+    .suffix = микоклин
+    .desc = { ent-BaseChemistryBottleFilled.desc }
+
+ent-ChemistryBottleVirucidine = { ent-BaseChemistryBottleFilled }
+    .suffix = вируцид
+    .desc = { ent-BaseChemistryBottleFilled.desc }
+
+ent-ChemistryBottlePanacemycin = { ent-BaseChemistryBottleFilled }
+    .suffix = панацемицин
+    .desc = { ent-BaseChemistryBottleFilled.desc }

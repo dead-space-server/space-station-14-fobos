@@ -1,5 +1,5 @@
 - type: body
-  name: "demon"
+  name: "демон"
   id: Demon
   root: torso
   slots:

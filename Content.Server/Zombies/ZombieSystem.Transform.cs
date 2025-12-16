@@ -48,6 +48,7 @@ using Content.Shared.NPC.Prototypes;
 using Content.Shared.Roles;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 using Content.Shared.DeadSpace.Virus.Components;
+using Content.Server.DeadSpace.Virus.Systems;
 
 namespace Content.Server.Zombies;
 
@@ -75,10 +76,11 @@ public sealed partial class ZombieSystem
     [Dependency] private readonly NPCSystem _npc = default!;
     [Dependency] private readonly TagSystem _tag = default!;
     [Dependency] private readonly ISharedPlayerManager _player = default!;
+    [Dependency] private readonly VirusSystem _virus = default!; // DS14
 
     private static readonly ProtoId<TagPrototype> InvalidForGlobalSpawnSpellTag = "InvalidForGlobalSpawnSpell";
     private static readonly ProtoId<TagPrototype> CannotSuicideTag = "CannotSuicide";
-    private static readonly ProtoId<LanguagePrototype> ZombieLanguage = "ZombieLanguage";
+    private static readonly ProtoId<LanguagePrototype> ZombieLanguage = "ZombieLanguage"; // DS14
     private static readonly ProtoId<NpcFactionPrototype> ZombieFaction = "Zombie";
     private static readonly string MindRoleZombie = "MindRoleZombie";
     private static readonly List<ProtoId<AntagPrototype>> BannableZombiePrototypes = ["Zombie"];
@@ -156,7 +158,7 @@ public sealed partial class ZombieSystem
 
         // DS14-start
         if (HasComp<VirusComponent>(target))
-            RemComp<VirusComponent>(target);
+            _virus.CureVirus(target);
 
         if (TryComp<LanguageComponent>(target, out var language))
         {

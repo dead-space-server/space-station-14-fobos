@@ -4,18 +4,28 @@ using Content.Shared.Chemistry.Reagent;
 using Robust.Shared.Prototypes;
 using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.Whitelist;
-using Content.Shared.Humanoid.Prototypes;
 using System.Linq;
 using Robust.Shared.Serialization;
 using Content.Shared.DeadSpace.Virus.Prototypes;
 using Content.Shared.DeadSpace.TimeWindow;
 using Content.Shared.Body.Prototypes;
+using Content.Shared.Mobs;
+using Robust.Shared.GameStates;
+using Content.Shared.StatusIcon;
+using Content.Shared.Virus;
 
 namespace Content.Shared.DeadSpace.Virus.Components;
 
-[RegisterComponent]
+[RegisterComponent, NetworkedComponent]
 public sealed partial class VirusComponent : Component
 {
+    /// <summary>
+    ///     Состояние носителя инфекции.
+    /// </summary>
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public MobState PatientState = new();
+
     /// <summary>
     ///     Данные об вирусе.
     /// </summary>
@@ -39,6 +49,13 @@ public sealed partial class VirusComponent : Component
     {
         Data = data;
     }
+
+    [DataField, ViewVariables(VVAccess.ReadWrite)]
+    public ProtoId<FactionIconPrototype> StatusIcon { get; set; } = "VirusFaction";
+
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public BedRegenerationType RegenerationType = BedRegenerationType.None;
 }
 
 
@@ -56,6 +73,41 @@ public sealed partial class VirusData : ReagentData
     public string StrainId = string.Empty;
 
     /// <summary>
+    ///     Очки мутации.
+    /// </summary>
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public int MutationPoints = 0;
+
+    /// <summary>
+    ///     Модификатор стоимости удаления симптома.
+    /// </summary>
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public int MultiPriceDeleteSymptom = 1;
+
+    /// <summary>
+    ///     Урон вирусу, если организм носителя мёртв.
+    /// </summary>
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public float DamageWhenDead = 5;
+
+    /// <summary>
+    ///     Регенерация вируса.
+    /// </summary>
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public float RegenThreshold = 1;
+
+    /// <summary>
+    ///     Регенерация очков мутации.
+    /// </summary>
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public int RegenMutationPoints = 1;
+
+    /// <summary>
     ///     Список симптомов которые должны быть при инициализации.
     /// </summary>
     [DataField]
@@ -63,18 +115,18 @@ public sealed partial class VirusData : ReagentData
     public List<ProtoId<VirusSymptomPrototype>> ActiveSymptom = new();
 
     /// <summary>
-    ///     Сложность разработки вакцины.
-    /// </summary>
-    [DataField]
-    [ViewVariables(VVAccess.ReadOnly)]
-    public float ComplexityVaccine = 0;
-
-    /// <summary>
-    ///     Живучесть вируса. Если <= 0.1, организм считается вылеченным.
+    ///     Живучесть вируса. Если <= 0, организм считается вылеченным.
     /// </summary>
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
     public float Threshold = 100f;
+
+    /// <summary>
+    ///     Максимальное количествоочков живучести.
+    /// </summary>
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public float MaxThreshold = 100f;
 
     /// <summary>
     ///     Стандартное значение сопротивления медикаментам (антибиотикам).
@@ -109,6 +161,25 @@ public sealed partial class VirusData : ReagentData
     [DataField]
     public List<ProtoId<BodyPrototype>> BodyWhitelist = new();
 
+    public VirusData()
+    {
+        InitializeWhitelist();
+    }
+
+    public VirusData(string strainId)
+    {
+        InitializeWhitelist();
+        StrainId = strainId;
+    }
+
+    private void InitializeWhitelist()
+    {
+        EntityWhitelist ??= new EntityWhitelist();
+
+        EntityWhitelist.Components = BaseVirusSettings.DefaultWhitelistComponents.ToArray();
+        EntityWhitelist.RequireAll = true;
+    }
+
     public override bool Equals(ReagentData? other)
     {
         if (other is not VirusData o)
@@ -117,7 +188,16 @@ public sealed partial class VirusData : ReagentData
         if (StrainId != o.StrainId)
             return false;
 
-        if (!MathHelper.CloseTo(ComplexityVaccine, o.ComplexityVaccine))
+        if (!MathHelper.CloseTo(MutationPoints, o.MutationPoints))
+            return false;
+
+        if (!MathHelper.CloseTo(MultiPriceDeleteSymptom, o.MultiPriceDeleteSymptom))
+            return false;
+
+        if (!MathHelper.CloseTo(DamageWhenDead, o.DamageWhenDead))
+            return false;
+
+        if (!MathHelper.CloseTo(RegenThreshold, o.RegenThreshold))
             return false;
 
         if (!MathHelper.CloseTo(Threshold, o.Threshold))
@@ -153,7 +233,10 @@ public sealed partial class VirusData : ReagentData
         return new VirusData
         {
             StrainId = StrainId,
-            ComplexityVaccine = ComplexityVaccine,
+            MutationPoints = MutationPoints,
+            MultiPriceDeleteSymptom = MultiPriceDeleteSymptom,
+            DamageWhenDead = DamageWhenDead,
+            RegenThreshold = RegenThreshold,
             Threshold = Threshold,
             DefaultMedicineResistance = DefaultMedicineResistance,
             Infectivity = Infectivity,
@@ -182,7 +265,10 @@ public sealed partial class VirusData : ReagentData
         var hash = new HashCode();
 
         hash.Add(StrainId);
-        hash.Add(ComplexityVaccine);
+        hash.Add(MutationPoints);
+        hash.Add(MultiPriceDeleteSymptom);
+        hash.Add(DamageWhenDead);
+        hash.Add(DamageWhenDead);
         hash.Add(Threshold);
         hash.Add(DefaultMedicineResistance);
         hash.Add(Infectivity);

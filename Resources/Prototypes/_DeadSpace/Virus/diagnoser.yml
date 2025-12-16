@@ -278,8 +278,6 @@
           - DiagnoserFlask
   - type: VirusSolutionAnalyzer
 
-
-
 - type: entity
   parent: BaseComputerAiAccess
   id: ComputerVirusEvolutionConsole
