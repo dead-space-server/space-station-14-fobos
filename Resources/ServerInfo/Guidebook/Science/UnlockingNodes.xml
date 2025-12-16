@@ -1,48 +1,48 @@
 <Document>
-  # Unlocking Nodes
+  # Разблокировка узлов
   <Box>
     <GuideEntityEmbed Entity="ComplexXenoArtifact" Caption=""/>
     <GuideEntityEmbed Entity="ComplexXenoArtifactItem" Caption=""/>
   </Box>
 
-  To activate and unlock nodes on an artifact, you should:
-  - Check a node on the [bold]Analysis Console[/bold] to check its triggers and effects.
-  - Perform the [bold]triggers[/bold] listed in the console. Some require direct interaction with the artifact, while others may only need the correct environment or a specific action performed nearby.
-  - Once a trigger is successfully performed, the artifact will respond with the message: [italic]"It begins to shift in strange ways..."[/italic]. The [bold]Node Scanner[/bold] will then indicate which specific nodes are being triggered.
+  Чтобы активировать и разблокировать узлы на артефакте, необходимо:
+  - Проверьте узел на [bold]Консоль анализа[/bold] чтобы проверить его триггеры и эффекты.
+  - Выполните [bold]триггеры[/bold] указан в консоли. Некоторым требуется прямое взаимодействие с артефактом, а другим может потребоваться только правильная среда или определенное действие, выполняемое поблизости.
+  - После успешного выполнения триггера артефакт ответит сообщением: [italic]«Оно начинает меняться странным образом…»[/italic]. [bold]Сканер узла[/bold] затем укажет, какие конкретные узлы запускаются.
 
-  Artifacts enter an unlocking state after the first trigger is met. During this state, any remaining triggers must be completed. The unlocking window initially lasts a few seconds and resets each time a new trigger is activated. This window grows longer with each additional node unlocked, giving more time to complete further triggers.
+  Артефакты переходят в состояние разблокировки после срабатывания первого триггера. В этом состоянии все оставшиеся триггеры должны быть завершены. Окно разблокировки изначально длится несколько секунд и сбрасывается каждый раз при активации нового триггера. Это окно увеличивается с каждым разблокированным дополнительным узлом, давая больше времени для выполнения дальнейших триггеров.
 
-  Once all required triggers are completed successfully, the artifact will trigger it's effect and a popup will appear saying: [italic]"It slows down, visibly changed."[/italic], and the node will appear as [bold][color=plum]Active[/color][/bold] on the Console.
+  Как только все необходимые триггеры будут выполнены успешно, артефакт активирует свой эффект и появится всплывающее окно с сообщением: [italic]«Он замедляется, заметно меняется».[/italic], и узел будет выглядеть как [bold][color=plum]Активный[/color][/bold] на консоли.
 
-  If an artifact fails to activate, it will stop resonating and display the message: [italic]"It slows down before uneventfully stopping."[/italic] After this, it enters a cooldown period before it can be activated again.
+  Если артефакт не активируется, он перестанет резонировать и отобразит сообщение: [italic]«Он замедляется, прежде чем остановиться без происшествий».[/italic] После этого он вступает в период восстановления, прежде чем его можно будет снова активировать.
 
-  The order of trigger activation [bold]does not matter[/bold] for individual nodes. [italic]However[/italic], some triggers affect multiple nodes. As a rule of thumb, start with a trigger that is unique to the node you want to unlock. Activating a trigger for a different node during this phase prevents the target node from unlocking until the artifact’s cooldown ends.
+  Порядок активации триггера [bold]не имеет значения[/bold] для отдельных узлов. [italic]Однако[/italic], некоторые триггеры влияют на несколько узлов. Как правило, начните с триггера, уникального для узла, который вы хотите разблокировать. Активация триггера для другого узла на этом этапе предотвращает разблокировку целевого узла до тех пор, пока не закончится время восстановления артефакта.
 
   <GuideReagentEmbed Reagent="Artifexium"/>
 
-  ## Active Nodes
-  Once unlocked, a node is considered active. Only the highest unlocked nodes in a tree’s layer are activatable, lower nodes in the same tree cannot be triggered anymore once a higher node has been activated.
+  ## Активные узлы
+  После разблокировки узел считается активным. Активировать можно только самые верхние разблокированные узлы в слое дерева, нижние узлы в том же дереве больше не могут быть активированы после активации узла более высокого уровня.
 
-  Artifacts often have multiple trees. Layer precedence applies within each tree, but different trees operate independently. This means nodes in different trees can be activated simultaneously as long as they are the highest unlocked nodes in their respective trees.
+  Артефакты часто имеют несколько деревьев. Приоритет слоев применяется внутри каждого дерева, но разные деревья работают независимо. Это означает, что узлы в разных деревьях могут быть активированы одновременно, если они являются самыми высокими незаблокированными узлами в своих соответствующих деревьях.
 
-  [bold]Manual activation triggers all unlocked nodes at once and consumes durability.[/bold]
+  [bold]Ручная активация активирует все разблокированные узлы одновременно и потребляет долговечность.[/bold]
 
   <GuideReagentEmbed Reagent="ArtifactGlue"/>
 
-  ## Triggers
-  Examples include:
-  - Examining the artifact
-  - Playing an instrument
-  - Damaging or throwing it
-  - Exposing it to gases (plasma, tritium, etc.)
-  - Changing pressure or temperature
-  - Using tools (screwdriver, multitool, crowbar, wrench)
-  - Splashing reagents (blood, water, ammonia, etc.)
-  - Killing something nearby
+  ## Триггеры
+  Примеры включают в себя:
+  - Осмотр артефакта
+  - Игра на инструменте
+  - Повредить или бросить его
+  - Воздействие газов (плазма, тритий и т. д.)
+  - Изменение давления или температуры
+  - Использование инструментов (отвертка, мультитул, лом, гаечный ключ)
+  - Брызги реагентов (кровь, вода, аммиак и т.д.)
+  - Убить кого-то поблизости
 
-  ## Effects
-  Effects can be:
-  - [color=green]Harmless:[/color] producing plants, animals, or junk
-  - [color=#00ccff]Helpful:[/color] charging batteries, creating instruments or money
-  - [color=red]Hazardous:[/color] anomalies, radiation, explosions, hostile fauna
+  ## Эффекты
+  Эффекты могут быть:
+  - [color=green]Безвредный:[/color] производство растений, животных или мусора
+  - [color=#00ccff]Полезный:[/color] зарядка батарей, создание инструментов или денег
+  - [color=red]Опасно:[/color] аномалии, радиация, взрывы, враждебная фауна
 </Document>

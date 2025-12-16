@@ -1,0 +1,266 @@
+- type: sponsorLoadout
+  id: Prometheus
+  entity: ClothingBackpackPrometheus
+  sponsorOnly: true
+
+# Backpack
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBackpackPrometheus
+  name: рюкзак агента
+  description: Вместительный рюкзак с множеством карманов, предназначенный для агентов NanoTrasen.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus/backpack.rsi
+  - type: Storage
+    maxItemSize: Huge
+    grid:
+    - 0,0,19,9
+  - type: StorageFill
+    contents:
+    - id: ClothingOuterHardsuitPrometheus
+    - id: ClothingHandsGlovesPrometheus
+    - id: ClothingShoesBootsMagPrometheus
+    - id: ClothingShoesBootsPrometheus
+    - id: ClothingEyesGlassesPrometheus
+    - id: ClothingMaskGasPrometheus
+    - id: ClothingUniformJumpsuitPrometheus
+    - id: ClothingBeltPrometheus
+    - id: ClothingHeadsetPrometheus
+    - id: FlippoLighterPrometheus
+    - id: JetpackPrometheus
+    - id: JukeboxMK
+    - id: TapeRecorderr
+    - id: TapeEmpty
+      amount: 1
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Hardsuit
+- type: entity
+  parent: ClothingOuterHardsuitAtmos
+  id: ClothingOuterHardsuitPrometheus
+  name: тёмно-синий скафандр агента
+  description: Тяжелобронированный скафандр, предназначенный для специальных операций. Прототип инверсивной инженерии NanoTrasen.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus/hardsuit.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus/hardsuit.rsi
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitPrometheus
+  - type: Item
+    size: Huge
+  - type: PressureProtection
+    highPressureMultiplier: 0.05
+    lowPressureMultiplier: 1000
+  - type: ExplosionResistance
+    damageCoefficient: 0.5
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.5
+        Slash: 0.5
+        Piercing: 0.4
+        Heat: 0.5
+        Radiation: 0.5
+        Caustic: 0.5
+  - type: ClothingSpeedModifier
+    walkModifier: 0.9
+    sprintModifier: 0.9
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+- type: entity
+  parent: ClothingHeadHelmetHardsuitSyndieMedic
+  id: ClothingHeadHelmetHardsuitPrometheus
+  categories: [ HideSpawnMenu ]
+  name: тёмно-синий шлем скафандра агента
+  description: Тяжелобронированный шлем для спецопераций, оснащённый прототипом инверсивной инженерии NanoTrasen.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus/helmet.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus/helmet.rsi
+  - type: PointLight
+    color: "#3fb594"
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Gloves
+- type: entity
+  parent: ClothingHandsGlovesDominator
+  id: ClothingHandsGlovesPrometheus
+  name: боевые перчатки агента
+  description: Тактические огнеупорные и ударопрочные перчатки.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus/gloves.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus/gloves.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Boots
+- type: entity
+  parent: ClothingShoesBootsMag
+  id: ClothingShoesBootsMagPrometheus
+  name: тёмно-синие магнитные сапоги
+  description: Новейшие магнитные сапоги, которые не замедляют движения своего владельца.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus/magboots.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus/magboots.rsi
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+- type: entity
+  parent: ClothingShoesBaseButcherable
+  id: ClothingShoesBootsPrometheus
+  name: ботинки агента
+  description: Ботинки для боевых операций в глубоком космосе.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus/boots.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus/boots.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Glasses
+- type: entity
+  parent: [ClothingEyesGlassesMeson, ShowSecurityIcons]
+  id: ClothingEyesGlassesPrometheus
+  name: визор агента
+  description: Профессиональный охранный визор, разработанный как прототип инверсивной инженерии NanoTrasen.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus/hud.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus/hud.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Mask
+- type: entity
+  parent: ClothingMaskGasSyndicate
+  id: ClothingMaskGasPrometheus
+  name: боевой противогаз агента
+  description: Высокотехнологичный противогаз с подключением к баллону и защитой от сварочного излучения.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus/gasmask.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus/gasmask.rsi
+  - type: EyeProtection
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# JumpSuit
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpsuitPrometheus
+  name: комбинезон агента
+  description: Униформа элитных агентов, выполняющих тактические операции в глубоком космосе.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus/jumpsuit.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus/jumpsuit.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Jetpack
+- type: entity
+  parent: JetpackBlackFilled
+  id: JetpackPrometheus
+  name: джетпак агента
+  description: Реактивный ранец для особых операций. Вмещает 5 литров газа.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus/jetpack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus/jetpack.rsi
+    slots:
+    - Back
+  - type: Tag
+    tags: [ ] # ignore "WhitelistChameleon" tag
+
+# Belt
+- type: entity
+  parent: ClothingBeltStorageBase
+  id: ClothingBeltPrometheus
+  name: плечевая кобура агента
+  description: Глубокая плечевая кобура, способная вместить множество различных предметов.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus/belt.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus/belt.rsi
+  - type: Item
+    size: Huge
+  - type: Storage
+    grid:
+    - 0,0,9,1
+  - type: StorageFill
+    contents:
+    - id: PowerDrill
+    - id: JawsOfLife
+    - id: WelderExperimental
+    - id: Multitool
+
+# Headset
+- type: entity
+  parent: ClothingHeadsetAlt
+  id: ClothingHeadsetPrometheus
+  name: полноразмерная тёмно-синяя гарнитура
+  description: Модифицированный модульный интерком агента, надеваемый на голову. Имеет 5 ячеек для ключей шифрования.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus/headset.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus/headset.rsi
+  - type: Headset
+    color: "#5ef5dc"
+  - type: EncryptionKeyHolder
+    keySlots: 4
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Lighter
+- type: entity
+  parent: FlippoSyndicateLighter
+  id: FlippoLighterPrometheus
+  name: зажигалка с гравировкой Синдиката
+  description: Прочная металлическая зажигалка, способна самостоятельно вырабатывать топливо.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus/lighter.rsi
+  - type: SolutionRegeneration
+    solution: Welder
+    generated:
+      reagents:
+      - ReagentId: WeldingFuel
+        Quantity: 0.2
+  - type: PointLight
+    enabled: false
+    netsync: false
+    radius: 2
+    color: purple
+
