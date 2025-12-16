@@ -1,0 +1,17 @@
+- type: entity
+  id: GiftsXmas
+  parent: CargoGiftsBase
+  components:
+  - type: StationEvent
+    weight: 8
+    duration: 120
+    earliestStart: 10
+  - type: CargoGiftsRule
+    description: cargo-gift-xmas
+    dest: cargo-gift-dest-crew
+    gifts:
+      FunXmasGift: 1
+      FoodGingerbreadCookies: 1
+      BlockSnow: 1
+      FunFireworkBox: 1
+      FunSmallXmasTree: 1

@@ -1,0 +1,10 @@
+- type: entity
+  id: CrateBlockSnow
+  parent: CrateFreezer
+  name: ящик блоков снега
+  description: Содержит 90 плотных блоков снега.
+  components:
+  - type: StorageFill
+    contents:
+      - id: BlockSnow
+        amount: 3

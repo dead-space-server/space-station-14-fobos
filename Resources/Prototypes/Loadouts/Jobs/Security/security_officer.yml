@@ -135,6 +135,11 @@
 - type: loadout
   id: ArmorVest
   equipment:
+    outerClothing: ClothingOuterArmorBasic
+
+- type: loadout
+  id: ArmorVestSec
+  equipment:
     outerClothing: ClothingOuterVestArmorSec # DS14
 
 - type: loadout
@@ -163,11 +168,11 @@
   equipment:
     shoes: ClothingShoesBootsWinterSecFilled
 
-# PDA
-- type: loadout
-  id: SecurityPDA
-  equipment:
-    id: SecurityPDA
+# PDA # DS14-disabled
+#- type: loadout
+#  id: SecurityPDA
+#  equipment:
+#    id: SecurityPDA
 
 # - type: loadout
 #   id: SeniorOfficerPDA
@@ -218,18 +223,21 @@
     back:
     - Dinkystar
 
-# Медаль
+# Medal
 - type: loadoutEffectGroup
-  id: SecurityOfficerMedal
+  id: SecurityOfficerMasterMedal
   effects:
   - !type:JobRequirementLoadoutEffect
     requirement:
       !type:RoleTimeRequirement
       role: JobSecurityOfficer
-      time: 270000 # 75 hours
+      time: 100h
 
 - type: loadout
   id: SecurityOfficerMedal
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: SecurityOfficerMasterMedal
   storage:
     back:
     - ClothingNeckSecurityOfficerMedal

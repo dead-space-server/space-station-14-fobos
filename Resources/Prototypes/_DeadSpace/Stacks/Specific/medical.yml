@@ -1,0 +1,6 @@
+﻿- type: stack
+  id: Nanopaste
+  name: construction-graph-tag-nanopaste
+  icon: { sprite: "_DeadSpace/Objects/Specific/Medical/medical.rsi", state: nanopaste }
+  spawn: Nanopaste
+  maxCount: 10

@@ -73,8 +73,8 @@
 - type: entity
   parent: BasePlushie
   id: PlushieIps
-  name: плюшевый КПС
-  description: Милый плюшевый КПС.
+  name: плюшевый КПБ
+  description: Милый плюшевый КПБ.
   components:
   - type: Sprite
     sprite: _DeadSpace/Items/Toys/misc.rsi

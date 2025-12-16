@@ -4,7 +4,7 @@
   abstract: true
   components:
   - type: Sprite
-    sprite: Redspace/Mobs/Species/IPC/organs.rsi
+    sprite: _DeadSpace/Mobs/Species/IPC/organs.rsi
   - type: Organ
   - type: Extractable
     grindableSolutionName: organ

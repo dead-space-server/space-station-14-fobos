@@ -1,9 +1,9 @@
 <Document>
 
-# Medicinal Recipes
+  # Медицинские блюда
 
-These preparations have interesting medical effects, or are just straight-up medicines.
+  Эти блюда или имеют медицинские свойства. Ну, или просто являются медициной.
 
-<GuideMicrowaveGroupEmbed Group="Medicinal"/>
+  <GuideMicrowaveGroupEmbed Group="Medicinal"/>
 
 </Document>

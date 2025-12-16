@@ -1,4 +1,7 @@
 - type: Tag
+  id: ADTFoodSausageFried
+
+- type: Tag
   id: AmbrosiaDeus
 
 - type: Tag
@@ -29,7 +32,16 @@
   id: BorgSecTorso
 
 - type: Tag
+  id: DarkFlower
+
+- type: Tag
+  id: DrinkBeerBottleFull
+
+- type: Tag
   id: CakeBrain
+
+- type: Tag
+  id: CatEmotes
 
 - type: Tag
   id: CaviarHolo
@@ -59,6 +71,9 @@
   id: DonkCo
 
 - type: Tag
+  id: Demon
+
+- type: Tag
   id: EnergyCartridge
 
 - type: Tag
@@ -71,10 +86,25 @@
   id: EncryptionTaipan
 
 - type: Tag
+  id: FlamethrowerBackTank
+
+- type: Tag
+  id: FlamethrowerNozzle
+
+- type: Tag
   id: FelinidFood
 
 - type: Tag
+  id: FelinidEmotes
+
+- type: Tag
   id: FittableInBackpackCase
+
+- type: Tag
+  id: FoodCheeseSlice
+
+- type: Tag
+  id: FoodChiliPepper
 
 - type: Tag
   id: GiantSpiderSpace
@@ -95,6 +125,9 @@
   id: HardsuitSyndie
 
 - type: Tag
+  id: HolopadAdminNotification
+
+- type: Tag
   id: Hypopen
 
 - type: Tag
@@ -108,6 +141,9 @@
 
 - type: Tag
   id: LauncherChinaLake
+
+- type: Tag
+  id: Lighter
 
 - type: Tag
   id: LightMachineGunL6
@@ -143,6 +179,18 @@
   id: MukhtarWearable
 
 - type: Tag
+  id: PinkFlower
+
+- type: Tag
+  id: PurpleFlower
+
+- type: Tag
+  id: RedFlower
+
+- type: Tag
+  id: Nanopaste
+
+- type: Tag
   id: Necro
 
 - type: Tag
@@ -161,6 +209,9 @@
   id: Plasteel
 
 - type: Tag
+  id: Radiance
+
+- type: Tag
   id: RealCapfruit
 
 - type: Tag
@@ -170,7 +221,10 @@
   id: ShotgunBulldog
 
 - type: Tag
-  id: SiliconIPSIPCEmotes
+  id: SiliconIPCEmotes
+
+- type: Tag
+  id: SlimePersonEmotes
 
 - type: Tag
   id: SMGTommyGun
@@ -207,6 +261,9 @@
 
 - type: Tag
   id: SyndieSabre
+
+- type: Tag
+  id: TailEmotes
 
 - type: Tag
   id: Taipan
@@ -263,6 +320,9 @@
   id: TrashBagBlue
 
 - type: Tag
+  id: VulpkaninEmotes
+
+- type: Tag
   id: WeldingMaskFlame
 
 - type: Tag
@@ -276,3 +336,11 @@
 
 - type: Tag
   id: WeldingMaskWhite
+
+- type: Tag
+  id: WhiteFlower
+
+- type: Tag
+  id: YellowFlower
+
+  # Обязательно в алфавитном порядке

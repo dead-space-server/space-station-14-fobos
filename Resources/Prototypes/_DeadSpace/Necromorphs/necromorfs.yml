@@ -227,6 +227,7 @@
   - type: StunAttack
     paralyzeTime: 1
   - type: CorpseCollector
+    countAbsorptions: 4
   - type: InfectorDead
     spawned:
     - id: InfectorGland # Что вылупилось
@@ -258,7 +259,6 @@
   # - Kobolt
   # - Xenomorph
   - IPC
-  - IPS
   - Diona
   components:
   - type: GhostTakeoverAvailable
