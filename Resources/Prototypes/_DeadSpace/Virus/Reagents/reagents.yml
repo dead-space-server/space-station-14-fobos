@@ -102,7 +102,7 @@
     Medicine:
       effects:
       - !type:Antibiotic
-        baseDamage: 20
+        baseDamage: 16
         resistanceIncrease: 0.05
         conditions:
         - !type:ReagentThreshold

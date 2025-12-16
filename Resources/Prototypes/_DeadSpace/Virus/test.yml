@@ -8,7 +8,7 @@
       strainId: TestVirus
       activeSymptom:
       - CoughSymptom
-      speciesWhitelist:
+      bodyWhitelist:
       - Human
       mutationPoints: 10000
       
