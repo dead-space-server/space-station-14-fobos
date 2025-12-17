@@ -22,10 +22,6 @@ public sealed partial class VirusSolutionAnalyzerComponent : Component
 
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public ProtoId<SinkPortPrototype> VirusEvolutionConsolePort = "VirusEvolutionConsoleReceiver";
-
-    [DataField]
-    [ViewVariables(VVAccess.ReadOnly)]
     public SoundSpecifier? PrintingSound = new SoundPathSpecifier("/Audio/Machines/diagnoser_printing.ogg");
 
     [DataField]

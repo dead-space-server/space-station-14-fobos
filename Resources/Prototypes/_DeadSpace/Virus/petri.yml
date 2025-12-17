@@ -89,5 +89,5 @@
   - type: ImmunitetInfectionDead
   - type: ImmunEgg
   - type: Construction
-    graph: petriNode
-    node: medicalbed
+    graph: petri
+    node: petriNode
