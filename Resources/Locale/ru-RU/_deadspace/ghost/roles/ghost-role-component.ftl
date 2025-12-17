@@ -14,4 +14,4 @@ ghost-role-information-taipan-ai-rules =
 
 ghost-role-information-space-mini-dragon-name = Малыш дракона
 ghost-role-information-space-mini-dragon-description = Помогите вашему старшему собрату сдержать портал в сохранности.
-ghost-role-information-space-mini-dragon-rules = Вы [color={ role-type-team-antagonist-color }][bold]{ role-type-team-antagonist-name }[/bold][/color], в команде с другими призванными сущностями с портала.
+ghost-role-information-space-mini-dragon-rules = Вы [color={ role-type-team-antagonist-color }][bold]{ role-type-team-antagonist-name }[/bold][/color], в команде с другими призванными сущностями с портала. В случае если ваш старший собрат погибнет, но экипаж решит вас сохранить как питомца, вы можете во благо выживание подчиниться им.
