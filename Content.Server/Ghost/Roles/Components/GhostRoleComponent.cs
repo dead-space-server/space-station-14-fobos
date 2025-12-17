@@ -73,6 +73,7 @@ public sealed partial class GhostRoleComponent : Component
             IoCManager.Resolve<IEntityManager>().System<GhostRoleSystem>().UpdateAllEui();
         }
     }
+    // DS14-start
     [ViewVariables(VVAccess.ReadWrite)]
     [Access(typeof(GhostRoleSystem), Other = AccessPermissions.ReadWriteExecute)] // FIXME Friends
     public string RoleCategory
@@ -84,6 +85,7 @@ public sealed partial class GhostRoleComponent : Component
             IoCManager.Resolve<IEntityManager>().System<GhostRoleSystem>().UpdateAllEui();
         }
     }
+    // DS14-end
 
     /// <summary>
     /// The mind roles that will be added to the mob's mind entity
