@@ -101,7 +101,8 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
                 {
                     MinSize = new Vector2(110, 30),
                     Name = category,
-                    Text = $"{category} ({_categoryRoleCounts[category]})"
+                    Text = $"{category} ({_categoryRoleCounts[category]})",
+                    Pressed = category == _currentCategoryFilter
                 };
                 categoryButton.OnPressed += _ => FilterByCategory(category);
 
@@ -150,6 +151,7 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
             {
                 EntryContainer.AddChild(buttons);
             }
+            UpdateVisibleElements(); // DS14
         }
         // DS14-start
         private void FilterByCategory(string category)
