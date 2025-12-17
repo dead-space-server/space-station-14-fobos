@@ -31,7 +31,6 @@ public sealed class VirusDiagnoserSystem : EntitySystem
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly VirusDiagnoserConsoleSystem _console = default!;
     [Dependency] private readonly PowerReceiverSystem _powerReceiverSystem = default!;
-    [Dependency] private readonly IEntityManager _entityManager = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly VirusDiagnoserDataServerSystem _dataServer = default!;
     [Dependency] private readonly PaperSystem _paperSystem = default!;

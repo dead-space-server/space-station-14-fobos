@@ -4,10 +4,11 @@ using Content.Shared.StatusIcon.Components;
 using Robust.Shared.Prototypes;
 using Content.Shared.DeadSpace.Virus.Components;
 using Robust.Client.Player;
+using Content.Shared.Virus;
 
 namespace Content.Client.DeadSpace.Virus.Systems;
 
-public sealed class VirusSystem : EntitySystem
+public sealed class VirusSystem : SharedVirusSystem
 {
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly IPlayerManager _player = default!;

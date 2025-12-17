@@ -1,0 +1,10 @@
+- type: accent
+  id: virus
+  fullReplacements:
+  - accent-words-virus-1
+  - accent-words-virus-2
+  - accent-words-virus-3
+  - accent-words-virus-4
+  - accent-words-virus-5
+  - accent-words-virus-6
+  - accent-words-virus-7

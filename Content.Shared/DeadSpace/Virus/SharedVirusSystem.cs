@@ -4,6 +4,14 @@ using Content.Shared.DeadSpace.Virus.Components;
 using Robust.Shared.Prototypes;
 using Content.Shared.DeadSpace.Virus.Prototypes;
 using Content.Shared.Body.Prototypes;
+using Content.Shared.DeadSpace.Virus.Symptoms;
+using System.Linq;
+using Content.Shared.DeadSpace.TimeWindow;
+using Robust.Shared.Timing;
+using Robust.Shared.Random;
+using Content.Shared.Zombies;
+using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
+using Content.Shared.Mobs.Systems;
 
 namespace Content.Shared.Virus;
 
@@ -57,7 +65,8 @@ public struct BaseVirusSettings
         "EggSpider",
         "XenoMaid",
         "AnimalRuminant",
-        "SmartCorgi"
+        "SmartCorgi",
+        "SuperSoldier"
     };
 
     /// <summary>
@@ -72,12 +81,25 @@ public struct BaseVirusSettings
         };
 }
 
-public sealed partial class SharedVirusSystem : EntitySystem
+public abstract partial class SharedVirusSystem : EntitySystem
 {
     [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly ILogManager _logManager = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly MobStateSystem _mobState = default!;
+    private ISawmill _sawmill = default!;
+
+    /// <summary>
+    ///     Стандартное окно времени проявления симптом.
+    /// </summary>
+    protected TimedWindow DefaultSymptomWindow = default!;
     public override void Initialize()
     {
         base.Initialize();
+
+        _sawmill = _logManager.GetSawmill("SharedVirusSystem");
+        DefaultSymptomWindow = new TimedWindow(15f, 60f, _timing, _random);
     }
 
     public int GetSymptomPrice(VirusData data, ProtoId<VirusSymptomPrototype> symptomId)
@@ -138,5 +160,36 @@ public sealed partial class SharedVirusSystem : EntitySystem
         }
 
         return quantity;
+    }
+
+    /// <summary>
+    ///     Могут ли симптомы проявиться.
+    /// </summary>
+    public bool CanManifestInHost(Entity<VirusComponent?> entity)
+    {
+        if (!Resolve(entity, ref entity.Comp, false))
+            return false;
+
+        if (_mobState.IsDead(entity))
+            return false;
+
+        if (HasComp<PrimaryPacientComponent>(entity)
+            || HasComp<ZombieComponent>(entity)
+            || HasComp<NecromorfComponent>(entity))
+            return false;
+
+        return true;
+    }
+
+    public bool HasSymptom<T>(Entity<VirusComponent?> entity)
+    where T : IVirusSymptom
+    {
+        if (!Resolve(entity, ref entity.Comp, false))
+        {
+            _sawmill.Warning($"Entity {entity.Owner} не имеет компонента VirusComponent, невозможно проверить наличие симптома {typeof(T).Name}.");
+            return default!;
+        }
+
+        return entity.Comp.ActiveSymptomInstances.Any(s => s is T);
     }
 }

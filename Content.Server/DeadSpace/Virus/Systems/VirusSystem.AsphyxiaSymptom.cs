@@ -2,29 +2,31 @@
 
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Server.DeadSpace.Virus.Symptoms;
-using Robust.Shared.Physics.Events;
+using Content.Server.Body.Systems;
+using Content.Shared.Body.Components;
 using Content.Shared.Virus;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
 public sealed partial class VirusSystem : SharedVirusSystem
 {
-    public void RashInitialize()
+    public void AsphyxiaInitialize()
     {
-        SubscribeLocalEvent<VirusComponent, StartCollideEvent>(OnCollide);
+        SubscribeLocalEvent<VirusComponent, InhaleLocationEvent>(OnInhale);
     }
 
-    private void OnCollide(Entity<VirusComponent> ent, ref StartCollideEvent args)
+    private void OnInhale(Entity<VirusComponent> ent, ref InhaleLocationEvent args)
     {
-        if (!HasSymptom<RashSymptom>((ent.Owner, ent.Comp)))
-        {
-            _sawmill.Debug($"[{ent.Owner}] не имеет симптома (RashSymptom)");
+        if (!HasSymptom<AsphyxiaSymptom>((ent.Owner, ent.Comp)))
             return;
-        }
 
         if (!CanManifestInHost((ent, ent.Comp)))
             return;
 
-        ProbInfect((ent.Owner, ent.Comp), args.OtherEntity);
+        if (TryComp<InternalsComponent>(ent, out var internalsComponent))
+        {
+            if (internalsComponent.BreathTools.Count <= 0)
+                args.Gas = null; // воздуха нет
+        }
     }
 }

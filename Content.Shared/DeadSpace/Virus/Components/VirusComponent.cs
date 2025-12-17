@@ -241,12 +241,11 @@ public sealed partial class VirusData : ReagentData
             DefaultMedicineResistance = DefaultMedicineResistance,
             Infectivity = Infectivity,
 
-            ActiveSymptom = ActiveSymptom,
+            ActiveSymptom = ActiveSymptom.ToList(),
+            BodyWhitelist = BodyWhitelist.ToList(),
 
             MedicineResistance = MedicineResistance
                 .ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
-
-            BodyWhitelist = BodyWhitelist,
 
             EntityWhitelist = EntityWhitelist is null
                 ? null

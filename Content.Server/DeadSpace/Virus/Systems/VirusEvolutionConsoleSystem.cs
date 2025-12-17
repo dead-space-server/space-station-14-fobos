@@ -22,7 +22,7 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
     [Dependency] private readonly PowerReceiverSystem _powerReceiverSystem = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly VirusSolutionAnalyzerSystem _virusSolutionAnalyzer = default!;
-    [Dependency] private readonly SharedVirusSystem _sharedVirusSystem = default!;
+    [Dependency] private readonly VirusSystem _virusSystem = default!;
 
     public override void Initialize()
     {
@@ -54,8 +54,16 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
 
         VirusData? virusData = null;
 
-        if (_virusSolutionAnalyzer.TryGetVirusDataFromContainer(component.VirusSolutionAnalyzer.Value, out var virusDataList))
-            virusData = virusDataList.FirstOrDefault();
+        if (_virusSolutionAnalyzer.TryGetVirusDataFromContainer(
+                component.VirusSolutionAnalyzer.Value,
+                out var virusDataList)
+            && virusDataList != null)
+        {
+            var source = virusDataList.FirstOrDefault();
+            virusData = source != null
+                ? (VirusData)source.Clone()
+                : null;
+        }
 
         switch (args.Button)
         {
@@ -66,7 +74,7 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
                         || virusData == null)
                         return;
 
-                    var price = _sharedVirusSystem.GetSymptomPrice(virusData, args.Symptom);
+                    var price = _virusSystem.GetSymptomPrice(virusData, args.Symptom);
                     if (server.Points < price)
                         return;
 
@@ -82,7 +90,7 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
                         || virusData == null)
                         return;
 
-                    var price = _sharedVirusSystem.GetBodyPrice(virusData);
+                    var price = _virusSystem.GetBodyPrice(virusData);
                     if (server.Points < price)
                         return;
 
@@ -98,7 +106,7 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
                         || virusData == null)
                         return;
 
-                    var price = _sharedVirusSystem.GetSymptomDeletePrice(virusData.MultiPriceDeleteSymptom);
+                    var price = _virusSystem.GetSymptomDeletePrice(virusData.MultiPriceDeleteSymptom);
                     if (server.Points < price)
                         return;
 
@@ -114,7 +122,7 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
                         || virusData == null)
                         return;
 
-                    var price = _sharedVirusSystem.GetBodyDeletePrice();
+                    var price = _virusSystem.GetBodyDeletePrice();
                     if (server.Points < price)
                         return;
 
@@ -256,7 +264,10 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
         if (console.Comp.VirusSolutionAnalyzer != null &&
             _virusSolutionAnalyzer.TryGetVirusDataFromContainer(console.Comp.VirusSolutionAnalyzer.Value, out var virusDataList))
         {
-            virusData = virusDataList.FirstOrDefault();
+            var source = virusDataList.FirstOrDefault();
+            virusData = source != null
+                ? (VirusData)source.Clone()
+                : null;
         }
 
         if (console.Comp.VirusDiagnoserDataServer != null &&

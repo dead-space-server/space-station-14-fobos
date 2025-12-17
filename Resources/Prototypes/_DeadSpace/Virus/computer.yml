@@ -62,7 +62,7 @@
 
 - type: entity
   id: ComputerDiagnoserDataServerCircuitboard
-  parent: BaseMachineCircuitboardTaipan
+  parent: BaseMachineCircuitboard
   name: машинная плата сервера данных диагноста заболеваний
   description: омпьютерная печатная плата для сервера данных диагноста заболеваний.
   components:

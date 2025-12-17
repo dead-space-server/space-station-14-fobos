@@ -13,7 +13,7 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 public sealed class DrowsinessSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.Drowsiness;
-    protected override float AddInfectivity => 0.01f;
+    protected override float AddInfectivity => 0.05f;
     private TimedWindow _slipDuration = default!;
     public static readonly EntProtoId StatusEffectForcedSleeping = "StatusEffectForcedSleeping";
 
@@ -24,7 +24,7 @@ public sealed class DrowsinessSymptom : VirusSymptomBase
     {
         base.OnAdded(host, virus);
 
-        _slipDuration = new TimedWindow(15f, 60f, Timing, Random);
+        _slipDuration = new TimedWindow(5f, 15f, Timing, Random);
         EffectTimedWindow.AddTime(_slipDuration.Remaining);
     }
 
@@ -44,11 +44,11 @@ public sealed class DrowsinessSymptom : VirusSymptomBase
 
         var statusEffectsSystem = EntityManager.System<StatusEffectsSystem>();
 
+        _slipDuration.Reset();
         var duration = Math.Abs(Timing.CurTime.TotalSeconds - _slipDuration.Remaining.TotalSeconds);
 
         statusEffectsSystem.TryAddStatusEffectDuration(host, StatusEffectForcedSleeping, TimeSpan.FromSeconds(duration));
 
-        _slipDuration.Reset();
         EffectTimedWindow.AddTime(_slipDuration.Remaining);
     }
 

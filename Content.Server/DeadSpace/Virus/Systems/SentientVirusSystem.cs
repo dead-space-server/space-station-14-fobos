@@ -21,7 +21,6 @@ public sealed class SentientVirusSystem : EntitySystem
     [Dependency] private readonly UserInterfaceSystem _uiSystem = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly VirusSystem _virusSystem = default!;
-    [Dependency] private readonly SharedVirusSystem _sharedVirusSystem = default!;
     [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
     [Dependency] private readonly PopupSystem _popupSystem = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
@@ -137,7 +136,7 @@ public sealed class SentientVirusSystem : EntitySystem
         if (component.Data == null)
             return;
 
-        component.Data.MutationPoints += component.Data.RegenMutationPoints + _sharedVirusSystem.GetQuantityInfected(component.Data.StrainId);
+        component.Data.MutationPoints += component.Data.RegenMutationPoints + _virusSystem.GetQuantityInfected(component.Data.StrainId);
     }
 
     private void OnButtonPressed(EntityUid uid, SentientVirusComponent component, EvolutionConsoleUiButtonPressedMessage args)
@@ -151,7 +150,7 @@ public sealed class SentientVirusSystem : EntitySystem
                         || component.Data == null)
                         return;
 
-                    var price = _sharedVirusSystem.GetSymptomPrice(component.Data, proto);
+                    var price = _virusSystem.GetSymptomPrice(component.Data, proto);
                     if (component.Data.MutationPoints < price)
                         return;
 
@@ -167,7 +166,7 @@ public sealed class SentientVirusSystem : EntitySystem
                         || component.Data == null)
                         return;
 
-                    var price = _sharedVirusSystem.GetBodyPrice(component.Data);
+                    var price = _virusSystem.GetBodyPrice(component.Data);
                     if (component.Data.MutationPoints < price)
                         return;
 
@@ -183,7 +182,7 @@ public sealed class SentientVirusSystem : EntitySystem
                         || component.Data == null)
                         return;
 
-                    var price = _sharedVirusSystem.GetSymptomDeletePrice(component.Data.MultiPriceDeleteSymptom);
+                    var price = _virusSystem.GetSymptomDeletePrice(component.Data.MultiPriceDeleteSymptom);
                     if (component.Data.MutationPoints < price)
                         return;
 
@@ -199,7 +198,7 @@ public sealed class SentientVirusSystem : EntitySystem
                         || component.Data == null)
                         return;
 
-                    var price = _sharedVirusSystem.GetBodyDeletePrice();
+                    var price = _virusSystem.GetBodyDeletePrice();
                     if (component.Data.MutationPoints < price)
                         return;
 

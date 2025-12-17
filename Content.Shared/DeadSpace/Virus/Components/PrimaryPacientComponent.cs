@@ -23,6 +23,11 @@ public sealed partial class PrimaryPacientComponent : Component
         SentientVirus = sentientVirus;
     }
 
+    public PrimaryPacientComponent(string strainId)
+    {
+        StrainId = strainId;
+    }
+
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
     public ProtoId<FactionIconPrototype> StatusIcon { get; set; } = "PrimaryPacientFaction";

@@ -28,4 +28,19 @@ public sealed partial class VirusSymptomPrototype : IPrototype
     /// </summary>
     [DataField(required: true)]
     public VirusSymptom SymptomType;
+
+    /// <summary>
+    ///     Индикатор, требуется для управления сиптомами в случайных вирусах событий игры.
+    /// </summary>
+    [DataField("danger", required: true)]
+    public DangerIndicatorSymptom DangerIndicator;
 }
+
+public enum DangerIndicatorSymptom
+{
+    Low = 0,
+    Medium,
+    High,
+    Cataclysm
+}
+

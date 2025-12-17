@@ -3,39 +3,190 @@
   name: кашель
   description: вызывает сильный кашель у зараженного. Повышает шанс распространения вируса при контакте.
   symptomType: Cough
-  price: 1000
+  danger: Low
+  price: 300
 
 - type: virusSymptom
   id: VomitSymptom
   name: тошнота
   description: вызывает рвоту у зараженного
   symptomType: Vomit
-  price: 1500
+  danger: Medium
+  price: 500
 
 - type: virusSymptom
   id: RashSymptom
   name: сыпь
   description: вызывает кожную сыпь у зараженного. Повышает шанс заражения при контакте.
   symptomType: Rash
-  price: 1500
+  danger: Medium
+  price: 1000
 
 - type: virusSymptom
   id: DrowsinessSymptom
   name: сонливость
   description: вызывает сонливость у зараженного
   symptomType: Drowsiness
-  price: 1000
+  danger: Medium
+  price: 800
 
 - type: virusSymptom
   id: NecrosisSymptom
   name: некроз
   description: вызывает некроз тканей у зараженного
   symptomType: Necrosis
-  price: 2500
+  danger: High
+  price: 1200
   
 - type: virusSymptom
   id: ZombificationSymptom
   name: зомби
   description: превращает зараженного в зомби
   symptomType: Zombification
-  price: 5000
+  danger: Cataclysm
+  price: 3000
+
+- type: virusSymptom
+  id: LowComplexityChangeSymptom
+  name: деградация метаболизма
+  description: усложняет внутренние процессы вируса, увеличиваея сложность отката симптомов.
+  symptomType: LowComplexityChange
+  danger: Low
+  price: 800
+
+- type: virusSymptom
+  id: MedComplexityChangeSymptom
+  name: искажение метаболизма
+  description: серьёзно изменяет внутреннюю структуру вируса, увеличиваея сложность отката симптомов.
+  symptomType: MedComplexityChange
+  danger: Medium
+  price: 1600
+
+- type: virusSymptom
+  id: LowPostMortemResistanceSymptom
+  name: трупная устойчивость
+  description: вирус получает пониженный урон после смерти носителя.
+  symptomType: LowPostMortemResistance
+  danger: Medium
+  price: 600
+
+- type: virusSymptom
+  id: MedPostMortemResistanceSymptom
+  name: некротическая адаптация
+  description: вирус эффективно сохраняется в мёртвых тканях.
+  symptomType: MedPostMortemResistance
+  danger: High
+  price: 1000
+
+- type: virusSymptom
+  id: LowViralRegenerationSymptom
+  name: ускоренная репликация
+  description: вирус медленно восстанавливает своё здоровье.
+  symptomType: LowViralRegeneration
+  danger: Medium
+  price: 1200
+
+- type: virusSymptom
+  id: MedViralRegenerationSymptom
+  name: агрессивная регенерация
+  description: вирус активно восстанавливает здоровье и устойчивость.
+  symptomType: MedViralRegeneration
+  danger: High
+  price: 1800
+
+- type: virusSymptom
+  id: LowMutationAccelerationSymptom
+  name: нестабильная эволюция
+  description: вирус быстрее накапливает очки мутации.
+  symptomType: LowMutationAcceleration
+  danger: Low
+  price: 800
+
+- type: virusSymptom
+  id: MedMutationAccelerationSymptom
+  name: эволюционный всплеск
+  description: вирус резко ускоряет процесс мутаций.
+  symptomType: MedMutationAcceleration
+  danger: Medium
+  price: 2000
+
+- type: virusSymptom
+  id: LowPathogenFortressSymptom
+  name: укреплённый патоген
+  description: повышает общее здоровье вируса.
+  symptomType: LowPathogenFortress
+  danger: Medium
+  price: 1000
+
+- type: virusSymptom
+  id: MedPathogenFortressSymptom
+  name: вирусная крепость
+  description: значительно повышает живучесть вируса.
+  symptomType: MedPathogenFortress
+  danger: High
+  price: 1500
+
+- type: virusSymptom
+  id: LowChemicalAdaptationSymptom
+  name: химическая адаптация
+  description: вирус частично сопротивляется медикаментозному лечению.
+  symptomType: LowChemicalAdaptation
+  danger: Low
+  price: 700
+
+- type: virusSymptom
+  id: MedChemicalAdaptationSymptom
+  name: лекарственная резистентность
+  description: вирус сильно снижает эффективность лекарств.
+  symptomType: MedChemicalAdaptation
+  danger: Medium
+  price: 1400
+
+- type: virusSymptom
+  id: AggressiveTransmissionSymptom
+  name: агрессивная трансмиссия
+  description: вирус значительно повышает шанс заражения окружающих.
+  symptomType: AggressiveTransmission
+  danger: High
+  price: 1200
+
+- type: virusSymptom
+  id: NeuroSpikeSymptom
+  name: нейронный всплеск
+  description: вызывает резкие болевые импульсы и дезориентацию.
+  symptomType: NeuroSpike
+  danger: High
+  price: 2000
+
+- type: virusSymptom
+  id: VocalDisruptionSymptom
+  name: нарушение речи
+  description: заражённый теряет способность нормально разговаривать.
+  symptomType: VocalDisruption
+  danger: Medium
+  price: 1300
+
+- type: virusSymptom
+  id: AsphyxiaSymptom
+  name: удушье
+  description: вирус нарушает дыхание, вызывая кислородное голодание.
+  symptomType: Asphyxia
+  danger: High
+  price: 1400
+
+- type: virusSymptom
+  id: BlindableSymptom
+  name: помутнение зрения
+  description: вызывает слепоту.
+  symptomType: Blindable
+  danger: High
+  price: 1000
+
+- type: virusSymptom
+  id: ParalyzedLegsSymptom
+  name: паралич нижних конечностей
+  description: заражённый теряет возможность стоять и ходить.
+  symptomType: ParalyzedLegs
+  danger: High
+  price: 1400
+

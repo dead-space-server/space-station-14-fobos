@@ -2,8 +2,8 @@
 
 <DefaultWindow xmlns="https://spacestation14.io"
                Title="{Loc 'virus-evolution-window-title'}"
-               MinSize="750 500"
-               SetSize="900 600">
+               MinSize="900 600"
+               SetSize="1000 700">
 
     <TabContainer Name="MasterTabContainer">
 
@@ -24,7 +24,7 @@
                               VerticalExpand="True">
 
                     <!-- Available symptoms -->
-                    <PanelContainer MinWidth="220" Margin="5">
+                    <PanelContainer MinWidth="300" Margin="5">
                         <BoxContainer Orientation="Vertical">
                             <Label Text="{Loc 'virus-evolution-available-symptoms'}" />
                             <ScrollContainer VerticalExpand="True">
@@ -67,7 +67,7 @@
                     </PanelContainer>
 
                     <!-- Active symptoms -->
-                    <PanelContainer MinWidth="220" Margin="5">
+                    <PanelContainer MinWidth="300" Margin="5">
                         <BoxContainer Orientation="Vertical">
                             <Label Text="{Loc 'virus-evolution-active-symptoms'}" />
                             <ScrollContainer VerticalExpand="True">

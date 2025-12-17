@@ -24,7 +24,6 @@ public sealed class VirusMutationSystem : EntitySystem
 {
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly VirusSystem _virus = default!;
-    [Dependency] private readonly SharedVirusSystem _sharedVirus = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly ILogManager _logManager = default!;
@@ -188,7 +187,7 @@ public sealed class VirusMutationSystem : EntitySystem
             if (!_prototype.TryIndex(available[index], out var proto))
                 continue;
 
-            var price = _sharedVirus.GetSymptomPrice(host.Comp2.Data, proto);
+            var price = _virus.GetSymptomPrice(host.Comp2.Data, proto);
             if (host.Comp2.Data.MutationPoints < price)
                 continue;
 
@@ -225,7 +224,7 @@ public sealed class VirusMutationSystem : EntitySystem
         if (available.Count == 0)
             return;
 
-        var price = _sharedVirus.GetBodyPrice(host.Comp2.Data);
+        var price = _virus.GetBodyPrice(host.Comp2.Data);
         if (host.Comp2.Data.MutationPoints < price)
             return;
 

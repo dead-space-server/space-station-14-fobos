@@ -4,15 +4,28 @@ namespace Content.Shared.DeadSpace.Virus.Symptoms;
 
 public enum VirusSymptom
 {
-    // Базовые симптомы
-    Cough,                // кашель, увеличивает распространение
-    Vomit,                // тошнота, повышает уровень распространения
-    Rash,                 // повышает уровень распространения, персонаж чешется
-
-    // Средние симптомы
-    Drowsiness,           // впадание в сон
-
-    // Продвинутые / “тяжёлые”
-    Necrosis,             // медленно убивает тело
-    Zombification,        // при смерти носителя превращает в зомби
+    Cough,
+    Vomit,
+    Rash,
+    LowComplexityChange,
+    MedComplexityChange,
+    LowPostMortemResistance,
+    MedPostMortemResistance,
+    LowViralRegeneration,
+    MedViralRegeneration,
+    LowMutationAcceleration,
+    MedMutationAcceleration,
+    LowPathogenFortress,
+    MedPathogenFortress,
+    LowChemicalAdaptation,
+    MedChemicalAdaptation,
+    AggressiveTransmission,
+    Drowsiness,
+    Necrosis,
+    Zombification,
+    NeuroSpike,
+    VocalDisruption,
+    Asphyxia,
+    Blindable,
+    ParalyzedLegs
 }

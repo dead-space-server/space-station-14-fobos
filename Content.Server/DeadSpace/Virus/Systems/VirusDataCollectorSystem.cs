@@ -7,13 +7,8 @@ using Content.Shared.Virus;
 using Content.Shared.Nutrition.EntitySystems;
 using Content.Server.Popups;
 using Content.Shared.DeadSpace.Virus.Components;
-using Content.Shared.Chemistry.Reagent;
-using Robust.Shared.Prototypes;
-using Content.Shared.Humanoid.Prototypes;
-using System.Linq;
 using Content.Shared.Popups;
 using Content.Shared.Forensics.Components;
-using Content.Shared.Body.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -64,19 +59,7 @@ public sealed class VirusDataCollectorSystem : EntitySystem
             entity.Comp.DNA = Loc.GetString("drug-collector-dna-not-found");
 
         // Собираем данные вируса
-        var data = new VirusData
-        {
-            StrainId = virus.Data.StrainId,
-            Threshold = virus.Data.Threshold,
-            DefaultMedicineResistance = virus.Data.DefaultMedicineResistance,
-            Infectivity = virus.Data.Infectivity,
-            ActiveSymptom = virus.Data.ActiveSymptom,
-            EntityWhitelist = virus.Data.EntityWhitelist,
-            MedicineResistance = new Dictionary<ProtoId<ReagentPrototype>, float>(virus.Data.MedicineResistance),
-            BodyWhitelist = virus.Data.BodyWhitelist
-        };
-
-        entity.Comp.Data = data;
+        entity.Comp.Data = (VirusData)virus.Data.Clone();
         entity.Comp.IsUsed = true;
 
         args.Handled = true;
