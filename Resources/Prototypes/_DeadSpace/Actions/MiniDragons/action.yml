@@ -16,7 +16,7 @@
     soundGunshot:
       path: /Audio/Animals/space_dragon_roar.ogg
     soundEmpty: null
-    projectileSpeed: 15 
+    projectileSpeed: 25 
 
 - type: entity
   id: ProjectileMiniDragonToxic
@@ -48,7 +48,7 @@
     soundGunshot:
       path: /Audio/Animals/space_dragon_roar.ogg
     soundEmpty: null
-    projectileSpeed: 15 
+    projectileSpeed: 25 
 
 - type: entity
   parent: BaseAction
@@ -116,4 +116,4 @@
     soundGunshot:
       path: /Audio/Animals/space_dragon_roar.ogg
     soundEmpty: null
-    projectileSpeed: 15 
+    projectileSpeed: 25 
