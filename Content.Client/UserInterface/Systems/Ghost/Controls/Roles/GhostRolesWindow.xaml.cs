@@ -142,6 +142,7 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
                     Margin = new Thickness(0, 0, 0, 8),
                 };
                 collapsible.AddStyleClass(category); // DS14
+                collapsible.StyleIdentifier = name; // DS14
                 body.AddChild(buttons);
 
                 EntryContainer.AddChild(collapsible);
