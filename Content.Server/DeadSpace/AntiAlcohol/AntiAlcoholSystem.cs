@@ -44,5 +44,6 @@ public sealed class AntiAlcoholSystem : EntitySystem
             return;
 
         var target = reagentArgs.TargetEntity;
+        _vomit.Vomit(target);
     }
 }
