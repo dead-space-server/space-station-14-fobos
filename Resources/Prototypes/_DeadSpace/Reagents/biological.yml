@@ -79,3 +79,5 @@
           Burn: -0.7
           Airloss: -0.5
           Brute: -0.8
+      - !type:SatiateThirst
+        factor: 4
