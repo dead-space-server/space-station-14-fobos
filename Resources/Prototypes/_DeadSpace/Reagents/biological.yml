@@ -60,3 +60,22 @@
     collection: FootstepBlood
     params:
       volume: 6
+
+- type: reagent
+  id: MiniDragonAcid
+  name: reagent-name-tranexamic-acid
+  group: Biological
+  desc: reagent-desc-tranexamic-acid
+  physicalDesc: reagent-physical-desc-viscous
+  flavor: medicine
+  color: "#fee612"
+  metabolisms:
+    Medicine:
+      effects:
+      - !type:ModifyBleedAmount
+        amount: -1.5
+      - !type:EvenHealthChange
+        damage:
+          Burn: -0.7
+          Airloss: -0.5
+          Brute: -0.8
