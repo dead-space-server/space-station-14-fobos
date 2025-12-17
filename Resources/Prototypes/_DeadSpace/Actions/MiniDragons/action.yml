@@ -9,7 +9,7 @@
     rechargeSound:
       path: /Audio/Animals/space_dragon_roar.ogg
   - type: BasicEntityAmmoProvider
-    proto: FireballBullet
+    proto: ProjectileMiniDragonsBreath
     capacity: 1
     count: 1
   - type: Gun
@@ -19,16 +19,67 @@
     projectileSpeed: 25 
 
 - type: entity
+  id: ProjectileMiniDragonsBreath
+  parent: BaseBulletTrigger
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RepeatingTrigger
+    delay: 0.15
+  - type: Projectile
+    damage:
+      types:
+        Heat: 12
+  - type: PointLight
+    color: "#E25822"
+    radius: 3.0
+    energy: 5.0
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Projectiles/magic.rsi
+    layers:
+    - state: fireball
+      shader: unshaded
+  - type: IgnitionSource
+    temperature: 750
+    ignited: true
+  - type: ExplodeOnTrigger
+  - type: Explosive
+    explosionType: FireBomb
+    totalIntensity: 5 # low intensity, the point is to burn attackers not to break open walls, dragons can just eat them
+    intensitySlope: 1
+    maxIntensity: 3
+    canCreateVacuum: false
+    deleteAfterExplosion: false
+    repeatable: true
+  - type: TimedDespawn
+    lifetime: 4
+
+- type: entity
   id: ProjectileMiniDragonToxic
   parent: BulletAcid
   categories: [ HideSpawnMenu ]
   components:
   - type: Projectile
-    deleteOnCollide: true
-    onlyCollideWhenShot: true
     damage:
       types:
-        Caustic: 8
+        Caustic: 15
+  - type: SpawnOnDespawn
+    prototype: PuddleSlime
+  - type: TimedDespawn
+    lifetime: 0.39
+
+- type: entity
+  id: PuddleSlime
+  categories: [ HideSpawnMenu ]
+  parent: PuddleTemporary
+  suffix: Слизь
+  components:
+  - type: SolutionContainerManager
+    solutions:
+      puddle:
+        maxVol: 1000
+        reagents:
+        - ReagentId: Slime
+          Quantity: 60
 
 - type: entity
   categories: [ HideSpawnMenu ]
@@ -70,22 +121,32 @@
 - type: entity
   id: MiniDragonsProjectileIcicle
   parent: BaseBullet
-  name: icicle
-  description: Brrrrr.
+  name: сосулька
+  description: Брр.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: Structures/Specific/Anomalies/ice_anom.rsi
-  - type: Projectile
+  - type: DamageOtherOnHit
     damage:
       types:
-        Cold: 10
+        Cold: 4.5
+
+- type: entity
+  id: MiniDragonsProjectileIcicleSpread
+  categories: [ HideSpawnMenu ]
+  parent: MiniDragonsProjectileIcicle
+  components:
+  - type: ProjectileSpread
+    proto: MiniDragonsProjectileIcicle
+    count: 3 
+    spread: 35
 
 - type: entity
   parent: BaseAction
   id: ActionMiniDragonsIceBreath
   name: "[color=blue]Плевок ледышкой[/color]"
-  description: Вы плюёте ледышкой в вперёд, морозя врагов.
+  description: Вы плюёте ледышками в вперёд, морозя врагов.
   components:
   - type: Action
     # TODO: actual sprite and iconOn
@@ -109,7 +170,7 @@
     rechargeSound:
       path: /Audio/Animals/space_dragon_roar.ogg
   - type: BasicEntityAmmoProvider
-    proto: MiniDragonsProjectileIcicle
+    proto: MiniDragonsProjectileIcicleSpread
     capacity: 1
     count: 1
   - type: Gun
