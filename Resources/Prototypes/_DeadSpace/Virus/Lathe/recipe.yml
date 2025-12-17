@@ -1,0 +1,19 @@
+- type: latheRecipe
+  parent: [ BaseGoldCircuitboardRecipe, BaseMedicalMachineRecipeCategory ]
+  id: ComputerDiagnoserConsoleCircuitboardRecipe
+  result: ComputerDiagnoserConsoleCircuitboard
+
+- type: latheRecipe
+  parent: [ BaseGoldCircuitboardRecipe, BaseMedicalMachineRecipeCategory ]
+  id: ComputerVirusEvolutionConsoleCircuitboardRecipe
+  result: ComputerVirusEvolutionConsoleCircuitboard
+
+- type: latheRecipe
+  parent: [ BaseGoldCircuitboardRecipe, BaseMedicalMachineRecipeCategory ]
+  id: ComputerDiagnoserDataServerCircuitboardRecipe
+  result: ComputerDiagnoserDataServerCircuitboard
+
+- type: latheRecipe
+  parent: [ BaseGoldCircuitboardRecipe, BaseMedicalMachineRecipeCategory ]
+  id: DiagnoserMachineCircuitboardRecipe
+  result: DiagnoserMachineCircuitboard

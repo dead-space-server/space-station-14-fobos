@@ -13,6 +13,15 @@
     {
       "name": "unlit"
     },
+	{
+      "name": "off_unlit"
+    },
+	{
+      "name": "denial_unlit"
+    },
+	{
+      "name": "successfully_unlit"
+    },
     {
       "name": "running",
       "delays": [

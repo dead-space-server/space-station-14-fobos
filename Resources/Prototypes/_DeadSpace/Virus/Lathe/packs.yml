@@ -1,0 +1,8 @@
+
+- type: latheRecipePack
+  id: VirologyBoards
+  recipes:
+  - ComputerDiagnoserConsoleCircuitboardRecipe
+  - ComputerDiagnoserDataServerCircuitboardRecipe
+  - DiagnoserMachineCircuitboardRecipe
+  - ComputerVirusEvolutionConsoleCircuitboardRecipe

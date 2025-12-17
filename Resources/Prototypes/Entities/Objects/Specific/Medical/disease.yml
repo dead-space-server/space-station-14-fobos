@@ -13,12 +13,16 @@
     tags:
     - Recyclable
     - Trash
+    - DiagnoserDataCollector # DS14
   - type: BotanySwab
   - type: GuideHelp
     guides:
   # - Virology (when it's back)
     - Botany
     - Chemicals
+  # DS14-start
+  - type: VirusDataCollector
+  # DS14-end
 
 - type: entity
   parent: BaseAmmoProvider # this is for cycling swabs out and not spawning 30 entities, trust

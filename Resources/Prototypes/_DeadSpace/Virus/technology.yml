@@ -1,0 +1,16 @@
+
+
+- type: technology
+  id: Virology
+  name: research-technology-virology
+  icon:
+    sprite: Structures/Machines/diagnoser.rsi
+    state: icon
+  discipline: CivilianServices
+  tier: 3
+  cost: 30000
+  recipeUnlocks:
+  - DiagnoserMachineCircuitboardRecipe
+  - ComputerDiagnoserConsoleCircuitboardRecipe
+  - ComputerDiagnoserDataServerCircuitboardRecipe
+  - ComputerVirusEvolutionConsoleCircuitboardRecipe

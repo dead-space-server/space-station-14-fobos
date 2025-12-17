@@ -1,0 +1,68 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
+using Robust.Shared.Prototypes;
+using Content.Shared.DeviceLinking;
+using Robust.Shared.Audio;
+using Content.Shared.DeadSpace.Virus.Components;
+using Content.Shared.DeadSpace.TimeWindow;
+using Content.Shared.Virus;
+
+namespace Content.Server.DeadSpace.Virus.Components;
+
+[RegisterComponent]
+public sealed partial class VirusDiagnoserComponent : Component
+{
+    [ViewVariables(VVAccess.ReadOnly)]
+    public EntityUid? ConnectedConsole = null;
+
+    /// <summary>
+    ///     Длительность анимации печати отчёта. Костыль, но упрощает систему.
+    /// </summary>
+    [ViewVariables(VVAccess.ReadOnly)]
+    public float PrintingAnimationDuration = 5f;
+
+    [ViewVariables(VVAccess.ReadOnly)]
+    public TimedWindow AnimationWindow = default!;
+
+    /// <summary>
+    ///     Данные которые печатаются в отчёт или генерируются в реагент.
+    /// </summary>
+    [ViewVariables(VVAccess.ReadOnly)]
+    public VirusData? VirusDataCPU = default!;
+
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public ProtoId<SinkPortPrototype> VirusDiagnoserPort = "VirusDiagnoserReceiver";
+
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public EntProtoId Paper = "DiagnosisReportPaper";
+
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public VirusDiagnoserStatus Status = VirusDiagnoserStatus.Off;
+
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public SoundSpecifier? PrintingSound = new SoundPathSpecifier("/Audio/Machines/diagnoser_printing.ogg");
+
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    // public SoundSpecifier? ScanningSound = new SoundPathSpecifier("/Audio/_DeadSpace/Virus/Diagnoser/scanning.ogg");
+    public SoundSpecifier? ScanningSound = default!;
+
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public SoundSpecifier? DenialSound = new SoundPathSpecifier("/Audio/_DeadSpace/Virus/Diagnoser/denial.ogg");
+
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public SoundSpecifier? SuccessfullySound = new SoundPathSpecifier("/Audio/_DeadSpace/Virus/Diagnoser/success.ogg");
+
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public SoundSpecifier? GenerateVirusSound = default!;
+
+    [ViewVariables(VVAccess.ReadOnly)]
+    public EntityUid? CurrentSoundEntity = default!;
+}

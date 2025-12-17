@@ -1,0 +1,35 @@
+- type: entity
+  parent:
+  - Incorporeal
+  - BaseMob
+  id: SentientVirus
+  name: разумный вирус
+  description: Разум вируса.
+  categories: [ DoNotMap ]
+  components:
+  - type: NoFTL
+  - type: Tag
+    tags:
+    - GhostOnlyWarp
+  - type: WarpPoint
+    follow: true
+    blacklist:
+      tags:
+      - GhostOnlyWarp
+  - type: Eye
+    pvsScale: 1.5
+  - type: Visibility
+    layer: 2
+  - type: Sprite
+    sprite: _DeadSpace/Virus/virus.rsi
+    layers:
+    - state: icon
+      shader: unshaded
+      map: ["base"]
+  - type: UserInterface
+    interfaces:
+        enum.VirusEvolutionConsoleUiKey.Key:
+          type: VirusEvolutionConsoleBoundUserInterface
+  - type: SentientVirus
+    data: 
+      mutationPoints: 3000
