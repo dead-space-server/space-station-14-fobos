@@ -188,15 +188,6 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
                 }
             }
         }
-
-        private bool ElementIsVisible(GhostRoleInfoBox elem)
-        {
-            return (string.IsNullOrEmpty(_searchText) || elem.StyleIdentifier == null || elem.StyleIdentifier.Contains(_searchText, StringComparison.OrdinalIgnoreCase)) && (_currentCategoryFilter is null || elem.StyleClasses.Contains(_currentCategoryFilter));
-        }
-        private bool ElementIsVisible(GhostRoleButtonsBox elem)
-        {
-            return (string.IsNullOrEmpty(_searchText) || elem.StyleIdentifier == null || elem.StyleIdentifier.Contains(_searchText, StringComparison.OrdinalIgnoreCase)) && (_currentCategoryFilter is null || elem.StyleClasses.Contains(_currentCategoryFilter));
-        }
         private bool ElementIsVisible(Control elem)
         {
             return
