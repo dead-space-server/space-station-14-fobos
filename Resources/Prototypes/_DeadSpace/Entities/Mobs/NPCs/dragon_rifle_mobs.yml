@@ -31,9 +31,9 @@
     allowMovement: true
     allowSpeech: true
     makeSentient: true
-    name: ghost-role-information-space-dragon-name
-    description: ghost-role-information-space-dragon-description
-    rules: ghost-role-information-space-dragon-rules
+    name: ghost-role-information-space-mini-dragon-name
+    description: ghost-role-information-space-mini-dragon-description
+    rules: ghost-role-information-space-mini-dragon-rules
     mindRoles:
     - MindRoleGhostRoleTeamAntagonist
     raffle:
@@ -272,4 +272,4 @@
     countReagent: 5
     maxCountReagent: 15 
     durationRegenReagent: 15 
-    reagent: MiniDragonAcid
+    reagent: Ichorosil

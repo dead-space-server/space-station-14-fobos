@@ -62,10 +62,10 @@
       volume: 6
 
 - type: reagent
-  id: MiniDragonAcid
-  name: reagent-name-tranexamic-acid
+  id: Ichorosil
+  name: reagent-name-mini-dragon-acid
   group: Biological
-  desc: reagent-desc-tranexamic-acid
+  desc: reagent-desc-mini-dragon-acid
   physicalDesc: reagent-physical-desc-viscous
   flavor: medicine
   color: "#fee612"

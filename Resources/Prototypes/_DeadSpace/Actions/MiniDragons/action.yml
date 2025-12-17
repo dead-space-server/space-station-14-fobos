@@ -20,7 +20,7 @@
 
 - type: entity
   id: ProjectileMiniDragonToxic
-  parent: ProjectileSpiderWeb
+  parent: BulletAcid
   categories: [ HideSpawnMenu ]
   components:
   - type: Projectile
@@ -58,7 +58,7 @@
   components:
   - type: Action
     # TODO: actual sprite and iconOn
-    icon: { sprite : _DeadSpace/Spiders/web_shot.rsi, state: web }
+    icon: { sprite : Objects/Weapons/Guns/Projectiles/xeno_toxic.rsi, state: xeno_toxic }
     itemIconStyle: BigAction
     priority: 2
   - type: TargetAction
