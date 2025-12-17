@@ -19,7 +19,7 @@
         - to: start
           completed:
             - !type:SpawnPrototype
-              prototype: Glass
+              prototype: SheetGlass1
               amount: 1
           steps:
             - tool: Screwing
