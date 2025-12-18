@@ -44,7 +44,7 @@
   - type: ExplodeOnTrigger
   - type: Explosive
     explosionType: FireBomb
-    totalIntensity: 5 # low intensity, the point is to burn attackers not to break open walls, dragons can just eat them
+    totalIntensity: 5 
     intensitySlope: 1
     maxIntensity: 3
     canCreateVacuum: false
@@ -105,10 +105,9 @@
   parent: BaseAction
   id: ActionMiniDragonsToxicBreath
   name: "[color=green]Плевок кислотой[/color]"
-  description: Вы плюёте своей кислотой в вперёд, нанося кислотные повреждение.
+  description: Вы плюёте своей кислотой вперёд, нанося кислотные повреждение.
   components:
   - type: Action
-    # TODO: actual sprite and iconOn
     icon: { sprite : Objects/Weapons/Guns/Projectiles/xeno_toxic.rsi, state: xeno_toxic }
     itemIconStyle: BigAction
     priority: 2
@@ -146,10 +145,9 @@
   parent: BaseAction
   id: ActionMiniDragonsIceBreath
   name: "[color=blue]Плевок ледышкой[/color]"
-  description: Вы плюёте ледышками в вперёд, морозя врагов.
+  description: Вы плюёте ледышками вперёд, морозя врагов.
   components:
   - type: Action
-    # TODO: actual sprite and iconOn
     icon: { sprite : Structures/Specific/Anomalies/ice_anom.rsi, state: bullet }
     itemIconStyle: BigAction
     priority: 2
