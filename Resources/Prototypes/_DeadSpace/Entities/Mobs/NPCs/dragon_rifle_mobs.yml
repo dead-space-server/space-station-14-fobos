@@ -102,8 +102,8 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      100: Critical 
-      125: Dead 
+      75: Critical 
+      100: Dead 
   - type: Flammable
     damage:
       types: {}
