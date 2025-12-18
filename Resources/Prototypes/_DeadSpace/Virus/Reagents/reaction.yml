@@ -12,7 +12,6 @@
 
 - type: reaction
   id: Mycocline
-  impact: Medium
   reactants:
     Dylovene:
       amount: 1
@@ -25,7 +24,6 @@
 
 - type: reaction
   id: Virucidine
-  impact: High
   reactants:
     Hyronalin:
       amount: 1
@@ -38,7 +36,6 @@
 
 - type: reaction
   id: Panacemycin
-  impact: High
   minTemp: 420
   reactants:
     Omnizine:
