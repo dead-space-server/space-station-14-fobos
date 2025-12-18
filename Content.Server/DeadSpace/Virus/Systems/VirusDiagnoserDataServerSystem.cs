@@ -204,6 +204,13 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
 
         var timeFormatted = _timing.CurTime.ToString(@"hh\:mm\:ss");
 
+        // ищем существующую запись с таким StrainId
+        var existingKey = server.Comp.StrainData.Keys
+            .FirstOrDefault(x => x.Strain == data.StrainId);
+
+        if (existingKey.Strain != null)
+            server.Comp.StrainData.Remove(existingKey);
+
         var record = new VirusStrainRecord(
             data.StrainId,
             timeFormatted
