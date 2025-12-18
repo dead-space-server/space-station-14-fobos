@@ -107,7 +107,7 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
                 var name = group.Key.Name;
                 var description = group.Key.Description;
                 var category = group.Key.Category; // DS14
-                var prototypesAllowed = group.Key.Item4;
+                var prototypesAllowed = group.Key.Item4; // DS14
 
                 // Adding a new role
                 _window.AddEntry(name, description, category,prototypesAllowed, reason, group, spriteSystem);
