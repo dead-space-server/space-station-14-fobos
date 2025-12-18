@@ -1,6 +1,6 @@
 ﻿- type: body
   id: Animal
-  name: "animal"
+  name: "животное" # DS14
   root: torso
   slots:
     torso:
@@ -22,7 +22,7 @@
 
 - type: body
   id: Mouse
-  name: "mouse"
+  name: "мышь" # DS14
   root: torso
   slots:
     torso:

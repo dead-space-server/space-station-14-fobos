@@ -1,54 +1,55 @@
 <Document>
-# Cryogenics
-Cryogenics can be a bit daunting to understand, but hopefully, quick run through of this diagram, you'll learn how to work it! So, let's go over what each part does:
+  # Криогеника
+  Криогеника может казаться сложной для понимания, но быстрая пробежка по диаграмме снизу и, я обещаю, Вы разберётесь! Так вот, давайте и пройдёмся по каждой части схемы:
 
-- Air in: Air comes in here through the distro or an air tank, giving those inside something to breathe, and the freezer something to chill.
-- Gas pump: Limits the network pressure, so those in the tube aren't crushed.
-- Freezer: Chills the air, and by extension, patients in the tube, so Cryoxadone can activate.
-- Gas filters: Removes waste gas (Carbon Dioxide and Nitrous Oxide) from the loop.
-- Air out: Waste gasses go here, either into a storage tank, or into the waste network.
-<Box>
-<GuideEntityEmbed Entity="GasPipeBend" Rotation="90"/>
-<GuideEntityEmbed Entity="GasPipeStraight" Rotation="90"/>
-<GuideEntityEmbed Entity="GasPipeStraight" Rotation="90"/>
-<GuideEntityEmbed Entity="GasPipeBend" Rotation="0"/>
-<GuideEntityEmbed Entity="CryoPod" Caption="cryo pod" Rotation="0"/>
-<GuideEntityEmbed Entity="GasThermoMachineFreezerEnabled" Rotation="0"/>
-</Box>
-<Box>
-<GuideEntityEmbed Entity="GasPipeBend" Rotation="180"/>
-<GuideEntityEmbed Entity="GasFilterFlipped" Rotation="90"/>
-<GuideEntityEmbed Entity="GasFilterFlipped" Rotation="90"/>
-<GuideEntityEmbed Entity="GasPipeTJunction" Rotation="180"/>
-<GuideEntityEmbed Entity="GasPipeTJunction" Rotation="180"/>
-<GuideEntityEmbed Entity="GasPipeTJunction" Rotation="270"/>
-</Box>
-<Box>
-<GuideEntityEmbed Entity="GasPort" Caption="air out" Rotation="90"/>
-<GuideEntityEmbed Entity="GasPipeTJunction" Rotation="180"/>
-<GuideEntityEmbed Entity="GasPipeBend" Rotation="270"/>
-<GuideEntityEmbed Entity="GasPort" Caption="air in" Rotation="90"/>
-<GuideEntityEmbed Entity="GasPressurePump" Rotation="90"/>
-<GuideEntityEmbed Entity="GasPipeBend" Rotation="270"/>
-</Box>
+  - ВНУТРЬ: Воздух входит тут из дистры или из бака с воздухом, давая возможность дышать внутри капсулы, в том числе давая охладителю газ для охлаждения.
+  - Насос: Ограничивает давление в сети, чтобы пациента не раздавило.
+  - Охладитель: Охлаждает воздух и пациента в капсуле, позволяя Криоксадону начать свою работу.
+  - Фильтры: Удаляют Углекислый газ и Оксид Азота из сети.
+  - НАРУЖУ: Газы из фильтров идут сюда и попадают, или в специальный бак, или в газовый мусоропровод.
+  <Box>
+    <GuideEntityEmbed Entity="GasPipeBend" Rotation="90"/>
+    <GuideEntityEmbed Entity="GasPipeStraight" Rotation="90"/>
+    <GuideEntityEmbed Entity="GasPipeStraight" Rotation="90"/>
+    <GuideEntityEmbed Entity="GasPipeBend" Rotation="0"/>
+    <GuideEntityEmbed Entity="CryoPod" Caption="капсула" Rotation="0"/>
+    <GuideEntityEmbed Entity="GasThermoMachineFreezerEnabled" Rotation="0"/>
+  </Box>
+  <Box>
+    <GuideEntityEmbed Entity="GasPipeBend" Rotation="180"/>
+    <GuideEntityEmbed Entity="GasFilterFlipped" Rotation="90" Caption="фильтр"/>
+    <GuideEntityEmbed Entity="GasFilterFlipped" Rotation="90" Caption="фильтр"/>
+    <GuideEntityEmbed Entity="GasPipeTJunction" Rotation="180"/>
+    <GuideEntityEmbed Entity="GasPipeTJunction" Rotation="180"/>
+    <GuideEntityEmbed Entity="GasPipeTJunction" Rotation="270"/>
+  </Box>
+  <Box>
+    <GuideEntityEmbed Entity="GasPort" Caption="НАРУЖУ" Rotation="90"/>
+    <GuideEntityEmbed Entity="GasPipeTJunction" Rotation="180"/>
+    <GuideEntityEmbed Entity="GasPipeBend" Rotation="270"/>
+    <GuideEntityEmbed Entity="GasPort" Caption="ВНУТРЬ" Rotation="90"/>
+    <GuideEntityEmbed Entity="GasPressurePump" Rotation="90" Caption="насос"/>
+    <GuideEntityEmbed Entity="GasPipeBend" Rotation="270"/>
+  </Box>
 
-Not every network will look like this, but hopefully, it's enough to give you the basic gist of how it's functioning.
+  Не каждая система будет выглядеть идентично этой, но, надеемся, эта диаграмма хотя бы позволит Вам понять принцип работы.
 
-An important thing to note, winter clothing (and hardsuits) will make cryogenic treatment less, or completely ineffective. Be sure to remove cold preventative clothing before placing people in the pod.
+  Важное замечание: зимняя одежда или скафандры делают криогенику очень слабой или вообще нерабочей. Не забудьте снимать такую одежду перед тем, как запустить людей в капсулу.
 
-## Using the Pod
-Once things have been set up, you're going to require a specific medication, Cryoxadone. Cryoxadone heals all damage types when a patient is chilled, and can either be pre-administered (with a pill), or loaded into the cell directly with a beaker. Do note, patients won't begin to heal until they've chilled to the appropriate temperature, it may be worthwhile to wait a bit before placing a beaker inside.
+  ## Использование капсулы
+  Когда всё настроено, Вам понадобится специальный химикатов — Криоксадону. Он лечит все виды урона только тогда, когда пациент сильно озлаждён. Вы можете или дать его пациенту заранее, или наполнить капсулу напрямую.
 
-## Additional Information:
+  ## Дополнительная информация:
 
-The standard pressure for a gas pump is 100.325 kpa. Cryoxadone works at under 170K, but it is standard practice to set the freezer to 100K for faster freezing.
+  - Стандартное давление для насоса составляет 100.325 кПа.
+  - Криоксадон работает при температуре ниже 170 Кельвинов, но лучше всего установить охладитель на 100 Кельвинов для быстрого охлаждения.
 
-<GuideReagentEmbed Reagent="Aloxadone"/>
-<GuideReagentEmbed Reagent="Cryoxadone"/>
-<GuideReagentEmbed Reagent="Doxarubixadone"/>
-<GuideReagentEmbed Reagent="Dexalin"/>
-<GuideReagentEmbed Reagent="Leporazine"/>
-<GuideReagentEmbed Reagent="Necrosol"/>
-<GuideReagentEmbed Reagent="Opporozidone"/>
+  <GuideReagentEmbed Reagent="Aloxadone"/>
+  <GuideReagentEmbed Reagent="Cryoxadone"/>
+  <GuideReagentEmbed Reagent="Doxarubixadone"/>
+  <GuideReagentEmbed Reagent="Dexalin"/>
+  <GuideReagentEmbed Reagent="Leporazine"/>
+  <GuideReagentEmbed Reagent="Necrosol"/>
+  <GuideReagentEmbed Reagent="Opporozidone"/>
 
 </Document>

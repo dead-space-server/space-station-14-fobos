@@ -1,55 +1,54 @@
 <Document>
-# Command
-The heads of each department come together to form the [color=#1b67a5]Command[/color] department, a force to be reckoned with and the handlers of the station. They usually have access to special equipment and their own rooms. They are often wanted dead.
+  # Командование
+  Главы всех отделов пришли к тому, что им нужен отдел для управления отделам — [color=#1b67a5]Командный[/color] - сила, с которой лучше не тягаться. Обычно, они имеют доступ к некоторой специальноц экипировке. Некоторые люди очень сильно желают им смерти.
 
-## Personnel
-[color=#1b67a5]Command[/color] is made up of the heads of each department, being the [color=#9fed58]Head of Personnel[/color], the [color=#cb0000]Head of Security[/color], the [color=#5b97bc]Chief Medical Officer[/color], the [color=#f39f27]Chief Engineer[/color], the [color=#c96dbf]Research Director[/color], the [color=#b18644]Quartermaster[/color] and above all else, the [color=#1b67a5]Captain[/color].
+  ## Состав
+  [color=#1b67a5]Командный[/color] отдел состоит из глав каждого отдела, то есть [color=#9fed58]Главы Персонала[/color], [color=#cb0000]Главы Службы Безопасности[/color], [color=#5b97bc]Главного Врача[/color], [color=#f39f27]Старшего Инженера[/color], [color=#c96dbf]Научного Руководителя[/color], [color=#b18644]Квартирмейстера[/color] и выше всех их, [color=#1b67a5]Капитана[/color].
   <Box>
-    <GuideEntityEmbed Entity="ToyFigurineCaptain" Caption="Captain"/>
+    <GuideEntityEmbed Entity="ToyFigurineCaptain" Caption="Капитан"/>
   </Box>
   <Box>
-    <GuideEntityEmbed Entity="ToyFigurineHeadOfPersonnel" Caption="HoP"/>
-    <GuideEntityEmbed Entity="ToyFigurineHeadOfSecurity" Caption="HoS"/>
-    <GuideEntityEmbed Entity="ToyFigurineChiefMedicalOfficer" Caption="CMO"/>
+    <GuideEntityEmbed Entity="ToyFigurineHeadOfPersonnel" Caption="Глава Персонала"/>
+    <GuideEntityEmbed Entity="ToyFigurineHeadOfSecurity" Caption="Глава Службы Безопасности"/>
+    <GuideEntityEmbed Entity="ToyFigurineChiefMedicalOfficer" Caption="Главный Врач"/>
   </Box>
   <Box>
-    <GuideEntityEmbed Entity="ToyFigurineChiefEngineer" Caption="CE"/>
-    <GuideEntityEmbed Entity="ToyFigurineResearchDirector" Caption="RD"/>
-    <GuideEntityEmbed Entity="ToyFigurineQuartermaster" Caption="QM"/>
+    <GuideEntityEmbed Entity="ToyFigurineChiefEngineer" Caption="Старший Инженер"/>
+    <GuideEntityEmbed Entity="ToyFigurineResearchDirector" Caption="Научный Руководитель"/>
+    <GuideEntityEmbed Entity="ToyFigurineQuartermaster" Caption="Квартирмейстер"/>
   </Box>
 
-## Taking Charge
-Congratulations on your promotion! Besides all the extra paperwork, your new [color=#a4885c]responsibilities[/color] include running your department, making changes and choosing priorities, keeping personnel and equipment safe as well as slacking off while your cronies do all the work.
+  ## Вступление на должность
+  Поздравляем с повышением! Если забыть про бумажную работу, Ваши новые [color=#a4885c]обязанности[/color] включают в себя поддержание работы Вашего отдела, а также введение изменений и выбор приоритетов в этой самой работе. Нельзя забывать про безопасность Ваших сотрудников и экипировки, за неё Вы тоже в ответе.
 
-Don't forget, you still have a job! Your fancy tools don't earn you a day off, you still have to fill in for any staffing shortages, helping out struggling workers and teaching the newbies.
+  Не забывайте, у Вас все ещё есть работа! Ваши красивые и понтовые инструментики за вас её не сделают, идите помогайте новичкам в отделе или выполняйте работу, которой никто не занимается!
 
-You might get away with just sitting around and letting people resent you, but it's wiser to get active and work alongside them.
-Remember to move your workers around to have them do what they like doing or what they do best.
+  Хоть Вас и может пронести, если Вы будете просто сидеть и смотреть за работой Вашего отдела, но куда лучше быть активным сотрудником и работать вместе с ними. И помните — Ваши сотрудники работают лучше не там, где Вы им прикажете, а там где они знают толк.
 
-## Your Locker
+  ## Ваш шкафчик
 
-To deal with your new soul-crushing tasks, every head is given special items to lead your subordinates. Most of your new shiny tools can be found in your [color=#a4885c]locker[/color].
+  Чтобы справляться с новыми душераздирающими задачами, каждой главе были выданы специальные предметы для ведения работы. Большая их часть может быть найдена в Вашем [color=#a4885c]шкафчике[/color].
   <Box>
     <GuideEntityEmbed Entity="LockerCaptain"/>
   </Box>
 
-Your [color=#a4885c]remote[/color] is very simple but profoundly underestimated. A small but mighty force, your remote can open and close [color=#a4885c]airlocks[/color], spin the [color=#a4885c]bolts[/color] to lock them, or toggle [color=#a4885c]emergency access[/color]. It can do this from a distance.
+  Ваш [color=#a4885c]пульт[/color] — очень важный инструмент. С помощью небольшой смекалки, он может открывать и закрывать [color=#a4885c]шлюзы[/color], закручивать на них [color=#a4885c]болты[/color] или переключать [color=#a4885c]аварийный доступ[/color]. И всё это пульт может делать издалека.
   <Box>
     <GuideEntityEmbed Entity="DoorRemoteCommand"/>
   </Box>
-The remote influences where people move around. Heads can lock personnel out of dangerous areas or let people in to grab something really quickly.
+  Пульт контролирует экипаж, он контролирует, где будут ходить люди. Закрывайте места, где им лучше не быть или ставьте двери на аварийный доступ в случае ЧС... Возможности не безграничны, но огромны.
 
-You also have access to your very own [color=#1b67a5]Command[/color] channel, like every other department. However, yours is particularly special as the people who can hear you have [color=#a4885c]entire departments[/color] at their fingertips.
-Use this to communicate with other heads and be a representative of what your workers want or need.
+  У Вас также есть доступ к собственному [color=#1b67a5]Командному[/color] каналу, как и у других отделов. Однако, этот не такой как все — у людей, которые Вас слышат, под управлением [color=#a4885c]целые отделы[/color].
+  Пользуйтесь этой возможностью чтобы передавать запросы Ваших сотрудников и принимать запросы других.
 
-The [color=#1b67a5]Captain[/color] and the [color=#9fed58]Head of Personnel[/color] get access to the lucrative [color=#a4885c]master encryption key[/color], letting them tune into every radio channel on the station. This is extremely valuable, as you can coordinate between departments yourself.
-[color=#a4885c]Don't waste this vital advantage![/color]
+  [color=#1b67a5]Капитан[/color] и [color=#9fed58]Глава Персонала[/color] получают доступ к [color=#a4885c]мастер-включу шифрования[/color], позволяющему слышать почти все каналы на станции. Это очень полезный инструмент, позволяющий вручную координировать целые отделы.
+  [color=#a4885c] Не профукайте этот потенциал![/color]
   <Box>
     <GuideEntityEmbed Entity="ClothingHeadsetCommand"/>
     <GuideEntityEmbed Entity="EncryptionKeyStationMaster"/>
   </Box>
 
-To make the swamp of paperwork (that will definitely overwhelm you) even harder to deal with, you have generously been given a [color=#a4885c]stamp[/color] in your locker. Use this to sign paperwork. After you stamp it, it can't be edited. Look it over first.
+  Чтобы Вам было ещё сложнее справляться с бумажной работой, Центральное Командование выдало Вам персонализированный под профессию [color=#a4885c]штамп[/color]! Лежит в Вашем шкафу и прям ждёт чтобы Вы его прижали к бумаге. Не забывайте читать то, что одобряете.
   <Box>
     <GuideEntityEmbed Entity="RubberStampCaptain"/>
   </Box>

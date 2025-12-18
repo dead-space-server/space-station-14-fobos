@@ -1,6 +1,6 @@
 ﻿- type: body
   id: Diona
-  name: diona
+  name: "диона" # DS14
   root: torso
   slots:
     head:

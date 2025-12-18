@@ -1,21 +1,21 @@
 <Document>
-# A.P.E.
+  # М.А.К.А.К.
 
-The Anomalous Particle Emitter is a machine used to interface with anomalies. It is the primary way of manipulating the stats of an anomaly.
+  Мобильный Аномальный Кинетический Акселератор — это машина, используемая для взаимодействия с аномалиями. Это основной способ манипулирования статистикой аномалии.
 
-<Box>
-<GuideEntityEmbed Entity="MachineAPE"/>
-</Box>
+  <Box>
+    <GuideEntityEmbed Entity="MachineAPE"/>
+  </Box>
 
-The A.P.E. can shoot four different kinds of anomalous particles: Delta, Epsilon, Sigma and Zeta. Each particle type has certain effects:
+  М.А.К.А.К. может стрелять четырьмя различными типами аномальных частиц: Дельта, Эпсилон, Сигма и Зета. Каждый тип частиц имеет определенные эффекты:
 
-- [color=crimson]Danger:[/color] Increases the severity of an anomaly.
-- [color=plum]Unstable:[/color] Increases the instability of an anomaly.
-- [color=goldenrod]Containment:[/color] Increases anomaly stability at the cost of its health - if an anomaly is struck by too many containment particles, it will collapse, leaving behind an anomaly core.
-- [color=#6b75fa]Transformation:[/color] Increases anomaly severity with a chance of changing its behavior.
+  - [color=crimson]Опасность:[/color] Увеличивает серьезность аномалии.
+  - [color=plum]Нестабильно:[/color] Увеличивает нестабильность аномалии.
+  - [color=goldenrod]Сдерживание:[/color] Повышает стабильность аномалии за счет ее здоровья — если аномалия поражена слишком большим количеством сдерживающих частиц, она рухнет, оставив после себя ядро аномалии.
+  - [color=#6b75fa]Трансформация:[/color] Увеличивает серьезность аномалии с возможностью изменения ее поведения.
 
-Which particle type corresponds to each effect is unique and can be learned by scanning the anomaly.
+  Какой тип частиц соответствует каждому эффекту, уникален и может быть определен путем сканирования аномалии.
 
-The A.P.E. can also be locked by anyone with science access, which prevents it from being deconstructed, turned on or off, or having the particle type switched.
+  М.А.К.А.К. также может быть заблокирован любым, имеющим доступ к науке, что предотвращает его деконструкцию, включение или выключение или переключение типа частиц.
 
 </Document>

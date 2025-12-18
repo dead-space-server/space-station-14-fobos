@@ -22,6 +22,10 @@
   - type: ClothingSpeedModifier
     walkModifier: 0.95
     sprintModifier: 0.95
+  # DS14-start
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.6
+  # DS14-end
 
 - type: entity
   parent: ClothingOuterBioGeneral

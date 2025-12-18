@@ -50,6 +50,22 @@ public sealed class DonateShopUIController : UIController
         _donateShopWindow.ApplyState(state);
     }
 
+    public void UpdateEnergyShopState(EnergyShopState state)
+    {
+        if (_donateShopWindow == null)
+            return;
+
+        _donateShopWindow.ApplyEnergyShopState(state);
+    }
+
+    public void HandlePurchaseResult(PurchaseResult result)
+    {
+        if (_donateShopWindow == null)
+            return;
+
+        _donateShopWindow.ShowPurchaseResult(result);
+    }
+
     public void ToggleWindow()
     {
         if (_donateShopWindow == null)

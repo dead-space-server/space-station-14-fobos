@@ -1,0 +1,51 @@
+- type: entity
+  parent: BaseGameRule
+  id: LowVirusPandemic
+  components:
+  - type: VirusRule
+    symptomsByDanger:
+      Low: 2
+      Medium: 1
+    bodyCount: 5
+    numberPrimaryPacienst: 1
+  - type: StationEvent
+    weight: 2
+    duration: null
+    earliestStart: 15
+    reoccurrenceDelay: 10
+    minimumPlayers: 10
+
+- type: entity
+  parent: BaseGameRule
+  id: MediumVirusPandemic
+  components:
+  - type: VirusRule
+    symptomsByDanger:
+      Low: 4
+      Medium: 3
+    bodyCount: 5
+    numberPrimaryPacienst: 1
+  - type: StationEvent
+    weight: 2
+    duration: null
+    earliestStart: 30
+    reoccurrenceDelay: 15
+    minimumPlayers: 10
+  
+- type: entity
+  parent: BaseGameRule
+  id: HardVirusPandemic
+  components:
+  - type: VirusRule
+    symptomsByDanger:
+      Low: 4
+      Medium: 3
+      High: 1
+    bodyCount: 5
+    numberPrimaryPacienst: 1
+  - type: StationEvent
+    weight: 2
+    duration: null
+    earliestStart: 60
+    reoccurrenceDelay: 20
+    minimumPlayers: 10

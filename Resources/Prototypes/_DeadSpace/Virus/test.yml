@@ -1,0 +1,29 @@
+- type: entity
+  parent: MobHuman
+  id: TestVirusMobHuman
+  name: больной
+  components:
+  - type: Virus
+    data:
+      strainId: TestVirus
+      activeSymptom:
+      - CoughSymptom
+      bodyWhitelist:
+      - Human
+      mutationPoints: 10000
+      
+
+- type: entity
+  name: Virus Urist Spawner
+  id: SpawnTestVirusMobHuman
+  parent: MarkerBase
+  suffix: DEBUG
+  components:
+  - type: Sprite
+    layers:
+    - state: green
+    - sprite: Mobs/Species/Human/parts.rsi
+      state: full
+  - type: ConditionalSpawner
+    prototypes:
+    - TestVirusMobHuman
