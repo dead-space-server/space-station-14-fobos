@@ -39,7 +39,9 @@ public sealed class ZombieRuleSystem : GameRuleSystem<ZombieRuleComponent>
 
     // DS14-start
     private ZombieEventStage _currentStage = ZombieEventStage.None;
-    private TimeSpan _timeUtilNextStage;
+    private TimeSpan _timeUntilNextStage;
+    private bool _shuttleRuleAdded;
+    private HashSet<EntityUid> _announcedStations = new();
     // DS14-end
 
     public override void Initialize()
@@ -115,88 +117,94 @@ public sealed class ZombieRuleSystem : GameRuleSystem<ZombieRuleComponent>
         }
     }
 
-    /// <summary>
-    ///     The big kahoona function for checking if the round is gonna end
-    /// </summary>
-    private void CheckRoundEnd(ZombieRuleComponent zombieRuleComponent)
-    {
-        var healthy = GetHealthyHumans();
-        if (healthy.Count == 1) // Only one human left. spooky
-            _popup.PopupEntity(Loc.GetString("zombie-alone"), healthy[0], healthy[0]);
-
-        // DS14-start
-        // if (GetInfectedFraction(false) > zombieRuleComponent.ZombieShuttleCallPercentage && !_roundEnd.IsRoundEndRequested())
-        // {
-        //     foreach (var station in _station.GetStations())
-        //     {
-        //         _chat.DispatchStationAnnouncement(station, Loc.GetString("zombie-shuttle-call"), colorOverride: Color.Crimson);
-        //     }
-        //     _roundEnd.RequestRoundEnd(null, false);
-        // }
-        //
-        // // we include dead for this count because we don't want to end the round
-        // // when everyone gets on the shuttle.
-        // if (GetInfectedFraction() >= 1) // Oops, all zombies
-        //     _roundEnd.EndRound();
-        // DS14-end
-    }
-
-    protected override void Started(EntityUid uid, ZombieRuleComponent component, GameRuleComponent gameRule, GameRuleStartedEvent args)
+    // DS14-start
+    protected override void Started(
+        EntityUid uid,
+        ZombieRuleComponent component,
+        GameRuleComponent gameRule,
+        GameRuleStartedEvent args)
     {
         base.Started(uid, component, gameRule, args);
-        _currentStage = ZombieEventStage.None; // DS14
+
+        _currentStage = ZombieEventStage.None;
+        _timeUntilNextStage = TimeSpan.Zero;
+        _shuttleRuleAdded = false;
     }
 
-    protected override void ActiveTick(EntityUid uid, ZombieRuleComponent component, GameRuleComponent gameRule, float frameTime)
+    protected override void ActiveTick(
+        EntityUid uid,
+        ZombieRuleComponent component,
+        GameRuleComponent gameRule,
+        float frameTime)
     {
-        // DS14-start
-        var fraction = GetInfectedFraction();
-
         switch (_currentStage)
         {
             case ZombieEventStage.None:
+            {
+                var fraction = GetInfectedFraction();
                 if (fraction >= component.ZombieShuttleCallPercentage)
                 {
-                    foreach (var station in _station.GetStations())
+                    _announcedStations = GetZombieStations();
+                    if (_announcedStations.Count > 0)
                     {
-                        _chat.DispatchStationAnnouncement(station, Loc.GetString("zombie-shuttle-call"), colorOverride: Color.Crimson);
-                    }
+                        foreach (var station in _announcedStations)
+                        {
+                            _chat.DispatchStationAnnouncement(
+                                station,
+                                Loc.GetString("zombie-shuttle-call"),
+                                colorOverride: Color.Crimson);
+                        }
 
-                    _timeUtilNextStage = _timing.CurTime + TimeSpan.FromMinutes(1);
-                    _currentStage = ZombieEventStage.AlertLevel;
+                        _timeUntilNextStage = _timing.CurTime + TimeSpan.FromMinutes(5);
+                        _currentStage = ZombieEventStage.AlertLevel;
+                    }
                 }
+
                 break;
+            }
 
             case ZombieEventStage.AlertLevel:
-                if (_timing.CurTime >= _timeUtilNextStage)
-                {
-                    foreach (var station in _station.GetStations())
-                    {
-                        _alertLevel.SetLevel(station, "sierra", true, true, true);
-                    }
+            {
+                if (_timing.CurTime < _timeUntilNextStage)
+                    break;
 
-                    _timeUtilNextStage = _timing.CurTime + TimeSpan.FromMinutes(1);
-                    _currentStage = ZombieEventStage.ShuttleArrival;
+                foreach (var station in _announcedStations)
+                {
+                    if (_alertLevel.GetLevel(station) != "sierra")
+                        _alertLevel.SetLevel(station, "sierra", true, true, true);
                 }
+
+                _timeUntilNextStage = _timing.CurTime + TimeSpan.FromMinutes(5);
+                _currentStage = ZombieEventStage.ShuttleArrival;
                 break;
+            }
 
             case ZombieEventStage.ShuttleArrival:
-                if (_timing.CurTime >= _timeUtilNextStage)
-                {
-                    foreach (var station in _station.GetStations())
-                    {
-                        _chat.DispatchStationAnnouncement(station, Loc.GetString("station-event-response-team-arrival"), colorOverride: Color.Green);
-                    }
+            {
+                if (_timing.CurTime < _timeUntilNextStage)
+                    break;
 
-                    GameTicker.AddGameRule("ShuttleCBURNZombie");
-                    _currentStage = ZombieEventStage.Completed;
+                foreach (var station in _announcedStations)
+                {
+                    _chat.DispatchStationAnnouncement(
+                        station,
+                        Loc.GetString("station-event-response-team-arrival"),
+                        colorOverride: Color.Green);
                 }
+
+                if (!_shuttleRuleAdded)
+                {
+                    GameTicker.AddGameRule("ShuttleCBURNZombie");
+                    _shuttleRuleAdded = true;
+                }
+
+                _currentStage = ZombieEventStage.Completed;
                 break;
+            }
 
             case ZombieEventStage.Completed:
                 break;
         }
-        // DS14-end
     }
 
     private void OnZombifySelf(EntityUid uid, IncurableZombieComponent component, ZombifySelfActionEvent args)
@@ -224,7 +232,13 @@ public sealed class ZombieRuleSystem : GameRuleSystem<ZombieRuleComponent>
             zombieCount++;
         }
 
-        return zombieCount / (float) (players.Count + zombieCount);
+        // DS14-start
+        var total = players.Count + zombieCount;
+        if (total == 0)
+            return 0f;
+
+        return zombieCount / (float)total;
+        // DS14-end
     }
 
     /// <summary>
@@ -263,7 +277,28 @@ public sealed class ZombieRuleSystem : GameRuleSystem<ZombieRuleComponent>
         }
         return healthy;
     }
+
     // DS14-start
+    private HashSet<EntityUid> GetZombieStations()
+    {
+        var result = new HashSet<EntityUid>();
+
+        var query = EntityQueryEnumerator<ZombieComponent, TransformComponent, MobStateComponent>();
+        while (query.MoveNext(out _, out _, out var xform, out var mob))
+        {
+            if (mob.CurrentState == MobState.Dead)
+                continue;
+
+            if (xform.GridUid is not { } grid)
+                continue;
+
+            if (_station.GetOwningStation(grid) is { } station)
+                result.Add(station);
+        }
+
+        return result;
+    }
+
     private enum ZombieEventStage
     {
         None,
