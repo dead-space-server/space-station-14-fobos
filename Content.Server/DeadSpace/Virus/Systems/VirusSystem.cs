@@ -208,7 +208,8 @@ public sealed partial class VirusSystem : SharedVirusSystem
 
             host.Comp.ActiveSymptomInstances.Add(symptomInstance);
 
-            symptomInstance.OnAdded(host, host.Comp);
+            if (CanManifestInHost((host, host.Comp)))
+                symptomInstance.OnAdded(host, host.Comp);
         }
     }
 
@@ -691,7 +692,9 @@ public sealed partial class VirusSystem : SharedVirusSystem
             return symptom; // возвращаем существующий симптом, если он уже есть
 
         entity.Comp.ActiveSymptomInstances.Add(symptom);
-        symptom.OnAdded(entity.Owner, entity.Comp);
+
+        if (CanManifestInHost((entity.Owner, entity.Comp)))
+            symptom.OnAdded(entity.Owner, entity.Comp);
 
         _sawmill.Debug($"Добавлен симптом {typeof(T).Name} к сущности {entity.Owner}.");
 
