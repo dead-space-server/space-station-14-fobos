@@ -253,6 +253,12 @@ public sealed partial class VirusSystem : SharedVirusSystem
 
     public void ProbInfect(VirusData data, EntityUid target, EntityUid? host = null)
     {
+        var ev = new ProbInfectAttemptEvent(target, false, host);
+        RaiseLocalEvent(target, ev);
+
+        if (ev.Cancel)
+            return;
+
         if (!CanInfect(target, data) && !_tag.HasTag(target, IgnoreCanInfectTag))
             return;
 

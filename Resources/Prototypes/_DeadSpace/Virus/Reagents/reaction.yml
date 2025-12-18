@@ -1,48 +1,49 @@
-# - type: reaction
-#   id: Bacterizine
-#   reactants:
-#     Water:
-#       amount: 1
-#     TableSalt:
-#       amount: 1
-#     Oxygen:
-#       amount: 1
-#   products:
-#     Bacterizine: 3
+- type: reaction
+  id: Bacterizine
+  minTemp: 420
+  reactants:
+    Ethylredoxrazine:
+      amount: 1
+    BicarBruizine:
+      amount: 1
+  products:
+    Bacterizine: 2
 
-# - type: reaction
-#   id: Mycocline
-#   reactants:
-#     Dylovene:
-#       amount: 1
-#     Nitrogen:
-#       amount: 1
-#     Sugar:
-#       amount: 1
-#   products:
-#     Mycocline: 3
+- type: reaction
+  id: Mycocline
+  minTemp: 420
+  reactants:
+    Dylovene:
+      amount: 1
+    Nitrogen:
+      amount: 1
+    Lipolicide:
+      amount: 1
+  products:
+    Mycocline: 3
 
-# - type: reaction
-#   id: Virucidine
-#   reactants:
-#     Hyronalin:
-#       amount: 1
-#     Ethanol:
-#       amount: 1
-#     Chlorine:
-#       amount: 1
-#   products:
-#     Virucidine: 2
+- type: reaction
+  id: Virucidine
+  minTemp: 420
+  reactants:
+    Lacerinol:
+      amount: 1
+    Bacterizine:
+      amount: 1
+    Sigynate:
+      amount: 1
+  products:
+    Virucidine: 3
 
-# - type: reaction
-#   id: Panacemycin
-#   minTemp: 420
-#   reactants:
-#     Omnizine:
-#       amount: 1
-#     UnstableMutagen:
-#       amount: 1
-#     Plasma:
-#       amount: 1
-#   products:
-#     Panacemycin: 1
+- type: reaction
+  id: Panacemycin
+  minTemp: 420
+  reactants:
+    Psicodine:
+      amount: 1
+    Ethylredoxrazine:
+      amount: 1
+    Bacterizine:
+      amount: 1
+  products:
+    Panacemycin: 3
