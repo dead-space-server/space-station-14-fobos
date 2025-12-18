@@ -1,13 +1,14 @@
 <DefaultWindow xmlns="https://spacestation14.io"
-               Title="{Loc 'ghost-roles-window-title'}"
-               MinSize="490 400"
-               SetSize="490 500">
+           Title="{Loc 'ghost-roles-window-title'}"
+           MinSize="490 400"
+           SetSize="490 500">
     <Label Name="NoRolesMessage"
            Text="{Loc 'ghost-roles-window-no-roles-available-label'}"
            VerticalAlignment="Top"/>
+    <!-- DS14-start -->
     <BoxContainer Orientation="Vertical"
                   Margin="8">
-        <!-- DS14-start -->
+
         <ScrollContainer HorizontalExpand="True"
                          VScrollEnabled="False"
                          HScrollEnabled="True"
@@ -19,7 +20,6 @@
             </BoxContainer>
         </ScrollContainer>
         <LineEdit Name="SearchBar" PlaceHolder="Search" HorizontalExpand="True" Margin="0 4"  Visible="False"/>
-        <!-- DS14-end -->
 
         <BoxContainer Orientation="Horizontal"
                       Margin="0 4 0 0"
@@ -39,6 +39,6 @@
                 </BoxContainer>
             </ScrollContainer>
         </BoxContainer>
-
     </BoxContainer>
+    <!-- DS14-end -->
 </DefaultWindow>
