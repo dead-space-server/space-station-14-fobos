@@ -20,8 +20,9 @@ public sealed class DamageOnEMPSystem : EntitySystem
     {
         args.Affected = true;
 
+        var scaledDamage = comp.Damage * args.EnergyConsumption;
         var dmg = new DamageSpecifier();
-        dmg.DamageDict.Add(comp.DamageType, comp.Damage);
+        dmg.DamageDict.Add(comp.DamageType, scaledDamage);
 
         _damageable.TryChangeDamage(uid, dmg);
     }

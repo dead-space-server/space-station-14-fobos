@@ -147,6 +147,7 @@
     - GeneralLanguage
   - type: Tag
     tags:
+    - IgnoreBedHealing
     - SiliconIPCEmotes
     - CanPilot
     - FootstepSound

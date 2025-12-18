@@ -131,6 +131,9 @@
   id: Hypopen
 
 - type: Tag
+  id: IgnoreBedHealing
+
+- type: Tag
   id: JellyAmanita
 
 - type: Tag
