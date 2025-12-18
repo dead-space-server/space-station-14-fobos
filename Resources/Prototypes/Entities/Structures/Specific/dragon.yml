@@ -55,9 +55,12 @@
   components:
   - type: RandomSpawner
     deleteSpawnerAfterSpawn: true
+    chance: 1
     prototypes:
     - MobCarpDragon
     - MobSharkDragon
+    rareChance: 0.5
+    rarePrototypes: 
     - MobMiniDragonIce
     - MobMiniDragonFire
     - MobMiniDragonHealer
