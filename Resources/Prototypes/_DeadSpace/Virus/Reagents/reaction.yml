@@ -4,7 +4,7 @@
   reactants:
     Ethylredoxrazine:
       amount: 1
-    BicarBruizine:
+    Bruizine:
       amount: 1
   products:
     Bacterizine: 2
