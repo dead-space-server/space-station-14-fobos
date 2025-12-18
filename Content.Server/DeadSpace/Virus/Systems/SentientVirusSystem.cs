@@ -94,35 +94,49 @@ public sealed class SentientVirusSystem : EntitySystem
         if (component.Data == null)
             return;
 
+        args.Handled = true;
+
         if (TryComp<VirusComponent>(args.Target, out var virus)
-            && virus.Data.StrainId != component.Data.StrainId
-            && !_virusSystem.CanInfect(args.Target, component.Data))
+            && virus.Data.StrainId == component.Data.StrainId)
+        {
+            AddPrimaryPatient(uid, args.Target, component);
+        }
+        else if (!_virusSystem.CanInfect(args.Target, component.Data))
         {
             _popupSystem.PopupEntity(
-                Loc.GetString("sentient-virus-infect-impossible-target"),
-                uid,
-                uid,
-                PopupType.Medium);
+                    Loc.GetString("sentient-virus-infect-impossible-target"),
+                    uid,
+                    uid,
+                    PopupType.Medium);
 
-            args.Handled = true;
             return;
         }
 
-        var missingPoints = PrimaryPacientPrice * component.FactPrimaryInfected - component.Data.MutationPoints;
+        AddPrimaryPatient(uid, args.Target, component);
+    }
+
+    private void AddPrimaryPatient(EntityUid uid, EntityUid target, SentientVirusComponent? component = null)
+    {
+        if (!Resolve(uid, ref component))
+            return;
+
+        if (component.Data == null)
+            return;
+
+        var missingPoints2 = PrimaryPacientPrice * component.FactPrimaryInfected - component.Data.MutationPoints;
 
         if (component.Data.MutationPoints < PrimaryPacientPrice * component.FactPrimaryInfected)
         {
             _popupSystem.PopupEntity(
-                Loc.GetString("sentient-virus-infect-no-points", ("price", missingPoints)),
+                Loc.GetString("sentient-virus-infect-no-points", ("price", missingPoints2)),
                 uid,
                 uid,
                 PopupType.Medium
             );
-            args.Handled = true;
             return;
         }
 
-        if (TryAddPrimaryInfected(uid, args.Target, component))
+        if (TryAddPrimaryInfected(uid, target, component))
             component.Data.MutationPoints -= PrimaryPacientPrice * component.FactPrimaryInfected;
         else
             _popupSystem.PopupEntity(Loc.GetString("sentient-virus-infect-failed-source"), uid, uid, PopupType.Medium);

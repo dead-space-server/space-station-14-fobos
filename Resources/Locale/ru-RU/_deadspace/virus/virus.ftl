@@ -208,7 +208,7 @@ virus-evolution-unknown-body =
 sentient-virus-infect-impossible-target = цель невозможно заразить
 sentient-virus-teleport-no-primary-infected = нулевых пациентов не найдено
 sentient-virus-infect-failed-source = вы больше не можете создать нулевого пациента
-sentient-virus-infect-no-points = Не хватает {price} очков мутации.
+sentient-virus-infect-no-points = Не хватает { $price } очков мутации.
 
 # АНТИБИОТИКИ
 
@@ -248,3 +248,29 @@ accent-words-virus-4 = ххх… пффф…
 accent-words-virus-5 = бульк… ффф…
 accent-words-virus-6 = хрип… хрип…
 accent-words-virus-7 = м-м-м… эээ…
+
+# ANTAG
+roles-antag-sentient-virus-name = Разумный вирус
+roles-antag-sentient-virus-objective = Заразите как можно больше организмов на станции.
+role-subtype-sentient-virus = Разумный вирус
+
+ghost-role-information-sentient-virus-name = Разумный вирус
+ghost-role-information-sentient-virus-description = Заразите как можно больше организмов на станции.
+ghost-role-information-sentient-virus-rules = Вы [color={ role-type-team-antagonist-color }][bold]{ role-type-solo-antagonist-name }[/bold][/color], распространите вирус по станции.
+sentient-virus-role-greeting =
+    Вы — разумный вирус.
+    У вас нет тела, но есть цель.
+
+    Проникайте в живые организмы, приспосабливайтесь к условиям станции
+    и распространяйте себя любыми доступными способами.
+
+    Используйте мутации, симптомы и носителей, чтобы выжить и усилиться.
+    Чем больше заражённых, тем сильнее вы становитесь.
+
+    Не действуйте открыто без необходимости.
+    Вы, эпидемия, а не солдат.
+
+sentient-virus-round-end-agent-name = разумный вирус
+
+sentient-virus-title = Разумный вирус
+sentient-virus-description = На станции появился разумный вирус. Он стремится заразить как можно больше организмов, мутировать и распространиться по всей станции. Будьте бдительны и не

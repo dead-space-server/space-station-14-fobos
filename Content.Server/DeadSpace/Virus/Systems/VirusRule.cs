@@ -1,7 +1,7 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using System.Linq;
-using Content.Server.DeadSpace.Renegade.Components;
+using Content.Server.DeadSpace.Virus.Components;
 using Content.Server.StationEvents.Events;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.GameTicking.Components;
