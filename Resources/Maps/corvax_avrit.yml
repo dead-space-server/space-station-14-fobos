@@ -45938,8 +45938,6 @@ entities:
     - type: AccessReader
       accessListsOriginal: []
     - type: DeviceNetwork
-      configurators:
-      - invalid
   - uid: 480
     components:
     - type: MetaData
