@@ -5,7 +5,7 @@
   description: For dragon's breathing.
   components:
   - type: RechargeBasicEntityAmmo
-    rechargeCooldown: 5
+    rechargeCooldown: 12
     rechargeSound:
       path: /Audio/Animals/space_dragon_roar.ogg
   - type: BasicEntityAmmoProvider
@@ -88,7 +88,7 @@
   description: For dragon's breathing.
   components:
   - type: RechargeBasicEntityAmmo
-    rechargeCooldown: 5
+    rechargeCooldown: 12
     rechargeSound:
       path: /Audio/Animals/space_dragon_roar.ogg
   - type: BasicEntityAmmoProvider
@@ -164,7 +164,7 @@
   description: For dragon's breathing.
   components:
   - type: RechargeBasicEntityAmmo
-    rechargeCooldown: 5
+    rechargeCooldown: 12
     rechargeSound:
       path: /Audio/Animals/space_dragon_roar.ogg
   - type: BasicEntityAmmoProvider
