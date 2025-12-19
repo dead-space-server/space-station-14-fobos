@@ -41,6 +41,14 @@
                                     VerticalExpand="True">
                         <BoxContainer Orientation="Vertical"
                                       VerticalExpand="True">
+                            <!-- Статистика вируса -->
+                            <BoxContainer Orientation="Vertical" Margin="0 0 0 10">
+                                <Label Name="VirusHealthLabel" StyleClasses="LabelSmall"/>
+                                <Label Name="InfectivityLabel" StyleClasses="LabelSmall"/>
+                                <Label Name="InfectedCountLabel" StyleClasses="LabelSmall"/>
+                                <Label Name="PointsPerSecondLabel" StyleClasses="LabelSmall"/>
+                            </BoxContainer>
+
                             <Label Text="{Loc 'virus-evolution-description-header'}" />
                             <BoxContainer Orientation="Horizontal"
                                         HorizontalAlignment="Left">

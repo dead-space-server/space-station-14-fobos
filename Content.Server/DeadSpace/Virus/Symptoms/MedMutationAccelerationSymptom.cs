@@ -21,14 +21,14 @@ public sealed class MedMutationAccelerationSymptom : VirusSymptomBase
     {
         base.OnAdded(host, virus);
 
-        virus.Data.MutationPoints += _addRegenMutationPoints;
+        virus.Data.RegenMutationPoints += _addRegenMutationPoints;
     }
 
     public override void OnRemoved(EntityUid host, VirusComponent virus)
     {
         base.OnRemoved(host, virus);
 
-        virus.Data.MutationPoints -= _addRegenMutationPoints;
+        virus.Data.RegenMutationPoints -= _addRegenMutationPoints;
     }
 
     public override void OnUpdate(EntityUid host, VirusComponent virus)

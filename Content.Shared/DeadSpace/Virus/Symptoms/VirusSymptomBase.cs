@@ -53,8 +53,6 @@ public abstract class VirusSymptomBase : IVirusSymptom
                 EffectTimedWindow.MinSeconds * 1 / timeMultiplier,
                 EffectTimedWindow.MaxSeconds * 1 / timeMultiplier
             );
-
-            EffectTimedWindow.Reset();
         }
     }
 

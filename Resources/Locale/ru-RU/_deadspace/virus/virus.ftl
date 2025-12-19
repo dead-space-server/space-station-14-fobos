@@ -144,6 +144,18 @@ virus-evolution-delete-button = Удалить симптом
 virus-evolution-mutation-points =
     Очки мутации: { $points }
 
+virus-evolution-health =
+    Здоровье: { $current }/{ $max }
+
+virus-evolution-infectivity =
+    Заразность: { $percent }%
+
+virus-evolution-infected-count =
+    Заражённых: { $count }
+
+virus-evolution-points-per-second =
+    Очков/сек: { $points }
+
 virus-evolution-cost-label =
     Стоимость: { $cost }
 

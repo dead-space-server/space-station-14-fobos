@@ -45,6 +45,12 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
         MutationPointsLabel.Text = Loc.GetString("virus-evolution-mutation-points", ("points", state.MutationPoints));
         WhitelistMutationPointsLabel.Text = Loc.GetString("virus-evolution-mutation-points", ("points", state.MutationPoints));
 
+        // Статистика вируса
+        VirusHealthLabel.Text = Loc.GetString("virus-evolution-health", ("current", (int)state.Threshold), ("max", (int)state.MaxThreshold));
+        InfectivityLabel.Text = Loc.GetString("virus-evolution-infectivity", ("percent", (int)(state.Infectivity * 100)));
+        InfectedCountLabel.Text = Loc.GetString("virus-evolution-infected-count", ("count", state.InfectedCount));
+        PointsPerSecondLabel.Text = Loc.GetString("virus-evolution-points-per-second", ("points", state.PointsPerSecond));
+
         _selectedActiveSymptom = null;
         _selectedActiveBody = null;
 
@@ -133,6 +139,9 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
             foreach (var proto in _prototype.EnumeratePrototypes<VirusSymptomPrototype>())
             {
                 if (state.ActiveSymptoms.Contains(proto.ID))
+                    continue;
+
+                if (proto.DangerIndicator == DangerIndicatorSymptom.Cataclysm)
                     continue;
 
                 var price = virusSystem.GetSymptomPrice(state.ActiveSymptoms, proto.ID);

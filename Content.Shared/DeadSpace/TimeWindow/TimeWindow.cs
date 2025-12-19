@@ -78,9 +78,9 @@ public sealed class TimedWindow
     private TimeSpan GetRandomDuration(float minSeconds, float maxSeconds)
     {
         if (minSeconds == maxSeconds)
-            return TimeSpan.FromSeconds(MinSeconds);
+            return TimeSpan.FromSeconds(minSeconds);
 
-        var seconds = Random.NextFloat(minSeconds, MaxSeconds);
+        var seconds = Random.NextFloat(minSeconds, maxSeconds);
         return TimeSpan.FromSeconds(seconds);
     }
 }

@@ -353,16 +353,25 @@ public sealed class SentientVirusSystem : EntitySystem
         if (!Resolve(console, ref console.Comp, false))
             return default!;
 
+        var data = console.Comp.Data;
+        var infectedCount = data != null ? _virusSystem.GetQuantityInfected(data.StrainId) : 0;
+        var pointsPerSecond = data != null ? data.RegenMutationPoints + infectedCount : 0;
+
         return new VirusEvolutionConsoleBoundUserInterfaceState(
-            console.Comp.Data?.MutationPoints ?? 0,
-            console.Comp.Data?.MultiPriceDeleteSymptom ?? 0,
+            data?.MutationPoints ?? 0,
+            data?.MultiPriceDeleteSymptom ?? 0,
             true,
             true,
             true,
             true,
-            console.Comp.Data != null,
-            console.Comp.Data?.ActiveSymptom,
-            console.Comp.Data?.BodyWhitelist
+            data != null,
+            data?.ActiveSymptom,
+            data?.BodyWhitelist,
+            data?.Threshold ?? 0f,
+            data?.MaxThreshold ?? 100f,
+            data?.Infectivity ?? 0f,
+            infectedCount,
+            pointsPerSecond
         );
     }
 }
