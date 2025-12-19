@@ -45,7 +45,7 @@ public sealed class PrimaryPacientSystem : EntitySystem
 
     private void OnCureVirus(EntityUid uid, PrimaryPacientComponent component, CureVirusEvent args)
     {
-        RemComp<PrimaryPacientComponent>(args.Target);
+        RemComp<PrimaryPacientComponent>(uid);
     }
 
     private void OnRemove(EntityUid uid, PrimaryPacientComponent component, ComponentRemove args)

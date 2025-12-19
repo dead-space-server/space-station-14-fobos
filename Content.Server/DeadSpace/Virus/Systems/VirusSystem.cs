@@ -1,5 +1,6 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
+using System.Collections.Generic;
 using System.Linq;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.Virus.Symptoms;
@@ -192,20 +193,36 @@ public sealed partial class VirusSystem : SharedVirusSystem
         if (!Resolve(host, ref host.Comp, false))
             return;
 
-        if (host.Comp.Data.ActiveSymptom == null || host.Comp.Data.ActiveSymptom.Count <= 0)
-            return;
-
-        foreach (var protoSymptom in host.Comp.Data.ActiveSymptom)
+        // Собираем активные типы симптомов из данных вируса
+        var activeTypes = new HashSet<VirusSymptom>();
+        if (host.Comp.Data.ActiveSymptom != null)
         {
-            if (!_prototype.TryIndex(protoSymptom, out var symptom))
+            foreach (var protoSymptom in host.Comp.Data.ActiveSymptom)
+            {
+                if (_prototype.TryIndex(protoSymptom, out var symptom))
+                    activeTypes.Add(symptom.SymptomType);
+            }
+        }
+
+        // Удаляем симптомы, которых больше нет в ActiveSymptom
+        for (var i = host.Comp.ActiveSymptomInstances.Count - 1; i >= 0; i--)
+        {
+            var instance = host.Comp.ActiveSymptomInstances[i];
+            if (!activeTypes.Contains(instance.Type))
+            {
+                if (CanManifestInHost((host, host.Comp)))
+                    instance.OnRemoved(host, host.Comp);
+                host.Comp.ActiveSymptomInstances.RemoveAt(i);
+            }
+        }
+
+        // Добавляем новые симптомы
+        foreach (var symptomType in activeTypes)
+        {
+            if (host.Comp.ActiveSymptomInstances.Any(s => s.Type == symptomType))
                 continue;
 
-            var symptomInstance = CreateSymptomInstance(symptom.SymptomType);
-
-            // Проверяем, есть ли уже экземпляр этого типа симптома
-            if (host.Comp.ActiveSymptomInstances.Any(s => s.Type == symptom.SymptomType))
-                continue;
-
+            var symptomInstance = CreateSymptomInstance(symptomType);
             host.Comp.ActiveSymptomInstances.Add(symptomInstance);
 
             if (CanManifestInHost((host, host.Comp)))
@@ -289,7 +306,7 @@ public sealed partial class VirusSystem : SharedVirusSystem
         if (!Resolve(source, ref source.Comp, false))
             return;
 
-        InfectEntity(source.Comp.Data, source);
+        InfectEntity(source.Comp.Data, target);
     }
 
     public void InfectEntity(VirusData data, EntityUid target)
@@ -311,7 +328,7 @@ public sealed partial class VirusSystem : SharedVirusSystem
 
         // В любом случае копируем остальные данные (например, симптомы, тела и т.п.)
         var targetComp = EnsureComp<VirusComponent>(target);
-        targetComp.Data = (VirusData)data.Clone();
+        targetComp.Data = localData;
 
         RaiseLocalEvent(target, new CauseVirusEvent(target));
     }
@@ -320,7 +337,7 @@ public sealed partial class VirusSystem : SharedVirusSystem
     {
         foreach (var kvp in source.MedicineResistance)
         {
-            if (source.MedicineResistance.TryGetValue(kvp.Key, out var existingValue))
+            if (target.MedicineResistance.TryGetValue(kvp.Key, out var existingValue))
             {
                 // Берём лучший (максимальный) коэффициент
                 target.MedicineResistance[kvp.Key] = Math.Max(existingValue, kvp.Value);

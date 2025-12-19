@@ -251,11 +251,12 @@ public sealed class SentientVirusSystem : EntitySystem
             return;
 
         var query = EntityQueryEnumerator<VirusComponent>();
-        while (query.MoveNext(out _, out var virusComponent))
+        while (query.MoveNext(out var virusUid, out var virusComponent))
         {
             if (virusComponent.Data != null && virusComponent.Data.StrainId == source.Data.StrainId)
             {
                 virusComponent.Data = (VirusData)source.Data.Clone();
+                _virusSystem.RefreshSymptoms((virusUid, virusComponent));
             }
         }
     }

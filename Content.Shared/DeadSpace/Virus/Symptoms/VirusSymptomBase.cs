@@ -46,12 +46,12 @@ public abstract class VirusSymptomBase : IVirusSymptom
         {
             DoEffect(host, virus);
 
-            if (!BaseVirusSettings.DebuffVirusMultipliers.TryGetValue(virus.RegenerationType, out var timeMultiplier))
+            if (!BaseVirusSettings.DebuffVirusMultipliers.TryGetValue(virus.RegenerationType, out var timeMultiplier) || timeMultiplier <= 0f)
                 timeMultiplier = 1.0f;
 
             EffectTimedWindow.Reset(
-                EffectTimedWindow.MinSeconds * 1 / timeMultiplier,
-                EffectTimedWindow.MaxSeconds * 1 / timeMultiplier
+                EffectTimedWindow.MinSeconds / timeMultiplier,
+                EffectTimedWindow.MaxSeconds / timeMultiplier
             );
         }
     }
