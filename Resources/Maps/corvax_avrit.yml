@@ -229839,8 +229839,6 @@ entities:
       pos: -63.5,-13.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 305
       - 423
@@ -229851,8 +229849,6 @@ entities:
       pos: -60.5,-8.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 423
       - 26839
