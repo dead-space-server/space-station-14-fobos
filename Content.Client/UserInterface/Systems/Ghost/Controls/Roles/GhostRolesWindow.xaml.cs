@@ -160,24 +160,16 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
             if (_currentCategoryFilter == category)
             {
                 _currentCategoryFilter = null;
-                foreach (var child in EntryContainer.Children)
-                    child.Visible = true;
                 foreach (var button in TopButtonRow.Children.OfType<Button>())
                 {
                     button.Pressed = false;
                 }
+                UpdateVisibleElements();
                 return;
             }
 
             _currentCategoryFilter = category;
 
-            foreach (var child in EntryContainer.Children)
-            {
-                if (child.StyleClasses.Contains(category))
-                    child.Visible = true;
-                else
-                    child.Visible = false;
-            }
             foreach (var btnObj in TopButtonRow.Children.OfType<Button>())
             {
                 if (btnObj.Name == category)
@@ -187,6 +179,7 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
                     btnObj.Pressed = false;
                 }
             }
+            UpdateVisibleElements();
         }
         private bool ElementIsVisible(Control elem)
         {
