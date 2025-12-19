@@ -472,7 +472,7 @@
     belt: ClothingBeltSecurityFilled
     socks: ClothingUnderwearSocksSecurityOfficer
     underwearb: ClothingUnderwearBottomBoxersSecurityOfficer
-    outerClothing: ClothingOuterArmorBase
+    outerClothing: ClothingOuterArmorBasic
     shoes: ClothingShoesBootsJackSecFilled
 
 - type: startingGear
