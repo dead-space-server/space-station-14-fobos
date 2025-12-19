@@ -356713,8 +356713,6 @@ entities:
       pos: -61.5,15.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
     - type: DeviceLinkSource
       linkedPorts:
         479:
