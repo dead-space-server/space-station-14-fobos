@@ -126,7 +126,7 @@
   components:
   - type: Sprite
     sprite: Structures/Specific/Anomalies/ice_anom.rsi
-  - type: DamageOtherOnHit
+  - type: Projectile
     damage:
       types:
         Cold: 4.5
