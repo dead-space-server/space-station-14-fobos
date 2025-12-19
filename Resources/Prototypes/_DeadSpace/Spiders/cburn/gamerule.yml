@@ -1,0 +1,45 @@
+- type: entity
+  name: боец РХБЗЗ, spawner
+  id: CBURNAgentSpawner
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: red
+    - sprite: Markers/jobs.rsi
+      state: cburn
+  - type: RandomSpawner
+    prototypes:
+    - RandomHumanoidSpawnerCBURNAgent
+
+- type: entity
+  name: лидер РХБЗЗ, spawner
+  id: CBURNLeaderSpawner
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: red
+    - sprite: Markers/jobs.rsi
+      state: cburn
+  - type: RandomSpawner
+    prototypes:
+    - RandomHumanoidSpawnerCBURNLeader
+
+- type: preloadedGrid
+  id: CBURNShuttle
+  path: /Maps/Shuttles/ShuttleEvent/cburn.yml
+  copies: 1
+
+- type: entity
+  parent: BaseGameRule
+  id: ShuttleCBURN
+  components:
+  - type: StationEvent
+    startAnnouncement: station-event-response-team-arrival
+    startAudio:
+      path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
+    willNotStartRandomly: true
+  - type: RuleGrids
+  - type: LoadMapRule
+    preloadedGrid: CBURNShuttle
