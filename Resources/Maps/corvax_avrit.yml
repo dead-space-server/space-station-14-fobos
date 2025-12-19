@@ -229839,6 +229839,8 @@ entities:
       pos: -63.5,-13.5
       parent: 2
     - type: DeviceNetwork
+      configurators:
+      - invalid
       deviceLists:
       - 305
       - 423
@@ -229849,6 +229851,8 @@ entities:
       pos: -60.5,-8.5
       parent: 2
     - type: DeviceNetwork
+      configurators:
+      - invalid
       deviceLists:
       - 423
       - 26839
@@ -229858,6 +229862,8 @@ entities:
       pos: -58.5,-10.5
       parent: 2
     - type: DeviceNetwork
+      configurators:
+      - invalid
       deviceLists:
       - 423
       - 26839
@@ -280993,6 +280999,8 @@ entities:
     - type: AtmosPipeColor
       color: '#990000FF'
     - type: DeviceNetwork
+      configurators:
+      - invalid
       deviceLists:
       - 204
   - uid: 34051
@@ -356713,6 +356721,8 @@ entities:
       pos: -61.5,15.5
       parent: 2
     - type: DeviceNetwork
+      configurators:
+      - invalid
     - type: DeviceLinkSource
       linkedPorts:
         479:
