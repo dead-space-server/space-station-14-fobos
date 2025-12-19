@@ -45,4 +45,12 @@ public sealed class MedChemicalAdaptationSymptom : VirusSymptomBase
     {
         return new MedChemicalAdaptationSymptom(EntityManager, Timing, Random, CloneTimedWindow());
     }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        if (add)
+            data.DefaultMedicineResistance += _addDefaultMedicineResistance;
+        else
+            data.DefaultMedicineResistance -= _addDefaultMedicineResistance;
+    }
 }

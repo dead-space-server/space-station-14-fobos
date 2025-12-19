@@ -558,7 +558,7 @@ public sealed partial class VirusSystem : SharedVirusSystem
     /// <summary>
     ///     Нужно добавить новый тип вируса в этот switch.
     /// </summary>
-    private IVirusSymptom CreateSymptomInstance(VirusSymptom type)
+    public IVirusSymptom CreateSymptomInstance(VirusSymptom type)
     {
         return type switch
         {

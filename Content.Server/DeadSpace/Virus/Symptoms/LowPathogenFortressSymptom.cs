@@ -45,4 +45,12 @@ public sealed class LowPathogenFortressSymptom : VirusSymptomBase
     {
         return new LowPathogenFortressSymptom(EntityManager, Timing, Random, CloneTimedWindow());
     }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        if (add)
+            data.MaxThreshold += _addMaxThreshold;
+        else
+            data.MaxThreshold -= _addMaxThreshold;
+    }
 }

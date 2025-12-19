@@ -45,4 +45,12 @@ public sealed class LowPostMortemResistanceSymptom : VirusSymptomBase
     {
         return new LowPostMortemResistanceSymptom(EntityManager, Timing, Random, CloneTimedWindow());
     }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        if (add)
+            data.DamageWhenDead -= _addDamageWhenDead;
+        else
+            data.DamageWhenDead += _addDamageWhenDead;
+    }
 }

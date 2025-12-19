@@ -45,4 +45,12 @@ public sealed class MedMutationAccelerationSymptom : VirusSymptomBase
     {
         return new MedMutationAccelerationSymptom(EntityManager, Timing, Random, CloneTimedWindow());
     }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        if (add)
+            data.RegenMutationPoints += _addRegenMutationPoints;
+        else
+            data.RegenMutationPoints -= _addRegenMutationPoints;
+    }
 }

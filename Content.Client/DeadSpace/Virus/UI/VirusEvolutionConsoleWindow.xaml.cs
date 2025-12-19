@@ -46,10 +46,25 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
         WhitelistMutationPointsLabel.Text = Loc.GetString("virus-evolution-mutation-points", ("points", state.MutationPoints));
 
         // Статистика вируса
-        VirusHealthLabel.Text = Loc.GetString("virus-evolution-health", ("current", (int)state.Threshold), ("max", (int)state.MaxThreshold));
-        InfectivityLabel.Text = Loc.GetString("virus-evolution-infectivity", ("percent", (int)(state.Infectivity * 100)));
-        InfectedCountLabel.Text = Loc.GetString("virus-evolution-infected-count", ("count", state.InfectedCount));
-        PointsPerSecondLabel.Text = Loc.GetString("virus-evolution-points-per-second", ("points", state.PointsPerSecond));
+        if (!state.IsSentientVirus)
+        {
+            VirusHealthLabel.Visible = false;
+            InfectivityLabel.Visible = false;
+            InfectedCountLabel.Visible = false;
+            PointsPerSecondLabel.Visible = false;
+        }
+        else
+        {
+            VirusHealthLabel.Text = Loc.GetString("virus-evolution-health", ("current", (int)state.Threshold), ("max", (int)state.MaxThreshold));
+            InfectivityLabel.Text = Loc.GetString("virus-evolution-infectivity", ("percent", (int)(state.Infectivity * 100)));
+            InfectedCountLabel.Text = Loc.GetString("virus-evolution-infected-count", ("count", state.InfectedCount));
+            PointsPerSecondLabel.Text = Loc.GetString("virus-evolution-points-per-second", ("points", state.PointsPerSecond));
+
+            VirusHealthLabel.Visible = true;
+            InfectivityLabel.Visible = true;
+            InfectedCountLabel.Visible = true;
+            PointsPerSecondLabel.Visible = true;
+        }
 
         _selectedActiveSymptom = null;
         _selectedActiveBody = null;

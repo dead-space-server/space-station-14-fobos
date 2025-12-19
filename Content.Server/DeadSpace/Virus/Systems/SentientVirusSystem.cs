@@ -170,6 +170,10 @@ public sealed class SentientVirusSystem : EntitySystem
 
                     component.Data.MutationPoints -= price;
                     component.Data.ActiveSymptom.Add(args.Symptom);
+
+                    var symptomInstance = _virusSystem.CreateSymptomInstance(proto.SymptomType);
+                    symptomInstance.ApplyDataEffect(component.Data, add: true);
+
                     UpdateVirusDataForStrain(uid, component);
                     break;
                 }
@@ -192,7 +196,7 @@ public sealed class SentientVirusSystem : EntitySystem
             case EvolutionConsoleUiButton.DeleteSymptom:
                 {
                     if (args.Symptom == null
-                        || !_prototypeManager.TryIndex<VirusSymptomPrototype>(args.Symptom, out _)
+                        || !_prototypeManager.TryIndex<VirusSymptomPrototype>(args.Symptom, out var proto)
                         || component.Data == null)
                         return;
 
@@ -202,6 +206,10 @@ public sealed class SentientVirusSystem : EntitySystem
 
                     component.Data.MutationPoints -= price;
                     component.Data.ActiveSymptom.Remove(args.Symptom);
+
+                    var symptomInstance = _virusSystem.CreateSymptomInstance(proto.SymptomType);
+                    symptomInstance.ApplyDataEffect(component.Data, add: false);
+
                     UpdateVirusDataForStrain(uid, component);
                     break;
                 }
@@ -371,7 +379,8 @@ public sealed class SentientVirusSystem : EntitySystem
             data?.MaxThreshold ?? 100f,
             data?.Infectivity ?? 0f,
             infectedCount,
-            pointsPerSecond
+            pointsPerSecond,
+            isSentientVirus: true
         );
     }
 }

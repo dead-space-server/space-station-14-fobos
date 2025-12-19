@@ -45,4 +45,12 @@ public sealed class LowViralRegenerationSymptom : VirusSymptomBase
     {
         return new LowViralRegenerationSymptom(EntityManager, Timing, Random, CloneTimedWindow());
     }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        if (add)
+            data.RegenThreshold += _addRegenThreshold;
+        else
+            data.RegenThreshold -= _addRegenThreshold;
+    }
 }

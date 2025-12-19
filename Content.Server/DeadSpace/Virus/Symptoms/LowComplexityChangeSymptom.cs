@@ -48,4 +48,12 @@ public sealed class LowComplexityChangeSymptom : VirusSymptomBase
     {
         return new LowComplexityChangeSymptom(EntityManager, Timing, Random, CloneTimedWindow());
     }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        if (add)
+            data.MultiPriceDeleteSymptom += _addMultiPriceDeleteSymptom;
+        else
+            data.MultiPriceDeleteSymptom -= _addMultiPriceDeleteSymptom;
+    }
 }

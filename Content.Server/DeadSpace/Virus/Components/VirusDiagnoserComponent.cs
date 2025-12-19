@@ -48,7 +48,8 @@ public sealed partial class VirusDiagnoserComponent : Component
 
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public SoundSpecifier? ScanningSound = new SoundPathSpecifier("/Audio/_DeadSpace/Virus/Diagnoser/scanning.ogg");
+    // public SoundSpecifier? ScanningSound = new SoundPathSpecifier("/Audio/_DeadSpace/Virus/Diagnoser/scanning.ogg");
+    public SoundSpecifier? ScanningSound = null;
 
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]

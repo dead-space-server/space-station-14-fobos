@@ -45,4 +45,12 @@ public sealed class LowChemicalAdaptationSymptom : VirusSymptomBase
     {
         return new LowChemicalAdaptationSymptom(EntityManager, Timing, Random, CloneTimedWindow());
     }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        if (add)
+            data.DefaultMedicineResistance += _addDefaultMedicineResistance;
+        else
+            data.DefaultMedicineResistance -= _addDefaultMedicineResistance;
+    }
 }

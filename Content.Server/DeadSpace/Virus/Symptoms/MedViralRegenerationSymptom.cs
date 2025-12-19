@@ -45,4 +45,12 @@ public sealed class MedViralRegenerationSymptom : VirusSymptomBase
     {
         return new MedViralRegenerationSymptom(EntityManager, Timing, Random, CloneTimedWindow());
     }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        if (add)
+            data.RegenThreshold += _addRegenThreshold;
+        else
+            data.RegenThreshold -= _addRegenThreshold;
+    }
 }

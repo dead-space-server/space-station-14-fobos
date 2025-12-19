@@ -285,7 +285,8 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
             console.Comp.SolutionAnalyzerInRange,
             virusData != null,
             virusData?.ActiveSymptom,
-            virusData?.BodyWhitelist
+            virusData?.BodyWhitelist,
+            isSentientVirus: false
         );
     }
 
