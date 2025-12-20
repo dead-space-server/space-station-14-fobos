@@ -39,7 +39,7 @@ public sealed partial class DragonRiftComponent : SharedDragonRiftComponent
     /// </summary>
     [ViewVariables(VVAccess.ReadWrite), DataField("spawnCooldown")]
     public float SpawnCooldown = 30f;
-//DS14-end
+//DS14-start
     /// <summary>
     /// Chance that the rift will spawn anything at all (0–1)
     /// </summary>
