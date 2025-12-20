@@ -6,10 +6,10 @@ namespace Content.Server.Mech.Equipment.Components;
 [RegisterComponent]
 public sealed partial class MechCollectorComponent : Component
 {
-    [DataField("scanInterval")]
+    [DataField("nextScan", readOnly: true)]
     public TimeSpan ScanInterval = TimeSpan.FromSeconds(1);
 
-    [DataField("nextScan")]
+    [DataField("nextScan", readOnly: true)]
     public TimeSpan NextScan = TimeSpan.Zero;
 
     [DataField("range")]
