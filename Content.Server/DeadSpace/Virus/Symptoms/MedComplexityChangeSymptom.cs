@@ -22,16 +22,14 @@ public sealed class MedComplexityChangeSymptom : VirusSymptomBase
     {
         base.OnAdded(host, virus);
 
-        var virusSystem = EntityManager.System<VirusSystem>();
-        virusSystem.AddMultiPriceDeleteSymptom(virus.Data.StrainId, _addMultiPriceDeleteSymptom);
+        virus.Data.MultiPriceDeleteSymptom += _addMultiPriceDeleteSymptom;
     }
 
     public override void OnRemoved(EntityUid host, VirusComponent virus)
     {
         base.OnRemoved(host, virus);
 
-        var virusSystem = EntityManager.System<VirusSystem>();
-        virusSystem.AddMultiPriceDeleteSymptom(virus.Data.StrainId, -_addMultiPriceDeleteSymptom);
+        virus.Data.MultiPriceDeleteSymptom -= _addMultiPriceDeleteSymptom;
     }
 
     public override void OnUpdate(EntityUid host, VirusComponent virus)
