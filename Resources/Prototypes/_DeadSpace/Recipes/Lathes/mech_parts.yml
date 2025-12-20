@@ -1,0 +1,36 @@
+﻿# Clarke
+- type: latheRecipe
+  abstract: true
+  parent: BaseMechPartRecipe
+  id: BaseClarkeLimbRecipe
+  materials:
+    Steel: 1200
+    Glass: 500
+
+- type: latheRecipe
+  parent: BaseMechPartRecipe
+  id: ClarkeHarness
+  result: ClarkeHarness
+  materials:
+    Steel: 1700
+    Glass: 1000
+
+- type: latheRecipe
+  parent: BaseClarkeLimbRecipe
+  id: ClarkeLArm
+  result: ClarkeLArm
+
+- type: latheRecipe
+  parent: BaseClarkeLimbRecipe
+  id: ClarkeLLeg
+  result: ClarkeLLeg
+
+- type: latheRecipe
+  parent: BaseClarkeLimbRecipe
+  id: ClarkeRLeg
+  result: ClarkeRLeg
+
+- type: latheRecipe
+  parent: BaseClarkeLimbRecipe
+  id: ClarkeRArm
+  result: ClarkeRArm

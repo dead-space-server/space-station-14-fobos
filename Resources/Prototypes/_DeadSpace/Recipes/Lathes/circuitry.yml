@@ -1,0 +1,10 @@
+﻿# Mechs
+- type: latheRecipe
+  parent: [ BaseGoldCircuitboardRecipe, BaseMechRecipeCategory ]
+  id: ClarkeCentralElectronics
+  result: ClarkeCentralElectronics
+
+- type: latheRecipe
+  parent: ClarkeCentralElectronics
+  id: ClarkePeripheralsElectronics
+  result: ClarkePeripheralsElectronics

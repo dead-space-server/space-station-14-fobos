@@ -11,6 +11,7 @@
   cost: 7500
   recipeUnlocks:
   - MiningDrill
+  - MechEquipmentDrill # DS14
   - MineralScannerEmpty
   - OreProcessorIndustrialMachineCircuitboard
   - ClothingMaskWeldingGas
@@ -202,6 +203,7 @@
   recipeUnlocks:
     - OreBagOfHolding
     - MiningDrillDiamond
+    - MechEquipmentDiamondDrill # DS14
     - AdvancedMineralScannerEmpty
     - BorgModuleAdvancedMining
     - SalvageExpeditionsComputerCircuitboard # Corvax-Cringe

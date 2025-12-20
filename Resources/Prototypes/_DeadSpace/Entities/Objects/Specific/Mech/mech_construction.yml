@@ -113,7 +113,7 @@
     tags:
     - TaipanRipleyRArm
 
-# Clarke APLU
+# Clarke
 - type: entity
   id: BaseClarkePart
   parent: BaseMechPart

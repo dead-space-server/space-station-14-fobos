@@ -1,0 +1,22 @@
+- type: latheRecipe
+  parent: BaseMechEquipmentRecipe
+  id: MechEquipmentDrill
+  result: MechEquipmentDrill
+  materials:
+    Steel: 700
+    Plastic: 150
+
+- type: latheRecipe
+  parent: BaseMechEquipmentRecipe
+  id: MechEquipmentDiamondDrill
+  result: MechEquipmentDiamondDrill
+  materials:
+    Steel: 800
+    Plastic: 300
+    Silver: 300
+    Diamond: 100
+
+- type: latheRecipe
+  parent: BaseMechEquipmentRecipe
+  id: MechEquipmentOreCollector
+  result: MechEquipmentOreCollector

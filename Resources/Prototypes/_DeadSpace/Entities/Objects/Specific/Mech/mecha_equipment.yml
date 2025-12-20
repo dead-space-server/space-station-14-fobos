@@ -23,7 +23,7 @@
     - TaipanRipleyEquipment
 
 - type: entity
-  id: MechEquipmentCollector
+  id: MechEquipmentOreCollector
   parent: BaseMechEquipment
   name: механический сборщик руды
   description: Устройство для сбора руды.
@@ -71,6 +71,8 @@
     size: Ginormous
   - type: MultiHandedItem
   - type: MeleeWeapon
+    mustBeEquippedToUse: true
+    hidden: true
     autoAttack: true
     angle: 0
     attackRate: 3.5
@@ -85,6 +87,7 @@
   - type: Tag
     tags:
     - ClarkeEquipment
+    - Pickaxe
 
 - type: entity
   id: MechEquipmentDiamondDrill
@@ -98,6 +101,8 @@
     size: Ginormous
   - type: MultiHandedItem
   - type: MeleeWeapon
+    mustBeEquippedToUse: true
+    hidden: true
     autoAttack: true
     angle: 0
     wideAnimationRotation: -90
@@ -112,3 +117,4 @@
   - type: Tag
     tags:
     - ClarkeEquipment
+    - Pickaxe

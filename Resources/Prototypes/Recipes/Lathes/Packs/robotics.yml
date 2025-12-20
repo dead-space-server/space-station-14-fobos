@@ -77,6 +77,13 @@
   - HamtrLLeg
   - HamtrRLeg
   - VimHarness
+  # DS14-start
+  - ClarkeHarness
+  - ClarkeLArm
+  - ClarkeRArm
+  - ClarkeLLeg
+  - ClarkeRLeg
+  # DS14-end
 
 - type: latheRecipePack
   id: MechEquipment
@@ -84,3 +91,8 @@
     - MechEquipmentGrabber
     - MechEquipmentHorn
     - MechEquipmentGrabberSmall
+    # DS14-start
+    - MechEquipmentOreCollector
+    - MechEquipmentDrill
+    - MechEquipmentDiamondDrill
+    # DS14-end
