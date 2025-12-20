@@ -5,6 +5,7 @@
   showTo:
     components:
       - SentientVirus
+      - ShowAntagIcons
   icon:
     sprite: /Textures/_DeadSpace/Interface/Misc/antag_icons.rsi
     state: Pacient
@@ -15,7 +16,7 @@
   visibleToGhosts: false
   showTo:
     components:
-      - SentientVirus
+      - SentientVirus # Админ абузерам хрен
   icon:
     sprite: /Textures/_DeadSpace/Interface/Misc/antag_icons.rsi
     state: PrimaryPacient
