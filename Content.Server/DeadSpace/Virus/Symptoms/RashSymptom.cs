@@ -47,6 +47,6 @@ public sealed class RashSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new RashSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new RashSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
     }
 }

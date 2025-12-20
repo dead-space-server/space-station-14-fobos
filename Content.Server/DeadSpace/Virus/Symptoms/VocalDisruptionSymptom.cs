@@ -57,6 +57,6 @@ public sealed class VocalDisruptionSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new VocalDisruptionSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new VocalDisruptionSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
     }
 }

@@ -226,7 +226,10 @@ public sealed partial class VirusSystem : SharedVirusSystem
             host.Comp.ActiveSymptomInstances.Add(symptomInstance);
 
             if (CanManifestInHost((host, host.Comp)))
+            {
+                _sawmill.Debug($"Добавлен ActiveSymptomInstance {symptomInstance.ToString()} к сущности {host.Owner}.");
                 symptomInstance.OnAdded(host, host.Comp);
+            }
         }
     }
 
@@ -577,79 +580,80 @@ public sealed partial class VirusSystem : SharedVirusSystem
     /// </summary>
     public IVirusSymptom CreateSymptomInstance(VirusSymptom type)
     {
+        var newWindow = DefaultSymptomWindow.Clone();
         return type switch
         {
             VirusSymptom.Cough =>
-                new CoughSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new CoughSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.Vomit =>
-                new VomitSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new VomitSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.Rash =>
-                new RashSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new RashSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.Drowsiness =>
-                new DrowsinessSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new DrowsinessSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.Necrosis =>
-                new NecrosisSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new NecrosisSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.Zombification =>
-                new ZombificationSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new ZombificationSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.LowComplexityChange =>
-                new LowComplexityChangeSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new LowComplexityChangeSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.MedComplexityChange =>
-                new MedComplexityChangeSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new MedComplexityChangeSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.LowPostMortemResistance =>
-                new LowPostMortemResistanceSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new LowPostMortemResistanceSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.MedPostMortemResistance =>
-                new MedPostMortemResistanceSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new MedPostMortemResistanceSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.LowViralRegeneration =>
-                new LowViralRegenerationSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new LowViralRegenerationSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.MedViralRegeneration =>
-                new MedViralRegenerationSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new MedViralRegenerationSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.LowMutationAcceleration =>
-                new LowMutationAccelerationSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new LowMutationAccelerationSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.MedMutationAcceleration =>
-                new MedMutationAccelerationSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new MedMutationAccelerationSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.LowPathogenFortress =>
-                new LowPathogenFortressSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new LowPathogenFortressSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.MedPathogenFortress =>
-                new MedPathogenFortressSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new MedPathogenFortressSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.LowChemicalAdaptation =>
-                new LowChemicalAdaptationSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new LowChemicalAdaptationSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.MedChemicalAdaptation =>
-                new MedChemicalAdaptationSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new MedChemicalAdaptationSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.AggressiveTransmission =>
-                new AggressiveTransmissionSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new AggressiveTransmissionSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.NeuroSpike =>
-                new NeuroSpikeSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new NeuroSpikeSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.VocalDisruption =>
-                new VocalDisruptionSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new VocalDisruptionSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.Asphyxia =>
-                new AsphyxiaSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new AsphyxiaSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.Blindable =>
-                new BlindableSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new BlindableSymptom(EntityManager, _timing, _random, newWindow),
 
             VirusSymptom.ParalyzedLegs =>
-                new ParalyzedLegsSymptom(EntityManager, _timing, _random, DefaultSymptomWindow),
+                new ParalyzedLegsSymptom(EntityManager, _timing, _random, newWindow),
 
             _ => throw new ArgumentOutOfRangeException(
                 nameof(type),

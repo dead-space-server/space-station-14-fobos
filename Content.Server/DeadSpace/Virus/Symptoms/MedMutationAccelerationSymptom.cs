@@ -43,7 +43,7 @@ public sealed class MedMutationAccelerationSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new MedMutationAccelerationSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new MedMutationAccelerationSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
     }
 
     public override void ApplyDataEffect(VirusData data, bool add)

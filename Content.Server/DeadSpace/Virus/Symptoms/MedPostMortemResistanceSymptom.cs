@@ -43,7 +43,7 @@ public sealed class MedPostMortemResistanceSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new MedPostMortemResistanceSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new MedPostMortemResistanceSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
     }
 
     public override void ApplyDataEffect(VirusData data, bool add)

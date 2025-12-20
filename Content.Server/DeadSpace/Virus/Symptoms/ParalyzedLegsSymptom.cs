@@ -48,6 +48,6 @@ public sealed class ParalyzedLegsSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new ParalyzedLegsSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new ParalyzedLegsSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
     }
 }

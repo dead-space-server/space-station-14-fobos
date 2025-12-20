@@ -43,7 +43,7 @@ public sealed class LowMutationAccelerationSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new LowMutationAccelerationSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new LowMutationAccelerationSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
     }
 
     public override void ApplyDataEffect(VirusData data, bool add)

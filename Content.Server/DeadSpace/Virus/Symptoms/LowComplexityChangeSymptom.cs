@@ -46,7 +46,7 @@ public sealed class LowComplexityChangeSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new LowComplexityChangeSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new LowComplexityChangeSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
     }
 
     public override void ApplyDataEffect(VirusData data, bool add)

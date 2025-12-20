@@ -57,6 +57,6 @@ public sealed class BlindableSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new BlindableSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new BlindableSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
     }
 }

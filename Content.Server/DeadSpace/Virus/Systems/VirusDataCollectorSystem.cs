@@ -9,6 +9,7 @@ using Content.Server.Popups;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.Popups;
 using Content.Shared.Forensics.Components;
+using Content.Shared.Examine;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -24,6 +25,15 @@ public sealed class VirusDataCollectorSystem : EntitySystem
 
         SubscribeLocalEvent<VirusDataCollectorComponent, AfterInteractEvent>(OnAfterInteract);
         SubscribeLocalEvent<VirusDataCollectorComponent, CollectVirusDataDoAfterEvent>(OnDoAfter);
+        SubscribeLocalEvent<VirusDataCollectorComponent, ExaminedEvent>(OnExamine);
+    }
+
+    private void OnExamine(EntityUid uid, VirusDataCollectorComponent component, ExaminedEvent args)
+    {
+        if (component.Data != null)
+            args.PushMarkup(Loc.GetString("virus-collector-has-data"));
+        else
+            args.PushMarkup(Loc.GetString(" virus-collector-not-has-data"));
     }
 
     private void OnAfterInteract(Entity<VirusDataCollectorComponent> entity, ref AfterInteractEvent args)

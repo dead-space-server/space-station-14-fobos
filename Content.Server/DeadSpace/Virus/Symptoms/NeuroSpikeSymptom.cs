@@ -50,6 +50,6 @@ public sealed class NeuroSpikeSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new NeuroSpikeSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new NeuroSpikeSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
     }
 }

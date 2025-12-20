@@ -60,8 +60,7 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
             totalPoints += data.BodyWhitelist.Count * component.BodyPointsMultiply;
         }
 
-        UpdateConnectedInterfaces(uid, component);
-
+        // UpdateConnectedInterfaces не делаем в Update(float frameTime), интерфейс не адаптирован под это
         component.Points += totalPoints;
     }
 
@@ -191,7 +190,7 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
         if (server.Comp.ConnectedConsole == null || !TryComp<VirusDiagnoserConsoleComponent>(server.Comp.ConnectedConsole, out var console))
             return;
 
-        _console.UpdateUserInterface((server.Comp.ConnectedConsole.Value, console));
+        UpdateConnectedInterfaces(server, server.Comp);
     }
 
     public void SaveData(Entity<VirusDiagnoserDataServerComponent?> server, VirusData data)

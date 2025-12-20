@@ -43,7 +43,7 @@ public sealed class MedPathogenFortressSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new MedPathogenFortressSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new MedPathogenFortressSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
     }
 
     public override void ApplyDataEffect(VirusData data, bool add)

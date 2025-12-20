@@ -50,8 +50,8 @@ public abstract class VirusSymptomBase : IVirusSymptom
                 timeMultiplier = 1.0f;
 
             EffectTimedWindow.Reset(
-                EffectTimedWindow.MinSeconds / timeMultiplier,
-                EffectTimedWindow.MaxSeconds / timeMultiplier
+                EffectTimedWindow.MinSeconds * (1 / timeMultiplier),
+                EffectTimedWindow.MaxSeconds * (1 / timeMultiplier)
             );
         }
     }
@@ -60,14 +60,4 @@ public abstract class VirusSymptomBase : IVirusSymptom
     public abstract IVirusSymptom Clone();
 
     public virtual void ApplyDataEffect(VirusData data, bool add) { }
-
-    protected TimedWindow CloneTimedWindow()
-    {
-        return new TimedWindow(
-            EffectTimedWindow.MinSeconds,
-            EffectTimedWindow.MaxSeconds,
-            EffectTimedWindow.Timing,
-            EffectTimedWindow.Random
-        );
-    }
 }

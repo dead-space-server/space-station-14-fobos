@@ -38,6 +38,6 @@ public sealed class AggressiveTransmissionSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new AggressiveTransmissionSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new AggressiveTransmissionSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
     }
 }

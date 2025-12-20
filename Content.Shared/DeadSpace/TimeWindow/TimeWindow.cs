@@ -66,6 +66,11 @@ public sealed class TimedWindow
         return window == null || window.IsExpired();
     }
 
+    public TimedWindow Clone()
+    {
+        return new TimedWindow(MinSeconds, MaxSeconds, Timing, Random);
+    }
+
     private TimeSpan GetRandomDuration()
     {
         if (MinSeconds == MaxSeconds)

@@ -43,7 +43,7 @@ public sealed class LowPathogenFortressSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new LowPathogenFortressSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new LowPathogenFortressSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
     }
 
     public override void ApplyDataEffect(VirusData data, bool add)

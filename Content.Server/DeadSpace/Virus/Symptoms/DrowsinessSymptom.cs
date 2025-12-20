@@ -47,6 +47,6 @@ public sealed class DrowsinessSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new DrowsinessSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new DrowsinessSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
     }
 }

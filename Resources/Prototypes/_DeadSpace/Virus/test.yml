@@ -8,6 +8,7 @@
       strainId: TestVirus
       activeSymptom:
       - CoughSymptom
+      - VomitSymptom
       bodyWhitelist:
       - Human
       mutationPoints: 10000

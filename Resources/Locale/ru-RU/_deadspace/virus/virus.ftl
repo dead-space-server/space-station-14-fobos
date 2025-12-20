@@ -286,3 +286,7 @@ sentient-virus-round-end-agent-name = разумный вирус
 
 sentient-virus-title = Разумный вирус
 sentient-virus-description = На станции появился разумный вирус. Он стремится заразить как можно больше организмов, мутировать и распространиться по всей станции. Будьте бдительны и не
+
+# DataCollector
+virus-collector-has-data = Образец взят у пациента.
+virus-collector-not-has-data = Биологический материал не обнаружен.
