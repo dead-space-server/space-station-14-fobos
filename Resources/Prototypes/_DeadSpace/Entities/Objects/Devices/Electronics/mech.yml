@@ -1,5 +1,3 @@
-# DeathRipley
-
 - type: entity
   id: TaipanRipleyCentralElectronics
   parent: BaseElectronics
@@ -33,3 +31,29 @@
   - type: GuideHelp
     guides:
     - Robotics
+
+- type: entity
+  id: ClarkeCentralElectronics
+  parent: BaseElectronics
+  name: центральный модуль управления К.Л.А.Р.К.
+  description: Центр управления электрооборудованием меха К.Л.А.Р.К.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: mainboard
+  - type: Tag
+    tags:
+    - ClarkeCentralControlModule
+
+- type: entity
+  id: ClarkePeripheralsElectronics
+  parent: BaseElectronics
+  name: модуль управления периферией К.Л.А.Р.К.
+  description: Система управления электрическими периферийными устройствами меха К.Л.А.Р.К.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: id_mod
+  - type: Tag
+    tags:
+    - ClarkePeripheralsControlModule

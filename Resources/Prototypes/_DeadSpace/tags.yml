@@ -53,6 +53,27 @@
   id: ChefGoldenKnife
 
 - type: Tag
+  id: ClarkeEquipment
+
+- type: Tag
+  id: ClarkeCentralControlModule
+
+- type: Tag
+  id: ClarkeLArm
+
+- type: Tag
+  id: ClarkeLLeg
+
+- type: Tag
+  id: ClarkePeripheralsControlModule
+
+- type: Tag
+  id: ClarkeRArm
+
+- type: Tag
+  id: ClarkeRLeg
+
+- type: Tag
   id: CleanerGrenade
 
 - type: Tag

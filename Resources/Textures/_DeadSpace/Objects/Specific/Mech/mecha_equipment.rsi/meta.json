@@ -9,6 +9,9 @@
   "states": [
     {
       "name": "mecha_clamp"
+    },
+    {
+      "name": "mecha_orebox"
     }
   ]
 }

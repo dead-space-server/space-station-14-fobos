@@ -22,5 +22,5 @@ public sealed partial class MechCollectorComponent : Component
     public EntityWhitelist? Whitelist;
 
     [DataField("sound")]
-    public SoundSpecifier Sound = new SoundPathSpecifier("/Audio/Mecha/sound_mecha_hydraulic.ogg");
+    public SoundSpecifier Sound = new SoundPathSpecifier("/Audio/_DeadSpace/Mecha/sound_mecha_powerloader_turn2.ogg");
 }

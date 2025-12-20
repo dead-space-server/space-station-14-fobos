@@ -1,5 +1,4 @@
 # TaipanRipley APLU
-
 - type: entity
   id: BaseTaipanRipleyPart
   parent: BaseMechPart
@@ -113,3 +112,117 @@
   - type: Tag
     tags:
     - TaipanRipleyRArm
+
+# Clarke APLU
+- type: entity
+  id: BaseClarkePart
+  parent: BaseMechPart
+  abstract: true
+  components:
+  - type: Sprite
+    drawdepth: Items
+    noRot: false
+    sprite: _DeadSpace/Objects/Specific/Mech/clarke_construction.rsi
+
+- type: entity
+  id: BaseClarkePartItem
+  parent: BaseClarkePart
+  abstract: true
+  components:
+  - type: Item
+    size: Ginormous
+
+- type: entity
+  parent: BaseClarkePart
+  id: ClarkeHarness
+  name: каркас К.Л.А.Р.К.
+  description: Ядро шахтёрского меха К.Л.А.Р.К.
+  components:
+  - type: Appearance
+  - type: ItemMapper
+    mapLayers:
+      clarke_l_arm+o:
+        whitelist:
+          tags:
+          - ClarkeLArm
+      clarke_r_arm+o:
+        whitelist:
+          tags:
+          - ClarkeRArm
+      clarke_l_leg+o:
+        whitelist:
+          tags:
+          - ClarkeLLeg
+      clarke_r_leg+o:
+        whitelist:
+          tags:
+          - ClarkeRLeg
+    sprite: _DeadSpace/Objects/Specific/Mech/clarke_construction.rsi
+  - type: ContainerContainer
+    containers:
+      mech-assembly-container: !type:Container
+      battery-container: !type:Container
+  - type: MechAssemblyVisuals
+    statePrefix: clarke
+  - type: Sprite
+    state: clarke_harness+o
+    noRot: true
+  - type: PartAssembly
+    parts:
+      ClarkeChassis:
+      - ClarkeLArm
+      - ClarkeRArm
+      - ClarkeLLeg
+      - ClarkeRLeg
+    containerId: mech-assembly-container
+  - type: Construction
+    graph: Clarke
+    node: start
+
+- type: entity
+  parent: BaseClarkePartItem
+  id: ClarkeLArm
+  name: левая рука К.Л.А.Р.К.
+  description: Левая рука шахтёрского меха К.Л.А.Р.К. Устанавливается на каркас меха.
+  components:
+  - type: Sprite
+    state: clarke_l_arm
+  - type: Tag
+    tags:
+    - ClarkeLArm
+
+- type: entity
+  parent: BaseClarkePartItem
+  id: ClarkeLLeg
+  name: левая нога К.Л.А.Р.К.
+  description: Левая нога шахтёрского меха К.Л.А.Р.К. Устанавливается на каркас меха.
+  components:
+  - type: Sprite
+    state: clarke_l_leg
+  - type: Tag
+    tags:
+    - ClarkeLLeg
+
+- type: entity
+  parent: BaseClarkePartItem
+  id: ClarkeRLeg
+  name: правая нога К.Л.А.Р.К.
+  description: Правая нога шахтёрского меха К.Л.А.Р.К. Устанавливается на каркас меха.
+  components:
+  - type: Sprite
+    state: clarke_r_leg
+  - type: Tag
+    tags:
+    - ClarkeRLeg
+
+- type: entity
+  parent: BaseClarkePartItem
+  id: ClarkeRArm
+  name: правая рука К.Л.А.Р.К.
+  description: Правая рука шахтёрского меха К.Л.А.Р.К. Устанавливается на каркас меха.
+  components:
+  - type: Sprite
+    state: clarke_r_arm
+  - type: Tag
+    tags:
+    - ClarkeRArm

@@ -48,3 +48,63 @@
     containers:
       mech-battery-slot:
       - PowerCellHigh
+
+- type: entity
+  id: MechClarke
+  parent: BaseMech
+  name: К.Л.А.Р.К.
+  description: Быстрый и относительно прочный мех, который позволит вам эффективно исследовать планеты, добывать ископаемые. Имеет встроенный мощный прожектор.
+  components:
+  - type: Sprite
+    drawdepth: Mobs
+    noRot: true
+    sprite: Objects/Specific/Mech/mecha.rsi
+    layers:
+    - map: [ "enum.MechVisualLayers.Base" ]
+      state: clarke
+  - type: FootstepModifier
+    footstepSoundCollection:
+      collection: FootstepBorg
+  - type: Mech
+    baseState: clarke
+    openState: clarke-open
+    brokenState: clarke-broken
+    mechToPilotDamageMultiplier: 0.75
+    pilotWhitelist:
+      components:
+      - HumanoidAppearance
+    equipmentWhitelist:
+      tags:
+      - ClarkeEquipment
+  - type: MeleeWeapon
+    hidden: true
+    attackRate: 1
+    damage:
+      types:
+        Blunt: 18
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 2.5
+    baseSprintSpeed: 3.8
+  - type: UnpoweredFlashlight
+  - type: ToggleableLightVisuals
+  - type: PointLight
+    enabled: false
+    mask: /Textures/Effects/LightMasks/cone.png
+    autoRot: true
+    radius: 8
+    energy: 4
+  - type: Construction
+    graph: Clarke
+    node: start
+  - type: Damageable
+    damageModifierSet: StrongMetallic
+
+- type: entity
+  id: MechClarkeBattery
+  parent: MechClarke
+  suffix: Батарея
+  components:
+  - type: ContainerFill
+    containers:
+      mech-battery-slot:
+      - PowerCellHigh

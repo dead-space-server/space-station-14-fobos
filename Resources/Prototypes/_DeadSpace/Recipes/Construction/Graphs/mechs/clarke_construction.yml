@@ -1,12 +1,12 @@
-- type: constructionGraph
-  id: TaipanRipley
+﻿- type: constructionGraph
+  id: Clarke
   start: start
   graph:
   - node: start
     edges:
-    - to: taipanripley
+    - to: clarke
       steps:
-      - assemblyId: TaipanRipley
+      - assemblyId: ClarkeChassis
         guideString: mech-construction-guide-string
 
       - tool: Anchoring
@@ -36,8 +36,8 @@
           key: "enum.MechAssemblyVisuals.State"
           data: 4
 
-      - tag: TaipanRipleyCentralControlModule
-        name: construction-graph-tag-taipan-ripley-central-control-module
+      - tag: ClarkeCentralControlModule
+        name: clarke central control module
         icon:
           sprite: "Objects/Misc/module.rsi"
           state: "mainboard"
@@ -53,8 +53,8 @@
           key: "enum.MechAssemblyVisuals.State"
           data: 6
 
-      - tag: TaipanRipleyPeripheralsControlModule
-        name: construction-graph-tag-taipan-ripley-peripherals-control-module
+      - tag: ClarkePeripheralsControlModule
+        name: clarke peripherals control module
         icon:
           sprite: "Objects/Misc/module.rsi"
           state: id_mod
@@ -71,7 +71,7 @@
           data: 12
 
       - component: PowerCell
-        name: construction-graph-component-power-cell
+        name: power cell
         store: battery-container
         icon:
           sprite: Objects/Power/power_cells.rsi
@@ -104,15 +104,22 @@
 
       - tool: Welding
         doAfter: 1
+        completed:
+        - !type:VisualizerDataInt
+          key: "enum.MechAssemblyVisuals.State"
+          data: 17
 
       - material: MetalRod
         amount: 10
-        doAfter: 1
+        completed:
+        - !type:VisualizerDataInt
+          key: "enum.MechAssemblyVisuals.State"
+          data: 18
 
       - tool: Welding
         doAfter: 1
 
-  - node: taipanripley
+  - node: clarke
     actions:
     - !type:BuildMech
-      mechPrototype: MechTaipanRipley
+      mechPrototype: MechClarke
