@@ -290,3 +290,8 @@ sentient-virus-description = На станции появился разумны
 # DataCollector
 virus-collector-has-data = Образец взят у пациента.
 virus-collector-not-has-data = Биологический материал не обнаружен.
+
+
+health-analyzer-window-entity-infected-text =
+    Заражён вирусом.
+    Состояние излечения организма: { $progress }%
