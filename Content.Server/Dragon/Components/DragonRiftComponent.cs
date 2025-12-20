@@ -1,4 +1,9 @@
 using Content.Shared.Dragon;
+//DS14-start
+using Content.Shared.Random;
+using Content.Shared.Random.Helpers;
+using Robust.Shared.Random;
+//DS14-end
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 
@@ -34,7 +39,33 @@ public sealed partial class DragonRiftComponent : SharedDragonRiftComponent
     /// </summary>
     [ViewVariables(VVAccess.ReadWrite), DataField("spawnCooldown")]
     public float SpawnCooldown = 30f;
+//DS14-end
+    /// <summary>
+    /// Chance that the rift will spawn anything at all (0–1)
+    /// </summary>
+    [ViewVariables(VVAccess.ReadWrite)]
+    [DataField("chance")]
+    public float Chance = 1f;
 
-    [ViewVariables(VVAccess.ReadWrite), DataField("spawn", customTypeSerializer: typeof(PrototypeIdSerializer<EntityPrototype>))]
-    public string SpawnPrototype = "MobCarpDragon";
+    /// <summary>
+    /// Common spawn prototypes
+    /// </summary>
+    [ViewVariables(VVAccess.ReadWrite)]
+    [DataField("prototypes")]
+    public List<string> Prototypes = new();
+
+    /// <summary>
+    /// Chance to spawn a rare prototype instead of a common one (0–1)
+    /// </summary>
+    [ViewVariables(VVAccess.ReadWrite)]
+    [DataField("rareChance")]
+    public float RareChance = 0f;
+
+    /// <summary>
+    /// Rare spawn prototypes
+    /// </summary>
+    [ViewVariables(VVAccess.ReadWrite)]
+    [DataField("rarePrototypes")]
+    public List<string> RarePrototypes = new();
+//DS14-end
 }

@@ -6,7 +6,18 @@
     mode: SnapgridCenter
   components:
   - type: DragonRift
-    spawn: RandomDragonSpawnerMobs #DS14
+#DS14-start
+    chance: 1
+    prototypes:
+    - MobCarpDragon
+    - MobSharkDragon
+    rareChance: 0.5
+    rarePrototypes: 
+    - MobMiniDragonIce
+    - MobMiniDragonFire
+    - MobMiniDragonHealer
+    - MobMiniDragonToxic
+#DS14-end
   - type: Transform
     anchored: true
   - type: Physics
@@ -49,7 +60,7 @@
 
 #DS14-start
 - type: entity
-  id: RandomDragonSpawnerMobs
+  id: RandomMiniDragonSpawnerMobs
   categories: [ HideSpawnMenu ]
   parent: MarkerBase
   components:
@@ -57,10 +68,6 @@
     deleteSpawnerAfterSpawn: true
     chance: 1
     prototypes:
-    - MobCarpDragon
-    - MobSharkDragon
-    rareChance: 0.5
-    rarePrototypes: 
     - MobMiniDragonIce
     - MobMiniDragonFire
     - MobMiniDragonHealer
