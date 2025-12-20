@@ -1,52 +1,49 @@
 - type: reaction
   id: Bacterizine
+  minTemp: 420
   reactants:
-    Water:
+    Ethylredoxrazine:
       amount: 1
-    TableSalt:
-      amount: 1
-    Oxygen:
+    Bruizine:
       amount: 1
   products:
-    Bacterizine: 3
+    Bacterizine: 2
 
 - type: reaction
   id: Mycocline
-  impact: Medium
+  minTemp: 420
   reactants:
     Dylovene:
       amount: 1
     Nitrogen:
       amount: 1
-    Sugar:
+    Lipolicide:
       amount: 1
   products:
     Mycocline: 3
 
 - type: reaction
   id: Virucidine
-  impact: High
+  minTemp: 420
   reactants:
-    Hyronalin:
+    Lacerinol:
       amount: 1
-    Ethanol:
+    Bacterizine:
       amount: 1
-    Chlorine:
+    Sigynate:
       amount: 1
   products:
-    Virucidine: 2
+    Virucidine: 3
 
 - type: reaction
   id: Panacemycin
-  impact: High
   minTemp: 420
   reactants:
-    Omnizine:
+    Psicodine:
       amount: 1
-    UnstableMutagen:
+    Ethylredoxrazine:
       amount: 1
-    Plasma:
+    Bacterizine:
       amount: 1
-      catalyst: true
   products:
-    Panacemycin: 1
+    Panacemycin: 3

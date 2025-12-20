@@ -4,7 +4,7 @@ using Content.Server.DeadSpace.Virus.Systems;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.Virus.Prototypes;
 
-namespace Content.Server.DeadSpace.Renegade.Components;
+namespace Content.Server.DeadSpace.Virus.Components;
 
 [RegisterComponent, Access(typeof(VirusRule))]
 public sealed partial class VirusRuleComponent : Component

@@ -19,3 +19,10 @@
   icon:
     sprite: /Textures/_DeadSpace/Interface/Misc/antag_icons.rsi
     state: PrimaryPacient
+
+- type: antag
+  id: SentientVirus
+  name: roles-antag-sentient-virus-name
+  antagonist: true
+  setPreference: true
+  objective: roles-antag-sentient-virus-objective

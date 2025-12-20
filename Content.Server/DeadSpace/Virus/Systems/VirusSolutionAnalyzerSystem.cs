@@ -225,7 +225,7 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
                 out var solution))
             return false;
 
-        if (solution == null)
+        if (solution == null || solution.Contents.Count == 0)
             return false;
 
         foreach (var reagent in solution.Contents)

@@ -48,7 +48,7 @@
   - type: Sprite
     state: medical
   - type: MachineBoard
-    prototype: DiseaseDiagnoser
+    prototype: VirusSolutionAnalyzer
     stackRequirements:
       Cable: 5
     tagRequirements:

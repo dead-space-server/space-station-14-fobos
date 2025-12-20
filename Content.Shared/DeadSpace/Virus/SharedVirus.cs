@@ -31,6 +31,20 @@ public sealed class CureVirusEvent : EntityEventArgs
     }
 }
 
+public sealed class ProbInfectAttemptEvent : EntityEventArgs
+{
+    public EntityUid Target { get; }
+    public EntityUid? Host { get; }
+    public bool Cancel { get; set; }
+
+    public ProbInfectAttemptEvent(EntityUid target, bool cancel = false, EntityUid? host = null)
+    {
+        Target = target;
+        Host = host;
+        Cancel = cancel;
+    }
+}
+
 public sealed class CauseVirusEvent : EntityEventArgs
 {
     public EntityUid Target { get; }

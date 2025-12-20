@@ -67,6 +67,7 @@ public sealed class VirusMutationSystem : EntitySystem
         SubscribeLocalEvent<VirusMutationComponent, DestructionEventArgs>(OnDestr);
         SubscribeLocalEvent<VirusMutationComponent, CauseVirusEvent>(OnCauseVirus);
         SubscribeLocalEvent<VirusMutationComponent, CureVirusEvent>(OnCureVirus);
+        SubscribeLocalEvent<VirusMutationComponent, ProbInfectAttemptEvent>(OnProbInfectAttempt);
     }
 
     public override void Update(float frameTime)
@@ -85,6 +86,12 @@ public sealed class VirusMutationSystem : EntitySystem
             component.UpdateWindow.Reset();
             ProbMutate((uid, component, virus));
         }
+    }
+
+    private void OnProbInfectAttempt(EntityUid uid, VirusMutationComponent component, ProbInfectAttemptEvent args)
+    {
+        if (HasComp<VirusComponent>(uid))
+            args.Cancel = true;
     }
 
     private void OnCauseVirus(Entity<VirusMutationComponent> entity, ref CauseVirusEvent args)

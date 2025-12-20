@@ -65,7 +65,7 @@ public sealed partial class SentientVirusComponent : Component
 
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public float UpdateDuration = 5f;
+    public float UpdateDuration = 2f;
 
     /// <summary>
     ///     Данные об вирусе.

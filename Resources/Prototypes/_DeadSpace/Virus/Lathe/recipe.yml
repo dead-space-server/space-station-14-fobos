@@ -17,3 +17,8 @@
   parent: [ BaseGoldCircuitboardRecipe, BaseMedicalMachineRecipeCategory ]
   id: DiagnoserMachineCircuitboardRecipe
   result: DiagnoserMachineCircuitboard
+
+- type: latheRecipe
+  parent: [ BaseGoldCircuitboardRecipe, BaseMedicalMachineRecipeCategory ]
+  id: VirusSolutionAnalyzerMachineCircuitboardRecipe
+  result: VirusSolutionAnalyzerMachineCircuitboard

@@ -1,5 +1,6 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
+using Content.Shared.DeadSpace.TimeWindow;
 using Content.Shared.StatusIcon;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
@@ -16,6 +17,25 @@ public sealed partial class PrimaryPacientComponent : Component
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
     public EntityUid? SentientVirus = default!;
+
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public float MinUpdateDuration = 1f;
+
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public float MaxUpdateDuration = 5f;
+
+    /// <summary>
+    ///     Радиус распространения вируса.
+    /// </summary>
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public float RangeInfect = 2f;
+
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public TimedWindow? UpdateWindow = default!;
 
     public PrimaryPacientComponent(EntityUid sentientVirus, string strainId)
     {
