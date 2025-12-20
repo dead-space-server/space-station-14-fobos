@@ -144,6 +144,18 @@ virus-evolution-delete-button = Удалить симптом
 virus-evolution-mutation-points =
     Очки мутации: { $points }
 
+virus-evolution-health =
+    Здоровье: { $current }/{ $max }
+
+virus-evolution-infectivity =
+    Заразность: { $percent }%
+
+virus-evolution-infected-count =
+    Заражённых: { $count }
+
+virus-evolution-points-per-second =
+    Очков/сек: { $points }
+
 virus-evolution-cost-label =
     Стоимость: { $cost }
 
@@ -274,3 +286,7 @@ sentient-virus-round-end-agent-name = разумный вирус
 
 sentient-virus-title = Разумный вирус
 sentient-virus-description = На станции появился разумный вирус. Он стремится заразить как можно больше организмов, мутировать и распространиться по всей станции. Будьте бдительны и не
+
+# DataCollector
+virus-collector-has-data = Образец взят у пациента.
+virus-collector-not-has-data = Биологический материал не обнаружен.

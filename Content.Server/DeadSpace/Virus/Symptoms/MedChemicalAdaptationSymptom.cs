@@ -43,6 +43,14 @@ public sealed class MedChemicalAdaptationSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new MedChemicalAdaptationSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new MedChemicalAdaptationSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+    }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        if (add)
+            data.DefaultMedicineResistance += _addDefaultMedicineResistance;
+        else
+            data.DefaultMedicineResistance -= _addDefaultMedicineResistance;
     }
 }

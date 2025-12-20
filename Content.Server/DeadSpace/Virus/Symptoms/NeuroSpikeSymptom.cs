@@ -42,7 +42,7 @@ public sealed class NeuroSpikeSymptom : VirusSymptomBase
         var stun = EntityManager.System<StunSystem>();
 
         _duration.Reset();
-        var duration = Math.Abs(Timing.CurTime.TotalSeconds - _duration.Remaining.TotalSeconds);
+        var duration = _duration.Remaining.TotalSeconds;
 
         jitteringSystem.DoJitter(host, TimeSpan.FromSeconds(duration), true);
         stun.TryUpdateParalyzeDuration(host, TimeSpan.FromSeconds(duration));
@@ -50,6 +50,6 @@ public sealed class NeuroSpikeSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new NeuroSpikeSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new NeuroSpikeSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
     }
 }

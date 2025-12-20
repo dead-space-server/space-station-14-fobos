@@ -66,7 +66,8 @@ public struct BaseVirusSettings
         "XenoMaid",
         "AnimalRuminant",
         "SmartCorgi",
-        "SuperSoldier"
+        "SuperSoldier",
+        "IPC"
     };
 
     /// <summary>

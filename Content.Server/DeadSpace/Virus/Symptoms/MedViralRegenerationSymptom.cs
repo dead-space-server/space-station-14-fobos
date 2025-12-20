@@ -43,6 +43,14 @@ public sealed class MedViralRegenerationSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new MedViralRegenerationSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new MedViralRegenerationSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+    }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        if (add)
+            data.RegenThreshold += _addRegenThreshold;
+        else
+            data.RegenThreshold -= _addRegenThreshold;
     }
 }

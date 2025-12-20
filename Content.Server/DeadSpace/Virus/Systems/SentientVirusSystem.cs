@@ -170,6 +170,10 @@ public sealed class SentientVirusSystem : EntitySystem
 
                     component.Data.MutationPoints -= price;
                     component.Data.ActiveSymptom.Add(args.Symptom);
+
+                    var symptomInstance = _virusSystem.CreateSymptomInstance(proto.SymptomType);
+                    symptomInstance.ApplyDataEffect(component.Data, add: true);
+
                     UpdateVirusDataForStrain(uid, component);
                     break;
                 }
@@ -192,7 +196,7 @@ public sealed class SentientVirusSystem : EntitySystem
             case EvolutionConsoleUiButton.DeleteSymptom:
                 {
                     if (args.Symptom == null
-                        || !_prototypeManager.TryIndex<VirusSymptomPrototype>(args.Symptom, out _)
+                        || !_prototypeManager.TryIndex<VirusSymptomPrototype>(args.Symptom, out var proto)
                         || component.Data == null)
                         return;
 
@@ -202,6 +206,10 @@ public sealed class SentientVirusSystem : EntitySystem
 
                     component.Data.MutationPoints -= price;
                     component.Data.ActiveSymptom.Remove(args.Symptom);
+
+                    var symptomInstance = _virusSystem.CreateSymptomInstance(proto.SymptomType);
+                    symptomInstance.ApplyDataEffect(component.Data, add: false);
+
                     UpdateVirusDataForStrain(uid, component);
                     break;
                 }
@@ -243,11 +251,12 @@ public sealed class SentientVirusSystem : EntitySystem
             return;
 
         var query = EntityQueryEnumerator<VirusComponent>();
-        while (query.MoveNext(out _, out var virusComponent))
+        while (query.MoveNext(out var virusUid, out var virusComponent))
         {
             if (virusComponent.Data != null && virusComponent.Data.StrainId == source.Data.StrainId)
             {
                 virusComponent.Data = (VirusData)source.Data.Clone();
+                _virusSystem.RefreshSymptoms((virusUid, virusComponent));
             }
         }
     }
@@ -353,16 +362,26 @@ public sealed class SentientVirusSystem : EntitySystem
         if (!Resolve(console, ref console.Comp, false))
             return default!;
 
+        var data = console.Comp.Data;
+        var infectedCount = data != null ? _virusSystem.GetQuantityInfected(data.StrainId) : 0;
+        var pointsPerSecond = data != null ? data.RegenMutationPoints + infectedCount : 0;
+
         return new VirusEvolutionConsoleBoundUserInterfaceState(
-            console.Comp.Data?.MutationPoints ?? 0,
-            console.Comp.Data?.MultiPriceDeleteSymptom ?? 0,
+            data?.MutationPoints ?? 0,
+            data?.MultiPriceDeleteSymptom ?? 0,
             true,
             true,
             true,
             true,
-            console.Comp.Data != null,
-            console.Comp.Data?.ActiveSymptom,
-            console.Comp.Data?.BodyWhitelist
+            data != null,
+            data?.ActiveSymptom,
+            data?.BodyWhitelist,
+            data?.Threshold ?? 0f,
+            data?.MaxThreshold ?? 100f,
+            data?.Infectivity ?? 0f,
+            infectedCount,
+            pointsPerSecond,
+            isSentientVirus: true
         );
     }
 }

@@ -43,6 +43,14 @@ public sealed class LowViralRegenerationSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new LowViralRegenerationSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new LowViralRegenerationSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+    }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        if (add)
+            data.RegenThreshold += _addRegenThreshold;
+        else
+            data.RegenThreshold -= _addRegenThreshold;
     }
 }

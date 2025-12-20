@@ -46,28 +46,18 @@ public abstract class VirusSymptomBase : IVirusSymptom
         {
             DoEffect(host, virus);
 
-            if (!BaseVirusSettings.DebuffVirusMultipliers.TryGetValue(virus.RegenerationType, out var timeMultiplier))
+            if (!BaseVirusSettings.DebuffVirusMultipliers.TryGetValue(virus.RegenerationType, out var timeMultiplier) || timeMultiplier <= 0f)
                 timeMultiplier = 1.0f;
 
             EffectTimedWindow.Reset(
-                EffectTimedWindow.MinSeconds * 1 / timeMultiplier,
-                EffectTimedWindow.MaxSeconds * 1 / timeMultiplier
+                EffectTimedWindow.MinSeconds * (1 / timeMultiplier),
+                EffectTimedWindow.MaxSeconds * (1 / timeMultiplier)
             );
-
-            EffectTimedWindow.Reset();
         }
     }
 
     public abstract void DoEffect(EntityUid host, VirusComponent virus);
     public abstract IVirusSymptom Clone();
 
-    protected TimedWindow CloneTimedWindow()
-    {
-        return new TimedWindow(
-            EffectTimedWindow.MinSeconds,
-            EffectTimedWindow.MaxSeconds,
-            EffectTimedWindow.Timing,
-            EffectTimedWindow.Random
-        );
-    }
+    public virtual void ApplyDataEffect(VirusData data, bool add) { }
 }

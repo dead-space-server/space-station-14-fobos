@@ -21,14 +21,14 @@ public sealed class LowMutationAccelerationSymptom : VirusSymptomBase
     {
         base.OnAdded(host, virus);
 
-        virus.Data.MutationPoints += _addRegenMutationPoints;
+        virus.Data.RegenMutationPoints += _addRegenMutationPoints;
     }
 
     public override void OnRemoved(EntityUid host, VirusComponent virus)
     {
         base.OnRemoved(host, virus);
 
-        virus.Data.MutationPoints -= _addRegenMutationPoints;
+        virus.Data.RegenMutationPoints -= _addRegenMutationPoints;
     }
 
     public override void OnUpdate(EntityUid host, VirusComponent virus)
@@ -43,6 +43,14 @@ public sealed class LowMutationAccelerationSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new LowMutationAccelerationSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new LowMutationAccelerationSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+    }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        if (add)
+            data.RegenMutationPoints += _addRegenMutationPoints;
+        else
+            data.RegenMutationPoints -= _addRegenMutationPoints;
     }
 }

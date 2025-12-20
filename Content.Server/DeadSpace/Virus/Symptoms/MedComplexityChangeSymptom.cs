@@ -46,6 +46,14 @@ public sealed class MedComplexityChangeSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new MedComplexityChangeSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new MedComplexityChangeSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+    }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        if (add)
+            data.MultiPriceDeleteSymptom += _addMultiPriceDeleteSymptom;
+        else
+            data.MultiPriceDeleteSymptom -= _addMultiPriceDeleteSymptom;
     }
 }

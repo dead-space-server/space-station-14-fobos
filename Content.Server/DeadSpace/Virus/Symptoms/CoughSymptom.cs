@@ -52,6 +52,6 @@ public sealed class CoughSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new CoughSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new CoughSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
     }
 }

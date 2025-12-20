@@ -203,6 +203,12 @@ public sealed partial class VirusData : ReagentData
         if (!MathHelper.CloseTo(Threshold, o.Threshold))
             return false;
 
+        if (!MathHelper.CloseTo(MaxThreshold, o.MaxThreshold))
+            return false;
+
+        if (!MathHelper.CloseTo(RegenMutationPoints, o.RegenMutationPoints))
+            return false;
+
         if (!MathHelper.CloseTo(DefaultMedicineResistance, o.DefaultMedicineResistance))
             return false;
 
@@ -267,8 +273,10 @@ public sealed partial class VirusData : ReagentData
         hash.Add(MutationPoints);
         hash.Add(MultiPriceDeleteSymptom);
         hash.Add(DamageWhenDead);
-        hash.Add(DamageWhenDead);
+        hash.Add(RegenThreshold);
         hash.Add(Threshold);
+        hash.Add(MaxThreshold);
+        hash.Add(RegenMutationPoints);
         hash.Add(DefaultMedicineResistance);
         hash.Add(Infectivity);
 

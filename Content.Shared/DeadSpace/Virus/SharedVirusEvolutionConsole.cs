@@ -20,6 +20,14 @@ public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInte
     public List<ProtoId<VirusSymptomPrototype>> ActiveSymptoms = new();
     public List<ProtoId<BodyPrototype>> BodyWhitelist = new();
 
+    // Статистика вируса
+    public bool IsSentientVirus { get; }
+    public float Threshold { get; }
+    public float MaxThreshold { get; }
+    public float Infectivity { get; }
+    public int InfectedCount { get; }
+    public int PointsPerSecond { get; }
+
     public VirusEvolutionConsoleBoundUserInterfaceState(
         int mutationPoints,
         int multyPriceDeleteSymptom,
@@ -29,7 +37,13 @@ public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInte
         bool solutionAnalyzerInRange,
         bool hasVirus = false,
         List<ProtoId<VirusSymptomPrototype>>? activeSymptoms = null,
-        List<ProtoId<BodyPrototype>>? bodyWhitelist = null)
+        List<ProtoId<BodyPrototype>>? bodyWhitelist = null,
+        float threshold = 0f,
+        float maxThreshold = 100f,
+        float infectivity = 0f,
+        int infectedCount = 0,
+        int pointsPerSecond = 0,
+        bool isSentientVirus = false)
     {
         MutationPoints = mutationPoints;
         MultiPriceDeleteSymptom = multyPriceDeleteSymptom;
@@ -39,7 +53,14 @@ public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInte
         SolutionAnalyzerInRange = solutionAnalyzerInRange;
         ActiveSymptoms = activeSymptoms ?? new List<ProtoId<VirusSymptomPrototype>>();
         BodyWhitelist = bodyWhitelist ?? new List<ProtoId<BodyPrototype>>();
+        IsSentientVirus = isSentientVirus;
         HasVirus = hasVirus;
+        Threshold = threshold;
+        MaxThreshold = maxThreshold;
+        Infectivity = infectivity;
+        InfectedCount = infectedCount;
+        PointsPerSecond = pointsPerSecond;
+        IsSentientVirus = isSentientVirus;
     }
 }
 

@@ -64,6 +64,6 @@ public sealed class NecrosisSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new NecrosisSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new NecrosisSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
     }
 }

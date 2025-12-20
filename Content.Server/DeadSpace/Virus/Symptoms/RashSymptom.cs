@@ -38,7 +38,6 @@ public sealed class RashSymptom : VirusSymptomBase
     public override void DoEffect(EntityUid host, VirusComponent virus)
     {
         var chatSystem = EntityManager.System<ChatSystem>();
-        var virusSystem = EntityManager.System<VirusSystem>();
 
         chatSystem.TrySendInGameICMessage(host,
                             RashEmote,
@@ -48,6 +47,6 @@ public sealed class RashSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new RashSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new RashSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
     }
 }
