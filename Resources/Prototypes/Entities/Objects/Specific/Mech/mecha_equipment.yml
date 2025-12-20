@@ -91,3 +91,34 @@
   - type: UseDelay
     delay: 0.5
   # TODO: tag as being for H.O.N.K. only!!!
+
+- type: entity
+  id: MechEquipmentCollector
+  parent: BaseMechEquipment
+  name: mechanical collector
+  description: Automatically gathers items around the mech.
+  components:
+  - type: Sprite
+    state: mecha_clamp
+  - type: Item
+  - type: MultiHandedItem
+  - type: MechCollector
+    range: 1.6
+    scanInterval: 1
+    collectEnergyDelta: -10
+    whitelist:
+      tags:
+      - Ore
+      - ArtifactFragment
+  - type: Storage
+    grid:
+    - 0,0,15,5
+    quickInsert: false
+    areaInsert: false
+    showVerb: false
+    maxItemSize: Normal
+    whitelist:
+      tags:
+      - Ore
+      - ArtifactFragment
+  - type: Dumpable

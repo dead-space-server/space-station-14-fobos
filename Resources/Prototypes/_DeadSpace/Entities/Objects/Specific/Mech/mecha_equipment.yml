@@ -22,3 +22,34 @@
   - type: Tag
     tags:
     - TaipanRipleyEquipment
+
+- type: entity
+  id: MechEquipmentCollector
+  parent: BaseMechEquipment
+  name: механический сборщик руды
+  description: Устройство для сбора руды.
+  components:
+  - type: Sprite
+    state: mecha_clamp
+  - type: Item
+  - type: MultiHandedItem
+  - type: MechCollector
+    range: 1.6
+    scanInterval: 1
+    collectEnergyDelta: -10
+    whitelist:
+      tags:
+      - Ore
+      - ArtifactFragment
+  - type: Storage
+    grid:
+    - 0,0,15,5
+    quickInsert: false
+    areaInsert: false
+    showVerb: false
+    maxItemSize: Normal
+    whitelist:
+      tags:
+      - Ore
+      - ArtifactFragment
+  - type: Dumpable
