@@ -1287,6 +1287,10 @@
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetCBURN
+  # DS14-start
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.9
+  # DS14-end
 
 #MISC. HARDSUITS
 #Clown Hardsuit

@@ -419,28 +419,6 @@ public sealed partial class VirusSystem : SharedVirusSystem
         return new string(id);
     }
 
-    public void AddMultiPriceDeleteSymptom(string strainId, int value)
-    {
-        var query = EntityQueryEnumerator<VirusComponent>();
-        while (query.MoveNext(out _, out var virusComponent))
-        {
-            if (virusComponent.Data.StrainId == strainId)
-                virusComponent.Data.MultiPriceDeleteSymptom += value;
-        }
-
-        var queryServer = EntityQueryEnumerator<VirusDiagnoserDataServerComponent>();
-        while (queryServer.MoveNext(out var server, out var serverComponent))
-        {
-            foreach (var data in serverComponent.StrainData.Values)
-            {
-                if (data.StrainId == strainId)
-                    data.MultiPriceDeleteSymptom += value;
-            }
-
-            _virusDiagnoserDataServer.UpdateConnectedInterfaces(server, serverComponent);
-        }
-    }
-
     public VirusData GenerateVirusData(
     string strainId,
     Dictionary<DangerIndicatorSymptom, int> symptomsByDanger,

@@ -91,6 +91,8 @@
     damageCoefficient: 0.90
   - type: ZombificationResistance
     zombificationResistanceCoefficient: 0.4
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.5
   # DS14-end
   - type: GroupExamine
   - type: ClothingSpeedModifier
