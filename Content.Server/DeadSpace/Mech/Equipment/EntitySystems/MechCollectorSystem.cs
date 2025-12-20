@@ -27,12 +27,6 @@ public sealed class MechCollectorSystem : EntitySystem
     {
         base.Initialize();
         _physicsQuery = GetEntityQuery<PhysicsComponent>();
-        SubscribeLocalEvent<MechCollectorComponent, ComponentStartup>(OnStartup);
-    }
-
-    private void OnStartup(EntityUid uid, MechCollectorComponent comp, ComponentStartup args)
-    {
-        comp.NextScan = _timing.CurTime;
     }
 
     public override void Update(float frameTime)
@@ -44,6 +38,9 @@ public sealed class MechCollectorSystem : EntitySystem
 
         while (query.MoveNext(out var uid, out var comp, out var equip, out var storage))
         {
+            if (comp.NextScan == TimeSpan.Zero)
+                comp.NextScan = now + comp.ScanInterval;
+
             if (comp.NextScan > now)
                 continue;
 
@@ -91,7 +88,7 @@ public sealed class MechCollectorSystem : EntitySystem
                 continue;
 
             if (!_mech.TryChangeEnergy(mech, comp.CollectEnergyDelta))
-                return;
+                continue;
 
             var nearXform = Transform(ent);
             var nearMap = _transform.GetMapCoordinates(ent, nearXform);
