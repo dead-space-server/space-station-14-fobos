@@ -12,6 +12,7 @@ using Robust.Shared.Random;
 using Content.Shared.Zombies;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 using Content.Shared.Mobs.Systems;
+using Content.Shared.Tag;
 
 namespace Content.Shared.Virus;
 
@@ -89,12 +90,18 @@ public abstract partial class SharedVirusSystem : EntitySystem
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
+    [Dependency] private readonly TagSystem _tag = default!;
     private ISawmill _sawmill = default!;
 
     /// <summary>
     ///     Стандартное окно времени проявления симптом.
     /// </summary>
     protected TimedWindow DefaultSymptomWindow = default!;
+
+    /// <summary>
+    ///     Метка для сущностей, которые не могут проявить симпптомы.
+    /// </summary>
+    public readonly ProtoId<TagPrototype> VirusIgnorSymptomsTag = "VirusIgnorSymptoms";
     public override void Initialize()
     {
         base.Initialize();
@@ -169,6 +176,9 @@ public abstract partial class SharedVirusSystem : EntitySystem
     public bool CanManifestInHost(Entity<VirusComponent?> entity)
     {
         if (!Resolve(entity, ref entity.Comp, false))
+            return false;
+
+        if (_tag.HasTag(entity, VirusIgnorSymptomsTag))
             return false;
 
         if (_mobState.IsDead(entity))
