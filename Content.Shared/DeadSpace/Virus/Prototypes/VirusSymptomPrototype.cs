@@ -24,7 +24,7 @@ public sealed partial class VirusSymptomPrototype : IPrototype
     public int Price = 100;
 
     /// <summary>
-    ///     Тип симптома.
+    ///     Тип симптома. Должен быть уникальным.
     /// </summary>
     [DataField(required: true)]
     public VirusSymptom SymptomType;
@@ -34,6 +34,18 @@ public sealed partial class VirusSymptomPrototype : IPrototype
     /// </summary>
     [DataField("danger", required: true)]
     public DangerIndicatorSymptom DangerIndicator;
+
+    /// <summary>
+    ///     Минимальный интервал срабатывания симптома
+    /// </summary>
+    [DataField]
+    public float MinInterval = 15f;
+
+    /// <summary>
+    ///     Максимальный интервал срабатывания симптома
+    /// </summary>
+    [DataField]
+    public float MaxInterval = 60f;
 }
 
 public enum DangerIndicatorSymptom

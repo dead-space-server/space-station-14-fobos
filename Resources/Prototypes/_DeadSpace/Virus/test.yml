@@ -8,7 +8,6 @@
       strainId: TestVirus
       activeSymptom:
       - CoughSymptom
-      - VomitSymptom
       bodyWhitelist:
       - Human
       mutationPoints: 10000
@@ -28,3 +27,18 @@
   - type: ConditionalSpawner
     prototypes:
     - TestVirusMobHuman
+
+- type: entity
+  parent: MobHuman
+  id: TestVirusMobHuman2
+  name: больной2
+  components:
+  - type: Virus
+    data:
+      strainId: TestVirus2
+      activeSymptom:
+      - CoughSymptom
+      - VomitSymptom
+      bodyWhitelist:
+      - Human
+      mutationPoints: 10000

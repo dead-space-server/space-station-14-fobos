@@ -32,7 +32,7 @@ reagent-effect-guidebook-antibiotic =
     { $chance ->
         [1] Убивает
        *[other] убивает
-    } вирусы в организме
+    } болезни или вирусы в организме
 
 ## -----------------------
 ##   Вирусный отчёт
@@ -222,7 +222,7 @@ sentient-virus-teleport-no-primary-infected = нулевых пациентов 
 sentient-virus-infect-failed-source = вы больше не можете создать нулевого пациента
 sentient-virus-infect-no-points = Не хватает { $price } очков мутации.
 
-# АНТИБИОТИКИ
+# АНТИБИОТИК/ПРОТИВОВИРУСНЫЕ
 
 reagent-name-bacterizine = бактеризин
 reagent-desc-bacterizine = Простейший антибиотик, эффективный против слабых вирусов.
