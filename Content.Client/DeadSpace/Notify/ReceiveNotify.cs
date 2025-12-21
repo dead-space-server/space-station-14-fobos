@@ -14,7 +14,6 @@ public sealed partial class ReceiveNotifySystem : EntitySystem
 {
     [Dependency] private readonly ILogManager _logManager = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
-
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly INotifyHelper _helper = default!;
     [Dependency] private readonly IConfigurationManager _cfg = default!;
