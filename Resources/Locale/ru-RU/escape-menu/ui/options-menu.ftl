@@ -193,6 +193,7 @@ ui-options-function-open-context-menu = Открыть контекстное м
 ui-options-function-open-crafting-menu = Открыть меню строительства
 ui-options-function-open-inventory-menu = Открыть снаряжение
 ui-options-function-open-a-help = Открыть админ помощь
+ui-options-function-open-a-donate = Открыть донат
 ui-options-function-open-abilities-menu = Открыть меню действий
 ui-options-function-open-emotes-menu = Открыть меню эмоций
 ui-options-function-toggle-round-end-summary-window = Переключить окно итогов раунда

@@ -20,7 +20,7 @@ public sealed class LearnLanguageImplantSystem : EntitySystem
         if (TryComp<LanguageComponent>(args.Implanted, out var language))
         {
             language.KnownLanguages.UnionWith(ent.Comp.Language);
-            Dirty(ent, ent.Comp);
+            Dirty(args.Implanted, language);
         }
         else
         {

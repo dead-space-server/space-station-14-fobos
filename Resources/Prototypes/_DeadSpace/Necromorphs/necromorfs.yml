@@ -259,7 +259,6 @@
   # - Kobolt
   # - Xenomorph
   - IPC
-  - IPS
   - Diona
   components:
   - type: GhostTakeoverAvailable

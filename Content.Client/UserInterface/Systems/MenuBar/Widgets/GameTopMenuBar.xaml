@@ -115,4 +115,13 @@
         HorizontalExpand="True"
         AppendStyleClass="{x:Static style:StyleBase.ButtonOpenLeft}"
         />
+    <ui:MenuButton
+        Name="DonateButton"
+        Access="Internal"
+        Icon="{xe:Tex '/Textures/Interface/VerbIcons/die.svg.192dpi.png'}"
+        ToolTip="{Loc 'ui-options-function-open-a-donate'}"
+        MinSize="42 64"
+        HorizontalExpand="True"
+        AppendStyleClass="{x:Static style:StyleBase.ButtonOpenLeft}"
+    />
 </widgets:GameTopMenuBar>

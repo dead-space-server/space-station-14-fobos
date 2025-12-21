@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Created for Space Station 14 project Мёртвый Космос.",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "empty"
+    },
+	{
+      "name": "icon"
+    },
+	{
+      "name": "fill"
+    },
+	{
+      "name": "denial_unlit"
+    },
+	{
+      "name": "off_unlit"
+    },
+	{
+      "name": "on_unlit"
+    },
+	{
+      "name": "successfully_unlit"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 ﻿- type: body
   id: Skeleton
-  name: "skeleton"
+  name: "скелет" # DS14
   root: torso
   slots:
     head:

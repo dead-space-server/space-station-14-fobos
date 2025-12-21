@@ -1,0 +1,41 @@
+﻿- type: entity
+  id: SmallXmasTree
+  name: маленькая рождественская ёлка
+  description: Небольшая рождественская ёлка, украшенная огоньками.
+  parent: BaseStructureDynamic
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Furniture/small_christmas_tree.rsi
+    layers:
+    - state: small_christmas_tree
+    - state: small_christmas_tree_lights
+      shader: unshaded
+  - type: SpriteFade
+  - type: Transform
+    noRot: true
+  - type: InteractionOutline
+  - type: Physics
+    bodyType: Dynamic
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.45,-0.45,0.45,0.45"
+        density: 190
+        mask:
+        - HighImpassable
+  - type: Pullable
+  - type: Damageable
+    damageContainer: StructuralInorganic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 50
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+      - !type:PlaySoundBehavior
+        sound:
+          path: /Audio/Effects/plant_rustle.ogg

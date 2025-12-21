@@ -4,7 +4,7 @@
   antagonist: true
   setPreference: false
   objective: roles-antag-space-ninja-objective
-  # guides: [ SpaceNinja ] # DS14: disabled due to lack of localization
+  guides: [ SpaceNinja ]
 
 #Ninja Gear
 - type: startingGear

@@ -179,7 +179,7 @@
   roles:
   - Borg
   - StationAi
-  - BorgSecurity
+  - BorgSecurity # DS14
 
 - type: department
   id: Specific

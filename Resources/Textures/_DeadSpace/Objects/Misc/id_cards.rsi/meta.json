@@ -1,10 +1,10 @@
 {
     "version": 1,
-    "license": "CC-BY-SA-3.0",
-    "copyright": "Resprite by Fenriz(discord) for Space Station 14 server Мёртвый Космос",
+    "license": "CC-BY-SA-4.0",
+    "copyright": "Made by inspector_jeleshka (discord) for Space Station 14 server Мёртвый Космос. qr-code url: https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     "size": {
-        "x": 32,
-        "y": 32
+        "x": 192,
+        "y": 192
     },
     "states": [
         {

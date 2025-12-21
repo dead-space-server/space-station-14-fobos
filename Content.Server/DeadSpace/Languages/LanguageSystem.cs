@@ -11,6 +11,8 @@ using Content.Shared.Chat;
 using System.Linq;
 using Content.Shared.Polymorph;
 using Robust.Shared.GameStates;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Content.Server.DeadSpace.Languages;
 
@@ -22,7 +24,7 @@ public sealed class LanguageSystem : EntitySystem
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     public static readonly ProtoId<LanguagePrototype> DefaultLanguageId = "GeneralLanguage";
-
+    private readonly Dictionary<ProtoId<LanguagePrototype>, List<Regex>> _regexCache = new();
     public override void Initialize()
     {
         base.Initialize();
@@ -56,29 +58,110 @@ public sealed class LanguageSystem : EntitySystem
         lang.CopyFrom(component);
     }
 
-    public string ReplaceWordsWithLexicon(string message, ProtoId<LanguagePrototype> languageId)
+    public static int GetDeterministicHashCode(string str) { unchecked { int hash1 = (5381 << 16) + 5381; int hash2 = hash1; for (int i = 0; i < str.Length; i += 2) { hash1 = ((hash1 << 5) + hash1) ^ str[i]; if (i + 1 < str.Length) hash2 = ((hash2 << 5) + hash2) ^ str[i + 1]; } return hash1 + (hash2 * 1566083941); } }
+
+    public string TransformWord(string word, ProtoId<LanguagePrototype>? languageId)
     {
-        if (String.IsNullOrEmpty(languageId))
-            return message;
+        if (!_prototypeManager.TryIndex(languageId, out var proto))
+            return word;
 
-        if (!_prototypeManager.TryIndex(languageId, out var languageProto))
-            return message;
+        var hash = GetDeterministicHashCode(word + proto.ID);
 
-        var lexiconWords = languageProto.Lexicon;
-
-        if (lexiconWords == null || lexiconWords.Count == 0)
-            return message;
-
-        var words = message.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        for (int i = 0; i < words.Length; i++)
+        switch (proto.SpeechMode)
         {
-            if (!string.IsNullOrWhiteSpace(words[i]))
-            {
-                var randIndex = _random.Next(lexiconWords.Count);
-                words[i] = lexiconWords[randIndex];
-            }
+            case SpeechMode.Lexicon:
+                return TransformLexicon(hash, proto);
+
+            case SpeechMode.Alphabet:
+                return TransformAlphabet(hash, proto);
+
+            case SpeechMode.Syllable:
+                return TransformSyllableText(word, proto);
+
+            case SpeechMode.Pattern:
+                return TransformPattern(word, proto);
+
+            default:
+                return word;
         }
-        return string.Join(' ', words);
+    }
+
+    private string TransformLexicon(int hash, LanguagePrototype proto)
+    {
+        var list = proto.Lexicon;
+        return list[Math.Abs(hash) % list.Count];
+    }
+
+    private string TransformAlphabet(int hash, LanguagePrototype proto)
+    {
+        var alphabet = proto.Alphabet;
+        int len = proto.GenerateLength;
+
+        var sb = new StringBuilder();
+
+        int localHash = hash;
+        for (int i = 0; i < len; i++)
+        {
+            int index = Math.Abs(localHash) % alphabet.Count;
+            sb.Append(alphabet[index]);
+
+            localHash = GetDeterministicHashCode(localHash.ToString());
+        }
+
+        return sb.ToString();
+    }
+
+    private string TransformSyllableText(string text, LanguagePrototype proto)
+    {
+        if (string.IsNullOrWhiteSpace(text) || proto.Syllables.Count == 0)
+            return text;
+
+        var words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var sb = new StringBuilder();
+
+        foreach (var word in words)
+        {
+            var hash = GetDeterministicHashCode(word + proto.ID);
+
+            int count = proto.MinSyllables +
+                (Math.Abs(hash) % (proto.MaxSyllables - proto.MinSyllables + 1));
+
+            var localHash = hash;
+            for (int i = 0; i < count; i++)
+            {
+                sb.Append(proto.Syllables[Math.Abs(localHash) % proto.Syllables.Count]);
+                localHash = GetDeterministicHashCode(localHash.ToString());
+            }
+
+            sb.Append(' ');
+        }
+
+        return sb.ToString().Trim();
+    }
+
+    private string TransformPattern(string word, LanguagePrototype proto)
+    {
+        if (!_regexCache.TryGetValue(proto.ID, out var regexList))
+        {
+            regexList = new List<Regex>(proto.Patterns.Count);
+
+            for (int i = 0; i < proto.Patterns.Count; i++)
+            {
+                var r = new Regex(
+                    proto.Patterns[i],
+                    RegexOptions.IgnoreCase | RegexOptions.Compiled
+                );
+                regexList.Add(r);
+            }
+
+            _regexCache[proto.ID] = regexList;
+        }
+
+        string result = word;
+        for (int i = 0; i < regexList.Count; i++)
+            result = regexList[i].Replace(result, proto.Replacements[i]);
+
+        return result;
     }
 
     public string GetLangName(ProtoId<LanguagePrototype>? languageId)

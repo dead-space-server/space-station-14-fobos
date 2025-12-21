@@ -339,9 +339,3 @@
   coefficients:
     Heat: 1.15
     Cold: 0.85
-
-- type: damageModifierSet
-  id: Fur
-  coefficients:
-    Cold: 0.5
-    Heat: 1.5
