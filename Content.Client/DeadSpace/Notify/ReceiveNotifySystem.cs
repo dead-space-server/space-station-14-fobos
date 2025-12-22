@@ -43,7 +43,7 @@ public sealed partial class ReceiveNotifySystem : EntitySystem
                 _lastNotifyTime = _timing.RealTime;
             }
         }
-    }
+    } 
 
     #region Work With Dictionary
     private ConcurrentDictionary<string, bool> _dictCvar = new ConcurrentDictionary<string, bool>();
