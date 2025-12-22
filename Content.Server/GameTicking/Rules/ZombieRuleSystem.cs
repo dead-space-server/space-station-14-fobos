@@ -42,6 +42,9 @@ public sealed class ZombieRuleSystem : GameRuleSystem<ZombieRuleComponent>
     private TimeSpan _timeUntilNextStage;
     private bool _shuttleRuleAdded;
     private HashSet<EntityUid> _announcedStations = new();
+    private const string ShuttleRuleId = "ShuttleCBURNZombie";
+    private static readonly TimeSpan AlertLevelDelay = TimeSpan.FromMinutes(2);
+    private static readonly TimeSpan ShuttleArrivalDelay = TimeSpan.FromMinutes(3);
     // DS14-end
 
     public override void Initialize()
@@ -155,7 +158,7 @@ public sealed class ZombieRuleSystem : GameRuleSystem<ZombieRuleComponent>
                                 colorOverride: Color.Crimson);
                         }
 
-                        _timeUntilNextStage = _timing.CurTime + TimeSpan.FromMinutes(5);
+                        _timeUntilNextStage = _timing.CurTime + AlertLevelDelay;
                         _currentStage = ZombieEventStage.AlertLevel;
                     }
                 }
@@ -174,7 +177,7 @@ public sealed class ZombieRuleSystem : GameRuleSystem<ZombieRuleComponent>
                         _alertLevel.SetLevel(station, "sierra", true, true, true);
                 }
 
-                _timeUntilNextStage = _timing.CurTime + TimeSpan.FromMinutes(5);
+                _timeUntilNextStage = _timing.CurTime + ShuttleArrivalDelay;
                 _currentStage = ZombieEventStage.ShuttleArrival;
                 break;
             }
@@ -194,7 +197,7 @@ public sealed class ZombieRuleSystem : GameRuleSystem<ZombieRuleComponent>
 
                 if (!_shuttleRuleAdded)
                 {
-                    GameTicker.AddGameRule("ShuttleCBURNZombie");
+                    GameTicker.AddGameRule(ShuttleRuleId);
                     _shuttleRuleAdded = true;
                 }
 
@@ -205,6 +208,7 @@ public sealed class ZombieRuleSystem : GameRuleSystem<ZombieRuleComponent>
             case ZombieEventStage.Completed:
                 break;
         }
+    // DS14-end
     }
 
     private void OnZombifySelf(EntityUid uid, IncurableZombieComponent component, ZombifySelfActionEvent args)
@@ -232,13 +236,7 @@ public sealed class ZombieRuleSystem : GameRuleSystem<ZombieRuleComponent>
             zombieCount++;
         }
 
-        // DS14-start
-        var total = players.Count + zombieCount;
-        if (total == 0)
-            return 0f;
-
-        return zombieCount / (float)total;
-        // DS14-end
+        return zombieCount / (float)(players.Count + zombieCount);
     }
 
     /// <summary>
