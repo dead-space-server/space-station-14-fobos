@@ -58,24 +58,3 @@
   - type: EmitSoundOnSpawn
     sound:
       path: /Audio/Weapons/Guns/Gunshots/rocket_launcher.ogg
-
-#DS14-start
-- type: entity
-  id: RandomMiniDragonSpawnerMobs
-  categories: [ HideSpawnMenu ]
-  parent: MarkerBase
-  components:
-  - type: RandomSpawner
-    deleteSpawnerAfterSpawn: true
-    chance: 1
-    prototypes:
-    - MobMiniDragonIce
-    - MobMiniDragonFire
-    - MobMiniDragonHealer
-    - MobMiniDragonToxic
-  - type: Sprite
-    layers:
-    - state: green
-    - sprite: Mobs/Aliens/Carps/dragon.rsi
-      state: alive
-#DS14-end
