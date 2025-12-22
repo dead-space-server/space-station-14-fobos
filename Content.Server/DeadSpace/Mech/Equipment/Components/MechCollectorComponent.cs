@@ -6,21 +6,21 @@ namespace Content.Server.Mech.Equipment.Components;
 [RegisterComponent]
 public sealed partial class MechCollectorComponent : Component
 {
-    [DataField("scanInterval")]
+    [DataField]
     public TimeSpan ScanInterval = TimeSpan.FromSeconds(1);
 
-    [DataField("nextScan")]
+    [DataField]
     public TimeSpan NextScan = TimeSpan.Zero;
 
-    [DataField("range")]
+    [DataField]
     public float Range = 1.5f;
 
-    [DataField("collectEnergyDelta")]
+    [DataField]
     public float CollectEnergyDelta = 10f;
 
-    [DataField("whitelist")]
+    [DataField]
     public EntityWhitelist? Whitelist;
 
-    [DataField("sound")]
+    [DataField]
     public SoundSpecifier Sound = new SoundPathSpecifier("/Audio/_DeadSpace/Mecha/sound_mecha_powerloader_turn2.ogg");
 }

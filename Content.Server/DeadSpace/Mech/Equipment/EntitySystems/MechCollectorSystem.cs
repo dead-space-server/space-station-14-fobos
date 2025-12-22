@@ -68,10 +68,10 @@ public sealed class MechCollectorSystem : EntitySystem
         if (!_storage.HasSpace((uid, storage)))
             return;
 
-        var playedSound = false;
-
         var collectorXform = Transform(uid);
         var finalCoords = collectorXform.Coordinates;
+
+        var collectedAny = false;
 
         foreach (var ent in _lookup.GetEntitiesInRange(uid, comp.Range, LookupFlags.Dynamic | LookupFlags.Sundries))
         {
@@ -84,7 +84,7 @@ public sealed class MechCollectorSystem : EntitySystem
             if (!_physicsQuery.TryGetComponent(ent, out var phys) || phys.BodyStatus != BodyStatus.OnGround)
                 continue;
 
-            if (comp.Whitelist != null && _whitelist.IsWhitelistFail(comp.Whitelist, ent))
+            if (!_whitelist.IsWhitelistPassOrNull(comp.Whitelist, ent))
                 continue;
 
             if (!_mech.TryChangeEnergy(mech, comp.CollectEnergyDelta))
@@ -95,19 +95,18 @@ public sealed class MechCollectorSystem : EntitySystem
             var moverCoords = _transform.GetMoverCoordinates(uid, collectorXform);
             var nearCoords = _transform.ToCoordinates(moverCoords.EntityId, nearMap);
 
-            if (!_storage.Insert(uid, ent, out var stacked, storageComp: storage, playSound: !playedSound))
+            if (!_storage.Insert(uid, ent, out var stacked, storageComp: storage, playSound: false))
                 continue;
+
+            collectedAny = true;
 
             if (stacked != null)
                 _storage.PlayPickupAnimation(stacked.Value, nearCoords, finalCoords, nearXform.LocalRotation);
             else
                 _storage.PlayPickupAnimation(ent, nearCoords, finalCoords, nearXform.LocalRotation);
-
-            if (!playedSound)
-            {
-                _audio.PlayPvs(comp.Sound, mech);
-                playedSound = true;
-            }
         }
+
+        if (collectedAny)
+            _audio.PlayPvs(comp.Sound, mech);
     }
 }
