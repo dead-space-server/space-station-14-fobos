@@ -167,7 +167,7 @@ entities:
   - uid: 2
     components:
     - type: MetaData
-      name: Avrite station
+      name: Avrite
     - type: Transform
       pos: -0.47200775,-0.2431984
       parent: 1
