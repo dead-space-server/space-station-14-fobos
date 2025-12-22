@@ -1,0 +1,14 @@
+- type: sinkPort
+  id: VirusDiagnoserDataServerReceiver
+  name: signal-port-name-virus-data-server-receiver
+  description: signal-port-description-virus-data-server-receiver
+
+- type: sinkPort
+  id: VirusDiagnoserReceiver
+  name: signal-port-name-virus-diagnoser-receiver
+  description: signal-port-description-virus-diagnoser-receiver 
+
+- type: sinkPort
+  id: VirusSolutionAnalyzerReceiver
+  name: signal-port-name-virus-solution-analyzer-receiver
+  description: signal-port-description-virus-solution-analyzer-receiver

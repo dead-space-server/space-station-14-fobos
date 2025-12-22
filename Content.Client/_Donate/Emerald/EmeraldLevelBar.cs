@@ -101,7 +101,7 @@ public sealed class EmeraldLevelBar : Control
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
     {
-        var width = float.IsPositiveInfinity(availableSize.X) ? 250 : Math.Min(availableSize.X, 250);
+        var width = float.IsPositiveInfinity(availableSize.X) ? 200 : availableSize.X;
         var height = BarHeight + Padding * 2;
         return new Vector2(Math.Max(80, width), height);
     }

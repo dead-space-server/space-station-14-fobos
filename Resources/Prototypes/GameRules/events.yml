@@ -24,6 +24,9 @@
     - id: SpiderClownSpawn
     - id: SpiderSpawn
     - id: VentClog
+    # DS14-start
+    - id: LowVirusPandemic
+    # DS14-end
 
 - type: entityTable
   id: BasicAntagEventsTable
@@ -34,7 +37,10 @@
     - id: RevenantSpawn
     - !type:NestedSelector
       tableId: DerelictBorgEventTable
+    # DS14-start
     - id: MonkeyKingSpawn # DS14 возможно временно тут, может быть будет перенесён в ModerateAntag, нужно чтобы игроки наигрались
+    - id: MediumVirusPandemic
+    # DS14-end
 
 - type: entityTable
   id: ModerateAntagEventsTable
@@ -47,10 +53,13 @@
     - id: ZombieOutbreak
     - id: LoneOpsSpawn
     - id: WizardSpawn
-    - id: RenegadeSpawn # DS14
-    - id: ShadowDemonInvasion # DS14
-    - id: DemonsInvasion # DS14
-    - id: BlobSpawn # DS14-Backmen
+    # DS14-start
+    - id: RenegadeSpawn
+    - id: ShadowDemonInvasion
+    - id: DemonsInvasion
+    - id: BlobSpawn
+    - id: HardVirusPandemic
+    # DS14-end
     - !type:NestedSelector
       tableId: DerelictBorgEventTable
 

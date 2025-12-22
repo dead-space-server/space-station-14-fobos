@@ -15,3 +15,5 @@ ghost-role-information-taipan-ai-rules =
 ghost-role-information-space-mini-dragon-name = Малыш дракона
 ghost-role-information-space-mini-dragon-description = Помогите вашему старшему собрату сдержать портал в сохранности.
 ghost-role-information-space-mini-dragon-rules = Вы [color={ role-type-team-antagonist-color }][bold]{ role-type-team-antagonist-name }[/bold][/color], в команде с другими призванными сущностями с портала.
+ghost-role-information-centcomm-category = Центральное Командование
+ghost-role-information-taipan-category = ННКСС "Тайпан"

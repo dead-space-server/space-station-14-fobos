@@ -1,16 +1,16 @@
 <Document>
-  # Vulpkanin
+  # Вульпканины
 
   <Box>
     <GuideEntityEmbed Entity="MobVulpkanin" Caption=""/>
   </Box>
+  Вульпканин — это вид антропоморфных разумных существ. Они отдалённо напоминающих земных лис из семейства псовых. Имеют особое строение ног и более четкое зрение.
 
-  Vulpkanin, due to their dense fur, [color=#1e90ff]prefer colder temperatures[/color] and [color=#ffa500]heat up faster.[/color]
-  Their agile (but clumsy) legs allow them to leap short distances, be careful not to bump into anything!
-
-  Their diet allows them to safely eat raw meat but they get poisoned by theobromine.
-
-  Their weirdly shaped muzzle leads to difficulties drinking, making them sometimes spill small amounts of whatever they drank onto the ground.
-
-  They take [color=#1e90ff]15% less Cold damage[/color] but [color=#ffa500]15% more Heat damage.[/color].
+  ## Расовые особенности
+  - Получают [color=#ffa500]на 30% больше урона от огня[/color] и [color=#1e90ff]на 40% меньше урона от холода и на 5% меньше тупого урона[/color].
+  - Необходимость в 1.5 раз больше питаться и пить.
+  - Легкая опьяняемость.
+  - Животный желудок, получает урон ядами от шоколада и позволяет поедать чужие органы.
+  - Наносят [color=red]5[/color] единиц режущущего урона с помощью когтей.
+  - Собственный акцент, который иногда тянет букву "Р".
 </Document>

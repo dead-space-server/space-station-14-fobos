@@ -1,6 +1,6 @@
 ﻿- type: body
   id: Primate
-  name: "primate"
+  name: "примат" # DS14
   root: torso
   slots:
     torso:

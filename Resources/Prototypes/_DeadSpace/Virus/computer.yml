@@ -1,0 +1,73 @@
+- type: entity
+  parent: BaseComputerCircuitboard
+  id: ComputerDiagnoserConsoleCircuitboard
+  name: машинная плата консоли диагноста заболеваний
+  description: Компьютерная печатная плата для консоли диагноста заболеваний.
+  components:
+    - type: Sprite
+      state: cpu_medical
+    - type: ComputerBoard
+      prototype: ComputerDiagnoserConsole
+
+- type: entity
+  parent: BaseComputerCircuitboard
+  id: ComputerVirusEvolutionConsoleCircuitboard
+  name: машинная плата консоли эволюции вирусов
+  description: Компьютерная печатная плата для консоли эволюции вирусов.
+  components:
+    - type: Sprite
+      state: cpu_medical
+    - type: ComputerBoard
+      prototype: ComputerVirusEvolutionConsole
+
+- type: entity
+  id: DiagnoserMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  name: diagnoser machine board
+  components:
+  - type: Sprite
+    state: medical
+  - type: MachineBoard
+    prototype: DiseaseDiagnoser
+    stackRequirements:
+      Cable: 5
+    tagRequirements:
+      GlassBeaker:
+        amount: 1
+        defaultPrototype: Beaker
+    componentRequirements:
+      BotanySwab:
+        amount: 1
+        defaultPrototype: DiseaseSwab
+
+- type: entity
+  id: VirusSolutionAnalyzerMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  name: машинная плата диагност веществ
+  components:
+  - type: Sprite
+    state: medical
+  - type: MachineBoard
+    prototype: VirusSolutionAnalyzer
+    stackRequirements:
+      Cable: 5
+    tagRequirements:
+      GlassBeaker:
+        amount: 1
+        defaultPrototype: Beaker
+    componentRequirements:
+      BotanySwab:
+        amount: 1
+        defaultPrototype: DiseaseSwab
+
+- type: entity
+  id: ComputerDiagnoserDataServerCircuitboard
+  parent: BaseMachineCircuitboard
+  name: машинная плата сервера данных диагноста заболеваний
+  description: омпьютерная печатная плата для сервера данных диагноста заболеваний.
+  components:
+  - type: MachineBoard
+    prototype: VirusDataServer
+    stackRequirements:
+      Steel: 1
+      Cable: 2

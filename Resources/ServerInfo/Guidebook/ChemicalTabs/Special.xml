@@ -1,9 +1,9 @@
 <Document>
 
-# Special
+  # Специальные химикаты
 
-These reagents either have exotic sources, unique properties, or both.
+  Имеют либо экзотические источники, уникальные характеристики, или и то, и другое.
 
-<GuideReagentGroupEmbed Group="Special"/>
+  <GuideReagentGroupEmbed Group="Special"/>
 
 </Document>

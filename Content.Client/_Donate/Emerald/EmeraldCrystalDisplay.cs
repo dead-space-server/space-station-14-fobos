@@ -80,8 +80,8 @@ public sealed class EmeraldCrystalDisplay : Control
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
     {
-        var width = float.IsPositiveInfinity(availableSize.X) ? 180 : Math.Min(availableSize.X, 180);
-        return new Vector2(Math.Max(120, width), 52);
+        var width = float.IsPositiveInfinity(availableSize.X) ? 140 : Math.Max(100, availableSize.X);
+        return new Vector2(width, 52);
     }
 
     protected override void Draw(DrawingHandleScreen handle)
@@ -102,7 +102,7 @@ public sealed class EmeraldCrystalDisplay : Control
         }
 
         var labelText = "КРИСТАЛЛЫ";
-        var labelX = iconX + iconSize + 12f;
+        var labelX = iconX + iconSize + 8f;
         var labelY = 8f;
         handle.DrawString(_font, new Vector2(labelX, labelY), labelText, 1f, _textColor);
 

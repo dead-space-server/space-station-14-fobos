@@ -1,6 +1,6 @@
 - type: body
   id: Xenomorph
-  name: "Ксеноморф"
+  name: "ксеноморф"
   root: torso
   slots:
     head:

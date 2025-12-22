@@ -1,72 +1,72 @@
 <Document>
-  # Thieves
+  # Воры
 
   <Box>
-    [color=#999999][italic]"Yoink! I'll be taking that! And that! Ooh, don't mind if I do!"[/italic][/color]
+    [color=#999999][italic]"Хвать! Это беру! И это тоже! Ой, а это теперь моё!"[/italic][/color]
   </Box>
   <Box>
     <GuideEntityEmbed Entity="ClothingNeckCloakVoid" Caption=""/>
   </Box>
 
-  Thieves are petty yet crafty [color=green]criminals[/color] who can't keep their hands to themselves. You were forcefully given a [bold]pacifism implant[/bold] after your last arrest, but you won't let that stop you from trying to add to your collection.
+  Воры - жадные и одновременно умные [color=green]нарушители закона[/color], не способные остановить свои руки от очередной кражи. После последнего ареста, Вам насильно вживили [bold]имплант пацифизма[/bold], но это Вас не остановит.
 
-  ## Art of the Steal
-  Unlike other antagonists, [bold]staying out of trouble is almost a requirement for you[/bold] because of your implant.
-  You can only run if [color=#cb0000]Security[/color] picks a fight with you, and because you work alone you don't have any friends to pull you out of danger.
+  ## Искусство кражи
+  В отличии от других антагонистов, для Вас любые неприятности считаются [bold]почти смертельной проблемой[/bold], всё из-за Вашего импланта.
+  Если за Вас возьмётся [color=#cb0000]СБ[/color], Вам остаётся только бежать. А так как Вы работаете в одиночку, Вас никто не спасёт.
 
-  But against all odds, you'll sucessfully swipe what you want using determination, sleight of hand, a few tools and your [color=cyan]pickpocketing skills.[/color]
+  Но, несмотря на все проблемы, пользуясь ловкостью [color=cyan]Ваших воровских рук[/color], Вы успешно заберёте всё то, что Вам надо. Конечно, Вам понадобятся и некоторые инструменты, одни ручки ничего не сделают.
 
-  The pickpocketing skills you have give you a major advantage: [bold]the ability to take things from people without them even noticing.[/bold] With a little practice you can steal their wallet and keep up a conversation at the same time.
+  Ваши ловкие ручки дают Вам одно огромное преимущество: [bold]возможность снимать с людей вещи без того, чтобы они это заметили[/bold]. После небольшой практики, Вы сможете воровать даже рюкзаки с людьми, с которыми ведёте разговор.
 
-  It is advised to get a pair of gloves as your fingerprints could still be traced back to the stolen goods if they're found.
+  <Box>
+    <GuideEntityEmbed Entity="ClothingHandsChameleonThief" Caption="ваши ловкие ручки"/>
+  </Box>
 
+  ## Инструменты
+  За Вашими воровскими рукавами есть ещё два туза: Ваши [color=cyan]маяк[/color] и [color=cyan]сумка контрабандиста[/color].
 
+  Ваш [color=cyan]маяк[/color] является безопасным местом для всего накраденного, что будет сложно притащить на эвакуационный шаттл. Просто найдите безлюдную часть станции и разверните маяк.
+  Все богатства рядом с ним будут [bold]телепортированы в ваше хранилище в конце смены[/bold], выполняя Ваши задачи.
 
-  ## Tools of the Trade
-  You've got two more aces up your stolen sleeves: your [color=cyan]beacon[/color] and your [color=cyan]satchel.[/color]
-
-  Your [color=cyan]beacon[/color] provides safe passage home for trinkets that may not be easy to carry with you on the evac shuttle. Simply find a secluded part of the station to unfold the beacon, then set its coordinates to your hideout.
-  Any shinies near it will be [bold]teleported to your vault when the shift ends,[/bold] fulfilling your objectives.
-
-  However, this will instantly out you if found and make it extremely easy for people to reclaim their "missing" possessions. [bold]Make sure to hide it well![/bold]
+  Однако, если его найдут, Вам огромная шляпа - предметы быстро разберут обратно! [bold]Старайтесь хорошо его спрятать![/bold]
 
   <Box>
     <GuideEntityEmbed Entity="ThiefBeacon"/>
   </Box>
 
-  Your [color=cyan]satchel[/color] contains... well, whatever you remembered to pack. [bold]You can select two pre-made kits[/bold] to help you complete grander heists.
+  А Ваша [color=cyan]сумка[/color]... Ну, в ней всё что Вы успели взять. [bold]Вы можете выбрать один из готовых наборов[/bold], которые могут помочь Вам в поисках богатств.
 
   <Box>
-    <GuideEntityEmbed Entity="SatchelThief"/>
+    <GuideEntityEmbed Entity="SatchelThief" Caption="неопределённая сумка вора"/>
   </Box>
   <Box>
-    <GuideEntityEmbed Entity="Implanter" Caption="Anatomy"/>
-    <GuideEntityEmbed Entity="C4" Caption="Breacher"/>
-    <GuideEntityEmbed Entity="ChameleonProjector" Caption="Chameleon"/>
-    <GuideEntityEmbed Entity="BaseUplinkRadio" Caption="Communicator"/>
+    <GuideEntityEmbed Entity="StorageImplanter" Caption="химик"/>
+    <GuideEntityEmbed Entity="C4" Caption="медвежатник"/>
+    <GuideEntityEmbed Entity="ChameleonProjector" Caption="хамелеон"/>
+    <GuideEntityEmbed Entity="EncryptionKeyStationMaster" Caption="связист"/>
   </Box>
   <Box>
-    <GuideEntityEmbed Entity="NitrousOxideTank" Caption="Sleeper"/>
-    <GuideEntityEmbed Entity="Fulton" Caption="Smuggler"/>
-    <GuideEntityEmbed Entity="Telecrystal" Caption="Syndie"/>
+    <GuideEntityEmbed Entity="NitrousOxideTank" Caption="лунатик"/>
+    <GuideEntityEmbed Entity="Emag" Caption="контрабандист"/>
+    <GuideEntityEmbed Entity="Telecrystal" Caption="синдикатовец"/>
   </Box>
 
-  ## Centerpiece of the Collection
-  Your kleptomania will take you places. One day, you'll feel like stealing a few figurines. Another day, you'll feel like stealing an industrial machine.
+  ## Главный предмет в коллекции
+  Клептомания доводит людей до сумасшествия. В один день Вы просто подворовываете фигурки, а затем... Вы просто берёте промышленный аппарат у карго и уходите.
 
-  No matter. They'll all be a part of your collection within a matter of time.
+  Без разницы на других. Вам в коллекции оно нужнее.
 
-  You can steal items by [bold]having them on your person[/bold] when you get to CentComm. Failing this, you can steal larger items by [bold]leaving them by your beacon.[/bold]
+  Предметы считаются украденными если они [bold]находятся у Вас в инвентаре или у Вашего маяка по прибытию на ЦентКом[/bold].
 
-  Some of the more [italic]animate[/italic] objectives may not cooperate with you. Make sure they're alive and with you or your beacon when the shift ends.
+  Некоторые, [italic]более живые[/italic], цели могут не хотеть Вам помогать. Учтите, они должны быть живы, а также с Вами или у маяка по окончанию смены.
 
-  Things that you may desire include but are not limited to:
+  Некоторые предметы, которые Вы можете заиметь включают, но не ограничиваются:
 
   <Box>
-    <GuideEntityEmbed Entity="ToyFigurineGreytider" Caption="Figurines"/>
-    <GuideEntityEmbed Entity="PassengerIDCard" Caption="ID cards"/>
-    <GuideEntityEmbed Entity="ChemDispenser" Caption="Structures"/>
-    <GuideEntityEmbed Entity="MobCorgiIan" Caption="Animals/Pets"/>
+    <GuideEntityEmbed Entity="ToyFigurineGreytider" Caption="фигурки"/>
+    <GuideEntityEmbed Entity="PassengerIDCard" Caption="ID карты"/>
+    <GuideEntityEmbed Entity="ChemDispenser" Caption="структуры"/>
+    <GuideEntityEmbed Entity="MobCorgiIan" Caption="животные/питомцы"/>
   </Box>
 
 </Document>

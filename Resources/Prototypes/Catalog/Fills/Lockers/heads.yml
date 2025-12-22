@@ -165,9 +165,7 @@
     - id: ClothingHeadsetAltEngineering
     - id: DoorRemoteEngineering
     - id: BoxCECircuitboards
-    - id: RCD
-    - id: RCDAmmo
-    - id: RCDCE # DS14
+#    - id: RCD # DS14
     - id: RCDAmmo
     - id: RubberStampCE
     - id: MetalFoamGrenade

@@ -59,7 +59,8 @@ public sealed partial class CryoPodSystem : SharedCryoPodSystem
                 : 0,
             null,
             null,
-            null
+            null,
+            null // DS14
         ));
     }
 
