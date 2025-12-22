@@ -2,7 +2,6 @@
 
 using Content.Server.DeadSpace.IPC.Components;
 using Content.Shared.Actions;
-using Content.Shared.Actions.Components;
 using Content.Shared.Alert;
 using Content.Shared.DeadSpace.IPC.Events;
 using Content.Shared.Movement.Systems;
@@ -28,7 +27,7 @@ public sealed class IPCSystem : EntitySystem
     {
         base.Initialize();
 
-        SubscribeLocalEvent<IPCComponent, MapInitEvent>(OnMapInit);
+        SubscribeLocalEvent<IPCComponent, ComponentInit>(OnComponentInit);
         SubscribeLocalEvent<IPCComponent, ComponentShutdown>(OnComponentShutdown);
         SubscribeLocalEvent<IPCComponent, ChangeChargeEvent>(OnBatteryChanged);
         SubscribeLocalEvent<IPCComponent, ToggleDrainActionEvent>(OnToggleAction);
@@ -57,21 +56,19 @@ public sealed class IPCSystem : EntitySystem
         }
     }
 
-    private void OnMapInit(EntityUid uid, IPCComponent comp, MapInitEvent args)
+    private void OnComponentInit(EntityUid uid, IPCComponent comp, ComponentInit args)
     {
         if (TryComp<BatteryComponent>(uid, out var battery))
             UpdateBatteryAlert(uid, comp, battery);
 
-        if (HasComp<ActionsComponent>(uid))
-            _actions.AddAction(uid, ref comp.ActionEntity, comp.DrainBatteryAction);
+        _actions.AddAction(uid, ref comp.ActionEntity, comp.DrainBatteryAction);
 
         _movementSpeedModifier.RefreshMovementSpeedModifiers(uid);
     }
 
     private void OnComponentShutdown(EntityUid uid, IPCComponent comp, ComponentShutdown args)
     {
-        if (comp.ActionEntity.HasValue)
-            _actions.RemoveAction(uid, comp.ActionEntity.Value);
+        _actions.RemoveAction(uid, comp.ActionEntity);
         RemComp<BatteryDrainerComponent>(uid);
     }
 
@@ -95,8 +92,7 @@ public sealed class IPCSystem : EntitySystem
     private void SetDrainActivated(EntityUid uid, IPCComponent comp, bool value)
     {
         comp.DrainActivated = value;
-        if (comp.ActionEntity.HasValue)
-            _actions.SetToggled(comp.ActionEntity.Value, value);
+        _actions.SetToggled(comp.ActionEntity, value);
 
         if (value && TryComp<BatteryComponent>(uid, out _))
         {
@@ -104,7 +100,9 @@ public sealed class IPCSystem : EntitySystem
             _batteryDrainer.SetBattery(uid, uid);
         }
         else
+        {
             RemComp<BatteryDrainerComponent>(uid);
+        }
     }
 
     private void OnRefreshMovement(EntityUid uid, IPCComponent comp, RefreshMovementSpeedModifiersEvent args)

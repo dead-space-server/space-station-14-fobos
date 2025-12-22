@@ -5,6 +5,7 @@ using Content.Shared.Buckle.Components;
 using Content.Shared.Damage;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Tag;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.Bed
 {
@@ -15,6 +16,7 @@ namespace Content.Server.Bed
         [Dependency] private readonly TagSystem _tagSystem = default!; // DS14
 
         private EntityQuery<SleepingComponent> _sleepingQuery;
+        private readonly ProtoId<TagPrototype> _ignoreBedHealingTag = "IgnoreBedHealing"; // DS14
 
         public override void Initialize()
         {
@@ -42,8 +44,8 @@ namespace Content.Server.Bed
                 {
                     if (_mobStateSystem.IsDead(healedEntity))
                         continue;
-                    // DS14-start: IPCs don't get healed by beds.
-                    if (_tagSystem.HasTag(healedEntity, "IgnoreBedHealing"))
+                    // DS14-start
+                    if (_tagSystem.HasTag(healedEntity, _ignoreBedHealingTag))
                         continue;
                     // DS14-end
                     var damage = bedComponent.Damage;
