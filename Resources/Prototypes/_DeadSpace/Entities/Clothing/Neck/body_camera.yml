@@ -1,5 +1,5 @@
 - type: entity
-  parent: [ClothingNeckBase, AccessoryCameraBase] # DS14 accessory
+  parent: AccessoryCameraBase # DS14 accessory
   id: ClothingNeckBodyCamera
   name: нательная камера
   description: Лучше не кидать жёлуди рядом с владельцем этой камеры.
@@ -24,3 +24,13 @@
   - type: Tag
     tags:
     - WhitelistChameleon
+  - type: Clothing
+    quickEquip: true
+    slots:
+    - neck
+  - type: PhysicalComposition
+    materialComposition:
+      Cloth: 100
+      Steel: 100
+      Plastic: 100
+
