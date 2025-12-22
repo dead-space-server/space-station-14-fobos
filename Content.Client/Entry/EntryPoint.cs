@@ -41,8 +41,6 @@ using Robust.Shared.ContentPack;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Replays;
 using Robust.Shared.Timing;
-using Content.Client.DeadSpace.Notify.NotifyHelpers;
-
 namespace Content.Client.Entry
 {
     public sealed class EntryPoint : GameClient
@@ -83,7 +81,6 @@ namespace Content.Client.Entry
         [Dependency] private readonly IEntitySystemManager _entitySystemManager = default!;
         [Dependency] private readonly ClientsidePlaytimeTrackingManager _clientsidePlaytimeManager = default!;
         [Dependency] private readonly ClientJukeboxSongsSyncManager _jukeboxSongsSync = default!;
-        [Dependency] private readonly INotifyHelper _helper = default!; //DS14
         public override void PreInit()
         {
             ClientContentIoC.Register(Dependencies);
@@ -153,7 +150,6 @@ namespace Content.Client.Entry
             _jobRequirements.Initialize();
             _playbackMan.Initialize();
             _clientsidePlaytimeManager.Initialize();
-            _helper.Initialize(); //DS14
 
             // Jukebox-port-edit
             _jukeboxSongsSync.Initialize();

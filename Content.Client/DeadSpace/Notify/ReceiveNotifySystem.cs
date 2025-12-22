@@ -1,28 +1,51 @@
 //Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+using Content.Shared.DeadSpace.Ghost.SharedGhostPing;
+using Robust.Shared.Audio.Systems;
+using Robust.Shared.Player;
+using Robust.Shared.Audio;
 using Content.Shared.DeadSpace.CCCCVars;
 using Robust.Shared.Configuration;
+using Robust.Shared.Log;
+using Robust.Shared.Timing;
 using Content.Shared.DeadSpace.GhostRoleNotify.Prototypes;
 using Robust.Shared.Prototypes;
-using System.Collections.ObjectModel;
 using System.Collections.Concurrent;
-using Robust.Shared.Log;
-using Robust.Shared.IoC;
-using System.Collections.Generic;
 
-namespace Content.Client.DeadSpace.Notify.NotifyHelpers;
+namespace Content.Client.DeadSpace.Notify.ReceiveNotify;
 
-public sealed class NotifyHelper : INotifyHelper
+public sealed partial class ReceiveNotifySystem : EntitySystem
 {
+    [Dependency] private readonly ILogManager _logManager = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly IConfigurationManager _cfg = default!;
     private ISawmill _sawmill = default!;
 
-    [Dependency] private readonly IConfigurationManager _cfg = default!;
-    [Dependency] private readonly ILogManager _logManager = default!;
-    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
-    public void Initialize()
+    private TimeSpan _lastNotifyTime;
+
+
+    public override void Initialize()
     {
-        _sawmill = _logManager.GetSawmill("NotifyHelper");
+        base.Initialize();
+        _sawmill = _logManager.GetSawmill("ReceiveNotifySystem");
+        _lastNotifyTime = _timing.RealTime;
+        SubscribeNetworkEvent<PingMessage>(CheckReceivedNotify);
+        EnsureInitialized();
+    }
+    private void CheckReceivedNotify(PingMessage messege)
+    {
+        if (_cfg.GetCVar(CCCCVars.SysNotifyPerm) && GetValueAccess(messege.ID))
+        {
+            if (_timing.RealTime - _lastNotifyTime >= TimeSpan.FromSeconds(_cfg.GetCVar(CCCCVars.SysNotifyCoolDown)))
+            {
+                _audio.PlayGlobal(new SoundPathSpecifier(_cfg.GetCVar(CCCCVars.SysNotifySoundPath)), Filter.Local(), false);
+                _lastNotifyTime = _timing.RealTime;
+            }
+        }
     }
 
+    #region Work With Dictionary
     private ConcurrentDictionary<string, bool> _dictCvar = new ConcurrentDictionary<string, bool>();
     private ConcurrentDictionary<string, bool> _dictAccess = new ConcurrentDictionary<string, bool>();
 
@@ -119,4 +142,5 @@ public sealed class NotifyHelper : INotifyHelper
             }
         }
     }
+    #endregion
 }

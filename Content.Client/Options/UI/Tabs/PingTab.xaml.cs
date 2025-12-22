@@ -7,9 +7,9 @@ using Content.Shared.DeadSpace.GhostRoleNotify.Prototypes;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Configuration;
 using Content.Shared.DeadSpace.CCCCVars;
-using Content.Client.DeadSpace.Notify.NotifyHelpers;
 using Content.Client.Options.UI;
 using System.Numerics;
+using Content.Client.DeadSpace.Notify.ReceiveNotify;
 
 namespace Content.Client.Options.UI.Tabs;
 
@@ -19,7 +19,7 @@ public sealed partial class PingTab : Control
 {
     private bool _isSaveNeeded = false;
     private string _searchText = string.Empty;
-    private void AddCheckBox(INotifyHelper helper, string checkBoxName, string id, bool savedSelection)
+    private void AddCheckBox(ReceiveNotifySystem helper, string checkBoxName, string id, bool savedSelection)
     {
         CheckBox newCheckBox = new CheckBox() { Text = checkBoxName }; //Loc.GetString(checkBoxName) };
         newCheckBox.Pressed = savedSelection;
@@ -31,7 +31,7 @@ public sealed partial class PingTab : Control
 
         PingsCont.AddChild(newCheckBox);
     }
-    private void AddSaveButton(Button ourButton, IConfigurationManager cfg, INotifyHelper helper)
+    private void AddSaveButton(Button ourButton, IConfigurationManager cfg, ReceiveNotifySystem helper)
     {
         ourButton.OnPressed += _ =>
         {
@@ -63,7 +63,7 @@ public sealed partial class PingTab : Control
     {
         var prototypeManager = IoCManager.Resolve<IPrototypeManager>();
         var cfg = IoCManager.Resolve<IConfigurationManager>();
-        var helper = IoCManager.Resolve<INotifyHelper>();
+        var helper = IoCManager.Resolve<IEntityManager>().System<ReceiveNotifySystem>();
         helper.EnsureInitialized();
         RobustXamlLoader.Load(this);
         AddSaveButton(SaveButton, cfg, helper);
