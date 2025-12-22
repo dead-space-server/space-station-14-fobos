@@ -17,6 +17,47 @@
     - type: HTN
       rootTask:
         task: DragonCarpCompound
+    - type: RandomSprite
+      available:
+      - enum.DamageStateVisualLayers.Base:
+          alive: Rainbow
+          dead: Rainbow
+    - type: Sprite
+      sprite: Mobs/Aliens/Carps/sharkminnow.rsi
+      layers:
+      - map: [ "enum.DamageStateVisualLayers.Base" ]
+        state: alive-nocolor
+      - map: [ "enum.DamageStateVisualLayers.BaseUnshaded" ]
+        state: mouth
+        shader: unshaded
+    - type: DamageStateVisuals
+      states:
+        Alive:
+          Base: alive-nocolor
+          BaseUnshaded: mouth
+        Dead:
+          Base: dead-nocolor
+          BaseUnshaded: dead_mouth
+
+- type: entity
+  id: MobCarpHoloDragon
+  suffix: Выводок дракона
+  parent: MobCarpHolo
+  name: голокарп
+  components:
+    - type: GhostRole
+      allowMovement: true
+      allowSpeech: true
+      makeSentient: true
+      name: ghost-role-information-sentient-carp-name
+      description: ghost-role-information-sentient-carp-description
+      rules: ghost-role-information-space-dragon-summoned-carp-rules
+      mindRoles:
+      - MindRoleGhostRoleTeamAntagonistFlock
+    - type: GhostTakeoverAvailable
+    - type: HTN
+      rootTask:
+        task: DragonCarpCompound
 
 - type: entity
   id: BaseMobMiniDragon

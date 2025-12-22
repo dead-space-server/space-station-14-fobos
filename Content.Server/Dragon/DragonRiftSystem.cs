@@ -97,13 +97,11 @@ public sealed class DragonRiftSystem : EntitySystem
             {
                 comp.SpawnAccumulator -= comp.SpawnCooldown;
 //DS14-start
-// Overall spawn chance
                 if (_random.NextFloat() > comp.Chance)
                     continue;
 
-            string? prototype = null;
+                string? prototype = null;
 
-// Rare roll
             if (comp.RarePrototypes.Count > 0 && _random.NextFloat() < comp.RareChance)
             {
                 prototype = _random.Pick(comp.RarePrototypes);

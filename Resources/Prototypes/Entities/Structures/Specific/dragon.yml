@@ -11,6 +11,7 @@
     prototypes:
     - MobCarpDragon
     - MobSharkDragon
+    - MobCarpHoloDragon
     rareChance: 0.5
     rarePrototypes: 
     - MobMiniDragonIce

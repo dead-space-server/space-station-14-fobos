@@ -40,32 +40,20 @@ public sealed partial class DragonRiftComponent : SharedDragonRiftComponent
     [ViewVariables(VVAccess.ReadWrite), DataField("spawnCooldown")]
     public float SpawnCooldown = 30f;
 //DS14-start
-    /// <summary>
-    /// Chance that the rift will spawn anything at all (0–1)
-    /// </summary>
     [ViewVariables(VVAccess.ReadWrite)]
-    [DataField("chance")]
+    [DataField]
     public float Chance = 1f;
 
-    /// <summary>
-    /// Common spawn prototypes
-    /// </summary>
     [ViewVariables(VVAccess.ReadWrite)]
-    [DataField("prototypes")]
-    public List<string> Prototypes = new();
+    [DataField]
+    public List<EntProtoId> Prototypes = new();
 
-    /// <summary>
-    /// Chance to spawn a rare prototype instead of a common one (0–1)
-    /// </summary>
     [ViewVariables(VVAccess.ReadWrite)]
-    [DataField("rareChance")]
+    [DataField]
     public float RareChance = 0f;
 
-    /// <summary>
-    /// Rare spawn prototypes
-    /// </summary>
     [ViewVariables(VVAccess.ReadWrite)]
-    [DataField("rarePrototypes")]
-    public List<string> RarePrototypes = new();
+    [DataField]
+    public List<EntProtoId> RarePrototypes = new();
 //DS14-end
 }
