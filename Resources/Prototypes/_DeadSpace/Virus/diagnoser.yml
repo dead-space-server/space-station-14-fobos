@@ -133,6 +133,9 @@
     damageContainer: StructuralInorganic
     damageModifierSet: StructuralMetallicStrong
   - type: VirusDiagnoserConsole
+  - type: ActivatableUIRequiresAccess
+  - type: AccessReader
+    access: [["Virology"]]
   # - type: GuideHelp
   #   guides:
   #   - Cloning
@@ -325,3 +328,6 @@
     damageContainer: StructuralInorganic
     damageModifierSet: StructuralMetallicStrong
   - type: VirusEvolutionConsole
+  - type: ActivatableUIRequiresAccess
+  - type: AccessReader
+    access: [["Virology"]]

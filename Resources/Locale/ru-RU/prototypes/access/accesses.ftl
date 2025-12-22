@@ -21,6 +21,7 @@ id-card-access-level-medical = Медицинский отдел
 id-card-access-level-chemistry = Химия
 id-card-access-level-paramedic = Парамедик
 id-card-access-level-coroner = Коронер
+id-card-access-level-virology = Вирусология
 id-card-access-level-quartermaster = Квартирмейстер
 id-card-access-level-cargo = Отдел снабжения
 id-card-access-level-salvage = Утилизаторы

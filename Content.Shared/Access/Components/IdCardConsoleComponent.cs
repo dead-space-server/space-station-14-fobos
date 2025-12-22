@@ -60,6 +60,7 @@ public sealed partial class IdCardConsoleComponent : Component
         "Chemistry",
         "Paramedic",
         "Coroner",
+        "Virology",
         "Medical",
         "Research",
         "Atmospherics",

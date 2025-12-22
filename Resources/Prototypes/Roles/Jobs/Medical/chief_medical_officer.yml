@@ -30,6 +30,7 @@
   - Brig
   - Coroner # DS14
   - Paramedic # DS14
+  - Virology # DS14
   - Cryogenics
   #start-backmen: currency
   minBankBalance: 400

@@ -645,6 +645,18 @@
         - state: green
         - state: coroner
 
+- type: entity
+  id: SpawnPointVirologist
+  parent: SpawnPointJobBase
+  name: точка спавна вирусолога
+  components:
+    - type: SpawnPoint
+      job_id: Virologist
+    - type: Sprite
+      layers:
+        - state: green
+        - state: coroner
+
 # SPECIAL
 
 ## ERT

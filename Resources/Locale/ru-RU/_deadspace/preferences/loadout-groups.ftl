@@ -59,6 +59,11 @@ loadout-group-coroner-jumpsuit = Коронер, комбинезон
 loadout-group-coroner-backpack = Коронер, рюкзак
 loadout-group-coroner-head = Коронер, голова
 loadout-group-coroner-underwear = Коронер, нижнее бельё
+loadout-group-virologist-jumpsuit = Вирусолог, комбинезон
+loadout-group-virologist-backpack = Вирусолог, рюкзак
+loadout-group-virologist-head = Вирусолог, голова
+loadout-group-senior-virologist-outerclothing = Вирусолог, верхняя одежда
+loadout-group-virologist-underwear = Вирусолог, нижнее бельё
 # Centcomm
 loadout-group-centcomm-officer-underwear = Офицер ЦК, нижнее бельё
 # Taipan
