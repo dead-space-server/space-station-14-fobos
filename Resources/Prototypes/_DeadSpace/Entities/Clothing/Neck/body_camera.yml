@@ -8,6 +8,7 @@
     size: Small
   - type: Sprite
     sprite: _DeadSpace/Clothing/Neck/body_camera.rsi
+    state: icon
   - type: Eye
   - type: WiredNetworkConnection
   - type: UserInterface
@@ -33,4 +34,3 @@
       Cloth: 100
       Steel: 100
       Plastic: 100
-
