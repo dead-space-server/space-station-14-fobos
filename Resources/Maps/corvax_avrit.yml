@@ -35244,7 +35244,7 @@ entities:
     - type: RadiationGridResistance
     - type: NavMap
     - type: BecomesStation
-      id: Avrite
+      id: Avrit
     - type: IFF
       color: '#D9D99BFF'
     - type: ImplicitRoof
