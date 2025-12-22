@@ -102,19 +102,19 @@ public sealed class DragonRiftSystem : EntitySystem
 
                 string? prototype = null;
 
-            if (comp.RarePrototypes.Count > 0 && _random.NextFloat() < comp.RareChance)
-            {
-                prototype = _random.Pick(comp.RarePrototypes);
-            }
-            else if (comp.Prototypes.Count > 0)
-            {
-                prototype = _random.Pick(comp.Prototypes);
-            }
+                if (comp.RarePrototypes.Count > 0 && _random.NextFloat() < comp.RareChance)
+                {
+                    prototype = _random.Pick(comp.RarePrototypes);
+                }
+                else if (comp.Prototypes.Count > 0)
+                {
+                    prototype = _random.Pick(comp.Prototypes);
+                }
 
-            if (prototype == null)
-                continue;
+                if (prototype == null)
+                    continue;
 
-            var ent = Spawn(prototype, xform.Coordinates);
+                var ent = Spawn(prototype, xform.Coordinates);
 //DS14-end
                 // Update their look to match the leader.
                 if (TryComp<RandomSpriteComponent>(comp.Dragon, out var randomSprite))
