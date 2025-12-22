@@ -1002,7 +1002,7 @@
       map: [ "enum.PdaVisualLayers.Flashlight" ]
       shader: "unshaded"
       visible: false
-    - state: "id_overlay"
+    - state: "id_overlay-deathsquad" # DS14-Resprite
       map: [ "enum.PdaVisualLayers.IdLight" ]
       shader: "unshaded"
       visible: false

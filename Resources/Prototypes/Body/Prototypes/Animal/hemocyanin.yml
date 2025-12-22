@@ -1,6 +1,6 @@
 ﻿- type: body
   id: AnimalHemocyanin
-  name: "hemocyanin"
+  name: "гемоцианин" # DS14
   root: torso
   slots:
     torso:

@@ -17,6 +17,5 @@ public sealed partial class UnitologyComponent : Component
     /// </summary>
     [DataField, ViewVariables(VVAccess.ReadWrite)]
     public ProtoId<FactionIconPrototype> StatusIcon { get; set; } = "UnitologyFaction";
-    
     public override bool SessionSpecific => true;
 }

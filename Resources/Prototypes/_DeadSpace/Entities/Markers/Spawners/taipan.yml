@@ -21,6 +21,7 @@
     description: job-description-taipan-atmospherics-engineer
     rules: ghost-role-information-taipan-personal-rules
     job: TaipanAtmosphericsEngineer
+    category: ghost-role-information-taipan-category
     reregister: false
     requirements:
     - !type:RoleTimeRequirement
@@ -57,6 +58,7 @@
     name: job-name-taipan-botanist
     description: job-description-taipan-botanist
     rules: ghost-role-information-taipan-personal-rules
+    category: ghost-role-information-taipan-category
     job: TaipanBotanist
     reregister: false
     requirements:
@@ -91,6 +93,7 @@
     name: job-name-taipan-cargotech
     description: job-description-taipan-cargotech
     rules: ghost-role-information-taipan-personal-rules
+    category: ghost-role-information-taipan-category
     job: TaipanCargotech
     reregister: false
     requirements:
@@ -122,6 +125,7 @@
     name: job-name-taipan-chef
     description: job-description-taipan-chef
     rules: ghost-role-information-taipan-personal-rules
+    category: ghost-role-information-taipan-category
     job: TaipanChef
     reregister: false
     requirements:
@@ -159,6 +163,7 @@
     name: job-name-taipan-communications-officer
     description: job-description-taipan-communications-officer
     rules: ghost-role-information-taipan-personal-rules
+    category: ghost-role-information-taipan-category
     job: TaipanCommunicationsOfficer
     reregister: false
     requirements:
@@ -193,6 +198,7 @@
     name: job-name-taipan-medic
     description: job-description-taipan-medic
     rules: ghost-role-information-taipan-personal-rules
+    category: ghost-role-information-taipan-category
     job: TaipanMedic
     reregister: false
     requirements:
@@ -227,6 +233,7 @@
     name: job-name-taipan-paramedic
     description: job-description-taipan-paramedic
     rules: ghost-role-information-taipan-personal-rules
+    category: ghost-role-information-taipan-category
     job: TaipanParamedic
     reregister: false
     requirements:
@@ -258,6 +265,7 @@
     name: job-name-taipan-recruit
     description: job-description-taipan-recruit
     rules: ghost-role-information-taipan-personal-rules
+    category: ghost-role-information-taipan-category
     job: TaipanRecruit
     reregister: false
     requirements:
@@ -289,6 +297,7 @@
     name: job-name-taipan-research-director
     description: job-description-taipan-research-director
     rules: ghost-role-information-taipan-personal-rules
+    category: ghost-role-information-taipan-category
     job: TaipanResearchDirector
     reregister: false
     requirements:
@@ -326,6 +335,7 @@
     name: job-name-taipan-researcher
     description: job-description-taipan-researcher
     rules: ghost-role-information-taipan-personal-rules
+    category: ghost-role-information-taipan-category
     job: TaipanResearcher
     reregister: false
     requirements:
@@ -360,6 +370,7 @@
     name: job-name-taipan-technician
     description: job-description-taipan-technician
     rules: ghost-role-information-taipan-personal-rules
+    category: ghost-role-information-taipan-category
     job: TaipanTechnician
     reregister: false
     requirements:
@@ -391,6 +402,7 @@
     name: job-name-taipan-technical-supervisor
     description: job-description-taipan-technical-supervisor
     rules: ghost-role-information-taipan-personal-rules
+    category: ghost-role-information-taipan-category
     job: TaipanTechnicalOperationsSupervisor
     reregister: false
     requirements:

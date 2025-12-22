@@ -22,11 +22,37 @@ namespace Content.Client.Administration.UI
         public Action<string>? OnVoiceChange; // Corvax-TTS
         private static readonly ProtoId<LanguagePrototype> FirstLanguageId = "GeneralLanguage"; // DS14-Languages
 
+        // DS14-announce-start
+        private LineEdit? _colorHexEdit;
+        private Button? _colorPreviewBtn;
+        private LineEdit? _soundPathEdit;
+        private LineEdit? _soundVolumeEdit;
+        private LineEdit? _senderEdit;
+
+        private const int MaxSenderLength = 32;
+
+        private const int ColorShortLength = 3;
+        private const int ColorLongLength = 6;
+
+        private const float MinSoundVolume = 1f;
+        private const float MaxSoundVolume = 10f;
+        private const float DefaultSoundVolume = 5f;
+        // DS14-announce-end
+
         public AdminAnnounceWindow()
         {
             RobustXamlLoader.Load(this);
             IoCManager.InjectDependencies(this);
 
+            // DS14-announce-start
+            _colorHexEdit = SafeFind<LineEdit>("ColorHex", c => c.OnTextChanged += OnColorTextChanged);
+            _colorPreviewBtn = SafeFind<Button>("ColorPreview");
+            _soundPathEdit = SafeFind<LineEdit>("SoundPath", c => c.OnTextChanged += OnSoundPathChanged);
+            _soundVolumeEdit = SafeFind<LineEdit>("SoundVolume", c => c.OnTextChanged += OnSoundVolumeChanged);
+            _senderEdit = SafeFind<LineEdit>("Sender", c => c.OnTextChanged += OnSenderChanged);
+
+            UpdateColorPreview();
+            // DS14-announce-end
             Announcement.Placeholder = new Rope.Leaf(_localization.GetString("admin-announce-announcement-placeholder"));
             AnnounceMethod.AddItem(_localization.GetString("admin-announce-type-station"));
             AnnounceMethod.SetItemMetadata(0, AdminAnnounceType.Station);
@@ -73,6 +99,96 @@ namespace Content.Client.Administration.UI
             // DS14-Languages-end
         }
 
+        // DS14-announce-start
+        private T? SafeFind<T>(string name, Action<T>? init = null) where T : Control
+        {
+            var ctrl = FindControl<T>(name);
+            if (ctrl == null)
+            {
+                Logger.Warning($"AdminAnnounceWindow: control '{name}' not found.");
+                return null;
+            }
+
+            init?.Invoke(ctrl);
+            return ctrl;
+        }
+
+        private void OnColorTextChanged(LineEdit.LineEditEventArgs args)
+        {
+            if (_colorHexEdit == null) return;
+
+            var t = _colorHexEdit.Text.Trim();
+            if (t.StartsWith('#'))
+                t = t[1..];
+
+            t = new string(t.Where(Uri.IsHexDigit).ToArray());
+            if (t.Length > ColorLongLength)
+                t = t[..ColorLongLength];
+
+            if (_colorHexEdit.Text != t)
+                _colorHexEdit.Text = t;
+
+            UpdateColorPreview();
+        }
+
+        private void UpdateColorPreview()
+        {
+            if (_colorPreviewBtn == null || _colorHexEdit == null)
+                return;
+
+            var t = _colorHexEdit.Text.Trim();
+            if (t.Length != ColorShortLength && t.Length != ColorLongLength)
+            {
+                _colorPreviewBtn.ModulateSelfOverride = null;
+                return;
+            }
+
+            var hex = "#" + t;
+            try
+            {
+                var color = Color.FromHex(hex);
+                _colorPreviewBtn.ModulateSelfOverride = color;
+            }
+            catch
+            {
+                _colorPreviewBtn.ModulateSelfOverride = null;
+            }
+        }
+
+        private void OnSoundPathChanged(LineEdit.LineEditEventArgs args)
+        {
+            if (_soundPathEdit == null)
+                return;
+            var filtered = new string(_soundPathEdit.Text
+                .Where(c => char.IsLetterOrDigit(c) || c is '/' or '.' or '_' or '-')
+                .ToArray());
+            if (_soundPathEdit.Text != filtered)
+                _soundPathEdit.Text = filtered;
+        }
+
+        private void OnSoundVolumeChanged(LineEdit.LineEditEventArgs args)
+        {
+            if (_soundVolumeEdit == null) return;
+
+            if (float.TryParse(_soundVolumeEdit.Text, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var vol))
+            {
+                vol = Math.Clamp(vol, MinSoundVolume, MaxSoundVolume);
+                _soundVolumeEdit.Text = vol.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            }
+        }
+
+        private void OnSenderChanged(LineEdit.LineEditEventArgs args)
+        {
+            if (_senderEdit == null) return;
+
+            var t = new string(_senderEdit.Text.Where(c => !char.IsControl(c)).ToArray());
+            if (t.Length > MaxSenderLength)
+                t = t[..MaxSenderLength];
+            if (_senderEdit.Text != t)
+                _senderEdit.Text = t;
+        }
+        // DS14-announce-end
+
         private void AnnouncementOnOnTextChanged(GUIBoundKeyEventArgs args)
         {
             AnnounceButton.Disabled = Rope.Collapse(Announcement.TextRope).TrimStart() == "";
@@ -97,5 +213,32 @@ namespace Content.Client.Administration.UI
             LanguageSelector.SelectId(args.Id);
         }
         // DS14-Languages-end
+
+        // DS14-announce-start
+        public string ColorHexText
+        {
+            get
+            {
+                var t = _colorHexEdit?.Text.Trim() ?? "";
+                return (t.Length == ColorShortLength || t.Length == ColorLongLength) ? t : "";
+            }
+        }
+
+        public string SoundPathText => _soundPathEdit?.Text ?? "";
+        public string SenderText => _senderEdit?.Text ?? "";
+
+        public float SoundVolumeValue
+        {
+            get
+            {
+                if (_soundVolumeEdit != null &&
+                    float.TryParse(_soundVolumeEdit.Text, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var volume))
+                {
+                    return Math.Clamp(volume, MinSoundVolume, MaxSoundVolume);
+                }
+                return DefaultSoundVolume;
+            }
+        }
+        // DS14-announce-end
     }
 }

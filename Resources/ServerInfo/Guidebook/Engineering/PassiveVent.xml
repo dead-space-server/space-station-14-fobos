@@ -1,15 +1,15 @@
 ﻿<Document>
-  # Passive Vent
-  The passive vent is an extremely basic vent.
-  It serves as a direct connection between the pipenet it's connected to and the atmosphere it's exposed to.
+  # Пассивная вентиляция
+  Простейшая вентиляция.
+  Является прямым соединением между сетью труб и атмосферой.
   <Box>
     <GuideEntityEmbed Entity="GasPassiveVent"/>
   </Box>
-  Gasses are free to move between the passive vent and the atmosphere it's connected to.
-  The passive vent requires no [textlink="power" link="Power"] to function.
+  Для работы не требуется [textlink="энергия" link="Power"].
+  Газы могут свободно перемещаться между атмосферой и вентиляцией.
 
-  This vent is commonly found in the station's [textlink="gas storage tanks" link="GasMiningAndStorage"] and connected to the station's wastenet.
-  It is a simple and reliable way to pull gasses from a gas miner, or to space unwanted gasses safely.
+  Вентиляция будет пытаться урегулировать давление в сети и в атмосфере, т.е. или высасывать, или всасывать газы.
+  Часто встречаются у [textlink="газодобытчиков" link="GasMiningAndStorage"], а также у выхода сети Отходов.
 
-  The passive vent can be welded with any welding tool to stop it from functioning.
+  Может быть заварена сварочным аппаратом для почти полного предотвращения движения газов.
 </Document>

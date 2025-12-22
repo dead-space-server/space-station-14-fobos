@@ -40,6 +40,7 @@
       - id: HolofanProjector
       - id: GasAnalyzer
       - id: trayScanner
+      - id: RCDCE # DS14
 
 - type: entityTable
   id: BeltSecurityEntityTable

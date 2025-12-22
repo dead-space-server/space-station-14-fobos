@@ -99,6 +99,6 @@ public sealed class RenegadeRule : StationEventSystem<Renegade.Components.Renega
         stationFilter.AddPlayersByPvs(RenegadeEntity, entityManager: EntityManager);
         RaiseNetworkEvent(msg, stationFilter);
 
-        _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("round-end-system-Renegade-shuttle-called-announcement"), playSound: true, colorOverride: Color.DarkRed);
+        _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("round-end-system-renegade-shuttle-called-announcement"), playSound: true, colorOverride: Color.DarkRed);
     }
 }

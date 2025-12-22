@@ -5,12 +5,40 @@
     <Label Name="NoRolesMessage"
            Text="{Loc 'ghost-roles-window-no-roles-available-label'}"
            VerticalAlignment="Top" />
-    <ScrollContainer VerticalExpand="True"
-                     HScrollEnabled="False">
-        <BoxContainer Orientation="Vertical"
-                      Name="EntryContainer"
+    <!-- DS14-start -->
+    <BoxContainer Orientation="Vertical"
+                  Margin="8">
+
+        <ScrollContainer HorizontalExpand="True"
+                         VScrollEnabled="False"
+                         HScrollEnabled="True"
+                         MinSize="0 40">
+            <BoxContainer Orientation="Horizontal"
+                          Name="TopButtonRow"
+                          HorizontalExpand="True"
+                          Margin="0 0 0 4">
+            </BoxContainer>
+        </ScrollContainer>
+        <LineEdit Name="SearchBar" PlaceHolder="Search" HorizontalExpand="True" Margin="0 4"  Visible="False"/>
+
+        <BoxContainer Orientation="Horizontal"
+                      Margin="0 4 0 0"
+                      HorizontalExpand="True"
                       VerticalExpand="True">
-            <!-- Ghost role entries are added here by code -->
+            <ScrollContainer Name= "RoleScroll"
+                             VerticalExpand="True"
+                             HScrollEnabled="False"
+                             HorizontalExpand="True"
+                             MinSize="200 200">
+                <BoxContainer Orientation="Vertical"
+                              Name="EntryContainer"
+                              VerticalExpand="True"
+                              HorizontalExpand="True"
+                              Margin="0">
+                    <!-- Ghost role entries are added here by code -->
+                </BoxContainer>
+            </ScrollContainer>
         </BoxContainer>
-    </ScrollContainer>
+    </BoxContainer>
+    <!-- DS14-end -->
 </DefaultWindow>

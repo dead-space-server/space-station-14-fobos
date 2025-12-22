@@ -1,5 +1,5 @@
 <Document>
-# Toxins
-The chemicals in this list contain toxins that induce certain effects and can cause death. Use responsibly.
-<GuideReagentGroupEmbed Group="Toxins"/>
+  # Токсины
+  Химикаты в этом списке включают в себя токсины, которые вызывают определённые эффекты, а также могут привести к смерти. Используйте с осторожностью.
+  <GuideReagentGroupEmbed Group="Toxins"/>
 </Document>
