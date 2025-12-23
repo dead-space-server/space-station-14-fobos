@@ -269,6 +269,7 @@
   - type: AccessReader
     access: [["Medical"]]
 
+# DS14-start
 - type: entity
   parent: DoorElectronics
   id: DoorElectronicsMedicalVirology
@@ -276,6 +277,7 @@
   components:
   - type: AccessReader
     access: [["Virology"]]
+# DS14-end
 
 # Syndicate
 - type: entity

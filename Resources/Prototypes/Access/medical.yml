@@ -18,9 +18,11 @@
   id: Coroner
   name: id-card-access-level-coroner
 
+# DS14-start
 - type: accessLevel
   id: Virology
   name: id-card-access-level-virology
+# DS14-end
 
 - type: accessGroup
   id: Medical
