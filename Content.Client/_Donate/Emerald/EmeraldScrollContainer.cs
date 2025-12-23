@@ -21,15 +21,19 @@ public sealed class EmeraldScrollContainer : Control
     private readonly Color _scrollbarThumbColor = Color.FromHex("#6d5a8a");
     private readonly Color _scrollbarHoverColor = Color.FromHex("#a589c9");
 
-    private const float ScrollbarWidth = 12f;
-    private const float MinGrabberHeight = 30f;
-    private const float ScrollbarPadding = 2f;
+    private const float BaseScrollbarWidth = 12f;
+    private const float BaseMinGrabberHeight = 30f;
+    private const float BaseScrollbarPadding = 2f;
 
     public EmeraldScrollContainer()
     {
         RectClipContent = true;
         MouseFilter = MouseFilterMode.Pass;
     }
+
+    private float ScrollbarWidth => BaseScrollbarWidth * UIScale;
+    private float MinGrabberHeight => BaseMinGrabberHeight * UIScale;
+    private float ScrollbarPadding => BaseScrollbarPadding * UIScale;
 
     public void SetContent(Control child)
     {
@@ -76,7 +80,7 @@ public sealed class EmeraldScrollContainer : Control
         if (_maxScroll <= 0)
             return;
 
-        var delta = args.Delta.Y * 30f;
+        var delta = args.Delta.Y * 30f * UIScale;
         _scrollOffset = Math.Clamp(_scrollOffset - delta, 0, _maxScroll);
 
         InvalidateArrange();
@@ -169,10 +173,11 @@ public sealed class EmeraldScrollContainer : Control
 
             handle.DrawRect(grabberRect, thumbColor);
 
+            var highlightWidth = 2f * UIScale;
             var highlightRect = new UIBox2(
                 grabberRect.Left,
                 grabberRect.Top,
-                grabberRect.Left + 2,
+                grabberRect.Left + highlightWidth,
                 grabberRect.Bottom
             );
             handle.DrawRect(highlightRect, Color.FromHex("#d4c5e8").WithAlpha(0.3f));
@@ -193,8 +198,9 @@ public sealed class EmeraldScrollContainer : Control
 
         var grabberY = _maxScroll > 0 ? _scrollOffset / _maxScroll * trackHeight : 0;
 
-        var left = scrollbarRect.Left + 2;
-        var right = scrollbarRect.Right - 2;
+        var grabberPadding = 2f * UIScale;
+        var left = scrollbarRect.Left + grabberPadding;
+        var right = scrollbarRect.Right - grabberPadding;
         var top = Math.Max(0, grabberY);
         var bottom = Math.Max(top + 1, grabberY + grabberHeight);
 

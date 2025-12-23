@@ -11,6 +11,9 @@ public sealed class EmeraldSubscriptionCard : Control
 {
     [Dependency] private readonly IResourceCache _resourceCache = default!;
 
+    private const int BaseNameFontSize = 11;
+    private const int BaseInfoFontSize = 9;
+
     private Font _nameFont = default!;
     private Font _infoFont = default!;
 
@@ -82,17 +85,10 @@ public sealed class EmeraldSubscriptionCard : Control
     public EmeraldSubscriptionCard()
     {
         IoCManager.InjectDependencies(this);
-        UpdateFonts();
-    }
 
-    private void UpdateFonts()
-    {
-        _nameFont = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(11 * UIScale));
-        _infoFont = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(9 * UIScale));
+        var fontRes = _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf");
+        _nameFont = new VectorFont(fontRes, BaseNameFontSize);
+        _infoFont = new VectorFont(fontRes, BaseInfoFontSize);
     }
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
@@ -113,26 +109,25 @@ public sealed class EmeraldSubscriptionCard : Control
         handle.DrawLine(rect.BottomRight, rect.BottomLeft, borderColor);
         handle.DrawLine(rect.BottomLeft, rect.TopLeft, borderColor);
 
-        var y = 8f;
-        var x = 10f;
+        var y = 8f * UIScale;
+        var x = 10f * UIScale;
 
         var nameColor = _isAdmin ? _adminColor : _nameColor;
-        handle.DrawString(_nameFont, new Vector2(x, y), _nameSub, 1f, nameColor);
+        handle.DrawString(_nameFont, new Vector2(x, y), _nameSub, UIScale, nameColor);
 
-        y += _nameFont.GetLineHeight(1f) + 4f;
+        y += _nameFont.GetLineHeight(UIScale) + 4f * UIScale;
 
         var infoText = $"{_price}  •  {_dates}";
-        handle.DrawString(_infoFont, new Vector2(x, y), infoText, 1f, _dateColor);
-        y += _infoFont.GetLineHeight(1f) + 4f;
+        handle.DrawString(_infoFont, new Vector2(x, y), infoText, UIScale, _dateColor);
+        y += _infoFont.GetLineHeight(UIScale) + 4f * UIScale;
 
         var itemText = $"{_itemCount} предметов подписки";
-        handle.DrawString(_infoFont, new Vector2(x, y), itemText, 1f, _itemColor);
+        handle.DrawString(_infoFont, new Vector2(x, y), itemText, UIScale, _itemColor);
     }
 
     protected override void UIScaleChanged()
     {
         base.UIScaleChanged();
-        UpdateFonts();
         InvalidateMeasure();
     }
 }

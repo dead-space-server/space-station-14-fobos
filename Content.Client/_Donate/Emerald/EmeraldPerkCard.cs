@@ -11,6 +11,9 @@ public sealed class EmeraldPerkCard : Control
 {
     [Dependency] private readonly IResourceCache _resourceCache = default!;
 
+    private const int BaseTitleFontSize = 9;
+    private const int BaseValueFontSize = 11;
+
     private Font _titleFont = default!;
     private Font _valueFont = default!;
 
@@ -55,17 +58,10 @@ public sealed class EmeraldPerkCard : Control
     public EmeraldPerkCard()
     {
         IoCManager.InjectDependencies(this);
-        UpdateFonts();
-    }
 
-    private void UpdateFonts()
-    {
-        _titleFont = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(9 * UIScale));
-        _valueFont = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(11 * UIScale));
+        var fontRes = _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf");
+        _titleFont = new VectorFont(fontRes, BaseTitleFontSize);
+        _valueFont = new VectorFont(fontRes, BaseValueFontSize);
     }
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
@@ -84,12 +80,13 @@ public sealed class EmeraldPerkCard : Control
         handle.DrawLine(rect.BottomRight, rect.BottomLeft, _borderColor);
         handle.DrawLine(rect.BottomLeft, rect.TopLeft, _borderColor);
 
-        var maxTextWidth = PixelSize.X - 8f;
+        var maxTextWidth = PixelSize.X - 8f * UIScale;
         var titleLines = WrapText(_title, maxTextWidth, _titleFont, 2);
-        var titleLineHeight = _titleFont.GetLineHeight(1f);
-        var valueLineHeight = _valueFont.GetLineHeight(1f);
+        var titleLineHeight = _titleFont.GetLineHeight(UIScale);
+        var valueLineHeight = _valueFont.GetLineHeight(UIScale);
 
-        var totalContentHeight = titleLines.Count * titleLineHeight + 4f + valueLineHeight;
+        var spacing = 4f * UIScale;
+        var totalContentHeight = titleLines.Count * titleLineHeight + spacing + valueLineHeight;
         var startY = (PixelSize.Y - totalContentHeight) / 2f;
 
         for (int i = 0; i < titleLines.Count; i++)
@@ -97,13 +94,13 @@ public sealed class EmeraldPerkCard : Control
             var line = titleLines[i];
             var lineWidth = GetTextWidth(line, _titleFont);
             var lineX = (PixelSize.X - lineWidth) / 2f;
-            handle.DrawString(_titleFont, new Vector2(lineX, startY + i * titleLineHeight), line, 1f, _titleColor);
+            handle.DrawString(_titleFont, new Vector2(lineX, startY + i * titleLineHeight), line, UIScale, _titleColor);
         }
 
         var valueWidth = GetTextWidth(_value, _valueFont);
         var valueX = (PixelSize.X - valueWidth) / 2f;
-        var valueY = startY + titleLines.Count * titleLineHeight + 4f;
-        handle.DrawString(_valueFont, new Vector2(valueX, valueY), _value, 1f, _valueColor);
+        var valueY = startY + titleLines.Count * titleLineHeight + spacing;
+        handle.DrawString(_valueFont, new Vector2(valueX, valueY), _value, UIScale, _valueColor);
     }
 
     private float GetTextWidth(string text, Font font)
@@ -114,7 +111,7 @@ public sealed class EmeraldPerkCard : Control
         var width = 0f;
         foreach (var rune in text.EnumerateRunes())
         {
-            var metrics = font.GetCharMetrics(rune, 1f);
+            var metrics = font.GetCharMetrics(rune, UIScale);
             if (metrics.HasValue)
                 width += metrics.Value.Advance;
         }
@@ -183,7 +180,6 @@ public sealed class EmeraldPerkCard : Control
     protected override void UIScaleChanged()
     {
         base.UIScaleChanged();
-        UpdateFonts();
         InvalidateMeasure();
     }
 }

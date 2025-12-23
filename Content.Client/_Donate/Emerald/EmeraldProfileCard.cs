@@ -11,6 +11,9 @@ public sealed class EmeraldProfileCard : Control
 {
     [Dependency] private readonly IResourceCache _resourceCache = default!;
 
+    private const int BaseNameFontSize = 12;
+    private const int BaseIdFontSize = 9;
+
     private Font _nameFont = default!;
     private Font _idFont = default!;
 
@@ -45,17 +48,10 @@ public sealed class EmeraldProfileCard : Control
     public EmeraldProfileCard()
     {
         IoCManager.InjectDependencies(this);
-        UpdateFonts();
-    }
 
-    private void UpdateFonts()
-    {
-        _nameFont = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(12 * UIScale));
-        _idFont = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(9 * UIScale));
+        var fontRes = _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf");
+        _nameFont = new VectorFont(fontRes, BaseNameFontSize);
+        _idFont = new VectorFont(fontRes, BaseIdFontSize);
     }
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
@@ -75,17 +71,17 @@ public sealed class EmeraldProfileCard : Control
         handle.DrawLine(rect.BottomRight, rect.BottomLeft, _borderColor);
         handle.DrawLine(rect.BottomLeft, rect.TopLeft, _borderColor);
 
-        var nameY = 10f;
-        handle.DrawString(_nameFont, new Vector2(10f, nameY), _playerName, 1f, _nameColor);
+        var padding = 10f * UIScale;
+        var nameY = 10f * UIScale;
+        handle.DrawString(_nameFont, new Vector2(padding, nameY), _playerName, UIScale, _nameColor);
 
-        var idY = nameY + _nameFont.GetLineHeight(1f) + 4f;
-        handle.DrawString(_idFont, new Vector2(10f, idY), _playerId, 1f, _idColor);
+        var idY = nameY + _nameFont.GetLineHeight(UIScale) + 4f * UIScale;
+        handle.DrawString(_idFont, new Vector2(padding, idY), _playerId, UIScale, _idColor);
     }
 
     protected override void UIScaleChanged()
     {
         base.UIScaleChanged();
-        UpdateFonts();
         InvalidateMeasure();
     }
 }
