@@ -15,13 +15,6 @@
 
 - type: jobIcon
   parent: JobIcon
-  id: JobIconVirologist
-  icon:
-    sprite: /Textures/Interface/Misc/job_icons.rsi
-    state: Virologist
-
-- type: jobIcon
-  parent: JobIcon
   id: JobIconSecurityPilot
   icon:
     sprite: /Textures/Interface/Misc/job_icons.rsi
