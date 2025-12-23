@@ -9,7 +9,7 @@ using Robust.Shared.Configuration;
 using Content.Shared.DeadSpace.CCCCVars;
 using Content.Client.Options.UI;
 using System.Numerics;
-using Content.Client.DeadSpace.Notify.ReceiveNotify;
+using Content.Client.DeadSpace.Notify.ReceiveNotifySystem;
 
 namespace Content.Client.Options.UI.Tabs;
 

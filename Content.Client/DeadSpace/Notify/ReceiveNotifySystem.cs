@@ -11,7 +11,7 @@ using Content.Shared.DeadSpace.GhostRoleNotify.Prototypes;
 using Robust.Shared.Prototypes;
 using System.Collections.Concurrent;
 
-namespace Content.Client.DeadSpace.Notify.ReceiveNotify;
+namespace Content.Client.DeadSpace.Notify.ReceiveNotifySystem;
 
 public sealed partial class ReceiveNotifySystem : EntitySystem
 {
