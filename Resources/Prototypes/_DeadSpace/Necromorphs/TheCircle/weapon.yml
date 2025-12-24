@@ -707,7 +707,6 @@
       collection: SoundsHeadaches
   - type: LimitedCharges
     maxCharges: 1
-    charges: 1
   - type: Physics
     bodyType: Dynamic
   - type: CollisionWake

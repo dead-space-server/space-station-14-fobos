@@ -3905,14 +3905,14 @@ entities:
     - type: Transform
       pos: -8.5,14.5
       parent: 1
-- proto: CBURNLeaderSCNTSpawner
+- proto: BSAALeaderSpawner
   entities:
   - uid: 1481
     components:
     - type: Transform
       pos: 0.5,-11.5
       parent: 1
-- proto: CBURNSoldierSCNTSpawner
+- proto: BSAAFighterSpawner
   entities:
   - uid: 1482
     components:
@@ -3934,6 +3934,8 @@ entities:
     - type: Transform
       pos: 2.5,-9.5
       parent: 1
+- proto: BSAAMedicSpawner
+  entities:
   - uid: 1486
     components:
     - type: Transform
