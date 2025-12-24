@@ -61,9 +61,24 @@ public sealed class EmeraldCategoryTab : Control
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
     {
-        var textWidth = GetTextWidth(_text);
-        var width = Math.Max(60 * UIScale, textWidth + 16f * UIScale);
-        return new Vector2(width, 28 * UIScale);
+        var textWidth = GetTextWidthLogical(_text);
+        var width = Math.Max(60f, textWidth + 16f);
+        return new Vector2(width, 28f);
+    }
+
+    private float GetTextWidthLogical(string text)
+    {
+        if (string.IsNullOrEmpty(text))
+            return 0f;
+
+        var width = 0f;
+        foreach (var rune in text.EnumerateRunes())
+        {
+            var metrics = _font.GetCharMetrics(rune, 1f);
+            if (metrics.HasValue)
+                width += metrics.Value.Advance;
+        }
+        return width;
     }
 
     private float GetTextWidth(string text)

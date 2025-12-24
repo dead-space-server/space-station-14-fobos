@@ -54,10 +54,25 @@ public sealed class EmeraldShopButton : Control
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
     {
-        var textWidth = GetTextWidth(_text.ToUpper());
-        var paddingX = 20f * UIScale;
-        var paddingY = 12f * UIScale;
-        return new Vector2(textWidth + paddingX * 2, _font.GetLineHeight(UIScale) + paddingY);
+        var textWidth = GetTextWidthLogical(_text.ToUpper());
+        var paddingX = 20f;
+        var paddingY = 12f;
+        return new Vector2(textWidth + paddingX * 2, _font.GetLineHeight(1f) + paddingY);
+    }
+
+    private float GetTextWidthLogical(string text)
+    {
+        if (string.IsNullOrEmpty(text))
+            return 0f;
+
+        var width = 0f;
+        foreach (var rune in text.EnumerateRunes())
+        {
+            var metrics = _font.GetCharMetrics(rune, 1f);
+            if (metrics.HasValue)
+                width += metrics.Value.Advance;
+        }
+        return width;
     }
 
     protected override void FrameUpdate(FrameEventArgs args)

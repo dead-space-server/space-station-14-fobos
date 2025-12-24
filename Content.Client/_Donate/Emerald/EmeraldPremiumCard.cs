@@ -210,7 +210,7 @@ public sealed class EmeraldPremiumCard : Control
 
     private void DrawBorder(DrawingHandleScreen handle, UIBox2 rect, Color color)
     {
-        var thickness = 1f * UIScale;
+        var thickness = Math.Max(1f, 1f * UIScale);
         handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Right, rect.Top + thickness), color);
         handle.DrawRect(new UIBox2(rect.Left, rect.Bottom - thickness, rect.Right, rect.Bottom), color);
         handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Left + thickness, rect.Bottom), color);

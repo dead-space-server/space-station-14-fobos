@@ -70,7 +70,7 @@ public sealed class EmeraldSearchBox : Control
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
     {
-        var height = _font.GetLineHeight(UIScale) + 12f * UIScale;
+        var height = _font.GetLineHeight(1f) + 12f;
         return new Vector2(availableSize.X, height);
     }
 

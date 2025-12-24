@@ -75,10 +75,25 @@ public class EmeraldButton : Control
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
     {
-        var textWidth = GetTextWidth(_text.ToUpper());
-        var paddingX = 16f * UIScale;
-        var paddingY = 10f * UIScale;
-        return new Vector2(textWidth + paddingX * 2, _font.GetLineHeight(UIScale) + paddingY);
+        var textWidth = GetTextWidthLogical(_text.ToUpper());
+        var paddingX = 16f;
+        var paddingY = 10f;
+        return new Vector2(textWidth + paddingX * 2, _font.GetLineHeight(1f) + paddingY);
+    }
+
+    private float GetTextWidthLogical(string text)
+    {
+        if (string.IsNullOrEmpty(text))
+            return 0f;
+
+        var width = 0f;
+        foreach (var rune in text.EnumerateRunes())
+        {
+            var metrics = _font.GetCharMetrics(rune, 1f);
+            if (metrics.HasValue)
+                width += metrics.Value.Advance;
+        }
+        return width;
     }
 
     protected override void Draw(DrawingHandleScreen handle)

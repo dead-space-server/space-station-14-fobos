@@ -87,12 +87,12 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
         _topPanel = BuildTopPanel();
         mainContainer.AddChild(_topPanel);
 
-        mainContainer.AddChild(new Control { MinHeight = 10 });
+        mainContainer.AddChild(new Control { MinHeight = 20 });
 
         _tabsContainer = BuildTabsContainer();
         mainContainer.AddChild(_tabsContainer);
 
-        mainContainer.AddChild(new Control { MinHeight = 10 });
+        mainContainer.AddChild(new Control { MinHeight = 20 });
 
         _contentContainer = new BoxContainer
         {
@@ -166,8 +166,8 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
         {
             HorizontalExpand = true,
             LayoutAxis = Axis.Horizontal,
-            SeparationOverride = 8,
-            CrossSeparationOverride = 6
+            SeparationOverride = 10,
+            CrossSeparationOverride = 10
         };
 
         _levelBar = new EmeraldLevelBar
@@ -179,7 +179,7 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
             RequiredExp = 100,
             ToNextLevel = 100,
             Progress = 0f,
-            Margin = new Thickness(0, 2)
+            Margin = new Thickness(0, 4)
         };
         _topPanelWrap.AddChild(_levelBar);
 

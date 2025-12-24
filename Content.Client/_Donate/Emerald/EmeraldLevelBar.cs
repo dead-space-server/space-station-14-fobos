@@ -95,7 +95,7 @@ public sealed class EmeraldLevelBar : Control
     protected override Vector2 MeasureOverride(Vector2 availableSize)
     {
         var width = float.IsPositiveInfinity(availableSize.X) ? 200 : availableSize.X;
-        var height = BaseBarHeight * UIScale + BasePadding * UIScale * 2;
+        var height = BaseBarHeight + BasePadding * 2;
         return new Vector2(Math.Max(80, width), height);
     }
 
@@ -130,8 +130,6 @@ public sealed class EmeraldLevelBar : Control
             handle.DrawRect(edgeRect, _fillColor.WithAlpha(1f));
         }
 
-        DrawBorder(handle, barRect, _borderColor);
-
         var levelText = $"УР {_level}";
         var levelX = barX + 8f * UIScale;
         var levelY = barY + (barHeight - _font.GetLineHeight(UIScale)) / 2f;
@@ -144,15 +142,6 @@ public sealed class EmeraldLevelBar : Control
         var expY = barY + (barHeight - _smallFont.GetLineHeight(UIScale)) / 2f;
 
         handle.DrawString(_smallFont, new Vector2(expX, expY), expText, UIScale, _textColor);
-    }
-
-    private void DrawBorder(DrawingHandleScreen handle, UIBox2 rect, Color color)
-    {
-        var thickness = 1f * UIScale;
-        handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Right, rect.Top + thickness), color);
-        handle.DrawRect(new UIBox2(rect.Left, rect.Bottom - thickness, rect.Right, rect.Bottom), color);
-        handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Left + thickness, rect.Bottom), color);
-        handle.DrawRect(new UIBox2(rect.Right - thickness, rect.Top, rect.Right, rect.Bottom), color);
     }
 
     private float GetTextWidth(string text, Font font)

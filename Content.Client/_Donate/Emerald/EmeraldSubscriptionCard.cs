@@ -104,10 +104,7 @@ public sealed class EmeraldSubscriptionCard : Control
         handle.DrawRect(rect, _bgColor.WithAlpha(0.8f));
 
         var borderColor = _isAdmin ? _adminBorderColor : _borderColor;
-        handle.DrawLine(rect.TopLeft, rect.TopRight, borderColor);
-        handle.DrawLine(rect.TopRight, rect.BottomRight, borderColor);
-        handle.DrawLine(rect.BottomRight, rect.BottomLeft, borderColor);
-        handle.DrawLine(rect.BottomLeft, rect.TopLeft, borderColor);
+        DrawBorder(handle, rect, borderColor);
 
         var y = 8f * UIScale;
         var x = 10f * UIScale;
@@ -123,6 +120,15 @@ public sealed class EmeraldSubscriptionCard : Control
 
         var itemText = $"{_itemCount} предметов подписки";
         handle.DrawString(_infoFont, new Vector2(x, y), itemText, UIScale, _itemColor);
+    }
+
+    private void DrawBorder(DrawingHandleScreen handle, UIBox2 rect, Color color)
+    {
+        var thickness = Math.Max(1f, 1f * UIScale);
+        handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Right, rect.Top + thickness), color);
+        handle.DrawRect(new UIBox2(rect.Left, rect.Bottom - thickness, rect.Right, rect.Bottom), color);
+        handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Left + thickness, rect.Bottom), color);
+        handle.DrawRect(new UIBox2(rect.Right - thickness, rect.Top, rect.Right, rect.Bottom), color);
     }
 
     protected override void UIScaleChanged()
