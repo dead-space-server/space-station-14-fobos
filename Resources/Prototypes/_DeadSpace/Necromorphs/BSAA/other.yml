@@ -6,10 +6,10 @@
   description: Спроектированный на основе боевого стандарта NT инструмент быстрого впрыска с уменьшенным объёмом.
   components:
   - type: Sprite
-    sprite: /Uploaded/ex1unitology/BSAA/misc/bsaa-hypo.rsi
+    sprite: _DeadSpace/Necromorfs/BSAA/misc/bsaa-hypo.rsi
     state: icon
   - type: Item
-    sprite: /Uploaded/ex1unitology/BSAA/misc/bsaa-hypo.rsi
+    sprite: _DeadSpace/Necromorfs/BSAA/misc/bsaa-hypo.rsi
   - type: SolutionContainerManager
     solutions:
       hypospray:
