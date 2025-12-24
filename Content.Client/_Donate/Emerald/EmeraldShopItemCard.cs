@@ -19,6 +19,9 @@ public sealed class EmeraldShopItemCard : Control
     [Dependency] private readonly IEntityManager _entMan = default!;
     [Dependency] private readonly IPrototypeManager _protoManager = default!;
 
+    private const int BaseNameFontSize = 10;
+    private const int BasePriceFontSize = 11;
+
     private Font _nameFont = default!;
     private Font _priceFont = default!;
 
@@ -36,9 +39,6 @@ public sealed class EmeraldShopItemCard : Control
     private readonly Color _ownedColor = Color.FromHex("#4CAF50");
     private readonly Color _spriteBgColor = Color.FromHex("#0f0a1e");
     private readonly Color _hoverGlowColor = Color.FromHex("#6d5a8a");
-    private readonly Color _periodBgColor = Color.FromHex("#0f0a1e");
-    private readonly Color _periodActiveColor = Color.FromHex("#a589c9");
-    private readonly Color _periodInactiveColor = Color.FromHex("#6d5a8a");
 
     private SpriteView? _spriteView;
     private TextureRect? _textureRect;
@@ -108,19 +108,13 @@ public sealed class EmeraldShopItemCard : Control
     public EmeraldShopItemCard()
     {
         IoCManager.InjectDependencies(this);
-        UpdateFonts();
+
+        var fontRes = _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf");
+        _nameFont = new VectorFont(fontRes, BaseNameFontSize);
+        _priceFont = new VectorFont(fontRes, BasePriceFontSize);
+
         BuildUI();
         MouseFilter = MouseFilterMode.Stop;
-    }
-
-    private void UpdateFonts()
-    {
-        _nameFont = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(10 * UIScale));
-        _priceFont = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(11 * UIScale));
     }
 
     private void BuildUI()
@@ -145,7 +139,7 @@ public sealed class EmeraldShopItemCard : Control
         {
             HorizontalExpand = true,
             VerticalExpand = true,
-            Stretch = TextureRect.StretchMode.KeepCentered,
+            Stretch = TextureRect.StretchMode.Scale,
             Visible = false
         };
 
@@ -188,7 +182,7 @@ public sealed class EmeraldShopItemCard : Control
                 var spawned = _entMan.SpawnEntity(_protoId, MapCoordinates.Nullspace);
                 _spriteView.SetEntity(spawned);
                 _spriteView.Visible = true;
-                _spriteView.Scale = new Vector2(2, 2);
+                _spriteView.Scale = new Vector2(2f, 2f);
                 _textureRect.Visible = false;
                 return;
             }
@@ -313,8 +307,8 @@ public sealed class EmeraldShopItemCard : Control
 
         var maxTextWidth = PixelSize.X - 8f;
         var lines = WrapText(_itemName, maxTextWidth, _nameFont, 2);
-        var nameY = 85f;
-        var lineHeight = _nameFont.GetLineHeight(1f);
+        var nameY = 85f * UIScale;
+        var lineHeight = _nameFont.GetLineHeight(UIScale);
 
         var nameColor = _owned ? _ownedColor : _nameColor;
 
@@ -323,24 +317,24 @@ public sealed class EmeraldShopItemCard : Control
             var line = lines[i];
             var lineWidth = GetTextWidth(line, _nameFont);
             var lineX = (PixelSize.X - lineWidth) / 2f;
-            handle.DrawString(_nameFont, new Vector2(lineX, nameY + i * lineHeight), line, 1f, nameColor);
+            handle.DrawString(_nameFont, new Vector2(lineX, nameY + i * lineHeight), line, UIScale, nameColor);
         }
 
-        var priceY = nameY + lines.Count * lineHeight + 6f;
+        var priceY = nameY + lines.Count * lineHeight + 6f * UIScale;
 
         if (_owned)
         {
             var ownedText = "КУПЛЕН";
             var ownedWidth = GetTextWidth(ownedText, _priceFont);
             var ownedX = (PixelSize.X - ownedWidth) / 2f;
-            handle.DrawString(_priceFont, new Vector2(ownedX, priceY), ownedText, 1f, _ownedColor);
+            handle.DrawString(_priceFont, new Vector2(ownedX, priceY), ownedText, UIScale, _ownedColor);
         }
         else if (_prices.TryGetValue(_selectedPeriod, out var price))
         {
             var priceText = $"{price:F0} ЭНЕРГИИ";
             var priceWidth = GetTextWidth(priceText, _priceFont);
             var priceX = (PixelSize.X - priceWidth) / 2f;
-            handle.DrawString(_priceFont, new Vector2(priceX, priceY), priceText, 1f, _priceColor);
+            handle.DrawString(_priceFont, new Vector2(priceX, priceY), priceText, UIScale, _priceColor);
         }
     }
 
@@ -364,7 +358,7 @@ public sealed class EmeraldShopItemCard : Control
         var width = 0f;
         foreach (var rune in text.EnumerateRunes())
         {
-            var metrics = font.GetCharMetrics(rune, 1f);
+            var metrics = font.GetCharMetrics(rune, UIScale);
             if (metrics.HasValue)
                 width += metrics.Value.Advance;
         }
@@ -423,7 +417,6 @@ public sealed class EmeraldShopItemCard : Control
     protected override void UIScaleChanged()
     {
         base.UIScaleChanged();
-        UpdateFonts();
         InvalidateMeasure();
     }
 }
@@ -431,6 +424,8 @@ public sealed class EmeraldShopItemCard : Control
 public sealed class EmeraldPeriodButton : Control
 {
     [Dependency] private readonly IResourceCache _resourceCache = default!;
+
+    private const int BaseFontSize = 7;
 
     private Font _font = default!;
     private PurchasePeriod _period;
@@ -469,15 +464,10 @@ public sealed class EmeraldPeriodButton : Control
     public EmeraldPeriodButton()
     {
         IoCManager.InjectDependencies(this);
-        UpdateFont();
-        MouseFilter = MouseFilterMode.Stop;
-    }
-
-    private void UpdateFont()
-    {
         _font = new VectorFont(
             _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(7 * UIScale));
+            BaseFontSize);
+        MouseFilter = MouseFilterMode.Stop;
     }
 
     private string GetPeriodText()
@@ -514,11 +504,12 @@ public sealed class EmeraldPeriodButton : Control
 
         var text = GetPeriodText();
         var textWidth = GetTextWidth(text);
+        var lineHeight = _font.GetLineHeight(UIScale);
         var textX = (PixelSize.X - textWidth) / 2f;
-        var textY = (PixelSize.Y - _font.GetLineHeight(1f)) / 2f;
+        var textY = (PixelSize.Y - lineHeight) / 2f;
 
         var textColor = _isSelected ? _selectedColor : _hovered ? _hoverColor : _normalColor;
-        handle.DrawString(_font, new Vector2(textX, textY), text, 1f, textColor);
+        handle.DrawString(_font, new Vector2(textX, textY), text, UIScale, textColor);
     }
 
     private float GetTextWidth(string text)
@@ -529,7 +520,7 @@ public sealed class EmeraldPeriodButton : Control
         var width = 0f;
         foreach (var rune in text.EnumerateRunes())
         {
-            var metrics = _font.GetCharMetrics(rune, 1f);
+            var metrics = _font.GetCharMetrics(rune, UIScale);
             if (metrics.HasValue)
                 width += metrics.Value.Advance;
         }
@@ -564,7 +555,6 @@ public sealed class EmeraldPeriodButton : Control
     protected override void UIScaleChanged()
     {
         base.UIScaleChanged();
-        UpdateFont();
         InvalidateMeasure();
     }
 }

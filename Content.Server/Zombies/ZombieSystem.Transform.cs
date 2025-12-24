@@ -46,6 +46,9 @@ using Content.Shared.DeadSpace.Languages.Components;
 using Content.Shared.DeadSpace.Languages.Prototypes;
 using Content.Shared.NPC.Prototypes;
 using Content.Shared.Roles;
+using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
+using Content.Shared.DeadSpace.Virus.Components;
+using Content.Server.DeadSpace.Virus.Systems;
 using Content.Server.DeadSpace.Languages;
 
 namespace Content.Server.Zombies;
@@ -74,11 +77,12 @@ public sealed partial class ZombieSystem
     [Dependency] private readonly NPCSystem _npc = default!;
     [Dependency] private readonly TagSystem _tag = default!;
     [Dependency] private readonly ISharedPlayerManager _player = default!;
+    [Dependency] private readonly VirusSystem _virus = default!; // DS14
     [Dependency] private readonly LanguageSystem _language = default!; // DS14
 
     private static readonly ProtoId<TagPrototype> InvalidForGlobalSpawnSpellTag = "InvalidForGlobalSpawnSpell";
     private static readonly ProtoId<TagPrototype> CannotSuicideTag = "CannotSuicide";
-    private static readonly ProtoId<LanguagePrototype> ZombieLanguage = "ZombieLanguage";
+    private static readonly ProtoId<LanguagePrototype> ZombieLanguage = "ZombieLanguage"; // DS14
     private static readonly ProtoId<NpcFactionPrototype> ZombieFaction = "Zombie";
     private static readonly string MindRoleZombie = "MindRoleZombie";
     private static readonly List<ProtoId<AntagPrototype>> BannableZombiePrototypes = ["Zombie"];
@@ -112,6 +116,11 @@ public sealed partial class ZombieSystem
         //Don't zombfiy zombies
         if (HasComp<ZombieComponent>(target) || HasComp<ZombieImmuneComponent>(target))
             return;
+
+        // DS14-start
+        if (HasComp<NecromorfComponent>(target) || HasComp<InfectionDeadComponent>(target))
+            return;
+        // DS14-end
 
         if (!Resolve(target, ref mobState, logMissing: false))
             return;
@@ -149,7 +158,9 @@ public sealed partial class ZombieSystem
         RemComp<ComplexInteractionComponent>(target);
         RemComp<SentienceTargetComponent>(target);
 
-        // DS14-Languages-start
+        // DS14-start
+        if (HasComp<VirusComponent>(target))
+            _virus.CureVirus(target);
 
         if (TryComp<LanguageComponent>(target, out var language))
         {
@@ -173,7 +184,7 @@ public sealed partial class ZombieSystem
 
         // EnsureComp<ReplacementAccentComponent>(target).Accent = accentType;
 
-        // DS14-Languages-end
+        // DS14-end
 
 
         //This is needed for stupid entities that fuck up combat mode component

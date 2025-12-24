@@ -12,6 +12,8 @@ public sealed class EmeraldCategoryTab : Control
 {
     [Dependency] private readonly IResourceCache _resourceCache = default!;
 
+    private const int BaseFontSize = 9;
+
     private Font _font = default!;
     private string _text = "";
     private bool _isActive;
@@ -50,23 +52,33 @@ public sealed class EmeraldCategoryTab : Control
     public EmeraldCategoryTab()
     {
         IoCManager.InjectDependencies(this);
-        UpdateFont();
+        _font = new VectorFont(
+            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
+            BaseFontSize);
         MouseFilter = MouseFilterMode.Stop;
         CanKeyboardFocus = true;
     }
 
-    private void UpdateFont()
-    {
-        _font = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(9 * UIScale));
-    }
-
     protected override Vector2 MeasureOverride(Vector2 availableSize)
     {
-        var textWidth = GetTextWidth(_text);
-        var width = Math.Max(60, textWidth + 16);
-        return new Vector2(width, 28);
+        var textWidth = GetTextWidthLogical(_text);
+        var width = Math.Max(60f, textWidth + 16f);
+        return new Vector2(width, 28f);
+    }
+
+    private float GetTextWidthLogical(string text)
+    {
+        if (string.IsNullOrEmpty(text))
+            return 0f;
+
+        var width = 0f;
+        foreach (var rune in text.EnumerateRunes())
+        {
+            var metrics = _font.GetCharMetrics(rune, 1f);
+            if (metrics.HasValue)
+                width += metrics.Value.Advance;
+        }
+        return width;
     }
 
     private float GetTextWidth(string text)
@@ -77,7 +89,7 @@ public sealed class EmeraldCategoryTab : Control
         var width = 0f;
         foreach (var rune in text.EnumerateRunes())
         {
-            var metrics = _font.GetCharMetrics(rune, 1f);
+            var metrics = _font.GetCharMetrics(rune, UIScale);
             if (metrics.HasValue)
                 width += metrics.Value.Advance;
         }
@@ -93,7 +105,8 @@ public sealed class EmeraldCategoryTab : Control
 
         if (_isActive)
         {
-            var bottomLine = new UIBox2(rect.Left, rect.Bottom - 2, rect.Right, rect.Bottom);
+            var lineHeight = 2f * UIScale;
+            var bottomLine = new UIBox2(rect.Left, rect.Bottom - lineHeight, rect.Right, rect.Bottom);
             handle.DrawRect(bottomLine, _activeColor);
         }
         else
@@ -104,9 +117,9 @@ public sealed class EmeraldCategoryTab : Control
         var textColor = _isActive ? _activeColor : _hovered ? _hoverColor : _normalColor;
         var textWidth = GetTextWidth(_text);
         var textX = (PixelSize.X - textWidth) / 2f;
-        var textY = (PixelSize.Y - _font.GetLineHeight(1f)) / 2f;
+        var textY = (PixelSize.Y - _font.GetLineHeight(UIScale)) / 2f;
 
-        handle.DrawString(_font, new Vector2(textX, textY), _text, 1f, textColor);
+        handle.DrawString(_font, new Vector2(textX, textY), _text, UIScale, textColor);
     }
 
     protected override void MouseEntered()
@@ -137,7 +150,6 @@ public sealed class EmeraldCategoryTab : Control
     protected override void UIScaleChanged()
     {
         base.UIScaleChanged();
-        UpdateFont();
         InvalidateMeasure();
     }
 }

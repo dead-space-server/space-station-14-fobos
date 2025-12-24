@@ -1,5 +1,5 @@
 - type: body
-  name: "Shark"
+  name: "акула"
   id: SharkBody
   root: torso
   slots:

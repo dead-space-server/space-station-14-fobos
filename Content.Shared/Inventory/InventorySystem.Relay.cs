@@ -32,6 +32,7 @@ using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Wieldable;
 using Content.Shared.Zombies;
 using Content.Shared.Corvax.TTS;
+using Content.Shared.Virus;
 
 namespace Content.Shared.Inventory;
 
@@ -87,6 +88,7 @@ public partial class InventorySystem
 
         // DS14-start
         SubscribeLocalEvent<InventoryComponent, TransformSpeakerVoiceEvent>(RelayInventoryEvent); // DS14-voice-mask-tts
+        SubscribeLocalEvent<InventoryComponent, VirusResistanceQueryEvent>(RelayInventoryEvent);
         // DS14-end
 
         // ComponentActivatedClientSystems

@@ -1,0 +1,327 @@
+- type: entity
+  name: disease diagnoser report
+  parent: Paper
+  id: DiagnosisReportPaper
+  description: 'A chilling medical receipt.'
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/bureaucracy.rsi
+    layers:
+    - state: paper_receipt
+    - state: paper_receipt_words
+      map: ["enum.PaperVisualLayers.Writing"]
+      visible: false
+    - state: paper_stamp-generic
+      map: ["enum.PaperVisualLayers.Stamp"]
+      visible: false
+  - type: PaperVisuals
+    backgroundImagePath: "/Textures/Interface/Paper/paper_background_perforated.svg.96dpi.png"
+    headerImagePath: "/Textures/Interface/Paper/paper_heading_virus.svg.96dpi.png"
+    headerMargin: 0.0, 0.0, 0.0, 6.0
+    backgroundImageTile: true
+    backgroundPatchMargin: 0.0, 6.0, 0.0, 6.0
+    contentMargin: 30.0, 0.0, 30.0, 0.0
+    maxWritableArea: 300.0, 0.0
+
+- type: entity
+  id: DiseaseDiagnoser
+  parent: [ BaseMachinePowered, SmallConstructibleMachine ]
+  name: Disease Diagnoser Delta Extreme
+  description: A machine that analyzes disease samples.
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Sprite
+    sprite: Structures/Machines/diagnoser.rsi
+    snapCardinals: true
+    layers:
+    - state: icon
+      map: [machineLayer]
+    - state: unlit
+      map: [terminalLayer]
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.VirusDiagnoserVisuals.Status:
+        machineLayer:
+          Off: {state: "icon"}
+          On: {state: "icon"}
+          Printing: {state: "running"}
+          Scanning: {state: "icon"}
+          Denial: {state: "icon"}
+          Successfully: {state: "icon"}
+          GenerateVirus: {state: "icon"}
+        terminalLayer:
+          Off: {state: "off_unlit", shader: unshaded}
+          On: {state: "unlit", shader: unshaded}
+          Printing: {state: "unlit", shader: unshaded}
+          Scanning: {state: "unlit", shader: unshaded}
+          Denial: {state: "denial_unlit", shader: unshaded}
+          Successfully: {state: "successfully_unlit", shader: unshaded}
+          GenerateVirus: {state: "unlit", shader: unshaded}
+  - type: Machine
+    board: DiagnoserMachineCircuitboard
+  - type: DeviceNetwork
+    deviceNetId: Wired
+    receiveFrequencyId: BasicDevice
+  - type: DeviceLinkSink
+    ports:
+      - VirusDiagnoserReceiver
+  - type: VirusDiagnoser
+  - type: ContainerContainer
+    containers:
+      dna_container_virus_diagnoser: !type:ContainerSlot
+      flask_container_virus_diagnoser: !type:ContainerSlot
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: ItemSlots
+    slots:
+      dna_container_virus_diagnoser:
+        whitelist:
+          tags:
+          - DiagnoserDataCollector
+      flask_container_virus_diagnoser:
+        whitelist:
+          tags:
+          - DiagnoserFlask
+
+- type: entity
+  parent: BaseComputerAiAccess
+  id: ComputerDiagnoserConsole
+  name: консоль диагноста заболеваний
+  description: Центральный элемент системы вирусологии, величайшего достижения медицины. В нём множество портов и проводов.
+  components:
+  - type: DeviceList
+  - type: DeviceNetwork
+    deviceNetId: Wired
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: dna
+    - map: ["computerLayerKeys"]
+      state: generic_keys
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: ApcPowerReceiver
+    powerLoad: 3100
+  - type: Computer
+    board: ComputerDiagnoserConsoleCircuitboard
+  - type: PointLight
+    radius: 1.5
+    energy: 1.6
+    color: "#1f8c28"
+  - type: DeviceLinkSource
+    range: 50
+    ports:
+      - VirusDiagnoserSender
+      - VirusDiagnoserDataServerSender
+      - VirusSolutionAnalyzerSender
+  - type: ActivatableUI
+    key: enum.VirusDiagnoserConsoleUiKey.Key
+  - type: UserInterface
+    interfaces:
+        enum.VirusDiagnoserConsoleUiKey.Key:
+          type: VirusDiagnoserConsoleBoundUserInterface
+  - type: Speech
+    speechVerb: Robotic
+    speechSounds: Pai
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: StructuralMetallicStrong
+  - type: VirusDiagnoserConsole
+  # - type: GuideHelp
+  #   guides:
+  #   - Cloning
+
+- type: entity
+  id: VirusDataServer
+  parent: [ BaseMachinePowered, ConstructibleMachine ]
+  name: сервер данных вирусологии
+  description: Получает и передает информацию об известных вирусах станции.
+  components:
+  - type: Sprite
+    sprite: Structures/Machines/server.rsi
+    snapCardinals: true
+    layers:
+      - state: server-off
+      - state: server-on
+        visible: false
+        map: [ "enum.PowerDeviceVisualLayers.Powered" ]
+      - state: variant-crew
+        color: "#4169E1"
+      - state: server_o
+        map: ["enum.WiresVisualLayers.MaintenancePanel"]
+  - type: DeviceNetwork
+    deviceNetId: Wired
+    receiveFrequencyId: BasicDevice
+  - type: DeviceLinkSink
+    ports:
+      - VirusDiagnoserDataServerReceiver
+  - type: Construction
+    graph: Machine
+    node: machine
+    containers:
+      - machine_board
+      - machine_parts
+  - type: Machine
+    board: ComputerDiagnoserDataServerCircuitboard
+  - type: ContainerContainer
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: ApcPowerReceiver
+    powerLoad: 200
+  - type: ExtensionCableReceiver
+  - type: WiresPanel
+  - type: WiresVisuals
+  - type: Destructible
+    thresholds:
+      - trigger:
+          !type:DamageTrigger
+          damage: 600
+        behaviors:
+          - !type:DoActsBehavior
+            acts: [ "Destruction" ]
+      - trigger:
+          !type:DamageTrigger
+          damage: 300
+        behaviors:
+          - !type:DoActsBehavior
+            acts: ["Destruction"]
+          - !type:PlaySoundBehavior
+            sound:
+              collection: MetalGlassBreak
+          - !type:SpawnEntitiesBehavior
+            spawn:
+              SheetSteel1:
+                min: 1
+                max: 2
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.PowerDeviceVisuals.Powered:
+        enum.PowerDeviceVisualLayers.Powered:
+          True: {visible: true}
+          False: {visible: false}
+  - type: AmbientOnPowered
+  - type: AmbientSound
+    volume: -9
+    range: 5
+    enabled: false
+    sound:
+      path: /Audio/Ambience/Objects/server_fans.ogg
+  # - type: GuideHelp
+  #   guides:
+  #   - Medical
+  - type: VirusDiagnoserDataServer
+
+- type: entity
+  id: VirusSolutionAnalyzer
+  parent: [ BaseMachinePowered, SmallConstructibleMachine ]
+  name: анализатор жидкостей
+  description: Это устройство анализирует ёмкость с жидкостью на наличие вирусных инфекций.
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Virus/solution_analyser.rsi
+    snapCardinals: true
+    layers:
+    - state: icon
+      map: [machineLayer]
+    - state: empty
+      map: [containerLayer]
+    - state: off_unlit
+      map: [terminalLayer]
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.VirusSolutionContainerAnalyzerVisuals.Status:
+        containerLayer:
+          Empty: {state: "empty"}
+          Fill: {state: "fill"}
+      enum.VirusSolutionAnalyzerVisuals.Status:
+        machineLayer:
+          Off: {state: "icon"}
+          Scanning: {state: "icon"}
+          Denial: {state: "icon"}
+          Successfully: {state: "icon"}
+        terminalLayer:
+          Off: {state: "off_unlit", shader: unshaded}
+          On: {state: "on_unlit", shader: unshaded}
+          Scanning: {state: "on_unlit", shader: unshaded}
+          Denial: {state: "denial_unlit", shader: unshaded}
+          Successfully: {state: "successfully_unlit", shader: unshaded}
+  - type: Machine
+    board: VirusSolutionAnalyzerMachineCircuitboard
+  - type: DeviceNetwork
+    deviceNetId: Wired
+    receiveFrequencyId: BasicDevice
+  - type: DeviceLinkSink
+    ports:
+      - VirusSolutionAnalyzerReceiver
+  - type: VirusDiagnoser
+  - type: ContainerContainer
+    containers:
+      flask_container_virus_solution_analyzer: !type:ContainerSlot
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: ItemSlots
+    slots:
+      flask_container_virus_solution_analyzer:
+        whitelist:
+          tags:
+          - DiagnoserFlask
+  - type: VirusSolutionAnalyzer
+
+- type: entity
+  parent: BaseComputerAiAccess
+  id: ComputerVirusEvolutionConsole
+  name: консоль эволюции заболеваний
+  description: Элемент системы вирусологии, для модификации вирусных заболеваний. В нём множество портов и проводов.
+  components:
+  - type: DeviceList
+  - type: DeviceNetwork
+    deviceNetId: Wired
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: dna
+    - map: ["computerLayerKeys"]
+      state: generic_keys
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: ApcPowerReceiver
+    powerLoad: 3100
+  - type: Computer
+    board: ComputerVirusEvolutionConsoleCircuitboard
+  - type: PointLight
+    radius: 1.5
+    energy: 1.6
+    color: "#1f8c28"
+  - type: DeviceLinkSource
+    range: 50
+    ports:
+      - VirusDiagnoserDataServerSender
+      - VirusSolutionAnalyzerSender
+  - type: ActivatableUI
+    key: enum.VirusEvolutionConsoleUiKey.Key
+  - type: UserInterface
+    interfaces:
+        enum.VirusEvolutionConsoleUiKey.Key:
+          type: VirusEvolutionConsoleBoundUserInterface
+  - type: Speech
+    speechVerb: Robotic
+    speechSounds: Pai
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: StructuralMetallicStrong
+  - type: VirusEvolutionConsole

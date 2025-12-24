@@ -11,6 +11,11 @@ public sealed class EmeraldLevelBar : Control
 {
     [Dependency] private readonly IResourceCache _resourceCache = default!;
 
+    private const int BaseFontSize = 11;
+    private const int SmallFontSize = 9;
+    private const float BaseBarHeight = 22f;
+    private const float BasePadding = 8f;
+
     private Font _font = default!;
     private Font _smallFont = default!;
 
@@ -27,11 +32,6 @@ public sealed class EmeraldLevelBar : Control
     private readonly Color _emptyColor = Color.FromHex("#1a0f2e");
     private readonly Color _bgColor = Color.FromHex("#0f0a1e");
     private readonly Color _borderColor = Color.FromHex("#6d5a8a");
-
-    private const float BarHeight = 22f;
-    private const float Padding = 8f;
-    private const int BaseFontSize = 11;
-    private const int SmallFontSize = 9;
 
     public int Level
     {
@@ -86,23 +86,16 @@ public sealed class EmeraldLevelBar : Control
     public EmeraldLevelBar()
     {
         IoCManager.InjectDependencies(this);
-        UpdateFont();
-    }
 
-    private void UpdateFont()
-    {
-        _font = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(BaseFontSize * UIScale));
-        _smallFont = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(SmallFontSize * UIScale));
+        var fontRes = _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf");
+        _font = new VectorFont(fontRes, BaseFontSize);
+        _smallFont = new VectorFont(fontRes, SmallFontSize);
     }
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
     {
         var width = float.IsPositiveInfinity(availableSize.X) ? 200 : availableSize.X;
-        var height = BarHeight + Padding * 2;
+        var height = BaseBarHeight + BasePadding * 2;
         return new Vector2(Math.Max(80, width), height);
     }
 
@@ -112,49 +105,43 @@ public sealed class EmeraldLevelBar : Control
 
         handle.DrawRect(rect, _bgColor.WithAlpha(0.8f));
 
-        var barX = Padding;
-        var barY = Padding;
-        var barWidth = PixelSize.X - Padding * 2;
-        var barRect = new UIBox2(barX, barY, barX + barWidth, barY + BarHeight);
+        var padding = BasePadding * UIScale;
+        var barHeight = BaseBarHeight * UIScale;
+        var barX = padding;
+        var barY = padding;
+        var barWidth = PixelSize.X - padding * 2;
+        var barRect = new UIBox2(barX, barY, barX + barWidth, barY + barHeight);
 
         handle.DrawRect(barRect, _emptyColor.WithAlpha(0.4f));
 
         if (_progress > 0)
         {
             var fillWidth = barWidth * _progress;
-            var fillRect = new UIBox2(barX, barY, barX + fillWidth, barY + BarHeight);
+            var fillRect = new UIBox2(barX, barY, barX + fillWidth, barY + barHeight);
 
-            var glowRect = new UIBox2(barX - 1, barY - 1, barX + fillWidth + 1, barY + BarHeight + 1);
+            var glowOffset = 1f * UIScale;
+            var glowRect = new UIBox2(barX - glowOffset, barY - glowOffset, barX + fillWidth + glowOffset, barY + barHeight + glowOffset);
             handle.DrawRect(glowRect, _fillGlowColor.WithAlpha(0.2f));
 
             handle.DrawRect(fillRect, _fillColor.WithAlpha(0.6f));
 
-            var edgeRect = new UIBox2(barX + fillWidth - 2, barY, barX + fillWidth, barY + BarHeight);
+            var edgeWidth = 2f * UIScale;
+            var edgeRect = new UIBox2(barX + fillWidth - edgeWidth, barY, barX + fillWidth, barY + barHeight);
             handle.DrawRect(edgeRect, _fillColor.WithAlpha(1f));
         }
 
-        DrawBorder(handle, barRect, _borderColor);
-
         var levelText = $"УР {_level}";
-        var levelX = barX + 8f;
-        var levelY = barY + (BarHeight - _font.GetLineHeight(1f)) / 2f;
+        var levelX = barX + 8f * UIScale;
+        var levelY = barY + (barHeight - _font.GetLineHeight(UIScale)) / 2f;
 
-        handle.DrawString(_font, new Vector2(levelX, levelY), levelText, 1f, _levelColor);
+        handle.DrawString(_font, new Vector2(levelX, levelY), levelText, UIScale, _levelColor);
 
         var expText = $"{_experience} / {_requiredExp}";
         var expWidth = GetTextWidth(expText, _smallFont);
-        var expX = barX + barWidth - expWidth - 8f;
-        var expY = barY + (BarHeight - _smallFont.GetLineHeight(1f)) / 2f;
+        var expX = barX + barWidth - expWidth - 8f * UIScale;
+        var expY = barY + (barHeight - _smallFont.GetLineHeight(UIScale)) / 2f;
 
-        handle.DrawString(_smallFont, new Vector2(expX, expY), expText, 1f, _textColor);
-    }
-
-    private void DrawBorder(DrawingHandleScreen handle, UIBox2 rect, Color color)
-    {
-        handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Right, rect.Top + 1), color);
-        handle.DrawRect(new UIBox2(rect.Left, rect.Bottom - 1, rect.Right, rect.Bottom), color);
-        handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Left + 1, rect.Bottom), color);
-        handle.DrawRect(new UIBox2(rect.Right - 1, rect.Top, rect.Right, rect.Bottom), color);
+        handle.DrawString(_smallFont, new Vector2(expX, expY), expText, UIScale, _textColor);
     }
 
     private float GetTextWidth(string text, Font font)
@@ -165,7 +152,7 @@ public sealed class EmeraldLevelBar : Control
         var width = 0f;
         foreach (var rune in text.EnumerateRunes())
         {
-            var metrics = font.GetCharMetrics(rune, 1f);
+            var metrics = font.GetCharMetrics(rune, UIScale);
             if (metrics.HasValue)
                 width += metrics.Value.Advance;
         }
@@ -175,7 +162,6 @@ public sealed class EmeraldLevelBar : Control
     protected override void UIScaleChanged()
     {
         base.UIScaleChanged();
-        UpdateFont();
         InvalidateMeasure();
     }
 }

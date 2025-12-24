@@ -5,16 +5,25 @@
   components:
   - type: Loadout
     prototypes:
-      - HoPGear
-      - ClownGear
-      - MimeGear
-      - JanitorGear
-      - ServiceWorkerGear
-      - MusicianGear
-      - BotanistGear
-      - ChefGear
-      - ChaplainGear
-      - PassengerGear
+    # DS14-start
+    - HoPCorpseGear
+    - ClownCorpseGear
+    - MimeCorpseGear
+    - JanitorCorpseGear
+    - ServiceWorkerCorpseGear
+    - MusicianCorpseGear
+    - BotanistCorpseGear
+    - ChefCorpseGear
+    - ChaplainCorpseGear
+    - PassengerCorpseGear
+    - BartenderCorpseGear
+    - LibrarianCorpseGear
+    - BoxerCorpseGear
+    - ReporterCorpseGear
+    - ZookeeperCorpseGear
+    - SeniorAdministratorCorpseGear
+    - LawyerCorpseGear
+    # DS14-end
 
 - type: entity
   parent: SalvageHumanCorpse
@@ -23,9 +32,13 @@
   components:
   - type: Loadout
     prototypes:
-    - TechnicalAssistantGear
-    - AtmosphericTechnicianGear
-    - StationEngineerGear
+    # DS14-start
+    - TechnicalAssistantCorpseGear
+    - AtmosphericTechnicianCorpseGear
+    - StationEngineerCorpseGear
+    - SeniorEngineerCorpseGear
+    - ChiefEngineerCorpseGear
+    # DS14-end
 
 - type: entity
   parent: SalvageHumanCorpse
@@ -34,8 +47,12 @@
   components:
   - type: Loadout
     prototypes:
-    - CargoTechGear
-    - SalvageSpecialistGear
+    # DS14-start
+    - CargoTechCorpseGear
+    - SalvageSpecialistCorpseGear
+    - SeniorCourierCorpseGear
+    - QuartermasterCorpseGear
+    # DS14-end
 
 - type: entity
   parent: SalvageHumanCorpse
@@ -44,10 +61,16 @@
   components:
   - type: Loadout
     prototypes:
-    - MedicalInternGear
-    - PsychologistGear
-    - ChemistGear
-    - DoctorGear
+    # DS14-start
+    - MedicalInternCorpseGear
+    - PsychologistCorpseGear
+    - ChemistCorpseGear
+    - DoctorCorpseGear
+    - ParamedicCorpseGear
+    - CoronerCorpseGear
+    - SeniorPhysicianCorpseGear
+    - CMOCorpseGear
+    # DS14-end
 
 - type: entity
   parent: SalvageHumanCorpse
@@ -56,8 +79,12 @@
   components:
   - type: Loadout
     prototypes:
-    - ResearchAssistantGear
-    - ScientistGear
+    # DS14-start
+    - ResearchAssistantCorpseGear
+    - ScientistCorpseGear
+    - SeniorResearcherCorpseGear
+    - ResearchDirectorCorpseGear
+    # DS14-end
 
 - type: entity
   parent: SalvageHumanCorpse
@@ -66,10 +93,16 @@
   components:
   - type: Loadout
     prototypes:
-    - SecurityCadetGear
-    - SecurityOfficerGear
-    - DetectiveGear
-    - WardenGear
+    # DS14-start
+    - SecurityCadetCorpseGear
+    - SecurityOfficerCorpseGear
+    - DetectiveCorpseGear
+    - WardenCorpseGear
+    - BrigmedicCorpseGear
+    - SecurityPilotCorpseGear
+    - SeniorOfficerCorpseGear
+    - HoSCorpseGear
+    # DS14-end
 
 - type: entity
   parent: SalvageHumanCorpse
@@ -78,11 +111,14 @@
   components:
   - type: Loadout
     prototypes:
-    - HoPGear
-    - CentcomGear
-    - CaptainGear
-    - HoSGear
-    - ResearchDirectorGear
-    - CMOGear
-    - ChiefEngineerGear
-    - QuartermasterGear
+    # DS14-start
+    - HoPCorpseGear
+    - CaptainCorpseGear
+    - HoSCorpseGear
+    - ResearchDirectorCorpseGear
+    - CMOCorpseGear
+    - ChiefEngineerCorpseGear
+    - QuartermasterCorpseGear
+    - BlueShieldOfficerCorpseGear
+    - IAACorpseGear
+    # DS14-end

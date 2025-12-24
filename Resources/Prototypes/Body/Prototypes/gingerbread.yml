@@ -1,6 +1,6 @@
 ﻿- type: body
   id: Gingerbread
-  name: gingerbread
+  name: "пряничный человек" # DS14
   root: torso
   slots:
     head:

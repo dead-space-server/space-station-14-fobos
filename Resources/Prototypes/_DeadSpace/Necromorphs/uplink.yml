@@ -140,7 +140,7 @@
 - type: entity
   parent: [ BaseItem, StorePresetUplinkUnitology ]
   id: BaseUplinkRadioUnitology
-  name: линия связи юнитологов
+  name: линия связи отряда "Круг"
   description: Подозрительно выглядящее старое радио...
   suffix: Пустое
   components:
@@ -164,7 +164,7 @@
 - type: entity
   parent: BaseUplinkRadioUnitology
   id: UplinkRadioUnitology
-  name: линия связи юнитологов
+  name: линия связи отряда "Круг"
   description: Подозрительно выглядящее старое радио...
   suffix: 10 тк
   components:
@@ -175,7 +175,7 @@
 - type: entity
   parent: BaseUplinkRadioUnitology
   id: UplinkRadioLeaderUnitology
-  name: линия связи юнитологов
+  name: линия связи отряда "Круг"
   description: Подозрительно выглядящее старое радио...
   suffix: 25 тк
   components:
@@ -186,7 +186,7 @@
 - type: entity
   parent: BaseUplinkRadioUnitology
   id: UplinkRadioHeadLeaderUnitology
-  name: линия связи юнитологов
+  name: линия связи отряда "Круг"
   description: Подозрительно выглядящее старое радио...
   suffix: 50 тк
   components:

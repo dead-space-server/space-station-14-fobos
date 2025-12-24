@@ -871,6 +871,50 @@
   - !type:ListingLimitedStockCondition
     stock: 2
 
+- type: listing
+  id: ClothingJumpsuitMachineInventory46
+  productEntity: ClothingUniformJumpsuitHawaiBlue
+  cost:
+    SpaceCash: 20
+  categories:
+  - ClothingJumpsuitMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+- type: listing
+  id: ClothingJumpsuitMachineInventory47
+  productEntity: ClothingUniformJumpsuitHawaiRed
+  cost:
+    SpaceCash: 20
+  categories:
+  - ClothingJumpsuitMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+- type: listing
+  id: ClothingJumpsuitMachineInventory48
+  productEntity: ClothingUniformJumpsuitHawaiBlack
+  cost:
+    SpaceCash: 20
+  categories:
+  - ClothingJumpsuitMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+- type: listing
+  id: ClothingJumpsuitMachineInventory49
+  productEntity: ClothingUniformJumpsuitHawaiYellow
+  cost:
+    SpaceCash: 20
+  categories:
+  - ClothingJumpsuitMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
 # Jumpskirt
 
 - type: listing

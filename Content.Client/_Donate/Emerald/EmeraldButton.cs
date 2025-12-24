@@ -67,22 +67,33 @@ public class EmeraldButton : Control
     {
         IoCManager.InjectDependencies(this);
         MouseFilter = MouseFilterMode.Stop;
-        UpdateFont();
-    }
 
-    private void UpdateFont()
-    {
         _font = new VectorFont(
             _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(BaseFontSize * UIScale));
+            BaseFontSize);
     }
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
     {
-        var textWidth = GetTextWidth(_text.ToUpper());
+        var textWidth = GetTextWidthLogical(_text.ToUpper());
         var paddingX = 16f;
         var paddingY = 10f;
         return new Vector2(textWidth + paddingX * 2, _font.GetLineHeight(1f) + paddingY);
+    }
+
+    private float GetTextWidthLogical(string text)
+    {
+        if (string.IsNullOrEmpty(text))
+            return 0f;
+
+        var width = 0f;
+        foreach (var rune in text.EnumerateRunes())
+        {
+            var metrics = _font.GetCharMetrics(rune, 1f);
+            if (metrics.HasValue)
+                width += metrics.Value.Advance;
+        }
+        return width;
     }
 
     protected override void Draw(DrawingHandleScreen handle)
@@ -99,7 +110,8 @@ public class EmeraldButton : Control
 
         if ((_hovered && !_disabled) || _isActive)
         {
-            var glowRect = new UIBox2(rect.Left - 1, rect.Top - 1, rect.Right + 1, rect.Bottom + 1);
+            var glowOffset = 1f * UIScale;
+            var glowRect = new UIBox2(rect.Left - glowOffset, rect.Top - glowOffset, rect.Right + glowOffset, rect.Bottom + glowOffset);
             var glowColor = _isActive ? _activeColor.WithAlpha(0.5f) : _glowColor;
             DrawBorder(handle, glowRect, glowColor);
         }
@@ -113,9 +125,9 @@ public class EmeraldButton : Control
         var displayText = _text.ToUpper();
         var textWidth = GetTextWidth(displayText);
         var textX = (PixelSize.X - textWidth) / 2f;
-        var textY = (PixelSize.Y - _font.GetLineHeight(1f)) / 2f;
+        var textY = (PixelSize.Y - _font.GetLineHeight(UIScale)) / 2f;
 
-        handle.DrawString(_font, new Vector2(textX, textY), displayText, 1f, color);
+        handle.DrawString(_font, new Vector2(textX, textY), displayText, UIScale, color);
     }
 
     private void DrawBorder(DrawingHandleScreen handle, UIBox2 rect, Color color)
@@ -134,7 +146,7 @@ public class EmeraldButton : Control
         var width = 0f;
         foreach (var rune in text.EnumerateRunes())
         {
-            var metrics = _font.GetCharMetrics(rune, 1f);
+            var metrics = _font.GetCharMetrics(rune, UIScale);
             if (metrics.HasValue)
                 width += metrics.Value.Advance;
         }
@@ -187,7 +199,6 @@ public class EmeraldButton : Control
     protected override void UIScaleChanged()
     {
         base.UIScaleChanged();
-        UpdateFont();
         InvalidateMeasure();
     }
 }
