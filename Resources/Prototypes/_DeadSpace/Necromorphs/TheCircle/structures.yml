@@ -1,0 +1,87 @@
+## Шлюзы
+- type: entity
+  parent: AirlockTaipan
+  id: AirlockUnitologyEngineering
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Structures/airlocks/uni_engnr.rsi
+  - type: Wires
+    layoutId: AirlockEngineering
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsNukeop ]
+
+- type: entity
+  parent: AirlockUnitologyEngineering
+  id: AirlockUnitologyAtmospherics
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Structures/airlocks/uni_atmos.rsi
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsNukeop ]
+
+- type: entity
+  parent: AirlockTaipan
+  id: AirlockUnitologyMedical
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Structures/airlocks/uni_med.rsi
+  - type: Wires
+    layoutId: AirlockMedical
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsNukeop ]
+
+- type: entity
+  parent: AirlockUnitologyMedical
+  id: AirlockUnitologyVirology
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Structures/airlocks/uni_viro.rsi
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsNukeop ]
+
+- type: entity
+  parent: AirlockTaipan
+  id: AirlockUnitologyService
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Structures/airlocks/uni_srv.rsi
+  - type: Wires
+    layoutId: AirlockService
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsNukeop ]
+
+- type: entity
+  parent: AirlockTaipan
+  id: AirlockUnitologyCommand
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Structures/airlocks/uni_cmd.rsi
+  - type: Wires
+    layoutId: AirlockCommand
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsNukeop ]
+
+## Химмастер
+- type: entity
+  id: UnitologyChemMaster
+  parent: ChemMaster
+  name: Х!мМ#ст^р 3500
+  description: Неизвестного происхождения химический манипулятор биологического класса с возможностью производства таблеток и бутылочек, но... Что-то в нём не так.
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Structures/uni_mixer.rsi
+    snapCardinals: true
+    layers:
+    - state: mixer_empty
+    - state: mixer_screens
+  - type: Icon
+    sprite: _DeadSpace/Necromorfs/TheCircle/Structures/uni_mixer.rsi
+    state: mixer_empty

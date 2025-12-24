@@ -71,6 +71,7 @@
         Piercing: 1
     ignoreWhitelist:
       components:
+      - IgnoreKudzu
       - Necromorf
   - type: SpeedModifierContacts
     walkSpeedModifier: 0.2
@@ -78,3 +79,4 @@
     ignoreWhitelist:
       components:
       - Necromorf
+      - IgnoreKudzu
