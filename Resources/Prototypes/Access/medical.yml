@@ -18,18 +18,12 @@
   id: Coroner
   name: id-card-access-level-coroner
 
-# DS14-start
-- type: accessLevel
-  id: Virology
-  name: id-card-access-level-virology
-# DS14-end
-
 - type: accessGroup
   id: Medical
   tags:
   - ChiefMedicalOfficer
   - Medical
   - Chemistry
-  - Paramedic #DS-14
-  - Coroner #DS-14
-  - Virology #DS-14
+  - Paramedic #DS14
+  - Coroner #DS14
+  - Virology #DS14
