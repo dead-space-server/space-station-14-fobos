@@ -41,6 +41,7 @@ using Robust.Shared.ContentPack;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Replays;
 using Robust.Shared.Timing;
+
 namespace Content.Client.Entry
 {
     public sealed class EntryPoint : GameClient
@@ -81,6 +82,7 @@ namespace Content.Client.Entry
         [Dependency] private readonly IEntitySystemManager _entitySystemManager = default!;
         [Dependency] private readonly ClientsidePlaytimeTrackingManager _clientsidePlaytimeManager = default!;
         [Dependency] private readonly ClientJukeboxSongsSyncManager _jukeboxSongsSync = default!;
+        
         public override void PreInit()
         {
             ClientContentIoC.Register(Dependencies);
