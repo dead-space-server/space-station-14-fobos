@@ -1,15 +1,21 @@
 - type: entity
   name: король обезьян
-  parent: [ SimpleMobBase, MobCombat ]
+  parent: [ SimpleMobBase, MobCombat, MobMonkeyKing ]
   id: MobKingGorilla
   description: Мудрый и могущественный правитель, обладающий силой и хитростью. Он ведет свою армию и защищает свои земли, проявляя лидерские качества и стратегический ум. Его присутствие внушает уважение и страх среди врагов.
   components:
+  - type: Body
+    prototype: Primate
+  - type: Tag
+    tags:
+    - CanPilot
+    - CannotSuicide
   - type: Sprite
     drawdepth: Mobs
     layers:
     - map: ["enum.DamageStateVisualLayers.Base"]
       state: crawling
-      sprite: _DeadSpace/MonkeyKing/king.rsi
+      sprite: _DeadSpace/MonkeyKing/alt-king.rsi
   - type: MovementSpeedModifier
     baseWalkSpeed: 5
     baseSprintSpeed: 5
@@ -105,7 +111,7 @@
     spawnedEntities:
       - BigBananaMonkeyKing
   - type: Puller
-    needsHands: false
+    needsHands: true
   - type: NoSlip
   - type: ActionGun
     action: ActionMonkeyKingBanana
@@ -115,6 +121,7 @@
     selectedLanguage: MonkeyLanguage
     knownLanguages: 
     - MonkeyLanguage
+    - GeneralLanguage
   - type: TTS
     voice: Pudge
 

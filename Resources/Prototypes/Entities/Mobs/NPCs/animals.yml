@@ -1516,6 +1516,47 @@
     - MonkeyKingTarget # DS14
   # DS14-end
 
+ #DS14 monkeyking
+- type: entity
+  name: monkeyking
+  id: MobMonkeyKing
+  parent: MobBaseAncestor
+  description: MonkeyKing better than simple monke.
+  components:
+  - type: NameIdentifier
+    group: Monkey
+  - type: Speech
+    speechSounds: Monkey
+    speechVerb: Monkey
+  - type: SentienceTarget
+    flavorKind: station-event-random-sentience-flavor-primate
+  - type: AlwaysRevolutionaryConvertible
+  - type: GhostRole
+    prob: 0.05
+    makeSentient: true
+    name: ghost-role-information-monkey-name
+    description: ghost-role-information-monkey-description
+    rules: ghost-role-information-nonantagonist-rules
+  - type: GhostTakeoverAvailable
+  - type: Clumsy
+    gunShootFailDamage:
+      types:
+        Blunt: 5
+        Piercing: 4
+      groups:
+        Burn: 3
+    catchingFailDamage:
+      types:
+        Blunt: 1
+    clumsySound:
+      path: /Audio/Animals/monkey_scream.ogg
+  # DS14-start
+  - type: Language
+    selectedLanguage: MonkeyLanguage
+    knownLanguages: 
+    - MonkeyLanguage
+  # DS14-end
+
 - type: entity
   name: monkey
   id: MobBaseSyndicateMonkey
