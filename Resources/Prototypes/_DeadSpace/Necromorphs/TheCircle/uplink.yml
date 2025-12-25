@@ -115,7 +115,7 @@
 - type: listing
   id: UniPhoneUplinkWeaponSplinterBlade
   name: Осколочный клинок
-  icon: { sprite: /Uploaded/ex1unitology/weaponry/melee/splinter-blade.rsi, state: icon }
+  icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/melee/splinter-blade.rsi, state: icon }
   description: "Идея вживления в свой организм чего-то инородного, живого, меня крайне пугает... Могу ли я пойти на этот риск ради своего Бога?"
   productEntity: UnitologySplinterBladeImplanter
   cost:

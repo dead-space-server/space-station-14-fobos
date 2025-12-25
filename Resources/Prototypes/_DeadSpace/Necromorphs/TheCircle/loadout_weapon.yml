@@ -11,9 +11,9 @@
     walkModifier: 0.85
     sprintModifier: 0.85
   - type: Sprite
-    sprite: _DeadSpace/Necromorfs/TheCircle/Misc/etc/heavy-case.rsi
+    sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/heavy-case.rsi
   - type: Item
-    sprite: _DeadSpace/Necromorfs/TheCircle/Misc/etc/heavy-case.rsi
+    sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/heavy-case.rsi
     size: Ginormous
     shape:
     - 0,0,8,3

@@ -84,7 +84,7 @@
     - state: mixer_screens
   - type: Icon
     sprite: _DeadSpace/Necromorfs/TheCircle/Structures/uni_mixer.rsi
-    state: 
+    state: mixer_empty
     
 ## Консоль
 - type: entity
@@ -113,7 +113,7 @@
     canShuttle: false
     global: true
     announceSentBy: false
-    sound: /Uploaded/ex1unitology/misc/etc/console-sfx/unitology-alert.ogg
+    sound: /Audio/_DeadSpace/Necromorfs/TheCircle/console-sfx/unitology-alert.ogg
   - type: Computer
     board: SyndicateCommsComputerCircuitboard
   - type: PointLight

@@ -3,11 +3,6 @@
   parent: BaseGameRule
   id: BaseSiegeOfTheCircle
   components:
-  - type: RandomMetadata 
-    nameSegments:
-    - SpawnerUnitologyHeavyFirstName
-    - SpawnerUnitologySecondName
-    nameFormat: name-format-nuclear-operation
   - type: RuleGrids
   - type: AntagSelection
   - type: AntagLoadProfileRule
@@ -31,11 +26,14 @@
       fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterHeavy, CircleFighterLight ]
       spawnerPrototype: SpawnPointCircleCommander
       startingGear: UnitologyCommanderGear
+      roleLoadout:
+        - RoleSurvivalNukie
       components:
       - type: RandomMetadata
         nameSegments:
-        - SpawnerUnitologyHeavyFirstName
-        - SpawnerUnitologySecondName
+        - UnitologyCommanderFirst
+        - UnitologyFighterSecond
+        nameFormat: name-format-nuclear-operation
       - type: NpcFactionMember
         factions:
         - Syndicate
@@ -47,11 +45,14 @@
       fallbackRoles: [ CircleEngineer, CircleCommander, CircleFighterHeavy, CircleFighterLight ]
       spawnerPrototype: SpawnPointCircleMedic
       startingGear: UnitologyMedicGear
+      roleLoadout:
+        - RoleSurvivalNukie
       components:
       - type: RandomMetadata
         nameSegments:
-        - SpawnerUnitologyHeavyFirstName
-        - SpawnerUnitologySecondName
+        - UnitologyMedicFirst
+        - UnitologyFighterSecond
+        nameFormat: name-format-nuclear-operation
       - type: NpcFactionMember
         factions:
         - Syndicate
@@ -61,14 +62,17 @@
     - prefRoles: [ CircleFighterHeavy ]
       fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterLight, CircleCommander ]
       spawnerPrototype: SpawnPointCircleFighterHeavy
+      roleLoadout:
+        - RoleSurvivalNukie
       max: 2
       playerRatio: 12
       startingGear: UnitologyHeavyGear
       components:
       - type: RandomMetadata
         nameSegments:
-        - SpawnerUnitologyHeavyFirstName
-        - SpawnerUnitologySecondName
+        - UnitologyHeavyFirst
+        - UnitologyFighterSecond
+        nameFormat: name-format-nuclear-operation
       - type: NpcFactionMember
         factions:
         - Syndicate
@@ -78,14 +82,17 @@
     - prefRoles: [ CircleFighterLight ]
       fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterHeavy, CircleCommander ]
       spawnerPrototype: SpawnPointCircleFighterLight
+      roleLoadout:
+        - RoleSurvivalNukie
       max: 2
       playerRatio: 12
       startingGear: UnitologyLightGear
       components:
       - type: RandomMetadata
         nameSegments:
-        - SpawnerUnitologyHeavyFirstName
-        - SpawnerUnitologySecondName
+        - UnitologyLightFirst
+        - UnitologyFighterSecond
+        nameFormat: name-format-nuclear-operation
       - type: NpcFactionMember
         factions:
         - Syndicate
@@ -96,11 +103,14 @@
       fallbackRoles: [ CircleFighterLight, CircleMedic, CircleFighterHeavy, CircleCommander ]
       spawnerPrototype: SpawnPointCircleEngineer
       startingGear: UnitologyEngineerGear
+      roleLoadout:
+        - RoleSurvivalNukie
       components:
       - type: RandomMetadata
         nameSegments:
-        - SpawnerUnitologyHeavyFirstName
-        - SpawnerUnitologySecondName
+        - UnitologyEngineerFirst
+        - UnitologyFighterSecond
+        nameFormat: name-format-nuclear-operation
       - type: NpcFactionMember
         factions:
         - Syndicate
