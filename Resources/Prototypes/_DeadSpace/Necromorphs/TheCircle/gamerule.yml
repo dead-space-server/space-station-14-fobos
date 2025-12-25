@@ -1,3 +1,20 @@
+- type: gamePreset
+  id: SiegeOfTheCircle
+  alias:
+    - siegeofthecircle
+  name: thecircle-title
+  description: thecircle-description
+  showInVote: true
+  showInAdminVote: true 
+  voteType: rdm 
+  rules:
+  - WageScheduler 
+  - SiegeOfTheCircle
+  - BasicStationEventScheduler
+  - MeteorSwarmScheduler
+  - SpaceTrafficControlEventScheduler
+  - BasicRoundstartVariation
+
 - type: entity
   abstract: true
   parent: BaseGameRule
@@ -10,6 +27,11 @@
     speciesOverrideBlacklist:
     - Vox
     - IPC
+  - type: RandomMetadata
+    nameSegments:
+    - UnitologyHeavyFirst
+    - UnitologyFighterSecond
+    nameFormat: name-format-nuclear-operation
 
 - type: entity
   parent: BaseSiegeOfTheCircle
@@ -25,9 +47,11 @@
     - prefRoles: [ CircleCommander ]
       fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterHeavy, CircleFighterLight ]
       spawnerPrototype: SpawnPointCircleCommander
-      startingGear: UnitologyCommanderGear
+      startingGear: TheCircleLeaderGear
+      max: 1
+      playerRatio: 12
       roleLoadout:
-        - RoleSurvivalNukie
+        - RoleSurvivalExtended
       components:
       - type: RandomMetadata
         nameSegments:
@@ -44,9 +68,11 @@
     - prefRoles: [ CircleMedic ]
       fallbackRoles: [ CircleEngineer, CircleCommander, CircleFighterHeavy, CircleFighterLight ]
       spawnerPrototype: SpawnPointCircleMedic
-      startingGear: UnitologyMedicGear
+      startingGear: TheCircleMedicGear
+      max: 1
+      playerRatio: 12
       roleLoadout:
-        - RoleSurvivalNukie
+        - RoleSurvivalExtended
       components:
       - type: RandomMetadata
         nameSegments:
@@ -62,11 +88,11 @@
     - prefRoles: [ CircleFighterHeavy ]
       fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterLight, CircleCommander ]
       spawnerPrototype: SpawnPointCircleFighterHeavy
-      roleLoadout:
-        - RoleSurvivalNukie
       max: 2
       playerRatio: 12
-      startingGear: UnitologyHeavyGear
+      startingGear: TheCircleHeavyGear
+      roleLoadout:
+        - RoleSurvivalExtended
       components:
       - type: RandomMetadata
         nameSegments:
@@ -82,11 +108,11 @@
     - prefRoles: [ CircleFighterLight ]
       fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterHeavy, CircleCommander ]
       spawnerPrototype: SpawnPointCircleFighterLight
-      roleLoadout:
-        - RoleSurvivalNukie
       max: 2
       playerRatio: 12
-      startingGear: UnitologyLightGear
+      startingGear: TheCircleLightGear
+      roleLoadout:
+        - RoleSurvivalExtended
       components:
       - type: RandomMetadata
         nameSegments:
@@ -102,9 +128,11 @@
     - prefRoles: [ CircleEngineer ]
       fallbackRoles: [ CircleFighterLight, CircleMedic, CircleFighterHeavy, CircleCommander ]
       spawnerPrototype: SpawnPointCircleEngineer
-      startingGear: UnitologyEngineerGear
+      startingGear: TheCircleEngineerGear
+      max: 1
+      playerRatio: 12
       roleLoadout:
-        - RoleSurvivalNukie
+        - RoleSurvivalExtended
       components:
       - type: RandomMetadata
         nameSegments:

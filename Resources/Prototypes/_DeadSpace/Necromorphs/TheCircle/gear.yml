@@ -237,14 +237,14 @@
   parent: JobIcon
   id: JobIconUnitology
   icon:
-    sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
+    sprite: /Textures/_DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
     state: circle
 
 - type: jobIcon
   parent: JobIcon
   id: JobIconUnitologyLead
   icon:
-    sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
+    sprite: /Textures/_DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
     state: circle_lead
 
 ## РПС

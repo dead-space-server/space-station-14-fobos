@@ -108,7 +108,7 @@
   - type: AccessReader
     access: [[ "NuclearOperative" ]]
   - type: CommunicationsConsole
-    title: Организация Круг
+    title: thecircle-name
     color: "#D70040"
     canShuttle: false
     global: true

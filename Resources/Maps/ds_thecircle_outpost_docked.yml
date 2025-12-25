@@ -1,11 +1,11 @@
 meta:
   format: 7
   category: Map
-  engineVersion: 266.0.0
+  engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 10/26/2025 07:39:48
-  entityCount: 2580
+  time: 12/25/2025 10:17:19
+  entityCount: 2579
 maps:
 - 1
 grids:
@@ -699,78 +699,26 @@ entities:
         - volume: 2500
           temperature: 293.15
           moles:
-          - 21.824879
-          - 82.10312
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
+            Oxygen: 21.824879
+            Nitrogen: 82.10312
         - volume: 2500
           temperature: 293.1495
           moles:
-          - 21.824879
-          - 82.10312
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
+            Oxygen: 21.824879
+            Nitrogen: 82.10312
         - volume: 2500
           temperature: 293.14975
           moles:
-          - 21.824879
-          - 82.10312
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
+            Oxygen: 21.824879
+            Nitrogen: 82.10312
         - volume: 2500
           temperature: 293.15
-          moles:
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
+          moles: {}
         - volume: 2500
           temperature: 293.14975
           moles:
-          - 20.078888
-          - 75.53487
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
+            Oxygen: 20.078888
+            Nitrogen: 75.53487
         chunkSize: 4
     - type: GasTileOverlay
     - type: RadiationGridResistance
@@ -1442,78 +1390,24 @@ entities:
         - volume: 2500
           temperature: 293.15
           moles:
-          - 21.824879
-          - 82.10312
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
+            Oxygen: 21.824879
+            Nitrogen: 82.10312
         - volume: 2500
           immutable: True
-          moles:
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
+          moles: {}
         - volume: 2500
           temperature: 293.14975
           moles:
-          - 21.824879
-          - 82.10312
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
+            Oxygen: 21.824879
+            Nitrogen: 82.10312
         - volume: 2500
           temperature: 293.15
-          moles:
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
+          moles: {}
         - volume: 2500
           temperature: 293.14987
           moles:
-          - 21.824879
-          - 82.10312
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
-          - 0
+            Oxygen: 21.824879
+            Nitrogen: 82.10312
         chunkSize: 4
     - type: GasTileOverlay
     - type: RadiationGridResistance
@@ -7711,18 +7605,8 @@ entities:
         immutable: False
         temperature: 293.14673
         moles:
-        - 1.7459903
-        - 6.568249
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
+          Oxygen: 1.7459903
+          Nitrogen: 6.568249
 - proto: CrowbarRed
   entities:
   - uid: 1527
@@ -7737,51 +7621,6 @@ entities:
     components:
     - type: Transform
       pos: -12.5,14.5
-      parent: 2
-- proto: SpawnPointCircleCommander
-  entities:
-  - uid: 2534
-    components:
-    - type: Transform
-      pos: 1.5,-0.5
-      parent: 2
-- proto: SpawnPointCircleEngineer
-  entities:
-  - uid: 2536
-    components:
-    - type: Transform
-      pos: 3.5,-0.5
-      parent: 2
-- proto: SpawnPointCircleFighterHeavy
-  entities:
-  - uid: 2538
-    components:
-    - type: Transform
-      pos: -0.5,1.5
-      parent: 2
-  - uid: 2539
-    components:
-    - type: Transform
-      pos: 0.5,1.5
-      parent: 2
-- proto: SpawnPointCircleFighterLight
-  entities:
-  - uid: 2540
-    components:
-    - type: Transform
-      pos: 1.5,1.5
-      parent: 2
-  - uid: 2541
-    components:
-    - type: Transform
-      pos: 2.5,1.5
-      parent: 2
-- proto: SpawnPointCircleMedic
-  entities:
-  - uid: 2537
-    components:
-    - type: Transform
-      pos: 2.5,-0.5
       parent: 2
 - proto: CybersunFlippo
   entities:
@@ -12344,12 +12183,16 @@ entities:
       rot: 3.141592653589793 rad
       pos: -1.5,-8.5
       parent: 1534
+    - type: DeltaPressure
+      gridUid: 1534
   - uid: 2078
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: 2.5,-8.5
       parent: 1534
+    - type: DeltaPressure
+      gridUid: 1534
 - proto: ReinforcedUraniumWindow
   entities:
   - uid: 631
@@ -12358,66 +12201,88 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 6.5,4.5
       parent: 2
+    - type: DeltaPressure
+      gridUid: 2
   - uid: 633
     components:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 8.5,6.5
       parent: 2
+    - type: DeltaPressure
+      gridUid: 2
   - uid: 634
     components:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 7.5,12.5
       parent: 2
+    - type: DeltaPressure
+      gridUid: 2
   - uid: 636
     components:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 5.5,13.5
       parent: 2
+    - type: DeltaPressure
+      gridUid: 2
   - uid: 637
     components:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 4.5,13.5
       parent: 2
+    - type: DeltaPressure
+      gridUid: 2
   - uid: 638
     components:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 8.5,9.5
       parent: 2
+    - type: DeltaPressure
+      gridUid: 2
   - uid: 733
     components:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 8.5,10.5
       parent: 2
+    - type: DeltaPressure
+      gridUid: 2
   - uid: 770
     components:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 7.5,11.5
       parent: 2
+    - type: DeltaPressure
+      gridUid: 2
   - uid: 834
     components:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 8.5,5.5
       parent: 2
+    - type: DeltaPressure
+      gridUid: 2
   - uid: 859
     components:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 8.5,8.5
       parent: 2
+    - type: DeltaPressure
+      gridUid: 2
   - uid: 958
     components:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 3.5,13.5
       parent: 2
+    - type: DeltaPressure
+      gridUid: 2
 - proto: Saw
   entities:
   - uid: 798
@@ -13229,6 +13094,43 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -0.6732063,1.4512242
       parent: 1534
+- proto: SpawnPointTheCircleFighter
+  entities:
+  - uid: 959
+    components:
+    - type: Transform
+      pos: 1.5,-0.5
+      parent: 2
+  - uid: 2539
+    components:
+    - type: Transform
+      pos: 0.5,1.5
+      parent: 2
+  - uid: 2541
+    components:
+    - type: Transform
+      pos: 2.5,1.5
+      parent: 2
+  - uid: 2581
+    components:
+    - type: Transform
+      pos: 2.5,-0.5
+      parent: 2
+  - uid: 2582
+    components:
+    - type: Transform
+      pos: 3.5,-0.5
+      parent: 2
+  - uid: 2584
+    components:
+    - type: Transform
+      pos: 1.5,1.5
+      parent: 2
+  - uid: 2586
+    components:
+    - type: Transform
+      pos: -0.5,1.5
+      parent: 2
 - proto: StairStageDark
   entities:
   - uid: 901
@@ -17524,45 +17426,61 @@ entities:
       rot: 3.141592653589793 rad
       pos: -9.5,13.5
       parent: 2
+    - type: DeltaPressure
+      gridUid: 2
   - uid: 833
     components:
     - type: Transform
       pos: -9.5,13.5
       parent: 2
+    - type: DeltaPressure
+      gridUid: 2
   - uid: 1140
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: -2.5,-2.5
       parent: 2
+    - type: DeltaPressure
+      gridUid: 2
   - uid: 1141
     components:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: -2.5,-2.5
       parent: 2
+    - type: DeltaPressure
+      gridUid: 2
   - uid: 2515
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -11.5,-6.5
       parent: 1534
+    - type: DeltaPressure
+      gridUid: 1534
   - uid: 2516
     components:
     - type: Transform
       pos: -11.5,-6.5
       parent: 1534
+    - type: DeltaPressure
+      gridUid: 1534
   - uid: 2517
     components:
     - type: Transform
       pos: 12.5,-6.5
       parent: 1534
+    - type: DeltaPressure
+      gridUid: 1534
   - uid: 2518
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: 12.5,-6.5
       parent: 1534
+    - type: DeltaPressure
+      gridUid: 1534
 - proto: Wrench
   entities:
   - uid: 1003
