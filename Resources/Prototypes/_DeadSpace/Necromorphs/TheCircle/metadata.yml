@@ -1,0 +1,52 @@
+- type: dataset
+  id: SpawnerUnitologyCommanderFirstName
+  values:
+  - Кардинал
+
+- type: dataset
+  id: SpawnerUnitologyHeavyFirstName
+  values:
+  - Диакон
+
+- type: dataset
+  id: SpawnerUnitologyLightFirstName
+  values:
+  - Вестник
+
+- type: dataset
+  id: SpawnerUnitologyEngineerFirstName
+  values:
+  - Зодчий
+
+- type: dataset
+  id: SpawnerUnitologyMedicFirstName
+  values:
+  - Серафим
+
+- type: dataset
+  id: SpawnerUnitologySecondName
+  values:
+  - Феу
+  - Уруз
+  - Турисаз
+  - Ансуз
+  - Райдо
+  - Кано
+  - Гебо
+  - Вуньо
+  - Хагалаз
+  - Наутиз
+  - Иса
+  - Йер
+  - Эйваз
+  - Перт
+  - Альгиз
+  - Соулу
+  - Тейваз
+  - Беркана
+  - Эваз
+  - Манназ
+  - Лагуз
+  - Ингуз
+  - Отал
+  - Дагаз

@@ -1,112 +1,3 @@
-# Айди
-- type: entity
-  parent: CBURNLeaderIDcard
-  id: BSAAIDLeader
-  name: ID карта Лидера АПБТ
-  components:
-  - type: PresetIdCard
-    job: BSAALeaderJob
-
-- type: entity
-  parent: CBURNIDcard
-  id: BSAAIDFighter
-  name: ID карта Бойца АПБТ
-  components:
-  - type: PresetIdCard
-    job: BSAAFighterJob
-
-- type: entity
-  parent: CBURNIDcard
-  id: BSAAIDMedic
-  name: ID карта Медика АПБТ
-  components:
-  - type: PresetIdCard
-    job: BSAAMedicJob
-
-# КПК
-- type: entity
-  parent: CBURNLeaderPDA
-  id: BSAALeaderPDA
-  name: КПК Лидера АПБТ
-  suffix: лидер
-  description: "Боевой образец КПК с предустановленным MedTek"
-  components:
-  - type: Pda
-    id: BSAAIDLeader
-
-- type: entity
-  parent: CBURNPDA
-  id: BSAAFighterPDA
-  name: КПК Бойца АПБТ
-  suffix: боец
-  description: "Боевой образец КПК с предустановленным MedTek"
-  components:
-  - type: Pda
-    id: BSAAIDFighter
-
-- type: entity
-  parent: CBURNPDA
-  id: BSAAMedicPDA
-  name: КПК Медика АПБТ
-  suffix: медик
-  description: "Боевой образец КПК с предустановленным MedTek"
-  components:
-  - type: Pda
-    id: BSAAIDMedic
-
-# Джобка
-
-- type: job
-  id: BSAAFighterJob
-  name: Боец АПБТ
-  description: "Штурмовая единица альянса повышенной эффективности КСО"
-  playTimeTracker: JobBSAA
-  setPreference: false
-  icon: "JobIconNanotrasen"
-  supervisors: "Лидеру АПБТ"
-  canBeAntag: false
-  accessGroups:
-  - AllAccess
-  access:
-  - CentralCommand
-
-- type: job
-  id: BSAALeaderJob
-  name: Лидер АПБТ
-  description: "Командир альянса повышенной эффективности КСО"
-  playTimeTracker: JobBSAALeader
-  setPreference: false
-  icon: "JobIconERTLeader"
-  supervisors: "ОСО"
-  canBeAntag: false
-  accessGroups:
-  - AllAccess
-  access:
-  - CentralCommand
-
-- type: job
-  id: BSAAMedicJob
-  name: Медик АПБТ
-  description: "Полевой спаситель альянса повышенной эффективности КСО"
-  playTimeTracker: JobBSAAMedic
-  setPreference: false
-  icon: "JobIconNanotrasen"
-  supervisors: "Лидеру АПБТ"
-  canBeAntag: false
-  accessGroups:
-  - AllAccess
-  access:
-  - CentralCommand
-
-- type: playTimeTracker
-  id: JobBSAA
-
-- type: playTimeTracker
-  id: JobBSAALeader
-  
-- type: playTimeTracker
-  id: JobBSAAMedic
-
 # Гир наборы спавнов
 - type: startingGear
   id: BSAALeaderGear
@@ -248,7 +139,7 @@
       state: cburn
   - type: RandomSpawner
     prototypes:
-    - RandomHumanoidSpawnerBSAALeader
+    - RandomHumanoidSpawnerBSAAFighter
 
 - type: entity
   id: RandomHumanoidSpawnerBSAAMedic
@@ -273,7 +164,7 @@
       state: cburn
   - type: RandomSpawner
     prototypes:
-    - RandomHumanoidSpawnerBSAALeader
+    - RandomHumanoidSpawnerBSAAMedic
 
 # Настройки спавна
 - type: randomHumanoidSettings

@@ -1,0 +1,390 @@
+- type: antag
+  id: CircleFighterLight
+  name: roles-antag-nuclear-operative-name
+  antagonist: true
+  setPreference: true
+  objective: roles-antag-nuclear-operative-objective
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 30h
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 60h
+  # guides: [ NuclearOperatives ] # DS14: disabled due to lack of localization
+
+- type: antag
+  id: CircleFighterHeavy
+  name: roles-antag-nuclear-operative-name
+  antagonist: true
+  setPreference: true
+  objective: roles-antag-nuclear-operative-objective
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 30h
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 60h
+
+- type: antag
+  id: CircleMedic
+  name: roles-antag-nuclear-operative-agent-name
+  antagonist: true
+  setPreference: true
+  objective: roles-antag-nuclear-operative-agent-objective
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 60h
+    - !type:RoleTimeRequirement
+      role: JobChemist
+      time: 40h
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 30h
+  # guides: [ NuclearOperatives ] # DS14: disabled due to lack of localization
+
+- type: antag
+  id: CircleEngineer
+  name: roles-antag-nuclear-operative-name
+  antagonist: true
+  setPreference: true
+  objective: roles-antag-nuclear-operative-agent-objective
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 20h
+    - !type:RoleTimeRequirement
+      role: JobAtmosphericTechnician
+      time: 40h
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 40h
+
+- type: antag
+  id: CircleCommander
+  name: roles-antag-nuclear-operative-commander-name
+  antagonist: true
+  setPreference: true
+  objective: roles-antag-nuclear-operative-commander-objective
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 40h
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 60h
+    - !type:RoleTimeRequirement
+      role: JobAtmosphericTechnician
+      time: 20h
+    - !type:RoleTimeRequirement
+      role: JobChemist
+      time: 30h
+    - !type:DepartmentTimeRequirement
+      department: Command
+      time: 35h
+  # should be changed to nukie playtime when thats tracked (wyci)
+  # guides: [ NuclearOperatives ] # DS14: disabled due to lack of localization
+
+- type: startingGear
+  id: UnitologyCommanderGear
+  equipment:
+    pocket1: UniPhoneUplink
+    jumpsuit: ClothingUniformJumpsuitUnitology
+    back: ClothingBackpackUnitologyFilled
+    belt: ClothingBeltUnitologyCommanderWebbing
+    shoes: ADTClothingFootWrapsBlack
+    eyes: ClothingEyesHudUnitologyVisor
+    gloves: ClothingHandsGlovesCombatUnitology
+    mask: ClothingMaskGasUnitology
+    outerClothing: ClothingOuterHardsuitUnitologyCommander
+    # neck:
+    id: UnitologyCommanderPDA
+
+- type: startingGear
+  id: UnitologyHeavyGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitUnitology
+    back: ClothingBackpackUnitologyFilled
+    belt: ClothingBeltUnitologyHeavyWebbing
+    shoes: ADTClothingFootWrapsBlack
+    eyes: ClothingEyesHudUnitologyVisor
+    gloves: ClothingHandsGlovesCombatUnitology
+    mask: ClothingMaskGasUnitology
+    # outerClothing:
+    neck: ClothingNeckUnitologyHeavyMantle
+    id: UnitologyHeavyPDA
+
+- type: startingGear
+  id: UnitologyLightGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitUnitology
+    back: ClothingBackpackUnitologyFilled
+    belt: ClothingBeltUnitologyLightWebbing
+    shoes: ADTClothingFootWrapsBlack
+    eyes: ClothingEyesHudUnitologyVisor
+    gloves: ClothingHandsGlovesCombatUnitology
+    mask: ClothingMaskGasUnitology
+    # outerClothing:
+    # neck:
+    id: UnitologyLightPDA
+
+- type: startingGear
+  id: UnitologyEngineerGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitUnitology
+    back: ClothingBackpackUnitologyEngineerFilled
+    belt: ClothingBeltUnitologyEngineerWebbing
+    shoes: ADTClothingFootWrapsBlack
+    eyes: ClothingEyesHudUnitologyVisor
+    gloves: ClothingHandsGlovesCombatUnitology
+    mask: ClothingMaskGasUnitology
+    # outerClothing:
+    # neck:
+    id: UnitologyEngineerPDA
+
+- type: startingGear
+  id: UnitologyMedicGear
+  equipment:
+    pocket1: UnitologyMedicHypospray
+    jumpsuit: ClothingUniformJumpsuitUnitology
+    back: ClothingBackpackUnitologyFilled
+    belt: ClothingBeltUnitologyMedicWebbing
+    shoes: ADTClothingFootWrapsBlack
+    eyes: ClothingEyesHudUnitologyVisor
+    gloves: ClothingHandsGlovesCombatUnitology
+    mask: ClothingMaskGasUnitology
+    # outerClothing:
+    # neck:
+    id: UnitologyMedicPDA
+
+- type: entity
+  categories: [ HideSpawnMenu ]
+  name: Nuclear Operative
+  parent: MobHuman
+  id: MobHumanCircleFighter
+  components:
+  - type: RandomHumanoidAppearance
+
+- type: entity
+  parent: BaseMindRoleAntag
+  id: MindRoleCircleFighterLight
+  name: роль бойцов Круга
+  components:
+  - type: MindRole
+    roleType: TeamAntagonist
+    subtype: role-subtype-nukie
+    exclusiveAntag: true
+    antagPrototype: CircleFighterLight
+
+- type: entity
+  parent: BaseMindRoleAntag
+  id: MindRoleCircleFighterHeavy
+  name: роль бойцов Круга
+  components:
+  - type: MindRole
+    roleType: TeamAntagonist
+    subtype: role-subtype-nukie
+    exclusiveAntag: true
+    antagPrototype: CircleFighterHeavy
+
+- type: entity
+  parent: BaseMindRoleAntag
+  id: MindRoleCircleMedic
+  name: роль бойцов Круга
+  components:
+  - type: MindRole
+    roleType: TeamAntagonist
+    subtype: role-subtype-nukie
+    exclusiveAntag: true
+    antagPrototype: CircleMedic
+
+- type: entity
+  parent: BaseMindRoleAntag
+  id: MindRoleCircleEngineer
+  name: роль бойцов Круга
+  components:
+  - type: MindRole
+    roleType: TeamAntagonist
+    subtype: role-subtype-nukie
+    exclusiveAntag: true
+    antagPrototype: CircleEngineer
+
+- type: entity
+  parent: BaseMindRoleAntag
+  id: MindRoleCircleCommander
+  name: роль бойцов Круга
+  components:
+  - type: MindRole
+    roleType: TeamAntagonist
+    subtype: role-subtype-nukie
+    exclusiveAntag: true
+    antagPrototype: CircleCommander
+
+- type: entity
+  categories: [ HideSpawnMenu, Spawner ]
+  id: BaseSpawnPointGhostCircle
+  name: ghost role spawn point
+  suffix: Круг
+  parent: MarkerBase
+  components:
+  - type: GhostRole
+    rules: ghost-role-information-rules-default-team-antagonist
+    mindRoles:
+    - MindRoleCircleFighterLight
+    requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 36000 
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 
+    raffle:
+      settings: default
+  - type: GhostRoleMobSpawner
+    prototype: MobHumanCircleFighter
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    layers:
+      - state: green
+
+- type: entity
+  categories: [ HideSpawnMenu, Spawner ]
+  parent: BaseSpawnPointGhostCircle
+  id: SpawnPointCircleCommander
+  components:
+  - type: GhostRole
+    name: roles-antag-nuclear-operative-commander-name
+    description: roles-antag-nuclear-operative-commander-objective
+    rules: ghost-role-information-rules-default-team-antagonist
+    mindRoles:
+    - MindRoleCircleCommander
+    requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 108000 # 30 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 # 20 hours
+    - !type:DepartmentTimeRequirement
+      department: Command
+      time: 72000 # 20 hours
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    layers:
+      - state: green
+      - sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
+        state: commander
+
+- type: entity
+  categories: [ HideSpawnMenu, Spawner ]
+  parent: BaseSpawnPointGhostCircle
+  id: SpawnPointCircleFighterLight
+  components:
+  - type: GhostRole
+    name: roles-antag-nuclear-operative-commander-name
+    description: roles-antag-nuclear-operative-commander-objective
+    rules: ghost-role-information-rules-default-team-antagonist
+    mindRoles:
+    - MindRoleCircleFighterLight
+    requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 108000 # 30 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 # 20 hours
+    - !type:DepartmentTimeRequirement
+      department: Command
+      time: 72000 # 20 hours
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    layers:
+      - state: green
+      - sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
+        state: light
+
+- type: entity
+  categories: [ HideSpawnMenu, Spawner ]
+  parent: BaseSpawnPointGhostCircle
+  id: SpawnPointCircleFighterHeavy
+  components:
+  - type: GhostRole
+    name: roles-antag-nuclear-operative-commander-name
+    description: roles-antag-nuclear-operative-commander-objective
+    rules: ghost-role-information-rules-default-team-antagonist
+    mindRoles:
+    - MindRoleCircleFighterHeavy
+    requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 108000 # 30 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 # 20 hours
+    - !type:DepartmentTimeRequirement
+      department: Command
+      time: 72000 # 20 hours
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    layers:
+      - state: green
+      - sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
+        state: heavy
+
+- type: entity
+  categories: [ HideSpawnMenu, Spawner ]
+  parent: BaseSpawnPointGhostCircle
+  id: SpawnPointCircleMedic
+  components:
+  - type: GhostRole
+    name: roles-antag-nuclear-operative-commander-name
+    description: roles-antag-nuclear-operative-commander-objective
+    rules: ghost-role-information-rules-default-team-antagonist
+    mindRoles:
+    - MindRoleCircleMedic
+    requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 108000 # 30 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 # 20 hours
+    - !type:DepartmentTimeRequirement
+      department: Command
+      time: 72000 # 20 hours
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    layers:
+      - state: green
+      - sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
+        state: medic
+
+- type: entity
+  categories: [ HideSpawnMenu, Spawner ]
+  parent: BaseSpawnPointGhostCircle
+  id: SpawnPointCircleEngineer
+  components:
+  - type: GhostRole
+    name: roles-antag-nuclear-operative-commander-name
+    description: roles-antag-nuclear-operative-commander-objective
+    rules: ghost-role-information-rules-default-team-antagonist
+    mindRoles:
+    - MindRoleCircleEngineer
+    requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 108000 # 30 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 # 20 hours
+    - !type:DepartmentTimeRequirement
+      department: Command
+      time: 72000 # 20 hours
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    layers:
+      - state: green
+      - sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
+        state: engineer

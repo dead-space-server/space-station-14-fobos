@@ -120,7 +120,6 @@
   id: MagRifleZastaba
   name: ZASTABA 30 GEN M4
   description:
-  suffix: ex1stenz, Ивент
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeRifleZastaba
@@ -411,7 +410,7 @@
 ### Магазины
 - type: entity
   id: MagazineRifleSCARAB
-  name: SCARAB POLYMAG 40 GEN2
+  name: SCARAB POLYMAG 30 GEN2
   parent: BaseMagazineRifle
   components:
   - type: BallisticAmmoProvider

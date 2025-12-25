@@ -1,0 +1,111 @@
+- type: entity
+  abstract: true
+  parent: BaseGameRule
+  id: BaseSiegeOfTheCircle
+  components:
+  - type: RandomMetadata 
+    nameSegments:
+    - SpawnerUnitologyHeavyFirstName
+    - SpawnerUnitologySecondName
+    nameFormat: name-format-nuclear-operation
+  - type: RuleGrids
+  - type: AntagSelection
+  - type: AntagLoadProfileRule
+    speciesOverride: Human
+    speciesOverrideBlacklist:
+    - Vox
+    - IPC
+
+- type: entity
+  parent: BaseSiegeOfTheCircle
+  id: SiegeOfTheCircle
+  components:
+  - type: GameRule
+    minPlayers: 75
+  - type: LoadMapRule
+    mapPath: /Maps/ds_thecircle_outpost_docked.yml
+  - type: AntagSelection
+    selectionTime: PrePlayerSpawn
+    definitions:
+    - prefRoles: [ CircleCommander ]
+      fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterHeavy, CircleFighterLight ]
+      spawnerPrototype: SpawnPointCircleCommander
+      startingGear: UnitologyCommanderGear
+      components:
+      - type: RandomMetadata
+        nameSegments:
+        - SpawnerUnitologyHeavyFirstName
+        - SpawnerUnitologySecondName
+      - type: NpcFactionMember
+        factions:
+        - Syndicate
+        - Necromorfs
+      mindRoles:
+      - MindRoleCircleCommander
+      sponsorsPriority: true
+    - prefRoles: [ CircleMedic ]
+      fallbackRoles: [ CircleEngineer, CircleCommander, CircleFighterHeavy, CircleFighterLight ]
+      spawnerPrototype: SpawnPointCircleMedic
+      startingGear: UnitologyMedicGear
+      components:
+      - type: RandomMetadata
+        nameSegments:
+        - SpawnerUnitologyHeavyFirstName
+        - SpawnerUnitologySecondName
+      - type: NpcFactionMember
+        factions:
+        - Syndicate
+        - Necromorfs
+      mindRoles:
+      - MindRoleCircleMedic
+    - prefRoles: [ CircleFighterHeavy ]
+      fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterLight, CircleCommander ]
+      spawnerPrototype: SpawnPointCircleFighterHeavy
+      max: 2
+      playerRatio: 12
+      startingGear: UnitologyHeavyGear
+      components:
+      - type: RandomMetadata
+        nameSegments:
+        - SpawnerUnitologyHeavyFirstName
+        - SpawnerUnitologySecondName
+      - type: NpcFactionMember
+        factions:
+        - Syndicate
+        - Necromorfs
+      mindRoles:
+      - MindRoleCircleFighterHeavy
+    - prefRoles: [ CircleFighterLight ]
+      fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterHeavy, CircleCommander ]
+      spawnerPrototype: SpawnPointCircleFighterLight
+      max: 2
+      playerRatio: 12
+      startingGear: UnitologyLightGear
+      components:
+      - type: RandomMetadata
+        nameSegments:
+        - SpawnerUnitologyHeavyFirstName
+        - SpawnerUnitologySecondName
+      - type: NpcFactionMember
+        factions:
+        - Syndicate
+        - Necromorfs
+      mindRoles:
+      - MindRoleCircleFighterLight
+    - prefRoles: [ CircleEngineer ]
+      fallbackRoles: [ CircleFighterLight, CircleMedic, CircleFighterHeavy, CircleCommander ]
+      spawnerPrototype: SpawnPointCircleEngineer
+      startingGear: UnitologyEngineerGear
+      components:
+      - type: RandomMetadata
+        nameSegments:
+        - SpawnerUnitologyHeavyFirstName
+        - SpawnerUnitologySecondName
+      - type: NpcFactionMember
+        factions:
+        - Syndicate
+        - Necromorfs
+      mindRoles:
+      - MindRoleCircleEngineer
+  - type: DynamicRuleCost
+    cost: 200

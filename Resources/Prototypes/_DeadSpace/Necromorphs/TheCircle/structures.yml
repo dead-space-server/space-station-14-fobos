@@ -84,4 +84,39 @@
     - state: mixer_screens
   - type: Icon
     sprite: _DeadSpace/Necromorfs/TheCircle/Structures/uni_mixer.rsi
-    state: mixer_empty
+    state: 
+    
+## Консоль
+- type: entity
+  parent: ComputerComms
+  id: UnitologyComputerComms
+  name: консоль связи Церкви Юнитологии
+  description: Эта штука заставит станцию трепещась от страха
+  components:
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: comm_syndie
+    - map: ["computerLayerKeys"]
+      state: syndie_key
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: AccessReader
+    access: [[ "NuclearOperative" ]]
+  - type: CommunicationsConsole
+    title: Организация Круг
+    color: "#D70040"
+    canShuttle: false
+    global: true
+    announceSentBy: false
+    sound: /Uploaded/ex1unitology/misc/etc/console-sfx/unitology-alert.ogg
+  - type: Computer
+    board: SyndicateCommsComputerCircuitboard
+  - type: PointLight
+    radius: 1.5
+    energy: 1.6
+    color: "#D70040"

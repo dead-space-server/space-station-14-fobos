@@ -20,7 +20,6 @@
     - type: Flash
     - type: LimitedCharges
       maxCharges: 2
-      charges: 2
     - type: AutoRecharge
       rechargeDuration: 30
     - type: Blocking
@@ -66,7 +65,7 @@
     availableModes:
     - FullAuto
     soundGunshot:
-      path: /Uploaded/ex1unitology/BSAA/weapons/saiga12/shot/saiga-shot.ogg
+      path: /Audio/_DeadSpace/Necromorfs/BSAA/weapons/saiga12/shot/saiga-shot.ogg
     soundEmpty:
       path: /Audio/Weapons/Guns/Empty/empty.ogg
   - type: ItemSlots
@@ -242,7 +241,7 @@
   - type: Gun
     fireRate: 7
     soundGunshot:
-      path: /Uploaded/ex1unitology/BSAA/weapons/veresk/shot/veresk.ogg
+      path: /Audio/_DeadSpace/Necromorfs/BSAA/weapons/veresk/shot/veresk.ogg
   - type: ItemSlots
     slots:
       gun_magazine:
@@ -355,7 +354,7 @@
     shotsPerBurst: 2
     burstCooldown: 0.25
     soundGunshot:
-      path: /Uploaded/ex1unitology/BSAA/weapons/abakan/shot/abakan.ogg
+      path: /Audio/_DeadSpace/Necromorfs/BSAA/weapons/abakan/shot/abakan.ogg
   - type: ItemSlots
     slots:
       gun_magazine:
