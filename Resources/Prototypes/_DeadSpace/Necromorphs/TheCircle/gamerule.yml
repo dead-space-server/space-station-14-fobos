@@ -22,6 +22,7 @@
   components:
   - type: RuleGrids
   - type: AntagSelection
+  - type: UnitologyRule
   - type: AntagLoadProfileRule
     speciesOverride: Human
     speciesOverrideBlacklist:
@@ -40,7 +41,7 @@
   - type: GameRule
     minPlayers: 75
   - type: LoadMapRule
-    mapPath: /Maps/ds_thecircle_outpost_docked.yml
+    mapPath: /Maps/Nonstations/ds_thecircle_outpost_docked.yml
   - type: AntagSelection
     selectionTime: PrePlayerSpawn
     definitions:
@@ -50,9 +51,24 @@
       startingGear: TheCircleLeaderGear
       max: 1
       playerRatio: 12
+      briefing:
+        text: uni-head-role-greeting
+        color: CornflowerBlue
+        sound: "/Audio/_DeadSpace/Necromorfs/unitolog_start.ogg"
       roleLoadout:
         - RoleSurvivalExtended
       components:
+      - type: IntrinsicRadioTransmitter
+        channels:
+        - Unitolog
+      - type: ActiveRadio
+        channels:
+        - Unitolog
+      - type: IntrinsicRadioReceiver
+      - type: Unitology
+      - type: UnitologyHead
+      - type: ImmunNecroobelisk
+      - type: IgnoreKudzu
       - type: RandomMetadata
         nameSegments:
         - UnitologyCommanderFirst
@@ -71,9 +87,23 @@
       startingGear: TheCircleMedicGear
       max: 1
       playerRatio: 12
+      briefing:
+        text: uni-head-role-greeting
+        color: CornflowerBlue
+        sound: "/Audio/_DeadSpace/Necromorfs/unitolog_start.ogg"
       roleLoadout:
         - RoleSurvivalExtended
       components:
+      - type: IntrinsicRadioTransmitter
+        channels:
+        - Unitolog
+      - type: ActiveRadio
+        channels:
+        - Unitolog
+      - type: IntrinsicRadioReceiver
+      - type: Unitology
+      - type: ImmunNecroobelisk
+      - type: IgnoreKudzu
       - type: RandomMetadata
         nameSegments:
         - UnitologyMedicFirst
@@ -85,6 +115,7 @@
         - Necromorfs
       mindRoles:
       - MindRoleCircleMedic
+      sponsorsPriority: true
     - prefRoles: [ CircleFighterHeavy ]
       fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterLight, CircleCommander ]
       spawnerPrototype: SpawnPointCircleFighterHeavy
@@ -93,7 +124,21 @@
       startingGear: TheCircleHeavyGear
       roleLoadout:
         - RoleSurvivalExtended
+      briefing:
+        text: uni-head-role-greeting
+        color: CornflowerBlue
+        sound: "/Audio/_DeadSpace/Necromorfs/unitolog_start.ogg"
       components:
+      - type: IntrinsicRadioTransmitter
+        channels:
+        - Unitolog
+      - type: ActiveRadio
+        channels:
+        - Unitolog
+      - type: IntrinsicRadioReceiver
+      - type: Unitology
+      - type: ImmunNecroobelisk
+      - type: IgnoreKudzu
       - type: RandomMetadata
         nameSegments:
         - UnitologyHeavyFirst
@@ -113,7 +158,21 @@
       startingGear: TheCircleLightGear
       roleLoadout:
         - RoleSurvivalExtended
+      briefing:
+        text: uni-head-role-greeting
+        color: CornflowerBlue
+        sound: "/Audio/_DeadSpace/Necromorfs/unitolog_start.ogg"
       components:
+      - type: IntrinsicRadioTransmitter
+        channels:
+        - Unitolog
+      - type: ActiveRadio
+        channels:
+        - Unitolog
+      - type: IntrinsicRadioReceiver
+      - type: Unitology
+      - type: ImmunNecroobelisk
+      - type: IgnoreKudzu
       - type: RandomMetadata
         nameSegments:
         - UnitologyLightFirst
@@ -133,7 +192,21 @@
       playerRatio: 12
       roleLoadout:
         - RoleSurvivalExtended
+      briefing:
+        text: uni-head-role-greeting
+        color: CornflowerBlue
+        sound: "/Audio/_DeadSpace/Necromorfs/unitolog_start.ogg"
       components:
+      - type: IntrinsicRadioTransmitter
+        channels:
+        - Unitolog
+      - type: ActiveRadio
+        channels:
+        - Unitolog
+      - type: IntrinsicRadioReceiver
+      - type: Unitology
+      - type: ImmunNecroobelisk
+      - type: IgnoreKudzu
       - type: RandomMetadata
         nameSegments:
         - UnitologyEngineerFirst

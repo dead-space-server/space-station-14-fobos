@@ -1,0 +1,50 @@
+- type: entity
+  parent: BaseMindRoleAntag
+  id: MindRoleBaseCircleFighters
+  name: роль бойцов Круга
+  components:
+  - type: MindRole
+    roleType: TeamAntagonist
+    exclusiveAntag: true
+    subtype: role-subtype-circle
+  - type: UnitologyRole
+
+- type: entity
+  parent: MindRoleBaseCircleFighters
+  id: MindRoleCircleFighterLight
+  name: роль бойцов Круга
+  components:
+  - type: MindRole
+    antagPrototype: CircleFighterLight
+
+- type: entity
+  parent: MindRoleBaseCircleFighters
+  id: MindRoleCircleFighterHeavy
+  name: роль бойцов Круга
+  components:
+  - type: MindRole
+    antagPrototype: CircleFighterHeavy
+
+- type: entity
+  parent: MindRoleBaseCircleFighters
+  id: MindRoleCircleMedic
+  name: роль бойцов Круга
+  components:
+  - type: MindRole
+    antagPrototype: CircleMedic
+
+- type: entity
+  parent: MindRoleBaseCircleFighters
+  id: MindRoleCircleEngineer
+  name: роль бойцов Круга
+  components:
+  - type: MindRole
+    antagPrototype: CircleEngineer
+
+- type: entity
+  parent: MindRoleBaseCircleFighters
+  id: MindRoleCircleCommander
+  name: роль бойцов Круга
+  components:
+  - type: MindRole
+    antagPrototype: CircleCommander
