@@ -94,14 +94,6 @@
       roleLoadout:
         - RoleSurvivalExtended
       components:
-      - type: IntrinsicRadioTransmitter
-        channels:
-        - Unitolog
-      - type: ActiveRadio
-        channels:
-        - Unitolog
-      - type: IntrinsicRadioReceiver
-      - type: Unitology
       - type: ImmunNecroobelisk
       - type: IgnoreKudzu
       - type: RandomMetadata
@@ -129,14 +121,6 @@
         color: CornflowerBlue
         sound: "/Audio/_DeadSpace/Necromorfs/unitolog_start.ogg"
       components:
-      - type: IntrinsicRadioTransmitter
-        channels:
-        - Unitolog
-      - type: ActiveRadio
-        channels:
-        - Unitolog
-      - type: IntrinsicRadioReceiver
-      - type: Unitology
       - type: ImmunNecroobelisk
       - type: IgnoreKudzu
       - type: RandomMetadata
@@ -163,14 +147,6 @@
         color: CornflowerBlue
         sound: "/Audio/_DeadSpace/Necromorfs/unitolog_start.ogg"
       components:
-      - type: IntrinsicRadioTransmitter
-        channels:
-        - Unitolog
-      - type: ActiveRadio
-        channels:
-        - Unitolog
-      - type: IntrinsicRadioReceiver
-      - type: Unitology
       - type: ImmunNecroobelisk
       - type: IgnoreKudzu
       - type: RandomMetadata
@@ -197,14 +173,6 @@
         color: CornflowerBlue
         sound: "/Audio/_DeadSpace/Necromorfs/unitolog_start.ogg"
       components:
-      - type: IntrinsicRadioTransmitter
-        channels:
-        - Unitolog
-      - type: ActiveRadio
-        channels:
-        - Unitolog
-      - type: IntrinsicRadioReceiver
-      - type: Unitology
       - type: ImmunNecroobelisk
       - type: IgnoreKudzu
       - type: RandomMetadata
