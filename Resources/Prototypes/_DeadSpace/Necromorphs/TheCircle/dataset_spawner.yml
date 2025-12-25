@@ -227,7 +227,7 @@
   id: BaseSpawnPointGhostCircle
   name: ghost role spawn point
   suffix: Круг
-  parent: MarkerBase
+  parent: BaseAntagSpawner
   components:
   - type: GhostRole
     rules: ghost-role-information-rules-default-team-antagonist
@@ -242,8 +242,6 @@
       time: 72000 
     raffle:
       settings: default
-  - type: GhostRoleMobSpawner
-    prototype: MobHumanCircleFighter
   - type: Sprite
     sprite: Markers/jobs.rsi
     layers:
