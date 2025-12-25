@@ -246,6 +246,10 @@
     sprite: Markers/jobs.rsi
     layers:
       - state: green
+  - type: Unitology
+  - type: ImmunNecroobelisk
+  - type: IgnoreKudzu
+
 
 - type: entity
   categories: [ HideSpawnMenu, Spawner ]
@@ -274,6 +278,7 @@
       - state: green
       - sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
         state: commander
+  - type: UnitologyHead
 
 - type: entity
   categories: [ HideSpawnMenu, Spawner ]
