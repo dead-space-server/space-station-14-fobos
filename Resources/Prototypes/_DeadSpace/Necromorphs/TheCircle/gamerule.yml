@@ -52,9 +52,9 @@
       max: 1
       playerRatio: 12
       briefing:
-        text: uni-head-role-greeting
+        text: roles-antag-thecircle-commander-start
         color: CornflowerBlue
-        sound: "/Audio/_DeadSpace/Necromorfs/unitolog_start.ogg"
+        sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
       roleLoadout:
         - RoleSurvivalExtended
       components:
@@ -66,7 +66,6 @@
         - Unitolog
       - type: IntrinsicRadioReceiver
       - type: Unitology
-      - type: UnitologyHead
       - type: ImmunNecroobelisk
       - type: IgnoreKudzu
       - type: RandomMetadata
@@ -88,12 +87,20 @@
       max: 1
       playerRatio: 12
       briefing:
-        text: uni-head-role-greeting
+        text: roles-antag-thecircle-medic-start
         color: CornflowerBlue
-        sound: "/Audio/_DeadSpace/Necromorfs/unitolog_start.ogg"
+        sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
       roleLoadout:
         - RoleSurvivalExtended
       components:
+      - type: IntrinsicRadioTransmitter
+        channels:
+        - Unitolog
+      - type: ActiveRadio
+        channels:
+        - Unitolog
+      - type: IntrinsicRadioReceiver
+      - type: Unitology
       - type: ImmunNecroobelisk
       - type: IgnoreKudzu
       - type: RandomMetadata
@@ -117,10 +124,18 @@
       roleLoadout:
         - RoleSurvivalExtended
       briefing:
-        text: uni-head-role-greeting
+        text: roles-antag-thecircle-heavy-start
         color: CornflowerBlue
-        sound: "/Audio/_DeadSpace/Necromorfs/unitolog_start.ogg"
+        sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
       components:
+      - type: IntrinsicRadioTransmitter
+        channels:
+        - Unitolog
+      - type: ActiveRadio
+        channels:
+        - Unitolog
+      - type: IntrinsicRadioReceiver
+      - type: Unitology
       - type: ImmunNecroobelisk
       - type: IgnoreKudzu
       - type: RandomMetadata
@@ -143,10 +158,18 @@
       roleLoadout:
         - RoleSurvivalExtended
       briefing:
-        text: uni-head-role-greeting
+        text: roles-antag-thecircle-light-start
         color: CornflowerBlue
-        sound: "/Audio/_DeadSpace/Necromorfs/unitolog_start.ogg"
+        sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
       components:
+      - type: IntrinsicRadioTransmitter
+        channels:
+        - Unitolog
+      - type: ActiveRadio
+        channels:
+        - Unitolog
+      - type: IntrinsicRadioReceiver
+      - type: Unitology
       - type: ImmunNecroobelisk
       - type: IgnoreKudzu
       - type: RandomMetadata
@@ -169,10 +192,18 @@
       roleLoadout:
         - RoleSurvivalExtended
       briefing:
-        text: uni-head-role-greeting
+        text: roles-antag-thecircle-engineer-start
         color: CornflowerBlue
-        sound: "/Audio/_DeadSpace/Necromorfs/unitolog_start.ogg"
+        sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
       components:
+      - type: IntrinsicRadioTransmitter
+        channels:
+        - Unitolog
+      - type: ActiveRadio
+        channels:
+        - Unitolog
+      - type: IntrinsicRadioReceiver
+      - type: Unitology
       - type: ImmunNecroobelisk
       - type: IgnoreKudzu
       - type: RandomMetadata

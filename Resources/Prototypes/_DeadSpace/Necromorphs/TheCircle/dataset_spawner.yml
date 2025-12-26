@@ -50,13 +50,19 @@
     requirements:
     - !type:DepartmentTimeRequirement
       department: Medical
-      time: 108000 # 30 hours
+      time: 144000 # 40 hours
     - !type:DepartmentTimeRequirement
       department: Security
-      time: 72000 # 20 hours
+      time: 234000 # 65 hours
     - !type:DepartmentTimeRequirement
       department: Command
-      time: 72000 # 20 hours
+      time: 126000 # 35 hours
+    - !type:RoleTimeRequirement
+      role: JobChemist
+      time: 126000 # 35 hours
+    - !type:RoleTimeRequirement
+      role: JobAtmosphericTechnician
+      time: 90000 # 25 hours
   - type: Sprite
     sprite: Markers/jobs.rsi
     layers:
@@ -81,10 +87,7 @@
       time: 108000 # 30 hours
     - !type:DepartmentTimeRequirement
       department: Security
-      time: 72000 # 20 hours
-    - !type:DepartmentTimeRequirement
-      department: Command
-      time: 72000 # 20 hours
+      time: 216000 # 60 hours
   - type: Sprite
     sprite: Markers/jobs.rsi
     layers:
@@ -109,10 +112,7 @@
       time: 108000 # 30 hours
     - !type:DepartmentTimeRequirement
       department: Security
-      time: 72000 # 20 hours
-    - !type:DepartmentTimeRequirement
-      department: Command
-      time: 72000 # 20 hours
+      time: 216000 # 60 hours
   - type: Sprite
     sprite: Markers/jobs.rsi
     layers:
@@ -134,13 +134,13 @@
     requirements:
     - !type:DepartmentTimeRequirement
       department: Medical
-      time: 108000 # 30 hours
+      time: 216000 # 60 hours
     - !type:DepartmentTimeRequirement
       department: Security
-      time: 72000 # 20 hours
-    - !type:DepartmentTimeRequirement
-      department: Command
-      time: 72000 # 20 hours
+      time: 108000 # 30 hours
+    - !type:RoleTimeRequirement
+      role: JobChemist
+      time: 162000 # 45 hours
   - type: Sprite
     sprite: Markers/jobs.rsi
     layers:
@@ -162,13 +162,16 @@
     requirements:
     - !type:DepartmentTimeRequirement
       department: Medical
-      time: 108000 # 30 hours
+      time: 54000 # 15 hours
     - !type:DepartmentTimeRequirement
       department: Security
-      time: 72000 # 20 hours
+      time: 90000 # 25 hours
+    - !type:RoleTimeRequirement
+      role: JobAtmosphericTechnician
+      time: 144000 # 40 hours
     - !type:DepartmentTimeRequirement
-      department: Command
-      time: 72000 # 20 hours
+      department: Engineering
+      time: 216000 # 60 hours
   - type: Sprite
     sprite: Markers/jobs.rsi
     layers:

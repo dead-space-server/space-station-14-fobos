@@ -38,7 +38,7 @@
       time: 60h
     - !type:RoleTimeRequirement
       role: JobChemist
-      time: 40h
+      time: 45h
     - !type:DepartmentTimeRequirement
       department: Security
       time: 30h
@@ -52,13 +52,16 @@
   requirements:
     - !type:DepartmentTimeRequirement
       department: Medical
-      time: 20h
+      time: 15h
+    - !type:DepartmentTimeRequirement
+      department: Engineering
+      time: 60h
     - !type:RoleTimeRequirement
       role: JobAtmosphericTechnician
       time: 40h
     - !type:DepartmentTimeRequirement
       department: Security
-      time: 40h
+      time: 25h
 
 - type: antag
   id: CircleCommander
@@ -72,13 +75,13 @@
       time: 40h
     - !type:DepartmentTimeRequirement
       department: Security
-      time: 60h
+      time: 65h
     - !type:RoleTimeRequirement
       role: JobAtmosphericTechnician
-      time: 20h
+      time: 25h
     - !type:RoleTimeRequirement
       role: JobChemist
-      time: 30h
+      time: 35h
     - !type:DepartmentTimeRequirement
       department: Command
       time: 35h
@@ -119,6 +122,7 @@
   parent: TheCircleBaseGear
   id: TheCircleEngineerGear
   equipment:
+    back: ClothingBackpackUnitologyEngineerFilled
     belt: ClothingBeltUnitologyEngineerWebbing
     id: UnitologyEngineerPDA
 
