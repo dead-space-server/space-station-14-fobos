@@ -28,21 +28,113 @@
   color: "#c1b8ff"
   metabolisms:
     Medicine:
-      metabolismRate: 1.2
+      metabolismRate: 0.8
       effects:
       - !type:EvenHealthChange
         damage:
-          Burn: -3.5
-          Toxin: -3.5
-          Airloss: -3.5
-          Brute: -3.5
+          Burn: -4.5
+          Toxin: -4.5
+          Airloss: -4.5
+          Brute: -4.5
       - !type:HealthChange
         conditions:
         - !type:ReagentThreshold
-          min: 11
+          min: 16
         damage:
           types:
-            Cellular: 3.5
+            Cellular: 3
+
+- type: reagent
+  id: Punturil
+  name: reagent-name-punturil
+  group: Medicine
+  desc: reagent-desc-punturil
+  physicalDesc: reagent-physical-desc-fizzy
+  flavor: fizzy
+  color: "#c27676"
+  metabolisms:
+    Medicine:
+      metabolismRate: 0.55
+      effects:
+      - !type:ModifyBleedAmount
+        amount: -1
+      - !type:HealthChange
+        damage:
+          types:
+            Piercing: -5.3
+            Slash: -1.2
+      - !type:HealthChange
+        conditions:
+        - !type:ReagentThreshold
+          min: 6
+        damage:
+          types:
+            Cellular: 2 
+
+- type: reagent
+  id: Ferratid
+  name: reagent-name-ferratid
+  group: Medicine
+  desc: reagent-desc-ferratid
+  physicalDesc: reagent-physical-desc-translucent
+  flavor: medicine
+  color: "#064457"
+  metabolisms:
+    Medicine:
+      effects:
+      - !type:HealthChange
+        damage:
+          types:
+            Heat: -6
+      - !type:HealthChange
+        conditions:
+        - !type:ReagentThreshold
+          min: 6
+        damage:
+          types:
+            Cellular: 2.5
+
+- type: reagent
+  id: Depotojil
+  name: reagent-name-depotojil
+  group: Narcotics
+  desc: reagent-desc-depotojil
+  physicalDesc: reagent-physical-desc-translucent
+  contrabandSeverity: Major
+  flavor: bitter
+  color: "#FAFAFA"
+  metabolisms:
+    Narcotic:
+      metabolismRate: 0.42
+      effects:
+      - !type:MovespeedModifier
+        walkSpeedModifier: 1.45
+        sprintSpeedModifier: 1.45
+      - !type:GenericStatusEffect
+        key: Stutter
+        component: StutteringAccent
+      - !type:Jitter
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectStunned
+        time: 3
+        type: Remove
+      - !type:ModifyKnockdown
+        time: 3
+        type: Remove
+      - !type:ModifyStatusEffect
+        conditions:
+        - !type:ReagentThreshold
+          reagent: Haloperidol
+          max: 0.01
+        effectProto: StatusEffectDrowsiness
+        time: 10
+        type: Remove
+    Medicine:
+      effects:
+      - !type:ResetNarcolepsy
+        conditions:
+        - !type:ReagentThreshold
+          min: 5
 
 - type: reaction
   id: Ferotohil
@@ -55,4 +147,107 @@
       amount: 1
       catalyst: true
   products:
-    Ferotohil: 2.5
+    Ferotohil: 1.5
+
+- type: reaction
+  id: Ferratid
+  reactants:
+    Dermaline:
+      amount: 1.3
+    Pyrazine:
+      amount: 1.3
+    ExtractInfectorMedical:
+      amount: 0.4
+  products:
+    Ferratid: 2
+
+- type: reaction
+  id: Punturil
+  reactants:
+    Puncturase:
+      amount: 1.5
+    ExtractInfectorMedical:
+      amount: 1
+    TranexamicAcid:
+      amount: 0.5    
+  products:
+    Punturil: 2.8
+
+- type: reaction
+  id: Depotojil
+  reactants:
+    Ephedrine:
+      amount: 1
+    ExtractInfectorMedical:
+      amount: 1.5
+    Phenylacetone:
+      amount: 1.5
+  products:
+    Depotojil: 3
+
+- type: entity
+  id: ExtractInfectorMedicalVial
+  parent: BaseChemistryEmptyVial
+  suffix: очищенный экстракт заразителя
+  components:
+  - type: Label
+    currentLabel: reagent-name-vestine
+  - type: SolutionContainerManager
+    solutions:
+      beaker:
+        maxVol: 25
+        reagents:
+        - ReagentId: ExtractInfectorMedical
+          Quantity: 25
+  - type: Tag
+    tags: []
+
+- type: entity
+  parent: [BoxVial, BaseSyndicateContraband]
+  id: ExtractInfectorMedicalKit
+  name: набор очищеного экстракт заразителя
+  description: Важный набор для твоего медика Круга. Кстати, скажи спасибо своему медику, ему будет приятно.
+  components:
+  - type: Storage
+    grid:
+    - 0,0,3,2
+  - type: StorageFill
+    contents:
+    - id: Beaker
+      amount: 2
+    - id: TheCircleMedicPaper
+    - id: ClothingEyesGlassesChemical
+    - id: ExtractInfectorMedicalVial
+      amount: 5
+
+- type: entity
+  parent: Paper
+  id: TheCircleMedicPaper
+  name: инструкция варки для медика Круга
+  description: Лист бумаги где указаны пропорции варки новых химикатов и их способы использование.
+  components:
+  - type: Paper
+    content: paper-medic-circle
+
+- type: entity
+  parent: Jug
+  id: JugTheCircle
+  name: крепкий кувшин
+  description: крепкий кувшин что вмещает чуть больше чем обычный кувшин, имее меньший размер. Специально сделан для бойцов Круга.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/jug.rsi
+      layers:
+        - state: jug
+        - state: jug1
+          map: [ "enum.SolutionContainerLayers.Fill" ]
+          visible: false
+    - type: Item
+      shape:
+      - 0,0,2,1
+      size: Large 
+      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/jug.rsi
+    - type: SolutionContainerManager
+      solutions:
+        beaker:
+          maxVol: 300
