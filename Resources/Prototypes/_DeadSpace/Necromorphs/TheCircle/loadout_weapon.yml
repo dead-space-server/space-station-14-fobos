@@ -130,5 +130,5 @@
         amount: 2
       - id: MagRifleZastaba
         amount: 2
-      - id: ADTBaseExtMagazineRifle
+      - id: ADTExtMagazineRifle
         amount: 2
