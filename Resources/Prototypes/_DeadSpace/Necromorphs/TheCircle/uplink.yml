@@ -69,13 +69,35 @@
    - UniPhoneUplinkWeaponry
 
 - type: listing
+  id: UniPhoneUplinkWeaponVSK
+  name: VSK-94
+  icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/vsk/big.rsi, state: icon }
+  description: Точный винторез, что заточен под дальний бой и сбивание позиции врагов, нежели тупого штурма. Используйет свой калибр 9х39.
+  productEntity: WeaponCaseHeavyFilledVSK
+  cost:
+    Telecrystal: 15
+  categories:
+   - UniPhoneUplinkWeaponry
+
+- type: listing
+  id: UniPhoneUplinkWeaponRifleAsVal
+  name: АС "Вал"
+  icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/asval/asval.rsi, state: icon }
+  description: Бесшумный автомат, используется в ан-... Террористических операциях. Да, точно не украдено у СССП.
+  productEntity: WeaponCaseHeavyFilledVAL
+  cost:
+    Telecrystal: 14
+  categories:
+   - UniPhoneUplinkWeaponry
+
+- type: listing
   id: UniPhoneUplinkWeaponRPL20
   name: РПЛ 20
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/rpl20/rpl20.rsi, state: icon }
   description: Пулемет предназначен для поражения живой силы, огневых и небронированных транспортных средств противника.
   productEntity: WeaponCaseHeavyFilledRPL20
   cost:
-    Telecrystal: 18
+    Telecrystal: 21
   categories:
    - UniPhoneUplinkWeaponry
 
@@ -165,6 +187,39 @@
   productEntity: MagazineASh12
   cost:
     Telecrystal: 2
+  categories:
+   - UniPhoneUplinkAmmo
+
+- type: listing
+  id: UniPhoneUplinkMagazineLightRifleAsVal
+  name: магазин для АС "Вал" (7.62х39 мм винтовочные)
+  icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/asval/mag.rsi, state: base }
+  description: Вмещает всего 20 патронов.
+  productEntity: MagazineLightRifleAsVal
+  cost:
+    Telecrystal: 2
+  categories:
+   - UniPhoneUplinkAmmo
+
+- type: listing
+  id: UniPhoneUplinkMagazineVSK
+  name: магазин от VSK-94 (9х39 мм)
+  icon: { sprite: Objects/Weapons/Guns/Ammunition/Magazine/Rifle/rifle_mag.rsi, state: base }
+  description: Вмещает всего 22 патронов калибра 9х39, для VSK.
+  productEntity: MagazineVSK
+  cost:
+    Telecrystal: 2
+  categories:
+   - UniPhoneUplinkAmmo
+
+- type: listing
+  id: UniPhoneUplinkFilledAmmo
+  name: Ящик с каждым типом патрона
+  icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/heavy-case.rsi, state: icon }
+  description: Ящик с каждым типом патрона внутри. Удобно брать его оптом.
+  productEntity: WeaponCaseHeavyFilledAmmo
+  cost:
+    Telecrystal: 15
   categories:
    - UniPhoneUplinkAmmo
 

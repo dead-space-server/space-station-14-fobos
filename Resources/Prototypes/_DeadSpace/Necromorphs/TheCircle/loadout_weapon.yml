@@ -99,3 +99,23 @@
       - id: WeaponRifleAsVal
       - id: MagazineLightRifleAsVal
         amount: 4
+
+- type: entity
+  parent: WeaponCaseHeavy
+  id: WeaponCaseHeavyFilledAmmo
+  suffix: Патроны, Круг
+  components:
+  - type: StorageFill
+    contents:
+      - id: MagazineLightRifleAsVal
+        amount: 3
+      - id: MagazineVSK
+        amount: 3
+      - id: MagazineASh12
+        amount: 2
+      - id: MagazineRPL20
+        amount: 2
+      - id: MagazineRifleSCARAB
+        amount: 2
+      - id: MagRifleZastaba
+        amount: 2

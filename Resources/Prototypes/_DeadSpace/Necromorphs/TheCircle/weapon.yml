@@ -440,7 +440,7 @@
   name: VSK-94
   id: WeaponVSK
   parent: BaseWeaponRifle
-  description: Тут должно быть ну ахуеть какое крутое описания от ex1stence, но я ему не кидал на правку ещё
+  description: Точный винторез, что заточен под дальний бой и сбивание позиции врагов, нежели тупого штурма.
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/vsk/big.rsi
@@ -505,7 +505,7 @@
 
 - type: entity
   id: MagazineVSK
-  name: Магазин от VSK-94
+  name: магазин от VSK-94
   parent: MagazinePistolSubMachineGun
   components:
   - type: Tag
@@ -536,7 +536,7 @@
   name: АС "Вал"
   parent: [BaseWeaponRifle, BaseSecurityContraband]
   id: WeaponRifleAsVal
-  description: Бесшумный автомат, используется в антитеррористических операциях.
+  description: Бесшумный автомат, используется в ан-... Террористических операциях. Да, точно не украдено у СССП.
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/asval/asval.rsi
