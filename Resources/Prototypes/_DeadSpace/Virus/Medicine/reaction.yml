@@ -2,9 +2,11 @@
   id: Bacterizine
   minTemp: 420
   reactants:
-    Ethylredoxrazine:
+    Saline:
       amount: 1
-    Bruizine:
+    Potassium:
+      amount: 1
+    Water:
       amount: 1
   products:
     Bacterizine: 2
@@ -15,22 +17,20 @@
   reactants:
     Dylovene:
       amount: 1
-    Nitrogen:
-      amount: 1
-    Lipolicide:
+    Bacterizine:
       amount: 1
   products:
-    Mycocline: 3
+    Mycocline: 2
 
 - type: reaction
   id: Virucidine
   minTemp: 420
   reactants:
-    Lacerinol:
+    Silver:
       amount: 1
     Bacterizine:
       amount: 1
-    Sigynate:
+    Mannitol:
       amount: 1
   products:
     Virucidine: 3
@@ -39,11 +39,37 @@
   id: Panacemycin
   minTemp: 420
   reactants:
-    Psicodine:
+    Virucidine:
       amount: 1
-    Ethylredoxrazine:
+    Mycocline:
       amount: 1
     Bacterizine:
       amount: 1
   products:
-    Panacemycin: 3
+    Panacemycin: 1
+
+- type: reaction
+  id: Septomycin
+  minTemp: 420
+  reactants:
+    PotassiumIodide:
+      amount: 1
+    Bacterizine:
+      amount: 1
+    Saline:
+      amount: 1
+  products:
+    Septomycin: 1
+
+- type: reaction
+  id: Necrovir
+  minTemp: 420
+  reactants:
+    Necrosol:
+      amount: 1
+    Haloperidol:
+      amount: 1
+    Lipolicide:
+      amount: 1
+  products:
+    Necrovir: 3
