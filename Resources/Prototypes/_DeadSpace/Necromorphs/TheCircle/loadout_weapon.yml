@@ -97,7 +97,7 @@
   - type: StorageFill
     contents:
       - id: WeaponRifleXC67
-      - id: ADTBaseExtMagazineRifle
+      - id: ADTExtMagazineRifle
         amount: 2
 
 - type: entity

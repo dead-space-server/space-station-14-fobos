@@ -179,6 +179,16 @@
 
 ### Боеприпасы
 - type: listing
+  id: UniPhoneUplinkADTExtMagazineRifle
+  name: магазин от XC67
+  icon: { sprite: _ADT/Objects/Weapons/Guns/Ammunition/Magazine/ext_rifle_mag.rsi, state: base }
+  productEntity: ADTExtMagazineRifle
+  cost:
+    Telecrystal: 2
+  categories:
+   - UniPhoneUplinkAmmo
+
+- type: listing
   id: UniPhoneUplinkMagZastaba
   name: ZASTABA 30 GEN M4
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/zastaba/zastaba-mag.rsi, state: base }
