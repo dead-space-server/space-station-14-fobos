@@ -45,14 +45,6 @@ public sealed partial class MiscTab : Control
             backgroundEntries.Add(new OptionDropDownCVar<string>.ValueOption(background.ToString()!, Loc.GetString($"ui-options-hud-background-{background.ToString()!.ToLower()}")));
         }
 
-        // DS14-start
-        var sounds = _prototypeManager.EnumeratePrototypes<SoundForPing>().ToList(); 
-        var soundPingEntries = new List<OptionDropDownCVar<string>.ValueOption>();
-        foreach (var sound in sounds)
-        {
-            soundPingEntries.Add(new OptionDropDownCVar<string>.ValueOption(sound.Path, sound.Name));
-        }
-        // DS14-end
         // Channel can be null in replays so.
         // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
         ShowOocPatronColor.Visible = _playerManager.LocalSession?.Channel?.UserData.PatronTier is { };
@@ -70,16 +62,6 @@ public sealed partial class MiscTab : Control
         Control.AddOptionCheckBox(CCVars.ChatEnableFancyBubbles, FancySpeechBubblesCheckBox);
         Control.AddOptionCheckBox(CCVars.ChatFancyNameBackground, FancyNameBackgroundsCheckBox);
         Control.AddOptionCheckBox(CCVars.StaticStorageUI, StaticStorageUI);
-        // DS14-start
-        Control.AddOptionCheckBox(CCCCVars.SysNotifyPerm, GetPingPermission);
-        Control.AddOptionDropDown(CCCCVars.SysNotifySoundPath, DropDownSoundPing, soundPingEntries);
-
-        Control.AddOptionSlider(
-            CCCCVars.SysNotifyCoolDown,
-            SliderCooldownForPing,
-            0,
-            10);
-        // DS14-end
 
         Control.Initialize();
     }

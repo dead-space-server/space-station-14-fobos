@@ -8,9 +8,13 @@
             <Label Text="{Loc 'ui-options-tab-ping'}"
                    StyleClasses="LabelKeyText"/>
             <Button Name="SaveButton" Text="{Loc 'ui-options-save-button'}" />
+            <ui:OptionSlider Name="SliderCooldownForPing" Title="{Loc 'ui-options-cooldown-ping'}" 
+                Margin="0 0 0 8" />
+            <CheckBox Name="GetPingPermission" Text="{Loc 'ui-options-ping-permission'}" /> 
+            <ui:OptionDropDown Name="DropDownSoundPing" Title="{Loc 'ui-options-sound-ping'}" />  
             <LineEdit Name="SearchBar" PlaceHolder="Поиск" HorizontalExpand="True" Margin="0 4" />
             <ScrollContainer Name="ScrollContainer" VerticalExpand="True">
-                <BoxContainer Name="PingsCont" Orientation="Vertical" Margin="0 3 0 0">
+                <BoxContainer Name="PingsCont" Orientation="Vertical" Margin="0 3 0 0">  
                     <!-- Keybind buttons are added here in the C# code -->
                 </BoxContainer>
             </ScrollContainer>

@@ -71,6 +71,19 @@ public sealed partial class PingTab : Control
         {
             AddCheckBox(helper, proto.Name, proto.ID, helper.GetValueAccess(proto.ID));
         }
+        var sounds = prototypeManager.EnumeratePrototypes<SoundForPing>();
+        var soundPingEntries = new List<OptionDropDownCVar<string>.ValueOption>();
+        foreach (var sound in sounds)
+        {
+            soundPingEntries.Add(new OptionDropDownCVar<string>.ValueOption(sound.Path, sound.Name));
+        }
+        Control.AddOptionCheckBox(CCCCVars.SysNotifyPerm, GetPingPermission);
+        Control.AddOptionDropDown(CCCCVars.SysNotifySoundPath, DropDownSoundPing, soundPingEntries);
+        Control.AddOptionSlider(
+            CCCCVars.SysNotifyCoolDown,
+            SliderCooldownForPing,
+            0,
+            10);
         SearchBar.OnTextChanged += OnSearchTextChanged;
         Control.Initialize();
     }
