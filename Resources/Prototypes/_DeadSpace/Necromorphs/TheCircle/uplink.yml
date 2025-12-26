@@ -219,7 +219,7 @@
   description: Ящик с каждым типом патрона внутри. Удобно брать его оптом.
   productEntity: WeaponCaseHeavyFilledAmmo
   cost:
-    Telecrystal: 15
+    Telecrystal: 10
   categories:
    - UniPhoneUplinkAmmo
 
@@ -231,27 +231,6 @@
   productEntity: UnitologyRegularHypospray
   cost:
     Telecrystal: 6
-  categories:
-   - UniPhoneUplinkMedical
-
-- type: listing
-  id: UniPhoneUplinkSyndieShaker
-  name: Синди-шейкер
-  description: Помогли, откуда не ждали. Спасибо спонсорам.
-  icon: { sprite: _DeadSpace/Objects/Consumable/Drinks/syndie_shaker.rsi, state: base }
-  productEntity: DrinkShakerSyndie
-  cost:
-    Telecrystal: 2
-  categories:
-   - UniPhoneUplinkMedical
-
-- type: listing
-  id: UniPhoneUplinkCigPack
-  name: Пачка трав Интердайн
-  icon: { sprite: Objects/Consumable/Smokeables/Cigarettes/Packs/syndicate.rsi, state: closed }
-  productEntity: CigPackSyndicate
-  cost:
-    Telecrystal: 2
   categories:
    - UniPhoneUplinkMedical
 
@@ -280,8 +259,9 @@
   name: Боевой медипен
   icon: { sprite: "Objects/Specific/Medical/medipen.rsi", state: morphen }
   productEntity: CombatMedipen
+  description: Все средства ушли на оружие-...
   cost:
-    Telecrystal: 2
+    Telecrystal: 8
   categories:
    - UniPhoneUplinkMedical
 

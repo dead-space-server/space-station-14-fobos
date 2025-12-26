@@ -1,0 +1,58 @@
+- type: reagent
+  id: ExtractInfectorMedical
+  name: reagent-name-extractinfectormedical
+  group: Toxins
+  desc: reagent-desc-extractinfectormedical
+  physicalDesc: reagent-physical-desc-thick
+  color: "#d88fff"
+  metabolisms:
+    Poison:
+      metabolismRate: 0.2
+      effects:
+      - !type:HealthChange
+        damage:
+          types:
+            Poison: 3
+      - !type:CauseInfectionDead
+        conditions:
+          - !type:ReagentThreshold
+            min: 15
+
+- type: reagent
+  id: Ferotohil
+  name: reagent-name-ferotohil
+  group: Medicine
+  desc: reagent-desc-ferotohil
+  physicalDesc: reagent-physical-desc-soothing
+  flavor: medicine
+  color: "#c1b8ff"
+  metabolisms:
+    Medicine:
+      metabolismRate: 1.2
+      effects:
+      - !type:EvenHealthChange
+        damage:
+          Burn: -3.5
+          Toxin: -3.5
+          Airloss: -3.5
+          Brute: -3.5
+      - !type:HealthChange
+        conditions:
+        - !type:ReagentThreshold
+          min: 11
+        damage:
+          types:
+            Cellular: 3.5
+
+- type: reaction
+  id: Ferotohil
+  reactants:
+    Tricordrazine:
+      amount: 1
+    ExtractInfectorMedical:
+      amount: 1
+    Blood:
+      amount: 1
+      catalyst: true
+  products:
+    Ferotohil: 2.5
