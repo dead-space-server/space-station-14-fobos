@@ -1,7 +1,7 @@
 {
     "version": 1,
     "license": "CC-BY-SA-3.0",
-    "copyright": "Sprites made by Princess Cheeseballs (Discord), (https://github.com/Pronana).",
+    "copyright": "Sprites made by mutemaid for Space Station 14 server Мёртвый Космос",
     "size": {
         "x": 32,
         "y": 32
@@ -28,7 +28,13 @@
             "name": "locked"
         },
         {
-            "name": "priority"
+            "name": "priority",
+            "delays": [
+                [
+                    0.125,
+                    0.125
+                ]
+            ]
         },
         {
             "name": "priority_inactive"
@@ -46,12 +52,6 @@
             "name": "bomb_unshaded",
             "delays": [
                 [
-                    0.125,
-                    0.125,
-                    0.125,
-                    0.125,
-                    0.125,
-                    0.125,
                     0.125,
                     0.125
                 ]
