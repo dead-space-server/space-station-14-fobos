@@ -169,7 +169,7 @@
     ExtractInfectorMedical:
       amount: 1
     TranexamicAcid:
-      amount: 0.5    
+      amount: 0.5
   products:
     Punturil: 3
 
