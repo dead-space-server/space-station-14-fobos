@@ -1,6 +1,5 @@
 - type: reaction
   id: Bacterizine
-  minTemp: 420
   reactants:
     Saline:
       amount: 1
@@ -13,7 +12,7 @@
 
 - type: reaction
   id: Mycocline
-  minTemp: 420
+  minTemp: 370
   reactants:
     Dylovene:
       amount: 1
@@ -24,7 +23,7 @@
 
 - type: reaction
   id: Virucidine
-  minTemp: 420
+  minTemp: 400
   reactants:
     Silver:
       amount: 1
@@ -37,7 +36,7 @@
 
 - type: reaction
   id: Panacemycin
-  minTemp: 420
+  minTemp: 450
   reactants:
     Virucidine:
       amount: 1
@@ -50,7 +49,7 @@
 
 - type: reaction
   id: Septomycin
-  minTemp: 420
+  minTemp: 390
   reactants:
     PotassiumIodide:
       amount: 1
@@ -63,7 +62,7 @@
 
 - type: reaction
   id: Necrovir
-  minTemp: 420
+  minTemp: 500
   reactants:
     Necrosol:
       amount: 1
