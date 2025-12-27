@@ -56,6 +56,8 @@
       Puncturase: 10
       TranexamicAcid: 5
       Omnizine: 20
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.9
 
 - type: entity
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
@@ -129,6 +131,8 @@
       Puncturase: 10
       TranexamicAcid: 5
       Omnizine: 20
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.9
 
 - type: entity
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
@@ -202,7 +206,9 @@
       Puncturase: 10
       TranexamicAcid: 5
       Omnizine: 20
-
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.9
+    
 - type: entity
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
   id: BSAAMedicHelmet

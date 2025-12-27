@@ -80,7 +80,7 @@
   id: UniPhoneUplinkWeaponZastaba
   name: Zastaba Nosle CZN-M22
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/zastaba/zastaba-icon.rsi, state: icon }
-  description: Штурмовой автомат специальных войск на утяжелённом калибре 5.7x39. Он отличается системой булл-пап, высоким темпом стрельбы и убойной пулей, буквально сбивающей с ног врагов. Можно купить 3 ящика данного оружие.
+  description: Штурмовой автомат специальных войск на утяжелённом калибре 5.7x39. Высокий темпм стрельбы, что сбиваюет с ног врагов. Можно купить 3 ящика данного оружие.
   productEntity: WeaponCaseHeavyFilledZastaba
   cost:
     Telecrystal: 14
@@ -94,7 +94,7 @@
   id: UniPhoneUplinkWeaponVSK
   name: VSK-94
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/vsk/big.rsi, state: icon }
-  description: Точный винторез, что заточен под дальний бой и сбивание позиции врагов, нежели тупого штурма. Используйет свой калибр 9х39. Можно купить только 3 ящика данного оружие.
+  description: Точный винторез, что заточен под дальний бой и сбивание позиции врагов, нежели тупого штурма. Можно купить только 3 ящика данного оружие.
   productEntity: WeaponCaseHeavyFilledVSK
   cost:
     Telecrystal: 15
@@ -136,7 +136,7 @@
   id: UniPhoneUplinkWeaponSCARAB
   name: SCARAB
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/scarab/scarab.rsi, state: icon }
-  description: Штурмовой автомат из семейства FN SCAR, модифицированный под патрон 6.8х51 мм. На месте пулевых попаданий оставляет зверские порезы и впрыскивает в рану слабую кислоту. Данное оружие можно приобрести 2 раза.
+  description: Автомат из семейства FN SCAR, модифицированный под патрон 6.8х51 мм. На месте пулевых попаданий оставляет порезы и впрыскивает в рану кислоту. Данное оружие можно приобрести 2 раза.
   productEntity: WeaponCaseHeavyFilledSCARAB
   cost:
     Telecrystal: 14
@@ -291,7 +291,7 @@
   name: набор пополнения СиндиСоки
   icon: { sprite: _DeadSpace/Objects/Specific/Service/vending_machine_restock.rsi, state: base }
   productEntity: VendingMachineRestockChemVendSyndicate
-  description: Коробка, наполненная химикатами, и обклеенная опасно-ромбического вида наклейками, предостерегающими и инструктирующими на случай чрезвычайной ситуации. Поместите в слот для пополнения СиндиСоки. Пополнение можно купить 2 раза.
+  description: Коробка, наполненная химикатами, и обклеенная опасно-ромбического вида наклейками. Поместите в слот для пополнения СиндиСоки. Пополнение можно купить 2 раза.
   cost:
     Telecrystal: 20
   categories:
