@@ -5,10 +5,10 @@
       amount: 1
     Potassium:
       amount: 1
-    Water:
+    Iron:
       amount: 1
   products:
-    Bacterizine: 2
+    Bacterizine: 3
 
 - type: reaction
   id: Mycocline
