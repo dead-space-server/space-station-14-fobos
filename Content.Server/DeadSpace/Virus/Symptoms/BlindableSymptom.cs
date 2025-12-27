@@ -13,7 +13,7 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 public sealed class BlindableSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.Blindable;
-    protected override float AddInfectivity => 0.05f;
+    protected override float AddInfectivity => 0.02f;
     private float _eyeDamageProcent = 0.7f;
     private int _eyeTotalDamage = 0;
 

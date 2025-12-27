@@ -13,7 +13,7 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 public sealed class ZombificationSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.Zombification;
-    protected override float AddInfectivity => 0.1f;
+    protected override float AddInfectivity => 0.02f;
 
     public ZombificationSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
     { }

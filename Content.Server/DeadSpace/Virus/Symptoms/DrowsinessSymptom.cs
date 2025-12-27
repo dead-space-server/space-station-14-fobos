@@ -13,7 +13,7 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 public sealed class DrowsinessSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.Drowsiness;
-    protected override float AddInfectivity => 0.05f;
+    protected override float AddInfectivity => 0.02f;
     public static readonly EntProtoId StatusEffectForcedSleeping = "StatusEffectForcedSleeping";
 
     private const float MinSleepDuration = 5f;

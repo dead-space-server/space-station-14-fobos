@@ -11,7 +11,7 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 public sealed class MedPostMortemResistanceSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.MedPostMortemResistance;
-    protected override float AddInfectivity => 0.05f;
+    protected override float AddInfectivity => 0.02f;
     private float _addDamageWhenDead = 2f;
 
     public MedPostMortemResistanceSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)

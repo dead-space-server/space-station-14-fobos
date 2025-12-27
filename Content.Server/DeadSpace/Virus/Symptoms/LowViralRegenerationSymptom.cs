@@ -11,7 +11,7 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 public sealed class LowViralRegenerationSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.LowViralRegeneration;
-    protected override float AddInfectivity => 0.05f;
+    protected override float AddInfectivity => 0.02f;
     private float _addRegenThreshold = 0.5f;
 
     public LowViralRegenerationSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
