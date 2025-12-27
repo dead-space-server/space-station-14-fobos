@@ -9,7 +9,7 @@
     Water:
       amount: 1
   products:
-    Bacterizine: 2
+    Bacterizine: 3
 
 - type: reaction
   id: Mycocline
@@ -46,7 +46,7 @@
     Bacterizine:
       amount: 1
   products:
-    Panacemycin: 1
+    Panacemycin: 3
 
 - type: reaction
   id: Septomycin
@@ -59,7 +59,7 @@
     Saline:
       amount: 1
   products:
-    Septomycin: 1
+    Septomycin: 3
 
 - type: reaction
   id: Necrovir
