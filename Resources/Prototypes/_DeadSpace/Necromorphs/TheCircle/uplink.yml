@@ -105,20 +105,6 @@
     stock: 3
 
 - type: listing
-  id: UniPhoneUplinkWeaponRifleXC67
-  name: XC67
-  icon: { sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/xc67.rsi, state: icon }
-  description: Тихо сп№!";" и ушёл, называется - нашёл. Данное оружие было выкрадено прямиком у Синдиката. Данное оружие можно купить 2 раза.
-  productEntity: WeaponCaseHeavyFilledRifleXC67
-  cost:
-    Telecrystal: 16
-  categories:
-   - UniPhoneUplinkWeaponry
-  conditions:
-  - !type:ListingLimitedStockCondition
-    stock: 2
-
-- type: listing
   id: UniPhoneUplinkWeaponRifleAsVal
   name: АС "Вал"
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/asval/asval.rsi, state: icon }
@@ -197,15 +183,6 @@
    - UniPhoneUplinkWeaponry
 
 ### Боеприпасы
-- type: listing
-  id: UniPhoneUplinkADTExtMagazineRifle
-  name: магазин от XC67
-  icon: { sprite: _ADT/Objects/Weapons/Guns/Ammunition/Magazine/ext_rifle_mag.rsi, state: base }
-  productEntity: ADTExtMagazineRifle
-  cost:
-    Telecrystal: 2
-  categories:
-   - UniPhoneUplinkAmmo
 
 - type: listing
   id: UniPhoneUplinkMagZastaba

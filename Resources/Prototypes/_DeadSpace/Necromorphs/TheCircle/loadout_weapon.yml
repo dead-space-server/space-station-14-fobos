@@ -91,17 +91,6 @@
 
 - type: entity
   parent: WeaponCaseHeavy
-  id: WeaponCaseHeavyFilledRifleXC67
-  suffix: XC67
-  components:
-  - type: StorageFill
-    contents:
-      - id: WeaponRifleXC67
-      - id: ADTExtMagazineRifle
-        amount: 2
-
-- type: entity
-  parent: WeaponCaseHeavy
   id: WeaponCaseHeavyFilledVAL
   suffix: VAL
   components:
@@ -129,6 +118,4 @@
       - id: MagazineRifleSCARAB
         amount: 2
       - id: MagRifleZastaba
-        amount: 2
-      - id: ADTExtMagazineRifle
         amount: 2
