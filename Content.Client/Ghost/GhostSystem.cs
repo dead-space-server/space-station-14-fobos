@@ -36,7 +36,7 @@ namespace Content.Client.Ghost
                 var query = AllEntityQuery<GhostComponent, SpriteComponent>();
                 while (query.MoveNext(out var uid, out _, out var sprite))
                 {
-                    _sprite.SetVisible((uid, sprite), value || uid == _playerManager.LocalEntity);
+                    _sprite.SetVisible((uid, sprite), value); // DS14 Ignored player exception
                 }
             }
         }

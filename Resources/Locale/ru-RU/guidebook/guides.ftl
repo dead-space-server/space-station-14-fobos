@@ -198,7 +198,4 @@ guide-entry-rules-ban-types = Виды банов
 guide-entry-rules-ban-durations = Длительности банов
 guide-entry-writing = Разметка письма
 guide-entry-glossary = Словарь терминов
-guide-entry-deadspace = Мёртвый Космос
-guide-service-newfood-ds14 = Новые блюда
-guide-service-newdrink-ds14 = Новые напитки
 guide-entry-chemist-ds14 = Учебник по химии

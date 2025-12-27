@@ -14,14 +14,3 @@
   categories: [ HideSpawnMenu ]
   components:
     - type: Transform
-
-- type: entity
-  id: BaseStationTaipan
-  parent:
-  - BaseStationSyndicate
-  categories: [ HideSpawnMenu ]
-  components:
-  - type: StationTaipan
-  - type: NpcFactionMember
-    factions:
-    - Taipan

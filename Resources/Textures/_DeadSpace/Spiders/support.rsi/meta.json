@@ -30,6 +30,10 @@
 	{
       "name": "running6",
       "directions": 4
+    },
+    {
+      "name": "dead",
+      "directions": 4
     }
   ]
 }

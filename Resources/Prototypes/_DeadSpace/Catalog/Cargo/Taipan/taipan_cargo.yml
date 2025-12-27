@@ -27,3 +27,13 @@
   cost: 2500
   category: cargoproduct-category-name-cargo
   group: taipan_market
+
+- type: cargoProduct
+  id: TaipanCargoBoxFlare
+  icon:
+    sprite: Objects/Misc/flare.rsi
+    state: icon
+  product: CrateCargoBoxFlare
+  cost: 500
+  category: cargoproduct-category-name-cargo
+  group: taipan_market

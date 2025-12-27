@@ -11,6 +11,9 @@ public sealed class EmeraldSubscriptionCard : Control
 {
     [Dependency] private readonly IResourceCache _resourceCache = default!;
 
+    private const int BaseNameFontSize = 11;
+    private const int BaseInfoFontSize = 9;
+
     private Font _nameFont = default!;
     private Font _infoFont = default!;
 
@@ -24,6 +27,10 @@ public sealed class EmeraldSubscriptionCard : Control
     private readonly Color _nameColor = Color.FromHex("#c0b3da");
     private readonly Color _dateColor = Color.FromHex("#8975b5");
     private readonly Color _itemColor = Color.FromHex("#6d5a8a");
+
+    private bool _isAdmin;
+    private readonly Color _adminColor = Color.FromHex("#ff0000");
+    private readonly Color _adminBorderColor = Color.FromHex("#d12e2e");
 
     public string NameSub
     {
@@ -65,25 +72,28 @@ public sealed class EmeraldSubscriptionCard : Control
         }
     }
 
+    public bool IsAdmin
+    {
+        get => _isAdmin;
+        set
+        {
+            _isAdmin = value;
+            InvalidateMeasure();
+        }
+    }
+
     public EmeraldSubscriptionCard()
     {
         IoCManager.InjectDependencies(this);
-        UpdateFonts();
-    }
 
-    private void UpdateFonts()
-    {
-        _nameFont = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(11 * UIScale));
-        _infoFont = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(9 * UIScale));
+        var fontRes = _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf");
+        _nameFont = new VectorFont(fontRes, BaseNameFontSize);
+        _infoFont = new VectorFont(fontRes, BaseInfoFontSize);
     }
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
     {
-        var width = float.IsPositiveInfinity(availableSize.X) ? 460 : Math.Min(availableSize.X, 460);
+        var width = float.IsPositiveInfinity(availableSize.X) ? 300 : availableSize.X;
         return new Vector2(width, 70);
     }
 
@@ -93,29 +103,37 @@ public sealed class EmeraldSubscriptionCard : Control
 
         handle.DrawRect(rect, _bgColor.WithAlpha(0.8f));
 
-        handle.DrawLine(rect.TopLeft, rect.TopRight, _borderColor);
-        handle.DrawLine(rect.TopRight, rect.BottomRight, _borderColor);
-        handle.DrawLine(rect.BottomRight, rect.BottomLeft, _borderColor);
-        handle.DrawLine(rect.BottomLeft, rect.TopLeft, _borderColor);
+        var borderColor = _isAdmin ? _adminBorderColor : _borderColor;
+        DrawBorder(handle, rect, borderColor);
 
-        var y = 8f;
-        var x = 10f;
+        var y = 8f * UIScale;
+        var x = 10f * UIScale;
 
-        handle.DrawString(_nameFont, new Vector2(x, y), _nameSub, 1f, _nameColor);
-        y += _nameFont.GetLineHeight(1f) + 4f;
+        var nameColor = _isAdmin ? _adminColor : _nameColor;
+        handle.DrawString(_nameFont, new Vector2(x, y), _nameSub, UIScale, nameColor);
+
+        y += _nameFont.GetLineHeight(UIScale) + 4f * UIScale;
 
         var infoText = $"{_price}  •  {_dates}";
-        handle.DrawString(_infoFont, new Vector2(x, y), infoText, 1f, _dateColor);
-        y += _infoFont.GetLineHeight(1f) + 4f;
+        handle.DrawString(_infoFont, new Vector2(x, y), infoText, UIScale, _dateColor);
+        y += _infoFont.GetLineHeight(UIScale) + 4f * UIScale;
 
         var itemText = $"{_itemCount} предметов подписки";
-        handle.DrawString(_infoFont, new Vector2(x, y), itemText, 1f, _itemColor);
+        handle.DrawString(_infoFont, new Vector2(x, y), itemText, UIScale, _itemColor);
+    }
+
+    private void DrawBorder(DrawingHandleScreen handle, UIBox2 rect, Color color)
+    {
+        var thickness = Math.Max(1f, 1f * UIScale);
+        handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Right, rect.Top + thickness), color);
+        handle.DrawRect(new UIBox2(rect.Left, rect.Bottom - thickness, rect.Right, rect.Bottom), color);
+        handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Left + thickness, rect.Bottom), color);
+        handle.DrawRect(new UIBox2(rect.Right - thickness, rect.Top, rect.Right, rect.Bottom), color);
     }
 
     protected override void UIScaleChanged()
     {
         base.UIScaleChanged();
-        UpdateFonts();
         InvalidateMeasure();
     }
 }

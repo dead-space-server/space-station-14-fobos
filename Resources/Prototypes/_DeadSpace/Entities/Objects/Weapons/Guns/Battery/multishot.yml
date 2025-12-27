@@ -9,7 +9,7 @@
     sprite: _DeadSpace/Objects/Weapons/Guns/Battery/multishot.rsi
     layers:
     - state: base-0
-      scale: 1.3, 1.3
+      scale: 1.2, 1.2
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-unshaded-4-0
       map: ["enum.GunVisualLayers.MagUnshaded"]

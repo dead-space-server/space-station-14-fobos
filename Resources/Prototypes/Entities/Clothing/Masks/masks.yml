@@ -144,6 +144,10 @@
     materialComposition:
       Steel: 50
       Plastic: 50
+  # DS14-start
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.15
+  # DS14-end
 
 - type: entity
   parent: ClothingMaskBreathMedical
@@ -189,6 +193,10 @@
       Plastic: 100
   - type: StaticPrice
     price: 30 # increases in price after decomposed into raw materials
+  # DS14-start
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.1
+  # DS14-end
 
 - type: entity
   parent: ClothingMaskBase
@@ -311,6 +319,10 @@
       Plastic: 25
   - type: StaticPrice
     price: 5
+  # DS14-start
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.15
+  # DS14-end
 
 - type: entity
   parent: ClothingMaskBase
