@@ -8,7 +8,7 @@
     Water:
       amount: 1
   products:
-    Bacterizine: 3
+    Bacterizine: 2
 
 - type: reaction
   id: Mycocline
