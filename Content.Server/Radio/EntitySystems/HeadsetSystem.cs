@@ -120,6 +120,7 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
             lexiconChatMsg: args.LexiconChatMsg,
             languageId: args.LanguageId,
             receiveSound: component.RadioReceiveSoundPath,
+            true,
             args: args);
     }
 
@@ -132,6 +133,7 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
             lexiconChatMsg: args.LexiconChatMsg,
             languageId: args.LanguageId,
             null,
+            false,
             args: args);
     }
 
@@ -142,8 +144,12 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
     MsgChatMessage lexiconChatMsg,
     string? languageId,
     SoundSpecifier? receiveSound,
+    bool sendMessage,
     RadioReceiveEvent args)
     {
+        if (args.Receivers.Contains(receiver))
+            return;
+
         var msg = chatMsg;
 
         if (languageId != null && !_language.KnowsLanguage(receiver, languageId))
@@ -154,9 +160,10 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
 
         if (TryComp(receiver, out ActorComponent? actor))
         {
-            _netMan.ServerSendMessage(msg, actor.PlayerSession.Channel);
+            if (sendMessage)
+                _netMan.ServerSendMessage(msg, actor.PlayerSession.Channel);
 
-            if (receiver != messageSource && TryComp(messageSource, out TTSComponent? _) && !args.Receivers.Contains(receiver))
+            if (receiver != messageSource && TryComp(messageSource, out TTSComponent? _))
             {
                 args.Receivers.Add(receiver);
             }
