@@ -89,6 +89,8 @@
       Epinephrine: 15
       Puncturase: 5
       Omnizine: 5
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.9
 
 - type: entity
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
@@ -183,4 +185,6 @@
       Puncturase: 5
       Omnizine: 5
       TranexamicAcid: 5
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.9
 

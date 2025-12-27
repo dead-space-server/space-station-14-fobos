@@ -16,7 +16,7 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 public sealed class NecrosisSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.Necrosis;
-    protected override float AddInfectivity => 0.05f;
+    protected override float AddInfectivity => 0.02f;
     private static readonly ProtoId<DamageTypePrototype> NecrosisDamageType = "Cellular";
     private float _minDamage = 1f;
     private float _maxDamage = 10f;

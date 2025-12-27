@@ -7,8 +7,8 @@
     sprite: Structures/Machines/diagnoser.rsi
     state: icon
   discipline: CivilianServices
-  tier: 3
-  cost: 30000
+  tier: 2
+  cost: 10000
   recipeUnlocks:
   - DiagnoserMachineCircuitboardRecipe
   - ComputerDiagnoserConsoleCircuitboardRecipe

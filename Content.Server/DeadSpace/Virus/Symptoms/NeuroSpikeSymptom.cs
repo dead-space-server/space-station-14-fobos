@@ -13,7 +13,7 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 public sealed class NeuroSpikeSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.NeuroSpike;
-    protected override float AddInfectivity => 0.05f;
+    protected override float AddInfectivity => 0.02f;
     private TimedWindow _duration = default!;
 
     public NeuroSpikeSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)

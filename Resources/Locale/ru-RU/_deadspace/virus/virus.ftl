@@ -252,6 +252,21 @@ ent-ChemistryBottlePanacemycin = { ent-BaseChemistryBottleFilled }
     .suffix = панацемицин
     .desc = { ent-BaseChemistryBottleFilled.desc }
 
+reagent-name-septomycin = септомицин
+reagent-desc-septomycin = Сильный антисептический антибиотик, подавляющий устойчивые штаммы инфекций.
+
+ent-ChemistryBottleSeptomycin = { ent-BaseChemistryBottleFilled }
+    .suffix = септомицин
+    .desc = { ent-BaseChemistryBottleFilled.desc }
+
+reagent-name-necrovir = некровир
+reagent-desc-necrovir = Крайне токсичный противовирусный препарат, разрушающий инфекцию вместе с тканями носителя.
+
+ent-ChemistryBottleNecrovir = { ent-BaseChemistryBottleFilled }
+    .suffix = некровир
+    .desc = { ent-BaseChemistryBottleFilled.desc }
+
+
 # Virus-infected human accent
 accent-words-virus-1 = Хрр… хрип…
 accent-words-virus-2 = б-б-б… чт?
