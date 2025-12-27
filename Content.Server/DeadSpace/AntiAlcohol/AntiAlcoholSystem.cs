@@ -7,6 +7,8 @@ using Content.Shared.EntityEffects;
 using Content.Shared.FixedPoint;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
+using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 
 namespace Content.Server.DeadSpace.AntiAlcohol;
 
@@ -15,6 +17,7 @@ public sealed class AntiAlcoholSystem : EntitySystem
     [Dependency] private readonly VomitSystem _vomit = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly DamageableSystem _damageableSystem = default!;
     private readonly List<(EntityUid Target, TimeSpan ExecuteAt)> _pendingVomit = new();
     public override void Initialize()
     {
@@ -45,5 +48,8 @@ public sealed class AntiAlcoholSystem : EntitySystem
 
         var target = reagentArgs.TargetEntity;
         _vomit.Vomit(target);
+        var poisonDamage = new DamageSpecifier();
+        poisonDamage.DamageDict.Add("Poison", 5);
+        _damageableSystem.TryChangeDamage(target, poisonDamage);
     }
 }
