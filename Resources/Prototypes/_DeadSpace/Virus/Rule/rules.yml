@@ -6,7 +6,7 @@
     symptomsByDanger:
       Low: 2
       Medium: 1
-    bodyCount: 5
+    bodyCount: 4
     numberPrimaryPacienst: 1
   - type: StationEvent
     weight: 2
@@ -23,7 +23,7 @@
     symptomsByDanger:
       Low: 4
       Medium: 3
-    bodyCount: 5
+    bodyCount: 7
     numberPrimaryPacienst: 1
   - type: StationEvent
     weight: 2
@@ -41,7 +41,7 @@
       Low: 4
       Medium: 3
       High: 1
-    bodyCount: 5
+    bodyCount: 9
     numberPrimaryPacienst: 1
   - type: StationEvent
     weight: 2

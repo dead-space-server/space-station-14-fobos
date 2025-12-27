@@ -171,7 +171,7 @@ public sealed class SentientVirusSystem : EntitySystem
                     component.Data.MutationPoints -= price;
                     component.Data.ActiveSymptom.Add(args.Symptom);
 
-                    var symptomInstance = _virusSystem.CreateSymptomInstance(proto.SymptomType);
+                    var symptomInstance = _virusSystem.CreateSymptomInstance(proto);
                     symptomInstance.ApplyDataEffect(component.Data, add: true);
 
                     UpdateVirusDataForStrain(uid, component);
@@ -207,7 +207,7 @@ public sealed class SentientVirusSystem : EntitySystem
                     component.Data.MutationPoints -= price;
                     component.Data.ActiveSymptom.Remove(args.Symptom);
 
-                    var symptomInstance = _virusSystem.CreateSymptomInstance(proto.SymptomType);
+                    var symptomInstance = _virusSystem.CreateSymptomInstance(proto);
                     symptomInstance.ApplyDataEffect(component.Data, add: false);
 
                     UpdateVirusDataForStrain(uid, component);

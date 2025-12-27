@@ -33,7 +33,7 @@ public sealed class VirusDataCollectorSystem : EntitySystem
         if (component.Data != null)
             args.PushMarkup(Loc.GetString("virus-collector-has-data"));
         else
-            args.PushMarkup(Loc.GetString(" virus-collector-not-has-data"));
+            args.PushMarkup(Loc.GetString("virus-collector-not-has-data"));
     }
 
     private void OnAfterInteract(Entity<VirusDataCollectorComponent> entity, ref AfterInteractEvent args)

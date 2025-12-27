@@ -101,17 +101,22 @@ public sealed class DonateShopSystem : EntitySystem
         }
 
         var duration = (exitTime - entryTime).TotalMinutes;
+        var result = await _donateApiService.SendUptimeAsync(userId, entryTime, exitTime);
 
-        var success = await _donateApiService.SendUptimeAsync(userId, entryTime, exitTime);
+        switch (result)
+        {
+            case UptimeResult.Success:
+                _sawmill.Info($"Uptime sent: {userId}, duration: {duration:F1} min");
+                break;
 
-        if (success)
-        {
-            _sawmill.Info($"Uptime sent: {userId}, duration: {duration:F1} min");
-        }
-        else
-        {
-            _sawmill.Warning($"Uptime send failed, queueing for retry: {userId}, duration: {duration:F1} min");
-            _pendingSessions.Add((userId, entryTime, exitTime));
+            case UptimeResult.NotFound:
+                _sawmill.Info($"Uptime ignored (404): {userId}, duration: {duration:F1} min");
+                break;
+
+            case UptimeResult.NeedsRetry:
+                _sawmill.Warning($"Uptime send failed, queueing for retry: {userId}, duration: {duration:F1} min");
+                _pendingSessions.Add((userId, entryTime, exitTime));
+                break;
         }
     }
 

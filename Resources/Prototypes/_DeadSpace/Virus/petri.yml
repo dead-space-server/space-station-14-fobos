@@ -85,6 +85,7 @@
     tags: 
     - VirusAlwaysInfectable
     - IgnoreCanInfect
+    - VirusIgnorSymptoms
   - type: ZombieImmune
   - type: ImmunitetInfectionDead
   - type: ImmunEgg

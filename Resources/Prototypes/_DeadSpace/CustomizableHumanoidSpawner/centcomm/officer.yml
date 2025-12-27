@@ -21,6 +21,7 @@
     name: ghost-role-information-centcomofficer-name
     description: ghost-role-information-centcomofficer-description
     rules: ghost-role-information-centcom-personal-rules
+    category: ghost-role-information-centcomm-category
     requirements:
       - !type:DepartmentTimeRequirement
         department: Security

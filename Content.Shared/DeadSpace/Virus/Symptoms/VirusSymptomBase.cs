@@ -58,6 +58,5 @@ public abstract class VirusSymptomBase : IVirusSymptom
 
     public abstract void DoEffect(EntityUid host, VirusComponent virus);
     public abstract IVirusSymptom Clone();
-
     public virtual void ApplyDataEffect(VirusData data, bool add) { }
 }

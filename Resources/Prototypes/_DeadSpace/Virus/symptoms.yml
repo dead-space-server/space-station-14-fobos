@@ -11,7 +11,9 @@
   name: тошнота
   description: вызывает рвоту у зараженного
   symptomType: Vomit
-  danger: Medium
+  danger: Low
+  minInterval: 30
+  maxInterval: 120
   price: 500
 
 - type: virusSymptom
@@ -28,6 +30,8 @@
   description: вызывает сонливость у зараженного
   symptomType: Drowsiness
   danger: Medium
+  minInterval: 30
+  maxInterval: 120
   price: 800
 
 - type: virusSymptom

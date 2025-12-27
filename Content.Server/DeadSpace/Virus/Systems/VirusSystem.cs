@@ -147,6 +147,9 @@ public sealed partial class VirusSystem : SharedVirusSystem
         component.VirusUpdateWindow = new TimedWindow(1f, 1f, _timing, _random);
 
         RefreshSymptoms((uid, component));
+
+        if (string.IsNullOrEmpty(component.Data.StrainId))
+            component.Data.StrainId = GenerateStrainId();
     }
 
     private void OnShutdown(EntityUid uid, VirusComponent component, ComponentShutdown args)
@@ -217,18 +220,18 @@ public sealed partial class VirusSystem : SharedVirusSystem
         }
 
         // Добавляем новые симптомы
-        foreach (var symptomType in activeTypes)
+        if (host.Comp.Data.ActiveSymptom != null)
         {
-            if (host.Comp.ActiveSymptomInstances.Any(s => s.Type == symptomType))
-                continue;
-
-            var symptomInstance = CreateSymptomInstance(symptomType);
-            host.Comp.ActiveSymptomInstances.Add(symptomInstance);
-
-            if (CanManifestInHost((host, host.Comp)))
+            foreach (var protoSymptom in host.Comp.Data.ActiveSymptom)
             {
-                _sawmill.Debug($"Добавлен ActiveSymptomInstance {symptomInstance.ToString()} к сущности {host.Owner}.");
-                symptomInstance.OnAdded(host, host.Comp);
+                var symptomInstance = CreateSymptomInstance(protoSymptom);
+                host.Comp.ActiveSymptomInstances.Add(symptomInstance);
+
+                if (CanManifestInHost((host, host.Comp)))
+                {
+                    _sawmill.Debug($"Добавлен ActiveSymptomInstance {symptomInstance.ToString()} к сущности {host.Owner}.");
+                    symptomInstance.OnAdded(host, host.Comp);
+                }
             }
         }
     }
@@ -387,6 +390,8 @@ public sealed partial class VirusSystem : SharedVirusSystem
 
         if (TryComp<VirusComponent>(target, out var targetVirusComp))
         {
+            Console.WriteLine(targetVirusComp.Data.ActiveSymptom.Count);
+            Console.WriteLine(data.ActiveSymptom.Count);
             // Сила вируса определяется по количеству симптомов
             if (targetVirusComp.Data.ActiveSymptom.Count >= data.ActiveSymptom.Count)
                 return false;
@@ -417,28 +422,6 @@ public sealed partial class VirusSystem : SharedVirusSystem
         }
 
         return new string(id);
-    }
-
-    public void AddMultiPriceDeleteSymptom(string strainId, int value)
-    {
-        var query = EntityQueryEnumerator<VirusComponent>();
-        while (query.MoveNext(out _, out var virusComponent))
-        {
-            if (virusComponent.Data.StrainId == strainId)
-                virusComponent.Data.MultiPriceDeleteSymptom += value;
-        }
-
-        var queryServer = EntityQueryEnumerator<VirusDiagnoserDataServerComponent>();
-        while (queryServer.MoveNext(out var server, out var serverComponent))
-        {
-            foreach (var data in serverComponent.StrainData.Values)
-            {
-                if (data.StrainId == strainId)
-                    data.MultiPriceDeleteSymptom += value;
-            }
-
-            _virusDiagnoserDataServer.UpdateConnectedInterfaces(server, serverComponent);
-        }
     }
 
     public VirusData GenerateVirusData(
@@ -578,10 +561,13 @@ public sealed partial class VirusSystem : SharedVirusSystem
     /// <summary>
     ///     Нужно добавить новый тип вируса в этот switch.
     /// </summary>
-    public IVirusSymptom CreateSymptomInstance(VirusSymptom type)
+    public IVirusSymptom CreateSymptomInstance(ProtoId<VirusSymptomPrototype> symptomId)
     {
-        var newWindow = DefaultSymptomWindow.Clone();
-        return type switch
+        if (!_prototype.TryIndex(symptomId, out var proto))
+            throw new Exception($"No prototype for symptom {symptomId}");
+
+        var newWindow = new TimedWindow(proto.MinInterval, proto.MaxInterval, _timing, _random);
+        return proto.SymptomType switch
         {
             VirusSymptom.Cough =>
                 new CoughSymptom(EntityManager, _timing, _random, newWindow),
@@ -656,8 +642,8 @@ public sealed partial class VirusSystem : SharedVirusSystem
                 new ParalyzedLegsSymptom(EntityManager, _timing, _random, newWindow),
 
             _ => throw new ArgumentOutOfRangeException(
-                nameof(type),
-                $"Unknown virus symptom {type}"
+                nameof(proto.SymptomType),
+                $"Unknown virus symptom {proto.SymptomType}"
             )
         };
     }

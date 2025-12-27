@@ -6,6 +6,11 @@ using Content.Shared.Damage;
 using Content.Shared.Dragon;
 using Content.Shared.Examine;
 using Content.Shared.Sprite;
+//DS14-start
+using Content.Shared.Random;
+using Content.Shared.Random.Helpers;
+using Robust.Shared.Random; 
+//DS14-end
 using Robust.Shared.GameObjects;
 using Robust.Shared.Map;
 using Robust.Shared.Player;
@@ -29,6 +34,7 @@ public sealed class DragonRiftSystem : EntitySystem
     [Dependency] private readonly NavMapSystem _navMap = default!;
     [Dependency] private readonly NPCSystem _npc = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly IRobustRandom _random = default!; //DS14
 
     public override void Initialize()
     {
@@ -90,8 +96,26 @@ public sealed class DragonRiftSystem : EntitySystem
             if (comp.SpawnAccumulator > comp.SpawnCooldown)
             {
                 comp.SpawnAccumulator -= comp.SpawnCooldown;
-                var ent = Spawn(comp.SpawnPrototype, xform.Coordinates);
+//DS14-start
+                if (_random.NextFloat() > comp.Chance)
+                    continue;
 
+                string? prototype = null;
+
+                if (comp.RarePrototypes.Count > 0 && _random.NextFloat() < comp.RareChance)
+                {
+                    prototype = _random.Pick(comp.RarePrototypes);
+                }
+                else if (comp.Prototypes.Count > 0)
+                {
+                    prototype = _random.Pick(comp.Prototypes);
+                }
+
+                if (prototype == null)
+                    continue;
+
+                var ent = Spawn(prototype, xform.Coordinates);
+//DS14-end
                 // Update their look to match the leader.
                 if (TryComp<RandomSpriteComponent>(comp.Dragon, out var randomSprite))
                 {
