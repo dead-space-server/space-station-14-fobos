@@ -153,6 +153,9 @@
     - PlafLanguage
     - VulpkaninLanguage
     - XenomorphLanguage
+    - DwarfLanguage
+    - DogLanguage
+    - MonkeyLanguage
 
 - type: entity
   parent: BaseSubdermalImplant

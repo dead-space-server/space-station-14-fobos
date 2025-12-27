@@ -23,8 +23,8 @@
     ClothingUniformJumpskirtPencilSec: 2 # DS14
     ClothingHeadsetSecurity: 4
     ClothingOuterWinterSec: 4
-    # ClothingOuterArmorBasic: 4 # DS14-disabled
-    ClothingOuterVestArmorSec: 4 # DS14
+    ClothingOuterArmorBasic: 2
+    ClothingOuterVestArmorSec: 2 # DS14
     ClothingNeckScarfStripedBlue: 3 # DS14
     ClothingOuterArmorBasicSlim: 4
     ClothingEyesBlindfold: 2

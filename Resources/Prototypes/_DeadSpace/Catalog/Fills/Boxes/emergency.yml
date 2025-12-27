@@ -63,7 +63,7 @@
   id: BoxSurvivalTaipanRobotNonBreather
   name: аварийный запас для роботов
   description: Коробка с базовым набором выживания для не биологических сотрудников.
-  suffix: Тайпан, Роботы, КПБ, КПС
+  suffix: Тайпан, Роботы, КПБ
   components:
   - type: Sprite
     layers:

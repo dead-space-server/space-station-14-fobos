@@ -1,32 +1,27 @@
 <Document>
-  # Antimatter Engine (AME)
-  The Antimatter Engine is a short-term support generator for the station, providing a sizable chunk of power for a limited time.
+  # Двигатель АнтиМатерии (ДАМ)
+  Генератор, используемый для подачи [bold]солидного количества энергии[/bold] на станцию в течение [bold]ограниченного времени[/bold].
 
-  It's mainly used to assist engineers in starting up bigger engines like the [textlink="Singularity Engine" link="SingularityEngine"] or [textlink="Tesla Engine" link="TeslaEngine"], by supplementing the station's [textlink="batteries" link="PowerStorage"] with partial power to extend their runtime.
+  Чаще всего используется инженерами [bold]для запуска более высоких по уровню генераторов[/bold]. Например, [textlink="Двигателя Сингулярности" link="SingularityEngine"] или [textlink="Двигателя Теслы" link="TeslaEngine"].
 
-  ## Construction
-  <Box>Required parts:</Box>
+  ## Сборка
+  <Box>Необходимые детали:</Box>
   <Box>
-  <GuideEntityEmbed Entity="AmeController"/>
-  <GuideEntityEmbed Entity="AmePartFlatpack"/>
-  <GuideEntityEmbed Entity="AmeJar"/>
+    <GuideEntityEmbed Entity="AmeController"/>
+    <GuideEntityEmbed Entity="AmePartFlatpack"/>
+    <GuideEntityEmbed Entity="AmeJar"/>
   </Box>
 
-  The AME Controller is the part of the AME that outputs power to the station's grid through an [textlink="HV connection" link="VoltageNetworks"].
-  Because of this, you'll want to start your AME construction with the controller on top of an [color=orange]HV wire[/color].
+  [bold]Контроллер ДАМ[/bold] это часть ДАМа, [bold]контролирующая вывод энергии[/bold] в сеть станции через [textlink="ВВ кабель под ним" link="VoltageNetworks"].
+  Поэтому, строительство ДАМа [bold]рекомендуется начинать[/bold] с установки контроллера поверх [color=orange]ВВ кабеля[/color].
 
-  Most stations have exposed [color=orange]HV wiring[/color] or designated spots to wrench an AME controller, so that it connects to the grid.
+  На [bold]большинстве станций[/bold] есть места, специально выделенные [bold]под строительства ДАМа[/bold]. Там вы и обнаружите видимый через пол [color=orange]ВВ кабель[/color].
 
-  AME shielding is the physical structure that makes the antimatter engine. It's made by converting AME flatpacks into shielding using a multitool.
+  [bold]Экранирование ДАМ[/bold] - физическая структура, из которой состоит [bold]Двигатель Антиматерии[/bold]. Создаётся путём использования [bold]мультитула[/bold] на упаковке ДАМ.
 
-  To construct an AME, start putting down a 3x3 or larger square of AME flatpacks in preparation for construction, making sure to maximize the number of "center" pieces that are surrounded on all eight sides.
-  The greater amount of center pieces, the more cores your AME will have, and the more power it will be able to output safely.
+  Чтобы построить ДАМ, [bold]разложите квадрат[/bold] (или прямоугольник) 3x3 или больше [bold]из упаковок ДАМа[/bold], постарайтесь максимизировать количество частей, [bold]окружённых со всех сторон[/bold].
+  [bold]Чем больше таких частей[/bold], тем [bold]больше ядер[/bold] будет иметь ДАМ, и тем [bold]больше энергии[/bold] он сможет безопасно генерировать.
 
-  <Box>
-    <GuideEntityEmbed Entity="AmePartFlatpack" Caption=""/>
-    <GuideEntityEmbed Entity="AmePartFlatpack" Caption=""/>
-    <GuideEntityEmbed Entity="AmePartFlatpack" Caption=""/>
-  </Box>
   <Box>
     <GuideEntityEmbed Entity="AmePartFlatpack" Caption=""/>
     <GuideEntityEmbed Entity="AmePartFlatpack" Caption=""/>
@@ -37,8 +32,13 @@
     <GuideEntityEmbed Entity="AmePartFlatpack" Caption=""/>
     <GuideEntityEmbed Entity="AmePartFlatpack" Caption=""/>
   </Box>
+  <Box>
+    <GuideEntityEmbed Entity="AmePartFlatpack" Caption=""/>
+    <GuideEntityEmbed Entity="AmePartFlatpack" Caption=""/>
+    <GuideEntityEmbed Entity="AmePartFlatpack" Caption=""/>
+  </Box>
 
-  Once this is done, you can use a multitool to convert each AME flatpack into shielding, which should form a finished AME configuration.
+  Теперь, [bold]используйте мультитул[/bold] на каждой упаковке чтобы собрать экранирование ДАМа. [bold]Не забудьте[/bold] установить контроллер на [color=orange]ВВ кабель[/color].
 
   <GuideEntityEmbed Entity="AmeController" Caption=""/>
   <Box>
@@ -57,20 +57,20 @@
     <GuideEntityEmbed Entity="AmeShielding" Caption="" Margin="0"/>
   </Box>
   <Box>
-    [color=#999999][italic]An example of a one core setup[italic][/color]
+    [color=#999999][italic]Пример ДАМа с одним ядром[italic][/color]
   </Box>
 
-  ## Operation
-  To start the AME, insert a fuel jar into the AME controller, and set the safe injection rate.
+  ## Работа
+  Для запуска ДАМа, [bold]вставьте топливный бак[/bold] в контроллер, установите безопасное количество впрыска и [bold]запустите ДАМ[/bold].
 
-  The safe injection rate is the point where the AME can safely run without overheating, while maximizing power output.
+  [bold]Безопасное количество - точка максимальной выработки энергии без перегрева ДАМа.[/bold]
 
-  This rate is always twice the core count.
+  [bold]Такое количество всегда равно количеству ядер умноженному на два.[/bold]
 
-  For example, an AME with one core will have a safe injection rate of 2. With two cores, the safe injection rate would be 4, and so on.
+  Например, [bold]ДАМ с одним ядром[/bold] будет иметь максимальный [bold]безопасный впрыск в 2[/bold]. С двумя ядрами - 4, и так далее.
 
-  Any more than this ratio will eventually result in the engine [color=#ff0000]overheating[/color] and, shortly afterwards, [color=#ff0000]exploding[/color].
+  Даже [bold]чуток[/bold] больше и [bold]ДАМ[/bold] в конце концов [color=#ff0000]перегреется[/color] и через короткое время [color=#ff0000]взорвётся[/color].
 
-  The AME controller will [textlink="report" link="InspectingPower"] on both the amount of power it is providing to the grid, and the theoretical maximum power it could provide if demanded.
+  Контроллер ДАМа [textlink="показывает" link="InspectingPower"] и количество энергии, [bold]подаваемое в сеть[/bold] в данный момент, и [bold]теоретический максимум[/bold] этого ДАМа.
 
 </Document>

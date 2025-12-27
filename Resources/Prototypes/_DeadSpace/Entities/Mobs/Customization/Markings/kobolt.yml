@@ -33,3 +33,41 @@
   sprites:
   - sprite: Mobs/Customization/reptilian_kobolt_parts.rsi
     state: tail_dtiger
+
+# Animated
+
+- type: marking
+  id: LizardTailSmoothKoboltAnimated
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: []
+  sprites:
+  - sprite: Mobs/Customization/reptilian_kobolt_parts.rsi
+    state: tail_smooth_wagging
+
+- type: marking
+  id: LizardTailSpikesKoboltAnimated
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: []
+  sprites:
+  - sprite: Mobs/Customization/reptilian_kobolt_parts.rsi
+    state: tail_spikes_wagging
+
+- type: marking
+  id: LizardTailLTigerKoboltAnimated
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: []
+  sprites:
+  - sprite: Mobs/Customization/reptilian_kobolt_parts.rsi
+    state: tail_ltiger_wagging
+
+- type: marking
+  id: LizardTailDTigerKoboltAnimated
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: []
+  sprites:
+  - sprite: Mobs/Customization/reptilian_kobolt_parts.rsi
+    state: tail_dtiger_wagging

@@ -7,7 +7,7 @@
   - CargoTechnician
   - Quartermaster
   - SalvageSpecialist
-  - SeniorSalvageSpecialist
+  - SeniorCourier
   accountNumber: 1315 #backmen: currency
 
 - type: department
@@ -140,6 +140,7 @@
   - SeniorPhysician
   - Coroner
   - MedicalSurgeon
+  - Virologist #DS14
   accountNumber: 1319 #backmen: currency
 
 - type: department
@@ -179,7 +180,7 @@
   roles:
   - Borg
   - StationAi
-  - BorgSecurity
+  - BorgSecurity # DS14
 
 - type: department
   id: Specific

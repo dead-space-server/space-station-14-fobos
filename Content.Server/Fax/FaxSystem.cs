@@ -30,6 +30,8 @@ using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Timing;
+using Content.Server.GameTicking;
 
 namespace Content.Server.Fax;
 
@@ -51,6 +53,8 @@ public sealed class FaxSystem : EntitySystem
     [Dependency] private readonly MetaDataSystem _metaData = default!;
     [Dependency] private readonly FaxecuteSystem _faxecute = default!;
     [Dependency] private readonly EmagSystem _emag = default!;
+    [Dependency] private readonly IGameTiming _gameTiming = default!; // DS14
+    [Dependency] private readonly GameTicker _gameTicker = default!; // DS14
 
     private static readonly ProtoId<ToolQualityPrototype> ScrewingQuality = "Screwing";
 
@@ -380,7 +384,7 @@ public sealed class FaxSystem : EntitySystem
         var canCopy = isPaperInserted &&
                       component.SendTimeoutRemaining <= 0 &&
                       component.InsertingTimeRemaining <= 0;
-        var state = new FaxUiState(component.FaxName, component.KnownFaxes, canSend, canCopy, isPaperInserted, component.DestinationFaxAddress);
+        var state = new FaxUiState(component.FaxName, component.KnownFaxes, canSend, canCopy, isPaperInserted, component.DestinationFaxAddress, component.FaxHistory); // DS14 edit
         _userInterface.SetUiState(uid, FaxUiKey.Key, state);
     }
 
@@ -561,7 +565,17 @@ public sealed class FaxSystem : EntitySystem
 
         _audioSystem.PlayPvs(component.SendSound, uid);
 
+        // DS14-start FaxHistory
+        var shiftTime = _gameTiming.CurTime.Subtract(_gameTicker.RoundStartTimeSpan);
+        if (component.FaxHistory.Count >= 20)
+        {
+            component.FaxHistory.RemoveAt(0);
+        }
+        component.FaxHistory.Add((TimeSpan.FromSeconds(shiftTime.TotalSeconds).ToString(@"hh\:mm\:ss"),"Отправлено: "+faxName));
+        // DS14-end
+
         UpdateUserInterface(uid, component);
+
     }
 
     /// <summary>
@@ -582,6 +596,14 @@ public sealed class FaxSystem : EntitySystem
 
         if (component.NotifyAdmins)
             NotifyAdmins(faxName);
+        // DS14-start FaxHistory
+        if (component.FaxHistory.Count >= 20)
+        {
+            component.FaxHistory.RemoveAt(0);
+        }
+        var shiftTime = _gameTiming.CurTime.Subtract(_gameTicker.RoundStartTimeSpan);
+        component.FaxHistory.Add((TimeSpan.FromSeconds(shiftTime.TotalSeconds).ToString(@"hh\:mm\:ss"),"Получено: "+faxName));
+        // DS14-end
 
         component.PrintingQueue.Enqueue(printout);
     }

@@ -1,0 +1,6 @@
+﻿- type: stack
+  id: Snow
+  name: stack-snow
+  icon: { sprite: _DeadSpace/Objects/Materials/Blocks/snow.rsi, state: snow }
+  spawn: BlockSnow1
+  maxCount: 30

@@ -23,6 +23,7 @@
   - ResearchDirector
   - Brig
   - Cryogenics
+  - External #DS14
   #start-backmen: currency
   minBankBalance: 400
   maxBankBalance: 600

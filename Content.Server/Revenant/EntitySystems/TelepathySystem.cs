@@ -50,7 +50,7 @@ public sealed partial class TelepathySystem : EntitySystem
                         var lexiconMessage = message;
 
                         if (TryComp<LanguageComponent>(args.User, out var language))
-                            lexiconMessage = _language.ReplaceWordsWithLexicon(message, language.SelectedLanguage);
+                            lexiconMessage = _language.TransformWord(message, language.SelectedLanguage);
 
                         var selectedLanguage = language != null ? language.SelectedLanguage : LanguageSystem.DefaultLanguageId.ToString();
 

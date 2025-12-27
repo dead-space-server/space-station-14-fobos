@@ -99,32 +99,12 @@
   group: taipan_market
 
 - type: cargoProduct
-  id: TaipanServicePersonnel
-  icon:
-    sprite: Objects/Misc/id_cards.rsi
-    state: default
-  product: CrateServicePersonnel
-  cost: 1000
-  category: cargoproduct-category-name-service
-  group: taipan_market
-
-- type: cargoProduct
   id: TaipanServiceBooks
   icon:
     sprite: Objects/Misc/books.rsi
     state: book_icon
   product: CrateServiceBooks
   cost: 1000
-  category: cargoproduct-category-name-service
-  group: taipan_market
-
-- type: cargoProduct
-  id: TaipanServiceGuidebooks
-  icon:
-    sprite: Objects/Misc/books.rsi
-    state: book_icon
-  product: CrateServiceGuidebooks
-  cost: 1300
   category: cargoproduct-category-name-service
   group: taipan_market
 
@@ -215,5 +195,15 @@
     state: icon
   product: CrateServicePhotocopierToners
   cost: 1000
+  category: cargoproduct-category-name-service
+  group: taipan_market
+
+- type: cargoProduct
+  id: TaipanCargoCrateFlowers
+  icon:
+    sprite: _DeadSpace/Objects/Misc/flowers.rsi
+    state: yellow_flower
+  product: CrateFlowers
+  cost: 2400
   category: cargoproduct-category-name-service
   group: taipan_market

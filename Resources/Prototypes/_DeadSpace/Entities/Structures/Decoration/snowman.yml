@@ -1,0 +1,60 @@
+﻿- type: entity
+  id: Snowman
+  parent: [BaseStructureDynamic, StripableInventoryBase]
+  name: снеговик
+  description: Снеговик, украшенный морковным носом и угольными глазами.
+  components:
+  - type: Appearance
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Decoration/snowman.rsi
+    state: snowman
+    noRot: true
+    layers:
+    - map: [ "mannequin" ]
+      sprite: _DeadSpace/Structures/Decoration/snowman.rsi
+      state: snowman
+    - map: [ "head" ]
+  - type: Rotatable
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.2
+        density: 200
+        mask:
+        - MachineMask
+        layer:
+        - MidImpassable
+        - BulletImpassable
+  - type: InteractionOutline
+  - type: Construction
+    graph: Snowman
+    node: snowman
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: Wood
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 200
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: FootstepSnow
+      - !type:EmptyAllContainersBehaviour
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: ContainerContainer
+    containers:
+      head: !type:ContainerSlot
+        showEnts: False
+        occludes: False
+        ent: null
+  - type: Inventory
+    templateId: snowman
+  - type: Transform
+    anchored: true
+  - type: Physics
+    bodyType: Static

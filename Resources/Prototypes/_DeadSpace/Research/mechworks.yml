@@ -207,7 +207,7 @@
   recipeUnlocks:
   - MiningDrillDiamond
   - AdvancedMineralScannerEmpty
-  - SalvageExpeditionsComputerCircuitboard
+ # - SalvageExpeditionsComputerCircuitboard
   - BorgModuleAdvancedMining
 
 - type: technology
@@ -243,22 +243,6 @@
   technologyPrerequisites:
   - TaipanHardsuitsBasic
 
-- type: technology
-  id: TaipanEliteHardsuits
-  name: research-technology-elite-syndicate-hardsuits
-  icon:
-    sprite: Clothing/OuterClothing/Hardsuits/syndieelite.rsi
-    state: icon
-  discipline: TaipanMechworks
-  tier: 2
-  cost: 15000
-  diskAvailable: false
-  recipeUnlocks:
-  - ClothingOuterHardsuitSyndieElite
-  - ClothingOuterHardsuitSyndieCommander
-  technologyPrerequisites:
-  - TaipanHardsuits
-
 # Tier 3
 
 - type: technology
@@ -278,14 +262,32 @@
   - TaipanAdvancedPowercells
 
 - type: technology
+  id: TaipanEliteHardsuits
+  name: research-technology-elite-syndicate-hardsuits
+  icon:
+    sprite: Clothing/OuterClothing/Hardsuits/syndieelite.rsi
+    state: icon
+  discipline: TaipanMechworks
+  tier: 3
+  cost: 30000
+  diskAvailable: false
+  recipeUnlocks:
+  - ClothingOuterHardsuitSyndieElite
+  - ClothingOuterHardsuitSyndieCommander
+  technologyPrerequisites:
+  - TaipanHardsuits
+
+# Tier 4
+
+- type: technology
   id: TaipanHeavyHardsuits
   name: research-technology-heavy-syndicate-hardsuits
   icon:
     sprite: Clothing/OuterClothing/Hardsuits/cybersun.rsi
     state: icon
   discipline: TaipanMechworks
-  tier: 3
-  cost: 30000
+  tier: 4
+  cost: 50000
   diskAvailable: false
   recipeUnlocks:
   - ClothingOuterHardsuitJuggernaut

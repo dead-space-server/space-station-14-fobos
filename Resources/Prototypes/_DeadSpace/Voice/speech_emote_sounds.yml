@@ -107,14 +107,14 @@
       collection: FelinidPurrs
 
 - type: emoteSounds
-  id: IPSIPC
+  id: IPC
   params:
     variation: 0.125
   sounds:
     Scream:
-      collection: IPSIPCScreams
+      collection: IPCScreams
     ScreamOnDamage:
-      collection: IPSIPCScreams
+      collection: IPCScreams
     Beep:
       path: /Audio/Machines/twobeep.ogg
     Chime:

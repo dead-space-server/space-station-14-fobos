@@ -262,22 +262,6 @@
   - TaipanExplosiveTechnology
 
 - type: technology
-  id: TaipanSniperRifles
-  name: research-technology-sniper-rifles
-  icon:
-    sprite: Objects/Weapons/Guns/Snipers/heavy_sniper.rsi
-    state: base
-  discipline: TaipanWeaponry
-  tier: 2
-  cost: 15000
-  diskAvailable: false
-  recipeUnlocks:
-  - WeaponSniperHristov
-  - WeaponRifleEstoc
-  technologyPrerequisites:
-  - TaipanBasicRifles
-
-- type: technology
   id: TaipanSMGs
   name: research-technology-smgs
   icon:
@@ -310,22 +294,6 @@
   - TaipanBasicRifles
 
 - type: technology
-  id: TaipanAssaultRifles
-  name: research-technology-assault-rifles
-  icon:
-    sprite: _ADT/Objects/Weapons/Guns/Rifels/xc67.rsi
-    state: icon
-  discipline: TaipanWeaponry
-  tier: 2
-  cost: 15000
-  diskAvailable: false
-  recipeUnlocks:
-  - ADTWeaponRifleXC67
-  - WeaponRifleAk
-  technologyPrerequisites:
-  - TaipanBasicRifles
-
-- type: technology
   id: TaipanShotguns
   name: research-technology-shotguns
   icon:
@@ -341,22 +309,36 @@
 # Tier 3
 
 - type: technology
-  id: TaipanExperimentalGrenades
-  name: research-technology-experimental-grenades
+  id: TaipanAssaultRifles
+  name: research-technology-assault-rifles
   icon:
-    sprite: Objects/Weapons/Grenades/holyhandgrenade.rsi
+    sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/xc67.rsi
     state: icon
   discipline: TaipanWeaponry
   tier: 3
   cost: 30000
   diskAvailable: false
   recipeUnlocks:
-  - HolyHandGrenade
-  - WhiteholeGrenade
-  - SingularityGrenade
+  - WeaponRifleXC67
+  - WeaponRifleAk
   technologyPrerequisites:
-  - TaipanGrenades
-  - TaipanBasicShuttleArmament
+  - TaipanBasicRifles
+
+- type: technology
+  id: TaipanSniperRifles
+  name: research-technology-sniper-rifles
+  icon:
+    sprite: Objects/Weapons/Guns/Snipers/heavy_sniper.rsi
+    state: base
+  discipline: TaipanWeaponry
+  tier: 3
+  cost: 30000
+  diskAvailable: false
+  recipeUnlocks:
+  - WeaponSniperHristov
+  - WeaponRifleEstoc
+  technologyPrerequisites:
+  - TaipanBasicRifles
 
 - type: technology
   id: TaipanHeavyWeapons
@@ -374,6 +356,26 @@
   technologyPrerequisites:
   - TaipanAssaultRifles
 
+# Tier 4
+
+- type: technology
+  id: TaipanExperimentalGrenades
+  name: research-technology-experimental-grenades
+  icon:
+    sprite: Objects/Weapons/Grenades/holyhandgrenade.rsi
+    state: icon
+  discipline: TaipanWeaponry
+  tier: 4
+  cost: 50000
+  diskAvailable: false
+  recipeUnlocks:
+  - HolyHandGrenade
+  - WhiteholeGrenade
+  - SingularityGrenade
+  technologyPrerequisites:
+  - TaipanGrenades
+  - TaipanBasicShuttleArmament
+
 - type: technology
   id: TaipanGrenadeLaunchers
   name: research-technology-grenade-launchers
@@ -381,8 +383,8 @@
     sprite: Objects/Weapons/Guns/Launchers/china_lake.rsi
     state: icon
   discipline: TaipanWeaponry
-  tier: 3
-  cost: 30000
+  tier: 4
+  cost: 50000
   diskAvailable: false
   recipeUnlocks:
   - WeaponLauncherChinaLake
@@ -396,8 +398,8 @@
     sprite: _DeadSpace/Objects/Weapons/Guns/Bow/crossbow.rsi
     state: icon-1
   discipline: TaipanWeaponry
-  tier: 3
-  cost: 30000
+  tier: 4
+  cost: 50000
   diskAvailable: false
   recipeUnlocks:
   - WeaponEnergyCrossbow

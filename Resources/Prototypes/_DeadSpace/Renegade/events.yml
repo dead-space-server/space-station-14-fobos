@@ -29,7 +29,6 @@
     - Kobolt
     - Xenomorph
     - IPC
-    - IPS
   - type: AntagObjectives
     objectives:
     - SubordinationCommandObjective

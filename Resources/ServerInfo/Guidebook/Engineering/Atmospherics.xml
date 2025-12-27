@@ -1,25 +1,24 @@
 <Document>
-  # Atmospherics
-  Atmospherics is the engineering subdepartment responsible for maintaining the station's atmosphere, and ensuring that it is safe and breathable for the crew.
+  # Атмосферный Отдел
+  [bold]Атмосферный отдел[/bold] — это подразделение инженерного отдела, отвечающее за [bold]поддержание атмосферы[/bold] на станции и обеспечение её безопасности и [bold]пригодности для дыхания[/bold] экипажа.
 
-  Atmospherics is run by Atmospheric Technicians, who are overseen by the Chief Engineer.
+  Атмосферным отделом управляют атмосферные техники под руководством Старшего Инженера.
 
   <Box>
-    <GuideEntityEmbed Entity="ToyFigurineAtmosTech" Caption="Atmosian"/>
-    <GuideEntityEmbed Entity="ToyFigurineChiefEngineer" Caption="CE"/>
+    <GuideEntityEmbed Entity="ToyFigurineAtmosTech" Caption="атмосферный техник"/>
+    <GuideEntityEmbed Entity="ToyFigurineChiefEngineer" Caption="старший инженер"/>
   </Box>
   <Box>
     [color=#999999][italic][italic][/color]
   </Box>
 
-  ## Responsibilities
-  Generally, you'll be responding to [textlink="atmospheric upsets" link="AtmosphericUpsets"] throughout the station.
-  These can range from minor leaks to full-on [textlink="fires" link="Fires"] or [textlink="spacing" link="Spacing"] incidents.
+  ## Обязанности
+  В целом, вы будете реагировать на [textlink="атмосферные девиации" link="AtmosphericUpsets"] по всей станции.
+  Это может быть как [bold]небольшая утечка газа[/bold], так и полноценные [textlink="пожары" link="Fires"] или [textlink="разгерметизации" link="Spacing"].
 
-  People from other departments may also request [textlink="canned gasses" link="GasCanisters"] for their department duties, such as [textlink="plasma" link="Gasses"] for the [textlink="Research Department" link="Science"] or [textlink="carbon dioxide" link="Gasses"] for [textlink="Chemistry" link="Chemist"].
+  Сотрудники других отделов также [bold]могут[/bold] запрашивать [textlink="баллоны с газами" link="GasCanisters"] для выполнения своих задач — например, [textlink="плазму" link="Gasses"] для [textlink="научного отдела" link="Science"] или [textlink="углекислый газ" link="Gasses"] для [textlink="химиков" link="Chemist"].
 
-  In your downtime, you may seek to improve the station by setting up rooms with different atmospheres for [textlink="Voxes" link="Vox"] and other species, or by setting up production of [textlink="exotic gasses" link="Gasses"] for the station's needs.
+  В свободное время [bold]вы можете улучшать станцию[/bold], настраивая комнаты с различной атмосферой для [textlink="воксов" link="Vox"] и других видов членов экипажа, или организовывая производство [textlink="экзотических газов" link="Gasses"] для нужд станции.
 
-  When there's no work to do, you may be expected to help regular Station Engineers with their tasks, and mentor new Station Engineers and Atmospheric Technicians.
-
+  Когда нет срочной работы, от вас могут ожидать [bold]помощи обычным инженерам станции[/bold] и наставничества для новых инженеров, технических ассистентов и атмосферных техников.
 </Document>

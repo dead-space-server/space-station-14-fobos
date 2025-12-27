@@ -29,14 +29,14 @@
     # jumpsuit: ADTClothingUniformTurleneckGreenBlack
     # back: ClothingBackpackMilitarySatchel
     mask: ClothingMaskGasSecurity
-    # shoes: ClothingShoesBootsJackSecFilled
-    outerClothing: ClothingOuterVestWeb
+    # shoes: ClothingShoesBootsJack
+    outerClothing: ClothingOuterCoatCentcomOfficer
     # eyes: ClothingEyesGlassesSecurity
     head: ClothingHeadHatBeretCentcomNaval
     id: CentcomPDA
     gloves: ClothingHandsGlovesCombat
     ears: ClothingHeadsetCentCom
-    belt: ClothingBeltSecurityWebbingFilled
+    belt: ClothingBeltSecurityFilled
 
 - type: chameleonOutfit
   id: CentralCommandOfficerChameleonOutfit

@@ -78,6 +78,15 @@
     - RadiationProtection
     - Drowsiness
     - Adrenaline
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      100: Critical
+      200: Dead
+    stateAlertDict:
+      Alive: XenomorphHealth
+      Critical: XenomorphCrit
+      Dead: XenomorphDead
   - type: InteractionPopup
     successChance: 1.0
     interactSuccessString: petting-success-bingus
@@ -102,7 +111,6 @@
         Brute: -0.4
   - type: Sanity
   - type: LizardAccent
-  - type: EmotePanel # DS14-Emote-panel
   - type: Language
     selectedLanguage: GeneralLanguage
     knownLanguages:
@@ -111,16 +119,6 @@
   # - type: FootPrints
     # leftBarePrint: "footprint-left-bare-lizard"
     # rightBarePrint: "footprint-right-bare-lizard"
-
-
-- type: damageModifierSet
-  id: XenoRace
-  coefficients:
-    Blunt: 0.9
-    Slash: 0.95
-    Shock: 1.2
-    Heat: 1.5
-    Caustic: 0.5
 
 - type: entity
   parent: BaseMobSpeciesXenomorph

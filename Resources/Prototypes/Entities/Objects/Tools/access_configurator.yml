@@ -37,11 +37,11 @@
       - Chemistry
       - Paramedic
       - Coroner
+      - Virology # DS14
       - Medical
       - Research
       - Atmospherics
       - Engineering
-      - SeniorSalvage
       - Salvage
       - Cargo
       - Service
@@ -113,11 +113,11 @@
     - Chemistry
     - Paramedic
     - Coroner
+    - Virology # DS14
     - Medical
     - Research
     - Atmospherics
     - Engineering
-    - SeniorSalvage
     - Salvage
     - Cargo
     - Service

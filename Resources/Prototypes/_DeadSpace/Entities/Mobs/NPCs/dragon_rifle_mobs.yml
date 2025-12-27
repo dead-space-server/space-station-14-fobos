@@ -1,0 +1,314 @@
+- type: entity
+  id: MobSharkDragon
+  suffix: Выводок дракона
+  parent: MobShark
+  name: карпоакула
+  components:
+    - type: GhostRole
+      allowMovement: true
+      allowSpeech: true
+      makeSentient: true
+      name: ghost-role-information-sentient-carp-name
+      description: ghost-role-information-sentient-carp-description
+      rules: ghost-role-information-space-dragon-summoned-carp-rules
+      mindRoles:
+      - MindRoleGhostRoleTeamAntagonistFlock
+    - type: GhostTakeoverAvailable
+    - type: HTN
+      rootTask:
+        task: DragonCarpCompound
+    - type: RandomSprite
+      available:
+      - enum.DamageStateVisualLayers.Base:
+          alive: Rainbow
+          dead: Rainbow
+    - type: Sprite
+      sprite: Mobs/Aliens/Carps/sharkminnow.rsi
+      layers:
+      - map: [ "enum.DamageStateVisualLayers.Base" ]
+        state: alive-nocolor
+      - map: [ "enum.DamageStateVisualLayers.BaseUnshaded" ]
+        state: mouth
+        shader: unshaded
+    - type: DamageStateVisuals
+      states:
+        Alive:
+          Base: alive-nocolor
+          BaseUnshaded: mouth
+        Dead:
+          Base: dead-nocolor
+          BaseUnshaded: dead_mouth
+
+- type: entity
+  id: MobCarpHoloDragon
+  suffix: Выводок дракона
+  parent: MobCarpHolo
+  name: голокарп
+  components:
+    - type: GhostRole
+      allowMovement: true
+      allowSpeech: true
+      makeSentient: true
+      name: ghost-role-information-sentient-carp-name
+      description: ghost-role-information-sentient-carp-description
+      rules: ghost-role-information-space-dragon-summoned-carp-rules
+      mindRoles:
+      - MindRoleGhostRoleTeamAntagonistFlock
+    - type: GhostTakeoverAvailable
+    - type: HTN
+      rootTask:
+        task: DragonCarpCompound
+
+- type: entity
+  id: BaseMobMiniDragon
+  parent: [ SimpleSpaceMobBase, FlyingMobBase ]
+  name: малыш дракона
+  description: Всего то маленькая версия злобного дракона, что она может сделать?
+  abstract: true
+  components:
+  - type: Bloodstream
+    bloodMaxVolume: 100
+  - type: GhostRole
+    allowMovement: true
+    allowSpeech: true
+    makeSentient: true
+    name: ghost-role-information-space-mini-dragon-name
+    description: ghost-role-information-space-mini-dragon-description
+    rules: ghost-role-information-space-mini-dragon-rules
+    mindRoles:
+    - MindRoleGhostRoleTeamAntagonist
+  - type: GhostTakeoverAvailable
+  - type: HTN
+    rootTask:
+      task: SimpleHostileCompound
+    blackboard:
+      NavSmash: !type:Bool
+        true
+  - type: NpcFactionMember
+    factions:
+    - Dragon
+  - type: CombatMode
+  - type: MobMover
+  - type: InputMover
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 3
+    baseSprintSpeed: 5
+    baseWeightlessModifier: 1.5
+  - type: RandomSprite
+    available:
+    - enum.DamageStateVisualLayers.Base:
+        alive: Rainbow
+  - type: Appearance
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: alive
+        BaseUnshaded: alive-unshaded
+      Critical:
+        Base: crit
+        BaseUnshaded: dead-unshaded
+      Dead:
+        Base: dead
+        BaseUnshaded: dead-unshaded
+  - type: Sprite
+    sprite: _DeadSpace/Mobs/Aliens/MiniDragon.rsi
+    noRot: true
+    layers:
+    - map: [ "enum.DamageStateVisualLayers.Base" ]
+      state: alive
+    - map: [ "enum.DamageStateVisualLayers.BaseUnshaded" ]
+      state: alive-unshaded
+      shader: unshaded
+  - type: Physics
+    bodyType: KinematicController
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.40
+        density: 100
+        mask:
+        - FlyingMobMask
+        layer:
+        - FlyingMobLayer
+  - type: MobState
+  - type: MobStateActions
+    actions:
+      Critical:
+      - ActionCritSuccumb
+      - ActionCritLastWords
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      75: Critical 
+      100: Dead 
+  - type: Flammable
+    damage:
+      types: {}
+  - type: StatusEffects
+    allowed:
+    - Electrocution
+    - TemporaryBlindness
+    - Pacified
+    - RadiationProtection
+    - Adrenaline
+  - type: Temperature
+    heatDamageThreshold: 800
+  - type: Metabolizer
+    solutionOnBody: false
+    updateInterval: 0.25
+    metabolizerTypes: [ Dragon ]
+    groups:
+    - id: Medicine
+    - id: Poison
+  - type: Butcherable
+    spawned:
+    - id: FoodMeatDragon
+      amount: 1
+  - type: InteractionPopup
+    successChance: 0.10
+    interactSuccessString: petting-success-dragon
+    interactFailureString: petting-failure-dragon
+    interactFailureSound:
+      path: /Audio/Animals/space_dragon_roar.ogg
+  - type: MeleeWeapon
+    altDisarm: false
+    soundHit:
+      path: /Audio/Weapons/Xeno/alien_claw_flesh3.ogg
+    damage:
+      types:
+        Slash: 10
+  - type: Tag
+    tags:
+    - CannotSuicide
+    - DoorBumpOpener
+    - StunImmune
+  - type: Prying
+    pryPowered: true
+    force: true
+    speedModifier: 4 
+    useSound:
+      path: /Audio/Items/crowbar.ogg
+  - type: Language
+    selectedLanguage: CarpDragonLanguage
+    knownLanguages:
+    - CarpDragonLanguage
+  - type: NightVision
+    color: "#22334411"
+    animation: true
+    transitionSpeed: 100
+
+- type: entity
+  parent: BaseMobMiniDragon
+  id: MobMiniDragonFire
+  suffix: Огненый
+  components:
+  - type: GhostRole
+    mindRoles:
+    - MindRoleDragon
+  - type: ActionGun
+    action: ActionDragonsBreath
+    gunProto: MiniDragonsFireBreathGun
+
+- type: entity
+  parent: BaseMobMiniDragon
+  id: MobMiniDragonIce
+  suffix: Ледяной
+  name: ледяной малыш дракона
+  components:
+  - type: GhostRole
+    mindRoles:
+    - MindRoleDragon
+  - type: ActionGun
+    action: ActionMiniDragonsIceBreath
+    gunProto: MiniDragonsIceBreathGun
+  - type: Sprite
+    sprite: _DeadSpace/Mobs/Aliens/MiniDragon.rsi
+    noRot: true
+    layers:
+    - map: [ "enum.DamageStateVisualLayers.Base" ]
+      state: alive
+    - map: [ "enum.DamageStateVisualLayers.BaseUnshaded" ]
+      state: alive-unshaded-ice
+      shader: unshaded
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: alive
+        BaseUnshaded: alive-unshaded-ice
+      Critical:
+        Base: crit
+        BaseUnshaded: dead-unshaded-ice
+      Dead:
+        Base: dead
+        BaseUnshaded: dead-unshaded-ice
+
+- type: entity
+  parent: BaseMobMiniDragon
+  id: MobMiniDragonToxic
+  name: кислотный малыш дракона
+  suffix: Кислотный
+  components:
+  - type: GhostRole
+    mindRoles:
+    - MindRoleDragon
+  - type: ActionGun
+    action: ActionMiniDragonsToxicBreath
+    gunProto: MiniDragonsToxicBreathGun
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: alive
+        BaseUnshaded: alive-unshaded-toxic
+      Critical:
+        Base: crit
+        BaseUnshaded: dead-unshaded-toxic
+      Dead:
+        Base: dead
+        BaseUnshaded: dead-unshaded-toxic
+  - type: Sprite
+    sprite: _DeadSpace/Mobs/Aliens/MiniDragon.rsi
+    noRot: true
+    layers:
+    - map: [ "enum.DamageStateVisualLayers.Base" ]
+      state: alive
+    - map: [ "enum.DamageStateVisualLayers.BaseUnshaded" ]
+      state: alive-unshaded-toxic
+      shader: unshaded
+
+- type: entity
+  parent: BaseMobMiniDragon
+  id: MobMiniDragonHealer
+  name: лечащий малыш дракона
+  suffix: Лекарь
+  components:
+  - type: GhostRole
+    mindRoles:
+    - MindRoleDragon
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: alive
+        BaseUnshaded: alive-unshaded-healer
+      Critical:
+        Base: crit
+        BaseUnshaded: dead-unshaded-healer
+      Dead:
+        Base: dead
+        BaseUnshaded: dead-unshaded-healer
+  - type: Sprite
+    sprite: _DeadSpace/Mobs/Aliens/MiniDragon.rsi
+    noRot: true
+    layers:
+    - map: [ "enum.DamageStateVisualLayers.Base" ]
+      state: alive
+    - map: [ "enum.DamageStateVisualLayers.BaseUnshaded" ]
+      state: alive-unshaded-healer
+      shader: unshaded
+  - type: HipoHand
+    quantity: 5 
+    countReagent: 5
+    maxCountReagent: 15 
+    durationRegenReagent: 15 
+    reagent: Ichorosil

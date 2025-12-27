@@ -1,0 +1,433 @@
+- type: marking
+  id: IPCHead1
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: blue_s
+
+- type: marking
+  id: IPCHead2
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: breakout_s
+
+- type: marking
+  id: IPCHead3
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: console_s
+
+- type: marking
+  id: IPCHead4
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: eight_s
+
+- type: marking
+  id: IPCHead5
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: goggles_hesp_alt_s
+
+- type: marking
+  id: IPCHead6
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: goggles_s
+
+- type: marking
+  id: IPCHead7
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: gol_glider_s
+
+- type: marking
+  id: IPCHead8
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: green_s
+
+- type: marking
+  id: IPCHead9
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: heart_s
+
+- type: marking
+  id: IPCHead10
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: monoeye_s
+
+- type: marking
+  id: IPCHead11
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: music_s
+
+- type: marking
+  id: IPCHead12
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: nature_s
+
+- type: marking
+  id: IPCHead13
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: off_hesp_alt_s
+
+- type: marking
+  id: IPCHead14
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: orange_hesp_alt_s
+
+- type: marking
+  id: IPCHead15
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: orange_s
+
+- type: marking
+  id: IPCHead16
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: pink_hesp_alt_s
+
+- type: marking
+  id: IPCHead17
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: pink_s
+
+- type: marking
+  id: IPCHead18
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: purple_s
+
+- type: marking
+  id: IPCHead19
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: rainbow_hesp_alt_s
+
+- type: marking
+  id: IPCHead20
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: rainbow_s
+
+- type: marking
+  id: IPCHead21
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: red_s
+
+- type: marking
+  id: IPCHead22
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: rgb_hesp_alt_s
+
+- type: marking
+  id: IPCHead23
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: rgb_s
+
+- type: marking
+  id: IPCHead24
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: scroll_hesp_alt_s
+
+- type: marking
+  id: IPCHead25
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: scroll_s
+
+- type: marking
+  id: IPCHead26
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: shower_s
+
+- type: marking
+  id: IPCHead27
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: smoking_s
+
+- type: marking
+  id: IPCHead28
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: static_s
+
+- type: marking
+  id: IPCHead29
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: test_s
+
+- type: marking
+  id: IPCHead30
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: waiting_s
+
+- type: marking
+  id: IPCHead31
+  bodyPart: Eyes
+  markingCategory: Snout
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  speciesRestriction: [IPC]
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/ipc_face.rsi
+    state: yellow_s

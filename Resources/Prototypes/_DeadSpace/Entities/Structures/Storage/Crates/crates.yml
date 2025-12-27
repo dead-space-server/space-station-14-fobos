@@ -71,3 +71,14 @@
     sprite: _DeadSpace/Structures/Storage/Crates/syndicate_secure.rsi
   - type: AccessReader
     access: [["SyndicateAgent"], ["NuclearOperative"], ["TaipanMaint"]]
+
+- type: entity
+  parent: CrateGenericSteel
+  id: CrateXmas
+  name: рождественский ящик
+  description: Стальной ящик, украшенный праздничными лентами и бантами.
+  components:
+  - type: Icon
+    sprite: _DeadSpace/Structures/Storage/Crates/xmas.rsi
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Storage/Crates/xmas.rsi

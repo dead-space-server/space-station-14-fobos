@@ -41,7 +41,6 @@
   - Kobolt
   - Xenomorph
   - IPC
-  - IPS
   components:
   - type: Renegade
   - type: RenegadeSubmissionAbility

@@ -53,17 +53,6 @@
 
 - type: entity
   parent: BaseAction
-  id: ActionOpenEmotes
-  name: Open emote panel
-  components:
-  - type: Action
-    icon: Interface/Actions/emotes.png
-    checkCanInteract: false
-  - type: InstantAction
-    event: !type:OpenEmotesActionEvent
-
-- type: entity
-  parent: BaseAction
   id: ActionScream
   name: Scream
   description: AAAAAAAAAAAAAAAAAAAAAAAAA
@@ -295,6 +284,7 @@
   description: Raise or lower your shield.
   components:
   - type: Action
+    useDelay: 1
     icon: { sprite: Objects/Weapons/Melee/shields.rsi, state: teleriot-icon }
     iconOn: { sprite: Objects/Weapons/Melee/shields.rsi, state: teleriot-on }
 

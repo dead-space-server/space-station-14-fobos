@@ -1,0 +1,19 @@
+- type: cargoProduct
+  id: EmergencyVirusMedkit
+  icon:
+    sprite: _DeadSpace/Virus/firstaidkits.rsi
+    state: advkit
+  product: CrateVirusMedkit
+  cost: 5000
+  category: cargoproduct-category-name-medical
+  group: market
+
+- type: cargoProduct
+  id: EmergencySuperVirusMedkit
+  icon:
+    sprite: _DeadSpace/Virus/firstaidkits.rsi
+    state: blackkit
+  product: CrateSuperVirusMedkit
+  cost: 12000
+  category: cargoproduct-category-name-medical
+  group: market

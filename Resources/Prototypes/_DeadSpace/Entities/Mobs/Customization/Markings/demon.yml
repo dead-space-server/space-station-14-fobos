@@ -1,29 +1,86 @@
 - type: marking
-  id: DemomTail1
+  id: DemonTail1
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: [Demon]
   sprites:
-  - sprite: _ADT/Mobs/Customization/demon.rsi
+  - sprite: _ADT/Mobs/Species/Demon/parts.rsi
+    state: tail
+  - sprite: _ADT/Mobs/Customization/tails_of_demons.rsi
     state: demon_tail
 
 - type: marking
-  id: DemomTailLong
+  id: DemonTailLong
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: [Demon]
   sprites:
-  - sprite: _ADT/Mobs/Customization/demon.rsi
+  - sprite: _ADT/Mobs/Species/Demon/parts.rsi
+    state: tail
+  - sprite: _ADT/Mobs/Customization/tails_of_demons.rsi
     state: long
 
 - type: marking
-  id: DemomTailUp
+  id: DemonTailUp
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: [Demon]
   sprites:
-  - sprite: _ADT/Mobs/Customization/demon.rsi
+  - sprite: _ADT/Mobs/Species/Demon/parts.rsi
+    state: tail
+  - sprite: _ADT/Mobs/Customization/tails_of_demons.rsi
     state: up
+
+- type: marking
+  id: DemonTailColor
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Demon]
+  sprites:
+    - sprite: _ADT/Mobs/Species/Demon/parts.rsi
+      state: tail
+
+- type: marking
+  id: DemonTail1Animated
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: []
+  sprites:
+  - sprite: _ADT/Mobs/Species/Demon/parts.rsi
+    state: tail_waggin
+  - sprite: _ADT/Mobs/Customization/tails_of_demons.rsi
+    state: demon_tail_waggin
+
+- type: marking
+  id: DemonTailLongAnimated
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: []
+  sprites:
+  - sprite: _ADT/Mobs/Species/Demon/parts.rsi
+    state: tail_waggin
+  - sprite: _ADT/Mobs/Customization/tails_of_demons.rsi
+    state: long_waggin
+
+- type: marking
+  id: DemonTailUpAnimated
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: []
+  sprites:
+  - sprite: _ADT/Mobs/Species/Demon/parts.rsi
+    state: tail_waggin
+  - sprite: _ADT/Mobs/Customization/tails_of_demons.rsi
+    state: up_waggin
+
+- type: marking
+  id: DemonTailColorAnimated
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: []
+  sprites:
+  - sprite: _ADT/Mobs/Species/Demon/parts.rsi
+    state: tail_waggin
 
 - type: marking
   id: DemonCowEars

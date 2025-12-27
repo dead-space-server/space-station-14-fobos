@@ -481,7 +481,7 @@
 
 - type: randomHumanoidSettings
   id: VisitorLawyer
-  parent: VisitorSecurity # DS14
+  parent: VisitorCivilian
   components:
     - type: GhostRole
       name: job-name-lawyer

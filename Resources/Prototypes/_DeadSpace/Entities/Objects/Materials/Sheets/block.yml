@@ -1,0 +1,49 @@
+﻿- type: entity
+  parent: SheetOtherBase
+  id: BlockSnow
+  name: блок снега
+  description: Блок плотного снега.
+  suffix: Полный
+  components:
+  - type: Material
+  - type: Stack
+    stackType: Snow
+    baseLayer: base
+    layerStates:
+    - snow
+    - snow_2
+    - snow_3
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Materials/Blocks/snow.rsi
+    state: snow_3
+    layers:
+    - state: snow_3
+      map: ["base"]
+  - type: Item
+    sprite: _DeadSpace/Objects/Materials/Blocks/snow.rsi
+    heldPrefix: snow
+  - type: Appearance
+
+- type: entity
+  parent: BlockSnow
+  id: BlockSnow10
+  name: блок снега
+  suffix: 10
+  components:
+  - type: Sprite
+    state: snow
+  - type: Stack
+    stackType: Snow
+    count: 10
+
+- type: entity
+  parent: BlockSnow
+  id: BlockSnow1
+  name: блок снега
+  suffix: Один
+  components:
+  - type: Sprite
+    state: snow
+  - type: Stack
+    stackType: Snow
+    count: 1

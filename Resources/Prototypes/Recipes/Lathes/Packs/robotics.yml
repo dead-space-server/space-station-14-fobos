@@ -45,6 +45,7 @@
   id: Robotics
   recipes:
   - ProximitySensor
+  - Nanopaste # DS14
 
 - type: latheRecipePack
   id: BorgModules

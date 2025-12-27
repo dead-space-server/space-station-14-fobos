@@ -1,9 +1,9 @@
 <Document>
 
-# Soups & Stews
+  # Супы & Тушёные блюда
 
-A nice hearty bowl of soup is a great way to serve tough meats, or to preserve a delicate flavour.
+  Хорошая тарелка супа сочетает в себе и полезные свойства ингредиентов, и их запах со вкусом.
 
-<GuideMicrowaveGroupEmbed Group="Soup"/>
+  <GuideMicrowaveGroupEmbed Group="Soup"/>
 
 </Document>

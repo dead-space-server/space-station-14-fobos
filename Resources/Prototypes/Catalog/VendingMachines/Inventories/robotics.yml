@@ -1,6 +1,7 @@
 - type: vendingMachineInventory
   id: RoboticsInventory
   startingInventory:
+    Nanopaste: 4 # DS14
     CableApcStack: 4
     SciFlash: 4
     ProximitySensor: 3
@@ -19,4 +20,4 @@
     Screwdriver: 2
     Crowbar: 2
   contrabandInventory:
-    FoodBurgerRobot: 1  
+    FoodBurgerRobot: 1

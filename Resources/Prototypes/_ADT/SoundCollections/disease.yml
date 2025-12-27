@@ -1,0 +1,31 @@
+﻿- type: soundCollection
+  id: MaleSlimeSneezes
+  files:
+    - /Audio/_ADT/Voice/Slime/s_male_sneeze_1.ogg
+
+- type: soundCollection
+  id: FemaleSlimeSneezes
+  files:
+    - /Audio/_ADT/Voice/Slime/s_female_sneeze_1.ogg
+
+- type: soundCollection
+  id: MaleSlimeCoughs
+  files:
+    - /Audio/_ADT/Voice/Slime/s_male_cough_1.ogg
+    - /Audio/_ADT/Voice/Slime/s_male_cough_2.ogg
+
+- type: soundCollection
+  id: FemaleSlimeCoughs
+  files:
+    - /Audio/_ADT/Voice/Slime/s_female_cough_1.ogg
+    - /Audio/_ADT/Voice/Slime/s_female_cough_2.ogg
+
+- type: soundCollection
+  id: MaleSlimeYawn
+  files:
+  - /Audio/_ADT/Voice/Slime/s_male_yawn_1.ogg
+
+- type: soundCollection
+  id: FemaleSlimeYawn
+  files:
+  - /Audio/_ADT/Voice/Slime/s_female_yawn_1.ogg

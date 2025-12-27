@@ -140,7 +140,7 @@ public sealed class RenegadeSubordinateSystem : EntitySystem
             var name = Identity.Entity(uid, EntityManager);
             RemComp<RenegadeSubordinateComponent>(uid);
             _sharedStun.TryUpdateParalyzeDuration(uid, stunTime);
-            _popup.PopupEntity(Loc.GetString("Renegade-break-control", ("name", name)), uid);
+            _popup.PopupEntity(Loc.GetString("renegade-break-control", ("name", name)), uid);
         }
     }
 
