@@ -75,6 +75,18 @@
   - type: PresetIdCard
     job: SecurityPilot
 
+- type: entity
+  parent: IDCardStandard
+  id: IDCardVirologist
+  name: ID-карта вирусолога
+  components:
+  - type: Sprite
+    layers:
+    - state: default
+    - state: idvirologist
+  - type: PresetIdCard
+    job: Virologist
+
 # Taipan
 
 - type: entity

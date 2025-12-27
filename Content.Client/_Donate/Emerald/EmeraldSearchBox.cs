@@ -14,6 +14,8 @@ public sealed class EmeraldSearchBox : Control
     [Dependency] private readonly IResourceCache _resourceCache = default!;
     [Dependency] private readonly IClipboardManager _clipboard = default!;
 
+    private const int BaseFontSize = 10;
+
     private Font _font = default!;
     private string _text = "";
     private string _placeholder = "SEARCH...";
@@ -57,18 +59,13 @@ public sealed class EmeraldSearchBox : Control
     public EmeraldSearchBox()
     {
         IoCManager.InjectDependencies(this);
-        UpdateFont();
+        _font = new VectorFont(
+            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
+            BaseFontSize);
         MouseFilter = MouseFilterMode.Stop;
         CanKeyboardFocus = true;
         KeyboardFocusOnClick = true;
         DefaultCursorShape = CursorShape.IBeam;
-    }
-
-    private void UpdateFont()
-    {
-        _font = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(10 * UIScale));
     }
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
@@ -89,9 +86,9 @@ public sealed class EmeraldSearchBox : Control
         handle.DrawLine(rect.BottomRight, rect.BottomLeft, borderColor);
         handle.DrawLine(rect.BottomLeft, rect.TopLeft, borderColor);
 
-        var padding = 6f;
+        var padding = 6f * UIScale;
         var contentRect = new UIBox2(padding, 0, PixelSize.X - padding, PixelSize.Y);
-        var offsetY = (PixelSize.Y - _font.GetLineHeight(1f)) / 2f;
+        var offsetY = (PixelSize.Y - _font.GetLineHeight(UIScale)) / 2f;
 
         var displayText = string.IsNullOrEmpty(_text) ? _placeholder : _text;
         var displayColor = string.IsNullOrEmpty(_text) ? _placeholderColor : _textColor;
@@ -103,7 +100,7 @@ public sealed class EmeraldSearchBox : Control
 
         foreach (var rune in displayText.EnumerateRunes())
         {
-            var metrics = _font.GetCharMetrics(rune, 1f);
+            var metrics = _font.GetCharMetrics(rune, UIScale);
             if (metrics.HasValue)
             {
                 posX += metrics.Value.Advance;
@@ -139,7 +136,7 @@ public sealed class EmeraldSearchBox : Control
 
         foreach (var rune in displayText.EnumerateRunes())
         {
-            var metrics = _font.GetCharMetrics(rune, 1f);
+            var metrics = _font.GetCharMetrics(rune, UIScale);
             if (!metrics.HasValue)
                 continue;
 
@@ -148,7 +145,7 @@ public sealed class EmeraldSearchBox : Control
 
             if (baseLine.X + metrics.Value.Width >= contentRect.Left)
             {
-                handle.DrawString(_font, baseLine, rune.ToString(), 1f, displayColor);
+                handle.DrawString(_font, baseLine, rune.ToString(), UIScale, displayColor);
             }
 
             baseLine += new Vector2(metrics.Value.Advance, 0);
@@ -162,14 +159,17 @@ public sealed class EmeraldSearchBox : Control
             // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (selectionLower != selectionUpper)
             {
+                var selectionPadding = 2f * UIScale;
                 handle.DrawRect(
-                    new UIBox2(padding + selectionLower, 2, padding + selectionUpper, PixelSize.Y - 2),
+                    new UIBox2(padding + selectionLower, selectionPadding, padding + selectionUpper, PixelSize.Y - selectionPadding),
                     _selectionColor.WithAlpha(0.4f));
             }
 
+            var cursorPadding = 2f * UIScale;
+            var cursorWidth = 1f * UIScale;
             var cursorColor = _cursorColor.WithAlpha(_blink.Opacity);
             handle.DrawRect(
-                new UIBox2(padding + actualCursorPosition, 2, padding + actualCursorPosition + 1, PixelSize.Y - 2),
+                new UIBox2(padding + actualCursorPosition, cursorPadding, padding + actualCursorPosition + cursorWidth, PixelSize.Y - cursorPadding),
                 cursorColor);
         }
     }
@@ -181,7 +181,7 @@ public sealed class EmeraldSearchBox : Control
 
         if (_mouseSelectingText)
         {
-            var padding = 6f;
+            var padding = 6f * UIScale;
             var contentBox = new UIBox2(padding, 0, PixelSize.X - padding, PixelSize.Y);
             var index = GetIndexAtPos(MathHelper.Clamp(_lastMousePosition, contentBox.Left, contentBox.Right));
             _cursorPosition = index;
@@ -377,7 +377,7 @@ public sealed class EmeraldSearchBox : Control
 
     private int GetIndexAtPos(float horizontalPos)
     {
-        var padding = 6f;
+        var padding = 6f * UIScale;
         var clickPosX = horizontalPos;
 
         var index = 0;
@@ -386,7 +386,7 @@ public sealed class EmeraldSearchBox : Control
 
         foreach (var rune in _text.EnumerateRunes())
         {
-            var metrics = _font.GetCharMetrics(rune, 1f);
+            var metrics = _font.GetCharMetrics(rune, UIScale);
             if (!metrics.HasValue)
             {
                 index += rune.Utf16SequenceLength;
@@ -415,7 +415,6 @@ public sealed class EmeraldSearchBox : Control
     protected override void UIScaleChanged()
     {
         base.UIScaleChanged();
-        UpdateFont();
         InvalidateMeasure();
     }
 

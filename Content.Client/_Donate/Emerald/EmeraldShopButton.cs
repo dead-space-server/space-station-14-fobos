@@ -46,22 +46,33 @@ public sealed class EmeraldShopButton : Control
     {
         IoCManager.InjectDependencies(this);
         MouseFilter = MouseFilterMode.Stop;
-        UpdateFont();
-    }
 
-    private void UpdateFont()
-    {
         _font = new VectorFont(
             _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(BaseFontSize * UIScale));
+            BaseFontSize);
     }
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
     {
-        var textWidth = GetTextWidth(_text.ToUpper());
+        var textWidth = GetTextWidthLogical(_text.ToUpper());
         var paddingX = 20f;
         var paddingY = 12f;
         return new Vector2(textWidth + paddingX * 2, _font.GetLineHeight(1f) + paddingY);
+    }
+
+    private float GetTextWidthLogical(string text)
+    {
+        if (string.IsNullOrEmpty(text))
+            return 0f;
+
+        var width = 0f;
+        foreach (var rune in text.EnumerateRunes())
+        {
+            var metrics = _font.GetCharMetrics(rune, 1f);
+            if (metrics.HasValue)
+                width += metrics.Value.Advance;
+        }
+        return width;
     }
 
     protected override void FrameUpdate(FrameEventArgs args)
@@ -95,7 +106,7 @@ public sealed class EmeraldShopButton : Control
 
         for (int i = 0; i < 3; i++)
         {
-            var offset = i * 1f;
+            var offset = i * 1f * UIScale;
             var glowRect = new UIBox2(
                 rect.Left - offset,
                 rect.Top - offset,
@@ -110,30 +121,32 @@ public sealed class EmeraldShopButton : Control
 
         if (_hovered)
         {
-            var hoverGlowRect = new UIBox2(rect.Left - 2, rect.Top - 2, rect.Right + 2, rect.Bottom + 2);
+            var hoverOffset = 2f * UIScale;
+            var hoverGlowRect = new UIBox2(rect.Left - hoverOffset, rect.Top - hoverOffset, rect.Right + hoverOffset, rect.Bottom + hoverOffset);
             DrawBorder(handle, hoverGlowRect, _hoverGlowColor.WithAlpha(_glowIntensity * 0.6f));
 
             var innerGlowAlpha = _glowIntensity * 0.15f;
             handle.DrawRect(rect, _hoverGlowColor.WithAlpha(innerGlowAlpha));
         }
 
-        var accentLineHeight = 2f;
-        var accentRect = new UIBox2(rect.Left + 4, rect.Bottom - accentLineHeight - 4, rect.Right - 4, rect.Bottom - 4);
+        var accentLineHeight = 2f * UIScale;
+        var accentPadding = 4f * UIScale;
+        var accentRect = new UIBox2(rect.Left + accentPadding, rect.Bottom - accentLineHeight - accentPadding, rect.Right - accentPadding, rect.Bottom - accentPadding);
         handle.DrawRect(accentRect, _accentColor.WithAlpha(pulse));
 
         var displayText = _text.ToUpper();
         var textWidth = GetTextWidth(displayText);
         var textX = (PixelSize.X - textWidth) / 2f;
-        var textY = (PixelSize.Y - _font.GetLineHeight(1f)) / 2f;
+        var textY = (PixelSize.Y - _font.GetLineHeight(UIScale)) / 2f;
 
         if (_pressed)
         {
-            textY += 1f;
+            textY += 1f * UIScale;
         }
 
-        var shadowOffset = new Vector2(1f, 1f);
-        handle.DrawString(_font, new Vector2(textX, textY) + shadowOffset, displayText, 1f, Color.Black.WithAlpha(0.5f));
-        handle.DrawString(_font, new Vector2(textX, textY), displayText, 1f, _textColor);
+        var shadowOffset = new Vector2(1f * UIScale, 1f * UIScale);
+        handle.DrawString(_font, new Vector2(textX, textY) + shadowOffset, displayText, UIScale, Color.Black.WithAlpha(0.5f));
+        handle.DrawString(_font, new Vector2(textX, textY), displayText, UIScale, _textColor);
     }
 
     private void DrawBorder(DrawingHandleScreen handle, UIBox2 rect, Color color)
@@ -152,7 +165,7 @@ public sealed class EmeraldShopButton : Control
         var width = 0f;
         foreach (var rune in text.EnumerateRunes())
         {
-            var metrics = _font.GetCharMetrics(rune, 1f);
+            var metrics = _font.GetCharMetrics(rune, UIScale);
             if (metrics.HasValue)
                 width += metrics.Value.Advance;
         }
@@ -204,7 +217,6 @@ public sealed class EmeraldShopButton : Control
     protected override void UIScaleChanged()
     {
         base.UIScaleChanged();
-        UpdateFont();
         InvalidateMeasure();
     }
 }

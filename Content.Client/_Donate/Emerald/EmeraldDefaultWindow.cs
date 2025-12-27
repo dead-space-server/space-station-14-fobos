@@ -20,9 +20,10 @@ public class EmeraldDefaultWindow : EmeraldBaseWindow
     public DirectionFlag AllowOffScreen = ~DirectionFlag.North;
 
     private const int DragMarginSize = 7;
-    private const float HeaderHeight = 30f;
-    private const float CloseButtonSize = 20f;
-    private const float ContentPadding = 10f;
+    private const float BaseHeaderHeight = 30f;
+    private const float BaseCloseButtonSize = 20f;
+    private const float BaseContentPadding = 10f;
+    private const int BaseTitleFontSize = 14;
 
     private Font _titleFont = default!;
     private string _title = "Window";
@@ -38,6 +39,10 @@ public class EmeraldDefaultWindow : EmeraldBaseWindow
     private readonly Color _separatorColor = Color.FromHex("#4a3a6a");
 
     public bool TransparentHeader { get; set; } = true;
+
+    private float HeaderHeight => BaseHeaderHeight * UIScale;
+    private float CloseButtonSize => BaseCloseButtonSize * UIScale;
+    private float ContentPadding => BaseContentPadding * UIScale;
 
     public string Title
     {
@@ -61,21 +66,15 @@ public class EmeraldDefaultWindow : EmeraldBaseWindow
 
         _contents = new Control
         {
-            Margin = new Thickness(ContentPadding),
+            Margin = new Thickness(BaseContentPadding),
             RectClipContent = true
         };
 
         AddChild(_contents);
 
-        UpdateFont();
-    }
-
-    private void UpdateFont()
-    {
-        var fontSize = 14;
         _titleFont = new VectorFont(
             _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(fontSize * UIScale));
+            BaseTitleFontSize);
     }
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
@@ -127,7 +126,7 @@ public class EmeraldDefaultWindow : EmeraldBaseWindow
             _separatorColor);
 
         var titleWidth = GetTextWidth(_title);
-        var maxTitleWidth = pixelSize.X - CloseButtonSize - 20;
+        var maxTitleWidth = pixelSize.X - CloseButtonSize - 20f * UIScale;
         var displayTitle = _title;
 
         if (titleWidth > maxTitleWidth)
@@ -135,16 +134,16 @@ public class EmeraldDefaultWindow : EmeraldBaseWindow
             displayTitle = TruncateText(_title, maxTitleWidth);
         }
 
-        var titleX = 10f;
-        var titleY = (HeaderHeight - _titleFont.GetLineHeight(1f)) / 2f;
+        var titleX = 10f * UIScale;
+        var titleY = (HeaderHeight - _titleFont.GetLineHeight(UIScale)) / 2f;
 
-        handle.DrawString(_titleFont, new Vector2(titleX, titleY), displayTitle, 1f, _titleColor);
+        handle.DrawString(_titleFont, new Vector2(titleX, titleY), displayTitle, UIScale, _titleColor);
     }
 
     private void DrawCloseButton(DrawingHandleScreen handle, Vector2 pixelSize)
     {
         var buttonSize = CloseButtonSize;
-        var buttonX = pixelSize.X - buttonSize - 5;
+        var buttonX = pixelSize.X - buttonSize - 5f * UIScale;
         var buttonY = (HeaderHeight - buttonSize) / 2f;
         var buttonRect = new UIBox2(buttonX, buttonY, buttonX + buttonSize, buttonY + buttonSize);
 
@@ -192,7 +191,7 @@ public class EmeraldDefaultWindow : EmeraldBaseWindow
 
         foreach (var rune in text.EnumerateRunes())
         {
-            var metrics = _titleFont.GetCharMetrics(rune, 1f);
+            var metrics = _titleFont.GetCharMetrics(rune, UIScale);
             if (metrics.HasValue)
             {
                 if (currentWidth + metrics.Value.Advance + ellipsisWidth > maxWidth)
@@ -213,7 +212,7 @@ public class EmeraldDefaultWindow : EmeraldBaseWindow
         var width = 0f;
         foreach (var rune in text.EnumerateRunes())
         {
-            var metrics = _titleFont.GetCharMetrics(rune, 1f);
+            var metrics = _titleFont.GetCharMetrics(rune, UIScale);
             if (metrics.HasValue)
                 width += metrics.Value.Advance;
         }
@@ -222,13 +221,13 @@ public class EmeraldDefaultWindow : EmeraldBaseWindow
 
     private bool IsOverCloseButton(Vector2 relativePos)
     {
-        var buttonX = Size.X - CloseButtonSize - 5;
-        var buttonY = (HeaderHeight - CloseButtonSize) / 2f;
+        var buttonX = Size.X - CloseButtonSize / UIScale - 5f;
+        var buttonY = (BaseHeaderHeight - BaseCloseButtonSize) / 2f;
 
         return relativePos.X >= buttonX &&
-               relativePos.X <= buttonX + CloseButtonSize &&
+               relativePos.X <= buttonX + BaseCloseButtonSize &&
                relativePos.Y >= buttonY &&
-               relativePos.Y <= buttonY + CloseButtonSize;
+               relativePos.Y <= buttonY + BaseCloseButtonSize;
     }
 
     protected override void MouseMove(GUIMouseMoveEventArgs args)
@@ -314,7 +313,7 @@ public class EmeraldDefaultWindow : EmeraldBaseWindow
             }
         }
 
-        if (mode == DragMode.None && relativeMousePos.Y < HeaderHeight)
+        if (mode == DragMode.None && relativeMousePos.Y < BaseHeaderHeight)
         {
             mode = DragMode.Move;
         }
@@ -354,7 +353,6 @@ public class EmeraldDefaultWindow : EmeraldBaseWindow
     protected override void UIScaleChanged()
     {
         base.UIScaleChanged();
-        UpdateFont();
         InvalidateMeasure();
     }
 

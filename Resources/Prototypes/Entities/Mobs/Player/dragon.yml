@@ -88,12 +88,12 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      450: Critical
-      500: Dead
+      500: Critical #DS14
+      525: Dead #DS14
   - type: SlowOnDamage
     speedModifierThresholds:
-      250: 0.7
-      400: 0.5
+      325: 0.7 #DS14
+      415: 0.5 #DS14
   # disable taking damage from fire, since its a fire breathing dragon
   - type: Flammable
     damage:
@@ -131,8 +131,8 @@
       path: /Audio/Weapons/Xeno/alien_claw_flesh3.ogg
     damage:
       types:
-        Piercing: 15
-        Slash: 15
+        Piercing: 19 #DS14
+        Slash: 17 #DS14
   - type: Devourer
     foodPreferenceWhitelist:
       components:
@@ -141,7 +141,7 @@
       components:
       - MobState
     chemical: Ichor
-    healRate: 7.5
+    healRate: 7.0 #DS14
     whitelist:
       components:
       - MobState
@@ -175,6 +175,10 @@
     color: "#22334411"
     animation: true
     transitionSpeed: 100
+  - type: DeadSpaceJumpAbility
+    jumpSound:
+      collection: MantisRush
+  - type: AntiRottingContainer
   # DS14-end
 
 - type: entity
@@ -211,7 +215,7 @@
     soundGunshot:
       path: /Audio/Animals/space_dragon_roar.ogg
     soundEmpty: null
-    projectileSpeed: 5
+    projectileSpeed: 7 #DS14
 
 - type: entity
   parent: BaseMobDragon
