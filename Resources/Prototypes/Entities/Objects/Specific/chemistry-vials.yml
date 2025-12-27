@@ -10,6 +10,7 @@
     tags:
     - Trash
     - CentrifugeCompatible
+    - DiagnoserFlask # DS14
   - type: PhysicalComposition
     materialComposition:
       Glass: 25

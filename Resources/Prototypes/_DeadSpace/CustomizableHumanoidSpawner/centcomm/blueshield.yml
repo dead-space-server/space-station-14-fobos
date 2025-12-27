@@ -23,6 +23,7 @@
     name: ghost-role-information-blueshieldofficer-name
     description: ghost-role-information-blueshieldofficer-description
     rules: ghost-role-information-centcom-personal-rules
+    category: ghost-role-information-centcomm-category
     requirements:
       - !type:OverallPlaytimeRequirement
         time: 252000 # 70 hours

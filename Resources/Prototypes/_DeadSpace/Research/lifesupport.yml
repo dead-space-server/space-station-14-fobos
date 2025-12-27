@@ -64,19 +64,6 @@
   - FauxTileAstroAsteroidSand
 
 - type: technology
-  id: TaipanBasicHypospray
-  name: research-technology-basic-hypospray
-  icon:
-    sprite: _ADT/Objects/Specific/cyberhypo.rsi
-    state: hypo
-  discipline: TaipanLifeSupport
-  tier: 1
-  cost: 7500
-  diskAvailable: false
-  recipeUnlocks:
-  - ADTCyberHypospray
-
-- type: technology
   id: TaipanSustainableContainers
   name: research-technology-sustainable-containers
   icon:
@@ -90,6 +77,19 @@
   - DrinkShakerSyndie
 
 # Tier 2
+
+- type: technology
+  id: TaipanBasicHypospray
+  name: research-technology-basic-hypospray
+  icon:
+    sprite: _ADT/Objects/Specific/cyberhypo.rsi
+    state: hypo
+  discipline: TaipanLifeSupport
+  tier: 2
+  cost: 15000
+  diskAvailable: false
+  recipeUnlocks:
+  - ADTCyberHypospray
 
 - type: technology
   id: TaipanBiofabrication
@@ -181,20 +181,6 @@
   - CargoTelepadMachineCircuitboardTaipan
 
 - type: technology
-  id: TaipanHypopen
-  name: research-technology-hypopen
-  icon:
-    sprite: Objects/Misc/pens.rsi
-    state: pen
-  discipline: TaipanLifeSupport
-  tier: 2
-  cost: 15000
-  diskAvailable: false
-  recipeUnlocks:
-  - Hypopen
-  - HypoDart
-
-- type: technology
   id: TaipanArmorVest
   name: research-technology-armor-vest
   icon:
@@ -231,7 +217,46 @@
   - ClothingUniformJumpsuitChameleon
   - ChameleonPDA
 
+- type: technology
+  id: TaipanLanguageImplants
+  name: research-technology-language-implants
+  icon:
+    sprite: Objects/Specific/Medical/syndi_implanter.rsi
+    state: implanter1
+  discipline: TaipanLifeSupport
+  tier: 2
+  cost: 15000
+  recipeUnlocks:
+  - LearnSlimeLanguageImplanter
+  - LearnArachnidLanguageImplanter
+  - LearnMothLanguageImplanter
+  - LearnReptilianLanguageImplanter
+  - LearnVoxLanguageImplanter
+  - LearnDemonLanguageImplanter
+  - LearnCatLanguageImplanter
+  - LearnMachineLanguageImplanter
+  - LearnPlafLanguageImplanter
+  - LearnVulpkaninLanguageImplanter
+  - LearnXenomorphLanguageImplanter
+  - LearnDogLanguageImplanter
+
 # Tier 3
+
+- type: technology
+  id: TaipanHypopen
+  name: research-technology-hypopen
+  icon:
+    sprite: Objects/Misc/pens.rsi
+    state: pen
+  discipline: TaipanLifeSupport
+  tier: 3
+  cost: 30000
+  diskAvailable: false
+  recipeUnlocks:
+  - Hypopen
+  - HypoDart
+  technologyPrerequisites:
+  - TaipanBasicHypospray
 
 - type: technology
   id: TaipanCloning
@@ -248,6 +273,8 @@
   - MedicalScannerMachineCircuitboard
   - CloningConsoleComputerCircuitboard
 
+# Tier 4
+
 - type: technology
   id: TaipanAdvancedHypospray
   name: research-technology-advanced-hypospray
@@ -255,11 +282,13 @@
     sprite: Objects/Specific/Medical/syndihypo.rsi
     state: hypo
   discipline: TaipanLifeSupport
-  tier: 3
-  cost: 30000
+  tier: 4
+  cost: 50000
   diskAvailable: false
   recipeUnlocks:
   - SyndiHypo
+  technologyPrerequisites:
+  - TaipanHypopen
 
 - type: technology
   id: TaipanDefibrillatorSyndicate
@@ -268,8 +297,8 @@
     sprite: Objects/Specific/Medical/defibsyndi.rsi
     state: icon
   discipline: TaipanLifeSupport
-  tier: 3
-  cost: 30000
+  tier: 4
+  cost: 50000
   diskAvailable: false
   recipeUnlocks:
   - DefibrillatorSyndicate

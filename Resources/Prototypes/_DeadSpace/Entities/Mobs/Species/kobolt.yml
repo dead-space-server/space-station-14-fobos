@@ -84,7 +84,7 @@
       301: 0.8
       295: 0.6
       285: 0.4
-  # - type: Wagging
+  - type: Wagging
   - type: Inventory
     speciesId: reptilian # for reptilian masks
     femaleDisplacements:

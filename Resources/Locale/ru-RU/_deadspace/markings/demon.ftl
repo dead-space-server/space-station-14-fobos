@@ -1,6 +1,12 @@
-marking-DemomTail1 = острый конец, хвост
-marking-DemomTailLong = длинный и пушистый, хвост
-marking-DemomTailUp = длинный и пушистый, хвост (приподнят)
+marking-DemonTail1 = острый конец, хвост
+marking-DemonTailLong = длинный и пушистый, хвост
+marking-DemonTailUp = длинный и пушистый, хвост (приподнят)
+marking-DemonTailColor = хвост
+marking-DemonTailAnimated = хвост (движущийся)
+marking-DemonTail1Animated =  острый конец, хвост (движущийся)
+marking-DemonTailLongAnimated = длинный и пушистый, хвост (движущийся)
+marking-DemonTailUpAnimated = длинный и пушистый, хвост (приподнят, движущийся)
+marking-DemonTailColorAnimated = хвост (движущийся)
 marking-DemonCowEars = коровьи ушки, уши
 marking-DemonEars = демонические ушки, уши
 marking-DemonCowHorns = коровьи рожки, рога

@@ -13,9 +13,16 @@
     - GeneralLanguage
   - type: TypingIndicator
     proto: vulpkanin
-  - type: Vulpkanin
   - type: Sanity
   - type: RoarAccent
+  - type: Tag
+    tags:
+    - VulpkaninEmotes
+    - TailEmotes
+    - CanPilot
+    - FootstepSound
+    - DoorBumpOpener
+    - AnomalyHost
   # DS14-end
   - type: Hunger
   - type: Thirst
@@ -137,8 +144,8 @@
           32:
             sprite: Mobs/Species/Vulpkanin/displacement.rsi
             state: hair
-#  - type: Inventory
-#    speciesId: vulpkanin
+  - type: Inventory
+    speciesId: vulpkanin
 #    displacements:
 #      jumpsuit:
 #        sizeMaps:

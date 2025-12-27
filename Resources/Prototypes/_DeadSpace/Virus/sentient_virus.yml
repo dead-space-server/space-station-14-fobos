@@ -1,0 +1,81 @@
+- type: entity
+  parent:
+  - Incorporeal
+  - BaseMob
+  id: SentientVirus
+  name: разумный вирус
+  description: Разум вируса.
+  categories: [ DoNotMap ]
+  components:
+  - type: WallHack
+  - type: Input
+    context: "ghost"
+  - type: NoFTL
+  - type: Clickable
+  - type: InteractionOutline
+  - type: Physics
+    bodyType: KinematicController
+  - type: MovementIgnoreGravity
+  - type: Examiner
+  - type: NoSlip
+  - type: Actions
+  - type: ContentEye
+    maxZoom: 1.5, 1.5
+  - type: DoAfter
+  - type: Alerts
+  - type: NameIdentifier
+    group: GenericNumber
+  - type: Eye
+    pvsScale: 1.5
+    drawFov: false
+    visMask:
+      - Normal
+      - Ghost
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 20
+    baseSprintSpeed: 10
+  - type: Tag
+    tags:
+    - GhostOnlyWarp
+  - type: WarpPoint
+    follow: true
+    blacklist:
+      tags:
+      - GhostOnlyWarp
+  - type: Visibility
+    layer: 2
+  - type: Sprite
+    sprite: _DeadSpace/Virus/virus.rsi
+    layers:
+    - state: icon
+      shader: unshaded
+      map: ["base"]
+  - type: UserInterface
+    interfaces:
+        enum.VirusEvolutionConsoleUiKey.Key:
+          type: VirusEvolutionConsoleBoundUserInterface
+  - type: SentientVirus
+    data: 
+      mutationPoints: 3000
+
+- type: entity
+  categories: [ HideSpawnMenu, Spawner ]
+  parent: BaseAntagSpawner
+  id: SpawnPointSentientVirus
+  components:
+  - type: GhostRoleMobSpawner
+    prototype: SentientVirus
+  - type: GhostRole
+    name: ghost-role-information-sentient-virus-name
+    description: ghost-role-information-sentient-virus-description
+    rules: ghost-role-information-sentient-virus-rules
+    mindRoles:
+    - MindRoleSentientVirus
+    requirements:
+    - !type:OverallPlaytimeRequirement
+      time: 36000 # 10h overall
+  - type: Sprite
+    layers:
+    - state: green
+    - sprite: _DeadSpace/Virus/virus.rsi
+      state: icon

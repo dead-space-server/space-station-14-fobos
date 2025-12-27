@@ -1,0 +1,35 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Taken from tgstation https://github.com/tgstation/tgstation/blob/HEAD/icons/obj/food/food.dmi",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "gingerbread_bear"
+        },
+        {
+            "name": "gingerbread_cane"
+        },
+        {
+            "name": "gingerbread_man"
+        },
+        {
+            "name": "gingerbread_present"
+        },
+        {
+            "name": "gingerbread_santa"
+        },
+        {
+            "name": "gingerbread_star"
+        },
+        {
+            "name": "gingerbread_stocking"
+        },
+        {
+            "name": "gingerbread_tree"
+        }
+    ]
+}

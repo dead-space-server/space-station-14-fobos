@@ -11,7 +11,7 @@
     - !type:DepartmentTimeRequirement
       department: Security
       time: 20h
-  # guides: [ NuclearOperatives ] # DS14: disabled due to lack of localization
+  guides: [ NuclearOperatives ]
 
 - type: antag
   id: NukeopsMedic
@@ -29,7 +29,7 @@
     - !type:DepartmentTimeRequirement
       department: Security
       time: 20h
-  # guides: [ NuclearOperatives ] # DS14: disabled due to lack of localization
+  guides: [ NuclearOperatives ]
 
 - type: antag
   id: NukeopsCommander
@@ -48,7 +48,7 @@
       department: Command
       time: 20h
   # should be changed to nukie playtime when thats tracked (wyci)
-  # guides: [ NuclearOperatives ] # DS14: disabled due to lack of localization
+  guides: [ NuclearOperatives ]
 
 - type: startingGear
   id: SyndicateOperativeGearFullNoUplink

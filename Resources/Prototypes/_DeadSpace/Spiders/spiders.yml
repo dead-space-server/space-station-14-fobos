@@ -148,7 +148,9 @@
     factions:
     - SpiderTerror
   - type: NightVision
-    color: "#80008022"
+    animation: true
+    transitionSpeed: 100
+    color: "#80008011"
   - type: IntrinsicRadioReceiver
   - type: IntrinsicRadioTransmitter
     channels:
@@ -890,9 +892,9 @@
   - type: StunRadius
     actionStunRadius: ActionStunRadiusSpider
     paralyzeTime: 3 # Время стана
-    launchForwardsMultiplier: 1 # Длинна слодьжения после стана
     rangeStun: 5 # Радиус способности
     ignorAlien: true # Не трогать союзников
+    stunBorg: false
     stunRadiusSound:
       path: /Audio/Animals/space_dragon_roar.ogg # Звуки способности
   - type: Puller
@@ -986,7 +988,7 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      100: Critical
+      # 100: Critical
       200: Dead
   - type: Fixtures
     fixtures:
@@ -1025,7 +1027,7 @@
     countReagent: 20 # Сколько при спавне
     maxCountReagent: 20 #Хранилище реагента
     durationRegenReagent: 10 # Время регена
-    reagent: Stimulants # Что в хранилище    
+    reagent: Stimulants # Что в хранилище
   - type: BloodIncubator
     states:
     - running
@@ -1071,7 +1073,7 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      250: Critical
+      # 250: Critical
       350: Dead
   - type: Fixtures
     fixtures:
@@ -1120,7 +1122,7 @@
     countReagent: 20 # Сколько при спавне
     maxCountReagent: 20 #Хранилище реагента
     durationRegenReagent: 10 # Время регена
-    reagent: Stimulants # Что в хранилище    
+    reagent: Stimulants # Что в хранилище
   - type: ActionGun
     action: ActionSpiderWebShot
     gunProto: SpiderWebGun

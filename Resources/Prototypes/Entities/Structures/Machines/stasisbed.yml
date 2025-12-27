@@ -65,3 +65,7 @@
     guides:
     - MedicalDoctor
   - type: PowerSwitch
+   # DS14-start
+  - type: BedRegeneration
+    regenerationType: Stasis
+  # DS14-end

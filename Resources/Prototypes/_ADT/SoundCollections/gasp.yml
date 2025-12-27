@@ -1,0 +1,12 @@
+﻿- type: soundCollection
+  id: MaleSlimeGasp
+  files:
+  - /Audio/_ADT/Effects/Gasp/Slime/s_gasp_male_1.ogg
+  - /Audio/_ADT/Effects/Gasp/Slime/s_gasp_male_2.ogg
+
+- type: soundCollection
+  id: FemaleSlimeGasp
+  files:
+  - /Audio/_ADT/Effects/Gasp/Slime/s_gasp_female_1.ogg
+  - /Audio/_ADT/Effects/Gasp/Slime/s_gasp_female_2.ogg
+  - /Audio/_ADT/Effects/Gasp/Slime/s_gasp_female_3.ogg

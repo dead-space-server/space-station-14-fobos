@@ -1,6 +1,6 @@
 ﻿- type: body
   id: Rat
-  name: "animal"
+  name: "крыса" # DS14
   root: torso
   slots:
     torso:

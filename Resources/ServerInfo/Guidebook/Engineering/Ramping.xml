@@ -1,20 +1,21 @@
 ﻿<Document>
-  # Ramping
-  Contrary to what one might expect from a video game electrical simulation, power is not instantly provided upon request.
+  # Разгон генераторов
+  Вопреки ожиданиям, энергия в этой игре поставляется не сразу по запросу.
+  <Box>
+    <GuideEntityEmbed Entity="SMESBasic"/>
+  </Box>
+  Генераторам и батареям необходимо время, чтобы разогнаться до уровня потребления, что приводит к дефициту при больших изменениях в потреблении. Например, когда батареи исчерпывают свой заряд.
 
-  Generators and batteries take time to ramp up to match the draw imposed on them, which leads to brownouts when there are large changes in current draw all at once; for example, when batteries run out.
+  Простой пример:
+  - У вас есть генератор, производящий [color=yellow]100 кВт[/color] энергии.
+  - Если к сети подключено устройство, потребляющее [color=yellow]50 кВт[/color], генератор будет вырабатывать именно столько, вместо полных [color=yellow]100 кВт[/color].
+  - Если же вы затем включите ещё один такое устройство, генератору потребуется некоторое время до разгона до [color=yellow]100 кВт[/color]. Энергия не будет получена моментально.
+  - В это время, сеть будет слегка в дефиците, приводя к локальным отключениям питания.
+  - Через время, генератор разгонится до [color=yellow]100 кВт[/color] и сеть стабилизируется.
 
-  Observe the following example:
-  - Say you have a generator that outputs 100 kW of power.
-  - If you have a device that draws 50 kW of power, the generator will output 50 kW of power to match the grid's demand to its supply.
-  - If you then turn on a device that draws another 50 kW of power, the generator will take time to ramp up to 100 kW of power. It will not provide this power instantly.
-  - During this time, devices will not recieve the power they need, and the grid will experience a temporary brownout.
-  - After some seconds have passed, the generator will have ramped up to 100 kW of power, and the brownout will end. All devices are now satisfied with the power they are receiving.
+  Чаще всего, такие ситуации наблюдаются, когда у генераторов кончается топливо.
+  В один момент, станция лишилась огромного количества энергии. Все устройства будут подвергнуты кратковременному отключению питания, пока СМЭСы или другие генераторы разгоняются для закрытия дыр.
 
-  During a shift, this is most commonly observed when a generator runs out of fuel and suddenly stops producing power.
-  Suddenly the grid is hit with a large deficit of power (as supply has fallen below demand), and all devices will experience a brownout until SMESes or other generators can ramp up to match the new demand.
-
-  This can also happen when a large power consuming device or department is reconnected to the grid.
-  The sudden increase in power draw will cause a brownout until the generators can ramp up to match the new demand.
+  То же самое может случиться если подключить устройство с высоким потреблением к сети.
 
 </Document>

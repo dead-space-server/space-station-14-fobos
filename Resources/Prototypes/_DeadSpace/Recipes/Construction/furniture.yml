@@ -27,3 +27,17 @@
   category: construction-category-furniture
   placementMode: SnapgridCenter
   canBuildInImpassable: false
+
+# Snowman
+- type: construction
+  id: Snowman
+  graph: Snowman
+  startNode: start
+  targetNode: snowman
+  category: construction-category-furniture
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canRotate: true
+  canBuildInImpassable: false
+  conditions:
+  - !type:TileNotBlocked

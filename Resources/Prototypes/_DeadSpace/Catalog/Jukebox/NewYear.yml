@@ -1,0 +1,29 @@
+- type: jukebox
+  id: CaroloftheBells
+  name: Audionautix - Carol Of The Bells
+  path:
+    path: /Audio/_Corvax/Lobby/NewYear/carol-of-the-bells.ogg
+
+- type: jukebox
+  id: DanceoftheSugarPlumFairy
+  name: Kevin MacLeod - Dance of the Sugar Plum Fairy
+  path:
+    path: /Audio/_Corvax/Lobby/NewYear/dance-of-sugar-plum-fairy.ogg
+
+- type: jukebox
+  id: DecktheHalls
+  name: Kevin MacLeod - Deck the Halls
+  path:
+    path: /Audio/_Corvax/Lobby/NewYear/deck-in-the-halls.ogg
+
+- type: jukebox
+  id: JingleBells
+  name: Kevin MacLeod - Jingle Bells
+  path:
+    path: /Audio/_Corvax/Lobby/NewYear/jingle-bells.ogg
+
+- type: jukebox
+  id: WishYouaMerryChristmas
+  name: Twin Musicom - Wish You a Merry Christmas
+  path:
+    path: /Audio/_Corvax/Lobby/NewYear/wish-you-a-merry-christmas.ogg

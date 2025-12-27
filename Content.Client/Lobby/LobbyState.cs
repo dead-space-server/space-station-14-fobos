@@ -1,3 +1,4 @@
+using Content.Client._Donate.UI;
 using Content.Client.GameTicking.Managers;
 using Content.Client.LateJoin;
 using Content.Client.Lobby.UI;
@@ -56,11 +57,19 @@ namespace Content.Client.Lobby
             Lobby.ReadyButton.OnPressed += OnReadyPressed;
             Lobby.ReadyButton.OnToggled += OnReadyToggled;
 
+            Lobby.DonateButton.OnPressed += OnDonatePressed;
+
             _gameTicker.InfoBlobUpdated += UpdateLobbyUi;
             _gameTicker.LobbyStatusUpdated += LobbyStatusUpdated;
             _gameTicker.LobbyLateJoinStatusUpdated += LobbyLateJoinStatusUpdated;
 
             _cfg.OnValueChanged(CCCCVars.Background, OnBackgroundChanged, true);
+        }
+
+        private void OnDonatePressed(BaseButton.ButtonEventArgs obj)
+        {
+            var controller = _userInterfaceManager.GetUIController<DonateShopUIController>();
+            controller.ToggleWindow();
         }
 
         private void OnBackgroundChanged(string obj)
@@ -81,6 +90,8 @@ namespace Content.Client.Lobby
             Lobby!.CharacterSetup.OnPressed -= OnSetupPressed;
             Lobby!.ReadyButton.OnPressed -= OnReadyPressed;
             Lobby!.ReadyButton.OnToggled -= OnReadyToggled;
+
+            Lobby.DonateButton.OnPressed -= OnDonatePressed;
 
             Lobby = null;
         }

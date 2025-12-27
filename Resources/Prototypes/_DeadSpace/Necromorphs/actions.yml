@@ -56,7 +56,7 @@
 - type: entity
   id: ActionSelectTargetRecruitment
   name: Начать вербовку
-  description: Провести ритуал по вербовки нового члена юнитологии.
+  description: Провести ритуал по вербовки нового члена смертника-юнитологии.
   categories: [ HideSpawnMenu ]
   components:
   - type: Action
@@ -87,7 +87,7 @@
 - type: entity
   id: ActionUnitologyHead
   name: Передать знания
-  description: Ментально передаёт свою роль и знания другому юнитологу.
+  description: Ментально передаёт свою роль и знания другому смертнику-юнитологу.
   categories: [ HideSpawnMenu ]
   components:
   - type: Action

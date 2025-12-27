@@ -1,0 +1,47 @@
+﻿- type: entity
+  id: CrateFunXmasGift
+  name: рождественский набор
+  description: Весёлый рождественский набор, полный праздничных угощений и нарядов.
+  parent: CrateXmas
+  components:
+  - type: StorageFill
+    contents:
+    - id: ClothingHeadHatSantahat
+    - id: ClothingOuterSanta
+    - id: ClothingHeadHatXmas
+    - id: ClothingUniformJumpskirtXmas
+    - id: ClothingUnderwearSocksThighXmas
+    - id: ClothingOuterHardsuitSanta
+      prob: 0.001
+    - id: Sparkler
+      amount: 4
+    - id: DrinkChampagneBottleFull
+    - id: FoodCakeChristmas
+# Gingerbread Cookies
+    - id: FoodBakedGingerbreadMan
+      prob: 0.5
+    - id: FoodBakedGingerbreadStar
+      prob: 0.5
+    - id: FoodBakedGingerbreadBear
+      prob: 0.5
+    - id: FoodBakedGingerbreadTree
+      prob: 0.5
+    - id: FoodBakedGingerbreadCane
+      prob: 0.5
+    - id: FoodBakedGingerbreadStocking
+      prob: 0.5
+    - id: FoodBakedGingerbreadPresent
+      prob: 0.5
+    - id: FoodBakedGingerbreadSanta
+      prob: 0.5
+# Caviar Burgers
+    - id: FoodCaviarBurger
+      prob: 0.5
+    - id: FoodCaviarMagicBurger
+      prob: 0.5
+    - id: FoodCaviarHoloBurger
+      prob: 0.5
+    - id: FoodCaviarRainbowBurger
+      prob: 0.5
+    - id: FoodCaviarBlackBurger
+      prob: 0.5

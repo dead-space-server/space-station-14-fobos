@@ -1,0 +1,14 @@
+﻿- type: constructionGraph
+  id: Snowball
+  start: start
+  graph:
+  - node: start
+    edges:
+    - to: Snowball
+      steps:
+      - material: Snow
+        amount: 1
+        doAfter: 0.5
+
+  - node: Snowball
+    entity: Snowball

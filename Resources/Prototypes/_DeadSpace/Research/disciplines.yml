@@ -7,9 +7,10 @@
     state: industrial
   tierPrerequisites:
     1: 0
-    2: 0.75
-    3: 1.0
-  lockoutTier: 4
+    2: 0.5
+    3: 0.75
+    4: 1.0
+  lockoutTier: 5
 
 - type: techDiscipline
   id: TaipanWeaponry
@@ -20,9 +21,10 @@
     state: arsenal
   tierPrerequisites:
     1: 0
-    2: 0.75
-    3: 1.0
-  lockoutTier: 4
+    2: 0.5
+    3: 0.75
+    4: 1.0
+  lockoutTier: 5
 
 - type: techDiscipline
   id: TaipanResearch
@@ -33,9 +35,10 @@
     state: experimental
   tierPrerequisites:
     1: 0
-    2: 0.75
-    3: 1.0
-  lockoutTier: 4
+    2: 0.5
+    3: 0.75
+    4: 1.0
+  lockoutTier: 5
 
 - type: techDiscipline
   id: TaipanLifeSupport
@@ -46,6 +49,7 @@
     state: biochemical
   tierPrerequisites:
     1: 0
-    2: 0.75
-    3: 1.0
-  lockoutTier: 4
+    2: 0.5
+    3: 0.75
+    4: 1.0
+  lockoutTier: 5

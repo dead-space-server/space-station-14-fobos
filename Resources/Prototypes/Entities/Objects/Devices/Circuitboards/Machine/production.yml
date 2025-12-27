@@ -236,25 +236,27 @@
           amount: 1
           defaultPrototype: Beaker
 
-- type: entity
-  id: DiagnoserMachineCircuitboard
-  parent: BaseMachineCircuitboard
-  name: diagnoser machine board
-  components:
-  - type: Sprite
-    state: medical
-  - type: MachineBoard
-    prototype: DiseaseDiagnoser
-    stackRequirements:
-      Cable: 5
-    tagRequirements:
-      GlassBeaker:
-        amount: 1
-        defaultPrototype: Beaker
-    componentRequirements:
-      BotanySwab:
-        amount: 1
-        defaultPrototype: DiseaseSwab
+# DS14-start
+# - type: entity
+#   id: DiagnoserMachineCircuitboard
+#   parent: BaseMachineCircuitboard
+#   name: diagnoser machine board
+#   components:
+#   - type: Sprite
+#     state: medical
+#   - type: MachineBoard
+#     prototype: DiseaseDiagnoser
+#     stackRequirements:
+#       Cable: 5
+#     tagRequirements:
+#       GlassBeaker:
+#         amount: 1
+#         defaultPrototype: Beaker
+#     componentRequirements:
+#       BotanySwab:
+#         amount: 1
+#         defaultPrototype: DiseaseSwab
+# DS14-end
 
 - type: entity
   id: ArtifactAnalyzerMachineCircuitboard

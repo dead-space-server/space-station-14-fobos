@@ -1,0 +1,113 @@
+# Cookies
+
+- type: entity
+  name: пряничный человек
+  parent: FoodBakedBase
+  id: FoodBakedGingerbreadMan
+  description: Печенье в форме человека.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Consumable/Food/Baked/misc.rsi
+    state: gingerbread_man
+  - type: FlavorProfile
+    flavors:
+    - sweet
+    - caviar
+
+- type: entity
+  name: пряничная звезда
+  parent: FoodBakedBase
+  id: FoodBakedGingerbreadStar
+  description: Печенье в форме звезды.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Consumable/Food/Baked/misc.rsi
+    state: gingerbread_star
+  - type: FlavorProfile
+    flavors:
+    - sweet
+    - caviar
+
+- type: entity
+  name: пряничный медведь
+  parent: FoodBakedBase
+  id: FoodBakedGingerbreadBear
+  description: Печенье в форме медведя.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Consumable/Food/Baked/misc.rsi
+    state: gingerbread_bear
+  - type: FlavorProfile
+    flavors:
+    - sweet
+    - caviar
+
+- type: entity
+  name: пряничная ёлка
+  parent: FoodBakedBase
+  id: FoodBakedGingerbreadTree
+  description: Печенье в форме ёлки.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Consumable/Food/Baked/misc.rsi
+    state: gingerbread_tree
+  - type: FlavorProfile
+    flavors:
+    - sweet
+    - caviar
+
+- type: entity
+  name: пряничная трость
+  parent: FoodBakedBase
+  id: FoodBakedGingerbreadCane
+  description: Печенье в форме трости.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Consumable/Food/Baked/misc.rsi
+    state: gingerbread_cane
+  - type: FlavorProfile
+    flavors:
+    - sweet
+    - caviar
+
+- type: entity
+  name: пряничный чулок
+  parent: FoodBakedBase
+  id: FoodBakedGingerbreadStocking
+  description: Печенье в форме чулка.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Consumable/Food/Baked/misc.rsi
+    state: gingerbread_stocking
+  - type: FlavorProfile
+    flavors:
+    - sweet
+    - caviar
+
+- type: entity
+  name: пряничный подарок
+  parent: FoodBakedBase
+  id: FoodBakedGingerbreadPresent
+  description: Печенье в форме подарка.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Consumable/Food/Baked/misc.rsi
+    state: gingerbread_present
+  - type: FlavorProfile
+    flavors:
+    - sweet
+    - caviar
+
+- type: entity
+  name: пряничный Санта
+  parent: FoodBakedBase
+  id: FoodBakedGingerbreadSanta
+  description: Печенье в форме Санты.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Consumable/Food/Baked/misc.rsi
+    state: gingerbread_santa
+  - type: FlavorProfile
+    flavors:
+    - sweet
+    - caviar

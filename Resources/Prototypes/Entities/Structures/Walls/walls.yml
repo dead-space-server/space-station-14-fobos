@@ -1610,6 +1610,11 @@
   - type: IconSmooth
     key: cobblebricks
     base: cobblebrick
+# DS14-start
+  - type: Construction
+    graph: BlockWalls
+    node: snowWall
+# DS14-end
 
 - type: entity
   parent: WallCobblebrick

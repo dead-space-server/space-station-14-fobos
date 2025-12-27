@@ -124,7 +124,7 @@ reagent-effect-guidebook-cause-enslave =
     { $chance ->
         [1] Порабощает
        *[other] порабощает
-    } жертву и делает её рабом юнитологов
+    } жертву и делает её рабом смертников-юнитологов
 
 # Necromorph mutagen
 

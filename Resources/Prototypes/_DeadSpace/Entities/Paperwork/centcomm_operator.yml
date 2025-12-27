@@ -67,3 +67,10 @@
   name: paperwork-form-title-centcomm-operator-9
   text: "/Paperwork/CentcommOperator/9.xml"
   paperPrototype: PaperPrintedCentcomm
+
+- type: paperworkForm
+  id: CentcommOperator10
+  category: NTOperator
+  name: paperwork-form-title-centcomm-operator-10
+  text: "/Paperwork/CentcommOperator/10.xml"
+  paperPrototype: PaperPrintedCentcomm

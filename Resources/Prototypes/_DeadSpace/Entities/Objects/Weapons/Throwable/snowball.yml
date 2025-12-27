@@ -1,0 +1,74 @@
+﻿- type: entity
+  parent: BaseItem
+  id: Snowball
+  name: снежок
+  description: Маленький снежок, идеально подходящий для метания в кого-нибудь.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Throwable/snowball.rsi
+    state: icon
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape: !type:PhysShapeCircle
+          radius: 0.2
+        density: 5
+        mask:
+        - ItemMask
+        restitution: 0.3
+        friction: 0.2
+      projectile:
+        shape: !type:PhysShapeCircle
+          radius: 0.2
+        hard: false
+        mask:
+        - Impassable
+        - BulletImpassable
+  - type: LandAtCursor
+  - type: Damageable
+    damageContainer: Inorganic
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Cold: 1
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 1
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: TriggerOnCollide
+    fixtureID: projectile
+    maxTriggers: 2
+  - type: SpawnOnTrigger
+    proto: EffectSnowballHit
+  - type: DeleteOnTrigger
+  - type: Construction
+    graph: Snowball
+    node: Snowball
+  - type: ChangeTemperatureOnCollide
+    heat: -10000
+
+- type: entity
+  id: EffectSnowballHit
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: TimedDespawn
+    lifetime: 0.32
+  - type: Sprite
+    drawdepth: Effects
+    noRot: true
+    layers:
+    - map: ["enum.EffectLayers.Unshaded"]
+      sprite: _DeadSpace/Objects/Weapons/Throwable/snowball.rsi
+      state: hit
+  - type: EffectVisuals
+  - type: Tag
+    tags:
+    - HideContextMenu
+  - type: AnimationPlayer
+  - type: EmitSoundOnSpawn
+    sound:
+      path: /Audio/Weapons/dodgeball.ogg

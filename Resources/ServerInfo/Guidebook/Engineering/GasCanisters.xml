@@ -1,30 +1,32 @@
 <Document>
-  # Gas Canisters
+  # Канистры газов
   <Box>
-    <GuideEntityEmbed Entity="AirCanister"/>
-    <GuideEntityEmbed Entity="OxygenCanister"/>
-    <GuideEntityEmbed Entity="NitrogenCanister"/>
+    <GuideEntityEmbed Entity="AirCanister" Caption="воздух"/>
+    <GuideEntityEmbed Entity="OxygenCanister" Caption="кислород"/>
+    <GuideEntityEmbed Entity="NitrogenCanister" Caption="азот"/>
   </Box>
   <Box>
-    <GuideEntityEmbed Entity="CarbonDioxideCanister"/>
-    <GuideEntityEmbed Entity="StorageCanister"/>
+    <GuideEntityEmbed Entity="CarbonDioxideCanister" Caption="углекислый газ"/>
+    <GuideEntityEmbed Entity="StorageCanister" Caption="пустая"/>
     <GuideEntityEmbed Entity="GasPort"/>
   </Box>
 
-  Gas canisters are a way to store gas in a portable container for easy transport.
-  They can store [color=orange][protodata="StorageCanister" comp="GasCanister" member="Volume"/] liters[/color] of gas.
+  Хороший вариант для хранения газов в переносном хранилище.
+  Могут хранить до [color=orange][protodata="StorageCanister" comp="GasCanister" member="Volume"/] литров[/color] газа.
 
-  You can connect handheld tanks to a gas canister to refill them using the release valve on the canister.
-  The release valve also has a adjustable pressure regulator to control the pressure of the handheld tank connected.
+  Вы можете подключить баллоны к канистре для их заполнения.
+  Инструкция:
+  - Вставьте баллон в канистру.
+  - Выберите требуемое давление в баллоне (чаще всего - максимальное).
+  - Нажмите "Открыть". Подождите 5 секунд.
+  - [color=red]Нажмите "Закрыть"![/color]
 
-  Opening the release valve on a canister with no handheld tank connected will release gas into the atmosphere, at the specified regulator pressure.
+  Если открыть выпускной клапан, пока к канистре не подключён баллон, газ будет выпущен в атмосферу под выбранным давлением.
 
-  [bold]Be sure to close the release valve before you eject your handheld tank![/bold]
+  ## Соединительный порт
+  Канистры и [textlink="портативные скрубберы" link="PortableScrubber"] подключаются к [textlink="сетям труб" link="PipeNetworks"] с помощью закрепления на соединительный порт.
+  Газу будет открыт путь в сеть и он постарается уровнять давление, температуру и состав, будь то выпуском в сеть, или откачкой от туда.
 
-  ## Connector Ports
-  Gas canisters and [textlink="portable scrubbers" link="PortableScrubber"] can be connected to a [textlink="pipenet" link="PipeNetworks"] by anchoring (wrenching) the device on top of a connector.
-  When connected, gas will be free to move in and out of the canister to balance pressure, temperature, and composition.
-
-  A pump can be used to insert or extract gas from a canister, useful for filling or emptying a canister entirely.
+  Насос после порта может быть полезен, как для наполнения канистры, так и для её полного опустошения.
 
 </Document>

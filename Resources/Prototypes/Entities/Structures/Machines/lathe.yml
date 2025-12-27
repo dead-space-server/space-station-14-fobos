@@ -213,6 +213,7 @@
     - Equipment
     - NightVisionTech # DS14
     - LanguageImplanters # DS14
+    - MedicalDynamic # DS14
   - type: EmagLatheRecipes
     emagDynamicPacks:
     - SecurityAmmo
@@ -269,6 +270,7 @@
     - CameraBoards
     - MechBoards
     - ShuttleBoards
+    - VirologyBoards # DS14
   - type: EmagLatheRecipes
     emagDynamicPacks:
     - SecurityBoards
@@ -493,6 +495,7 @@
     - SurgeryStatic
     dynamicPacks:
     - Chemistry
+    - MedicalDynamic # DS14
   - type: Machine
     board: MedicalTechFabCircuitboard
   - type: StealTarget

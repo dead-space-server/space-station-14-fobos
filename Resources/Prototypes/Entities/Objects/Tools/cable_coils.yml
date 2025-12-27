@@ -182,14 +182,19 @@
           Quantity: 3
         - ReagentId: Copper
           Quantity: 2
+# DS14-start
   - type: Healing
+    delay: 1
+    selfHealPenaltyMultiplier: 3
     damageContainers:
-      - StructuralInorganic
+    - Silicon
     damage:
       types:
-        Slash: -5
+        Heat: -5
+        Shock: -5
     healingEndSound:
       path: "/Audio/Items/wirecutter.ogg"
+# DS14-end
 
 - type: entity
   parent: CableApcStack

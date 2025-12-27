@@ -61,6 +61,7 @@
     name: job-name-taipan-station-ai
     description: job-description-station-ai
     rules: ghost-role-information-taipan-ai-rules
+    category: ghost-role-information-taipan-category
     requirements:
     - !type:DepartmentTimeRequirement
       department: Silicon
@@ -148,6 +149,8 @@
     containers:
       station_ai_mind_slot:
       - TaipanAiBrain
+      key_slots:
+      - EncryptionKeyBinary
 
 # The actual brain inside the core
 - type: entity

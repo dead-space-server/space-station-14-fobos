@@ -1433,6 +1433,11 @@
       state: rock_snow_north
     - map: [ "enum.EdgeLayer.West" ]
       state: rock_snow_west
+# DS14-start
+  - type: OreVein
+    oreChance: 1.0
+    currentOre: BlockSnow
+# DS14-end
 
 - type: entity
   id: WallRockSnowCoal

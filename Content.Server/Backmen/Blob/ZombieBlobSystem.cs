@@ -4,6 +4,7 @@ using Content.Server.Backmen.Body.Components;
 using Content.Server.Body.Components;
 using Content.Server.Body.Systems;
 using Content.Server.Chat.Managers;
+using Content.Server.DeadSpace.Languages;
 using Content.Server.Mind;
 using Content.Server.NPC;
 using Content.Server.NPC.HTN;
@@ -12,6 +13,8 @@ using Content.Server.Speech.Components;
 using Content.Server.Temperature.Components;
 using Content.Shared.Atmos;
 using Content.Shared.Backmen.Blob.Components;
+using Content.Shared.DeadSpace.Languages.Components;
+using Content.Shared.DeadSpace.Languages.Prototypes;
 using Content.Shared.Mobs;
 using Content.Shared.NPC.Components;
 using Content.Shared.NPC.Prototypes;
@@ -39,6 +42,7 @@ public sealed class ZombieBlobSystem : EntitySystem
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly TriggerSystem _trigger = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
+    [Dependency] private readonly LanguageSystem _language = default!; // DS14
 
     private const int ClimbingCollisionGroup = (int)(CollisionGroup.BlobImpassable);
 
@@ -46,6 +50,7 @@ public sealed class ZombieBlobSystem : EntitySystem
     private static readonly ProtoId<TagPrototype> CannotSuicideTag = "CannotSuicide";
     private static readonly ProtoId<TagPrototype> BlobTag = "BlobMob";
     private static readonly ProtoId<NpcFactionPrototype> BlobFaction = "Blob";
+    private static readonly ProtoId<LanguagePrototype> BlobLanguage = "BlobLanguage"; // DS14
 
     private readonly GasMixture _normalAtmos;
 
@@ -138,6 +143,15 @@ public sealed class ZombieBlobSystem : EntitySystem
             component.OldColdDamageThreshold = temperatureComponent.ColdDamageThreshold;
             temperatureComponent.ColdDamageThreshold = 0;
         }
+
+        // DS14-start
+        var lang = EnsureComp<LanguageComponent>(uid);
+
+        lang.KnownLanguages.Clear();
+
+        _language.AddKnowLanguage(uid, BlobLanguage);
+        lang.SelectedLanguage = BlobLanguage;
+        // DS14-end
 
         if (TryComp<FixturesComponent>(uid, out var fixturesComp))
         {

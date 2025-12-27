@@ -1,40 +1,41 @@
 ﻿<Document>
-  # Criminal Records
-  The criminal records console is accessible in every station's security department, it serves the purpose of tracking and managing the criminal history and status of anybody part of the crew manifest.
+  # Консоль криминальных записей
+  Консоль, доступная Службе Безопасности на каждой станции. Позволяет следить и управлять историей нарушений Членов Экипажа.
 
   <Box>
-  <GuideEntityEmbed Entity="ComputerCriminalRecords"/>
+    <GuideEntityEmbed Entity="ComputerCriminalRecords"/>
   </Box>
 
-  Anyone can open the console's UI, but only those with Security access can modify anything.
+  Кто угодно может пользоваться консолью, но только сотрудники СБ могут изменять её содержимое.
 
-  The UI is composed by the following elements:
-  - A search bar that has a filter next to it that lets you filter the crewmembers by their names, fingerprints or DNA.
+  Интерфейс состоит из:
+  - [color=#a4885c]Поиска[/color], позволяющего искать по имени, профессии, отпечаткам пальцев или ДНК.
 
-  - A list of all the crewmembers in the manifest, selecting one of the entries will make the criminal records of a crewmember appear. The list is filtered by the search bar so make sure it's empty if you want an overall overview!
+  - [color=#a4885c]Списка[/color] всех Членов Экипажа (по манифесту), позволяющего просмотреть историю нарушений каждого сотрудника. Список может быть ограничен фильтром поиска (сверху) и статуса (снизу).
 
-  - The criminal records themselves
+  - [color=#a4885c]Истории нарушений[/color].
 
-  - The filter button below the crew list can be used to show only wanted, detained, or paroled crew.
-  In the record section you can:
-    - See security-related information about a crewmember like their name, fingerprints and DNA.
+  - [color=#a4885c]Фильтра[/color] по статусу, позволяющего показывать только разыскиваемых, подозреваемых, задержанных или освобождённых членов экипажа.
 
-    - Change the security status between [color=gray]None[/color], [color=yellow]Wanted[/color] and [color=red]Detained[/color]. When setting it to Wanted you will be asked to write a reason.
+  В разделе информации о члене экипажа Вы можете:
+  - Просмотреть информацию о самом члене экипажа - имя, отпечатки пальцев, ДНК.
 
-    - If they are wanted, you can see the reason given below the status dropdown.
+  - Изменить статус между [color=gray]Нет[/color], [color=yellow]Подозревается[/color], [color=orange]Разыскивается[/color], [color=red]Задержан[/color] и др. При смене статуса необходимо указать причину.
 
-    - Once someone has been arrested, update their status on the console so everyone knows they no longer need to be captured.
+  - Если он разыскивается, Вы можете узнать [color=#a4885c]причину[/color], посмотрев под статус.
 
-    - After they've done their time, release them and update their status to None so nobody thinks they are an escaped convict.
+  - Когда Вы кого-то арестовали, [color=#a4885c]обновите их статус[/color] на консоли чтобы все остальные перестали бегать в попытке их поймать.
 
-    - Open the Crime History window to check or modify it.
+  - Указать члена экипажа как [color=#a4885c]Выписаного[/color] или [color=#a4885c]Нет[/color] после окончания срока.
 
-  The Crime History window lists someone's crimes and can be modified in multiple ways:
-    - Automatically, just by setting someone's status to arrested. The reason will be added to "ARRESTED:" so it's easy to see the automated entries.
+  - Открыть и модифицировать [color=#a4885c]историю преступлений[/color] члена экипажа.
 
-    - Adding a new line by clicking "Add" and writing something in the input box. When adding a record, remember to mention their crime and sentence, the console will automatically insert the shift's time so you don't need to!
+  История преступлений может быть изменена множеством способов:
+  - После установки статуса на "Задержан", в историю [color=#a4885c]автоматически добавится[/color] запись "АРЕСТОВАН: ПРИЧИНА".
 
-    - Select a line of unwanted history and click "Delete" to remove it. Excellent for keeping records clean from the clown's stolen ID antics.
+  - Вы можете [color=#a4885c]вручную добавить новый пункт[/color], нажав на "Добавить" и вписав информацию в соответствующее поле. Время добавления пункта будет автоматически указано рядом с ним.
 
-  Now you can be the desk jockey you've always wanted to be.
+  - Вы можете [color=#a4885c]удалить пункт[/color] из истории, выбрав его и нажав "Удалить".
+
+  Вы стали на капельку ближе к становлению офисным планктоном.
 </Document>

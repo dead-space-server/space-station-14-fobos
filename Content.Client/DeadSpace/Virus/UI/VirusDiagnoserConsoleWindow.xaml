@@ -1,0 +1,173 @@
+<!--Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT-->
+
+<DefaultWindow xmlns="https://spacestation14.io"
+               Title="{Loc 'virus-diagnoser-window-title'}"
+               MinSize="600 400"
+               SetSize="600 400">
+
+    <TabContainer Name="MasterTabContainer">
+
+        <!-- ================= SERVER TAB ================= -->
+        <BoxContainer Name="ServerTab"
+                      Orientation="Vertical"
+                      VerticalExpand="True"
+                      HorizontalExpand="True">
+
+            <!-- SERVER CONNECTED -->
+            <PanelContainer Name="ServerContents"
+                            StyleClasses="Inset"
+                            VerticalExpand="True"
+                            Margin="5 5 5 5">
+                <BoxContainer Orientation="Vertical" Margin="5 5 5 5"
+                              VerticalExpand="True" HorizontalExpand="True">
+
+                    <Label Text="{Loc 'virus-diagnoser-server-strains-label'}"
+                           HorizontalAlignment="Center" />
+                    
+                    <RichTextLabel Name="ResearchAmountLabel"/>
+
+                    <ItemList Name="StrainList"
+                              Access="Public"
+                              VerticalExpand="True"
+                              SelectMode="Single" />
+
+                    <Button Name="DeleteStrainButton"
+                            Access="Public"
+                            Text="{Loc 'virus-diagnoser-delete-strain-button'}"
+                            HorizontalAlignment="Center"
+                            Disabled="True" />
+
+                </BoxContainer>
+            </PanelContainer>
+
+            <!-- SERVER MISSING -->
+            <PanelContainer Name="ServerMissing"
+                            StyleClasses="Inset"
+                            VerticalExpand="True"
+                            Margin="5 5 5 5">
+                <Label HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Text="{Loc 'virus-diagnoser-server-missing'}" />
+            </PanelContainer>
+
+            <!-- SERVER FAR -->
+            <PanelContainer Name="ServerFar"
+                            StyleClasses="Inset"
+                            VerticalExpand="True"
+                            Margin="5 5 5 5">
+                <Label HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Text="{Loc 'virus-diagnoser-server-far'}" />
+            </PanelContainer>
+
+        </BoxContainer>
+
+
+        <!-- ================= DIAGNOSER TAB ================= -->
+        <BoxContainer Name="DiagnoserTab"
+                      Orientation="Vertical"
+                      VerticalExpand="True"
+                      HorizontalExpand="True">
+
+            <PanelContainer Name="DiagnoserContents"
+                            StyleClasses="Inset"
+                            VerticalExpand="True"
+                            Margin="5 5 5 5">
+
+                <BoxContainer Orientation="Vertical" Margin="5 5 5 5"
+                              VerticalExpand="True" HorizontalExpand="True">
+
+                    <Label Text="{Loc 'virus-diagnoser-actions-label'}"
+                           HorizontalAlignment="Center" />
+
+                    <BoxContainer Orientation="Horizontal"
+                                  HorizontalExpand="True"
+                                  VerticalAlignment="Center"
+                                  SeparationOverride="10">
+
+                        <Button Name="ScanVirusButton"
+                                Access="Public"
+                                Text="{Loc 'virus-diagnoser-scan-button'}"
+                                HorizontalExpand="True" />
+
+                        <Button Name="PrintReportButton"
+                                Access="Public"
+                                Text="{Loc 'virus-diagnoser-print-button'}"
+                                HorizontalExpand="True"
+                                Disabled="True" />
+
+                        <Button Name="GenerateVirusButton"
+                                Access="Public"
+                                Text="{Loc 'virus-diagnoser-generate-button'}"
+                                HorizontalExpand="True" 
+                                Disabled="True" />
+
+                    </BoxContainer>
+
+                </BoxContainer>
+
+            </PanelContainer>
+
+
+            <PanelContainer Name="DiagnoserMissing"
+                            StyleClasses="Inset"
+                            VerticalExpand="True"
+                            Margin="5 5 5 5">
+                <Label HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Text="{Loc 'virus-diagnoser-missing'}" />
+            </PanelContainer>
+
+            <PanelContainer Name="DiagnoserFar"
+                            StyleClasses="Inset"
+                            VerticalExpand="True"
+                            Margin="5 5 5 5">
+                <Label HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Text="{Loc 'virus-diagnoser-far'}" />
+            </PanelContainer>
+
+        </BoxContainer>
+
+        <!-- ================= SolutionAnalyzer TAB ================= -->
+        <BoxContainer Name="SolutionAnalyzerTab"
+                      Orientation="Vertical"
+                      VerticalExpand="True"
+                      HorizontalExpand="True">
+
+            <!-- SolutionAnalyzer CONNECTED -->
+            <PanelContainer Name="SolutionAnalyzerContents"
+                            StyleClasses="Inset"
+                            VerticalExpand="True"
+                            Margin="5 5 5 5">
+                <BoxContainer Orientation="Vertical" Margin="5 5 5 5"
+                              VerticalExpand="True" HorizontalExpand="True">
+
+                    <Button Name="StartAnalysButton"
+                            Access="Public"
+                            Text="{Loc 'virus-solution-analyser-start-analys-button'}"
+                            HorizontalAlignment="Center" />
+
+                </BoxContainer>
+            </PanelContainer>
+
+            <!-- SolutionAnalyzer MISSING -->
+            <PanelContainer Name="SolutionAnalyzerMissing"
+                            StyleClasses="Inset"
+                            VerticalExpand="True"
+                            Margin="5 5 5 5">
+                <Label HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Text="{Loc 'virus-solution-analyser-missing'}" />
+            </PanelContainer>
+
+            <!-- SolutionAnalyzer FAR -->
+            <PanelContainer Name="SolutionAnalyzerFar"
+                            StyleClasses="Inset"
+                            VerticalExpand="True"
+                            Margin="5 5 5 5">
+                <Label HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Text="{Loc 'virus-solution-analyser-far'}" />
+            </PanelContainer>
+
+        </BoxContainer>
+    
+    </TabContainer>
+
+</DefaultWindow>
+

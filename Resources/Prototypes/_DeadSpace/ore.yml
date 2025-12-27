@@ -1,0 +1,4 @@
+﻿# Blocks
+- type: ore
+  id: BlockSnow
+  oreEntity: BlockSnow1

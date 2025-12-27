@@ -1,7 +1,6 @@
 - type: vendingMachineInventory
   id: BarDrobeInventory
   startingInventory:
-    BookNewDrink: 2 # DS14
     ClothingHeadHatBowlerHat: 2
     ClothingHeadHatTophat: 2
     ClothingEyesHudBeer: 2

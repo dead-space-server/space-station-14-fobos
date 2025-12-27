@@ -14,6 +14,6 @@
   requirements: # I hate time locked roles but this should be enough time for someone to be acclimated
   - !type:OverallPlaytimeRequirement
     time: 60h
-  # guides: [ Wizard ] # DS14: disabled due to lack of localization
+  guides: [ Wizard ]
 
 # See wizard_startinggear for wiz start gear options

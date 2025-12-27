@@ -47,10 +47,10 @@
     - state: fireball
       shader: unshaded
   - type: IgnitionSource
-    temperature: 1000
+    temperature: 1500 #DS14
     ignited: true
   - type: RepeatingTrigger
-    delay: 0.5 # line of fire as well as if it hits something
+    delay: 0.30  #DS14
   - type: ExplodeOnTrigger
   - type: Explosive
     explosionType: FireBomb
@@ -61,7 +61,16 @@
     deleteAfterExplosion: false
     repeatable: true
   - type: TimedDespawn
-    lifetime: 5
+    lifetime: 7 #DS14
+#DS14-start
+  - type: StunOnCollide
+    stunAmount: 3
+    knockdownAmount: 2.5 
+    drop: true 
+    slowdownAmount: 2.5
+    walkSpeedModifier: 0.5
+    sprintSpeedModifier: 0.5
+#DS14-end
 
 - type: entity
   id: ProjectileAnomalyFireball

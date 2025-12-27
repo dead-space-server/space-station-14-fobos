@@ -1,6 +1,6 @@
 ﻿- type: body
   id: Vulpkanin
-  name: vulpkanin
+  name: "вульпа" # DS14
   root: torso
   slots:
     head:

@@ -5,7 +5,7 @@
     "y": 48
   },
   "license": "CC-BY-SA-3.0",
-  "copyright": "Sprited by Nimfar11 (Github) for Space Station 14",
+  "copyright": "Sprited by Nimfar11 (Github) for Space Station 14, no color by thezuti(discord) for Space Station 14 server Мёртвый Космос",
   "states": [
     {
       "name": "icon"
@@ -43,7 +43,36 @@
       "name": "dead"
     },
     {
+      "name": "dead-nocolor"
+    },
+    {
       "name": "alive",
+      "directions": 4,
+      "delays": [
+        [
+          0.3,
+          0.3,
+          0.3
+        ],
+        [
+          0.3,
+          0.3,
+          0.3
+        ],
+        [
+          0.3,
+          0.3,
+          0.3
+        ],
+        [
+          0.3,
+          0.3,
+          0.3
+        ]
+      ]
+    },
+    {
+      "name": "alive-nocolor",
       "directions": 4,
       "delays": [
         [

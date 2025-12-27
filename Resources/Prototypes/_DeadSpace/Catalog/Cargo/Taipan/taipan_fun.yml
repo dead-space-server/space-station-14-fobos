@@ -267,3 +267,23 @@
   cost: 1000
   category: cargoproduct-category-name-fun
   group: taipan_market
+
+- type: cargoProduct
+  id: TaipanFunXmasGift
+  icon:
+    sprite: Objects/Fun/Instruments/accordion.rsi
+    state: icon
+  product: CrateFunXmasGift
+  cost: 1200
+  category: cargoproduct-category-name-fun
+  group: taipan_market
+
+- type: cargoProduct
+  id: TaipanFunSmallXmasTree
+  icon:
+    sprite: _DeadSpace/Structures/Furniture/small_christmas_tree.rsi
+    state: small_christmas_tree
+  product: SmallXmasTree
+  cost: 900
+  category: cargoproduct-category-name-fun
+  group: taipan_market

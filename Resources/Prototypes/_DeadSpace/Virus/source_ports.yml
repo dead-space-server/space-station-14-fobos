@@ -1,0 +1,19 @@
+- type: sourcePort
+  id: VirusDiagnoserDataServerSender
+  name: signal-port-name-virus-data-server-sender
+  description: signal-port-description-virus-data-server-sender
+  defaultLinks: 
+  - VirusDiagnoserDataServerReceiver
+
+- type: sourcePort
+  id: VirusDiagnoserSender
+  name: signal-port-name-virus-diagnoser-sender
+  description: signal-port-description-virus-diagnoser-sender
+  defaultLinks: [ VirusDiagnoserReceiver ]
+
+- type: sourcePort
+  id: VirusSolutionAnalyzerSender
+  name: signal-port-name-virus-solution-analyzer-sender
+  description: signal-port-description-virus-solution-analyzer-sender
+  defaultLinks: 
+  - VirusSolutionAnalyzerReceiver

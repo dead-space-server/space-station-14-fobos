@@ -6,11 +6,8 @@
   children:
   - Jobs
   - Survival
-  # - Antagonists
-  # - Glossary
-  # - DeadSpace
-  - NewFoodDS14 # DS14
-  - NewDrinkDS14 # DS14
+  - Antagonists
+  - Glossary
 
 - type: guideEntry
   id: Glossary

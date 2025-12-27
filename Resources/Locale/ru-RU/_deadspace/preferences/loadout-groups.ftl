@@ -8,6 +8,11 @@ loadout-group-blue-shield-officer-underwear = Синий щит, нижнее б
 # Civilian
 loadout-group-senior-administrator-jumpsuit = Менеджер, комбинезон
 # Cargo
+loadout-group-senior-courier-head = Ведущий логист, голова
+loadout-group-senior-courier-jumpsuit = Ведущий логист, комбинезон
+loadout-group-senior-courier-outerclothing = Ведущий логист, верхняя одежда
+loadout-group-senior-courier-underwear = Ведущий логист, нижнее бельё
+loadout-group-senior-courier-belt = Ведущий логист, пояс
 # Law
 loadout-group-magistrat-jumpsuit = Магистрат, комбинезон
 loadout-group-magistrat-underwear = Магистрат, нижнее бельё
@@ -54,6 +59,11 @@ loadout-group-coroner-jumpsuit = Коронер, комбинезон
 loadout-group-coroner-backpack = Коронер, рюкзак
 loadout-group-coroner-head = Коронер, голова
 loadout-group-coroner-underwear = Коронер, нижнее бельё
+loadout-group-virologist-jumpsuit = Вирусолог, комбинезон
+loadout-group-virologist-backpack = Вирусолог, рюкзак
+loadout-group-virologist-head = Вирусолог, голова
+loadout-group-senior-virologist-outerclothing = Вирусолог, верхняя одежда
+loadout-group-virologist-underwear = Вирусолог, нижнее бельё
 # Centcomm
 loadout-group-centcomm-officer-underwear = Офицер ЦК, нижнее бельё
 # Taipan

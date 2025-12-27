@@ -43,6 +43,7 @@
     back:
     - HyperLinkBookCorporateLaw
     - HyperLinkBookSOPSecurity
+    - ERTloadoutSecuritySecondary # DS14
 
 - type: chameleonOutfit
   id: SecurityCadetChameleonOutfit
