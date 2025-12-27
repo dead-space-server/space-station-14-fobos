@@ -66,6 +66,31 @@
             Poison: 2
 
 - type: reagent
+  id: Septomycin
+  name: reagent-name-septomycin
+  group: Medicine
+  desc: reagent-desc-septomycin
+  physicalDesc: reagent-physical-desc-acrid
+  flavor: sharp
+  color: "#ff6f6f"
+  metabolisms:
+    Medicine:
+      effects:
+      - !type:Antibiotic
+        baseDamage: 10
+        resistanceIncrease: 0.025
+        conditions:
+        - !type:ReagentThreshold
+          min: 1
+      - !type:HealthChange
+        conditions:
+        - !type:ReagentThreshold
+          min: 12
+        damage:
+          types:
+            Poison: 2
+
+- type: reagent
   id: Virucidine
   name: reagent-name-virucidine
   group: Medicine
@@ -114,3 +139,29 @@
         damage:
           types:
             Poison: 3
+
+- type: reagent
+  id: Necrovir
+  name: reagent-name-necrovir
+  group: Medicine
+  desc: reagent-desc-necrovir
+  physicalDesc: reagent-physical-desc-necrotic
+  flavor: bitter
+  color: "#5b2a86"
+  metabolisms:
+    Medicine:
+      effects:
+      - !type:Antibiotic
+        baseDamage: 25
+        resistanceIncrease: 0.07
+        conditions:
+        - !type:ReagentThreshold
+          min: 1
+      - !type:HealthChange
+        conditions:
+        - !type:ReagentThreshold
+          min: 4
+        damage:
+          types:
+            Poison: 2
+            Cellular: 1

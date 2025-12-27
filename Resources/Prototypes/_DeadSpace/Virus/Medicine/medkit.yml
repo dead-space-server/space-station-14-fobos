@@ -1,0 +1,83 @@
+- type: entity
+  name: медицинский противовирусный набор
+  description: Базовый медицинский набор, предназначенный для хранения и применения стандартных противовирусных и антибактериальных препаратов.
+  parent: BaseStorageItem
+  id: VirusMedkit
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Virus/firstaidkits.rsi
+    state: advkit
+  - type: Storage
+    maxItemSize: Small
+    grid:
+    - 0,0,3,1
+  - type: Item
+    size: Large
+    sprite: _DeadSpace/Virus/firstaidkits.rsi
+    heldPrefix: advkit
+  - type: PhysicalComposition
+    materialComposition:
+      Plastic: 150
+  - type: Tag
+    tags:
+    - Medkit
+
+- type: entity
+  name: продвинутый медицинский противовирусный набор
+  description: Усиленный противовирусный меднабор для работы с агрессивными и экспериментальными препаратами. Использовать с осторожностью.
+  parent: VirusMedkit
+  id: SuperVirusMedkit
+  components:
+  - type: Sprite
+    state: blackkit
+  - type: Item
+    heldPrefix: blackkit
+
+- type: entity
+  id: FilledVirusMedkit
+  suffix: Filled
+  parent: VirusMedkit
+  components:
+  - type: StorageFill
+    contents:
+      - id: ChemistryBottleBacterizine
+      - id: ChemistryBottleBacterizine
+      - id: ChemistryBottleBacterizine
+      - id: ChemistryBottleMycocline
+      - id: ChemistryBottleMycocline
+      - id: ChemistryBottleSeptomycin
+      - id: ChemistryBottleSeptomycin
+
+- type: entity
+  id: FilledSuperVirusMedkit
+  suffix: Filled
+  parent: SuperVirusMedkit
+  components:
+  - type: StorageFill
+    contents:
+      - id: ChemistryBottleVirucidine
+      - id: ChemistryBottleVirucidine
+      - id: ChemistryBottleVirucidine
+      - id: ChemistryBottlePanacemycin
+      - id: ChemistryBottlePanacemycin
+      - id: ChemistryBottleNecrovir
+
+- type: entity
+  id: CrateVirusMedkit
+  parent: CrateMedical
+  name: аварийный набор противовирусных препаратов
+  description: Ящик содержит набор противовирусных лекарств.
+  components:
+  - type: StorageFill
+    contents:
+    - id: FilledVirusMedkit
+
+- type: entity
+  id: CrateSuperVirusMedkit
+  parent: CrateMedical
+  name: продвинутый аварийный набор противовирусных препаратов
+  description: Ящик содержит продвинутый набор противовирусных лекарств.
+  components:
+  - type: StorageFill
+    contents:
+    - id: FilledSuperVirusMedkit

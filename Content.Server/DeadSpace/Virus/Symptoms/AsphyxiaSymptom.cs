@@ -11,7 +11,7 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 public sealed class AsphyxiaSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.Asphyxia;
-    protected override float AddInfectivity => 0.05f;
+    protected override float AddInfectivity => 0.02f;
 
     public AsphyxiaSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
     { }

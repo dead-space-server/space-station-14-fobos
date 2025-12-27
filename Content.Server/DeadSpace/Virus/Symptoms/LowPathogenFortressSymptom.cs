@@ -11,7 +11,7 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 public sealed class LowPathogenFortressSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.LowPathogenFortress;
-    protected override float AddInfectivity => 0.05f;
+    protected override float AddInfectivity => 0.02f;
     private int _addMaxThreshold = 100;
 
     public LowPathogenFortressSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
