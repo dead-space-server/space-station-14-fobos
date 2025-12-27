@@ -23,8 +23,8 @@ ui-options-general-speech = Речь
 ui-options-general-storage = Инвентарь
 ui-options-general-accessibility = Специальные возможности
 #DS14-start
+ui-options-tab-ping = Пинг меню
 ui-options-cooldown-ping = Задержка для пинга
-ui-options-ping = Пинг
 ui-options-ping-permission = Получать уведомление о появлении роли
 ui-options-sound-ping = выбор звука пинга
 #DS14-end

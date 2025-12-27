@@ -10,7 +10,6 @@ using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared;
 using Robust.Shared.Prototypes;
-using Content.Shared.DeadSpace.GhostRoleNotify.Prototypes; // DS14
 
 namespace Content.Client.Options.UI.Tabs;
 

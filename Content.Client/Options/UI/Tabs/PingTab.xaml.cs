@@ -17,6 +17,9 @@ namespace Content.Client.Options.UI.Tabs;
 
 public sealed partial class PingTab : Control
 {
+    [Dependency] private readonly IEntityManager _entityManager = default!;
+    [Dependency] private readonly IPrototypeManager prototypeManager = default!;
+    [Dependency] private readonly IConfigurationManager cfg = default!;
     private bool _isSaveNeeded = false;
     private string _searchText = string.Empty;
     private void AddCheckBox(ReceiveNotifySystem helper, string checkBoxName, string id, bool savedSelection)
@@ -61,9 +64,8 @@ public sealed partial class PingTab : Control
     }
     public PingTab()
     {
-        var prototypeManager = IoCManager.Resolve<IPrototypeManager>();
-        var cfg = IoCManager.Resolve<IConfigurationManager>();
-        var helper = IoCManager.Resolve<IEntityManager>().System<ReceiveNotifySystem>();
+        IoCManager.InjectDependencies(this);
+        var helper = _entityManager.System<ReceiveNotifySystem>();
         helper.EnsureInitialized();
         RobustXamlLoader.Load(this);
         AddSaveButton(SaveButton, cfg, helper);
