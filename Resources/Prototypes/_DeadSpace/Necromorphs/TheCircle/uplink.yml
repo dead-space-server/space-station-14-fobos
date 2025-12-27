@@ -18,7 +18,7 @@
     key: enum.StoreUiKey.Key
   - type: Store
     balance:
-      Telecrystal: 400
+      Telecrystal: 596
 
 - type: entity
   id: UniPhonePresetUplink
@@ -31,6 +31,9 @@
     - UniPhoneUplinkAmmo
     - UniPhoneUplinkMedical
     - UniPhoneUplinkGear
+    - UniPhoneUplinkImplants
+    - UniPhoneUplinkGrenade
+    - UniPhoneUplinkOther
     currencyWhitelist:
     - Telecrystal
     balance:
@@ -55,6 +58,22 @@
   id: UniPhoneUplinkGear
   name: Снаряжение
   priority: 4
+
+- type: storeCategory
+  id: UniPhoneUplinkImplants
+  name: Импланты
+  priority: 5
+
+- type: storeCategory
+  id: UniPhoneUplinkGrenade
+  name: Гранаты
+  priority: 6
+
+- type: storeCategory
+  id: UniPhoneUplinkOther
+  name: Разное
+  priority: 7
+
 
 ### Вооружение
 - type: listing
@@ -203,7 +222,7 @@
   id: UniPhoneUplinkMagRPL20
   name: короб патронов РПЛ-20
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/rpl20/rpl20-drum.rsi, state: base }
-  description: Вмещает всего 100 патронов.
+  description: Вмещает всего 85 патронов.
   productEntity: MagazineRPL20
   cost:
     Telecrystal: 2
@@ -417,3 +436,167 @@
     Telecrystal: 4
   categories:
    - UniPhoneUplinkGear
+
+# Имлпанты
+
+- type: listing
+  id: UniPhoneUplinkReviveAutosurgeon
+  name: uplink-revive-implanter-name
+  description: uplink-revive-implanter-desc
+  icon: { sprite: _DeadSpace/Objects/Specific/Autosurgeon/autosurgeon.rsi, state: iconBefore }
+  productEntity: AutosurgeonRevive
+  cost:
+    Telecrystal: 7
+  categories:
+    - UniPhoneUplinkImplants
+
+- type: listing
+  id: UniPhoneUplinkDeathAcidifierImplanter
+  name: uplink-death-acidifier-implant-name
+  description: Если же вы не желаете переродиться после своей смерти в некроморфа, такова ваша воля, с помощью этого импланта вы можете спокойно покинуть этот мир.
+  icon: { sprite: /Textures/Objects/Magic/magicactions.rsi, state: gib }
+  productEntity: DeathAcidifierImplanter
+  cost:
+    Telecrystal: 4
+  categories:
+    - UniPhoneUplinkImplants
+
+- type: listing
+  id: UniPhoneUplinkScramImplanter
+  name: uplink-scram-implanter-name
+  description: uplink-scram-implanter-desc
+  icon: { sprite: /Textures/Structures/Specific/anomaly.rsi, state: anom4 }
+  productEntity: ScramImplanter
+  cost:
+    Telecrystal: 12
+  categories:
+    - UniPhoneUplinkImplants
+
+- type: listing
+  id: UniPhoneUplinkFreedomImplanter
+  name: uplink-freedom-implanter-name
+  description: uplink-freedom-implanter-desc
+  icon: { sprite: /Textures/Actions/Implants/implants.rsi, state: freedom }
+  productEntity: FreedomImplanter
+  cost:
+    Telecrystal: 4
+  categories:
+    - UniPhoneUplinkImplants
+
+- type: listing
+  id: UniPhoneUplinkEmpImplanter
+  name: uplink-emp-implanter-name
+  description: uplink-emp-implanter-desc
+  icon: { sprite: /Textures/Objects/Magic/magicactions.rsi, state: shield }
+  productEntity: EmpImplanter
+  cost:
+    Telecrystal: 5
+  categories:
+    - UniPhoneUplinkImplants
+
+# Бомбы
+
+- type: listing
+  id: UniPhoneUplinkC4Bundle
+  name: uplink-c4-bundle-name
+  description: uplink-c4-bundle-desc
+  productEntity: ClothingBackpackDuffelSyndicateC4tBundle
+  cost:
+    Telecrystal: 12
+  categories:
+  - UniPhoneUplinkGrenade
+
+- type: listing
+  id: UniPhoneUplinkC4
+  name: uplink-c4-name
+  description: uplink-c4-desc
+  productEntity: C4
+  cost:
+    Telecrystal: 2
+  categories:
+  - UniPhoneUplinkGrenade
+
+- type: listing
+  id: UniPhoneUplinkGrenadeNecroKudzu
+  name: некрго-граната
+  icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/grenade.rsi, state: icon }
+  productEntity: GrenadeNecroKudzu
+  cost:
+    Telecrystal: 4
+  categories:
+  - UniPhoneUplinkGrenade
+
+- type: listing
+  id: UniPhoneUplinkMetalFoamGrenade
+  name: металлопенная граната
+  icon: { sprite: Objects/Weapons/Grenades/metalfoam.rsi, state: icon }
+  productEntity: MetalFoamGrenade
+  cost:
+    Telecrystal: 2
+  categories:
+  - UniPhoneUplinkGrenade
+
+- type: listing
+  id: UniPhoneUplinkGrenadeIncendiary
+  name: uplink-incendiary-grenade-name
+  description: uplink-incendiary-grenade-desc
+  productEntity: GrenadeIncendiary
+  cost:
+    Telecrystal: 3
+  categories:
+  - UniPhoneUplinkGrenade
+
+- type: listing
+  id: UniPhoneUplinkEmpGrenade
+  name: эми-граната
+  productEntity: EmpGrenade
+  cost:
+    Telecrystal: 1
+  categories:
+    - UniPhoneUplinkGrenade
+
+# Прочее
+
+- type: listing
+  id: UniPhoneSyringeNecromorphMutagenBruteList
+  name: Шприц с мутагеном некроморфа зверя
+  description: После ввода вещества 5 ед. вещества в животное, после заражения он станет зверем.
+  icon: { sprite: Objects/Specific/Chemistry/syringe.rsi, state: syringe1 }
+  productEntity: SyringeNecromorphMutagenBrute
+  cost:
+    Telecrystal: 10
+  categories:
+    - UniPhoneUplinkOther
+
+- type: listing
+  id: UniPhonePukerNecroList
+  name: Некроморф выделитель газа
+  description: Некроморф.
+  icon: { sprite: _DeadSpace/Necromorfs/puker.rsi, state: running }
+  productEntity: PukerNecro
+  cost:
+    Telecrystal: 10
+  categories:
+    - UniPhoneUplinkOther
+
+- type: listing
+  id: UniPhoneLauncherSyringeList
+  name: Шприцемёт
+  description: Стреляет шприцами.
+  icon: { sprite: Objects/Weapons/Guns/Cannons/syringe_gun.rsi, state: syringe_gun }
+  productEntity: LauncherSyringe
+  cost:
+    Telecrystal: 5
+  categories:
+    - UniPhoneUplinkOther
+
+- type: listing
+  id: UniPhoneMiniSyringeList
+  name: Мини-шприц
+  description: Патрон для шприцемёта.
+  icon: { sprite: Objects/Specific/Chemistry/syringe.rsi, state: minisyringe1 }
+  productEntity: MiniSyringe
+  cost:
+    Telecrystal: 1
+  categories:
+    - UniPhoneUplinkOther

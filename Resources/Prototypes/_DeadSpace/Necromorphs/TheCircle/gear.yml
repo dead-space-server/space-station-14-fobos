@@ -201,7 +201,7 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: IdCard
-    jobIcon: JobIconUnitology
+    jobIcon: JobIconUnitologyHeavy
 
 - type: entity
   parent: UnitologyIDCard
@@ -211,7 +211,7 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: IdCard
-    jobIcon: JobIconUnitology
+    jobIcon: JobIconUnitologyLight
 
 - type: entity
   parent: UnitologyIDCard
@@ -221,7 +221,7 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: IdCard
-    jobIcon: JobIconUnitology
+    jobIcon: JobIconUnitologyEngineer
 
 - type: entity
   parent: UnitologyIDCard
@@ -231,7 +231,7 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: IdCard
-    jobIcon: JobIconUnitology
+    jobIcon: JobIconUnitologyMedic
 
 - type: jobIcon
   parent: JobIcon
@@ -247,6 +247,33 @@
     sprite: /Textures/_DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
     state: circle_lead
 
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconUnitologyHeavy
+  icon:
+    sprite: /Textures/_DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
+    state: circle_heavy
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconUnitologyLight
+  icon:
+    sprite: /Textures/_DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
+    state: circle_light
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconUnitologyMedic
+  icon:
+    sprite: /Textures/_DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
+    state: circle_medic
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconUnitologyEngineer
+  icon:
+    sprite: /Textures/_DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
+    state: circle_engineer
 ## РПС
 - type: entity
   parent: ClothingBeltMilitaryWebbing
@@ -335,7 +362,6 @@
   id: ClothingMaskGasUnitology
   name: модифицированный респиратор «Полнолуние»
   description:
-  suffix: ex1stenz, Ивент
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/gasmask.rsi
@@ -438,7 +464,6 @@
   - type: StorageFill
     contents:
       - id: BoxMRE
-      - id: SyringeSerumEnslaved
 
 - type: entity
   parent: ClothingBackpackUnitology
@@ -453,14 +478,12 @@
         amount: 6
       - id: RCDRecharging
       - id: BoxMRE
-      - id: SyringeSerumEnslaved
 
 ## Мантия штурмовика
 - type: entity
   parent: [ ClothingNeckBase, BaseCommandContraband ]
   id: ClothingNeckUnitologyHeavyMantle
   name: трофейная накидка
-  suffix: ex1stenz, Ивент
   description: Убивать — это работа, Богу служить — это забота, а колоться метом — долг.
   components:
   - type: Sprite

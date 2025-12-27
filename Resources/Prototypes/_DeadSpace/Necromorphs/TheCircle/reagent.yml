@@ -190,8 +190,6 @@
   parent: BaseChemistryEmptyVial
   suffix: очищенный экстракт заразителя
   components:
-  - type: Label
-    currentLabel: reagent-name-vestine
   - type: SolutionContainerManager
     solutions:
       beaker:

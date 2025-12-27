@@ -37,7 +37,7 @@
 # Сайга12
 
 - type: entity
-  name: Сайга-12
+  name: Сойдаж-12
   parent: [BaseItem, BaseGunWieldable, BaseSyndicateContraband]
   id: WeaponSAIGA12
   description: Военизированная версия некогда гражданского оружия для охоты и самообороны. Использование тактических приспособлений, а также перевод в автоматический режим стрельбы, позволили сделать из простого ружья - машину смерти на близкой дистанции.
@@ -98,7 +98,7 @@
 
 - type: entity
   id: BaseMagazineForSaiga
-  name: магазин для Сайги-12 (12х70 дробь)
+  name: магазин для Сойдаж-12 (12х70 дробь)
   parent: [ BaseItem, BaseSecurityContraband ]
   abstract: true
   categories: [ HideSpawnMenu ]
@@ -134,7 +134,7 @@
 
 - type: entity
   id: MagazineForSAIGA12
-  name: магазин для Сайги-12 (12х70 дробь)
+  name: магазин для Сойдаж-12 (12х70 дробь)
   parent: BaseMagazineForSaiga
   components:
   - type: BallisticAmmoProvider
@@ -155,7 +155,7 @@
 
 - type: entity
   id: MagazineForSAIGA12Burn
-  name: магазин для Сайги-12 (12х70 зажигательные)
+  name: магазин для Сойдаж-12 (12х70 зажигательные)
   parent: BaseMagazineForSaiga
   components:
   - type: BallisticAmmoProvider
@@ -174,7 +174,7 @@
 
 - type: entity
   id: DrumForSAIGA12Burn
-  name: барабан для Сайги-12 (12х70 зажигательные)
+  name: барабан для Сойдаж-12 (12х70 зажигательные)
   parent: BaseMagazineForSaiga
   components:
   - type: Tag
@@ -195,7 +195,7 @@
 
 - type: entity
   id: DrumForSAIGA12
-  name: барабан для Сайги-12 (12х70 дробь)
+  name: барабан для Сойдаж-12 (12х70 дробь)
   parent: BaseMagazineForSaiga
   components:
   - type: Tag
@@ -217,7 +217,7 @@
 # Вереск
 
 - type: entity
-  name: СР-2 Вереск
+  name: СР-2 Керск
   parent: [BaseWeaponSubMachineGun, BaseMajorContraband]
   id: WeaponVeresk
   description: Убойный пистолет-пулемёт специальной разработки, стоящий на вооружении у АПБТ. Отточен под CQB.
@@ -326,7 +326,7 @@
 # Абакан
 
 - type: entity
-  name: АН-94
+  name: М8 "Арес"
   parent: [BaseWeaponRifle, BaseSecurityContraband]
   id: WeaponRifleAbakan
   description: Автомат имеет подвижный ствол, двухкамерный ДТК замкнутого типа и смещенный вправо относительно оси канала ствола магазин.

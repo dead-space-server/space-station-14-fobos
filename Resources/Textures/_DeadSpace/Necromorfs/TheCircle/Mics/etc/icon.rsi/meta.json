@@ -12,6 +12,18 @@
         },
         {
             "name": "circle_lead"
+		},
+        {
+            "name": "circle_engineer"
+		},
+        {
+            "name": "circle_heavy"
+		},
+        {
+            "name": "circle_light"
+		},
+        {
+            "name": "circle_medic"
 		}
     ]
 }

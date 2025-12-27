@@ -8,7 +8,7 @@
     job: BSAALeaderJob
 
 - type: entity
-  parent: CBURNIDcard
+  parent: CBURNLeaderIDcard
   id: BSAAIDFighter
   name: ID карта Бойца АПБТ
   components:
@@ -16,7 +16,7 @@
     job: BSAAFighterJob
 
 - type: entity
-  parent: CBURNIDcard
+  parent: CBURNLeaderIDcard
   id: BSAAIDMedic
   name: ID карта Медика АПБТ
   components:
@@ -62,7 +62,7 @@
   description: "Штурмовая единица альянса повышенной эффективности КСО"
   playTimeTracker: JobBSAA
   setPreference: false
-  icon: "JobIconNanotrasen"
+  icon: "JobIconBSAAFighter"
   supervisors: job-supervisors-centcom
   canBeAntag: false
   accessGroups:
@@ -76,7 +76,7 @@
   description: "Командир альянса повышенной эффективности КСО"
   playTimeTracker: JobBSAALeader
   setPreference: false
-  icon: "JobIconERTLeader"
+  icon: "JobIconBSAALeader"
   supervisors: job-supervisors-centcom
   canBeAntag: false
   accessGroups:
@@ -90,7 +90,7 @@
   description: "Полевой спаситель альянса повышенной эффективности КСО"
   playTimeTracker: JobBSAAMedic
   setPreference: false
-  icon: "JobIconNanotrasen"
+  icon: "JobIconBSAAMedic"
   supervisors: job-supervisors-centcom
   canBeAntag: false
   accessGroups:
@@ -106,3 +106,24 @@
   
 - type: playTimeTracker
   id: JobBSAAMedic
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconBSAALeader
+  icon:
+    sprite: /Textures/_DeadSpace/Necromorfs/BSAA/jobicon.rsi
+    state: leader
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconBSAAMedic
+  icon:
+    sprite: /Textures/_DeadSpace/Necromorfs/BSAA/jobicon.rsi
+    state: medic
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconBSAAFighter
+  icon:
+    sprite: /Textures/_DeadSpace/Necromorfs/BSAA/jobicon.rsi
+    state: fighter

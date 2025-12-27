@@ -94,7 +94,7 @@
 - type: entity
   id: RandomHumanoidSpawnerBSAALeader
   parent: RandomHumanoidSpawnerERTLeaderAmber
-  name: лидер АПБТ
+  name: АПБТ лидер
   components:
     - type: Sprite
       sprite: Markers/jobs.rsi
@@ -105,6 +105,7 @@
 - type: entity
   name: лидер АПБТ, spawner
   id: BSAALeaderSpawner
+  categories: [ HideSpawnMenu ]
   parent: MarkerBase
   components:
   - type: Sprite
@@ -119,7 +120,7 @@
 - type: entity
   id: RandomHumanoidSpawnerBSAAFighter
   parent: RandomHumanoidSpawnerERTLeaderAmber
-  name: боец АПБТ
+  name: АПБТ боец
   components:
     - type: Sprite
       sprite: Markers/jobs.rsi
@@ -129,6 +130,7 @@
 
 - type: entity
   name: боец АПБТ, spawner
+  categories: [ HideSpawnMenu ]
   id: BSAAFighterSpawner
   parent: MarkerBase
   components:
@@ -144,7 +146,7 @@
 - type: entity
   id: RandomHumanoidSpawnerBSAAMedic
   parent: RandomHumanoidSpawnerERTLeaderAmber
-  name: медик АПБТ
+  name: АПБТ медик
   components:
     - type: Sprite
       sprite: Markers/jobs.rsi
@@ -156,6 +158,7 @@
   name: медик АПБТ, spawner
   id: BSAAMedicSpawner
   parent: MarkerBase
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     layers:
