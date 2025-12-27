@@ -40,13 +40,13 @@
   components:
   - type: StorageFill
     contents:
-      - id: Bacterizine
-      - id: Bacterizine
-      - id: Bacterizine
-      - id: Mycocline
-      - id: Mycocline
-      - id: Septomycin
-      - id: Septomycin
+      - id: ChemistryBottleBacterizine
+      - id: ChemistryBottleBacterizine
+      - id: ChemistryBottleBacterizine
+      - id: ChemistryBottleMycocline
+      - id: ChemistryBottleMycocline
+      - id: ChemistryBottleSeptomycin
+      - id: ChemistryBottleSeptomycin
 
 - type: entity
   id: FilledSuperVirusMedkit
@@ -55,9 +55,9 @@
   components:
   - type: StorageFill
     contents:
-      - id: Virucidine
-      - id: Virucidine
-      - id: Virucidine
+      - id: ChemistryBottleVirucidine
+      - id: ChemistryBottleVirucidine
+      - id: ChemistryBottleVirucidine
       - id: ChemistryBottlePanacemycin
       - id: ChemistryBottlePanacemycin
       - id: ChemistryBottleNecrovir
