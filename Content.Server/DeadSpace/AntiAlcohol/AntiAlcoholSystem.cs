@@ -18,7 +18,6 @@ public sealed class AntiAlcoholSystem : EntitySystem
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly DamageableSystem _damageableSystem = default!;
-    private readonly List<(EntityUid Target, TimeSpan ExecuteAt)> _pendingVomit = new();
     public override void Initialize()
     {
         base.Initialize();
