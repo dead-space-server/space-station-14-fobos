@@ -95,6 +95,7 @@
     eyes: ClothingEyesHudUnitologyVisor
     gloves: ClothingHandsGlovesCombatUnitology
     mask: ClothingMaskGasUnitology
+    pocket2: DoubleEmergencyOxygenTankFilled
 
 - type: startingGear
   id: TheCircleLeaderGear
@@ -103,6 +104,7 @@
     pocket1: UniPhoneUplink
     belt: ClothingBeltUnitologyHeavyWebbing
     id: UnitologyCommanderPDA
+    outerClothing: ClothingOuterHardsuitUnitologyCommander
 
 - type: startingGear
   id: TheCircleHeavyGear

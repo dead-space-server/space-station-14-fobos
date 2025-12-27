@@ -193,10 +193,10 @@
   - type: SolutionContainerManager
     solutions:
       beaker:
-        maxVol: 25
+        maxVol: 30
         reagents:
         - ReagentId: ExtractInfectorMedical
-          Quantity: 25
+          Quantity: 30
   - type: Tag
     tags: []
 
@@ -216,7 +216,7 @@
     - id: TheCircleMedicPaper
     - id: ClothingEyesGlassesChemical
     - id: ExtractInfectorMedicalVial
-      amount: 5
+      amount: 4
 
 - type: entity
   parent: Paper

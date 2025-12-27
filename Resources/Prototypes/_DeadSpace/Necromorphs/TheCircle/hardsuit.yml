@@ -2,7 +2,7 @@
   parent: [ ClothingOuterHardsuitBase, BaseSyndicateContraband ]
   id: ClothingOuterHardsuitUnitologyCommander
   name: ведущий бронескафандр «Прометей»
-  description:
+  description: Скафандр Кардинала отряда "Круг". От него, как и от обелиска, веет смертью...
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/commander.rsi
@@ -52,7 +52,7 @@
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
   id: ClothingHeadHelmetHardsuitUnitologyCommander
   name: шлем ведущего бронескафандра «Прометей»
-  description: 
+  description: На нём, читается только одно слово-... АРАМ РООООООООСС-!!!
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -82,7 +82,7 @@
   parent: [ ClothingOuterHardsuitBase, BaseSyndicateContraband ]
   id: ClothingOuterHardsuitUnitologyHeavy
   name: тяжелый бронескафандр «Артемида»
-  description:
+  description: Тяжёлый бронескафандр Диакона отряда "Круг". Хорошо когда есть пушечное мясо в команде, а лучше два!
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/heavy.rsi
@@ -132,7 +132,7 @@
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
   id: ClothingHeadHelmetHardsuitUnitologyHeavy
   name: шлем тяжелого бронескафандра «Артемида»
-  description:
+  description: В какой визор смотреть?
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -162,7 +162,7 @@
   parent: [ ClothingOuterHardsuitBase, BaseSyndicateContraband ]
   id: ClothingOuterHardsuitUnitologyLight
   name: экзоскафандр «Гермес»
-  description: 
+  description: Скафандр Вестников отряда "Круг". Проводки что торчат с ног данной брони, похоже ускоряют своего владельца. И также хорошо что таких продаются 2 штуки.
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/light.rsi
@@ -212,7 +212,7 @@
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
   id: ClothingHeadHelmetHardsuitUnitologyLight
   name: шлем экзоскафандра «Гермес»
-  description:
+  description: Тяжёлый дым что исходит с противогаза заставляет вас дрожать.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -242,7 +242,7 @@
   parent: [ ClothingOuterHardsuitBase, BaseSyndicateContraband ]
   id: ClothingOuterHardsuitUnitologyEngineer
   name: экзогенный бронескафандр «Аклепий»
-  description:
+  description: Плотный скафандр для Зодчего отряда "Круг" позволяет тому работать в жаркой, и не только обстановке. 
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/engi.rsi
@@ -294,7 +294,7 @@
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
   id: ClothingHeadHelmetHardsuitUnitologyEngineer
   name: шлем экзогенного бронескафандра «Гефест»
-  description:
+  description: И тут не как у людей с глазами-...
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -326,7 +326,7 @@
   parent: [ ClothingOuterHardsuitBase, BaseSyndicateContraband ]
   id: ClothingOuterHardsuitUnitologyMedic
   name: мобильный бронескафандр «Асклепий»
-  description:
+  description: Лёгкий скафандр, что специально вытесан под Серафимов "Круга". Скафандр также оснащён проводками в районе ног, что позволяет носителю двигаться быстрее.
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/medic.rsi
@@ -376,7 +376,7 @@
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
   id: ClothingHeadHelmetHardsuitUnitologyMedic
   name: шлем мобильного бронескафандра «Асклепий»
-  description:
+  description: Где-то вы уже такой шлем видели-... Наверное.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite

@@ -4,7 +4,7 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 12/25/2025 10:17:19
+  time: 12/27/2025 18:34:42
   entityCount: 2579
 maps:
 - 1
@@ -1434,6 +1434,7 @@ entities:
           referenceAngle: 1.5707964
           damping: 3407.422
           stiffness: 30584.95
+    - type: NoShuttleFTL
 - proto: ActionInvisibility
   entities:
   - uid: 970

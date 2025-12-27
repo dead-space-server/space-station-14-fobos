@@ -464,6 +464,7 @@
   - type: StorageFill
     contents:
       - id: BoxMRE
+      - id: PinpointerNecroobelisk
 
 - type: entity
   parent: ClothingBackpackUnitology
@@ -478,6 +479,7 @@
         amount: 6
       - id: RCDRecharging
       - id: BoxMRE
+      - id: PinpointerNecroobelisk
 
 ## Мантия штурмовика
 - type: entity
