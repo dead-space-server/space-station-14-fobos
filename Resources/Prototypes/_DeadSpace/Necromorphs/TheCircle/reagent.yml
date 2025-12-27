@@ -144,7 +144,7 @@
     ExtractInfectorMedical:
       amount: 1
     Blood:
-      amount: 1
+      amount: 0.1
       catalyst: true
   products:
     Ferotohil: 1.5
@@ -153,11 +153,11 @@
   id: Ferratid
   reactants:
     Dermaline:
-      amount: 1.3
+      amount: 1.5
     Pyrazine:
-      amount: 1.3
+      amount: 1
     ExtractInfectorMedical:
-      amount: 0.4
+      amount: 0.5
   products:
     Ferratid: 2
 
@@ -171,7 +171,7 @@
     TranexamicAcid:
       amount: 0.5    
   products:
-    Punturil: 2.8
+    Punturil: 3
 
 - type: reaction
   id: Depotojil
