@@ -1,7 +1,6 @@
 - type: reagent
   id: Depotojil
   name: reagent-name-depotojil
-  group: Narcotics
   desc: reagent-desc-depotojil
   physicalDesc: reagent-physical-desc-translucent
   flavor: bitter

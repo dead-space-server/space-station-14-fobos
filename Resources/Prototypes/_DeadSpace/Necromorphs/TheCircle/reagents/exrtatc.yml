@@ -1,7 +1,6 @@
 - type: reagent
   id: ExtractInfectorMedical
   name: reagent-name-extract-infector-medical
-  group: Toxins
   desc: reagent-desc-extract-infector-medical
   physicalDesc: reagent-physical-desc-thick
   color: "#d88fff"
