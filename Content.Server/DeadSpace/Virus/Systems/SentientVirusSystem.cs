@@ -368,7 +368,7 @@ public sealed class SentientVirusSystem : EntitySystem
         var data = console.Comp.Data;
         var infectivity = 0f;
         var infectedCount = data != null ? _virusSystem.GetQuantityInfected(data.StrainId) : 0;
-        var pointsPerSecond = data != null ? data.RegenMutationPoints + infectedCount : 0;
+        var pointsPerSecond = data != null ? data.RegenMutationPoints + infectedCount * ModifyPointsRegenPerInfected : 0;
 
         if (data != null)
         {
