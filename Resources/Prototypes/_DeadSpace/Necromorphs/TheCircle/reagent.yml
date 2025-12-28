@@ -222,3 +222,26 @@
   components:
   - type: Paper
     content: paper-medic-circle
+
+- type: entity
+  parent: Jug
+  id: JugTheCircle
+  name: крепкий кувшин
+  description: крепкий кувшин что вмещает чуть больше чем обычный кувшин, имее меньший размер. Специально сделан для бойцов Круга.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/jug.rsi
+      layers:
+        - state: jug
+        - state: jug1
+          map: [ "enum.SolutionContainerLayers.Fill" ]
+          visible: false
+    - type: Item
+      shape:
+      - 0,0,2,1
+      size: Large 
+      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/jug.rsi
+    - type: SolutionContainerManager
+      solutions:
+        beaker:
+          maxVol: 200

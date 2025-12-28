@@ -300,6 +300,16 @@
     stock: 2
 
 - type: listing
+  id: UniPhoneUplinkJugTheCircle
+  name: Крепкий кувшин
+  icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/jug.rsi, state: jug }
+  productEntity: JugTheCircle
+  cost:
+    Telecrystal: 5
+  categories:
+   - UniPhoneUplinkMedical
+
+- type: listing
   id: UniPhoneUplinkMedicatedSuture
   name: Медицинская нить
   icon: { sprite: "/Textures/Objects/Specific/Medical/medical.rsi", state: medicated-suture }
