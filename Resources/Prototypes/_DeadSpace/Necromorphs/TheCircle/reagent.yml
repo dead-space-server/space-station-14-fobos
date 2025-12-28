@@ -84,8 +84,7 @@
       effects:
       - !type:HealthChange
         damage:
-          types:
-            Heat: -6
+           Burn: -6
       - !type:HealthChange
         conditions:
         - !type:ReagentThreshold
@@ -105,7 +104,7 @@
   color: "#FAFAFA"
   metabolisms:
     Narcotic:
-      metabolismRate: 0.42
+      metabolismRate: 0.45
       effects:
       - !type:MovespeedModifier
         walkSpeedModifier: 1.45
@@ -129,12 +128,6 @@
         effectProto: StatusEffectDrowsiness
         time: 10
         type: Remove
-    Medicine:
-      effects:
-      - !type:ResetNarcolepsy
-        conditions:
-        - !type:ReagentThreshold
-          min: 5
 
 - type: reaction
   id: Ferotohil
@@ -159,7 +152,7 @@
     ExtractInfectorMedical:
       amount: 0.5
   products:
-    Ferratid: 2
+    Ferratid: 2.5
 
 - type: reaction
   id: Punturil
@@ -171,7 +164,7 @@
     TranexamicAcid:
       amount: 0.5    
   products:
-    Punturil: 3
+    Punturil: 2.5
 
 - type: reaction
   id: Depotojil
@@ -213,19 +206,9 @@
     contents:
     - id: Beaker
       amount: 2
-    - id: TheCircleMedicPaper
     - id: ClothingEyesGlassesChemical
     - id: ExtractInfectorMedicalVial
       amount: 4
-
-- type: entity
-  parent: Paper
-  id: TheCircleMedicPaper
-  name: инструкция варки для медика Круга
-  description: Лист бумаги где указаны пропорции варки новых химикатов и их способы использование.
-  components:
-  - type: Paper
-    content: paper-medic-circle
 
 - type: entity
   parent: Jug
