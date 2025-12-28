@@ -1,7 +1,6 @@
 - type: reagent
   id: ExtractInfectorMedical
   name: reagent-name-extract-infector-medical
-  group: Toxins
   desc: reagent-desc-extract-infector-medical
   physicalDesc: reagent-physical-desc-thick
   flavor: sweet
@@ -22,7 +21,6 @@
 - type: reagent
   id: Depotojil
   name: reagent-name-depotojil
-  group: Toxins
   desc: reagent-desc-depotojil
   physicalDesc: reagent-physical-desc-thick
   flavor: sweet
@@ -89,7 +87,6 @@
 - type: reagent
   id: Ferotohil
   name: reagent-name-ferotohil
-  group: Toxins
   desc: reagent-desc-ferotohil
   physicalDesc: reagent-physical-desc-thick
   flavor: sweet
