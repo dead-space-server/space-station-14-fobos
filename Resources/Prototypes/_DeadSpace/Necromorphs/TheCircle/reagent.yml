@@ -70,6 +70,28 @@
             Cellular: 2
 
 - type: reagent
+  id: Ferratid
+  name: reagent-name-ferratid
+  group: Medicine
+  desc: reagent-desc-ferratid
+  physicalDesc: reagent-physical-desc-thick
+  color: "#ab43b4"
+  metabolisms:
+    Medicine:
+      effects:
+      - !type:HealthChange
+        damage:
+          types:
+            Heat: -6
+      - !type:HealthChange
+        conditions:
+        - !type:ReagentThreshold
+          min: 6
+        damage:
+          types:
+            Cellular: 2.5
+
+- type: reagent
   id: Depotojil
   name: reagent-name-depotojil
   group: Narcotics
@@ -139,43 +161,6 @@
           groups:
             Burn: -1
             Brute: -1
-
-- type: reaction
-  impact: Medium
-  id: Ferotohil
-  reactants:
-    Tricordrazine:
-      amount: 1
-    ExtractInfectorMedical:
-      amount: 1
-  products:
-    Ferotohil: 1.5
-
-- type: reaction
-  id: Punturil
-  impact: Medium
-  reactants:
-    Puncturase:
-      amount: 1.5
-    ExtractInfectorMedical:
-      amount: 0.5
-    TranexamicAcid:
-      amount: 1
-  products:
-    Punturil: 2.8
-
-- type: reaction
-  id: Depotojil
-  impact: Medium
-  reactants:
-    Ephedrine:
-      amount: 1
-    ExtractInfectorMedical:
-      amount: 1
-    Phenylacetone:
-      amount: 1
-  products:
-    Depotojil: 3
 
 - type: entity
   id: ExtractInfectorMedicalVial
