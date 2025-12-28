@@ -205,6 +205,8 @@
   parent: BaseChemistryEmptyVial
   suffix: очищенный экстракт заразителя
   components:
+  - type: Label
+    currentLabel: очищенный экстракт заразителя
   - type: SolutionContainerManager
     solutions:
       beaker:
