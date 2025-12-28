@@ -2,6 +2,7 @@
   id: Depotojil
   name: reagent-name-depotojil
   desc: reagent-desc-depotojil
+  flavor: sweet
   physicalDesc: reagent-physical-desc-translucent
   flavor: bitter
   color: "#5b5b5b"

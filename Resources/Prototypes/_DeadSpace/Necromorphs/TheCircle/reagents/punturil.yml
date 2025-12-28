@@ -3,6 +3,7 @@
   name: reagent-name-punturil
   desc: reagent-desc-punturil
   physicalDesc: reagent-physical-desc-thick
+  flavor: sweet
   color: "#d98787"
   metabolisms:
     Medicine:

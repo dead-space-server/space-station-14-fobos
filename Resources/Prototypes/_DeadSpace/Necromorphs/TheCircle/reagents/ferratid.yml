@@ -2,6 +2,7 @@
   id: Ferratid
   name: reagent-name-ferratid
   desc: reagent-desc-ferratid
+  flavor: sweet
   physicalDesc: reagent-physical-desc-thick
   color: "#ab43b4"
   metabolisms:

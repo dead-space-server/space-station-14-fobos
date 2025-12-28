@@ -1,6 +1,7 @@
 - type: reagent
   id: Ferotohil
   name: reagent-name-ferotohil
+  flavor: sweet
   desc: reagent-desc-ferotohil
   physicalDesc: reagent-physical-desc-thick
   color: "#c1b8ff"

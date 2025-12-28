@@ -1,5 +1,6 @@
 - type: reagent
   id: ExtractInfectorMedical
+  flavor: sweet
   name: reagent-name-extract-infector-medical
   desc: reagent-desc-extract-infector-medical
   physicalDesc: reagent-physical-desc-thick
