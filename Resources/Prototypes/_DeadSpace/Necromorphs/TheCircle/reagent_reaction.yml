@@ -1,1 +1,10 @@
-# - type: reaction
+- type: reaction
+  impact: Medium
+  id: Ferotohil
+  reactants:
+    Tricordrazine:
+      amount: 1
+    ExtractInfectorMedical:
+      amount: 1
+  products:
+    Ferotohil: 1.5
