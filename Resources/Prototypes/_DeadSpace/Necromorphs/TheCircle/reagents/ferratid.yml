@@ -1,7 +1,7 @@
 - type: reagent
   id: Ferratid
   name: reagent-name-ferratid
-  group: Medicine
+  group: Toxins
   desc: reagent-desc-ferratid
   physicalDesc: reagent-physical-desc-thick
   color: "#ab43b4"
