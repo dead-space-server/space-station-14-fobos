@@ -84,7 +84,8 @@
       effects:
       - !type:HealthChange
         damage:
-          Burn: -6
+          types:
+            Heat: -6
       - !type:HealthChange
         conditions:
         - !type:ReagentThreshold
