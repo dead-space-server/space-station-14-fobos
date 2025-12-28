@@ -12,7 +12,7 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 public sealed class ParalyzedLegsSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.ParalyzedLegs;
-    protected override float AddInfectivity => 0.05f;
+    protected override float AddInfectivity => 0.02f;
     private bool _hasComp = false;
 
     public ParalyzedLegsSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)

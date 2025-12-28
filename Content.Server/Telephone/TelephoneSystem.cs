@@ -21,6 +21,7 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Replays;
 using System.Linq;
+using Content.Shared.DeadSpace.Languages.Components;
 
 namespace Content.Server.Telephone;
 
@@ -106,6 +107,15 @@ public sealed class TelephoneSystem : SharedTelephoneSystem
 
         // Determine if speech should be relayed via the telephone itself or a designated speaker
         var speaker = entity.Comp.Speaker != null ? entity.Comp.Speaker.Value.Owner : entity.Owner;
+
+        // DS14-start
+        // Это решение, как и все телефонные не является грамотным, но оно простое и быстрое 
+        if (entity.Comp.Speaker != null && TryComp<LanguageComponent>(args.MessageSource, out var language))
+        {
+            var speakerLanguahe = EnsureComp<LanguageComponent>(speaker);
+            speakerLanguahe.SelectedLanguage = language.SelectedLanguage;
+        }
+        // DS14-end
 
         var name = Loc.GetString("chat-telephone-name-relay",
             ("originalName", nameEv.VoiceName),

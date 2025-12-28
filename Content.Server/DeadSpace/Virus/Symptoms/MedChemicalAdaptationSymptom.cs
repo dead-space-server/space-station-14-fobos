@@ -11,7 +11,7 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 public sealed class MedChemicalAdaptationSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.MedChemicalAdaptation;
-    protected override float AddInfectivity => 0.05f;
+    protected override float AddInfectivity => 0.02f;
     private float _addDefaultMedicineResistance = 0.3f;
 
     public MedChemicalAdaptationSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
