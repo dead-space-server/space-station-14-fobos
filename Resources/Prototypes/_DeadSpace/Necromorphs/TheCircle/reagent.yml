@@ -156,10 +156,49 @@
     ExtractInfectorMedical:
       amount: 1
     Blood:
-      amount: 0.1
+      amount: 1
       catalyst: true
   products:
     Ferotohil: 1.5
+
+- type: reaction
+  impact: Medium
+  id: Ferratid
+  reactants:
+    Dermaline:
+      amount: 1
+    Pyrazine:
+      amount: 1
+    ExtractInfectorMedical:
+      amount: 1
+  products:
+    Ferratid: 2.5
+
+- type: reaction
+  id: Punturil
+  impact: Medium
+  reactants:
+    Puncturase:
+      amount: 1.5
+    ExtractInfectorMedical:
+      amount: 1
+    TranexamicAcid:
+      amount: 0.5
+  products:
+    Punturil: 2.8
+
+- type: reaction
+  id: Depotojil
+  impact: Medium
+  reactants:
+    Ephedrine:
+      amount: 1
+    ExtractInfectorMedical:
+      amount: 1
+    Phenylacetone:
+      amount: 1
+  products:
+    Depotojil: 3
 
 - type: entity
   id: ExtractInfectorMedicalVial
