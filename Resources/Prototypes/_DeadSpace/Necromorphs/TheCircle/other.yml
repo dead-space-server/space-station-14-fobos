@@ -33,6 +33,15 @@
       path: /Audio/Effects/countdown.ogg
 
 - type: entity
+  parent: Paper
+  id: TheCircleMedicPaper
+  name: инструкция
+  description: Лист бумаги где указаны пропорции варки новых химикатов и их способы использование.
+  components:
+  - type: Paper
+    content: paper-medic-circle
+
+- type: entity
   id: ExtractInfectorMedicalVial
   parent: BaseChemistryEmptyVial
   components:
@@ -57,9 +66,10 @@
     - 0,0,3,2
   - type: StorageFill
     contents:
+    - id: TheCircleMedicPaper
     - id: ClothingEyesGlassesChemical
     - id: ExtractInfectorMedicalVial
-      amount: 4
+      amount: 5
 
 - type: entity
   parent: Jug
