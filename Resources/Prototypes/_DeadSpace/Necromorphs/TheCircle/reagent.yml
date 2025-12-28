@@ -23,8 +23,7 @@
   name: reagent-name-ferotohil
   group: Medicine
   desc: reagent-desc-ferotohil
-  physicalDesc: reagent-physical-desc-soothing
-  flavor: medicine
+  physicalDesc: reagent-physical-desc-thick
   color: "#c1b8ff"
   metabolisms:
     Medicine:
@@ -49,8 +48,7 @@
   name: reagent-name-punturil
   group: Medicine
   desc: reagent-desc-punturil
-  physicalDesc: reagent-physical-desc-fizzy
-  flavor: fizzy
+  physicalDesc: reagent-physical-desc-thick
   color: "#c27676"
   metabolisms:
     Medicine:
@@ -76,9 +74,8 @@
   name: reagent-name-ferratid
   group: Medicine
   desc: reagent-desc-ferratid
-  physicalDesc: reagent-physical-desc-translucent
-  flavor: medicine
-  color: "#064457"
+  physicalDesc: reagent-physical-desc-thick
+  color: "#600068"
   metabolisms:
     Medicine:
       effects:
@@ -114,7 +111,7 @@
       - !type:HealthChange
         conditions:
         - !type:ReagentThreshold
-          min: 80 #please wait 3 minutes before using another stimpack
+          min: 80
         damage:
           types:
             Poison: 1
@@ -160,8 +157,8 @@
       - !type:HealthChange
         conditions:
         - !type:TotalDamage
-          min: 70 # only heals when you're more dead than alive
-        damage: # heals at the same rate as tricordrazine, doesn't heal poison because if you OD'd I'm not giving you a safety net
+          min: 70 
+        damage:
           groups:
             Burn: -1
             Brute: -1
@@ -182,22 +179,22 @@
   id: Ferratid
   reactants:
     Dermaline:
-      amount: 1
+      amount: 1.3
     Pyrazine:
-      amount: 1
+      amount: 1.3
     ExtractInfectorMedical:
-      amount: 1
+      amount: 0.4
   products:
-    Ferratid: 2.5
+    Ferratid: 2
 
 - type: reaction
   id: Punturil
   impact: Medium
   reactants:
     Puncturase:
-      amount: 1
+      amount: 1.5
     ExtractInfectorMedical:
-      amount: 1
+      amount: 0.5
     TranexamicAcid:
       amount: 1
   products:
@@ -233,7 +230,7 @@
 - type: entity
   parent: [BoxVial, BaseSyndicateContraband]
   id: ExtractInfectorMedicalKit
-  name: набор очищеного экстракт заразителя
+  name: набор
   description: Важный набор для твоего медика Круга. Кстати, скажи спасибо своему медику, ему будет приятно.
   components:
   - type: Storage
@@ -251,7 +248,7 @@
 - type: entity
   parent: Paper
   id: TheCircleMedicPaper
-  name: инструкция варки для медика Круга
+  name: инструкция
   description: Лист бумаги где указаны пропорции варки новых химикатов и их способы использование.
   components:
   - type: Paper
