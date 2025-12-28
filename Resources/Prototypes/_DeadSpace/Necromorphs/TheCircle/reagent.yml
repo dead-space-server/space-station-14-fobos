@@ -164,17 +164,6 @@
 
 - type: reaction
   impact: Medium
-  id: Ferotohil
-  reactants:
-    Tricordrazine:
-      amount: 1
-    ExtractInfectorMedical:
-      amount: 1
-  products:
-    Ferotohil: 1.5
-
-- type: reaction
-  impact: Medium
   id: Ferratid
   reactants:
     Dermaline:
