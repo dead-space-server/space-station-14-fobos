@@ -44,32 +44,6 @@
             Cellular: 3
 
 - type: reagent
-  id: Punturil
-  name: reagent-name-punturil
-  group: Medicine
-  desc: reagent-desc-punturil
-  physicalDesc: reagent-physical-desc-thick
-  color: "#d98787"
-  metabolisms:
-    Medicine:
-      metabolismRate: 0.55
-      effects:
-      - !type:ModifyBleedAmount
-        amount: -1
-      - !type:HealthChange
-        damage:
-          types:
-            Piercing: -5.3
-            Slash: -1.2
-      - !type:HealthChange
-        conditions:
-        - !type:ReagentThreshold
-          min: 6
-        damage:
-          types:
-            Cellular: 2
-
-- type: reagent
   id: Ferratid
   name: reagent-name-ferratid
   group: Medicine
@@ -90,6 +64,77 @@
         damage:
           types:
             Cellular: 2.5
+
+- type: reagent
+  id: Depotojil
+  name: reagent-name-depotojil
+  group: Narcotics
+  desc: reagent-desc-depotojil
+  physicalDesc: reagent-physical-desc-translucent
+  flavor: bitter
+  color: "#5b5b5b"
+  metabolisms:
+    Narcotic:
+      metabolismRate: 1.0
+      effects:
+      - !type:MovespeedModifier
+        walkSpeedModifier: 1.45
+        sprintSpeedModifier: 1.45
+      - !type:Jitter
+      - !type:HealthChange
+        conditions:
+        - !type:ReagentThreshold
+          min: 80
+        damage:
+          types:
+            Poison: 1
+      - !type:AdjustReagent
+        conditions:
+        - !type:ReagentThreshold
+          reagent: ChloralHydrate
+          min: 1
+        reagent: ChloralHydrate
+        amount: -10
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectStunned
+        time: 3
+        type: Remove
+      - !type:ModifyKnockdown
+        time: 3
+        type: Remove
+      - !type:GenericStatusEffect
+        key: StaminaModifier
+        component: StaminaModifier
+        time: 3
+        type: Add
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectForcedSleeping
+        time: 3
+        type: Remove
+      - !type:ModifyStatusEffect
+        conditions:
+        - !type:ReagentThreshold
+          reagent: Haloperidol
+          max: 0.01
+        effectProto: StatusEffectDrowsiness
+        time: 10
+        type: Remove
+    Medicine:
+      metabolismRate: 1.0
+      effects:
+      - !type:ResetNarcolepsy
+      - !type:SatiateHunger
+        factor: 1
+      - !type:SatiateThirst
+        factor: 1
+      - !type:HealthChange
+        conditions:
+        - !type:TotalDamage
+          min: 70 
+        damage:
+          groups:
+            Burn: -1
+            Brute: -1
 
 - type: reaction
   impact: Medium
@@ -116,17 +161,17 @@
     Ferratid: 2
 
 - type: reaction
-  id: Punturil
+  id: Depotojil
   impact: Medium
   reactants:
-    Puncturase:
-      amount: 1.5
+    Ephedrine:
+      amount: 1
     ExtractInfectorMedical:
-      amount: 0.5
-    TranexamicAcid:
+      amount: 1
+    Phenylacetone:
       amount: 1
   products:
-    Punturil: 2.8
+    Depotojil: 3
 
 - type: entity
   id: ExtractInfectorMedicalVial
