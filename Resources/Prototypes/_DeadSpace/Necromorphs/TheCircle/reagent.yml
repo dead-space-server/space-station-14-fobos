@@ -131,6 +131,7 @@
         type: Remove
 
 - type: reaction
+  impact: Medium
   id: Ferotohil
   reactants:
     Tricordrazine:
@@ -144,6 +145,7 @@
     Ferotohil: 1.5
 
 - type: reaction
+  impact: Medium
   id: Ferratid
   reactants:
     Dermaline:
@@ -157,6 +159,7 @@
 
 - type: reaction
   id: Punturil
+  impact: Medium
   reactants:
     Puncturase:
       amount: 1.5
@@ -169,6 +172,7 @@
 
 - type: reaction
   id: Depotojil
+  impact: Medium
   reactants:
     Ephedrine:
       amount: 1
@@ -203,6 +207,7 @@
     - 0,0,3,2
   - type: StorageFill
     contents:
+    - id: TheCircleMedicPaper
     - id: Beaker
       amount: 2
     - id: ClothingEyesGlassesChemical
@@ -210,24 +215,10 @@
       amount: 4
 
 - type: entity
-  parent: Jug
-  id: JugTheCircle
-  name: крепкий кувшин
-  description: крепкий кувшин что вмещает чуть больше чем обычный кувшин, имее меньший размер. Специально сделан для бойцов Круга.
+  parent: Paper
+  id: TheCircleMedicPaper
+  name: инструкция варки для медика Круга
+  description: Лист бумаги где указаны пропорции варки новых химикатов и их способы использование.
   components:
-    - type: Sprite
-      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/jug.rsi
-      layers:
-        - state: jug
-        - state: jug1
-          map: [ "enum.SolutionContainerLayers.Fill" ]
-          visible: false
-    - type: Item
-      shape:
-      - 0,0,2,1
-      size: Large 
-      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/jug.rsi
-    - type: SolutionContainerManager
-      solutions:
-        beaker:
-          maxVol: 200
+  - type: Paper
+    content: paper-medic-circle
