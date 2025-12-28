@@ -54,3 +54,13 @@
       solutions:
         beaker:
           maxVol: 300
+
+- type: entity
+  parent: BaseWeaponBallisticTurret
+  id: WeaponTurretTheCircle
+  suffix: Круг
+  components:
+  - type: NpcFactionMember
+    factions:
+    - Syndicate
+    - Necromorfs
