@@ -1,24 +1,4 @@
 - type: reagent
-  id: ExtractInfectorMedical
-  name: reagent-name-extract-infector-medical
-  group: Toxins
-  desc: reagent-desc-extract-infector-medical
-  physicalDesc: reagent-physical-desc-thick
-  color: "#d88fff"
-  metabolisms:
-    Poison:
-      metabolismRate: 0.2
-      effects:
-      - !type:HealthChange
-        damage:
-          types:
-            Poison: 3
-      - !type:CauseInfectionDead
-        conditions:
-          - !type:ReagentThreshold
-            min: 15
-
-- type: reagent
   id: Depotojil
   name: reagent-name-depotojil
   group: Narcotics
@@ -28,11 +8,11 @@
   color: "#5b5b5b"
   metabolisms:
     Narcotic:
-      metabolismRate: 1.0
+      metabolismRate: 1.2
       effects:
       - !type:MovespeedModifier
-        walkSpeedModifier: 1.4
-        sprintSpeedModifier: 1.4
+        walkSpeedModifier: 1.45
+        sprintSpeedModifier: 1.45
       - !type:Jitter
       - !type:HealthChange
         conditions:
@@ -73,13 +53,9 @@
         time: 10
         type: Remove
     Medicine:
-      metabolismRate: 1.0
+      metabolismRate: 1.2
       effects:
       - !type:ResetNarcolepsy
-      - !type:SatiateHunger
-        factor: 1
-      - !type:SatiateThirst
-        factor: 1
       - !type:HealthChange
         conditions:
         - !type:TotalDamage

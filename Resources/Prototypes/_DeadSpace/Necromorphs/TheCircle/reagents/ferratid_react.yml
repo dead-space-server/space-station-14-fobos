@@ -1,0 +1,12 @@
+- type: reaction
+  impact: Medium
+  id: Ferratid
+  reactants:
+    Dermaline:
+      amount: 1.3
+    Pyrazine:
+      amount: 1.3
+    ExtractInfectorMedical:
+      amount: 0.4
+  products:
+    Ferratid: 2

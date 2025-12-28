@@ -1,0 +1,19 @@
+- type: reagent
+  id: ExtractInfectorMedical
+  name: reagent-name-extract-infector-medical
+  group: Toxins
+  desc: reagent-desc-extract-infector-medical
+  physicalDesc: reagent-physical-desc-thick
+  color: "#d88fff"
+  metabolisms:
+    Poison:
+      metabolismRate: 0.2
+      effects:
+      - !type:HealthChange
+        damage:
+          types:
+            Poison: 3
+      - !type:CauseInfectionDead
+        conditions:
+          - !type:ReagentThreshold
+            min: 15
