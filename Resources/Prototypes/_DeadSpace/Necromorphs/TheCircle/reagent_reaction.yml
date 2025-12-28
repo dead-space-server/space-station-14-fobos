@@ -1,12 +1,12 @@
 - type: reaction
-  id: Punturil
   impact: Medium
+  id: Ferratid
   reactants:
-    Puncturase:
-      amount: 1.5
+    Dermaline:
+      amount: 1.3
+    Pyrazine:
+      amount: 1.3
     ExtractInfectorMedical:
-      amount: 0.5
-    TranexamicAcid:
-      amount: 1
+      amount: 0.4
   products:
-    Punturil: 2.8
+    Ferratid: 2
