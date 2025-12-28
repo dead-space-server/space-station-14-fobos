@@ -123,6 +123,7 @@
   name: РПЛ 20 (Можно купить 3 раза)
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/rpl20/rpl20.rsi, state: icon }
   description: Пулемет предназначен для поражения живой силы, огневых и небронированных транспортных средств противника.
+  productEntity: WeaponCaseHeavyFilledRPL20
   cost:
     Telecrystal: 21
   categories:
