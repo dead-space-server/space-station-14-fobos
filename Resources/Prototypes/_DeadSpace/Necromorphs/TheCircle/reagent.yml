@@ -44,26 +44,30 @@
             Cellular: 3
 
 - type: reagent
-  id: Ferratid
-  name: reagent-name-ferratid
+  id: Punturil
+  name: reagent-name-punturil
   group: Medicine
-  desc: reagent-desc-ferratid
+  desc: reagent-desc-punturil
   physicalDesc: reagent-physical-desc-thick
-  color: "#ab43b4"
+  color: "#d98787"
   metabolisms:
     Medicine:
+      metabolismRate: 0.55
       effects:
+      - !type:ModifyBleedAmount
+        amount: -1
       - !type:HealthChange
         damage:
           types:
-            Heat: -6
+            Piercing: -5.3
+            Slash: -1.2
       - !type:HealthChange
         conditions:
         - !type:ReagentThreshold
           min: 6
         damage:
           types:
-            Cellular: 2.5
+            Cellular: 2
 
 - type: reagent
   id: Depotojil
@@ -148,17 +152,17 @@
     Ferotohil: 1.5
 
 - type: reaction
+  id: Punturil
   impact: Medium
-  id: Ferratid
   reactants:
-    Dermaline:
-      amount: 1.3
-    Pyrazine:
-      amount: 1.3
+    Puncturase:
+      amount: 1.5
     ExtractInfectorMedical:
-      amount: 0.4
+      amount: 0.5
+    TranexamicAcid:
+      amount: 1
   products:
-    Ferratid: 2
+    Punturil: 2.8
 
 - type: reaction
   id: Depotojil
