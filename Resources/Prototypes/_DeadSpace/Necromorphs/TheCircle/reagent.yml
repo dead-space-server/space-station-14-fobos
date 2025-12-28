@@ -162,7 +162,7 @@
     ExtractInfectorMedical:
       amount: 1
     TranexamicAcid:
-      amount: 0.5    
+      amount: 0.5
   products:
     Punturil: 2.5
 
@@ -190,8 +190,6 @@
         reagents:
         - ReagentId: ExtractInfectorMedical
           Quantity: 30
-  - type: Tag
-    tags: []
 
 - type: entity
   parent: [BoxVial, BaseSyndicateContraband]
@@ -231,4 +229,4 @@
     - type: SolutionContainerManager
       solutions:
         beaker:
-          maxVol: 300
+          maxVol: 200
