@@ -111,6 +111,13 @@
         walkSpeedModifier: 1.45
         sprintSpeedModifier: 1.45
       - !type:Jitter
+      - !type:HealthChange
+        conditions:
+        - !type:ReagentThreshold
+          min: 80 #please wait 3 minutes before using another stimpack
+        damage:
+          types:
+            Poison: 1
       - !type:AdjustReagent
         conditions:
         - !type:ReagentThreshold
@@ -146,6 +153,18 @@
       metabolismRate: 1.0
       effects:
       - !type:ResetNarcolepsy
+      - !type:SatiateHunger
+        factor: 1
+      - !type:SatiateThirst
+        factor: 1
+      - !type:HealthChange
+        conditions:
+        - !type:TotalDamage
+          min: 70 # only heals when you're more dead than alive
+        damage: # heals at the same rate as tricordrazine, doesn't heal poison because if you OD'd I'm not giving you a safety net
+          groups:
+            Burn: -1
+            Brute: -1
 
 - type: reaction
   impact: Medium
@@ -155,9 +174,6 @@
       amount: 1
     ExtractInfectorMedical:
       amount: 1
-    Blood:
-      amount: 1
-      catalyst: true
   products:
     Ferotohil: 1.5
 
@@ -179,11 +195,11 @@
   impact: Medium
   reactants:
     Puncturase:
-      amount: 1.5
+      amount: 1
     ExtractInfectorMedical:
       amount: 1
     TranexamicAcid:
-      amount: 0.5
+      amount: 1
   products:
     Punturil: 2.8
 
@@ -203,10 +219,10 @@
 - type: entity
   id: ExtractInfectorMedicalVial
   parent: BaseChemistryEmptyVial
-  suffix: очищенный экстракт заразителя
+  suffix: reagent-name-extractinfectormedical
   components:
   - type: Label
-    currentLabel: очищенный экстракт заразителя
+    currentLabel: reagent-name-extractinfectormedical
   - type: SolutionContainerManager
     solutions:
       beaker:
