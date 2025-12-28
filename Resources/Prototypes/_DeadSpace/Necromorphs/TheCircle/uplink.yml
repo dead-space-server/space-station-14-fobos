@@ -273,27 +273,13 @@
    - UniPhoneUplinkMedical
 
 - type: listing
-  id: UniPhoneUplinkExtractInfectorMedicalKit
-  name: Набор медика "Круг"
-  icon: { sprite: /Textures/Objects/Storage/boxicons.rsi, state: vials }
-  productEntity: ExtractInfectorMedicalKit
-  description: Важный набор для твоего медика Круга. Скажи спасибо своему медику, ему будет приятно. Данный набор можно купить 4 раза.
-  cost:
-    Telecrystal: 8
-  categories:
-   - UniPhoneUplinkMedical
-  conditions:
-  - !type:ListingLimitedStockCondition
-    stock: 4
-
-- type: listing
   id: UniPhoneUplinkChemVendSyndicate
   name: набор пополнения СиндиСоки
   icon: { sprite: _DeadSpace/Objects/Specific/Service/vending_machine_restock.rsi, state: base }
   productEntity: VendingMachineRestockChemVendSyndicate
   description: Простое пополнение для СиндиСока. Пополнение можно купить 2 раза.
   cost:
-    Telecrystal: 20
+    Telecrystal: 16
   categories:
    - UniPhoneUplinkMedical
   conditions:
