@@ -1,7 +1,7 @@
 - type: reagent
   id: Ferotohil
   name: reagent-name-ferotohil
-  group: Medicine
+  group: Toxins
   desc: reagent-desc-ferotohil
   physicalDesc: reagent-physical-desc-thick
   color: "#c1b8ff"
