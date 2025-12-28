@@ -8,13 +8,13 @@ thecircle-description = Радикальная часть юнитологов �
 
 role-subtype-circle = "Круг"
 
-reagent-name-extractinfectormedical = очищеный экстракт заразителя
+reagent-name-extract-infector-medical = очищеный экстракт
 
-reagent-desc-extractinfectormedical = Более слабая форма экстракта заразителя, но, с другой стороны, ей пользуется одна очень интересная организация, с медицинскими целями...
+reagent-desc-extract-infector-medical = Более слабая форма экстракта заразителя, но, с другой стороны, ей пользуються с медицинскими целями...
 
 reagent-name-ferotohil = феротохил
 
-reagent-desc-ferotohil = Опасный лечащий препорат на подобии Омнизина, что создаётся с панацей от Интердайн, и очищеной версией экстракта.
+reagent-desc-ferotohil = Опасный лечащий препорат, что создаётся с панацей от Интердайн, и очищеной версией экстракта.
 
 reagent-name-punturil = пунтурил
 
