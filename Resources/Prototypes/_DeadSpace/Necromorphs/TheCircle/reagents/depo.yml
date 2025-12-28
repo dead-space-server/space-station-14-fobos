@@ -1,5 +1,6 @@
 - type: reagent
   id: Depotojil
+  group: Toxins
   name: reagent-name-depotojil
   desc: reagent-desc-depotojil
   physicalDesc: reagent-physical-desc-translucent

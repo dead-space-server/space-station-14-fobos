@@ -1,5 +1,6 @@
 - type: reagent
   id: ExtractInfectorMedical
+  group: Toxins
   flavor: sweet
   name: reagent-name-extract-infector-medical
   desc: reagent-desc-extract-infector-medical

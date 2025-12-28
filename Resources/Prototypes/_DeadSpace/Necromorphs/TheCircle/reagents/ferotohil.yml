@@ -1,6 +1,7 @@
 - type: reagent
   id: Ferotohil
   name: reagent-name-ferotohil
+  group: Toxins
   flavor: sweet
   desc: reagent-desc-ferotohil
   physicalDesc: reagent-physical-desc-thick

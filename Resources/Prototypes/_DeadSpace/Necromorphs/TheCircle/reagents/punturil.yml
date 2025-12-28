@@ -4,6 +4,7 @@
   desc: reagent-desc-punturil
   physicalDesc: reagent-physical-desc-thick
   flavor: sweet
+  group: Toxins
   color: "#d98787"
   metabolisms:
     Medicine:
