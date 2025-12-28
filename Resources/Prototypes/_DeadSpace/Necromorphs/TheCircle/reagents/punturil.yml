@@ -1,7 +1,7 @@
 - type: reagent
   id: Punturil
   name: reagent-name-punturil
-  group: Toxins
+  group: Narcotics
   desc: reagent-desc-punturil
   physicalDesc: reagent-physical-desc-thick
   color: "#d98787"
