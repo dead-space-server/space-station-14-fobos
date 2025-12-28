@@ -84,7 +84,7 @@
       effects:
       - !type:HealthChange
         damage:
-           Burn: -6
+          Burn: -6
       - !type:HealthChange
         conditions:
         - !type:ReagentThreshold
