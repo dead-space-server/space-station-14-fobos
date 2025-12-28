@@ -57,20 +57,9 @@
     - 0,0,3,2
   - type: StorageFill
     contents:
-    - id: Beaker
-      amount: 2
     - id: ClothingEyesGlassesChemical
     - id: ExtractInfectorMedicalVial
       amount: 4
-
-- type: entity
-  parent: Paper
-  id: TheCircleMedicPaper
-  name: инструкция
-  description: Лист бумаги где указаны пропорции варки новых химикатов и их способы использование.
-  components:
-  - type: Paper
-    content: paper-medic-circle
 
 - type: entity
   parent: Jug
