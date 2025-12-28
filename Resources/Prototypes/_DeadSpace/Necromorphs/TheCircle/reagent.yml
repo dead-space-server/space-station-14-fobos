@@ -275,4 +275,4 @@
     - type: SolutionContainerManager
       solutions:
         beaker:
-          maxVol: 200
+          maxVol: 300

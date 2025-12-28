@@ -11,39 +11,8 @@
       "name": "jug"
     },
     {
-      "name": "jug-unlit",
-      "delays": [
-        [
-          0.1,
-          0.1
-        ]
-      ]
-    },
-    {
       "name": "inhand-left",
       "directions": 4
-    },
-    {
-      "name": "inhand-left-unlit",
-      "directions": 4,
-      "delays": [
-        [
-          0.1,
-          0.1
-        ],
-        [
-          0.1,
-          0.1
-        ],
-        [
-          0.1,
-          0.1
-        ],
-        [
-          0.1,
-          0.1
-        ]
-      ]
     },
 	{
       "name": "inhand-left-fill-1",
@@ -68,28 +37,6 @@
     {
       "name": "inhand-right",
       "directions": 4
-    },
-    {
-      "name": "inhand-right-unlit",
-      "directions": 4,
-      "delays": [
-        [
-          0.1,
-          0.1
-        ],
-        [
-          0.1,
-          0.1
-        ],
-        [
-          0.1,
-          0.1
-        ],
-        [
-          0.1,
-          0.1
-        ]
-      ]
     },
 	{
       "name": "inhand-right-fill-1",
