@@ -19,26 +19,27 @@
             min: 15
 
 - type: reagent
-  id: Ferotohil
-  name: reagent-name-ferotohil
+  id: Punturil
+  name: reagent-name-punturil
   group: Medicine
-  desc: reagent-desc-ferotohil
+  desc: reagent-desc-punturil
   physicalDesc: reagent-physical-desc-thick
-  color: "#c1b8ff"
+  color: "#d98787"
   metabolisms:
     Medicine:
-      metabolismRate: 0.8
+      metabolismRate: 0.55
       effects:
-      - !type:EvenHealthChange
+      - !type:ModifyBleedAmount
+        amount: -1
+      - !type:HealthChange
         damage:
-          Burn: -4.5
-          Toxin: -4.5
-          Airloss: -4.5
-          Brute: -4.5
+          types:
+            Piercing: -5.3
+            Slash: -1.2
       - !type:HealthChange
         conditions:
         - !type:ReagentThreshold
-          min: 16
+          min: 6
         damage:
           types:
-            Cellular: 3
+            Cellular: 2
