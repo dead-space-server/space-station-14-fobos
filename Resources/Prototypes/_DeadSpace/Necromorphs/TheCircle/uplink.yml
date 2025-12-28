@@ -286,7 +286,7 @@
     stock: 4
 
 - type: listing
-  id: UniPhoneUplinkVendingMachineRestockChemVendSyndicate
+  id: UniPhoneUplinkChemVendSyndicate
   name: набор пополнения СиндиСоки
   icon: { sprite: _DeadSpace/Objects/Specific/Service/vending_machine_restock.rsi, state: base }
   productEntity: VendingMachineRestockChemVendSyndicate
