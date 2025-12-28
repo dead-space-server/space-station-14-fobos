@@ -102,23 +102,36 @@
   physicalDesc: reagent-physical-desc-translucent
   contrabandSeverity: Major
   flavor: bitter
-  color: "#FAFAFA"
+  color: "#612a54"
   metabolisms:
     Narcotic:
-      metabolismRate: 0.45
+      metabolismRate: 1.0
       effects:
       - !type:MovespeedModifier
         walkSpeedModifier: 1.45
         sprintSpeedModifier: 1.45
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: StutteringAccent
       - !type:Jitter
+      - !type:AdjustReagent
+        conditions:
+        - !type:ReagentThreshold
+          reagent: ChloralHydrate
+          min: 1
+        reagent: ChloralHydrate
+        amount: -10
       - !type:ModifyStatusEffect
         effectProto: StatusEffectStunned
         time: 3
         type: Remove
       - !type:ModifyKnockdown
+        time: 3
+        type: Remove
+      - !type:GenericStatusEffect
+        key: StaminaModifier
+        component: StaminaModifier
+        time: 3
+        type: Add
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectForcedSleeping
         time: 3
         type: Remove
       - !type:ModifyStatusEffect
@@ -129,6 +142,10 @@
         effectProto: StatusEffectDrowsiness
         time: 10
         type: Remove
+    Medicine:
+      metabolismRate: 1.0
+      effects:
+      - !type:ResetNarcolepsy
 
 - type: reaction
   impact: Medium

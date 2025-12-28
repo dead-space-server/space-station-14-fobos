@@ -329,6 +329,9 @@
   - type: XenoArtifact
     effectsTable: !type:NestedSelector
       tableId: ObeliskArtifactEffectsDefaultTable
+  - type: Necroobelisk
+    warn: false
+    cudzu: false
 
 - type: entity
   id: CrateArtifactContainerNecroobelisk
