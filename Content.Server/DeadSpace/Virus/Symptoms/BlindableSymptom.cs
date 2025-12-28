@@ -7,13 +7,15 @@ using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Content.Shared.Eye.Blinding.Components;
 using Content.Shared.Eye.Blinding.Systems;
+using Content.Shared.DeadSpace.Virus.Prototypes;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class BlindableSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.Blindable;
-    protected override float AddInfectivity => 0.02f;
+    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "BlindableSymptom";
     private float _eyeDamageProcent = 0.7f;
     private int _eyeTotalDamage = 0;
 
@@ -53,6 +55,11 @@ public sealed class BlindableSymptom : VirusSymptomBase
     public override void DoEffect(EntityUid host, VirusComponent virus)
     {
 
+    }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        base.ApplyDataEffect(data, add);
     }
 
     public override IVirusSymptom Clone()

@@ -55,7 +55,7 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
         }
         else
         {
-            VirusHealthLabel.Text = Loc.GetString("virus-evolution-health", ("current", (int)state.Threshold), ("max", (int)state.MaxThreshold));
+            VirusHealthLabel.Text = Loc.GetString("virus-evolution-health", ("max", (int)state.MaxThreshold));
             InfectivityLabel.Text = Loc.GetString("virus-evolution-infectivity", ("percent", (int)(state.Infectivity * 100)));
             InfectedCountLabel.Text = Loc.GetString("virus-evolution-infected-count", ("count", state.InfectedCount));
             PointsPerSecondLabel.Text = Loc.GetString("virus-evolution-points-per-second", ("points", state.PointsPerSecond));
