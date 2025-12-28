@@ -49,7 +49,7 @@
   group: Medicine
   desc: reagent-desc-punturil
   physicalDesc: reagent-physical-desc-thick
-  color: "#c27676"
+  color: "#d98787"
   metabolisms:
     Medicine:
       metabolismRate: 0.55
@@ -75,7 +75,7 @@
   group: Medicine
   desc: reagent-desc-ferratid
   physicalDesc: reagent-physical-desc-thick
-  color: "#600068"
+  color: "#ab43b4"
   metabolisms:
     Medicine:
       effects:
@@ -97,9 +97,8 @@
   group: Narcotics
   desc: reagent-desc-depotojil
   physicalDesc: reagent-physical-desc-translucent
-  contrabandSeverity: Major
   flavor: bitter
-  color: "#612a54"
+  color: "#5b5b5b"
   metabolisms:
     Narcotic:
       metabolismRate: 1.0
