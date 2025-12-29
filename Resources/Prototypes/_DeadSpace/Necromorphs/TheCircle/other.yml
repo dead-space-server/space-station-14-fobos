@@ -70,7 +70,7 @@
   parent: BaseChemistryEmptyVial
   components:
   - type: Label
-    currentLabel: очищенный экстракт
+    currentLabel: Экстраборил
   - type: SolutionContainerManager
     solutions:
       beaker:
@@ -82,7 +82,7 @@
 - type: entity
   parent: BoxVial
   id: ExtraborilKit
-  name: набор
+  name: набор медика "Круг"
   description: Важный набор для твоего медика Круга. Кстати, скажи спасибо своему медику, ему будет приятно.
   components:
   - type: Storage
@@ -93,13 +93,14 @@
     - id: Beaker
       amount: 2
     - id: ClothingEyesGlassesChemical
+    - id: TheCircleMedicPaper
     - id: ExtraborilVial
-      amount: 4
+      amount: 5
 
 - type: entity
   parent: Paper
   id: TheCircleMedicPaper
-  name: инструкция
+  name: инструкция медика "Круг"
   description: Лист бумаги где указаны пропорции варки новых химикатов и их способы использование.
   components:
   - type: Paper

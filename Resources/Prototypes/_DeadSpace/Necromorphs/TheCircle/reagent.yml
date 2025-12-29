@@ -8,7 +8,7 @@
   color: "#d98787"
   metabolisms:
     Medicine:
-      metabolismRate: 0.55
+      metabolismRate: 0.85
       effects:
       - !type:ModifyBleedAmount
         amount: -1
@@ -35,7 +35,7 @@
   color: "#5b5b5b"
   metabolisms:
     Narcotic:
-      metabolismRate: 1.2
+      metabolismRate: 0.72
       effects:
       - !type:MovespeedModifier
         walkSpeedModifier: 1.45
@@ -44,10 +44,10 @@
       - !type:HealthChange
         conditions:
         - !type:ReagentThreshold
-          min: 80
+          min: 14
         damage:
           types:
-            Poison: 1
+            Cellular: 1
       - !type:AdjustReagent
         conditions:
         - !type:ReagentThreshold
@@ -125,7 +125,7 @@
   color: "#c1b8ff"
   metabolisms:
     Medicine:
-      metabolismRate: 0.8
+      metabolismRate: 1.15
       effects:
       - !type:EvenHealthChange
         damage:
@@ -136,7 +136,7 @@
       - !type:HealthChange
         conditions:
         - !type:ReagentThreshold
-          min: 16
+          min: 9
         damage:
           types:
             Cellular: 3
