@@ -189,8 +189,6 @@
     - type: Sprite
       sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
       state: commander
-    - type: RandomHumanoidSpawner
-      settings: SpawnPointCircleCommander
 
 - type: entity
   id: RandomHumanoidSpawnerCircleFighterLight
@@ -200,8 +198,6 @@
     - type: Sprite
       sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
       state: light
-    - type: RandomHumanoidSpawner
-      settings: SpawnPointCircleFighterLight
 
 - type: entity
   id: RandomHumanoidSpawnerCircleFighterHeavy
@@ -211,8 +207,6 @@
     - type: Sprite
       sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
       state: heavy
-    - type: RandomHumanoidSpawner
-      settings: SpawnPointCircleFighterHeavy
 
 - type: entity
   id: RandomHumanoidSpawnerCircleMedic
@@ -222,8 +216,6 @@
     - type: Sprite
       sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
       state: medic
-    - type: RandomHumanoidSpawner
-      settings: SpawnPointCircleMedic
 
 - type: entity
   id: RandomHumanoidSpawnerCircleEngineer
@@ -233,5 +225,3 @@
     - type: Sprite
       sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
       state: engineer
-    - type: RandomHumanoidSpawner
-      settings: SpawnPointCircleEngineer
