@@ -182,8 +182,8 @@
 # НЕ ИСПОЛЬЗОВАТЬ, СОЗДАНО ДЛЯ ВНУТРЕННОГО ГАЙДА
 
 - type: entity
-  id: RandomHumanoidSpawnerCircleCommander
-  parent: RandomHumanoidSpawnerERTLeaderAmber
+  id: GuidePosterCircleCommander
+  parent: PosterBase
   categories: [ HideSpawnMenu ]
   components:
     - type: Sprite
@@ -191,8 +191,8 @@
       state: commander
 
 - type: entity
-  id: RandomHumanoidSpawnerCircleFighterLight
-  parent: RandomHumanoidSpawnerERTLeaderAmber
+  id: GuidePosterCircleFighterLight
+  parent: PosterBase
   categories: [ HideSpawnMenu ]
   components:
     - type: Sprite
@@ -200,8 +200,8 @@
       state: light
 
 - type: entity
-  id: RandomHumanoidSpawnerCircleFighterHeavy
-  parent: RandomHumanoidSpawnerERTLeaderAmber
+  id: GuidePosterCircleFighterHeavy
+  parent: PosterBase
   categories: [ HideSpawnMenu ]
   components:
     - type: Sprite
@@ -209,8 +209,8 @@
       state: heavy
 
 - type: entity
-  id: RandomHumanoidSpawnerCircleMedic
-  parent: RandomHumanoidSpawnerERTLeaderAmber
+  id: GuidePosterCircleMedic
+  parent: PosterBase
   categories: [ HideSpawnMenu ]
   components:
     - type: Sprite
@@ -218,8 +218,8 @@
       state: medic
 
 - type: entity
-  id: RandomHumanoidSpawnerCircleEngineer
-  parent: RandomHumanoidSpawnerERTLeaderAmber
+  id: GuidePosterCircleEngineer
+  parent: PosterBase
   categories: [ HideSpawnMenu ]
   components:
     - type: Sprite

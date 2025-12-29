@@ -19,11 +19,11 @@
   - [bold]Пророк[/bold] - Агент ударного отряда, что явился на актив НТ с целью встречи обелиска со станцией, меняя разум экипажа с помощью сывороток.
 
   <Box>
-    <GuideEntityEmbed Entity="RandomHumanoidSpawnerCircleCommander" Caption="Кардинал"/>
-    <GuideEntityEmbed Entity="RandomHumanoidSpawnerCircleMedic" Caption="Серафим"/>
-    <GuideEntityEmbed Entity="RandomHumanoidSpawnerCircleEngineer" Caption="Зодчий"/>
-    <GuideEntityEmbed Entity="RandomHumanoidSpawnerCircleFighterHeavy" Caption="Диакон"/>
-    <GuideEntityEmbed Entity="RandomHumanoidSpawnerCircleFighterLight" Caption="Вестник"/>
+    <GuideEntityEmbed Entity="GuidePosterCircleCommander" Caption="Кардинал"/>
+    <GuideEntityEmbed Entity="GuidePosterCircleMedic" Caption="Серафим"/>
+    <GuideEntityEmbed Entity="GuidePosterCircleEngineer" Caption="Зодчий"/>
+    <GuideEntityEmbed Entity="GuidePosterCircleFighterHeavy" Caption="Диакон"/>
+    <GuideEntityEmbed Entity="GuidePosterCircleFighterLight" Caption="Вестник"/>
   </Box>
 
   - [color=4f0808]!! ЛРП ПОВЕДЕНИЕ И ЛРП ОПОВЕЩЕНИЯ ВОЙНЫ СТРОГО ЗАПРЕЩЕНО !![/color]
@@ -104,7 +104,7 @@
   Сделать как минимум 2-6 рабов вашей религии с помощью сыворотки.
 
   Заразить как минимум 9-15 экипажа с помощью экстракта заразителя.
-  
+
   Дождаться часу смены, и решить куда будет прилёт с помощью маяка в аплинке.
 
   ## Условия победы
