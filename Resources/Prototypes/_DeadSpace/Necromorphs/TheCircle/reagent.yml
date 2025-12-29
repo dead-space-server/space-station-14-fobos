@@ -94,3 +94,35 @@
           groups:
             Burn: -1
             Brute: -1
+
+- type: reagent
+  id: Ferratid
+  name: reagent-name-ferratid
+  group: Medicine
+  desc: reagent-desc-ferratid
+  physicalDesc: reagent-physical-desc-translucent
+  flavor: medicine
+  color: "#215263"
+  metabolisms:
+    Medicine:
+      effects:
+      - !type:HealthChange
+        damage:
+          types:
+            Heat: -1.5
+            Shock: -1.5
+            Cold: -1.5
+      - !type:HealthChange
+        conditions:
+        - !type:ReagentThreshold
+          min: 10
+        damage:
+          types:
+            Asphyxiation: 1
+            Cold: 2
+          groups:
+            Brute: 0.5
+      - !type:Jitter
+        conditions:
+        - !type:ReagentThreshold
+          min: 10
