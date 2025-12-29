@@ -1,0 +1,26 @@
+- type: reagent
+  id: Punturil
+  name: reagent-name-punturil
+  group: Medicine
+  desc: reagent-desc-punturil
+  physicalDesc: reagent-physical-desc-fizzy
+  flavor: fizzy
+  color: "#b9bf93"
+  metabolisms:
+    Medicine:
+      metabolismRate: 0.25
+      effects:
+      - !type:ModifyBleedAmount
+        amount: -1
+      - !type:HealthChange
+        damage:
+          types:
+            Piercing: -2.5 # 10 per u
+            Radiation: 0.05 # 0.2 per u, 3 for 15u
+      - !type:HealthChange
+        conditions:
+        - !type:ReagentThreshold
+          min: 12
+        damage:
+          types:
+            Blunt: 3 # 12 per u
