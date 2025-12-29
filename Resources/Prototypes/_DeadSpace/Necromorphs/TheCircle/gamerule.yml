@@ -10,6 +10,7 @@
   rules:
   - WageScheduler 
   - SiegeOfTheCircle
+  - Unitology
   - BasicStationEventScheduler
   - MeteorSwarmScheduler
   - SpaceTrafficControlEventScheduler
@@ -33,6 +34,9 @@
     - UnitologyHeavyFirst
     - UnitologyFighterSecond
     nameFormat: name-format-nuclear-operation
+  - type: AntagObjectives
+    objectives:
+    - UniInvitationObjective
 
 - type: entity
   parent: BaseSiegeOfTheCircle
