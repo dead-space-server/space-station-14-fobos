@@ -1,7 +1,7 @@
 - type: reagent
   id: Punturil
   name: reagent-name-punturil
-  group: Medicine
+  group: Other
   desc: reagent-desc-punturil
   physicalDesc: reagent-physical-desc-fizzy
   flavor: fizzy
@@ -28,7 +28,7 @@
 - type: reagent
   id: Depotojil
   name: reagent-name-depotojil
-  group: Narcotics
+  group: Other
   desc: reagent-desc-depotojil
   physicalDesc: reagent-physical-desc-energizing
   flavor: sharp
@@ -98,7 +98,7 @@
 - type: reagent
   id: Ferratid
   name: reagent-name-ferratid
-  group: Medicine
+  group: Other
   desc: reagent-desc-ferratid
   physicalDesc: reagent-physical-desc-translucent
   flavor: medicine
@@ -130,7 +130,7 @@
 - type: reagent
   id: Ferotohil
   name: reagent-name-ferotohil
-  group: Medicine
+  group: Other
   desc: reagent-desc-ferotohil
   physicalDesc: reagent-physical-desc-soothing
   flavor: medicine
@@ -147,9 +147,9 @@
 
 - type: reagent
   id: Extraboril
-  name: entity-name-extraboril
-  group: Toxins
-  desc: entity-name-extraboril
+  name: reagent-name-extraboril
+  group: Other
+  desc: reagent-desc-extraboril
   physicalDesc: reagent-physical-desc-thick
   flavor: sweet
   color: "#e0a5b9"
