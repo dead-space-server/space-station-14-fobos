@@ -563,3 +563,14 @@
     Telecrystal: 1
   categories:
     - UniPhoneUplinkOther
+
+- type: listing
+  id: UnitologyInfectionDeadList
+  name: Экстракт заразителя
+  description: Шприц с экстрактом заразителя, 15 едениц.
+  icon: { sprite: Objects/Specific/Chemistry/syringe.rsi, state: syringe1 }
+  productEntity: SyringeExtractInfectorDead
+  cost:
+    Telecrystal: 5
+  categories:
+    - UplinkUnitologyInfection

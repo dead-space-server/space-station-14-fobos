@@ -23,6 +23,7 @@
   requirements:
     - !type:OverallPlaytimeRequirement
       time: 432000 # 120 hours
+  guides: [ TheCircle ]
 
 - type: antag
   id: Uni

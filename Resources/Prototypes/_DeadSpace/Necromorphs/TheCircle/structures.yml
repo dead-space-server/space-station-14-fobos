@@ -2,6 +2,7 @@
 - type: entity
   parent: AirlockTaipan
   id: AirlockUnitologyEngineering
+  suffix: Круг
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/Structures/airlocks/uni_engnr.rsi
@@ -14,6 +15,7 @@
 - type: entity
   parent: AirlockUnitologyEngineering
   id: AirlockUnitologyAtmospherics
+  suffix: Круг
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/Structures/airlocks/uni_atmos.rsi
@@ -24,6 +26,7 @@
 - type: entity
   parent: AirlockTaipan
   id: AirlockUnitologyMedical
+  suffix: Круг
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/Structures/airlocks/uni_med.rsi
@@ -36,6 +39,7 @@
 - type: entity
   parent: AirlockUnitologyMedical
   id: AirlockUnitologyVirology
+  suffix: Круг
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/Structures/airlocks/uni_viro.rsi
@@ -46,6 +50,7 @@
 - type: entity
   parent: AirlockTaipan
   id: AirlockUnitologyService
+  suffix: Круг
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/Structures/airlocks/uni_srv.rsi
@@ -58,6 +63,7 @@
 - type: entity
   parent: AirlockTaipan
   id: AirlockUnitologyCommand
+  suffix: Круг
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/Structures/airlocks/uni_cmd.rsi
@@ -90,8 +96,8 @@
 - type: entity
   parent: ComputerComms
   id: UnitologyComputerComms
-  name: консоль связи Церкви Юнитологии
-  description: Эта штука заставит станцию трепещась от страха
+  name: консоль связи отряда "Круг"
+  description: Эта штука заставит станцию трепещась от страха!
   components:
   - type: Sprite
     layers:

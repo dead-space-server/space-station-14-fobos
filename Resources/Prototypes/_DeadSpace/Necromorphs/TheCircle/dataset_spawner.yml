@@ -178,3 +178,60 @@
       - state: green
       - sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
         state: engineer
+
+# НЕ ИСПОЛЬЗОВАТЬ, СОЗДАНО ДЛЯ ВНУТРЕННОГО ГАЙДА
+
+- type: entity
+  id: RandomHumanoidSpawnerCircleCommander
+  parent: RandomHumanoidSpawnerERTLeaderAmber
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
+      state: commander
+    - type: RandomHumanoidSpawner
+      settings: SpawnPointCircleCommander
+
+- type: entity
+  id: RandomHumanoidSpawnerCircleFighterLight
+  parent: RandomHumanoidSpawnerERTLeaderAmber
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
+      state: light
+    - type: RandomHumanoidSpawner
+      settings: SpawnPointCircleFighterLight
+
+- type: entity
+  id: RandomHumanoidSpawnerCircleFighterHeavy
+  parent: RandomHumanoidSpawnerERTLeaderAmber
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
+      state: heavy
+    - type: RandomHumanoidSpawner
+      settings: SpawnPointCircleFighterHeavy
+
+- type: entity
+  id: RandomHumanoidSpawnerCircleMedic
+  parent: RandomHumanoidSpawnerERTLeaderAmber
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
+      state: medic
+    - type: RandomHumanoidSpawner
+      settings: SpawnPointCircleMedic
+
+- type: entity
+  id: RandomHumanoidSpawnerCircleEngineer
+  parent: RandomHumanoidSpawnerERTLeaderAmber
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
+      state: engineer
+    - type: RandomHumanoidSpawner
+      settings: SpawnPointCircleEngineer

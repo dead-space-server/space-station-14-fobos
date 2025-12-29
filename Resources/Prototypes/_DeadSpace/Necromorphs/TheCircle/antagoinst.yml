@@ -1,3 +1,8 @@
+- type: guideEntry
+  id: TheCircle
+  name: thecircle-name
+  text: "/ServerInfo/DeadSpace/Antagonist/TheCircle.xml"
+
 - type: antag
   id: CircleFighterLight
   name: roles-antag-thecircle-light-name
@@ -11,6 +16,7 @@
     - !type:DepartmentTimeRequirement
       department: Security
       time: 60h
+  guides: [ TheCircle ]
 
 - type: antag
   id: CircleFighterHeavy
@@ -25,6 +31,7 @@
     - !type:DepartmentTimeRequirement
       department: Security
       time: 60h
+  guides: [ TheCircle ]
 
 - type: antag
   id: CircleMedic
@@ -42,6 +49,7 @@
     - !type:DepartmentTimeRequirement
       department: Security
       time: 30h
+  guides: [ TheCircle ]
 
 - type: antag
   id: CircleEngineer
@@ -62,6 +70,7 @@
     - !type:DepartmentTimeRequirement
       department: Security
       time: 25h
+  guides: [ TheCircle ]
 
 - type: antag
   id: CircleCommander
@@ -85,6 +94,7 @@
     - !type:DepartmentTimeRequirement
       department: Command
       time: 35h
+  guides: [ TheCircle ]
 
 - type: startingGear
   id: TheCircleBaseGear

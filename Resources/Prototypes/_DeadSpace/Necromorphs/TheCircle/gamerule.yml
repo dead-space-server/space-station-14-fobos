@@ -10,7 +10,6 @@
   rules:
   - WageScheduler 
   - SiegeOfTheCircle
-  - Unitology
   - BasicStationEventScheduler
   - MeteorSwarmScheduler
   - SpaceTrafficControlEventScheduler
@@ -28,6 +27,8 @@
     speciesOverride: Human
     speciesOverrideBlacklist:
     - Vox
+    - Diona
+    - Xenomorph
     - IPC
   - type: RandomMetadata
     nameSegments:
