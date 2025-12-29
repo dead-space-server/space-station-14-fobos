@@ -140,6 +140,7 @@
   - SeniorPhysician
   - Coroner
   - MedicalSurgeon
+  - Virologist #DS14
   accountNumber: 1319 #backmen: currency
 
 - type: department

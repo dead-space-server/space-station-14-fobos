@@ -39,7 +39,7 @@
     ears: ClothingHeadsetLaw
     socks: ClothingUnderwearSockLawyer
   inhand:
-    - BriefcaseLawyerFilled
+    - BriefcaseBrownFilled
   storage:
     back:
     - HyperLinkBookCorporateLaw

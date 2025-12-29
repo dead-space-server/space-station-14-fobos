@@ -15,6 +15,8 @@ public sealed partial class GhostRoleComponent : Component
 
     [DataField("rules")] private string _roleRules = "ghost-role-component-default-rules";
 
+    [DataField("category")] private string _roleCategory = "Без категории"; // DS14
+
     // Actually make use of / enforce this requirement?
     // Why is this even here.
     // Move to ghost role prototype & respect CCvars.GameRoleTimerOverride
@@ -71,6 +73,19 @@ public sealed partial class GhostRoleComponent : Component
             IoCManager.Resolve<IEntityManager>().System<GhostRoleSystem>().UpdateAllEui();
         }
     }
+    // DS14-start
+    [ViewVariables(VVAccess.ReadWrite)]
+    [Access(typeof(GhostRoleSystem), Other = AccessPermissions.ReadWriteExecute)] // FIXME Friends
+    public string RoleCategory
+    {
+        get => Loc.GetString(_roleCategory);
+        set
+        {
+            _roleCategory = value;
+            IoCManager.Resolve<IEntityManager>().System<GhostRoleSystem>().UpdateAllEui();
+        }
+    }
+    // DS14-end
 
     /// <summary>
     /// The mind roles that will be added to the mob's mind entity

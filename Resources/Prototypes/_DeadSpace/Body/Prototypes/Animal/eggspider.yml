@@ -1,6 +1,6 @@
 - type: body
   id: EggSpider
-  name: "яйцо паука"
+  name: "Яйцо паука"
   root: torso
   slots:
     torso:

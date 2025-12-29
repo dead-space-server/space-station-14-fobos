@@ -7,3 +7,14 @@
   - type: Sprite
     sprite: _DeadSpace/Structures/Decoration/banner.rsi
     state: banner-spider
+
+- type: entity
+  id: BannerDeathsquad
+  parent: BannerBase
+  name: знамя элитного отряда эвакуации
+  suffix: Эскадрон смерти
+  description: Вселяющее ужас знамя какого то из отрядов. Почему оно так похоже на череп?
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Decoration/banner.rsi
+    state: banner-deathsquad

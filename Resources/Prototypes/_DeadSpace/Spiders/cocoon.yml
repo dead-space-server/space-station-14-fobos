@@ -44,6 +44,11 @@
   - type: NpcFactionMember
     factions:
     - SpiderTerror
+  - type: ZombieImmune
+  - type: ImmunitetInfectionDead
+  - type: VirusImmun
+    immunAll: true
+  - type: ImmunEgg
 
 - type: entity
   name: королевский паучий кокон
@@ -88,6 +93,11 @@
   - type: NpcFactionMember
     factions:
     - SpiderTerror
+  - type: ZombieImmune
+  - type: ImmunitetInfectionDead
+  - type: VirusImmun
+    immunAll: true
+  - type: ImmunEgg
 
 - type: entity
   id: SpiderCocoon
@@ -154,6 +164,9 @@
   - type: Appearance
   - type: ZombieImmune
   - type: ImmunitetInfectionDead
+  - type: VirusImmun
+    immunAll: true
+  - type: ImmunEgg
   - type: Pullable
   - type: NpcFactionMember
     factions:

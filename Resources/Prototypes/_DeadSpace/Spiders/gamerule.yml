@@ -68,8 +68,8 @@
     - prefRoles: [ SpiderTerrorQueen ]
       fallbackRoles: [ SpiderTerrorKingBlood, SpiderTerrorKing ]
       max: 2
-      min: 1
-      playerRatio: 30 #players = 1 spider
+      min: 2
+      playerRatio: 10 #players = 1 spider
       briefing:
         text: spider-terror-quin-briefing-greeting
         color: CornflowerBlue
@@ -86,8 +86,8 @@
     - prefRoles: [ SpiderTerrorKing ]
       fallbackRoles: [ SpiderTerrorQueen, SpiderTerrorKingBlood ]
       max: 2
-      min: 1
-      playerRatio: 40 #players = 1 spider
+      min: 2
+      playerRatio: 20 #players = 1 spider
       briefing:
         text: spider-terror-king-briefing-greeting
         color: CornflowerBlue
@@ -105,7 +105,7 @@
       fallbackRoles: [ SpiderTerrorQueen, SpiderTerrorKing ]
       max: 2
       min: 1
-      playerRatio: 30 #players = 1 spider
+      playerRatio: 20 #players = 1 spider
       briefing:
         text: spider-terror-kingblood-briefing-greeting
         color: CornflowerBlue

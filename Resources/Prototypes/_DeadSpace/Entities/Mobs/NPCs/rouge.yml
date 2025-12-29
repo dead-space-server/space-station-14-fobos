@@ -66,6 +66,7 @@
     name: ghost-role-information-rouge-name
     description: ghost-role-information-rouge-description
     rules: ghost-role-information-nonantagonist-rules
+    category: ghost-role-information-taipan-category
 
 - type: entity
   name: спавнер трёхглавый змей

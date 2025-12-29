@@ -52,6 +52,8 @@ using Robust.Server.Player;
 using Content.Shared.Zombies;
 using Content.Shared.Sprite;
 using Robust.Shared.Prototypes;
+using Content.Shared.DeadSpace.Virus.Components;
+using Content.Server.DeadSpace.Virus.Systems;
 using Content.Server.DeadSpace.Languages;
 
 namespace Content.Server.DeadSpace.Necromorphs.InfectionDead;
@@ -72,6 +74,7 @@ public sealed partial class NecromorfSystem
     [Dependency] private readonly MobThresholdSystem _mobThreshold = default!;
     [Dependency] private readonly SharedRotationVisualsSystem _sharedRotationVisuals = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
+    [Dependency] private readonly VirusSystem _virus = default!;
     [Dependency] private readonly LanguageSystem _language = default!;
     private static readonly ProtoId<LanguagePrototype> NecroLanguage = "NecromorfLanguage";
 
@@ -122,6 +125,9 @@ public sealed partial class NecromorfSystem
         RemComp<ReproductivePartnerComponent>(target);
         RemComp<LegsParalyzedComponent>(target);
         RemComp<ComplexInteractionComponent>(target);
+
+        if (HasComp<VirusComponent>(target))
+            _virus.CureVirus(target);
 
         if (!HasComp<ImmunNecroobeliskComponent>(target))
             AddComp<ImmunNecroobeliskComponent>(target);

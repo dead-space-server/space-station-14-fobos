@@ -52,8 +52,10 @@
     id: MagistratPDA
     ears: ClothingHeadsetMagistrat
     socks: ClothingUnderwearSockMagistrat
+    pocket1: ADTtelescopicBaton
+    pocket2: RubberStampMagistrat
   inhand:
-    - BriefcaseMagistratFilled
+    - BriefcaseBrownFilled
   storage:
     back:
     - HyperLinkBookCorporateLaw
