@@ -156,10 +156,10 @@
     duration: 120
     earliestStart: 10
   - type: CargoGiftsRule
-    description: cargo-necro-art
+    description: cargo-gift-necro-art
     dest: cargo-gift-dest-crew
     gifts:
-      CrateArtifactContainerNecroobelisk: 1
+      ArtifactContainerNecroobelisk: 1
 
 - type: preloadedGrid
   id: CBURNSCNTShuttle

@@ -344,3 +344,13 @@
     contents:
     - id: ComplexNecroObeliskArtifact
       amount: 1
+
+- type: cargoProduct
+  id: ArtifactContainerNecroobelisk
+  icon:
+    sprite: Structures/Storage/Crates/artifact.rsi
+    state: artifact_container_icon
+  product: CrateArtifactContainerNecroobelisk
+  cost: 9999999
+  category: cargoproduct-category-name-science
+  group: market
