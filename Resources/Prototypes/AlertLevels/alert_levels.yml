@@ -52,14 +52,6 @@
       color: LightSeaGreen
       emergencyLightColor: LightSeaGreen
       forceEnableEmergencyLights: true
-    eylar:
-      announcement: alert-level-eylar-announcement
-      selectable: false
-      sound: /Audio/_DeadSpace/AlertLevels/eylar.ogg # DS14 alert sound
-      disableSelection: true
-      color: "#5d5d5d"
-      emergencyLightColor: '#5d5d5d'
-      forceEnableEmergencyLights: true
     enigma:
       announcement: alert-level-enigma-announcement
       selectable: false
