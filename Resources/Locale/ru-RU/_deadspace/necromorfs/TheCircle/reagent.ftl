@@ -1,5 +1,5 @@
-reagent-name-extract-infector-medical = экстроборил
-reagent-desc-extract-infector-medical = Более слабая форма экстракта заразителя, но, с другой стороны, ей пользуються с медицинскими целями...
+reagent-name-extraboril = экстроборил
+reagent-desc-extraboril = Более слабая форма экстракта заразителя, но, с другой стороны, ей пользуються с медицинскими целями...
 reagent-name-ferotohil = феротохил
 reagent-desc-ferotohil = Опасный лечащий препорат, что создаётся с панацей от Интердайн, и очищеной версией экстракта.
 reagent-name-punturil = пунтурил

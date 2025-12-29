@@ -144,3 +144,20 @@
           Toxin: -2
           Airloss: -2
           Brute: -2
+
+- type: reagent
+  id: Extraboril
+  name: entity-name-extraboril
+  group: Toxins
+  desc: entity-name-extraboril
+  physicalDesc: reagent-physical-desc-thick
+  flavor: sweet
+  color: "#e0a5b9"
+  worksOnTheDead: true
+  metabolisms:
+    Medicine:
+      effects:
+        - !type:CauseInfectionDead
+          conditions:
+            - !type:ReagentThreshold
+              min: 3
