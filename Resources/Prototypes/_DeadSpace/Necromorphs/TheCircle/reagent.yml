@@ -5,25 +5,25 @@
   desc: reagent-desc-punturil
   physicalDesc: reagent-physical-desc-fizzy
   flavor: fizzy
-  color: "#b9bf93"
+  color: "#d98787"
   metabolisms:
     Medicine:
-      metabolismRate: 0.25
+      metabolismRate: 0.55
       effects:
       - !type:ModifyBleedAmount
         amount: -1
       - !type:HealthChange
         damage:
           types:
-            Piercing: -2.5 # 10 per u
-            Radiation: 0.05 # 0.2 per u, 3 for 15u
+            Piercing: -5.3
+            Slash: -1.2
       - !type:HealthChange
         conditions:
         - !type:ReagentThreshold
-          min: 12
+          min: 6
         damage:
           types:
-            Blunt: 3 # 12 per u
+            Cellular: 2
 
 - type: reagent
   id: Depotojil
@@ -32,18 +32,19 @@
   desc: reagent-desc-depotojil
   physicalDesc: reagent-physical-desc-energizing
   flavor: sharp
-  color: "#9A040E"
+  color: "#5b5b5b"
   metabolisms:
     Narcotic:
-      metabolismRate: 1.0
+      metabolismRate: 1.2
       effects:
       - !type:MovespeedModifier
-        walkSpeedModifier: 1.3
-        sprintSpeedModifier: 1.3
+        walkSpeedModifier: 1.45
+        sprintSpeedModifier: 1.45
+      - !type:Jitter
       - !type:HealthChange
         conditions:
         - !type:ReagentThreshold
-          min: 80 #please wait 3 minutes before using another stimpack
+          min: 80
         damage:
           types:
             Poison: 1
@@ -79,18 +80,14 @@
         time: 10
         type: Remove
     Medicine:
-      metabolismRate: 1.0
+      metabolismRate: 1.2
       effects:
       - !type:ResetNarcolepsy
-      - !type:SatiateHunger
-        factor: 1
-      - !type:SatiateThirst
-        factor: 1
       - !type:HealthChange
         conditions:
         - !type:TotalDamage
-          min: 70 # only heals when you're more dead than alive
-        damage: # heals at the same rate as tricordrazine, doesn't heal poison because if you OD'd I'm not giving you a safety net
+          min: 70 
+        damage:
           groups:
             Burn: -1
             Brute: -1
@@ -102,30 +99,21 @@
   desc: reagent-desc-ferratid
   physicalDesc: reagent-physical-desc-translucent
   flavor: medicine
-  color: "#215263"
+  color: "#212d44"
   metabolisms:
     Medicine:
       effects:
       - !type:HealthChange
         damage:
           types:
-            Heat: -1.5
-            Shock: -1.5
-            Cold: -1.5
+            Heat: -6
       - !type:HealthChange
         conditions:
         - !type:ReagentThreshold
-          min: 10
+          min: 6
         damage:
           types:
-            Asphyxiation: 1
-            Cold: 2
-          groups:
-            Brute: 0.5
-      - !type:Jitter
-        conditions:
-        - !type:ReagentThreshold
-          min: 10
+            Cellular: 2.5
 
 - type: reagent
   id: Ferotohil
@@ -134,16 +122,24 @@
   desc: reagent-desc-ferotohil
   physicalDesc: reagent-physical-desc-soothing
   flavor: medicine
-  color: "#fcf7f9"
+  color: "#c1b8ff"
   metabolisms:
     Medicine:
+      metabolismRate: 0.8
       effects:
       - !type:EvenHealthChange
         damage:
-          Burn: -2
-          Toxin: -2
-          Airloss: -2
-          Brute: -2
+          Burn: -4.5
+          Toxin: -4.5
+          Airloss: -4.5
+          Brute: -4.5
+      - !type:HealthChange
+        conditions:
+        - !type:ReagentThreshold
+          min: 16
+        damage:
+          types:
+            Cellular: 3
 
 - type: reagent
   id: Extraboril
@@ -152,12 +148,16 @@
   desc: reagent-desc-extraboril
   physicalDesc: reagent-physical-desc-thick
   flavor: sweet
-  color: "#e0a5b9"
-  worksOnTheDead: true
+  color: "#d88fff"
   metabolisms:
-    Medicine:
+    Poison:
+      metabolismRate: 0.2
       effects:
-        - !type:CauseInfectionDead
-          conditions:
-            - !type:ReagentThreshold
-              min: 3
+      - !type:HealthChange
+        damage:
+          types:
+            Poison: 3
+      - !type:CauseInfectionDead
+        conditions:
+          - !type:ReagentThreshold
+            min: 15
