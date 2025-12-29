@@ -148,15 +148,18 @@
         requireAll: false
 
 - type: entity
-  id: CentcommSendNecroobeliskArtefact
-  parent: BaseGameRule
+  id: GiftNecroobeliskArtefact
+  parent: CargoGiftsBase
   components:
   - type: StationEvent
+    weight: 8
     duration: 120
-    earliestStart: 20
-    minimumPlayers: 30
-    willNotStartRandomly: true
-  - type: NecroobeliskArtefactRule
+    earliestStart: 10
+  - type: CargoGiftsRule
+    description: cargo-necro-art
+    dest: cargo-gift-dest-crew
+    gifts:
+      CrateArtifactContainerNecroobelisk: 1
 
 - type: preloadedGrid
   id: CBURNSCNTShuttle

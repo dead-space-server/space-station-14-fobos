@@ -273,6 +273,10 @@
   name: артефакт-обелиск
   suffix: сложный артефакт
   components:
+  - type: Necroobelisk
+    warn: false
+    cudzu: false
+    active: false
   - type: Sprite
     noRot: true
     sprite: _DeadSpace/Necromorfs/obelisk.rsi
