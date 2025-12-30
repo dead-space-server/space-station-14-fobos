@@ -14,7 +14,6 @@ namespace Content.Client.Lobby.UI
         [Dependency] private readonly IClientConsoleHost _consoleHost = default!;
         [Dependency] private readonly IUriOpener _uriOpener = default!;
 
-        private bool _isVisible = true; // DS14
         public LobbyGui()
         {
             RobustXamlLoader.Load(this);
@@ -57,10 +56,9 @@ namespace Content.Client.Lobby.UI
         // DS14-start
         private void ChangeVisibility()
         {
-            _isVisible = !_isVisible;
-            ShowGUI.Pressed = !_isVisible;
-            CenterPanel.Visible = _isVisible;
-            BottomContainer.Visible = _isVisible;
+            ShowGUI.Pressed = !ShowGUI.Pressed;
+            CenterPanel.Visible = !ShowGUI.Pressed;
+            BottomContainer.Visible = !ShowGUI.Pressed;
         }
         // DS14-end
 
