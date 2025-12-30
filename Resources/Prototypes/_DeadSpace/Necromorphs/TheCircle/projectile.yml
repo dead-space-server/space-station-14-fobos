@@ -44,7 +44,7 @@
         Piercing: 14
         Blunt: 4
   - type: StaminaDamageOnCollide
-    damage: 8
+    damage: 11
 
 ### Пуля РШ2
 - type: entity

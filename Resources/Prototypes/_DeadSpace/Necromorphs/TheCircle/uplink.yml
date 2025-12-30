@@ -213,7 +213,7 @@
   description: Вмещает всего 30 патронов 6.8х51 мм калибра. 
   productEntity: MagazineRifleSCARAB
   cost:
-    Telecrystal: 1
+    Telecrystal: 2
   categories:
    - UniPhoneUplinkAmmo
 
@@ -235,7 +235,7 @@
   description: Вмещает всего 20 патронов 7.62х39 мм калибра.
   productEntity: MagazineLightRifleAsVal
   cost:
-    Telecrystal: 2
+    Telecrystal: 1
   categories:
    - UniPhoneUplinkAmmo
 
@@ -246,7 +246,7 @@
   description: Вмещает всего 22 патронов калибра 9х39, для VSK.
   productEntity: MagazineVSK
   cost:
-    Telecrystal: 2
+    Telecrystal: 1
   categories:
    - UniPhoneUplinkAmmo
 

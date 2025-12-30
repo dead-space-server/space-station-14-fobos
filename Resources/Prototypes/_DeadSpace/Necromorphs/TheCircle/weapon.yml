@@ -734,7 +734,7 @@
     attackRate: 1.0
     damage:
       types:
-        Slash: 13
+        Slash: 15
         Caustic: 4
         Structural: 15
     soundHit:
