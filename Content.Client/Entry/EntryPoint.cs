@@ -82,6 +82,7 @@ namespace Content.Client.Entry
         [Dependency] private readonly IEntitySystemManager _entitySystemManager = default!;
         [Dependency] private readonly ClientsidePlaytimeTrackingManager _clientsidePlaytimeManager = default!;
         [Dependency] private readonly ClientJukeboxSongsSyncManager _jukeboxSongsSync = default!;
+        
         public override void PreInit()
         {
             ClientContentIoC.Register(Dependencies);

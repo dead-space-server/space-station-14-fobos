@@ -1,5 +1,5 @@
 //Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
-using Content.Shared.DeadSpace.Ghost.SharedGhostPing;
+using Content.Shared.DeadSpace.Ghost;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Player;
 using Robust.Shared.Audio;
@@ -11,7 +11,7 @@ using Content.Shared.DeadSpace.GhostRoleNotify.Prototypes;
 using Robust.Shared.Prototypes;
 using System.Collections.Concurrent;
 
-namespace Content.Client.DeadSpace.Notify.ReceiveNotifySystem;
+namespace Content.Client.DeadSpace.Notify;
 
 public sealed partial class ReceiveNotifySystem : EntitySystem
 {
