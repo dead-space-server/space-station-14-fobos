@@ -14,6 +14,7 @@ namespace Content.Client.Lobby.UI
         [Dependency] private readonly IClientConsoleHost _consoleHost = default!;
         [Dependency] private readonly IUriOpener _uriOpener = default!;
 
+        private bool _isVisible = true; // DS14
         public LobbyGui()
         {
             RobustXamlLoader.Load(this);
@@ -34,6 +35,8 @@ namespace Content.Client.Lobby.UI
             Rules.OnPressed += _ => new RulesAndInfoWindow().Open();
             Guidebook.OnPressed += _ => UserInterfaceManager.GetUIController<GuidebookUIController>().ToggleGuidebook();
             Changelog.OnPressed += _ => UserInterfaceManager.GetUIController<ChangelogUIController>().ToggleWindow();
+
+            ShowGUI.OnPressed += _ => ChangeVisibility(); // DS14
         }
 
         public void SwitchState(LobbyGuiState state)
@@ -51,6 +54,15 @@ namespace Content.Client.Lobby.UI
                     break;
             }
         }
+        // DS14-start
+        private void ChangeVisibility()
+        {
+            _isVisible = !_isVisible;
+            ShowGUI.Pressed = !_isVisible;
+            CenterPanel.Visible = _isVisible;
+            BottomContainer.Visible = _isVisible;
+        }
+        // DS14-end
 
         public enum LobbyGuiState : byte
         {
