@@ -84,7 +84,7 @@
   parent: BaseItem
   id: BaseMagRifleZastaba
   name: ZASTABA 30 GEN M4
-  description:
+  description: Вмещает всего 30 патронов 5,7х39 мм калибра.
   abstract: true
   components:
   - type: Tag
@@ -246,6 +246,7 @@
 - type: entity
   id: MagazineRPL20
   parent: MagazineLightRifleBox
+  description: Вмещает всего 85 патронов 5.45х39 мм калибра.
   name: короб патронов РПЛ-20
   components:
   - type: Tag
@@ -329,8 +330,8 @@
 - type: entity
   id: MagazineASh12
   name: магазин 12.7х55 АШ-12
+  description: Вмещает всего 20 патронов 12.7х55 калибра.
   parent: BaseMagazineRifle
-  suffix: ex1stenz, Ивент
   components:
   - type: Tag
     tags:
@@ -412,6 +413,7 @@
   id: MagazineRifleSCARAB
   name: SCARAB POLYMAG 30 GEN2
   parent: BaseMagazineRifle
+  description: Вмещает всего 30 патронов 6.8х51 мм калибра. 
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeRifleSCARAB
@@ -420,7 +422,7 @@
       tags:
         - CartridgeRifleSCARAB
   - type: Sprite
-    sprite: Objects/Weapons/Guns/Ammunition/Magazine/Rifle/rifle_mag.rsi
+    sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/scarab/mag.rsi
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
@@ -506,6 +508,7 @@
 - type: entity
   id: MagazineVSK
   name: магазин от VSK-94
+  description: Вмещает всего 22 патронов калибра 9х39, для VSK.
   parent: MagazinePistolSubMachineGun
   components:
   - type: Tag
@@ -595,7 +598,8 @@
 - type: entity
   id: BaseMagazineLightRifleAsVal
   name: магазин для АС "Вал" (7.62х39 мм винтовочные)
-  parent: [ BaseItem, BaseSecurityContraband ]
+  parent: BaseItem
+  description: Вмещает всего 20 патронов 7.62х39 мм калибра.
   abstract: true
   components:
   - type: Tag
@@ -628,7 +632,7 @@
 
 - type: entity
   id: MagazineLightRifleAsVal
-  name: магазин для АС "Вал" (7.62х39 мм винтовочные)
+  name: магазин для АС "Вал"
   parent: BaseMagazineLightRifleAsVal
   components:
   - type: BallisticAmmoProvider

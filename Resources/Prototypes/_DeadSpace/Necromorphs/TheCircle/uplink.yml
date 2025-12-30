@@ -188,7 +188,7 @@
   id: UniPhoneUplinkMagZastaba
   name: ZASTABA 30 GEN M4
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/zastaba/zastaba-mag.rsi, state: base }
-  description: Вмещает всего 30 патронов.
+  description: Вмещает всего 30 патронов 5,7х39 мм калибра.
   productEntity: MagRifleZastaba
   cost:
     Telecrystal: 1
@@ -199,7 +199,7 @@
   id: UniPhoneUplinkMagRPL20
   name: короб патронов РПЛ-20
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/rpl20/rpl20-drum.rsi, state: base }
-  description: Вмещает всего 85 патронов.
+  description: Вмещает всего 85 патронов 5.45х39 мм калибра.
   productEntity: MagazineRPL20
   cost:
     Telecrystal: 2
@@ -210,7 +210,7 @@
   id: UniPhoneUplinkMagSCARAB
   name: SCARAB POLYMAG 30 GEN2
   icon: { sprite: Objects/Weapons/Guns/Ammunition/Magazine/Rifle/rifle_mag.rsi, state: base }
-  description: Вмещает всего 30 патронов. И во благо экнономии, тут используется такой же тип магазина в плане вида как и у ВСК.
+  description: Вмещает всего 30 патронов 6.8х51 мм калибра. 
   productEntity: MagazineRifleSCARAB
   cost:
     Telecrystal: 1
@@ -219,9 +219,9 @@
 
 - type: listing
   id: UniPhoneUplinkMagASh12
-  name: магазин 12.7х55 АШ-12
+  name: магазин для АШ-12
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/ash12/ash12-mag.rsi, state: base }
-  description: Вмещает всего 20 патронов.
+  description: Вмещает всего 20 патронов 12.7х55 калибра.
   productEntity: MagazineASh12
   cost:
     Telecrystal: 2
@@ -230,9 +230,9 @@
 
 - type: listing
   id: UniPhoneUplinkMagazineLightRifleAsVal
-  name: магазин для АС "Вал" (7.62х39 мм винтовочные)
+  name: магазин для АС "Вал"
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/asval/mag.rsi, state: base }
-  description: Вмещает всего 20 патронов.
+  description: Вмещает всего 20 патронов 7.62х39 мм калибра.
   productEntity: MagazineLightRifleAsVal
   cost:
     Telecrystal: 2
@@ -241,7 +241,7 @@
 
 - type: listing
   id: UniPhoneUplinkMagazineVSK
-  name: магазин от VSK-94 (9х39 мм)
+  name: магазин от VSK-94 
   icon: { sprite: Objects/Weapons/Guns/Ammunition/Magazine/Rifle/rifle_mag.rsi, state: base }
   description: Вмещает всего 22 патронов калибра 9х39, для VSK.
   productEntity: MagazineVSK
@@ -288,7 +288,7 @@
 
 - type: listing
   id: UniPhoneUplinkExtraborilKit
-  name: Набор медика "Круг"
+  name: набор медика "Круг"
   icon: { sprite: /Textures/Objects/Storage/boxicons.rsi, state: vials }
   productEntity: ExtraborilKit
   description: Важный набор для твоего медика Круга. Кстати, скажи спасибо своему медику, ему будет приятно. Данный набор можно купить 4 раза.
@@ -585,6 +585,6 @@
   icon: { sprite: Objects/Specific/Chemistry/syringe.rsi, state: syringe1 }
   productEntity: SyringeExtractInfectorDead
   cost:
-    Telecrystal: 5
+    Telecrystal: 4
   categories:
-    - UplinkUnitologyInfection
+    - UniPhoneUplinkOther

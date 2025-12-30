@@ -195,6 +195,6 @@
   - type: Projectile
     damage:
       types:
-       Piercing: 18
+       Piercing: 17
   - type: TimedDespawn
     lifetime: 2

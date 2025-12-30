@@ -22,7 +22,6 @@
   components:
   - type: RuleGrids
   - type: AntagSelection
-  - type: UnitologyRule
   - type: AntagLoadProfileRule
     speciesOverride: Human
     speciesOverrideBlacklist:
@@ -35,9 +34,6 @@
     - UnitologyHeavyFirst
     - UnitologyFighterSecond
     nameFormat: name-format-nuclear-operation
-  - type: AntagObjectives
-    objectives:
-    - UniInvitationObjective
 
 - type: entity
   parent: BaseSiegeOfTheCircle
