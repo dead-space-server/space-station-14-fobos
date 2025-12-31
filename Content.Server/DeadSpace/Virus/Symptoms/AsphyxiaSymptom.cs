@@ -3,8 +3,6 @@
 using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
-using Robust.Shared.Random;
-using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
@@ -13,7 +11,7 @@ public sealed class AsphyxiaSymptom : VirusSymptomBase
     public override VirusSymptom Type => VirusSymptom.Asphyxia;
     protected override float AddInfectivity => 0.02f;
 
-    public AsphyxiaSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
+    public AsphyxiaSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
@@ -38,6 +36,6 @@ public sealed class AsphyxiaSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new AsphyxiaSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+        return new AsphyxiaSymptom(EffectTimedWindow.Clone());
     }
 }

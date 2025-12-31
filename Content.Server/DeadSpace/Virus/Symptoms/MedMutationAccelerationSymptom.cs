@@ -14,7 +14,7 @@ public sealed class MedMutationAccelerationSymptom : VirusSymptomBase
     protected override float AddInfectivity => 0.02f;
     private int _addRegenMutationPoints = 4;
 
-    public MedMutationAccelerationSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
+    public MedMutationAccelerationSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
@@ -43,7 +43,7 @@ public sealed class MedMutationAccelerationSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new MedMutationAccelerationSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+        return new MedMutationAccelerationSymptom(EffectTimedWindow.Clone());
     }
 
     public override void ApplyDataEffect(VirusData data, bool add)

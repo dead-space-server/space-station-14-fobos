@@ -3,21 +3,18 @@
 using Content.Server.Chat.Systems;
 using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.DeadSpace.Virus.Components;
-using Content.Server.DeadSpace.Virus.Systems;
 using Content.Shared.DeadSpace.TimeWindow;
-using Robust.Shared.Prototypes;
-using Robust.Shared.Random;
-using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class RashSymptom : VirusSymptomBase
 {
+    [Dependency] private readonly EntityManager _entityManager = default!;
     public override VirusSymptom Type => VirusSymptom.Rash;
     protected override float AddInfectivity => 0.1f;
     private const string RashEmote = "чешется";
 
-    public RashSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
+    public RashSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
@@ -37,7 +34,7 @@ public sealed class RashSymptom : VirusSymptomBase
 
     public override void DoEffect(EntityUid host, VirusComponent virus)
     {
-        var chatSystem = EntityManager.System<ChatSystem>();
+        var chatSystem = _entityManager.System<ChatSystem>();
 
         chatSystem.TrySendInGameICMessage(host,
                             RashEmote,
@@ -47,6 +44,6 @@ public sealed class RashSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new RashSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+        return new RashSymptom(EffectTimedWindow.Clone());
     }
 }

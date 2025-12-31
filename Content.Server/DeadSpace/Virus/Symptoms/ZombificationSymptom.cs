@@ -5,17 +5,16 @@ using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 using Content.Shared.DeadSpace.TimeWindow;
 using Content.Shared.Zombies;
-using Robust.Shared.Random;
-using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class ZombificationSymptom : VirusSymptomBase
 {
+    [Dependency] private readonly EntityManager _entityManager = default!;
     public override VirusSymptom Type => VirusSymptom.Zombification;
     protected override float AddInfectivity => 0.02f;
 
-    public ZombificationSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
+    public ZombificationSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
@@ -42,19 +41,19 @@ public sealed class ZombificationSymptom : VirusSymptomBase
 
     private void InfectZombieVirus(EntityUid target)
     {
-        if (EntityManager.HasComponent<ZombieComponent>(target) || EntityManager.HasComponent<ZombieImmuneComponent>(target))
+        if (_entityManager.HasComponent<ZombieComponent>(target) || _entityManager.HasComponent<ZombieImmuneComponent>(target))
             return;
 
         // DS14-start
-        if (EntityManager.HasComponent<NecromorfComponent>(target) || EntityManager.HasComponent<InfectionDeadComponent>(target))
+        if (_entityManager.HasComponent<NecromorfComponent>(target) || _entityManager.HasComponent<InfectionDeadComponent>(target))
             return;
 
-        EntityManager.EnsureComponent<PendingZombieComponent>(target);
-        EntityManager.EnsureComponent<ZombifyOnDeathComponent>(target);
+        _entityManager.EnsureComponent<PendingZombieComponent>(target);
+        _entityManager.EnsureComponent<ZombifyOnDeathComponent>(target);
     }
 
     public override IVirusSymptom Clone()
     {
-        return new ZombificationSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+        return new ZombificationSymptom(EffectTimedWindow.Clone());
     }
 }

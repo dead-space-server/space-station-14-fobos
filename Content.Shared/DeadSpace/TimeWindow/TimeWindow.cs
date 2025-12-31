@@ -5,78 +5,89 @@ using Robust.Shared.Random;
 
 namespace Content.Shared.DeadSpace.TimeWindow;
 
-public sealed class TimedWindow
+[DataDefinition]
+public sealed partial class TimedWindow
 {
-    public readonly IRobustRandom Random;
-    public readonly IGameTiming Timing;
-    public float MinSeconds { get; }
-    public float MaxSeconds { get; }
+    [DataField("min")]
+    public float MinSeconds;
+
+    [DataField("max")]
+    public float MaxSeconds;
 
     /// <summary>
     ///     Остаток времени до следующего события.
     /// </summary>
-    public TimeSpan Remaining { get; private set; } = TimeSpan.Zero;
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public TimeSpan Remaining { get; set; } = TimeSpan.Zero;
 
-    public TimedWindow(float minSeconds, float maxSeconds, IGameTiming timing, IRobustRandom random)
+    public TimedWindow(float minSeconds, float maxSeconds)
     {
         MinSeconds = minSeconds;
         MaxSeconds = maxSeconds;
-        Timing = timing;
-        Random = random;
-        Reset();
+    }
+
+    public TimedWindow Clone()
+    {
+        return new TimedWindow(MinSeconds, MaxSeconds);
+    }
+}
+
+public sealed class TimedWindowSystem : EntitySystem
+{
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    public override void Initialize()
+    {
+        base.Initialize();
     }
 
     /// <summary>
     ///     Добавить время окну.
     /// </summary>
-    public void AddTime(TimeSpan time)
+    public void AddTime(TimedWindow window, TimeSpan time)
     {
-        Remaining += time;
+        window.Remaining += time;
     }
 
     /// <summary>
     ///     Сбрасывает таймер на новое случайное время.
     /// </summary>
-    public void Reset()
+    public void Reset(TimedWindow window)
     {
-        Remaining = Timing.CurTime + GetRandomDuration();
+        window.Remaining = _timing.CurTime + GetRandomDuration(window);
     }
 
     /// <summary>
     ///     Сбрасывает таймер на заданный диапазон времени.
     /// </summary>
-    public void Reset(float minSeconds, float maxSeconds)
+    public void Reset(TimedWindow window, float minSeconds, float maxSeconds)
     {
-        Remaining = Timing.CurTime + GetRandomDuration(minSeconds, maxSeconds);
+        window.Remaining = _timing.CurTime + GetRandomDuration(minSeconds, maxSeconds);
     }
 
     /// <summary>
     ///     Проверяет, истекло ли время окна.
     /// </summary>
-    public bool IsExpired()
+    public bool IsExpired(TimedWindow window)
     {
-        return Timing.CurTime >= Remaining;
+        return _timing.CurTime >= window.Remaining;
     }
 
     /// <summary>
     ///     Проверяет, что окно либо null, либо истекло.
     /// </summary>
-    public static bool NullOrExpired(TimedWindow? window)
+    public bool NullOrExpired(TimedWindow? window)
     {
-        return window == null || window.IsExpired();
+        return window == null || IsExpired(window);
     }
 
-    public TimedWindow Clone()
+    private TimeSpan GetRandomDuration(TimedWindow window)
     {
-        return new TimedWindow(MinSeconds, MaxSeconds, Timing, Random);
-    }
+        if (window.MinSeconds == window.MaxSeconds)
+            return TimeSpan.FromSeconds(window.MinSeconds);
 
-    private TimeSpan GetRandomDuration()
-    {
-        if (MinSeconds == MaxSeconds)
-            return TimeSpan.FromSeconds(MinSeconds);
-
-        var seconds = Random.NextFloat(MinSeconds, MaxSeconds);
+        var seconds = _random.NextFloat(window.MinSeconds, window.MaxSeconds);
         return TimeSpan.FromSeconds(seconds);
     }
 
@@ -85,7 +96,7 @@ public sealed class TimedWindow
         if (minSeconds == maxSeconds)
             return TimeSpan.FromSeconds(minSeconds);
 
-        var seconds = Random.NextFloat(minSeconds, maxSeconds);
+        var seconds = _random.NextFloat(minSeconds, maxSeconds);
         return TimeSpan.FromSeconds(seconds);
     }
 }

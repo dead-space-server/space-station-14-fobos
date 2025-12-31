@@ -5,7 +5,7 @@ using Robust.Shared.Serialization;
 using Content.Shared.DoAfter;
 using Content.Shared.Actions;
 
-namespace Content.Shared.Virus;
+namespace Content.Shared.DeadSpace.Virus;
 
 /// <summary>
 ///     Логика резистов зомби инфекции.

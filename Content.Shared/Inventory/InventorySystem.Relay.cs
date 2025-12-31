@@ -32,7 +32,7 @@ using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Wieldable;
 using Content.Shared.Zombies;
 using Content.Shared.Corvax.TTS;
-using Content.Shared.Virus;
+using Content.Shared.DeadSpace.Virus;
 
 namespace Content.Shared.Inventory;
 

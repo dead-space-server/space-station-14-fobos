@@ -14,7 +14,7 @@ public sealed class LowViralRegenerationSymptom : VirusSymptomBase
     protected override float AddInfectivity => 0.02f;
     private float _addRegenThreshold = 0.5f;
 
-    public LowViralRegenerationSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
+    public LowViralRegenerationSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
@@ -43,7 +43,7 @@ public sealed class LowViralRegenerationSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new LowViralRegenerationSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+        return new LowViralRegenerationSymptom(EffectTimedWindow.Clone());
     }
 
     public override void ApplyDataEffect(VirusData data, bool add)

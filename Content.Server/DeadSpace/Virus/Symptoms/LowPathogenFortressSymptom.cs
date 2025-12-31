@@ -14,7 +14,7 @@ public sealed class LowPathogenFortressSymptom : VirusSymptomBase
     protected override float AddInfectivity => 0.02f;
     private int _addMaxThreshold = 100;
 
-    public LowPathogenFortressSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
+    public LowPathogenFortressSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
@@ -43,7 +43,7 @@ public sealed class LowPathogenFortressSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new LowPathogenFortressSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+        return new LowPathogenFortressSymptom(EffectTimedWindow.Clone());
     }
 
     public override void ApplyDataEffect(VirusData data, bool add)

@@ -3,8 +3,6 @@
 using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
-using Robust.Shared.Random;
-using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
@@ -14,7 +12,7 @@ public sealed class MedPostMortemResistanceSymptom : VirusSymptomBase
     protected override float AddInfectivity => 0.02f;
     private float _addDamageWhenDead = 2f;
 
-    public MedPostMortemResistanceSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
+    public MedPostMortemResistanceSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
@@ -43,7 +41,7 @@ public sealed class MedPostMortemResistanceSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new MedPostMortemResistanceSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+        return new MedPostMortemResistanceSymptom(EffectTimedWindow.Clone());
     }
 
     public override void ApplyDataEffect(VirusData data, bool add)

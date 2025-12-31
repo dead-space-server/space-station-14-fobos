@@ -9,19 +9,20 @@ using Content.Shared.DeadSpace.TimeWindow;
 using Content.Shared.Popups;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
-using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class NecrosisSymptom : VirusSymptomBase
 {
+    [Dependency] private readonly EntityManager _entityManager = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
     public override VirusSymptom Type => VirusSymptom.Necrosis;
     protected override float AddInfectivity => 0.02f;
     private static readonly ProtoId<DamageTypePrototype> NecrosisDamageType = "Cellular";
     private float _minDamage = 1f;
     private float _maxDamage = 10f;
 
-    public NecrosisSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
+    public NecrosisSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
@@ -41,16 +42,16 @@ public sealed class NecrosisSymptom : VirusSymptomBase
 
     public override void DoEffect(EntityUid host, VirusComponent virus)
     {
-        var damageableSystem = EntityManager.System<DamageableSystem>();
-        var popupSystem = EntityManager.System<PopupSystem>();
+        var damageableSystem = _entityManager.System<DamageableSystem>();
+        var popupSystem = _entityManager.System<PopupSystem>();
 
         DamageSpecifier dspec = new();
-        dspec.DamageDict.Add(NecrosisDamageType, Random.NextFloat(_minDamage, _maxDamage));
+        dspec.DamageDict.Add(NecrosisDamageType, _random.NextFloat(_minDamage, _maxDamage));
 
         damageableSystem.TryChangeDamage(host,
                             dspec, true);
 
-        var messageKey = Random.Pick(new[]
+        var messageKey = _random.Pick(new[]
         {
             "virus-necrosis-popup-1",
             "virus-necrosis-popup-2",
@@ -64,6 +65,6 @@ public sealed class NecrosisSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new NecrosisSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+        return new NecrosisSymptom(EffectTimedWindow.Clone());
     }
 }

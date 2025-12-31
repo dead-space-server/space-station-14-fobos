@@ -15,7 +15,7 @@ public sealed class MedComplexityChangeSymptom : VirusSymptomBase
     protected override float AddInfectivity => 0.02f;
     private int _addMultiPriceDeleteSymptom = 2;
 
-    public MedComplexityChangeSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
+    public MedComplexityChangeSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
@@ -44,7 +44,7 @@ public sealed class MedComplexityChangeSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new MedComplexityChangeSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+        return new MedComplexityChangeSymptom(EffectTimedWindow.Clone());
     }
 
     public override void ApplyDataEffect(VirusData data, bool add)

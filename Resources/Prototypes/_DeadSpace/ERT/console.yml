@@ -1,0 +1,57 @@
+- type: entity
+  parent: BaseComputerAiAccess
+  id: ErtResponceConsole
+  name: консоль запроса поддержки NanoTrasen
+  description: 
+  components:
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: request-sec
+    - map: ["computerLayerKeys"]
+      state: generic_keys
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: ApcPowerReceiver
+    powerLoad: 3100
+  - type: Computer
+    board: ComputerDiagnoserConsoleCircuitboard
+  - type: PointLight
+    radius: 1.5
+    energy: 1.6
+    color: "#1d8bad"
+  - type: ActivatableUI
+    key: enum.ErtResponceConsoleUiKey.Key
+  - type: UserInterface
+    interfaces:
+        enum.ErtResponceConsoleUiKey.Key:
+          type: ErtResponceConsoleBoundUserInterface
+  - type: Speech
+    speechVerb: Robotic
+    speechSounds: Pai
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: StructuralMetallicStrong
+  - type: ErtResponceConsole
+    teams:
+    - Cburn
+  - type: ActivatableUIRequiresAccess
+  - type: AccessReader
+    access: [["Captain"]]
+  - type: Language
+    selectedLanguage: GeneralLanguage
+
+- type: entity
+  parent: BaseComputerCircuitboard
+  id: ErtResponceConsoleCircuitboard
+  name: машинная плата консолb запроса поддержки NanoTrasen
+  description: Компьютерная печатная плата для консолb запроса поддержки NanoTrasen.
+  components:
+    - type: Sprite
+      state: cpu_command
+    - type: ComputerBoard
+      prototype: ErtResponceConsole

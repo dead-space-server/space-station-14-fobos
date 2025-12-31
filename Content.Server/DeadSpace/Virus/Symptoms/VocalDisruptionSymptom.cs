@@ -13,23 +13,24 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class VocalDisruptionSymptom : VirusSymptomBase
 {
+    [Dependency] private readonly EntityManager _entityManager = default!;
     public override VirusSymptom Type => VirusSymptom.VocalDisruption;
     protected override float AddInfectivity => 0.5f;
     private static readonly ProtoId<ReplacementAccentPrototype> Accent = "virus";
     private ProtoId<ReplacementAccentPrototype>? _oldAccent = null;
 
-    public VocalDisruptionSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
+    public VocalDisruptionSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
     {
         base.OnAdded(host, virus);
 
-        if (EntityManager.TryGetComponent<ReplacementAccentComponent>(host, out var component))
+        if (_entityManager.TryGetComponent<ReplacementAccentComponent>(host, out var component))
             _oldAccent = component.Accent;
         else
         {
-            var comp = EntityManager.AddComponent<ReplacementAccentComponent>(host);
+            var comp = _entityManager.AddComponent<ReplacementAccentComponent>(host);
             comp.Accent = Accent;
         }
     }
@@ -38,11 +39,11 @@ public sealed class VocalDisruptionSymptom : VirusSymptomBase
     {
         base.OnRemoved(host, virus);
 
-        if (EntityManager.TryGetComponent<ReplacementAccentComponent>(host, out var component)
+        if (_entityManager.TryGetComponent<ReplacementAccentComponent>(host, out var component)
             && _oldAccent is { } accent)
             component.Accent = accent;
         else
-            EntityManager.RemoveComponent<ReplacementAccentComponent>(host);
+            _entityManager.RemoveComponent<ReplacementAccentComponent>(host);
     }
 
     public override void OnUpdate(EntityUid host, VirusComponent virus)
@@ -57,6 +58,6 @@ public sealed class VocalDisruptionSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new VocalDisruptionSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+        return new VocalDisruptionSymptom(EffectTimedWindow.Clone());
     }
 }

@@ -6,12 +6,13 @@ using Content.Shared.DeadSpace.TimeWindow;
 using Content.Shared.StatusEffectNew;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
-using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class DrowsinessSymptom : VirusSymptomBase
 {
+    [Dependency] private readonly EntityManager _entityManager = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
     public override VirusSymptom Type => VirusSymptom.Drowsiness;
     protected override float AddInfectivity => 0.02f;
     public static readonly EntProtoId StatusEffectForcedSleeping = "StatusEffectForcedSleeping";
@@ -19,7 +20,7 @@ public sealed class DrowsinessSymptom : VirusSymptomBase
     private const float MinSleepDuration = 5f;
     private const float MaxSleepDuration = 15f;
 
-    public DrowsinessSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
+    public DrowsinessSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
@@ -39,14 +40,14 @@ public sealed class DrowsinessSymptom : VirusSymptomBase
 
     public override void DoEffect(EntityUid host, VirusComponent virus)
     {
-        var statusEffectsSystem = EntityManager.System<StatusEffectsSystem>();
+        var statusEffectsSystem = _entityManager.System<StatusEffectsSystem>();
 
-        var sleepDuration = Random.NextFloat(MinSleepDuration, MaxSleepDuration);
+        var sleepDuration = _random.NextFloat(MinSleepDuration, MaxSleepDuration);
         statusEffectsSystem.TryAddStatusEffectDuration(host, StatusEffectForcedSleeping, TimeSpan.FromSeconds(sleepDuration));
     }
 
     public override IVirusSymptom Clone()
     {
-        return new DrowsinessSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+        return new DrowsinessSymptom(EffectTimedWindow.Clone());
     }
 }

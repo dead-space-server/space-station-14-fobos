@@ -5,14 +5,13 @@ using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeviceLinking.Events;
 using Content.Server.Power.EntitySystems;
 using System.Linq;
-using Content.Shared.Virus;
+using Content.Shared.DeadSpace.Virus;
 using Robust.Shared.Timing;
 using Content.Shared.Verbs;
 using Robust.Shared.Utility;
 using Content.Shared.Database;
 using Content.Server.Research.Disk;
 using Content.Shared.DeadSpace.TimeWindow;
-using Robust.Shared.Random;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -21,8 +20,8 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
     [Dependency] private readonly VirusDiagnoserConsoleSystem _console = default!;
     [Dependency] private readonly PowerReceiverSystem _powerReceiverSystem = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly VirusEvolutionConsoleSystem _evolutionConsoleSystem = default!;
+    [Dependency] private readonly TimedWindowSystem _timedWindowSystem = default!;
     public override void Initialize()
     {
         base.Initialize();
@@ -33,6 +32,11 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
         SubscribeLocalEvent<VirusDiagnoserDataServerComponent, GetVerbsEvent<Verb>>(DoSetObeliskVerbs);
     }
 
+    private void OnInit(EntityUid uid, VirusDiagnoserDataServerComponent component, ComponentInit args)
+    {
+        _timedWindowSystem.Reset(component.UpdateWindow);
+    }
+
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
@@ -40,9 +44,9 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
         var query = EntityQueryEnumerator<VirusDiagnoserDataServerComponent>();
         while (query.MoveNext(out var uid, out var component))
         {
-            if (component.UpdateWindow.IsExpired())
+            if (_timedWindowSystem.IsExpired(component.UpdateWindow))
             {
-                component.UpdateWindow.Reset();
+                _timedWindowSystem.Reset(component.UpdateWindow);
                 UpdateServer(uid, component);
             }
         }
@@ -78,15 +82,6 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
             return;
 
         _evolutionConsoleSystem.UpdateUserInterface((component.ConnectedEvolutionConsole.Value, evolutionConsole));
-    }
-
-    private void OnInit(Entity<VirusDiagnoserDataServerComponent> server, ref ComponentInit args)
-    {
-        server.Comp.UpdateWindow = new TimedWindow(
-            server.Comp.UpdateDuration,
-            server.Comp.UpdateDuration,
-            _timing,
-            _random);
     }
 
     private void DoSetObeliskVerbs(Entity<VirusDiagnoserDataServerComponent> server, ref GetVerbsEvent<Verb> args)

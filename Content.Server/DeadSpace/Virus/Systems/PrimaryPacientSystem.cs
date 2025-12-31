@@ -1,19 +1,16 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
-using Content.Shared.DeadSpace.TimeWindow;
 using Content.Shared.DeadSpace.Virus.Components;
-using Content.Shared.Virus;
-using Robust.Shared.Random;
-using Robust.Shared.Timing;
+using Content.Shared.DeadSpace.Virus;
+using Content.Shared.DeadSpace.TimeWindow;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
 public sealed class PrimaryPacientSystem : EntitySystem
 {
     [Dependency] private readonly SentientVirusSystem _sentientVirusSystem = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly VirusSystem _virus = default!;
+    [Dependency] private readonly TimedWindowSystem _timedWindowSystem = default!;
     public override void Initialize()
     {
         base.Initialize();
@@ -23,6 +20,11 @@ public sealed class PrimaryPacientSystem : EntitySystem
         SubscribeLocalEvent<PrimaryPacientComponent, ComponentRemove>(OnRemove);
     }
 
+    private void OnInit(Entity<PrimaryPacientComponent> entity, ref ComponentInit args)
+    {
+        _timedWindowSystem.Reset(entity.Comp.UpdateWindow);
+    }
+
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
@@ -30,17 +32,12 @@ public sealed class PrimaryPacientSystem : EntitySystem
         var query = EntityQueryEnumerator<PrimaryPacientComponent, VirusComponent>();
         while (query.MoveNext(out var uid, out var component, out var virusComponent))
         {
-            if (component.UpdateWindow != null && component.UpdateWindow.IsExpired())
+            if (_timedWindowSystem.IsExpired(component.UpdateWindow))
             {
-                component.UpdateWindow.Reset();
+                _timedWindowSystem.Reset(component.UpdateWindow);
                 _virus.InfectAround((uid, virusComponent), component.RangeInfect);
             }
         }
-    }
-
-    private void OnInit(EntityUid uid, PrimaryPacientComponent component, ComponentInit args)
-    {
-        component.UpdateWindow = new TimedWindow(component.MinUpdateDuration, component.MaxUpdateDuration, _timing, _random);
     }
 
     private void OnCureVirus(EntityUid uid, PrimaryPacientComponent component, CureVirusEvent args)

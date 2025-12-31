@@ -15,7 +15,7 @@ public sealed class LowComplexityChangeSymptom : VirusSymptomBase
     protected override float AddInfectivity => 0.01f;
     private int _addMultiPriceDeleteSymptom = 1;
 
-    public LowComplexityChangeSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
+    public LowComplexityChangeSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
@@ -44,7 +44,7 @@ public sealed class LowComplexityChangeSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new LowComplexityChangeSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+        return new LowComplexityChangeSymptom(EffectTimedWindow.Clone());
     }
 
     public override void ApplyDataEffect(VirusData data, bool add)

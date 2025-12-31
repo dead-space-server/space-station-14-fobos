@@ -1,7 +1,6 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
-using Content.Server.DeadSpace.Virus.Components;
-using Content.Shared.Virus;
+using Content.Shared.DeadSpace.Virus;
 using Robust.Server.GameObjects;
 using Content.Shared.DeadSpace.Virus.Components;
 using Robust.Shared.Prototypes;
@@ -11,8 +10,6 @@ using Content.Shared.Actions;
 using Content.Server.Popups;
 using Content.Shared.Popups;
 using Content.Shared.DeadSpace.TimeWindow;
-using Robust.Shared.Timing;
-using Robust.Shared.Random;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -24,8 +21,7 @@ public sealed class SentientVirusSystem : EntitySystem
     [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
     [Dependency] private readonly PopupSystem _popupSystem = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly TimedWindowSystem _timedWindowSystem = default!;
     private const int PrimaryPacientPrice = 1000;
     public override void Initialize()
     {
@@ -46,9 +42,9 @@ public sealed class SentientVirusSystem : EntitySystem
         var query = EntityQueryEnumerator<SentientVirusComponent>();
         while (query.MoveNext(out var uid, out var component))
         {
-            if (component.UpdateWindow != null && component.UpdateWindow.IsExpired())
+            if (_timedWindowSystem.IsExpired(component.UpdateWindow))
             {
-                component.UpdateWindow.Reset();
+                _timedWindowSystem.Reset(component.UpdateWindow);
                 UpdateSentientVirus(uid, component);
             }
         }
@@ -324,11 +320,7 @@ public sealed class SentientVirusSystem : EntitySystem
         else
             entity.Comp.Data.StrainId = strain;
 
-        entity.Comp.UpdateWindow = new TimedWindow(
-            entity.Comp.UpdateDuration,
-            entity.Comp.UpdateDuration,
-            _timing,
-            _random);
+        _timedWindowSystem.Reset(entity.Comp.UpdateWindow);
 
         _actionsSystem.AddAction(entity, ref entity.Comp.ShopMutationActionEntity, entity.Comp.ShopMutationAbility, entity);
         _actionsSystem.AddAction(entity, ref entity.Comp.SelectPrimaryPatientActionEntity, entity.Comp.SelectPrimaryPatientAbility, entity);

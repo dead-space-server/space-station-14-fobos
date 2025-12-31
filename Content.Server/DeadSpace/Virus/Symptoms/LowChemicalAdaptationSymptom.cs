@@ -14,7 +14,7 @@ public sealed class LowChemicalAdaptationSymptom : VirusSymptomBase
     protected override float AddInfectivity => 0.02f;
     private float _addDefaultMedicineResistance = 0.15f;
 
-    public LowChemicalAdaptationSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
+    public LowChemicalAdaptationSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
@@ -43,7 +43,7 @@ public sealed class LowChemicalAdaptationSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new LowChemicalAdaptationSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+        return new LowChemicalAdaptationSymptom(EffectTimedWindow.Clone());
     }
 
     public override void ApplyDataEffect(VirusData data, bool add)

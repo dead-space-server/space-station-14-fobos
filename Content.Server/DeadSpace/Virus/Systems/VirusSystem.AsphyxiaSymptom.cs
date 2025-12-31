@@ -4,7 +4,7 @@ using Content.Shared.DeadSpace.Virus.Components;
 using Content.Server.DeadSpace.Virus.Symptoms;
 using Content.Server.Body.Systems;
 using Content.Shared.Body.Components;
-using Content.Shared.Virus;
+using Content.Shared.DeadSpace.Virus;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
