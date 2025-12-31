@@ -4,8 +4,6 @@ using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Random;
-using Robust.Shared.Timing;
 using Content.Server.Speech.Prototypes;
 using Content.Server.Speech.Components;
 using Content.Shared.DeadSpace.Virus.Prototypes;

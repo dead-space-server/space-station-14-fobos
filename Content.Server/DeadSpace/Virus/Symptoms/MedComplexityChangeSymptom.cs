@@ -3,8 +3,6 @@
 using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
-using Robust.Shared.Random;
-using Robust.Shared.Timing;
 using Content.Shared.DeadSpace.Virus.Prototypes;
 using Robust.Shared.Prototypes;
 
