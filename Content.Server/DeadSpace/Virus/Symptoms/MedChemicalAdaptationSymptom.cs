@@ -5,14 +5,16 @@ using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
+using Content.Shared.DeadSpace.Virus.Prototypes;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class MedChemicalAdaptationSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.MedChemicalAdaptation;
-    protected override float AddInfectivity => 0.02f;
-    private float _addDefaultMedicineResistance = 0.3f;
+    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "MedChemicalAdaptationSymptom";
+    private float _addDefaultMedicineResistance = 0.2f;
 
     public MedChemicalAdaptationSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
     { }
@@ -20,15 +22,11 @@ public sealed class MedChemicalAdaptationSymptom : VirusSymptomBase
     public override void OnAdded(EntityUid host, VirusComponent virus)
     {
         base.OnAdded(host, virus);
-
-        virus.Data.DefaultMedicineResistance += _addDefaultMedicineResistance;
     }
 
     public override void OnRemoved(EntityUid host, VirusComponent virus)
     {
         base.OnRemoved(host, virus);
-
-        virus.Data.DefaultMedicineResistance -= _addDefaultMedicineResistance;
     }
 
     public override void OnUpdate(EntityUid host, VirusComponent virus)
@@ -48,6 +46,7 @@ public sealed class MedChemicalAdaptationSymptom : VirusSymptomBase
 
     public override void ApplyDataEffect(VirusData data, bool add)
     {
+        base.ApplyDataEffect(data, add);
         if (add)
             data.DefaultMedicineResistance += _addDefaultMedicineResistance;
         else

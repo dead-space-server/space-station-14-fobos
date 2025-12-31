@@ -1,7 +1,11 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
+using Content.Server.Popups;
+using Content.Shared.Bed.Cryostorage;
 using Content.Shared.DeadSpace.TimeWindow;
 using Content.Shared.DeadSpace.Virus.Components;
+using Content.Shared.Mind.Components;
+using Content.Shared.Popups;
 using Content.Shared.Virus;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
@@ -14,6 +18,8 @@ public sealed class PrimaryPacientSystem : EntitySystem
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly VirusSystem _virus = default!;
+    [Dependency] private readonly PopupSystem _popupSystem = default!;
+    private const int Compensation = 5000;
     public override void Initialize()
     {
         base.Initialize();
@@ -21,6 +27,28 @@ public sealed class PrimaryPacientSystem : EntitySystem
         SubscribeLocalEvent<PrimaryPacientComponent, ComponentInit>(OnInit);
         SubscribeLocalEvent<PrimaryPacientComponent, CureVirusEvent>(OnCureVirus);
         SubscribeLocalEvent<PrimaryPacientComponent, ComponentRemove>(OnRemove);
+
+        SubscribeLocalEvent<PrimaryPacientComponent, EnterCryostorageEvent>(OnMindRemoved);
+    }
+
+    private void OnMindRemoved(EntityUid uid, PrimaryPacientComponent component, EnterCryostorageEvent args)
+    {
+        if (!TryComp<SentientVirusComponent>(component.SentientVirus, out var sentientVirusComp))
+            return;
+
+        if (sentientVirusComp.Data != null)
+        {
+            sentientVirusComp.Data.MutationPoints += Compensation;
+            sentientVirusComp.FactPrimaryInfected--;
+            _popupSystem.PopupEntity(
+                Loc.GetString("sentient-virus-infect-compensation", ("price", Compensation)),
+                component.SentientVirus.Value,
+                component.SentientVirus.Value,
+                PopupType.Medium
+            );
+        }
+
+        _virus.CureVirus(uid);
     }
 
     public override void Update(float frameTime)

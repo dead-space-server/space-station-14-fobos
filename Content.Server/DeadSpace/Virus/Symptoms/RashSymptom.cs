@@ -8,13 +8,14 @@ using Content.Shared.DeadSpace.TimeWindow;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
+using Content.Shared.DeadSpace.Virus.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class RashSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.Rash;
-    protected override float AddInfectivity => 0.1f;
+    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "RashSymptom";
     private const string RashEmote = "чешется";
 
     public RashSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
@@ -43,6 +44,11 @@ public sealed class RashSymptom : VirusSymptomBase
                             RashEmote,
                             InGameICChatType.Emote,
                             ChatTransmitRange.Normal);
+    }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        base.ApplyDataEffect(data, add);
     }
 
     public override IVirusSymptom Clone()
