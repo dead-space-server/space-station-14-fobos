@@ -23,6 +23,7 @@ public sealed class SentientVirusSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly TimedWindowSystem _timedWindowSystem = default!;
     private const int PrimaryPacientPrice = 1000;
+    private const int ModifyPointsRegenPerInfected = 2;
     public override void Initialize()
     {
         base.Initialize();
@@ -119,9 +120,10 @@ public sealed class SentientVirusSystem : EntitySystem
         if (component.Data == null)
             return;
 
-        var missingPoints2 = PrimaryPacientPrice * component.FactPrimaryInfected - component.Data.MutationPoints;
+        var totalPrice = PrimaryPacientPrice * component.FactPrimaryInfected;
+        var missingPoints2 = totalPrice - component.Data.MutationPoints;
 
-        if (component.Data.MutationPoints < PrimaryPacientPrice * component.FactPrimaryInfected)
+        if (component.Data.MutationPoints < totalPrice)
         {
             _popupSystem.PopupEntity(
                 Loc.GetString("sentient-virus-infect-no-points", ("price", missingPoints2)),
@@ -133,7 +135,7 @@ public sealed class SentientVirusSystem : EntitySystem
         }
 
         if (TryAddPrimaryInfected(uid, target, component))
-            component.Data.MutationPoints -= PrimaryPacientPrice * component.FactPrimaryInfected;
+            component.Data.MutationPoints -= totalPrice;
         else
             _popupSystem.PopupEntity(Loc.GetString("sentient-virus-infect-failed-source"), uid, uid, PopupType.Medium);
     }
@@ -146,7 +148,7 @@ public sealed class SentientVirusSystem : EntitySystem
         if (component.Data == null)
             return;
 
-        component.Data.MutationPoints += component.Data.RegenMutationPoints + _virusSystem.GetQuantityInfected(component.Data.StrainId);
+        component.Data.MutationPoints += component.Data.RegenMutationPoints + _virusSystem.GetQuantityInfected(component.Data.StrainId) * ModifyPointsRegenPerInfected;
     }
 
     private void OnButtonPressed(EntityUid uid, SentientVirusComponent component, EvolutionConsoleUiButtonPressedMessage args)
@@ -171,6 +173,7 @@ public sealed class SentientVirusSystem : EntitySystem
                     symptomInstance.ApplyDataEffect(component.Data, add: true);
 
                     UpdateVirusDataForStrain(uid, component);
+
                     break;
                 }
             case EvolutionConsoleUiButton.EvolutionBody:
@@ -207,6 +210,7 @@ public sealed class SentientVirusSystem : EntitySystem
                     symptomInstance.ApplyDataEffect(component.Data, add: false);
 
                     UpdateVirusDataForStrain(uid, component);
+
                     break;
                 }
             case EvolutionConsoleUiButton.DeleteBody:
@@ -251,7 +255,7 @@ public sealed class SentientVirusSystem : EntitySystem
         {
             if (virusComponent.Data != null && virusComponent.Data.StrainId == source.Data.StrainId)
             {
-                virusComponent.Data = (VirusData)source.Data.Clone();
+                virusComponent.Data.ApplyInfectionData(source.Data);
                 _virusSystem.RefreshSymptoms((virusUid, virusComponent));
             }
         }
@@ -355,8 +359,18 @@ public sealed class SentientVirusSystem : EntitySystem
             return default!;
 
         var data = console.Comp.Data;
+        var infectivity = 0f;
         var infectedCount = data != null ? _virusSystem.GetQuantityInfected(data.StrainId) : 0;
         var pointsPerSecond = data != null ? data.RegenMutationPoints + infectedCount : 0;
+
+        if (data != null)
+        {
+            foreach (var sympId in data.ActiveSymptom)
+            {
+                if (_prototypeManager.TryIndex(sympId, out var prototype))
+                    infectivity += prototype.AddInfectivity;
+            }
+        }
 
         return new VirusEvolutionConsoleBoundUserInterfaceState(
             data?.MutationPoints ?? 0,
@@ -368,9 +382,8 @@ public sealed class SentientVirusSystem : EntitySystem
             data != null,
             data?.ActiveSymptom,
             data?.BodyWhitelist,
-            data?.Threshold ?? 0f,
             data?.MaxThreshold ?? 100f,
-            data?.Infectivity ?? 0f,
+            infectivity,
             infectedCount,
             pointsPerSecond,
             isSentientVirus: true

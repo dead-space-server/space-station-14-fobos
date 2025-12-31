@@ -8,6 +8,7 @@ using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Content.Server.Speech.Prototypes;
 using Content.Server.Speech.Components;
+using Content.Shared.DeadSpace.Virus.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
@@ -15,7 +16,7 @@ public sealed class VocalDisruptionSymptom : VirusSymptomBase
 {
     [Dependency] private readonly EntityManager _entityManager = default!;
     public override VirusSymptom Type => VirusSymptom.VocalDisruption;
-    protected override float AddInfectivity => 0.5f;
+    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "VocalDisruptionSymptom";
     private static readonly ProtoId<ReplacementAccentPrototype> Accent = "virus";
     private ProtoId<ReplacementAccentPrototype>? _oldAccent = null;
 
@@ -54,6 +55,11 @@ public sealed class VocalDisruptionSymptom : VirusSymptomBase
     public override void DoEffect(EntityUid host, VirusComponent virus)
     {
 
+    }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        base.ApplyDataEffect(data, add);
     }
 
     public override IVirusSymptom Clone()

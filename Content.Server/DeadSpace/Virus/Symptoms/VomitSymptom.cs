@@ -5,6 +5,8 @@ using Content.Shared.DeadSpace.Virus.Components;
 using Content.Server.DeadSpace.Virus.Systems;
 using Content.Shared.DeadSpace.TimeWindow;
 using Content.Shared.Medical;
+using Content.Shared.DeadSpace.Virus.Prototypes;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
@@ -12,7 +14,7 @@ public sealed class VomitSymptom : VirusSymptomBase
 {
     [Dependency] private readonly EntityManager _entityManager = default!;
     public override VirusSymptom Type => VirusSymptom.Vomit;
-    protected override float AddInfectivity => 0.02f;
+    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "VomitSymptom";
 
     public VomitSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
@@ -39,6 +41,11 @@ public sealed class VomitSymptom : VirusSymptomBase
 
         vomitSystem.Vomit(host);
         virusSystem.InfectAround(host);
+    }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        base.ApplyDataEffect(data, add);
     }
 
     public override IVirusSymptom Clone()

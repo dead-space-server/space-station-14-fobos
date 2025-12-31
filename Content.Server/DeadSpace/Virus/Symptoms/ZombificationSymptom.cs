@@ -5,6 +5,8 @@ using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 using Content.Shared.DeadSpace.TimeWindow;
 using Content.Shared.Zombies;
+using Content.Shared.DeadSpace.Virus.Prototypes;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
@@ -12,7 +14,7 @@ public sealed class ZombificationSymptom : VirusSymptomBase
 {
     [Dependency] private readonly EntityManager _entityManager = default!;
     public override VirusSymptom Type => VirusSymptom.Zombification;
-    protected override float AddInfectivity => 0.02f;
+    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "ZombificationSymptom";
 
     public ZombificationSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
@@ -50,6 +52,11 @@ public sealed class ZombificationSymptom : VirusSymptomBase
 
         _entityManager.EnsureComponent<PendingZombieComponent>(target);
         _entityManager.EnsureComponent<ZombifyOnDeathComponent>(target);
+    }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        base.ApplyDataEffect(data, add);
     }
 
     public override IVirusSymptom Clone()

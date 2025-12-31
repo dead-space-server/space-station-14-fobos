@@ -60,6 +60,7 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
             && virusDataList != null)
         {
             var source = virusDataList.FirstOrDefault();
+            // Скорее можно обойтись и без копии, но мне не хочется это проверять, ибо я уже обжигался
             virusData = source != null
                 ? (VirusData)source.Clone()
                 : null;
@@ -265,6 +266,7 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
             _virusSolutionAnalyzer.TryGetVirusDataFromContainer(console.Comp.VirusSolutionAnalyzer.Value, out var virusDataList))
         {
             var source = virusDataList.FirstOrDefault();
+            // Скорее можно обойтись и без копии, но мне не хочется это проверять, ибо я уже обжигался
             virusData = source != null
                 ? (VirusData)source.Clone()
                 : null;

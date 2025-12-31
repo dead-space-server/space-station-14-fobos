@@ -3,13 +3,15 @@
 using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
+using Content.Shared.DeadSpace.Virus.Prototypes;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class MedPostMortemResistanceSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.MedPostMortemResistance;
-    protected override float AddInfectivity => 0.02f;
+    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "MedPostMortemResistanceSymptom";
     private float _addDamageWhenDead = 2f;
 
     public MedPostMortemResistanceSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
@@ -18,15 +20,11 @@ public sealed class MedPostMortemResistanceSymptom : VirusSymptomBase
     public override void OnAdded(EntityUid host, VirusComponent virus)
     {
         base.OnAdded(host, virus);
-
-        virus.Data.DamageWhenDead -= _addDamageWhenDead;
     }
 
     public override void OnRemoved(EntityUid host, VirusComponent virus)
     {
         base.OnRemoved(host, virus);
-
-        virus.Data.DamageWhenDead += _addDamageWhenDead;
     }
 
     public override void OnUpdate(EntityUid host, VirusComponent virus)
@@ -46,6 +44,7 @@ public sealed class MedPostMortemResistanceSymptom : VirusSymptomBase
 
     public override void ApplyDataEffect(VirusData data, bool add)
     {
+        base.ApplyDataEffect(data, add);
         if (add)
             data.DamageWhenDead -= _addDamageWhenDead;
         else

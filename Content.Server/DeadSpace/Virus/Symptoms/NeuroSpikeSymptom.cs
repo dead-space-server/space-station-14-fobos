@@ -5,6 +5,8 @@ using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
 using Content.Shared.Jittering;
 using Content.Server.Stunnable;
+using Content.Shared.DeadSpace.Virus.Prototypes;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
@@ -12,7 +14,7 @@ public sealed class NeuroSpikeSymptom : VirusSymptomBase
 {
     [Dependency] private readonly EntityManager _entityManager = default!;
     public override VirusSymptom Type => VirusSymptom.NeuroSpike;
-    protected override float AddInfectivity => 0.02f;
+    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "NeuroSpikeSymptom";
     private TimedWindow _duration = default!;
 
     public NeuroSpikeSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
@@ -46,6 +48,11 @@ public sealed class NeuroSpikeSymptom : VirusSymptomBase
 
         jitteringSystem.DoJitter(host, TimeSpan.FromSeconds(duration), true);
         stun.TryUpdateParalyzeDuration(host, TimeSpan.FromSeconds(duration));
+    }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        base.ApplyDataEffect(data, add);
     }
 
     public override IVirusSymptom Clone()

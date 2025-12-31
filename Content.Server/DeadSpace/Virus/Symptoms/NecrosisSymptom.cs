@@ -9,6 +9,7 @@ using Content.Shared.DeadSpace.TimeWindow;
 using Content.Shared.Popups;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
+using Content.Shared.DeadSpace.Virus.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
@@ -17,7 +18,7 @@ public sealed class NecrosisSymptom : VirusSymptomBase
     [Dependency] private readonly EntityManager _entityManager = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     public override VirusSymptom Type => VirusSymptom.Necrosis;
-    protected override float AddInfectivity => 0.02f;
+    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "NecrosisSymptom";
     private static readonly ProtoId<DamageTypePrototype> NecrosisDamageType = "Cellular";
     private float _minDamage = 1f;
     private float _maxDamage = 10f;
@@ -61,6 +62,11 @@ public sealed class NecrosisSymptom : VirusSymptomBase
         });
 
         popupSystem.PopupEntity(Loc.GetString(messageKey), host, host, PopupType.Medium);
+    }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        base.ApplyDataEffect(data, add);
     }
 
     public override IVirusSymptom Clone()

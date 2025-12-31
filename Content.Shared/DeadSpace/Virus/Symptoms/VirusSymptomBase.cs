@@ -2,18 +2,17 @@
 
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
+using Content.Shared.DeadSpace.Virus.Prototypes;
+using Robust.Shared.Prototypes;
 
 namespace Content.Shared.DeadSpace.Virus.Symptoms;
 
 public abstract class VirusSymptomBase : IVirusSymptom
 {
     [Dependency] private readonly EntityManager _entityManager = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     public TimedWindow EffectTimedWindow { get; }
-
-    /// <summary>
-    ///     Количество заразности, которое добавляет этот симптом.
-    /// </summary>
-    protected virtual float AddInfectivity { get; } = 0f;
+    protected abstract ProtoId<VirusSymptomPrototype> PrototypeId { get; }
 
     protected VirusSymptomBase(TimedWindow effectTimedWindow)
     {
@@ -25,18 +24,12 @@ public abstract class VirusSymptomBase : IVirusSymptom
 
     public virtual void OnAdded(EntityUid host, VirusComponent virus)
     {
-        var timedWindowSystem = _entityManager.System<TimedWindowSystem>();
-
-        timedWindowSystem.Reset(EffectTimedWindow);
-        virus.Data.Infectivity = Math.Clamp(virus.Data.Infectivity + AddInfectivity, 0, 1);
+        ApplyDataEffect(virus.Data, true);
     }
 
     public virtual void OnRemoved(EntityUid host, VirusComponent virus)
     {
-        var timedWindowSystem = _entityManager.System<TimedWindowSystem>();
-
-        timedWindowSystem.Reset(EffectTimedWindow);
-        virus.Data.Infectivity = Math.Clamp(virus.Data.Infectivity - AddInfectivity, 0, 1);
+        ApplyDataEffect(virus.Data, false);
     }
 
     public virtual void OnUpdate(EntityUid host, VirusComponent virus)
@@ -60,5 +53,18 @@ public abstract class VirusSymptomBase : IVirusSymptom
 
     public abstract void DoEffect(EntityUid host, VirusComponent virus);
     public abstract IVirusSymptom Clone();
-    public virtual void ApplyDataEffect(VirusData data, bool add) { }
+    public virtual void ApplyDataEffect(VirusData data, bool add)
+    {
+        if (!_prototypeManager.TryIndex(PrototypeId, out var prototype))
+            return;
+
+        if (add)
+        {
+            var timedWindowSystem = _entityManager.System<TimedWindowSystem>();
+            timedWindowSystem.Reset(EffectTimedWindow);
+            data.Infectivity = Math.Clamp(data.Infectivity + prototype.AddInfectivity, 0, 1);
+        }
+        else
+            data.Infectivity = Math.Clamp(data.Infectivity - prototype.AddInfectivity, 0, 1);
+    }
 }

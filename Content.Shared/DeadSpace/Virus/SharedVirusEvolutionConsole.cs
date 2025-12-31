@@ -22,7 +22,6 @@ public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInte
 
     // Статистика вируса
     public bool IsSentientVirus { get; }
-    public float Threshold { get; }
     public float MaxThreshold { get; }
     public float Infectivity { get; }
     public int InfectedCount { get; }
@@ -38,7 +37,6 @@ public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInte
         bool hasVirus = false,
         List<ProtoId<VirusSymptomPrototype>>? activeSymptoms = null,
         List<ProtoId<BodyPrototype>>? bodyWhitelist = null,
-        float threshold = 0f,
         float maxThreshold = 100f,
         float infectivity = 0f,
         int infectedCount = 0,
@@ -55,7 +53,6 @@ public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInte
         BodyWhitelist = bodyWhitelist ?? new List<ProtoId<BodyPrototype>>();
         IsSentientVirus = isSentientVirus;
         HasVirus = hasVirus;
-        Threshold = threshold;
         MaxThreshold = maxThreshold;
         Infectivity = infectivity;
         InfectedCount = infectedCount;

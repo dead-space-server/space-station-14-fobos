@@ -7,13 +7,14 @@ using Content.Server.DeadSpace.Virus.Systems;
 using Content.Shared.Chat.Prototypes;
 using Content.Shared.DeadSpace.TimeWindow;
 using Robust.Shared.Prototypes;
+using Content.Shared.DeadSpace.Virus.Prototypes;
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class CoughSymptom : VirusSymptomBase
 {
     [Dependency] private readonly EntityManager _entityManager = default!;
     public override VirusSymptom Type => VirusSymptom.Cough;
-    protected override float AddInfectivity => 0.1f;
+    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "CoughSymptom";
     private static readonly ProtoId<EmotePrototype> CoughEmote = "Cough";
 
     public CoughSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
@@ -46,6 +47,11 @@ public sealed class CoughSymptom : VirusSymptomBase
                             ignoreActionBlocker: true);
 
         virusSystem.InfectAround(host);
+    }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        base.ApplyDataEffect(data, add);
     }
 
     public override IVirusSymptom Clone()

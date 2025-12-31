@@ -4,6 +4,8 @@ using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
 using Content.Shared.Movement.Components;
+using Content.Shared.DeadSpace.Virus.Prototypes;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
@@ -11,7 +13,7 @@ public sealed class ParalyzedLegsSymptom : VirusSymptomBase
 {
     [Dependency] private readonly EntityManager _entityManager = default!;
     public override VirusSymptom Type => VirusSymptom.ParalyzedLegs;
-    protected override float AddInfectivity => 0.02f;
+    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "ParalyzedLegsSymptom";
     private bool _hasComp = false;
 
     public ParalyzedLegsSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
@@ -43,6 +45,11 @@ public sealed class ParalyzedLegsSymptom : VirusSymptomBase
     public override void DoEffect(EntityUid host, VirusComponent virus)
     {
 
+    }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        base.ApplyDataEffect(data, add);
     }
 
     public override IVirusSymptom Clone()
