@@ -60,7 +60,7 @@
   - type: AmmoCounter
   - type: GunRequiresWield 
   - type: Gun
-    fireRate: 2.5
+    fireRate: 1.75
     selectedMode: FullAuto
     availableModes:
     - FullAuto
@@ -121,6 +121,7 @@
       ballistic-ammo: !type:Container
   - type: Sprite
     sprite: Objects/Weapons/Guns/Ammunition/Magazine/Shotgun/m12.rsi
+    scale: 0.8, 0.8
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
@@ -147,6 +148,7 @@
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/saiga12/mag.rsi
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/saiga12/mag.rsi
+    scale: 0.8, 0.8
     layers:
     - state: pellets
       map: ["enum.GunVisualLayers.Base"]
@@ -166,6 +168,7 @@
     - MagazineForSAIGA12Burn
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/saiga12/mag.rsi
+    scale: 0.8, 0.8
     layers:
     - state: slug
       map: ["enum.GunVisualLayers.Base"]
@@ -345,7 +348,7 @@
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/abakan/inhands.rsi
     size: Large
   - type: Gun
-    fireRate: 6.5
+    fireRate: 7
     burstFireRate: 18
     selectedMode: FullAuto
     availableModes:

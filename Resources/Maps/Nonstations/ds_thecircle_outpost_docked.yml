@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 12/30/2025 23:06:11
-  entityCount: 2915
+  time: 12/31/2025 18:45:50
+  entityCount: 2912
 maps:
 - 1
 grids:
@@ -2368,7 +2368,7 @@ entities:
       pos: -18.5,7.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -3584.8875
+      secondsUntilStateChange: -3823.9336
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -3537,6 +3537,27 @@ entities:
     - type: Transform
       pos: -3.523393,14.617691
       parent: 2
+- proto: BoxFolderBlackEmpty
+  entities:
+  - uid: 2838
+    components:
+    - type: MetaData
+      name: инструкция по мутации
+    - type: Transform
+      pos: -25.783607,5.314131
+      parent: 2
+    - type: Storage
+      storedItems:
+        2843:
+          position: 0,0
+          _rotation: South
+    - type: ContainerContainer
+      containers:
+        storagebase: !type:Container
+          showEnts: False
+          occludes: True
+          ents:
+          - 2843
 - proto: BoxFolderBlueEmpty
   entities:
   - uid: 1613
@@ -13123,32 +13144,6 @@ entities:
     - type: Transform
       pos: -35.618263,3.7274747
       parent: 2
-  - uid: 2843
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -35.618263,3.7274747
-      parent: 2
-  - uid: 2844
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -35.50889,3.5555997
-      parent: 2
-  - uid: 2845
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -35.32139,3.5868497
-      parent: 2
-- proto: InfectorNecromorfSpawner
-  entities:
-  - uid: 2838
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -35.5,1.5
-      parent: 2
 - proto: Jukebox
   entities:
   - uid: 896
@@ -13536,6 +13531,27 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 4.11509,7.7368135
       parent: 1534
+  - uid: 2843
+    components:
+    - type: Transform
+      parent: 2838
+    - type: Paper
+      content: >-
+        1. Сперва вколите один из видов мутагена для мутаций в некроморфа заразителя, достаточно 5 унций
+
+
+        (Мы не разбирались какой там мутаген нужен, но точно подействуют стабильный и опасный)
+
+
+        2. Нужно уничтожить тело некроморфа заразителя, вытащив из него железа
+
+
+        3. Железа заразителя нужно пермолоть в блендере
+
+
+        4. Вколоть полученый реагент в тело некроморфа
+    - type: Physics
+      canCollide: False
 - proto: PaperScrap
   entities:
   - uid: 800
@@ -14370,19 +14386,6 @@ entities:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: -25.256842,4.511277
-      parent: 2
-- proto: SalvageHumanCorpseSpawner
-  entities:
-  - uid: 2828
-    components:
-    - type: Transform
-      pos: -31.5,-4.5
-      parent: 2
-  - uid: 2850
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -33.5,6.5
       parent: 2
 - proto: Saw
   entities:
@@ -15257,6 +15260,13 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -0.6732063,1.4512242
       parent: 1534
+- proto: SpawnMobGorilla
+  entities:
+  - uid: 2828
+    components:
+    - type: Transform
+      pos: -35.5,1.5
+      parent: 2
 - proto: SpawnPointTheCircleFighter
   entities:
   - uid: 959
