@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 12/31/2025 18:45:50
-  entityCount: 2912
+  time: 01/01/2026 19:25:31
+  entityCount: 2916
 maps:
 - 1
 grids:
@@ -2368,7 +2368,7 @@ entities:
       pos: -18.5,7.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -3823.9336
+      secondsUntilStateChange: -4198.151
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -8147,6 +8147,25 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 4.5216355,2.557319
       parent: 2
+- proto: CigaretteSyndicate
+  entities:
+  - uid: 962
+    components:
+    - type: Transform
+      pos: 4.681774,1.765625
+      parent: 2
+  - uid: 1076
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 4.681774,1.84375
+      parent: 2
+  - uid: 2845
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 4.697399,1.78125
+      parent: 2
 - proto: CigarGold
   entities:
   - uid: 826
@@ -8186,13 +8205,6 @@ entities:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: -11.6203375,10.499784
-      parent: 2
-- proto: CigPackSyndicate
-  entities:
-  - uid: 967
-    components:
-    - type: Transform
-      pos: 4.626301,1.8338689
       parent: 2
 - proto: ClockworkGrille
   entities:
@@ -9026,9 +9038,16 @@ entities:
   - uid: 1529
     components:
     - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -9.950028,16.38255
+      pos: -9.668653,16.763428
       parent: 2
+    - type: SolutionContainerManager
+      solutions:
+        drink:
+          temperature: 293.15
+          canReact: True
+          maxVol: 200
+          name: null
+          reagents: []
 - proto: DrinkShotGlass
   entities:
   - uid: 747
@@ -9095,13 +9114,11 @@ entities:
       parent: 2
 - proto: EventPlushieEsther
   entities:
-  - uid: 962
+  - uid: 967
     components:
     - type: Transform
-      pos: 3.7421165,2.7201977
+      pos: 4.044494,2.7539277
       parent: 2
-    missingComponents:
-    - Item
 - proto: FireAxeCabinetOpen
   entities:
   - uid: 788
@@ -12413,11 +12430,15 @@ entities:
     - type: Transform
       pos: -0.5,-10.5
       parent: 1534
+    - type: PowerSupplier
+      supplyRate: 60000
   - uid: 2520
     components:
     - type: Transform
       pos: 1.5,-10.5
       parent: 1534
+    - type: PowerSupplier
+      supplyRate: 60000
 - proto: GravityGeneratorMini
   entities:
   - uid: 1489
@@ -13350,6 +13371,21 @@ entities:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: -25.506842,5.401902
+      parent: 2
+- proto: MopBucket
+  entities:
+  - uid: 2850
+    components:
+    - type: Transform
+      pos: -33.5,6.5
+      parent: 2
+- proto: MopItem
+  entities:
+  - uid: 2916
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -33.586475,6.5962234
       parent: 2
 - proto: Morgue
   entities:
@@ -14925,12 +14961,6 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -20.5,13.5
       parent: 2
-  - uid: 1076
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 9.5,0.5
-      parent: 2
   - uid: 1077
     components:
     - type: Transform
@@ -15167,6 +15197,11 @@ entities:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 12.5,2.5
+      parent: 2
+  - uid: 2844
+    components:
+    - type: Transform
+      pos: 8.5,-1.5
       parent: 2
 - proto: SolarTracker
   entities:

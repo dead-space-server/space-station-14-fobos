@@ -164,6 +164,7 @@
 - type: entity
   parent: SyndicateIDCard
   id: UnitologyIDCard
+  description: Карта, с которой возможно красть доступы с другой карты.
   categories: [ HideSpawnMenu ]
   components:
   - type: IdCard
@@ -298,6 +299,7 @@
   icon:
     sprite: /Textures/_DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
     state: circle_engineer
+    
 ## РПС
 - type: entity
   parent: ClothingBeltMilitaryWebbing
