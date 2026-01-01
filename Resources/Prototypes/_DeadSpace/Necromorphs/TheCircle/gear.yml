@@ -271,6 +271,7 @@
   icon:
     sprite: /Textures/_DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
     state: circle_lead
+  allowSelection: false
 
 - type: jobIcon
   parent: JobIcon
@@ -278,6 +279,7 @@
   icon:
     sprite: /Textures/_DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
     state: circle_heavy
+  allowSelection: false
 
 - type: jobIcon
   parent: JobIcon
@@ -285,6 +287,7 @@
   icon:
     sprite: /Textures/_DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
     state: circle_light
+  allowSelection: false    
 
 - type: jobIcon
   parent: JobIcon
@@ -292,6 +295,7 @@
   icon:
     sprite: /Textures/_DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
     state: circle_medic
+  allowSelection: false
 
 - type: jobIcon
   parent: JobIcon
@@ -299,7 +303,8 @@
   icon:
     sprite: /Textures/_DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
     state: circle_engineer
-    
+  allowSelection: false
+
 ## РПС
 - type: entity
   parent: ClothingBeltMilitaryWebbing
