@@ -63,7 +63,7 @@
   - type: Hypospray
     onlyAffectsMobs: false
   - type: UseDelay
-    delay: 1.5
+    delay: 1.25
   - type: Appearance
   - type: SolutionContainerVisuals
     maxFillLevels: 6
@@ -191,6 +191,11 @@
   components:
   - type: IdCard
     jobIcon: JobIconUnitologyLead
+  - type: Access
+    tags:
+    - Maintenance
+    - SyndicateAgent
+    - NuclearOperative
 
 - type: entity
   parent: UnitologyIDCard
@@ -201,6 +206,11 @@
   components:
   - type: IdCard
     jobIcon: JobIconUnitologyHeavy
+  - type: Access
+    tags:
+    - Maintenance
+    - SyndicateAgent
+    - NuclearOperative
 
 - type: entity
   parent: UnitologyIDCard
@@ -211,6 +221,11 @@
   components:
   - type: IdCard
     jobIcon: JobIconUnitologyLight
+  - type: Access
+    tags:
+    - Maintenance
+    - SyndicateAgent
+    - NuclearOperative
 
 - type: entity
   parent: UnitologyIDCard
@@ -221,6 +236,11 @@
   components:
   - type: IdCard
     jobIcon: JobIconUnitologyEngineer
+  - type: Access
+    tags:
+    - Maintenance
+    - SyndicateAgent
+    - NuclearOperative
 
 - type: entity
   parent: UnitologyIDCard
@@ -231,6 +251,11 @@
   components:
   - type: IdCard
     jobIcon: JobIconUnitologyMedic
+  - type: Access
+    tags:
+    - Maintenance
+    - SyndicateAgent
+    - NuclearOperative
 
 - type: jobIcon
   parent: JobIcon
