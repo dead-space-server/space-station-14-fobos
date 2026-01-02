@@ -596,6 +596,18 @@
     },
 	{
       "name": "ARMOR-icon"
+    },
+	{
+      "name": "WARD-equipped-OUTERCLOTHING-vox",
+      "directions": 4
+    },
+	{
+      "name": "RD-equipped-OUTERCLOTHING-vox",
+      "directions": 4
+    },
+	{
+      "name": "ROBO-equipped-OUTERCLOTHING-vox",
+      "directions": 4
     }
   ]
 }
