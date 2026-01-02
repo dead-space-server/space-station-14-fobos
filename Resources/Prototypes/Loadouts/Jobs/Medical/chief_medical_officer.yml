@@ -39,6 +39,7 @@
   equipment:
     jumpsuit: ClothingUniformJumpskirtCMOTurtle
 
+# DS14-start
 - type: loadout
   id: CMOJumpskirtPencil
   equipment:
@@ -48,6 +49,7 @@
   id: CMOJumpskirtPencilAlt
   equipment:
     jumpsuit: ClothingUniformJumpskirtPencilCMOAlt
+# DS14-end
 
 # Head
 - type: loadout
@@ -124,7 +126,9 @@
   equipment:
     underweart: ClothingUnderwearTopBraCMO
 
+# DS14-start
 - type: loadout
   id: SocksCMO
   equipment:
     socks: ClothingUnderwearSocksCMO
+# DS14-end

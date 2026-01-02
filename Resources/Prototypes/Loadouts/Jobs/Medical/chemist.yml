@@ -9,10 +9,12 @@
   equipment:
     jumpsuit: ClothingUniformJumpskirtChemistry
 
+# DS14-start
 - type: loadout
   id: ChemistJumpskirtPencil
   equipment:
     jumpsuit: ClothingUniformJumpskirtPencilChemistry
+# DS14-end
 
 # Back
 - type: loadout
@@ -42,10 +44,13 @@
     outerClothing: ClothingOuterWinterChem
 
 # Shoes
+
+# DS14-start
 - type: loadout
   id: ShoesBootsSterileChemist
   equipment:
     shoes: ClothingShoesBootsSterileMedicalChemist
+# DS14-end
 
 # Underwear
 - type: loadout
@@ -72,7 +77,9 @@
   equipment:
     underweart: ClothingUnderwearTopBraChemist
 
+# DS14-start
 - type: loadout
   id: SocksChemist
   equipment:
     socks: ClothingUnderwearSocksChemist
+# DS14-end

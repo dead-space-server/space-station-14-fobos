@@ -476,6 +476,14 @@
   - UnderwearBottomPantiesVirologist
 
 - type: loadoutGroup
+  id: MedicalShoesChemist
+  name: loadout-group-chemist-doctor-shoes
+  loadouts:
+  - ShoesBootsSterileChemist
+  - WhiteShoes
+  - MedicalWinterBoots
+
+- type: loadoutGroup
   id: CMOSocks
   name: loadout-group-cmo-socks
   loadouts:

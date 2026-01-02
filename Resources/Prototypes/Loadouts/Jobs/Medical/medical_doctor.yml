@@ -114,10 +114,12 @@
   equipment:
     jumpsuit: UniformScrubsColorPurple
 
+# DS14-start
 - type: loadout
   id: MedicalDoctorJumpskirtPencil
   equipment:
     jumpsuit: ClothingUniformJumpskirtPencilMedical
+# DS14-end
 
 # Back
 - type: loadout
@@ -155,10 +157,12 @@
   equipment:
     shoes: ClothingShoesBootsWinterMed
 
+# DS14-start
 - type: loadout
   id: ShoesBootsSterileMedical
   equipment:
     shoes: ClothingShoesBootsSterileMedical
+# DS14-end
 
 # ID
 #- type: loadout
@@ -222,6 +226,7 @@
   equipment:
     underweart: ClothingUnderwearTopBraDoctor
 
+# DS14-start
 - type: loadout
   id: SocksDoctor
   equipment:
@@ -236,3 +241,4 @@
   id: SocksNylonWhite
   equipment:
     socks: ClothingUnderwearSocksNylonWhite
+# DS14-end

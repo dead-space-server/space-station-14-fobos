@@ -15,10 +15,12 @@
   equipment:
     jumpsuit: ClothingUniformJumpskirtParamedic
 
+# DS14-start
 - type: loadout
   id: ParamedicJumpsuitAlt
   equipment:
     jumpsuit: ClothingUniformJumpsuitParamedicAlt
+# DS14-end
 
 # Outer clothing
 - type: loadout
@@ -31,10 +33,12 @@
   equipment:
     outerClothing: ClothingOuterWinterPara
 
+# DS14-start
 - type: loadout
   id: ParamedicWindbreakerAlt
   equipment:
     outerClothing: ClothingOuterCoatParamedicALT
+# DS14-end
 
 # Shoes
 - type: loadout
@@ -67,7 +71,9 @@
   equipment:
     underweart: ClothingUnderwearTopBraParamedic
 
+# DS14-start
 - type: loadout
   id: SocksParamedic
   equipment:
     socks: ClothingUnderwearSocksParamedic
+# DS14-end
