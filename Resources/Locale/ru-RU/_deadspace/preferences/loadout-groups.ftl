@@ -67,7 +67,7 @@ loadout-group-virologist-underwear = Вирусолог, нижнее бельё
 loadout-group-cmo-socks = Главный врач, носки
 loadout-group-medical-socks = Врач, носки
 loadout-group-chemist-socks = Химик, носки 
-ParamedicSocks = Парамедик, носки
+loadout-group-paramedic-socks = Парамедик, носки
 loadout-group-psychologist-socks = Психолог, носки
 loadout-group-physiciant-socks = Ведущий врач, носки
 # Centcomm
