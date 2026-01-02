@@ -15,6 +15,11 @@
   equipment:
     jumpsuit: ClothingUniformJumpskirtParamedic
 
+- type: loadout
+  id: ParamedicJumpsuitAlt
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitParamedicAlt
+
 # Outer clothing
 - type: loadout
   id: ParamedicWindbreaker
@@ -25,6 +30,11 @@
   id: ParamedicWintercoat
   equipment:
     outerClothing: ClothingOuterWinterPara
+
+- type: loadout
+  id: ParamedicWindbreakerAlt
+  equipment:
+    outerClothing: ClothingOuterCoatParamedicALT
 
 # Shoes
 - type: loadout
@@ -56,3 +66,8 @@
     proto: FemaleUnderwear
   equipment:
     underweart: ClothingUnderwearTopBraParamedic
+
+- type: loadout
+  id: SocksParamedic
+  equipment:
+    socks: ClothingUnderwearSocksParamedic

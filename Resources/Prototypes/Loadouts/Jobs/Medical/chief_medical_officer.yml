@@ -39,6 +39,16 @@
   equipment:
     jumpsuit: ClothingUniformJumpskirtCMOTurtle
 
+- type: loadout
+  id: CMOJumpskirtPencil
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtPencilCMO
+
+- type: loadout
+  id: CMOJumpskirtPencilAlt
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtPencilCMOAlt
+
 # Head
 - type: loadout
   id: ChiefMedicalOfficerBeret
@@ -113,3 +123,8 @@
     proto: FemaleUnderwear
   equipment:
     underweart: ClothingUnderwearTopBraCMO
+
+- type: loadout
+  id: SocksCMO
+  equipment:
+    socks: ClothingUnderwearSocksCMO

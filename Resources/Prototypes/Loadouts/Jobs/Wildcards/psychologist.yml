@@ -8,3 +8,14 @@
   id: PsychologistJumpskirt
   equipment:
     jumpsuit: ClothingUniformJumpskirtPsychologist
+
+- type: loadout
+  id: PsychologistJumpskirtPencil
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtPencilPsychologist
+
+# Underwear
+- type: loadout
+  id: SocksPsychologist
+  equipment:
+    socks: ClothingUnderwearSocksPsychologist

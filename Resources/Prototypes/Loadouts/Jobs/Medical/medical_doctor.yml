@@ -114,6 +114,11 @@
   equipment:
     jumpsuit: UniformScrubsColorPurple
 
+- type: loadout
+  id: MedicalDoctorJumpskirtPencil
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtPencilMedical
+
 # Back
 - type: loadout
   id: MedicalDoctorBackpack
@@ -149,6 +154,11 @@
   id: MedicalWinterBoots
   equipment:
     shoes: ClothingShoesBootsWinterMed
+
+- type: loadout
+  id: ShoesBootsSterileMedical
+  equipment:
+    shoes: ClothingShoesBootsSterileMedical
 
 # ID
 #- type: loadout
@@ -211,3 +221,18 @@
     proto: FemaleUnderwear
   equipment:
     underweart: ClothingUnderwearTopBraDoctor
+
+- type: loadout
+  id: SocksDoctor
+  equipment:
+    socks: ClothingUnderwearSocksDoctor
+
+- type: loadout
+  id: SocksNylon
+  equipment:
+    socks: ClothingUnderwearSocksNylon
+
+- type: loadout
+  id: SocksNylonWhite
+  equipment:
+    socks: ClothingUnderwearSocksNylonWhite

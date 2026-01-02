@@ -9,6 +9,11 @@
   equipment:
     jumpsuit: ClothingUniformJumpskirtChemistry
 
+- type: loadout
+  id: ChemistJumpskirtPencil
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtPencilChemistry
+
 # Back
 - type: loadout
   id: ChemistBackpack
@@ -36,6 +41,12 @@
   equipment:
     outerClothing: ClothingOuterWinterChem
 
+# Shoes
+- type: loadout
+  id: ShoesBootsSterileChemist
+  equipment:
+    shoes: ClothingShoesBootsSterileMedicalChemist
+
 # Underwear
 - type: loadout
   id: UnderwearBottomBoxersChemist
@@ -60,3 +71,8 @@
     proto: FemaleUnderwear
   equipment:
     underweart: ClothingUnderwearTopBraChemist
+
+- type: loadout
+  id: SocksChemist
+  equipment:
+    socks: ClothingUnderwearSocksChemist

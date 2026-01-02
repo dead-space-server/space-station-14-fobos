@@ -1679,8 +1679,10 @@
   loadouts:
   - ChiefMedicalOfficerJumpsuit
   - ChiefMedicalOfficerJumpskirt
+  - CMOJumpskirtPencil
   - ChiefMedicalOfficerTurtleneckJumpsuit
   - ChiefMedicalOfficerTurtleneckJumpskirt
+  - CMOJumpskirtPencilAlt
 
 - type: loadoutGroup
   id: ChiefMedicalOfficerOuterClothing
@@ -1711,6 +1713,7 @@
   id: ChiefMedicalOfficerShoes
   name: loadout-group-chief-medical-officer-shoes
   loadouts:
+  - ShoesBootsSterileMedical
   - BrownShoes
   - MedicalWinterBoots
   - ShoesBootsLaceup
@@ -1744,6 +1747,7 @@
   loadouts:
   - MedicalDoctorJumpsuit
   - MedicalDoctorJumpskirt
+  - MedicalDoctorJumpskirtPencil
   # - SeniorPhysicianJumpsuit
   # - SeniorPhysicianJumpskirt
   - MedicalBlueScrubs
@@ -1771,6 +1775,15 @@
   id: MedicalShoes
   name: loadout-group-medical-doctor-shoes
   loadouts:
+  - ShoesBootsSterileMedical
+  - WhiteShoes
+  - MedicalWinterBoots
+
+- type: loadoutGroup
+  id: MedicalShoesChemist
+  name: loadout-group-chemist-doctor-shoes
+  loadouts:
+  - ShoesBootsSterileChemist
   - WhiteShoes
   - MedicalWinterBoots
 
@@ -1830,6 +1843,7 @@
   loadouts:
   - ChemistJumpsuit
   - ChemistJumpskirt
+  - ChemistJumpskirtPencil
 
 - type: loadoutGroup
   id: ChemistOuterClothing
@@ -1870,6 +1884,7 @@
   name: loadout-group-paramedic-jumpsuit
   loadouts:
   - ParamedicJumpsuit
+  - ParamedicJumpsuitAlt
   - ParamedicJumpskirt
 
 - type: loadoutGroup
@@ -1879,11 +1894,13 @@
   loadouts:
   - ParamedicWindbreaker
   - ParamedicWintercoat
+  - ParamedicWindbreakerAlt
 
 - type: loadoutGroup
   id: ParamedicShoes
   name: loadout-group-paramedic-shoes
   loadouts:
+  - ShoesBootsSterileMedical
   - BlueShoes
   - WhiteShoes
   - MedicalWinterBoots
@@ -1951,6 +1968,7 @@
   loadouts:
   - PsychologistJumpsuit
   - PsychologistJumpskirt
+  - PsychologistJumpskirtPencil
 
 - type: loadoutGroup
   id: ReporterUnderwear

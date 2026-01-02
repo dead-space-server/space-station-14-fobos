@@ -26,10 +26,10 @@
   equipment:
     id: ChemistryPDA
     ears: ClothingHeadsetMedical
+    head: ClothingHeadHatMedBeretChemist
     belt: ChemBag
     pocket1: HandLabeler
     eyes: ClothingEyesGlassesChemical
-    socks: ClothingUnderwearSocksChemist
   #storage:
     #back:
     #- Stuff
@@ -38,7 +38,7 @@
   id: ChemistChameleonOutfit
   job: Chemist
   equipment:
-    head: ClothingHeadHatBeretMedic
+    head: ClothingHeadHatMedBeretChemist
     mask: ClothingMaskSterile
     neck: ClothingNeckStethoscope
     outerClothing: ClothingOuterCoatLabChem

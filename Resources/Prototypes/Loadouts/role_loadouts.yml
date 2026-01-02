@@ -478,11 +478,11 @@
   - ChiefMedicalOfficerHead
   - MedicalMask
   - ChiefMedicalOfficerJumpsuit
-  - MedicalGloves
   - ChiefMedicalOfficerBackpack
   - ChiefMedicalOfficerOuterClothing
   - ChiefMedicalOfficerNeck
   - ChiefMedicalOfficerShoes
+  - CMOSocks
   # - MedicalEyewear
   - SurvivalMedical
   - Trinkets
@@ -500,6 +500,7 @@
   - MedicalBackpack
   - MedicalDoctorOuterClothing
   - MedicalShoes
+  - DoctorSocks
 #  - MedicalDoctorPDA # DS14-disabled
   - MedicalEyewear
   - SurvivalMedical
@@ -546,7 +547,8 @@
   - MedicalGloves
   - ChemistBackpack
   - ChemistOuterClothing
-  - MedicalShoes
+  - MedicalShoesChemist
+  - ChemistSocks
   - SurvivalMedical
   - Trinkets
   - GroupSpeciesBreathToolMedical
@@ -563,6 +565,7 @@
   - MedicalBackpack
   - ParamedicOuterClothing
   - ParamedicShoes
+  - ParamedicSocks
   - MedicalEyewear
   - SurvivalMedical
   - Trinkets
@@ -599,6 +602,7 @@
   - GroupTankHarness
   - PsychologistJumpsuit
   - MedicalBackpack
+  - PsychologistSocks
   - Glasses
   - Survival
   - Trinkets
