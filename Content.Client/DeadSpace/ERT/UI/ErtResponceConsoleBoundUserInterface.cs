@@ -24,7 +24,6 @@ namespace Content.Client.DeadSpace.ERT.UI
 
             _window = this.CreateWindow<ErtResponceConsoleWindow>();
 
-            // Покупка симптома
             _window.ResponceTeamButton.OnPressed += _ =>
                 SendMessage(new ErtResponceConsoleUiButtonPressedMessage(
                     ErtResponceConsoleUiButton.ResponceErt,

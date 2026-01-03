@@ -45,8 +45,8 @@ public abstract class VirusSymptomBase : IVirusSymptom
 
             timedWindowSystem.Reset(
                 EffectTimedWindow,
-                EffectTimedWindow.MinSeconds * (1 / timeMultiplier),
-                EffectTimedWindow.MaxSeconds * (1 / timeMultiplier)
+                (float)EffectTimedWindow.Min.TotalSeconds * (1 / timeMultiplier),
+                (float)EffectTimedWindow.Max.TotalSeconds * (1 / timeMultiplier)
             );
         }
     }

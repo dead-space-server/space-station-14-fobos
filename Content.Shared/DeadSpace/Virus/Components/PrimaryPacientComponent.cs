@@ -27,7 +27,7 @@ public sealed partial class PrimaryPacientComponent : Component
 
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public TimedWindow UpdateWindow = new TimedWindow(1f, 5f);
+    public TimedWindow UpdateWindow = new TimedWindow(TimeSpan.FromSeconds(1f), TimeSpan.FromSeconds(5f));
 
     public PrimaryPacientComponent(EntityUid sentientVirus, string strainId)
     {

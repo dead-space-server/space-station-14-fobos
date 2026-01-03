@@ -44,7 +44,7 @@ public sealed partial class VirusComponent : Component
     /// </summary>
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public TimedWindow VirusUpdateWindow = new TimedWindow(1f, 1f);
+    public TimedWindow VirusUpdateWindow = new TimedWindow(TimeSpan.FromSeconds(1f), TimeSpan.FromSeconds(1f));
 
     public VirusComponent(VirusData data)
     {

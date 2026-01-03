@@ -1,6 +1,7 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Content.Shared.DeadSpace.ERT.Prototypes;
+using Content.Shared.Shuttles.Systems;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 
@@ -24,11 +25,11 @@ public sealed class ErtResponceConsoleBoundUserInterfaceState : BoundUserInterfa
 public sealed class ErtResponceConsoleUiButtonPressedMessage : BoundUserInterfaceMessage
 {
     public readonly ErtResponceConsoleUiButton Button;
-    public ProtoId<ErtTeamPrototype>? Team;
+    public string? Team;
 
     public ErtResponceConsoleUiButtonPressedMessage(
         ErtResponceConsoleUiButton button,
-        ProtoId<ErtTeamPrototype>? team = null
+        string? team = null
         )
     {
         Button = button;
@@ -45,6 +46,38 @@ public enum ErtResponceConsoleUiButton : byte
 
 [Serializable, NetSerializable]
 public enum ErtResponceConsoleUiKey : byte
+{
+    Key
+}
+
+// ErtComputerShuttle
+
+[Serializable, NetSerializable]
+public sealed class ErtComputerShuttleBoundUserInterfaceState : BoundUserInterfaceState
+{ }
+
+[Serializable, NetSerializable]
+public sealed class ErtComputerShuttleUiButtonPressedMessage : BoundUserInterfaceMessage
+{
+    public readonly ErtComputerShuttleUiButton Button;
+
+    public ErtComputerShuttleUiButtonPressedMessage(
+        ErtComputerShuttleUiButton button
+        )
+    {
+        Button = button;
+    }
+}
+
+[Serializable, NetSerializable]
+public enum ErtComputerShuttleUiButton : byte
+{
+    Evacuation,
+    CancelEvacuation
+}
+
+[Serializable, NetSerializable]
+public enum ErtComputerShuttleUiKey : byte
 {
     Key
 }

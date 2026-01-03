@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 12/07/2025 13:55:03
-  entityCount: 1312
+  time: 01/03/2026 12:15:34
+  entityCount: 1313
 maps: []
 grids:
 - 1
@@ -3811,6 +3811,13 @@ entities:
     - type: Physics
       canCollide: False
     - type: InsideEntityStorage
+- proto: ErtSpawnPoint
+  entities:
+  - uid: 1313
+    components:
+    - type: Transform
+      pos: 0.5,-6.5
+      parent: 1
 - proto: FireAlarm
   entities:
   - uid: 476

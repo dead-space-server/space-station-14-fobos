@@ -2,6 +2,7 @@
 
 using Robust.Shared.Prototypes;
 using Content.Shared.DeadSpace.TimeWindow;
+using Content.Shared.Storage;
 
 namespace Content.Shared.DeadSpace.ERT.Prototypes;
 
@@ -17,19 +18,25 @@ public sealed partial class ErtTeamPrototype : IPrototype
     [DataField]
     public string Description { get; private set; } = string.Empty;
 
+    [DataField]
+    public string? CancelMessage { get; private set; }
+
     [DataField("rule", required: true)]
     public EntProtoId ErtRule;
 
     [DataField("spawnWindow")]
-    public TimedWindow TimeWindowToSpawn = new TimedWindow(600f, 900f);
-
-    [DataField]
-    public int Min = 30000;
-
-    [DataField]
-    public float Max = 30000;
+    public TimedWindow TimeWindowToSpawn = new TimedWindow(TimeSpan.FromSeconds(600f), TimeSpan.FromSeconds(900f));
 
     [DataField]
     public int Price = 30000;
+
+    /// <summary>
+    ///     Особый Entity без которого не обойтись для спавна отряда.
+    /// </summary>
+    [DataField]
+    public EntProtoId? Special = null;
+
+    [DataField]
+    public List<EntitySpawnEntry> Spawns = new();
 }
 

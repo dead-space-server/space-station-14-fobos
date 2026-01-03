@@ -629,7 +629,7 @@ public sealed partial class VirusSystem : SharedVirusSystem
         if (!_prototype.TryIndex(symptomId, out var proto))
             throw new Exception($"No prototype for symptom {symptomId}");
 
-        var newWindow = new TimedWindow(proto.MinInterval, proto.MaxInterval);
+        var newWindow = new TimedWindow(TimeSpan.FromSeconds(proto.MinInterval), TimeSpan.FromSeconds(proto.MaxInterval));
         return proto.SymptomType switch
         {
             VirusSymptom.Cough =>

@@ -1,6 +1,6 @@
 - type: entity
   parent: BaseGameRule
-  id: ShuttleCBURNSCNT
+  id: SpawnCburnShuttle
   components:
   - type: StationEvent
     startAnnouncement: station-event-response-team-arrival
@@ -9,11 +9,12 @@
     willNotStartRandomly: true
   - type: RuleGrids
   - type: LoadMapRule
-    preloadedGrid: CBURNSCNTShuttle
+    preloadedGrid: CburnShuttle
+  - type: ErtSpawnRule
 
 - type: entity
   parent: BaseGameRule
-  id: ShuttleCBURN
+  id: SpawnAmberShuttle
   components:
   - type: StationEvent
     startAnnouncement: station-event-response-team-arrival
@@ -22,4 +23,75 @@
     willNotStartRandomly: true
   - type: RuleGrids
   - type: LoadMapRule
-    preloadedGrid: CBURNShuttle
+    preloadedGrid: AmberShuttle
+  - type: ErtSpawnRule
+
+- type: entity
+  parent: BaseGameRule
+  id: SpawnGammaShuttle
+  components:
+  - type: StationEvent
+    startAnnouncement: station-event-response-team-arrival
+    startAudio:
+      path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
+    willNotStartRandomly: true
+  - type: RuleGrids
+  - type: LoadMapRule
+    preloadedGrid: GammaShuttle
+  - type: ErtSpawnRule
+
+- type: entity
+  parent: BaseGameRule
+  id: SpawnCentCommOfficialShuttle
+  components:
+  - type: StationEvent
+    startAnnouncement: station-event-response-team-arrival
+    startAudio:
+      path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
+    willNotStartRandomly: true
+  - type: RuleGrids
+  - type: LoadMapRule
+    preloadedGrid: CentCommOfficialShuttle
+  - type: ErtSpawnRule
+
+- type: entity
+  parent: BaseGameRule
+  id: SpawnJanitorsShuttle
+  components:
+  - type: StationEvent
+    startAnnouncement: station-event-response-team-arrival
+    startAudio:
+      path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
+    willNotStartRandomly: true
+  - type: RuleGrids
+  - type: LoadMapRule
+    preloadedGrid: JanitorsShuttle
+  - type: ErtSpawnRule
+
+- type: entity
+  parent: BaseGameRule
+  id: SpawnEngineersShuttle
+  components:
+  - type: StationEvent
+    startAnnouncement: station-event-response-team-arrival
+    startAudio:
+      path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
+    willNotStartRandomly: true
+  - type: RuleGrids
+  - type: LoadMapRule
+    preloadedGrid: EngineersShuttle
+  - type: ErtSpawnRule
+
+- type: entity
+  parent: BaseGameRule
+  id: SpawnSierraShuttle
+  components:
+  - type: StationEvent
+    startAnnouncement: station-event-response-team-arrival
+    startAudio:
+      path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
+    willNotStartRandomly: true
+  - type: RuleGrids
+  - type: LoadMapRule
+    preloadedGrid: SierraShuttle
+  - type: ErtSpawnRule

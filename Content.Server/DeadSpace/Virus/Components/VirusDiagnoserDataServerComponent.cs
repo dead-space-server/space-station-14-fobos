@@ -34,7 +34,7 @@ public sealed partial class VirusDiagnoserDataServerComponent : Component
     /// </summary>
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public TimedWindow UpdateWindow = new TimedWindow(1f, 1f);
+    public TimedWindow UpdateWindow = new TimedWindow(TimeSpan.FromSeconds(1f), TimeSpan.FromSeconds(1f));
 
     /// <summary>
     ///     Множитель получаемых очков за каждый хранимый симптом.

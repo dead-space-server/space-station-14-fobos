@@ -92,7 +92,7 @@ public abstract partial class SharedVirusSystem : EntitySystem
     /// <summary>
     ///     Стандартное окно времени проявления симптом.
     /// </summary>
-    protected TimedWindow DefaultSymptomWindow = default!;
+    protected TimedWindow DefaultSymptomWindow = new TimedWindow(TimeSpan.FromSeconds(15f), TimeSpan.FromSeconds(60f));
 
     /// <summary>
     ///     Метка для сущностей, которые не могут проявить симпптомы.
@@ -103,7 +103,6 @@ public abstract partial class SharedVirusSystem : EntitySystem
         base.Initialize();
 
         _sawmill = _logManager.GetSawmill("SharedVirusSystem");
-        DefaultSymptomWindow = new TimedWindow(15f, 60f);
     }
 
     public int GetSymptomPrice(VirusData data, ProtoId<VirusSymptomPrototype> symptomId)

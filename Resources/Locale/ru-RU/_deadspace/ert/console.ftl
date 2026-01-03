@@ -8,8 +8,15 @@ ert-responce-balance-label =
 
 ert-responce-caused-messager =
     Центральное командование NanoTrasen подтверждает контракт.
-    Отряд $name мобилизован и выдвинут.
+    Отряд { $team } мобилизован и выдвинут.
     Расчётное время прибытия: минимально возможное.
 
 ert-responce-call-cancel =
     Центральное командование получило ваш сигнал, ожидайте прибытия отряда.
+
+ert-computer-window-title = Компьютер ОБР
+
+ert-computer-evac-title = начать эвакуацию
+ert-computer-evac-cancle-title = отменить эвакуацию
+
+ert-computer-time-until-eval = Осталось { $time } секунд до эвакуации.

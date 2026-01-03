@@ -33,7 +33,7 @@ public sealed partial class VirusMutationComponent : Component
     ///     Окно времени обновления мутации.
     /// </summary>
     [ViewVariables(VVAccess.ReadOnly)]
-    public TimedWindow UpdateWindow = new TimedWindow(3f, 60f);
+    public TimedWindow UpdateWindow = new TimedWindow(TimeSpan.FromSeconds(3f), TimeSpan.FromSeconds(60f));
 
     #region Visualizer
 

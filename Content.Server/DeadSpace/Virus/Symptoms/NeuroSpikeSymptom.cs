@@ -24,7 +24,7 @@ public sealed class NeuroSpikeSymptom : VirusSymptomBase
     {
         base.OnAdded(host, virus);
 
-        _duration = new TimedWindow(5f, 10f);
+        _duration = new TimedWindow(TimeSpan.FromSeconds(5f), TimeSpan.FromSeconds(10f));
     }
 
     public override void OnRemoved(EntityUid host, VirusComponent virus)

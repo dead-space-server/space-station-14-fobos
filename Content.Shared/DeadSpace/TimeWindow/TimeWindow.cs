@@ -8,11 +8,11 @@ namespace Content.Shared.DeadSpace.TimeWindow;
 [DataDefinition]
 public sealed partial class TimedWindow
 {
-    [DataField("min")]
-    public float MinSeconds;
+    [DataField]
+    public TimeSpan Min;
 
-    [DataField("max")]
-    public float MaxSeconds;
+    [DataField]
+    public TimeSpan Max;
 
     /// <summary>
     ///     Остаток времени до следующего события.
@@ -21,15 +21,15 @@ public sealed partial class TimedWindow
     [ViewVariables(VVAccess.ReadOnly)]
     public TimeSpan Remaining { get; set; } = TimeSpan.Zero;
 
-    public TimedWindow(float minSeconds, float maxSeconds)
+    public TimedWindow(TimeSpan minSeconds, TimeSpan maxSeconds)
     {
-        MinSeconds = minSeconds;
-        MaxSeconds = maxSeconds;
+        Min = minSeconds;
+        Max = maxSeconds;
     }
 
     public TimedWindow Clone()
     {
-        return new TimedWindow(MinSeconds, MaxSeconds);
+        return new TimedWindow(Min, Max);
     }
 }
 
@@ -84,10 +84,10 @@ public sealed class TimedWindowSystem : EntitySystem
 
     private TimeSpan GetRandomDuration(TimedWindow window)
     {
-        if (window.MinSeconds == window.MaxSeconds)
-            return TimeSpan.FromSeconds(window.MinSeconds);
+        if (window.Min == window.Max)
+            return window.Min;
 
-        var seconds = _random.NextFloat(window.MinSeconds, window.MaxSeconds);
+        var seconds = _random.NextFloat((float)window.Min.TotalSeconds, (float)window.Max.TotalSeconds);
         return TimeSpan.FromSeconds(seconds);
     }
 

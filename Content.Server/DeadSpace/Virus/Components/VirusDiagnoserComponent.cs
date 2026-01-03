@@ -20,7 +20,7 @@ public sealed partial class VirusDiagnoserComponent : Component
     /// </summary>
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public TimedWindow AnimationWindow = new TimedWindow(4f, 4f);
+    public TimedWindow AnimationWindow = new TimedWindow(TimeSpan.FromSeconds(4f), TimeSpan.FromSeconds(4f));
 
     /// <summary>
     ///     Данные которые печатаются в отчёт или генерируются в реагент.

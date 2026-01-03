@@ -50,7 +50,7 @@ public sealed class ErtResponceConsoleSystem : EntitySystem
         {
             case ErtResponceConsoleUiButton.ResponceErt:
                 {
-                    var price = _ertResponceSystem.GetErtPrice(args.Team.Value);
+                    var price = _ertResponceSystem.GetErtPrice(args.Team);
 
                     var balance = _cargoSystem.GetBalanceFromAccount(
                         (station.Value, stationAccount),
@@ -60,7 +60,7 @@ public sealed class ErtResponceConsoleSystem : EntitySystem
                     if (balance < price)
                         return;
 
-                    if (_ertResponceSystem.TryCallErt(args.Team.Value))
+                    if (_ertResponceSystem.TryCallErt(args.Team))
                         _cargoSystem.UpdateBankAccount(
                             (station.Value, stationAccount),
                             -price,
