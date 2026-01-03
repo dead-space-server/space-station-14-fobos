@@ -8,7 +8,6 @@
     damage:
       types:
         Piercing: 16
-      armorPiercingLevel: 2
 
 - type: entity
   id: BulletPistolPractice
