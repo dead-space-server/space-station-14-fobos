@@ -4,9 +4,6 @@
   description: job-description-blue-shield-officer
   playTimeTracker: JobBlueShieldOfficer
   requirements:
-    - !type:DepartmentTimeRequirement
-      department: Engineering
-      time: 36000 # 10 hours
     - !type:RoleTimeRequirement
       role: JobHeadOfSecurity
       time: 36000 # 10 hours
