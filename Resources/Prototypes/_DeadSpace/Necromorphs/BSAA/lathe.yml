@@ -71,10 +71,3 @@
   materials:
     Steel: 100
     Plastic: 400
-
-- type: latheRecipe
-  parent: BaseAmmoRecipe
-  id: ADTExtMagazineRifle
-  result: ADTExtMagazineRifle
-  materials:
-    Steel: 400
