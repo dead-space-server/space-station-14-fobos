@@ -60,7 +60,7 @@
   - type: AmmoCounter
   - type: GunRequiresWield 
   - type: Gun
-    fireRate: 1.75
+    fireRate: 2
     selectedMode: FullAuto
     availableModes:
     - FullAuto
@@ -111,7 +111,7 @@
     whitelist:
       tags:
         - ShellShotgun
-    capacity: 8
+    capacity: 10
     soundRack:
       path: /Audio/_Corvax/Weapons/Guns/Cock/shotgun_cock.ogg
   - type: Item
@@ -139,7 +139,7 @@
   components:
   - type: BallisticAmmoProvider
     proto: ShellShotgun
-    capacity: 8
+    capacity: 10
   - type: Tag
     tags:
     - MagazineForSAIGA12
@@ -161,7 +161,7 @@
   components:
   - type: BallisticAmmoProvider
     proto: ShellShotgunIncendiary
-    capacity: 8
+    capacity: 10
   - type: Tag
     tags:
     - MagazineForSAIGA12Burn
@@ -184,7 +184,7 @@
     - DrumForSAIGA12Burn
   - type: BallisticAmmoProvider
     proto: ShellShotgunIncendiary
-    capacity: 16
+    capacity: 18
   - type: Item
     size: Normal
   - type: Sprite
@@ -205,7 +205,7 @@
     - DrumForSAIGA12
   - type: BallisticAmmoProvider
     proto: ShellShotgun
-    capacity: 16
+    capacity: 18
   - type: Item
     size: Normal
   - type: Sprite
@@ -319,6 +319,7 @@
   - type: BallisticAmmoProvider
     proto: CartridgeCaselessRifleIncendiary
   - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/veresk/caseless_rifle_mag_burn.rsi
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]

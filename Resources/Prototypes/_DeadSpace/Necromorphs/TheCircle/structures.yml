@@ -97,7 +97,7 @@
   parent: ComputerComms
   id: UnitologyComputerComms
   name: консоль связи отряда "Круг"
-  description: Эта штука заставит станцию трепещась от страха!
+  description: Эта штука заставит станцию трепещать от страха!
   components:
   - type: Sprite
     layers:
@@ -121,8 +121,19 @@
     announceSentBy: false
     sound: /Audio/_DeadSpace/Necromorfs/TheCircle/console-sfx/unitology-alert.ogg
   - type: Computer
-    board: SyndicateCommsComputerCircuitboard
+    board: UnitologyComputerCircuitboard
   - type: PointLight
     radius: 1.5
     energy: 1.6
     color: "#D70040"
+
+- type: entity
+  parent: BaseComputerCircuitboard
+  id: UnitologyComputerCircuitboard
+  name: плата консоли объявление "Круг"
+  description: Громко.
+  components:
+  - type: Sprite
+    state: cpu_syndicate
+  - type: ComputerBoard
+    prototype: UnitologyComputerComms
