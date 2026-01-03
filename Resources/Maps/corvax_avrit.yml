@@ -35584,8 +35584,6 @@ entities:
       containerName: drink
       container: 57
   - uid: 62
-    mapInit: true
-    paused: true
     components:
     - type: MetaData
       name: solution - drink
@@ -35603,8 +35601,6 @@ entities:
       containerName: drink
       container: 61
   - uid: 64
-    mapInit: true
-    paused: true
     components:
     - type: MetaData
       name: solution - drink
@@ -53840,8 +53836,6 @@ entities:
 - proto: AlertsComputerCircuitboard
   entities:
   - uid: 1505
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 1504
@@ -54008,8 +54002,6 @@ entities:
 - proto: AnalysisComputerCircuitboard
   entities:
   - uid: 1527
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 1526
@@ -54056,8 +54048,6 @@ entities:
 - proto: AnomalyVesselCircuitboard
   entities:
   - uid: 1528
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 1526
@@ -56164,8 +56154,6 @@ entities:
 - proto: APECircuitboard
   entities:
   - uid: 1529
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 1526
@@ -56223,8 +56211,6 @@ entities:
 - proto: ArtifactAnalyzerMachineCircuitboard
   entities:
   - uid: 1530
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 1526
@@ -70660,8 +70646,6 @@ entities:
 - proto: AtmosMonitoringComputerCircuitboard
   entities:
   - uid: 1506
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 1504
@@ -74549,8 +74533,6 @@ entities:
 - proto: BiogeneratorMachineCircuitboard
   entities:
   - uid: 2424
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 2423
@@ -173455,8 +173437,6 @@ entities:
 - proto: ChemDispenserMachineCircuitboard
   entities:
   - uid: 20013
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 20012
@@ -173720,8 +173700,6 @@ entities:
 - proto: ChemMasterMachineCircuitboard
   entities:
   - uid: 20014
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 20012
@@ -184580,8 +184558,6 @@ entities:
 - proto: ComputerMassMediaCircuitboard
   entities:
   - uid: 2425
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 2423
@@ -188333,8 +188309,6 @@ entities:
 - proto: CrewMonitoringComputerCircuitboard
   entities:
   - uid: 20015
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 20012
@@ -188670,8 +188644,6 @@ entities:
 - proto: CryoPodMachineCircuitboard
   entities:
   - uid: 20016
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 20012
@@ -214641,8 +214613,6 @@ entities:
 - proto: DrinkMugOne
   entities:
   - uid: 61
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       pos: 7.6207447,-4.985614
@@ -301199,8 +301169,6 @@ entities:
 - proto: HydroponicsTrayMachineCircuitboard
   entities:
   - uid: 2426
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 2423
@@ -310110,8 +310078,6 @@ entities:
 - proto: MicrowaveMachineCircuitboard
   entities:
   - uid: 2427
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 2423
@@ -315716,8 +315682,6 @@ entities:
 - proto: Pitcher
   entities:
   - uid: 63
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       pos: -51.311832,-24.315573
@@ -317365,8 +317329,6 @@ entities:
 - proto: PortableGeneratorPacmanMachineCircuitboard
   entities:
   - uid: 1507
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 1504
@@ -317382,8 +317344,6 @@ entities:
 - proto: PortableGeneratorSuperPacmanMachineCircuitboard
   entities:
   - uid: 1508
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 1504
@@ -320789,8 +320749,6 @@ entities:
 - proto: PowerComputerCircuitboard
   entities:
   - uid: 1509
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 1504
@@ -351935,8 +351893,6 @@ entities:
 - proto: SeedExtractorMachineCircuitboard
   entities:
   - uid: 2428
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 2423
@@ -362452,8 +362408,6 @@ entities:
 - proto: SmartFridgeCircuitboard
   entities:
   - uid: 2429
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 2423
@@ -362881,8 +362835,6 @@ entities:
 - proto: SolarControlComputerCircuitboard
   entities:
   - uid: 1510
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 1504
@@ -369402,8 +369354,6 @@ entities:
 - proto: StasisBedMachineCircuitboard
   entities:
   - uid: 20017
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 20012
@@ -386368,8 +386318,6 @@ entities:
 - proto: ToteBase
   entities:
   - uid: 1504
-    mapInit: true
-    paused: true
     components:
     - type: MetaData
       desc: Коробочка для переноски печатных плат инженерного отдела.
@@ -386429,8 +386377,6 @@ entities:
       fibers: []
       fingerprints: []
   - uid: 1526
-    mapInit: true
-    paused: true
     components:
     - type: MetaData
       desc: Коробочка для переноски печатных плат научного отдела.
@@ -386482,8 +386428,6 @@ entities:
       fibers: []
       fingerprints: []
   - uid: 2423
-    mapInit: true
-    paused: true
     components:
     - type: MetaData
       desc: Коробочка для переноски печатных плат сервисного отдела.
@@ -386543,8 +386487,6 @@ entities:
       fibers: []
       fingerprints: []
   - uid: 20012
-    mapInit: true
-    paused: true
     components:
     - type: MetaData
       desc: Коробочка для переноски печатных плат медицинского отдела.
