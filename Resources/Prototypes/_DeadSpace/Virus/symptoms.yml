@@ -4,6 +4,7 @@
   description: вызывает сильный кашель у зараженного. Повышает шанс распространения вируса при контакте.
   symptomType: Cough
   danger: Low
+  addInfectivity: 0.1
   price: 300
 
 - type: virusSymptom
@@ -11,7 +12,10 @@
   name: тошнота
   description: вызывает рвоту у зараженного
   symptomType: Vomit
-  danger: Medium
+  danger: Low
+  minInterval: 30
+  maxInterval: 120
+  addInfectivity: 0.1
   price: 500
 
 - type: virusSymptom
@@ -28,6 +32,8 @@
   description: вызывает сонливость у зараженного
   symptomType: Drowsiness
   danger: Medium
+  minInterval: 30
+  maxInterval: 120
   price: 800
 
 - type: virusSymptom
@@ -148,6 +154,7 @@
   description: вирус значительно повышает шанс заражения окружающих.
   symptomType: AggressiveTransmission
   danger: High
+  addInfectivity: 0.3
   price: 1200
 
 - type: virusSymptom

@@ -11,6 +11,10 @@ public sealed class EmeraldBatteryDisplay : Control
 {
     [Dependency] private readonly IResourceCache _resourceCache = default!;
 
+    private const int BaseFontSize = 11;
+    private const int BigFontSize = 13;
+    private const float BasePadding = 10f;
+
     private Font _font = default!;
     private Font _bigFont = default!;
 
@@ -22,10 +26,6 @@ public sealed class EmeraldBatteryDisplay : Control
     private readonly Color _textColor = Color.FromHex("#c0b3da");
     private readonly Color _bgColor = Color.FromHex("#0f0a1e");
     private readonly Color _borderColor = Color.FromHex("#6d5a8a");
-
-    private const float Padding = 10f;
-    private const int BaseFontSize = 11;
-    private const int BigFontSize = 13;
 
     public int Amount
     {
@@ -65,17 +65,10 @@ public sealed class EmeraldBatteryDisplay : Control
     public EmeraldBatteryDisplay()
     {
         IoCManager.InjectDependencies(this);
-        UpdateFont();
-    }
 
-    private void UpdateFont()
-    {
-        _font = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(BaseFontSize * UIScale));
-        _bigFont = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(BigFontSize * UIScale));
+        var fontRes = _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf");
+        _font = new VectorFont(fontRes, BaseFontSize);
+        _bigFont = new VectorFont(fontRes, BigFontSize);
     }
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
@@ -89,10 +82,10 @@ public sealed class EmeraldBatteryDisplay : Control
         var rect = new UIBox2(0, 0, PixelSize.X, PixelSize.Y);
 
         handle.DrawRect(rect, _bgColor.WithAlpha(0.8f));
-        DrawBorder(handle, rect, _borderColor);
 
-        var iconSize = 32f;
-        var iconX = Padding;
+        var padding = BasePadding * UIScale;
+        var iconSize = 32f * UIScale;
+        var iconX = padding;
         var iconY = (PixelSize.Y - iconSize) / 2f;
 
         if (_iconTexture != null)
@@ -102,29 +95,20 @@ public sealed class EmeraldBatteryDisplay : Control
         }
 
         var labelText = "ЭНЕРГИЯ";
-        var labelX = iconX + iconSize + 8f;
-        var labelY = 8f;
-        handle.DrawString(_font, new Vector2(labelX, labelY), labelText, 1f, _textColor);
+        var labelX = iconX + iconSize + 8f * UIScale;
+        var labelY = 8f * UIScale;
+        handle.DrawString(_font, new Vector2(labelX, labelY), labelText, UIScale, _textColor);
 
         var amountText = _amount.ToString("N0");
         var amountX = labelX;
-        var amountY = labelY + _font.GetLineHeight(1f) + 3;
+        var amountY = labelY + _font.GetLineHeight(UIScale) + 3f * UIScale;
 
-        handle.DrawString(_bigFont, new Vector2(amountX, amountY), amountText, 1f, _batteryColor);
-    }
-
-    private void DrawBorder(DrawingHandleScreen handle, UIBox2 rect, Color color)
-    {
-        handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Right, rect.Top + 1), color);
-        handle.DrawRect(new UIBox2(rect.Left, rect.Bottom - 1, rect.Right, rect.Bottom), color);
-        handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Left + 1, rect.Bottom), color);
-        handle.DrawRect(new UIBox2(rect.Right - 1, rect.Top, rect.Right, rect.Bottom), color);
+        handle.DrawString(_bigFont, new Vector2(amountX, amountY), amountText, UIScale, _batteryColor);
     }
 
     protected override void UIScaleChanged()
     {
         base.UIScaleChanged();
-        UpdateFont();
         InvalidateMeasure();
     }
 }

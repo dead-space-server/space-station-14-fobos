@@ -66,6 +66,11 @@ public sealed class TimedWindow
         return window == null || window.IsExpired();
     }
 
+    public TimedWindow Clone()
+    {
+        return new TimedWindow(MinSeconds, MaxSeconds, Timing, Random);
+    }
+
     private TimeSpan GetRandomDuration()
     {
         if (MinSeconds == MaxSeconds)
@@ -78,9 +83,9 @@ public sealed class TimedWindow
     private TimeSpan GetRandomDuration(float minSeconds, float maxSeconds)
     {
         if (minSeconds == maxSeconds)
-            return TimeSpan.FromSeconds(MinSeconds);
+            return TimeSpan.FromSeconds(minSeconds);
 
-        var seconds = Random.NextFloat(minSeconds, MaxSeconds);
+        var seconds = Random.NextFloat(minSeconds, maxSeconds);
         return TimeSpan.FromSeconds(seconds);
     }
 }

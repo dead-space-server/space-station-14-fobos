@@ -19,6 +19,7 @@ using Content.Shared.Hands.Components;
 using Content.Shared.Mind.Components;
 using Content.Shared.StationRecords;
 using Content.Shared.UserInterface;
+using Content.Shared.Virus;
 using Robust.Server.Audio;
 using Robust.Server.Containers;
 using Robust.Server.GameObjects;
@@ -243,6 +244,11 @@ public sealed class CryostorageSystem : SharedCryostorageSystem
             ), Loc.GetString("earlyleave-cryo-sender"),
             playDefaultSound: false
         );
+
+        // DS14-Start
+        var ev = new EnterCryostorageEvent();
+        RaiseLocalEvent(ent.Owner, ev);
+        // DS14-End
     }
 
     private void HandleCryostorageReconnection(Entity<CryostorageContainedComponent> entity)

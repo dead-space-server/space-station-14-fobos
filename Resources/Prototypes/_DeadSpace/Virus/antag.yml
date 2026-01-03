@@ -5,6 +5,7 @@
   showTo:
     components:
       - SentientVirus
+      - ShowAntagIcons
   icon:
     sprite: /Textures/_DeadSpace/Interface/Misc/antag_icons.rsi
     state: Pacient
@@ -16,6 +17,7 @@
   showTo:
     components:
       - SentientVirus
+      - ShowAntagIcons
   icon:
     sprite: /Textures/_DeadSpace/Interface/Misc/antag_icons.rsi
     state: PrimaryPacient

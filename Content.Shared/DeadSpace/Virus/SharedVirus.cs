@@ -4,6 +4,7 @@ using Content.Shared.Inventory;
 using Robust.Shared.Serialization;
 using Content.Shared.DoAfter;
 using Content.Shared.Actions;
+using Content.Shared.DeadSpace.Virus.Components;
 
 namespace Content.Shared.Virus;
 
@@ -47,12 +48,17 @@ public sealed class ProbInfectAttemptEvent : EntityEventArgs
 
 public sealed class CauseVirusEvent : EntityEventArgs
 {
-    public EntityUid Target { get; }
+    public VirusData SourceData { get; }
 
-    public CauseVirusEvent(EntityUid target)
+    public CauseVirusEvent(VirusData sourceData)
     {
-        Target = target;
+        SourceData = sourceData;
     }
+}
+
+public sealed class EnterCryostorageEvent : EntityEventArgs
+{
+
 }
 
 [NetSerializable, Serializable]

@@ -31,3 +31,7 @@
     damageCoefficient: 0.7
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetCBURNLeader
+  # DS14-start
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.9
+  # DS14-end

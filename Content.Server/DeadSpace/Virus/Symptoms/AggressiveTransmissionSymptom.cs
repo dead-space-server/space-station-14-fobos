@@ -5,13 +5,15 @@ using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
+using Content.Shared.DeadSpace.Virus.Prototypes;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class AggressiveTransmissionSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.AggressiveTransmission;
-    protected override float AddInfectivity => 0.3f;
+    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "AggressiveTransmissionSymptom";
 
     public AggressiveTransmissionSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
     { }
@@ -36,8 +38,13 @@ public sealed class AggressiveTransmissionSymptom : VirusSymptomBase
 
     }
 
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        base.ApplyDataEffect(data, add);
+    }
+
     public override IVirusSymptom Clone()
     {
-        return new AggressiveTransmissionSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new AggressiveTransmissionSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
     }
 }

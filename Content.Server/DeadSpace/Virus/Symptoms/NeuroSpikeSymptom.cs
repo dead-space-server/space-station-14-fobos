@@ -7,13 +7,15 @@ using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Content.Shared.Jittering;
 using Content.Server.Stunnable;
+using Content.Shared.DeadSpace.Virus.Prototypes;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class NeuroSpikeSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.NeuroSpike;
-    protected override float AddInfectivity => 0.05f;
+    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "NeuroSpikeSymptom";
     private TimedWindow _duration = default!;
 
     public NeuroSpikeSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
@@ -42,14 +44,19 @@ public sealed class NeuroSpikeSymptom : VirusSymptomBase
         var stun = EntityManager.System<StunSystem>();
 
         _duration.Reset();
-        var duration = Math.Abs(Timing.CurTime.TotalSeconds - _duration.Remaining.TotalSeconds);
+        var duration = _duration.Remaining.TotalSeconds;
 
         jitteringSystem.DoJitter(host, TimeSpan.FromSeconds(duration), true);
         stun.TryUpdateParalyzeDuration(host, TimeSpan.FromSeconds(duration));
     }
 
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        base.ApplyDataEffect(data, add);
+    }
+
     public override IVirusSymptom Clone()
     {
-        return new NeuroSpikeSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new NeuroSpikeSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
     }
 }

@@ -50,10 +50,9 @@
           bounds: "-0.20,-0.20,0.20,0.20"
         density: 60
         mask:
-        - MachineMask
+        - TabletopMachineMask
         layer:
-        - MidImpassable
-        - LowImpassable
+        - TabletopMachineLayer
   - type: Destructible
     thresholds:
     - trigger:
@@ -85,6 +84,7 @@
     tags: 
     - VirusAlwaysInfectable
     - IgnoreCanInfect
+    - VirusIgnorSymptoms
   - type: ZombieImmune
   - type: ImmunitetInfectionDead
   - type: ImmunEgg

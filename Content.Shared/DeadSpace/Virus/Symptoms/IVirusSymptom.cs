@@ -35,4 +35,9 @@ public interface IVirusSymptom
     ///     Метод для передачи симптомов от одного носителя к другому.
     /// </summary>
     IVirusSymptom Clone();
+
+    /// <summary>
+    ///     Применяет эффект симптома к данным вируса (для SentientVirus).
+    /// </summary>
+    void ApplyDataEffect(VirusData data, bool add);
 }

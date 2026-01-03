@@ -79,3 +79,17 @@
     - state: green
     - sprite: _DeadSpace/Virus/virus.rsi
       state: icon
+
+
+- type: entity
+  parent:
+  - SentientVirus
+  id: DebugSentientVirus
+  name: разумный вирус
+  description: Разум вируса.
+  suffix: DEBUG
+  categories: [ DoNotMap ]
+  components:
+  - type: SentientVirus
+    data: 
+      mutationPoints: 100000

@@ -5,6 +5,8 @@ using Content.Shared.DeadSpace.TimeWindow;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Content.Shared.Virus;
+using Content.Shared.DeadSpace.Virus.Prototypes;
+using Robust.Shared.Prototypes;
 
 namespace Content.Shared.DeadSpace.Virus.Symptoms;
 
@@ -14,11 +16,7 @@ public abstract class VirusSymptomBase : IVirusSymptom
     protected readonly IGameTiming Timing;
     protected readonly IRobustRandom Random;
     public TimedWindow EffectTimedWindow { get; }
-
-    /// <summary>
-    ///     Количество заразности, которое добавляет этот симптом.
-    /// </summary>
-    protected virtual float AddInfectivity { get; } = 0f;
+    protected abstract ProtoId<VirusSymptomPrototype> PrototypeId { get; }
 
     protected VirusSymptomBase(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow)
     {
@@ -32,12 +30,12 @@ public abstract class VirusSymptomBase : IVirusSymptom
 
     public virtual void OnAdded(EntityUid host, VirusComponent virus)
     {
-        virus.Data.Infectivity = Math.Clamp(virus.Data.Infectivity + AddInfectivity, 0, 1);
+        ApplyDataEffect(virus.Data, true);
     }
 
     public virtual void OnRemoved(EntityUid host, VirusComponent virus)
     {
-        virus.Data.Infectivity = Math.Clamp(virus.Data.Infectivity - AddInfectivity, 0, 1);
+        ApplyDataEffect(virus.Data, false);
     }
 
     public virtual void OnUpdate(EntityUid host, VirusComponent virus)
@@ -46,28 +44,27 @@ public abstract class VirusSymptomBase : IVirusSymptom
         {
             DoEffect(host, virus);
 
-            if (!BaseVirusSettings.DebuffVirusMultipliers.TryGetValue(virus.RegenerationType, out var timeMultiplier))
+            if (!BaseVirusSettings.DebuffVirusMultipliers.TryGetValue(virus.RegenerationType, out var timeMultiplier) || timeMultiplier <= 0f)
                 timeMultiplier = 1.0f;
 
             EffectTimedWindow.Reset(
-                EffectTimedWindow.MinSeconds * 1 / timeMultiplier,
-                EffectTimedWindow.MaxSeconds * 1 / timeMultiplier
+                EffectTimedWindow.MinSeconds * (1 / timeMultiplier),
+                EffectTimedWindow.MaxSeconds * (1 / timeMultiplier)
             );
-
-            EffectTimedWindow.Reset();
         }
     }
 
     public abstract void DoEffect(EntityUid host, VirusComponent virus);
     public abstract IVirusSymptom Clone();
-
-    protected TimedWindow CloneTimedWindow()
+    public virtual void ApplyDataEffect(VirusData data, bool add)
     {
-        return new TimedWindow(
-            EffectTimedWindow.MinSeconds,
-            EffectTimedWindow.MaxSeconds,
-            EffectTimedWindow.Timing,
-            EffectTimedWindow.Random
-        );
+        var prototypeManager = IoCManager.Resolve<IPrototypeManager>();
+        if (!prototypeManager.TryIndex(PrototypeId, out var prototype))
+            return;
+
+        if (add)
+            data.Infectivity = Math.Clamp(data.Infectivity + prototype.AddInfectivity, 0, 1);
+        else
+            data.Infectivity = Math.Clamp(data.Infectivity - prototype.AddInfectivity, 0, 1);
     }
 }

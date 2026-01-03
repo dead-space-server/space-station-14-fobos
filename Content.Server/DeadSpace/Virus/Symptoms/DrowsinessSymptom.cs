@@ -7,15 +7,18 @@ using Content.Shared.StatusEffectNew;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
+using Content.Shared.DeadSpace.Virus.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class DrowsinessSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.Drowsiness;
-    protected override float AddInfectivity => 0.05f;
-    private TimedWindow _slipDuration = default!;
+    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "DrowsinessSymptom";
     public static readonly EntProtoId StatusEffectForcedSleeping = "StatusEffectForcedSleeping";
+
+    private const float MinSleepDuration = 5f;
+    private const float MaxSleepDuration = 15f;
 
     public DrowsinessSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
     { }
@@ -23,9 +26,6 @@ public sealed class DrowsinessSymptom : VirusSymptomBase
     public override void OnAdded(EntityUid host, VirusComponent virus)
     {
         base.OnAdded(host, virus);
-
-        _slipDuration = new TimedWindow(5f, 15f, Timing, Random);
-        EffectTimedWindow.AddTime(_slipDuration.Remaining);
     }
 
     public override void OnRemoved(EntityUid host, VirusComponent virus)
@@ -40,20 +40,19 @@ public sealed class DrowsinessSymptom : VirusSymptomBase
 
     public override void DoEffect(EntityUid host, VirusComponent virus)
     {
-        EffectTimedWindow.AddTime(_slipDuration.Remaining);
-
         var statusEffectsSystem = EntityManager.System<StatusEffectsSystem>();
 
-        _slipDuration.Reset();
-        var duration = Math.Abs(Timing.CurTime.TotalSeconds - _slipDuration.Remaining.TotalSeconds);
+        var sleepDuration = Random.NextFloat(MinSleepDuration, MaxSleepDuration);
+        statusEffectsSystem.TryAddStatusEffectDuration(host, StatusEffectForcedSleeping, TimeSpan.FromSeconds(sleepDuration));
+    }
 
-        statusEffectsSystem.TryAddStatusEffectDuration(host, StatusEffectForcedSleeping, TimeSpan.FromSeconds(duration));
-
-        EffectTimedWindow.AddTime(_slipDuration.Remaining);
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        base.ApplyDataEffect(data, add);
     }
 
     public override IVirusSymptom Clone()
     {
-        return new DrowsinessSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new DrowsinessSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
     }
 }

@@ -147,7 +147,7 @@ public sealed partial class VirusData : ReagentData
     /// </summary>
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public float Infectivity = 0.1f;
+    public float Infectivity = 0f;
 
     /// <summary>
     ///     Допустимые к заражению сущности.
@@ -201,6 +201,12 @@ public sealed partial class VirusData : ReagentData
             return false;
 
         if (!MathHelper.CloseTo(Threshold, o.Threshold))
+            return false;
+
+        if (!MathHelper.CloseTo(MaxThreshold, o.MaxThreshold))
+            return false;
+
+        if (!MathHelper.CloseTo(RegenMutationPoints, o.RegenMutationPoints))
             return false;
 
         if (!MathHelper.CloseTo(DefaultMedicineResistance, o.DefaultMedicineResistance))
@@ -259,6 +265,51 @@ public sealed partial class VirusData : ReagentData
         };
     }
 
+    /// <summary>
+    ///     Использовать этот метод для заражения, иначе атрибуты будут стакаться при RefreshSymptoms.
+    /// </summary>
+    public ReagentData CloneForInfection()
+    {
+        return new VirusData
+        {
+            StrainId = StrainId,
+            ActiveSymptom = ActiveSymptom.ToList(),
+            BodyWhitelist = BodyWhitelist.ToList(),
+
+            MedicineResistance = MedicineResistance
+                .ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
+
+            EntityWhitelist = EntityWhitelist is null
+                ? null
+                : new EntityWhitelist
+                {
+                    Components = EntityWhitelist.Components?.ToArray(),
+                    Sizes = EntityWhitelist.Sizes?.ToList(),
+                    Tags = EntityWhitelist.Tags?.ToList(),
+                    RequireAll = EntityWhitelist.RequireAll
+                }
+        };
+    }
+
+    /// <summary>
+    ///     Копирует симптомы, тела и EntityWhitelist из другого источника VirusData.
+    /// </summary>
+    public void ApplyInfectionData(VirusData source)
+    {
+        ActiveSymptom = source.ActiveSymptom.ToList();
+        BodyWhitelist = source.BodyWhitelist.ToList();
+
+        EntityWhitelist = source.EntityWhitelist is null
+            ? null
+            : new EntityWhitelist
+            {
+                Components = source.EntityWhitelist.Components?.ToArray(),
+                Sizes = source.EntityWhitelist.Sizes?.ToList(),
+                Tags = source.EntityWhitelist.Tags?.ToList(),
+                RequireAll = source.EntityWhitelist.RequireAll
+            };
+    }
+
     public override int GetHashCode()
     {
         var hash = new HashCode();
@@ -267,8 +318,10 @@ public sealed partial class VirusData : ReagentData
         hash.Add(MutationPoints);
         hash.Add(MultiPriceDeleteSymptom);
         hash.Add(DamageWhenDead);
-        hash.Add(DamageWhenDead);
+        hash.Add(RegenThreshold);
         hash.Add(Threshold);
+        hash.Add(MaxThreshold);
+        hash.Add(RegenMutationPoints);
         hash.Add(DefaultMedicineResistance);
         hash.Add(Infectivity);
 

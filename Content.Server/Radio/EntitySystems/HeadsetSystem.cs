@@ -9,6 +9,7 @@ using Content.Server.DeadSpace.Languages;
 using Content.Shared.Corvax.TTS;
 using Robust.Server.Audio;
 using Robust.Shared.Audio;
+using Content.Shared.Chat;
 
 namespace Content.Server.Radio.EntitySystems;
 
@@ -23,6 +24,7 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
     {
         base.Initialize();
         SubscribeLocalEvent<HeadsetComponent, RadioReceiveEvent>(OnHeadsetReceive);
+        SubscribeLocalEvent<ActiveRadioComponent, RadioReceiveEvent>(OnActiveRadioReceive);
         SubscribeLocalEvent<HeadsetComponent, EncryptionChannelsChangedEvent>(OnKeysChanged);
 
         SubscribeLocalEvent<WearingHeadsetComponent, EntitySpokeEvent>(OnSpeak);
@@ -101,35 +103,71 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
         }
     }
 
+    // DS14-TTS-Start
     private void OnHeadsetReceive(EntityUid uid, HeadsetComponent component, ref RadioReceiveEvent args)
     {
-        // TTS-edit-start
-        var msg = args.ChatMsg;
         var parent = Transform(uid).ParentUid;
+        if (!parent.IsValid())
+            return;
 
-        if (args.LanguageId != null && !_language.KnowsLanguage(parent, args.LanguageId.Value))
-            msg = args.LexiconChatMsg;
+        var relayEvent = new HeadsetRadioReceiveRelayEvent(args);
+        RaiseLocalEvent(parent, ref relayEvent);
 
-        _audio.PlayPvs(component.RadioReceiveSoundPath, uid, AudioParams.Default.WithVolume(-10f));
+        HandleRadioReceive(
+            receiver: parent,
+            messageSource: args.MessageSource,
+            chatMsg: args.ChatMsg,
+            lexiconChatMsg: args.LexiconChatMsg,
+            languageId: args.LanguageId,
+            receiveSound: component.RadioReceiveSoundPath,
+            true,
+            args: args);
+    }
 
-        // TODO: change this when a code refactor is done
-        // this is currently done this way because receiving radio messages on an entity otherwise requires that entity
-        // to have an ActiveRadioComponent
+    private void OnActiveRadioReceive(EntityUid uid, ActiveRadioComponent component, ref RadioReceiveEvent args)
+    {
+        HandleRadioReceive(
+            receiver: uid,
+            messageSource: args.MessageSource,
+            chatMsg: args.ChatMsg,
+            lexiconChatMsg: args.LexiconChatMsg,
+            languageId: args.LanguageId,
+            null,
+            false,
+            args: args);
+    }
 
-        if (parent.IsValid())
+    private void HandleRadioReceive(
+    EntityUid receiver,
+    EntityUid messageSource,
+    NetMessage chatMsg,
+    MsgChatMessage lexiconChatMsg,
+    string? languageId,
+    SoundSpecifier? receiveSound,
+    bool sendMessage,
+    RadioReceiveEvent args)
+    {
+        if (args.Receivers.Contains(receiver))
+            return;
+
+        var msg = chatMsg;
+
+        if (languageId != null && !_language.KnowsLanguage(receiver, languageId))
+            msg = lexiconChatMsg;
+
+        if (receiveSound != null)
+            _audio.PlayPvs(receiveSound, receiver, AudioParams.Default.WithVolume(-10f));
+
+        if (TryComp(receiver, out ActorComponent? actor))
         {
-            var relayEvent = new HeadsetRadioReceiveRelayEvent(args);
-            RaiseLocalEvent(parent, ref relayEvent);
-        }
+            if (sendMessage)
+                _netMan.ServerSendMessage(msg, actor.PlayerSession.Channel);
 
-        if (TryComp(parent, out ActorComponent? actor))
-        {
-            _netMan.ServerSendMessage(msg, actor.PlayerSession.Channel);
-            if (parent != args.MessageSource && TryComp(args.MessageSource, out TTSComponent? _))
+            if (receiver != messageSource && TryComp(messageSource, out TTSComponent? _))
             {
-                args.Receivers.Add(parent);
+                args.Receivers.Add(receiver);
             }
         }
-        // TTS-edit-end
     }
+    // DS14-TTS-End
 }

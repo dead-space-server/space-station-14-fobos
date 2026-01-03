@@ -5,14 +5,16 @@ using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
+using Content.Shared.DeadSpace.Virus.Prototypes;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class LowPathogenFortressSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.LowPathogenFortress;
-    protected override float AddInfectivity => 0.05f;
-    private int _addMaxThreshold = 100;
+    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "LowPathogenFortressSymptom";
+    private int _addMaxThreshold = 50;
 
     public LowPathogenFortressSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
     { }
@@ -20,15 +22,11 @@ public sealed class LowPathogenFortressSymptom : VirusSymptomBase
     public override void OnAdded(EntityUid host, VirusComponent virus)
     {
         base.OnAdded(host, virus);
-
-        virus.Data.MaxThreshold += _addMaxThreshold;
     }
 
     public override void OnRemoved(EntityUid host, VirusComponent virus)
     {
         base.OnRemoved(host, virus);
-
-        virus.Data.MaxThreshold -= _addMaxThreshold;
     }
 
     public override void OnUpdate(EntityUid host, VirusComponent virus)
@@ -43,6 +41,15 @@ public sealed class LowPathogenFortressSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new LowPathogenFortressSymptom(EntityManager, Timing, Random, CloneTimedWindow());
+        return new LowPathogenFortressSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+    }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        base.ApplyDataEffect(data, add);
+        if (add)
+            data.MaxThreshold += _addMaxThreshold;
+        else
+            data.MaxThreshold -= _addMaxThreshold;
     }
 }
