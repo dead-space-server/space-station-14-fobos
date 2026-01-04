@@ -7,13 +7,14 @@ using Content.Shared.StatusEffectNew;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
+using Content.Shared.DeadSpace.Virus.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class DrowsinessSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.Drowsiness;
-    protected override float AddInfectivity => 0.02f;
+    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "DrowsinessSymptom";
     public static readonly EntProtoId StatusEffectForcedSleeping = "StatusEffectForcedSleeping";
 
     private const float MinSleepDuration = 5f;
@@ -43,6 +44,11 @@ public sealed class DrowsinessSymptom : VirusSymptomBase
 
         var sleepDuration = Random.NextFloat(MinSleepDuration, MaxSleepDuration);
         statusEffectsSystem.TryAddStatusEffectDuration(host, StatusEffectForcedSleeping, TimeSpan.FromSeconds(sleepDuration));
+    }
+
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        base.ApplyDataEffect(data, add);
     }
 
     public override IVirusSymptom Clone()

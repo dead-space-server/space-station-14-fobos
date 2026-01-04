@@ -18,6 +18,12 @@ public sealed partial class VirusSymptomPrototype : IPrototype
     public string Description { get; private set; } = default!;
 
     /// <summary>
+    ///     Количество прибавляемой заразности симптому в процентах.
+    /// </summary>
+    [DataField]
+    public float AddInfectivity { get; private set; } = 0.02f;
+
+    /// <summary>
     ///     Цена мутации.
     /// </summary>
     [DataField]

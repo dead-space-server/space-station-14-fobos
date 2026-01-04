@@ -145,7 +145,7 @@ virus-evolution-mutation-points =
     Очки мутации: { $points }
 
 virus-evolution-health =
-    Здоровье: { $current }/{ $max }
+    Максимум здоровья: { $max }
 
 virus-evolution-infectivity =
     Заразность: { $percent }%
@@ -221,6 +221,7 @@ sentient-virus-infect-impossible-target = цель невозможно зара
 sentient-virus-teleport-no-primary-infected = нулевых пациентов не найдено
 sentient-virus-infect-failed-source = вы больше не можете создать нулевого пациента
 sentient-virus-infect-no-points = Не хватает { $price } очков мутации.
+sentient-virus-infect-compensation = Ваш первичный пациент ушёл в крио, вам компенсировали { $price } очков мутации.
 
 # АНТИБИОТИК/ПРОТИВОВИРУСНЫЕ
 

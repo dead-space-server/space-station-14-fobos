@@ -52,3 +52,4 @@ public sealed partial class PrimaryPacientComponent : Component
     [ViewVariables(VVAccess.ReadOnly)]
     public ProtoId<FactionIconPrototype> StatusIcon { get; set; } = "PrimaryPacientFaction";
 }
+
