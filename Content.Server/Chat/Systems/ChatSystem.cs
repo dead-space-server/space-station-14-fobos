@@ -342,7 +342,6 @@ public sealed partial class ChatSystem : SharedChatSystem
         EntityUid? author = null,
         string? voice = null,
         bool usePresetTTS = false,
-        bool isCentcommSender = false, // DS14-announce
         string? languageId = null // DS14-Languages
         )
     {

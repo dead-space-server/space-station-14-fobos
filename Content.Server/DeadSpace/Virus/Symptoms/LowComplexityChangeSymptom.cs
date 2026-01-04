@@ -3,8 +3,6 @@
 using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
-using Robust.Shared.Random;
-using Robust.Shared.Timing;
 using Content.Shared.DeadSpace.Virus.Prototypes;
 using Robust.Shared.Prototypes;
 
@@ -16,7 +14,7 @@ public sealed class LowComplexityChangeSymptom : VirusSymptomBase
     protected override ProtoId<VirusSymptomPrototype> PrototypeId => "LowComplexityChangeSymptom";
     private int _addMultiPriceDeleteSymptom = 1;
 
-    public LowComplexityChangeSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
+    public LowComplexityChangeSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
@@ -41,7 +39,7 @@ public sealed class LowComplexityChangeSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new LowComplexityChangeSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+        return new LowComplexityChangeSymptom(EffectTimedWindow.Clone());
     }
 
     public override void ApplyDataEffect(VirusData data, bool add)

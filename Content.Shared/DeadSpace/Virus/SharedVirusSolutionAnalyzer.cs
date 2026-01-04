@@ -2,7 +2,7 @@
 
 using Robust.Shared.Serialization;
 
-namespace Content.Shared.Virus;
+namespace Content.Shared.DeadSpace.Virus;
 
 [Serializable, NetSerializable]
 public enum VirusSolutionAnalyzerVisuals : byte

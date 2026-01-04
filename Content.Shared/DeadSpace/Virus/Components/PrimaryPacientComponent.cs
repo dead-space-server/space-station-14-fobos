@@ -18,14 +18,6 @@ public sealed partial class PrimaryPacientComponent : Component
     [ViewVariables(VVAccess.ReadOnly)]
     public EntityUid? SentientVirus = default!;
 
-    [DataField]
-    [ViewVariables(VVAccess.ReadOnly)]
-    public float MinUpdateDuration = 1f;
-
-    [DataField]
-    [ViewVariables(VVAccess.ReadOnly)]
-    public float MaxUpdateDuration = 5f;
-
     /// <summary>
     ///     Радиус распространения вируса.
     /// </summary>
@@ -35,7 +27,7 @@ public sealed partial class PrimaryPacientComponent : Component
 
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public TimedWindow? UpdateWindow = default!;
+    public TimedWindow UpdateWindow = new TimedWindow(TimeSpan.FromSeconds(1f), TimeSpan.FromSeconds(5f));
 
     public PrimaryPacientComponent(EntityUid sentientVirus, string strainId)
     {

@@ -243,8 +243,8 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      150: Critical
-      200: Dead
+      100: Critical
+      150: Dead
   - type: MeleeWeapon
     animation: WeaponArcBite
     soundHit:
@@ -253,7 +253,7 @@
       types:
         Poison: 2
       groups:
-        Brute: 10
+        Brute: 8
   - type: Evolution
     duration: 150 # Время до получения возможности эволюционировать
     spawnedEntities: # В кого можно эволюционировать
@@ -344,12 +344,12 @@
         Piercing: 4
         Poison: 2
       groups:
-        Brute: 5
+        Brute: 3
   - type: MobThresholds
     thresholds:
       0: Alive
-      100: Critical
-      200: Dead
+      75: Critical
+      125: Dead
   - type: Fixtures
     fixtures:
       fix1:
@@ -437,12 +437,12 @@
         Poison: 2
         Structural: 10
       groups:
-        Brute: 4
+        Brute: 3
   - type: MobThresholds
     thresholds:
       0: Alive
-      100: Critical
-      200: Dead
+      85: Critical
+      120: Dead
   - type: Fixtures
     fixtures:
       fix1:
@@ -521,15 +521,15 @@
     damage:
       types:
         Piercing: 4
-        Poison: 4
+        Poison: 2
         Structural: 20
       groups:
-        Brute: 8
+        Brute: 4
   - type: MobThresholds
     thresholds:
       0: Alive
-      200: Critical
-      300: Dead
+      135: Critical
+      200: Dead
   - type: Fixtures
     fixtures:
       fix1:
@@ -676,14 +676,14 @@
     damage:
       types:
         Piercing: 3
-        Poison: 5
+        Poison: 3
       groups:
-        Brute: 1
+        Brute: 2
   - type: MobThresholds
     thresholds:
       0: Alive
-      200: Critical
-      250: Dead
+      150: Critical
+      200: Dead
   - type: SlowOnDamage
     speedModifierThresholds:
       80: 0.9
@@ -752,8 +752,8 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      300: Critical
-      400: Dead
+      185: Critical
+      250: Dead
   - type: Fixtures
     fixtures:
       fix1:
@@ -855,16 +855,16 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 10
+        Piercing: 7
         Poison: 3
         Structural: 30
       groups:
-        Brute: 10
+        Brute: 6
   - type: MobThresholds
     thresholds:
       0: Alive
-      350: Critical
-      450: Dead
+      250: Critical
+      350: Dead
   - type: SlowOnDamage
     speedModifierThresholds:
       200: 0.8
@@ -925,12 +925,12 @@
         Poison: 1
         Structural: 20
       groups:
-        Brute: 20
+        Brute: 10
   - type: MobThresholds
     thresholds:
       0: Alive
-      350: Critical
-      470: Dead
+      275: Critical
+      350: Dead
   - type: Fixtures
     fixtures:
       fix1:
@@ -984,12 +984,12 @@
         Poison: 1
         Structural: 5
       groups:
-        Brute: 7
+        Brute: 5
   - type: MobThresholds
     thresholds:
       0: Alive
       # 100: Critical
-      200: Dead
+      150: Dead
   - type: Fixtures
     fixtures:
       fix1:
@@ -1069,12 +1069,12 @@
         Poison: 1
         Structural: 5
       groups:
-        Brute: 7
+        Brute: 4
   - type: MobThresholds
     thresholds:
       0: Alive
       # 250: Critical
-      350: Dead
+      250: Dead
   - type: Fixtures
     fixtures:
       fix1:

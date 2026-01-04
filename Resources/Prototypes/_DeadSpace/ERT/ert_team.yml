@@ -1,0 +1,138 @@
+- type: ertTeam
+  id: Cburn
+  name: РХБЗ
+  description: 
+    Специализированный отряд радиационной, химической и биологической защиты
+    NanoTrasen. Предназначен для локализации утечек опасных веществ,
+    биологических угроз, а также проведения дезактивации и эвакуации персонала
+    в условиях заражения.
+    5 агентов РХБЗ и 1 лидер прибывают на шаттле поддержки РХБЗ, оснащённом
+    всем необходимым оборудованием для выполнения их миссий.
+    Время прибытия отряда от 10 до 15 минут.
+  rule: SpawnCburnShuttle
+  spawnWindow:
+    min: 10m
+    max: 15m
+  price: 30000
+  spawns:
+    - id: RandomHumanoidSpawnerCBURNLeader
+      amount: 1
+    - id: RandomHumanoidSpawnerCBURNAgent
+      amount: 5
+
+- type: ertTeam
+  id: CburnSierra
+  name: РХБЗ Сьерра
+  description: 
+    Элитный специализированный отряд радиационной, химической и биологической защиты
+    NanoTrasen. Предназначен для локализации утечек особо опасных веществ,
+    биологических угроз, а также проведения дезактивации и эвакуации персонала
+    в условиях сильного заражения.
+    10 агентов РХБЗ и 1 лидер прибывают на шаттле поддержки РХБЗ, оснащённом
+    всем необходимым оборудованием для выполнения их миссий.
+    Время прибытия отряда от 10 до 15 минут.
+  rule: SpawnSierraShuttle
+  spawnWindow:
+    min: 10m
+    max: 15m
+  price: 60000
+  spawns:
+    - id: RandomHumanoidSpawnerCBURNLeader
+      amount: 1
+    - id: RandomHumanoidSpawnerCBURNAgent
+      amount: 10
+
+- type: ertTeam
+  id: Engineers
+  name: Инженеры
+  description: 
+    Отряд инженеров NanoTrasen, специализирующихся на ремонте и техническом обслуживании
+    космических станций и кораблей. Они обладают обширными знаниями в области
+    инженерии, систем жизнеобеспечения и ремонта оборудования.
+    4 инженера прибывают на инженерном шаттле, оснащённом всем необходимым оборудованием
+    для выполнения их миссий.
+    Время прибытия отряда от 5 до 10 минут.
+  rule: SpawnEngineersShuttle
+  spawnWindow:
+    min: 5m
+    max: 10m
+  price: 20000
+  spawns:
+    - id: RandomHumanoidSpawnerERTEngineerAmber
+      amount: 4
+
+- type: ertTeam
+  id: Amber
+  name: Эмбер
+  description: 
+    Отряд специального назначения "Эмбер" NanoTrasen, предназначенный для
+    быстрого реагирования на чрезвычайные ситуации и угрозы безопасности на
+    космических станциях и кораблях. Они обучены для выполнения различных
+    задач, включая борьбу с пиратами, спасательные операции и обеспечение
+    безопасности персонала.
+    5 членов отряда прибывают на шаттле поддержки "Эмбер", оснащённом всем
+    необходимым оборудованием для выполнения их миссий.
+    Время прибытия отряда от 5 до 10 минут.
+  rule: SpawnAmberShuttle
+  spawnWindow:
+    min: 5m
+    max: 10m
+  price: 25000
+  spawns:
+    - id: RandomHumanoidSpawnerERTLeaderAmber
+      amount: 1
+    - id: RandomHumanoidSpawnerERTEngineerAmber
+      amount: 1
+    - id: RandomHumanoidSpawnerERTSecurityAmber
+      amount: 2
+    - id: RandomHumanoidSpawnerERTMedicalAmber
+      amount: 1
+
+- type: ertTeam
+  id: Gamma
+  name: Гамма
+  description: 
+    Отряд специального назначения "Гамма" NanoTrasen, предназначенный для
+    быстрого реагирования на чрезвычайные ситуации и угрозы безопасности на
+    космических станциях и кораблях. Они обучены для выполнения различных
+    задач, в основе своей деятельности лежит защита станции от военной угрозы.
+    10 членов отряда прибывают на шаттле поддержки "Гамма", оснащённом всем
+    необходимым оборудованием для выполнения их миссий.
+    Время прибытия отряда от 10 до 15 минут.
+  rule: SpawnGammaShuttle
+  spawnWindow:
+    min: 10m
+    max: 15m
+  price: 100000
+  spawns:
+    - id: RandomHumanoidSpawnerERTLeaderGamma
+      amount: 1
+    - id: RandomHumanoidSpawnerERTEngineerGamma
+      amount: 2
+    - id: RandomHumanoidSpawnerERTSecurityGamma
+      amount: 5
+    - id: RandomHumanoidSpawnerERTMedicalGamma
+      amount: 2
+
+- type: ertTeam
+  id: CentralCommandOfficial
+  name: ПЦК
+  description: 
+    Представитель Центрального Командования NanoTrasen, прибывающие на станцию
+    для контроля и координации действий экипажа в экстренныхных ситуациях.
+    1 официальный представитель ПЦК и 2 офицера синей защиты прибывают
+    на официальном шаттле ПЦК, оснащённом всем необходимым оборудованием
+    для выполнения их миссий.
+    Время прибытия отряда от 5 до 7 минут.
+  rule: SpawnCentCommOfficialShuttle
+  cancelMessage: 
+    Представитель Центрального Командования NanoTrasen не смог прибыть на станцию
+    из-за непредвиденных обстоятельств. Мы приносим извинения за возможные неудобства.
+  spawnWindow:
+    min: 5m
+    max: 7m
+  price: 0
+  special: CustomizableSpawnerCentralCommandOfficial
+  spawns:
+    - id: CustomizableSpawnerCentralCommandBlueShieldOfficer
+      amount: 2

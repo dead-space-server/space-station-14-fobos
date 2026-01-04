@@ -355,7 +355,7 @@ public sealed class PhotocopierSystem : EntitySystem
 
         text = text.Replace("DOCUMENT NAME", Loc.GetString(formPrototype.Name));
         text = text.Replace("{{HOUR.MINUTE.SECOND}}", _gameTicker.RoundDuration().ToString("hh\\:mm\\:ss"));
-        text = text.Replace("{{DAY.MONTH.YEAR}}", DateTime.UtcNow.AddHours(3).ToString("dd.MM") + ".2709");
+        text = text.Replace("{{DAY.MONTH.YEAR}}", DateTime.UtcNow.AddHours(3).ToString("dd.MM") + ".2710");
 
         if (_station.GetOwningStation(uid) is { } station)
         {
