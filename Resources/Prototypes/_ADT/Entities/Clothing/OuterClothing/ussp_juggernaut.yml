@@ -15,7 +15,7 @@
   - type: Armor
     modifiers:
       armorLvls:
-          Piercing: 3
+        Piercing: 3
       coefficients:
         Blunt: 0.8
         Slash: 0.85
@@ -40,7 +40,7 @@
   - type: Armor
     modifiers:
       armorLvls:
-          Piercing: 3
+        Piercing: 3
       coefficients:
         Blunt: 0.5
         Slash: 0.5

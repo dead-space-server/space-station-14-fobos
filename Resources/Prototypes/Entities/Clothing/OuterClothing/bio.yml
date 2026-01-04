@@ -81,6 +81,8 @@
   # DS14-start
   - type: Armor #Based on /tg/ but slightly compensated to fit the fact that armor stacks in SS14.
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.70
         Slash: 0.70

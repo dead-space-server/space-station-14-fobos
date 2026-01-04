@@ -132,6 +132,8 @@
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
+      armorLvls:
+          Piercing: 1
       coefficients:
         Blunt: 0.90
         Slash: 0.65
@@ -156,6 +158,8 @@
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
+      armorLvls:
+          Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9

@@ -16,6 +16,8 @@
   - type: Unremoveable
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.75
         Slash: 1.25

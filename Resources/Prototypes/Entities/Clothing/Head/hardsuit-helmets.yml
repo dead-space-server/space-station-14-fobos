@@ -305,6 +305,8 @@
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9
@@ -329,6 +331,8 @@
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9
@@ -354,6 +358,8 @@
     color: "#00FFFF"
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.95
         Slash: 0.95
@@ -383,6 +389,8 @@
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9
@@ -539,6 +547,8 @@
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9
@@ -583,6 +593,8 @@
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9
@@ -611,6 +623,8 @@
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9
@@ -640,6 +654,8 @@
     reduction: 0.2
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9
@@ -668,6 +684,8 @@
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9
@@ -696,6 +714,8 @@
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9
@@ -724,6 +744,8 @@
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9
@@ -810,6 +832,8 @@
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9
@@ -832,6 +856,8 @@
     color: cyan
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9
@@ -869,6 +895,8 @@
     reduction: 0.2
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9
@@ -904,6 +932,8 @@
     color: "#ffadc6"
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9
@@ -965,6 +995,8 @@
     coolingCoefficient: 0.005
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9
@@ -999,7 +1031,7 @@
   - type: Armor
     modifiers:
       armorLvls:
-          Piercing: 2 #это все таки шлем
+        Piercing: 2 #это все таки шлем
       coefficients:
         Blunt: 0.80
         Slash: 0.80

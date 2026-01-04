@@ -11,7 +11,7 @@
   - type: Armor
     modifiers:
       armorLvls:
-          Piercing: 5
+        Piercing: 5
       coefficients:
         Blunt: 0.01 #true best armor in the game
         Slash: 0.01

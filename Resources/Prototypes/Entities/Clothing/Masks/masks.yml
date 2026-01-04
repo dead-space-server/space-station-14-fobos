@@ -34,6 +34,8 @@
     sprite: Clothing/Mask/gassecurity.rsi
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.95
         Slash: 0.95
@@ -57,6 +59,8 @@
   - type: EyeProtection
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.95
         Slash: 0.95
@@ -116,6 +120,8 @@
     sprite: Clothing/Mask/gasexplorer.rsi
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.90
         Slash: 0.90
@@ -163,6 +169,8 @@
     sprite: Clothing/Mask/medicalsecurity.rsi
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.95
         Slash: 0.95
@@ -257,6 +265,8 @@
     sprite: Clothing/Mask/clown_security.rsi
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.95
         Slash: 0.95
@@ -403,6 +413,8 @@
     hideOnToggle: true
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.90
         Slash: 0.90
@@ -421,6 +433,8 @@
     sprite: Clothing/Mask/merc.rsi
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.90
         Slash: 0.90
@@ -449,6 +463,8 @@
   - type: EyeProtection
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.95
         Slash: 0.95
@@ -477,6 +493,8 @@
     - HeadSide
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.80
         Slash: 0.80
@@ -683,6 +701,8 @@
     sprite: Clothing/Mask/mime_security.rsi
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 1
       coefficients:
         Blunt: 0.95
         Slash: 0.95

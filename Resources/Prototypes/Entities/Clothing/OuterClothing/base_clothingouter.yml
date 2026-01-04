@@ -123,7 +123,7 @@
   - type: Armor
     modifiers:
       armorLvls:
-          Piercing: 2 #ибо он hard
+        Piercing: 2 #ибо он hard
       coefficients:
         Blunt: 0.90
         Slash: 0.90
