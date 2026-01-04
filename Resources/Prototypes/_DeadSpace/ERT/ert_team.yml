@@ -115,6 +115,28 @@
       amount: 2
 
 - type: ertTeam
+  id: BSAA
+  name: АПБТ
+  description: 
+    Альянс Противодействия Биологической и Террористической угрозе NanoTrasen, 
+    предназначенный очистить станцию от биологической и террористической угрозы,
+    зачастую данный отряд нужно вызывать когда на станции заявились террористы "Круг".
+    Или же большого всплеска ред-спейса на станции.
+    Время прибытия отряда от 10 до 15 минут.
+  rule: SpawnSierraShuttle
+  spawnWindow:
+    min: 10m
+    max: 15m
+  price: 75000
+  spawns:
+    - id: RandomHumanoidSpawnerBSAALeader
+      amount: 1
+    - id: RandomHumanoidSpawnerBSAAMedic
+      amount: 2
+    - id: RandomHumanoidSpawnerBSAAFighter
+      amount: 5
+
+- type: ertTeam
   id: CentralCommandOfficial
   name: ПЦК
   description: 
