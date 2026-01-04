@@ -35,7 +35,7 @@
   movementSpeedMultiply: 0.7
   damage:
     groups:
-      Brute: 20
+      Brute: 12
     types:
       Structural: 10
   damageModifierSet: Necromorf
@@ -47,7 +47,7 @@
   movementSpeedMultiply: 0.7
   damage:
     groups:
-      Brute: 15
+      Brute: 10
     types:
       Structural: 10
   damageModifierSet: Necromorf
@@ -65,7 +65,7 @@
   movementSpeedMultiply: 0.7
   damage:
     groups:
-      Brute: 15
+      Brute: 11
     types:
       Structural: 10
   damageModifierSet: Necromorf
@@ -93,7 +93,7 @@
   movementSpeedMultiply: 1
   damage:
     groups:
-      Brute: 10
+      Brute: 5
     types:
       Structural: 5
   damageModifierSet: Necromorf
@@ -107,7 +107,7 @@
   movementSpeedMultiply: 0.9
   damage:
     groups:
-      Brute: 15
+      Brute: 10
     types:
       Structural: 10
   damageModifierSet: Necromorf
@@ -119,7 +119,7 @@
   movementSpeedMultiply: 0.7
   damage:
     groups:
-      Brute: 20
+      Brute: 12
     types:
       Structural: 10
   damageModifierSet: Necromorf
@@ -139,7 +139,7 @@
   thresholdMultiply: 5
   damage:
     groups:
-      Brute: 50
+      Brute: 25
     types:
       Structural: 40
   damageModifierSet: Necromorf
@@ -157,7 +157,7 @@
   isAnimal: true
   damage:
     groups:
-      Brute: 10
+      Brute: 8
     types:
       Structural: 10
   damageModifierSet: Necromorf
@@ -176,7 +176,7 @@
   thresholdMultiply: 2
   damage: # Урон наносимый некроморфом
     groups:
-      Brute: 25
+      Brute: 14
     types:
       Structural: 15
   damageModifierSet: Necromorf # Модификатор получаемого урона
@@ -213,7 +213,7 @@
   - Ensnare
   damage: # Урон наносимый некроморфом
     groups:
-      Brute: 15
+      Brute: 12
     types:
       Structural: 15
   damageModifierSet: Necromorf # Модификатор получаемого урона

@@ -3,33 +3,28 @@
 using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
-using Robust.Shared.Random;
-using Robust.Shared.Timing;
-using Content.Server.DeadSpace.Virus.Systems;
+using Content.Shared.DeadSpace.Virus.Prototypes;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class MedComplexityChangeSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.MedComplexityChange;
-    protected override float AddInfectivity => 0.02f;
+    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "MedComplexityChangeSymptom";
     private int _addMultiPriceDeleteSymptom = 2;
 
-    public MedComplexityChangeSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
+    public MedComplexityChangeSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
     {
         base.OnAdded(host, virus);
-
-        virus.Data.MultiPriceDeleteSymptom += _addMultiPriceDeleteSymptom;
     }
 
     public override void OnRemoved(EntityUid host, VirusComponent virus)
     {
         base.OnRemoved(host, virus);
-
-        virus.Data.MultiPriceDeleteSymptom -= _addMultiPriceDeleteSymptom;
     }
 
     public override void OnUpdate(EntityUid host, VirusComponent virus)
@@ -44,11 +39,12 @@ public sealed class MedComplexityChangeSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new MedComplexityChangeSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+        return new MedComplexityChangeSymptom(EffectTimedWindow.Clone());
     }
 
     public override void ApplyDataEffect(VirusData data, bool add)
     {
+        base.ApplyDataEffect(data, add);
         if (add)
             data.MultiPriceDeleteSymptom += _addMultiPriceDeleteSymptom;
         else

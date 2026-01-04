@@ -1,0 +1,68 @@
+<!--Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT-->
+
+<DefaultWindow xmlns="https://spacestation14.io"
+               Title="{Loc 'ert-responce-window-title'}"
+               MinSize="900 600"
+               SetSize="1000 700">
+
+    <BoxContainer Orientation="Vertical"
+                  VerticalExpand="True">
+
+        <PanelContainer StyleClasses="Inset"
+                        Margin="5"
+                        VerticalExpand="True">
+
+            <!-- MAIN CONTENT -->
+            <BoxContainer Orientation="Horizontal"
+                          HorizontalExpand="True"
+                          VerticalExpand="True">
+
+                <!-- LEFT: TEAM LIST -->
+                <PanelContainer MinWidth="300"
+                                Margin="5">
+                    <BoxContainer Orientation="Vertical"
+                                  VerticalExpand="True">
+                        <Label Text="{Loc 'ert-responce-available-teams'}" />
+                        <ScrollContainer VerticalExpand="True">
+                            <ItemList Name="AvailableTeamsList"
+                                      Access="Public"
+                                      SelectMode="Single" />
+                        </ScrollContainer>
+                    </BoxContainer>
+                </PanelContainer>
+
+                <!-- RIGHT: INFO -->
+                <BoxContainer Orientation="Vertical"
+                              Margin="5"
+                              VerticalExpand="True"
+                              HorizontalExpand="True">
+
+                    <Label Name="BalanceLabel"
+                           Margin="0 0 0 5"/>
+
+                    <Label Text="{Loc 'ert-responce-team-description'}" />
+
+                    <PanelContainer StyleClasses="Inset"
+                                    VerticalExpand="True">
+                        <RichTextLabel Name="TeamDescriptionLabel"
+                                       VerticalExpand="True"
+                                       Margin="5"/>
+                    </PanelContainer>
+
+                </BoxContainer>
+            </BoxContainer>
+        </PanelContainer>
+
+        <!-- ACTION BUTTON -->
+        <BoxContainer Orientation="Horizontal"
+                      HorizontalAlignment="Center"
+                      Margin="5">
+            <Button Name="ResponceTeamButton"
+                    Access="Public"
+                    MinWidth="250"
+                    Text="{Loc 'responce-ert-team-button'}"/>
+        </BoxContainer>
+
+    </BoxContainer>
+</DefaultWindow>
+

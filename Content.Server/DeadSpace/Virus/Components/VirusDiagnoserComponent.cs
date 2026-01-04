@@ -5,7 +5,7 @@ using Content.Shared.DeviceLinking;
 using Robust.Shared.Audio;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
-using Content.Shared.Virus;
+using Content.Shared.DeadSpace.Virus;
 
 namespace Content.Server.DeadSpace.Virus.Components;
 
@@ -18,11 +18,9 @@ public sealed partial class VirusDiagnoserComponent : Component
     /// <summary>
     ///     Длительность анимации печати отчёта. Костыль, но упрощает систему.
     /// </summary>
+    [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public float PrintingAnimationDuration = 5f;
-
-    [ViewVariables(VVAccess.ReadOnly)]
-    public TimedWindow AnimationWindow = default!;
+    public TimedWindow AnimationWindow = new TimedWindow(TimeSpan.FromSeconds(4f), TimeSpan.FromSeconds(4f));
 
     /// <summary>
     ///     Данные которые печатаются в отчёт или генерируются в реагент.

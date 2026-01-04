@@ -1,0 +1,56 @@
+# для консольной команды DockCentcommERT
+- type: ertShuttle
+  id: Cburn
+  path: /Maps/Shuttles/ERT/cburn.yml
+
+- type: ertShuttle
+  id: Amber
+  path: /Maps/Shuttles/ERT/amber.yml
+
+- type: ertShuttle
+  id: Red
+  path: /Maps/Shuttles/ERT/red.yml
+
+- type: ertShuttle
+  id: Gamma
+  path: /Maps/Shuttles/ERT/gamma.yml
+
+- type: ertShuttle
+  id: CentCommOfficial
+  path: /Maps/Shuttles/ERT/official.yml
+
+# GRIDS
+- type: preloadedGrid
+  id: CburnShuttle
+  path: /Maps/Shuttles/ERT/cburn.yml
+  copies: 1
+
+- type: preloadedGrid
+  id: AmberShuttle
+  path: /Maps/Shuttles/ERT/amber.yml
+  copies: 1
+
+- type: preloadedGrid
+  id: GammaShuttle
+  path: /Maps/Shuttles/ERT/gamma.yml
+  copies: 1
+
+- type: preloadedGrid
+  id: CentCommOfficialShuttle
+  path: /Maps/Shuttles/ERT/official.yml
+  copies: 1
+
+- type: preloadedGrid
+  id: JanitorsShuttle
+  path: /Maps/Shuttles/ERT/janitors.yml
+  copies: 1
+
+- type: preloadedGrid
+  id: EngineersShuttle
+  path: /Maps/Shuttles/ERT/engineers.yml
+  copies: 1
+
+- type: preloadedGrid
+  id: SierraShuttle
+  path: /Maps/Shuttles/ERT/sierra.yml
+  copies: 1

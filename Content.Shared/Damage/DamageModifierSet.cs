@@ -23,5 +23,10 @@ namespace Content.Shared.Damage
 
         [DataField("flatReductions", customTypeSerializer: typeof(PrototypeIdDictionarySerializer<float, DamageTypePrototype>))]
         public Dictionary<string, float> FlatReduction = new();
+
+        // DS14-Start
+        [DataField]
+        public int ArmorLvl = 1;
+        // DS14-End
     }
 }

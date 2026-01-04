@@ -3,7 +3,7 @@
 using Content.Shared.DoAfter;
 using Content.Shared.Interaction;
 using Content.Server.DeadSpace.Virus.Components;
-using Content.Shared.Virus;
+using Content.Shared.DeadSpace.Virus;
 using Content.Shared.Nutrition.EntitySystems;
 using Content.Server.Popups;
 using Content.Shared.DeadSpace.Virus.Components;

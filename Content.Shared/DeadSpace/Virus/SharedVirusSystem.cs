@@ -7,14 +7,12 @@ using Content.Shared.Body.Prototypes;
 using Content.Shared.DeadSpace.Virus.Symptoms;
 using System.Linq;
 using Content.Shared.DeadSpace.TimeWindow;
-using Robust.Shared.Timing;
-using Robust.Shared.Random;
 using Content.Shared.Zombies;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Tag;
 
-namespace Content.Shared.Virus;
+namespace Content.Shared.DeadSpace.Virus;
 
 public enum BedRegenerationType
 {
@@ -87,8 +85,6 @@ public abstract partial class SharedVirusSystem : EntitySystem
 {
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly ILogManager _logManager = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly TagSystem _tag = default!;
     private ISawmill _sawmill = default!;
@@ -96,7 +92,7 @@ public abstract partial class SharedVirusSystem : EntitySystem
     /// <summary>
     ///     Стандартное окно времени проявления симптом.
     /// </summary>
-    protected TimedWindow DefaultSymptomWindow = default!;
+    protected TimedWindow DefaultSymptomWindow = new TimedWindow(TimeSpan.FromSeconds(15f), TimeSpan.FromSeconds(60f));
 
     /// <summary>
     ///     Метка для сущностей, которые не могут проявить симпптомы.
@@ -107,7 +103,6 @@ public abstract partial class SharedVirusSystem : EntitySystem
         base.Initialize();
 
         _sawmill = _logManager.GetSawmill("SharedVirusSystem");
-        DefaultSymptomWindow = new TimedWindow(15f, 60f, _timing, _random);
     }
 
     public int GetSymptomPrice(VirusData data, ProtoId<VirusSymptomPrototype> symptomId)

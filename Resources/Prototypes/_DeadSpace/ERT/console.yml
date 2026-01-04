@@ -1,0 +1,165 @@
+- type: entity
+  parent: BaseComputerAiAccess
+  id: ErtResponceConsole
+  name: консоль запроса поддержки NanoTrasen
+  description: консоль запроса поддержки NanoTrasen для экстренных команд реагирования.
+  components:
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: request-sec
+    - map: ["computerLayerKeys"]
+      state: generic_keys
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: ApcPowerReceiver
+    powerLoad: 3100
+  - type: Computer
+    board: ErtResponceConsoleCircuitboard
+  - type: PointLight
+    radius: 1.5
+    energy: 1.6
+    color: "#1d8bad"
+  - type: ActivatableUI
+    key: enum.ErtResponceConsoleUiKey.Key
+  - type: UserInterface
+    interfaces:
+        enum.ErtResponceConsoleUiKey.Key:
+          type: ErtResponceConsoleBoundUserInterface
+  - type: Speech
+    speechVerb: Robotic
+    speechSounds: Pai
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: StructuralMetallicStrong
+  - type: ErtResponceConsole
+    teams:
+    - Cburn
+    - CburnSierra
+    - Gamma
+    - Amber
+    - Engineers
+  - type: ActivatableUIRequiresAccess
+  - type: AccessReader
+    access: [["Captain"]]
+  - type: Language
+    selectedLanguage: GeneralLanguage
+
+- type: entity
+  parent: BaseComputerAiAccess
+  id: ErtComputerShuttle
+  name: консоль обр NanoTrasen
+  description: консоль обр NanoTrasen для экстренных команд реагирования.
+  components:
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: request-sec
+    - map: ["computerLayerKeys"]
+      state: generic_keys
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: ApcPowerReceiver
+    powerLoad: 3100
+  - type: Computer
+    board: ErtComputerShuttleCircuitboard
+  - type: PointLight
+    radius: 1.5
+    energy: 1.6
+    color: "#1d8bad"
+  - type: ActivatableUI
+    key: enum.ErtComputerShuttleUiKey.Key
+  - type: UserInterface
+    interfaces:
+        enum.ErtComputerShuttleUiKey.Key:
+          type: ErtComputerShuttleBoundUserInterface
+  - type: Speech
+    speechVerb: Robotic
+    speechSounds: Pai
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: StructuralMetallicStrong
+  - type: ErtComputerShuttle
+  - type: ActivatableUIRequiresAccess
+  - type: AccessReader
+    access: [["Captain"]]
+  - type: Language
+    selectedLanguage: GeneralLanguage
+
+- type: entity
+  parent: BaseComputerCircuitboard
+  id: ErtComputerShuttleCircuitboard
+  name: машинная плата консоли обр NanoTrasen
+  description: Компьютерная печатная плата для консоли обр NanoTrasen.
+  components:
+    - type: Sprite
+      state: cpu_command
+    - type: ComputerBoard
+      prototype: ErtComputerShuttle
+
+- type: entity
+  parent: BaseComputerCircuitboard
+  id: ErtResponceConsoleCircuitboard
+  name: машинная плата консоли запроса поддержки NanoTrasen
+  description: Компьютерная печатная плата для консоли запроса поддержки NanoTrasen.
+  components:
+    - type: Sprite
+      state: cpu_command
+    - type: ComputerBoard
+      prototype: ErtResponceConsole
+
+- type: entity
+  parent: BaseItem
+  id: TelephoneIaa
+  name: устройство связи внутреннего агентства безопасности
+  description: Устройство связи, выданное агентам внутреннего агентства безопасности для связи с центральным командованием в экстренных случаях.
+  components:
+  - type: ActivatableUI
+    key: enum.ErtResponceConsoleUiKey.Key
+    requiresComplex: true
+    requireActiveHand: false
+    singleUser: true
+  - type: UserInterface
+    interfaces:
+      enum.ErtResponceConsoleUiKey.Key:
+        type: ErtResponceConsoleBoundUserInterface
+  - type: CrewManifestViewer
+    ownerKey: enum.ErtResponceConsoleUiKey.Key
+  - type: Item
+    size: Small
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/Items/multitool_drop.ogg
+  - type: Sprite
+    sprite: _DeadSpace/Ert/telephone_iaa.rsi
+    state: icon
+  - type: Clothing
+    sprite: _DeadSpace/Ert/telephone_iaa.rsi
+    quickEquip: false
+    slots:
+      - Belt
+  - type: Tag
+    tags:
+    - EmagImmune
+  - type: ActivatableUIRequiresAccess
+  - type: AccessReader
+    access:
+    - - Command
+      - Security
+      - Service
+      - Lawyer
+      - Brig
+      - Maintenance
+  - type: ErtResponceConsole
+    teams:
+    - CentralCommandOfficial
+  - type: Language
+    selectedLanguage: GeneralLanguage

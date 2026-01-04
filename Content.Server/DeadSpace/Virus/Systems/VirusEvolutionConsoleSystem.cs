@@ -7,7 +7,7 @@ using Content.Shared.DeviceLinking;
 using Content.Shared.DeviceLinking.Events;
 using Content.Shared.Power;
 using Robust.Server.GameObjects;
-using Content.Shared.Virus;
+using Content.Shared.DeadSpace.Virus;
 using Content.Server.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.Virus.Components;
 using Robust.Shared.Prototypes;
@@ -60,6 +60,7 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
             && virusDataList != null)
         {
             var source = virusDataList.FirstOrDefault();
+            // Скорее можно обойтись и без копии, но мне не хочется это проверять, ибо я уже обжигался
             virusData = source != null
                 ? (VirusData)source.Clone()
                 : null;
@@ -265,6 +266,7 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
             _virusSolutionAnalyzer.TryGetVirusDataFromContainer(console.Comp.VirusSolutionAnalyzer.Value, out var virusDataList))
         {
             var source = virusDataList.FirstOrDefault();
+            // Скорее можно обойтись и без копии, но мне не хочется это проверять, ибо я уже обжигался
             virusData = source != null
                 ? (VirusData)source.Clone()
                 : null;

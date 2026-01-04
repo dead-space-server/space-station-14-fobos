@@ -135,7 +135,7 @@
 - type: lobbyBackground
   id: TitanNewYear
   background: /Textures/LobbyScreens/Fobos/titan_new_year.webp
-  
+
 - type: lobbyBackground
   id: DonerCarps
   background: /Textures/LobbyScreens/Fobos/doner_carps.webp
@@ -147,47 +147,79 @@
 - type: lobbyBackground
   id: DonerEllis
   background: /Textures/LobbyScreens/Fobos/doner_ellis.webp
-  
+
 - type: lobbyBackground
   id: DonerGirlfriends
   background: /Textures/LobbyScreens/Fobos/doner_girlfriends.webp
-  
+
 - type: lobbyBackground
   id: DonerHopFrontier
   background: /Textures/LobbyScreens/Fobos/doner_hopfrontier.webp
-  
+
 - type: lobbyBackground
   id: DonerParamedic
   background: /Textures/LobbyScreens/Fobos/doner_paramedic.webp
-  
+
 - type: lobbyBackground
   id: DonerPsyhologist
   background: /Textures/LobbyScreens/Fobos/doner_psyhologist.webp
-  
+
 - type: lobbyBackground
   id: DonerRatcatcher
   background: /Textures/LobbyScreens/Fobos/doner_ratcatcher.webp
-  
+
 - type: lobbyBackground
   id: DonerRocket
   background: /Textures/LobbyScreens/Fobos/doner_rocket.webp
-  
+
 - type: lobbyBackground
   id: DonerScience
   background: /Textures/LobbyScreens/Fobos/doner_science.webp
-  
+
 - type: lobbyBackground
   id: DonerSisters
   background: /Textures/LobbyScreens/Fobos/doner_sisters.webp
-  
+
 - type: lobbyBackground
   id: DonerSmokeBreak
   background: /Textures/LobbyScreens/Fobos/doner_smokebreak.webp
-  
+
 - type: lobbyBackground
   id: DonerViolence
   background: /Textures/LobbyScreens/Fobos/doner_violence.webp
-  
+
+- type: lobbyBackground
+  id: DonerTheEnd
+  background: /Textures/LobbyScreens/Fobos/doner_the_end.webp
+
+- type: lobbyBackground
+  id: DonerFamilySelen
+  background: /Textures/LobbyScreens/Fobos/doner_family_selen.webp
+
+- type: lobbyBackground
+  id: Kiseliium1
+  background: /Textures/LobbyScreens/Fobos/kiseliium1.webp
+
+- type: lobbyBackground
+  id: Kiseliium2
+  background: /Textures/LobbyScreens/Fobos/kiseliium2.webp
+
+- type: lobbyBackground
+  id: Kiseliium3
+  background: /Textures/LobbyScreens/Fobos/kiseliium3.webp
+
+- type: lobbyBackground
+  id: Kiseliium4
+  background: /Textures/LobbyScreens/Fobos/kiseliium4.webp
+
+- type: lobbyBackground
+  id: MKNEWYEAR
+  background: /Textures/LobbyScreens/Fobos/MK_NEW_YEAR.webp
+
+- type: lobbyBackground
+  id: HappyHolydays
+  background: /Textures/LobbyScreens/Fobos/happy_holidays.webp
+
 # Soyuz
 
 # - type: lobbyBackground

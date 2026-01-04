@@ -21,7 +21,6 @@
     - BaseStationEvacuation
     - BaseStationAlertLevels
     - BaseStationMagnet
-    - BaseStationERTCall # DS14
     - BaseStationExpeditions
     - BaseStationSalvageJobs
     - BaseStationSiliconLawCrewsimov

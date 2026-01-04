@@ -16,7 +16,7 @@ using Robust.Shared.Prototypes;
 using Content.Shared.Destructible;
 using Content.Shared.DeadSpace.Virus.Prototypes;
 using Content.Shared.Body.Prototypes;
-using Content.Shared.Virus;
+using Content.Shared.DeadSpace.Virus;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -29,6 +29,7 @@ public sealed class VirusMutationSystem : EntitySystem
     [Dependency] private readonly ILogManager _logManager = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
+    [Dependency] private readonly TimedWindowSystem _timedWindowSystem = default!;
     private ISawmill _sawmill = default!;
 
     /// <summary>
@@ -62,12 +63,17 @@ public sealed class VirusMutationSystem : EntitySystem
         foreach (var proto in _prototype.EnumeratePrototypes<VirusSymptomPrototype>())
             _allSymptomsCache.Add(proto.ID);
 
-        SubscribeLocalEvent<VirusMutationComponent, GetVerbsEvent<Verb>>(DoSetVerbs);
         SubscribeLocalEvent<VirusMutationComponent, ComponentInit>(OnInit);
+        SubscribeLocalEvent<VirusMutationComponent, GetVerbsEvent<Verb>>(DoSetVerbs);
         SubscribeLocalEvent<VirusMutationComponent, DestructionEventArgs>(OnDestr);
         SubscribeLocalEvent<VirusMutationComponent, CauseVirusEvent>(OnCauseVirus);
         SubscribeLocalEvent<VirusMutationComponent, CureVirusEvent>(OnCureVirus);
         SubscribeLocalEvent<VirusMutationComponent, ProbInfectAttemptEvent>(OnProbInfectAttempt);
+    }
+
+    private void OnInit(EntityUid uid, VirusMutationComponent component, ComponentInit args)
+    {
+        _timedWindowSystem.Reset(component.UpdateWindow);
     }
 
     public override void Update(float frameTime)
@@ -77,13 +83,10 @@ public sealed class VirusMutationSystem : EntitySystem
         var query = EntityQueryEnumerator<VirusMutationComponent, VirusComponent>();
         while (query.MoveNext(out var uid, out var component, out var virus))
         {
-            if (component.UpdateWindow is null)
+            if (!_timedWindowSystem.IsExpired(component.UpdateWindow))
                 continue;
 
-            if (!component.UpdateWindow.IsExpired())
-                continue;
-
-            component.UpdateWindow.Reset();
+            _timedWindowSystem.Reset(component.UpdateWindow);
             ProbMutate((uid, component, virus));
         }
     }
@@ -102,15 +105,6 @@ public sealed class VirusMutationSystem : EntitySystem
     private void OnCureVirus(Entity<VirusMutationComponent> entity, ref CureVirusEvent args)
     {
         UpdateAppearance(entity, entity.Comp, false);
-    }
-
-    private void OnInit(Entity<VirusMutationComponent> entity, ref ComponentInit args)
-    {
-        entity.Comp.UpdateWindow = new TimedWindow(
-            entity.Comp.MinUpdateTime,
-            entity.Comp.MaxUpdateTime,
-            _timing,
-            _random);
     }
 
     private void OnDestr(Entity<VirusMutationComponent> entity, ref DestructionEventArgs args)

@@ -3,7 +3,7 @@
 using System.Linq;
 using Content.Shared.Body.Prototypes;
 using Content.Shared.DeadSpace.Virus.Prototypes;
-using Content.Shared.Virus;
+using Content.Shared.DeadSpace.Virus;
 using JetBrains.Annotations;
 using Robust.Client.UserInterface;
 using Robust.Shared.Prototypes;

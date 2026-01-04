@@ -65,7 +65,7 @@ namespace Content.Server.Administration.UI
                     }
                     catch (FormatException)
                     {
-                        color = Color.FromHex("1d8bad");
+                        color = Color.FromHex("#1d8bad");
                     }
 
                     SoundSpecifier? sound = null;

@@ -295,6 +295,7 @@
     eyes: ClothingEyesGlassesSunglasses
     socks: ClothingUnderwearSockIAA
     underwearb: ClothingUnderwearBottomBoxersIAA
+    pocket1: TelephoneIaa
 
 # Engineering
 - type: startingGear
