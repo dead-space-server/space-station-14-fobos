@@ -1,14 +1,14 @@
 //Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 using Content.Server.Ghost.Roles.Components;
-using Content.Shared.DeadSpace.GhostRoleNotify.Components;
+using Content.Shared.DeadSpace.Notify.Components;
 using Robust.Shared.Prototypes;
 using Content.Shared.Ghost;
-using Content.Shared.DeadSpace.GhostRoleNotify.Prototypes;
+using Content.Shared.DeadSpace.Notify.Prototypes;
 using Content.Server.Ghost.Roles;
 using Robust.Server.Player;
-using Content.Shared.DeadSpace.Ghost;
+using Content.Shared.DeadSpace.Notify;
 
-namespace Content.Server.DeadSpace.GhostRoleNotify;
+namespace Content.Server.DeadSpace.Notify;
 
 public sealed partial class GhostRoleNotifySystem : EntitySystem
 {

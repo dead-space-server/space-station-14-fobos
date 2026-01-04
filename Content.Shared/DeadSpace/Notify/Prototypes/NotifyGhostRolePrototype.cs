@@ -1,5 +1,5 @@
 using Robust.Shared.Prototypes;
-namespace Content.Shared.DeadSpace.GhostRoleNotify.Prototypes;
+namespace Content.Shared.DeadSpace.Notify.Prototypes;
 
 [Prototype("ghostNotifyGroup")]
 public sealed partial class GhostRoleGroupNotify : IPrototype
