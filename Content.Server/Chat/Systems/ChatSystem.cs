@@ -491,7 +491,14 @@ public sealed partial class ChatSystem : SharedChatSystem
     {
         if (!_actionBlocker.CanSpeak(source) && !ignoreActionBlocker)
             return;
+        // DS14-start
+        if (_mobStateSystem.IsPreCritical(source))
+        {
+            SendEntityWhisper(source, originalMessage, range, null, nameOverride, hideLog, ignoreActionBlocker);
+            return;
+        }
 
+        // DS14-end
         var message = TransformSpeech(source, originalMessage);
 
         if (message.Length == 0)

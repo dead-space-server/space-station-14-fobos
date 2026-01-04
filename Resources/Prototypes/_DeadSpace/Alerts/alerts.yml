@@ -8,6 +8,15 @@
   description: alerts-crit-desc
 
 - type: alert
+  id: XenomorphPreCrit
+  category: Health
+  icons:
+  - sprite: /Textures/_DeadSpace/Interface/Alerts/xenomorph_critical.rsi
+    state: critical
+  name: alerts-precrit-name
+  description: alerts-precrit-desc
+
+- type: alert
   id: XenomorphDead
   category: Health
   icons:

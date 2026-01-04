@@ -188,6 +188,17 @@
   name: alerts-crit-name
   description: alerts-crit-desc
 
+# DS14-start
+- type: alert
+  id: HumanPreCrit
+  category: Health
+  icons:
+  - sprite: /Textures/Interface/Alerts/human_critical.rsi
+    state: critical
+  name: alerts-precrit-name
+  description: alerts-precrit-desc
+# DS14-end
+
 - type: alert
   id: HumanDead
   category: Health
