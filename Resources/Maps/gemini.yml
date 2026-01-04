@@ -143236,14 +143236,6 @@ entities:
     - type: Transform
       pos: 49.471153,-13.438919
       parent: 2
-    - type: Blocking
-      blockingToggleActionEntity: 14
-    - type: ActionsContainer
-    - type: ContainerContainer
-      containers:
-        actions: !type:Container
-          ents:
-          - 14
 - proto: RiotLaserShield
   entities:
   - uid: 17
@@ -143251,42 +143243,17 @@ entities:
     - type: Transform
       pos: 49.637825,-13.418085
       parent: 2
-    - type: Blocking
-      blockingToggleActionEntity: 18
-    - type: ActionsContainer
-    - type: ContainerContainer
-      containers:
-        actions: !type:Container
-          ents:
-          - 18
   - uid: 19
     components:
     - type: Transform
       pos: 49.74199,-13.345169
       parent: 2
-    - type: Blocking
-      blockingToggleActionEntity: 20
-    - type: ActionsContainer
-    - type: ContainerContainer
-      containers:
-        actions: !type:Container
-          ents:
-          - 20
-- proto: RiotShield
   entities:
   - uid: 15
     components:
     - type: Transform
       pos: 49.471153,-13.428502
       parent: 2
-    - type: Blocking
-      blockingToggleActionEntity: 16
-    - type: ActionsContainer
-    - type: ContainerContainer
-      containers:
-        actions: !type:Container
-          ents:
-          - 16
 - proto: RockGuitarInstrument
   entities:
   - uid: 21387
