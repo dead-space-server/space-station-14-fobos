@@ -264,7 +264,7 @@
     animation: WeaponArcPunch
     damage:
       groups:
-        Brute: 20
+        Brute: 15
   - type: NpcFactionMember
     factions:
       - Necromorfs
