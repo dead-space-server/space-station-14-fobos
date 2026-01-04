@@ -198,6 +198,8 @@
     - type: IgnoreKudzu
     - type: Loadout
       prototypes: [ BSAALeaderGear ]
+    - type: GhostRoleNotifys 
+      groupPrototype: CBURNGroup
 
 - type: randomHumanoidSettings
   id: BSAAFighter
@@ -222,6 +224,8 @@
     - type: ImmunNecroobelisk
     - type: Loadout
       prototypes: [ BSAAFighterGear ]
+    - type: GhostRoleNotifys 
+      groupPrototype: CBURNGroup
 
 - type: randomHumanoidSettings
   id: BSAAMedic
@@ -249,3 +253,5 @@
     - type: ImmunNecroobelisk
     - type: Loadout
       prototypes: [ BSAAMedicGear ]
+    - type: GhostRoleNotifys 
+      groupPrototype: CBURNGroup
