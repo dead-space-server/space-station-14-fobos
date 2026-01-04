@@ -17,7 +17,6 @@ public sealed partial class TimedWindow
     /// <summary>
     ///     Остаток времени до следующего события.
     /// </summary>
-    [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
     public TimeSpan Remaining { get; set; } = TimeSpan.Zero;
 
