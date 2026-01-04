@@ -19,7 +19,7 @@
   - type: ApcPowerReceiver
     powerLoad: 3100
   - type: Computer
-    board: ComputerDiagnoserConsoleCircuitboard
+    board: ErtResponceConsoleCircuitboard
   - type: PointLight
     radius: 1.5
     energy: 1.6
