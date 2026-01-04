@@ -50,8 +50,8 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
     private const float ProgressCaptureStation = 0.98f;
     // Сумма пополнения баланса станции на стадии размножения
     private const int AddMoneyBreeding = 80000;
-    private readonly ProtoId<CargoAccountPrototype> _account = "Cargo";
-    private readonly TimeSpan _roundEndTime = TimeSpan.FromSeconds(10);
+    private static readonly ProtoId<CargoAccountPrototype> Account = "Cargo";
+    private static readonly TimeSpan RoundEndTime = TimeSpan.FromSeconds(10);
     private bool _voteSend = false;
 
     public override void Initialize()
@@ -258,7 +258,7 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
         _cargoSystem.UpdateBankAccount(
                             (station, stationAccount),
                             AddMoneyBreeding,
-                            _account
+                            Account
                         );
     }
 
@@ -311,7 +311,7 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
         }
 
         component.CaptureStation(station);
-        _roundEndSystem.EndRound(_roundEndTime);
+        _roundEndSystem.EndRound(RoundEndTime);
 
     }
 
