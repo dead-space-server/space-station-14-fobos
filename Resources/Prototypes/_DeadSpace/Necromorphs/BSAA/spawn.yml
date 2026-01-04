@@ -17,8 +17,7 @@
     pocket2: DoubleEmergencyOxygenTankFilled
   storage:
     back:
-    - CombatKitFilled
-    - InjectorCaseFilled
+    - BSAACombatKitFilled
     - InjectorCaseStimFilled
     - BSAAloadout
     - DoorRemoteAll
@@ -47,8 +46,7 @@
     pocket1: DoubleEmergencyOxygenTankFilled
   storage:
     back:
-    - CombatKitFilled
-    - InjectorCaseFilled
+    - BSAACombatKitFilled
     - InjectorCaseStimFilled
     - BSAAloadout
     - KukriKnife
@@ -77,7 +75,7 @@
     pocket2: DoubleEmergencyOxygenTankFilled
   storage:
     back:
-    - CombatKitFilled
+    - BSAACombatKitFilled
     - InjectorCaseFilled
     - InjectorCaseStimFilled
     - BSAAloadout

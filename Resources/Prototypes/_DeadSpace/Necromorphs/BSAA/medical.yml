@@ -34,7 +34,7 @@
 
 - type: entity
   parent: MedkitCombat
-  id: CombatKitFilled
+  id: BSAACombatKitFilled
   name: боевая медицина
   description: Для любителей незаменивой классики.
   components:
