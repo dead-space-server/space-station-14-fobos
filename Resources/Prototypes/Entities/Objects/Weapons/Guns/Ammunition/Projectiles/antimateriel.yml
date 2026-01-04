@@ -6,6 +6,7 @@
   components:
   - type: Projectile
     damage:
+      armorPiercingLevel: 5 #пробивает любую брони в игре
       types:
         Piercing: 75
         Structural: 226

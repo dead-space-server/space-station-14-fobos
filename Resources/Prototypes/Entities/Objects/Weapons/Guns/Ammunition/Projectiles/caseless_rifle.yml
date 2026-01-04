@@ -6,6 +6,7 @@
   components:
   - type: Projectile
     damage:
+      armorPiercingLevel: 2 #изначально был создан для боевого промысла, смысла от него в качестве гражданской вариации нету
       types:
         Piercing: 19
 
