@@ -6,7 +6,8 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevel: 3 # потому что калаш
+      armorPiercingLevels:
+        Piercing: 3 # потому что калаш
       types:
         Piercing: 19
 

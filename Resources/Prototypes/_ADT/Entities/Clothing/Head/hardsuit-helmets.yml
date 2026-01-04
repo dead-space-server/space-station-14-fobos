@@ -18,7 +18,8 @@
     coolingCoefficient: 0.005
   - type: Armor
     modifiers:
-      armorLvl: 1
+      armorLvls:
+          Piercing: 1
       coefficients:
         Blunt: 0.8
         Slash: 0.8
@@ -48,7 +49,8 @@
     coolingCoefficient: 0.005
   - type: Armor
     modifiers:
-      armorLvl: 2
+      armorLvls:
+          Piercing: 2
       coefficients:
         Blunt: 0.4
         Slash: 0.4
@@ -73,7 +75,8 @@
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
-      armorLvl: 2
+      armorLvls:
+          Piercing: 2
       coefficients:
         Blunt: 0.2
         Slash: 0.2
@@ -103,7 +106,8 @@
     coolingCoefficient: 0.005
   - type: Armor
     modifiers:
-      armorLvl: 2
+      armorLvls:
+          Piercing: 2
       coefficients:
         Blunt: 0.4
         Slash: 0.4

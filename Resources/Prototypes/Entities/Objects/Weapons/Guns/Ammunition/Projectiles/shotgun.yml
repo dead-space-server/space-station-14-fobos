@@ -9,7 +9,8 @@
     state: slug
   - type: Projectile
     damage:
-      armorPiercingLevel: 2
+      armorPiercingLevels:
+        Piercing: 2
       types:
         Piercing: 40
         Structural: 15

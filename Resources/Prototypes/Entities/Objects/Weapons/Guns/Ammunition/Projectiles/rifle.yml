@@ -6,7 +6,8 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevel: 2 # экспансивная пуля, имеет мягкий наконечник, но все еще остается винтовочным патроном
+      armorPiercingLevels:
+        Piercing: 2 # экспансивная пуля, имеет мягкий наконечник, но все еще остается винтовочным патроном
       types:
         Piercing: 20
   - type: StaminaDamageOnCollide

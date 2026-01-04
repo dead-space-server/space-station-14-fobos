@@ -6,7 +6,8 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevel: 3 # FMJ патрон со стальным сердечником, больше пробитие брони
+      armorPiercingLevels:
+        Piercing: 3 # FMJ патрон со стальным сердечником, больше пробитие брони
       types:
         Piercing: 20
 
@@ -18,6 +19,7 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevel: 2
+      armorPiercingLevels:
+        Piercing: 2
       types:
         Piercing: 19

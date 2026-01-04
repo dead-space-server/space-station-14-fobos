@@ -10,7 +10,8 @@
       sprite: Clothing/OuterClothing/Coats/hos_greatcoat.rsi
     - type: Armor
       modifiers:
-        armorLvl: 2
+        armorLvls:
+          Piercing: 2
         coefficients:
           Blunt: 0.6
           Slash: 0.6
@@ -51,7 +52,8 @@
       sprite: _Corvax/Clothing/OuterClothing/Coats/warden_alt.rsi
     - type: Armor
       modifiers:
-        armorLvl: 2
+        armorLvls:
+          Piercing: 2
         coefficients:
           Blunt: 0.8
           Slash: 0.8
@@ -108,6 +110,8 @@
     sprite: _Corvax/Clothing/OuterClothing/Coats/captain.rsi
   - type: Armor
     modifiers:
+      armorLvls:
+          Piercing: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
