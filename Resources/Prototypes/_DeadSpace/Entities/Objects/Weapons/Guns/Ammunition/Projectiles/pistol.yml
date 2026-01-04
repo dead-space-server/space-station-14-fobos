@@ -1,0 +1,11 @@
+- type: entity
+  id: BulletPistolFMJ
+  name: bullet (.35 auto)
+  parent: BaseBullet
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    damage:
+      armorPiercingLevel: 2 # FMJ патрон со стальным сердечником, больше пробитие брони
+      types:
+        Piercing: 16
