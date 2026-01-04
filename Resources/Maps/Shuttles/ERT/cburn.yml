@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/03/2026 12:11:55
-  entityCount: 1025
+  time: 01/04/2026 09:37:17
+  entityCount: 1020
 maps: []
 grids:
 - 1
@@ -885,38 +885,6 @@ entities:
           ents: []
     - type: Physics
       canCollide: False
-- proto: BoxMRE
-  entities:
-  - uid: 1019
-    components:
-    - type: Transform
-      pos: -1.4635792,-0.97574794
-      parent: 1
-  - uid: 1020
-    components:
-    - type: Transform
-      pos: -1.4635792,-0.97574794
-      parent: 1
-  - uid: 1021
-    components:
-    - type: Transform
-      pos: -1.4792042,-1.303873
-      parent: 1
-  - uid: 1022
-    components:
-    - type: Transform
-      pos: -1.4792042,-1.303873
-      parent: 1
-  - uid: 1023
-    components:
-    - type: Transform
-      pos: -1.4010792,-1.631998
-      parent: 1
-  - uid: 1024
-    components:
-    - type: Transform
-      pos: -1.4010792,-1.631998
-      parent: 1
 - proto: BoxPillCanister
   entities:
   - uid: 105
@@ -3122,6 +3090,21 @@ entities:
     components:
     - type: Transform
       pos: -5.4571977,-19.09046
+      parent: 1
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 850
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -1.5,-1.5
+      parent: 1
+- proto: ErtComputerShuttleCircuitboard
+  entities:
+  - uid: 1019
+    components:
+    - type: Transform
+      pos: -2.40625,-4.3971763
       parent: 1
 - proto: ErtSpawnPoint
   entities:
@@ -6243,12 +6226,6 @@ entities:
     components:
     - type: Transform
       pos: 1.5,-12.5
-      parent: 1
-  - uid: 850
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -1.5,-1.5
       parent: 1
   - uid: 851
     components:

@@ -79,7 +79,6 @@ public sealed partial class VirusSystem : SharedVirusSystem
         SubscribeLocalEvent<VirusComponent, CureVirusEvent>(OnCureVirus);
 
         RashInitialize();
-        AsphyxiaInitialize();
     }
 
     public override void Update(float frameTime)
@@ -694,9 +693,6 @@ public sealed partial class VirusSystem : SharedVirusSystem
 
             VirusSymptom.VocalDisruption =>
                 new VocalDisruptionSymptom(newWindow),
-
-            VirusSymptom.Asphyxia =>
-                new AsphyxiaSymptom(newWindow),
 
             VirusSymptom.Blindable =>
                 new BlindableSymptom(newWindow),

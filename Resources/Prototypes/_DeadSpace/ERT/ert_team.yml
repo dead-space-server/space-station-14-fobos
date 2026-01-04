@@ -58,7 +58,7 @@
     max: 10m
   price: 20000
   spawns:
-    - id: RandomHumanoidVisitorEngineer
+    - id: RandomHumanoidSpawnerERTEngineerAmber
       amount: 4
 
 - type: ertTeam

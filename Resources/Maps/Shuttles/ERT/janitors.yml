@@ -4,7 +4,7 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/03/2026 12:26:02
+  time: 01/04/2026 09:31:13
   entityCount: 690
 maps: []
 grids:
@@ -2049,6 +2049,14 @@ entities:
       parent: 313
     - type: Physics
       canCollide: False
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 473
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 1.5,14.5
+      parent: 1
 - proto: ErtSpawnPoint
   entities:
   - uid: 690
@@ -3204,11 +3212,6 @@ entities:
       parent: 1
 - proto: TableReinforced
   entities:
-  - uid: 473
-    components:
-    - type: Transform
-      pos: 1.5,14.5
-      parent: 1
   - uid: 474
     components:
     - type: Transform
