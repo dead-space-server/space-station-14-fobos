@@ -1,4 +1,5 @@
 using Content.Shared.Damage.Prototypes;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.Dictionary;
 
@@ -26,7 +27,7 @@ namespace Content.Shared.Damage
 
         // DS14-Start
         [DataField]
-        public int ArmorLvl = 1;
+        public Dictionary<string, int> ArmorLvls = new();
         // DS14-End
     }
 }

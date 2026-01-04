@@ -46,9 +46,31 @@ namespace Content.Shared.Damage
         public Dictionary<string, FixedPoint2> DamageDict { get; set; } = new();
 
         // DS14-Start
-        // так же изменены методы конструктора и ApplyModifierSet, в общем класс DamageSpecifier встрато сделан
-        [DataField]
-        public int ArmorPiercingLevel = 1;
+        // Per-damage-type armor piercing levels. Can be set from prototypes via the
+        // `armorPiercingLevels` data-field or using the helper methods below.
+        [DataField("armorPiercingLevels")]
+        private Dictionary<string, int>? _damageTypeArmorPiercingLevel = new();
+
+        /// <summary>
+        ///     Set per-type armor piercing level for a damage type.
+        /// </summary>
+        public void SetArmorPiercingLevelForType(string damageType, int level)
+        {
+            if (_damageTypeArmorPiercingLevel == null)
+                _damageTypeArmorPiercingLevel = new Dictionary<string, int>();
+
+            _damageTypeArmorPiercingLevel[damageType] = level;
+        }
+
+        /// <summary>
+        ///     Try get per-type armor piercing level, falling back to the global `ArmorPiercingLevel`.
+        /// </summary>
+        public int GetArmorPiercingLevelForType(string damageType)
+        {
+            if (_damageTypeArmorPiercingLevel != null && _damageTypeArmorPiercingLevel.TryGetValue(damageType, out var v))
+                return v;
+            return 1;
+        }
         // DS14-End
 
         /// <summary>
@@ -107,7 +129,12 @@ namespace Content.Shared.Damage
         public DamageSpecifier(DamageSpecifier damageSpec)
         {
             DamageDict = new(damageSpec.DamageDict);
-            ArmorPiercingLevel = damageSpec.ArmorPiercingLevel;
+
+            // DS14-Start
+            _damageTypeArmorPiercingLevel = damageSpec._damageTypeArmorPiercingLevel != null
+                ? new Dictionary<string, int>(damageSpec._damageTypeArmorPiercingLevel)
+                : new Dictionary<string, int>();
+            // DS14-End
         }
 
         /// <summary>
@@ -146,18 +173,11 @@ namespace Content.Shared.Damage
         /// </remarks>
         public static DamageSpecifier ApplyModifierSet(DamageSpecifier damageSpec, DamageModifierSet modifierSet)
         {
-            // Make a copy of the given data. Don't modify the one passed to this function. I did this before, and weapons became
-            // duller as you hit walls. Neat, but not FixedPoint2ended. And confusing, when you realize your fists don't work no
-            // more cause they're just bloody stumps.
-            DamageSpecifier newDamage = new();
+            // Make a copy of the given data. Preserve per-type AP dictionary, but start with an empty DamageDict
+            // so we only add modified entries.
+            DamageSpecifier newDamage = new(damageSpec);
+            newDamage.DamageDict.Clear();
             newDamage.DamageDict.EnsureCapacity(damageSpec.DamageDict.Count);
-
-            // DS14-Start
-            float armorMultiplier = 1f;
-
-            if (modifierSet.ArmorLvl > 0)
-                armorMultiplier = Math.Max(0f, (float)damageSpec.ArmorPiercingLevel / modifierSet.ArmorLvl);
-            // DS14-End
 
             foreach (var (key, value) in damageSpec.DamageDict)
             {
@@ -177,9 +197,21 @@ namespace Content.Shared.Damage
 
                 // DS14-Start
                 // Temporary debug log to inspect armor piercing and armor levels (use project's Logger)
-                Logger.Debug($"ApplyModifierSet: key={key} origValue={value} floatValue={newValue} AP={damageSpec.ArmorPiercingLevel} ArmorLvl={modifierSet.ArmorLvl} armorMultiplier={armorMultiplier}");
 
-                if (damageSpec.ArmorPiercingLevel <= modifierSet.ArmorLvl)
+                int apLevelForType = damageSpec._damageTypeArmorPiercingLevel != null &&
+                                    damageSpec._damageTypeArmorPiercingLevel.TryGetValue(key, out var typeAp)
+                                    ? typeAp
+                                    : 1;
+
+                int armorLvl = modifierSet.ArmorLvls.TryGetValue(key, out var typeB)
+                                    ? typeB
+                                    : 1;
+
+                float armorMultiplier = 1f;
+                if (armorLvl > 0)
+                    armorMultiplier = Math.Max(0f, (float)apLevelForType / armorLvl);
+
+                if (apLevelForType <= armorLvl)
                 {
                     newValue *= armorMultiplier;
                 }
