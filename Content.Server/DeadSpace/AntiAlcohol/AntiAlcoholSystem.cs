@@ -35,8 +35,8 @@ public sealed class AntiAlcoholSystem : EntitySystem
         if (reagentArgs.Reagent is not { } reagent || reagentArgs.Source is not { } solution)
             return;
 
-        var reagentId = reagent.ID;
-        var ethanolAmount = solution.GetTotalPrototypeQuantity(reagentId);
+        var reagentID = reagent.ID;
+        var ethanolAmount = solution.GetTotalPrototypeQuantity(reagentID);
         var threshold = FixedPoint2.New(watcher.Threshold);
 
         if (ethanolAmount < threshold)
@@ -45,10 +45,17 @@ public sealed class AntiAlcoholSystem : EntitySystem
         if (!_random.Prob(watcher.Probability))
             return;
 
+        var quantity = reagentArgs.Quantity.Float();
+        var scale = reagentArgs.Scale.Float();
+        var effectMultiplier = quantity * scale;
+
         var target = reagentArgs.TargetEntity;
         _vomit.Vomit(target);
+
         var poisonDamage = new DamageSpecifier();
-        poisonDamage.DamageDict.Add("Poison", 5);
-        _damageableSystem.TryChangeDamage(target, poisonDamage);
+        poisonDamage.DamageDict.Add("Poison", watcher.poisonDamage);
+
+        var finalDamage = poisonDamage * effectMultiplier;
+        _damageableSystem.TryChangeDamage(target, finalDamage);
     }
 }
