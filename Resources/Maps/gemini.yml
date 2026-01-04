@@ -11095,8 +11095,6 @@ entities:
     - type: Transform
       parent: 17
   - uid: 20
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 19
@@ -11107,16 +11105,12 @@ entities:
     - type: Transform
       parent: 21
   - uid: 25
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 24
 - proto: ActionToggleJetpack
   entities:
   - uid: 26
-    mapInit: true
-    paused: true
     components:
     - type: Transform
       parent: 24
