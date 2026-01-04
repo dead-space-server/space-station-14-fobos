@@ -362,7 +362,6 @@
   parent: BaseWeaponRifle
   id: WeaponRifleSCARAB
   description: Штурмовой автомат из семейства FN SCAR, модифицированный под патрон 6.8х51 мм. На месте пулевых попаданий оставляет зверские порезы и впрыскивает в рану слабую кислоту.
-  suffix: ex1stenz, Ивент
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/scarab/scarab.rsi

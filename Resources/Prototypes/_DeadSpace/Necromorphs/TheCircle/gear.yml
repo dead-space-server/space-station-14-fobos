@@ -427,8 +427,8 @@
       - state: equipped-FEET
       - state: on-equipped-FEET
   - type: ClothingSpeedModifier
-    walkModifier: 1.0
-    sprintModifier: 1.0
+    walkModifier: 0.95
+    sprintModifier: 0.95
   - type: Item
     sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/magboots.rsi
     size: Normal
