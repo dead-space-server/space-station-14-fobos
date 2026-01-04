@@ -122,6 +122,7 @@
     size: Ginormous
   - type: Armor
     modifiers:
+      armorLvl: 2 #ибо он hard
       coefficients:
         Blunt: 0.90
         Slash: 0.90

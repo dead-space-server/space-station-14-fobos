@@ -16,6 +16,7 @@
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
+      armorLvl: 2 # это шлем, защита которого будет работать ток с 2 лвла
       coefficients:
         Blunt: 0.6
         Slash: 0.6
@@ -44,6 +45,7 @@
     coolingCoefficient: 0.005
   - type: Armor
     modifiers:
+      armorLvl: 2 # это шлем
       coefficients:
         Blunt: 0.8
         Slash: 0.8
@@ -69,6 +71,7 @@
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
+      armorLvl: 2 # это шлем
       coefficients:
         Blunt: 0.8
         Slash: 0.8

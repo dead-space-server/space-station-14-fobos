@@ -233,6 +233,7 @@
     sprite: _DeadSpace/Clothing/OuterClothing/Coats/centcom_officer.rsi
   - type: Armor
     modifiers:
+      armorLvl: 3
       coefficients:
         Blunt: 0.6
         Slash: 0.6

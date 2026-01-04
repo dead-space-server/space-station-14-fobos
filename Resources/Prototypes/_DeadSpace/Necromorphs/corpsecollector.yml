@@ -46,6 +46,7 @@
   - type: Unremoveable
   - type: Armor
     modifiers:
+      armorLvl: 2
       coefficients:
         Blunt: 0.6
         Slash: 1.2
@@ -76,6 +77,7 @@
   - type: Unremoveable
   - type: Armor
     modifiers:
+      armorLvl: 3
       coefficients:
         Blunt: 0.5
         Slash: 1

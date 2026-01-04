@@ -13,6 +13,7 @@
     node: clothingCraftArmor
   - type: Armor # 0.1 less than basic armor
     modifiers:
+      armorLvl: 2 #это буквально стальные листы, надо бы сделать чтобы она урон наносила больше тупыми ударами
       coefficients:
         Blunt: 0.80
         Slash: 0.80

@@ -15,6 +15,7 @@
     damageCoefficient: 0.5
   - type: Armor
     modifiers:
+      armorLvl: 3
       coefficients:
         Blunt: 0.5
         Slash: 0.5
@@ -54,6 +55,7 @@
     damageCoefficient: 0.2
   - type: Armor
     modifiers:
+      armorLvl: 4
       coefficients:
         Blunt: 0.3
         Slash: 0.3
@@ -91,6 +93,7 @@
     sprintModifier: 0.65
   - type: Armor
     modifiers:
+      armorLvl: 4
       coefficients:
         Blunt: 0.1
         Slash: 0.4
@@ -123,6 +126,7 @@
     damageCoefficient: 0.5
   - type: Armor
     modifiers:
+      armorLvl: 3
       coefficients:
         Blunt: 0.5
         Slash: 0.5
@@ -185,6 +189,7 @@
     damageCoefficient: 0.5
   - type: Armor
     modifiers:
+      armorLvl: 3
       coefficients:
         Blunt: 0.5
         Slash: 0.5
