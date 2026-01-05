@@ -27,10 +27,6 @@ public sealed class MeleeSkillSystem : EntitySystem
                 bestModifier = bestModifier * _skillSystem.GetSkillProgress(args.User, skill);
         }
 
-        Console.WriteLine(bestModifier);
-        Console.WriteLine(args.BaseDamage);
-        Console.WriteLine(args.BaseDamage * bestModifier - args.BaseDamage);
-
         args.BonusDamage = args.BaseDamage * bestModifier - args.BaseDamage;
     }
 }
