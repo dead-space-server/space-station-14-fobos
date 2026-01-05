@@ -555,6 +555,7 @@
     modifiers:
       armorLvls:
         Piercing: 1
+        Heat: 2
       coefficients:
         Blunt: 0.6
         Slash: 0.8
@@ -708,6 +709,7 @@
     modifiers:
       armorLvls:
         Piercing: 3
+        Heat: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
@@ -786,6 +788,7 @@
     modifiers:
       armorLvls:
         Piercing: 4 # он типа элитные же
+        Heat: 2
       coefficients:
         Blunt: 0.6
         Slash: 0.6
@@ -834,6 +837,7 @@
     modifiers:
       armorLvls:
         Piercing: 3
+        Heat: 2
       coefficients:
         Blunt: 0.4
         Slash: 0.4
@@ -879,6 +883,7 @@
     modifiers:
       armorLvls:
         Piercing: 5
+        Heat: 2
       coefficients:
         Blunt: 0.2
         Slash: 0.2
@@ -925,6 +930,7 @@
     modifiers:
       armorLvls:
         Piercing: 3
+        Heat: 2
       coefficients:
         Blunt: 0.6
         Slash: 0.6
@@ -1114,6 +1120,7 @@
     modifiers:
       armorLvls:
         Piercing: 3
+        Heat: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
@@ -1264,6 +1271,7 @@
     modifiers:
       armorLvls:
         Piercing: 5
+        Heat: 3
       coefficients:
         Blunt: 0.2 #best armor in the game
         Slash: 0.2
@@ -1324,6 +1332,7 @@
     modifiers:
       armorLvls:
         Piercing: 2
+        Heat: 2
       coefficients:
         Blunt: 0.7
         Slash: 0.7

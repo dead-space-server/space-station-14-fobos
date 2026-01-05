@@ -19,7 +19,8 @@
   - type: Armor
     modifiers:
       armorLvls:
-          Piercing: 1
+        Piercing: 1
+        Heat: 1
       coefficients:
         Blunt: 0.8
         Slash: 0.8

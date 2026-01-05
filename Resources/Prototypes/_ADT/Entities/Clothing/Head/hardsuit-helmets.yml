@@ -19,7 +19,8 @@
   - type: Armor
     modifiers:
       armorLvls:
-          Piercing: 1
+        Piercing: 1
+        Heat: 2
       coefficients:
         Blunt: 0.8
         Slash: 0.8
@@ -50,7 +51,8 @@
   - type: Armor
     modifiers:
       armorLvls:
-          Piercing: 2
+        Piercing: 2
+        Heat: 2
       coefficients:
         Blunt: 0.4
         Slash: 0.4
@@ -76,7 +78,8 @@
   - type: Armor
     modifiers:
       armorLvls:
-          Piercing: 2
+        Piercing: 2
+        Heat: 2
       coefficients:
         Blunt: 0.2
         Slash: 0.2
@@ -107,7 +110,8 @@
   - type: Armor
     modifiers:
       armorLvls:
-          Piercing: 2
+        Piercing: 2
+        Heat: 2
       coefficients:
         Blunt: 0.4
         Slash: 0.4
@@ -133,7 +137,7 @@
   - type: Armor
     modifiers:
       armorLvls:
-          Piercing: 1
+        Heat: 1
       coefficients:
         Blunt: 0.90
         Slash: 0.65
@@ -159,7 +163,8 @@
   - type: Armor
     modifiers:
       armorLvls:
-          Piercing: 1
+        Piercing: 1
+        Heat: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9
