@@ -83646,19 +83646,6 @@ entities:
     - type: Transform
       pos: 2.4978046,0.6471896
       parent: 27296
-    - type: HandheldLight
-      toggleActionEntity: 27298
-    - type: ContainerContainer
-      containers:
-        cell_slot: !type:ContainerSlot
-          showEnts: False
-          occludes: True
-          ent: null
-        actions: !type:Container
-          showEnts: False
-          occludes: True
-          ents:
-          - 27298
     - type: ActionsContainer
 - proto: Floodlight
   entities:
@@ -122435,19 +122422,6 @@ entities:
     components:
     - type: Transform
       parent: 23
-    - type: GasTank
-      toggleActionEntity: 25
-    - type: Jetpack
-      toggleActionEntity: 26
-    - type: Physics
-      canCollide: False
-    - type: ActionsContainer
-    - type: ContainerContainer
-      containers:
-        actions: !type:Container
-          ents:
-          - 26
-          - 25
     - type: InsideEntityStorage
   - uid: 10258
     components:
