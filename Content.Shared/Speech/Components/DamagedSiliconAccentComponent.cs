@@ -37,7 +37,7 @@ public sealed partial class DamagedSiliconAccentComponent : Component
     ///     Enable charge level corruption effects
     /// </summary>
     [DataField]
-    public bool EnableChargeCorruption = false;
+    public bool EnableChargeCorruption = true;
 
     /// <summary>
     ///     Override charge level for charge level corruption effects
