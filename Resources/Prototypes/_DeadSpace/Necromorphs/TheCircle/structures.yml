@@ -94,9 +94,9 @@
     
 ## Консоль
 - type: entity
-  parent: ComputerComms
+  parent: BaseComputerAiAccess
   id: UnitologyComputerComms
-  name: консоль связи отряда "Круг"
+  name: консоль обьявления войны "Круг"
   description: Эта штука заставит станцию трепещать от страха!
   components:
   - type: Sprite
@@ -113,13 +113,18 @@
       state: generic_panel_open
   - type: AccessReader
     access: [[ "NuclearOperative" ]]
-  - type: CommunicationsConsole
-    title: thecircle-name
-    color: "#D70040"
-    canShuttle: false
-    global: true
-    announceSentBy: false
-    sound: /Audio/_DeadSpace/Necromorfs/TheCircle/console-sfx/unitology-alert.ogg
+  - type: ActivatableUI
+    singleUser: true
+    key: enum.WarDeclaratorUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.WarDeclaratorUiKey.Key:
+        type: WarDeclaratorBoundUserInterface
+  - type: WarDeclarator
+    message: uni-ops-war-declarator-message
+    senderTitle: uni-ops-war-declarator-thecircle-name
+    sound: 
+      path: /Audio/_DeadSpace/Necromorfs/TheCircle/console-sfx/unitology-alert.ogg
   - type: Computer
     board: UnitologyComputerCircuitboard
   - type: PointLight

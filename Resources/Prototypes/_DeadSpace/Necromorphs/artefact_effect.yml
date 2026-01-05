@@ -152,6 +152,5 @@
       table: !type:GroupSelector
         children:
         - id: BruteNecromorfSpawner
-        - id: CorpseCollectorNecromorfSpawner
         - id: InfectorNecromorfSpawner
         - id: NecroKudzu

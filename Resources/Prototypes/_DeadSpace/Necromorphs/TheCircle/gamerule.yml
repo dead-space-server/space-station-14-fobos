@@ -41,6 +41,19 @@
   components:
   - type: GameRule
     minPlayers: 75
+  - type: CircleOpsRule
+    windowUntilSendObelisk:
+      min: 1m
+      max: 1m
+    windowBefoteWarDeclaration:
+      min: 25m
+      max: 25m
+    windowAfterWarDeclare:
+      min: 15m
+      max: 15m
+    windowUntilSpawnMoon:
+      min: 15m
+      max: 15m
   - type: LoadMapRule
     mapPath: /Maps/Nonstations/ds_thecircle_outpost_docked.yml
   - type: AntagSelection
@@ -59,6 +72,7 @@
       roleLoadout:
         - RoleSurvivalExtended
       components:
+      - type: ObeliskActivateAbility
       - type: IntrinsicRadioTransmitter
         channels:
         - Unitolog
@@ -94,6 +108,7 @@
       roleLoadout:
         - RoleSurvivalExtended
       components:
+      - type: ObeliskActivateAbility
       - type: IntrinsicRadioTransmitter
         channels:
         - Unitolog
@@ -129,6 +144,7 @@
         color: CornflowerBlue
         sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
       components:
+      - type: ObeliskActivateAbility
       - type: IntrinsicRadioTransmitter
         channels:
         - Unitolog
@@ -163,6 +179,7 @@
         color: CornflowerBlue
         sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
       components:
+      - type: ObeliskActivateAbility
       - type: IntrinsicRadioTransmitter
         channels:
         - Unitolog
@@ -197,6 +214,7 @@
         color: CornflowerBlue
         sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
       components:
+      - type: ObeliskActivateAbility
       - type: IntrinsicRadioTransmitter
         channels:
         - Unitolog

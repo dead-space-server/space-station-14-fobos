@@ -74,7 +74,7 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
 
         SubscribeLocalEvent<UnitologyRuleComponent, AfterAntagEntitySelectedEvent>(AfterEntitySelected);
         SubscribeLocalEvent<UnitologyRuleComponent, StageObeliskEvent>(OnStageObelisk);
-        SubscribeLocalEvent<UnitologyRuleComponent, EndStageConvergenceEvent>(EndStageConvergence);
+        SubscribeLocalEvent<UnitologyRuleComponent, SpawnNecroMoonEvent>(EndStageConvergence);
         SubscribeLocalEvent<UnitologyRuleComponent, StageConvergenceEvent>(OnStageConvergence);
     }
 
@@ -414,7 +414,7 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
         RaiseLocalEvent(component.Obelisk, ref convergenceEvent);
     }
 
-    private void EndStageConvergence(EntityUid uid, UnitologyRuleComponent component, EndStageConvergenceEvent ev)
+    private void EndStageConvergence(EntityUid uid, UnitologyRuleComponent component, SpawnNecroMoonEvent ev)
     {
         component.IsEndConvergence = true;
         component.NextStageTime = _timing.CurTime + component.StageConvergenceDuration;

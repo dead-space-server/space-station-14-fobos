@@ -29,15 +29,15 @@
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.425
-        Slash: 0.475
-        Piercing: 0.455
-        Heat: 0.175
-        Cold: 0.175
-        Shock: 0.425
-        Radiation: 0.425
-        Caustic: 0.425
-        Stun: 0.475
+        Blunt: 0.43
+        Slash: 0.48
+        Piercing: 0.46
+        Heat: 0.18
+        Cold: 0.18
+        Shock: 0.43
+        Radiation: 0.43
+        Caustic: 0.43
+        Stun: 0.48
   - type: TemperatureProtection
     heatingCoefficient: 0.001
     coolingCoefficient: 0.001
@@ -75,7 +75,7 @@
     radius: 7
     energy: 4
   - type: PressureProtection
-    highPressureMultiplier: 0.525
+    highPressureMultiplier: 0.53
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
@@ -104,15 +104,15 @@
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.475
-        Slash: 0.425
-        Piercing: 0.525
-        Heat: 0.225
-        Cold: 0.225
-        Shock: 0.475
-        Radiation: 0.475
-        Caustic: 0.475
-        Stun: 0.475
+        Blunt: 0.48
+        Slash: 0.43
+        Piercing: 0.53
+        Heat: 0.23
+        Cold: 0.23
+        Shock: 0.48
+        Radiation: 0.48
+        Caustic: 0.48
+        Stun: 0.48
   - type: TemperatureProtection
     heatingCoefficient: 0.001
     coolingCoefficient: 0.001
@@ -150,7 +150,7 @@
     radius: 5
     energy: 3
   - type: PressureProtection
-    highPressureMultiplier: 0.525
+    highPressureMultiplier: 0.53
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
@@ -179,15 +179,15 @@
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.425
-        Slash: 0.475
-        Piercing: 0.575
-        Heat: 0.275
-        Cold: 0.275
-        Shock: 0.525
-        Radiation: 0.525
-        Caustic: 0.525
-        Stun: 0.475
+        Blunt: 0.43
+        Slash: 0.48
+        Piercing: 0.58
+        Heat: 0.28
+        Cold: 0.28
+        Shock: 0.53
+        Radiation: 0.53
+        Caustic: 0.53
+        Stun: 0.48
   - type: TemperatureProtection
     heatingCoefficient: 0.001
     coolingCoefficient: 0.001
@@ -225,7 +225,7 @@
     radius: 5
     energy: 3
   - type: PressureProtection
-    highPressureMultiplier: 0.525
+    highPressureMultiplier: 0.53
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
