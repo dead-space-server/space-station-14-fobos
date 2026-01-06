@@ -11,7 +11,7 @@ ent-WeaponRifleLecter = Лектер
     .suffix = Автомат
 ent-WeaponRifleLecterFMJ = { ent-WeaponRifleLecter }
     .desc = { ent-WeaponRifleLecter.desc }
-    .suffix = { ent-WeaponRifleLecter.suffix }
+    .suffix = Автомат FMJ
 ent-WeaponRifleLecterXL8 = XL8
     .desc =
         Экспериментальный лектер 8
