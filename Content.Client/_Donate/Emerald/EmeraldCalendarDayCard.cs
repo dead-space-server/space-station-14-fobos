@@ -385,6 +385,10 @@ public sealed class EmeraldCalendarDayCard : Control
                 statusText = "ПОЛУЧЕНО";
                 statusColor = _claimedColor;
                 break;
+            case CalendarRewardStatus.Missed:
+                statusText = "ПРОПУЩЕНО";
+                statusColor = _lockedColor;
+                break;
             default:
                 statusText = "ЗАБЛОКИРОВАНО";
                 statusColor = _lockedColor;

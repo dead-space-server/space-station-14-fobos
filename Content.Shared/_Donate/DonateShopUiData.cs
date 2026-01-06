@@ -26,7 +26,8 @@ public enum CalendarRewardStatus : byte
 {
     Locked,
     Available,
-    Claimed
+    Claimed,
+    Missed
 }
 
 [Serializable, NetSerializable]
@@ -200,6 +201,9 @@ public sealed class InventoryItemData
     public string Source { get; }
     public string? TimeFinish { get; }
     public bool TimeAllways { get; }
+    public bool IsLootbox { get; }
+    public bool StelsHidden { get; }
+    public int UserItemId { get; }
 
     public InventoryItemData(
         int id,
@@ -208,7 +212,10 @@ public sealed class InventoryItemData
         string category,
         string source,
         string? timeFinish,
-        bool timeAllways)
+        bool timeAllways,
+        bool isLootbox,
+        bool stelsHidden,
+        int userItemId)
     {
         Id = id;
         Name = name;
@@ -217,6 +224,9 @@ public sealed class InventoryItemData
         Source = source;
         TimeFinish = timeFinish;
         TimeAllways = timeAllways;
+        IsLootbox = isLootbox;
+        StelsHidden = stelsHidden;
+        UserItemId = userItemId;
     }
 }
 

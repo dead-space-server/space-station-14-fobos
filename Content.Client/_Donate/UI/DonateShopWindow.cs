@@ -732,7 +732,6 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
         foreach (var item in categoryItems)
         {
             var isSubscription = item.Source == "subscription";
-            var isLootbox = item.Name.ToLower().Contains("лутбокс") || item.Name.ToLower().Contains("lootbox");
 
             var itemCard = new EmeraldItemCard
             {
@@ -744,9 +743,9 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
                 IsSpawned = _state?.SpawnedItems.Contains(item.ItemIdInGame ?? "") ?? false,
                 IsTimeUp = _state?.IsTimeUp ?? false,
                 SourceSubscription = isSubscription ? item.Source : null,
-                IsLootbox = isLootbox,
-                UserItemId = item.Id,
-                StelsHidden = false
+                IsLootbox = item.IsLootbox,
+                UserItemId = item.UserItemId,
+                StelsHidden = item.StelsHidden
             };
 
             itemCard.OnSpawnRequest += OnSpawnItemRequest;
@@ -1019,6 +1018,7 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
         _isPurchasing = true;
         ShowPurchaseProcessing();
         _entManager.EntityNetManager.SendSystemNetworkMessage(new RequestPurchaseEnergyItem(itemId, period));
+        RequestInventoryData();
     }
 
     private void OnClaimRewardRequest(int rewardId, bool isPremium)
@@ -1028,6 +1028,7 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
 
         _isClaimingReward = true;
         _entManager.EntityNetManager.SendSystemNetworkMessage(new RequestClaimCalendarReward(rewardId, isPremium));
+        RequestInventoryData();
     }
 
     private void OpenLootboxOpener(string name, int userItemId, bool stelsHidden)
