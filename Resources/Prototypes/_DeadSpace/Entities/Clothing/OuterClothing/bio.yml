@@ -20,3 +20,11 @@
     sprite: _DeadSpace/Clothing/OuterClothing/Bio/general.rsi
   - type: Clothing
     sprite: _DeadSpace/Clothing/OuterClothing/Bio/general.rsi
+  - type: ContainerContainer
+    containers:
+      toggleable-clothing: !type:ContainerSlot {}
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHatHoodChemist
+    slot: head
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.1
