@@ -101,6 +101,8 @@
     thresholds:
       0: Alive
       350: Dead
+  - type: Damageable
+    damageModifierSet: HeavySpiderTerror
   - type: Fixtures
     fixtures:
       fix1:

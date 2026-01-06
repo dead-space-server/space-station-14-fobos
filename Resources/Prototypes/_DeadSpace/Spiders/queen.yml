@@ -50,6 +50,8 @@
     spawnedEntities: # В кого можно эволюционировать
       - MobSpiderTerrorQueenLvl2
   - type: SpiderKing
+  - type: Damageable
+    damageModifierSet: HeavySpiderTerror
 
 - type: entity
   name: королева пауков

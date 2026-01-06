@@ -70,6 +70,9 @@
         Heat: 0.8 # DS14-value
   - type: ExplosionResistance
     damageCoefficient: 0.80
+  - type: ClothingSpeedModifier # DS14
+    walkModifier: 0.95
+    sprintModifier: 0.95
 
 - type: entity
   parent: ClothingOuterArmorBase
@@ -175,7 +178,7 @@
       coefficients:
         Blunt: 0.6 #ballistic plates = better protection
         Slash: 0.6
-        Piercing: 0.3
+        Piercing: 0.5 # DS14-value
         Heat: 0.9
   - type: ExplosionResistance
     damageCoefficient: 0.9
@@ -199,7 +202,7 @@
   - type: Armor
     modifiers:
       armorLvls:
-        Piercing: 2
+        Piercing: 3
       coefficients:
         Blunt: 0.5
         Slash: 0.5
@@ -393,6 +396,9 @@
         # Radiation: 0 # DS14-value
         Caustic: 0.75
         Stun: 0.65 # DS14-value: 5 stunbaton hits for stun
+  - type: ClothingSpeedModifier # DS14
+    walkModifier: 0.85
+    sprintModifier: 0.85
   - type: GroupExamine
   - type: ExplosionResistance # DS14
     damageCoefficient: 0.80
