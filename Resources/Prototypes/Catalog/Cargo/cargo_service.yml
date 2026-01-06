@@ -174,7 +174,7 @@
     sprite: Clothing/Head/Hoods/Bio/janitor.rsi
     state: icon
   product: CrateJanitorBiosuit
-  cost: 800
+  cost: 4000 # DS14
   category: cargoproduct-category-name-service
   group: market
 

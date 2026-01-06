@@ -12,7 +12,7 @@ using Content.Shared.Body.Prototypes;
 using Content.Shared.Mobs;
 using Robust.Shared.GameStates;
 using Content.Shared.StatusIcon;
-using Content.Shared.Virus;
+using Content.Shared.DeadSpace.Virus;
 
 namespace Content.Shared.DeadSpace.Virus.Components;
 
@@ -42,8 +42,9 @@ public sealed partial class VirusComponent : Component
     /// <summary>
     ///     Окно времени обновления вируса.
     /// </summary>
+    [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public TimedWindow VirusUpdateWindow = default!;
+    public TimedWindow VirusUpdateWindow = new TimedWindow(TimeSpan.FromSeconds(1f), TimeSpan.FromSeconds(1f));
 
     public VirusComponent(VirusData data)
     {
