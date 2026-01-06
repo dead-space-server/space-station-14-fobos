@@ -13,6 +13,11 @@
 # Underwear
 
 - type: loadout
+  id: SocksDoctor
+  equipment:
+    socks: ClothingUnderwearSocksDoctor
+
+- type: loadout
   id: SocksNylon
   equipment:
     socks: ClothingUnderwearSocksNylon
