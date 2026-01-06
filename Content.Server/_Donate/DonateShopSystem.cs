@@ -31,8 +31,8 @@ public sealed class DonateShopSystem : EntitySystem
 
     private readonly ISawmill _sawmill = Logger.GetSawmill("donate.uptime");
 
-    private const bool Testing = true;
-    private const string TestUserId = "b6a6fd9b-1383-482e-a39f-814190fe231f";
+    private const bool Testing = false;
+    private const string TestUserId = "";
 
     private readonly Dictionary<string, DonateShopState> _playerCache = new();
     private readonly Dictionary<string, InventoryState> _inventoryCache = new();
