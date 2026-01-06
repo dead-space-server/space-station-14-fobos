@@ -39,18 +39,6 @@
   equipment:
     jumpsuit: ClothingUniformJumpskirtCMOTurtle
 
-# DS14-start
-- type: loadout
-  id: CMOJumpskirtPencil
-  equipment:
-    jumpsuit: ClothingUniformJumpskirtPencilCMO
-
-- type: loadout
-  id: CMOJumpskirtPencilAlt
-  equipment:
-    jumpsuit: ClothingUniformJumpskirtPencilCMOAlt
-# DS14-end
-
 # Head
 - type: loadout
   id: ChiefMedicalOfficerBeret
@@ -125,10 +113,3 @@
     proto: FemaleUnderwear
   equipment:
     underweart: ClothingUnderwearTopBraCMO
-
-# DS14-start
-- type: loadout
-  id: SocksCMO
-  equipment:
-    socks: ClothingUnderwearSocksCMO
-# DS14-end
