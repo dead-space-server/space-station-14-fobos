@@ -3,8 +3,6 @@
 using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
-using Robust.Shared.Random;
-using Robust.Shared.Timing;
 using Content.Shared.DeadSpace.Virus.Prototypes;
 using Robust.Shared.Prototypes;
 
@@ -16,7 +14,7 @@ public sealed class MedPathogenFortressSymptom : VirusSymptomBase
     protected override ProtoId<VirusSymptomPrototype> PrototypeId => "MedPathogenFortressSymptom";
     private int _addMaxThreshold = 100;
 
-    public MedPathogenFortressSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
+    public MedPathogenFortressSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
@@ -41,7 +39,7 @@ public sealed class MedPathogenFortressSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new MedPathogenFortressSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+        return new MedPathogenFortressSymptom(EffectTimedWindow.Clone());
     }
 
     public override void ApplyDataEffect(VirusData data, bool add)

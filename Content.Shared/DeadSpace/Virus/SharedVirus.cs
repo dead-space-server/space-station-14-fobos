@@ -6,7 +6,7 @@ using Content.Shared.DoAfter;
 using Content.Shared.Actions;
 using Content.Shared.DeadSpace.Virus.Components;
 
-namespace Content.Shared.Virus;
+namespace Content.Shared.DeadSpace.Virus;
 
 /// <summary>
 ///     Логика резистов зомби инфекции.

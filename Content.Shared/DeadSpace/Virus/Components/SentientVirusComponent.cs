@@ -60,12 +60,9 @@ public sealed partial class SentientVirusComponent : Component
     /// <summary>
     ///     Окно времени обновления.
     /// </summary>
-    [ViewVariables(VVAccess.ReadOnly)]
-    public TimedWindow UpdateWindow = default!;
-
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public float UpdateDuration = 2f;
+    public TimedWindow UpdateWindow = new TimedWindow(TimeSpan.FromSeconds(2f), TimeSpan.FromSeconds(2f));
 
     /// <summary>
     ///     Данные об вирусе.

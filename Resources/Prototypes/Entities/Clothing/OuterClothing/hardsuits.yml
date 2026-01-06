@@ -513,6 +513,8 @@
       Steel: 500
       Durathread: 300
       Plastic: 500
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.8
   # DS14-end
 
 #Research Director's Hardsuit

@@ -3,7 +3,7 @@
 using Content.Shared.DeadSpace.TimeWindow;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeviceLinking;
-using Content.Shared.Virus;
+using Content.Shared.DeadSpace.Virus;
 using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Components;
@@ -29,15 +29,12 @@ public sealed partial class VirusDiagnoserDataServerComponent : Component
     [ViewVariables(VVAccess.ReadOnly)]
     public EntProtoId Disk = "ResearchDisk";
 
-    [ViewVariables(VVAccess.ReadOnly)]
-    public TimedWindow UpdateWindow = default!;
-
     /// <summary>
-    ///     Длительность обновления данных в секундах.
+    ///     Длительность обновления данных.
     /// </summary>
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public float UpdateDuration = 1f;
+    public TimedWindow UpdateWindow = new TimedWindow(TimeSpan.FromSeconds(1f), TimeSpan.FromSeconds(1f));
 
     /// <summary>
     ///     Множитель получаемых очков за каждый хранимый симптом.

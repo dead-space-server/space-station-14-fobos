@@ -1,4 +1,5 @@
 using Content.Shared.Damage.Prototypes;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.Dictionary;
 
@@ -23,5 +24,10 @@ namespace Content.Shared.Damage
 
         [DataField("flatReductions", customTypeSerializer: typeof(PrototypeIdDictionarySerializer<float, DamageTypePrototype>))]
         public Dictionary<string, float> FlatReduction = new();
+
+        // DS14-Start
+        [DataField]
+        public Dictionary<string, int> ArmorLvls = new();
+        // DS14-End
     }
 }

@@ -22,6 +22,12 @@ ui-options-general-cursor = Курсор
 ui-options-general-speech = Речь
 ui-options-general-storage = Инвентарь
 ui-options-general-accessibility = Специальные возможности
+#DS14-start
+ui-options-tab-ping = Пинг меню
+ui-options-cooldown-ping = Задержка для пинга
+ui-options-ping-permission = Получать уведомление о появлении роли
+ui-options-sound-ping = выбор звука пинга
+#DS14-end
 
 ## Audio menu
 
@@ -389,5 +395,9 @@ ui-options-overlay-merge-distance = Дальность сложения овер
 ui-options-overlay-ghost-fade-distance = Диапазон затухания наложения призрака от мыши
 ui-options-overlay-ghost-hide-distance = Диапазон скрытия наложения призрака от мыши
 
-# DS14
+##DS14-start
+## Ping menu
+
+ui-options-save-button = Сохранить
 ui-options-function-open-language-menu = Открыть меню выбора языка
+##DS14-end 

@@ -11,7 +11,7 @@ using Content.Shared.DeadSpace.Virus.Components;
 using Robust.Server.GameObjects;
 using Content.Shared.Chemistry.Components.SolutionManager;
 using Content.Shared.Chemistry.EntitySystems;
-using Content.Shared.Virus;
+using Content.Shared.DeadSpace.Virus;
 using Robust.Shared.Prototypes;
 using Content.Shared.DeadSpace.Virus.Prototypes;
 using Content.Shared.Body.Prototypes;

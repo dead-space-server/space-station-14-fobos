@@ -5,7 +5,7 @@ using Content.Shared.DeadSpace.Virus.Prototypes;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 
-namespace Content.Shared.Virus;
+namespace Content.Shared.DeadSpace.Virus;
 
 [Serializable, NetSerializable]
 public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInterfaceState

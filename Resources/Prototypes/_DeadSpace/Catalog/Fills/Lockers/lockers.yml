@@ -9,7 +9,6 @@
   - type: StorageFill
     contents:
     - id: ClothingOuterTaipanBioResearcher
-    - id: ClothingHeadHatHoodTaipanBioResearcher
 
 # Medical
 - type: entity

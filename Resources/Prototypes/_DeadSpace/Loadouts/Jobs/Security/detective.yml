@@ -1,0 +1,10 @@
+#Head
+- type: loadout
+  id: DetectiveGreyFlatCap
+  equipment:
+    head: ClothingHeadHatGreyFlatcap
+
+- type: loadout
+  id: DetectiveBrownFlatCap
+  equipment:
+    head: ClothingHeadHatBrownFlatcap

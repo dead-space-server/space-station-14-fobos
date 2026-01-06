@@ -1,7 +1,10 @@
-﻿using Content.Server.Mind;
+using Content.Server.DeadSpace.Medieval.Skill;
+using Content.Server.Mind;
 using Content.Server.Roles;
 using Content.Server.Roles.Jobs;
 using Content.Shared.CharacterInfo;
+using Content.Shared.DeadSpace.Medieval.Skills;
+using Content.Shared.DeadSpace.Medieval.Skills.Components;
 using Content.Shared.Objectives;
 using Content.Shared.Objectives.Components;
 using Content.Shared.Objectives.Systems;
@@ -14,6 +17,7 @@ public sealed class CharacterInfoSystem : EntitySystem
     [Dependency] private readonly MindSystem _minds = default!;
     [Dependency] private readonly RoleSystem _roles = default!;
     [Dependency] private readonly SharedObjectivesSystem _objectives = default!;
+    [Dependency] private readonly SkillSystem _skill = default!;
 
     public override void Initialize()
     {
@@ -56,6 +60,21 @@ public sealed class CharacterInfoSystem : EntitySystem
             briefing = _roles.MindGetBriefing(mindId);
         }
 
-        RaiseNetworkEvent(new CharacterInfoEvent(GetNetEntity(entity), jobTitle, objectives, briefing), args.SenderSession);
+        // DS14-Skills-Start
+        var skills = new List<SkillInfo>();
+
+        if (TryComp<SkillComponent>(entity, out var skillComponent))
+        {
+            foreach (var skill in skillComponent.Skills)
+            {
+                var info = _skill.GetSkillInfo(entity, skill.Key);
+
+                if (info != null)
+                    skills.Add(info.Value);
+            }
+        }
+
+        RaiseNetworkEvent(new CharacterInfoEvent(GetNetEntity(entity), jobTitle, objectives, skills, briefing), args.SenderSession);
+        // DS14-Skills-End
     }
 }

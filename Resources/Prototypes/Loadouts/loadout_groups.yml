@@ -1555,6 +1555,8 @@
   loadouts:
   - DetectiveFedora
   - DetectiveFedoraGrey
+  - DetectiveGreyFlatCap # DS14
+  - DetectiveBrownFlatCap # DS14
 
 - type: loadoutGroup
   id: DetectiveNeck
