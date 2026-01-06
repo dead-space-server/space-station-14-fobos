@@ -733,9 +733,10 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
         {
             var isSubscription = item.Source == "subscription";
 
+            var displayName = (item.IsLootbox && item.StelsHidden) ? "???" : item.Name.ToUpper();
             var itemCard = new EmeraldItemCard
             {
-                ItemName = item.Name.ToUpper(),
+                ItemName = displayName,
                 ProtoId = item.ItemIdInGame ?? "",
                 TimeFinish = item.TimeFinish,
                 TimeAllways = item.TimeAllways,
@@ -1064,6 +1065,11 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
 
         openerContainer.AddChild(_lootboxOpener);
         _contentContainer.AddChild(openerContainer);
+
+        if (!stelsHidden)
+        {
+            _lootboxOpener.OnOpenPressed();
+        }
     }
 
     private void CloseLootboxOpener()

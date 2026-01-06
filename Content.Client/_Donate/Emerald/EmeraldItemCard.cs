@@ -355,7 +355,8 @@ public sealed class EmeraldItemCard : Control
         handle.DrawLine(rect.BottomLeft, rect.TopLeft, borderColor);
 
         var maxTextWidth = PixelSize.X - 8f * UIScale;
-        var lines = WrapText(_itemName, maxTextWidth, _nameFont, 3);
+        var displayName = (_isLootbox && _stelsHidden) ? "???" : _itemName;
+        var lines = WrapText(displayName, maxTextWidth, _nameFont, 3);
         var nameY = 99f * UIScale;
         var lineHeight = _nameFont.GetLineHeight(UIScale);
 

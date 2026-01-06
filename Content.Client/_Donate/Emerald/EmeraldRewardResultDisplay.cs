@@ -297,12 +297,18 @@ public sealed class EmeraldRewardResultDisplay : Control
 
         handle.DrawString(_titleFont, new Vector2(titleX, titleY), title, UIScale * scale, accent);
 
+        var name = _itemName;
+        if (_isLootbox)
+        {
+            name = "???";
+        }
+
         var nameY = 175f * UIScale;
         var nameWidth = GetTextWidth(_itemName, _nameFont);
         var nameColor = _isLootbox ? _lootboxColor : _textColor;
         handle.DrawString(_nameFont,
             new Vector2((PixelSize.X - nameWidth) / 2f, nameY),
-            _itemName, UIScale, nameColor);
+            name, UIScale, nameColor);
     }
 
     private float GetTextWidth(string text, Font font)

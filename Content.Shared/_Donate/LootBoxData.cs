@@ -14,6 +14,13 @@ public enum LootboxRarity : byte
 }
 
 [Serializable, NetSerializable]
+public enum LootboxRewardType : byte
+{
+    Item,
+    Currency
+}
+
+[Serializable, NetSerializable]
 public sealed class LootboxItemResult
 {
     public int Id { get; }
@@ -31,12 +38,27 @@ public sealed class LootboxItemResult
 }
 
 [Serializable, NetSerializable]
+public sealed class LootboxCurrencyResult
+{
+    public string CurrencyType { get; }
+    public float Amount { get; }
+
+    public LootboxCurrencyResult(string currencyType, float amount)
+    {
+        CurrencyType = currencyType;
+        Amount = amount;
+    }
+}
+
+[Serializable, NetSerializable]
 public sealed class LootboxOpenResult
 {
     public bool Success { get; }
     public string Message { get; }
     public string? LootboxName { get; }
+    public LootboxRewardType RewardType { get; }
     public LootboxItemResult? Item { get; }
+    public LootboxCurrencyResult? Currency { get; }
     public List<LootboxRarity>? Sequence { get; }
     public bool StelsOpen { get; }
 
@@ -44,14 +66,18 @@ public sealed class LootboxOpenResult
         bool success,
         string message,
         string? lootboxName = null,
+        LootboxRewardType rewardType = LootboxRewardType.Item,
         LootboxItemResult? item = null,
+        LootboxCurrencyResult? currency = null,
         List<LootboxRarity>? sequence = null,
         bool stelsOpen = false)
     {
         Success = success;
         Message = message;
         LootboxName = lootboxName;
+        RewardType = rewardType;
         Item = item;
+        Currency = currency;
         Sequence = sequence;
         StelsOpen = stelsOpen;
     }

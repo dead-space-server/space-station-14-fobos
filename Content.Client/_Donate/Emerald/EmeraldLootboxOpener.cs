@@ -26,7 +26,6 @@ public sealed class EmeraldLootboxOpener : Control
     private const int WinningCardPosition = 45;
 
     private const float SlowScrollDuration = 5.5f;
-    private const float FastScrollDuration = 1.2f;
     private const float RevealDuration = 0.5f;
 
     private Font _titleFont = default!;
@@ -47,6 +46,7 @@ public sealed class EmeraldLootboxOpener : Control
     private readonly Color _mythicBgColor = Color.FromHex("#3a1a2a");
     private readonly Color _legendaryColor = Color.FromHex("#ffd700");
     private readonly Color _legendaryBgColor = Color.FromHex("#3a2a1a");
+    private readonly Color _currencyColor = Color.FromHex("#00FFAA");
 
     private OpenerState _state = OpenerState.Initial;
     private string _lootboxName = "";
@@ -60,13 +60,13 @@ public sealed class EmeraldLootboxOpener : Control
     private float _targetScrollOffset;
     private float _animationTime;
     private float _revealScale = 1f;
-    private float _currentScrollDuration;
 
     private EmeraldButton _openButton = default!;
     private EmeraldButton _closeButton = default!;
     private EmeraldLabel _statusLabel = default!;
     private EmeraldLabel _titleLabel = default!;
     private EmeraldLabel _resultLabel = default!;
+    private EmeraldLabel _rewardTypeLabel = default!;
 
     private Random _random = new();
 
@@ -114,6 +114,16 @@ public sealed class EmeraldLootboxOpener : Control
         };
         AddChild(_statusLabel);
 
+        _rewardTypeLabel = new EmeraldLabel
+        {
+            Text = "",
+            Alignment = EmeraldLabel.TextAlignment.Center,
+            HorizontalAlignment = HAlignment.Center,
+            TextColor = _currencyColor,
+            Visible = false
+        };
+        AddChild(_rewardTypeLabel);
+
         _resultLabel = new EmeraldLabel
         {
             Text = "",
@@ -146,13 +156,14 @@ public sealed class EmeraldLootboxOpener : Control
     {
         _titleLabel.Measure(availableSize);
         _statusLabel.Measure(availableSize);
+        _rewardTypeLabel.Measure(availableSize);
         _resultLabel.Measure(availableSize);
         _openButton.Measure(availableSize);
         _closeButton.Measure(availableSize);
 
         return new Vector2(
             float.IsPositiveInfinity(availableSize.X) ? 750 : availableSize.X,
-            380
+            420
         );
     }
 
@@ -167,7 +178,10 @@ public sealed class EmeraldLootboxOpener : Control
         var statusY = stripBottom + 20f;
         _statusLabel.Arrange(new UIBox2(0, statusY, finalSize.X, statusY + _statusLabel.DesiredSize.Y));
 
-        var resultY = statusY + 28f;
+        var rewardTypeY = statusY + 28f;
+        _rewardTypeLabel.Arrange(new UIBox2(0, rewardTypeY, finalSize.X, rewardTypeY + _rewardTypeLabel.DesiredSize.Y));
+
+        var resultY = rewardTypeY + 28f;
         _resultLabel.Arrange(new UIBox2(0, resultY, finalSize.X, resultY + _resultLabel.DesiredSize.Y));
 
         var buttonY = finalSize.Y - 55f;
@@ -192,9 +206,12 @@ public sealed class EmeraldLootboxOpener : Control
         _animationTime = 0;
         _random = new Random();
 
-        _titleLabel.Text = $"ОТКРЫТИЕ: {name.ToUpper()}";
+        var displayName = stelsHidden ? "???" : name;
+        _titleLabel.Text = $"ОТКРЫТИЕ: {displayName.ToUpper()}";
         _statusLabel.Text = "Нажмите ОТКРЫТЬ чтобы испытать удачу";
         _statusLabel.TextColor = _textColor;
+        _rewardTypeLabel.Visible = false;
+        _rewardTypeLabel.Text = "";
         _resultLabel.Visible = false;
         _resultLabel.Text = "";
 
@@ -227,13 +244,14 @@ public sealed class EmeraldLootboxOpener : Control
         return LootboxRarity.Legendary;
     }
 
-    private void OnOpenPressed()
+    public void OnOpenPressed()
     {
         if (_state != OpenerState.Initial)
             return;
 
         _state = OpenerState.WaitingResult;
         _openButton.Disabled = true;
+        _openButton.Visible = false;
         _statusLabel.Text = "Открываем...";
 
         OnOpenRequested?.Invoke(_userItemId, _stelsHidden);
@@ -253,11 +271,22 @@ public sealed class EmeraldLootboxOpener : Control
             return;
         }
 
-        var winRarity = result.Item?.Rarity ?? LootboxRarity.Common;
-        var useSlowAnimation = result.StelsOpen;
+        if (result.StelsOpen)
+        {
+            var winRarity = result.Item?.Rarity ?? LootboxRarity.Common;
+            GenerateScrollCardsWithWinner(winRarity, result.Sequence);
+            StartScrollAnimation();
+        }
+        else
+        {
+            ShowImmediateResult();
+        }
+    }
 
-        GenerateScrollCardsWithWinner(winRarity, result.Sequence);
-        StartScrollAnimation(useSlowAnimation);
+    private void ShowImmediateResult()
+    {
+        _state = OpenerState.Complete;
+        ShowFinalResult();
     }
 
     private void GenerateScrollCardsWithWinner(LootboxRarity winRarity, List<LootboxRarity>? sequence)
@@ -283,13 +312,11 @@ public sealed class EmeraldLootboxOpener : Control
         }
     }
 
-    private void StartScrollAnimation(bool slowMode)
+    private void StartScrollAnimation()
     {
         _state = OpenerState.Scrolling;
         _animationTime = 0;
         _scrollOffset = 0;
-
-        _currentScrollDuration = slowMode ? SlowScrollDuration : FastScrollDuration;
 
         var cardFullWidth = (CardWidth + CardSpacing) * UIScale;
         var randomOffset = (_random.NextSingle() - 0.5f) * cardFullWidth * 0.6f;
@@ -319,7 +346,7 @@ public sealed class EmeraldLootboxOpener : Control
     {
         _animationTime += delta;
 
-        var t = Math.Min(1f, _animationTime / _currentScrollDuration);
+        var t = Math.Min(1f, _animationTime / SlowScrollDuration);
 
         var eased = EaseOutQuint(t);
 
@@ -361,30 +388,74 @@ public sealed class EmeraldLootboxOpener : Control
 
     private void ShowFinalResult()
     {
-        if (_result?.Item != null)
+        if (_result == null)
+            return;
+
+        _statusLabel.Text = "ПОЗДРАВЛЯЕМ!";
+        _statusLabel.TextColor = _indicatorColor;
+
+        if (_result.RewardType == LootboxRewardType.Currency && _result.Currency != null)
+        {
+            var currencyName = GetCurrencyName(_result.Currency.CurrencyType);
+            _rewardTypeLabel.Visible = true;
+            _rewardTypeLabel.Text = "НАГРАДА: ВАЛЮТА";
+            _rewardTypeLabel.TextColor = _currencyColor;
+
+            _resultLabel.Visible = true;
+            _resultLabel.Text = $"+{_result.Currency.Amount:F0} {currencyName.ToUpper()}";
+            _resultLabel.TextColor = _currencyColor;
+        }
+        else if (_result.Item != null)
         {
             var rarityName = GetRarityName(_result.Item.Rarity);
             var rarityColor = GetRarityColor(_result.Item.Rarity);
-            _statusLabel.Text = "ПОЗДРАВЛЯЕМ!";
-            _statusLabel.TextColor = _indicatorColor;
+
+            _rewardTypeLabel.Visible = true;
+            _rewardTypeLabel.Text = $"РЕДКОСТЬ: {rarityName}";
+            _rewardTypeLabel.TextColor = rarityColor;
 
             _resultLabel.Visible = true;
-            _resultLabel.Text = $"{rarityName}: {_result.Item.Name.ToUpper()}";
+            _resultLabel.Text = _result.Item.Name.ToUpper();
             _resultLabel.TextColor = rarityColor;
         }
         else
         {
-            _statusLabel.Text = "Награда получена!";
-            _statusLabel.TextColor = _indicatorColor;
+            _resultLabel.Visible = true;
+            _resultLabel.Text = "Награда получена!";
+            _resultLabel.TextColor = _indicatorColor;
         }
 
         _openButton.Visible = false;
         _closeButton.Visible = true;
     }
 
+    private string GetCurrencyName(string currencyType)
+    {
+        return currencyType.ToLower() switch
+        {
+            "energy" => "Энергии",
+            "crystals" => "Кристаллов",
+            _ => currencyType
+        };
+    }
+
     protected override void Draw(DrawingHandleScreen handle)
     {
         base.Draw(handle);
+
+        if (!_result?.StelsOpen ?? true)
+        {
+            if (_state == OpenerState.Complete && _result != null)
+            {
+                DrawResultCard(handle);
+                return;
+            }
+        }
+
+        if (!_stelsHidden)
+        {
+            return;
+        }
 
         var stripY = 50f * UIScale;
         var stripHeight = StripHeight * UIScale;
@@ -428,6 +499,66 @@ public sealed class EmeraldLootboxOpener : Control
         }
 
         DrawIndicator(handle, centerX, stripRect);
+    }
+
+    private void DrawResultCard(DrawingHandleScreen handle)
+    {
+        var stripY = 50f * UIScale;
+        var stripHeight = StripHeight * UIScale;
+        var stripRect = new UIBox2(0, stripY, PixelSize.X, stripY + stripHeight);
+
+        handle.DrawRect(stripRect, _stripBgColor);
+
+        var borderThickness = 2f * UIScale;
+        handle.DrawRect(new UIBox2(stripRect.Left, stripRect.Top, stripRect.Right, stripRect.Top + borderThickness), _borderColor);
+        handle.DrawRect(new UIBox2(stripRect.Left, stripRect.Bottom - borderThickness, stripRect.Right, stripRect.Bottom), _borderColor);
+
+        var cardWidth = CardWidth * UIScale * 1.5f;
+        var cardHeight = CardHeight * UIScale * 1.2f;
+        var centerX = PixelSize.X / 2f;
+        var cardX = centerX - cardWidth / 2f;
+        var cardY = stripY + (stripHeight - cardHeight) / 2f;
+
+        if (_result?.RewardType == LootboxRewardType.Currency)
+        {
+            DrawCurrencyCard(handle, cardX, cardY, cardWidth, cardHeight);
+        }
+        else if (_result?.Item != null)
+        {
+            DrawCardAtPosition(handle, cardX, cardY, cardWidth, cardHeight, _result.Item.Rarity, 1f, 1f, true);
+        }
+    }
+
+    private void DrawCurrencyCard(DrawingHandleScreen handle, float x, float y, float width, float height)
+    {
+        var rect = new UIBox2(x, y, x + width, y + height);
+
+        handle.DrawRect(rect, Color.FromHex("#1a2a2a").WithAlpha(0.95f));
+
+        var borderThickness = 3f * UIScale;
+        var bc = _currencyColor;
+
+        handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Right, rect.Top + borderThickness), bc);
+        handle.DrawRect(new UIBox2(rect.Left, rect.Bottom - borderThickness, rect.Right, rect.Bottom), bc);
+        handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Left + borderThickness, rect.Bottom), bc);
+        handle.DrawRect(new UIBox2(rect.Right - borderThickness, rect.Top, rect.Right, rect.Bottom), bc);
+
+        var glowOffset = 5f * UIScale;
+        var glowRect = new UIBox2(rect.Left - glowOffset, rect.Top - glowOffset, rect.Right + glowOffset, rect.Bottom + glowOffset);
+        var glowThickness = 2f * UIScale;
+        var gc = _currencyColor.WithAlpha(0.5f);
+
+        handle.DrawRect(new UIBox2(glowRect.Left, glowRect.Top, glowRect.Right, glowRect.Top + glowThickness), gc);
+        handle.DrawRect(new UIBox2(glowRect.Left, glowRect.Bottom - glowThickness, glowRect.Right, glowRect.Bottom), gc);
+        handle.DrawRect(new UIBox2(glowRect.Left, glowRect.Top, glowRect.Left + glowThickness, glowRect.Bottom), gc);
+        handle.DrawRect(new UIBox2(glowRect.Right - glowThickness, glowRect.Top, glowRect.Right, glowRect.Bottom), gc);
+
+        var currencyText = "ВАЛЮТА";
+        var textWidth = GetTextWidth(currencyText, _rarityFont);
+        var textX = rect.Left + (width - textWidth) / 2f;
+        var textY = rect.Bottom - 35f * UIScale;
+
+        handle.DrawString(_rarityFont, new Vector2(textX, textY), currencyText, UIScale, _currencyColor);
     }
 
     private void DrawCardAtPosition(DrawingHandleScreen handle, float x, float y, float width, float height, LootboxRarity rarity, float alpha, float scale, bool highlight)
