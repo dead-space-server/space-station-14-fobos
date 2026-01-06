@@ -104,7 +104,7 @@
     sprite: _DeadSpace/Clothing/Head/Hoods/Bio/researcher.rsi
     state: icon
   product: ClosetTaipanL3Filled
-  cost: 800
+  cost: 8000
   category: cargoproduct-category-name-medical
   group: taipan_market
 

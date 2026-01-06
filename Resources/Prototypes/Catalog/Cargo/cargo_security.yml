@@ -54,7 +54,7 @@
     sprite: Clothing/Head/Hoods/Bio/security.rsi
     state: icon
   product: CrateSecurityBiosuit
-  cost: 1130 # DS14
+  cost: 9000 # DS14
   category: cargoproduct-category-name-security
   group: market
 

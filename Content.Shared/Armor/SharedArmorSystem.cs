@@ -101,6 +101,22 @@ public abstract class SharedArmorSystem : EntitySystem
             ));
         }
 
+        // DS14-Start
+        msg.PushNewline();
+        msg.AddMarkupOrThrow(Loc.GetString("armor-lvl-examine"));
+        foreach (var armorLvl in armorModifiers.ArmorLvls)
+        {
+            msg.PushNewline();
+
+            var armorType = Loc.GetString("armor-damage-type-" + armorLvl.Key.ToLower());
+            msg.AddMarkupOrThrow(Loc.GetString(
+                "armor-lvl-value",
+                ("type", armorType),
+                ("value", armorLvl.Value)
+            ));
+        }
+        // DS14-End
+
         return msg;
     }
 }
