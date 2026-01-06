@@ -4,7 +4,7 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/06/2026 18:35:18
+  time: 01/06/2026 19:08:35
   entityCount: 165
 maps: []
 grids:
@@ -178,20 +178,19 @@ entities:
       - 101
     - type: Fixtures
       fixtures: {}
-- proto: AirlockCentralCommand
-  entities:
-  - uid: 58
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: 2.5,-1.5
-      parent: 1
 - proto: AirlockExternalGlassShuttleCentcommERTLocked
   entities:
   - uid: 39
     components:
     - type: Transform
       pos: 2.5,-5.5
+      parent: 1
+- proto: AirlockGlass
+  entities:
+  - uid: 58
+    components:
+    - type: Transform
+      pos: 2.5,-1.5
       parent: 1
 - proto: APCBasic
   entities:
