@@ -23,10 +23,15 @@
                 <PanelContainer Name="TopPanel" MinWidth="722" StyleClasses="LobbyBackground" HorizontalExpand="True" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                     <BoxContainer Orientation="Vertical" HorizontalExpand="True" HorizontalAlignment="Stretch" Margin="8 8 8 8">
                         <BoxContainer Orientation="Horizontal" MinSize="0 40" HorizontalAlignment="Center">
+                            <!-- DS14-start -->
+                            <Button Name="ShowGUI" Text="Ø" MinSize="50 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            <!-- DS14-end -->
                             <Button Name="Rules" Text="{Loc 'server-info-rules-button'}" MinSize="125 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                             <Button Name="Guidebook" Text="{Loc 'server-info-guidebook-button'}" MinSize="125 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                             <changelog:ChangelogButton Name="Changelog" MinSize="125 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                            <Button Name="Wiki" Text="{Loc 'server-info-wiki-button'}" MinSize="125 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            <!-- DS14-start -->
+                            <Button Name="Wiki" Text="{Loc 'server-info-wiki-button'}" MinSize="75 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            <!-- DS14-end -->
                             <vote:VoteCallMenuButton Name="CallVoteButton" MinSize="125 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                             <controls:VSpacer Spacing="25"/>
                             <TextureRect TextureScale="0.18 0.18" Stretch="KeepCentered" TexturePath="/Textures/Interface/main_logo.png" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>

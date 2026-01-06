@@ -4,7 +4,7 @@ using Content.Shared.StatusIcon.Components;
 using Robust.Shared.Prototypes;
 using Content.Shared.DeadSpace.Virus.Components;
 using Robust.Client.Player;
-using Content.Shared.Virus;
+using Content.Shared.DeadSpace.Virus;
 
 namespace Content.Client.DeadSpace.Virus.Systems;
 

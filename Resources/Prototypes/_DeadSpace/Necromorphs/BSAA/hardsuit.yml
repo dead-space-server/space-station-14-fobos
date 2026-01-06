@@ -1,0 +1,236 @@
+# Скафандры и мантия
+- type: entity
+  parent: [ ClothingNeckBase, BaseCommandContraband ]
+  id: BSAALeaderShoulder
+  name: мантия лидера АПБТ
+  description: Необычайно украшенная драпировка, отражающая всю мощь альянса. Повисла на шее лидера, обвив объятиями плечи, как личный ангел-хранитель.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/misc/bsaa-mantle.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/BSAA/misc/bsaa-mantle.rsi
+
+- type: entity
+  parent: ClothingOuterHardsuitBase
+  id: BSAALeaderHardSuit
+  name: cкафандр лидера АПБТ
+  description: Мобильный скафандр с повышенной защищённостью бронированных элементов.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/hardsuits/bsaa-leader.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/BSAA/hardsuits/bsaa-leader.rsi
+  - type: PressureProtection
+    highPressureMultiplier: 0.02
+    lowPressureMultiplier: 10000
+  - type: ClothingSpeedModifier
+    walkModifier: 1.0
+    sprintModifier: 1.0
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.43
+        Slash: 0.48
+        Piercing: 0.46
+        Heat: 0.18
+        Cold: 0.18
+        Shock: 0.43
+        Radiation: 0.43
+        Caustic: 0.43
+        Stun: 0.48
+  - type: TemperatureProtection
+    heatingCoefficient: 0.001
+    coolingCoefficient: 0.001
+  - type: ExplosionResistance
+    damageCoefficient: 0.4
+  - type: ToggleableClothing
+    clothingPrototype: BSAALeaderHelmet
+  - type: AutoInjectReagentClothingOnAllowedState 
+    durationRegenReagents: 60 
+    allowedStates: 
+    - Critical
+    reagents: 
+      DexalinPlus: 5
+      Saline: 10
+      Epinephrine: 15
+      Puncturase: 10
+      TranexamicAcid: 5
+      Omnizine: 20
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.9
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: BSAALeaderHelmet
+  categories: [ HideSpawnMenu ]
+  name: шлем лидера АПБТ
+  description: Позволяет в пылу битву быстро найти командира за счёт опознавательного окраса.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/helmets/bsaa-leader.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/BSAA/helmets/bsaa-leader.rsi
+  - type: PointLight
+    color: "#ff9100"
+    radius: 7
+    energy: 4
+  - type: PressureProtection
+    highPressureMultiplier: 0.53
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9   
+
+- type: entity
+  parent: ClothingOuterHardsuitBase
+  id: BSAAFighterHardSuit
+  name: cкафандр бойца АПБТ
+  description: Прочный скафандр с достойными защитными свойствами, оберегающий носителя от всевозможной угрозы.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/hardsuits/bsaa-fighter.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/BSAA/hardsuits/bsaa-fighter.rsi
+  - type: PressureProtection
+    highPressureMultiplier: 0.02
+    lowPressureMultiplier: 10000
+  - type: ClothingSpeedModifier
+    walkModifier: 0.95
+    sprintModifier: 0.95
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.48
+        Slash: 0.43
+        Piercing: 0.53
+        Heat: 0.23
+        Cold: 0.23
+        Shock: 0.48
+        Radiation: 0.48
+        Caustic: 0.48
+        Stun: 0.48
+  - type: TemperatureProtection
+    heatingCoefficient: 0.001
+    coolingCoefficient: 0.001
+  - type: ExplosionResistance
+    damageCoefficient: 0.5
+  - type: ToggleableClothing
+    clothingPrototype: BSAAFighterHelmet
+  - type: AutoInjectReagentClothingOnAllowedState 
+    durationRegenReagents: 60
+    allowedStates: 
+    - Critical
+    reagents: 
+      DexalinPlus: 5
+      Saline: 10
+      Epinephrine: 15
+      Puncturase: 10
+      TranexamicAcid: 5
+      Omnizine: 20
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.9
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: BSAAFighterHelmet
+  categories: [ HideSpawnMenu ]
+  name: шлем скафандра бойца АПБТ
+  description: В строгой формы визоре можно разглядеть своё напуганное отражение.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/helmets/bsaa-fighter.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/BSAA/helmets/bsaa-fighter.rsi
+  - type: PointLight
+    color: "#ff9100"
+    radius: 5
+    energy: 3
+  - type: PressureProtection
+    highPressureMultiplier: 0.53
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9   
+
+- type: entity
+  parent: ClothingOuterHardsuitBase
+  id: BSAAMedicHardSuit
+  name: cкафандр медика АПБТ
+  description: Особо мобильный скафандр первого ответственного за жизни отряда.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/hardsuits/bsaa-medic.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/BSAA/hardsuits/bsaa-medic.rsi
+  - type: PressureProtection
+    highPressureMultiplier: 0.02
+    lowPressureMultiplier: 10000
+  - type: ClothingSpeedModifier
+    walkModifier: 1.05
+    sprintModifier: 1.05
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.43
+        Slash: 0.48
+        Piercing: 0.58
+        Heat: 0.28
+        Cold: 0.28
+        Shock: 0.53
+        Radiation: 0.53
+        Caustic: 0.53
+        Stun: 0.48
+  - type: TemperatureProtection
+    heatingCoefficient: 0.001
+    coolingCoefficient: 0.001
+  - type: ExplosionResistance
+    damageCoefficient: 0.6
+  - type: ToggleableClothing
+    clothingPrototype: BSAAMedicHelmet
+  - type: AutoInjectReagentClothingOnAllowedState 
+    durationRegenReagents: 60 
+    allowedStates: 
+    - Critical
+    reagents: 
+      DexalinPlus: 5
+      Saline: 10
+      Epinephrine: 15
+      Puncturase: 10
+      TranexamicAcid: 5
+      Omnizine: 20
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.9
+    
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: BSAAMedicHelmet
+  categories: [ HideSpawnMenu ]
+  name: шлем скафандра медика АПБТ
+  description: В отблеске визора можно разглядеть свои раны.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/helmets/bsaa-medic.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/BSAA/helmets/bsaa-medic.rsi
+  - type: PointLight
+    color: "#ff9100"
+    radius: 5
+    energy: 3
+  - type: PressureProtection
+    highPressureMultiplier: 0.53
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9   

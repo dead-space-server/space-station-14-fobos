@@ -266,3 +266,91 @@
       - WeaponTentacleNecro
       - WeaponBoneTentacleNecro
       - NecroKudzu
+
+- type: entity
+  parent: [ BaseXenoArtifact, BaseStructureDynamic ]
+  id: ComplexNecroObeliskArtifact
+  name: артефакт-обелиск
+  suffix: сложный артефакт
+  components:
+  - type: Necroobelisk
+    warn: false
+    cudzu: false
+    active: false
+  - type: Sprite
+    noRot: true
+    sprite: _DeadSpace/Necromorfs/obelisk.rsi
+    layers:
+    - state: unactive
+      map: [ "enum.DamageStateVisualLayers.Base" ]
+    scale: 0.8, 0.8
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.45
+        density: 75
+        layer: # doesn't collide with artifact storage
+        - Opaque
+        mask:
+        - MachineMask
+  - type: Damageable
+    damageContainer: Inorganic
+    damageModifierSet: Metallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 1500
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          ObeliskSplinter:
+            min: 3
+            max: 3
+  - type: Appearance
+  - type: DamageVisuals
+    thresholds: [4, 8, 12]
+    damageDivisor: 100
+    trackAllDamage: true
+    damageOverlay:
+      sprite: _DeadSpace/Structures/obelisk_cracks.rsi
+  - type: RangedDamageSound
+    soundGroups:
+      Brute:
+        collection:
+          MetalBulletImpact
+    soundTypes:
+      Heat:
+        collection:
+          MetalLaserImpact
+  - type: Tag
+    tags:
+    - Wall
+  - type: XenoArtifact
+    effectsTable: !type:NestedSelector
+      tableId: ObeliskArtifactEffectsDefaultTable
+
+- type: entity
+  id: CrateArtifactContainerNecroobelisk
+  parent: CrateArtifactContainer
+  name: контейнер c артефактом обелиск
+  description: Используется для безопасного хранения и перемещения артефактов.
+  components:
+  - type: StorageFill
+    contents:
+    - id: ComplexNecroObeliskArtifact
+      amount: 1
+
+- type: cargoProduct
+  id: ArtifactContainerNecroobelisk
+  icon:
+    sprite: Structures/Storage/Crates/artifact.rsi
+    state: artifact_container_icon
+  product: CrateArtifactContainerNecroobelisk
+  cost: 9999999
+  category: cargoproduct-category-name-science
+  group: market

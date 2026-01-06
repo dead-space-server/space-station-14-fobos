@@ -147,9 +147,9 @@
     damage:
       types:
         Slash: 5
-        Blunt: 12
-        Piercing: 1
-        Heat: 10
+        Blunt: 6
+        Piercing: 3
+        Heat: 5
         Structural: 25
   - type: GhostRole
     allowMovement: true
@@ -159,6 +159,10 @@
     rules: ghost-role-information-slaughter-rules
   - type: Reflect
     reflectProb: 0.25
+  #DS14-start
+  - type: GhostRoleNotifys 
+    groupPrototype: DemonSlaughter
+  #DS14-end
 
 - type: entity
   parent: MobDemonSlaughter
@@ -213,7 +217,7 @@
         Slash: 2.5
         Blunt: 3
         Piercing: 1
-        Heat: 10
+        Heat: 5.5
   - type: FootstepModifier
     footstepSoundCollection:
       collection: FootstepClownFast
@@ -226,6 +230,10 @@
     name: ghost-role-information-honker-name
     description: ghost-role-information-honker-description
     rules: ghost-role-information-honker-rules
+  #DS14-start
+  - type: GhostRoleNotifys #DS14
+    groupPrototype: DemonHonkerping
+  #DS14-end
 
 - type: entity
   parent: BaseMobDemonRS
@@ -260,6 +268,10 @@
     soundGunshot: /Audio/Magic/fireball.ogg
   - type: BallisticAmmoProvider
     proto: FireballBullet
+  #DS14-start
+  - type: GhostRoleNotifys #DS14
+    groupPrototype: DemonIfrit
+  #DS14-end
 
 - type: entity
   parent: BaseMobDemonRS
@@ -301,11 +313,15 @@
     animation: WeaponArcClaw
     damage:
       types:
-        Slash: 5
-        Blunt: 7
-        Piercing: 1
-        Heat: 5
-
+        Slash: 3
+        Blunt: 5
+        Piercing: 2
+        Heat: 4
+  #DS14-start
+  - type: GhostRoleNotifys
+    groupPrototype: DemonJaunt
+  #DS14-end
+  
 - type: entity
   parent: BaseMobDemonNarSi
   id: MobDemonBloodyArms
@@ -351,7 +367,7 @@
     damage:
       types:
         Slash: 5
-        Piercing: 5
+        Piercing: 4
   - type: Prying
     speedModifier: 4
   - type: JumpAbility
@@ -398,7 +414,7 @@
     damage:
       types:
         Slash: 5
-        Blunt: 7
+        Blunt: 3
         Piercing: 1
         Heat: 5
   - type: NPCUseActionOnTarget

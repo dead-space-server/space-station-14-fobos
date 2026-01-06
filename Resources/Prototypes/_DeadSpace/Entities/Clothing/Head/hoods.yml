@@ -10,3 +10,5 @@
     sprite: _DeadSpace/Clothing/Head/Hoods/Bio/researcher.rsi
   - type: Clothing
     sprite: _DeadSpace/Clothing/Head/Hoods/Bio/researcher.rsi
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.9

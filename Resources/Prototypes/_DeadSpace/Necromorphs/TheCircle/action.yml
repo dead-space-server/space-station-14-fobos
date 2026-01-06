@@ -1,0 +1,14 @@
+- type: entity
+  id: ActionObeliskActivate
+  name: Начать активацию обелиска
+  description: Провести ритуал по активации обелиска.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    useDelay: 3
+    icon: /Textures/_DeadSpace/Interface/Actions/obelisk.png
+  - type: TargetAction
+    checkCanAccess: false
+    range: 2
+  - type: EntityTargetAction
+    event: !type:ObeliskActivateActionEvent

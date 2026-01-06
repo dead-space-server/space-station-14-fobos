@@ -25,7 +25,6 @@ public enum VirusSymptom
     Zombification,
     NeuroSpike,
     VocalDisruption,
-    Asphyxia,
     Blindable,
     ParalyzedLegs
 }

@@ -1,0 +1,402 @@
+- type: entity
+  parent: [ ClothingOuterHardsuitBase, BaseSyndicateContraband ]
+  id: ClothingOuterHardsuitUnitologyCommander
+  name: ведущий бронескафандр «Прометей»
+  description: Скафандр Кардинала отряда "Круг". От него, как и от обелиска, веет смертью...
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/commander.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/commander.rsi
+  - type: Item
+    size: Huge
+  - type: PressureProtection
+    highPressureMultiplier: 0.05
+    lowPressureMultiplier: 1000
+  - type: ExplosionResistance
+    damageCoefficient: 0.475
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.43
+        Slash: 0.38
+        Piercing: 0.38
+        Heat: 0.63
+        Cold: 0.33
+        Radiation: 0.58
+        Poison: 0.43
+        Caustic: 0.38
+        Stun: 0.48
+  - type: ClothingSpeedModifier
+    walkModifier: 1.0
+    sprintModifier: 1.0
+  - type: HeldSpeedModifier
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitUnitologyCommander
+  - type: AutoInjectReagentClothingOnAllowedState
+    durationRegenReagents: 120
+    allowedStates:
+    - Dead
+    reagents:
+      ExtractInfectorDead: 15
+  - type: Tag
+    tags:
+    - Hardsuit
+    - WhitelistChameleon
+  - type: HardsuitIdentification
+  - type: Speech
+  - type: TTS
+    voice: Overwatch
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ClothingHeadHelmetHardsuitUnitologyCommander
+  name: шлем ведущего бронескафандра «Прометей»
+  description: На нём, читается только одно слово-... АРАМ РООООООООСС-!!!
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Helmet/commander.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/Helmet/commander.rsi
+  - type: PointLight
+    color: red
+    energy: 2
+    radius: 6
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: Tag
+    tags:
+    - WhitelistChameleon
+
+## Штурмовик
+- type: entity
+  parent: [ ClothingOuterHardsuitBase, BaseSyndicateContraband ]
+  id: ClothingOuterHardsuitUnitologyHeavy
+  name: тяжелый бронескафандр «Артемида»
+  description: Тяжёлый бронескафандр Диакона отряда "Круг". Хорошо когда есть пушечное мясо в команде, а лучше два!
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/heavy.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/heavy.rsi
+  - type: Item
+    size: Huge
+  - type: PressureProtection
+    highPressureMultiplier: 0.05
+    lowPressureMultiplier: 1000
+  - type: ExplosionResistance
+    damageCoefficient: 0.28
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.33
+        Slash: 0.28
+        Piercing: 0.28
+        Heat: 0.43
+        Cold: 0.33
+        Radiation: 0.23
+        Poison: 0.28
+        Caustic: 0.23
+        Stun: 0.13
+  - type: ClothingSpeedModifier
+    walkModifier: 0.8
+    sprintModifier: 0.8
+  - type: HeldSpeedModifier
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitUnitologyHeavy
+  - type: AutoInjectReagentClothingOnAllowedState
+    durationRegenReagents: 120
+    allowedStates:
+    - Dead
+    reagents:
+      ExtractInfectorDead: 15
+  - type: Tag
+    tags:
+    - Hardsuit
+    - WhitelistChameleon
+  - type: HardsuitIdentification
+  - type: Speech
+  - type: TTS
+    voice: Overwatch
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ClothingHeadHelmetHardsuitUnitologyHeavy
+  name: шлем тяжелого бронескафандра «Артемида»
+  description: В какой визор смотреть?
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Helmet/heavy.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/Helmet/heavy.rsi
+  - type: PointLight
+    color: orange
+    energy: 2
+    radius: 6
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: Tag
+    tags:
+    - WhitelistChameleon
+
+## Егерь
+- type: entity
+  parent: [ ClothingOuterHardsuitBase, BaseSyndicateContraband ]
+  id: ClothingOuterHardsuitUnitologyLight
+  name: экзоскафандр «Гермес»
+  description: Скафандр Вестников отряда "Круг". Проводки что торчат с ног данной брони, похоже ускоряют своего владельца. И также хорошо что таких продаются 2 штуки.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/light.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/light.rsi
+  - type: Item
+    size: Huge
+  - type: PressureProtection
+    highPressureMultiplier: 0.05
+    lowPressureMultiplier: 1000
+  - type: ExplosionResistance
+    damageCoefficient: 0.48
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.63
+        Slash: 0.58
+        Piercing: 0.58
+        Heat: 0.63
+        Cold: 0.63
+        Radiation: 0.43
+        Poison: 0.48
+        Caustic: 0.43
+        Stun: 0.48
+  - type: ClothingSpeedModifier
+    walkModifier: 1.2
+    sprintModifier: 1.2
+  - type: HeldSpeedModifier
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitUnitologyLight
+  - type: AutoInjectReagentClothingOnAllowedState
+    durationRegenReagents: 120
+    allowedStates:
+    - Dead
+    reagents:
+      ExtractInfectorDead: 15
+  - type: Tag
+    tags:
+    - Hardsuit
+    - WhitelistChameleon
+  - type: HardsuitIdentification
+  - type: Speech
+  - type: TTS
+    voice: Overwatch
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ClothingHeadHelmetHardsuitUnitologyLight
+  name: шлем экзоскафандра «Гермес»
+  description: Тяжёлый дым что исходит с противогаза заставляет вас дрожать.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Helmet/light.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/Helmet/light.rsi
+  - type: PointLight
+    color: red
+    energy: 2
+    radius: 6
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: Tag
+    tags:
+    - WhitelistChameleon
+
+## Инженер
+- type: entity
+  parent: [ ClothingOuterHardsuitBase, BaseSyndicateContraband ]
+  id: ClothingOuterHardsuitUnitologyEngineer
+  name: экзогенный бронескафандр «Аклепий»
+  description: Плотный скафандр для Зодчего отряда "Круг" позволяет тому работать в жаркой, и не только обстановке. 
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/engi.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/engi.rsi
+  - type: Item
+    size: Huge
+  - type: PressureProtection
+    highPressureMultiplier: 0.02
+    lowPressureMultiplier: 1000
+  - type: FireProtection
+    reduction: 0.8
+  - type: ExplosionResistance
+    damageCoefficient: 0.28
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.48
+        Slash: 0.43
+        Piercing: 0.58
+        Heat: 0.28
+        Cold: 0.18
+        Radiation: 0.18
+        Poison: 0.28
+        Caustic: 0.18
+        Stun: 0.48
+  - type: ClothingSpeedModifier
+    walkModifier: 0.9
+    sprintModifier: 0.9
+  - type: HeldSpeedModifier
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitUnitologyEngineer
+  - type: AutoInjectReagentClothingOnAllowedState
+    durationRegenReagents: 120
+    allowedStates:
+    - Dead
+    reagents:
+      ExtractInfectorDead: 15
+  - type: Tag
+    tags:
+    - Hardsuit
+    - WhitelistChameleon
+  - type: HardsuitIdentification
+  - type: Speech
+  - type: TTS
+    voice: Overwatch
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ClothingHeadHelmetHardsuitUnitologyEngineer
+  name: шлем экзогенного бронескафандра «Гефест»
+  description: И тут не как у людей с глазами-...
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Helmet/engi.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/Helmet/engi.rsi
+  - type: PointLight
+    color: cyan
+    energy: 2
+    radius: 6
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: FireProtection
+    reduction: 0.2
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: Tag
+    tags:
+    - WhitelistChameleon
+
+## Медик
+- type: entity
+  parent: [ ClothingOuterHardsuitBase, BaseSyndicateContraband ]
+  id: ClothingOuterHardsuitUnitologyMedic
+  name: мобильный бронескафандр «Асклепий»
+  description: Лёгкий скафандр, что специально вытесан под Серафимов "Круга". Скафандр также оснащён проводками в районе ног, что позволяет носителю двигаться быстрее.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/medic.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/medic.rsi
+  - type: Item
+    size: Huge
+  - type: PressureProtection
+    highPressureMultiplier: 0.05
+    lowPressureMultiplier: 1000
+  - type: ExplosionResistance
+    damageCoefficient: 0.475
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.53
+        Slash: 0.48
+        Piercing: 0.58
+        Heat: 0.58
+        Cold: 0.48
+        Radiation: 0.63
+        Poison: 0.48
+        Caustic: 0.43
+        Stun: 0.48
+  - type: ClothingSpeedModifier
+    walkModifier: 1.1
+    sprintModifier: 1.1
+  - type: HeldSpeedModifier
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitUnitologyMedic
+  - type: AutoInjectReagentClothingOnAllowedState
+    durationRegenReagents: 120
+    allowedStates:
+    - Dead
+    reagents:
+      ExtractInfectorDead: 15
+  - type: Tag
+    tags:
+    - Hardsuit
+    - WhitelistChameleon
+  - type: HardsuitIdentification
+  - type: Speech
+  - type: TTS
+    voice: Overwatch
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ClothingHeadHelmetHardsuitUnitologyMedic
+  name: шлем мобильного бронескафандра «Асклепий»
+  description: Где-то вы уже такой шлем видели-... Наверное.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Helmet/medic.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/Helmet/medic.rsi
+  - type: PointLight
+    color: purple
+    energy: 2
+    radius: 6
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: Tag
+    tags:
+    - WhitelistChameleon

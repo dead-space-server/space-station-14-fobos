@@ -174,14 +174,6 @@
   price: 1300
 
 - type: virusSymptom
-  id: AsphyxiaSymptom
-  name: удушье
-  description: вирус нарушает дыхание, вызывая кислородное голодание.
-  symptomType: Asphyxia
-  danger: High
-  price: 1400
-
-- type: virusSymptom
   id: BlindableSymptom
   name: помутнение зрения
   description: вызывает слепоту.

@@ -1,0 +1,29 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-4.0",
+    "copyright": "Made by pvrsifvl (discord) for Space Station 14 server Мёртвый Космос",
+    "size": {
+        "x": 8,
+        "y": 8
+    },
+    "states": [
+		{
+            "name": "circle"
+        },
+        {
+            "name": "circle_lead"
+		},
+        {
+            "name": "circle_engineer"
+		},
+        {
+            "name": "circle_heavy"
+		},
+        {
+            "name": "circle_light"
+		},
+        {
+            "name": "circle_medic"
+		}
+    ]
+}

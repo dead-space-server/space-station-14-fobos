@@ -36,7 +36,7 @@ public sealed class WarDeclaratorSystem : EntitySystem
 
     private void OnMapInit(Entity<WarDeclaratorComponent> ent, ref MapInitEvent args)
     {
-        ent.Comp.Message = Loc.GetString("war-declarator-default-message");
+        ent.Comp.Message = Loc.GetString(ent.Comp.Message); // DS14 дурак
         ent.Comp.DisableAt = _gameTiming.CurTime + TimeSpan.FromMinutes(ent.Comp.WarDeclarationDelay);
     }
 

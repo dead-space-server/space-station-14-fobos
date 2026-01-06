@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 12/27/2025 23:02:50
-  entityCount: 745
+  time: 01/04/2026 09:30:11
+  entityCount: 747
 maps: []
 grids:
 - 1
@@ -2092,6 +2092,20 @@ entities:
     components:
     - type: Transform
       pos: 3.5,-10.5
+      parent: 1
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 747
+    components:
+    - type: Transform
+      pos: 0.5,1.5
+      parent: 1
+- proto: ErtSpawnPoint
+  entities:
+  - uid: 746
+    components:
+    - type: Transform
+      pos: 0.5,-2.5
       parent: 1
 - proto: FireAlarm
   entities:

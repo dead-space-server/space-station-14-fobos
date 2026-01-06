@@ -3,8 +3,6 @@
 using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
-using Robust.Shared.Random;
-using Robust.Shared.Timing;
 using Content.Shared.Jittering;
 using Content.Server.Stunnable;
 using Content.Shared.DeadSpace.Virus.Prototypes;
@@ -14,18 +12,19 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class NeuroSpikeSymptom : VirusSymptomBase
 {
+    [Dependency] private readonly EntityManager _entityManager = default!;
     public override VirusSymptom Type => VirusSymptom.NeuroSpike;
     protected override ProtoId<VirusSymptomPrototype> PrototypeId => "NeuroSpikeSymptom";
     private TimedWindow _duration = default!;
 
-    public NeuroSpikeSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
+    public NeuroSpikeSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
     {
         base.OnAdded(host, virus);
 
-        _duration = new TimedWindow(5f, 10f, Timing, Random);
+        _duration = new TimedWindow(TimeSpan.FromSeconds(5f), TimeSpan.FromSeconds(10f));
     }
 
     public override void OnRemoved(EntityUid host, VirusComponent virus)
@@ -40,10 +39,11 @@ public sealed class NeuroSpikeSymptom : VirusSymptomBase
 
     public override void DoEffect(EntityUid host, VirusComponent virus)
     {
-        var jitteringSystem = EntityManager.System<SharedJitteringSystem>();
-        var stun = EntityManager.System<StunSystem>();
+        var jitteringSystem = _entityManager.System<SharedJitteringSystem>();
+        var stun = _entityManager.System<StunSystem>();
+        var timedWindowSystem = _entityManager.System<TimedWindowSystem>();
 
-        _duration.Reset();
+        timedWindowSystem.Reset(_duration);
         var duration = _duration.Remaining.TotalSeconds;
 
         jitteringSystem.DoJitter(host, TimeSpan.FromSeconds(duration), true);
@@ -57,6 +57,6 @@ public sealed class NeuroSpikeSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new NeuroSpikeSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+        return new NeuroSpikeSymptom(EffectTimedWindow.Clone());
     }
 }

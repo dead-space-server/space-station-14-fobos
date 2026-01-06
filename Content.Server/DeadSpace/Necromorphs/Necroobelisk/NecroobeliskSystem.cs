@@ -18,6 +18,7 @@ using Content.Server.GameTicking.Rules.Components;
 using Content.Server.Station.Systems;
 using Content.Shared.Audio;
 using Content.Server.RoundEnd;
+using Content.Server.DeadSpace.Necromorphs.Unitology;
 
 namespace Content.Server.DeadSpace.Necromorphs.Necroobelisk;
 
@@ -57,9 +58,15 @@ public sealed class NecroobeliskSystem : SharedNecroobeliskSystem
 
     private void DoAppearanceMoon(EntityUid uid, NecroobeliskComponent component, NecroMoonAppearanceEvent args)
     {
-        var ev = new EndStageConvergenceEvent();
+        var ev = new SpawnNecroMoonEvent();
         var query = AllEntityQuery<UnitologyRuleComponent>();
         while (query.MoveNext(out var rule, out _))
+        {
+            RaiseLocalEvent(rule, ref ev);
+        }
+
+        var query2 = AllEntityQuery<CircleOpsRuleComponent>();
+        while (query2.MoveNext(out var rule, out _))
         {
             RaiseLocalEvent(rule, ref ev);
         }
