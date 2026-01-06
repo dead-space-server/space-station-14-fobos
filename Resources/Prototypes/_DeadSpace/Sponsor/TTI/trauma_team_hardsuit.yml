@@ -1,0 +1,163 @@
+- type: entity
+  parent: [ClothingOuterHardsuitBase, BaseSyndicateContraband]
+  id: ClothingOuterHardsuitOfficerTTI
+  name: скафандр офицера TTI Aesculap
+  description: Тяжелый боевой скафандр с интегрированной системой жизнеобеспечения. Оснащен автоматическими инъекторами, подавляющими боль и стабилизирующими критические состояния.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/TraumaTeam/hardsuit.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/TraumaTeam/hardsuit.rsi
+  - type: Item
+    size: Huge
+  - type: PressureProtection
+    highPressureMultiplier: 0.02
+    lowPressureMultiplier: 1000
+  - type: FireProtection
+    reduction: 0.8
+  - type: ExplosionResistance
+    damageCoefficient: 0.5
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.55
+        Heat: 0.45
+        Shock: 0.45
+        Radiation: 0.4
+        Caustic: 0.45
+        Poison: 0.45
+        Stun: 0.5
+  - type: ClothingSpeedModifier
+    walkModifier: 0.85
+    sprintModifier: 0.85
+  - type: HeldSpeedModifier
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitOfficerTTI
+  - type: HardsuitIdentification
+  - type: Speech
+  - type: TTS
+    voice: Adjutant
+  - type: AutoInjectReagentClothingOnAllowedState
+    durationRegenReagents: 90
+    allowedStates:
+    - Critical
+    reagents:
+      Rororium: 5
+      Pyrazine: 5
+      Omnizine: 10
+      Stimulants: 20
+      Saline: 10
+  - type: Tag
+    tags: []
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ClothingHeadHelmetHardsuitOfficerTTI
+  categories: [ HideSpawnMenu ]
+  name: шлем скафандра офицера TTI Apollo
+  description: Тактический шлем с панорамным HUD и ассистирующей системой авто-доводки. Защищает от большинства типов урона.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/TraumaTeam/secofficer/helmet1.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/TraumaTeam/secofficer/helmet1.rsi
+  - type: PointLight
+    color: white
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: FireProtection
+    reduction: 0.2
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: Tag
+    tags: []
+
+- type: entity
+  parent: [ClothingOuterHardsuitBase, BaseSyndicateContraband]
+  id: ClothingOuterHardsuitLeadEMTTTI
+  name: скафандр ведущего фельдшера TTI Hippocrates
+  description: Модифицированный для полевой хирургии скафандр с усиленной защитой спины. Позволяет эвакуировать раненых под огнем, сохраняя полную подвижность.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/TraumaTeam/hardsuit.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/TraumaTeam/hardsuit.rsi
+  - type: Item
+    size: Huge
+  - type: PressureProtection
+    highPressureMultiplier: 0.02
+    lowPressureMultiplier: 1000
+  - type: FireProtection
+    reduction: 0.8
+  - type: ExplosionResistance
+    damageCoefficient: 0.5
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.5
+        Slash: 0.5
+        Piercing: 0.5
+        Heat: 0.5
+        Shock: 0.4
+        Radiation: 0.1
+        Caustic: 0.4
+        Poison: 0.4
+        Stun: 0.5
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: HeldSpeedModifier
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitLeadEMTTTI
+  - type: HardsuitIdentification
+  - type: Speech
+  - type: TTS
+    voice: Adjutant
+  - type: AutoInjectReagentClothingOnAllowedState
+    durationRegenReagents: 90
+    allowedStates:
+    - Critical
+    reagents:
+      Rororium: 5
+      Pyrazine: 5
+      Omnizine: 10
+      Stimulants: 20
+      Saline: 10
+  - type: Tag
+    tags: []
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ClothingHeadHelmetHardsuitLeadEMTTTI
+  categories: [ HideSpawnMenu ]
+  name: шлем скафандра ведущего фельдшера TTI Asclepius
+  description: Медицинский шлем с AR-интерфейсом для диагностики. Автоматически сканирует ранения и предлагает оптимальные протоколы лечения.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/TraumaTeam/lead-emt/helmet2.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/TraumaTeam/lead-emt/helmet2.rsi
+  - type: PointLight
+    color: white
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: FireProtection
+    reduction: 0.2
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: Tag
+    tags: []
