@@ -23,6 +23,7 @@
   requirements:
     - !type:OverallPlaytimeRequirement
       time: 432000 # 120 hours
+  guides: [ TheCircle ]
 
 - type: antag
   id: Uni
@@ -147,12 +148,24 @@
         requireAll: false
 
 - type: entity
-  id: CentcommSendNecroobeliskArtefact
-  parent: BaseGameRule
+  id: GiftsNecroobeliskArtefact
+  parent: CargoGiftsBase
   components:
   - type: StationEvent
-    duration: 120
-    earliestStart: 20
-    minimumPlayers: 30
-    willNotStartRandomly: true
+    weight: 0
+    duration: 1h
+    earliestStart: 1
+    minimumPlayers: 20
+    reoccurrenceDelay: 360
+  - type: CargoGiftsRule
+    announce: uni-ops-cargo-gifts-obelisk-event-announcement
+    sender: cargo-gift-default-sender
+    description: uni-ops-gift-obelisk-description
+    gifts:
+      ArtifactContainerNecroobelisk: 1
+
+- type: entity
+  id: GiftNecroobeliskArtefact
+  parent: BaseGameRule
+  components:
   - type: NecroobeliskArtefactRule

@@ -148,6 +148,10 @@
   - type: Fiber
     fiberMaterial: fibers-latex
   - type: FingerprintMask
+  # DS14-start
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.1
+  # DS14-end
 
 - type: entity
   parent: ClothingHandsButcherable
@@ -162,6 +166,10 @@
   - type: Fiber
     fiberMaterial: fibers-nitrile
   - type: FingerprintMask
+  # DS14-start
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.15
+  # DS14-end
 
 - type: entity
   parent: ClothingHandsButcherable

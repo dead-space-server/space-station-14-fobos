@@ -1,0 +1,157 @@
+- type: guideEntry
+  id: TheCircle
+  name: thecircle-name
+  text: "/ServerInfo/DeadSpace/Antagonist/TheCircle.xml"
+
+- type: antag
+  id: CircleFighterLight
+  name: roles-antag-thecircle-light-name
+  antagonist: true
+  setPreference: true
+  objective: roles-antag-thecircle-light-objective
+  requirements:
+    - !type:OverallPlaytimeRequirement
+      time: 1296000 # 360 hours
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 30h
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 60h
+  guides: [ TheCircle ]
+
+- type: antag
+  id: CircleFighterHeavy
+  name: roles-antag-thecircle-heavy-name
+  antagonist: true
+  setPreference: true
+  objective: roles-antag-thecircle-heavy-objective
+  requirements:
+    - !type:OverallPlaytimeRequirement
+      time: 1296000 # 360 hours
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 30h
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 60h
+  guides: [ TheCircle ]
+
+- type: antag
+  id: CircleMedic
+  name: roles-antag-thecircle-medic-name
+  antagonist: true
+  setPreference: true
+  objective: roles-antag-thecircle-medic-objective
+  requirements:
+    - !type:OverallPlaytimeRequirement
+      time: 1296000 # 360 hours
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 60h
+    - !type:RoleTimeRequirement
+      role: JobChemist
+      time: 45h
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 30h
+  guides: [ TheCircle ]
+
+- type: antag
+  id: CircleEngineer
+  name: roles-antag-thecircle-engineer-name
+  antagonist: true
+  setPreference: true
+  objective: roles-antag-thecircle-engineer-objective
+  requirements:
+    - !type:OverallPlaytimeRequirement
+      time: 1296000 # 360 hours
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 15h
+    - !type:DepartmentTimeRequirement
+      department: Engineering
+      time: 60h
+    - !type:RoleTimeRequirement
+      role: JobAtmosphericTechnician
+      time: 40h
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 25h
+  guides: [ TheCircle ]
+
+- type: antag
+  id: CircleCommander
+  name: roles-antag-thecircle-commander-name
+  antagonist: true
+  setPreference: true
+  objective: roles-antag-thecircle-commander-objective
+  requirements:
+    - !type:OverallPlaytimeRequirement
+      time: 1296000 # 360 hours
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 40h
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 65h
+    - !type:RoleTimeRequirement
+      role: JobAtmosphericTechnician
+      time: 25h
+    - !type:RoleTimeRequirement
+      role: JobChemist
+      time: 35h
+    - !type:DepartmentTimeRequirement
+      department: Command
+      time: 35h
+  guides: [ TheCircle ]
+
+- type: startingGear
+  id: TheCircleBaseGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitUnitology
+    back: ClothingBackpackUnitologyFilled
+    shoes: ADTClothingFootWrapsBlack
+    eyes: ClothingEyesHudUnitologyVisor
+    gloves: ClothingHandsGlovesCombatUnitology
+    mask: ClothingMaskGasUnitology
+    pocket2: DoubleEmergencyOxygenTankFilled
+
+- type: startingGear
+  id: TheCircleLeaderGear
+  parent: TheCircleBaseGear
+  equipment:
+    pocket1: UniPhoneUplink
+    belt: ClothingBeltUnitologyHeavyWebbing
+    id: UnitologyCommanderPDA
+    outerClothing: ClothingOuterHardsuitUnitologyCommander
+
+- type: startingGear
+  id: TheCircleHeavyGear
+  parent: TheCircleBaseGear
+  equipment:
+    belt: ClothingBeltUnitologyHeavyWebbing
+    id: UnitologyHeavyPDA
+
+- type: startingGear
+  parent: TheCircleBaseGear
+  id: TheCircleLightGear
+  equipment:
+    belt: ClothingBeltUnitologyLightWebbing
+    id: UnitologyLightPDA
+
+- type: startingGear
+  parent: TheCircleBaseGear
+  id: TheCircleEngineerGear
+  equipment:
+    back: ClothingBackpackUnitologyEngineerFilled
+    belt: ClothingBeltUnitologyEngineerWebbing
+    id: UnitologyEngineerPDA
+
+- type: startingGear
+  parent: TheCircleBaseGear
+  id: TheCircleMedicGear
+  equipment:
+    pocket1: UnitologyMedicHypospray
+    belt: ClothingBeltUnitologyMedicWebbing
+    id: UnitologyMedicPDA

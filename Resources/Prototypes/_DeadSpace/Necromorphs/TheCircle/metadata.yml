@@ -1,0 +1,35 @@
+- type: localizedDataset
+  id: UnitologyCommanderFirst
+  values:
+    prefix: names-circle-commander-first-dataset-
+    count: 1
+
+- type: localizedDataset
+  id: UnitologyMedicFirst
+  values:
+    prefix: names-circle-medic-first-dataset-
+    count: 1
+
+- type: localizedDataset
+  id: UnitologyEngineerFirst
+  values:
+    prefix: names-circle-engineer-first-dataset-
+    count: 1
+
+- type: localizedDataset
+  id: UnitologyLightFirst
+  values:
+    prefix: names-circle-light-first-dataset-
+    count: 1
+
+- type: localizedDataset
+  id: UnitologyHeavyFirst
+  values:
+    prefix: names-circle-heavy-first-dataset-
+    count: 1
+
+- type: localizedDataset
+  id: UnitologyFighterSecond
+  values:
+    prefix: names-circle-fighters-second-dataset-
+    count: 24
