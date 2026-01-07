@@ -1,0 +1,216 @@
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconTTI
+  icon:
+    sprite: /Textures/_DeadSpace/Sponsor/TraumaTeam/misc/icon.rsi
+    state: tti
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconLeadTTI
+  icon:
+    sprite: /Textures/_DeadSpace/Sponsor/TraumaTeam/misc/icon.rsi
+    state: tti_lead
+
+- type: startingGear
+  id: TTILeadEMT
+  equipment:
+    jumpsuit: ClothingJumpsuitTTI
+    back: ClothingBackpackTTI
+    mask: ClothingMaskGasLeadEMTTTI
+    eyes: ClothingEyesHudAdvanced
+    ears: ClothingHeadsetAltTTI
+    gloves: ClothingHandsGlovesCombatTTI
+    outerClothing: ClothingOuterHardsuitLeadEMTTTI
+    shoes: ClothingShoesMagBootsTTI
+    id: TTILeadEMTPDA
+    belt: ClothingBeltWisdomTraumaTeamSec
+    pocket2: DoubleEmergencyOxygenTankFilled
+  storage:
+    back:
+    - CrowbarRed
+    - EmergencyMedipen
+    - KukriKnife
+    - BoxMRE
+    - WeaponSubMachineGunKangTao
+    - MagazinePistolSubMachineGun
+    - MagazinePistolSubMachineGun
+    - MagazinePistolSubMachineGun
+    - MagazinePistolSubMachineGun
+    - MagazinePistolSubMachineGun
+    - ChemistryBottleOmnizine
+    - ChemistryBottleOmnizine
+    - ChemistryBottleEpinephrine
+    - CombatHypoTTI
+    - DefibrillatorCompact
+    - MedkitCombatFilled
+    - EmergencyRollerBedSpawnFolded
+    - BodyBagFolded
+    - InjectorCaseFilled
+    - InjectorCaseStimFilled
+    - DoorRemoteAll
+
+- type: startingGear
+  id: TTIOfficerEMT
+  equipment:
+    jumpsuit: ClothingJumpsuitTTI
+    back: ClothingBackpackTTI
+    mask: ClothingMaskGasOfficerTTI
+    eyes: ClothingEyesHudAdvanced
+    ears: ClothingHeadsetAltTTI
+    gloves: ClothingHandsGlovesCombatTTI
+    outerClothing: ClothingOuterHardsuitOfficerTTI
+    shoes: ClothingShoesMagBootsTTI
+    id: TTIOfficerPDA
+    belt: ClothingBeltWisdomTraumaTeamSec
+    pocket2: DoubleEmergencyOxygenTankFilled
+  storage:
+    back:
+    - CrowbarRed
+    - EmergencyMedipen
+    - KukriKnife
+    - BoxMRE
+    - WeaponSubMachineGunKangTao
+    - MagazinePistolSubMachineGun
+    - MagazinePistolSubMachineGun
+    - MagazinePistolSubMachineGun
+    - MagazinePistolSubMachineGun
+    - MagazinePistolSubMachineGun
+    - ChemistryBottleOmnizine
+    - ChemistryBottleOmnizine
+    - ChemistryBottleEpinephrine
+    - CombatHypoTTI
+    - DefibrillatorCompact
+    - MedkitCombatFilled
+    - EmergencyRollerBedSpawnFolded
+    - BodyBagFolded
+    - InjectorCaseFilled
+    - InjectorCaseStimFilled
+
+- type: entity
+  parent: IDCardStandard
+  categories: [ HideSpawnMenu ]
+  id: TTIOfficerEMTIDCard
+  name: ID-карта Офицера безопасности TTI
+  description: Зачем тебе это читать?
+  components:
+  - type: IdCard
+    jobTitle: job-title-traumateam-officer
+    jobIcon: JobIconTTI
+  - type: Access
+    groups:
+    - AllAccess
+    tags:
+    - CentralCommand
+  - type: Sprite
+    layers:
+    - state: gold
+    - state: idcentcom
+
+- type: entity
+  parent: IDCardStandard
+  categories: [ HideSpawnMenu ]
+  id: TTILeadEMTIDCard
+  name: ID-карта Ведущего фельдшера TTI
+  description: Зачем тебе это читать?
+  components:
+  - type: IdCard
+    jobTitle: job-title-traumateam-leader
+    jobIcon: JobIconLeadTTI
+  - type: Access
+    groups:
+    - AllAccess
+    tags:
+    - CentralCommand
+  - type: Sprite
+    layers:
+    - state: gold
+    - state: idcentcom
+
+- type: entity
+  parent: ERTLeaderPDA
+  id: TTILeadEMTPDA
+  categories: [ HideSpawnMenu ]
+  name: КПК Ведущего фельдшера TTI
+  description: Красный значит мощный.
+  components:
+  - type: Pda
+    id: TTILeadEMTIDCard
+
+- type: entity
+  parent: ERTLeaderPDA
+  id: TTIOfficerPDA
+  categories: [ HideSpawnMenu ]
+  name: КПК Офицера безопасности TTI
+  description: Красный значит мощный.
+  components:
+  - type: Pda
+    id: TTIOfficerEMTIDCard
+
+- type: randomHumanoidSettings
+  id: EventHumanoidTTILeader
+  parent: EventHumanoidMindShieldedHuman
+  components:
+    - type: GhostRole
+      name: Ведущий фельдшер TTI
+      description: Вы зафискировали смерть спонсора на активе НТ! Немедленно бросить все свои силы на его спасение!
+      rules: ghost-role-information-tti-rules
+      requirements:
+        - !type:DepartmentTimeRequirement
+          department: Medical
+          time: 36000 # 10 hours
+        - !type:DepartmentTimeRequirement
+          department: Security
+          time: 36000 # 10 hours
+      raffle:
+        settings: short
+    - type: Loadout
+      prototypes: [ TTILeadEMT ]
+    - type: RandomMetadata
+      nameSegments:
+      - NamesTTILeadEMT
+      - NamesLastERT
+      nameFormat: name-format-ert
+
+- type: randomHumanoidSettings
+  id: EventHumanoidTTIOfficer
+  parent: EventHumanoidMindShieldedHuman
+  components:
+    - type: GhostRole
+      name: Офицер TTI
+      description: Вы зафискировали смерть спонсора на активе НТ! Немедленно бросить все свои силы на его спасение!
+      rules: ghost-role-information-tti-rules
+      requirements:
+        - !type:DepartmentTimeRequirement
+          department: Medical
+          time: 36000 # 10 hours
+        - !type:DepartmentTimeRequirement
+          department: Security
+          time: 36000 # 10 hours
+      raffle:
+        settings: short
+    - type: Loadout
+      prototypes: [ TTIOfficerEMT ]
+    - type: RandomMetadata
+      nameSegments:
+      - NamesTTIOfficerEMT
+      - NamesLastERT
+      nameFormat: name-format-ert
+
+- type: entity
+  id: RandomHumanoidSpawnerTTIOfficerEMT
+  categories: [ HideSpawnMenu ]
+  parent: RandomHumanoidSpawnerERTMedicalAmber
+  name: Офицер Траума-Тек
+  components:
+    - type: RandomHumanoidSpawner
+      settings: EventHumanoidTTIOfficer
+
+- type: entity
+  id: RandomHumanoidSpawnerTTILeadEMT
+  parent: RandomHumanoidSpawnerERTMedicalAmber
+  categories: [ HideSpawnMenu ]
+  name: Ведущий фельдшер Траума-Тек
+  components:
+    - type: RandomHumanoidSpawner
+      settings: EventHumanoidTTILeader
