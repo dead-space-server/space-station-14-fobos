@@ -22,6 +22,15 @@ public enum PurchasePeriod : byte
 }
 
 [Serializable, NetSerializable]
+public enum CalendarRewardStatus : byte
+{
+    Locked,
+    Available,
+    Claimed,
+    Missed
+}
+
+[Serializable, NetSerializable]
 public sealed class DonateShopState
 {
     public string PlayerUserName { get; set; } = "Unknown";
@@ -36,7 +45,7 @@ public sealed class DonateShopState
     public bool AllowJob { get; } = false;
     public bool IsTimeUp { get; } = false;
     public float Energy { get; } = 0f;
-    public int Crystals { get; } = 0;
+    public float Crystals { get; } = 0f;
     public int Level { get; } = 1;
     public int Experience { get; } = 0;
     public int RequiredExp { get; } = 10;
@@ -44,8 +53,7 @@ public sealed class DonateShopState
     public float Progress { get; } = 0f;
     public int User { get; } = 0;
     public PremiumData? CurrentPremium { get; }
-    public List<DonateItemData> Items { get; } = new List<DonateItemData>();
-    public List<DonateSubscribeData> Subscribes { get; } = new List<DonateSubscribeData>();
+    public ActiveSubscriptionData? ActiveSubscription { get; }
     public HashSet<string> SpawnedItems { get; set; } = new HashSet<string>();
 
     public DonateShopState(
@@ -61,7 +69,7 @@ public sealed class DonateShopState
         bool hasError,
         bool isTimeUp,
         float energy,
-        int crystals,
+        float crystals,
         int level,
         int experience,
         int requiredExp,
@@ -69,8 +77,7 @@ public sealed class DonateShopState
         float progress,
         int user,
         PremiumData? currentPremium,
-        List<DonateItemData> items,
-        List<DonateSubscribeData> subscribes,
+        ActiveSubscriptionData? activeSubscription,
         HashSet<string>? spawnedItems = null)
     {
         PlayerUserName = playerUserName;
@@ -93,8 +100,7 @@ public sealed class DonateShopState
         Progress = progress;
         User = user;
         CurrentPremium = currentPremium;
-        Items = items;
-        Subscribes = subscribes;
+        ActiveSubscription = activeSubscription;
         SpawnedItems = spawnedItems ?? new HashSet<string>();
     }
 
@@ -111,80 +117,116 @@ public sealed class DonateShopState
 }
 
 [Serializable, NetSerializable]
-public sealed class DonateItemData
+public sealed class ActiveSubscriptionData
 {
-    public int ItemId { get; }
-    public string ItemName { get; }
-    public string? ItemIdInGame { get; }
-    public string ImageUrl { get; }
-    public string Category { get; }
-    public string? Subcategory { get; }
-    public bool IsActive { get; }
-    public bool TimeAllways { get; }
-    public string? TimeStart { get; }
-    public string? TimeFinish { get; }
-    public int CoinPrice { get; }
-    public int CrystalPrice { get; }
-    public int EnergyPrice { get; }
-    public string? SourceSubscription { get; }
+    public string Name { get; }
+    public string FinishDate { get; }
+    public string StartDate { get; }
+    public string Description { get; }
+    public string OocColor { get; }
+    public int ExtraSlots { get; }
+    public bool HavePriorityJoinGame { get; }
+    public bool HavePriorityAntageGame { get; }
+    public bool AllowJob { get; }
 
-    public DonateItemData(
-        int itemId,
-        string itemName,
-        string? itemIdInGame,
-        string imageUrl,
-        string category,
-        string? subcategory,
-        bool isActive,
-        bool timeAllways,
-        string? timeStart = null,
-        string? timeFinish = null,
-        int coinPrice = 0,
-        int crystalPrice = 0,
-        int energyPrice = 0,
-        string? sourceSubscription = null)
+    public ActiveSubscriptionData(
+        string name,
+        string finishDate,
+        string startDate,
+        string description,
+        string oocColor,
+        int extraSlots,
+        bool havePriorityJoinGame,
+        bool havePriorityAntageGame,
+        bool allowJob)
     {
-        ItemId = itemId;
-        ItemName = itemName;
-        ItemIdInGame = itemIdInGame;
-        ImageUrl = imageUrl;
-        Category = category;
-        Subcategory = subcategory;
-        IsActive = isActive;
-        TimeAllways = timeAllways;
-        TimeStart = timeStart;
-        TimeFinish = timeFinish;
-        CoinPrice = coinPrice;
-        CrystalPrice = crystalPrice;
-        EnergyPrice = energyPrice;
-        SourceSubscription = sourceSubscription;
+        Name = name;
+        FinishDate = finishDate;
+        StartDate = startDate;
+        Description = description;
+        OocColor = oocColor;
+        ExtraSlots = extraSlots;
+        HavePriorityJoinGame = havePriorityJoinGame;
+        HavePriorityAntageGame = havePriorityAntageGame;
+        AllowJob = allowJob;
     }
 }
 
 [Serializable, NetSerializable]
-public sealed class DonateSubscribeData
+public sealed class InventoryState
 {
-    public string SubscribeName { get; }
-    public int Price { get; }
-    public string ImageUrl { get; }
-    public string StartDate { get; }
-    public string FinishDate { get; }
-    public List<DonateItemData> Items { get; }
+    public int UserId { get; }
+    public string? PlayerUserName { get; }
+    public string Ss14PlayerId { get; }
+    public int TotalItems { get; }
+    public List<InventoryItemData> Items { get; }
+    public bool HasError { get; }
+    public string ErrorMessage { get; }
 
-    public DonateSubscribeData(
-        string subscribeName,
-        int price,
-        string imageUrl,
-        string startDate,
-        string finishDate,
-        List<DonateItemData> items)
+    public InventoryState(
+        int userId,
+        string? playerUserName,
+        string ss14PlayerId,
+        int totalItems,
+        List<InventoryItemData> items)
     {
-        SubscribeName = subscribeName;
-        Price = price;
-        ImageUrl = imageUrl;
-        StartDate = startDate;
-        FinishDate = finishDate;
+        UserId = userId;
+        PlayerUserName = playerUserName;
+        Ss14PlayerId = ss14PlayerId;
+        TotalItems = totalItems;
         Items = items;
+        HasError = false;
+        ErrorMessage = string.Empty;
+    }
+
+    public InventoryState(string errorMessage)
+    {
+        UserId = 0;
+        PlayerUserName = null;
+        Ss14PlayerId = string.Empty;
+        TotalItems = 0;
+        Items = new List<InventoryItemData>();
+        HasError = true;
+        ErrorMessage = errorMessage;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class InventoryItemData
+{
+    public int Id { get; }
+    public string Name { get; }
+    public string? ItemIdInGame { get; }
+    public string Category { get; }
+    public string Source { get; }
+    public string? TimeFinish { get; }
+    public bool TimeAllways { get; }
+    public bool IsLootbox { get; }
+    public bool StelsHidden { get; }
+    public int UserItemId { get; }
+
+    public InventoryItemData(
+        int id,
+        string name,
+        string? itemIdInGame,
+        string category,
+        string source,
+        string? timeFinish,
+        bool timeAllways,
+        bool isLootbox,
+        bool stelsHidden,
+        int userItemId)
+    {
+        Id = id;
+        Name = name;
+        ItemIdInGame = itemIdInGame;
+        Category = category;
+        Source = source;
+        TimeFinish = timeFinish;
+        TimeAllways = timeAllways;
+        IsLootbox = isLootbox;
+        StelsHidden = stelsHidden;
+        UserItemId = userItemId;
     }
 }
 
@@ -194,42 +236,57 @@ public sealed class PremiumData
     public PremiumLevelData PremiumLevel { get; }
     public bool Active { get; }
     public int ExpiresIn { get; }
+    public string StartedAt { get; }
+    public string ExpiresAt { get; }
 
     public PremiumData(
         PremiumLevelData premiumLevel,
         bool active,
-        int expiresIn)
+        int expiresIn,
+        string startedAt = "",
+        string expiresAt = "")
     {
         PremiumLevel = premiumLevel;
         Active = active;
         ExpiresIn = expiresIn;
+        StartedAt = startedAt;
+        ExpiresAt = expiresAt;
     }
 }
 
 [Serializable, NetSerializable]
 public sealed class PremiumLevelData
 {
+    public int Id { get; }
     public int Level { get; }
     public string Name { get; }
     public string Description { get; }
+    public int DurationDays { get; }
     public float BonusXp { get; }
     public float BonusEnergy { get; }
     public int BonusSlots { get; }
+    public string Price { get; }
 
     public PremiumLevelData(
+        int id,
         int level,
         string name,
         string description,
+        int durationDays,
         float bonusXp,
         float bonusEnergy,
-        int bonusSlots)
+        int bonusSlots,
+        string price = "0")
     {
+        Id = id;
         Level = level;
         Name = name;
         Description = description;
+        DurationDays = durationDays;
         BonusXp = bonusXp;
         BonusEnergy = bonusEnergy;
         BonusSlots = bonusSlots;
+        Price = price;
     }
 }
 
@@ -308,12 +365,169 @@ public sealed class PurchaseResult
 }
 
 [Serializable, NetSerializable]
+public sealed class CalendarRewardItemData
+{
+    public int Id { get; }
+    public string Name { get; }
+    public string? ItemIdInGame { get; }
+    public bool Owned { get; }
+    public int RewardId { get; }
+    public bool IsHidden { get; }
+    public bool IsLootbox { get; }
+
+    public CalendarRewardItemData(int id, string name, string? itemIdInGame, bool owned, int rewardId = 0, bool isHidden = false, bool isLootbox = false)
+    {
+        Id = id;
+        Name = name;
+        ItemIdInGame = itemIdInGame;
+        Owned = owned;
+        RewardId = rewardId;
+        IsHidden = isHidden;
+        IsLootbox = isLootbox;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class CalendarDayReward
+{
+    public int RewardId { get; }
+    public int Day { get; }
+    public CalendarRewardStatus Status { get; }
+    public CalendarRewardItemData Item { get; }
+
+    public CalendarDayReward(int rewardId, int day, CalendarRewardStatus status, CalendarRewardItemData item)
+    {
+        RewardId = rewardId;
+        Day = day;
+        Status = status;
+        Item = item;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class CalendarPreviewDay
+{
+    public CalendarRewardItemData? Item { get; }
+    public CalendarRewardStatus Status { get; }
+
+    public CalendarPreviewDay(CalendarRewardItemData? item, CalendarRewardStatus status)
+    {
+        Item = item;
+        Status = status;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class CalendarPreview
+{
+    public CalendarPreviewDay? Yesterday { get; }
+    public CalendarPreviewDay? Today { get; }
+    public CalendarPreviewDay? Tomorrow { get; }
+
+    public CalendarPreview(CalendarPreviewDay? yesterday, CalendarPreviewDay? today, CalendarPreviewDay? tomorrow)
+    {
+        Yesterday = yesterday;
+        Today = today;
+        Tomorrow = tomorrow;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class CalendarProgress
+{
+    public int CurrentDay { get; }
+    public int PoolId { get; }
+
+    public CalendarProgress(int currentDay, int poolId)
+    {
+        CurrentDay = currentDay;
+        PoolId = poolId;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class DailyCalendarState
+{
+    public string CalendarName { get; }
+    public List<CalendarDayReward> NormalRewards { get; }
+    public List<CalendarDayReward> PremiumRewards { get; }
+    public CalendarPreview? NormalPreview { get; }
+    public CalendarPreview? PremiumPreview { get; }
+    public CalendarProgress? Progress { get; }
+    public bool HasError { get; }
+    public string ErrorMessage { get; }
+
+    public DailyCalendarState(
+        string calendarName,
+        List<CalendarDayReward> normalRewards,
+        List<CalendarDayReward> premiumRewards,
+        CalendarPreview? normalPreview,
+        CalendarPreview? premiumPreview,
+        CalendarProgress? progress)
+    {
+        CalendarName = calendarName;
+        NormalRewards = normalRewards;
+        PremiumRewards = premiumRewards;
+        NormalPreview = normalPreview;
+        PremiumPreview = premiumPreview;
+        Progress = progress;
+        HasError = false;
+        ErrorMessage = string.Empty;
+    }
+
+    public DailyCalendarState(string errorMessage)
+    {
+        CalendarName = string.Empty;
+        NormalRewards = new List<CalendarDayReward>();
+        PremiumRewards = new List<CalendarDayReward>();
+        HasError = true;
+        ErrorMessage = errorMessage;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class ClaimRewardResult
+{
+    public bool Success { get; }
+    public string Message { get; }
+    public CalendarRewardItemData? ClaimedItem { get; }
+    public bool IsPremium { get; }
+
+    public ClaimRewardResult(bool success, string message, CalendarRewardItemData? claimedItem = null, bool isPremium = false)
+    {
+        Success = success;
+        Message = message;
+        ClaimedItem = claimedItem;
+        IsPremium = isPremium;
+    }
+}
+
+[Serializable, NetSerializable]
 public sealed class RequestUpdateDonateShop : EntityEventArgs;
 
 [Serializable, NetSerializable]
-public sealed class UpdateDonateShopUIState(DonateShopState state) : EntityEventArgs
+public sealed class UpdateDonateShopUIState : EntityEventArgs
 {
-    public DonateShopState State = state;
+    public DonateShopState State { get; }
+
+    public UpdateDonateShopUIState(DonateShopState state)
+    {
+        State = state;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class RequestInventory : EntityEventArgs;
+
+[Serializable, NetSerializable]
+public sealed class UpdateInventoryState : EntityEventArgs
+{
+    public InventoryState State { get; }
+
+    public UpdateInventoryState(InventoryState state)
+    {
+        State = state;
+    }
 }
 
 [Serializable, NetSerializable]
@@ -368,6 +582,44 @@ public sealed class PurchaseEnergyItemResult : EntityEventArgs
     public PurchaseResult Result { get; }
 
     public PurchaseEnergyItemResult(PurchaseResult result)
+    {
+        Result = result;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class RequestDailyCalendar : EntityEventArgs;
+
+[Serializable, NetSerializable]
+public sealed class UpdateDailyCalendarState : EntityEventArgs
+{
+    public DailyCalendarState State { get; }
+
+    public UpdateDailyCalendarState(DailyCalendarState state)
+    {
+        State = state;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class RequestClaimCalendarReward : EntityEventArgs
+{
+    public int RewardId { get; }
+    public bool IsPremium { get; }
+
+    public RequestClaimCalendarReward(int rewardId, bool isPremium)
+    {
+        RewardId = rewardId;
+        IsPremium = isPremium;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class ClaimCalendarRewardResult : EntityEventArgs
+{
+    public ClaimRewardResult Result { get; }
+
+    public ClaimCalendarRewardResult(ClaimRewardResult result)
     {
         Result = result;
     }

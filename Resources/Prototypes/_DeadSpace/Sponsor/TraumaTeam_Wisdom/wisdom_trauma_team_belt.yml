@@ -12,27 +12,27 @@
   - type: Item
     size: Huge
 
-- type: entity
-  parent: ClothingBeltStorageBase
-  id: ClothingBeltWisdomTraumaTeamHolster
-  name: набедренная кобура TTI
-  description: Глубокая наплечная кобура, способная вместить множество видов баллистики.
-  components:
-  - type: Sprite
-    sprite: _DeadSpace/Sponsor/Wisdom/TraumaTeam/holster.rsi
-  - type: Clothing
-    sprite: _DeadSpace/Sponsor/Wisdom/TraumaTeam/holster.rsi
-    slots:
-    - neck
-    - belt
-  - type: Item
-    size: Ginormous
-  - type: Storage
-    maxItemSize: Huge
-    grid:
-    - 0,0,3,3
-    whitelist:
-      components:
-        - Gun
-        - BallisticAmmoProvider
-        - CartridgeAmmo
+#- type: entity
+#  parent: ClothingBeltStorageBase
+#  id: ClothingBeltWisdomTraumaTeamHolster
+#  name: набедренная кобура TTI
+#  description: Глубокая наплечная кобура, способная вместить множество видов баллистики.
+#  components:
+#  - type: Sprite
+#    sprite: _DeadSpace/Sponsor/Wisdom/TraumaTeam/holster.rsi
+#  - type: Clothing
+#    sprite: _DeadSpace/Sponsor/Wisdom/TraumaTeam/holster.rsi
+#    slots:
+#    - neck
+#    - belt
+#  - type: Item
+#    size: Ginormous
+#  - type: Storage
+#    maxItemSize: Huge
+#    grid:
+#    - 0,0,3,3
+#    whitelist:
+#      components:
+#        - Gun
+#        - BallisticAmmoProvider
+#        - CartridgeAmmo
