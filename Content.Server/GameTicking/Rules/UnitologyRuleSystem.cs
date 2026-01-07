@@ -127,8 +127,6 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
             if (!TryComp<StationBankAccountComponent>(station, out var stationAccount))
                 return;
 
-            _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("unitology-centcomm-announcement-add-money"), playSound: true, colorOverride: Color.LightSeaGreen);
-
             _cargoSystem.UpdateBankAccount(
                                 (station.Value, stationAccount),
                                 AddMoneyBreeding,
