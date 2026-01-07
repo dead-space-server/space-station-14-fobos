@@ -5,6 +5,7 @@
     components:
       - ShowAntagIcons
       - Spider
+      - Egg
   icon:
     sprite: /Textures/_DeadSpace/Interface/Misc/antag_icons.rsi
     state: Egg

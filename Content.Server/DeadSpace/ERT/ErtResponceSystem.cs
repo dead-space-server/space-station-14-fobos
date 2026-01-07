@@ -168,13 +168,16 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
         return true;
     }
 
-    public void EnsureErtTeam(ProtoId<ErtTeamPrototype> team)
+    public EntityUid? EnsureErtTeam(ProtoId<ErtTeamPrototype> team, bool resetCooldown = true)
     {
         if (!_prototypeManager.TryIndex(team, out var prototype))
-            return;
+            return null;
 
-        _expectedTeam = null;
-        _windowWaitingArrival = null;
+        if (resetCooldown)
+        {
+            _expectedTeam = null;
+            _windowWaitingArrival = null;
+        }
 
         var ruleEntity = Spawn(prototype.ErtRule, MapCoordinates.Nullspace);
 
@@ -183,6 +186,8 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
         // не нужен в _allPreviousGameRules, потому что сам по себе не является правилом
         var ev = new GameRuleAddedEvent(ruleEntity, prototype.ErtRule);
         RaiseLocalEvent(ruleEntity, ref ev, true);
+
+        return ruleEntity;
     }
 }
 
