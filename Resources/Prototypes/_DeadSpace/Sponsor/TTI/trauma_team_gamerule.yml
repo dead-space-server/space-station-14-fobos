@@ -1,0 +1,34 @@
+- type: preloadedGrid
+  id: TTIShuttle
+  path: /Maps/Shuttles/ShuttleEvent/ds_tti_tepors.yml
+  copies: 1
+
+- type: entity
+  parent: BaseGameRule
+  id: SpawnTTIShuttle
+  components:
+  - type: StationEvent
+    startAnnouncement: station-event-response-team-arrival
+    startAudio:
+      path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
+    willNotStartRandomly: true
+  - type: RuleGrids
+  - type: LoadMapRule
+    preloadedGrid: TTIShuttle
+  - type: ErtSpawnRule
+
+- type: ertTeam
+  id: TTI
+  name: Trauma Team
+  description: 
+    Спасательный отряд для спонсоров актива, выдвигается спасти погибшего спонсора на активе НТ.
+  rule: SpawnCburnShuttle
+  spawnWindow:
+    min: 1m
+    max: 1m
+  price: 50000
+  spawns:
+    - id: RandomHumanoidSpawnerTTILeadEMT
+      amount: 1
+    - id: RandomHumanoidSpawnerTTIOfficerEMT
+      amount: 2

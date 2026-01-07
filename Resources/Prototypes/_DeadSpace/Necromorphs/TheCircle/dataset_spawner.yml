@@ -1,0 +1,227 @@
+- type: entity
+  id: SpawnPointTheCircleFighter
+  parent: MarkerBase
+  categories: [ HideSpawnMenu ]
+  name: "Круг"
+  components:
+  - type: SpawnPoint
+  - type: Sprite
+    layers:
+    - state: green
+    - sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/uplink.rsi
+      state: icon
+
+- type: entity
+  categories: [ HideSpawnMenu, Spawner ]
+  id: BaseSpawnPointGhostCircle
+  name: ghost role thecircle
+  suffix: Круг
+  parent: BaseAntagSpawner
+  components:
+  - type: GhostRole
+    rules: ghost-role-information-rules-default-team-antagonist
+    mindRoles:
+    - MindRoleBaseCircleFighters
+    requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 36000 
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 
+    raffle:
+      settings: default
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    layers:
+      - state: green
+
+- type: entity
+  categories: [ HideSpawnMenu, Spawner ]
+  parent: BaseSpawnPointGhostCircle
+  id: SpawnPointCircleCommander
+  components:
+  - type: GhostRole
+    name: roles-antag-thecircle-commander-name
+    description: roles-antag-thecircle-commander-objective
+    rules: ghost-role-information-rules-default-team-antagonist
+    mindRoles:
+    - MindRoleCircleCommander
+    requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 144000 # 40 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 234000 # 65 hours
+    - !type:DepartmentTimeRequirement
+      department: Command
+      time: 126000 # 35 hours
+    - !type:RoleTimeRequirement
+      role: JobChemist
+      time: 126000 # 35 hours
+    - !type:RoleTimeRequirement
+      role: JobAtmosphericTechnician
+      time: 90000 # 25 hours
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    layers:
+      - state: green
+      - sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
+        state: commander
+
+- type: entity
+  categories: [ HideSpawnMenu, Spawner ]
+  parent: BaseSpawnPointGhostCircle
+  id: SpawnPointCircleFighterLight
+  components:
+  - type: GhostRole
+    name: roles-antag-thecircle-light-name
+    description: roles-antag-thecircle-light-objective
+    rules: ghost-role-information-rules-default-team-antagonist
+    mindRoles:
+    - MindRoleCircleFighterLight
+    requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 108000 # 30 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 216000 # 60 hours
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    layers:
+      - state: green
+      - sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
+        state: light
+
+- type: entity
+  categories: [ HideSpawnMenu, Spawner ]
+  parent: BaseSpawnPointGhostCircle
+  id: SpawnPointCircleFighterHeavy
+  components:
+  - type: GhostRole
+    name: roles-antag-thecircle-heavy-name
+    description: roles-antag-thecircle-heavy-objective
+    rules: ghost-role-information-rules-default-team-antagonist
+    mindRoles:
+    - MindRoleCircleFighterHeavy
+    requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 108000 # 30 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 216000 # 60 hours
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    layers:
+      - state: green
+      - sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
+        state: heavy
+
+- type: entity
+  categories: [ HideSpawnMenu, Spawner ]
+  parent: BaseSpawnPointGhostCircle
+  id: SpawnPointCircleMedic
+  components:
+  - type: GhostRole
+    name: roles-antag-thecircle-medic-name
+    description: roles-antag-thecircle-medic-objective
+    rules: ghost-role-information-rules-default-team-antagonist
+    mindRoles:
+    - MindRoleCircleMedic
+    requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 216000 # 60 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 108000 # 30 hours
+    - !type:RoleTimeRequirement
+      role: JobChemist
+      time: 162000 # 45 hours
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    layers:
+      - state: green
+      - sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
+        state: medic
+
+- type: entity
+  categories: [ HideSpawnMenu, Spawner ]
+  parent: BaseSpawnPointGhostCircle
+  id: SpawnPointCircleEngineer
+  components:
+  - type: GhostRole
+    name: roles-antag-thecircle-engineer-name
+    description: roles-antag-thecircle-engineer-objective
+    rules: ghost-role-information-rules-default-team-antagonist
+    mindRoles:
+    - MindRoleCircleEngineer
+    requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 54000 # 15 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 90000 # 25 hours
+    - !type:RoleTimeRequirement
+      role: JobAtmosphericTechnician
+      time: 144000 # 40 hours
+    - !type:DepartmentTimeRequirement
+      department: Engineering
+      time: 216000 # 60 hours
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    layers:
+      - state: green
+      - sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
+        state: engineer
+
+# НЕ ИСПОЛЬЗОВАТЬ, СОЗДАНО ДЛЯ ВНУТРЕННОГО ГАЙДА
+
+- type: entity
+  id: GuidePosterCircleCommander
+  parent: PosterBase
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
+      state: commander
+
+- type: entity
+  id: GuidePosterCircleFighterLight
+  parent: PosterBase
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
+      state: light
+
+- type: entity
+  id: GuidePosterCircleFighterHeavy
+  parent: PosterBase
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
+      state: heavy
+
+- type: entity
+  id: GuidePosterCircleMedic
+  parent: PosterBase
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
+      state: medic
+
+- type: entity
+  id: GuidePosterCircleEngineer
+  parent: PosterBase
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
+      state: engineer

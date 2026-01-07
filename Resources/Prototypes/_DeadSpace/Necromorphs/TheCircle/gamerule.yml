@@ -1,0 +1,240 @@
+- type: gamePreset
+  id: SiegeOfTheCircle
+  alias:
+    - siegeofthecircle
+  name: thecircle-title
+  description: thecircle-description
+  showInVote: true
+  showInAdminVote: true 
+  voteType: rdm 
+  rules:
+  - WageScheduler 
+  - SiegeOfTheCircle
+  - BasicStationEventScheduler
+  - MeteorSwarmScheduler
+  - SpaceTrafficControlEventScheduler
+  - BasicRoundstartVariation
+
+- type: entity
+  abstract: true
+  parent: BaseGameRule
+  id: BaseSiegeOfTheCircle
+  components:
+  - type: RuleGrids
+  - type: AntagSelection
+  - type: AntagLoadProfileRule
+    speciesOverride: Human
+    speciesOverrideBlacklist:
+    - Vox
+    - Diona
+    - Xenomorph
+    - IPC
+  - type: RandomMetadata
+    nameSegments:
+    - UnitologyHeavyFirst
+    - UnitologyFighterSecond
+    nameFormat: name-format-nuclear-operation
+
+- type: entity
+  parent: BaseSiegeOfTheCircle
+  id: SiegeOfTheCircle
+  components:
+  - type: GameRule
+    minPlayers: 75
+  - type: CircleOpsRule
+    windowUntilSendObelisk:
+      min: 1m
+      max: 1m
+    windowBefoteWarDeclaration:
+      min: 25m
+      max: 25m
+    windowAfterWarDeclare:
+      min: 15m
+      max: 15m
+    windowUntilSpawnMoon:
+      min: 15m
+      max: 15m
+  - type: LoadMapRule
+    mapPath: /Maps/Nonstations/ds_thecircle_outpost_docked.yml
+  - type: AntagSelection
+    selectionTime: PrePlayerSpawn
+    definitions:
+    - prefRoles: [ CircleCommander ]
+      fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterHeavy, CircleFighterLight ]
+      spawnerPrototype: SpawnPointCircleCommander
+      startingGear: TheCircleLeaderGear
+      max: 1
+      playerRatio: 12
+      briefing:
+        text: roles-antag-thecircle-commander-start
+        color: CornflowerBlue
+        sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
+      roleLoadout:
+        - RoleSurvivalExtended
+      components:
+      - type: ObeliskActivateAbility
+      - type: IntrinsicRadioTransmitter
+        channels:
+        - Unitolog
+      - type: ActiveRadio
+        channels:
+        - Unitolog
+      - type: IntrinsicRadioReceiver
+      - type: Unitology
+      - type: ImmunNecroobelisk
+      - type: IgnoreKudzu
+      - type: RandomMetadata
+        nameSegments:
+        - UnitologyCommanderFirst
+        - UnitologyFighterSecond
+        nameFormat: name-format-nuclear-operation
+      - type: NpcFactionMember
+        factions:
+        - Syndicate
+        - Necromorfs
+      mindRoles:
+      - MindRoleCircleCommander
+      sponsorsPriority: true
+    - prefRoles: [ CircleMedic ]
+      fallbackRoles: [ CircleEngineer, CircleCommander, CircleFighterHeavy, CircleFighterLight ]
+      spawnerPrototype: SpawnPointCircleMedic
+      startingGear: TheCircleMedicGear
+      max: 1
+      playerRatio: 12
+      briefing:
+        text: roles-antag-thecircle-medic-start
+        color: CornflowerBlue
+        sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
+      roleLoadout:
+        - RoleSurvivalExtended
+      components:
+      - type: ObeliskActivateAbility
+      - type: IntrinsicRadioTransmitter
+        channels:
+        - Unitolog
+      - type: ActiveRadio
+        channels:
+        - Unitolog
+      - type: IntrinsicRadioReceiver
+      - type: Unitology
+      - type: ImmunNecroobelisk
+      - type: IgnoreKudzu
+      - type: RandomMetadata
+        nameSegments:
+        - UnitologyMedicFirst
+        - UnitologyFighterSecond
+        nameFormat: name-format-nuclear-operation
+      - type: NpcFactionMember
+        factions:
+        - Syndicate
+        - Necromorfs
+      mindRoles:
+      - MindRoleCircleMedic
+      sponsorsPriority: true
+    - prefRoles: [ CircleFighterHeavy ]
+      fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterLight, CircleCommander ]
+      spawnerPrototype: SpawnPointCircleFighterHeavy
+      max: 2
+      playerRatio: 12
+      startingGear: TheCircleHeavyGear
+      roleLoadout:
+        - RoleSurvivalExtended
+      briefing:
+        text: roles-antag-thecircle-heavy-start
+        color: CornflowerBlue
+        sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
+      components:
+      - type: ObeliskActivateAbility
+      - type: IntrinsicRadioTransmitter
+        channels:
+        - Unitolog
+      - type: ActiveRadio
+        channels:
+        - Unitolog
+      - type: IntrinsicRadioReceiver
+      - type: Unitology
+      - type: ImmunNecroobelisk
+      - type: IgnoreKudzu
+      - type: RandomMetadata
+        nameSegments:
+        - UnitologyHeavyFirst
+        - UnitologyFighterSecond
+        nameFormat: name-format-nuclear-operation
+      - type: NpcFactionMember
+        factions:
+        - Syndicate
+        - Necromorfs
+      mindRoles:
+      - MindRoleCircleFighterHeavy
+    - prefRoles: [ CircleFighterLight ]
+      fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterHeavy, CircleCommander ]
+      spawnerPrototype: SpawnPointCircleFighterLight
+      max: 2
+      playerRatio: 12
+      startingGear: TheCircleLightGear
+      roleLoadout:
+        - RoleSurvivalExtended
+      briefing:
+        text: roles-antag-thecircle-light-start
+        color: CornflowerBlue
+        sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
+      components:
+      - type: ObeliskActivateAbility
+      - type: IntrinsicRadioTransmitter
+        channels:
+        - Unitolog
+      - type: ActiveRadio
+        channels:
+        - Unitolog
+      - type: IntrinsicRadioReceiver
+      - type: Unitology
+      - type: ImmunNecroobelisk
+      - type: IgnoreKudzu
+      - type: RandomMetadata
+        nameSegments:
+        - UnitologyLightFirst
+        - UnitologyFighterSecond
+        nameFormat: name-format-nuclear-operation
+      - type: NpcFactionMember
+        factions:
+        - Syndicate
+        - Necromorfs
+      mindRoles:
+      - MindRoleCircleFighterLight
+    - prefRoles: [ CircleEngineer ]
+      fallbackRoles: [ CircleFighterLight, CircleMedic, CircleFighterHeavy, CircleCommander ]
+      spawnerPrototype: SpawnPointCircleEngineer
+      startingGear: TheCircleEngineerGear
+      max: 1
+      playerRatio: 12
+      roleLoadout:
+        - RoleSurvivalExtended
+      briefing:
+        text: roles-antag-thecircle-engineer-start
+        color: CornflowerBlue
+        sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
+      components:
+      - type: ObeliskActivateAbility
+      - type: IntrinsicRadioTransmitter
+        channels:
+        - Unitolog
+      - type: ActiveRadio
+        channels:
+        - Unitolog
+      - type: IntrinsicRadioReceiver
+      - type: Unitology
+      - type: ImmunNecroobelisk
+      - type: IgnoreKudzu
+      - type: RandomMetadata
+        nameSegments:
+        - UnitologyEngineerFirst
+        - UnitologyFighterSecond
+        nameFormat: name-format-nuclear-operation
+      - type: NpcFactionMember
+        factions:
+        - Syndicate
+        - Necromorfs
+      mindRoles:
+      - MindRoleCircleEngineer
+  - type: DynamicRuleCost
+    cost: 200

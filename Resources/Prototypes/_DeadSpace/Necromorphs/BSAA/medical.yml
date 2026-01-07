@@ -1,0 +1,151 @@
+- type: entity
+  parent: ChemicalMedipen
+  id: NECROMedipen
+  name: медипен ОПНУ
+  description: Разработка NanoTrasen. Содержит вещества для лечения повреждений наносимых некроморфами.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/medipen.rsi
+    layers:
+    - state: OPPY-OPNY-Medipen
+      map: ["enum.SolutionContainerLayers.Fill"]
+  - type: SolutionContainerVisuals
+    maxFillLevels: 1
+    changeColor: false
+    emptySpriteName: OPPY-OPNY-Medipen-Empty
+  - type: Hypospray
+    solutionName: pen
+    transferAmount: 30
+  - type: SolutionContainerManager
+    solutions:
+      pen:
+        maxVol: 30
+        reagents:
+          - ReagentId: Omnizine
+            Quantity: 10
+          - ReagentId: Bicaridine
+            Quantity: 10
+          - ReagentId: DexalinPlus
+            Quantity: 10
+  - type: StaticPrice
+    price: 300
+  - type: Tag
+    tags: []
+
+- type: entity
+  parent: MedkitCombat
+  id: BSAACombatKitFilled
+  name: боевая медицина
+  description: Для любителей незаменивой классики.
+  components:
+  - type: StorageFill
+    contents:
+      - id: MedicatedSuture
+        amount: 2
+      - id: RegenerativeMesh
+      - id: CombatMedipen
+      - id: AirlossAutoInjector
+
+- type: entity
+  id: InjectorCase
+  parent: [ BaseStorageItem, BaseBagOpenClose ]
+  name: боевой медицинский комплект
+  description: Кейс для специализированных медицинских автоинъекторов.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/misc/medipen-case.rsi
+    layers:
+    - state: closed
+    - state: animation-closed-unshaded
+      visible: true
+      map: [ "empty-icon" ]
+      shader: unshaded
+    - state: open
+      map: ["openLayer"]
+      visible: false
+    - state: pen1
+      map: ["pen1"]
+      visible: false
+    - state: pen2
+      map: ["pen2"]
+      visible: false
+    - state: pen3
+      map: ["pen3"]
+      visible: false
+    - state: pen4
+      map: ["pen4"]
+      visible: false
+    - state: pen5
+      map: ["pen5"]
+      visible: false
+    - state: pen6
+      map: ["pen6"]
+      visible: false
+    - state: pen7
+      map: ["pen7"]
+      visible: false
+    - state: pen8
+      map: ["pen8"]
+      visible: false
+  - type: Tag
+    tags:
+    - CigPack
+  - type: PhysicalComposition
+    materialComposition:
+      Plastic: 62
+  - type: Item
+    size: Normal
+  - type: Storage
+    grid:
+    - 0,0,1,3
+  - type: ItemCounter
+    count:
+      components: [Item]
+    composite: true
+    layerStates:
+    - pen1
+    - pen2
+    - pen3
+    - pen4
+    - pen5
+    - pen6
+    - pen7
+    - pen8
+  - type: Appearance
+
+- type: entity
+  id: InjectorCaseStim
+  parent: InjectorCase
+  name: боевой стимуляторный комплект
+  description: Кейс для психотропных стимулирующих автоинъекторов.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/misc/stim-case.rsi
+
+## Боевые медипены
+- type: entity
+  id: InjectorCaseFilled
+  parent: InjectorCase
+  components:
+  - type: StorageFill
+    contents:
+      - id: PunctAutoInjector
+      - id: PyraAutoInjector
+      - id: PunctAutoInjector
+      - id: PyraAutoInjector
+      - id: CombatMedipen
+      - id: CombatMedipen
+      - id: CombatMedipen
+      - id: CombatMedipen
+
+## Психотропные автоинекторы
+- type: entity
+  id: InjectorCaseStimFilled
+  parent: InjectorCaseStim
+  components:
+  - type: StorageFill
+    contents:
+      - id: DesoxyephedrineMedipen
+      - id: DesoxyephedrineMedipen
+      - id: DesoxyephedrineMedipen
+      - id: DesoxyephedrineMedipen

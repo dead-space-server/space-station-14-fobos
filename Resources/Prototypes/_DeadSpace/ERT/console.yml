@@ -43,6 +43,7 @@
     - Gamma
     - Amber
     - Engineers
+    - BSAA
   - type: ActivatableUIRequiresAccess
   - type: AccessReader
     access: [["Captain"]]

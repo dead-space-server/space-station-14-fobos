@@ -5,7 +5,7 @@ namespace Content.Server.GameTicking.Rules.Components;
 [RegisterComponent, Access(typeof(NecroobeliskArtefactRuleSystem))]
 public sealed partial class NecroobeliskArtefactRuleComponent : Component
 {
-    public TimeSpan StartDuration = TimeSpan.FromMinutes(1);
+    public TimeSpan StartDuration = TimeSpan.FromSeconds(5);
     public TimeSpan TimeUntilStart = TimeSpan.Zero;
     public bool IsArtefactSended = false;
 }

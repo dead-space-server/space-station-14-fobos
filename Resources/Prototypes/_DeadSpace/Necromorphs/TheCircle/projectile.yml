@@ -1,0 +1,200 @@
+### Картридж Застабы
+- type: entity
+  id: BaseCartridgeRifleZastaba
+  name: патрон (5,7х39 мм)
+  parent: [ BaseCartridge, BaseSyndicateContraband ]
+  abstract: true
+  components:
+  - type: Tag
+    tags:
+    - Cartridge
+    - CartridgeZastabaNosle
+  - type: CartridgeAmmo
+    proto: BulletRifleZastaba
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/zastaba/zastaba-casing.rsi
+    layers:
+    - state: base
+      map: ["enum.AmmoVisualLayers.Base"]
+  - type: Appearance
+  - type: SpentAmmoVisuals
+
+- type: entity
+  id: CartridgeRifleZastaba
+  name: патрон (5,7х39 мм)
+  parent: BaseCartridgeRifleZastaba
+  components:
+  - type: CartridgeAmmo
+    proto: BulletRifleZastaba
+
+### Проджектайл Застабы
+- type: entity
+  id: BulletRifleZastaba
+  name: патрон (5,7х39 мм)
+  parent: BaseBullet
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/zastaba/zastaba-projectile.rsi
+    layers:
+    - state: heavy-bullet-5.7
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 14
+        Blunt: 4
+  - type: StaminaDamageOnCollide
+    damage: 11
+
+### Пуля РШ2
+- type: entity
+  parent: BaseBullet
+  id: BulletRSh2
+  name: патрон (12.7x55 безгильзовый)
+  description: Если вы можете видеть это, вы вероятно мертвы!
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 26
+        Structural: 25
+
+### Картриджи РПЛ20
+- type: entity
+  id: BaseCartridgeRPL20
+  name: патрон (5.45х39 мм)
+  parent: [ BaseCartridge, BaseSyndicateContraband ]
+  abstract: true
+  components:
+  - type: Tag
+    tags:
+    - Cartridge
+    - CartridgeRPL20
+  - type: CartridgeAmmo
+    proto: BulletRPL20
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Ammunition/Casings/ammo_casing.rsi
+    layers:
+    - state: base
+      map: ["enum.AmmoVisualLayers.Base"]
+  - type: Appearance
+  - type: SpentAmmoVisuals
+
+- type: entity
+  id: CartridgeRPL20
+  name: патрон (5.45х39 мм)
+  parent: BaseCartridgeRPL20
+  components:
+  - type: CartridgeAmmo
+    proto: BulletRPL20
+
+### Проджектайлы РПЛ20
+- type: entity
+  id: BulletRPL20
+  name: патрон (5.45х39 мм)
+  parent: BaseBullet
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 18
+
+## Картриджи АШ12
+- type: entity
+  id: CartridgeASh12
+  name: патрон (12,7х55 мм)
+  parent: BaseCartridgeCaselessRifle
+  components:
+  - type: Tag
+    tags:
+    - CartridgeASh12
+  - type: CartridgeAmmo
+    proto: BulletASh12
+  - type: Sprite
+    layers:
+      - state: base
+        map: [ "enum.AmmoVisualLayers.Base" ]
+      - state: tip
+        map: [ "enum.AmmoVisualLayers.Tip" ]
+        color: "#000000"
+
+## Проджектайлы АШ12
+- type: entity
+  id: BulletASh12
+  parent: BaseBullet
+  name: патрон (12,7х55 мм)
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    damage:
+      types:
+       Piercing: 30
+       Structural: 10
+
+## Картриджи Скараб
+- type: entity
+  id: CartridgeRifleSCARAB
+  name: патрон (6,8х51 мм)
+  parent: BaseCartridgeCaselessRifle
+  components:
+  - type: Tag
+    tags:
+    - CartridgeRifleSCARAB
+  - type: CartridgeAmmo
+    proto: BulletRifleSCARAB
+  - type: Sprite
+    layers:
+      - state: base
+        map: [ "enum.AmmoVisualLayers.Base" ]
+      - state: tip
+        map: [ "enum.AmmoVisualLayers.Tip" ]
+        color: "#ff6e52"
+
+## Проджектайлы Скараб
+- type: entity
+  id: BulletRifleSCARAB
+  parent: BaseBullet
+  name: патрон (6,8х51 мм)
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    damage:
+      types:
+       Piercing: 14
+       Slash: 2
+       Caustic: 4
+
+## Катридж VSK
+- type: entity
+  id: CartridgeBulletVSK
+  name: патрон (9.39 мм)
+  parent: BaseCartridgeCaselessRifle
+  components:
+  - type: Tag
+    tags:
+    - CartridgeBulletVSK
+  - type: CartridgeAmmo
+    proto: BulletVSK
+  - type: Sprite
+    layers:
+      - state: base
+        map: [ "enum.AmmoVisualLayers.Base" ]
+      - state: tip
+        map: [ "enum.AmmoVisualLayers.Tip" ]
+        color: "#ff6e52"
+
+## Проджектайл VSK
+- type: entity
+  id: BulletVSK
+  parent: BaseBullet
+  name: патрон (9.39 мм)
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    damage:
+      types:
+       Piercing: 17
+  - type: TimedDespawn
+    lifetime: 2

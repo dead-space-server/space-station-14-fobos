@@ -1,0 +1,19 @@
+- type: soundCollection
+  id: splinter-blade-extend
+  files:
+    - /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/splinter-blade-sfx/splinter-blade-extend.ogg
+
+- type: soundCollection
+  id: splinter-blade-retract
+  files:
+    - /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/splinter-blade-sfx/splinter-blade-retract.ogg
+
+- type: soundCollection
+  id: splinter-blade-attack
+  files:
+    - /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/splinter-blade-sfx/splinter-blade-attack.ogg
+
+- type: soundCollection
+  id: splinter-blade-miss
+  files:
+    - /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/splinter-blade-sfx/splinter-blade-miss.ogg
