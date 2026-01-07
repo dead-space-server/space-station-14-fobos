@@ -1,0 +1,106 @@
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconCriticalForce
+  icon:
+    sprite: /Textures/_DeadSpace/Sponsor/CriticalForce/misc/icon.rsi
+    state: tti
+
+- type: startingGear
+  id: CriticalForceOfficerEMT
+  equipment:
+    jumpsuit: ClothingJumpsuitCriticalForce
+    back: ClothingBackpackCriticalForce
+    mask: ClothingMaskGasOfficerCriticalForce
+    eyes: ClothingEyesHudAdvanced
+    ears: ClothingHeadsetAltCriticalForce
+    gloves: ClothingHandsGlovesCombatCriticalForce
+    outerClothing: ClothingOuterHardsuitOfficerCriticalForce
+    shoes: ClothingShoesMagBootsCriticalForce
+    id: CriticalForceOfficerEMTIDCard
+    belt: ClothingBeltWisdomCriticalForceSec
+    pocket2: DoubleEmergencyOxygenTankFilled
+  storage:
+    back:
+    - JawsOfLife
+    - EmergencyMedipen
+    - KukriKnife
+    - BoxMRE
+    - WeaponSubMachineGunDrozd
+    - DefibrillatorCompact
+    - MedkitCombatFilled
+    - EmergencyRollerBedSpawnFolded
+    - BodyBagFolded
+    - HandheldGPSBasic
+    - PinpointerVipClient
+    - Syringe
+
+- type: entity
+  parent: ClothingBeltMilitaryWebbing
+  id: ClothingBeltWisdomCriticalForceSec 
+  name: РПС CriticalForce безопасника
+  description: Разгрузочный жилет, необходимый для спасения жизней в экстремальных условиях.
+  components:
+  - type: Storage
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Wisdom/belt.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Wisdom/belt.rsi
+  - type: Item
+    size: Huge
+  - type: StorageFill
+    contents:
+      - id: MagazinePistolSubMachineGun
+        amount: 4
+      - id: ChemistryBottleNecrosol
+
+- type: entity
+  parent: IDCardStandard
+  categories: [ HideSpawnMenu ]
+  id: CriticalForceOfficerEMTIDCard
+  name: ID-карта Офицера безопасности CriticalForce
+  description: Карта контрагента корпорации.
+  components:
+  - type: IdCard
+    jobTitle: job-title-tti-officer
+    jobIcon: JobIconCriticalForce
+  - type: Access
+    groups:
+    - Medical
+  - type: Sprite
+    layers:
+    - state: silver
+    - state: idbrigmedic
+
+- type: randomHumanoidSettings
+  id: EventHumanoidCriticalForceOfficer
+  parent: EventHumanoidMindShieldedHuman
+  components:
+    - type: GhostRole
+      name: Офицер CriticalForce
+      description: Вы зафискировали смерть спонсора на активе НТ! Немедленно бросить все свои силы на его спасение!
+      rules: ghost-role-information-tti-rules
+      requirements:
+        - !type:DepartmentTimeRequirement
+          department: Medical
+          time: 36000 # 10 hours
+        - !type:DepartmentTimeRequirement
+          department: Security
+          time: 36000 # 10 hours
+      raffle:
+        settings: short
+    - type: Loadout
+      prototypes: [ CriticalForceOfficerEMT ]
+    - type: RandomMetadata
+      nameSegments:
+      - NamesCriticalForceOfficerEMT
+      - NamesLastERT
+      nameFormat: name-format-ert
+
+- type: entity
+  id: RandomHumanoidSpawnerCriticalForceOfficerEMT
+  # categories: [ HideSpawnMenu ]
+  parent: RandomHumanoidSpawnerERTMedicalAmber
+  name: Офицер Критикал-Форс
+  components:
+    - type: RandomHumanoidSpawner
+      settings: EventHumanoidCriticalForceOfficer
