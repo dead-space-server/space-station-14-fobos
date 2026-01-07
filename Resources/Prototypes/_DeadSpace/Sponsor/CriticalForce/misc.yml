@@ -2,22 +2,22 @@
 
 - type: entity
   parent: EncryptionKey
-  id: EncryptionKeyTraumaTeam
-  name: ключ шифрования TTI
-  description: Ключ шифрования TTI.
+  id: EncryptionKeyCriticalForce
+  name: ключ шифрования CriticalForce
+  description: Ключ шифрования CriticalForce.
   components:
   - type: EncryptionKey
     channels:
-    - TraumaTeam
-    defaultChannel: TraumaTeam
+    - CriticalForce
+    defaultChannel: CriticalForce
   - type: Sprite
     layers:
     - state: crypt_blue
     - state: nano_label
 
 - type: radioChannel
-  id: TraumaTeam
-  name: chat-radio-traumateam
+  id: CriticalForce
+  name: chat-radio-tti
   keycode: 'з'
   frequency: 2707
   color: "#00d0ff"
@@ -26,19 +26,37 @@
 # Implant
 
 - type: entity
-  id: DeathRattleImplanterTraumaTeam
-  name: имплантер трекер TTI
-  suffix: Трекер TTI
+  name: пинпоинтер
+  suffix: вип
+  id: PinpointerVipClient
+  description: указатель на vip клиента.
+  parent: [ PinpointerBase, BaseCommandContraband ]
+  components:
+  - type: Sprite
+    layers:
+    - state: pinpointer-way
+      map: ["enum.PinpointerLayers.Base"]
+    - state: pinonnull
+      map: ["enum.PinpointerLayers.Screen"]
+      shader: unshaded
+      visible: false
+  - type: Pinpointer
+    targetName: vip
+ 
+- type: entity
+  id: DeathRattleImplanterCriticalForce
+  name: имплантер трекер CriticalForce
+  suffix: Трекер CriticalForce
   parent: BaseImplantOnlyImplanter
   components:
     - type: Implanter
-      implant: TrackingImplantTraumaTeam
+      implant: TrackingImplantCriticalForce
 
 - type: entity
   parent: BaseSubdermalImplant
-  id: TrackingImplantTraumaTeam
-  name: трекер имплант TTI
-  description: Имплант, который следит за состоянием здоровья носителя и в случае падения в критическое состояние, сообщает об этом в радио-канал TTI
+  id: TrackingImplantCriticalForce
+  name: трекер имплант CriticalForce
+  description: Имплант, который следит за состоянием здоровья носителя и в случае падения в критическое состояние, сообщает об этом в радио-канал CriticalForce
   categories: [ HideSpawnMenu ]
   components:
     - type: SubdermalImplant
@@ -53,29 +71,30 @@
     - type: DeviceNetwork
       deviceNetId: Wireless
       transmitFrequencyId: SuitSensor
-    - type: StationLimitedNetwork
-    - type: WirelessNetworkConnection
-      range: 3000
     - type: TriggerOnMobstateChange
       mobState:
       - Critical
     - type: RattleOnTrigger
       targetUser: true
+    - type: ResponceErtImplant
+      allowedStates:
+      - Critical
+      team: CriticalForce
 
 - type: entity
   parent: [ClothingShoesBootsMagBase, BaseJetpack]
-  id: ClothingShoesMagBootsTTI
-  name: магнитные ботинки TTI GravLock
+  id: ClothingShoesMagBootsCriticalForce
+  name: магнитные ботинки CriticalForce GravLock
   categories: [ HideSpawnMenu ]
   description: Трекинговые ботинки с интегрированной магнитной подошвой для работы в условиях нулевой гравитации или на скользких поверхностях. Изначально наполнены сжиженным кислородом.
   components:
   - type: Sprite
-    sprite: _DeadSpace/Sponsor/TraumaTeam/magboots.rsi
+    sprite: _DeadSpace/Sponsor/CriticalForce/magboots.rsi
     layers:
     - state: icon
     - state: icon-on
   - type: Clothing
-    sprite: _DeadSpace/Sponsor/TraumaTeam/magboots.rsi
+    sprite: _DeadSpace/Sponsor/CriticalForce/magboots.rsi
     clothingVisuals:
       feet:
       - state: equipped-FEET
@@ -98,14 +117,14 @@
 
 - type: entity
   parent: ClothingHeadsetAlt
-  id: ClothingHeadsetAltTTI
+  id: ClothingHeadsetAltCriticalForce
   categories: [ HideSpawnMenu ]
-  name: полноразмерная гарнитура TTI
+  name: полноразмерная гарнитура CriticalForce
   components:
   - type: ContainerFill
     containers:
       key_slots:
-      - EncryptionKeyTraumaTeam
+      - EncryptionKeyCriticalForce
       - EncryptionKeyStationMaster
   - type: Sprite
     sprite: Clothing/Ears/Headsets/centcom.rsi
@@ -116,28 +135,28 @@
 
 - type: entity
   parent: ClothingUniformBase
-  id: ClothingJumpsuitTTI
-  name: комбинезон TTI TraumaFlex
+  id: ClothingJumpsuitCriticalForce
+  name: комбинезон CriticalForce TraumaFlex
   description: Эргономичный комбинезон с кевларовыми вставками. Лёгкость, защита и полный контроль состояния бойца в режиме реального времени.
   components:
   - type: Sprite
-    sprite: _DeadSpace/Sponsor/TraumaTeam/jumpsuit.rsi
+    sprite: _DeadSpace/Sponsor/CriticalForce/jumpsuit.rsi
   - type: Clothing
-    sprite: _DeadSpace/Sponsor/TraumaTeam/jumpsuit.rsi
+    sprite: _DeadSpace/Sponsor/CriticalForce/jumpsuit.rsi
   - type: Tag
     tags: []
 
 - type: entity
   parent: ClothingBackpack
-  id: ClothingBackpackTTI
+  id: ClothingBackpackCriticalForce
   categories: [ HideSpawnMenu ]
-  name: сумка TTI Rapid-Response
+  name: сумка CriticalForce Rapid-Response
   description: Тактический рюкзак с модульной системой хранения и взрывозащитой. Оптимален для экстренной доставки медикаментов в зонах боевых действий.
   components:
   - type: Sprite
-    sprite: _DeadSpace/Sponsor/TraumaTeam/backpack.rsi
+    sprite: _DeadSpace/Sponsor/CriticalForce/backpack.rsi
   - type: Clothing
-    sprite: _DeadSpace/Sponsor/TraumaTeam/backpack.rsi
+    sprite: _DeadSpace/Sponsor/CriticalForce/backpack.rsi
   - type: Storage
     maxItemSize: Huge
     grid:
@@ -149,27 +168,27 @@
 
 - type: entity
   parent: ClothingHandsGlovesCombat
-  id: ClothingHandsGlovesCombatTTI
-  name: боевые перчатки TTI Surgeon
+  id: ClothingHandsGlovesCombatCriticalForce
+  name: боевые перчатки CriticalForce Surgeon
   description: Тактические перчатки с усиленными накладками и сенсорной совместимостью. Позволяют работать с медицинскими интерфейсами без снятия защиты.
   components:
   - type: Sprite
-    sprite: _DeadSpace/Sponsor/TraumaTeam/gloves.rsi
+    sprite: _DeadSpace/Sponsor/CriticalForce/gloves.rsi
   - type: Clothing
-    sprite: _DeadSpace/Sponsor/TraumaTeam/gloves.rsi
+    sprite: _DeadSpace/Sponsor/CriticalForce/gloves.rsi
   - type: Tag
     tags: []
 
 - type: entity
   parent: ClothingMaskGas
-  id: ClothingMaskGasOfficerTTI
-  name: респиратор TTI Sentinel
+  id: ClothingMaskGasOfficerCriticalForce
+  name: респиратор CriticalForce Sentinel
   description: Тактический противогаз офицерского состава с дополнительной противопулевой защитой и системой фильтрации NBC-угроз. Встроенная защита от ослепления.
   components:
   - type: Sprite
-    sprite: _DeadSpace/Sponsor/TraumaTeam/secofficer/gasmask1.rsi
+    sprite: _DeadSpace/Sponsor/CriticalForce/secofficer/gasmask1.rsi
   - type: Clothing
-    sprite: _DeadSpace/Sponsor/TraumaTeam/secofficer/gasmask1.rsi
+    sprite: _DeadSpace/Sponsor/CriticalForce/secofficer/gasmask1.rsi
   - type: FlashImmunity
   - type: EyeProtection
   - type: Armor
@@ -184,14 +203,14 @@
 
 - type: entity
   parent: ClothingMaskGas
-  id: ClothingMaskGasLeadEMTTTI
-  name: респиратор ведущего фельдшера TTI Triage
+  id: ClothingMaskGasLeadEMTCriticalForce
+  name: респиратор ведущего фельдшера CriticalForce Triage
   description: Медицинский противогаз с расширенной системой диагностики и повышенным бронированием. Встроенная защита от ослепления.
   components:
   - type: Sprite
-    sprite: _DeadSpace/Sponsor/TraumaTeam/lead-emt/gasmask2.rsi
+    sprite: _DeadSpace/Sponsor/CriticalForce/lead-emt/gasmask2.rsi
   - type: Clothing
-    sprite: _DeadSpace/Sponsor/TraumaTeam/lead-emt/gasmask2.rsi
+    sprite: _DeadSpace/Sponsor/CriticalForce/lead-emt/gasmask2.rsi
   - type: FlashImmunity
   - type: EyeProtection
   - type: Armor
@@ -203,28 +222,3 @@
         Heat: 0.9
   - type: Tag
     tags: []
-
-- type: entity
-  parent: BaseItem
-  id: CombatHypoTTI
-  categories: [ HideSpawnMenu ]
-  name: боевой гипоспрей TTI 
-  description:
-  components:
-  - type: Sprite
-    sprite: _DeadSpace/Sponsor/TraumaTeam/misc/tti-hypo.rsi
-    state: icon
-  - type: Item
-    sprite: _DeadSpace/Sponsor/TraumaTeam/misc/tti-hypo.rsi
-  - type: SolutionContainerManager
-    solutions:
-      hypospray:
-        maxVol: 20
-  - type: RefillableSolution
-    solution: hypospray
-  - type: ExaminableSolution
-    solution: hypospray
-  - type: Hypospray
-    onlyAffectsMobs: false
-  - type: UseDelay
-    delay: 1.5

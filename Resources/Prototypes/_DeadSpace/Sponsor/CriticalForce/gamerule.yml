@@ -1,11 +1,11 @@
 - type: preloadedGrid
-  id: TTIShuttle
+  id: CriticalForceShuttle
   path: /Maps/Shuttles/ShuttleEvent/ds_tti_tepors.yml
   copies: 1
 
 - type: entity
   parent: BaseGameRule
-  id: SpawnTTIShuttle
+  id: SpawnCriticalForceShuttle
   components:
   - type: StationEvent
     startAnnouncement: station-event-response-team-arrival
@@ -14,21 +14,19 @@
     willNotStartRandomly: true
   - type: RuleGrids
   - type: LoadMapRule
-    preloadedGrid: TTIShuttle
+    preloadedGrid: CriticalForceShuttle
   - type: ErtSpawnRule
 
 - type: ertTeam
-  id: TTI
-  name: Trauma Team
+  id: CriticalForce
+  name: Critical Force
   description: 
-    Спасательный отряд для спонсоров актива, выдвигается спасти погибшего спонсора на активе НТ.
-  rule: SpawnCburnShuttle
+    Спасательный отряд для спонсоров актива.
+  rule: SpawnCriticalForceShuttle
   spawnWindow:
     min: 1m
-    max: 1m
-  price: 50000
+    max: 3m
+  price: 0
   spawns:
-    - id: RandomHumanoidSpawnerTTILeadEMT
-      amount: 1
-    - id: RandomHumanoidSpawnerTTIOfficerEMT
-      amount: 2
+    - id: RandomHumanoidSpawnerCriticalForceOfficerEMT
+      amount: 3
