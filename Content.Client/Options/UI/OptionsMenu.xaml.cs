@@ -31,7 +31,7 @@ namespace Content.Client.Options.UI
         public void UpdateTabs()
         {
             var isAdmin = _adminManager.IsAdmin(true);
-            Tabs.SetTabVisible(6, isAdmin);
+            Tabs.SetTabVisible(6, isAdmin);//DS14
 
             GraphicsTab.Control.ReloadValues();
             MiscTab.Control.ReloadValues();
