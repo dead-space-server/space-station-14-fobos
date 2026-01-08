@@ -47,8 +47,6 @@
     price: 500 # Suit is 1000
   - type: Armor # DS14
     modifiers:
-      armorLvls:
-        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9

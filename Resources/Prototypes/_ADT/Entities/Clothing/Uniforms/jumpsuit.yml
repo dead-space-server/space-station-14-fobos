@@ -76,8 +76,6 @@
     sprite: _ADT/Clothing/Uniforms/Jumpsuit/stormer_maugly.rsi
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 1
       coefficients:
         Blunt: 0.8
         Slash: 0.9

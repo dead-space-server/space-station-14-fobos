@@ -311,8 +311,6 @@
     damageCoefficient: 0.5
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9

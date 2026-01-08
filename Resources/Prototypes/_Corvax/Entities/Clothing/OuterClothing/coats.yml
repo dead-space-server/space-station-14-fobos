@@ -35,8 +35,6 @@
         - id: SmokingPipeFilledTobacco
     - type: Armor
       modifiers:
-        armorLvls:
-          Piercing: 1
         coefficients:
           Blunt: 0.8
           Slash: 0.8
@@ -75,8 +73,6 @@
       sprite: _Corvax/Clothing/OuterClothing/Coats/sec_leather.rsi
     - type: Armor
       modifiers:
-        armorLvls:
-          Piercing: 1
         coefficients:
           Blunt: 0.8
           Slash: 0.8
@@ -137,8 +133,6 @@
     sprite: _Corvax/Clothing/OuterClothing/Coats/hop.rsi
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9

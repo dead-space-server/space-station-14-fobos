@@ -21,8 +21,6 @@
   components:
   - type: Armor #Values seem to let the user survive one extra hit if attacked consistently.
     modifiers:
-      armorLvls:
-        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9
@@ -121,8 +119,6 @@
   - type: IngestionBlocker
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 1
       coefficients:
         Blunt: 0.8
         Slash: 0.8
@@ -148,8 +144,6 @@
     damageCoefficient: 0.9
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 1
       coefficients:
         Blunt: 0.95
         Slash: 0.95
@@ -189,8 +183,6 @@
   - type: IngestionBlocker
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.8
@@ -239,8 +231,6 @@
       Hair: HEAD
   - type: Armor # DS14
     modifiers:
-      armorLvls:
-        Piercing: 1
       coefficients:
         Blunt: 0.95
         Slash: 0.9

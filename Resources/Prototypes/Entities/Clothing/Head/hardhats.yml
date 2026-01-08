@@ -170,8 +170,6 @@
     sprite: Clothing/Head/Hardhats/armored.rsi
   - type: Armor #Copied from the sec helmet, as it's hard to give these sane values without locational damage existing.
     modifiers:
-      armorLvls:
-        Piercing: 1
       coefficients:
         Blunt: 0.8
         Slash: 0.8

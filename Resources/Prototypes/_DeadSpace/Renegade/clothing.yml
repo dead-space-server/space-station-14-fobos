@@ -79,8 +79,6 @@
     - HeadSide
   - type: Armor #Values seem to let the user survive one extra hit if attacked consistently.
     modifiers:
-      armorLvls:
-        Piercing: 1
       coefficients:
         Blunt: 0.8
         Slash: 0.8
@@ -100,8 +98,6 @@
     sprite: _DeadSpace/Renegade/bondrewd_hood.rsi
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9

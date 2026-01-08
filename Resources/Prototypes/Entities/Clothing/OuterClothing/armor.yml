@@ -86,8 +86,6 @@
     sprite: Clothing/OuterClothing/Armor/armor_reflec.rsi
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 1
       coefficients:
         Blunt: 0.9
         Slash: 0.9
@@ -337,8 +335,6 @@
     sprite: Clothing/OuterClothing/Armor/riot.rsi
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 1
       coefficients:
         Blunt: 0.4
         Slash: 0.4

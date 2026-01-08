@@ -23,7 +23,7 @@
     willNotStartRandomly: true
   - type: RuleGrids
   - type: LoadMapRule
-    preloadedGrid: RedShuttle
+    preloadedGrid: AmberShuttle
   - type: ErtSpawnRule
 
 - type: entity
