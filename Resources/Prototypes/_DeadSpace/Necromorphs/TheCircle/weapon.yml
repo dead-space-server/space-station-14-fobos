@@ -78,6 +78,8 @@
     steps: 1
     zeroVisible: true
   - type: Appearance
+  - type: UseDelay
+    delay: 1.5
 
 ### Магазин Застабы
 - type: entity
@@ -241,6 +243,8 @@
           tags:
           - CartridgeRPL20
   - type: Appearance
+  - type: UseDelay
+    delay: 2.5
 
 ### Магазин
 - type: entity
@@ -325,6 +329,8 @@
           tags:
           - CartridgeASh12
   - type: Appearance
+  - type: UseDelay
+    delay: 2.5
 
 ### Магазин
 - type: entity
@@ -406,6 +412,8 @@
     zeroVisible: true
   - type: Appearance
   - type: Wieldable
+  - type: UseDelay
+    delay: 1.5
 
 ### Магазины
 - type: entity
@@ -501,6 +509,8 @@
   - type: EyeCursorOffset
     maxOffset: 4
     pvsIncrease: 0.3
+  - type: UseDelay
+    delay: 1.5
 
 ## Магазин VSK
 
@@ -591,6 +601,8 @@
     steps: 1
     zeroVisible: true
   - type: Appearance
+  - type: UseDelay
+    delay: 1.5
 
 ## Магазин VAL
 
@@ -701,9 +713,6 @@
     state: icon
   - type: Item
     sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/melee/splinter-blade.rsi
-  - type: Damageable
-  - type: Reflect
-    reflectProb: 0.1
   - type: NecroobeliskSplinter
     soundHeadaches:
       collection: SoundsHeadaches
@@ -730,15 +739,25 @@
   - type: AutoRecharge
     rechargeDuration: 180
   - type: MeleeWeapon
-    attackRate: 1.0
+    attackRate: 1.25
     damage:
       types:
-        Slash: 15
-        Caustic: 4
-        Structural: 15
+        Slash: 16
+        Caustic: 6
+        Structural: 25
     soundHit:
       collection: splinter-blade-attack
     soundNoDamage:
       collection: splinter-blade-miss
     soundSwing:
       collection: splinter-blade-miss
+  - type: SolutionContainerManager
+    solutions:
+      melee:
+        reagents:
+        - ReagentId: ExtractInfectorDead
+          Quantity: 999999
+  - type: MeleeChemicalInjector
+    solution: melee
+    transferAmount: 1
+  - type: Sharp

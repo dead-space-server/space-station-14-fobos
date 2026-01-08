@@ -66,6 +66,7 @@
   - type: Access
     groups:
     - GroupCounterpartyNT
+    - General
   - type: Sprite
     layers:
     - state: silver
