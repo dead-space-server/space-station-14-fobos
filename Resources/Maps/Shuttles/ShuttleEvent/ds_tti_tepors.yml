@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/06/2026 19:08:35
-  entityCount: 165
+  time: 01/08/2026 05:22:49
+  entityCount: 163
 maps: []
 grids:
 - 1
@@ -24,7 +24,7 @@ entities:
   - uid: 1
     components:
     - type: MetaData
-      name: TTI - Tepors N831
+      name: CF - Tepors N-831
     - type: Transform
       pos: -0.43051344,-0.38280258
     - type: MapGrid
@@ -178,19 +178,19 @@ entities:
       - 101
     - type: Fixtures
       fixtures: {}
-- proto: AirlockExternalGlassShuttleCentcommERTLocked
-  entities:
-  - uid: 39
-    components:
-    - type: Transform
-      pos: 2.5,-5.5
-      parent: 1
 - proto: AirlockGlass
   entities:
   - uid: 58
     components:
     - type: Transform
       pos: 2.5,-1.5
+      parent: 1
+- proto: AirlockShuttle
+  entities:
+  - uid: 39
+    components:
+    - type: Transform
+      pos: 2.5,-5.5
       parent: 1
 - proto: APCBasic
   entities:
@@ -642,9 +642,8 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 1.5,2.5
       parent: 1
-    - type: AccessReader
-      accessListsOriginal:
-      - - Captain
+    missingComponents:
+    - AccessReader
 - proto: ErtSpawnPoint
   entities:
   - uid: 135
