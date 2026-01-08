@@ -63,7 +63,6 @@
       fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterHeavy, CircleFighterLight ]
       spawnerPrototype: SpawnPointCircleCommander
       startingGear: TheCircleLeaderGear
-      max: 1
       playerRatio: 12
       briefing:
         text: roles-antag-thecircle-commander-start
@@ -99,7 +98,6 @@
       fallbackRoles: [ CircleEngineer, CircleCommander, CircleFighterHeavy, CircleFighterLight ]
       spawnerPrototype: SpawnPointCircleMedic
       startingGear: TheCircleMedicGear
-      max: 1
       playerRatio: 12
       briefing:
         text: roles-antag-thecircle-medic-start
@@ -131,10 +129,10 @@
       mindRoles:
       - MindRoleCircleMedic
       sponsorsPriority: true
+# Повторение потому-что по какой-то тупой причине не спавниться ещё 2 роли данных ролей
     - prefRoles: [ CircleFighterHeavy ]
       fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterLight, CircleCommander ]
       spawnerPrototype: SpawnPointCircleFighterHeavy
-      max: 2
       playerRatio: 12
       startingGear: TheCircleHeavyGear
       roleLoadout:
@@ -169,7 +167,75 @@
     - prefRoles: [ CircleFighterLight ]
       fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterHeavy, CircleCommander ]
       spawnerPrototype: SpawnPointCircleFighterLight
-      max: 2
+      playerRatio: 12
+      startingGear: TheCircleLightGear
+      roleLoadout:
+        - RoleSurvivalExtended
+      briefing:
+        text: roles-antag-thecircle-light-start
+        color: CornflowerBlue
+        sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
+      components:
+      - type: ObeliskActivateAbility
+      - type: IntrinsicRadioTransmitter
+        channels:
+        - Unitolog
+      - type: ActiveRadio
+        channels:
+        - Unitolog
+      - type: IntrinsicRadioReceiver
+      - type: Unitology
+      - type: ImmunNecroobelisk
+      - type: IgnoreKudzu
+      - type: RandomMetadata
+        nameSegments:
+        - UnitologyLightFirst
+        - UnitologyFighterSecond
+        nameFormat: name-format-nuclear-operation
+      - type: NpcFactionMember
+        factions:
+        - Syndicate
+        - Necromorfs
+      mindRoles:
+      - MindRoleCircleFighterLight
+# Конец повторение
+    - prefRoles: [ CircleFighterHeavy ]
+      fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterLight, CircleCommander ]
+      spawnerPrototype: SpawnPointCircleFighterHeavy
+      playerRatio: 12
+      startingGear: TheCircleHeavyGear
+      roleLoadout:
+        - RoleSurvivalExtended
+      briefing:
+        text: roles-antag-thecircle-heavy-start
+        color: CornflowerBlue
+        sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
+      components:
+      - type: ObeliskActivateAbility
+      - type: IntrinsicRadioTransmitter
+        channels:
+        - Unitolog
+      - type: ActiveRadio
+        channels:
+        - Unitolog
+      - type: IntrinsicRadioReceiver
+      - type: Unitology
+      - type: ImmunNecroobelisk
+      - type: IgnoreKudzu
+      - type: RandomMetadata
+        nameSegments:
+        - UnitologyHeavyFirst
+        - UnitologyFighterSecond
+        nameFormat: name-format-nuclear-operation
+      - type: NpcFactionMember
+        factions:
+        - Syndicate
+        - Necromorfs
+      mindRoles:
+      - MindRoleCircleFighterHeavy
+    - prefRoles: [ CircleFighterLight ]
+      fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterHeavy, CircleCommander ]
+      spawnerPrototype: SpawnPointCircleFighterLight
       playerRatio: 12
       startingGear: TheCircleLightGear
       roleLoadout:
@@ -205,7 +271,6 @@
       fallbackRoles: [ CircleFighterLight, CircleMedic, CircleFighterHeavy, CircleCommander ]
       spawnerPrototype: SpawnPointCircleEngineer
       startingGear: TheCircleEngineerGear
-      max: 1
       playerRatio: 12
       roleLoadout:
         - RoleSurvivalExtended

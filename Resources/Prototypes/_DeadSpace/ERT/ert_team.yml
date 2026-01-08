@@ -127,14 +127,14 @@
   spawnWindow:
     min: 25m
     max: 30m
-  price: 150000
+  price: 125000
   spawns:
     - id: RandomHumanoidSpawnerBSAALeader
       amount: 1
     - id: RandomHumanoidSpawnerBSAAMedic
       amount: 2
     - id: RandomHumanoidSpawnerBSAAFighter
-      amount: 10
+      amount: 6
 
 - type: ertTeam
   id: CentralCommandOfficial
