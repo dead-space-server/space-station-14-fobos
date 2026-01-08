@@ -197,6 +197,28 @@
       state: tail_fluffy
 
 - type: marking
+  id: TailFluffyTip
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Tajaran]
+  sprites:
+    - sprite: Mobs/Customization/Tajaran/tajaran_tail.rsi
+      state: tail_fluffy
+    - sprite: Mobs/Customization/Tajaran/tajaran_tail.rsi
+      state: tail_fluffy_tip
+
+- type: marking
+  id: TailFluffyRing
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Tajaran]
+  sprites:
+    - sprite: Mobs/Customization/Tajaran/tajaran_tail.rsi
+      state: tail_fluffy
+    - sprite: Mobs/Customization/Tajaran/tajaran_tail.rsi
+      state: tail_fluffy_ring
+
+- type: marking
   id: TailColor
   bodyPart: Tail
   markingCategory: Tail
