@@ -134,7 +134,7 @@
     - id: RandomHumanoidSpawnerBSAAMedic
       amount: 2
     - id: RandomHumanoidSpawnerBSAAFighter
-      amount: 6
+      amount: 7
 
 - type: ertTeam
   id: CentralCommandOfficial
