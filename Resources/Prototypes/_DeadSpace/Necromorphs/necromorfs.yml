@@ -40,6 +40,11 @@
       Structural: 10
   damageModifierSet: Necromorf
   claws: ClothingNecroClaws
+  components:
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: necromorf
   id: NecroDeva
@@ -58,6 +63,10 @@
       collection: DevaEat
     enrageSound:
       collection: DevaEnrage
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: necromorf
   id: NecroHive
@@ -86,6 +95,10 @@
     hungerPerArmyUse: 25
     needHunger: false
     molesAmmoniaPerDomain: 100
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: necromorf
   id: NecroSmall
@@ -101,6 +114,11 @@
   useInventory: false
   sprite: _DeadSpace/Necromorfs/small_necro.rsi
   state: running
+  components:
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: necromorf
   id: NecroTwitcher
@@ -113,6 +131,11 @@
   damageModifierSet: Necromorf
   claws: ClothingNecroClaws
   hardsuit: ClothingNecroRibs
+  components:
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: necromorf
   id: NecroPregnant
@@ -130,6 +153,10 @@
     spawned:
     - id: MobSmallNecro
       amount: 3
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: necromorf
   id: NecroBrute
@@ -150,6 +177,10 @@
   components:
   - type: StunAttack
     paralyzeTime: 1
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: necromorf
   id: NecroInfector
@@ -169,6 +200,10 @@
     spawned:
     - id: InfectorGland # Что вылупилось
       amount: 2 # Колличество
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: necromorf # Прототип некроморфа
   id: NecroTwitcherLvl2 # Идентификатор
@@ -185,6 +220,10 @@
   components: # Доп. компоненты
   - type: StunAttack
     paralyzeTime: 1
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: necromorf # Прототип некроморфа
   id: NecroCorpseCollector # Идентификатор
@@ -232,6 +271,10 @@
     spawned:
     - id: InfectorGland # Что вылупилось
       amount: 2 # Колличество
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: weightedRandomEntity
   id: CorpseCollectorMobToSpawn

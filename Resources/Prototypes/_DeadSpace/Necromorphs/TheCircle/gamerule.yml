@@ -91,6 +91,11 @@
         factions:
         - Syndicate
         - Necromorfs
+      - type: Language
+        selectedLanguage: NecromorfLanguage
+        knownLanguages:
+        - NecromorfLanguage
+        - GeneralLanguage
       mindRoles:
       - MindRoleCircleCommander
       sponsorsPriority: true
@@ -126,6 +131,11 @@
         factions:
         - Syndicate
         - Necromorfs
+      - type: Language
+        selectedLanguage: NecromorfLanguage
+        knownLanguages:
+        - NecromorfLanguage
+        - GeneralLanguage
       mindRoles:
       - MindRoleCircleMedic
       sponsorsPriority: true
@@ -162,6 +172,11 @@
         factions:
         - Syndicate
         - Necromorfs
+      - type: Language
+        selectedLanguage: NecromorfLanguage
+        knownLanguages:
+        - NecromorfLanguage
+        - GeneralLanguage
       mindRoles:
       - MindRoleCircleFighterHeavy
     - prefRoles: [ CircleFighterLight ]
@@ -196,6 +211,11 @@
         factions:
         - Syndicate
         - Necromorfs
+      - type: Language
+        selectedLanguage: NecromorfLanguage
+        knownLanguages:
+        - NecromorfLanguage
+        - GeneralLanguage
       mindRoles:
       - MindRoleCircleFighterLight
 # Конец повторение
@@ -231,6 +251,11 @@
         factions:
         - Syndicate
         - Necromorfs
+      - type: Language
+        selectedLanguage: NecromorfLanguage
+        knownLanguages:
+        - NecromorfLanguage
+        - GeneralLanguage
       mindRoles:
       - MindRoleCircleFighterHeavy
     - prefRoles: [ CircleFighterLight ]
@@ -265,6 +290,11 @@
         factions:
         - Syndicate
         - Necromorfs
+      - type: Language
+        selectedLanguage: NecromorfLanguage
+        knownLanguages:
+        - NecromorfLanguage
+        - GeneralLanguage
       mindRoles:
       - MindRoleCircleFighterLight
     - prefRoles: [ CircleEngineer ]
@@ -299,6 +329,11 @@
         factions:
         - Syndicate
         - Necromorfs
+      - type: Language
+        selectedLanguage: NecromorfLanguage
+        knownLanguages:
+        - NecromorfLanguage
+        - GeneralLanguage
       mindRoles:
       - MindRoleCircleEngineer
   - type: DynamicRuleCost

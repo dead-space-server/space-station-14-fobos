@@ -132,6 +132,10 @@
   - type: FireVisuals
     sprite: Mobs/Effects/onfire.rsi
     normalState: Mouse_burning
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: entity
   name: некроморф
