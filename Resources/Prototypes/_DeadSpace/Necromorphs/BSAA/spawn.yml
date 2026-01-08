@@ -224,6 +224,7 @@
       - NamesLastERT
       nameFormat: name-format-ert
     - type: ImmunNecroobelisk
+    - type: IgnoreKudzu
     - type: Loadout
       prototypes: [ BSAAFighterGear ]
     - type: GhostRoleNotifys 
@@ -248,6 +249,7 @@
       raffle:
         settings: short
       job: BSAAMedicJob
+    - type: IgnoreKudzu
     - type: RandomMetadata
       nameSegments:
       - NamesFirstERT
