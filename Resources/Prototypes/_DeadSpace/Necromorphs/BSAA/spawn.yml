@@ -176,6 +176,7 @@
       name: Лидер Альянса Противодействия БиоТерроризму
       description: ghost-role-information-cburn-leader-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category
       requirements:
         - !type:DepartmentTimeRequirement
           department: Medical
@@ -209,6 +210,7 @@
       name: Боец Альянса Противодействия БиоТерроризму
       description: ghost-role-information-cburn-agent-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category
       requirements:
         - !type:DepartmentTimeRequirement
           department: Security
@@ -235,6 +237,7 @@
       name: Медик Альянса Противодействия БиоТерроризму
       description: ghost-role-information-cburn-agent-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category
       requirements:
         - !type:DepartmentTimeRequirement
           department: Medical
