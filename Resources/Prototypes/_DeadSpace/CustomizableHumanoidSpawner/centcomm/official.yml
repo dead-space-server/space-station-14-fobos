@@ -33,13 +33,10 @@
         time: 100h
       - !type:DepartmentTimeRequirement
         department: Command
-        time: 200h
-      - !type:DepartmentTimeRequirement
-        department: CentralCommand
-        time: 100h
+        time: 250h
       - !type:RoleTimeRequirement
         role: JobLawyer
-        time: 200h
+        time: 250h
     raffle:
       settings: default
 

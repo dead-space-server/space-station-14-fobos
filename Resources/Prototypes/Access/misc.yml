@@ -32,12 +32,16 @@
   - Chapel
   - Hydroponics
   - Atmospherics
-  - Paramedic # DS14
-  - Brigmedic # DS14
-  - Coroner # DS14
-  - Virology # DS14
   - GenpopEnter
   - GenpopLeave
+  # DS14-Start
+  - Paramedic
+  - Brigmedic
+  - Coroner
+  - Virology
+  - CounterpartyNT
+  - ErtTeamLeader
+  # DS14-End
 
 - type: accessGroup
   id: General
