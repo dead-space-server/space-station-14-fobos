@@ -58,8 +58,10 @@
     max: 10m
   price: 20000
   spawns:
+    - id: RandomHumanoidSpawnerERTLeaderAmber
+      amount: 1
     - id: RandomHumanoidSpawnerERTEngineerAmber
-      amount: 4
+      amount: 3
 
 - type: ertTeam
   id: Amber

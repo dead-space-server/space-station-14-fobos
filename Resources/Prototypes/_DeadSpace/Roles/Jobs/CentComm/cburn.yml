@@ -16,6 +16,7 @@
   - AllAccess
   access:
   - CentralCommand
+  - ErtTeamLeader
   special:
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant, TrackingImplant ]
