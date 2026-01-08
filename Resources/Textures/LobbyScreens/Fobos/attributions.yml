@@ -102,7 +102,7 @@
   license: "CC-BY-NC-SA-4.0"
   copyright: "doner4037 on discord"
   source: "https://discord.com/channels/1030160796401016883/1153641017501827173/1382021995767795814"
- 
+
 - files: ["doner_darkrain.webp"]
   license: "CC-BY-NC-SA-4.0"
   copyright: "doner4037 on discord"
@@ -112,57 +112,67 @@
   license: "CC-BY-NC-SA-4.0"
   copyright: "doner4037 on discord"
   source: "https://discord.com/channels/1030160796401016883/1153641017501827173/1322591610969522288"
-  
+
 - files: ["doner_girlfriends.webp"]
   license: "CC-BY-NC-SA-4.0"
   copyright: "doner4037 on discord"
   source: "https://discord.com/channels/1030160796401016883/1153641017501827173/1358852922993016962"
-  
+
 - files: ["doner_hopfrontier.webp"]
   license: "CC-BY-NC-SA-4.0"
   copyright: "doner4037 on discord"
   source: "https://discord.com/channels/1030160796401016883/1153641017501827173/1387422137572261943"
-  
+
 - files: ["doner_paramedic.webp"]
   license: "CC-BY-NC-SA-4.0"
   copyright: "doner4037 on discord"
   source: "https://discord.com/channels/1030160796401016883/1153641017501827173/1328070670822670377"
-  
+
 - files: ["doner_psyhologist.webp"]
   license: "CC-BY-NC-SA-4.0"
   copyright: "doner4037 on discord"
   source: "https://discord.com/channels/1030160796401016883/1153641017501827173/1331653240642863104"
-  
+
 - files: ["doner_ratcatcher.webp"]
   license: "CC-BY-NC-SA-4.0"
   copyright: "doner4037 on discord"
   source: "https://discord.com/channels/1030160796401016883/1153641017501827173/1346221204641550478"
-  
+
 - files: ["doner_rocket.webp"]
   license: "CC-BY-NC-SA-4.0"
   copyright: "doner4037 on discord"
   source: "https://discord.com/channels/1030160796401016883/1153641017501827173/1332015604281905289"
-  
+
 - files: ["doner_science.webp"]
   license: "CC-BY-NC-SA-4.0"
   copyright: "doner4037 on discord"
   source: "https://discord.com/channels/1030160796401016883/1153641017501827173/1334206086743589029"
-  
+
 - files: ["doner_sisters.webp"]
   license: "CC-BY-NC-SA-4.0"
   copyright: "doner4037 on discord"
   source: "https://discord.com/channels/1030160796401016883/1153641017501827173/1309154945450119218"
-  
+
 - files: ["doner_smokebreak.webp"]
   license: "CC-BY-NC-SA-4.0"
   copyright: "doner4037 on discord"
   source: "https://discord.com/channels/1030160796401016883/1153641017501827173/1365365862546276473"
-  
+
 - files: ["doner_violence.webp"]
   license: "CC-BY-NC-SA-4.0"
   copyright: "doner4037 on discord"
   source: "https://discord.com/channels/1030160796401016883/1153641017501827173/1328070670822670377"
-  
+
+- files: ["doner_family_selen.webp"]
+  license: "CC-BY-NC-SA-4.0"
+  copyright: "doner4037 on discord"
+  source: "https://discord.com/channels/1030160796401016883/1200740147176681482"
+
+- files: ["doner_the_end.webp"]
+  license: "CC-BY-NC-SA-4.0"
+  copyright: "doner4037 on discord"
+  source: "https://discord.com/channels/1030160796401016883/1200740147176681482"
+
 # Karp / gachikarp
 
 - files: ["karp_cargo.webp"]
@@ -249,3 +259,37 @@
   license: "CC-BY-4.0"
   copyright: "2yx_mytpobyj_ckaf discord"
   source: "https://discord.gg/ds14"
+
+- files: ["MK_NEW_YEAR.webp"]
+  license: "CC-BY-4.0"
+  copyright: "2yx_mytpobyj_ckaf discord"
+  source: "https://discord.com/channels/1030160796401016883/1445185476393963561/1455591526875926704"
+
+# kiseliium
+
+- files: ["kiseliium1.webp"]
+  license: "CC-BY-NC-SA-4.0"
+  copyright: "kiseliium on discord"
+  source: "https://discord.gg/ds14"
+
+- files: ["kiseliium2.webp"]
+  license: "CC-BY-NC-SA-4.0"
+  copyright: "kiseliium on discord"
+  source: "https://discord.gg/ds14"
+
+- files: ["kiseliium3.webp"]
+  license: "CC-BY-NC-SA-4.0"
+  copyright: "kiseliium on discord"
+  source: "https://discord.gg/ds14"
+
+- files: ["kiseliium4.webp"]
+  license: "CC-BY-NC-SA-4.0"
+  copyright: "kiseliium on discord"
+  source: "https://discord.gg/ds14"
+
+# mdeg
+
+- files: ["happy_holidays.webp"]
+  license: "CC-BY-NC-SA-4.0"
+  copyright: "mdegrante on discord"
+  source: "https://discord.com/channels/1030160796401016883/1445185476393963561/1455721600677580892"

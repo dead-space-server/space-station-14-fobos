@@ -3,7 +3,7 @@
 using Content.Server.DeadSpace.Virus.Components;
 using Content.Shared.Armor;
 using Content.Shared.Inventory;
-using Content.Shared.Virus;
+using Content.Shared.DeadSpace.Virus;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 

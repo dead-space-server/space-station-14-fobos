@@ -3,32 +3,28 @@
 using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
-using Robust.Shared.Random;
-using Robust.Shared.Timing;
+using Content.Shared.DeadSpace.Virus.Prototypes;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class LowMutationAccelerationSymptom : VirusSymptomBase
 {
     public override VirusSymptom Type => VirusSymptom.LowMutationAcceleration;
-    protected override float AddInfectivity => 0.05f;
+    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "LowMutationAccelerationSymptom";
     private int _addRegenMutationPoints = 2;
 
-    public LowMutationAccelerationSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
+    public LowMutationAccelerationSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
     {
         base.OnAdded(host, virus);
-
-        virus.Data.RegenMutationPoints += _addRegenMutationPoints;
     }
 
     public override void OnRemoved(EntityUid host, VirusComponent virus)
     {
         base.OnRemoved(host, virus);
-
-        virus.Data.RegenMutationPoints -= _addRegenMutationPoints;
     }
 
     public override void OnUpdate(EntityUid host, VirusComponent virus)
@@ -43,11 +39,12 @@ public sealed class LowMutationAccelerationSymptom : VirusSymptomBase
 
     public override IVirusSymptom Clone()
     {
-        return new LowMutationAccelerationSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+        return new LowMutationAccelerationSymptom(EffectTimedWindow.Clone());
     }
 
     public override void ApplyDataEffect(VirusData data, bool add)
     {
+        base.ApplyDataEffect(data, add);
         if (add)
             data.RegenMutationPoints += _addRegenMutationPoints;
         else

@@ -2,7 +2,7 @@
 
 using JetBrains.Annotations;
 using Robust.Client.UserInterface;
-using Content.Shared.Virus;
+using Content.Shared.DeadSpace.Virus;
 using System.Linq;
 
 namespace Content.Client.DeadSpace.Virus.UI

@@ -19,7 +19,7 @@ using Content.Shared.Chemistry.Components.SolutionManager;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Chemistry.Components;
 using Content.Shared.Chemistry.Reagent;
-using Content.Shared.Virus;
+using Content.Shared.DeadSpace.Virus;
 using Content.Shared.DeadSpace.Virus.Prototypes;
 using Content.Shared.Body.Prototypes;
 
@@ -35,8 +35,7 @@ public sealed class VirusDiagnoserSystem : EntitySystem
     [Dependency] private readonly VirusDiagnoserDataServerSystem _dataServer = default!;
     [Dependency] private readonly PaperSystem _paperSystem = default!;
     [Dependency] private readonly AppearanceSystem _appearance = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly TimedWindowSystem _timedWindowSystem = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
     private const string DnaContainerKey = "dna_container_virus_diagnoser";
     private const string FlaskContainerKey = "flask_container_virus_diagnoser";
@@ -45,15 +44,9 @@ public sealed class VirusDiagnoserSystem : EntitySystem
     {
         base.Initialize();
 
-        SubscribeLocalEvent<VirusDiagnoserComponent, ComponentInit>(OnInit);
         SubscribeLocalEvent<VirusDiagnoserComponent, ExaminedEvent>(OnExamine);
         SubscribeLocalEvent<VirusDiagnoserComponent, AnchorStateChangedEvent>(OnAnchor);
         SubscribeLocalEvent<VirusDiagnoserComponent, PortDisconnectedEvent>(OnPortDisconnected);
-    }
-
-    private void OnInit(Entity<VirusDiagnoserComponent> ent, ref ComponentInit args)
-    {
-        ent.Comp.AnimationWindow = new TimedWindow(ent.Comp.PrintingAnimationDuration, ent.Comp.PrintingAnimationDuration, _timing, _random);
     }
 
     public override void Update(float frameTime)
@@ -73,13 +66,13 @@ public sealed class VirusDiagnoserSystem : EntitySystem
             if (comp.Status == VirusDiagnoserStatus.Off)
                 SetStatus((uid, comp), VirusDiagnoserStatus.On);
 
-            if (EntityManager.EntityExists(comp.CurrentSoundEntity))
+            if (EntityManager.EntityExists(comp.CurrentSoundEntity) && comp.Status != VirusDiagnoserStatus.Printing)
                 continue;
 
             switch (comp.Status)
             {
                 case VirusDiagnoserStatus.Printing:
-                    if (comp.AnimationWindow.IsExpired())
+                    if (_timedWindowSystem.IsExpired(comp.AnimationWindow))
                     {
                         EndPrintingReport((uid, comp));
                         SetStatus((uid, comp), VirusDiagnoserStatus.On);
@@ -446,6 +439,7 @@ public sealed class VirusDiagnoserSystem : EntitySystem
             case VirusDiagnoserStatus.Off:
                 break;
             case VirusDiagnoserStatus.Printing:
+                _timedWindowSystem.Reset(ent.Comp.AnimationWindow);
                 ent.Comp.CurrentSoundEntity = _audio.PlayPvs(ent.Comp.PrintingSound, ent)?.Entity;
                 break;
             case VirusDiagnoserStatus.Scanning:

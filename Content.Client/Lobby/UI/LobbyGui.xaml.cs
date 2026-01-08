@@ -34,6 +34,8 @@ namespace Content.Client.Lobby.UI
             Rules.OnPressed += _ => new RulesAndInfoWindow().Open();
             Guidebook.OnPressed += _ => UserInterfaceManager.GetUIController<GuidebookUIController>().ToggleGuidebook();
             Changelog.OnPressed += _ => UserInterfaceManager.GetUIController<ChangelogUIController>().ToggleWindow();
+
+            ShowGUI.OnPressed += _ => ChangeVisibility(); // DS14
         }
 
         public void SwitchState(LobbyGuiState state)
@@ -51,6 +53,14 @@ namespace Content.Client.Lobby.UI
                     break;
             }
         }
+        // DS14-start
+        private void ChangeVisibility()
+        {
+            ShowGUI.Pressed = !ShowGUI.Pressed;
+            CenterPanel.Visible = !ShowGUI.Pressed;
+            BottomContainer.Visible = !ShowGUI.Pressed;
+        }
+        // DS14-end
 
         public enum LobbyGuiState : byte
         {

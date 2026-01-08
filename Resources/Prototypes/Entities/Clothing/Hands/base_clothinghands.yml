@@ -27,6 +27,10 @@
     damageProtection:
       flatReductions:
         Heat: 5 # the average lightbulb only does around four damage!
+  # DS14-start
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.05
+  # DS14-end
 
 - type: entity
   abstract: true

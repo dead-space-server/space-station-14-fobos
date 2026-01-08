@@ -17,6 +17,10 @@ public sealed class EmeraldItemCard : Control
     [Dependency] private readonly IEntityManager _entMan = default!;
     [Dependency] private readonly IPrototypeManager _protoManager = default!;
 
+    private const int BaseNameFontSize = 10;
+    private const int BaseStatusFontSize = 9;
+    private const int BaseSourceFontSize = 8;
+
     private Font _nameFont = default!;
     private Font _statusFont = default!;
     private Font _sourceFont = default!;
@@ -29,6 +33,9 @@ public sealed class EmeraldItemCard : Control
     private bool _isSpawned;
     private bool _isTimeUp;
     private string? _sourceSubscription;
+    private bool _isLootbox;
+    private int _userItemId;
+    private bool _stelsHidden;
 
     private readonly Color _bgColor = Color.FromHex("#1a0f2e");
     private readonly Color _borderColor = Color.FromHex("#4a3a6a");
@@ -42,14 +49,18 @@ public sealed class EmeraldItemCard : Control
     private readonly Color _subscriptionColor = Color.FromHex("#d4a574");
     private readonly Color _purchasedColor = Color.FromHex("#8d7aaa");
     private readonly Color _adminColor = Color.FromHex("#FF0000");
+    private readonly Color _lootboxColor = Color.FromHex("#ffd700");
 
     private SpriteView? _spriteView;
     private TextureRect? _textureRect;
     private PanelContainer? _spriteContainer;
     private Texture? _fallbackTexture;
+    private Texture? _lootboxTexture;
     private bool _hovered;
+    private EmeraldButton? _openButton;
 
     public event Action<string>? OnSpawnRequest;
+    public event Action<string, int, bool>? OnOpenLootboxRequest;
 
     public string ItemName
     {
@@ -97,6 +108,7 @@ public sealed class EmeraldItemCard : Control
         set
         {
             _isActive = value;
+            UpdateOpenButton();
             InvalidateMeasure();
         }
     }
@@ -131,27 +143,43 @@ public sealed class EmeraldItemCard : Control
         }
     }
 
+    public bool IsLootbox
+    {
+        get => _isLootbox;
+        set
+        {
+            _isLootbox = value;
+            UpdateSprite();
+            UpdateOpenButton();
+            InvalidateMeasure();
+        }
+    }
+
+    public int UserItemId
+    {
+        get => _userItemId;
+        set => _userItemId = value;
+    }
+
+    public bool StelsHidden
+    {
+        get => _stelsHidden;
+        set => _stelsHidden = value;
+    }
+
     public bool IsFromSubscription => SourceSubscription != null;
 
     public EmeraldItemCard()
     {
         IoCManager.InjectDependencies(this);
-        UpdateFonts();
+
+        var fontRes = _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf");
+        _nameFont = new VectorFont(fontRes, BaseNameFontSize);
+        _statusFont = new VectorFont(fontRes, BaseStatusFontSize);
+        _sourceFont = new VectorFont(fontRes, BaseSourceFontSize);
+
         BuildSprite();
         MouseFilter = MouseFilterMode.Stop;
-    }
-
-    private void UpdateFonts()
-    {
-        _nameFont = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(10 * UIScale));
-        _statusFont = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(9 * UIScale));
-        _sourceFont = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(8 * UIScale));
     }
 
     private void BuildSprite()
@@ -176,19 +204,70 @@ public sealed class EmeraldItemCard : Control
         {
             HorizontalExpand = true,
             VerticalExpand = true,
-            Stretch = TextureRect.StretchMode.KeepCentered,
-            Visible = false
+            Stretch = TextureRect.StretchMode.KeepAspectCentered,
+            Visible = false,
         };
 
         _spriteContainer.AddChild(_spriteView);
         _spriteContainer.AddChild(_textureRect);
         AddChild(_spriteContainer);
+
+        _openButton = new EmeraldButton
+        {
+            Text = "ОТКРЫТЬ",
+            Visible = false,
+            MinSize = new Vector2(80, 24)
+        };
+        _openButton.OnPressed += () =>
+        {
+            if (_isLootbox && !_isSpawned)
+            {
+                OnOpenLootboxRequest?.Invoke(_itemName, _userItemId, _stelsHidden);
+            }
+        };
+        AddChild(_openButton);
+    }
+
+    private void UpdateOpenButton()
+    {
+        if (_openButton == null)
+            return;
+
+        _openButton.Visible = _isLootbox && !_isSpawned && !_isTimeUp;
     }
 
     private void UpdateSprite()
     {
         if (_spriteView == null || _textureRect == null)
             return;
+
+        if (_isLootbox)
+        {
+            _spriteView.Visible = false;
+            _textureRect.Visible = true;
+
+            if (_lootboxTexture == null)
+            {
+                try
+                {
+                    _lootboxTexture = _resourceCache.GetResource<TextureResource>("/Textures/Interface/lootbox.png").Texture;
+                }
+                catch
+                {
+                    try
+                    {
+                        _lootboxTexture = _resourceCache.GetResource<TextureResource>("/Textures/Interface/giftbox.png").Texture;
+                    }
+                    catch
+                    {
+                        _lootboxTexture = null;
+                    }
+                }
+            }
+
+            _textureRect.Texture = _lootboxTexture;
+            return;
+        }
 
         if (!string.IsNullOrEmpty(_protoId) && _protoManager.HasIndex<EntityPrototype>(_protoId))
         {
@@ -197,7 +276,7 @@ public sealed class EmeraldItemCard : Control
                 var spawned = _entMan.SpawnEntity(_protoId, MapCoordinates.Nullspace);
                 _spriteView.SetEntity(spawned);
                 _spriteView.Visible = true;
-                _spriteView.Scale = new Vector2(2, 2);
+                UpdateSpriteScale();
                 _textureRect.Visible = false;
                 return;
             }
@@ -226,7 +305,7 @@ public sealed class EmeraldItemCard : Control
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
     {
-        return new Vector2(145, 200);
+        return new Vector2(145, 220);
     }
 
     protected override Vector2 ArrangeOverride(Vector2 finalSize)
@@ -235,6 +314,15 @@ public sealed class EmeraldItemCard : Control
         {
             var spriteBox = new UIBox2(2, 2, finalSize.X - 2, 95);
             _spriteContainer.Arrange(spriteBox);
+        }
+
+        if (_openButton != null && _openButton.Visible)
+        {
+            var buttonWidth = 100f;
+            var buttonHeight = 26f;
+            var buttonX = (finalSize.X - buttonWidth) / 2f;
+            var buttonY = finalSize.Y - buttonHeight - 6f;
+            _openButton.Arrange(new UIBox2(buttonX, buttonY, buttonX + buttonWidth, buttonY + buttonHeight));
         }
 
         return finalSize;
@@ -247,15 +335,17 @@ public sealed class EmeraldItemCard : Control
         var bgAlpha = _isActive && !_isSpawned ? 0.8f : 0.5f;
         handle.DrawRect(rect, _bgColor.WithAlpha(bgAlpha));
 
-        if (_hovered && _isActive && !_isSpawned && !string.IsNullOrEmpty(_protoId))
+        if (_hovered && _isActive && !_isSpawned && !string.IsNullOrEmpty(_protoId) && !_isLootbox)
         {
-            var glowRect = new UIBox2(rect.Left - 1, rect.Top - 1, rect.Right + 1, rect.Bottom + 1);
+            var glowOffset = 1f * UIScale;
+            var glowRect = new UIBox2(rect.Left - glowOffset, rect.Top - glowOffset, rect.Right + glowOffset, rect.Bottom + glowOffset);
             handle.DrawRect(glowRect, _hoverGlowColor.WithAlpha(0.3f));
         }
 
         var isAdmin = IsFromSubscription && (_sourceSubscription?.StartsWith("[ADMIN]") ?? false);
 
-        var borderColor = _isActive ? (isAdmin ? _adminColor : IsFromSubscription ? _subscriptionColor : _borderColor) :
+        var borderColor = _isLootbox ? _lootboxColor :
+            _isActive ? (isAdmin ? _adminColor : IsFromSubscription ? _subscriptionColor : _borderColor) :
             _isSpawned ? _spawnedColor :
             _inactiveColor;
 
@@ -264,12 +354,14 @@ public sealed class EmeraldItemCard : Control
         handle.DrawLine(rect.BottomRight, rect.BottomLeft, borderColor);
         handle.DrawLine(rect.BottomLeft, rect.TopLeft, borderColor);
 
-        var maxTextWidth = PixelSize.X - 8f;
-        var lines = WrapText(_itemName, maxTextWidth, _nameFont, 3);
-        var nameY = 99f;
-        var lineHeight = _nameFont.GetLineHeight(1f);
+        var maxTextWidth = PixelSize.X - 8f * UIScale;
+        var displayName = (_isLootbox && _stelsHidden) ? "???" : _itemName;
+        var lines = WrapText(displayName, maxTextWidth, _nameFont, 3);
+        var nameY = 99f * UIScale;
+        var lineHeight = _nameFont.GetLineHeight(UIScale);
 
-        var nameColor = _isActive ? (isAdmin ? _adminColor : IsFromSubscription ? _subscriptionColor : _nameColor) :
+        var nameColor = _isLootbox ? _lootboxColor :
+            _isActive ? (isAdmin ? _adminColor : IsFromSubscription ? _subscriptionColor : _nameColor) :
             _isSpawned ? _spawnedColor :
             _inactiveColor;
 
@@ -278,26 +370,37 @@ public sealed class EmeraldItemCard : Control
             var line = lines[i];
             var lineWidth = GetTextWidth(line, _nameFont);
             var lineX = (PixelSize.X - lineWidth) / 2f;
-            handle.DrawString(_nameFont, new Vector2(lineX, nameY + i * lineHeight), line, 1f, nameColor);
+            handle.DrawString(_nameFont, new Vector2(lineX, nameY + i * lineHeight), line, UIScale, nameColor);
         }
 
-        var statusY = nameY + lines.Count * lineHeight + 4f;
+        var statusY = nameY + lines.Count * lineHeight + 4f * UIScale;
 
-        if (IsFromSubscription)
+        if (_isLootbox)
+        {
+            var lootboxText = "ЛУТБОКС";
+            var lootboxWidth = GetTextWidth(lootboxText, _sourceFont);
+            var lootboxX = (PixelSize.X - lootboxWidth) / 2f;
+            handle.DrawString(_sourceFont, new Vector2(lootboxX, statusY), lootboxText, UIScale, _lootboxColor);
+            statusY += _sourceFont.GetLineHeight(UIScale) + 2f * UIScale;
+
+            if (_openButton != null && _openButton.Visible)
+                return;
+        }
+        else if (IsFromSubscription)
         {
             var sourceText = _sourceSubscription!.ToUpper();
             var sourceWidth = GetTextWidth(sourceText, _sourceFont);
             var sourceX = (PixelSize.X - sourceWidth) / 2f;
-            handle.DrawString(_sourceFont, new Vector2(sourceX, statusY), sourceText, 1f, _subscriptionColor);
-            statusY += _sourceFont.GetLineHeight(1f) + 2f;
+            handle.DrawString(_sourceFont, new Vector2(sourceX, statusY), sourceText, UIScale, _subscriptionColor);
+            statusY += _sourceFont.GetLineHeight(UIScale) + 2f * UIScale;
         }
         else
         {
             var purchasedText = "КУПЛЕНО";
             var purchasedWidth = GetTextWidth(purchasedText, _sourceFont);
             var purchasedX = (PixelSize.X - purchasedWidth) / 2f;
-            handle.DrawString(_sourceFont, new Vector2(purchasedX, statusY), purchasedText, 1f, _purchasedColor);
-            statusY += _sourceFont.GetLineHeight(1f) + 2f;
+            handle.DrawString(_sourceFont, new Vector2(purchasedX, statusY), purchasedText, UIScale, _purchasedColor);
+            statusY += _sourceFont.GetLineHeight(UIScale) + 2f * UIScale;
         }
 
         if (!_isActive)
@@ -305,7 +408,7 @@ public sealed class EmeraldItemCard : Control
             var inactiveText = "НЕАКТИВЕН";
             var inactiveWidth = GetTextWidth(inactiveText, _statusFont);
             var inactiveX = (PixelSize.X - inactiveWidth) / 2f;
-            handle.DrawString(_statusFont, new Vector2(inactiveX, statusY), inactiveText, 1f, _inactiveColor);
+            handle.DrawString(_statusFont, new Vector2(inactiveX, statusY), inactiveText, UIScale, _inactiveColor);
             return;
         }
 
@@ -314,7 +417,7 @@ public sealed class EmeraldItemCard : Control
             var spawnedText = "ЗАСПАВНЕНО";
             var spawnedWidth = GetTextWidth(spawnedText, _statusFont);
             var spawnedX = (PixelSize.X - spawnedWidth) / 2f;
-            handle.DrawString(_statusFont, new Vector2(spawnedX, statusY), spawnedText, 1f, _spawnedColor);
+            handle.DrawString(_statusFont, new Vector2(spawnedX, statusY), spawnedText, UIScale, _spawnedColor);
             return;
         }
 
@@ -323,9 +426,12 @@ public sealed class EmeraldItemCard : Control
             var timeUpText = "ВРЕМЯ ИСТЕКЛО";
             var timeUpWidth = GetTextWidth(timeUpText, _statusFont);
             var timeUpX = (PixelSize.X - timeUpWidth) / 2f;
-            handle.DrawString(_statusFont, new Vector2(timeUpX, statusY), timeUpText, 1f, _timeExpiringColor);
+            handle.DrawString(_statusFont, new Vector2(timeUpX, statusY), timeUpText, UIScale, _timeExpiringColor);
             return;
         }
+
+        if (_isLootbox)
+            return;
 
         string timeText;
         Color timeTextColor;
@@ -366,13 +472,13 @@ public sealed class EmeraldItemCard : Control
 
         var timeWidth = GetTextWidth(timeText, _statusFont);
         var timeX = (PixelSize.X - timeWidth) / 2f;
-        handle.DrawString(_statusFont, new Vector2(timeX, statusY), timeText, 1f, timeTextColor);
+        handle.DrawString(_statusFont, new Vector2(timeX, statusY), timeText, UIScale, timeTextColor);
     }
 
     protected override void MouseEntered()
     {
         base.MouseEntered();
-        if (!string.IsNullOrEmpty(_protoId) && _protoManager.HasIndex<EntityPrototype>(_protoId))
+        if (!string.IsNullOrEmpty(_protoId) && _protoManager.HasIndex<EntityPrototype>(_protoId) && !_isLootbox)
         {
             _hovered = true;
         }
@@ -393,6 +499,9 @@ public sealed class EmeraldItemCard : Control
         if (args.Function != EngineKeyFunctions.UIClick)
             return;
 
+        if (_isLootbox)
+            return;
+
         if (_isActive && !_isSpawned && !string.IsNullOrEmpty(_protoId) && _protoManager.HasIndex<EntityPrototype>(_protoId))
         {
             OnSpawnRequest?.Invoke(_protoId);
@@ -408,7 +517,7 @@ public sealed class EmeraldItemCard : Control
         var width = 0f;
         foreach (var rune in text.EnumerateRunes())
         {
-            var metrics = font.GetCharMetrics(rune, 1f);
+            var metrics = font.GetCharMetrics(rune, UIScale);
             if (metrics.HasValue)
                 width += metrics.Value.Advance;
         }
@@ -426,39 +535,69 @@ public sealed class EmeraldItemCard : Control
 
         foreach (var word in words)
         {
-            var testLine = string.IsNullOrEmpty(currentLine) ? word : currentLine + " " + word;
-            var testWidth = GetTextWidth(testLine, font);
+            var wordWidth = GetTextWidth(word, font);
 
-            if (testWidth > maxWidth && !string.IsNullOrEmpty(currentLine))
+            if (wordWidth > maxWidth)
             {
-                if (lines.Count == maxLines - 1)
+                if (!string.IsNullOrEmpty(currentLine))
                 {
-                    var ellipsis = "..";
-                    var availableWidth = maxWidth - GetTextWidth(ellipsis, font);
-                    while (GetTextWidth(currentLine, font) > availableWidth && currentLine.Length > 0)
+                    if (lines.Count >= maxLines - 1)
                     {
-                        currentLine = currentLine.Substring(0, currentLine.Length - 1);
+                        currentLine = TruncateWithEllipsis(currentLine, maxWidth, font);
+                        lines.Add(currentLine);
+                        return lines;
                     }
-                    currentLine += ellipsis;
                     lines.Add(currentLine);
-                    break;
+                    currentLine = "";
+                }
+
+                var charLine = "";
+                foreach (var rune in word.EnumerateRunes())
+                {
+                    var charStr = rune.ToString();
+                    var testWidth = GetTextWidth(charLine + charStr, font);
+
+                    if (testWidth > maxWidth && !string.IsNullOrEmpty(charLine))
+                    {
+                        if (lines.Count >= maxLines - 1)
+                        {
+                            charLine = TruncateWithEllipsis(charLine, maxWidth, font);
+                            lines.Add(charLine);
+                            return lines;
+                        }
+                        lines.Add(charLine);
+                        charLine = charStr;
+
+                        if (lines.Count >= maxLines)
+                            return lines;
+                    }
+                    else
+                    {
+                        charLine += charStr;
+                    }
+                }
+
+                currentLine = charLine;
+                continue;
+            }
+
+            var testLine = string.IsNullOrEmpty(currentLine) ? word : currentLine + " " + word;
+            var testWidth2 = GetTextWidth(testLine, font);
+
+            if (testWidth2 > maxWidth && !string.IsNullOrEmpty(currentLine))
+            {
+                if (lines.Count >= maxLines - 1)
+                {
+                    currentLine = TruncateWithEllipsis(currentLine, maxWidth, font);
+                    lines.Add(currentLine);
+                    return lines;
                 }
 
                 lines.Add(currentLine);
                 currentLine = word;
 
                 if (lines.Count >= maxLines)
-                {
-                    var ellipsis = "..";
-                    var availableWidth = maxWidth - GetTextWidth(ellipsis, font);
-                    while (GetTextWidth(currentLine, font) > availableWidth && currentLine.Length > 0)
-                    {
-                        currentLine = currentLine.Substring(0, currentLine.Length - 1);
-                    }
-                    currentLine += ellipsis;
-                    lines.Add(currentLine);
-                    break;
-                }
+                    return lines;
             }
             else
             {
@@ -468,16 +607,48 @@ public sealed class EmeraldItemCard : Control
 
         if (!string.IsNullOrEmpty(currentLine) && lines.Count < maxLines)
         {
+            if (GetTextWidth(currentLine, font) > maxWidth)
+            {
+                currentLine = TruncateWithEllipsis(currentLine, maxWidth, font);
+            }
             lines.Add(currentLine);
         }
 
         return lines;
     }
 
+    private string TruncateWithEllipsis(string text, float maxWidth, Font font)
+    {
+        var ellipsis = "..";
+        var ellipsisWidth = GetTextWidth(ellipsis, font);
+        var availableWidth = maxWidth - ellipsisWidth;
+
+        if (availableWidth <= 0)
+            return ellipsis;
+
+        var result = "";
+        foreach (var rune in text.EnumerateRunes())
+        {
+            var testResult = result + rune.ToString();
+            if (GetTextWidth(testResult, font) > availableWidth)
+                break;
+            result = testResult;
+        }
+
+        return result + ellipsis;
+    }
+
+    private void UpdateSpriteScale()
+    {
+        if (_spriteView == null)
+            return;
+
+        _spriteView.Scale = new Vector2(2f, 2f);
+    }
+
     protected override void UIScaleChanged()
     {
         base.UIScaleChanged();
-        UpdateFonts();
         InvalidateMeasure();
     }
 }

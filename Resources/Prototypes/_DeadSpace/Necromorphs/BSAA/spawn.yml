@@ -1,0 +1,257 @@
+# Гир наборы спавнов
+- type: startingGear
+  id: BSAALeaderGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitTacticool
+    back: ClothingBSAABackpack
+    mask: ClothingMaskGasExplorer
+    eyes: ClothingEyesHudAdvanced
+    ears: ClothingHeadsetCentCom
+    neck: BSAALeaderShoulder
+    gloves: ClothingHandsGlovesCombat
+    outerClothing: BSAALeaderHardSuit
+    shoes: ADTClothingShoesBootsMagERT
+    id: BSAALeaderPDA
+    belt: ClothingBeltMilitaryWebbing
+    pocket1: BSAAHypo
+    pocket2: DoubleEmergencyOxygenTankFilled
+  storage:
+    back:
+    - BSAACombatKitFilled
+    - InjectorCaseStimFilled
+    - BSAAloadout
+    - DoorRemoteAll
+    - PinpointerNecroobelisk
+    - PinpointerNuclear
+    - CrowbarRed
+    - RCDRecharging
+    - WeaponPulsePistol
+    - EmergencyMedipen
+    - KukriKnife
+    - BoxMRE
+
+- type: startingGear
+  id: BSAAFighterGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitTacticool
+    back: ClothingBSAABackpack
+    mask: ClothingMaskGasExplorer
+    eyes: ClothingEyesHudAdvanced
+    ears: ClothingHeadsetCentCom
+    gloves: ClothingHandsGlovesCombat
+    outerClothing: BSAAFighterHardSuit
+    shoes: ADTClothingShoesBootsMagERT
+    id: BSAAFighterPDA
+    belt: ClothingBeltMilitaryWebbing
+    pocket1: DoubleEmergencyOxygenTankFilled
+  storage:
+    back:
+    - BSAACombatKitFilled
+    - InjectorCaseStimFilled
+    - BSAAloadout
+    - KukriKnife
+    - PinpointerNecroobelisk
+    - PinpointerNuclear
+    - CrowbarRed
+    - RCDRecharging
+    - WeaponPulsePistol
+    - EmergencyMedipen
+    - BoxMRE
+
+- type: startingGear
+  id: BSAAMedicGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitTacticool
+    back: ClothingBSAABackpack
+    mask: ClothingMaskGasExplorer
+    eyes: ClothingEyesHudAdvanced
+    ears: ClothingHeadsetCentCom
+    gloves: ClothingHandsGlovesCombat
+    outerClothing: BSAAMedicHardSuit
+    shoes: ADTClothingShoesBootsMagERT
+    id: BSAAMedicPDA
+    belt: ClothingBeltMilitaryWebbing
+    pocket1: BSAAHypo
+    pocket2: DoubleEmergencyOxygenTankFilled
+  storage:
+    back:
+    - BSAACombatKitFilled
+    - InjectorCaseFilled
+    - InjectorCaseStimFilled
+    - BSAAloadout
+    - KukriKnife
+    - PinpointerNecroobelisk
+    - PinpointerNuclear
+    - CrowbarRed
+    - DefibrillatorCompact
+    - WeaponPulsePistol
+    - EmergencyMedipen
+    - BoxMRE
+
+# Спавн
+- type: entity
+  id: RandomHumanoidSpawnerBSAALeader
+  parent: RandomHumanoidSpawnerERTLeaderAmber
+  name: АПБТ лидер
+  components:
+    - type: Sprite
+      sprite: Markers/jobs.rsi
+      state: cburn
+    - type: RandomHumanoidSpawner
+      settings: BSAALeader
+
+- type: entity
+  name: лидер АПБТ, spawner
+  id: BSAALeaderSpawner
+  categories: [ HideSpawnMenu ]
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: red
+    - sprite: Markers/jobs.rsi
+      state: cburn
+  - type: RandomSpawner
+    prototypes:
+    - RandomHumanoidSpawnerBSAALeader
+
+- type: entity
+  id: RandomHumanoidSpawnerBSAAFighter
+  parent: RandomHumanoidSpawnerERTLeaderAmber
+  name: АПБТ боец
+  components:
+    - type: Sprite
+      sprite: Markers/jobs.rsi
+      state: cburn
+    - type: RandomHumanoidSpawner
+      settings: BSAAFighter
+
+- type: entity
+  name: боец АПБТ, spawner
+  categories: [ HideSpawnMenu ]
+  id: BSAAFighterSpawner
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: red
+    - sprite: Markers/jobs.rsi
+      state: cburn
+  - type: RandomSpawner
+    prototypes:
+    - RandomHumanoidSpawnerBSAAFighter
+
+- type: entity
+  id: RandomHumanoidSpawnerBSAAMedic
+  parent: RandomHumanoidSpawnerERTLeaderAmber
+  name: АПБТ медик
+  components:
+    - type: Sprite
+      sprite: Markers/jobs.rsi
+      state: cburn
+    - type: RandomHumanoidSpawner
+      settings: BSAAMedic
+
+- type: entity
+  name: медик АПБТ, spawner
+  id: BSAAMedicSpawner
+  parent: MarkerBase
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    layers:
+    - state: red
+    - sprite: Markers/jobs.rsi
+      state: cburn
+  - type: RandomSpawner
+    prototypes:
+    - RandomHumanoidSpawnerBSAAMedic
+
+# Настройки спавна
+- type: randomHumanoidSettings
+  id: BSAALeader
+  parent: EventHumanoidERTZombieImmune
+  components:
+    - type: GhostRole
+      name: Лидер Альянса Противодействия БиоТерроризму
+      description: ghost-role-information-cburn-leader-description
+      rules: ghost-role-information-nonantagonist-rules
+      requirements:
+        - !type:DepartmentTimeRequirement
+          department: Medical
+          time: 36000 # 10 hours
+        - !type:DepartmentTimeRequirement
+          department: Security
+          time: 72000 # 20 hours
+        - !type:DepartmentTimeRequirement
+          department: Command
+          time: 36000 # 10 hours
+      raffle:
+        settings: short
+      job: BSAALeaderJob
+    - type: RandomMetadata
+      nameSegments:
+      - NamesFirstERTLeader
+      - NamesLastERT
+      nameFormat: name-format-ert
+    - type: ImmunNecroobelisk
+    - type: IgnoreKudzu
+    - type: Loadout
+      prototypes: [ BSAALeaderGear ]
+    - type: GhostRoleNotifys 
+      groupPrototype: CBURNGroup
+
+- type: randomHumanoidSettings
+  id: BSAAFighter
+  parent: EventHumanoidERTZombieImmune
+  components:
+    - type: GhostRole
+      name: Боец Альянса Противодействия БиоТерроризму
+      description: ghost-role-information-cburn-agent-description
+      rules: ghost-role-information-nonantagonist-rules
+      requirements:
+        - !type:DepartmentTimeRequirement
+          department: Security
+          time: 50400 # 14 hours
+      raffle:
+        settings: short
+      job: BSAAFighterJob
+    - type: RandomMetadata
+      nameSegments:
+      - NamesFirstERT
+      - NamesLastERT
+      nameFormat: name-format-ert
+    - type: ImmunNecroobelisk
+    - type: Loadout
+      prototypes: [ BSAAFighterGear ]
+    - type: GhostRoleNotifys 
+      groupPrototype: CBURNGroup
+
+- type: randomHumanoidSettings
+  id: BSAAMedic
+  parent: EventHumanoidERTZombieImmune
+  components:
+    - type: GhostRole
+      name: Медик Альянса Противодействия БиоТерроризму
+      description: ghost-role-information-cburn-agent-description
+      rules: ghost-role-information-nonantagonist-rules
+      requirements:
+        - !type:DepartmentTimeRequirement
+          department: Medical
+          time: 50400
+        - !type:DepartmentTimeRequirement
+          department: Security
+          time: 50400 
+      raffle:
+        settings: short
+      job: BSAAMedicJob
+    - type: RandomMetadata
+      nameSegments:
+      - NamesFirstERT
+      - NamesLastERT
+      nameFormat: name-format-ert
+    - type: ImmunNecroobelisk
+    - type: Loadout
+      prototypes: [ BSAAMedicGear ]
+    - type: GhostRoleNotifys 
+      groupPrototype: CBURNGroup

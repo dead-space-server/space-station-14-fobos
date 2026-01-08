@@ -1,0 +1,73 @@
+- type: latheRecipePack
+  id: BSAAAmmoStatic
+  recipes:
+  - VantShield
+  - MagazineForSAIGA12
+  - MagazineForSAIGA12Burn
+  - DrumForSAIGA12Burn
+  - DrumForSAIGA12
+  - MagazineCaselessRifleBurn
+  - MagazineCaselessRifle
+  - ExtMagazineRifleBurn
+  - ADTExtMagazineRifle
+
+- type: latheRecipe
+  id: VantShield
+  result: VantShield
+  materials:
+    Steel: 1550
+    Plastic: 1550
+    Gold: 1150
+
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: MagazineForSAIGA12
+  result: MagazineForSAIGA12
+  materials:
+    Steel: 350
+
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: MagazineForSAIGA12Burn
+  result: MagazineForSAIGA12Burn
+  materials:
+    Steel: 150
+    Plastic: 350
+
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: DrumForSAIGA12Burn
+  result: DrumForSAIGA12Burn
+  materials:
+    Steel: 450
+    Plastic: 650
+
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: DrumForSAIGA12
+  result: DrumForSAIGA12
+  materials:
+    Steel: 750
+
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: MagazineCaselessRifleBurn
+  result: MagazineCaselessRifleBurn
+  materials:
+    Steel: 50
+    Plastic: 475
+  
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: MagazineCaselessRifle
+  result: MagazineCaselessRifle
+  materials:
+    Steel: 375
+
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: ExtMagazineRifleBurn
+  result: ExtMagazineRifleBurn
+  materials:
+    Steel: 100
+    Plastic: 400

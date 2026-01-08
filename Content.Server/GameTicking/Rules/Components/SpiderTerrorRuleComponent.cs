@@ -9,64 +9,19 @@ public sealed partial class SpiderTerrorRuleComponent : Component
     public TimeSpan UpdateDuration = TimeSpan.FromMinutes(1);
 
     [DataField, ViewVariables(VVAccess.ReadOnly)]
-    public TimeSpan TimeUtilErt;
-
-    [DataField, ViewVariables(VVAccess.ReadOnly)]
-    public TimeSpan DurationErt = TimeSpan.FromMinutes(10);
-
-    [DataField, ViewVariables(VVAccess.ReadOnly)]
     public TimeSpan UpdateUtil;
-
-    [DataField, ViewVariables(VVAccess.ReadOnly)]
-    public TimeSpan TimeUtilStartRule = TimeSpan.Zero;
-
-    [DataField, ViewVariables(VVAccess.ReadOnly)]
-    public TimeSpan DurationStartRule = TimeSpan.FromSeconds(300);
 
     [DataField, ViewVariables(VVAccess.ReadOnly)]
     public TimeSpan TimeUtilSendMessage = TimeSpan.Zero;
 
     [DataField, ViewVariables(VVAccess.ReadOnly)]
-    public TimeSpan DurationSendMessage = TimeSpan.FromSeconds(100);
+    public TimeSpan DurationSendMessage = TimeSpan.FromMinutes(1);
 
     [DataField, ViewVariables(VVAccess.ReadOnly)]
-    public TimeSpan TimeUtilErtAnnouncement = TimeSpan.Zero;
+    public TimeSpan TimeUtilStartRule = TimeSpan.Zero;
 
     [DataField, ViewVariables(VVAccess.ReadOnly)]
-    public TimeSpan DurationErtAnnouncement = TimeSpan.FromSeconds(10);
-
-    [DataField, ViewVariables(VVAccess.ReadOnly)]
-    public TimeSpan TimeUtilDeadSquadAnnouncement = TimeSpan.Zero;
-
-    [DataField, ViewVariables(VVAccess.ReadOnly)]
-    public TimeSpan DurationDeadSquadAnnouncement = TimeSpan.FromSeconds(10);
-
-    [DataField, ViewVariables(VVAccess.ReadOnly)]
-    public TimeSpan TimeUtilDeadSquadArrival = TimeSpan.Zero;
-
-    [DataField, ViewVariables(VVAccess.ReadOnly)]
-    public TimeSpan DurationDeadSquadArrival = TimeSpan.FromSeconds(120);
-
-    [DataField, ViewVariables(VVAccess.ReadOnly)]
-    public TimeSpan TimeUtilCodeEpsilon = TimeSpan.Zero;
-
-    [DataField, ViewVariables(VVAccess.ReadOnly)]
-    public TimeSpan DurationCodeEpsilon = TimeSpan.FromSeconds(30);
-
-    [DataField, ViewVariables(VVAccess.ReadWrite)]
-    public bool IsDeadSquadSend = false;
-
-    [DataField, ViewVariables(VVAccess.ReadWrite)]
-    public bool IsDeadSquadArrival = false;
-
-    [DataField, ViewVariables(VVAccess.ReadWrite)]
-    public bool IsErtSend = false;
-
-    [DataField, ViewVariables(VVAccess.ReadWrite)]
-    public bool IsErtSendMessage = false;
-
-    [DataField, ViewVariables(VVAccess.ReadOnly)]
-    public int CburnCount = 0;
+    public TimeSpan DurationStartRule = TimeSpan.FromSeconds(1);
 
     [DataField, ViewVariables(VVAccess.ReadOnly)]
     public float PeopleOnSpidersBreeding = 2;
