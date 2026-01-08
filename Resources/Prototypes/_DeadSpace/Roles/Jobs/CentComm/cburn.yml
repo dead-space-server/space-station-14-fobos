@@ -24,7 +24,6 @@
   id: CBURNLeaderGear
   equipment:
     jumpsuit: ClothingUniformJumpsuitColorBrown
-    back: ClothingMilitaryBackpack
     mask: ClothingMaskGasExplorer
     eyes: ClothingEyesHudAdvanced
     ears: ClothingHeadsetCentCom
@@ -33,26 +32,14 @@
     outerClothing: ClothingOuterHardsuitCBURNLeader
     shoes: ClothingShoesBootsCombatFilled
     id: CBURNLeaderPDA
-    belt: ClothingBeltMilitaryWebbing
     pocket1: DoubleEmergencyOxygenTankFilled
-  storage:
-    back:
-    - GrenadeIncendiary
-    - PillCanisterCBURN
-    - CrowbarRed
-    - WeaponFlareGun
-    - BoxShotgunFlare
-    - Flash
-    - DoorRemoteAll
-    - EmergencyMedipen
-    - BoxMRE
-    - PinpointerNuclear
-    - ERTloadoutCBURNPrimary
-    - ERTloadoutCBURNSecondary
+    pocket2: DoorRemoteAll
+  inhand:
+  - ERTloadoutCBURNLeader
 
 # Agent
 
-## CBURN 
+## CBURN
 - type: job
   id: CBURNAgent
   name: job-name-cburn-agent
@@ -75,7 +62,6 @@
   id: CBURNAgentGear
   equipment:
     jumpsuit: ClothingUniformJumpsuitColorBrown
-    back: ClothingMilitaryBackpack
     mask: ClothingMaskGasExplorer
     eyes: ClothingEyesHudAdvanced
     ears: ClothingHeadsetCentCom
@@ -83,19 +69,9 @@
     outerClothing: ClothingOuterHardsuitCBURN
     shoes: ClothingShoesBootsCombatFilled
     id: CBURNPDA
-    belt: ClothingBeltMilitaryWebbing
     pocket1: DoubleEmergencyOxygenTankFilled
-  storage:
-    back:
-    - GrenadeIncendiary
-    - CrowbarRed
-    - WeaponFlareGun
-    - BoxShotgunFlare
-    - EmergencyMedipen
-    - BoxMRE
-    - WeaponDisabler
-    - ERTloadoutCBURNPrimary
-    - ERTloadoutCBURNSecondary
+  inhand:
+  - ERTloadoutCBURN
 
 # Other
 - type: entity
