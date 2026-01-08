@@ -1041,10 +1041,12 @@
   - type: CargoOrderConsole
     account: Security
     announcementChannel: Security
-    access: [["HeadOfSecurity"]] # DS14
+    removeLimitAccess: [["HeadOfSecurity"]] # DS14
     mode: SendToPrimary
     allowedGroups: # DS14
     - security
+  - type: AccessReader
+    access: [["HeadOfSecurity"]] # DS14
   - type: ActiveRadio
     channels:
     - Security
