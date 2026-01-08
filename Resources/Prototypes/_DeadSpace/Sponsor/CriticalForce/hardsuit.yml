@@ -44,11 +44,9 @@
     allowedStates:
     - Critical
     reagents:
-      Rororium: 5
-      Pyrazine: 5
       Omnizine: 10
-      Stimulants: 20
-      Saline: 10
+      Stimulants: 10
+      Saline: 5
   - type: Tag
     tags: []
 
