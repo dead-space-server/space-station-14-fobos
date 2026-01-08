@@ -23,6 +23,7 @@ using Content.Server.RoundEnd;
 using Content.Shared.DeadSpace.Necromorphs.Necroobelisk;
 using Content.Server.DeadSpace.NoShuttleFTL;
 using Content.Server.GameTicking;
+using Content.Server.Antag;
 
 namespace Content.Server.DeadSpace.Necromorphs.Unitology;
 
@@ -35,6 +36,8 @@ public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
     [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
     [Dependency] private readonly CargoSystem _cargoSystem = default!;
     [Dependency] private readonly RoundEndSystem _roundEndSystem = default!;
+
+    [Dependency] private readonly AntagSelectionSystem _antag = default!;
     private static readonly ProtoId<CargoAccountPrototype> Account = "Cargo";
     private static readonly ProtoId<NpcFactionPrototype> Faction = "Necromorfs";
     private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "BSAA";
@@ -55,18 +58,20 @@ public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
     protected override void AppendRoundEndText(EntityUid uid, CircleOpsRuleComponent component, GameRuleComponent gameRule,
         ref RoundEndTextAppendEvent args)
     {
-        base.AppendRoundEndText(uid, component, gameRule, ref args);
+        var winText = Loc.GetString($"thecircle-{(component.State == CircleOpsState.ObeliskActivated ? "opsmajor" : "crewmajor")}");
+        args.AddLine(winText);
 
-        if (component.State == CircleOpsState.ObeliskActivated)
+        foreach (var cond in Array.Empty<string>())
+
+        args.AddLine(Loc.GetString("thecircle-list-start"));
+
+        var antags = _antag.GetAntagIdentifiers(uid);
+
+        foreach (var (_, sessionData, name) in antags)
         {
-            args.AddLine(Loc.GetString("uni-ops-win"));
-        }
-        else
-        {
-            args.AddLine(Loc.GetString("uni-ops-loose"));
+            args.AddLine(Loc.GetString("thecircle-initial-name", ("name", name), ("user", sessionData.UserName)));
         }
     }
-
 
     protected override void Started(EntityUid uid, CircleOpsRuleComponent component, GameRuleComponent gameRule, GameRuleStartedEvent args)
     {

@@ -1,0 +1,29 @@
+- type: preloadedGrid
+  id: CriticalForceShuttle
+  path: /Maps/Shuttles/ShuttleEvent/ds_tti_tepors.yml
+  copies: 1
+
+- type: entity
+  parent: BaseGameRule
+  id: SpawnCriticalForceShuttle
+  components:
+  - type: StationEvent
+    willNotStartRandomly: true
+  - type: RuleGrids
+  - type: LoadMapRule
+    preloadedGrid: CriticalForceShuttle
+  - type: ErtSpawnRule
+
+- type: ertTeam
+  id: CriticalForce
+  name: Critical Force
+  description: 
+    Спасательный отряд для спонсоров актива.
+  rule: SpawnCriticalForceShuttle
+  spawnWindow:
+    min: 1m
+    max: 3m
+  price: 0
+  spawns:
+    - id: RandomHumanoidSpawnerCriticalForceOfficerEMT
+      amount: 3

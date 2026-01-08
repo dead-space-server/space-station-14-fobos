@@ -271,6 +271,7 @@
   parent: [ BaseXenoArtifact, BaseStructureDynamic ]
   id: ComplexNecroObeliskArtifact
   name: артефакт-обелиск
+  description: Хрупкий на вид, лучше лишний раз его не бить.
   suffix: сложный артефакт
   components:
   - type: Necroobelisk
@@ -302,7 +303,7 @@
     thresholds:
     - trigger:
         !type:DamageTrigger
-        damage: 1500
+        damage: 2250
       behaviors:
       - !type:DoActsBehavior
         acts: [ "Destruction" ]

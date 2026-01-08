@@ -125,16 +125,16 @@
     Время прибытия отряда от 25 до 30 минут.
   rule: SpawnSierraShuttle
   spawnWindow:
-    min: 25m
-    max: 30m
-  price: 150000
+    min: 20m
+    max: 25m
+  price: 125000
   spawns:
     - id: RandomHumanoidSpawnerBSAALeader
       amount: 1
     - id: RandomHumanoidSpawnerBSAAMedic
       amount: 2
     - id: RandomHumanoidSpawnerBSAAFighter
-      amount: 10
+      amount: 7
 
 - type: ertTeam
   id: CentralCommandOfficial

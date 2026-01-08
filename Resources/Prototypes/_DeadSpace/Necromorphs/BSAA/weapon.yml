@@ -95,6 +95,8 @@
   - type: Appearance
   - type: StaticPrice
     price: 500
+  - type: UseDelay
+    delay: 1.5
 
 - type: entity
   id: BaseMagazineForSaiga
@@ -386,6 +388,8 @@
     steps: 1
     zeroVisible: true
   - type: Appearance
+  - type: UseDelay
+    delay: 1.5
 
 - type: entity
   id: ExtMagazineRifleBurn

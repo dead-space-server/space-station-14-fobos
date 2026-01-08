@@ -30,3 +30,8 @@ roles-antag-thecircle-commander-start =
     Вы - Командир отряда "Круг".
     Вы максимально серъёзная роль, потому отыгрыш также важен! 
     Снабдите каждого бойца своего типа вооружением, проведите молитву-брифинг, объявите войну через 30 минут после начала операции.
+
+thecircle-list-start = Члены ударного отряда "Круг" были:
+thecircle-initial-name = [color=#5e9cff]{ $name }[/color] был одним из террористов "Круг" / [color=gray]{ $user }[/color]
+thecircle-crewmajor = [color=green]Победа экипажа[/color]
+thecircle-opsmajor = [color=#5e9cff]Успех отряда "Круг"[/color]
