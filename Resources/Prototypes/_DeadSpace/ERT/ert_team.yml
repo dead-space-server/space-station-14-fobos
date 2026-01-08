@@ -13,7 +13,7 @@
   spawnWindow:
     min: 10m
     max: 15m
-  price: 30000
+  price: 50000
   spawns:
     - id: RandomHumanoidSpawnerCBURNLeader
       amount: 1
@@ -35,7 +35,7 @@
   spawnWindow:
     min: 10m
     max: 15m
-  price: 60000
+  price: 10000
   spawns:
     - id: RandomHumanoidSpawnerCBURNLeader
       amount: 1
@@ -157,4 +157,4 @@
   special: CustomizableSpawnerCentralCommandOfficial
   spawns:
     - id: CustomizableSpawnerCentralCommandBlueShieldOfficer
-      amount: 2
+      amount: 3

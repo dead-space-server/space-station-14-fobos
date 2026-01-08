@@ -1,5 +1,7 @@
 - type: npcFaction
   id: Necromorfs
+  friendly:
+  - Necromorfs
   hostile:
   - Revolutionary
   - NanoTrasen

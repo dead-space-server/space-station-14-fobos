@@ -36,8 +36,9 @@ public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
     [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
     [Dependency] private readonly CargoSystem _cargoSystem = default!;
     [Dependency] private readonly RoundEndSystem _roundEndSystem = default!;
-
     [Dependency] private readonly AntagSelectionSystem _antag = default!;
+    private const int AdditionalSupport = 100000;
+
     private static readonly ProtoId<CargoAccountPrototype> Account = "Cargo";
     private static readonly ProtoId<NpcFactionPrototype> Faction = "Necromorfs";
     private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "BSAA";
@@ -181,7 +182,7 @@ public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
             if (!TryComp<StationBankAccountComponent>(component.TargetStation, out var stationAccount))
                 return;
 
-            var addMoneyAfterWarDeclared = _ertResponceSystem.GetErtPrice(ErtTeam);
+            var addMoneyAfterWarDeclared = _ertResponceSystem.GetErtPrice(ErtTeam) + AdditionalSupport;
 
             _cargoSystem.UpdateBankAccount(
                                 (component.TargetStation.Value, stationAccount),
