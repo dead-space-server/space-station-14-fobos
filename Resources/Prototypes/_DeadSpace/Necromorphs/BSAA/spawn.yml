@@ -173,7 +173,7 @@
   parent: EventHumanoidERTZombieImmune
   components:
     - type: GhostRole
-      name: Лидер Альянса Противодействия БиоТерроризму
+      name: Лидер АПБТ
       description: ghost-role-information-cburn-leader-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category
@@ -207,7 +207,7 @@
   parent: EventHumanoidERTZombieImmune
   components:
     - type: GhostRole
-      name: Боец Альянса Противодействия БиоТерроризму
+      name: Боец АПБТ
       description: ghost-role-information-cburn-agent-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category
@@ -235,7 +235,7 @@
   parent: EventHumanoidERTZombieImmune
   components:
     - type: GhostRole
-      name: Медик Альянса Противодействия БиоТерроризму
+      name: Медик АПБТ
       description: ghost-role-information-cburn-agent-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category
