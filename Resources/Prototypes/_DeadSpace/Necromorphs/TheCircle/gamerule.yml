@@ -63,7 +63,6 @@
       fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterHeavy, CircleFighterLight ]
       spawnerPrototype: SpawnPointCircleCommander
       startingGear: TheCircleLeaderGear
-      max: 1
       playerRatio: 12
       briefing:
         text: roles-antag-thecircle-commander-start
@@ -92,6 +91,11 @@
         factions:
         - Syndicate
         - Necromorfs
+      - type: Language
+        selectedLanguage: NecromorfLanguage
+        knownLanguages:
+        - NecromorfLanguage
+        - GeneralLanguage
       mindRoles:
       - MindRoleCircleCommander
       sponsorsPriority: true
@@ -99,7 +103,6 @@
       fallbackRoles: [ CircleEngineer, CircleCommander, CircleFighterHeavy, CircleFighterLight ]
       spawnerPrototype: SpawnPointCircleMedic
       startingGear: TheCircleMedicGear
-      max: 1
       playerRatio: 12
       briefing:
         text: roles-antag-thecircle-medic-start
@@ -128,13 +131,18 @@
         factions:
         - Syndicate
         - Necromorfs
+      - type: Language
+        selectedLanguage: NecromorfLanguage
+        knownLanguages:
+        - NecromorfLanguage
+        - GeneralLanguage
       mindRoles:
       - MindRoleCircleMedic
       sponsorsPriority: true
+# Повторение потому-что по какой-то тупой причине не спавниться ещё 2 роли данных ролей
     - prefRoles: [ CircleFighterHeavy ]
       fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterLight, CircleCommander ]
       spawnerPrototype: SpawnPointCircleFighterHeavy
-      max: 2
       playerRatio: 12
       startingGear: TheCircleHeavyGear
       roleLoadout:
@@ -164,12 +172,16 @@
         factions:
         - Syndicate
         - Necromorfs
+      - type: Language
+        selectedLanguage: NecromorfLanguage
+        knownLanguages:
+        - NecromorfLanguage
+        - GeneralLanguage
       mindRoles:
       - MindRoleCircleFighterHeavy
     - prefRoles: [ CircleFighterLight ]
       fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterHeavy, CircleCommander ]
       spawnerPrototype: SpawnPointCircleFighterLight
-      max: 2
       playerRatio: 12
       startingGear: TheCircleLightGear
       roleLoadout:
@@ -199,13 +211,96 @@
         factions:
         - Syndicate
         - Necromorfs
+      - type: Language
+        selectedLanguage: NecromorfLanguage
+        knownLanguages:
+        - NecromorfLanguage
+        - GeneralLanguage
+      mindRoles:
+      - MindRoleCircleFighterLight
+# Конец повторение
+    - prefRoles: [ CircleFighterHeavy ]
+      fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterLight, CircleCommander ]
+      spawnerPrototype: SpawnPointCircleFighterHeavy
+      playerRatio: 12
+      startingGear: TheCircleHeavyGear
+      roleLoadout:
+        - RoleSurvivalExtended
+      briefing:
+        text: roles-antag-thecircle-heavy-start
+        color: CornflowerBlue
+        sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
+      components:
+      - type: ObeliskActivateAbility
+      - type: IntrinsicRadioTransmitter
+        channels:
+        - Unitolog
+      - type: ActiveRadio
+        channels:
+        - Unitolog
+      - type: IntrinsicRadioReceiver
+      - type: Unitology
+      - type: ImmunNecroobelisk
+      - type: IgnoreKudzu
+      - type: RandomMetadata
+        nameSegments:
+        - UnitologyHeavyFirst
+        - UnitologyFighterSecond
+        nameFormat: name-format-nuclear-operation
+      - type: NpcFactionMember
+        factions:
+        - Syndicate
+        - Necromorfs
+      - type: Language
+        selectedLanguage: NecromorfLanguage
+        knownLanguages:
+        - NecromorfLanguage
+        - GeneralLanguage
+      mindRoles:
+      - MindRoleCircleFighterHeavy
+    - prefRoles: [ CircleFighterLight ]
+      fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterHeavy, CircleCommander ]
+      spawnerPrototype: SpawnPointCircleFighterLight
+      playerRatio: 12
+      startingGear: TheCircleLightGear
+      roleLoadout:
+        - RoleSurvivalExtended
+      briefing:
+        text: roles-antag-thecircle-light-start
+        color: CornflowerBlue
+        sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
+      components:
+      - type: ObeliskActivateAbility
+      - type: IntrinsicRadioTransmitter
+        channels:
+        - Unitolog
+      - type: ActiveRadio
+        channels:
+        - Unitolog
+      - type: IntrinsicRadioReceiver
+      - type: Unitology
+      - type: ImmunNecroobelisk
+      - type: IgnoreKudzu
+      - type: RandomMetadata
+        nameSegments:
+        - UnitologyLightFirst
+        - UnitologyFighterSecond
+        nameFormat: name-format-nuclear-operation
+      - type: NpcFactionMember
+        factions:
+        - Syndicate
+        - Necromorfs
+      - type: Language
+        selectedLanguage: NecromorfLanguage
+        knownLanguages:
+        - NecromorfLanguage
+        - GeneralLanguage
       mindRoles:
       - MindRoleCircleFighterLight
     - prefRoles: [ CircleEngineer ]
       fallbackRoles: [ CircleFighterLight, CircleMedic, CircleFighterHeavy, CircleCommander ]
       spawnerPrototype: SpawnPointCircleEngineer
       startingGear: TheCircleEngineerGear
-      max: 1
       playerRatio: 12
       roleLoadout:
         - RoleSurvivalExtended
@@ -234,6 +329,11 @@
         factions:
         - Syndicate
         - Necromorfs
+      - type: Language
+        selectedLanguage: NecromorfLanguage
+        knownLanguages:
+        - NecromorfLanguage
+        - GeneralLanguage
       mindRoles:
       - MindRoleCircleEngineer
   - type: DynamicRuleCost

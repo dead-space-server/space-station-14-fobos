@@ -39,6 +39,11 @@ using System.Linq;
 using Content.Shared.NPC.Components;
 using Content.Server.Chat.Systems;
 using Content.Shared.Mind;
+using Content.Server.DeadSpace.ERT;
+using Content.Shared.DeadSpace.ERT.Prototypes;
+using Content.Shared.Cargo.Prototypes;
+using Content.Server.Cargo.Systems;
+using Content.Shared.Cargo.Components;
 
 namespace Content.Server.GameTicking.Rules;
 
@@ -65,6 +70,13 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
     [Dependency] private readonly ActionsSystem _actions = default!;
     [Dependency] private readonly AlertLevelSystem _alertLevel = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
+
+    // DS14-Start
+    [Dependency] private readonly CargoSystem _cargoSystem = default!;
+    [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
+    private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "Gamma";
+    private static readonly ProtoId<CargoAccountPrototype> Account = "Security";
+    // DS14-End
 
     //Used in OnPostFlash, no reference to the rule component is available
     public readonly ProtoId<NpcFactionPrototype> RevolutionaryNpcFaction = "Revolutionary";
@@ -120,6 +132,17 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
                 //Maybe it's worth checking the codes "above"?
                 if (_npcFaction.IsMember(station, "NanoTrasen"))
                     _alertLevel.SetLevel(station, "red", false, true, false, false);
+
+                if (!TryComp<StationBankAccountComponent>(station, out var stationAccount))
+                    return;
+
+                var addMoneyAfterWarDeclared = _ertResponceSystem.GetErtPrice(ErtTeam);
+
+                _cargoSystem.UpdateBankAccount(
+                                    (station, stationAccount),
+                                    addMoneyAfterWarDeclared,
+                                    Account
+                                );
             }
 
             var headRevsNames = new List<string>();

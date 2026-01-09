@@ -18,7 +18,7 @@
     key: enum.StoreUiKey.Key
   - type: Store
     balance:
-      Telecrystal: 596
+      Telecrystal: 649
 
 - type: entity
   id: UniPhonePresetUplink
@@ -291,14 +291,14 @@
   name: набор медика "Круг"
   icon: { sprite: /Textures/Objects/Storage/boxicons.rsi, state: vials }
   productEntity: ExtraborilKit
-  description: Важный набор для твоего медика Круга. Кстати, скажи спасибо своему медику, ему будет приятно. Данный набор можно купить 4 раза.
+  description: Важный набор для твоего медика Круга. Кстати, скажи спасибо своему медику, ему будет приятно. Данный набор можно купить 6 раза.
   cost:
-    Telecrystal: 8
+    Telecrystal: 6
   categories:
    - UniPhoneUplinkMedical
   conditions:
   - !type:ListingLimitedStockCondition
-    stock: 4
+    stock: 6
 
 - type: listing
   id: UniPhoneUplinkJugTheCircle
@@ -354,7 +354,7 @@
 ### Снаряжение
 - type: listing
   id: UniPhoneUplinkHeavyHardsuit
-  name: Тяжелый бронескафандр «Артемида»
+  name: Тяжелый бронескафандр «Артемида» / Скафандр Диакона
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/heavy.rsi, state: icon }
   productEntity: ClothingOuterHardsuitUnitologyHeavy
   cost:
@@ -367,7 +367,7 @@
 
 - type: listing
   id: UniPhoneUplinkLightHardsuit
-  name: Экзоскафандр «Гермес»
+  name: Экзоскафандр «Гермес» / Скафандр Вестника
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/light.rsi, state: icon }
   productEntity: ClothingOuterHardsuitUnitologyLight
   cost:
@@ -380,7 +380,7 @@
 
 - type: listing
   id: UniPhoneUplinkEngineerHardsuit
-  name: Экзогенный бронескафандр «Аклепий»
+  name: Экзогенный бронескафандр «Аклепий» / Скафандр Зодчего
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/engi.rsi, state: icon }
   productEntity: ClothingOuterHardsuitUnitologyEngineer
   cost:
@@ -393,7 +393,7 @@
 
 - type: listing
   id: UniPhoneUplinkMedicHardsuit
-  name: Мобильный бронескафандр «Гефест»
+  name: Мобильный бронескафандр «Гефест» / Скафандр Серафима
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/medic.rsi, state: icon }
   productEntity: ClothingOuterHardsuitUnitologyMedic
   cost:
@@ -445,7 +445,7 @@
   icon: { sprite: /Textures/Structures/Specific/anomaly.rsi, state: anom4 }
   productEntity: ScramImplanter
   cost:
-    Telecrystal: 12
+    Telecrystal: 8
   categories:
     - UniPhoneUplinkImplants
 

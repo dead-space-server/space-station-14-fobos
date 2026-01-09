@@ -36,7 +36,7 @@
   product: CrateLockBoxSecurity
   cost: 100
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: CrateLockBoxService
