@@ -285,12 +285,14 @@ public sealed partial class ZombieSystem
         if (TryComp<DamageableComponent>(target, out var damageablecomp))
             _damageable.SetAllDamage(target, damageablecomp, 0);
         _mobState.ChangeMobState(target, MobState.Alive);
-
+        
+        // DS14-start
         if (TryComp<NpcFactionMemberComponent>(target, out var factionComp))
         {
             zombiecomp.BeforeZombifiedFactions =
                 factionComp.Factions.ToHashSet();
         }
+        // DS14-end
 
         _faction.ClearFactions(target, dirty: false);
         _faction.AddFaction(target, ZombieFaction);
