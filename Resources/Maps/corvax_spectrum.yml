@@ -28916,8 +28916,6 @@ entities:
       pos: 13.5,51.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 16536
   - uid: 796
@@ -35260,8 +35258,6 @@ entities:
       pos: 40.5,52.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
   - uid: 1701
     components:
     - type: Transform
@@ -120323,8 +120319,6 @@ entities:
       accessListsOriginal:
       - - Engineering
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 111
       - 16536
@@ -120717,8 +120711,6 @@ entities:
       pos: 24.5,40.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 16536
       - 16660
@@ -120730,8 +120722,6 @@ entities:
       pos: 26.5,40.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 16536
       - 16660
@@ -120743,8 +120733,6 @@ entities:
       pos: 25.5,40.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 16536
       - 16660
@@ -121123,8 +121111,6 @@ entities:
       pos: 20.5,45.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 111
       - 16536
@@ -121134,8 +121120,6 @@ entities:
       pos: 19.5,45.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 111
       - 16536
@@ -121145,8 +121129,6 @@ entities:
       pos: 23.5,42.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 111
       - 16536
@@ -122699,8 +122681,6 @@ entities:
       pos: 6.5,52.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 111
       - 113
@@ -122711,8 +122691,6 @@ entities:
       pos: 6.5,53.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 111
       - 113
@@ -122723,8 +122701,6 @@ entities:
       pos: 6.5,54.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 111
       - 113
@@ -183076,8 +183052,6 @@ entities:
       pos: 40.5,50.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
     - type: DeviceLinkSource
       linkedPorts:
         28148:
