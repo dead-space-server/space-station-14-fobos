@@ -19,7 +19,7 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 2
+        Slash: 2
         Poison: 2
       groups:
         Brute: 8
@@ -93,7 +93,7 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 2
+        Slash: 2
         Poison: 1
       groups:
         Brute: 12
