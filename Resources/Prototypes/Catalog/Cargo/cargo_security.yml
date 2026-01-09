@@ -6,7 +6,7 @@
   product: CrateSecurityArmor
   cost: 1000 # DS14
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: SecurityHelmet
@@ -16,7 +16,7 @@
   product: CrateSecurityHelmet
   cost: 750 # DS14
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: SecurityNonLethal
@@ -26,7 +26,7 @@
   product: CrateSecurityNonlethal
   cost: 3750 # DS14
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: SecuritySupplies
@@ -36,7 +36,7 @@
   product: CrateSecuritySupplies
   cost: 250 # DS14
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: SecurityRestraints
@@ -46,7 +46,7 @@
   product: CrateRestraints
   cost: 1000
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: SecurityBiosuit
@@ -56,7 +56,7 @@
   product: CrateSecurityBiosuit
   cost: 9000 # DS14
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: SecurityBarrier
@@ -66,7 +66,7 @@
   product: DeployableBarrier
   cost: 1000
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: SecurityNonlethalThrowables
@@ -76,7 +76,7 @@
   product: CrateSecNonlethalThrowables
   cost: 2500
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: SecurityGenPopCloset
@@ -86,7 +86,7 @@
   product: LockerPrisoner
   cost: 250
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
 
 # DS14-start
 
@@ -98,7 +98,7 @@
   product: CrateSecurityHardsuit
   cost: 5000
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: SecurityUSSPjuggernaut
@@ -108,7 +108,7 @@
   product: CrateSecurityUSSPjuggernaut
   cost: 10000
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: TrainingBombs
@@ -118,4 +118,4 @@
   product: CrateTrainingBombs
   cost: 1000
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14

@@ -11,7 +11,6 @@ namespace Content.Client.Necromorphs.InfectionDead;
 public sealed class NecromorfSystem : EntitySystem
 {
     [Dependency] private readonly IEntityManager _entityManager = default!;
-    [Dependency] private readonly SharedRotationVisualsSystem _sharedRotationVisuals = default!;
     public override void Initialize()
     {
         base.Initialize();

@@ -323,6 +323,10 @@
       groups:
         Brute: -1
         Burn: -1
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: entity
   name: разум левиафана
@@ -386,3 +390,7 @@
     - WeaponTentacleNecro
     - NecroKudzu
     - PukerNecro
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage

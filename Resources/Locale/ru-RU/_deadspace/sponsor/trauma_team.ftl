@@ -1,6 +1,6 @@
-chat-radio-traumateam = TTI
-job-title-traumateam-officer = TTI Офицер
-job-title-traumateam-leader = TTI Ведущий Фельдшер
+chat-radio-tti = CriticalForce
+job-title-tti-officer = CriticalForce Офицер
+job-title-tti-leader = CriticalForce Ведущий Фельдшер
 names-tti-officer-dataset-1 = Офицер
 names-tti-leader-dataset-1 = Ведущий Фельдшер
 ghost-role-information-tti-rules =

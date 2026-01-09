@@ -88,8 +88,8 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      35: Critical
-      80: Dead
+      50: Critical
+      100: Dead
   - type: MeleeWeapon
     animation: WeaponArcBite
     soundHit:
@@ -447,8 +447,8 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      85: Critical
-      120: Dead
+      100: Critical
+      150: Dead
   - type: Fixtures
     fixtures:
       fix1:
@@ -534,7 +534,7 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      135: Critical
+      150: Critical
       200: Dead
   - type: Fixtures
     fixtures:
@@ -630,7 +630,7 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      100: Critical
+      150: Critical
       200: Dead
   - type: Fixtures
     fixtures:
@@ -758,7 +758,7 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      185: Critical
+      200: Critical
       250: Dead
   - type: Fixtures
     fixtures:
@@ -869,12 +869,12 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      250: Critical
+      300: Critical
       350: Dead
   - type: SlowOnDamage
     speedModifierThresholds:
-      200: 0.8
-      300: 0.7
+      150: 0.8
+      250: 0.7
   - type: Fixtures
     fixtures:
       fix1:
@@ -935,7 +935,7 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      275: Critical
+      300: Critical
       350: Dead
   - type: Fixtures
     fixtures:

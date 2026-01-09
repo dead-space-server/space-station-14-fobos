@@ -6,7 +6,7 @@
   product: CrateArmorySMG
   cost: 11500 # DS14-value
   category: cargoproduct-category-name-armory
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: ArmoryShotgun
@@ -16,7 +16,7 @@
   product: CrateArmoryShotgun
   cost: 7000
   category: cargoproduct-category-name-armory
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: SecurityRiot
@@ -26,7 +26,7 @@
   product: CrateSecurityRiot
   cost: 7500
   category: cargoproduct-category-name-armory
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: TrackingImplant
@@ -36,7 +36,7 @@
   product: CrateTrackingImplants
   cost: 3000
   category: cargoproduct-category-name-armory
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: ArmoryLaser
@@ -46,7 +46,7 @@
   product: CrateArmoryLaser
   cost: 4000
   category: cargoproduct-category-name-armory
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: ArmoryPistol
@@ -56,7 +56,7 @@
   product: CrateArmoryPistols
   cost: 2500
   category: cargoproduct-category-name-armory
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: ArmoryDominator
@@ -66,7 +66,7 @@
   product: CrateArmoryDominator
   cost: 5500
   category: cargoproduct-category-name-armory
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: ArmoryRifle
@@ -76,4 +76,4 @@
   product: CrateArmoryRifle
   cost: 8000
   category: cargoproduct-category-name-armory
-  group: market
+  group: security # DS14

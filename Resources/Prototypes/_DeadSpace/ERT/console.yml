@@ -46,7 +46,7 @@
     - BSAA
   - type: ActivatableUIRequiresAccess
   - type: AccessReader
-    access: [["Captain"]]
+    access: [["HeadOfSecurity"]]
   - type: Language
     selectedLanguage: GeneralLanguage
 
@@ -91,9 +91,31 @@
   - type: ErtComputerShuttle
   - type: ActivatableUIRequiresAccess
   - type: AccessReader
-    access: [["Captain"]]
+    access: [["ErtTeamLeader"]]
   - type: Language
     selectedLanguage: GeneralLanguage
+
+- type: entity
+  parent: ErtComputerShuttle
+  id: ErtCounterpartyComputerShuttle
+  name: консоль обр контрагентов NanoTrasen
+  description: консоль обр контрагентов NanoTrasen для экстренных команд реагирования.
+  components:
+  - type: Computer
+    board: ErtCounterpartyComputerShuttleCircuitboard
+  - type: AccessReader
+    access: [["CounterpartyNT"]]
+
+- type: entity
+  parent: BaseComputerCircuitboard
+  id: ErtCounterpartyComputerShuttleCircuitboard
+  name: машинная плата консоли обр контрагентов NanoTrasen
+  description: Компьютерная печатная плата для консоли обр контрагентов NanoTrasen.
+  components:
+    - type: Sprite
+      state: cpu_command
+    - type: ComputerBoard
+      prototype: ErtCounterpartyComputerShuttle
 
 - type: entity
   parent: BaseComputerCircuitboard
@@ -121,7 +143,7 @@
   parent: BaseItem
   id: TelephoneIaa
   name: устройство связи внутреннего агентства безопасности
-  description: Устройство связи, выданное агентам внутреннего агентства безопасности для связи с центральным командованием в экстренных случаях.
+  description: Устройство связи, выданное агентам внутренних дел для связи с центральным командованием в экстренных случаях.
   components:
   - type: ActivatableUI
     key: enum.ErtResponceConsoleUiKey.Key
