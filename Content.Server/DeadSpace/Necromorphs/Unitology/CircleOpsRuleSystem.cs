@@ -39,7 +39,7 @@ public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
     [Dependency] private readonly AntagSelectionSystem _antag = default!;
     private const int AdditionalSupport = 100000;
 
-    private static readonly ProtoId<CargoAccountPrototype> Account = "Cargo";
+    private static readonly ProtoId<CargoAccountPrototype> Account = "Security";
     private static readonly ProtoId<NpcFactionPrototype> Faction = "Necromorfs";
     private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "BSAA";
     private static readonly TimeSpan CountdownRoundEndTime = TimeSpan.FromSeconds(30);
