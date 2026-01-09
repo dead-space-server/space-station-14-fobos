@@ -911,6 +911,7 @@
     radius: 1.5
     energy: 1.6
     color: "#b89f25"
+  - type: ActivatableUIRequiresAccess
   - type: AccessReader
     access: [["Quartermaster"]] # DS14
   - type: DeviceNetwork
@@ -1041,8 +1042,13 @@
   - type: CargoOrderConsole
     account: Security
     announcementChannel: Security
-    removeLimitAccess: [ "HeadOfSecurity" ]
-    mode: SendToPrimary
+    removeLimitAccess:
+    - HeadOfSecurity # DS14
+    allowedGroups: # DS14
+    - security
+  - type: ActivatableUIRequiresAccess
+  - type: AccessReader
+    access: [ ["HeadOfSecurity"] ] # DS14
   - type: ActiveRadio
     channels:
     - Security

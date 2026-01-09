@@ -65,7 +65,8 @@
     jobIcon: JobIconCriticalForce
   - type: Access
     groups:
-    - Medical
+    - GroupCounterpartyNT
+    - General
   - type: Sprite
     layers:
     - state: silver

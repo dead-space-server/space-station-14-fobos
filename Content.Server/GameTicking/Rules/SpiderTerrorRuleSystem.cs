@@ -28,6 +28,8 @@ using Content.Server.Cargo.Systems;
 using Content.Shared.Cargo.Prototypes;
 using Robust.Shared.Prototypes;
 using Content.Server.RoundEnd;
+using Content.Server.DeadSpace.ERT;
+using Content.Shared.DeadSpace.ERT.Prototypes;
 
 namespace Content.Server.GameTicking.Rules;
 
@@ -45,12 +47,14 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
     [Dependency] private readonly IVoteManager _voteManager = default!;
     [Dependency] private readonly CargoSystem _cargoSystem = default!;
     [Dependency] private readonly RoundEndSystem _roundEndSystem = default!;
+    [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
+    private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "CburnSierra";
+    private static readonly ProtoId<CargoAccountPrototype> Account = "Security";
+    private const int AdditionalSupport = 70000;
     private const float ProgressBreeding = 0.45f;
     private const float ProgressNukeCode = 0.7f;
     private const float ProgressCaptureStation = 0.98f;
     // Сумма пополнения баланса станции на стадии размножения
-    private const int AddMoneyBreeding = 80000;
-    private static readonly ProtoId<CargoAccountPrototype> Account = "Cargo";
     private static readonly TimeSpan RoundEndTime = TimeSpan.FromSeconds(10);
     private bool _voteSend = false;
 
@@ -255,9 +259,11 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
         if (!TryComp<StationBankAccountComponent>(station, out var stationAccount))
             return;
 
+        var addMoneyAfterWarDeclared = _ertResponceSystem.GetErtPrice(ErtTeam) + AdditionalSupport;
+
         _cargoSystem.UpdateBankAccount(
                             (station, stationAccount),
-                            AddMoneyBreeding,
+                            addMoneyAfterWarDeclared,
                             Account
                         );
     }

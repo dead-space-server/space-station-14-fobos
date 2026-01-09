@@ -13,5 +13,5 @@ public sealed partial class ErtResponceConsoleComponent : Component
     public List<ProtoId<ErtTeamPrototype>> Teams = new();
 
     [DataField]
-    public ProtoId<CargoAccountPrototype> Account = "Cargo";
+    public ProtoId<CargoAccountPrototype> Account = "Security";
 }

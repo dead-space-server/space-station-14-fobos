@@ -13,7 +13,7 @@
   spawnWindow:
     min: 10m
     max: 15m
-  price: 30000
+  price: 50000
   spawns:
     - id: RandomHumanoidSpawnerCBURNLeader
       amount: 1
@@ -35,7 +35,7 @@
   spawnWindow:
     min: 10m
     max: 15m
-  price: 60000
+  price: 10000
   spawns:
     - id: RandomHumanoidSpawnerCBURNLeader
       amount: 1
@@ -148,16 +148,16 @@
     Время прибытия отряда от 25 до 30 минут.
   rule: SpawnSierraShuttle
   spawnWindow:
-    min: 25m
-    max: 30m
-  price: 150000
+    min: 20m
+    max: 25m
+  price: 125000
   spawns:
     - id: RandomHumanoidSpawnerBSAALeader
       amount: 1
     - id: RandomHumanoidSpawnerBSAAMedic
       amount: 2
     - id: RandomHumanoidSpawnerBSAAFighter
-      amount: 10
+      amount: 7
 
 - type: ertTeam
   id: CentralCommandOfficial
@@ -180,4 +180,4 @@
   special: CustomizableSpawnerCentralCommandOfficial
   spawns:
     - id: CustomizableSpawnerCentralCommandBlueShieldOfficer
-      amount: 2
+      amount: 3
