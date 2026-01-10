@@ -212,6 +212,7 @@
     sprite: _DeadSpace/Sponsor/Akitovsky/hud.rsi
   - type: IdentityBlocker
     coverage: EYES
+  - type: EyeProtection
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
