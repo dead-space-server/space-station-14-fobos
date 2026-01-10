@@ -24,17 +24,32 @@ public sealed partial class ErtTeamPrototype : IPrototype
     [DataField("rule", required: true)]
     public EntProtoId ErtRule;
 
+    /// <summary>
+    ///     Окно времени до спавна обр.
+    /// </summary>
     [DataField("spawnWindow")]
     public TimedWindow TimeWindowToSpawn = new TimedWindow(TimeSpan.FromSeconds(600f), TimeSpan.FromSeconds(900f));
 
+    /// <summary>
+    ///     Окно времени кулдауна до возможности вызова следующего отряда.
+    /// </summary>
     [DataField]
-    public int Price = 30000;
+    public TimedWindow Cooldown = new TimedWindow(TimeSpan.FromSeconds(600f), TimeSpan.FromSeconds(900f));
+
+    [DataField]
+    public int Price = 1;
 
     /// <summary>
     ///     Особый Entity без которого не обойтись для спавна отряда.
     /// </summary>
     [DataField]
     public EntProtoId? Special = null;
+
+    /// <summary>
+    ///     Уровень угрозы станции при котором нельзя будет вызвать отряд.
+    /// </summary>
+    [DataField]
+    public List<string>? CodeBlackList = null;
 
     [DataField]
     public List<EntitySpawnEntry> Spawns = new();

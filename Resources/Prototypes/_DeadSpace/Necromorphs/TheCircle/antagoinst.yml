@@ -14,10 +14,10 @@
       time: 1296000 # 360 hours
     - !type:DepartmentTimeRequirement
       department: Medical
-      time: 30h
+      time: 25h
     - !type:DepartmentTimeRequirement
       department: Security
-      time: 60h
+      time: 45h
   guides: [ TheCircle ]
 
 - type: antag
@@ -31,10 +31,10 @@
       time: 1296000 # 360 hours
     - !type:DepartmentTimeRequirement
       department: Medical
-      time: 30h
+      time: 25h
     - !type:DepartmentTimeRequirement
       department: Security
-      time: 60h
+      time: 45h
   guides: [ TheCircle ]
 
 - type: antag
@@ -54,7 +54,7 @@
       time: 45h
     - !type:DepartmentTimeRequirement
       department: Security
-      time: 30h
+      time: 20h
   guides: [ TheCircle ]
 
 - type: antag
@@ -68,16 +68,16 @@
       time: 1296000 # 360 hours
     - !type:DepartmentTimeRequirement
       department: Medical
-      time: 15h
+      time: 10h
     - !type:DepartmentTimeRequirement
       department: Engineering
-      time: 60h
+      time: 50h
     - !type:RoleTimeRequirement
       role: JobAtmosphericTechnician
-      time: 40h
+      time: 30h
     - !type:DepartmentTimeRequirement
       department: Security
-      time: 25h
+      time: 20h
   guides: [ TheCircle ]
 
 - type: antag
@@ -100,7 +100,7 @@
       time: 25h
     - !type:RoleTimeRequirement
       role: JobChemist
-      time: 35h
+      time: 25h
     - !type:DepartmentTimeRequirement
       department: Command
       time: 35h

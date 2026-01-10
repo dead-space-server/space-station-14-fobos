@@ -10,3 +10,8 @@
   id: GroupCounterpartyNT
   tags:
   - CounterpartyNT
+
+- type: accessGroup
+  id: GroupErtTeamLeader
+  tags:
+  - ErtTeamLeader

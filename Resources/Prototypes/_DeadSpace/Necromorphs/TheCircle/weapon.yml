@@ -659,7 +659,7 @@
 - type: entity
   parent: BaseImplantOnlyImplanterSyndi
   id: UnitologySplinterBladeImplanter
-  name: подозрительный имплантер
+  name: имплантер пробуждение клинка
   description: Подозрительный имплант неизвестного происхождения.
   components:
   - type: Implanter
@@ -668,7 +668,7 @@
 - type: entity
   parent: BaseSubdermalImplant
   id: UnitologySplinterBladeImplant
-  name: подозрительный имплантер
+  name: имплантер пробуждение клинка
   description: По всей видимости, вживляет в руку осколочный клинок.
   categories: [ HideSpawnMenu ]
   components:
@@ -739,12 +739,12 @@
   - type: AutoRecharge
     rechargeDuration: 180
   - type: MeleeWeapon
-    attackRate: 1.25
+    attackRate: 1.35
     damage:
       types:
-        Slash: 16
-        Caustic: 6
-        Structural: 25
+        Slash: 12
+        Caustic: 4
+        Structural: 20
     soundHit:
       collection: splinter-blade-attack
     soundNoDamage:
@@ -761,3 +761,40 @@
     solution: melee
     transferAmount: 1
   - type: Sharp
+  - type: ComponentToggler
+    components:
+    - type: PointLight
+      color: "#a02139"
+      radius: 3
+      energy: 1.5
+    - type: Reflect
+      inRightPlace: True
+      reflectProb: 0.15
+      spread: 90
+      soundOnReflect:
+    - type: Execution
+      doAfterDuration: 4.0
+  - type: ItemToggleMeleeWeapon
+    activatedSoundOnHit:
+      collection: splinter-blade-attack
+    activatedSoundOnHitNoDamage:
+      collection: splinter-blade-miss
+    activatedSoundOnSwing:
+      collection: splinter-blade-miss
+    activatedDamage:
+      types:
+        Slash: 20
+        Heat: 6
+        Structural: 35
+  - type: ItemToggle
+    onUse: false
+    onActivate: false
+    soundActivate:
+      collection: splinter-blade-miss
+    soundDeactivate:
+      collection: splinter-blade-miss
+  - type: Wieldable
+    wieldSound: null
+    useDelayOnWield: true
+  - type: UseDelay
+    delay: 2.0

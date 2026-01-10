@@ -911,9 +911,6 @@
     radius: 1.5
     energy: 1.6
     color: "#b89f25"
-  - type: ActivatableUIRequiresAccess
-  - type: AccessReader
-    access: [["Quartermaster"]] # DS14
   - type: DeviceNetwork
     deviceNetId: Wireless
     receiveFrequencyId: BasicDevice
