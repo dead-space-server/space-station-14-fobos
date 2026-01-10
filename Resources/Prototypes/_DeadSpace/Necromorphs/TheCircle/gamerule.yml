@@ -1,7 +1,7 @@
 - type: gamePreset
   id: SiegeOfTheCircle
   alias:
-    - siegeofthecircle
+    - UniOps
   name: thecircle-title
   description: thecircle-description
   showInVote: true
@@ -46,8 +46,8 @@
       min: 1m
       max: 1m
     windowBefoteWarDeclaration:
-      min: 25m
-      max: 25m
+      min: 1m
+      max: 1m
     windowAfterWarDeclare:
       min: 15m
       max: 15m

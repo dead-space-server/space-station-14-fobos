@@ -65,43 +65,43 @@
     - Syndicate
     - Necromorfs
 
-- type: entity
-  id: ExtraborilVial
-  parent: BaseChemistryEmptyVial
-  components:
-  - type: Label
-    currentLabel: Экстраборил
-  - type: SolutionContainerManager
-    solutions:
-      beaker:
-        maxVol: 30
-        reagents:
-        - ReagentId: Extraboril
-          Quantity: 30
-
-- type: entity
-  parent: BoxVial
-  id: ExtraborilKit
-  name: набор медика "Круг"
-  description: Важный набор для твоего медика Круга. Кстати, скажи спасибо своему медику, ему будет приятно.
-  components:
-  - type: Storage
-    grid:
-    - 0,0,3,2
-  - type: StorageFill
-    contents:
-    - id: Beaker
-      amount: 2
-    - id: ClothingEyesGlassesChemical
-    - id: TheCircleMedicPaper
-    - id: ExtraborilVial
-      amount: 5
-
-- type: entity
-  parent: Paper
-  id: TheCircleMedicPaper
-  name: инструкция медика "Круг"
-  description: Лист бумаги где указаны пропорции варки новых химикатов и их способы использование.
-  components:
-  - type: Paper
-    content: paper-medic-circle
+#- type: entity
+#  id: ExtraborilVial
+#  parent: BaseChemistryEmptyVial
+#  components:
+#  - type: Label
+#    currentLabel: Экстраборил
+#  - type: SolutionContainerManager
+#    solutions:
+#      beaker:
+#        maxVol: 30
+#        reagents:
+#        - ReagentId: Extraboril
+#          Quantity: 30
+#
+#- type: entity
+#  parent: BoxVial
+#  id: ExtraborilKit
+#  name: набор медика "Круг"
+#  description: Важный набор для твоего медика Круга. Кстати, скажи спасибо своему медику, ему будет приятно.
+#  components:
+#  - type: Storage
+#    grid:
+#    - 0,0,3,2
+#  - type: StorageFill
+#    contents:
+#    - id: Beaker
+#      amount: 2
+#    - id: ClothingEyesGlassesChemical
+#    - id: TheCircleMedicPaper
+#    - id: ExtraborilVial
+#      amount: 5
+#
+#- type: entity
+#  parent: Paper
+#  id: TheCircleMedicPaper
+#  name: инструкция медика "Круг"
+#  description: Лист бумаги где указаны пропорции варки новых химикатов и их способы использование.
+#  components:
+#  - type: Paper
+#    content: paper-medic-circle

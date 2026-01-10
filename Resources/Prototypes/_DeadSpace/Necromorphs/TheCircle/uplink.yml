@@ -279,26 +279,26 @@
   productEntity: VendingMachineRestockChemVendSyndicate
   description: Простое пополнение для СиндиСока. Пополнение можно купить 2 раза.
   cost:
-    Telecrystal: 18
+    Telecrystal: 12
   categories:
    - UniPhoneUplinkMedical
   conditions:
   - !type:ListingLimitedStockCondition
     stock: 2
 
-- type: listing
-  id: UniPhoneUplinkExtraborilKit
-  name: набор медика "Круг"
-  icon: { sprite: /Textures/Objects/Storage/boxicons.rsi, state: vials }
-  productEntity: ExtraborilKit
-  description: Важный набор для твоего медика Круга. Кстати, скажи спасибо своему медику, ему будет приятно. Данный набор можно купить 6 раза.
-  cost:
-    Telecrystal: 6
-  categories:
-   - UniPhoneUplinkMedical
-  conditions:
-  - !type:ListingLimitedStockCondition
-    stock: 6
+#- type: listing
+#  id: UniPhoneUplinkExtraborilKit
+#  name: набор медика "Круг"
+#  icon: { sprite: /Textures/Objects/Storage/boxicons.rsi, state: vials }
+#  productEntity: ExtraborilKit
+#  description: Важный набор для твоего медика Круга. Кстати, скажи спасибо своему медику, ему будет приятно. Данный набор можно купить 6 раза.
+#  cost:
+#    Telecrystal: 6
+#  categories:
+#   - UniPhoneUplinkMedical
+#  conditions:
+#  - !type:ListingLimitedStockCondition
+#    stock: 6
 
 - type: listing
   id: UniPhoneUplinkJugTheCircle
@@ -337,7 +337,7 @@
   productEntity: CombatMedipen
   description: Все средства ушли на оружие-...
   cost:
-    Telecrystal: 8
+    Telecrystal: 7
   categories:
    - UniPhoneUplinkMedical
 
