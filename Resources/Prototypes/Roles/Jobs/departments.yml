@@ -46,28 +46,10 @@
   - CentralCommandOfficial
   - CentralCommandAdministrator
   - CentralCommandOperator
-  - CentralCommandSpecialOperationsOfficer
   - CentralCommandOfficer
-  - CBURNLeader
-  - CBURNAgent
-  - ERTLeaderAmber
-  - ERTLeaderRed
-  - ERTLeaderGamma
-  - ERTSecurityAmber
-  - ERTSecurityRed
-  - ERTSecurityGamma
-  - ERTMedicalAmber
-  - ERTMedicalRed
-  - ERTMedicalGamma
-  - ERTEngineerAmber
-  - ERTEngineerRed
-  - ERTEngineerGamma
-  - ERTJanitorAmber
-  - ERTJanitorRed
-  - ERTJanitorGamma
-  - DeathSquad
   - BlueShieldOfficer
-  editorHidden: true
+  - Magistrat
+  editorHidden: false
   weight: 120
 
 - type: department
@@ -83,31 +65,6 @@
   - HeadOfSecurity
   - ResearchDirector
   - Quartermaster
-  - CentralCommandOfficial
-  - CentralCommandAdministrator
-  - CentralCommandOperator
-  - CentralCommandSpecialOperationsOfficer
-  - CentralCommandOfficer
-  - CBURNLeader
-  - CBURNAgent
-  - ERTLeaderAmber
-  - ERTLeaderRed
-  - ERTLeaderGamma
-  - ERTSecurityAmber
-  - ERTSecurityRed
-  - ERTSecurityGamma
-  - ERTMedicalAmber
-  - ERTMedicalRed
-  - ERTMedicalGamma
-  - ERTEngineerAmber
-  - ERTEngineerRed
-  - ERTEngineerGamma
-  - ERTJanitorAmber
-  - ERTJanitorRed
-  - ERTJanitorGamma
-  - DeathSquad
-  - BlueShieldOfficer
-  - Magistrat
   primary: false
   weight: 100
   accountNumber: 1317 #backmen: currency
@@ -202,7 +159,6 @@
   description: department-Law-description
   color: "#d98b71"
   roles:
-  - Magistrat
   - IAA
   - Lawyer
   accountNumber: 1323  #backmen: currency
