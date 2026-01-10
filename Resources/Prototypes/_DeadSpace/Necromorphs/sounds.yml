@@ -7,6 +7,22 @@
     - /Audio/_DeadSpace/Necromorfs/necroSlasher2.ogg
 
 - type: soundCollection
+  id: NecroWoman
+  files:
+    - /Audio/_DeadSpace/Necromorfs/necromorphSound.ogg
+    - /Audio/_DeadSpace/Necromorfs/necromorphSound2.ogg
+    - /Audio/_DeadSpace/Necromorfs/necroSlasher1.ogg
+    - /Audio/_DeadSpace/Necromorfs/necroSlasher2.ogg
+
+- type: soundCollection
+  id: NecroOther
+  files:
+    - /Audio/_DeadSpace/Necromorfs/necromorphSound.ogg
+    - /Audio/_DeadSpace/Necromorfs/necromorphSound2.ogg
+    - /Audio/_DeadSpace/Necromorfs/necroSlasher1.ogg
+    - /Audio/_DeadSpace/Necromorfs/necroSlasher2.ogg
+
+- type: soundCollection
   id: ConvergenceMusic
   files:
     - /Audio/_DeadSpace/Necromorfs/plasma_cutters_are_your_friend.ogg

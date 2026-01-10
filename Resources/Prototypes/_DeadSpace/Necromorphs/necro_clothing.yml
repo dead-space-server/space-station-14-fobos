@@ -9,6 +9,16 @@
   - type: Unremoveable
 
 - type: entity
+  parent: ClothingNeckBase
+  id: ClothingNecroClawsStalker
+  categories: [ HideSpawnMenu ]
+  name: клешни сталкера
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/stalker.rsi
+  - type: Unremoveable
+
+- type: entity
   parent: ClothingOuterBaseMedium
   id: ClothingNecroRibs
   categories: [ HideSpawnMenu ]
@@ -53,6 +63,32 @@
         Heat: 0.9
   - type: ExplosionResistance
     damageCoefficient: 0.90
+
+- type: entity
+  parent: ClothingOuterBaseMedium
+  id: ClothingNecroBoomerTors
+  categories: [ HideSpawnMenu ]
+  name: рука
+  description: Рука набита вз-... О боже...
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/boomer.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/boomer.rsi
+  - type: Unremoveable
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: ExplosionResistance
+    damageCoefficient: 0.90
+  - type: PointLight
+    color: "#ffb03a"
+    radius: 5
+    energy: 3.5
 
 - type: entity
   parent: ClothingOuterBase
