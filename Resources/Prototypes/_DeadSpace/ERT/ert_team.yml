@@ -10,10 +10,17 @@
     всем необходимым оборудованием для выполнения их миссий.
     Время прибытия отряда от 10 до 15 минут.
   rule: SpawnCburnShuttle
+  cooldown:
+    min: 15m
+    max: 15m
   spawnWindow:
     min: 10m
     max: 15m
-  price: 50000
+  price: 4
+  codeBlackList:
+  - enigma
+  - epsilon
+  - gamma
   spawns:
     - id: RandomHumanoidSpawnerCBURNLeader
       amount: 1
@@ -32,10 +39,17 @@
     всем необходимым оборудованием для выполнения их миссий.
     Время прибытия отряда от 10 до 15 минут.
   rule: SpawnSierraShuttle
+  cooldown:
+    min: 15m
+    max: 15m
   spawnWindow:
     min: 10m
     max: 15m
-  price: 10000
+  price: 6
+  codeBlackList:
+  - enigma
+  - epsilon
+  - gamma
   spawns:
     - id: RandomHumanoidSpawnerCBURNLeader
       amount: 1
@@ -53,10 +67,20 @@
     для выполнения их миссий.
     Время прибытия отряда от 5 до 10 минут.
   rule: SpawnEngineersShuttle
+  cooldown:
+    min: 10m
+    max: 10m
   spawnWindow:
     min: 5m
     max: 10m
-  price: 20000
+  price: 2
+  codeBlackList:
+  - sierra
+  - red
+  - enigma
+  - delta
+  - epsilon
+  - gamma
   spawns:
     - id: RandomHumanoidSpawnerERTLeaderAmber
       amount: 1
@@ -76,10 +100,18 @@
     необходимым оборудованием для выполнения их миссий.
     Время прибытия отряда от 5 до 10 минут.
   rule: SpawnAmberShuttle
+  cooldown:
+    min: 10m
+    max: 10m
   spawnWindow:
     min: 5m
     max: 10m
-  price: 25000
+  price: 2
+  codeBlackList:
+  - sierra
+  - enigma
+  - epsilon
+  - gamma
   spawns:
     - id: RandomHumanoidSpawnerERTLeaderAmber
       amount: 1
@@ -102,10 +134,17 @@
     необходимым оборудованием для выполнения их миссий.
     Время прибытия отряда 20 минут.
   rule: SpawnGammaShuttle
+  cooldown:
+    min: 20m
+    max: 20m
   spawnWindow:
     min: 20m
     max: 20m
-  price: 100000
+  price: 8
+  codeBlackList:
+  - sierra
+  - enigma
+  - epsilon
   spawns:
     - id: RandomHumanoidSpawnerERTLeaderGamma
       amount: 1
@@ -124,12 +163,15 @@
     предназначенный очистить станцию от биологической и террористической угрозы,
     зачастую данный отряд нужно вызывать когда на станции заявились террористы "Круг".
     Или же большого всплеска ред-спейса на станции.
-    Время прибытия отряда от 25 до 30 минут.
+    Время прибытия отряда от 20 до 25 минут.
   rule: SpawnSierraShuttle
+  cooldown:
+    min: 25m
+    max: 25m
   spawnWindow:
     min: 20m
     max: 25m
-  price: 125000
+  price: 8
   spawns:
     - id: RandomHumanoidSpawnerBSAALeader
       amount: 1
@@ -152,10 +194,20 @@
   cancelMessage: 
     Представитель Центрального Командования NanoTrasen не смог прибыть на станцию
     из-за непредвиденных обстоятельств. Мы приносим извинения за возможные неудобства.
+  cooldown:
+    min: 7m
+    max: 7m
   spawnWindow:
     min: 5m
     max: 7m
   price: 0
+  codeBlackList:
+  - sierra
+  - red
+  - enigma
+  - delta
+  - epsilon
+  - gamma
   special: CustomizableSpawnerCentralCommandOfficial
   spawns:
     - id: CustomizableSpawnerCentralCommandBlueShieldOfficer

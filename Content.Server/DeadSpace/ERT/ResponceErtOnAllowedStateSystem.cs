@@ -91,7 +91,7 @@ public sealed class ResponceErtOnAllowedStateSystem : EntitySystem
             return;
         }
 
-        var ent = _ertResponceSystem.EnsureErtTeam(component.Team, false);
+        var ent = _ertResponceSystem.EnsureErtTeam(component.Team);
 
         if (!TryComp<RuleGridsComponent>(ent, out var ruleGrids))
             return;
