@@ -31,8 +31,8 @@
     energy: 0.5
     color: "#b53ca1"
   - type: AccessReader
-    access: [["ResearchDirector"]]
   # DS14-start
+    access: [["ResearchDirector"]]
   - type: DeviceLinkSink
     ports:
       - On
@@ -41,7 +41,6 @@
     receiveFrequencyId: BasicDevice
   - type: WirelessNetworkConnection
     range: 999
-
   - type: TechDiskPrinterOnSignal
     printPort: On
   # DS14-end
