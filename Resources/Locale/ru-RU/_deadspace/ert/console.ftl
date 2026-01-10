@@ -12,7 +12,7 @@ ert-responce-caused-messager =
     Расчётное время прибытия: минимально возможное.
 
 ert-responce-call-cancel =
-    Центральное командование получило ваш сигнал, ожидайте прибытия отряда.
+    Центральное командование получило ваш сигнал.
 
 ert-computer-window-title = Компьютер ОБР
 
@@ -22,3 +22,8 @@ ert-computer-evac-cancle-title = отменить эвакуацию
 ert-computer-time-until-eval = Осталось { $time } секунд до эвакуации.
 
 station-event-response-team-arrival = Отряд быстрого реагирования приступил к выполнению задачи на станции.
+
+ert-call-fail-prototype-missing = Прототип отряда не найден.
+ert-call-fail-code-blacklist = Уровень тревоги ({$level}) запрещает вызов этого отряда.
+ert-call-fail-not-enough-points = Недостаточно очков для вызова ОБР (нужно {$price}, доступно {$balance}).
+ert-call-fail-cooldown = Повторный вызов ОБР возможен через {$seconds} сек.

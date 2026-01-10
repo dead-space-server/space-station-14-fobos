@@ -3,8 +3,10 @@ using System.Linq;
 using Content.Server.AlertLevel;
 using Content.Server.Backmen.Blob.Rule;
 using Content.Server.Backmen.GameTicking.Rules.Components;
+using Content.Server.Cargo.Systems;
 using Content.Server.Chat.Managers;
 using Content.Server.Chat.Systems;
+using Content.Server.DeadSpace.ERT;
 using Content.Server.GameTicking;
 using Content.Server.GameTicking.Rules;
 using Content.Server.Mind;
@@ -14,30 +16,46 @@ using Content.Server.RoundEnd;
 using Content.Server.Station.Components;
 using Content.Server.Station.Systems;
 using Content.Shared.Backmen.Blob.Components;
+using Content.Shared.Cargo.Components;
+using Content.Shared.Cargo.Prototypes;
+using Content.Shared.DeadSpace.ERT.Prototypes;
+using Content.Shared.GameTicking;
 using Content.Shared.GameTicking.Components;
 using Content.Shared.Objectives.Components;
 using Robust.Server.Player;
 using Robust.Shared.Audio;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.Backmen.GameTicking.Rules;
 
 public sealed class BlobRuleSystem : GameRuleSystem<BlobRuleComponent>
 {
-    [Dependency] private readonly MindSystem _mindSystem = default!;
     [Dependency] private readonly RoundEndSystem _roundEndSystem = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly NukeCodePaperSystem _nukeCode = default!;
     [Dependency] private readonly StationSystem _stationSystem = default!;
     [Dependency] private readonly ObjectivesSystem _objectivesSystem = default!;
+    [Dependency] private readonly CargoSystem _cargoSystem = default!;
     [Dependency] private readonly AlertLevelSystem _alertLevel = default!;
     [Dependency] private readonly IChatManager _chatManager = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
-
+    [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
+    private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "CburnSierra";
+    private static readonly ProtoId<CargoAccountPrototype> Account = "Security";
+    private const int AdditionalSupport = 70000;
+    private bool _helpSended = false;
     private static readonly SoundPathSpecifier BlobDetectAudio = new SoundPathSpecifier("/Audio/_DeadSpace/Announcements/outbreak5.ogg"); // DS14-Announcements
 
     public override void Initialize()
     {
         base.Initialize();
+
+        SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestart);
+    }
+
+    private void OnRoundRestart(RoundRestartCleanupEvent ev)
+    {
+        _helpSended = false;
     }
 
     protected override void Started(EntityUid uid, BlobRuleComponent component, GameRuleComponent gameRule, GameRuleStartedEvent args)
@@ -127,6 +145,23 @@ public sealed class BlobRuleSystem : GameRuleSystem<BlobRuleComponent>
                     Station = stationUid,
                     Level = blobRuleComp.Stage
                 }, broadcast: true);
+
+                if (_helpSended)
+                    return;
+
+                if (!TryComp<StationBankAccountComponent>(stationUid, out var stationAccount))
+                    return;
+
+                var addMoneyAfterWarDeclared = _ertResponceSystem.GetErtPrice(ErtTeam) + AdditionalSupport;
+
+                _cargoSystem.UpdateBankAccount(
+                                    (stationUid, stationAccount),
+                                    addMoneyAfterWarDeclared,
+                                    Account
+                                );
+
+                _helpSended = true;
+
                 return;
             case BlobStage.Begin when blobCore.Comp.BlobTiles.Count >= 500:
                 {

@@ -29,6 +29,7 @@
   name: пинпоинтер
   suffix: вип
   id: PinpointerVipClient
+  categories: [ HideSpawnMenu ]
   description: указатель на vip клиента.
   parent: [ PinpointerBase, BaseCommandContraband ]
   components:
@@ -46,6 +47,7 @@
 - type: entity
   id: DeathRattleImplanterCriticalForce
   name: имплантер трекер CriticalForce
+  categories: [ HideSpawnMenu ]
   suffix: Трекер CriticalForce
   parent: BaseImplantOnlyImplanter
   components:
@@ -136,6 +138,7 @@
 - type: entity
   parent: ClothingUniformBase
   id: ClothingJumpsuitCriticalForce
+  categories: [ HideSpawnMenu ]
   name: комбинезон CriticalForce TraumaFlex
   description: Эргономичный комбинезон с кевларовыми вставками. Лёгкость, защита и полный контроль состояния бойца в режиме реального времени.
   components:
@@ -169,6 +172,7 @@
 - type: entity
   parent: ClothingHandsGlovesCombat
   id: ClothingHandsGlovesCombatCriticalForce
+  categories: [ HideSpawnMenu ]
   name: боевые перчатки CriticalForce Surgeon
   description: Тактические перчатки с усиленными накладками и сенсорной совместимостью. Позволяют работать с медицинскими интерфейсами без снятия защиты.
   components:
@@ -182,6 +186,7 @@
 - type: entity
   parent: ClothingMaskGas
   id: ClothingMaskGasOfficerCriticalForce
+  categories: [ HideSpawnMenu ]
   name: респиратор CriticalForce Sentinel
   description: Тактический противогаз офицерского состава с дополнительной противопулевой защитой и системой фильтрации NBC-угроз. Встроенная защита от ослепления.
   components:
@@ -204,6 +209,7 @@
 - type: entity
   parent: ClothingMaskGas
   id: ClothingMaskGasLeadEMTCriticalForce
+  categories: [ HideSpawnMenu ]
   name: респиратор ведущего фельдшера CriticalForce Triage
   description: Медицинский противогаз с расширенной системой диагностики и повышенным бронированием. Встроенная защита от ослепления.
   components:

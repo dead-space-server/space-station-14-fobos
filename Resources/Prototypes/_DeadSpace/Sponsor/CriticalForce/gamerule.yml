@@ -1,6 +1,6 @@
 - type: preloadedGrid
   id: CriticalForceShuttle
-  path: /Maps/Shuttles/ShuttleEvent/ds_tti_tepors.yml
+  path: /Maps/Shuttles/ERT/crit_force.yml
   copies: 1
 
 - type: entity

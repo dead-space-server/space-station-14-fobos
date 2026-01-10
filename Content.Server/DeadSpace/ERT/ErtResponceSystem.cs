@@ -16,6 +16,9 @@ using Content.Shared.GameTicking.Components;
 using Robust.Server.GameObjects;
 using Content.Shared.Mind.Components;
 using Content.Shared.GameTicking;
+using Content.Server.Chat.Managers;
+using Content.Shared.Alert;
+using Content.Server.AlertLevel;
 
 namespace Content.Server.DeadSpace.ERT;
 
@@ -23,14 +26,26 @@ namespace Content.Server.DeadSpace.ERT;
 public sealed class ErtResponceSystem : SharedErtResponceSystem
 {
     [Dependency] private readonly ChatSystem _chatSystem = default!;
+    [Dependency] private readonly IChatManager _chatManager = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly TimedWindowSystem _timedWindowSystem = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly MapSystem _mapSystem = default!;
-    private ProtoId<ErtTeamPrototype>? _expectedTeam = null;
-    private TimedWindow? _windowWaitingArrival = null;
+    [Dependency] private readonly AlertLevelSystem _alertLevelSystem = default!;
+    private readonly Dictionary<ProtoId<ErtTeamPrototype>, TimedWindow> _expectedTeams = new();
+    private TimedWindow _windowAdminAlert = new(TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
+    private TimedWindow? _coolDown = null;
     private readonly TimedWindow _defaultWindowWaitingSpecies = new(TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(5));
     private List<WaitingSpeciesSettings> _windowWaitingSpecies = new();
+
+    /// <summary>
+    ///     Сумма очков для заказа обр, доступная в начале каждого раунда.
+    /// </summary>
+    private const int DefaultPoints = 8;
+    /// <summary>
+    ///     Текущий баланс очков.
+    /// </summary>
+    private int _points = DefaultPoints;
 
     public override void Initialize()
     {
@@ -45,8 +60,8 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
     private void OnRoundRestart(RoundRestartCleanupEvent ev)
     {
         _windowWaitingSpecies.Clear();
-        _windowWaitingArrival = null;
-        _expectedTeam = null;
+        _expectedTeams.Clear();
+        _points = DefaultPoints;
     }
 
     private void OnMindAdded(Entity<ErtSpeciesRoleComponent> ent, ref MindAddedMessage args)
@@ -137,50 +152,126 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
             }
         }
 
-        if (_expectedTeam == null)
-            return;
+        foreach (var (team, window) in _expectedTeams.ToArray())
+        {
+            if (!_timedWindowSystem.IsExpired(window))
+                continue;
 
-        if (_windowWaitingArrival != null && _timedWindowSystem.IsExpired(_windowWaitingArrival))
-            EnsureErtTeam(_expectedTeam.Value);
+            EnsureErtTeam(team);
+            _expectedTeams.Remove(team);
+        }
+
+        if (_expectedTeams.Count > 0)
+        {
+            if (_timedWindowSystem.IsExpired(_windowAdminAlert))
+            {
+                foreach (var (teamId, window) in _expectedTeams)
+                {
+                    if (!_prototypeManager.TryIndex(teamId, out var prototype))
+                        continue;
+
+                    var seconds = _timedWindowSystem.GetSecondsRemaining(window);
+
+                    _chatManager.SendAdminAlert(
+                        $"Ожидается прибытие ОБР \"{prototype.Name}\" через {seconds} сек."
+                    );
+                }
+
+                _timedWindowSystem.Reset(_windowAdminAlert);
+            }
+        }
     }
 
-    public bool TryCallErt(ProtoId<ErtTeamPrototype> team)
+    public bool TryCallErt(
+    ProtoId<ErtTeamPrototype> team,
+    EntityUid? station,
+    out string? reason,
+    bool toPay = true,
+    bool needCooldown = true,
+    bool needWarn = true)
     {
-        if (_expectedTeam != null)
-            return false;
+        reason = null;
 
         if (!_prototypeManager.TryIndex(team, out var prototype))
+        {
+            reason = Loc.GetString("ert-call-fail-prototype-missing");
             return false;
+        }
 
-        _chatSystem.DispatchGlobalAnnouncement(
-            message: Loc.GetString("ert-responce-caused-messager", ("team", prototype.Name)),
-            sender: Loc.GetString("chat-manager-sender-announcement"), // На всякий
-            colorOverride: Color.FromHex("#1d8bad"),
-            playSound: true,
-            usePresetTTS: true,
-            languageId: LanguageSystem.DefaultLanguageId
-        );
+        if (station != null && prototype.CodeBlackList != null)
+        {
+            var level = _alertLevelSystem.GetLevel(station.Value);
+            if (prototype.CodeBlackList.Contains(level))
+            {
+                reason = Loc.GetString(
+                    "ert-call-fail-code-blacklist",
+                    ("level", level)
+                );
+                return false;
+            }
+        }
 
-        _expectedTeam = team;
-        _windowWaitingArrival = prototype.TimeWindowToSpawn;
-        _timedWindowSystem.Reset(_windowWaitingArrival);
+        if (toPay)
+        {
+            if (prototype.Price > _points)
+            {
+                reason = Loc.GetString(
+                    "ert-call-fail-not-enough-points",
+                    ("price", prototype.Price),
+                    ("balance", _points)
+                );
+                return false;
+            }
+
+            _points -= prototype.Price;
+        }
+
+        if (needCooldown)
+        {
+            if (_coolDown != null && !_timedWindowSystem.IsExpired(_coolDown))
+            {
+                var seconds = _timedWindowSystem.GetSecondsRemaining(_coolDown);
+
+                reason = Loc.GetString(
+                    "ert-call-fail-cooldown",
+                    ("seconds", seconds)
+                );
+                return false;
+            }
+            else
+            {
+                var cooldown = prototype.Cooldown.Clone();
+                _timedWindowSystem.Reset(cooldown);
+                _coolDown = cooldown;
+            }
+        }
+
+        if (needWarn)
+        {
+            _chatSystem.DispatchGlobalAnnouncement(
+                message: Loc.GetString("ert-responce-caused-messager", ("team", prototype.Name)),
+                sender: Loc.GetString("chat-manager-sender-announcement"),
+                colorOverride: Color.FromHex("#1d8bad"),
+                playSound: true,
+                usePresetTTS: true,
+                languageId: LanguageSystem.DefaultLanguageId
+            );
+        }
+
+        var window = prototype.TimeWindowToSpawn.Clone();
+        _timedWindowSystem.Reset(window);
+
+        _expectedTeams.Add(team, window);
 
         return true;
     }
 
-    public EntityUid? EnsureErtTeam(ProtoId<ErtTeamPrototype> team, bool resetCooldown = true)
+    public EntityUid? EnsureErtTeam(ProtoId<ErtTeamPrototype> team)
     {
         if (!_prototypeManager.TryIndex(team, out var prototype))
             return null;
 
-        if (resetCooldown)
-        {
-            _expectedTeam = null;
-            _windowWaitingArrival = null;
-        }
-
         var ruleEntity = Spawn(prototype.ErtRule, MapCoordinates.Nullspace);
-
         EnsureComp<ErtSpawnRuleComponent>(ruleEntity).Team = team;
 
         // не нужен в _allPreviousGameRules, потому что сам по себе не является правилом
@@ -189,6 +280,12 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
 
         return ruleEntity;
     }
+
+    public int GetBalance()
+    {
+        return _points;
+    }
+
 }
 
 public sealed class WaitingSpeciesSettings

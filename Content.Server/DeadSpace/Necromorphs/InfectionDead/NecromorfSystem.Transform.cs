@@ -141,6 +141,8 @@ public sealed partial class NecromorfSystem
         if (HasComp<LanguageComponent>(target))
             RemComp<LanguageComponent>(target);
 
+        EnsureComp<IgnoreAlliesOnMelleeHitComponent>(target);
+
         var langComp = new LanguageComponent();
 
         _language.AddKnowLanguage(target, NecroLanguage);

@@ -1,0 +1,17 @@
+- type: accessLevel
+  id: CounterpartyNT
+  name: id-card-access-level-counterparty-nt
+
+- type: accessLevel
+  id: ErtTeamLeader
+  name: id-card-access-level-ert-team-leader
+
+- type: accessGroup
+  id: GroupCounterpartyNT
+  tags:
+  - CounterpartyNT
+
+- type: accessGroup
+  id: GroupErtTeamLeader
+  tags:
+  - ErtTeamLeader

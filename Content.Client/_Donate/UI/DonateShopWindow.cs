@@ -629,6 +629,19 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
             _profilePanel.AddChild(buyPremiumCard);
         }
 
+        if (_state.AdminRank != null)
+        {
+            _profilePanel.AddChild(new EmeraldSubscriptionCard
+            {
+                NameSub = $"[ADMIN] {_state.AdminRank.Name}".ToUpper(),
+                Price = "БЕСПЛАТНО",
+                Dates = "Навсегда",
+                ItemCount = 0,
+                IsAdmin = true,
+                HorizontalExpand = true
+            });
+        }
+
         if (_state.ActiveSubscription != null)
         {
             var sub = _state.ActiveSubscription;
@@ -643,7 +656,7 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
                 HorizontalExpand = true
             });
         }
-        else
+        else if (_state.AdminRank == null)
         {
             var buySubCard = new EmeraldBuySubscriptionCard { HorizontalExpand = true };
             buySubCard.OnBuyPressed += () => _url.OpenUri("https://deadspace14.net");
@@ -883,6 +896,16 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
             return;
 
         _calendarPanel.RemoveAllChildren();
+
+        if (_calendarState.NormalRewards.Count == 0 && _calendarState.PremiumRewards.Count == 0)
+        {
+            _calendarPanel.AddChild(CreateCenteredMessage(
+                "НЕТ АКТИВНЫХ КАЛЕНДАРЕЙ",
+                "В данный момент нет доступных ежедневных наград",
+                Color.FromHex("#d4a574")
+            ));
+            return;
+        }
 
         var currentDay = _calendarState.Progress?.CurrentDay ?? 1;
         var totalDays = Math.Max(_calendarState.NormalRewards.Count, _calendarState.PremiumRewards.Count);
