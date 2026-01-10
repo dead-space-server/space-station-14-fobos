@@ -6,6 +6,6 @@ namespace Content.Server.Research.Components;
 [RegisterComponent]
 public sealed partial class TechDiskPrinterOnSignalComponent : Component
 {
-    [DataField]
+    [DataField("printPort")]
     public string PrintPort = "On";
 }
