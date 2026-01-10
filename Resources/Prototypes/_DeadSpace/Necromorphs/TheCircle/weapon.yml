@@ -734,8 +734,6 @@
       collection: splinter-blade-attack
     soundNoDamage:
       collection: splinter-blade-miss
-    soundSwing:
-      collection: splinter-blade-miss
   - type: SolutionContainerManager
     solutions:
       melee:
@@ -744,14 +742,14 @@
           Quantity: 999999
   - type: MeleeChemicalInjector
     solution: melee
-    transferAmount: 1
+    transferAmount: 1.5
   - type: Sharp
   - type: ComponentToggler
     components:
     - type: PointLight
-      color: "#a02139"
-      radius: 3
-      energy: 1.5
+      color: "#48141e"
+      radius: 6
+      energy: 2.5
     - type: Reflect
       inRightPlace: True
       reflectProb: 0.15
