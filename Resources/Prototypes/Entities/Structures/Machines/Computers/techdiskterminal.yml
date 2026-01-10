@@ -31,7 +31,8 @@
     energy: 0.5
     color: "#b53ca1"
   - type: AccessReader
-    access: [["ResearchDirector"]] # DS14-start
+  # DS14-start
+    access: [["ResearchDirector"]]
   - type: DeviceLinkSink
     ports:
       - On
