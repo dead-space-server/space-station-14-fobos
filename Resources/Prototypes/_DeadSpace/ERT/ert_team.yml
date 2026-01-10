@@ -135,15 +135,27 @@
     необходимым оборудованием для выполнения их миссий.
     Время прибытия отряда от 10 до 15 минут.
   rule: SpawnGammaShuttle # это буквально одинаковые шаттлы
+  cooldown:
+    min: 10m
+    max: 10m
   spawnWindow:
     min: 10m
     max: 15m
-  price: 10000
+  codeBlackList:
+  - sierra
+  - enigma
+  - epsilon
+  - gamma
+  price: 4
   spawns:
     - id: RandomHumanoidSpawnerERTLeaderRed
       amount: 1
     - id: RandomHumanoidSpawnerERTSecurityRed
-      amount: 3
+      amount: 2
+    - id: RandomHumanoidSpawnerERTMedicalRed
+      amount: 1
+    - id: RandomHumanoidSpawnerERTEngineerRed
+      amount: 1
 
 - type: ertTeam
   id: Gamma
