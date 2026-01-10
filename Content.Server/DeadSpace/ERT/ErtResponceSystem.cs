@@ -192,12 +192,6 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
     {
         reason = null;
 
-        if (_expectedTeams.ContainsKey(team))
-        {
-            reason = Loc.GetString("ert-call-fail-already-called");
-            return false;
-        }
-
         if (!_prototypeManager.TryIndex(team, out var prototype))
         {
             reason = Loc.GetString("ert-call-fail-prototype-missing");
@@ -232,9 +226,9 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
             _points -= prototype.Price;
         }
 
-        if (needCooldown && _coolDown != null)
+        if (needCooldown)
         {
-            if (!_timedWindowSystem.IsExpired(_coolDown))
+            if (_coolDown != null && !_timedWindowSystem.IsExpired(_coolDown))
             {
                 var seconds = _timedWindowSystem.GetSecondsRemaining(_coolDown);
 
@@ -244,10 +238,12 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
                 );
                 return false;
             }
-
-            var cooldown = prototype.Cooldown.Clone();
-            _timedWindowSystem.Reset(cooldown);
-            _coolDown = cooldown;
+            else
+            {
+                var cooldown = prototype.Cooldown.Clone();
+                _timedWindowSystem.Reset(cooldown);
+                _coolDown = cooldown;
+            }
         }
 
         if (needWarn)
