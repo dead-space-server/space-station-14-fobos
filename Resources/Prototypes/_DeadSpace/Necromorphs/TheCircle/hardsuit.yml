@@ -377,7 +377,7 @@
     - Dead
     reagents:
       ExtractInfectorDead: 15
-      NecroPregnant: 5
+      NecromorphMutagenPregnant: 5
   - type: Tag
     tags:
     - Hardsuit
