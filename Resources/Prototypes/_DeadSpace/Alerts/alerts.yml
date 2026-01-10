@@ -8,15 +8,6 @@
   description: alerts-crit-desc
 
 - type: alert
-  id: XenomorphPreCrit
-  category: Health
-  icons:
-  - sprite: /Textures/_DeadSpace/Interface/Alerts/xenomorph_critical.rsi
-    state: critical
-  name: alerts-precrit-name
-  description: alerts-precrit-desc
-
-- type: alert
   id: XenomorphDead
   category: Health
   icons:
@@ -47,3 +38,30 @@
   description: alerts-health-desc
   minSeverity: 0
   maxSeverity: 6
+
+- type: alert
+  id: HumanPreCrit
+  category: Health
+  icons:
+  - sprite: /Textures/_DeadSpace/Interface/Alerts//human_precritical.rsi
+    state: shock
+  name: alerts-precrit-name
+  description: alerts-precrit-desc
+
+- type: alert
+  id: XenomorphPreCrit
+  category: Health
+  icons:
+  - sprite: /Textures/_DeadSpace/Interface/Alerts/xenomorph_precritical.rsi
+    state: shock
+  name: alerts-precrit-name
+  description: alerts-precrit-desc
+
+- type: alert
+  id: BorgPreCrit
+  category: Health
+  icons:
+  - sprite: /Textures/_DeadSpace/Interface/Alerts/borg_precritical.rsi
+    state: shock
+  name: alerts-precrit-name
+  description: alerts-precrit-desc
