@@ -1,3 +1,4 @@
+admin-player-actions-window-ert = Окно управления ОБР
 ert-responce-window-title = Запрос поддержки
 ert-responce-available-teams = Доступные отряды
 responce-ert-team-button = Запросить отряд
