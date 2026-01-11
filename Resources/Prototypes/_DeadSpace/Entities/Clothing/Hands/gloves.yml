@@ -53,3 +53,15 @@
     sprite: Clothing/Hands/Gloves/nitrile.rsi
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
+
+- type: entity
+  parent: ClothingHandsGlovesNitrile
+  id: ClothingHandsGlovesNitrileCMO
+  name: перчатки главного врача
+  description: Жизненно необходимый предмет одежды, без которого не обойтись.
+  suffix: Тайпан
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Hands/Gloves/cmo.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Hands/Gloves/cmo.rsi

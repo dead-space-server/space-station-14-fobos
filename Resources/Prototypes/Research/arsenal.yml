@@ -212,6 +212,19 @@
   cost: 7500
   recipeUnlocks:
   - ClothingEyesPNV
+
+- type: technology
+  id: SecurityTurretsTechnology
+  name: research-technology-security-turrets-technology
+  icon:
+    sprite: Objects/Weapons/Guns/Turrets/sentry_turret.rsi
+    state: cover_closed
+  discipline: Arsenal
+  tier: 2
+  cost: 15000
+  recipeUnlocks:
+  - WeaponEnergyTurretCommandMachineCircuitboard
+  - WeaponEnergyTurretCommandControlPanelElectronics
 # DS14-end
 
 - type: technology

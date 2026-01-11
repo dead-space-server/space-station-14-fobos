@@ -16,20 +16,6 @@ public sealed partial class VirusMutationComponent : Component
     public float AddMutationChance = 0.1f;
 
     /// <summary>
-    ///     Минимальное время до следующей мутации.
-    /// </summary>
-    [DataField]
-    [ViewVariables(VVAccess.ReadOnly)]
-    public float MinUpdateTime = 3f;
-
-    /// <summary>
-    ///     Максимальное время до следующей мутации.
-    /// </summary>
-    [DataField]
-    [ViewVariables(VVAccess.ReadOnly)]
-    public float MaxUpdateTime = 60f;
-
-    /// <summary>
     ///     Может ли существо очистить сущность от вируса.
     /// </summary>
     [DataField]
@@ -47,7 +33,7 @@ public sealed partial class VirusMutationComponent : Component
     ///     Окно времени обновления мутации.
     /// </summary>
     [ViewVariables(VVAccess.ReadOnly)]
-    public TimedWindow? UpdateWindow;
+    public TimedWindow UpdateWindow = new TimedWindow(TimeSpan.FromSeconds(3f), TimeSpan.FromSeconds(60f));
 
     #region Visualizer
 

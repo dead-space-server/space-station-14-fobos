@@ -23,6 +23,13 @@ using Content.Shared.Humanoid;
 using Robust.Shared.Player;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Station.Components;
+using Content.Shared.Cargo.Components;
+using Content.Server.Cargo.Systems;
+using Content.Shared.Cargo.Prototypes;
+using Robust.Shared.Prototypes;
+using Content.Server.RoundEnd;
+using Content.Server.DeadSpace.ERT;
+using Content.Shared.DeadSpace.ERT.Prototypes;
 
 namespace Content.Server.GameTicking.Rules;
 
@@ -38,9 +45,17 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly IChatManager _chatManager = default!;
     [Dependency] private readonly IVoteManager _voteManager = default!;
+    [Dependency] private readonly CargoSystem _cargoSystem = default!;
+    [Dependency] private readonly RoundEndSystem _roundEndSystem = default!;
+    [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
+    private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "CburnSierra";
+    private static readonly ProtoId<CargoAccountPrototype> Account = "Security";
+    private const int AdditionalSupport = 70000;
     private const float ProgressBreeding = 0.45f;
     private const float ProgressNukeCode = 0.7f;
     private const float ProgressCaptureStation = 0.98f;
+    // Сумма пополнения баланса станции на стадии размножения
+    private static readonly TimeSpan RoundEndTime = TimeSpan.FromSeconds(10);
     private bool _voteSend = false;
 
     public override void Initialize()
@@ -165,21 +180,6 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
             _chatManager.SendAdminAnnouncement(msgSpiders);
             _chatManager.SendAdminAnnouncement(msgSpidersKing);
 
-            if (component.IsErtSendMessage)
-            {
-                var msgErt = "На станции: " + (GetCburnCount()).ToString() + " живых оперативников от первоначальных: " + component.CburnCount.ToString();
-                _chatManager.SendAdminAnnouncement(msgErt);
-            }
-
-            if (component.IsBreedingActive(stationUid) && _timing.CurTime <= component.TimeUtilErt)
-            {
-                var time = _timing.CurTime - component.TimeUtilErt;
-                double seconds = Math.Abs(time.TotalSeconds);
-                int roundedSeconds = (int)Math.Round(seconds);
-                var msgTimeErt = "ОБР прибудет через: " + roundedSeconds.ToString() + " секунд.";
-                _chatManager.SendAdminAnnouncement(msgTimeErt);
-            }
-
             var spidersCount = GetSpiders(uid, stationUid, component);
             var peopleCount = GetPeople(uid, stationUid, component);
 
@@ -241,27 +241,6 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
         if (!Resolve(uid, ref component))
             return;
 
-
-        if (_timing.CurTime >= component.TimeUtilErtAnnouncement && !component.IsErtSendMessage && component.IsBreedingActive(station))
-        {
-            _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("spider-terror-centcomm-announcement-special-response-team"), playSound: true, colorOverride: Color.Green);
-            component.IsErtSendMessage = true;
-        }
-
-        if (_timing.CurTime >= component.TimeUtilErt && !component.IsErtSend && component.IsBreedingActive(station))
-        {
-            GameTicker.AddGameRule("ShuttleCBURNSCST");
-            _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("station-event-response-team-arrival"), playSound: true, colorOverride: Color.Green);
-            component.CburnCount = GetCburnCount();
-            component.IsErtSend = true;
-        }
-
-        if (component.IsErtSend)
-        {
-            if ((float)GetCburnCount() / (float)component.CburnCount <= 0.2f)
-                Capture(uid, station);
-        }
-
         if (GetSpiderKings() <= 0 && !_voteSend)
         {
             _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("spider-terror-centcomm-announcement-spider-kings"), playSound: true, colorOverride: Color.Green);
@@ -274,27 +253,19 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
 
         component.StartBreeding(station);
 
-        component.TimeUtilErtAnnouncement = _timing.CurTime + component.DurationErtAnnouncement;
-        component.TimeUtilErt = _timing.CurTime + component.DurationErt;
-
         _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("spider-terror-centcomm-announcement-station-was-breeding"), playSound: true, colorOverride: Color.Red);
-        GameTicker.AddGameRule("GiftsSpiderTerror");
         _alertLevel.SetLevel(station, "sierra", true, true, true);
-    }
 
-    private int GetCburnCount()
-    {
-        var count = 0;
+        if (!TryComp<StationBankAccountComponent>(station, out var stationAccount))
+            return;
 
-        var query = EntityQueryEnumerator<CburnStaffComponent>();
+        var addMoneyAfterWarDeclared = _ertResponceSystem.GetErtPrice(ErtTeam) + AdditionalSupport;
 
-        while (query.MoveNext(out var ent, out _))
-        {
-            if (!_mobState.IsDead(ent))
-                count++;
-        }
-
-        return count;
+        _cargoSystem.UpdateBankAccount(
+                            (station, stationAccount),
+                            addMoneyAfterWarDeclared,
+                            Account
+                        );
     }
 
     private int GetSpiderKings()
@@ -332,35 +303,21 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
         if (!Resolve(uid, ref component))
             return;
 
-        if (_timing.CurTime >= component.TimeUtilErtAnnouncement && !component.IsDeadSquadSend && component.IsStationCaptureActive(station))
-        {
-            component.IsDeadSquadSend = true;
-            _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("spider-terror-centcomm-announcement-station-was-capture"), playSound: true, colorOverride: Color.Green);
-
-            if (TryComp<StationDataComponent>(station, out var data))
-            {
-                var msg = new GameGlobalSoundEvent(component.Sound, AudioParams.Default);
-                var stationFilter = _station.GetInStation(data);
-                stationFilter.AddPlayersByPvs(station, entityManager: EntityManager);
-                RaiseNetworkEvent(msg, stationFilter);
-            }
-        }
-
-        if (_timing.CurTime >= component.TimeUtilErtAnnouncement && !component.IsDeadSquadArrival && component.IsStationCaptureActive(station))
-        {
-            component.IsDeadSquadArrival = true;
-            _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("station-event-response-team-arrival"), playSound: true, colorOverride: Color.Green);
-            GameTicker.AddGameRule("ShuttleCBURNSCST");
-        }
-
         if (component.IsStationCaptureActive(station))
             return;
 
-        component.CaptureStation(station);
+        _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("spider-terror-centcomm-announcement-station-was-capture"), playSound: true, colorOverride: Color.Green);
 
-        component.TimeUtilDeadSquadAnnouncement = _timing.CurTime + component.DurationDeadSquadAnnouncement;
-        component.TimeUtilDeadSquadArrival = _timing.CurTime + component.DurationDeadSquadArrival + component.DurationDeadSquadAnnouncement;
-        component.TimeUtilCodeEpsilon = _timing.CurTime + component.DurationCodeEpsilon + component.DurationDeadSquadAnnouncement + component.DurationDeadSquadArrival;
+        if (TryComp<StationDataComponent>(station, out var data))
+        {
+            var msg = new GameGlobalSoundEvent(component.Sound, AudioParams.Default);
+            var stationFilter = _station.GetInStation(data);
+            stationFilter.AddPlayersByPvs(station, entityManager: EntityManager);
+            RaiseNetworkEvent(msg, stationFilter);
+        }
+
+        component.CaptureStation(station);
+        _roundEndSystem.EndRound(RoundEndTime);
 
     }
 

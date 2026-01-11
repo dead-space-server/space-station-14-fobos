@@ -49,6 +49,7 @@
     - id: ClothingEyesGlassesCommand
     - id: ADTtelescopicBaton # ADT
     - id: ClothingEyesHudAdvanced # DS14
+    - id: ErtResponceConsoleCircuitboard # DS14
     - id: HeadSkeleton # A skull to accompany your skeleton crew
       conditions:
       - !type:PlayerCountCondition

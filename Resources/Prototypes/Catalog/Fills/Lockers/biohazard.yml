@@ -13,7 +13,6 @@
   table: !type:AllSelector
     children:
     - id: ClothingOuterBioGeneral
-    - id: ClothingHeadHatHoodBioGeneral
 
 - type: entity
   id: ClosetL3VirologyFilled
@@ -30,7 +29,6 @@
   table: !type:AllSelector
     children:
     - id: ClothingOuterBioVirology
-    - id: ClothingHeadHatHoodBioVirology
 
 - type: entity
   id: ClosetL3SecurityFilled
@@ -47,7 +45,6 @@
   table: !type:AllSelector
     children:
     - id: ClothingOuterBioSecurity
-    - id: ClothingHeadHatHoodBioSecurity
 
 - type: entity
   id: ClosetL3JanitorFilled
@@ -64,7 +61,6 @@
   table: !type:AllSelector
     children:
     - id: ClothingOuterBioJanitor
-    - id: ClothingHeadHatHoodBioJanitor
 
 - type: entity
   id: ClosetL3ScienceFilled
@@ -81,4 +77,3 @@
   table: !type:AllSelector
     children:
     - id: ClothingOuterBioScientist
-    - id: ClothingHeadHatHoodBioScientist

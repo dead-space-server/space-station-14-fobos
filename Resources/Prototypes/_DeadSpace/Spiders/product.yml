@@ -6,7 +6,7 @@
   product: CrateKarachnocidGrenade
   cost: 3000
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
 
 - type: entity
   id: CrateKarachnocidGrenade

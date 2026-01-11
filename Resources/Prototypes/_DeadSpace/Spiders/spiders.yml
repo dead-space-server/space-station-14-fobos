@@ -88,15 +88,15 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      35: Critical
-      80: Dead
+      50: Critical
+      100: Dead
   - type: MeleeWeapon
     animation: WeaponArcBite
     soundHit:
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 2
+        Slash: 2
         Poison: 2
   - type: GhostRole
     makeSentient: true
@@ -176,6 +176,8 @@
     knownLanguages:
     - ArachnidLanguage
   - type: NoSlip
+  - type: GhostRoleNotifys
+    groupPrototype: SpiderTerrorBase
 
 - type: entity
   name: паук королевской крови
@@ -206,11 +208,15 @@
     name: Паук королевской крови
     description: Паук ужаса
     rules: ghost-role-information-rules-team-antagonist
+  - type: Damageable
+    damageModifierSet: HeadSpiderTerror
   - type: NeededBloodForEvolution #Пример
     defaultCost: 100 # Стандартная цена на не заданный результат
     bloodCosts: # Цены
       MobSpiderTerrorRoyalGuard: 100
       MobSpiderTerrorPrincess: 150
+  - type: GhostRoleNotifys
+    groupPrototype: SpiderTerrorKing
 
 - type: entity
   name: героический паук королевской крови
@@ -233,6 +239,10 @@
     name: Героический паук ужаса королевской крови
     description: Паук Ужаса.
     rules: ghost-role-information-rules-team-antagonist
+  - type: GhostRoleNotifys
+    groupPrototype: SpiderTerrorGeroick
+  - type: Damageable
+    damageModifierSet: HeadSpiderTerror
 
 - type: entity
   name: паук страж
@@ -243,8 +253,10 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      150: Critical
-      200: Dead
+      100: Critical
+      150: Dead
+  - type: Damageable
+    damageModifierSet: HeavySpiderTerror
   - type: MeleeWeapon
     animation: WeaponArcBite
     soundHit:
@@ -253,7 +265,7 @@
       types:
         Poison: 2
       groups:
-        Brute: 10
+        Brute: 8
   - type: Evolution
     duration: 150 # Время до получения возможности эволюционировать
     spawnedEntities: # В кого можно эволюционировать
@@ -312,6 +324,8 @@
     bloodCosts: # Цены
       MobSpiderTerrorDestroyer: 50
       MobSpiderTerrorLurker: 50
+  - type: Damageable
+    damageModifierSet: HeavySpiderTerror
   - type: Sprite
     scale: 1, 1
     drawdepth: Mobs
@@ -341,15 +355,15 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 4
+        Slash: 4
         Poison: 2
       groups:
-        Brute: 5
+        Brute: 3
   - type: MobThresholds
     thresholds:
       0: Alive
-      100: Critical
-      200: Dead
+      75: Critical
+      125: Dead
   - type: Fixtures
     fixtures:
       fix1:
@@ -433,16 +447,16 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 2
+        Slash: 2
         Poison: 2
         Structural: 10
       groups:
-        Brute: 4
+        Brute: 3
   - type: MobThresholds
     thresholds:
       0: Alive
       100: Critical
-      200: Dead
+      150: Dead
   - type: Fixtures
     fixtures:
       fix1:
@@ -520,16 +534,16 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 4
-        Poison: 4
+        Slash: 4
+        Poison: 2
         Structural: 20
       groups:
-        Brute: 8
+        Brute: 4
   - type: MobThresholds
     thresholds:
       0: Alive
-      200: Critical
-      300: Dead
+      150: Critical
+      200: Dead
   - type: Fixtures
     fixtures:
       fix1:
@@ -617,14 +631,14 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 1
+        Slash: 1
         Poison: 1
         Structural: 30
         Blunt: 6
   - type: MobThresholds
     thresholds:
       0: Alive
-      100: Critical
+      150: Critical
       200: Dead
   - type: Fixtures
     fixtures:
@@ -675,15 +689,15 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 3
-        Poison: 5
+        Slash: 3
+        Poison: 3
       groups:
-        Brute: 1
+        Brute: 2
   - type: MobThresholds
     thresholds:
       0: Alive
-      200: Critical
-      250: Dead
+      150: Critical
+      200: Dead
   - type: SlowOnDamage
     speedModifierThresholds:
       80: 0.9
@@ -752,8 +766,8 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      300: Critical
-      400: Dead
+      200: Critical
+      250: Dead
   - type: Fixtures
     fixtures:
       fix1:
@@ -855,20 +869,20 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 10
+        Slash: 7
         Poison: 3
         Structural: 30
       groups:
-        Brute: 10
+        Brute: 6
   - type: MobThresholds
     thresholds:
       0: Alive
-      350: Critical
-      450: Dead
+      300: Critical
+      350: Dead
   - type: SlowOnDamage
     speedModifierThresholds:
-      200: 0.8
-      300: 0.7
+      150: 0.8
+      250: 0.7
   - type: Fixtures
     fixtures:
       fix1:
@@ -889,6 +903,8 @@
     bloodReagent: CopperBlood
     bloodMaxVolume: 250
     bloodlossThreshold: 0.2
+  - type: Damageable
+    damageModifierSet: HeadSpiderTerror
   - type: StunRadius
     actionStunRadius: ActionStunRadiusSpider
     paralyzeTime: 3 # Время стана
@@ -925,12 +941,14 @@
         Poison: 1
         Structural: 20
       groups:
-        Brute: 20
+        Brute: 10
   - type: MobThresholds
     thresholds:
       0: Alive
-      350: Critical
-      470: Dead
+      300: Critical
+      350: Dead
+  - type: Damageable
+    damageModifierSet: HeavySpiderTerror
   - type: Fixtures
     fixtures:
       fix1:
@@ -984,12 +1002,12 @@
         Poison: 1
         Structural: 5
       groups:
-        Brute: 7
+        Brute: 5
   - type: MobThresholds
     thresholds:
       0: Alive
       # 100: Critical
-      200: Dead
+      150: Dead
   - type: Fixtures
     fixtures:
       fix1:
@@ -1069,12 +1087,12 @@
         Poison: 1
         Structural: 5
       groups:
-        Brute: 7
+        Brute: 4
   - type: MobThresholds
     thresholds:
       0: Alive
       # 250: Critical
-      350: Dead
+      250: Dead
   - type: Fixtures
     fixtures:
       fix1:

@@ -30,3 +30,24 @@
     walkModifier: 0.90
     sprintModifier: 0.90
 
+- type: entity
+  parent: ClothingShoesBaseButcherable
+  id: ClothingShoesBootsSterileMedical
+  name: стерильные туфли
+  description: Лёгкие стерильные туфли.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Clothing/Shoes/Boots/sterile_shoes.rsi
+    - type: Clothing
+      sprite: _DeadSpace/Clothing/Shoes/Boots/sterile_shoes.rsi
+
+- type: entity
+  parent: ClothingShoesBaseButcherable
+  id: ClothingShoesBootsSterileMedicalChemist
+  name: стерильные туфли химика
+  description: Лёгкие стерильные туфли.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Clothing/Shoes/Boots/sterile_shoes_chem.rsi
+    - type: Clothing
+      sprite: _DeadSpace/Clothing/Shoes/Boots/sterile_shoes_chem.rsi                                                                                                    

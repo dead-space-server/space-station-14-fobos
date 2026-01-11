@@ -130,7 +130,7 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
             return;
         }
 
-        var (entity, job, objectives, briefing, entityName) = data;
+        var (entity, job, objectives, skills, briefing, entityName) = data;
 
         _window.SpriteView.SetEntity(entity);
 
@@ -140,6 +140,48 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
         _window.SubText.Text = job;
         _window.Objectives.RemoveAllChildren();
         _window.ObjectivesLabel.Visible = objectives.Any();
+
+        // DS14-Skills-Start
+        {
+            var skillsControl = new CharacterObjectiveControl
+            {
+                Orientation = BoxContainer.LayoutOrientation.Vertical,
+                Modulate = Color.Gray
+            };
+
+            var text = new FormattedMessage();
+            text.TryAddMarkup("Навыки", out _);
+
+            var label = new RichTextLabel
+            {
+                StyleClasses = { StyleNano.StyleClassTooltipActionTitle }
+            };
+            label.SetMessage(text);
+
+            skillsControl.AddChild(label);
+
+            foreach (var skill in skills)
+            {
+                var conditionControl = new ObjectiveConditionsControl();
+                conditionControl.ProgressTexture.Texture = _sprite.Frame0(skill.Icon);
+                conditionControl.ProgressTexture.Progress = skill.Progress;
+
+                var titleMessage = new FormattedMessage();
+                var descriptionMessage = new FormattedMessage();
+
+                titleMessage.AddText(skill.Name);
+                descriptionMessage.AddText(skill.Description);
+
+                conditionControl.Title.SetMessage(titleMessage);
+                conditionControl.Description.SetMessage(descriptionMessage);
+
+                skillsControl.AddChild(conditionControl);
+            }
+
+            _window.Objectives.AddChild(skillsControl);
+        }
+
+        // DS14-Skills-End
 
         // start backmen: currency
         {
@@ -211,7 +253,6 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
             objectiveLabel.SetMessage(objectiveText);
 
             objectiveControl.AddChild(objectiveLabel);
-
 
             foreach (var condition in conditions)
             {

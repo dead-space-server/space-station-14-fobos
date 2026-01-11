@@ -10,10 +10,10 @@
     chance: 1
     prototypes:
     - MobCarpDragon
-    - MobSharkDragon
     - MobCarpHoloDragon
-    rareChance: 0.5
+    rareChance: 0.2
     rarePrototypes: 
+    - MobSharkDragon
     - MobMiniDragonIce
     - MobMiniDragonFire
     - MobMiniDragonHealer

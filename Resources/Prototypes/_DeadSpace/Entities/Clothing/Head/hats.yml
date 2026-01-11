@@ -42,6 +42,17 @@
   - type: Clothing
     sprite: _DeadSpace/Clothing/Head/Hats/beret_cargo.rsi
 
+- type: entity
+  parent: ClothingHeadBase
+  id: ClothingHeadHatMedBeretChemist
+  name: берет химика
+  description: Оранжевый берет медицинского отдела.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Head/Hats/beret_chemist.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Head/Hats/beret_chemist.rsi
+
 # Taipan
 - type: entity
   parent: ClothingHeadBase

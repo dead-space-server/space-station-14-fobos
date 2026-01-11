@@ -1,5 +1,7 @@
 - type: npcFaction
   id: Necromorfs
+  friendly:
+  - Necromorfs
   hostile:
   - Revolutionary
   - NanoTrasen
@@ -35,11 +37,16 @@
   movementSpeedMultiply: 0.7
   damage:
     groups:
-      Brute: 20
+      Brute: 12
     types:
       Structural: 10
   damageModifierSet: Necromorf
   claws: ClothingNecroClaws
+  components:
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: necromorf
   id: NecroDeva
@@ -47,7 +54,7 @@
   movementSpeedMultiply: 0.7
   damage:
     groups:
-      Brute: 15
+      Brute: 10
     types:
       Structural: 10
   damageModifierSet: Necromorf
@@ -58,6 +65,10 @@
       collection: DevaEat
     enrageSound:
       collection: DevaEnrage
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: necromorf
   id: NecroHive
@@ -65,7 +76,7 @@
   movementSpeedMultiply: 0.7
   damage:
     groups:
-      Brute: 15
+      Brute: 11
     types:
       Structural: 10
   damageModifierSet: Necromorf
@@ -86,6 +97,10 @@
     hungerPerArmyUse: 25
     needHunger: false
     molesAmmoniaPerDomain: 100
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: necromorf
   id: NecroSmall
@@ -93,7 +108,7 @@
   movementSpeedMultiply: 1
   damage:
     groups:
-      Brute: 10
+      Brute: 5
     types:
       Structural: 5
   damageModifierSet: Necromorf
@@ -101,25 +116,35 @@
   useInventory: false
   sprite: _DeadSpace/Necromorfs/small_necro.rsi
   state: running
+  components:
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: necromorf
   id: NecroTwitcher
   movementSpeedMultiply: 0.9
   damage:
     groups:
-      Brute: 15
+      Brute: 10
     types:
       Structural: 10
   damageModifierSet: Necromorf
   claws: ClothingNecroClaws
   hardsuit: ClothingNecroRibs
+  components:
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: necromorf
   id: NecroPregnant
   movementSpeedMultiply: 0.7
   damage:
     groups:
-      Brute: 20
+      Brute: 12
     types:
       Structural: 10
   damageModifierSet: Necromorf
@@ -130,6 +155,10 @@
     spawned:
     - id: MobSmallNecro
       amount: 3
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: necromorf
   id: NecroBrute
@@ -139,7 +168,7 @@
   thresholdMultiply: 5
   damage:
     groups:
-      Brute: 50
+      Brute: 25
     types:
       Structural: 40
   damageModifierSet: Necromorf
@@ -150,6 +179,10 @@
   components:
   - type: StunAttack
     paralyzeTime: 1
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: necromorf
   id: NecroInfector
@@ -157,7 +190,7 @@
   isAnimal: true
   damage:
     groups:
-      Brute: 10
+      Brute: 8
     types:
       Structural: 10
   damageModifierSet: Necromorf
@@ -169,6 +202,10 @@
     spawned:
     - id: InfectorGland # Что вылупилось
       amount: 2 # Колличество
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: necromorf # Прототип некроморфа
   id: NecroTwitcherLvl2 # Идентификатор
@@ -176,7 +213,7 @@
   thresholdMultiply: 2
   damage: # Урон наносимый некроморфом
     groups:
-      Brute: 25
+      Brute: 14
     types:
       Structural: 15
   damageModifierSet: Necromorf # Модификатор получаемого урона
@@ -185,6 +222,10 @@
   components: # Доп. компоненты
   - type: StunAttack
     paralyzeTime: 1
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: necromorf # Прототип некроморфа
   id: NecroCorpseCollector # Идентификатор
@@ -213,7 +254,7 @@
   - Ensnare
   damage: # Урон наносимый некроморфом
     groups:
-      Brute: 15
+      Brute: 12
     types:
       Structural: 15
   damageModifierSet: Necromorf # Модификатор получаемого урона
@@ -232,6 +273,10 @@
     spawned:
     - id: InfectorGland # Что вылупилось
       amount: 2 # Колличество
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: weightedRandomEntity
   id: CorpseCollectorMobToSpawn
@@ -272,6 +317,8 @@
     name: Некроморф
     description: Вы некроморф, убейте всех своих врагов.
   - type: GhostTakeoverAvailable
+  - type: GhostRoleNotifys
+    groupPrototype: NecromorfGroup
 
 - type: randomHumanoidSettings
   id: HiveNecromorf
@@ -283,6 +330,8 @@
     name: Некроморф улей
     description: Вы некроморф, убейте всех своих врагов.
   - type: GhostTakeoverAvailable
+  - type: GhostRoleNotifys
+    groupPrototype: NecromorfGroup
 
 - type: randomHumanoidSettings
   id: PregnantNecromorf
@@ -294,6 +343,8 @@
     name: Некроморф беременный
     description: Вы некроморф, убейте всех своих врагов.
   - type: GhostTakeoverAvailable
+  - type: GhostRoleNotifys 
+    groupPrototype: NecromorfGroup
 
 - type: randomHumanoidSettings
   id: DevaNecromorf
@@ -305,6 +356,8 @@
     name: Некроморф дева
     description: Вы некроморф, убейте всех своих врагов.
   - type: GhostTakeoverAvailable
+  - type: GhostRoleNotifys 
+    groupPrototype: NecromorfGroup
 
 - type: randomHumanoidSettings
   id: SlasherNecromorf
@@ -316,6 +369,8 @@
     name: Некроморф расчленитель
     description: Вы некроморф, убейте всех своих врагов.
   - type: GhostTakeoverAvailable
+  - type: GhostRoleNotifys 
+    groupPrototype: NecromorfGroup
 
 - type: randomHumanoidSettings
   id: TwitcherNecromorf
@@ -327,6 +382,8 @@
     name: Некроморф твитчер
     description: Вы некроморф, убейте всех своих врагов.
   - type: GhostTakeoverAvailable
+  - type: GhostRoleNotifys 
+    groupPrototype: NecromorfGroup
 
 - type: randomHumanoidSettings
   id: CorpseCollectorNecromorf
@@ -338,6 +395,8 @@
     name: Некроморф собиратель трупов
     description: Вы некроморф, убейте всех своих врагов.
   - type: GhostTakeoverAvailable
+  - type: GhostRoleNotifys 
+    groupPrototype: CorpseCollectorNecromorfping
 
 - type: entity
   id: RandomNecromorfSpawner

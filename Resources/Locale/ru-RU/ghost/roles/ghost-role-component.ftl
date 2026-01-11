@@ -143,6 +143,7 @@ ghost-role-information-ert-medical-name = ОБР Медик
 ghost-role-information-ert-medical-description = Оказывайте содействие в медицинской помощи для решения проблем станции.
 ghost-role-information-cburn-leader-name = РХБЗЗ Лидер
 ghost-role-information-cburn-leader-description = Руководите командой специалистов для решения проблем станции.
+ghost-role-information-sindy-agent-sup-description = Агент синдиката, прилетевший на станцию для снабжения революции.
 ghost-role-information-cburn-agent-name = РХБЗЗ Оперативник
 ghost-role-information-cburn-agent-description = Высококвалифицированный оперативник, способный справиться с любыми угрозами.
 ghost-role-information-centcom-official-name = Представитель ЦК
@@ -269,3 +270,9 @@ ghost-role-information-blueshieldofficer-description = Вы - Офицер ко�
 ghost-role-information-centcomofficer-name = Офицер Центрального Командования
 ghost-role-information-centcomofficer-description = Вы - Офицер Центрального Командования. Вы должны защищать довереное вам место на котором вы появились и выполнять приказы вышестоящих сотрудников Центрального Командования.
 ghost-role-information-centcom-personal-rules = Вы обязаны подчиняться приказам членов Центрального Командования.
+
+ghost-role-information-ert-centcom-official-description =
+    Вы — Офицер Центрального Командования, направленный для инспекции станции по чрезвычайной ситуации.
+    Роль требует хорошего знания СРП и Корпоративного Закона.
+    Если вы не уверены в своих знаниях, пожалуйста, не берите эту роль.
+    Роль предполагает высокий уровень ответственности и может быть предметом административного контроля со стороны модерации/администрации.

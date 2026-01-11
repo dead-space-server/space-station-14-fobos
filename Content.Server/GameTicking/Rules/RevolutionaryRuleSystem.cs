@@ -39,6 +39,11 @@ using System.Linq;
 using Content.Shared.NPC.Components;
 using Content.Server.Chat.Systems;
 using Content.Shared.Mind;
+using Content.Server.DeadSpace.ERT;
+using Content.Shared.DeadSpace.ERT.Prototypes;
+using Content.Shared.Cargo.Prototypes;
+using Content.Server.Cargo.Systems;
+using Content.Shared.Cargo.Components;
 
 namespace Content.Server.GameTicking.Rules;
 
@@ -65,6 +70,8 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
     [Dependency] private readonly ActionsSystem _actions = default!;
     [Dependency] private readonly AlertLevelSystem _alertLevel = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
+    [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
+    public readonly ProtoId<ErtTeamPrototype> RevolutionarySupplyTeam = "RevSup";
 
     //Used in OnPostFlash, no reference to the rule component is available
     public readonly ProtoId<NpcFactionPrototype> RevolutionaryNpcFaction = "Revolutionary";
@@ -114,15 +121,19 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
         else
         {
             component.Stage = RevolutionaryStage.Massacre;
+            EntityUid? stationUid = null;
 
             foreach (var station in _stationSystem.GetStationsSet())
             {
                 //Maybe it's worth checking the codes "above"?
                 if (_npcFaction.IsMember(station, "NanoTrasen"))
                     _alertLevel.SetLevel(station, "red", false, true, false, false);
+
+                stationUid = station;
             }
 
             var headRevsNames = new List<string>();
+            bool sendSup = false;
 
             var query = EntityQueryEnumerator<HeadRevolutionaryComponent>();
             while (query.MoveNext(out var heads, out var _))
@@ -130,8 +141,14 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
                 var name = EntityManager.GetComponent<MetaDataComponent>(heads).EntityName;
                 headRevsNames.Add(name);
 
+                if (_mobState.IsAlive(heads))
+                    sendSup = true;
+
                 RaiseLocalEvent(heads, new NewRevStageEvent());
             }
+
+            if (sendSup)
+                _ertResponceSystem.TryCallErt(RevolutionarySupplyTeam, stationUid, out _, false, false, false);
 
             if (headRevsNames.Count == 0)
                 return;

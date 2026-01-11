@@ -1,5 +1,5 @@
 - type: reaction
-  id: Bacterizine
+  id: Infectizine
   reactants:
     Saline:
       amount: 1
@@ -8,7 +8,7 @@
     Iron:
       amount: 1
   products:
-    Bacterizine: 3
+    Infectizine: 3
 
 - type: reaction
   id: Mycocline
@@ -16,7 +16,7 @@
   reactants:
     Dylovene:
       amount: 1
-    Bacterizine:
+    Infectizine:
       amount: 1
   products:
     Mycocline: 2
@@ -27,7 +27,7 @@
   reactants:
     Silver:
       amount: 1
-    Bacterizine:
+    Infectizine:
       amount: 1
     Mannitol:
       amount: 1
@@ -42,7 +42,7 @@
       amount: 1
     Mycocline:
       amount: 1
-    Bacterizine:
+    Infectizine:
       amount: 1
   products:
     Panacemycin: 3
@@ -53,7 +53,7 @@
   reactants:
     PotassiumIodide:
       amount: 1
-    Bacterizine:
+    Infectizine:
       amount: 1
     Saline:
       amount: 1

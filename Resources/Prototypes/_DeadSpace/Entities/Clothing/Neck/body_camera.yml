@@ -1,5 +1,5 @@
 - type: entity
-  parent: [ClothingNeckBase, AccessoryCameraBase] # DS14 accessory
+  parent: AccessoryCameraBase # DS14 accessory
   id: ClothingNeckBodyCamera
   name: нательная камера
   description: Лучше не кидать жёлуди рядом с владельцем этой камеры.
@@ -8,6 +8,7 @@
     size: Small
   - type: Sprite
     sprite: _DeadSpace/Clothing/Neck/body_camera.rsi
+    state: icon
   - type: Eye
   - type: WiredNetworkConnection
   - type: UserInterface
@@ -24,3 +25,11 @@
   - type: Tag
     tags:
     - WhitelistChameleon
+  - type: Clothing
+    quickEquip: true
+    slots:
+    - neck
+  - type: PhysicalComposition
+    materialComposition:
+      Steel: 100
+      Plastic: 100

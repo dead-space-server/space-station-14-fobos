@@ -7,18 +7,17 @@ using Content.Server.DeadSpace.Virus.Systems;
 using Content.Shared.Chat.Prototypes;
 using Content.Shared.DeadSpace.TimeWindow;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Random;
-using Robust.Shared.Timing;
-
+using Content.Shared.DeadSpace.Virus.Prototypes;
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class CoughSymptom : VirusSymptomBase
 {
+    [Dependency] private readonly EntityManager _entityManager = default!;
     public override VirusSymptom Type => VirusSymptom.Cough;
-    protected override float AddInfectivity => 0.1f;
+    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "CoughSymptom";
     private static readonly ProtoId<EmotePrototype> CoughEmote = "Cough";
 
-    public CoughSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
+    public CoughSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
@@ -38,8 +37,8 @@ public sealed class CoughSymptom : VirusSymptomBase
 
     public override void DoEffect(EntityUid host, VirusComponent virus)
     {
-        var chatSystem = EntityManager.System<ChatSystem>();
-        var virusSystem = EntityManager.System<VirusSystem>();
+        var chatSystem = _entityManager.System<ChatSystem>();
+        var virusSystem = _entityManager.System<VirusSystem>();
 
         // Почему-то проигрывается вместо со звуком, хотя раньше такого не было
         chatSystem.TryEmoteWithChat(host,
@@ -50,8 +49,13 @@ public sealed class CoughSymptom : VirusSymptomBase
         virusSystem.InfectAround(host);
     }
 
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        base.ApplyDataEffect(data, add);
+    }
+
     public override IVirusSymptom Clone()
     {
-        return new CoughSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+        return new CoughSymptom(EffectTimedWindow.Clone());
     }
 }

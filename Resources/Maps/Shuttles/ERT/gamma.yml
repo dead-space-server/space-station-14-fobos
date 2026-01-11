@@ -4,7 +4,7 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 12/07/2025 13:55:03
+  time: 01/04/2026 09:34:26
   entityCount: 1312
 maps: []
 grids:
@@ -3811,6 +3811,20 @@ entities:
     - type: Physics
       canCollide: False
     - type: InsideEntityStorage
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 976
+    components:
+    - type: Transform
+      pos: -1.5,0.5
+      parent: 1
+- proto: ErtSpawnPoint
+  entities:
+  - uid: 1313
+    components:
+    - type: Transform
+      pos: 0.5,-6.5
+      parent: 1
 - proto: FireAlarm
   entities:
   - uid: 476
@@ -8177,12 +8191,6 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 3.5,-11.5
       parent: 1
-  - uid: 976
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -1.5,0.5
-      parent: 1
   - uid: 977
     components:
     - type: Transform
@@ -8554,11 +8562,6 @@ entities:
     components:
     - type: Transform
       pos: -8.5,-5.5
-      parent: 1
-  - uid: 1042
-    components:
-    - type: Transform
-      pos: -1.5,0.5
       parent: 1
   - uid: 1043
     components:

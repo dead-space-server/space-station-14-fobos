@@ -1,0 +1,27 @@
+<!--Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT-->
+
+<DefaultWindow xmlns="https://spacestation14.io"
+               Title="{Loc 'ert-computer-window-title'}"
+               MinSize="900 600"
+               SetSize="1000 700">
+
+    <BoxContainer Orientation="Vertical"
+                  VerticalExpand="True">
+
+        <!-- ACTION BUTTON -->
+        <BoxContainer Orientation="Horizontal"
+                      HorizontalAlignment="Center"
+                      Margin="5">
+            <Button Name="StartEvacuationButton"
+                    Access="Public"
+                    MinWidth="250"
+                    Text="{Loc 'ert-computer-evac-title'}"/>
+            <Button Name="CancelEvacuationButton"
+                    Access="Public"
+                    MinWidth="250"
+                    Text="{Loc 'ert-computer-evac-cancle-title'}"/>
+        </BoxContainer>
+
+    </BoxContainer>
+</DefaultWindow>
+
