@@ -2,7 +2,7 @@
   parent: ClothingHeadHelmetBase
   id: ADTClothingHeadUSSPjuggernautHelmetArmored
   name: бронешлем "ТШ-6"
-  description: Тяжелый защитный с Шестого уровнем защиты "Вулкан" предназначен для использования в комплекте боевого снаряжения с целью круговой защиты головы человека шестого класса от пуль стрелкового оружия.
+  description: Тяжелый защитный с третьего уровнем защиты "Вулкан" предназначен для использования в комплекте боевого снаряжения с целью круговой защиты головы человека шестого класса от пуль стрелкового оружия.
   components:
   - type: Sprite
     sprite: _ADT/Clothing/Head/Hats/ussphelmet.rsi
@@ -14,6 +14,8 @@
   - type: IngestionBlocker
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 3
       coefficients:
         Blunt: 0.8
         Slash: 0.85
@@ -37,6 +39,8 @@
     damageCoefficient: 0.3
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 3
       coefficients:
         Blunt: 0.5
         Slash: 0.5

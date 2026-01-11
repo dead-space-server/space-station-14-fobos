@@ -17,6 +17,8 @@
     damageCoefficient: 0.475
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 2
       coefficients:
         Blunt: 0.43
         Slash: 0.38
@@ -97,6 +99,8 @@
     damageCoefficient: 0.28
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 2
       coefficients:
         Blunt: 0.33
         Slash: 0.28
@@ -177,6 +181,8 @@
     damageCoefficient: 0.48
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 2
       coefficients:
         Blunt: 0.63
         Slash: 0.58
@@ -242,7 +248,7 @@
   parent: [ ClothingOuterHardsuitBase, BaseSyndicateContraband ]
   id: ClothingOuterHardsuitUnitologyEngineer
   name: экзогенный бронескафандр «Аклепий»
-  description: Плотный скафандр для Зодчего отряда "Круг" позволяет тому работать в жаркой, и не только обстановке. 
+  description: Плотный скафандр для Зодчего отряда "Круг" позволяет тому работать в жаркой, и не только обстановке.
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/engi.rsi
@@ -259,6 +265,8 @@
     damageCoefficient: 0.28
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 2
       coefficients:
         Blunt: 0.48
         Slash: 0.43
@@ -341,6 +349,8 @@
     damageCoefficient: 0.475
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 2
       coefficients:
         Blunt: 0.53
         Slash: 0.48

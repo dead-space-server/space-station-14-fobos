@@ -1,0 +1,20 @@
+# Jumpsuit
+
+- type: loadout
+  id: ChemistJumpskirtPencil
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtPencilChemistry
+
+# Shoes
+
+- type: loadout
+  id: ShoesBootsSterileChemist
+  equipment:
+    shoes: ClothingShoesBootsSterileMedicalChemist
+
+# Underwear
+
+- type: loadout
+  id: SocksChemist
+  equipment:
+    socks: ClothingUnderwearSocksChemist

@@ -105,6 +105,28 @@
   result: ShuttleGunDusterCircuitboard
   completetime: 12
 
+# DS14-start
+- type: latheRecipe
+  parent: BaseMachineRecipeCategory
+  id: WeaponEnergyTurretCommandMachineCircuitboard
+  result: WeaponEnergyTurretCommandMachineCircuitboard
+  completetime: 8
+  materials:
+    Steel: 500
+    Glass: 500
+    Gold: 200
+
+- type: latheRecipe
+  parent: BaseMachineRecipeCategory
+  id: WeaponEnergyTurretCommandControlPanelElectronics
+  result: WeaponEnergyTurretCommandControlPanelElectronics
+  completetime: 4
+  materials:
+    Steel: 500
+    Glass: 500
+    Gold: 200
+# DS14-end
+
 ## Circuit imprinter
 
 ## Engineering

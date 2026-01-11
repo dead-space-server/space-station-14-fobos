@@ -2,7 +2,7 @@
   parent: BaseComputerAiAccess
   id: ErtResponceConsole
   name: консоль запроса поддержки NanoTrasen
-  description: консоль запроса поддержки NanoTrasen для экстренных команд реагирования.
+  description: Консоль запроса поддержки NanoTrasen которая отправляет сигнал отрядам быстрого реагирования для оказания поддержки станции в критических ситуациях.
   components:
   - type: Sprite
     layers:
@@ -40,6 +40,7 @@
     teams:
     - Cburn
     - CburnSierra
+    - Red
     - Gamma
     - Amber
     - Engineers
@@ -53,8 +54,8 @@
 - type: entity
   parent: BaseComputerAiAccess
   id: ErtComputerShuttle
-  name: консоль обр NanoTrasen
-  description: консоль обр NanoTrasen для экстренных команд реагирования.
+  name: консоль вызова обр NanoTrasen
+  description: Консоль для вызова отрядов быстрого реагирования на станции NanoTrasen.
   components:
   - type: Sprite
     layers:
@@ -99,7 +100,7 @@
   parent: ErtComputerShuttle
   id: ErtCounterpartyComputerShuttle
   name: консоль обр контрагентов NanoTrasen
-  description: консоль обр контрагентов NanoTrasen для экстренных команд реагирования.
+  description: Консоль обр контрагентов NanoTrasen для экстренных команд реагирования.
   components:
   - type: Computer
     board: ErtCounterpartyComputerShuttleCircuitboard
@@ -140,10 +141,11 @@
       prototype: ErtResponceConsole
 
 - type: entity
-  parent: BaseItem
+  parent: 
+  - BaseItem
   id: TelephoneIaa
-  name: устройство связи внутреннего агентства безопасности
-  description: Устройство связи, выданное агентам внутренних дел для связи с центральным командованием в экстренных случаях.
+  name: устройство связи с ЦК
+  description: Устройство связи, которое выдаётся агентам внутренних дел для связи с Центральным Командованием в экстренных случаях.
   components:
   - type: ActivatableUI
     key: enum.ErtResponceConsoleUiKey.Key
@@ -186,3 +188,5 @@
     - CentralCommandOfficial
   - type: Language
     selectedLanguage: GeneralLanguage
+  - type: Speech
+    speechVerb: Robotic
