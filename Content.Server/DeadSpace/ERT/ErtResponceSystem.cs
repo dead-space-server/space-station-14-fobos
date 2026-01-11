@@ -17,8 +17,11 @@ using Robust.Server.GameObjects;
 using Content.Shared.Mind.Components;
 using Content.Shared.GameTicking;
 using Content.Server.Chat.Managers;
-using Content.Shared.Alert;
 using Content.Server.AlertLevel;
+using Content.Shared.Administration.Logs;
+using Content.Shared.DeadSpace.ERT;
+using Content.Shared.Database;
+using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.ERT;
 
@@ -32,8 +35,9 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly MapSystem _mapSystem = default!;
     [Dependency] private readonly AlertLevelSystem _alertLevelSystem = default!;
+    [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
     private readonly Dictionary<ProtoId<ErtTeamPrototype>, TimedWindow> _expectedTeams = new();
-    private TimedWindow _windowAdminAlert = new(TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
     private TimedWindow? _coolDown = null;
     private readonly TimedWindow _defaultWindowWaitingSpecies = new(TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(5));
     private List<WaitingSpeciesSettings> _windowWaitingSpecies = new();
@@ -51,10 +55,97 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
     {
         base.Initialize();
 
+        SubscribeNetworkEvent<RequestErtAdminStateMessage>(OnRequestErtAdminState);
+        SubscribeNetworkEvent<AdminModifyErtEntryMessage>(OnAdminModifyErtEntry);
+        SubscribeNetworkEvent<AdminSetPointsMessage>(OnAdminSetPoints);
+        SubscribeNetworkEvent<AdminDeleteErtMessage>(OnDeleteErt);
+        SubscribeNetworkEvent<AdminSetCooldownMessage>(OnAdminSetCooldown);
+
         SubscribeLocalEvent<ErtSpawnRuleComponent, RuleLoadedGridsEvent>(OnRuleLoadedGrids);
         SubscribeLocalEvent<ErtSpeciesRoleComponent, MindAddedMessage>(OnMindAdded);
 
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestart);
+    }
+
+    private void OnRequestErtAdminState(RequestErtAdminStateMessage msg, EntitySessionEventArgs args)
+    {
+        var entries = new List<ErtAdminEntry>();
+
+        foreach (var (teamId, window) in _expectedTeams)
+        {
+            if (!_prototypeManager.TryIndex(teamId, out var proto))
+                continue;
+
+            var seconds = _timedWindowSystem.GetSecondsRemaining(window);
+
+            entries.Add(new ErtAdminEntry(teamId.ToString(), proto.Name, seconds, proto.Price));
+        }
+
+        var cooldownSeconds = 0;
+        if (_coolDown != null && !_timedWindowSystem.IsExpired(_coolDown))
+        {
+            cooldownSeconds = _timedWindowSystem.GetSecondsRemaining(_coolDown);
+        }
+
+        var response = new ErtAdminStateResponse(entries.ToArray(), _points, cooldownSeconds);
+        RaiseNetworkEvent(response, args.SenderSession.Channel);
+    }
+
+    private void OnAdminModifyErtEntry(AdminModifyErtEntryMessage msg, EntitySessionEventArgs args)
+    {
+        var key = new ProtoId<ErtTeamPrototype>(msg.ProtoId);
+
+        if (!_expectedTeams.TryGetValue(key, out var window))
+        {
+            RaiseNetworkEvent(new ErtAdminActionResult(false, "No expected team with that id"), args.SenderSession.Channel);
+            return;
+        }
+
+        // Устанавливаем абсолютное время ожидания
+        window.Remaining = _timing.CurTime + TimeSpan.FromSeconds(msg.Seconds);
+
+        _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} set ERT '{msg.ProtoId}' arrival to {msg.Seconds} seconds");
+
+        _chatManager.SendAdminAlert($"Админ {args.SenderSession.Name} изменил время прибытия ОБР '{msg.ProtoId}' на {msg.Seconds} сек.");
+
+        RaiseNetworkEvent(new ErtAdminActionResult(true, "OK"), args.SenderSession.Channel);
+    }
+
+    private void OnAdminSetPoints(AdminSetPointsMessage msg, EntitySessionEventArgs args)
+    {
+        _points = msg.Points;
+
+        _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} set ERT points to {_points}");
+
+        _chatManager.SendAdminAlert($"Админ {args.SenderSession.Name} установил баланс ОБР на {_points} очков.");
+
+        RaiseNetworkEvent(new ErtAdminActionResult(true, "OK"), args.SenderSession.Channel);
+    }
+
+    private void OnDeleteErt(AdminDeleteErtMessage msg, EntitySessionEventArgs args)
+    {
+        var key = new ProtoId<ErtTeamPrototype>(msg.ProtoId);
+
+        _expectedTeams.Remove(key);
+        _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} delete ERT {msg.ProtoId}");
+
+        _chatManager.SendAdminAlert($"Админ {args.SenderSession.Name} удалил отряд {msg.ProtoId} из списка ожиданий.");
+
+        RaiseNetworkEvent(new ErtAdminActionResult(true, "OK"), args.SenderSession.Channel);
+    }
+
+    private void OnAdminSetCooldown(AdminSetCooldownMessage msg, EntitySessionEventArgs args)
+    {
+        // create a fixed cooldown window of given seconds
+        var window = new TimedWindow(TimeSpan.FromSeconds(msg.Seconds), TimeSpan.FromSeconds(msg.Seconds));
+        _timedWindowSystem.Reset(window);
+        _coolDown = window;
+
+        _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} set ERT cooldown to {msg.Seconds} seconds");
+
+        _chatManager.SendAdminAlert($"Админ {args.SenderSession.Name} установил откат ОБР на {msg.Seconds} сек.");
+
+        RaiseNetworkEvent(new ErtAdminActionResult(true, "OK"), args.SenderSession.Channel);
     }
 
     private void OnRoundRestart(RoundRestartCleanupEvent ev)
@@ -160,26 +251,6 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
             EnsureErtTeam(team);
             _expectedTeams.Remove(team);
         }
-
-        if (_expectedTeams.Count > 0)
-        {
-            if (_timedWindowSystem.IsExpired(_windowAdminAlert))
-            {
-                foreach (var (teamId, window) in _expectedTeams)
-                {
-                    if (!_prototypeManager.TryIndex(teamId, out var prototype))
-                        continue;
-
-                    var seconds = _timedWindowSystem.GetSecondsRemaining(window);
-
-                    _chatManager.SendAdminAlert(
-                        $"Ожидается прибытие ОБР \"{prototype.Name}\" через {seconds} сек."
-                    );
-                }
-
-                _timedWindowSystem.Reset(_windowAdminAlert);
-            }
-        }
     }
 
     public bool TryCallErt(
@@ -211,21 +282,6 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
             }
         }
 
-        if (toPay)
-        {
-            if (prototype.Price > _points)
-            {
-                reason = Loc.GetString(
-                    "ert-call-fail-not-enough-points",
-                    ("price", prototype.Price),
-                    ("balance", _points)
-                );
-                return false;
-            }
-
-            _points -= prototype.Price;
-        }
-
         if (needCooldown)
         {
             if (_coolDown != null && !_timedWindowSystem.IsExpired(_coolDown))
@@ -244,6 +300,21 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
                 _timedWindowSystem.Reset(cooldown);
                 _coolDown = cooldown;
             }
+        }
+
+        if (toPay)
+        {
+            if (prototype.Price > _points)
+            {
+                reason = Loc.GetString(
+                    "ert-call-fail-not-enough-points",
+                    ("price", prototype.Price),
+                    ("balance", _points)
+                );
+                return false;
+            }
+
+            _points -= prototype.Price;
         }
 
         if (needWarn)

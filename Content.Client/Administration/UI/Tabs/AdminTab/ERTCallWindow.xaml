@@ -4,14 +4,34 @@
             MinWidth="300">
     <BoxContainer Orientation="Vertical">
         <Control MinSize="0 10" />
-        <GridContainer Columns="2" HSeparationOverride="4">
-            <cc:CommandButton Command="ert_accept" Name="_acceptERTButton" Text="{Loc 'admin-player-actions-window-accept'}" />
-            <Label Text="{Loc 'accept-ert-command-description'}" />
-            <cc:CommandButton Command="ert_fake_accept" Name="_fakeAcceptERTButton" Text="{Loc 'admin-player-actions-window-fake-accept'}" />
-            <Label Text="{Loc 'fake-accept-ert-command-description'}" />
-            <cc:CommandButton Command="ert_refuse" Name="_refuseERTButton" Text="{Loc 'admin-player-actions-window-refuse'}" />
-            <Label Text="{Loc 'refuse-ert-command-description'}" />
-        </GridContainer>
+
+        <BoxContainer Orientation="Horizontal">
+            <ItemList Name="ExpectedList" MinSize="300 200" />
+
+            <BoxContainer Orientation="Vertical" MinSize="200 200" SeparationOverride="4">
+                <Label Text="Установить время прибытия (секунды):" />
+                <LineEdit Name="ArrivalSeconds" />
+                <Button Name="SetArrivalButton" Text="Изменить" />
+
+                <Control MinSize="0 10" />
+
+                <Label Text="Установить cooldown (секунды):" />
+                <LineEdit Name="CooldownSeconds" />
+                <Button Name="SetCooldownButton" Text="Изменить" />
+
+                <Control MinSize="0 10" />
+
+                <Label Text="Установить баланс очков вызова:" />
+                <LineEdit Name="PointsEdit" />
+                <Button Name="SetPointsButton" Text="Изменить" />
+
+                <Control MinSize="0 10" />
+
+                <Button Name="DeleteErtButton" Text="Удалить из списка" />
+                <Button Name="RefreshButton" Text="Обновить" />
+            </BoxContainer>
+        </BoxContainer>
+
         <Control MinSize="0 10" />
     </BoxContainer>
 </DefaultWindow>

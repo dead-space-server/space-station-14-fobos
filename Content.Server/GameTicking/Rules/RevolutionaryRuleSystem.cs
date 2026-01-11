@@ -70,13 +70,8 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
     [Dependency] private readonly ActionsSystem _actions = default!;
     [Dependency] private readonly AlertLevelSystem _alertLevel = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
-
-    // DS14-Start
-    [Dependency] private readonly CargoSystem _cargoSystem = default!;
     [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
-    private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "Gamma";
-    private static readonly ProtoId<CargoAccountPrototype> Account = "Security";
-    // DS14-End
+    public readonly ProtoId<ErtTeamPrototype> RevolutionarySupplyTeam = "RevSup";
 
     //Used in OnPostFlash, no reference to the rule component is available
     public readonly ProtoId<NpcFactionPrototype> RevolutionaryNpcFaction = "Revolutionary";
@@ -126,6 +121,7 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
         else
         {
             component.Stage = RevolutionaryStage.Massacre;
+            EntityUid? stationUid = null;
 
             foreach (var station in _stationSystem.GetStationsSet())
             {
@@ -133,19 +129,11 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
                 if (_npcFaction.IsMember(station, "NanoTrasen"))
                     _alertLevel.SetLevel(station, "red", false, true, false, false);
 
-                if (!TryComp<StationBankAccountComponent>(station, out var stationAccount))
-                    return;
-
-                var addMoneyAfterWarDeclared = _ertResponceSystem.GetErtPrice(ErtTeam);
-
-                _cargoSystem.UpdateBankAccount(
-                                    (station, stationAccount),
-                                    addMoneyAfterWarDeclared,
-                                    Account
-                                );
+                stationUid = station;
             }
 
             var headRevsNames = new List<string>();
+            bool sendSup = false;
 
             var query = EntityQueryEnumerator<HeadRevolutionaryComponent>();
             while (query.MoveNext(out var heads, out var _))
@@ -153,8 +141,14 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
                 var name = EntityManager.GetComponent<MetaDataComponent>(heads).EntityName;
                 headRevsNames.Add(name);
 
+                if (_mobState.IsAlive(heads))
+                    sendSup = true;
+
                 RaiseLocalEvent(heads, new NewRevStageEvent());
             }
+
+            if (sendSup)
+                _ertResponceSystem.TryCallErt(RevolutionarySupplyTeam, stationUid, out _, false, false, false);
 
             if (headRevsNames.Count == 0)
                 return;
