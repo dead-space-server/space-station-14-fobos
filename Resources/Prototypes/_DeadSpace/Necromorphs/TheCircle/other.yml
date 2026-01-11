@@ -67,6 +67,8 @@
 
 - type: entity
   id: ExtraborilVial
+  name: пробирка с  экстраборилом
+  description: Пробирка, заполненная до краев экстраборилом.
   parent: BaseChemistryEmptyVial
   components:
   - type: Label
