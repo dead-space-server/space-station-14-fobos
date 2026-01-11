@@ -605,6 +605,13 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
             ValueColor = _state.HavePriorityAntageGame ? Color.FromHex("#a589c9") : Color.FromHex("#6d5a8a")
         });
 
+        _perksGrid.AddChild(new EmeraldPerkCard
+        {
+            Title = "ДОСТУП КО ВСЕМ ДОЛЖНОСТЯМ",
+            Value = _state.AllowJob ? "ДА" : "НЕТ",
+            ValueColor = _state.AllowJob ? Color.FromHex("#a589c9") : Color.FromHex("#6d5a8a")
+        });
+
         _profilePanel.AddChild(_perksGrid);
 
         if (_state.CurrentPremium != null)
