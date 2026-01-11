@@ -16,6 +16,8 @@
     sprite: Clothing/OuterClothing/Armor/security.rsi
   - type: Armor #Based on /tg/ but slightly compensated to fit the fact that armor stacks in SS14.
     modifiers:
+      armorLvls:
+        Piercing: 2 #Описание врет, броник 2 тира, ради баланса
       coefficients:
         Blunt: 0.70
         Slash: 0.70
@@ -59,13 +61,18 @@
     sprite: Clothing/OuterClothing/Armor/bulletproof.rsi
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 3 #шьется только винтовочными патронами
       coefficients:
         Blunt: 0.8 # DS14-value
         Slash: 0.8 # DS14-value
-        Piercing: 0.4
+        Piercing: 0.8 # 0.35 DS14-value
         Heat: 0.8 # DS14-value
   - type: ExplosionResistance
     damageCoefficient: 0.80
+  - type: ClothingSpeedModifier # DS14
+    walkModifier: 0.95
+    sprintModifier: 0.95
 
 - type: entity
   parent: ClothingOuterArmorBase
@@ -109,6 +116,8 @@
   components:
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
@@ -162,10 +171,12 @@
     sprite: Clothing/OuterClothing/Vests/webvest.rsi
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 3 #бронижилеты должны иметь лучшую бронезащиту
       coefficients:
         Blunt: 0.6 #ballistic plates = better protection
         Slash: 0.6
-        Piercing: 0.3
+        Piercing: 0.5 # DS14-value
         Heat: 0.9
   - type: ExplosionResistance
     damageCoefficient: 0.9
@@ -188,6 +199,8 @@
     coolingCoefficient: 0.1
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 3
       coefficients:
         Blunt: 0.5
         Slash: 0.5
@@ -215,6 +228,8 @@
     sprite: Clothing/OuterClothing/Vests/mercwebvest.rsi
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 2
       coefficients:
         Blunt: 0.7 #slightly better overall protection but slightly worse than bulletproof armor against bullets seems sensible
         Slash: 0.7
@@ -242,10 +257,12 @@
     sprite: Clothing/OuterClothing/Armor/syndie-raid.rsi
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 4 # Рейдерская броня>скафандр
       coefficients:
         Blunt: 0.35
         Slash: 0.35
-        Piercing: 0.35
+        Piercing: 0.65 # 0.35 Урезаем во благо баланса
         Heat: 0.35
         Caustic: 0.5
         Stun: 0.65 # DS14-value: 5 stunbaton hits for stun
@@ -344,6 +361,8 @@
     sprite: Clothing/OuterClothing/Armor/cult_armour.rsi
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 3 # ну типа, так надо
       coefficients:
         Blunt: 0.5
         Slash: 0.5
@@ -363,14 +382,19 @@
     sprite: Clothing/OuterClothing/Armor/heavy.rsi
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 4
       coefficients:
         Blunt: 0.35 # DS14-value
         Slash: 0.35 # DS14-value
-        Piercing: 0.35 # DS14-value
+        Piercing: 0.75 # 0.35 DS14-value во благо баланса
         Heat: 0.5
         # Radiation: 0 # DS14-value
         Caustic: 0.75
         Stun: 0.65 # DS14-value: 5 stunbaton hits for stun
+  - type: ClothingSpeedModifier # DS14
+    walkModifier: 0.85
+    sprintModifier: 0.85
   - type: GroupExamine
   - type: ExplosionResistance # DS14
     damageCoefficient: 0.80
@@ -433,6 +457,8 @@
     sprite: Clothing/OuterClothing/Armor/lingarmor.rsi
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 3
       coefficients:
         Blunt: 0.5
         Slash: 0.5
@@ -461,6 +487,8 @@
     sprite: Clothing/OuterClothing/Armor/bone_armor.rsi
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 2 #Это все таки самодельная броня
       coefficients:
         Blunt: 0.6
         Slash: 0.8
@@ -490,6 +518,8 @@
     sprite: Clothing/OuterClothing/Armor/podwars_armor.rsi
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
