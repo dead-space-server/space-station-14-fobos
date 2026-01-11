@@ -77,6 +77,7 @@
 
 - type: necromorf
   id: NecroStalker
+  isCanSpawnInfectionDead: false
   movementSpeedMultiply: 1
   damage:
     groups:
@@ -99,6 +100,7 @@
 
 - type: necromorf
   id: NecroBoomer
+  isCanSpawnInfectionDead: false
   movementSpeedMultiply: 0.85
   damage:
     groups:
@@ -114,7 +116,7 @@
     - NecromorfLanguage
   - type: ExplosionAbility
     totalIntensity: 50
-    maxTileIntensity: 3
+    maxTileIntensity: 5
   - type: Vocal
     sounds:
       Male: Necro
