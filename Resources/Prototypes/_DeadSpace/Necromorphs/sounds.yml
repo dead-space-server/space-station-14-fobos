@@ -7,20 +7,18 @@
     - /Audio/_DeadSpace/Necromorfs/necroSlasher2.ogg
 
 - type: soundCollection
-  id: NecroWoman
+  id: NecroScreamsWoman
   files:
-    - /Audio/_DeadSpace/Necromorfs/necromorphSound.ogg
-    - /Audio/_DeadSpace/Necromorfs/necromorphSound2.ogg
-    - /Audio/_DeadSpace/Necromorfs/necroSlasher1.ogg
-    - /Audio/_DeadSpace/Necromorfs/necroSlasher2.ogg
+    - /Audio/_DeadSpace/Necromorfs/necro-scream-woman-1.ogg
+    - /Audio/_DeadSpace/Necromorfs/necro-scream-woman-2.ogg
+    - /Audio/_DeadSpace/Necromorfs/necro-scream-woman-3.ogg
 
 - type: soundCollection
-  id: NecroOther
+  id: NecroScreamsOther
   files:
-    - /Audio/_DeadSpace/Necromorfs/necromorphSound.ogg
-    - /Audio/_DeadSpace/Necromorfs/necromorphSound2.ogg
-    - /Audio/_DeadSpace/Necromorfs/necroSlasher1.ogg
-    - /Audio/_DeadSpace/Necromorfs/necroSlasher2.ogg
+    - /Audio/_DeadSpace/Necromorfs/necro-scream-other-1.ogg
+    - /Audio/_DeadSpace/Necromorfs/necro-scream-other-2.ogg
+    - /Audio/_DeadSpace/Necromorfs/necro-scream-other-3.ogg
 
 - type: soundCollection
   id: ConvergenceMusic

@@ -11,7 +11,7 @@
       metabolismRate: 0.85
       effects:
       - !type:ModifyBleedAmount
-        amount: -1.75
+        amount: -1.8
       - !type:HealthChange
         damage:
           types:

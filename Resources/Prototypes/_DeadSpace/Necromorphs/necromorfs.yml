@@ -35,24 +35,24 @@
 - type: emoteSounds
   id: NecroWoman
   sound:
-    collection: NecroScreams
+    collection: NecroScreamsWoman
     params:
       variation: 0.125
       volume: 5
   sounds:
     Scream:
-      collection: NecroScreams
+      collection: NecroScreamsWoman
 
 - type: emoteSounds
   id: NecroOther
   sound:
-    collection: NecroScreams
+    collection: NecroScreamsOther
     params:
       variation: 0.125
       volume: 5
   sounds:
     Scream:
-      collection: NecroScreams
+      collection: NecroScreamsOther
 
 - type: necromorf
   id: NecroSlasher
@@ -206,8 +206,8 @@
     - NecromorfLanguage
   - type: Vocal
     sounds:
-      Male: Necro
-      Female: NecroWoman
+      Male: NecroOther
+      Female: NecroOther
       Unsexed: NecroOther
 
 - type: necromorf
@@ -283,8 +283,8 @@
     - NecromorfLanguage
   - type: Vocal
     sounds:
-      Male: Necro
-      Female: NecroWoman
+      Male: NecroOther
+      Female: NecroOther
       Unsexed: NecroOther
 
 - type: necromorf
@@ -311,8 +311,8 @@
     - NecromorfLanguage
   - type: Vocal
     sounds:
-      Male: Necro
-      Female: NecroWoman
+      Male: NecroOther
+      Female: NecroOther
       Unsexed: NecroOther
 
 - type: necromorf # Прототип некроморфа
