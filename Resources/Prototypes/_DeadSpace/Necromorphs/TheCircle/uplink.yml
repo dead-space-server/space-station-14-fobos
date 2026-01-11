@@ -120,17 +120,17 @@
 
 - type: listing
   id: UniPhoneUplinkWeaponRPL20
-  name: РПЛ 20 (Можно купить 3 раза)
+  name: РПЛ 20 (Можно купить 2 раза)
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/rpl20/rpl20.rsi, state: icon }
   description: Пулемет предназначен для поражения живой силы, огневых и небронированных транспортных средств противника.
   productEntity: WeaponCaseHeavyFilledRPL20
   cost:
-    Telecrystal: 21
+    Telecrystal: 18
   categories:
    - UniPhoneUplinkWeaponry
   conditions:
   - !type:ListingLimitedStockCondition
-    stock: 3
+    stock: 2
 
 - type: listing
   id: UniPhoneUplinkWeaponSCARAB
