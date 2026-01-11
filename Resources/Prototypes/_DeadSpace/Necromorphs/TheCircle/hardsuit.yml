@@ -2,7 +2,7 @@
   parent: [ ClothingOuterHardsuitBase, BaseSyndicateContraband ]
   id: ClothingOuterHardsuitUnitologyCommander
   name: ведущий бронескафандр «Прометей»
-  description: Скафандр Кардинала отряда "Круг". От него, как и от обелиска, веет смертью...  После смерти вы превратитесь в некроморфа Рой.
+  description: Скафандр Кардинала отряда "Круг". От него, как и от обелиска, веет смертью...  После смерти вы превратитесь в некроморфа Собиратель трупов.
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/commander.rsi
@@ -41,7 +41,7 @@
     - Dead
     reagents:
       ExtractInfectorDead: 15
-      NecromorphMutagenHive: 5
+      NecromorphMutagenCorpseCollector: 5
   - type: Tag
     tags:
     - Hardsuit

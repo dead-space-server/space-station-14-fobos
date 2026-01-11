@@ -234,7 +234,7 @@
               min: 5
 
 - type: reagent
-  id: NecromorphMutagenHive
+  id: NecromorphMutagenCorpseCollector
   name: entity-name-necromorph-mutagen
   group: Other
   desc: reagent-desc-necromorph-mutagen
@@ -247,7 +247,7 @@
       effects:
         - !type:NecromorphMutagen
           isAnimal: false
-          necroPrototype: NecroHive
+          necroPrototype: NecroCorpseCollector
           conditions:
             - !type:ReagentThreshold
               min: 5
