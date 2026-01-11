@@ -7,8 +7,8 @@ ert-responce-balance-label =
     Баланс: { $cost }
 
 ert-responce-caused-messager =
-    Центральное командование NanoTrasen подтверждает контракт.
-    Отряд { $team } мобилизован и выдвинут.
+    Центральное командование подтверждает контракт.
+    { $team } выдвигается на станцию.
     Расчётное время прибытия: минимально возможное.
 
 ert-responce-call-cancel =
@@ -22,6 +22,8 @@ ert-computer-evac-cancle-title = отменить эвакуацию
 ert-computer-time-until-eval = Осталось { $time } секунд до эвакуации.
 
 station-event-response-team-arrival = Отряд быстрого реагирования приступил к выполнению задачи на станции.
+
+station-event-centcomm-official-arrival = Представитель Центрального Командования прибыл на станцию.
 
 ert-call-fail-prototype-missing = Прототип отряда не найден.
 ert-call-fail-code-blacklist = Уровень тревоги ({$level}) запрещает вызов этого отряда.
