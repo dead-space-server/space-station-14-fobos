@@ -718,24 +718,9 @@
       collection: SoundsHeadaches
   - type: LimitedCharges
     maxCharges: 1
-  - type: Physics
-    bodyType: Dynamic
   - type: CollisionWake
     enabled: false
   - type: InteractionOutline
-  - type: Fixtures
-    fixtures:
-      fix1:
-        shape:
-          !type:PhysShapeAabb
-          bounds: "-0.25,-0.25,0.25,0.25"
-        density: 20
-        mask:
-        - ItemMask
-        layer:
-        - Opaque
-        restitution: 0.3
-        friction: 0.2
   - type: AutoRecharge
     rechargeDuration: 180
   - type: MeleeWeapon
@@ -749,8 +734,6 @@
       collection: splinter-blade-attack
     soundNoDamage:
       collection: splinter-blade-miss
-    soundSwing:
-      collection: splinter-blade-miss
   - type: SolutionContainerManager
     solutions:
       melee:
@@ -759,27 +742,23 @@
           Quantity: 999999
   - type: MeleeChemicalInjector
     solution: melee
-    transferAmount: 1
+    transferAmount: 1.5
   - type: Sharp
   - type: ComponentToggler
     components:
     - type: PointLight
-      color: "#a02139"
-      radius: 3
-      energy: 1.5
+      color: "#48141e"
+      radius: 6
+      energy: 2.5
     - type: Reflect
       inRightPlace: True
       reflectProb: 0.15
       spread: 90
       soundOnReflect:
-    - type: Execution
-      doAfterDuration: 4.0
   - type: ItemToggleMeleeWeapon
     activatedSoundOnHit:
       collection: splinter-blade-attack
     activatedSoundOnHitNoDamage:
-      collection: splinter-blade-miss
-    activatedSoundOnSwing:
       collection: splinter-blade-miss
     activatedDamage:
       types:
@@ -789,12 +768,9 @@
   - type: ItemToggle
     onUse: false
     onActivate: false
-    soundActivate:
-      collection: splinter-blade-miss
-    soundDeactivate:
-      collection: splinter-blade-miss
   - type: Wieldable
-    wieldSound: null
     useDelayOnWield: true
   - type: UseDelay
     delay: 2.0
+  - type: Execution
+    doAfterDuration: 4.0

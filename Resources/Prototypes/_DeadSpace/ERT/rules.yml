@@ -59,7 +59,7 @@
   id: SpawnCentCommOfficialShuttle
   components:
   - type: StationEvent
-    startAnnouncement: station-event-response-team-arrival
+    startAnnouncement: station-event-centcomm-official-arrival
     startAudio:
       path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
     willNotStartRandomly: true

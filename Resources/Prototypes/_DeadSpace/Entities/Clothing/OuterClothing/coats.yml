@@ -242,3 +242,14 @@
         Heat: 0.9
   - type: ExplosionResistance
     damageCoefficient: 0.9
+
+- type: entity
+  parent: ClothingOuterCoatParamedicWB
+  id: ClothingOuterCoatParamedicALT
+  name: чёрная ветровка парамедика 
+  description: Надёжная ветровка фельдшера, защита от любого космического ветра.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/OuterClothing/Coats/Alt_paramedic.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/OuterClothing/Coats/Alt_paramedic.rsi

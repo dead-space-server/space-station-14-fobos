@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 11/30/2025 18:37:18
-  entityCount: 10315
+  time: 01/07/2026 07:30:10
+  entityCount: 10306
 maps:
 - 1
 grids:
@@ -5858,11 +5858,6 @@ entities:
       parent: 2
 - proto: ADTDrinkVodkaAntivirusBottleFull
   entities:
-  - uid: 13
-    components:
-    - type: Transform
-      pos: -9.058502,-43.29484
-      parent: 2
   - uid: 14
     components:
     - type: Transform
@@ -5907,17 +5902,6 @@ entities:
     - type: Transform
       pos: -6.5,-9.5
       parent: 2
-  - uid: 21
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -9.5,-44.5
-      parent: 2
-  - uid: 22
-    components:
-    - type: Transform
-      pos: -9.5,-42.5
-      parent: 2
   - uid: 23
     components:
     - type: Transform
@@ -5952,17 +5936,6 @@ entities:
     components:
     - type: Transform
       pos: -5.5,-9.5
-      parent: 2
-  - uid: 29
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -8.5,-44.5
-      parent: 2
-  - uid: 30
-    components:
-    - type: Transform
-      pos: -8.5,-42.5
       parent: 2
   - uid: 31
     components:
@@ -6004,17 +5977,6 @@ entities:
     components:
     - type: Transform
       pos: -4.5,-9.5
-      parent: 2
-  - uid: 38
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -7.5,-44.5
-      parent: 2
-  - uid: 39
-    components:
-    - type: Transform
-      pos: -7.5,-42.5
       parent: 2
   - uid: 40
     components:
@@ -7564,11 +7526,6 @@ entities:
       parent: 2
 - proto: AirlockTaipanGlassVirologyLocked
   entities:
-  - uid: 234
-    components:
-    - type: Transform
-      pos: -8.5,-30.5
-      parent: 2
   - uid: 235
     components:
     - type: Transform
@@ -7739,11 +7696,30 @@ entities:
       parent: 2
 - proto: AirlockTaipanVirologyLocked
   entities:
+  - uid: 38
+    components:
+    - type: Transform
+      pos: -8.5,-30.5
+      parent: 2
+    - type: DeviceLinkSink
+      invokeCounter: 1
+    - type: DeviceLinkSource
+      linkedPorts:
+        264:
+        - - DoorStatus
+          - DoorBolt
   - uid: 264
     components:
     - type: Transform
       pos: -8.5,-34.5
       parent: 2
+    - type: DeviceLinkSink
+      invokeCounter: 1
+    - type: DeviceLinkSource
+      linkedPorts:
+        38:
+        - - DoorStatus
+          - DoorBolt
 - proto: AirSensor
   entities:
   - uid: 265
@@ -9820,6 +9796,16 @@ entities:
       parent: 2
 - proto: BoxVial
   entities:
+  - uid: 22
+    components:
+    - type: Transform
+      pos: -12.749968,-41.43906
+      parent: 2
+  - uid: 30
+    components:
+    - type: Transform
+      pos: -4.249968,-41.485935
+      parent: 2
   - uid: 590
     components:
     - type: Transform
@@ -26351,20 +26337,20 @@ entities:
       parent: 2
 - proto: ClothingEyesGlassesChemical
   entities:
-  - uid: 3652
+  - uid: 234
     components:
     - type: Transform
-      pos: -5.1277823,-41.460144
-      parent: 2
-  - uid: 3653
-    components:
-    - type: Transform
-      pos: -11.846533,-41.460144
+      pos: -12.567984,-40.19957
       parent: 2
   - uid: 3654
     components:
     - type: Transform
       pos: 12.629293,-42.49094
+      parent: 2
+  - uid: 6824
+    components:
+    - type: Transform
+      pos: -4.604052,-40.143814
       parent: 2
 - proto: ClothingEyesHudDiagnostic
   entities:
@@ -26456,6 +26442,14 @@ entities:
     components:
     - type: Transform
       pos: -31.41282,2.3935905
+      parent: 2
+- proto: ClothingMaskGasSyndicate
+  entities:
+  - uid: 29
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -7.7880445,-43.544407
       parent: 2
 - proto: ClothingMaskMuzzle
   entities:
@@ -26921,6 +26915,14 @@ entities:
     components:
     - type: Transform
       pos: -22.5,-1.5
+      parent: 2
+- proto: ComputerVirusEvolutionConsole
+  entities:
+  - uid: 6281
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -11.5,-41.5
       parent: 2
 - proto: ContainmentFieldGenerator
   entities:
@@ -32323,28 +32325,6 @@ entities:
       parent: 2
     - type: Fixtures
       fixtures: {}
-- proto: FoodBanana
-  entities:
-  - uid: 4621
-    components:
-    - type: Transform
-      pos: -7.6746573,-43.44452
-      parent: 2
-  - uid: 4622
-    components:
-    - type: Transform
-      pos: -7.5340323,-43.53827
-      parent: 2
-  - uid: 4623
-    components:
-    - type: Transform
-      pos: -7.3465323,-43.491394
-      parent: 2
-  - uid: 4624
-    components:
-    - type: Transform
-      pos: -7.5027823,-43.31952
-      parent: 2
 - proto: FoodBloodTomato
   entities:
   - uid: 4625
@@ -32382,11 +32362,6 @@ entities:
     components:
     - type: Transform
       pos: -11.468582,-24.421
-      parent: 2
-  - uid: 4630
-    components:
-    - type: Transform
-      pos: -8.174658,-43.303894
       parent: 2
   - uid: 4631
     components:
@@ -45127,11 +45102,6 @@ entities:
     - type: Transform
       pos: -13.5,-39.5
       parent: 2
-  - uid: 6281
-    components:
-    - type: Transform
-      pos: -10.5,-32.5
-      parent: 2
   - uid: 6282
     components:
     - type: Transform
@@ -47168,6 +47138,14 @@ entities:
       rot: 3.141592653589793 rad
       pos: -12.5,4.5
       parent: 2
+- proto: InfectionDeadMutationAnalyzer
+  entities:
+  - uid: 4624
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -8.564859,-43.413345
+      parent: 2
 - proto: JanitorialTrolley
   entities:
   - uid: 6619
@@ -48496,16 +48474,6 @@ entities:
     - type: Transform
       pos: -3.5322185,-9.483426
       parent: 2
-  - uid: 6823
-    components:
-    - type: Transform
-      pos: -8.690283,-43.31952
-      parent: 2
-  - uid: 6824
-    components:
-    - type: Transform
-      pos: -8.455908,-43.460144
-      parent: 2
   - uid: 6825
     components:
     - type: Transform
@@ -48526,20 +48494,15 @@ entities:
       parent: 2
 - proto: PaperBin10
   entities:
+  - uid: 4630
+    components:
+    - type: Transform
+      pos: -9.5,-36.5
+      parent: 2
   - uid: 6828
     components:
     - type: Transform
       pos: -4.5,-1.5
-      parent: 2
-  - uid: 6829
-    components:
-    - type: Transform
-      pos: -11.5,-41.5
-      parent: 2
-  - uid: 6830
-    components:
-    - type: Transform
-      pos: -5.5,-41.5
       parent: 2
   - uid: 6831
     components:
@@ -48704,25 +48667,15 @@ entities:
       parent: 2
 - proto: Pen
   entities:
+  - uid: 4623
+    components:
+    - type: Transform
+      pos: -9.215984,-36.46069
+      parent: 2
   - uid: 6853
     components:
     - type: Transform
       pos: -3.4228435,-9.499051
-      parent: 2
-  - uid: 6854
-    components:
-    - type: Transform
-      pos: -8.721533,-43.47577
-      parent: 2
-  - uid: 6855
-    components:
-    - type: Transform
-      pos: -11.346533,-41.460144
-      parent: 2
-  - uid: 6856
-    components:
-    - type: Transform
-      pos: -5.6902823,-41.428894
       parent: 2
   - uid: 6857
     components:
@@ -50604,12 +50557,6 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -13.5,-40.5
       parent: 2
-  - uid: 7137
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -10.5,-32.5
-      parent: 2
   - uid: 7138
     components:
     - type: Transform
@@ -51539,11 +51486,6 @@ entities:
     components:
     - type: Transform
       pos: -6.5,-45.5
-      parent: 2
-  - uid: 7281
-    components:
-    - type: Transform
-      pos: -7.5,-35.5
       parent: 2
   - uid: 7282
     components:
@@ -54478,6 +54420,20 @@ entities:
     - type: Transform
       pos: -5.5,-32.5
       parent: 2
+- proto: Scalpel
+  entities:
+  - uid: 4621
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -7.72111,-43.21022
+      parent: 2
+  - uid: 4622
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -7.705485,-43.340515
+      parent: 2
 - proto: ScalpelLaser
   entities:
   - uid: 7693
@@ -55307,6 +55263,16 @@ entities:
       parent: 2
     - type: Fixtures
       fixtures: {}
+- proto: SignBio
+  entities:
+  - uid: 3652
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -7.5,-30.5
+      parent: 2
+    - type: Fixtures
+      fixtures: {}
 - proto: SignChem
   entities:
   - uid: 7792
@@ -55460,6 +55426,16 @@ entities:
       parent: 2
     - type: Fixtures
       fixtures: {}
+- proto: SignVirology
+  entities:
+  - uid: 13
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -9.5,-30.5
+      parent: 2
+    - type: Fixtures
+      fixtures: {}
 - proto: SingularityGenerator
   entities:
   - uid: 7809
@@ -55525,6 +55501,11 @@ entities:
       parent: 2
 - proto: SmartFridge
   entities:
+  - uid: 6856
+    components:
+    - type: Transform
+      pos: -7.5,-35.5
+      parent: 2
   - uid: 7818
     components:
     - type: Transform
@@ -56487,12 +56468,12 @@ entities:
   - uid: 8002
     components:
     - type: Transform
-      pos: -12.643408,-41.38202
+      pos: -12.562468,-40.97031
       parent: 2
   - uid: 8003
     components:
     - type: Transform
-      pos: -4.3934073,-41.41327
+      pos: -4.203093,-40.985935
       parent: 2
   - uid: 8004
     components:
@@ -58010,6 +57991,11 @@ entities:
       parent: 2
 - proto: Table
   entities:
+  - uid: 6823
+    components:
+    - type: Transform
+      pos: -9.5,-36.5
+      parent: 2
   - uid: 8180
     components:
     - type: Transform
@@ -58469,12 +58455,6 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -12.5,-41.5
       parent: 2
-  - uid: 8260
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -11.5,-41.5
-      parent: 2
   - uid: 8261
     components:
     - type: Transform
@@ -58492,12 +58472,6 @@ entities:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: -4.5,-41.5
-      parent: 2
-  - uid: 8264
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -5.5,-41.5
       parent: 2
   - uid: 8265
     components:
@@ -58681,6 +58655,24 @@ entities:
       parent: 2
 - proto: TableReinforced
   entities:
+  - uid: 6829
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -7.5,-43.5
+      parent: 2
+  - uid: 6830
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -8.5,-43.5
+      parent: 2
+  - uid: 6854
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -9.5,-43.5
+      parent: 2
   - uid: 8296
     components:
     - type: Transform
@@ -59303,21 +59295,6 @@ entities:
     - type: Transform
       pos: 6.5,-7.5
       parent: 2
-  - uid: 8405
-    components:
-    - type: Transform
-      pos: -9.5,-43.5
-      parent: 2
-  - uid: 8406
-    components:
-    - type: Transform
-      pos: -8.5,-43.5
-      parent: 2
-  - uid: 8407
-    components:
-    - type: Transform
-      pos: -7.5,-43.5
-      parent: 2
   - uid: 8408
     components:
     - type: Transform
@@ -59896,6 +59873,13 @@ entities:
           - Forward
         - - Right
           - Reverse
+        3629:
+        - - Left
+          - Reverse
+        - - Right
+          - Forward
+        - - Middle
+          - Off
   - uid: 8483
     components:
     - type: Transform
@@ -59974,15 +59958,10 @@ entities:
   - uid: 8490
     components:
     - type: Transform
-      pos: -9.455908,-43.428894
+      pos: -9.017984,-43.382095
       parent: 2
 - proto: VendingMachineBoozeSyndicate
   entities:
-  - uid: 8491
-    components:
-    - type: Transform
-      pos: -11.5,-42.5
-      parent: 2
   - uid: 8492
     components:
     - type: Transform
@@ -60314,6 +60293,20 @@ entities:
     - type: Transform
       pos: -5.482002,-30.448853
       parent: 2
+- proto: VirusDataServer
+  entities:
+  - uid: 6855
+    components:
+    - type: Transform
+      pos: -11.5,-42.5
+      parent: 2
+- proto: VirusSolutionAnalyzer
+  entities:
+  - uid: 39
+    components:
+    - type: Transform
+      pos: -5.5,-41.5
+      parent: 2
 - proto: WallmountSubstationElectronics
   entities:
   - uid: 8546
@@ -60323,6 +60316,12 @@ entities:
       parent: 2
 - proto: WallPlastitanium
   entities:
+  - uid: 3653
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -10.5,-32.5
+      parent: 2
   - uid: 3746
     components:
     - type: Transform
@@ -68150,11 +68149,6 @@ entities:
     - type: Transform
       pos: -6.5,-13.5
       parent: 2
-  - uid: 9839
-    components:
-    - type: Transform
-      pos: -7.5,-36.5
-      parent: 2
   - uid: 9840
     components:
     - type: Transform
@@ -68783,6 +68777,11 @@ entities:
       parent: 2
 - proto: Zipties
   entities:
+  - uid: 21
+    components:
+    - type: Transform
+      pos: -9.55604,-43.35722
+      parent: 2
   - uid: 9926
     components:
     - type: Transform
