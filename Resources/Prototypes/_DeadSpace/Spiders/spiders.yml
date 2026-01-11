@@ -96,7 +96,7 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 2
+        Slash: 2
         Poison: 2
   - type: GhostRole
     makeSentient: true
@@ -176,7 +176,7 @@
     knownLanguages:
     - ArachnidLanguage
   - type: NoSlip
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: SpiderTerrorBase
 
 - type: entity
@@ -208,12 +208,14 @@
     name: Паук королевской крови
     description: Паук ужаса
     rules: ghost-role-information-rules-team-antagonist
+  - type: Damageable
+    damageModifierSet: HeadSpiderTerror
   - type: NeededBloodForEvolution #Пример
     defaultCost: 100 # Стандартная цена на не заданный результат
     bloodCosts: # Цены
       MobSpiderTerrorRoyalGuard: 100
       MobSpiderTerrorPrincess: 150
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: SpiderTerrorKing
 
 - type: entity
@@ -237,8 +239,10 @@
     name: Героический паук ужаса королевской крови
     description: Паук Ужаса.
     rules: ghost-role-information-rules-team-antagonist
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: SpiderTerrorGeroick
+  - type: Damageable
+    damageModifierSet: HeadSpiderTerror
 
 - type: entity
   name: паук страж
@@ -251,6 +255,8 @@
       0: Alive
       100: Critical
       150: Dead
+  - type: Damageable
+    damageModifierSet: HeavySpiderTerror
   - type: MeleeWeapon
     animation: WeaponArcBite
     soundHit:
@@ -318,6 +324,8 @@
     bloodCosts: # Цены
       MobSpiderTerrorDestroyer: 50
       MobSpiderTerrorLurker: 50
+  - type: Damageable
+    damageModifierSet: HeavySpiderTerror
   - type: Sprite
     scale: 1, 1
     drawdepth: Mobs
@@ -347,7 +355,7 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 4
+        Slash: 4
         Poison: 2
       groups:
         Brute: 3
@@ -439,7 +447,7 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 2
+        Slash: 2
         Poison: 2
         Structural: 10
       groups:
@@ -526,7 +534,7 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 4
+        Slash: 4
         Poison: 2
         Structural: 20
       groups:
@@ -623,7 +631,7 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 1
+        Slash: 1
         Poison: 1
         Structural: 30
         Blunt: 6
@@ -681,7 +689,7 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 3
+        Slash: 3
         Poison: 3
       groups:
         Brute: 2
@@ -861,7 +869,7 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 7
+        Slash: 7
         Poison: 3
         Structural: 30
       groups:
@@ -895,6 +903,8 @@
     bloodReagent: CopperBlood
     bloodMaxVolume: 250
     bloodlossThreshold: 0.2
+  - type: Damageable
+    damageModifierSet: HeadSpiderTerror
   - type: StunRadius
     actionStunRadius: ActionStunRadiusSpider
     paralyzeTime: 3 # Время стана
@@ -937,6 +947,8 @@
       0: Alive
       300: Critical
       350: Dead
+  - type: Damageable
+    damageModifierSet: HeavySpiderTerror
   - type: Fixtures
     fixtures:
       fix1:
