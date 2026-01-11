@@ -225,3 +225,48 @@
     - type: Sprite
       sprite: _DeadSpace/Necromorfs/TheCircle/Mics/jobs.rsi
       state: engineer
+
+- type: entity
+  id: GuideJobIconCircleCommander
+  parent: PosterBase
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
+      state: circle_lead
+
+- type: entity
+  id: GuideJobIconCircleFighterLight
+  parent: PosterBase
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
+      state: circle_light
+
+- type: entity
+  id: GuideJobIconCircleFighterHeavy
+  parent: PosterBase
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
+      state: circle_heavy
+
+- type: entity
+  id: GuideJobIconCircleMedic
+  parent: PosterBase
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
+      state: circle_medic
+
+- type: entity
+  id: GuideJobIconCircleEngineer
+  parent: PosterBase
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
+      state: circle_engineer     

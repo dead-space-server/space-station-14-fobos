@@ -6,8 +6,12 @@
   components:
   - type: Projectile
     damage:
+      armorPiercingLevels:
+        Piercing: 2 # экспансивная пуля, имеет мягкий наконечник, но все еще остается винтовочным патроном
       types:
         Piercing: 20
+  - type: StaminaDamageOnCollide
+    damage: 10 # экспансивные пули имеют хорошую останавливающую силу
 
 - type: entity
   id: BulletRiflePractice
@@ -17,6 +21,8 @@
   components:
   - type: Projectile
     damage:
+      armorPiercingLevels:
+        Piercing: 0
       types:
         Blunt: 2
 
@@ -28,6 +34,8 @@
   components:
   - type: Projectile
     damage:
+      armorPiercingLevels:
+        Piercing: 1
       types:
         Piercing: 12
         Heat: 5
@@ -40,6 +48,8 @@
   components:
   - type: Projectile
     damage:
+      armorPiercingLevels:
+        Piercing: 1
       types:
         Radiation: 7
         Piercing: 8

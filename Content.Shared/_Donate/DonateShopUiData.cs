@@ -54,6 +54,7 @@ public sealed class DonateShopState
     public int User { get; } = 0;
     public PremiumData? CurrentPremium { get; }
     public ActiveSubscriptionData? ActiveSubscription { get; }
+    public AdminRankData? AdminRank { get; }
     public HashSet<string> SpawnedItems { get; set; } = new HashSet<string>();
 
     public DonateShopState(
@@ -78,6 +79,7 @@ public sealed class DonateShopState
         int user,
         PremiumData? currentPremium,
         ActiveSubscriptionData? activeSubscription,
+        AdminRankData? adminRank = null,
         HashSet<string>? spawnedItems = null)
     {
         PlayerUserName = playerUserName;
@@ -101,6 +103,7 @@ public sealed class DonateShopState
         User = user;
         CurrentPremium = currentPremium;
         ActiveSubscription = activeSubscription;
+        AdminRank = adminRank;
         SpawnedItems = spawnedItems ?? new HashSet<string>();
     }
 
@@ -144,6 +147,33 @@ public sealed class ActiveSubscriptionData
         FinishDate = finishDate;
         StartDate = startDate;
         Description = description;
+        OocColor = oocColor;
+        ExtraSlots = extraSlots;
+        HavePriorityJoinGame = havePriorityJoinGame;
+        HavePriorityAntageGame = havePriorityAntageGame;
+        AllowJob = allowJob;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class AdminRankData
+{
+    public string Name { get; }
+    public string? OocColor { get; }
+    public int ExtraSlots { get; }
+    public bool HavePriorityJoinGame { get; }
+    public bool HavePriorityAntageGame { get; }
+    public bool AllowJob { get; }
+
+    public AdminRankData(
+        string name,
+        string? oocColor,
+        int extraSlots,
+        bool havePriorityJoinGame,
+        bool havePriorityAntageGame,
+        bool allowJob)
+    {
+        Name = name;
         OocColor = oocColor;
         ExtraSlots = extraSlots;
         HavePriorityJoinGame = havePriorityJoinGame;
@@ -266,6 +296,9 @@ public sealed class PremiumLevelData
     public float BonusEnergy { get; }
     public int BonusSlots { get; }
     public string Price { get; }
+    public bool HavePriorityJoinGame { get; }
+    public bool HavePriorityAntageGame { get; }
+    public bool AllowJob { get; }
 
     public PremiumLevelData(
         int id,
@@ -276,7 +309,10 @@ public sealed class PremiumLevelData
         float bonusXp,
         float bonusEnergy,
         int bonusSlots,
-        string price = "0")
+        string price = "0",
+        bool havePriorityJoinGame = false,
+        bool havePriorityAntageGame = false,
+        bool allowJob = false)
     {
         Id = id;
         Level = level;
@@ -287,6 +323,9 @@ public sealed class PremiumLevelData
         BonusEnergy = bonusEnergy;
         BonusSlots = bonusSlots;
         Price = price;
+        HavePriorityJoinGame = havePriorityJoinGame;
+        HavePriorityAntageGame = havePriorityAntageGame;
+        AllowJob = allowJob;
     }
 }
 

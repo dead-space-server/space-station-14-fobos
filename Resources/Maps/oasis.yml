@@ -4,7 +4,7 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 11/30/2025 18:42:40
+  time: 01/08/2026 05:16:13
   entityCount: 25289
 maps:
 - 1
@@ -9563,16 +9563,16 @@ entities:
             2: 34952
           -11,6:
             2: 61440
-            6: 224
+            5: 224
           -12,8:
             2: 34952
           -11,4:
-            5: 224
-            6: 57344
+            6: 224
+            5: 57344
           -11,5:
-            6: 57568
+            5: 57568
           -11,7:
-            6: 57568
+            5: 57568
           -10,6:
             2: 12834
             0: 34952
@@ -9832,7 +9832,7 @@ entities:
           10,10:
             0: 3549
           10,11:
-            6: 275
+            5: 275
           10,12:
             0: 305
             2: 3276
@@ -10137,19 +10137,19 @@ entities:
             2: 65520
           -11,9:
             2: 4607
-            6: 49152
+            5: 49152
           -11,10:
             2: 33041
-            6: 204
+            5: 204
           -12,11:
             2: 136
           -11,11:
             2: 248
           -10,9:
             2: 52479
-            6: 4096
+            5: 4096
           -10,10:
-            6: 17
+            5: 17
             2: 34952
           -10,11:
             2: 2296
@@ -10754,11 +10754,11 @@ entities:
             Oxygen: 6666.982
         - volume: 2500
           temperature: 293.15
-          moles:
-            Plasma: 6666.982
+          moles: {}
         - volume: 2500
           temperature: 293.15
-          moles: {}
+          moles:
+            Plasma: 6666.982
         chunkSize: 4
     - type: GasTileOverlay
     - type: RadiationGridResistance
@@ -60768,12 +60768,6 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 39.5,-6.5
       parent: 2
-  - uid: 8975
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: 36.5,12.5
-      parent: 2
   - uid: 8976
     components:
     - type: Transform
@@ -72846,6 +72840,14 @@ entities:
       parent: 10973
     - type: Physics
       canCollide: False
+- proto: ErtResponceConsole
+  entities:
+  - uid: 8975
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 36.5,12.5
+      parent: 2
 - proto: ExosuitFabricator
   entities:
   - uid: 10975
@@ -75438,7 +75440,7 @@ entities:
       pos: -9.5,-1.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -79712.94
+      secondsUntilStateChange: -79798.28
       state: Closing
     - type: DeviceNetwork
       deviceLists:
@@ -137665,14 +137667,6 @@ entities:
     - type: Transform
       pos: 32.642944,-20.434168
       parent: 2
-    - type: Blocking
-      blockingToggleActionEntity: 11
-    - type: ActionsContainer
-    - type: ContainerContainer
-      containers:
-        actions: !type:Container
-          ents:
-          - 11
   - uid: 19483
     components:
     - type: Transform
@@ -144554,6 +144548,18 @@ entities:
     - type: Transform
       pos: -4.5,6.5
       parent: 2
+- proto: SpawnPointSeniorCourier
+  entities:
+  - uid: 20363
+    components:
+    - type: Transform
+      pos: -48.5,0.5
+      parent: 2
+  - uid: 20364
+    components:
+    - type: Transform
+      pos: 8.5,-5.5
+      parent: 2
 - proto: SpawnPointSeniorEngineer
   entities:
   - uid: 20359
@@ -144581,18 +144587,6 @@ entities:
     components:
     - type: Transform
       pos: 11.5,-42.5
-      parent: 2
-- proto: SpawnPointSeniorSalvageSpecialist
-  entities:
-  - uid: 20363
-    components:
-    - type: Transform
-      pos: -48.5,0.5
-      parent: 2
-  - uid: 20364
-    components:
-    - type: Transform
-      pos: 8.5,-5.5
       parent: 2
 - proto: SpawnPointServiceWorker
   entities:

@@ -395,6 +395,24 @@
   - type: Sprite
     sprite: _DeadSpace/Clothing/Underwear/Medical/senior_physician/socks.rsi
 
+- type: entity
+  parent: ClothingUnderwearSocksBase
+  id: ClothingUnderwearSocksNylon
+  name: колготки
+  description: Стандартные колготки.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Underwear/Tights/nylon.rsi
+
+- type: entity
+  parent: ClothingUnderwearSocksBase
+  id: ClothingUnderwearSocksNylonWhite
+  name: белые колготки
+  description: Стандартные белые колготки.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Underwear/Tights/white.rsi
+
 ## Science
 - type: entity
   parent: ClothingUnderwearSocksBase

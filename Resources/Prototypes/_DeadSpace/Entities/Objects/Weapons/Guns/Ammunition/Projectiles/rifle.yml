@@ -1,0 +1,25 @@
+- type: entity
+  id: BulletRifleFMJ
+  name: bullet (.20 rifle)
+  parent: BaseBullet
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    damage:
+      armorPiercingLevels:
+        Piercing: 3 # FMJ патрон со стальным сердечником, больше пробитие брони
+      types:
+        Piercing: 20
+
+- type: entity
+  id: BulletLightRifleHP
+  name: bullet (.30 rifle)
+  parent: BaseBullet
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    damage:
+      armorPiercingLevels:
+        Piercing: 2
+      types:
+        Piercing: 19

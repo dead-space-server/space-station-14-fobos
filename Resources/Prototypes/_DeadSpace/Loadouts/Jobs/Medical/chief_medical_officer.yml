@@ -1,0 +1,18 @@
+# Jumpsuit
+
+- type: loadout
+  id: CMOJumpskirtPencil
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtPencilCMO
+
+- type: loadout
+  id: CMOJumpskirtPencilAlt
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtPencilCMOAlt
+
+# Underwear
+
+- type: loadout
+  id: SocksCMO
+  equipment:
+    socks: ClothingUnderwearSocksCMO

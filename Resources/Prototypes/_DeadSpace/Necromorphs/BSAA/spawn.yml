@@ -173,9 +173,10 @@
   parent: EventHumanoidERTZombieImmune
   components:
     - type: GhostRole
-      name: Лидер Альянса Противодействия БиоТерроризму
+      name: Лидер АПБТ
       description: ghost-role-information-cburn-leader-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category
       requirements:
         - !type:DepartmentTimeRequirement
           department: Medical
@@ -206,9 +207,10 @@
   parent: EventHumanoidERTZombieImmune
   components:
     - type: GhostRole
-      name: Боец Альянса Противодействия БиоТерроризму
+      name: Боец АПБТ
       description: ghost-role-information-cburn-agent-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category
       requirements:
         - !type:DepartmentTimeRequirement
           department: Security
@@ -222,6 +224,7 @@
       - NamesLastERT
       nameFormat: name-format-ert
     - type: ImmunNecroobelisk
+    - type: IgnoreKudzu
     - type: Loadout
       prototypes: [ BSAAFighterGear ]
     - type: GhostRoleNotifys 
@@ -232,9 +235,10 @@
   parent: EventHumanoidERTZombieImmune
   components:
     - type: GhostRole
-      name: Медик Альянса Противодействия БиоТерроризму
+      name: Медик АПБТ
       description: ghost-role-information-cburn-agent-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category
       requirements:
         - !type:DepartmentTimeRequirement
           department: Medical
@@ -245,6 +249,7 @@
       raffle:
         settings: short
       job: BSAAMedicJob
+    - type: IgnoreKudzu
     - type: RandomMetadata
       nameSegments:
       - NamesFirstERT

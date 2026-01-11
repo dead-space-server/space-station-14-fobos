@@ -1,0 +1,120 @@
+- type: entity
+  id: CrateArmorySupPack1
+  parent: [ CrateSyndicateSecure ]
+  suffix: SupPack 1
+  components:
+  - type: StorageFill
+    contents:
+      - id: WeaponLaserCarbine
+        amount: 5
+      - id: ClothingOuterArmorBasic
+        amount: 5
+      - id: ClothingHeadHelmetSwatSyndicate
+        amount: 5
+      - id: BoxMagazinePistol
+        amount: 5
+
+- type: entity
+  id: CrateArmorySupPack2
+  parent: [ CrateSyndicateSecure ]
+  suffix: SupPack 2
+  components:
+  - type: StorageFill
+    contents:
+      - id: WeaponRifleAk
+        amount: 5
+      - id: BoxMagazineLightRifle
+        amount: 5
+      - id: KukriKnife
+        amount: 5
+      - id: WeaponPistolViper
+        amount: 5
+
+- type: startingGear
+  id: SyndicateOperativeRevSupGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitOperative
+    back: ClothingBackpackSyndicate
+    shoes: ClothingShoesBootsCombatFilled
+    gloves: ClothingHandsGlovesColorBlack
+    id: SyndicateIDCard
+  storage:
+    back:
+    - WeaponPistolViper
+    - ClothingHeadsetAltSyndicate
+
+- type: randomHumanoidSettings
+  id: SyndicateAgentRevSup
+  components:
+  - type: Loadout
+    prototypes: [SyndicateOperativeRevSupGear]
+  - type: GhostRole
+    name: Снабженец революции
+    description: ghost-role-information-sindy-agent-sup-description
+    rules: ghost-role-information-rules-team-antagonist
+    category: ghost-role-information-syndicate-reinforcement-name
+    requirements:
+      - !type:DepartmentTimeRequirement
+        department: Medical
+        time: 36000 # 10 hours
+      - !type:DepartmentTimeRequirement
+        department: Security
+        time: 72000 # 20 hours
+      - !type:DepartmentTimeRequirement
+        department: Command
+        time: 36000 # 10 hours
+    raffle:
+      settings: short
+  - type: RandomMetadata
+    nameSegments:
+    - NamesSyndicateNormal
+    nameFormat: name-format-nukie-operator
+  - type: Revolutionary
+  - type: GhostTakeoverAvailable
+
+- type: entity
+  id: RandomHumanoidSpawnerSyndicateAgentRevSup
+  name: Снабженец революции
+  components:
+  - type: GhostRole
+  - type: GhostTakeoverAvailable
+  - type: Sprite
+    sprite: Mobs/Species/Human/parts.rsi
+    state: full
+  - type: RandomMetadata
+    nameSegments: [ NamesDeathCommando ]
+  - type: RandomHumanoidSpawner
+    settings: SyndicateAgentRevSup
+
+- type: preloadedGrid
+  id: RevSupShuttle
+  path: /Maps/Shuttles/ERT/rev_sup.yml
+  copies: 1
+
+- type: entity
+  parent: BaseGameRule
+  id: SpawnRevSupShuttle
+  components:
+  - type: StationEvent
+    willNotStartRandomly: true
+  - type: RuleGrids
+  - type: LoadMapRule
+    preloadedGrid: RevSupShuttle
+  - type: ErtSpawnRule
+
+- type: ertTeam
+  id: RevSup
+  name: Шаттл снабжения революции.
+  description: 
+    Шаттл снабжения революции.
+  rule: SpawnRevSupShuttle
+  cooldown:
+    min: 1s
+    max: 1s
+  spawnWindow:
+    min: 1m
+    max: 5m
+  price: 0
+  spawns:
+    - id: RandomHumanoidSpawnerSyndicateAgentRevSup
+      amount: 1
