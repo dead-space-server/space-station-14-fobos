@@ -196,8 +196,8 @@
         Caustic: 0.5
         Stun: 0.45
   - type: ClothingSpeedModifier
-    walkModifier: 1.2
-    sprintModifier: 1.2
+    walkModifier: 1.25
+    sprintModifier: 1.25
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitUnitologyLight
