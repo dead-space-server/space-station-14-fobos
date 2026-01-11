@@ -109,9 +109,7 @@
   id: NecroBoomer
   isCanSpawnInfectionDead: false
   layersToHide:
-  - RArm
   - LArm
-  - RHand
   - LHand
   movementSpeedMultiply: 0.9
   damage:
