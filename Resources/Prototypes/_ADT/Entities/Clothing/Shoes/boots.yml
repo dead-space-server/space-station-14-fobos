@@ -1,16 +1,16 @@
-- type: entity
-  parent: ClothingShoesBaseButcherable
-  id: ADTClothingHandsSupremeCommanderBoots
-  name: ботинки высшего главнокомандующего
-  description: Я сама скорость! Чао :)
-  components:
-  - type: Sprite
-    sprite: _ADT/Clothing/Shoes/Boots/supreme-commander-boots.rsi
-  - type: Clothing
-    sprite: _ADT/Clothing/Shoes/Boots/supreme-commander-boots.rsi
-  - type: ClothingSpeedModifier
-    walkModifier: 1
-    sprintModifier: 1
+#- type: entity
+#  parent: ClothingShoesBaseButcherable
+#  id: ADTClothingHandsSupremeCommanderBoots
+#  name: ботинки высшего главнокомандующего
+#  description: Я сама скорость! Чао :)
+#  components:
+#  - type: Sprite
+#    sprite: _ADT/Clothing/Shoes/Boots/supreme-commander-boots.rsi
+#  - type: Clothing
+#    sprite: _ADT/Clothing/Shoes/Boots/supreme-commander-boots.rsi
+#  - type: ClothingSpeedModifier
+#    walkModifier: 1
+#    sprintModifier: 1
 
 #nope_ingeneer
 - type: entity
