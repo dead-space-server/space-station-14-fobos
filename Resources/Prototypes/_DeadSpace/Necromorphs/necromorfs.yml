@@ -79,9 +79,16 @@
   id: NecroStalker
   isCanSpawnInfectionDead: false
   movementSpeedMultiply: 1
+  layersToHide:
+  - Hair
+  - FacialHair
+  - Head
+  - Snout
+  - HeadSide
+  - HeadTop
   damage:
     groups:
-      Brute: 10
+      Brute: 13
     types:
       Structural: 15
   damageModifierSet: Necromorf
@@ -101,7 +108,12 @@
 - type: necromorf
   id: NecroBoomer
   isCanSpawnInfectionDead: false
-  movementSpeedMultiply: 0.85
+  layersToHide:
+  - RArm
+  - LArm
+  - RHand
+  - LHand
+  movementSpeedMultiply: 0.9
   damage:
     groups:
       Brute: 12
