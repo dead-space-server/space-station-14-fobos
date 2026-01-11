@@ -24,7 +24,7 @@ paper-medic-circle = [bold][head=1] [color=#B00000]Итак[/head], [color=#0000
     - [bold][color=#800808]Усваивание:[color=#000000] [/bold] [italic]1.15 унций в секунду[/italic]
     
     - [bold][color=#800808]Лечит:[color=#000000] [/bold]
-    - [italic]Все повреждения, кроме клеточных, по [color=#B00000]4.5 единицы[/italic]
+    - [italic]Все повреждения, кроме клеточных, по [color=#B00000]4.2 единицы[/italic]
     
     - [bold][color=#800808]Способ варки: [color=#000000][/bold]
     -  [italic][color=#0099FF]Трикордразин[color=#000000] — [1] [/italic]
@@ -59,7 +59,7 @@ paper-medic-circle = [bold][head=1] [color=#B00000]Итак[/head], [color=#0000
     - [bold] [color=#800808]Передоз: [color=#000000][/bold] 6 унций.
     - [bold] [color=#800808]Усваивание: [color=#000000][/bold] 1 унция в секунду.
     - [bold][color=#800808] Лечит:[color=#000000] [/bold]
-    -  Термические ожоги: [color=#B00000]6
+    -  Термические ожоги: [color=#B00000]5.5
         единиц[color=#000000]
     - [bold] [color=#800808]Способ варки: [color=#000000][/bold]
     -  [color=#006666]Дермалин [color=#000000]— [1.3]
