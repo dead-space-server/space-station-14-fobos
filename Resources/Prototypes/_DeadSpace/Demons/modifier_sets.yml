@@ -1,5 +1,7 @@
 - type: damageModifierSet
   id: Demon
+  armorLvls:
+    Piercing: 2
   coefficients:
     Blunt: 1
     Slash: 1
@@ -13,6 +15,8 @@
 
 - type: damageModifierSet
   id: SlaughterDemon
+  armorLvls:
+    Piercing: 2
   coefficients:
     Blunt: 1
     Slash: 1
@@ -34,6 +38,8 @@
 
 - type: damageModifierSet
   id: CombatBorg
+  armorLvls:
+    Piercing: 2
   coefficients:
     Blunt: 0.4
     Slash: 0.4

@@ -17,3 +17,22 @@
     slot: head
   - type: VirusResistance
     virusResistanceCoefficient: 0.1
+
+- type: entity
+  parent: ClothingOuterBioGeneral
+  id: ClothingOuterBioChemist
+  name: биозащитный костюм
+  description: Костюм, защищающий от биологического заражения.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/OuterClothing/Bio/general.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/OuterClothing/Bio/general.rsi
+  - type: ContainerContainer
+    containers:
+      toggleable-clothing: !type:ContainerSlot {}
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHatHoodChemist
+    slot: head
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.1

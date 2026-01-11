@@ -4,7 +4,7 @@
   id: ERTloadoutCBURN
   name: кейс неопределённости
   description: Прочный военный кейс, содержащий снаряжение подразделений РХБЗЗ.
-  suffix: Снаряжение РХБЗЗ
+  suffix: РХБЗЗ
   parent: BaseERTloadoutPrimary
   components:
   - type: Sprite
@@ -25,7 +25,7 @@
   id: ERTloadoutCBURNLeader
   name: кейс неопределённости лидера
   description: Прочный военный кейс, содержащий снаряжение лидеров подразделений РХБЗЗ.
-  suffix: Снаряжение РХБЗЗ, лидер
+  suffix: РХБЗЗ, Лидер
   parent: BaseERTloadoutPrimary
   components:
   - type: Sprite
@@ -47,7 +47,7 @@
 - type: thiefBackpackSet
   id: CBURNSpiderSet
   name: Набор подразделения ОППУ
-  description: Набор, содержащий снаряжения подразделения отряда РХБЗЗ ОППУ. Отлично подходит против пауков ужаса.
+  description: Набор, содержащий снаряжения подразделения ОППУ. Отлично подходит против пауков ужаса.
   sprite:
     sprite: _DeadSpace/Spiders/guardian_terror.rsi
     state: running
@@ -59,7 +59,7 @@
 - type: thiefBackpackSet
   id: LeaderCBURNSpiderSet
   name: Набор подразделения ОППУ
-  description: Набор, содержащий снаряжения подразделения лидера отряда РХБЗЗ ОППУ. Отлично подходит против пауков ужаса.
+  description: Набор, содержащий снаряжения подразделения лидера ОППУ. Отлично подходит против пауков ужаса.
   sprite:
     sprite: _DeadSpace/Spiders/guardian_terror.rsi
     state: running
@@ -71,7 +71,7 @@
 - type: thiefBackpackSet
   id: CBURNNecroSet
   name: Набор подразделения ОПНУ
-  description: Набор, содержащий снаряжения подразделения отряда РХБЗЗ ОПНУ. Отлично подходит против некроморфной инфекции.
+  description: Набор, содержащий снаряжения подразделения ОПНУ. Отлично подходит против некроморфной инфекции.
   sprite:
     sprite: _DeadSpace/Necromorfs/infector.rsi
     state: running
@@ -83,7 +83,7 @@
 - type: thiefBackpackSet
   id: LeaderCBURNNecroSet
   name: Набор подразделения ОПНУ
-  description: Набор, содержащий снаряжения подразделения лидера отряда РХБЗЗ ОПНУ. Отлично подходит против некроморфной инфекции.
+  description: Набор, содержащий снаряжения подразделения лидера ОПНУ. Отлично подходит против некроморфной инфекции.
   sprite:
     sprite: _DeadSpace/Necromorfs/infector.rsi
     state: running
@@ -116,13 +116,11 @@
 
 # CBURNSpider
 
-
 - type: entity
   name: армейский рюкзак ОППУ
   parent: ClothingMilitaryBackpack
   id: ClothingMilitaryBackpackCBURNSpider
   description: У нас есть цель, цель будет выполнена.
-  suffix: Боец
   components:
   - type: StorageFill
     contents:
@@ -157,7 +155,6 @@
   parent: ClothingBeltMilitaryWebbing
   id: ClothingBeltMilitaryWebbingCBURNSpider
   description: У нас есть цель, цель будет выполнена.
-  suffix: Боец
   components:
   - type: StorageFill
     contents:
@@ -186,13 +183,11 @@
 
 # CBURNNecro
 
-
 - type: entity
   name: армейский рюкзак ОПНУ
   parent: ClothingMilitaryBackpack
   id: ClothingMilitaryBackpackCBURNNecro
   description: У нас есть цель, цель будет выполнена.
-  suffix: Боец
   components:
   - type: StorageFill
     contents:
@@ -228,7 +223,6 @@
   parent: ClothingBeltMilitaryWebbing
   id: ClothingBeltMilitaryWebbingCBURNNecro
   description: У нас есть цель, цель будет выполнена.
-  suffix: Боец
   components:
   - type: StorageFill
     contents:
@@ -301,7 +295,6 @@
   parent: ClothingBeltMilitaryWebbing
   id: ClothingBeltMilitaryWebbingCBURN
   description: У нас есть цель, цель будет выполнена.
-  suffix: Боец
   components:
   - type: StorageFill
     contents:

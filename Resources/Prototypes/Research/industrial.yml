@@ -15,6 +15,7 @@
   - OreProcessorIndustrialMachineCircuitboard
   - ClothingMaskWeldingGas
   - ClothingShoesBootsJump
+  - OreBag # DS14
 
 - type: technology
   id: SpaceScanning

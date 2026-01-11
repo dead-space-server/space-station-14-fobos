@@ -55,6 +55,74 @@
   - type: Clothing
     sprite: _DeadSpace/Clothing/Uniforms/Jumpskirt/pencil_tan.rsi
 
+# med
+
+- type: entity
+  parent: ClothingUniformSkirtBase
+  id: ClothingUniformJumpskirtPencilChemistry
+  name: костюм-карандаш химика
+  description: Строгий белый костюм в стиле "карандаш" придает образу строгость.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpskirt/pencil_chemistry.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpskirt/pencil_chemistry.rsi
+
+- type: entity
+  parent: ClothingUniformSkirtBase
+  id: ClothingUniformJumpskirtPencilCMO
+  name: костюм-карандаш главного врача
+  description: Строгий белый костюм в стиле "карандаш" придает образу строгость.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpskirt/pencil_cmo.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpskirt/pencil_cmo.rsi
+
+- type: entity
+  parent: ClothingUniformSkirtBase
+  id: ClothingUniformJumpskirtPencilCMOAlt
+  name: костюм-карандаш главного врача c водолазкой
+  description: Строгий белый костюм в стиле "карандаш" придает образу строгость.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpskirt/pencil_cmo_turtle.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpskirt/pencil_cmo_turtle.rsi
+
+- type: entity
+  parent: ClothingUniformSkirtBase
+  id: ClothingUniformJumpskirtPencilMedical
+  name: костюм-карандаш врача
+  description: Строгий белый костюм в стиле "карандаш" придает образу строгость.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpskirt/pencil_medic.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpskirt/pencil_medic.rsi
+
+- type: entity
+  parent: ClothingUniformSkirtBase
+  id: ClothingUniformJumpskirtPencilPsychologist
+  name: костюм-карандаш психолога
+  description: Строгий белый костюм в стиле "карандаш" придает образу строгость.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpskirt/pencil_psychologist.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpskirt/pencil_psychologist.rsi
+
+- type: entity
+  parent: ClothingUniformSkirtBase
+  id: ClothingUniformJumpskirtPencilSeniorPhysician
+  name: костюм-карандаш ведущего врача
+  description: Строгий белый костюм в стиле "карандаш" придает образу строгость.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpskirt/pencil_senior_physician.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpskirt/pencil_senior_physician.rsi
+
 # by inspector_jeleshka
 
 - type: entity

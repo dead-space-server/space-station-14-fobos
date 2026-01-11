@@ -143,6 +143,7 @@ ghost-role-information-ert-medical-name = ОБР Медик
 ghost-role-information-ert-medical-description = Оказывайте содействие в медицинской помощи для решения проблем станции.
 ghost-role-information-cburn-leader-name = РХБЗЗ Лидер
 ghost-role-information-cburn-leader-description = Руководите командой специалистов для решения проблем станции.
+ghost-role-information-sindy-agent-sup-description = Агент синдиката, прилетевший на станцию для снабжения революции.
 ghost-role-information-cburn-agent-name = РХБЗЗ Оперативник
 ghost-role-information-cburn-agent-description = Высококвалифицированный оперативник, способный справиться с любыми угрозами.
 ghost-role-information-centcom-official-name = Представитель ЦК

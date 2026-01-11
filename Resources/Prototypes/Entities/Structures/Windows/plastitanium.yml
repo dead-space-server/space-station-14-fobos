@@ -9,6 +9,17 @@
     snap:
     - Window
   components:
+# DS14-start
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: RGlass
+  - type: DamageVisuals
+    thresholds: [5, 10, 20]
+    damageDivisor: 25
+    trackAllDamage: true
+    damageOverlay:
+      sprite: Structures/Windows/cracks.rsi
+# DS14-end
   - type: RCDDeconstructable
     deconstructable: false
   - type: MeleeSound
@@ -151,6 +162,12 @@
     mode: Diagonal
     key: walls # DS14
     base: state
+# DS14-start
+  - type: DamageVisuals
+    damageDivisor: 25
+    damageOverlay:
+      sprite: Structures/Windows/cracks_diagonal.rsi
+# DS14-end
   - type: Fixtures
     fixtures:
       fix1:

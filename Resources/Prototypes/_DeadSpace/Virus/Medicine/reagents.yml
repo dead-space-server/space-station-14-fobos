@@ -16,17 +16,17 @@
               min: 5
 
 - type: reagent
-  id: Bacterizine
-  name: reagent-name-bacterizine
+  id: Infectizine
+  name: reagent-name-infectizine
   group: Medicine
-  desc: reagent-desc-bacterizine
+  desc: reagent-desc-infectizine
   physicalDesc: reagent-physical-desc-clear
   flavor: medicine
   color: "#7fc8ff"
   metabolisms:
     Medicine:
       effects:
-      - !type:Antibiotic
+      - !type:DamageDisease
         baseDamage: 5
         resistanceIncrease: 0.01
         conditions:
@@ -51,7 +51,7 @@
   metabolisms:
     Medicine:
       effects:
-      - !type:Antibiotic
+      - !type:DamageDisease
         baseDamage: 8
         resistanceIncrease: 0.005
         conditions:
@@ -76,7 +76,7 @@
   metabolisms:
     Medicine:
       effects:
-      - !type:Antibiotic
+      - !type:DamageDisease
         baseDamage: 10
         resistanceIncrease: 0.001
         conditions:
@@ -101,7 +101,7 @@
   metabolisms:
     Medicine:
       effects:
-      - !type:Antibiotic
+      - !type:DamageDisease
         baseDamage: 12
         resistanceIncrease: 0.01
         conditions:
@@ -126,7 +126,7 @@
   metabolisms:
     Medicine:
       effects:
-      - !type:Antibiotic
+      - !type:DamageDisease
         baseDamage: 16
         resistanceIncrease: 0.01
         conditions:
@@ -151,7 +151,7 @@
   metabolisms:
     Medicine:
       effects:
-      - !type:Antibiotic
+      - !type:DamageDisease
         baseDamage: 25
         resistanceIncrease: 0.005
         conditions:

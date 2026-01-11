@@ -33,6 +33,8 @@
   components:
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 3
       coefficients:
         Blunt: 0.4
         Slash: 0.4
@@ -57,6 +59,8 @@
     protectionTime: 5
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 2
       coefficients:
         Blunt: 0.85
         Slash: 0.85

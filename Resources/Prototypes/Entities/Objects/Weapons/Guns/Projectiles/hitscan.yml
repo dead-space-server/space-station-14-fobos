@@ -107,6 +107,8 @@
 - type: hitscan
   id: RedHeavyLaser
   damage:
+    armorPiercingLevels:
+      Heat: 2
     types:
       Heat: 28
   muzzleFlash:
@@ -126,6 +128,8 @@
 - type: hitscan
   id: Pulse
   damage:
+    armorPiercingLevels:
+      Heat: 2
     types:
       Heat: 35
   muzzleFlash:
@@ -144,6 +148,8 @@
 - type: hitscan
   id: MegaPulse # DS14 - Laser for death squad
   damage:
+    armorPiercingLevels:
+      Heat: 3
     types:
       Heat: 50
       Structural: 40
@@ -165,6 +171,8 @@
   id: RedShuttleLaser
   maxLength: 60
   damage:
+    armorPiercingLevels:
+      Heat: 2
     types:
       Heat: 45
       Structural: 10
