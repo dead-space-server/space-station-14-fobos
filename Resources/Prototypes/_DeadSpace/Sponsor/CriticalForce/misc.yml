@@ -228,3 +228,12 @@
         Heat: 0.9
   - type: Tag
     tags: []
+
+- type: entity
+  parent: BaseWeaponBallisticTurret
+  id: WeaponTurretCriticalForce
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: NpcFactionMember
+    factions:
+    - CriticalForce
