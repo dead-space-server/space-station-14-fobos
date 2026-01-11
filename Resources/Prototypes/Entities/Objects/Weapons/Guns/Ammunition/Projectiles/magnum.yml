@@ -6,6 +6,8 @@
   components:
   - type: Projectile
     damage:
+      armorPiercingLevels:
+        Piercing: 3
       types:
         Piercing: 35
 
@@ -28,6 +30,8 @@
   components:
   - type: Projectile
     damage:
+      armorPiercingLevels:
+        Piercing: 2
       types:
         Piercing: 26
         Heat: 9

@@ -9,7 +9,7 @@
     ChemistryBottleEpinephrine: 3
     Syringe: 3
     PillCanisterTricordrazine: 2
-    ChemistryBottleBacterizine: 1 # DS14
+    ChemistryBottleInfectizine: 1 # DS14
   contrabandInventory:
     PillCanisterRandom: 1
     PowerCellSmall: 2
@@ -26,7 +26,7 @@
     ChemistryBottleEpinephrine: 3
     Syringe: 3
     PillCanisterTricordrazine: 2
-    ChemistryBottleBacterizine: 1 # DS14
+    ChemistryBottleInfectizine: 1 # DS14
   contrabandInventory:
     PillCanisterRandom: 1
     PowerCellSmall: 2
@@ -51,7 +51,7 @@
     SyringeIpecac: 1
     ClothingEyesHudMedical: 2
     ClothingEyesEyepatchHudMedical: 2
-    ChemistryBottleBacterizine: 1 # DS14
+    ChemistryBottleInfectizine: 1 # DS14
   contrabandInventory:
     PillCanisterRandom: 3
     PillSpaceDrugs: 3
@@ -74,7 +74,7 @@
     PillCanisterIron: 1
     PillCanisterCopper: 1
     PillCanisterPotassiumIodide: 1
-    ChemistryBottleBacterizine: 1 # DS14
+    ChemistryBottleInfectizine: 1 # DS14
   contrabandInventory:
     PillCanisterRandom: 1
     PillSpaceDrugs: 3
