@@ -306,14 +306,14 @@
   reactants:
     Ephedrine:
       amount: 1
-# DS14-start: Desoxy rebalance
-    Methylamine:
+    Carbon:
       amount: 1
-    Phenylacetone:
+    Phosphorus:
+     amount: 1
+    Iodine:
       amount: 1
   products:
-    Desoxyephedrine: 3 #I kinda remember having to heat this up, and if you heated it up too much, it went boom, I can't remember the specific values tho.
-# DS14-end
+    Desoxyephedrine: 4 #I kinda remember having to heat this up, and if you heated it up too much, it went boom, I can't remember the specific values tho.
 
 - type: reaction
   id: Stimulants
