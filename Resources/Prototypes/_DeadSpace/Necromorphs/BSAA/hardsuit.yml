@@ -31,8 +31,8 @@
       armorLvls:
         Piercing: 3
       coefficients:
-        Blunt: 0.5
-        Slash: 0.5
+        Blunt: 0.4
+        Slash: 0.4
         Piercing: 0.45
         Heat: 0.2
         Cold: 0.2
@@ -109,8 +109,8 @@
       armorLvls:
         Piercing: 3
       coefficients:
-        Blunt: 0.55
-        Slash: 0.55
+        Blunt: 0.45
+        Slash: 0.45
         Piercing: 0.5
         Heat: 0.3
         Cold: 0.3
@@ -187,8 +187,8 @@
       armorLvls:
         Piercing: 3
       coefficients:
-        Blunt: 0.6
-        Slash: 0.6
+        Blunt: 0.5
+        Slash: 0.5
         Piercing: 0.6
         Heat: 0.3
         Cold: 0.3
