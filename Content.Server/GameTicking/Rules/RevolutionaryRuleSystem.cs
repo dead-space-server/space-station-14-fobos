@@ -200,10 +200,9 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
             {
                 await _db.AddBiStatAsync("Революция", winner, DateTime.UtcNow);
             }
-            catch (Exception ex)
+            catch
             {
-                var saw = Logger.GetSawmill("RevolutionaryRuleSystem");
-                saw.Debug($"Не удалось сделать запись: {ex}");
+
             }
         });
     }

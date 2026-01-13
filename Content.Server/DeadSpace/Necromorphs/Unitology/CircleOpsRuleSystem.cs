@@ -84,10 +84,9 @@ public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
             {
                 await _db.AddBiStatAsync("Блоб", winner, DateTime.UtcNow);
             }
-            catch (Exception ex)
+            catch
             {
-                var saw = Logger.GetSawmill("BlobRuleSystem");
-                saw.Debug($"Не удалось сделать запись: {ex}");
+
             }
         });
     }

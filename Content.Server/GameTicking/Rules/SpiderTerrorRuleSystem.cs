@@ -60,12 +60,10 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
     // Сумма пополнения баланса станции на стадии размножения
     private static readonly TimeSpan RoundEndTime = TimeSpan.FromSeconds(10);
     private bool _voteSend = false;
-    private ISawmill _sawmill = default!;
 
     public override void Initialize()
     {
         base.Initialize();
-        _sawmill = Logger.GetSawmill("SpiderTerrorRuleSystem");
 
         SubscribeLocalEvent<SpiderTerrorRuleComponent, SpiderTerrorAttackStationEvent>(OnAttackStation);
         SubscribeLocalEvent<CommunicationConsoleCallShuttleAttemptEvent>(OnShuttleCallAttempt);
@@ -116,9 +114,9 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
                         {
                             await _db.AddBiStatAsync("Пауки ужаса", winner, DateTime.UtcNow);
                         }
-                        catch (Exception ex)
+                        catch
                         {
-                            _sawmill.Debug($"Не удалось сделать запись: {ex}");
+
                         }
                     });
                 }
@@ -133,9 +131,9 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
                         {
                             await _db.AddBiStatAsync("Пауки ужаса", winner, DateTime.UtcNow);
                         }
-                        catch (Exception ex)
+                        catch
                         {
-                            _sawmill.Debug($"Не удалось сделать запись: {ex}");
+
                         }
                     });
                 }

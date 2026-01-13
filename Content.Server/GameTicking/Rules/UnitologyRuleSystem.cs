@@ -73,7 +73,6 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
     private static readonly ProtoId<CargoAccountPrototype> Account = "Security";
     private const int AdditionalSupport = 70000;
     private const float ConvergenceSongLength = 60f + 37.6f;
-    private ISawmill _sawmill = default!;
     public override void Initialize()
     {
         base.Initialize();
@@ -87,7 +86,6 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
     protected override void Started(EntityUid uid, UnitologyRuleComponent component, GameRuleComponent gameRule, GameRuleStartedEvent args)
     {
         base.Started(uid, component, gameRule, args);
-        _sawmill = Logger.GetSawmill("UnitologyRuleSystem");
 
         component.TimeUntilArrivalObelisk = _timing.CurTime + TimeSpan.FromMinutes(component.DurationArrivalObelisk);
     }
@@ -467,9 +465,9 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
             {
                 await _db.AddBiStatAsync("Юнитологи", winner, DateTime.UtcNow);
             }
-            catch (Exception ex)
+            catch
             {
-                _sawmill.Debug($"Не удалось сделать запись: {ex}");
+
             }
         });
 

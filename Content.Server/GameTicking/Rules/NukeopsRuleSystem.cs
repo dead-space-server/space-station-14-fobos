@@ -140,10 +140,9 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
             {
                 await _db.AddBiStatAsync("Ядерные оперативники", winner, DateTime.UtcNow);
             }
-            catch (Exception ex)
+            catch
             {
-                var saw = Logger.GetSawmill("NukeopsRuleSystem");
-                saw.Debug($"Не удалось сделать запись: {ex}");
+
             }
         });
     }
