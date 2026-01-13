@@ -134,7 +134,7 @@
 
 - type: listing
   id: UniPhoneUplinkWeaponSCARAB
-  name: SCARAB (Можно купить 2 раза)
+  name: SCARAB (Можно купить 3 раза)
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/scarab/scarab.rsi, state: icon }
   description: Автомат из семейства FN SCAR, модифицированный под патрон 6.8х51 мм. На месте пулевых попаданий оставляет порезы и впрыскивает в рану кислоту.
   productEntity: WeaponCaseHeavyFilledSCARAB
@@ -144,7 +144,7 @@
    - UniPhoneUplinkWeaponry
   conditions:
   - !type:ListingLimitedStockCondition
-    stock: 2
+    stock: 3
 
 - type: listing
   id: UniPhoneUplinkWeaponASh12
@@ -274,10 +274,10 @@
 
 - type: listing
   id: UniPhoneUplinkChemVendSyndicate
-  name: набор пополнения СиндиСоки
+  name: набор пополнения СиндиСоки (Можно купить 2 раза)
   icon: { sprite: _DeadSpace/Objects/Specific/Service/vending_machine_restock.rsi, state: base }
   productEntity: VendingMachineRestockChemVendSyndicate
-  description: Простое пополнение для СиндиСока. Пополнение можно купить 2 раза.
+  description: Простое пополнение для СиндиСока.
   cost:
     Telecrystal: 16
   categories:
@@ -288,11 +288,10 @@
 
 - type: listing
   id: UniPhoneUplinkExtraborilKit
-  name: набор медика "Круг"
+  name: набор медика "Круг" (Можно купить 6 раз)
   icon: { sprite: /Textures/Objects/Storage/boxicons.rsi, state: vials }
   productEntity: ExtraborilKit
-  description: Важный набор для твоего медика Круга. Кстати, скажи спасибо своему медику, ему будет приятно. Данный набор можно купить 6 раза.
-  cost:
+  description: Важный набор для твоего медика Круга. Кстати, скажи спасибо своему медику, ему будет приятно.
     Telecrystal: 6
   categories:
    - UniPhoneUplinkMedical
