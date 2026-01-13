@@ -7,6 +7,7 @@ using Content.Shared.DeadSpace.Virus;
 using JetBrains.Annotations;
 using Robust.Client.UserInterface;
 using Robust.Shared.Prototypes;
+using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 
 namespace Content.Client.DeadSpace.Virus.UI
 {
@@ -53,6 +54,13 @@ namespace Content.Client.DeadSpace.Virus.UI
                 SendMessage(new EvolutionConsoleUiButtonPressedMessage(
                     EvolutionConsoleUiButton.DeleteBody,
                     body: GenSelectedActiveBody()
+                ));
+
+            // Изменение Некро вируса
+            _window.ChangeNecroVirus.OnPressed += _ =>
+                SendMessage(new EvolutionConsoleUiButtonPressedMessage(
+                    EvolutionConsoleUiButton.ChangesNecroVirus,
+                    necrodata: _window.GetInfectionDeadStrainData()
                 ));
         }
 

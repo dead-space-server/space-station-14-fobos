@@ -9,6 +9,10 @@ using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Prototypes;
 using Robust.Client.UserInterface.Controls;
 using Content.Client.DeadSpace.Virus.Systems;
+using Range = Robust.Client.UserInterface.Controls.Range;
+using Robust.Client.UserInterface;
+using Robust.Shared.Input;
+using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 
 namespace Content.Client.DeadSpace.Virus.UI;
 
@@ -29,6 +33,11 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
         IoCManager.InjectDependencies(this);
         RobustXamlLoader.Load(this);
 
+        HpMulty.OnValueChanged += (args) => OnReleaseSliderChanged(args, HpMulty_Value);
+        DamageMulty.OnValueChanged += (args) => OnReleaseSliderChanged(args, DamageMulty_Value);
+        SpeedMulty.OnValueChanged += (args) => OnReleaseSliderChanged(args, SpeedMulty_Value);
+        StaminaMulty.OnValueChanged += (args) => OnReleaseSliderChanged(args, StaminaMulty_Value);
+
         AvailableSymptomsList.OnItemSelected += OnAvailableSymptomSelected;
         AvailableBodiesList.OnItemSelected += OnAvailableBodySelected;
 
@@ -38,7 +47,11 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
         DeleteSymptomButton.Disabled = true;
         DeleteBodyButton.Disabled = true;
     }
-
+    private void OnReleaseSliderChanged(Range range, Label label)
+    {
+        label.Text = range.Value.ToString();
+        FinalPriceLabel.Text = $"Final Price: {Convert.ToInt32(1000 * (Math.Abs(HpMulty.Value - 1) + Math.Abs(DamageMulty.Value - 1) + Math.Abs(SpeedMulty.Value - 1) + Math.Abs(StaminaMulty.Value - 1)))}";
+    }
     public void Populate(VirusEvolutionConsoleBoundUserInterfaceState state)
     {
         _lastUpdate = state;
@@ -309,4 +322,13 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
         DeleteBodyButton.Disabled = _lastUpdate.MutationPoints < deletePrice;
     }
 
+    public InfectionDeadStrainData GetInfectionDeadStrainData()
+    {
+        InfectionDeadStrainData infectionDeadStrainData = new InfectionDeadStrainData();
+        infectionDeadStrainData.DamageMulty = DamageMulty.Value;
+        infectionDeadStrainData.SpeedMulty = SpeedMulty.Value;
+        infectionDeadStrainData.StaminaMulty = StaminaMulty.Value;
+        infectionDeadStrainData.HpMulty = HpMulty.Value;
+        return infectionDeadStrainData;
+    }
 }

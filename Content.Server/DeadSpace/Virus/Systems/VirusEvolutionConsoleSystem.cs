@@ -13,6 +13,10 @@ using Content.Shared.DeadSpace.Virus.Components;
 using Robust.Shared.Prototypes;
 using Content.Shared.DeadSpace.Virus.Prototypes;
 using Content.Shared.Body.Prototypes;
+using Content.Shared.Chemistry.Components.SolutionManager;
+using Robust.Shared.Containers;
+using Content.Shared.Chemistry.EntitySystems;
+using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -23,7 +27,8 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly VirusSolutionAnalyzerSystem _virusSolutionAnalyzer = default!;
     [Dependency] private readonly VirusSystem _virusSystem = default!;
-
+    [Dependency] private readonly SharedContainerSystem _container = default!;
+    [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
     public override void Initialize()
     {
         base.Initialize();
@@ -130,6 +135,59 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
                     server.Points -= price;
 
                     _virusSolutionAnalyzer.RemBody((component.VirusSolutionAnalyzer.Value, analyzer), args.Body);
+                    break;
+                }
+            case EvolutionConsoleUiButton.ChangesNecroVirus:
+                {
+                    if (args.Necrodata == null)
+                        return;
+                    if (args.Necrodata.HpMulty > 10)
+                        args.Necrodata.HpMulty = 10;
+                    if (args.Necrodata.DamageMulty > 10)
+                        args.Necrodata.DamageMulty = 10;
+                    if (args.Necrodata.SpeedMulty > 10)
+                        args.Necrodata.SpeedMulty = 10;
+                    if (args.Necrodata.StaminaMulty > 10)
+                        args.Necrodata.StaminaMulty = 10;
+                    var price = Convert.ToInt32(1000 * (Math.Abs(args.Necrodata.HpMulty - 1) + Math.Abs(args.Necrodata.DamageMulty- 1) + Math.Abs(args.Necrodata.SpeedMulty- 1) + Math.Abs(args.Necrodata.StaminaMulty - 1)));
+                    if (!_container.TryGetContainer(uid, "flask_container_virus_solution_analyzer", out var container))
+                        return;
+                    if (container is not ContainerSlot slot)
+                        return;
+                    if (slot.ContainedEntity is not { } contained)
+                        return;
+                    if (!TryComp<SolutionContainerManagerComponent>(contained, out var solutionManager))
+                        return;
+                    if (!TryComp<DrawableSolutionComponent>(contained, out var drawable))
+                        return;
+                    var wrapper = new Entity<DrawableSolutionComponent?, SolutionContainerManagerComponent?>(
+                        contained,
+                        drawable,
+                        solutionManager);
+                    if (!_solutionContainer.TryGetDrawableSolution(
+                            wrapper,
+                            out _,
+                            out var solution))
+                        return;
+                    if (solution == null || solution.Contents.Count == 0)
+                        return;
+                    if (!(server.Points - price >= 0))
+                        return;
+                    server.Points -= price;
+                    foreach (var reagent in solution.Contents)
+                    {
+                        var dataList = reagent.Reagent.Data;
+                        if (dataList == null)
+                            continue;
+
+                        foreach (var data in dataList.OfType<InfectionDeadStrainData>())
+                        {
+                            data.DamageMulty = args.Necrodata.DamageMulty;
+                            data.HpMulty = args.Necrodata.HpMulty;
+                            data.SpeedMulty = args.Necrodata.SpeedMulty;
+                            data.StaminaMulty = args.Necrodata.StaminaMulty;
+                        }
+                    }
                     break;
                 }
             default:

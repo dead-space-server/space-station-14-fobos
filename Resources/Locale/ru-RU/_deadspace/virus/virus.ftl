@@ -159,7 +159,8 @@ virus-evolution-points-per-second =
 virus-evolution-cost-label =
     Стоимость: { $cost }
 
-
+### NECRO TAB ###
+virus-necro-change-button = Изменить
 ### WHITELIST TAB ###
 
 virus-evolution-available-bodies = Доступные тела

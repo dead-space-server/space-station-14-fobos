@@ -4,6 +4,7 @@ using Content.Shared.Body.Prototypes;
 using Content.Shared.DeadSpace.Virus.Prototypes;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
+using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 
 namespace Content.Shared.DeadSpace.Virus;
 
@@ -68,16 +69,19 @@ public sealed class EvolutionConsoleUiButtonPressedMessage : BoundUserInterfaceM
     public readonly EvolutionConsoleUiButton Button;
     public string? Symptom { get; } = null;
     public string? Body { get; } = null;
+    public InfectionDeadStrainData? Necrodata = null;
 
     public EvolutionConsoleUiButtonPressedMessage(
         EvolutionConsoleUiButton button,
         string? symptom = null,
-        string? body = null
+        string? body = null,
+        InfectionDeadStrainData? necrodata = null
         )
     {
         Button = button;
         Symptom = symptom;
         Body = body;
+        Necrodata = necrodata;
     }
 }
 
@@ -88,7 +92,8 @@ public enum EvolutionConsoleUiButton : byte
     EvolutionSymptom,
     EvolutionBody,
     DeleteSymptom,
-    DeleteBody
+    DeleteBody,
+    ChangesNecroVirus
 }
 
 [Serializable, NetSerializable]
