@@ -12,6 +12,11 @@ accent-english-words-replace-3 = bitch
 accent-english-words-4 = нет
 accent-english-words-replace-4 = no
 
+accent-english-words-5 = отряд
+accent-english-words-5-2 = отряду
+accent-english-words-5-3 = отряда
+accent-english-words-replace-5 = squad
+
 accent-english-words-6 = да
 accent-english-words-replace-6 = yes
 
@@ -35,8 +40,8 @@ accent-english-words-11-4 = кэпу
 accent-english-words-11-5 = кэпа
 accent-english-words-11-6 = кепу
 accent-english-words-11-7 = кепа
-accent-english-words-11-6 = капитану
-accent-english-words-11-7 = капитана
+accent-english-words-11-8 = капитану
+accent-english-words-11-9 = капитана
 accent-english-words-replace-11 = captain
 
 accent-english-words-12 = добро пожаловать
@@ -290,7 +295,7 @@ accent-english-words-replace-72 = space
 accent-english-words-73 = станция
 accent-english-words-73-2 = станции
 accent-english-words-73-3 = станцией
-accent-english-words-73- = станция
+accent-english-words-73-4 = станция
 accent-english-words-replace-73 = station
 
 accent-english-words-74 = станции
@@ -549,6 +554,12 @@ accent-english-words-119-2 = паукам
 accent-english-words-119-3 = пауков
 accent-english-words-replace-119 = spiders
 
+accent-english-words-120 = дыра
+accent-english-words-replace-120 = hole
+
+accent-english-words-121 = свет
+accent-english-words-replace-121 = light
+
 accent-english-words-122 = юнитология
 accent-english-words-122-2 = юнитологию
 accent-english-words-replace-122 = unitology
@@ -645,6 +656,14 @@ accent-english-words-144-2 = охуеть
 accent-english-words-144-3 = ахуй
 accent-english-words-replace-144 = holy shit
 
+accent-english-words-145 = ящер
+accent-english-words-145-2 = ящеру
+accent-english-words-145-3 = ящера
+accent-english-words-145-4 = унатх
+accent-english-words-145-5 = унатху
+accent-english-words-145-6 = унатха
+accent-english-words-replace-145 = lizard
+
 accent-english-words-146 = вульпа
 accent-english-words-146-2 = вульпы
 accent-english-words-146-3 = вульпу
@@ -659,7 +678,7 @@ accent-english-words-replace-147 = were
 accent-english-words-148 = ненавижу
 accent-english-words-148-2 = ненавидим
 accent-english-words-148-3 = ненависть
-accent-english-words-148 = ненавидит
+accent-english-words-148-4 = ненавидит
 accent-english-words-replace-148 = hate
 
 accent-english-words-149 = побег сингулярности
