@@ -275,7 +275,7 @@
   movementSpeedMultiply: 1.1
   isAnimal: true
   slowOnDamage: false
-  thresholdMultiply: 2
+  thresholdMultiply: 1.5
   damage:
     groups:
       Brute: 25
