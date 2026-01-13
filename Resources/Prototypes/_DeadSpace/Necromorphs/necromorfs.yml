@@ -275,7 +275,7 @@
   movementSpeedMultiply: 1.1
   isAnimal: true
   slowOnDamage: false
-  thresholdMultiply: 5
+  thresholdMultiply: 2
   damage:
     groups:
       Brute: 25
@@ -650,11 +650,6 @@
   components:
   - type: InitialNecrofication
     necroPrototype: NecroBrute
-  - type: MobThresholds
-    thresholds:
-      0: Alive
-      350: Critical 
-      425: Dead 
 
 - type: entity
   name: Некроморф
