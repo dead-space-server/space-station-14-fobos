@@ -35,6 +35,7 @@
     - Syringe
     - InjectorCaseStimFilled
     - InjectorCaseFilled
+    - HandheldHealthAnalyzer
 
 - type: entity
   parent: ClothingBeltMilitaryWebbing
