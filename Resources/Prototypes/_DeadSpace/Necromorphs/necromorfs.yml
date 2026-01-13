@@ -298,6 +298,11 @@
       Male: NecroOther
       Female: NecroOther
       Unsexed: NecroOther
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      350: Critical 
+      425: Dead 
 
 - type: necromorf
   id: NecroInfector
@@ -691,7 +696,7 @@
 - type: entity
   id: CorpseCollectorNecromorfSpawner
   name: Некроморф
-  suffix: собирель трупов
+  suffix: собиратель трупов
   components:
   - type: Icon
     sprite: Mobs/Species/Human/parts.rsi
