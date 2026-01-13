@@ -298,11 +298,6 @@
       Male: NecroOther
       Female: NecroOther
       Unsexed: NecroOther
-  - type: MobThresholds
-    thresholds:
-      0: Alive
-      350: Critical 
-      425: Dead 
 
 - type: necromorf
   id: NecroInfector
@@ -655,6 +650,11 @@
   components:
   - type: InitialNecrofication
     necroPrototype: NecroBrute
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      350: Critical 
+      425: Dead 
 
 - type: entity
   name: Некроморф
