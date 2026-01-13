@@ -19,6 +19,12 @@ public sealed partial class ErtTeamPrototype : IPrototype
     public string Description { get; private set; } = string.Empty;
 
     [DataField]
+    public LocId Notification = string.Empty;
+
+    [DataField]
+    public LocId Sender = string.Empty;
+
+    [DataField]
     public string? CancelMessage { get; private set; }
 
     [DataField("rule", required: true)]

@@ -320,8 +320,8 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
         if (needWarn)
         {
             _chatSystem.DispatchGlobalAnnouncement(
-                message: Loc.GetString("ert-responce-caused-messager", ("team", prototype.Name)),
-                sender: Loc.GetString("chat-manager-sender-announcement"),
+                message: string.IsNullOrEmpty(prototype.Notification) ? Loc.GetString("ert-responce-caused-messager", ("team", prototype.Name)) : prototype.Notification,
+                sender: string.IsNullOrEmpty(prototype.Sender) ? Loc.GetString("chat-manager-sender-announcement") : prototype.Sender,
                 colorOverride: Color.FromHex("#1d8bad"),
                 playSound: true,
                 usePresetTTS: true,

@@ -1,6 +1,6 @@
 - type: ertTeam
   id: Cburn
-  name: РХБЗЗ
+  name: РХБЗ
   description: 
     Специализированный отряд радиационной, химической и биологической зомби защиты
     NanoTrasen. Предназначен для локализации утечек опасных веществ,
@@ -9,6 +9,7 @@
     5 бойцов РХБЗЗ и 1 лидер прибывают на шаттле РХБЗЗ, который оснащён
     всем необходимым оборудованием для выполнения их миссии.
     Время прибытия отряда от 10 до 15 минут.
+  sender: ert-responce-cso-sender
   rule: SpawnCburnShuttle
   cooldown:
     min: 15m
@@ -38,6 +39,8 @@
     10 бойцов РХБЗЗ и 1 лидер прибывают на шаттле РХБЗЗ, который оснащён
     всем необходимым оборудованием для выполнения их миссии.
     Время прибытия отряда от 10 до 15 минут.
+  notification: ert-responce-caused-messager-sierra
+  sender: ert-responce-cso-sender
   rule: SpawnSierraShuttle
   cooldown:
     min: 15m
@@ -133,6 +136,8 @@
     7 членов отряда прибывают на шаттле типа Гамма, который оснащён всем
     необходимым оборудованием для выполнения их миссии.
     Время прибытия отряда от 10 до 15 минут.
+  notification: ert-responce-caused-messager-red
+  sender: ert-responce-cso-sender
   rule: SpawnGammaShuttle # это буквально одинаковые шаттлы
   cooldown:
     min: 10m
@@ -168,6 +173,8 @@
     необходимым оборудованием для выполнения их миссии.
     Время прибытия отряда 20 минут.
   rule: SpawnGammaShuttle
+  notification: ert-responce-caused-messager-gamma
+  sender: ert-responce-cso-sender
   cooldown:
     min: 20m
     max: 20m
@@ -198,6 +205,8 @@
     Данный отряд отправляется при вторжении террористов Круг или в случае масштабного всплеска ред-спейс.
     Время прибытия отряда от 20 до 25 минут.
   rule: SpawnSierraShuttle
+  notification: ert-responce-caused-messager-uni-ops
+  sender: ert-responce-cso-sender
   cooldown:
     min: 25m
     max: 25m
@@ -223,6 +232,7 @@
     на шаттле, который оснащён всем необходимым оборудованием
     для выполнения их миссии.
     Время прибытия от 5 до 7 минут.
+  notification: ert-responce-caused-messager-official
   rule: SpawnCentCommOfficialShuttle
   cancelMessage:
     Представитель Центрального Командования NanoTrasen не смог прибыть на станцию
