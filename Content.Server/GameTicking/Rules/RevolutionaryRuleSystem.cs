@@ -44,6 +44,7 @@ using Content.Shared.DeadSpace.ERT.Prototypes;
 using Content.Shared.Cargo.Prototypes;
 using Content.Server.Cargo.Systems;
 using Content.Shared.Cargo.Components;
+using Content.Server.Database;
 
 namespace Content.Server.GameTicking.Rules;
 
@@ -71,6 +72,7 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
     [Dependency] private readonly AlertLevelSystem _alertLevel = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
+    [Dependency] private readonly IServerDbManager _db = default!;
     public readonly ProtoId<ErtTeamPrototype> RevolutionarySupplyTeam = "RevSup";
 
     //Used in OnPostFlash, no reference to the rule component is available
@@ -189,6 +191,21 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
 
             // TODO: someone suggested listing all alive? revs maybe implement at some point
         }
+
+        // DS14 Статистика для дашборда
+        var winner = commandLost ? BiStatWinner.Antagonist : BiStatWinner.Crew;
+        _ = System.Threading.Tasks.Task.Run(async () =>
+        {
+            try
+            {
+                await _db.AddBiStatAsync("Революция", winner, DateTime.UtcNow);
+            }
+            catch (Exception ex)
+            {
+                var saw = Logger.GetSawmill("RevolutionaryRuleSystem");
+                saw.Debug($"Не удалось сделать запись: {ex}");
+            }
+        });
     }
 
     private void OnGetBriefing(EntityUid uid, RevolutionaryRoleComponent comp, ref GetBriefingEvent args)

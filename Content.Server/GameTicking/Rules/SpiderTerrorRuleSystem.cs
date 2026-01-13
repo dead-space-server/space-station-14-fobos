@@ -30,6 +30,8 @@ using Robust.Shared.Prototypes;
 using Content.Server.RoundEnd;
 using Content.Server.DeadSpace.ERT;
 using Content.Shared.DeadSpace.ERT.Prototypes;
+using JetBrains.Annotations;
+using Content.Server.Database;
 
 namespace Content.Server.GameTicking.Rules;
 
@@ -48,6 +50,7 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
     [Dependency] private readonly CargoSystem _cargoSystem = default!;
     [Dependency] private readonly RoundEndSystem _roundEndSystem = default!;
     [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
+    [Dependency] private readonly IServerDbManager _db = default!;
     private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "CburnSierra";
     private static readonly ProtoId<CargoAccountPrototype> Account = "Security";
     private const int AdditionalSupport = 70000;
@@ -57,10 +60,12 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
     // Сумма пополнения баланса станции на стадии размножения
     private static readonly TimeSpan RoundEndTime = TimeSpan.FromSeconds(10);
     private bool _voteSend = false;
+    private ISawmill _sawmill = default!;
 
     public override void Initialize()
     {
         base.Initialize();
+        _sawmill = Logger.GetSawmill("SpiderTerrorRuleSystem");
 
         SubscribeLocalEvent<SpiderTerrorRuleComponent, SpiderTerrorAttackStationEvent>(OnAttackStation);
         SubscribeLocalEvent<CommunicationConsoleCallShuttleAttemptEvent>(OnShuttleCallAttempt);
@@ -102,10 +107,37 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
                 if (component.IsStationCaptureActive(stationUid))
                 {
                     args.AddLine(Loc.GetString("spider-terror-win")); // Тут можно добавить: захватили станцию (название станции), чтобы не было дублирования одного предложения.
+
+                    // Статистика для дашборда
+                    var winner = BiStatWinner.Antagonist;
+                    _ = System.Threading.Tasks.Task.Run(async () =>
+                    {
+                        try
+                        {
+                            await _db.AddBiStatAsync("Пауки ужаса", winner, DateTime.UtcNow);
+                        }
+                        catch (Exception ex)
+                        {
+                            _sawmill.Debug($"Не удалось сделать запись: {ex}");
+                        }
+                    });
                 }
                 else
                 {
                     args.AddLine(Loc.GetString("spider-terror-loose"));
+
+                    var winner = BiStatWinner.Crew;
+                    _ = System.Threading.Tasks.Task.Run(async () =>
+                    {
+                        try
+                        {
+                            await _db.AddBiStatAsync("Пауки ужаса", winner, DateTime.UtcNow);
+                        }
+                        catch (Exception ex)
+                        {
+                            _sawmill.Debug($"Не удалось сделать запись: {ex}");
+                        }
+                    });
                 }
             }
         }
