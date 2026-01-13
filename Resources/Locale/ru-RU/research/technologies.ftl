@@ -76,3 +76,4 @@ research-technology-language-implants = Простейшие языковые и
 research-technology-quantum-fiber-weaving = Плетение квантового волокна
 research-technology-bluespace-cargo-transport = Блюспейс-транспортировка грузов
 research-technology-night-vision-technology = Технология ночного зрения
+research-technology-security-turrets-technology = Автономные охранные системы

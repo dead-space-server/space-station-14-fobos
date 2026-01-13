@@ -10,6 +10,7 @@ using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
+using Content.Shared.NPC.Prototypes; // DS14
 
 namespace Content.Shared.Zombies;
 
@@ -177,4 +178,12 @@ public sealed partial class ZombieComponent : Component
     /// </summary>
     [DataField("newBloodReagent", customTypeSerializer: typeof(PrototypeIdSerializer<ReagentPrototype>))]
     public string NewBloodReagent = "ZombieBlood";
+
+    /// DS14-start
+    /// <summary>
+    /// Factions to restore in case of cloning.
+    /// </summary>
+    [DataField]
+    public HashSet<ProtoId<NpcFactionPrototype>> BeforeZombifiedFactions = new();
+    /// DS14-end
 }

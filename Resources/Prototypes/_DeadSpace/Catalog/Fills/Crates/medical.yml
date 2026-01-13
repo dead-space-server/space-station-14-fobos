@@ -1,0 +1,19 @@
+- type: entity
+  id: CrateHardsuitMedEVA
+  parent: CrateMedicalSecure
+  name: набор со скафандром медицинского отдела
+  description: Набор, состоящий из одного скафандра медицинского отдела.
+  components:
+  - type: StorageFill
+    contents:
+      - id: ClothingOuterHardsuitMedEVA
+
+- type: entity
+  id: CraterHardsuitMedChemEVA
+  parent: CrateMedicalSecure
+  name: набор со скафандром химика
+  description: Набор, состоящий из одного скафандра химика.
+  components:
+  - type: StorageFill
+    contents:
+      - id: ClothingOuterHardsuitMedChemEVA

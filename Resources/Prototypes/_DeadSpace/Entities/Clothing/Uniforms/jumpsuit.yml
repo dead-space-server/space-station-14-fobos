@@ -9,6 +9,17 @@
   - type: Clothing
     sprite: _DeadSpace/Clothing/Uniforms/Jumpsuit/nanonachos.rsi
 
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpsuitParamedicAlt
+  name: чёрный комбинезон парамедика
+  description: На нём есть плюс, это хорошо, верно?
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpsuit/Alt_paramedic.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpsuit/Alt_paramedic.rsi
+
 # Taipan
 
 - type: entity

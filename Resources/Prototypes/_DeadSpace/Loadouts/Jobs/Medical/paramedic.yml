@@ -1,0 +1,20 @@
+# Jumpsuit
+
+- type: loadout
+  id: ParamedicJumpsuitAlt
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitParamedicAlt
+
+# Outer clothing
+
+- type: loadout
+  id: ParamedicWindbreakerAlt
+  equipment:
+    outerClothing: ClothingOuterCoatParamedicALT
+
+# Underwear
+
+- type: loadout
+  id: SocksParamedic
+  equipment:
+    socks: ClothingUnderwearSocksParamedic

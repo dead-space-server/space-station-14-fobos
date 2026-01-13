@@ -20,6 +20,11 @@
   path: /Maps/Shuttles/ERT/official.yml
 
 # GRIDS
+#- type: preloadedGrid #For future red shuttle update
+#  id: RedShuttle
+#  path: /Maps/Shuttles/ERT/red.yml
+#  copies: 1
+
 - type: preloadedGrid
   id: CburnShuttle
   path: /Maps/Shuttles/ERT/cburn.yml

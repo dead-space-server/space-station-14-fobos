@@ -10,7 +10,6 @@
     description: cargo-gift-xmas
     dest: cargo-gift-dest-crew
     gifts:
-      FunXmasGift: 1
       FoodGingerbreadCookies: 1
       BlockSnow: 1
       FunFireworkBox: 1

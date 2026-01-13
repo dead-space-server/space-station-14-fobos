@@ -98,6 +98,8 @@
 
 - type: damageModifierSet
   id: DeadSquadNecro
+  armorLvls:
+    Piercing: 3
   coefficients:
     Blunt: 0.4
     Slash: 0.4

@@ -379,6 +379,7 @@
   loadouts:
   - SeniorPhysicianJumpsuit
   - SeniorPhysicianJumpskirt
+  - SeniorPhysicianJumpskirtPencil
 
 - type: loadoutGroup
   id: SeniorPhysicianOuterClothing
@@ -473,3 +474,59 @@
   - UnderwearBottomBoxersVirologist
   - UnderwearTopBraVirologist
   - UnderwearBottomPantiesVirologist
+
+- type: loadoutGroup
+  id: MedicalShoesChemist
+  name: loadout-group-chemist-doctor-shoes
+  loadouts:
+  - ShoesBootsSterileChemist
+  - WhiteShoes
+  - MedicalWinterBoots
+
+- type: loadoutGroup
+  id: CMOSocks
+  name: loadout-group-cmo-socks
+  loadouts:
+  - SocksCMO
+  - SocksNylon
+  - SocksNylonWhite
+
+- type: loadoutGroup
+  id: DoctorSocks
+  name: loadout-group-medical-socks
+  loadouts:
+  - SocksDoctor
+  - SocksNylon
+  - SocksNylonWhite
+
+- type: loadoutGroup
+  id: ChemistSocks
+  name: loadout-group-chemist-socks
+  loadouts:
+  - SocksChemist
+  - SocksNylon
+  - SocksNylonWhite
+
+- type: loadoutGroup
+  id: ParamedicSocks
+  name: loadout-group-paramedic-socks
+  loadouts:
+  - SocksParamedic
+  - SocksNylon
+  - SocksNylonWhite
+
+- type: loadoutGroup
+  id: PsychologistSocks
+  name: loadout-group-psychologist-socks
+  loadouts:
+  - SocksPsychologist
+  - SocksNylon
+  - SocksNylonWhite
+
+- type: loadoutGroup
+  id: PhysicianSocks
+  name: loadout-group-physiciant-socks
+  loadouts:
+  - SocksSeniorPhysician
+  - SocksNylon
+  - SocksNylonWhite

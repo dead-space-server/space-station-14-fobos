@@ -12,3 +12,17 @@
     sprite: _DeadSpace/Clothing/Head/Hoods/Bio/researcher.rsi
   - type: VirusResistance
     virusResistanceCoefficient: 0.9
+
+- type: entity
+  parent: ClothingHeadHatHoodBioGeneral
+  id: ClothingHeadHatHoodChemist
+  name: капюшон биозащитного костюма
+  description: Капюшон, защищающий голову и лицо от биологического заражения.
+  components:
+  - type: IdentityBlocker
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Head/Hoods/Bio/chem.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Head/Hoods/Bio/chem.rsi
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.9

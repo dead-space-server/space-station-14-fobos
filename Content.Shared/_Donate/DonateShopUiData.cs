@@ -296,6 +296,9 @@ public sealed class PremiumLevelData
     public float BonusEnergy { get; }
     public int BonusSlots { get; }
     public string Price { get; }
+    public bool HavePriorityJoinGame { get; }
+    public bool HavePriorityAntageGame { get; }
+    public bool AllowJob { get; }
 
     public PremiumLevelData(
         int id,
@@ -306,7 +309,10 @@ public sealed class PremiumLevelData
         float bonusXp,
         float bonusEnergy,
         int bonusSlots,
-        string price = "0")
+        string price = "0",
+        bool havePriorityJoinGame = false,
+        bool havePriorityAntageGame = false,
+        bool allowJob = false)
     {
         Id = id;
         Level = level;
@@ -317,6 +323,9 @@ public sealed class PremiumLevelData
         BonusEnergy = bonusEnergy;
         BonusSlots = bonusSlots;
         Price = price;
+        HavePriorityJoinGame = havePriorityJoinGame;
+        HavePriorityAntageGame = havePriorityAntageGame;
+        AllowJob = allowJob;
     }
 }
 

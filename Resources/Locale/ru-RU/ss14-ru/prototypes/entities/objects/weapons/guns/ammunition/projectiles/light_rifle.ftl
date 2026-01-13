@@ -1,4 +1,4 @@
-ent-BulletLightRifle = пуля (6.5х39 мм TSF)
+ent-BulletLightRifle = пуля (6.5х39 мм TSF FMJ)
     .desc = { ent-BaseBullet.desc }
 ent-BulletLightRiflePractice = пуля (6.5х39 мм TSF учебная)
     .desc = { ent-BaseBulletPractice.desc }
@@ -8,3 +8,5 @@ ent-BulletLightRifleIncendiary = пуля (6.5х39 мм TSF зажигатель
     .desc = { ent-BaseBulletIncendiary.desc }
 ent-BulletLightRifleUranium = пуля (6.5х39 мм TSF урановая)
     .desc = { ent-BaseBulletUranium.desc }
+ent-BulletLightRifleHP = пуля (6.5х39 мм TSF HP)
+    .desc = { ent-BaseBullet.desc }
