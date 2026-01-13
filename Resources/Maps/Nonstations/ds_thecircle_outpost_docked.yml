@@ -9166,6 +9166,9 @@ entities:
       deviceLists:
       - 512
       - 1515
+    - type: AccessReader
+      accessListsOriginal:
+      - - GroupCounterpartyNT
   - uid: 973
     components:
     - type: Transform

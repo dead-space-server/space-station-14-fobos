@@ -1,21 +1,3 @@
-- type: npcFaction
-  id: CriticalForce
-  hostile:
-  - SimpleHostile
-  - Syndicate
-  - Xeno
-  - Zombie
-  - Revolutionary
-  - Dragon
-  - AllHostile
-  - Wizard
-  - Xenoborg
-  - Taipan
-  - Necromorfs
-  - SpiderTerror
-  - Blob
-  - NanoTrasen
-
 - type: jobIcon
   parent: JobIcon
   id: JobIconCriticalForce
@@ -34,7 +16,7 @@
     gloves: ClothingHandsGlovesCombatCriticalForce
     outerClothing: ClothingOuterHardsuitOfficerCriticalForce
     shoes: ClothingShoesMagBootsCriticalForce
-    id: CriticalForceOfficerPDA
+    id: CriticalForceOfficerEMTIDCard
     belt: ClothingBeltWisdomCriticalForceSec
     pocket2: DoubleEmergencyOxygenTankFilled
   storage:
@@ -70,7 +52,8 @@
   - type: StorageFill
     contents:
       - id: MagazinePistolSubMachineGun
-        amount: 5
+        amount: 4
+      - id: ChemistryBottleNecrosol
 
 - type: entity
   parent: IDCardStandard
@@ -90,16 +73,6 @@
     layers:
     - state: silver
     - state: idbrigmedic
-
-- type: entity
-  parent: ERTLeaderPDA
-  id:  CriticalForceOfficerPDA
-  categories: [ HideSpawnMenu ]
-  name: КПК Офицера CriticalForce
-  description: Красный значит мощный.
-  components:
-  - type: Pda
-    id: CriticalForceOfficerEMTIDCard
 
 - type: randomHumanoidSettings
   id: EventHumanoidCriticalForceOfficer
@@ -127,7 +100,7 @@
       nameFormat: name-format-ert
     - type: NpcFactionMember
       factions:
-      - CriticalForce
+      - NanoTrasen
 
 - type: entity
   id: RandomHumanoidSpawnerCriticalForceOfficerEMT
