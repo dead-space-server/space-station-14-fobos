@@ -12,7 +12,6 @@ namespace Content.Client.Administration.UI.Tabs.AdminTab
     public sealed partial class ERTCallWindow : DefaultWindow
     {
         [Dependency] private readonly IEntityManager _entMan = default!;
-        [Dependency] private readonly Robust.Shared.Network.IClientNetManager _netManager = default!;
         private ErtResponceSystem? _ertSystem;
 
         public ERTCallWindow()

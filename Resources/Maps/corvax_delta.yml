@@ -4,7 +4,7 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 12/27/2025 22:56:35
+  time: 01/08/2026 03:51:37
   entityCount: 42779
 maps:
 - 1
@@ -29253,7 +29253,7 @@ entities:
       pos: -29.5,99.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -51634.652
+      secondsUntilStateChange: -51769.152
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -29265,7 +29265,7 @@ entities:
       pos: -11.5,99.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -51633.285
+      secondsUntilStateChange: -51767.785
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -29277,7 +29277,7 @@ entities:
       pos: 90.5,21.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -51696.05
+      secondsUntilStateChange: -51830.55
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -29289,7 +29289,7 @@ entities:
       pos: 90.5,17.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -51696.785
+      secondsUntilStateChange: -51831.285
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -29301,7 +29301,7 @@ entities:
       pos: 66.5,-10.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -51688.22
+      secondsUntilStateChange: -51822.72
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -29313,7 +29313,7 @@ entities:
       pos: 66.5,-29.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -51690.285
+      secondsUntilStateChange: -51824.785
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -29339,7 +29339,7 @@ entities:
       pos: 94.5,21.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -47728.273
+      secondsUntilStateChange: -47862.773
       changeAirtight: False
       state: Opening
     - type: Docking
@@ -29355,7 +29355,7 @@ entities:
       pos: 0.5,-7.5
       parent: 42499
     - type: Door
-      secondsUntilStateChange: -47727.67
+      secondsUntilStateChange: -47862.17
       changeAirtight: False
       state: Opening
     - type: Docking
@@ -132464,6 +132464,14 @@ entities:
     - type: Transform
       pos: 11.4723425,-63.475094
       parent: 2
+- proto: ErtResponceConsole
+  entities:
+  - uid: 30529
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 9.5,0.5
+      parent: 2
 - proto: ExplosivesSignMed
   entities:
   - uid: 19072
@@ -217253,11 +217261,6 @@ entities:
     - type: ContainerContainer
       containers:
         stash: !type:ContainerSlot {}
-  - uid: 30529
-    components:
-    - type: Transform
-      pos: 9.5,0.5
-      parent: 2
   - uid: 30530
     components:
     - type: Transform
