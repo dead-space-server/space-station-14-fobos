@@ -204,11 +204,9 @@
   impact: Medium
   reactants:
     Ephedrine:
-      amount: 1
+      amount: 1.5
     Extraboril:
-      amount: 1
-    Phenylacetone:
-      amount: 1
+      amount: 1.5
   products:
     Depotojil: 3
 

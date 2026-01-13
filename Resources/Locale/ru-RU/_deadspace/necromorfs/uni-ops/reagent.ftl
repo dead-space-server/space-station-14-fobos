@@ -77,9 +77,8 @@ paper-medic-circle = [bold][head=1] [color=#B00000]Итак[/head], [color=#0000
     - [bold] [color=#800808]Лечит:[color=#000000][/bold] [color=#800808][color=#000000]     [italic]:( [/italic]
     - [color=#000000][bold][color=#800808]Способ варки: [/bold]  
     - [color=#000000]
-    -  [color=#999999]Эфедрин[color=#000000] — [1]
+    -  [color=#999999]Эфедрин[color=#000000] — [1.5]
     -  [color=#ff99ff]Экстроборил [color=#000000]— [1.5]
-    -  [color=#ffcc00]Фенилацетон [color=#000000] — [1.5]
 
     - [bold] [color=#800808] Результат: [/bold][color=#000000] [color=#B00000]3 унции
     - [color=#000000]вещества.
