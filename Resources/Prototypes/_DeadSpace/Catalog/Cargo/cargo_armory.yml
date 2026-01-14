@@ -1,9 +1,9 @@
-- type: cargoProduct
-  id: ArmyArmoryRifle
-  icon:
-    sprite: Objects/Weapons/Guns/Rifles/lecter.rsi
-    state: icon
-  product: CrateArmoryRifleFMJ
-  cost: 21500 # DS14-value
-  category: cargoproduct-category-name-armory
-  group: market
+#- type: cargoProduct
+#  id: ArmyArmoryRifle
+#  icon:
+#    sprite: Objects/Weapons/Guns/Rifles/lecter.rsi
+#    state: icon
+#  product: CrateArmoryRifleFMJ
+#  cost: 21500 # DS14-value
+#  category: cargoproduct-category-name-armory
+#  group: market

@@ -111,7 +111,7 @@
             - ADTExtMagazineRifle
       gun_chamber:
         name: Chamber
-        startingItem: CartridgeRifleFMJ
+        startingItem: CartridgeRifle
         priority: 1
         whitelist:
           tags:
