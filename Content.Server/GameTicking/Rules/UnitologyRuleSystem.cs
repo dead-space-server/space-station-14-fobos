@@ -38,6 +38,7 @@ using Content.Shared.Cargo.Components;
 using Content.Server.DeadSpace.ERT;
 using Content.Server.AlertLevel;
 using Content.Shared.DeadSpace.ERT.Prototypes;
+using Content.Server.Database;
 
 namespace Content.Server.GameTicking.Rules;
 
@@ -48,6 +49,7 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
     [Dependency] private readonly RoundEndSystem _roundEnd = default!;
     [Dependency] private readonly ServerGlobalSoundSystem _sound = default!;
     [Dependency] private readonly AntagSelectionSystem _antag = default!;
+    [Dependency] private readonly IServerDbManager _db = default!;
     [Dependency] private readonly MindSystem _mindSystem = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly ExplosionSystem _explosion = default!;
@@ -70,9 +72,7 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
     private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "CburnSierra";
     private static readonly ProtoId<CargoAccountPrototype> Account = "Security";
     private const int AdditionalSupport = 70000;
-
     private const float ConvergenceSongLength = 60f + 37.6f;
-
     public override void Initialize()
     {
         base.Initialize();
@@ -456,6 +456,20 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
                 ("name", name),
                 ("username", data.UserName)));
         }
+
+        // Статистика для дашборда
+        var winner = index == 2 ? BiStatWinner.Antagonist : BiStatWinner.Crew;
+        _ = System.Threading.Tasks.Task.Run(async () =>
+        {
+            try
+            {
+                await _db.AddBiStatAsync("Юнитологи", winner, DateTime.UtcNow);
+            }
+            catch
+            {
+
+            }
+        });
 
     }
 

@@ -6,6 +6,7 @@ using Content.Server.Backmen.GameTicking.Rules.Components;
 using Content.Server.Cargo.Systems;
 using Content.Server.Chat.Managers;
 using Content.Server.Chat.Systems;
+using Content.Server.Database;
 using Content.Server.DeadSpace.ERT;
 using Content.Server.GameTicking;
 using Content.Server.GameTicking.Rules;
@@ -40,6 +41,7 @@ public sealed class BlobRuleSystem : GameRuleSystem<BlobRuleComponent>
     [Dependency] private readonly IChatManager _chatManager = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
     [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
+    [Dependency] private readonly IServerDbManager _db = default!;
     private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "CburnSierra";
     private static readonly ProtoId<CargoAccountPrototype> Account = "Security";
     private const int AdditionalSupport = 70000;
@@ -284,5 +286,22 @@ public sealed class BlobRuleSystem : GameRuleSystem<BlobRuleComponent>
         }
 
         ev.AddLine(result);
+
+        // DS14 Статистика для дашборда
+        var winner = blob.Stage == BlobStage.TheEnd
+            ? BiStatWinner.Antagonist
+            : BiStatWinner.Crew;
+
+        _ = System.Threading.Tasks.Task.Run(async () =>
+        {
+            try
+            {
+                await _db.AddBiStatAsync("Блоб", winner, DateTime.UtcNow);
+            }
+            catch
+            {
+
+            }
+        });
     }
 }
