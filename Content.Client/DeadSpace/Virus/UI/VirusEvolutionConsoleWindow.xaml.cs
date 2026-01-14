@@ -50,7 +50,7 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
     private void OnReleaseSliderChanged(Range range, Label label)
     {
         label.Text = range.Value.ToString();
-        FinalPriceLabel.Text = $"Final Price: {Convert.ToInt32(1000 * (Math.Abs(HpMulty.Value - 1) + Math.Abs(DamageMulty.Value - 1) + Math.Abs(SpeedMulty.Value - 1) + Math.Abs(StaminaMulty.Value - 1)))}";
+        FinalPriceLabel.Text = $"Final Price: {(int)(1000 * (Math.Abs(HpMulty.Value - 1) + Math.Abs(DamageMulty.Value - 1) + Math.Abs(SpeedMulty.Value - 1) + Math.Abs(StaminaMulty.Value - 1)))}";
     }
     public void Populate(VirusEvolutionConsoleBoundUserInterfaceState state)
     {

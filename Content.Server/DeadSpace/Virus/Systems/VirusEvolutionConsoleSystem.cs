@@ -149,7 +149,7 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
                         args.Necrodata.SpeedMulty = 10;
                     if (args.Necrodata.StaminaMulty > 10)
                         args.Necrodata.StaminaMulty = 10;
-                    var price = Convert.ToInt32(1000 * (Math.Abs(args.Necrodata.HpMulty - 1) + Math.Abs(args.Necrodata.DamageMulty- 1) + Math.Abs(args.Necrodata.SpeedMulty- 1) + Math.Abs(args.Necrodata.StaminaMulty - 1)));
+                    int price = (int)(1000 * (Math.Abs(args.Necrodata.HpMulty - 1) + Math.Abs(args.Necrodata.DamageMulty- 1) + Math.Abs(args.Necrodata.SpeedMulty- 1) + Math.Abs(args.Necrodata.StaminaMulty - 1)));
                     if (!_container.TryGetContainer(uid, "flask_container_virus_solution_analyzer", out var container))
                         return;
                     if (container is not ContainerSlot slot)
@@ -171,7 +171,7 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
                         return;
                     if (solution == null || solution.Contents.Count == 0)
                         return;
-                    if (!(server.Points - price >= 0))
+                    if (server.Points - price < 0)
                         return;
                     server.Points -= price;
                     foreach (var reagent in solution.Contents)
