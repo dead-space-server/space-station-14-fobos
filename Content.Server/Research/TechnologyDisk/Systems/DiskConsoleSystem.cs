@@ -62,7 +62,8 @@ public sealed class DiskConsoleSystem : EntitySystem
         // DS14-start
         var act = args.Actor;
 
-        if (TryComp<AccessReaderComponent>(uid, out var access) && !_accessReader.IsAllowed(act, uid, access))
+        // if (TryComp<AccessReaderComponent>(uid, out var access) && !_accessReader.IsAllowed(act, uid, access)) // Было
+        if (act.Valid && TryComp<AccessReaderComponent>(uid, out var access) && !_accessReader.IsAllowed(act, uid, access))
         {
             _popup.PopupEntity(Loc.GetString("particle-accelerator-control-menu-permission-denied"), act);
             return;
