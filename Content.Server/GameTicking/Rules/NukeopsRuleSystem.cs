@@ -395,6 +395,9 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
             if (_alertLevel.GetLevel(nukeops.TargetStation.Value) == "gamma")
                 continue;
 
+            if (newStatus != WarConditionStatus.YesWar)
+                continue;
+
             _alertLevel.SetLevel(nukeops.TargetStation.Value, "gamma", false, true, true);
 
             if (!TryComp<StationBankAccountComponent>(nukeops.TargetStation, out var stationAccount))
