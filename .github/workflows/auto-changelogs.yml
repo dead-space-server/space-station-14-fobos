@@ -1,0 +1,45 @@
+name: Автоматический коммит ченжлога из PR'а
+
+on:
+  pull_request_review:
+    types: [submitted]
+  pull_request:
+    types: [closed]
+
+jobs:
+  update-changelog:
+    if: >
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.merge_commit_sha != ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: Проверка кода
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+          fetch-depth: 0
+
+      - name: Получение описания
+        id: extract-desc
+        run: |
+          echo "DESCRIPTION<<EOF" >> $GITHUB_OUTPUT
+          curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}" \
+            | jq -r '.body' >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Обработка и обновление ченжлога
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python .github/scripts/update_changelog.py \
+            --pr-number ${{ github.event.pull_request.number }} \
+            --author "${{ github.event.pull_request.user.login }}" \
+            --description "${{ steps.extract-desc.outputs.DESCRIPTION }}"
+
+      - name: Коммит и пуш в мастер
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Auto changelog #${{ github.event.pull_request.number }}"
+          file_pattern: Resources/Changelog/ChangelogDS14.yml
+          branch: ${{ github.event.pull_request.base.ref }}
