@@ -136,7 +136,6 @@
     7 членов отряда прибывают на шаттле типа Гамма, который оснащён всем
     необходимым оборудованием для выполнения их миссии.
     Время прибытия отряда от 10 до 15 минут.
-  notification: ert-responce-caused-messager-red
   sender: ert-responce-cso-sender
   rule: SpawnGammaShuttle # это буквально одинаковые шаттлы
   cooldown:
