@@ -54,7 +54,7 @@
     sprite: Objects/Weapons/Guns/Pistols/mk58.rsi
     state: icon
   product: CrateArmoryPistols
-  cost: 1000 # DS14-value
+  cost: 1500 # DS14-value
   category: cargoproduct-category-name-armory
   group: security # DS14
 
