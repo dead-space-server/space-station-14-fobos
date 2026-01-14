@@ -16,9 +16,6 @@
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2 # это шлем, защита которого будет работать ток с 2 лвла
-        Heat: 1
       coefficients:
         Blunt: 0.6
         Slash: 0.6
@@ -47,9 +44,6 @@
     coolingCoefficient: 0.005
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2 # это шлем
-        Heat: 1
       coefficients:
         Blunt: 0.8
         Slash: 0.8
@@ -75,9 +69,6 @@
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2 # это шлем
-        Heat: 1
       coefficients:
         Blunt: 0.8
         Slash: 0.8

@@ -1,5 +1,5 @@
 - type: entity
-  id: BulletRifleFMJ
+  id: BulletRifleHP
   name: bullet (.20 rifle)
   parent: BaseBullet
   categories: [ HideSpawnMenu ]
@@ -7,9 +7,11 @@
   - type: Projectile
     damage:
       armorPiercingLevels:
-        Piercing: 3 # FMJ патрон со стальным сердечником, больше пробитие брони
+        Piercing: 1 # Для описания
       types:
         Piercing: 20
+  - type: StaminaDamageOnCollide
+    damage: 10 # экспансивные пули имеют хорошую останавливающую силу
 
 - type: entity
   id: BulletLightRifleHP
@@ -20,6 +22,8 @@
   - type: Projectile
     damage:
       armorPiercingLevels:
-        Piercing: 2
+        Piercing: 1 # Для описания
       types:
         Piercing: 19
+  - type: StaminaDamageOnCollide
+    damage: 10 # экспансивные пули имеют хорошую останавливающую силу

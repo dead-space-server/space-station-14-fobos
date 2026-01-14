@@ -1,12 +1,12 @@
 - type: entity
   parent: BaseMagazineBoxRifle
-  id: MagazineBoxRifleBigFMJ
+  id: MagazineBoxRifleBigHP
   name: ammunition box (.20 rifle)
   suffix: Big
   components:
   - type: BallisticAmmoProvider
     capacity: 200
-    proto: CartridgeRifleFMJ
+    proto: CartridgeRifleHP
   - type: Sprite
     layers:
     - state: base-big
@@ -21,12 +21,12 @@
 
 - type: entity
   parent: BaseMagazineBoxRifle
-  id: MagazineBoxRifleFMJ
+  id: MagazineBoxRifleHP
   name: ammunition box (.20 rifle)
   description: A cardboard box of .20 rifle rounds. Intended to hold general-purpose kinetic ammunition.
   components:
   - type: BallisticAmmoProvider
-    proto: CartridgeRifleFMJ
+    proto: CartridgeRifleHP
   - type: Sprite
     layers:
     - state: base

@@ -66,7 +66,7 @@
   - type: StorageFill
     contents:
     - id: WeaponRifleEstoc
-    - id: MagazineRifleFMJ #DS: FMJ pulki
+    - id: MagazineRifle
       amount: 2
 
 - type: entity
@@ -136,7 +136,7 @@
         amount: 4
       - id: MagazineShotgun
         amount: 4
-      - id: MagazineRifleFMJ #DS: FMJ pulki
+      - id: MagazineRifle
         amount: 3
       - id: MagazineShotgunSlug
         amount: 1

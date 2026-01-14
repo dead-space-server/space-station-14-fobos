@@ -2,7 +2,7 @@
   parent: [ ClothingOuterHardsuitBase, BaseSyndicateContraband ]
   id: ClothingOuterHardsuitUnitologyCommander
   name: ведущий бронескафандр «Прометей»
-  description: Скафандр Кардинала отряда "Круг". От него, как и от обелиска, веет смертью...
+  description: Скафандр Кардинала отряда "Круг". От него, как и от обелиска, веет смертью...  После смерти вы превратитесь в некроморфа Собиратель трупов.
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/commander.rsi
@@ -18,17 +18,17 @@
   - type: Armor
     modifiers:
       armorLvls:
-        Piercing: 2
+        Piercing: 3
       coefficients:
-        Blunt: 0.43
-        Slash: 0.38
-        Piercing: 0.38
-        Heat: 0.63
-        Cold: 0.33
-        Radiation: 0.58
-        Poison: 0.43
-        Caustic: 0.38
-        Stun: 0.48
+        Blunt: 0.45
+        Slash: 0.4
+        Piercing: 0.35
+        Heat: 0.55
+        Cold: 0.3
+        Radiation: 0.5
+        Poison: 0.5
+        Caustic: 0.4
+        Stun: 0.5
   - type: ClothingSpeedModifier
     walkModifier: 1.0
     sprintModifier: 1.0
@@ -41,6 +41,7 @@
     - Dead
     reagents:
       ExtractInfectorDead: 15
+      NecromorphMutagenCorpseCollector: 5
   - type: Tag
     tags:
     - Hardsuit
@@ -84,7 +85,7 @@
   parent: [ ClothingOuterHardsuitBase, BaseSyndicateContraband ]
   id: ClothingOuterHardsuitUnitologyHeavy
   name: тяжелый бронескафандр «Артемида»
-  description: Тяжёлый бронескафандр Диакона отряда "Круг". Хорошо когда есть пушечное мясо в команде, а лучше два!
+  description: Тяжёлый бронескафандр Диакона отряда "Круг". Хорошо когда есть пушечное мясо в команде, а лучше два! После смерти вы превратитесь в некроморфа Дева.
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/heavy.rsi
@@ -100,17 +101,17 @@
   - type: Armor
     modifiers:
       armorLvls:
-        Piercing: 2
+        Piercing: 3
       coefficients:
-        Blunt: 0.33
-        Slash: 0.28
-        Piercing: 0.28
-        Heat: 0.43
-        Cold: 0.33
-        Radiation: 0.23
-        Poison: 0.28
-        Caustic: 0.23
-        Stun: 0.13
+        Blunt: 0.3
+        Slash: 0.3
+        Piercing: 0.25
+        Heat: 0.45
+        Cold: 0.35
+        Radiation: 0.25
+        Poison: 0.25
+        Caustic: 0.25
+        Stun: 0.15
   - type: ClothingSpeedModifier
     walkModifier: 0.8
     sprintModifier: 0.8
@@ -123,6 +124,7 @@
     - Dead
     reagents:
       ExtractInfectorDead: 15
+      NecromorphMutagenDeva: 5
   - type: Tag
     tags:
     - Hardsuit
@@ -166,7 +168,7 @@
   parent: [ ClothingOuterHardsuitBase, BaseSyndicateContraband ]
   id: ClothingOuterHardsuitUnitologyLight
   name: экзоскафандр «Гермес»
-  description: Скафандр Вестников отряда "Круг". Проводки что торчат с ног данной брони, похоже ускоряют своего владельца. И также хорошо что таких продаются 2 штуки.
+  description: Скафандр Вестников отряда "Круг". Проводки что торчат с ног данной брони, похоже ускоряют своего владельца. После смерти вы превратитесь в некроморфа Сталкер.
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/light.rsi
@@ -182,20 +184,20 @@
   - type: Armor
     modifiers:
       armorLvls:
-        Piercing: 2
+        Piercing: 3
       coefficients:
-        Blunt: 0.63
-        Slash: 0.58
-        Piercing: 0.58
-        Heat: 0.63
-        Cold: 0.63
-        Radiation: 0.43
-        Poison: 0.48
-        Caustic: 0.43
-        Stun: 0.48
+        Blunt: 0.65
+        Slash: 0.55
+        Piercing: 0.65
+        Heat: 0.65
+        Cold: 0.6
+        Radiation: 0.55
+        Poison: 0.5
+        Caustic: 0.5
+        Stun: 0.45
   - type: ClothingSpeedModifier
-    walkModifier: 1.2
-    sprintModifier: 1.2
+    walkModifier: 1.25
+    sprintModifier: 1.25
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitUnitologyLight
@@ -205,6 +207,7 @@
     - Dead
     reagents:
       ExtractInfectorDead: 15
+      NecromorphMutagenStalker: 5
   - type: Tag
     tags:
     - Hardsuit
@@ -248,7 +251,7 @@
   parent: [ ClothingOuterHardsuitBase, BaseSyndicateContraband ]
   id: ClothingOuterHardsuitUnitologyEngineer
   name: экзогенный бронескафандр «Аклепий»
-  description: Плотный скафандр для Зодчего отряда "Круг" позволяет тому работать в жаркой, и не только обстановке.
+  description: Плотный скафандр для Зодчего отряда "Круг" позволяет тому работать в жаркой, и не только обстановке.  После смерти вы превратитесь в некроморфа Бумер.
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/engi.rsi
@@ -266,17 +269,17 @@
   - type: Armor
     modifiers:
       armorLvls:
-        Piercing: 2
+        Piercing: 3
       coefficients:
-        Blunt: 0.48
-        Slash: 0.43
-        Piercing: 0.58
-        Heat: 0.28
-        Cold: 0.18
-        Radiation: 0.18
-        Poison: 0.28
-        Caustic: 0.18
-        Stun: 0.48
+        Blunt: 0.45
+        Slash: 0.5
+        Piercing: 0.6
+        Heat: 0.2
+        Cold: 0.2
+        Radiation: 0.1
+        Poison: 0.3
+        Caustic: 0.3
+        Stun: 0.45
   - type: ClothingSpeedModifier
     walkModifier: 0.9
     sprintModifier: 0.9
@@ -289,6 +292,7 @@
     - Dead
     reagents:
       ExtractInfectorDead: 15
+      NecromorphMutagenBoomer: 5
   - type: Tag
     tags:
     - Hardsuit
@@ -334,7 +338,7 @@
   parent: [ ClothingOuterHardsuitBase, BaseSyndicateContraband ]
   id: ClothingOuterHardsuitUnitologyMedic
   name: мобильный бронескафандр «Асклепий»
-  description: Лёгкий скафандр, что специально вытесан под Серафимов "Круга". Скафандр также оснащён проводками в районе ног, что позволяет носителю двигаться быстрее.
+  description: Лёгкий скафандр, что специально вытесан под Серафимов "Круга". Скафандр имеет идеальный баланс в защите. После смерти вы превратитесь в некроморфа Беременный.
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/medic.rsi
@@ -350,17 +354,17 @@
   - type: Armor
     modifiers:
       armorLvls:
-        Piercing: 2
+        Piercing: 3
       coefficients:
-        Blunt: 0.53
-        Slash: 0.48
-        Piercing: 0.58
-        Heat: 0.58
-        Cold: 0.48
-        Radiation: 0.63
-        Poison: 0.48
-        Caustic: 0.43
-        Stun: 0.48
+        Blunt: 0.5
+        Slash: 0.5
+        Piercing: 0.5
+        Heat: 0.5
+        Cold: 0.5
+        Radiation: 0.5
+        Poison: 0.5
+        Caustic: 0.5
+        Stun: 0.5
   - type: ClothingSpeedModifier
     walkModifier: 1.1
     sprintModifier: 1.1
@@ -373,6 +377,7 @@
     - Dead
     reagents:
       ExtractInfectorDead: 15
+      NecromorphMutagenPregnant: 5
   - type: Tag
     tags:
     - Hardsuit
