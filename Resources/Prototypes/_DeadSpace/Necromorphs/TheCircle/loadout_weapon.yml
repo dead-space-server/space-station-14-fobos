@@ -1,0 +1,121 @@
+- type: entity
+  name: оружейный кейс
+  parent: ToolboxBase
+  id: WeaponCaseHeavy
+  description: Усиленный футляр для хранения тяжелого вооружения.
+  components:
+  - type: ExplosionResistance
+    damageCoefficient: 0.3
+  - type: MultiHandedItem
+  - type: HeldSpeedModifier
+    walkModifier: 0.85
+    sprintModifier: 0.85
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/heavy-case.rsi
+  - type: Item
+    sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/heavy-case.rsi
+    size: Ginormous
+    shape:
+    - 0,0,8,3
+  - type: Storage
+    maxItemSize: Ginormous
+    grid:
+    - 0,0,5,3
+    whitelist:
+      components:
+      - Gun
+      - BallisticAmmoProvider
+      - Projectile
+      - CartridgeAmmo
+      - PowerCell
+      - MeleeWeapon
+      - Blocking
+      - Armor
+      tags:
+      - Cartridge
+
+- type: entity
+  parent: WeaponCaseHeavy
+  id: WeaponCaseHeavyFilledZastaba
+  suffix: Zastaba
+  components:
+  - type: StorageFill
+    contents:
+      - id: WeaponRifleZastaba
+      - id: MagRifleZastaba
+        amount: 4
+
+- type: entity
+  parent: WeaponCaseHeavy
+  id: WeaponCaseHeavyFilledRPL20
+  suffix: РПЛ-20
+  components:
+  - type: StorageFill
+    contents:
+      - id: WeaponLightMachineGunRPL20
+      - id: MagazineRPL20
+        amount: 2
+
+- type: entity
+  parent: WeaponCaseHeavy
+  id: WeaponCaseHeavyFilledSCARAB
+  suffix: SCARAB
+  components:
+  - type: StorageFill
+    contents:
+      - id: WeaponRifleSCARAB
+      - id: MagazineRifleSCARAB
+        amount: 4
+
+- type: entity
+  parent: WeaponCaseHeavy
+  id: WeaponCaseHeavyFilledASh12
+  suffix: АШ-12
+  components:
+  - type: StorageFill
+    contents:
+      - id: WeaponRifleASh12
+      - id: MagazineASh12
+        amount: 4
+
+- type: entity
+  parent: WeaponCaseHeavy
+  id: WeaponCaseHeavyFilledVSK
+  suffix: VSK
+  components:
+  - type: StorageFill
+    contents:
+      - id: WeaponVSK
+      - id: MagazineVSK
+        amount: 4
+
+- type: entity
+  parent: WeaponCaseHeavy
+  id: WeaponCaseHeavyFilledVAL
+  suffix: VAL
+  components:
+  - type: StorageFill
+    contents:
+      - id: WeaponRifleAsVal
+      - id: MagazineLightRifleAsVal
+        amount: 4
+
+- type: entity
+  parent: WeaponCaseHeavy
+  id: WeaponCaseHeavyFilledAmmo
+  suffix: Патроны, Круг
+  components:
+  - type: StorageFill
+    contents:
+      - id: MagazineLightRifleAsVal
+        amount: 2
+      - id: MagazineVSK
+        amount: 2
+      - id: MagazineASh12
+        amount: 2
+      - id: MagazineRPL20
+        amount: 2
+      - id: MagazineRifleSCARAB
+        amount: 2
+      - id: MagRifleZastaba
+        amount: 2

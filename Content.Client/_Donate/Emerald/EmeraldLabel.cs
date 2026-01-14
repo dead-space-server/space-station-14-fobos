@@ -59,20 +59,16 @@ public class EmeraldLabel : Control
     public EmeraldLabel()
     {
         IoCManager.InjectDependencies(this);
-        UpdateFont();
-    }
-
-    private void UpdateFont()
-    {
         _font = new VectorFont(
             _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(BaseFontSize * UIScale));
+            BaseFontSize);
     }
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
     {
         var textWidth = GetTextWidth(_text);
-        return new Vector2(textWidth, _font.GetLineHeight(1f));
+        var lineHeight = _font.GetLineHeight(UIScale);
+        return new Vector2(textWidth / UIScale, lineHeight / UIScale);
     }
 
     protected override void Draw(DrawingHandleScreen handle)
@@ -87,7 +83,7 @@ public class EmeraldLabel : Control
 
         var textY = 0f;
 
-        handle.DrawString(_font, new Vector2(textX, textY), _text, 1f, _color);
+        handle.DrawString(_font, new Vector2(textX, textY), _text, UIScale, _color);
     }
 
     private float GetTextWidth(string text)
@@ -98,7 +94,7 @@ public class EmeraldLabel : Control
         var width = 0f;
         foreach (var rune in text.EnumerateRunes())
         {
-            var metrics = _font.GetCharMetrics(rune, 1f);
+            var metrics = _font.GetCharMetrics(rune, UIScale);
             if (metrics.HasValue)
                 width += metrics.Value.Advance;
         }
@@ -108,7 +104,6 @@ public class EmeraldLabel : Control
     protected override void UIScaleChanged()
     {
         base.UIScaleChanged();
-        UpdateFont();
         InvalidateMeasure();
     }
 }

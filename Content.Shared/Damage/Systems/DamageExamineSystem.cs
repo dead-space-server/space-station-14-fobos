@@ -79,6 +79,37 @@ public sealed class DamageExamineSystem : EntitySystem
             }
         }
 
+        // DS14-Start
+        var anyPiercing = false;
+
+        foreach (var damage in damageSpecifier.DamageDict)
+        {
+            var piercing = damageSpecifier.GetArmorPiercingLevelForType(damage.Key);
+
+            if (piercing <= 1)
+                continue;
+
+            if (!anyPiercing)
+            {
+                msg.PushNewline();
+                msg.AddMarkupOrThrow(
+                    Loc.GetString(
+                        "damage-examine-piercing-lvl",
+                        ("type", type ?? Loc.GetString("damage-examine"))
+                    ));
+                anyPiercing = true;
+            }
+
+            msg.PushNewline();
+            msg.AddMarkupOrThrow(
+                Loc.GetString(
+                    "damage-piercing-lvl-value",
+                    ("amount", piercing),
+                    ("type", _prototype.Index<DamageTypePrototype>(damage.Key).LocalizedName)
+                ));
+        }
+        // DS14-End
+
         return msg;
     }
 }

@@ -3,37 +3,38 @@
 using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
-using Robust.Shared.Random;
-using Robust.Shared.Timing;
 using Content.Shared.Movement.Components;
+using Content.Shared.DeadSpace.Virus.Prototypes;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class ParalyzedLegsSymptom : VirusSymptomBase
 {
+    [Dependency] private readonly EntityManager _entityManager = default!;
     public override VirusSymptom Type => VirusSymptom.ParalyzedLegs;
-    protected override float AddInfectivity => 0.05f;
+    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "ParalyzedLegsSymptom";
     private bool _hasComp = false;
 
-    public ParalyzedLegsSymptom(IEntityManager entityManager, IGameTiming timing, IRobustRandom random, TimedWindow effectTimedWindow) : base(entityManager, timing, random, effectTimedWindow)
+    public ParalyzedLegsSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }
 
     public override void OnAdded(EntityUid host, VirusComponent virus)
     {
         base.OnAdded(host, virus);
 
-        if (EntityManager.HasComponent<WormComponent>(host))
+        if (_entityManager.HasComponent<WormComponent>(host))
             _hasComp = true;
         else
-            EntityManager.AddComponent<WormComponent>(host);
+            _entityManager.AddComponent<WormComponent>(host);
     }
 
     public override void OnRemoved(EntityUid host, VirusComponent virus)
     {
         base.OnRemoved(host, virus);
 
-        if (!_hasComp && EntityManager.HasComponent<WormComponent>(host))
-            EntityManager.RemoveComponent<WormComponent>(host);
+        if (!_hasComp && _entityManager.HasComponent<WormComponent>(host))
+            _entityManager.RemoveComponent<WormComponent>(host);
     }
 
     public override void OnUpdate(EntityUid host, VirusComponent virus)
@@ -46,8 +47,13 @@ public sealed class ParalyzedLegsSymptom : VirusSymptomBase
 
     }
 
+    public override void ApplyDataEffect(VirusData data, bool add)
+    {
+        base.ApplyDataEffect(data, add);
+    }
+
     public override IVirusSymptom Clone()
     {
-        return new ParalyzedLegsSymptom(EntityManager, Timing, Random, EffectTimedWindow.Clone());
+        return new ParalyzedLegsSymptom(EffectTimedWindow.Clone());
     }
 }

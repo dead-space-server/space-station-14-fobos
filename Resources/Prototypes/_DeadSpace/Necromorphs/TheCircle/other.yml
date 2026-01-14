@@ -1,0 +1,107 @@
+- type: entity
+  parent: ProjectileGrenadeBase
+  id: GrenadeNecroKudzu
+  name: граната с некро волокнами
+  description: Противный на вид. Выпускает при активации пару волокон некро-кудзы на пол.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/grenade.rsi
+    layers:
+    - state: icon
+      map: ["enum.TriggerVisualLayers.Base"]
+  - type: ProjectileGrenade
+    fillPrototype: NecroKudzu
+    capacity: 2
+  - type: EmitSoundOnTrigger
+    keysIn:
+    - timer
+    sound:
+      path: "/Audio/Effects/flash_bang.ogg"
+    positional: true
+  - type: SpawnOnTrigger
+    keysIn:
+    - timer
+    proto: GrenadeFlashEffect
+    predicted: true
+  - type: TriggerOnUse
+  - type: TimerTrigger
+    initialBeepDelay: 0
+    beepInterval: 2
+    delay: 3.5
+  - type: TimerTriggerVisuals
+    primingSound:
+      path: /Audio/Effects/countdown.ogg
+
+- type: entity
+  parent: Jug
+  id: JugTheCircle
+  name: крепкий кувшин
+  description: крепкий кувшин что вмещает чуть больше чем обычный кувшин, имее меньший размер. Специально сделан для бойцов Круга.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/jug.rsi
+      layers:
+        - state: jug
+        - state: jug1
+          map: [ "enum.SolutionContainerLayers.Fill" ]
+          visible: false
+    - type: Item
+      shape:
+      - 0,0,2,1
+      size: Large 
+      sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/jug.rsi
+    - type: SolutionContainerManager
+      solutions:
+        beaker:
+          maxVol: 300
+
+- type: entity
+  parent: BaseWeaponBallisticTurret
+  id: WeaponTurretTheCircle
+  suffix: Круг
+  components:
+  - type: NpcFactionMember
+    factions:
+    - Syndicate
+    - Necromorfs
+
+- type: entity
+  id: ExtraborilVial
+  parent: BaseChemistryEmptyVial
+  components:
+  - type: Label
+    currentLabel: Экстраборил
+  - type: SolutionContainerManager
+    solutions:
+      beaker:
+        maxVol: 30
+        reagents:
+        - ReagentId: Extraboril
+          Quantity: 30
+
+- type: entity
+  parent: BoxVial
+  id: ExtraborilKit
+  name: набор медика "Круг"
+  description: Важный набор для твоего медика Круга. Кстати, скажи спасибо своему медику, ему будет приятно.
+  components:
+  - type: Storage
+    grid:
+    - 0,0,3,2
+  - type: StorageFill
+    contents:
+    - id: Beaker
+      amount: 2
+    - id: ClothingEyesGlassesChemical
+    - id: TheCircleMedicPaper
+    - id: ExtraborilVial
+      amount: 5
+
+- type: entity
+  parent: Paper
+  id: TheCircleMedicPaper
+  name: инструкция медика "Круг"
+  description: Лист бумаги где указаны пропорции варки новых химикатов и их способы использование.
+  components:
+  - type: Paper
+    content: paper-medic-circle

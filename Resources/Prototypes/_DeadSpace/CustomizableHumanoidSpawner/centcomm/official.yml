@@ -17,6 +17,31 @@
     - Demon
     - Vulpkanin
     - Tajaran
+  - type: GhostRole
+    name: ghost-role-information-centcomofficer-name
+    description: ghost-role-information-ert-centcom-official-description
+    rules: ghost-role-information-centcom-personal-rules
+    category: ghost-role-information-centcomm-category
+    requirements:
+      - !type:OverallPlaytimeRequirement
+        time: 900h
+      - !type:DepartmentTimeRequirement
+        department: Security
+        time: 250h
+      - !type:DepartmentTimeRequirement
+        department: Security
+        time: 100h
+      - !type:DepartmentTimeRequirement
+        department: Command
+        time: 200h
+      - !type:DepartmentTimeRequirement
+        department: CentralCommand
+        time: 100h
+      - !type:RoleTimeRequirement
+        role: JobLawyer
+        time: 200h
+    raffle:
+      settings: default
 
 - type: roleLoadout
   id: JobCentralCommandOfficial

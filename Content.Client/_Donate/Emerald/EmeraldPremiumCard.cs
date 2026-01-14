@@ -11,6 +11,11 @@ public sealed class EmeraldPremiumCard : Control
 {
     [Dependency] private readonly IResourceCache _resourceCache = default!;
 
+    private const int TitleFontSize = 11;
+    private const int NameFontSize = 14;
+    private const int InfoFontSize = 10;
+    private const int BonusFontSize = 11;
+
     private Font _titleFont = default!;
     private Font _nameFont = default!;
     private Font _infoFont = default!;
@@ -33,11 +38,6 @@ public sealed class EmeraldPremiumCard : Control
     private readonly Color _infoColor = Color.FromHex("#8d7aaa");
     private readonly Color _bonusColor = Color.FromHex("#c0b3da");
     private readonly Color _levelColor = Color.FromHex("#d4a574");
-
-    private const int TitleFontSize = 11;
-    private const int NameFontSize = 14;
-    private const int InfoFontSize = 10;
-    private const int BonusFontSize = 11;
 
     public bool IsActive
     {
@@ -122,23 +122,12 @@ public sealed class EmeraldPremiumCard : Control
     public EmeraldPremiumCard()
     {
         IoCManager.InjectDependencies(this);
-        UpdateFonts();
-    }
 
-    private void UpdateFonts()
-    {
-        _titleFont = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(TitleFontSize * UIScale));
-        _nameFont = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(NameFontSize * UIScale));
-        _infoFont = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(InfoFontSize * UIScale));
-        _bonusFont = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(BonusFontSize * UIScale));
+        var fontRes = _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf");
+        _titleFont = new VectorFont(fontRes, TitleFontSize);
+        _nameFont = new VectorFont(fontRes, NameFontSize);
+        _infoFont = new VectorFont(fontRes, InfoFontSize);
+        _bonusFont = new VectorFont(fontRes, BonusFontSize);
     }
 
     protected override Vector2 MeasureOverride(Vector2 availableSize)
@@ -156,14 +145,15 @@ public sealed class EmeraldPremiumCard : Control
 
         if (_isActive)
         {
-            var accentLine = new UIBox2(rect.Left, rect.Top, rect.Right, rect.Top + 2);
+            var accentHeight = 2f * UIScale;
+            var accentLine = new UIBox2(rect.Left, rect.Top, rect.Right, rect.Top + accentHeight);
             handle.DrawRect(accentLine, _activeAccentColor.WithAlpha(0.8f));
         }
 
         var borderColor = _isActive ? _activeAccentColor : _inactiveColor;
         DrawBorder(handle, rect, borderColor);
 
-        var padding = 14f;
+        var padding = 14f * UIScale;
         var currentY = padding;
 
         var statusText = _isActive ? "АКТИВЕН" : "НЕАКТИВЕН";
@@ -171,35 +161,35 @@ public sealed class EmeraldPremiumCard : Control
         var statusWidth = GetTextWidth(statusText, _titleFont);
         var statusX = PixelSize.X - padding - statusWidth;
 
-        handle.DrawString(_titleFont, new Vector2(statusX, currentY), statusText, 1f, statusColor);
+        handle.DrawString(_titleFont, new Vector2(statusX, currentY), statusText, UIScale, statusColor);
 
         var levelText = $"УРОВЕНЬ {_level}";
-        handle.DrawString(_titleFont, new Vector2(padding, currentY), levelText, 1f, _levelColor);
+        handle.DrawString(_titleFont, new Vector2(padding, currentY), levelText, UIScale, _levelColor);
 
-        currentY += _titleFont.GetLineHeight(1f) + 8f;
+        currentY += _titleFont.GetLineHeight(UIScale) + 8f * UIScale;
 
         var nameColor = _isActive ? _nameActiveColor : _inactiveColor;
-        handle.DrawString(_nameFont, new Vector2(padding, currentY), _premName, 1f, nameColor);
+        handle.DrawString(_nameFont, new Vector2(padding, currentY), _premName, UIScale, nameColor);
 
-        currentY += _nameFont.GetLineHeight(1f) + 2f;
+        currentY += _nameFont.GetLineHeight(UIScale) + 2f * UIScale;
 
         if (_isActive && _expiresIn > 0)
         {
             var expiresText = $"Истекает через {_expiresIn} дней";
             var expiresColor = _expiresIn < 7 ? _activeAccentColor : _infoColor;
-            handle.DrawString(_infoFont, new Vector2(padding, currentY), expiresText, 1f, expiresColor);
+            handle.DrawString(_infoFont, new Vector2(padding, currentY), expiresText, UIScale, expiresColor);
         }
 
-        currentY += _infoFont.GetLineHeight(1f) + 8f;
+        currentY += _infoFont.GetLineHeight(UIScale) + 8f * UIScale;
 
         var bonusesX = padding;
-        var bonusSpacing = Math.Min(160f, (PixelSize.X - padding * 2) / 3f);
+        var bonusSpacing = Math.Min(160f * UIScale, (PixelSize.X - padding * 2) / 3f);
 
         if (_bonusXp > 0)
         {
             var bonusXpPercent = (_bonusXp - 1f) * 100f;
             var xpText = $"+{bonusXpPercent:F0}% ОПЫТА";
-            handle.DrawString(_bonusFont, new Vector2(bonusesX, currentY), xpText, 1f, _bonusColor);
+            handle.DrawString(_bonusFont, new Vector2(bonusesX, currentY), xpText, UIScale, _bonusColor);
             bonusesX += bonusSpacing;
         }
 
@@ -207,23 +197,24 @@ public sealed class EmeraldPremiumCard : Control
         {
             var bonusEnergyPercent = (_bonusEnergy - 1f) * 100f;
             var energyText = $"+{bonusEnergyPercent:F0}% ЭНЕРГИИ";
-            handle.DrawString(_bonusFont, new Vector2(bonusesX, currentY), energyText, 1f, _bonusColor);
+            handle.DrawString(_bonusFont, new Vector2(bonusesX, currentY), energyText, UIScale, _bonusColor);
             bonusesX += bonusSpacing;
         }
 
         if (_bonusSlots > 0)
         {
             var slotsText = $"+{_bonusSlots} СЛОТОВ";
-            handle.DrawString(_bonusFont, new Vector2(bonusesX, currentY), slotsText, 1f, _bonusColor);
+            handle.DrawString(_bonusFont, new Vector2(bonusesX, currentY), slotsText, UIScale, _bonusColor);
         }
     }
 
     private void DrawBorder(DrawingHandleScreen handle, UIBox2 rect, Color color)
     {
-        handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Right, rect.Top + 1), color);
-        handle.DrawRect(new UIBox2(rect.Left, rect.Bottom - 1, rect.Right, rect.Bottom), color);
-        handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Left + 1, rect.Bottom), color);
-        handle.DrawRect(new UIBox2(rect.Right - 1, rect.Top, rect.Right, rect.Bottom), color);
+        var thickness = Math.Max(1f, 1f * UIScale);
+        handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Right, rect.Top + thickness), color);
+        handle.DrawRect(new UIBox2(rect.Left, rect.Bottom - thickness, rect.Right, rect.Bottom), color);
+        handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Left + thickness, rect.Bottom), color);
+        handle.DrawRect(new UIBox2(rect.Right - thickness, rect.Top, rect.Right, rect.Bottom), color);
     }
 
     private float GetTextWidth(string text, Font font)
@@ -234,7 +225,7 @@ public sealed class EmeraldPremiumCard : Control
         var width = 0f;
         foreach (var rune in text.EnumerateRunes())
         {
-            var metrics = font.GetCharMetrics(rune, 1f);
+            var metrics = font.GetCharMetrics(rune, UIScale);
             if (metrics.HasValue)
                 width += metrics.Value.Advance;
         }
@@ -244,7 +235,6 @@ public sealed class EmeraldPremiumCard : Control
     protected override void UIScaleChanged()
     {
         base.UIScaleChanged();
-        UpdateFonts();
         InvalidateMeasure();
     }
 }

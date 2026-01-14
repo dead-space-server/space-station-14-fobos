@@ -14,6 +14,7 @@ using Content.Shared.Bed.Cryostorage;
 using Content.Shared.Chat;
 using Content.Shared.Climbing.Systems;
 using Content.Shared.Database;
+using Content.Shared.DeadSpace.Virus;
 using Content.Shared.GameTicking;
 using Content.Shared.Hands.Components;
 using Content.Shared.Mind.Components;
@@ -243,6 +244,11 @@ public sealed class CryostorageSystem : SharedCryostorageSystem
             ), Loc.GetString("earlyleave-cryo-sender"),
             playDefaultSound: false
         );
+
+        // DS14-Start
+        var ev = new EnterCryostorageEvent();
+        RaiseLocalEvent(ent.Owner, ev);
+        // DS14-End
     }
 
     private void HandleCryostorageReconnection(Entity<CryostorageContainedComponent> entity)

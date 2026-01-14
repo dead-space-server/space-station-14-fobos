@@ -26,7 +26,7 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      150: Critical
+      200: Critical
       250: Dead
   - type: Fixtures
     fixtures:
@@ -100,7 +100,7 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      350: Dead
+      250: Dead
   - type: Fixtures
     fixtures:
       fix1:

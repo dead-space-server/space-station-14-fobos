@@ -12,7 +12,7 @@ using Content.Shared.Body.Prototypes;
 using Content.Shared.Mobs;
 using Robust.Shared.GameStates;
 using Content.Shared.StatusIcon;
-using Content.Shared.Virus;
+using Content.Shared.DeadSpace.Virus;
 
 namespace Content.Shared.DeadSpace.Virus.Components;
 
@@ -42,8 +42,9 @@ public sealed partial class VirusComponent : Component
     /// <summary>
     ///     Окно времени обновления вируса.
     /// </summary>
+    [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public TimedWindow VirusUpdateWindow = default!;
+    public TimedWindow VirusUpdateWindow = new TimedWindow(TimeSpan.FromSeconds(1f), TimeSpan.FromSeconds(1f));
 
     public VirusComponent(VirusData data)
     {
@@ -147,7 +148,7 @@ public sealed partial class VirusData : ReagentData
     /// </summary>
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public float Infectivity = 0.1f;
+    public float Infectivity = 0f;
 
     /// <summary>
     ///     Допустимые к заражению сущности.
@@ -263,6 +264,51 @@ public sealed partial class VirusData : ReagentData
                     RequireAll = EntityWhitelist.RequireAll
                 }
         };
+    }
+
+    /// <summary>
+    ///     Использовать этот метод для заражения, иначе атрибуты будут стакаться при RefreshSymptoms.
+    /// </summary>
+    public ReagentData CloneForInfection()
+    {
+        return new VirusData
+        {
+            StrainId = StrainId,
+            ActiveSymptom = ActiveSymptom.ToList(),
+            BodyWhitelist = BodyWhitelist.ToList(),
+
+            MedicineResistance = MedicineResistance
+                .ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
+
+            EntityWhitelist = EntityWhitelist is null
+                ? null
+                : new EntityWhitelist
+                {
+                    Components = EntityWhitelist.Components?.ToArray(),
+                    Sizes = EntityWhitelist.Sizes?.ToList(),
+                    Tags = EntityWhitelist.Tags?.ToList(),
+                    RequireAll = EntityWhitelist.RequireAll
+                }
+        };
+    }
+
+    /// <summary>
+    ///     Копирует симптомы, тела и EntityWhitelist из другого источника VirusData.
+    /// </summary>
+    public void ApplyInfectionData(VirusData source)
+    {
+        ActiveSymptom = source.ActiveSymptom.ToList();
+        BodyWhitelist = source.BodyWhitelist.ToList();
+
+        EntityWhitelist = source.EntityWhitelist is null
+            ? null
+            : new EntityWhitelist
+            {
+                Components = source.EntityWhitelist.Components?.ToArray(),
+                Sizes = source.EntityWhitelist.Sizes?.ToList(),
+                Tags = source.EntityWhitelist.Tags?.ToList(),
+                RequireAll = source.EntityWhitelist.RequireAll
+            };
     }
 
     public override int GetHashCode()

@@ -12,5 +12,8 @@ ghost-role-information-taipan-ai-rules =
     Вам [color=green]разрешено[/color] защищать свой сектор от вторжения и ликвидировать любого, кто решит наведаться к вам без оповещения от командования [color=red]Синдиката[/color].
     Вы не помните ничего из своей предыдущей жизни и не помните ничего из того, что узнали, будучи призраком.
 
+ghost-role-information-space-mini-dragon-name = Малыш дракона
+ghost-role-information-space-mini-dragon-description = Помогите вашему старшему собрату сдержать портал в сохранности.
+ghost-role-information-space-mini-dragon-rules = Вы [color={ role-type-team-antagonist-color }][bold]{ role-type-team-antagonist-name }[/bold][/color], в команде с другими призванными сущностями с портала.
 ghost-role-information-centcomm-category = Центральное Командование
 ghost-role-information-taipan-category = ННКСС "Тайпан"
