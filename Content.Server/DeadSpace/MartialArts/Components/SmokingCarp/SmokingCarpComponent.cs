@@ -1,10 +1,8 @@
-using Content.Server.DeadSpace.MartialArts;
 using Content.Server.DeadSpace.MartialArts.Components;
 using Robust.Shared.Audio;
-using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
-namespace Content.Server.DeadSpace.MartialArts.SmokingCarp.Component;
+namespace Content.Server.DeadSpace.MartialArts.SmokingCarp.Components;
 
 [RegisterComponent]
 public sealed partial class SmokingCarpTripPunchComponent : Component

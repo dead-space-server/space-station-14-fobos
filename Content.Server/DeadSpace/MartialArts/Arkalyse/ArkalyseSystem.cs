@@ -1,20 +1,29 @@
-using Content.Server.DeadSpace.MartialArts;
-using Content.Server.DeadSpace.MartialArts.Arkalyse.Component;
-using Content.Shared.Interaction.Events;
+using Content.Server.DeadSpace.MartialArts.Arkalyse.Components;
 using Content.Shared.DeadSpace.MartialArts.Arkalyse;
-using Content.Shared.Weapons.Melee;
 using Content.Shared.Mobs.Components;
 using Robust.Shared.Audio;
 using Content.Shared.Speech.Muting;
 using Robust.Shared.Timing;
 using Content.Shared.Weapons.Melee.Events;
+using Content.Shared.Damage;
+using Content.Shared.Popups;
+using System.Linq;
+using Content.Shared.Stunnable;
+using Robust.Shared.Audio.Systems;
+using Content.Server.Damage.Systems;
 
 namespace Content.Server.DeadSpace.MartialArts.Arkalyse;
 
-public partial class ServerMartialArtsSystem
+public partial class ServerArkalyseSystem : EntitySystem
 {
-    private void InitializeArkalyse()
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly StaminaSystem _stamina = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly SharedStunSystem _stun = default!;
+    [Dependency] private readonly DamageableSystem _damageable = default!;
+    public override void Initialize()
     {
+        base.Initialize();
         SubscribeLocalEvent<ArkalyseComponent, ArkalyseDamageEvent>(OnDamageAction);
         SubscribeLocalEvent<ArkalyseComponent, ArkalyseStunEvent>(OnStunAction);
         SubscribeLocalEvent<ArkalyseComponent, ArkalyseMuteEvent>(OnMuteAction);
@@ -22,35 +31,51 @@ public partial class ServerMartialArtsSystem
         SubscribeLocalEvent<ArkalyseComponent, MeleeHitEvent>(OnMeleeHitEvent);
     }
 
-    private void SelectCombo(Entity<ArkalyseComponent> ent, ref bool handled, ArkalyseList combo)
+    private void SelectCombo(Entity<ArkalyseComponent> ent, ArkalyseList combo)
     {
-        if (handled)
-            return;
-
         ent.Comp.SelectedCombo = combo;
-        handled = true;
 
         _popup.PopupEntity(Loc.GetString("active-martial-ability"), ent, ent);
     }
 
     private void OnDamageAction(Entity<ArkalyseComponent> ent, ref ArkalyseDamageEvent args)
     {
-        SelectCombo(ent, ref args.Handled, ArkalyseList.DamageAtack);
+        if (args.Handled)
+            return;
+
+        SelectCombo(ent, ArkalyseList.DamageAtack);
+
+        args.Handled = true;
     }
     private void OnStunAction(Entity<ArkalyseComponent> ent, ref ArkalyseStunEvent args)
     {
-        SelectCombo(ent, ref args.Handled, ArkalyseList.StunAtack);
+        if (args.Handled)
+            return;
+
+        SelectCombo(ent, ArkalyseList.StunAtack);
+
+        args.Handled = true;
     }
 
     private void OnMuteAction(Entity<ArkalyseComponent> ent, ref ArkalyseMuteEvent args)
     {
-        SelectCombo(ent, ref args.Handled, ArkalyseList.MuteAtack);
+        if (args.Handled)
+            return;
+
+        SelectCombo(ent, ArkalyseList.MuteAtack);
+
+        args.Handled = true;
     }
 
     private void OnRelaxAction(Entity<ArkalyseComponent> ent, ref ArkalyseRelaxEvent args)
     {
-        SelectCombo(ent, ref args.Handled, ArkalyseList.RelaxHand);
+        if (args.Handled)
+            return;
+
+        SelectCombo(ent, ArkalyseList.RelaxHand);
         _popup.PopupEntity(Loc.GetString("relax-martial-ability"), ent, ent);
+
+        args.Handled = true;
     }
     private void OnMeleeHitEvent(Entity<ArkalyseComponent> ent, ref MeleeHitEvent args)
     {
@@ -81,7 +106,7 @@ public partial class ServerMartialArtsSystem
 
             case ArkalyseList.StunAtack:
                 _audio.PlayPvs(ent.Comp.Params.HitSoundForStunAtack, ent, AudioParams.Default.WithVolume(0.5f));
-                _stun.TryUpdateParalyzeDuration(hitEntity, TimeSpan.FromSeconds(ent.Comp.Params.ParalyzeTimeStunAtack), true);
+                _stun.TryUpdateParalyzeDuration(hitEntity, TimeSpan.FromSeconds(ent.Comp.Params.ParalyzeTimeStunAtack));
                 SpawnAttachedTo(ent.Comp.Params.EffectPunchForStunAtack, Transform(hitEntity).Coordinates);
                 break;
 
@@ -96,6 +121,17 @@ public partial class ServerMartialArtsSystem
                 throw new ArgumentOutOfRangeException(nameof(combo), combo, null);
         }
         ent.Comp.SelectedCombo = null;
-        Dirty(ent);
+    }
+
+    private void DamageHit(EntityUid target,
+    string damageType,
+    int damageAmount,
+    bool ignoreResist,
+    out DamageSpecifier damage)
+    {
+        damage = new DamageSpecifier();
+        damage.DamageDict.Add(damageType, damageAmount);
+
+        _damageable.TryChangeDamage(target, damage, ignoreResist);
     }
 }

@@ -1,39 +1,37 @@
-using Robust.Shared.GameStates;
+using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.MartialArts.Components;
 
-[DataField]
 public readonly record struct ArkalyseParams(
-    float StaminaDamageMuteAtack,
-    float ParalyzeTimeMuteAtack,
-    int HitDamageForDamageAtack,
-    int HitDamageForMuteAtack,
-    float ParalyzeTimeStunAtack,
-    bool IgnoreResist,
-    string DamageTypeForDamageAtack = "Slash",
+    float StaminaDamageMuteAtack = 25.0f,
+    float ParalyzeTimeMuteAtack = 10.0f,
+    int HitDamageForDamageAtack = 15,
+    int HitDamageForMuteAtack = 5,
+    float ParalyzeTimeStunAtack = 0.5f,
+    bool IgnoreResist = true,
+    string DamageTypeForDamageAtack = "Piercing",
     string DamageTypeForMuteAtack = "Blunt",
-    EntProtoId? EffectPunchForDamageAtack,
-    EntProtoId? EffectPunchForStunAtack,
-    SoundSpecifier? HitSoundForDamageAtack,
-    SoundSpecifier? HitSoundForStunAtack
+    EntProtoId? EffectPunchForDamageAtack = null,
+    EntProtoId? EffectPunchForStunAtack = null,
+    SoundSpecifier? HitSoundForDamageAtack = null,
+    SoundSpecifier? HitSoundForStunAtack = null
 );
 
-[DataField]
 public readonly record struct SmokingCarpParams(
-    float StaminaDamageSmokePunch,
-    int HitDamageForSmokePunch,
-    int HitDamageForPowerPunch,
-    bool IgnoreResist,
+    float StaminaDamageSmokePunch = 5.0f,
+    int HitDamageForSmokePunch = 5,
+    int HitDamageForPowerPunch = 30,
+    bool IgnoreResist = true,
     string DamageTypeForPowerPunch = "Slash",
     string DamageTypeForSmokePunch = "Blunt",
-    float PushStrength,
-    float MaxPushDistance,
-    EntProtoId? EffectPowerPunch,
-    EntProtoId? EffectSmokePunch,
-    SoundSpecifier? HitSoundForPowerPunch,
-    SoundSpecifier? HitSoundForSmokePunch,
-    List<LocId> PackMessageOnHit = new()
+    float PushStrength = 300.0f,
+    float MaxPushDistance = 5.0f,
+    EntProtoId? EffectPowerPunch = null,
+    EntProtoId? EffectSmokePunch = null,
+    SoundSpecifier? HitSoundForPowerPunch = null,
+    SoundSpecifier? HitSoundForSmokePunch = null,
+    List<LocId>? PackMessageOnHit = null
 );
 
 [RegisterComponent]

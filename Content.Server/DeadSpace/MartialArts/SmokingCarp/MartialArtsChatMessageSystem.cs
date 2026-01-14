@@ -1,8 +1,6 @@
 using Content.Server.Chat.Systems;
-using Content.Server.DeadSpace.MartialArts;
-using Content.Server.DeadSpace.MartialArts.SmokingCarp;
-using Content.Server.DeadSpace.MartialArts.SmokingCarp.Component;
-using Content.Server.DeadSpace.SmokingCarp;
+using Content.Server.DeadSpace.MartialArts.SmokingCarp.Components;
+using Content.Shared.DeadSpace.MartialArts.SmokingCarp;
 
 namespace Content.Server.DeadSpace.MartialArts;
 

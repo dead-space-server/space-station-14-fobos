@@ -1,10 +1,7 @@
-using Content.Server.DeadSpace.MartialArts;
 using Content.Server.DeadSpace.MartialArts.Components;
-using Robust.Shared.Audio;
-using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
-namespace Content.Server.DeadSpace.MartialArts.Arkalyse.Component;
+namespace Content.Server.DeadSpace.MartialArts.Arkalyse.Components;
 
 [RegisterComponent]
 public sealed partial class ArkalyseComponent : Component
