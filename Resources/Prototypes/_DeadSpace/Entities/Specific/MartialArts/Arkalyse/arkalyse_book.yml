@@ -1,0 +1,27 @@
+- type: entity
+  parent: BaseItem
+  id: BookArkalyse
+  name: мануал "Аркалис"
+  description: Одноразовый мануал, который обучает искусству "Аркалиса".
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Objects/Specific/Arkalyse/arkalyse_book.rsi
+      layers:
+      - state: icon
+    - type: MartialArtsTrainingArkalyse
+      addAtackRate: 1.1
+      martialArtsForm: Arkalyse
+      itemAfterLerning: Ash
+      params:
+        StaminaDamageMuteAtack: 25.0
+        ParalyzeTimeMuteAtack: 10.0
+        HitDamageForDamageAtack: 15
+        HitDamageForMuteAtack: 5
+        ParalyzeTimeStunAtack: 0.5
+        IgnoreResist: true
+        DamageTypeForDamageAtack: "Piercing"
+        DamageTypeForMuteAtack: "Blunt"
+        EffectPunchForDamageAtack: WeaponArcKick
+        EffectPunchForStunAtack: WeaponArcDisarm
+        HitSoundForDamageAtack: /Audio/_DeadSpace/Arkalyse/sound_effects_hit_kick.ogg
+        HitSoundForStunAtack: /Audio/_DeadSpace/Arkalyse/sound_effects_hit_punch.ogg

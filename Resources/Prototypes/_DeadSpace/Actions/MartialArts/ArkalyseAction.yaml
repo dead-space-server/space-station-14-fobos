@@ -4,13 +4,11 @@
   description: Молниеносный удар ладонью в живот противника, наносит чистый урон.
   categories: [ HideSpawnMenu ]
   components:
-  - type: Action
+  - type: InstantAction
     icon:
       sprite: _DeadSpace/Actions/arkalyse_actions.rsi
       state: punch
-    useDelay: 3
-  - type: InstantAction
-    event: !type:DamageAtackArkalyseActionEvent {}
+    event: !type:ArkalyseDamageEvent {}
 
 - type: entity
   id: ActionMutedArkalyseAttack
@@ -18,13 +16,11 @@
   description: Удар в горло, перекрывающий дыхательные пути.
   categories: [ HideSpawnMenu ]
   components:
-  - type: Action
+  - type: InstantAction
     icon:
       sprite: _DeadSpace/Actions/arkalyse_actions.rsi
       state: mute
-    useDelay: 3 
-  - type: InstantAction
-    event: !type:MutedAtackArkalyseActionEvent {}
+    event: !type:ArkalyseMuteEvent {}
 
 - type: entity
   id: ActionStunArkalyseAttack
@@ -32,10 +28,20 @@
   description: Гибридый удар в голову противника, сшибающий того с ног.
   categories: [ HideSpawnMenu ]
   components:
-  - type: Action
+  - type: InstantAction
     icon:
       sprite: _DeadSpace/Actions/arkalyse_actions.rsi
       state: kick
-    useDelay: 3
+    event: !type:ArkalyseStunEvent {}
+
+- type: entity
+  id: ActionRelaxArkalyseAttack
+  name: Расслабить руку
+  description: Отмена всех эффектов на удар.
+  categories: [ HideSpawnMenu ]
+  components:
   - type: InstantAction
-    event: !type:StunedAtackArkalyseActionEvent {}
+    icon:
+      sprite: _DeadSpace/Actions/arkalyse_actions.rsi
+      state: kick
+    event: !type:ArkalyseRelaxEvent {}
