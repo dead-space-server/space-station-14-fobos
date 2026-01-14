@@ -12,7 +12,6 @@
     modifiers:
       armorLvls:
         Piercing: 2
-        Heat: 1
       coefficients:
         Blunt: 0.6
         Slash: 0.6

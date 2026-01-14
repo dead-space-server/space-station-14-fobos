@@ -7,7 +7,7 @@
   - type: Projectile
     damage:
       armorPiercingLevels:
-        Piercing: 5 #пробивает любую брони в игре
+        Piercing: 2 #не лучшая пуля в игре
       types:
         Piercing: 75
         Structural: 226
