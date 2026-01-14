@@ -4,8 +4,8 @@
   showTo:
     components:
       - ShowAntagIcons
-      - Egg
       - Spider
+      - Egg
   icon:
     sprite: /Textures/_DeadSpace/Interface/Misc/antag_icons.rsi
     state: Egg
@@ -99,4 +99,4 @@
     min: 5000
     max: 5000
     title: objective-condition-capture-spiderterror-title
-  - type: SpiderTerrorConditions
+  - type: SpiderTerrorCondition

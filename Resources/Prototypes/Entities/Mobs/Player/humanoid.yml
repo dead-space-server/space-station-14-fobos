@@ -8,12 +8,15 @@
     - type: RandomHumanoidAppearance
       randomizeName: false
     - type: GhostTakeoverAvailable
+    - type: IdBind
 
 - type: randomHumanoidSettings
   id: EventHumanoidMindShielded
   parent: EventHumanoid
   components:
-    - type: MindShield
+    - type: AutoImplant
+      implants:
+      - MindShieldImplant
     - type: AntagImmune
 
 - type: randomHumanoidSettings
@@ -36,7 +39,6 @@
     - Kobolt
     - Xenomorph
     - IPC
-    - IPS
 
 - type: randomHumanoidSettings
   id: EventHumanoidMindShieldedCentcom
@@ -58,7 +60,6 @@
     - Kobolt
     # - Xenomorph
     - IPC
-    - IPS
 
 - type: randomHumanoidSettings
   id: EventHumanoidERT
@@ -81,12 +82,20 @@
     - Kobolt
     - Xenomorph
     - IPC
-    - IPS
   randomizeName: false
   components:
+    - type: NpcFactionMember
+      factions:
+      - CentralCommand
     - type: AutoImplant
       implants:
+      - MindShieldImplant
+      - DeathRattleImplantCentcomm
       - TrackingImplant
+    #DS14-start
+    - type: GhostRoleNotifys 
+      groupPrototype: ERTGroup
+    #DS14-end
 
 - type: randomHumanoidSettings
   id: EventHumanoidERTZombieImmune
@@ -110,21 +119,30 @@
     - MobHumanDeathSquadUnit
 
 - type: entity
-  parent: MobHuman
+  parent: MobSuperSoldier  # DS14
   id: MobHumanDeathSquadUnit
   categories: [ HideSpawnMenu ]
   components:
-  - type: MindShield
   - type: ZombieImmune
   - type: AntagImmune
   - type: AutoImplant
     implants:
     - FreedomImplant
     - DeathAcidifierImplant
+# DS14-start
+    - RadioImplantCentcomm
+  - type: BlobSpeak
+    overrideName: false
+    channel: DeathSquad
+# DS14-end
+  - type: NpcFactionMember
+    factions:
+    - CentralCommand
   - type: GhostRole
-    name: ghost-role-information-death-squad-name
-    description: ghost-role-information-death-squad-description
-    rules: ghost-role-information-death-squad-rules
+    name: ghost-role-information-Death-Squad-name
+    description: ghost-role-information-Death-Squad-description
+    rules: ghost-role-information-Death-Squad-rules
+    category: ghost-role-information-centcomm-category # DS14
     requirements:
       - !type:OverallPlaytimeRequirement
         time: 756000 # 210 hours
@@ -140,6 +158,8 @@
     prototypes: [ DeathSquadGear ]
   - type: TTS
     voice: Garithos
+  - type: GhostRoleNotifys #DS14
+    groupPrototype: DeathSquadGroup
 
 # ERT
 ## Leader
@@ -167,6 +187,7 @@
       name: ghost-role-information-ert-leader-name
       description: ghost-role-information-ert-leader-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category # DS14
       requirements:
         - !type:DepartmentTimeRequirement
           department: Medical
@@ -208,6 +229,7 @@
       name: ghost-role-information-ert-leader-name
       description: ghost-role-information-ert-leader-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category # DS14
       requirements:
         - !type:DepartmentTimeRequirement
           department: Medical
@@ -249,6 +271,7 @@
       name: ghost-role-information-ert-leader-name
       description: ghost-role-information-ert-leader-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category # DS14
       requirements:
         - !type:DepartmentTimeRequirement
           department: Medical
@@ -290,6 +313,7 @@
       name: ghost-role-information-cburn-leader-name
       description: ghost-role-information-cburn-leader-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category # DS14
       requirements:
         - !type:DepartmentTimeRequirement
           department: Medical
@@ -338,6 +362,7 @@
       name: ghost-role-information-ert-security-name
       description: ghost-role-information-ert-security-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category # DS14
       requirements:
         - !type:DepartmentTimeRequirement
           department: Medical
@@ -373,6 +398,7 @@
       name: ghost-role-information-ert-security-name
       description: ghost-role-information-ert-security-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category # DS14
       requirements:
         - !type:DepartmentTimeRequirement
           department: Medical
@@ -403,6 +429,7 @@
       name: ghost-role-information-ert-security-name
       description: ghost-role-information-ert-security-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category # DS14
       requirements:
         - !type:DepartmentTimeRequirement
           department: Medical
@@ -442,6 +469,7 @@
       name: ghost-role-information-ert-medical-name
       description: ghost-role-information-ert-medical-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category # DS14
       requirements:
         - !type:DepartmentTimeRequirement
           department: Medical
@@ -477,6 +505,7 @@
       name: ghost-role-information-ert-medical-name
       description: ghost-role-information-ert-medical-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category # DS14
       requirements:
         - !type:DepartmentTimeRequirement
           department: Medical
@@ -507,6 +536,7 @@
       name: ghost-role-information-ert-medical-name
       description: ghost-role-information-ert-medical-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category # DS14
       requirements:
         - !type:DepartmentTimeRequirement
           department: Medical
@@ -546,6 +576,7 @@
       name: ghost-role-information-ert-janitor-name
       description: ghost-role-information-ert-janitor-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category # DS14
       requirements:
         - !type:DepartmentTimeRequirement
           department: Security
@@ -578,6 +609,7 @@
       name: ghost-role-information-ert-janitor-name
       description: ghost-role-information-ert-janitor-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category # DS14
       requirements:
         - !type:DepartmentTimeRequirement
           department: Security
@@ -605,6 +637,7 @@
       name: ghost-role-information-ert-janitor-name
       description: ghost-role-information-ert-janitor-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category # DS14
       requirements:
         - !type:DepartmentTimeRequirement
           department: Security
@@ -641,6 +674,7 @@
       name: ghost-role-information-ert-engineer-name
       description: ghost-role-information-ert-engineer-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category # DS14
       requirements:
         - !type:DepartmentTimeRequirement
           department: Engineering
@@ -676,6 +710,7 @@
       name: ghost-role-information-ert-engineer-name
       description: ghost-role-information-ert-engineer-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category # DS14
       requirements:
         - !type:DepartmentTimeRequirement
           department: Engineering
@@ -706,6 +741,7 @@
       name: ghost-role-information-ert-engineer-name
       description: ghost-role-information-ert-engineer-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category # DS14
       requirements:
         - !type:DepartmentTimeRequirement
           department: Engineering
@@ -744,6 +780,7 @@
       name: ghost-role-information-cburn-agent-name
       description: ghost-role-information-cburn-agent-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category # DS14
       requirements:
         - !type:DepartmentTimeRequirement
           department: Medical
@@ -825,3 +862,5 @@
         settings: default
     - type: GhostTakeoverAvailable
     - type: Cluwne
+    - type: GhostRoleNotifys #DS14
+      groupPrototype: EventGroup

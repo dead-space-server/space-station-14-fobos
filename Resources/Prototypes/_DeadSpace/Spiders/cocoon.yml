@@ -32,6 +32,7 @@
       - MobSpiderTerrorBuilder
       - MobSpiderTerrorMedic
       - MobSpiderTerrorGuardianLvl2
+      - MobSpiderTerrorSupportLvl1
   - type: Destructible
     thresholds:
     - trigger:
@@ -40,6 +41,14 @@
       behaviors:
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
+  - type: NpcFactionMember
+    factions:
+    - SpiderTerror
+  - type: ZombieImmune
+  - type: ImmunitetInfectionDead
+  - type: VirusImmun
+    immunAll: true
+  - type: ImmunEgg
 
 - type: entity
   name: королевский паучий кокон
@@ -81,6 +90,14 @@
       behaviors:
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
+  - type: NpcFactionMember
+    factions:
+    - SpiderTerror
+  - type: ZombieImmune
+  - type: ImmunitetInfectionDead
+  - type: VirusImmun
+    immunAll: true
+  - type: ImmunEgg
 
 - type: entity
   id: SpiderCocoon
@@ -147,4 +164,10 @@
   - type: Appearance
   - type: ZombieImmune
   - type: ImmunitetInfectionDead
+  - type: VirusImmun
+    immunAll: true
+  - type: ImmunEgg
   - type: Pullable
+  - type: NpcFactionMember
+    factions:
+    - SpiderTerror

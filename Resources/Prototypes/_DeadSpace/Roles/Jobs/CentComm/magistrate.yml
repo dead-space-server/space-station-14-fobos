@@ -33,11 +33,14 @@
   #end-backmen: currency
   special:
   - !type:AddImplantSpecial
-    implants: [ MindShieldImplant ]
+    implants: [ MindShieldImplant, TrackingImplant, DeathRattleImplantCentcomm ]
   - !type:AddComponentSpecial
     components:
     - type: AntagImmune
     - type: ZombieImmune
+    - type: NpcFactionMember
+      factions:
+      - CentralCommand
 
 - type: startingGear
   id: MagistratGear
@@ -49,8 +52,10 @@
     id: MagistratPDA
     ears: ClothingHeadsetMagistrat
     socks: ClothingUnderwearSockMagistrat
+    pocket1: ADTtelescopicBaton
+    pocket2: RubberStampMagistrat
   inhand:
-    - BriefcaseMagistratFilled
+    - BriefcaseBrownFilled
   storage:
     back:
     - HyperLinkBookCorporateLaw
@@ -104,3 +109,13 @@
     sprite: Clothing/Ears/Headsets/servicesecurity.rsi
   - type: Headset
     color: "#d98b71"
+
+- type: chameleonOutfit
+  id: MagistratChameleonOutfit
+  job: Magistrat
+  equipment:
+    shoes: ClothingShoesBootsLaceup
+    outerClothing: ClothingOuterRobesJudge
+    eyes: ClothingEyesGlassesSunglasses
+    head: ClothingHeadHatPwig
+    socks: ClothingUnderwearSockMagistrat

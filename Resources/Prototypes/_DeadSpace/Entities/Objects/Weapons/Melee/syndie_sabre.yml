@@ -1,0 +1,30 @@
+- type: entity
+  name: рапира синдиката
+  parent: BaseSword
+  id: SyndieSabre
+  description: Элегантная рапира из пластитана с алмазным наконечником, с универсальным сплавом, способный проникать через любую броню сделанный корпорацией Gorlex.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Melee/syndie_sabre.rsi
+  - type: MeleeWeapon
+    attackRate: 1
+    damage:
+      types:
+        Slash: 12
+        Piercing: 20
+    soundHit:
+        path: /Audio/Weapons/bladeslice.ogg
+    wideAnimationRotation: -60
+  - type: Reflect
+    reflectProb: .15
+    spread: 45
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Slash: 10
+  - type: Item
+    sprite: _DeadSpace/Objects/Weapons/Melee/syndie_sabre.rsi
+  - type: DisarmMalus
+  - type: Tag
+    tags:
+    - SyndieSabre

@@ -12,33 +12,41 @@
   - AllAccess
   access:
   - CentralCommand
+  - ErtTeamLeader
   special:
   - !type:AddImplantSpecial
-    implants: [ MindShieldImplant, TrackingImplant ]
+    implants: [ MindShieldImplant, TrackingImplant, DeathRattleImplantCentcomm ]
   - !type:AddComponentSpecial
     components:
     - type: AntagImmune
     - type: ZombieImmune
+    - type: NpcFactionMember
+      factions:
+      - CentralCommand
 
 - type: startingGear
   id: CentcomOfficerGear
   equipment:
-    jumpsuit: ADTClothingUniformTurleneckGreenBlack
+    # jumpsuit: ADTClothingUniformTurleneckGreenBlack
     # back: ClothingBackpackMilitarySatchel
+    mask: ClothingMaskGasSecurity
+    # shoes: ClothingShoesBootsJack
+    outerClothing: ClothingOuterCoatCentcomOfficer
+    # eyes: ClothingEyesGlassesSecurity
+    head: ClothingHeadHatBeretCentcomNaval
+    id: CentcomPDA
+    gloves: ClothingHandsGlovesCombat
+    ears: ClothingHeadsetCentCom
+    belt: ClothingBeltSecurityFilled
+
+- type: chameleonOutfit
+  id: CentralCommandOfficerChameleonOutfit
+  job: CentralCommandOfficer
+  equipment:
     mask: ClothingMaskGasSecurity
     shoes: ClothingShoesBootsJack
     outerClothing: ClothingOuterVestWeb
     eyes: ClothingEyesGlassesSecurity
     head: ClothingHeadHatBeretCentcomNaval
-    id: CentcomPDA
     gloves: ClothingHandsGlovesCombat
-    ears: ClothingHeadsetCentCom
     belt: ClothingBeltSecurityWebbingFilled
-    pocket2: WeaponPistolN1984
-  #   underwearb: ClothingUnderwearBottomBoxersCentcomm # DS14-Underwear
-  # underweart: ClothingUnderwearTopBraCentcomm # DS14-Underwear
-  # underwearb: ClothingUnderwearBottomPantiesCentcomm # DS14-Underwear
-  # innerClothingSkirt: ClothingUniformJumpskirtPencilCentcomOfficial
-  # storage:
-  #   back:
-  #   -

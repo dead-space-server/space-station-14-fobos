@@ -28,20 +28,15 @@ namespace Content.Client.UserInterface.Systems.Character;
 public sealed class CharacterUIController : UIController, IOnStateEntered<GameplayState>, IOnStateExited<GameplayState>, IOnSystemChanged<CharacterInfoSystem>
 {
     [Dependency] private readonly IEntityManager _ent = default!;
-    [Dependency] private readonly ILogManager _logMan = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
 
     [UISystemDependency] private readonly CharacterInfoSystem _characterInfo = default!;
     [UISystemDependency] private readonly SpriteSystem _sprite = default!;
 
-    private ISawmill _sawmill = default!;
-
     public override void Initialize()
     {
         base.Initialize();
-
-        _sawmill = _logMan.GetSawmill("character");
 
         SubscribeNetworkEvent<MindRoleTypeChangedEvent>(OnRoleTypeChanged);
     }
@@ -135,7 +130,7 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
             return;
         }
 
-        var (entity, job, objectives, briefing, entityName) = data;
+        var (entity, job, objectives, skills, briefing, entityName) = data;
 
         _window.SpriteView.SetEntity(entity);
 
@@ -145,6 +140,48 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
         _window.SubText.Text = job;
         _window.Objectives.RemoveAllChildren();
         _window.ObjectivesLabel.Visible = objectives.Any();
+
+        // DS14-Skills-Start
+        {
+            var skillsControl = new CharacterObjectiveControl
+            {
+                Orientation = BoxContainer.LayoutOrientation.Vertical,
+                Modulate = Color.Gray
+            };
+
+            var text = new FormattedMessage();
+            text.TryAddMarkup("Навыки", out _);
+
+            var label = new RichTextLabel
+            {
+                StyleClasses = { StyleNano.StyleClassTooltipActionTitle }
+            };
+            label.SetMessage(text);
+
+            skillsControl.AddChild(label);
+
+            foreach (var skill in skills)
+            {
+                var conditionControl = new ObjectiveConditionsControl();
+                conditionControl.ProgressTexture.Texture = _sprite.Frame0(skill.Icon);
+                conditionControl.ProgressTexture.Progress = skill.Progress;
+
+                var titleMessage = new FormattedMessage();
+                var descriptionMessage = new FormattedMessage();
+
+                titleMessage.AddText(skill.Name);
+                descriptionMessage.AddText(skill.Description);
+
+                conditionControl.Title.SetMessage(titleMessage);
+                conditionControl.Description.SetMessage(descriptionMessage);
+
+                skillsControl.AddChild(conditionControl);
+            }
+
+            _window.Objectives.AddChild(skillsControl);
+        }
+
+        // DS14-Skills-End
 
         // start backmen: currency
         {
@@ -217,7 +254,6 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
 
             objectiveControl.AddChild(objectiveLabel);
 
-
             foreach (var condition in conditions)
             {
                 var conditionControl = new ObjectiveConditionsControl();
@@ -273,18 +309,11 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
         if (!_ent.TryGetComponent<MindComponent>(container.Mind.Value, out var mind))
             return;
 
-        var roleText = Loc.GetString("role-type-crew-aligned-name");
-        var color = Color.White;
-        if (_prototypeManager.TryIndex(mind.RoleType, out var proto))
-        {
-            roleText = Loc.GetString(proto.Name);
-            color = proto.Color;
-        }
-        else
-            _sawmill.Error($"{_player.LocalEntity} has invalid Role Type '{mind.RoleType}'. Displaying '{roleText}' instead");
+        if (!_prototypeManager.TryIndex(mind.RoleType, out var proto))
+            Log.Error($"Player '{_player.LocalSession}' has invalid Role Type '{mind.RoleType}'. Displaying default instead");
 
-        _window.RoleType.Text = roleText;
-        _window.RoleType.FontColorOverride = color;
+        _window.RoleType.Text = Loc.GetString(proto?.Name ?? "role-type-crew-aligned-name");
+        _window.RoleType.FontColorOverride = proto?.Color ?? Color.White;
     }
 
     private void CharacterDetached(EntityUid uid)

@@ -1,0 +1,28 @@
+# Jumpsuit
+
+- type: loadout
+  id: MedicalDoctorJumpskirtPencil
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtPencilMedical
+
+- type: loadout
+  id: ShoesBootsSterileMedical
+  equipment:
+    shoes: ClothingShoesBootsSterileMedical
+
+# Underwear
+
+- type: loadout
+  id: SocksDoctor
+  equipment:
+    socks: ClothingUnderwearSocksDoctor
+
+- type: loadout
+  id: SocksNylon
+  equipment:
+    socks: ClothingUnderwearSocksNylon
+
+- type: loadout
+  id: SocksNylonWhite
+  equipment:
+    socks: ClothingUnderwearSocksNylonWhite

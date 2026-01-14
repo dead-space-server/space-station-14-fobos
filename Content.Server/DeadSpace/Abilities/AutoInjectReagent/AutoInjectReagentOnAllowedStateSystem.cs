@@ -54,24 +54,19 @@ public sealed partial class AutoInjectReagentOnAllowedStateSystem : SharedReagen
 
     private void OnState(EntityUid uid, AutoInjectReagentOnAllowedStateComponent component, MobStateChangedEvent args)
     {
-
-        if (!TryComp<MobStateComponent>(uid, out var mobState))
-            return;
-
         if (!component.IsReady)
             return;
 
         foreach (var allowedState in component.AllowedStates)
         {
-            if (allowedState == mobState.CurrentState)
+            if (allowedState == args.NewMobState)
             {
                 Inject(component.Reagents, uid);
                 _popup.PopupEntity(Loc.GetString("hypospray-component-feel-prick-message"), uid, uid);
                 _audio.PlayPvs(component.InjectSound, uid);
+                component.IsReady = false;
+                component.TimeUntilRegen = TimeSpan.FromSeconds(component.DurationRegenReagents) + _timing.CurTime;
             }
         }
-
-        component.TimeUntilRegen = TimeSpan.FromSeconds(component.DurationRegenReagents) + _timing.CurTime;
-        component.IsReady = false;
     }
 }

@@ -1,0 +1,42 @@
+- type: entity
+  id: ShopMutationAbility
+  name: Открыть меню мутаций
+  description: Меню мутаций.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    useDelay: 1
+    icon:
+      sprite: _DeadSpace/Virus/virus.rsi
+      state: icon
+  - type: InstantAction
+    event: !type:ShopMutationActionEvent
+
+- type: entity
+  id: SelectPrimaryPatientAbility
+  name: Создать нулевого пациента
+  description: Заражает существо вашим вирусом, нулевой пациент - носитель вируса без симптомов. Если вирус внутри его погибнет, то погибнете и вы!.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    useDelay: 5
+    icon:
+      sprite: _DeadSpace/Virus/virus.rsi
+      state: primary
+  - type: TargetAction
+  - type: EntityTargetAction
+    event: !type:SelectPrimaryPatientEvent
+
+- type: entity
+  id: TeleportToPrimaryPatientAbility
+  name: Переместиться к нулевому пациенту
+  description: Мгновенно перемещает вас к одному из ваших нулевому пациенту.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    useDelay: 1
+    icon:
+      sprite: _DeadSpace/Virus/virus.rsi
+      state: teleport
+  - type: InstantAction
+    event: !type:TeleportToPrimaryPatientEvent

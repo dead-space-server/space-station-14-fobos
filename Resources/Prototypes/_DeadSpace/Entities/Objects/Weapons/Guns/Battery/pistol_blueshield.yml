@@ -40,6 +40,8 @@
 - type: hitscan
   id: VioletLaser # DS
   damage:
+    armorPiercingLevels:
+      Heat: 2
     types:
       Heat: 25
   muzzleFlash:
@@ -51,3 +53,4 @@
   impactFlash:
     sprite: _DeadSpace/Objects/Weapons/Guns/Projectiles/violethit.rsi
     state: impact_beam_violet
+  temperature: 10

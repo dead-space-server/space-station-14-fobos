@@ -1,6 +1,6 @@
 - type: gameMap
   id: Core
-  mapName: 'Core Station'
+  mapName: 'Core'
   mapPath: /Maps/core.yml
   minPlayers: 40
   maxPlayers: 75
@@ -55,7 +55,7 @@
             TechnicalAssistant: [ 2, 2 ]
             # sup
             Quartermaster: [ 1, 1 ]
-            SeniorSalvageSpecialist: [ 1, 1 ]
+            SeniorCourier: [ 1, 1 ]
             SalvageSpecialist: [ 3, 3 ]
             CargoTechnician: [ 3, 3 ]
             # civ

@@ -13,6 +13,20 @@
     layers:
     - map: ["enum.DamageStateVisualLayers.Base"]
       state: ian
+  - type: Inventory
+    speciesId: dog
+    templateId: petAdvanced
+    displacements:
+      head:
+        sizeMaps:
+          32:
+            sprite: Mobs/Pets/displacements.rsi
+            state: corgi_head_displacement
+      eyes:
+        sizeMaps:
+          32:
+            sprite: Mobs/Pets/displacements.rsi
+            state: corgi_eyes_displacement
   - type: DamageStateVisuals
     states:
       Alive:
@@ -36,6 +50,17 @@
     - VimPilot
   - type: StealTarget
     stealGroup: AnimalIan
+  # DS14-start
+  - type: Language
+    selectedLanguage: DogLanguage
+    knownLanguages:
+    - GeneralLanguage
+    - DogLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
+  # DS14-end
 
 - type: entity
   name: Old Ian
@@ -84,6 +109,20 @@
     attributes:
       proper: true
       gender: female
+  - type: Inventory
+    speciesId: dog
+    templateId: petAdvanced
+    displacements:
+      head:
+        sizeMaps:
+          32:
+            sprite: Mobs/Pets/displacements.rsi
+            state: lisa_head_displacement
+      eyes:
+        sizeMaps:
+          32:
+            sprite: Mobs/Pets/displacements.rsi
+            state: corgi_eyes_displacement
 
 - type: entity
   name: real mouse
@@ -125,6 +164,17 @@
     - id: MaterialHideCorgi
   - type: StealTarget
     stealGroup: AnimalIan
+  # DS14-start
+  - type: Language
+    selectedLanguage: DogLanguage
+    knownLanguages:
+    - GeneralLanguage
+    - DogLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
+  # DS14-end
 
 - type: entity
   name: Runtime
@@ -148,6 +198,17 @@
     - VimPilot
   - type: StealTarget
     stealGroup: AnimalNamedCat
+  # DS14-start
+  - type: Language
+    selectedLanguage: DogLanguage
+    knownLanguages:
+    - GeneralLanguage
+    - CatLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
+  # DS14-end
 
 - type: entity
   name: Exception
@@ -168,6 +229,17 @@
     - VimPilot
   - type: StealTarget
     stealGroup: AnimalNamedCat
+  # DS14-start
+  - type: Language
+    selectedLanguage: DogLanguage
+    knownLanguages:
+    - GeneralLanguage
+    - CatLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
+  # DS14-end
 
 - type: entity
   name: Floppa
@@ -203,6 +275,17 @@
       path: /Audio/_ADT/carakal_purr.ogg
     interactFailureSound:
       path: /Audio/_ADT/carakal_hiss.ogg
+  # DS14-start
+  - type: Language
+    selectedLanguage: DogLanguage
+    knownLanguages:
+    - GeneralLanguage
+    - CatLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
+  # DS14-end
 
 - type: entity
   name: Bandito
@@ -218,6 +301,16 @@
     tags:
     - CannotSuicide
     - VimPilot
+  # DS14-start
+  - type: Language
+    selectedLanguage: DogLanguage
+    knownLanguages:
+    - GeneralLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
+  # DS14-end
 
 - type: entity
   name: Bingus
@@ -278,6 +371,16 @@
   - type: Speech
     speechSounds: Cat
     speechVerb: SmallMob
+  # DS14-start
+  - type: Language
+    knownLanguages:
+    - GeneralLanguage
+    - CatLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
+  # DS14-end
 
 - type: entity
   name: McGriff
@@ -291,6 +394,8 @@
     layers:
     - map: ["enum.DamageStateVisualLayers.Base"]
       state: mcgriff
+    - map: [ "head" ]
+    - map: [ "eyes" ]
   - type: Physics
   - type: Fixtures
     fixtures:
@@ -305,7 +410,18 @@
         - MobLayer
   - type: Inventory
     speciesId: puppy
-    templateId: pet
+    templateId: petAdvanced
+    displacements:
+      head:
+        sizeMaps:
+          32:
+            sprite: Mobs/Pets/displacements.rsi
+            state: mcgriff_head_displacement
+      eyes:
+        sizeMaps:
+          32:
+            sprite: Mobs/Pets/displacements.rsi
+            state: mcgriff_eyes_displacement
   - type: DamageStateVisuals
     states:
       Alive:
@@ -318,8 +434,19 @@
     spawned:
     - id: FoodMeat
       amount: 2
-  - type: ReplacementAccent
-    accent: dog
+  # DS14-start
+  # - type: ReplacementAccent
+  #   accent: dog
+  - type: Language
+    selectedLanguage: DogLanguage
+    knownLanguages:
+    - GeneralLanguage
+    - DogLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
+  # DS14-end
   - type: InteractionPopup
     successChance: 0.5
     interactSuccessString: petting-success-dog
@@ -340,6 +467,7 @@
     - VimPilot
   - type: StealTarget
     stealGroup: AnimalMcGriff
+  - type: MessyDrinker
 
 - type: entity
   name: Paperwork
@@ -374,6 +502,15 @@
     attributes:
       proper: true
       gender: male
+# DS14-start
+  - type: Language
+    knownLanguages:
+    - GeneralLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
+# DS14-end
 
 - type: entity
   name: Walter
@@ -414,8 +551,6 @@
     spawned:
     - id: FoodMeat
       amount: 3
-  - type: ReplacementAccent
-    accent: dog
   - type: InteractionPopup
     successChance: 0.7
     interactSuccessString: petting-success-dog
@@ -436,6 +571,17 @@
   - type: Speech
     speechVerb: Canine
     speechSounds: Dog
+  - type: MessyDrinker
+# DS14-start
+  - type: Language
+    knownLanguages:
+    - GeneralLanguage
+    - DogLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
+# DS14-end
 
 - type: entity
   name: Morty
@@ -460,6 +606,15 @@
     - VimPilot
   - type: StealTarget
     stealGroup: AnimalMorty
+# DS14-start
+  - type: Language
+    knownLanguages:
+    - GeneralLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
+# DS14-end
 
 - type: entity
   name: Morty
@@ -524,6 +679,15 @@
     tags:
     - CannotSuicide
     - VimPilot
+# DS14-start
+  - type: Language
+    knownLanguages:
+    - GeneralLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
+# DS14-end
 
 - type: entity
   name: Alexander
@@ -553,6 +717,17 @@
   - type: GhostTakeoverAvailable
   - type: TTS
     voice: Chen
+# DS14-start
+  - type: Language
+    knownLanguages:
+    - GeneralLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
+  - type: GhostRoleNotifys 
+    groupPrototype: PetsGroup
+# DS14-end
 
 - type: entity
   name: Renault
@@ -583,6 +758,15 @@
     - VimPilot
   - type: StealTarget
     stealGroup: AnimalRenault
+# DS14-start
+  - type: Language
+    knownLanguages:
+    - GeneralLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
+# DS14-end
 
 - type: entity
   name: Hamlet
@@ -641,6 +825,33 @@
     - sadness
   - type: Hunger
     baseDecayRate: 0.1 # DS14: not soo hungry
+# DS14-start
+  - type: Language
+    knownLanguages:
+    - GeneralLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
+  - type: GhostRoleNotifys 
+    groupPrototype: PetsGroup
+# DS14-end
+
+- type: entity
+  parent: MobHamsterHamlet
+  id: MobHamsterHamletSlippery
+  suffix: Slippery
+  components:
+  - type: Slippery
+  - type: StepTrigger
+    requiredTriggeredSpeed: 1
+  - type: TriggerOnStepTrigger
+  - type: GibOnTrigger
+  - type: EmitSoundOnTrigger
+    sound:
+      path: "/Audio/Animals/mouse_squeak.ogg"
+    positional: true
+    predicted: true
 
 - type: entity
   name: Shiva
@@ -694,6 +905,8 @@
       types:
         Piercing: 8
         Poison: 8
+  - type: Spider
+    spawnsWebsAsNonPlayer: false
   - type: Grammar
     attributes:
       proper: true
@@ -706,6 +919,16 @@
     - FootstepSound
   - type: StealTarget
     stealGroup: AnimalShiva
+# DS14-start
+  - type: Language
+    knownLanguages:
+    - GeneralLanguage
+    - ArachnidLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
+# DS14-end
 
 - type: entity
   name: Willow
@@ -737,6 +960,17 @@
   - type: GhostTakeoverAvailable
   - type: Loadout
     prototypes: [ BoxingKangarooGear ]
+# DS14-start
+  - type: Language
+    knownLanguages:
+    - GeneralLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
+  - type: GhostRoleNotifys 
+    groupPrototype: Kangarooping
+# DS14-end
 
 - type: entity
   name: Smile
@@ -767,9 +1001,7 @@
       200: Dead
   - type: FootstepModifier
     footstepSoundCollection:
-      path: /Audio/Effects/Footsteps/slime1.ogg
-      params:
-        volume: -6
+      collection: FootstepSlime
   - type: Tag
     tags:
     - FootstepSound
@@ -808,8 +1040,6 @@
   - type: Item
     sprite: Mobs/Pets/Smile/smile.rsi
     size: Huge
-  - type: SentienceTarget
-    flavorKind: station-event-random-sentience-flavor-slime
   - type: MobPrice
     price: 3000 # it is a truly valuable creature
   - type: GhostRole
@@ -821,6 +1051,20 @@
     attributes:
       proper: true
       gender: female
+# DS14-start
+  - type: Language
+    knownLanguages:
+    - GeneralLanguage
+    - SlimeLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
+  - type: StealTarget
+    stealGroup: SmileExtract
+  - type: GhostRoleNotifys 
+    groupPrototype: PetsGroup
+# DS14-end
 
 - type: entity
   name: Pun Pun
@@ -836,6 +1080,12 @@
     name: ghost-role-information-punpun-name
     description: ghost-role-information-punpun-description
     rules: ghost-role-information-nonantagonist-rules
+# DS14-start
+    requirements:
+    - !type:RoleTimeRequirement
+      role: JobBartender
+      time: 7200 # 2 hours
+# DS14-end
   - type: GhostTakeoverAvailable
   - type: Butcherable
     butcheringType: Spike
@@ -856,6 +1106,17 @@
     attributes:
       proper: true
       gender: male
+# DS14-start
+  - type: Language
+    knownLanguages:
+    - GeneralLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
+  - type: GhostRoleNotifys 
+    groupPrototype: PunPunping
+# DS14-end
 
 - type: entity
   name: Tropico
@@ -881,5 +1142,40 @@
       proper: true
       gender: male
 #  - type: AlwaysRevolutionaryConvertible
+#  - type: StealTarget
+#    stealGroup: AnimalTropico
+# DS14-start
+  - type: Language
+    knownLanguages:
+    - GeneralLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
+# DS14-end
+
+- type: entity
+  name: Polly the parrot
+  parent: MobParrotBase
+  id: MobPollyParrot
+  description: An expert in quantum cracker theory
+  components:
+  - type: Vocalizer
+    maxVocalizeInterval: 240 # polly is chattier
+  - type: RadioVocalizer
+    radioAttemptChance: 0.8 # polly wants to share with the world
+  - type: Grammar
+    attributes:
+      proper: true
+      gender: male
+  - type: Loadout
+    prototypes: [ MobPollyGear ]
+  - type: TTS
+    voice: Gyro
   - type: StealTarget
-    stealGroup: AnimalTropico
+    stealGroup: AnimalPolly
+# DS14-start
+  - type: Language
+    knownLanguages:
+    - GeneralLanguage
+# DS14-end

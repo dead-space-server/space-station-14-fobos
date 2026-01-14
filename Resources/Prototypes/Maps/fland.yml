@@ -1,6 +1,6 @@
 - type: gameMap
   id: Fland
-  mapName: 'Fland Station'
+  mapName: 'Fland'
   mapPath: /Maps/fland.yml
   minPlayers: 60
   stations:
@@ -54,7 +54,7 @@
             TechnicalAssistant: [ 4, 4 ]
             # sup
             Quartermaster: [ 1, 1 ]
-            SeniorSalvageSpecialist: [ 1, 1 ]
+            SeniorCourier: [ 1, 1 ]
             SalvageSpecialist: [ 3, 3 ]
             CargoTechnician: [ 3, 3 ]
             # civ

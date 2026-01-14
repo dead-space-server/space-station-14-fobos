@@ -26,6 +26,19 @@ using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 using Content.Shared.Zombies;
 using Content.Server.DeadSpace.Necromorphs.InfectionDead;
 using Content.Shared.Stunnable;
+using Content.Shared.Fax.Components;
+using Content.Shared.Station.Components;
+using Content.Server.Station.Systems;
+using Content.Shared.Paper;
+using Content.Server.Fax;
+using Robust.Shared.Random;
+using Content.Shared.Cargo.Prototypes;
+using Content.Server.Cargo.Systems;
+using Content.Shared.Cargo.Components;
+using Content.Server.DeadSpace.ERT;
+using Content.Server.AlertLevel;
+using Content.Shared.DeadSpace.ERT.Prototypes;
+using Content.Server.Database;
 
 namespace Content.Server.GameTicking.Rules;
 
@@ -36,6 +49,7 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
     [Dependency] private readonly RoundEndSystem _roundEnd = default!;
     [Dependency] private readonly ServerGlobalSoundSystem _sound = default!;
     [Dependency] private readonly AntagSelectionSystem _antag = default!;
+    [Dependency] private readonly IServerDbManager _db = default!;
     [Dependency] private readonly MindSystem _mindSystem = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly ExplosionSystem _explosion = default!;
@@ -46,12 +60,18 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
     [Dependency] private readonly NecromorfSystem _necromorfSystem = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedStunSystem _stun = default!;
-
-    [ValidatePrototypeId<EntityPrototype>]
-    private const string UnitologyRule = "Unitology";
-
-    [ValidatePrototypeId<AntagPrototype>]
-    public const string UnitologyAntagRole = "UniHead";
+    [Dependency] private readonly StationSystem _station = default!;
+    [Dependency] private readonly FaxSystem _faxSystem = default!;
+    [Dependency] private readonly IPrototypeManager _proto = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly CargoSystem _cargoSystem = default!;
+    [Dependency] private readonly AlertLevelSystem _alertLevel = default!;
+    [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
+    private static readonly EntProtoId UnitologyRule = "Unitology";
+    public static readonly ProtoId<AntagPrototype> UnitologyAntagRole = "UniHead";
+    private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "CburnSierra";
+    private static readonly ProtoId<CargoAccountPrototype> Account = "Security";
+    private const int AdditionalSupport = 70000;
     private const float ConvergenceSongLength = 60f + 37.6f;
     public override void Initialize()
     {
@@ -59,7 +79,7 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
 
         SubscribeLocalEvent<UnitologyRuleComponent, AfterAntagEntitySelectedEvent>(AfterEntitySelected);
         SubscribeLocalEvent<UnitologyRuleComponent, StageObeliskEvent>(OnStageObelisk);
-        SubscribeLocalEvent<UnitologyRuleComponent, EndStageConvergenceEvent>(EndStageConvergence);
+        SubscribeLocalEvent<UnitologyRuleComponent, SpawnNecroMoonEvent>(EndStageConvergence);
         SubscribeLocalEvent<UnitologyRuleComponent, StageConvergenceEvent>(OnStageConvergence);
     }
 
@@ -78,7 +98,8 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
         float minutes = (float)time.TotalMinutes;
         float seconds = (float)time.TotalSeconds;
 
-        TimeSpan warningTime = TimeSpan.FromMinutes(minutes - component.TimeUntilWarning);
+        TimeSpan obeliskWarningTime = TimeSpan.FromMinutes(minutes - component.TimeUntilObeliskWarning);
+        TimeSpan uniWarningTime = TimeSpan.FromMinutes(minutes - component.TimeUntilUniWarning);
         TimeSpan spawnObeliskTime = TimeSpan.FromMinutes(seconds + component.TimeAfterTheExplosion);
 
         if (component.IsStageObelisk && component.TimeUtilStopTransformations > _timing.CurTime)
@@ -91,10 +112,42 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
             EndTransformations(uid, component);
         }
 
-        if (!component.IsWarningSend && warningTime < _timing.CurTime)
+        if (!component.IsObeliskWarningSend && obeliskWarningTime < _timing.CurTime)
         {
             _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("unitology-centcomm-announcement-obelisk-arrival"), playSound: true, colorOverride: Color.LightSeaGreen);
-            component.IsWarningSend = true;
+            component.IsObeliskWarningSend = true;
+
+            var query = EntityQueryEnumerator<UnitologyHeadComponent>();
+            EntityUid? station = null;
+
+            while (query.MoveNext(out var ent, out _))
+            {
+                station = _station.GetOwningStation(ent);
+                break;
+            }
+
+            if (station == null)
+                return;
+
+            _alertLevel.SetLevel(station.Value, "sierra", true, true, true);
+
+            if (!TryComp<StationBankAccountComponent>(station, out var stationAccount))
+                return;
+
+            var addMoneyAfterWarDeclared = _ertResponceSystem.GetErtPrice(ErtTeam) + AdditionalSupport;
+
+            _cargoSystem.UpdateBankAccount(
+                                (station.Value, stationAccount),
+                                addMoneyAfterWarDeclared,
+                                Account
+                            );
+        }
+
+        if (!component.IsUniWarningSend && uniWarningTime < _timing.CurTime)
+        {
+            SendOrder();
+            _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("unitology-centcomm-announcement-uni-warn"), playSound: true, colorOverride: Color.LightSeaGreen);
+            component.IsUniWarningSend = true;
         }
 
         if (!component.IsObeliskArrival && component.TimeUntilArrivalObelisk < _timing.CurTime)
@@ -181,7 +234,7 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
             if (mind == null)
                 continue;
 
-            foreach (var objId in mind.AllObjectives)
+            foreach (var objId in mind.Objectives)
             {
                 if (!_objectives.IsCompleted(objId, (mindId, mind)))
                 {
@@ -335,20 +388,22 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
             return;
 
         _damageable.TryChangeDamage(target, component.Damage, false, false, damageable);
-        _stun.TryParalyze(target, TimeSpan.FromSeconds(2f), true);
+        _stun.TryUpdateParalyzeDuration(target, TimeSpan.FromSeconds(2f));
 
         if (TryComp<VocalComponent>(target, out var vocal))
         {
-            var random = new Random();
-            int chance = random.Next(0, 5);
+            int chance = _random.Next(0, 5);
+
+            if (vocal.EmoteSounds is not { } sounds)
+                return;
 
             if (chance < 1)
             {
-                _chatSystem.TryPlayEmoteSound(target, vocal.EmoteSounds, "Crying");
+                _chatSystem.TryPlayEmoteSound(target, _proto.Index(sounds), "Crying");
             }
             else
             {
-                _chatSystem.TryPlayEmoteSound(target, vocal.EmoteSounds, "Scream");
+                _chatSystem.TryPlayEmoteSound(target, _proto.Index(sounds), "Scream");
             }
         }
 
@@ -366,7 +421,7 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
         RaiseLocalEvent(component.Obelisk, ref convergenceEvent);
     }
 
-    private void EndStageConvergence(EntityUid uid, UnitologyRuleComponent component, EndStageConvergenceEvent ev)
+    private void EndStageConvergence(EntityUid uid, UnitologyRuleComponent component, SpawnNecroMoonEvent ev)
     {
         component.IsEndConvergence = true;
         component.NextStageTime = _timing.CurTime + component.StageConvergenceDuration;
@@ -402,6 +457,64 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
                 ("username", data.UserName)));
         }
 
+        // Статистика для дашборда
+        var winner = index == 2 ? BiStatWinner.Antagonist : BiStatWinner.Crew;
+        _ = System.Threading.Tasks.Task.Run(async () =>
+        {
+            try
+            {
+                await _db.AddBiStatAsync("Юнитологи", winner, DateTime.UtcNow);
+            }
+            catch
+            {
+
+            }
+        });
+
+    }
+
+    private void SendOrder()
+    {
+        var faxes = EntityQueryEnumerator<FaxMachineComponent>();
+        var wasSent = false;
+
+        var query = EntityQueryEnumerator<UnitologyHeadComponent>();
+
+        while (query.MoveNext(out var ent, out _))
+        {
+            if (wasSent)
+                return;
+
+            var xform = Transform(ent);
+            var station = _station.GetStationInMap(xform.MapID);
+
+            if (!HasComp<StationDataComponent>(station))
+                continue;
+
+            while (faxes.MoveNext(out var faxEnt, out var fax))
+            {
+                if (!fax.ReceiveNukeCodes)
+                    continue;
+
+                var content = Loc.GetString("paper-order-necromorph");
+
+                var printout = new FaxPrintout(
+                    content,
+                    Loc.GetString("nuke-codes-fax-paper-name"),
+                    null,
+                    null,
+                    "paper_stamp-centcom",
+                    new List<StampDisplayInfo>
+                    {
+                        new StampDisplayInfo { StampedName = Loc.GetString("stamp-component-stamped-name-centcom"), StampedColor = Color.FromHex("#006600") },
+                    }
+                );
+
+                _faxSystem.Receive(faxEnt, printout, null, fax);
+
+                wasSent = true;
+            }
+        }
     }
 
     private static readonly string[] Outcomes =

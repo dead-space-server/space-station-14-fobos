@@ -1,0 +1,24 @@
+﻿- type: entity
+  id: CrateFoodGingerbreadCookies
+  parent: CratePlastic
+  name: ящик пряничного печенья
+  description: Содержит разнообразное пряничное печенье.
+  components:
+  - type: StorageFill
+    contents:
+    - id: FoodBakedGingerbreadMan
+      amount: 2
+    - id: FoodBakedGingerbreadStar
+      amount: 2
+    - id: FoodBakedGingerbreadBear
+      amount: 2
+    - id: FoodBakedGingerbreadTree
+      amount: 2
+    - id: FoodBakedGingerbreadCane
+      amount: 2
+    - id: FoodBakedGingerbreadStocking
+      amount: 2
+    - id: FoodBakedGingerbreadPresent
+      amount: 2
+    - id: FoodBakedGingerbreadSanta
+      amount: 2

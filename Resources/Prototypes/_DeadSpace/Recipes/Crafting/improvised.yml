@@ -1,21 +1,71 @@
 - type: construction
-  name: double toy sword
   id: ToyDoubleSword
   graph: ToyDoubleSword
   startNode: start
   targetNode: icon
   category: construction-category-weapons
-  description: A toy double-bladed sword created from two toy swords!
-  icon: { sprite: Objects/Weapons/Melee/e_sword_double.rsi, state: e_sword_double }
   objectType: Item
 
 - type: construction
-  name: improvised jetpack
   id: JetpackImprovised
   graph: JetpackImprovised
   startNode: start
   targetNode: jetpack
   category: construction-category-tools
-  description: Some oxygen tanks and a fire extinguisher as a nozzle, somehow attached together. It looks unreliable.
-  icon: { sprite: _DeadSpace/Objects/Tanks/Jetpacks/improvised.rsi, state: icon }
+  objectType: Item
+
+- type: construction
+  id: BouquetCraftBeer
+  graph: BouquetCraftBeer
+  startNode: start
+  targetNode: bouquetCraftBeer
+  category: construction-category-misc
+  objectType: Item
+
+- type: construction
+  id: WhiteCraftFlower
+  graph: WhiteCraftFlower
+  startNode: start
+  targetNode: whiteCraftFlower
+  category: construction-category-misc
+  objectType: Item
+
+- type: construction
+  id: PinkCraftFlower
+  graph: PinkCraftFlower
+  startNode: start
+  targetNode: pinkCraftFlower
+  category: construction-category-misc
+  objectType: Item
+
+- type: construction
+  id: YellowCraftFlower
+  graph: YellowCraftFlower
+  startNode: start
+  targetNode: yellowCraftFlower
+  category: construction-category-misc
+  objectType: Item
+
+- type: construction
+  id: DarkCraftFlower
+  graph: DarkCraftFlower
+  startNode: start
+  targetNode: darkCraftFlower
+  category: construction-category-misc
+  objectType: Item
+
+- type: construction
+  id: PurpleCraftFlower
+  graph: PurpleCraftFlower
+  startNode: start
+  targetNode: purpleCraftFlower
+  category: construction-category-misc
+  objectType: Item
+
+- type: construction
+  id: RedCraftFlower
+  graph: RedCraftFlower
+  startNode: start
+  targetNode: redCraftFlower
+  category: construction-category-misc
   objectType: Item

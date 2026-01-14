@@ -1,15 +1,15 @@
 using Content.Server.Chat.Systems;
-using Content.Server.Emp;
-using Content.Server.Radio.Components;
-using Content.Shared.Corvax.TTS;
 using Content.Shared.Inventory.Events;
 using Content.Shared.Radio;
 using Content.Shared.Radio.Components;
 using Content.Shared.Radio.EntitySystems;
-using Robust.Server.Audio;
-using Robust.Shared.Audio;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
+using Content.Server.DeadSpace.Languages;
+using Content.Shared.Corvax.TTS;
+using Robust.Server.Audio;
+using Robust.Shared.Audio;
+using Content.Shared.Chat;
 
 namespace Content.Server.Radio.EntitySystems;
 
@@ -17,17 +17,17 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
 {
     [Dependency] private readonly INetManager _netMan = default!;
     [Dependency] private readonly RadioSystem _radio = default!;
-    [Dependency] private readonly AudioSystem _audio = default!;
+    [Dependency] private readonly AudioSystem _audio = default!; // DS14-TTS
+    [Dependency] private readonly LanguageSystem _language = default!; // DS14-Languages
 
     public override void Initialize()
     {
         base.Initialize();
         SubscribeLocalEvent<HeadsetComponent, RadioReceiveEvent>(OnHeadsetReceive);
+        SubscribeLocalEvent<ActiveRadioComponent, RadioReceiveEvent>(OnActiveRadioReceive);
         SubscribeLocalEvent<HeadsetComponent, EncryptionChannelsChangedEvent>(OnKeysChanged);
 
         SubscribeLocalEvent<WearingHeadsetComponent, EntitySpokeEvent>(OnSpeak);
-
-        SubscribeLocalEvent<HeadsetComponent, EmpPulseEvent>(OnEmpPulse);
     }
 
     private void OnKeysChanged(EntityUid uid, HeadsetComponent component, EncryptionChannelsChangedEvent args)
@@ -74,7 +74,6 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
     protected override void OnGotUnequipped(EntityUid uid, HeadsetComponent component, GotUnequippedEvent args)
     {
         base.OnGotUnequipped(uid, component, args);
-        component.IsEquipped = false;
         RemComp<ActiveRadioComponent>(uid);
         RemComp<WearingHeadsetComponent>(args.Equipee);
     }
@@ -86,6 +85,9 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
 
         if (component.Enabled == value)
             return;
+
+        component.Enabled = value;
+        Dirty(uid, component);
 
         if (!value)
         {
@@ -101,29 +103,71 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
         }
     }
 
+    // DS14-TTS-Start
     private void OnHeadsetReceive(EntityUid uid, HeadsetComponent component, ref RadioReceiveEvent args)
     {
-        // TTS-start
-        _audio.PlayPvs(component.RadioReceiveSoundPath, uid, AudioParams.Default.WithVolume(-10f));
+        var parent = Transform(uid).ParentUid;
+        if (!parent.IsValid())
+            return;
 
-        var actorUid = Transform(uid).ParentUid;
-        if (TryComp(Transform(uid).ParentUid, out ActorComponent? actor))
+        var relayEvent = new HeadsetRadioReceiveRelayEvent(args);
+        RaiseLocalEvent(parent, ref relayEvent);
+
+        HandleRadioReceive(
+            receiver: parent,
+            messageSource: args.MessageSource,
+            chatMsg: args.ChatMsg,
+            lexiconChatMsg: args.LexiconChatMsg,
+            languageId: args.LanguageId,
+            receiveSound: component.RadioReceiveSoundPath,
+            true,
+            args: args);
+    }
+
+    private void OnActiveRadioReceive(EntityUid uid, ActiveRadioComponent component, ref RadioReceiveEvent args)
+    {
+        HandleRadioReceive(
+            receiver: uid,
+            messageSource: args.MessageSource,
+            chatMsg: args.ChatMsg,
+            lexiconChatMsg: args.LexiconChatMsg,
+            languageId: args.LanguageId,
+            null,
+            false,
+            args: args);
+    }
+
+    private void HandleRadioReceive(
+    EntityUid receiver,
+    EntityUid messageSource,
+    NetMessage chatMsg,
+    MsgChatMessage lexiconChatMsg,
+    string? languageId,
+    SoundSpecifier? receiveSound,
+    bool sendMessage,
+    RadioReceiveEvent args)
+    {
+        if (args.Receivers.Contains(receiver))
+            return;
+
+        var msg = chatMsg;
+
+        if (languageId != null && !_language.KnowsLanguage(receiver, languageId))
+            msg = lexiconChatMsg;
+
+        if (receiveSound != null)
+            _audio.PlayPvs(receiveSound, receiver, AudioParams.Default.WithVolume(-10f));
+
+        if (TryComp(receiver, out ActorComponent? actor))
         {
-            _netMan.ServerSendMessage(args.ChatMsg, actor.PlayerSession.Channel);
-            if (actorUid != args.MessageSource && TryComp(args.MessageSource, out TTSComponent? _))
+            if (sendMessage)
+                _netMan.ServerSendMessage(msg, actor.PlayerSession.Channel);
+
+            if (receiver != messageSource && TryComp(messageSource, out TTSComponent? _))
             {
-                args.Receivers.Add(actorUid);
+                args.Receivers.Add(receiver);
             }
         }
-        // TTS-end
     }
-
-    private void OnEmpPulse(EntityUid uid, HeadsetComponent component, ref EmpPulseEvent args)
-    {
-        if (component.Enabled)
-        {
-            args.Affected = true;
-            args.Disabled = true;
-        }
-    }
+    // DS14-TTS-End
 }

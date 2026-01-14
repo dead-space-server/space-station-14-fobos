@@ -1,6 +1,7 @@
 - type: vendingMachineInventory
   id: VendomatInventory
   startingInventory:
+    Nanopaste: 2 # DS14
     RemoteSignaller: 1
     Igniter: 2
     Wirecutter: 2
@@ -8,9 +9,7 @@
     CableApcStack: 2
     FlashlightLantern: 2
     PowerCellSmallPrinted: 3
-    MatterBinStockPart: 4
-    CapacitorStockPart: 4
-    MicroManipulatorStockPart: 4
+    MicroManipulatorStockPart: 12
   contrabandInventory:
     ProximitySensor: 1
     LeftArmBorg: 1

@@ -9,8 +9,12 @@
     state: slug
   - type: Projectile
     damage:
+      armorPiercingLevels:
+        Piercing: 2
       types:
-        Piercing: 28
+        Piercing: 40
+        Structural: 15
+
 
 - type: entity
   id: PelletShotgunBeanbag
@@ -39,8 +43,12 @@
     state: buckshot
   - type: Projectile
     damage:
+      armorPiercingLevels:
+        Piercing: 1
       types:
         Piercing: 10
+        Structural: 15
+
 
 - type: entity
   id: PelletShotgunSpread
@@ -63,9 +71,11 @@
     state: buckshot-flare
   - type: Projectile
     damage:
+      armorPiercingLevels:
+        Piercing: 1
       types:
-        Blunt: 3
-        Heat: 7
+        Piercing: 7
+        Heat: 3
   - type: IgnitionSource
     ignited: true
 

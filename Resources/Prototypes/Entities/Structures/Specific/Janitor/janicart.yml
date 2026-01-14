@@ -51,6 +51,14 @@
         whitelist:
           tags:
             - PlushieCarp
+      mopbucket_magicarpplush:
+        whitelist:
+          tags:
+          - PlushieCarpMagi
+      mopbucket_holocarpplush:
+        whitelist:
+          tags:
+          - PlushieCarpHolo
     sprite: Objects/Specific/Janitorial/janitorial.rsi
   - type: Transform
     noRot: true
@@ -65,14 +73,19 @@
             - PlushieSharkPink
             - PlushieSharkGrey
             - PlushieCarp
+            - PlushieCarpHolo
+            - PlushieCarpMagi
           components:
             - Rehydratable
         priority: 3 # Higher than drinking priority
   - type: ReactiveContainer
     solution: bucket
     container: item_slot
-  - type: Drink
+  - type: Edible
+    edible: Drink
     solution: bucket
+    destroyOnEmpty: false
+    utensil: Spoon
   - type: Appearance
   - type: SolutionContainerVisuals
     maxFillLevels: 3
@@ -125,6 +138,18 @@
             - ReagentId: Water
               Quantity: 600
 
+- type: entity
+  parent: BaseWrappedCube
+  name: mop bucket cube
+  id: MopBucketCubeWrapped
+  description: Unwrap this to get a mop bucket cube.
+  components:
+  - type: SpawnItemsOnUse
+    items:
+    - id: MopBucketCube
+  - type: Sprite
+    state: wrapper
+
 # Janicart
 - type: entity
   name: janitorial trolley
@@ -165,7 +190,7 @@
           whitelist:
             tags:
               - Plunger
-              - GoldenPlunger # DS14
+              - GoldenPlunger
           priority: 8
         wetfloorsign_slot4:
           name: janitorial-trolley-slot-component-slot-name-sign
@@ -276,12 +301,10 @@
           whitelist:
             tags:
               - Plunger
-        # DS14-start
-        cart_plunger_golden:
+        cart_goldenplunger:
           whitelist:
             tags:
             - GoldenPlunger
-        # DS14-end
         cart_mop:
           whitelist:
             tags:
@@ -341,8 +364,11 @@
       interfaces:
         enum.StorageUiKey.Key:
           type: StorageBoundUserInterface
-    - type: Drink
+    - type: Edible
+      edible: Drink
       solution: bucket
+      destroyOnEmpty: false
+      utensil: Spoon
     - type: ContainerContainer
       containers:
         storagebase: !type:Container
@@ -351,6 +377,7 @@
         trashbag_slot: !type:ContainerSlot {}
         bucket_slot: !type:ContainerSlot {}
         plunger_slot: !type:ContainerSlot {}
+        goldenplunger_slot: !type:ContainerSlot {}
         wetfloorsign_slot4: !type:ContainerSlot {}
         wetfloorsign_slot3: !type:ContainerSlot {}
         wetfloorsign_slot2: !type:ContainerSlot {}

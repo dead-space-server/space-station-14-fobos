@@ -1,12 +1,12 @@
-# Имена
-chat-emote-name-bubbling = Пузыриться (Слаймолюд)
-chat-emote-name-pop = Издать хлопок (Слаймолюд)
-chat-emote-name-hiss = Шипеть (Кот)
-chat-emote-name-meow = Мяукнуть (Кот)
-chat-emote-name-mew = Мявкнуть (Фелинид)
-chat-emote-name-purr = Мурлыкать (Фелинид)
-chat-emote-name-growl = Рычать (Вульпканин)
-chat-emote-name-howl = Выть (Вульпканин)
+# Слаймолюд
+chat-emote-name-bubbling = Пузыриться
+chat-emote-name-pop = Издать хлопок
+# Фелинид
+chat-emote-name-hiss = Шипеть
+chat-emote-name-meow = Мяукнуть
+chat-emote-name-mew = Мявкнуть
+chat-emote-name-purr = Мурлыкать
+# Анимации
 chat-emote-name-workout = Качаться
 chat-emote-name-flip = Сделать сальто
 chat-emote-name-jump = Прыгнуть
@@ -20,8 +20,6 @@ chat-emote-msg-hiss = шипит
 chat-emote-msg-meow = мяукает
 chat-emote-msg-mew = мявкает
 chat-emote-msg-purr = мурлычет
-chat-emote-msg-growl = рычит
-chat-emote-msg-howl = воет
 chat-emote-msg-workout = качается
 chat-emote-msg-flip = делает сальто
 chat-emote-msg-jump = прыгает

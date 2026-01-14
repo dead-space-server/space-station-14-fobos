@@ -1,0 +1,213 @@
+# Гипо Медика и сумка
+- type: entity
+  parent: BaseItem
+  id: BSAAHypo
+  name: гипоспрей АПБТ
+  description: Спроектированный на основе боевого стандарта NT инструмент быстрого впрыска с уменьшенным объёмом.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/misc/bsaa-hypo.rsi
+    state: icon
+  - type: Item
+    sprite: _DeadSpace/Necromorfs/BSAA/misc/bsaa-hypo.rsi
+  - type: SolutionContainerManager
+    solutions:
+      hypospray:
+        maxVol: 20
+  - type: RefillableSolution
+    solution: hypospray
+  - type: ExaminableSolution
+    solution: hypospray
+  - type: Hypospray
+    onlyAffectsMobs: false
+  - type: UseDelay
+    delay: 1.0
+
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBSAABackpack
+  name: рюкзак бойца АПБТ
+  components:
+  - type: Sprite
+    sprite: _ADT/Clothing/Back/ussp_attaked_backpack.rsi
+  - type: Storage
+    grid:
+    - 0,0,9,5
+  - type: Tag
+    tags: []
+  - type: ExplosionResistance
+    damageCoefficient: 0.1
+
+- type: entity
+  id: BSAAloadout
+  name: кейс неопределённости
+  description: Прочный военный кейс для оружия. Принадлежит отряду АПБТ. 
+  suffix: АПБТ, Основное
+  parent: BaseERTloadoutPrimary
+  components:
+  - type: Sprite
+    state: cburn
+  - type: ThiefUndeterminedBackpack
+    possibleSets:
+    - SAIGA12Set
+    - VereskAndVANTSet
+    - AbakanSet
+  - type: ActivatableUI
+    key: enum.ThiefBackpackUIKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.ThiefBackpackUIKey.Key:
+        type: ThiefBackpackBoundUserInterface
+
+## Лодауты
+
+- type: thiefBackpackSet
+  id: SAIGA12Set
+  name: Набор Сойдаж-12
+  description: В данный набор входит новейшая разработка NT по заказу КСО для особого отряда — Сойдаж-12 — скорострельный магазинный дробовик с убойной силой, способный раздробить кости посмевших напасть биотеррористов.
+  sprite:
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/saiga12/saiga12.rsi
+    state: icon
+  content:
+  - WeaponSAIGA12
+  - MagazineForSAIGA12
+  - MagazineForSAIGA12
+  - MagazineForSAIGA12
+  - MagazineForSAIGA12
+  - DrumForSAIGA12
+  - MagazineForSAIGA12Burn
+  - MagazineForSAIGA12Burn
+  - MagazineForSAIGA12Burn
+  - MagazineForSAIGA12Burn
+  - DrumForSAIGA12Burn
+  - BoxShotgunIncendiary
+  - BoxLethalshot
+
+- type: thiefBackpackSet
+  id: VereskAndVANTSet
+  name: Набор СР-2 Керск и щит ВАНТ
+  description: В данный набор входит контрабандное вооружение, модифицированное инженерами NT под нужды особого отряда — безгильзовый пистолет-пулемёт СР-2 Керск и универсальный бронещит ВАНТ-ВМ, отличающийся своим тяжёлым весом в угоду защищённости. Искорените биотерроризм оружием отточеным на быстрое убийство.
+  sprite:
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/vant/vant.rsi
+    state: icon
+  content:
+  - VantShield
+  - WeaponVeresk
+  - MagazineCaselessRifle
+  - MagazineCaselessRifle
+  - MagazineCaselessRifle
+  - MagazineCaselessRifle
+  - MagazineCaselessRifleBurn
+  - MagazineCaselessRifleBurn
+  - MagazineCaselessRifleBurn
+  - MagazineCaselessRifleBurn
+  - MagazineCaselessRifleBurn
+  - MagazineCaselessRifleBurn
+  - MagazineCaselessRifleBurn
+  - MagazineCaselessRifleBurn
+  - MagazineBoxCaselessRifle
+  - MagazineBoxCaselessRifle
+
+- type: thiefBackpackSet
+  id: AbakanSet
+  name: Набор М8 "Арес"
+  description: В данный набор входит вооружение, модифицированное инженерами NT под нужды особого отряда — автомат М8 "Арес". Искорените биотерроризм оружием отточеным на быстрое убийство.
+  sprite:
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/abakan/icon.rsi
+    state: icon
+  content:
+  - WeaponRifleAbakan
+  - ADTExtMagazineRifle
+  - ADTExtMagazineRifle
+  - ADTExtMagazineRifle
+  - ADTExtMagazineRifle
+  - ADTExtMagazineRifle
+  - ExtMagazineRifleBurn
+  - ExtMagazineRifleBurn
+  - ExtMagazineRifleBurn
+  - ExtMagazineRifleBurn
+  - ExtMagazineRifleBurn
+  - MagazineBoxRifleIncendiary
+  - MagazineBoxRifleIncendiary
+  - MagazineBoxRifle
+  - MagazineBoxRifle
+
+# плюшка
+
+- type: entity
+  parent: BasePlushie
+  id: EventPlushieEsther
+  name: плюшевая Эстер цум Афслёйтдейк
+  description: FUCKED UP HEAD AND BPD GIRL I KNOW YOU WANTED ME. Хочется пожать ей руку.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/plushies.rsi
+    state: plushie_esther
+  - type: TTS
+    voice: Lunara
+  - type: EmitSoundOnUse
+    sound: 
+      path: /Audio/Ambience/Antag/nukeops_start.ogg
+      params:
+        volume: -2
+  - type: EmitSoundOnActivate
+    sound: 
+      path: /Audio/Ambience/Antag/nukeops_start.ogg
+      params:
+        volume: -2
+  - type: EmitSoundOnTrigger
+    sound: 
+      path: /Audio/Ambience/Antag/nukeops_start.ogg
+      params:
+        volume: -2
+  - type: UseDelay
+    delay: 15.0
+
+- type: entity
+  id: WeaponryTechFabBSAA
+  parent: BaseLatheLube
+  name: оружейный техфаб АПБТ
+  description: С него так и веет жаром.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/techfab.rsi
+    layers:
+    - state: icon
+      map: ["enum.LatheVisualLayers.IsRunning"]
+    - state: sec
+    - state: unlit
+      shader: unshaded
+      map: ["enum.PowerDeviceVisualLayers.Powered"]
+    - state: inserting
+      map: ["enum.MaterialStorageVisualLayers.Inserting"]
+    - state: panel
+      map: ["enum.WiresVisualLayers.MaintenancePanel"]
+  - type: Machine
+    board: WeaponryTechFabCircuitboardBSAA
+  - type: Lathe
+    idleState: icon
+    runningState: icon
+    staticPacks:
+    - BSAAAmmoStatic
+  - type: MaterialStorage
+    whitelist:
+      tags:
+        - Sheet
+        - RawMaterial
+        - Ingot
+  - type: OreSiloClient
+
+- type: entity
+  id: WeaponryTechFabCircuitboardBSAA
+  parent: BaseMachineCircuitboard
+  name: оружейный ТехФаб АПБТ (машинная плата)
+  description: Печатная плата оружейного ТехФаба.
+  components:
+  - type: MachineBoard
+    prototype: WeaponryTechFabBSAA
+    stackRequirements:
+      Manipulator: 4
+    tagRequirements:
+      GlassBeaker:
+        amount: 2
+        defaultPrototype: Beaker

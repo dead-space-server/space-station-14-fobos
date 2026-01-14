@@ -1,5 +1,4 @@
-using Content.Client.Gameplay;
-using Content.Client.Info;
+using Content.Client._Donate.Emerald;
 using Robust.Client.Input;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controllers;
@@ -22,11 +21,15 @@ public sealed class CloseAllWindowsUIController : UIController
 
     private void CloseAllWindows()
     {
-        foreach (var childControl in new List<Control>(_uiManager.WindowRoot.Children)) // Copy children list as it will be modified on Close()
+        foreach (var childControl in new List<Control>(_uiManager.WindowRoot.Children))
         {
-            if (childControl is BaseWindow)
+            if (childControl is BaseWindow baseWindow)
             {
-                ((BaseWindow) childControl).Close();
+                baseWindow.Close();
+            }
+            else if (childControl is EmeraldBaseWindow emeraldWindow)
+            {
+                emeraldWindow.Close();
             }
         }
     }

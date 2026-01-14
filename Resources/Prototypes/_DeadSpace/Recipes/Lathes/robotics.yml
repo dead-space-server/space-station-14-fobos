@@ -1,9 +1,12 @@
 - type: latheRecipe
   parent: BaseGoldBorgModuleRecipe
-  id: BorgModuleAdvancedMining
-  result: BorgModuleAdvancedMining
-
-- type: latheRecipe
-  parent: BaseGoldBorgModuleRecipe
   id: BorgModuleMiningWeapon
   result: BorgModuleMiningWeapon
+
+- type: latheRecipe
+  id: Nanopaste
+  result: Nanopaste1
+  completetime: 1
+  materials:
+    Steel: 25
+    Plastic: 25

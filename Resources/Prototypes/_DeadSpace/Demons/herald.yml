@@ -62,6 +62,8 @@
     name: ghost-role-information-heraldghost-name
     description: ghost-role-information-heraldghost-description
     rules: ghost-role-information-heraldghost-rules
+    raffle:
+      settings: default
   - type: Vocal
     sounds:
       Male: Demon
@@ -69,3 +71,7 @@
       Unsexed: Demon
   - type: TTS
     voice: Volibear
+  #DS14-start
+  - type: GhostRoleNotifys 
+    groupPrototype: DemonBoss
+  #DS14-end

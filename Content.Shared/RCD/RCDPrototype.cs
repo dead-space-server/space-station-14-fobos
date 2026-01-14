@@ -6,7 +6,7 @@ using Robust.Shared.Utility;
 namespace Content.Shared.RCD;
 
 /// <summary>
-/// Contains the parameters for a RCD construction / operation
+/// Contains the parameters for an RCD construction / operation
 /// </summary>
 [Prototype("rcd")]
 public sealed partial class RCDPrototype : IPrototype
@@ -36,7 +36,7 @@ public sealed partial class RCDPrototype : IPrototype
     /// Texture path for this prototypes menu icon
     /// </summary>
     [DataField, ViewVariables(VVAccess.ReadOnly)]
-    public SpriteSpecifier? Sprite { get; private set; } = null;
+    public SpriteSpecifier? Sprite { get; private set; }
 
     /// <summary>
     /// The entity prototype that will be constructed (mode dependent)
@@ -68,10 +68,10 @@ public sealed partial class RCDPrototype : IPrototype
     /// The visual effect that plays during this operation
     /// </summary>
     [DataField("fx"), ViewVariables(VVAccess.ReadOnly)]
-    public EntProtoId? Effect { get; private set; } = null;
+    public EntProtoId? Effect { get; private set; }
 
     /// <summary>
-    /// A list of rules that govern where the entity prototype can be contructed
+    /// A list of rules that govern where the entity prototype can be constructed
     /// </summary>
     [DataField("rules"), ViewVariables(VVAccess.ReadOnly)]
     public HashSet<RcdConstructionRule> ConstructionRules { get; private set; } = new();
@@ -92,10 +92,7 @@ public sealed partial class RCDPrototype : IPrototype
     [DataField, ViewVariables(VVAccess.ReadOnly)]
     public Box2? CollisionBounds
     {
-        get
-        {
-            return _collisionBounds;
-        }
+        get => _collisionBounds;
 
         private set
         {
@@ -111,13 +108,13 @@ public sealed partial class RCDPrototype : IPrototype
         }
     }
 
-    private Box2? _collisionBounds = null;
+    private Box2? _collisionBounds;
 
     /// <summary>
     /// The polygon shape associated with the prototype CollisionBounds (if set)
     /// </summary>
     [ViewVariables(VVAccess.ReadOnly)]
-    public PolygonShape? CollisionPolygon { get; private set; } = null;
+    public PolygonShape? CollisionPolygon { get; private set; }
 
     /// <summary>
     /// Governs how the local rotation of the constructed entity will be set

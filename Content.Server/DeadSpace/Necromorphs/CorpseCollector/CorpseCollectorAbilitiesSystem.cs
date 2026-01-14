@@ -12,7 +12,6 @@ using Robust.Shared.Map;
 using Content.Shared.DeadSpace.Necromorphs.CorpseCollector;
 using Content.Shared.DeadSpace.Necromorphs.CorpseCollector.Components;
 using Content.Shared.Inventory;
-using Content.Server.Inventory;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 using Content.Server.Ghost.Roles.Components;
 using Content.Server.Ghost.Roles;
@@ -21,6 +20,11 @@ using Content.Shared.Physics;
 using Content.Shared.Maps;
 using Robust.Server.GameObjects;
 using Content.Shared.Damage;
+using Robust.Shared.Player;
+using Robust.Shared.Prototypes;
+using Content.Shared.Random;
+using Content.Shared.Random.Helpers;
+using Robust.Shared.Random;
 
 namespace Content.Server.DeadSpace.Necromorphs;
 
@@ -33,11 +37,16 @@ public sealed class CorpseCollectorAbilitiesSystem : SharedCorpseCollectorSystem
     [Dependency] private readonly MovementSpeedModifierSystem _movement = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly InventorySystem _inventorySystem = default!;
-    [Dependency] private readonly ServerInventorySystem _inventory = default!;
     [Dependency] private readonly SharedMindSystem _mindSystem = default!;
     [Dependency] private readonly PhysicsSystem _physics = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly DamageableSystem _damage = default!;
+    [Dependency] private readonly TurfSystem _turf = default!;
+    [Dependency] private readonly GhostRoleSystem _ghost = default!;
+    [Dependency] private readonly ISharedPlayerManager _player = default!;
+    [Dependency] private readonly IPrototypeManager _proto = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+
     public override void Initialize()
     {
         base.Initialize();
@@ -49,10 +58,12 @@ public sealed class CorpseCollectorAbilitiesSystem : SharedCorpseCollectorSystem
         SubscribeLocalEvent<CorpseCollectorComponent, AbsorptionDeadNecroDoAfterEvent>(OnDoAfter);
         SubscribeLocalEvent<CorpseCollectorComponent, SpawnLeviathanActionEvent>(OnSpawnLeviathan);
     }
+
     private void OnComponentInit(EntityUid uid, CorpseCollectorComponent component, ComponentInit args)
     {
         _actions.AddAction(uid, ref component.ActionAbsorptionDeadNecroEntity, component.ActionAbsorptionDeadNecro, uid);
         _actions.AddAction(uid, ref component.ActionSpawnPointEntity, component.ActionSpawnPointNecro, uid);
+        UpdateState(uid, component);
     }
 
     private void OnShutdown(EntityUid uid, CorpseCollectorComponent component, ComponentShutdown args)
@@ -61,12 +72,13 @@ public sealed class CorpseCollectorAbilitiesSystem : SharedCorpseCollectorSystem
         _actions.RemoveAction(uid, component.ActionSpawnPointEntity);
         _actions.RemoveAction(uid, component.ActionSpawnLeviathanEntity);
     }
+
     private void OnSpawnLeviathan(EntityUid uid, CorpseCollectorComponent component, SpawnLeviathanActionEvent args)
     {
         if (args.Handled)
             return;
 
-        var tileref = Transform(uid).Coordinates.GetTileRef();
+        var tileref = _turf.GetTileRef(Transform(uid).Coordinates);
         if (tileref != null)
         {
             if (_physics.GetEntitiesIntersectingBody(uid, (int)CollisionGroup.Impassable).Count > 0)
@@ -91,11 +103,12 @@ public sealed class CorpseCollectorAbilitiesSystem : SharedCorpseCollectorSystem
         }
 
         var id = ghostRoleComponent.Identifier;
-        var session = mind.Session;
+        if (!_player.TryGetSessionById(mind.UserId, out var session))
+            return;
 
         if (session != null)
         {
-            EntityManager.EntitySysManager.GetEntitySystem<GhostRoleSystem>().Takeover(session, id);
+            _ghost.Takeover(session, id);
         }
         else
         {
@@ -104,6 +117,7 @@ public sealed class CorpseCollectorAbilitiesSystem : SharedCorpseCollectorSystem
 
         QueueDel(uid);
     }
+
     private void DoAbsorption(EntityUid uid, CorpseCollectorComponent component, AbsorptionDeadNecroActionEvent args)
     {
         if (args.Handled)
@@ -142,30 +156,10 @@ public sealed class CorpseCollectorAbilitiesSystem : SharedCorpseCollectorSystem
 
     private void SpawnPointNecro(CorpseCollectorComponent component, EntityCoordinates coordinates)
     {
-        if (component.MobIds.Length != component.SpawnChances.Length || component.MobIds.Length == 0 || component.SpawnChances.Length == 0)
-        {
-            throw new ArgumentException("Invalid input arrays");
-        }
-
-        Random random = new Random();
-
-        // Генерируем случайное число от 0 до 100
-        float randomValue = (float)random.NextDouble() * 100f;
-
-        float cumulativeChance = 0f;
-        for (int i = 0; i < component.MobIds.Length; i++)
-        {
-            cumulativeChance += component.SpawnChances[i];
-
-            // Проверяем, в какой диапазон попало случайное число
-            if (randomValue <= cumulativeChance)
-            {
-                // Спауним моба с соответствующим ID
-                Spawn(component.MobIds[i], coordinates);
-                break;
-            }
-        }
+        var spawn = _proto.Index<WeightedRandomEntityPrototype>(component.MobIds).Pick(_random);
+        Spawn(spawn, coordinates);
     }
+
     private void CheckAbsorption(EntityUid uid, CorpseCollectorComponent component, EntityUid target)
     {
         if (!HasComp<NecromorfComponent>(target))
@@ -273,7 +267,8 @@ public sealed class CorpseCollectorAbilitiesSystem : SharedCorpseCollectorSystem
             _appearance.SetData(uid, CorpseCollectorVisuals.lvl2, false);
             _appearance.SetData(uid, CorpseCollectorVisuals.lvl3, false);
             _appearance.SetData(uid, CorpseCollectorVisuals.lvl1, true);
-            _damage.SetDamageModifierSetId(uid, "CorpseCollectorLvl1");
+            if (TryComp<DamageableComponent>(uid, out var damageable))
+                _damage.SetDamageModifierSetId(uid, "CorpseCollectorLvl1", damageable);
             _actions.RemoveAction(uid, component.ActionSpawnLeviathanEntity);
         }
         if (countAbsorptions > shag && countAbsorptions < shag * 2)
@@ -281,7 +276,8 @@ public sealed class CorpseCollectorAbilitiesSystem : SharedCorpseCollectorSystem
             _appearance.SetData(uid, CorpseCollectorVisuals.lvl2, true);
             _appearance.SetData(uid, CorpseCollectorVisuals.lvl3, false);
             _appearance.SetData(uid, CorpseCollectorVisuals.lvl1, false);
-            _damage.SetDamageModifierSetId(uid, "CorpseCollectorLvl2");
+            if (TryComp<DamageableComponent>(uid, out var damageable))
+                _damage.SetDamageModifierSetId(uid, "CorpseCollectorLvl2", damageable);
             _actions.RemoveAction(uid, component.ActionSpawnLeviathanEntity);
         }
         if (countAbsorptions > shag * 2)
@@ -289,7 +285,8 @@ public sealed class CorpseCollectorAbilitiesSystem : SharedCorpseCollectorSystem
             _appearance.SetData(uid, CorpseCollectorVisuals.lvl2, false);
             _appearance.SetData(uid, CorpseCollectorVisuals.lvl3, true);
             _appearance.SetData(uid, CorpseCollectorVisuals.lvl1, false);
-            _damage.SetDamageModifierSetId(uid, "CorpseCollectorLvl3");
+            if (TryComp<DamageableComponent>(uid, out var damageable))
+                _damage.SetDamageModifierSetId(uid, "CorpseCollectorLvl3", damageable);
             _actions.AddAction(uid, ref component.ActionSpawnLeviathanEntity, component.ActionSpawnLeviathan, uid);
         }
     }

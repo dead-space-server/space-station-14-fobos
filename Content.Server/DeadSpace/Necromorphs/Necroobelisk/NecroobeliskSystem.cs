@@ -17,6 +17,8 @@ using Content.Server.Beam;
 using Content.Server.GameTicking.Rules.Components;
 using Content.Server.Station.Systems;
 using Content.Shared.Audio;
+using Content.Server.RoundEnd;
+using Content.Server.DeadSpace.Necromorphs.Unitology;
 
 namespace Content.Server.DeadSpace.Necromorphs.Necroobelisk;
 
@@ -29,6 +31,7 @@ public sealed class NecroobeliskSystem : SharedNecroobeliskSystem
     [Dependency] private readonly IAdminManager _adminManager = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly BeamSystem _beam = default!;
+    [Dependency] private readonly RoundEndSystem _roundEnd = default!;
 
     public override void Initialize()
     {
@@ -55,9 +58,15 @@ public sealed class NecroobeliskSystem : SharedNecroobeliskSystem
 
     private void DoAppearanceMoon(EntityUid uid, NecroobeliskComponent component, NecroMoonAppearanceEvent args)
     {
-        var ev = new EndStageConvergenceEvent();
+        var ev = new SpawnNecroMoonEvent();
         var query = AllEntityQuery<UnitologyRuleComponent>();
         while (query.MoveNext(out var rule, out _))
+        {
+            RaiseLocalEvent(rule, ref ev);
+        }
+
+        var query2 = AllEntityQuery<CircleOpsRuleComponent>();
+        while (query2.MoveNext(out var rule, out _))
         {
             RaiseLocalEvent(rule, ref ev);
         }
@@ -80,7 +89,16 @@ public sealed class NecroobeliskSystem : SharedNecroobeliskSystem
 
     private void OnDestruction(EntityUid uid, NecroobeliskComponent component, DestructionEventArgs args)
     {
-        GlobalWarn(uid, component, "uni-centcomm-announcement-obelisk-was-destroyed", Color.Green);
+        if (!component.EndAfterDestroy)
+            return;
+
+        _roundEnd.RequestRoundEnd(
+            TimeSpan.FromMinutes(1),
+            requester: null,
+            checkCooldown: false,
+            text: "uni-centcomm-announcement-obelisk-was-destroyed",
+            name: "round-end-system-shuttle-sender-announcement"
+        );
     }
 
     private void OnMapInit(EntityUid uid, NecroobeliskComponent component, MapInitEvent args)
@@ -101,8 +119,7 @@ public sealed class NecroobeliskSystem : SharedNecroobeliskSystem
         stationFilter.AddPlayersByPvs(uid, entityManager: EntityManager);
         RaiseNetworkEvent(msg, stationFilter);
 
-        Timer.Spawn(20000,
-        () => _chatSystem.DispatchGlobalAnnouncement(Loc.GetString(str), playSound: true, colorOverride: color));
+        _chatSystem.DispatchGlobalAnnouncement(Loc.GetString(str), playSound: true, colorOverride: color);
     }
     private void OnSeverityChanged(EntityUid uid, NecroobeliskComponent component, ref NecroobeliskPulseEvent args)
     {

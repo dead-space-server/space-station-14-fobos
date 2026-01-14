@@ -1,28 +1,48 @@
 - type: entity
   parent: ClothingBackpackDuffelSyndicateBundle
   id: ClothingBackpackDuffelSyndicateFilledSMGTommyGun
-  components: 
+  components:
   - type: StorageFill
     contents:
-      - id: WeaponSMGTommyGun
-      - id: MagazineTommyGun
+      - id: WeaponSMGTommyGunFMJ
+      - id: MagazineTommyGunFMJ
         amount: 3
 
-- type: entity 
+- type: entity
   parent: ClothingBackpackDuffelSyndicateBundle
   id: ClothingBackpackDuffelSyndicateFilledSMGTommyGunAgent
-  components: 
+  components:
   - type: StorageFill
     contents:
-      - id: WeaponSMGTommyGun
-      - id: MagazineTommyGun
+      - id: WeaponSMGTommyGunFMJ
+      - id: MagazineTommyGunFMJ
         amount: 1
 
 - type: entity
   parent: ClothingBackpackDuffelSyndicateBundle
   id: ClothingBackpackDuffelSyndicateFilledSMGTommyGunAmmoXL
-  components: 
+  components:
   - type: StorageFill
     contents:
-      - id: MagazineDrumTommyGun
+      - id: MagazineDrumTommyGunFMJ
         amount: 3
+
+- type: entity
+  parent: ClothingBackpackDuffelSyndicateBundle
+  id: ClothingBackpackDuffelSyndicateFilledCarbineSKS
+  components:
+  - type: StorageFill
+    contents:
+      - id: WeaponCarbineSKS
+      - id: MagazineCarbineSKS
+        amount: 4
+
+- type: entity
+  parent: ClothingBackpackDuffelSyndicateBundle
+  id: ClothingBackpackDuffelSyndicateFilledCarbineSKSAgent
+  components:
+  - type: StorageFill
+    contents:
+      - id: WeaponCarbineSKS
+      - id: MagazineCarbineSKS
+        amount: 1

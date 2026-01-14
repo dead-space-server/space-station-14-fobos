@@ -24,7 +24,7 @@ using Content.Shared.DeadSpace.Abilities.Invisibility.Components;
 using Content.Shared.DeadSpace.Demons.Abilities.Components;
 using Content.Shared.Charges.Components;
 using Content.Shared.Electrocution;
-using Content.Shared.DeadSpace.NightVision;
+using Content.Server.DeadSpace.Components.NightVision;
 using Content.Shared.Movement.Pulling.Components;
 using Content.Shared.Mobs;
 using Content.Shared.Damage.Components;
@@ -43,15 +43,15 @@ public sealed partial class NecromorfSystem : SharedInfectionDeadSystem
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
+    private static readonly Color NecromorphVisionColor = new(110f / 255f, 0f, 0f, 0.067f);
 
     public override void Initialize()
     {
         base.Initialize();
 
         SubscribeLocalEvent<NecromorfComponent, ComponentStartup>(OnStartup);
-        SubscribeLocalEvent<NecromorfComponent, EmoteEvent>(OnEmote, before:
-            new[] { typeof(VocalSystem), typeof(BodyEmotesSystem) });
-
+//        SubscribeLocalEvent<NecromorfComponent, EmoteEvent>(OnEmote, before:
+//            new[] { typeof(VocalSystem), typeof(BodyEmotesSystem) });
         SubscribeLocalEvent<NecromorfComponent, TryingToSleepEvent>(OnSleepAttempt);
         SubscribeLocalEvent<NecromorfComponent, GetCharactedDeadIcEvent>(OnGetCharacterDeadIC);
         SubscribeLocalEvent<NecromorfComponent, IsEquippingAttemptEvent>(OnEquipAttempt);
@@ -130,18 +130,15 @@ public sealed partial class NecromorfSystem : SharedInfectionDeadSystem
 
     private void OnStartup(EntityUid uid, NecromorfComponent component, ComponentStartup args)
     {
-        if (component.EmoteSoundsId == null)
-            return;
-
-        _protoManager.TryIndex(component.EmoteSoundsId, out component.EmoteSounds);
-    }
-
-    private void OnEmote(EntityUid uid, NecromorfComponent component, ref EmoteEvent args)
-    {
-        if (args.Handled)
-            return;
-
-        args.Handled = _chat.TryPlayEmoteSound(uid, component.EmoteSounds, args.Emote);
+//       _protoManager.TryIndex(component.EmoteSoundsId, out component.EmoteSounds);
+//   }
+//
+//   private void OnEmote(EntityUid uid, NecromorfComponent component, ref EmoteEvent args)
+//   {
+//       if (args.Handled)
+//           return;
+//
+//       args.Handled = _chat.TryPlayEmoteSound(uid, component.EmoteSounds, args.Emote);
     }
 
     public void ApplyVirusStrain(EntityUid uid, NecromorfComponent component)
@@ -158,19 +155,18 @@ public sealed partial class NecromorfSystem : SharedInfectionDeadSystem
         if (!HasComp<DemonDashComponent>(uid) && VirusEffectsConditions.HasEffect(component.StrainData.Effects, VirusEffects.Dash))
         {
             AddComp<DemonDashComponent>(uid);
-            var lcc = new LimitedChargesComponent(1, 1);
-
-            if (HasComp<LimitedChargesComponent>(uid))
-                RemComp<LimitedChargesComponent>(uid);
-
-            AddComp(uid, lcc);
+            if (!HasComp<LimitedChargesComponent>(uid))
+                AddComp<LimitedChargesComponent>(uid);
         }
 
         if (!HasComp<InsulatedComponent>(uid) && VirusEffectsConditions.HasEffect(component.StrainData.Effects, VirusEffects.Insulated))
             AddComp<InsulatedComponent>(uid);
 
         if (!HasComp<NightVisionComponent>(uid) && VirusEffectsConditions.HasEffect(component.StrainData.Effects, VirusEffects.NightVision))
-            AddComp<NightVisionComponent>(uid);
+        {
+            var nvComp = new NightVisionComponent(NecromorphVisionColor);
+            AddComp(uid, nvComp);
+        }
 
         if (!HasComp<ReleaseGasPerSecondComponent>(uid) && VirusEffectsConditions.HasEffect(component.StrainData.Effects, VirusEffects.EmitGas))
         {

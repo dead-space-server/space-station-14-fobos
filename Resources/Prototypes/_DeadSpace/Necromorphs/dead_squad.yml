@@ -98,6 +98,8 @@
 
 - type: damageModifierSet
   id: DeadSquadNecro
+  armorLvls:
+    Piercing: 3
   coefficients:
     Blunt: 0.4
     Slash: 0.4
@@ -124,14 +126,19 @@
     - CannotSuicide
     - DoorBumpOpener
     - FootstepSound
-  - type: ReplacementAccent
-    accent: genericAggressive
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
   - type: Damageable
     damageModifierSet: DeadSquadNecro
   - type: Loadout
     prototypes: [DeadSquadNecroGear]
   - type: Hands
   - type: NightVision
+    animation: true
+    color: "#6E000011"
+    transitionSpeed: 100
   - type: Body
     prototype: MobDeadSquadNecro
     requiredLegs: 2

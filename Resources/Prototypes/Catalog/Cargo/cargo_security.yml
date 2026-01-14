@@ -4,9 +4,9 @@
     sprite: Clothing/OuterClothing/Armor/bulletproof.rsi
     state: icon
   product: CrateSecurityArmor
-  cost: 1000
+  cost: 15000 # DS14
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: SecurityHelmet
@@ -14,9 +14,9 @@
     sprite: Clothing/Head/Helmets/security.rsi
     state: icon
   product: CrateSecurityHelmet
-  cost: 750
+  cost: 750 # DS14
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: SecurityNonLethal
@@ -24,9 +24,9 @@
     sprite: Objects/Weapons/Guns/Battery/disabler.rsi
     state: base
   product: CrateSecurityNonlethal
-  cost: 3750
+  cost: 3750 # DS14
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: SecuritySupplies
@@ -34,9 +34,9 @@
     sprite: Objects/Storage/boxes.rsi
     state: box_security
   product: CrateSecuritySupplies
-  cost: 250
+  cost: 250 # DS14
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: SecurityRestraints
@@ -46,7 +46,7 @@
   product: CrateRestraints
   cost: 1000
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: SecurityBiosuit
@@ -54,9 +54,9 @@
     sprite: Clothing/Head/Hoods/Bio/security.rsi
     state: icon
   product: CrateSecurityBiosuit
-  cost: 1130
+  cost: 9000 # DS14
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: SecurityBarrier
@@ -66,7 +66,29 @@
   product: DeployableBarrier
   cost: 1000
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
+
+- type: cargoProduct
+  id: SecurityNonlethalThrowables
+  icon:
+    sprite: Objects/Weapons/Grenades/stingergrenade.rsi
+    state: icon
+  product: CrateSecNonlethalThrowables
+  cost: 2500
+  category: cargoproduct-category-name-security
+  group: security # DS14
+
+- type: cargoProduct
+  id: SecurityGenPopCloset
+  icon:
+    sprite: Structures/Storage/closet.rsi
+    state: genpop
+  product: LockerPrisoner
+  cost: 250
+  category: cargoproduct-category-name-security
+  group: security # DS14
+
+# DS14-start
 
 - type: cargoProduct
   id: SecurityHardsuit
@@ -76,7 +98,7 @@
   product: CrateSecurityHardsuit
   cost: 5000
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: SecurityUSSPjuggernaut
@@ -86,7 +108,7 @@
   product: CrateSecurityUSSPjuggernaut
   cost: 10000
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14
 
 - type: cargoProduct
   id: TrainingBombs
@@ -96,4 +118,4 @@
   product: CrateTrainingBombs
   cost: 1000
   category: cargoproduct-category-name-security
-  group: market
+  group: security # DS14

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "license": "CC-BY-SA-3.0",
-  "copyright": "Taken from skyrat-tg at https://github.com/Skyrat-SS13/Skyrat-tg/blob/068271b779be918cf3c73a816a60c1e5cdf8bfda/modular_skyrat/master_files/icons/mob/clothing/suit.dmi & inhand sprites by Morb0, resprite by pyfya (discord) for Space Station 14 server Мёртвый Космос",
+  "copyright": "Taken from skyrat-tg at https://github.com/Skyrat-SS13/Skyrat-tg/blob/068271b779be918cf3c73a816a60c1e5cdf8bfda/modular_skyrat/master_files/icons/mob/clothing/suit.dmi & inhand sprites by Morb0, resprite by pyfya and inspector_jeleshka (discord) for Space Station 14 server Мёртвый Космос",
   "size": {
     "x": 32,
     "y": 32
@@ -11,7 +11,14 @@
       "name": "icon"
     },
     {
+      "name": "icon-open"
+    },
+    {
       "name": "equipped-OUTERCLOTHING",
+      "directions": 4
+    },
+    {
+      "name": "open-equipped-OUTERCLOTHING",
       "directions": 4
     },
     {
@@ -20,6 +27,14 @@
     },
     {
       "name": "inhand-right",
+      "directions": 4
+    },
+    {
+      "name": "open-inhand-left",
+      "directions": 4
+    },
+    {
+      "name": "open-inhand-right",
       "directions": 4
     }
   ]

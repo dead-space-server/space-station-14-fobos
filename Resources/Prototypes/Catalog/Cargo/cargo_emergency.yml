@@ -74,6 +74,6 @@
     sprite: Clothing/Head/Hoods/Bio/general.rsi
     state: icon
   product: CrateGenericBiosuit
-  cost: 800
+  cost: 4000 # DS14
   category: cargoproduct-category-name-emergency
   group: market

@@ -33,3 +33,7 @@ ent-TorsoBorgSec = туловище киборга службы безопасн
     .desc = { ent-TorsoBorg.desc }
 ent-CyborgEndoskeletonSec = эндоскелет киборга службы безопасности
     .desc = Каркас, на котором собираются киборги службы безопасности. Значительно менее жуткий, чем ожидалось, но всеравно крепче классического эндоскелета.
+ent-BorgModuleArrestSecurityHandcuffPlaceholder = { ent-BaseItem }
+    .desc = { ent-BaseItem.desc }
+
+borg-slot-handcuffs-empty = наручники

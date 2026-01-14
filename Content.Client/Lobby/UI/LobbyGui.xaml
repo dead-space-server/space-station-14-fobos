@@ -23,10 +23,15 @@
                 <PanelContainer Name="TopPanel" MinWidth="722" StyleClasses="LobbyBackground" HorizontalExpand="True" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                     <BoxContainer Orientation="Vertical" HorizontalExpand="True" HorizontalAlignment="Stretch" Margin="8 8 8 8">
                         <BoxContainer Orientation="Horizontal" MinSize="0 40" HorizontalAlignment="Center">
+                            <!-- DS14-start -->
+                            <Button Name="ShowGUI" Text="Ø" MinSize="50 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            <!-- DS14-end -->
                             <Button Name="Rules" Text="{Loc 'server-info-rules-button'}" MinSize="125 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                             <Button Name="Guidebook" Text="{Loc 'server-info-guidebook-button'}" MinSize="125 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                             <changelog:ChangelogButton Name="Changelog" MinSize="125 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                            <Button Name="Wiki" Text="{Loc 'server-info-wiki-button'}" MinSize="125 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            <!-- DS14-start -->
+                            <Button Name="Wiki" Text="{Loc 'server-info-wiki-button'}" MinSize="75 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            <!-- DS14-end -->
                             <vote:VoteCallMenuButton Name="CallVoteButton" MinSize="125 10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                             <controls:VSpacer Spacing="25"/>
                             <TextureRect TextureScale="0.18 0.18" Stretch="KeepCentered" TexturePath="/Textures/Interface/main_logo.png" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
@@ -56,6 +61,8 @@
 
                             <Label Name="StationTime" Access="Public" FontColorOverride="{x:Static maths:Color.LightGray}" HorizontalAlignment="Left"/>
 
+                            <RichTextLabel Name="PlaytimeComment" Visible="False" Access="Public" HorizontalAlignment="Left" />
+
                             <controls:HLine Color="#404040" Thickness="1" Margin="0 5"/>
 
                             <lobbyUi:ServerListBox Name="ServerListBox" Access="Public" MinSize="0 30" VerticalExpand="True" HorizontalExpand="True" Margin="3 3 3 3" HorizontalAlignment="Stretch"/>
@@ -74,6 +81,7 @@
 
                             <Button Name="ReadyButton" Access="Public" ToggleMode="True" Text="{Loc 'ui-lobby-ready-up-button'}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinSize="250 50"/>
                             <cc:UICommandButton Command="observe" Name="ObserveButton" Access="Public" Text="{Loc 'ui-lobby-observe-button'}" WindowType="{x:Type lobbyUi:ObserveWarningWindow}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinSize="250 50"/>
+                            <Button Name="DonateButton" Access="Public" Text="MK ТЕРМИНАЛ" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinSize="250 50"/>
                             <Button Name="CharacterSetup" Access="Public" Text="{Loc 'lobby-character-preview-panel-character-setup-button'}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinSize="250 50"/>
                             <Button Name="OptionsButton" Access="Public" Text="{Loc 'ui-lobby-options-button'}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinSize="250 50"/>
                             <Button Name="LeaveButton" Access="Public" Text="{Loc 'ui-lobby-leave-button'}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinSize="250 50" />

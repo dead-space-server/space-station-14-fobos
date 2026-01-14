@@ -44,10 +44,10 @@
     spreadChance: 0.4
     damageRecovery:
       types:
-        Slash: -0.25
-        Heat: -0.50
-        Cold: -0.50
-        Blunt: -0.25
+        Slash: -0.2
+        Heat: -0.4
+        Cold: -0.4
+        Blunt: -0.2
   - type: Temperature
     heatDamage:
       types:
@@ -71,6 +71,7 @@
         Piercing: 1
     ignoreWhitelist:
       components:
+      - IgnoreKudzu
       - Necromorf
   - type: SpeedModifierContacts
     walkSpeedModifier: 0.2
@@ -78,3 +79,4 @@
     ignoreWhitelist:
       components:
       - Necromorf
+      - IgnoreKudzu

@@ -1,14 +1,15 @@
 - type: emote
   id: Sneeze
   name: chat-emote-name-sneeze
+  icon: _DeadSpace/Interface/Emotes/sneeze.png # DS14-icon
   category: Vocal
   whitelist:
     components:
     - Vocal
   blacklist:
-    components:
-    - BorgChassis
-    - ComputerEmotes
+    tags:
+    - SiliconEmotes
+    - SiliconIPCEmotes
   chatMessages: ["chat-emote-msg-sneeze"]
   chatTriggers:
     - чихает
@@ -22,15 +23,18 @@
     components:
     - Vocal
   blacklist:
-    components:
-    - BorgChassis
-    - ComputerEmotes
+    tags:
+    - SiliconEmotes
+    - SiliconIPCEmotes
   chatMessages: ["chat-emote-msg-cough"]
   chatTriggers:
     - cough
     - coughs
-    - coughed 
+    - coughed
     - cough.
+    # DS14-localization-start
+    - кашляет
+    # DS14-localization-end
 
 - type: emote
   id: CatMeow
@@ -65,13 +69,16 @@
     components:
     - Vocal
   blacklist:
-    components:
-    - BorgChassis
-    - ComputerEmotes
+    tags:
+    - SiliconEmotes
+    - SiliconIPCEmotes
   chatMessages: ["chat-emote-msg-yawn"]
   chatTriggers:
     - yawn
     - yawns
+    # DS14-localization-start
+    - зевает
+    # DS14-localization-end
 
 - type: emote
   id: Snore

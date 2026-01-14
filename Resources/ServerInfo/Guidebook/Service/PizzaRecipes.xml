@@ -1,9 +1,9 @@
 <Document>
 
-# Pizza Pies
+  # Пиццы
 
-Pizzas are a great way to prepare food for a large crew, as each pizza is 8 servings.
+  Каждая пицца состоит из 8 порций, так что на кучу народа - самое то!
 
-<GuideMicrowaveGroupEmbed Group="Pizza"/>
+  <GuideMicrowaveGroupEmbed Group="Pizza"/>
 
 </Document>

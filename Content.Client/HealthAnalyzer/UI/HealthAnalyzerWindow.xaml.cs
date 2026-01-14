@@ -110,13 +110,13 @@ namespace Content.Client.HealthAnalyzer.UI
 
             // Alerts
 
-            var showAlerts = msg.Unrevivable == true || msg.Bleeding == true;
+            var showAlerts = msg.Unrevivable == true || msg.Bleeding == true || msg.HasVirus == true;
 
             AlertsDivider.Visible = showAlerts;
             AlertsContainer.Visible = showAlerts;
 
             if (showAlerts)
-                AlertsContainer.DisposeAllChildren();
+                AlertsContainer.RemoveAllChildren();
 
             if (msg.Unrevivable == true)
                 AlertsContainer.AddChild(new RichTextLabel
@@ -133,6 +133,24 @@ namespace Content.Client.HealthAnalyzer.UI
                     Margin = new Thickness(0, 4),
                     MaxWidth = 300
                 });
+
+            // DS14-start
+            if (msg.HasVirus == true)
+            {
+
+                var percent = Math.Clamp(msg.CureProgress, 0f, 1f) * 100f;
+
+                AlertsContainer.AddChild(new RichTextLabel
+                {
+                    Text = Loc.GetString(
+                        "health-analyzer-window-entity-infected-text",
+                        ("progress", percent.ToString("F1"))
+                    ),
+                    Margin = new Thickness(0, 4),
+                    MaxWidth = 300
+                });
+            }
+            // DS14-end
 
             // Damage Groups
 

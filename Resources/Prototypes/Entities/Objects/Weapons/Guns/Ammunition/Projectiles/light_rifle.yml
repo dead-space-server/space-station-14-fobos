@@ -1,17 +1,19 @@
 - type: entity
   id: BulletLightRifle
-  name: bullet (.20 rifle)
+  name: bullet (.30 rifle)
   parent: BaseBullet
   categories: [ HideSpawnMenu ]
   components:
   - type: Projectile
     damage:
+      armorPiercingLevels:
+        Piercing: 3 # потому что калаш
       types:
         Piercing: 19
 
 - type: entity
   id: BulletLightRiflePractice
-  name: bullet (.20 rifle practice)
+  name: bullet (.30 rifle practice)
   parent: BaseBulletPractice
   categories: [ HideSpawnMenu ]
   components:
@@ -23,23 +25,27 @@
 - type: entity
   id: BulletLightRifleIncendiary
   parent: BaseBulletIncendiary
-  name: bullet (.20 rifle incendiary)
+  name: bullet (.30 rifle incendiary)
   categories: [ HideSpawnMenu ]
   components:
   - type: Projectile
     damage:
+      armorPiercingLevels:
+        Piercing: 1
       types:
-        Blunt: 3
-        Heat: 16
+        Piercing: 14
+        Heat: 5
 
 - type: entity
   id: BulletLightRifleUranium
   parent: BaseBulletUranium
-  name: bullet (.20 rifle uranium)
+  name: bullet (.30 rifle uranium)
   categories: [ HideSpawnMenu ]
   components:
   - type: Projectile
     damage:
+      armorPiercingLevels:
+        Piercing: 1
       types:
         Radiation: 9
         Piercing: 10

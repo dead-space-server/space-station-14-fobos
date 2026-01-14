@@ -1,8 +1,54 @@
+﻿- type: entity
+  parent: BaseThiefStealObjective
+  id: SmileExtractStealObjective
+  components:
+  - type: NotJobRequirement
+    job: Scientist
+  - type: StealCondition
+    stealGroup: SmileExtract
+  - type: Objective
+    difficulty: 0.5
+
 - type: entity
   parent: BaseThiefStealAnimalObjective
-  id: PolyStealObjective
+  id: MukhtarStealObjective
   components:
+  - type: NotJobRequirement
+    job: SecurityOfficer
   - type: StealCondition
-    stealGroup: AnimalPoly
+    stealGroup: AnimalMukhtar
   - type: Objective
-    difficulty: 1.5
+    difficulty: 2
+
+- type: entity
+  parent: BaseThiefStealAnimalObjective
+  id: PollyStealObjective
+  components:
+  - type: NotJobRequirement
+    job: StationEngineer
+  - type: StealCondition
+    stealGroup: AnimalPolly
+  - type: Objective
+    difficulty: 1
+
+- type: entity
+  parent: BaseThiefStealAnimalObjective
+  id: XenoMaidStealObjective
+  components:
+  - type: NotJobRequirement
+    job: Scientist
+  - type: StealCondition
+    stealGroup: AnimalXenoMaid
+  - type: Objective
+    difficulty: 1
+
+- type: entity
+  parent: BaseThiefStealAnimalObjective
+  id: LargoStealObjective
+  components:
+  - type: NotJobRequirement
+    job: CargoTechnician
+  - type: StealCondition
+    stealGroup: AnimalLargo
+  - type: Objective
+    difficulty: 1

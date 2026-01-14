@@ -3,8 +3,6 @@ using Content.Server.Administration.Logs;
 using Content.Server.Chat.Systems;
 using Content.Server.Interaction;
 using Content.Server.Power.EntitySystems;
-using Content.Server.Speech;
-using Content.Server.Speech.Components;
 using Content.Shared.Chat;
 using Content.Shared.Database;
 using Content.Shared.Labels.Components;
@@ -13,6 +11,7 @@ using Content.Shared.Power;
 using Content.Shared.Silicons.StationAi;
 using Content.Shared.Silicons.Borgs.Components;
 using Content.Shared.Speech;
+using Content.Shared.Speech.Components;
 using Content.Shared.Telephone;
 using Robust.Server.GameObjects;
 using Robust.Shared.Audio.Systems;
@@ -22,8 +21,7 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Replays;
 using System.Linq;
-using Content.Server.Emp;
-using Content.Shared.Emp;
+using Content.Shared.DeadSpace.Languages.Components;
 
 namespace Content.Server.Telephone;
 
@@ -52,14 +50,6 @@ public sealed class TelephoneSystem : SharedTelephoneSystem
         SubscribeLocalEvent<TelephoneComponent, ListenAttemptEvent>(OnAttemptListen);
         SubscribeLocalEvent<TelephoneComponent, ListenEvent>(OnListen);
         SubscribeLocalEvent<TelephoneComponent, TelephoneMessageReceivedEvent>(OnTelephoneMessageReceived);
-        SubscribeLocalEvent<TelephoneComponent, EmpPulseEvent>(OnEmpPulse);
-    }
-
-    private void OnEmpPulse(EntityUid uid, TelephoneComponent component, ref EmpPulseEvent args)
-    {
-        args.Disabled = true;
-        args.Affected = true;
-        TerminateTelephoneCalls((uid, component));
     }
 
     #region: Events
@@ -118,6 +108,15 @@ public sealed class TelephoneSystem : SharedTelephoneSystem
         // Determine if speech should be relayed via the telephone itself or a designated speaker
         var speaker = entity.Comp.Speaker != null ? entity.Comp.Speaker.Value.Owner : entity.Owner;
 
+        // DS14-start
+        // Это решение, как и все телефонные не является грамотным, но оно простое и быстрое 
+        if (entity.Comp.Speaker != null && TryComp<LanguageComponent>(args.MessageSource, out var language))
+        {
+            var speakerLanguahe = EnsureComp<LanguageComponent>(speaker);
+            speakerLanguahe.SelectedLanguage = language.SelectedLanguage;
+        }
+        // DS14-end
+
         var name = Loc.GetString("chat-telephone-name-relay",
             ("originalName", nameEv.VoiceName),
             ("speaker", Name(speaker)));
@@ -134,7 +133,7 @@ public sealed class TelephoneSystem : SharedTelephoneSystem
     {
         base.Update(frameTime);
 
-        var query = EntityManager.EntityQueryEnumerator<TelephoneComponent>();
+        var query = EntityQueryEnumerator<TelephoneComponent>();
         while (query.MoveNext(out var uid, out var telephone))
         {
             var entity = new Entity<TelephoneComponent>(uid, telephone);
@@ -222,9 +221,6 @@ public sealed class TelephoneSystem : SharedTelephoneSystem
         RaiseLocalEvent(source, ref evCallAttempt);
 
         if (evCallAttempt.Cancelled)
-            return false;
-
-        if (HasComp<EmpDisabledComponent>(source) || HasComp<EmpDisabledComponent>(receiver))
             return false;
 
         if (options?.ForceConnect == true)
@@ -354,7 +350,7 @@ public sealed class TelephoneSystem : SharedTelephoneSystem
         name = FormattedMessage.EscapeText(name);
 
         SpeechVerbPrototype speech;
-        if (ev.SpeechVerb != null && _prototype.TryIndex(ev.SpeechVerb, out var evntProto))
+        if (ev.SpeechVerb != null && _prototype.Resolve(ev.SpeechVerb, out var evntProto))
             speech = evntProto;
         else
             speech = _chat.GetSpeechVerb(messageSource, message);
@@ -503,6 +499,6 @@ public sealed class TelephoneSystem : SharedTelephoneSystem
 
     public bool IsTelephonePowered(Entity<TelephoneComponent> entity)
     {
-        return this.IsPowered(entity, EntityManager) || !entity.Comp.RequiresPower;
+        return this.IsPowered(entity, EntityManager);
     }
 }

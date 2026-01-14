@@ -20,7 +20,7 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 1
+        Slash: 1
         Poison: 8
   - type: MobThresholds
     thresholds:
@@ -50,6 +50,8 @@
     spawnedEntities: # В кого можно эволюционировать
       - MobSpiderTerrorQueenLvl2
   - type: SpiderKing
+  - type: Damageable
+    damageModifierSet: HeavySpiderTerror
 
 - type: entity
   name: королева пауков
@@ -73,7 +75,7 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 5
+        Slash: 5
         Poison: 12
   - type: MobThresholds
     thresholds:
@@ -146,7 +148,7 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 15
+        Slash: 15
         Poison: 15
         Structural: 40
   - type: MobThresholds
@@ -185,9 +187,9 @@
   - type: StunRadius
     actionStunRadius: ActionStunRadiusSpider
     paralyzeTime: 3 # Время стана
-    launchForwardsMultiplier: 1 # Длинна слодьжения после стана
     rangeStun: 5 # Радиус способности
     ignorAlien: true # Не трогать союзников
+    stunBorg: false
     stunRadiusSound:
       path: /Audio/Animals/space_dragon_roar.ogg #Звуки способности
   - type: Puller
@@ -205,7 +207,7 @@
       SpiderTomb: 50
       TelecomServerSpiderTerror: 200
       CocoonKingBloodSpider: 250
-      CocoonSpider: 10
+      CocoonSpider: 50
   - type: SpiderKing
   - type: Damageable
     damageModifierSet: HeadSpiderTerror

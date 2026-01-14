@@ -28,6 +28,9 @@
     damageModifierSet: Necromorf
   - type: Necromorf
   - type: NightVision
+    animation: true
+    color: "#6E000011"
+    transitionSpeed: 100
   - type: ImmunNecroobelisk
   - type: ZombieImmune
   - type: IgnoreKudzu
@@ -129,6 +132,10 @@
   - type: FireVisuals
     sprite: Mobs/Effects/onfire.rsi
     normalState: Mouse_burning
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: entity
   name: некроморф

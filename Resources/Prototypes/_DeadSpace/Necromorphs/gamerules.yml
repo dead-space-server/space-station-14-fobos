@@ -23,6 +23,7 @@
   requirements:
     - !type:OverallPlaytimeRequirement
       time: 432000 # 120 hours
+  guides: [ TheCircle ]
 
 - type: antag
   id: Uni
@@ -47,10 +48,6 @@
   - type: AntagLoadProfileRule
     speciesOverride: Human
     speciesOverrideBlacklist:
-    #Species that do not work with nukies should be included in this list.
-    #Once the issues are fixed the species should be removed from this list to be enabled.
-    #Balance concerns are not a valid reason to disable a species, except for high-impact Nukie-specific exploits.
-    - IPS
     - IPC
     - Diona
     - Xenomorph
@@ -64,9 +61,9 @@
     definitions:
     - prefRoles: [ UniHead ]
       fallbackRoles: [ Uni, UniEnslaved ]
-      max: 2
-      min: 2
-      playerRatio: 15
+      max: 3
+      min: 3
+      playerRatio: 10
       briefing:
         text: uni-head-role-greeting
         color: CornflowerBlue
@@ -155,23 +152,20 @@
   parent: CargoGiftsBase
   components:
   - type: StationEvent
-    duration: 120
-    earliestStart: 20
-    minimumPlayers: 30
-    willNotStartRandomly: true
+    weight: 0
+    duration: 1h
+    earliestStart: 1
+    minimumPlayers: 20
+    reoccurrenceDelay: 360
   - type: CargoGiftsRule
-    description: cargo-gift-artifact-container
-    dest: cargo-gift-default-sender
+    announce: uni-ops-cargo-gifts-obelisk-event-announcement
+    sender: cargo-gift-default-sender
+    description: uni-ops-gift-obelisk-description
     gifts:
       ArtifactContainerNecroobelisk: 1
 
 - type: entity
-  id: CentcommSendNecroobeliskArtefact
+  id: GiftNecroobeliskArtefact
   parent: BaseGameRule
   components:
-  - type: StationEvent
-    duration: 120
-    earliestStart: 20
-    minimumPlayers: 30
-    willNotStartRandomly: true
   - type: NecroobeliskArtefactRule

@@ -1,0 +1,42 @@
+- type: entity
+  id: CrateFlowers
+  parent: CrateGenericSteel
+  name: ящик искусственных цветов
+  description: Ящик полный искусственных цветов.
+  components:
+  - type: StorageFill
+    contents:
+    - id: RedFlower
+      amount: 5
+    - id: DarkFlower
+      amount: 5
+    - id: PinkFlower
+      amount: 5
+    - id: WhiteFlower
+      amount: 5
+    - id: YellowFlower
+      amount: 5
+    - id: PurpleFlower
+      amount: 5
+
+- type: entity
+  id: CrateServiceHydra
+  parent: CratePlastic
+  name: ящик с чистящей установкой "Гидра"
+  description: Вот она! Перед вами! Коробка с чистящей установкой "Гидра"! 
+  components:
+  - type: StorageFill
+    contents:
+      - id: WeaponLauncherHydra
+      - id: BoxGrenadeCleanade
+
+- type: entity
+  id: CrateServiceBoxGrenadeCleanade
+  parent: CratePlastic
+  name: ящик с чистящими снарядами
+  description: Ящик с двуями коробками специальных снарядов под установку "Гидра".
+  components:
+  - type: StorageFill
+    contents:
+      - id: BoxGrenadeCleanade
+        amount: 2

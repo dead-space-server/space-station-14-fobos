@@ -24,6 +24,13 @@
   - BlueShieldOfficerJumpsuit
 
 - type: loadoutGroup
+  id: BlueShieldOfficerNeck
+  name: loadout-group-blue-shield-officer-neck
+  loadouts:
+  - BlueShieldOfficerCloak
+  - BlueShieldOfficerMantle
+
+- type: loadoutGroup
   id: BlueShieldOfficerUnderwear
   name: loadout-group-blue-shield-officer-underwear
   minLimit: 2
@@ -49,6 +56,46 @@
   - ServiceJumpskirtNew
 
 # Cargo
+- type: loadoutGroup
+  id: SeniorCourierHead
+  name: loadout-group-senior-courier-head
+  minLimit: 0
+  loadouts:
+  - SeniorCourierBeret
+  - CargoTechnicianHead
+
+- type: loadoutGroup
+  id: SeniorCourierJumpsuit
+  name: loadout-group-senior-courier-jumpsuit
+  loadouts:
+  - SeniorCourierJumpsuit
+  - SeniorCourierJumpskirt
+
+- type: loadoutGroup
+  id: SeniorCourierOuterClothing
+  name: loadout-group-senior-courier-outerclothing
+  minLimit: 0
+  loadouts:
+  - CoatCargoJacket
+  - CargoTechnicianWintercoat
+
+- type: loadoutGroup
+  id: SeniorCourierBelt
+  name: loadout-group-senior-courier-belt
+  minLimit: 0
+  loadouts:
+  - MailBag
+
+- type: loadoutGroup
+  id: SeniorCourierUnderwear
+  name: loadout-group-senior-courier-underwear
+  minLimit: 2
+  hidden: true
+  loadouts:
+  - UnderwearBottomBoxersSeniorCourier
+  - UnderwearTopBraSeniorCourier
+  - UnderwearBottomPantiesSeniorCourier
+
 # Law
 - type: loadoutGroup
   id: MagistratJumpsuit
@@ -115,6 +162,13 @@
   - UnderwearTopBraSeniorEngineer
   - UnderwearBottomPantiesSeniorEngineer
 
+- type: loadoutGroup
+  id: SeniorEngineerBelt
+  name: loadout-group-senior-engineer-belt
+  loadouts:
+  - StationEngineerBeltUtility
+  - StationEngineerBeltWebbing
+
 # Science
 - type: loadoutGroup
   id: SeniorResearcherHead
@@ -129,6 +183,9 @@
   loadouts:
   - SeniorResearcherJumpsuit
   - SeniorResearcherJumpskirt
+  - SeniorResearcherJumpsuitTurtleneck
+  - SeniorResearcherJumpskirtTurtleneck
+
 
 - type: loadoutGroup
   id: SeniorResearcherOuterClothing
@@ -136,6 +193,7 @@
   minLimit: 0
   loadouts:
   - SeniorResearcherLabCoat
+  - SeniorResearcherWinterCoat
 
 - type: loadoutGroup
   id: SeniorResearcherPDA
@@ -160,6 +218,7 @@
   loadouts:
   - BrigmedicJumpsuit
   - BrigmedicJumpskirt
+  - BrigmedicJumpskirtPencil
 
 - type: loadoutGroup
   id: BrigmedicBackpack
@@ -175,6 +234,7 @@
   loadouts:
   - SeniorOfficerJumpsuit
   - SeniorOfficerJumpskirt
+  - SeniorOfficerJumpskirtPencil
 
 - type: loadoutGroup
   id: SeniorOfficerBackpack
@@ -208,7 +268,6 @@
   name: loadout-group-senior-officer-socks
   loadouts:
   - UnderwearSocksSeniorOfficer
-  - UnderwearWomenSocksSeniorOfficer
 
 - type: loadoutGroup
   id: SeniorOfficerUnderwear
@@ -231,13 +290,14 @@
   - EmergencyNonBreather
   - EmergencyRobotNonBreather
   - LoadoutSpeciesEVANitrogen
+  - EmergencyBeerBrigmedic
+  - EmergencyMothBrigmedic
 
 - type: loadoutGroup
   id: BrigmedicSocks
   name: loadout-group-brigmedic-socks
   loadouts:
   - UnderwearSocksBrigmedic
-  - UnderwearWomenSocksBrigmedic
 
 - type: loadoutGroup
   id: BrigmedicUnderwear
@@ -291,6 +351,16 @@
   loadouts:
   - SecurityPilotMedal
 
+- type: loadoutGroup
+  id: SecurityPilotJumpsuit
+  name: loadout-group-security-pilot-jumpsuit
+  loadouts:
+  - SecurityPilotJumpsuit
+  - SecurityJumpsuit
+  - SecurityJumpskirt
+  - SecurityJumpsuitGrey
+  - SecurityJumpskirtGrey
+
 # Medical
 - type: loadoutGroup
   id: SeniorPhysicianHead
@@ -309,6 +379,7 @@
   loadouts:
   - SeniorPhysicianJumpsuit
   - SeniorPhysicianJumpskirt
+  - SeniorPhysicianJumpskirtPencil
 
 - type: loadoutGroup
   id: SeniorPhysicianOuterClothing
@@ -363,3 +434,99 @@
   - UnderwearBottomBoxersCoroner
   - UnderwearTopBraCoroner
   - UnderwearBottomPantiesCoroner
+
+- type: loadoutGroup
+  id: VirologistJumpsuit
+  name: loadout-group-virologist-jumpsuit
+  loadouts:
+  - VirologistJumpsuit
+  - VirologistJumpskirt
+
+- type: loadoutGroup
+  id: VirologistBackpack
+  name: loadout-group-virologist-backpack
+  loadouts:
+  - VirologistBackpack
+  - VirologistSatchel
+  - VirologistDuffel
+
+- type: loadoutGroup
+  id: VirologistHead
+  name: loadout-group-virologist-head
+  minLimit: 0
+  loadouts:
+  - VirologistHead
+
+- type: loadoutGroup
+  id: VirologistOuterclothing
+  name: loadout-group-senior-virologist-outerclothing
+  minLimit: 0
+  loadouts:
+  - VirologistOuterclothing
+  - VirologistOuterclothingWinter
+
+- type: loadoutGroup
+  id: VirologistUnderwear
+  name: loadout-group-virologist-underwear
+  minLimit: 2
+  hidden: true
+  loadouts:
+  - UnderwearBottomBoxersVirologist
+  - UnderwearTopBraVirologist
+  - UnderwearBottomPantiesVirologist
+
+- type: loadoutGroup
+  id: MedicalShoesChemist
+  name: loadout-group-chemist-doctor-shoes
+  loadouts:
+  - ShoesBootsSterileChemist
+  - WhiteShoes
+  - MedicalWinterBoots
+
+- type: loadoutGroup
+  id: CMOSocks
+  name: loadout-group-cmo-socks
+  loadouts:
+  - SocksCMO
+  - SocksNylon
+  - SocksNylonWhite
+
+- type: loadoutGroup
+  id: DoctorSocks
+  name: loadout-group-medical-socks
+  loadouts:
+  - SocksDoctor
+  - SocksNylon
+  - SocksNylonWhite
+
+- type: loadoutGroup
+  id: ChemistSocks
+  name: loadout-group-chemist-socks
+  loadouts:
+  - SocksChemist
+  - SocksNylon
+  - SocksNylonWhite
+
+- type: loadoutGroup
+  id: ParamedicSocks
+  name: loadout-group-paramedic-socks
+  loadouts:
+  - SocksParamedic
+  - SocksNylon
+  - SocksNylonWhite
+
+- type: loadoutGroup
+  id: PsychologistSocks
+  name: loadout-group-psychologist-socks
+  loadouts:
+  - SocksPsychologist
+  - SocksNylon
+  - SocksNylonWhite
+
+- type: loadoutGroup
+  id: PhysicianSocks
+  name: loadout-group-physiciant-socks
+  loadouts:
+  - SocksSeniorPhysician
+  - SocksNylon
+  - SocksNylonWhite

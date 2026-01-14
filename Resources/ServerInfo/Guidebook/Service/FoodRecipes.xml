@@ -1,52 +1,52 @@
 <Document>
 
-# Microwave Recipes
+  # Рецепты в мирковолновке
 
-This is the latest published version of NanoTrasen Central Command Kitchen de Cuisine's recipe collection for chefs upon NanoTrasen vessels to prepare.
+  Последнее издание коллекции рецептов от ЦК NanoTrasen "Kitchen de Cuisine", содержащее в себе незабываемые блюда.
 
-## Pizza Pies
-<GuideMicrowaveGroupEmbed Group="Pizza"/>
+  ## Пицца
+  <GuideMicrowaveGroupEmbed Group="Pizza"/>
 
-## Savory Cooking
-<GuideMicrowaveGroupEmbed Group="Savory"/>
+  ## Пикантная кулинария
+  <GuideMicrowaveGroupEmbed Group="Savory"/>
 
-## Breads
-<GuideMicrowaveGroupEmbed Group="Breads"/>
+  ## Хлеба
+  <GuideMicrowaveGroupEmbed Group="Breads"/>
 
-## Breakfast Foods
-<GuideMicrowaveGroupEmbed Group="Breakfast"/>
+  ## Завтраки
+  <GuideMicrowaveGroupEmbed Group="Breakfast"/>
 
-## Moth Foods
-<GuideMicrowaveGroupEmbed Group="Moth"/>
+  ## Еда для Молей
+  <GuideMicrowaveGroupEmbed Group="Moth"/>
 
-## Pastas & Noodles
-<GuideMicrowaveGroupEmbed Group="Pasta"/>
+  ## Паста & Лапша
+  <GuideMicrowaveGroupEmbed Group="Pasta"/>
 
-## Pastries & Desserts
-<GuideMicrowaveGroupEmbed Group="Dessert"/>
+  ## Выпечка & Десерты
+  <GuideMicrowaveGroupEmbed Group="Dessert"/>
 
-## Soups & Stews
-<GuideMicrowaveGroupEmbed Group="Soup"/>
+  ## Супы & Тушёные блюда
+  <GuideMicrowaveGroupEmbed Group="Soup"/>
 
-## Pies & Tarts
-<GuideMicrowaveGroupEmbed Group="Pie"/>
+  ## Пироги
+  <GuideMicrowaveGroupEmbed Group="Pie"/>
 
-## Bars & Cookies
-<GuideMicrowaveGroupEmbed Group="BarsAndCookies"/>
+  ## Батончики & Печенья
+  <GuideMicrowaveGroupEmbed Group="BarsAndCookies"/>
 
-## Cakes
-<GuideMicrowaveGroupEmbed Group="Cake"/>
+  ## Торты
+  <GuideMicrowaveGroupEmbed Group="Cake"/>
 
-## Salads
-<GuideMicrowaveGroupEmbed Group="Salad"/>
+  ## Салаты
+  <GuideMicrowaveGroupEmbed Group="Salad"/>
 
-## Medicinal
-<GuideMicrowaveGroupEmbed Group="Medicinal"/>
+  ## Медицинские блюда
+  <GuideMicrowaveGroupEmbed Group="Medicinal"/>
 
-## Other
-<GuideMicrowaveGroupEmbed Group="Other"/>
+  ## Другое
+  <GuideMicrowaveGroupEmbed Group="Other"/>
 
-## Secret
-<GuideMicrowaveGroupEmbed Group="Secret"/>
+  ## Секретные блюда
+  <GuideMicrowaveGroupEmbed Group="Secret"/>
 
 </Document>

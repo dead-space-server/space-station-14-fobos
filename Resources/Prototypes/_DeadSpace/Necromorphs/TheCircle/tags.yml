@@ -1,0 +1,51 @@
+### Тэги Ajax
+- type: Tag
+  id: CartridgeZastabaNosle
+
+- type: Tag
+  id: MagazineZastabaNosle
+
+### Тэги РПЛ20
+- type: Tag
+  id: MagazineRPL20
+
+- type: Tag
+  id: CartridgeRPL20
+
+- type: Tag
+  id: BulletRPL20
+
+### Тэги АШ12
+- type: Tag
+  id: BulletASh12
+
+- type: Tag
+  id: MagazineASh12
+
+- type: Tag
+  id: CartridgeASh12
+
+### Тэги СКАРАБ
+- type: Tag
+  id: BulletRifleSCARAB
+
+- type: Tag
+  id: MagazineRifleSCARAB
+
+- type: Tag
+  id: CartridgeRifleSCARAB
+
+### Тэги VSK
+- type: Tag
+  id: CartridgeBulletVSK
+
+- type: Tag
+  id: MagazineVSK
+
+- type: Tag
+  id: BulletVSK
+
+### Тэг VAL
+
+- type: Tag
+  id: MagazineLightRifleAsVal

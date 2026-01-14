@@ -23,6 +23,7 @@
   - !type:AddComponentSpecial
     components:
     - type: BibleUser #Lets them heal with bibles
+    - type: MindCaptureDefence #DS14
 
 - type: startingGear
   id: ChaplainGear
@@ -33,6 +34,17 @@
     socks: ClothingUnderwearSocksChaplain
   storage:
     back:
-    - Bible
     - RubberStampChaplain
     - Censer
+
+- type: chameleonOutfit
+  id: ChaplainChameleonOutfit
+  job: Chaplain
+  equipment:
+    head: ClothingHeadHatPlaguedoctor
+    eyes: ClothingEyesGlasses
+    mask: ClothingMaskPlague
+    neck: ClothingNeckStoleChaplain
+    outerClothing: ClothingOuterPlagueSuit
+    gloves: ClothingHandsGlovesColorBlack
+

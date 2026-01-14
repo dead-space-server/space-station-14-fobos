@@ -1,0 +1,129 @@
+# Айди
+- type: entity
+  parent: CBURNLeaderIDcard
+  id: BSAAIDLeader
+  name: ID карта Лидера АПБТ
+  components:
+  - type: PresetIdCard
+    job: BSAALeaderJob
+
+- type: entity
+  parent: CBURNLeaderIDcard
+  id: BSAAIDFighter
+  name: ID карта Бойца АПБТ
+  components:
+  - type: PresetIdCard
+    job: BSAAFighterJob
+
+- type: entity
+  parent: CBURNLeaderIDcard
+  id: BSAAIDMedic
+  name: ID карта Медика АПБТ
+  components:
+  - type: PresetIdCard
+    job: BSAAMedicJob
+
+# КПК
+- type: entity
+  parent: CBURNLeaderPDA
+  id: BSAALeaderPDA
+  name: КПК Лидера АПБТ
+  suffix: лидер
+  description: "Боевой образец КПК с предустановленным MedTek"
+  components:
+  - type: Pda
+    id: BSAAIDLeader
+
+- type: entity
+  parent: CBURNPDA
+  id: BSAAFighterPDA
+  name: КПК Бойца АПБТ
+  suffix: боец
+  description: "Боевой образец КПК с предустановленным MedTek"
+  components:
+  - type: Pda
+    id: BSAAIDFighter
+
+- type: entity
+  parent: CBURNPDA
+  id: BSAAMedicPDA
+  name: КПК Медика АПБТ
+  suffix: медик
+  description: "Боевой образец КПК с предустановленным MedTek"
+  components:
+  - type: Pda
+    id: BSAAIDMedic
+
+# Джобка
+
+- type: job
+  id: BSAAFighterJob
+  name: Боец АПБТ
+  description: "Штурмовая единица альянса повышенной эффективности КСО"
+  playTimeTracker: JobBSAA
+  setPreference: false
+  icon: "JobIconBSAAFighter"
+  supervisors: job-supervisors-centcom
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+
+- type: job
+  id: BSAALeaderJob
+  name: Лидер АПБТ
+  description: "Командир альянса повышенной эффективности КСО"
+  playTimeTracker: JobBSAALeader
+  setPreference: false
+  icon: "JobIconBSAALeader"
+  supervisors: job-supervisors-centcom
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+
+- type: job
+  id: BSAAMedicJob
+  name: Медик АПБТ
+  description: "Полевой спаситель альянса повышенной эффективности КСО"
+  playTimeTracker: JobBSAAMedic
+  setPreference: false
+  icon: "JobIconBSAAMedic"
+  supervisors: job-supervisors-centcom
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+
+- type: playTimeTracker
+  id: JobBSAA
+
+- type: playTimeTracker
+  id: JobBSAALeader
+  
+- type: playTimeTracker
+  id: JobBSAAMedic
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconBSAALeader
+  icon:
+    sprite: /Textures/_DeadSpace/Necromorfs/BSAA/jobicon.rsi
+    state: leader
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconBSAAMedic
+  icon:
+    sprite: /Textures/_DeadSpace/Necromorfs/BSAA/jobicon.rsi
+    state: medic
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconBSAAFighter
+  icon:
+    sprite: /Textures/_DeadSpace/Necromorfs/BSAA/jobicon.rsi
+    state: fighter

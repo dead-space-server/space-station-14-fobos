@@ -11,10 +11,10 @@
 - type: latheRecipePack
   id: BorgModulesStatic
   recipes:
+  - BorgModuleTool
   - BorgModuleCable
   - BorgModuleFireExtinguisher
-  - BorgModuleRadiationDetection
-  - BorgModuleTool
+  - BorgModuleInflatable
 
 - type: latheRecipePack
   id: BorgLimbsStatic
@@ -45,19 +45,16 @@
   id: Robotics
   recipes:
   - ProximitySensor
+  - Nanopaste # DS14
 
 - type: latheRecipePack
   id: BorgModules
   recipes:
   - BorgModuleAdvancedCleaning
   - BorgModuleAdvancedTool
-  - BorgModuleGPS
-  - BorgModuleArtifact
-  - BorgModuleAnomaly
-  - BorgModuleGardening
-  - BorgModuleHarvesting
-  - BorgModuleDefibrillator
-  - BorgModuleAdvancedTreatment
+  - BorgModuleAdvancedClowning
+  - BorgModuleAdvancedChemical
+  - BorgModuleAdvancedMining
   - BorgModuleAdvancedMining # DS14
   - BorgModuleMiningWeapon # DS14
 

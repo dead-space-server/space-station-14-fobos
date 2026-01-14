@@ -21,6 +21,7 @@
   - Chemistry
   - Paramedic
   - Coroner
+  - Virology
   #start-backmen: currency
   minBankBalance: 150
   maxBankBalance: 250
@@ -31,10 +32,17 @@
 - type: startingGear
   id: SeniorPhysicianGear
   equipment:
+    ears: ClothingHeadsetMedical
+    belt: ClothingBeltMedicalFilled
+  storage:
+    back:
+    - RubberStampSeniorPhysician # DS14
+
+- type: chameleonOutfit
+  id: SeniorPhysicianChameleonOutfit
+  job: SeniorPhysician
+  equipment:
     shoes: ClothingShoesColorBlack
     ears: ClothingHeadsetMedical
     belt: ClothingBeltMedicalFilled
     socks: ClothingUnderwearSocksSeniorPhysician
-  storage:
-    back:
-    - RubberStampSeniorPhysician # DS14

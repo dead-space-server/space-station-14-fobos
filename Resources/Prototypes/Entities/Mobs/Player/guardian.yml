@@ -111,6 +111,10 @@
     - type: Tag
       tags:
         - CannotSuicide
+    #DS14-start
+    - type: GhostRoleNotifys 
+      groupPrototype: EventGroup
+    #DS14-end
 
 # From the uplink injector
 - type: entity
@@ -144,6 +148,10 @@
     - type: HTN
       rootTask:
         task: SimpleHumanoidHostileCompound
+    #DS14-start
+    - type: GhostRoleNotifys 
+      groupPrototype: Holoparasiteping
+    #DS14-end
 
 # From Wizard deck of cards
 - type: entity
@@ -174,6 +182,10 @@
           map: [ "enum.DamageStateVisualLayers.BaseUnshaded" ]
           color: "#40a7d7"
           shader: unshaded
+    #DS14-start
+    - type: GhostRoleNotifys 
+      groupPrototype: ifritGuard
+    #DS14-end
 
 - type: entity
   name: HoloClown
@@ -239,6 +251,9 @@
           Piercing: 4
         groups:
           Burn: 3
+      catchingFailDamage:
+        types:
+          Blunt: 1
     - type: MeleeWeapon
       angle: 30
       animation: WeaponArcFist
@@ -259,15 +274,19 @@
     - type: HTN
       rootTask:
         task: SimpleHumanoidHostileCompound
+    #DS14-start
+    - type: GhostRoleNotifys 
+      groupPrototype: HoloClownping
+    #DS14-end
 
 - type: entity
+  parent: BaseMentalAction
   id: ActionToggleGuardian
   name: Toggle Guardian
   description: Either manifests the guardian or recalls it back into your body
   components:
-  - type: InstantAction
+  - type: Action
     icon: Interface/Actions/manifest.png
-    event: !type:GuardianToggleActionEvent
     useDelay: 2
-    checkCanInteract: false
-    checkConsciousness: false
+  - type: InstantAction
+    event: !type:GuardianToggleActionEvent

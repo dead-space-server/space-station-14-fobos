@@ -7,7 +7,7 @@
   id: ProtoKineticpvrsifvl
   entity: WeaponCrusherpvrsifvl
   sponsorOnly: true
-  whitelistJobs: [SalvageSpecialist, SeniorSalvageSpecialist, Quartermaster]
+  whitelistJobs: [SalvageSpecialist, Quartermaster]
 
 - type: sponsorLoadout
   id: pvrsifvlHypospray
@@ -207,6 +207,8 @@
     size: Huge
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
@@ -357,7 +359,7 @@
       sprite: _DeadSpace/Sponsor/pvrsifvl/magboots.rsi
       layers:
       - state: icon
-        map: [ "enum.ToggleVisuals.Layer" ]
+        map: [ "enum.ToggleableVisuals.Layer" ]
     - type: Clothing
       sprite: _DeadSpace/Sponsor/pvrsifvl/magboots.rsi
     - type: ClothingSpeedModifier

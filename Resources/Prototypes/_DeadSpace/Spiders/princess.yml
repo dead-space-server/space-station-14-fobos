@@ -26,7 +26,7 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 7
+        Slash: 7
         Poison: 1
         Structural: 20
       groups:
@@ -63,9 +63,13 @@
     injectSound:
       collection: SpiderHatches # Звуки после высасывания
   - type: NeededBloodForSpawnAgainst # Пример
-    defaultCost: 10 # Стандартная цена на не заданный результат
+    defaultCost: 50 # Стандартная цена на не заданный результат
   - type: Puller
     needsHands: false
   - type: SpiderKing
   - type: Damageable
     damageModifierSet: HeadSpiderTerror
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      250: Dead

@@ -27,7 +27,7 @@
     requirement:
       !type:RoleTimeRequirement
       role: JobMedicalDoctor
-      time: 108000 #30 hrs
+      time: 30h
 
 # Head
 
@@ -151,10 +151,10 @@
     shoes: ClothingShoesBootsWinterMed
 
 # ID
-- type: loadout
-  id: MedicalDoctorPDA
-  equipment:
-    id: MedicalPDA
+#- type: loadout
+#  id: MedicalDoctorPDA
+#  equipment:
+#    id: MedicalPDA
 
 # - type: loadout
 #   id: SeniorPhysicianPDA
@@ -175,6 +175,17 @@
   id: SterileMask
   equipment:
     mask: ClothingMaskSterile
+
+#Eyewear
+- type: loadout
+  id: MedicalHud
+  equipment:
+    eyes: ClothingEyesHudMedical
+
+- type: loadout
+  id: MedicalEyePatchHud
+  equipment:
+    eyes: ClothingEyesEyepatchHudMedical
 
 # Underwear
 - type: loadout

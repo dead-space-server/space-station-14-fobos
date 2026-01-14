@@ -29,15 +29,22 @@
   - HoPUnderwear # DS14-Underwear
 
 # Silicons
-#- type: roleLoadout
-#  id: JobBorg
-#  nameDataset: roleloadout doesn't support both so need to update that first.
-#  canCustomizeName: true
+- type: roleLoadout
+  id: JobBorg
+  nameDataset: NamesBorg
+  canCustomizeName: true
 
 - type: roleLoadout
   id: JobStationAi
   nameDataset: NamesAI
   canCustomizeName: true
+
+# DS14-start
+- type: roleLoadout
+  id: JobBorgSecurity
+  nameDataset: NamesBorg
+  canCustomizeName: true
+# DS14-end
 
 # Civilian
 - type: roleLoadout
@@ -65,6 +72,7 @@
   - BartenderJumpsuit
   - CommonBackpack
   - BartenderOuterClothing
+  - BartenderGoldenShaker
   - Glasses
   - Survival
   - Trinkets
@@ -135,6 +143,7 @@
   - ChaplainJumpsuit
   - CommonBackpack
   - ChaplainOuterClothing
+  - ChaplainBible
   - Glasses
   - Survival
   - Trinkets
@@ -174,6 +183,7 @@
 
 - type: roleLoadout
   id: JobClown
+  canCustomizeName: true
   groups:
   - GroupTankHarness
   - ClownHead
@@ -188,6 +198,7 @@
 
 - type: roleLoadout
   id: JobMime
+  canCustomizeName: true
   groups:
   - GroupTankHarness
   - MimeHead
@@ -204,6 +215,7 @@
 
 - type: roleLoadout
   id: JobMusician
+  canCustomizeName: true
   groups:
   - GroupTankHarness
   - MusicianJumpsuit
@@ -242,6 +254,7 @@
   - CargoTechnicianBackpack
   - CargoTechnicianOuterClothing
   - CargoTechnicianShoes
+#  - CargoTechnicianID # DS14-disabled
   - Glasses
   - Survival
   - Trinkets
@@ -284,6 +297,7 @@
   - GroupTankHarness
   - TechnicalAssistantJumpsuit
   - StationEngineerBackpack
+  - StationEngineerBelt # DS14
   - SurvivalExtended
   - Trinkets
   - GroupSpeciesBreathTool
@@ -296,9 +310,10 @@
   - StationEngineerHead
   - StationEngineerJumpsuit
   - StationEngineerBackpack
+  - StationEngineerBelt # DS14
   - StationEngineerOuterClothing
   - StationEngineerShoes
-  - StationEngineerID
+#  - StationEngineerID # DS14-disabled
   - SurvivalExtended
   - Trinkets
   - GroupSpeciesBreathTool
@@ -310,6 +325,7 @@
   - GroupTankHarness
   - AtmosphericTechnicianJumpsuit
   - AtmosphericTechnicianBackpack
+  - AtmosphericTechnicianBelt # DS14
   - AtmosphericTechnicianOuterClothing
   - AtmosphericTechnicianShoes
   - SurvivalExtended
@@ -346,7 +362,7 @@
   - ScientistOuterClothing
   - ScientistGloves
   - ScientistShoes
-  - ScientistPDA
+#  - ScientistPDA # DS14-disabled
   - Glasses
   - Survival
   - Trinkets
@@ -414,7 +430,7 @@
   - SecurityBackpack
   - SecurityOuterClothing
   - SecurityShoes
-  - SecurityPDA
+#  - SecurityPDA # DS14-disabled
   - SecurityBelt
   - SurvivalSecurity
   - Trinkets
@@ -462,12 +478,12 @@
   - ChiefMedicalOfficerHead
   - MedicalMask
   - ChiefMedicalOfficerJumpsuit
-  - MedicalGloves
   - ChiefMedicalOfficerBackpack
   - ChiefMedicalOfficerOuterClothing
   - ChiefMedicalOfficerNeck
   - ChiefMedicalOfficerShoes
-  # - Glasses
+  - CMOSocks # DS14
+  # - MedicalEyewear
   - SurvivalMedical
   - Trinkets
   - GroupSpeciesBreathToolMedical
@@ -484,8 +500,9 @@
   - MedicalBackpack
   - MedicalDoctorOuterClothing
   - MedicalShoes
-  - MedicalDoctorPDA
-  - Glasses
+  - DoctorSocks # DS14
+#  - MedicalDoctorPDA # DS14-disabled
+  - MedicalEyewear
   - SurvivalMedical
   - Trinkets
   - GroupSpeciesBreathToolMedical
@@ -513,9 +530,9 @@
   - MedicalGloves
   - MedicalBackpack
   - MedicalDoctorOuterClothing
-  - MedicalShoes
-  - MedicalDoctorPDA
-  - Glasses
+  - MedicalShoes # DS14
+#  - MedicalDoctorPDA # DS14-disabled
+  # - MedicalEyewear
   - SurvivalMedical
   - Trinkets
   - GroupSpeciesBreathToolMedical
@@ -530,7 +547,8 @@
   - MedicalGloves
   - ChemistBackpack
   - ChemistOuterClothing
-  - MedicalShoes
+  - MedicalShoesChemist # DS14
+  - ChemistSocks # DS14
   - SurvivalMedical
   - Trinkets
   - GroupSpeciesBreathToolMedical
@@ -547,7 +565,8 @@
   - MedicalBackpack
   - ParamedicOuterClothing
   - ParamedicShoes
-  - Glasses
+  - ParamedicSocks # DS14
+  - MedicalEyewear
   - SurvivalMedical
   - Trinkets
   - GroupSpeciesBreathToolMedical
@@ -583,6 +602,7 @@
   - GroupTankHarness
   - PsychologistJumpsuit
   - MedicalBackpack
+  - PsychologistSocks # DS14
   - Glasses
   - Survival
   - Trinkets

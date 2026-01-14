@@ -1,3 +1,18 @@
+- type: damageModifierSet
+  id: DemonPortalDeff
+  armorLvls:
+    Piercing: 2
+  coefficients:
+    Blunt: 0.7
+    Slash: 0.5
+    Piercing: 0.7
+    Shock: 1.2
+    Structural: 0.5
+    Holy: 0.5
+  flatReductions:
+    Blunt: 5
+    Heat: 5
+
 - type: entity
   id: DemonPortal
   name: демонический портал
@@ -21,9 +36,10 @@
         - WallLayer
         hard: false
   - type: Sprite
-    sprite: _DeadSpace/Demons/demon_boss.rsi
-    state: herald_mirror
-    shader: unshaded
+    layers:
+    - sprite: _DeadSpace/Demons/demon_boss.rsi
+      state: herald_mirror
+      shader: unshaded
   - type: InteractionOutline
   - type: Clickable
   - type: PointLight
@@ -37,13 +53,13 @@
     text: демонический портал
     enabled: true
   - type: Damageable
-    damageContainer: Inorganic
-    damageModifierSet: Metallic
+    damageContainer: BiologicalMetaphysical
+    damageModifierSet: DemonPortalDeff
   - type: Destructible
     thresholds:
     - trigger:
         !type:DamageTrigger
-        damage: 200
+        damage: 275
       behaviors:
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
@@ -51,3 +67,12 @@
     sound:
       path: /Audio/Weapons/Guns/Gunshots/rocket_launcher.ogg
   - type: DemonPortal
+    demonSpawnIdArray:
+      - MobDemonSlaughter
+      - MobDemonSlaughterBow
+      - MobDemonHonker
+      - MobDemonIfrit
+      - MobDemonJaunt
+      - MobDemonMouth
+      - MobDemonSnake
+      - MobDemonBloodyArms
