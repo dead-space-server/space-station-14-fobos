@@ -1,0 +1,19 @@
+- type: cargoProduct
+  id: CrateHardsuitMedEVA
+  icon:
+    sprite: _DeadSpace/Clothing/OuterClothing/Hardsuits/medsuit.rsi
+    state: icon
+  product: CrateHardsuitMedEVA
+  cost: 3500
+  category: cargoproduct-category-name-medical
+  group: market
+
+- type: cargoProduct
+  id: CraterHardsuitMedChemEVA
+  icon:
+    sprite: _DeadSpace/Clothing/OuterClothing/Hardsuits/chemestry.rsi
+    state: icon
+  product: CraterHardsuitMedChemEVA
+  cost: 3500
+  category: cargoproduct-category-name-medical
+  group: market
