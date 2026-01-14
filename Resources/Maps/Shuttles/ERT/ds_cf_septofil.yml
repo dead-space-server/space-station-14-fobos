@@ -297,16 +297,13 @@ entities:
     - type: Transform
       pos: 3.5,4.5
       parent: 1
-- proto: AirlockShuttle
+- proto: AirlockShuttleCounterpartyNTLocked
   entities:
   - uid: 204
     components:
     - type: Transform
       pos: 3.5,-1.5
       parent: 1
-    - type: AccessReader
-      accessListsOriginal:
-      - - GroupCounterpartyNT
 - proto: AirSensor
   entities:
   - uid: 57
