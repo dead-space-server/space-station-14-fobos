@@ -22,12 +22,4 @@
   components:
   - type: ContainerFill
     containers:
-      board: [ AirlockShuttleElectronicsCounterpartyNT ]
-
-- type: entity
-  parent: DoorElectronics
-  id: AirlockShuttleElectronicsCounterpartyNT
-  suffix: CounterpartyNT, Locked, Airlockshuttle
-  components:
-  - type: AccessReader
-    access: [["CounterpartyNT"]]
+      board: [ DoorElectronicsCounterpartyNT ]
