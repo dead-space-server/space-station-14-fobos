@@ -40,6 +40,7 @@ using Content.Shared.DeadSpace.Languages.Components;
 using Content.Server.DeadSpace.Languages;
 using Robust.Server.Console;
 using Content.Shared.DeadSpace.Languages.Prototypes;
+using Lidgren.Network;
 
 namespace Content.Server.Chat.Systems;
 
@@ -350,6 +351,8 @@ public sealed partial class ChatSystem : SharedChatSystem
         sender ??= Loc.GetString("chat-manager-sender-announcement");
 
         // DS14-Languages-start
+        var filter = Filter.Broadcast();
+
         string lexiconMessage = _language.TransformWord(message, languageId);
 
         string langName = _language.GetLangName(languageId);
@@ -365,7 +368,7 @@ public sealed partial class ChatSystem : SharedChatSystem
 
         var lexiconWrappedMessage = Loc.GetString("chat-manager-sender-announcement-wrap-message", ("sender", sender), ("message", FormattedMessage.EscapeText(lexiconMessage)));
 
-        foreach (var session in _playerManager.Sessions)
+        foreach (var session in filter.Recipients)
         {
             if (!understanding.Contains(session))
                 _chatManager.ChatMessageToOne(ChatChannel.Radio, lexiconMessage, lexiconWrappedMessage, default, false, session.Channel, colorOverride, true);
@@ -387,18 +390,18 @@ public sealed partial class ChatSystem : SharedChatSystem
 
             if (author != null && TryComp<TTSComponent>(author.Value, out var tts) && tts.VoicePrototypeId != null) // For comms console announcements
             {
-                var ev = new AnnounceSpokeEvent(tts.VoicePrototypeId, originalMessage, lexiconMessage, languageId, author.Value);
+                var ev = new AnnounceSpokeEvent(tts.VoicePrototypeId, originalMessage, lexiconMessage, languageId, filter, author.Value);
                 RaiseLocalEvent(ev);
             }
             else if (usePresetTTS && sender == Loc.GetString("chat-manager-sender-announcement")) // For admin announcements from Centcomm with preset voices
             {
                 voice = _centcommTTS;
-                var ev = new AnnounceSpokeEvent(voice, originalMessage, lexiconMessage, languageId, null);
+                var ev = new AnnounceSpokeEvent(voice, originalMessage, lexiconMessage, languageId, filter, null);
                 RaiseLocalEvent(ev);
             }
             else if (voice != null) // For admin announcements
             {
-                var ev = new AnnounceSpokeEvent(voice, originalMessage, lexiconMessage, languageId, null);
+                var ev = new AnnounceSpokeEvent(voice, originalMessage, lexiconMessage, languageId, filter, null);
                 RaiseLocalEvent(ev);
             }
         }
@@ -443,17 +446,28 @@ public sealed partial class ChatSystem : SharedChatSystem
     /// <param name="sender">The sender (Communications Console in Communications Console Announcement)</param>
     /// <param name="playDefaultSound">Play the announcement sound</param>
     /// <param name="colorOverride">Optional color for the announcement message</param>
+    /// DS14-Languages
     public void DispatchStationAnnouncement(
         EntityUid source,
         string message,
         string? sender = null,
         bool playDefaultSound = true,
         SoundSpecifier? announcementSound = null,
-        Color? colorOverride = null)
+        Color? colorOverride = null,
+        string? voice = null,
+        string? languageId = null) // DS14
     {
+        languageId = string.IsNullOrEmpty(languageId) ? LanguageSystem.DefaultLanguageId : languageId;
+
         sender ??= Loc.GetString("chat-manager-sender-announcement");
 
-        var wrappedMessage = Loc.GetString("chat-manager-sender-announcement-wrap-message", ("sender", sender), ("message", FormattedMessage.EscapeText(message)));
+        string lexiconMessage = _language.TransformWord(message, languageId);
+
+        string langName = _language.GetLangName(languageId);
+
+        var wrappedMessage = Loc.GetString("chat-manager-sender-announcement-wrap-message-lang", ("sender", sender), ("language", langName), ("message", FormattedMessage.EscapeText(message)));
+        var lexiconWrappedMessage = Loc.GetString("chat-manager-sender-announcement-wrap-message", ("sender", sender), ("message", FormattedMessage.EscapeText(lexiconMessage)));
+
         var station = _stationSystem.GetOwningStation(source);
 
         if (station == null)
@@ -464,13 +478,34 @@ public sealed partial class ChatSystem : SharedChatSystem
 
         if (!TryComp<StationDataComponent>(station, out var stationDataComp)) return;
 
-        var filter = _stationSystem.GetInStation(stationDataComp);
+        var filterStation = _stationSystem.GetInStation(stationDataComp);
+        var filterUnderstanding = Filter.Empty();
+        var filterNotUnderstanding = Filter.Empty();
 
-        _chatManager.ChatMessageToManyFiltered(filter, ChatChannel.Radio, message, wrappedMessage, source, false, true, colorOverride);
+        foreach (var session in filterStation.Recipients)
+        {
+            if (session.AttachedEntity is not { } entity)
+                continue;
+
+            if (_language.KnowsLanguage(entity, languageId))
+                filterUnderstanding.AddPlayer(session);
+            else
+                filterNotUnderstanding.AddPlayer(session);
+        }
+
+        _chatManager.ChatMessageToManyFiltered(filterUnderstanding, ChatChannel.Radio, message, wrappedMessage, source, false, true, colorOverride);
+        _chatManager.ChatMessageToManyFiltered(filterNotUnderstanding, ChatChannel.Radio, lexiconMessage, lexiconWrappedMessage, source, false, true, colorOverride);
+
+        // плохая реализация, лучше переписать AnnounceSpoke
+        if (!string.IsNullOrEmpty(voice))
+        {
+            var ev = new AnnounceSpokeEvent(voice, message, lexiconMessage, languageId, filterStation, null);
+            RaiseLocalEvent(ev);
+        }
 
         if (playDefaultSound)
         {
-            _audio.PlayGlobal(announcementSound ?? DefaultAnnouncementSound, filter, true, AudioParams.Default.WithVolume(-2f));
+            _audio.PlayGlobal(announcementSound ?? DefaultAnnouncementSound, filterStation, true, AudioParams.Default.WithVolume(-2f));
         }
 
         _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Station Announcement on {station} from {sender}: {message}");
@@ -1191,13 +1226,15 @@ public sealed class AnnounceSpokeEvent : EntityEventArgs
     public readonly string LexiconMessage; // DS14-Languages
     public readonly ProtoId<LanguagePrototype> LanguageId; // DS14-Languages
     public readonly EntityUid? Source;
+    public readonly Filter Filter = Filter.Empty();
 
-    public AnnounceSpokeEvent(string voice, string message, string lexiconMessage, ProtoId<LanguagePrototype> languageId, EntityUid? source)
+    public AnnounceSpokeEvent(string voice, string message, string lexiconMessage, ProtoId<LanguagePrototype> languageId, Filter filter, EntityUid? source)
     {
         Voice = voice;
         Message = message;
         LexiconMessage = lexiconMessage; // DS14-Languages
         LanguageId = languageId; // DS14-Languages
+        Filter = filter; // DS14-Languages
         Source = source;
     }
 }

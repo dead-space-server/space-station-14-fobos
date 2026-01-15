@@ -33,6 +33,9 @@
     - HandheldGPSBasic
     - PinpointerVipClient
     - Syringe
+    - InjectorCaseStimFilled
+    - InjectorCaseFilled
+    - HandheldHealthAnalyzer
 
 - type: entity
   parent: ClothingBeltMilitaryWebbing
@@ -96,6 +99,9 @@
       - NamesCriticalForceOfficerEMT
       - NamesLastERT
       nameFormat: name-format-ert
+    - type: NpcFactionMember
+      factions:
+      - NanoTrasen
 
 - type: entity
   id: RandomHumanoidSpawnerCriticalForceOfficerEMT

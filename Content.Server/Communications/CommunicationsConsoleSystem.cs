@@ -21,6 +21,7 @@ using Robust.Server.GameObjects;
 using Robust.Shared.Configuration;
 using Content.Shared.DeadSpace.Languages.Components;
 using Content.Server.DeadSpace.Languages;
+using Content.Shared.Corvax.TTS;
 
 namespace Content.Server.Communications
 {
@@ -264,9 +265,13 @@ namespace Content.Server.Communications
 
             // DS14-Languages-start
             var languageId = LanguageSystem.DefaultLanguageId;
+            var voice = string.Empty;
 
             if (TryComp<LanguageComponent>(message.Actor, out var languageComponent))
                 languageId = languageComponent.SelectedLanguage;
+
+            if (TryComp<TTSComponent>(message.Actor, out var tts))
+                voice = tts.VoicePrototypeId;
             // DS14-Languages-end
 
             if (comp.AnnounceSentBy)
@@ -280,7 +285,13 @@ namespace Content.Server.Communications
                 return;
             }
 
-            _chatSystem.DispatchStationAnnouncement(uid, msg, title, colorOverride: comp.Color);
+            _chatSystem.DispatchStationAnnouncement(uid,
+                msg,
+                title,
+                colorOverride:
+                comp.Color,
+                voice: voice,
+                languageId: languageId);
 
             _adminLogger.Add(LogType.Chat, LogImpact.Low, $"{ToPrettyString(message.Actor):player} has sent the following station announcement: {msg}");
 
