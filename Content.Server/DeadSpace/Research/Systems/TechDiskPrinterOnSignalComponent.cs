@@ -21,10 +21,6 @@ public sealed class TechDiskPrinterOnSignalSystem : EntitySystem
         if (args.Port != component.PrintPort)
             return;
 
-        // Уже печатается
-        if (HasComp<DiskConsolePrintingComponent>(uid))
-            return;
-
         // Создаем сообщение без актора
         var message = new DiskConsolePrintDiskMessage();
         RaiseLocalEvent(uid, message);
