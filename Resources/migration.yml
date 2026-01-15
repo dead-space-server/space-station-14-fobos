@@ -1127,6 +1127,8 @@ ADTWeaponRifleXC67: WeaponRifleXC67
 #SeniorSalvageIDCard: null
 #SeniorSalvagePDA: null
 #RubberStampSeniorSalvage: null
+#SpawnPointSeniorSalvageSpecialist: SpawnPointSeniorCourier
+#WeaponSeniorKinetik: WeaponAdvancedKinetik
 
 # 2025-11-26 - DS14
 BookDAM: null
