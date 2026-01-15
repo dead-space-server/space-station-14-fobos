@@ -1,5 +1,9 @@
 name: Auto changelog
 
+permissions:
+  contents: write
+  pull-requests: read
+
 on:
   pull_request:
     types: [closed]
@@ -118,8 +122,11 @@ jobs:
 
 
       - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: endbug/add-and-commit@v9
         with:
-          commit_message: "Обновлён ченжлог #${{ github.event.pull_request.number }}"
-          file_pattern: Resources/Changelog/ChangelogDS14.yml
+          author_name: github-actions
+          author_email: actions@github.com
+          message: "Обновлён ченжлог #${{ github.event.pull_request.number }}"
+          add: Resources/Changelog/ChangelogDS14.yml
+          # Опционально: указать ветку (если нужно)
           branch: ${{ github.event.pull_request.base.ref }}
