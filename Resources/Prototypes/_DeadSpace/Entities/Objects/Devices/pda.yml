@@ -120,13 +120,13 @@
     appearanceDataInit:
      enum.PdaVisuals.PdaType:
        !type:String
-       pda-seniorminer
+       pda-miner
   - type: PdaBorderColor
     borderColor: "#735321"
     accentHColor: "#62237F"
     accentVColor: "#62237F"
   - type: Icon
-    state: pda-seniorminer
+    state: pda-miner
   - type: CartridgeLoader
     uiKey: enum.PdaUiKey.Key
     preinstalled:
