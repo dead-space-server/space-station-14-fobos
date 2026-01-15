@@ -13,6 +13,7 @@ using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 using Content.Shared.DeadSpace.Events.Roles.Components;
+using Content.Shared.DeadSpace.Renegade.Roles;
 using Content.Shared.Roles.Components;
 
 namespace Content.Server.Administration.Systems;
@@ -34,7 +35,6 @@ public sealed partial class AdminVerbSystem
     private static readonly EntProtoId DefaultWizardRule = "Wizard";
     private static readonly EntProtoId DefaultUnitologyRule = "Unitology"; // DS14
     private static readonly EntProtoId DefaultSpiderTerrorRule = "SpiderTerror"; // DS14
-
     private static readonly EntProtoId DragonSpawnRule = "DragonSpawn"; //  DS14
     private static readonly EntProtoId SpaceNinjaRule = "NinjaSpawn"; // DS14
     private static readonly EntProtoId RenegadeRule = "RenegadeSpawn"; // DS14
