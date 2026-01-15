@@ -1449,14 +1449,14 @@ entities:
       pos: 0.5,3.5
       parent: 1
     - type: PowerSupplier
-      supplyRate: 25000
+      supplyRate: 50000
   - uid: 126
     components:
     - type: Transform
       pos: 1.5,3.5
       parent: 1
     - type: PowerSupplier
-      supplyRate: 25000
+      supplyRate: 50000
 - proto: GravityGeneratorMini
   entities:
   - uid: 90
