@@ -128,5 +128,3 @@ jobs:
           author_email: actions@github.com
           message: "Обновлён ченжлог #${{ github.event.pull_request.number }}"
           add: Resources/Changelog/ChangelogDS14.yml
-          # Опционально: указать ветку (если нужно)
-          branch: ${{ github.event.pull_request.base.ref }}
