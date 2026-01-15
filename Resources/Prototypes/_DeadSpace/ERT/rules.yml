@@ -3,7 +3,7 @@
   id: SpawnCburnShuttle
   components:
   - type: StationEvent
-    startAnnouncement: station-event-response-team-arrival
+    startAnnouncement: station-event-response-team-arrival-cburn
     startAudio:
       path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
     willNotStartRandomly: true
@@ -17,7 +17,7 @@
   id: SpawnRedShuttle
   components:
   - type: StationEvent
-    startAnnouncement: station-event-response-team-arrival
+    startAnnouncement: station-event-response-team-arrival-red
     startAudio:
       path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
     willNotStartRandomly: true
@@ -45,7 +45,7 @@
   id: SpawnGammaShuttle
   components:
   - type: StationEvent
-    startAnnouncement: station-event-response-team-arrival
+    startAnnouncement: station-event-response-team-arrival-gamma
     startAudio:
       path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
     willNotStartRandomly: true
@@ -101,7 +101,7 @@
   id: SpawnSierraShuttle
   components:
   - type: StationEvent
-    startAnnouncement: station-event-response-team-arrival
+    startAnnouncement: station-event-response-team-arrival-cburn-sierra
     startAudio:
       path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
     willNotStartRandomly: true

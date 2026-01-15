@@ -41,7 +41,7 @@
   parent: ADTBaseExtMagazineRifle
   components:
   - type: BallisticAmmoProvider
-    proto: CartridgeRifleFMJ
+    proto: CartridgeRifle
   - type: Sprite
     layers:
     - state: base

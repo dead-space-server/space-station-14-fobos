@@ -259,9 +259,17 @@ public sealed class LanguageSystem : EntitySystem
         return true;
     }
 
-    public bool NeedGenerateGlobalTTS(ProtoId<LanguagePrototype> prototypeId, out List<ICommonSession> understandings)
+    public bool NeedGenerateFilterTTS(ProtoId<LanguagePrototype> prototypeId, Filter filter, out List<ICommonSession> understandings)
     {
-        understandings = GetUnderstanding(prototypeId);
+        var temp = GetUnderstanding(prototypeId);
+
+        understandings = new List<ICommonSession>();
+
+        foreach (var session in filter.Recipients)
+        {
+            if (temp.Contains(session))
+                understandings.Add(session);
+        }
 
         if (String.IsNullOrEmpty(prototypeId))
             return false;

@@ -67,9 +67,9 @@ public sealed partial class NecromorfComponent : Component
     [DataField]
     public Color BeforeNecroficationEyeColor;
 
-    [DataField("emoteId")]
-    public ProtoId<EmoteSoundsPrototype> EmoteSoundsId = "Necro";
-    public EmoteSoundsPrototype? EmoteSounds;
+//   [DataField("emoteId")]
+//   public ProtoId<EmoteSoundsPrototype> EmoteSoundsId = "Necro";
+//   public EmoteSoundsPrototype? EmoteSounds;
 
     [DataField(customTypeSerializer: typeof(TimeOffsetSerializer))]
     public TimeSpan NextTick;

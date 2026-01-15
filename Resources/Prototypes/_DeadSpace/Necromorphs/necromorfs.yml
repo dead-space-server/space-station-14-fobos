@@ -32,6 +32,28 @@
     Scream:
       collection: NecroScreams
 
+- type: emoteSounds
+  id: NecroWoman
+  sound:
+    collection: NecroScreamsWoman
+    params:
+      variation: 0.125
+      volume: 5
+  sounds:
+    Scream:
+      collection: NecroScreamsWoman
+
+- type: emoteSounds
+  id: NecroOther
+  sound:
+    collection: NecroScreamsOther
+    params:
+      variation: 0.125
+      volume: 5
+  sounds:
+    Scream:
+      collection: NecroScreamsOther
+
 - type: necromorf
   id: NecroSlasher
   movementSpeedMultiply: 0.7
@@ -47,6 +69,69 @@
     selectedLanguage: NecromorfLanguage
     knownLanguages:
     - NecromorfLanguage
+  - type: Vocal
+    sounds:
+      Male: Necro
+      Female: NecroWoman
+      Unsexed: NecroOther
+
+- type: necromorf
+  id: NecroStalker
+  isCanSpawnInfectionDead: false
+  movementSpeedMultiply: 1
+  layersToHide:
+  - Hair
+  - FacialHair
+  - Head
+  - Snout
+  - HeadSide
+  - HeadTop
+  damage:
+    groups:
+      Brute: 13
+    types:
+      Structural: 15
+  damageModifierSet: Necromorf
+  claws: ClothingNecroClawsStalker
+  components:
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
+  - type: Invisibility
+  - type: Vocal
+    sounds:
+      Male: Necro
+      Female: NecroWoman
+      Unsexed: NecroOther
+
+- type: necromorf
+  id: NecroBoomer
+  isCanSpawnInfectionDead: false
+  layersToHide:
+  - LArm
+  - LHand
+  movementSpeedMultiply: 0.9
+  damage:
+    groups:
+      Brute: 12
+    types:
+      Structural: 10
+  damageModifierSet: Necromorf
+  hardsuit: ClothingNecroBoomerTors
+  components:
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
+  - type: ExplosionAbility
+    totalIntensity: 50
+    maxTileIntensity: 5
+  - type: Vocal
+    sounds:
+      Male: Necro
+      Female: NecroWoman
+      Unsexed: NecroOther
 
 - type: necromorf
   id: NecroDeva
@@ -69,6 +154,11 @@
     selectedLanguage: NecromorfLanguage
     knownLanguages:
     - NecromorfLanguage
+  - type: Vocal
+    sounds:
+      Male: Necro
+      Female: NecroWoman
+      Unsexed: NecroOther
 
 - type: necromorf
   id: NecroHive
@@ -101,6 +191,11 @@
     selectedLanguage: NecromorfLanguage
     knownLanguages:
     - NecromorfLanguage
+  - type: Vocal
+    sounds:
+      Male: Necro
+      Female: NecroWoman
+      Unsexed: NecroOther
 
 - type: necromorf
   id: NecroSmall
@@ -121,6 +216,11 @@
     selectedLanguage: NecromorfLanguage
     knownLanguages:
     - NecromorfLanguage
+  - type: Vocal
+    sounds:
+      Male: NecroOther
+      Female: NecroOther
+      Unsexed: NecroOther
 
 - type: necromorf
   id: NecroTwitcher
@@ -138,6 +238,11 @@
     selectedLanguage: NecromorfLanguage
     knownLanguages:
     - NecromorfLanguage
+  - type: Vocal
+    sounds:
+      Male: Necro
+      Female: NecroWoman
+      Unsexed: NecroOther
 
 - type: necromorf
   id: NecroPregnant
@@ -159,13 +264,18 @@
     selectedLanguage: NecromorfLanguage
     knownLanguages:
     - NecromorfLanguage
+  - type: Vocal
+    sounds:
+      Male: Necro
+      Female: NecroWoman
+      Unsexed: NecroOther
 
 - type: necromorf
   id: NecroBrute
   movementSpeedMultiply: 1.1
   isAnimal: true
   slowOnDamage: false
-  thresholdMultiply: 5
+  thresholdMultiply: 1.5
   damage:
     groups:
       Brute: 25
@@ -183,6 +293,11 @@
     selectedLanguage: NecromorfLanguage
     knownLanguages:
     - NecromorfLanguage
+  - type: Vocal
+    sounds:
+      Male: NecroOther
+      Female: NecroOther
+      Unsexed: NecroOther
 
 - type: necromorf
   id: NecroInfector
@@ -206,6 +321,11 @@
     selectedLanguage: NecromorfLanguage
     knownLanguages:
     - NecromorfLanguage
+  - type: Vocal
+    sounds:
+      Male: NecroOther
+      Female: NecroOther
+      Unsexed: NecroOther
 
 - type: necromorf # Прототип некроморфа
   id: NecroTwitcherLvl2 # Идентификатор
@@ -226,6 +346,11 @@
     selectedLanguage: NecromorfLanguage
     knownLanguages:
     - NecromorfLanguage
+  - type: Vocal
+    sounds:
+      Male: Necro
+      Female: NecroWoman
+      Unsexed: NecroOther
 
 - type: necromorf # Прототип некроморфа
   id: NecroCorpseCollector # Идентификатор
@@ -277,6 +402,11 @@
     selectedLanguage: NecromorfLanguage
     knownLanguages:
     - NecromorfLanguage
+  - type: Vocal
+    sounds:
+      Male: Necro
+      Female: NecroWoman
+      Unsexed: NecroOther
 
 - type: weightedRandomEntity
   id: CorpseCollectorMobToSpawn
@@ -398,6 +528,32 @@
   - type: GhostRoleNotifys 
     groupPrototype: CorpseCollectorNecromorfping
 
+- type: randomHumanoidSettings
+  id: BoomerNecromorf
+  parent: Necromorf
+  components:
+  - type: InitialNecrofication
+    necroPrototype: NecroBoomer
+  - type: GhostRole
+    name: Некроморф бумер
+    description: Вы некроморф, убейте всех своих врагов.
+  - type: GhostTakeoverAvailable
+  - type: GhostRoleNotifys 
+    groupPrototype: NecromorfGroup
+
+- type: randomHumanoidSettings
+  id: StalkerNecromorf
+  parent: Necromorf
+  components:
+  - type: InitialNecrofication
+    necroPrototype: NecroStalker
+  - type: GhostRole
+    name: Некроморф сталкер
+    description: Вы некроморф, убейте всех своих врагов.
+  - type: GhostTakeoverAvailable
+  - type: GhostRoleNotifys 
+    groupPrototype: NecromorfGroup
+
 - type: entity
   id: RandomNecromorfSpawner
   name: Некроморф
@@ -511,9 +667,31 @@
     - MobNecromorfBrute
 
 - type: entity
+  id: StalkerNecromorfSpawner
+  name: Некроморф
+  suffix: сталкер
+  components:
+  - type: Icon
+    sprite: Mobs/Species/Human/parts.rsi
+    state: full
+  - type: RandomHumanoidSpawner
+    settings: StalkerNecromorf
+
+- type: entity
+  id: BoomerNecromorfSpawner
+  name: Некроморф
+  suffix: бумер
+  components:
+  - type: Icon
+    sprite: Mobs/Species/Human/parts.rsi
+    state: full
+  - type: RandomHumanoidSpawner
+    settings: BoomerNecromorf
+
+- type: entity
   id: CorpseCollectorNecromorfSpawner
   name: Некроморф
-  suffix: собирель трупов
+  suffix: собиратель трупов
   components:
   - type: Icon
     sprite: Mobs/Species/Human/parts.rsi

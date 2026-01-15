@@ -1,11 +1,11 @@
 - type: entity
-  id: CartridgeRifleFMJ
+  id: CartridgeRifleHP
   name: cartridge (.20 rifle)
   parent: BaseCartridgeRifle
   description: A modern intermediate cartridge for combat rifles. Standard kinetic ammunition is common and useful in most situations.
   components:
   - type: CartridgeAmmo
-    proto: BulletRifleFMJ
+    proto: BulletRifleHP
 
 - type: entity
   id: CartridgeLightRifleHP

@@ -82,7 +82,7 @@ public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
         {
             try
             {
-                await _db.AddBiStatAsync("Блоб", winner, DateTime.UtcNow);
+                await _db.AddBiStatAsync("Юнитологи оперативники", winner, DateTime.UtcNow);
             }
             catch
             {
