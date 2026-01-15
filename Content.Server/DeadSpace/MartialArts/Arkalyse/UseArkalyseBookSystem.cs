@@ -9,7 +9,7 @@ namespace Content.Server.DeadSpace.MartialArts;
 
 public sealed class UseArkalyseBookSystem : EntitySystem
 {
-    [Dependency] private readonly SharedActionsSystem _actionSystem = default!;
+    [Dependency] private readonly SharedActionsSystem _action = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     public override void Initialize()
     {
@@ -22,16 +22,16 @@ public sealed class UseArkalyseBookSystem : EntitySystem
             return;
 
         var userArkalyse = EnsureComp<ArkalyseComponent>(args.User);
-        userArkalyse.Params = ent.Comp.Params;
+        userArkalyse.Params = ent.Comp.Params[0];
 
         foreach (var actionId in userArkalyse.BaseArkalyse)
-            _actionSystem.AddAction(args.User, actionId);
+            _action.AddAction(args.User, actionId);
 
         if (TryComp<MeleeWeaponComponent>(args.User, out var melee))
             melee.AttackRate = ent.Comp.AddAtackRate;
 
         Del(ent);
-        Spawn(ent.Comp.ItemAfterLerning, _transform.GetMapCoordinates(ent));
+        Spawn(ent.Comp.ItemAfterLerning, _transform.GetMapCoordinates(args.User));
 
         args.Handled = true;
     }

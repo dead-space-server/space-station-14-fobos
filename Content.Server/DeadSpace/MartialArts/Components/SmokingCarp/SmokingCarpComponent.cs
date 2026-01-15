@@ -42,7 +42,7 @@ public sealed partial class SmokingCarpComponent : Component
     public MartialArtsForms MartialArtsForm { get; set; } = MartialArtsForms.SmokingCarp;
 
     [DataField]
-    public SmokingCarpParams Params { get; set; }
+    public SmokingCarpParams Params;
 }
 
 public enum SmokingCarpList

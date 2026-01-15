@@ -4,10 +4,12 @@
   description: Молниеносный удар ладонью в живот противника, наносит чистый урон.
   categories: [ HideSpawnMenu ]
   components:
-  - type: InstantAction
+  - type: Action
     icon:
       sprite: _DeadSpace/Actions/arkalyse_actions.rsi
       state: punch
+    priority: -8
+  - type: InstantAction
     event: !type:ArkalyseDamageEvent {}
 
 - type: entity
@@ -16,10 +18,12 @@
   description: Удар в горло, перекрывающий дыхательные пути.
   categories: [ HideSpawnMenu ]
   components:
-  - type: InstantAction
+  - type: Action
     icon:
       sprite: _DeadSpace/Actions/arkalyse_actions.rsi
       state: mute
+    priority: -6
+  - type: InstantAction
     event: !type:ArkalyseMuteEvent {}
 
 - type: entity
@@ -28,10 +32,12 @@
   description: Гибридый удар в голову противника, сшибающий того с ног.
   categories: [ HideSpawnMenu ]
   components:
-  - type: InstantAction
+  - type: Action
     icon:
       sprite: _DeadSpace/Actions/arkalyse_actions.rsi
       state: kick
+    priority: -7
+  - type: InstantAction
     event: !type:ArkalyseStunEvent {}
 
 - type: entity
@@ -40,8 +46,10 @@
   description: Отмена всех эффектов на удар.
   categories: [ HideSpawnMenu ]
   components:
-  - type: InstantAction
+  - type: Action
     icon:
       sprite: _DeadSpace/Actions/arkalyse_actions.rsi
       state: kick
+    priority: -5
+  - type: InstantAction
     event: !type:ArkalyseRelaxEvent {}

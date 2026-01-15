@@ -7,7 +7,7 @@ namespace Content.Server.DeadSpace.MartialArts.Arkalyse.Components;
 public sealed partial class ArkalyseComponent : Component
 {
     [DataField]
-    public ArkalyseParams Params { get; set; }
+    public ArkalyseParams Params;
 
     [DataField]
     public ArkalyseList? SelectedCombo;

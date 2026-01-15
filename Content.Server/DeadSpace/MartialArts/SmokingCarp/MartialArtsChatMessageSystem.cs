@@ -4,7 +4,7 @@ using Content.Shared.DeadSpace.MartialArts.SmokingCarp;
 
 namespace Content.Server.DeadSpace.MartialArts;
 
-public sealed class MartialArtsChatMessageSystem : ServerMartialArtsSystem
+public sealed class MartialArtsChatMessageSystem : SharedMartialArtsSystem
 {
     [Dependency] private readonly ChatSystem _chat = default!;
 

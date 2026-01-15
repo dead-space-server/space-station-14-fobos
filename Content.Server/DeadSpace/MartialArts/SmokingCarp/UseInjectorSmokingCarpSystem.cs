@@ -5,6 +5,7 @@ using Content.Shared.Actions;
 using Content.Server.DeadSpace.MartialArts.Arkalyse.Components;
 using Content.Server.DeadSpace.MartialArts.SmokingCarp.Components;
 using Robust.Server.GameObjects;
+using Content.Shared.DeadSpace.MartialArts.SmokingCarp.Components;
 
 namespace Content.Server.DeadSpace.MartialArts.SmokingCarp;
 public sealed class UseArkalyseBookSystem : EntitySystem
@@ -23,8 +24,9 @@ public sealed class UseArkalyseBookSystem : EntitySystem
             return;
 
         EnsureComp<SmokingCarpTripPunchComponent>(args.User);
+        EnsureComp<SmokingCarpNotShotComponent>(args.User);
         var userSmokingCarp = EnsureComp<SmokingCarpComponent>(args.User);
-        userSmokingCarp.Params = ent.Comp.Params;
+        userSmokingCarp.Params = ent.Comp.Params[0];
 
         foreach (var actionId in userSmokingCarp.BaseSmokingCarp)
             _action.AddAction(args.User, actionId);
@@ -33,7 +35,7 @@ public sealed class UseArkalyseBookSystem : EntitySystem
             melee.AttackRate = ent.Comp.AddAtackRate;
 
         Del(ent);
-        Spawn(ent.Comp.ItemAfterLerning, _transform.GetMapCoordinates(ent));
+        Spawn(ent.Comp.ItemAfterLerning, _transform.GetMapCoordinates(args.User));
 
         args.Handled = true;
     }

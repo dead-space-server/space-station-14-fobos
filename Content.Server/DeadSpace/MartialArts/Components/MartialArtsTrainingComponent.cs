@@ -3,36 +3,88 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.MartialArts.Components;
 
-public readonly record struct ArkalyseParams(
-    float StaminaDamageMuteAtack = 25.0f,
-    float ParalyzeTimeMuteAtack = 10.0f,
-    int HitDamageForDamageAtack = 15,
-    int HitDamageForMuteAtack = 5,
-    float ParalyzeTimeStunAtack = 0.5f,
-    bool IgnoreResist = true,
-    string DamageTypeForDamageAtack = "Piercing",
-    string DamageTypeForMuteAtack = "Blunt",
-    EntProtoId? EffectPunchForDamageAtack = null,
-    EntProtoId? EffectPunchForStunAtack = null,
-    SoundSpecifier? HitSoundForDamageAtack = null,
-    SoundSpecifier? HitSoundForStunAtack = null
-);
+[DataDefinition]
+public sealed partial class ArkalyseParams
+{
+    [DataField]
+    public float StaminaDamageMuteAtack = 25.0f;
 
-public readonly record struct SmokingCarpParams(
-    float StaminaDamageSmokePunch = 5.0f,
-    int HitDamageForSmokePunch = 5,
-    int HitDamageForPowerPunch = 30,
-    bool IgnoreResist = true,
-    string DamageTypeForPowerPunch = "Slash",
-    string DamageTypeForSmokePunch = "Blunt",
-    float PushStrength = 300.0f,
-    float MaxPushDistance = 5.0f,
-    EntProtoId? EffectPowerPunch = null,
-    EntProtoId? EffectSmokePunch = null,
-    SoundSpecifier? HitSoundForPowerPunch = null,
-    SoundSpecifier? HitSoundForSmokePunch = null,
-    List<LocId>? PackMessageOnHit = null
-);
+    [DataField]
+    public float ParalyzeTimeMuteAtack = 10.0f;
+
+    [DataField]
+    public int HitDamageForDamageAtack = 15;
+
+    [DataField]
+    public int HitDamageForMuteAtack = 5;
+
+    [DataField]
+    public float ParalyzeTimeStunAtack = 0.5f;
+
+    [DataField]
+    public bool IgnoreResist = true;
+
+    [DataField]
+    public string DamageTypeForDamageAtack = "Piercing";
+
+    [DataField]
+    public string DamageTypeForMuteAtack = "Blunt";
+
+    [DataField]
+    public EntProtoId? EffectPunchForDamageAtack;
+
+    [DataField]
+    public EntProtoId? EffectPunchForStunAtack;
+
+    [DataField]
+    public SoundSpecifier? HitSoundForDamageAtack;
+
+    [DataField]
+    public SoundSpecifier? HitSoundForStunAtack;
+}
+
+[DataDefinition]
+public sealed partial class SmokingCarpParams
+{
+    [DataField]
+    public float StaminaDamageSmokePunch = 35.0f;
+
+    [DataField]
+    public int HitDamageForSmokePunch = 5;
+
+    [DataField]
+    public int HitDamageForPowerPunch = 30;
+
+    [DataField]
+    public bool IgnoreResist = true;
+
+    [DataField]
+    public string DamageTypeForPowerPunch = "Slash";
+
+    [DataField]
+    public string DamageTypeForSmokePunch = "Blunt";
+
+    [DataField]
+    public float PushStrength = 300.0f;
+
+    [DataField]
+    public float MaxPushDistance = 5.0f;
+
+    [DataField]
+    public EntProtoId? EffectPowerPunch;
+
+    [DataField]
+    public EntProtoId? EffectSmokePunch;
+
+    [DataField]
+    public SoundSpecifier? HitSoundForPowerPunch;
+
+    [DataField]
+    public SoundSpecifier? HitSoundForSmokePunch;
+
+    [DataField]
+    public List<LocId>? PackMessageOnHit;
+}
 
 [RegisterComponent]
 public sealed partial class MartialArtsTrainingCarpComponent : Component
@@ -47,7 +99,7 @@ public sealed partial class MartialArtsTrainingCarpComponent : Component
     public EntProtoId? ItemAfterLerning;
 
     [DataField]
-    public SmokingCarpParams Params { get; set; }
+    public List<SmokingCarpParams> Params { get; set; } = new();
 }
 
 [RegisterComponent]
@@ -63,7 +115,7 @@ public sealed partial class MartialArtsTrainingArkalyseComponent : Component
     public EntProtoId? ItemAfterLerning;
 
     [DataField]
-    public ArkalyseParams Params { get; set; }
+    public List<ArkalyseParams> Params { get; set; } = new();
 }
 
 public enum MartialArtsForms

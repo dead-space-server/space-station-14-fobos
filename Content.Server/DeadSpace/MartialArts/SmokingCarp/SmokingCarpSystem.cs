@@ -20,7 +20,7 @@ using System.Numerics;
 
 namespace Content.Server.DeadSpace.MartialArts.SmokingCarp;
 
-public partial class ServerSmokingCarpSystem : EntitySystem
+public sealed class ServerSmokingCarpSystem : EntitySystem
 {
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly StaminaSystem _stamina = default!;
@@ -97,8 +97,6 @@ public partial class ServerSmokingCarpSystem : EntitySystem
                 SpawnAttachedTo(ent.Comp.Params.EffectPowerPunch, Transform(hitEntity).Coordinates);
                 _audio.PlayPvs(ent.Comp.Params.HitSoundForPowerPunch, ent, AudioParams.Default.WithVolume(3.0f));
                 var pack = ent.Comp.Params.PackMessageOnHit!;
-                if (pack.Count == 0)
-                    return;
 
                 var saying = pack[_random.Next(pack.Count)];
                 var ev = new SmokingCarpSaying(saying);
@@ -134,12 +132,8 @@ public partial class ServerSmokingCarpSystem : EntitySystem
                 _audio.PlayPvs(ent.Comp.Params.HitSoundForSmokePunch, ent, AudioParams.Default.WithVolume(3.0f));
                 SpawnAttachedTo(ent.Comp.Params.EffectSmokePunch, Transform(hitEntity).Coordinates);
                 break;
-
-            default:
-                throw new ArgumentOutOfRangeException(nameof(combo), combo, null);
         }
         ent.Comp.SelectedCombo = null;
-        Dirty(ent);
     }
 
     private void SmokingCarpReflect(Entity<SmokingCarpComponent> ent, ref ReflectCarpEvent args)

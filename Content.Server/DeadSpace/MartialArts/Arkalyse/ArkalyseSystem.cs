@@ -14,7 +14,7 @@ using Content.Server.Damage.Systems;
 
 namespace Content.Server.DeadSpace.MartialArts.Arkalyse;
 
-public partial class ServerArkalyseSystem : EntitySystem
+public sealed class ServerArkalyseSystem : EntitySystem
 {
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly StaminaSystem _stamina = default!;
@@ -72,7 +72,7 @@ public partial class ServerArkalyseSystem : EntitySystem
         if (args.Handled)
             return;
 
-        SelectCombo(ent, ArkalyseList.RelaxHand);
+        ent.Comp.SelectedCombo = ArkalyseList.RelaxHand;
         _popup.PopupEntity(Loc.GetString("relax-martial-ability"), ent, ent);
 
         args.Handled = true;
@@ -101,11 +101,11 @@ public partial class ServerArkalyseSystem : EntitySystem
             case ArkalyseList.DamageAtack:
                 DamageHit(hitEntity, ent.Comp.Params.DamageTypeForDamageAtack, ent.Comp.Params.HitDamageForDamageAtack, ent.Comp.Params.IgnoreResist, out _);
                 SpawnAttachedTo(ent.Comp.Params.EffectPunchForDamageAtack, Transform(hitEntity).Coordinates);
-                _audio.PlayPvs(ent.Comp.Params.HitSoundForDamageAtack, ent, AudioParams.Default.WithVolume(3.0f));
+                _audio.PlayPvs(ent.Comp.Params.HitSoundForDamageAtack, hitEntity, AudioParams.Default.WithVolume(3.0f));
                 break;
 
             case ArkalyseList.StunAtack:
-                _audio.PlayPvs(ent.Comp.Params.HitSoundForStunAtack, ent, AudioParams.Default.WithVolume(0.5f));
+                _audio.PlayPvs(ent.Comp.Params.HitSoundForStunAtack, hitEntity, AudioParams.Default.WithVolume(0.5f));
                 _stun.TryUpdateParalyzeDuration(hitEntity, TimeSpan.FromSeconds(ent.Comp.Params.ParalyzeTimeStunAtack));
                 SpawnAttachedTo(ent.Comp.Params.EffectPunchForStunAtack, Transform(hitEntity).Coordinates);
                 break;
@@ -117,8 +117,9 @@ public partial class ServerArkalyseSystem : EntitySystem
                 _stamina.TakeStaminaDamage(hitEntity, ent.Comp.Params.StaminaDamageMuteAtack);
                 break;
 
-            default:
-                throw new ArgumentOutOfRangeException(nameof(combo), combo, null);
+            case ArkalyseList.RelaxHand:
+                ent.Comp.SelectedCombo = null;
+                break;
         }
         ent.Comp.SelectedCombo = null;
     }
