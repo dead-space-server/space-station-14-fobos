@@ -307,10 +307,6 @@ internal sealed partial class ChatManager : IChatManager
         }
         // DS14-sponsors-end
 
-        if (player.Name == "ahahahahha")
-        {
-            wrappedMessage = Loc.GetString("chat-manager-send-ooc-wrap-message", ("playerName", "[color=#66b6ff]a[/color][color=#5bbbfc]h[/color][color=#4fbff8]a[/color][color=#44c4f5]h[/color][color=#39c9f1]a[/color][color=#2dcdee]h[/color][color=#22d2ea]a[/color][color=#17d7e7]h[/color][color=#0bdbe3]h[/color][color=#00e0e0]a[/color]"), ("message", FormattedMessage.EscapeText(message)));
-        }
         if (player.Name == "Ainnetel")
         {
             wrappedMessage = Loc.GetString("chat-manager-send-ooc-wrap-message", ("playerName", "[color=#ff3C00]A[/color][color=#ff8040]i[/color][color=#ffff80]n[/color][color=#80ff80]n[/color][color=#0077ff]e[/color][color=#00A2ff]t[/color][color=#a533f0]e[/color][color=#df4ae3]l[/color]"), ("message", FormattedMessage.EscapeText(message)));

@@ -161,6 +161,7 @@ virus-evolution-cost-label =
 
 ### NECRO TAB ###
 virus-necro-change-button = Изменить
+necro-chages-special-effects = Особые способности
 ### WHITELIST TAB ###
 
 virus-evolution-available-bodies = Доступные тела

@@ -108,18 +108,12 @@ public sealed class AGhostCommand : LocalizedCommands
             else if (!string.IsNullOrWhiteSpace(player.Name))
                 metaDataSystem.SetEntityName(ghost, player.Name);
 
-            if (player.Channel.UserName == "ahahahahha") // funny
-                metaDataSystem.SetEntityName(ghost, "");
-
 
             mindSystem.Visit(mindId, ghost, mind);
         }
         else
         {
             metaDataSystem.SetEntityName(ghost, player.Name);
-
-            if (player.Channel.UserName == "ahahahahha") // funny
-                metaDataSystem.SetEntityName(ghost, "");
 
             mindSystem.TransferTo(mindId, ghost, mind: mind);
         }

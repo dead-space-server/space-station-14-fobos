@@ -17,6 +17,8 @@ using Content.Shared.Chemistry.Components.SolutionManager;
 using Robust.Shared.Containers;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
+using Content.Shared.Chemistry.Components;
+using SQLitePCL;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -141,40 +143,11 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
                 {
                     if (args.Necrodata == null)
                         return;
-                    if (args.Necrodata.HpMulty > 10)
-                        args.Necrodata.HpMulty = 10;
-                    if (args.Necrodata.DamageMulty > 10)
-                        args.Necrodata.DamageMulty = 10;
-                    if (args.Necrodata.SpeedMulty > 10)
-                        args.Necrodata.SpeedMulty = 10;
-                    if (args.Necrodata.StaminaMulty > 10)
-                        args.Necrodata.StaminaMulty = 10;
-                    int price = (int)(1000 * (Math.Abs(args.Necrodata.HpMulty - 1) + Math.Abs(args.Necrodata.DamageMulty- 1) + Math.Abs(args.Necrodata.SpeedMulty- 1) + Math.Abs(args.Necrodata.StaminaMulty - 1)));
-                    if (!_container.TryGetContainer(uid, "flask_container_virus_solution_analyzer", out var container))
+                    var tryChangeNecroInfections = TryChangeNecroInfections(args, server, uid);
+                    if (!tryChangeNecroInfections.IsSuccess)
                         return;
-                    if (container is not ContainerSlot slot)
-                        return;
-                    if (slot.ContainedEntity is not { } contained)
-                        return;
-                    if (!TryComp<SolutionContainerManagerComponent>(contained, out var solutionManager))
-                        return;
-                    if (!TryComp<DrawableSolutionComponent>(contained, out var drawable))
-                        return;
-                    var wrapper = new Entity<DrawableSolutionComponent?, SolutionContainerManagerComponent?>(
-                        contained,
-                        drawable,
-                        solutionManager);
-                    if (!_solutionContainer.TryGetDrawableSolution(
-                            wrapper,
-                            out _,
-                            out var solution))
-                        return;
-                    if (solution == null || solution.Contents.Count == 0)
-                        return;
-                    if (server.Points - price < 0)
-                        return;
-                    server.Points -= price;
-                    foreach (var reagent in solution.Contents)
+                    server.Points -= tryChangeNecroInfections.price;
+                    foreach (var reagent in tryChangeNecroInfections.solution.Contents)
                     {
                         var dataList = reagent.Reagent.Data;
                         if (dataList == null)
@@ -316,10 +289,24 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
         VirusData? virusData = null;
 
         int points = 0;
-
         var dataServerConnected = console.Comp.VirusDiagnoserDataServer != null;
         var solutionAnalyzerConnected = console.Comp.VirusSolutionAnalyzer != null;
-
+        var solution = GetSolutionFromConsole(console.Owner);
+        InfectionDeadStrainData? infectionDeadStrainData = null;
+        foreach (var reagent in solution.solution.Contents)
+        {
+            var dataList = reagent.Reagent.Data;
+            if (dataList == null)
+                continue;
+            foreach (var data in dataList.OfType<InfectionDeadStrainData>())
+            {
+                infectionDeadStrainData = data;
+            }
+        }
+        if (!solution.IsSuccess)
+        {
+            infectionDeadStrainData = null;
+        }
         if (console.Comp.VirusSolutionAnalyzer != null &&
             _virusSolutionAnalyzer.TryGetVirusDataFromContainer(console.Comp.VirusSolutionAnalyzer.Value, out var virusDataList))
         {
@@ -346,10 +333,61 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
             virusData != null,
             virusData?.ActiveSymptom,
             virusData?.BodyWhitelist,
-            isSentientVirus: false
+            isSentientVirus: false,
+            necroVirus: infectionDeadStrainData
         );
     }
 
-
+    private (bool IsSuccess, int price, Solution solution) TryChangeNecroInfections(EvolutionConsoleUiButtonPressedMessage args, VirusDiagnoserDataServerComponent server, EntityUid uid)
+    {
+        if (args.Necrodata == null)
+            return (false, 0, new Solution());
+        if (args.Necrodata.HpMulty > VirusEffectsConditions.MaxHpMulty)
+            args.Necrodata.HpMulty = VirusEffectsConditions.MaxHpMulty;
+        if (args.Necrodata.DamageMulty > VirusEffectsConditions.MaxDamageMulty)
+            args.Necrodata.DamageMulty = VirusEffectsConditions.MaxDamageMulty;
+        if (args.Necrodata.SpeedMulty > VirusEffectsConditions.MaxSpeedMulty)
+            args.Necrodata.SpeedMulty = VirusEffectsConditions.MaxSpeedMulty;
+        if (args.Necrodata.StaminaMulty > VirusEffectsConditions.MaxStaminaMulty)
+            args.Necrodata.StaminaMulty = VirusEffectsConditions.MaxStaminaMulty;
+        if (args.Necrodata.HpMulty > VirusEffectsConditions.MinHpMulty)
+            args.Necrodata.HpMulty = VirusEffectsConditions.MinHpMulty;
+        if (args.Necrodata.DamageMulty > VirusEffectsConditions.MinDamageMulty)
+            args.Necrodata.DamageMulty = VirusEffectsConditions.MinDamageMulty;
+        if (args.Necrodata.SpeedMulty > VirusEffectsConditions.MinSpeedMulty)
+            args.Necrodata.SpeedMulty = VirusEffectsConditions.MinSpeedMulty;
+        if (args.Necrodata.StaminaMulty > VirusEffectsConditions.MinStaminaMulty)
+            args.Necrodata.StaminaMulty = VirusEffectsConditions.MinStaminaMulty;
+        int price = (int)(1000 * (Math.Abs(args.Necrodata.HpMulty - 1) + Math.Abs(args.Necrodata.DamageMulty - 1) + Math.Abs(args.Necrodata.SpeedMulty - 1) + Math.Abs(args.Necrodata.StaminaMulty - 1)));
+        var solution = GetSolutionFromConsole(uid);
+        if (server.Points - price < 0)
+            return (false, 0, new Solution());
+        return (true, price, solution.solution);
+    }
+    private (bool IsSuccess, Solution solution) GetSolutionFromConsole(EntityUid uid)
+    {
+        if (!_container.TryGetContainer(uid, "flask_container_virus_solution_analyzer", out var container))
+            return (false, new Solution());
+        if (container is not ContainerSlot slot)
+            return (false, new Solution());
+        if (slot.ContainedEntity is not { } contained)
+            return (false, new Solution());
+        if (!TryComp<SolutionContainerManagerComponent>(contained, out var solutionManager))
+            return (false, new Solution());
+        if (!TryComp<DrawableSolutionComponent>(contained, out var drawable))
+            return (false, new Solution());
+        var wrapper = new Entity<DrawableSolutionComponent?, SolutionContainerManagerComponent?>(
+            contained,
+            drawable,
+            solutionManager);
+        if (!_solutionContainer.TryGetDrawableSolution(
+                wrapper,
+                out _,
+                out var solution))
+            return (false, new Solution());
+        if (solution == null || solution.Contents.Count == 0)
+            return (false, new Solution());
+        return (true, solution);
+    }
 }
 

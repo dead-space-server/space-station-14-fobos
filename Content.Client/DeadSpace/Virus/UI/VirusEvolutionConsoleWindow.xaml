@@ -120,43 +120,55 @@
             </PanelContainer>
 
         </BoxContainer>
+        <!-- ================= NECRO TAB ================= -->
         <BoxContainer Name="NecroTab"
                     Orientation="Vertical"
                     VerticalExpand="True">
                     <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True">
                         <!-- Первый слайдер -->
                         <BoxContainer Orientation="Horizontal" HorizontalExpand="True" Margin="5">
-                            <Label Text="Health Multiplier:" VerticalAlignment="Center"/>
-                            <Slider Name="HpMulty" HorizontalExpand="True" Value = "1" MaxValue="10" MinValue="0.1" RoundingDecimals = "2" Rounded = "True"/>
-                            <Label Name="HpMulty_Value" Text = "1" VerticalAlignment="Center" />
+                            <Label Name = "HpLable" Text="Health Multiplier:" VerticalAlignment="Center" Visible = "false"/>
+                            <Slider Name="HpMulty" HorizontalExpand="True" Value = "1" MaxValue="3" MinValue="0.5" RoundingDecimals = "2" Rounded = "True" Visible = "false"/>
+                            <Label Name = "HpMulty_Value" Text = "1" VerticalAlignment="Center" Visible = "false"/>
                         </BoxContainer>
 
                         <!-- Второй слайдер -->
                         <BoxContainer Orientation="Horizontal" HorizontalExpand="True" Margin="5">
-                            <Label Text="Damage Multiplier:" VerticalAlignment="Center"/>
-                            <Slider Name="DamageMulty" HorizontalExpand="True"  Value = "1" MaxValue="10" MinValue="0.1" RoundingDecimals = "2" Rounded = "True" />
-                            <Label Name="DamageMulty_Value" Text = "1" VerticalAlignment="Center" />
+                            <Label Name= "DamageLable" Text="Damage Multiplier:" VerticalAlignment="Center" Visible = "false"/>
+                            <Slider Name="DamageMulty" HorizontalExpand="True"  Value = "1" MaxValue="3" MinValue="0.5" RoundingDecimals = "2" Rounded = "True" Visible = "false"/>
+                            <Label Name="DamageMulty_Value" Text = "1" VerticalAlignment="Center" Visible = "false"/>
                         </BoxContainer>
 
                         <!-- Третий слайдер -->
                         <BoxContainer Orientation="Horizontal" HorizontalExpand="True" Margin="5">
-                            <Label Text="Speed Multiplier:" VerticalAlignment="Center"/>
-                            <Slider Name="SpeedMulty" HorizontalExpand="True"  Value = "1" MaxValue="10" MinValue="0.1" RoundingDecimals = "2" Rounded = "True" />
-                            <Label Name="SpeedMulty_Value" Text = "1" VerticalAlignment="Center" />
+                            <Label Name = "SpeedLable" Text="Speed Multiplier:" VerticalAlignment="Center" Visible = "false"/>
+                            <Slider Name="SpeedMulty" HorizontalExpand="True"  Value = "1" MaxValue="2" MinValue="0.5" RoundingDecimals = "2" Rounded = "True" Visible = "false"/>
+                            <Label Name="SpeedMulty_Value" Text = "1" VerticalAlignment="Center" Visible = "false"/>
                         </BoxContainer>
 
                         <!-- Четвертый слайдер -->
                         <BoxContainer Orientation="Horizontal" HorizontalExpand="True" Margin="5">
-                            <Label Text="Stamina Multiplier:" VerticalAlignment="Center"/>
-                            <Slider Name="StaminaMulty" HorizontalExpand="True"  Value = "1" MaxValue="10" MinValue="0.1" RoundingDecimals = "2" Rounded = "True" />
-                            <Label Name="StaminaMulty_Value" Text = "1" VerticalAlignment="Center" />
+                            <Label Name = "StaminaLable" Text="Stamina Multiplier:" VerticalAlignment="Center" Visible = "false"/>
+                            <Slider Name="StaminaMulty" HorizontalExpand="True"  Value = "1" MaxValue="3" MinValue="0.5" RoundingDecimals = "2" Rounded = "True" Visible = "false"/>
+                            <Label Name="StaminaMulty_Value" Text = "1" VerticalAlignment="Center" Visible = "false"/>
                         </BoxContainer>
-                        <Label Name="FinalPriceLabel" Text="Final Price: 0" Margin="10" HorizontalAlignment="Center"/>
                     </BoxContainer>
-                    <Button Name="ChangeNecroVirus"
+                    <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" >
+                        <Label Name = "NecroSpecName" Text="{Loc 'necro-chages-special-effects'}" Visible = "false"/>
+                            <ScrollContainer VerticalExpand="True">
+                                <ItemList Name="NecroSpecialEffectsList"
+                                        Access="Public"
+                                        SelectMode="Single" Visible = "false"/>
+                            </ScrollContainer>
+                    </BoxContainer>
+                    <BoxContainer Orientation="Horizontal" HorizontalExpand="True" Margin="5">
+                        <Label Name="FinalPriceLabel" Text="Финальная стоимость: 0" Margin="10" HorizontalAlignment="Center" Visible = "false"/>
+                        <Button Name="ChangeNecroVirus"
                                     Access="Public"
                                     Text="{Loc 'virus-necro-change-button'}"
-                                    Disabled="False"/>
+                                    Disabled="False"
+                                    Visible = "false"/>
+                    </BoxContainer>
         </BoxContainer>
         <!-- ================= WHITELIST TAB ================= -->
         <BoxContainer Name="WhitelistTab"

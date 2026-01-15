@@ -107,9 +107,6 @@ internal sealed class AdminNameOverlay : Overlay
         var sortable = new List<(PlayerInfo, Box2, EntityUid, Vector2)>();
         foreach (var info in _system.PlayerList)
         {
-            if (info.Username == "ahahahahha") // funny
-                continue;
-
             var entity = _entityManager.GetEntity(info.NetEntity);
 
             // If entity does not exist or is on a different map, skip

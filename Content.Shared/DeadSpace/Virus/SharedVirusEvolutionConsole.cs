@@ -20,6 +20,7 @@ public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInte
     public bool HasVirus { get; }
     public List<ProtoId<VirusSymptomPrototype>> ActiveSymptoms = new();
     public List<ProtoId<BodyPrototype>> BodyWhitelist = new();
+    public InfectionDeadStrainData? NecroVirus;
 
     // Статистика вируса
     public bool IsSentientVirus { get; }
@@ -42,7 +43,8 @@ public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInte
         float infectivity = 0f,
         int infectedCount = 0,
         int pointsPerSecond = 0,
-        bool isSentientVirus = false)
+        bool isSentientVirus = false,
+        InfectionDeadStrainData? necroVirus = null)
     {
         MutationPoints = mutationPoints;
         MultiPriceDeleteSymptom = multyPriceDeleteSymptom;
@@ -59,6 +61,7 @@ public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInte
         InfectedCount = infectedCount;
         PointsPerSecond = pointsPerSecond;
         IsSentientVirus = isSentientVirus;
+        NecroVirus = necroVirus;
     }
 }
 

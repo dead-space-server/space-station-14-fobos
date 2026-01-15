@@ -57,7 +57,6 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
         _lastUpdate = state;
         MutationPointsLabel.Text = Loc.GetString("virus-evolution-mutation-points", ("points", state.MutationPoints));
         WhitelistMutationPointsLabel.Text = Loc.GetString("virus-evolution-mutation-points", ("points", state.MutationPoints));
-
         // Статистика вируса
         if (!state.IsSentientVirus)
         {
@@ -142,7 +141,24 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
             BuySymptomButton.Visible = true;
             AvailableSymptomsList.Visible = true;
         }
-
+        if (state.NecroVirus is null)
+        {
+            HpLable.Visible = true;
+            HpMulty.Visible = true;
+            HpMulty_Value.Visible = true;
+            DamageLable.Visible = true;
+            DamageMulty.Visible = true;
+            DamageMulty_Value.Visible = true;
+            SpeedLable.Visible = true;
+            SpeedMulty_Value.Visible = true;
+            StaminaLable.Visible = true;
+            StaminaMulty.Visible = true;
+            StaminaMulty_Value.Visible = true;
+            NecroSpecName.Visible = true;
+            NecroSpecialEffectsList.Visible = true;
+            FinalPriceLabel.Visible = true;
+            ChangeNecroVirus.Visible = true;
+        }
         var virusSystem = _entityManager.System<VirusSystem>();
 
         // Активные симптомы
