@@ -40,8 +40,6 @@
 - type: hitscan
   id: VioletLaser # DS
   damage:
-    armorPiercingLevels:
-      Heat: 2
     types:
       Heat: 25
   muzzleFlash:
