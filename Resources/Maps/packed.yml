@@ -76709,7 +76709,7 @@ entities:
     - type: Transform
       pos: 36.5,-6.5
       parent: 2
-- proto: SpawnPointSeniorCourier
+- proto: SpawnPointSeniorSalvageSpecialist
   entities:
   - uid: 11167
     components:

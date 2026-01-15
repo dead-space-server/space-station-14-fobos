@@ -209602,7 +209602,7 @@ entities:
     - type: Transform
       pos: 23.5,-5.5
       parent: 2
-- proto: SpawnPointSeniorCourier
+- proto: SpawnPointSeniorSalvageSpecialist
   entities:
   - uid: 29104
     components:

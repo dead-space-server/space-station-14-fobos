@@ -48633,7 +48633,7 @@ entities:
     - type: Transform
       pos: 22.5,-29.5
       parent: 2
-- proto: SpawnPointSeniorCourier
+- proto: SpawnPointSeniorSalvageSpecialist
   entities:
   - uid: 5761
     components:
