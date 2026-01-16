@@ -518,6 +518,8 @@ namespace Content.Server.Database
             return flags ?? ServerBanExemptFlags.None;
         }
 
+        public abstract Task AddBiStatAsync(string gameMode, BiStatWinner winner, DateTime date); // DS14
+
         #endregion
 
         #region Role Bans

@@ -607,5 +607,21 @@ WHERE to_tsvector('english'::regconfig, a.message) @@ websearch_to_tsquery('engl
                 _db._prefsSemaphore.Release();
             }
         }
+
+        // DS14-Start
+        public override async Task AddBiStatAsync(string gameMode, BiStatWinner winner, DateTime date)
+        {
+            await using var db = await GetDbImpl();
+
+            db.PgDbContext.BiStats.Add(new BiStat
+            {
+                GameMode = gameMode,
+                Winner = winner,
+                Date = date
+            });
+
+            await db.PgDbContext.SaveChangesAsync();
+        }
+        // DS14-End
     }
 }

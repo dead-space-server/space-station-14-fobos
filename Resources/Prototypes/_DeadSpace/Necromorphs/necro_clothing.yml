@@ -9,6 +9,16 @@
   - type: Unremoveable
 
 - type: entity
+  parent: ClothingNeckBase
+  id: ClothingNecroClawsStalker
+  categories: [ HideSpawnMenu ]
+  name: клешни сталкера
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/stalker.rsi
+  - type: Unremoveable
+
+- type: entity
   parent: ClothingOuterBaseMedium
   id: ClothingNecroRibs
   categories: [ HideSpawnMenu ]
@@ -27,7 +37,7 @@
       coefficients:
         Blunt: 0.8
         Slash: 0.8
-        Piercing: 0.8
+        Piercing: 0.9
         Heat: 0.9
   - type: ExplosionResistance
     damageCoefficient: 0.90
@@ -55,6 +65,32 @@
     damageCoefficient: 0.90
 
 - type: entity
+  parent: ClothingOuterBaseMedium
+  id: ClothingNecroBoomerTors
+  categories: [ HideSpawnMenu ]
+  name: рука
+  description: Рука набита вз-... О боже...
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/boomer.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/boomer.rsi
+  - type: Unremoveable
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: ExplosionResistance
+    damageCoefficient: 0.90
+  - type: PointLight
+    color: "#ffb03a"
+    radius: 5
+    energy: 3.5
+
+- type: entity
   parent: ClothingOuterBase
   id: ClothingDevaOpen
   categories: [ HideSpawnMenu ]
@@ -75,12 +111,12 @@
       armorLvls:
         Piercing: 2
       coefficients:
-        Blunt: 0.75
+        Blunt: 1
         Slash: 1.25
-        Piercing: 0.75
+        Piercing: 1
         Shock: 1
         Cold: 0.25
-        Heat: 0.9
+        Heat: 1
         Poison: 0.25
         Radiation: 0.0
   - type: ExplosionResistance
@@ -140,11 +176,11 @@
         Piercing: 2
       coefficients:
         Blunt: 0.75
-        Slash: 0.75
-        Piercing: 0.75
+        Slash: 0.95
+        Piercing: 0.9
         Shock: 0.75
         Cold: 0.25
-        Heat: 0.75
+        Heat: 0.9
         Poison: 0.25
         Radiation: 0.0
   - type: ExplosionResistance

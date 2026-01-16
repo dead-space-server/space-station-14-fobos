@@ -14,3 +14,12 @@
   components:
   - type: AccessReader
     access: [["CounterpartyNT"]]
+
+- type: entity
+  parent: AirlockShuttle
+  id: AirlockShuttleCounterpartyNTLocked
+  suffix: CounterpartyNT, Locked
+  components:
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsCounterpartyNT ]

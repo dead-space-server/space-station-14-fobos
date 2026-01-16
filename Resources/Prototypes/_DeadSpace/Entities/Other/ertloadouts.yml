@@ -442,11 +442,11 @@
     sprite: Objects/Weapons/Guns/Rifles/lecter.rsi
     state: icon
   content:
-  - WeaponRifleLecter
-  - MagazineRifle
-  - MagazineRifle
-  - MagazineRifle
-  - MagazineBoxRifle
+  - WeaponRifleLecterHP
+  - MagazineRifleHP
+  - MagazineRifleHP
+  - MagazineRifleHP
+  - MagazineBoxRifleHP
 
 - type: thiefBackpackSet
   id: LecterFMJSet
@@ -456,11 +456,11 @@
     sprite: Objects/Weapons/Guns/Rifles/lecter.rsi
     state: icon
   content:
-  - WeaponRifleLecterFMJ
-  - MagazineRifleFMJ
-  - MagazineRifleFMJ
-  - MagazineRifleFMJ
-  - MagazineBoxRifleFMJ
+  - WeaponRifleLecter
+  - MagazineRifle
+  - MagazineRifle
+  - MagazineRifle
+  - MagazineBoxRifle
 
 - type: thiefBackpackSet
   id: MinigunGunSet

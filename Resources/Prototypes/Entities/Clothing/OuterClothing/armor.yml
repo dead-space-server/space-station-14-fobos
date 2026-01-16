@@ -17,7 +17,7 @@
   - type: Armor #Based on /tg/ but slightly compensated to fit the fact that armor stacks in SS14.
     modifiers:
       armorLvls:
-        Piercing: 2 #Описание врет, броник 2 тира, ради баланса
+        Piercing: 1 #Для того, чтобы в описании показывался тир брони, ни больше, ни меньше
       coefficients:
         Blunt: 0.70
         Slash: 0.70
@@ -66,7 +66,7 @@
       coefficients:
         Blunt: 0.8 # DS14-value
         Slash: 0.8 # DS14-value
-        Piercing: 0.8 # 0.35 DS14-value
+        Piercing: 0.5 # 0.35 DS14-value
         Heat: 0.8 # DS14-value
   - type: ExplosionResistance
     damageCoefficient: 0.80
@@ -258,7 +258,7 @@
   - type: Armor
     modifiers:
       armorLvls:
-        Piercing: 4 # Рейдерская броня>скафандр
+        Piercing: 3 # Рейдерская броня>скафандр
       coefficients:
         Blunt: 0.35
         Slash: 0.35
@@ -362,7 +362,7 @@
   - type: Armor
     modifiers:
       armorLvls:
-        Piercing: 3 # ну типа, так надо
+        Piercing: 2 # ну типа, так надо
       coefficients:
         Blunt: 0.5
         Slash: 0.5
@@ -383,11 +383,11 @@
   - type: Armor
     modifiers:
       armorLvls:
-        Piercing: 4
+        Piercing: 3
       coefficients:
         Blunt: 0.35 # DS14-value
         Slash: 0.35 # DS14-value
-        Piercing: 0.75 # 0.35 DS14-value во благо баланса
+        Piercing: 0.50 # 0.35 DS14-value во благо баланса
         Heat: 0.5
         # Radiation: 0 # DS14-value
         Caustic: 0.75
@@ -458,7 +458,7 @@
   - type: Armor
     modifiers:
       armorLvls:
-        Piercing: 3
+        Piercing: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
@@ -487,8 +487,6 @@
     sprite: Clothing/OuterClothing/Armor/bone_armor.rsi
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2 #Это все таки самодельная броня
       coefficients:
         Blunt: 0.6
         Slash: 0.8

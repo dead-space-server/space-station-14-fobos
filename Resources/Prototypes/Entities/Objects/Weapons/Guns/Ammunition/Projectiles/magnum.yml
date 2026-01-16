@@ -7,7 +7,7 @@
   - type: Projectile
     damage:
       armorPiercingLevels:
-        Piercing: 3
+        Piercing: 2
       types:
         Piercing: 35
 
@@ -31,7 +31,7 @@
   - type: Projectile
     damage:
       armorPiercingLevels:
-        Piercing: 2
+        Piercing: 1
       types:
         Piercing: 26
         Heat: 9
