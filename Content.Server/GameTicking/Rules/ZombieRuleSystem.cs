@@ -18,6 +18,7 @@ using Content.Shared.Zombies;
 using Robust.Shared.Player;
 using Robust.Shared.Timing;
 using System.Globalization;
+using Content.Server.Database;
 
 namespace Content.Server.GameTicking.Rules;
 
@@ -34,6 +35,7 @@ public sealed class ZombieRuleSystem : GameRuleSystem<ZombieRuleComponent>
     [Dependency] private readonly SharedRoleSystem _roles = default!;
     [Dependency] private readonly StationSystem _station = default!;
     [Dependency] private readonly ZombieSystem _zombie = default!;
+    [Dependency] private readonly IServerDbManager _db = default!; // DS14
 
     public override void Initialize()
     {
@@ -106,6 +108,23 @@ public sealed class ZombieRuleSystem : GameRuleSystem<ZombieRuleComponent>
                 ("name", meta.EntityName),
                 ("username", username)));
         }
+
+        // DS14-dashboard
+        var winner = fraction > 0.9
+            ? BiStatWinner.Antagonist
+            : BiStatWinner.Crew;
+
+        _ = System.Threading.Tasks.Task.Run(async () =>
+        {
+            try
+            {
+                await _db.AddBiStatAsync("Зомби", winner, DateTime.UtcNow);
+            }
+            catch
+            {
+
+            }
+        });
     }
 
     /// <summary>
