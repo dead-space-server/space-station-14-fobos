@@ -3,7 +3,7 @@
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Server.DeadSpace.Virus.Symptoms;
 using Robust.Shared.Physics.Events;
-using Content.Shared.Virus;
+using Content.Shared.DeadSpace.Virus;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 

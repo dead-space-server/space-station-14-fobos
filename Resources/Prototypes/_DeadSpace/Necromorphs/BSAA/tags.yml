@@ -1,0 +1,24 @@
+# Магазин Сайги
+
+- type: Tag
+  id: MagazineForSAIGA12
+
+- type: Tag
+  id: DrumForSAIGA12
+
+- type: Tag
+  id: DrumForSAIGA12Burn
+
+- type: Tag
+  id: MagazineForSAIGA12Burn
+
+# Магазин Вереск и магазин Абакана
+
+- type: Tag
+  id: CartridgeCaselessRifleIncendiary
+
+- type: Tag
+  id: MagazineCaselessRifleBurn
+
+- type: Tag
+  id: ExtMagazineRifleBurn

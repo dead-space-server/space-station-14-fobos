@@ -40,9 +40,9 @@
   components:
   - type: StorageFill
     contents:
-      - id: ChemistryBottleBacterizine
-      - id: ChemistryBottleBacterizine
-      - id: ChemistryBottleBacterizine
+      - id: ChemistryBottleInfectizine
+      - id: ChemistryBottleInfectizine
+      - id: ChemistryBottleInfectizine
       - id: ChemistryBottleMycocline
       - id: ChemistryBottleMycocline
       - id: ChemistryBottleSeptomycin

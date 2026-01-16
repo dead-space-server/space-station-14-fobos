@@ -7,7 +7,7 @@ using Content.Shared.DeviceLinking;
 using Content.Shared.DeviceLinking.Events;
 using Content.Shared.Power;
 using Robust.Server.GameObjects;
-using Content.Shared.Virus;
+using Content.Shared.DeadSpace.Virus;
 using Content.Server.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.Virus.Components;
 

@@ -28,7 +28,7 @@ reagent-effect-guidebook-cause-virus =
        *[other] заражает
     } вирусом
 
-reagent-effect-guidebook-antibiotic =
+reagent-effect-guidebook-damage-disease =
     { $chance ->
         [1] Убивает
        *[other] убивает
@@ -145,7 +145,7 @@ virus-evolution-mutation-points =
     Очки мутации: { $points }
 
 virus-evolution-health =
-    Здоровье: { $current }/{ $max }
+    Максимум здоровья: { $max }
 
 virus-evolution-infectivity =
     Заразность: { $percent }%
@@ -221,22 +221,23 @@ sentient-virus-infect-impossible-target = цель невозможно зара
 sentient-virus-teleport-no-primary-infected = нулевых пациентов не найдено
 sentient-virus-infect-failed-source = вы больше не можете создать нулевого пациента
 sentient-virus-infect-no-points = Не хватает { $price } очков мутации.
+sentient-virus-infect-compensation = Ваш первичный пациент ушёл в крио, вам компенсировали { $price } очков мутации.
 
-# АНТИБИОТИК/ПРОТИВОВИРУСНЫЕ
+# ПРЕПАРАТЫ
 
-reagent-name-bacterizine = бактеризин
-reagent-desc-bacterizine = Простейший антибиотик, эффективный против слабых вирусов.
+reagent-name-infectizine = инфектизин
+reagent-desc-infectizine = Простейший препарат, эффективный против слабых вирусов.
 
 reagent-name-mycocline = микоклин
-reagent-desc-mycocline = Антибиотик широкого спектра действия.
+reagent-desc-mycocline = Препарат широкого спектра действия.
 
 reagent-name-virucidine = вируцид
 reagent-desc-virucidine = Агрессивный препарат, подавляющий вирусные структуры.
 
 reagent-name-panacemycin = панацемицин
-reagent-desc-panacemycin = Экспериментальный антибиотик экстремального действия.
+reagent-desc-panacemycin = Экспериментальный препарат экстремального действия.
 
-ent-ChemistryBottleBacterizine = { ent-BaseChemistryBottleFilled }
+ent-ChemistryBottleInfectizine = { ent-BaseChemistryBottleFilled }
     .suffix = бактеризин
     .desc = { ent-BaseChemistryBottleFilled.desc }
 
@@ -253,7 +254,7 @@ ent-ChemistryBottlePanacemycin = { ent-BaseChemistryBottleFilled }
     .desc = { ent-BaseChemistryBottleFilled.desc }
 
 reagent-name-septomycin = септомицин
-reagent-desc-septomycin = Сильный антисептический антибиотик, подавляющий устойчивые штаммы инфекций.
+reagent-desc-septomycin = Сильный антисептический препарат, подавляющий устойчивые штаммы инфекций.
 
 ent-ChemistryBottleSeptomycin = { ent-BaseChemistryBottleFilled }
     .suffix = септомицин

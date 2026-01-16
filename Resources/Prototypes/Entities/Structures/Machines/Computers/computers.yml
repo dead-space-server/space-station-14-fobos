@@ -894,6 +894,8 @@
       state: generic_panel_open
   - type: CargoOrderConsole
     removeLimitAccess: [ "Quartermaster" ]
+  - type: AccessReader
+    access: [ ["Quartermaster"] ]
   - type: ActiveRadio
     channels:
     - Supply
@@ -911,8 +913,6 @@
     radius: 1.5
     energy: 1.6
     color: "#b89f25"
-  - type: AccessReader
-    access: [["Quartermaster"]] # DS14
   - type: DeviceNetwork
     deviceNetId: Wireless
     receiveFrequencyId: BasicDevice
@@ -950,6 +950,8 @@
     announcementChannel: Engineering
     removeLimitAccess: [ "ChiefEngineer" ]
     mode: SendToPrimary
+  - type: AccessReader
+    access: [ ["ChiefEngineer"] ]
   - type: ActiveRadio
     channels:
     - Engineering
@@ -981,6 +983,8 @@
     announcementChannel: Medical
     removeLimitAccess: [ "ChiefMedicalOfficer" ]
     mode: SendToPrimary
+  - type: AccessReader
+    access: [ ["ChiefMedicalOfficer"] ]
   - type: ActiveRadio
     channels:
     - Medical
@@ -1012,6 +1016,8 @@
     announcementChannel: Science
     removeLimitAccess: [ "ResearchDirector" ]
     mode: SendToPrimary
+  - type: AccessReader
+    access: [ ["ResearchDirector"] ]
   - type: ActiveRadio
     channels:
     - Science
@@ -1041,8 +1047,13 @@
   - type: CargoOrderConsole
     account: Security
     announcementChannel: Security
-    removeLimitAccess: [ "HeadOfSecurity" ]
-    mode: SendToPrimary
+    removeLimitAccess:
+    - HeadOfSecurity # DS14
+    allowedGroups: # DS14
+    - security
+  - type: ActivatableUIRequiresAccess
+  - type: AccessReader
+    access: [ ["HeadOfSecurity"] ] # DS14
   - type: ActiveRadio
     channels:
     - Security
@@ -1074,6 +1085,8 @@
     announcementChannel: Service
     removeLimitAccess: [ "HeadOfPersonnel" ]
     mode: SendToPrimary
+  - type: AccessReader
+    access: [ ["HeadOfPersonnel"] ]
   - type: ActiveRadio
     channels:
     - Service

@@ -17,3 +17,30 @@
   - TaipanTechnician
   - TaipanTechnicalOperationsSupervisor
   editorHidden: true
+
+- type: department
+  id: SpecialOperationsCorps
+  name: department-SpecialOperationsCorps
+  description: department-SpecialOperationsCorps-description
+  color: "#7fffd4"
+  roles:
+  - CentralCommandSpecialOperationsOfficer
+  - CBURNLeader
+  - CBURNAgent
+  - ERTLeaderAmber
+  - ERTLeaderRed
+  - ERTLeaderGamma
+  - ERTSecurityAmber
+  - ERTSecurityRed
+  - ERTSecurityGamma
+  - ERTMedicalAmber
+  - ERTMedicalRed
+  - ERTMedicalGamma
+  - ERTEngineerAmber
+  - ERTEngineerRed
+  - ERTEngineerGamma
+  - ERTJanitorAmber
+  - ERTJanitorRed
+  - ERTJanitorGamma
+  editorHidden: true
+  weight: 120

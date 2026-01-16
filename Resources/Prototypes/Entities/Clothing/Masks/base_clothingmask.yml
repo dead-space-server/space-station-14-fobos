@@ -18,6 +18,10 @@
   id: ClothingMaskPullableBase
   components:
   - type: Mask
+  # DS14-start
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.1
+  # DS14-end
 
 - type: entity
   parent: BaseAction

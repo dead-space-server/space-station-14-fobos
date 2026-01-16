@@ -1,0 +1,25 @@
+- type: entity
+  parent: AirlockCommand
+  id: AirlockCounterpartyNTLocked
+  suffix: CounterpartyNT, Locked
+  components:
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsCounterpartyNT ]
+
+- type: entity
+  parent: DoorElectronics
+  id: DoorElectronicsCounterpartyNT
+  suffix: CounterpartyNT, Locked
+  components:
+  - type: AccessReader
+    access: [["CounterpartyNT"]]
+
+- type: entity
+  parent: AirlockShuttle
+  id: AirlockShuttleCounterpartyNTLocked
+  suffix: CounterpartyNT, Locked
+  components:
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsCounterpartyNT ]

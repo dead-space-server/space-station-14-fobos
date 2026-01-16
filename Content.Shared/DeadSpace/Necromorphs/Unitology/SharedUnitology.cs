@@ -31,6 +31,11 @@ public sealed partial class SelectTargetRecruitmentEvent : EntityTargetActionEve
 
 }
 
+public sealed partial class ObeliskActivateActionEvent : EntityTargetActionEvent
+{
+
+}
+
 [Serializable, NetSerializable]
 public sealed partial class ObeliskActivateDoAfterEvent : SimpleDoAfterEvent
 {

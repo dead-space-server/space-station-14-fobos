@@ -104,7 +104,7 @@
     sprite: Clothing/Head/Hoods/Bio/bio.rsi
     state: icon
   product: CrateVirologyBiosuit
-  cost: 800
+  cost: 7100 # DS14
   category: cargoproduct-category-name-medical
   group: market
 

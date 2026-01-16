@@ -51,7 +51,7 @@
     id: CMOPDA
     ears: ClothingHeadsetCMO
     belt: ClothingBeltMedicalFilled
-    socks: ClothingUnderwearSocksCMO
+    gloves: ClothingHandsGlovesNitrileCMO # DS14
   storage:
     back:
     - Flash
@@ -66,4 +66,4 @@
     mask: ClothingMaskSterile
     neck: ClothingCloakCmo
     outerClothing: ClothingOuterCoatLabCmo
-    gloves: ClothingHandsGlovesNitrile
+    gloves: ClothingHandsGlovesNitrileCMO # DS14

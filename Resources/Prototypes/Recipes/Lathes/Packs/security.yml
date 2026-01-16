@@ -96,6 +96,8 @@
   - ShuttleGunFriendshipCircuitboard
   - ShuttleGunPerforatorCircuitboard
   - ShuttleGunSvalinnMachineGunCircuitboard
+  - WeaponEnergyTurretCommandMachineCircuitboard # DS14
+  - WeaponEnergyTurretCommandControlPanelElectronics # DS14
 
 - type: latheRecipePack
   parent:

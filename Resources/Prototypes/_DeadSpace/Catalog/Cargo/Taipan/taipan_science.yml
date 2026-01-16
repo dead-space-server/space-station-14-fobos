@@ -57,3 +57,13 @@
   cost: 10000
   category: cargoproduct-category-name-science
   group: taipan_market
+
+- type: cargoProduct
+  id: TaipanArtifactContainerNecroobeliskProduct
+  icon:
+    sprite: _DeadSpace/Necromorfs/obelisk.rsi
+    state: unactive
+  product: CrateArtifactContainerNecroobelisk
+  cost: 100000
+  category: cargoproduct-category-name-science
+  group: taipan_market

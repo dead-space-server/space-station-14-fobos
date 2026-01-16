@@ -20,7 +20,10 @@ namespace Content.Client.Options.UI
             Tabs.SetTabTitle(2, Loc.GetString("ui-options-tab-controls"));
             Tabs.SetTabTitle(3, Loc.GetString("ui-options-tab-audio"));
             Tabs.SetTabTitle(4, Loc.GetString("ui-options-tab-accessibility"));
-            Tabs.SetTabTitle(5, Loc.GetString("ui-options-tab-admin"));
+            // DS14-Start
+            Tabs.SetTabTitle(5, Loc.GetString("ui-options-tab-ping"));
+            Tabs.SetTabTitle(6, Loc.GetString("ui-options-tab-admin"));
+            // DS14-end
 
             UpdateTabs();
         }
@@ -28,12 +31,13 @@ namespace Content.Client.Options.UI
         public void UpdateTabs()
         {
             var isAdmin = _adminManager.IsAdmin(true);
-            Tabs.SetTabVisible(5, isAdmin);
+            Tabs.SetTabVisible(6, isAdmin);
 
             GraphicsTab.Control.ReloadValues();
             MiscTab.Control.ReloadValues();
             AccessibilityTab.Control.ReloadValues();
             AudioTab.Control.ReloadValues();
+            PingTab.Control.ReloadValues();//DS14
             AdminOptionsTab.Control.ReloadValues();
         }
     }

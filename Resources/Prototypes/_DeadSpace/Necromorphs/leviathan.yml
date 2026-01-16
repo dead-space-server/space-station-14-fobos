@@ -264,7 +264,7 @@
     animation: WeaponArcPunch
     damage:
       groups:
-        Brute: 20
+        Brute: 15
   - type: NpcFactionMember
     factions:
       - Necromorfs
@@ -323,6 +323,10 @@
       groups:
         Brute: -1
         Burn: -1
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage
 
 - type: entity
   name: разум левиафана
@@ -386,3 +390,7 @@
     - WeaponTentacleNecro
     - NecroKudzu
     - PukerNecro
+  - type: Language
+    selectedLanguage: NecromorfLanguage
+    knownLanguages:
+    - NecromorfLanguage

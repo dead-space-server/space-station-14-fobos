@@ -243,6 +243,8 @@ namespace Content.Server.Database
 
         #endregion
 
+        Task AddBiStatAsync(string gameMode, BiStatWinner winner, DateTime date); // DS14
+
         #region Admin Logs
 
         Task<Server> AddOrGetServer(string serverName);
@@ -739,6 +741,14 @@ namespace Content.Server.Database
             DbWriteOpsMetric.Inc();
             return RunDbCommand(() => _db.AddRoundPlayers(id, playerIds));
         }
+
+        // DS14-Start
+        public Task AddBiStatAsync(string gameMode, BiStatWinner winner, DateTime date)
+        {
+            DbWriteOpsMetric.Inc();
+            return RunDbCommand(() => _db.AddBiStatAsync(gameMode, winner, date));
+        }
+        // DS14-End
 
         public Task UpdateAdminRankAsync(AdminRank rank, CancellationToken cancel = default)
         {

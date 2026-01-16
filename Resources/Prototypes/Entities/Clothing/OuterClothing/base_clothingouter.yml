@@ -122,6 +122,8 @@
     size: Ginormous
   - type: Armor
     modifiers:
+      armorLvls:
+        Piercing: 2 #ибо он hard
       coefficients:
         Blunt: 0.90
         Slash: 0.90
@@ -149,6 +151,10 @@
   - type: HideLayerClothing
     slots:
     - Tail
+  # DS14-start
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.3
+  # DS14-end
 
 - type: entity
   abstract: true

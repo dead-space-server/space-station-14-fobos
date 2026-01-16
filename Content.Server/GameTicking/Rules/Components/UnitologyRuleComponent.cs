@@ -157,7 +157,7 @@ public sealed partial class UnitologyRuleComponent : Component
 public readonly record struct StageConvergenceEvent();
 
 [ByRefEvent]
-public readonly record struct EndStageConvergenceEvent();
+public readonly record struct SpawnNecroMoonEvent();
 
 [ByRefEvent]
 public readonly record struct StageObeliskEvent(EntityUid Obelisk);
