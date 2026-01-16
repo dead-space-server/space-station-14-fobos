@@ -13,7 +13,7 @@ public sealed partial class AntiAlcoholWatcherComponent : Component
     {
         DamageDict = new Dictionary<string, FixedPoint2>
         {
-            { "Poison", (FixedPoint2)5 }
+            { "Poison", 1 }
         }
     };
 }
