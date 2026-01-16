@@ -78,6 +78,5 @@ namespace Content.Client.DeadSpace.ERT.UI
             ResponceTeamButton.Disabled = _lastUpdate.Money < price;
         }
 
-
     }
 }

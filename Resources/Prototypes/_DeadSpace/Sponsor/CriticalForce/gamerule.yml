@@ -1,18 +1,9 @@
-- type: preloadedGrid
-  id: CriticalForceShuttle
-  path: /Maps/Shuttles/ERT/ds_cf_septofil.yml
-  copies: 1
-
 - type: entity
   parent: BaseGameRule
   id: SpawnCriticalForceShuttle
   components:
-  - type: StationEvent
-    willNotStartRandomly: true
-  - type: RuleGrids
-  - type: LoadMapRule
-    preloadedGrid: CriticalForceShuttle
   - type: ErtSpawnRule
+    shuttle: CriticalForceShuttle
 
 - type: ertTeam
   id: CriticalForce

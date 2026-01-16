@@ -150,7 +150,7 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
             }
 
             if (sendSup)
-                _ertResponceSystem.TryCallErt(RevolutionarySupplyTeam, stationUid, out _, false, false, false);
+                _ertResponceSystem.TryCallErt(RevolutionarySupplyTeam, stationUid, out _, false, false, false, callReason: "Снабдить революцию вооружением");
 
             if (headRevsNames.Count == 0)
                 return;

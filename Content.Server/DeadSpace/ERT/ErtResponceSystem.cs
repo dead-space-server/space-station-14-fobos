@@ -12,32 +12,51 @@ using System.Linq;
 using Content.Shared.Storage;
 using Robust.Shared.Random;
 using Robust.Shared.Map;
-using Content.Shared.GameTicking.Components;
 using Robust.Server.GameObjects;
 using Content.Shared.Mind.Components;
 using Content.Shared.GameTicking;
 using Content.Server.Chat.Managers;
 using Content.Server.AlertLevel;
 using Content.Shared.Administration.Logs;
-using Content.Shared.DeadSpace.ERT;
 using Content.Shared.Database;
 using Robust.Shared.Timing;
+using Content.Shared.Pinpointer;
+using Content.Server.DeadSpace.ERT.Components;
+using Content.Server.Station.Systems;
+using Content.Server.GameTicking;
+using Content.Shared.GameTicking.Components;
+using Robust.Shared.EntitySerialization.Systems;
+using Robust.Shared.EntitySerialization;
 
 namespace Content.Server.DeadSpace.ERT;
+
+/// <summary>
+/// Данные ожидаемой команды ERT.
+/// </summary>
+public sealed class ExpectedTeamData
+{
+    public TimedWindow Window { get; set; } = default!;
+    public string? CallReason { get; set; }
+    public EntityUid? PinpointerTarget { get; set; }
+}
 
 // Работает для одной станции, потому что пока нет смысла делать для множества
 public sealed class ErtResponceSystem : SharedErtResponceSystem
 {
     [Dependency] private readonly ChatSystem _chatSystem = default!;
+    [Dependency] private readonly StationSystem _stationSystem = default!;
     [Dependency] private readonly IChatManager _chatManager = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly TimedWindowSystem _timedWindowSystem = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly MapSystem _mapSystem = default!;
+    [Dependency] private readonly MapLoaderSystem _mapLoaderSystem = default!;
     [Dependency] private readonly AlertLevelSystem _alertLevelSystem = default!;
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
-    private readonly Dictionary<ProtoId<ErtTeamPrototype>, TimedWindow> _expectedTeams = new();
+    [Dependency] private readonly SharedPinpointerSystem _pinpointerSystem = default!;
+    [Dependency] private readonly GameTicker _gameTicker = default!;
+    private readonly Dictionary<ProtoId<ErtTeamPrototype>, ExpectedTeamData> _expectedTeams = new();
     private TimedWindow? _coolDown = null;
     private readonly TimedWindow _defaultWindowWaitingSpecies = new(TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(5));
     private List<WaitingSpeciesSettings> _windowWaitingSpecies = new();
@@ -60,6 +79,8 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
         SubscribeNetworkEvent<AdminSetPointsMessage>(OnAdminSetPoints);
         SubscribeNetworkEvent<AdminDeleteErtMessage>(OnDeleteErt);
         SubscribeNetworkEvent<AdminSetCooldownMessage>(OnAdminSetCooldown);
+        SubscribeNetworkEvent<AdminSetErtReasonMessage>(OnAdminSetReason);
+        SubscribeNetworkEvent<AdminCallErtMessage>(OnAdminCallErt);
 
         SubscribeLocalEvent<ErtSpawnRuleComponent, RuleLoadedGridsEvent>(OnRuleLoadedGrids);
         SubscribeLocalEvent<ErtSpeciesRoleComponent, MindAddedMessage>(OnMindAdded);
@@ -71,14 +92,14 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
     {
         var entries = new List<ErtAdminEntry>();
 
-        foreach (var (teamId, window) in _expectedTeams)
+        foreach (var (teamId, data) in _expectedTeams)
         {
             if (!_prototypeManager.TryIndex(teamId, out var proto))
                 continue;
 
-            var seconds = _timedWindowSystem.GetSecondsRemaining(window);
+            var seconds = _timedWindowSystem.GetSecondsRemaining(data.Window);
 
-            entries.Add(new ErtAdminEntry(teamId.ToString(), proto.Name, seconds, proto.Price));
+            entries.Add(new ErtAdminEntry(teamId.ToString(), proto.Name, seconds, proto.Price, data.CallReason));
         }
 
         var cooldownSeconds = 0;
@@ -95,14 +116,14 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
     {
         var key = new ProtoId<ErtTeamPrototype>(msg.ProtoId);
 
-        if (!_expectedTeams.TryGetValue(key, out var window))
+        if (!_expectedTeams.TryGetValue(key, out var data))
         {
             RaiseNetworkEvent(new ErtAdminActionResult(false, "No expected team with that id"), args.SenderSession.Channel);
             return;
         }
 
         // Устанавливаем абсолютное время ожидания
-        window.Remaining = _timing.CurTime + TimeSpan.FromSeconds(msg.Seconds);
+        data.Window.Remaining = _timing.CurTime + TimeSpan.FromSeconds(msg.Seconds);
 
         _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} set ERT '{msg.ProtoId}' arrival to {msg.Seconds} seconds");
 
@@ -144,6 +165,46 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
         _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} set ERT cooldown to {msg.Seconds} seconds");
 
         _chatManager.SendAdminAlert($"Админ {args.SenderSession.Name} установил откат ОБР на {msg.Seconds} сек.");
+
+        RaiseNetworkEvent(new ErtAdminActionResult(true, "OK"), args.SenderSession.Channel);
+    }
+
+    private void OnAdminSetReason(AdminSetErtReasonMessage msg, EntitySessionEventArgs args)
+    {
+        var key = new ProtoId<ErtTeamPrototype>(msg.ProtoId);
+
+        if (!_expectedTeams.TryGetValue(key, out var data))
+        {
+            RaiseNetworkEvent(new ErtAdminActionResult(false, "No expected team with that id"), args.SenderSession.Channel);
+            return;
+        }
+
+        data.CallReason = msg.Reason;
+
+        _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} set ERT '{msg.ProtoId}' reason to '{msg.Reason}'");
+
+        _chatManager.SendAdminAlert($"Админ {args.SenderSession.Name} изменил цель вызова ОБР '{msg.ProtoId}' на '{msg.Reason}'.");
+
+        RaiseNetworkEvent(new ErtAdminActionResult(true, "OK"), args.SenderSession.Channel);
+    }
+
+    private void OnAdminCallErt(AdminCallErtMessage msg, EntitySessionEventArgs args)
+    {
+        var key = new ProtoId<ErtTeamPrototype>(msg.ProtoId);
+
+        if (!TryCallErt(key,
+            _stationSystem.GetOwningStation(args.SenderSession.AttachedEntity),
+            out _,
+            true,
+            true,
+            true,
+            msg.Reason
+            ))
+            return;
+
+        _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} call ERT '{msg.ProtoId}' reason to '{msg.Reason}'");
+
+        _chatManager.SendAdminAlert($"Админ {args.SenderSession.Name} отправил ОБР '{msg.ProtoId}' на '{msg.Reason}'.");
 
         RaiseNetworkEvent(new ErtAdminActionResult(true, "OK"), args.SenderSession.Channel);
     }
@@ -211,6 +272,29 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
                 Spawn(proto, Transform(uid).Coordinates);
             }
         }
+
+        // Устанавливаем pinpointer target для всех пинпоинтеров на карте ERT
+        if (ent.Comp.PinpointerTarget != null && EntityManager.EntityExists(ent.Comp.PinpointerTarget.Value))
+        {
+            var pinQuery = EntityQueryEnumerator<PinpointerComponent, TransformComponent>();
+            while (pinQuery.MoveNext(out var pinUid, out var pin, out var pinXform))
+            {
+                if (pinXform.MapID == args.Map)
+                    _pinpointerSystem.SetTarget(pinUid, ent.Comp.PinpointerTarget.Value, pin);
+            }
+        }
+
+        var queryStaff = EntityQueryEnumerator<ErtStaffComponent, TransformComponent>();
+        while (queryStaff.MoveNext(out _, out var staff, out var xform))
+        {
+            if (xform.MapID != args.Map)
+                continue;
+
+            if (string.IsNullOrEmpty(ent.Comp.CallReason))
+                continue;
+
+            staff.CallReason = ent.Comp.CallReason;
+        }
     }
 
     public override void Update(float frameTime)
@@ -243,12 +327,12 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
             }
         }
 
-        foreach (var (team, window) in _expectedTeams.ToArray())
+        foreach (var (team, data) in _expectedTeams.ToArray())
         {
-            if (!_timedWindowSystem.IsExpired(window))
+            if (!_timedWindowSystem.IsExpired(data.Window))
                 continue;
 
-            EnsureErtTeam(team);
+            var rule = EnsureErtTeam(team, data.CallReason, data.PinpointerTarget);
             _expectedTeams.Remove(team);
         }
     }
@@ -259,9 +343,17 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
     out string? reason,
     bool toPay = true,
     bool needCooldown = true,
-    bool needWarn = true)
+    bool needWarn = true,
+    string? callReason = null,
+    EntityUid? pinpointerTarget = null)
     {
         reason = null;
+
+        if (_expectedTeams.ContainsKey(team))
+        {
+            reason = Loc.GetString("ert-call-fail-already-waiting");
+            return false;
+        }
 
         if (!_prototypeManager.TryIndex(team, out var prototype))
         {
@@ -280,6 +372,21 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
                 );
                 return false;
             }
+        }
+
+        if (toPay)
+        {
+            if (prototype.Price > _points)
+            {
+                reason = Loc.GetString(
+                    "ert-call-fail-not-enough-points",
+                    ("price", prototype.Price),
+                    ("balance", _points)
+                );
+                return false;
+            }
+
+            _points -= prototype.Price;
         }
 
         if (needCooldown)
@@ -302,21 +409,6 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
             }
         }
 
-        if (toPay)
-        {
-            if (prototype.Price > _points)
-            {
-                reason = Loc.GetString(
-                    "ert-call-fail-not-enough-points",
-                    ("price", prototype.Price),
-                    ("balance", _points)
-                );
-                return false;
-            }
-
-            _points -= prototype.Price;
-        }
-
         if (needWarn)
         {
             _chatSystem.DispatchGlobalAnnouncement(
@@ -332,22 +424,63 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
         var window = prototype.TimeWindowToSpawn.Clone();
         _timedWindowSystem.Reset(window);
 
-        _expectedTeams.Add(team, window);
+        var data = new ExpectedTeamData
+        {
+            Window = window,
+            CallReason = callReason,
+            PinpointerTarget = pinpointerTarget
+        };
+
+        _expectedTeams.Add(team, data);
 
         return true;
     }
 
-    public EntityUid? EnsureErtTeam(ProtoId<ErtTeamPrototype> team)
+    public EntityUid? EnsureErtTeam(ProtoId<ErtTeamPrototype> team, string? callReason = null, EntityUid? pinpointerTarget = null)
     {
         if (!_prototypeManager.TryIndex(team, out var prototype))
             return null;
 
         var ruleEntity = Spawn(prototype.ErtRule, MapCoordinates.Nullspace);
-        EnsureComp<ErtSpawnRuleComponent>(ruleEntity).Team = team;
 
-        // не нужен в _allPreviousGameRules, потому что сам по себе не является правилом
+        var ruleComp = EnsureComp<ErtSpawnRuleComponent>(ruleEntity);
+
+        if (!_prototypeManager.TryIndex(ruleComp.Shuttle, out var shuttle))
+            return null;
+
+        var opts = DeserializationOptions.Default with { InitializeMaps = true };
+        _mapSystem.CreateMap(out var mapId);
+        if (!_mapLoaderSystem.TryLoadGrid(mapId, shuttle.Path, out var grid, opts))
+        {
+            Log.Error($"Failed to load grid from {shuttle.Path}!");
+            return null;
+        }
+        var grids = new List<EntityUid>() { grid.Value };
+
+        ruleComp.Team = team;
+        ruleComp.CallReason = callReason;
+        ruleComp.PinpointerTarget = pinpointerTarget;
+
         var ev = new GameRuleAddedEvent(ruleEntity, prototype.ErtRule);
         RaiseLocalEvent(ruleEntity, ref ev, true);
+
+        _gameTicker.StartGameRule(ruleEntity);
+
+        var ev2 = new RuleLoadedGridsEvent(mapId, grids);
+        RaiseLocalEvent(ruleEntity, ref ev2);
+
+        if (!string.IsNullOrEmpty(prototype.StartAnnouncement))
+        {
+            _chatSystem.DispatchGlobalAnnouncement(
+                    message: Loc.GetString(prototype.StartAnnouncement),
+                    sender: string.IsNullOrEmpty(prototype.Sender) ? Loc.GetString("chat-manager-sender-announcement") : Loc.GetString(prototype.Sender),
+                    colorOverride: Color.FromHex("#1d8bad"),
+                    announcementSound: prototype.StartAudio,
+                    playSound: true,
+                    usePresetTTS: true,
+                    languageId: LanguageSystem.DefaultLanguageId
+                );
+        }
 
         return ruleEntity;
     }
