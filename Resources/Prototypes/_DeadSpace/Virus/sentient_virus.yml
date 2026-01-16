@@ -57,7 +57,6 @@
   - type: SentientVirus
     data: 
       mutationPoints: 3000
-  # Добавленные компоненты для ghost role:
   - type: GhostTakeoverAvailable
   - type: GhostRole
     allowMovement: true
@@ -68,6 +67,8 @@
     rules: ghost-role-information-sentient-virus-rules
     mindRoles:
     - MindRoleSentientVirus
+    raffle:
+      settings: default
     requirements:
     - !type:OverallPlaytimeRequirement
       time: 36000 # 10h overall
@@ -79,13 +80,11 @@
   components:
   - type: GhostRoleMobSpawner
     prototype: SentientVirus
-  # Убираем дублирующий компонент GhostRole, так как он теперь на самой сущности
   - type: Sprite
     layers:
     - state: green
     - sprite: _DeadSpace/Virus/virus.rsi
       state: icon
-
 
 - type: entity
   parent:

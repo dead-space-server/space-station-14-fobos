@@ -49,3 +49,20 @@
     earliestStart: 60
     reoccurrenceDelay: 20
     minimumPlayers: 10
+
+- type: entity
+  parent: BaseGameRule
+  id: SentientVirusEvent
+  components:
+  - type: GameRule
+    delay:
+      min: 1
+      max: 2
+  - type: StationEvent
+    weight: 2000 # Шанс относительно других событий
+    duration: null # Без ограничения по времени
+    earliestStart: 1 # Начнется не раньше 40 минут смены
+    reoccurrenceDelay: 1 # Повтор не чаще чем через 30 минут
+    minimumPlayers: 0 # Требуемое количество игроков
+  - type: RandomSpawnRule
+    prototype: SentientVirus # Спавн
