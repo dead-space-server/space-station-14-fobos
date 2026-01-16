@@ -61,7 +61,6 @@ namespace Content.IntegrationTests.Tests
             // DS14-start: Add our custom maps to whitelist
             {"/Maps/barratry.yml", ["RubberStampCaptain"]},
             {"/Maps/cluster.yml", ["RubberStampMime"]},
-            {"/Maps/corvax_glacier.yml", ["ClothingHeadHatCatEarsValid"]},
             {"/Maps/corvax_paper.yml", ["ClothingHeadHatCatEars"]},
             {"/Maps/corvax_pilgrim.yml", ["ClothingHeadHatCatEars", "BoxFolderCentCom"]},
             {"/Maps/ds_box.yml", ["RubberStampSyndicate"]},

@@ -1,0 +1,161 @@
+name: Auto changelog
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-changelog:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - name: Prepare changelog branch
+        run: |
+          BRANCH="auto/changelog"
+
+          git fetch origin
+
+          if git show-ref --verify --quiet refs/remotes/origin/$BRANCH; then
+            echo "Ветка $BRANCH существует"
+            git checkout $BRANCH
+            git pull origin $BRANCH
+          else
+            echo "Создаю ветку $BRANCH"
+            git checkout -b $BRANCH
+          fi
+
+      - name: Extract PR description
+        id: extract-desc
+        run: |
+          echo "DESCRIPTION<<EOF" >> $GITHUB_OUTPUT
+          curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}" \
+            | jq -r '.body' >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Parse and update changelog
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+          DESCRIPTION: ${{ steps.extract-desc.outputs.DESCRIPTION }}
+        run: |
+          python <<EOF
+          import yaml
+          import re
+          from datetime import datetime, timezone
+          import os
+          import sys
+
+          CHANGELOG_FILE = "Resources/Changelog/ChangelogDS14.yml"
+
+          description = os.environ['DESCRIPTION']
+          author = os.environ['AUTHOR']
+
+          desc_clean = re.sub(r'<!--.*?-->', '', description, flags=re.DOTALL)
+
+          if ':cl:' not in desc_clean:
+              print("Изменений нет, пропуск (:cl:)")
+              exit(0)
+
+          sections = {
+              'Добавлено': 'Add',
+              'Удалено': 'Remove',
+              'Изменено': 'Tweak',
+              'Исправлено': 'Fix'
+          }
+          changes = []
+
+          for title, type_key in sections.items():
+              pattern = rf'- {title}:\s*(.*?)(?=\n- [^:]|$)'
+              matches = re.findall(pattern, desc_clean, flags=re.DOTALL)
+
+              for match in matches:
+                  lines = [line.strip() for line in match.strip().split('\n') if line.strip()]
+                  if not lines:
+                      continue
+
+                  message = ' '.join(lines)
+                  message = re.sub(r'\s+', ' ', message).strip()
+
+                  if message:
+                      changes.append({
+                          'type': type_key,
+                          'message': message
+                      })
+
+          if not changes:
+              print("Нет информации об изменениях")
+              exit(0)
+
+          if os.path.exists(CHANGELOG_FILE):
+              with open(CHANGELOG_FILE, 'r', encoding='utf-8') as f:
+                  data = yaml.safe_load(f) or {}
+          else:
+              data = {}
+
+          entries = data.get('Entries', [])
+          max_id = max((entry['id'] for entry in entries), default=0)
+
+          entries.append({
+              'id': max_id + 1,
+              'author': author,
+              'time': datetime.now(timezone.utc).isoformat(),
+              'changes': changes
+          })
+
+          data['Entries'] = entries
+
+          with open(CHANGELOG_FILE, 'w', encoding='utf-8') as f:
+              yaml.dump(
+                  data,
+                  f,
+                  allow_unicode=True,
+                  sort_keys=False,
+                  indent=2
+              )
+
+          print("Changelog обновлён")
+          EOF
+
+      - name: Commit and push to changelog branch
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          branch: auto/changelog
+          commit_message: "Обновлён ченжлог (#${{ github.event.pull_request.number }})"
+          file_pattern: Resources/Changelog/ChangelogDS14.yml
+
+      - name: Create PR to master if not exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          EXISTING_PR=$(curl -s \
+            -H "Authorization: token $GH_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls?head=${{ github.repository_owner }}:auto/changelog&base=master" \
+            | jq length)
+
+          if [ "$EXISTING_PR" -eq 0 ]; then
+            curl -s -X POST \
+              -H "Authorization: token $GH_TOKEN" \
+              -H "Content-Type: application/json" \
+              https://api.github.com/repos/${{ github.repository }}/pulls \
+              -d '{
+                "title": "Auto: обновление changelog",
+                "head": "auto/changelog",
+                "base": "master",
+                "body": "Автоматически сгенерированный PR с changelog’ом."
+              }'
+            echo "PR создан"
+          else
+            echo "PR уже существует"
+          fi

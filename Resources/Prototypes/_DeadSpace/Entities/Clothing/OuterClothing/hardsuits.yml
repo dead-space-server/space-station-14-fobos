@@ -1,4 +1,33 @@
 - type: entity
+  parent: ClothingOuterHardsuitClown
+  id: ClothingOuterHardsuitMedEVA
+  name: скафандр медицинского отдела
+  description: Герметичный скафандр, защищающий как от перепада давления, так и от температур.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/OuterClothing/Hardsuits/medsuit.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/OuterClothing/Hardsuits/medsuit.rsi
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitMedEVA
+
+- type: entity
+  parent: ClothingOuterHardsuitClown
+  id: ClothingOuterHardsuitMedChemEVA
+  name: скафандр химика
+  description: Герметичный скафандр, защищающий как от перепада давления, так и от температур.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/OuterClothing/Hardsuits/chemestry.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/OuterClothing/Hardsuits/chemestry.rsi
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitMedChemEVA
+
+
+# Taipan
+
+- type: entity
   parent: ClothingOuterHardsuitAtmos
   id: ClothingOuterHardsuitTaipanAtmosphericsEngineer
   name: скафандр атмосферного инженера

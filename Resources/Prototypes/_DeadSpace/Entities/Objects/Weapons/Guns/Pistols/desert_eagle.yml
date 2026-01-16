@@ -123,7 +123,7 @@
   parent: DesertEagleBase
   id: WeaponPistolDesertEagle
   name: пустынный орёл
-  description: Вот он, воплощение силы и свободы — Пустынный орёл! Одно только упоминание этого оружия вызывает волну бесшабашности и адреналина.
+  description: Вот он, воплощение силы и свободы — Пустынный орёл! Одно только упоминание этого оружия вызывает волну **бесшабашности** и адреналина
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/deserteagle.rsi
