@@ -1,19 +1,19 @@
 - type: latheRecipePack
   id: BSAAAmmoStatic
   recipes:
-  - ShieldVANT
+  - VantShield
   - MagazineForSAIGA12
   - MagazineForSAIGA12Burn
   - DrumForSAIGA12Burn
   - DrumForSAIGA12
-  - MagazineCaselessRifleIncendiary
+  - MagazineCaselessRifleBurn
   - MagazineCaselessRifle
   - ExtMagazineRifleBurn
   - ADTExtMagazineRifle
 
 - type: latheRecipe
-  id: ShieldVANT
-  result: ShieldVANT
+  id: VantShield
+  result: VantShield
   materials:
     Steel: 1550
     Plastic: 1550
@@ -22,14 +22,14 @@
 - type: latheRecipe
   parent: BaseAmmoRecipe
   id: MagazineForSAIGA12
-  result: MagazineShotgunNew
+  result: MagazineForSAIGA12
   materials:
     Steel: 350
 
 - type: latheRecipe
   parent: BaseAmmoRecipe
   id: MagazineForSAIGA12Burn
-  result: MagazineShotgunNewIncendiary
+  result: MagazineForSAIGA12Burn
   materials:
     Steel: 150
     Plastic: 350
@@ -37,7 +37,7 @@
 - type: latheRecipe
   parent: BaseAmmoRecipe
   id: DrumForSAIGA12Burn
-  result: MagazineShotgunDrumIncendiary
+  result: DrumForSAIGA12Burn
   materials:
     Steel: 450
     Plastic: 650
@@ -45,18 +45,18 @@
 - type: latheRecipe
   parent: BaseAmmoRecipe
   id: DrumForSAIGA12
-  result: MagazineShotgunDrum
+  result: DrumForSAIGA12
   materials:
     Steel: 750
 
 - type: latheRecipe
   parent: BaseAmmoRecipe
-  id: MagazineCaselessRifleIncendiary
-  result: MagazineCaselessRifleIncendiary
+  id: MagazineCaselessRifleBurn
+  result: MagazineCaselessRifleBurn
   materials:
     Steel: 50
     Plastic: 475
-
+  
 - type: latheRecipe
   parent: BaseAmmoRecipe
   id: MagazineCaselessRifle
@@ -67,7 +67,7 @@
 - type: latheRecipe
   parent: BaseAmmoRecipe
   id: ExtMagazineRifleBurn
-  result: CartridgeRifleIncendiary
+  result: ExtMagazineRifleBurn
   materials:
     Steel: 100
     Plastic: 400
