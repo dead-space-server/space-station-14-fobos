@@ -41,7 +41,7 @@
 - type: entity
   id: BSAAloadout
   name: кейс неопределённости
-  description: Прочный военный кейс для оружия. Принадлежит отряду АПБТ. 
+  description: Прочный военный кейс для оружия. Принадлежит отряду АПБТ.
   suffix: АПБТ, Основное
   parent: BaseERTloadoutPrimary
   components:
@@ -63,23 +63,23 @@
 
 - type: thiefBackpackSet
   id: SAIGA12Set
-  name: Набор Сойдаж-12
-  description: В данный набор входит новейшая разработка NT по заказу КСО для особого отряда — Сойдаж-12 — скорострельный магазинный дробовик с убойной силой, способный раздробить кости посмевших напасть биотеррористов.
+  name: Набор Сайга-12М
+  description: В данный набор входит новейшая разработка NT по заказу КСО для особого отряда — Сайга-12М — скорострельный магазинный дробовик с убойной силой, способный раздробить кости посмевших напасть биотеррористов.
   sprite:
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/saiga12/saiga12.rsi
     state: icon
   content:
-  - WeaponSAIGA12
-  - MagazineForSAIGA12
-  - MagazineForSAIGA12
-  - MagazineForSAIGA12
-  - MagazineForSAIGA12
-  - DrumForSAIGA12
-  - MagazineForSAIGA12Burn
-  - MagazineForSAIGA12Burn
-  - MagazineForSAIGA12Burn
-  - MagazineForSAIGA12Burn
-  - DrumForSAIGA12Burn
+  - WeaponShotgunSaigaM
+  - MagazineShotgunNew
+  - MagazineShotgunNew
+  - MagazineShotgunNew
+  - MagazineShotgunNew
+  - MagazineShotgunDrum
+  - MagazineShotgunNewIncendiary
+  - MagazineShotgunNewIncendiary
+  - MagazineShotgunNewIncendiary
+  - MagazineShotgunNewIncendiary
+  - MagazineShotgunDrumIncendiary
   - BoxShotgunIncendiary
   - BoxLethalshot
 
@@ -91,20 +91,20 @@
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/vant/vant.rsi
     state: icon
   content:
-  - VantShield
+  - ShieldVANT
   - WeaponVeresk
   - MagazineCaselessRifle
   - MagazineCaselessRifle
   - MagazineCaselessRifle
   - MagazineCaselessRifle
-  - MagazineCaselessRifleBurn
-  - MagazineCaselessRifleBurn
-  - MagazineCaselessRifleBurn
-  - MagazineCaselessRifleBurn
-  - MagazineCaselessRifleBurn
-  - MagazineCaselessRifleBurn
-  - MagazineCaselessRifleBurn
-  - MagazineCaselessRifleBurn
+  - MagazineCaselessRifleIncendiary
+  - MagazineCaselessRifleIncendiary
+  - MagazineCaselessRifleIncendiary
+  - MagazineCaselessRifleIncendiary
+  - MagazineCaselessRifleIncendiary
+  - MagazineCaselessRifleIncendiary
+  - MagazineCaselessRifleIncendiary
+  - MagazineCaselessRifleIncendiary
   - MagazineBoxCaselessRifle
   - MagazineBoxCaselessRifle
 
@@ -122,11 +122,11 @@
   - ADTExtMagazineRifle
   - ADTExtMagazineRifle
   - ADTExtMagazineRifle
-  - ExtMagazineRifleBurn
-  - ExtMagazineRifleBurn
-  - ExtMagazineRifleBurn
-  - ExtMagazineRifleBurn
-  - ExtMagazineRifleBurn
+  - CartridgeRifle
+  - CartridgeRifle
+  - CartridgeRifle
+  - CartridgeRifle
+  - CartridgeRifle
   - MagazineBoxRifleIncendiary
   - MagazineBoxRifleIncendiary
   - MagazineBoxRifle
@@ -146,17 +146,17 @@
   - type: TTS
     voice: Lunara
   - type: EmitSoundOnUse
-    sound: 
+    sound:
       path: /Audio/Ambience/Antag/nukeops_start.ogg
       params:
         volume: -2
   - type: EmitSoundOnActivate
-    sound: 
+    sound:
       path: /Audio/Ambience/Antag/nukeops_start.ogg
       params:
         volume: -2
   - type: EmitSoundOnTrigger
-    sound: 
+    sound:
       path: /Audio/Ambience/Antag/nukeops_start.ogg
       params:
         volume: -2

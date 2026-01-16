@@ -1,7 +1,7 @@
 # Магазин Сайги
 
 - type: Tag
-  id: MagazineForSAIGA12
+  id: MagazineShotgunSaiga
 
 - type: Tag
   id: DrumForSAIGA12
@@ -18,7 +18,7 @@
   id: CartridgeCaselessRifleIncendiary
 
 - type: Tag
-  id: MagazineCaselessRifleBurn
+  id: MagazineCaselessRifleIncendiary
 
 - type: Tag
   id: ExtMagazineRifleBurn
