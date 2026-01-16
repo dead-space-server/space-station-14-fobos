@@ -23,10 +23,6 @@ public sealed partial class ArkalyseComponent : Component
         "ActionRelaxArkalyseAttack",
     };
 
-    public readonly List<EntityUid> ArkalyseActionEntities = new()
-    {
-    };
-
     [DataField]
     public MartialArtsForms MartialArtsForm { get; set; } = MartialArtsForms.Arkalyse;
 }

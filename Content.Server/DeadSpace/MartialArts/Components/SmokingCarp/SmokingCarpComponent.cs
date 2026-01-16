@@ -34,10 +34,6 @@ public sealed partial class SmokingCarpComponent : Component
         "ActionReflectCarp",
     };
 
-    public readonly List<EntityUid> SmokeCarpActionEntities = new()
-    {
-    };
-
     [DataField]
     public MartialArtsForms MartialArtsForm { get; set; } = MartialArtsForms.SmokingCarp;
 

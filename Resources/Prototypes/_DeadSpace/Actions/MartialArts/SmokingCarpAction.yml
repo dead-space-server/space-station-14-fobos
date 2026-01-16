@@ -7,7 +7,7 @@
     icon:
       sprite: _DeadSpace/Actions/smoking_carp_actions.rsi
       state: power_punch
-    useDelay: 3
+    useDelay: 4
     priority: -7
   - type: InstantAction
     event: !type:SmokingCarpPowerPunchEvent {}
