@@ -40,11 +40,13 @@
     - state: heavy-bullet-5.7
   - type: Projectile
     damage:
+      armorPiercingLevels:
+        Piercing: 2
       types:
-        Piercing: 14
+        Piercing: 15
         Blunt: 4
   - type: StaminaDamageOnCollide
-    damage: 11
+    damage: 15
 
 ### Пуля РШ2
 - type: entity
@@ -56,6 +58,8 @@
   components:
   - type: Projectile
     damage:
+      armorPiercingLevels:
+        Piercing: 2
       types:
         Piercing: 26
         Structural: 25
@@ -131,6 +135,8 @@
   components:
   - type: Projectile
     damage:
+      armorPiercingLevels:
+        Piercing: 2
       types:
        Piercing: 30
        Structural: 10
@@ -198,7 +204,10 @@
   components:
   - type: Projectile
     damage:
+      armorPiercingLevels:
+        Piercing: 2
       types:
-       Piercing: 17
+       Piercing: 18
+       Structural: 35
   - type: TimedDespawn
     lifetime: 2

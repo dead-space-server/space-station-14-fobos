@@ -55,5 +55,6 @@ public enum CircleOpsState : byte
     Preparing,
     WarReady,
     WarDeclared,
-    ObeliskActivated
+    ObeliskActivated,
+    Convergence
 }

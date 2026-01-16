@@ -120,21 +120,21 @@
 
 - type: listing
   id: UniPhoneUplinkWeaponRPL20
-  name: РПЛ 20 (Можно купить 3 раза)
+  name: РПЛ 20 (Можно купить 2 раза)
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/rpl20/rpl20.rsi, state: icon }
   description: Пулемет предназначен для поражения живой силы, огневых и небронированных транспортных средств противника.
   productEntity: WeaponCaseHeavyFilledRPL20
   cost:
-    Telecrystal: 21
+    Telecrystal: 18
   categories:
    - UniPhoneUplinkWeaponry
   conditions:
   - !type:ListingLimitedStockCondition
-    stock: 3
+    stock: 2
 
 - type: listing
   id: UniPhoneUplinkWeaponSCARAB
-  name: SCARAB (Можно купить 2 раза)
+  name: SCARAB (Можно купить 3 раза)
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/scarab/scarab.rsi, state: icon }
   description: Автомат из семейства FN SCAR, модифицированный под патрон 6.8х51 мм. На месте пулевых попаданий оставляет порезы и впрыскивает в рану кислоту.
   productEntity: WeaponCaseHeavyFilledSCARAB
@@ -144,7 +144,7 @@
    - UniPhoneUplinkWeaponry
   conditions:
   - !type:ListingLimitedStockCondition
-    stock: 2
+    stock: 3
 
 - type: listing
   id: UniPhoneUplinkWeaponASh12
@@ -279,26 +279,26 @@
   productEntity: VendingMachineRestockChemVendSyndicate
   description: Простое пополнение для СиндиСока. Пополнение можно купить 2 раза.
   cost:
-    Telecrystal: 12
+    Telecrystal: 16
   categories:
    - UniPhoneUplinkMedical
   conditions:
   - !type:ListingLimitedStockCondition
     stock: 2
 
-#- type: listing
-#  id: UniPhoneUplinkExtraborilKit
-#  name: набор медика "Круг"
-#  icon: { sprite: /Textures/Objects/Storage/boxicons.rsi, state: vials }
-#  productEntity: ExtraborilKit
-#  description: Важный набор для твоего медика Круга. Кстати, скажи спасибо своему медику, ему будет приятно. Данный набор можно купить 6 раза.
-#  cost:
-#    Telecrystal: 6
-#  categories:
-#   - UniPhoneUplinkMedical
-#  conditions:
-#  - !type:ListingLimitedStockCondition
-#    stock: 6
+- type: listing
+  id: UniPhoneUplinkExtraborilKit
+  name: набор медика "Круг"
+  icon: { sprite: /Textures/Objects/Storage/boxicons.rsi, state: vials }
+  productEntity: ExtraborilKit
+  description: Важный набор для твоего медика Круга. Кстати, скажи спасибо своему медику, ему будет приятно. Данный набор можно купить 6 раза.
+  cost:
+    Telecrystal: 6
+  categories:
+   - UniPhoneUplinkMedical
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 6
 
 - type: listing
   id: UniPhoneUplinkJugTheCircle

@@ -894,6 +894,8 @@
       state: generic_panel_open
   - type: CargoOrderConsole
     removeLimitAccess: [ "Quartermaster" ]
+  - type: AccessReader
+    access: [ ["Quartermaster"] ]
   - type: ActiveRadio
     channels:
     - Supply
@@ -948,6 +950,8 @@
     announcementChannel: Engineering
     removeLimitAccess: [ "ChiefEngineer" ]
     mode: SendToPrimary
+  - type: AccessReader
+    access: [ ["ChiefEngineer"] ]
   - type: ActiveRadio
     channels:
     - Engineering
@@ -979,6 +983,8 @@
     announcementChannel: Medical
     removeLimitAccess: [ "ChiefMedicalOfficer" ]
     mode: SendToPrimary
+  - type: AccessReader
+    access: [ ["ChiefMedicalOfficer"] ]
   - type: ActiveRadio
     channels:
     - Medical
@@ -1010,6 +1016,8 @@
     announcementChannel: Science
     removeLimitAccess: [ "ResearchDirector" ]
     mode: SendToPrimary
+  - type: AccessReader
+    access: [ ["ResearchDirector"] ]
   - type: ActiveRadio
     channels:
     - Science
@@ -1077,6 +1085,8 @@
     announcementChannel: Service
     removeLimitAccess: [ "HeadOfPersonnel" ]
     mode: SendToPrimary
+  - type: AccessReader
+    access: [ ["HeadOfPersonnel"] ]
   - type: ActiveRadio
     channels:
     - Service

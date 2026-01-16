@@ -1,6 +1,6 @@
 - type: preloadedGrid
   id: CriticalForceShuttle
-  path: /Maps/Shuttles/ERT/crit_force.yml
+  path: /Maps/Shuttles/ERT/ds_cf_septofil.yml
   copies: 1
 
 - type: entity
