@@ -246,11 +246,7 @@
 - type: entity
   parent: ClothingOuterCoatParamedicWB
   id: ClothingOuterCoatParamedicALT
-<<<<<<< HEAD
   name: чёрная ветровка парамедика
-=======
-  name: чёрная ветровка парамедика 
->>>>>>> 460c25b535b1c5db10cb26632a5534ab963931ae
   description: Надёжная ветровка фельдшера, защита от любого космического ветра.
   components:
   - type: Sprite
