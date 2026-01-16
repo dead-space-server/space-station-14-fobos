@@ -57,15 +57,12 @@
   - type: SentientVirus
     data: 
       mutationPoints: 3000
-
-- type: entity
-  categories: [ HideSpawnMenu, Spawner ]
-  parent: BaseAntagSpawner
-  id: SpawnPointSentientVirus
-  components:
-  - type: GhostRoleMobSpawner
-    prototype: SentientVirus
+  # Добавленные компоненты для ghost role:
+  - type: GhostTakeoverAvailable
   - type: GhostRole
+    allowMovement: true
+    allowSpeech: true
+    makeSentient: true
     name: ghost-role-information-sentient-virus-name
     description: ghost-role-information-sentient-virus-description
     rules: ghost-role-information-sentient-virus-rules
@@ -74,6 +71,15 @@
     requirements:
     - !type:OverallPlaytimeRequirement
       time: 36000 # 10h overall
+
+- type: entity
+  categories: [ HideSpawnMenu, Spawner ]
+  parent: BaseAntagSpawner
+  id: SpawnPointSentientVirus
+  components:
+  - type: GhostRoleMobSpawner
+    prototype: SentientVirus
+  # Убираем дублирующий компонент GhostRole, так как он теперь на самой сущности
   - type: Sprite
     layers:
     - state: green
