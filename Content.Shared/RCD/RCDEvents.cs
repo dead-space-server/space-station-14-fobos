@@ -15,6 +15,19 @@ public sealed class RCDConstructionGhostRotationEvent(NetEntity netEntity, Direc
     public readonly NetEntity NetEntity = netEntity;
     public readonly Direction Direction = direction;
 }
+// DS14-RPD-start
+[Serializable, NetSerializable]
+public sealed class RCDConstructionGhostFlipEvent : EntityEventArgs
+{
+    public readonly NetEntity NetEntity;
+    public readonly bool UseMirrorPrototype;
+    public RCDConstructionGhostFlipEvent(NetEntity netEntity, bool useMirrorPrototype)
+    {
+        NetEntity = netEntity;
+        UseMirrorPrototype = useMirrorPrototype;
+    }
+}
+// DS14-RPD-end
 
 [Serializable, NetSerializable]
 public enum RcdUiKey : byte

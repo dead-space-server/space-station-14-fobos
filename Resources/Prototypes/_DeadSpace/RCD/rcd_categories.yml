@@ -1,0 +1,46 @@
+# RCD Category Definitions
+- type: rcdCategory
+  id: WallsAndFlooring
+  tooltip: rcd-component-walls-and-flooring
+  sprite: /Textures/Interface/Radial/RCD/walls_and_flooring.png
+
+- type: rcdCategory
+  id: WindowsAndGrilles
+  tooltip: rcd-component-windows-and-grilles
+  sprite: /Textures/Interface/Radial/RCD/windows_and_grilles.png
+
+- type: rcdCategory
+  id: Airlocks
+  tooltip: rcd-component-airlocks
+  sprite: /Textures/Interface/Radial/RCD/airlocks.png
+
+- type: rcdCategory
+  id: Electrical
+  tooltip: rcd-component-electrical
+  sprite: /Textures/Interface/Radial/RCD/multicoil.png
+
+- type: rcdCategory
+  id: Lighting
+  tooltip: rcd-component-lighting
+  sprite: /Textures/Interface/Radial/RCD/lighting.png
+
+# RPD Category Definitions
+- type: rcdCategory
+  id: Piping
+  tooltip: rpd-component-piping
+  sprite: /Textures/_DeadSpace/Interface/Radial/RPD/fourway.png
+
+- type: rcdCategory
+  id: PumpsValves
+  tooltip: rpd-component-pumpsvalves
+  sprite: /Textures/_DeadSpace/Interface/Radial/RPD/pump_volume.png
+
+- type: rcdCategory
+  id: Vents
+  tooltip: rpd-component-vents
+  sprite: /Textures/_DeadSpace/Interface/Radial/RPD/vent_passive.png
+
+- type: rcdCategory
+  id: AtmosphericUtility
+  tooltip: rpd-component-atmosphericutility
+  sprite: /Textures/_DeadSpace/Interface/Radial/RPD/port.png

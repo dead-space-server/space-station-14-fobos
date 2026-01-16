@@ -7,7 +7,8 @@ using Robust.Client.UserInterface;
 using Robust.Shared.Collections;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Utility;
+// using Robust.Shared.Utility; DS14-Edit
+using Content.Shared.DeadSpace.RCD;
 
 namespace Content.Client.RCD;
 
@@ -15,7 +16,7 @@ namespace Content.Client.RCD;
 public sealed class RCDMenuBoundUserInterface : BoundUserInterface
 {
     private const string TopLevelActionCategory = "Main";
-
+    /* DS14-edit: Replaced by RCDCategoryPrototype
     private static readonly Dictionary<string, (string Tooltip, SpriteSpecifier Sprite)> PrototypesGroupingInfo
         = new Dictionary<string, (string Tooltip, SpriteSpecifier Sprite)>
         {
@@ -25,7 +26,7 @@ public sealed class RCDMenuBoundUserInterface : BoundUserInterface
             ["Electrical"] = ("rcd-component-electrical", new SpriteSpecifier.Texture(new ResPath("/Textures/Interface/Radial/RCD/multicoil.png"))),
             ["Lighting"] = ("rcd-component-lighting", new SpriteSpecifier.Texture(new ResPath("/Textures/Interface/Radial/RCD/lighting.png"))),
         };
-
+    */
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly ISharedPlayerManager _playerManager = default!;
 
@@ -69,7 +70,7 @@ public sealed class RCDMenuBoundUserInterface : BoundUserInterface
                 continue;
             }
 
-            if (!PrototypesGroupingInfo.TryGetValue(prototype.Category, out var groupInfo))
+            if (!_prototypeManager.TryIndex<RCDCategoryPrototype>(prototype.Category, out var categoryProto)) //DS14-Edit
                 continue;
 
             if (!buttonsByCategory.TryGetValue(prototype.Category, out var list))
@@ -90,11 +91,14 @@ public sealed class RCDMenuBoundUserInterface : BoundUserInterface
         var i = 0;
         foreach (var (key, list) in buttonsByCategory)
         {
-            var groupInfo = PrototypesGroupingInfo[key];
+            if (!_prototypeManager.TryIndex<RCDCategoryPrototype>(key, out var categoryProto)) //DS14-Edit
+                continue;
             models[i] = new RadialMenuNestedLayerOption(list)
             {
-                IconSpecifier = RadialMenuIconSpecifier.With(groupInfo.Sprite),
-                ToolTip = Loc.GetString(groupInfo.Tooltip)
+                //DS14-Edit-start
+                IconSpecifier = RadialMenuIconSpecifier.With(categoryProto.Sprite),
+                ToolTip = Loc.GetString(categoryProto.Tooltip)
+                //DS14-Edit-end
             };
             i++;
         }

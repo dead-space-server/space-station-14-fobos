@@ -190,3 +190,81 @@
       sprite:
         sprite: _DeadSpace/Objects/Tools/omnitool.rsi
         state: omnitool-slicing
+
+- type: entity
+  id: RPD
+  parent: [ BaseItem, BaseEngineeringContraband ]
+  name: RPD
+  description: The newest rapid piping device, specialized in building and removal of atmospheric elements.
+  components:
+  - type: RCD
+    isRpd: true
+    availablePrototypes:
+    - PipeFourway
+    - PipeStraight
+    - PipeBend
+    - PipeTJunction
+    - OutletInjector
+    - ManualValve
+    - VolumetricPump
+    - PressurePump
+    - VentScrubber
+    - PressureValve
+    - DualPortVent
+    - VentGas
+    - VentPassive
+    - MixerGas
+    - Radiator
+    - RadiatorBend
+    - SignalValve
+    - CanisterPort
+    - FilterGas
+    - Deconstruct
+  - type: LimitedCharges
+    charges: 45
+    maxCharges: 45
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Tools/rpd.rsi
+    state: icon
+  - type: Item
+    size: Normal
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Tools/rpd.rsi
+    quickEquip: false
+    slots:
+    - Belt
+  - type: PhysicalComposition
+    materialComposition:
+      Steel: 600
+      Plastic: 100
+  - type: StaticPrice
+    price: 110
+  - type: UserInterface
+    interfaces:
+      enum.RcdUiKey.Key:
+        type: RCDMenuBoundUserInterface
+  - type: ActivatableUI
+    inHandsOnly: true
+    key: enum.RcdUiKey.Key
+
+- type: entity
+  id: RPDEmpty
+  parent: RPD
+  suffix: Empty
+  components:
+  - type: LimitedCharges
+    charges: 0
+    maxCharges: 45
+
+- type: entity
+  id: RPDRecharging
+  parent: RPD
+  name: experimental RPD
+  description: Rapid Piping Dispenser, enhanced with bluespace technology that passively generates compressed matter.
+  suffix: Autorecharge, Admeme
+  components:
+  - type: LimitedCharges
+    maxCharges: 45
+    charges: 45
+  - type: AutoRecharge
+    rechargeDuration: 10
