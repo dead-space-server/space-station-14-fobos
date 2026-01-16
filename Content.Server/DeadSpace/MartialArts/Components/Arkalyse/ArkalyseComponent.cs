@@ -7,6 +7,9 @@ namespace Content.Server.DeadSpace.MartialArts.Arkalyse.Components;
 public sealed partial class ArkalyseComponent : Component
 {
     [DataField]
+    public TimeSpan? MuteEndTime;
+
+    [DataField]
     public ArkalyseParams Params;
 
     [DataField]
@@ -28,10 +31,17 @@ public sealed partial class ArkalyseComponent : Component
     public MartialArtsForms MartialArtsForm { get; set; } = MartialArtsForms.Arkalyse;
 }
 
+[RegisterComponent]
+public sealed partial class ArkalyseMutedComponent : Component
+{
+    [ViewVariables]
+    public TimeSpan Until;
+}
+
 public enum ArkalyseList
 {
-    DamageAtack,
-    StunAtack,
-    MuteAtack,
+    DamageAttack,
+    StunAttack,
+    MuteAttack,
     RelaxHand,
 }

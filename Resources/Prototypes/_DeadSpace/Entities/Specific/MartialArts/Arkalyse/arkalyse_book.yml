@@ -14,7 +14,7 @@
       itemAfterLerning: Ash
       params:
         - staminaDamageMuteAtack: 25.0
-          paralyzeTimeMuteAtack: 10.0
+          paralyzeTimeMuteAtack: 7
           hitDamageForDamageAtack: 15
           hitDamageForMuteAtack: 5
           paralyzeTimeStunAtack: 0.5

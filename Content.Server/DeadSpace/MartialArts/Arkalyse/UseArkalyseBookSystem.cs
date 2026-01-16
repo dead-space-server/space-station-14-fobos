@@ -4,13 +4,14 @@ using Content.Shared.Weapons.Melee;
 using Content.Shared.Actions;
 using Content.Server.DeadSpace.MartialArts.SmokingCarp.Components;
 using Content.Server.DeadSpace.MartialArts.Arkalyse.Components;
+using Robust.Server.GameObjects;
 
 namespace Content.Server.DeadSpace.MartialArts;
 
 public sealed class UseArkalyseBookSystem : EntitySystem
 {
     [Dependency] private readonly SharedActionsSystem _action = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly TransformSystem _transform = default!;
     public override void Initialize()
     {
         base.Initialize();

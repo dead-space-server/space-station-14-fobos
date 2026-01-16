@@ -10,7 +10,7 @@ public sealed partial class ArkalyseParams
     public float StaminaDamageMuteAtack = 25.0f;
 
     [DataField]
-    public float ParalyzeTimeMuteAtack = 10.0f;
+    public TimeSpan ParalyzeTimeMuteAtack = TimeSpan.FromSeconds(10);
 
     [DataField]
     public int HitDamageForDamageAtack = 15;

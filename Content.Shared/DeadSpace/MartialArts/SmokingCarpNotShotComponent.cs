@@ -1,7 +1,7 @@
-using Content.Shared.DeadSpace.MartialArts.SmokingCarp;
+using Robust.Shared.GameStates;
 
 namespace Content.Shared.DeadSpace.MartialArts.SmokingCarp.Components;
 
-[RegisterComponent]
+[RegisterComponent, NetworkedComponent]
 [Access(typeof(SharedMartialArtsSystem))]
 public sealed partial class SmokingCarpNotShotComponent : Component { }
