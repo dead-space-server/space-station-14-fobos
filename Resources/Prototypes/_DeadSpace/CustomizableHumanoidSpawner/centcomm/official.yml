@@ -53,6 +53,13 @@
     back: ClothingBackpackSatchelOfficial
     head: ClothingHeadHatCentcomcap
     eyes: ClothingEyesGlassesHiddenSecurity
+    jumpsuit: ClothingUniformJumpsuitCentcomFormal
+    ears: ClothingHeadsetAltCentCom
+    gloves: ClothingHandsGlovesCentcomNaval
+    outerClothing: ClothingOuterArmorCentcommCarapace
+    shoes: ClothingShoesBootsLaceup
+    mask: ClothingMaskGasCentcom
+    id: CentcomAdministratorPDA
   storage:
     back:
     - PhoneInstrument
