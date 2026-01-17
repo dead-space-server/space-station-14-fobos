@@ -30,7 +30,4 @@ public sealed partial class HeadRevolutionaryComponent : Component
     [DataField("actionEntity")] public EntityUid HeadRevConvertActionEntity;
 
     public override bool SessionSpecific => true;
-
-    [DataField]
-    public bool MassacreStage = false;
 }

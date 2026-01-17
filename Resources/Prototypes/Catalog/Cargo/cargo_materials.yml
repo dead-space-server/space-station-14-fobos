@@ -6,7 +6,7 @@
   product: CrateMaterialGlass
   cost: 3000 # DS14
   category: cargoproduct-category-name-materials
-  group: market
+  group: general # DS14
 
 - type: cargoProduct
   id: MaterialSteel
@@ -16,7 +16,7 @@
   product: CrateMaterialSteel
   cost: 3000 # DS14
   category: cargoproduct-category-name-materials
-  group: market
+  group: general # DS14
 
 - type: cargoProduct
   id: MaterialPlastic
@@ -26,7 +26,7 @@
   product: CrateMaterialPlastic
   cost: 2000
   category: cargoproduct-category-name-materials
-  group: market
+  group: general # DS14
 
 - type: cargoProduct
   id: MaterialBrass
@@ -36,7 +36,7 @@
   product: CrateMaterialBrass
   cost: 3000
   category: cargoproduct-category-name-materials
-  group: market
+  group: general # DS14
 
 - type: cargoProduct
   id: MaterialPlasteel
@@ -46,7 +46,7 @@
   product: CrateMaterialPlasteel
   cost: 1600
   category: cargoproduct-category-name-materials
-  group: market
+  group: general # DS14
 
 - type: cargoProduct
   id: MaterialGold
@@ -56,7 +56,7 @@
   product: CrateMaterialGold
   cost: 3225
   category: cargoproduct-category-name-materials
-  group: market
+  group: general # DS14
 
 - type: cargoProduct
   id: MaterialSilver
@@ -66,7 +66,7 @@
   product: CrateMaterialSilver
   cost: 2580
   category: cargoproduct-category-name-materials
-  group: market
+  group: general # DS14
 
 - type: cargoProduct
   id: MaterialTextiles
@@ -76,7 +76,7 @@
   product: CrateMaterialTextiles
   cost: 1500
   category: cargoproduct-category-name-materials
-  group: market
+  group: general # DS14
 
 - type: cargoProduct
   id: MaterialPlasma
@@ -86,7 +86,7 @@
   product: CrateMaterialPlasma
   cost: 7500 # DS14
   category: cargoproduct-category-name-materials
-  group: market
+  group: general # DS14
 
 - type: cargoProduct
   id: CardboardMaterial
@@ -96,7 +96,7 @@
   product: CrateMaterialCardboard
   cost: 330
   category: cargoproduct-category-name-materials
-  group: market
+  group: general # DS14
 
 - type: cargoProduct
   id: PaperMaterial
@@ -106,7 +106,7 @@
   product: CrateMaterialPaper
   cost: 185
   category: cargoproduct-category-name-materials
-  group: market
+  group: general # DS14
 
 - type: cargoProduct
   id: MaterialBasic
@@ -116,7 +116,7 @@
   product: CrateMaterialBasicResource
   cost: 1660
   category: cargoproduct-category-name-materials
-  group: market
+  group: general # DS14
 
 - type: cargoProduct
   id: MaterialSilo
@@ -126,7 +126,7 @@
   product: CrateMaterialSilo
   cost: 5000
   category: cargoproduct-category-name-materials
-  group: market
+  group: general # DS14
 
 - type: cargoProduct
   id: MaterialFuelTank
@@ -136,7 +136,7 @@
   product: WeldingFuelTankFull
   cost: 1500
   category: cargoproduct-category-name-materials
-  group: market
+  group: general # DS14
 
 - type: cargoProduct
   id: MaterialWaterTank
@@ -146,7 +146,7 @@
   product: WaterTankFull
   cost: 1000
   category: cargoproduct-category-name-materials
-  group: market
+  group: general # DS14
 
 - type: cargoProduct
   id: AirGrenade
@@ -156,4 +156,4 @@
   product: CrateAirGrenade
   cost: 2500
   category: cargoproduct-category-name-atmospherics
-  group: market
+  group: engineering # DS14

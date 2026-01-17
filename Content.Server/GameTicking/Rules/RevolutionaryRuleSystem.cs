@@ -1,3 +1,6 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
+using Content.Shared.Voting;
 using Content.Server.Administration.Logs;
 using Content.Server.Antag;
 using Content.Server.EUI;
@@ -33,18 +36,14 @@ using Content.Shared.Revolutionary;
 using Robust.Server.Player;
 using Content.Server.Actions;
 using Robust.Shared.Player;
-using Content.Server.Station.Components;
 using Content.Server.AlertLevel;
-using System.Linq;
-using Content.Shared.NPC.Components;
 using Content.Server.Chat.Systems;
-using Content.Shared.Mind;
 using Content.Server.DeadSpace.ERT;
 using Content.Shared.DeadSpace.ERT.Prototypes;
-using Content.Shared.Cargo.Prototypes;
-using Content.Server.Cargo.Systems;
-using Content.Shared.Cargo.Components;
 using Content.Server.Database;
+using Content.Shared.Objectives.Systems;
+using Content.Server.Voting.Managers;
+using Content.Shared.GameTicking;
 
 namespace Content.Server.GameTicking.Rules;
 
@@ -53,7 +52,9 @@ namespace Content.Server.GameTicking.Rules;
 /// </summary>
 public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleComponent>
 {
+    [Dependency] private readonly IVoteManager _voteManager = default!;
     [Dependency] private readonly AntagSelectionSystem _antag = default!;
+    [Dependency] private readonly SharedObjectivesSystem _objectives = default!;
     [Dependency] private readonly EmergencyShuttleSystem _emergencyShuttle = default!;
     [Dependency] private readonly EuiManager _euiMan = default!;
     [Dependency] private readonly IAdminLogManager _adminLogManager = default!;
@@ -69,15 +70,15 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
     [Dependency] private readonly StationSystem _stationSystem = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly ActionsSystem _actions = default!;
-    [Dependency] private readonly AlertLevelSystem _alertLevel = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
-    [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
     [Dependency] private readonly IServerDbManager _db = default!;
     public readonly ProtoId<ErtTeamPrototype> RevolutionarySupplyTeam = "RevSup";
+    public readonly EntProtoId Objective = "KillCommandStaffObjective";
 
     //Used in OnPostFlash, no reference to the rule component is available
     public readonly ProtoId<NpcFactionPrototype> RevolutionaryNpcFaction = "Revolutionary";
     public readonly ProtoId<NpcFactionPrototype> RevPrototypeId = "Rev";
+    private RevolutionaryStage _revolutionaryStage = RevolutionaryStage.Initial;
 
     public override void Initialize()
     {
@@ -91,8 +92,13 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
         SubscribeLocalEvent<RevolutionaryRoleComponent, GetBriefingEvent>(OnGetBriefing);
 
         SubscribeLocalEvent<HeadRevolutionaryComponent, MapInitEvent>(OnPendingMapInit);
+        SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestart);
     }
 
+    private void OnRoundRestart(RoundRestartCleanupEvent ev)
+    {
+        _revolutionaryStage = RevolutionaryStage.Initial;
+    }
     protected override void Started(EntityUid uid, RevolutionaryRuleComponent component, GameRuleComponent gameRule, GameRuleStartedEvent args)
     {
         base.Started(uid, component, gameRule, args);
@@ -108,59 +114,64 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
 
         component.Check = _timing.CurTime + component.TimerWait;
 
-        if (component.Stage != RevolutionaryStage.Initial || !(GetRevsFraction() >= component.Ratio) && !CheckCommandLose())
+        // Новые условия победы через прогресс по цели
+        float? progress = null;
+        int revCount = 0;
+        var query = EntityQueryEnumerator<HeadRevolutionaryComponent, MindContainerComponent>();
+        while (query.MoveNext(out var headRev, out _, out var mindContainer))
         {
-            if (!CheckRevsLose())
-                return;
-
-            _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("rev-alert-stage-massacre-end-with-rev-lost"),
-                colorOverride: Color.Green,
-                usePresetTTS: true);
-
-            _roundEnd.DoRoundEndBehavior(RoundEndBehavior.ShuttleCall, component.ShuttleCallTime);
-            GameTicker.EndGameRule(uid, gameRule);
+            if (!_mobState.IsAlive(headRev))
+                continue;
+            if (!_mind.TryGetMind(headRev, out var mindId, out var mind, mindContainer))
+                continue;
+            foreach (var objId in mind.Objectives)
+            {
+                progress = _objectives.GetProgress(objId, (mindId, mind));
+                continue;
+            }
+            revCount++;
         }
-        else
+
+        var totalProgress = progress ?? 0f;
+
+        // Если средний прогресс по цели >= 50% и мы ещё не в стадии резни, переходим в неё
+        if (revCount > 0 && totalProgress >= 0.5f && _revolutionaryStage == RevolutionaryStage.Initial)
         {
-            component.Stage = RevolutionaryStage.Massacre;
-            EntityUid? stationUid = null;
-
-            foreach (var station in _stationSystem.GetStationsSet())
-            {
-                //Maybe it's worth checking the codes "above"?
-                if (_npcFaction.IsMember(station, "NanoTrasen"))
-                    _alertLevel.SetLevel(station, "red", false, true, false, false);
-
-                stationUid = station;
-            }
-
+            _revolutionaryStage = RevolutionaryStage.Massacre;
+            // Получаем имена всех главреволюционеров
+            var sessionData = _antag.GetAntagIdentifiers(uid);
             var headRevsNames = new List<string>();
-            bool sendSup = false;
-
-            var query = EntityQueryEnumerator<HeadRevolutionaryComponent>();
-            while (query.MoveNext(out var heads, out var _))
+            foreach (var (mind, data, name) in sessionData)
             {
-                var name = EntityManager.GetComponent<MetaDataComponent>(heads).EntityName;
                 headRevsNames.Add(name);
-
-                if (_mobState.IsAlive(heads))
-                    sendSup = true;
-
-                RaiseLocalEvent(heads, new NewRevStageEvent());
             }
-
-            if (sendSup)
-                _ertResponceSystem.TryCallErt(RevolutionarySupplyTeam, stationUid, out _, false, false, false);
-
-            if (headRevsNames.Count == 0)
-                return;
-
             var namesString = string.Join(", ", headRevsNames);
             _chatSystem.DispatchGlobalAnnouncement(
                 Loc.GetString("rev-alert-stage-massacre-start", ("headRevsNames", namesString)),
                 colorOverride: Color.Red,
                 usePresetTTS: true);
         }
+
+        // Если средний прогресс по цели >= 1, запускаем голосование за завершение раунда
+        if (revCount > 0 && totalProgress >= 1f && !component.VoteStarted)
+        {
+            _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("rev-alert-stage-massacre-end-with-rev-won"),
+                colorOverride: Color.Red,
+                usePresetTTS: true);
+            _voteManager.CreateStandardVote(null, StandardVoteType.Restart);
+            component.VoteStarted = true;
+            return;
+        }
+
+        // Старое условие поражения
+        if (!CheckRevsLose())
+            return;
+
+        _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("rev-alert-stage-massacre-end-with-rev-lost"),
+            colorOverride: Color.Green,
+            usePresetTTS: true);
+        _roundEnd.DoRoundEndBehavior(RoundEndBehavior.ShuttleCall, component.ShuttleCallTime);
+        GameTicker.EndGameRule(uid, gameRule);
     }
 
     protected override void AppendRoundEndText(EntityUid uid,
@@ -170,29 +181,41 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
     {
         base.AppendRoundEndText(uid, component, gameRule, ref args);
 
-        var revsLost = CheckRevsLose();
-        var commandLost = CheckCommandLose();
-        // This is (revsLost, commandsLost) concatted together
-        // (moony wrote this comment idk what it means)
-        var index = (commandLost ? 1 : 0) | (revsLost ? 2 : 0);
-        args.AddLine(Loc.GetString(Outcomes[index]));
+        // Выводим прогресс по целям революционеров
+        float? progress = null;
+        var query = EntityQueryEnumerator<HeadRevolutionaryComponent, MindContainerComponent>();
+        while (query.MoveNext(out var headRev, out _, out var mindContainer))
+        {
+            if (!_mobState.IsAlive(headRev))
+                continue;
+            if (!_mind.TryGetMind(headRev, out var mindId, out var mind, mindContainer))
+                continue;
+            foreach (var objId in mind.Objectives)
+            {
+                progress = _objectives.GetProgress(objId, (mindId, mind));
+                continue;
+            }
+        }
 
+        var totalProgress = progress ?? 0f;
+
+        args.AddLine(Loc.GetString("rev-objectives-progress", ("progress", totalProgress.ToString("P0"))));
+
+        // Выводим подробности по каждому главреву
         var sessionData = _antag.GetAntagIdentifiers(uid);
         args.AddLine(Loc.GetString("rev-headrev-count", ("initialCount", sessionData.Count)));
         foreach (var (mind, data, name) in sessionData)
         {
             _role.MindHasRole<RevolutionaryRoleComponent>(mind, out var role);
             var count = CompOrNull<RevolutionaryRoleComponent>(role)?.ConvertedCount ?? 0;
-
             args.AddLine(Loc.GetString("rev-headrev-name-user",
                 ("name", name),
                 ("username", data.UserName),
                 ("count", count)));
-
-            // TODO: someone suggested listing all alive? revs maybe implement at some point
         }
 
         // DS14 Статистика для дашборда
+        var commandLost = CheckCommandLose();
         var winner = commandLost ? BiStatWinner.Antagonist : BiStatWinner.Crew;
         _ = System.Threading.Tasks.Task.Run(async () =>
         {
@@ -200,10 +223,7 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
             {
                 await _db.AddBiStatAsync("Революция", winner, DateTime.UtcNow);
             }
-            catch
-            {
-
-            }
+            catch { }
         });
     }
 
@@ -302,6 +322,9 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
         if (mindId == default || !_role.MindHasRole<RevolutionaryRoleComponent>(mindId))
         {
             _role.MindAddRole(mindId, "MindRoleRevolutionary");
+
+            if (mind != null)
+                _mind.TryAddObjective(mindId, mind, Objective);
         }
 
         if (mind is { UserId: not null } && _player.TryGetSessionById(mind.UserId, out var session))
@@ -316,7 +339,7 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
         if (uid != ev.User || !ev.Melee)
             return;
 
-        if (comp.MassacreStage == false)
+        if (_revolutionaryStage != RevolutionaryStage.Massacre)
             return;
 
         var alwaysConvertible = HasComp<AlwaysRevolutionaryConvertibleComponent>(ev.Target);
@@ -356,6 +379,9 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
         if (mindId == default || !_role.MindHasRole<RevolutionaryRoleComponent>(mindId))
         {
             _role.MindAddRole(mindId, "MindRoleRevolutionary");
+
+            if (mind != null)
+                _mind.TryAddObjective(mindId, mind, Objective);
         }
 
         if (mind is { UserId: not null } && _player.TryGetSessionById(mind.UserId, out var session))

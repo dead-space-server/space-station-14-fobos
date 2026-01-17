@@ -1,7 +1,7 @@
 name: Auto changelog
 
 on:
-  pull_request:
+  pull_request_target:
     types: [closed]
 
 permissions:
@@ -19,6 +19,8 @@ jobs:
         with:
           ref: master
           fetch-depth: 0
+          token: ${{ secrets.PERSONAL_KLOOPRE_PUSH_TOKEN }}
+          persist-credentials: true
 
       - name: Prepare changelog branch
         run: |
@@ -39,7 +41,7 @@ jobs:
         id: extract-desc
         run: |
           echo "DESCRIPTION<<EOF" >> $GITHUB_OUTPUT
-          curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          curl -s -H "Authorization: token ${{ secrets.PERSONAL_KLOOPRE_PUSH_TOKEN }}" \
             "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}" \
             | jq -r '.body' >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
@@ -134,10 +136,12 @@ jobs:
           branch: auto/changelog
           commit_message: "Обновлён ченжлог (#${{ github.event.pull_request.number }})"
           file_pattern: Resources/Changelog/ChangelogDS14.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_KLOOPRE_PUSH_TOKEN }}
 
       - name: Create PR to master if not exists
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PERSONAL_KLOOPRE_PUSH_TOKEN }}
         run: |
           EXISTING_PR=$(curl -s \
             -H "Authorization: token $GH_TOKEN" \

@@ -14,3 +14,22 @@ ert-team-name-gamma = ОБР подразделение кода "Гамма"
 ert-call-announcement-gamma = Центральное Командование получило запрос на отправку подразделения Отряда Быстрого Реагирования кода "Гамма".
 ert-team-name-cburn = РХБЗЗ
 ert-call-announcement-cburn = Центральное Командование получило запрос на отправку отряда РХБЗЗ.
+
+# ERT Console UI
+ert-responce-window-title = Консоль вызова ОБР
+ert-responce-available-teams = Доступные отряды:
+ert-responce-team-description = Описание отряда:
+ert-responce-call-cancel = Вызов отменён.
+responce-ert-team-button = Вызвать отряд
+
+# Call Reason
+ert-call-reason-label = Цель вызова:
+ert-call-reason-placeholder = Укажите причину вызова отряда...
+
+# ERT Mission Objective
+ert-objective-issuer = Миссия
+ert-mission-objective-default = Обеспечить безопасность станции
+
+# Critical Force
+ert-critical-force-reason = Спасти {$name}
+ert-critical-force-unknown-player = неизвестного

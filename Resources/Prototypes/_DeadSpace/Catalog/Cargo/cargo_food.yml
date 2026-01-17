@@ -6,7 +6,7 @@
   product: KvassTankFull
   cost: 2000
   category: cargoproduct-category-name-food
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FoodCrateBeerTank
@@ -16,7 +16,7 @@
   product: BeerTankFull
   cost: 3000
   category: cargoproduct-category-name-food
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FoodGingerbreadCookies
@@ -26,4 +26,4 @@
   product: CrateFoodGingerbreadCookies
   cost: 1400
   category: cargoproduct-category-name-food
-  group: market
+  group: service # DS14

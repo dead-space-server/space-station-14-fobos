@@ -6,7 +6,7 @@
   product: CrateFlowers
   cost: 2400
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateServiceBoxGrenadeCleanadeJanitorial
@@ -16,7 +16,7 @@
   product: CrateServiceBoxGrenadeCleanade
   cost: 1000
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateServiceHydraJanitorial
@@ -26,4 +26,4 @@
   product: CrateServiceHydra
   cost: 3500
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14

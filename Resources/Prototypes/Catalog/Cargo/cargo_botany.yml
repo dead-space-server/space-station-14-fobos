@@ -6,7 +6,7 @@
   product: CrateHydroponicsSeedsExotic
   cost: 1000
   category: cargoproduct-category-name-hydroponics
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: HydroponicsSeedsMedicinal
@@ -16,7 +16,7 @@
   product: CrateHydroponicsSeedsMedicinal
   cost: 500
   category: cargoproduct-category-name-hydroponics
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: HydroponicsTools
@@ -26,7 +26,7 @@
   product: CrateHydroponicsTools
   cost: 500
   category: cargoproduct-category-name-hydroponics
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: HydroponicsSeeds
@@ -36,7 +36,7 @@
   product: CrateHydroponicsSeeds
   cost: 600
   category: cargoproduct-category-name-hydroponics
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: BulkPlantBGone
@@ -46,7 +46,7 @@
   product: CratePlantBGone
   cost: 750
   category: cargoproduct-category-name-hydroponics
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: HydroponicsTray
@@ -56,4 +56,4 @@
   product: CrateHydroponicsTray
   cost: 750
   category: cargoproduct-category-name-hydroponics
-  group: market
+  group: service # DS14
