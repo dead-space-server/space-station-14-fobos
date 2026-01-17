@@ -836,6 +836,10 @@ namespace Content.Server.GameTicking
 
                 var mapName = _gameMapManager.GetSelectedMap()?.MapName ?? Loc.GetString("discord-round-notifications-unknown-map");
                 var gamemodeTitle = CurrentPreset != null ? Loc.GetString(CurrentPreset.ModeTitle) : string.Empty;
+                // DS14 Start
+                if (Decoy != null)
+                    gamemodeTitle = Loc.GetString(Decoy.ModeTitle);
+                // DS14 End
                 var content = Loc.GetString("discord-round-notifications-started", ("id", RoundId), ("map", mapName), ("gamemode", gamemodeTitle));
 
                 var payload = new WebhookPayload { Content = content };

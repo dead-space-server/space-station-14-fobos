@@ -13,6 +13,8 @@ using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 using Content.Shared.DeadSpace.Events.Roles.Components;
+using Content.Shared.DeadSpace.Renegade.Roles;
+using Content.Shared.Roles.Components;
 
 namespace Content.Server.Administration.Systems;
 
@@ -30,8 +32,12 @@ public sealed partial class AdminVerbSystem
     private static readonly EntProtoId DefaultThiefRule = "Thief";
     private static readonly EntProtoId DefaultChangelingRule = "Changeling";
     private static readonly EntProtoId ParadoxCloneRuleId = "ParadoxCloneSpawn";
+    private static readonly EntProtoId DefaultWizardRule = "Wizard";
     private static readonly EntProtoId DefaultUnitologyRule = "Unitology"; // DS14
     private static readonly EntProtoId DefaultSpiderTerrorRule = "SpiderTerror"; // DS14
+    private static readonly EntProtoId DragonSpawnRule = "DragonSpawn"; //  DS14
+    private static readonly EntProtoId SpaceNinjaRule = "NinjaSpawn"; // DS14
+    private static readonly EntProtoId RenegadeRule = "RenegadeSpawn"; // DS14
     private static readonly ProtoId<StartingGearPrototype> PirateGearId = "PirateGear";
 
     // All antag verbs have names so invokeverb works.
@@ -127,6 +133,55 @@ public sealed partial class AdminVerbSystem
         };
         args.Verbs.Add(nukeOp);
 
+        // DS14-start
+
+        var dragonName = Loc.GetString("admin-verb-text-make-dragon");
+        Verb dragon = new()
+        {
+            Text = dragonName,
+            Category = VerbCategory.Antag,
+            Icon = new SpriteSpecifier.Rsi(new("Objects/Weapons/Guns/Projectiles/magic.rsi"), "fireball"),
+            Act = () =>
+            {
+                _antag.ForceMakeAntag<DragonRuleComponent>(targetPlayer, DragonSpawnRule);
+            },
+            Impact = LogImpact.High,
+            Message = string.Join(": ", dragonName, Loc.GetString("admin-verb-make-dragon")),
+        };
+        args.Verbs.Add(dragon);
+
+        var ninjaName = Loc.GetString("admin-verb-text-make-ninja");
+        Verb ninja = new()
+        {
+            Text = ninjaName,
+            Category = VerbCategory.Antag,
+            Icon = new SpriteSpecifier.Rsi(new("Objects/Weapons/Melee/energykatana.rsi"), "icon"),
+            Act = () =>
+            {
+                _antag.ForceMakeAntag<NinjaRoleComponent>(targetPlayer, SpaceNinjaRule);
+            },
+            Impact = LogImpact.High,
+            Message = string.Join(": ", ninjaName, Loc.GetString("admin-verb-make-ninja")),
+        };
+        args.Verbs.Add(ninja);
+
+        var renegadeName = Loc.GetString("admin-verb-text-make-renegade");
+        Verb renegade = new()
+        {
+            Text = renegadeName,
+            Category = VerbCategory.Antag,
+            Icon = new SpriteSpecifier.Rsi(new("_DeadSpace/Renegade/bondrewd_helm.rsi"), "icon"),
+            Act = () =>
+            {
+                _antag.ForceMakeAntag<RenegadeRoleComponent>(targetPlayer, RenegadeRule);
+            },
+            Impact = LogImpact.High,
+            Message = string.Join(": ", renegadeName, Loc.GetString("admin-verb-make-renegade")),
+        };
+        args.Verbs.Add(renegade);
+
+        //DS14-end
+
         var pirateName = Loc.GetString("admin-verb-text-make-pirate");
         Verb pirate = new()
         {
@@ -157,6 +212,22 @@ public sealed partial class AdminVerbSystem
             Message = string.Join(": ", headRevName, Loc.GetString("admin-verb-make-head-rev")),
         };
         args.Verbs.Add(headRev);
+
+        var wizardName = Loc.GetString("admin-verb-text-make-wizard");
+        Verb wizard = new()
+        {
+            Text = wizardName,
+            Category = VerbCategory.Antag,
+            Icon = new SpriteSpecifier.Rsi(new("/Textures/Clothing/Head/Hats/wizard_fake.rsi"), "icon"),
+            Act = () =>
+            {
+                // Wizard has no rule components as of writing, but I gotta put something here to satisfy the machine so just make it wizard mind rule :)
+                _antag.ForceMakeAntag<WizardRoleComponent>(targetPlayer, DefaultWizardRule);
+            },
+            Impact = LogImpact.High,
+            Message = string.Join(": ", wizardName, Loc.GetString("admin-verb-make-wizard")),
+        };
+        args.Verbs.Add(wizard);
 
         // DS14-start
         var uniName = Loc.GetString("admin-verb-text-make-unitolog");
