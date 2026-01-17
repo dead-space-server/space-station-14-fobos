@@ -25,9 +25,9 @@ public sealed partial class SmokingCarpTripPunchComponent : Component
 public sealed partial class SmokingCarpComponent : Component
 {
     [DataField]
-    public SmokingCarpList? SelectedCombo;
+    public SmokingCarpList? SelectedCombo; // Выбранное комбо, которое меняется при вызове события
 
-    public readonly List<EntProtoId> BaseSmokingCarp = new()
+    public readonly List<EntProtoId> BaseSmokingCarp = new() // Список всех Action, которые будут выдаваться пользователю
     {
         "ActionPowerPunchCarp",
         "ActionSmokePunchCarp",
@@ -36,10 +36,7 @@ public sealed partial class SmokingCarpComponent : Component
     };
 
     [DataField]
-    public MartialArtsForms MartialArtsForm { get; set; } = MartialArtsForms.SmokingCarp;
-
-    [DataField]
-    public SmokingCarpParams Params;
+    public SmokingCarpParams Params; // Передача всех переменных и хранение всех переменных, хранится в MartialArtsTrainingComponent
 }
 
 public enum SmokingCarpList

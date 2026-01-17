@@ -14,7 +14,7 @@ using Content.Server.Damage.Systems;
 
 namespace Content.Server.DeadSpace.MartialArts.Arkalyse;
 
-public sealed class ServerArkalyseSystem : EntitySystem
+public sealed class ArkalyseSystem : EntitySystem
 {
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly StaminaSystem _stamina = default!;
@@ -39,7 +39,7 @@ public sealed class ServerArkalyseSystem : EntitySystem
         var query = EntityQueryEnumerator<ArkalyseMutedComponent, MutedComponent>();
         while (query.MoveNext(out var uid, out var arkMuted, out _))
         {
-            if (_timing.CurTime < arkMuted.Until)
+            if (_timing.CurTime < arkMuted.MuteEndTime)
                 continue;
 
             RemComp<MutedComponent>(uid);
@@ -129,7 +129,7 @@ public sealed class ServerArkalyseSystem : EntitySystem
             case ArkalyseList.MuteAttack:
                 var muted = EnsureComp<ArkalyseMutedComponent>(hitEntity);
                 EnsureComp<MutedComponent>(hitEntity);
-                muted.Until = _timing.CurTime + ent.Comp.Params.ParalyzeTimeMuteAtack;
+                muted.MuteEndTime = _timing.CurTime + ent.Comp.Params.ParalyzeTimeMuteAtack;
                 DamageHit(hitEntity, ent.Comp.Params.DamageTypeForMuteAtack, ent.Comp.Params.HitDamageForMuteAtack, ent.Comp.Params.IgnoreResist, out _);
                 _stamina.TakeStaminaDamage(hitEntity, ent.Comp.Params.StaminaDamageMuteAtack);
                 break;

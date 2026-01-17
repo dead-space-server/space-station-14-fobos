@@ -11,7 +11,6 @@
     - type: MartialArtsTrainingCarp
       addAtackRate: 1.15
       itemAfterLerning: SmokingCarpInjectorAfter
-      martialArtsForm: SmokingCarp
       params:
         - staminaDamageSmokePunch: 35.0
           hitDamageForPowerPunch: 30
@@ -25,7 +24,7 @@
             path: /Audio/Effects/bite.ogg
           hitSoundForPowerPunch: 
             path: /Audio/Weapons/genhit1.ogg
-          pushStrength: 400
+          pushStrength: 4000
           maxPushDistance: 5
           packMessageOnHit:
             - voice-message-carp-1

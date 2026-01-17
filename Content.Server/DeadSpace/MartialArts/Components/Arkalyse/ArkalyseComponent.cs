@@ -8,31 +8,25 @@ namespace Content.Server.DeadSpace.MartialArts.Arkalyse.Components;
 public sealed partial class ArkalyseComponent : Component
 {
     [DataField]
-    public TimeSpan? MuteEndTime;
+    public ArkalyseParams Params; // Передача всех переменных и хранение всех переменных, хранится в MartialArtsTrainingComponent
 
     [DataField]
-    public ArkalyseParams Params;
+    public ArkalyseList? SelectedCombo; // Выбранное комбо, которое меняется при вызове события
 
-    [DataField]
-    public ArkalyseList? SelectedCombo;
-
-    public readonly List<EntProtoId> BaseArkalyse = new()
+    public readonly List<EntProtoId> BaseArkalyse = new() // Список всех Action, которые будут выдаваться пользователю
     {
         "ActionDamageArkalyseAttack",
         "ActionStunArkalyseAttack",
         "ActionMutedArkalyseAttack",
         "ActionRelaxArkalyseAttack",
     };
-
-    [DataField]
-    public MartialArtsForms MartialArtsForm { get; set; } = MartialArtsForms.Arkalyse;
 }
 
 [RegisterComponent]
 public sealed partial class ArkalyseMutedComponent : Component
 {
     [ViewVariables]
-    public TimeSpan Until;
+    public TimeSpan MuteEndTime; // Переменная, которая отвечает за длительность наложения MutedComponent на цель
 }
 
 public enum ArkalyseList

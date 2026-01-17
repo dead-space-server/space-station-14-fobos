@@ -5,7 +5,7 @@ using Robust.Shared.Prototypes;
 namespace Content.Server.DeadSpace.MartialArts.Components;
 
 [DataDefinition]
-public sealed partial class ArkalyseParams
+public sealed partial class ArkalyseParams // Список переменных, которые будут передаваться при использовании предмета
 {
     [DataField]
     public float StaminaDamageMuteAtack = 25.0f;
@@ -45,7 +45,7 @@ public sealed partial class ArkalyseParams
 }
 
 [DataDefinition]
-public sealed partial class SmokingCarpParams
+public sealed partial class SmokingCarpParams // Список переменных, которые будут передаваться при использовании предмета
 {
     [DataField]
     public float StaminaDamageSmokePunch = 35.0f;
@@ -91,36 +91,24 @@ public sealed partial class SmokingCarpParams
 public sealed partial class MartialArtsTrainingCarpComponent : Component
 {
     [DataField]
-    public float AddAtackRate = 1.15f;
+    public float AddAtackRate = 1.15f; // Меняет скорость атаки пользователя
 
     [DataField]
-    public MartialArtsForms MartialArtsForm { get; set; } = MartialArtsForms.SmokingCarp;
+    public EntProtoId? ItemAfterLerning; // Прототип объекта, в который будет преобразован предмет при использовании
 
     [DataField]
-    public EntProtoId? ItemAfterLerning;
-
-    [DataField]
-    public List<SmokingCarpParams> Params { get; set; } = new();
+    public List<SmokingCarpParams> Params { get; set; } = new(); // Хранение параметров из SmokingCarpParams
 }
 
 [RegisterComponent]
 public sealed partial class MartialArtsTrainingArkalyseComponent : Component
 {
     [DataField]
-    public float AddAtackRate = 1.1f;
+    public float AddAtackRate = 1.1f; // Меняет скорость атаки пользователя
 
     [DataField]
-    public MartialArtsForms MartialArtsForm { get; set; } = MartialArtsForms.Arkalyse;
+    public EntProtoId? ItemAfterLerning; // Прототип объекта, в который будет преобразован предмет при использовании
 
     [DataField]
-    public EntProtoId? ItemAfterLerning;
-
-    [DataField]
-    public List<ArkalyseParams> Params { get; set; } = new();
-}
-
-public enum MartialArtsForms
-{
-    Arkalyse,
-    SmokingCarp,
+    public List<ArkalyseParams> Params { get; set; } = new(); // Хранение параметров из ArkalyseParams
 }

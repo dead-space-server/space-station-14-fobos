@@ -21,7 +21,7 @@ using System.Numerics;
 
 namespace Content.Server.DeadSpace.MartialArts.SmokingCarp;
 
-public sealed class ServerSmokingCarpSystem : EntitySystem
+public sealed class SmokingCarpSystem : EntitySystem
 {
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly StaminaSystem _stamina = default!;
@@ -103,28 +103,7 @@ public sealed class ServerSmokingCarpSystem : EntitySystem
                 var ev = new SmokingCarpSaying(saying);
                 RaiseLocalEvent(ent, ev);
 
-                if (TryComp<PhysicsComponent>(hitEntity, out var physicsComponent))
-                {
-                    var userTransform = Transform(ent);
-                    var targetTransform = Transform(hitEntity);
-                    var pushDirection = _transform.GetWorldPosition(targetTransform) - _transform.GetWorldPosition(userTransform);
-
-                    if (!pushDirection.Equals(Vector2.Zero))
-                    {
-                        var distance = pushDirection.Length();
-
-                        if (distance <= ent.Comp.Params.MaxPushDistance)
-                        {
-                            pushDirection = pushDirection.Normalized();
-                            var pushStrength = ent.Comp.Params.PushStrength;
-
-                            pushStrength *= 10f - distance / ent.Comp.Params.MaxPushDistance;
-
-                            var impulse = pushDirection * pushStrength;
-                            _physics.ApplyLinearImpulse(hitEntity, impulse, body: physicsComponent);
-                        }
-                    }
-                }
+                OnPowerPunch(ent, hitEntity, ent.Comp.Params.MaxPushDistance, ent.Comp.Params.PushStrength);
                 break;
 
             case SmokingCarpList.SmokePunch:
@@ -207,5 +186,33 @@ public sealed class ServerSmokingCarpSystem : EntitySystem
         damage.DamageDict.Add(damageType, damageAmount);
 
         _damageable.TryChangeDamage(target, damage, ignoreResist);
+    }
+
+    private void OnPowerPunch(EntityUid user, EntityUid hitEnt, float maxPushDistance, float pushStrength)
+    {
+        if (!TryComp<PhysicsComponent>(hitEnt, out var physicsComponent))
+            return;
+
+        var userPos = _transform.GetWorldPosition(Transform(user));
+        var targetPos = _transform.GetWorldPosition(Transform(hitEnt));
+        var pushDirection = targetPos - userPos;
+
+        var distSq = pushDirection.LengthSquared();
+
+        var distance = MathF.Sqrt(distSq);
+        if (distance > maxPushDistance)
+            return;
+
+        var dir = pushDirection / distance;
+
+        var t = 1f - distance / maxPushDistance;
+        var pushFactor = MathF.Max(t, 0f);
+        pushStrength = pushStrength * pushFactor;
+
+        if (pushStrength <= 0f)
+            return;
+
+        var impulse = dir * pushStrength;
+        _physics.ApplyLinearImpulse(hitEnt, impulse, body: physicsComponent);
     }
 }

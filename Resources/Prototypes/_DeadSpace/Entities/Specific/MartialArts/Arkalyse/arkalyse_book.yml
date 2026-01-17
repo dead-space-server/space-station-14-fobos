@@ -10,7 +10,6 @@
       - state: icon
     - type: MartialArtsTrainingArkalyse
       addAtackRate: 1.1
-      martialArtsForm: Arkalyse
       itemAfterLerning: Ash
       params:
         - staminaDamageMuteAtack: 25.0
