@@ -42,6 +42,7 @@
   storage:
     back:
     - Flash
+    - ERTloadoutSecuritySecondary # DS14
 
 - type: chameleonOutfit
   id: SecurityPilotChameleonOutfit

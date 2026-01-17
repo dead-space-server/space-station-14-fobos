@@ -3,6 +3,7 @@
 using Robust.Shared.Prototypes;
 using Content.Shared.DeadSpace.TimeWindow;
 using Content.Shared.Storage;
+using Robust.Shared.Audio;
 
 namespace Content.Shared.DeadSpace.ERT.Prototypes;
 
@@ -59,5 +60,11 @@ public sealed partial class ErtTeamPrototype : IPrototype
 
     [DataField]
     public List<EntitySpawnEntry> Spawns = new();
+
+    [DataField]
+    public LocId? StartAnnouncement = null;
+
+    [DataField]
+    public SoundSpecifier? StartAudio = null;
 }
 

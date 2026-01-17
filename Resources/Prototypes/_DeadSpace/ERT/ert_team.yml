@@ -1,6 +1,9 @@
 - type: ertTeam
   id: Cburn
   name: РХБЗ
+  startAnnouncement: station-event-response-team-arrival-cburn
+  startAudio:
+    path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
   description: 
     Специализированный отряд радиационной, химической и биологической зомби защиты
     NanoTrasen. Предназначен для локализации утечек опасных веществ,
@@ -31,6 +34,9 @@
 - type: ertTeam
   id: CburnSierra
   name: РХБЗЗ Сьерра
+  startAnnouncement: station-event-response-team-arrival-cburn-sierra
+  startAudio:
+    path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
   description: 
     Элитный специализированный отряд радиационной, химической и биологической зомби защиты
     NanoTrasen. Предназначен для локализации утечек особо опасных веществ,
@@ -62,6 +68,9 @@
 - type: ertTeam
   id: Engineers
   name: ОБР Инженеры
+  startAnnouncement: station-event-response-team-arrival
+  startAudio:
+    path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
   description: 
     Отряд инженеров NanoTrasen, специализирующихся на ремонте и техническом обслуживании
     космических станций и кораблей. Они обладают обширными знаниями в области
@@ -93,6 +102,9 @@
 - type: ertTeam
   id: Amber
   name: ОБР Эмбер
+  startAnnouncement: station-event-response-team-arrival
+  startAudio:
+    path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
   description: 
     Отряд быстрого реагирования Эмбер NanoTrasen, предназначенный для
     проведения разведывательных операций и оказания поддержки силам
@@ -127,6 +139,9 @@
 - type: ertTeam
   id: Red
   name: ОБР Красный
+  startAnnouncement: station-event-response-team-arrival-red
+  startAudio:
+    path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
   description:
     Отряд специального назначения NanoTrasen, предназначенный для
     быстрого реагирования на чрезвычайные ситуации и угрозы безопасности на
@@ -163,6 +178,9 @@
 - type: ertTeam
   id: Gamma
   name: ОБР Гамма
+  startAnnouncement: station-event-response-team-arrival-gamma
+  startAudio:
+    path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
   description: 
     Отряд специального назначения NanoTrasen, предназначенный для
     быстрого реагирования на чрезвычайные ситуации и угрозы безопасности на
@@ -198,6 +216,8 @@
 - type: ertTeam
   id: BSAA
   name: АПБТ
+  startAudio:
+    path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
   description: 
     Альянс Противодействия Биологической и Террористической угрозе NanoTrasen, 
     предназначенный очистить станцию от биологической и террористической угрозы.
@@ -224,6 +244,9 @@
 - type: ertTeam
   id: CentralCommandOfficial
   name: Представитель ЦК
+  startAnnouncement: station-event-centcomm-official-arrival
+  startAudio:
+    path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
   description: 
     Представитель Центрального Командования NanoTrasen, прибывающий на станцию
     для решения возникших проблем, которые не могут быть решены обычным способом.
@@ -250,7 +273,7 @@
   - delta
   - epsilon
   - gamma
-  special: CustomizableSpawnerCentralCommandOfficial
+  special: RandomHumanoidSpawnerCentralCommandOfficial
   spawns:
     - id: CustomizableSpawnerCentralCommandBlueShieldOfficer
       amount: 3
