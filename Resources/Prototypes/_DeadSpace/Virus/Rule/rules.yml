@@ -9,7 +9,7 @@
     bodyCount: 4
     numberPrimaryPacienst: 1
   - type: StationEvent
-    weight: 2
+    weight: 10
     duration: null
     earliestStart: 15
     reoccurrenceDelay: 10
@@ -26,7 +26,7 @@
     bodyCount: 7
     numberPrimaryPacienst: 1
   - type: StationEvent
-    weight: 2
+    weight: 8
     duration: null
     earliestStart: 30
     reoccurrenceDelay: 15
@@ -44,7 +44,7 @@
     bodyCount: 9
     numberPrimaryPacienst: 1
   - type: StationEvent
-    weight: 2
+    weight: 6
     duration: null
     earliestStart: 60
     reoccurrenceDelay: 20
@@ -53,16 +53,13 @@
 - type: entity
   parent: BaseGameRule
   id: SentientVirusEvent
+  categories: [ HideSpawnMenu ]
   components:
-  - type: GameRule
-    delay:
-      min: 1
-      max: 2
   - type: StationEvent
-    weight: 2000 # Шанс относительно других событий
-    duration: null # Без ограничения по времени
-    earliestStart: 1 # Начнется не раньше 40 минут смены
-    reoccurrenceDelay: 1 # Повтор не чаще чем через 30 минут
-    minimumPlayers: 0 # Требуемое количество игроков
+    weight: 4
+    duration: 10
+    earliestStart: 45
+    reoccurrenceDelay: 60
+    minimumPlayers: 30
   - type: RandomSpawnRule
-    prototype: SentientVirus # Спавн
+    prototype: SentientVirus
