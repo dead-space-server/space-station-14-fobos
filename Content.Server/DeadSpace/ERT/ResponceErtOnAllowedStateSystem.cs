@@ -5,9 +5,9 @@ using Content.Shared.Mobs;
 using Robust.Server.Player;
 using Robust.Shared.Player;
 using Content.Server.EUI;
-using Content.Shared.Pinpointer;
 using Content.Server.Roles;
 using Content.Server.Mind;
+using Content.Shared.Mind.Components;
 
 namespace Content.Server.DeadSpace.ERT;
 
@@ -17,7 +17,6 @@ public sealed class ResponceErtOnAllowedStateSystem : EntitySystem
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly ILogManager _logManager = default!;
     [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
-    [Dependency] private readonly SharedPinpointerSystem _sharedPinpointerSystem = default!;
     [Dependency] private readonly RoleSystem _roleSystem = default!;
     [Dependency] private readonly MindSystem _mindSystem = default!;
 
@@ -91,19 +90,24 @@ public sealed class ResponceErtOnAllowedStateSystem : EntitySystem
             return;
         }
 
-        var ent = _ertResponceSystem.EnsureErtTeam(component.Team);
-
-        if (!TryComp<RuleGridsComponent>(ent, out var ruleGrids))
-            return;
-
-        var query = EntityQueryEnumerator<PinpointerComponent, TransformComponent>();
-        while (query.MoveNext(out var uid, out var pin, out var xform))
+        string? callReason = null;
+        if (_mindSystem.TryGetMind(player.AttachedEntity.Value, out _, out var mindComp))
         {
-            if (xform.MapID == ruleGrids.Map)
-                _sharedPinpointerSystem.SetTarget(uid, player.AttachedEntity.Value, pin);
+            var playerName = mindComp.CharacterName ?? player.Name ?? Loc.GetString("ert-critical-force-unknown-player");
+            callReason = Loc.GetString("ert-critical-force-reason", ("name", playerName));
         }
 
-        RemComp<ResponceErtOnAllowedStateComponent>(player.AttachedEntity.Value);
+        _ertResponceSystem.TryCallErt(
+            component.Team,
+            station: null,
+            out _,
+            toPay: false,
+            needCooldown: false,
+            needWarn: false,
+            callReason: callReason,
+            pinpointerTarget: player.AttachedEntity.Value
+        );
 
+        RemComp<ResponceErtOnAllowedStateComponent>(player.AttachedEntity.Value);
     }
 }

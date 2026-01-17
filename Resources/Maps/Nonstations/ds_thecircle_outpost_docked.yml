@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/11/2026 11:14:32
-  entityCount: 2968
+  time: 01/16/2026 19:19:48
+  entityCount: 2975
 maps:
 - 1
 grids:
@@ -2319,7 +2319,7 @@ entities:
       pos: -1.5,-1.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -816.4381
+      secondsUntilStateChange: -1137.5897
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -2405,7 +2405,7 @@ entities:
       pos: -18.5,7.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -5524.377
+      secondsUntilStateChange: -5845.529
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -13361,20 +13361,20 @@ entities:
       parent: 2
 - proto: KoboldCube
   entities:
+  - uid: 179
+    components:
+    - type: Transform
+      pos: -34.504494,0.47240078
+      parent: 2
   - uid: 2824
     components:
     - type: Transform
-      pos: -34.66111,0.42091238
+      pos: -34.29261,0.59375
       parent: 2
   - uid: 2825
     components:
     - type: Transform
-      pos: -34.772736,0.7789835
-      parent: 2
-  - uid: 2826
-    components:
-    - type: Transform
-      pos: -34.772736,0.5289835
+      pos: -34.742958,0.6755258
       parent: 2
 - proto: LargeBeaker
   entities:
@@ -13757,19 +13757,10 @@ entities:
       parent: 2838
     - type: Paper
       content: >-
-        1. Сперва вколите один из видов мутагена для мутаций в некроморфа заразителя, достаточно 5 унций
+        Ничего сложного
 
 
-        (Мы не разбирались какой там мутаген нужен, но точно подействуют стабильный и опасный)
-
-
-        2. Нужно уничтожить тело некроморфа заразителя, вытащив из него железа
-
-
-        3. Железа заразителя нужно пермолоть в блендере
-
-
-        4. Вколоть полученый реагент в тело некроморфа
+        Колите мутаген в некроморфов
     - type: Physics
       canCollide: False
 - proto: PaperScrap
@@ -14275,12 +14266,6 @@ entities:
     - type: Transform
       pos: -4.5,11.5
       parent: 2
-  - uid: 179
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -8.5,9.5
-      parent: 2
   - uid: 1531
     components:
     - type: Transform
@@ -14364,6 +14349,40 @@ entities:
       rot: 1.5707963267948966 rad
       pos: -3.5,15.5
       parent: 2
+  - uid: 2969
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 1.5,16.5
+      parent: 2
+  - uid: 2970
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 0.5,14.5
+      parent: 2
+  - uid: 2971
+    components:
+    - type: Transform
+      pos: 0.5,14.5
+      parent: 2
+  - uid: 2972
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 0.5,15.5
+      parent: 2
+  - uid: 2973
+    components:
+    - type: Transform
+      pos: 0.5,15.5
+      parent: 2
+  - uid: 2974
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -0.5,15.5
+      parent: 2
 - proto: PuddleBloodSmall
   entities:
   - uid: 426
@@ -14374,8 +14393,13 @@ entities:
   - uid: 1530
     components:
     - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -6.5,12.5
+      rot: 3.141592653589793 rad
+      pos: -7.5,8.5
+      parent: 2
+  - uid: 2975
+    components:
+    - type: Transform
+      pos: -7.5,11.5
       parent: 2
 - proto: PuddleVomit
   entities:
@@ -14668,6 +14692,18 @@ entities:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: -25.256842,4.511277
+      parent: 2
+- proto: SalvageHumanCorpseSpawner
+  entities:
+  - uid: 2827
+    components:
+    - type: Transform
+      pos: -31.5,-4.5
+      parent: 2
+  - uid: 2828
+    components:
+    - type: Transform
+      pos: -33.5,3.5
       parent: 2
 - proto: Saw
   entities:
@@ -15541,9 +15577,9 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -0.6732063,1.4512242
       parent: 1534
-- proto: SpawnMobGorilla
+- proto: SpawnMobMonkey
   entities:
-  - uid: 2828
+  - uid: 2826
     components:
     - type: Transform
       pos: -35.5,1.5
@@ -16295,13 +16331,6 @@ entities:
     - type: Transform
       pos: -0.5,2.5
       parent: 1534
-- proto: VariantCubeBox
-  entities:
-  - uid: 2827
-    components:
-    - type: Transform
-      pos: -34.41111,0.6084124
-      parent: 2
 - proto: VendingMachineBooze
   entities:
   - uid: 756

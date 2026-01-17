@@ -1,61 +1,37 @@
 # для консольной команды DockCentcommERT
-- type: ertShuttle
-  id: Cburn
-  path: /Maps/Shuttles/ERT/cburn.yml
 
 - type: ertShuttle
-  id: Amber
-  path: /Maps/Shuttles/ERT/amber.yml
+  id: RevSupShuttle
+  path: /Maps/Shuttles/ERT/rev_sup.yml
 
 - type: ertShuttle
-  id: Red
-  path: /Maps/Shuttles/ERT/red.yml
+  id: CriticalForceShuttle
+  path: /Maps/Shuttles/ERT/ds_cf_septofil.yml
 
 - type: ertShuttle
-  id: Gamma
-  path: /Maps/Shuttles/ERT/gamma.yml
-
-- type: ertShuttle
-  id: CentCommOfficial
-  path: /Maps/Shuttles/ERT/official.yml
-
-# GRIDS
-#- type: preloadedGrid #For future red shuttle update
-#  id: RedShuttle
-#  path: /Maps/Shuttles/ERT/red.yml
-#  copies: 1
-
-- type: preloadedGrid
   id: CburnShuttle
   path: /Maps/Shuttles/ERT/cburn.yml
-  copies: 1
 
-- type: preloadedGrid
+- type: ertShuttle
   id: AmberShuttle
   path: /Maps/Shuttles/ERT/amber.yml
-  copies: 1
 
-- type: preloadedGrid
+- type: ertShuttle
   id: GammaShuttle
   path: /Maps/Shuttles/ERT/gamma.yml
-  copies: 1
 
-- type: preloadedGrid
+- type: ertShuttle
   id: CentCommOfficialShuttle
   path: /Maps/Shuttles/ERT/official.yml
-  copies: 1
 
-- type: preloadedGrid
+- type: ertShuttle
   id: JanitorsShuttle
   path: /Maps/Shuttles/ERT/janitors.yml
-  copies: 1
 
-- type: preloadedGrid
+- type: ertShuttle
   id: EngineersShuttle
   path: /Maps/Shuttles/ERT/engineers.yml
-  copies: 1
 
-- type: preloadedGrid
+- type: ertShuttle
   id: SierraShuttle
   path: /Maps/Shuttles/ERT/sierra.yml
-  copies: 1

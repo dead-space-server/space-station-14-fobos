@@ -27,9 +27,19 @@ namespace Content.Client.DeadSpace.ERT.UI
             _window.ResponceTeamButton.OnPressed += _ =>
                 SendMessage(new ErtResponceConsoleUiButtonPressedMessage(
                     ErtResponceConsoleUiButton.ResponceErt,
-                    team: GenSelectedAvailableTeam()
+                    team: GenSelectedAvailableTeam(),
+                    callReason: GetCallReason()
                 ));
 
+        }
+
+        private string? GetCallReason()
+        {
+            if (_window == null)
+                return null;
+
+            var reason = _window.CallReasonEdit.Text;
+            return string.IsNullOrWhiteSpace(reason) ? null : reason;
         }
 
         protected override void UpdateState(BoundUserInterfaceState state)

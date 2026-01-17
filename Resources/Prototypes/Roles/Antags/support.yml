@@ -86,21 +86,12 @@
   - type: RandomHumanoidSpawner
     settings: SyndicateAgentRevSup
 
-- type: preloadedGrid
-  id: RevSupShuttle
-  path: /Maps/Shuttles/ERT/rev_sup.yml
-  copies: 1
-
 - type: entity
   parent: BaseGameRule
   id: SpawnRevSupShuttle
   components:
-  - type: StationEvent
-    willNotStartRandomly: true
-  - type: RuleGrids
-  - type: LoadMapRule
-    preloadedGrid: RevSupShuttle
   - type: ErtSpawnRule
+    shuttle: RevSupShuttle
 
 - type: ertTeam
   id: RevSup

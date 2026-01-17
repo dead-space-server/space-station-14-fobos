@@ -31,7 +31,20 @@
     energy: 0.5
     color: "#b53ca1"
   - type: AccessReader
-    access: [["ResearchDirector"]] # DS14
+   # DS14-start
+    access: [["ResearchDirector"]]
+  - type: ActivatableUIRequiresAccess
+  - type: DeviceLinkSink
+    ports:
+      - On
+  - type: DeviceNetwork
+    deviceNetId: Wireless
+    receiveFrequencyId: BasicDevice
+  - type: WirelessNetworkConnection
+    range: 999
+  - type: TechDiskPrinterOnSignal
+    printPort: On
+  # DS14-end
 
 - type: weightedRandom
   id: TechDiskTierWeights

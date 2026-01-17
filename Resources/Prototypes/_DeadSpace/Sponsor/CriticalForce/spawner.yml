@@ -77,7 +77,7 @@
 
 - type: randomHumanoidSettings
   id: EventHumanoidCriticalForceOfficer
-  parent: EventHumanoidMindShieldedHuman
+  parent: EventHumanoidERT
   components:
     - type: GhostRole
       name: Офицер CriticalForce

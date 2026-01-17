@@ -60,7 +60,7 @@ public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
     protected override void AppendRoundEndText(EntityUid uid, CircleOpsRuleComponent component, GameRuleComponent gameRule,
         ref RoundEndTextAppendEvent args)
     {
-        var winText = Loc.GetString($"thecircle-{(component.State == CircleOpsState.ObeliskActivated ? "opsmajor" : "crewmajor")}");
+        var winText = Loc.GetString($"thecircle-{(component.State == CircleOpsState.Convergence ? "opsmajor" : "crewmajor")}");
         args.AddLine(winText);
 
         foreach (var cond in Array.Empty<string>())
