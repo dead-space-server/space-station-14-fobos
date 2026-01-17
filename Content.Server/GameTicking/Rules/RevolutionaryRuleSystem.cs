@@ -72,6 +72,7 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
     [Dependency] private readonly ActionsSystem _actions = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly IServerDbManager _db = default!;
+    [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
     public readonly ProtoId<ErtTeamPrototype> RevolutionarySupplyTeam = "RevSup";
     public readonly EntProtoId Objective = "KillCommandStaffObjective";
 
@@ -150,6 +151,16 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
                 Loc.GetString("rev-alert-stage-massacre-start", ("headRevsNames", namesString)),
                 colorOverride: Color.Red,
                 usePresetTTS: true);
+
+            _ertResponceSystem.TryCallErt(RevolutionarySupplyTeam,
+                null,
+                out _,
+                false,
+                false,
+                false,
+                "Доставить вооружение революционерам",
+                null
+            );
         }
 
         // Если средний прогресс по цели >= 1, запускаем голосование за завершение раунда
