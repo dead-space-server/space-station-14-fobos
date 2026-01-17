@@ -51,7 +51,6 @@
     SyringeIpecac: 1
     ClothingEyesHudMedical: 2
     ClothingEyesEyepatchHudMedical: 2
-    ChemistryBottleBacterizine: 1 # DS14
     ChemistryBottleInfectizine: 1 # DS14
     ToolAlcoTester: 3 # DS14
   contrabandInventory:
