@@ -26,7 +26,7 @@
     createGhostRole: true
     ghostRoleName: паук ужаса
     ghostRoleDesk: Вы только что созрели.
-    duration: 300
+    duration: 120
     spawnedEntities:
       - MobSpiderTerrorWarrior
       - MobSpiderTerrorBuilder
