@@ -45,6 +45,7 @@
     back:
     - Flash
     - ADTtelescopicBaton
+    - ERTloadoutSecuritySecondary # DS14
 
 - type: chameleonOutfit
   id: BrigmedicChameleonOutfit

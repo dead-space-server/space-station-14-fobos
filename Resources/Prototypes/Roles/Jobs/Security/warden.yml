@@ -46,6 +46,7 @@
     - Flash
     - HyperLinkBookCorporateLaw
     - HyperLinkBookSOPSecurity
+    - ERTloadoutSecuritySecondary # DS14
 
 - type: chameleonOutfit
   id: WardenChameleonOutfit
