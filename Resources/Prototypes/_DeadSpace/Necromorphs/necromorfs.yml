@@ -38,7 +38,7 @@
     collection: NecroScreamsWoman
     params:
       variation: 0.125
-      volume: 5
+      volume: 2
   sounds:
     Scream:
       collection: NecroScreamsWoman
@@ -49,7 +49,7 @@
     collection: NecroScreamsOther
     params:
       variation: 0.125
-      volume: 5
+      volume: 2
   sounds:
     Scream:
       collection: NecroScreamsOther

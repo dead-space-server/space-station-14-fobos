@@ -6,7 +6,7 @@
   product: CrateNPCBee
   cost: 7000
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockButterfly
@@ -16,7 +16,7 @@
   product: CrateNPCButterflies
   cost: 4400
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockCat
@@ -26,7 +26,7 @@
   product: CrateNPCCat
   cost: 1200
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockChicken
@@ -36,7 +36,7 @@
   product: CrateNPCChicken
   cost: 4000
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockCrab
@@ -46,7 +46,7 @@
   product: CrateNPCCrab
   cost: 3000
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockDuck
@@ -56,7 +56,7 @@
   product: CrateNPCDuck
   cost: 4000
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockCorgi
@@ -66,7 +66,7 @@
   product: CrateNPCCorgi
   cost: 1200
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockPupCorgi
@@ -76,7 +76,7 @@
   product: CrateNPCPuppyCorgi
   cost: 1200
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockCow
@@ -86,7 +86,7 @@
   product: CrateNPCCow
   cost: 3200
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockGoat
@@ -96,7 +96,7 @@
   product: CrateNPCGoat
   cost: 1200
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockGoose
@@ -106,7 +106,7 @@
   product: CrateNPCGoose
   cost: 2100
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockGorilla
@@ -116,7 +116,7 @@
   product: CrateNPCGorilla
   cost: 1100
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockMonkeyCube
@@ -126,7 +126,7 @@
   product: CrateNPCMonkeyCube
   cost: 2000
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockKoboldCube
@@ -136,7 +136,7 @@
   product: CrateNPCKoboldCube
   cost: 2000
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockMouse
@@ -146,7 +146,7 @@
   product: CrateNPCMouse
   cost: 4400
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockParrot
@@ -156,7 +156,7 @@
   product: CrateNPCParrot
   cost: 3000
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockPenguin
@@ -166,7 +166,7 @@
   product: CrateNPCPenguin
   cost: 2100
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockPig
@@ -176,7 +176,7 @@
   product: CrateNPCPig
   cost: 1100
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockSnake
@@ -186,7 +186,7 @@
   product: CrateNPCSnake
   cost: 3000
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockHamster
@@ -196,7 +196,7 @@
   product: CrateNPCHamster
   cost: 2800
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockLizard
@@ -206,7 +206,7 @@
   product: CrateNPCLizard
   cost: 1100
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockKangaroo
@@ -216,7 +216,7 @@
   product: CrateNPCKangaroo
   cost: 2800
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: LivestockMothroach
@@ -226,4 +226,4 @@
   product: CrateNPCMothroach
   cost: 5000
   category: cargoproduct-category-name-livestock
-  group: market
+  group: service # DS14

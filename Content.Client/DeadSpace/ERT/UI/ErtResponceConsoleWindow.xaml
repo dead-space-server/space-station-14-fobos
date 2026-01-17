@@ -49,6 +49,14 @@
                                        Margin="5"/>
                     </PanelContainer>
 
+                    <Control MinSize="0 10" />
+
+                    <Label Text="{Loc 'ert-call-reason-label'}" />
+                    <LineEdit Name="CallReasonEdit"
+                              Access="Public"
+                              PlaceHolder="{Loc 'ert-call-reason-placeholder'}"
+                              HorizontalExpand="True" />
+
                 </BoxContainer>
             </BoxContainer>
         </PanelContainer>

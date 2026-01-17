@@ -37,7 +37,7 @@
       coefficients:
         Blunt: 0.8
         Slash: 0.8
-        Piercing: 0.8
+        Piercing: 0.9
         Heat: 0.9
   - type: ExplosionResistance
     damageCoefficient: 0.90
@@ -111,12 +111,12 @@
       armorLvls:
         Piercing: 2
       coefficients:
-        Blunt: 0.75
+        Blunt: 1
         Slash: 1.25
-        Piercing: 0.75
+        Piercing: 1
         Shock: 1
         Cold: 0.25
-        Heat: 0.9
+        Heat: 1
         Poison: 0.25
         Radiation: 0.0
   - type: ExplosionResistance
@@ -176,11 +176,11 @@
         Piercing: 2
       coefficients:
         Blunt: 0.75
-        Slash: 0.75
-        Piercing: 0.75
+        Slash: 0.95
+        Piercing: 0.9
         Shock: 0.75
         Cold: 0.25
-        Heat: 0.75
+        Heat: 0.9
         Poison: 0.25
         Radiation: 0.0
   - type: ExplosionResistance

@@ -55,7 +55,7 @@ public sealed class ErtResponceConsoleSystem : EntitySystem
                     if (balance < price)
                         return;
 
-                    if (!_ertResponceSystem.TryCallErt(args.Team, stationUid, out var reason))
+                    if (!_ertResponceSystem.TryCallErt(args.Team, stationUid, out var reason, callReason: args.CallReason))
                         _chatSystem.TrySendInGameICMessage(
                             uid,
                             reason ?? Loc.GetString("ert-responce-call-cancel"),
