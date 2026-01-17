@@ -90,7 +90,7 @@
 - type: localizedDataset
   id: NamesFirstERTOfficial
   values:
-    prefix: names-official-first-dataset-1
+    prefix: names-official-first-dataset-
     count: 1
 
 - type: localizedDataset
