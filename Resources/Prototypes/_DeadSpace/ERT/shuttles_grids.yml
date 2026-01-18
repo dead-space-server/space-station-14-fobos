@@ -6,7 +6,7 @@
 
 - type: ertShuttle
   id: CriticalForceShuttle
-  path: /Maps/Shuttles/ERT/ds_cf_septofil.yml
+  path: /Maps/Shuttles/ERT/criticalforce.yml
 
 - type: ertShuttle
   id: CburnShuttle
