@@ -1,0 +1,89 @@
+- type: skill
+  id: BasicBotany
+  name: Базовая ботаника
+  description: Основы выращивания растений.
+
+- type: skill
+  id: Hacking
+  name: Взлом
+  description: Базовые навыки взлома устройств.
+
+- type: skill
+  id: BasicTreatment
+  name: Базовое лечение
+  description: Оказание первой медицинской помощи.
+
+- type: skill
+  id: SimpleConstruction
+  name: Постройка простых объектов
+  description: Сборка и разборка простых конструкций.
+
+- type: skill
+  id: Pharmacology
+  name: Фармакология
+  description: Изучение и изготовление лекарств.
+
+- type: skill
+  id: AdvancedTreatment
+  name: Продвинутое лечение
+  description: Сложные медицинские процедуры.
+
+- type: skill
+  id: SolarAndDAMConstruction
+  name: Постройка солнечных панелей и ДАМ
+  description: Монтаж солнечных панелей и динамических аккумуляторов материи.
+
+- type: skill
+  id: ComplexDeconstruction
+  name: Разборка сложных объектов
+  description: Демонтаж сложных конструкций и устройств.
+
+- type: skill
+  id: AdvancedBotany
+  name: Продвинутая ботаника
+  description: Генетика растений, селекция и уход за экзотическими культурами.
+
+- type: skill
+  id: ShuttleControl
+  name: Управление шаттлом
+  description: Пилотирование и навигация шаттлов.
+
+- type: skill
+  id: Atmos
+  name: Атмос
+  description: Работа с атмосферными системами станции.
+
+- type: skill
+  id: SingularityAssembly
+  name: Сборка УЧ и запуск сингулярности
+  description: Сборка ускорителя частиц и запуск сингулярности.
+
+- type: skill
+  id: ComplexConstruction
+  name: Постройка сложных объектов
+  description: Сборка сложных конструкций и механизмов.
+
+- type: skill
+  id: DeviceConstruction
+  name: Постройка приборов
+  description: Сборка и настройка сложных приборов.
+
+- type: skill
+  id: Robotics
+  name: Робототехника
+  description: Сборка и ремонт киборгов, мехов и дронов.
+
+- type: skill
+  id: Research
+  name: Исследования и разработка
+  description: Проведение научных исследований и разработка новых технологий.
+
+- type: skill
+  id: Chemistry
+  name: Химия
+  description: Синтез и анализ химических веществ.
+
+- type: skill
+  id: Virology
+  name: Вирусология
+  description: Изучение и лечение вирусных заболеваний.

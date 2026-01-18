@@ -1,6 +1,8 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
+using Content.Shared.DeadSpace.Medieval.Skills.Prototypes;
 using Robust.Shared.GameStates;
+using Robust.Shared.Prototypes;
 
 namespace Content.Shared.DeadSpace.Medieval.Skills.Components;
 
@@ -8,22 +10,16 @@ namespace Content.Shared.DeadSpace.Medieval.Skills.Components;
 public sealed partial class SkillComponent : Component
 {
     /// <summary>
+    ///     Группа навыков
+    /// </summary>
+    [DataField]
+    public ProtoId<SkillGroupPrototype>? Group;
+
+    /// <summary>
     ///     ID навыка и процент его изученности от 0 до 1
     /// </summary>
     [DataField]
-    public Dictionary<string, float> Skills { get; set; } = new Dictionary<string, float>();
-
-    /// <summary>
-    ///     Стандартное значение лимита
-    /// </summary>
-    [DataField]
-    public int DefaultMaxLimit = 3;
-
-    /// <summary>
-    ///     Лимиты под определённые навыки
-    /// </summary>
-    [DataField]
-    public Dictionary<string, int> MaxLimit { get; set; } = new Dictionary<string, int>();
+    public Dictionary<ProtoId<SkillPrototype>, float> Skills { get; set; } = new Dictionary<ProtoId<SkillPrototype>, float>();
 }
 
 

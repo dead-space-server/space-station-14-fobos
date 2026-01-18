@@ -22,6 +22,10 @@
     - type: NpcFactionMember
       factions:
       - CentralCommand
+    # DS14-Start
+    - type: Skill
+      group: ALL
+    # DS14-End
 
 - type: startingGear
   id: CentcomSpecialOperationsOfficerGear

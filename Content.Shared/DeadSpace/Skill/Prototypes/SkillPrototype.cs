@@ -17,20 +17,14 @@ public sealed partial class SkillPrototype : IPrototype
     [DataField]
     public string Description = string.Empty;
 
-    /// <summary>
-    ///     Сколько места занимает навык в лимите
-    /// </summary>
     [DataField]
-    public Dictionary<string, int> AddLimit { get; set; } = new Dictionary<string, int>();
-
-    [DataField]
-    public SpriteSpecifier Icon = new SpriteSpecifier.Texture(new("/Textures/_DeadSpace/Sith/actions/submission.png"));
+    public SpriteSpecifier Icon = new SpriteSpecifier.Texture(new("/Textures/_DeadSpace/Renegade/actions/submission.png"));
 
     /// <summary>
     ///     Требуемые навыки для изучения этого навыка
     /// </summary>
     [DataField]
-    public List<string>? RequiredSkills;
+    public List<ProtoId<SkillPrototype>>? RequiredSkills;
 
     /// <summary>
     ///     Количество баллов требуемое для изучения этого навыка

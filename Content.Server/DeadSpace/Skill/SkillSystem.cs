@@ -16,6 +16,20 @@ public sealed class SkillSystem : EntitySystem
         base.Initialize();
 
         _sawmill = Logger.GetSawmill("SkillSystem");
+
+        SubscribeLocalEvent<SkillComponent, ComponentInit>(OnInit);
+    }
+
+    private void OnInit(Entity<SkillComponent> entity, ref ComponentInit args)
+    {
+        if (!_prototypeManager.TryIndex(entity.Comp.Group, out var group))
+            return;
+
+        foreach (var skill in group.Skills)
+        {
+            if (!entity.Comp.Skills.ContainsKey(skill))
+                entity.Comp.Skills[skill] = 0f;
+        }
     }
 
     public SkillInfo? GetSkillInfo(EntityUid uid, string prototypeId, SkillComponent? component = null)
@@ -45,7 +59,7 @@ public sealed class SkillSystem : EntitySystem
         return skill;
     }
 
-    public bool CnowThisSkill(EntityUid uid, string prototypeId, SkillComponent? component = null)
+    public bool CnowThisSkill(EntityUid uid, ProtoId<SkillPrototype> prototypeId, SkillComponent? component = null)
     {
         if (!Resolve(uid, ref component, false))
             return false;
@@ -53,7 +67,7 @@ public sealed class SkillSystem : EntitySystem
         return component.Skills.TryGetValue(prototypeId, out var progress) && progress >= 1f;
     }
 
-    public float GetSkillProgress(EntityUid uid, string prototypeId, SkillComponent? component = null)
+    public float GetSkillProgress(EntityUid uid, ProtoId<SkillPrototype> prototypeId, SkillComponent? component = null)
     {
         if (!Resolve(uid, ref component, false))
             return 0f;
@@ -64,84 +78,35 @@ public sealed class SkillSystem : EntitySystem
         return progress;
     }
 
-    public bool CanLearn(EntityUid uid, string prototypeId, SkillComponent? component = null)
+    public bool CanLearn(EntityUid uid, ProtoId<SkillPrototype> prototypeId, SkillComponent? component = null)
     {
         if (!Resolve(uid, ref component, false))
             return false;
 
-        if (!_prototypeManager.TryIndex<SkillPrototype>(prototypeId, out var prototype))
+        if (!_prototypeManager.TryIndex(prototypeId, out var prototype))
         {
             _sawmill.Warning($"Прототип навыка {prototypeId} не найден");
             return false;
         }
-
-        if (!LimitControl(uid, prototype, component))
-            return false;
 
         return !CnowThisSkill(uid, prototypeId, component);
     }
 
-    public void AddSkillProgress(EntityUid uid, string prototypeId, float progress, SkillComponent? component = null)
+    public void AddSkillProgress(EntityUid uid, ProtoId<SkillPrototype> prototypeId, float progress, SkillComponent? component = null)
     {
         if (!Resolve(uid, ref component, false))
             return;
 
-        if (!_prototypeManager.TryIndex<SkillPrototype>(prototypeId, out var prototype))
+        if (!_prototypeManager.TryIndex(prototypeId, out var prototype))
         {
             _sawmill.Warning($"Прототип навыка {prototypeId} не найден");
             return;
         }
-
-        if (!LimitControl(uid, prototype, component))
-            return;
 
         if (component.Skills.TryGetValue(prototypeId, out var currentProgress))
             component.Skills[prototypeId] = Math.Min(1f, currentProgress + progress);
         else
             component.Skills[prototypeId] = Math.Min(1f, progress);
-    }
-
-    private bool LimitControl(EntityUid uid, SkillPrototype prototype, SkillComponent? component = null)
-    {
-        if (!Resolve(uid, ref component, false))
-            return false;
-
-        foreach (var (key, addValue) in prototype.AddLimit)
-        {
-            var current = GetCurrentLimit(uid, key, component);
-
-            if (!component.MaxLimit.TryGetValue(key, out var maxLimit))
-            {
-                maxLimit = component.DefaultMaxLimit;
-                component.MaxLimit[key] = maxLimit;
-            }
-
-            if (current + addValue > maxLimit)
-                return false;
-        }
-
-        return true;
-    }
-
-    private int GetCurrentLimit(EntityUid uid, string key, SkillComponent? component = null)
-    {
-        if (!Resolve(uid, ref component, false))
-            return 0;
-
-        int result = 0;
-
-        foreach (var (limitKey, addValue) in component.Skills)
-        {
-            if (limitKey != key)
-                continue;
-
-            if (!_prototypeManager.TryIndex<SkillPrototype>(key, out var proto))
-                continue;
-
-            result += proto.AddLimit[key];
-        }
-
-        return result;
     }
 
 
