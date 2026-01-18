@@ -6,7 +6,7 @@
   product: CrateEngineeringThruster
   cost: 1500
   category: cargoproduct-category-name-shuttle
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: ShuttleGyroscope
@@ -16,7 +16,7 @@
   product: CrateEngineeringGyroscope
   cost: 4000
   category: cargoproduct-category-name-shuttle
-  group: market
+  group: engineering # DS14
 
 # - type: cargoProduct
   # id: ShuttlePowerKit
@@ -26,7 +26,7 @@
   # product: CrateEngineeringShuttle
   # cost: 3000
   # category: cargoproduct-category-name-shuttle
-  # group: market
+  # group: engineering # DS14
 #  locked: true   # only the QM has permission to order by default
 
 - type: cargoProduct
@@ -37,4 +37,4 @@
   product: CrateEngineeringMiniGravityGen # DS14
   cost: 4000
   category: cargoproduct-category-name-shuttle
-  group: market
+  group: engineering # DS14

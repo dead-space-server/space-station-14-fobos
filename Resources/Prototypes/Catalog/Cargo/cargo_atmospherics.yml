@@ -6,7 +6,7 @@
   product: AirCanister
   cost: 600
   category: cargoproduct-category-name-atmospherics
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: AtmosphericsOxygen
@@ -16,7 +16,7 @@
   product: OxygenCanister
   cost: 600
   category: cargoproduct-category-name-atmospherics
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: AtmosphericsLiquidOxygen
@@ -26,7 +26,7 @@
   product: LiquidOxygenCanister
   cost: 1000
   category: cargoproduct-category-name-atmospherics
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: AtmosphericsNitrogen
@@ -36,7 +36,7 @@
   product: NitrogenCanister
   cost: 500
   category: cargoproduct-category-name-atmospherics
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: AtmosphericsLiquidNitrogen
@@ -46,7 +46,7 @@
   product: LiquidNitrogenCanister
   cost: 1000
   category: cargoproduct-category-name-atmospherics
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: AtmosphericsCarbonDioxide
@@ -56,7 +56,7 @@
   product: CarbonDioxideCanister
   cost: 670 # even though it's poisonous, it comes locked and only damages you slowly even with high amounts (tested)
   category: cargoproduct-category-name-atmospherics
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: AtmosphericsLiquidCarbonDioxide
@@ -66,7 +66,7 @@
   product: LiquidCarbonDioxideCanister
   cost: 1800 # much less deadly than the plasma can (this has been tested) even though this is cold+poison
   category: cargoproduct-category-name-atmospherics
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: AtmosphericsStorage
@@ -76,7 +76,7 @@
   product: StorageCanister
   cost: 210 # No gases in it so it's cheaper
   category: cargoproduct-category-name-atmospherics
-  group: market
+  group: engineering # DS14
 
 #- type: cargoProduct
 #  id: AtmosphericsWaterVapor
@@ -86,7 +86,7 @@
 #  product: WaterVaporCanister
 #  cost: 2600
 #  category: cargoproduct-category-name-atmospherics
-#  group: market
+#  group: engineering # DS14
 
 - type: cargoProduct
   id: AtmosphericsPlasma
@@ -96,7 +96,7 @@
   product: PlasmaCanister
   cost: 4200 # for reference, bagel's 3x1 roundstart plasma chamber contains ~16kmol for free, this is $4.2k for 2769 mol
   category: cargoproduct-category-name-atmospherics
-  group: market
+  group: engineering # DS14
 
 #- type: cargoProduct
 #  id: AtmosphericsTritium
@@ -106,4 +106,4 @@
 #  product: TritiumCanister
 #  cost: 15500
 #  category: cargoproduct-category-name-atmospherics
-#  group: market
+#  group: engineering # DS14

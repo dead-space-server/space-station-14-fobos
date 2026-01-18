@@ -269,6 +269,9 @@
   - type: GameRule
     minPlayers: 35 # DS14
   - type: RevolutionaryRule
+  - type: AntagObjectives
+    objectives:
+    - KillCommandStaffObjective
   - type: AntagSelection
     selectionTime: IntraPlayerSpawn
     definitions:

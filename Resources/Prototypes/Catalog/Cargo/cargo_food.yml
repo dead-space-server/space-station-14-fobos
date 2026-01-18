@@ -6,7 +6,7 @@
   product: CrateFoodPizza
   cost: 1600
   category: cargoproduct-category-name-food
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FoodMRE
@@ -16,7 +16,7 @@
   product: CrateFoodMRE
   cost: 1750 # DS14
   category: cargoproduct-category-name-food
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FoodCook
@@ -26,7 +26,7 @@
   product: CrateFoodCooking
   cost: 1250 # DS14
   category: cargoproduct-category-name-food
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FoodDinnerware
@@ -36,7 +36,7 @@
   product: CrateFoodDinnerware
   cost: 750
   category: cargoproduct-category-name-food
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FoodBarSupply
@@ -46,7 +46,7 @@
   product: CrateFoodBarSupply
   cost: 750
   category: cargoproduct-category-name-food
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FoodSoftdrinks
@@ -56,7 +56,7 @@
   product: CrateFoodSoftdrinks
   cost: 1500
   category: cargoproduct-category-name-food
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FoodCookGetmore
@@ -66,7 +66,7 @@
   product: CrateFoodGetMore
   cost: 750
   category: cargoproduct-category-name-food
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FoodHappyHonkMeals
@@ -76,7 +76,7 @@
   product: CrateFoodHappyHonkBigBite
   cost: 2800
   category: cargoproduct-category-name-food
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FoodIceCream
@@ -86,7 +86,7 @@
   product: CrateFoodIceCream
   cost: 2000
   category: cargoproduct-category-name-food
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FoodSnowcone
@@ -96,4 +96,4 @@
   product: CrateFoodSnowcone
   cost: 2000
   category: cargoproduct-category-name-food
-  group: market
+  group: service # DS14

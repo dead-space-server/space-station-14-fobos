@@ -894,6 +894,13 @@
       state: generic_panel_open
   - type: CargoOrderConsole
     removeLimitAccess: [ "Quartermaster" ]
+    allowedGroups: # DS14
+    - market
+    - service
+    - medical
+    - engineering
+    - science
+    - general
   - type: AccessReader
     access: [ ["Quartermaster"] ]
   - type: ActiveRadio
@@ -949,7 +956,9 @@
     account: Engineering
     announcementChannel: Engineering
     removeLimitAccess: [ "ChiefEngineer" ]
-    mode: SendToPrimary
+    allowedGroups: # DS14
+    - engineering
+    - general
   - type: AccessReader
     access: [ ["ChiefEngineer"] ]
   - type: ActiveRadio
@@ -982,7 +991,9 @@
     account: Medical
     announcementChannel: Medical
     removeLimitAccess: [ "ChiefMedicalOfficer" ]
-    mode: SendToPrimary
+    allowedGroups: # DS14
+    - medical
+    - general
   - type: AccessReader
     access: [ ["ChiefMedicalOfficer"] ]
   - type: ActiveRadio
@@ -1015,7 +1026,9 @@
     account: Science
     announcementChannel: Science
     removeLimitAccess: [ "ResearchDirector" ]
-    mode: SendToPrimary
+    allowedGroups: # DS14
+    - science
+    - general
   - type: AccessReader
     access: [ ["ResearchDirector"] ]
   - type: ActiveRadio
@@ -1051,6 +1064,7 @@
     - HeadOfSecurity # DS14
     allowedGroups: # DS14
     - security
+    - general
   - type: ActivatableUIRequiresAccess
   - type: AccessReader
     access: [ ["HeadOfSecurity"] ] # DS14
@@ -1084,7 +1098,9 @@
     account: Service
     announcementChannel: Service
     removeLimitAccess: [ "HeadOfPersonnel" ]
-    mode: SendToPrimary
+    allowedGroups: # DS14
+    - service
+    - general
   - type: AccessReader
     access: [ ["HeadOfPersonnel"] ]
   - type: ActiveRadio

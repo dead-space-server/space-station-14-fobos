@@ -1,42 +1,71 @@
 - type: entity
-  parent: CustomizableSpawnerBase
-  id: CustomizableSpawnerCentralCommandOfficial
+  id: RandomHumanoidSpawnerCentralCommandOfficial
   name: Представитель ЦК
   suffix: ПЦК, Кастомизируемый персонаж
   components:
-  - type: Sprite
-    layers:
-    - state: timed
-    - sprite: Markers/jobs.rsi
-      state: centcom
-  - type: CustomizableHumanoidSpawner
-    jobPrototype: CentralCommandOfficial
-    allowedSpecies:
-    - Human
-    - Shark
-    - Demon
-    - Vulpkanin
-    - Tajaran
-  - type: GhostRole
-    name: ghost-role-information-centcomofficer-name
-    description: ghost-role-information-ert-centcom-official-description
-    rules: ghost-role-information-centcom-personal-rules
-    category: ghost-role-information-centcomm-category
-    requirements:
-      - !type:OverallPlaytimeRequirement
-        time: 750h
-      - !type:DepartmentTimeRequirement
-        department: Security
-        time: 50h
-      - !type:RoleTimeRequirement
-        role: JobCaptain
-        time: 60h
-      - !type:RoleTimeRequirement
-        role: JobIAA
-        time: 20h
-    raffle:
-      settings: default
+    - type: Sprite
+      layers:
+      - sprite: Markers/jobs.rsi
+        state: centcom
+    - type: RandomMetadata
+      nameSegments:
+      - NamesFirstERTOfficial
+      - NamesFirstOfficial
+      nameFormat: name-format-ert
+    - type: RandomHumanoidSpawner
+      settings: CentralCommandOfficial
 
+- type: randomHumanoidSettings
+  id: CentralCommandOfficial
+  parent: EventHumanoidERT
+  components:
+    - type: GhostRole
+      name: ghost-role-information-centcomofficer-name
+      description: ghost-role-information-ert-centcom-official-description
+      rules: ghost-role-information-centcom-personal-rules
+      category: ghost-role-information-centcomm-category
+      requirements:
+        - !type:OverallPlaytimeRequirement
+          time: 750h
+        - !type:DepartmentTimeRequirement
+          department: Security
+          time: 50h
+        - !type:RoleTimeRequirement
+          role: JobCaptain
+          time: 60h
+        - !type:RoleTimeRequirement
+          role: JobIAA
+          time: 20h
+      raffle:
+        settings: default
+    - type: Loadout
+      prototypes: [ CentralCommandOfficialGear ]
+    - type: RandomMetadata
+      nameSegments:
+      - NamesFirstERTOfficial
+      - NamesFirstOfficial
+      nameFormat: name-format-ert
+
+- type: startingGear
+  id: CentralCommandOfficialGear
+  equipment:
+    neck: ClothingNeckCloakCentcom
+    back: ClothingBackpackSatchelOfficial
+    head: ClothingHeadHatCentcomcap
+    eyes: ClothingEyesGlassesHiddenSecurity
+    jumpsuit: ClothingUniformJumpsuitCentcomFormal
+    ears: ClothingHeadsetAltCentCom
+    gloves: ClothingHandsGlovesCentcomNaval
+    outerClothing: ClothingOuterArmorCentcommCarapace
+    shoes: ClothingShoesBootsLaceup
+    mask: ClothingMaskGasCentcom
+    id: CentcomAdministratorPDA
+  storage:
+    back:
+    - PhoneInstrument
+    - DoorRemoteAll
+    - BoxMRE
+  
 - type: roleLoadout
   id: JobCentralCommandOfficial
   groups:
@@ -64,3 +93,15 @@
     back:
     - PhoneInstrument
     - DoorRemoteAll
+
+- type: localizedDataset
+  id: NamesFirstERTOfficial
+  values:
+    prefix: names-official-first-dataset-
+    count: 1
+
+- type: localizedDataset
+  id: NamesFirstOfficial
+  values:
+    prefix: names-ert-last-dataset-
+    count: 55
