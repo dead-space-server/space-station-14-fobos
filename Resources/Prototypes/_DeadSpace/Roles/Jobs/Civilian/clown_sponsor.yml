@@ -31,7 +31,7 @@
     components:
     # DS14-Start
     - type: Skill
-      group: BasicSkills
+      group: BaseSkills
     # DS14-End
   #start-backmen: currency
   minBankBalance: 150

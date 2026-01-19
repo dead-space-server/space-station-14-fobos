@@ -126,6 +126,8 @@
       roleLoadout:
       - RoleSurvivalNukie
       components:
+      - type: Skill
+        group: ALL
       - type: NukeOperative
       - type: RandomMetadata
         nameSegments:
@@ -145,6 +147,8 @@
       - RoleSurvivalNukie
       components:
       - type: NukeOperative
+      - type: Skill
+        group: ALL
       - type: RandomMetadata
         nameSegments:
         - NamesSyndicateNormal
@@ -165,6 +169,8 @@
       - RoleSurvivalNukie
       components:
       - type: NukeOperative
+      - type: Skill
+        group: ALL
       - type: RandomMetadata
         nameSegments:
         - NamesSyndicateNormal
@@ -210,6 +216,9 @@
     - prefRoles: [ Traitor ]
       max: 8
       playerRatio: 10
+      components:
+      - type: Skill
+        group: ALL
       blacklist:
         components:
         - AntagImmune
@@ -231,6 +240,9 @@
     - prefRoles: [ Traitor ]
       mindRoles:
       - MindRoleTraitorReinforcement
+      components:
+      - type: Skill
+        group: ALL
 
 - type: entity
   id: Changeling
@@ -250,6 +262,8 @@
         color: Red
         sound: /Audio/Ambience/Antag/changeling_start.ogg
       components:
+      - type: Skill
+        group: ALL
       - type: ChangelingDevour
       - type: ChangelingIdentity
       - type: ChangelingTransform
@@ -286,6 +300,8 @@
       components:
       - type: Revolutionary
       - type: HeadRevolutionary
+      - type: Skill
+        group: ALL
       mindRoles:
       - MindRoleHeadRevolutionary
   - type: DynamicRuleCost
@@ -343,6 +359,8 @@
       startingGear: WizardBlueGear
       # TODO: WizardComp as needed
       components:
+      - type: Skill
+        group: ALL
       - type: NpcFactionMember
         factions:
         - Wizard
@@ -385,6 +403,8 @@
       - type: ZombifyOnDeath
       - type: IncurableZombie
       - type: InitialInfected
+      - type: Skill
+        group: ALL
       mindRoles:
       - MindRoleInitialInfected
   - type: DynamicRuleCost
