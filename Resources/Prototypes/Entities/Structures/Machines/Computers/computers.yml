@@ -1028,6 +1028,8 @@
     removeLimitAccess: [ "ResearchDirector" ]
     allowedGroups: # DS14
     - science
+    - medical
+    - engineering
     - general
   - type: AccessReader
     access: [ ["ResearchDirector"] ]
