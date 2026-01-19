@@ -1,12 +1,13 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
-using Content.Server.DeadSpace.Medieval.Skill.Components;
-using Content.Shared.DeadSpace.Medieval.Skills.Events;
+using Content.Server.DeadSpace.Skill.Components;
+using Content.Shared.DeadSpace.Skills.Events;
 
-namespace Content.Server.DeadSpace.Medieval.Skill;
+namespace Content.Server.DeadSpace.Skill;
 
-public sealed class NeededSkillForInteractUsingSystem : NeededSkillSystem
+public sealed class NeededSkillForInteractUsingSystem : EntitySystem
 {
+    [Dependency] private readonly SkillSystem _skillSystem = default!;
     public override void Initialize()
     {
         base.Initialize();
@@ -19,7 +20,7 @@ public sealed class NeededSkillForInteractUsingSystem : NeededSkillSystem
         if (args.Handled)
             return;
 
-        if (!CheckRequiredSkills(args.User, component.NeededSkills))
+        if (!_skillSystem.CheckRequiredSkills(args.User, component.NeededSkills))
             args.Handled = true;
     }
 

@@ -1,15 +1,16 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
-using Content.Server.DeadSpace.Medieval.Skill.Components;
+using Content.Server.DeadSpace.Languages;
+using Content.Server.DeadSpace.Skill.Components;
 using Content.Server.Inventory;
 using Content.Server.Popups;
-using Content.Shared.DeadSpace.Medieval.Skills.Events;
+using Content.Shared.DeadSpace.Skills.Events;
 using Content.Shared.DoAfter;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Nutrition.EntitySystems;
 using Robust.Server.Audio;
 
-namespace Content.Server.DeadSpace.Medieval.Skill;
+namespace Content.Server.DeadSpace.Skill;
 
 public sealed class LearnSkillWhenUsingSystem : EntitySystem
 {
@@ -17,6 +18,7 @@ public sealed class LearnSkillWhenUsingSystem : EntitySystem
     [Dependency] private readonly SkillSystem _skillSystem = default!;
     [Dependency] private readonly PopupSystem _popup = default!;
     [Dependency] private readonly AudioSystem _audio = default!;
+    [Dependency] private readonly LanguageSystem _languageSystem = default!;
     public override void Initialize()
     {
         base.Initialize();
@@ -29,6 +31,26 @@ public sealed class LearnSkillWhenUsingSystem : EntitySystem
     {
         if (args.Handled)
             return;
+
+        if (component.LanguagesWhitelist != null &&
+            component.LanguagesWhitelist.Count > 0)
+        {
+            bool knowsAtLeastOne = false;
+            foreach (var lang in component.LanguagesWhitelist)
+            {
+                if (_languageSystem.KnowsLanguage(args.User, lang))
+                {
+                    knowsAtLeastOne = true;
+                    break;
+                }
+            }
+
+            if (!knowsAtLeastOne)
+            {
+                _popup.PopupEntity(Loc.GetString("skill-canlearn-language-missing"), args.User, args.User);
+                return;
+            }
+        }
 
         var doAfterArgs = new DoAfterArgs(EntityManager,
             args.User,
@@ -56,10 +78,7 @@ public sealed class LearnSkillWhenUsingSystem : EntitySystem
         if (unknown > 0)
             _doAfter.TryStartDoAfter(doAfterArgs);
         else
-        {
-            _popup.PopupEntity(Loc.GetString("skill-canlearn-gained"), args.User, args.User);
             return;
-        }
 
         if (component.Sound != null)
             _audio.PlayPvs(component.Sound, uid);

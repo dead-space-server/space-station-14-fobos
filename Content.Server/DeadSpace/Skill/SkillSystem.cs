@@ -1,15 +1,18 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Robust.Shared.Prototypes;
-using Content.Shared.DeadSpace.Medieval.Skills;
-using Content.Shared.DeadSpace.Medieval.Skills.Prototypes;
-using Content.Shared.DeadSpace.Medieval.Skills.Components;
+using Content.Shared.DeadSpace.Skills;
+using Content.Shared.DeadSpace.Skills.Prototypes;
+using Content.Shared.DeadSpace.Skills.Components;
+using Content.Server.Popups;
+using System.Linq;
 
-namespace Content.Server.DeadSpace.Medieval.Skill;
+namespace Content.Server.DeadSpace.Skill;
 
 public sealed class SkillSystem : EntitySystem
 {
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly PopupSystem _popup = default!;
     private ISawmill _sawmill = default!;
     public override void Initialize()
     {
@@ -28,7 +31,7 @@ public sealed class SkillSystem : EntitySystem
         foreach (var skill in group.Skills)
         {
             if (!entity.Comp.Skills.ContainsKey(skill))
-                entity.Comp.Skills[skill] = 0f;
+                entity.Comp.Skills[skill] = 1f;
         }
     }
 
@@ -89,6 +92,12 @@ public sealed class SkillSystem : EntitySystem
             return false;
         }
 
+        if (prototype.RequiredSkills != null
+            && prototype.RequiredSkills.Count > 0
+            && !CheckRequiredSkills(uid, prototype.RequiredSkills)
+            )
+            return false;
+
         return !CnowThisSkill(uid, prototypeId, component);
     }
 
@@ -109,5 +118,35 @@ public sealed class SkillSystem : EntitySystem
             component.Skills[prototypeId] = Math.Min(1f, progress);
     }
 
+    public bool CheckRequiredSkills(EntityUid user, List<ProtoId<SkillPrototype>> neededSkills)
+    {
+        if (!TryComp<SkillComponent>(user, out var skillComponent))
+            return true;
+
+        var missingSkills = new List<string>();
+
+        foreach (var skill in neededSkills)
+        {
+            if (!_prototypeManager.TryIndex(skill, out var skillPrototype) || skillPrototype == null)
+            {
+                _sawmill.Warning($"Прототип навыка {skill} не найден");
+                continue;
+            }
+
+            if (!CnowThisSkill(user, skill, skillComponent))
+                missingSkills.Add(skillPrototype.Name);
+        }
+
+        if (missingSkills.Count > 0)
+        {
+            var skillsText = string.Join(", ", missingSkills.Select(s => Loc.GetString($"{s}")));
+            var message = Loc.GetString("skill-need-skill-message", ("skills", skillsText));
+
+            _popup.PopupEntity(message, user, user);
+            return false;
+        }
+
+        return true;
+    }
 
 }

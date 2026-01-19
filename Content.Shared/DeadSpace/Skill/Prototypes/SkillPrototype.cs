@@ -3,7 +3,7 @@
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 
-namespace Content.Shared.DeadSpace.Medieval.Skills.Prototypes;
+namespace Content.Shared.DeadSpace.Skills.Prototypes;
 
 [Prototype("skill")]
 public sealed partial class SkillPrototype : IPrototype

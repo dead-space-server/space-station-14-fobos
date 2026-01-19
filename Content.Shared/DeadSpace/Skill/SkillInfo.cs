@@ -1,7 +1,7 @@
 using Robust.Shared.Serialization;
 using Robust.Shared.Utility;
 
-namespace Content.Shared.DeadSpace.Medieval.Skills;
+namespace Content.Shared.DeadSpace.Skills;
 
 /// <summary>
 /// Name - название навыка.

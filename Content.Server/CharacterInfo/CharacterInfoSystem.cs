@@ -1,10 +1,10 @@
-using Content.Server.DeadSpace.Medieval.Skill;
+using Content.Server.DeadSpace.Skill;
 using Content.Server.Mind;
 using Content.Server.Roles;
 using Content.Server.Roles.Jobs;
 using Content.Shared.CharacterInfo;
-using Content.Shared.DeadSpace.Medieval.Skills;
-using Content.Shared.DeadSpace.Medieval.Skills.Components;
+using Content.Shared.DeadSpace.Skills;
+using Content.Shared.DeadSpace.Skills.Components;
 using Content.Shared.Objectives;
 using Content.Shared.Objectives.Components;
 using Content.Shared.Objectives.Systems;
@@ -61,20 +61,20 @@ public sealed class CharacterInfoSystem : EntitySystem
         }
 
         // DS14-Skills-Start
-        // var skills = new List<SkillInfo>();
+        var skills = new List<SkillInfo>();
 
-        // if (TryComp<SkillComponent>(entity, out var skillComponent))
-        // {
-        //     foreach (var skill in skillComponent.Skills)
-        //     {
-        //         var info = _skill.GetSkillInfo(entity, skill.Key);
+        if (TryComp<SkillComponent>(entity, out var skillComponent))
+        {
+            foreach (var skill in skillComponent.Skills)
+            {
+                var info = _skill.GetSkillInfo(entity, skill.Key);
 
-        //         if (info != null)
-        //             skills.Add(info.Value);
-        //     }
-        // }
+                if (info != null)
+                    skills.Add(info.Value);
+            }
+        }
 
-        // RaiseNetworkEvent(new CharacterInfoEvent(GetNetEntity(entity), jobTitle, objectives, skills, briefing), args.SenderSession);
+        RaiseNetworkEvent(new CharacterInfoEvent(GetNetEntity(entity), jobTitle, objectives, skills, briefing), args.SenderSession);
         // DS14-Skills-End
     }
 }

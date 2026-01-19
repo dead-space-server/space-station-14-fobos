@@ -1,7 +1,7 @@
 using JetBrains.Annotations;
 using Robust.Shared.Utility;
 
-namespace Content.Shared.DeadSpace.Medieval.Skills.Events;
+namespace Content.Shared.DeadSpace.Skills.Events;
 
 [PublicAPI]
 public sealed class BeforeInteractionActivate : HandledEntityEventArgs

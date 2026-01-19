@@ -1,10 +1,10 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
-using Content.Shared.DeadSpace.Medieval.Skills.Prototypes;
+using Content.Shared.DeadSpace.Skills.Prototypes;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
-namespace Content.Shared.DeadSpace.Medieval.Skills.Components;
+namespace Content.Shared.DeadSpace.Skills.Components;
 
 [RegisterComponent, NetworkedComponent]
 public sealed partial class SkillComponent : Component
