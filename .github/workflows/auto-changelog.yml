@@ -1,157 +1,127 @@
-name: Auto changelog
+name: Update changelog
 
 permissions:
   contents: write
-  pull-requests: write
 
 on:
   pull_request_target:
     types: [closed]
 
 jobs:
-  auto-changelog:
+  changelog:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout changelog branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.base.ref }}
+          ref: changelog
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
-          persist-credentials: true
-
-      - name: Ensure origin uses PAT for pushes
-        run: |
-          git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
-          git remote -v | sed -E 's/(https:\/\/)[^@]+@/\\1****@/g'
-
-      - name: Git state and PAT permissions
-        env:
-          PAT: ${{ secrets.GITHUB_TOKEN }}
-          REPO: ${{ github.repository }}
-        run: |
-          echo "Current branch: $(git branch --show-current || echo '(no branch)')"
-          git ls-remote --heads origin || true
-          curl -s -H "Authorization: token $PAT" https://api.github.com/user | jq '{login: .login}'
-          curl -s -H "Authorization: token $PAT" "https://api.github.com/repos/$REPO" | jq '.permissions'
 
       - name: Extract PR description
-        id: extract-desc
+        id: extract
         run: |
           echo "DESCRIPTION<<EOF" >> $GITHUB_OUTPUT
           printf '%s\n' "${{ github.event.pull_request.body }}" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      - name: Parse and update changelog
-        id: parse
+      - name: Parse PR description and update changelog
         env:
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+          DESCRIPTION: ${{ steps.extract.outputs.DESCRIPTION }}
           AUTHOR: ${{ github.event.pull_request.user.login }}
-          DESCRIPTION: ${{ steps.extract-desc.outputs.DESCRIPTION }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           python <<'EOF'
           import yaml, re, os
           from datetime import datetime, timezone
-          CHANGELOG_FILE = "Resources/Changelog/ChangelogDS14.yml"
-          description = os.environ.get('DESCRIPTION','')
-          author = os.environ.get('AUTHOR','')
-          desc_clean = re.sub(r'<!--.*?-->', '', description, flags=re.DOTALL)
-          if ':cl:' not in desc_clean:
-              print("Изменений нет, пропуск (:cl:)")
+
+          CHANGELOG = "Resources/Changelog/ChangelogDS14.yml"
+
+          desc = os.environ.get("DESCRIPTION", "")
+          author = os.environ.get("AUTHOR", "")
+          pr = os.environ.get("PR_NUMBER", "")
+
+          # Убираем HTML-комментарии
+          desc = re.sub(r'<!--.*?-->', '', desc, flags=re.DOTALL)
+
+          if ":cl:" not in desc:
+              print("Нет :cl: — пропуск")
               exit(0)
-          sections = {'Добавлено':'Add','Удалено':'Remove','Изменено':'Tweak','Исправлено':'Fix'}
-          changes=[]
+
+          sections = {
+              "Добавлено": "Add",
+              "Удалено": "Remove",
+              "Изменено": "Tweak",
+              "Исправлено": "Fix",
+          }
+
+          changes = []
+
           for title, type_key in sections.items():
-              pattern = rf'- {title}:\s*(.*?)(?=\n- [^:]|$)'
-              for match in re.findall(pattern, desc_clean, flags=re.DOTALL):
-                  lines=[line.strip() for line in match.strip().split('\n') if line.strip()]
-                  if not lines: continue
-                  message=' '.join(lines)
-                  message = re.sub(r'\s+',' ',message).strip()
+              pattern = rf"- {title}:\s*(.*?)(?=\n- [^:]|$)"
+              for block in re.findall(pattern, desc, flags=re.DOTALL):
+                  lines = [
+                      l.strip("- ").strip()
+                      for l in block.splitlines()
+                      if l.strip()
+                  ]
+                  if not lines:
+                      continue
+                  message = " ".join(lines)
+                  message = re.sub(r"\s+", " ", message).strip()
                   if message:
-                      changes.append({'type':type_key,'message':message})
+                      changes.append({
+                          "type": type_key,
+                          "message": message
+                      })
+
           if not changes:
-              print("Нет информации об изменениях")
+              print("Изменения не найдены")
               exit(0)
-          if os.path.exists(CHANGELOG_FILE):
-              with open(CHANGELOG_FILE,'r',encoding='utf-8') as f:
-                  data = yaml.safe_load(f) or {}
-          else:
-              data = {}
-          entries = data.get('Entries', [])
-          max_id = max((e['id'] for e in entries), default=0)
-          entries.append({'id': max_id+1, 'author': author, 'time': datetime.now(timezone.utc).isoformat(), 'changes': changes})
-          data['Entries'] = entries
-          with open(CHANGELOG_FILE,'w',encoding='utf-8') as f:
-              yaml.dump(data, f, allow_unicode=True, sort_keys=False, indent=2)
+
+          with open(CHANGELOG, "r", encoding="utf-8") as f:
+              data = yaml.safe_load(f) or {}
+
+          entries = data.get("Entries", [])
+
+          last_id = max((e.get("id", 0) for e in entries), default=0)
+
+          entries.append({
+              "id": last_id + 1,
+              "author": author,
+              "time": datetime.now(timezone.utc).isoformat(),
+              "pr": int(pr),
+              "changes": changes
+          })
+
+          data["Entries"] = entries
+
+          with open(CHANGELOG, "w", encoding="utf-8") as f:
+              yaml.dump(
+                  data,
+                  f,
+                  allow_unicode=True,
+                  sort_keys=False,
+                  indent=2
+              )
+
           print("Changelog обновлён")
           EOF
 
-      - name: Prepare branch name
-        id: branch
+      - name: Commit and push to changelog
         run: |
-          # ветка, в которую будем пушить
-          BRANCH="auto/changelog-${{ github.event.pull_request.number }}"
-          echo "branch_name=$BRANCH" >> $GITHUB_OUTPUT
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Prepare auto changelog branch
-        id: prepare_branch
-        run: |
-          set -e
-          BRANCH="auto/changelog-${{ github.event.pull_request.number }}"
-          echo "Branch to use: $BRANCH"
+          git add Resources/Changelog/ChangelogDS14.yml
 
-          # Подтягиваем все ветки с origin, чтобы гарантировать наличие origin/<branch>
-          git fetch origin '+refs/heads/*:refs/remotes/origin/*'
-
-          # Если есть ветка на origin — создаём/обновляем локальную ветку из неё
-          if git rev-parse --verify --quiet refs/remotes/origin/$BRANCH >/dev/null; then
-            echo "Remote branch origin/$BRANCH exists — checking out and resetting to origin/$BRANCH"
-            # если локальной ветки нет — создадим с тем же именем; если есть — перезапишем её
-            if git show-ref --verify --quiet refs/heads/$BRANCH; then
-              git checkout $BRANCH
-              git reset --hard origin/$BRANCH
-            else
-              git checkout -b $BRANCH origin/$BRANCH
-            fi
-          else
-            echo "Remote branch origin/$BRANCH does not exist — creating new local branch $BRANCH from current HEAD"
-            git checkout -b $BRANCH
+          if git diff --cached --quiet; then
+            echo "Нет изменений для коммита"
+            exit 0
           fi
 
-          echo "Prepared local branch:"
-          git branch --show-current
-          git status --porcelain
-          echo "branch_name=$BRANCH" >> $GITHUB_OUTPUT
-          
-      - name: Commit and push changes to auto branch
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          branch: ${{ steps.prepare_branch.outputs.branch_name }}
-          commit_message: "Обновлён ченжлог #${{ github.event.pull_request.number }}"
-          file_pattern: Resources/Changelog/ChangelogDS14.yml
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # или secrets.GITHUB_TOKEN в зависимости от прав
-
-      - name: Create PR to master if not exists
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          HEAD_BRANCH="${{ steps.branch.outputs.branch_name }}"
-          REPO="${{ github.repository }}"
-          EXISTING_PR=$(curl -s -H "Authorization: token $GH_TOKEN" \
-            "https://api.github.com/repos/$REPO/pulls?head=${{ github.repository_owner }}:${HEAD_BRANCH}&base=master" \
-            | jq 'map(select(.state=="open")) | length')
-          if [ "$EXISTING_PR" -eq 0 ]; then
-            curl -s -X POST \
-              -H "Authorization: token $GH_TOKEN" \
-              -H "Content-Type: application/json" \
-              "https://api.github.com/repos/$REPO/pulls" \
-              -d "$(jq -n --arg head "$HEAD_BRANCH" --arg base "master" --arg title "Auto: обновление changelog" --arg body "Автоматически сгенерированный PR с changelog’ом." '{title:$title, head:$head, base:$base, body:$body}')" \
-              > /tmp/create_pr.json
-            echo "PR создан"
-          else
-            echo "PR уже существует"
-          fi
+          git commit -m "Changelog: PR #${{ github.event.pull_request.number }}"
+          git pull --rebase origin changelog
+          git push origin changelog
