@@ -779,15 +779,15 @@
   name: цепная коса
   parent: BaseItem
   id: WeaponScytheHook
-  description: КТО ЭТО К НАМ ЗАСКОЧИЛ НА УЖИН?!
+  description: ЭТО КТО К НАМ ЗАСКОЧИЛ НА УЖИН?!
   components:
     - type: MeleeWeapon
       attackRate: 2
       wideAnimationRotation: -135
       damage:
         types:
-          Slash: 17
-          Structural: 35
+          Slash: 12
+          Structural: 20
       soundHit:
         collection: splinter-blade-attack
       soundNoDamage:
@@ -800,10 +800,15 @@
     - type: AmmoCounter
     - type: GrapplingGun
       pullTargetToShooter: true 
-      reelRate: 3
+      reelRate: 50
+      cycleSound:
+        path: /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/hook-sfx/reload_hook.ogg
+      ropeSprite:
+        sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/melee/scythe-hook.rsi
+        state: rope
     - type: Gun
-      soundGunshot: /Audio/Weapons/Guns/Gunshots/harpoon.ogg
-      fireRate: 0.2
+      soundGunshot: /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/hook-sfx/shot_hook.ogg
+      fireRate: 0.1
     - type: BasicEntityAmmoProvider
       proto: ScytheHookProjectile
       capacity: 1
@@ -850,8 +855,6 @@
       damage:
         types:
           Slash: 5
+      soundHit:
+        path: /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/hook-sfx/hit_hook.ogg
     - type: GrapplingProjectile
-    - type: StunOnCollide
-      stunAmount: 0
-      knockdownAmount: 2.5
-      drop: false
