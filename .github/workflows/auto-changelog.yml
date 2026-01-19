@@ -89,12 +89,16 @@ jobs:
           print("Changelog обновлён")
           EOF
 
-      - name: Commit changelog directly to base branch (single push)
+      - name: Create unique branch and commit changelog
+        id: commit
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          BRANCH="${{ github.event.pull_request.base.ref }}"
+          BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
+          PR_NUM="${{ github.event.pull_request.number }}"
+          RUN_ID="${{ github.run_id }}"
+          UNIQUE_BRANCH="auto/changelog-pr${PR_NUM}-${RUN_ID}"
           FILE="Resources/Changelog/ChangelogDS14.yml"
 
           git config user.name "github-actions[bot]"
@@ -105,21 +109,33 @@ jobs:
           # Если нет изменений — выходим
           if git diff --cached --quiet; then
             echo "No changes to commit"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
             exit 0
           fi
 
-          git commit -m "Обновлён ченжлог #${{ github.event.pull_request.number }}" || true
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+          echo "branch_name=${UNIQUE_BRANCH}" >> $GITHUB_OUTPUT
 
-          echo "Pushing changes to $BRANCH..."
-          if git push origin "HEAD:$BRANCH"; then
-            echo "Push succeeded"
-          else
-            echo "Push failed: non-fast-forward or protected branch. Exiting with error." >&2
-            # Для отладки — покажем краткую информацию
-            git status --porcelain || true
-            git log --oneline -n 20 || true
-            exit 1
-          fi
+          git commit -m "Обновлён ченжлог #${PR_NUM}"
 
-      - name: (noop) PR-step removed
-        run: echo "Changelog committed directly to base branch (${{ github.event.pull_request.base.ref }})"
+          # Создаём уникальную ветку и пушим
+          git checkout -b "${UNIQUE_BRANCH}"
+          echo "Pushing changes to ${UNIQUE_BRANCH}..."
+          git push origin "${UNIQUE_BRANCH}"
+
+      - name: Create Pull Request for changelog
+        if: steps.commit.outputs.has_changes == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUM="${{ github.event.pull_request.number }}"
+          BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
+          UNIQUE_BRANCH="${{ steps.commit.outputs.branch_name }}"
+          
+          gh pr create \
+            --base "${BASE_BRANCH}" \
+            --head "${UNIQUE_BRANCH}" \
+            --title "Автоматическое обновление ченжлога для PR #${PR_NUM}" \
+            --body "Этот PR автоматически создан для обновления changelog после мерджа PR #${PR_NUM}.
+
+Изменения: обновлён файл \`Resources/Changelog/ChangelogDS14.yml\` на основе описания PR #${PR_NUM}."
