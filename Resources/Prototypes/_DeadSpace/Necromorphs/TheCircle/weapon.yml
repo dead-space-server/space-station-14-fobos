@@ -798,7 +798,9 @@
       shape:
       - 0,0,3,2
     - type: AmmoCounter
-    - type: HarpoonGun
+    - type: GrapplingGun
+      pullTargetToShooter: true 
+      reelRate: 3
     - type: Gun
       soundGunshot: /Audio/Weapons/Guns/Gunshots/harpoon.ogg
       fireRate: 0.2
@@ -848,4 +850,8 @@
       damage:
         types:
           Slash: 5
-    - type: HarpoonProjectile
+    - type: GrapplingProjectile
+    - type: StunOnCollide
+      stunAmount: 0
+      knockdownAmount: 2.5
+      drop: false

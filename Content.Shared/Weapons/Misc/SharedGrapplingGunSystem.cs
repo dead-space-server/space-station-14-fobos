@@ -174,36 +174,71 @@ public abstract class SharedGrapplingGunSystem : EntitySystem
 
                 continue;
             }
+            //DS14-start
+            if (!grappling.PullTargetToShooter)
+            {
+                if (!TryComp<JointComponent>(uid, out var jointComp) ||
+                    !jointComp.GetJoints.TryGetValue(GrapplingJoint, out var joint) ||
+                    joint is not DistanceJoint distance)
+                {
+                    SetReeling(uid, grappling, false, null);
+                    continue;
+                }
 
-            if (!TryComp<JointComponent>(uid, out var jointComp) ||
-                !jointComp.GetJoints.TryGetValue(GrapplingJoint, out var joint) ||
-                joint is not DistanceJoint distance)
+                // TODO: This should be on engine.
+                distance.MaxLength = MathF.Max(distance.MinLength, distance.MaxLength - grappling.ReelRate * frameTime);
+                distance.Length = MathF.Min(distance.MaxLength, distance.Length);
+
+                _physics.WakeBody(joint.BodyAUid);
+                _physics.WakeBody(joint.BodyBUid);
+
+                if (jointComp.Relay != null)
+                {
+                    _physics.WakeBody(jointComp.Relay.Value);
+                }
+
+                Dirty(uid, jointComp);
+
+                if (distance.MaxLength.Equals(distance.MinLength))
+                {
+                    SetReeling(uid, grappling, false, null);
+                }
+
+                continue;
+            }
+
+            if (grappling.Projectile == null ||
+                !TryComp<GrapplingProjectileComponent>( grappling.Projectile.Value, out var projectile) || projectile.HitTarget == null)
+            {
+                continue;
+            }
+
+            var target = projectile.HitTarget.Value;
+
+            if (!TryComp<PhysicsComponent>(target, out var physicsTarget))
             {
                 SetReeling(uid, grappling, false, null);
                 continue;
             }
 
-            // TODO: This should be on engine.
-            distance.MaxLength = MathF.Max(distance.MinLength, distance.MaxLength - grappling.ReelRate * frameTime);
-            distance.Length = MathF.Min(distance.MaxLength, distance.Length);
+            var posShooter = Transform(uid).WorldPosition;
+            var posTarget  = Transform(target).WorldPosition;
 
-            _physics.WakeBody(joint.BodyAUid);
-            _physics.WakeBody(joint.BodyBUid);
+            var direction = posShooter - posTarget;
 
-            if (jointComp.Relay != null)
-            {
-                _physics.WakeBody(jointComp.Relay.Value);
-            }
+            if (direction.LengthSquared() < 0.01f)
+                continue;
 
-            Dirty(uid, jointComp);
+            direction = Vector2.Normalize(direction);
 
-            if (distance.MaxLength.Equals(distance.MinLength))
-            {
-                SetReeling(uid, grappling, false, null);
-            }
+            var impulse = direction * grappling.ReelRate * frameTime * physicsTarget.Mass * 4f;
+
+            _physics.ApplyLinearImpulse(target, impulse);
+            _physics.WakeBody(target);
+
+            //DS14-end
         }
     }
-
     /// <summary>
     /// Checks whether the entity is hooked to something via grappling gun.
     /// </summary>
@@ -227,6 +262,8 @@ public abstract class SharedGrapplingGunSystem : EntitySystem
     {
         if (!Timing.IsFirstTimePredicted)
             return;
+
+        component.HitTarget = args.Embedded; //DS14
 
         var jointComp = EnsureComp<JointComponent>(uid);
         var joint = _joints.CreateDistanceJoint(uid, args.Weapon, anchorA: new Vector2(0f, 0.5f), id: GrapplingJoint);
