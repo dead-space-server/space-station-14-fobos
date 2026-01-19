@@ -800,7 +800,7 @@
     - type: AmmoCounter
     - type: GrapplingGun
       pullTargetToShooter: true 
-      reelRate: 50
+      reelRate: 40
       cycleSound:
         path: /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/hook-sfx/reload_hook.ogg
       ropeSprite:
@@ -808,7 +808,7 @@
         state: rope
     - type: Gun
       soundGunshot: /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/hook-sfx/shot_hook.ogg
-      fireRate: 0.1
+      fireRate: 0.15
     - type: BasicEntityAmmoProvider
       proto: ScytheHookProjectile
       capacity: 1
