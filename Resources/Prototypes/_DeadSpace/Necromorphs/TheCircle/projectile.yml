@@ -61,7 +61,7 @@
       armorPiercingLevels:
         Piercing: 2
       types:
-        Piercing: 26
+        Piercing: 20
         Structural: 25
 
 ### Картриджи РПЛ20
@@ -138,7 +138,7 @@
       armorPiercingLevels:
         Piercing: 2
       types:
-       Piercing: 30
+       Piercing: 25
        Structural: 10
 
 ## Картриджи Скараб

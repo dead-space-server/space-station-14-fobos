@@ -135,7 +135,7 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
 
         var totalProgress = progress ?? 0f;
 
-        // Если средний прогресс по цели >= 50% и мы ещё не в стадии резни, переходим в неё
+        // Если средний прогресс по цели >= 50%
         if (revCount > 0 && totalProgress >= 0.5f && _revolutionaryStage == RevolutionaryStage.Initial)
         {
             _revolutionaryStage = RevolutionaryStage.Massacre;
