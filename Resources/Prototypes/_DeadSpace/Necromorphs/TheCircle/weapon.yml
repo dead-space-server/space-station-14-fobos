@@ -218,9 +218,9 @@
     minAngle: -32
     maxAngle: -37
   - type: ChamberMagazineAmmoProvider
-    soundBoltClosed: 
+    soundBoltClosed:
       path: /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/rpl20-sfx/rpl-close.ogg
-    soundBoltOpened: 
+    soundBoltOpened:
       path: /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/rpl20-sfx/rpl-open.ogg
     soundRack:
       path: /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/rpl20-sfx/rpl-chamber.ogg
@@ -420,7 +420,7 @@
   id: MagazineRifleSCARAB
   name: SCARAB POLYMAG 30 GEN2
   parent: BaseMagazineRifle
-  description: Вмещает всего 30 патронов 6.8х51 мм калибра. 
+  description: Вмещает всего 30 патронов 6.8х51 мм калибра.
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeRifleSCARAB
@@ -603,57 +603,6 @@
   - type: Appearance
   - type: UseDelay
     delay: 1.5
-
-## Магазин VAL
-
-- type: entity
-  id: BaseMagazineLightRifleAsVal
-  name: магазин для АС "Вал" (7.62х39 мм винтовочные)
-  parent: BaseItem
-  description: Вмещает всего 20 патронов 7.62х39 мм калибра.
-  abstract: true
-  components:
-  - type: Tag
-    tags:
-      - MagazineLightRifleAsVal
-  - type: BallisticAmmoProvider
-    mayTransfer: true
-    whitelist:
-      tags:
-        - CartridgeLightRifle
-    proto: CartridgeLightRifle
-    capacity: 20
-  - type: Item
-    size: Small
-  - type: ContainerContainer
-    containers:
-      ballistic-ammo: !type:Container
-  - type: Sprite
-    sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/asval/mag.rsi
-    layers:
-    - state: base
-      map: ["enum.GunVisualLayers.Base"]
-    - state: mag-1
-      map: ["enum.GunVisualLayers.Mag"]
-  - type: MagazineVisuals
-    magState: mag
-    steps: 2
-    zeroVisible: false
-  - type: Appearance
-
-- type: entity
-  id: MagazineLightRifleAsVal
-  name: магазин для АС "Вал"
-  parent: BaseMagazineLightRifleAsVal
-  components:
-  - type: BallisticAmmoProvider
-    proto: CartridgeLightRifle
-  - type: Sprite
-    layers:
-    - state: red
-      map: ["enum.GunVisualLayers.Base"]
-    - state: mag-1
-      map: ["enum.GunVisualLayers.Mag"]
 
 ## Клинок-обелиск
 - type: entity
