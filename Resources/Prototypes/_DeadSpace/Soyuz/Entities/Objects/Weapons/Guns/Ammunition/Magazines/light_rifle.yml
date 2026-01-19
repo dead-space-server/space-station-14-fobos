@@ -1,0 +1,173 @@
+# Base
+- type: entity
+  id: DrumMagazineLightRifle
+  name: барабанный магазин (7.62х39 мм винтовочный)
+  parent: BaseMagazineLightRifle
+  description: Барабаный магазин на 75 патронов для РПК-16.
+  components:
+  - type: Item
+    size: Normal
+  - type: BallisticAmmoProvider
+    proto: CartridgeLightRifle
+    capacity: 75
+  - type: Sprite
+    sprite: _DeadSpace/Soyuz/Objects/Weapons/Guns/Ammunition/Magazine/LightRifle/drum.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
+# Magazine
+- type: entity
+  id: DrumMagazineLightRifleEmpty
+  name: барабанный магазин (7.62х39 мм винтовочный)
+  suffix: empty
+  parent: DrumMagazineLightRifle
+  description: Барабаный магазин на 75 патронов для РПК-16. Можно зарядить любой вид патрона 7.62х39 мм.
+  components:
+  - type: BallisticAmmoProvider
+    proto: null
+    capacity: 75
+  - type: Sprite
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
+# Base
+- type: entity
+  id: BaseMagazineLightRifleAsVal
+  name: магазин для АС "Вал" (7.62х39 мм винтовочные)
+  parent: [ BaseItem, BaseSecurityContraband ]
+  abstract: true
+  components:
+  - type: Tag
+    tags:
+      - MagazineLightRifleAsVal
+  - type: BallisticAmmoProvider
+    mayTransfer: true
+    whitelist:
+      tags:
+        - CartridgeLightRifle
+    proto: CartridgeLightRifle
+    capacity: 20
+  - type: Item
+    size: Small
+  - type: ContainerContainer
+    containers:
+      ballistic-ammo: !type:Container
+  - type: Sprite
+    sprite: _DeadSpace/Soyuz/Objects/Weapons/Guns/Ammunition/Magazine/LightRifle/asval.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: MagazineVisuals
+    magState: mag
+    steps: 2
+    zeroVisible: false
+  - type: Appearance
+
+# Magazines
+- type: entity
+  id: MagazineLightRifleAsVal
+  name: магазин для АС "Вал" (7.62х39 мм винтовочные)
+  parent: BaseMagazineLightRifleAsVal
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeLightRifle
+  - type: Sprite
+    layers:
+    - state: red
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
+- type: entity
+  id: MagazineLightRifleAsValEmpty
+  name: магазин для АС "Вал" (7.62х39 мм винтовочные любые)
+  suffix: Пустой
+  parent: MagazineLightRifleAsVal
+  components:
+  - type: BallisticAmmoProvider
+    proto: null
+  - type: Sprite
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
+- type: entity
+  id: MagazineLightRifleAsValPractice
+  name: магазин для АС "Вал" (7.62х39 мм винтовочные учебные)
+  parent: BaseMagazineLightRifleAsVal
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeLightRiflePractice
+  - type: Sprite
+    layers:
+    - state: practice
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
+- type: entity
+  id: MagazineLightRifleAsValUranium
+  name: магазин для АС "Вал" (7.62х39 мм винтовочные урановые)
+  parent: BaseMagazineLightRifleAsVal
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeLightRifleUranium
+  - type: Sprite
+    layers:
+    - state: uranium
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
+- type: entity
+  id: MagazineLightRifleAsValIncendiary
+  name: магазин для АС "Вал" (7.62х39 мм винтовочные зажигательные)
+  parent: MagazineLightRifleAsVal
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeLightRifleIncendiary
+
+# Base
+- type: entity
+  id: BaseMagazineLightRifleVSS
+  name: магазин для ВСС "Винторез" (7.62х39 мм винтовочные)
+  parent: [ BaseItem, BaseSecurityContraband ]
+  abstract: true
+  components:
+  - type: Tag
+    tags:
+      - MagazineLightRifleVSS
+  - type: BallisticAmmoProvider
+    mayTransfer: true
+    whitelist:
+      tags:
+        - CartridgeLightRifle
+    proto: CartridgeLightRifle
+    capacity: 10
+  - type: Item
+    size: Small
+  - type: ContainerContainer
+    containers:
+      ballistic-ammo: !type:Container
+  - type: Sprite
+    sprite: _DeadSpace/Soyuz/Objects/Weapons/Guns/Ammunition/Magazine/LightRifle/vss.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: MagazineVisuals
+    magState: mag
+    steps: 2
+    zeroVisible: false
+  - type: Appearance

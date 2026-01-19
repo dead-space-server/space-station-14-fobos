@@ -55,6 +55,7 @@ paperwork-form-title-command-12 = Разрешение на передвижен
 paperwork-form-title-command-13 = Приказ о поощрении
 paperwork-form-title-command-15 = Свидетельство о повышении квалификации
 paperwork-form-title-command-17 = Разрешение на использование снаряжения
+paperwork-form-title-command-18 = Приказ о понижении в должности
 paperwork-form-title-engineering-0 = Стандартный шаблон документа
 paperwork-form-title-engineering-1 = Заказ на производство продукта
 paperwork-form-title-engineering-2 = Отчёт об изучении объекта

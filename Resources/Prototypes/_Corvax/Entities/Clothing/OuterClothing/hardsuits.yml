@@ -20,6 +20,9 @@
   - type: Armor
     modifiers:
       armorLvls:
+        Blunt: 2
+        Slash: 2
+        Radiation: 2
         Piercing: 2
         Heat: 2
       coefficients:
