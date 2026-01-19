@@ -182,6 +182,19 @@
   categories:
    - UniPhoneUplinkWeaponry
 
+- type: listing
+  id: UniPhoneUplinkWeaponScytheHook
+  name: Осколочный клинок (Можно купить 2 раза)
+  description: "СВЕЖЕЕ МЯСО-!!!"
+  productEntity: WeaponScytheHook
+  cost:
+    Telecrystal: 12
+  categories:
+   - UniPhoneUplinkWeaponry
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
 ### Боеприпасы
 
 - type: listing
