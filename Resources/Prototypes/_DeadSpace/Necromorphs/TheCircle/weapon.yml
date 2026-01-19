@@ -779,6 +779,7 @@
   name: цепная коса
   parent: BaseItem
   id: WeaponScytheHook
+  description: КТО ЭТО К НАМ ЗАСКОЧИЛ НА УЖИН?!
   components:
     - type: MeleeWeapon
       attackRate: 2
