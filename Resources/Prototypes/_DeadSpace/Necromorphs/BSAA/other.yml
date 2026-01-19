@@ -41,7 +41,7 @@
 - type: entity
   id: BSAAloadout
   name: кейс неопределённости
-  description: Прочный военный кейс для оружия. Принадлежит отряду АПБТ. 
+  description: Прочный военный кейс для оружия. Принадлежит отряду АПБТ.
   suffix: АПБТ, Основное
   parent: BaseERTloadoutPrimary
   components:
@@ -69,17 +69,17 @@
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/saiga12/saiga12.rsi
     state: icon
   content:
-  - WeaponSAIGA12
-  - MagazineForSAIGA12
-  - MagazineForSAIGA12
-  - MagazineForSAIGA12
-  - MagazineForSAIGA12
-  - DrumForSAIGA12
-  - MagazineForSAIGA12Burn
-  - MagazineForSAIGA12Burn
-  - MagazineForSAIGA12Burn
-  - MagazineForSAIGA12Burn
-  - DrumForSAIGA12Burn
+  - WeaponShotgunSaiga
+  - MagazineShotgunNew
+  - MagazineShotgunNew
+  - MagazineShotgunNew
+  - MagazineShotgunNew
+  - MagazineShotgunDrum
+  - MagazineShotgunNewIncendiary
+  - MagazineShotgunNewIncendiary
+  - MagazineShotgunNewIncendiary
+  - MagazineShotgunNewIncendiary
+  - MagazineShotgunDrumIncendiary
   - BoxShotgunIncendiary
   - BoxLethalshot
 
@@ -91,7 +91,7 @@
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/vant/vant.rsi
     state: icon
   content:
-  - VantShield
+  - ShieldVANT
   - WeaponVeresk
   - MagazineCaselessRifle
   - MagazineCaselessRifle
@@ -146,17 +146,17 @@
   - type: TTS
     voice: Lunara
   - type: EmitSoundOnUse
-    sound: 
+    sound:
       path: /Audio/Ambience/Antag/nukeops_start.ogg
       params:
         volume: -2
   - type: EmitSoundOnActivate
-    sound: 
+    sound:
       path: /Audio/Ambience/Antag/nukeops_start.ogg
       params:
         volume: -2
   - type: EmitSoundOnTrigger
-    sound: 
+    sound:
       path: /Audio/Ambience/Antag/nukeops_start.ogg
       params:
         volume: -2
