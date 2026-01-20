@@ -184,10 +184,10 @@
 
 - type: listing
   id: UniPhoneUplinkWeaponScytheHook
-  name: Хук-Коса (Можно купить 2 раза)
-  icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/melee/scythe-hook.rsi, state: icon }
+  name: Хук-Рука (Можно купить 2 раза)
+  icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/melee/hand-hook.rsi, state: icon }
   description: "СВЕЖЕЕ МЯСО-!!!"
-  productEntity: WeaponScytheHook
+  productEntity: UnitologyWeaponHandHookImplanter
   cost:
     Telecrystal: 12
   categories:
