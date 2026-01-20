@@ -1,11 +1,13 @@
 using System.Linq;
 using Content.Client.CharacterInfo;
+using Content.Client.DeadSpace.Skill;
 using Content.Client.Gameplay;
 using Content.Client.Stylesheets;
 using Content.Client.UserInterface.Controls;
 using Content.Client.UserInterface.Systems.Character.Controls;
 using Content.Client.UserInterface.Systems.Character.Windows;
 using Content.Client.UserInterface.Systems.Objectives.Controls;
+using Content.Shared.DeadSpace.Skills;
 using Content.Shared.Input;
 using Content.Shared.Mind;
 using Content.Shared.Mind.Components;
@@ -42,6 +44,8 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
     }
 
     private CharacterWindow? _window;
+    private SkillsListWindow? _skillsWindow;
+    private List<SkillInfo> _currentSkills = new();
     private MenuButton? CharacterButton => UIManager.GetActiveUIWidgetOrNull<MenuBar.Widgets.GameTopMenuBar>()?.CharacterButton;
 
     public void OnStateEntered(GameplayState state)
@@ -53,6 +57,7 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
 
         _window.OnClose += DeactivateButton;
         _window.OnOpen += ActivateButton;
+        _window.SkillsButton.OnPressed += OnSkillsButtonPressed; // DS14
 
         CommandBinds.Builder
             .Bind(ContentKeyFunctions.OpenCharacterMenu,
@@ -66,6 +71,12 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
         {
             _window.Close();
             _window = null;
+        }
+
+        if (_skillsWindow != null)
+        {
+            _skillsWindow.Close();
+            _skillsWindow = null;
         }
 
         CommandBinds.Unregister<CharacterUIController>();
@@ -142,46 +153,8 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
         _window.ObjectivesLabel.Visible = objectives.Any();
 
         // DS14-Skills-Start
-        {
-            var skillsControl = new CharacterObjectiveControl
-            {
-                Orientation = BoxContainer.LayoutOrientation.Vertical,
-                Modulate = Color.Gray
-            };
-
-            var text = new FormattedMessage();
-            text.TryAddMarkup("Навыки", out _);
-
-            var label = new RichTextLabel
-            {
-                StyleClasses = { StyleNano.StyleClassTooltipActionTitle }
-            };
-            label.SetMessage(text);
-
-            skillsControl.AddChild(label);
-
-            foreach (var skill in skills)
-            {
-                var conditionControl = new ObjectiveConditionsControl();
-                conditionControl.ProgressTexture.Texture = _sprite.Frame0(skill.Icon);
-                conditionControl.ProgressTexture.Progress = skill.Progress;
-
-                var titleMessage = new FormattedMessage();
-                var descriptionMessage = new FormattedMessage();
-
-                titleMessage.AddText(skill.Name);
-                descriptionMessage.AddText(skill.Description);
-
-                conditionControl.Title.SetMessage(titleMessage);
-                conditionControl.Description.SetMessage(descriptionMessage);
-
-                skillsControl.AddChild(conditionControl);
-            }
-
-            _window.Objectives.AddChild(skillsControl);
-        }
-
-        // DS14-Skills-End
+        _currentSkills = skills;
+        _window.SkillsButton.Visible = skills.Count > 0;
 
         // start backmen: currency
         {
@@ -347,5 +320,17 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
             _characterInfo.RequestCharacterInfo();
             _window.Open();
         }
+    }
+
+    // DS14
+    private void OnSkillsButtonPressed(ButtonEventArgs args)
+    {
+        if (_currentSkills.Count == 0)
+            return;
+
+        _skillsWindow?.Close();
+        _skillsWindow = new SkillsListWindow();
+        _skillsWindow.SetSkills(_currentSkills);
+        _skillsWindow.OpenCentered();
     }
 }
