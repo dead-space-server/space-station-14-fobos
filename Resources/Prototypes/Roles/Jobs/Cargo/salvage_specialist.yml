@@ -28,7 +28,7 @@
     components:
       # DS14-Start
       - type: Skill
-        group: BasicAndShuttleControl
+        group: SalvageControl
       # DS14-End
 
 - type: startingGear

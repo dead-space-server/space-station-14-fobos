@@ -290,7 +290,7 @@
   - SingularityAssembly
 
 - type: skillGroup
-  id: CargoTechnicianControl
+  id: SalvageControl
   name: Утилизатор 
   skills:
   - BasicBotany
