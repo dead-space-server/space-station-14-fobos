@@ -10,6 +10,7 @@ using Content.Shared.UserInterface;
 using Robust.Server.Audio;
 using Robust.Server.GameObjects;
 using Robust.Shared.Timing;
+using Content.Server.Power.EntitySystems; // DS14
 
 namespace Content.Server.Research.TechnologyDisk.Systems;
 
@@ -21,6 +22,7 @@ public sealed class DiskConsoleSystem : EntitySystem
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
     [Dependency] private readonly AccessReaderSystem _accessReader = default!;
     [Dependency] private readonly PopupSystem _popup = default!;
+    [Dependency] private readonly PowerReceiverSystem _powerReceiver = default!; // DS14
 
     /// <inheritdoc/>
     public override void Initialize()
@@ -52,7 +54,12 @@ public sealed class DiskConsoleSystem : EntitySystem
     {
         if (HasComp<DiskConsolePrintingComponent>(uid))
             return;
-
+        
+        // DS14-start
+        if (!_powerReceiver.IsPowered(uid))
+            return;
+        // DS14-end
+        
         if (!_research.TryGetClientServer(uid, out var server, out var serverComp))
             return;
 
