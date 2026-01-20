@@ -52,7 +52,7 @@
   product: CrateObeliskStoper
   cost: 10000
   category: cargoproduct-category-name-science
-  group: market
+  group: science
 
 - type: cargoProduct
   id: ZetaOneMedipenProduct
@@ -62,7 +62,7 @@
   product: CrateZetaOneMedipen
   cost: 2000
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical # DS14
 
 - type: entity
   id: CrateObeliskStoper

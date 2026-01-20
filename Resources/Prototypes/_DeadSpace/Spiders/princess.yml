@@ -26,7 +26,7 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Piercing: 7
+        Slash: 7
         Poison: 1
         Structural: 20
       groups:
@@ -69,3 +69,7 @@
   - type: SpiderKing
   - type: Damageable
     damageModifierSet: HeadSpiderTerror
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      250: Dead

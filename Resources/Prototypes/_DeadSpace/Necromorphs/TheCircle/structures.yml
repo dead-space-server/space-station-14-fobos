@@ -1,0 +1,144 @@
+## Шлюзы
+- type: entity
+  parent: AirlockTaipan
+  id: AirlockUnitologyEngineering
+  suffix: Круг
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Structures/airlocks/uni_engnr.rsi
+  - type: Wires
+    layoutId: AirlockEngineering
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsNukeop ]
+
+- type: entity
+  parent: AirlockUnitologyEngineering
+  id: AirlockUnitologyAtmospherics
+  suffix: Круг
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Structures/airlocks/uni_atmos.rsi
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsNukeop ]
+
+- type: entity
+  parent: AirlockTaipan
+  id: AirlockUnitologyMedical
+  suffix: Круг
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Structures/airlocks/uni_med.rsi
+  - type: Wires
+    layoutId: AirlockMedical
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsNukeop ]
+
+- type: entity
+  parent: AirlockUnitologyMedical
+  id: AirlockUnitologyVirology
+  suffix: Круг
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Structures/airlocks/uni_viro.rsi
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsNukeop ]
+
+- type: entity
+  parent: AirlockTaipan
+  id: AirlockUnitologyService
+  suffix: Круг
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Structures/airlocks/uni_srv.rsi
+  - type: Wires
+    layoutId: AirlockService
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsNukeop ]
+
+- type: entity
+  parent: AirlockTaipan
+  id: AirlockUnitologyCommand
+  suffix: Круг
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Structures/airlocks/uni_cmd.rsi
+  - type: Wires
+    layoutId: AirlockCommand
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsNukeop ]
+
+## Химмастер
+- type: entity
+  id: UnitologyChemMaster
+  parent: ChemMaster
+  name: Х!мМ#ст^р 3500
+  description: Неизвестного происхождения химический манипулятор биологического класса с возможностью производства таблеток и бутылочек, но... Что-то в нём не так.
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Structures/uni_mixer.rsi
+    snapCardinals: true
+    layers:
+    - state: mixer_empty
+    - state: mixer_screens
+  - type: Icon
+    sprite: _DeadSpace/Necromorfs/TheCircle/Structures/uni_mixer.rsi
+    state: mixer_empty
+    
+## Консоль
+- type: entity
+  parent: BaseComputerAiAccess
+  id: UnitologyComputerComms
+  name: консоль обьявления войны "Круг"
+  description: Эта штука заставит станцию трепещать от страха!
+  components:
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: comm_syndie
+    - map: ["computerLayerKeys"]
+      state: syndie_key
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: AccessReader
+    access: [[ "NuclearOperative" ]]
+  - type: ActivatableUI
+    singleUser: true
+    key: enum.WarDeclaratorUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.WarDeclaratorUiKey.Key:
+        type: WarDeclaratorBoundUserInterface
+  - type: WarDeclarator
+    message: uni-ops-war-declarator-message
+    senderTitle: uni-ops-war-declarator-thecircle-name
+    sound: 
+      path: /Audio/_DeadSpace/Necromorfs/TheCircle/console-sfx/unitology-alert.ogg
+  - type: Computer
+    board: UnitologyComputerCircuitboard
+  - type: PointLight
+    radius: 1.5
+    energy: 1.6
+    color: "#D70040"
+
+- type: entity
+  parent: BaseComputerCircuitboard
+  id: UnitologyComputerCircuitboard
+  name: плата консоли объявление "Круг"
+  description: Громко.
+  components:
+  - type: Sprite
+    state: cpu_syndicate
+  - type: ComputerBoard
+    prototype: UnitologyComputerComms

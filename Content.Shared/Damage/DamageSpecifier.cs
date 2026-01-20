@@ -224,12 +224,7 @@ namespace Content.Shared.Damage
                 var modifierId = (modifierSet as DamageModifierSetPrototype)?.ID ?? "(no-id)";
                 if (modifierSet.Coefficients.TryGetValue(key, out var coefficient))
                 {
-                    Logger.Debug($"ApplyModifierSet: modifier={modifierId} coefficient for {key}={coefficient}");
                     newValue *= coefficient; // coefficients can heal you, e.g. cauterizing bleeding
-                }
-                else
-                {
-                    Logger.Debug($"ApplyModifierSet: modifier={modifierId} has no coefficient for {key}");
                 }
                 // DS14-End
 

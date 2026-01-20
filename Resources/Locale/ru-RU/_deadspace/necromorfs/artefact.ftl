@@ -1,0 +1,10 @@
+obeliskfeeling-artifact-1 = Ты чувствуешь это, да? Мы становимся единым целым.
+obeliskfeeling-artifact-2 = Нет смысла бороться. Твоя плоть уже не твоя.
+obeliskfeeling-artifact-3 = Они лгали тебе. Истина здесь, перед тобой.
+obeliskfeeling-artifact-4 = Ты знаешь, зачем ты здесь. Подчинись.
+obeliskfeeling-artifact-5 = Все, что ты терял, вернется. В единстве.
+obeliskfeeling-artifact-6 = Кровь, боль, страх... Они очищают тебя.
+obeliskfeeling-artifact-7 =  СДЕЛАЙ НАС ЕДИНЫМ!
+obeliskfeeling-artifact-8 = Скоро тишина поглотит все. И ты обретешь покой.
+obeliskfeeling-artifact-9 = Они противятся. Но ты... ты всегда был частью нас.
+obeliskfeeling-artifact-10 = Смотри, как мир разрушается. Это начало чего-то великого.

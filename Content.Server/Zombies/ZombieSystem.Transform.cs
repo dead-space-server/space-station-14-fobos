@@ -50,6 +50,8 @@ using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Server.DeadSpace.Virus.Systems;
 using Content.Server.DeadSpace.Languages;
+using Content.Shared.NPC.Components; // DS14
+using System.Linq; // DS14
 
 namespace Content.Server.Zombies;
 
@@ -283,6 +285,14 @@ public sealed partial class ZombieSystem
         if (TryComp<DamageableComponent>(target, out var damageablecomp))
             _damageable.SetAllDamage(target, damageablecomp, 0);
         _mobState.ChangeMobState(target, MobState.Alive);
+        
+        // DS14-start
+        if (TryComp<NpcFactionMemberComponent>(target, out var factionComp))
+        {
+            zombiecomp.BeforeZombifiedFactions =
+                factionComp.Factions.ToHashSet();
+        }
+        // DS14-end
 
         _faction.ClearFactions(target, dirty: false);
         _faction.AddFaction(target, ZombieFaction);

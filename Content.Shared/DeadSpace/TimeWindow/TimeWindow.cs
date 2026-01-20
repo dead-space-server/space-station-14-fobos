@@ -81,6 +81,15 @@ public sealed class TimedWindowSystem : EntitySystem
         return window == null || IsExpired(window);
     }
 
+    /// <summary>
+    ///     Возвращает остаток секунд до конца таймера.
+    /// </summary>
+    public int GetSecondsRemaining(TimedWindow window)
+    {
+        var remaining = window.Remaining - _timing.CurTime;
+        return Math.Max(0, (int)Math.Ceiling(remaining.TotalSeconds));
+    }
+
     private TimeSpan GetRandomDuration(TimedWindow window)
     {
         if (window.Min == window.Max)

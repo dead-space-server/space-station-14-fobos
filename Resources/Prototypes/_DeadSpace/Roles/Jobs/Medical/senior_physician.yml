@@ -28,14 +28,19 @@
   wageDepartment: Medical
   wage: 70
   #end-backmen: currency
+  special:
+  - !type:AddComponentSpecial
+    components:
+    # DS14-Start
+    - type: Skill
+      group: Medical
+    # DS14-End
 
 - type: startingGear
   id: SeniorPhysicianGear
   equipment:
-    shoes: ClothingShoesColorBlack
     ears: ClothingHeadsetMedical
     belt: ClothingBeltMedicalFilled
-    socks: ClothingUnderwearSocksSeniorPhysician
   storage:
     back:
     - RubberStampSeniorPhysician # DS14

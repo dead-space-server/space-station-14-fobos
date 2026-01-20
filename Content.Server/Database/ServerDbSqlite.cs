@@ -193,6 +193,22 @@ namespace Content.Server.Database
         }
         #endregion
 
+        // DS14-Start
+        public override async Task AddBiStatAsync(string gameMode, BiStatWinner winner, DateTime date)
+        {
+            await using var db = await GetDbImpl();
+
+            db.SqliteDbContext.BiStats.Add(new BiStat
+            {
+                GameMode = gameMode,
+                Winner = winner,
+                Date = date
+            });
+
+            await db.SqliteDbContext.SaveChangesAsync();
+        }
+        // DS14-End
+
         #region Role Ban
         public override async Task<ServerRoleBanDef?> GetServerRoleBanAsync(int id)
         {

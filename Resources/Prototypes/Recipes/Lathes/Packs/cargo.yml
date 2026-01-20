@@ -22,6 +22,7 @@
   - MiningDrillDiamond
   - MineralScannerEmpty
   - AdvancedMineralScannerEmpty
+  - OreBag # DS14
   - OreBagOfHolding
 
 - type: latheRecipePack

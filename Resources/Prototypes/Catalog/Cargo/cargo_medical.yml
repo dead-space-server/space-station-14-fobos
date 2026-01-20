@@ -6,7 +6,7 @@
   product: CrateMedicalSupplies
   cost: 2400
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical # DS14
 
 - type: cargoProduct
   id: MedicalChemistrySupplies
@@ -16,7 +16,7 @@
   product: CrateChemistrySupplies
   cost: 750
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical # DS14
 
 - type: cargoProduct
   id: MedicalChemistryVials
@@ -26,7 +26,7 @@
   product: CrateChemistryVials
   cost: 1000
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical # DS14
 
 - type: cargoProduct
   id: EmergencyBurnKit
@@ -36,7 +36,7 @@
   product: CrateEmergencyBurnKit
   cost: 700
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical # DS14
 
 - type: cargoProduct
   id: EmergencyToxinKit
@@ -46,7 +46,7 @@
   product: CrateEmergencyToxinKit
   cost: 600
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical # DS14
 
 - type: cargoProduct
   id: EmergencyO2Kit
@@ -56,7 +56,7 @@
   product: CrateEmergencyO2Kit
   cost: 600
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical # DS14
 
 - type: cargoProduct
   id: EmergencyBruteKit
@@ -66,7 +66,7 @@
   product: CrateEmergencyBruteKit
   cost: 600
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical # DS14
 
 - type: cargoProduct
   id: EmergencyAdvancedKit
@@ -76,7 +76,7 @@
   product: CrateEmergencyAdvancedKit
   cost: 1200
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical # DS14
 
 - type: cargoProduct
   id: EmergencyRadiationKit
@@ -86,7 +86,7 @@
   product: CrateEmergencyRadiationKit
   cost: 600
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical # DS14
 
 - type: cargoProduct
   id: MedicalBodybags
@@ -96,7 +96,7 @@
   product: CrateBodyBags
   cost: 700
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical # DS14
 
 - type: cargoProduct
   id: MedicalBiosuit
@@ -106,7 +106,7 @@
   product: CrateVirologyBiosuit
   cost: 7100 # DS14
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical # DS14
 
 - type: cargoProduct
   id: MedicalMindShieldImplants
@@ -116,7 +116,7 @@
   product: CrateMindShieldImplants
   cost: 3000
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical # DS14
 
 - type: cargoProduct
   id: ChemistryP
@@ -126,7 +126,7 @@
   product: CrateChemistryP
   cost: 850
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical # DS14
 
 - type: cargoProduct
   id: ChemistryS
@@ -136,7 +136,7 @@
   product: CrateChemistryS
   cost: 750
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical # DS14
 
 - type: cargoProduct
   id: CrateChemistryD
@@ -146,4 +146,4 @@
   product: CrateChemistryD
   cost: 750
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical # DS14

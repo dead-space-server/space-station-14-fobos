@@ -1,10 +1,10 @@
-using Content.Server.DeadSpace.Medieval.Skill;
+using Content.Server.DeadSpace.Skill;
 using Content.Server.Mind;
 using Content.Server.Roles;
 using Content.Server.Roles.Jobs;
 using Content.Shared.CharacterInfo;
-using Content.Shared.DeadSpace.Medieval.Skills;
-using Content.Shared.DeadSpace.Medieval.Skills.Components;
+using Content.Shared.DeadSpace.Skills;
+using Content.Shared.DeadSpace.Skills.Components;
 using Content.Shared.Objectives;
 using Content.Shared.Objectives.Components;
 using Content.Shared.Objectives.Systems;

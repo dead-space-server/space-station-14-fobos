@@ -34,6 +34,7 @@ using Content.Shared.Cargo.Components;
 using Content.Shared.Cargo.Prototypes;
 using Content.Shared.DeadSpace.ERT.Prototypes;
 using Content.Server.DeadSpace.ERT;
+using Content.Server.Database;
 
 namespace Content.Server.GameTicking.Rules;
 
@@ -47,11 +48,13 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
     [Dependency] private readonly StoreSystem _store = default!;
     [Dependency] private readonly TagSystem _tag = default!;
     // DS14-Start
+    [Dependency] private readonly IServerDbManager _db = default!;
     [Dependency] private readonly AlertLevelSystem _alertLevel = default!;
     [Dependency] private readonly CargoSystem _cargoSystem = default!;
     [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
     private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "Gamma";
-    private static readonly ProtoId<CargoAccountPrototype> Account = "Cargo";
+    private static readonly ProtoId<CargoAccountPrototype> Account = "Security";
+    private const int AdditionalSupport = 70000;
     // DS14-End
 
     private static readonly ProtoId<CurrencyPrototype> TelecrystalCurrencyPrototype = "Telecrystal";
@@ -124,6 +127,24 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
         {
             args.AddLine(Loc.GetString("nukeops-list-name-user", ("name", name), ("user", sessionData.UserName)));
         }
+
+        // DS14 Статистика для дашборда
+        var winner = BiStatWinner.Crew;
+
+        if (component.WinType == WinType.OpsMajor || component.WinType == WinType.OpsMinor)
+            winner = BiStatWinner.Antagonist;
+
+        _ = System.Threading.Tasks.Task.Run(async () =>
+        {
+            try
+            {
+                await _db.AddBiStatAsync("Ядерные оперативники", winner, DateTime.UtcNow);
+            }
+            catch
+            {
+
+            }
+        });
     }
 
     private void OnNukeExploded(NukeExplodedEvent ev)
@@ -391,12 +412,18 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
             if (nukeops.TargetStation == null)
                 continue;
 
-            _alertLevel.SetLevel(nukeops.TargetStation.Value, "gamma", true, true, true);
+            if (_alertLevel.GetLevel(nukeops.TargetStation.Value) == "gamma")
+                continue;
+
+            if (newStatus != WarConditionStatus.YesWar)
+                continue;
+
+            _alertLevel.SetLevel(nukeops.TargetStation.Value, "gamma", false, true, true);
 
             if (!TryComp<StationBankAccountComponent>(nukeops.TargetStation, out var stationAccount))
                 return;
 
-            var addMoneyAfterWarDeclared = _ertResponceSystem.GetErtPrice(ErtTeam);
+            var addMoneyAfterWarDeclared = _ertResponceSystem.GetErtPrice(ErtTeam) + AdditionalSupport;
 
             _cargoSystem.UpdateBankAccount(
                                 (nukeops.TargetStation.Value, stationAccount),

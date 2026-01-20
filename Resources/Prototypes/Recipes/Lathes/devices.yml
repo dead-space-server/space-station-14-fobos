@@ -122,6 +122,16 @@
     Plasma: 500
     Silver: 250
 
+# DS14 - start
+- type: latheRecipe
+  id: OreBag
+  result: OreBag
+  completetime: 5
+  materials:
+    Steel: 1500
+    Cloth: 500
+# DS14 - end
+
 - type: latheRecipe
   id: ClothingBackpackHolding
   result: ClothingBackpackHolding

@@ -1,0 +1,525 @@
+## Гипоспрей медика
+- type: entity
+  parent: [BaseItem, BaseGrandTheftContraband]
+  id: UnitologyMedicHypospray
+  name: модифицированный гипоспрей «Aokigahara»
+  description: Лимитированный гипоспрей с ускоренным временем впрыска и повышенным объемом, разработанный исключительно для службы серафима.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/tools/hypo_2.rsi
+    layers:
+      - state: hypo
+        map: ["enum.SolutionContainerLayers.Base"]
+      - state: hypo_fill1
+        map: ["enum.SolutionContainerLayers.Fill"]
+        visible: false
+  - type: Item
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/tools/hypo_2.rsi
+  - type: SolutionContainerManager
+    solutions:
+      hypospray:
+        maxVol: 40
+  - type: RefillableSolution
+    solution: hypospray
+  - type: ExaminableSolution
+    solution: hypospray
+    exactVolume: true
+  - type: Hypospray
+    onlyAffectsMobs: false
+  - type: UseDelay
+    delay: 0.5
+  - type: Appearance
+  - type: SolutionContainerVisuals
+    maxFillLevels: 8
+    fillBaseName: hypo_fill
+    solutionName: hypospray
+
+## Общий гипоспрей
+- type: entity
+  parent: [BaseItem, BaseGrandTheftContraband]
+  id: UnitologyRegularHypospray
+  name: тактический гипоспрей «Beherit»
+  description: Помоги мне в последний раз. Помоги мне в последний раз. Помоги мне в последний раз. Помоги мне... Помо-помоги мне.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/tools/hypo_1.rsi
+    layers:
+      - state: hypo
+        map: ["enum.SolutionContainerLayers.Base"]
+      - state: hypo_fill1
+        map: ["enum.SolutionContainerLayers.Fill"]
+        visible: false
+  - type: Item
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/tools/hypo_1.rsi
+  - type: SolutionContainerManager
+    solutions:
+      hypospray:
+        maxVol: 30
+  - type: RefillableSolution
+    solution: hypospray
+  - type: ExaminableSolution
+    solution: hypospray
+    exactVolume: true
+  - type: Hypospray
+    onlyAffectsMobs: false
+  - type: UseDelay
+    delay: 1.25
+  - type: Appearance
+  - type: SolutionContainerVisuals
+    maxFillLevels: 6
+    fillBaseName: hypo_fill
+    solutionName: hypospray
+
+## КПК
+- type: entity
+  parent: [ BasePDA, BaseSyndicateContraband ]
+  id: UnitologyPDA
+  name: тактический планшет «uniPod»
+  description: В теории на ней можно запустить DOOM1984-...
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/pda.rsi
+    layers:
+    - map: [ "enum.PdaVisualLayers.Base" ]
+      state: "pda"
+    - state: "light_overlay"
+      map: [ "enum.PdaVisualLayers.Flashlight" ]
+      shader: "unshaded"
+      visible: false
+    - state: "id_overlay"
+      map: [ "enum.PdaVisualLayers.IdLight" ]
+      shader: "unshaded"
+      visible: false
+  - type: Pda
+    id: UnitologyCommanderIDCard
+  - type: PdaBorderColor
+    borderColor: "#6f695b"
+  - type: Icon
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/pda.rsi
+    state: pda
+  - type: CartridgeLoader
+    uiKey: enum.PdaUiKey.Key
+    preinstalled:
+      - NotekeeperCartridge
+      - NanoTaskCartridge
+      - BankCartridge
+      - AstroNavCartridge
+
+- type: entity
+  parent: UnitologyPDA
+  id: UnitologyCommanderPDA
+  components:
+  - type: Pda
+    id: UnitologyCommanderIDCard
+  - type: CartridgeLoader
+    uiKey: enum.PdaUiKey.Key
+    preinstalled:
+      - NotekeeperCartridge
+      - NanoTaskCartridge
+      - BankCartridge
+      - AstroNavCartridge
+      - MedTekCartridge
+
+- type: entity
+  parent: UnitologyPDA
+  id: UnitologyHeavyPDA
+  suffix: Штурмовик
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Pda
+    id: UnitologyHeavyIDCard
+
+- type: entity
+  parent: UnitologyPDA
+  id: UnitologyLightPDA
+  suffix: Егерь
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Pda
+    id: UnitologyLightIDCard
+
+- type: entity
+  parent: UnitologyPDA
+  id: UnitologyEngineerPDA
+  suffix: Инженер
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Pda
+    id: UnitologyEngineerIDCard
+  - type: Emag
+    emagType: Access
+  - type: LimitedCharges
+  - type: AutoRecharge
+
+- type: entity
+  parent: UnitologyCommanderPDA
+  id: UnitologyMedicPDA
+  suffix: Медик
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Pda
+    id: UnitologyMedicIDCard
+
+- type: entity
+  parent: SyndicateIDCard
+  id: UnitologyIDCard
+  description: Карта, с которой возможно красть доступы с другой карты.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: IdCard
+    jobIcon: JobIconUnitologyLead
+  - type: Access
+    tags:
+    - Maintenance
+    - SyndicateAgent
+    - NuclearOperative
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/id.rsi 
+    layers:
+    - state: circle
+  - type: AgentIDCard
+  - type: Tag
+    tags:
+    - DoorBumpOpener
+
+- type: entity
+  parent: UnitologyIDCard
+  id: UnitologyCommanderIDCard
+  name: ID-карта
+  suffix: Командир
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: IdCard
+    jobIcon: JobIconUnitologyLead
+  - type: Access
+    tags:
+    - Maintenance
+    - SyndicateAgent
+    - NuclearOperative
+
+- type: entity
+  parent: UnitologyIDCard
+  id: UnitologyHeavyIDCard
+  name: ID-карта
+  suffix: Штурмовик
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: IdCard
+    jobIcon: JobIconUnitologyHeavy
+  - type: Access
+    tags:
+    - Maintenance
+    - SyndicateAgent
+    - NuclearOperative
+
+- type: entity
+  parent: UnitologyIDCard
+  id: UnitologyLightIDCard
+  name: ID-карта
+  suffix: Егерь
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: IdCard
+    jobIcon: JobIconUnitologyLight
+  - type: Access
+    tags:
+    - Maintenance
+    - SyndicateAgent
+    - NuclearOperative
+
+- type: entity
+  parent: UnitologyIDCard
+  id: UnitologyEngineerIDCard
+  name: ID-карта
+  suffix: Инженер
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: IdCard
+    jobIcon: JobIconUnitologyEngineer
+  - type: Access
+    tags:
+    - Maintenance
+    - SyndicateAgent
+    - NuclearOperative
+
+- type: entity
+  parent: UnitologyIDCard
+  id: UnitologyMedicIDCard
+  name: ID-карта
+  suffix: Медик
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: IdCard
+    jobIcon: JobIconUnitologyMedic
+  - type: Access
+    tags:
+    - Maintenance
+    - SyndicateAgent
+    - NuclearOperative
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconUnitology
+  icon:
+    sprite: /Textures/_DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
+    state: circle
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconUnitologyLead
+  icon:
+    sprite: /Textures/_DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
+    state: circle_lead
+  allowSelection: false
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconUnitologyHeavy
+  icon:
+    sprite: /Textures/_DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
+    state: circle_heavy
+  allowSelection: false
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconUnitologyLight
+  icon:
+    sprite: /Textures/_DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
+    state: circle_light
+  allowSelection: false    
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconUnitologyMedic
+  icon:
+    sprite: /Textures/_DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
+    state: circle_medic
+  allowSelection: false
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconUnitologyEngineer
+  icon:
+    sprite: /Textures/_DeadSpace/Necromorfs/TheCircle/Mics/etc/icon.rsi
+    state: circle_engineer
+  allowSelection: false
+
+## РПС
+- type: entity
+  parent: ClothingBeltMilitaryWebbing
+  id: ClothingBeltUnitologyCommanderWebbing
+  name: РПС «Прометей»
+  description: Изношенная ременно-плечевая система, специализированная под нужды кардинала.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/webbings/commander-webbing.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/webbings/commander-webbing.rsi
+  - type: Tag
+    tags: []
+
+- type: entity
+  parent: ClothingBeltMilitaryWebbing
+  id: ClothingBeltUnitologyHeavyWebbing
+  name: РПС «Артемида»
+  description: Изношенная ременно-плечевая система, специализированная под суд диакона.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/webbings/heavy-webbing.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/webbings/heavy-webbing.rsi
+  - type: Tag
+    tags: []
+
+- type: entity
+  parent: ClothingBeltMilitaryWebbing
+  id: ClothingBeltUnitologyLightWebbing
+  name: РПС «Гермес»
+  description: Изношенная ременно-плечевая система, специализированная под быстрый доступ к снаряжению для вестника.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/webbings/light-webbing.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/webbings/light-webbing.rsi
+  - type: Tag
+    tags: []
+
+- type: entity
+  parent: ClothingBeltMilitaryWebbing
+  id: ClothingBeltUnitologyEngineerWebbing
+  name: РПС «Гефест»
+  description: Изношенная ременно-плечевая система, специализированная под требования зодчего.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/webbings/engi-webbing.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/webbings/engi-webbing.rsi
+  - type: Tag
+    tags: []
+
+- type: entity
+  parent: ClothingBeltMilitaryWebbing
+  id: ClothingBeltUnitologyMedicWebbing
+  name: РПС «Асклепий»
+  description: Изношенная ременно-плечевая система, специализированная под работу серафима.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/webbings/medic-webbing.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/webbings/medic-webbing.rsi
+  - type: Tag
+    tags: []
+
+## Визор
+- type: entity
+  parent: ClothingEyesHudSyndicateAgent
+  id: ClothingEyesHudUnitologyVisor
+  name: тактический визор «Око луны»
+  description: Глаза сокрыты за мрачной вуалью. За ней виднеется лишь пустота.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/hud.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/hud.rsi
+  - type: FlashImmunity
+  - type: EyeProtection
+  - type: Tag
+    tags: []
+
+## Противогаз
+- type: entity
+  parent: ClothingMaskGasSyndicate
+  id: ClothingMaskGasUnitology
+  name: модифицированный респиратор «Полнолуние»
+  description:
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/gasmask.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/gasmask.rsi
+  - type: FlashImmunity
+  - type: EyeProtection
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.95
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.95
+
+## Магнитные сапоги
+- type: entity
+  parent: [ ClothingShoesBootsMagBase, BaseSyndicateContraband ]
+  id: ClothingShoesMagBootsUnitology
+  name: трекинговые магнитные ботинки
+  description: Трекинговые ботинки с интегрированной магнитной подошвой для работы в условиях нулевой гравитации или на скользких поверхностях.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/magboots.rsi
+    layers:
+    - state: icon
+    - state: icon-on
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/magboots.rsi
+    clothingVisuals:
+      feet:
+      - state: equipped-FEET
+      - state: on-equipped-FEET
+  - type: ClothingSpeedModifier
+    walkModifier: 0.95
+    sprintModifier: 0.95
+  - type: Item
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/magboots.rsi
+    size: Normal
+  - type: Tag
+    tags: []
+
+## Комбинезон
+- type: entity
+  parent: [ UnsensoredClothingUniformBase, BaseSyndicateContraband ]
+  id: ClothingUniformJumpsuitUnitology
+  name: роба послушника
+  description: Дополнительно уплотнённый комплект рабочей одежды, не сковывающий движений.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/jumpsuit.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/jumpsuit.rsi
+  - type: Tag
+    tags: []
+
+## Боевые перчатки
+- type: entity
+  parent: ClothingHandsGlovesCombat
+  id: ClothingHandsGlovesCombatUnitology
+  name: тактические перчатки «Mechanix»
+  description: Не позволят обжечься ещё раз.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/gloves.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/gloves.rsi
+  - type: Tag
+    tags: []
+
+## Сумка
+- type: entity
+  parent: [ ClothingBackpack, BaseSyndicateContraband ]
+  id: ClothingBackpackUnitology
+  name: штурмовой рюкзак «Спаситель»
+  description: Компактный, но вместительный рюкзак для оперативных задач.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/backpack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/backpack.rsi
+  - type: Storage
+    grid:
+    - 0,0,1,5
+    - 3,0,6,5
+    - 8,0,9,5
+  - type: ExplosionResistance
+    damageCoefficient: 0.1
+  - type: Tag
+    tags: []
+
+## Заполненные сумки
+- type: entity
+  parent: ClothingBackpackUnitology
+  id: ClothingBackpackUnitologyFilled
+  name: штурмовой рюкзак
+  description: Компактный, но вместительный рюкзак для оперативных задач.
+  suffix: Заполенная
+  components:
+  - type: StorageFill
+    contents:
+      - id: BoxMRE
+      - id: PinpointerNecroobelisk
+
+- type: entity
+  parent: ClothingBackpackUnitology
+  id: ClothingBackpackUnitologyEngineerFilled
+  name: штурмовой рюкзак
+  description: Компактный, но вместительный рюкзак для оперативных задач.
+  suffix: Заполненная, Зодчий
+  components:
+  - type: StorageFill
+    contents:
+      - id: C4
+        amount: 6
+      - id: RCDRecharging
+      - id: BoxMRE
+      - id: PinpointerNecroobelisk
+
+## Мантия штурмовика
+- type: entity
+  parent: [ ClothingNeckBase, BaseCommandContraband ]
+  id: ClothingNeckUnitologyHeavyMantle
+  name: трофейная накидка
+  description: Убивать — это работа, Богу служить — это забота, а колоться метом — долг.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/heavy-mantle.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/TheCircle/Gear/accessories/heavy-mantle.rsi
