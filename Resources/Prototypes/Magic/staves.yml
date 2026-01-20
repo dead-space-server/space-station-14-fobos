@@ -46,7 +46,7 @@
   - type: LimitedCharges
     maxCharges: 3 #DS14
   - type: AutoRecharge
-    rechargeDuration: 120 #DS14
+    rechargeDuration: 60 #DS14
   - type: Sprite
     sprite: Objects/Weapons/Guns/Basic/staves.rsi
     layers:

@@ -21,16 +21,16 @@
   - type: Explosive
     explosionType: Default
 #DS14-start
-    maxIntensity: 4
-    intensitySlope: 4
-    totalIntensity: 125 
+    maxIntensity: 20
+    intensitySlope: 3
+    totalIntensity: 100 
 #DS14-end
     maxTileBreak: 0
   - type: IgnitionSource
-    temperature: 150 #DS14-change
+    temperature: 400 #DS14-change
     ignited: true
   - type: IgniteOnCollide
-    fireStacks: 0.15 #DS14-change
+    fireStacks: 0.2 #DS14-change
 
 - type: entity
   categories: [ HideSpawnMenu ]
