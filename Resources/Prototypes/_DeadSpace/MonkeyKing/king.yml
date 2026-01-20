@@ -76,7 +76,7 @@
     necroPrototype: NecroBrute
   - type: NpcFactionMember
     factions:
-    - AllHostile
+    - SimpleHostile
   - type: DeadSpaceJumpAbility
     jumpSound:
       collection: RevSounds

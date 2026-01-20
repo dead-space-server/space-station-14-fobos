@@ -288,3 +288,14 @@
   - DeviceConstruction
   - Research
   - SingularityAssembly
+
+- type: skillGroup
+  id: SalvageControl
+  name: Утилизатор 
+  skills:
+  - BasicBotany
+  - Hacking
+  - BasicTreatment
+  - SimpleConstruction
+  - ComplexDeconstruction
+  - ShuttleControl
