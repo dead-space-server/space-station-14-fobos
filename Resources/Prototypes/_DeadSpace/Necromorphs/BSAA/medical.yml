@@ -48,7 +48,7 @@
 
 - type: entity
   id: InjectorCase
-  parent: [ BaseStorageItem, BaseBagOpenClose ]
+  parent: BaseItem
   name: боевой медицинский комплект
   description: Кейс для специализированных медицинских автоинъекторов.
   components:
@@ -56,8 +56,6 @@
     sprite: _DeadSpace/Necromorfs/BSAA/misc/medipen-case.rsi
     layers:
     - state: closed
-    - state: animation-closed-unshaded
-      visible: true
       map: [ "empty-icon" ]
       shader: unshaded
     - state: open
@@ -87,6 +85,23 @@
     - state: pen8
       map: ["pen8"]
       visible: false
+  - type: UserInterface
+    interfaces:
+      enum.StorageUiKey.Key:
+        type: StorageBoundUserInterface
+  - type: ContainerContainer
+    containers:
+      storagebase: !type:Container
+        ents: []
+  - type: GenericVisualizer
+    visuals:
+      enum.SharedBagOpenVisuals.BagState: # You don't have to use both of these if its not necessary.
+        closeLayer:
+          Open: { visible: false }
+          Closed: { visible: true }
+        openLayer:
+          Open: { visible: true }
+          Closed: { visible: false }
   - type: Tag
     tags:
     - CigPack

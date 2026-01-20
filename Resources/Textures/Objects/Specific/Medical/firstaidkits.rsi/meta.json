@@ -1,7 +1,7 @@
 {
 	"version": 1,
 	"license": "CC-BY-SA-3.0",
-    "copyright": "Created by СyberBoich (Discord) for SS14 server Мёртвый Космос 14",
+    "copyright": "Created by СyberBoich (Discord) for SS14 server Мёртвый Космос 14, resprite by sastr. (discord) for Space Station 14 server Мёртвый Космос",
 	"size": {
 		"x": 32,
 		"y": 32
@@ -94,24 +94,6 @@
     {
       "name": "advkit-inhand-left",
       "directions": 4
-    },
-    {
-			"name": "open-adv"
-		},
-    {
-      "name": "blood1"
-    },
-    {
-      "name": "ointment1"
-    },
-    {
-      "name": "suture1"
-    },
-    {
-      "name": "suture2"
-    },
-    {
-      "name": "brute1"
     }
 	]
 }
