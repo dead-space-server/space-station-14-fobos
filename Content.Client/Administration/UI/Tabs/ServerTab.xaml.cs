@@ -22,6 +22,8 @@ namespace Content.Client.Administration.UI.Tabs
             _config.OnValueChanged(CCVars.LoocEnabled, LoocEnabledChanged, true);
 
             ServerShutdownButton.OnPressed += _ => _console.ExecuteCommand("shutdown");
+            ServerReloadButton.OnPressed += _ => _console.ExecuteCommand("reload");
+            ServerReloadAfterRoundButton.OnPressed += _ => _console.ExecuteCommand("reload_after_round");
         }
 
         private void OocEnabledChanged(bool value)

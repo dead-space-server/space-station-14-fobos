@@ -7,6 +7,8 @@
     <GridContainer
         Columns="4" >
         <controls:ConfirmButton Name="ServerShutdownButton" Text="{Loc server-shutdown}" />
+        <controls:ConfirmButton Name="ServerReloadButton" Text="{Loc server-reload}" />
+        <controls:ConfirmButton Name="ServerReloadAfterRoundButton" Text="{Loc server-reload-after-round}" />
         <cc:CommandButton Name="SetOocButton" Command="setooc" Text="{Loc server-ooc-toggle}" ToggleMode="True" />
         <cc:CommandButton Name="SetLoocButton" Command="setlooc" Text="{Loc server-looc-toggle}" ToggleMode="True" />
     </GridContainer>
