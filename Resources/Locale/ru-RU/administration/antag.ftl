@@ -7,6 +7,7 @@ admin-verb-make-pirate = Сделать цель пиратом\капером. 
 admin-verb-make-head-rev = Сделать цель главой революции.
 admin-verb-make-unitolog = Сделать цель радикальным юнитологом, если ранее юнитологов не было, цель становиться старшим юнитологом.
 admin-verb-make-paradox-clone = Создать роль призрака парадоксального клона цели.
+admin-verb-make-wizard = Сделать цель Магом
 admin-verb-make-changeling = Сделать цель генокрадом.
 admin-verb-make-spider-terror = Засунуть яйцо паука ужаса.
 admin-verb-make-thief = Сделать цель вором.
@@ -19,6 +20,7 @@ admin-verb-text-make-paradox-clone = Создать парадоксальног
 admin-verb-text-make-changeling = Сделать генокрадом (WIP)
 admin-verb-text-make-nuclear-operative = Сделать ядерным оперативником
 admin-verb-text-make-pirate = Сделать пиратом
+admin-verb-text-make-wizard = Сделать Магом
 admin-verb-text-make-head-rev = Сделать Главой революции
 admin-verb-text-make-unitolog = Сделать юнитологом
 admin-verb-text-make-spider-terror = Сделать пуком ужаса
@@ -26,3 +28,11 @@ admin-verb-text-make-thief = Сделать вором
 admin-verb-text-make-blob = Сделать носителем Блоба
 admin-verb-text-make-event-role = Ивентовая роль
 admin-overlay-antag-classic = АНТАГ
+#DS14-start
+admin-verb-text-make-dragon = Сделать цель Драконом
+admin-verb-make-dragon = Сделать Драконом
+admin-verb-text-make-ninja = Сделть цель Ниндзей
+admin-verb-make-ninja = Сделать Ниндзей
+admin-verb-text-make-renegade = Сделать цель Ренегатом
+admin-verb-make-renegade = Сделать Ренегатом
+#DS14-end

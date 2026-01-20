@@ -29,6 +29,8 @@
     - type: NpcFactionMember
       factions:
       - Taipan
+    - type: Skill
+      group: BaseSkills
 
 - type: startingGear
   id: TaipanChefGear

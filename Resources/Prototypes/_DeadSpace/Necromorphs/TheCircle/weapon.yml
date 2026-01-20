@@ -78,6 +78,8 @@
     steps: 1
     zeroVisible: true
   - type: Appearance
+  - type: UseDelay
+    delay: 1.5
 
 ### Магазин Застабы
 - type: entity
@@ -216,9 +218,9 @@
     minAngle: -32
     maxAngle: -37
   - type: ChamberMagazineAmmoProvider
-    soundBoltClosed: 
+    soundBoltClosed:
       path: /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/rpl20-sfx/rpl-close.ogg
-    soundBoltOpened: 
+    soundBoltOpened:
       path: /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/rpl20-sfx/rpl-open.ogg
     soundRack:
       path: /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/rpl20-sfx/rpl-chamber.ogg
@@ -241,6 +243,8 @@
           tags:
           - CartridgeRPL20
   - type: Appearance
+  - type: UseDelay
+    delay: 2.5
 
 ### Магазин
 - type: entity
@@ -325,6 +329,8 @@
           tags:
           - CartridgeASh12
   - type: Appearance
+  - type: UseDelay
+    delay: 2.5
 
 ### Магазин
 - type: entity
@@ -406,13 +412,15 @@
     zeroVisible: true
   - type: Appearance
   - type: Wieldable
+  - type: UseDelay
+    delay: 1.5
 
 ### Магазины
 - type: entity
   id: MagazineRifleSCARAB
   name: SCARAB POLYMAG 30 GEN2
   parent: BaseMagazineRifle
-  description: Вмещает всего 30 патронов 6.8х51 мм калибра. 
+  description: Вмещает всего 30 патронов 6.8х51 мм калибра.
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeRifleSCARAB
@@ -501,6 +509,8 @@
   - type: EyeCursorOffset
     maxOffset: 4
     pvsIncrease: 0.3
+  - type: UseDelay
+    delay: 1.5
 
 ## Магазин VSK
 
@@ -591,63 +601,14 @@
     steps: 1
     zeroVisible: true
   - type: Appearance
-
-## Магазин VAL
-
-- type: entity
-  id: BaseMagazineLightRifleAsVal
-  name: магазин для АС "Вал" (7.62х39 мм винтовочные)
-  parent: BaseItem
-  description: Вмещает всего 20 патронов 7.62х39 мм калибра.
-  abstract: true
-  components:
-  - type: Tag
-    tags:
-      - MagazineLightRifleAsVal
-  - type: BallisticAmmoProvider
-    mayTransfer: true
-    whitelist:
-      tags:
-        - CartridgeLightRifle
-    proto: CartridgeLightRifle
-    capacity: 20
-  - type: Item
-    size: Small
-  - type: ContainerContainer
-    containers:
-      ballistic-ammo: !type:Container
-  - type: Sprite
-    sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/asval/mag.rsi
-    layers:
-    - state: base
-      map: ["enum.GunVisualLayers.Base"]
-    - state: mag-1
-      map: ["enum.GunVisualLayers.Mag"]
-  - type: MagazineVisuals
-    magState: mag
-    steps: 2
-    zeroVisible: false
-  - type: Appearance
-
-- type: entity
-  id: MagazineLightRifleAsVal
-  name: магазин для АС "Вал"
-  parent: BaseMagazineLightRifleAsVal
-  components:
-  - type: BallisticAmmoProvider
-    proto: CartridgeLightRifle
-  - type: Sprite
-    layers:
-    - state: red
-      map: ["enum.GunVisualLayers.Base"]
-    - state: mag-1
-      map: ["enum.GunVisualLayers.Mag"]
+  - type: UseDelay
+    delay: 1.5
 
 ## Клинок-обелиск
 - type: entity
   parent: BaseImplantOnlyImplanterSyndi
   id: UnitologySplinterBladeImplanter
-  name: подозрительный имплантер
+  name: имплантер пробуждение клинка
   description: Подозрительный имплант неизвестного происхождения.
   components:
   - type: Implanter
@@ -656,7 +617,7 @@
 - type: entity
   parent: BaseSubdermalImplant
   id: UnitologySplinterBladeImplant
-  name: подозрительный имплантер
+  name: имплантер пробуждение клинка
   description: По всей видимости, вживляет в руку осколочный клинок.
   categories: [ HideSpawnMenu ]
   components:
@@ -701,44 +662,64 @@
     state: icon
   - type: Item
     sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/melee/splinter-blade.rsi
-  - type: Damageable
-  - type: Reflect
-    reflectProb: 0.1
   - type: NecroobeliskSplinter
     soundHeadaches:
       collection: SoundsHeadaches
   - type: LimitedCharges
     maxCharges: 1
-  - type: Physics
-    bodyType: Dynamic
   - type: CollisionWake
     enabled: false
   - type: InteractionOutline
-  - type: Fixtures
-    fixtures:
-      fix1:
-        shape:
-          !type:PhysShapeAabb
-          bounds: "-0.25,-0.25,0.25,0.25"
-        density: 20
-        mask:
-        - ItemMask
-        layer:
-        - Opaque
-        restitution: 0.3
-        friction: 0.2
   - type: AutoRecharge
     rechargeDuration: 180
   - type: MeleeWeapon
-    attackRate: 1.0
+    attackRate: 1.35
     damage:
       types:
-        Slash: 15
+        Slash: 12
         Caustic: 4
-        Structural: 15
+        Structural: 20
     soundHit:
       collection: splinter-blade-attack
     soundNoDamage:
       collection: splinter-blade-miss
-    soundSwing:
+  - type: SolutionContainerManager
+    solutions:
+      melee:
+        reagents:
+        - ReagentId: ExtractInfectorDead
+          Quantity: 999999
+  - type: MeleeChemicalInjector
+    solution: melee
+    transferAmount: 1.5
+  - type: Sharp
+  - type: ComponentToggler
+    components:
+    - type: PointLight
+      color: "#48141e"
+      radius: 6
+      energy: 2.5
+    - type: Reflect
+      inRightPlace: True
+      reflectProb: 0.15
+      spread: 90
+      soundOnReflect:
+  - type: ItemToggleMeleeWeapon
+    activatedSoundOnHit:
+      collection: splinter-blade-attack
+    activatedSoundOnHitNoDamage:
       collection: splinter-blade-miss
+    activatedDamage:
+      types:
+        Slash: 20
+        Heat: 6
+        Structural: 35
+  - type: ItemToggle
+    onUse: false
+    onActivate: false
+  - type: Wieldable
+    useDelayOnWield: true
+  - type: UseDelay
+    delay: 2.0
+  - type: Execution
+    doAfterDuration: 4.0

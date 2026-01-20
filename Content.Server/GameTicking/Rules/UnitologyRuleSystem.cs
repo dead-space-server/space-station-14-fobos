@@ -35,6 +35,10 @@ using Robust.Shared.Random;
 using Content.Shared.Cargo.Prototypes;
 using Content.Server.Cargo.Systems;
 using Content.Shared.Cargo.Components;
+using Content.Server.DeadSpace.ERT;
+using Content.Server.AlertLevel;
+using Content.Shared.DeadSpace.ERT.Prototypes;
+using Content.Server.Database;
 
 namespace Content.Server.GameTicking.Rules;
 
@@ -45,6 +49,7 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
     [Dependency] private readonly RoundEndSystem _roundEnd = default!;
     [Dependency] private readonly ServerGlobalSoundSystem _sound = default!;
     [Dependency] private readonly AntagSelectionSystem _antag = default!;
+    [Dependency] private readonly IServerDbManager _db = default!;
     [Dependency] private readonly MindSystem _mindSystem = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly ExplosionSystem _explosion = default!;
@@ -60,14 +65,14 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
     [Dependency] private readonly IPrototypeManager _proto = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly CargoSystem _cargoSystem = default!;
-
+    [Dependency] private readonly AlertLevelSystem _alertLevel = default!;
+    [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
     private static readonly EntProtoId UnitologyRule = "Unitology";
     public static readonly ProtoId<AntagPrototype> UnitologyAntagRole = "UniHead";
-    private const int AddMoneyBreeding = 80000;
-    private readonly ProtoId<CargoAccountPrototype> _account = "Cargo";
-
+    private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "CburnSierra";
+    private static readonly ProtoId<CargoAccountPrototype> Account = "Security";
+    private const int AdditionalSupport = 70000;
     private const float ConvergenceSongLength = 60f + 37.6f;
-
     public override void Initialize()
     {
         base.Initialize();
@@ -124,13 +129,17 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
             if (station == null)
                 return;
 
+            _alertLevel.SetLevel(station.Value, "sierra", true, true, true);
+
             if (!TryComp<StationBankAccountComponent>(station, out var stationAccount))
                 return;
 
+            var addMoneyAfterWarDeclared = _ertResponceSystem.GetErtPrice(ErtTeam) + AdditionalSupport;
+
             _cargoSystem.UpdateBankAccount(
                                 (station.Value, stationAccount),
-                                AddMoneyBreeding,
-                                _account
+                                addMoneyAfterWarDeclared,
+                                Account
                             );
         }
 
@@ -447,6 +456,20 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
                 ("name", name),
                 ("username", data.UserName)));
         }
+
+        // Статистика для дашборда
+        var winner = index == 2 ? BiStatWinner.Antagonist : BiStatWinner.Crew;
+        _ = System.Threading.Tasks.Task.Run(async () =>
+        {
+            try
+            {
+                await _db.AddBiStatAsync("Юнитологи", winner, DateTime.UtcNow);
+            }
+            catch
+            {
+
+            }
+        });
 
     }
 

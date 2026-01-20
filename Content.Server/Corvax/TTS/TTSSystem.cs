@@ -160,7 +160,7 @@ public sealed partial class TTSSystem : EntitySystem
         if (!_prototypeManager.TryIndex<TTSVoicePrototype>(voiceId, out var protoVoice))
             return;
 
-        Timer.Spawn(6000, () => HandleAnnounce(args.Message, args.LexiconMessage, args.LanguageId, protoVoice.Speaker)); // Awful, but better than sending announce sound to client in resource file
+        Timer.Spawn(6000, () => HandleAnnounce(args.Message, args.LexiconMessage, args.LanguageId, protoVoice.Speaker, args.Filter)); // Awful, but better than sending announce sound to client in resource file
     }
 
     private async void HandleSay(EntityUid uid, string message, string lexiconMessage, ProtoId<LanguagePrototype> languageId, string speaker)
@@ -239,19 +239,19 @@ public sealed partial class TTSSystem : EntitySystem
 
     }
 
-    private async void HandleAnnounce(string message, string lexiconMessage, ProtoId<LanguagePrototype> languageId, string speaker)
+    private async void HandleAnnounce(string message, string lexiconMessage, ProtoId<LanguagePrototype> languageId, string speaker, Filter filter)
     {
         var soundData = await GenerateTTS(message, speaker);
 
         byte[]? soundLexiconData = null;
         List<ICommonSession> understanding = new List<ICommonSession>();
 
-        if (_language.NeedGenerateGlobalTTS(languageId, out understanding))
+        if (_language.NeedGenerateFilterTTS(languageId, filter, out understanding))
             soundLexiconData = await GenerateTTS(lexiconMessage, speaker);
 
         if (soundData is null) return;
 
-        foreach (var session in Filter.Broadcast().Recipients)
+        foreach (var session in filter.Recipients)
         {
             if (!understanding.Contains(session))
             {

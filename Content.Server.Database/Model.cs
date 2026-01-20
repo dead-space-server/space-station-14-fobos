@@ -46,6 +46,7 @@ namespace Content.Server.Database
         public DbSet<RoleWhitelist> RoleWhitelists { get; set; } = null!;
         public DbSet<BanTemplate> BanTemplate { get; set; } = null!;
         public DbSet<IPIntelCache> IPIntelCache { get; set; } = null!;
+        public DbSet<BiStat> BiStats { get; set; } = null!; // DS14
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -371,6 +372,14 @@ namespace Content.Server.Database
                 .OwnsOne(p => p.HWId)
                 .Property(p => p.Type)
                 .HasDefaultValue(HwidType.Legacy);
+
+            // DS14-Start
+            modelBuilder.Entity<BiStat>()
+                .HasIndex(b => b.Date);
+
+            modelBuilder.Entity<BiStat>()
+                .HasIndex(b => b.GameMode);
+            // DS14-End
         }
 
         public virtual IQueryable<AdminLog> SearchLogs(IQueryable<AdminLog> query, string searchText)
@@ -1331,4 +1340,24 @@ namespace Content.Server.Database
         /// </summary>
         public float Score { get; set; }
     }
+
+    // DS14-Start
+    public enum BiStatWinner : byte
+    {
+        Crew = 0,
+        Antagonist = 1
+    }
+
+    public class BiStat
+    {
+        public int Id { get; set; }
+
+        [MaxLength(128)]
+        public string GameMode { get; set; } = null!;
+
+        public BiStatWinner Winner { get; set; }
+
+        public DateTime Date { get; set; }
+    }
+    // DS14-End
 }

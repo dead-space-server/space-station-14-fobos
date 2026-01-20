@@ -1,0 +1,158 @@
+# Base
+- type: entity
+  id: BaseMagazineShotgunNew
+  name: магазин (12х70 дробь)
+  parent: [ BaseItem, BaseSecurityContraband ]
+  abstract: true
+  components:
+  - type: Tag
+    tags:
+    - MagazineShotgunSaiga
+  - type: BallisticAmmoProvider
+    mayTransfer: true
+    whitelist:
+      tags:
+        - ShellShotgun
+    capacity: 8
+    soundRack:
+      path: /Audio/_Corvax/Weapons/Guns/Cock/shotgun_cock.ogg # Corvax-Guns
+  - type: Item
+    size: Small
+  - type: ContainerContainer
+    containers:
+      ballistic-ammo: !type:Container
+  - type: Sprite
+    sprite: _DeadSpace/Soyuz/Objects/Weapons/Guns/Ammunition/Magazine/Shotgun/mag.rsi
+    scale: 0.75, 0.75
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: MagazineVisuals
+    magState: mag
+    steps: 2
+    zeroVisible: false
+  - type: Appearance
+
+- type: entity
+  id: BaseMagazineShotgunDrum
+  name: барабан (12х70 дробь)
+  parent: [ BaseItem, BaseSecurityContraband ]
+  abstract: true
+  components:
+  - type: Tag
+    tags:
+    - MagazineShotgunSaiga
+  - type: BallisticAmmoProvider
+    mayTransfer: true
+    whitelist:
+      tags:
+        - ShellShotgun
+    capacity: 16
+    soundRack:
+      path: /Audio/_Corvax/Weapons/Guns/Cock/shotgun_cock.ogg # Corvax-Guns
+  - type: Item
+    size: Normal
+  - type: ContainerContainer
+    containers:
+      ballistic-ammo: !type:Container
+  - type: Sprite
+    sprite: _DeadSpace/Soyuz/Objects/Weapons/Guns/Ammunition/Magazine/Shotgun/drum.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: MagazineVisuals
+    magState: mag
+    steps: 2
+    zeroVisible: false
+  - type: Appearance
+
+# Magazines
+- type: entity
+  id: MagazineShotgunNew
+  name: магазин для сайга-12 (12х70 дробь)
+  parent: BaseMagazineShotgunNew
+  components:
+  - type: BallisticAmmoProvider
+    proto: ShellShotgun
+  - type: Sprite
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
+- type: entity
+  id: MagazineShotgunNewEmpty
+  name: магазин для сайга-12 (12х70 любые)
+  suffix: Пустой
+  parent: MagazineShotgunNew
+  components:
+  - type: BallisticAmmoProvider
+    proto: null
+  - type: Sprite
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
+- type: entity
+  id: MagazineShotgunNewIncendiary
+  name: магазин для сайга-12 (12х70 зажигательные)
+  parent: MagazineShotgunNew
+  components:
+  - type: BallisticAmmoProvider
+    proto: ShellShotgunIncendiary
+  - type: Sprite
+    layers:
+    - state: slug
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
+- type: entity
+  id: MagazineShotgunDrum
+  name: барабан для сайга-12 (12х70 дробь)
+  parent: BaseMagazineShotgunDrum
+  components:
+  - type: BallisticAmmoProvider
+    proto: ShellShotgun
+  - type: Sprite
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
+- type: entity
+  id: MagazineShotgunDrumEmpty
+  name: барабан для сайга-12 (12х70 любые)
+  suffix: Пустой
+  parent: MagazineShotgunDrum
+  components:
+  - type: BallisticAmmoProvider
+    proto: null
+  - type: Sprite
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
+- type: entity
+  id: MagazineShotgunDrumIncendiary
+  name: барабан для сайга-12 (12х70 зажигательные)
+  parent: MagazineShotgunDrum
+  components:
+  - type: BallisticAmmoProvider
+    proto: ShellShotgunIncendiary
+  - type: Sprite
+    layers:
+    - state: slug
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]

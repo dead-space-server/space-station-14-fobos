@@ -50,9 +50,8 @@ public sealed partial class NecromorfSystem : SharedInfectionDeadSystem
         base.Initialize();
 
         SubscribeLocalEvent<NecromorfComponent, ComponentStartup>(OnStartup);
-        SubscribeLocalEvent<NecromorfComponent, EmoteEvent>(OnEmote, before:
-            new[] { typeof(VocalSystem), typeof(BodyEmotesSystem) });
-
+//        SubscribeLocalEvent<NecromorfComponent, EmoteEvent>(OnEmote, before:
+//            new[] { typeof(VocalSystem), typeof(BodyEmotesSystem) });
         SubscribeLocalEvent<NecromorfComponent, TryingToSleepEvent>(OnSleepAttempt);
         SubscribeLocalEvent<NecromorfComponent, GetCharactedDeadIcEvent>(OnGetCharacterDeadIC);
         SubscribeLocalEvent<NecromorfComponent, IsEquippingAttemptEvent>(OnEquipAttempt);
@@ -131,15 +130,15 @@ public sealed partial class NecromorfSystem : SharedInfectionDeadSystem
 
     private void OnStartup(EntityUid uid, NecromorfComponent component, ComponentStartup args)
     {
-        _protoManager.TryIndex(component.EmoteSoundsId, out component.EmoteSounds);
-    }
-
-    private void OnEmote(EntityUid uid, NecromorfComponent component, ref EmoteEvent args)
-    {
-        if (args.Handled)
-            return;
-
-        args.Handled = _chat.TryPlayEmoteSound(uid, component.EmoteSounds, args.Emote);
+//       _protoManager.TryIndex(component.EmoteSoundsId, out component.EmoteSounds);
+//   }
+//
+//   private void OnEmote(EntityUid uid, NecromorfComponent component, ref EmoteEvent args)
+//   {
+//       if (args.Handled)
+//           return;
+//
+//       args.Handled = _chat.TryPlayEmoteSound(uid, component.EmoteSounds, args.Emote);
     }
 
     public void ApplyVirusStrain(EntityUid uid, NecromorfComponent component)

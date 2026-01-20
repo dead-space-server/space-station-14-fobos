@@ -44,6 +44,10 @@
   - !type:AddComponentSpecial
     components:
       - type: CommandStaff
+      # DS14-Start
+      - type: Skill
+        group: HeadMedical
+      # DS14-End
 
 - type: startingGear
   id: CMOGear
@@ -51,7 +55,7 @@
     id: CMOPDA
     ears: ClothingHeadsetCMO
     belt: ClothingBeltMedicalFilled
-    socks: ClothingUnderwearSocksCMO
+    gloves: ClothingHandsGlovesNitrileCMO # DS14
   storage:
     back:
     - Flash
@@ -66,4 +70,4 @@
     mask: ClothingMaskSterile
     neck: ClothingCloakCmo
     outerClothing: ClothingOuterCoatLabCmo
-    gloves: ClothingHandsGlovesNitrile
+    gloves: ClothingHandsGlovesNitrileCMO # DS14

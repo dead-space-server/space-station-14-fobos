@@ -67,6 +67,8 @@
 
 - type: entity
   id: ExtraborilVial
+  name: пробирка с  экстраборилом
+  description: Пробирка, заполненная до краев экстраборилом.
   parent: BaseChemistryEmptyVial
   components:
   - type: Label
@@ -74,10 +76,10 @@
   - type: SolutionContainerManager
     solutions:
       beaker:
-        maxVol: 30
+        maxVol: 40
         reagents:
         - ReagentId: Extraboril
-          Quantity: 30
+          Quantity: 40
 
 - type: entity
   parent: BoxVial

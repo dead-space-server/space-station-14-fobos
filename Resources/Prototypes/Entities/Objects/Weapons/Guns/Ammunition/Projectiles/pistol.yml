@@ -6,6 +6,8 @@
   components:
   - type: Projectile
     damage:
+      armorPiercingLevels:
+        Piercing: 1
       types:
         Piercing: 16
 

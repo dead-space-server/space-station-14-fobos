@@ -1,18 +1,9 @@
-- type: preloadedGrid
-  id: CriticalForceShuttle
-  path: /Maps/Shuttles/ShuttleEvent/ds_tti_tepors.yml
-  copies: 1
-
 - type: entity
   parent: BaseGameRule
   id: SpawnCriticalForceShuttle
   components:
-  - type: StationEvent
-    willNotStartRandomly: true
-  - type: RuleGrids
-  - type: LoadMapRule
-    preloadedGrid: CriticalForceShuttle
   - type: ErtSpawnRule
+    shuttle: CriticalForceShuttle
 
 - type: ertTeam
   id: CriticalForce

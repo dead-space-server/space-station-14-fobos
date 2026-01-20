@@ -1,6 +1,6 @@
 ent-BaseMagazineRifle = магазин (6.5х39 мм TSF)
     .desc = { ent-BaseItem.desc }
-ent-MagazineRifle = магазин (6.5х39 мм TSF)
+ent-MagazineRifle = магазин (6.5х39 мм TSF FMJ)
     .desc = { ent-BaseMagazineRifle.desc }
 ent-MagazineRifleEmpty = магазин (6.5х39 мм TSF любые)
     .suffix = Пустой
@@ -10,4 +10,6 @@ ent-MagazineRifleIncendiary = магазин (6.5х39 мм TSF зажигате�
 ent-MagazineRiflePractice = магазин (6.5х39 мм TSF учебные)
     .desc = { ent-BaseMagazineRifle.desc }
 ent-MagazineRifleUranium = магазин (6.5х39 мм TSF урановые)
+    .desc = { ent-BaseMagazineRifle.desc }
+ent-MagazineRifleHP = магазин (6.5х39 мм TSF HP)
     .desc = { ent-BaseMagazineRifle.desc }

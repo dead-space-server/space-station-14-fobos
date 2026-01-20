@@ -87,6 +87,8 @@
       - type: NpcFactionMember
         factions:
         - Necromorfs
+      - type: Skill
+        group: ALL
       mindRoles:
       - MindRoleHeadUnitology
       blacklist:

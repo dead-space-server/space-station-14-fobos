@@ -9,7 +9,7 @@
     bodyCount: 4
     numberPrimaryPacienst: 1
   - type: StationEvent
-    weight: 2
+    weight: 10
     duration: null
     earliestStart: 15
     reoccurrenceDelay: 10
@@ -26,7 +26,7 @@
     bodyCount: 7
     numberPrimaryPacienst: 1
   - type: StationEvent
-    weight: 2
+    weight: 8
     duration: null
     earliestStart: 30
     reoccurrenceDelay: 15
@@ -44,8 +44,22 @@
     bodyCount: 9
     numberPrimaryPacienst: 1
   - type: StationEvent
-    weight: 2
+    weight: 6
     duration: null
     earliestStart: 60
     reoccurrenceDelay: 20
     minimumPlayers: 10
+
+- type: entity
+  parent: BaseGameRule
+  id: SentientVirusEvent
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: StationEvent
+    weight: 4
+    duration: 10
+    earliestStart: 45
+    reoccurrenceDelay: 60
+    minimumPlayers: 30
+  - type: RandomSpawnRule
+    prototype: SentientVirus

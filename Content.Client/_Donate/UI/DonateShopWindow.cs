@@ -605,6 +605,13 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
             ValueColor = _state.HavePriorityAntageGame ? Color.FromHex("#a589c9") : Color.FromHex("#6d5a8a")
         });
 
+        _perksGrid.AddChild(new EmeraldPerkCard
+        {
+            Title = "ДОСТУП КО ВСЕМ ДОЛЖНОСТЯМ",
+            Value = _state.AllowJob ? "ДА" : "НЕТ",
+            ValueColor = _state.AllowJob ? Color.FromHex("#a589c9") : Color.FromHex("#6d5a8a")
+        });
+
         _profilePanel.AddChild(_perksGrid);
 
         if (_state.CurrentPremium != null)
@@ -629,6 +636,19 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
             _profilePanel.AddChild(buyPremiumCard);
         }
 
+        if (_state.AdminRank != null)
+        {
+            _profilePanel.AddChild(new EmeraldSubscriptionCard
+            {
+                NameSub = $"[ADMIN] {_state.AdminRank.Name}".ToUpper(),
+                Price = "БЕСПЛАТНО",
+                Dates = "Навсегда",
+                ItemCount = 0,
+                IsAdmin = true,
+                HorizontalExpand = true
+            });
+        }
+
         if (_state.ActiveSubscription != null)
         {
             var sub = _state.ActiveSubscription;
@@ -643,7 +663,7 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
                 HorizontalExpand = true
             });
         }
-        else
+        else if (_state.AdminRank == null)
         {
             var buySubCard = new EmeraldBuySubscriptionCard { HorizontalExpand = true };
             buySubCard.OnBuyPressed += () => _url.OpenUri("https://deadspace14.net");
@@ -883,6 +903,16 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
             return;
 
         _calendarPanel.RemoveAllChildren();
+
+        if (_calendarState.NormalRewards.Count == 0 && _calendarState.PremiumRewards.Count == 0)
+        {
+            _calendarPanel.AddChild(CreateCenteredMessage(
+                "НЕТ АКТИВНЫХ КАЛЕНДАРЕЙ",
+                "В данный момент нет доступных ежедневных наград",
+                Color.FromHex("#d4a574")
+            ));
+            return;
+        }
 
         var currentDay = _calendarState.Progress?.CurrentDay ?? 1;
         var totalDays = Math.Max(_calendarState.NormalRewards.Count, _calendarState.PremiumRewards.Count);

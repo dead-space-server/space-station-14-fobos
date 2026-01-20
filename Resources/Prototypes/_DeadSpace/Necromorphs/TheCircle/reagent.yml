@@ -11,12 +11,12 @@
       metabolismRate: 0.85
       effects:
       - !type:ModifyBleedAmount
-        amount: -1
+        amount: -1.8
       - !type:HealthChange
         damage:
           types:
-            Piercing: -5.3
-            Slash: -1.2
+            Piercing: -5
+            Slash: -1
       - !type:HealthChange
         conditions:
         - !type:ReagentThreshold
@@ -38,8 +38,8 @@
       metabolismRate: 0.72
       effects:
       - !type:MovespeedModifier
-        walkSpeedModifier: 1.45
-        sprintSpeedModifier: 1.45
+        walkSpeedModifier: 1.4
+        sprintSpeedModifier: 1.4
       - !type:Jitter
       - !type:HealthChange
         conditions:
@@ -47,7 +47,7 @@
           min: 14
         damage:
           types:
-            Cellular: 1
+            Cellular: 1.5
       - !type:AdjustReagent
         conditions:
         - !type:ReagentThreshold
@@ -106,7 +106,7 @@
       - !type:HealthChange
         damage:
           types:
-            Heat: -6
+            Heat: -5.5
       - !type:HealthChange
         conditions:
         - !type:ReagentThreshold
@@ -129,10 +129,10 @@
       effects:
       - !type:EvenHealthChange
         damage:
-          Burn: -4.5
-          Toxin: -4.5
-          Airloss: -4.5
-          Brute: -4.5
+          Burn: -4.2
+          Toxin: -4.2
+          Airloss: -4.2
+          Brute: -4.2
       - !type:HealthChange
         conditions:
         - !type:ReagentThreshold
@@ -204,10 +204,105 @@
   impact: Medium
   reactants:
     Ephedrine:
-      amount: 1
+      amount: 1.5
     Extraboril:
-      amount: 1
-    Phenylacetone:
-      amount: 1
+      amount: 1.5
   products:
     Depotojil: 3
+
+# Заражение в определёного некрача
+
+- type: reagent
+  id: NecromorphMutagenStalker
+  name: entity-name-necromorph-mutagen
+  group: Other
+  desc: reagent-desc-necromorph-mutagen
+  physicalDesc: reagent-physical-desc-thick
+  flavor: sharp
+  color: "#848484"
+  worksOnTheDead: true
+  metabolisms:
+    Medicine:
+      effects:
+        - !type:NecromorphMutagen
+          isAnimal: false
+          necroPrototype: NecroStalker
+          conditions:
+            - !type:ReagentThreshold
+              min: 5
+
+- type: reagent
+  id: NecromorphMutagenCorpseCollector
+  name: entity-name-necromorph-mutagen
+  group: Other
+  desc: reagent-desc-necromorph-mutagen
+  physicalDesc: reagent-physical-desc-thick
+  flavor: sharp
+  color: "#3f2222"
+  worksOnTheDead: true
+  metabolisms:
+    Medicine:
+      effects:
+        - !type:NecromorphMutagen
+          isAnimal: false
+          necroPrototype: NecroCorpseCollector
+          conditions:
+            - !type:ReagentThreshold
+              min: 5
+
+- type: reagent
+  id: NecromorphMutagenDeva
+  name: entity-name-necromorph-mutagen
+  group: Other
+  desc: reagent-desc-necromorph-mutagen
+  physicalDesc: reagent-physical-desc-thick
+  flavor: sharp
+  color: "#a20000"
+  worksOnTheDead: true
+  metabolisms:
+    Medicine:
+      effects:
+        - !type:NecromorphMutagen
+          isAnimal: false
+          necroPrototype: NecroDeva
+          conditions:
+            - !type:ReagentThreshold
+              min: 5
+
+- type: reagent
+  id: NecromorphMutagenBoomer
+  name: entity-name-necromorph-mutagen
+  group: Other
+  desc: reagent-desc-necromorph-mutagen
+  physicalDesc: reagent-physical-desc-thick
+  flavor: sharp
+  color: "#ff7d7d"
+  worksOnTheDead: true
+  metabolisms:
+    Medicine:
+      effects:
+        - !type:NecromorphMutagen
+          isAnimal: false
+          necroPrototype: NecroBoomer
+          conditions:
+            - !type:ReagentThreshold
+              min: 5
+
+- type: reagent
+  id: NecromorphMutagenPregnant
+  name: entity-name-necromorph-mutagen
+  group: Other
+  desc: reagent-desc-necromorph-mutagen
+  physicalDesc: reagent-physical-desc-thick
+  flavor: sharp
+  color: "#1e1313"
+  worksOnTheDead: true
+  metabolisms:
+    Medicine:
+      effects:
+        - !type:NecromorphMutagen
+          isAnimal: false
+          necroPrototype: NecroPregnant
+          conditions:
+            - !type:ReagentThreshold
+              min: 5

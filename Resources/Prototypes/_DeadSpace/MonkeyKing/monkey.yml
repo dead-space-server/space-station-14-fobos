@@ -31,7 +31,7 @@
       path: /Audio/Animals/monkey_scream.ogg
   - type: NpcFactionMember
     factions:
-    - AllHostile
+    - SimpleHostile
   - type: MonkeyServant
   - type: Language
     selectedLanguage: MonkeyLanguage

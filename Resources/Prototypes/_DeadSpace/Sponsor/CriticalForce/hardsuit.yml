@@ -1,6 +1,7 @@
 - type: entity
   parent: [ClothingOuterHardsuitBase, BaseSyndicateContraband]
   id: ClothingOuterHardsuitOfficerCriticalForce
+  categories: [ HideSpawnMenu ]
   name: скафандр офицера CriticalForce Aesculap
   description: Тяжелый боевой скафандр с интегрированной системой жизнеобеспечения. Оснащен автоматическими инъекторами, подавляющими боль и стабилизирующими критические состояния.
   components:
@@ -44,13 +45,13 @@
     allowedStates:
     - Critical
     reagents:
-      Rororium: 5
-      Pyrazine: 5
       Omnizine: 10
-      Stimulants: 20
-      Saline: 10
+      Stimulants: 10
+      Saline: 5
   - type: Tag
     tags: []
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.9
 
 - type: entity
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]

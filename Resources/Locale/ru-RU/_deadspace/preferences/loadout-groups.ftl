@@ -64,6 +64,12 @@ loadout-group-virologist-backpack = Вирусолог, рюкзак
 loadout-group-virologist-head = Вирусолог, голова
 loadout-group-senior-virologist-outerclothing = Вирусолог, верхняя одежда
 loadout-group-virologist-underwear = Вирусолог, нижнее бельё
+loadout-group-cmo-socks = Главный врач, носки
+loadout-group-medical-socks = Врач, носки
+loadout-group-chemist-socks = Химик, носки 
+loadout-group-paramedic-socks = Парамедик, носки
+loadout-group-psychologist-socks = Психолог, носки
+loadout-group-physiciant-socks = Ведущий врач, носки
 # Centcomm
 loadout-group-centcomm-officer-underwear = Офицер ЦК, нижнее бельё
 # Taipan

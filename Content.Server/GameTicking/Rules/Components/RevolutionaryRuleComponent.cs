@@ -11,6 +11,12 @@ namespace Content.Server.GameTicking.Rules.Components;
 public sealed partial class RevolutionaryRuleComponent : Component
 {
     /// <summary>
+    /// Было ли уже запущено голосование за завершение раунда.
+    /// </summary>
+    [ViewVariables(VVAccess.ReadWrite)]
+    public bool VoteStarted = false;
+
+    /// <summary>
     /// When will the percentage of revolutionaries and the living command be checked.
     /// </summary>
     [DataField(customTypeSerializer: typeof(TimeOffsetSerializer))]

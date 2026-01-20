@@ -44,7 +44,15 @@ public sealed partial class StationCargoOrderDatabaseComponent : Component
     public List<ProtoId<CargoMarketPrototype>> Markets = new()
     {
         "market",
-        "taipan_market", // DS14
+        // DS14-Start
+        "taipan_market",
+        "security",
+        "service",
+        "medical",
+        "engineering",
+        "science",
+        "general"
+        // DS14-End
     };
 
     // TODO: Can probably dump this
