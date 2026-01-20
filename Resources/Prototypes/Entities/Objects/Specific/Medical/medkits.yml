@@ -73,7 +73,51 @@
   id: MedkitAdvanced
   components:
   - type: Sprite
-    state: advkit
+    sprite: Objects/Specific/Medical/firstaidkits.rsi
+    layers:
+    - state: advkit
+      map: ["enum.StorageVisualLayers.Base"]
+    - state: open-adv
+      map: ["enum.StorageVisualLayers.Door"]
+    - sprite: _DeadSpace/Other/firstaidmisc.rsi
+      state: suture1
+      map: ["suture1"]
+      visible: false
+      state: suture2
+      map: ["suture2"]
+      state: ointment1
+      map: ["ointment1"]
+      visible: false
+      state: blood1
+      map: ["blood1"]
+      visible: false
+      state: brute1
+      map: ["brute1"]
+      visible: false
+  - type: ItemCounter
+    count:
+      tags: [MedicatedSuture]
+    composite: true
+    layerStates:
+    - suture1
+    - suture2
+    count:
+      tags: [OintmentAdvanced]
+    composite: true
+    layerStates:
+    - ointment1
+    count:
+      tags: [Bloodpack]
+    composite: true
+    layerStates:
+    - blood1
+    count:
+      tags: [Brutepack]
+    composite: true
+    layerStates:
+    - brute1
+    stateDoorOpen: open-adv
+    stateDoorClosed: advkit
   - type: Item
     heldPrefix: advkit
 

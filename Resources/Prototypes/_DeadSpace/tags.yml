@@ -14,6 +14,9 @@
   id: BorgModuleSecurity
 
 - type: Tag
+  id: Bloodpack
+
+- type: Tag
   id: BorgSecHead
 
 - type: Tag
@@ -30,6 +33,9 @@
 
 - type: Tag
   id: BorgSecTorso
+
+- type: Tag
+  id: Brutepack
 
 - type: Tag
   id: DarkFlower
@@ -179,6 +185,9 @@
   id: MeatWheat
 
 - type: Tag
+  id: MedicatedSuture
+
+- type: Tag
   id: MukhtarWearable
 
 - type: Tag
@@ -195,6 +204,9 @@
 
 - type: Tag
   id: Necro
+
+- type: Tag
+  id: OintmentAdvanced
 
 - type: Tag
   id: NoodlesCopy
