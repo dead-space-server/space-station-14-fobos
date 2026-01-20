@@ -7,9 +7,9 @@
   - type: Projectile
     damage:
       armorPiercingLevels:
-        Piercing: 3 # потому что калаш
+        Piercing: 2 # потому что калаш
       types:
-        Piercing: 19
+        Piercing: 20
 
 - type: entity
   id: BulletLightRiflePractice

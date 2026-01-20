@@ -22,6 +22,13 @@
   wageDepartment: Engineering
   wage: 50
   #end-backmen: currency
+  special:
+  - !type:AddComponentSpecial
+    components:
+      # DS14-Start
+      - type: Skill
+        group: Engineer
+      # DS14-End
 
 - type: startingGear
   id: StationEngineerGear

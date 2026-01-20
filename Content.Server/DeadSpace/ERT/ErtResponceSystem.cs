@@ -192,21 +192,21 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
     {
         var key = new ProtoId<ErtTeamPrototype>(msg.ProtoId);
 
-        if (!TryCallErt(key,
+        TryCallErt(key,
             _stationSystem.GetOwningStation(args.SenderSession.AttachedEntity),
-            out _,
+            out var result,
             true,
             true,
             true,
             msg.Reason
-            ))
-            return;
+            );
 
         _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} call ERT '{msg.ProtoId}' reason to '{msg.Reason}'");
 
         _chatManager.SendAdminAlert($"Админ {args.SenderSession.Name} отправил ОБР '{msg.ProtoId}' на '{msg.Reason}'.");
 
-        RaiseNetworkEvent(new ErtAdminActionResult(true, "OK"), args.SenderSession.Channel);
+        var message = result ?? "ERT called successfully.";
+        RaiseNetworkEvent(new ErtAdminActionResult(true, message), args.SenderSession.Channel);
     }
 
     private void OnRoundRestart(RoundRestartCleanupEvent ev)
@@ -347,7 +347,7 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
     string? callReason = null,
     EntityUid? pinpointerTarget = null)
     {
-        reason = null;
+        reason = "Вызван успешно.";
 
         if (_expectedTeams.ContainsKey(team))
         {
@@ -374,21 +374,6 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
             }
         }
 
-        if (toPay)
-        {
-            if (prototype.Price > _points)
-            {
-                reason = Loc.GetString(
-                    "ert-call-fail-not-enough-points",
-                    ("price", prototype.Price),
-                    ("balance", _points)
-                );
-                return false;
-            }
-
-            _points -= prototype.Price;
-        }
-
         if (needCooldown)
         {
             if (_coolDown != null && !_timedWindowSystem.IsExpired(_coolDown))
@@ -407,6 +392,21 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
                 _timedWindowSystem.Reset(cooldown);
                 _coolDown = cooldown;
             }
+        }
+
+        if (toPay)
+        {
+            if (prototype.Price > _points)
+            {
+                reason = Loc.GetString(
+                    "ert-call-fail-not-enough-points",
+                    ("price", prototype.Price),
+                    ("balance", _points)
+                );
+                return false;
+            }
+
+            _points -= prototype.Price;
         }
 
         if (needWarn)

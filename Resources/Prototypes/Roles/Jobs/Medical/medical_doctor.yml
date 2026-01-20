@@ -20,6 +20,12 @@
   - !type:GiveItemOnHolidaySpecial
     holiday: DoctorDay
     prototype: WehMedipen
+  - !type:AddComponentSpecial
+    components:
+      # DS14-Start
+      - type: Skill
+        group: Medical
+      # DS14-End
   #start-backmen: currency
   minBankBalance: 150
   maxBankBalance: 250

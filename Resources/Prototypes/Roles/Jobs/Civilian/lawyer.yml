@@ -24,6 +24,12 @@
   - !type:AddComponentSpecial
     components:
     - type: LawyerStampProvider
+  - !type:AddComponentSpecial
+    components:
+    # DS14-Start
+    - type: Skill
+      group: BaseSkills
+    # DS14-End
   #start-backmen: currency
   minBankBalance: 150
   maxBankBalance: 250
