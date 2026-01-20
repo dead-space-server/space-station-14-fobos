@@ -770,7 +770,7 @@
       collection: splinter-blade-retract
 
 - type: entity
-  name: цепная коса
+  name: цепная рука
   parent: BaseItem
   categories: [ HideSpawnMenu ]
   id: WeaponHandHook
@@ -828,7 +828,7 @@
 
 - type: entity
   id: HandHookProjectile
-  name: цепная рука
+  name: цепная ладонь
   parent: BaseBullet
   categories: [ HideSpawnMenu ]
   components:
