@@ -30,6 +30,8 @@
     - type: NpcFactionMember
       factions:
       - Taipan
+    - type: Skill
+      group: Medical
 
 - type: startingGear
   id: TaipanParamedicGear

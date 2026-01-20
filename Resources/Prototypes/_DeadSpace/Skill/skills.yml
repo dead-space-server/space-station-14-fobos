@@ -1,0 +1,117 @@
+- type: skill
+  id: BasicBotany
+  name: Базовая ботаника
+  description: Основы выращивания растений.
+
+- type: skill
+  id: Hacking
+  name: Взлом
+  description: Базовые навыки взлома устройств.
+
+- type: skill
+  id: BasicTreatment
+  name: Базовое лечение
+  description: Оказание первой медицинской помощи.
+
+- type: skill
+  id: SimpleConstruction
+  name: Постройка простых объектов
+  description: Сборка и разборка простых конструкций.
+
+- type: skill
+  id: Pharmacology
+  name: Фармакология
+  description: Изучение и изготовление лекарств.
+  requiredSkills:
+  - BasicTreatment
+
+- type: skill
+  id: AdvancedTreatment
+  name: Продвинутое лечение
+  description: Сложные медицинские процедуры.
+  requiredSkills:
+  - BasicTreatment
+
+- type: skill
+  id: SolarAndDAMConstruction
+  name: Постройка солнечных панелей и ДАМ
+  description: Монтаж солнечных панелей и динамических аккумуляторов материи.
+  requiredSkills:
+  - SimpleConstruction
+
+- type: skill
+  id: ComplexDeconstruction
+  name: Разборка сложных объектов
+  description: Демонтаж сложных конструкций и устройств.
+  requiredSkills:
+  - SimpleConstruction
+
+- type: skill
+  id: AdvancedBotany
+  name: Продвинутая ботаника
+  description: Генетика растений, селекция и уход за экзотическими культурами.
+  requiredSkills:
+  - BasicBotany
+
+- type: skill
+  id: ShuttleControl
+  name: Управление шаттлом
+  description: Пилотирование и навигация шаттлов.
+  requiredSkills:
+  - SimpleConstruction
+
+- type: skill
+  id: Atmos
+  name: Атмос
+  description: Работа с атмосферными системами станции.
+  requiredSkills:
+  - SimpleConstruction
+
+- type: skill
+  id: SingularityAssembly
+  name: Сборка УЧ и запуск сингулярности
+  description: Сборка ускорителя частиц и запуск сингулярности.
+  requiredSkills:
+  - Atmos
+
+- type: skill
+  id: ComplexConstruction
+  name: Постройка сложных объектов
+  description: Сборка сложных конструкций и механизмов.
+  requiredSkills:
+  - SimpleConstruction
+
+- type: skill
+  id: DeviceConstruction
+  name: Постройка приборов
+  description: Сборка и настройка сложных приборов.
+  requiredSkills:
+  - ComplexConstruction
+
+- type: skill
+  id: Robotics
+  name: Робототехника
+  description: Сборка и ремонт киборгов, мехов и дронов.
+  requiredSkills:
+  - DeviceConstruction
+
+- type: skill
+  id: Research
+  name: Исследования и разработка
+  description: Проведение научных исследований и разработка новых технологий.
+  requiredSkills:
+  - Chemistry
+
+- type: skill
+  id: Chemistry
+  name: Химия
+  description: Синтез и анализ химических веществ.
+  requiredSkills:
+  - Pharmacology
+
+- type: skill
+  id: Virology
+  name: Вирусология
+  description: Изучение и лечение вирусных заболеваний.
+  requiredSkills:
+  - Chemistry
