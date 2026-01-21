@@ -34,16 +34,16 @@
         flatReductions:
           Piercing: 1
 
-# Сайга12
+# Синабир-410
 
 - type: entity
-  name: Сойдаж-12
+  name: Синабир-410
   parent: [BaseItem, BaseGunWieldable, BaseSyndicateContraband]
-  id: WeaponSAIGA12
+  id: WeaponSinabir
   description: Военизированная версия некогда гражданского оружия для охоты и самообороны. Использование тактических приспособлений, а также перевод в автоматический режим стрельбы, позволили сделать из простого ружья - машину смерти на близкой дистанции.
   components:
   - type: Sprite
-    sprite: _DeadSpace/Necromorfs/BSAA/weapons/saiga12/saiga12.rsi
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/Sinabir.rsi
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
@@ -52,7 +52,7 @@
   - type: Item
     size: Large
   - type: Clothing
-    sprite: _DeadSpace/Necromorfs/BSAA/weapons/saiga12/saiga12.rsi
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/Sinabir.rsi
     quickEquip: false
     slots:
     - Back
@@ -65,21 +65,21 @@
     availableModes:
     - FullAuto
     soundGunshot:
-      path: /Audio/_DeadSpace/Necromorfs/BSAA/weapons/saiga12/shot/saiga-shot.ogg
+      path: /Audio/_DeadSpace/Necromorfs/BSAA/weapons/Sinabir/shot/Sinabir-shot.ogg
     soundEmpty:
       path: /Audio/Weapons/Guns/Empty/empty.ogg
   - type: ItemSlots
     slots:
       gun_magazine:
         name: Magazine
-        startingItem: MagazineForSAIGA12
+        startingItem: MagazineForSinabir
         priority: 2
         whitelist:
           tags:
-          - MagazineForSAIGA12
-          - MagazineForSAIGA12Burn
-          - DrumForSAIGA12Burn
-          - DrumForSAIGA12
+          - MagazineForSinabir
+          - MagazineForSinabirBurn
+          - DrumForSinabirBurn
+          - DrumForSinabir
         whitelistFailPopup: gun-magazine-whitelist-fail
         insertSound: /Audio/Weapons/Guns/MagIn/smg_magin.ogg
         ejectSound: /Audio/Weapons/Guns/MagOut/smg_magout.ogg
@@ -99,8 +99,8 @@
     delay: 1.5
 
 - type: entity
-  id: BaseMagazineForSaiga
-  name: магазин для Сойдаж-12 (12х70 дробь)
+  id: BaseMagazineForSinabir
+  name: магазин для Синабир-410 (12х70 дробь)
   parent: [ BaseItem, BaseSecurityContraband ]
   abstract: true
   categories: [ HideSpawnMenu ]
@@ -135,20 +135,20 @@
   - type: Appearance
 
 - type: entity
-  id: MagazineForSAIGA12
-  name: магазин для Сойдаж-12 (12х70 дробь)
-  parent: BaseMagazineForSaiga
+  id: MagazineForSinabir
+  name: магазин для Синабир-410 (12х70 дробь)
+  parent: BaseMagazineForSinabir
   components:
   - type: BallisticAmmoProvider
     proto: ShellShotgun
     capacity: 10
   - type: Tag
     tags:
-    - MagazineForSAIGA12
+    - MagazineForSinabir
   - type: Item
-    sprite: _DeadSpace/Necromorfs/BSAA/weapons/saiga12/mag.rsi
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/mag.rsi
   - type: Sprite
-    sprite: _DeadSpace/Necromorfs/BSAA/weapons/saiga12/mag.rsi
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/mag.rsi
     scale: 0.7, 0.7
     layers:
     - state: pellets
@@ -157,18 +157,18 @@
       map: ["enum.GunVisualLayers.Mag"]
 
 - type: entity
-  id: MagazineForSAIGA12Burn
-  name: магазин для Сойдаж-12 (12х70 зажигательные)
-  parent: BaseMagazineForSaiga
+  id: MagazineForSinabirBurn
+  name: магазин для Синабир-410 (12х70 Dragon's breath)
+  parent: BaseMagazineForSinabir
   components:
   - type: BallisticAmmoProvider
-    proto: ShellShotgunIncendiary
+    proto: ShellShotgunDragon
     capacity: 10
   - type: Tag
     tags:
-    - MagazineForSAIGA12Burn
+    - MagazineForSinabirBurn
   - type: Sprite
-    sprite: _DeadSpace/Necromorfs/BSAA/weapons/saiga12/mag.rsi
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/mag.rsi
     scale: 0.7, 0.7
     layers:
     - state: slug
@@ -177,20 +177,20 @@
       map: ["enum.GunVisualLayers.Mag"]
 
 - type: entity
-  id: DrumForSAIGA12Burn
-  name: барабан для Сойдаж-12 (12х70 зажигательные)
-  parent: BaseMagazineForSaiga
+  id: DrumForSinabirBurn
+  name: барабан для Синабир-410 (12х70 Dragon's breath)
+  parent: BaseMagazineForSinabir
   components:
   - type: Tag
     tags:
-    - DrumForSAIGA12Burn
+    - DrumForSinabirBurn
   - type: BallisticAmmoProvider
-    proto: ShellShotgunIncendiary
+    proto: ShellShotgunDragon
     capacity: 18
   - type: Item
     size: Normal
   - type: Sprite
-    sprite: _DeadSpace/Necromorfs/BSAA/weapons/saiga12/drum.rsi
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/drum.rsi
     layers:
     - state: slug
       map: ["enum.GunVisualLayers.Base"]
@@ -198,20 +198,20 @@
       map: ["enum.GunVisualLayers.Mag"]
 
 - type: entity
-  id: DrumForSAIGA12
-  name: барабан для Сойдаж-12 (12х70 дробь)
-  parent: BaseMagazineForSaiga
+  id: DrumForSinabir
+  name: барабан для Синабир-410 (12х70 дробь)
+  parent: BaseMagazineForSinabir
   components:
   - type: Tag
     tags:
-    - DrumForSAIGA12
+    - DrumForSinabir
   - type: BallisticAmmoProvider
     proto: ShellShotgun
     capacity: 18
   - type: Item
     size: Normal
   - type: Sprite
-    sprite: _DeadSpace/Necromorfs/BSAA/weapons/saiga12/drum.rsi
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/drum.rsi
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
@@ -221,9 +221,9 @@
 # Вереск
 
 - type: entity
-  name: СР-2 Керск
+  name: СР-92 Точмаш
   parent: [BaseWeaponSubMachineGun, BaseMajorContraband]
-  id: WeaponVeresk
+  id: WeaponTochmash
   description: Убойный пистолет-пулемёт специальной разработки, стоящий на вооружении у АПБТ. Отточен под CQB.
   components:
   - type: Item
@@ -236,7 +236,7 @@
     - suitStorage
     - Belt
   - type: Sprite
-    sprite: _DeadSpace/Necromorfs/BSAA/weapons/veresk/veresk.rsi
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Tochmash/Tochmash.rsi
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
@@ -245,7 +245,7 @@
   - type: Gun
     fireRate: 7
     soundGunshot:
-      path: /Audio/_DeadSpace/Necromorfs/BSAA/weapons/veresk/shot/veresk.ogg
+      path: /Audio/_DeadSpace/Necromorfs/BSAA/weapons/Tochmash/shot/Tochmash.ogg
   - type: ItemSlots
     slots:
       gun_magazine:
@@ -315,39 +315,40 @@
 
 - type: entity
   id: MagazineCaselessRifleBurn
-  name: магазин (4.7х33 мм безгильзовые, зажигательные)
+  name: магазин (4.7х33 мм безгильзовые, Dragon's breath)
   parent: BaseMagazineCaselessRifle
   components:
   - type: BallisticAmmoProvider
-    proto: CartridgeCaselessRifleIncendiary
+    proto: CartridgeCaselessDragon
   - type: Sprite
-    sprite: _DeadSpace/Necromorfs/BSAA/weapons/veresk/caseless_rifle_mag_burn.rsi
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Tochmash/caseless_rifle_mag_burn.rsi
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
+    - state: stripe
+      color: "#cc4502"
 
 # Абакан
 
 - type: entity
   name: М8 "Арес"
   parent: [BaseWeaponRifle, BaseSecurityContraband]
-  id: WeaponRifleAbakan
+  id: WeaponRifleAres
   description: Автомат имеет подвижный ствол, двухкамерный ДТК замкнутого типа и смещенный вправо относительно оси канала ствола магазин.
-  suffix: Абакан
   components:
   - type: Sprite
-    sprite: _DeadSpace/Necromorfs/BSAA/weapons/abakan/icon.rsi
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Ares/icon.rsi
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-0
       map: ["enum.GunVisualLayers.Mag"]
   - type: Clothing
-    sprite: _DeadSpace/Necromorfs/BSAA/weapons/abakan/inhands.rsi
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Ares/inhands.rsi
   - type: Item
-    sprite: _DeadSpace/Necromorfs/BSAA/weapons/abakan/inhands.rsi
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Ares/inhands.rsi
     size: Large
   - type: Gun
     fireRate: 7
@@ -359,7 +360,7 @@
     shotsPerBurst: 2
     burstCooldown: 0.25
     soundGunshot:
-      path: /Audio/_DeadSpace/Necromorfs/BSAA/weapons/abakan/shot/abakan.ogg
+      path: /Audio/_DeadSpace/Necromorfs/BSAA/weapons/Ares/shot/Ares.ogg
   - type: ItemSlots
     slots:
       gun_magazine:
@@ -393,14 +394,14 @@
 
 - type: entity
   id: ExtMagazineRifleBurn
-  name: расширенный магазин 6.5 мм
+  name: расширенный магазин (6.5х39 мм TSF Dragon's breath)
   description: Увеличенный магазин под патрон 6.5 мм, с вместимостью в 45 единиц
   parent: ADTExtMagazineRifle
   components:
   - type: BallisticAmmoProvider
-    proto: CartridgeRifleIncendiary
+    proto: CartridgeDragon
   - type: Sprite
-    sprite: _DeadSpace/Necromorfs/BSAA/weapons/abakan/magburn.rsi
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Ares/magburn.rsi
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]

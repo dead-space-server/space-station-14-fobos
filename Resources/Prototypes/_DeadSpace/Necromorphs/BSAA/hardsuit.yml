@@ -1,14 +1,4 @@
-# Скафандры и мантия
-- type: entity
-  parent: [ ClothingNeckBase, BaseCommandContraband ]
-  id: BSAALeaderShoulder
-  name: мантия лидера АПБТ
-  description: Необычайно украшенная драпировка, отражающая всю мощь альянса. Повисла на шее лидера, обвив объятиями плечи, как личный ангел-хранитель.
-  components:
-  - type: Sprite
-    sprite: _DeadSpace/Necromorfs/BSAA/misc/bsaa-mantle.rsi
-  - type: Clothing
-    sprite: _DeadSpace/Necromorfs/BSAA/misc/bsaa-mantle.rsi
+# Скафандры
 
 - type: entity
   parent: ClothingOuterHardsuitBase

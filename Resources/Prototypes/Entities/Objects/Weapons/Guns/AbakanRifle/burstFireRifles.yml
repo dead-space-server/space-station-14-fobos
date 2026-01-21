@@ -10,7 +10,7 @@
   - type: Item
     size: Normal
   - type: Clothing
-    sprite: Objects/Weapons/Guns/BurstRifles/abakan.rsi
+    sprite: Objects/Weapons/Guns/BurstRifles/Tochmash.rsi
     quickEquip: false
     slots:
     - Back

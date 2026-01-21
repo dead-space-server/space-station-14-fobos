@@ -1,0 +1,155 @@
+# projectiles
+- type: entity
+  id: BulletDragon
+  name: пуля (6.5х39 мм TSF Dragon's breath)
+  parent: BaseBulletIncendiary
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    noRot: false
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/projectiles.rsi
+    layers:
+    - state: bulletb
+      shader: unshaded
+  - type: Projectile
+    damage:
+      armorPiercingLevels:
+        Piercing: 1
+      types:
+        Piercing: 11
+        Heat: 6
+  - type: IgniteOnCollide
+    fireStacks: 0.30
+
+- type: entity
+  id: PelletShotgunDragon
+  name: дробина (12х70 Dragon's breath)
+  parent: PelletShotgunIncendiary
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    noRot: false
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/projectiles.rsi
+    layers:
+    - state: bullets
+      shader: unshaded
+  - type: Projectile
+    damage:
+      armorPiercingLevels:
+        Piercing: 1
+      types:
+        Piercing: 5
+        Heat: 5
+  - type: IgnitionSource
+    ignited: true
+
+- type: entity
+  id: PelletShotgunDragonSpread
+  categories: [ HideSpawnMenu ]
+  parent: PelletShotgunDragon
+  components:
+  - type: ProjectileSpread
+    proto: PelletShotgunDragon
+    count: 6
+    spread: 15
+
+# Cartridge
+
+- type: entity
+  id: CartridgeDragon
+  name: патрон (6.5х39 мм TSF Dragon's breath)
+  parent: BaseCartridgeRifle
+  components:
+  - type: CartridgeAmmo
+    proto: BulletDragon
+  - type: Sprite
+    layers:
+      - state: base
+        map: [ "enum.AmmoVisualLayers.Base" ]
+      - state: tip
+        map: [ "enum.AmmoVisualLayers.Tip" ]
+        color: "#7b0e13"
+
+- type: entity
+  id: CartridgeCaselessDragon
+  name: патрон (4.7х33 мм безгильзовые, Dragon's breath)
+  parent: CartridgeCaselessRifleIncendiary
+  components:
+  - type: CartridgeAmmo
+    proto: BulletDragon
+  - type: Sprite
+    layers:
+      - state: base
+        map: [ "enum.AmmoVisualLayers.Base" ]
+      - state: tip
+        map: [ "enum.AmmoVisualLayers.Tip" ]
+        color: "#7b0e13"
+
+- type: entity
+  id: ShellShotgunDragon
+  name: дробь (12х70 Dragon's breath)
+  parent: [ BaseShellShotgun, BaseSecurityContraband ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/shell.rsi
+    layers:
+      - state: base
+        map: [ "enum.AmmoVisualLayers.Base" ]
+  - type: CartridgeAmmo
+    proto: PelletShotgunDragonSpread
+  - type: SpentAmmoVisuals
+    state: "base"
+
+# Boxes
+
+- type: entity
+  parent: BaseMagazineBoxCaselessRifle
+  id: MagazineBoxCaselessRifleDragon
+  name: коробка патронов (4.7х33 мм безгильзовые, Dragon's breath)
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeCaselessDragon
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Boxes/caseless_rifle.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+    - state: practice
+
+- type: entity
+  parent: BaseMagazineBoxRifle
+  id: MagazineBoxRifleDragon
+  name: коробка патронов (6.5х39 мм TSF Dragon's breath)
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeDragon
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Boxes/rifle.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+    - state: practice
+
+- type: entity
+  name: коробка ружейных патронов (12х70 Dragon's breath)
+  parent: AmmoProviderShotgunShell
+  id: BoxShotgunDragon
+  components:
+    - type: BallisticAmmoProvider
+      proto: ShellShotgunDragon
+    - type: MagazineVisuals
+      magState: mag-practice
+      steps: 5
+      zeroVisible: false
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/BSAA/weapons/Boxes/shotgun.rsi
+      layers:
+      - state: base
+        map: ["enum.GunVisualLayers.Base"]
+      - state: mag-practice-1
+        map: ["enum.GunVisualLayers.Mag"]
+      - state: practice
