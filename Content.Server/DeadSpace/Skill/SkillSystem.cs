@@ -56,7 +56,8 @@ public sealed class SkillSystem : EntitySystem
             skillPrototype.Name,
             skillPrototype.Description,
             skillPrototype.Icon,
-            progress
+            progress,
+            skillPrototype.IconSize
         );
 
         return skill;
