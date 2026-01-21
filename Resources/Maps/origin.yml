@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/08/2026 05:18:30
-  entityCount: 35091
+  time: 01/21/2026 00:47:07
+  entityCount: 35090
 maps:
 - 1
 grids:
@@ -893,6 +893,7 @@ entities:
             5951: 48,12
             5953: 50,10
             5954: 50,12
+            5956: -39,30
         - node:
             color: '#60A5D9D6'
             id: BotGreyscale
@@ -944,6 +945,7 @@ entities:
             3603: -69,-45
             3622: -71,-45
             4359: -37,33
+            5955: -37,32
         - node:
             color: '#FFFFFFFF'
             id: BotRight
@@ -16354,7 +16356,7 @@ entities:
     - type: AccessReader
       accessListsOriginal: []
     - type: Door
-      secondsUntilStateChange: -60882.773
+      secondsUntilStateChange: -61063.51
       changeAirtight: False
       state: Opening
     - type: DeviceLinkSource
@@ -16370,7 +16372,7 @@ entities:
       dockJointId: docking1657730
       dockedWith: 435
     - type: Door
-      secondsUntilStateChange: -2658.661
+      secondsUntilStateChange: -2839.3984
       changeAirtight: False
       state: Opening
     - type: DeviceLinkSource
@@ -18805,7 +18807,7 @@ entities:
       pos: 1.5,-3.5
       parent: 34812
     - type: Door
-      secondsUntilStateChange: -154.99547
+      secondsUntilStateChange: -335.73312
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -89066,12 +89068,6 @@ entities:
     - type: Transform
       pos: -18.5,-54.5
       parent: 2
-  - uid: 14049
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -2.5,19.5
-      parent: 2
   - uid: 14050
     components:
     - type: Transform
@@ -101845,6 +101841,14 @@ entities:
       parent: 16149
     - type: Physics
       canCollide: False
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 14049
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -2.5,19.5
+      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 34761
@@ -106336,7 +106340,7 @@ entities:
       pos: -11.5,2.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -60255.586
+      secondsUntilStateChange: -60436.324
       state: Closing
   - uid: 16696
     components:
@@ -158954,6 +158958,11 @@ entities:
     - type: Transform
       pos: -36.5,33.5
       parent: 2
+  - uid: 24097
+    components:
+    - type: Transform
+      pos: -36.5,32.5
+      parent: 2
 - proto: LockerScienceFilled
   entities:
   - uid: 23799
@@ -160877,18 +160886,8 @@ entities:
     - type: Transform
       pos: -41.057323,35.546143
       parent: 2
-  - uid: 24097
-    components:
-    - type: Transform
-      pos: -36.524075,31.497137
-      parent: 2
 - proto: OreBox
   entities:
-  - uid: 24098
-    components:
-    - type: Transform
-      pos: -36.5,32.5
-      parent: 2
   - uid: 24099
     components:
     - type: Transform
@@ -162398,10 +162397,6 @@ entities:
       solutions: null
       containers:
       - drink
-    - type: MeleeWeapon
-      nextAttack: -2.8210967
-    - type: EmitSoundOnCollide
-      nextSound: -5090.5826766
     - type: ContainerContainer
       containers:
         solution@drink: !type:ContainerSlot
@@ -172457,11 +172452,6 @@ entities:
     components:
     - type: Transform
       pos: -12.5,-8.5
-      parent: 2
-  - uid: 25553
-    components:
-    - type: Transform
-      pos: -36.5,31.5
       parent: 2
   - uid: 25554
     components:
@@ -189540,13 +189530,6 @@ entities:
     - type: Transform
       pos: -7.5,0.5
       parent: 2
-- proto: SpawnPointSeniorSalvageSpecialist
-  entities:
-  - uid: 27788
-    components:
-    - type: Transform
-      pos: -27.5,22.5
-      parent: 2
 - proto: SpawnPointSeniorEngineer
   entities:
   - uid: 27789
@@ -189574,6 +189557,13 @@ entities:
     components:
     - type: Transform
       pos: 45.5,-37.5
+      parent: 2
+- proto: SpawnPointSeniorSalvageSpecialist
+  entities:
+  - uid: 25553
+    components:
+    - type: Transform
+      pos: -41.5,30.5
       parent: 2
 - proto: SpawnPointServiceWorker
   entities:
@@ -191054,6 +191044,13 @@ entities:
     components:
     - type: Transform
       pos: 54.5,8.5
+      parent: 2
+- proto: SuitStorageSeniorSalvageSpecialistFilled
+  entities:
+  - uid: 24098
+    components:
+    - type: Transform
+      pos: -38.5,30.5
       parent: 2
 - proto: SuitStorageWarden
   entities:

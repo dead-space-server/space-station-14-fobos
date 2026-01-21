@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/08/2026 03:47:48
-  entityCount: 37818
+  time: 01/20/2026 22:55:44
+  entityCount: 37822
 maps:
 - 1
 grids:
@@ -21781,7 +21781,7 @@ entities:
       pos: 73.5,17.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -7563.3374
+      secondsUntilStateChange: -7697.3066
       changeAirtight: False
       state: Opening
     - type: Docking
@@ -21797,7 +21797,7 @@ entities:
       pos: 0.5,-7.5
       parent: 37539
     - type: Door
-      secondsUntilStateChange: -7562.2705
+      secondsUntilStateChange: -7696.2397
       changeAirtight: False
       state: Opening
     - type: Docking
@@ -100323,6 +100323,14 @@ entities:
     - type: Transform
       pos: 9.508253,-1.3463131
       parent: 2
+- proto: ClothingBeltSalvageWebbing
+  entities:
+  - uid: 31036
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -9.573013,-96.13532
+      parent: 2
 - proto: ClothingBeltUtility
   entities:
   - uid: 15245
@@ -116165,6 +116173,18 @@ entities:
     - type: Transform
       pos: 74.54064,-49.657394
       parent: 2
+  - uid: 37820
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -9.263457,-96.01173
+      parent: 2
+  - uid: 37821
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -9.044707,-96.54298
+      parent: 2
 - proto: Dresser
   entities:
   - uid: 17833
@@ -117604,6 +117624,14 @@ entities:
     components:
     - type: Transform
       pos: -3.5,-44.5
+      parent: 2
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 25810
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 50.5,2.5
       parent: 2
 - proto: ErtResponceConsole
   entities:
@@ -172825,11 +172853,6 @@ entities:
     - type: Transform
       pos: -33.5,-92.5
       parent: 2
-  - uid: 25810
-    components:
-    - type: Transform
-      pos: 50.5,2.5
-      parent: 2
   - uid: 25811
     components:
     - type: Transform
@@ -200641,13 +200664,6 @@ entities:
     - type: Transform
       pos: 29.5,3.5
       parent: 2
-- proto: SpawnPointSeniorSalvageSpecialist
-  entities:
-  - uid: 29418
-    components:
-    - type: Transform
-      pos: -5.5,-88.5
-      parent: 2
 - proto: SpawnPointSeniorEngineer
   entities:
   - uid: 29419
@@ -200675,6 +200691,13 @@ entities:
     components:
     - type: Transform
       pos: -44.5,-58.5
+      parent: 2
+- proto: SpawnPointSeniorSalvageSpecialist
+  entities:
+  - uid: 29418
+    components:
+    - type: Transform
+      pos: -5.5,-88.5
       parent: 2
 - proto: SpawnPointServiceWorker
   entities:
@@ -202282,6 +202305,13 @@ entities:
       name: хранилище скафандра инструктора СБ
     - type: Transform
       pos: 43.5,4.5
+      parent: 2
+- proto: SuitStorageSeniorSalvageSpecialistFilled
+  entities:
+  - uid: 37819
+    components:
+    - type: Transform
+      pos: -5.5,-93.5
       parent: 2
 - proto: SuitStorageWarden
   entities:
@@ -211872,10 +211902,10 @@ entities:
       parent: 2
 - proto: VendingMachineSalvage
   entities:
-  - uid: 31036
+  - uid: 37822
     components:
     - type: Transform
-      pos: -7.5,-87.5
+      pos: -4.5,-86.5
       parent: 2
 - proto: VendingMachineSciDrobe
   entities:

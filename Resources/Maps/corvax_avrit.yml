@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/12/2026 13:19:58
-  entityCount: 67374
+  time: 01/20/2026 23:00:57
+  entityCount: 67379
 maps:
 - 1
 grids:
@@ -1815,6 +1815,7 @@ entities:
             38846: -46,45
             38859: -80,40
             38860: -80,38
+            38861: -62,-8
         - node:
             cleanable: True
             color: '#FFFFFFFF'
@@ -2115,6 +2116,7 @@ entities:
             38832: -88,14
             38833: -87,12
             38834: -88,12
+            38863: 74,7
         - node:
             cleanable: True
             color: '#FFFFFFFF'
@@ -8673,6 +8675,7 @@ entities:
             38741: -22,-67
             38742: -22,-66
             38743: -22,-65
+            38862: 75,7
         - node:
             cleanable: True
             color: '#FFFFFFFF'
@@ -48246,7 +48249,7 @@ entities:
       dockJointId: docking117654
       dockedWith: 726
     - type: Door
-      secondsUntilStateChange: -48343.387
+      secondsUntilStateChange: -48560.49
       changeAirtight: False
       state: Opening
     - type: DeviceLinkSource
@@ -178169,6 +178172,13 @@ entities:
     - type: Physics
       canCollide: False
     - type: InsideEntityStorage
+- proto: ClothingBeltSalvageWebbing
+  entities:
+  - uid: 20075
+    components:
+    - type: Transform
+      pos: 79.265015,9.440609
+      parent: 2
 - proto: ClothingBeltSecurityWebbing
   entities:
   - uid: 20612
@@ -178321,16 +178331,6 @@ entities:
     - type: InsideEntityStorage
 - proto: ClothingBeltUtilityFilled
   entities:
-  - uid: 20645
-    components:
-    - type: Transform
-      pos: 79.34877,9.565831
-      parent: 2
-  - uid: 20646
-    components:
-    - type: Transform
-      pos: 79.16127,9.675206
-      parent: 2
   - uid: 20647
     components:
     - type: Transform
@@ -184738,12 +184738,9 @@ entities:
       pos: 8.5,12.5
       parent: 2
     - type: AccessReader
-      accessLog: []
-      accessKeys: []
       accessListsOriginal:
       - - Quartermaster
       access: []
-      denyTags: []
   - uid: 21432
     components:
     - type: Transform
@@ -184764,12 +184761,9 @@ entities:
       pos: 43.5,16.5
       parent: 2
     - type: AccessReader
-      accessLog: []
-      accessKeys: []
       accessListsOriginal:
       - - Quartermaster
       access: []
-      denyTags: []
 - proto: ComputerCargoOrdersMedical
   entities:
   - uid: 21435
@@ -184806,12 +184800,9 @@ entities:
       pos: -42.5,44.5
       parent: 2
     - type: AccessReader
-      accessLog: []
-      accessKeys: []
       accessListsOriginal:
       - - Quartermaster
       access: []
-      denyTags: []
   - uid: 21439
     components:
     - type: Transform
@@ -184819,12 +184810,9 @@ entities:
       pos: -18.5,-6.5
       parent: 2
     - type: AccessReader
-      accessLog: []
-      accessKeys: []
       accessListsOriginal:
       - - Quartermaster
       access: []
-      denyTags: []
 - proto: ComputerComms
   entities:
   - uid: 21440
@@ -212668,6 +212656,16 @@ entities:
       parent: 2
 - proto: DoubleEmergencyOxygenTankFilled
   entities:
+  - uid: 20074
+    components:
+    - type: Transform
+      pos: 76.43689,8.721859
+      parent: 2
+  - uid: 20082
+    components:
+    - type: Transform
+      pos: 76.65564,8.409359
+      parent: 2
   - uid: 25806
     components:
     - type: Transform
@@ -217715,6 +217713,14 @@ entities:
     components:
     - type: Transform
       pos: -87.48833,28.387346
+      parent: 2
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 20077
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -61.5,-7.5
       parent: 2
 - proto: ERTloadoutSecuritySecondary
   entities:
@@ -305399,6 +305405,11 @@ entities:
       parent: 58323
 - proto: LockerSalvageSpecialistFilled
   entities:
+  - uid: 20076
+    components:
+    - type: Transform
+      pos: 75.5,7.5
+      parent: 2
   - uid: 37560
     components:
     - type: Transform
@@ -308050,6 +308061,11 @@ entities:
           - 61174
 - proto: MedkitAdvancedFilled
   entities:
+  - uid: 20078
+    components:
+    - type: Transform
+      pos: -61.6764,-5.3875628
+      parent: 2
   - uid: 37935
     components:
     - type: Transform
@@ -317330,11 +317346,6 @@ entities:
     - type: Transform
       pos: -16.5,-10.5
       parent: 2
-  - uid: 38909
-    components:
-    - type: Transform
-      pos: 75.5,7.5
-      parent: 2
   - uid: 38910
     components:
     - type: Transform
@@ -318312,11 +318323,6 @@ entities:
     components:
     - type: Transform
       pos: 21.5,-51.5
-      parent: 2
-  - uid: 39050
-    components:
-    - type: Transform
-      pos: -61.5,-7.5
       parent: 2
   - uid: 39051
     components:
@@ -350087,6 +350093,14 @@ entities:
     - type: Transform
       pos: 23.5,56.5
       parent: 58323
+- proto: SalvageLootSpawner
+  entities:
+  - uid: 20081
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 78.5,9.5
+      parent: 2
 - proto: SalvageMagnet
   entities:
   - uid: 43235
@@ -366108,23 +366122,6 @@ entities:
     - type: Transform
       pos: -14.5,41.5
       parent: 2
-- proto: SpawnPointSeniorSalvageSpecialist
-  entities:
-  - uid: 45044
-    components:
-    - type: Transform
-      pos: 58.5,4.5
-      parent: 2
-  - uid: 45045
-    components:
-    - type: Transform
-      pos: 74.5,6.5
-      parent: 2
-  - uid: 45046
-    components:
-    - type: Transform
-      pos: 83.5,1.5
-      parent: 2
 - proto: SpawnPointSeniorEngineer
   entities:
   - uid: 45047
@@ -366157,6 +366154,23 @@ entities:
     components:
     - type: Transform
       pos: 36.5,-20.5
+      parent: 2
+- proto: SpawnPointSeniorSalvageSpecialist
+  entities:
+  - uid: 45044
+    components:
+    - type: Transform
+      pos: 58.5,4.5
+      parent: 2
+  - uid: 45045
+    components:
+    - type: Transform
+      pos: 74.5,6.5
+      parent: 2
+  - uid: 45046
+    components:
+    - type: Transform
+      pos: 83.5,1.5
       parent: 2
 - proto: SpawnPointServiceWorker
   entities:
@@ -371170,6 +371184,13 @@ entities:
     - type: AccessReader
       accessListsOriginal:
       - - Security
+- proto: SuitStorageSeniorSalvageSpecialistFilled
+  entities:
+  - uid: 20079
+    components:
+    - type: Transform
+      pos: 74.5,7.5
+      parent: 2
 - proto: SuitStorageWarden
   entities:
   - uid: 45602
@@ -388383,6 +388404,11 @@ entities:
       parent: 58323
 - proto: VendingMachineSalvage
   entities:
+  - uid: 20080
+    components:
+    - type: Transform
+      pos: 81.5,9.5
+      parent: 2
   - uid: 47817
     components:
     - type: Transform

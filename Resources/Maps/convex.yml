@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/08/2026 03:39:45
-  entityCount: 38131
+  time: 01/20/2026 22:46:30
+  entityCount: 38133
 maps:
 - 1
 grids:
@@ -806,6 +806,8 @@ entities:
             16214: 151,64
             16233: 142,46
             16236: 142,88
+            16237: 143,91
+            16238: 144,91
         - node:
             zIndex: 1
             color: '#FFFFFFFF'
@@ -21872,7 +21874,7 @@ entities:
       pos: 140.5,36.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -5727.681
+      secondsUntilStateChange: -5802.02
       changeAirtight: False
       state: Opening
     - type: Docking
@@ -21888,7 +21890,7 @@ entities:
       pos: 0.5,-7.5
       parent: 37857
     - type: Door
-      secondsUntilStateChange: -5727.0474
+      secondsUntilStateChange: -5801.386
       changeAirtight: False
       state: Opening
     - type: Docking
@@ -121844,6 +121846,17 @@ entities:
     - type: Transform
       pos: 155.5,89.5
       parent: 2
+  - uid: 31639
+    components:
+    - type: Transform
+      pos: 146.72934,88.44279
+      parent: 2
+  - uid: 38133
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 146.91684,88.58341
+      parent: 2
 - proto: DresserCaptainFilled
   entities:
   - uid: 18930
@@ -123829,6 +123842,14 @@ entities:
       parent: 19263
     - type: Physics
       canCollide: False
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 38132
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 145.5,61.5
+      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 28645
@@ -190255,6 +190276,16 @@ entities:
     - type: Transform
       pos: 82.651306,84.732506
       parent: 2
+    - type: ContainerContainer
+      containers:
+        cell_slot: !type:ContainerSlot
+          showEnts: False
+          occludes: True
+          ent: null
+        actions: !type:Container
+          showEnts: False
+          occludes: True
+          ents: []
     - type: Physics
       canCollide: True
     - type: ActionsContainer
@@ -191004,6 +191035,13 @@ entities:
     components:
     - type: Transform
       pos: 35.5,103.5
+      parent: 2
+- proto: LockerSalvageSpecialistFilled
+  entities:
+  - uid: 28354
+    components:
+    - type: Transform
+      pos: 143.5,91.5
       parent: 2
 - proto: LockerSalvageSpecialistFilledHardsuit
   entities:
@@ -192848,13 +192886,6 @@ entities:
     components:
     - type: Transform
       pos: 60.5,103.5
-      parent: 2
-- proto: OreBag
-  entities:
-  - uid: 28354
-    components:
-    - type: Transform
-      pos: 143.57065,91.45301
       parent: 2
 - proto: OreBox
   entities:
@@ -199572,11 +199603,6 @@ entities:
     components:
     - type: Transform
       pos: 132.5,131.5
-      parent: 2
-  - uid: 29414
-    components:
-    - type: Transform
-      pos: 143.5,91.5
       parent: 2
   - uid: 38035
     components:
@@ -214722,13 +214748,6 @@ entities:
     - type: Transform
       pos: 111.5,98.5
       parent: 2
-- proto: SpawnPointSeniorSalvageSpecialist
-  entities:
-  - uid: 31639
-    components:
-    - type: Transform
-      pos: 138.5,97.5
-      parent: 2
 - proto: SpawnPointSeniorEngineer
   entities:
   - uid: 31640
@@ -214756,6 +214775,13 @@ entities:
     components:
     - type: Transform
       pos: 26.5,102.5
+      parent: 2
+- proto: SpawnPointSeniorSalvageSpecialist
+  entities:
+  - uid: 32887
+    components:
+    - type: Transform
+      pos: 143.5,90.5
       parent: 2
 - proto: SpawnPointServiceWorker
   entities:
@@ -216165,6 +216191,13 @@ entities:
       name: хранилище скафандра инструктора СБ
     - type: Transform
       pos: 134.5,58.5
+      parent: 2
+- proto: SuitStorageSeniorSalvageSpecialistFilled
+  entities:
+  - uid: 29414
+    components:
+    - type: Transform
+      pos: 144.5,91.5
       parent: 2
 - proto: SuitStorageWarden
   entities:
@@ -223725,11 +223758,6 @@ entities:
       parent: 2
 - proto: VendingMachineTankDispenserEVA
   entities:
-  - uid: 32887
-    components:
-    - type: Transform
-      pos: 144.5,91.5
-      parent: 2
   - uid: 32888
     components:
     - type: Transform
