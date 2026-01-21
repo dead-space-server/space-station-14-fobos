@@ -70,23 +70,6 @@
     groups:
     - GroupCounterpartyNT
     - General
-    - Brig
-    - Security
-    - Maintenance
-    - Service
-    - External
-    - Research
-    - Medical
-    - Engineering
-    - Cargo
-    - Janitor
-    - Theatre
-    - Bar
-    - Kitchen
-    - Chapel
-    - Coroner
-    - Hydroponics
-    - Salvage
   - type: Sprite
     layers:
     - state: silver
