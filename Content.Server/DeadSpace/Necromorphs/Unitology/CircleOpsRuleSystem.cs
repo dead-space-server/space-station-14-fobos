@@ -24,6 +24,7 @@ using Content.Shared.DeadSpace.Necromorphs.Necroobelisk;
 using Content.Server.DeadSpace.NoShuttleFTL;
 using Content.Server.GameTicking;
 using Content.Server.Antag;
+using Content.Server.Database;
 
 namespace Content.Server.DeadSpace.Necromorphs.Unitology;
 
@@ -37,8 +38,8 @@ public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
     [Dependency] private readonly CargoSystem _cargoSystem = default!;
     [Dependency] private readonly RoundEndSystem _roundEndSystem = default!;
     [Dependency] private readonly AntagSelectionSystem _antag = default!;
+    [Dependency] private readonly IServerDbManager _db = default!;
     private const int AdditionalSupport = 100000;
-
     private static readonly ProtoId<CargoAccountPrototype> Account = "Security";
     private static readonly ProtoId<NpcFactionPrototype> Faction = "Necromorfs";
     private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "BSAA";
@@ -59,7 +60,7 @@ public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
     protected override void AppendRoundEndText(EntityUid uid, CircleOpsRuleComponent component, GameRuleComponent gameRule,
         ref RoundEndTextAppendEvent args)
     {
-        var winText = Loc.GetString($"thecircle-{(component.State == CircleOpsState.ObeliskActivated ? "opsmajor" : "crewmajor")}");
+        var winText = Loc.GetString($"thecircle-{(component.State == CircleOpsState.Convergence ? "opsmajor" : "crewmajor")}");
         args.AddLine(winText);
 
         foreach (var cond in Array.Empty<string>())
@@ -72,6 +73,22 @@ public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
         {
             args.AddLine(Loc.GetString("thecircle-initial-name", ("name", name), ("user", sessionData.UserName)));
         }
+
+        var winner = component.State == CircleOpsState.Convergence
+            ? BiStatWinner.Antagonist
+            : BiStatWinner.Crew;
+
+        _ = System.Threading.Tasks.Task.Run(async () =>
+        {
+            try
+            {
+                await _db.AddBiStatAsync("Юнитологи оперативники", winner, DateTime.UtcNow);
+            }
+            catch
+            {
+
+            }
+        });
     }
 
     protected override void Started(EntityUid uid, CircleOpsRuleComponent component, GameRuleComponent gameRule, GameRuleStartedEvent args)
@@ -124,6 +141,7 @@ public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
             && !obeliskComp.IsStageConvergence)
         {
             obeliskComp.IsStageConvergence = true;
+            component.State = CircleOpsState.Convergence;
         }
     }
 

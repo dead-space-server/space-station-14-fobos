@@ -26,7 +26,7 @@
 - type: entity
   id: BSAAloadout
   name: кейс неопределённости
-  description: Прочный военный кейс для оружия. Принадлежит отряду АПБТ. 
+  description: Прочный военный кейс для оружия. Принадлежит отряду АПБТ.
   suffix: АПБТ, Основное
   parent: BaseERTloadoutPrimary
   components:
@@ -132,17 +132,17 @@
   - type: TTS
     voice: Lunara
   - type: EmitSoundOnUse
-    sound: 
+    sound:
       path: /Audio/Ambience/Antag/nukeops_start.ogg
       params:
         volume: -2
   - type: EmitSoundOnActivate
-    sound: 
+    sound:
       path: /Audio/Ambience/Antag/nukeops_start.ogg
       params:
         volume: -2
   - type: EmitSoundOnTrigger
-    sound: 
+    sound:
       path: /Audio/Ambience/Antag/nukeops_start.ogg
       params:
         volume: -2

@@ -218,7 +218,7 @@
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
 
-# Вереск
+# Точмаш
 
 - type: entity
   name: СР-92 Точмаш
@@ -330,7 +330,7 @@
     - state: stripe
       color: "#cc4502"
 
-# Абакан
+# Арес
 
 - type: entity
   name: М8 "Арес"

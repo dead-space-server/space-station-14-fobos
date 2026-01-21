@@ -26,7 +26,7 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
 
     private void OnErtAdminActionResult(ErtAdminActionResult msg, EntitySessionEventArgs args)
     {
-        
+        Log.Warning(msg.Message);
     }
 
     public void RequestAdminState()
@@ -52,5 +52,15 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
     public void AdminDeleteErt(string protoId)
     {
         RaiseNetworkEvent(new AdminDeleteErtMessage(protoId));
+    }
+
+    public void AdminSetReason(string protoId, string reason)
+    {
+        RaiseNetworkEvent(new AdminSetErtReasonMessage(protoId, reason));
+    }
+
+    public void AdminCallErt(string protoId, string reason)
+    {
+        RaiseNetworkEvent(new AdminCallErtMessage(protoId, reason));
     }
 }

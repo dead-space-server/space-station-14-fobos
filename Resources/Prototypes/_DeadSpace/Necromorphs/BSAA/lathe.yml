@@ -13,7 +13,7 @@
 
 - type: latheRecipe
   id: VantShield
-  result: VantShield
+  result: ShieldVANT
   materials:
     Steel: 1550
     Plastic: 1550
@@ -56,7 +56,7 @@
   materials:
     Steel: 50
     Plastic: 475
-  
+
 - type: latheRecipe
   parent: BaseAmmoRecipe
   id: MagazineCaselessRifle
