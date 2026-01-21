@@ -99,7 +99,7 @@
     slots:
       gun_magazine:
         name: Magazine
-        startingItem: MagazineShotgunDrumIncendiary
+        startingItem: MagazineForSinabirBurn
         priority: 2
         whitelist:
           tags:
