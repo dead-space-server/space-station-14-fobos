@@ -9,3 +9,18 @@
     state: icon
   - type: Item
     sprite: _DeadSpace/Objects/Devices/law_configurator.rsi
+  - type: ItemSlots
+    slots:
+      circuit_holder:
+        name: circuit-holder
+        insertSuccessPopup: law-configurator-update-laws
+        whitelistFailPopup: law-configurator-requires-board
+        whitelist:
+          requireAll: true
+          components:
+          - SiliconLawProvider
+          - Item
+  - type: ContainerContainer
+    containers:
+      circuit_holder: !type:ContainerSlot
+      board: !type:Container
