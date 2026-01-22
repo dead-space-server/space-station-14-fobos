@@ -71,6 +71,8 @@
       roleLoadout:
         - RoleSurvivalExtended
       components:
+      - type: Skill
+        group: ALL
       - type: ObeliskActivateAbility
       - type: IntrinsicRadioTransmitter
         channels:
@@ -111,6 +113,8 @@
       roleLoadout:
         - RoleSurvivalExtended
       components:
+      - type: Skill
+        group: ALL
       - type: ObeliskActivateAbility
       - type: IntrinsicRadioTransmitter
         channels:
@@ -152,6 +156,8 @@
         color: CornflowerBlue
         sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
       components:
+      - type: Skill
+        group: ALL
       - type: ObeliskActivateAbility
       - type: IntrinsicRadioTransmitter
         channels:
@@ -191,6 +197,8 @@
         color: CornflowerBlue
         sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
       components:
+      - type: Skill
+        group: ALL
       - type: ObeliskActivateAbility
       - type: IntrinsicRadioTransmitter
         channels:
@@ -231,6 +239,8 @@
         color: CornflowerBlue
         sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
       components:
+      - type: Skill
+        group: ALL
       - type: ObeliskActivateAbility
       - type: IntrinsicRadioTransmitter
         channels:
@@ -270,6 +280,8 @@
         color: CornflowerBlue
         sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
       components:
+      - type: Skill
+        group: ALL
       - type: ObeliskActivateAbility
       - type: IntrinsicRadioTransmitter
         channels:
@@ -309,6 +321,8 @@
         color: CornflowerBlue
         sound: "/Audio/_DeadSpace/Necromorfs/TheCircle/the-circle-start.ogg"
       components:
+      - type: Skill
+        group: ALL
       - type: ObeliskActivateAbility
       - type: IntrinsicRadioTransmitter
         channels:

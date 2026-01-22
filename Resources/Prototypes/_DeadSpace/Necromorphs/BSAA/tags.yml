@@ -1,10 +1,7 @@
 # Магазин Сайги
 
 - type: Tag
-  id: MagazineForSAIGA12
-
-- type: Tag
-  id: DrumForSAIGA12
+  id: MagazineShotgunSaiga
 
 - type: Tag
   id: DrumForSAIGA12Burn

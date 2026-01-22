@@ -21,14 +21,16 @@
   - TaipanMaint
   - TaipanResearch
   special:
-  - !type:AddImplantSpecial
-    implants: [ DeathRattleImplantTaipan ]
-  - !type:AddComponentSpecial
-    components:
-    - type: AntagImmune
-    - type: NpcFactionMember
-      factions:
-      - Taipan
+    - !type:AddImplantSpecial
+      implants: [ DeathRattleImplantTaipan ]
+    - !type:AddComponentSpecial
+      components:
+        - type: AntagImmune
+        - type: NpcFactionMember
+          factions:
+            - Taipan
+        - type: Skill
+          group: Science
 
 - type: startingGear
   id: TaipanResearcherGear
