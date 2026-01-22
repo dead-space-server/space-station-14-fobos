@@ -5,10 +5,12 @@
     Margin="4"
     MinSize="50 50">
     <GridContainer
-        Columns="4" >
+        Columns="3"  > <!-- DS14 Edited -->
         <controls:ConfirmButton Name="ServerShutdownButton" Text="{Loc server-shutdown}" />
+        <!-- DS14 Start -->
         <controls:ConfirmButton Name="ServerReloadButton" Text="{Loc server-reload}" />
         <controls:ConfirmButton Name="ServerReloadAfterRoundButton" Text="{Loc server-reload-after-round}" />
+        <!-- DS14 End -->
         <cc:CommandButton Name="SetOocButton" Command="setooc" Text="{Loc server-ooc-toggle}" ToggleMode="True" />
         <cc:CommandButton Name="SetLoocButton" Command="setlooc" Text="{Loc server-looc-toggle}" ToggleMode="True" />
     </GridContainer>

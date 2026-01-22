@@ -4,6 +4,11 @@ using Robust.Client.Console;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Configuration;
+// DS14 Start
+using Content.Shared.DeadSpace.Events;
+using Robust.Shared.Network;
+using Robust.Client.GameStates;
+// DS14 End
 
 namespace Content.Client.Administration.UI.Tabs
 {
@@ -12,6 +17,8 @@ namespace Content.Client.Administration.UI.Tabs
     {
         [Dependency] private readonly IConfigurationManager _config = default!;
         [Dependency] private readonly IClientConsoleHost _console = default!;
+        [Dependency] private readonly IEntityNetworkManager _netManager = default!;
+        [Dependency] private readonly IClientGameStateManager _stateMan = default!;
 
         public ServerTab()
         {
@@ -22,15 +29,28 @@ namespace Content.Client.Administration.UI.Tabs
             _config.OnValueChanged(CCVars.LoocEnabled, LoocEnabledChanged, true);
 
             ServerShutdownButton.OnPressed += _ => _console.ExecuteCommand("shutdown");
-            ServerReloadButton.OnPressed += _ => _console.ExecuteCommand("reload");
-            ServerReloadAfterRoundButton.OnPressed += _ => _console.ExecuteCommand("reload_after_round");
+
+            //DS14 Start
+            ServerReloadButton.OnPressed += _ =>
+            {
+                var eventData = new ServerReloadRequestEvent(reloadNow: true);
+                var sequence = _stateMan.SystemMessageDispatched(eventData);
+                _netManager.SendSystemNetworkMessage(eventData, sequence);
+            };
+
+            ServerReloadAfterRoundButton.OnPressed += _ =>
+            {
+                var eventData = new ServerReloadRequestEvent(reloadNow: false);
+                var sequence = _stateMan.SystemMessageDispatched(eventData);
+                _netManager.SendSystemNetworkMessage(eventData, sequence);
+            };
+            //DS14 End
         }
 
         private void OocEnabledChanged(bool value)
         {
             SetOocButton.Pressed = value;
         }
-
         private void LoocEnabledChanged(bool value)
         {
             SetLoocButton.Pressed = value;

@@ -25,6 +25,7 @@ using Content.Server.Players.RateLimiting;
 using Content.Server.Preferences.Managers;
 using Content.Server.ServerInfo;
 using Content.Server.ServerUpdates;
+using Content.Server.DeadSpace.ServerRestart; //DS14
 using Content.Server.Voting.Managers;
 using Content.Server.Worldgen.Tools;
 using Content.Shared.Administration.Logs;
@@ -51,6 +52,7 @@ internal static class ServerContentIoC
         deps.Register<INodeGroupFactory, NodeGroupFactory>();
         deps.Register<IConnectionManager, ConnectionManager>();
         deps.Register<ServerUpdateManager>();
+        deps.Register<ServerRestartSystem>();
         deps.Register<IAdminManager, AdminManager>();
         deps.Register<ISharedAdminManager, AdminManager>();
         deps.Register<EuiManager, EuiManager>();

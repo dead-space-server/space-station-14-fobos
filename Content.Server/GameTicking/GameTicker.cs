@@ -8,6 +8,7 @@ using Content.Server.Maps;
 using Content.Server.Players.PlayTimeTracking;
 using Content.Server.Preferences.Managers;
 using Content.Server.ServerUpdates;
+using Content.Server.DeadSpace.ServerRestart; // DS14
 using Content.Server.Station.Systems;
 using Content.Shared.CCVar;
 using Content.Shared.Chat;
@@ -57,6 +58,7 @@ namespace Content.Server.GameTicking
         [Dependency] private readonly PlayTimeTrackingSystem _playTimeTrackings = default!;
         [Dependency] private readonly PvsOverrideSystem _pvsOverride = default!;
         [Dependency] private readonly ServerUpdateManager _serverUpdates = default!;
+        [Dependency] private readonly ServerRestartSystem _serverRestart = default!;
         [Dependency] private readonly SharedAudioSystem _audio = default!;
         [Dependency] private readonly StationJobsSystem _stationJobs = default!;
         [Dependency] private readonly StationSpawningSystem _stationSpawning = default!;
