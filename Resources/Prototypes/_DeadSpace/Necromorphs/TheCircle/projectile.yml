@@ -105,7 +105,7 @@
       armorPiercingLevels:
         Piercing: 2
       types:
-        Piercing: 15
+        Piercing: 13
 
 ## Картриджи АШ12
 - type: entity
