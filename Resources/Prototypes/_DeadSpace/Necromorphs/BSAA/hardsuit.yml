@@ -23,13 +23,12 @@
   - type: PressureProtection
     highPressureMultiplier: 0.02
     lowPressureMultiplier: 10000
-  - type: ClothingSpeedModifier
-    walkModifier: 1.0
-    sprintModifier: 1.0
   - type: Armor
     modifiers:
       armorLvls:
         Piercing: 3
+        Blunt: 2
+        Slash: 2
       coefficients:
         Blunt: 0.4
         Slash: 0.4
@@ -41,6 +40,9 @@
         Caustic: 0.4
         Stun: 0.5
         Poison: 0.5
+  - type: ClothingSpeedModifier
+    walkModifier: 0.75
+    sprintModifier: 0.75
   - type: TemperatureProtection
     heatingCoefficient: 0.001
     coolingCoefficient: 0.001
@@ -101,13 +103,13 @@
   - type: PressureProtection
     highPressureMultiplier: 0.02
     lowPressureMultiplier: 10000
-  - type: ClothingSpeedModifier
-    walkModifier: 0.95
-    sprintModifier: 0.95
+  # Удалён дублирующийся ClothingSpeedModifier, оставлен только вариант ниже
   - type: Armor
     modifiers:
       armorLvls:
-        Piercing: 3
+        Piercing: 2
+        Blunt: 2
+        Slash: 2
       coefficients:
         Blunt: 0.45
         Slash: 0.45
@@ -119,6 +121,9 @@
         Caustic: 0.5
         Stun: 0.55
         Poison: 0.5
+  - type: ClothingSpeedModifier
+    walkModifier: 0.75
+    sprintModifier: 0.75
   - type: TemperatureProtection
     heatingCoefficient: 0.001
     coolingCoefficient: 0.001
@@ -179,13 +184,11 @@
   - type: PressureProtection
     highPressureMultiplier: 0.02
     lowPressureMultiplier: 10000
-  - type: ClothingSpeedModifier
-    walkModifier: 1.05
-    sprintModifier: 1.05
+  # Удалён дублирующийся ClothingSpeedModifier, оставлен только вариант ниже
   - type: Armor
     modifiers:
       armorLvls:
-        Piercing: 3
+        Piercing: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
@@ -197,6 +200,9 @@
         Caustic: 0.45
         Stun: 0.4
         Poison: 0.4
+  - type: ClothingSpeedModifier
+    walkModifier: 0.75
+    sprintModifier: 0.75
   - type: TemperatureProtection
     heatingCoefficient: 0.001
     coolingCoefficient: 0.001

@@ -10,9 +10,9 @@
   - type: Projectile
     damage:
       armorPiercingLevels:
-        Piercing: 3
+        Piercing: 2
       types:
-        Piercing: 10
+        Piercing: 20
         Structural: 15
 
 - type: entity

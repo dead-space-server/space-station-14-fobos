@@ -1,5 +1,5 @@
 using Content.Shared.Objectives;
-using Content.Shared.DeadSpace.Medieval.Skills;
+using Content.Shared.DeadSpace.Skills;
 using Robust.Shared.Serialization;
 
 namespace Content.Shared.CharacterInfo;

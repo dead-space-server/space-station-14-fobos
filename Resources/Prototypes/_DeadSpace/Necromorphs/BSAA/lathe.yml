@@ -13,7 +13,7 @@
 
 - type: latheRecipe
   id: VantShield
-  result: VantShield
+  result: ShieldVANT
   materials:
     Steel: 1550
     Plastic: 1550
@@ -22,14 +22,14 @@
 - type: latheRecipe
   parent: BaseAmmoRecipe
   id: MagazineForSAIGA12
-  result: MagazineForSAIGA12
+  result: MagazineShotgunNew
   materials:
     Steel: 350
 
 - type: latheRecipe
   parent: BaseAmmoRecipe
   id: MagazineForSAIGA12Burn
-  result: MagazineForSAIGA12Burn
+  result: MagazineShotgunNewIncendiary
   materials:
     Steel: 150
     Plastic: 350
@@ -37,7 +37,7 @@
 - type: latheRecipe
   parent: BaseAmmoRecipe
   id: DrumForSAIGA12Burn
-  result: DrumForSAIGA12Burn
+  result: MagazineShotgunDrumIncendiary
   materials:
     Steel: 450
     Plastic: 650
@@ -45,7 +45,7 @@
 - type: latheRecipe
   parent: BaseAmmoRecipe
   id: DrumForSAIGA12
-  result: DrumForSAIGA12
+  result: MagazineShotgunDrum
   materials:
     Steel: 750
 
@@ -56,7 +56,7 @@
   materials:
     Steel: 50
     Plastic: 475
-  
+
 - type: latheRecipe
   parent: BaseAmmoRecipe
   id: MagazineCaselessRifle
