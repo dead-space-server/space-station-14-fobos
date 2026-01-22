@@ -22,7 +22,7 @@
       coefficients:
         Blunt: 0.45
         Slash: 0.4
-        Piercing: 0.35
+        Piercing: 0.4
         Heat: 0.55
         Cold: 0.3
         Radiation: 0.5
@@ -105,8 +105,8 @@
       coefficients:
         Blunt: 0.3
         Slash: 0.3
-        Piercing: 0.25
-        Heat: 0.45
+        Piercing: 0.3
+        Heat: 0.5
         Cold: 0.35
         Radiation: 0.25
         Poison: 0.25
@@ -196,8 +196,8 @@
         Caustic: 0.5
         Stun: 0.45
   - type: ClothingSpeedModifier
-    walkModifier: 1.25
-    sprintModifier: 1.25
+    walkModifier: 1.2
+    sprintModifier: 1.2
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitUnitologyLight
@@ -366,8 +366,8 @@
         Caustic: 0.5
         Stun: 0.5
   - type: ClothingSpeedModifier
-    walkModifier: 1.1
-    sprintModifier: 1.1
+    walkModifier: 1.05
+    sprintModifier: 1.05
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitUnitologyMedic
