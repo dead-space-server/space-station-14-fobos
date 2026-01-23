@@ -334,6 +334,12 @@
   - type: XenoArtifact
     effectsTable: !type:NestedSelector
       tableId: ObeliskArtifactEffectsDefaultTable
+  - type: WarpPoint
+    follow: true
+    location: Артефакт-Обелиск
+    blacklist:
+      tags:
+      - GhostOnlyWarp
 
 - type: entity
   id: CrateArtifactContainerNecroobelisk

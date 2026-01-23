@@ -1,0 +1,35 @@
+{
+    "version": 1,
+    "copyright": "mademade by sastr. (discord) for Space Station 14 server Мёртвый Космос",
+    "license": "CC-BY-NC-SA-4.0", 
+    "size": {
+        "x": 48,
+        "y": 48
+    },
+    "states": [
+        {
+            "name": "inhand-left",
+            "directions": 4
+        },
+        {
+            "name": "inhand-right",
+            "directions": 4
+        },
+        {
+            "name": "wielded-inhand-left",
+            "directions": 4
+        },
+        {
+            "name": "wielded-inhand-right",
+            "directions": 4
+        },
+        {
+            "name": "equipped-BACKPACK",
+            "directions": 4
+        },
+        {
+            "name": "equipped-SUITSTORAGE",
+            "directions": 4
+        }
+    ]
+}

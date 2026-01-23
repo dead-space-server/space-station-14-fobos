@@ -6,7 +6,7 @@
   product: CrateMedicalAntiAlcoholTesters
   cost: 2000
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical
 
 - type: cargoProduct
   id: MedicalAntiAlcoholImplanterCrate
@@ -16,4 +16,4 @@
   product: CrateMedicalAntiAlcoholImplanters
   cost: 3000
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical
