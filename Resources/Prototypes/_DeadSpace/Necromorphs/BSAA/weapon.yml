@@ -1,28 +1,363 @@
+# Щит ВАНТ, Вереск и Сайга с их настройками
+
 - type: entity
-  id: MagazineCaselessRifleBurn
-  name: магазин (4.7х33 мм безгильзовые, зажигательные)
-  parent: BaseMagazineCaselessRifle
+  name: ВАНТ-ВМ
+  parent: [ BaseShield, BaseSecurityContraband ]
+  id: VantShield
+  description: Передовой бронещит боевого стандарта КСО предназначенный для проведения штурмовых операций.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/BSAA/weapons/vant/vant.rsi
+      state: icon
+    - type: Item
+      sprite: _DeadSpace/Necromorfs/BSAA/weapons/vant/vant.rsi
+      heldPrefix: icon
+    - type: Clothing
+      sprite: _DeadSpace/Necromorfs/BSAA/weapons/vant/vant.rsi
+      quickEquip: false
+      slots:
+      - suitStorage
+    - type: Flash
+    - type: LimitedCharges
+      maxCharges: 2
+    - type: AutoRecharge
+      rechargeDuration: 30
+    - type: Blocking
+      passiveBlockModifier:
+        coefficients:
+          Blunt: 0.4
+          Piercing: 0.3
+      activeBlockModifier:
+        coefficients:
+          Blunt: 0.4
+          Piercing: 0.3
+        flatReductions:
+          Piercing: 1
+
+# Синабир-410
+
+- type: entity
+  name: Синабир-410
+  parent: [BaseItem, BaseGunWieldable, BaseSyndicateContraband]
+  id: WeaponSinabir
+  description: Военизированная версия некогда гражданского оружия для охоты и самообороны. Использование тактических приспособлений, а также перевод в автоматический режим стрельбы, позволили сделать из простого ружья - машину смерти на близкой дистанции.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/Sinabir.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-0
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: Item
+    size: Large
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/Sinabir.rsi
+    quickEquip: false
+    slots:
+    - Back
+    - suitStorage
+  - type: AmmoCounter
+  - type: GunRequiresWield 
+  - type: Gun
+    fireRate: 2
+    selectedMode: FullAuto
+    availableModes:
+    - FullAuto
+    soundGunshot:
+      path: /Audio/_DeadSpace/Necromorfs/BSAA/weapons/Sinabir/shot/Sinabir-shot.ogg
+    soundEmpty:
+      path: /Audio/Weapons/Guns/Empty/empty.ogg
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: MagazineForSinabir
+        priority: 2
+        whitelist:
+          tags:
+          - MagazineForSinabir
+          - MagazineForSinabirBurn
+          - DrumForSinabirBurn
+          - DrumForSinabir
+        whitelistFailPopup: gun-magazine-whitelist-fail
+        insertSound: /Audio/Weapons/Guns/MagIn/smg_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/smg_magout.ogg
+  - type: ContainerContainer
+    containers:
+      gun_magazine: !type:ContainerSlot
+      gun_chamber: !type:ContainerSlot
+  - type: MagazineAmmoProvider
+  - type: MagazineVisuals
+    magState: mag
+    steps: 1
+    zeroVisible: true
+  - type: Appearance
+  - type: StaticPrice
+    price: 500
+  - type: UseDelay
+    delay: 1.5
+
+- type: entity
+  id: BaseMagazineForSinabir
+  name: магазин для Синабир-410 (12х70 дробь)
+  parent: [ BaseItem, BaseSecurityContraband ]
+  abstract: true
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Tag
+    tags:
+    - MagazineShotgun
+  - type: BallisticAmmoProvider
+    mayTransfer: true
+    whitelist:
+      tags:
+        - ShellShotgun
+    capacity: 10
+    soundRack:
+      path: /Audio/_Corvax/Weapons/Guns/Cock/shotgun_cock.ogg
+  - type: Item
+    size: Small
+  - type: ContainerContainer
+    containers:
+      ballistic-ammo: !type:Container
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Ammunition/Magazine/Shotgun/m12.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: MagazineVisuals
+    magState: mag
+    steps: 2
+    zeroVisible: false
+  - type: Appearance
+
+- type: entity
+  id: MagazineForSinabir
+  name: магазин для Синабир-410 (12х70 дробь)
+  parent: BaseMagazineForSinabir
   components:
   - type: BallisticAmmoProvider
-    proto: CartridgeCaselessRifleIncendiary
+    proto: ShellShotgun
+    capacity: 10
+  - type: Tag
+    tags:
+    - MagazineForSinabir
+  - type: Item
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/mag.rsi
   - type: Sprite
-    sprite: _DeadSpace/Necromorfs/BSAA/weapons/veresk/caseless_rifle_mag_burn.rsi
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/mag.rsi
+    scale: 0.7, 0.7
+    layers:
+    - state: pellets
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
+- type: entity
+  id: MagazineForSinabirBurn
+  name: магазин для Синабир-410 (12х70 Dragon's breath)
+  parent: BaseMagazineForSinabir
+  components:
+  - type: BallisticAmmoProvider
+    proto: ShellShotgunDragon
+    capacity: 10
+  - type: Tag
+    tags:
+    - MagazineForSinabirBurn
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/mag.rsi
+    scale: 0.7, 0.7
+    layers:
+    - state: slug
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
+- type: entity
+  id: DrumForSinabirBurn
+  name: барабан для Синабир-410 (12х70 Dragon's breath)
+  parent: BaseMagazineForSinabir
+  components:
+  - type: Tag
+    tags:
+    - DrumForSinabirBurn
+  - type: BallisticAmmoProvider
+    proto: ShellShotgunDragon
+    capacity: 18
+  - type: Item
+    size: Normal
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/drum.rsi
+    layers:
+    - state: slug
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
+- type: entity
+  id: DrumForSinabir
+  name: барабан для Синабир-410 (12х70 дробь)
+  parent: BaseMagazineForSinabir
+  components:
+  - type: Tag
+    tags:
+    - DrumForSinabir
+  - type: BallisticAmmoProvider
+    proto: ShellShotgun
+    capacity: 18
+  - type: Item
+    size: Normal
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/drum.rsi
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
 
+# Точмаш
+
+- type: entity
+  name: СР-92 Точмаш
+  parent: [BaseWeaponSubMachineGun, BaseMajorContraband]
+  id: WeaponTochmash
+  description: Убойный пистолет-пулемёт специальной разработки, стоящий на вооружении у АПБТ. Отточен под CQB.
+  components:
+  - type: Item
+    size: Small
+    shape:
+    - 0,0,1,0
+    - 0,1,0,1
+  - type: Clothing
+    slots:
+    - suitStorage
+    - Belt
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Tochmash/Tochmash.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-0
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: Gun
+    fireRate: 7
+    soundGunshot:
+      path: /Audio/_DeadSpace/Necromorfs/BSAA/weapons/Tochmash/shot/Tochmash.ogg
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: MagazineCaselessRifle
+        priority: 2
+        whitelist:
+          tags:
+          - MagazineCaselessRifle
+          - MagazineCaselessRifleBurn
+      gun_chamber:
+        name: Chamber
+        startingItem: CartridgeCaselessRifle
+        priority: 1
+        whitelist:
+          tags:
+          - CartridgeCaselessRifle
+  - type: MagazineVisuals
+    magState: mag
+    steps: 1
+    zeroVisible: true
+  - type: Appearance
+
+- type: entity
+  id: MagazineCaselessRifleBurn
+  name: магазин (4.7х33 мм безгильзовые, Dragon's breath)
+  parent: BaseMagazineCaselessRifle
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeCaselessDragon
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Tochmash/caseless_rifle_mag_burn.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+    - state: stripe
+      color: "#cc4502"
+
+# Арес
+
+- type: entity
+  name: М8 "Арес"
+  parent: [BaseWeaponRifle, BaseSecurityContraband]
+  id: WeaponRifleAres
+  description: Автомат имеет подвижный ствол, двухкамерный ДТК замкнутого типа и смещенный вправо относительно оси канала ствола магазин.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Ares/icon.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-0
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Ares/inhands.rsi
+  - type: Item
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Ares/inhands.rsi
+    size: Large
+  - type: Gun
+    fireRate: 7
+    burstFireRate: 18
+    selectedMode: FullAuto
+    availableModes:
+    - FullAuto
+    - Burst
+    shotsPerBurst: 2
+    burstCooldown: 0.25
+    soundGunshot:
+      path: /Audio/_DeadSpace/Necromorfs/BSAA/weapons/Ares/shot/Ares.ogg
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: ADTExtMagazineRifle
+        insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+            - ADTExtMagazineRifle
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        startingItem: CartridgeRifle
+        priority: 1
+        whitelist:
+          tags:
+            - CartridgeRifle
+  - type: ContainerContainer
+    containers:
+      gun_magazine: !type:ContainerSlot
+      gun_chamber: !type:ContainerSlot
+  - type: MagazineVisuals
+    magState: mag
+    steps: 1
+    zeroVisible: true
+  - type: Appearance
+  - type: UseDelay
+    delay: 1.5
+
 - type: entity
   id: ExtMagazineRifleBurn
-  name: расширенный магазин 6.5 мм
+  name: расширенный магазин (6.5х39 мм TSF Dragon's breath)
   description: Увеличенный магазин под патрон 6.5 мм, с вместимостью в 45 единиц
   parent: ADTExtMagazineRifle
   components:
   - type: BallisticAmmoProvider
-    proto: CartridgeRifleIncendiary
+    proto: CartridgeDragon
   - type: Sprite
-    sprite: _DeadSpace/Necromorfs/BSAA/weapons/abakan/magburn.rsi
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Ares/magburn.rsi
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]

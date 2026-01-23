@@ -18,7 +18,7 @@
     key: enum.StoreUiKey.Key
   - type: Store
     balance:
-      Telecrystal: 649
+      Telecrystal: 597
 
 - type: entity
   id: UniPhonePresetUplink
@@ -209,7 +209,6 @@
 - type: listing
   id: UniPhoneUplinkMagSCARAB
   name: SCARAB POLYMAG 30 GEN2
-  icon: { sprite: Objects/Weapons/Guns/Ammunition/Magazine/Rifle/rifle_mag.rsi, state: base }
   description: Вмещает всего 30 патронов 6.8х51 мм калибра. 
   productEntity: MagazineRifleSCARAB
   cost:

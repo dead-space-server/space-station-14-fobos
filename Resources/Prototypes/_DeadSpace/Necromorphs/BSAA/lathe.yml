@@ -2,10 +2,10 @@
   id: BSAAAmmoStatic
   recipes:
   - VantShield
-  - MagazineForSAIGA12
-  - MagazineForSAIGA12Burn
-  - DrumForSAIGA12Burn
-  - DrumForSAIGA12
+  - MagazineForSinabir
+  - MagazineForSinabirBurn
+  - DrumForSinabirBurn
+  - DrumForSinabir
   - MagazineCaselessRifleBurn
   - MagazineCaselessRifle
   - ExtMagazineRifleBurn
@@ -21,31 +21,31 @@
 
 - type: latheRecipe
   parent: BaseAmmoRecipe
-  id: MagazineForSAIGA12
-  result: MagazineShotgunNew
+  id: MagazineForSinabir
+  result: MagazineForSinabir
   materials:
     Steel: 350
 
 - type: latheRecipe
   parent: BaseAmmoRecipe
-  id: MagazineForSAIGA12Burn
-  result: MagazineShotgunNewIncendiary
+  id: MagazineForSinabirBurn
+  result: MagazineForSinabirBurn
   materials:
     Steel: 150
     Plastic: 350
 
 - type: latheRecipe
   parent: BaseAmmoRecipe
-  id: DrumForSAIGA12Burn
-  result: MagazineShotgunDrumIncendiary
+  id: DrumForSinabirBurn
+  result: DrumForSinabirBurn
   materials:
     Steel: 450
     Plastic: 650
 
 - type: latheRecipe
   parent: BaseAmmoRecipe
-  id: DrumForSAIGA12
-  result: MagazineShotgunDrum
+  id: DrumForSinabir
+  result: DrumForSinabir
   materials:
     Steel: 750
 
