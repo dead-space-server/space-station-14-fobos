@@ -485,3 +485,10 @@ Entries:
   changes:
   - type: Add
     message: У навыков появились иконки, которые отображают вид деятельности
+- id: 36
+  author: sastr457
+  time: '2026-01-23T16:36:57.726692+00:00'
+  pr: 993
+  changes:
+  - type: Add
+    message: Респрайт Пустынного орла!
