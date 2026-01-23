@@ -506,3 +506,10 @@ Entries:
   changes:
   - type: Add
     message: Респрайт АПБТ!
+- id: 39
+  author: sastr457
+  time: '2026-01-23T17:05:11.803119+00:00'
+  pr: 982
+  changes:
+  - type: Add
+    message: Добавлен доступ Смотрителю к консоли заказов СБ.
