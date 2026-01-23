@@ -499,3 +499,10 @@ Entries:
   changes:
   - type: Tweak
     message: Офицеры CriticalForce получили базовый доступ (и в бриг).
+- id: 38
+  author: sastr457
+  time: '2026-01-23T16:46:47.552244+00:00'
+  pr: 985
+  changes:
+  - type: Add
+    message: Респрайт АПБТ!
