@@ -492,3 +492,10 @@ Entries:
   changes:
   - type: Add
     message: Респрайт Пустынного орла!
+- id: 37
+  author: Djentelmen2
+  time: '2026-01-23T16:40:02.826799+00:00'
+  pr: 988
+  changes:
+  - type: Tweak
+    message: Офицеры CriticalForce получили базовый доступ (и в бриг).
