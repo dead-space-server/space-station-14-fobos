@@ -3,8 +3,10 @@ using Content.Shared.Species.Components;
 using Content.Shared.Body.Events;
 using Content.Shared.Zombies;
 using Content.Server.Zombies;
+using Content.Shared.DeadSpace.Skills.Components;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
+using Content.Shared.DeadSpace.Skills.Prototypes;
 
 namespace Content.Server.Species.Systems;
 
@@ -43,6 +45,14 @@ public sealed partial class NymphSystem : EntitySystem
         // Move the mind if there is one and it's supposed to be transferred
         if (comp.TransferMind == true && _mindSystem.TryGetMind(args.OldBody, out var mindId, out var mind))
             _mindSystem.TransferTo(mindId, nymph, mind: mind);
+
+        // DS14-start
+        if (TryComp<SkillComponent>(args.OldBody, out var oldSkills))
+        {
+            var nymphSkills = EnsureComp<SkillComponent>(nymph);
+            nymphSkills.Skills = new Dictionary<ProtoId<SkillPrototype>, float>(oldSkills.Skills);
+        }
+        // DS14-end
 
         // Delete the old organ
         QueueDel(uid);

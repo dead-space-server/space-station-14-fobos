@@ -20,6 +20,7 @@ public sealed class ResponceErtImplantSystem : EntitySystem
         {
             imp.AllowedStates = ent.Comp.AllowedStates;
             imp.Team = ent.Comp.Team;
+            imp.ActionPrototype = ent.Comp.ActionPrototype;
             imp.IsReady = true;
         }
         else
@@ -28,6 +29,7 @@ public sealed class ResponceErtImplantSystem : EntitySystem
             {
                 AllowedStates = ent.Comp.AllowedStates,
                 Team = ent.Comp.Team,
+                ActionPrototype = ent.Comp.ActionPrototype,
                 IsReady = true
             });
         }

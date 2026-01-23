@@ -8,6 +8,9 @@ using Content.Server.EUI;
 using Content.Server.Roles;
 using Content.Server.Mind;
 using Content.Shared.Mind.Components;
+using Content.Shared.DeadSpace.ERT;
+using Content.Shared.Mobs.Components;
+using Content.Server.Actions;
 
 namespace Content.Server.DeadSpace.ERT;
 
@@ -19,12 +22,14 @@ public sealed class ResponceErtOnAllowedStateSystem : EntitySystem
     [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
     [Dependency] private readonly RoleSystem _roleSystem = default!;
     [Dependency] private readonly MindSystem _mindSystem = default!;
+    [Dependency] private readonly ActionsSystem _actionsSystem = default!;
 
     public override void Initialize()
     {
         base.Initialize();
 
         SubscribeLocalEvent<ResponceErtOnAllowedStateComponent, MobStateChangedEvent>(OnMobStateChange);
+        SubscribeLocalEvent<ResponceErtOnAllowedStateComponent, CallErtHelpActionEvent>(OnCallErtHelpAction);
     }
 
     private void OnMobStateChange(Entity<ResponceErtOnAllowedStateComponent> ent, ref MobStateChangedEvent args)
@@ -32,17 +37,34 @@ public sealed class ResponceErtOnAllowedStateSystem : EntitySystem
         if (!ent.Comp.IsReady)
             return;
 
-        if (!_playerManager.TryGetSessionByEntity(ent, out var session))
+        if (!TryComp<MobStateComponent>(ent, out var mobState))
             return;
 
-        if (!ent.Comp.AllowedStates.Contains(args.NewMobState))
+        foreach (var allowedState in ent.Comp.AllowedStates)
+        {
+            if (allowedState == mobState.CurrentState)
+            {
+                _actionsSystem.AddAction(ent.Owner, ref ent.Comp.ActionEntity, ent.Comp.ActionPrototype);
+                return;
+            }
+        }
+
+        _actionsSystem.RemoveAction(ent.Owner, ent.Comp.ActionEntity);
+    }
+
+    private void OnCallErtHelpAction(Entity<ResponceErtOnAllowedStateComponent> ent, ref CallErtHelpActionEvent args)
+    {
+        if (!ent.Comp.IsReady)
+            return;
+
+        if (!_playerManager.TryGetSessionByEntity(ent, out var session))
             return;
 
         var mind = _mindSystem.GetMind(ent);
         if (mind == null)
             return;
 
-        var title = $"Оповещение CriticalForce: {args.NewMobState}";
+        var title = $"Оповещение CriticalForce: ";
         string text;
 
         if (_roleSystem.MindIsAntagonist(mind))

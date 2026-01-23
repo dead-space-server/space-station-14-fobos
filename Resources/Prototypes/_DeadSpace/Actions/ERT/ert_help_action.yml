@@ -1,0 +1,16 @@
+- type: entity
+  parent: BaseMentalAction
+  id: ActionCallErtHelp
+  name: action-call-ert-help
+  description: action-call-ert-help-desc
+  components:
+  - type: Action
+    itemIconStyle: BigAction
+    priority: 10
+    icon:
+      sprite: Interface/Alerts/human_critical.rsi
+      state: critical
+  - type: InstantAction
+    event: !type:CallErtHelpActionEvent {}
+  - type: ConfirmableAction
+    popup: action-call-ert-help-confirm
