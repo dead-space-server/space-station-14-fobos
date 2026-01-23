@@ -528,3 +528,10 @@ Entries:
   changes:
   - type: Tweak
     message: Респрайт аптечек.
+- id: 42
+  author: sastr457
+  time: '2026-01-23T17:38:43.571093+00:00'
+  pr: 994
+  changes:
+  - type: Add
+    message: Количество бойцов в отряде АПБТ увеличено с 7 до 8 бойцов, с 2 до 3 медиков
