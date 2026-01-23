@@ -52,7 +52,7 @@ public sealed class DiskConsoleSystem : EntitySystem
     {
         if (HasComp<DiskConsolePrintingComponent>(uid))
             return;
-        
+
         if (!_research.TryGetClientServer(uid, out var server, out var serverComp))
             return;
 
