@@ -1,11 +1,11 @@
 using Content.Shared.DeviceLinking.Events;
-using Content.Server.Research.Components;
+using Content.Server.DeadSpace.Research.Components;
 using Content.Server.Research.TechnologyDisk.Components;
 using Content.Shared.Research; // DiskConsolePrintDiskMessage
 using Robust.Shared.GameObjects;
 using Content.Server.Power.EntitySystems;
 
-namespace Content.Server.Research.Systems;
+namespace Content.Server.DeadSpace.Research.Systems;
 
 public sealed class TechDiskPrinterOnSignalSystem : EntitySystem
 {
