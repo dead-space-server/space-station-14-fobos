@@ -346,7 +346,7 @@ namespace Content.Client.PDA
 
             StationTimeLabel.SetMarkup(Loc.GetString("comp-pda-ui-station-time",
                 ("time", stationTime.ToString("hh\\:mm\\:ss")),
-                ("date", DateTime.UtcNow.AddHours(3).ToString("dd.MM") + ".2709")));
+                ("date", DateTime.UtcNow.AddHours(3).ToString("dd.MM") + ".2710")));
         }
     }
 }

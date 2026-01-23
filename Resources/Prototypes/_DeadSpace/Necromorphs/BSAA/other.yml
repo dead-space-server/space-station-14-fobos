@@ -24,21 +24,6 @@
     delay: 1.0
 
 - type: entity
-  parent: ClothingBackpack
-  id: ClothingBSAABackpack
-  name: рюкзак бойца АПБТ
-  components:
-  - type: Sprite
-    sprite: _ADT/Clothing/Back/ussp_attaked_backpack.rsi
-  - type: Storage
-    grid:
-    - 0,0,9,5
-  - type: Tag
-    tags: []
-  - type: ExplosionResistance
-    damageCoefficient: 0.1
-
-- type: entity
   id: BSAAloadout
   name: кейс неопределённости
   description: Прочный военный кейс для оружия. Принадлежит отряду АПБТ.
@@ -46,12 +31,13 @@
   parent: BaseERTloadoutPrimary
   components:
   - type: Sprite
-    state: cburn
+    sprite: _DeadSpace/Necromorfs/BSAA/misc/misc.rsi
+    state: case
   - type: ThiefUndeterminedBackpack
     possibleSets:
-    - SAIGA12Set
-    - VereskAndVANTSet
-    - AbakanSet
+    - SinabirSet
+    - TochmashAndVANTSet
+    - AresSet
   - type: ActivatableUI
     key: enum.ThiefBackpackUIKey.Key
   - type: UserInterface
@@ -62,37 +48,37 @@
 ## Лодауты
 
 - type: thiefBackpackSet
-  id: SAIGA12Set
-  name: Набор Сойдаж-12
-  description: В данный набор входит новейшая разработка NT по заказу КСО для особого отряда — Сойдаж-12 — скорострельный магазинный дробовик с убойной силой, способный раздробить кости посмевших напасть биотеррористов.
+  id: SinabirSet
+  name: Набор Синабир-410
+  description: В данный набор входит новейшая разработка NT по заказу КСО для особого отряда — Синабир-410 — скорострельный магазинный дробовик с убойной силой, способный раздробить кости посмевших напасть биотеррористов.
   sprite:
-    sprite: _DeadSpace/Necromorfs/BSAA/weapons/saiga12/saiga12.rsi
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/Sinabir.rsi
     state: icon
   content:
-  - WeaponShotgunSaiga
-  - MagazineShotgunNew
-  - MagazineShotgunNew
-  - MagazineShotgunNew
-  - MagazineShotgunNew
-  - MagazineShotgunDrum
-  - MagazineShotgunNewIncendiary
-  - MagazineShotgunNewIncendiary
-  - MagazineShotgunNewIncendiary
-  - MagazineShotgunNewIncendiary
-  - MagazineShotgunDrumIncendiary
-  - BoxShotgunIncendiary
+  - WeaponSinabir
+  - MagazineForSinabir
+  - MagazineForSinabir
+  - MagazineForSinabir
+  - MagazineForSinabir
+  - DrumForSinabir
+  - MagazineForSinabirBurn
+  - MagazineForSinabirBurn
+  - MagazineForSinabirBurn
+  - MagazineForSinabirBurn
+  - DrumForSinabirBurn
+  - BoxShotgunDragon
   - BoxLethalshot
 
 - type: thiefBackpackSet
-  id: VereskAndVANTSet
-  name: Набор СР-2 Керск и щит ВАНТ
+  id: TochmashAndVANTSet
+  name: Набор СР-92 Точмаш и щит ВАНТ
   description: В данный набор входит контрабандное вооружение, модифицированное инженерами NT под нужды особого отряда — безгильзовый пистолет-пулемёт СР-2 Керск и универсальный бронещит ВАНТ-ВМ, отличающийся своим тяжёлым весом в угоду защищённости. Искорените биотерроризм оружием отточеным на быстрое убийство.
   sprite:
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/vant/vant.rsi
     state: icon
   content:
-  - ShieldVANT
-  - WeaponVeresk
+  - VantShield
+  - WeaponTochmash
   - MagazineCaselessRifle
   - MagazineCaselessRifle
   - MagazineCaselessRifle
@@ -106,17 +92,17 @@
   - MagazineCaselessRifleBurn
   - MagazineCaselessRifleBurn
   - MagazineBoxCaselessRifle
-  - MagazineBoxCaselessRifle
+  - MagazineBoxCaselessRifleDragon
 
 - type: thiefBackpackSet
-  id: AbakanSet
+  id: AresSet
   name: Набор М8 "Арес"
   description: В данный набор входит вооружение, модифицированное инженерами NT под нужды особого отряда — автомат М8 "Арес". Искорените биотерроризм оружием отточеным на быстрое убийство.
   sprite:
-    sprite: _DeadSpace/Necromorfs/BSAA/weapons/abakan/icon.rsi
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Ares/icon.rsi
     state: icon
   content:
-  - WeaponRifleAbakan
+  - WeaponRifleAres
   - ADTExtMagazineRifle
   - ADTExtMagazineRifle
   - ADTExtMagazineRifle
@@ -127,8 +113,8 @@
   - ExtMagazineRifleBurn
   - ExtMagazineRifleBurn
   - ExtMagazineRifleBurn
-  - MagazineBoxRifleIncendiary
-  - MagazineBoxRifleIncendiary
+  - MagazineBoxRifleDragon
+  - MagazineBoxRifleDragon
   - MagazineBoxRifle
   - MagazineBoxRifle
 

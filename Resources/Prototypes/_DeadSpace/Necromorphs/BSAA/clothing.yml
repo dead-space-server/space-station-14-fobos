@@ -1,0 +1,117 @@
+# Рюкзак
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBSAABackpack
+  name: продвинутый рюкзак АПБТ
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/clothing/backpack.rsi
+  - type: Storage
+    grid:
+    - 0,0,9,5
+  - type: Tag
+    tags: []
+  - type: ExplosionResistance
+    damageCoefficient: 0.1
+
+# Мантия
+- type: entity
+  parent: [ ClothingNeckBase, BaseCommandContraband ]
+  id: BSAALeaderShoulder
+  name: мантия лидера АПБТ
+  description: Необычайно украшенная драпировка, отражающая всю мощь альянса. Повисла на шее лидера, обвив объятиями плечи, как личный ангел-хранитель.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/misc/bsaa-mantle.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/BSAA/misc/bsaa-mantle.rsi
+
+# РПС
+- type: entity
+  parent: ClothingBeltStorageBase
+  id: ClothingBeltBSAA
+  name: РПС АПБТ
+  description: Универсальный разгрузочный жилет для убийства различных угроз.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/clothing/belt.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/BSAA/clothing/belt.rsi
+
+# Очки
+- type: entity
+  parent: ClothingEyesHudAdvanced
+  id: ClothingEyesBSAA
+  name: продвинутый визор АПБТ
+  description: Технологический прорыв в мире визоров.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/clothing/glass.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/BSAA/clothing/glass.rsi
+  - type: ShowHealthBars
+
+# Перчатки
+- type: entity
+  parent: ClothingHandsGlovesCombat
+  id: ClothingHandsGlovesBSAA
+  name: боевые перчатки АПБТ
+  description: Эти тактические перчатки огнеупорны и ударопрочны.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/clothing/gloves.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/BSAA/clothing/gloves.rsi
+
+# Магнитки
+- type: entity
+  parent: ADTClothingShoesBootsMagERT
+  id: ClothingShoesBootsMagBSAA
+  name: магнитные сапоги АПБТ
+  description: Продвинутые магнитные ботинки, не замедляющие своего владельца.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/clothing/magboots.rsi
+    layers:
+    - state: icon
+      map: [ "enum.ToggleableVisuals.Layer" ]
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/BSAA/clothing/magboots.rsi
+
+# Противогаз
+- type: entity
+  parent: ClothingMaskGas
+  id: ClothingMaskBSAA
+  name: противогаз АПБТ
+  description: Специальный противогаз АПБТ.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/clothing/mask.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/BSAA/clothing/mask.rsi
+  - type: HideLayerClothing
+    slots:
+    - Hair
+    - Snout
+    - HeadTop
+    - HeadSide
+    hideOnToggle: true
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.90
+        Slash: 0.90
+        Piercing: 0.95
+        Heat: 0.95
+
+# Комбинезон
+- type: entity
+  parent: ClothingUniformJumpsuitERTLeader
+  id: ClothingUniformJumpsuitBSAA
+  name: комбинезон АПБТ
+  description: Комбинезон спецназа "Saros".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/clothing/uniform.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Necromorfs/BSAA/clothing/uniform.rsi
