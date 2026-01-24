@@ -51,6 +51,7 @@ namespace Content.Client.Administration.UI.Tabs
         {
             SetOocButton.Pressed = value;
         }
+
         private void LoocEnabledChanged(bool value)
         {
             SetLoocButton.Pressed = value;
