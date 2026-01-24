@@ -58,7 +58,7 @@ namespace Content.Server.GameTicking
         [Dependency] private readonly PlayTimeTrackingSystem _playTimeTrackings = default!;
         [Dependency] private readonly PvsOverrideSystem _pvsOverride = default!;
         [Dependency] private readonly ServerUpdateManager _serverUpdates = default!;
-        [Dependency] private readonly ServerRestartSystem _serverRestart = default!;
+        [Dependency] private readonly ServerRestartSystem _serverRestart = default!; //DS14
         [Dependency] private readonly SharedAudioSystem _audio = default!;
         [Dependency] private readonly StationJobsSystem _stationJobs = default!;
         [Dependency] private readonly StationSpawningSystem _stationSpawning = default!;

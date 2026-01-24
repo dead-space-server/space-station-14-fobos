@@ -28,7 +28,6 @@ using Content.Server.Players.RateLimiting;
 using Content.Server.Preferences.Managers;
 using Content.Server.ServerInfo;
 using Content.Server.ServerUpdates;
-using Content.Server.DeadSpace.ServerRestart; // DS14
 using Content.Server.Voting.Managers;
 using Content.Shared.CCVar;
 using Content.Shared.Kitchen;
@@ -84,8 +83,6 @@ namespace Content.Server.Entry
         [Dependency] private readonly ServerApi _serverApi = default!;
         [Dependency] private readonly ServerInfoManager _serverInfo = default!;
         [Dependency] private readonly ServerUpdateManager _updateManager = default!;
-        [Dependency] private readonly ServerRestartSystem _restartSystem = default!; //DS14
-
 
         public override void PreInit()
         {
@@ -213,7 +210,6 @@ namespace Content.Server.Entry
 
                 case ModUpdateLevel.FramePostEngine:
                     _updateManager.Update();
-                    _restartSystem.DoShutdownOnRoundEnd(); //DS14
                     _playTimeTracking.Update();
                     _watchlistWebhookManager.Update();
                     _connection.Update();

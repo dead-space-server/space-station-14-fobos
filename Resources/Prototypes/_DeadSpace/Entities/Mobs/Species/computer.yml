@@ -7,13 +7,6 @@
   abstract: true
   components:
   - type: Blindable
-  - type: Temperature
-    heatDamageThreshold: 5000
-    currentTemperature: 310.15
-    specificHeat: 42
-    heatDamage:
-      types:
-        Heat : 1 #per second, scales with temperature & other constants
   - type: Barotrauma
     damage:
       types:

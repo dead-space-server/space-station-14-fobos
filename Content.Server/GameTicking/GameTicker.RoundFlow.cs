@@ -671,6 +671,11 @@ namespace Content.Server.GameTicking
             if (_serverUpdates.RoundEnded())
                 return;
 
+            //DS14 Start
+            if (_serverRestart.RoundEnded())
+                return;
+            //DS14 End
+
             // Check if the GamePreset needs to be reset
             TryResetPreset();
 
