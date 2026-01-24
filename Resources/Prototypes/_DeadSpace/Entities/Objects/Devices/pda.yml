@@ -93,7 +93,7 @@
   parent: BasePDA
   id: VirologistPDA
   name: КПК вирусолога
-  description: Кашель и сып? Хм, интересно...
+  description: Кашель и сыпь? Хм, интересно...
   components:
   - type: Pda
     id: IDCardVirologist

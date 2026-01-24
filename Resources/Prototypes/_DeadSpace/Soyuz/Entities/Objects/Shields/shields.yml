@@ -1,0 +1,32 @@
+- type: entity
+  name: бронещит ВАНТ-М
+  parent: [ BaseShield, BaseSecurityContraband ]
+  id: ShieldVANT
+  description: Передовой щит СССП предназначенный для проведения штурмовых операций. 
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Soyuz/Objects/Weapons/Melee/vant.rsi
+      state: icon
+    - type: Item
+      sprite: _DeadSpace/Soyuz/Objects/Weapons/Melee/vant.rsi
+    - type: Clothing
+      sprite: _DeadSpace/Soyuz/Objects/Weapons/Melee/vant.rsi
+      quickEquip: false
+      slots:
+      - suitStorage
+    - type: Flash
+    - type: LimitedCharges
+      maxCharges: 2
+    - type: AutoRecharge
+      rechargeDuration: 30
+    - type: Blocking
+      passiveBlockModifier:
+        coefficients:
+          Blunt: 0.50
+          Piercing: 0.40
+      activeBlockModifier:
+        coefficients:
+          Blunt: 0.60
+          Piercing: 0.50
+        flatReductions:
+          Piercing: 1

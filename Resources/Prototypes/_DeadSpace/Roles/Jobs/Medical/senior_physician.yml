@@ -28,6 +28,13 @@
   wageDepartment: Medical
   wage: 70
   #end-backmen: currency
+  special:
+  - !type:AddComponentSpecial
+    components:
+    # DS14-Start
+    - type: Skill
+      group: Medical
+    # DS14-End
 
 - type: startingGear
   id: SeniorPhysicianGear

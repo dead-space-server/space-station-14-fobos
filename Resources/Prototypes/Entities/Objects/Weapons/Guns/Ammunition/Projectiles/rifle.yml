@@ -19,8 +19,6 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 0
       types:
         Blunt: 2
 

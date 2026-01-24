@@ -5,6 +5,7 @@
     components:
       - ShowAntagIcons
       - Unitology
+      - Necromorf
       - UnitologyEnslaved
       - UnitologyHead
   icon:
@@ -18,6 +19,7 @@
     components:
       - ShowAntagIcons
       - Unitology
+      - Necromorf
       - UnitologyEnslaved
       - UnitologyHead
   icon:
@@ -31,6 +33,7 @@
     components:
       - ShowAntagIcons
       - Unitology
+      - Necromorf
       - UnitologyEnslaved
       - UnitologyHead
   icon:
