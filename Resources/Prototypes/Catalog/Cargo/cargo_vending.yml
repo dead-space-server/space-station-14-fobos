@@ -14,7 +14,7 @@
   product: CrateVendingMachineRestockBoozeFilled
   cost: 3500
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockChefvend
@@ -24,7 +24,7 @@
   product: CrateVendingMachineRestockChefvendFilled
   cost: 680
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockClothes
@@ -34,7 +34,7 @@
   product: CrateVendingMachineRestockClothesFilled
   cost: 8000 # DS14
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockAutoDrobe
@@ -44,7 +44,7 @@
   product: CrateVendingMachineRestockAutoDrobeFilled
   cost: 2500
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockDinnerware
@@ -54,7 +54,7 @@
   product: CrateVendingMachineRestockDinnerwareFilled
   cost: 2000
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockCondimentStation
@@ -64,7 +64,7 @@
   product: CrateVendingMachineRestockCondimentStationFilled
   cost: 300
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockEngineering
@@ -74,7 +74,7 @@
   product: CrateVendingMachineRestockEngineeringFilled
   cost: 3200
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockGames
@@ -84,7 +84,7 @@
   product: CrateVendingMachineRestockGamesFilled
   cost: 750
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockHotDrinks
@@ -94,7 +94,7 @@
   product: CrateVendingMachineRestockHotDrinksFilled
   cost: 1200
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockMedical
@@ -104,7 +104,7 @@
   product: CrateVendingMachineRestockMedicalFilled
   cost: 1750
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockChemVend
@@ -114,7 +114,7 @@
   product: CrateVendingMachineRestockChemVendFilled
   cost: 3820
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockNutriMax
@@ -124,7 +124,7 @@
   product: CrateVendingMachineRestockNutriMaxFilled
   cost: 2400
   category: cargoproduct-category-name-hydroponics
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockPTech
@@ -134,7 +134,7 @@
   product: CrateVendingMachineRestockPTechFilled
   cost: 1200
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockRobustSoftdrinks
@@ -144,7 +144,7 @@
   product: CrateVendingMachineRestockRobustSoftdrinksFilled
   cost: 1200
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockSalvageEquipment
@@ -154,7 +154,7 @@
   product: CrateVendingMachineRestockSalvageEquipmentFilled
   cost: 1500
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockSecTech
@@ -174,7 +174,7 @@
   product: CrateVendingMachineRestockSeedsFilled
   cost: 3600
   category: cargoproduct-category-name-hydroponics
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockSmokes
@@ -184,7 +184,7 @@
   product: CrateVendingMachineRestockSmokesFilled
   cost: 1200
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockVendomat
@@ -194,7 +194,7 @@
   product: CrateVendingMachineRestockVendomatFilled
   cost: 1200
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockRobotics
@@ -204,7 +204,7 @@
   product: CrateVendingMachineRestockRoboticsFilled
   cost: 1600
   category: cargoproduct-category-name-science
-  group: market
+  group: science
 
 - type: cargoProduct
   id: CrateVendingMachineRestockTankDispenser
@@ -214,7 +214,7 @@
   product: CrateVendingMachineRestockTankDispenserFilled
   cost: 1000
   category: cargoproduct-category-name-atmospherics
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockHappyHonk
@@ -224,7 +224,7 @@
   product: CrateVendingMachineRestockHappyHonkFilled
   cost: 2100
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockGetmoreChocolateCorp
@@ -234,7 +234,7 @@
   product: CrateVendingMachineRestockGetmoreChocolateCorpFilled
   cost: 1200
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockChang
@@ -244,7 +244,7 @@
   product: CrateVendingMachineRestockChangFilled
   cost: 1200
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockDiscountDans
@@ -254,7 +254,7 @@
   product: CrateVendingMachineRestockDiscountDansFilled
   cost: 1200
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateVendingMachineRestockDonut
@@ -264,4 +264,4 @@
   product: CrateVendingMachineRestockDonutFilled
   cost: 1200
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14

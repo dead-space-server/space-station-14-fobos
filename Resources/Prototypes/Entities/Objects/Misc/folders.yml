@@ -440,6 +440,13 @@
           - Write
   - type: CargoOrderConsole
     removeLimitAccess: [ "Quartermaster" ]
+    allowedGroups: # DS14
+    - market
+    - service
+    - medical
+    - engineering
+    - science
+    - general
   - type: ActivatableUI
     verbText: qm-clipboard-computer-verb-text
     key: enum.CargoConsoleUiKey.Orders

@@ -6,7 +6,7 @@
   product: CrateEngineeringCableLV
   cost: 300
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EngineeringCableMv
@@ -16,7 +16,7 @@
   product: CrateEngineeringCableMV
   cost: 300
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EngineeringCableHv
@@ -26,7 +26,7 @@
   product: CrateEngineeringCableHV
   cost: 300
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EngineeringFoamGrenade
@@ -36,7 +36,7 @@
   product: CrateEngineeringFoamGrenade
   cost: 2500
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EngineeringCableBulk
@@ -46,7 +46,7 @@
   product: CrateEngineeringCableBulk
   cost: 600
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EngineeringElectricalSupplies
@@ -56,7 +56,7 @@
   product: CrateEngineeringElectricalSupplies
   cost: 4500
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: StationBeaconBundle
@@ -66,7 +66,7 @@
   product: CrateEngineeringStationBeaconBundle
   cost: 500
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EngineeringJetpack
@@ -76,7 +76,7 @@
   product: CrateEngineeringJetpack
   cost: 1000
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EngineeringMiniJetpack
@@ -86,7 +86,7 @@
   product: CrateEngineeringMiniJetpack
   cost: 750
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: AirlockKit
@@ -96,7 +96,7 @@
   product: CrateAirlockKit
   cost: 1100
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EvaKit
@@ -106,7 +106,7 @@
   product: CrateEvaKit
   cost: 5000
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EngineeringRCDAmmo
@@ -116,7 +116,7 @@
   product: CrateRCDAmmo
   cost: 2500
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EngineeringRCD
@@ -126,7 +126,7 @@
   product: CrateRCD
   cost: 800
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EngineeringParticleDecelerators
@@ -136,7 +136,7 @@
   product: CrateParticleDecelerators
   cost: 15000
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EngineeringSpaceHeater
@@ -146,7 +146,7 @@
   product: CrateEngineeringSpaceHeater
   cost: 350
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 # ADT-start
 
@@ -158,4 +158,4 @@
   product: CrateEngineeringVoidJetpack
   cost: 8000
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14

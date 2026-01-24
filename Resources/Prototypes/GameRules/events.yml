@@ -59,6 +59,7 @@
     - id: DemonsInvasion
     - id: BlobSpawn
     - id: HardVirusPandemic
+    - id: SentientVirusEvent
     # DS14-end
     - !type:NestedSelector
       tableId: DerelictBorgEventTable

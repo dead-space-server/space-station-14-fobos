@@ -1,5 +1,5 @@
 - type: entity
-  parent: ClothingHeadHelmetHardsuitClown
+  parent: ClothingHeadHelmetHardsuitMime
   id: ClothingHeadHelmetHardsuitMedEVA
   name: шлем скафандра медицинского отдела
   description: Герметичный скафандр, защищающий как от перепада давления, так и от температур.
@@ -21,7 +21,7 @@
     reduction: 0.2
 
 - type: entity
-  parent: ClothingHeadHelmetHardsuitClown
+  parent: ClothingHeadHelmetHardsuitMime
   id: ClothingHeadHelmetHardsuitMedChemEVA
   name: шлем скафандра химика
   description: Герметичный скафандр, защищающий как от перепада давления, так и от температур.

@@ -1,8 +1,4 @@
 admin-player-actions-window-ert = Окно управления ОБР
-ert-responce-window-title = Запрос поддержки
-ert-responce-available-teams = Доступные отряды
-responce-ert-team-button = Запросить отряд
-ert-responce-team-description = Описание отряда
 
 ert-responce-balance-label =
     Баланс: { $cost }
@@ -39,9 +35,6 @@ ert-responce-caused-messager-sierra =
     На станции инициализирован уровень угрозы Сьерра с протоколами военного положения, объявляется мобилизация экипажа. 
     Инициировано развёртывание сил РХБЗЗ по вектору угрозы.
 
-ert-responce-call-cancel =
-    Центральное командование получило ваш сигнал.
-
 ert-computer-window-title = Компьютер ОБР
 
 ert-computer-evac-title = начать эвакуацию
@@ -69,6 +62,7 @@ station-event-response-team-arrival-cburn-sierra =
 
 station-event-centcomm-official-arrival = Представитель Центрального Командования прибыл на станцию.
 
+ert-call-fail-already-waiting = Уже вызван
 ert-call-fail-prototype-missing = Отряда не доступен.
 ert-call-fail-code-blacklist = Уровень тревоги ({$level}) запрещает вызов этого отряда.
 ert-call-fail-not-enough-points = Недостаточно ресурса для вызова (нужно {$price}, доступно {$balance}).

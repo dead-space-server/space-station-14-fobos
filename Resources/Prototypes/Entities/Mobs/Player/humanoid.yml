@@ -95,6 +95,7 @@
     #DS14-start
     - type: GhostRoleNotifys 
       groupPrototype: ERTGroup
+    - type: ErtStaff
     #DS14-end
 
 - type: randomHumanoidSettings
@@ -160,6 +161,7 @@
     voice: Garithos
   - type: GhostRoleNotifys #DS14
     groupPrototype: DeathSquadGroup
+  - type: ErtStaff
 
 # ERT
 ## Leader

@@ -59,16 +59,6 @@ public sealed class DiskConsoleSystem : EntitySystem
         if (serverComp.Points < component.PricePerDisk)
             return;
 
-        // DS14-start
-        var act = args.Actor;
-
-        if (TryComp<AccessReaderComponent>(uid, out var access) && !_accessReader.IsAllowed(act, uid, access))
-        {
-            _popup.PopupEntity(Loc.GetString("particle-accelerator-control-menu-permission-denied"), act);
-            return;
-        }
-        // DS14-end
-
         _research.ModifyServerPoints(server.Value, -component.PricePerDisk, serverComp);
         _audio.PlayPvs(component.PrintSound, uid);
 

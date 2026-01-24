@@ -1,37 +1,47 @@
+
 <DefaultWindow xmlns="https://spacestation14.io"
-            xmlns:cc="clr-namespace:Content.Client.Administration.UI.CustomControls"
-            Title="{Loc 'admin-player-actions-window-ert'}"
-            MinWidth="300">
-    <BoxContainer Orientation="Vertical">
-        <Control MinSize="0 10" />
+               xmlns:cc="clr-namespace:Content.Client.Administration.UI.CustomControls"
+               Title="{Loc 'admin-player-actions-window-ert'}"
+               MinWidth="540">
+    <BoxContainer Orientation="Vertical" SeparationOverride="12" Margin="12">
+        <BoxContainer Orientation="Horizontal" SeparationOverride="16">
+            <ItemList Name="ExpectedList" MinSize="320 220" Margin="0,0,12,0" />
+            <PanelContainer StyleClasses="panel" MinSize="240 220" Margin="0">
+                <BoxContainer Orientation="Vertical" SeparationOverride="8" Margin="12">
+                    <Label Text="Время прибытия (сек):" />
+                    <LineEdit Name="ArrivalSeconds" />
+                    <Button Name="SetArrivalButton" Text="Изменить" />
 
-        <BoxContainer Orientation="Horizontal">
-            <ItemList Name="ExpectedList" MinSize="300 200" />
+                    <Label Text="Cooldown (сек):" Margin="0,8,0,0" />
+                    <LineEdit Name="CooldownSeconds" />
+                    <Button Name="SetCooldownButton" Text="Изменить" />
 
-            <BoxContainer Orientation="Vertical" MinSize="200 200" SeparationOverride="4">
-                <Label Text="Установить время прибытия (секунды):" />
-                <LineEdit Name="ArrivalSeconds" />
-                <Button Name="SetArrivalButton" Text="Изменить" />
+                    <Label Text="Баланс очков вызова:" Margin="0,8,0,0" />
+                    <LineEdit Name="PointsEdit" />
+                    <Button Name="SetPointsButton" Text="Изменить" />
 
-                <Control MinSize="0 10" />
+                    <Label Text="Цель вызова:" Margin="0,8,0,0" />
+                    <LineEdit Name="ReasonEdit" />
+                    <Button Name="SetReasonButton" Text="Изменить цель" />
 
-                <Label Text="Установить cooldown (секунды):" />
-                <LineEdit Name="CooldownSeconds" />
-                <Button Name="SetCooldownButton" Text="Изменить" />
-
-                <Control MinSize="0 10" />
-
-                <Label Text="Установить баланс очков вызова:" />
-                <LineEdit Name="PointsEdit" />
-                <Button Name="SetPointsButton" Text="Изменить" />
-
-                <Control MinSize="0 10" />
-
-                <Button Name="DeleteErtButton" Text="Удалить из списка" />
-                <Button Name="RefreshButton" Text="Обновить" />
-            </BoxContainer>
+                    <BoxContainer Orientation="Horizontal" SeparationOverride="8" Margin="0,12,0,0">
+                        <Button Name="DeleteErtButton" Text="Удалить из списка" />
+                        <Button Name="RefreshButton" Text="Обновить" />
+                    </BoxContainer>
+                </BoxContainer>
+            </PanelContainer>
         </BoxContainer>
 
-        <Control MinSize="0 10" />
+        <Label Text="Отправка отряда ОБР" StyleClasses="labelTitle" HorizontalAlignment="Center" Margin="16,12,16,4" />
+        <BoxContainer Orientation="Horizontal" SeparationOverride="16">
+            <ItemList Name="ResponceList" MinSize="320 150" Margin="0,0,12,0" />
+            <PanelContainer StyleClasses="panel" MinSize="240 120" Margin="0">
+                <BoxContainer Orientation="Vertical" SeparationOverride="8" Margin="12">
+                    <Label Text="Цель вызова:" />
+                    <LineEdit Name="ReasonResponceEdit" />
+                    <Button Name="ResponceErtButton" Text="Отправить отряд" Margin="0,8,0,0" />
+                </BoxContainer>
+            </PanelContainer>
+        </BoxContainer>
     </BoxContainer>
 </DefaultWindow>

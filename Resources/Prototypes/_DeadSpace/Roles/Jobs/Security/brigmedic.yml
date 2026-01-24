@@ -30,6 +30,12 @@
   special:
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant ]
+  - !type:AddComponentSpecial
+    components:
+    # DS14-Start
+    - type: Skill
+      group: Medical
+    # DS14-End
 
 - type: startingGear
   id: BrigmedicGear
@@ -45,6 +51,7 @@
     back:
     - Flash
     - ADTtelescopicBaton
+    - ERTloadoutSecuritySecondary # DS14
 
 - type: chameleonOutfit
   id: BrigmedicChameleonOutfit

@@ -14,7 +14,7 @@
   - type: Armor # 0.1 less than basic armor
     modifiers:
       armorLvls:
-        Piercing: 2 #это буквально стальные листы, надо бы сделать чтобы она урон наносила больше тупыми ударами
+        Piercing: 1 # стальные листы кал, а не броня
       coefficients:
         Blunt: 0.80
         Slash: 0.80

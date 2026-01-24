@@ -22,6 +22,13 @@
   wageDepartment: Science
   wage: 45
   #end-backmen: currency
+  special:
+  - !type:AddComponentSpecial
+    components:
+      # DS14-Start
+      - type: Skill
+        group: LowScience
+      # DS14-End
 
 - type: startingGear
   id: ResearchAssistantGear

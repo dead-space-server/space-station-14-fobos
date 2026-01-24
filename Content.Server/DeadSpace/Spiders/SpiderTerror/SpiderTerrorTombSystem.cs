@@ -91,12 +91,13 @@ public sealed class SpiderTerrorTombSystem : EntitySystem
                 RaiseLocalEvent(ruleUid, ref stageCapture);
             }
 
-            var entities = _lookup.GetEntitiesInRange<SpiderTerrorTombComponent>(_transform.GetMapCoordinates(uid, Transform(uid)), component.Range);
+            // Временное отключение перераспределения крови между гробницами пауков ужаса.
+            // var entities = _lookup.GetEntitiesInRange<SpiderTerrorTombComponent>(_transform.GetMapCoordinates(uid, Transform(uid)), component.Range);
 
-            foreach (var (_, comp) in entities)
-            {
-                comp.MaxReagent = component.OldMaxReagent / entities.Count;
-            }
+            // foreach (var (_, comp) in entities)
+            // {
+            //     comp.MaxReagent = component.OldMaxReagent / entities.Count;
+            // }
         }
     }
 
