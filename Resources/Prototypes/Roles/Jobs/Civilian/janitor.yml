@@ -19,6 +19,13 @@
   wageDepartment: Civilian
   wage: 45
   #end-backmen: currency
+  special:
+  - !type:AddComponentSpecial
+    components:
+    # DS14-Start
+    - type: Skill
+      group: BaseSkills
+    # DS14-End
 
 - type: startingGear
   id: JanitorGear

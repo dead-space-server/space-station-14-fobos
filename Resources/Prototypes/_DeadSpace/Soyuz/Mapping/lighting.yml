@@ -1,0 +1,76 @@
+# Лампы
+- type: entity
+  parent: BaseLightbulb
+  name: советская лампочка
+  id: LightBulbSoyuz
+  description: A power efficient light bulb.
+  components:
+  - type: LightBulb
+    bulb: Bulb
+    color: "#D9A066"
+    lightEnergy: 1
+    lightRadius: 8
+    lightSoftness: 1
+    BurningTemperature: 350
+    PowerUse: 6
+  - type: Tag
+    tags:
+    - LightBulb
+    - Trash
+
+- type: entity
+  parent: BaseLightTubeCrystal
+  id: LightTubeCrystalSoyuz
+  name: советская лампа-трубка
+  suffix: Союз
+  components:
+  - type: LightBulb
+    color: "#D9A066"
+  - type: Construction
+    graph: CyanLight
+    node: icon
+  - type: ToolRefinable
+    refineResult:
+    - id: SheetGlass1
+    - id: ShardCrystalCyan
+
+# Светильники
+- type: entity
+  parent: Poweredlight
+  id: PoweredlightSoyuz
+  name: светильник
+  description: Осветительный прибор. Потребляет энергию и излучает свет, если оснащён лампой-трубкой.
+  suffix: Союз
+  components:
+  - type: PoweredLight
+    hasLampOnSpawn: LightTubeCrystalSoyuz
+  - type: PointLight
+    radius: 8
+    energy: 3
+    softness: 0.5
+    color: "#ff8227"
+  - type: DamageOnInteract
+    damage:
+      types:
+        Heat: 2
+    popupText: powered-light-component-burn-hand
+
+# Маленькие светильники
+- type: entity
+  parent: PoweredSmallLightEmpty
+  id: PoweredSmallLightSoyuz
+  name: маленький светильник
+  description: Осветительный прибор. Потребляет энергию и излучает свет, если оснащён лампой накаливания.
+  suffix: Союз
+  components:
+  - type: Sprite
+    state: base
+  - type: PointLight
+    enabled: true
+  - type: PoweredLight
+    hasLampOnSpawn: LightBulbSoyuz
+  - type: DamageOnInteract
+    damage:
+      types:
+        Heat: 2
+    popupText: powered-light-component-burn-hand

@@ -1,5 +1,5 @@
 using Content.Shared.CharacterInfo;
-using Content.Shared.DeadSpace.Medieval.Skills;
+using Content.Shared.DeadSpace.Skills;
 using Content.Shared.Objectives;
 using Robust.Client.Player;
 using Robust.Client.UserInterface;
