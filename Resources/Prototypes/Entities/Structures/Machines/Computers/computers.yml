@@ -1064,12 +1064,13 @@
     announcementChannel: Security
     removeLimitAccess:
     - HeadOfSecurity # DS14
+    - Armory
     allowedGroups: # DS14
     - security
     - general
   - type: ActivatableUIRequiresAccess
   - type: AccessReader
-    access: [ ["HeadOfSecurity"] ] # DS14
+    access: [ ["HeadOfSecurity"], ["Armory"] ] # DS14
   - type: ActiveRadio
     channels:
     - Security

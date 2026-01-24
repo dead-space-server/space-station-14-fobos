@@ -49,10 +49,10 @@ public sealed partial class InfectionDeadStrainData : ReagentData
     public VirusEffects Effects;
     public InfectionDeadStrainData()
     {
-        DamageMulty = 1f;
-        StaminaMulty = 1f;
-        HpMulty = 1f;
-        SpeedMulty = 1f;
+        DamageMulty = 0.5f;
+        StaminaMulty = 0.5f;
+        HpMulty = 0.5f;
+        SpeedMulty = 0.5f;
         Effects = new VirusEffects();
     }
     public override bool Equals(ReagentData? other)
@@ -98,7 +98,7 @@ public enum VirusEffects : ushort
     Invisability = 5 << 5,
     Pulling = 6 << 6,
     StunAttack = 7 << 7,
-    Dash = 8 << 8,
+    // Dash = 8 << 8,
     Insulated = 9 << 9,
     Vampirism = 10 << 10,
     Incurability = 11 << 11
@@ -133,7 +133,7 @@ public static class VirusEffectsConditions
         { VirusEffects.Explosion, 0.1f},
         { VirusEffects.Pulling, 1f},
         { VirusEffects.StunAttack, 0.5f},
-        { VirusEffects.Dash, 0.1f},
+        // { VirusEffects.Dash, 0.1f}, // Это слишком сильно
         { VirusEffects.Insulated, 0.3f},
         { VirusEffects.Vampirism, 0.5f},
         { VirusEffects.Invisability, 0.1f},
