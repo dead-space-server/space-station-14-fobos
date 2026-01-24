@@ -293,14 +293,19 @@
       shader: unshaded
   - type: Item
     sprite: _DeadSpace/Sponsor/PrometheusAlt/lighter.rsi
+    inhandVisuals:
+      left:
+      - state: inhand-left
+      right:
+      - state: inhand-right
   - type: ToggleableVisuals
     spriteLayer: lighter_flame
     inhandVisuals:
       left:
-      - state: inhand-left-lit
+      - state: inhand-left-flame
         shader: unshaded
       right:
-      - state: inhand-right-lit
+      - state: inhand-right-flame
         shader: unshaded
   - type: PointLight
     enabled: false
