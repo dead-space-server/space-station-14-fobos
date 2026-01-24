@@ -20,16 +20,15 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract PR description
+      - name: Extract PR description (base64 safe)
         id: extract
         run: |
-          echo "DESCRIPTION<<EOF" >> $GITHUB_OUTPUT
-          printf '%s\n' "${{ github.event.pull_request.body }}" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          BODY=$(printf '%s' "${{ github.event.pull_request.body }}" | base64 -w0)
+          echo "DESCRIPTION_B64=$BODY" >> $GITHUB_OUTPUT
 
       - name: Parse PR description and update changelog
         env:
-          DESCRIPTION: ${{ steps.extract.outputs.DESCRIPTION }}
+          DESCRIPTION_B64: ${{ steps.extract.outputs.DESCRIPTION_B64 }}
           AUTHOR: ${{ github.event.pull_request.user.login }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
@@ -39,7 +38,11 @@ jobs:
 
           CHANGELOG = "Resources/Changelog/ChangelogDS14.yml"
 
-          desc = os.environ.get("DESCRIPTION", "")
+          import base64
+
+          desc_b64 = os.environ.get("DESCRIPTION_B64", "")
+          desc = base64.b64decode(desc_b64).decode("utf-8", errors="replace")
+
           author = os.environ.get("AUTHOR", "")
           pr = os.environ.get("PR_NUMBER", "")
 

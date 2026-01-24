@@ -43,8 +43,8 @@
       armorPiercingLevels:
         Piercing: 2
       types:
-        Piercing: 15
-        Blunt: 4
+        Piercing: 13
+        Blunt: 3
   - type: StaminaDamageOnCollide
     damage: 15
 
@@ -61,7 +61,7 @@
       armorPiercingLevels:
         Piercing: 2
       types:
-        Piercing: 20
+        Piercing: 22
         Structural: 25
 
 ### Картриджи РПЛ20
@@ -105,7 +105,7 @@
       armorPiercingLevels:
         Piercing: 2
       types:
-        Piercing: 18
+        Piercing: 13
 
 ## Картриджи АШ12
 - type: entity
@@ -136,9 +136,9 @@
   - type: Projectile
     damage:
       armorPiercingLevels:
-        Piercing: 2
+        Piercing: 1
       types:
-       Piercing: 25
+       Piercing: 30
        Structural: 10
 
 ## Картриджи Скараб
@@ -172,7 +172,7 @@
       armorPiercingLevels:
         Piercing: 2
       types:
-       Piercing: 14
+       Piercing: 12
        Slash: 2
        Caustic: 4
 
@@ -210,4 +210,4 @@
        Piercing: 18
        Structural: 35
   - type: TimedDespawn
-    lifetime: 2
+    lifetime: 4
