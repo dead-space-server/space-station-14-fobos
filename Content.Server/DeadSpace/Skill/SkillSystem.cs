@@ -6,6 +6,8 @@ using Content.Shared.DeadSpace.Skills.Prototypes;
 using Content.Shared.DeadSpace.Skills.Components;
 using Content.Server.Popups;
 using System.Linq;
+using Content.Shared.Polymorph;
+using Content.Shared.Cloning.Events;
 
 namespace Content.Server.DeadSpace.Skill;
 
@@ -21,6 +23,20 @@ public sealed class SkillSystem : EntitySystem
         _sawmill = Logger.GetSawmill("SkillSystem");
 
         SubscribeLocalEvent<SkillComponent, ComponentInit>(OnInit);
+        SubscribeLocalEvent<SkillComponent, PolymorphedEvent>(OnPolymorphed);
+        SubscribeLocalEvent<SkillComponent, CloningEvent>(OnCloning);
+    }
+
+    private void OnCloning(Entity<SkillComponent> ent, ref CloningEvent args)
+    {
+        var skill = EnsureComp<SkillComponent>(args.CloneUid);
+        skill.Skills = new Dictionary<ProtoId<SkillPrototype>, float>(ent.Comp.Skills);
+    }
+
+    private void OnPolymorphed(EntityUid uid, SkillComponent component, PolymorphedEvent args)
+    {
+        var skill = EnsureComp<SkillComponent>(args.NewEntity);
+        skill.Skills = new Dictionary<ProtoId<SkillPrototype>, float>(component.Skills);
     }
 
     private void OnInit(Entity<SkillComponent> entity, ref ComponentInit args)
