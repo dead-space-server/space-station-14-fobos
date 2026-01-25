@@ -36,28 +36,28 @@ jobs:
           CHANGED=$(echo "$DESC_CLEAN" | grep -oP '(?<=- Изменено:).*' || echo "")
           FIXED=$(echo "$DESC_CLEAN" | grep -oP '(?<=- Исправлено:).*' || echo "")
 
-          MESSAGE=""
-          [[ -n "$ADDED" ]] && MESSAGE+="🟢 **Добавлено**:\n$ADDED\n\n"
-          [[ -n "$REMOVED" ]] && MESSAGE+="🔴 **Удалено**:\n$REMOVED\n\n"
-          [[ -n "$CHANGED" ]] && MESSAGE+="🟡 **Изменено**:\n$CHANGED\n\n"
-          [[ -n "$FIXED" ]] && MESSAGE+="🔧 **Исправлено**:\n$FIXED\n"
-
-          # Преобразуем \n в реальные переносы строк
-          MESSAGE=$(echo -e "$MESSAGE")
+          # Преобразуем \n в реальные переносы строк для каждого поля
+          ADDED=$(echo -e "$ADDED")
+          REMOVED=$(echo -e "$REMOVED")
+          CHANGED=$(echo -e "$CHANGED")
+          FIXED=$(echo -e "$FIXED")
 
           # Если изменений нет — выходим без отправки
-          if [[ -z "$MESSAGE" ]]; then
+          if [[ -z "$ADDED" && -z "$REMOVED" && -z "$CHANGED" && -z "$FIXED" ]]; then
             echo "No changes found. Skipping Discord notification."
             exit 0
           fi
 
-          # Создаём JSON через jq
+          # Создаём JSON через jq с полями (fields) для каждого типа изменений
           PAYLOAD=$(jq -n \
-            --arg title "Обновлён Changelog (PR #$PR_NUMBER)" \
+            --arg title "Изменение (PR #$PR_NUMBER)" \
             --arg url "https://github.com/$REPO/pull/$PR_NUMBER" \
-            --arg desc "$MESSAGE" \
-            --arg author "@$AUTHOR" \
-            --arg footer "Changelog · $(date -u +"%Y-%m-%d %H:%M:%S UTC")" \
+            --arg author "$AUTHOR" \
+            --arg footer "by $author at $(date -u +"%Y-%m-%d %H:%M:%S UTC")" \
+            --arg added "$ADDED" \
+            --arg removed "$REMOVED" \
+            --arg changed "$CHANGED" \
+            --arg fixed "$FIXED" \
             '{
               "username": "Капибарка МК-Изменения",
               "avatar_url": "https://funny.klev.club/smeh/uploads/posts/2024-04/funny-klev-club-zkrt-p-smeshnie-kartinki-kapibara-na-avu-21.jpg",
@@ -66,13 +66,11 @@ jobs:
                   "color": 3300375,
                   "title": $title,
                   "url": $url,
-                  "description": $desc,
                   "fields": [
-                    {
-                      "name": "Автор",
-                      "value": $author,
-                      "inline": true
-                    }
+                    { "name": "🟢 Добавлено", "value": $added, "inline": true },
+                    { "name": "🔴 Удалено", "value": $removed, "inline": true },
+                    { "name": "🟡 Изменено", "value": $changed, "inline": true },
+                    { "name": "🔧 Исправлено", "value": $fixed, "inline": true }
                   ],
                   "footer": {
                     "text": $footer
