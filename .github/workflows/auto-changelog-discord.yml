@@ -9,6 +9,9 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
+    outputs:
+      should_send: ${{ steps.check-commented.outputs.should_send }}
+
     steps:
       - name: Extract PR details
         id: extract
@@ -20,22 +23,31 @@ jobs:
           echo "REPO=${{ github.repository }}" >> $GITHUB_OUTPUT
 
       - name: Check commented
+        id: check-commented  # Важно: задаём id для доступа к outputs
         env:
           DESCRIPTION_B64: ${{ steps.extract.outputs.DESCRIPTION_B64 }}
         run: |
           python <<'EOF'
           import re, os
           import base64
+
           desc_b64 = os.environ.get("DESCRIPTION_B64", "")
           desc = base64.b64decode(desc_b64).decode("utf-8", errors="replace")
 
+          # Удаляем все HTML-комментарии (многострочные)
           desc = re.sub(r'<!--.*?-->', '', desc, flags=re.DOTALL)
+
           if ":cl:" not in desc:
-              print("Skip (:cl)")
+              print("Skip (:cl:)")
+              print("::set-output name=should_send::false")
               exit(0)
+          else:
+              print("::set-output name=should_send::true")
+
           EOF
 
       - name: Parse PR and build JSON with jq
+        if: steps.check-commented.outputs.should_send == 'true'
         id: parse
         env:
           DESCRIPTION_B64: ${{ steps.extract.outputs.DESCRIPTION_B64 }}
@@ -99,7 +111,10 @@ jobs:
           echo "PAYLOAD_FILE=/tmp/discord_payload.json" >> $GITHUB_OUTPUT
 
       - name: Send to Discord
-        if: steps.parse.outcome == 'success' && steps.parse.outputs.PAYLOAD_FILE != ''
+        if: |
+          steps.parse.outcome == 'success' &&
+          steps.parse.outputs.PAYLOAD_FILE != '' &&
+          steps.check-commented.outputs.should_send == 'true'
         env:
           PAYLOAD_FILE: ${{ steps.parse.outputs.PAYLOAD_FILE }}
           WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
