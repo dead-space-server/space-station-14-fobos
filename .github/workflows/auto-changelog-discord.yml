@@ -1,6 +1,5 @@
 name: Send Changelog to Discord
 
-
 on:
   pull_request_target:
     types: [closed]
@@ -42,7 +41,6 @@ jobs:
           [[ -n "$REMOVED" ]] && MESSAGE+="🔴 **Удалено**:\n$REMOVED\n\n"
           [[ -n "$CHANGED" ]] && MESSAGE+="🟡 **Изменено**:\n$CHANGED\n\n"
           [[ -n "$FIXED" ]] && MESSAGE+="🔧 **Исправлено**:\n$FIXED\n"
-
           [[ -z "$MESSAGE" ]] && MESSAGE="Изменения не указаны."
 
           PAYLOAD=$(jq -n \
@@ -74,13 +72,17 @@ jobs:
               ]
             }')
 
-          echo "PAYLOAD=$PAYLOAD" >> $GITHUB_OUTPUT
+          echo "$PAYLOAD" > /tmp/discord_payload.json
+
+          echo "PAYLOAD_FILE=/tmp/discord_payload.json" >> $GITHUB_OUTPUT
+
 
       - name: Send to Discord
         env:
-          PAYLOAD: ${{ steps.parse.outputs.PAYLOAD }}
+          PAYLOAD_FILE: ${{ steps.parse.outputs.PAYLOAD_FILE }}
           WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
+          PAYLOAD=$(cat "$PAYLOAD_FILE")
           echo "Payload: $PAYLOAD"
 
           curl -X POST \
