@@ -42,6 +42,10 @@ jobs:
           [[ -n "$CHANGED" ]] && MESSAGE+="🟡 **Изменено**:\n$CHANGED\n\n"
           [[ -n "$FIXED" ]] && MESSAGE+="🔧 **Исправлено**:\n$FIXED\n"
 
+          # Преобразуем \n в реальные переносы строк
+          MESSAGE=$(echo -e "$MESSAGE")
+
+          # Если изменений нет — выходим без отправки
           if [[ -z "$MESSAGE" ]]; then
             echo "No changes found. Skipping Discord notification."
             exit 0
@@ -78,9 +82,7 @@ jobs:
             }')
 
           echo "$PAYLOAD" > /tmp/discord_payload.json
-
           echo "PAYLOAD_FILE=/tmp/discord_payload.json" >> $GITHUB_OUTPUT
-
 
       - name: Send to Discord
         if: steps.parse.outcome == 'success' && steps.parse.outputs.PAYLOAD_FILE != ''
