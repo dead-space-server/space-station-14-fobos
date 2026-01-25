@@ -66,11 +66,11 @@ jobs:
                   "title": $title,
                   "url": $url,
                   "fields": [
-                    { "name": "🆕 Добавлено", "value": $added, "inline": false },
-                    { "name": "❌ Удалено", "value": $removed, "inline": false },
-                    { "name": "⚒️ Изменено", "value": $changed, "inline": false },
-                    { "name": "🐛 Исправлено", "value": $fixed, "inline": false },
-                    { "name": "👤 Автор", "value": $author, "inline": false }
+                    { "name": "🆕 Добавлено:", "value": $added, "inline": false },
+                    { "name": "❌ Удалено:", "value": $removed, "inline": false },
+                    { "name": "⚒️ Изменено:", "value": $changed, "inline": false },
+                    { "name": "🐛 Исправлено:", "value": $fixed, "inline": false },
+                    { "name": "👤 Автор:", "value": $author, "inline": false }
                   ],
                   "footer": {
                     "text": $footer
