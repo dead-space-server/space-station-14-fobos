@@ -19,6 +19,22 @@ jobs:
           echo "AUTHOR=${{ github.event.pull_request.user.login }}" >> $GITHUB_OUTPUT
           echo "REPO=${{ github.repository }}" >> $GITHUB_OUTPUT
 
+      - name: Check commented
+        env:
+          DESCRIPTION_B64: ${{ steps.extract.outputs.DESCRIPTION_B64 }}
+        run: |
+          python <<'EOF'
+          import re, os
+          import base64
+          desc_b64 = os.environ.get("DESCRIPTION_B64", "")
+          desc = base64.b64decode(desc_b64).decode("utf-8", errors="replace")
+
+          desc = re.sub(r'<!--.*?-->', '', desc, flags=re.DOTALL)
+          if ":cl:" not in desc:
+              print("Skip (:cl)")
+              exit(0)
+          EOF
+
       - name: Parse PR and build JSON with jq
         id: parse
         env:
@@ -29,26 +45,8 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install -y jq
           DESC=$(echo "$DESCRIPTION_B64" | base64 -d)
-
-          # Удаляем все HTML-комментарии (<!-- ... -->)
-          DESC_NO_COMMENTS=$(echo "$DESC" | sed -E 's/<!--.*?-->//g')
-
-          # Если после удаления комментариев текст пуст (без пробелов) — PR закомментирован
-          if [[ -z "$(echo "$DESC_NO_COMMENTS" | tr -d '[:space:]')" ]]; then
-            echo "PR body is fully commented out. Skipping Discord notification."
-            exit 0
-          fi
-
-          # Проверяем наличие маркера :cl: — если его нет, не отправляем уведомление
-          if [[ "$DESC_NO_COMMENTS" != *":cl:"* ]]; then
-            echo "Marker ':cl:' not found in PR body. Skipping Discord notification."
-            exit 0
-          fi
-
-          # Очищаем текст от комментариев для дальнейшей обработки
           DESC_CLEAN=$(echo "$DESC" | sed 's/<!--.*-->//g')
 
-          # Извлекаем блоки изменений
           ADDED=$(echo "$DESC_CLEAN" | grep -oP '(?<=- Добавлено:).*' || echo "")
           REMOVED=$(echo "$DESC_CLEAN" | grep -oP '(?<=- Удалено:).*' || echo "")
           CHANGED=$(echo "$DESC_CLEAN" | grep -oP '(?<=- Изменено:).*' || echo "")
@@ -60,13 +58,13 @@ jobs:
           CHANGED=$(echo -e "$CHANGED")
           FIXED=$(echo -e "$FIXED")
 
-          # Если все поля пустые — не отправляем уведомление
+          # Если изменений нет — выходим без отправки
           if [[ -z "$ADDED" && -z "$REMOVED" && -z "$CHANGED" && -z "$FIXED" ]]; then
-            echo "No changes found in :cl: section. Skipping Discord notification."
+            echo "No changes found. Skipping Discord notification."
             exit 0
           fi
 
-          # Формируем JSON для Discord
+          # Создаём JSON через jq с полями (fields) для каждого типа изменений
           PAYLOAD=$(jq -n \
             --arg title "Изменение (PR #$PR_NUMBER)" \
             --arg url "https://github.com/$REPO/pull/$PR_NUMBER" \
