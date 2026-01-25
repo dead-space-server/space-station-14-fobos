@@ -30,7 +30,7 @@ jobs:
           sudo apt-get update && sudo apt-get install -y jq
           DESC=$(echo "$DESCRIPTION_B64" | base64 -d)
 
-          # Удаляем все HTML-комментарии (<!-- ... -->) из текста
+          # Удаляем все HTML-комментарии (<!-- ... -->)
           DESC_NO_COMMENTS=$(echo "$DESC" | sed -E 's/<!--.*?-->//g')
 
           # Если после удаления комментариев текст пуст (без пробелов) — PR закомментирован
@@ -39,8 +39,16 @@ jobs:
             exit 0
           fi
 
-          DESC_CLEAN=$(echo "$DESC" | sed 's/<!--.*-->//g')  # Очищаем для дальнейшей обработки
+          # Проверяем наличие маркера :cl: — если его нет, не отправляем уведомление
+          if [[ "$DESC_NO_COMMENTS" != *":cl:"* ]]; then
+            echo "Marker ':cl:' not found in PR body. Skipping Discord notification."
+            exit 0
+          fi
 
+          # Очищаем текст от комментариев для дальнейшей обработки
+          DESC_CLEAN=$(echo "$DESC" | sed 's/<!--.*-->//g')
+
+          # Извлекаем блоки изменений
           ADDED=$(echo "$DESC_CLEAN" | grep -oP '(?<=- Добавлено:).*' || echo "")
           REMOVED=$(echo "$DESC_CLEAN" | grep -oP '(?<=- Удалено:).*' || echo "")
           CHANGED=$(echo "$DESC_CLEAN" | grep -oP '(?<=- Изменено:).*' || echo "")
@@ -52,13 +60,13 @@ jobs:
           CHANGED=$(echo -e "$CHANGED")
           FIXED=$(echo -e "$FIXED")
 
-          # Если изменений нет — выходим без отправки
+          # Если все поля пустые — не отправляем уведомление
           if [[ -z "$ADDED" && -z "$REMOVED" && -z "$CHANGED" && -z "$FIXED" ]]; then
-            echo "No changes found. Skipping Discord notification."
+            echo "No changes found in :cl: section. Skipping Discord notification."
             exit 0
           fi
 
-          # Создаём JSON через jq с полями (fields) для каждого типа изменений
+          # Формируем JSON для Discord
           PAYLOAD=$(jq -n \
             --arg title "Изменение (PR #$PR_NUMBER)" \
             --arg url "https://github.com/$REPO/pull/$PR_NUMBER" \
@@ -91,7 +99,6 @@ jobs:
 
           echo "$PAYLOAD" > /tmp/discord_payload.json
           echo "PAYLOAD_FILE=/tmp/discord_payload.json" >> $GITHUB_OUTPUT
-
 
       - name: Send to Discord
         if: steps.parse.outcome == 'success' && steps.parse.outputs.PAYLOAD_FILE != ''
