@@ -53,24 +53,23 @@ jobs:
             --arg title "Изменение (PR #$PR_NUMBER)" \
             --arg url "https://github.com/$REPO/pull/$PR_NUMBER" \
             --arg author "$AUTHOR" \
-            --arg footer "by $author at $(date -u +"%Y-%m-%d %H:%M:%S UTC")" \
+            --arg footer "by $(author) at $(date -u +"%Y-%m-%d %H:%M:%S UTC")" \
             --arg added "$ADDED" \
             --arg removed "$REMOVED" \
             --arg changed "$CHANGED" \
             --arg fixed "$FIXED" \
             '{
               "username": "Капибарка МК-Изменения",
-              "avatar_url": "https://funny.klev.club/smeh/uploads/posts/2024-04/funny-klev-club-zkrt-p-smeshnie-kartinki-kapibara-na-avu-21.jpg",
               "embeds": [
                 {
                   "color": 3300375,
                   "title": $title,
                   "url": $url,
                   "fields": [
-                    { "name": "🟢 Добавлено", "value": $added, "inline": true },
-                    { "name": "🔴 Удалено", "value": $removed, "inline": true },
-                    { "name": "🟡 Изменено", "value": $changed, "inline": true },
-                    { "name": "🔧 Исправлено", "value": $fixed, "inline": true }
+                    { "name": "🆕 Добавлено", "value": $added, "inline": false },
+                    { "name": "❌ Удалено", "value": $removed, "inline": false },
+                    { "name": "⚒️ Изменено", "value": $changed, "inline": false },
+                    { "name": "🐛 Исправлено", "value": $fixed, "inline": false }
                   ],
                   "footer": {
                     "text": $footer
