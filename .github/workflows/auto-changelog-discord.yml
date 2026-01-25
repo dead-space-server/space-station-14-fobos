@@ -29,12 +29,20 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install -y jq
           DESC=$(echo "$DESCRIPTION_B64" | base64 -d)
+
+          # Проверяем, если всё тело PR — это комментарий <!-- ... -->
+          if echo "$DESC" | grep -q '^<!--.*-->$'; then
+            echo "PR body is fully commented out. Skipping Discord notification."
+            exit 0
+          fi
+
           DESC_CLEAN=$(echo "$DESC" | sed 's/<!--.*-->//g')
 
           ADDED=$(echo "$DESC_CLEAN" | grep -oP '(?<=- Добавлено:).*' || echo "")
           REMOVED=$(echo "$DESC_CLEAN" | grep -oP '(?<=- Удалено:).*' || echo "")
           CHANGED=$(echo "$DESC_CLEAN" | grep -oP '(?<=- Изменено:).*' || echo "")
           FIXED=$(echo "$DESC_CLEAN" | grep -oP '(?<=- Исправлено:).*' || echo "")
+
 
           # Преобразуем \n в реальные переносы строк для каждого поля
           ADDED=$(echo -e "$ADDED")
