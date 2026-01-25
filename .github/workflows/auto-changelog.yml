@@ -1,5 +1,4 @@
-name: Update changelog
-
+name: "Changelog: Update changelog"
 permissions:
   contents: write
 

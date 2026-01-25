@@ -1,4 +1,4 @@
-name: Send Changelog to Discord
+name: "Changelog: Send discord webhook"
 
 on:
   pull_request_target:
@@ -19,7 +19,7 @@ jobs:
           echo "AUTHOR=${{ github.event.pull_request.user.login }}" >> $GITHUB_OUTPUT
           echo "REPO=${{ github.repository }}" >> $GITHUB_OUTPUT
 
-      - name: Parse & build JSON
+      - name: Parse PR and build JSON with jq
         id: parse
         env:
           DESCRIPTION_B64: ${{ steps.extract.outputs.DESCRIPTION_B64 }}
@@ -41,8 +41,13 @@ jobs:
           [[ -n "$REMOVED" ]] && MESSAGE+="🔴 **Удалено**:\n$REMOVED\n\n"
           [[ -n "$CHANGED" ]] && MESSAGE+="🟡 **Изменено**:\n$CHANGED\n\n"
           [[ -n "$FIXED" ]] && MESSAGE+="🔧 **Исправлено**:\n$FIXED\n"
-          [[ -z "$MESSAGE" ]] && MESSAGE="Изменения не указаны."
 
+          if [[ -z "$MESSAGE" ]]; then
+            echo "No changes found. Skipping Discord notification."
+            exit 0
+          fi
+
+          # Создаём JSON через jq
           PAYLOAD=$(jq -n \
             --arg title "Обновлён Changelog (PR #$PR_NUMBER)" \
             --arg url "https://github.com/$REPO/pull/$PR_NUMBER" \
@@ -50,8 +55,8 @@ jobs:
             --arg author "@$AUTHOR" \
             --arg footer "Changelog · $(date -u +"%Y-%m-%d %H:%M:%S UTC")" \
             '{
-              "username": "Changelog Bot",
-              "avatar_url": "https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d34942/images/features/emojis/emoji.png",
+              "username": "Капибарка МК-Изменения",
+              "avatar_url": "https://funny.klev.club/smeh/uploads/posts/2024-04/funny-klev-club-zkrt-p-smeshnie-kartinki-kapibara-na-avu-21.jpg",
               "embeds": [
                 {
                   "color": 3300375,
@@ -78,12 +83,12 @@ jobs:
 
 
       - name: Send to Discord
+        if: steps.parse.outcome == 'success' && steps.parse.outputs.PAYLOAD_FILE != ''
         env:
           PAYLOAD_FILE: ${{ steps.parse.outputs.PAYLOAD_FILE }}
           WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           PAYLOAD=$(cat "$PAYLOAD_FILE")
-          echo "Payload: $PAYLOAD"
 
           curl -X POST \
             -H "Content-Type: application/json" \
