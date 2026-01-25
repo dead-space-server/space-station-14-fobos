@@ -1,5 +1,6 @@
 name: Send Changelog to Discord
 
+
 on:
   pull_request_target:
     types: [closed]
@@ -19,7 +20,7 @@ jobs:
           echo "AUTHOR=${{ github.event.pull_request.user.login }}" >> $GITHUB_OUTPUT
           echo "REPO=${{ github.repository }}" >> $GITHUB_OUTPUT
 
-      - name: Parse PR description and build message
+      - name: Parse & build JSON
         id: parse
         env:
           DESCRIPTION_B64: ${{ steps.extract.outputs.DESCRIPTION_B64 }}
@@ -27,75 +28,65 @@ jobs:
           AUTHOR: ${{ steps.extract.outputs.AUTHOR }}
           REPO: ${{ steps.extract.outputs.REPO }}
         run: |
-          python <<'EOF'
-          import json, re, os, base64
-          from datetime import datetime, timezone
+          sudo apt-get update && sudo apt-get install -y jq
+          DESC=$(echo "$DESCRIPTION_B64" | base64 -d)
+          DESC_CLEAN=$(echo "$DESC" | sed 's/<!--.*-->//g')
 
-          desc_b64 = os.environ.get("DESCRIPTION_B64", "")
-          desc = base64.b64decode(desc_b64).decode("utf-8", errors="replace")
-          pr_num = os.environ.get("PR_NUMBER", "")
-          author = os.environ.get("AUTHOR", "")
-          repo = os.environ.get("REPO", "")
+          ADDED=$(echo "$DESC_CLEAN" | grep -oP '(?<=- Добавлено:).*' || echo "")
+          REMOVED=$(echo "$DESC_CLEAN" | grep -oP '(?<=- Удалено:).*' || echo "")
+          CHANGED=$(echo "$DESC_CLEAN" | grep -oP '(?<=- Изменено:).*' || echo "")
+          FIXED=$(echo "$DESC_CLEAN" | grep -oP '(?<=- Исправлено:).*' || echo "")
 
-          desc = re.sub(r'<!--.*?-->', '', desc, flags=re.DOTALL)
+          MESSAGE=""
+          [[ -n "$ADDED" ]] && MESSAGE+="🟢 **Добавлено**:\n$ADDED\n\n"
+          [[ -n "$REMOVED" ]] && MESSAGE+="🔴 **Удалено**:\n$REMOVED\n\n"
+          [[ -n "$CHANGED" ]] && MESSAGE+="🟡 **Изменено**:\n$CHANGED\n\n"
+          [[ -n "$FIXED" ]] && MESSAGE+="🔧 **Исправлено**:\n$FIXED\n"
 
-          sections = {
-              "Добавлено": "🟢 Добавлено",
-              "Удалено": "🔴 Удалено",
-              "Изменено": "🟡 Изменено",
-              "Исправлено": "🔧 Исправлено"
-          }
-          changes = []
+          [[ -z "$MESSAGE" ]] && MESSAGE="Изменения не указаны."
 
-          for title, emoji_title in sections.items():
-              pattern = rf"-\s*{title}:\s*(.*?)(?=\n-[^\n]*:|$)"
-              for block in re.findall(pattern, desc, flags=re.DOTALL):
-                  lines = [
-                      re.sub(r'^-\s*', '', line.strip())
-                      for line in block.splitlines()
-                      if line.strip()
-                  ]
-                  if lines:
-                      changes.append(f"{emoji_title}:\n- " + "\n- ".join(lines))
-
-          # Формируем сообщение
-          if changes:
-              message = "\n".join(changes)
-          else:
-              message = "Изменения не указаны."
-
-          payload = {
+          PAYLOAD=$(jq -n \
+            --arg title "Обновлён Changelog (PR #$PR_NUMBER)" \
+            --arg url "https://github.com/$REPO/pull/$PR_NUMBER" \
+            --arg desc "$MESSAGE" \
+            --arg author "@$AUTHOR" \
+            --arg footer "Changelog · $(date -u +"%Y-%m-%d %H:%M:%S UTC")" \
+            '{
               "username": "Changelog Bot",
               "avatar_url": "https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d34942/images/features/emojis/emoji.png",
               "embeds": [
-                  {
-                      "color": 3300375,  # Синий
-                      "title": f"Обновлён Changelog (PR #{pr_num})",
-                      "url": f"https://github.com/{repo}/pull/{pr_num}",
-                      "description": message,
-                      "fields": [
-                          {
-                              "name": "Автор",
-                              "value": f"@{author}",
-                              "inline": True
-                          }
-                      ],
-                      "footer": {
-                          "text": f"Changelog · {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}"
-                      }
+                {
+                  "color": 3300375,
+                  "title": $title,
+                  "url": $url,
+                  "description": $desc,
+                  "fields": [
+                    {
+                      "name": "Автор",
+                      "value": $author,
+                      "inline": true
+                    }
+                  ],
+                  "footer": {
+                    "text": $footer
                   }
+                }
               ]
-          }
+            }')
 
-          print(json.dumps(payload))
-          EOF
+          echo "PAYLOAD=$PAYLOAD" >> $GITHUB_OUTPUT
 
       - name: Send to Discord
         env:
-          PAYLOAD: ${{ steps.parse.outputs.result }}
+          PAYLOAD: ${{ steps.parse.outputs.PAYLOAD }}
           WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
+          echo "Payload: $PAYLOAD"
+
           curl -X POST \
             -H "Content-Type: application/json" \
             -d "$PAYLOAD" \
-            "$WEBHOOK_URL"
+            "$WEBHOOK_URL" \
+            --fail \
+            --silent \
+            --show-error
