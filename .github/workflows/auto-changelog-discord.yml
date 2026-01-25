@@ -53,7 +53,7 @@ jobs:
             --arg title "Изменение (PR #$PR_NUMBER)" \
             --arg url "https://github.com/$REPO/pull/$PR_NUMBER" \
             --arg author "$AUTHOR" \
-            --arg footer "by $(author) at $(date -u +"%Y-%m-%d %H:%M:%S UTC")" \
+            --arg footer "$(date -u +"%Y-%m-%d %H:%M:%S UTC")" \
             --arg added "$ADDED" \
             --arg removed "$REMOVED" \
             --arg changed "$CHANGED" \
@@ -69,7 +69,8 @@ jobs:
                     { "name": "🆕 Добавлено", "value": $added, "inline": false },
                     { "name": "❌ Удалено", "value": $removed, "inline": false },
                     { "name": "⚒️ Изменено", "value": $changed, "inline": false },
-                    { "name": "🐛 Исправлено", "value": $fixed, "inline": false }
+                    { "name": "🐛 Исправлено", "value": $fixed, "inline": false },
+                    { "name": "👤 Автор", "value": $author, "inline": false }
                   ],
                   "footer": {
                     "text": $footer
