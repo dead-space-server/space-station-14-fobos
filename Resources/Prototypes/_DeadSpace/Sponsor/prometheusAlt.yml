@@ -28,8 +28,8 @@
     - id: ClothingShoesBootsMagPrometheusAlt
     - id: ClothingEyesGlassesPrometheusAlt
     - id: ClothingShoesBootsPrometheusAlt
-    - id: ClothingUniformJumpskirtTacticalMaid
-    - id: ClothingUniformJumpsuitOperative
+    - id: ClothingUniformJumpskirtTacticalMaidPrometheusAlt
+    - id: ClothingUniformJumpsuitOperativePrometheusAlt
     - id: PDAPrometheusAlt
     - id: HeadsetPrometheusAlt
     - id: BoxCardboardPrometheusAlt
@@ -87,7 +87,7 @@
 - type: entity
   parent: ClothingHandsGlovesCombat
   id: ClothingHandsGlovesPrometheusAlt
-  name: стальные перчатки агента
+  name: стальные перчатки ветерана
   description: Тактические перчатки, выполненные из хромированной стали. Защищают от плохой погоды.
   categories: [ HideSpawnMenu ]
   components:
@@ -114,9 +114,9 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
-    sprite: _DeadSpace/Sponsor/Prometheus/gasmask.rsi
+    sprite: Clothing/Mask/gassyndicate.rsi
   - type: Clothing
-    sprite: _DeadSpace/Sponsor/Prometheus/gasmask.rsi
+    sprite: Clothing/Mask/gassyndicate.rsi
   - type: EyeProtection
   - type: TypingIndicatorClothing
     proto: TypingIndicatorClothingGlovesPrometheus
@@ -127,7 +127,7 @@
 - type: entity
   parent: ClothingBeltStorageBase
   id: ClothingBeltStoragePrometheusAlt
-  name: плечевая кобура агента
+  name: плечевая кобура горничной
   description: Глубокая плечевая кобура, способная вместить что угодно.
   categories: [ HideSpawnMenu ]
   components:
@@ -218,7 +218,9 @@
   - type: Item
     heldPrefix: overpriced_pen
   - type: Tag
-    tags: [ ] # ignore "WhitelistChameleon" tag
+    tags:
+    - Write
+    - Pen
 
 # Аварийный запас
 - type: entity
@@ -320,6 +322,10 @@
   id: HeadsetPrometheusAlt
   categories: [ HideSpawnMenu ]
   components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/headset.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/headset.rsi
   - type: ContainerFill
     containers:
       key_slots:
@@ -440,10 +446,13 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
-    sprite: Clothing/Eyes/Hud/syndagent.rsi
+    sprite: Clothing/Eyes/Hud/synd.rsi
   - type: Clothing
-    sprite: Clothing/Eyes/Hud/syndagent.rsi
+    sprite: Clothing/Eyes/Hud/synd.rsi
   - type: EyeProtection
+  - type: SolutionScanner
+  - type: IdentityBlocker
+    coverage: EYES
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -482,6 +491,26 @@
     damage:
       types:
         Blunt: 14
+
+# Jumpsuit
+- type: entity
+  parent: [ClothingUniformJumpsuitOperative, ClothingUniformBase]
+  id: ClothingUniformJumpsuitOperativePrometheusAlt
+  name: комбинезон ветерана
+  description: Униформа элитных агентов, выполняющих тактические операции в глубоком космосе.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/operative.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/operative.rsi
+
+- type: entity
+  parent: [ClothingUniformJumpskirtTacticalMaid, ClothingUniformBase]
+  id: ClothingUniformJumpskirtTacticalMaidPrometheusAlt
+  name: тактическая юбка-костюм горничной
+  description: Предполагается, что у лучших горничных должны быть дизайнерские костюмы.
+  categories: [ HideSpawnMenu ]
 
 #Документ
 - type: entity
