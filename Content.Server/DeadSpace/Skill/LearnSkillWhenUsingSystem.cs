@@ -9,6 +9,7 @@ using Content.Shared.DoAfter;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Nutrition.EntitySystems;
 using Robust.Server.Audio;
+using Content.Shared.DeadSpace.Skills.Components;
 
 namespace Content.Server.DeadSpace.Skill;
 
@@ -51,6 +52,21 @@ public sealed class LearnSkillWhenUsingSystem : EntitySystem
                 return;
             }
         }
+        if (TryComp<SkillComponent>(args.User, out var skillComponent))
+        {
+            if (!skillComponent.IsReadingBook & skillComponent.EntWhoReadingBook != null)
+            {
+                if (skillComponent.EntWhoReadingBook != uid)
+                {
+                    return;
+                }
+                else
+                {
+                    skillComponent.IsReadingBook = true;
+                    skillComponent.EntWhoReadingBook = uid;
+                }
+            }
+        }
 
         var doAfterArgs = new DoAfterArgs(EntityManager,
             args.User,
@@ -87,6 +103,14 @@ public sealed class LearnSkillWhenUsingSystem : EntitySystem
     private void OnDoAfter(EntityUid uid, LearnSkillWhenUsingComponent component, LearnDoAfterEvent args)
     {
         if (args.Cancelled || args.Handled || !EntityManager.EntityExists(args.Used))
+            if (args.Cancelled)
+            {
+                if (TryComp<SkillComponent>(args.User, out var skillComponent))
+                {
+                    skillComponent.IsReadingBook = false;
+                    skillComponent.EntWhoReadingBook = null;
+                }
+            }
             return;
 
         foreach (var skill in component.Skills)
