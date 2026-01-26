@@ -52,21 +52,6 @@ public sealed class LearnSkillWhenUsingSystem : EntitySystem
                 return;
             }
         }
-        if (TryComp<SkillComponent>(args.User, out var skillComponent))
-        {
-            if (!skillComponent.IsReadingBook & skillComponent.EntWhoReadingBook != null)
-            {
-                if (skillComponent.EntWhoReadingBook != uid)
-                {
-                    return;
-                }
-                else
-                {
-                    skillComponent.IsReadingBook = true;
-                    skillComponent.EntWhoReadingBook = uid;
-                }
-            }
-        }
 
         var doAfterArgs = new DoAfterArgs(EntityManager,
             args.User,
@@ -92,7 +77,24 @@ public sealed class LearnSkillWhenUsingSystem : EntitySystem
         }
 
         if (unknown > 0)
+        {
+            if (TryComp<SkillComponent>(args.User, out var skillComponent))
+            {
+                if (!skillComponent.IsReadingBook || skillComponent.EntWhoReadingBook != null)
+                {
+                    if (skillComponent.EntWhoReadingBook != uid & skillComponent.EntWhoReadingBook != null & EntityManager.EntityExists(skillComponent.EntWhoReadingBook))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        skillComponent.IsReadingBook = true;
+                        skillComponent.EntWhoReadingBook = uid;
+                    }
+                }
+            }
             _doAfter.TryStartDoAfter(doAfterArgs);
+        }
         else
             return;
 
@@ -102,17 +104,30 @@ public sealed class LearnSkillWhenUsingSystem : EntitySystem
 
     private void OnDoAfter(EntityUid uid, LearnSkillWhenUsingComponent component, LearnDoAfterEvent args)
     {
-        if (args.Cancelled || args.Handled || !EntityManager.EntityExists(args.Used))
-            if (args.Cancelled)
+        if (args.Handled || !EntityManager.EntityExists(args.Used))
+            return;
+        if (TryComp<SkillComponent>(args.User, out var skillComponent))
+        {
+            if (!skillComponent.IsReadingBook || skillComponent.EntWhoReadingBook != null)
             {
-                if (TryComp<SkillComponent>(args.User, out var skillComponent))
+                if (skillComponent.EntWhoReadingBook != uid & skillComponent.EntWhoReadingBook != null & EntityManager.EntityExists(skillComponent.EntWhoReadingBook))
                 {
-                    skillComponent.IsReadingBook = false;
-                    skillComponent.EntWhoReadingBook = null;
+                    return;
+                }
+                else
+                {
+                    skillComponent.IsReadingBook = true;
+                    skillComponent.EntWhoReadingBook = uid;
                 }
             }
+            if (args.Cancelled)
+            {
+                skillComponent.IsReadingBook = false;
+                skillComponent.EntWhoReadingBook = null;
+            }
+        }
+        if (args.Cancelled)
             return;
-
         foreach (var skill in component.Skills)
         {
             _skillSystem.AddSkillProgress(args.User, skill, component.Points[skill]);
