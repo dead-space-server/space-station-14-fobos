@@ -1,0 +1,532 @@
+- type: sponsorLoadout
+  id: PrometheusAlt
+  entity: ClothingBackpackPrometheusAlt
+  sponsorOnly: true
+
+# Backpack
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBackpackPrometheusAlt
+  name: рюкзак ветерана
+  description:  Вместительный рюкзак с множеством карманов. Добыт в бою.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/backpack.rsi
+  - type: Storage
+    maxItemSize: Huge
+    grid:
+    - 0,0,17,7
+  - type: StorageFill
+    contents:
+    - id: ClothingOuterHardsuitPrometheusAlt
+    - id: ClothingMaidCorsetPrometheusAlt
+    - id: JetpackVoidFilled
+    - id: ClothingHandsMaidGlovesPrometheusAlt
+    - id: ClothingHandsGlovesPrometheusAlt
+    - id: ClothingBeltStoragePrometheusAlt
+    - id: ClothingShoesBootsMagPrometheusAlt
+    - id: ClothingEyesGlassesPrometheusAlt
+    - id: ClothingShoesBootsPrometheusAlt
+    - id: ClothingUniformJumpskirtTacticalMaidPrometheusAlt
+    - id: ClothingUniformJumpsuitOperativePrometheusAlt
+    - id: PDAPrometheusAlt
+    - id: HeadsetPrometheusAlt
+    - id: BoxCardboardPrometheusAlt
+    - id: TowelColorSyndicate
+    - id: SyndicatePersonalNecoAI
+    - id: FlippoLighterPrometheusAlt
+    - id: ClothingNeckCloakPrometheusAlt
+    - id: ClothingUnderwearTopBraSyndicateAgent
+    - id: ClothingUnderwearBottomPantiesSyndicateAgent
+    - id: ClothingUnderwearBottomBoxersSyndicateAgent
+    - id: ClothingHeadHatTacticalMaidHeadband
+    - id: PaperPrometheusAlt
+    - id: JukeboxMK
+    - id: TapeRecorderr
+    - id: TapeEmpty
+      amount: 1
+  - type: Tag
+    tags:
+    - MonkeyWearable
+
+# Maid-корсет
+- type: entity
+  parent: ClothingOuterArmorBasic
+  id: ClothingMaidCorsetPrometheusAlt
+  name: тактический корсет горничной
+  description: Тактический бронированный корсет для горничных. Держит спину прямо, а вас — в безопасности.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/syndimaid_corset.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/syndimaid_corset.rsi
+  - type: TemperatureProtection
+    heatingCoefficient: 1.1
+    coolingCoefficient: 0.1
+  - type: Tag
+    tags:
+    - MonkeyWearable
+
+# Maid-перчатки
+- type: entity
+  parent: ClothingHandsGlovesCombat
+  id: ClothingHandsMaidGlovesPrometheusAlt
+  name: боевые перчатки горничной
+  description: Средство для устранения особо стойких пятен, включая незваных гостей.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/syndimaid_arms.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/syndimaid_arms.rsi
+  - type: Tag
+    tags: [ ] # ignore "WhitelistChameleon" tag
+
+- type: entity
+  parent: ClothingHandsGlovesCombat
+  id: ClothingHandsGlovesPrometheusAlt
+  name: стальные перчатки ветерана
+  description: Тактические перчатки, выполненные из хромированной стали. Защищают от плохой погоды.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/combat.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/combat.rsi
+  - type: Tag
+    tags: [ ] # ignore "WhitelistChameleon" tag
+
+# Противогаз
+- type: typingIndicator
+  id: TypingIndicatorClothingGlovesPrometheus
+  # spritePath: /Textures/_DeadSpace/Effects/speech.rsi
+  typingState: syndibot0
+  idleState: syndibot3
+  offset: 0.05, 0.125
+
+- type: entity
+  parent: ClothingMaskGasSyndicate
+  name: боевой противогаз ветерана
+  description: Высокотехнологичный противогаз с возможностью подключить его к баллону. Теперь – с функцией защиты для глаз!
+  id: ClothingMaskGasPrometheusAlt
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: Clothing/Mask/gassyndicate.rsi
+  - type: Clothing
+    sprite: Clothing/Mask/gassyndicate.rsi
+  - type: EyeProtection
+  - type: TypingIndicatorClothing
+    proto: TypingIndicatorClothingGlovesPrometheus
+  - type: Tag
+    tags: [ ] # ignore "WhitelistChameleon" tag
+
+# Пояс
+- type: entity
+  parent: ClothingBeltStorageBase
+  id: ClothingBeltStoragePrometheusAlt
+  name: плечевая кобура горничной
+  description: Глубокая плечевая кобура, способная вместить что угодно.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/syndieholster.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/syndieholster.rsi
+    slots:
+    - neck
+    - belt
+  - type: Item
+    size: Huge
+  - type: Storage
+    maxItemSize: Normal
+    grid:
+    - 0,0,9,1
+  - type: Tag
+    tags: [ ] # ignore "WhitelistChameleon" tag
+  - type: StorageFill
+    contents:
+    - id: SyndicatePowerDrill
+    - id: JawsOfLifePrometheusAlt
+    - id: WelderExperimental
+    - id: Multitool
+
+# КПК
+- type: entity
+  parent: BasePDA
+  id: PDAPrometheusAlt
+  name: кроваво-красный КПК
+  description: Смотря на этот КПК, ваше сердцебиение учащается... словно его владелец совершил нечто ужасное.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/pda.rsi
+  - type: Icon
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/pda.rsi
+    state: pda
+  - type: Appearance
+    appearanceDataInit:
+      enum.PdaVisuals.PdaType:
+        !type:String
+        pda
+  - type: Pda
+    penSlot:
+      startingItem: PenPrometheusAlt
+      priority: -1
+      whitelist:
+        tags:
+        - Write
+  - type: Instrument
+    allowPercussion: false
+    handheld: true
+    bank: 1
+    program: 2
+  - type: PointLight
+    enabled: false
+    radius: 1.7
+    falloff: 3
+    softness: 5
+    autoRot: true
+    color: '#A020F0FF'
+  - type: PdaBorderColor
+    borderColor: "#891417"
+  - type: CartridgeLoader
+    uiKey: enum.PdaUiKey.Key
+    preinstalled:
+    - CrewManifestCartridge
+    - NotekeeperCartridge
+    - NanoTaskCartridge
+    - NewsReaderCartridge
+    - MedTekCartridge
+    - AstroNavCartridge
+    - BankCartridge
+  - type: Tag
+    tags: [ ] # ignore "WhitelistChameleon" tag
+
+# Ручка
+- type: entity
+  parent: Pen
+  id: PenPrometheusAlt
+  name: ручка Cybersun
+  description: Высокотехнологичная ручка из юридического отдела Cybersun. Алмазный наконечник повреждён. Она больше не переписывает документы, но теперь преломляет свет так, что коллегам становится неловко смотреть.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    state: overpriced_pen
+  - type: Item
+    heldPrefix: overpriced_pen
+  - type: Tag
+    tags:
+    - Write
+    - Pen
+
+# Аварийный запас
+- type: entity
+  parent: BoxCardboard
+  id: BoxCardboardPrometheusAlt
+  name: аварийный запас
+  description: Коробка с продвинутым набором для выживания.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: StorageFill
+    contents:
+    - id: ClothingMaskGasPrometheusAlt
+    - id: DoubleEmergencyOxygenTankFilled
+    - id: EmergencyMedipenPrometheusAlt
+    - id: FoodSnackSyndi
+    - id: DrinkNukieCan
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/boxes.rsi
+    layers:
+    - state: box
+    - state: syndi
+
+# Медипен
+- type: entity
+  parent: EmergencyMedipen
+  id: EmergencyMedipenPrometheusAlt
+  name: экстренный медипен
+  description: Быстрый и безопасный способ стабилизации состояния пациентов в критическом состоянии для персонала без глубоких медицинских знаний. Будьте осторожны, так как легко получить передозировку эпинефрином и транексамовой кислотой.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/medipen.rsi
+    layers:
+    - state: medipen
+      map: ["enum.SolutionContainerLayers.Fill"]
+  - type: Item
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/medipen.rsi
+    inhandVisuals:
+      left:
+      - state: base-needle-inhand-left
+      - state: base-colorA-inhand-left
+        color: "#439822"
+      - state: base-colorB-inhand-left
+      right:
+      - state: base-needle-inhand-right
+      - state: base-colorA-inhand-right
+        color: "#439822"
+      - state: base-colorB-inhand-right
+
+# Зажигалка
+- type: entity
+  parent: FlippoLighter
+  name: флиппо ветерана
+  description: Кроваво-красная флиппо ветерана. Характерный зелёный огонь — знак статуса.
+  id: FlippoLighterPrometheusAlt
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/lighter.rsi
+    layers:
+    - state: icon
+      map: ["base"]
+    - state: top
+      map: ["top"]
+      visible: false
+    - state: open
+      map: ["open"]
+      visible: false
+    - state: flame
+      map: ["flame"]
+      visible: false
+      shader: unshaded
+  - type: Item
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/lighter.rsi
+    inhandVisuals:
+      left:
+      - state: inhand-left
+      right:
+      - state: inhand-right
+  - type: ToggleableVisuals
+    spriteLayer: lighter_flame
+    inhandVisuals:
+      left:
+      - state: inhand-left-flame
+        shader: unshaded
+      right:
+      - state: inhand-right-flame
+        shader: unshaded
+  - type: PointLight
+    enabled: false
+    netsync: false
+    radius: 2
+    color: green
+
+- type: entity
+  parent: ClothingHeadsetAltSyndicate
+  name: кроваво-красная гарнитура
+  description: Модифицированный модульный интерком, надеваемый на голову, и содержащий ключ шифрования. Имеет 5 ячеек для ключей шифрования.
+  id: HeadsetPrometheusAlt
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/headset.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/headset.rsi
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeyCommon
+  - type: Tag
+    tags: [ ] # ignore "WhitelistChameleon" tag
+
+# Hardsuit
+- type: entity
+  parent: ClothingOuterHardsuitAtmos
+  id: ClothingOuterHardsuitPrometheusAlt
+  name: кроваво-красный скафандр ветерана
+  description: Тяжелобронированный скафандр, предназначенный для секретных операций.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/hardsuit.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/hardsuit.rsi
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitPrometheusAlt
+  - type: Item
+    size: Huge
+  - type: PressureProtection
+    highPressureMultiplier: 0.05
+    lowPressureMultiplier: 1000
+  - type: ExplosionResistance
+    damageCoefficient: 0.5
+  - type: Armor
+    modifiers:
+      armorLvls:
+        Piercing: 2
+      coefficients:
+        Blunt: 0.5
+        Slash: 0.5
+        Piercing: 0.4
+        Heat: 0.5
+        Radiation: 0.5
+        Caustic: 0.5
+  - type: ClothingSpeedModifier
+    walkModifier: 0.9
+    sprintModifier: 0.9
+  - type: Tag
+    tags:
+    - MonkeyWearable
+    - Hardsuit
+
+- type: entity
+  parent: ClothingHeadHelmetHardsuitSyndieMedic
+  id: ClothingHeadHelmetHardsuitPrometheusAlt
+  categories: [ HideSpawnMenu ]
+  name: кроваво-красный шлем скафандра ветерана
+  description: Тяжелобронированный шлем, предназначенный для секретных операций.
+  components:
+  - type: Sprite
+    sprite: Clothing/Head/Hardsuits/syndicate.rsi
+  - type: Clothing
+    sprite: Clothing/Head/Hardsuits/syndicate.rsi
+  - type: PointLight
+    color: green
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Cloack
+- type: entity
+  parent: ClothingNeckBase
+  id: ClothingNeckCloakPrometheusAlt
+  name: элитный плащ Синдиката
+  description: Антагонизируй со стилем!
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/neck.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Boots
+- type: entity
+  parent: ClothingShoesBootsMag
+  id: ClothingShoesBootsMagPrometheusAlt
+  name: кроваво-красные сапоги ветерана
+  description: Созданные по технологии реверс-инжиниринга продвинутые магнитные сапоги.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: Clothing/Shoes/Boots/magboots-syndicate.rsi
+  - type: Clothing
+    sprite: Clothing/Shoes/Boots/magboots-syndicate.rsi
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+- type: entity
+  parent: ClothingShoesMilitaryBase
+  id: ClothingShoesBootsPrometheusAlt
+  name: ботинки агента
+  description: Ботинки для боевых операций в глубоком космосе.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: Clothing/Shoes/Boots/combatboots.rsi
+  - type: Clothing
+    sprite: Clothing/Shoes/Boots/combatboots.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+  - type: FootstepModifier
+    footstepSoundCollection:
+      collection: FootstepBoots
+
+# Glasses
+- type: entity
+  parent: [ClothingEyesGlassesMeson, ShowSecurityIcons]
+  id: ClothingEyesGlassesPrometheusAlt
+  name: визор ветерана
+  description: Профессиональный визор секретных агентов, предназначенный для быстрой оценки ситуации.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: Clothing/Eyes/Hud/synd.rsi
+  - type: Clothing
+    sprite: Clothing/Eyes/Hud/synd.rsi
+  - type: EyeProtection
+  - type: SolutionScanner
+  - type: IdentityBlocker
+    coverage: EYES
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# JawsOfLife
+- type: entity
+  parent: SyndicateJawsOfLife
+  id: JawsOfLifePrometheusAlt
+  name: кроваво-красные челюсти жизни
+  description: Набор челюстей жизни, скомпонованных при помощи магии науки.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/jaws_of_life.rsi
+    state: jaws_pry
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left
+      right:
+      - state: inhand-right
+  - type: MultipleTool
+    entries:
+    - behavior: Prying
+      sprite:
+        sprite: _DeadSpace/Sponsor/PrometheusAlt/jaws_of_life.rsi
+        state: jaws_pry
+      useSound: /Audio/Items/jaws_pry.ogg
+      changeSound: /Audio/Items/change_jaws.ogg
+    - behavior: Cutting
+      sprite:
+        sprite: _DeadSpace/Sponsor/PrometheusAlt/jaws_of_life.rsi
+        state: jaws_cutter
+      useSound: /Audio/Items/jaws_cut.ogg
+      changeSound: /Audio/Items/change_jaws.ogg
+  - type: MeleeWeapon
+    damage:
+      types:
+        Blunt: 14
+
+# Jumpsuit
+- type: entity
+  parent: [ClothingUniformJumpsuitOperative, ClothingUniformBase]
+  id: ClothingUniformJumpsuitOperativePrometheusAlt
+  name: комбинезон ветерана
+  description: Униформа элитных агентов, выполняющих тактические операции в глубоком космосе.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/operative.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/operative.rsi
+
+- type: entity
+  parent: [ClothingUniformJumpskirtTacticalMaid, ClothingUniformBase]
+  id: ClothingUniformJumpskirtTacticalMaidPrometheusAlt
+  name: тактическая юбка-костюм горничной
+  description: Предполагается, что у лучших горничных должны быть дизайнерские костюмы.
+  categories: [ HideSpawnMenu ]
+
+#Документ
+- type: entity
+  parent: PaperPrintedCentcomm
+  id: PaperPrometheusAlt
+  name: распечатанный документ
+  description: Лист бумаги с заголовком центкома. Страшно даже смотреть на него.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Paper
+    stampState: paper_stamp-centcom
+    stampedBy:
+    - stampedColor: '#006600FF'
+      stampedName: Центральное Командование
+    - stampedColor: '#00BE00FF'
+      stampedName: Одобрено
+    content: paper-law-prometheusAlt
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
