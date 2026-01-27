@@ -18,3 +18,5 @@
       - state: base
       - state: base-unshaded
         shader: unshaded
+  - type: ExplosionResistance
+    damageCoefficient: 0
