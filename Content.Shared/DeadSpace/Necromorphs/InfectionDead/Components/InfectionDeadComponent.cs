@@ -106,13 +106,13 @@ public enum VirusEffects : ushort
 
 public static class VirusEffectsConditions
 {
-    public static float MaxDamageMulty = 1f;
+    public static float MaxDamageMulty = 2f;
     public static float MinDamageMulty = 0.5f;
     public static float MaxStaminaMulty = 1.5f;
     public static float MinStaminaMulty = 0.5f;
     public static float MaxHpMulty = 1.5f;
     public static float MinHpMulty = 0.5f;
-    public static float MaxSpeedMulty = 1f;
+    public static float MaxSpeedMulty = 1.3f;
     public static float MinSpeedMulty = 0.5f;
     public static DamageSpecifier HealingOnBite = new()
     {
