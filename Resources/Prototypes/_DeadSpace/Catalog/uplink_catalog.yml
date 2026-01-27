@@ -113,7 +113,7 @@
   icon: { sprite: /Textures/Objects/Weapons/Guns/Rifles/ak.rsi, state: icon }
   productEntity: ClothingBackpackDuffelSyndicateFilledAKMS
   cost:
-    Telecrystal: 12
+    Telecrystal: 14
   categories:
   - UplinkWeaponry
   conditions:
@@ -133,7 +133,7 @@
   icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Rifels/xc67.rsi, state: icon }
   productEntity: ClothingBackpackDuffelSyndicateFilledXC67
   cost:
-    Telecrystal: 18
+    Telecrystal: 20
   categories:
   - UplinkWeaponry
   conditions:
@@ -427,7 +427,7 @@
   icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Boxes/shotgun.rsi, state: base }
   productEntity: BoxLethalshotMagnum
   cost:
-    Telecrystal: 5
+    Telecrystal: 3
   categories:
   - UplinkAmmo
   conditions:

@@ -875,13 +875,13 @@
   - type: Armor
     modifiers:
       armorLvls:
-        Piercing: 4
-        Heat: 3
+        Piercing: 3 # DS14-value это не убить с 4 тиром
+        Heat: 2 # DS14-value
       coefficients:
         Blunt: 0.2
         Slash: 0.2
         Piercing: 0.3 # DS14-value ибо баланс
-        Heat: 0.3 # DS14-value
+        Heat: 0.4 # DS14-value
         Radiation: 0.2
         Caustic: 0.2
         Stun: 0.1 # DS14-value: what is stun?

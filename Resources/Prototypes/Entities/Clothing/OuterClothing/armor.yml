@@ -172,11 +172,11 @@
   - type: Armor
     modifiers:
       armorLvls:
-        Piercing: 2
+        Piercing: 3 #DS14-value
       coefficients:
         Blunt: 0.6 #ballistic plates = better protection
         Slash: 0.6
-        Piercing: 0.5 # DS14-value
+        Piercing: 0.6 # DS14-value
         Heat: 0.9
   - type: ExplosionResistance
     damageCoefficient: 0.9
@@ -204,7 +204,7 @@
       coefficients:
         Blunt: 0.4
         Slash: 0.4
-        Piercing: 0.4
+        Piercing: 0.3
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
