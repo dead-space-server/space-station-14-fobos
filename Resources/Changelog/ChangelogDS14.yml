@@ -574,3 +574,12 @@ Entries:
   changes:
   - type: Add
     message: Автоматическая отправка ченжлога в дискорд DS14
+- id: 47
+  author: sastr457
+  time: '2026-01-27T07:42:19.844598+00:00'
+  pr: 1004
+  changes:
+  - type: Add
+    message: Добавлен КД к способности ренегата Щитсилы
+  - type: Remove
+    message: У ренегата удалена способность Телепорткмечу
