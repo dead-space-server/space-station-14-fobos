@@ -31,8 +31,8 @@
         Stun: 0.5
         Poison: 0.5
   - type: ClothingSpeedModifier
-    walkModifier: 0.75
-    sprintModifier: 0.75
+    walkModifier: 0.9
+    sprintModifier: 0.9
   - type: TemperatureProtection
     heatingCoefficient: 0.001
     coolingCoefficient: 0.001
@@ -50,7 +50,7 @@
       Epinephrine: 15
       Puncturase: 10
       TranexamicAcid: 5
-      Omnizine: 20
+      Omnizine: 10
   - type: VirusResistance
     virusResistanceCoefficient: 0.9
 
@@ -112,8 +112,8 @@
         Stun: 0.55
         Poison: 0.5
   - type: ClothingSpeedModifier
-    walkModifier: 0.75
-    sprintModifier: 0.75
+    walkModifier: 0.85
+    sprintModifier: 0.85
   - type: TemperatureProtection
     heatingCoefficient: 0.001
     coolingCoefficient: 0.001
@@ -131,7 +131,7 @@
       Epinephrine: 15
       Puncturase: 10
       TranexamicAcid: 5
-      Omnizine: 20
+      Omnizine: 5
   - type: VirusResistance
     virusResistanceCoefficient: 0.9
 
@@ -191,8 +191,8 @@
         Stun: 0.4
         Poison: 0.4
   - type: ClothingSpeedModifier
-    walkModifier: 0.75
-    sprintModifier: 0.75
+    walkModifier: 0.9
+    sprintModifier: 0.9
   - type: TemperatureProtection
     heatingCoefficient: 0.001
     coolingCoefficient: 0.001

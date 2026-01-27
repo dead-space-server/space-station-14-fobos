@@ -47,7 +47,7 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: Action
-    useDelay: 10
+    useDelay: 13
     icon: _DeadSpace/Renegade/actions/shield.png
   - type: InstantAction
     event: !type:RenegadeShieldEvent
