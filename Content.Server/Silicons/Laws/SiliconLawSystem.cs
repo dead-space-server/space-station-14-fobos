@@ -88,9 +88,7 @@ public sealed class SiliconLawSystem : SharedSiliconLawSystem
         if (!ent.Comp.Subverted)
             return;
         RemoveSubvertedSiliconRole(args.Mind);
-
     }
-
 
     private void OnToggleLawsScreen(EntityUid uid, SiliconLawBoundComponent component, ToggleLawsScreenEvent args)
     {
@@ -144,7 +142,6 @@ public sealed class SiliconLawSystem : SharedSiliconLawSystem
             // new laws may allow antagonist behaviour so make it clear for admins
             if(_mind.TryGetMind(uid, out var mindId, out _))
                 EnsureSubvertedSiliconRole(mindId);
-
         }
     }
 
