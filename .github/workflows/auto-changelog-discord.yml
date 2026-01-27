@@ -117,7 +117,7 @@ jobs:
           steps.check-commented.outputs.should_send == 'true'
         env:
           PAYLOAD_FILE: ${{ steps.parse.outputs.PAYLOAD_FILE }}
-          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          WEBHOOK_URL: ${{ secrets.CHANGELOG_DISCORD_WEBHOOK }}
         run: |
           PAYLOAD=$(cat "$PAYLOAD_FILE")
 
