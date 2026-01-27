@@ -9,7 +9,6 @@ using Content.Shared.DoAfter;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Nutrition.EntitySystems;
 using Robust.Server.Audio;
-using Content.Shared.DeadSpace.Skills.Components;
 
 namespace Content.Server.DeadSpace.Skill;
 
@@ -47,7 +46,7 @@ public sealed class LearnSkillWhenUsingSystem : EntitySystem
             }
 
             if (!knowsAtLeastOne)
-            {
+            {   
                 _popup.PopupEntity(Loc.GetString("skill-canlearn-language-missing"), args.User, args.User);
                 return;
             }
@@ -65,7 +64,10 @@ public sealed class LearnSkillWhenUsingSystem : EntitySystem
             BreakOnMove = true,
             BreakOnDamage = true,
             MovementThreshold = 0.01f,
-            DistanceThreshold = 1f
+            DistanceThreshold = 1f,
+            DuplicateCondition = DuplicateConditions.SameEvent,
+            BlockDuplicate = true,
+            CancelDuplicate = false
         };
 
         int unknown = 0;
@@ -78,25 +80,13 @@ public sealed class LearnSkillWhenUsingSystem : EntitySystem
 
         if (unknown > 0)
         {
-            if (TryComp<SkillComponent>(args.User, out var skillComponent))
-            {
-                if (!skillComponent.IsReadingBook || skillComponent.EntWhoReadingBook != null)
-                {
-                    if (skillComponent.EntWhoReadingBook != uid & skillComponent.EntWhoReadingBook != null & EntityManager.EntityExists(skillComponent.EntWhoReadingBook))
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        skillComponent.IsReadingBook = true;
-                        skillComponent.EntWhoReadingBook = uid;
-                    }
-                }
-            }
-            _doAfter.TryStartDoAfter(doAfterArgs);
+            if (!_doAfter.TryStartDoAfter(doAfterArgs))
+                _popup.PopupEntity(Loc.GetString("skill-canlearn-already-learning"), args.User, args.User);
         }
         else
+        {
             return;
+        }
 
         if (component.Sound != null)
             _audio.PlayPvs(component.Sound, uid);
@@ -104,30 +94,9 @@ public sealed class LearnSkillWhenUsingSystem : EntitySystem
 
     private void OnDoAfter(EntityUid uid, LearnSkillWhenUsingComponent component, LearnDoAfterEvent args)
     {
-        if (args.Handled || !EntityManager.EntityExists(args.Used))
+        if (args.Cancelled || args.Handled || !EntityManager.EntityExists(args.Used))
             return;
-        if (TryComp<SkillComponent>(args.User, out var skillComponent))
-        {
-            if (!skillComponent.IsReadingBook || skillComponent.EntWhoReadingBook != null)
-            {
-                if (skillComponent.EntWhoReadingBook != uid & skillComponent.EntWhoReadingBook != null & EntityManager.EntityExists(skillComponent.EntWhoReadingBook))
-                {
-                    return;
-                }
-                else
-                {
-                    skillComponent.IsReadingBook = true;
-                    skillComponent.EntWhoReadingBook = uid;
-                }
-            }
-            if (args.Cancelled)
-            {
-                skillComponent.IsReadingBook = false;
-                skillComponent.EntWhoReadingBook = null;
-            }
-        }
-        if (args.Cancelled)
-            return;
+
         foreach (var skill in component.Skills)
         {
             _skillSystem.AddSkillProgress(args.User, skill, component.Points[skill]);

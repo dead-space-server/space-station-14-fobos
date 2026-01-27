@@ -20,15 +20,6 @@ public sealed partial class SkillComponent : Component
     /// </summary>
     [DataField]
     public Dictionary<ProtoId<SkillPrototype>, float> Skills { get; set; } = new Dictionary<ProtoId<SkillPrototype>, float>();
-    /// <summary>
-    ///     Читает ли пользователь книгу
-    /// </summary>
-    [DataField]
-    public bool IsReadingBook = false;
-    /// <summary>
-    ///    Книга которую читают
-    /// </summary>
-    public EntityUid? EntWhoReadingBook;
 }
 
 
