@@ -77,7 +77,7 @@
       path: /Audio/Magic/forcewall.ogg
       params:
         volume: -50
-    rechargeCooldown: 3
+    rechargeCooldown: 2.5
   - type: BasicEntityAmmoProvider
     proto: BulletEnergyCrossbowLarge
     capacity: 1
