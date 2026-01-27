@@ -371,9 +371,6 @@
     sprite: Clothing/Head/Helmets/ert_leader.rsi
   - type: Clothing
     sprite: Clothing/Head/Helmets/ert_leader.rsi
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
 
 #ERT Security Helmet
 - type: entity
@@ -386,9 +383,6 @@
     sprite: Clothing/Head/Helmets/ert_security.rsi
   - type: Clothing
     sprite: Clothing/Head/Helmets/ert_security.rsi
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
 
 #ERT Medic Helmet
 - type: entity
@@ -401,9 +395,6 @@
     sprite: Clothing/Head/Helmets/ert_medic.rsi
   - type: Clothing
     sprite: Clothing/Head/Helmets/ert_medic.rsi
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
 
 #ERT Engineer Helmet
 - type: entity
@@ -416,9 +407,6 @@
     sprite: Clothing/Head/Helmets/ert_engineer.rsi
   - type: Clothing
     sprite: Clothing/Head/Helmets/ert_engineer.rsi
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
 
 #ERT Janitor Helmet
 - type: entity
@@ -431,9 +419,6 @@
     sprite: Clothing/Head/Helmets/ert_janitor.rsi
   - type: Clothing
     sprite: Clothing/Head/Helmets/ert_janitor.rsi
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
 
 - type: entity
   parent: [ BaseSyndicateContraband, ClothingHeadHelmetBase ]
@@ -557,9 +542,6 @@
   - type: Construction
     graph: HelmetJustice
     node: helmet
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
 
 - type: entity
   parent: ClothingHeadHelmetJustice
