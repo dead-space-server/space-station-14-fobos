@@ -49,10 +49,10 @@ public sealed partial class InfectionDeadStrainData : ReagentData
     public VirusEffects Effects;
     public InfectionDeadStrainData()
     {
-        DamageMulty = 0.5f;
-        StaminaMulty = 0.5f;
-        HpMulty = 0.5f;
-        SpeedMulty = 0.5f;
+        DamageMulty = 1f;
+        StaminaMulty = 1f;
+        HpMulty = 1f;
+        SpeedMulty = 1f;
         Effects = new VirusEffects();
     }
     public override bool Equals(ReagentData? other)
@@ -106,13 +106,13 @@ public enum VirusEffects : ushort
 
 public static class VirusEffectsConditions
 {
-    public static float MaxDamageMulty = 3f;
+    public static float MaxDamageMulty = 2f;
     public static float MinDamageMulty = 0.5f;
-    public static float MaxStaminaMulty = 3f;
+    public static float MaxStaminaMulty = 1.5f;
     public static float MinStaminaMulty = 0.5f;
-    public static float MaxHpMulty = 3f;
+    public static float MaxHpMulty = 1.5f;
     public static float MinHpMulty = 0.5f;
-    public static float MaxSpeedMulty = 2f;
+    public static float MaxSpeedMulty = 1.3f;
     public static float MinSpeedMulty = 0.5f;
     public static DamageSpecifier HealingOnBite = new()
     {
