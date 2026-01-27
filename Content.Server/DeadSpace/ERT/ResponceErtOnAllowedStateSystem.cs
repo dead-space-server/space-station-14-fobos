@@ -28,8 +28,14 @@ public sealed class ResponceErtOnAllowedStateSystem : EntitySystem
     {
         base.Initialize();
 
+        SubscribeLocalEvent<ResponceErtOnAllowedStateComponent, ComponentShutdown>(OnShutdown);
         SubscribeLocalEvent<ResponceErtOnAllowedStateComponent, MobStateChangedEvent>(OnMobStateChange);
         SubscribeLocalEvent<ResponceErtOnAllowedStateComponent, CallErtHelpActionEvent>(OnCallErtHelpAction);
+    }
+
+    private void OnShutdown(Entity<ResponceErtOnAllowedStateComponent> ent, ref ComponentShutdown args)
+    {
+        _actionsSystem.RemoveAction(ent.Owner, ent.Comp.ActionEntity);
     }
 
     private void OnMobStateChange(Entity<ResponceErtOnAllowedStateComponent> ent, ref MobStateChangedEvent args)
