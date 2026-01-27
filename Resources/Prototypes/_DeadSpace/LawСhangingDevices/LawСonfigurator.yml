@@ -1,6 +1,6 @@
 - type: entity
   parent: [BaseItem]
-  id: LawСonfigurator
+  id: LawConfigurator
   name: Конфигуратор законов
   description: Устройство позволяющее менять законы синтетикам, снизу устройства виднеется разьëм под платы законов, на задней панели вы видете надпись - убедительная просьба не вставлять свод законов "антимов".
   components:
@@ -24,3 +24,4 @@
     containers:
       circuit_holder: !type:ContainerSlot
       board: !type:Container
+  - type: LawConfigurator
