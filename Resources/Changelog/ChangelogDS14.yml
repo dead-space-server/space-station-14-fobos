@@ -567,3 +567,10 @@ Entries:
   changes:
   - type: Add
     message: Респрайт шейкеров!
+- id: 46
+  author: botcott
+  time: '2026-01-27T07:28:12.960231+00:00'
+  pr: 1001
+  changes:
+  - type: Add
+    message: Автоматическая отправка ченжлога в дискорд DS14
