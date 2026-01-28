@@ -7,7 +7,7 @@ namespace Content.Server.Atmos.Components;
 /// <summary>
 ///     Component that defines the default GasMixture for a map.
 /// </summary>
-[RegisterComponent, Access(typeof(SharedAtmosphereSystem))]
+[RegisterComponent]
 public sealed partial class MapAtmosphereComponent : SharedMapAtmosphereComponent
 {
     /// <summary>
