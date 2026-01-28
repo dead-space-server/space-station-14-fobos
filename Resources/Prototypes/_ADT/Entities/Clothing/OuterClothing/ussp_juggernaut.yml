@@ -24,6 +24,9 @@
   - type: ExplosionResistance
     damageCoefficient: 0.70
   - type: GroupExamine
+  - type: HideLayerClothing
+    layers:
+      Hair: HEAD
 
 - type: entity
   parent: ClothingOuterBaseLarge
