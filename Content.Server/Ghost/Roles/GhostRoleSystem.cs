@@ -226,6 +226,18 @@ public sealed class GhostRoleSystem : EntitySystem
                 continue;
             }
 
+            // dead-space-14 start - check MinPlayers before starting countdown
+            if (raffle.WaitingForPlayers)
+            {
+                if (raffle.CurrentMembers.Count >= raffle.MinPlayers)
+                {
+                    raffle.WaitingForPlayers = false;
+                    UpdateAllEui();
+                }
+                continue;
+            }
+            // dead-space-14 end
+
             raffle.Countdown = raffle.Countdown.Subtract(TimeSpan.FromSeconds(frameTime));
             if (raffle.Countdown.Ticks > 0)
                 continue;
@@ -248,16 +260,26 @@ public sealed class GhostRoleSystem : EntitySystem
             var foundWinner = false;
             var deciderPrototype = _prototype.Index(ghostRole.RaffleConfig.Decider);
 
-            // use the ghost role's chosen winner picker to find a winner
-            deciderPrototype.Decider.PickWinner(
-                raffle.CurrentMembers.AsEnumerable(),
-                session =>
-                {
-                    var success = TryTakeover(session, raffle.Identifier);
-                    foundWinner |= success;
-                    return success;
-                }
-            );
+            // dead-space-14 start - pick multiple winners if WinnersCount > 1
+            var winnersToFind = raffle.WinnersCount;
+            while (winnersToFind > 0 && raffle.CurrentMembers.Count > 0)
+            {
+                deciderPrototype.Decider.PickWinner(
+                    raffle.CurrentMembers.AsEnumerable(),
+                    session =>
+                    {
+                        var success = TryTakeover(session, raffle.Identifier);
+                        if (success)
+                        {
+                            foundWinner = true;
+                            raffle.CurrentMembers.Remove(session);
+                        }
+                        return success;
+                    }
+                );
+                winnersToFind--;
+            }
+            // dead-space-14 end
 
             if (!foundWinner)
             {
@@ -373,6 +395,12 @@ public sealed class GhostRoleSystem : EntitySystem
         // we copy these settings into the component because they would be cumbersome to access otherwise
         raffle.JoinExtendsDurationBy = TimeSpan.FromSeconds(settings.JoinExtendsDurationBy);
         raffle.MaxDuration = TimeSpan.FromSeconds(settings.MaxDuration);
+
+        // dead-space-14 start
+        raffle.MinPlayers = config.MinPlayers;
+        raffle.WinnersCount = config.WinnersCount;
+        raffle.WaitingForPlayers = config.MinPlayers > 1;
+        // dead-space-14 end
     }
 
     private void OnRaffleShutdown(Entity<GhostRoleRaffleComponent> ent, ref ComponentShutdown args)
@@ -645,23 +673,33 @@ public sealed class GhostRoleSystem : EntitySystem
 
             var kind = GhostRoleKind.FirstComeFirstServe;
             GhostRoleRaffleComponent? raffle = null;
+            uint raffleMinPlayers = 1; // dead-space-14
 
             if (role.RaffleConfig is not null)
             {
                 kind = GhostRoleKind.RaffleReady;
+                raffleMinPlayers = (uint) role.RaffleConfig.MinPlayers; // dead-space-14
 
                 if (_ghostRoleRaffles.TryGetValue(id, out var raffleEnt))
                 {
                     kind = GhostRoleKind.RaffleInProgress;
                     raffle = raffleEnt.Comp;
 
-                    if (player is not null && raffle.CurrentMembers.Contains(player))
+                    // dead-space-14 start
+                    if (raffle.WaitingForPlayers)
+                    {
+                        kind = player is not null && raffle.CurrentMembers.Contains(player)
+                            ? GhostRoleKind.RaffleWaitingJoined
+                            : GhostRoleKind.RaffleWaitingForPlayers;
+                    }
+                    else if (player is not null && raffle.CurrentMembers.Contains(player))
+                    // dead-space-14 end
                         kind = GhostRoleKind.RaffleJoined;
                 }
             }
 
             var rafflePlayerCount = (uint?) raffle?.CurrentMembers.Count ?? 0;
-            var raffleEndTime = raffle is not null
+            var raffleEndTime = raffle is not null && !raffle.WaitingForPlayers // dead-space-14
                 ? _timing.CurTime.Add(raffle.Countdown)
                 : TimeSpan.MinValue;
 
@@ -677,7 +715,8 @@ public sealed class GhostRoleSystem : EntitySystem
                 RolePrototypes = (jobs, antags),
                 Kind = kind,
                 RafflePlayerCount = rafflePlayerCount,
-                RaffleEndTime = raffleEndTime
+                RaffleEndTime = raffleEndTime,
+                RaffleMinPlayers = raffleMinPlayers // dead-space-14
             });
         }
 

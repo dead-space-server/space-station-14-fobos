@@ -34,6 +34,13 @@ namespace Content.Shared.Ghost.Roles
         /// </summary>
         public TimeSpan RaffleEndTime { get; set; }
 
+        // dead-space-14 start
+        /// <summary>
+        /// Minimum players required to start the raffle.
+        /// </summary>
+        public uint RaffleMinPlayers { get; set; }
+        // dead-space-14 end
+
     }
 
     [NetSerializable, Serializable]
@@ -104,6 +111,18 @@ namespace Content.Shared.Ghost.Roles
         /// <summary>
         /// Role is raffle role and currently being raffled, and player joined raffle.
         /// </summary>
-        RaffleJoined
+        RaffleJoined,
+
+        // dead-space-14 start
+        /// <summary>
+        /// Role is raffle role, waiting for minimum players. Player hasn't joined.
+        /// </summary>
+        RaffleWaitingForPlayers,
+
+        /// <summary>
+        /// Role is raffle role, waiting for minimum players. Player has joined.
+        /// </summary>
+        RaffleWaitingJoined
+        // dead-space-14 end
     }
 }

@@ -12,6 +12,7 @@ public sealed partial class GhostRoleEntryButtons : BoxContainer
     [Dependency] private readonly IGameTiming _timing = default!;
     private readonly GhostRoleKind _ghostRoleKind;
     private readonly uint _playerCount;
+    private readonly uint _minPlayers; // dead-space-14
     private readonly TimeSpan _raffleEndTime = TimeSpan.MinValue;
 
     public GhostRoleEntryButtons(GhostRoleInfo ghostRoleInfo)
@@ -20,11 +21,18 @@ public sealed partial class GhostRoleEntryButtons : BoxContainer
         IoCManager.InjectDependencies(this);
 
         _ghostRoleKind = ghostRoleInfo.Kind;
+        _minPlayers = ghostRoleInfo.RaffleMinPlayers; // dead-space-14
         if (IsActiveRaffle(_ghostRoleKind))
         {
             _playerCount = ghostRoleInfo.RafflePlayerCount;
             _raffleEndTime = ghostRoleInfo.RaffleEndTime;
         }
+        // dead-space-14 start
+        else if (IsWaitingRaffle(_ghostRoleKind))
+        {
+            _playerCount = ghostRoleInfo.RafflePlayerCount;
+        }
+        // dead-space-14 end
 
         UpdateRequestButton();
     }
@@ -37,6 +45,10 @@ public sealed partial class GhostRoleEntryButtons : BoxContainer
             GhostRoleKind.RaffleReady => "ghost-roles-window-join-raffle-button",
             GhostRoleKind.RaffleInProgress => "ghost-roles-window-raffle-in-progress-button",
             GhostRoleKind.RaffleJoined => "ghost-roles-window-leave-raffle-button",
+            // dead-space-14 start
+            GhostRoleKind.RaffleWaitingForPlayers => "ghost-roles-window-raffle-waiting-button",
+            GhostRoleKind.RaffleWaitingJoined => "ghost-roles-window-raffle-waiting-joined-button",
+            // dead-space-14 end
             _ => throw new ArgumentOutOfRangeException(nameof(_ghostRoleKind),
                 $"Unknown {nameof(GhostRoleKind)} '{_ghostRoleKind}'")
         };
@@ -50,6 +62,12 @@ public sealed partial class GhostRoleEntryButtons : BoxContainer
             var timeString = $"{timeLeft.Minutes:0}:{timeLeft.Seconds:00}";
             RequestButton.Text = Loc.GetString(messageId, ("time", timeString), ("players", _playerCount));
         }
+        // dead-space-14 start
+        else if (IsWaitingRaffle(_ghostRoleKind))
+        {
+            RequestButton.Text = Loc.GetString(messageId, ("players", _playerCount), ("min", _minPlayers));
+        }
+        // dead-space-14 end
         else
         {
             RequestButton.Text = Loc.GetString(messageId);
@@ -60,6 +78,13 @@ public sealed partial class GhostRoleEntryButtons : BoxContainer
     {
         return kind is GhostRoleKind.RaffleInProgress or GhostRoleKind.RaffleJoined;
     }
+
+    // dead-space-14 start
+    private static bool IsWaitingRaffle(GhostRoleKind kind)
+    {
+        return kind is GhostRoleKind.RaffleWaitingForPlayers or GhostRoleKind.RaffleWaitingJoined;
+    }
+    // dead-space-14 end
 
     protected override void FrameUpdate(FrameEventArgs args)
     {

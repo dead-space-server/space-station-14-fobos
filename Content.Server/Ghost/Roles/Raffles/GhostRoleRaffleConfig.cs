@@ -32,4 +32,18 @@ public sealed partial class GhostRoleRaffleConfig
     /// </summary>
     [DataField("decider")]
     public ProtoId<GhostRoleRaffleDeciderPrototype> Decider { get; set; } = "default";
+
+    // dead-space-14 start
+    /// <summary>
+    /// Minimum players required to start the raffle countdown.
+    /// </summary>
+    [DataField]
+    public int MinPlayers { get; set; } = 1;
+
+    /// <summary>
+    /// Number of winners to pick. If more than 1, multiple players can win.
+    /// </summary>
+    [DataField]
+    public int WinnersCount { get; set; } = 1;
+    // dead-space-14 end
 }

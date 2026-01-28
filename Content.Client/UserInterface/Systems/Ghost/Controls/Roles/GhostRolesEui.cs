@@ -23,11 +23,20 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
             {
                 _windowRules?.Close();
 
-                if (info.Kind == GhostRoleKind.RaffleJoined)
+                // dead-space-14 start - handle leaving raffle for both normal and waiting states
+                if (info.Kind is GhostRoleKind.RaffleJoined or GhostRoleKind.RaffleWaitingJoined)
                 {
                     SendMessage(new LeaveGhostRoleRaffleMessage(info.Identifier));
                     return;
                 }
+
+                // dead-space-14 - skip rules window for waiting raffles (already read rules when joining)
+                if (info.Kind is GhostRoleKind.RaffleWaitingForPlayers or GhostRoleKind.RaffleInProgress)
+                {
+                    SendMessage(new RequestGhostRoleMessage(info.Identifier));
+                    return;
+                }
+                // dead-space-14 end
 
                 _windowRules = new GhostRoleRulesWindow(info.Rules, _ =>
                 {

@@ -8,7 +8,6 @@ namespace Content.Server.Ghost.Roles.Components;
 /// Raffles start when the first player joins a raffle.
 /// </summary>
 [RegisterComponent]
-[Access(typeof(GhostRoleSystem))]
 public sealed partial class GhostRoleRaffleComponent : Component
 {
     /// <summary>
@@ -55,4 +54,17 @@ public sealed partial class GhostRoleRaffleComponent : Component
     [ViewVariables(VVAccess.ReadOnly)]
     [DataField("maxDuration")]
     public TimeSpan MaxDuration { get; set; }
+
+    // dead-space-14 start
+    [ViewVariables(VVAccess.ReadOnly)]
+    [DataField]
+    public int MinPlayers { get; set; } = 1;
+
+    [ViewVariables(VVAccess.ReadOnly)]
+    [DataField]
+    public int WinnersCount { get; set; } = 1;
+
+    [ViewVariables(VVAccess.ReadOnly)]
+    public bool WaitingForPlayers { get; set; } = true;
+    // dead-space-14 end
 }
