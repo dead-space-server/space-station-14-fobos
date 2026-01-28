@@ -138,7 +138,7 @@
         Shock: 6 # DS14-value
 #DS14 start
   - type: StaminaDamageOnHit
-    damage: 8
+    damage: 12
   - type: Tag
     tags:
     - CompactDefibrillator
