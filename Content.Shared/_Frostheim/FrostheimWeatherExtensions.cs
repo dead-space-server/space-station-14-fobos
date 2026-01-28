@@ -4,18 +4,18 @@ public static class FrostheimWeatherExtensions
 {
     public static readonly Dictionary<FrostheimWeather, float> OutdoorTemperatureByWeather = new()
     {
-        { FrostheimWeather.None, 243f },       // -30°C
-        { FrostheimWeather.SnowfallLight, 223f },  // -50°C
-        { FrostheimWeather.SnowfallMedium, 203f }, // -70°C
-        { FrostheimWeather.SnowfallHeavy, 183f }   // -90°C
+        { FrostheimWeather.None, 233f },
+        { FrostheimWeather.SnowfallLight, 213f },
+        { FrostheimWeather.SnowfallMedium, 193f },
+        { FrostheimWeather.SnowfallHeavy, 173f }
     };
 
     public static readonly Dictionary<FrostheimWeather, float> IndoorTemperatureByWeather = new()
     {
-        { FrostheimWeather.None, 273f },       // 0°C
-        { FrostheimWeather.SnowfallLight, 253f },  // -20°C
-        { FrostheimWeather.SnowfallMedium, 233f }, // -40°C
-        { FrostheimWeather.SnowfallHeavy, 213f }   // -60°C
+        { FrostheimWeather.None, 263f },
+        { FrostheimWeather.SnowfallLight, 243f },
+        { FrostheimWeather.SnowfallMedium, 223f },
+        { FrostheimWeather.SnowfallHeavy, 203f }
     };
 
     public static float GetOutdoorTemperature(this FrostheimWeather weather)
