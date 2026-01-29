@@ -252,7 +252,7 @@
   suffix: Empty
   components:
   - type: LimitedCharges
-    charges: 0
+    lastCharges: -1
     maxCharges: 45
 
 - type: entity
@@ -264,6 +264,5 @@
   components:
   - type: LimitedCharges
     maxCharges: 45
-    charges: 45
   - type: AutoRecharge
     rechargeDuration: 10
