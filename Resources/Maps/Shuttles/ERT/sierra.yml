@@ -10295,7 +10295,7 @@ entities:
     - type: Transform
       pos: 7.5,-14.5
       parent: 1
-- proto: SecurityTechFab
+- proto: WeaponryTechFabERT
   entities:
   - uid: 1306
     components:

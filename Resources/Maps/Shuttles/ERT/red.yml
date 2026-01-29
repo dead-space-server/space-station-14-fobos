@@ -3997,7 +3997,7 @@ entities:
     - type: Physics
       canCollide: False
     - type: InsideEntityStorage
-- proto: SecurityTechFab
+- proto: WeaponryTechFabERT
   entities:
   - uid: 493
     components:
