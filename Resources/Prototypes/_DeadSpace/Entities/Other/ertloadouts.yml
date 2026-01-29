@@ -176,6 +176,7 @@
     possibleSets:
     - EnergyShotgunSet
     - VectorSet
+    - LecterXL8Set
     - PulseCarbineSet
   - type: ActivatableUI
     key: enum.ThiefBackpackUIKey.Key
@@ -419,21 +420,6 @@
   - MagazineBoxPistol
 
 - type: thiefBackpackSet
-  id: VectorSet
-  name: ert-loadout-category-vector-name
-  description: ert-loadout-category-vector-description
-  sprite:
-    sprite: Objects/Weapons/Guns/SMGs/vector.rsi
-    state: icon
-  content:
-  - WeaponSubMachineGunVector
-  - MagazinePistolSubMachineGun
-  - MagazinePistolSubMachineGun
-  - MagazinePistolSubMachineGun
-  - MagazineBoxPistol
-  - MagazineBoxPistol
-
-- type: thiefBackpackSet
   id: LecterSet
   name: ert-loadout-category-lecter-name
   description: ert-loadout-category-lecter-description
@@ -442,6 +428,20 @@
     state: icon
   content:
   - WeaponRifleLecter
+  - MagazineRifle
+  - MagazineRifle
+  - MagazineRifle
+  - MagazineBoxRifle
+
+- type: thiefBackpackSet
+  id: LecterXL8Set
+  name: ert-loadout-category-lecter-name
+  description: ert-loadout-category-lecter-description
+  sprite:
+    sprite: Objects/Weapons/Guns/Rifles/lecter.rsi
+    state: icon
+  content:
+  - WeaponRifleLecterXL8
   - MagazineRifle
   - MagazineRifle
   - MagazineRifle
