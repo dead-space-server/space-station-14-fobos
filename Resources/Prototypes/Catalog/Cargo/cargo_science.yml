@@ -6,7 +6,7 @@
   product: CrateArtifactContainer
   cost: 500
   category: cargoproduct-category-name-science
-  group: market
+  group: science # DS14
 
 - type: cargoProduct
   id: HandheldArtifactContainer
@@ -16,7 +16,7 @@
   product: HandheldArtifactContainer
   cost: 500
   category: cargoproduct-category-name-science
-  group: market
+  group: science # DS14
 
 - type: cargoProduct
   id: RandomArtifact
@@ -26,7 +26,7 @@
   product: RandomArtifactSpawner
   cost: 2000
   category: cargoproduct-category-name-science
-  group: market
+  group: science # DS14
 
 - type: cargoProduct
   id: ScienceBiosuit
@@ -36,7 +36,7 @@
   product: CrateScienceBiosuit
   cost: 4000 # DS14
   category: cargoproduct-category-name-science
-  group: market
+  group: science # DS14
 
 - type: cargoProduct
   id: CrewMonitoring
@@ -46,7 +46,7 @@
   product: CrateCrewMonitoring
   cost: 2000
   category: cargoproduct-category-name-science
-  group: market
+  group: science # DS14
 
 - type: cargoProduct
   id: StationAiCore
@@ -56,4 +56,4 @@
   product: CrateStationAiCore
   cost: 10000
   category: cargoproduct-category-name-science
-  group: market
+  group: science # DS14

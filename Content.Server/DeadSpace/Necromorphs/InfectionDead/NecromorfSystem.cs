@@ -152,12 +152,12 @@ public sealed partial class NecromorfSystem : SharedInfectionDeadSystem
         if (!HasComp<StunAttackComponent>(uid) && VirusEffectsConditions.HasEffect(component.StrainData.Effects, VirusEffects.StunAttack))
             AddComp<StunAttackComponent>(uid);
 
-        if (!HasComp<DemonDashComponent>(uid) && VirusEffectsConditions.HasEffect(component.StrainData.Effects, VirusEffects.Dash))
-        {
-            AddComp<DemonDashComponent>(uid);
-            if (!HasComp<LimitedChargesComponent>(uid))
-                AddComp<LimitedChargesComponent>(uid);
-        }
+        //if (!HasComp<DemonDashComponent>(uid) && VirusEffectsConditions.HasEffect(component.StrainData.Effects, VirusEffects.Dash))
+        //{
+        //    AddComp<DemonDashComponent>(uid);
+        //    if (!HasComp<LimitedChargesComponent>(uid))
+        //        AddComp<LimitedChargesComponent>(uid);
+        //}
 
         if (!HasComp<InsulatedComponent>(uid) && VirusEffectsConditions.HasEffect(component.StrainData.Effects, VirusEffects.Insulated))
             AddComp<InsulatedComponent>(uid);

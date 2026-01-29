@@ -1,0 +1,29 @@
+# Базовый objective для революционеров
+- type: entity
+  abstract: true
+  parent: BaseObjective
+  id: BaseRevolutionaryObjective
+  components:
+  - type: Objective
+    difficulty: 1.5
+    issuer: objective-issuer-revolutionary
+  - type: RoleRequirement
+    roles:
+      - RevolutionaryRole
+
+# Objective: убить процент командного состава
+- type: entity
+  parent: BaseRevolutionaryObjective
+  id: KillCommandStaffObjective
+  components:
+  - type: Objective
+    unique: false
+    icon:
+      sprite: Structures/Decoration/banner.rsi
+      state: banner_revolution
+  - type: NumberObjective
+    min: 75
+    max: 75
+    title: objective-condition-kill-command-staff-title
+    description: objective-condition-kill-command-staff-description
+  - type: KillCommandStaffCondition

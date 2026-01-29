@@ -334,6 +334,12 @@
   - type: XenoArtifact
     effectsTable: !type:NestedSelector
       tableId: ObeliskArtifactEffectsDefaultTable
+  - type: WarpPoint
+    follow: true
+    location: Артефакт-Обелиск
+    blacklist:
+      tags:
+      - GhostOnlyWarp
 
 - type: entity
   id: CrateArtifactContainerNecroobelisk
@@ -354,4 +360,4 @@
   product: CrateArtifactContainerNecroobelisk
   cost: 9999999
   category: cargoproduct-category-name-science
-  group: market
+  group: science

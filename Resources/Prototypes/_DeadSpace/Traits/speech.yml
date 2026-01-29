@@ -1,0 +1,9 @@
+- type: trait
+  id: EnglishAccent
+  name: trait-english-name
+  description: trait-english-desc
+  category: SpeechTraits
+  cost: 1
+  components:
+  - type: ReplacementAccent
+    accent: english

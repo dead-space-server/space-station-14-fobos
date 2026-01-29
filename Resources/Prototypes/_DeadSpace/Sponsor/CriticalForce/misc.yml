@@ -47,7 +47,7 @@
 - type: entity
   id: DeathRattleImplanterCriticalForce
   name: имплантер трекер CriticalForce
-  categories: [ HideSpawnMenu ]
+  # categories: [ HideSpawnMenu ]
   suffix: Трекер CriticalForce
   parent: BaseImplantOnlyImplanter
   components:

@@ -55,13 +55,14 @@
        path: /Audio/Items/ring.ogg
   - type: Item
     size: Small
-  - type: Prayable
-    sentMessage: prayer-popup-notify-centcom-sent
-    notificationPrefix: prayer-chat-notify-centcom
-    verb: prayer-verbs-call
-    verbImage: null
-  - type: UseDelay # DS14
-    delay: 300
+  # DS удаление
+  # - type: Prayable
+  #   sentMessage: prayer-popup-notify-centcom-sent
+  #   notificationPrefix: prayer-chat-notify-centcom
+  #   verb: prayer-verbs-call
+  #   verbImage: null
+  # - type: UseDelay # DS14
+  #   delay: 300
 
 - type: entity
   parent: PhoneInstrument

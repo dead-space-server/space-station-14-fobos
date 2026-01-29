@@ -23,6 +23,13 @@
   wageDepartment: Civilian
   wage: 60
   #end-backmen: currency
+  special:
+  - !type:AddComponentSpecial
+    components:
+    # DS14-Start
+    - type: Skill
+      group: BaseSkills
+    # DS14-End
 
 - type: startingGear
   id: ChefGear

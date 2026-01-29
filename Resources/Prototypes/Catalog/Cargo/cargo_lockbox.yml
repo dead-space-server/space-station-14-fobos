@@ -6,7 +6,7 @@
   product: CrateLockBoxEngineering
   cost: 100
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: CrateLockBoxMedical
@@ -16,7 +16,7 @@
   product: CrateLockBoxMedical
   cost: 100
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical # DS14
 
 - type: cargoProduct
   id: CrateLockBoxScience
@@ -26,7 +26,7 @@
   product: CrateLockBoxScience
   cost: 100
   category: cargoproduct-category-name-science
-  group: market
+  group: science
 
 - type: cargoProduct
   id: CrateLockBoxSecurity
@@ -46,4 +46,4 @@
   product: CrateLockBoxService
   cost: 100
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14

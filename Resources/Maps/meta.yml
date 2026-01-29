@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/08/2026 05:17:19
-  entityCount: 27795
+  time: 01/21/2026 00:35:53
+  entityCount: 27797
 maps:
 - 1
 grids:
@@ -683,6 +683,8 @@ entities:
             3209: 57,5
             3546: 0,39
             3599: -40,26
+            3652: -40,27
+            3653: -42,28
         - node:
             color: '#FFFFFFFF'
             id: BotGreyscale
@@ -12235,7 +12237,7 @@ entities:
       pos: -24.5,-1.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -5402.5938
+      secondsUntilStateChange: -5536.151
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -63801,11 +63803,6 @@ entities:
     - type: Transform
       pos: -5.5,4.5
       parent: 2
-  - uid: 10062
-    components:
-    - type: Transform
-      pos: 10.5,48.5
-      parent: 2
   - uid: 10063
     components:
     - type: Transform
@@ -72792,6 +72789,13 @@ entities:
       parent: 11543
     - type: Physics
       canCollide: False
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 10062
+    components:
+    - type: Transform
+      pos: 10.5,48.5
+      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 27533
@@ -121922,6 +121926,11 @@ entities:
     - type: Transform
       pos: -39.5,26.5
       parent: 2
+  - uid: 21841
+    components:
+    - type: Transform
+      pos: -39.5,27.5
+      parent: 2
 - proto: LockerSalvageSpecialistFilledHardsuit
   entities:
   - uid: 18444
@@ -146704,13 +146713,6 @@ entities:
     - type: Transform
       pos: 27.5,-5.5
       parent: 2
-- proto: SpawnPointSeniorCourier
-  entities:
-  - uid: 21841
-    components:
-    - type: Transform
-      pos: -36.5,3.5
-      parent: 2
 - proto: SpawnPointSeniorEngineer
   entities:
   - uid: 21837
@@ -146738,6 +146740,13 @@ entities:
     components:
     - type: Transform
       pos: 23.5,-55.5
+      parent: 2
+- proto: SpawnPointSeniorSalvageSpecialist
+  entities:
+  - uid: 27796
+    components:
+    - type: Transform
+      pos: -41.5,27.5
       parent: 2
 - proto: SpawnPointServiceWorker
   entities:
@@ -147990,6 +147999,13 @@ entities:
           ents:
           - 11432
           - 11431
+- proto: SuitStorageSeniorSalvageSpecialistFilled
+  entities:
+  - uid: 27797
+    components:
+    - type: Transform
+      pos: -41.5,28.5
+      parent: 2
 - proto: SuitStorageWarden
   entities:
   - uid: 22018

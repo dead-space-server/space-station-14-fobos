@@ -5,9 +5,12 @@ using Content.Shared.Mobs;
 using Robust.Server.Player;
 using Robust.Shared.Player;
 using Content.Server.EUI;
-using Content.Shared.Pinpointer;
 using Content.Server.Roles;
 using Content.Server.Mind;
+using Content.Shared.Mind.Components;
+using Content.Shared.DeadSpace.ERT;
+using Content.Shared.Mobs.Components;
+using Content.Server.Actions;
 
 namespace Content.Server.DeadSpace.ERT;
 
@@ -17,15 +20,22 @@ public sealed class ResponceErtOnAllowedStateSystem : EntitySystem
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly ILogManager _logManager = default!;
     [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
-    [Dependency] private readonly SharedPinpointerSystem _sharedPinpointerSystem = default!;
     [Dependency] private readonly RoleSystem _roleSystem = default!;
     [Dependency] private readonly MindSystem _mindSystem = default!;
+    [Dependency] private readonly ActionsSystem _actionsSystem = default!;
 
     public override void Initialize()
     {
         base.Initialize();
 
+        SubscribeLocalEvent<ResponceErtOnAllowedStateComponent, ComponentShutdown>(OnShutdown);
         SubscribeLocalEvent<ResponceErtOnAllowedStateComponent, MobStateChangedEvent>(OnMobStateChange);
+        SubscribeLocalEvent<ResponceErtOnAllowedStateComponent, CallErtHelpActionEvent>(OnCallErtHelpAction);
+    }
+
+    private void OnShutdown(Entity<ResponceErtOnAllowedStateComponent> ent, ref ComponentShutdown args)
+    {
+        _actionsSystem.RemoveAction(ent.Owner, ent.Comp.ActionEntity);
     }
 
     private void OnMobStateChange(Entity<ResponceErtOnAllowedStateComponent> ent, ref MobStateChangedEvent args)
@@ -33,17 +43,34 @@ public sealed class ResponceErtOnAllowedStateSystem : EntitySystem
         if (!ent.Comp.IsReady)
             return;
 
-        if (!_playerManager.TryGetSessionByEntity(ent, out var session))
+        if (!TryComp<MobStateComponent>(ent, out var mobState))
             return;
 
-        if (!ent.Comp.AllowedStates.Contains(args.NewMobState))
+        foreach (var allowedState in ent.Comp.AllowedStates)
+        {
+            if (allowedState == mobState.CurrentState)
+            {
+                _actionsSystem.AddAction(ent.Owner, ref ent.Comp.ActionEntity, ent.Comp.ActionPrototype);
+                return;
+            }
+        }
+
+        _actionsSystem.RemoveAction(ent.Owner, ent.Comp.ActionEntity);
+    }
+
+    private void OnCallErtHelpAction(Entity<ResponceErtOnAllowedStateComponent> ent, ref CallErtHelpActionEvent args)
+    {
+        if (!ent.Comp.IsReady)
+            return;
+
+        if (!_playerManager.TryGetSessionByEntity(ent, out var session))
             return;
 
         var mind = _mindSystem.GetMind(ent);
         if (mind == null)
             return;
 
-        var title = $"Оповещение CriticalForce: {args.NewMobState}";
+        var title = $"Оповещение CriticalForce: ";
         string text;
 
         if (_roleSystem.MindIsAntagonist(mind))
@@ -91,19 +118,24 @@ public sealed class ResponceErtOnAllowedStateSystem : EntitySystem
             return;
         }
 
-        var ent = _ertResponceSystem.EnsureErtTeam(component.Team);
-
-        if (!TryComp<RuleGridsComponent>(ent, out var ruleGrids))
-            return;
-
-        var query = EntityQueryEnumerator<PinpointerComponent, TransformComponent>();
-        while (query.MoveNext(out var uid, out var pin, out var xform))
+        string? callReason = null;
+        if (_mindSystem.TryGetMind(player.AttachedEntity.Value, out _, out var mindComp))
         {
-            if (xform.MapID == ruleGrids.Map)
-                _sharedPinpointerSystem.SetTarget(uid, player.AttachedEntity.Value, pin);
+            var playerName = mindComp.CharacterName ?? player.Name ?? Loc.GetString("ert-critical-force-unknown-player");
+            callReason = Loc.GetString("ert-critical-force-reason", ("name", playerName));
         }
 
-        RemComp<ResponceErtOnAllowedStateComponent>(player.AttachedEntity.Value);
+        _ertResponceSystem.TryCallErt(
+            component.Team,
+            station: null,
+            out _,
+            toPay: false,
+            needCooldown: false,
+            needWarn: false,
+            callReason: callReason,
+            pinpointerTarget: player.AttachedEntity.Value
+        );
 
+        RemComp<ResponceErtOnAllowedStateComponent>(player.AttachedEntity.Value);
     }
 }

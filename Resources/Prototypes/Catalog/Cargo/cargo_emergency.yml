@@ -6,7 +6,7 @@
   product: CrateEmergencyExplosive
   cost: 1000
   category: cargoproduct-category-name-emergency
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EmergencyFire
@@ -16,7 +16,7 @@
   product: CrateEmergencyFire
   cost: 1500
   category: cargoproduct-category-name-emergency
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EmergencyInternals
@@ -26,7 +26,7 @@
   product: CrateEmergencyInternals
   cost: 600
   category: cargoproduct-category-name-emergency
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EmergencyInternalsLarge
@@ -36,7 +36,7 @@
   product: CrateEmergencyInternalsLarge
   cost: 1200
   category: cargoproduct-category-name-emergency
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EmergencyRadiation
@@ -46,7 +46,7 @@
   product: CrateEmergencyRadiation
   cost: 1000
   category: cargoproduct-category-name-emergency
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EmergencyInflatablewall
@@ -56,7 +56,7 @@
   product: CrateEmergencyInflatablewall
   cost: 500
   category: cargoproduct-category-name-emergency
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EmergencyNitrogenTanks
@@ -66,7 +66,7 @@
   product: CrateNitrogenInternals
   cost: 350
   category: cargoproduct-category-name-emergency
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EmergencyBiosuit
@@ -76,4 +76,4 @@
   product: CrateGenericBiosuit
   cost: 4000 # DS14
   category: cargoproduct-category-name-emergency
-  group: market
+  group: engineering # DS14

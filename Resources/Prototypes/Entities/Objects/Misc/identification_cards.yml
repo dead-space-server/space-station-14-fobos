@@ -472,6 +472,18 @@
 
 - type: entity
   parent: IDCardStandard
+  id: SeniorSalvageIDCard # DS14
+  name: coroner ID card
+  components:
+  - type: Sprite
+    layers:
+    - state: default
+    - state: idseniorcargo
+  - type: PresetIdCard
+    job: SeniorSalvageSpecialist
+
+- type: entity
+  parent: IDCardStandard
   id: CentcomIDCard
   name: command officer ID card
   components:

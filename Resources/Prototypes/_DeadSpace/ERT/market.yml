@@ -1,2 +1,17 @@
 - type: cargoMarket
   id: security
+
+- type: cargoMarket
+  id: service
+
+- type: cargoMarket
+  id: medical
+
+- type: cargoMarket
+  id: engineering
+
+- type: cargoMarket
+  id: science
+
+- type: cargoMarket
+  id: general
