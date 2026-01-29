@@ -1,5 +1,4 @@
-law-configurator-requires-open-panel = Open technical panel required!
-law-configurator-requires-board = Law board required!
-law-configurator-update-laws = Configuration laws have been updated.
-law-configurator-start-configuring = Начинаю конфигурацию законов для {$target}...
-law-configurator-configuration-complete = Law configuration completed!
+law-configurator-requires-open-panel = Requires an open maintenance panel!
+law-configurator-requires-board = The configurator requires a law board!
+law-configurator-update-laws = The configurator's laws have been updated.
+law-configurator-start-configuring = Starting law configuration for {$target}...

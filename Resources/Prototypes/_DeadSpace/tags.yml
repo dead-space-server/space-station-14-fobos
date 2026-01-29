@@ -32,9 +32,6 @@
   id: BorgSecTorso
 
 - type: Tag
-  id: SiliconLawProvider
-
-- type: Tag
   id: DarkFlower
 
 - type: Tag

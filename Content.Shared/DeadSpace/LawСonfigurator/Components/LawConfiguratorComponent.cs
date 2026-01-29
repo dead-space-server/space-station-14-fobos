@@ -1,4 +1,5 @@
 using Content.Shared.DeadSpace.LawConfigurator.Systems;
+using Content.Shared.DoAfter;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 using Robust.Shared.Serialization;
@@ -12,11 +13,23 @@ public sealed partial class LawConfiguratorComponent : Component
     /// <summary>
     /// Звук при успешной настройке
     /// </summary>
-    [DataField("successSound")]
+    [DataField]
     public SoundSpecifier? SuccessSound;
 
     /// <summary>
-    /// Есть ли плата в слоте
+    /// Задержка (прогресс бар)
+    /// </summary>
+    [DataField("doAfter")]
+    public float DoAfter = 10.0f;
+
+    /// <summary>
+    /// Требуется ли открытая панель для настройки законов юнита
+    /// </summary>
+    [DataField("requireOpenPanel")]
+    public bool RequireOpenPanel = true;
+
+    /// <summary>
+    /// Есть ли плата в слоте конфигуратора законов
     /// </summary>
     [DataField, AutoNetworkedField]
     public bool HasBoard;
