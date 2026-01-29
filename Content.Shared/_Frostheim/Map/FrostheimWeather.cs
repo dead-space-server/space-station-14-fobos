@@ -1,6 +1,6 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
-namespace Content.Shared._Frostheim;
+namespace Content.Shared._Frostheim.Map;
 
 [PublicAPI]
 public enum FrostheimWeather

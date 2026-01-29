@@ -1,8 +1,8 @@
 using Content.Server.Temperature.Components;
 using Content.Server.Temperature.Systems;
-using Content.Shared._Frostheim;
+using Content.Shared._Frostheim.HeatSource;
 
-namespace Content.Server._Frostheim;
+namespace Content.Server._Frostheim.HeatSource;
 
 public sealed class HeatSourceSystem : EntitySystem
 {

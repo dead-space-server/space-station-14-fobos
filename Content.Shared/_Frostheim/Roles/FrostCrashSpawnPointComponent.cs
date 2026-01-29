@@ -1,7 +1,7 @@
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
-namespace Content.Shared._Frostheim;
+namespace Content.Shared._Frostheim.Roles;
 
 [RegisterComponent, NetworkedComponent]
 public sealed partial class FrostCrashSpawnPointComponent : Component

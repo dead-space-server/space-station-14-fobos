@@ -1,4 +1,4 @@
-﻿namespace Content.Shared._Frostheim;
+namespace Content.Shared._Frostheim.Map;
 
 public static class FrostheimWeatherExtensions
 {

@@ -418,7 +418,7 @@
 #   soundHit:  Waiting on serv3
     damage:
       types:
-        Heat: 14
+        Heat: 50
   # mining laser real
   - type: GatheringProjectile
   - type: Tag

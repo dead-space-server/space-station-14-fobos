@@ -1,13 +1,13 @@
 using Content.Server.Atmos.Components;
 using Content.Server.Shuttles.Components;
-using Content.Shared._Frostheim;
+using Content.Shared._Frostheim.Map;
 using Content.Shared.Atmos;
 using Content.Shared.Weather;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 
-namespace Content.Server._Frostheim;
+namespace Content.Server._Frostheim.Map;
 
 public sealed class FrostMapSystem : EntitySystem
 {
