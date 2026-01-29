@@ -221,7 +221,6 @@
     - FilterGas
     - Deconstruct
   - type: LimitedCharges
-    charges: 45
     maxCharges: 45
   - type: Sprite
     sprite: _DeadSpace/Objects/Tools/rpd.rsi
