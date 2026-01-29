@@ -86,7 +86,8 @@ public sealed class AirlockSystem : SharedAirlockSystem
             return;
         }
 
-        if (component.KeepOpenIfClicked && component.AutoClose)
+        if (component.KeepOpenIfClicked && component.AutoClose
+            && (!TryComp<DoorComponent>(uid, out var doorComp) || doorComp.SupportsAutoClose))
         {
             // Disable auto close
             component.AutoClose = false;

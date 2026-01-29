@@ -21,6 +21,9 @@ public abstract partial class SharedDoorSystem
         if (args.Cancelled)
             return;
 
+        if (TryComp<DoorComponent>(uid, out var door) && !door.SupportsBolts)
+            return;
+
         if (!component.BoltsDown || args.Force)
             return;
 
@@ -31,18 +34,27 @@ public abstract partial class SharedDoorSystem
 
     private void OnBeforeDoorOpened(EntityUid uid, DoorBoltComponent component, BeforeDoorOpenedEvent args)
     {
+        if (TryComp<DoorComponent>(uid, out var door) && !door.SupportsBolts)
+            return;
+
         if (component.BoltsDown)
             args.Cancel();
     }
 
     private void OnBeforeDoorClosed(EntityUid uid, DoorBoltComponent component, BeforeDoorClosedEvent args)
     {
+        if (TryComp<DoorComponent>(uid, out var door) && !door.SupportsBolts)
+            return;
+
         if (component.BoltsDown)
             args.Cancel();
     }
 
     private void OnBeforeDoorDenied(EntityUid uid, DoorBoltComponent component, BeforeDoorDeniedEvent args)
     {
+        if (TryComp<DoorComponent>(uid, out var door) && !door.SupportsBolts)
+            return;
+
         if (component.BoltsDown)
             args.Cancel();
     }
@@ -60,6 +72,9 @@ public abstract partial class SharedDoorSystem
 
     public bool GetBoltLightsVisible(Entity<DoorBoltComponent> ent)
     {
+        if (TryComp<DoorComponent>(ent, out var door) && !door.SupportsBolts)
+            return false;
+
         return ent.Comp.BoltLightsEnabled &&
                ent.Comp.BoltsDown &&
                ent.Comp.Powered;

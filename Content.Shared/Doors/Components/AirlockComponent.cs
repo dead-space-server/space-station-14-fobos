@@ -21,6 +21,14 @@ public sealed partial class AirlockComponent : Component
     [DataField, AutoNetworkedField]
     public bool Safety = true;
 
+    /// <summary>
+    /// If true, the door will always crush entities on partial close,
+    /// skipping the CanClose check that would normally reopen the door.
+    /// </summary>
+    [ViewVariables(VVAccess.ReadWrite)]
+    [DataField, AutoNetworkedField]
+    public bool ForceCrushOnPartialClose;
+
     [ViewVariables(VVAccess.ReadWrite)]
     [DataField, AutoNetworkedField]
     public bool EmergencyAccess = false;

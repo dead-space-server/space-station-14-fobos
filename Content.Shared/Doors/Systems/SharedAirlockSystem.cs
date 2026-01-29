@@ -64,7 +64,7 @@ public abstract class SharedAirlockSystem : EntitySystem
         UpdateAutoClose(uid, component);
 
         // Make sure the airlock auto closes again next time it is opened
-        if (args.State == DoorState.Closed)
+        if (args.State == DoorState.Closed && (!TryComp<DoorComponent>(uid, out var doorComp) || doorComp.SupportsAutoClose))
         {
             component.AutoClose = true;
             Dirty(uid, component);
@@ -95,7 +95,7 @@ public abstract class SharedAirlockSystem : EntitySystem
         if (component.Powered)
             args.PryTimeModifier *= component.PoweredPryModifier;
 
-        if (DoorSystem.IsBolted(uid))
+        if (DoorSystem.IsBolted(uid) && (!TryComp<DoorComponent>(uid, out var door) || door.SupportsBolts))
             args.PryTimeModifier *= component.BoltedPryModifier;
     }
 
@@ -105,6 +105,9 @@ public abstract class SharedAirlockSystem : EntitySystem
     public void UpdateAutoClose(EntityUid uid, AirlockComponent? airlock = null, DoorComponent? door = null)
     {
         if (!Resolve(uid, ref airlock, ref door))
+            return;
+
+        if (!door.SupportsAutoClose)
             return;
 
         if (door.State != DoorState.Open)
@@ -144,7 +147,10 @@ public abstract class SharedAirlockSystem : EntitySystem
 
     public void SetEmergencyAccess(Entity<AirlockComponent> ent, bool value, EntityUid? user = null, bool predicted = false)
     {
-        if(!ent.Comp.Powered)
+        if (TryComp<DoorComponent>(ent, out var door) && !door.SupportsEmergencyAccess)
+            return;
+
+        if (!ent.Comp.Powered)
             return;
 
         if (ent.Comp.EmergencyAccess == value)
@@ -176,6 +182,10 @@ public abstract class SharedAirlockSystem : EntitySystem
 
     public bool CanChangeState(EntityUid uid, AirlockComponent component)
     {
-        return component.Powered && !DoorSystem.IsBolted(uid);
+        TryComp<DoorComponent>(uid, out var door);
+
+        var bolted = door == null || door.SupportsBolts ? DoorSystem.IsBolted(uid) : false;
+
+        return component.Powered && !bolted;
     }
 }

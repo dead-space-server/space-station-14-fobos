@@ -258,6 +258,40 @@ public sealed partial class DoorComponent : Component
     [DataField, ViewVariables(VVAccess.ReadWrite)]
     public bool CanPry = true;
 
+    /// <summary>
+    /// Whether this door supports bolt functionality.
+    /// If false, bolts are ignored even if DoorBoltComponent is present.
+    /// </summary>
+    [DataField, ViewVariables(VVAccess.ReadWrite)]
+    public bool SupportsBolts = true;
+
+    /// <summary>
+    /// Whether this door supports emergency access mode.
+    /// If false, emergency access cannot be toggled.
+    /// </summary>
+    [DataField, ViewVariables(VVAccess.ReadWrite)]
+    public bool SupportsEmergencyAccess = true;
+
+    /// <summary>
+    /// Whether this door uses light layers (unlit, bolted, emergency access sprites).
+    /// If false, these layers are always hidden.
+    /// </summary>
+    [DataField, ViewVariables(VVAccess.ReadWrite)]
+    public bool UseLightLayers = true;
+
+    /// <summary>
+    /// Whether this door supports auto-closing after being opened.
+    /// If false, the door stays open until manually closed.
+    /// </summary>
+    [DataField, ViewVariables(VVAccess.ReadWrite)]
+    public bool SupportsAutoClose = true;
+
+    /// <summary>
+    /// Whether this door can be welded shut.
+    /// </summary>
+    [DataField, ViewVariables(VVAccess.ReadWrite)]
+    public bool CanWeld = true;
+
     [DataField]
     public ProtoId<ToolQualityPrototype> PryingQuality = "Prying";
 

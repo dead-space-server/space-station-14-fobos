@@ -1,0 +1,135 @@
+﻿- type: entity
+  id: BaseDoorEuphoria
+  parent: BaseStructure
+  name: door
+  abstract: true
+  suffix: Orbital
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: InteractionOutline
+  - type: Sprite
+    sprite: _Frostheim/Structures/Doors/Airlocks/1.rsi
+    layers:
+    - state: closed
+      map: ["enum.DoorVisualLayers.Base"]
+  - type: AnimationPlayer
+  - type: Physics
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.49,-0.49,0.49,0.49"
+        density: 100
+        mask:
+        - FullTileMask
+        layer:
+        - WallLayer
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronics ]
+  - type: ContainerContainer
+    containers:
+      board: !type:Container
+  - type: Door
+    crushDamage:
+      types:
+        Blunt: 50
+    supportsBolts: false
+    supportsEmergencyAccess: false
+    useLightLayers: false
+    supportsAutoClose: true
+    canWeld: false
+    canCrush: true
+    bumpOpen: false
+  - type: Airlock
+    forceCrushOnPartialClose: true
+  - type: AccessReader
+    containerAccessProvider: board
+  - type: Appearance
+  - type: ApcPowerReceiver
+    powerLoad: 20
+  - type: ExtensionCableReceiver
+  - type: Airtight
+  - type: Occluder
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: StrongMetallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 400
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+  - type: IconSmooth
+    key: walls
+    mode: NoSprite
+
+- type: entity
+  id: DoorOrbitalOne
+  parent: BaseDoorEuphoria
+  components:
+  - type: Sprite
+    sprite: _Frostheim/Structures/Doors/Airlocks/1.rsi
+  - type: Door
+    openingAnimationTime: 1.65
+    closingAnimationTime: 1.7
+    openTimeOne: 1.0
+    openTimeTwo: 0.65
+    closeTimeOne: 1.0
+    closeTimeTwo: 0.7
+    openSound:
+      path: /Audio/_Frostheim/Airlocks/med_door1.ogg
+    closeSound:
+      path: /Audio/_Frostheim/Airlocks/med_door1c.ogg
+    denySound:
+      path: /Audio/_Frostheim/Airlocks/leg_deny.ogg
+  - type: Airlock
+    autoCloseDelay: 5.0
+
+- type: entity
+  id: DoorOrbitalTwo
+  parent: BaseDoorEuphoria
+  components:
+  - type: Sprite
+    sprite: _Frostheim/Structures/Doors/Airlocks/2.rsi
+  - type: Door
+    openingAnimationTime: 8.18
+    closingAnimationTime: 8.18
+    openTimeOne: 1.68
+    openTimeTwo: 0.5
+    closeTimeOne: 1.68
+    closeTimeTwo: 0.5
+    openSound:
+      path: /Audio/_Frostheim/Airlocks/eng_door1.ogg
+    closeSound:
+      path: /Audio/_Frostheim/Airlocks/eng_door1c.ogg
+    denySound:
+      path: /Audio/_Frostheim/Airlocks/leg_deny.ogg
+  - type: Airlock
+    autoCloseDelay: 8.0
+
+- type: entity
+  id: DoorOrbitalThree
+  parent: BaseDoorEuphoria
+  components:
+  - type: Sprite
+    sprite: _Frostheim/Structures/Doors/Airlocks/3.rsi
+  - type: Door
+    openingAnimationTime: 3.4
+    closingAnimationTime: 3.4
+    openTimeOne: 0.9
+    openTimeTwo: 0.5
+    closeTimeOne: 0.9
+    closeTimeTwo: 0.5
+    openSound:
+      path: /Audio/_Frostheim/Airlocks/maint_open.ogg
+    closeSound:
+      path: /Audio/_Frostheim/Airlocks/maint_close.ogg
+    denySound:
+      path: /Audio/_Frostheim/Airlocks/leg_deny.ogg
+  - type: Airlock
+    autoCloseDelay: 5.0

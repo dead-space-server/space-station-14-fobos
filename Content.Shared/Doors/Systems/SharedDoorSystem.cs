@@ -123,7 +123,10 @@ public abstract partial class SharedDoorSystem : EntitySystem
         if (!TryComp<AirlockComponent>(uid, out var airlock))
             return;
 
-        if (IsBolted(uid) || !airlock.Powered)
+        if (door.SupportsBolts && IsBolted(uid))
+            return;
+
+        if (!airlock.Powered)
             return;
 
         if (door.State != DoorState.Closed)
@@ -242,6 +245,12 @@ public abstract partial class SharedDoorSystem : EntitySystem
 
     private void OnWeldAttempt(EntityUid uid, DoorComponent component, WeldableAttemptEvent args)
     {
+        if (!component.CanWeld)
+        {
+            args.Cancel();
+            return;
+        }
+
         if (component.CurrentlyCrushing.Count > 0)
         {
             args.Cancel();
@@ -396,7 +405,7 @@ public abstract partial class SharedDoorSystem : EntitySystem
         if (!Resolve(uid, ref door, ref airlock))
             return false;
 
-        if (IsBolted(uid) || !airlock.Powered || door.State != DoorState.Closed)
+        if ((door.SupportsBolts && IsBolted(uid)) || !airlock.Powered || door.State != DoorState.Closed)
         {
             return false;
         }
@@ -471,7 +480,8 @@ public abstract partial class SharedDoorSystem : EntitySystem
             return false;
 
         // Make sure no entity walked into the airlock when it started closing.
-        if (!CanClose(uid, door, partial: true))
+        var forceCrush = TryComp<AirlockComponent>(uid, out var airlock) && airlock.ForceCrushOnPartialClose;
+        if (!forceCrush && !CanClose(uid, door, partial: true))
         {
             door.NextStateChange = GameTiming.CurTime + door.OpenTimeTwo;
             door.State = DoorState.Open;
@@ -635,7 +645,8 @@ public abstract partial class SharedDoorSystem : EntitySystem
             return true;
 
         // If the door is on emergency access we skip the checks.
-        if (TryComp<AirlockComponent>(uid, out var airlock) && airlock.EmergencyAccess)
+        if (Resolve(uid, ref door) && door.SupportsEmergencyAccess
+            && TryComp<AirlockComponent>(uid, out var airlock) && airlock.EmergencyAccess)
             return true;
 
         // Anyone can click to open firelocks

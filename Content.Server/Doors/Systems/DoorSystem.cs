@@ -40,6 +40,9 @@ public sealed class DoorSystem : SharedDoorSystem
 
     private void OnBoltPowerChanged(Entity<DoorBoltComponent> ent, ref PowerChangedEvent args)
     {
+        if (TryComp<DoorComponent>(ent, out var door) && !door.SupportsBolts)
+            return;
+
         if (args.Powered)
         {
             if (ent.Comp.BoltWireCut)
