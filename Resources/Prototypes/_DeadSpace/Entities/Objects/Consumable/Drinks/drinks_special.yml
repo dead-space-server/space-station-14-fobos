@@ -18,3 +18,5 @@
       - state: base
       - state: base-unshaded
         shader: unshaded
+  - type: Item
+    sprite: _DeadSpace/Objects/Consumable/Drinks/syndie_shaker.rsi

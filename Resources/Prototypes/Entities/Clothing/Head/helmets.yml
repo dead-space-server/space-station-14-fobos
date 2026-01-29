@@ -42,9 +42,7 @@
     tags:
     - WhitelistChameleon
     - SecurityHelmet
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
+
 
 #Mercenary Helmet
 - type: entity
@@ -122,9 +120,6 @@
         Slash: 0.8
         Piercing: 0.95
         Heat: 0.95 # DS14-value
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
 
 #Bombsuit Helmet
 - type: entity

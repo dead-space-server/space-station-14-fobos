@@ -151,15 +151,15 @@
     highPressureMultiplier: 0.5
     lowPressureMultiplier: 1000
   - type: ExplosionResistance
-    damageCoefficient: 0.7
+    damageCoefficient: 0.5 #DS14-value
   - type: Armor
     modifiers:
       armorLvls:
         Piercing: 2
       coefficients:
-        Blunt: 0.7
+        Blunt: 0.6 #DS14-value
         Slash: 0.6
-        Piercing: 0.7
+        Piercing: 0.65 #DS14-value
         Heat: 0.7
         Radiation: 0.3
         Caustic: 0.7

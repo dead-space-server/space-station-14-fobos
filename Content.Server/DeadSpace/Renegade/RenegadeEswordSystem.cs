@@ -40,7 +40,7 @@ public sealed class RenegadeEswordSystem : EntitySystem
     {
         comp.IsConnected = true;
         _actions.AddAction(uid, "ActionRecallRenegadeEsword");
-        _actions.AddAction(uid, "ActionRenegadeEswordTeleport");
+    //    _actions.AddAction(uid, "ActionRenegadeEswordTeleport");
     }
 
     private void OnRecallEsword(EntityUid uid, RenegadeComponent comp, RecallRenegadeEswordEvent args)
