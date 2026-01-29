@@ -15,6 +15,7 @@ public sealed class RCDConstructionGhostRotationEvent(NetEntity netEntity, Direc
     public readonly NetEntity NetEntity = netEntity;
     public readonly Direction Direction = direction;
 }
+
 // DS14-RPD-start
 [Serializable, NetSerializable]
 public sealed class RCDConstructionGhostFlipEvent : EntityEventArgs

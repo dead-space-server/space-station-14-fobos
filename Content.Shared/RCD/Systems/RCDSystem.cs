@@ -64,7 +64,7 @@ public sealed class RCDSystem : EntitySystem
         SubscribeLocalEvent<RCDComponent, DoAfterAttemptEvent<RCDDoAfterEvent>>(OnDoAfterAttempt);
         SubscribeLocalEvent<RCDComponent, RCDSystemMessage>(OnRCDSystemMessage);
         SubscribeNetworkEvent<RCDConstructionGhostRotationEvent>(OnRCDconstructionGhostRotationEvent);
-        SubscribeNetworkEvent<RCDConstructionGhostFlipEvent>(OnRCDConstructionGhostFlipEvent);
+        SubscribeNetworkEvent<RCDConstructionGhostFlipEvent>(OnRCDConstructionGhostFlipEvent); // DS14-RPD
     }
 
     #region Event handling
@@ -75,7 +75,7 @@ public sealed class RCDSystem : EntitySystem
         if (component.AvailablePrototypes.Count > 0)
         {
             component.ProtoId = component.AvailablePrototypes.ElementAt(0);
-            UpdateCachedPrototype(uid, component);
+            UpdateCachedPrototype(uid, component); // DS14-RPD
             Dirty(uid, component);
 
             return;
@@ -96,7 +96,7 @@ public sealed class RCDSystem : EntitySystem
 
         // Set the current RCD prototype to the one supplied
         component.ProtoId = args.ProtoId;
-        UpdateCachedPrototype(uid, component);
+        UpdateCachedPrototype(uid, component); // DS14-RPD
         Dirty(uid, component);
     }
 
@@ -106,7 +106,7 @@ public sealed class RCDSystem : EntitySystem
             return;
 
         // Update cached prototype if required
-        UpdateCachedPrototype(uid, component);
+        UpdateCachedPrototype(uid, component); // DS14-RPD
 
         var prototype = _protoManager.Index(component.ProtoId);
 
@@ -316,7 +316,7 @@ public sealed class RCDSystem : EntitySystem
         rcd.ConstructionDirection = ev.Direction;
         Dirty(uid, rcd);
     }
-
+    // DS14-RPD-start
     private void OnRCDConstructionGhostFlipEvent(RCDConstructionGhostFlipEvent ev, EntitySessionEventArgs session)
     {
         var uid = GetEntity(ev.NetEntity);
@@ -332,6 +332,7 @@ public sealed class RCDSystem : EntitySystem
         rcd.UseMirrorPrototype = ev.UseMirrorPrototype;
         Dirty(uid, rcd);
     }
+    // DS14-RPD-end
 
     #endregion
 
@@ -340,7 +341,7 @@ public sealed class RCDSystem : EntitySystem
     public bool IsRCDOperationStillValid(EntityUid uid, RCDComponent component, EntityUid gridUid, MapGridComponent mapGrid, TileRef tile, Vector2i position, EntityUid? target, EntityUid user, bool popMsgs = true)
     {
         // Update cached prototype if required
-        UpdateCachedPrototype(uid, component);
+        UpdateCachedPrototype(uid, component); // DS14-RPD
 
         var prototype = _protoManager.Index(component.ProtoId);
 
@@ -493,6 +494,7 @@ public sealed class RCDSystem : EntitySystem
         // Attempt to deconstruct a floor tile
         if (target == null)
         {
+            // DS14-RPD-start
             if (TryComp<RCDComponent>(uid, out var rcd) && rcd.IsRpd)
             {
                 if (popMsgs)
@@ -500,6 +502,7 @@ public sealed class RCDSystem : EntitySystem
 
                 return false;
             }
+            // DS14-RPD-end
             // The tile is empty
             if (tile.Tile.IsEmpty)
             {
@@ -533,6 +536,7 @@ public sealed class RCDSystem : EntitySystem
         // Attempt to deconstruct an object
         else
         {
+            // DS14-RPD-start
             // The object is not in the RPD whitelist
             if (!TryComp<RCDDeconstructableComponent>(target, out var deconstructible) || !deconstructible.RpdDeconstructable && TryComp<RCDComponent>(uid, out var rcd) && rcd.IsRpd)
             {
@@ -541,9 +545,10 @@ public sealed class RCDSystem : EntitySystem
 
                 return false;
             }
+            // DS14-RPD-end
 
             // The object is not in the whitelist
-            if (!deconstructible.Deconstructable)
+            if (!deconstructible.Deconstructable) // DS14-RPD
             {
                 if (popMsgs)
                     _popup.PopupClient(Loc.GetString("rcd-component-deconstruct-target-not-on-whitelist-message"), uid, user);
@@ -577,12 +582,14 @@ public sealed class RCDSystem : EntitySystem
                 break;
 
             case RcdMode.ConstructObject:
+                // DS14-RPD-start
                 var proto = (component.UseMirrorPrototype &&
                     !string.IsNullOrEmpty(component.CachedPrototype.MirrorPrototype))
                     ? component.CachedPrototype.MirrorPrototype
                     : component.CachedPrototype.Prototype;
+                // DS14-RPD-end
 
-                var ent = Spawn(proto, _mapSystem.GridTileToLocal(gridUid, mapGrid, position));
+                var ent = Spawn(proto, _mapSystem.GridTileToLocal(gridUid, mapGrid, position)); // DS14-RPD
 
                 switch (prototype.Rotation)
                 {
@@ -632,6 +639,7 @@ public sealed class RCDSystem : EntitySystem
         return boundingPolygon.ComputeAABB(boundingTransform, 0).Intersects(fixture.Shape.ComputeAABB(entXform, 0));
     }
 
+    // DS14-RPD-start
     public void UpdateCachedPrototype(EntityUid uid, RCDComponent component)
     {
         if (component.ProtoId.Id != component.CachedPrototype?.Prototype ||
@@ -641,6 +649,7 @@ public sealed class RCDSystem : EntitySystem
             component.CachedPrototype = _protoManager.Index(component.ProtoId);
         }
     }
+    // DS14-RPD-end
 
     #endregion
 }

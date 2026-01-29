@@ -7,8 +7,8 @@ using Robust.Client.UserInterface;
 using Robust.Shared.Collections;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
-// using Robust.Shared.Utility; DS14-Edit
-using Content.Shared.DeadSpace.RCD;
+// using Robust.Shared.Utility; DS14-RPD-Edit
+using Content.Shared.DeadSpace.RCD; // DS14-RPD
 
 namespace Content.Client.RCD;
 
@@ -70,7 +70,7 @@ public sealed class RCDMenuBoundUserInterface : BoundUserInterface
                 continue;
             }
 
-            if (!_prototypeManager.TryIndex<RCDCategoryPrototype>(prototype.Category, out var categoryProto)) //DS14-Edit
+            if (!_prototypeManager.TryIndex<RCDCategoryPrototype>(prototype.Category, out var categoryProto)) // DS14-RPD
                 continue;
 
             if (!buttonsByCategory.TryGetValue(prototype.Category, out var list))
@@ -91,14 +91,14 @@ public sealed class RCDMenuBoundUserInterface : BoundUserInterface
         var i = 0;
         foreach (var (key, list) in buttonsByCategory)
         {
-            if (!_prototypeManager.TryIndex<RCDCategoryPrototype>(key, out var categoryProto)) //DS14-Edit
+            if (!_prototypeManager.TryIndex<RCDCategoryPrototype>(key, out var categoryProto)) // DS14-RPD
                 continue;
             models[i] = new RadialMenuNestedLayerOption(list)
             {
-                //DS14-Edit-start
+                // DS14-RPD-start
                 IconSpecifier = RadialMenuIconSpecifier.With(categoryProto.Sprite),
                 ToolTip = Loc.GetString(categoryProto.Tooltip)
-                //DS14-Edit-end
+                // DS14-RPD-end
             };
             i++;
         }

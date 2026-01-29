@@ -42,8 +42,8 @@ public sealed partial class RCDPrototype : IPrototype
     /// The entity prototype that will be constructed (mode dependent)
     /// </summary>
     [DataField, ViewVariables(VVAccess.ReadOnly)]
-    public string? Prototype { get; private set; } = string.Empty; //DS14-RPD-edit
-    
+    public string? Prototype { get; private set; } = string.Empty; // DS14-RPD
+
     // DS14-RPD-start
     /// <summary>
     /// If the entity can be flipped, this prototype is available as an alternate (mode dependent)
