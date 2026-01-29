@@ -438,7 +438,7 @@
   name: ert-loadout-category-lecter-name
   description: ert-loadout-category-lecter-description
   sprite:
-    sprite: Objects/Weapons/Guns/Rifles/lecter.rsi
+    sprite: Objects/Weapons/Guns/Rifles/XL8.rsi
     state: icon
   content:
   - WeaponRifleLecterXL8
