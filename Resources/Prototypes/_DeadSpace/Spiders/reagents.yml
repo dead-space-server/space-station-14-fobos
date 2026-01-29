@@ -85,7 +85,7 @@
 - type: reagent
   id: SpiderExtractLurker
   name: reagent-name-extract-lurker
-  group: Toxins #DS14-value
+  group: Toxins
   desc: reagent-desc-omnizine
   physicalDesc: reagent-physical-desc-soothing
   flavor: medicine
@@ -94,14 +94,14 @@
     Medicine:
       effects:
       - !type:ModifyBleedAmount
-        amount: 1.5 #DS14-value
+        amount: 1.5
       - !type:HealthChange
         damage:
           groups:
-            Burn: 0.5 #DS14-value
-            Toxin: 0.5 #DS14-value
-            Airloss: 5 #DS14-value
-            Brute: 0.5 #DS14-value
+            Burn: 0.5
+            Toxin: 0.5
+            Airloss: 5
+            Brute: 0.5
 
 - type: reagent
   id: SpiderLurkerSmokeExtract
@@ -225,7 +225,7 @@
   color: "#7FFFD4"
   metabolisms:
     Poison:
-      metabolismRate: 0.5 #DS14-value
+      metabolismRate: 0.5
       effects:
       - !type:CauseEgg
         duration: 360
