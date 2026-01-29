@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/08/2026 05:24:19
-  entityCount: 19242
+  time: 01/21/2026 01:09:34
+  entityCount: 19245
 maps:
 - 1
 grids:
@@ -1598,6 +1598,11 @@ entities:
             820: 5,-275
             821: 6,-275
             822: 2,-275
+        - node:
+            color: '#FFFFFFFF'
+            id: Delivery
+          decals:
+            2008: -2,-271
         - node:
             color: '#334E6DFF'
             id: DeliveryGreyscale
@@ -6806,8 +6811,7 @@ entities:
   - uid: 13
     components:
     - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -4.19681,-346.40063
+      pos: -3.370589,-346.3935
       parent: 2
 - proto: ADTFoodSausageRaw
   entities:
@@ -40833,6 +40837,13 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 13.929752,-156.62067
       parent: 2
+- proto: ClothingBeltSalvageWebbing
+  entities:
+  - uid: 19243
+    components:
+    - type: Transform
+      pos: -5.55375,-288.54773
+      parent: 2
 - proto: ClothingBeltUtilityEngineering
   entities:
   - uid: 6027
@@ -51259,6 +51270,17 @@ entities:
     - type: Transform
       pos: -11.533743,-338.3354
       parent: 2
+  - uid: 19244
+    components:
+    - type: Transform
+      pos: -4.5434914,-285.92538
+      parent: 2
+  - uid: 19245
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -6.7778664,-283.33163
+      parent: 2
 - proto: Dresser
   entities:
   - uid: 7803
@@ -52146,6 +52168,14 @@ entities:
       parent: 7954
     - type: Physics
       canCollide: False
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 15553
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -4.5,-346.5
+      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 6157
@@ -86741,6 +86771,13 @@ entities:
     - type: Transform
       pos: -13.643399,-246.28522
       parent: 2
+- proto: LiquidOxygenCanister
+  entities:
+  - uid: 13158
+    components:
+    - type: Transform
+      pos: -6.5,-268.5
+      parent: 2
 - proto: LockerAtmosphericsFilledHardsuit
   entities:
   - uid: 12849
@@ -87221,6 +87258,11 @@ entities:
     components:
     - type: Transform
       pos: -6.5,-286.5
+      parent: 2
+  - uid: 18393
+    components:
+    - type: Transform
+      pos: -6.5,-284.5
       parent: 2
 - proto: LockerScienceFilled
   entities:
@@ -88906,10 +88948,10 @@ entities:
       parent: 2
 - proto: OreProcessor
   entities:
-  - uid: 13156
+  - uid: 14495
     components:
     - type: Transform
-      pos: -1.5,-270.5
+      pos: -7.5,-275.5
       parent: 2
 - proto: OxygenCanister
   entities:
@@ -88917,11 +88959,6 @@ entities:
     components:
     - type: Transform
       pos: -21.5,-242.5
-      parent: 2
-  - uid: 13158
-    components:
-    - type: Transform
-      pos: -6.5,-268.5
       parent: 2
   - uid: 13159
     components:
@@ -88989,59 +89026,6 @@ entities:
       parent: 2
 - proto: Paper
   entities:
-  - uid: 13169
-    components:
-    - type: Transform
-      rot: 1.7712880373001099 rad
-      pos: -7.690384,-274.59164
-      parent: 2
-    - type: Paper
-      content: >-
-        Лошки, следить надо внимательнее за своей консолькой
-
-
-        -С любовью Ваш воришка♡
-    - type: Physics
-      bodyStatus: InAir
-    - type: Fixtures
-      fixtures:
-        fix1:
-          shape: !type:PolygonShape
-            radius: 0.01
-            vertices:
-            - -0.25,-0.25
-            - 0.25,-0.25
-            - 0.25,0.25
-            - -0.25,0.25
-          mask:
-          - Impassable
-          - HighImpassable
-          layer: []
-          density: 20
-          hard: True
-          restitution: 0.3
-          friction: 0.2
-        throw-fixture:
-          shape: !type:PolygonShape
-            radius: 0.01
-            vertices:
-            - -0.25,-0.25
-            - 0.25,-0.25
-            - 0.25,0.25
-            - -0.25,0.25
-          mask:
-          - Impassable
-          - HighImpassable
-          - BulletImpassable
-          layer: []
-          density: 1
-          hard: False
-          restitution: 0
-          friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 60629.5042775
-      thrownTime: 60629.4727038
   - uid: 13170
     components:
     - type: Transform
@@ -89135,7 +89119,7 @@ entities:
   - uid: 9
     components:
     - type: Transform
-      pos: -4.649935,-346.35376
+      pos: -3.495589,-346.37787
       parent: 2
     - type: Paper
       stampState: paper_stamp-ce
@@ -89317,11 +89301,6 @@ entities:
       parent: 2
 - proto: Pen
   entities:
-  - uid: 13196
-    components:
-    - type: Transform
-      pos: -7.4350357,-274.2298
-      parent: 2
   - uid: 13197
     components:
     - type: Transform
@@ -99268,11 +99247,11 @@ entities:
       parent: 2
 - proto: SalvageMagnet
   entities:
-  - uid: 14495
+  - uid: 13196
     components:
     - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -7.5,-275.5
+      rot: -1.5707963267948966 rad
+      pos: -10.5,-274.5
       parent: 2
 - proto: SalvageMaterialCrateSpawner
   entities:
@@ -103731,13 +103710,6 @@ entities:
     - type: Transform
       pos: -3.5,-63.5
       parent: 2
-- proto: SpawnPointSeniorCourier
-  entities:
-  - uid: 15078
-    components:
-    - type: Transform
-      pos: 3.5,-272.5
-      parent: 2
 - proto: SpawnPointSeniorEngineer
   entities:
   - uid: 15074
@@ -103765,6 +103737,18 @@ entities:
     components:
     - type: Transform
       pos: -3.5,-314.5
+      parent: 2
+- proto: SpawnPointSeniorSalvageSpecialist
+  entities:
+  - uid: 13169
+    components:
+    - type: Transform
+      pos: -5.5,-287.5
+      parent: 2
+  - uid: 15078
+    components:
+    - type: Transform
+      pos: 3.5,-272.5
       parent: 2
 - proto: SpawnPointServiceWorker
   entities:
@@ -104662,6 +104646,13 @@ entities:
     components:
     - type: Transform
       pos: -12.5,-334.5
+      parent: 2
+- proto: SuitStorageSeniorSalvageSpecialistFilled
+  entities:
+  - uid: 13156
+    components:
+    - type: Transform
+      pos: -1.5,-270.5
       parent: 2
 - proto: SuitStorageWarden
   entities:
@@ -107324,11 +107315,6 @@ entities:
     components:
     - type: Transform
       pos: -3.5,-346.5
-      parent: 2
-  - uid: 15553
-    components:
-    - type: Transform
-      pos: -4.5,-346.5
       parent: 2
   - uid: 15554
     components:
@@ -123473,13 +123459,6 @@ entities:
     components:
     - type: Transform
       pos: 3.5,-310.5
-      parent: 2
-- proto: WardrobeSalvageFilled
-  entities:
-  - uid: 18393
-    components:
-    - type: Transform
-      pos: -6.5,-284.5
       parent: 2
 - proto: WardrobeScienceFilled
   entities:

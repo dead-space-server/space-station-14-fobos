@@ -42,7 +42,7 @@
     delay: 10
   - type: UseDelayOnMeleeHit
   - type: MeleeThrowOnHit
-    stunTime: 3
+    stunTime: 1.5 #DS14
     activateOnThrown: true
   - type: MeleeWeapon
     wideAnimationRotation: -135
@@ -62,7 +62,7 @@
   - type: DamageOtherOnHit
     damage:
       types:
-        Blunt: 15
+        Blunt: 8 #DS14
         Structural: 15
   - type: Item
     size: Ginormous

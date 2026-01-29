@@ -1532,7 +1532,7 @@
   description: Smells like postage stamps and shuttle fuel.
   components:
   - type: Pda
-    id: SeniorCourierIDCard # DS14
+    id: CargoIDCard # DS14
   - type: Appearance
     appearanceDataInit:
      enum.PdaVisuals.PdaType:

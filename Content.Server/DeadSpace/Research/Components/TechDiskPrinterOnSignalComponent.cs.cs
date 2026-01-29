@@ -3,7 +3,7 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 using Content.Shared.DeviceLinking;
 
-namespace Content.Server.Research.Components;
+namespace Content.Server.DeadSpace.Research.Components;
 
 [RegisterComponent]
 public sealed partial class TechDiskPrinterOnSignalComponent : Component

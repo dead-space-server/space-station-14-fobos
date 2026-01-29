@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/08/2026 04:50:51
-  entityCount: 38792
+  time: 01/21/2026 00:32:07
+  entityCount: 38784
 maps:
 - 1
 grids:
@@ -8063,6 +8063,10 @@ entities:
             13514: -20.344528,-56.899635
             13515: -18.968586,-57.25738
             13516: -19.491444,-58.633324
+            19851: 28,-15
+            19852: 30,-15
+            19853: 28,-14
+            19854: 31,-16
         - node:
             cleanable: True
             color: '#FFFFFFFF'
@@ -9142,12 +9146,8 @@ entities:
             8628: -46,64
             8630: -49,67
             8631: -49,67
-            8673: 28,-14
-            8674: 28,-15
             8675: 29,-16
             8676: 30,-14
-            8677: 31,-15
-            8678: 30,-15
             8679: 26,-14
             8680: 26,-16
             8681: 25,-17
@@ -11849,16 +11849,9 @@ entities:
             8693: 24,-17
             8694: 25,-14
             8695: 27,-14
-            8696: 28,-14
-            8697: 28,-15
             8698: 29,-16
             8699: 29,-16
-            8700: 30,-15
-            8701: 30,-15
             8702: 30,-16
-            8703: 31,-15
-            8704: 30,-15
-            8705: 29,-15
             8706: 31,-16
             8707: 30,-16
             9010: -36,-34
@@ -19241,12 +19234,8 @@ entities:
             8709: 25,-14
             8710: 26,-16
             8711: 24,-15
-            8713: 28,-14
-            8714: 28,-15
-            8715: 29,-15
             8716: 29,-16
             8717: 30,-14
-            8718: 31,-15
             8719: 30,-16
             8872: 50,24
             8873: 51,23
@@ -19461,23 +19450,6 @@ entities:
             13906: 46.000664,9.886101
             13907: 46.094414,9.802767
         - node:
-            cleanable: True
-            color: '#E9EDDF47'
-            id: pawprint
-          decals:
-            8669: 27.778515,-13.989855
-            8671: 28.267738,-14.454618
-        - node:
-            cleanable: True
-            angle: 1.5707963267948966 rad
-            color: '#E9EDDF47'
-            id: pawprint
-          decals:
-            8663: 30.114561,-14.90715
-            8664: 29.686487,-15.212915
-            8665: 28.830347,-14.748152
-            8672: 28.48789,-15.090609
-        - node:
             color: '#D58C18FF'
             id: radiation
           decals:
@@ -19652,12 +19624,6 @@ entities:
             5446: -50.75255,56.521057
             5447: -46.4088,57.114807
             5448: -55.961853,47.61392
-        - node:
-            cleanable: True
-            color: '#E9EDDF47'
-            id: splatter
-          decals:
-            8662: 30.677168,-14.69923
     - type: GridAtmosphere
       version: 2
       data:
@@ -27113,7 +27079,7 @@ entities:
       pos: -30.5,-46.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -457874.6
+      secondsUntilStateChange: -458134.78
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -27167,7 +27133,7 @@ entities:
       pos: 19.5,-37.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -85628.46
+      secondsUntilStateChange: -85888.664
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -27623,7 +27589,7 @@ entities:
       pos: -7.5,-42.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -85624.03
+      secondsUntilStateChange: -85884.234
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -28060,7 +28026,7 @@ entities:
       pos: -63.5,-20.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -197496.38
+      secondsUntilStateChange: -197756.58
       state: Opening
     - type: DeviceLinkSink
       invokeCounter: 1
@@ -46875,18 +46841,6 @@ entities:
       rot: 1.5707963267948966 rad
       pos: -75.5,-48.5
       parent: 2
-  - uid: 1702
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 30.5,-16.5
-      parent: 2
-  - uid: 1703
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 28.5,-12.5
-      parent: 2
   - uid: 35208
     components:
     - type: Transform
@@ -46984,11 +46938,6 @@ entities:
     components:
     - type: Transform
       pos: -36.5,-18.5
-      parent: 2
-  - uid: 1720
-    components:
-    - type: Transform
-      pos: 28.5,-11.5
       parent: 2
 - proto: BarSign
   entities:
@@ -106932,15 +106881,6 @@ entities:
     - type: Transform
       pos: -61.461983,18.525726
       parent: 2
-- proto: ClothingNeckCloakSalvagerSupreme
-  entities:
-  - uid: 12093
-    components:
-    - type: Transform
-      parent: 12092
-    - type: Physics
-      canCollide: False
-    - type: InsideEntityStorage
 - proto: ClothingNeckCloakTrans
   entities:
   - uid: 12094
@@ -107619,24 +107559,6 @@ entities:
     - type: Transform
       pos: 24.447042,42.46136
       parent: 2
-- proto: ClothingUnderwearBottomBoxersSeniorResearcher
-  entities:
-  - uid: 12197
-    components:
-    - type: Transform
-      pos: 30.822481,-13.966848
-      parent: 2
-- proto: ClothingUnderwearBottomPantiesSalvageSpecialist
-  entities:
-  - uid: 12198
-    components:
-    - type: Transform
-      rot: -0.340771704912191 rad
-      pos: 30.696978,-14.517225
-      parent: 2
-    - type: CollisionWake
-      enabled: False
-    - type: Conveyed
 - proto: ClothingUnderwearSocksHigh
   entities:
   - uid: 12199
@@ -108627,12 +108549,6 @@ entities:
       parent: 2
 - proto: ComputerCrewMonitoring
   entities:
-  - uid: 12343
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -21.5,51.5
-      parent: 2
   - uid: 12344
     components:
     - type: Transform
@@ -119265,6 +119181,17 @@ entities:
       parent: 2
 - proto: DoubleEmergencyOxygenTankFilled
   entities:
+  - uid: 1720
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 35.74784,-9.219151
+      parent: 2
+  - uid: 12092
+    components:
+    - type: Transform
+      pos: 25.558794,-9.469151
+      parent: 2
   - uid: 13828
     components:
     - type: Transform
@@ -119515,15 +119442,6 @@ entities:
     - type: Transform
       pos: -26.734167,36.230576
       parent: 2
-- proto: DrinkCartonMilk
-  entities:
-  - uid: 13865
-    components:
-    - type: Transform
-      parent: 13864
-    - type: Physics
-      canCollide: False
-    - type: InsideEntityStorage
 - proto: DrinkChangelingStingCan
   entities:
   - uid: 13866
@@ -120692,6 +120610,14 @@ entities:
       parent: 14031
     - type: Physics
       canCollide: False
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 12093
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -21.5,51.5
+      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 14128
@@ -123574,7 +123500,7 @@ entities:
       pos: -29.5,3.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -127703.22
+      secondsUntilStateChange: -127963.42
       state: Closing
   - uid: 14317
     components:
@@ -123748,7 +123674,7 @@ entities:
       pos: -37.5,36.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -9188.31
+      secondsUntilStateChange: -9448.513
       state: Closing
   - uid: 14350
     components:
@@ -124026,7 +123952,7 @@ entities:
       pos: 12.5,-8.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -134946.03
+      secondsUntilStateChange: -135206.23
       state: Closing
     - type: Firelock
       emergencyCloseCooldown: 23052.0769499
@@ -124544,7 +124470,7 @@ entities:
       pos: -73.5,36.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -152887.94
+      secondsUntilStateChange: -153148.14
       state: Closing
   - uid: 14504
     components:
@@ -124553,7 +124479,7 @@ entities:
       pos: -55.5,11.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -150095.73
+      secondsUntilStateChange: -150355.94
       state: Closing
     - type: DeviceNetwork
       deviceLists:
@@ -167051,13 +166977,6 @@ entities:
     - type: Transform
       pos: 17.5,1.5
       parent: 2
-- proto: HolopadCargoMailroom
-  entities:
-  - uid: 20059
-    components:
-    - type: Transform
-      pos: 16.5,-10.5
-      parent: 2
 - proto: HolopadCargoSalvageBay
   entities:
   - uid: 20060
@@ -174912,34 +174831,13 @@ entities:
         moles:
           Oxygen: 3.4430928
           Nitrogen: 12.952587
-- proto: LockerSalvageSpecialist
-  entities:
-  - uid: 13864
-    components:
-    - type: Transform
-      pos: 31.5,-15.5
-      parent: 2
-    - type: EntityStorage
-      air:
-        volume: 200
-        immutable: False
-        temperature: 293.14673
-        moles:
-          Oxygen: 1.7459903
-          Nitrogen: 6.568249
-    - type: ContainerContainer
-      containers:
-        entity_storage: !type:Container
-          showEnts: False
-          occludes: True
-          ents:
-          - 13865
-        paper_label: !type:ContainerSlot
-          showEnts: False
-          occludes: True
-          ent: null
 - proto: LockerSalvageSpecialistFilledHardsuit
   entities:
+  - uid: 12343
+    components:
+    - type: Transform
+      pos: 28.5,-15.5
+      parent: 2
   - uid: 21318
     components:
     - type: Transform
@@ -176272,12 +176170,6 @@ entities:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 8.072684,60.593678
-      parent: 2
-  - uid: 21472
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 28.330885,-13.3287945
       parent: 2
   - uid: 37183
     components:
@@ -178749,24 +178641,6 @@ entities:
 
 
         Ваш Старший Инженер.
-  - uid: 21750
-    components:
-    - type: Transform
-      rot: 0.9088377332037076 rad
-      pos: 25.514742,-16.314814
-      parent: 2
-    - type: Paper
-      content: Я хочу домой....
-    - type: DamageOnHighSpeedImpact
-      lastHit: 0
-  - uid: 21751
-    components:
-    - type: Transform
-      rot: -0.2963036298751831 rad
-      pos: 31.489035,-13.37113
-      parent: 2
-    - type: Paper
-      content: Эта вульпочка была просто ахуенной....
   - uid: 21752
     components:
     - type: Transform
@@ -180795,6 +180669,13 @@ entities:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 22.583862,49.35753
+      parent: 2
+- proto: PlushieWillie
+  entities:
+  - uid: 1703
+    components:
+    - type: Transform
+      pos: 30.438475,-15.428236
       parent: 2
 - proto: PlushieXeno
   entities:
@@ -213271,6 +213152,11 @@ entities:
       parent: 2
 - proto: SpawnPointSalvageSpecialist
   entities:
+  - uid: 12198
+    components:
+    - type: Transform
+      pos: 26.5,-16.5
+      parent: 2
   - uid: 26561
     components:
     - type: Transform
@@ -213280,11 +213166,6 @@ entities:
     components:
     - type: Transform
       pos: 24.5,-16.5
-      parent: 2
-  - uid: 26563
-    components:
-    - type: Transform
-      pos: 26.5,-16.5
       parent: 2
 - proto: SpawnPointScientist
   entities:
@@ -213476,13 +213357,6 @@ entities:
     - type: Transform
       pos: -3.5,8.5
       parent: 2
-- proto: SpawnPointSeniorCourier
-  entities:
-  - uid: 26600
-    components:
-    - type: Transform
-      pos: 16.5,-10.5
-      parent: 2
 - proto: SpawnPointSeniorEngineer
   entities:
   - uid: 26601
@@ -213520,6 +213394,13 @@ entities:
     components:
     - type: Transform
       pos: 30.5,19.5
+      parent: 2
+- proto: SpawnPointSeniorSalvageSpecialist
+  entities:
+  - uid: 12197
+    components:
+    - type: Transform
+      pos: 29.5,-14.5
       parent: 2
 - proto: SpawnPointServiceWorker
   entities:
@@ -215927,26 +215808,6 @@ entities:
       parent: 2
 - proto: SuitStorageBase
   entities:
-  - uid: 12092
-    components:
-    - type: Transform
-      pos: 28.5,-15.5
-      parent: 2
-    - type: EntityStorage
-      air:
-        volume: 200
-        immutable: False
-        temperature: 293.14673
-        moles:
-          Oxygen: 1.7459903
-          Nitrogen: 6.568249
-    - type: ContainerContainer
-      containers:
-        entity_storage: !type:Container
-          showEnts: False
-          occludes: True
-          ents:
-          - 12093
   - uid: 37950
     components:
     - type: Transform
@@ -216245,6 +216106,13 @@ entities:
     components:
     - type: Transform
       pos: -27.5,68.5
+      parent: 2
+- proto: SuitStorageSeniorSalvageSpecialistFilled
+  entities:
+  - uid: 1702
+    components:
+    - type: Transform
+      pos: 31.5,-15.5
       parent: 2
 - proto: SurveillanceCameraCommand
   entities:
@@ -249050,7 +248918,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -434602
+      secondsUntilStateChange: -434862.2
       state: Opening
     - type: Airlock
       autoClose: False
