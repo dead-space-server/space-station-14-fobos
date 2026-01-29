@@ -239,7 +239,7 @@
   id: JobCoroner
 
 - type: playTimeTracker
-  id: JobSeniorCourier
+  id: JobSeniorSalvageSpecialist
 
 - type: playTimeTracker
   id: JobSeniorAdministrator

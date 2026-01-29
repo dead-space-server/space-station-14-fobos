@@ -230,7 +230,7 @@
     allowRepeatedMorphs: false
     polymorphSound: /Audio/Magic/ethereal_enter.ogg
     exitPolymorphSound: /Audio/Magic/ethereal_exit.ogg
-    duration: 3
+    duration: 2 #DS14
 
 # Desynchronized / Void Pocket status
 - type: polymorph

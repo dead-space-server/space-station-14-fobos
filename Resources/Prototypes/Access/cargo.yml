@@ -10,9 +10,14 @@
   id: Salvage
   name: id-card-access-level-salvage
 
+- type: accessLevel
+  id: SeniorSalvage
+  name: id-card-access-level-senior-salvage
+
 - type: accessGroup
   id: Cargo
   tags:
   - Quartermaster
   - Salvage
   - Cargo
+  - SeniorSalvage

@@ -4,7 +4,7 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/08/2026 04:30:36
+  time: 01/20/2026 23:33:08
   entityCount: 8959
 maps:
 - 1
@@ -8135,7 +8135,7 @@ entities:
       pos: 20.5,9.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -22090.477
+      secondsUntilStateChange: -22152.041
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -22575,12 +22575,6 @@ entities:
       parent: 2
 - proto: ComputerCriminalRecords
   entities:
-  - uid: 2405
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -25.5,22.5
-      parent: 2
   - uid: 2406
     components:
     - type: Transform
@@ -26189,6 +26183,14 @@ entities:
     - type: Transform
       pos: 0.49856567,6.503723
       parent: 7522
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 2405
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -25.5,22.5
+      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 2400
@@ -39324,13 +39326,6 @@ entities:
     - type: Transform
       pos: 24.562672,16.49251
       parent: 2
-- proto: OreBox
-  entities:
-  - uid: 4466
-    components:
-    - type: Transform
-      pos: 23.5,16.5
-      parent: 2
 - proto: OreProcessor
   entities:
   - uid: 4467
@@ -48633,13 +48628,6 @@ entities:
     - type: Transform
       pos: 22.5,-29.5
       parent: 2
-- proto: SpawnPointSeniorCourier
-  entities:
-  - uid: 5761
-    components:
-    - type: Transform
-      pos: 17.5,13.5
-      parent: 2
 - proto: SpawnPointSeniorEngineer
   entities:
   - uid: 5762
@@ -48667,6 +48655,13 @@ entities:
     components:
     - type: Transform
       pos: 23.5,-10.5
+      parent: 2
+- proto: SpawnPointSeniorSalvageSpecialist
+  entities:
+  - uid: 5761
+    components:
+    - type: Transform
+      pos: 23.5,17.5
       parent: 2
 - proto: SpawnPointServiceWorker
   entities:
@@ -49345,6 +49340,13 @@ entities:
     components:
     - type: Transform
       pos: -13.5,28.5
+      parent: 2
+- proto: SuitStorageSeniorSalvageSpecialistFilled
+  entities:
+  - uid: 4466
+    components:
+    - type: Transform
+      pos: 23.5,16.5
       parent: 2
 - proto: SurveillanceCameraGeneral
   entities:

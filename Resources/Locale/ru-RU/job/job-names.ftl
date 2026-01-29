@@ -76,7 +76,7 @@ job-name-magistrat = Магистрат
 job-name-coroner = Коронер
 job-name-virologist = Вирусолог
 job-name-security-pilot = Пилот СБ
-job-name-senior-courier = Ведущий логист
+job-name-senior-salvagespec = Ведущий утилизатор
 job-name-senior-administrator = Менеджер
 job-name-station-ai = Станционный ИИ
 # unused jobs
@@ -168,7 +168,7 @@ JobMagistrat = Магистрат
 JobCoroner = Коронер
 JobVirologist = Вирусолог
 JobSecurityPilot = Пилот СБ
-JobSeniorCourier = Ведущий логист
+JobSeniorSalvageSpecialist = Ведущий утилизатор
 JobSeniorAdministrator = Менеджер
 JobStationAi = Станционный ИИ
 JobVisitor = Посетитель

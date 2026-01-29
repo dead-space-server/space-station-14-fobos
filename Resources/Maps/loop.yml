@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/08/2026 04:48:44
-  entityCount: 26240
+  time: 01/21/2026 00:26:36
+  entityCount: 26238
 maps:
 - 1
 grids:
@@ -15769,7 +15769,7 @@ entities:
       pos: 1.5,61.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -1215830
+      secondsUntilStateChange: -1216007.4
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -15798,7 +15798,7 @@ entities:
       pos: -27.5,77.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -174677.52
+      secondsUntilStateChange: -174854.84
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -15822,7 +15822,7 @@ entities:
       pos: -29.5,75.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -174675.36
+      secondsUntilStateChange: -174852.69
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -15833,7 +15833,7 @@ entities:
       pos: -31.5,77.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -174674.89
+      secondsUntilStateChange: -174852.22
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -15907,7 +15907,7 @@ entities:
       pos: -31.5,30.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -683992.9
+      secondsUntilStateChange: -684170.2
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -16116,7 +16116,7 @@ entities:
       pos: -55.5,23.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -666550.5
+      secondsUntilStateChange: -666727.8
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -16207,7 +16207,7 @@ entities:
       pos: 16.5,-3.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -819590.44
+      secondsUntilStateChange: -819767.75
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -16901,7 +16901,7 @@ entities:
       pos: -19.5,31.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -1460258.6
+      secondsUntilStateChange: -1460436
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -16975,7 +16975,7 @@ entities:
       pos: 9.5,68.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -1245084
+      secondsUntilStateChange: -1245261.4
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -17304,7 +17304,7 @@ entities:
       pos: -76.5,51.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -890806.94
+      secondsUntilStateChange: -890984.25
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -22120,12 +22120,6 @@ entities:
     - type: Transform
       pos: -64.5,9.5
       parent: 2
-  - uid: 1368
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 6.5,57.5
-      parent: 2
 - proto: BarricadeDirectional
   entities:
   - uid: 1369
@@ -22207,12 +22201,6 @@ entities:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: -66.5,13.5
-      parent: 2
-  - uid: 1383
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 7.5,57.5
       parent: 2
 - proto: BarSpoon
   entities:
@@ -23927,12 +23915,6 @@ entities:
       parent: 2
 - proto: BookHowToRockAndStone
   entities:
-  - uid: 1661
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 4.6782713,57.51089
-      parent: 2
   - uid: 1662
     components:
     - type: Transform
@@ -25773,13 +25755,6 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -47.192574,51.461693
       parent: 2
-  - uid: 1964
-    components:
-    - type: Transform
-      parent: 1963
-    - type: Physics
-      canCollide: False
-    - type: InsideEntityStorage
 - proto: Bucket
   entities:
   - uid: 1965
@@ -58862,6 +58837,13 @@ entities:
     - type: Transform
       pos: -32.488625,1.8891019
       parent: 2
+- proto: ClothingBeltSalvageWebbing
+  entities:
+  - uid: 8519
+    components:
+    - type: Transform
+      pos: 4.698226,57.684765
+      parent: 2
 - proto: ClothingBeltSheath
   entities:
   - uid: 8218
@@ -60874,15 +60856,6 @@ entities:
     - type: Transform
       pos: 17.306068,56.40853
       parent: 2
-- proto: ClothingNeckCloakSalvagerSupreme
-  entities:
-  - uid: 8519
-    components:
-    - type: Transform
-      parent: 8518
-    - type: Physics
-      canCollide: False
-    - type: InsideEntityStorage
 - proto: ClothingNeckDetectiveMedal
   entities:
   - uid: 8520
@@ -62478,12 +62451,6 @@ entities:
     components:
     - type: Transform
       pos: -39.5,25.5
-      parent: 2
-  - uid: 8753
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -41.5,39.5
       parent: 2
   - uid: 8754
     components:
@@ -75363,6 +75330,16 @@ entities:
       parent: 2
 - proto: DoubleEmergencyOxygenTankFilled
   entities:
+  - uid: 1383
+    components:
+    - type: Transform
+      pos: 8.604179,63.532257
+      parent: 2
+  - uid: 1661
+    components:
+    - type: Transform
+      pos: 3.760726,60.747265
+      parent: 2
   - uid: 10907
     components:
     - type: Transform
@@ -78488,6 +78465,14 @@ entities:
     - type: Transform
       pos: 19.50415,59.51994
       parent: 2
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 18263
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -41.5,39.5
+      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 23060
@@ -81580,7 +81565,7 @@ entities:
       - 247
       - 217
     - type: Door
-      secondsUntilStateChange: -1017578
+      secondsUntilStateChange: -1017755.3
       state: Closing
   - uid: 11788
     components:
@@ -120635,7 +120620,7 @@ entities:
     - type: DeltaPressure
       gridUid: 2
     - type: Door
-      secondsUntilStateChange: -217705.44
+      secondsUntilStateChange: -217882.77
       state: Opening
 - proto: InflatableDoorStack1
   entities:
@@ -123384,34 +123369,13 @@ entities:
     - type: Transform
       pos: 18.5,46.5
       parent: 2
-- proto: LockerSalvageSpecialist
+- proto: LockerSalvageSpecialistFilled
   entities:
-  - uid: 1963
+  - uid: 1964
     components:
     - type: Transform
       pos: 5.5,58.5
       parent: 2
-    - type: EntityStorage
-      air:
-        volume: 200
-        immutable: False
-        temperature: 293.14673
-        moles:
-          Oxygen: 1.7459903
-          Nitrogen: 6.568249
-    - type: ContainerContainer
-      containers:
-        entity_storage: !type:Container
-          showEnts: False
-          occludes: True
-          ents:
-          - 1964
-        paper_label: !type:ContainerSlot
-          showEnts: False
-          occludes: True
-          ent: null
-- proto: LockerSalvageSpecialistFilled
-  entities:
   - uid: 17365
     components:
     - type: Transform
@@ -129482,11 +129446,6 @@ entities:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 14.682074,65.576675
-      parent: 2
-  - uid: 18263
-    components:
-    - type: Transform
-      pos: 4.6470213,57.651516
       parent: 2
   - uid: 18264
     components:
@@ -146265,6 +146224,16 @@ entities:
       parent: 2
 - proto: SalvageSpawnerMobMiningAsteroid
   entities:
+  - uid: 1368
+    components:
+    - type: Transform
+      pos: 23.5,59.5
+      parent: 2
+  - uid: 8753
+    components:
+    - type: Transform
+      pos: 20.5,58.5
+      parent: 2
   - uid: 21029
     components:
     - type: Transform
@@ -151812,13 +151781,6 @@ entities:
     - type: Transform
       pos: -66.5,49.5
       parent: 2
-- proto: SpawnPointSeniorCourier
-  entities:
-  - uid: 21813
-    components:
-    - type: Transform
-      pos: -0.5,57.5
-      parent: 2
 - proto: SpawnPointSeniorEngineer
   entities:
   - uid: 21814
@@ -151846,6 +151808,13 @@ entities:
     components:
     - type: Transform
       pos: 15.5,40.5
+      parent: 2
+- proto: SpawnPointSeniorSalvageSpecialist
+  entities:
+  - uid: 8518
+    components:
+    - type: Transform
+      pos: 5.5,57.5
       parent: 2
 - proto: SpawnPointServiceWorker
   entities:
@@ -153133,28 +153102,6 @@ entities:
     - type: Transform
       pos: -2.5,10.5
       parent: 2
-- proto: SuitStorageBase
-  entities:
-  - uid: 8518
-    components:
-    - type: Transform
-      pos: 4.5,58.5
-      parent: 2
-    - type: EntityStorage
-      air:
-        volume: 200
-        immutable: False
-        temperature: 293.14673
-        moles:
-          Oxygen: 1.7459903
-          Nitrogen: 6.568249
-    - type: ContainerContainer
-      containers:
-        entity_storage: !type:Container
-          showEnts: False
-          occludes: True
-          ents:
-          - 8519
 - proto: SuitStorageCE
   entities:
   - uid: 22033
@@ -153357,6 +153304,13 @@ entities:
     components:
     - type: Transform
       pos: -36.5,50.5
+      parent: 2
+- proto: SuitStorageSeniorSalvageSpecialistFilled
+  entities:
+  - uid: 1963
+    components:
+    - type: Transform
+      pos: 4.5,58.5
       parent: 2
 - proto: SuitStorageWarden
   entities:
@@ -156568,11 +156522,6 @@ entities:
     components:
     - type: Transform
       pos: -39.5,24.5
-      parent: 2
-  - uid: 22622
-    components:
-    - type: Transform
-      pos: -41.5,39.5
       parent: 2
   - uid: 22623
     components:
@@ -174451,7 +174400,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -1386535.1
+      secondsUntilStateChange: -1386712.5
       state: Opening
     - type: Airlock
       autoClose: False

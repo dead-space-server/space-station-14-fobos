@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/08/2026 05:20:17
-  entityCount: 27444
+  time: 01/21/2026 01:03:59
+  entityCount: 27443
 maps:
 - 1
 grids:
@@ -14677,7 +14677,7 @@ entities:
       pos: -2.5,-36.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -98781.86
+      secondsUntilStateChange: -98911.32
       changeAirtight: False
       state: Opening
     - type: Docking
@@ -14693,7 +14693,7 @@ entities:
       pos: 0.5,-7.5
       parent: 27198
     - type: Door
-      secondsUntilStateChange: -98781.195
+      secondsUntilStateChange: -98910.66
       changeAirtight: False
       state: Opening
     - type: Docking
@@ -68417,13 +68417,6 @@ entities:
     - type: Transform
       pos: -138.43086,-7.4537888
       parent: 2
-  - uid: 10528
-    components:
-    - type: Transform
-      parent: 10527
-    - type: Physics
-      canCollide: False
-    - type: InsideEntityStorage
 - proto: ClothingNeckGoldAutismPin
   entities:
   - uid: 10342
@@ -69016,12 +69009,6 @@ entities:
     components:
     - type: Transform
       pos: -32.5,-17.5
-      parent: 2
-  - uid: 10607
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -83.5,-34.5
       parent: 2
   - uid: 10608
     components:
@@ -80463,6 +80450,16 @@ entities:
       rot: 3.141592653589793 rad
       pos: -112.262695,-3.8745804
       parent: 2
+  - uid: 19913
+    components:
+    - type: Transform
+      pos: -92.38986,28.631313
+      parent: 2
+  - uid: 22608
+    components:
+    - type: Transform
+      pos: -91.57736,32.756313
+      parent: 2
 - proto: Dresser
   entities:
   - uid: 12518
@@ -80922,6 +80919,14 @@ entities:
     components:
     - type: Transform
       pos: -143.17523,-19.971285
+      parent: 2
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 10528
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -83.5,-34.5
       parent: 2
 - proto: ErtResponceConsole
   entities:
@@ -134869,6 +134874,11 @@ entities:
     - type: Transform
       pos: -90.5,29.5
       parent: 2
+  - uid: 21622
+    components:
+    - type: Transform
+      pos: -90.5,30.5
+      parent: 2
 - proto: LockerScienceFilled
   entities:
   - uid: 19787
@@ -135813,11 +135823,6 @@ entities:
       parent: 2
 - proto: MicroManipulatorStockPart
   entities:
-  - uid: 19913
-    components:
-    - type: Transform
-      pos: -90.88102,30.58712
-      parent: 2
   - uid: 19914
     components:
     - type: Transform
@@ -147142,14 +147147,6 @@ entities:
       rot: 3.141592653589793 rad
       pos: -123.33605,-68.60567
       parent: 2
-- proto: ScrapCloset
-  entities:
-  - uid: 21622
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -91.1929,30.220203
-      parent: 2
 - proto: ScrapFaxMachine
   entities:
   - uid: 21623
@@ -155042,13 +155039,6 @@ entities:
     - type: Transform
       pos: -61.5,-30.5
       parent: 2
-- proto: SpawnPointSeniorCourier
-  entities:
-  - uid: 22608
-    components:
-    - type: Transform
-      pos: -100.5,13.5
-      parent: 2
 - proto: SpawnPointSeniorEngineer
   entities:
   - uid: 22609
@@ -155076,6 +155066,13 @@ entities:
     components:
     - type: Transform
       pos: -120.5,-39.5
+      parent: 2
+- proto: SpawnPointSeniorSalvageSpecialist
+  entities:
+  - uid: 10607
+    components:
+    - type: Transform
+      pos: -93.5,29.5
       parent: 2
 - proto: SpawnPointServiceWorker
   entities:
@@ -155944,26 +155941,6 @@ entities:
       parent: 2
 - proto: SuitStorageBase
   entities:
-  - uid: 10527
-    components:
-    - type: Transform
-      pos: -92.5,35.5
-      parent: 2
-    - type: EntityStorage
-      air:
-        volume: 200
-        immutable: False
-        temperature: 293.14673
-        moles:
-          Oxygen: 1.7459903
-          Nitrogen: 6.568249
-    - type: ContainerContainer
-      containers:
-        entity_storage: !type:Container
-          showEnts: False
-          occludes: True
-          ents:
-          - 10528
   - uid: 22743
     components:
     - type: Transform
@@ -156228,6 +156205,13 @@ entities:
       name: хранилище скафандра инструктора СБ
     - type: Transform
       pos: -80.5,-21.5
+      parent: 2
+- proto: SuitStorageSeniorSalvageSpecialistFilled
+  entities:
+  - uid: 10527
+    components:
+    - type: Transform
+      pos: -92.5,35.5
       parent: 2
 - proto: SuitStorageWarden
   entities:
@@ -157820,14 +157804,6 @@ entities:
       - SurveillanceCameraEntertainment
       nameSet: True
       id: LiveLeak
-- proto: SurvivalKnife
-  entities:
-  - uid: 22924
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -90.40402,30.348625
-      parent: 2
 - proto: SyndieFlag
   entities:
   - uid: 22925
