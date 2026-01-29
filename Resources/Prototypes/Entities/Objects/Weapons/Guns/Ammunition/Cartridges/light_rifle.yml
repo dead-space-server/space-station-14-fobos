@@ -26,6 +26,17 @@
   - type: CartridgeAmmo
     proto: BulletLightRifle
 
+#DS14-start
+- type: entity
+  id: CartridgeLightRifleFMJ
+  name: cartridge (.30 rifle)
+  parent: BaseCartridgeLightRifle
+  description: A classic intermediate cartridge used by many combat rifles and LMGs. Standard kinetic ammunition is common and useful in most situations.
+  components:
+  - type: CartridgeAmmo
+    proto: BulletLightRifleFMJ
+#DS14-end
+
 - type: entity
   id: CartridgeLightRiflePractice
   name: cartridge (.30 rifle practice)

@@ -101,7 +101,7 @@
     slots:
       gun_magazine:
         name: Magazine
-        startingItem: ADTExtMagazineRifle
+        startingItem: ADTExtMagazineRifleFMJ
         insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
         ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
         priority: 2
@@ -128,13 +128,13 @@
 
 - type: entity
   parent: WeaponRifleLecter
-  id: WeaponRifleLecterHP
+  id: WeaponRifleLecterFMJ
   components:
   - type: ItemSlots
     slots:
       gun_magazine:
         name: Magazine
-        startingItem: MagazineRifleHP
+        startingItem: MagazineRifleFMJ
         insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
         ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
         priority: 2

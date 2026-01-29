@@ -136,7 +136,7 @@
         amount: 4
       - id: MagazineShotgun
         amount: 4
-      - id: MagazineRifle
+      - id: MagazineRifleFMJ # DS14
         amount: 3
       - id: MagazineShotgunSlug
         amount: 1

@@ -28,6 +28,7 @@ research-technology-salvage-weapons = Утилизаторское оружие
 research-technology-special-means = Специальные средства
 research-technology-draconic-munitions = Драконьи боеприпасы
 research-technology-uranium-munitions = Урановые боеприпасы
+research-technology-fmj-munitions = FULL METAL JACKET!
 research-technology-explosive-technology = Взрывчатые вещества
 research-technology-weaponized-laser-manipulation = Манипулирование лазерным оружием
 research-technology-nonlethal-ammunition = Нелетальные боеприпасы

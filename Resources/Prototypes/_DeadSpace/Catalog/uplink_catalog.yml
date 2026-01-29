@@ -233,23 +233,24 @@
   categories:
   - UplinkAmmo
 
-- type: listing
-  id: UplinkMagazineMachineGun
-  name: uplink-machine-gun-magazine-name
-  description: uplink-machine-gun-magazine-desc
-  icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Magazine/Pistol/smg_mag.rsi, state: red }
-  productEntity: MagazinePistolSubMachineGun
-  cost:
-    Telecrystal: 3
-  categories:
-  - UplinkAmmo
+#- type: listing
+#  id: UplinkMagazineMachineGun
+#  name: uplink-machine-gun-magazine-name
+#  description: uplink-machine-gun-magazine-desc
+#  icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Magazine/Pistol/smg_mag.rsi, state: red }
+#  productEntity: MagazinePistolSubMachineGunFMJ
+#  cost:
+#    Telecrystal: 3
+#  categories:
+#  - UplinkAmmo
+# Повторение, оно не нужно
 
 - type: listing
   id: UplinkMagazineLightRifle
   name: uplink-light-rifle-magazine-name
   description: uplink-light-rifle-magazine-desc
   icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Magazine/LightRifle/light_rifle_mag.rsi, state: red }
-  productEntity: MagazineLightRifle
+  productEntity: MagazineLightRifleFMJ
   cost:
     Telecrystal: 3
   categories:

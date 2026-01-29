@@ -26,6 +26,17 @@
   - type: CartridgeAmmo
     proto: BulletRifle
 
+#DS14-start
+- type: entity
+  id: CartridgeRifleFMJ
+  name: cartridge (.20 rifle)
+  parent: BaseCartridgeRifle
+  description: A modern intermediate cartridge for combat rifles. Standard kinetic ammunition is common and useful in most situations.
+  components:
+  - type: CartridgeAmmo
+    proto: BulletRifleFMJ
+#DS14-end
+
 - type: entity
   id: CartridgeRiflePractice
   name: cartridge (.20 rifle practice)

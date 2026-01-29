@@ -39,6 +39,15 @@
   materials:
     Steel: 475
 
+#DS14-start
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: MagazineRifleFMJ
+  result: MagazineRifleFMJ
+  materials:
+    Steel: 575
+#DS14-end
+
 - type: latheRecipe
   parent: BaseAmmoRecipe
   id: MagazineRifleIncendiary
@@ -69,6 +78,15 @@
   result: MagazineBoxRifle
   materials:
     Steel: 750
+
+#DS14-start
+- type: latheRecipe
+  parent: BaseAmmoBoxRecipe
+  id: MagazineBoxRifleFMJ
+  result: MagazineBoxRifleFMJ
+  materials:
+    Steel: 850
+#DS14-end    
 
 - type: latheRecipe
   parent: BaseAmmoBoxRecipe
@@ -115,6 +133,15 @@
   materials:
     Steel: 565
 
+#DS14-start
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: MagazineLightRifleFMJ
+  result: MagazineLightRifleFMJ
+  materials:
+    Steel: 665
+#DS14-end
+
 - type: latheRecipe
   parent: BaseAmmoRecipe
   id: MagazineLightRifleIncendiary
@@ -145,6 +172,15 @@
   result: MagazineBoxLightRifle
   materials:
     Steel: 900
+
+#DS14-start
+- type: latheRecipe
+  parent: BaseAmmoBoxRecipe
+  id: MagazineBoxLightRifleFMJ
+  result: MagazineBoxLightRifleFMJ
+  materials:
+    Steel: 1000
+#DS14-end
 
 - type: latheRecipe
   parent: BaseAmmoBoxRecipe
@@ -182,6 +218,15 @@
   result: MagazinePistol
   materials:
     Steel: 145
+
+#DS14-start
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: MagazinePistolFMJ
+  result: MagazinePistolFMJ
+  materials:
+    Steel: 245
+#DS14-end
 
 - type: latheRecipe
   parent: BaseAmmoRecipe
@@ -221,6 +266,15 @@
   materials:
     Steel: 300
 
+#DS14-start
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: MagazinePistolSubMachineGunFMJ
+  result: MagazinePistolSubMachineGunFMJ
+  materials:
+    Steel: 400
+#DS14-end
+
 - type: latheRecipe
   parent: BaseAmmoRecipe
   id: MagazinePistolSubMachineGunIncendiary
@@ -259,12 +313,30 @@
   materials:
     Steel: 300
 
+#DS14-start
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: MagazinePistolSubMachineGunTopMountedFMJ
+  result: MagazinePistolSubMachineGunTopMountedFMJ
+  materials:
+    Steel: 400
+#DS14-end
+
 - type: latheRecipe
   parent: BaseAmmoBoxRecipe
   id: MagazineBoxPistol
   result: MagazineBoxPistol
   materials:
     Steel: 600
+
+#DS14-start
+- type: latheRecipe
+  parent: BaseAmmoBoxRecipe
+  id: MagazineBoxPistolFMJ
+  result: MagazineBoxPistolFMJ
+  materials:
+    Steel: 700
+#DS14-end
 
 - type: latheRecipe
   parent: BaseAmmoBoxRecipe

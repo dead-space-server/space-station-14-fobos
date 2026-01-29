@@ -60,6 +60,23 @@
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
 
+#DS14-start
+- type: entity
+  parent: BaseMagazineBoxRifle
+  id: MagazineBoxRifleFMJ
+  name: ammunition box (.20 rifle)
+  description: A cardboard box of .20 rifle rounds. Intended to hold general-purpose kinetic ammunition.
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeRifleFMJ
+  - type: Sprite
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+#DS14-end
+
 - type: entity
   parent: BaseMagazineBoxRifle
   id: MagazineBoxRiflePractice

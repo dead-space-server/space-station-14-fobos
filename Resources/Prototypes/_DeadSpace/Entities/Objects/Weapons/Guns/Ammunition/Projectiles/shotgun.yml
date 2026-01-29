@@ -14,6 +14,8 @@
       types:
         Piercing: 20
         Structural: 15
+  - type: StaminaDamageOnCollide
+    damage: 10
 
 - type: entity
   id: PelletShotgunMagnumSpread

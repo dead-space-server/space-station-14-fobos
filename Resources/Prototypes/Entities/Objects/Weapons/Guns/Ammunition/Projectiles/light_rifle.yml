@@ -7,9 +7,26 @@
   - type: Projectile
     damage:
       armorPiercingLevels:
-        Piercing: 2 # потому что калаш
+        Piercing: 1
       types:
         Piercing: 20
+  - type: StaminaDamageOnCollide #DS14
+    damage: 12
+
+#DS14-start
+- type: entity
+  id: BulletLightRifleFMJ
+  name: bullet (.30 rifle)
+  parent: BaseBullet
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    damage:
+      armorPiercingLevels:
+        Piercing: 2
+      types:
+        Piercing: 20
+#DS14-end
 
 - type: entity
   id: BulletLightRiflePractice
