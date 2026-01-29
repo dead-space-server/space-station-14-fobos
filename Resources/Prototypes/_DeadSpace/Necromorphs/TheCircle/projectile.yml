@@ -102,8 +102,6 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 2
       types:
         Piercing: 13
 
@@ -169,8 +167,6 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 2
       types:
        Piercing: 12
        Slash: 2

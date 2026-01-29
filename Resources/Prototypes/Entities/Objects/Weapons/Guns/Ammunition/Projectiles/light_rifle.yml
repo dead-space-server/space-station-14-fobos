@@ -6,8 +6,6 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 2 # потому что калаш
       types:
         Piercing: 20
 
@@ -30,8 +28,6 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 1
       types:
         Piercing: 14
         Heat: 5
@@ -44,8 +40,6 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 1
       types:
         Radiation: 9
         Piercing: 10

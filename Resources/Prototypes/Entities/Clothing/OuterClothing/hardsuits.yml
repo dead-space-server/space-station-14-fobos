@@ -154,8 +154,6 @@
     damageCoefficient: 0.5 #DS14-value
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.6 #DS14-value
         Slash: 0.6
@@ -201,8 +199,6 @@
     damageCoefficient: 0.3
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.7
         Slash: 0.7
@@ -252,8 +248,6 @@
     sprintModifier: 1.0
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.6
         Slash: 0.6
@@ -286,8 +280,6 @@
     damageCoefficient: 0.4
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.6
         Slash: 0.6
@@ -330,8 +322,6 @@
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Heat: 0.7 # DS14-value
         Blunt: 0.7
@@ -371,8 +361,6 @@
     damageCoefficient: 0.4
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.4
         Slash: 0.5
@@ -412,8 +400,6 @@
     damageCoefficient: 0.5
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.8
         Slash: 0.8
@@ -461,8 +447,6 @@
     damageCoefficient: 0.2
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 1
       coefficients:
         Blunt: 0.8
         Slash: 0.8
@@ -549,8 +533,6 @@
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
-      armorLvls:
-        Heat: 1
       coefficients:
         Blunt: 0.6
         Slash: 0.8
@@ -608,8 +590,6 @@
     damageCoefficient: 0.5
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.6
         Slash: 0.5
@@ -700,14 +680,11 @@
   #   damageCoefficient: 0.75
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
-        Heat: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
         Piercing: 0.4 # DS14-value
-        Heat: 0.6
+        Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
         Stun: 0.65 # DS14-value: 5 stunbaton hits for stun
@@ -779,14 +756,11 @@
   #   damageCoefficient: 0.6
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2 # он типа элитный же
-        Heat: 3
       coefficients:
-        Blunt: 0.5
-        Slash: 0.5
-        Piercing: 0.5 # DS14-value ибо баланс
-        Heat: 0.4
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.5 # DS14-value
+        Heat: 0.2
         Radiation: 0.05 # DS14-value
         Caustic: 0.5
         Stun: 0.5 # DS14-value: 6 stunbaton hits for stun
@@ -828,9 +802,6 @@
   #   damageCoefficient: 0.6
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
-        Heat: 2
       coefficients:
         Blunt: 0.4
         Slash: 0.4
@@ -874,14 +845,11 @@
   # - type: StaminaResistance # Should not have stamina resistance, this is purely so people know it was not forgotten.
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 4
-        Heat: 3
       coefficients:
         Blunt: 0.2
         Slash: 0.2
-        Piercing: 0.3 # DS14-value ибо баланс
-        Heat: 0.3 # DS14-value
+        Piercing: 0.2
+        Heat: 0.4 # DS14-value
         Radiation: 0.2
         Caustic: 0.2
         Stun: 0.1 # DS14-value: what is stun?
@@ -921,9 +889,6 @@
     damageCoefficient: 0.5
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
-        Heat: 2
       coefficients:
         Blunt: 0.6
         Slash: 0.6
@@ -1025,8 +990,6 @@
     damageCoefficient: 0.6
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.7
         Slash: 0.8
@@ -1055,13 +1018,10 @@
 #DS14-start
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 3
-        Heat: 2
       coefficients:
         Blunt: 0.4
         Slash: 0.4
-        Piercing: 0.5 # DS14-value
+        Piercing: 0.3
         Poison: 0.75 # DS14-value: what is poison?
         Heat: 0.45
         Radiation: 0.25
@@ -1110,13 +1070,10 @@
 #DS14-start
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
-        Heat: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.6 # DS14-value
+        Piercing: 0.4
         Heat: 0.1
         Cold: 0.1
         Radiation: 0.1
@@ -1150,8 +1107,6 @@
 #DS14-start
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
@@ -1191,13 +1146,10 @@
 #DS14-start
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
-        Heat: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.5 # DS14-value
+        Piercing: 0.4
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
@@ -1262,9 +1214,6 @@
   #   damageCoefficient: 0.15 # Needs 21 hits with a disabler to stun :godo:
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 4
-        Heat: 3
       coefficients:
         Blunt: 0.3 #best armor in the game
         Slash: 0.3
@@ -1323,11 +1272,6 @@
     damageCoefficient: 0.7
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
-        Heat: 2
-        Blunt: 2
-        Slash: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
