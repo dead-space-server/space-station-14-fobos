@@ -637,3 +637,10 @@ Entries:
   changes:
   - type: Fix
     message: Шлем правосудия и шлема ОБР больше не скрывают волосы.
+- id: 53
+  author: Djentelmen2
+  time: '2026-01-29T17:00:30.333530+00:00'
+  pr: 1012
+  changes:
+  - type: Fix
+    message: Слуги короля обезьян больше его не атакуют.
