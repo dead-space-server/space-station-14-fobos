@@ -1173,7 +1173,7 @@ BookNewDrink: null
 BookNewFood: null
 
 # 2026-01-14 - DS14
-WeaponRifleLecterFMJ: WeaponRifleLecterHP
-CrateArmoryRifleFMJ: null
-MagazineRifleFMJ: MagazineRifleHP
-CartridgeRifleFMJ: MagazineRifleHP
+# WeaponRifleLecterFMJ: WeaponRifleLecterHP
+# CrateArmoryRifleFMJ: null
+# MagazineRifleFMJ: MagazineRifleHP
+# CartridgeRifleFMJ: MagazineRifleHP
