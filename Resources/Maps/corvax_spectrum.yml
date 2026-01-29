@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/10/2026 15:21:11
-  entityCount: 42731
+  time: 01/20/2026 23:29:17
+  entityCount: 42745
 maps:
 - 1
 grids:
@@ -25949,7 +25949,7 @@ entities:
       pos: -0.5,-35.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -49038.195
+      secondsUntilStateChange: -49279.027
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -26954,7 +26954,7 @@ entities:
       dockJointId: docking169116
       dockedWith: 477
     - type: Door
-      secondsUntilStateChange: -34257.63
+      secondsUntilStateChange: -34498.46
       changeAirtight: False
       state: Opening
     - type: DeviceLinkSource
@@ -27460,7 +27460,7 @@ entities:
       pos: 13.5,-37.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -45600.633
+      secondsUntilStateChange: -45841.465
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -28233,7 +28233,7 @@ entities:
       pos: -28.5,-19.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -54116.99
+      secondsUntilStateChange: -54357.82
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -36729,7 +36729,7 @@ entities:
   - uid: 1942
     components:
     - type: Transform
-      pos: -2.5712957,33.56859
+      pos: -2.7265086,33.572227
       parent: 2
 - proto: BoxNitrileGloves
   entities:
@@ -36982,6 +36982,23 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -63.59043,-21.53245
       parent: 2
+- proto: BruteAutoInjector
+  entities:
+  - uid: 42737
+    components:
+    - type: Transform
+      pos: -4.1483836,28.744102
+      parent: 2
+  - uid: 42738
+    components:
+    - type: Transform
+      pos: -4.0233836,28.681602
+      parent: 2
+  - uid: 42739
+    components:
+    - type: Transform
+      pos: -2.2421336,33.681602
+      parent: 2
 - proto: Brutepack
   entities:
   - uid: 2000
@@ -37082,6 +37099,28 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 52.34559,19.21289
       parent: 36584
+- proto: BurnAutoInjector
+  entities:
+  - uid: 42740
+    components:
+    - type: Transform
+      pos: -2.6952586,34.212852
+      parent: 2
+  - uid: 42741
+    components:
+    - type: Transform
+      pos: -2.6640086,33.869102
+      parent: 2
+  - uid: 42742
+    components:
+    - type: Transform
+      pos: -3.1640086,28.681602
+      parent: 2
+  - uid: 42743
+    components:
+    - type: Transform
+      pos: -2.7421336,28.447227
+      parent: 2
 - proto: ButtonFrameCaution
   entities:
   - uid: 2039
@@ -93878,6 +93917,13 @@ entities:
     - type: Transform
       pos: 61.684517,27.522106
       parent: 2
+- proto: CigPackSyndicate
+  entities:
+  - uid: 42745
+    components:
+    - type: Transform
+      pos: -1.7540693,28.9174
+      parent: 2
 - proto: CircuitImprinter
   entities:
   - uid: 12819
@@ -95945,6 +95991,13 @@ entities:
     - type: Transform
       pos: -30.51255,7.655749
       parent: 2
+- proto: ClothingHandsGlovesCombat
+  entities:
+  - uid: 42732
+    components:
+    - type: Transform
+      pos: -53.589535,-39.19701
+      parent: 2
 - proto: ClothingHandsGlovesFingerless
   entities:
   - uid: 12990
@@ -97968,6 +98021,13 @@ entities:
     - type: Transform
       pos: -4.2833242,29.248531
       parent: 2
+- proto: CombatMedipen
+  entities:
+  - uid: 42736
+    components:
+    - type: Transform
+      pos: -2.2890086,33.494102
+      parent: 2
 - proto: ComfyChair
   entities:
   - uid: 13394
@@ -98471,12 +98531,9 @@ entities:
       pos: -40.5,-52.5
       parent: 2
     - type: AccessReader
-      accessLog: []
-      accessKeys: []
       accessListsOriginal:
       - - Quartermaster
       access: []
-      denyTags: []
   - uid: 13479
     components:
     - type: Transform
@@ -98509,12 +98566,9 @@ entities:
       pos: -15.5,14.5
       parent: 2
     - type: AccessReader
-      accessLog: []
-      accessKeys: []
       accessListsOriginal:
       - - Quartermaster
       access: []
-      denyTags: []
 - proto: ComputerCargoOrdersMedical
   entities:
   - uid: 13484
@@ -98524,12 +98578,9 @@ entities:
       pos: 14.5,-17.5
       parent: 2
     - type: AccessReader
-      accessLog: []
-      accessKeys: []
       accessListsOriginal:
       - - Quartermaster
       access: []
-      denyTags: []
 - proto: ComputerCargoOrdersScience
   entities:
   - uid: 13485
@@ -98539,12 +98590,9 @@ entities:
       pos: -13.5,-17.5
       parent: 2
     - type: AccessReader
-      accessLog: []
-      accessKeys: []
       accessListsOriginal:
       - - Quartermaster
       access: []
-      denyTags: []
 - proto: ComputerCargoOrdersSecurity
   entities:
   - uid: 13486
@@ -98562,12 +98610,9 @@ entities:
       pos: -2.5,-42.5
       parent: 2
     - type: AccessReader
-      accessLog: []
-      accessKeys: []
       accessListsOriginal:
       - - Quartermaster
       access: []
-      denyTags: []
 - proto: ComputerCloningConsole
   entities:
   - uid: 13488
@@ -114251,6 +114296,16 @@ entities:
     - type: Transform
       pos: 30.5,65.5
       parent: 2
+  - uid: 29215
+    components:
+    - type: Transform
+      pos: -46.55965,-48.229683
+      parent: 2
+  - uid: 42735
+    components:
+    - type: Transform
+      pos: -46.325275,-48.464058
+      parent: 2
 - proto: Dresser
   entities:
   - uid: 8
@@ -116976,6 +117031,13 @@ entities:
       parent: 16498
     - type: Physics
       canCollide: False
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 25197
+    components:
+    - type: Transform
+      pos: 25.5,57.5
+      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 16500
@@ -181260,7 +181322,7 @@ entities:
       pos: 9.5,-57.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -53736.055
+      secondsUntilStateChange: -53976.887
       state: Opening
   - uid: 23552
     components:
@@ -183110,6 +183172,20 @@ entities:
       rot: 3.141592653589793 rad
       pos: 59.23409,-32.81367
       parent: 2
+- proto: LiquidNitrogenCanister
+  entities:
+  - uid: 24370
+    components:
+    - type: Transform
+      pos: -45.5,-51.5
+      parent: 2
+- proto: LiquidOxygenCanister
+  entities:
+  - uid: 24445
+    components:
+    - type: Transform
+      pos: -46.5,-51.5
+      parent: 2
 - proto: LiveLetLiveCircuitBoard
   entities:
   - uid: 23823
@@ -184077,6 +184153,13 @@ entities:
     components:
     - type: Transform
       pos: -10.5,-25.5
+      parent: 2
+- proto: LockerSalvageSpecialistFilled
+  entities:
+  - uid: 25137
+    components:
+    - type: Transform
+      pos: -50.5,-49.5
       parent: 2
 - proto: LockerSalvageSpecialistFilledHardsuit
   entities:
@@ -185730,8 +185813,7 @@ entities:
   - uid: 24157
     components:
     - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -49.803055,-48.753117
+      pos: -47.8409,-48.432808
       parent: 2
   - uid: 24158
     components:
@@ -186975,11 +187057,6 @@ entities:
     - type: Transform
       pos: -33.5,-10.5
       parent: 2
-  - uid: 24370
-    components:
-    - type: Transform
-      pos: -45.5,-51.5
-      parent: 2
   - uid: 24371
     components:
     - type: Transform
@@ -187367,7 +187444,7 @@ entities:
   - uid: 24435
     components:
     - type: Transform
-      pos: -49.420918,-48.580048
+      pos: -48.325275,-48.385933
       parent: 2
   - uid: 39240
     components:
@@ -187437,11 +187514,6 @@ entities:
     components:
     - type: Transform
       pos: -30.5,-10.5
-      parent: 2
-  - uid: 24445
-    components:
-    - type: Transform
-      pos: -46.5,-51.5
       parent: 2
   - uid: 24446
     components:
@@ -190538,7 +190610,7 @@ entities:
   - uid: 24902
     components:
     - type: Transform
-      pos: -49.077343,-48.88548
+      pos: -48.356525,-48.651558
       parent: 2
 - proto: PlushieDiona
   entities:
@@ -192246,11 +192318,6 @@ entities:
     - type: Transform
       pos: -27.5,33.5
       parent: 2
-  - uid: 25137
-    components:
-    - type: Transform
-      pos: -50.5,-49.5
-      parent: 2
   - uid: 25138
     components:
     - type: Transform
@@ -192545,11 +192612,6 @@ entities:
     components:
     - type: Transform
       pos: 48.5,48.5
-      parent: 2
-  - uid: 25197
-    components:
-    - type: Transform
-      pos: 25.5,57.5
       parent: 2
   - uid: 25198
     components:
@@ -193274,6 +193336,11 @@ entities:
     components:
     - type: Transform
       pos: -16.5,-20.5
+      parent: 2
+  - uid: 42744
+    components:
+    - type: Transform
+      pos: 1.3398805,31.219849
       parent: 2
 - proto: PoweredDimSmallLight
   entities:
@@ -222465,18 +222532,6 @@ entities:
     - type: Transform
       pos: 7.5,68.5
       parent: 2
-- proto: SpawnPointSeniorCourier
-  entities:
-  - uid: 29214
-    components:
-    - type: Transform
-      pos: -38.5,-46.5
-      parent: 2
-  - uid: 29215
-    components:
-    - type: Transform
-      pos: -42.5,-37.5
-      parent: 2
 - proto: SpawnPointSeniorEngineer
   entities:
   - uid: 29216
@@ -222509,6 +222564,18 @@ entities:
     components:
     - type: Transform
       pos: -29.5,-32.5
+      parent: 2
+- proto: SpawnPointSeniorSalvageSpecialist
+  entities:
+  - uid: 29214
+    components:
+    - type: Transform
+      pos: -38.5,-46.5
+      parent: 2
+  - uid: 42734
+    components:
+    - type: Transform
+      pos: -50.5,-48.5
       parent: 2
 - proto: SpawnPointServiceWorker
   entities:
@@ -224223,7 +224290,7 @@ entities:
   - uid: 29481
     components:
     - type: Transform
-      pos: -48.749218,-49.026104
+      pos: -47.731525,-48.760933
       parent: 2
   - uid: 29482
     components:
@@ -225100,6 +225167,13 @@ entities:
     components:
     - type: Transform
       pos: 24.5,65.5
+      parent: 2
+- proto: SuitStorageSeniorSalvageSpecialistFilled
+  entities:
+  - uid: 31149
+    components:
+    - type: Transform
+      pos: -51.5,-48.5
       parent: 2
 - proto: SuitStorageWarden
   entities:
@@ -235670,10 +235744,10 @@ entities:
       parent: 2
 - proto: VendingMachineSalvage
   entities:
-  - uid: 31149
+  - uid: 42733
     components:
     - type: Transform
-      pos: -51.5,-48.5
+      pos: -48.5,-50.5
       parent: 2
 - proto: VendingMachineSciDrobe
   entities:
@@ -276925,7 +276999,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -21644.488
+      secondsUntilStateChange: -21885.322
       state: Opening
     - type: Airlock
       autoClose: False

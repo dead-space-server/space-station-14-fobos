@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/08/2026 04:29:51
-  entityCount: 38419
+  time: 01/20/2026 22:38:52
+  entityCount: 38418
 maps:
 - 1
 grids:
@@ -21395,7 +21395,7 @@ entities:
       pos: -22.5,20.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -49623.58
+      secondsUntilStateChange: -49784.22
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -21407,7 +21407,7 @@ entities:
       pos: -67.5,-9.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -49999.01
+      secondsUntilStateChange: -50159.652
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -21419,7 +21419,7 @@ entities:
       pos: -42.5,-49.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -49602.18
+      secondsUntilStateChange: -49762.82
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -21431,7 +21431,7 @@ entities:
       pos: 87.5,-20.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -49641.445
+      secondsUntilStateChange: -49802.086
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -21481,7 +21481,7 @@ entities:
       pos: 25.5,58.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -49246.203
+      secondsUntilStateChange: -49406.844
       changeAirtight: False
       state: Opening
     - type: Docking
@@ -21497,7 +21497,7 @@ entities:
       pos: 0.5,-7.5
       parent: 37374
     - type: Door
-      secondsUntilStateChange: -49245.54
+      secondsUntilStateChange: -49406.18
       changeAirtight: False
       state: Opening
     - type: Docking
@@ -23050,7 +23050,7 @@ entities:
       pos: 38.5,-44.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -30967.666
+      secondsUntilStateChange: -31128.307
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -26986,11 +26986,6 @@ entities:
     components:
     - type: Transform
       pos: 68.5,-47.5
-      parent: 2
-  - uid: 1215
-    components:
-    - type: Transform
-      pos: 16.5,39.5
       parent: 2
   - uid: 1216
     components:
@@ -97170,6 +97165,14 @@ entities:
           priority: 0
           component: Armor
         title: null
+- proto: ClothingBeltSalvageWebbing
+  entities:
+  - uid: 14035
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -56.356483,-27.315775
+      parent: 2
 - proto: ClothingBeltUtility
   entities:
   - uid: 14025
@@ -97225,11 +97228,6 @@ entities:
     components:
     - type: Transform
       pos: 63.488403,-21.681831
-      parent: 2
-  - uid: 14035
-    components:
-    - type: Transform
-      pos: -56.493336,-27.287672
       parent: 2
   - uid: 37469
     components:
@@ -115493,6 +115491,14 @@ entities:
       parent: 16922
     - type: Physics
       canCollide: False
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 1215
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 16.5,39.5
+      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 30257
@@ -118641,7 +118647,7 @@ entities:
       pos: 66.5,-42.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -13172.051
+      secondsUntilStateChange: -13332.691
       state: Closing
     - type: DeviceNetwork
       deviceLists:
@@ -173602,6 +173608,11 @@ entities:
     - type: Transform
       pos: -47.5,-20.5
       parent: 2
+  - uid: 24886
+    components:
+    - type: Transform
+      pos: -54.5,-27.5
+      parent: 2
 - proto: LockerScienceFilled
   entities:
   - uid: 24522
@@ -176302,11 +176313,6 @@ entities:
     - type: Transform
       pos: -48.544044,-23.53068
       parent: 2
-  - uid: 24885
-    components:
-    - type: Transform
-      pos: -54.42355,-26.520374
-      parent: 2
   - uid: 37131
     components:
     - type: Transform
@@ -176325,13 +176331,6 @@ entities:
       nextScan: 105876
     - type: Physics
       canCollide: False
-- proto: OreBox
-  entities:
-  - uid: 24886
-    components:
-    - type: Transform
-      pos: -54.5,-27.5
-      parent: 2
 - proto: OreProcessor
   entities:
   - uid: 24887
@@ -188819,11 +188818,6 @@ entities:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 52.5,32.5
-      parent: 2
-  - uid: 26338
-    components:
-    - type: Transform
-      pos: -54.5,-26.5
       parent: 2
   - uid: 26339
     components:
@@ -209602,13 +209596,6 @@ entities:
     - type: Transform
       pos: 23.5,-5.5
       parent: 2
-- proto: SpawnPointSeniorCourier
-  entities:
-  - uid: 29104
-    components:
-    - type: Transform
-      pos: -21.5,-17.5
-      parent: 2
 - proto: SpawnPointSeniorEngineer
   entities:
   - uid: 29105
@@ -209641,6 +209628,13 @@ entities:
     components:
     - type: Transform
       pos: 70.5,-28.5
+      parent: 2
+- proto: SpawnPointSeniorSalvageSpecialist
+  entities:
+  - uid: 24885
+    components:
+    - type: Transform
+      pos: -55.5,-27.5
       parent: 2
 - proto: SpawnPointServiceWorker
   entities:
@@ -211814,6 +211808,13 @@ entities:
     components:
     - type: Transform
       pos: -9.5,32.5
+      parent: 2
+- proto: SuitStorageSeniorSalvageSpecialistFilled
+  entities:
+  - uid: 26338
+    components:
+    - type: Transform
+      pos: -54.5,-26.5
       parent: 2
 - proto: SuitStorageWarden
   entities:
