@@ -65,6 +65,27 @@
     intensitySlope: 10
     totalIntensity: 10000
 
+- type: entity
+  parent: BookBase
+  id: BookSupermatter
+  name: supermatter operations manual
+  description: A worn manual with radiation burns on the cover. The previous owner's name has been scratched out.
+  components:
+  - type: Sprite
+    layers:
+    - state: paper
+    - state: cover_base
+      color: "#3d3a00"
+    - state: decor_wingette
+      color: "#2a2800"
+    - state: icon_glow
+      color: "#d9ce00"
+    - state: icon_diamond
+      color: "#d9ce00"
+  - type: Paper
+    content: book-text-supermatter
+    editingDisabled: true
+
 - type: Tag
   id: SMImmune
 
