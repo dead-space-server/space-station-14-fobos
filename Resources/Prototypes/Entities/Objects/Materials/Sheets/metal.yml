@@ -201,6 +201,7 @@
     tags:
     - Sheet
     - Plasteel
+    - ConstructionMaterial
 
 - type: entity
   parent: SheetPlasteel
