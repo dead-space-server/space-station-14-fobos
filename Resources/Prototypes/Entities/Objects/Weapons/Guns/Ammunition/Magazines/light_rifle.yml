@@ -44,7 +44,7 @@
     tags:
       - MagazineLightRifleBox
   - type: BallisticAmmoProvider
-    proto: CartridgeLightRifleFMJ # DS14
+    proto: CartridgeLightRifle
     capacity: 100
   - type: Item
   - type: Sprite
@@ -75,29 +75,6 @@
       - state: inhand-left-mag
       right:
       - state: inhand-right-mag
-
-#DS14-start
-- type: entity
-  id: MagazineLightRifleFMJ
-  name: "magazine (.30 rifle)"
-  parent: BaseMagazineLightRifle
-  description: Curved 30-round double stack magazine for combat rifles. Intended to hold general-purpose kinetic ammunition.
-  components:
-  - type: BallisticAmmoProvider
-    proto: CartridgeLightRifleFMJ
-  - type: Sprite
-    layers:
-    - state: base
-      map: ["enum.GunVisualLayers.Base"]
-    - state: mag-1
-      map: ["enum.GunVisualLayers.Mag"]
-  - type: Item
-    inhandVisuals:
-      left:
-      - state: inhand-left-mag
-      right:
-      - state: inhand-right-mag
-#DS14-end
 
 - type: entity
   id: MagazineLightRifleEmpty

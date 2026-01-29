@@ -12,8 +12,6 @@
   - type: Projectile
     impactEffect: BulletImpactEffectDisabler
     damage:
-      armorPiercingLevels:
-        Heat: 2
       types:
         Heat: 30
 

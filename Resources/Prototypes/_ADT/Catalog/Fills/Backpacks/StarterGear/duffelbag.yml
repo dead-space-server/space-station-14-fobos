@@ -5,7 +5,7 @@
   - type: StorageFill
     contents:
       - id: WeaponRifleAk
-      - id: MagazineLightRifleFMJ
+      - id: MagazineLightRifle
         amount: 4
 
 - type: entity
@@ -14,7 +14,7 @@
   components:
   - type: StorageFill
     contents:
-      - id: MagazinePistolSubMachineGunFMJ
+      - id: MagazinePistolSubMachineGun
         amount: 4
 
 - type: entity
@@ -46,7 +46,7 @@
   - type: StorageFill
     contents:
       - id: WeaponRifleXC67
-      - id: ADTExtMagazineRifleFMJ
+      - id: ADTExtMagazineRifle
         amount: 2
 
 - type: entity
@@ -55,7 +55,7 @@
   components:
   - type: StorageFill
     contents:
-      - id: ADTExtMagazineRifleFMJ
+      - id: ADTExtMagazineRifle
         amount: 3
 
 - type: entity
@@ -64,5 +64,5 @@
   components:
   - type: StorageFill
     contents:
-      - id: MagazineLightRifleFMJ
+      - id: MagazineLightRifle
         amount: 4

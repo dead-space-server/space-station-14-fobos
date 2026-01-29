@@ -123,27 +123,6 @@
   - CableDetStack1
   - EmptyDetonator
 
-#DS14-start
-- type: technology
-  id: FMJMunitions
-  name: research-technology-fmj-munitions
-  icon:
-    sprite: Objects/Weapons/Guns/Ammunition/Magazine/LightRifle/light_rifle_mag.rsi
-    state: base
-  discipline: Arsenal
-  tier: 1
-  cost: 10000
-  recipeUnlocks:
-  - MagazineRifleFMJ
-  - MagazineBoxRifleFMJ
-  - MagazineBoxPistolFMJ
-  - MagazinePistolSubMachineGunFMJ
-  - MagazinePistolFMJ
-  - MagazineLightRifleFMJ
-  - MagazineBoxLightRifleFMJ
-  - MagazinePistolSubMachineGunTopMountedFMJ
-#DS14-end
-
 # Tier 2
 
 - type: technology

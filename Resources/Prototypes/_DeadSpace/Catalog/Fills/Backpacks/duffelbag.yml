@@ -4,8 +4,8 @@
   components:
   - type: StorageFill
     contents:
-      - id: WeaponSMGTommyGunFMJ
-      - id: MagazineTommyGunFMJ
+      - id: WeaponSMGTommyGun
+      - id: MagazineTommyGun
         amount: 3
 
 - type: entity
@@ -14,8 +14,8 @@
   components:
   - type: StorageFill
     contents:
-      - id: WeaponSMGTommyGunFMJ
-      - id: MagazineTommyGunFMJ
+      - id: WeaponSMGTommyGun
+      - id: MagazineTommyGun
         amount: 1
 
 - type: entity
@@ -24,7 +24,7 @@
   components:
   - type: StorageFill
     contents:
-      - id: MagazineDrumTommyGunFMJ
+      - id: MagazineDrumTommyGun
         amount: 3
 
 - type: entity

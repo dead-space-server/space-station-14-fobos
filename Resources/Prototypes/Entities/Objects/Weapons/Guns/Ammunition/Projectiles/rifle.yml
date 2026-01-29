@@ -6,27 +6,8 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 1
       types:
         Piercing: 20
-  - type: StaminaDamageOnCollide #DS14
-    damage: 12
-
-#DS14-start
-- type: entity
-  id: BulletRifleFMJ
-  name: bullet (.20 rifle)
-  parent: BaseBullet
-  categories: [ HideSpawnMenu ]
-  components:
-  - type: Projectile
-    damage:
-      armorPiercingLevels:
-        Piercing: 2
-      types:
-        Piercing: 20
-#DS14-end
 
 - type: entity
   id: BulletRiflePractice
@@ -47,8 +28,6 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 1
       types:
         Piercing: 12
         Heat: 5
@@ -61,8 +40,6 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 1
       types:
         Radiation: 7
         Piercing: 8

@@ -589,7 +589,7 @@
   name: uplink-pistol-magazine-name
   description: uplink-pistol-magazine-desc
   icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Magazine/Pistol/pistol_mag.rsi, state: red-icon }
-  productEntity: MagazinePistolFMJ #DS: FMJ pulki
+  productEntity: MagazinePistol
   cost:
     Telecrystal: 1
   categories:
@@ -601,7 +601,7 @@
   name: uplink-pistol-magazine-c20r-name
   description: uplink-pistol-magazine-c20r-desc
   icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Magazine/Pistol/smg_mag.rsi, state: red-icon }
-  productEntity: MagazinePistolSubMachineGunFMJ #DS: FMJ pulki
+  productEntity: MagazinePistolSubMachineGun
   cost:
     Telecrystal: 2
   categories:
@@ -659,7 +659,7 @@
   id: UplinkMosinAmmo
   name: uplink-mosin-ammo-name
   description: uplink-mosin-ammo-desc
-  productEntity: MagazineBoxLightRifleFMJ # DS14
+  productEntity: MagazineBoxLightRifle
   cost:
     Telecrystal: 1
   categories:
@@ -670,7 +670,7 @@
   id: UplinkEstocAmmo
   name: uplink-estoc-ammo-name
   description: uplink-estoc-ammo-desc
-  productEntity: MagazineRifleFMJ # DS14
+  productEntity: MagazineRifle
   cost:
     Telecrystal: 2
   categories:

@@ -998,8 +998,6 @@
     reduction: 0.2
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2 #это все таки шлем
       coefficients:
         Blunt: 0.80
         Slash: 0.80

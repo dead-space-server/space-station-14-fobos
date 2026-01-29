@@ -87,18 +87,6 @@
   id: NightVisionTech
   recipes:
   - ClothingEyesPNV
-
-- type: latheRecipePack
-  id: SecurityAmmoStaticFMJ
-  recipes:
-  - MagazineRifleFMJ
-  - MagazineBoxRifleFMJ
-  - MagazineBoxPistolFMJ
-  - MagazinePistolSubMachineGunFMJ
-  - MagazinePistolFMJ
-  - MagazineLightRifleFMJ
-  - MagazineBoxLightRifleFMJ
-  - MagazinePistolSubMachineGunTopMountedFMJ
 # DS14-end
 
 - type: latheRecipePack

@@ -50,7 +50,6 @@
     runningState: icon
     staticPacks:
     - BSAAAmmoStatic
-    - SecurityAmmoStaticFMJ
     - SecurityAmmo
     - SecurityAmmoStatic
   - type: MaterialStorage

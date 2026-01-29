@@ -78,7 +78,7 @@
   - type: Item
     size: Small
   - type: BallisticAmmoProvider
-    proto: CartridgeLightRifleFMJ
+    proto: CartridgeLightRifle
     mayTransfer: true
     whitelist:
       tags:

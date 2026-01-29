@@ -2,7 +2,7 @@
 - type: entity
   id: ADTBaseExtMagazineRifle
   name: расширенный магазин 6.5 мм
-  description: Увеличенный магазин под патрон 6.5 мм, с вместимостью в 45 единиц
+  description: Увеличенный магазин под патрон 6.5 мм, с вместимостью в 45 единиц.
   parent: BaseItem
   abstract: true
   components:
@@ -37,26 +37,11 @@
 - type: entity
   id: ADTExtMagazineRifle
   name: расширенный магазин 6.5 мм HP
-  description: Увеличенный магазин под патрон 6.5 мм, с вместимостью в 45 единиц
+  description: Увеличенный магазин под патрон 6.5 мм, с вместимостью в 45 единиц.
   parent: ADTBaseExtMagazineRifle
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeRifle
-  - type: Sprite
-    layers:
-    - state: base
-      map: ["enum.GunVisualLayers.Base"]
-    - state: mag-1
-      map: ["enum.GunVisualLayers.Mag"]
-
-- type: entity
-  id: ADTExtMagazineRifleFMJ
-  name: расширенный магазин 6.5 мм FMJ
-  description: Увеличенный магазин под патрон 6.5 мм, с вместимостью в 45 единиц
-  parent: ADTBaseExtMagazineRifle
-  components:
-  - type: BallisticAmmoProvider
-    proto: CartridgeRifleFMJ
   - type: Sprite
     layers:
     - state: base

@@ -6,12 +6,8 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 1
       types:
         Piercing: 16
-  - type: StaminaDamageOnCollide #DS14
-    damage: 12
 
 - type: entity
   id: BulletPistolPractice

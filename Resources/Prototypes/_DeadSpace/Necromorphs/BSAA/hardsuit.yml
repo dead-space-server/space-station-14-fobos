@@ -15,10 +15,6 @@
     lowPressureMultiplier: 10000
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 3
-        Blunt: 2
-        Slash: 2
       coefficients:
         Blunt: 0.4
         Slash: 0.4
@@ -96,10 +92,6 @@
   # Удалён дублирующийся ClothingSpeedModifier, оставлен только вариант ниже
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
-        Blunt: 2
-        Slash: 2
       coefficients:
         Blunt: 0.45
         Slash: 0.45
@@ -177,8 +169,6 @@
   # Удалён дублирующийся ClothingSpeedModifier, оставлен только вариант ниже
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5

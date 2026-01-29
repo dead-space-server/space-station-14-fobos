@@ -16,8 +16,6 @@
     sprite: Clothing/OuterClothing/Armor/security.rsi
   - type: Armor #Based on /tg/ but slightly compensated to fit the fact that armor stacks in SS14.
     modifiers:
-      armorLvls:
-        Piercing: 1 #Для того, чтобы в описании показывался тир брони, ни больше, ни меньше
       coefficients:
         Blunt: 0.6
         Slash: 0.6
@@ -61,8 +59,6 @@
     sprite: Clothing/OuterClothing/Armor/bulletproof.rsi
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.6 # DS14-value
         Slash: 0.6 # DS14-value
@@ -116,8 +112,6 @@
   components:
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
@@ -171,8 +165,6 @@
     sprite: Clothing/OuterClothing/Vests/webvest.rsi
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.6 #ballistic plates = better protection
         Slash: 0.6
@@ -199,8 +191,6 @@
     coolingCoefficient: 0.1
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.4
         Slash: 0.4
@@ -228,8 +218,6 @@
     sprite: Clothing/OuterClothing/Vests/mercwebvest.rsi
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.5 #slightly better overall protection but slightly worse than bulletproof armor against bullets seems sensible
         Slash: 0.5
@@ -257,9 +245,6 @@
     sprite: Clothing/OuterClothing/Armor/syndie-raid.rsi
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 3 # Рейдерская броня>скафандр
-        Heat: 2
       coefficients:
         Blunt: 0.35
         Slash: 0.35
@@ -362,9 +347,6 @@
     sprite: Clothing/OuterClothing/Armor/cult_armour.rsi
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2 # ну типа, так надо
-        Heat: 2
       coefficients:
         Blunt: 0.4
         Slash: 0.4
@@ -384,9 +366,6 @@
     sprite: Clothing/OuterClothing/Armor/heavy.rsi
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 3
-        Heat: 3
       coefficients:
         Blunt: 0.35 # DS14-value
         Slash: 0.35 # DS14-value
@@ -460,9 +439,6 @@
     sprite: Clothing/OuterClothing/Armor/lingarmor.rsi
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
-        Heat: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
@@ -520,8 +496,6 @@
     sprite: Clothing/OuterClothing/Armor/podwars_armor.rsi
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5

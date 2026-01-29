@@ -220,7 +220,6 @@
     - SecurityExplosives
     - SecurityEquipment
     - SecurityWeapons
-    - SecurityAmmoStaticFMJ # DS14
 
 - type: entity
   id: ProtolatheHyperConvection
@@ -414,7 +413,6 @@
     - SecurityAmmo
     - SecurityWeapons
     - SecurityDisablers
-    - SecurityAmmoStaticFMJ # DS14
   - type: EmagLatheRecipes
     emagStaticPacks:
     - SyndicateAmmoStatic

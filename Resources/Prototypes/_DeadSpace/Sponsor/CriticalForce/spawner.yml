@@ -52,7 +52,7 @@
     size: Huge
   - type: StorageFill
     contents:
-      - id: MagazinePistolSubMachineGunFMJ
+      - id: MagazinePistolSubMachineGun
         amount: 4
       - id: ChemistryBottleNecrosol
 
