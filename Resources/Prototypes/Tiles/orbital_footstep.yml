@@ -1,0 +1,71 @@
+﻿- type: soundCollection
+  id: FootstepOSPipe
+  files:
+  - /Audio/Effects/OrbitalFootstep/pipe1_mono.ogg
+  - /Audio/Effects/OrbitalFootstep/pipe2_mono.ogg
+  - /Audio/Effects/OrbitalFootstep/pipe3_mono.ogg
+  - /Audio/Effects/OrbitalFootstep/pipe4_mono.ogg
+
+- type: soundCollection
+  id: FootstepOSMPipe
+  files:
+  - /Audio/Effects/OrbitalFootstep/mlev_step1_mono.ogg
+  - /Audio/Effects/OrbitalFootstep/mlev_step2_mono.ogg
+  - /Audio/Effects/OrbitalFootstep/mlev_step3_mono.ogg
+  - /Audio/Effects/OrbitalFootstep/mlev_step4_mono.ogg
+
+- type: soundCollection
+  id: FootstepOSMetallic
+  files:
+  - /Audio/Effects/OrbitalFootstep/FTMET1_mono.ogg
+  - /Audio/Effects/OrbitalFootstep/FTMET2_mono.ogg
+  - /Audio/Effects/OrbitalFootstep/FTMET3_mono.ogg
+  - /Audio/Effects/OrbitalFootstep/FTMET4_mono.ogg
+
+- type: soundCollection
+  id: FootstepOSLattice
+  files:
+  - /Audio/Effects/OrbitalFootstep/lattice1_mono.ogg
+  - /Audio/Effects/OrbitalFootstep/lattice2_mono.ogg
+  - /Audio/Effects/OrbitalFootstep/lattice3_mono.ogg
+  - /Audio/Effects/OrbitalFootstep/lattice4_mono.ogg
+
+- type: soundCollection
+  id: FootstepOSHardCatwalk
+  files:
+  - /Audio/Effects/OrbitalFootstep/hardcatwalk1_mono.ogg
+  - /Audio/Effects/OrbitalFootstep/hardcatwalk2_mono.ogg
+  - /Audio/Effects/OrbitalFootstep/hardcatwalk3_mono.ogg
+  - /Audio/Effects/OrbitalFootstep/hardcatwalk4_mono.ogg
+
+- type: soundCollection
+  id: FootstepOSCeramic
+  files:
+  - /Audio/Effects/OrbitalFootstep/xstep1_mono.ogg
+  - /Audio/Effects/OrbitalFootstep/xstep2_mono.ogg
+
+- type: soundCollection
+  id: FootstepOSDirt
+  files:
+  - /Audio/Effects/OrbitalFootstep/dirt1.ogg
+  - /Audio/Effects/OrbitalFootstep/dirt2.ogg
+  - /Audio/Effects/OrbitalFootstep/dirt3.ogg
+  - /Audio/Effects/OrbitalFootstep/dirt4.ogg
+
+- type: soundCollection
+  id: FootstepOSConcrete
+  files:
+  - /Audio/Effects/OrbitalFootstep/crete1.ogg
+  - /Audio/Effects/OrbitalFootstep/crete2.ogg
+  - /Audio/Effects/OrbitalFootstep/crete3.ogg
+  - /Audio/Effects/OrbitalFootstep/crete4.ogg
+  - /Audio/Effects/OrbitalFootstep/crete5.ogg
+
+- type: soundCollection
+  id: FootstepOSMud
+  files:
+  - /Audio/Effects/OrbitalFootstep/mud1.ogg
+  - /Audio/Effects/OrbitalFootstep/mud2.ogg
+  - /Audio/Effects/OrbitalFootstep/mud3.ogg
+  - /Audio/Effects/OrbitalFootstep/mud4.ogg
+  - /Audio/Effects/OrbitalFootstep/mud5.ogg

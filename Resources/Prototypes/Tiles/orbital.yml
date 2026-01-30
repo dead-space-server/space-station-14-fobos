@@ -1,0 +1,503 @@
+﻿- type: tile
+  id: OrbitalOS1
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os1.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMetallic
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS3
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os3.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMetallic
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS4
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os4.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMetallic
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS5
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os5.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSLattice
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS6
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os6.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSHardCatwalk
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS7
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os7.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMetallic
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS8
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os8.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMetallic
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS9
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os9.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMetallic
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS10
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os10.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMetallic
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS11
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os11.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMetallic
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS12
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os12.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMetallic
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS13
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os13.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMetallic
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS14
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os14.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMetallic
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS15
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os15.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSCeramic
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS16
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os16.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSCeramic
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS17
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os17.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSCeramic
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS20
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os20.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMPipe
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS21
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os21.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMPipe
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS22
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os22.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSCeramic
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS23
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os23.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSPipe
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS24
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os24.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMPipe
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS25
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os25.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMPipe
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS26
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os26.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMetallic
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS27
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os27.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMPipe
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS28
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os28.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMPipe
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS29
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os29.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMetallic
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS30
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os30.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMPipe
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS31
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os31.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMPipe
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS32
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os32.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSMPipe
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS33
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os33.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSCeramic
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS34
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os34.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSCeramic
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS35
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os35.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSLattice
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS36
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os36.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSCeramic
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOS37
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/os37.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSCeramic
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOSWood1
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/wood1.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepWood
+  barestepSounds:
+    collection: BarestepWood
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOSWood2
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/wood2.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepWood
+  barestepSounds:
+    collection: BarestepWood
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOSWood3
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/wood3.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepWood
+  barestepSounds:
+    collection: BarestepWood
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOSWood4
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/wood4.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepWood
+  barestepSounds:
+    collection: BarestepWood
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOSCarpet1
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/carpet1.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepCarpet
+  barestepSounds:
+    collection: BarestepCarpet
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOSCarpet2
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/carpet2.png
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepCarpet
+  barestepSounds:
+    collection: BarestepCarpet
+  itemDrop: null
+  heatCapacity: 10000
+
+- type: tile
+  id: OrbitalOSDirt
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/dirt.png
+  baseTurf: Space
+  isSubfloor: true
+  footstepSounds:
+    collection: FootstepOSDirt
+  itemDrop: null
+  heatCapacity: 10000
+  weather: true
+  indestructible: true
+
+- type: tile
+  id: OrbitalOSDirt2
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/dirtv2.png
+  baseTurf: Space
+  isSubfloor: true
+  footstepSounds:
+    collection: FootstepOSDirt
+  itemDrop: null
+  heatCapacity: 10000
+  weather: true
+  indestructible: true
+
+- type: tile
+  id: OrbitalOSMud
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/mud.png
+  baseTurf: Space
+  isSubfloor: true
+  footstepSounds:
+    collection: FootstepOSMud
+  itemDrop: null
+  heatCapacity: 10000
+  weather: true
+  indestructible: true
+
+- type: tile
+  id: OrbitalOSConcrete
+  name: tile
+  sprite: /Textures/Tiles/Orbital/floors.rsi/concrete0.png
+  baseTurf: Space
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepOSConcrete
+  itemDrop: null
+  heatCapacity: 10000
+  weather: true
+  indestructible: true

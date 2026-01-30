@@ -1,0 +1,143 @@
+{
+  "version": 1,
+  "license": null,
+  "copyright": null,
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "os1"
+    },
+    {
+      "name": "wood1"
+    },
+    {
+      "name": "os3"
+    },
+    {
+      "name": "os4"
+    },
+    {
+      "name": "os5"
+    },
+    {
+      "name": "os6"
+    },
+    {
+      "name": "os7"
+    },
+    {
+      "name": "os8"
+    },
+    {
+      "name": "os9"
+    },
+    {
+      "name": "os10"
+    },
+    {
+      "name": "os11"
+    },
+    {
+      "name": "os12"
+    },
+    {
+      "name": "os13"
+    },
+    {
+      "name": "os14"
+    },
+    {
+      "name": "os15"
+    },
+    {
+      "name": "os16"
+    },
+    {
+      "name": "os17"
+    },
+    {
+      "name": "wood2"
+    },
+    {
+      "name": "os20"
+    },
+    {
+      "name": "os21"
+    },
+    {
+      "name": "os22"
+    },
+    {
+      "name": "os23"
+    },
+    {
+      "name": "os24"
+    },
+    {
+      "name": "os25"
+    },
+    {
+      "name": "os26"
+    },
+    {
+      "name": "os27"
+    },
+    {
+      "name": "os28"
+    },
+    {
+      "name": "os29"
+    },
+    {
+      "name": "os30"
+    },
+    {
+      "name": "os31"
+    },
+    {
+      "name": "os32"
+    },
+    {
+      "name": "os33"
+    },
+    {
+      "name": "os34"
+    },
+    {
+      "name": "os35"
+    },
+    {
+      "name": "os36"
+    },
+    {
+      "name": "os37"
+    },
+      {
+          "name": "wood3"
+      },
+      {
+          "name": "wood4"
+      },
+      {
+          "name": "carpet1"
+      },
+      {
+          "name": "carpet2"
+      },
+      {
+          "name": "concrete0"
+      },
+      {
+          "name": "dirt"
+      },
+      {
+          "name": "dirtv2"
+      },
+      {
+          "name": "mud"
+      }
+  ]
+}
