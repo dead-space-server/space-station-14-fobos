@@ -73,6 +73,7 @@
       - id: ClothingUniformJumpsuit3eiladoSpicebush
       - id: ClothingOuterCoat3eiladoSpicebush
       - id: RCD3eilado
+      - id: DeviceDesynchronizer3eilado
       - id: ClothingHeadHat3eiladoSpicebush
       - id: ClothingShoesBoots3eilado
       - id: ClothingNeckCloak3eiladoAlt
@@ -81,6 +82,7 @@
       - id: ClothingOuterCoatLab3eilado
       - id: ClothingBelt3eiladoFilled
       - id: ClothingNeckCloak3eiladoAltPurple
+      - id: ClothingUniformJumpskirtVictorianBlack
 
 # Belt
 - type: entity
@@ -170,6 +172,8 @@
     clothingPrototype: ClothingHeadHelmetHardsuit3eilado
   - type: Item
     size: Huge
+  - type: HardsuitIdentification
+    nonlethal: true
 
 - type: entity
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
@@ -504,19 +508,40 @@
     radius: 10
     color: "#66CCFF"
 
-#Tail
+#Customization
 - type: marking
   id: 3eiladoTail
   bodyPart: Tail
   markingCategory: Tail
   sponsorOnly: true
   sprites:
-  - sprite: _DeadSpace/Sponsor/3eilado/tail.rsi
+  - sprite: _DeadSpace/Sponsor/3eilado/Customization/tail.rsi
     state: tail
-  - sprite: _DeadSpace/Sponsor/3eilado/tail.rsi
+  - sprite: _DeadSpace/Sponsor/3eilado/Customization/tail.rsi
     state: tail-tip
-  - sprite: _DeadSpace/Sponsor/3eilado/tail.rsi
+  - sprite: _DeadSpace/Sponsor/3eilado/Customization/tail.rsi
     state: stars
+
+- type: marking
+  id: 3eiladoHair
+  bodyPart: Hair
+  markingCategory: Hair
+  sponsorOnly: true
+  sprites:
+  - sprite: _DeadSpace/Sponsor/3eilado/Customization/hair.rsi
+    state: hair
+
+- type: marking
+  id: 3eiladoWings
+  bodyPart: Tail
+  markingCategory: Tail
+  followSkinColor: true
+  forcedColoring: true
+  sponsorOnly: true
+  speciesRestriction: [Demon]
+  sprites:
+  - sprite: _DeadSpace/Sponsor/3eilado/Customization/demon/wings.rsi
+    state: wings
 
 - type: marking
   id: 3eiladoMothWings
@@ -525,11 +550,11 @@
   speciesRestriction: [Moth]
   sponsorOnly: true
   sprites:
-  - sprite: _DeadSpace/Sponsor/3eilado/moth/wings.rsi
+  - sprite: _DeadSpace/Sponsor/3eilado/Customization/moth/wings.rsi
     state: wings
-  - sprite: _DeadSpace/Sponsor/3eilado/moth/wings.rsi
+  - sprite: _DeadSpace/Sponsor/3eilado/Customization/moth/wings.rsi
     state: gradient
-  - sprite: _DeadSpace/Sponsor/3eilado/moth/wings.rsi
+  - sprite: _DeadSpace/Sponsor/3eilado/Customization/moth/wings.rsi
     state: stars
 
 - type: marking
@@ -539,7 +564,7 @@
   speciesRestriction: [Moth]
   sponsorOnly: true
   sprites:
-  - sprite: _DeadSpace/Sponsor/3eilado/moth/top.rsi
+  - sprite: _DeadSpace/Sponsor/3eilado/Customization/moth/top.rsi
     state: head
 
 - type: marking
@@ -1013,6 +1038,12 @@
   - type: Tag
     tags:
     - 3eiladoWarhammer
+    - Pickaxe
+  - type: MeleeWeapon
+    damage:
+      types:
+        Blunt: 20
+        Structural: 15
 
 - type: entity
   parent: [ClothingBeltBase, ClothingSlotBase]
@@ -1064,12 +1095,22 @@
     sprite: _DeadSpace/Sponsor/3eilado/labcoat.rsi
   - type: Clothing
     sprite: _DeadSpace/Sponsor/3eilado/labcoat.rsi
-  - type: Armor
-    modifiers:
-      coefficients:
-        Caustic: 0.75
 
 - type: entity
   parent: [ClothingOuterStorageFoldableBaseOpened, ClothingOuterCoatLab3eilado]
+  categories: [ HideSpawnMenu ]
   id: ClothingOuterCoatLabOpened3eilado
   name: черный лабораторный халат
+
+- type: entity
+  parent: DeviceDesynchronizer
+  id: DeviceDesynchronizer3eilado
+  name: бездна в переплете
+  description: Книга которой не должно было существовать.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/3eilado/desynchronizer.rsi
+    state: icon
+  - type: UseDelay
+    delay: 480 #баланс

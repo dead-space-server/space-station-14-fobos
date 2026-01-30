@@ -19,6 +19,13 @@
     sprite: _ADT/Clothing/Uniforms/Jumpsuit/lush_rose_wedding_dress.rsi
   - type: Clothing
     sprite: _ADT/Clothing/Uniforms/Jumpsuit/lush_rose_wedding_dress.rsi
+  # DS14-Start
+  - type: HideWhenSlotOccupied
+    watchedSlot: outerClothing
+    whitelist:
+      components:
+      - PressureProtection
+  # DS14-End
 
 - type: entity
   parent: ClothingUniformBase

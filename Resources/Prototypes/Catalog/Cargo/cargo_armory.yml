@@ -4,7 +4,7 @@
     sprite: Objects/Weapons/Guns/SMGs/wt550.rsi
     state: icon
   product: CrateArmorySMG
-  cost: 5500 # DS14-value
+  cost: 3500 # DS14-value
   category: cargoproduct-category-name-armory
   group: security # DS14
 
@@ -14,7 +14,7 @@
     sprite: Objects/Weapons/Guns/Shotguns/enforcer.rsi
     state: icon
   product: CrateArmoryShotgun
-  cost: 7000
+  cost: 5000 # DS14-value
   category: cargoproduct-category-name-armory
   group: security # DS14
 
@@ -24,7 +24,7 @@
     sprite: Clothing/OuterClothing/Armor/riot.rsi
     state: icon
   product: CrateSecurityRiot
-  cost: 7500
+  cost: 5500 # DS14-value
   category: cargoproduct-category-name-armory
   group: security # DS14
 
@@ -54,7 +54,7 @@
     sprite: Objects/Weapons/Guns/Pistols/mk58.rsi
     state: icon
   product: CrateArmoryPistols
-  cost: 2500
+  cost: 1500 # DS14-value
   category: cargoproduct-category-name-armory
   group: security # DS14
 
@@ -74,6 +74,6 @@
     sprite: Objects/Weapons/Guns/Rifles/lecter.rsi
     state: icon
   product: CrateArmoryRifle
-  cost: 20000 # DS14-value
+  cost: 15000 # DS14-value
   category: cargoproduct-category-name-armory
   group: security # DS14

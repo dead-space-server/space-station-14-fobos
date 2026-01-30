@@ -670,7 +670,7 @@
   id: UplinkEstocAmmo
   name: uplink-estoc-ammo-name
   description: uplink-estoc-ammo-desc
-  productEntity: MagazineRifleFMJ #DS: FMJ pulki
+  productEntity: MagazineRifle
   cost:
     Telecrystal: 2
   categories:

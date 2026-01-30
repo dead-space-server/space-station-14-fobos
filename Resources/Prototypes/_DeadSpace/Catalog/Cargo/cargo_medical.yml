@@ -6,7 +6,7 @@
   product: CrateHardsuitMedEVA
   cost: 3500
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical # DS14
 
 - type: cargoProduct
   id: CraterHardsuitMedChemEVA
@@ -16,4 +16,4 @@
   product: CraterHardsuitMedChemEVA
   cost: 3500
   category: cargoproduct-category-name-medical
-  group: market
+  group: medical # DS14

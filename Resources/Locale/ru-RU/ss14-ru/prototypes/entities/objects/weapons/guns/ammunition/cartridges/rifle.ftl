@@ -1,6 +1,6 @@
 ent-BaseCartridgeRifle = патрон (6.5х39 мм TSF)
     .desc = { ent-BaseCartridge.desc }
-ent-CartridgeRifle = патрон (6.5х39 мм TSF HP)
+ent-CartridgeRifle = патрон (6.5х39 мм TSF FMJ)
     .desc = { ent-BaseCartridgeRifle.desc }
 ent-CartridgeRiflePractice = патрон (6.5х39 мм TSF учебный)
     .desc = { ent-BaseCartridgeRifle.desc }
@@ -10,5 +10,5 @@ ent-CartridgeRifleIncendiary = патрон (6.5х39 мм TSF зажигател
     .desc = { ent-BaseCartridgeRifle.desc }
 ent-CartridgeRifleUranium = патрон (6.5х39 мм TSF урановый)
     .desc = { ent-BaseCartridgeRifle.desc }
-ent-CartridgeRifleFMJ = патрон (6.5х39 мм TSF FMJ)
+ent-CartridgeRifleHP = патрон (6.5х39 мм TSF HP)
     .desc = { ent-BaseCartridgeRifle.desc }

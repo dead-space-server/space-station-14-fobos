@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/08/2026 04:44:45
-  entityCount: 36365
+  time: 01/21/2026 00:08:25
+  entityCount: 36370
 maps:
 - 1
 grids:
@@ -1114,6 +1114,8 @@ entities:
             16559: 11,-13
             16560: 13,-9
             16561: 13,-11
+            17112: 17,-25
+            17113: 18,-25
         - node:
             cleanable: True
             color: '#FFFFFFFF'
@@ -13877,7 +13879,8 @@ entities:
           2,-9:
             0: 30583
           3,-8:
-            0: 12287
+            0: 12271
+            7: 16
           3,-7:
             0: 65535
           3,-6:
@@ -19402,7 +19405,7 @@ entities:
       pos: 23.5,15.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -65140.77
+      secondsUntilStateChange: -65293.53
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -22699,7 +22702,7 @@ entities:
       pos: -18.5,13.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -59615.277
+      secondsUntilStateChange: -59768.04
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -96100,6 +96103,14 @@ entities:
     - type: Transform
       pos: 17.46724,68.57425
       parent: 2
+- proto: ClothingBeltSalvageWebbing
+  entities:
+  - uid: 29401
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 13.435381,-36.43859
+      parent: 2
 - proto: ClothingBeltUtility
   entities:
   - uid: 14792
@@ -99734,8 +99745,8 @@ entities:
         immutable: False
         temperature: 293.1495
         moles:
-          Oxygen: 3.0981817
-          Nitrogen: 11.655066
+          Oxygen: 1.9938449
+          Nitrogen: 7.5006547
   - uid: 15367
     components:
     - type: Transform
@@ -114164,6 +114175,16 @@ entities:
     - type: Transform
       pos: 100.508484,-43.45028
       parent: 2
+  - uid: 36369
+    components:
+    - type: Transform
+      pos: 12.458514,-29.512543
+      parent: 2
+  - uid: 36370
+    components:
+    - type: Transform
+      pos: 12.630389,-29.559418
+      parent: 2
 - proto: Dresser
   entities:
   - uid: 17798
@@ -115076,6 +115097,14 @@ entities:
     components:
     - type: Transform
       pos: 15.746565,22.317741
+      parent: 2
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 36366
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 39.5,18.5
       parent: 2
 - proto: ErtResponceConsole
   entities:
@@ -117293,17 +117322,17 @@ entities:
   - uid: 18170
     components:
     - type: Transform
-      pos: 18.309164,-24.290554
+      pos: 20.812763,-32.448357
       parent: 2
   - uid: 18171
     components:
     - type: Transform
-      pos: 18.51229,-24.30618
+      pos: 20.844013,-32.24523
       parent: 2
   - uid: 18172
     components:
     - type: Transform
-      pos: 18.652914,-24.321804
+      pos: 21.015888,-32.49523
       parent: 2
 - proto: Firelock
   entities:
@@ -117673,7 +117702,7 @@ entities:
       pos: -15.5,-5.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -36569.824
+      secondsUntilStateChange: -36722.586
       state: Closing
     - type: DeviceNetwork
       deviceLists:
@@ -118077,7 +118106,7 @@ entities:
       pos: 8.5,-28.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -129202.164
+      secondsUntilStateChange: -129354.93
       state: Closing
   - uid: 18309
     components:
@@ -165829,7 +165858,7 @@ entities:
       pos: 10.5,57.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -19071.54
+      secondsUntilStateChange: -19224.303
       state: Closing
   - uid: 25043
     components:
@@ -165872,7 +165901,7 @@ entities:
       pos: 8.5,57.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -19073.44
+      secondsUntilStateChange: -19226.203
       state: Closing
   - uid: 25051
     components:
@@ -167867,6 +167896,13 @@ entities:
         moles:
           Oxygen: 3.0981817
           Nitrogen: 11.655066
+- proto: LockerSalvageSpecialistFilled
+  entities:
+  - uid: 36368
+    components:
+    - type: Transform
+      pos: 18.5,-24.5
+      parent: 2
 - proto: LockerSalvageSpecialistFilledHardsuit
   entities:
   - uid: 25299
@@ -169132,7 +169168,7 @@ entities:
   - uid: 25480
     components:
     - type: Transform
-      pos: 20.552427,-32.380123
+      pos: 20.328388,-32.33898
       parent: 2
   - uid: 36242
     components:
@@ -179632,11 +179668,6 @@ entities:
     components:
     - type: Transform
       pos: 21.5,-27.5
-      parent: 2
-  - uid: 26782
-    components:
-    - type: Transform
-      pos: 18.5,-24.5
       parent: 2
   - uid: 26783
     components:
@@ -197258,13 +197289,6 @@ entities:
     - type: Transform
       pos: -12.5,19.5
       parent: 2
-- proto: SpawnPointSeniorCourier
-  entities:
-  - uid: 29401
-    components:
-    - type: Transform
-      pos: 4.5,-16.5
-      parent: 2
 - proto: SpawnPointSeniorEngineer
   entities:
   - uid: 29397
@@ -197292,6 +197316,13 @@ entities:
     components:
     - type: Transform
       pos: 53.5,-17.5
+      parent: 2
+- proto: SpawnPointSeniorSalvageSpecialist
+  entities:
+  - uid: 26782
+    components:
+    - type: Transform
+      pos: 18.5,-25.5
       parent: 2
 - proto: SpawnPointServiceWorker
   entities:
@@ -199354,6 +199385,13 @@ entities:
     components:
     - type: Transform
       pos: 18.5,9.5
+      parent: 2
+- proto: SuitStorageSeniorSalvageSpecialistFilled
+  entities:
+  - uid: 36367
+    components:
+    - type: Transform
+      pos: 17.5,-24.5
       parent: 2
 - proto: SuitStorageWarden
   entities:
@@ -232413,7 +232451,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -91549.16
+      secondsUntilStateChange: -91701.92
       state: Opening
     - type: Airlock
       autoClose: False
@@ -233003,7 +233041,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -73432.86
+      secondsUntilStateChange: -73585.625
       state: Opening
     - type: Airlock
       autoClose: False

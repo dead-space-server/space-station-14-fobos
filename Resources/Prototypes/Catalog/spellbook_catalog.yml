@@ -192,7 +192,7 @@
   description: spellbook-mind-swap-description
   productAction: ActionMindSwap
   cost:
-    WizCoin: 2
+    WizCoin: 4 #DS14
   categories:
   - SpellbookUtility
   conditions:

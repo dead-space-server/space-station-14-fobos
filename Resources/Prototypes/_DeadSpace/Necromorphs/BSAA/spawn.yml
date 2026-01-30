@@ -2,17 +2,17 @@
 - type: startingGear
   id: BSAALeaderGear
   equipment:
-    jumpsuit: ClothingUniformJumpsuitTacticool
+    jumpsuit: ClothingUniformJumpsuitBSAA
     back: ClothingBSAABackpack
-    mask: ClothingMaskGasExplorer
-    eyes: ClothingEyesHudAdvanced
+    mask: ClothingMaskBSAA
+    eyes: ClothingEyesBSAA
     ears: ClothingHeadsetCentCom
     neck: BSAALeaderShoulder
-    gloves: ClothingHandsGlovesCombat
+    gloves: ClothingHandsGlovesBSAA
     outerClothing: BSAALeaderHardSuit
-    shoes: ADTClothingShoesBootsMagERT
+    shoes: ClothingShoesBootsMagBSAA
     id: BSAALeaderPDA
-    belt: ClothingBeltMilitaryWebbing
+    belt: ClothingBeltBSAA
     pocket1: BSAAHypo
     pocket2: DoubleEmergencyOxygenTankFilled
   storage:
@@ -33,16 +33,16 @@
 - type: startingGear
   id: BSAAFighterGear
   equipment:
-    jumpsuit: ClothingUniformJumpsuitTacticool
+    jumpsuit: ClothingUniformJumpsuitBSAA
     back: ClothingBSAABackpack
-    mask: ClothingMaskGasExplorer
-    eyes: ClothingEyesHudAdvanced
+    mask: ClothingMaskBSAA
+    eyes: ClothingEyesBSAA
     ears: ClothingHeadsetCentCom
-    gloves: ClothingHandsGlovesCombat
+    gloves: ClothingHandsGlovesBSAA
     outerClothing: BSAAFighterHardSuit
-    shoes: ADTClothingShoesBootsMagERT
+    shoes: ClothingShoesBootsMagBSAA
     id: BSAAFighterPDA
-    belt: ClothingBeltMilitaryWebbing
+    belt: ClothingBeltBSAA
     pocket1: DoubleEmergencyOxygenTankFilled
   storage:
     back:
@@ -61,16 +61,16 @@
 - type: startingGear
   id: BSAAMedicGear
   equipment:
-    jumpsuit: ClothingUniformJumpsuitTacticool
+    jumpsuit: ClothingUniformJumpsuitBSAA
     back: ClothingBSAABackpack
-    mask: ClothingMaskGasExplorer
-    eyes: ClothingEyesHudAdvanced
+    mask: ClothingMaskBSAA
+    eyes: ClothingEyesBSAA
     ears: ClothingHeadsetCentCom
-    gloves: ClothingHandsGlovesCombat
+    gloves: ClothingHandsGlovesBSAA
     outerClothing: BSAAMedicHardSuit
-    shoes: ADTClothingShoesBootsMagERT
+    shoes: ClothingShoesBootsMagBSAA
     id: BSAAMedicPDA
-    belt: ClothingBeltMilitaryWebbing
+    belt: ClothingBeltBSAA
     pocket1: BSAAHypo
     pocket2: DoubleEmergencyOxygenTankFilled
   storage:
@@ -95,8 +95,8 @@
   name: АПБТ лидер
   components:
     - type: Sprite
-      sprite: Markers/jobs.rsi
-      state: cburn
+      sprite: _DeadSpace/Necromorfs/BSAA/misc/misc.rsi
+      state: l
     - type: RandomHumanoidSpawner
       settings: BSAALeader
 
@@ -109,8 +109,8 @@
   - type: Sprite
     layers:
     - state: red
-    - sprite: Markers/jobs.rsi
-      state: cburn
+    - sprite: _DeadSpace/Necromorfs/BSAA/misc/misc.rsi
+      state: l
   - type: RandomSpawner
     prototypes:
     - RandomHumanoidSpawnerBSAALeader
@@ -121,8 +121,8 @@
   name: АПБТ боец
   components:
     - type: Sprite
-      sprite: Markers/jobs.rsi
-      state: cburn
+      sprite: _DeadSpace/Necromorfs/BSAA/misc/misc.rsi
+      state: b
     - type: RandomHumanoidSpawner
       settings: BSAAFighter
 
@@ -135,8 +135,8 @@
   - type: Sprite
     layers:
     - state: red
-    - sprite: Markers/jobs.rsi
-      state: cburn
+    - sprite: _DeadSpace/Necromorfs/BSAA/misc/misc.rsi
+      state: b
   - type: RandomSpawner
     prototypes:
     - RandomHumanoidSpawnerBSAAFighter
@@ -147,8 +147,8 @@
   name: АПБТ медик
   components:
     - type: Sprite
-      sprite: Markers/jobs.rsi
-      state: cburn
+      sprite: _DeadSpace/Necromorfs/BSAA/misc/misc.rsi
+      state: m
     - type: RandomHumanoidSpawner
       settings: BSAAMedic
 
@@ -161,8 +161,8 @@
   - type: Sprite
     layers:
     - state: red
-    - sprite: Markers/jobs.rsi
-      state: cburn
+    - sprite: _DeadSpace/Necromorfs/BSAA/misc/misc.rsi
+      state: m
   - type: RandomSpawner
     prototypes:
     - RandomHumanoidSpawnerBSAAMedic

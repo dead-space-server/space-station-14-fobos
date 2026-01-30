@@ -894,6 +894,15 @@
       state: generic_panel_open
   - type: CargoOrderConsole
     removeLimitAccess: [ "Quartermaster" ]
+    allowedGroups: # DS14
+    - market
+    - service
+    - medical
+    - engineering
+    - science
+    - general
+  - type: AccessReader
+    access: [ ["Quartermaster"] ]
   - type: ActiveRadio
     channels:
     - Supply
@@ -947,7 +956,11 @@
     account: Engineering
     announcementChannel: Engineering
     removeLimitAccess: [ "ChiefEngineer" ]
-    mode: SendToPrimary
+    allowedGroups: # DS14
+    - engineering
+    - general
+  - type: AccessReader
+    access: [ ["ChiefEngineer"] ]
   - type: ActiveRadio
     channels:
     - Engineering
@@ -978,7 +991,11 @@
     account: Medical
     announcementChannel: Medical
     removeLimitAccess: [ "ChiefMedicalOfficer" ]
-    mode: SendToPrimary
+    allowedGroups: # DS14
+    - medical
+    - general
+  - type: AccessReader
+    access: [ ["ChiefMedicalOfficer"] ]
   - type: ActiveRadio
     channels:
     - Medical
@@ -1009,7 +1026,13 @@
     account: Science
     announcementChannel: Science
     removeLimitAccess: [ "ResearchDirector" ]
-    mode: SendToPrimary
+    allowedGroups: # DS14
+    - science
+    - medical
+    - engineering
+    - general
+  - type: AccessReader
+    access: [ ["ResearchDirector"] ]
   - type: ActiveRadio
     channels:
     - Science
@@ -1041,11 +1064,13 @@
     announcementChannel: Security
     removeLimitAccess:
     - HeadOfSecurity # DS14
+    - Armory
     allowedGroups: # DS14
     - security
+    - general
   - type: ActivatableUIRequiresAccess
   - type: AccessReader
-    access: [ ["HeadOfSecurity"] ] # DS14
+    access: [ ["HeadOfSecurity"], ["Armory"] ] # DS14
   - type: ActiveRadio
     channels:
     - Security
@@ -1076,7 +1101,11 @@
     account: Service
     announcementChannel: Service
     removeLimitAccess: [ "HeadOfPersonnel" ]
-    mode: SendToPrimary
+    allowedGroups: # DS14
+    - service
+    - general
+  - type: AccessReader
+    access: [ ["HeadOfPersonnel"] ]
   - type: ActiveRadio
     channels:
     - Service

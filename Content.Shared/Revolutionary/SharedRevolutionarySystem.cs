@@ -24,8 +24,6 @@ public abstract class SharedRevolutionarySystem : EntitySystem
         SubscribeLocalEvent<RevolutionaryComponent, ComponentStartup>(DirtyRevComps);
         SubscribeLocalEvent<HeadRevolutionaryComponent, ComponentStartup>(DirtyRevComps);
         SubscribeLocalEvent<ShowAntagIconsComponent, ComponentStartup>(DirtyRevComps);
-
-        SubscribeLocalEvent<HeadRevolutionaryComponent, NewRevStageEvent>(OnRevNewStage);
     }
 
     /// <summary>
@@ -101,10 +99,5 @@ public abstract class SharedRevolutionarySystem : EntitySystem
         {
             Dirty(uid, comp);
         }
-    }
-
-    private void OnRevNewStage(EntityUid uid, HeadRevolutionaryComponent comp, ref NewRevStageEvent ev)
-    {
-        comp.MassacreStage = true;
     }
 }

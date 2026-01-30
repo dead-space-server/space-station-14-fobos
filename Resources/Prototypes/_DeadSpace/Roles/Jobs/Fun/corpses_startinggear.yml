@@ -19,16 +19,16 @@
     socks: ClothingUnderwearSocksSalvage
     underwearb: ClothingUnderwearBottomBoxersSalvageSpecialist
 
-- type: startingGear
-  id: SeniorCourierCorpseGear
-  equipment:
-    jumpsuit: ClothingUniformJumpsuitSeniorCourier
-    head: ClothingHeadHatBeretCargo
-    shoes: ClothingShoesBootsLaceup
-    pocket1: BoxFolderClipboard
-    belt: ClothingBeltSecurityFilled
-    socks: ClothingUnderwearSocksSeniorCourier
-    underwearb: ClothingUnderwearBottomBoxersSeniorCourier
+#- type: startingGear
+#  id: SeniorCourierCorpseGear
+#  equipment:
+#    jumpsuit: ClothingUniformJumpsuitSeniorCourier
+#    head: ClothingHeadHatBeretCargo
+#    shoes: ClothingShoesBootsLaceup
+#    pocket1: BoxFolderClipboard
+#    belt: ClothingBeltSecurityFilled
+#    socks: ClothingUnderwearSocksSeniorCourier
+#    underwearb: ClothingUnderwearBottomBoxersSeniorCourier
 
 # Civilian
 - type: startingGear
