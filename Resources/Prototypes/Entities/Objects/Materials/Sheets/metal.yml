@@ -201,7 +201,7 @@
     tags:
     - Sheet
     - Plasteel
-    - ConstructionMaterial
+    - ConstructionMaterial # DS14
 
 - type: entity
   parent: SheetPlasteel
