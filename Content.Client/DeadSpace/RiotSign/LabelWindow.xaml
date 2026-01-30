@@ -1,0 +1,9 @@
+<DefaultWindow xmlns="https://spacestation14.io"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            x:Class="Content.Client.DeadSpace.RiotSign.LabelWindow"
+            Title="Надпись на знаке">
+    <BoxContainer Orientation="Vertical" SeparationOverride="4" MinWidth="250">
+        <Label Text="Введите текст для знака:" />
+        <LineEdit Name="LabelLineEdit" />
+    </BoxContainer>
+</DefaultWindow>

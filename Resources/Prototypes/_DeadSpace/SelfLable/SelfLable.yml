@@ -1,0 +1,28 @@
+- type: entity
+  parent: BaseItem
+  id: RiotSign
+  name: знак протестующего
+  description: Покажи руководству своё недовольство
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Objects/Fun/riot_sign.rsi
+      state: icon
+
+    - type: Item
+      sprite: _DeadSpace/Objects/Fun/riot_sign.rsi
+      storedRotation: -90
+      size: Normal
+      inhandVisuals:
+        left:
+        - state: inhand-left
+          offset: 0, 0.35
+        right:
+        - state: inhand-right
+          offset: 0, 0.35
+
+    - type: Labelable
+
+    - type: UserInterface
+      interfaces:
+        enum.Content.Shared.DeadSpace.RiotSign.LabelUiKey.Key:
+          type: Content.Client.DeadSpace.RiotSign.LabelBoundUserInterface
