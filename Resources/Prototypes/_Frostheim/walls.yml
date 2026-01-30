@@ -1,0 +1,125 @@
+﻿- type: entity
+  abstract: true
+  parent: BaseStructure
+  id: BaseEuphoriaWall
+  name: basewall
+  suffix: Orbital
+  placement:
+    mode: SnapgridCenter
+    snap:
+    - Wall
+  components:
+  - type: RangedDamageSound
+    soundGroups:
+      Brute:
+        collection:
+          MetalBulletImpact
+    soundTypes:
+      Heat:
+        collection:
+          MetalLaserImpact
+  - type: Tag
+    tags:
+    - Wall
+  - type: Sprite
+    drawdepth: Walls
+  - type: Icon
+    state: full
+  - type: PlacementReplacement
+    key: walls
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: StrongMetallic
+  - type: Physics
+    bodyType: Static
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.5,-0.5,0.5,0.5"
+        mask:
+        - FullTileMask
+        layer:
+        - WallLayer
+        density: 1000
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 1500
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+  - type: Occluder
+  - type: Airtight
+  - type: StaticPrice
+    price: 75
+  - type: RadiationBlocker
+    resistance: 2
+  - type: BlockWeather
+
+- type: entity
+  parent: BaseEuphoriaWall
+  id: WallOrbitalOne
+  name: wall
+  components:
+  - type: Sprite
+    sprite: _Frostheim/Walls/Orbital/1.rsi
+  - type: Icon
+    sprite: _Frostheim/Walls/Orbital/1.rsi
+  - type: IconSmooth
+    key: osos
+    base: oso
+
+- type: entity
+  parent: BaseEuphoriaWall
+  id: WallOrbitalTwo
+  name: wall
+  components:
+  - type: Sprite
+    sprite: _Frostheim/Walls/Orbital/2.rsi
+  - type: Icon
+    sprite: _Frostheim/Walls/Orbital/2.rsi
+  - type: IconSmooth
+    key: osts
+    base: ost
+
+- type: entity
+  parent: BaseEuphoriaWall
+  id: WallOrbitalThree
+  name: wall
+  components:
+  - type: Sprite
+    sprite: _Frostheim/Walls/Orbital/3.rsi
+  - type: Icon
+    sprite: _Frostheim/Walls/Orbital/3.rsi
+  - type: IconSmooth
+    key: ostrs
+    base: ostr
+
+- type: entity
+  parent: BaseEuphoriaWall
+  id: WallOrbitalFour
+  name: wall
+  components:
+  - type: Sprite
+    sprite: _Frostheim/Walls/Orbital/4.rsi
+  - type: Icon
+    sprite: _Frostheim/Walls/Orbital/4.rsi
+  - type: IconSmooth
+    key: ostfs
+    base: ostf
+
+- type: entity
+  parent: BaseEuphoriaWall
+  id: WallOrbitalFive
+  name: wall
+  components:
+  - type: Sprite
+    sprite: _Frostheim/Walls/Orbital/5.rsi
+  - type: Icon
+    sprite: _Frostheim/Walls/Orbital/5.rsi
+  - type: IconSmooth
+    key: tgs
+    base: tg

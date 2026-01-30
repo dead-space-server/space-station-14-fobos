@@ -1,0 +1,46 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Created by TheShuEd for Space Station 14",
+    "size": {
+      "x": 32,
+      "y": 32
+    },
+    "states": [
+      {
+        "name": "full"
+      },
+      {
+        "name": "ostf0",
+        "directions": 4
+      },
+      {
+        "name": "ostf1",
+        "directions": 4
+      },
+      {
+        "name": "ostf2",
+        "directions": 4
+      },
+      {
+        "name": "ostf3",
+        "directions": 4
+      },
+      {
+        "name": "ostf4",
+        "directions": 4
+      },
+      {
+        "name": "ostf5",
+        "directions": 4
+      },
+      {
+        "name": "ostf6",
+        "directions": 4
+      },
+      {
+        "name": "ostf7",
+        "directions": 4
+      }
+    ]
+  }
