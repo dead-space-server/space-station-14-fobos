@@ -1259,3 +1259,54 @@
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Underwear/Taipan/communication_officer/women/pants.rsi
+
+- type: entity
+  parent: ClothingUnderwearBottomBase
+  id: ClothingUnderwearBottomBoxersWolf
+  name: боксеры с волком
+  description: Для самых авторитетных персон
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Underwear/Other/Man/wolf.rsi
+
+- type: entity
+  parent: [ClothingUnderwearBottomBase, BaseFoldable]
+  id: ClothingUnderwearBottomBoxersAlwaysReady
+  name: боксеры "Всегда готов"
+  description: Ты трусы задом наперёд надел, говноед
+  components:
+  - type: Appearance
+  - type: Foldable
+    canFoldInsideContainer: true
+    unfoldVerbText: fold-flip-verb
+    foldVerbText: fold-flip-verb
+  - type: FoldableClothing
+    foldedEquippedPrefix: flipped
+    foldedHeldPrefix: flipped
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Underwear/Other/Man/always_ready.rsi
+    layers:
+    - state: icon
+      map: [ "unfoldedLayer" ]
+    - state: icon-flipped
+      map: ["foldedLayer"]
+      visible: false
+
+- type: entity
+  parent: ClothingUnderwearBottomBoxersAlwaysReady
+  id: ClothingUnderwearBottomBoxersAlwaysReadyFlipped
+  description: Теперь всегда готов ко всем испытаниям жизни
+  suffix: flipped
+  components:
+  - type: Foldable
+    folded: true
+  - type: Clothing
+    equippedPrefix: flipped
+  - type: Sprite
+    layers:
+    - state: icon
+      map: [ "unfoldedLayer" ]
+      visible: false
+    - state: icon-flipped
+      map: ["foldedLayer"]
+      visible: true

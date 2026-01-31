@@ -190,6 +190,10 @@
       prob: 0.0005
     - id: VIB
       prob: 0.0005
+    - id: ClothingUnderwearBottomBoxersWolf
+      prob: 0.0005
+    - id: ClothingUnderwearBottomBoxersAlwaysReady
+      prob: 0.0005
 
 - type: entity
   id: ClosetMaintenanceFilledRandom
