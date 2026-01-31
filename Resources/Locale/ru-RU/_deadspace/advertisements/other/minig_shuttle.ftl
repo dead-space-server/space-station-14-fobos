@@ -1,1 +1,1 @@
-names-mining-shuttle-dataset-1 = Шатл утилизаторов
+names-mining-shuttle-dataset-1 = Шатлл утилизаторов
