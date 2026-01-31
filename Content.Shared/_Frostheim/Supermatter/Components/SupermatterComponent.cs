@@ -143,7 +143,7 @@ public sealed partial class SupermatterComponent : Component
     /// </summary>
     [ViewVariables(VVAccess.ReadOnly)]
     [DataField("powerlossCubicDivisor")]
-    public float PowerlossCubicDivisor = 500f;
+    public float PowerlossCubicDivisor = 900f;
 
     /// <summary>
     /// TG: POWERLOSS_LINEAR_RATE = 0.83
@@ -178,11 +178,18 @@ public sealed partial class SupermatterComponent : Component
     public float DamageArchived;
 
     /// <summary>
+    /// Max damage increase per tick = DamageHardcap * ExplosionPoint
+    /// </summary>
+    [ViewVariables(VVAccess.ReadOnly)]
+    [DataField("damageHardcap")]
+    public float DamageHardcap = 0.01f;
+
+    /// <summary>
     /// TG: Heat damage divisor = 24000, Power = 40000, Moles = 3200
     /// </summary>
     [ViewVariables(VVAccess.ReadOnly)]
     [DataField("heatDamageDivisor")]
-    public float HeatDamageDivisor = 6000f;
+    public float HeatDamageDivisor = 2000f;
 
     [ViewVariables(VVAccess.ReadOnly)]
     [DataField("powerDamageDivisor")]
@@ -208,11 +215,11 @@ public sealed partial class SupermatterComponent : Component
     /// </summary>
     [ViewVariables(VVAccess.ReadOnly)]
     [DataField("healingDivisor")]
-    public float HealingDivisor = 6000f;
+    public float HealingDivisor = 3000f;
 
     [ViewVariables(VVAccess.ReadOnly)]
     [DataField("maxHealingPerTick")]
-    public float MaxHealingPerTick = 0.02f;
+    public float MaxHealingPerTick = 0.08f;
 
     [ViewVariables(VVAccess.ReadOnly)]
     [DataField("explosionPoint")]

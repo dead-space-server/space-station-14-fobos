@@ -141,12 +141,13 @@ public sealed class SupermatterSystem : SharedSupermatterSystem
             sMcomponent.MatterPower = Math.Max(sMcomponent.MatterPower - removedMatter, 0);
         }
 
-        // TG: Heat power generation = heatPowerGeneration * temperature * HeatPowerScaling
-        var heatPowerGain = heatPowerGeneration * absorbedGas.Temperature * sMcomponent.HeatPowerScaling;
+        // Heat power generation - clamped to [0,1] so negative gases (N2) only nullify gain, not drain power
+        var clampedPowerRatio = Math.Clamp(heatPowerGeneration, 0f, 1f);
+        var heatPowerGain = clampedPowerRatio * absorbedGas.Temperature * sMcomponent.HeatPowerScaling;
         sMcomponent.Power = Math.Max(sMcomponent.Power + heatPowerGain, 0);
 
         // Radiation intensity based on power and transmission
-        radcomponent.Intensity = sMcomponent.Power * Math.Max(0, 1f + powerTransmission) * 0.001f;
+        radcomponent.Intensity = sMcomponent.Power * Math.Max(0, 1f + powerTransmission) * 0.003f;
 
         // Device energy for waste calculations
         var deviceEnergy = sMcomponent.Power * sMcomponent.ReactionPowerModifier;
@@ -154,7 +155,7 @@ public sealed class SupermatterSystem : SharedSupermatterSystem
         // TG waste gas release formulas
         // Temperature increase
         absorbedGas.Temperature += deviceEnergy * wasteMultiplier / sMcomponent.ThermalReleaseModifier;
-        absorbedGas.Temperature = Math.Max(0, Math.Min(absorbedGas.Temperature, sMcomponent.HeatThreshold));
+        absorbedGas.Temperature = Math.Max(0, Math.Min(absorbedGas.Temperature, sMcomponent.HeatThreshold * wasteMultiplier));
 
         // Plasma release
         absorbedGas.AdjustMoles(
@@ -227,22 +228,21 @@ public sealed class SupermatterSystem : SharedSupermatterSystem
             // TG temperature limit = (T0C + HeatPenaltyThreshold) * DynamicHeatResistance
             var tempLimit = (Atmospherics.T0C + sMcomponent.HeatPenaltyThreshold) * sMcomponent.DynamicHeatResistance;
 
-            // TG Heat damage = (temperature - temp_limit) / 24000, cap 0.15
-            var heatDamage = Math.Min(
-                Math.Max((mixture.Temperature - tempLimit) / sMcomponent.HeatDamageDivisor, 0f),
-                0.15f);
+            var heatDamage = Math.Max(
+                (mixture.Temperature - tempLimit) / sMcomponent.HeatDamageDivisor, 0f);
 
-            // TG Power damage = (internal_energy - POWER_PENALTY_THRESHOLD) / 40000, cap 0.1
-            var powerDamage = Math.Min(
-                Math.Max((sMcomponent.Power - sMcomponent.PowerPenaltyThreshold) / sMcomponent.PowerDamageDivisor, 0f),
-                0.1f);
+            var powerDamage = Math.Max(
+                (sMcomponent.Power - sMcomponent.PowerPenaltyThreshold) / sMcomponent.PowerDamageDivisor, 0f);
 
-            // TG Mole damage = (total_moles - MOLE_PENALTY_THRESHOLD) / 3200, cap 0.1
-            var moleDamage = Math.Min(
-                Math.Max((mixture.TotalMoles - sMcomponent.MolePenaltyThreshold) / sMcomponent.MoleDamageDivisor, 0f),
-                0.1f);
+            var moleDamage = Math.Max(
+                (mixture.TotalMoles - sMcomponent.MolePenaltyThreshold) / sMcomponent.MoleDamageDivisor, 0f);
 
             sMcomponent.Damage += heatDamage + powerDamage + moleDamage;
+
+            // Cap max damage increase per tick
+            sMcomponent.Damage = Math.Min(
+                sMcomponent.DamageArchived + sMcomponent.DamageHardcap * sMcomponent.ExplosionPoint,
+                sMcomponent.Damage);
 
             // TG Healing: when temperature is below limit and has gas
             // Healing = (temperature - temp_limit) / 6000 (negative value = healing), cap -0.1
@@ -283,11 +283,19 @@ public sealed class SupermatterSystem : SharedSupermatterSystem
             var integrity = GetIntegrity(sMcomponent.Damage, sMcomponent.ExplosionPoint);
             if (sMcomponent.YellAccumulator >= sMcomponent.YellTimer)
             {
-                if (sMcomponent.Damage > sMcomponent.EmergencyPoint)
+                if (sMcomponent.Damage > sMcomponent.EmergencyPoint && sMcomponent.Damage >= sMcomponent.DamageArchived)
                 {
                     _chat.TrySendInGameICMessage(
                         uid,
                         Loc.GetString("supermatter-danger-message", ("integrity", integrity.ToString("0.00"))),
+                        InGameICChatType.Speak,
+                        hideChat: true);
+                }
+                else if (sMcomponent.Damage > sMcomponent.EmergencyPoint)
+                {
+                    _chat.TrySendInGameICMessage(
+                        uid,
+                        Loc.GetString("supermatter-recovery-alert", ("integrity", integrity.ToString("0.00"))),
                         InGameICChatType.Speak,
                         hideChat: true);
                 }

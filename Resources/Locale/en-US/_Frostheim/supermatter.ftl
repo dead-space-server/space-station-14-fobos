@@ -1,6 +1,7 @@
 supermatter-danger-message = DANGER: Crystal integrity critical - {$integrity}%! Evacuate immediately!
 supermatter-warning-message = WARNING: Crystal integrity declining - {$integrity}%. Intervention required.
 supermatter-safe-alert = Crystal integrity stabilizing - {$integrity}%.
+supermatter-recovery-alert = Crystal recovering. Integrity: {$integrity}%. Stay vigilant.
 
 supermatter-delamination-default = DELAMINATION IMMINENT! Critical explosion unavoidable!
 
@@ -78,16 +79,53 @@ book-text-supermatter =
     The crystal heals VERY slowly. If damage starts climbing — act immediately.
 
     ═══════════════════════════════════
-    V. RECOMMENDED SETUP
+    V. STEP-BY-STEP STARTUP
     ═══════════════════════════════════
 
-    1. Fill the chamber with pure nitrogen.
-    2. Ensure airtight seal. Check twice.
-    3. Configure cooling via heat exchangers.
-    4. Configure waste filtration — the crystal expels plasma and oxygen. Without filtration the chamber becomes a furnace.
-    5. Keep frezon reserves for emergencies.
-    6. DO NOT LET PLASMA INTO THE CHAMBER.
-    7. ACTIVATE EMITTERS. Without an external energy source the crystal is useless. But only after everything above is done. Activating emitters before cooling is configured is a guaranteed way to die.
+    Follow in exact order. Every skipped step is a potential corpse.
+
+    ── STEP 1: AIR ALARM ──
+
+    Locate the air alarm for the supermatter chamber.
+    • Disable auto mode.
+    • Scrubber: enable ALL gases in the filter, switch mode from filtering to SIPHON.
+    The chamber must be fully pumped out before filling with nitrogen.
+
+    ── STEP 2: GAS FILTER ──
+
+    The chamber pipeline has a gas filter installed.
+    • Select gas: NITROGEN (N2).
+    • Enable the filter.
+    This routes nitrogen back into the loop while sending waste (plasma, oxygen) to disposal.
+
+    ── STEP 3: COOLING ──
+
+    Locate the thermomachines (freezers) in the chamber loop.
+    • Enable each freezer.
+    • Target temperature: 73.15K.
+    Repeat for ALL freezers in the loop. Without cooling the crystal will overheat within minutes.
+
+    ── STEP 4: RADIATION COLLECTOR ──
+
+    The radiation collector converts the crystal's radiation into electricity.
+    • Take a plasma tank.
+    • Insert it into the collector.
+    • Activate the collector (click on it).
+    Without plasma in the tank the collector is useless.
+
+    ── STEP 5: NITROGEN FILL ──
+
+    • Take a nitrogen canister.
+    • Connect it to the chamber port with a wrench.
+    • Open the MANUAL VALVE on the pipe.
+    Wait for the chamber to fill. One canister is sufficient.
+
+    ── STEP 6: IGNITION ──
+
+    Only when EVERYTHING above is complete:
+    • Activate the emitter(s).
+    • Monitor the crystal.
+    Activating emitters before cooling is configured is a guaranteed way to die. That is how all your predecessors perished.
 
     ═══════════════════════════════════
     VI. DELAMINATION PROTOCOL
