@@ -1,0 +1,5 @@
+- type: localizedDataset
+  id: NamesMiningShuttle
+  values:
+    prefix: names-mining-shuttle-dataset-
+    count: 1
