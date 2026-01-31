@@ -1,20 +1,20 @@
 ﻿[game]
 # Straight in-game baby
-lobbyenabled = true
+lobbyenabled = false
 # Dev map for faster loading & convenience
 map = "Dev"
 role_timers = false
 role_loadout_timers = false
 
 [events]
-enabled = true
+enabled = false
 
 [ghost]
 role_time = 0.5
 quick_lottery = true
 
 [gateway]
-generator_enabled = true
+generator_enabled = false
 
 [movement]
 mob_pushing = true
@@ -24,13 +24,13 @@ mob_pushing = true
 grid_splitting = false
 
 [procgen]
-preload = true
+preload = false
 
 [salvage]
 expedition_cooldown = 30.0
 
 [shuttle]
-grid_fill = true
+grid_fill = false
 auto_call_time = 0
 emergency = false
 arrivals = false
