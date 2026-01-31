@@ -337,8 +337,8 @@
 - type: entity
   parent: ClothingOuterHardsuitAtmos
   id: ClothingOuterHardsuitPrometheusAlt
-  name: кроваво-красный скафандр ветерана
-  description: Тяжелобронированный скафандр, предназначенный для секретных операций.
+  name: красный скафандр ветерана
+  description: Элегантный скафандр времен цивилизованной эпохи.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -377,13 +377,13 @@
   parent: ClothingHeadHelmetHardsuitSyndieMedic
   id: ClothingHeadHelmetHardsuitPrometheusAlt
   categories: [ HideSpawnMenu ]
-  name: кроваво-красный шлем скафандра ветерана
-  description: Тяжелобронированный шлем, предназначенный для секретных операций.
+  name: шлем красного скафандра
+  description: Потёртый шлем, видавший десятки операций.
   components:
   - type: Sprite
-    sprite: Clothing/Head/Hardsuits/syndicate.rsi
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/helmet.rsi
   - type: Clothing
-    sprite: Clothing/Head/Hardsuits/syndicate.rsi
+    sprite: _DeadSpace/Sponsor/PrometheusAlt/helmet.rsi
   - type: PointLight
     color: green
   - type: Tag

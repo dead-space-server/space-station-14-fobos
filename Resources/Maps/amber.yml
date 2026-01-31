@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/08/2026 03:28:48
-  entityCount: 20511
+  time: 01/20/2026 22:31:58
+  entityCount: 20506
 maps:
 - 1
 grids:
@@ -23744,15 +23744,6 @@ entities:
     - type: Transform
       pos: 13.542375,-19.466818
       parent: 2
-- proto: Bloodpack
-  entities:
-  - uid: 1814
-    components:
-    - type: Transform
-      parent: 1813
-    - type: Physics
-      canCollide: False
-    - type: InsideEntityStorage
 - proto: BodyBagFolded
   entities:
   - uid: 1817
@@ -24503,15 +24494,6 @@ entities:
     - type: Transform
       pos: 48.008686,10.467797
       parent: 2
-- proto: Brutepack
-  entities:
-  - uid: 1815
-    components:
-    - type: Transform
-      parent: 1813
-    - type: Physics
-      canCollide: False
-    - type: InsideEntityStorage
 - proto: Brutepack1
   entities:
   - uid: 1939
@@ -54179,11 +54161,6 @@ entities:
     - type: Transform
       pos: -9.481663,24.584553
       parent: 2
-  - uid: 7604
-    components:
-    - type: Transform
-      pos: -21.105865,10.7899685
-      parent: 2
   - uid: 7605
     components:
     - type: Transform
@@ -54535,11 +54512,6 @@ entities:
       parent: 2
 - proto: ClothingOuterSanta
   entities:
-  - uid: 7667
-    components:
-    - type: Transform
-      pos: -20.616282,10.706577
-      parent: 2
   - uid: 7668
     components:
     - type: Transform
@@ -55375,11 +55347,11 @@ entities:
       parent: 2
 - proto: ComputerSalvageJobBoard
   entities:
-  - uid: 7797
+  - uid: 13572
     components:
     - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 17.5,23.5
+      rot: 3.141592653589793 rad
+      pos: 14.5,27.5
       parent: 2
 - proto: ComputerShuttle
   entities:
@@ -55940,34 +55912,6 @@ entities:
     - type: Transform
       pos: 39.5,-36.5
       parent: 2
-- proto: CrateMedical
-  entities:
-  - uid: 1813
-    components:
-    - type: Transform
-      pos: 14.5,25.5
-      parent: 2
-    - type: EntityStorage
-      air:
-        volume: 200
-        immutable: False
-        temperature: 293.1465
-        moles:
-          Oxygen: 1.7459903
-          Nitrogen: 6.568249
-    - type: ContainerContainer
-      containers:
-        entity_storage: !type:Container
-          showEnts: False
-          occludes: True
-          ents:
-          - 1814
-          - 1816
-          - 1815
-        paper_label: !type:ContainerSlot
-          showEnts: False
-          occludes: True
-          ent: null
 - proto: CrateMedicalScrubs
   entities:
   - uid: 7886
@@ -62053,10 +61997,10 @@ entities:
       parent: 2
 - proto: DresserHeadOfSecurityFilled
   entities:
-  - uid: 8892
+  - uid: 7667
     components:
     - type: Transform
-      pos: -21.5,12.5
+      pos: -20.5,10.5
       parent: 2
 - proto: DresserQuarterMasterFilled
   entities:
@@ -62307,13 +62251,6 @@ entities:
     components:
     - type: Transform
       pos: -26.552948,-52.364643
-      parent: 2
-- proto: DrinkVodkaBottleFull
-  entities:
-  - uid: 8932
-    components:
-    - type: Transform
-      pos: -20.329561,10.8367405
       parent: 2
 - proto: DrinkWaterBottleFull
   entities:
@@ -62982,6 +62919,13 @@ entities:
     components:
     - type: Transform
       pos: 16.005564,13.58702
+      parent: 2
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 7604
+    components:
+    - type: Transform
+      pos: -21.5,12.5
       parent: 2
 - proto: ErtResponceConsole
   entities:
@@ -85609,13 +85553,6 @@ entities:
       parent: 2
 - proto: Gauze
   entities:
-  - uid: 1816
-    components:
-    - type: Transform
-      parent: 1813
-    - type: Physics
-      canCollide: False
-    - type: InsideEntityStorage
   - uid: 11788
     components:
     - type: Transform
@@ -95678,6 +95615,16 @@ entities:
       parent: 2
 - proto: LockerSalvageSpecialistFilled
   entities:
+  - uid: 1814
+    components:
+    - type: Transform
+      pos: 17.5,23.5
+      parent: 2
+  - uid: 1815
+    components:
+    - type: Transform
+      pos: 15.5,25.5
+      parent: 2
   - uid: 7642
     components:
     - type: MetaData
@@ -95708,11 +95655,6 @@ entities:
           ent: null
 - proto: LockerSalvageSpecialistFilledHardsuit
   entities:
-  - uid: 13572
-    components:
-    - type: Transform
-      pos: 15.5,25.5
-      parent: 2
   - uid: 13573
     components:
     - type: Transform
@@ -96730,6 +96672,11 @@ entities:
       parent: 2
 - proto: MedkitFilled
   entities:
+  - uid: 1816
+    components:
+    - type: Transform
+      pos: 11.635606,24.557743
+      parent: 2
   - uid: 13734
     components:
     - type: Transform
@@ -113614,13 +113561,6 @@ entities:
     - type: Transform
       pos: -10.5,-41.5
       parent: 2
-- proto: SpawnPointSeniorCourier
-  entities:
-  - uid: 16287
-    components:
-    - type: Transform
-      pos: 1.5,22.5
-      parent: 2
 - proto: SpawnPointSeniorEngineer
   entities:
   - uid: 16288
@@ -113653,6 +113593,13 @@ entities:
     components:
     - type: Transform
       pos: 35.5,-35.5
+      parent: 2
+- proto: SpawnPointSeniorSalvageSpecialist
+  entities:
+  - uid: 7797
+    components:
+    - type: Transform
+      pos: 14.5,22.5
       parent: 2
 - proto: SpawnPointServiceWorker
   entities:
@@ -114870,6 +114817,13 @@ entities:
     components:
     - type: Transform
       pos: -20.5,6.5
+      parent: 2
+- proto: SuitStorageSeniorSalvageSpecialistFilled
+  entities:
+  - uid: 1813
+    components:
+    - type: Transform
+      pos: 14.5,25.5
       parent: 2
 - proto: SuitStorageWarden
   entities:
@@ -117891,12 +117845,6 @@ entities:
       rot: 1.5707963267948966 rad
       pos: -21.5,10.5
       parent: 2
-  - uid: 16963
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -20.5,10.5
-      parent: 2
   - uid: 16964
     components:
     - type: Transform
@@ -118721,13 +118669,6 @@ entities:
     components:
     - type: Transform
       pos: -16.25951,-48.160717
-      parent: 2
-- proto: ToyFigurineHeadOfSecurity
-  entities:
-  - uid: 17060
-    components:
-    - type: Transform
-      pos: -20.808966,10.972251
       parent: 2
 - proto: ToyFigurineLibrarian
   entities:

@@ -23,8 +23,8 @@
   components:
   - type: BasicEntityAmmoProvider
     proto: ProjectilePolyboltCarp
-    capacity: 5
-    count: 5
+    capacity: 4 #DS14
+    count: 4 #DS14
 
 - type: entity
   name: wand of monkey polymorph

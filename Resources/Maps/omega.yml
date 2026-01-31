@@ -4,7 +4,7 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/08/2026 05:17:01
+  time: 01/21/2026 00:42:39
   entityCount: 24246
 maps:
 - 1
@@ -8948,15 +8948,6 @@ entities:
     - type: Transform
       pos: 6.648876,9.506208
       parent: 2
-- proto: ActionToggleInternals
-  entities:
-  - uid: 12
-    components:
-    - type: Transform
-      parent: 11
-    - type: Action
-      originalIconColor: '#FFFFFFFF'
-      container: 11
 - proto: ADTBlackChair
   entities:
   - uid: 13
@@ -11434,7 +11425,7 @@ entities:
       pos: -17.5,35.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -11056.032
+      secondsUntilStateChange: -11158.602
       changeAirtight: False
       state: Opening
     - type: Docking
@@ -11534,7 +11525,7 @@ entities:
       pos: 0.5,-7.5
       parent: 16403
     - type: Door
-      secondsUntilStateChange: -11055.132
+      secondsUntilStateChange: -11157.701
       changeAirtight: False
       state: Opening
     - type: Docking
@@ -50220,12 +50211,6 @@ entities:
       rot: 1.5707963267948966 rad
       pos: -26.5,-26.5
       parent: 2
-  - uid: 6317
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -19.5,24.5
-      parent: 2
   - uid: 6318
     components:
     - type: Transform
@@ -54888,6 +54873,17 @@ entities:
     - type: Transform
       pos: -40.224915,18.509731
       parent: 2
+  - uid: 7186
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 29.391499,16.446154
+      parent: 2
+  - uid: 13110
+    components:
+    - type: Transform
+      pos: 22.648886,16.586779
+      parent: 2
 - proto: Dresser
   entities:
   - uid: 17899
@@ -55543,6 +55539,14 @@ entities:
       parent: 7128
     - type: Physics
       canCollide: False
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 12
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -19.5,24.5
+      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 11344
@@ -55577,19 +55581,6 @@ entities:
       fixtures: {}
 - proto: ExtendedEmergencyOxygenTankFilled
   entities:
-  - uid: 11
-    components:
-    - type: Transform
-      pos: 22.645079,16.522429
-      parent: 2
-    - type: GasTank
-      toggleActionEntity: 12
-    - type: ActionsContainer
-    - type: ContainerContainer
-      containers:
-        actions: !type:Container
-          ents:
-          - 12
   - uid: 7133
     components:
     - type: Transform
@@ -55989,11 +55980,6 @@ entities:
       parent: 2
 - proto: filingCabinetDrawerRandom
   entities:
-  - uid: 7172
-    components:
-    - type: Transform
-      pos: 20.5,13.5
-      parent: 2
   - uid: 17940
     components:
     - type: Transform
@@ -56086,13 +56072,6 @@ entities:
     - type: Transform
       pos: 43.26058,90.56348
       parent: 16677
-- proto: filingCabinetTall
-  entities:
-  - uid: 7186
-    components:
-    - type: Transform
-      pos: 19.5,13.5
-      parent: 2
 - proto: filingCabinetTallRandom
   entities:
   - uid: 7187
@@ -85312,6 +85291,13 @@ entities:
         moles:
           Oxygen: 1.6033952
           Nitrogen: 6.031821
+- proto: LockerSalvageSpecialistFilled
+  entities:
+  - uid: 11
+    components:
+    - type: Transform
+      pos: 19.5,13.5
+      parent: 2
 - proto: LockerSalvageSpecialistFilledHardsuit
   entities:
   - uid: 10939
@@ -102894,13 +102880,6 @@ entities:
     - type: Transform
       pos: -7.5,2.5
       parent: 2
-- proto: SpawnPointSeniorCourier
-  entities:
-  - uid: 13110
-    components:
-    - type: Transform
-      pos: 15.5,17.5
-      parent: 2
 - proto: SpawnPointSeniorEngineer
   entities:
   - uid: 13105
@@ -102933,6 +102912,13 @@ entities:
     components:
     - type: Transform
       pos: 24.5,-13.5
+      parent: 2
+- proto: SpawnPointSeniorSalvageSpecialist
+  entities:
+  - uid: 6317
+    components:
+    - type: Transform
+      pos: 20.5,15.5
       parent: 2
 - proto: SpawnPointServiceWorker
   entities:
@@ -103913,6 +103899,13 @@ entities:
     components:
     - type: Transform
       pos: -44.5,34.5
+      parent: 2
+- proto: SuitStorageSeniorSalvageSpecialistFilled
+  entities:
+  - uid: 7172
+    components:
+    - type: Transform
+      pos: 20.5,13.5
       parent: 2
 - proto: SuitStorageWarden
   entities:

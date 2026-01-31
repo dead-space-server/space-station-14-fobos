@@ -36,7 +36,7 @@ public sealed partial class MonkeyKingSystem : EntitySystem
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly NpcFactionSystem _faction = default!;
     private static readonly ProtoId<TagPrototype> MonkeyKingTargetTag = "MonkeyKingTarget";
-    private static readonly ProtoId<NpcFactionPrototype> NewNpcFaction = "AllHostile";
+    private static readonly ProtoId<NpcFactionPrototype> NewNpcFaction = "SimpleHostile";
     public override void Initialize()
     {
         base.Initialize();
