@@ -184093,7 +184093,7 @@ entities:
       parent: 2
     - type: Physics
       bodyType: Static
-- proto: LockerMime
+- proto: LockerMimeFilled
   entities:
   - uid: 13224
     components:

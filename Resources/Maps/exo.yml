@@ -88142,7 +88142,7 @@ entities:
     - type: Transform
       pos: 18.5,-31.5
       parent: 2
-- proto: LockerMime
+- proto: LockerMimeFilled
   entities:
   - uid: 5988
     components:
