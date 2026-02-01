@@ -41,7 +41,7 @@
 
 - type: stealTargetGroup
   id: SalvageShuttleConsoleCircuitboardSteal
-  name: Плата консоль управления шаттла утилизаторов
+  name: steal-target-SalvageShuttleConsoleCircuitboardSteal
   sprite:
     sprite: Objects/Misc/module.rsi
     state: cpuboard
