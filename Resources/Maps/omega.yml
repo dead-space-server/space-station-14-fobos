@@ -85236,7 +85236,7 @@ entities:
       parent: 16677
     - type: Lock
       locked: False
-- proto: LockerMime
+- proto: LockerMimeFilled
   entities:
   - uid: 10936
     components:

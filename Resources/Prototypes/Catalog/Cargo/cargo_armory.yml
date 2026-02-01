@@ -4,7 +4,7 @@
     sprite: Objects/Weapons/Guns/SMGs/wt550.rsi
     state: icon
   product: CrateArmorySMG
-  cost: 3500 # DS14-value
+  cost: 6500 # DS14-value
   category: cargoproduct-category-name-armory
   group: security # DS14
 
@@ -74,6 +74,6 @@
     sprite: Objects/Weapons/Guns/Rifles/lecter.rsi
     state: icon
   product: CrateArmoryRifle
-  cost: 15000 # DS14-value
+  cost: 10000 # DS14-value
   category: cargoproduct-category-name-armory
   group: security # DS14

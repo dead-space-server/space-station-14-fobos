@@ -209578,7 +209578,7 @@ entities:
     - type: Transform
       pos: 36.5,-44.5
       parent: 2
-- proto: LockerMime
+- proto: LockerMimeFilled
   entities:
   - uid: 15249
     components:

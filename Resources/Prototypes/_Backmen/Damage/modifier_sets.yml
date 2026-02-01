@@ -1,7 +1,5 @@
 ﻿- type: damageModifierSet
   id: BaseBlob # ReactiveSpines
-  armorLvls:
-    Piercing: 2
   coefficients:
     Blunt: 0.25
     Slash: 0.25
@@ -10,8 +8,6 @@
 
 - type: damageModifierSet
   id: ElectromagneticWebBlob # Explosive Lattice
-  armorLvls:
-    Piercing: 2
   coefficients:
     Blunt: 0.50
     Slash: 0.50
@@ -30,8 +26,6 @@
 
 - type: damageModifierSet
   id: BlobMob # Blob mobs
-  armorLvls:
-    Piercing: 2
   coefficients:
     Blunt: 0.5
     Slash: 0.5

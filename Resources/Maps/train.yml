@@ -87189,7 +87189,7 @@ entities:
     - type: Transform
       pos: 5.5,-180.5
       parent: 2
-- proto: LockerMime
+- proto: LockerMimeFilled
   entities:
   - uid: 6087
     components:

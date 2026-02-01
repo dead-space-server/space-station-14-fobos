@@ -19,7 +19,7 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Slash: 2
+        Piercing: 2
         Poison: 2
       groups:
         Brute: 8
@@ -93,16 +93,14 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Slash: 2
+        Piercing: 2
         Poison: 1
       groups:
         Brute: 12
   - type: MobThresholds
     thresholds:
       0: Alive
-      350: Dead
-  - type: Damageable
-    damageModifierSet: HeavySpiderTerror
+      250: Dead
   - type: Fixtures
     fixtures:
       fix1:
