@@ -231,7 +231,7 @@ public abstract class SharedGrapplingGunSystem : EntitySystem
 
             direction = Vector2.Normalize(direction);
 
-            var impulse = direction * grappling.ReelRate * frameTime * physicsTarget.Mass * 4f;
+            var impulse = direction * grappling.ReelRate * frameTime * physicsTarget.Mass;
 
             _physics.ApplyLinearImpulse(target, impulse);
             _physics.WakeBody(target);

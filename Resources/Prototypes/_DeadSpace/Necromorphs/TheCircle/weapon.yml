@@ -795,7 +795,7 @@
     - type: AmmoCounter
     - type: GrapplingGun
       pullTargetToShooter: true 
-      reelRate: 45
+      reelRate: 175
       cycleSound:
         path: /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/hook-sfx/reload_hook.ogg
       ropeSprite:
@@ -824,7 +824,7 @@
     - type: UseDelay
       delay: 2
     - type: AltFireMelee
-      attackType: Heavy
+      attackType: Light
 
 - type: entity
   id: HandHookProjectile
