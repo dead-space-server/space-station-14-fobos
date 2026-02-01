@@ -13,8 +13,6 @@
     node: clothingCraftArmor
   - type: Armor # 0.1 less than basic armor
     modifiers:
-      armorLvls:
-        Piercing: 1 # стальные листы кал, а не броня
       coefficients:
         Blunt: 0.80
         Slash: 0.80

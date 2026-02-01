@@ -122,6 +122,7 @@
     tags:
       - MagazinePistolSubMachineGunTopMounted
   - type: BallisticAmmoProvider
+    capacity: 35 # DS14
     mayTransfer: true
     proto: CartridgePistol
     whitelist:

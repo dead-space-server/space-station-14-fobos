@@ -10,11 +10,6 @@
     sprite: _ADT/Clothing/OuterClothing/Armor/supreme-commander-armor.rsi
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 3
-        Heat: 3
-        Slash: 3
-        Blunt: 3
       coefficients:
         Blunt: 0.3 #true best armor in the game
         Slash: 0.3

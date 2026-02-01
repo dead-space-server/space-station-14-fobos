@@ -40,8 +40,6 @@
     - state: heavy-bullet-5.7
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 2
       types:
         Piercing: 13
         Blunt: 3
@@ -58,8 +56,6 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 2
       types:
         Piercing: 22
         Structural: 25
@@ -102,8 +98,6 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 2
       types:
         Piercing: 13
 
@@ -135,8 +129,6 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 1
       types:
        Piercing: 30
        Structural: 10
@@ -169,8 +161,6 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 2
       types:
        Piercing: 12
        Slash: 2
@@ -204,8 +194,6 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 2
       types:
        Piercing: 18
        Structural: 35

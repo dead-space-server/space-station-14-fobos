@@ -1,3 +1,23 @@
+# Мим
+- type: entity
+  id: LockerMimeFilled
+  name: шкаф мима
+  parent: LockerMime
+  description: Стандартное хранилище Nanotrasen.
+  suffix: Заполненный
+  components:
+  - type: StorageFill
+    contents:
+    - id: DrinkBottleOfNothingFull
+    - id: ClothingMaskSadMime
+    - id: ClothingMaskScaredMime
+    - id: ClothingMaskBlushingMime
+    - id: CrayonBox
+    - id: FoodBreadBaguette
+    - id: RevolverCapGun
+    - id: SpeedLoaderCap
+    - id: SoapDeluxe
+
 # Biohazard
 - type: entity
   id: ClosetTaipanL3Filled
