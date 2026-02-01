@@ -4,7 +4,7 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/08/2026 12:39:13
+  time: 01/04/2026 09:30:11
   entityCount: 747
 maps: []
 grids:
@@ -658,10 +658,12 @@ entities:
           0,-1:
             0: 45049
           1,0:
-            0: 29235
+            0: 25139
+            2: 4096
             1: 136
           1,1:
-            0: 30583
+            0: 30327
+            3: 256
           1,2:
             0: 3
           1,-1:
@@ -695,17 +697,17 @@ entities:
           0,-3:
             1: 48
             0: 12424
-            2: 16384
+            4: 16384
           -1,-3:
             1: 128
             0: 37171
-            3: 16384
+            5: 16384
           0,-2:
             0: 47923
-            2: 4
+            4: 4
           -1,-2:
             0: 48025
-            3: 4
+            5: 4
           1,-4:
             0: 8992
             1: 2048
@@ -741,6 +743,16 @@ entities:
         - volume: 2500
           immutable: True
           moles: {}
+        - volume: 2500
+          temperature: 293.14975
+          moles:
+            Oxygen: 20.078888
+            Nitrogen: 75.53487
+        - volume: 2500
+          temperature: 293.15
+          moles:
+            Oxygen: 21.6852
+            Nitrogen: 81.57766
         - volume: 2500
           temperature: 293.15
           moles:
@@ -1943,6 +1955,13 @@ entities:
     - type: Transform
       pos: 1.5,4.5
       parent: 1
+- proto: ComputerRadar
+  entities:
+  - uid: 209
+    components:
+    - type: Transform
+      pos: -0.5,4.5
+      parent: 1
 - proto: ComputerShuttle
   entities:
   - uid: 210
@@ -2076,11 +2095,6 @@ entities:
       parent: 1
 - proto: ErtComputerShuttle
   entities:
-  - uid: 209
-    components:
-    - type: Transform
-      pos: -0.5,4.5
-      parent: 1
   - uid: 747
     components:
     - type: Transform
@@ -3614,148 +3628,148 @@ entities:
       parent: 1
     - type: Fixtures
       fixtures: {}
-- proto: Poweredlight
+- proto: PoweredlightLED
   entities:
   - uid: 431
     components:
     - type: Transform
       rot: 1.5707963267948966 rad
-      pos: -5.5,7.5
+      pos: -4.5,-9.5
       parent: 1
   - uid: 432
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
-      pos: -2.5,4.5
+      pos: 5.5,-9.5
       parent: 1
   - uid: 433
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -0.5,3.5
-      parent: 1
-  - uid: 434
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 1.5,3.5
-      parent: 1
-  - uid: 435
-    components:
-    - type: Transform
-      pos: -2.5,-0.5
-      parent: 1
-  - uid: 436
-    components:
-    - type: Transform
-      pos: -3.5,1.5
-      parent: 1
-  - uid: 437
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -5.5,3.5
-      parent: 1
-  - uid: 438
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 3.5,4.5
-      parent: 1
-  - uid: 439
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 6.5,7.5
-      parent: 1
-  - uid: 440
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 6.5,3.5
-      parent: 1
-  - uid: 441
-    components:
-    - type: Transform
-      pos: 3.5,-0.5
-      parent: 1
-  - uid: 442
-    components:
-    - type: Transform
-      pos: 4.5,1.5
-      parent: 1
-  - uid: 443
-    components:
-    - type: Transform
-      pos: -0.5,-4.5
-      parent: 1
-  - uid: 444
-    components:
-    - type: Transform
-      pos: 1.5,-4.5
-      parent: 1
-  - uid: 445
-    components:
-    - type: Transform
-      pos: 0.5,-1.5
-      parent: 1
-  - uid: 446
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: 0.5,0.5
-      parent: 1
-  - uid: 447
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 4.5,-6.5
-      parent: 1
-  - uid: 448
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: 3.5,-5.5
       parent: 1
-  - uid: 449
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: 0.5,-8.5
-      parent: 1
-  - uid: 450
-    components:
-    - type: Transform
-      pos: 3.5,-10.5
-      parent: 1
-  - uid: 451
-    components:
-    - type: Transform
-      pos: -2.5,-10.5
-      parent: 1
-  - uid: 452
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -3.5,-6.5
-      parent: 1
-  - uid: 453
+  - uid: 434
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -2.5,-5.5
       parent: 1
-  - uid: 454
+  - uid: 435
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -3.5,-6.5
+      parent: 1
+  - uid: 436
     components:
     - type: Transform
       rot: 1.5707963267948966 rad
-      pos: -4.5,-9.5
+      pos: 4.5,-6.5
+      parent: 1
+  - uid: 437
+    components:
+    - type: Transform
+      pos: -2.5,-0.5
+      parent: 1
+  - uid: 438
+    components:
+    - type: Transform
+      pos: 3.5,-0.5
+      parent: 1
+  - uid: 439
+    components:
+    - type: Transform
+      pos: -3.5,1.5
+      parent: 1
+  - uid: 440
+    components:
+    - type: Transform
+      pos: 4.5,1.5
+      parent: 1
+  - uid: 441
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 0.5,0.5
+      parent: 1
+  - uid: 442
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -5.5,3.5
+      parent: 1
+  - uid: 443
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 6.5,3.5
+      parent: 1
+  - uid: 444
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 1.5,3.5
+      parent: 1
+  - uid: 445
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -0.5,3.5
+      parent: 1
+  - uid: 446
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 6.5,7.5
+      parent: 1
+  - uid: 447
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -5.5,7.5
+      parent: 1
+  - uid: 448
+    components:
+    - type: Transform
+      pos: 0.5,-1.5
+      parent: 1
+  - uid: 449
+    components:
+    - type: Transform
+      pos: -0.5,-4.5
+      parent: 1
+  - uid: 450
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -2.5,4.5
+      parent: 1
+  - uid: 451
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 3.5,4.5
+      parent: 1
+  - uid: 452
+    components:
+    - type: Transform
+      pos: 1.5,-4.5
+      parent: 1
+  - uid: 453
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 0.5,-8.5
+      parent: 1
+  - uid: 454
+    components:
+    - type: Transform
+      pos: -2.5,-10.5
       parent: 1
   - uid: 455
     components:
     - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 5.5,-9.5
+      pos: 3.5,-10.5
       parent: 1
 - proto: PoweredlightSodium
   entities:

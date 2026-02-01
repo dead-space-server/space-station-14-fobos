@@ -21,6 +21,12 @@ public sealed partial class SkillPrototype : IPrototype
     public SpriteSpecifier Icon = new SpriteSpecifier.Texture(new("/Textures/_DeadSpace/Renegade/actions/submission.png"));
 
     /// <summary>
+    ///     Размер иконки навыка
+    /// </summary>
+    [DataField]
+    public int IconSize = 16;
+
+    /// <summary>
     ///     Требуемые навыки для изучения этого навыка
     /// </summary>
     [DataField]

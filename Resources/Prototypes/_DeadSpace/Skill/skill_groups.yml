@@ -256,7 +256,6 @@
   - ShuttleControl
   - ComplexConstruction
   - DeviceConstruction
-  - Research
   - SingularityAssembly
   
 - type: skillGroup
@@ -270,7 +269,6 @@
   - ComplexDeconstruction
   - ComplexConstruction
   - DeviceConstruction
-  - Research
 
 - type: skillGroup
   id: EngineerAtmos
@@ -286,5 +284,15 @@
   - Atmos
   - ComplexConstruction
   - DeviceConstruction
-  - Research
   - SingularityAssembly
+
+- type: skillGroup
+  id: SalvageControl
+  name: Утилизатор 
+  skills:
+  - BasicBotany
+  - Hacking
+  - BasicTreatment
+  - SimpleConstruction
+  - ComplexDeconstruction
+  - ShuttleControl

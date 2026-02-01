@@ -46,7 +46,7 @@ public sealed class LearnSkillWhenUsingSystem : EntitySystem
             }
 
             if (!knowsAtLeastOne)
-            {
+            {   
                 _popup.PopupEntity(Loc.GetString("skill-canlearn-language-missing"), args.User, args.User);
                 return;
             }
@@ -64,7 +64,10 @@ public sealed class LearnSkillWhenUsingSystem : EntitySystem
             BreakOnMove = true,
             BreakOnDamage = true,
             MovementThreshold = 0.01f,
-            DistanceThreshold = 1f
+            DistanceThreshold = 1f,
+            DuplicateCondition = DuplicateConditions.SameEvent,
+            BlockDuplicate = true,
+            CancelDuplicate = false
         };
 
         int unknown = 0;
@@ -76,9 +79,14 @@ public sealed class LearnSkillWhenUsingSystem : EntitySystem
         }
 
         if (unknown > 0)
-            _doAfter.TryStartDoAfter(doAfterArgs);
+        {
+            if (!_doAfter.TryStartDoAfter(doAfterArgs))
+                _popup.PopupEntity(Loc.GetString("skill-canlearn-already-learning"), args.User, args.User);
+        }
         else
+        {
             return;
+        }
 
         if (component.Sound != null)
             _audio.PlayPvs(component.Sound, uid);

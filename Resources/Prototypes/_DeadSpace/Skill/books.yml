@@ -44,7 +44,7 @@
   - type: AddWearAfterUse
     damage:
       types:
-        Structural: 1
+        Slash: 1
     triggers: [ Learn ]
 
 - type: entity

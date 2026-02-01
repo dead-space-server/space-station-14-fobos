@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/08/2026 03:37:11
-  entityCount: 13670
+  time: 01/20/2026 22:40:47
+  entityCount: 13673
 maps:
 - 1
 grids:
@@ -5407,6 +5407,17 @@ entities:
     - type: Transform
       pos: 3.5402613,7.6028175
       parent: 2
+- proto: ActionToggleLight
+  entities:
+  - uid: 13673
+    mapInit: true
+    paused: true
+    components:
+    - type: Transform
+      parent: 5900
+    - type: Action
+      originalIconColor: '#FFFFFFFF'
+      container: 5900
 - proto: AirAlarm
   entities:
   - uid: 4
@@ -37536,6 +37547,13 @@ entities:
       parent: 5491
     - type: Physics
       canCollide: False
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 13672
+    components:
+    - type: Transform
+      pos: 28.5,14.5
+      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 10973
@@ -40743,8 +40761,22 @@ entities:
   - uid: 5900
     components:
     - type: Transform
-      pos: 20.491627,-23.520414
+      pos: 22.578327,-23.529507
       parent: 2
+    - type: HandheldLight
+      toggleActionEntity: 13673
+    - type: ContainerContainer
+      containers:
+        cell_slot: !type:ContainerSlot
+          showEnts: False
+          occludes: True
+          ent: null
+        actions: !type:Container
+          showEnts: False
+          occludes: True
+          ents:
+          - 13673
+    - type: ActionsContainer
 - proto: FloorDrain
   entities:
   - uid: 5901
@@ -62644,6 +62676,11 @@ entities:
     - type: Transform
       pos: 19.5,-23.5
       parent: 2
+  - uid: 10897
+    components:
+    - type: Transform
+      pos: 20.5,-23.5
+      parent: 2
 - proto: LockerScienceFilled
   entities:
   - uid: 8952
@@ -63907,13 +63944,6 @@ entities:
     components:
     - type: Transform
       pos: -24.5,22.5
-      parent: 2
-- proto: OreBox
-  entities:
-  - uid: 10897
-    components:
-    - type: Transform
-      pos: 19.5,-20.5
       parent: 2
 - proto: OreProcessor
   entities:
@@ -76373,13 +76403,6 @@ entities:
     - type: Transform
       pos: 0.5,8.5
       parent: 2
-- proto: SpawnPointSeniorCourier
-  entities:
-  - uid: 11480
-    components:
-    - type: Transform
-      pos: 5.5,-26.5
-      parent: 2
 - proto: SpawnPointSeniorEngineer
   entities:
   - uid: 10898
@@ -76407,6 +76430,13 @@ entities:
     components:
     - type: Transform
       pos: -15.5,-4.5
+      parent: 2
+- proto: SpawnPointSeniorSalvageSpecialist
+  entities:
+  - uid: 13671
+    components:
+    - type: Transform
+      pos: 18.5,-22.5
       parent: 2
 - proto: SpawnPointServiceWorker
   entities:
@@ -77017,6 +77047,13 @@ entities:
     components:
     - type: Transform
       pos: 10.5,37.5
+      parent: 2
+- proto: SuitStorageSeniorSalvageSpecialistFilled
+  entities:
+  - uid: 11480
+    components:
+    - type: Transform
+      pos: 19.5,-20.5
       parent: 2
 - proto: SuitStorageWarden
   entities:

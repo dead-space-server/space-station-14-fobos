@@ -98,7 +98,7 @@ public enum VirusEffects : ushort
     Invisability = 5 << 5,
     Pulling = 6 << 6,
     StunAttack = 7 << 7,
-    Dash = 8 << 8,
+    // Dash = 8 << 8,
     Insulated = 9 << 9,
     Vampirism = 10 << 10,
     Incurability = 11 << 11
@@ -106,13 +106,13 @@ public enum VirusEffects : ushort
 
 public static class VirusEffectsConditions
 {
-    public static float MaxDamageMulty = 3f;
+    public static float MaxDamageMulty = 2f;
     public static float MinDamageMulty = 0.5f;
-    public static float MaxStaminaMulty = 3f;
+    public static float MaxStaminaMulty = 1.5f;
     public static float MinStaminaMulty = 0.5f;
-    public static float MaxHpMulty = 3f;
+    public static float MaxHpMulty = 1.5f;
     public static float MinHpMulty = 0.5f;
-    public static float MaxSpeedMulty = 2f;
+    public static float MaxSpeedMulty = 1.3f;
     public static float MinSpeedMulty = 0.5f;
     public static DamageSpecifier HealingOnBite = new()
     {
@@ -133,7 +133,7 @@ public static class VirusEffectsConditions
         { VirusEffects.Explosion, 0.1f},
         { VirusEffects.Pulling, 1f},
         { VirusEffects.StunAttack, 0.5f},
-        { VirusEffects.Dash, 0.1f},
+        // { VirusEffects.Dash, 0.1f}, // Это слишком сильно
         { VirusEffects.Insulated, 0.3f},
         { VirusEffects.Vampirism, 0.5f},
         { VirusEffects.Invisability, 0.1f},

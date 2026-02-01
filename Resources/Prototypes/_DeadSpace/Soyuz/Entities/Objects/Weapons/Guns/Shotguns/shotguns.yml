@@ -42,7 +42,10 @@
         whitelist:
           tags:
           - MagazineShotgun
-          - MagazineShotgunSaiga
+          - MagazineForSinabir
+          - MagazineForSinabirBurn
+          - DrumForSinabirBurn
+          - DrumForSinabir
         whitelistFailPopup: gun-magazine-whitelist-fail
         insertSound: /Audio/Weapons/Guns/MagIn/smg_magin.ogg
         ejectSound: /Audio/Weapons/Guns/MagOut/smg_magout.ogg
@@ -96,12 +99,15 @@
     slots:
       gun_magazine:
         name: Magazine
-        startingItem: MagazineShotgunDrumIncendiary
+        startingItem: MagazineForSinabirBurn
         priority: 2
         whitelist:
           tags:
           - MagazineShotgun
-          - MagazineShotgunSaiga
+          - MagazineForSinabir
+          - MagazineForSinabirBurn
+          - DrumForSinabirBurn
+          - DrumForSinabir
         whitelistFailPopup: gun-magazine-whitelist-fail
         insertSound: /Audio/Weapons/Guns/MagIn/smg_magin.ogg
         ejectSound: /Audio/Weapons/Guns/MagOut/smg_magout.ogg

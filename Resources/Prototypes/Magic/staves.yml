@@ -44,9 +44,9 @@
   description: Brings inanimate objects to life!
   components:
   - type: LimitedCharges
-    maxCharges: 5
+    maxCharges: 3 #DS14
   - type: AutoRecharge
-    rechargeDuration: 30
+    rechargeDuration: 60 #DS14
   - type: Sprite
     sprite: Objects/Weapons/Guns/Basic/staves.rsi
     layers:

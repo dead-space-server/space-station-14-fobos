@@ -14,4 +14,7 @@ public sealed partial class ResponceErtImplantComponent : Component
 
     [DataField, ViewVariables(VVAccess.ReadWrite)]
     public List<MobState> AllowedStates = new();
+
+    [DataField]
+    public EntProtoId ActionPrototype = "ActionCallErtHelp";
 }
