@@ -3,5 +3,3 @@ ent-ComputerShuttleSalvage = Консоль управления шаттла у
     .desc = Используется для управления шатла утилизаторов
 ent-SalvageShuttleConsoleCircuitboard = Плата консоль управления шаттла утилизаторов
     .desc = Печатная плата компьютера для консоли шаттла утилизаторов.
-
-ent-SalvageShuttleConsoleCircuitboardSteal = Плата консоль управления шаттла утилизаторов

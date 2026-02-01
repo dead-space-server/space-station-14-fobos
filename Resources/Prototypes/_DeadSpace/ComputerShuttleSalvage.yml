@@ -26,7 +26,7 @@
     - type: Computer
       board: SalvageShuttleConsoleCircuitboard
     - type: StealTarget
-      stealGroup: SalvageShuttleConsoleCircuitboard
+      stealGroup: SalvageShuttleConsoleCircuitboardSteal
 
 - type: entity
   parent: BaseComputerCircuitboard
@@ -41,7 +41,7 @@
 
 - type: stealTargetGroup
   id: SalvageShuttleConsoleCircuitboardSteal
-  name: salvage shuttle console board
+  name: Плата консоль управления шаттла утилизаторов
   sprite:
     sprite: Objects/Misc/module.rsi
     state: cpuboard
