@@ -17,12 +17,10 @@
     damageCoefficient: 0.475
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 3
       coefficients:
         Blunt: 0.45
         Slash: 0.4
-        Piercing: 0.4
+        Piercing: 0.35
         Heat: 0.55
         Cold: 0.3
         Radiation: 0.5
@@ -30,8 +28,8 @@
         Caustic: 0.4
         Stun: 0.5
   - type: ClothingSpeedModifier
-    walkModifier: 0.9
-    sprintModifier: 0.9
+    walkModifier: 1
+    sprintModifier: 1
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitUnitologyCommander
@@ -100,8 +98,6 @@
     damageCoefficient: 0.28
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.3
         Slash: 0.3
@@ -183,8 +179,6 @@
     damageCoefficient: 0.48
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.65
         Slash: 0.55
@@ -268,8 +262,6 @@
     damageCoefficient: 0.28
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.45
         Slash: 0.5
@@ -353,8 +345,6 @@
     damageCoefficient: 0.475
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5

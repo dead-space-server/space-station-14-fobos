@@ -20,15 +20,17 @@
       shader: unshaded
   - type: Explosive
     explosionType: Default
-    maxIntensity: 40
-    intensitySlope: 6
-    totalIntensity: 200
+#DS14-start
+    maxIntensity: 20
+    intensitySlope: 3
+    totalIntensity: 100 
+#DS14-end
     maxTileBreak: 0
   - type: IgnitionSource
-    temperature: 400
+    temperature: 400 #DS14-change
     ignited: true
   - type: IgniteOnCollide
-    fireStacks: 0.35
+    fireStacks: 0.2 #DS14-change
 
 - type: entity
   categories: [ HideSpawnMenu ]

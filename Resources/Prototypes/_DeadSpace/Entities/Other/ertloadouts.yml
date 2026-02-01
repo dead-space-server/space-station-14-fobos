@@ -87,7 +87,6 @@
   - type: ThiefUndeterminedBackpack
     possibleSets:
     - KammererSet
-    - LecterSet
     - DrozdSet
     - LaserCarbineSet
   - type: ActivatableUI
@@ -131,7 +130,6 @@
     possibleSets:
     - EnforcerSet
     - WT550Set
-    - LecterSet
     - LaserCannonSet
     - XrayCannonSet
     - LaserRifleSet
@@ -175,8 +173,7 @@
   - type: ThiefUndeterminedBackpack
     possibleSets:
     - EnergyShotgunSet
-    - VectorFMJSet
-    - LecterFMJSet
+    - VectorSet
     - PulseCarbineSet
   - type: ActivatableUI
     key: enum.ThiefBackpackUIKey.Key
@@ -420,36 +417,7 @@
   - MagazineBoxPistol
 
 - type: thiefBackpackSet
-  id: VectorFMJSet
-  name: ert-loadout-category-vector-name
-  description: ert-loadout-category-vector-description
-  sprite:
-    sprite: Objects/Weapons/Guns/SMGs/vector.rsi
-    state: icon
-  content:
-  - WeaponSubMachineGunVectorFMJ
-  - MagazinePistolSubMachineGunFMJ
-  - MagazinePistolSubMachineGunFMJ
-  - MagazinePistolSubMachineGunFMJ
-  - MagazineBoxPistolFMJ
-  - MagazineBoxPistolFMJ
-
-- type: thiefBackpackSet
   id: LecterSet
-  name: ert-loadout-category-lecter-name
-  description: ert-loadout-category-lecter-description
-  sprite:
-    sprite: Objects/Weapons/Guns/Rifles/lecter.rsi
-    state: icon
-  content:
-  - WeaponRifleLecterHP
-  - MagazineRifleHP
-  - MagazineRifleHP
-  - MagazineRifleHP
-  - MagazineBoxRifleHP
-
-- type: thiefBackpackSet
-  id: LecterFMJSet
   name: ert-loadout-category-lecter-name
   description: ert-loadout-category-lecter-description
   sprite:

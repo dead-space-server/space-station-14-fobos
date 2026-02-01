@@ -32,6 +32,7 @@ using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 using Content.Server.GameTicking;
+using Robust.Shared.Utility;
 
 namespace Content.Server.Fax;
 
@@ -480,7 +481,7 @@ public sealed class FaxSystem : EntitySystem
                                        paper.StampState,
                                        paper.StampedBy,
                                        paper.EditingDisabled,
-                                       paper.Signatures); // DS14-Signatures
+                                       new List<string>(paper.Signatures)); // DS14-Signatures
 
         component.PrintingQueue.Enqueue(printout);
         component.SendTimeoutRemaining += component.SendTimeout;

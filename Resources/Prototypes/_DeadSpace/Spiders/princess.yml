@@ -26,7 +26,7 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Slash: 7
+        Piercing: 7
         Poison: 1
         Structural: 20
       groups:
