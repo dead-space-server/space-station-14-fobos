@@ -15,6 +15,8 @@ ent-ERTLeaderGammaPDA = { ent-ERTLeaderPDA }
 
 ent-CoronerPDA = КПК коронера
     .desc = Датчик показывает, что пациент спит. Идеальное время для его вскрытия!
+ent-SeniorSalvagePDA = КПК ведущего утилизатора
+    .desc = Покрыт засохшей кровью карпов.
 ent-SecurityPilotPDA = КПК пилота СБ
     .desc = Синий, чтобы пятна крови сбитого шаттлом ассистента были заметны на нём.
 ent-SeniorServicePDA = КПК менеджера

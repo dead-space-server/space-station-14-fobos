@@ -256,7 +256,7 @@
     Время прибытия от 5 до 7 минут.
   notification: ert-responce-caused-messager-official
   rule: SpawnCentCommOfficialShuttle
-  cancelMessage:
+  cancelMessage: 
     Представитель Центрального Командования NanoTrasen не смог прибыть на станцию
     из-за непредвиденных обстоятельств. Мы приносим извинения за возможные неудобства.
   cooldown:

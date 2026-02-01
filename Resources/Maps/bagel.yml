@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/08/2026 03:31:29
-  entityCount: 26924
+  time: 01/20/2026 22:30:29
+  entityCount: 26926
 maps:
 - 1
 grids:
@@ -74081,6 +74081,13 @@ entities:
       parent: 11394
     - type: Physics
       canCollide: False
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 21141
+    components:
+    - type: Transform
+      pos: -44.5,-57.5
+      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 11235
@@ -118594,6 +118601,16 @@ entities:
     - type: Transform
       pos: 21.397186,4.7704673
       parent: 2
+    - type: ContainerContainer
+      containers:
+        cell_slot: !type:ContainerSlot
+          showEnts: False
+          occludes: True
+          ent: null
+        actions: !type:Container
+          showEnts: False
+          occludes: True
+          ents: []
     - type: Physics
       canCollide: True
     - type: ActionsContainer
@@ -119543,6 +119560,12 @@ entities:
     - type: Transform
       pos: 42.5,-0.5
       parent: 2
+  - uid: 17959
+    components:
+    - type: Transform
+      pos: 50.5,-1.5
+      parent: 2
+    - type: Conveyed
 - proto: LockerScienceFilled
   entities:
   - uid: 17740
@@ -121061,7 +121084,7 @@ entities:
     - type: Transform
       pos: 62.5,2.5
       parent: 2
-  - uid: 17959
+  - uid: 21255
     components:
     - type: Transform
       pos: 46.5,1.5
@@ -143920,11 +143943,6 @@ entities:
       parent: 2
 - proto: SpaceVillainArcadeFilled
   entities:
-  - uid: 21141
-    components:
-    - type: Transform
-      pos: -44.5,-57.5
-      parent: 2
   - uid: 21142
     components:
     - type: Transform
@@ -144614,13 +144632,6 @@ entities:
     - type: Transform
       pos: 13.5,-33.5
       parent: 2
-- proto: SpawnPointSeniorCourier
-  entities:
-  - uid: 21255
-    components:
-    - type: Transform
-      pos: 45.5,8.5
-      parent: 2
 - proto: SpawnPointSeniorEngineer
   entities:
   - uid: 21256
@@ -144648,6 +144659,13 @@ entities:
     components:
     - type: Transform
       pos: -54.5,10.5
+      parent: 2
+- proto: SpawnPointSeniorSalvageSpecialist
+  entities:
+  - uid: 26926
+    components:
+    - type: Transform
+      pos: 49.5,-1.5
       parent: 2
 - proto: SpawnPointServiceWorker
   entities:
@@ -145721,6 +145739,13 @@ entities:
       name: хранилище скафандра инструктора СБ
     - type: Transform
       pos: -57.5,-45.5
+      parent: 2
+- proto: SuitStorageSeniorSalvageSpecialistFilled
+  entities:
+  - uid: 22289
+    components:
+    - type: Transform
+      pos: 51.5,-1.5
       parent: 2
 - proto: SuitStorageWarden
   entities:
@@ -152129,13 +152154,6 @@ entities:
     - type: Transform
       pos: -74.5,-0.5
       parent: 2
-  - uid: 22289
-    components:
-    - type: MetaData
-      name: tank dispenser
-    - type: Transform
-      pos: 51.5,-1.5
-      parent: 2
   - uid: 22290
     components:
     - type: Transform
@@ -152145,6 +152163,11 @@ entities:
     components:
     - type: Transform
       pos: 64.5,2.5
+      parent: 2
+  - uid: 26925
+    components:
+    - type: Transform
+      pos: 54.5,1.5
       parent: 2
 - proto: VendingMachineTheater
   entities:

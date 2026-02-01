@@ -14997,7 +14997,7 @@ entities:
     - type: Transform
       pos: -10.5,0.5
       parent: 2
-- proto: SpawnPointSeniorCourier
+- proto: SpawnPointSeniorSalvageSpecialist
   entities:
   - uid: 2098
     components:

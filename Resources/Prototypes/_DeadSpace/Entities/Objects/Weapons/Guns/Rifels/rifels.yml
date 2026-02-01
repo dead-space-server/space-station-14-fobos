@@ -125,27 +125,3 @@
     steps: 1
     zeroVisible: true
   - type: Appearance
-
-- type: entity
-  parent: WeaponRifleLecter
-  id: WeaponRifleLecterHP
-  components:
-  - type: ItemSlots
-    slots:
-      gun_magazine:
-        name: Magazine
-        startingItem: MagazineRifleHP
-        insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
-        ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
-        priority: 2
-        whitelist:
-          tags:
-            - MagazineRifle
-        whitelistFailPopup: gun-magazine-whitelist-fail
-      gun_chamber:
-        name: Chamber
-        startingItem: CartridgeRifleHP
-        priority: 1
-        whitelist:
-          tags:
-            - CartridgeRifle

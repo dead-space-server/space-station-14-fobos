@@ -12,5 +12,9 @@
     WeaponProtoKineticAccelerator: 4
     WeaponProtoKineticAcceleratorReapeter: 1 # DS14
     WeaponProtoKineticAcceleratorShotgun: 1 # DS14
+    #DS14-start
+    Fulton: 4
+    FultonBeacon: 1
+    #DS14-end
   contrabandInventory:
     PlushieCarp: 1

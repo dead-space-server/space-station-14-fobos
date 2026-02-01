@@ -12,8 +12,6 @@
   - type: Projectile
     impactEffect: BulletImpactEffectDisabler
     damage:
-      armorPiercingLevels:
-        Heat: 2
       types:
         Heat: 30
 
@@ -83,7 +81,7 @@
   components:
   - type: ProjectileSpread
     proto: LaserRifleBullet
-    count: 4
+    count: 4 
     spread: 23
 
 - type: entity
