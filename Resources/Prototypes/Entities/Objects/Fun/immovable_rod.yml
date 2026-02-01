@@ -79,7 +79,7 @@
     shouldGib: false
     damage:
       types:
-        Blunt: 190
+        Blunt: 70 #DS14
   - type: InputMover
   - type: MovementSpeedModifier
     baseWeightlessAcceleration: 5

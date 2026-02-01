@@ -112,7 +112,7 @@
     modifiers:
       coefficients:
         Blunt: 0.9
-
+   
 - type: entity
   parent: ClothingHeadHatHardhatBase
   id: ClothingHeadHatHardhatWhite

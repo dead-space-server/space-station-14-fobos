@@ -6,8 +6,6 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 2 #не лучшая пуля в игре
       types:
         Piercing: 75
         Structural: 226

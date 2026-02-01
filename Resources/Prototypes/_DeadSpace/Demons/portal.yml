@@ -1,8 +1,5 @@
 - type: damageModifierSet
   id: DemonPortalDeff
-  armorLvls:
-    Piercing: 2
-    Heat: 5
   coefficients:
     Blunt: 0.7
     Slash: 0.5
@@ -76,4 +73,4 @@
       - MobDemonJaunt
       - MobDemonMouth
       - MobDemonSnake
-      - MobDemonBloodyArms
+      - MobDemonBloodyArms 

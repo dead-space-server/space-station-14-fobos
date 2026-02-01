@@ -9,8 +9,6 @@
     state: buckshot
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 2
       types:
         Piercing: 20
         Structural: 15
