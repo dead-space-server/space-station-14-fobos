@@ -43,7 +43,7 @@
   description: uplink-energy-crossbow-large-desc
   productEntity: WeaponEnergyCrossbowLarge
   cost:
-    Telecrystal: 20
+    Telecrystal: 18
   categories:
   - UplinkWeaponry
   conditions:
@@ -86,7 +86,7 @@
     Telecrystal: 6
   productEntity: ClothingBeltSheathSyndieFilled
   cost:
-    Telecrystal: 10
+    Telecrystal: 8
   categories:
   - UplinkWeaponry
 
@@ -113,7 +113,7 @@
   icon: { sprite: /Textures/Objects/Weapons/Guns/Rifles/ak.rsi, state: icon }
   productEntity: ClothingBackpackDuffelSyndicateFilledAKMS
   cost:
-    Telecrystal: 14
+    Telecrystal: 12
   categories:
   - UplinkWeaponry
   conditions:
@@ -133,7 +133,7 @@
   icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Rifels/xc67.rsi, state: icon }
   productEntity: ClothingBackpackDuffelSyndicateFilledXC67
   cost:
-    Telecrystal: 20
+    Telecrystal: 18
   categories:
   - UplinkWeaponry
   conditions:
