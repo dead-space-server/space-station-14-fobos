@@ -7,7 +7,7 @@
     sprite: Objects/Specific/Medical/defibsmall.rsi
     state: icon
   discipline: CivilianServices
-  tier: 3
-  cost: 15000
+  tier: 2
+  cost: 10000
   recipeUnlocks:
   - CompactDefibrillator
