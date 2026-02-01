@@ -382,7 +382,7 @@
   name: Магазин для ПП томпсона на 20 патронов.
   description: Магазин для ПП томпсона на 20 патронов.
   icon: { sprite: /Textures/_DeadSpace/Items/Toys/TommyGun/magazine.rsi, state: base }
-  productEntity: MagazineTommyGunFMJ
+  productEntity: MagazineTommyGun
   cost:
     Telecrystal: 1
   categories:
@@ -398,7 +398,7 @@
   name: Барабан для ПП томпсона (9x19 мм)
   description: Барабан для ПП томпсона на 50 патронов.
   icon: { sprite: /Textures/_DeadSpace/Items/Toys/TommyGun/round_magazine.rsi, state: base }
-  productEntity: MagazineDrumTommyGunFMJ
+  productEntity: MagazineDrumTommyGun
   cost:
     Telecrystal: 4
   categories:
@@ -412,22 +412,6 @@
   productEntity: ClothingBackpackDuffelSyndicateFilledSMGTommyGunAmmoXL
   cost:
     Telecrystal: 8
-  categories:
-  - UplinkAmmo
-  conditions:
-  - !type:StoreWhitelistCondition
-    whitelist:
-      tags:
-      - NukeOpsUplink
-
-- type: listing
-  id: UplinkBoxLethalshotMagnum
-  name: коробка ружейных патронов (12х70 магнум)
-  description: Коробка с 16 магнум картечью.
-  icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Boxes/shotgun.rsi, state: base }
-  productEntity: BoxLethalshotMagnum
-  cost:
-    Telecrystal: 5
   categories:
   - UplinkAmmo
   conditions:

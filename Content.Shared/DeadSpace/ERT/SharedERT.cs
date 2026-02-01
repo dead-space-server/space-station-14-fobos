@@ -26,14 +26,17 @@ public sealed class ErtResponceConsoleUiButtonPressedMessage : BoundUserInterfac
 {
     public readonly ErtResponceConsoleUiButton Button;
     public string? Team;
+    public string? CallReason;
 
     public ErtResponceConsoleUiButtonPressedMessage(
         ErtResponceConsoleUiButton button,
-        string? team = null
+        string? team = null,
+        string? callReason = null
         )
     {
         Button = button;
         Team = team;
+        CallReason = callReason;
     }
 }
 

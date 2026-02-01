@@ -57,6 +57,21 @@
   - type: SentientVirus
     data: 
       mutationPoints: 3000
+  - type: GhostTakeoverAvailable
+  - type: GhostRole
+    allowMovement: true
+    allowSpeech: true
+    makeSentient: true
+    name: ghost-role-information-sentient-virus-name
+    description: ghost-role-information-sentient-virus-description
+    rules: ghost-role-information-sentient-virus-rules
+    mindRoles:
+    - MindRoleSentientVirus
+    raffle:
+      settings: default
+    requirements:
+    - !type:OverallPlaytimeRequirement
+      time: 36000 # 10h overall
 
 - type: entity
   categories: [ HideSpawnMenu, Spawner ]
@@ -65,21 +80,11 @@
   components:
   - type: GhostRoleMobSpawner
     prototype: SentientVirus
-  - type: GhostRole
-    name: ghost-role-information-sentient-virus-name
-    description: ghost-role-information-sentient-virus-description
-    rules: ghost-role-information-sentient-virus-rules
-    mindRoles:
-    - MindRoleSentientVirus
-    requirements:
-    - !type:OverallPlaytimeRequirement
-      time: 36000 # 10h overall
   - type: Sprite
     layers:
     - state: green
     - sprite: _DeadSpace/Virus/virus.rsi
       state: icon
-
 
 - type: entity
   parent:

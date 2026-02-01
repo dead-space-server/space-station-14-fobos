@@ -17,4 +17,10 @@ public sealed partial class ResponceErtOnAllowedStateComponent : Component
 
     [DataField, ViewVariables(VVAccess.ReadOnly)]
     public bool IsReady = false;
+
+    [DataField(required: true)]
+    public EntProtoId ActionPrototype = "ActionCallErtHelp";
+
+    [DataField]
+    public EntityUid? ActionEntity;
 }

@@ -196,18 +196,13 @@ public sealed class CorpseCollectorAbilitiesSystem : SharedCorpseCollectorSystem
             return;
         }
 
-        if (_mobState.IsDead(args.Args.Target.Value))
-        {
-            _audio.PlayPvs("/Audio/Effects/Fluids/splat.ogg", args.Args.Target.Value, AudioParams.Default.WithVariation(1f).WithVolume(4f));
-            Unequipment(args.Args.Target.Value);
-            QueueDel(args.Args.Target.Value);
-            args.Handled = true;
-            DoBuff(uid, component);
-            _popup.PopupEntity(Loc.GetString($"Некроморф поглащен, колличество симбиотов = {component.CountAbsorptions}"), uid, uid);
-            return;
-        }
-        _popup.PopupEntity(Loc.GetString("Существо должно быть мертвым."), uid, uid);
+        _audio.PlayPvs("/Audio/Effects/Fluids/splat.ogg", args.Args.Target.Value, AudioParams.Default.WithVariation(1f).WithVolume(4f));
+        Unequipment(args.Args.Target.Value);
+        QueueDel(args.Args.Target.Value);
         args.Handled = true;
+        DoBuff(uid, component);
+        _popup.PopupEntity(Loc.GetString($"Некроморф поглащен, колличество симбиотов = {component.CountAbsorptions}"), uid, uid);
+        return;
     }
 
     private void Unequipment(EntityUid entity)

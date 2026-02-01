@@ -10,6 +10,23 @@
   id: GroupCounterpartyNT
   tags:
   - CounterpartyNT
+  - Brig
+  - Security
+  - Maintenance
+  - Service
+  - External
+  - Research
+  - Medical
+  - Engineering
+  - Cargo
+  - Janitor
+  - Theatre
+  - Bar
+  - Kitchen
+  - Chapel
+  - Coroner
+  - Hydroponics
+  - Salvage
 
 - type: accessGroup
   id: GroupErtTeamLeader

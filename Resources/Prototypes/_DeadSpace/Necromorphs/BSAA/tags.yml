@@ -1,16 +1,16 @@
 # Магазин Сайги
 
 - type: Tag
-  id: MagazineForSAIGA12
+  id: MagazineForSinabir
 
 - type: Tag
-  id: DrumForSAIGA12
+  id: DrumForSinabir
 
 - type: Tag
-  id: DrumForSAIGA12Burn
+  id: DrumForSinabirBurn
 
 - type: Tag
-  id: MagazineForSAIGA12Burn
+  id: MagazineForSinabirBurn
 
 # Магазин Вереск и магазин Абакана
 
@@ -18,7 +18,16 @@
   id: CartridgeCaselessRifleIncendiary
 
 - type: Tag
-  id: MagazineCaselessRifleBurn
+  id: CartridgeDragon
+
+- type: Tag
+  id: CartridgeCaselessDragon
 
 - type: Tag
   id: ExtMagazineRifleBurn
+
+- type: Tag
+  id: MagazineCaselessRifleBurn
+
+- type: Tag
+  id: ShellShotgunDragon

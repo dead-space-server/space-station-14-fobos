@@ -6,8 +6,6 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 2 # ФуллМеталДжакет патрон
       types:
         Piercing: 20
 
@@ -19,8 +17,6 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 0
       types:
         Blunt: 2
 
@@ -32,8 +28,6 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 1
       types:
         Piercing: 12
         Heat: 5
@@ -46,8 +40,6 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 1
       types:
         Radiation: 7
         Piercing: 8

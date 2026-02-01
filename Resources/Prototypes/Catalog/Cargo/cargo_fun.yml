@@ -6,7 +6,7 @@
   product: CrateFunInstrumentsVariety
   cost: 2000
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunInstrumentsBrass
@@ -16,7 +16,7 @@
   product: CrateFunInstrumentsBrass
   cost: 2000
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunInstrumentsString
@@ -26,7 +26,7 @@
   product: CrateFunInstrumentsString
   cost: 2500
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunInstrumentsWoodwind
@@ -36,7 +36,7 @@
   product: CrateFunInstrumentsWoodwind
   cost: 3000
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunInstrumentsKeyedPercussion
@@ -46,7 +46,7 @@
   product: CrateFunInstrumentsKeyedPercussion
   cost: 2500
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunInstrumentsSpecial
@@ -56,7 +56,7 @@
   product: CrateFunInstrumentsSpecial
   cost: 10000
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunInstrumentsRandom
@@ -66,7 +66,7 @@
   product: CrateFunInstrumentsRandom
   cost: 2500
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunArtSupplies
@@ -76,7 +76,7 @@
   product: CrateFunArtSupplies
   cost: 500
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunParty
@@ -86,7 +86,7 @@
   product: CrateFunParty
   cost: 1000
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateFunWaterGuns
@@ -96,7 +96,7 @@
   product: CrateFunWaterGuns
   cost: 750
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: CrateFunFoamGuns
@@ -106,7 +106,7 @@
   product: CrateFunFoamGuns
   cost: 3000
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunPlushies
@@ -116,7 +116,7 @@
   product: CrateFunPlushie
   cost: 1000
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunLizardPlushies
@@ -126,7 +126,7 @@
   product: CrateFunLizardPlushieBulk
   cost: 500
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunSharkPlushies
@@ -136,7 +136,7 @@
   product: CrateFunSharkPlushieBulk
   cost: 500
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunBoardGames
@@ -146,7 +146,7 @@
   product: CrateFunBoardGames
   cost: 1500
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunSadTromboneImplants
@@ -156,7 +156,7 @@
   product: CrateFunSadTromboneImplants
   cost: 1000
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunLightImplants
@@ -166,7 +166,7 @@
   product: CrateFunLightImplants
   cost: 1000
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunBoxing
@@ -176,7 +176,7 @@
   product: CrateFunBoxing
   cost: 500
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunPirate
@@ -186,7 +186,7 @@
   product: CrateFunPirate
   cost: 400
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunToyBox
@@ -196,7 +196,7 @@
   product: CrateFunToyBox
   cost: 900
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunBikeHornImplants
@@ -206,7 +206,7 @@
   product: CrateFunBikeHornImplants
   cost: 1000
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunMysteryFigurines
@@ -216,7 +216,7 @@
   product: CrateFunMysteryFigurines
   cost: 4000
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunDartsSet
@@ -226,7 +226,7 @@
   product: CrateFunDartsSet
   cost: 900
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: HydratedScurret
@@ -236,7 +236,7 @@
   product: CrateFunScurret
   cost: 25000 # You will surely not regret buying this
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunCrateGambling
@@ -246,7 +246,7 @@
   product: CrateCargoGambling
   cost: 10000
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ChurchOrganInstrument
@@ -256,7 +256,7 @@
   product: ChurchOrganInstrument
   cost: 1500
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: PianoInstrument
@@ -266,7 +266,7 @@
   product: PianoInstrument
   cost: 1500
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: UprightPianoInstrument
@@ -276,7 +276,7 @@
   product: UprightPianoInstrument
   cost: 1500
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: VibraphoneInstrument
@@ -286,7 +286,7 @@
   product: VibraphoneInstrument
   cost: 1500
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: MarimbaInstrument
@@ -296,7 +296,7 @@
   product: MarimbaInstrument
   cost: 1500
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: TubaInstrument
@@ -306,7 +306,7 @@
   product: TubaInstrument
   cost: 1500
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: HarpInstrument
@@ -316,7 +316,7 @@
   product: HarpInstrument
   cost: 1500
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: TimpaniInstrument
@@ -326,7 +326,7 @@
   product: TimpaniInstrument
   cost: 1500
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: TaikoInstrument
@@ -336,7 +336,7 @@
   product: TaikoInstrument
   cost: 1500
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ContrabassInstrument
@@ -346,7 +346,7 @@
   product: ContrabassInstrument
   cost: 1500
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: MinimoogInstrument
@@ -356,7 +356,7 @@
   product: MinimoogInstrument
   cost: 1500
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: TomDrumsInstrument
@@ -366,7 +366,7 @@
   product: TomDrumsInstrument
   cost: 1500
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunPlants
@@ -376,4 +376,4 @@
   product: CratePlants
   cost: 1000
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14

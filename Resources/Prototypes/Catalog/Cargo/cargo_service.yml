@@ -6,7 +6,7 @@
   product: CrateServiceJanitorialSupplies
   cost: 560
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ServiceCleanerGrenades
@@ -16,7 +16,7 @@
   product: CrateServiceCleanerGrenades
   cost: 400
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ServiceLightsReplacement
@@ -26,7 +26,7 @@
   product: CrateServiceReplacementLights
   cost: 600
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ServiceLightsHoliday
@@ -36,7 +36,7 @@
   product: CrateServiceHolidayLights
   cost: 800
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ServiceLightsColorful
@@ -46,7 +46,7 @@
   product: CrateServiceColorfulLights
   cost: 800
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: MousetrapBoxes
@@ -56,7 +56,7 @@
   product: CrateMousetrapBoxes
   cost: 500
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ServiceTheatre
@@ -66,7 +66,7 @@
   product: CrateServiceTheatre
   cost: 1800
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ServiceSmokeables
@@ -76,7 +76,7 @@
   product: CrateServiceSmokeables
   cost: 1500
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ServiceCustomSmokable
@@ -86,7 +86,7 @@
   product: CrateServiceCustomSmokable
   cost: 1000
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ServiceBureaucracy
@@ -96,7 +96,7 @@
   product: CrateServiceBureaucracy
   cost: 1000
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ServiceFaxMachine
@@ -106,7 +106,7 @@
   product: CrateServiceFaxMachine
   cost: 2000
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ServicePersonnel
@@ -116,7 +116,7 @@
   product: CrateServicePersonnel
   cost: 1000
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ServiceBooks
@@ -126,7 +126,7 @@
   product: CrateServiceBooks
   cost: 1000
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ServiceGuidebooks
@@ -136,7 +136,7 @@
   product: CrateServiceGuidebooks
   cost: 1300
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ServiceSodaDispenser
@@ -146,7 +146,7 @@
   product: CrateServiceSodaDispenser
   cost: 850
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ServiceBoozeDispenser
@@ -156,7 +156,7 @@
   product: CrateServiceBoozeDispenser
   cost: 750
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ServiceBoxes
@@ -166,7 +166,7 @@
   product: CrateServiceBox
   cost: 400
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ServiceJanitorBiosuit
@@ -176,7 +176,7 @@
   product: CrateJanitorBiosuit
   cost: 4000 # DS14
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ServiceFoodCartHot
@@ -186,7 +186,7 @@
   product: FoodCartHot
   cost: 2000
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ServiceFoodCartCold
@@ -196,7 +196,7 @@
   product: FoodCartCold
   cost: 2000
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ServiceAnimalCarrier
@@ -206,7 +206,7 @@
   product: PetCarrier
   cost: 500
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: JanitorExplosive
@@ -216,7 +216,7 @@
   product: ClosetJanitorBombFilled
   cost: 1000
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ServiceJanitorTrolley
@@ -226,7 +226,7 @@
   product: JanitorialTrolley
   cost: 300
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: ServiceCandles
@@ -236,7 +236,7 @@
   product: CrateCandles
   cost: 500
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14
 
 # DS14-start
 
@@ -248,4 +248,4 @@
   product: CrateServicePhotocopierToners
   cost: 1000
   category: cargoproduct-category-name-service
-  group: market
+  group: service # DS14

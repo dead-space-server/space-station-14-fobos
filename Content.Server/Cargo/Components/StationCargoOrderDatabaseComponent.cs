@@ -46,7 +46,12 @@ public sealed partial class StationCargoOrderDatabaseComponent : Component
         "market",
         // DS14-Start
         "taipan_market",
-        "security"
+        "security",
+        "service",
+        "medical",
+        "engineering",
+        "science",
+        "general"
         // DS14-End
     };
 

@@ -6,7 +6,7 @@
   product: Aquarium
   cost: 2000
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunFireworkBox
@@ -16,7 +16,7 @@
   product: FireworkBox
   cost: 3000
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14
 
 - type: cargoProduct
   id: FunSmallXmasTree
@@ -26,4 +26,4 @@
   product: SmallXmasTree
   cost: 900
   category: cargoproduct-category-name-fun
-  group: market
+  group: service # DS14

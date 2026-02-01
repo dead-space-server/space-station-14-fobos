@@ -6,7 +6,7 @@
 #   product: CrateEngineeringAMEJar
 #   cost: 2000
 #   category: cargoproduct-category-name-engineering
-#   group: market
+#   group: engineering # DS14
 
 - type: cargoProduct
   id: EngineSingularityGenerator
@@ -16,7 +16,7 @@
   product: CrateEngineeringSingularityGenerator
   cost: 4000
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EngineSingularityContainment
@@ -26,7 +26,7 @@
   product: CrateEngineeringSingularityContainment
   cost: 1000
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EngineSingularityEmitter
@@ -36,7 +36,7 @@
   product: CrateEngineeringSingularityEmitter
   cost: 1500
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EngineSingularityCollector
@@ -46,7 +46,7 @@
   product: CrateEngineeringSingularityCollector
   cost: 1000
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EngineParticleAccelerator
@@ -56,7 +56,7 @@
   product: CrateEngineeringParticleAccelerator
   cost: 2000
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EngineSolar
@@ -66,7 +66,7 @@
   product: CrateEngineeringSolar
   cost: 1250
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EngineTeslaGenerator
@@ -76,7 +76,7 @@
   product: CrateEngineeringTeslaGenerator
   cost: 4000
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EngineTeslaCoil
@@ -86,7 +86,7 @@
   product: CrateEngineeringTeslaCoil
   cost: 1200
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14
 
 - type: cargoProduct
   id: EngineTeslaGroundingRod
@@ -96,4 +96,4 @@
   product: CrateEngineeringTeslaGroundingRod
   cost: 400
   category: cargoproduct-category-name-engineering
-  group: market
+  group: engineering # DS14

@@ -6,10 +6,8 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 3
       types:
-        Piercing: 40
+        Piercing: 30
 
 - type: entity
   id: Bullet357Practice

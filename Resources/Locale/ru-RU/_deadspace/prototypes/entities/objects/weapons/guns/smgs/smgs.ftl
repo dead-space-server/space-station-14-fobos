@@ -6,6 +6,3 @@ ent-MagazineDrumTommyGun = барабан для пистолет-пулемёт
     .desc = большой магазин для больших бандитов
 ent-MagazineTommyGun = магазин для пистолет-пулемёта Томпсона
     .desc = { ent-BaseItem.desc }
-ent-WeaponSMGTommyGunFMJ = { ent-WeaponSMGTommyGun }
-    .desc = { ent-WeaponSMGTommyGun.desc }
-    .suffix = FMJ

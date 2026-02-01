@@ -16,13 +16,15 @@ namespace Content.Shared.DeadSpace.ERT
         public string Name { get; }
         public int SecondsRemaining { get; }
         public int Price { get; }
+        public string? CallReason { get; }
 
-        public ErtAdminEntry(string protoId, string name, int secondsRemaining, int price)
+        public ErtAdminEntry(string protoId, string name, int secondsRemaining, int price, string? callReason = null)
         {
             ProtoId = protoId;
             Name = name;
             SecondsRemaining = secondsRemaining;
             Price = price;
+            CallReason = callReason;
         }
     }
 
@@ -84,6 +86,32 @@ namespace Content.Shared.DeadSpace.ERT
         public AdminSetCooldownMessage(int seconds)
         {
             Seconds = seconds;
+        }
+    }
+
+    [Serializable, NetSerializable]
+    public sealed class AdminSetErtReasonMessage : EntityEventArgs
+    {
+        public string ProtoId { get; }
+        public string Reason { get; }
+
+        public AdminSetErtReasonMessage(string protoId, string reason)
+        {
+            ProtoId = protoId;
+            Reason = reason;
+        }
+    }
+
+    [Serializable, NetSerializable]
+    public sealed class AdminCallErtMessage : EntityEventArgs
+    {
+        public string ProtoId { get; }
+        public string Reason { get; }
+
+        public AdminCallErtMessage(string protoId, string reason)
+        {
+            ProtoId = protoId;
+            Reason = reason;
         }
     }
 
