@@ -1171,9 +1171,3 @@ ClothingUniformJumpsuitHoSBlack: null
 # 2025-12-14 - DS14
 BookNewDrink: null
 BookNewFood: null
-
-# 2026-01-14 - DS14
-WeaponRifleLecterFMJ: WeaponRifleLecterHP
-CrateArmoryRifleFMJ: null
-MagazineRifleFMJ: MagazineRifleHP
-CartridgeRifleFMJ: MagazineRifleHP

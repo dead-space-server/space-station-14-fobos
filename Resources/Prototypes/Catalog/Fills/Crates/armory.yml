@@ -116,16 +116,3 @@
     contents:
       - id: PistolDominator
         amount: 3
-
-#- type: entity
-#  id: CrateArmoryRifleFMJ
-#  parent: [ CrateWeaponSecure, BaseSecurityContraband ]
-#  name: rifle crate
-#  description: Contains two high-powered assault rifles with four mags. Requires Armory access to open.
-#  components:
-#  - type: StorageFill
-#    contents:
-#    - id: WeaponRifleLecterFMJ
-#      amount: 2
-#    - id: MagazineRifleFMJ
-#      amount: 4

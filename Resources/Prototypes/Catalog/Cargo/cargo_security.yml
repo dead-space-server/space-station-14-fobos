@@ -4,7 +4,7 @@
     sprite: Clothing/OuterClothing/Armor/bulletproof.rsi
     state: icon
   product: CrateSecurityArmor
-  cost: 15000 # DS14
+  cost: 1000 # DS14
   category: cargoproduct-category-name-security
   group: security # DS14
 

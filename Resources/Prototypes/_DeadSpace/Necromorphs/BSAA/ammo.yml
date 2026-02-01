@@ -13,8 +13,6 @@
       shader: unshaded
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 1
       types:
         Piercing: 11
         Heat: 6
@@ -35,8 +33,6 @@
       shader: unshaded
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 1
       types:
         Piercing: 5
         Heat: 5

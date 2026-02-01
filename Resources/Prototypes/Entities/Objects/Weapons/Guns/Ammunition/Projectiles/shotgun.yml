@@ -9,8 +9,6 @@
     state: slug
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 2
       types:
         Piercing: 30
         Structural: 15
@@ -43,8 +41,6 @@
     state: buckshot
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 1
       types:
         Piercing: 10
         Structural: 15
@@ -71,8 +67,6 @@
     state: buckshot-flare
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 1
       types:
         Piercing: 7
         Heat: 3
