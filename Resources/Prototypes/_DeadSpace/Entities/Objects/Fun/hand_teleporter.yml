@@ -2,7 +2,7 @@
   name: телепортер малого диапазона
   parent: BaseItem
   id: HandTeleporterResearch
-  description: Устройство что позволяет телепортироваться на небольшие растояния
+  description: Устройство что позволяет телепортироваться на небольшие растояния.
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Fun/hand_teleporter.rsi
