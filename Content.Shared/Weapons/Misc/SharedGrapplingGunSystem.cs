@@ -226,7 +226,7 @@ public abstract class SharedGrapplingGunSystem : EntitySystem
 
             var direction = posShooter - posTarget;
 
-            if (direction.LengthSquared() < 0.01f)
+            if (direction.LengthSquared() < 0.1f)
                 continue;
 
             direction = Vector2.Normalize(direction);
