@@ -22,6 +22,7 @@ using Content.Shared.Database;
 using Robust.Shared.Timing;
 using Content.Shared.Pinpointer;
 using Content.Server.DeadSpace.ERT.Components;
+using Content.Server.Ghost.Roles.Components;
 using Content.Server.Station.Systems;
 using Content.Server.GameTicking;
 using Content.Shared.GameTicking.Components;
@@ -254,6 +255,23 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
             if (prototype.Special != null)
             {
                 var spec = Spawn(prototype.Special.Value, Transform(uid).Coordinates);
+
+                if (Terminating(spec) || !HasComp<GhostRoleComponent>(spec))
+                {
+                    var ghostQuery = EntityQueryEnumerator<GhostRoleComponent, TransformComponent>();
+                    spec = EntityUid.Invalid;
+                    while (ghostQuery.MoveNext(out var ghostUid, out _, out var ghostXform))
+                    {
+                        if (ghostXform.MapID != args.Map)
+                            continue;
+
+                        spec = ghostUid;
+                        break;
+                    }
+
+                    if (!spec.IsValid())
+                        return;
+                }
 
                 var window = _defaultWindowWaitingSpecies.Clone();
                 var settings = new WaitingSpeciesSettings(args.Map, window, ent.Comp.Team, uid);
