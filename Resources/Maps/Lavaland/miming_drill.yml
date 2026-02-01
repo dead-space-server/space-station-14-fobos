@@ -476,7 +476,7 @@ entities:
     - type: Transform
       pos: 7.5,9.5
       parent: 1
-- proto: LockerMime
+- proto: LockerMimeFilled
   entities:
   - uid: 184
     components:

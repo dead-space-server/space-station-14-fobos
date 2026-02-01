@@ -1,6 +1,4 @@
 ent-ADTBaseExtMagazineRifle = расширенный магазин 6.5 мм
     .desc = Увеличенный магазин под патрон 6.5 мм, с вместимостью в 45 единиц
-ent-ADTExtMagazineRifle = расширенный магазин 6.5 мм FMJ
+ent-ADTExtMagazineRifle = расширенный магазин 6.5 мм
     .desc = Увеличенный магазин под патрон 6.5 мм, с вместимостью в 45 единиц
-ent-ADTExtMagazineRifleHP = расширенный магазин 6.5 мм HP
-    .desc = { ent-ADTExtMagazineRifle.desc }
