@@ -25,6 +25,8 @@
   - DeviceDesynchronizer
   - ClothingBackpackHarmpack
   - ObeliskStoper # DS14
+  - ClothingShoesBootsMagSuper # DS14
+  - ClothingHandsGlovesPowergloveActive # DS14
 
 - type: latheRecipePack
   id: ScienceClothing

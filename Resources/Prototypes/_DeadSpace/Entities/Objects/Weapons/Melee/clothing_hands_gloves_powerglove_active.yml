@@ -1,0 +1,27 @@
+- type: entity
+  parent: ClothingHandsGlovesPowerglove
+  id: ClothingHandsGlovesPowergloveActive
+  name: экспериментальные силовые перчатки
+  description: Поиграем в полную силу!
+  components:
+  - type: Insulated
+  - type: MeleeWeapon
+    attackRate: 0.5
+    damage:
+      types:
+        Blunt: 10
+    soundHit:
+      path: "/Audio/Weapons/Guns/Gunshots/kinetic_accel.ogg"
+    animation: WeaponArcFist
+    bluntStaminaDamageFactor: 1.0
+    mustBeEquippedToUse: true
+  - type: MeleeThrowOnHit # Откидывание при ударе
+    unanchorOnHit: true
+    enabled: true
+    lifetime: 0.02 # Продолжительность откидывания при гравитации
+    minLifetime: 0.01 # Мин. продолж. откидывания
+    speed: 30 # Скорость откидывания
+  - type: HardsuitIdentification # Если что руки оно не отрывает, и не убивает
+  - type: Speech
+  - type: TTS
+    voice: Adjutant

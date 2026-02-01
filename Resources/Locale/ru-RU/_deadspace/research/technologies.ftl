@@ -1,4 +1,6 @@
 research-technology-supermagboots = Улучшенный локализованный магнетизм
+research-technology-handteleporter = Разрыв пространства 
+research-technology-glovespowergloveactive = Пробитие пространства
 research-discipline-mechworks = Механика
 research-discipline-weaponry = Вооружение
 research-discipline-research = Исследование
