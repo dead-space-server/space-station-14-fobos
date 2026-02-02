@@ -174,7 +174,6 @@ public abstract class SharedGrapplingGunSystem : EntitySystem
 
                 continue;
             }
-            //DS14-start
             if (!grappling.PullTargetToShooter)
             {
                 if (!TryComp<JointComponent>(uid, out var jointComp) ||
@@ -206,7 +205,7 @@ public abstract class SharedGrapplingGunSystem : EntitySystem
 
                 continue;
             }
-
+              //DS14-start
             if (grappling.Projectile == null ||
                 !TryComp<GrapplingProjectileComponent>( grappling.Projectile.Value, out var projectile) || projectile.HitTarget == null)
             {
