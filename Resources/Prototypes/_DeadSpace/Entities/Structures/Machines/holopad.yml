@@ -4,6 +4,7 @@
   name: ручной голопад
   description: Портативное устройство для связи с ЦентКомом и стационарными голопадами.
   components:
+  - type: Transform
   - type: StationAiVision
   - type: Sprite
     sprite: _DeadSpace/Structures/Machines/holopad_h.rsi

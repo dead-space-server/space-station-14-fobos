@@ -15,9 +15,9 @@
     animation: WeaponArcFist
     bluntStaminaDamageFactor: 1.0
     mustBeEquippedToUse: true
-  - type: MeleeThrowOnHit # Откидывание при ударе
-    unanchorOnHit: true
-    speed: 30 # Скорость откидывания
+  - type: MeleeThrowOnHit
+    unanchorOnHit: false
+    speed: 30
   - type: HardsuitIdentification # Если что руки оно не отрывает, и не убивает
   - type: Speech
   - type: TTS
