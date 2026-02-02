@@ -42,7 +42,6 @@
       path: /Audio/Ambience/Objects/buzzing.ogg
   - type: Holopad
     hologramProtoId: HolopadHologram
-    portable: true
   - type: Speech
     speechVerb: Robotic
     speechSounds: Borg
