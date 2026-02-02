@@ -184,7 +184,7 @@ public abstract class SharedGrapplingGunSystem : EntitySystem
                     SetReeling(uid, grappling, false, null);
                     continue;
                 }
-
+            //DS14-end
                 // TODO: This should be on engine.
                 distance.MaxLength = MathF.Max(distance.MinLength, distance.MaxLength - grappling.ReelRate * frameTime);
                 distance.Length = MathF.Min(distance.MaxLength, distance.Length);
@@ -206,6 +206,7 @@ public abstract class SharedGrapplingGunSystem : EntitySystem
 
                 continue;
             }
+            //DS14-start
             if (grappling.Projectile == null ||
                 !TryComp<GrapplingProjectileComponent>( grappling.Projectile.Value, out var projectile) || projectile.HitTarget == null)
             {
