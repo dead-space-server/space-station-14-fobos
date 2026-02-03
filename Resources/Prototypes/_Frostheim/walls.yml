@@ -112,6 +112,20 @@
     base: ostf
 
 - type: entity
+  parent: WallRockSnow
+  id: WallRockSnowIndestructible
+  name: snowdrift
+  suffix: Indestructible
+  components:
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: FrostheimIndestructible
+  - type: Destructible
+    thresholds: []
+  - type: OreVein
+    oreChance: 0
+
+- type: entity
   parent: BaseEuphoriaWall
   id: WallOrbitalFive
   name: wall
