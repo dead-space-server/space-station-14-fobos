@@ -1282,7 +1282,6 @@
     foldVerbText: fold-flip-verb
   - type: FoldableClothing
     foldedEquippedPrefix: flipped
-    foldedHeldPrefix: flipped
   - type: Sprite
     sprite: _DeadSpace/Clothing/Underwear/Other/Man/always_ready.rsi
     layers:
