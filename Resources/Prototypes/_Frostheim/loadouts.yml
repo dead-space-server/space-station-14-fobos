@@ -1,0 +1,90 @@
+- type: startingGear
+  id: FrostheimCaptainGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitCaptain
+    outerClothing: ClothingOuterWinterCap
+    shoes: ClothingShoesBootsWinter
+    gloves: ClothingHandsGlovesCombat
+    back: ClothingBackpack
+    belt: ClothingBeltSecurity
+  inhand:
+    - WeaponRevolverInspector
+  storage:
+    back:
+      - SpeedLoaderMagnum
+      - SpeedLoaderMagnum
+      - Medkit
+      - BoxSurvival
+    belt:
+      - SpeedLoaderMagnum
+      - SpeedLoaderMagnum
+
+- type: startingGear
+  id: FrostheimEngineerGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitEngineering
+    outerClothing: ClothingOuterWinterEngi
+    shoes: ClothingShoesBootsWinterEngi
+    gloves: ClothingHandsGlovesColorYellow
+    back: ClothingBackpack
+    belt: ClothingBeltUtility
+  storage:
+    belt:
+      - Welder
+      - Wrench
+      - Screwdriver
+      - Wirecutter
+      - Crowbar
+      - Multitool
+    back:
+      - BoxSurvival
+
+- type: startingGear
+  id: FrostheimSecurityGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSec
+    outerClothing: ClothingOuterWinterSec
+    shoes: ClothingShoesBootsWinterSec
+    gloves: ClothingHandsGlovesCombat
+    back: ClothingBackpack
+    belt: ClothingBeltBandolier
+  inhand:
+    - WeaponShotgunKammerer
+  storage:
+    belt:
+      - ShellShotgun
+      - ShellShotgun
+      - ShellShotgun
+      - ShellShotgun
+      - ShellShotgun
+      - ShellShotgun
+    back:
+      - MagazineShotgun
+      - MagazineShotgun
+      - WeaponPistolMk58
+      - MagazinePistol
+      - MagazinePistol
+      - Medkit
+      - BoxSurvival
+
+- type: startingGear
+  id: FrostheimMedicGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitMedicalDoctor
+    outerClothing: ClothingOuterWinterMed
+    shoes: ClothingShoesBootsWinterMed
+    gloves: ClothingHandsGlovesLatex
+    back: ClothingBackpack
+    belt: ClothingBeltMedical
+  storage:
+    back:
+      - MedkitAdvancedFilled
+      - MedkitCombatFilled
+      - BoxSurvival
+    belt:
+      - Gauze
+      - Bloodpack
+      - Ointment
+      - Brutepack
+      - HandheldHealthAnalyzer
+      - EmergencyMedipen

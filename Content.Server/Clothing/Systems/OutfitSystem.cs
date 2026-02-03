@@ -11,6 +11,8 @@ using Content.Shared.Preferences;
 using Content.Shared.Preferences.Loadouts;
 using Content.Shared.Roles;
 using Content.Shared.Station;
+using Content.Shared.Storage;
+using Content.Shared.Storage.EntitySystems;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 
@@ -23,6 +25,7 @@ public sealed class OutfitSystem : EntitySystem
     [Dependency] private readonly HandsSystem _handSystem = default!;
     [Dependency] private readonly InventorySystem _invSystem = default!;
     [Dependency] private readonly SharedStationSpawningSystem _spawningSystem = default!;
+    [Dependency] private readonly SharedStorageSystem _storage = default!;
 
     public bool SetOutfit(EntityUid target, string gear, Action<EntityUid, EntityUid>? onEquipped = null, bool unremovable = false)
     {
@@ -75,6 +78,28 @@ public sealed class OutfitSystem : EntitySystem
             {
                 var inhandEntity = EntityManager.SpawnEntity(prototype, coords);
                 _handSystem.TryPickup(target, inhandEntity, checkActionBlocker: false, handsComp: handsComponent);
+            }
+        }
+
+        // Equip storage items
+        if (startingGear.Storage.Count > 0)
+        {
+            var coords = EntityManager.GetComponent<TransformComponent>(target).Coordinates;
+
+            foreach (var (slotName, entProtos) in startingGear.Storage)
+            {
+                if (entProtos.Count == 0)
+                    continue;
+
+                if (_invSystem.TryGetSlotEntity(target, slotName, out var slotEnt, inventoryComponent) &&
+                    EntityManager.TryGetComponent(slotEnt, out StorageComponent? storage))
+                {
+                    foreach (var entProto in entProtos)
+                    {
+                        var spawnedEntity = EntityManager.SpawnEntity(entProto, coords);
+                        _storage.Insert(slotEnt.Value, spawnedEntity, out _, storageComp: storage, playSound: false);
+                    }
+                }
             }
         }
 

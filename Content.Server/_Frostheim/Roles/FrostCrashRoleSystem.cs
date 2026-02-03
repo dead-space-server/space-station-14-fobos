@@ -1,13 +1,17 @@
 using Content.Server.Ghost.Roles;
 using Content.Server.Ghost.Roles.Components;
 using Content.Server.Ghost.Roles.Raffles;
+using Content.Server.Humanoid.Systems;
 using Content.Shared._Frostheim.Roles;
+using Content.Shared.Station;
 
 namespace Content.Server._Frostheim.Roles;
 
 public sealed class FrostCrashRoleSystem : EntitySystem
 {
     [Dependency] private readonly GhostRoleSystem _ghostRole = default!;
+    [Dependency] private readonly RandomHumanoidSystem _randomHumanoid = default!;
+    [Dependency] private readonly SharedStationSpawningSystem _stationSpawning = default!;
 
     public override void Initialize()
     {
@@ -58,7 +62,17 @@ public sealed class FrostCrashRoleSystem : EntitySystem
 
         spawnComp.Used = true;
 
-        var mob = Spawn(spawnComp.SpawnPrototype, xform.Coordinates);
+        var mob = _randomHumanoid.SpawnRandomHumanoid("FrostheimHumanoid", xform.Coordinates, "");
+
+        if (!string.IsNullOrEmpty(spawnComp.ExamineLocKey))
+        {
+            var examine = EnsureComp<FrostCrewExamineComponent>(mob);
+            examine.RoleLocKey = spawnComp.ExamineLocKey;
+            examine.MessageCount = spawnComp.ExamineMessageCount;
+        }
+
+        _stationSpawning.EquipStartingGear(mob, spawnComp.StartingGear);
+
         _ghostRole.GhostRoleInternalCreateMindAndTransfer(args.Player, uid, mob, Comp<GhostRoleComponent>(uid));
         args.TookRole = true;
 

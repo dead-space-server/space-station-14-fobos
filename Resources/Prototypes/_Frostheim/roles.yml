@@ -1,0 +1,59 @@
+- type: randomHumanoidSettings
+  id: FrostheimHumanoid
+  randomizeName: true
+  speciesBlacklist:
+    - Dwarf
+    - Vulpkanin
+    - Moth
+    - Diona
+    - Skeleton
+    - Vox
+    - SlimePerson
+    - Arachnid
+    - Gingerbread
+    - Reptilian
+    - Kobolt
+    - Tajaran
+    - Shark
+    - SuperSoldier
+    - IPC
+    - Felinid
+    - Demon
+    - Xenomorph
+
+- type: entity
+  id: FrostheimCrashRole
+  components:
+  - type: FrostCrashRole
+    roleName: frostheim-role-name
+    roleDescription: frostheim-role-description
+    roleRules: frostheim-role-rules
+    minPlayers: 1
+
+- type: entity
+  id: FrostheimSpawnCaptain
+  components:
+  - type: FrostCrashSpawnPoint
+    startingGear: FrostheimCaptainGear
+    examineLocKey: frostheim-examine-captain
+
+- type: entity
+  id: FrostheimSpawnEngineer
+  components:
+  - type: FrostCrashSpawnPoint
+    startingGear: FrostheimEngineerGear
+    examineLocKey: frostheim-examine-engineer
+
+- type: entity
+  id: FrostheimSpawnSecurity
+  components:
+  - type: FrostCrashSpawnPoint
+    startingGear: FrostheimSecurityGear
+    examineLocKey: frostheim-examine-security
+
+- type: entity
+  id: FrostheimSpawnMedic
+  components:
+  - type: FrostCrashSpawnPoint
+    startingGear: FrostheimMedicGear
+    examineLocKey: frostheim-examine-medic
