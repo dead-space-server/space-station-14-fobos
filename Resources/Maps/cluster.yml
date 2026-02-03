@@ -58981,8 +58981,6 @@ entities:
     - type: Transform
       pos: -1.4809113,0.49568176
       parent: 21091
-    - type: HandheldLight
-      toggleActionEntity: 21093
     - type: ContainerContainer
       containers:
         cell_slot: !type:ContainerSlot
@@ -59764,22 +59762,6 @@ entities:
     components:
     - type: Transform
       parent: 21813
-    - type: Physics
-      canCollide: False
-    - type: InsideEntityStorage
-- proto: ClothingOuterHardsuitLuxury
-  entities:
-  - uid: 20725
-    components:
-    - type: Transform
-      parent: 20723
-    - type: Physics
-      canCollide: False
-    - type: InsideEntityStorage
-  - uid: 20730
-    components:
-    - type: Transform
-      parent: 20728
     - type: Physics
       canCollide: False
     - type: InsideEntityStorage
@@ -73388,8 +73370,6 @@ entities:
     - type: Transform
       pos: -43.37589,-38.16871
       parent: 2
-    - type: HandheldLight
-      toggleActionEntity: 37
     - type: ContainerContainer
       containers:
         cell_slot: !type:ContainerSlot
@@ -73419,8 +73399,6 @@ entities:
     - type: Transform
       pos: -7.487212,-49.625523
       parent: 2
-    - type: HandheldLight
-      toggleActionEntity: 31
     - type: ContainerContainer
       containers:
         cell_slot: !type:ContainerSlot
@@ -73438,8 +73416,6 @@ entities:
     - type: Transform
       pos: 21.48465,9.316534
       parent: 2
-    - type: HandheldLight
-      toggleActionEntity: 41
     - type: ContainerContainer
       containers:
         cell_slot: !type:ContainerSlot
@@ -101865,8 +101841,6 @@ entities:
     - type: Transform
       pos: -17.32782,-1.1680765
       parent: 2
-    - type: HandheldLight
-      toggleActionEntity: 33
     - type: ContainerContainer
       containers:
         cell_slot: !type:ContainerSlot
@@ -101886,8 +101860,6 @@ entities:
     - type: Transform
       pos: -12.570618,-0.31400442
       parent: 2
-    - type: HandheldLight
-      toggleActionEntity: 35
     - type: ContainerContainer
       containers:
         cell_slot: !type:ContainerSlot
@@ -101907,8 +101879,6 @@ entities:
     - type: Transform
       pos: -10.694183,53.923004
       parent: 2
-    - type: HandheldLight
-      toggleActionEntity: 43
     - type: ContainerContainer
       containers:
         cell_slot: !type:ContainerSlot
@@ -102052,8 +102022,6 @@ entities:
     - type: Transform
       pos: -36.481625,9.765771
       parent: 2
-    - type: HandheldLight
-      toggleActionEntity: 39
     - type: ContainerContainer
       containers:
         cell_slot: !type:ContainerSlot
