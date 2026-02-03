@@ -67,6 +67,10 @@
 
                             <lobbyUi:ServerListBox Name="ServerListBox" Access="Public" MinSize="0 30" VerticalExpand="True" HorizontalExpand="True" Margin="3 3 3 3" HorizontalAlignment="Stretch"/>
 
+                            <controls:HLine Color="#404040" Thickness="1" Margin="0 5"/>
+
+                            <RichTextLabel Name="LobbySong" Access="Public" HorizontalAlignment="Left" />
+
                         </BoxContainer>
                     </PanelContainer>
 
