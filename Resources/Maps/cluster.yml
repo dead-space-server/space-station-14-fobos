@@ -101731,19 +101731,8 @@ entities:
     components:
     - type: Transform
       parent: 22
-    - type: GasTank
-      toggleActionEntity: 24
-    - type: Jetpack
-      toggleActionEntity: 25
     - type: Physics
       canCollide: False
-    - type: ActionsContainer
-    - type: ContainerContainer
-      containers:
-        actions: !type:Container
-          ents:
-          - 25
-          - 24
     - type: InsideEntityStorage
   - uid: 7452
     components:
