@@ -1,0 +1,170 @@
+- type: entity
+  id: FrostheimBrokenThrusterBase
+  parent: BaseStructureDynamic
+  name: сломанный двигатель
+  abstract: true
+  components:
+  - type: Transform
+    anchored: false
+  - type: Physics
+    bodyType: Dynamic
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.25,-0.45,0.25,0.45"
+        density: 60
+        mask:
+        - MachineMask
+        layer: []
+  - type: Sprite
+    sprite: Structures/Shuttles/old_thruster.rsi
+    state: base
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: Metallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+
+- type: entity
+  id: FrostheimBrokenThruster
+  parent: FrostheimBrokenThrusterBase
+  name: сломанный двигатель
+  description: Повреждённый маневровый двигатель. Корпус проржавел. Используйте сварку для начала ремонта.
+  components:
+  - type: Construction
+    graph: FrostheimThrusterRepair
+    node: broken
+    defaultTarget: repaired
+
+- type: entity
+  id: FrostheimBrokenThrusterGutted
+  parent: FrostheimBrokenThrusterBase
+  name: сломанный двигатель
+  description: Корпус заварен. Нужно проложить проводку — вставьте кабели.
+  components:
+  - type: Construction
+    graph: FrostheimThrusterRepair
+    node: gutted
+    defaultTarget: repaired
+
+- type: entity
+  id: FrostheimBrokenThrusterWired
+  parent: FrostheimBrokenThrusterBase
+  name: сломанный двигатель
+  description: Проводка на месте. Осталось закрутить панель отвёрткой.
+  components:
+  - type: Construction
+    graph: FrostheimThrusterRepair
+    node: wired
+    defaultTarget: repaired
+
+- type: entity
+  id: FrostheimBrokenGyroscopeBase
+  parent: BaseStructureDynamic
+  name: сломанный гироскоп
+  abstract: true
+  components:
+  - type: Transform
+    anchored: false
+  - type: Physics
+    bodyType: Dynamic
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.25,-0.45,0.25,0.45"
+        density: 60
+        mask:
+        - MachineMask
+        layer: []
+  - type: Sprite
+    sprite: Structures/Machines/parts.rsi
+    state: destroyed
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: Metallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+
+- type: entity
+  id: FrostheimBrokenGyroscope
+  parent: FrostheimBrokenGyroscopeBase
+  name: сломанный гироскоп
+  description: Навигационный гироскоп, разбитый при посадке. Используйте сварку для начала ремонта.
+  components:
+  - type: Construction
+    graph: FrostheimGyroscopeRepair
+    node: broken
+    defaultTarget: repaired
+
+- type: entity
+  id: FrostheimBrokenGyroscopeGutted
+  parent: FrostheimBrokenGyroscopeBase
+  name: сломанный гироскоп
+  description: Корпус заварен. Нужно проложить проводку — вставьте кабели.
+  components:
+  - type: Construction
+    graph: FrostheimGyroscopeRepair
+    node: gutted
+    defaultTarget: repaired
+
+- type: entity
+  id: FrostheimBrokenGyroscopeWired
+  parent: FrostheimBrokenGyroscopeBase
+  name: сломанный гироскоп
+  description: Проводка на месте. Осталось закрутить панель отвёрткой.
+  components:
+  - type: Construction
+    graph: FrostheimGyroscopeRepair
+    node: wired
+    defaultTarget: repaired
+
+- type: entity
+  id: FrostheimLootSpawnAny
+  parent: MarkerBase
+  name: frostheim loot spawn
+  components:
+  - type: FrostheimLootSpawn
+  - type: Sprite
+    state: red
+
+- type: entity
+  id: FrostheimLootSpawnThruster
+  parent: MarkerBase
+  name: frostheim loot spawn (thruster)
+  components:
+  - type: FrostheimLootSpawn
+    lootType: Thruster
+  - type: Sprite
+    state: red
+
+- type: entity
+  id: FrostheimLootSpawnGyroscope
+  parent: MarkerBase
+  name: frostheim loot spawn (gyroscope)
+  components:
+  - type: FrostheimLootSpawn
+    lootType: Gyroscope
+  - type: Sprite
+    state: red

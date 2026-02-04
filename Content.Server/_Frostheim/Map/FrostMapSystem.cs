@@ -21,16 +21,35 @@ public sealed class FrostMapSystem : EntitySystem
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IChatManager _chat = default!;
 
+    private readonly HashSet<EntityUid> _pendingLoot = new();
+
     public override void Initialize()
     {
         base.Initialize();
 
         SubscribeLocalEvent<FrostMapComponent, ComponentAdd>(OnFrostMapInit);
+        SubscribeLocalEvent<FrostMapComponent, MapInitEvent>(OnMapInit);
+    }
+
+    private void OnMapInit(EntityUid uid, FrostMapComponent comp, MapInitEvent args)
+    {
+        _pendingLoot.Add(uid);
     }
 
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
+
+        if (_pendingLoot.Count > 0)
+        {
+            foreach (var uid in _pendingLoot)
+            {
+                if (TryComp<FrostMapComponent>(uid, out var comp) && !comp.LootSpawned)
+                    SpawnLoot(uid, comp);
+            }
+
+            _pendingLoot.Clear();
+        }
 
         var query = EntityQueryEnumerator<FrostMapComponent>();
         while (query.MoveNext(out var uid, out var comp))
@@ -43,6 +62,80 @@ public sealed class FrostMapSystem : EntitySystem
 
             comp.NextWeatherChange = _timing.CurTime + TimeSpan.FromSeconds(_random.NextFloat(comp.MinWeatherInterval, comp.MaxWeatherInterval));
         }
+    }
+
+    private void SpawnLoot(EntityUid mapUid, FrostMapComponent comp)
+    {
+        comp.LootSpawned = true;
+
+        var mapId = Transform(mapUid).MapID;
+
+        var thrusterMarkers = new List<EntityUid>();
+        var gyroscopeMarkers = new List<EntityUid>();
+        var anyMarkers = new List<EntityUid>();
+
+        var markerQuery = EntityQueryEnumerator<FrostheimLootSpawnComponent, TransformComponent>();
+        while (markerQuery.MoveNext(out var mUid, out var loot, out var xform))
+        {
+            if (xform.MapID != mapId)
+                continue;
+
+            switch (loot.LootType)
+            {
+                case FrostheimLootType.Thruster:
+                    thrusterMarkers.Add(mUid);
+                    break;
+                case FrostheimLootType.Gyroscope:
+                    gyroscopeMarkers.Add(mUid);
+                    break;
+                case FrostheimLootType.Any:
+                    anyMarkers.Add(mUid);
+                    break;
+            }
+        }
+
+        _random.Shuffle(thrusterMarkers);
+        _random.Shuffle(gyroscopeMarkers);
+        _random.Shuffle(anyMarkers);
+
+        var thrustersToSpawn = comp.SpawnThrusters;
+        var gyroscopesToSpawn = comp.SpawnGyroscopes;
+
+        thrustersToSpawn -= SpawnOnMarkers(thrusterMarkers, comp.BrokenThrusterProto, thrustersToSpawn);
+        gyroscopesToSpawn -= SpawnOnMarkers(gyroscopeMarkers, comp.BrokenGyroscopeProto, gyroscopesToSpawn);
+
+        thrustersToSpawn -= SpawnOnMarkers(anyMarkers, comp.BrokenThrusterProto, thrustersToSpawn);
+        gyroscopesToSpawn -= SpawnOnMarkers(anyMarkers, comp.BrokenGyroscopeProto, gyroscopesToSpawn);
+
+        var allMarkers = new List<EntityUid>();
+        allMarkers.AddRange(thrusterMarkers);
+        allMarkers.AddRange(gyroscopeMarkers);
+        allMarkers.AddRange(anyMarkers);
+
+        foreach (var marker in allMarkers)
+        {
+            if (!Deleted(marker))
+                QueueDel(marker);
+        }
+    }
+
+    private int SpawnOnMarkers(List<EntityUid> markers, string prototype, int count)
+    {
+        var spawned = 0;
+
+        for (var i = markers.Count - 1; i >= 0 && spawned < count; i--)
+        {
+            var marker = markers[i];
+            if (Deleted(marker))
+                continue;
+
+            Spawn(prototype, Transform(marker).Coordinates);
+            QueueDel(marker);
+            markers.RemoveAt(i);
+            spawned++;
+        }
+
+        return spawned;
     }
 
     private void OnFrostMapInit(Entity<FrostMapComponent> ent, ref ComponentAdd args)

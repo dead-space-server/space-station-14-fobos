@@ -1,0 +1,79 @@
+- type: constructionGraph
+  id: FrostheimThrusterRepair
+  start: broken
+  graph:
+    - node: broken
+      entity: FrostheimBrokenThruster
+      edges:
+        - to: gutted
+          completed:
+            - !type:SetAnchor
+              value: false
+          steps:
+            - tool: Welding
+              doAfter: 3
+
+    - node: gutted
+      entity: FrostheimBrokenThrusterGutted
+      edges:
+        - to: wired
+          completed:
+            - !type:SetAnchor
+              value: false
+          steps:
+            - material: Cable
+              amount: 5
+
+    - node: wired
+      entity: FrostheimBrokenThrusterWired
+      edges:
+        - to: repaired
+          completed:
+            - !type:SetAnchor
+              value: false
+          steps:
+            - tool: Screwing
+              doAfter: 2
+
+    - node: repaired
+      entity: ThrusterUnanchored
+
+- type: constructionGraph
+  id: FrostheimGyroscopeRepair
+  start: broken
+  graph:
+    - node: broken
+      entity: FrostheimBrokenGyroscope
+      edges:
+        - to: gutted
+          completed:
+            - !type:SetAnchor
+              value: false
+          steps:
+            - tool: Welding
+              doAfter: 5
+
+    - node: gutted
+      entity: FrostheimBrokenGyroscopeGutted
+      edges:
+        - to: wired
+          completed:
+            - !type:SetAnchor
+              value: false
+          steps:
+            - material: Cable
+              amount: 5
+
+    - node: wired
+      entity: FrostheimBrokenGyroscopeWired
+      edges:
+        - to: repaired
+          completed:
+            - !type:SetAnchor
+              value: false
+          steps:
+            - tool: Screwing
+              doAfter: 2
+
+    - node: repaired
+      entity: GyroscopeUnanchored

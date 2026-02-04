@@ -1,4 +1,5 @@
 using Robust.Shared.GameStates;
+using Robust.Shared.Prototypes;
 
 namespace Content.Shared._Frostheim.Map;
 
@@ -16,4 +17,19 @@ public sealed partial class FrostMapComponent : Component
 
     [DataField]
     public TimeSpan NextWeatherChange = TimeSpan.Zero;
+
+    [DataField]
+    public int SpawnThrusters = 6;
+
+    [DataField]
+    public int SpawnGyroscopes = 2;
+
+    [DataField]
+    public EntProtoId BrokenThrusterProto = "FrostheimBrokenThruster";
+
+    [DataField]
+    public EntProtoId BrokenGyroscopeProto = "FrostheimBrokenGyroscope";
+
+    [ViewVariables]
+    public bool LootSpawned;
 }
