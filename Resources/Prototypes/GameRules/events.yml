@@ -26,6 +26,7 @@
     - id: VentClog
     # DS14-start
     - id: LowVirusPandemic
+    - id: FrostheimSpawn
     # DS14-end
 
 - type: entityTable
@@ -60,7 +61,6 @@
     - id: BlobSpawn
     - id: HardVirusPandemic
     - id: SentientVirusEvent
-    - id: FrostheimSpawn
     # DS14-end
     - !type:NestedSelector
       tableId: DerelictBorgEventTable
