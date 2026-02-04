@@ -156,7 +156,7 @@ public abstract class SharedGrapplingGunSystem : EntitySystem
         Dirty(uid, component);
     }
 
-public override void Update(float frameTime)
+    public override void Update(float frameTime)
     {
         base.Update(frameTime);
 
