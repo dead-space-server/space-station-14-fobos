@@ -1,7 +1,6 @@
 using Content.Server.Chat.Managers;
 using Content.Server.Ghost.Roles;
 using Content.Server.Ghost.Roles.Components;
-using Content.Server.Ghost.Roles.Raffles;
 using Content.Server.Humanoid.Systems;
 using Content.Shared._Frostheim.Roles;
 using Content.Shared.Chat;
@@ -22,26 +21,7 @@ public sealed class FrostCrashRoleSystem : EntitySystem
     {
         base.Initialize();
 
-        SubscribeLocalEvent<FrostCrashRoleComponent, ComponentStartup>(OnStartup);
         SubscribeLocalEvent<FrostCrashRoleComponent, TakeGhostRoleEvent>(OnTakeRole);
-    }
-
-    private void OnStartup(Entity<FrostCrashRoleComponent> ent, ref ComponentStartup args)
-    {
-        if (string.IsNullOrEmpty(ent.Comp.RoleName))
-            return;
-
-        var ghostRole = EnsureComp<GhostRoleComponent>(ent);
-        ghostRole.RoleName = Loc.GetString(ent.Comp.RoleName);
-        ghostRole.RoleDescription = Loc.GetString(ent.Comp.RoleDescription);
-        ghostRole.RoleRules = Loc.GetString(ent.Comp.RoleRules);
-
-        ghostRole.RaffleConfig = new GhostRoleRaffleConfig
-        {
-            Settings = "default",
-            MinPlayers = ent.Comp.MinPlayers,
-            WinnersCount = int.MaxValue
-        };
     }
 
     private void OnTakeRole(EntityUid uid, FrostCrashRoleComponent component, ref TakeGhostRoleEvent args)

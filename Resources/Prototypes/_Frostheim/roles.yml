@@ -25,11 +25,14 @@
   id: FrostheimCrashRole
   components:
   - type: GhostRole
+    name: frostheim-role-name
+    description: frostheim-role-description
+    rules: frostheim-role-rules
+    raffle:
+      settings: default
+      minPlayers: 4
+      winnersCount: 2147483647
   - type: FrostCrashRole
-    roleName: frostheim-role-name
-    roleDescription: frostheim-role-description
-    roleRules: frostheim-role-rules
-    minPlayers: 4
 
 - type: entity
   id: FrostheimSleepPodBase
