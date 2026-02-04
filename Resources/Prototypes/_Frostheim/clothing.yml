@@ -6,7 +6,7 @@
   components:
   - type: TemperatureProtection
     heatingCoefficient: 1.0
-    coolingCoefficient: 0.4
+    coolingCoefficient: 0.55
 
 - type: entity
   parent: ClothingOuterWinterEngi
@@ -16,7 +16,7 @@
   components:
   - type: TemperatureProtection
     heatingCoefficient: 1.0
-    coolingCoefficient: 0.4
+    coolingCoefficient: 0.55
 
 - type: entity
   parent: ClothingOuterWinterSec
@@ -26,7 +26,7 @@
   components:
   - type: TemperatureProtection
     heatingCoefficient: 1.0
-    coolingCoefficient: 0.4
+    coolingCoefficient: 0.55
 
 - type: entity
   parent: ClothingOuterWinterMed
@@ -36,44 +36,60 @@
   components:
   - type: TemperatureProtection
     heatingCoefficient: 1.0
-    coolingCoefficient: 0.4
+    coolingCoefficient: 0.55
 
 - type: entity
-  parent: ClothingShoesBootsWinter
+  parent: ClothingShoesBase
   id: FrostheimBootsCap
   name: изношенные зимние ботинки
   description: Подошва стёрта, утеплитель отсырел.
   components:
+  - type: Sprite
+    sprite: Clothing/Shoes/Boots/winterboots.rsi
+  - type: Clothing
+    sprite: Clothing/Shoes/Boots/winterboots.rsi
   - type: TemperatureProtection
     heatingCoefficient: 1.0
-    coolingCoefficient: 0.7
+    coolingCoefficient: 0.8
 
 - type: entity
-  parent: ClothingShoesBootsWinterEngi
+  parent: ClothingShoesBase
   id: FrostheimBootsEngi
   name: изношенные инженерные ботинки
   description: Подошва стёрта, утеплитель отсырел.
   components:
+  - type: Sprite
+    sprite: Clothing/Shoes/Boots/winterbootsengi.rsi
+  - type: Clothing
+    sprite: Clothing/Shoes/Boots/winterbootsengi.rsi
   - type: TemperatureProtection
     heatingCoefficient: 1.0
-    coolingCoefficient: 0.7
+    coolingCoefficient: 0.8
 
 - type: entity
-  parent: ClothingShoesBootsWinterSec
+  parent: ClothingShoesBase
   id: FrostheimBootsSec
   name: изношенные ботинки охраны
   description: Подошва стёрта, утеплитель отсырел.
   components:
+  - type: Sprite
+    sprite: Clothing/Shoes/Boots/winterbootssec.rsi
+  - type: Clothing
+    sprite: Clothing/Shoes/Boots/winterbootssec.rsi
   - type: TemperatureProtection
     heatingCoefficient: 1.0
-    coolingCoefficient: 0.7
+    coolingCoefficient: 0.8
 
 - type: entity
-  parent: ClothingShoesBootsWinterMed
+  parent: ClothingShoesBase
   id: FrostheimBootsMed
   name: изношенные медицинские ботинки
   description: Подошва стёрта, утеплитель отсырел.
   components:
+  - type: Sprite
+    sprite: Clothing/Shoes/Boots/winterbootsmed.rsi
+  - type: Clothing
+    sprite: Clothing/Shoes/Boots/winterbootsmed.rsi
   - type: TemperatureProtection
     heatingCoefficient: 1.0
-    coolingCoefficient: 0.7
+    coolingCoefficient: 0.8
