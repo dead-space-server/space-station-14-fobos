@@ -37,6 +37,7 @@ public sealed class NavCalibrationControl : Control
     private const float SliderHeight = 80f;
     private const float SliderMarginY = 30f;
     private const float TrackMarginX = 80f;
+    private const float TrackMarginRight = 60f;
     private const float IndicatorWidth = 4f;
     private const float TopPadding = 20f;
 
@@ -81,7 +82,7 @@ public sealed class NavCalibrationControl : Control
     private void DrawSlider(DrawingHandleScreen handle, int index)
     {
         var trackLeft = TrackMarginX * UIScale;
-        var trackRight = PixelWidth - 20f * UIScale;
+        var trackRight = PixelWidth - TrackMarginRight * UIScale;
         var trackWidth = trackRight - trackLeft;
         var yBase = (TopPadding + index * (SliderHeight + SliderMarginY)) * UIScale;
 
@@ -194,7 +195,7 @@ public sealed class NavCalibrationControl : Control
             return;
 
         var trackLeft = TrackMarginX;
-        var trackRight = PixelWidth / UIScale - 20f;
+        var trackRight = PixelWidth / UIScale - TrackMarginRight;
         var trackWidth = trackRight - trackLeft;
 
         var value = (relPos.X - trackLeft) / trackWidth;

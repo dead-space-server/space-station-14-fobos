@@ -213,3 +213,47 @@
     interfaces:
       enum.FrostheimNavConsoleUiKey.Key:
         type: FrostheimNavConsoleBoundUserInterface
+
+- type: entity
+  id: FrostheimStatusConsole
+  parent: BaseStructureDynamic
+  name: консоль диагностики
+  description: Мониторинг состояния систем шаттла.
+  components:
+  - type: Transform
+    anchored: true
+  - type: Sprite
+    sprite: Structures/Machines/computers.rsi
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: sensors
+    - map: ["computerLayerKeys"]
+      state: generic_keys
+  - type: Destructible
+    thresholds: []
+  - type: Computer
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.ComputerVisuals.Powered:
+        computerLayerScreen:
+          True: { visible: true, shader: unshaded }
+          False: { visible: false }
+        computerLayerKeys:
+          True: { visible: true, shader: unshaded }
+          False: { visible: true, shader: shaded }
+  - type: ApcPowerReceiver
+    powerLoad: 200
+  - type: ExtensionCableReceiver
+  - type: ActivatableUIRequiresPower
+  - type: FrostheimStatusConsole
+  - type: ActivatableUI
+    key: enum.FrostheimStatusConsoleUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.FrostheimStatusConsoleUiKey.Key:
+        type: FrostheimStatusConsoleBoundUserInterface

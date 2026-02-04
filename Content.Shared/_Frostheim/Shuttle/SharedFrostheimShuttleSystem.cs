@@ -27,7 +27,7 @@ public sealed class SharedFrostheimShuttleSystem : EntitySystem
         if (!shuttle.Ready)
         {
             args.Cancel();
-            _popup.PopupCursor(Loc.GetString("frostheim-shuttle-not-ready"), args.User);
+            _popup.PopupClient(Loc.GetString("frostheim-shuttle-not-ready"), args.User);
         }
     }
 
