@@ -1,0 +1,79 @@
+- type: entity
+  parent: ClothingOuterWinterCap
+  id: FrostheimWinterCap
+  name: потрёпанная капитанская куртка
+  description: Повреждённая зимняя куртка. Греет хуже, чем должна.
+  components:
+  - type: TemperatureProtection
+    heatingCoefficient: 1.0
+    coolingCoefficient: 0.4
+
+- type: entity
+  parent: ClothingOuterWinterEngi
+  id: FrostheimWinterEngi
+  name: потрёпанная инженерная куртка
+  description: Повреждённая зимняя куртка. Греет хуже, чем должна.
+  components:
+  - type: TemperatureProtection
+    heatingCoefficient: 1.0
+    coolingCoefficient: 0.4
+
+- type: entity
+  parent: ClothingOuterWinterSec
+  id: FrostheimWinterSec
+  name: потрёпанная куртка охраны
+  description: Повреждённая зимняя куртка. Греет хуже, чем должна.
+  components:
+  - type: TemperatureProtection
+    heatingCoefficient: 1.0
+    coolingCoefficient: 0.4
+
+- type: entity
+  parent: ClothingOuterWinterMed
+  id: FrostheimWinterMed
+  name: потрёпанная медицинская куртка
+  description: Повреждённая зимняя куртка. Греет хуже, чем должна.
+  components:
+  - type: TemperatureProtection
+    heatingCoefficient: 1.0
+    coolingCoefficient: 0.4
+
+- type: entity
+  parent: ClothingShoesBootsWinter
+  id: FrostheimBootsCap
+  name: изношенные зимние ботинки
+  description: Подошва стёрта, утеплитель отсырел.
+  components:
+  - type: TemperatureProtection
+    heatingCoefficient: 1.0
+    coolingCoefficient: 0.7
+
+- type: entity
+  parent: ClothingShoesBootsWinterEngi
+  id: FrostheimBootsEngi
+  name: изношенные инженерные ботинки
+  description: Подошва стёрта, утеплитель отсырел.
+  components:
+  - type: TemperatureProtection
+    heatingCoefficient: 1.0
+    coolingCoefficient: 0.7
+
+- type: entity
+  parent: ClothingShoesBootsWinterSec
+  id: FrostheimBootsSec
+  name: изношенные ботинки охраны
+  description: Подошва стёрта, утеплитель отсырел.
+  components:
+  - type: TemperatureProtection
+    heatingCoefficient: 1.0
+    coolingCoefficient: 0.7
+
+- type: entity
+  parent: ClothingShoesBootsWinterMed
+  id: FrostheimBootsMed
+  name: изношенные медицинские ботинки
+  description: Подошва стёрта, утеплитель отсырел.
+  components:
+  - type: TemperatureProtection
+    heatingCoefficient: 1.0
+    coolingCoefficient: 0.7

@@ -3,12 +3,12 @@
   parent: BaseGameRule
   components:
   - type: StationEvent
-    weight: 6
-    earliestStart: 8
-    minimumPlayers: 25
+    weight: 8
+    earliestStart: 5
+    minimumPlayers: 20
     maxOccurrences: 1
     reoccurrenceDelay: 9999
     duration: null
   - type: LoadMapRule
-    mapPath: /Maps/_Frostheim/frostheim.yml
+    mapPath: /Maps/frostheim.yml
   - type: RuleGrids

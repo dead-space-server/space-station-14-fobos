@@ -1,6 +1,5 @@
-# Override vanilla torch graph to produce FrostheimTorch
 - type: constructionGraph
-  id: LightTorch
+  id: FrostheimTorch
   start: start
   graph:
     - node: start
@@ -28,8 +27,8 @@
       entity: FrostheimCampfire
 
 - type: construction
-  id: LightTorch
-  graph: LightTorch
+  id: FrostheimTorch
+  graph: FrostheimTorch
   startNode: start
   targetNode: torch
   category: construction-category-survival
@@ -61,7 +60,7 @@
     enabled: false
     targetTemperature: 293
   - type: Construction
-    graph: LightTorch
+    graph: FrostheimTorch
     node: torch
 
 - type: entity

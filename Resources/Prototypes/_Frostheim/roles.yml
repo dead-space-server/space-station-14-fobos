@@ -28,7 +28,7 @@
     roleName: frostheim-role-name
     roleDescription: frostheim-role-description
     roleRules: frostheim-role-rules
-    minPlayers: 1
+    minPlayers: 4
 
 - type: entity
   id: FrostheimSleepPodBase

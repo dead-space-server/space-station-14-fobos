@@ -1,0 +1,26 @@
+- type: radioChannel
+  id: FrostheimCrew
+  name: chat-radio-frostheim
+  keycode: "v"
+  frequency: 7100
+  color: "#5b9bd5"
+  longRange: true
+
+- type: entity
+  parent: RadioHandheld
+  id: RadioHandheldFrostheim
+  name: аварийная рация
+  description: Портативная рация экипажа на зашифрованной частоте. Единственная связь с остальными.
+  components:
+  - type: TelecomExempt
+  - type: RadioMicrophone
+    broadcastChannel: FrostheimCrew
+  - type: RadioSpeaker
+    channels:
+    - FrostheimCrew
+  - type: Sprite
+    sprite: Objects/Devices/communication.rsi
+    layers:
+    - state: walkietalkie
+    - state: walkietalkie-on
+    state: walkietalkie
