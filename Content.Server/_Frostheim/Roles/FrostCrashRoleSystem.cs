@@ -1,8 +1,10 @@
+using Content.Server.Chat.Managers;
 using Content.Server.Ghost.Roles;
 using Content.Server.Ghost.Roles.Components;
 using Content.Server.Ghost.Roles.Raffles;
 using Content.Server.Humanoid.Systems;
 using Content.Shared._Frostheim.Roles;
+using Content.Shared.Chat;
 using Content.Shared.Station;
 using Robust.Shared.Containers;
 
@@ -14,6 +16,7 @@ public sealed class FrostCrashRoleSystem : EntitySystem
     [Dependency] private readonly RandomHumanoidSystem _randomHumanoid = default!;
     [Dependency] private readonly SharedStationSpawningSystem _stationSpawning = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
+    [Dependency] private readonly IChatManager _chat = default!;
 
     public override void Initialize()
     {
@@ -80,6 +83,8 @@ public sealed class FrostCrashRoleSystem : EntitySystem
 
         _stationSpawning.EquipStartingGear(mob, spawnComp.StartingGear);
 
+        EnsureComp<FrostheimCrewComponent>(mob);
+
         if (TryComp<FrostheimSleepPodComponent>(spawnPointUid, out var podComp) &&
             _container.TryGetContainer(spawnPointUid.Value, podComp.ContainerId, out var container))
         {
@@ -88,6 +93,8 @@ public sealed class FrostCrashRoleSystem : EntitySystem
 
         _ghostRole.GhostRoleInternalCreateMindAndTransfer(args.Player, uid, mob, Comp<GhostRoleComponent>(uid));
         args.TookRole = true;
+
+        SendBriefing(args.Player.Channel);
 
         var remainingPoints = 0;
         var countQuery = EntityQueryEnumerator<FrostCrashSpawnPointComponent, TransformComponent>();
@@ -104,5 +111,19 @@ public sealed class FrostCrashRoleSystem : EntitySystem
 
             QueueDel(uid);
         }
+    }
+
+    private void SendBriefing(Robust.Shared.Network.INetChannel channel)
+    {
+        var message = Loc.GetString("frostheim-briefing");
+        var wrapped = $"[font size=14][color=#8fa4b0]{message}[/color][/font]";
+
+        _chat.ChatMessageToOne(
+            ChatChannel.Server,
+            message,
+            wrapped,
+            default,
+            false,
+            channel);
     }
 }

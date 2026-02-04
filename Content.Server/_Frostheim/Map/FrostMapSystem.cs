@@ -1,8 +1,12 @@
 using Content.Server.Atmos.Components;
+using Content.Server.Chat.Managers;
 using Content.Server.Shuttles.Components;
 using Content.Shared._Frostheim.Map;
+using Content.Shared._Frostheim.Roles;
 using Content.Shared.Atmos;
+using Content.Shared.Chat;
 using Content.Shared.Weather;
+using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
@@ -15,6 +19,7 @@ public sealed class FrostMapSystem : EntitySystem
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly IChatManager _chat = default!;
 
     public override void Initialize()
     {
@@ -100,5 +105,35 @@ public sealed class FrostMapSystem : EntitySystem
 
         ApplyOutdoorTemperature(entity);
         ApplyIndoorTemperature(entity);
+
+        NotifyCrew(weather);
+    }
+
+    private void NotifyCrew(FrostheimWeather weather)
+    {
+        var message = Loc.GetString("frostheim-weather-" + weather.ToString().ToLowerInvariant());
+
+        var (color, fontSize) = weather switch
+        {
+            FrostheimWeather.None => ("#52eb56", 12),
+            FrostheimWeather.SnowfallLight => ("#e8d44d", 12),
+            FrostheimWeather.SnowfallMedium => ("#eb8c34", 14),
+            FrostheimWeather.SnowfallHeavy => ("#eb3434", 16),
+            _ => ("#ffffff", 12)
+        };
+
+        var wrapped = $"[font size={fontSize}][color={color}][bold]{message}[/bold][/color][/font]";
+
+        var query = EntityQueryEnumerator<FrostheimCrewComponent, ActorComponent>();
+        while (query.MoveNext(out _, out _, out var actor))
+        {
+            _chat.ChatMessageToOne(
+                ChatChannel.Server,
+                message,
+                wrapped,
+                default,
+                false,
+                actor.PlayerSession.Channel);
+        }
     }
 }
