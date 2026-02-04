@@ -21,6 +21,8 @@
   - type: Sprite
     sprite: Structures/Shuttles/old_thruster.rsi
     state: base
+  - type: FrostheimBrokenPart
+    partType: Thruster
   - type: Damageable
     damageContainer: StructuralInorganic
     damageModifierSet: Metallic
@@ -92,6 +94,8 @@
   - type: Sprite
     sprite: Structures/Machines/parts.rsi
     state: destroyed
+  - type: FrostheimBrokenPart
+    partType: Gyroscope
   - type: Damageable
     damageContainer: StructuralInorganic
     damageModifierSet: Metallic
@@ -257,3 +261,23 @@
     interfaces:
       enum.FrostheimStatusConsoleUiKey.Key:
         type: FrostheimStatusConsoleBoundUserInterface
+
+- type: entity
+  id: FrostheimRadar
+  parent: BaseItem
+  name: сканер обломков
+  description: Портативный сканер для обнаружения повреждённых компонентов шаттла. Показывает направление и расстояние до обломков.
+  components:
+  - type: Sprite
+    sprite: Objects/Devices/pinpointer.rsi
+    layers:
+    - state: pinpointer-station
+  - type: Item
+    size: Small
+  - type: FrostheimRadar
+  - type: ActivatableUI
+    key: enum.FrostheimRadarUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.FrostheimRadarUiKey.Key:
+        type: FrostheimRadarBoundUserInterface

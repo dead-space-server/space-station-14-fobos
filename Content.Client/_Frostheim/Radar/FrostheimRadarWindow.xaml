@@ -1,0 +1,19 @@
+<DefaultWindow xmlns="https://spacestation14.io"
+              Title=":: РАДАР ::"
+              SetSize="520 580"
+              MinSize="520 580">
+    <PanelContainer Name="MainPanel" HorizontalExpand="True" VerticalExpand="True">
+        <BoxContainer Orientation="Vertical" Margin="8">
+            <PanelContainer Name="HeaderPanel" MinHeight="28" Margin="0 0 0 4">
+                <Label Name="HeaderLabel"
+                       Text=":: СКАНЕР ОБЛОМКОВ ::"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />
+            </PanelContainer>
+            <Control Name="RadarDisplay"
+                     VerticalExpand="True"
+                     HorizontalExpand="True"
+                     Margin="0 4" />
+        </BoxContainer>
+    </PanelContainer>
+</DefaultWindow>
