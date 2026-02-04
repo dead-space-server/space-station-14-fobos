@@ -55228,19 +55228,17 @@ entities:
       parent: 18
     - type: Physics
       canCollide: False
-- proto: ErtComputerShuttle
-  entities:
-  - uid: 6454
-    components:
-    - type: Transform
-      pos: -12.5,-32.5
-      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 11625
     components:
     - type: Transform
       pos: -26.5,-1.5
+      parent: 2
+  - uid: 6454
+    components:
+    - type: Transform
+      pos: -12.5,-32.5
       parent: 2
 - proto: EvidenceMarkerOne
   entities:

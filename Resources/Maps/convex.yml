@@ -123842,14 +123842,6 @@ entities:
       parent: 19263
     - type: Physics
       canCollide: False
-- proto: ErtComputerShuttle
-  entities:
-  - uid: 38132
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 145.5,61.5
-      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 28645
@@ -123857,6 +123849,12 @@ entities:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: 39.5,66.5
+      parent: 2
+  - uid: 38132
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 145.5,61.5
       parent: 2
 - proto: ExosuitFabricator
   entities:

@@ -120610,14 +120610,6 @@ entities:
       parent: 14031
     - type: Physics
       canCollide: False
-- proto: ErtComputerShuttle
-  entities:
-  - uid: 12093
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -21.5,51.5
-      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 14128
@@ -120625,6 +120617,12 @@ entities:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: -21.5,32.5
+      parent: 2
+  - uid: 12093
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -21.5,51.5
       parent: 2
 - proto: EvidenceMarkerEight
   entities:

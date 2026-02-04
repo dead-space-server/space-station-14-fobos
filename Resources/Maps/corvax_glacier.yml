@@ -166764,20 +166764,18 @@ entities:
     - type: Transform
       pos: -97.5703,35.733135
       parent: 2
-- proto: ErtComputerShuttle
-  entities:
-  - uid: 27762
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -44.5,6.5
-      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 15791
     components:
     - type: Transform
       pos: 16.5,-7.5
+      parent: 2
+  - uid: 27762
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -44.5,6.5
       parent: 2
 - proto: ExtinguisherCabinetFilled
   entities:

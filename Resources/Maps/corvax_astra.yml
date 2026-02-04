@@ -117625,14 +117625,6 @@ entities:
     - type: Transform
       pos: -3.5,-44.5
       parent: 2
-- proto: ErtComputerShuttle
-  entities:
-  - uid: 25810
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 50.5,2.5
-      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 37404
@@ -117640,6 +117632,12 @@ entities:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 14.5,12.5
+      parent: 2
+  - uid: 25810
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 50.5,2.5
       parent: 2
 - proto: ExosuitFabricatorMachineCircuitboard
   entities:

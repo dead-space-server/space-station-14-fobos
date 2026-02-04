@@ -72789,13 +72789,6 @@ entities:
       parent: 11543
     - type: Physics
       canCollide: False
-- proto: ErtComputerShuttle
-  entities:
-  - uid: 10062
-    components:
-    - type: Transform
-      pos: 10.5,48.5
-      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 27533
@@ -72803,6 +72796,11 @@ entities:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: 6.5,-5.5
+      parent: 2
+  - uid: 10062
+    components:
+    - type: Transform
+      pos: 10.5,48.5
       parent: 2
 - proto: ExosuitFabricator
   entities:

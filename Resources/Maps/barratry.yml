@@ -51164,20 +51164,18 @@ entities:
     - type: Transform
       pos: -28.521805,-11.50697
       parent: 2
-- proto: ErtComputerShuttle
-  entities:
-  - uid: 16732
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -58.5,64.5
-      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 16448
     components:
     - type: Transform
       pos: -8.5,61.5
+      parent: 2
+  - uid: 16732
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -58.5,64.5
       parent: 2
 - proto: EuphoniumInstrument
   entities:

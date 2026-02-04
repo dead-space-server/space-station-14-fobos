@@ -74081,13 +74081,6 @@ entities:
       parent: 11394
     - type: Physics
       canCollide: False
-- proto: ErtComputerShuttle
-  entities:
-  - uid: 21141
-    components:
-    - type: Transform
-      pos: -44.5,-57.5
-      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 11235
@@ -74095,6 +74088,11 @@ entities:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: -8.5,-3.5
+      parent: 2
+  - uid: 21141
+    components:
+    - type: Transform
+      pos: -44.5,-57.5
       parent: 2
 - proto: EuphoniumInstrument
   entities:

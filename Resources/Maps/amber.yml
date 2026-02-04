@@ -62920,13 +62920,6 @@ entities:
     - type: Transform
       pos: 16.005564,13.58702
       parent: 2
-- proto: ErtComputerShuttle
-  entities:
-  - uid: 7604
-    components:
-    - type: Transform
-      pos: -21.5,12.5
-      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 9079
@@ -62934,6 +62927,11 @@ entities:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: -23.5,-50.5
+      parent: 2
+  - uid: 7604
+    components:
+    - type: Transform
+      pos: -21.5,12.5
       parent: 2
 - proto: EvidenceMarkerOne
   entities:

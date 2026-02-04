@@ -52168,14 +52168,6 @@ entities:
       parent: 7954
     - type: Physics
       canCollide: False
-- proto: ErtComputerShuttle
-  entities:
-  - uid: 15553
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -4.5,-346.5
-      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 6157
@@ -52186,6 +52178,12 @@ entities:
     - type: AccessReader
       accessListsOriginal:
       - - Captain
+  - uid: 15553
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -4.5,-346.5
+      parent: 2
 - proto: ExosuitFabricator
   entities:
   - uid: 7956

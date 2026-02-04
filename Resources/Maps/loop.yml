@@ -78465,20 +78465,18 @@ entities:
     - type: Transform
       pos: 19.50415,59.51994
       parent: 2
-- proto: ErtComputerShuttle
-  entities:
-  - uid: 18263
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -41.5,39.5
-      parent: 2
 - proto: ErtResponceConsole
   entities:
   - uid: 23060
     components:
     - type: Transform
       pos: -28.5,78.5
+      parent: 2
+  - uid: 18263
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -41.5,39.5
       parent: 2
 - proto: EuphoniumInstrument
   entities:
