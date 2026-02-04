@@ -6,11 +6,12 @@ using Content.Shared.Telephone;
 using Content.Shared.Verbs;
 using Content.Server.Popups;
 using Content.Server.Telephone;
+using Content.Server.Holopad; 
 using Robust.Server.GameObjects;
 using Robust.Shared.Containers;
 using Robust.Shared.Utility;
 
-namespace Content.Server.Holopad;
+namespace Content.Server.DeadSpace.PortableHolopad;
 
 public sealed class PortableHolopadSystem : EntitySystem
 {
@@ -26,34 +27,32 @@ public sealed class PortableHolopadSystem : EntitySystem
         
         SubscribeLocalEvent<PortableHolopadComponent, GetVerbsEvent<AlternativeVerb>>(AddDeployVerb);
         SubscribeLocalEvent<PortableHolopadComponent, TelephoneMessageSentEvent>(OnTelephoneMessageSent);
+        SubscribeLocalEvent<PortableHolopadComponent, TelephoneCallCommencedEvent>(OnCallEvent);
+        SubscribeLocalEvent<PortableHolopadComponent, TelephoneStateChangeEvent>(OnStateEvent);
     }
 
-    private void AddDeployVerb(Entity<PortableHolopadComponent> entity, ref GetVerbsEvent<AlternativeVerb> args)
+    private void OnCallEvent(Entity<PortableHolopadComponent> entity, ref TelephoneCallCommencedEvent args) 
+        => CheckAndSuppress(entity);
+
+    private void OnStateEvent(Entity<PortableHolopadComponent> entity, ref TelephoneStateChangeEvent args) 
+        => CheckAndSuppress(entity);
+
+    private void CheckAndSuppress(Entity<PortableHolopadComponent> entity)
     {
-        if (!args.CanAccess || !args.CanInteract)
+        if (entity.Comp.Deployed)
             return;
 
-        var user = args.User;
-
-        AlternativeVerb verb = new()
-        {
-            Act = () => ToggleDeployed(entity, user),
-            Text = entity.Comp.Deployed ? "Собрать голопад." : "Развернуть голопад.",
-            Icon = new SpriteSpecifier.Texture(new("/Textures/Interface/VerbIcons/fold.svg.192dpi.png"))
-        };
-
-        args.Verbs.Add(verb);
+        entity.Owner.SpawnTimer(10, () => EnsureNoHologram(entity));
     }
 
-    private void OnTelephoneMessageSent(Entity<PortableHolopadComponent> entity, ref TelephoneMessageSentEvent args)
+    private void EnsureNoHologram(Entity<PortableHolopadComponent> entity)
     {
-        if (!entity.Comp.Deployed)
+        if (Deleted(entity) || entity.Comp.Deployed)
+            return;
+
+        if (TryComp<HolopadComponent>(entity, out var holopad) && holopad.Hologram != null)
         {
-            if (TryComp<SpeechComponent>(entity, out var holopadSpeech) &&
-                TryComp<TelephoneComponent>(entity, out var telephone))
-            {
-                _telephoneSystem.SetSpeakerForTelephone((entity, telephone), (entity, holopadSpeech));
-            }
+            _holopadSystem.DeleteHologram(holopad.Hologram.Value, (entity, holopad));
         }
     }
 
@@ -77,21 +76,35 @@ public sealed class PortableHolopadSystem : EntitySystem
                 _holopadSystem.GenerateHologram((entity, holopad));
 
             _xformSystem.AnchorEntity(entity);
-            _popupSystem.PopupEntity("Голопад развернут. Теперь используйте его для запуска вызова.", entity, user);
+            _popupSystem.PopupEntity("Голопад развернут.", entity, user);
         }
         else
         {
             _xformSystem.Unanchor(entity);
-
-            if (holopad.Hologram != null)
-                _holopadSystem.DeleteHologram(holopad.Hologram.Value, (entity, holopad));
+            EnsureNoHologram(entity);
 
             if (TryComp<SpeechComponent>(entity, out var speech))
                 _telephoneSystem.SetSpeakerForTelephone((entity, telephone), (entity, speech));
 
             _popupSystem.PopupEntity("Голопад собран.", entity, user);
         }
-
         Dirty(entity);
+    }
+
+    private void AddDeployVerb(Entity<PortableHolopadComponent> entity, ref GetVerbsEvent<AlternativeVerb> args)
+    {
+        if (!args.CanAccess || !args.CanInteract) return;
+        var user = args.User;
+        args.Verbs.Add(new AlternativeVerb {
+            Act = () => ToggleDeployed(entity, user),
+            Text = entity.Comp.Deployed ? "Собрать голопад." : "Развернуть голопад.",
+            Icon = new SpriteSpecifier.Texture(new("/Textures/Interface/VerbIcons/fold.svg.192dpi.png"))
+        });
+    }
+
+    private void OnTelephoneMessageSent(Entity<PortableHolopadComponent> entity, ref TelephoneMessageSentEvent args)
+    {
+        if (!entity.Comp.Deployed && TryComp<SpeechComponent>(entity, out var speech) && TryComp<TelephoneComponent>(entity, out var tel))
+            _telephoneSystem.SetSpeakerForTelephone((entity, tel), (entity, speech));
     }
 }

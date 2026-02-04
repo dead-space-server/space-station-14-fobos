@@ -530,9 +530,6 @@ public sealed class HolopadSystem : SharedHolopadSystem
             entity.Comp.HologramProtoId == null)
             return;
 
-        if (TryComp<PortableHolopadComponent>(entity, out var portable) && !portable.Deployed) //DS14
-            return; //DS14
-
         var hologramUid = Spawn(entity.Comp.HologramProtoId, Transform(entity).Coordinates);
 
         // Safeguard - spawned holograms must have this component

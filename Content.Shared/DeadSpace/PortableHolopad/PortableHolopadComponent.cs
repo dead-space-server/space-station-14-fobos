@@ -2,7 +2,7 @@
 
 using Robust.Shared.GameStates;
 
-namespace Content.Server.Holopad;
+namespace Content.Server.DeadSpace.PortableHolopad;
 
 [RegisterComponent, NetworkedComponent]
 public sealed partial class PortableHolopadComponent : Component
