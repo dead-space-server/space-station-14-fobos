@@ -156,7 +156,7 @@ public abstract class SharedGrapplingGunSystem : EntitySystem
         Dirty(uid, component);
     }
 
-    public override void Update(float frameTime)
+public override void Update(float frameTime)
     {
         base.Update(frameTime);
 
@@ -175,67 +175,64 @@ public abstract class SharedGrapplingGunSystem : EntitySystem
                 continue;
             }
             //DS14-start
-            if (!grappling.PullTargetToShooter)
+            if (grappling.PullTargetToShooter)
             {
-                if (!TryComp<JointComponent>(uid, out var jointComp) ||
-                    !jointComp.GetJoints.TryGetValue(GrapplingJoint, out var joint) ||
-                    joint is not DistanceJoint distance)
+                if (grappling.Projectile != null &&
+                    TryComp<GrapplingProjectileComponent>(grappling.Projectile.Value, out var projectile) && 
+                    projectile.HitTarget != null)
                 {
-                    SetReeling(uid, grappling, false, null);
-                    continue;
+                    var target = projectile.HitTarget.Value;
+
+                    if (!TryComp<PhysicsComponent>(target, out var physicsTarget))
+                    {
+                        SetReeling(uid, grappling, false, null);
+                    }
+                    else
+                    {
+                        var posShooter = Transform(uid).WorldPosition;
+                        var posTarget = Transform(target).WorldPosition;
+                        var direction = posShooter - posTarget;
+
+                        if (direction.LengthSquared() > 0.1f)
+                        {
+                            direction = Vector2.Normalize(direction);
+                            var impulse = direction * grappling.ReelRate * frameTime * physicsTarget.Mass;
+
+                            _physics.ApplyLinearImpulse(target, impulse);
+                            _physics.WakeBody(target);
+                        }
+                    }
                 }
+                continue;
+            }
             //DS14-end
-                // TODO: This should be on engine.
-                distance.MaxLength = MathF.Max(distance.MinLength, distance.MaxLength - grappling.ReelRate * frameTime);
-                distance.Length = MathF.Min(distance.MaxLength, distance.Length);
 
-                _physics.WakeBody(joint.BodyAUid);
-                _physics.WakeBody(joint.BodyBUid);
-
-                if (jointComp.Relay != null)
-                {
-                    _physics.WakeBody(jointComp.Relay.Value);
-                }
-
-                Dirty(uid, jointComp);
-
-                if (distance.MaxLength.Equals(distance.MinLength))
-                {
-                    SetReeling(uid, grappling, false, null);
-                }
-
-                continue;
-            }
-            //DS14-start
-            if (grappling.Projectile == null ||
-                !TryComp<GrapplingProjectileComponent>( grappling.Projectile.Value, out var projectile) || projectile.HitTarget == null)
-            {
-                continue;
-            }
-
-            var target = projectile.HitTarget.Value;
-
-            if (!TryComp<PhysicsComponent>(target, out var physicsTarget))
+            if (!TryComp<JointComponent>(uid, out var jointComp) ||
+                !jointComp.GetJoints.TryGetValue(GrapplingJoint, out var joint) ||
+                joint is not DistanceJoint distance)
             {
                 SetReeling(uid, grappling, false, null);
                 continue;
             }
 
-            var posShooter = Transform(uid).WorldPosition;
-            var posTarget  = Transform(target).WorldPosition;
+            // TODO: This should be on engine.
+            distance.MaxLength = MathF.Max(distance.MinLength, distance.MaxLength - grappling.ReelRate * frameTime);
+            distance.Length = MathF.Min(distance.MaxLength, distance.Length);
 
-            var direction = posShooter - posTarget;
+            _physics.WakeBody(joint.BodyAUid);
+            _physics.WakeBody(joint.BodyBUid);
 
-            if (direction.LengthSquared() < 0.1f)
-                continue;
+            if (jointComp.Relay != null)
+            {
+                _physics.WakeBody(jointComp.Relay.Value);
+            }
 
-            direction = Vector2.Normalize(direction);
+            Dirty(uid, jointComp);
 
-            var impulse = direction * grappling.ReelRate * frameTime * physicsTarget.Mass;
-
-            _physics.ApplyLinearImpulse(target, impulse);
-            _physics.WakeBody(target);
-            //DS14-end
+            if (distance.MaxLength.Equals(distance.MinLength))
+            {
+                SetReeling(uid, grappling, false, null);
+            }
         }
     }
     /// <summary>
