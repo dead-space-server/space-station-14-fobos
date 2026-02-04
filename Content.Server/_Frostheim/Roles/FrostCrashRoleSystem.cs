@@ -1,6 +1,7 @@
 using Content.Server.Chat.Managers;
 using Content.Server.Ghost.Roles;
 using Content.Server.Ghost.Roles.Components;
+using Content.Server.Ghost.Roles.Raffles;
 using Content.Server.Humanoid.Systems;
 using Content.Shared._Frostheim.Roles;
 using Content.Shared.Chat;
@@ -21,7 +22,23 @@ public sealed class FrostCrashRoleSystem : EntitySystem
     {
         base.Initialize();
 
+        SubscribeLocalEvent<FrostCrashRoleComponent, ComponentStartup>(OnStartup);
         SubscribeLocalEvent<FrostCrashRoleComponent, TakeGhostRoleEvent>(OnTakeRole);
+    }
+
+    private void OnStartup(Entity<FrostCrashRoleComponent> ent, ref ComponentStartup args)
+    {
+        if (!TryComp<GhostRoleComponent>(ent, out var ghostRole))
+            return;
+
+        // Raffle config from YAML doesn't deserialize fields properly,
+        // so we set it programmatically. Values must match the prototype to pass PrototypeSaveTest.
+        ghostRole.RaffleConfig = new GhostRoleRaffleConfig
+        {
+            Settings = "default",
+            MinPlayers = 4,
+            WinnersCount = int.MaxValue
+        };
     }
 
     private void OnTakeRole(EntityUid uid, FrostCrashRoleComponent component, ref TakeGhostRoleEvent args)
