@@ -231,9 +231,9 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
-    sprite: _DeadSpace/Sponsor/Qretrojem/оxygenе_tank.rsi
+    sprite: _DeadSpace/Sponsor/Qretrojem/oxygen_tank.rsi
   - type: Clothing
-    sprite: _DeadSpace/Sponsor/Qretrojem/оxygenе_tank.rsi
+    sprite: _DeadSpace/Sponsor/Qretrojem/oxygen_tank.rsi
 
 # Belt
 - type: entity
