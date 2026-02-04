@@ -1,0 +1,14 @@
+- type: entity
+  id: FrostheimSpawn
+  parent: BaseGameRule
+  components:
+  - type: StationEvent
+    weight: 6
+    earliestStart: 8
+    minimumPlayers: 25
+    maxOccurrences: 1
+    reoccurrenceDelay: 9999
+    duration: null
+  - type: LoadMapRule
+    mapPath: /Maps/_Frostheim/frostheim.yml
+  - type: RuleGrids

@@ -4,6 +4,7 @@ using Content.Server.Ghost.Roles.Raffles;
 using Content.Server.Humanoid.Systems;
 using Content.Shared._Frostheim.Roles;
 using Content.Shared.Station;
+using Robust.Shared.Containers;
 
 namespace Content.Server._Frostheim.Roles;
 
@@ -12,6 +13,7 @@ public sealed class FrostCrashRoleSystem : EntitySystem
     [Dependency] private readonly GhostRoleSystem _ghostRole = default!;
     [Dependency] private readonly RandomHumanoidSystem _randomHumanoid = default!;
     [Dependency] private readonly SharedStationSpawningSystem _stationSpawning = default!;
+    [Dependency] private readonly SharedContainerSystem _container = default!;
 
     public override void Initialize()
     {
@@ -38,6 +40,8 @@ public sealed class FrostCrashRoleSystem : EntitySystem
 
     private void OnTakeRole(EntityUid uid, FrostCrashRoleComponent component, ref TakeGhostRoleEvent args)
     {
+        var roleGrid = Transform(uid).GridUid;
+
         EntityUid? spawnPointUid = null;
         FrostCrashSpawnPointComponent? spawnComp = null;
         TransformComponent? xform = null;
@@ -46,6 +50,9 @@ public sealed class FrostCrashRoleSystem : EntitySystem
         while (query.MoveNext(out var spUid, out var sp, out var xf))
         {
             if (sp.Used)
+                continue;
+
+            if (xf.GridUid != roleGrid)
                 continue;
 
             spawnPointUid = spUid;
@@ -73,16 +80,20 @@ public sealed class FrostCrashRoleSystem : EntitySystem
 
         _stationSpawning.EquipStartingGear(mob, spawnComp.StartingGear);
 
+        if (TryComp<FrostheimSleepPodComponent>(spawnPointUid, out var podComp) &&
+            _container.TryGetContainer(spawnPointUid.Value, podComp.ContainerId, out var container))
+        {
+            _container.Insert(mob, container);
+        }
+
         _ghostRole.GhostRoleInternalCreateMindAndTransfer(args.Player, uid, mob, Comp<GhostRoleComponent>(uid));
         args.TookRole = true;
 
-        QueueDel(spawnPointUid.Value);
-
         var remainingPoints = 0;
-        var countQuery = EntityQueryEnumerator<FrostCrashSpawnPointComponent>();
-        while (countQuery.MoveNext(out _, out var sp2))
+        var countQuery = EntityQueryEnumerator<FrostCrashSpawnPointComponent, TransformComponent>();
+        while (countQuery.MoveNext(out _, out var sp2, out var xf2))
         {
-            if (!sp2.Used)
+            if (!sp2.Used && xf2.GridUid == roleGrid)
                 remainingPoints++;
         }
 

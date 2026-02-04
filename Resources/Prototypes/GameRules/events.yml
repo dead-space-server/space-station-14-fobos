@@ -60,6 +60,7 @@
     - id: BlobSpawn
     - id: HardVirusPandemic
     - id: SentientVirusEvent
+    - id: FrostheimSpawn
     # DS14-end
     - !type:NestedSelector
       tableId: DerelictBorgEventTable

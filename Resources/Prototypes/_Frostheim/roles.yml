@@ -31,7 +31,66 @@
     minPlayers: 1
 
 - type: entity
+  id: FrostheimSleepPodBase
+  parent: BaseStructureDynamic
+  name: спасательная криокапсула
+  description: Аварийная криокапсула для экипажа.
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.25,-0.45,0.25,0.45"
+        density: 60
+        mask:
+        - MachineMask
+        layer: []
+  - type: Sprite
+    noRot: true
+    sprite: _DeadSpace/Structures/Machines/Taipan/cryostorage.rsi
+    layers:
+    - state: sleeper_0
+      map: ["base"]
+  - type: FrostheimSleepPod
+    containerId: frostPod
+  - type: ContainerContainer
+    containers:
+      frostPod: !type:ContainerSlot
+  - type: DragInsertContainer
+    containerId: frostPod
+    entryDelay: 2
+  - type: ExitContainerOnMove
+    containerId: frostPod
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.FrostheimSleepPodVisuals.Occupied:
+        base:
+          True: { state: sleeper_1 }
+          False: { state: sleeper_0 }
+  - type: Transform
+    anchored: true
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 200
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: PointLight
+    color: "#3eb5ff"
+    radius: 1.5
+    energy: 0.5
+    castShadows: false
+
+- type: entity
   id: FrostheimSpawnCaptain
+  parent: FrostheimSleepPodBase
+  suffix: Капитан
   components:
   - type: FrostCrashSpawnPoint
     startingGear: FrostheimCaptainGear
@@ -39,6 +98,8 @@
 
 - type: entity
   id: FrostheimSpawnEngineer
+  parent: FrostheimSleepPodBase
+  suffix: Инженер
   components:
   - type: FrostCrashSpawnPoint
     startingGear: FrostheimEngineerGear
@@ -46,6 +107,8 @@
 
 - type: entity
   id: FrostheimSpawnSecurity
+  parent: FrostheimSleepPodBase
+  suffix: Охранник
   components:
   - type: FrostCrashSpawnPoint
     startingGear: FrostheimSecurityGear
@@ -53,6 +116,8 @@
 
 - type: entity
   id: FrostheimSpawnMedic
+  parent: FrostheimSleepPodBase
+  suffix: Медик
   components:
   - type: FrostCrashSpawnPoint
     startingGear: FrostheimMedicGear
