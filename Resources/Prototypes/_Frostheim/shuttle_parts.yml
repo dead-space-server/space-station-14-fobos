@@ -168,3 +168,48 @@
     lootType: Gyroscope
   - type: Sprite
     state: red
+
+- type: entity
+  id: FrostheimNavConsole
+  parent: BaseStructureDynamic
+  name: навигационная консоль
+  description: Повреждённая навигационная система. Требуется калибровка для прокладки курса.
+  components:
+  - type: Transform
+    anchored: true
+  - type: Sprite
+    sprite: Structures/Machines/computers.rsi
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: shuttle
+    - map: ["computerLayerKeys"]
+      state: generic_keys
+  - type: Destructible
+    thresholds: []
+  - type: Computer
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.ComputerVisuals.Powered:
+        computerLayerScreen:
+          True: { visible: true, shader: unshaded }
+          False: { visible: false }
+        computerLayerKeys:
+          True: { visible: true, shader: unshaded }
+          False: { visible: true, shader: shaded }
+  - type: ApcPowerReceiver
+    powerLoad: 200
+  - type: ExtensionCableReceiver
+  - type: ActivatableUIRequiresPower
+  - type: FrostheimNavConsole
+  - type: ActivatableUI
+    key: enum.FrostheimNavConsoleUiKey.Key
+    singleUser: true
+  - type: UserInterface
+    interfaces:
+      enum.FrostheimNavConsoleUiKey.Key:
+        type: FrostheimNavConsoleBoundUserInterface

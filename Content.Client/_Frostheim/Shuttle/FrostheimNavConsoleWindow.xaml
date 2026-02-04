@@ -1,0 +1,31 @@
+<DefaultWindow xmlns="https://spacestation14.io"
+              Title="NAV-SYS :: OFFLINE"
+              SetSize="500 560"
+              MinSize="500 560">
+    <PanelContainer Name="MainPanel" HorizontalExpand="True" VerticalExpand="True">
+        <BoxContainer Orientation="Vertical" Margin="8">
+            <PanelContainer Name="HeaderPanel" MinHeight="28" Margin="0 0 0 4">
+                <Label Name="StatusLabel"
+                       Text="ИНИЦИАЛИЗАЦИЯ..."
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />
+            </PanelContainer>
+            <PanelContainer Name="GameContainer"
+                            VerticalExpand="True"
+                            HorizontalExpand="True"
+                            Margin="0 4" />
+            <BoxContainer Orientation="Horizontal" Margin="0 4 0 0" HorizontalAlignment="Center">
+                <Button Name="ResetButton"
+                        Text="СБРОС"
+                        Margin="0 0 8 0"
+                        MinWidth="140"
+                        MinHeight="32" />
+                <Button Name="ConfirmButton"
+                        Text="ПОДТВЕРДИТЬ"
+                        Disabled="True"
+                        MinWidth="140"
+                        MinHeight="32" />
+            </BoxContainer>
+        </BoxContainer>
+    </PanelContainer>
+</DefaultWindow>

@@ -21,6 +21,9 @@ public sealed partial class FrostheimShuttleComponent : Component
     public bool HasGyroscope;
 
     [ViewVariables, AutoNetworkedField]
+    public bool NavigationComplete;
+
+    [ViewVariables, AutoNetworkedField]
     public bool Ready;
 
     [ViewVariables]

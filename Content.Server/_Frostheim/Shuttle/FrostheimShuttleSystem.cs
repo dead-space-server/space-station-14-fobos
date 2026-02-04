@@ -1,13 +1,12 @@
 using Content.Server.Shuttles.Components;
+using Content.Server.Shuttles.Systems;
 using Content.Shared._Frostheim.Shuttle;
-using Content.Shared.Popups;
-using Content.Shared.UserInterface;
 
 namespace Content.Server._Frostheim.Shuttle;
 
 public sealed class FrostheimShuttleSystem : EntitySystem
 {
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly ShuttleSystem _shuttleSystem = default!;
 
     private readonly HashSet<EntityUid> _pendingInit = new();
 
@@ -16,12 +15,15 @@ public sealed class FrostheimShuttleSystem : EntitySystem
         base.Initialize();
 
         SubscribeLocalEvent<FrostheimShuttleComponent, MapInitEvent>(OnMapInit);
-        SubscribeLocalEvent<ShuttleConsoleComponent, ActivatableUIOpenAttemptEvent>(OnConsoleOpenAttempt);
         SubscribeLocalEvent<AnchorStateChangedEvent>(OnAnchorChanged);
     }
 
     private void OnMapInit(EntityUid uid, FrostheimShuttleComponent shuttle, MapInitEvent args)
     {
+        var gridUid = Transform(uid).GridUid;
+        if (gridUid.HasValue)
+            _shuttleSystem.Disable(gridUid.Value);
+
         _pendingInit.Add(uid);
     }
 
@@ -43,22 +45,6 @@ public sealed class FrostheimShuttleSystem : EntitySystem
         }
 
         _pendingInit.Clear();
-    }
-
-    private void OnConsoleOpenAttempt(EntityUid uid, ShuttleConsoleComponent comp, ActivatableUIOpenAttemptEvent args)
-    {
-        if (args.Cancelled)
-            return;
-
-        var gridUid = Transform(uid).GridUid;
-        if (gridUid == null || !TryComp<FrostheimShuttleComponent>(gridUid, out var shuttle))
-            return;
-
-        if (!shuttle.Ready)
-        {
-            args.Cancel();
-            _popup.PopupEntity(Loc.GetString("frostheim-shuttle-not-ready"), uid, args.User);
-        }
     }
 
     private void OnAnchorChanged(ref AnchorStateChangedEvent args)
@@ -97,11 +83,12 @@ public sealed class FrostheimShuttleSystem : EntitySystem
         }
     }
 
-    private void UpdateReady(EntityUid uid, FrostheimShuttleComponent shuttle)
+    public void UpdateReady(EntityUid uid, FrostheimShuttleComponent shuttle)
     {
         var needed = shuttle.InitialThrusters + shuttle.AdditionalThrustersNeeded;
         var ready = shuttle.CurrentThrusters >= needed
-                    && (!shuttle.RequireGyroscope || shuttle.HasGyroscope);
+                    && (!shuttle.RequireGyroscope || shuttle.HasGyroscope)
+                    && shuttle.NavigationComplete;
 
         shuttle.Ready = ready;
         Dirty(uid, shuttle);
