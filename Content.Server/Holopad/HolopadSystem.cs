@@ -39,7 +39,6 @@ public sealed class HolopadSystem : SharedHolopadSystem
     [Dependency] private readonly PopupSystem _popupSystem = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly PvsOverrideSystem _pvs = default!;
-    [Dependency] private readonly SharedContainerSystem _container = default!; //DS14
 
     private float _updateTimer = 1.0f;
     private const float UpdateTime = 1.0f;
@@ -75,7 +74,7 @@ public sealed class HolopadSystem : SharedHolopadSystem
         // Misc events
         SubscribeLocalEvent<HolopadUserComponent, EmoteEvent>(OnEmote);
         SubscribeLocalEvent<HolopadUserComponent, JumpToCoreEvent>(OnJumpToCore);
-        SubscribeLocalEvent<HolopadComponent, GetVerbsEvent<AlternativeVerb>>(AddVerbs); //DS14
+        SubscribeLocalEvent<HolopadComponent, GetVerbsEvent<AlternativeVerb>>(AddToggleProjectorVerb);
         SubscribeLocalEvent<HolopadComponent, EntRemovedFromContainerMessage>(OnAiRemove);
         SubscribeLocalEvent<HolopadComponent, EntParentChangedMessage>(OnParentChanged);
         SubscribeLocalEvent<HolopadComponent, PowerChangedEvent>(OnPowerChanged);
@@ -287,18 +286,7 @@ public sealed class HolopadSystem : SharedHolopadSystem
 
     private void OnTelephoneMessageSent(Entity<HolopadComponent> holopad, ref TelephoneMessageSentEvent args)
     {
-        //DS14-start
-        if (holopad.Comp.Portable && !holopad.Comp.Deployed)
-        {
-            if (TryComp<SpeechComponent>(holopad, out var holopadSpeech) &&
-                TryComp<TelephoneComponent>(holopad, out var telephone))
-            {
-                _telephoneSystem.SetSpeakerForTelephone((holopad, telephone), (holopad, holopadSpeech));
-            }
-        }
-
         LinkHolopadToUser(holopad, args.MessageSource);
-        //DS14-end
     }
 
     #endregion
@@ -408,32 +396,7 @@ public sealed class HolopadSystem : SharedHolopadSystem
         _telephoneSystem.EndTelephoneCalls((stationAiCore, stationAiCoreTelephone));
     }
 
-    // DS14-start
-    private void AddVerbs(Entity<HolopadComponent> entity, ref GetVerbsEvent<AlternativeVerb> args)
-    {
-        AddToggleProjectorVerb(entity, args);
-        AddDeployVerb(entity, args);
-    }
-
-    private void AddDeployVerb(Entity<HolopadComponent> entity, GetVerbsEvent<AlternativeVerb> args)
-    {
-        if (!args.CanAccess || !args.CanInteract || !entity.Comp.Portable)
-            return;
-
-        AlternativeVerb verb = new()
-        {
-            Act = () => ToggleDeployed(entity, args.User),
-            Text = entity.Comp.Deployed
-                ? "Собрать голопад."
-                : "Развернуть голопад.",
-            Icon = new SpriteSpecifier.Texture(new("/Textures/Interface/VerbIcons/fold.svg.192dpi.png"))
-        };
-
-        args.Verbs.Add(verb);
-    }
-    // DS14-end
-
-    private void AddToggleProjectorVerb(Entity<HolopadComponent> entity, GetVerbsEvent<AlternativeVerb> args) //DS14
+    private void AddToggleProjectorVerb(Entity<HolopadComponent> entity, ref GetVerbsEvent<AlternativeVerb> args)
     {
         if (!args.CanAccess || !args.CanInteract)
             return;
@@ -443,9 +406,6 @@ public sealed class HolopadSystem : SharedHolopadSystem
 
         if (HasComp<StationAiCoreComponent>(entity))
             return;
-
-        if ((entity.Comp.Portable && !entity.Comp.Deployed) || (!entity.Comp.Portable && !this.IsPowered(entity, EntityManager))) //DS14
-            return; //DS14
 
         if (!TryComp<TelephoneComponent>(entity, out var entityTelephone) ||
             _telephoneSystem.IsTelephoneEngaged((entity, entityTelephone)))
@@ -564,13 +524,13 @@ public sealed class HolopadSystem : SharedHolopadSystem
         _userInterfaceSystem.SetUiState(entity.Owner, uiKey, new HolopadBoundInterfaceState(holopads));
     }
 
-    private void GenerateHologram(Entity<HolopadComponent> entity)
+    public void GenerateHologram(Entity<HolopadComponent> entity) //DS14
     {
         if (entity.Comp.Hologram != null ||
             entity.Comp.HologramProtoId == null)
             return;
 
-        if (entity.Comp.Portable && !entity.Comp.Deployed) //DS14
+        if (TryComp<PortableHolopadComponent>(entity, out var portable) && !portable.Deployed) //DS14
             return; //DS14
 
         var hologramUid = Spawn(entity.Comp.HologramProtoId, Transform(entity).Coordinates);
@@ -592,7 +552,7 @@ public sealed class HolopadSystem : SharedHolopadSystem
         }
     }
 
-    private void DeleteHologram(Entity<HolopadHologramComponent> hologram, Entity<HolopadComponent> attachedHolopad)
+    public void DeleteHologram(EntityUid hologram, Entity<HolopadComponent> attachedHolopad) //DS14
     {
         attachedHolopad.Comp.Hologram = null;
 
@@ -851,47 +811,4 @@ public sealed class HolopadSystem : SharedHolopadSystem
         if (TryComp<AmbientSoundComponent>(entity, out var ambientSound))
             _ambientSoundSystem.SetAmbience(entity, isEnabled, ambientSound);
     }
-
-    //DS14-start
-    public void ToggleDeployed(Entity<HolopadComponent> entity, EntityUid user)
-    {
-        if (!entity.Comp.Portable)
-            return;
-
-        if (_container.IsEntityInContainer(entity))
-        {
-            _popupSystem.PopupEntity("Голопад должен быть на полу!", entity, user);
-            return;
-        }
-
-        if (!TryComp<TelephoneComponent>(entity, out var telephone))
-            return;
-
-        entity.Comp.Deployed = !entity.Comp.Deployed;
-
-        if (entity.Comp.Deployed)
-        {
-            if (_telephoneSystem.IsTelephoneEngaged((entity, telephone)))
-                GenerateHologram(entity);
-
-            _xformSystem.AnchorEntity(entity);
-
-            _popupSystem.PopupEntity("Голопад развернут. Теперь используйте его для запуска вызова.", entity, user);
-        }
-        else
-        {
-            _xformSystem.Unanchor(entity);
-
-            if (entity.Comp.Hologram != null)
-                DeleteHologram(entity.Comp.Hologram.Value, entity);
-
-            if (TryComp<SpeechComponent>(entity, out var speech))
-                _telephoneSystem.SetSpeakerForTelephone((entity, telephone), (entity, speech));
-
-            _popupSystem.PopupEntity("Голопад собран.", entity, user);
-        }
-
-        Dirty(entity);
-    }
-    //DS14-end
 }
