@@ -1,0 +1,123 @@
+# Override vanilla torch graph to produce FrostheimTorch
+- type: constructionGraph
+  id: LightTorch
+  start: start
+  graph:
+    - node: start
+      edges:
+        - to: torch
+          steps:
+            - material: WoodPlank
+              amount: 2
+              doAfter: 2
+    - node: torch
+      entity: FrostheimTorch
+
+- type: constructionGraph
+  id: FrostheimCampfire
+  start: start
+  graph:
+    - node: start
+      edges:
+        - to: campfire
+          steps:
+            - material: WoodPlank
+              amount: 5
+              doAfter: 3
+    - node: campfire
+      entity: FrostheimCampfire
+
+- type: construction
+  id: LightTorch
+  graph: LightTorch
+  startNode: start
+  targetNode: torch
+  category: construction-category-survival
+  objectType: Item
+
+- type: construction
+  id: FrostheimCampfire
+  graph: FrostheimCampfire
+  startNode: start
+  targetNode: campfire
+  category: construction-category-survival
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: false
+  conditions:
+    - !type:TileNotBlocked
+
+# Entities
+
+- type: entity
+  parent: Torch
+  id: FrostheimTorch
+  name: факел
+  description: Грубый факел из дерева. Согревает в холоде и освещает путь.
+  components:
+  - type: HeatSource
+    radius: 2
+    power: 300
+    enabled: false
+    targetTemperature: 293
+  - type: Construction
+    graph: LightTorch
+    node: torch
+
+- type: entity
+  parent: BaseStructureDynamic
+  id: FrostheimCampfire
+  name: костёр
+  description: Сложенный из дерева костёр. Согревает и освещает в ледяной пустоши.
+  components:
+  - type: Transform
+    anchored: true
+  - type: Sprite
+    noRot: true
+    sprite: Structures/Decoration/bonfire.rsi
+    layers:
+    - state: bonfire
+    - state: burning
+      visible: false
+      map: ["fire"]
+  - type: FrostCampfire
+    burnTimeRemaining: 300
+    maxBurnTime: 300
+    fuelPerPlank: 60
+  - type: HeatSource
+    radius: 4
+    power: 800
+    enabled: false
+    targetTemperature: 310
+  - type: PointLight
+    enabled: false
+    radius: 5
+    energy: 3
+    color: "#FFC90C"
+  - type: AmbientSound
+    enabled: false
+    volume: -5
+    range: 5
+    sound:
+      path: /Audio/Ambience/Objects/fireplace.ogg
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: Wood
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 50
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+  - type: Construction
+    graph: FrostheimCampfire
+    node: campfire
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.FrostCampfireVisualLayers.Fire:
+        fire:
+          True: { visible: true }
+          False: { visible: false }
