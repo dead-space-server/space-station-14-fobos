@@ -32,4 +32,16 @@ public sealed partial class FrostMapComponent : Component
 
     [ViewVariables]
     public bool LootSpawned;
+
+    [ViewVariables]
+    public bool CreaturesSpawned;
+
+    [ViewVariables]
+    public bool BruteSpawned;
+
+    [ViewVariables]
+    public TimeSpan CreatureSpawnTime;
+
+    [ViewVariables]
+    public TimeSpan NextRespawnCheck;
 }

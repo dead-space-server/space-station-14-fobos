@@ -13,7 +13,6 @@
     back:
       - SpeedLoaderMagnum
       - SpeedLoaderMagnum
-      - Medkit
       - BoxSurvival
       - FrostheimRadar
     belt:
@@ -65,7 +64,6 @@
       - WeaponPistolMk58
       - MagazinePistol
       - MagazinePistol
-      - Medkit
       - BoxSurvival
 
 - type: startingGear

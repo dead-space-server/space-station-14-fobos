@@ -1,0 +1,300 @@
+- type: npcFaction
+  id: FrostFauna
+  hostile:
+  - NanoTrasen
+
+- type: damageModifierSet
+  id: FrostFauna
+  coefficients:
+    Blunt: 1.0
+    Slash: 1.1
+    Piercing: 0.9
+    Heat: 1.4
+    Shock: 0.8
+    Cold: 0.0
+    Poison: 0.0
+    Radiation: 0.0
+
+- type: damageModifierSet
+  id: FrostBrute
+  coefficients:
+    Blunt: 0.7
+    Slash: 0.8
+    Piercing: 0.7
+    Heat: 1.2
+    Shock: 0.5
+    Cold: 0.0
+    Poison: 0.0
+    Radiation: 0.0
+
+- type: entity
+  abstract: true
+  parent: SimpleSpaceMobBase
+  id: MobFrostBase
+  components:
+  - type: FrostheimCreature
+  - type: NpcFactionMember
+    factions:
+    - FrostFauna
+  - type: Sprite
+    drawdepth: Mobs
+  - type: InputMover
+  - type: MobMover
+  - type: NPCRetaliation
+    attackMemoryLength: 10
+  - type: Damageable
+    damageContainer: Biological
+    damageModifierSet: FrostFauna
+  - type: MobState
+    allowedStates:
+    - Alive
+    - Dead
+  - type: Bloodstream
+    bloodReagent: Water
+    bloodMaxVolume: 80
+    bloodlossThreshold: 0
+  - type: Butcherable
+    spawned:
+    - id: FoodMeat
+      amount: 1
+
+- type: entity
+  parent: MobFrostBase
+  id: MobFrostSlasher
+  name: расчленитель
+  description: Мутировавшее существо, адаптированное к экстремальному холоду. Охраняет территорию вокруг обломков.
+  components:
+  - type: FrostheimCreature
+    creatureType: Slasher
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/infector.rsi
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base"]
+      state: running
+  - type: HTN
+    rootTask:
+      task: FrostGuardCompound
+    blackboard:
+      FollowRange: !type:Single
+        12.0
+      FollowCloseRange: !type:Single
+        4.0
+      VisionRadius: !type:Single
+        8.0
+      AggroVisionRadius: !type:Single
+        8.0
+  - type: CombatMode
+  - type: MeleeWeapon
+    altDisarm: false
+    angle: 0
+    animation: WeaponArcBite
+    soundHit:
+      path: /Audio/Effects/bite.ogg
+    damage:
+      groups:
+        Brute: 12
+      types:
+        Structural: 5
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      100: Dead
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 3.0
+    baseSprintSpeed: 3.5
+  - type: SlowOnDamage
+    speedModifierThresholds:
+      60: 0.8
+      85: 0.6
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: running
+      Dead:
+        Base: dead
+
+- type: entity
+  parent: MobFrostBase
+  id: MobFrostLurker
+  name: скрытень
+  description: Стремительный хищник ледяных пустошей. Атакует из темноты и отступает, не давая жертве опомниться.
+  components:
+  - type: FrostheimCreature
+    creatureType: Lurker
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/small_necro.rsi
+    drawdepth: Mobs
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base", "movement"]
+      state: running
+    scale: 1.3, 1.3
+  - type: HTN
+    rootTask:
+      task: FrostLurkerCompound
+    blackboard:
+      VisionRadius: !type:Single
+        14.0
+      AggroVisionRadius: !type:Single
+        14.0
+      MeleeRange: !type:Single
+        1.0
+      IdleRange: !type:Single
+        20.0
+      MinimumIdleTime: !type:Single
+        1.0
+      MaximumIdleTime: !type:Single
+        3.0
+  - type: CombatMode
+  - type: MeleeWeapon
+    altDisarm: false
+    angle: 0
+    animation: WeaponArcClaw
+    soundHit:
+      collection: AlienClaw
+    damage:
+      groups:
+        Brute: 10
+      types:
+        Structural: 3
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      70: Dead
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 4.5
+    baseSprintSpeed: 5.5
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: running
+      Dead:
+        Base: dead
+
+- type: entity
+  parent: MobFrostBase
+  id: MobFrostSwarm
+  name: паразит
+  description: Мелкий паразит, которых выносит на поверхность во время метелей. По одному безвредны, стаей — смертельны.
+  components:
+  - type: FrostheimCreature
+    creatureType: Swarm
+  - type: Sprite
+    drawdepth: SmallMobs
+    sprite: _DeadSpace/Necromorfs/small_necro.rsi
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base", "movement"]
+      state: running
+  - type: HTN
+    rootTask:
+      task: XenoCompound
+    blackboard:
+      NavClimb: !type:Bool
+        true
+      NavInteract: !type:Bool
+        true
+      NavPry: !type:Bool
+        true
+      NavSmash: !type:Bool
+        true
+      VisionRadius: !type:Single
+        6.0
+      AggroVisionRadius: !type:Single
+        6.0
+  - type: Physics
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.2
+        density: 80
+        mask:
+        - SmallMobMask
+        layer:
+        - SmallMobLayer
+  - type: CombatMode
+  - type: MeleeWeapon
+    altDisarm: false
+    angle: 0
+    animation: WeaponArcBite
+    soundHit:
+      path: /Audio/Effects/bite.ogg
+    damage:
+      groups:
+        Brute: 5
+      types:
+        Structural: 2
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      30: Dead
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 5.0
+    baseSprintSpeed: 5.0
+  - type: CanEscapeInventory
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: running
+      Dead:
+        Base: dead
+
+- type: entity
+  parent: MobFrostBase
+  id: MobFrostBrute
+  name: зверь
+  description: Массивная тварь, сросшаяся из нескольких тел. Чудовищно сильна, но медлительна. Ломает стены на своём пути.
+  components:
+  - type: FrostheimCreature
+    creatureType: Brute
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/brute.rsi
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base"]
+      state: running
+  - type: Damageable
+    damageContainer: Biological
+    damageModifierSet: FrostBrute
+  - type: HTN
+    rootTask:
+      task: FrostGuardCompound
+    blackboard:
+      NavSmash: !type:Bool
+        true
+      FollowRange: !type:Single
+        15.0
+      FollowCloseRange: !type:Single
+        5.0
+      VisionRadius: !type:Single
+        10.0
+      AggroVisionRadius: !type:Single
+        10.0
+  - type: CombatMode
+  - type: MeleeWeapon
+    altDisarm: false
+    angle: 0
+    animation: WeaponArcSmash
+    soundHit:
+      path: /Audio/Weapons/punch3.ogg
+    damage:
+      groups:
+        Brute: 20
+      types:
+        Structural: 25
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      300: Dead
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 2.0
+    baseSprintSpeed: 2.5
+  - type: Bloodstream
+    bloodReagent: Water
+    bloodMaxVolume: 200
+    bloodlossThreshold: 0
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: running
+      Dead:
+        Base: dead

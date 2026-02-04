@@ -185,7 +185,11 @@ public sealed class FrostMapSystem : EntitySystem
         if (entity.Comp.CurrentWeather == weather)
             return;
 
+        var oldWeather = entity.Comp.CurrentWeather;
         entity.Comp.CurrentWeather = weather;
+
+        var ev = new FrostheimWeatherChangedEvent(entity, oldWeather, weather);
+        RaiseLocalEvent(entity, ref ev);
         Dirty(entity, entity.Comp);
 
         var mapId = Transform(entity).MapID;
