@@ -24,6 +24,7 @@
 - type: entity
   id: FrostheimCrashRole
   components:
+  - type: GhostRole
   - type: FrostCrashRole
     roleName: frostheim-role-name
     roleDescription: frostheim-role-description
@@ -71,6 +72,8 @@
         base:
           True: { state: sleeper_1 }
           False: { state: sleeper_0 }
+  - type: Physics
+    bodyType: Static
   - type: Transform
     anchored: true
   - type: Destructible

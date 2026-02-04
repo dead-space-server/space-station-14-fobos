@@ -69,6 +69,8 @@
   name: костёр
   description: Сложенный из дерева костёр. Согревает и освещает в ледяной пустоши.
   components:
+  - type: Physics
+    bodyType: Static
   - type: Transform
     anchored: true
   - type: Sprite

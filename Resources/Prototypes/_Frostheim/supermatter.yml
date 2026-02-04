@@ -19,7 +19,7 @@
     sound:
       path: /Audio/_Frostheim/Supermatter/calm.ogg
   - type: Physics
-    bodyType: Dynamic
+    bodyType: Static
   - type: Speech
     speechSounds: Pai
   - type: Fixtures

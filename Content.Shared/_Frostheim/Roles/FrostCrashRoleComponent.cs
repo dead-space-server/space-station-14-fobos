@@ -6,13 +6,13 @@ namespace Content.Shared._Frostheim.Roles;
 public sealed partial class FrostCrashRoleComponent : Component
 {
     [DataField, AutoNetworkedField]
-    public string RoleName;
+    public string RoleName = string.Empty;
 
     [DataField, AutoNetworkedField]
-    public string RoleDescription;
+    public string RoleDescription = string.Empty;
 
     [DataField, AutoNetworkedField]
-    public string RoleRules;
+    public string RoleRules = string.Empty;
 
     [DataField, AutoNetworkedField]
     public int MinPlayers;

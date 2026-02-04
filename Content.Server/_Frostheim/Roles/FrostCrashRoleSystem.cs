@@ -28,6 +28,9 @@ public sealed class FrostCrashRoleSystem : EntitySystem
 
     private void OnStartup(Entity<FrostCrashRoleComponent> ent, ref ComponentStartup args)
     {
+        if (string.IsNullOrEmpty(ent.Comp.RoleName))
+            return;
+
         var ghostRole = EnsureComp<GhostRoleComponent>(ent);
         ghostRole.RoleName = Loc.GetString(ent.Comp.RoleName);
         ghostRole.RoleDescription = Loc.GetString(ent.Comp.RoleDescription);

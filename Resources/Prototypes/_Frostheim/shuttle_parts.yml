@@ -1,3 +1,61 @@
+- type: constructionGraph
+  id: FrostheimThrusterRepair
+  start: broken
+  graph:
+    - node: broken
+      entity: FrostheimBrokenThruster
+      edges:
+        - to: gutted
+          steps:
+            - tool: Welding
+              doAfter: 5
+    - node: gutted
+      entity: FrostheimBrokenThrusterGutted
+      edges:
+        - to: wired
+          steps:
+            - material: Cable
+              amount: 5
+              doAfter: 3
+    - node: wired
+      entity: FrostheimBrokenThrusterWired
+      edges:
+        - to: repaired
+          steps:
+            - tool: Screwing
+              doAfter: 3
+    - node: repaired
+      entity: ThrusterUnanchored
+
+- type: constructionGraph
+  id: FrostheimGyroscopeRepair
+  start: broken
+  graph:
+    - node: broken
+      entity: FrostheimBrokenGyroscope
+      edges:
+        - to: gutted
+          steps:
+            - tool: Welding
+              doAfter: 5
+    - node: gutted
+      entity: FrostheimBrokenGyroscopeGutted
+      edges:
+        - to: wired
+          steps:
+            - material: Cable
+              amount: 5
+              doAfter: 3
+    - node: wired
+      entity: FrostheimBrokenGyroscopeWired
+      edges:
+        - to: repaired
+          steps:
+            - tool: Screwing
+              doAfter: 3
+    - node: repaired
+      entity: GyroscopeUnanchored
+
 - type: entity
   id: FrostheimBrokenThrusterBase
   parent: BaseStructureDynamic
@@ -47,6 +105,7 @@
   - type: Construction
     graph: FrostheimThrusterRepair
     node: broken
+    deconstructionTarget: null
     defaultTarget: repaired
 
 - type: entity
@@ -58,6 +117,7 @@
   - type: Construction
     graph: FrostheimThrusterRepair
     node: gutted
+    deconstructionTarget: null
     defaultTarget: repaired
 
 - type: entity
@@ -69,6 +129,7 @@
   - type: Construction
     graph: FrostheimThrusterRepair
     node: wired
+    deconstructionTarget: null
     defaultTarget: repaired
 
 - type: entity
@@ -120,6 +181,7 @@
   - type: Construction
     graph: FrostheimGyroscopeRepair
     node: broken
+    deconstructionTarget: null
     defaultTarget: repaired
 
 - type: entity
@@ -131,6 +193,7 @@
   - type: Construction
     graph: FrostheimGyroscopeRepair
     node: gutted
+    deconstructionTarget: null
     defaultTarget: repaired
 
 - type: entity
@@ -142,6 +205,7 @@
   - type: Construction
     graph: FrostheimGyroscopeRepair
     node: wired
+    deconstructionTarget: null
     defaultTarget: repaired
 
 - type: entity
@@ -181,6 +245,8 @@
   components:
   - type: Transform
     anchored: true
+  - type: Physics
+    bodyType: Static
   - type: Sprite
     sprite: Structures/Machines/computers.rsi
     layers:
@@ -195,6 +261,10 @@
   - type: Destructible
     thresholds: []
   - type: Computer
+  - type: ContainerContainer
+    containers:
+      board: !type:Container
+        ents: []
   - type: Appearance
   - type: GenericVisualizer
     visuals:
@@ -226,6 +296,8 @@
   components:
   - type: Transform
     anchored: true
+  - type: Physics
+    bodyType: Static
   - type: Sprite
     sprite: Structures/Machines/computers.rsi
     layers:
@@ -240,6 +312,10 @@
   - type: Destructible
     thresholds: []
   - type: Computer
+  - type: ContainerContainer
+    containers:
+      board: !type:Container
+        ents: []
   - type: Appearance
   - type: GenericVisualizer
     visuals:
