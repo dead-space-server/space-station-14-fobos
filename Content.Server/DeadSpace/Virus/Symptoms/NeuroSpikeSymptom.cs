@@ -44,7 +44,7 @@ public sealed class NeuroSpikeSymptom : VirusSymptomBase
         var timedWindowSystem = _entityManager.System<TimedWindowSystem>();
 
         timedWindowSystem.Reset(_duration);
-        var duration = _duration.Remaining.TotalSeconds;
+        var duration = timedWindowSystem.GetSecondsRemaining(_duration);
 
         jitteringSystem.DoJitter(host, TimeSpan.FromSeconds(duration), true);
         stun.TryUpdateParalyzeDuration(host, TimeSpan.FromSeconds(duration));
