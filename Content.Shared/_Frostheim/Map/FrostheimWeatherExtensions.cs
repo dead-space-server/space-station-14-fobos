@@ -36,10 +36,10 @@ public static class FrostheimWeatherExtensions
     {
         return current switch
         {
-            FrostheimWeather.None => roll < 0.35f ? FrostheimWeather.None : FrostheimWeather.SnowfallLight,
-            FrostheimWeather.SnowfallLight => roll < 0.2f ? FrostheimWeather.None : roll < 0.55f ? FrostheimWeather.SnowfallLight : FrostheimWeather.SnowfallMedium,
-            FrostheimWeather.SnowfallMedium => roll < 0.25f ? FrostheimWeather.SnowfallLight : roll < 0.6f ? FrostheimWeather.SnowfallMedium : FrostheimWeather.SnowfallHeavy,
-            FrostheimWeather.SnowfallHeavy => roll < 0.45f ? FrostheimWeather.SnowfallMedium : FrostheimWeather.SnowfallHeavy,
+            FrostheimWeather.None => roll < 0.2f ? FrostheimWeather.None : FrostheimWeather.SnowfallLight,
+            FrostheimWeather.SnowfallLight => roll < 0.1f ? FrostheimWeather.None : roll < 0.35f ? FrostheimWeather.SnowfallLight : FrostheimWeather.SnowfallMedium,
+            FrostheimWeather.SnowfallMedium => roll < 0.15f ? FrostheimWeather.SnowfallLight : roll < 0.45f ? FrostheimWeather.SnowfallMedium : FrostheimWeather.SnowfallHeavy,
+            FrostheimWeather.SnowfallHeavy => roll < 0.3f ? FrostheimWeather.SnowfallMedium : FrostheimWeather.SnowfallHeavy,
             _ => FrostheimWeather.None
         };
     }

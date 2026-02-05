@@ -6,11 +6,11 @@
 - type: damageModifierSet
   id: FrostFauna
   coefficients:
-    Blunt: 1.0
-    Slash: 1.1
-    Piercing: 0.9
-    Heat: 1.4
-    Shock: 0.8
+    Blunt: 0.8
+    Slash: 0.85
+    Piercing: 0.7
+    Heat: 1.2
+    Shock: 0.6
     Cold: 0.0
     Poison: 0.0
     Radiation: 0.0
@@ -18,11 +18,11 @@
 - type: damageModifierSet
   id: FrostBrute
   coefficients:
-    Blunt: 0.7
-    Slash: 0.8
-    Piercing: 0.7
-    Heat: 1.2
-    Shock: 0.5
+    Blunt: 0.5
+    Slash: 0.6
+    Piercing: 0.5
+    Heat: 1.0
+    Shock: 0.4
     Cold: 0.0
     Poison: 0.0
     Radiation: 0.0
@@ -92,16 +92,16 @@
       path: /Audio/Effects/bite.ogg
     damage:
       groups:
-        Brute: 12
+        Brute: 18
       types:
-        Structural: 5
+        Structural: 8
   - type: MobThresholds
     thresholds:
       0: Alive
-      100: Dead
+      150: Dead
   - type: MovementSpeedModifier
-    baseWalkSpeed: 3.0
-    baseSprintSpeed: 3.5
+    baseWalkSpeed: 3.5
+    baseSprintSpeed: 4.0
   - type: SlowOnDamage
     speedModifierThresholds:
       60: 0.8
@@ -153,16 +153,16 @@
       collection: AlienClaw
     damage:
       groups:
-        Brute: 10
+        Brute: 15
       types:
-        Structural: 3
+        Structural: 5
   - type: MobThresholds
     thresholds:
       0: Alive
-      70: Dead
+      100: Dead
   - type: MovementSpeedModifier
-    baseWalkSpeed: 4.5
-    baseSprintSpeed: 5.5
+    baseWalkSpeed: 5.0
+    baseSprintSpeed: 6.5
   - type: DamageStateVisuals
     states:
       Alive:
@@ -221,16 +221,16 @@
       path: /Audio/Effects/bite.ogg
     damage:
       groups:
-        Brute: 5
+        Brute: 8
       types:
-        Structural: 2
+        Structural: 3
   - type: MobThresholds
     thresholds:
       0: Alive
-      30: Dead
+      40: Dead
   - type: MovementSpeedModifier
-    baseWalkSpeed: 5.0
-    baseSprintSpeed: 5.0
+    baseWalkSpeed: 5.5
+    baseSprintSpeed: 6.0
   - type: CanEscapeInventory
   - type: DamageStateVisuals
     states:
@@ -278,16 +278,16 @@
       path: /Audio/Weapons/punch3.ogg
     damage:
       groups:
-        Brute: 20
+        Brute: 35
       types:
-        Structural: 25
+        Structural: 40
   - type: MobThresholds
     thresholds:
       0: Alive
-      300: Dead
+      500: Dead
   - type: MovementSpeedModifier
-    baseWalkSpeed: 2.0
-    baseSprintSpeed: 2.5
+    baseWalkSpeed: 2.5
+    baseSprintSpeed: 3.0
   - type: Bloodstream
     bloodReagent: Water
     bloodMaxVolume: 200

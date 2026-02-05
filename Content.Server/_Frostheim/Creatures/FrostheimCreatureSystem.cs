@@ -23,15 +23,16 @@ public sealed class FrostheimCreatureSystem : EntitySystem
     [Dependency] private readonly SharedMapSystem _mapSystem = default!;
     [Dependency] private readonly TurfSystem _turf = default!;
 
-    private const float InitialSpawnDelay = 90f;
-    private const float RespawnCheckInterval = 30f;
+    private const float InitialSpawnDelay = 30f;
+    private const float RespawnCheckInterval = 15f;
     private const float MinPlayerDistance = 22f;
     private const float GuardSpawnRadius = 5f;
     private const int MaxSpawnAttempts = 30;
 
-    private const int MaxSlashers = 5;
-    private const int MaxLurkers = 2;
-    private const int MaxSwarm = 6;
+    private const int MaxSlashers = 10;
+    private const int MaxLurkers = 5;
+    private const int MaxSwarm = 15;
+    private const int MaxBrutes = 3;
 
     private const string SlasherProto = "MobFrostSlasher";
     private const string LurkerProto = "MobFrostLurker";
@@ -109,8 +110,12 @@ public sealed class FrostheimCreatureSystem : EntitySystem
             Spawn(LurkerProto, spawnCoords);
         }
 
+        var brutesSpawned = 0;
         foreach (var (partUid, partXform) in parts)
         {
+            if (brutesSpawned >= MaxBrutes)
+                break;
+
             if (!TryComp<FrostheimBrokenPartComponent>(partUid, out var partComp))
                 continue;
 
@@ -123,9 +128,9 @@ public sealed class FrostheimCreatureSystem : EntitySystem
 
             var mob = Spawn(BruteProto, spawnCoords);
             SetupGuard(mob, guardXform: partXform);
-            comp.BruteSpawned = true;
-            break;
+            brutesSpawned++;
         }
+        comp.BruteSpawned = brutesSpawned > 0;
     }
 
     private void SetupGuard(EntityUid mob, TransformComponent guardXform)
@@ -213,11 +218,14 @@ public sealed class FrostheimCreatureSystem : EntitySystem
             }
         }
 
-        if (brutes < 1 && comp.BruteSpawned)
+        if (brutes < MaxBrutes && comp.BruteSpawned)
         {
             var parts = GetBrokenParts(mapId);
             foreach (var (partUid, partXform) in parts)
             {
+                if (brutes >= MaxBrutes)
+                    break;
+
                 if (!TryComp<FrostheimBrokenPartComponent>(partUid, out var partComp))
                     continue;
 
@@ -230,7 +238,7 @@ public sealed class FrostheimCreatureSystem : EntitySystem
 
                 var mob = Spawn(BruteProto, spawnCoords);
                 SetupGuard(mob, guardXform: partXform);
-                break;
+                brutes++;
             }
         }
     }

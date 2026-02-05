@@ -1,0 +1,104 @@
+- type: entity
+  name: аварийный генератор
+  description: Потрёпанный генератор на плазме. Чудо, что вообще работает.
+  parent: BaseStructureDynamic
+  id: FrostheimGenerator
+  components:
+  - type: Transform
+    anchored: true
+  - type: Physics
+    bodyType: Static
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.40,-0.40,0.40,0.40"
+        density: 155
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+  - type: Sprite
+    sprite: Structures/Power/Generation/portable_generator.rsi
+    noRot: true
+    layers:
+    - state: portgen0
+      map: ["enum.GeneratorVisualLayers.Body"]
+    - state: portgen_on_unlit
+      map: ["enum.GeneratorVisualLayers.Unlit"]
+      shader: unshaded
+      visible: false
+  - type: GenericVisualizer
+    visuals:
+      enum.GeneratorVisuals.Running:
+        enum.GeneratorVisualLayers.Body:
+          True: { state: portgen0on }
+          False: { state: portgen0 }
+        enum.GeneratorVisualLayers.Unlit:
+          True: { visible: true }
+          False: { visible: false }
+  - type: Appearance
+  - type: AmbientSound
+    range: 5
+    volume: -5
+    sound:
+      path: /Audio/Ambience/Objects/engine_hum.ogg
+    enabled: false
+  - type: NodeContainer
+    examinable: true
+    nodes:
+      output:
+        !type:CableDeviceNode
+        nodeGroupID: HVPower
+  - type: FuelGenerator
+    minTargetPower: 1000
+    maxTargetPower: 6000
+    targetPower: 6000
+    optimalPower: 6000
+    # ~10 minutes at full power per sheet
+    optimalBurnRate: 0.05
+    fuelEfficiencyConstant: 0.5
+  - type: SolidFuelGeneratorAdapter
+    fuelMaterial: Plasma
+    multiplier: 0.01
+  - type: MaterialStorage
+    storageLimit: 3000
+    materialWhiteList: [Plasma]
+  - type: PortableGenerator
+    startChance: 0.6
+    startTime: 3
+    startSoundEmpty: { collection: GeneratorTugEmpty }
+    startSound: { collection: GeneratorTug }
+  - type: PowerSupplier
+    supplyRate: 6000
+    supplyRampRate: 1000
+    supplyRampTolerance: 500
+    enabled: false
+  - type: GeneratorExhaustGas
+    gasType: CarbonDioxide
+    moleRatio: 0.3
+  - type: UserInterface
+    interfaces:
+      enum.GeneratorComponentUiKey.Key:
+        type: PortableGeneratorBoundUserInterface
+  - type: ActivatableUI
+    key: enum.GeneratorComponentUiKey.Key
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 150
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+
+- type: entity
+  parent: FrostheimGenerator
+  id: FrostheimGeneratorUnanchored
+  suffix: Unanchored
+  components:
+  - type: Transform
+    anchored: false
+  - type: Physics
+    bodyType: Dynamic

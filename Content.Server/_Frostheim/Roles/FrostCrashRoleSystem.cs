@@ -36,8 +36,8 @@ public sealed class FrostCrashRoleSystem : EntitySystem
         ghostRole.RaffleConfig = new GhostRoleRaffleConfig
         {
             Settings = "default",
-            MinPlayers = 4,
-            WinnersCount = int.MaxValue
+            MinPlayers = 10,
+            WinnersCount = 10
         };
     }
 

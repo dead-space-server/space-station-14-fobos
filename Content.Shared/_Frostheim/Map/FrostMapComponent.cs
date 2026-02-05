@@ -10,16 +10,16 @@ public sealed partial class FrostMapComponent : Component
     public FrostheimWeather CurrentWeather = FrostheimWeather.None;
 
     [DataField]
-    public float MinWeatherInterval = 90f;
+    public float MinWeatherInterval = 45f;
 
     [DataField]
-    public float MaxWeatherInterval = 240f;
+    public float MaxWeatherInterval = 120f;
 
     [DataField]
     public TimeSpan NextWeatherChange = TimeSpan.Zero;
 
     [DataField]
-    public int SpawnThrusters = 6;
+    public int SpawnThrusters = 10;
 
     [DataField]
     public int SpawnGyroscopes = 2;

@@ -30,8 +30,8 @@
     rules: frostheim-role-rules
     raffle:
       settings: default
-      minPlayers: 4
-      winnersCount: 2147483647
+      minPlayers: 10
+      winnersCount: 10
   - type: FrostCrashRole
 
 - type: entity
@@ -124,6 +124,60 @@
   id: FrostheimSpawnMedic
   parent: FrostheimSleepPodBase
   suffix: Медик
+  components:
+  - type: FrostCrashSpawnPoint
+    startingGear: FrostheimMedicGear
+    examineLocKey: frostheim-examine-medic
+
+- type: entity
+  id: FrostheimSpawnEngineer2
+  parent: FrostheimSleepPodBase
+  suffix: Инженер 2
+  components:
+  - type: FrostCrashSpawnPoint
+    startingGear: FrostheimEngineerGear
+    examineLocKey: frostheim-examine-engineer
+
+- type: entity
+  id: FrostheimSpawnEngineer3
+  parent: FrostheimSleepPodBase
+  suffix: Инженер 3
+  components:
+  - type: FrostCrashSpawnPoint
+    startingGear: FrostheimEngineerGear
+    examineLocKey: frostheim-examine-engineer
+
+- type: entity
+  id: FrostheimSpawnSecurity2
+  parent: FrostheimSleepPodBase
+  suffix: Охранник 2
+  components:
+  - type: FrostCrashSpawnPoint
+    startingGear: FrostheimSecurityGear
+    examineLocKey: frostheim-examine-security
+
+- type: entity
+  id: FrostheimSpawnSecurity3
+  parent: FrostheimSleepPodBase
+  suffix: Охранник 3
+  components:
+  - type: FrostCrashSpawnPoint
+    startingGear: FrostheimSecurityGear
+    examineLocKey: frostheim-examine-security
+
+- type: entity
+  id: FrostheimSpawnMedic2
+  parent: FrostheimSleepPodBase
+  suffix: Медик 2
+  components:
+  - type: FrostCrashSpawnPoint
+    startingGear: FrostheimMedicGear
+    examineLocKey: frostheim-examine-medic
+
+- type: entity
+  id: FrostheimSpawnMedic3
+  parent: FrostheimSleepPodBase
+  suffix: Медик 3
   components:
   - type: FrostCrashSpawnPoint
     startingGear: FrostheimMedicGear
