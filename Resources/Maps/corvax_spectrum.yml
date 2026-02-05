@@ -4,7 +4,7 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 02/04/2026 18:38:29
+  time: 02/05/2026 16:18:30
   entityCount: 42816
 maps:
 - 1
@@ -26037,7 +26037,7 @@ entities:
       pos: -0.5,-35.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -59073.508
+      secondsUntilStateChange: -59248.168
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -27049,7 +27049,7 @@ entities:
       dockJointId: docking169116
       dockedWith: 479
     - type: Door
-      secondsUntilStateChange: -44292.94
+      secondsUntilStateChange: -44467.6
       changeAirtight: False
       state: Opening
     - type: DeviceLinkSource
@@ -27552,7 +27552,7 @@ entities:
       pos: 13.5,-37.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -55635.945
+      secondsUntilStateChange: -55810.605
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -28314,7 +28314,7 @@ entities:
       pos: -28.5,-19.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -64152.3
+      secondsUntilStateChange: -64326.96
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -181970,7 +181970,7 @@ entities:
       pos: 9.5,-57.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -63771.367
+      secondsUntilStateChange: -63946.027
       state: Opening
   - uid: 23666
     components:
@@ -185461,39 +185461,39 @@ entities:
     - type: Transform
       pos: 58.687855,8.415771
       parent: 36669
-- proto: MagazinePistolSubMachineGun
+- proto: MagazinePistolSubMachineGunFMJ
   entities:
   - uid: 24108
     components:
     - type: Transform
-      pos: 41.48169,53.593197
+      pos: 41.5,53.5
       parent: 2
   - uid: 24109
     components:
     - type: Transform
-      pos: 41.48169,53.593197
+      pos: 41.5,53.5
       parent: 2
   - uid: 24110
     components:
     - type: Transform
-      pos: 41.48169,53.603622
+      pos: 41.5,53.5
       parent: 2
-- proto: MagazineRifleHP
+- proto: MagazineRifle
   entities:
   - uid: 24111
     components:
     - type: Transform
-      pos: 41.51294,54.44796
+      pos: 41.5,54.5
       parent: 2
   - uid: 24112
     components:
     - type: Transform
-      pos: 41.51294,54.44796
+      pos: 41.5,54.5
       parent: 2
   - uid: 24113
     components:
     - type: Transform
-      pos: 41.51294,54.45838
+      pos: 41.5,54.5
       parent: 2
 - proto: MagicalLamp
   entities:
@@ -277753,7 +277753,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -31679.8
+      secondsUntilStateChange: -31854.46
       state: Opening
     - type: Airlock
       autoClose: False
