@@ -1,4 +1,4 @@
-marking-HaloQretrojem = Голографический нимб (QRETROJEM, Доминатор)
+marking-HaloQretrojem = Голографический нимб (QRETROJEM, Доминатор) 
 paper-law-qretrojem = [head=3]Приказ на разрешение на использования снаряжения[/head]
     ЦК-КОМ
     ═════════════════════════════════════
