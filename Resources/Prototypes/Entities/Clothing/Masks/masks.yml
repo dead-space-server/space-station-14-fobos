@@ -365,6 +365,11 @@
     slots:
     - Snout
     hideOnToggle: true
+  # DS14-start
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.3
+  # DS14-end
+
 
 - type: entity
   parent: ClothingMaskClownBase
