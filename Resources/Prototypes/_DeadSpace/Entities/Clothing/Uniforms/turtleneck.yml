@@ -166,9 +166,9 @@
   description: Практичная и удобная водолазка зелёного цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
   components:
   - type: Sprite
-    sprite: _DeadSpace/Clothing/Uniforms/Turleneck/Jumpsuit/turtleneck_greenblack.rsi
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_greenblack.rsi
   - type: Clothing
-    sprite: _DeadSpace/Clothing/Uniforms/Turleneck/Jumpsuit/turtleneck_greenblack.rsi
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_greenblack.rsi
 
 - type: entity
   parent: ClothingUniformBase
@@ -200,9 +200,9 @@
   description: Практичная и удобная водолазка серого цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
   components:
   - type: Sprite
-    sprite: _DeadSpace/Clothing/Uniforms/Turleneck/Jumpsuit/turtleneck_greyblack.rsi
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_greyblack.rsi
   - type: Clothing
-    sprite: _DeadSpace/Clothing/Uniforms/Turleneck/Jumpsuit/turtleneck_greyblack.rsi
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_greyblack.rsi
 
 - type: entity
   parent: ClothingUniformBase
