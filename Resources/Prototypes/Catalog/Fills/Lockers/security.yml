@@ -26,6 +26,7 @@
   id: FillLockerWarden
   table: !type:AllSelector
     children:
+    - id: PhotonShotgun # DS14
     - id: FlashlightSeclite
     - id: WeaponDisabler
     - id: ClothingBeltSecurityFilled
