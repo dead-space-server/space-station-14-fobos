@@ -107,6 +107,8 @@
     knownLanguages:
     - ReptilianLanguage
     - GeneralLanguage
+  - type: SpeedSliding
+    minSlideSpeed: 5.1
 
 - type: entity
   parent: BaseSpeciesDummy

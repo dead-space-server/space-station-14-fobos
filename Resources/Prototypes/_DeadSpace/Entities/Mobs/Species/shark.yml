@@ -44,7 +44,7 @@
       types:
         Heat : 0.1 #per second, scales with temperature & other constants
   - type: Perishable
-  - type: Sanity # DS14
+  - type: Sanity
   - type: TypingIndicator
     proto: plafeim
   - type: Language
@@ -55,6 +55,8 @@
   # - type: FootPrints
     # leftBarePrint: "footprint-left-bare-lizard"
     # rightBarePrint: "footprint-right-bare-lizard"
+  - type: SpeedSliding
+    slideDistance: 8
 
 - type: entity
   parent: BaseSpeciesDummy

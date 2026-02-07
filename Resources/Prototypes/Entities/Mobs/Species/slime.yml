@@ -123,6 +123,9 @@
             sprite: Mobs/Species/Human/displacement.rsi
             state: jumpsuit-female
   # DS14-start
+  - type: SpeedSliding
+    slideDistance: 5.5
+    slideSpeed: 2.5
   - type: Sanity
   - type: Tag
     tags:

@@ -6,6 +6,8 @@
   name: Urist McBark
   components:
   # DS14-start
+  - type: SpeedSliding
+    slideDistance: 4
   - type: Language
     selectedLanguage: GeneralLanguage
     knownLanguages:
