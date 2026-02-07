@@ -342,7 +342,7 @@
 
 - type: entity
   parent: ClothingUniformBase
-  id: ClothingUniformTurleneckPurpleWomen
+  id: ClothingUniformTurtleneckPurpleWomen
   name: фиолетовая водолазка с юбкой
   description: Практичная и удобная водолазка фиолетового цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
   components:
