@@ -1,11 +1,13 @@
 using System.Linq;
 using Content.Client.CharacterInfo;
+using Content.Client.DeadSpace.Skill;
 using Content.Client.Gameplay;
 using Content.Client.Stylesheets;
 using Content.Client.UserInterface.Controls;
 using Content.Client.UserInterface.Systems.Character.Controls;
 using Content.Client.UserInterface.Systems.Character.Windows;
 using Content.Client.UserInterface.Systems.Objectives.Controls;
+using Content.Shared.DeadSpace.Skills;
 using Content.Shared.Input;
 using Content.Shared.Mind;
 using Content.Shared.Mind.Components;
@@ -42,6 +44,8 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
     }
 
     private CharacterWindow? _window;
+    private SkillsListWindow? _skillsWindow;
+    private List<SkillInfo> _currentSkills = new();
     private MenuButton? CharacterButton => UIManager.GetActiveUIWidgetOrNull<MenuBar.Widgets.GameTopMenuBar>()?.CharacterButton;
 
     public void OnStateEntered(GameplayState state)
@@ -53,6 +57,7 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
 
         _window.OnClose += DeactivateButton;
         _window.OnOpen += ActivateButton;
+        _window.SkillsButton.OnPressed += OnSkillsButtonPressed; // DS14
 
         CommandBinds.Builder
             .Bind(ContentKeyFunctions.OpenCharacterMenu,
@@ -66,6 +71,12 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
         {
             _window.Close();
             _window = null;
+        }
+
+        if (_skillsWindow != null)
+        {
+            _skillsWindow.Close();
+            _skillsWindow = null;
         }
 
         CommandBinds.Unregister<CharacterUIController>();
@@ -130,7 +141,7 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
             return;
         }
 
-        var (entity, job, objectives, briefing, entityName) = data;
+        var (entity, job, objectives, skills, briefing, entityName) = data;
 
         _window.SpriteView.SetEntity(entity);
 
@@ -140,6 +151,10 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
         _window.SubText.Text = job;
         _window.Objectives.RemoveAllChildren();
         _window.ObjectivesLabel.Visible = objectives.Any();
+
+        // DS14-Skills-Start
+        _currentSkills = skills;
+        _window.SkillsButton.Visible = skills.Count > 0;
 
         // start backmen: currency
         {
@@ -211,7 +226,6 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
             objectiveLabel.SetMessage(objectiveText);
 
             objectiveControl.AddChild(objectiveLabel);
-
 
             foreach (var condition in conditions)
             {
@@ -306,5 +320,17 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
             _characterInfo.RequestCharacterInfo();
             _window.Open();
         }
+    }
+
+    // DS14
+    private void OnSkillsButtonPressed(ButtonEventArgs args)
+    {
+        if (_currentSkills.Count == 0)
+            return;
+
+        _skillsWindow?.Close();
+        _skillsWindow = new SkillsListWindow();
+        _skillsWindow.SetSkills(_currentSkills);
+        _skillsWindow.OpenCentered();
     }
 }

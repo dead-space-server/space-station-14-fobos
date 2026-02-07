@@ -20,16 +20,23 @@
   wageDepartment: Medical
   wage: 60
   #end-backmen: currency
+  special:
+  - !type:AddComponentSpecial
+    components:
+      # DS14-Start
+      - type: Skill
+        group: Chemistryist
+      # DS14-End
 
 - type: startingGear
   id: ChemistGear
   equipment:
     id: ChemistryPDA
     ears: ClothingHeadsetMedical
+    head: ClothingHeadHatMedBeretChemist # DS14
     belt: ChemBag
     pocket1: HandLabeler
     eyes: ClothingEyesGlassesChemical
-    socks: ClothingUnderwearSocksChemist
   #storage:
     #back:
     #- Stuff
@@ -38,7 +45,7 @@
   id: ChemistChameleonOutfit
   job: Chemist
   equipment:
-    head: ClothingHeadHatBeretMedic
+    head: ClothingHeadHatMedBeretChemist # DS14
     mask: ClothingMaskSterile
     neck: ClothingNeckStethoscope
     outerClothing: ClothingOuterCoatLabChem

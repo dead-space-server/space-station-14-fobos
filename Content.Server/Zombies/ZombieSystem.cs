@@ -28,6 +28,7 @@ using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Content.Shared.Movement.Systems;
 using Content.Shared.DeadSpace.Movement.Events;
+using Content.Shared.NPC.Components; // DS14
 
 namespace Content.Server.Zombies
 {
@@ -307,6 +308,16 @@ namespace Content.Server.Zombies
             _humanoidAppearance.SetSkinColor(target, zombiecomp.BeforeZombifiedSkinColor, false);
             _bloodstream.ChangeBloodReagent(target, zombiecomp.BeforeZombifiedBloodReagent);
 
+            // DS14-start
+            if (TryComp<NpcFactionMemberComponent>(target, out var _))
+            {
+                _faction.ClearFactions(target);
+                foreach (var faction in zombiecomp.BeforeZombifiedFactions)
+                {
+                    _faction.AddFaction(target, faction);
+                }
+            }
+            // DS14-end
             return true;
         }
 

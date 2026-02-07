@@ -15,6 +15,11 @@
   equipment:
     jumpsuit: ClothingUniformJumpskirtSeniorPhysician
 
+- type: loadout
+  id: SeniorPhysicianJumpskirtPencil
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtPencilSeniorPhysician
+
 # OuterClothing
 - type: loadout
   id: SeniorPhysicianLabCoat
@@ -51,3 +56,8 @@
     proto: FemaleUnderwear
   equipment:
     underweart: ClothingUnderwearTopBraSeniorPhysician
+
+- type: loadout
+  id: SocksSeniorPhysician
+  equipment:
+    socks: ClothingUnderwearSocksSeniorPhysician

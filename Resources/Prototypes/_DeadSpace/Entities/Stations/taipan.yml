@@ -1,0 +1,29 @@
+- type: entity
+  id: BaseStationTaipan
+  parent:
+  - BaseStationSyndicate
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: StationTaipan
+  - type: NpcFactionMember
+    factions:
+    - Taipan
+
+- type: entity
+  id: StandardTaipanStation
+  parent:
+  - BaseStation
+  # - BaseStationNews
+  - BaseStationTaipanCargo
+  # - BaseTaipanStationJobsSpawning
+  # - BaseStationRecords
+  - BaseTaipanStationShuttles
+  - BaseTaipanStationAlertLevels
+  - BaseStationMagnet
+  - BaseStationExpeditions
+  - BaseStationSiliconTaipanStatic
+  # - BaseStationAllEventsEligible
+  - BaseStationTaipan
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Transform

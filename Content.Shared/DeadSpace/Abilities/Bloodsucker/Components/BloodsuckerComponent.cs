@@ -44,5 +44,5 @@ public sealed partial class BloodsuckerComponent : Component
     public float HowMuchWillItSuck = 20f;
 
     [DataField]
-    public bool CanSuckTomb = false;
+    public bool CanSuckTomb = true;
 }

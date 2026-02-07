@@ -41,6 +41,12 @@
     - type: NpcFactionMember
       factions:
       - CentralCommand
+  - !type:AddComponentSpecial
+    components:
+      # DS14-Start
+      - type: Skill
+        group: BaseSkills
+      # DS14-End
 
 - type: startingGear
   id: MagistratGear
@@ -52,8 +58,10 @@
     id: MagistratPDA
     ears: ClothingHeadsetMagistrat
     socks: ClothingUnderwearSockMagistrat
+    pocket1: ADTtelescopicBaton
+    pocket2: RubberStampMagistrat
   inhand:
-    - BriefcaseMagistratFilled
+    - BriefcaseBrownFilled
   storage:
     back:
     - HyperLinkBookCorporateLaw

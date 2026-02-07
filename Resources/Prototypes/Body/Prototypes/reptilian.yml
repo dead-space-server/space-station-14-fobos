@@ -1,5 +1,5 @@
 ﻿- type: body
-  name: "reptilian"
+  name: "рептилия" # DS14
   id: Reptilian
   root: torso
   slots:

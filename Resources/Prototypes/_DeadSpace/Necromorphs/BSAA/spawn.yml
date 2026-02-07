@@ -1,0 +1,262 @@
+# Гир наборы спавнов
+- type: startingGear
+  id: BSAALeaderGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitBSAA
+    back: ClothingBSAABackpack
+    mask: ClothingMaskBSAA
+    eyes: ClothingEyesBSAA
+    ears: ClothingHeadsetCentCom
+    neck: BSAALeaderShoulder
+    gloves: ClothingHandsGlovesBSAA
+    outerClothing: BSAALeaderHardSuit
+    shoes: ClothingShoesBootsMagBSAA
+    id: BSAALeaderPDA
+    belt: ClothingBeltBSAA
+    pocket1: BSAAHypo
+    pocket2: DoubleEmergencyOxygenTankFilled
+  storage:
+    back:
+    - BSAACombatKitFilled
+    - InjectorCaseStimFilled
+    - BSAAloadout
+    - DoorRemoteAll
+    - PinpointerNecroobelisk
+    - PinpointerNuclear
+    - CrowbarRed
+    - RCDRecharging
+    - WeaponPulsePistol
+    - EmergencyMedipen
+    - KukriKnife
+    - BoxMRE
+
+- type: startingGear
+  id: BSAAFighterGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitBSAA
+    back: ClothingBSAABackpack
+    mask: ClothingMaskBSAA
+    eyes: ClothingEyesBSAA
+    ears: ClothingHeadsetCentCom
+    gloves: ClothingHandsGlovesBSAA
+    outerClothing: BSAAFighterHardSuit
+    shoes: ClothingShoesBootsMagBSAA
+    id: BSAAFighterPDA
+    belt: ClothingBeltBSAA
+    pocket1: DoubleEmergencyOxygenTankFilled
+  storage:
+    back:
+    - BSAACombatKitFilled
+    - InjectorCaseStimFilled
+    - BSAAloadout
+    - KukriKnife
+    - PinpointerNecroobelisk
+    - PinpointerNuclear
+    - CrowbarRed
+    - RCDRecharging
+    - WeaponPulsePistol
+    - EmergencyMedipen
+    - BoxMRE
+
+- type: startingGear
+  id: BSAAMedicGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitBSAA
+    back: ClothingBSAABackpack
+    mask: ClothingMaskBSAA
+    eyes: ClothingEyesBSAA
+    ears: ClothingHeadsetCentCom
+    gloves: ClothingHandsGlovesBSAA
+    outerClothing: BSAAMedicHardSuit
+    shoes: ClothingShoesBootsMagBSAA
+    id: BSAAMedicPDA
+    belt: ClothingBeltBSAA
+    pocket1: BSAAHypo
+    pocket2: DoubleEmergencyOxygenTankFilled
+  storage:
+    back:
+    - BSAACombatKitFilled
+    - InjectorCaseFilled
+    - InjectorCaseStimFilled
+    - BSAAloadout
+    - KukriKnife
+    - PinpointerNecroobelisk
+    - PinpointerNuclear
+    - CrowbarRed
+    - DefibrillatorCompact
+    - WeaponPulsePistol
+    - EmergencyMedipen
+    - BoxMRE
+
+# Спавн
+- type: entity
+  id: RandomHumanoidSpawnerBSAALeader
+  parent: RandomHumanoidSpawnerERTLeaderAmber
+  name: АПБТ лидер
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/BSAA/misc/misc.rsi
+      state: l
+    - type: RandomHumanoidSpawner
+      settings: BSAALeader
+
+- type: entity
+  name: лидер АПБТ, spawner
+  id: BSAALeaderSpawner
+  categories: [ HideSpawnMenu ]
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: red
+    - sprite: _DeadSpace/Necromorfs/BSAA/misc/misc.rsi
+      state: l
+  - type: RandomSpawner
+    prototypes:
+    - RandomHumanoidSpawnerBSAALeader
+
+- type: entity
+  id: RandomHumanoidSpawnerBSAAFighter
+  parent: RandomHumanoidSpawnerERTLeaderAmber
+  name: АПБТ боец
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/BSAA/misc/misc.rsi
+      state: b
+    - type: RandomHumanoidSpawner
+      settings: BSAAFighter
+
+- type: entity
+  name: боец АПБТ, spawner
+  categories: [ HideSpawnMenu ]
+  id: BSAAFighterSpawner
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: red
+    - sprite: _DeadSpace/Necromorfs/BSAA/misc/misc.rsi
+      state: b
+  - type: RandomSpawner
+    prototypes:
+    - RandomHumanoidSpawnerBSAAFighter
+
+- type: entity
+  id: RandomHumanoidSpawnerBSAAMedic
+  parent: RandomHumanoidSpawnerERTLeaderAmber
+  name: АПБТ медик
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/BSAA/misc/misc.rsi
+      state: m
+    - type: RandomHumanoidSpawner
+      settings: BSAAMedic
+
+- type: entity
+  name: медик АПБТ, spawner
+  id: BSAAMedicSpawner
+  parent: MarkerBase
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    layers:
+    - state: red
+    - sprite: _DeadSpace/Necromorfs/BSAA/misc/misc.rsi
+      state: m
+  - type: RandomSpawner
+    prototypes:
+    - RandomHumanoidSpawnerBSAAMedic
+
+# Настройки спавна
+- type: randomHumanoidSettings
+  id: BSAALeader
+  parent: EventHumanoidERTZombieImmune
+  components:
+    - type: GhostRole
+      name: Лидер АПБТ
+      description: ghost-role-information-cburn-leader-description
+      rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category
+      requirements:
+        - !type:DepartmentTimeRequirement
+          department: Medical
+          time: 36000 # 10 hours
+        - !type:DepartmentTimeRequirement
+          department: Security
+          time: 72000 # 20 hours
+        - !type:DepartmentTimeRequirement
+          department: Command
+          time: 36000 # 10 hours
+      raffle:
+        settings: short
+      job: BSAALeaderJob
+    - type: RandomMetadata
+      nameSegments:
+      - NamesFirstERTLeader
+      - NamesLastERT
+      nameFormat: name-format-ert
+    - type: ImmunNecroobelisk
+    - type: IgnoreKudzu
+    - type: Loadout
+      prototypes: [ BSAALeaderGear ]
+    - type: GhostRoleNotifys 
+      groupPrototype: CBURNGroup
+
+- type: randomHumanoidSettings
+  id: BSAAFighter
+  parent: EventHumanoidERTZombieImmune
+  components:
+    - type: GhostRole
+      name: Боец АПБТ
+      description: ghost-role-information-cburn-agent-description
+      rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category
+      requirements:
+        - !type:DepartmentTimeRequirement
+          department: Security
+          time: 50400 # 14 hours
+      raffle:
+        settings: short
+      job: BSAAFighterJob
+    - type: RandomMetadata
+      nameSegments:
+      - NamesFirstERT
+      - NamesLastERT
+      nameFormat: name-format-ert
+    - type: ImmunNecroobelisk
+    - type: IgnoreKudzu
+    - type: Loadout
+      prototypes: [ BSAAFighterGear ]
+    - type: GhostRoleNotifys 
+      groupPrototype: CBURNGroup
+
+- type: randomHumanoidSettings
+  id: BSAAMedic
+  parent: EventHumanoidERTZombieImmune
+  components:
+    - type: GhostRole
+      name: Медик АПБТ
+      description: ghost-role-information-cburn-agent-description
+      rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category
+      requirements:
+        - !type:DepartmentTimeRequirement
+          department: Medical
+          time: 50400
+        - !type:DepartmentTimeRequirement
+          department: Security
+          time: 50400 
+      raffle:
+        settings: short
+      job: BSAAMedicJob
+    - type: IgnoreKudzu
+    - type: RandomMetadata
+      nameSegments:
+      - NamesFirstERT
+      - NamesLastERT
+      nameFormat: name-format-ert
+    - type: ImmunNecroobelisk
+    - type: Loadout
+      prototypes: [ BSAAMedicGear ]
+    - type: GhostRoleNotifys 
+      groupPrototype: CBURNGroup

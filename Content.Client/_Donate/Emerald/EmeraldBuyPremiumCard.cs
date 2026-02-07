@@ -11,6 +11,9 @@ public sealed class EmeraldBuyPremiumCard : Control
 {
     [Dependency] private readonly IResourceCache _resourceCache = default!;
 
+    private const int TitleFontSize = 14;
+    private const int MessageFontSize = 11;
+
     private Font _titleFont = default!;
     private Font _messageFont = default!;
 
@@ -19,9 +22,6 @@ public sealed class EmeraldBuyPremiumCard : Control
     private readonly Color _titleColor = Color.FromHex("#d4a574");
     private readonly Color _messageColor = Color.FromHex("#8d7aaa");
 
-    private const int TitleFontSize = 14;
-    private const int MessageFontSize = 11;
-
     private EmeraldButton _buyButton = default!;
 
     public event Action? OnBuyPressed;
@@ -29,18 +29,12 @@ public sealed class EmeraldBuyPremiumCard : Control
     public EmeraldBuyPremiumCard()
     {
         IoCManager.InjectDependencies(this);
-        UpdateFonts();
-        BuildUI();
-    }
 
-    private void UpdateFonts()
-    {
-        _titleFont = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(TitleFontSize * UIScale));
-        _messageFont = new VectorFont(
-            _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf"),
-            (int)(MessageFontSize * UIScale));
+        var fontRes = _resourceCache.GetResource<FontResource>("/Fonts/Bedstead/Bedstead.otf");
+        _titleFont = new VectorFont(fontRes, TitleFontSize);
+        _messageFont = new VectorFont(fontRes, MessageFontSize);
+
+        BuildUI();
     }
 
     private void BuildUI()
@@ -86,36 +80,37 @@ public sealed class EmeraldBuyPremiumCard : Control
         handle.DrawRect(rect, _bgColor.WithAlpha(0.6f));
         DrawBorder(handle, rect, _borderColor);
 
-        var padding = 14f;
+        var padding = 14f * UIScale;
         var currentY = padding;
 
         var line1Text = "У ВАС НЕТ ПРЕМИУМА";
         var line1Width = GetTextWidth(line1Text, _titleFont);
         var line1X = (PixelSize.X - line1Width) / 2f;
 
-        handle.DrawString(_titleFont, new Vector2(line1X, currentY), line1Text, 1f, _titleColor);
-        currentY += _titleFont.GetLineHeight(1f) + 4f;
+        handle.DrawString(_titleFont, new Vector2(line1X, currentY), line1Text, UIScale, _titleColor);
+        currentY += _titleFont.GetLineHeight(UIScale) + 4f * UIScale;
 
         var line2Text = "У ВАС НЕТУ БОНУСОВ =(";
         var line2Width = GetTextWidth(line2Text, _messageFont);
         var line2X = (PixelSize.X - line2Width) / 2f;
 
-        handle.DrawString(_messageFont, new Vector2(line2X, currentY), line2Text, 1f, _messageColor);
-        currentY += _messageFont.GetLineHeight(1f) + 4f;
+        handle.DrawString(_messageFont, new Vector2(line2X, currentY), line2Text, UIScale, _messageColor);
+        currentY += _messageFont.GetLineHeight(UIScale) + 4f * UIScale;
 
         var line3Text = "ИСПРАВЬТЕ ЭТО!";
         var line3Width = GetTextWidth(line3Text, _messageFont);
         var line3X = (PixelSize.X - line3Width) / 2f;
 
-        handle.DrawString(_messageFont, new Vector2(line3X, currentY), line3Text, 1f, _messageColor);
+        handle.DrawString(_messageFont, new Vector2(line3X, currentY), line3Text, UIScale, _messageColor);
     }
 
     private void DrawBorder(DrawingHandleScreen handle, UIBox2 rect, Color color)
     {
-        handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Right, rect.Top + 1), color);
-        handle.DrawRect(new UIBox2(rect.Left, rect.Bottom - 1, rect.Right, rect.Bottom), color);
-        handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Left + 1, rect.Bottom), color);
-        handle.DrawRect(new UIBox2(rect.Right - 1, rect.Top, rect.Right, rect.Bottom), color);
+        var thickness = Math.Max(1f, 1f * UIScale);
+        handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Right, rect.Top + thickness), color);
+        handle.DrawRect(new UIBox2(rect.Left, rect.Bottom - thickness, rect.Right, rect.Bottom), color);
+        handle.DrawRect(new UIBox2(rect.Left, rect.Top, rect.Left + thickness, rect.Bottom), color);
+        handle.DrawRect(new UIBox2(rect.Right - thickness, rect.Top, rect.Right, rect.Bottom), color);
     }
 
     private float GetTextWidth(string text, Font font)
@@ -126,7 +121,7 @@ public sealed class EmeraldBuyPremiumCard : Control
         var width = 0f;
         foreach (var rune in text.EnumerateRunes())
         {
-            var metrics = font.GetCharMetrics(rune, 1f);
+            var metrics = font.GetCharMetrics(rune, UIScale);
             if (metrics.HasValue)
                 width += metrics.Value.Advance;
         }
@@ -136,7 +131,6 @@ public sealed class EmeraldBuyPremiumCard : Control
     protected override void UIScaleChanged()
     {
         base.UIScaleChanged();
-        UpdateFonts();
         InvalidateMeasure();
     }
 }

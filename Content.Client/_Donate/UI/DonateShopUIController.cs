@@ -12,16 +12,14 @@ public sealed class DonateShopUIController : UIController
 {
     [Dependency] private readonly IEntityManager _manager = default!;
 
-    private DonateShopWindow? _donateShopWindow;
+    private DonateShopWindow? _window;
 
     private MenuButton? DonateButton => UIManager.GetActiveUIWidgetOrNull<GameTopMenuBar>()?.DonateButton;
 
     public void UnloadButton()
     {
         if (DonateButton == null)
-        {
             return;
-        }
 
         DonateButton.Pressed = false;
         DonateButton.OnPressed -= OnPressed;
@@ -30,9 +28,7 @@ public sealed class DonateShopUIController : UIController
     public void LoadButton()
     {
         if (DonateButton == null)
-        {
             return;
-        }
 
         DonateButton.OnPressed += OnPressed;
     }
@@ -42,39 +38,68 @@ public sealed class DonateShopUIController : UIController
         ToggleWindow();
     }
 
-    public void UpdateWindowState(DonateShopState state)
-    {
-        if (_donateShopWindow == null)
-            return;
-
-        _donateShopWindow.ApplyState(state);
-    }
-
     public void ToggleWindow()
     {
-        if (_donateShopWindow == null)
+        if (_window == null)
         {
-            _donateShopWindow = new DonateShopWindow();
-            _donateShopWindow.OnClose += () =>
-            {
-                _donateShopWindow = null;
-
-                if (DonateButton != null)
-                    DonateButton.Pressed = false;
-            };
-            _donateShopWindow.OpenCentered();
+            _window = new DonateShopWindow();
+            _window.OnClose += OnWindowClosed;
+            _window.OpenCentered();
             _manager.EntityNetManager.SendSystemNetworkMessage(new RequestUpdateDonateShop());
             return;
         }
 
-        if (_donateShopWindow.IsOpen)
+        if (_window.IsOpen)
         {
-            _donateShopWindow.Close();
+            _window.Close();
         }
         else
         {
-            _donateShopWindow.OpenCentered();
+            _window.OpenCentered();
             _manager.EntityNetManager.SendSystemNetworkMessage(new RequestUpdateDonateShop());
         }
+    }
+
+    private void OnWindowClosed()
+    {
+        _window = null;
+
+        if (DonateButton != null)
+            DonateButton.Pressed = false;
+    }
+
+    public void UpdateWindowState(DonateShopState state)
+    {
+        _window?.ApplyState(state);
+    }
+
+    public void UpdateInventoryState(InventoryState state)
+    {
+        _window?.ApplyInventoryState(state);
+    }
+
+    public void UpdateEnergyShopState(EnergyShopState state)
+    {
+        _window?.ApplyEnergyShopState(state);
+    }
+
+    public void UpdateCalendarState(DailyCalendarState state)
+    {
+        _window?.ApplyCalendarState(state);
+    }
+
+    public void HandlePurchaseResult(PurchaseResult result)
+    {
+        _window?.ShowPurchaseResult(result);
+    }
+
+    public void HandleClaimResult(ClaimRewardResult result)
+    {
+        _window?.ShowClaimResult(result);
+    }
+
+    public void HandleLootboxOpenResult(LootboxOpenResult result)
+    {
+        _window?.HandleLootboxOpenResult(result);
     }
 }

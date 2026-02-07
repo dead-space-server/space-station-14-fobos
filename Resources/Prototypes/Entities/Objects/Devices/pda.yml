@@ -1002,7 +1002,7 @@
       map: [ "enum.PdaVisualLayers.Flashlight" ]
       shader: "unshaded"
       visible: false
-    - state: "id_overlay"
+    - state: "id_overlay-deathsquad" # DS14-Resprite
       map: [ "enum.PdaVisualLayers.IdLight" ]
       shader: "unshaded"
       visible: false
@@ -1532,7 +1532,7 @@
   description: Smells like postage stamps and shuttle fuel.
   components:
   - type: Pda
-    id: SeniorCourierIDCard # DS14
+    id: CargoIDCard # DS14
   - type: Appearance
     appearanceDataInit:
      enum.PdaVisuals.PdaType:

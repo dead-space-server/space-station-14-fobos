@@ -115,6 +115,9 @@
       Female: IPC
       Unsexed: IPC
   - type: DamagedSiliconAccent
+    enableDamageCorruption: true
+    damageAtMaxCorruption: 60
+    enableChargeCorruption: false
   - type: Language
     selectedLanguage: GeneralLanguage
     knownLanguages:

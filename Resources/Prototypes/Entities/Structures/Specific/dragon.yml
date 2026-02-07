@@ -6,6 +6,19 @@
     mode: SnapgridCenter
   components:
   - type: DragonRift
+#DS14-start
+    chance: 1
+    prototypes:
+    - MobCarpDragon
+    - MobCarpHoloDragon
+    rareChance: 0.2
+    rarePrototypes: 
+    - MobSharkDragon
+    - MobMiniDragonIce
+    - MobMiniDragonFire
+    - MobMiniDragonHealer
+    - MobMiniDragonToxic
+#DS14-end
   - type: Transform
     anchored: true
   - type: Physics

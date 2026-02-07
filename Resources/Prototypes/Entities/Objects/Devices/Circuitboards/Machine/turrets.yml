@@ -10,11 +10,18 @@
     state: security
   - type: MachineBoard
     prototype: WeaponEnergyTurretStation
+    # DS14-start
+    stackRequirements:
+      Steel: 20
+      Glass: 15
+      Gold: 15
+      Plasma: 15
     tagRequirements:
-      TurretCompatibleWeapon:
-        amount: 1
-        defaultPrototype: WeaponLaserCannon
-        examineName: construction-insert-info-examine-name-laser-cannon
+      # TurretCompatibleWeapon:
+      #  amount: 1
+      #  defaultPrototype: WeaponLaserCannon
+      # examineName: construction-insert-info-examine-name-laser-cannon
+    # DS14-end
       ProximitySensor:
         amount: 1
         defaultPrototype: ProximitySensor

@@ -30,16 +30,10 @@ public sealed partial class TTSSystem : EntitySystem
     private readonly List<string> _sampleText =
         new()
         {
-            "Съешь же ещё этих мягких французских булок, да выпей чаю.",
-            "Клоун, прекрати разбрасывать банановые кожурки офицерам под ноги!",
-            "Капитан, вы уверены что хотите назначить клоуна на должность главы персонала?",
-            "Эс Бэ! Тут человек в сером костюме, с тулбоксом и в маске! Помогите!!",
-            "Я надеюсь что инженеры внимательно следят за сингулярностью...",
-            "Вы слышали эти странные крики в техах? Мне кажется туда ходить небезопасно.",
-            "Вы не видели Гамлета? Мне кажется он забегал к вам на кухню.",
-            "Здесь есть доктор? Человек умирает от отравленного пончика! Нужна помощь!",
-            "Возле эвакуационного шаттла разгерметизация! Инженеры, нам срочно нужна ваша помощь!",
-            "Бармен, налей мне самого крепкого вина, которое есть в твоих запасах!"
+            "С новым годом!",
+            "Желаю вам крепкого здоровья и хорошего настроения!",
+            "Весёлого Нового года и приятной игры!",
+            "С Новым годом! Пусть раунд будет долгим, а конец счастливым"
         };
 
     private const int MaxMessageChars = 100 * 3; // same as SingleBubbleCharLimit * 3
@@ -166,7 +160,7 @@ public sealed partial class TTSSystem : EntitySystem
         if (!_prototypeManager.TryIndex<TTSVoicePrototype>(voiceId, out var protoVoice))
             return;
 
-        Timer.Spawn(6000, () => HandleAnnounce(args.Message, args.LexiconMessage, args.LanguageId, protoVoice.Speaker)); // Awful, but better than sending announce sound to client in resource file
+        Timer.Spawn(6000, () => HandleAnnounce(args.Message, args.LexiconMessage, args.LanguageId, protoVoice.Speaker, args.Filter)); // Awful, but better than sending announce sound to client in resource file
     }
 
     private async void HandleSay(EntityUid uid, string message, string lexiconMessage, ProtoId<LanguagePrototype> languageId, string speaker)
@@ -245,19 +239,19 @@ public sealed partial class TTSSystem : EntitySystem
 
     }
 
-    private async void HandleAnnounce(string message, string lexiconMessage, ProtoId<LanguagePrototype> languageId, string speaker)
+    private async void HandleAnnounce(string message, string lexiconMessage, ProtoId<LanguagePrototype> languageId, string speaker, Filter filter)
     {
         var soundData = await GenerateTTS(message, speaker);
 
         byte[]? soundLexiconData = null;
         List<ICommonSession> understanding = new List<ICommonSession>();
 
-        if (_language.NeedGenerateGlobalTTS(languageId, out understanding))
+        if (_language.NeedGenerateFilterTTS(languageId, filter, out understanding))
             soundLexiconData = await GenerateTTS(lexiconMessage, speaker);
 
         if (soundData is null) return;
 
-        foreach (var session in Filter.Broadcast().Recipients)
+        foreach (var session in filter.Recipients)
         {
             if (!understanding.Contains(session))
             {

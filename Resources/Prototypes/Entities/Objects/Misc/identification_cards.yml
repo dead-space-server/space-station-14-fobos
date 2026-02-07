@@ -472,6 +472,18 @@
 
 - type: entity
   parent: IDCardStandard
+  id: SeniorSalvageIDCard # DS14
+  name: coroner ID card
+  components:
+  - type: Sprite
+    layers:
+    - state: default
+    - state: idseniorcargo
+  - type: PresetIdCard
+    job: SeniorSalvageSpecialist
+
+- type: entity
+  parent: IDCardStandard
   id: CentcomIDCard
   name: command officer ID card
   components:
@@ -695,6 +707,7 @@
     sprite: _DeadSpace/Objects/Misc/id_cards.rsi # DS14-Resprite
     layers:
     - state: deathsquad # DS14
+      scale: 0.16, 0.16 # DS14
   - type: Item
     heldPrefix: blue
   - type: PresetIdCard

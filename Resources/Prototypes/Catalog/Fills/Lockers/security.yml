@@ -26,6 +26,7 @@
   id: FillLockerWarden
   table: !type:AllSelector
     children:
+    - id: PhotonShotgun # DS14
     - id: FlashlightSeclite
     - id: WeaponDisabler
     - id: ClothingBeltSecurityFilled
@@ -126,7 +127,6 @@
     - id: ClothingOuterVestArmorMedSec
     - id: ClothingOuterVestSecurityMedic
     - id: ClothingOuterCoatLabSecurityMedic
-      prob: 0.1
     - id: MedkitFilled
     - !type:GroupSelector
       prob: 0.7

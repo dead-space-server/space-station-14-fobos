@@ -20,18 +20,6 @@
     - type: StationCargoBountyDatabase
 
 - type: entity
-  id: BaseStationTaipanCargo
-  abstract: true
-  components:
-  - type: StationBankAccount
-    primaryAccount: Taipan
-  - type: StationCargoOrderDatabase
-    orders:
-      Taipan: [ ]
-  - type: StationCargoBountyDatabase
-    isTaipan: true
-
-- type: entity
   id: BaseStationJobsSpawning
   abstract: true
   components:
@@ -65,6 +53,10 @@
       path: /Maps/Shuttles/cargo.yml
     - type: GridSpawn
       groups:
+        mining: !type:GridSpawnGroup #DS14-Start
+          paths:
+            - /Maps/Shuttles/mining.yml
+          nameDataset: NamesMiningShuttle # DS14-End
         trade: !type:GridSpawnGroup
           addComponents:
             - type: ProtectedGrid
@@ -127,25 +119,6 @@
           - VGRoid
 
 - type: entity
-  id: BaseTaipanStationShuttles
-  abstract: true
-  components:
-    - type: GridSpawn
-      groups:
-        ruins: !type:GridSpawnGroup
-          hide: true
-          nameGrid: true
-          minCount: 1
-          maxCount: 1
-          minimumDistance: 250
-          maximumDistance: 500
-          stationGrid: false
-          paths:
-          - /Maps/Ruins/Taipan/bluespace_science_grid.yml
-          - /Maps/Ruins/Taipan/colossal_asteroid.yml
-          - /Maps/Ruins/Taipan/lincore_crush.yml
-
-- type: entity
   id: BaseStationCentcomm
   abstract: true
   components:
@@ -163,22 +136,6 @@
   components:
     - type: AlertLevel
       alertLevelPrototype: stationAlerts
-
-- type: entity
-  id: BaseTaipanStationAlertLevels
-  abstract: true
-  components:
-    - type: AlertLevel
-      alertLevelPrototype: taipanStationAlerts
-
-- type: entity
-  id: BaseStationERTCall # DS14
-  abstract: true
-  components:
-    - type: ERTCall
-      ertTeamPrototype: stationERTTeams
-      timeToApprove: 300 # 5 min
-      timeToAnotherSpawn: 900 # 15 min
 
 - type: entity
   id: BaseStationExpeditions
@@ -219,13 +176,6 @@
   components:
   - type: SiliconLawProvider
     laws: Crewsimov
-
-- type: entity
-  id: BaseStationSiliconTaipanStatic
-  abstract: true
-  components:
-  - type: SiliconLawProvider
-    laws: TaipanStatic
 
 - type: entity
   id: BaseStationNews

@@ -90,7 +90,7 @@
   damage:
     types:
       Heat: 10
-      Radiation: 15 # DS14-value
+      Radiation: 8 # DS14-value
   muzzleFlash:
     sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
     state: muzzle_xray
@@ -108,7 +108,7 @@
   id: RedHeavyLaser
   damage:
     types:
-      Heat: 28
+      Heat: 20
   muzzleFlash:
     sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
     state: muzzle_beam_heavy
@@ -145,7 +145,7 @@
   id: MegaPulse # DS14 - Laser for death squad
   damage:
     types:
-      Heat: 50
+      Heat: 40
       Structural: 40
   muzzleFlash:
     sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi

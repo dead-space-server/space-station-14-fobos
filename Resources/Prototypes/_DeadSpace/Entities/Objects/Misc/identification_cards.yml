@@ -27,17 +27,17 @@
 
 # Station
 
-- type: entity
-  parent: IDCardStandard
-  id: SeniorCourierIDCard
-  name: senior courier ID card
-  components:
-  - type: Sprite
-    layers:
-    - state: default
-    - state: idseniorcargo
-  - type: PresetIdCard
-    job: SeniorCourier
+#- type: entity
+#  parent: IDCardStandard
+#  id: SeniorCourierIDCard
+#  name: senior courier ID card
+#  components:
+#  - type: Sprite
+#    layers:
+#    - state: default
+#    - state: idseniorcargo
+#  - type: PresetIdCard
+#    job: SeniorCourier
 
 - type: entity
   parent: IDCardStandard
@@ -74,6 +74,18 @@
     - state: idsecuritypilot
   - type: PresetIdCard
     job: SecurityPilot
+
+- type: entity
+  parent: IDCardStandard
+  id: IDCardVirologist
+  name: ID-карта вирусолога
+  components:
+  - type: Sprite
+    layers:
+    - state: default
+    - state: idvirologist
+  - type: PresetIdCard
+    job: Virologist
 
 # Taipan
 

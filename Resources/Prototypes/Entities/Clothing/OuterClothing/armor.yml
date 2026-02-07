@@ -17,9 +17,9 @@
   - type: Armor #Based on /tg/ but slightly compensated to fit the fact that armor stacks in SS14.
     modifiers:
       coefficients:
-        Blunt: 0.70
-        Slash: 0.70
-        Piercing: 0.70 #Can save you, but bullets will still hurt. Will take about 10 shots from a Viper before critting, as opposed to 7 while unarmored and 16~ with a bulletproof vest.
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.6 #Can save you, but bullets will still hurt. Will take about 10 shots from a Viper before critting, as opposed to 7 while unarmored and 16~ with a bulletproof vest.
         Heat: 0.80
   - type: ExplosionResistance
     damageCoefficient: 0.90
@@ -51,7 +51,7 @@
   parent: ClothingOuterArmorBase
   id: ClothingOuterArmorBulletproof
   name: bulletproof vest
-  description: A Type III heavy bulletproof vest that excels in protecting the wearer against traditional projectile weaponry and explosives to a minor extent.
+  description: A Type II heavy bulletproof vest that excels in protecting the wearer against traditional projectile weaponry and explosives to a minor extent.
   components:
   - type: Sprite
     sprite: Clothing/OuterClothing/Armor/bulletproof.rsi
@@ -189,10 +189,10 @@
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.5
-        Slash: 0.5
-        Piercing: 0.7
-        Heat: 0.3
+        Blunt: 0.4
+        Slash: 0.4
+        Piercing: 0.4
+        Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
   - type: ExplosionResistance
@@ -216,9 +216,9 @@
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.7 #slightly better overall protection but slightly worse than bulletproof armor against bullets seems sensible
-        Slash: 0.7
-        Piercing: 0.5
+        Blunt: 0.5 #slightly better overall protection but slightly worse than bulletproof armor against bullets seems sensible
+        Slash: 0.5
+        Piercing: 0.4
         Heat: 0.9
   - type: ExplosionResistance
     damageCoefficient: 0.9
@@ -345,9 +345,9 @@
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.5
-        Slash: 0.5
-        Piercing: 0.5
+        Blunt: 0.4
+        Slash: 0.4
+        Piercing: 0.4
         Heat: 0.5
   - type: GroupExamine
 

@@ -63,6 +63,9 @@
     noRot: true
   - type: Anchorable
   - type: Pullable
+  # DS14-start
+  - type: BedRegeneration
+  # DS14-end
 
 
 - type: entity

@@ -191,6 +191,10 @@
     - HeadTop
     - HeadSide
     - FacialHair
+  # DS14-start
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.1
+  # DS14-end
 
 - type: entity
   abstract: true

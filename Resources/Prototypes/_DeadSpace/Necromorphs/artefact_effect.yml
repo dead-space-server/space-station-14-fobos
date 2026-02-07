@@ -1,0 +1,156 @@
+- type: entityTable
+  id: ObeliskArtifactEffectsDefaultTable
+  table: !type:GroupSelector
+    children:
+    # hijacks use key, prevents from using artifact, sadly
+    #- id: XenoArtifactEffectUniversalIntercom
+    #  weight: 10.0
+    - id: XenoArtifactSolutionStorage
+      weight: 10.0
+    - id: XenoArtifactWandering
+      weight: 4.0
+    - id: ObeliskArtifactEffectFeeling
+      weight: 10.0
+    - id: XenoArtifactEffectLightFlicker
+      weight: 10.0
+    - id: ObeliskArtifactChemicalPuddle
+      weight: 10.0
+    - id: XenoArtifactThrowThingsAround
+      weight: 10.0
+    - id: XenoArtifactColdWave
+      weight: 10.0
+    - id: XenoArtifactHeatWave
+      weight: 4.0
+    - id: XenoArtifactRadioactive
+      weight: 8.0
+    - id: XenoArtifactKnock
+      weight: 4.0
+    - id: XenoArtifactMagnetNegative
+      weight: 2.0
+    - id: ObeliskArtifactFaunaSpawn
+      weight: 10.0
+    - id: XenoArtifactShatterWindows
+      weight: 8.0
+    - id: ObeliskArtifactFoamDangerous
+      weight: 10.0
+    - id: ObeliskArtifactAnomalySpawn
+      weight: 10.0
+    - id: XenoArtifactIgnite
+      weight: 2.0
+    - id: XenoArtifactTeleport
+      weight: 2.0
+    - id: XenoArtifactEmp
+      weight: 2.0
+    - id: XenoArtifactRadioactiveStrong
+      weight: 3.0
+    - id: XenoArtifactShuffle
+      weight: 3.0
+    - id: XenoArtifactHealAll
+      weight: 1.0
+    - id: XenoArtifactExplosionScary
+      weight: 1.0
+    - id: XenoArtifactBoom
+      weight: 5.0
+    - id: ObeliskArtifactEffectCreationGasInfectionDeadSpace
+      weight: 10.0
+
+- type: entity
+  id: ObeliskArtifactEffectCreationGasInfectionDeadSpace
+  parent: BaseXenoArtifactEffect
+  description: Expels infection
+  components:
+  - type: XAECreateGas
+    gases:
+      InfectionDeadSpace: 300
+
+- type: entity
+  id: ObeliskArtifactAnomalySpawn
+  parent: BaseOneTimeXenoArtifactEffect
+  description: Creates anomaly
+  components:
+  - type: XAEApplyComponents
+    applyIfAlreadyHave: true
+    refreshOnReactivate: true
+    components:
+    - type: EntityTableSpawner
+      deleteSpawnerAfterSpawn: false
+      table: !type:AllSelector
+        children:
+        - id: AnomalyNecro
+
+- type: entity
+  id: ObeliskArtifactFoamDangerous
+  parent: BaseXenoArtifactEffect
+  description: Creates wave of harmful foam
+  components:
+  - type: XAEFoam
+    minFoamAmount: 20
+    maxFoamAmount: 30
+    replaceDescription: true
+    reagents:
+    - ExtractInfectorDead
+    - SerumEnslaved
+
+- type: entity
+  id: ObeliskArtifactEffectFeeling
+  parent: BaseXenoArtifactEffect
+  description: Broadcasts sublime message
+  components:
+  - type: XAETelepathic
+    messages:
+    - obeliskfeeling-artifact-1 
+    - obeliskfeeling-artifact-2
+    - obeliskfeeling-artifact-3
+    - obeliskfeeling-artifact-4
+    - obeliskfeeling-artifact-5
+    - obeliskfeeling-artifact-6
+    - obeliskfeeling-artifact-7
+    - obeliskfeeling-artifact-8
+    - obeliskfeeling-artifact-9
+    - obeliskfeeling-artifact-10
+    drastic:
+    - badfeeling-artifact-drastic-1
+    - badfeeling-artifact-drastic-2
+    - badfeeling-artifact-drastic-3
+    - badfeeling-artifact-drastic-4
+    - badfeeling-artifact-drastic-5
+    - badfeeling-artifact-drastic-6
+
+- type: entity
+  id: ObeliskArtifactChemicalPuddle
+  parent: BaseXenoArtifactEffect
+  description: Produces puddle of chemical mixture # todo: make description say what exact chemical is produced, maybe add mixes into possible chemicals
+  components:
+  - type: XAECreatePuddle
+    chemAmount:
+      min: 1
+      max: 3
+    replaceDescription: true
+    chemicalSolution:
+      maxVol: 300
+      canReact: false
+    possibleChemicals:
+    - ExtractInfectorDead
+    - SerumEnslaved
+
+- type: entity
+  id: ObeliskArtifactFaunaSpawn
+  parent: BaseXenoArtifactEffect
+  description: Create friendly fauna
+  components:
+  - type: XenoArtifactNode
+    maxDurability: 4
+    maxDurabilityCanDecreaseBy:
+      min: 0
+      max: 3
+  - type: XAEApplyComponents
+    applyIfAlreadyHave: true
+    refreshOnReactivate: true
+    components:
+    - type: EntityTableSpawner
+      deleteSpawnerAfterSpawn: false
+      table: !type:GroupSelector
+        children:
+        - id: BruteNecromorfSpawner
+        - id: InfectorNecromorfSpawner
+        - id: NecroKudzu

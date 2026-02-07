@@ -1,0 +1,65 @@
+- type: entity
+  parent: BaseGameRule
+  id: LowVirusPandemic
+  components:
+  - type: VirusRule
+    symptomsByDanger:
+      Low: 2
+      Medium: 1
+    bodyCount: 4
+    numberPrimaryPacienst: 1
+  - type: StationEvent
+    weight: 10
+    duration: null
+    earliestStart: 15
+    reoccurrenceDelay: 10
+    minimumPlayers: 10
+
+- type: entity
+  parent: BaseGameRule
+  id: MediumVirusPandemic
+  components:
+  - type: VirusRule
+    symptomsByDanger:
+      Low: 4
+      Medium: 3
+    bodyCount: 7
+    numberPrimaryPacienst: 1
+  - type: StationEvent
+    weight: 8
+    duration: null
+    earliestStart: 30
+    reoccurrenceDelay: 15
+    minimumPlayers: 10
+  
+- type: entity
+  parent: BaseGameRule
+  id: HardVirusPandemic
+  components:
+  - type: VirusRule
+    symptomsByDanger:
+      Low: 4
+      Medium: 3
+      High: 1
+    bodyCount: 9
+    numberPrimaryPacienst: 1
+  - type: StationEvent
+    weight: 6
+    duration: null
+    earliestStart: 60
+    reoccurrenceDelay: 20
+    minimumPlayers: 10
+
+- type: entity
+  parent: BaseGameRule
+  id: SentientVirusEvent
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: StationEvent
+    weight: 4
+    duration: 10
+    earliestStart: 45
+    reoccurrenceDelay: 60
+    minimumPlayers: 30
+  - type: RandomSpawnRule
+    prototype: SentientVirus

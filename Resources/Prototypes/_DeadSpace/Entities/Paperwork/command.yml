@@ -109,3 +109,10 @@
   name: paperwork-form-title-command-17
   text: "/Paperwork/Command/17.xml"
   paperPrototype: PaperPrintedCommand
+
+- type: paperworkForm
+  id: Command18
+  category: NTCommand
+  name: paperwork-form-title-command-18
+  text: "/Paperwork/Command/18.xml"
+  paperPrototype: PaperPrintedCommand

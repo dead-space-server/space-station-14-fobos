@@ -1,0 +1,34 @@
+- type: accessLevel
+  id: CounterpartyNT
+  name: id-card-access-level-counterparty-nt
+
+- type: accessLevel
+  id: ErtTeamLeader
+  name: id-card-access-level-ert-team-leader
+
+- type: accessGroup
+  id: GroupCounterpartyNT
+  tags:
+  - CounterpartyNT
+  - Brig
+  - Security
+  - Maintenance
+  - Service
+  - External
+  - Research
+  - Medical
+  - Engineering
+  - Cargo
+  - Janitor
+  - Theatre
+  - Bar
+  - Kitchen
+  - Chapel
+  - Coroner
+  - Hydroponics
+  - Salvage
+
+- type: accessGroup
+  id: GroupErtTeamLeader
+  tags:
+  - ErtTeamLeader

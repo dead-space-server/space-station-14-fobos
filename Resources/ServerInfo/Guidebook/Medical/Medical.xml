@@ -1,32 +1,32 @@
 <Document>
-# Medical
-This is the department where people go to when they're hurt, it's up to the folks working here to fix them.
+  # Медицинский отдел
+  Это тот отдел, куда идут побитые ребята и работа сотрудников этого отдела этих побитых ребят лечить.
 
-## Personnel
-[color=#5b97bc]Medical[/color]'s staff is made up of Medical Interns, Medical Doctors, Paramedics and Chemists. [color=#5b97bc]Medical[/color] is run by the Chief Medical Officer.
+  ## Сотрудники
+  [color=#5b97bc]Медицинский[/color] отдел состоит из Интернов, Докторов, Парамедика, Химиков, Ведущего Врача, Хирурга, Патологоанатома, Главного Врача и, иногда, психолога.
 
   <Box>
-    <GuideEntityEmbed Entity="ToyFigurineMedicalDoctor" Caption="Doctor"/>
-    <GuideEntityEmbed Entity="ToyFigurineParamedic" Caption="Paramedic"/>
-    <GuideEntityEmbed Entity="ToyFigurineChemist" Caption="Chemist"/>
-    <GuideEntityEmbed Entity="ToyFigurineChiefMedicalOfficer" Caption="CMO"/>
+    <GuideEntityEmbed Entity="ToyFigurineMedicalDoctor" Caption="Доктор"/>
+    <GuideEntityEmbed Entity="ToyFigurineParamedic" Caption="Парамедик"/>
+    <GuideEntityEmbed Entity="ToyFigurineChemist" Caption="Химик"/>
+    <GuideEntityEmbed Entity="ToyFigurineChiefMedicalOfficer" Caption="Главный Врач"/>
   </Box>
-  
-Right now, medbay is divided into two different sets of care:
 
-## Medical Treatment
+  В данный момент, медицинский отдел разделён на две части:
+
+  ## Лечение
   <Box>
     <GuideEntityEmbed Entity="Brutepack"/>
     <GuideEntityEmbed Entity="Bloodpack"/>
     <GuideEntityEmbed Entity="Ointment"/>
-    <GuideEntityEmbed Entity="Gauze"/>
+    <GuideEntityEmbed Entity="Gauze" Caption="бинт"/>
     <GuideEntityEmbed Entity="HandheldHealthAnalyzer"/>
   </Box>
-## Chemical Production
+  ## Химия
   <Box>
     <GuideEntityEmbed Entity="ChemDispenser"/>
-    <GuideEntityEmbed Entity="LargeBeaker"/>
+    <GuideEntityEmbed Entity="LargeBeaker" Caption="мензурка"/>
     <GuideEntityEmbed Entity="PillCanister"/>
-    <GuideEntityEmbed Entity="ChemMaster"/>
+    <GuideEntityEmbed Entity="ChemMaster" Caption="ХимМастер"/>
   </Box>
 </Document>

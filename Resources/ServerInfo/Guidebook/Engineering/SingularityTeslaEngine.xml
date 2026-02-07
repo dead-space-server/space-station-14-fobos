@@ -1,41 +1,42 @@
 <Document>
-  # Singularity / Tesla Engine
+  # Сингулярность / Тесла
 
-  The Singularity Engine / Tesla Engine can yield [color=#a4885c]infinite power[/color] for the entire shift, making it a valuable asset to the station.
+  Эти два генератора способны выдавать [color=#a4885c][bold]бесконечную энергию[/bold][/color] на протяжении всей смены, что делает их [italic]незаменимыми[/italic] для хороших инженеров.
 
-  It can also [color=red]destroy the whole station[/color] with equal ease, and requires careful preparation and monitoring to prevent a [bold]loose[/bold].
+  По случайному стечению обстоятельств, они также [color=red][bold]способны легко уничтожить всю станцию[/bold][/color], поэтому требуют [italic]аккуратной подготовки и наблюдения[/italic] для предотвращения [bold]побега[/bold].
 
-  # Setting it up
-  Both engines follow the same basic setup steps, but have different subsystems and requirements.
+  # Настройка
+  Оба генератора собираются по примерно похожим шагам, но имеют [italic]разные подсистемы[/italic].
 
-  ## Containment Field
-  The Containment Field is a multi-tile beam field that repels the singularity or tesla, keeping it from escaping.
+  ## Сдерживающее поле
+  Поле из [italic]лучей[/italic], сдерживающих движение сингулярности или теслы, держа её в [italic]клетке[/italic].
 
-  The emitter lasers and the containment fields can also cause damage and/or cause you to be sent flying into deep space; [color=#a4885c]avoid touching them[/color] when active.
+  Эмиттеры и поле могут нанести [italic]урон[/italic] и/или отправить вас в далёкое путешествие в космос — [color=#a4885c][bold]старайтесь не касаться их обоих[/bold][/color].
 
   <Box>
     <GuideEntityEmbed Entity="Emitter"/>
-    <GuideEntityEmbed Entity="ContainmentFieldGenerator"/>
-    <GuideEntityEmbed Entity="ContainmentField"/>
+    <GuideEntityEmbed Entity="ContainmentFieldGenerator" Caption="генератор поля"/>
+    <GuideEntityEmbed Entity="ContainmentField" Caption="поле"/>
   </Box>
 
-  Containment Fields are generated between active Containment Field Generators, which are powered by emitters.
+  Сдерживающее поле создаётся между [italic]активными[/italic] генераторами сдерживающего поля, которые питаются [italic]эмиттерами[/italic].
 
-  A containment field generator can generate a containment field if:
-  - The generator has been turned on,
-  - another field generator is within 8 tiles,
-  - and the field generators are on the same cardinal axis.
+  Поле сдерживания может быть создано, если:
+  - Генератор поля [italic]активен[/italic],
+  - В радиусе 8 клеток есть ещё один генератор,
+  - Оба генератора находятся [italic]на одной оси[/italic].
 
-  This means that the maximum length of a containment field is 7 tiles.
+  Это означает, что [italic]максимальная длина поля[/italic] составляет [bold]7 клеток[/bold].
 
-  You can turn on a containment field generator by interacting with it using [color=yellow][bold][keybind="Use"][/bold][/color].
-  Containment field generators won't work if they aren't turned on, even when struck by an emitter. Remember to turn on the field generator!
+  Включите генераторы поля с помощью нажатия [color=yellow][bold][keybind="Use"][/bold][/color] на них.
+  Если генераторы поля не будут включены, их не активируют даже эмиттеры. [italic]Не забывайте![/italic]
 
-  The containment field generator has an internal energy level, which is filled by striking it with an emitter. When the containment field generator has enough stored energy, it will generate a containment field.
+  У каждого генератора поля есть [italic]внутренний уровень энергии[/italic], пополняющийся от выстрела эмиттера. Как только генератор накопит достаточно энергии, он создаст сдерживающее поле.
 
-  This energy level will naturally decay over time, and the field will disappear when the energy level reaches zero after a delay.
+  Энергия со временем [italic]кончается[/italic]. Поле исчезнет с некоторой задержкой при достижении нуля.
+  У вас есть примерно [bold]три минуты[/bold], чтобы исправить нерабочие эмиттеры, затем наступит [color=red][bold]неисправимое[/bold][/color].
 
-  When the containment field is active, you cannot turn off the field generator or unanchor it. You must wait for the field to decay before you can turn off the generator.
+  [italic]Активные генераторы поля нельзя открепить или выключить[/italic], вам нужно дождаться их разрядки.
 
   <Box>
     <GuideEntityEmbed Entity="ContainmentFieldGenerator" Caption=""/>
@@ -45,19 +46,18 @@
     <GuideEntityEmbed Entity="ContainmentFieldGenerator" Caption=""/>
   </Box>
 
-  ## Emitters
-  Emitters are the devices that power the containment field generators.
+  ## Эмиттеры
 
   <Box>
     <GuideEntityEmbed Entity="Emitter"/>
+    Устройства, питающие генераторы сдерживающего поля. Питаются от [color=yellow][bold]СВ кабелей[/bold][/color] под ними и стреляют [italic]лазеры[/italic], пока включены.
   </Box>
 
-  The emitters connect to MV cables, and fire lasers as long as they have power and are turned on.
+  Всегда [color=#a4885c][bold]блокируйте[/bold][/color] эмиттеры с помощью [color=yellow][bold][keybind="AltActivateItemInWorld"][/bold][/color].
+  Таким образом вы можете [italic]предотвратить случайное или преднамеренное отключение[/italic] сдерживающего поля.
 
-  It is recommended to [color=#a4885c]lock the emitters[/color] with [color=yellow][bold][keybind="AltActivateItemInWorld"][/bold][/color], to prevent any break-in no-gooders from loosing the singularity or tesla by simply switching off the field.
-
-  ## Particle Accelerator
-  The Particle Accelerator (PA) is a multi-tile structure that launches accelerated particles from its emitters.
+  ## Ускоритель Частиц
+  [bold]Ускоритель Частиц (УЧ)[/bold] — [italic]сборное устройство[/italic], запускающее ускоренные частицы из его излучателей.
 
   <Box>
     <GuideEntityEmbed Entity="ParticleAcceleratorEndCap" Caption="" Margin="0"/>
@@ -79,16 +79,18 @@
     <GuideEntityEmbed Entity="ParticleAcceleratorEmitterPort" Caption="" Margin="0"/>
   </Box>
 
-  Some stations already have an unfinished PA.
-  To complete it, first ensure there is a MV cable beneath the PA power box, anchor all the parts, and then add an LV cable to each part.
+
 
   <Box>
-    <GuideEntityEmbed Entity="CableApcStack"/>
+    <GuideEntityEmbed Entity="CableMVStack" Caption="СВ провода"/>
+    <GuideEntityEmbed Entity="CableApcStack" Caption="НВ провода"/>
+    На некоторых станциях УЧ уже почти собран. Чтобы завершить сборку, убедитесь в наличии [color=yellow][bold]СВ кабеля[/bold][/color] под силовой установкой УЧ, закрепите все части, а затем добавьте к каждой по [color=green][bold]НВ кабелю[/bold][/color].
   </Box>
 
-  Then use a screwdriver to screw back the panels.
-  [color=#a4885c]Scan parts[/color] using the PA control computer to check if it's operational (the PA will not function if you do not scan it!).
-  If it shows up as incomplete, examine what's missing.
+  Чтобы завершить сборку, нажмите [color=yellow][bold][keybind="Use"][/bold][/color] на каждую деталь, держа в руке [italic]отвёртку[/italic].
+
+  [color=#a4885c][bold]Просканируйте детали[/bold][/color] с помощью консоли управления УЧ, чтобы убедиться в её [italic]рабочем состоянии[/italic] ([italic]УЧ не заработает, если вы не произведёте сканирование![/italic]).
+  Вы можете [italic]осмотреть консоль управления[/italic], чтобы увидеть правильное расположение деталей.
 
   <Box>
     <GuideEntityEmbed Entity="ParticleAcceleratorControlBox"/>

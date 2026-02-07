@@ -46,8 +46,12 @@
     eyes: ClothingEyesGlassesSunglasses
     ears: ClothingHeadsetIAA
     pocket1: ADTtelescopicBaton
+    pocket2: RubberStampIAA
   inhand:
-    - BriefcaseIAAFilled
+    - BriefcaseBrownFilled
+  storage:
+    back:
+    - TelephoneIaa
 
 - type: chameleonOutfit
   id: IAAChameleonOutfit

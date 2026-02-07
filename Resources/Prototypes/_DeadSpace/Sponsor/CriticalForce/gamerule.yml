@@ -1,0 +1,20 @@
+- type: entity
+  parent: BaseGameRule
+  id: SpawnCriticalForceShuttle
+  components:
+  - type: ErtSpawnRule
+    shuttle: CriticalForceShuttle
+
+- type: ertTeam
+  id: CriticalForce
+  name: Critical Force
+  description: 
+    Спасательный отряд для спонсоров актива.
+  rule: SpawnCriticalForceShuttle
+  spawnWindow:
+    min: 1m
+    max: 3m
+  price: 0
+  spawns:
+    - id: RandomHumanoidSpawnerCriticalForceOfficerEMT
+      amount: 3

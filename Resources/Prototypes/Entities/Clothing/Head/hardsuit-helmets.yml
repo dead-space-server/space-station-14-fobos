@@ -226,6 +226,16 @@
     tags:
     - CorgiWearable
     - WhitelistChameleon
+ 
+#Senior Salvage
+- type: entity
+  parent: ClothingHeadHelmetHardsuitSalvage
+  id: ClothingHeadHelmetHardsuitSeniorSalvage
+  components:
+  - type: Sprite
+    sprite: Clothing/Head/Hardsuits/salvage.rsi
+  - type: Clothing
+    sprite: Clothing/Head/Hardsuits/salvage.rsi
 
 #Goliath Hardsuit
 - type: entity

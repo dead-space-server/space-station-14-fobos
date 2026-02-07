@@ -99,32 +99,12 @@
   group: taipan_market
 
 - type: cargoProduct
-  id: TaipanServicePersonnel
-  icon:
-    sprite: Objects/Misc/id_cards.rsi
-    state: default
-  product: CrateServicePersonnel
-  cost: 1000
-  category: cargoproduct-category-name-service
-  group: taipan_market
-
-- type: cargoProduct
   id: TaipanServiceBooks
   icon:
     sprite: Objects/Misc/books.rsi
     state: book_icon
   product: CrateServiceBooks
   cost: 1000
-  category: cargoproduct-category-name-service
-  group: taipan_market
-
-- type: cargoProduct
-  id: TaipanServiceGuidebooks
-  icon:
-    sprite: Objects/Misc/books.rsi
-    state: book_icon
-  product: CrateServiceGuidebooks
-  cost: 1300
   category: cargoproduct-category-name-service
   group: taipan_market
 

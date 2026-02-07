@@ -33,6 +33,7 @@
   - HeadOfPersonnel
   - Bar
   - Service
+  - SeniorSalvage
   - Maintenance
   - Janitor
   - Theatre
@@ -56,6 +57,7 @@
   - Atmospherics
   - Medical
   - Coroner
+  - Virology # DS14
   - Paramedic
   - Brigmedic
   #start-backmen: currency
@@ -70,6 +72,10 @@
   - !type:AddComponentSpecial
     components:
       - type: CommandStaff
+      # DS14-Start
+      - type: Skill
+        group: HOP
+      # DS14-End
 
 - type: startingGear
   id: HoPGear

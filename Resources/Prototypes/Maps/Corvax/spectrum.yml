@@ -40,6 +40,7 @@
             Coroner: [ 1, 1 ]
             Psychologist: [ 1, 1 ]
             MedicalIntern: [ 3, 3 ]
+            Virologist: [ 1, 1 ]
             # rnd
             ResearchDirector: [ 1, 1 ]
             SeniorResearcher: [ 1, 1 ]
@@ -53,7 +54,7 @@
             TechnicalAssistant: [ 3, 3 ]
             # sup
             Quartermaster: [ 1, 1 ]
-            SeniorCourier: [ 1, 1 ]
+            SeniorSalvageSpecialist: [ 1, 1 ]
             SalvageSpecialist: [ 3, 3 ]
             CargoTechnician: [ 3, 3 ]
             # civ

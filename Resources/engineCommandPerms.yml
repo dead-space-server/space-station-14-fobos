@@ -86,6 +86,7 @@
   - tpgrid
   - gridtc
   - togglespritenetsync
+  - ertui
 
 - Flags: ADMIN
   Commands:
