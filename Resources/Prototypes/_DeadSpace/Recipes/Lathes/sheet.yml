@@ -26,3 +26,12 @@
   materials:
     Titanium: 100
     Steel: 400
+
+- type: latheRecipe
+  id: SheetPlastic1
+  result: SheetPlastic1
+  completetime: 0
+  materials:
+    RawSalt: 150
+    RawIron: 150
+    Coal: 150
