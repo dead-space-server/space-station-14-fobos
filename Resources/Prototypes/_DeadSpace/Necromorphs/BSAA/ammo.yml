@@ -139,7 +139,7 @@
       proto: ShellShotgunDragon
     - type: MagazineVisuals
       magState: mag-practice
-      steps: 5
+      steps: 3
       zeroVisible: false
     - type: Sprite
       sprite: _DeadSpace/Necromorfs/BSAA/weapons/Boxes/shotgun.rsi
