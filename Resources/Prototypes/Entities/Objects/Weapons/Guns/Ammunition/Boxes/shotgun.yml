@@ -26,7 +26,7 @@
       capacity: 16
     - type: MagazineVisuals
       magState: mag
-      steps: 5
+      steps: 3
       zeroVisible: false
     - type: Appearance
 
@@ -40,7 +40,7 @@
       proto: ShellShotgunBeanbag
     - type: MagazineVisuals
       magState: mag-beanbag
-      steps: 5
+      steps: 3
       zeroVisible: false
     - type: Sprite
       layers:
@@ -74,7 +74,7 @@
       proto: ShellShotgunSlug
     - type: MagazineVisuals
       magState: mag-slug
-      steps: 5
+      steps: 3
       zeroVisible: false
     - type: Sprite
       layers:
@@ -93,7 +93,7 @@
       proto: ShellShotgunFlare
     - type: MagazineVisuals
       magState: mag-flare
-      steps: 5
+      steps: 3
       zeroVisible: false
     - type: Sprite
       layers:
@@ -112,7 +112,7 @@
       proto: ShellShotgunIncendiary
     - type: MagazineVisuals
       magState: mag-incend
-      steps: 5
+      steps: 3
       zeroVisible: false
     - type: Sprite
       layers:
@@ -131,7 +131,7 @@
       proto: ShellShotgunUranium
     - type: MagazineVisuals
       magState: mag-uranium
-      steps: 5
+      steps: 3
       zeroVisible: false
     - type: Sprite
       layers:
@@ -150,7 +150,7 @@
       proto: ShellShotgunPractice
     - type: MagazineVisuals
       magState: mag-practice
-      steps: 5
+      steps: 3
       zeroVisible: false
     - type: Sprite
       layers:
@@ -169,7 +169,7 @@
       proto: ShellTranquilizer
     - type: MagazineVisuals
       magState: mag-tranq
-      steps: 5
+      steps: 3
       zeroVisible: false
     - type: Sprite
       layers:

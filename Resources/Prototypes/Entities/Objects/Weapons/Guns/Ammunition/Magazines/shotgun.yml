@@ -20,12 +20,8 @@
     inhandVisuals:
       left:
       - state: inhand-left-mag
-      - state: inhand-left-stripe
-        color: "#d73307"
       right:
       - state: inhand-right-mag
-      - state: inhand-right-stripe
-        color: "#d73307"
   - type: ContainerContainer
     containers:
       ballistic-ammo: !type:Container
@@ -68,12 +64,8 @@
     inhandVisuals:
       left:
       - state: inhand-left-mag
-      - state: inhand-left-stripe
-        color: "#ba7710"
       right:
       - state: inhand-right-mag
-      - state: inhand-right-stripe
-        color: "#ba7710"
 
 - type: entity
   id: MagazineShotgunBeanbag
@@ -93,11 +85,11 @@
       left:
       - state: inhand-left-mag
       - state: inhand-left-stripe
-        color: "#30722d"
+        color: "#383838"
       right:
       - state: inhand-right-mag
       - state: inhand-right-stripe
-        color: "#30722d"
+        color: "#383838"
 
 - type: entity
   id: MagazineShotgunSlug
@@ -117,11 +109,11 @@
       left:
       - state: inhand-left-mag
       - state: inhand-left-stripe
-        color: "#72382d"
+        color: "#383838"
       right:
       - state: inhand-right-mag
       - state: inhand-right-stripe
-        color: "#72382d"
+        color: "#383838"
 
 - type: entity
   id: MagazineShotgunIncendiary
@@ -134,6 +126,7 @@
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
+    - state: incendiary
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
   - type: Item
@@ -141,8 +134,8 @@
       left:
       - state: inhand-left-mag
       - state: inhand-left-stripe
-        color: "#72382d"
+        color: "#3f1329"
       right:
       - state: inhand-right-mag
       - state: inhand-right-stripe
-        color: "#72382d"
+        color: "#3f1329"

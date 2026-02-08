@@ -27,7 +27,7 @@
       map: ["enum.GunVisualLayers.Mag"]
   - type: MagazineVisuals
     magState: mag
-    steps: 6
+    steps: 7
     zeroVisible: false
   - type: Appearance
   # DS14-start
@@ -65,7 +65,7 @@
       map: ["enum.GunVisualLayers.Mag"]
   - type: MagazineVisuals
     magState: mag
-    steps: 6
+    steps: 9
     zeroVisible: false
   - type: Appearance
   # DS14-start
@@ -103,7 +103,7 @@
       map: ["enum.GunVisualLayers.Mag"]
   - type: MagazineVisuals
     magState: mag
-    steps: 6
+    steps: 8
     zeroVisible: false
   - type: Appearance
   # DS14-start
@@ -135,7 +135,6 @@
         map: ["enum.GunVisualLayers.Base"]
       - state: mag-unshaded-1
         map: ["enum.GunVisualLayers.MagUnshaded"]
-        shader: unshaded
   - type: MagazineVisuals
     magState: mag
     steps: 6
@@ -211,18 +210,17 @@
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
-    - state: stripe
-      color: "#ff6e52"
+    - state: incendiary
   - type: Item
     inhandVisuals:
       left:
       - state: inhand-left-mag
       - state: inhand-left-stripe
-        color: "#ff6e52"
+        color: "#3f1329"
       right:
       - state: inhand-right-mag
       - state: inhand-right-stripe
-        color: "#ff6e52"
+        color: "#3f1329"
 
 - type: entity
   id: MagazinePistolPractice
@@ -238,18 +236,17 @@
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
-    - state: stripe
-      color: "#dbdbdb"
+    - state: practice
   - type: Item
     inhandVisuals:
       left:
       - state: inhand-left-mag
       - state: inhand-left-stripe
-        color: "#dbdbdb"
+        color: "#76270d"
       right:
       - state: inhand-right-mag
       - state: inhand-right-stripe
-        color: "#dbdbdb"
+        color: "#76270d"
 
 - type: entity
   id: MagazinePistolUranium
@@ -265,18 +262,17 @@
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
-    - state: stripe
-      color: "#00cd42"
+    - state: uranium
   - type: Item
     inhandVisuals:
       left:
       - state: inhand-left-mag
       - state: inhand-left-stripe
-        color: "#00cd42"
+        color: "#01501c"
       right:
       - state: inhand-right-mag
       - state: inhand-right-stripe
-        color: "#00cd42"
+        color: "#01501c"
 
 - type: entity
   id: MagazinePistolHighCapacityEmpty
@@ -325,25 +321,24 @@
   parent: BaseMagazinePistolHighCapacity
   components:
   - type: BallisticAmmoProvider
-    proto: CartridgePistol
+    proto: CartridgePistolPractice
   - type: Sprite
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
-    - state: stripe
-      color: "#dbdbdb"
+    - state: practice
   - type: Item
     inhandVisuals:
       left:
       - state: inhand-left-mag
       - state: inhand-left-stripe
-        color: "#dbdbdb"
+        color: "#76270d"
       right:
       - state: inhand-right-mag
       - state: inhand-right-stripe
-        color: "#dbdbdb"
+        color: "#76270d"
 
 - type: entity
   id: MagazinePistolSubMachineGun
@@ -407,18 +402,17 @@
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
-    - state: stripe
-      color: "#dbdbdb"
+    - state: practice
   - type: Item
     inhandVisuals:
       left:
       - state: inhand-left-mag
       - state: inhand-left-stripe
-        color: "#dbdbdb"
+        color: "#76270d"
       right:
       - state: inhand-right-mag
       - state: inhand-right-stripe
-        color: "#dbdbdb"
+        color: "#76270d"
 
 - type: entity
   id: MagazinePistolSubMachineGunUranium
@@ -434,18 +428,17 @@
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
-    - state: stripe
-      color: "#00cd42"
+    - state: uranium
   - type: Item
     inhandVisuals:
       left:
       - state: inhand-left-mag
       - state: inhand-left-stripe
-        color: "#00cd42"
+        color: "#01501c"
       right:
       - state: inhand-right-mag
       - state: inhand-right-stripe
-        color: "#00cd42"
+        color: "#01501c"
 
 - type: entity
   parent: BaseMagazinePistolSubMachineGun
@@ -461,16 +454,14 @@
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
-    - state: stripe
-      color: "#ff6e52"
+    - state: incendiary
   - type: Item
     inhandVisuals:
       left:
       - state: inhand-left-mag
       - state: inhand-left-stripe
-        color: "#ff6e52"
+        color: "#3f1329"
       right:
       - state: inhand-right-mag
       - state: inhand-right-stripe
-        color: "#ff6e52"
-
+        color: "#3f1329"
