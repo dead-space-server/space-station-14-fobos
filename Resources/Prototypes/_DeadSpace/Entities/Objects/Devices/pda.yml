@@ -134,6 +134,7 @@
       - NotekeeperCartridge
       - NewsReaderCartridge
       - AstroNavCartridge
+      - NanoTaskCartridge
 
 - type: entity
   parent: BasePDA
