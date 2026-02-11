@@ -17,8 +17,8 @@
     - SiliconIPCEmotes
   chatMessages: ["chat-emote-msg-bubbling"]
   chatTriggers:
-    - громко пузыриться
-    - пузыриться
+    - громко пузырится
+    - пузырится
     - булькает
 
 - type: emote
