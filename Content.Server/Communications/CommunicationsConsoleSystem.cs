@@ -288,6 +288,8 @@ namespace Content.Server.Communications
             _chatSystem.DispatchStationAnnouncement(uid,
                 msg,
                 title,
+                announcementSound:
+                comp.Sound,
                 colorOverride:
                 comp.Color,
                 voice: voice,
