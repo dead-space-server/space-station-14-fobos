@@ -62,7 +62,7 @@ public sealed class VirusMutationSystem : EntitySystem
 
         foreach (var proto in _prototype.EnumeratePrototypes<EntityPrototype>())
         {
-            if (proto.HasComponent<VirusSymptomComponent>())
+            if (proto.TryGetComponent<VirusSymptomComponent>(out _))
                 _allSymptomsCache.Add(proto.ID);
         }
 
@@ -191,6 +191,11 @@ public sealed class VirusMutationSystem : EntitySystem
             if (!_prototype.TryIndex(available[index], out var proto))
                 continue;
 
+            // Get symptom component for name
+            string symptomName = "Unknown";
+            if (proto.TryGetComponent<VirusSymptomComponent>(out var symptomComp))
+                symptomName = symptomComp.Name;
+
             var price = _virus.GetSymptomPrice(host.Comp2.Data, proto);
             if (host.Comp2.Data.MutationPoints < price)
                 continue;
@@ -200,7 +205,7 @@ public sealed class VirusMutationSystem : EntitySystem
             host.Comp2.Data.MutationPoints -= price;
 
             _sawmill.Debug(
-                $"Попытка мутации #{i + 1}: добавлен новый симптом '{proto.SymptomType}' ({proto.Name}) " +
+                $"Попытка мутации #{i + 1}: добавлен новый симптом '{available[index]}' ({symptomName}) " +
                 $"ТекущиеСимптомы=[{string.Join(", ", host.Comp2.Data.ActiveSymptom)}]"
             );
 

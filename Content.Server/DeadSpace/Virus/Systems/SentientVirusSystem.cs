@@ -158,7 +158,7 @@ public sealed class SentientVirusSystem : EntitySystem
             case EvolutionConsoleUiButton.EvolutionSymptom:
                 {
                     if (args.Symptom == null
-                        || !_prototypeManager.TryIndex<VirusSymptomPrototype>(args.Symptom, out var proto)
+                        || !_prototypeManager.TryIndex<EntityPrototype>(args.Symptom, out var proto)
                         || component.Data == null)
                         return;
 
@@ -169,7 +169,7 @@ public sealed class SentientVirusSystem : EntitySystem
                     component.Data.MutationPoints -= price;
                     component.Data.ActiveSymptom.Add(args.Symptom);
 
-                    var symptomInstance = _virusSystem.CreateSymptomInstance(proto);
+                    var symptomInstance = _virusSystem.CreateSymptomInstance(args.Symptom);
                     symptomInstance.ApplyDataEffect(component.Data, add: true);
 
                     UpdateVirusDataForStrain(uid, component);
@@ -195,7 +195,7 @@ public sealed class SentientVirusSystem : EntitySystem
             case EvolutionConsoleUiButton.DeleteSymptom:
                 {
                     if (args.Symptom == null
-                        || !_prototypeManager.TryIndex<VirusSymptomPrototype>(args.Symptom, out var proto)
+                        || !_prototypeManager.TryIndex<EntityPrototype>(args.Symptom, out var proto)
                         || component.Data == null)
                         return;
 
@@ -206,7 +206,7 @@ public sealed class SentientVirusSystem : EntitySystem
                     component.Data.MutationPoints -= price;
                     component.Data.ActiveSymptom.Remove(args.Symptom);
 
-                    var symptomInstance = _virusSystem.CreateSymptomInstance(proto);
+                    var symptomInstance = _virusSystem.CreateSymptomInstance(args.Symptom);
                     symptomInstance.ApplyDataEffect(component.Data, add: false);
 
                     UpdateVirusDataForStrain(uid, component);
@@ -367,8 +367,9 @@ public sealed class SentientVirusSystem : EntitySystem
         {
             foreach (var sympId in data.ActiveSymptom)
             {
-                if (_prototypeManager.TryIndex(sympId, out var prototype))
-                    infectivity += prototype.AddInfectivity;
+                if (_prototypeManager.TryIndex(sympId, out var prototype) && 
+                    prototype.TryGetComponent<VirusSymptomComponent>(out var symptomComp))
+                    infectivity += symptomComp.AddInfectivity;
             }
         }
 
@@ -376,8 +377,9 @@ public sealed class SentientVirusSystem : EntitySystem
         {
             foreach (var sympId in data.ActiveSymptom)
             {
-                if (_prototypeManager.TryIndex(sympId, out var prototype))
-                    infectivity += prototype.AddInfectivity;
+                if (_prototypeManager.TryIndex(sympId, out var prototype) && 
+                    prototype.TryGetComponent<VirusSymptomComponent>(out var symptomComp))
+                    infectivity += symptomComp.AddInfectivity;
             }
         }
 

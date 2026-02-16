@@ -2,6 +2,7 @@
 
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
+using Robust.Shared.Prototypes;
 
 namespace Content.Shared.DeadSpace.Virus.Symptoms;
 

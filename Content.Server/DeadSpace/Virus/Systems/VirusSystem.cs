@@ -244,14 +244,13 @@ public sealed partial class VirusSystem : SharedVirusSystem
         if (!Resolve(host, ref host.Comp, false))
             return;
 
-        // Собираем активные типы симптомов из данных вируса
-        var activeTypes = new HashSet<VirusSymptom>();
+        // Собираем активные прототипы симптомов из данных вируса
+        var activePrototypes = new HashSet<EntProtoId>();
         if (host.Comp.Data.ActiveSymptom != null)
         {
             foreach (var protoSymptom in host.Comp.Data.ActiveSymptom)
             {
-                if (_prototype.TryIndex(protoSymptom, out var symptom))
-                    activeTypes.Add(symptom.SymptomType);
+                activePrototypes.Add(protoSymptom);
             }
         }
 
@@ -259,7 +258,7 @@ public sealed partial class VirusSystem : SharedVirusSystem
         for (var i = host.Comp.ActiveSymptomInstances.Count - 1; i >= 0; i--)
         {
             var instance = host.Comp.ActiveSymptomInstances[i];
-            if (!activeTypes.Contains(instance.Type))
+            if (!activePrototypes.Contains(instance.PrototypeId))
             {
                 if (CanManifestInHost((host, host.Comp)))
                     instance.OnRemoved(host, host.Comp);
@@ -277,7 +276,7 @@ public sealed partial class VirusSystem : SharedVirusSystem
                 if (!_prototype.TryIndex(protoSymptom, out var prototype))
                     continue;
 
-                if (host.Comp.ActiveSymptomInstances.Any(s => s.Type == prototype.SymptomType))
+                if (host.Comp.ActiveSymptomInstances.Any(s => s.PrototypeId == protoSymptom))
                     continue;
 
                 var symptomInstance = CreateSymptomInstance(protoSymptom);
@@ -719,7 +718,7 @@ public sealed partial class VirusSystem : SharedVirusSystem
         // создаём симптом с таймером
         var symptom = (T)Activator.CreateInstance(typeof(T), this, _timing, DefaultSymptomWindow)!;
 
-        if (entity.Comp.ActiveSymptomInstances.Any(s => s.Type == symptom.Type))
+        if (entity.Comp.ActiveSymptomInstances.Any(s => s.PrototypeId == symptom.PrototypeId))
             return symptom; // возвращаем существующий симптом, если он уже есть
 
         entity.Comp.ActiveSymptomInstances.Add(symptom);

@@ -1,6 +1,7 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Content.Shared.DeadSpace.Virus.Symptoms;
+using Content.Shared.DeadSpace.Virus.Components;
 using Robust.Shared.Prototypes;
 
 namespace Content.Shared.DeadSpace.Virus.Prototypes;
@@ -53,12 +54,3 @@ public sealed partial class VirusSymptomPrototype : IPrototype
     [DataField]
     public float MaxInterval = 60f;
 }
-
-public enum DangerIndicatorSymptom
-{
-    Low = 0,
-    Medium,
-    High,
-    Cataclysm
-}
-

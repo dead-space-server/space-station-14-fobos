@@ -60,7 +60,7 @@ public abstract class VirusSymptomBase : IVirusSymptom
         if (!_prototypeManager.TryIndex(PrototypeId, out var prototype))
             return;
 
-        if (!_entityManager.TryGetComponent<VirusSymptomComponent>(prototype, out var symptomComp))
+        if (!prototype.TryGetComponent<VirusSymptomComponent>(out var symptomComp))
             return;
 
         if (add)
