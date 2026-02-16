@@ -1,7 +1,6 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using System.Linq;
-using System.Reflection;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
@@ -726,38 +725,57 @@ public sealed partial class VirusSystem : SharedVirusSystem
     {
         try
         {
-            // Try to find the type in all loaded assemblies
-            var type = Type.GetType(typeName);
+            // Try to find the type - first try assembly-qualified name, then search assemblies
+            Type? type = Type.GetType(typeName);
+            
             if (type == null)
             {
-                // Try searching in current assembly and Content.Server assembly
-                type = Assembly.GetExecutingAssembly().GetType(typeName);
+                // Search through all loaded assemblies
+                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    type = assembly.GetType(typeName);
+                    if (type != null)
+                        break;
+                }
+                
                 if (type == null)
                 {
-                    throw new Exception($"Could not find type {typeName} in loaded assemblies");
+                    throw new Exception($"Could not find type '{typeName}' in any loaded assembly. " +
+                                      "Ensure the type name is fully qualified (e.g., Namespace.ClassName) " +
+                                      "and the assembly is loaded.");
                 }
             }
 
             // Verify it implements IVirusSymptom
             if (!typeof(IVirusSymptom).IsAssignableFrom(type))
             {
-                throw new Exception($"Type {typeName} does not implement IVirusSymptom");
+                throw new Exception($"Type '{typeName}' does not implement IVirusSymptom interface. " +
+                                  "All symptom classes must implement IVirusSymptom.");
             }
 
             // Find constructor that takes TimedWindow
             var constructor = type.GetConstructor(new[] { typeof(TimedWindow) });
             if (constructor == null)
             {
-                throw new Exception($"Type {typeName} does not have a constructor accepting TimedWindow");
+                throw new Exception($"Type '{typeName}' does not have a constructor accepting TimedWindow parameter. " +
+                                  "Add a constructor like: public {type.Name}(TimedWindow effectTimedWindow) : base(effectTimedWindow) {{ }}");
             }
 
             // Create instance
-            var instance = constructor.Invoke(new object[] { window });
-            return (IVirusSymptom)instance;
+            try
+            {
+                var instance = constructor.Invoke(new object[] { window });
+                return (IVirusSymptom)instance;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Failed to instantiate type '{typeName}': {ex.InnerException?.Message ?? ex.Message}", ex);
+            }
         }
         catch (Exception ex)
         {
-            throw new Exception($"Failed to instantiate symptom class {typeName}: {ex.Message}", ex);
+            _sawmill.Error($"Failed to create symptom instance via reflection: {ex.Message}");
+            throw;
         }
     }
 

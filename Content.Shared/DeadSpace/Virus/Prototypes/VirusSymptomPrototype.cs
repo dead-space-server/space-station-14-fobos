@@ -31,7 +31,8 @@ public sealed partial class VirusSymptomPrototype : IPrototype
 
     /// <summary>
     ///     Тип симптома. Должен быть уникальным.
-    ///     DEPRECATED: Use SymptomTypeClass instead.
+    ///     DEPRECATED: Use SymptomTypeClass instead. This field will be removed in a future version
+    ///     after all prototypes have been migrated to use SymptomTypeClass.
     /// </summary>
     [DataField]
     public VirusSymptom? SymptomType;
@@ -39,6 +40,7 @@ public sealed partial class VirusSymptomPrototype : IPrototype
     /// <summary>
     ///     Fully qualified type name of the IVirusSymptom implementation class.
     ///     Example: "Content.Server.DeadSpace.Virus.Symptoms.CoughSymptom"
+    ///     This is the preferred method for specifying symptom types.
     /// </summary>
     [DataField]
     public string? SymptomTypeClass;
