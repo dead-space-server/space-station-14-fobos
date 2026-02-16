@@ -7,7 +7,10 @@ namespace Content.Shared.DeadSpace.Virus.Symptoms;
 
 public interface IVirusSymptom
 {
-    VirusSymptom Type { get; }
+    /// <summary>
+    /// Unique identifier for this symptom type (typically the prototype ID).
+    /// </summary>
+    string TypeId { get; }
 
     TimedWindow EffectTimedWindow { get; }
 

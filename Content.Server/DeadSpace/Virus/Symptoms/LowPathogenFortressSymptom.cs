@@ -10,7 +10,6 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class LowPathogenFortressSymptom : VirusSymptomBase
 {
-    public override VirusSymptom Type => VirusSymptom.LowPathogenFortress;
     protected override ProtoId<VirusSymptomPrototype> PrototypeId => "LowPathogenFortressSymptom";
     private int _addMaxThreshold = 50;
 

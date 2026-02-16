@@ -10,7 +10,6 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class LowMutationAccelerationSymptom : VirusSymptomBase
 {
-    public override VirusSymptom Type => VirusSymptom.LowMutationAcceleration;
     protected override ProtoId<VirusSymptomPrototype> PrototypeId => "LowMutationAccelerationSymptom";
     private int _addRegenMutationPoints = 2;
 

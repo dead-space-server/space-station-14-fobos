@@ -31,9 +31,17 @@ public sealed partial class VirusSymptomPrototype : IPrototype
 
     /// <summary>
     ///     Тип симптома. Должен быть уникальным.
+    ///     DEPRECATED: Use SymptomTypeClass instead.
     /// </summary>
-    [DataField(required: true)]
-    public VirusSymptom SymptomType;
+    [DataField]
+    public VirusSymptom? SymptomType;
+
+    /// <summary>
+    ///     Fully qualified type name of the IVirusSymptom implementation class.
+    ///     Example: "Content.Server.DeadSpace.Virus.Symptoms.CoughSymptom"
+    /// </summary>
+    [DataField]
+    public string? SymptomTypeClass;
 
     /// <summary>
     ///     Индикатор, требуется для управления сиптомами в случайных вирусах событий игры.

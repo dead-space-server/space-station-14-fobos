@@ -10,7 +10,6 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class LowChemicalAdaptationSymptom : VirusSymptomBase
 {
-    public override VirusSymptom Type => VirusSymptom.LowChemicalAdaptation;
     protected override ProtoId<VirusSymptomPrototype> PrototypeId => "LowChemicalAdaptationSymptom";
     private float _addDefaultMedicineResistance = 0.1f;
 

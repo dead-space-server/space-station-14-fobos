@@ -10,7 +10,6 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class LowViralRegenerationSymptom : VirusSymptomBase
 {
-    public override VirusSymptom Type => VirusSymptom.LowViralRegeneration;
     protected override ProtoId<VirusSymptomPrototype> PrototypeId => "LowViralRegenerationSymptom";
     private float _addRegenThreshold = 0.5f;
 

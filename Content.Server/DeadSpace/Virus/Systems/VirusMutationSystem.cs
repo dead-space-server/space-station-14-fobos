@@ -197,7 +197,7 @@ public sealed class VirusMutationSystem : EntitySystem
             host.Comp2.Data.MutationPoints -= price;
 
             _sawmill.Debug(
-                $"Попытка мутации #{i + 1}: добавлен новый симптом '{proto.SymptomType}' ({proto.Name}) " +
+                $"Попытка мутации #{i + 1}: добавлен новый симптом '{proto.ID}' ({proto.Name}) " +
                 $"ТекущиеСимптомы=[{string.Join(", ", host.Comp2.Data.ActiveSymptom)}]"
             );
 

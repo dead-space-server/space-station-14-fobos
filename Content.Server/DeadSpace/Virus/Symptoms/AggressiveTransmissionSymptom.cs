@@ -10,7 +10,6 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class AggressiveTransmissionSymptom : VirusSymptomBase
 {
-    public override VirusSymptom Type => VirusSymptom.AggressiveTransmission;
     protected override ProtoId<VirusSymptomPrototype> PrototypeId => "AggressiveTransmissionSymptom";
 
     public AggressiveTransmissionSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)

@@ -1,6 +1,7 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using System.Linq;
+using System.Reflection;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
@@ -214,14 +215,13 @@ public sealed partial class VirusSystem : SharedVirusSystem
         if (!Resolve(host, ref host.Comp, false))
             return;
 
-        // Собираем активные типы симптомов из данных вируса
-        var activeTypes = new HashSet<VirusSymptom>();
+        // Собираем активные типы симптомов из данных вируса (используем prototype IDs)
+        var activeProtoIds = new HashSet<string>();
         if (host.Comp.Data.ActiveSymptom != null)
         {
             foreach (var protoSymptom in host.Comp.Data.ActiveSymptom)
             {
-                if (_prototype.TryIndex(protoSymptom, out var symptom))
-                    activeTypes.Add(symptom.SymptomType);
+                activeProtoIds.Add(protoSymptom);
             }
         }
 
@@ -229,7 +229,7 @@ public sealed partial class VirusSystem : SharedVirusSystem
         for (var i = host.Comp.ActiveSymptomInstances.Count - 1; i >= 0; i--)
         {
             var instance = host.Comp.ActiveSymptomInstances[i];
-            if (!activeTypes.Contains(instance.Type))
+            if (!activeProtoIds.Contains(instance.TypeId))
             {
                 if (CanManifestInHost((host, host.Comp)))
                     instance.OnRemoved(host, host.Comp);
@@ -247,7 +247,7 @@ public sealed partial class VirusSystem : SharedVirusSystem
                 if (!_prototype.TryIndex(protoSymptom, out var prototype))
                     continue;
 
-                if (host.Comp.ActiveSymptomInstances.Any(s => s.Type == prototype.SymptomType))
+                if (host.Comp.ActiveSymptomInstances.Any(s => s.TypeId == protoSymptom))
                     continue;
 
                 var symptomInstance = CreateSymptomInstance(protoSymptom);
@@ -621,7 +621,8 @@ public sealed partial class VirusSystem : SharedVirusSystem
     }
 
     /// <summary>
-    ///     Нужно добавить новый тип вируса в этот switch.
+    ///     Creates a symptom instance from a prototype.
+    ///     Supports both legacy enum-based and new type-class based symptoms.
     /// </summary>
     public IVirusSymptom CreateSymptomInstance(ProtoId<VirusSymptomPrototype> symptomId)
     {
@@ -629,7 +630,18 @@ public sealed partial class VirusSystem : SharedVirusSystem
             throw new Exception($"No prototype for symptom {symptomId}");
 
         var newWindow = new TimedWindow(TimeSpan.FromSeconds(proto.MinInterval), TimeSpan.FromSeconds(proto.MaxInterval));
-        return proto.SymptomType switch
+
+        // If SymptomTypeClass is specified, use reflection to instantiate
+        if (!string.IsNullOrEmpty(proto.SymptomTypeClass))
+        {
+            return CreateSymptomViaReflection(proto.SymptomTypeClass, newWindow);
+        }
+
+        // Fall back to legacy enum-based switch for backwards compatibility
+        if (proto.SymptomType == null)
+            throw new Exception($"Symptom prototype {symptomId} has neither SymptomTypeClass nor SymptomType specified");
+
+        return proto.SymptomType.Value switch
         {
             VirusSymptom.Cough =>
                 new CoughSymptom(newWindow),
@@ -707,6 +719,48 @@ public sealed partial class VirusSystem : SharedVirusSystem
         };
     }
 
+    /// <summary>
+    ///     Creates a symptom instance using reflection from a type name.
+    /// </summary>
+    private IVirusSymptom CreateSymptomViaReflection(string typeName, TimedWindow window)
+    {
+        try
+        {
+            // Try to find the type in all loaded assemblies
+            var type = Type.GetType(typeName);
+            if (type == null)
+            {
+                // Try searching in current assembly and Content.Server assembly
+                type = Assembly.GetExecutingAssembly().GetType(typeName);
+                if (type == null)
+                {
+                    throw new Exception($"Could not find type {typeName} in loaded assemblies");
+                }
+            }
+
+            // Verify it implements IVirusSymptom
+            if (!typeof(IVirusSymptom).IsAssignableFrom(type))
+            {
+                throw new Exception($"Type {typeName} does not implement IVirusSymptom");
+            }
+
+            // Find constructor that takes TimedWindow
+            var constructor = type.GetConstructor(new[] { typeof(TimedWindow) });
+            if (constructor == null)
+            {
+                throw new Exception($"Type {typeName} does not have a constructor accepting TimedWindow");
+            }
+
+            // Create instance
+            var instance = constructor.Invoke(new object[] { window });
+            return (IVirusSymptom)instance;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Failed to instantiate symptom class {typeName}: {ex.Message}", ex);
+        }
+    }
+
     public bool TryGetSymptom<T>(Entity<VirusComponent?> entity, out T? symptom)
     where T : class, IVirusSymptom
     {
@@ -754,7 +808,7 @@ public sealed partial class VirusSystem : SharedVirusSystem
         // создаём симптом с таймером
         var symptom = (T)Activator.CreateInstance(typeof(T), this, _timing, DefaultSymptomWindow)!;
 
-        if (entity.Comp.ActiveSymptomInstances.Any(s => s.Type == symptom.Type))
+        if (entity.Comp.ActiveSymptomInstances.Any(s => s.TypeId == symptom.TypeId))
             return symptom; // возвращаем существующий симптом, если он уже есть
 
         entity.Comp.ActiveSymptomInstances.Add(symptom);

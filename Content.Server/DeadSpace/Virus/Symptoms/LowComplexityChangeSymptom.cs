@@ -10,7 +10,6 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class LowComplexityChangeSymptom : VirusSymptomBase
 {
-    public override VirusSymptom Type => VirusSymptom.LowComplexityChange;
     protected override ProtoId<VirusSymptomPrototype> PrototypeId => "LowComplexityChangeSymptom";
     private int _addMultiPriceDeleteSymptom = 1;
 

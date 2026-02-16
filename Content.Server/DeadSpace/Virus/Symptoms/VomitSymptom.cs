@@ -13,7 +13,6 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 public sealed class VomitSymptom : VirusSymptomBase
 {
     [Dependency] private readonly EntityManager _entityManager = default!;
-    public override VirusSymptom Type => VirusSymptom.Vomit;
     protected override ProtoId<VirusSymptomPrototype> PrototypeId => "VomitSymptom";
 
     public VomitSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)

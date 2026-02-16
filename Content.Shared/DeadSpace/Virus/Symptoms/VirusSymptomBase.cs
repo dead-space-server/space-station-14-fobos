@@ -14,13 +14,16 @@ public abstract class VirusSymptomBase : IVirusSymptom
     public TimedWindow EffectTimedWindow { get; }
     protected abstract ProtoId<VirusSymptomPrototype> PrototypeId { get; }
 
+    /// <summary>
+    /// Unique identifier for this symptom (the prototype ID).
+    /// </summary>
+    public string TypeId => PrototypeId;
+
     protected VirusSymptomBase(TimedWindow effectTimedWindow)
     {
         IoCManager.InjectDependencies(this);
         EffectTimedWindow = effectTimedWindow;
     }
-
-    public abstract VirusSymptom Type { get; }
 
     public virtual void OnAdded(EntityUid host, VirusComponent virus)
     {

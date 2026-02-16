@@ -14,7 +14,6 @@ public sealed class DrowsinessSymptom : VirusSymptomBase
 {
     [Dependency] private readonly EntityManager _entityManager = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
-    public override VirusSymptom Type => VirusSymptom.Drowsiness;
     protected override ProtoId<VirusSymptomPrototype> PrototypeId => "DrowsinessSymptom";
     public static readonly EntProtoId StatusEffectForcedSleeping = "StatusEffectForcedSleeping";
 

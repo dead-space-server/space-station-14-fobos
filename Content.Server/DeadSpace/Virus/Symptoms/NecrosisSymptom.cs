@@ -17,7 +17,6 @@ public sealed class NecrosisSymptom : VirusSymptomBase
 {
     [Dependency] private readonly EntityManager _entityManager = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
-    public override VirusSymptom Type => VirusSymptom.Necrosis;
     protected override ProtoId<VirusSymptomPrototype> PrototypeId => "NecrosisSymptom";
     private static readonly ProtoId<DamageTypePrototype> NecrosisDamageType = "Cellular";
     private float _minDamage = 1f;
