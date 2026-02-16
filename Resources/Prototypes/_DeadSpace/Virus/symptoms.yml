@@ -2,7 +2,7 @@
   id: CoughSymptom
   name: кашель
   description: вызывает сильный кашель у зараженного. Повышает шанс распространения вируса при контакте.
-  symptomType: Cough
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.CoughSymptom
   danger: Low
   addInfectivity: 0.1
   price: 300
@@ -11,7 +11,7 @@
   id: VomitSymptom
   name: тошнота
   description: вызывает рвоту у зараженного
-  symptomType: Vomit
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.VomitSymptom
   danger: Low
   minInterval: 30
   maxInterval: 120
@@ -22,7 +22,7 @@
   id: RashSymptom
   name: сыпь
   description: вызывает кожную сыпь у зараженного. Повышает шанс заражения при контакте.
-  symptomType: Rash
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.RashSymptom
   danger: Medium
   price: 1000
 
@@ -30,7 +30,7 @@
   id: DrowsinessSymptom
   name: сонливость
   description: вызывает сонливость у зараженного
-  symptomType: Drowsiness
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.DrowsinessSymptom
   danger: Medium
   minInterval: 30
   maxInterval: 120
@@ -40,7 +40,7 @@
   id: NecrosisSymptom
   name: некроз
   description: вызывает некроз тканей у зараженного
-  symptomType: Necrosis
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.NecrosisSymptom
   danger: High
   price: 1200
   
@@ -48,7 +48,7 @@
   id: ZombificationSymptom
   name: зомби
   description: превращает зараженного в зомби
-  symptomType: Zombification
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.ZombificationSymptom
   danger: Cataclysm
   price: 3000
 
@@ -56,7 +56,7 @@
   id: LowComplexityChangeSymptom
   name: деградация метаболизма
   description: усложняет внутренние процессы вируса, увеличиваея сложность отката симптомов.
-  symptomType: LowComplexityChange
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.LowComplexityChangeSymptom
   danger: Low
   price: 800
 
@@ -64,7 +64,7 @@
   id: MedComplexityChangeSymptom
   name: искажение метаболизма
   description: серьёзно изменяет внутреннюю структуру вируса, увеличиваея сложность отката симптомов.
-  symptomType: MedComplexityChange
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.MedComplexityChangeSymptom
   danger: Medium
   price: 1600
 
@@ -72,7 +72,7 @@
   id: LowPostMortemResistanceSymptom
   name: трупная устойчивость
   description: вирус получает пониженный урон после смерти носителя.
-  symptomType: LowPostMortemResistance
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.LowPostMortemResistanceSymptom
   danger: Medium
   price: 600
 
@@ -80,7 +80,7 @@
   id: MedPostMortemResistanceSymptom
   name: некротическая адаптация
   description: вирус эффективно сохраняется в мёртвых тканях.
-  symptomType: MedPostMortemResistance
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.MedPostMortemResistanceSymptom
   danger: High
   price: 1000
 
@@ -88,7 +88,7 @@
   id: LowViralRegenerationSymptom
   name: ускоренная репликация
   description: вирус медленно восстанавливает своё здоровье.
-  symptomType: LowViralRegeneration
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.LowViralRegenerationSymptom
   danger: Medium
   price: 1200
 
@@ -96,7 +96,7 @@
   id: MedViralRegenerationSymptom
   name: агрессивная регенерация
   description: вирус активно восстанавливает здоровье и устойчивость.
-  symptomType: MedViralRegeneration
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.MedViralRegenerationSymptom
   danger: High
   price: 1800
 
@@ -104,7 +104,7 @@
   id: LowMutationAccelerationSymptom
   name: нестабильная эволюция
   description: вирус быстрее накапливает очки мутации.
-  symptomType: LowMutationAcceleration
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.LowMutationAccelerationSymptom
   danger: Low
   price: 800
 
@@ -112,7 +112,7 @@
   id: MedMutationAccelerationSymptom
   name: эволюционный всплеск
   description: вирус резко ускоряет процесс мутаций.
-  symptomType: MedMutationAcceleration
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.MedMutationAccelerationSymptom
   danger: Medium
   price: 2000
 
@@ -120,7 +120,7 @@
   id: LowPathogenFortressSymptom
   name: укреплённый патоген
   description: повышает общее здоровье вируса.
-  symptomType: LowPathogenFortress
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.LowPathogenFortressSymptom
   danger: Medium
   price: 1000
 
@@ -128,7 +128,7 @@
   id: MedPathogenFortressSymptom
   name: вирусная крепость
   description: значительно повышает живучесть вируса.
-  symptomType: MedPathogenFortress
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.MedPathogenFortressSymptom
   danger: High
   price: 1500
 
@@ -136,7 +136,7 @@
   id: LowChemicalAdaptationSymptom
   name: химическая адаптация
   description: вирус частично сопротивляется медикаментозному лечению.
-  symptomType: LowChemicalAdaptation
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.LowChemicalAdaptationSymptom
   danger: Low
   price: 700
 
@@ -144,7 +144,7 @@
   id: MedChemicalAdaptationSymptom
   name: лекарственная резистентность
   description: вирус сильно снижает эффективность лекарств.
-  symptomType: MedChemicalAdaptation
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.MedChemicalAdaptationSymptom
   danger: Medium
   price: 1400
 
@@ -152,7 +152,7 @@
   id: AggressiveTransmissionSymptom
   name: агрессивная трансмиссия
   description: вирус значительно повышает шанс заражения окружающих.
-  symptomType: AggressiveTransmission
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.AggressiveTransmissionSymptom
   danger: High
   addInfectivity: 0.3
   price: 1200
@@ -161,7 +161,7 @@
   id: NeuroSpikeSymptom
   name: нейронный всплеск
   description: вызывает резкие болевые импульсы и дезориентацию.
-  symptomType: NeuroSpike
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.NeuroSpikeSymptom
   danger: High
   price: 2000
 
@@ -169,7 +169,7 @@
   id: VocalDisruptionSymptom
   name: нарушение речи
   description: заражённый теряет способность нормально разговаривать.
-  symptomType: VocalDisruption
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.VocalDisruptionSymptom
   danger: Medium
   price: 1300
 
@@ -177,7 +177,7 @@
   id: BlindableSymptom
   name: помутнение зрения
   description: вызывает слепоту.
-  symptomType: Blindable
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.BlindableSymptom
   danger: High
   price: 1000
 
@@ -185,7 +185,7 @@
   id: ParalyzedLegsSymptom
   name: паралич нижних конечностей
   description: заражённый теряет возможность стоять и ходить.
-  symptomType: ParalyzedLegs
+  symptomTypeClass: Content.Server.DeadSpace.Virus.Symptoms.ParalyzedLegsSymptom
   danger: High
   price: 1400
 
