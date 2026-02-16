@@ -10,8 +10,7 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class MedComplexityChangeSymptom : VirusSymptomBase
 {
-    public override VirusSymptom Type => VirusSymptom.MedComplexityChange;
-    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "MedComplexityChangeSymptom";
+    public override EntProtoId PrototypeId => "MedComplexityChangeSymptom";
     private int _addMultiPriceDeleteSymptom = 2;
 
     public MedComplexityChangeSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)

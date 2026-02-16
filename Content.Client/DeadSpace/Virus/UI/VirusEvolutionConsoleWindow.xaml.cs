@@ -18,9 +18,9 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly IEntityManager _entityManager = default!;
     private VirusEvolutionConsoleBoundUserInterfaceState? _lastUpdate;
-    private readonly List<VirusSymptomPrototype> _availableSymptoms = new();
+    private readonly List<EntityPrototype> _availableSymptoms = new();
     private readonly List<BodyPrototype> _availableBodies = new();
-    private ProtoId<VirusSymptomPrototype>? _selectedActiveSymptom;
+    private EntProtoId? _selectedActiveSymptom;
     private ProtoId<BodyPrototype>? _selectedActiveBody;
 
 
@@ -139,10 +139,11 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
             foreach (var active in state.ActiveSymptoms)
             {
                 var price = virusSystem.GetSymptomDeletePrice(state.MultiPriceDeleteSymptom);
-                if (_prototype.TryIndex(active, out var proto))
+                if (_prototype.TryIndex(active, out var proto) &&
+                    proto.TryGetComponent<VirusSymptomComponent>(out var symptomComp))
                 {
                     ActiveSymptomsList.AddItem(
-                        $"{proto.Name} ({price})",
+                        $"{symptomComp.Name} ({price})",
                         metadata: active
                     );
                 }
@@ -151,17 +152,20 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
             AvailableSymptomsList.Clear();
             _availableSymptoms.Clear();
 
-            foreach (var proto in _prototype.EnumeratePrototypes<VirusSymptomPrototype>())
+            foreach (var proto in _prototype.EnumeratePrototypes<EntityPrototype>())
             {
+                if (!proto.TryGetComponent<VirusSymptomComponent>(out var symptomComp))
+                    continue;
+
                 if (state.ActiveSymptoms.Contains(proto.ID))
                     continue;
 
-                if (proto.DangerIndicator == DangerIndicatorSymptom.Cataclysm)
+                if (symptomComp.DangerIndicator == DangerIndicatorSymptom.Cataclysm)
                     continue;
 
                 var price = virusSystem.GetSymptomPrice(state.ActiveSymptoms, proto.ID);
                 AvailableSymptomsList.AddItem(
-                    $"{proto.Name} ({price})",
+                    $"{symptomComp.Name} ({price})",
                     metadata: proto.ID
                 );
 
@@ -276,7 +280,7 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
             return;
 
         var item = ActiveSymptomsList[args.ItemIndex];
-        if (item.Metadata is not ProtoId<VirusSymptomPrototype> id)
+        if (item.Metadata is not EntProtoId id)
             return;
 
         _selectedActiveSymptom = id;

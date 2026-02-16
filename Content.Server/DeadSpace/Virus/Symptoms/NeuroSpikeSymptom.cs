@@ -13,8 +13,7 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 public sealed class NeuroSpikeSymptom : VirusSymptomBase
 {
     [Dependency] private readonly EntityManager _entityManager = default!;
-    public override VirusSymptom Type => VirusSymptom.NeuroSpike;
-    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "NeuroSpikeSymptom";
+    public override EntProtoId PrototypeId => "NeuroSpikeSymptom";
     private TimedWindow _duration = default!;
 
     public NeuroSpikeSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)

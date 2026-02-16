@@ -1,0 +1,261 @@
+# Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
+- type: entity
+  id: CoughSymptom
+  name: кашель
+  description: вызывает сильный кашель у зараженного. Повышает шанс распространения вируса при контакте.
+  components:
+  - type: VirusSymptom
+    name: кашель
+    description: вызывает сильный кашель у зараженного. Повышает шанс распространения вируса при контакте.
+    danger: Low
+    addInfectivity: 0.1
+    price: 300
+
+- type: entity
+  id: VomitSymptom
+  name: тошнота
+  description: вызывает рвоту у зараженного
+  components:
+  - type: VirusSymptom
+    name: тошнота
+    description: вызывает рвоту у зараженного
+    danger: Low
+    minInterval: 30
+    maxInterval: 120
+    addInfectivity: 0.1
+    price: 500
+
+- type: entity
+  id: RashSymptom
+  name: сыпь
+  description: вызывает кожную сыпь у зараженного. Повышает шанс заражения при контакте.
+  components:
+  - type: VirusSymptom
+    name: сыпь
+    description: вызывает кожную сыпь у зараженного. Повышает шанс заражения при контакте.
+    danger: Medium
+    price: 1000
+
+- type: entity
+  id: DrowsinessSymptom
+  name: сонливость
+  description: вызывает сонливость у зараженного
+  components:
+  - type: VirusSymptom
+    name: сонливость
+    description: вызывает сонливость у зараженного
+    danger: Medium
+    minInterval: 30
+    maxInterval: 120
+    price: 800
+
+- type: entity
+  id: NecrosisSymptom
+  name: некроз
+  description: вызывает некроз тканей у зараженного
+  components:
+  - type: VirusSymptom
+    name: некроз
+    description: вызывает некроз тканей у зараженного
+    danger: High
+    price: 1200
+  
+- type: entity
+  id: ZombificationSymptom
+  name: зомби
+  description: превращает зараженного в зомби
+  components:
+  - type: VirusSymptom
+    name: зомби
+    description: превращает зараженного в зомби
+    danger: Cataclysm
+    price: 3000
+
+- type: entity
+  id: LowComplexityChangeSymptom
+  name: деградация метаболизма
+  description: усложняет внутренние процессы вируса, увеличиваея сложность отката симптомов.
+  components:
+  - type: VirusSymptom
+    name: деградация метаболизма
+    description: усложняет внутренние процессы вируса, увеличиваея сложность отката симптомов.
+    danger: Low
+    price: 800
+
+- type: entity
+  id: MedComplexityChangeSymptom
+  name: искажение метаболизма
+  description: серьёзно изменяет внутреннюю структуру вируса, увеличиваея сложность отката симптомов.
+  components:
+  - type: VirusSymptom
+    name: искажение метаболизма
+    description: серьёзно изменяет внутреннюю структуру вируса, увеличиваея сложность отката симптомов.
+    danger: Medium
+    price: 1600
+
+- type: entity
+  id: LowPostMortemResistanceSymptom
+  name: трупная устойчивость
+  description: вирус получает пониженный урон после смерти носителя.
+  components:
+  - type: VirusSymptom
+    name: трупная устойчивость
+    description: вирус получает пониженный урон после смерти носителя.
+    danger: Medium
+    price: 600
+
+- type: entity
+  id: MedPostMortemResistanceSymptom
+  name: некротическая адаптация
+  description: вирус эффективно сохраняется в мёртвых тканях.
+  components:
+  - type: VirusSymptom
+    name: некротическая адаптация
+    description: вирус эффективно сохраняется в мёртвых тканях.
+    danger: High
+    price: 1000
+
+- type: entity
+  id: LowViralRegenerationSymptom
+  name: ускоренная репликация
+  description: вирус медленно восстанавливает своё здоровье.
+  components:
+  - type: VirusSymptom
+    name: ускоренная репликация
+    description: вирус медленно восстанавливает своё здоровье.
+    danger: Medium
+    price: 1200
+
+- type: entity
+  id: MedViralRegenerationSymptom
+  name: агрессивная регенерация
+  description: вирус активно восстанавливает здоровье и устойчивость.
+  components:
+  - type: VirusSymptom
+    name: агрессивная регенерация
+    description: вирус активно восстанавливает здоровье и устойчивость.
+    danger: High
+    price: 1800
+
+- type: entity
+  id: LowMutationAccelerationSymptom
+  name: нестабильная эволюция
+  description: вирус быстрее накапливает очки мутации.
+  components:
+  - type: VirusSymptom
+    name: нестабильная эволюция
+    description: вирус быстрее накапливает очки мутации.
+    danger: Low
+    price: 800
+
+- type: entity
+  id: MedMutationAccelerationSymptom
+  name: эволюционный всплеск
+  description: вирус резко ускоряет процесс мутаций.
+  components:
+  - type: VirusSymptom
+    name: эволюционный всплеск
+    description: вирус резко ускоряет процесс мутаций.
+    danger: Medium
+    price: 2000
+
+- type: entity
+  id: LowPathogenFortressSymptom
+  name: укреплённый патоген
+  description: повышает общее здоровье вируса.
+  components:
+  - type: VirusSymptom
+    name: укреплённый патоген
+    description: повышает общее здоровье вируса.
+    danger: Medium
+    price: 1000
+
+- type: entity
+  id: MedPathogenFortressSymptom
+  name: вирусная крепость
+  description: значительно повышает живучесть вируса.
+  components:
+  - type: VirusSymptom
+    name: вирусная крепость
+    description: значительно повышает живучесть вируса.
+    danger: High
+    price: 1500
+
+- type: entity
+  id: LowChemicalAdaptationSymptom
+  name: химическая адаптация
+  description: вирус частично сопротивляется медикаментозному лечению.
+  components:
+  - type: VirusSymptom
+    name: химическая адаптация
+    description: вирус частично сопротивляется медикаментозному лечению.
+    danger: Low
+    price: 700
+
+- type: entity
+  id: MedChemicalAdaptationSymptom
+  name: лекарственная резистентность
+  description: вирус сильно снижает эффективность лекарств.
+  components:
+  - type: VirusSymptom
+    name: лекарственная резистентность
+    description: вирус сильно снижает эффективность лекарств.
+    danger: Medium
+    price: 1400
+
+- type: entity
+  id: AggressiveTransmissionSymptom
+  name: агрессивная трансмиссия
+  description: вирус значительно повышает шанс заражения окружающих.
+  components:
+  - type: VirusSymptom
+    name: агрессивная трансмиссия
+    description: вирус значительно повышает шанс заражения окружающих.
+    danger: High
+    addInfectivity: 0.3
+    price: 1200
+
+- type: entity
+  id: NeuroSpikeSymptom
+  name: нейронный всплеск
+  description: вызывает резкие болевые импульсы и дезориентацию.
+  components:
+  - type: VirusSymptom
+    name: нейронный всплеск
+    description: вызывает резкие болевые импульсы и дезориентацию.
+    danger: High
+    price: 2000
+
+- type: entity
+  id: VocalDisruptionSymptom
+  name: нарушение речи
+  description: заражённый теряет способность нормально разговаривать.
+  components:
+  - type: VirusSymptom
+    name: нарушение речи
+    description: заражённый теряет способность нормально разговаривать.
+    danger: Medium
+    price: 1300
+
+- type: entity
+  id: BlindableSymptom
+  name: помутнение зрения
+  description: вызывает слепоту.
+  components:
+  - type: VirusSymptom
+    name: помутнение зрения
+    description: вызывает слепоту.
+    danger: High
+    price: 1000
+
+- type: entity
+  id: ParalyzedLegsSymptom
+  name: паралич нижних конечностей
+  description: заражённый теряет возможность стоять и ходить.
+  components:
+  - type: VirusSymptom
+    name: паралич нижних конечностей
+    description: заражённый теряет возможность стоять и ходить.
+    danger: High
+    price: 1400

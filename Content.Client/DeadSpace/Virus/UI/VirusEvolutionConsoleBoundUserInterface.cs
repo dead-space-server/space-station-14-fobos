@@ -86,7 +86,7 @@ namespace Content.Client.DeadSpace.Virus.UI
                 return null;
 
             var item = _window.ActiveSymptomsList.GetSelected().FirstOrDefault();
-            if (item?.Metadata is ProtoId<VirusSymptomPrototype> id)
+            if (item?.Metadata is EntProtoId id)
                 return id.Id;
 
             return null;

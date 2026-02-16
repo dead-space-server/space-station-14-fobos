@@ -12,15 +12,17 @@ public abstract class VirusSymptomBase : IVirusSymptom
     [Dependency] private readonly EntityManager _entityManager = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     public TimedWindow EffectTimedWindow { get; }
-    protected abstract ProtoId<VirusSymptomPrototype> PrototypeId { get; }
+    
+    /// <summary>
+    ///     The entity prototype ID for this symptom.
+    /// </summary>
+    public abstract EntProtoId PrototypeId { get; }
 
     protected VirusSymptomBase(TimedWindow effectTimedWindow)
     {
         IoCManager.InjectDependencies(this);
         EffectTimedWindow = effectTimedWindow;
     }
-
-    public abstract VirusSymptom Type { get; }
 
     public virtual void OnAdded(EntityUid host, VirusComponent virus)
     {
@@ -58,13 +60,16 @@ public abstract class VirusSymptomBase : IVirusSymptom
         if (!_prototypeManager.TryIndex(PrototypeId, out var prototype))
             return;
 
+        if (!_entityManager.TryGetComponent<VirusSymptomComponent>(prototype, out var symptomComp))
+            return;
+
         if (add)
         {
             var timedWindowSystem = _entityManager.System<TimedWindowSystem>();
             timedWindowSystem.Reset(EffectTimedWindow);
-            data.Infectivity = Math.Clamp(data.Infectivity + prototype.AddInfectivity, 0, 1);
+            data.Infectivity = Math.Clamp(data.Infectivity + symptomComp.AddInfectivity, 0, 1);
         }
         else
-            data.Infectivity = Math.Clamp(data.Infectivity - prototype.AddInfectivity, 0, 1);
+            data.Infectivity = Math.Clamp(data.Infectivity - symptomComp.AddInfectivity, 0, 1);
     }
 }

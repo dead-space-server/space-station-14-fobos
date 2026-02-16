@@ -105,30 +105,42 @@ public abstract partial class SharedVirusSystem : EntitySystem
         _sawmill = _logManager.GetSawmill("SharedVirusSystem");
     }
 
-    public int GetSymptomPrice(VirusData data, ProtoId<VirusSymptomPrototype> symptomId)
+    public int GetSymptomPrice(VirusData data, EntProtoId symptomId)
     {
         if (!_prototype.TryIndex(symptomId, out var proto))
             return 0;
 
-        return Math.Max(1, data.ActiveSymptom.Count) * proto.Price;
+        if (!proto.TryGetComponent<VirusSymptomComponent>(out var symptomComp))
+            return 0;
+
+        return Math.Max(1, data.ActiveSymptom.Count) * symptomComp.Price;
     }
 
-    public int GetSymptomPrice(List<ProtoId<VirusSymptomPrototype>> symptoms, ProtoId<VirusSymptomPrototype> symptomId)
+    public int GetSymptomPrice(List<EntProtoId> symptoms, EntProtoId symptomId)
     {
         if (!_prototype.TryIndex(symptomId, out var proto))
             return 0;
 
-        return Math.Max(1, symptoms.Count) * proto.Price;
+        if (!proto.TryGetComponent<VirusSymptomComponent>(out var symptomComp))
+            return 0;
+
+        return Math.Max(1, symptoms.Count) * symptomComp.Price;
     }
 
-    public int GetSymptomPrice(List<ProtoId<VirusSymptomPrototype>> symptoms, VirusSymptomPrototype proto)
+    public int GetSymptomPrice(List<EntProtoId> symptoms, EntityPrototype proto)
     {
-        return Math.Max(1, symptoms.Count) * proto.Price;
+        if (!proto.TryGetComponent<VirusSymptomComponent>(out var symptomComp))
+            return 0;
+
+        return Math.Max(1, symptoms.Count) * symptomComp.Price;
     }
 
-    public int GetSymptomPrice(VirusData data, VirusSymptomPrototype proto)
+    public int GetSymptomPrice(VirusData data, EntityPrototype proto)
     {
-        return Math.Max(1, data.ActiveSymptom.Count) * proto.Price;
+        if (!proto.TryGetComponent<VirusSymptomComponent>(out var symptomComp))
+            return 0;
+
+        return Math.Max(1, data.ActiveSymptom.Count) * symptomComp.Price;
     }
 
     public int GetBodyPrice(VirusData data)

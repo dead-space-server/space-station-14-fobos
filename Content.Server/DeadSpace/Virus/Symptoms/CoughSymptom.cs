@@ -13,8 +13,7 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 public sealed class CoughSymptom : VirusSymptomBase
 {
     [Dependency] private readonly EntityManager _entityManager = default!;
-    public override VirusSymptom Type => VirusSymptom.Cough;
-    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "CoughSymptom";
+    public override EntProtoId PrototypeId => "CoughSymptom";
     private static readonly ProtoId<EmotePrototype> CoughEmote = "Cough";
 
     public CoughSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)

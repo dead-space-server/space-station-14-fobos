@@ -10,8 +10,7 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 
 public sealed class LowPostMortemResistanceSymptom : VirusSymptomBase
 {
-    public override VirusSymptom Type => VirusSymptom.LowPostMortemResistance;
-    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "LowPostMortemResistanceSymptom";
+    public override EntProtoId PrototypeId => "LowPostMortemResistanceSymptom";
     private float _addDamageWhenDead = 1f;
 
     public LowPostMortemResistanceSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)

@@ -12,8 +12,7 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 public sealed class ParalyzedLegsSymptom : VirusSymptomBase
 {
     [Dependency] private readonly EntityManager _entityManager = default!;
-    public override VirusSymptom Type => VirusSymptom.ParalyzedLegs;
-    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "ParalyzedLegsSymptom";
+    public override EntProtoId PrototypeId => "ParalyzedLegsSymptom";
     private bool _hasComp = false;
 
     public ParalyzedLegsSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)

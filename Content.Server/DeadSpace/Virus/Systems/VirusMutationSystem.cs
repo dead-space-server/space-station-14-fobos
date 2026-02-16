@@ -41,7 +41,7 @@ public sealed class VirusMutationSystem : EntitySystem
     ///     Список всех body и симптомов, да, при загрузке прототипа body его тут не будет.
     /// </summary>
     private List<ProtoId<BodyPrototype>> _allBodyCache = new();
-    private List<ProtoId<VirusSymptomPrototype>> _allSymptomsCache = new();
+    private List<EntProtoId> _allSymptomsCache = new();
 
 
     /// <summary>
@@ -60,8 +60,11 @@ public sealed class VirusMutationSystem : EntitySystem
                 _allBodyCache.Add(proto.ID);
         }
 
-        foreach (var proto in _prototype.EnumeratePrototypes<VirusSymptomPrototype>())
-            _allSymptomsCache.Add(proto.ID);
+        foreach (var proto in _prototype.EnumeratePrototypes<EntityPrototype>())
+        {
+            if (proto.HasComponent<VirusSymptomComponent>())
+                _allSymptomsCache.Add(proto.ID);
+        }
 
         SubscribeLocalEvent<VirusMutationComponent, ComponentInit>(OnInit);
         SubscribeLocalEvent<VirusMutationComponent, GetVerbsEvent<Verb>>(DoSetVerbs);

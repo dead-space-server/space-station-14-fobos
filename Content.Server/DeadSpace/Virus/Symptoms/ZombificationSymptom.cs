@@ -13,8 +13,7 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 public sealed class ZombificationSymptom : VirusSymptomBase
 {
     [Dependency] private readonly EntityManager _entityManager = default!;
-    public override VirusSymptom Type => VirusSymptom.Zombification;
-    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "ZombificationSymptom";
+    public override EntProtoId PrototypeId => "ZombificationSymptom";
 
     public ZombificationSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
     { }

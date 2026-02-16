@@ -17,7 +17,7 @@ public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInte
     public bool DataServerInRange { get; }
     public bool SolutionAnalyzerInRange { get; }
     public bool HasVirus { get; }
-    public List<ProtoId<VirusSymptomPrototype>> ActiveSymptoms = new();
+    public List<EntProtoId> ActiveSymptoms = new();
     public List<ProtoId<BodyPrototype>> BodyWhitelist = new();
 
     // Статистика вируса
@@ -35,7 +35,7 @@ public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInte
         bool dataServerInRange,
         bool solutionAnalyzerInRange,
         bool hasVirus = false,
-        List<ProtoId<VirusSymptomPrototype>>? activeSymptoms = null,
+        List<EntProtoId>? activeSymptoms = null,
         List<ProtoId<BodyPrototype>>? bodyWhitelist = null,
         float maxThreshold = 100f,
         float infectivity = 0f,
@@ -49,7 +49,7 @@ public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInte
         SolutionAnalyzerConnected = solutionAnalyzerConnected;
         DataServerInRange = dataServerInRange;
         SolutionAnalyzerInRange = solutionAnalyzerInRange;
-        ActiveSymptoms = activeSymptoms ?? new List<ProtoId<VirusSymptomPrototype>>();
+        ActiveSymptoms = activeSymptoms ?? new List<EntProtoId>();
         BodyWhitelist = bodyWhitelist ?? new List<ProtoId<BodyPrototype>>();
         IsSentientVirus = isSentientVirus;
         HasVirus = hasVirus;

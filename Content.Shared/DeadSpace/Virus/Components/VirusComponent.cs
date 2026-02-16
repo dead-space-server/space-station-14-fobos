@@ -113,7 +113,7 @@ public sealed partial class VirusData : ReagentData
     /// </summary>
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
-    public List<ProtoId<VirusSymptomPrototype>> ActiveSymptom = new();
+    public List<EntProtoId> ActiveSymptom = new();
 
     /// <summary>
     ///     Живучесть вируса. Если <= 0, организм считается вылеченным.

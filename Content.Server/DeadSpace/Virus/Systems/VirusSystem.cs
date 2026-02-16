@@ -79,6 +79,36 @@ public sealed partial class VirusSystem : SharedVirusSystem
         SubscribeLocalEvent<VirusComponent, CureVirusEvent>(OnCureVirus);
 
         RashInitialize();
+        InitializeSymptomFactories();
+    }
+
+    private Dictionary<string, Func<TimedWindow, IVirusSymptom>> _symptomFactories = new();
+
+    private void InitializeSymptomFactories()
+    {
+        _symptomFactories["CoughSymptom"] = (window) => new CoughSymptom(window);
+        _symptomFactories["VomitSymptom"] = (window) => new VomitSymptom(window);
+        _symptomFactories["RashSymptom"] = (window) => new RashSymptom(window);
+        _symptomFactories["DrowsinessSymptom"] = (window) => new DrowsinessSymptom(window);
+        _symptomFactories["NecrosisSymptom"] = (window) => new NecrosisSymptom(window);
+        _symptomFactories["ZombificationSymptom"] = (window) => new ZombificationSymptom(window);
+        _symptomFactories["LowComplexityChangeSymptom"] = (window) => new LowComplexityChangeSymptom(window);
+        _symptomFactories["MedComplexityChangeSymptom"] = (window) => new MedComplexityChangeSymptom(window);
+        _symptomFactories["LowPostMortemResistanceSymptom"] = (window) => new LowPostMortemResistanceSymptom(window);
+        _symptomFactories["MedPostMortemResistanceSymptom"] = (window) => new MedPostMortemResistanceSymptom(window);
+        _symptomFactories["LowViralRegenerationSymptom"] = (window) => new LowViralRegenerationSymptom(window);
+        _symptomFactories["MedViralRegenerationSymptom"] = (window) => new MedViralRegenerationSymptom(window);
+        _symptomFactories["LowMutationAccelerationSymptom"] = (window) => new LowMutationAccelerationSymptom(window);
+        _symptomFactories["MedMutationAccelerationSymptom"] = (window) => new MedMutationAccelerationSymptom(window);
+        _symptomFactories["LowPathogenFortressSymptom"] = (window) => new LowPathogenFortressSymptom(window);
+        _symptomFactories["MedPathogenFortressSymptom"] = (window) => new MedPathogenFortressSymptom(window);
+        _symptomFactories["LowChemicalAdaptationSymptom"] = (window) => new LowChemicalAdaptationSymptom(window);
+        _symptomFactories["MedChemicalAdaptationSymptom"] = (window) => new MedChemicalAdaptationSymptom(window);
+        _symptomFactories["AggressiveTransmissionSymptom"] = (window) => new AggressiveTransmissionSymptom(window);
+        _symptomFactories["NeuroSpikeSymptom"] = (window) => new NeuroSpikeSymptom(window);
+        _symptomFactories["VocalDisruptionSymptom"] = (window) => new VocalDisruptionSymptom(window);
+        _symptomFactories["BlindableSymptom"] = (window) => new BlindableSymptom(window);
+        _symptomFactories["ParalyzedLegsSymptom"] = (window) => new ParalyzedLegsSymptom(window);
     }
 
     public override void Update(float frameTime)
@@ -621,90 +651,25 @@ public sealed partial class VirusSystem : SharedVirusSystem
     }
 
     /// <summary>
-    ///     Нужно добавить новый тип вируса в этот switch.
+    ///     Creates a symptom instance from entity prototype ID.
     /// </summary>
-    public IVirusSymptom CreateSymptomInstance(ProtoId<VirusSymptomPrototype> symptomId)
+    public IVirusSymptom CreateSymptomInstance(EntProtoId symptomId)
     {
         if (!_prototype.TryIndex(symptomId, out var proto))
-            throw new Exception($"No prototype for symptom {symptomId}");
+            throw new Exception($"No entity prototype for symptom {symptomId}");
 
-        var newWindow = new TimedWindow(TimeSpan.FromSeconds(proto.MinInterval), TimeSpan.FromSeconds(proto.MaxInterval));
-        return proto.SymptomType switch
-        {
-            VirusSymptom.Cough =>
-                new CoughSymptom(newWindow),
+        if (!proto.TryGetComponent<VirusSymptomComponent>(out var symptomComp))
+            throw new Exception($"Entity prototype {symptomId} does not have VirusSymptomComponent");
 
-            VirusSymptom.Vomit =>
-                new VomitSymptom(newWindow),
+        var newWindow = new TimedWindow(
+            TimeSpan.FromSeconds(symptomComp.MinInterval),
+            TimeSpan.FromSeconds(symptomComp.MaxInterval)
+        );
 
-            VirusSymptom.Rash =>
-                new RashSymptom(newWindow),
+        if (!_symptomFactories.TryGetValue(symptomId, out var factory))
+            throw new Exception($"No factory registered for symptom {symptomId}");
 
-            VirusSymptom.Drowsiness =>
-                new DrowsinessSymptom(newWindow),
-
-            VirusSymptom.Necrosis =>
-                new NecrosisSymptom(newWindow),
-
-            VirusSymptom.Zombification =>
-                new ZombificationSymptom(newWindow),
-
-            VirusSymptom.LowComplexityChange =>
-                new LowComplexityChangeSymptom(newWindow),
-
-            VirusSymptom.MedComplexityChange =>
-                new MedComplexityChangeSymptom(newWindow),
-
-            VirusSymptom.LowPostMortemResistance =>
-                new LowPostMortemResistanceSymptom(newWindow),
-
-            VirusSymptom.MedPostMortemResistance =>
-                new MedPostMortemResistanceSymptom(newWindow),
-
-            VirusSymptom.LowViralRegeneration =>
-                new LowViralRegenerationSymptom(newWindow),
-
-            VirusSymptom.MedViralRegeneration =>
-                new MedViralRegenerationSymptom(newWindow),
-
-            VirusSymptom.LowMutationAcceleration =>
-                new LowMutationAccelerationSymptom(newWindow),
-
-            VirusSymptom.MedMutationAcceleration =>
-                new MedMutationAccelerationSymptom(newWindow),
-
-            VirusSymptom.LowPathogenFortress =>
-                new LowPathogenFortressSymptom(newWindow),
-
-            VirusSymptom.MedPathogenFortress =>
-                new MedPathogenFortressSymptom(newWindow),
-
-            VirusSymptom.LowChemicalAdaptation =>
-                new LowChemicalAdaptationSymptom(newWindow),
-
-            VirusSymptom.MedChemicalAdaptation =>
-                new MedChemicalAdaptationSymptom(newWindow),
-
-            VirusSymptom.AggressiveTransmission =>
-                new AggressiveTransmissionSymptom(newWindow),
-
-            VirusSymptom.NeuroSpike =>
-                new NeuroSpikeSymptom(newWindow),
-
-            VirusSymptom.VocalDisruption =>
-                new VocalDisruptionSymptom(newWindow),
-
-            VirusSymptom.Blindable =>
-                new BlindableSymptom(newWindow),
-
-            VirusSymptom.ParalyzedLegs =>
-                new ParalyzedLegsSymptom(newWindow),
-
-            _ => throw new ArgumentOutOfRangeException(
-                nameof(proto.SymptomType),
-                $"Unknown virus symptom {proto.SymptomType}"
-            )
-        };
+        return factory(newWindow);
     }
 
     public bool TryGetSymptom<T>(Entity<VirusComponent?> entity, out T? symptom)

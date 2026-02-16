@@ -12,8 +12,7 @@ namespace Content.Server.DeadSpace.Virus.Symptoms;
 public sealed class RashSymptom : VirusSymptomBase
 {
     [Dependency] private readonly EntityManager _entityManager = default!;
-    public override VirusSymptom Type => VirusSymptom.Rash;
-    protected override ProtoId<VirusSymptomPrototype> PrototypeId => "RashSymptom";
+    public override EntProtoId PrototypeId => "RashSymptom";
     private const string RashEmote = "чешется";
 
     public RashSymptom(TimedWindow effectTimedWindow) : base(effectTimedWindow)
