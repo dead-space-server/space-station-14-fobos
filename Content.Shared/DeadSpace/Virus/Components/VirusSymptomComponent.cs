@@ -33,7 +33,7 @@ public sealed partial class VirusSymptomComponent : Component
     ///     Цена мутации.
     /// </summary>
     [DataField]
-    public int Price = 100;
+    public int Price { get; private set; } = 100;
 
     /// <summary>
     ///     Индикатор опасности симптома.
