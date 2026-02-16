@@ -275,8 +275,23 @@ namespace Content.Server.Communications
             // DS14-Languages-end
 
             if (comp.AnnounceSentBy)
-                msg += "\n" + Loc.GetString("comms-console-announcement-sent-by") + " " + author;
-
+            // DS14-Start
+            {
+                var sentByStrings = new[]
+                {
+                    "comms-console-announcement-sent-by",
+                    "comms-console-announcement-sent-by2",
+                    "comms-console-announcement-sent-by3",
+                    "comms-console-announcement-sent-by4"
+                };
+                
+                var random = new Random();
+                var randomIndex = random.Next(sentByStrings.Length);
+                var selectedSentByString = sentByStrings[randomIndex];
+                
+                msg += "\n" + Loc.GetString(selectedSentByString) + " " + author;
+            }
+            // DS14-End
             if (comp.Global)
             {
                 _chatSystem.DispatchGlobalAnnouncement(msg, title, announcementSound: comp.Sound, colorOverride: comp.Color, originalMessage: originalMessage, author: message.Actor, languageId: languageId); // DS14-TTS

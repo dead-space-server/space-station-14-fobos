@@ -12,6 +12,9 @@ comms-console-shuttle-unavailable = В настоящее время шаттл 
 comms-console-message-too-long = Сообщение слишком длинное
 # Placeholder values
 comms-console-announcement-sent-by = Отправитель
+comms-console-announcement-sent-by3 = Высказался
+comms-console-announcement-sent-by2 = Сообщение передал
+comms-console-announcement-sent-by4 = Ваш любимый
 comms-console-announcement-unknown-sender = Неизвестный
 # User interface
 comms-console-menu-title = Консоль связи
