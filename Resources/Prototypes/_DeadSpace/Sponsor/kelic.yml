@@ -126,8 +126,6 @@
     sprintModifier: 1
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.65
         Slash: 0.65

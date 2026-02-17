@@ -1,7 +1,7 @@
 {
     "version": 1,
     "license": "CC-BY-SA-3.0",
-    "copyright": "Created by discord:IAmRasputin#5242, equipped-OUTERCLOTHING-monkey made by Dutch-VanDerLinde, vox state made by Flareguy for SS14, equipped-OUTERCLOTHING-dog modified from equipped-OUTERCLOTHING by casiliuscestus (GitHub), equipped-OUTERCLOTHING-scurret modified from equipped-OUTERCLOTHING by FairlySadPanda (Github)",
+    "copyright": "Taken from  Shiptest at commit https://github.com/shiptest-ss13/Shiptest/commit/40a23dcd2a5023373bb6d1dc78514759a7e3e873 ; equipped-OUTERCLOTHING-monkey by siwathecat (discord)",
     "size": {
         "x": 32,
         "y": 32
@@ -19,19 +19,7 @@
             "directions": 4
         },
         {
-            "name": "equipped-OUTERCLOTHING-reptilian",
-            "directions": 4
-        },
-        {
             "name": "equipped-OUTERCLOTHING-monkey",
-            "directions": 4
-        },
-        {
-            "name": "equipped-OUTERCLOTHING-dog",
-            "directions": 4
-        },
-        {
-            "name": "equipped-OUTERCLOTHING-scurret",
             "directions": 4
         },
         {

@@ -6,8 +6,6 @@
   components:
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Piercing: 2 #изначально был создан для боевого промысла, смысла от него в качестве гражданской вариации нету
       types:
         Piercing: 15 #DS14-value
 

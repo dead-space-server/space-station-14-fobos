@@ -34,5 +34,3 @@ ent-PelletGlass = стеклянный осколок
     .desc = { ent-BaseBullet.desc }
 ent-PelletGlassSpread = { ent-PelletGlass }
     .desc = { ent-PelletGlass.desc }
-ent-PelletShotgunMagnum = дробина (12х70 магнум)
-    .desc = { ent-BaseBullet.desc }
