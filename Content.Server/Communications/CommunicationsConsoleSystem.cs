@@ -22,8 +22,8 @@ using Robust.Shared.Configuration;
 using Content.Shared.DeadSpace.Languages.Components;
 using Content.Server.DeadSpace.Languages;
 using Content.Shared.Corvax.TTS;
-using Content.Shared.Humanoid;           // для HumanoidAppearanceComponent
-using Content.Shared.Humanoid.Prototypes; // для Sex
+using Content.Shared.Humanoid;           // DS14
+using Content.Shared.Humanoid.Prototypes; // DS14
 
 namespace Content.Server.Communications
 {
