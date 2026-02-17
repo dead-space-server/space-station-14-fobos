@@ -22,6 +22,8 @@ using Robust.Shared.Configuration;
 using Content.Shared.DeadSpace.Languages.Components;
 using Content.Server.DeadSpace.Languages;
 using Content.Shared.Corvax.TTS;
+using Content.Shared.Humanoid;           // для HumanoidAppearanceComponent
+using Content.Shared.Humanoid.Prototypes; // для Sex
 
 namespace Content.Server.Communications
 {
@@ -277,17 +279,59 @@ namespace Content.Server.Communications
             if (comp.AnnounceSentBy)
             // DS14-Start
             {
-                var sentByStrings = new[]
-                {
-                    "comms-console-announcement-sent-by",
-                    "comms-console-announcement-sent-by2",
-                    "comms-console-announcement-sent-by3",
-                    "comms-console-announcement-sent-by4"
-                };
+                Sex sex = Sex.Unsexed;
+                string selectedSentByString;
                 
-                var random = new Random();
-                var randomIndex = random.Next(sentByStrings.Length);
-                var selectedSentByString = sentByStrings[randomIndex];
+                if (TryComp<HumanoidAppearanceComponent>(message.Actor, out var humanoid))
+                {
+                    sex = humanoid.Sex;
+                }
+                
+                if (sex == Sex.Female)
+                {
+                    // Female
+                    var femaleSentByStrings = new[]
+                    {
+                        "comms-console-announcement-sent-by-female1",
+                        "comms-console-announcement-sent-by-female2",
+                        "comms-console-announcement-sent-by-female3",
+                        "comms-console-announcement-sent-by-female4"
+                    };
+                    
+                    var random = new Random();
+                    var randomIndex = random.Next(femaleSentByStrings.Length);
+                    selectedSentByString = femaleSentByStrings[randomIndex];
+                }
+                else if (sex == Sex.Male)
+                {
+                    // Male
+                    var maleSentByStrings = new[]
+                    {
+                        "comms-console-announcement-sent-by-male1",
+                        "comms-console-announcement-sent-by-male2",
+                        "comms-console-announcement-sent-by-male3",
+                        "comms-console-announcement-sent-by-male4"
+                    };
+                    
+                    var random = new Random();
+                    var randomIndex = random.Next(maleSentByStrings.Length);
+                    selectedSentByString = maleSentByStrings[randomIndex];
+                }
+                else
+                {
+                    // Nonsexed
+                    var unsexedSentByStrings = new[]
+                    {
+                        "comms-console-announcement-sent-by-nonsexed1",
+                        "comms-console-announcement-sent-by-nonsexed2",
+                        "comms-console-announcement-sent-by-nonsexed3",
+                        "comms-console-announcement-sent-by-nonsexed4"
+                    };
+                    
+                    var random = new Random();
+                    var randomIndex = random.Next(unsexedSentByStrings.Length);
+                    selectedSentByString = unsexedSentByStrings[randomIndex];
+                }
                 
                 msg += "\n" + Loc.GetString(selectedSentByString) + " " + author;
             }
