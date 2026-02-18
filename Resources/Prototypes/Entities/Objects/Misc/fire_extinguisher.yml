@@ -162,7 +162,7 @@
   description: Тушит огонь без необходимости в перезарядке.
   components:
   - type: Sprite
-    sprite: Objects/Misc/fire_extinguisher.rsi
+    sprite: _DeadSpace/Objects/Misc/fire_extinguisherPRO.rsi
     layers:
     - state: fire_extinguisher_closed
       map: [ "enum.ToggleableVisuals.Layer" ]
