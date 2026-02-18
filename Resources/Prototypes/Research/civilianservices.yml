@@ -180,6 +180,7 @@
   recipeUnlocks:
   - WeaponSprayNozzle
   - ClothingBackpackWaterTank
+  - FireExtinguisherPRO #DS14
 
 - type: technology
   id: BluespaceCargoTransport
