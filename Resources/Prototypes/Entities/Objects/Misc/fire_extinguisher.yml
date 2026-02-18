@@ -153,3 +153,85 @@
       reagents:
       - ReagentId: Water
         Quantity: 1
+
+#DS14-Start
+- type: entity
+  name: продвинутый огнетушитель
+  parent: BaseItem
+  id: FireExtinguisherPRO
+  description: Тушит огонь без необходимости в перезарядке.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/fire_extinguisher.rsi
+    layers:
+    - state: fire_extinguisher_closed
+      map: [ "enum.ToggleableVisuals.Layer" ]
+  - type: Item
+    sprite: Objects/Misc/fire_extinguisher.rsi
+    size: Normal
+  - type: SolutionContainerManager
+    solutions:
+      spray:
+        maxVol: 100
+        reagents:
+        - ReagentId: Water
+          Quantity: 100
+  - type: RefillableSolution
+    solution: spray
+  - type: DrainableSolution
+    solution: spray
+  - type: SolutionTransfer
+    maxTransferAmount: 100
+    transferAmount: 100
+  - type: UseDelay
+  - type: Spray
+    transferAmount: 10
+    pushbackAmount: 60
+    spraySound:
+      path: /Audio/Effects/extinguish.ogg
+    sprayedPrototype: ExtinguisherSpray
+    vaporAmount: 3
+    vaporSpread: 90
+    sprayVelocity: 2.0
+  - type: ItemToggle
+    soundActivate:
+      path: /Audio/Machines/button.ogg
+      params:
+        variation: 0.125
+        volume: -4
+    soundDeactivate:
+      path: /Audio/Machines/button.ogg
+      params:
+        variation: 0.125
+        volume: -4
+    verbToggleOn: fire-extinguisher-component-verb-remove
+    verbToggleOff: fire-extinguisher-component-verb-engage
+  - type: SpraySafety
+  - type: MeleeWeapon
+    wideAnimationRotation: 180
+    damage:
+      types:
+        Blunt: 10
+    soundHit:
+      path: /Audio/Weapons/smash.ogg
+  - type: Tool
+    qualities:
+    - Rolling
+    speedModifier: 0.5
+  - type: Appearance
+  - type: Tag
+    tags:
+      - FireExtinguisherPRO
+  - type: GenericVisualizer
+    visuals:
+      enum.ToggleableVisuals.Enabled:
+        enum.ToggleableVisuals.Layer:
+          True: { state: fire_extinguisher_open }
+          False: { state: fire_extinguisher_closed }
+  - type: SolutionRegeneration
+    solution: absorbed
+    generated:
+      reagents:
+      - ReagentId: Water
+        Quantity: 5
+#DS14-End
