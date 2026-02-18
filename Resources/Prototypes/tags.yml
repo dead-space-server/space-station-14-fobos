@@ -635,6 +635,9 @@
 - type: Tag
   id: Fruit # SpecialDigestible: OrganReptilianStomach. CargoBounty: BountyFruit
 
+- type: Tag
+  id: FireExtinguisherPRO
+
 ## G ##
 
 - type: Tag
