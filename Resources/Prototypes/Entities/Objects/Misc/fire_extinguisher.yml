@@ -161,13 +161,13 @@
   id: FireExtinguisherPRO
   description: Тушит огонь без необходимости в перезарядке.
   components:
-  - type: Sprite
+  - type: Sprite 
     sprite: _DeadSpace/Objects/Misc/fire_extinguisherPRO.rsi
     layers:
     - state: fire_extinguisher_closed
       map: [ "enum.ToggleableVisuals.Layer" ]
   - type: Item
-    sprite: Objects/Misc/fire_extinguisher.rsi
+    sprite: _DeadSpace/Objects/Misc/fire_extinguisherPRO.rsi
     size: Normal
   - type: SolutionContainerManager
     solutions:
