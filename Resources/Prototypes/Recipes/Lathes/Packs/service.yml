@@ -52,6 +52,7 @@
   - ClothingBackpackWaterTank
   - MegaSprayBottle
   - BagOfSummoningGarbage # DS14
+  - FireExtinguisherPRO #DS14
 
 - type: latheRecipePack
   id: Instruments
