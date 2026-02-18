@@ -229,7 +229,7 @@
           True: { state: fire_extinguisher_open }
           False: { state: fire_extinguisher_closed }
   - type: SolutionRegeneration
-    solution: absorbed
+    solution: spray
     generated:
       reagents:
       - ReagentId: Water
