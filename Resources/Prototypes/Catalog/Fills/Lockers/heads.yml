@@ -288,6 +288,7 @@
     - id: NTDefaultCircuitBoard # DS14
     - id: EncryptionKeyBinary # DS14
     - id: TabletRD # DS14
+    - id: LawConfigurator # DS14
 
 # Hardsuit table, used for suit storage as well
 - type: entityTable
