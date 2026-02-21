@@ -95,7 +95,17 @@ public sealed class LawConfiguratorSystem : EntitySystem
         if (!TryComp<LawConfiguratorComponent>(uid, out var component))
             return;
 
-        var hasBoard = _itemSlots.TryGetSlot(uid, "circuit_holder", out var slot) && slot.Item != null;
+        if (!TryComp<ItemSlotsComponent>(uid, out var slots))
+        {
+            if (component.HasBoard)
+            {
+                component.HasBoard = false;
+                Dirty(uid, component);
+            }
+            return;
+        }
+
+        var hasBoard = _itemSlots.TryGetSlot(uid, "circuit_holder", out var slot, slots) && slot.Item != null;
 
         if (component.HasBoard != hasBoard)
         {
