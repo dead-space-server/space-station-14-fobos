@@ -2,7 +2,7 @@
   parent: [BaseItem]
   id: LawConfigurator
   name: Конфигуратор законов
-  description: Устройство позволяющее менять законы синтетикам, снизу устройства виднеется разьëм под платы законов, на задней панели вы видете надпись - убедительная просьба не вставлять свод законов "антимов".
+  description: Устройство позволяющее менять законы синтетикам...
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Devices/law_configurator.rsi
@@ -26,3 +26,5 @@
       board: !type:Container
   - type: LawConfigurator
     doAfter: 10.0
+    emptyState: icon
+    filledState: icon-filled

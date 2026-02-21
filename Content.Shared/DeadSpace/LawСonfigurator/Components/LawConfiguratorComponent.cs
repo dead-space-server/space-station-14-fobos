@@ -33,4 +33,16 @@ public sealed partial class LawConfiguratorComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public bool HasBoard;
+
+    /// <summary>
+    /// Состояние спрайта, когда плата отсутствует
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public string EmptyState = "icon";
+
+    /// <summary>
+    /// Состояние спрайта, когда плата вставлена
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public string FilledState = "icon-filled";
 }

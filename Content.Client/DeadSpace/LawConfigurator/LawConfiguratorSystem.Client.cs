@@ -8,7 +8,7 @@ public sealed class LawConfiguratorSystem : EntitySystem
     public override void Initialize()
     {
         base.Initialize();
-        
+
         SubscribeLocalEvent<LawConfiguratorComponent, AfterAutoHandleStateEvent>(OnHandleState);
     }
 
@@ -22,7 +22,8 @@ public sealed class LawConfiguratorSystem : EntitySystem
         if (!TryComp<SpriteComponent>(uid, out var sprite))
             return;
 
-        var state = component.HasBoard ? "icon-filled" : "icon";
+        // Используем значения из компонента
+        var state = component.HasBoard ? component.FilledState : component.EmptyState;
         sprite.LayerSetState(0, state);
     }
 }
