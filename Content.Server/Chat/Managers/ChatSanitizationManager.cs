@@ -206,7 +206,7 @@ public sealed class ChatSanitizationManager : IChatSanitizationManager
                     finalEmoteKey = emoteKey;
                 }
                 
-                emote = _loc.GetString(finalEmoteKey, ("ent", speaker));
+                emote = _loc.GetString(finalEmoteKey);
                 // DS14-End
             }
 
