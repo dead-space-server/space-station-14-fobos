@@ -1,0 +1,15 @@
+- type: entity
+  id: VampireSword
+  parent: BaseItem
+  name: vampire sword
+  description: It thirsts for blood.
+  components:
+  - type: Sprite
+    sprite: Objects/Weapons/Melee/captain_sabre.rsi
+    state: icon
+  - type: MeleeWeapon
+    damage:
+      types:
+        Slash: 15
+  - type: VampireHeal
+    healMultiplier: 0.5
