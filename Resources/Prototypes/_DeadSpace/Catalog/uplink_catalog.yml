@@ -24,7 +24,7 @@
   description: uplink-energy-crossbow-desc
   productEntity: WeaponEnergyCrossbow
   cost:
-    Telecrystal: 7
+    Telecrystal: 10
   categories:
   - UplinkWeaponry
   conditions:
@@ -675,7 +675,7 @@
   icon: { sprite: /Textures/Objects/Weapons/Melee/fireaxeflaming.rsi, state: icon }
   productEntity: FireAxeFlaming
   cost:
-    Telecrystal: 10
+    Telecrystal: 7
   categories:
   - UplinkWeaponry
   conditions:
