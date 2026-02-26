@@ -311,6 +311,8 @@
     openToolQualityNeeded: Slicing
     closeToolQualityNeeded: Slicing
     name: secret-stash-plushie
+  - type: Language #Работа ТТСа
+    selectedLanguage: GeneralLanguage
 
 #Admin Staff
 - type: entity
