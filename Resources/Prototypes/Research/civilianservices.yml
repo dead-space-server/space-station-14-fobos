@@ -259,6 +259,7 @@
   recipeUnlocks:
   - BluespaceBeaker
   - SyringeBluespace
+  - BluespaceVial # DS14 
 
 - type: technology
   id: LauncherSyringe
