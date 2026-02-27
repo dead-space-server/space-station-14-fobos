@@ -28,7 +28,7 @@
       - state: icon
   - type: SolutionContainerVisuals
     maxFillLevels: 0
-    InHandsMaxFillLevels: 0
+    inHandsMaxFillLevels: 0
   - type: SolutionContainerManager
     solutions:
       beaker:
