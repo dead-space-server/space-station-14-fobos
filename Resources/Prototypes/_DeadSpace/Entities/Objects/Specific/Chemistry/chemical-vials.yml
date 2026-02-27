@@ -25,9 +25,15 @@
   - type: Sprite
     sprite: _DeadSpace/Objects/Specific/Chemistry/vial_bluespace.rsi
     layers:
-      - state: icon
+      - state: vial-1
+      - state: vial-1-1
+        map: ["enum.SolutionContainerLayers.Fill"]
+        visible: false
   - type: SolutionContainerVisuals
-    maxFillLevels: 0
+    maxFillLevels: 6
+    fillBaseName: vial-1-
+    inHandsMaxFillLevels: 4
+    inHandsFillBaseName: -fill-
   - type: SolutionContainerManager
     solutions:
       beaker:
