@@ -150,8 +150,10 @@
     preinstalled:
       - CrewManifestCartridge
       - NotekeeperCartridge
+      - NanoTaskCartridge
       - NewsReaderCartridge
       - AstroNavCartridge
+      - BankCartridge # DS14
 
 - type: entity
   parent: BasePDA
