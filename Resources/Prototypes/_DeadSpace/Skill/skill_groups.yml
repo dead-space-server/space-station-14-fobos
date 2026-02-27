@@ -83,7 +83,6 @@
   - BasicTreatment
   - SimpleConstruction
   - AdvancedBotany
-  - ShuttleControl
 
 - type: skillGroup
   id: BasicAndBotany
