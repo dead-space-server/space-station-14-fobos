@@ -133076,13 +133076,6 @@ entities:
     - type: Physics
       canCollide: False
     - type: InsideEntityStorage
-- proto: OrganSkeletonPersonTorso
-  entities:
-  - uid: 4368
-    components:
-    - type: Transform
-      pos: -22.218187,18.553694
-      parent: 2
 - proto: OxygenCanister
   entities:
   - uid: 289
