@@ -16,8 +16,6 @@
   description: Откашляться, чтобы получить комок волос, застрявший в горле.
   categories: [ HideSpawnMenu ]
   components:
-  - type: LimitedCharges
-    maxCharges: 1
   - type: Action
     checkCanInteract: false
     icon:
