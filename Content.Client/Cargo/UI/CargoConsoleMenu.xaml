@@ -4,18 +4,6 @@
                            MinSize="800 600"
                            SetSize="800 600"> <!-- DeadSpace-Localization -->
     <BoxContainer Orientation="Vertical" Margin="15 5 15 10">
-        <BoxContainer Orientation="Horizontal">
-            <Label Text="{Loc 'cargo-console-menu-account-name-label'}"
-                   StyleClasses="LabelKeyText" />
-            <RichTextLabel Name="AccountNameLabel"
-                   Text="{Loc 'cargo-console-menu-account-name-none-text'}" />
-        </BoxContainer>
-        <BoxContainer Orientation="Horizontal">
-            <Label Text="{Loc 'cargo-console-menu-points-label'}"
-                   StyleClasses="LabelKeyText" />
-            <RichTextLabel Name="PointsLabel"
-                   Text="$0" />
-        </BoxContainer>
         <Control MinHeight="10"/>
         <TabContainer Name="TabContainer" VerticalExpand="True">
           <!-- Sub-Main Container -->
