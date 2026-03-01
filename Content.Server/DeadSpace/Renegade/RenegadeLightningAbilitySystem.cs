@@ -5,6 +5,8 @@ using Robust.Shared.Timing;
 using Content.Shared.Mobs.Components;
 using Content.Server.Beam;
 using Content.Server.DeadSpace.Renegade.Components;
+using Content.Shared.DeadSpace.Renegade.Components;
+using Content.Shared.Silicons.Borgs.Components;
 using Content.Shared.Stunnable;
 using Content.Shared.DeadSpace.Renegade;
 using Content.Shared.Mobs.Systems;
@@ -60,7 +62,12 @@ public sealed class RenegadeLightningAbilitySystem : EntitySystem
             return;
         }
 
+        if (HasComp<RenegadeCANTLightningAbilityComponent>(target))
+            return;
+
         if (!TryComp<TransformComponent>(target, out var xform))
+            return;
+        if (HasComp<BorgChassisComponent>(target))
             return;
 
         args.Handled = true;
@@ -76,7 +83,11 @@ public sealed class RenegadeLightningAbilitySystem : EntitySystem
 
             if (_mobState.IsDead(entity))
                 continue;
-
+            if (HasComp<RenegadeCANTLightningAbilityComponent>(entity))
+                continue;
+            if (HasComp<BorgChassisComponent>(target))
+                return;
+            
             _beam.TryCreateBeam(uid, entity, component.LightingPrototypeId);
             _stun.TryUpdateParalyzeDuration(entity, TimeSpan.FromSeconds(5));
         }

@@ -311,6 +311,7 @@
             sprite: Mobs/Species/Human/displacement.rsi
             state: jumpsuit-female
   - type: Sanity # DS14
+  - type: RenegadeCANTSubordinate
 # - type: DamageForceSay
 # - type: StatusIcon
 # - type: EmoteOnDamage

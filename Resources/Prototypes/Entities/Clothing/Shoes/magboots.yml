@@ -65,6 +65,9 @@
     price: 750
   - type: StealTarget
     stealGroup: ClothingShoesBootsMagAdv
+  - type: ClothingGrantComponent
+    component: 
+      - type: RenegadeCANTRenegadeForce
 
 - type: entity
   parent: [ClothingShoesBootsMagBase]
@@ -130,6 +133,9 @@
   - type: ClothingSpeedModifier
     walkModifier: 1
     sprintModifier: 1
+  - type: ClothingGrantComponent
+    component: 
+      - type: RenegadeCANTRenegadeForce
 
 - type: entity
   parent: [ClothingShoesBootsMagBase, BaseJetpack, BaseSyndicateContraband]

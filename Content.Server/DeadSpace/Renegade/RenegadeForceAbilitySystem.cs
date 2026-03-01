@@ -24,6 +24,7 @@ using Robust.Shared.Spawners;
 using Content.Shared.Alert;
 using Content.Shared.Item;
 using Robust.Shared.Prototypes;
+using Content.Shared.Silicons.Borgs.Components;
 
 namespace Content.Server.DeadSpace.Renegade;
 
@@ -138,6 +139,12 @@ public sealed class RenegadeForceAbilitySystem : EntitySystem
         var target = args.Target;
 
         if (component.IsActiveAbility)
+            return;
+        
+        if(HasComp<RenegadeCANTRenegadeForceComponent>(target))
+            return;
+
+        if (HasComp<BorgChassisComponent>(target))
             return;
 
         if (!TryComp<PhysicsComponent>(target, out var physics)

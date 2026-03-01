@@ -310,6 +310,9 @@
         color: Green
         sound: /Audio/Misc/ninja_greeting.ogg
       components:
+      - type: RenegadeCANTSubordinate #DS14 
+      - type: RenegadeCANTLightningAbility #DS14 
+      - type: RenegadeCANTRenegadeForce #DS14 
       - type: SpaceNinja
       - type: NpcFactionMember
         factions:
