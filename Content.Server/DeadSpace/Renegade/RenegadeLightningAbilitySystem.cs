@@ -85,9 +85,9 @@ public sealed class RenegadeLightningAbilitySystem : EntitySystem
                 continue;
             if (HasComp<RenegadeCANTLightningAbilityComponent>(entity))
                 continue;
-            if (HasComp<BorgChassisComponent>(target))
-                return;
-            
+            if (HasComp<BorgChassisComponent>(entity))
+                continue;
+
             _beam.TryCreateBeam(uid, entity, component.LightingPrototypeId);
             _stun.TryUpdateParalyzeDuration(entity, TimeSpan.FromSeconds(5));
         }
