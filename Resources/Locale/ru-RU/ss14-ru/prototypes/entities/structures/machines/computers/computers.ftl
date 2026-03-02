@@ -90,3 +90,7 @@ ent-StationAiUploadComputer = консоль загрузки ИИ
     .desc = Используется для обновления законов станционного ИИ.
 ent-StationAiFixerComputer = консоль восстановления ИИ
     .desc = Используется для ремонта повреждённых искусственных интеллектов.
+#DeadSpace-start
+ent-LawBoardConfiguratorComputer = консоль конфигурации плат законов
+    .desc = Используется для редактирования плат законов.
+#DeadSpace-end

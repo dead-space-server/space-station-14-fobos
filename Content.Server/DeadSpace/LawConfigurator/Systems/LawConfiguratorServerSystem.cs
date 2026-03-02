@@ -1,3 +1,4 @@
+using System.Linq;
 using Content.Server.Silicons.Laws;
 using Content.Shared.DeadSpace.LawConfigurator.Systems;
 using Content.Shared.Silicons.Laws;
@@ -21,10 +22,14 @@ public sealed class LawConfiguratorServerSystem : EntitySystem
         if (!TryComp<SiliconLawProviderComponent>(args.Board, out var boardLawProvider))
             return;
 
-        var lawset = _siliconLaw.GetLawset(boardLawProvider.Laws);
-        _siliconLaw.SetLaws(lawset.Laws, args.Target, boardLawProvider.LawUploadSound);
+        var ev = new GetSiliconLawsEvent(args.Board);
+        RaiseLocalEvent(args.Board, ref ev);
+        if (!ev.Handled)
+            return;
 
-        // Флаг Subverted останется прежним
-        // Если синтетик был подчинен, он останется помеченным
+        var laws = ev.Laws.Laws.Select(x => x.ShallowClone()).ToList();
+        _siliconLaw.SetLaws(laws, args.Target, boardLawProvider.LawUploadSound);
+
+        // Флаг Subverted останется прежним.
     }
 }

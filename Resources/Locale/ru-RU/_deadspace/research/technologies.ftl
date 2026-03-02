@@ -1,4 +1,5 @@
 research-technology-supermagboots = Улучшенный локализованный магнетизм
+research-technology-law-board-configuration = Конфигурация плат законов
 research-discipline-mechworks = Механика
 research-discipline-weaponry = Вооружение
 research-discipline-research = Исследование
