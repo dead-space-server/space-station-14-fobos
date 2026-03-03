@@ -88,6 +88,8 @@
   name: xenoborgs-title
   description: xenoborgs-description
   showInVote: false
+  showInAdminVote: true # DS14
+  voteType: rdm # DS14
   rules:
   - Xenoborgs
   - DummyNonAntagChance
@@ -134,7 +136,9 @@
   - multiantag
   - director
   name: dynamic-title
-  showInVote: false # admin-only for now until we fix some bugs
+  showInVote: true # DS14
+  showInAdminVote: true # DS14
+  voteType: rdm # DS14
   description: dynamic-description
   rules:
   - DynamicRule
@@ -149,6 +153,8 @@
   alias:
     - secret
   name: secret-title
+  showInAdminVote: true # DS14
+  voteType: calm # DS14
   showInVote: true
   description: secret-description
   rules:
