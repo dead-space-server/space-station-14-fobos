@@ -30,6 +30,6 @@ public sealed class LawConfiguratorServerSystem : EntitySystem
         var laws = ev.Laws.Laws.Select(x => x.ShallowClone()).ToList();
         _siliconLaw.SetLaws(laws, args.Target, boardLawProvider.LawUploadSound);
 
-        // Флаг Subverted останется прежним.
+        // Флаг Subverted останется прежним
     }
 }
