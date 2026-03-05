@@ -175,7 +175,11 @@
   - type: Item
     size: Small
     sprite: Objects/Weapons/Melee/e_sword-inhands.rsi
-    heldPrefix: off
+    inhandVisuals:
+      left:
+      - state: inhand-left
+      right:
+      - state: inhand-right
   - type: UseDelay
     delay: 1.0
   - type: PointLight
