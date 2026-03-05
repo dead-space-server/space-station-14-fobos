@@ -175,6 +175,7 @@
   - type: Item
     size: Small
     sprite: Objects/Weapons/Melee/e_sword-inhands.rsi
+    heldPrefix: off
   - type: UseDelay
     delay: 1.0
   - type: PointLight
@@ -639,7 +640,7 @@
     activeSound:
       path: /Audio/_DeadSpace/Sponsor/Prometheus3/invisibingle.ogg
       params:
-        volume: -13
+        volume: -10
         maxDistance: 7
         rolloffFactor: 1.75
         referenceDistance: 1
@@ -682,6 +683,9 @@
     walkModifier: 1
     sprintModifier: 1
   - type: Matchbox
+  - type: ContainerContainer
+    containers:
+      item: !type:ContainerSlot
   - type: ItemSlots
     slots:
       item:
