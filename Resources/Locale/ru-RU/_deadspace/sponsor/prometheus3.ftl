@@ -1,3 +1,5 @@
+fold-verb-prometheus3 = Закатать
+unfold-verb-prometheus3 = Расправить
 paper-law-prometheus3 = [head=3]Приказ на разрешение на использования снаряжения[/head]
     ЦК-КОМ
     ═════════════════════════════════════

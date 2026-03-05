@@ -459,7 +459,7 @@
   - type: ZombificationResistance
     zombificationResistanceCoefficient: 0.5
   - type: VirusResistance
-    virusResistanceCoefficient: 0.1
+    virusResistanceCoefficient: 0.5
   - type: Tag
     tags:
     - Hardsuit
@@ -593,8 +593,8 @@
     foldedHeldPrefix: up
   - type: Foldable
     canFoldInsideContainer: true
-    unfoldVerbText: "Расправить"
-    foldVerbText: "Закатать"
+    unfoldVerbText: unfold-verb-prometheus3
+    foldVerbText: fold-verb-prometheus3
   - type: TemperatureProtection
     heatingCoefficient: 1.1
     coolingCoefficient: 0.1
