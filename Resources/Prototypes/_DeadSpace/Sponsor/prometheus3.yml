@@ -175,6 +175,7 @@
   - type: Item
     size: Small
     sprite: Objects/Weapons/Melee/e_sword-inhands.rsi
+    heldPrefix: "off"
     inhandVisuals:
       left:
       - state: inhand-left
