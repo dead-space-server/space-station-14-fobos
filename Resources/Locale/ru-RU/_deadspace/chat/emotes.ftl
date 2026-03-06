@@ -1,5 +1,5 @@
 # Слаймолюд
-chat-emote-name-bubbling = Пузыриться
+chat-emote-name-bubbling = Пузырится
 chat-emote-name-pop = Издать хлопок
 # Фелинид
 chat-emote-name-hiss = Шипеть
@@ -14,7 +14,7 @@ chat-emote-name-turn = Кружится
 chat-emote-name-start-tail = Начать вилять хвостом
 chat-emote-name-stop-tail = Перестать вилять хвостом
 # Сообщение
-chat-emote-msg-bubbling = пузыриться
+chat-emote-msg-bubbling = пузырится
 chat-emote-msg-pop = издаёт хлопок
 chat-emote-msg-hiss = шипит
 chat-emote-msg-meow = мяукает
