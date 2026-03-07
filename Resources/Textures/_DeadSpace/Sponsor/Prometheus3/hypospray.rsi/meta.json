@@ -20,6 +20,22 @@
       "name": "hypo_fill2"
     },
     {
+      "name": "inhand-left-fill-1",
+      "directions": 4
+    },
+    {
+      "name": "inhand-left-fill-2",
+      "directions": 4
+    },
+    {
+      "name": "inhand-right-fill-1",
+      "directions": 4
+    },
+    {
+      "name": "inhand-right-fill-2",
+      "directions": 4
+    },
+    {
       "name": "inhand-left",
       "directions": 4
     },

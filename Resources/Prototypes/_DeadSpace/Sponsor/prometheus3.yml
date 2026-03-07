@@ -7,6 +7,7 @@
 - type: entity
   parent: ClothingBackpack
   id: ClothingBackpackPrometheus3
+  categories: [ HideSpawnMenu ]
   name: тактический подсумок «BlackOps»
   description: Компактный снаружи, необъятный внутри. Оснащен блюспейс технологией. Не пытайтесь запихнуть туда свои проблемы!
   components:
@@ -47,8 +48,6 @@
     - id: PaperPrometheus3
   - type: Tag
     tags: [ ] # ignore "WhitelistChameleon" tag
-
-
 
 # MEDKIT
 - type: entity
@@ -97,6 +96,8 @@
     maxFillLevels: 2
     fillBaseName: hypo_fill
     emptySpriteName: hypo_empty
+    inHandsMaxFillLevels: 2
+    inHandsFillBaseName: -fill-
     changeColor: true
   - type: SolutionContainerManager
     solutions:
