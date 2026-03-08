@@ -179,6 +179,7 @@
     Milk: 10
   solids:
     FoodPotato: 2
+    FoodBowlBig: 1
 
 - type: microwaveMealRecipe
   id: RecipeFoodSoupBeet
