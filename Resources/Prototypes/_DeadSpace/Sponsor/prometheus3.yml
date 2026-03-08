@@ -1,0 +1,787 @@
+- type: sponsorLoadout
+  id: Prometheus3
+  entity: ClothingBackpackPrometheus3
+  sponsorOnly: true
+
+# РЮКЗАК
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBackpackPrometheus3
+  name: тактический подсумок «BlackOps»
+  description: Компактный снаружи, необъятный внутри. Оснащен блюспейс технологией. Не пытайтесь запихнуть туда свои проблемы!
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus3/backpack.rsi
+    layers:
+    - state: icon
+      map: [ base ]
+  - type: GenericVisualizer
+    visuals:
+      enum.StorageVisuals.Open:
+        base:
+          True: { state: icon-open }
+          False: { state: icon }
+  - type: ExplosionResistance
+    damageCoefficient: 0.1
+  - type: Appearance
+  - type: Storage
+    maxItemSize: Huge
+    grid:
+    - 0,0,11,6
+  - type: StorageFill
+    contents:
+    - id: ClothingBeltPrometheus3
+    - id: ClothingCombatGlovesPrometheus3
+    - id: PDAPrometheus3
+    - id: EmergencyBoxPrometheus3
+    - id: ClothingHeadsetPrometheus3
+    - id: ClothingHardsuitPrometheus3
+    - id: ClothingVisorPrometheus3
+    - id: JetpackVoidPrometheus3
+    - id: ClothingJumpsuitPrometheus3
+    - id: HoloCigarPrometheus3
+    - id: ClothingShoesBootsMagPrometheus3
+    - id: ClothingUnderwearBottomBoxersNuclearOperativePrometheus3
+    - id: RockGuitarPrometheus3
+    - id: MedkitCombatPrometheus3
+    - id: PaperPrometheus3
+  - type: Tag
+    tags: [ ] # ignore "WhitelistChameleon" tag
+
+
+
+# MEDKIT
+- type: entity
+  parent: MedkitCombat
+  id: MedkitCombatPrometheus3
+  name: боевая аптечка «BlackOps»
+  description: Экстренная помощь, возвращающая с того света.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Storage
+    maxItemSize: Normal
+    grid:
+    - 0,0,5,1
+  - type: StorageFill
+    contents:
+    - id: MedicatedSuture
+    - id: RegenerativeMesh
+    - id: Bloodpack
+    - id: DefibrillatorSyndicate
+    - id: HypoPrometheus3
+
+# ГИПОСПРЕЙ
+- type: entity
+  parent: BaseItem
+  id: HypoPrometheus3
+  name: гипоспрей «BlackOps»
+  description: Упрощенный гипоспрей для ловких манёвров в ущерб ёмкости.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus3/hypospray.rsi
+    layers:
+    - state: hypo
+      map: ["enum.SolutionContainerLayers.Base"]
+      scale: 0.8, 0.8
+    - state: hypo_fill1
+      map: ["enum.SolutionContainerLayers.Fill"]
+      visible: false
+      scale: 0.8, 0.8
+    - state: hypo_empty
+      visible: false
+      scale: 0.8, 0.8
+  - type: Item
+    sprite: _DeadSpace/Sponsor/Prometheus3/hypospray.rsi
+  - type: SolutionContainerVisuals
+    maxFillLevels: 2
+    fillBaseName: hypo_fill
+    emptySpriteName: hypo_empty
+    changeColor: true
+  - type: SolutionContainerManager
+    solutions:
+      hypospray:
+        maxVol: 10
+  - type: Appearance
+  - type: RefillableSolution
+    solution: hypospray
+  - type: ExaminableSolution
+    solution: hypospray
+  - type: Hypospray
+    onlyAffectsMobs: false
+  - type: UseDelay
+    delay: 0.5
+
+# ПОЯС
+- type: entity
+  parent: ClothingBeltStorageBase
+  id: ClothingBeltPrometheus3
+  name: тактический РПС «BlackOps»
+  description: Расширенные карманы для хранения. Пахнет порохом.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus3/belt.rsi
+    layers:
+    - state: icon
+      scale: 0.9, 0.9
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus3/belt.rsi
+    slots:
+    - belt
+  - type: Item
+    size: Huge
+  - type: Storage
+    maxItemSize: Normal
+    grid:
+    - 0,0,9,1
+  - type: StorageFill
+    contents:
+    - id: SyndicatePowerDrill
+    - id: JawsOfLifePrometheus3
+    - id: SyndicateWelderExperimental
+    - id: Multitool
+    - id: ESwordPrometheus3
+  - type: Tag
+    tags: [ ] # ignore "WhitelistChameleon" tag
+
+# ДУБИНКА
+- type: entity
+  parent: BaseItem
+  id: ESwordPrometheus3
+  name: меч «Sandy-Cat»
+  description: Новинка против невиновных — механизм меча заряжен оглушающим зарядом, валит даже капитана.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: Objects/Weapons/Melee/e_sword.rsi
+    layers:
+    - state: e_sword
+    - state: e_sword_blade
+      color: "#FFFFFF"
+      visible: false
+      shader: unshaded
+      map: [ "blade" ]
+  - type: EnergySword
+  - type: ItemToggle
+    onActivate: false # DS14
+    soundActivate:
+      path: /Audio/Weapons/ebladeon.ogg
+    soundDeactivate:
+      path: /Audio/Weapons/ebladeoff.ogg
+  - type: ItemToggleActiveSound
+    activeSound:
+      path: /Audio/Weapons/ebladehum.ogg
+  - type: Item
+    size: Small
+    sprite: Objects/Weapons/Melee/e_sword-inhands.rsi
+    heldPrefix: "off"
+    inhandVisuals:
+      left:
+      - state: inhand-left
+      right:
+      - state: inhand-right
+  - type: UseDelay
+    delay: 1.0
+  - type: PointLight
+    enabled: false
+    radius: 2
+    energy: 2
+    color: white
+    netsync: false
+  - type: Appearance
+  - type: ToggleableVisuals
+    spriteLayer: blade
+    inhandVisuals:
+      left:
+      - state: inhand-left-blade
+        shader: unshaded
+      right:
+      - state: inhand-right-blade
+        shader: unshaded
+  - type: ItemTogglePointLight
+  - type: DisarmMalus
+    malus: 0
+  - type: StaminaDamageOnHit
+    damage: 0
+  - type: SwitchableWeapon
+    openSound: null
+    closeSound: null
+    damageOpen:
+      types:
+        Blunt: 3
+    damageFolded:
+      types:
+        Blunt: 0
+    staminaDamageFolded: 0
+    staminaDamageOpen: 30
+  - type: MeleeWeapon
+    wideAnimationRotation: -135
+    damage:
+      types:
+        Blunt: 0
+  - type: ItemToggleMeleeWeapon
+    activatedSoundOnHit:
+      path: /Audio/Weapons/eblade1.ogg
+      params:
+        variation: 0.250
+    activatedSoundOnHitNoDamage:
+      path: /Audio/Weapons/eblade1.ogg
+      params:
+        variation: 0.250
+    activatedSoundOnSwing:
+      path: /Audio/Weapons/eblademiss.ogg
+      params:
+        variation: 0.125
+
+# ПРОТИВОГАЗ
+- type: entity
+  parent: ClothingMaskGasSyndicate
+  id: ClothingMaskGasPrometheus3
+  name: тактический противогаз «BlackOps»
+  description: Оснащен улучшенным фильтром и дополнительной броней. Фильтрует не только воздух, но и речь.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus3/mask.rsi
+    layers:
+    - state: icon
+      scale: 0.7, 0.7
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus3/mask.rsi
+  - type: TypingIndicatorClothing
+    proto: TypingIndicatorPrometheus3
+  - type: EyeProtection
+  - type: Tag
+    tags: [ ] # ignore "WhitelistChameleon" tag
+
+- type: typingIndicator
+  id: TypingIndicatorPrometheus3
+  typingState: syndibot0
+  idleState: syndibot3
+  offset: 0.05, 0.125
+
+# ПЕРЧАТКИ
+- type: entity
+  parent: ClothingHandsGlovesCombat
+  id: ClothingCombatGlovesPrometheus3
+  name: боевые перчатки «BlackOps»
+  description: Изолированные и огнеупорные для нежной кожи элитных оперативников.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus3/gloves.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus3/gloves.rsi
+  - type: Tag
+    tags: [ ] # ignore "WhitelistChameleon" tag
+
+# КПК
+- type: entity
+  parent: BasePDA
+  id: PDAPrometheus3
+  name: кроваво-красный КПК
+  description: Смотря на этот КПК, ваше сердцебиение учащается... словно его владелец совершил нечто ужасное.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus3/pda.rsi
+  - type: Icon
+    sprite: _DeadSpace/Sponsor/Prometheus3/pda.rsi
+    state: pda
+  - type: Appearance
+    appearanceDataInit:
+      enum.PdaVisuals.PdaType:
+        !type:String
+        pda
+  - type: Pda
+    penSlot:
+      startingItem: PenPrometheusAlt
+      priority: -1
+      whitelist:
+        tags:
+        - Write
+  - type: Instrument
+    program: 1
+  - type: PointLight
+    enabled: false
+    radius: 2.2
+    falloff: 3
+    softness: 5
+    autoRot: true
+    color: '#A020F0FF'
+  - type: PdaBorderColor
+    borderColor: "#891417"
+  - type: CartridgeLoader
+    uiKey: enum.PdaUiKey.Key
+    preinstalled:
+    - CrewManifestCartridge
+    - NotekeeperCartridge
+    - NanoTaskCartridge
+    - NewsReaderCartridge
+    - MedTekCartridge
+    - AstroNavCartridge
+    - WantedListCartridge
+    - BankCartridge
+  - type: Tag
+    tags: [ ] # ignore "WhitelistChameleon" tag
+
+# РУЧКА
+- type: entity
+  parent: Pen
+  id: PenPrometheus3
+  name: ручка Cybersun
+  description: Высокотехнологичная ручка из юридического отдела Cybersun. Алмазный наконечник повреждён. Она больше не переписывает документы, но теперь преломляет свет так, что коллегам становится неловко смотреть.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    state: overpriced_pen
+  - type: Item
+    heldPrefix: overpriced_pen
+  - type: Tag
+    tags:
+    - Write
+    - Pen
+
+# МЕДИПЕН
+- type: entity
+  parent: EmergencyMedipen
+  id: EmergencyMedipenPrometheus3
+  name: двойной экстренный медипен
+  description: Быстрый и безопасный способ стабилизации состояния пациентов в критическом состоянии для персонала без глубоких медицинских знаний. Будьте осторожны, так как легко получить передозировку эпинефрином и транексамовой кислотой.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus3/medipen.rsi
+    layers:
+    - state: medipen
+      map: ["enum.SolutionContainerLayers.Fill"]
+      visible: true
+  - type: SolutionContainerVisuals
+    maxFillLevels: 2
+    fillBaseName: medipen_fill
+    emptySpriteName: medipen_empty
+    changeColor: false
+  - type: SolutionContainerManager
+    solutions:
+      pen:
+        maxVol: 30
+        reagents:
+        - ReagentId: Epinephrine
+          Quantity: 24
+        - ReagentId: TranexamicAcid
+          Quantity: 6
+  - type: Item
+    sprite: _DeadSpace/Sponsor/Prometheus3/medipen.rsi
+    inhandVisuals:
+      left:
+      - state: base-needle-inhand-left
+      - state: base-colorA-inhand-left
+        color: "#439822"
+      - state: base-colorB-inhand-left
+      right:
+      - state: base-needle-inhand-right
+      - state: base-colorA-inhand-right
+        color: "#439822"
+      - state: base-colorB-inhand-right
+
+# АВАРИЙНЫЙ ЗАПАС
+- type: entity
+  parent: BoxCardboard
+  id: EmergencyBoxPrometheus3
+  name: продвинутый аварийный запас
+  description: Коробка с продвинутым набором для выживания. Не умрите!
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: StorageFill
+    contents:
+    - id: ClothingMaskGasPrometheus3
+    - id: DoubleEmergencyOxygenTankFilled
+    - id: EmergencyMedipenPrometheus3
+    - id: FoodSnackNutribrick
+    - id: DrinkMREFlask
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus3/boxes.rsi
+    layers:
+    - state: box
+    - state: syndi
+
+# ГАРНИТУРА
+- type: entity
+  parent: ClothingHeadsetAltSyndicate
+  name: кроваво-красная гарнитура
+  description: Модифицированный модульный интерком, надеваемый на голову, и содержащий ключ шифрования. Имеет 5 ячеек для ключей шифрования.
+  id: ClothingHeadsetPrometheus3
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus3/headset.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus3/headset.rsi
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeyCommon
+  - type: Tag
+    tags: [ ] # ignore "WhitelistChameleon" tag
+
+# HARDSUIT & HELMET
+- type: entity
+  parent: ClothingOuterHardsuitAtmos
+  id: ClothingHardsuitPrometheus3
+  name: боевой скафандр «BlackOps»
+  description: Элегантный скафандр для самых грязных задач. Имеет идентификатор.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus3/hardsuit.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus3/hardsuit.rsi
+    equipSound: /Audio/Effects/rustle1.ogg
+    unequipSound: /Audio/Effects/rustle2.ogg
+  - type: Item
+    size: Huge
+  - type: PressureProtection
+    highPressureMultiplier: 0.05
+    lowPressureMultiplier: 1000
+  - type: ExplosionResistance
+    damageCoefficient: 0.5
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.5
+        Slash: 0.5
+        Piercing: 0.4
+        Heat: 0.5
+        Radiation: 0.5
+        Caustic: 0.5
+  - type: ClothingSpeedModifier
+    walkModifier: 0.9
+    sprintModifier: 0.9
+  - type: HardsuitIdentification
+    nonlethal: true
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitPrometheus3
+  - type: ZombificationResistance
+    zombificationResistanceCoefficient: 0.5
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.5
+  - type: Tag
+    tags:
+    - Hardsuit
+
+- type: entity
+  parent: ClothingHeadHelmetHardsuitSyndieMedic
+  id: ClothingHeadHelmetHardsuitPrometheus3
+  categories: [ HideSpawnMenu ]
+  name: боевой шлем «BlackOps»
+  description: Аэродинамичный шлем с узким визором для защиты глаз от пыли в полете.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus3/helmet.rsi
+    layers:
+    - state: icon
+      scale: 0.8, 0.8
+    - state: icon-flash
+      visible: false
+      map: [ "light" ]
+      scale: 0.8, 0.8
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus3/helmet.rsi
+  - type: PointLight
+    color: green
+  - type: ToggleableVisuals
+    spriteLayer: light
+    clothingVisuals:
+      head:
+      - state: on-equipped-HELMET
+      - state: on-unshaded
+        shader: unshaded
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# ОЧКИ
+- type: entity
+  parent: [ ClothingEyesGlassesMeson, ShowSecurityIcons ]
+  id: ClothingVisorPrometheus3
+  name: визор «BlackOps»
+  description: Улучшенный визор с несколькими встроенными сканерами. X-ray отсутствует.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus3/glasses.rsi
+    layers:
+    - state: icon
+      scale: 0.8, 0.8
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus3/glasses.rsi
+  - type: EyeProtection
+  - type: SolutionScanner
+  - type: IdentityBlocker
+    coverage: EYES
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# JawsOfLife
+- type: entity
+  parent: SyndicateJawsOfLife
+  id: JawsOfLifePrometheus3
+  name: кроваво-красные челюсти жизни
+  description: Набор челюстей жизни, скомпонованных при помощи магии науки...
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus3/jaws_of_life.rsi
+    state: jaws_pry
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left
+      right:
+      - state: inhand-right
+  - type: MultipleTool
+    entries:
+    - behavior: Prying
+      sprite:
+        sprite: _DeadSpace/Sponsor/Prometheus3/jaws_of_life.rsi
+        state: jaws_pry
+      useSound: /Audio/Items/jaws_pry.ogg
+      changeSound: /Audio/Items/change_jaws.ogg
+    - behavior: Cutting
+      sprite:
+        sprite: _DeadSpace/Sponsor/Prometheus3/jaws_of_life.rsi
+        state: jaws_cutter
+      useSound: /Audio/Items/jaws_cut.ogg
+      changeSound: /Audio/Items/change_jaws.ogg
+
+# ДЖЕТПАК
+- type: entity
+  parent: JetpackVoidFilled
+  id: JetpackVoidPrometheus3
+  name: джетпак «BlackOps»
+  description: Тёмный джетпак для скрытных операций в глубоком космосе.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus3/jetpack.rsi
+    layers:
+    - state: icon
+      map: ["enum.JetpackVisuals.Layer"]
+  - type: Item
+    sprite: _DeadSpace/Sponsor/Prometheus3/jetpack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus3/jetpack.rsi
+    slots:
+    - Back
+    - suitStorage
+    - Belt
+
+# JUMPSUIT
+- type: entity
+  parent: [ ClothingUniformBase,  BaseFoldable ]
+  id: ClothingJumpsuitPrometheus3
+  name: комбинезон «BlackOps»
+  description: Утепленный комбинезон для секретных операций в заснеженных горах.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus3/jumpsuit.rsi
+    layers:
+    - state: icon
+      map: [ "unfoldedLayer" ]
+    - state: icon-up
+      map: ["foldedLayer"]
+      visible: false
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus3/jumpsuit.rsi
+  - type: FoldableClothing
+    foldedEquippedPrefix: up
+    foldedHeldPrefix: up
+  - type: Foldable
+    canFoldInsideContainer: true
+    unfoldVerbText: unfold-verb-prometheus3
+    foldVerbText: fold-verb-prometheus3
+  - type: TemperatureProtection
+    heatingCoefficient: 1.1
+    coolingCoefficient: 0.1
+  - type: Appearance
+
+# СИГАРА
+- type: entity
+  parent: BaseItem
+  id: HoloCigarPrometheus3
+  name: голо-сигара
+  description: Единственная привычка, которая не убьет крутых боссов.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus3/holocigar.rsi
+    layers:
+    - state: icon
+      scale: 0.8, 0.8
+      map: ["enum.ToggleableVisuals.Layer"]
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus3/holocigar.rsi
+    slots: [ mask ]
+    equippedPrefix: unlit
+  - type: Item
+    size: Tiny
+    sprite: _DeadSpace/Sponsor/Prometheus3/holocigar.rsi
+    heldPrefix: unlit
+    inhandVisuals:
+      left:
+      - state: unlit-inhand-left
+      right:
+      - state: unlit-inhand-right
+  - type: Appearance
+  - type: BurnStateVisuals
+    unlitIcon: unlit-icon
+  - type: ItemToggle
+    soundActivate:
+      path: /Audio/Effects/cig_light.ogg
+    soundDeactivate:
+      path: /Audio/Effects/cig_snuff.ogg
+  - type: ItemToggleActiveSound
+    activeSound:
+      path: /Audio/_DeadSpace/Sponsor/Prometheus3/invisibingle.ogg
+      params:
+        volume: -10
+        maxDistance: 7
+        rolloffFactor: 1.75
+        referenceDistance: 1
+  - type: ToggleableVisuals
+    spriteLayer: enum.ToggleableVisuals.Layer
+    clothingVisuals:
+      mask:
+      - state: lit-equipped-MASK
+    inhandVisuals:
+      left:
+      - state: lit-inhand-left
+        shader: unshaded
+      right:
+      - state: lit-inhand-right
+        shader: unshaded
+  - type: GenericVisualizer
+    visuals:
+      enum.ToggleableVisuals.Enabled:
+        enum.ToggleableVisuals.Layer:
+          True: {state: lit-icon}
+          False: {state: icon}
+  - type: VirusResistance
+    virusResistanceCoefficient: 0.1
+  - type: UseDelay
+    delay: 5
+
+# МАГНИТКИ
+- type: entity
+  parent: ClothingShoesBootsMag
+  id: ClothingShoesBootsMagPrometheus3
+  name: боевые ботинки «BlackOps»
+  description: Оснащены магнитной подошвой, чтобы крепко стоять на ногах.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus3/boots.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Prometheus3/boots.rsi
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: Matchbox
+  - type: ContainerContainer
+    containers:
+      item: !type:ContainerSlot
+  - type: ItemSlots
+    slots:
+      item:
+        name: clothing-boots-sidearm
+        priority: 4
+        whitelist:
+          tags:
+          - Knife
+          - Sidearm
+  - type: TemperatureProtection
+    heatingCoefficient: 1.025
+    coolingCoefficient: 0.5
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# БОКСЕРЫ
+- type: entity
+  parent: ClothingUnderwearBottomBoxersNuclearOperative
+  id: ClothingUnderwearBottomBoxersNuclearOperativePrometheus3
+  name: боксеры ядерного оперативника
+  description: Армированное нижнее бельё ядерного оперативника.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.99
+
+# ГИТАРА
+- type: entity
+  parent: BaseHandheldInstrument
+  id: RockGuitarPrometheus3
+  name: рок-гитара с двумя грифами
+  description: Крепкая гитара для металлических нервов.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Instrument
+    program: 29
+  - type: SwappableInstrument
+    instrumentList:
+      "Overdrive": {29: 0}
+      "Distortion": {30: 0}
+      "Harmonics": {31: 0}
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Prometheus3/guitar.rsi
+  - type: Clothing
+    quickEquip: false
+    slots:
+    - back
+    - suitStorage
+  - type: MeleeWeapon
+    wideAnimationRotation: 45
+    damage:
+      types:
+        Blunt: 6
+        Slash: 2
+    soundHit:
+      collection: SoundCollectionRockHitPrometheus3
+      params:
+        volume: -7
+        maxDistance: 10
+  - type: Wieldable
+  - type: IncreaseDamageOnWield
+    damage:
+      types:
+        Blunt: 4
+        Slash: 2
+  - type: Tag
+    tags:
+    - StringInstrument
+
+- type: soundCollection
+  id: SoundCollectionRockHitPrometheus3
+  files:
+  - /Audio/_DeadSpace/Sponsor/Prometheus3/rock_hit_1.ogg
+  - /Audio/_DeadSpace/Sponsor/Prometheus3/rock_hit_2.ogg
+  - /Audio/_DeadSpace/Sponsor/Prometheus3/rock_hit_3.ogg
+
+#Документ
+- type: entity
+  parent: PaperPrintedCentcomm
+  id: PaperPrometheus3
+  name: распечатанный документ
+  description: Лист бумаги с заголовком центкома. Страшно даже смотреть на него.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Paper
+    stampState: paper_stamp-centcom
+    stampedBy:
+    - stampedColor: '#006600FF'
+      stampedName: Центральное Командование
+    - stampedColor: '#00BE00FF'
+      stampedName: Одобрено
+    content: paper-law-prometheus3
