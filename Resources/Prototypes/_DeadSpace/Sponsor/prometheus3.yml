@@ -79,7 +79,7 @@
   - type: Sprite
     sprite: Objects/Specific/Medical/defibsyndi.rsi
   - type: Item
-  sprite: Objects/Specific/Medical/defibsyndi.rsi
+    sprite: Objects/Specific/Medical/defibsyndi.rsi
 # ГИПОСПРЕЙ
 - type: entity
   parent: BaseItem
