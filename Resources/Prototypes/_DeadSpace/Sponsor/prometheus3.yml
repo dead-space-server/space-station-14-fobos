@@ -71,7 +71,7 @@
 
 - type: entity
   parent: DefibrillatorCompact
-  name: компактный дефибриллятор
+  name: компактный дефибриллятор «BlackOps»
   description: ЧИСТО! РАЗРЯД!
   id: DefibrillatorPrometheus3
   categories: [ HideSpawnMenu ]
