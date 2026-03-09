@@ -66,9 +66,20 @@
     - id: MedicatedSuture
     - id: RegenerativeMesh
     - id: Bloodpack
-    - id: DefibrillatorSyndicate
+    - id: DefibrillatorPrometheus3
     - id: HypoPrometheus3
 
+- type: entity
+  parent: DefibrillatorCompact
+  name: компактный дефибриллятор
+  description: ЧИСТО! РАЗРЯД!
+  id: DefibrillatorPrometheus3
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: Objects/Specific/Medical/defibsyndi.rsi
+  - type: Item
+  sprite: Objects/Specific/Medical/defibsyndi.rsi
 # ГИПОСПРЕЙ
 - type: entity
   parent: BaseItem
