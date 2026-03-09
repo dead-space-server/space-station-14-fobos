@@ -418,7 +418,7 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
             if (_alertLevel.GetLevel(nukeops.TargetStation.Value) == "gamma")
                 continue;
 
-            if (newStatus != WarConditionStatus.YesWar)
+            if (newStatus != WarConditionStatus.WarReady)
                 continue;
 
             _alertLevel.SetLevel(nukeops.TargetStation.Value, "gamma", false, true, true);
