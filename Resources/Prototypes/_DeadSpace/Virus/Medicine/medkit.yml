@@ -47,6 +47,7 @@
       - id: ChemistryBottleMycocline
       - id: ChemistryBottleSeptomycin
       - id: ChemistryBottleSeptomycin
+      - id: FirstAidPaperVirus
 
 - type: entity
   id: FilledSuperVirusMedkit

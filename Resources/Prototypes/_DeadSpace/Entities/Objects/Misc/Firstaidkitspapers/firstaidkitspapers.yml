@@ -1,0 +1,119 @@
+- type: entity
+  name: инструкция по содержимому
+  parent: Paper
+  id: FirstAidPaperToxin
+  description: Лист бумаги из аптечки.
+  suffix: Отравление
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/bureaucracy.rsi
+    layers:
+    - state: paper
+    - state: paper_words
+      map: ["enum.PaperVisualLayers.Writing"]
+      visible: false
+    - state: paper_stamp-generic
+      map: ["enum.PaperVisualLayers.Stamp"]
+      visible: false
+  - type: Paper
+    content: paper-aid-instruction-Toxin
+
+- type: entity
+  name: инструкция по содержимому
+  parent: Paper
+  id: FirstAidPaperBrute
+  description: Лист бумаги из аптечки.
+  suffix: Тупой
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/bureaucracy.rsi
+    layers:
+    - state: paper
+    - state: paper_words
+      map: ["enum.PaperVisualLayers.Writing"]
+      visible: false
+    - state: paper_stamp-generic
+      map: ["enum.PaperVisualLayers.Stamp"]
+      visible: false
+  - type: Paper
+    content: paper-aid-instruction-Brute
+
+- type: entity
+  name: инструкция по содержимому
+  parent: Paper
+  id: FirstAidPaperBurn
+  description: Лист бумаги из аптечки.
+  suffix: Ожоги
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/bureaucracy.rsi
+    layers:
+    - state: paper
+    - state: paper_words
+      map: ["enum.PaperVisualLayers.Writing"]
+      visible: false
+    - state: paper_stamp-generic
+      map: ["enum.PaperVisualLayers.Stamp"]
+      visible: false
+  - type: Paper
+    content: paper-aid-instruction-Burn
+
+- type: entity
+  name: инструкция по содержимому
+  parent: Paper
+  id: FirstAidPaperOxygen
+  description: Лист бумаги из аптечки.
+  suffix: Кислород
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/bureaucracy.rsi
+    layers:
+    - state: paper
+    - state: paper_words
+      map: ["enum.PaperVisualLayers.Writing"]
+      visible: false
+    - state: paper_stamp-generic
+      map: ["enum.PaperVisualLayers.Stamp"]
+      visible: false
+  - type: Paper
+    content: paper-aid-instruction-Oxygen
+
+- type: entity
+  name: инструкция по содержимому
+  parent: Paper
+  id: FirstAidPaperRadiation
+  description: Лист бумаги из аптечки.
+  suffix: Радиация
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/bureaucracy.rsi
+    layers:
+    - state: paper
+    - state: paper_words
+      map: ["enum.PaperVisualLayers.Writing"]
+      visible: false
+    - state: paper_stamp-generic
+      map: ["enum.PaperVisualLayers.Stamp"]
+      visible: false
+  - type: Paper
+    content: paper-aid-instruction-Radiation
+
+- type: entity
+  name: инструкция по содержимому
+  parent: Paper
+  id: FirstAidPaperVirus
+  description: Лист бумаги из аптечки.
+  suffix: Вирус
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/bureaucracy.rsi
+    layers:
+    - state: paper
+    - state: paper_words
+      map: ["enum.PaperVisualLayers.Writing"]
+      visible: false
+    - state: paper_stamp-generic
+      map: ["enum.PaperVisualLayers.Stamp"]
+      visible: false
+  - type: Paper
+    content: paper-aid-instruction-Virus
