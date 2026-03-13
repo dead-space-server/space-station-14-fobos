@@ -315,6 +315,8 @@
       - NewsReaderCartridge
       - MedTekCartridge
       - AstroNavCartridge
+  - type: PdaBorderColor
+    borderColor: "#70c3ff" # DS14
 
 # Headset
 - type: entity
