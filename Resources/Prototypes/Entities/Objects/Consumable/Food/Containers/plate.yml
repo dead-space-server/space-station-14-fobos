@@ -15,6 +15,9 @@
   - type: Sprite
     sprite: Objects/Consumable/Food/plates.rsi
     state: plate
+  - type: ContainerContainer
+    containers:
+      plate_slot: !type:ContainerSlot
   - type: Item
     shape:
     - 0,0,1,0
@@ -24,6 +27,18 @@
       - state: plate-inhand-left
       right:
       - state: plate-inhand-right
+  - type: ItemSlots
+    slots:
+      plate_slot:
+        insertOnInteract: true
+        ejectOnInteract: false
+        ejectOnUse: true
+        disableEject: false
+        swap: true
+        ejectOnBreak: false
+  - type: Plate
+    contentOffset: 0, -0.1
+    maxItemSize: Normal
   - type: DamageOnLand
     damage:
       types:
@@ -45,6 +60,7 @@
           collection: GlassBreak
           params:
             volume: -8
+      - !type:EmptyAllContainersBehaviour
       - !type:SpawnEntitiesBehavior
         spawn:
           FoodPlateTrash:
@@ -96,6 +112,9 @@
       - state: plate-inhand-left
       right:
       - state: plate-inhand-right
+  - type: Plate
+    contentOffset: 0, 0
+    maxItemSize: Normal
 # Needs the full thing because inherting is dumb sometimes.
   - type: Destructible
     thresholds:
@@ -108,6 +127,7 @@
           collection: GlassBreak
           params:
             volume: -8
+      - !type:EmptyAllContainersBehaviour
       - !type:SpawnEntitiesBehavior
         spawn:
           FoodPlateSmallTrash:
@@ -140,6 +160,9 @@
   - type: Sprite
     sprite: Objects/Consumable/Food/plates.rsi
     state: plate-plastic
+  - type: ContainerContainer
+    containers:
+      plate_slot: !type:ContainerSlot
   - type: Item
     shape:
     - 0,0,1,0
@@ -149,6 +172,18 @@
       - state: plate-plastic-inhand-left
       right:
       - state: plate-plastic-inhand-right
+  - type: ItemSlots
+    slots:
+      plate_slot:
+        insertOnInteract: true
+        ejectOnInteract: false
+        ejectOnUse: true
+        disableEject: false
+        swap: true
+        ejectOnBreak: false
+  - type: Plate
+    contentOffset: 0, -0.1
+    maxItemSize: Normal
   - type: Tag
     tags:
     - Trash
@@ -162,6 +197,9 @@
   - type: Sprite
     sprite: Objects/Consumable/Food/plates.rsi
     state: plate-small-plastic
+  - type: ContainerContainer
+    containers:
+      plate_slot: !type:ContainerSlot
   - type: Item
     shape:
     - 0,0,1,0
@@ -171,6 +209,18 @@
       - state: plate-plastic-inhand-left
       right:
       - state: plate-plastic-inhand-right
+  - type: ItemSlots
+    slots:
+      plate_slot:
+        insertOnInteract: true
+        ejectOnInteract: false
+        ejectOnUse: true
+        disableEject: false
+        swap: true
+        ejectOnBreak: false
+  - type: Plate
+    contentOffset: 0, 0
+    maxItemSize: Normal
   - type: Tag
     tags:
     - Trash
@@ -186,11 +236,25 @@
   - type: Sprite
     sprite: Objects/Consumable/Food/plates.rsi
     state: tin
+  - type: ContainerContainer
+    containers:
+      plate_slot: !type:ContainerSlot
   - type: Item
     size: Small
     shape:
     - 0,0,1,0
     storedOffset: 0,-3
+  - type: ItemSlots
+    slots:
+      plate_slot:
+        insertOnInteract: true
+        ejectOnInteract: false
+        ejectOnUse: true
+        disableEject: false
+        swap: true
+        ejectOnBreak: false
+  - type: Plate
+    maxItemSize: Normal
   - type: Tag
     tags:
     - Trash
@@ -210,11 +274,25 @@
   - type: Sprite
     sprite: Objects/Consumable/Food/plates.rsi
     state: muffin-tin
+  - type: ContainerContainer
+    containers:
+      plate_slot: !type:ContainerSlot
   - type: Item
     size: Tiny
     shape:
     - 0,0,0,0
     storedOffset: 0,-2
+  - type: ItemSlots
+    slots:
+      plate_slot:
+        insertOnInteract: true
+        ejectOnInteract: false
+        ejectOnUse: true
+        disableEject: false
+        swap: true
+        ejectOnBreak: false
+  - type: Plate
+    maxItemSize: Small
   - type: Tag
     tags:
     - Trash
