@@ -1,14 +1,16 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
 using System.Linq;
 using System.Numerics;
 using Content.Client.Items.Systems;
 using Content.Shared.Containers.ItemSlots;
+using Content.Shared.DeadSpace.Kitchen.Components;
 using Content.Shared.Item;
-using Content.Shared.Kitchen.Components;
 using Robust.Client.GameObjects;
 using Robust.Shared.Containers;
 using Robust.Shared.GameObjects;
 
-namespace Content.Client.Kitchen;
+namespace Content.Client.DeadSpace.Kitchen;
 
 public sealed class PlateVisualsSystem : EntitySystem
 {

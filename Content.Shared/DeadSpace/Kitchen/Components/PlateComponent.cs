@@ -1,8 +1,10 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
 using System.Numerics;
 using Content.Shared.Item;
 using Robust.Shared.Prototypes;
 
-namespace Content.Shared.Kitchen.Components;
+namespace Content.Shared.DeadSpace.Kitchen.Components;
 
 [RegisterComponent]
 public sealed partial class PlateComponent : Component
