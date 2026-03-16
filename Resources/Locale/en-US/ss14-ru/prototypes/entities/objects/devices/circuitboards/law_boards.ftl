@@ -30,3 +30,7 @@ ent-XenoborgCircuitBoard = law board (Xenoborg)
 ent-MothershipCircuitBoard = law board (Mothership Core)
     .desc = An electronics board containing the Mothership Core lawset.
     .suffix = Admeme
+ent-SOCCircuitBoard = law board (SOC)
+    .desc = An electronics board containing the Special Operations Corps
+ lawset.
+    .suffix = Admeme

@@ -182,3 +182,18 @@
     state: std_mod
   - type: SiliconLawProvider
     laws: MothershipCoreLawset
+
+  # DS14-start
+- type: entity
+  id: SOCCircuitBoard
+  parent: BaseElectronics
+  name: law board (SOC)
+  suffix: Admeme
+  description: An electronics board containing the Special Operations Corps lawset.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: std_mod
+  - type: SiliconLawProvider
+    laws: SpecialOperationsCorpsLawset
+  # DS14-end
