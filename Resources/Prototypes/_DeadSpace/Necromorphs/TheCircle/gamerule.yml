@@ -40,7 +40,7 @@
   id: SiegeOfTheCircle
   components:
   - type: GameRule
-    minPlayers: 65 # DS14
+    minPlayers: 65
   - type: CircleOpsRule
     windowUntilSendObelisk:
       min: 1m
