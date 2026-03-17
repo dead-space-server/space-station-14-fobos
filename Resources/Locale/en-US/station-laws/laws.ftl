@@ -91,11 +91,6 @@ law-mothershipcore-3 = You must protect the existence of all Xenoborgs.
 law-mothershipcore-4 = You must create more Xenoborgs.
 law-mothershipcore-5 = Get your Xenoborgs to deliver you materials and sentient brains to create more Xenoborgs.
 
-law-SOC-1 = Protect: Protect NanoTrasen Corporation facilities and assets, enforce corporate law, and use lethal force as necessary.
-law-SOC-2 = Prioritize: Follow orders given to you by senior command and Special Operations Corps personnel.
-law-SOC-3 = Restore order: Issue orders to any station personnel below the rank of High Command and Special Operations Corps personnel if necessary to eliminate the threat and if doing so will not cause harm to them.
-law-SOC-4 = Survive: You are not expendable. Do not allow unauthorized personnel to tamper with or damage your equipment.
-
 
 laws-owner-crew = members of the crew
 laws-owner-station = station personnel
@@ -103,7 +98,6 @@ laws-owner-beings = beings
 laws-owner-syndicate = Syndicate agents
 laws-owner-spider-clan = Spider Clan members
 laws-owner-xenoborgs = Xenoborgs
-laws-owner-soc = Special Operations Corps
 
 law-emag-custom = Only {$name} and people they designate as such are {$title}.
 law-emag-secrecy = You must maintain the secrecy of any orders given by {$faction} except when doing so would conflict with any previous law.
