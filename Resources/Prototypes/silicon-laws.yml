@@ -567,38 +567,6 @@
   - MothershipCore5
   obeysTo: laws-owner-xenoborgs
 
- # DS14-start
- # Special Operations Corps laws
-- type: siliconLaw
-  id: SOC1
-  order: 1
-  lawString: law-SOC-1
-
-- type: siliconLaw
-  id: SOC2
-  order: 2
-  lawString: law-SOC-2
-
-- type: siliconLaw
-  id: SOC3
-  order: 3
-  lawString: law-SOC-3
-
-- type: siliconLaw
-  id: SOC4
-  order: 4
-  lawString: law-SOC-4
-
-- type: siliconLawset
-  id: SpecialOperationsCorpsLawset
-  laws:
-  - SOC1
-  - SOC2
-  - SOC3
-  - SOC4
-  obeysTo: laws-owner-soc
-  # DS14-end
-
 
 # ion storm random lawsets
 - type: weightedRandom
