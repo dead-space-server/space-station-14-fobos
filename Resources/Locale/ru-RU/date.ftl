@@ -1,4 +1,4 @@
-## Used for date picker
+## Для подбора дат
 
 month-1 = Январь
 month-2 = Февраль
