@@ -95,7 +95,7 @@ public sealed class BlobRuleSystem : GameRuleSystem<BlobRuleComponent>
             {
                 if (_roundEndSystem.ExpectedCountdownEnd != null)
                 {
-                    _roundEndSystem.CancelRoundEndCountdown(checkCooldown: false);
+                    _roundEndSystem.CancelRoundEndCountdown(forceRecall: true);
                     _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("blob-alert-recall-shuttle"),
                         Loc.GetString("Station"),
                         false,

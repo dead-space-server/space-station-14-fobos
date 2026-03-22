@@ -11,7 +11,7 @@
 
 - type: entity
   id: CrateNPCXeno
-  parent: CrateSyndicateSecure
+  parent: CrateSyndicateSecureDS
   name: ящик с ксеноморфом
   description: Ящик для содержания ксеноморфа.
   components:
@@ -22,7 +22,7 @@
 # Engineering
 - type: entity
   id: CrateRCDSyndicate
-  parent: CrateSyndicateSecure
+  parent: CrateSyndicateSecureDS
   name: ящик РСУ
   description: Ящик содержащий РСУ.
   components:

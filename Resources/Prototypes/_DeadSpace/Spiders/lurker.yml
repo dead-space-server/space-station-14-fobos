@@ -149,8 +149,6 @@
     baseWalkSpeed: 4
     baseSprintSpeed: 4
   - type: Bloodstream
-    bloodReagent: CopperBlood
-    bloodMaxVolume: 250
     bloodlossThreshold: 0.4
   - type: Bloodsucker
     maxCountReagent: 60 # Ёмкость

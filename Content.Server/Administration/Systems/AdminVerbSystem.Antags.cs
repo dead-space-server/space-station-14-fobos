@@ -33,10 +33,10 @@ public sealed partial class AdminVerbSystem
     private static readonly EntProtoId DefaultChangelingRule = "Changeling";
     private static readonly EntProtoId ParadoxCloneRuleId = "ParadoxCloneSpawn";
     private static readonly EntProtoId DefaultWizardRule = "Wizard";
+    private static readonly EntProtoId DefaultNinjaRule = "NinjaSpawn";
     private static readonly EntProtoId DefaultUnitologyRule = "Unitology"; // DS14
     private static readonly EntProtoId DefaultSpiderTerrorRule = "SpiderTerror"; // DS14
     private static readonly EntProtoId DragonSpawnRule = "DragonSpawn"; //  DS14
-    private static readonly EntProtoId SpaceNinjaRule = "NinjaSpawn"; // DS14
     private static readonly EntProtoId RenegadeRule = "RenegadeSpawn"; // DS14
     private static readonly ProtoId<StartingGearPrototype> PirateGearId = "PirateGear";
 
@@ -150,21 +150,6 @@ public sealed partial class AdminVerbSystem
         };
         args.Verbs.Add(dragon);
 
-        var ninjaName = Loc.GetString("admin-verb-text-make-ninja");
-        Verb ninja = new()
-        {
-            Text = ninjaName,
-            Category = VerbCategory.Antag,
-            Icon = new SpriteSpecifier.Rsi(new("Objects/Weapons/Melee/energykatana.rsi"), "icon"),
-            Act = () =>
-            {
-                _antag.ForceMakeAntag<NinjaRoleComponent>(targetPlayer, SpaceNinjaRule);
-            },
-            Impact = LogImpact.High,
-            Message = string.Join(": ", ninjaName, Loc.GetString("admin-verb-make-ninja")),
-        };
-        args.Verbs.Add(ninja);
-
         var renegadeName = Loc.GetString("admin-verb-text-make-renegade");
         Verb renegade = new()
         {
@@ -212,22 +197,6 @@ public sealed partial class AdminVerbSystem
             Message = string.Join(": ", headRevName, Loc.GetString("admin-verb-make-head-rev")),
         };
         args.Verbs.Add(headRev);
-
-        var wizardName = Loc.GetString("admin-verb-text-make-wizard");
-        Verb wizard = new()
-        {
-            Text = wizardName,
-            Category = VerbCategory.Antag,
-            Icon = new SpriteSpecifier.Rsi(new("/Textures/Clothing/Head/Hats/wizard_fake.rsi"), "icon"),
-            Act = () =>
-            {
-                // Wizard has no rule components as of writing, but I gotta put something here to satisfy the machine so just make it wizard mind rule :)
-                _antag.ForceMakeAntag<WizardRoleComponent>(targetPlayer, DefaultWizardRule);
-            },
-            Impact = LogImpact.High,
-            Message = string.Join(": ", wizardName, Loc.GetString("admin-verb-make-wizard")),
-        };
-        args.Verbs.Add(wizard);
 
         // DS14-start
         var uniName = Loc.GetString("admin-verb-text-make-unitolog");
@@ -311,6 +280,37 @@ public sealed partial class AdminVerbSystem
             Impact = LogImpact.High,
             Message = string.Join(": ", paradoxCloneName, Loc.GetString("admin-verb-make-paradox-clone")),
         };
+
+        var wizardName = Loc.GetString("admin-verb-text-make-wizard");
+        Verb wizard = new()
+        {
+            Text = wizardName,
+            Category = VerbCategory.Antag,
+            Icon = new SpriteSpecifier.Rsi(new("/Textures/Interface/Misc/job_icons.rsi"), "Wizard"),
+            Act = () =>
+            {
+                // Wizard has no rule components as of writing, but I gotta put something here to satisfy the machine so just make it wizard mind rule :)
+                _antag.ForceMakeAntag<WizardRoleComponent>(targetPlayer, DefaultWizardRule);
+            },
+            Impact = LogImpact.High,
+            Message = string.Join(": ", wizardName, Loc.GetString("admin-verb-make-wizard")),
+        };
+        args.Verbs.Add(wizard);
+
+        var ninjaName = Loc.GetString("admin-verb-text-make-space-ninja");
+        Verb ninja = new()
+        {
+            Text = ninjaName,
+            Category = VerbCategory.Antag,
+            Icon = new SpriteSpecifier.Rsi(new("/Textures/Objects/Weapons/Melee/energykatana.rsi"), "icon"),
+            Act = () =>
+            {
+                _antag.ForceMakeAntag<NinjaRoleComponent>(targetPlayer, DefaultNinjaRule);
+            },
+            Impact = LogImpact.High,
+            Message = string.Join(": ", ninjaName, Loc.GetString("admin-verb-make-space-ninja")),
+        };
+        args.Verbs.Add(ninja);
 
         if (HasComp<HumanoidAppearanceComponent>(args.Target)) // only humanoids can be cloned
             args.Verbs.Add(paradox);

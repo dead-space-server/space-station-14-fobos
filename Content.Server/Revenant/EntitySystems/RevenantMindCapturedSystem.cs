@@ -8,6 +8,7 @@ using Content.Shared.Mobs.Systems;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Ghost;
 using Content.Shared.Corvax.TTS;
+using Content.Shared.Damage.Components;
 using Content.Shared.Mind.Components;
 using Content.Shared.DeadSpace.Languages.Components;
 using Robust.Shared.Containers;

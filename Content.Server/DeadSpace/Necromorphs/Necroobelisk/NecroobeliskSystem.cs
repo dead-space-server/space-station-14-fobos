@@ -3,6 +3,7 @@
 using Content.Shared.Mobs.Systems;
 using Robust.Shared.Audio;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Content.Shared.Destructible;
 using Robust.Shared.Player;
 using Content.Shared.Verbs;
@@ -19,6 +20,7 @@ using Content.Server.Station.Systems;
 using Content.Shared.Audio;
 using Content.Server.RoundEnd;
 using Content.Server.DeadSpace.Necromorphs.Unitology;
+using Content.Shared.Damage.Components;
 
 namespace Content.Server.DeadSpace.Necromorphs.Necroobelisk;
 

@@ -11,7 +11,6 @@ using Content.Shared.Humanoid;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Roles;
 using Robust.Server.GameObjects;
-using Robust.Shared.Configuration;
 using Robust.Shared.Enums;
 using Robust.Shared.Player;
 using Robust.Shared.Timing;
@@ -21,7 +20,6 @@ namespace Content.Server._Donate;
 public sealed class DonateShopSystem : EntitySystem
 {
     [Dependency] private readonly MobStateSystem _mobState = default!;
-    [Dependency] private readonly IConfigurationManager _cfg = default!;
     [Dependency] private readonly ISharedPlayerManager _playMan = default!;
     [Dependency] private readonly TransformSystem _transform = default!;
     [Dependency] private readonly GameTicker _gameTicker = default!;

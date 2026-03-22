@@ -1,7 +1,6 @@
 using Content.Shared.Actions;
 using Content.Shared.Popups;
 using Content.Shared.DoAfter;
-using Robust.Shared.Containers;
 using Content.Server.DeadSpace.Abilities.Cocoon.Components;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Humanoid;
@@ -19,7 +18,6 @@ public sealed class LockCocoonSystem : EntitySystem
     [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
-    [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly NpcFactionSystem _npcFaction = default!;
     [Dependency] private readonly SharedCuffableSystem _cuffs = default!;
     [Dependency] private readonly CocoonSystem _cocoon = default!;
