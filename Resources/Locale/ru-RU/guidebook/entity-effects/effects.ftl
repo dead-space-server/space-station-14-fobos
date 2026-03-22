@@ -73,7 +73,7 @@ entity-effect-guidebook-satiate-thirst =
         *[other] Насыщают
     } { $relative ->
         [1] жажду средне
-        *[other] thirst averagely {NATURALFIXED($relative, 3)}x the average rate
+        *[other] жажду на {NATURALFIXED($relative, 3)}x от средней скорости
     }
 
 entity-effect-guidebook-satiate-hunger =
@@ -82,7 +82,7 @@ entity-effect-guidebook-satiate-hunger =
         *[other] Насыщают
     } { $relative ->
         [1] Сытость средне
-        *[other] hunger at {NATURALFIXED($relative, 3)}x the average rate
+        *[other] сытость на {NATURALFIXED($relative, 3)}x от средней скорости
     }
 
 entity-effect-guidebook-health-change =
