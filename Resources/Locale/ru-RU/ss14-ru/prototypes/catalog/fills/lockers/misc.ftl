@@ -25,3 +25,6 @@ ent-ClosetMaintenanceFilledRandom = { ent-ClosetMaintenance }
 ent-ClosetWallMaintenanceFilledRandom = { ent-ClosetWall }
     .suffix = Заполненный, Случайный
     .desc = { ent-ClosetWall.desc }
+ent-LockerSyndicateWallFilled = { ent-LockerSyndicateWall }
+    .desc = { ent-LockerSyndicateWall.desc }
+    .suffix = Заполненный, Ядерные оперативники
