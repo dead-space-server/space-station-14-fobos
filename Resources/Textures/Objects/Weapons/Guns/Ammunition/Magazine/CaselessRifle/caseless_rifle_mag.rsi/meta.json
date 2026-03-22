@@ -25,22 +25,6 @@
         {
             "name": "mag-4"
         },
-        {
-            "name": "inhand-left-mag",
-            "directions": 4
-        },
-        {
-            "name": "inhand-left-stripe",
-            "directions": 4
-        },
-        {
-            "name": "inhand-right-mag",
-            "directions": 4
-        },
-        {
-            "name": "inhand-right-stripe",
-            "directions": 4
-        },
     {
       "name": "practice"
     }
