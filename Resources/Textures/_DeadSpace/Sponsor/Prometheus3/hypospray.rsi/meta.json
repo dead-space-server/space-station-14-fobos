@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-4.0",
+  "copyright": "Exclusive rights held by [ckey: Prometheus, discord: maximus_pax]. Author and artist: [Cofe_man, Alexey Belyaev].",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "hypo"
+    },
+    {
+      "name": "hypo_empty"
+    },
+    {
+      "name": "hypo_fill1"
+    },
+    {
+      "name": "hypo_fill2"
+    },
+    {
+      "name": "inhand-left",
+      "directions": 4
+    },
+    {
+      "name": "inhand-right",
+      "directions": 4
+    },
+    {
+      "name": "equipped-BELT",
+      "directions": 4
+    }
+  ]
+}
