@@ -1,5 +1,16 @@
 - type: entity
   parent: ClothingHeadBase
+  id: ClothingHeadHatRedji
+  name: шляпа старика Рэджи
+  description: Слегка потёртая, стильная шляпа.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Head/Hats/old_stylish_hat.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Head/Hats/old_stylish_hat.rsi
+
+- type: entity
+  parent: ClothingHeadBase
   id: ClothingHeadHatBeretRobotics
   name: берет робототехника
   description: Красный берет с белой кокардой. киборги будут в восторге от вашего стиля!

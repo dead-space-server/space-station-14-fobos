@@ -1,3 +1,14 @@
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformRedjiJumpskirt
+  name: юбка-костюм заведующей отелем
+  description: Потёртый, но от того не менее стильный, костюм для женской половины персонала.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpskirt/skirt_redji.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpskirt/skirt_redji.rsi
+
 # Taipan
 
 - type: entity

@@ -1,7 +1,7 @@
 {
     "version": 1,
     "license": "CC-BY-SA-3.0",
-    "copyright": "Created by nope_ingeneer",
+    "copyright": "sprite by Keks code by nopeingeneer, resprite by kerfroozy (discord) for Space station 14 server Мёртвый космос",
     "size": {
         "x": 32,
         "y": 32
@@ -11,7 +11,7 @@
             "name": "icon"
         },
         {
-            "name": "equipped-FEET",
+            "name": "equipped-HELMET",
             "directions": 4
         },
         {
@@ -24,3 +24,4 @@
         }
     ]
 }
+

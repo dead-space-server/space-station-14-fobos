@@ -1,4 +1,15 @@
 - type: entity
+  parent: ClothingShoesBaseButcherable
+  id: ClothingRedjiShoes
+  name: стильные туфли
+  description: Пара потрёпаных временем, тем не менее, стильных туфель.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Shoes/Boots/redji_shoes.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Shoes/Boots/redji_shoes.rsi
+
+- type: entity
   parent: [ JetpackMini, ClothingShoesBase ]
   id: JetBoots
   name: джет-бутсы
