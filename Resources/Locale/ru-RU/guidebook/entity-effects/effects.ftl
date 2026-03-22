@@ -90,12 +90,12 @@ entity-effect-guidebook-health-change =
         [1] { $healsordeals ->
                 [heals] Лечит
                 [deals] Наносит
-                *[both] Изменяет здоровье на
+                *[both] лечит
              }
         *[other] { $healsordeals ->
                 [heals] Лечат
                 [deals] Наносят
-                *[both] Изменяют здоровье на
+                *[both] лечит
              }
     } { $changes }
 
@@ -104,12 +104,12 @@ entity-effect-guidebook-even-health-change =
         [1] { $healsordeals ->
             [heals] Равномерно лечит
             [deals] Равномерно наносит
-            *[both] Равномерно изменяет здоровье на
+            *[both] равномерно лечит
         }
         *[other] { $healsordeals ->
             [heals] Равномерно лечат
             [deals] Равномерно наносят
-            *[both] Равномерно изменяют здоровье на
+            *[both] равномерно лечит
         }
     } { $changes }
 
@@ -122,7 +122,7 @@ entity-effect-guidebook-status-effect-old =
                        [one] секунду
                        [few] секунды
                       *[other] секунд 
-                      } без накапливания
+                      } эффект не накапливается
         [add]   { $chance ->
                     [1] Вызывает
                     *[other] вызывают
@@ -130,7 +130,7 @@ entity-effect-guidebook-status-effect-old =
                        [one] секунду
                        [few] секунды
                       *[other] секунд 
-                      } с накапливанием
+                      } эффект накапливается
         [set]  { $chance ->
                     [1] Вызывает
                     *[other] вызывают
@@ -138,7 +138,7 @@ entity-effect-guidebook-status-effect-old =
                        [one] секунду
                        [few] секунды
                       *[other] секунд 
-                      } без накапливания
+                      } эффект не накапливается
         *[remove]{ $chance ->
                     [1] Убирает
                     *[other] Убирают
@@ -291,7 +291,7 @@ entity-effect-guidebook-adjust-reagent-reagent =
                 [1] Добавляет
                 *[-1] убирают
             }
-    } {NATURALFIXED($amount, 2)}u of {$reagent} { $deltasign ->
+    } {NATURALFIXED($amount, 2)}ед. {$reagent}'а { $deltasign ->
         [1] к
         *[-1] из
     } раствора
