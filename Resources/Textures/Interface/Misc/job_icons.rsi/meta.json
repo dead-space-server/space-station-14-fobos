@@ -276,6 +276,9 @@
         },
         {
             "name": "ERTLeader"
+        },
+        {
+            "name": "Zombie"
         }
     ]
 }
