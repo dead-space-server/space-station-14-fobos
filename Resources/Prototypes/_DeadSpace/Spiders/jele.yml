@@ -9,7 +9,7 @@
     state: icon
   - type: Item
     size: Small
-  - type: Food
+  - type: Edible
   - type: StaticPrice
     price: 500
   - type: SolutionContainerManager

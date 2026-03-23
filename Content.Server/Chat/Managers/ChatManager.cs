@@ -48,6 +48,8 @@ internal sealed partial class ChatManager : IChatManager
     [Dependency] private readonly ISharedPlayerManager _player = default!;
     [Dependency] private readonly DiscordChatLink _discordLink = default!;
     [Dependency] private readonly ILogManager _logManager = default!;
+
+    private ISawmill _sawmill = default!;
     private IServerSponsorsManager? _sponsorsManager; // DS14-sponsors
     private IServerChatFilter? _chatFilter; // DS14-chat-filter
 
@@ -59,7 +61,6 @@ internal sealed partial class ChatManager : IChatManager
     private bool _oocEnabled = true;
     private bool _adminOocEnabled = true;
 
-    private ISawmill _sawmill = default!;
     private readonly Dictionary<NetUserId, ChatUser> _players = new();
 
     public void Initialize()
@@ -171,13 +172,19 @@ internal sealed partial class ChatManager : IChatManager
 
     public void SendAdminAlert(string message)
     {
-        var clients = _adminManager.ActiveAdmins.Select(p => p.Channel);
-
         var wrappedMessage = Loc.GetString("chat-manager-send-admin-announcement-wrap-message",
             ("adminChannelName", Loc.GetString("chat-manager-admin-channel-name")), ("message", FormattedMessage.EscapeText(message)));
 
-        ChatMessageToMany(ChatChannel.AdminAlert, message, wrappedMessage, default, false, true, clients);
+        SendAdminAlertNoFormatOrEscape(wrappedMessage);
     }
+
+    public void SendAdminAlertNoFormatOrEscape(string message)
+    {
+        var clients = _adminManager.ActiveAdmins.Select(p => p.Channel);
+
+        ChatMessageToMany(ChatChannel.AdminAlert, message, message, default, false, true, clients);
+    }
+
 
     public void SendAdminAlert(EntityUid player, string message)
     {

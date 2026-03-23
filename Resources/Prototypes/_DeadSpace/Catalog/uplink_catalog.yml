@@ -651,3 +651,19 @@
     whitelist:
       tags:
       - NukeOpsUplink
+
+- type: listing
+  id: UplinkFireAxeFlaming
+  name: uplink-fire-axe
+  description: uplink-fire-axe-desc
+  icon: { sprite: /Textures/Objects/Weapons/Melee/fireaxeflaming.rsi, state: icon }
+  productEntity: FireAxeFlaming
+  cost:
+    Telecrystal: 7
+  categories:
+  - UplinkWeaponry
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink

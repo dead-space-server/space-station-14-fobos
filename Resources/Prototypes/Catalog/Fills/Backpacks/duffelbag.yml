@@ -31,6 +31,21 @@
       - id: EmergencyRollerBedSpawnFolded
 
 - type: entity
+  parent: ClothingBackpackDuffelSyndicateMedicalBundle
+  id: ClothingBackpackDuffelSyndicateFilledMedicine
+  name: syndicate medicine duffel bag
+  description: A large duffel bag containing essential medicinal reagents.
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: JugPunctTranex
+        - id: JugPyraDerma
+        - id: JugDexPlusSaline
+        - id: JugTrico
+
+- type: entity
   parent: ClothingBackpackDuffelSyndicateBundle
   id: ClothingBackpackDuffelSyndicateFilledShotgun
   name: Bulldog bundle
@@ -228,6 +243,27 @@
         - id: ChameleonControllerImplanter
 
 - type: entity
+  parent: ClothingBackpackChameleon
+  id: ClothingBackpackChameleonFillAgent
+  suffix: Fill, Chameleon, Syndie
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: ChameleonAgentPDA
+        - id: ClothingUniformJumpsuitChameleon
+        - id: ClothingOuterChameleon
+        - id: ClothingNeckChameleon
+        - id: ClothingMaskGasChameleon
+        - id: ClothingHeadHatChameleon
+        - id: ClothingHandsChameleon
+        - id: ClothingEyesChameleon
+        - id: ClothingHeadsetChameleon
+        - id: ClothingShoesChameleon
+        - id: ChameleonControllerImplanter
+
+- type: entity
   parent: ClothingBackpackDuffelSyndicateBundle
   id: ClothingBackpackDuffelSyndicateEVABundle
   name: syndicate EVA bundle
@@ -276,12 +312,19 @@
   name: syndicate hardsuit extras bundle
   description: "Contains stuff that you will absolutely want to have when purchasing a hardsuit."
   components:
-  - type: StorageFill
-    contents:
-      - id: ClothingMaskGasSyndicate
-      - id: ClothingHandsGlovesCombat
-      - id: DoubleEmergencyOxygenTankFilled
-      - id: DoubleEmergencyNitrogenTankFilled
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:NestedSelector
+        tableId: SyndicateHardsuitExtrasEntityTable
+
+- type: entityTable
+  id: SyndicateHardsuitExtrasEntityTable
+  table: !type:AllSelector
+    children:
+    - id: ClothingMaskGasSyndicate
+    - id: ClothingHandsGlovesCombat
+    - id: DoubleEmergencyOxygenTankFilled
+    - id: DoubleEmergencyNitrogenTankFilled
 
 - type: entity
   parent: ClothingBackpackDuffelSyndicateBundle
@@ -358,16 +401,31 @@
   name: basic operative bundle
   description: "Contains a weapon, medical supplies, breaching tools, spare ammo, and some simple utilities."
   components:
-  - type: StorageFill
-    contents:
-      - id: WeaponSubMachineGunC20r
-      - id: MagazinePistolSubMachineGun
-        amount: 3
-      - id: MagazinePistol
-      - id: SyndicateJawsOfLife
-      - id: C4
-        amount: 2
-      - id: MedkitCombatFilled
-      - id: EmpImplanter
-      - id: ClothingShoesBootsMagSyndie
-      - id: AgentIDCard
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: WeaponSubMachineGunC20r
+        - id: MagazinePistolSubMachineGun
+          amount: 3
+        - id: EnergySword
+        - id: SyndicateJawsOfLife
+        - id: C4
+          amount: 2
+        - id: MedkitCombatFilled
+        - id: EmpImplanter
+        - id: ClothingShoesBootsMagSyndie
+
+- type: entity
+  parent: ClothingBackpackDuffelSyndicateBundle
+  id: ClothingBackpackDuffelSyndicateFilledHushpup
+  name: Hushpup bundle
+  description: Contains the Hushpup, bundled with a box of buckshot. Quarter included.
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: WeaponShotgunHushpup
+        - id: BoxLethalshot
+        - id: TreasureCoinIron

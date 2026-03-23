@@ -66,7 +66,7 @@ public sealed class ATMSystem : SharedATMSystem
         if (!this.IsPowered(uid, EntityManager))
             return;
 
-        UpdateComponentUserInterface(uid, args.Actor);
+        UpdateComponentUserInterface(uid, args.User);
     }
 
     private static readonly ProtoId<MaterialPrototype> Credit = "Credit";
@@ -257,7 +257,7 @@ public sealed class ATMSystem : SharedATMSystem
         {
             var cashId = proto.Cash[value];
             var amountToSpawn = (int) MathF.Floor((float) (amountRemaining / value));
-            var ents = _stack.SpawnMultiple(cashId, amountToSpawn, coordinates);
+            var ents = _stack.SpawnMultipleAtPosition(cashId, amountToSpawn, coordinates);
             _hands.PickupOrDrop(buyer, ents.First());
             amountRemaining -= value * amountToSpawn;
         }

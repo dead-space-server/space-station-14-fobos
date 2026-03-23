@@ -1,11 +1,9 @@
-using Content.Shared.Actions;
 using Content.Shared.DeadSpace.Abilities.WallHack.Components;
 
 namespace Content.Server.DeadSpace.Abilities.WallHack;
 
 public sealed partial class WallHackSystem : EntitySystem
 {
-    [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
     [Dependency] private readonly SharedEyeSystem _eye = default!;
 
     public override void Initialize()

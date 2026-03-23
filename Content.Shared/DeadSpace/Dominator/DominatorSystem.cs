@@ -141,7 +141,7 @@ public sealed class DominatorSystem : EntitySystem
         component.CurrentFireMode = index;
         Dirty(uid, component);
 
-        if (TryComp(uid, out ProjectileBatteryAmmoProviderComponent? projectileBatteryAmmoProvider))
+        if (TryComp(uid, out BatteryAmmoProviderComponent? projectileBatteryAmmoProvider))
         {
             if (!_prototypeManager.TryIndex<EntityPrototype>(fireMode.Prototype, out var prototype))
                 return;
@@ -257,7 +257,7 @@ public sealed class DominatorSystem : EntitySystem
         if (TryComp<UseDelayComponent>(uid, out var useDelay) && _useDelay.IsDelayed((uid, useDelay)))
             return;
 
-        if (TryComp(uid, out ProjectileBatteryAmmoProviderComponent? projectileBatteryAmmoProvider) && projectileBatteryAmmoProvider.Shots == 0)
+        if (TryComp(uid, out BatteryAmmoProviderComponent? projectileBatteryAmmoProvider) && projectileBatteryAmmoProvider.Shots == 0)
         {
             _audio.PlayPredicted(component.LowBatterySound, uid, args.User, AudioParams.Default.WithVolume(-4f));
             if (useDelay != null)
