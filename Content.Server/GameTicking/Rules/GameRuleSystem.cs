@@ -47,6 +47,7 @@ public abstract partial class GameRuleSystem<T> : EntitySystem where T : ICompon
         while (query.MoveNext(out var uid, out _, out var gameRule))
         {
             var minPlayers = gameRule.MinPlayers;
+            var name = ToPrettyString(uid);
 
             int playerCount = useTotalPlayers ? _playerManager.PlayerCount : args.Players.Length; // DS14
 
@@ -61,17 +62,19 @@ public abstract partial class GameRuleSystem<T> : EntitySystem where T : ICompon
                     ChatManager.SendAdminAnnouncement(Loc.GetString("preset-not-enough-current-players",
                         ("currentPlayers", playerCount),
                         ("minimumPlayers", minPlayers),
-                        ("presetName", ToPrettyString(uid))));
+                        ("presetName", name)));
                 }
                 else
                 {
                     ChatManager.SendAdminAnnouncement(Loc.GetString("preset-not-enough-ready-players",
                         ("readyPlayersCount", playerCount),
                         ("minimumPlayers", minPlayers),
-                        ("presetName", ToPrettyString(uid))));
+                        ("presetName", name)));
                 }
                 // DS14-edit-end
                 args.Cancel();
+                //TODO remove this once announcements are logged
+                Log.Info($"Rule '{name}' requires {minPlayers} players, but only {args.Players.Length} are ready.");
             }
             else
             {

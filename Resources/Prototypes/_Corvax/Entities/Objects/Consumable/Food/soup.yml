@@ -7,8 +7,8 @@
   - type: FlavorProfile
     flavors:
       - meaty
-  - type: Food
-    trash: 
+  - type: Edible
+    trash:
       - FoodBowlBig
     utensil:
       - Spoon

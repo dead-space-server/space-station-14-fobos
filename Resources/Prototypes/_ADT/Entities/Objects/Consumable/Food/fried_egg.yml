@@ -8,7 +8,7 @@
     flavors:
       - egg
       - meaty
-  - type: Food
+  - type: Edible
     transferAmount: 3
   - type: Sprite
     sprite: _ADT/Objects/Consumable/Food/fried_egg.rsi

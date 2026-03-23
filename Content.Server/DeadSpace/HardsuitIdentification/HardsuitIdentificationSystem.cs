@@ -1,6 +1,6 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
-using Content.Server.Body.Systems;
+using Content.Shared.Gibbing;
 using Content.Shared.Inventory.Events;
 using Content.Server.Explosion.EntitySystems;
 using Content.Server.Chat.Systems;
@@ -16,6 +16,7 @@ using Content.Shared.Interaction.Components;
 using Content.Server.Speech.EntitySystems;
 using Content.Shared.Body.Components;
 using Content.Shared.Body.Part;
+using Content.Shared.Chat;
 using Content.Shared.Emag.Systems;
 using Robust.Shared.Audio.Systems;
 using Content.Shared.Speech.Components;
@@ -24,7 +25,7 @@ namespace Content.Server.DeadSpace.HardsuitIdentification;
 
 public sealed class HardsuitIdentificationSystem : EntitySystem
 {
-    [Dependency] private readonly BodySystem _bodySystem = default!;
+    [Dependency] private readonly GibbingSystem _gibbing = default!;
     [Dependency] private readonly ExplosionSystem _explosionSystem = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
     [Dependency] private readonly PopupSystem _popupSystem = default!;
@@ -146,9 +147,9 @@ public sealed class HardsuitIdentificationSystem : EntitySystem
                     4, 1, 2, maxTileBreak: 0);
 
                 if (_inventory.TryGetSlotEntity(args.Equipee, "outerClothing", out var hardsuitEntity) &&
-                hardsuitEntity == args.Equipment && TryComp<BodyComponent>(args.Equipee, out var body))
+                hardsuitEntity == args.Equipment && HasComp<BodyComponent>(args.Equipee))
                 {
-                    var ents = _bodySystem.GibBody(args.Equipee, true, body, false);
+                    var ents = _gibbing.Gib(args.Equipee, dropGiblets: false);
                     foreach (var part in ents)
                     {
                         if (HasComp<BodyPartComponent>(part))

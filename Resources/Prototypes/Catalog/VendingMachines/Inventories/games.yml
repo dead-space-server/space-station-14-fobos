@@ -18,6 +18,7 @@
     MysteryFigureBox: 2
     BooksBag: 3
     CardBin: 2 # DS14
+    Magic9Ball: 2
   contrabandInventory:
     Basketball: 1
     FoodSnackBoritos: 3

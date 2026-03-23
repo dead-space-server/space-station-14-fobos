@@ -18,7 +18,6 @@ public sealed class RadialUiController : UIController
     [Dependency] private readonly IEntityManager _entityManager = default!;
     [Dependency] private readonly IEyeManager _eyeManager = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
-    [Dependency] private readonly IConfigurationManager _cfg = default!;
 
     private LayoutContainer _radials = default!;
     private List<RadialContainer> _attachedRadials = new();

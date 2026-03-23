@@ -5,6 +5,7 @@ using Content.Server.DeadSpace.Arkalyse.Components;
 using Content.Shared.Weapons.Melee.Events;
 using System.Linq;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Physics.Components;
 using System.Numerics;

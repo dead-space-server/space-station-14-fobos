@@ -10,8 +10,6 @@ namespace Content.Client.DeadSpace.Spiders.SpiderKnight;
 public sealed class SpiderKnightSystem : EntitySystem
 {
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly ExamineSystemShared _examine = default!;
 
     public override void Initialize()
     {

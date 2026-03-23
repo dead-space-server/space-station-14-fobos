@@ -4,6 +4,7 @@ using Content.Server.Explosion.EntitySystems;
 using Content.Shared.Backmen.Blob;
 using Content.Shared.Backmen.Blob.Components;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Content.Shared.Mobs;
 using Content.Shared.Weapons.Melee.Events;
 using Robust.Server.GameObjects;
@@ -64,8 +65,8 @@ public sealed class BlobbernautSystem : SharedBlobbernautSystem
         };
     }
 
-    protected override DamageSpecifier? TryChangeDamage(string msg, EntityUid ent, DamageSpecifier dmg)
+    protected override DamageSpecifier TryChangeDamage(string msg, EntityUid ent, DamageSpecifier dmg)
     {
-        return _damageableSystem.TryChangeDamage(ent, dmg);
+        return _damageableSystem.ChangeDamage(ent, dmg);
     }
 }

@@ -197,7 +197,7 @@
           True: { visible: False }
           False: { visible: True }
         #todo: add other 'empty' animations
-  - type: ProjectileBatteryAmmoProvider
+  - type: BatteryAmmoProvider
     proto: BulletKinetic
     fireCost: 50
   - type: Gun
@@ -245,9 +245,7 @@
     - proto: BulletKineticSeniorSpread
       fireCost: 100
   - type: BatterySelfRecharger
-    autoRecharge: true
     autoRechargeRate: 50
-    autoRechargePause: true
     autoRechargePauseTime: 1
   - type: Battery
     maxCharge: 100

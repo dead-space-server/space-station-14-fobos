@@ -7,7 +7,7 @@ using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 using Content.Shared.DeadSpace.Necromorphs.InfectorDead;
 using Content.Shared.Body.Components;
 using Content.Server.Popups;
-using Content.Server.Administration.Systems;
+using Content.Shared.Administration.Systems;
 using Content.Shared.Actions;
 using Content.Shared.Verbs;
 using Content.Shared.Hands.Components;
