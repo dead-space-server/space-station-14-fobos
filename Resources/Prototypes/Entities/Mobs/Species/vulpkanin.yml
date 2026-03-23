@@ -7,7 +7,7 @@
   components:
   # DS14-start
   - type: SpeedSliding
-    slideDistance: 4
+    slideDistance: 5
   - type: Language
     selectedLanguage: GeneralLanguage
     knownLanguages:

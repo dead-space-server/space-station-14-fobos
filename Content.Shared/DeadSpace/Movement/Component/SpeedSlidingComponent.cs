@@ -12,7 +12,7 @@ public sealed partial class SpeedSlidingComponent : Component
     public float MinSlideSpeed = 4.9f;
 
     [DataField] 
-    public float SlideDistance = 6.5f;
+    public float SlideDistance = 8.5f;
 
     [DataField] 
     public float SlideSpeed = 3.5f;

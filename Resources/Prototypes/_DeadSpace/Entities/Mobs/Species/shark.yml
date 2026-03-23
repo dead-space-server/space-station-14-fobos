@@ -56,7 +56,7 @@
     # leftBarePrint: "footprint-left-bare-lizard"
     # rightBarePrint: "footprint-right-bare-lizard"
   - type: SpeedSliding
-    slideDistance: 10
+    slideDistance: 12
 
 - type: entity
   parent: BaseSpeciesDummy
