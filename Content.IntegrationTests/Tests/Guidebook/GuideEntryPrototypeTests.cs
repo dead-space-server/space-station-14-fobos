@@ -1,6 +1,7 @@
 using Content.Client.Guidebook;
 using Content.Client.Guidebook.Richtext;
 using Robust.Shared.ContentPack;
+using Robust.Shared.Log;
 using Robust.Shared.Prototypes;
 using System.Linq;
 using Content.Shared.Guidebook;
@@ -24,6 +25,12 @@ public sealed class GuideEntryPrototypeTests
         var parser = client.ResolveDependency<DocumentParsingManager>();
         var prototypes = protoMan.EnumeratePrototypes<GuideEntryPrototype>().ToList();
 
+        // Suppress "Hit style update limit" warnings that occur when parsing large guidebook pages
+        var logMan = client.ResolveDependency<ILogManager>();
+        var uiSawmill = logMan.GetSawmill("ui");
+        var oldLevel = uiSawmill.Level;
+        uiSawmill.Level = LogLevel.Error;
+
         foreach (var proto in prototypes)
         {
             await client.WaitAssertion(() =>
@@ -33,10 +40,11 @@ public sealed class GuideEntryPrototypeTests
                 Assert.That(parser.TryAddMarkup(new Document(), text), $"Failed to parse guidebook: {proto.Id}");
             });
 
-            // Avoid styleguide update limit
+            // Avoid style update limit
             await client.WaitRunTicks(1);
         }
 
+        uiSawmill.Level = oldLevel;
         await pair.CleanReturnAsync();
     }
 }

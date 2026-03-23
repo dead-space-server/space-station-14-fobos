@@ -166,7 +166,7 @@ public sealed partial class BloodsuckerSystem : SharedBloodsuckerSystem
             }
         }
 
-        var bloodPercentage = _bloodstreamSystem.GetBloodLevelPercentage(target);
+        var bloodPercentage = _bloodstreamSystem.GetBloodLevel(target);
         if (bloodPercentage <= 0.05)
         {
             _popup.PopupEntity(Loc.GetString("У цели нет питательных веществ"), uid, uid);

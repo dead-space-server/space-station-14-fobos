@@ -6,11 +6,11 @@ using Content.Shared.Paper;
 
 namespace Content.Server.DeadSpace.StationGoal;
 
-[Prototype("stationGoal")]
+[Prototype]
 public sealed partial class StationGoalPrototype : IPrototype
 {
     [IdDataField]
-    public string ID { get; } = default!;
+    public string ID { get; private set; } = default!;
 
     [DataField(required: true)]
     public ResPath Text = default!;

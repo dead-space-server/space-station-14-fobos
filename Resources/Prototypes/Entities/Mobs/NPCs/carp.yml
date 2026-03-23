@@ -44,7 +44,7 @@
       baseWalkSpeed: 2.5
       baseSprintSpeed: 3.5
     - type: Stamina
-      critThreshold: 100
+      baseCritThreshold: 100
     - type: DamageStateVisuals
       states:
         Alive:
@@ -161,7 +161,6 @@
         0: Alive
         50: Dead
     - type: Stamina
-      critThreshold: 100
     - type: Fixtures
       fixtures:
         fix1:
@@ -197,7 +196,7 @@
   components:
   - type: PointLight
     radius: 1.5
-    energy: 0.5
+    energy: 2
   - type: RgbLightController
     layers: [ 0 ]
   # DS14-start
@@ -245,9 +244,15 @@
       rootTask:
         task: DragonCarpCompound
     #DS14-start
-    - type: GhostRoleNotifys 
+    - type: GhostRoleNotifys
       groupPrototype: CarpsGroup
     #DS14-end
+    - type: Flammable
+      damage:
+       types: {}
+    - type: Temperature
+    - type: TemperatureDamage
+      heatDamageThreshold: 1200
 
 - type: entity
   id: MobCarpDungeon
@@ -296,7 +301,7 @@
         0: Alive
         82: Dead # Might seem random, but this brings up the hits to kill with a crusher mark to 3
     - type: Stamina
-      critThreshold: 150
+      baseCritThreshold: 150
     - type: DamageStateVisuals
       states:
         Alive:

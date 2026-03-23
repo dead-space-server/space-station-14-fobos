@@ -24,6 +24,9 @@
         whitelist:
           components:
           - Defibrillator
+  - type: Construction
+    graph: DefibrillatorCabinet
+    node: done
   - type: Destructible
     thresholds:
     - trigger: !type:DamageTrigger
@@ -40,9 +43,6 @@
       - !type:PlaySoundBehavior
         sound:
           collection: MetalGlassBreak
-  - type: Construction
-    graph: DefibrillatorCabinet
-    node: done
 
 - type: entity
   parent: DefibrillatorCabinet

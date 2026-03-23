@@ -21,10 +21,10 @@
 
 - type: antag
   id: SpiderTerror
-  name: Паук ужаса
+  name: roles-antag-spider-terror-name
   antagonist: true
   setPreference: false
-  objective: Ваша цель захватить станцию.
+  objective: roles-antag-spider-terror-objective
 
 - type: antag
   id: SpiderTerrorQueen
