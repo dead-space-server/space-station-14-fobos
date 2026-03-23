@@ -56,7 +56,6 @@
   - type: Bloodstream
     bleedReductionAmount: 0.66
     bloodlossThreshold: 0.5
-    bloodMaxVolume: 300
   - type: MeleeWeapon
     altDisarm: false
     angle: 45

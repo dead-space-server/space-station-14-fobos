@@ -6,6 +6,7 @@ using Content.Shared.DeadSpace.Spiders.SpiderKnight;
 using Content.Shared.DeadSpace.Spiders.SpiderKnight.Components;
 using Content.Shared.Weapons.Melee.Events;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Content.Shared.DeadSpace.Abilities.Bloodsucker.Components;
 using Content.Shared.DeadSpace.Abilities.Bloodsucker;
 using Robust.Shared.Timing;

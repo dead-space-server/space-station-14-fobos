@@ -1,0 +1,40 @@
+- type: entity
+  parent: BaseChemistryEmptyVial
+  id: TerratosomochromolinChemistryVial
+  name: пробирка
+  description: Маленькая пробирка.
+  suffix: Терратосоматохромолин
+  components:
+  - type: Label
+    currentLabel: терратосоматохромолин
+  - type: SolutionContainerManager
+    solutions:
+      beaker:
+        reagents:
+        - ReagentId: Terratosomochromolin
+          Quantity: 10
+
+- type: entity
+  parent: BaseChemistryEmptyVial
+  id: BluespaceVial
+  name: блюспейс пробирка
+  description: Работает на экспериментальной блюспейс технологии.
+  components:
+  - type: Spillable
+    solution: beaker
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Specific/Chemistry/vial_bluespace.rsi
+    layers:
+      - state: vial-1
+      - state: vial-1-1
+        map: ["enum.SolutionContainerLayers.Fill"]
+        visible: false
+  - type: SolutionContainerVisuals
+    maxFillLevels: 6
+    fillBaseName: vial-1-
+    inHandsMaxFillLevels: 4
+    inHandsFillBaseName: -fill-
+  - type: SolutionContainerManager
+    solutions:
+      beaker:
+        maxVol: 300

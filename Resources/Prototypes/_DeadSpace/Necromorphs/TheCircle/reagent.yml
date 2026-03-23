@@ -10,7 +10,7 @@
     Medicine:
       metabolismRate: 0.85
       effects:
-      - !type:ModifyBleedAmount
+      - !type:ModifyBleed
         amount: -1.8
       - !type:HealthChange
         damage:
@@ -19,7 +19,8 @@
             Slash: -1
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: Punturil
           min: 6
         damage:
           types:
@@ -37,20 +38,21 @@
     Narcotic:
       metabolismRate: 0.72
       effects:
-      - !type:MovespeedModifier
+      - !type:MovementSpeedModifier
         walkSpeedModifier: 1.4
         sprintSpeedModifier: 1.4
       - !type:Jitter
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: Depotojil
           min: 14
         damage:
           types:
             Cellular: 1.5
       - !type:AdjustReagent
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
           reagent: ChloralHydrate
           min: 1
         reagent: ChloralHydrate
@@ -73,7 +75,7 @@
         type: Remove
       - !type:ModifyStatusEffect
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
           reagent: Haloperidol
           max: 0.01
         effectProto: StatusEffectDrowsiness
@@ -85,7 +87,7 @@
       - !type:ResetNarcolepsy
       - !type:HealthChange
         conditions:
-        - !type:TotalDamage
+        - !type:TotalDamageCondition
           min: 70 
         damage:
           groups:
@@ -109,7 +111,8 @@
             Heat: -5.5
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: Ferratid
           min: 6
         damage:
           types:
@@ -135,7 +138,8 @@
           Brute: -4.2
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: Ferotohil
           min: 9
         damage:
           types:
@@ -159,7 +163,8 @@
             Poison: 3
       - !type:CauseInfectionDead
         conditions:
-          - !type:ReagentThreshold
+          - !type:ReagentCondition
+            reagent: Extraboril
             min: 15
 
 - type: reaction
@@ -228,7 +233,8 @@
           isAnimal: false
           necroPrototype: NecroStalker
           conditions:
-            - !type:ReagentThreshold
+            - !type:ReagentCondition
+              reagent: NecromorphMutagenStalker
               min: 5
 
 - type: reagent
@@ -247,7 +253,8 @@
           isAnimal: false
           necroPrototype: NecroCorpseCollector
           conditions:
-            - !type:ReagentThreshold
+            - !type:ReagentCondition
+              reagent: NecromorphMutagenCorpseCollector
               min: 5
 
 - type: reagent
@@ -266,7 +273,8 @@
           isAnimal: false
           necroPrototype: NecroDeva
           conditions:
-            - !type:ReagentThreshold
+            - !type:ReagentCondition
+              reagent: NecromorphMutagenDeva
               min: 5
 
 - type: reagent
@@ -285,7 +293,8 @@
           isAnimal: false
           necroPrototype: NecroBoomer
           conditions:
-            - !type:ReagentThreshold
+            - !type:ReagentCondition
+              reagent: NecromorphMutagenBoomer
               min: 5
 
 - type: reagent
@@ -304,5 +313,6 @@
           isAnimal: false
           necroPrototype: NecroPregnant
           conditions:
-            - !type:ReagentThreshold
+            - !type:ReagentCondition
+              reagent: NecromorphMutagenPregnant
               min: 5

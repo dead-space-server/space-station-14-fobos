@@ -15,7 +15,7 @@
 
             <!-- SERVER CONNECTED -->
             <PanelContainer Name="ServerContents"
-                            StyleClasses="Inset"
+                            StyleClasses="BackgroundPanelDark"
                             VerticalExpand="True"
                             Margin="5 5 5 5">
                 <BoxContainer Orientation="Vertical" Margin="5 5 5 5"
@@ -42,7 +42,7 @@
 
             <!-- SERVER MISSING -->
             <PanelContainer Name="ServerMissing"
-                            StyleClasses="Inset"
+                            StyleClasses="BackgroundPanelDark"
                             VerticalExpand="True"
                             Margin="5 5 5 5">
                 <Label HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -51,7 +51,7 @@
 
             <!-- SERVER FAR -->
             <PanelContainer Name="ServerFar"
-                            StyleClasses="Inset"
+                            StyleClasses="BackgroundPanelDark"
                             VerticalExpand="True"
                             Margin="5 5 5 5">
                 <Label HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -68,7 +68,7 @@
                       HorizontalExpand="True">
 
             <PanelContainer Name="DiagnoserContents"
-                            StyleClasses="Inset"
+                            StyleClasses="BackgroundPanelDark"
                             VerticalExpand="True"
                             Margin="5 5 5 5">
 
@@ -108,7 +108,7 @@
 
 
             <PanelContainer Name="DiagnoserMissing"
-                            StyleClasses="Inset"
+                            StyleClasses="BackgroundPanelDark"
                             VerticalExpand="True"
                             Margin="5 5 5 5">
                 <Label HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -116,7 +116,7 @@
             </PanelContainer>
 
             <PanelContainer Name="DiagnoserFar"
-                            StyleClasses="Inset"
+                            StyleClasses="BackgroundPanelDark"
                             VerticalExpand="True"
                             Margin="5 5 5 5">
                 <Label HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -133,7 +133,7 @@
 
             <!-- SolutionAnalyzer CONNECTED -->
             <PanelContainer Name="SolutionAnalyzerContents"
-                            StyleClasses="Inset"
+                            StyleClasses="BackgroundPanelDark"
                             VerticalExpand="True"
                             Margin="5 5 5 5">
                 <BoxContainer Orientation="Vertical" Margin="5 5 5 5"
@@ -149,7 +149,7 @@
 
             <!-- SolutionAnalyzer MISSING -->
             <PanelContainer Name="SolutionAnalyzerMissing"
-                            StyleClasses="Inset"
+                            StyleClasses="BackgroundPanelDark"
                             VerticalExpand="True"
                             Margin="5 5 5 5">
                 <Label HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -158,7 +158,7 @@
 
             <!-- SolutionAnalyzer FAR -->
             <PanelContainer Name="SolutionAnalyzerFar"
-                            StyleClasses="Inset"
+                            StyleClasses="BackgroundPanelDark"
                             VerticalExpand="True"
                             Margin="5 5 5 5">
                 <Label HorizontalAlignment="Center" VerticalAlignment="Center"

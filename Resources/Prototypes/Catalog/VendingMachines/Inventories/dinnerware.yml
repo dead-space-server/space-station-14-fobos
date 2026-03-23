@@ -29,6 +29,8 @@
     DrinkMugRed: 2
     ADTIronTray: 2 # ADT
     ADTDrinkTeapot: 1 # ADT
+    MortarAndPestle: 1
+    HandheldJuicer: 1
   contrabandInventory:
     CandyBowl: 1
     BarSpoon: 2

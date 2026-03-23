@@ -1,4 +1,3 @@
-using System.Linq;
 using Content.Shared.GameTicking;
 using Content.Server.Hands.Systems;
 using Robust.Shared.Prototypes;
@@ -10,7 +9,6 @@ public sealed class SponsorLoadoutSystem : EntitySystem
 {
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly HandsSystem _handsSystem = default!;
-    [Dependency] private readonly EntityManager _entityManager = default!;
     private IServerSponsorsManager? _sponsorsManager; // DS14-sponsors
 
     public override void Initialize()

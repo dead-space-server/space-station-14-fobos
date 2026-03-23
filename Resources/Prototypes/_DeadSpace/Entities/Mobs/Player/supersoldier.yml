@@ -123,7 +123,7 @@
     - reagents: [Water, SpaceCleaner]
       methods: [Touch]
       effects:
-      - !type:WashCreamPieReaction
+      - !type:WashCreamPie
   - type: StatusEffects
     allowed:
     - Stun
@@ -187,7 +187,6 @@
   - type: StandingState
   - type: Dna
   - type: MindContainer
-    showExamineInfo: true
   - type: MobStateActions
     actions:
       Critical:
@@ -233,7 +232,6 @@
     - DoorBumpOpener
     - AnomalyHost
   - type: Stamina
-    critThreshold: 150 # Super Soldiers are more resilient than ordinary humanoids.
   - type: Barotrauma
     damage:
       types:
@@ -250,16 +248,8 @@
         Brute: -0.2 # x3 efficiency
   - type: Fingerprint
   - type: Temperature
-    heatDamageThreshold: 325
-    coldDamageThreshold: 260
     currentTemperature: 310.15
     specificHeat: 42
-    coldDamage:
-      types:
-        Cold: 0.1 #per second, scales with temperature & other constants
-    heatDamage:
-      types:
-        Heat: 1 #per second, scales with temperature & other constants
   - type: TemperatureSpeed
     thresholds:
       270: 0.9 # DS14-value
@@ -311,6 +301,7 @@
             sprite: Mobs/Species/Human/displacement.rsi
             state: jumpsuit-female
   - type: Sanity # DS14
+  - type: RenegadeCANTSubordinate
 # - type: DamageForceSay
 # - type: StatusIcon
 # - type: EmoteOnDamage

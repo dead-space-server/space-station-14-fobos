@@ -224,6 +224,7 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
                 ("username", data.UserName),
                 ("count", count)));
         }
+        args.AddLine("");
 
         // DS14 Статистика для дашборда
         var commandLost = CheckCommandLose();
