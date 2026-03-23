@@ -3,7 +3,6 @@ using Content.Shared.Database;
 using Content.Shared.Hands.Components;
 using Content.Shared.Interaction;
 using Content.Shared.Inventory.VirtualItem;
-using Content.Shared.DeadSpace.Abilities.Slide; // DS14
 using Content.Shared.Storage.Components;
 using Content.Shared.Tag;
 using Robust.Shared.Containers;
@@ -226,11 +225,6 @@ public abstract partial class SharedHandsSystem
     {
         if (!Resolve(ent, ref ent.Comp, false))
             return;
-
-        //DS14-start
-        if (TryComp<SpeedSlidingComponent>(ent, out var slide) && slide.IsSliding)
-            return;
-        //DS14-end
 
         if (!ContainerSystem.TryGetContainer(ent, handId, out var container))
             return;

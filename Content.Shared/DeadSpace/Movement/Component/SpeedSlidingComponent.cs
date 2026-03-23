@@ -5,21 +5,18 @@ using Robust.Shared.GameStates;
 
 namespace Content.Shared.DeadSpace.Abilities.Slide;
 
-[RegisterComponent, NetworkedComponent]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class SpeedSlidingComponent : Component
 {
-    [DataField] 
+    [DataField, AutoNetworkedField] 
     public float MinSlideSpeed = 4.9f;
 
-    [DataField] 
+    [DataField, AutoNetworkedField] 
     public float SlideDistance = 8.5f;
 
-    [DataField] 
+    [DataField, AutoNetworkedField] 
     public float SlideSpeed = 3.5f;
 
-    [DataField] 
+    [DataField, AutoNetworkedField] 
     public SoundSpecifier? SlideSound;
-
-    [ViewVariables]
-    public bool IsSliding = false;
 }

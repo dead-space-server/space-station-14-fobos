@@ -172,7 +172,7 @@ public abstract partial class SharedStunSystem : EntitySystem
         TimeSpan? time,
         bool refresh = true,
         bool autoStand = true,
-        bool drop = true,
+        bool drop = false, //DS14 SpeedSliding
         bool force = false)
     {
         if (!Resolve(entity, ref entity.Comp, false))
