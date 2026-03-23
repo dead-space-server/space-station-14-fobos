@@ -86,3 +86,6 @@ ent-ClothingBackpackDuffelSyndicateFilledMedicine = вещмешок с лека
 ent-ClothingBackpackChameleonFillAgent = { ent-ClothingBackpackChameleon }
     .desc = { ent-ClothingBackpackChameleon.desc }
     .suffix = Заполненный, Хамелеон, Синдикат
+ent-ClothingBackpackDuffelSyndicateFilledHushpup = { ent-ClothingBackpackDuffelSyndicate }
+    .desc = Содержит дробовик глухарь, снабжённый коробкой дроби. Четвертак в комплекте.
+    .suffix = набор "Глухарь"
