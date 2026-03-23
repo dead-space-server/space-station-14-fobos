@@ -26,6 +26,8 @@ using Robust.Shared.Random;
 using Robust.Shared.Utility;
 using System.Text.RegularExpressions;
 
+#pragma warning disable RA0026
+
 namespace Content.Server.GameTicking
 {
     public sealed partial class GameTicker

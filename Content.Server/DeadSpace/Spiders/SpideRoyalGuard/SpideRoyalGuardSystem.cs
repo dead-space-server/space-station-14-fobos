@@ -41,8 +41,7 @@ public sealed class SpideRoyalGuardSystem : EntitySystem
 
     private void SetGuardian(EntityUid uid, SpideRoyalGuardComponent component)
     {
-        if (!TryComp<TransformComponent>(uid, out var xform))
-            return;
+        var xform = Transform(uid);
 
         var entities = _lookup.GetEntitiesInRange<SpiderKingComponent>(_transform.GetMapCoordinates(uid, xform), component.Range);
         bool isPresentAliveKing = false;

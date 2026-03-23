@@ -3,6 +3,8 @@ using System.Text.RegularExpressions;
 using Content.Server.Chat.Systems;
 using Content.Shared.Chat;
 
+#pragma warning disable RA0026
+
 namespace Content.Server.Corvax.TTS;
 
 // ReSharper disable once InconsistentNaming

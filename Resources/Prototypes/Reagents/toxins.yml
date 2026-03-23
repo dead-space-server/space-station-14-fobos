@@ -167,7 +167,7 @@
 # DS14-start
         conditions:
         - !type:MetabolizerTypeCondition
-          type: Xenomorph
+          type: [ Xenomorph ]
           inverted: true
 # DS14-end
       - !type:PopupMessage
@@ -178,7 +178,7 @@
 # DS14-start
         conditions:
         - !type:MetabolizerTypeCondition
-          type: Xenomorph
+          type: [ Xenomorph ]
           inverted: true
 # DS14-end
       - !type:Emote
@@ -187,7 +187,7 @@
 # DS14-start
         conditions:
         - !type:MetabolizerTypeCondition
-          type: Xenomorph
+          type: [ Xenomorph ]
           inverted: true
     Drink:
       effects:
@@ -195,7 +195,7 @@
         amount: 7
         conditions:
         - !type:MetabolizerTypeCondition
-          type: Xenomorph
+          type: [ Xenomorph ]
 # DS14-end
 
 - type: reagent
@@ -220,13 +220,13 @@
 # DS14-start
         conditions:
         - !type:MetabolizerTypeCondition
-          type: Xenomorph
+          type: [ Xenomorph ]
           inverted: true
       - !type:ModifyBloodLevel
         amount: 3
         conditions:
         - !type:MetabolizerTypeCondition
-          type: Xenomorph
+          type: [ Xenomorph ]
 # DS14-end
 
 - type: reagent
@@ -263,7 +263,7 @@
 # DS14-start
         conditions:
         - !type:MetabolizerTypeCondition
-          type: Xenomorph
+          type: [ Xenomorph ]
           inverted: true
 # DS14-end
       - !type:PopupMessage
@@ -274,7 +274,7 @@
 # DS14-start
         conditions:
         - !type:MetabolizerTypeCondition
-          type: Xenomorph
+          type: [ Xenomorph ]
           inverted: true
 # DS14-end
       - !type:Emote
@@ -283,7 +283,7 @@
 # DS14-start
         conditions:
         - !type:MetabolizerTypeCondition
-          type: Xenomorph
+          type: [ Xenomorph ]
           inverted: true
     Drink:
       effects:
@@ -291,7 +291,7 @@
         amount: 9
         conditions:
         - !type:MetabolizerTypeCondition
-          type: Xenomorph
+          type: [ Xenomorph ]
 # DS14-end
 
 - type: reagent
@@ -337,7 +337,7 @@
 # DS14-start
         conditions:
         - !type:MetabolizerTypeCondition
-          type: Xenomorph
+          type: [ Xenomorph ]
           inverted: true
 # DS14-end
       - !type:PopupMessage
@@ -348,7 +348,7 @@
 # DS14-start
         conditions:
         - !type:MetabolizerTypeCondition
-          type: Xenomorph
+          type: [ Xenomorph ]
           inverted: true
 # DS14-end
       - !type:Emote
@@ -357,7 +357,7 @@
 # DS14-start
         conditions:
         - !type:MetabolizerTypeCondition
-          type: Xenomorph
+          type: [ Xenomorph ]
           inverted: true
     Drink:
       effects:
@@ -365,7 +365,7 @@
         amount: 5
         conditions:
         - !type:MetabolizerTypeCondition
-          type: Xenomorph
+          type: [ Xenomorph ]
 # DS14-end
 
 - type: reagent
@@ -623,7 +623,7 @@
       - !type:AdjustReagent
         conditions:
         - !type:MetabolizerTypeCondition
-          type: Xenomorph
+          type: [ Xenomorph ]
         reagent: Protein
         amount: 0.3
 # DS14-end
@@ -671,7 +671,7 @@
 # DS-14-start
         conditions:
         - !type:MetabolizerTypeCondition
-          type: SuperSoldier
+          type: [ SuperSoldier ]
           inverted: true
 # DS-14-end
 

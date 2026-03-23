@@ -161,7 +161,6 @@
         0: Alive
         50: Dead
     - type: Stamina
-      critThreshold: 100
     - type: Fixtures
       fixtures:
         fix1:

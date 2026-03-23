@@ -9,6 +9,8 @@ using Content.Shared.Construction.Prototypes;
 using Content.Server.Construction.Components;
 using Content.Shared.EntityEffects.Effects;
 
+#pragma warning disable RA0026
+
 namespace Content.Server.GuideGenerator;
 
 public sealed class MealsRecipesJsonGenerator

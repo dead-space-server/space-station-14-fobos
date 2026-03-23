@@ -9,6 +9,7 @@ using Content.Server.Inventory;
 using Content.Server.Mind;
 using Content.Server.NPC;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
+using Content.Shared.NPC.Prototypes;
 using Content.Server.NPC.HTN;
 using Content.Server.NPC.Systems;
 using Content.Server.Temperature.Components;
@@ -78,6 +79,7 @@ public sealed partial class NecromorfSystem
     [Dependency] private readonly VirusSystem _virus = default!;
     [Dependency] private readonly LanguageSystem _language = default!;
     private static readonly ProtoId<LanguagePrototype> NecroLanguage = "NecromorfLanguage";
+    private static readonly ProtoId<NpcFactionPrototype> NecromorfsFaction = "Necromorfs";
 
     public void Necrofication(EntityUid target, string prototypeId, InfectionDeadStrainData strainData, MobStateComponent? mobState = null)
     {
@@ -282,7 +284,7 @@ public sealed partial class NecromorfSystem
         _mobState.ChangeMobState(target, MobState.Alive);
 
         _faction.ClearFactions(target, dirty: false);
-        _faction.AddFaction(target, "Necromorfs");
+        _faction.AddFaction(target, NecromorfsFaction);
 
         _identity.QueueIdentityUpdate(target);
 

@@ -42,7 +42,7 @@
       - !type:HealthChange
         conditions:
           - !type:MetabolizerTypeCondition
-            type: Xenomorph
+            type: [ Xenomorph ]
         damage:
           groups:
             Brute: -0.50
@@ -146,6 +146,17 @@
   color: "#7a8bf2"
   recognizable: true
   physicalDesc: reagent-physical-desc-pungent
+
+- type: reagent
+  parent: Blood
+  id: SulfurBlood
+  name: reagent-name-sulfur-blood
+  group: Biological
+  desc: reagent-desc-sulfur-blood
+  flavor: acid
+  color: "#b89e00"
+  recognizable: true
+  physicalDesc: reagent-physical-desc-acrid
 
 - type: reagent
   id: ZombieBlood

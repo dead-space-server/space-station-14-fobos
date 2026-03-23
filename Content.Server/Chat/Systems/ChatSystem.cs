@@ -74,6 +74,7 @@ public sealed partial class ChatSystem : SharedChatSystem
     private bool _critLoocEnabled;
     private readonly bool _adminLoocEnabled = true;
     private string _centcommTTS = "Widowmaker";
+    private static readonly ProtoId<DatasetPrototype> CentcommAnnouncementVoiceDataset = "CentcommAnnouncementVoice";
 
     public override void Initialize()
     {
@@ -118,7 +119,7 @@ public sealed partial class ChatSystem : SharedChatSystem
 
     private void OnGameChange(GameRunLevelChangedEvent ev)
     {
-        _centcommTTS = _random.Pick(_prototypeManager.Index<DatasetPrototype>("CentcommAnnouncementVoice").Values);
+        _centcommTTS = _random.Pick(_prototypeManager.Index(CentcommAnnouncementVoiceDataset).Values);
 
         switch (ev.New)
         {
@@ -315,7 +316,7 @@ public sealed partial class ChatSystem : SharedChatSystem
     #region Announcements
 
     /// DS14-Languages: extra params prevent override, using new instead
-    public new void DispatchGlobalAnnouncement(
+    public void DispatchGlobalAnnouncement(
         string message,
         string? sender = null,
         bool playSound = true,
@@ -412,7 +413,7 @@ public sealed partial class ChatSystem : SharedChatSystem
     }
 
     /// DS14-Languages: extra params prevent override, using new instead
-    public new void DispatchStationAnnouncement(
+    public void DispatchStationAnnouncement(
         EntityUid source,
         string message,
         string? sender = null,

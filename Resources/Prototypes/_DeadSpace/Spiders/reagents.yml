@@ -16,7 +16,7 @@
           reagent: SpiderExtract
           min: 1
         - !type:MetabolizerTypeCondition
-          type: Bloodsucker
+          type: [ Bloodsucker ]
         damage:
           groups:
             Burn: -2
@@ -36,7 +36,7 @@
           reagent: SpiderExtract
           min: 1
         - !type:MetabolizerTypeCondition
-          type: Bloodsucker
+          type: [ Bloodsucker ]
         damage:
           groups:
             Burn: -2
@@ -65,7 +65,7 @@
           reagent: Karachnocid
           min: 1
         - !type:MetabolizerTypeCondition
-          type: Bloodsucker
+          type: [ Bloodsucker ]
         damage:
           groups:
             Toxin: 10
@@ -121,7 +121,7 @@
       - !type:MovementSpeedModifier
         conditions:
         - !type:MetabolizerTypeCondition
-          type: Bloodsucker
+          type: [ Bloodsucker ]
           inverted: true
         walkSpeedModifier: 0.5
         sprintSpeedModifier: 0.5
@@ -131,7 +131,7 @@
           reagent: SpiderLurkerSmokeExtract
           min: 1
         - !type:MetabolizerTypeCondition
-          type: Bloodsucker
+          type: [ Bloodsucker ]
           inverted: true
         damage:
           groups:
@@ -144,7 +144,7 @@
       - !type:MovementSpeedModifier
         conditions:
         - !type:MetabolizerTypeCondition
-          type: Bloodsucker
+          type: [ Bloodsucker ]
           inverted: true
         walkSpeedModifier: 0.5
         sprintSpeedModifier: 0.5
@@ -154,7 +154,7 @@
           reagent: SpiderLurkerSmokeExtract
           min: 1
         - !type:MetabolizerTypeCondition
-          type: Bloodsucker
+          type: [ Bloodsucker ]
           inverted: true
         damage:
           groups:
@@ -176,7 +176,7 @@
       - !type:MovementSpeedModifier
         conditions:
         - !type:MetabolizerTypeCondition
-          type: Bloodsucker
+          type: [ Bloodsucker ]
           inverted: true
         walkSpeedModifier: 0.4
         sprintSpeedModifier: 0.4
@@ -186,7 +186,7 @@
           reagent: SpiderWebExtract
           min: 1
         - !type:MetabolizerTypeCondition
-          type: Bloodsucker
+          type: [ Bloodsucker ]
           inverted: true
         damage:
           groups:
@@ -211,7 +211,7 @@
           reagent: SpiderReaperExtract
           min: 1
         - !type:MetabolizerTypeCondition
-          type: Bloodsucker
+          type: [ Bloodsucker ]
         damage:
           groups:
             Burn: -4

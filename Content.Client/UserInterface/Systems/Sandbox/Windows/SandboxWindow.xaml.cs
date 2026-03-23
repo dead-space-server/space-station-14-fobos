@@ -15,7 +15,6 @@ namespace Content.Client.UserInterface.Systems.Sandbox.Windows;
 public sealed partial class SandboxWindow : DefaultWindow
 {
     [Dependency] private readonly IEntityManager _entManager = null!;
-    [Dependency] private readonly IEyeManager _eyeManager = null!;
     [Dependency] private readonly ILightManager _lightManager = null!;
     [Dependency] private readonly IPlayerManager _playerManager = null!;
     private readonly DebugPhysicsSystem _debugPhysicsSystem;

@@ -6,7 +6,7 @@ using Content.Shared.Humanoid;
 
 namespace Content.Shared.DeadSpace.Necromorphs.InfectionDead.Prototypes;
 
-[Prototype("necromorf")]
+[Prototype]
 public sealed partial class NecromorfPrototype : IPrototype
 {
     [IdDataField]

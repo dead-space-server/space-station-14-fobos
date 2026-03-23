@@ -39,7 +39,6 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
     private bool _inventoryLoading;
     private bool _isPurchasing;
     private bool _isClaimingReward;
-    private bool _showingRewardResult;
     private bool _showingLootboxOpener;
 
     private Tab _currentTab = Tab.Profile;
@@ -1130,7 +1129,6 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
     public void ShowClaimResult(ClaimRewardResult result)
     {
         _isClaimingReward = false;
-        _showingRewardResult = true;
 
         ShowRewardResultPage(result);
     }
@@ -1161,7 +1159,6 @@ public sealed class DonateShopWindow : EmeraldDefaultWindow
 
         rewardDisplay.OnClosePressed += () =>
         {
-            _showingRewardResult = false;
             RequestMainData();
             RequestCalendarData();
             RequestInventoryData();

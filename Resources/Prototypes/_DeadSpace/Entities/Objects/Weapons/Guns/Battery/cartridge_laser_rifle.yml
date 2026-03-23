@@ -71,5 +71,5 @@
     fireCost: 100
   - type: PowerCell
   - type: Appearance
-  - type: PowerCellVisuals
+  - type: BatteryVisuals
   - type: Riggable

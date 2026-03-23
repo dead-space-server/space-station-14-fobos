@@ -9,7 +9,6 @@ using Content.Shared.Research.Systems;
 using JetBrains.Annotations;
 using Robust.Server.GameObjects;
 using Robust.Shared.Timing;
-using Content.Server.Station.Systems;
 
 namespace Content.Server.Research.Systems
 {
@@ -23,7 +22,6 @@ namespace Content.Server.Research.Systems
         [Dependency] private readonly UserInterfaceSystem _uiSystem = default!;
         [Dependency] private readonly SharedPopupSystem _popup = default!;
         [Dependency] private readonly RadioSystem _radio = default!;
-        [Dependency] private readonly StationSystem _station = default!;
 
         private static readonly HashSet<Entity<ResearchServerComponent>> ClientLookup = new();
 

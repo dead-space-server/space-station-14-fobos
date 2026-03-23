@@ -231,6 +231,7 @@
     - PresentQuiver
     - PresentQuiver
     - Censer
+    belt: []
 # DS14-end
 
 - type: startingGear

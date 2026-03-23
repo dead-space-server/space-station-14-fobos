@@ -289,6 +289,10 @@
       map: ["enum.GunVisualLayers.Mag"]
     - state: stripe
       color: "#cc4502"
+  - type: MagazineVisuals
+    magState: mag
+    steps: 2
+    zeroVisible: false
 
 # Арес
 

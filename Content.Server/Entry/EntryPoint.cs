@@ -236,7 +236,9 @@ namespace Content.Server.Entry
             _serverApi.Shutdown();
 
             // TODO Should this be awaited?
+#pragma warning disable CS4014
             _discordLink.Shutdown();
+#pragma warning restore CS4014
             _discordChatLink.Shutdown();
         }
 

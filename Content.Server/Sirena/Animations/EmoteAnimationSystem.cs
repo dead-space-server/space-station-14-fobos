@@ -8,11 +8,12 @@ using Content.Shared.Chat.Prototypes;
 
 namespace Content.Server.Sirena.Animations;
 
-public class EmoteAnimationSystem : SharedEmoteAnimationSystem
+public sealed class EmoteAnimationSystem : SharedEmoteAnimationSystem
 {
     [Dependency] private readonly ActionsSystem _action = default!;
     public override void Initialize()
     {
+        base.Initialize();
         SubscribeLocalEvent<EmoteAnimationComponent, ComponentGetState>(OnGetState);
 
         SubscribeLocalEvent<EmoteAnimationComponent, MapInitEvent>(OnMapInint);

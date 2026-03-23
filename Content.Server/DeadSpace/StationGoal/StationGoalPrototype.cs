@@ -6,7 +6,7 @@ using Content.Shared.Paper;
 
 namespace Content.Server.DeadSpace.StationGoal;
 
-[Prototype("stationGoal")]
+[Prototype]
 public sealed partial class StationGoalPrototype : IPrototype
 {
     [IdDataField]

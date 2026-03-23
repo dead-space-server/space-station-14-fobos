@@ -206,8 +206,7 @@ public sealed class RenegadeForceAbilitySystem : EntitySystem
         if (args.Handled)
             return;
 
-        if (!TryComp<TransformComponent>(uid, out var xform))
-            return;
+        var xform = Transform(uid);
 
         if (component.IsActiveAbility)
             return;

@@ -19,7 +19,7 @@
         prototype: EggSpiderTerror
         conditions:
         - !type:MetabolizerTypeCondition
-          type: EggSpider
+          type: [ EggSpider ]
         - !type:ReagentCondition
           reagent: Chitoectesin
           min: 10

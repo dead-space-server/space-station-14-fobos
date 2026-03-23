@@ -37,6 +37,7 @@ public sealed class FelinidSystem : EntitySystem
     [Dependency] private readonly TagSystem _tagSystem = default!;
     [Dependency] private readonly SharedChargesSystem _charges = default!;
 
+    private static readonly ProtoId<TagPrototype> FelinidFoodTag = "FelinidFood";
     private static readonly EntProtoId EatMouseActionId = "EatMouseAction";
 
     public override void Initialize()
@@ -82,7 +83,7 @@ public sealed class FelinidSystem : EntitySystem
 
     private void OnEquipped(EntityUid uid, FelinidComponent component, DidEquipHandEvent args)
     {
-        if (!_tagSystem.HasTag(args.Equipped, "FelinidFood"))
+        if (!_tagSystem.HasTag(args.Equipped, FelinidFoodTag))
             return;
 
         component.PotentialTarget = args.Equipped;

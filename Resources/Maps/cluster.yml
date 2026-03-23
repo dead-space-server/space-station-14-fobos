@@ -58285,10 +58285,6 @@ entities:
       pos: -35.087833,-22.754227
       parent: 2
     - type: Storage
-      storedItems:
-        invalid:
-          position: 0,0
-          _rotation: South
     - type: GroupExamine
       group:
       - hoverMessage: ""

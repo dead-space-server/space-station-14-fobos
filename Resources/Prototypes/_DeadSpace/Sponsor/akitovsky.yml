@@ -40,7 +40,7 @@
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,13,5
+    - 0,0,15,5
   - type: StorageFill
     contents:
     - id: ClothingNeckCloakAkitovsky
@@ -550,7 +550,6 @@
   - type: ToggleCellDraw
   - type: PowerCellDraw
     drawRate: 2.4 # ~5 minutes on a medium power cell.
-    useRate: 0
   - type: Sprite
     sprite: _DeadSpace/Sponsor/Akitovsky/tools_mineralscanner.rsi
     layers:

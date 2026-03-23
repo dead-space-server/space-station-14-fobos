@@ -260,9 +260,14 @@ public sealed class MindSystem : SharedMindSystem
         if (mind.UserId != null && _players.TryGetSessionById(mind.UserId.Value, out var userSession)
                                 && !alreadyAttached && mind.VisitingEntity == null)
         {
-            _players.SetAttachedEntity(userSession, entity, true);
-            DebugTools.Assert(userSession.AttachedEntity == entity, "Failed to attach entity.");
-            Log.Info($"Session {userSession.Name} transferred to entity {entity}.");
+            if (!_players.SetAttachedEntity(userSession, entity, true))
+            {
+                Log.Warning($"Failed to attach session {userSession.Name} to entity {entity}.");
+            }
+            else
+            {
+                Log.Info($"Session {userSession.Name} transferred to entity {entity}.");
+            }
         }
 
         if (entity != null)

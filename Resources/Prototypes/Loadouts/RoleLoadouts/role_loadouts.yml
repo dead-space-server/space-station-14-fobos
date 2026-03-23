@@ -523,7 +523,6 @@
   - Glasses
   - Survival
   - Trinkets
-  - ZookeeperJobTrinkets
   - GroupSpeciesBreathTool
   - ZookeeperUnderwear # DS14-Underwear
 
@@ -532,8 +531,6 @@
   groups:
   - GroupTankHarness
   - ReporterJumpsuit
-  - ReporterHead
-  - ReporterOuterClothing
   - CommonBackpack
   - Glasses
   - Survival
@@ -566,7 +563,6 @@
   - Glasses
   - Survival
   - Trinkets
-  - BoxerJobTrinkets
   - GroupSpeciesBreathTool
   - BoxerUnderwear # DS14-Underwear
 

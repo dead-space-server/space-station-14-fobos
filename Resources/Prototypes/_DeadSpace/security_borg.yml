@@ -123,7 +123,6 @@
     maxCharge: 1000
     startingCharge: 1000
   - type: BatterySelfRecharger
-    autoRecharge: true
     autoRechargeRate: 20
 
 - type: entity
@@ -138,7 +137,6 @@
     layers:
     - state: icon
   - type: BatterySelfRecharger
-    autoRecharge: true
     autoRechargeRate: 10
   - type: Gun
     fireRate: 2
@@ -157,7 +155,6 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: BatterySelfRecharger
-    autoRecharge: true
     autoRechargeRate: 25
 
 - type: entity

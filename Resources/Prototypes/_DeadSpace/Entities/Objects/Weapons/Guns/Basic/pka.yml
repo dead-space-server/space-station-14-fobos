@@ -245,9 +245,7 @@
     - proto: BulletKineticSeniorSpread
       fireCost: 100
   - type: BatterySelfRecharger
-    autoRecharge: true
     autoRechargeRate: 50
-    autoRechargePause: true
     autoRechargePauseTime: 1
   - type: Battery
     maxCharge: 100

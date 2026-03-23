@@ -13,6 +13,9 @@
   parent: BriefcaseBrown
   suffix: Syndicate, Sniper Bundle
   components:
+  - type: Storage
+    grid:
+    - 0,0,6,3
   - type: EntityTableContainerFill
     containers:
       storagebase: !type:AllSelector
@@ -30,6 +33,9 @@
   parent: BriefcaseSyndie
   suffix: Syndicate, Spesos
   components:
+  - type: Storage
+    grid:
+    - 0,0,6,3
   - type: EntityTableContainerFill
     containers:
       storagebase: !type:AllSelector

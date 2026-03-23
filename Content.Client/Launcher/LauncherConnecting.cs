@@ -8,7 +8,6 @@ using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Content.Shared.DeadSpace.CCCCVars; // DS14: Connect To Another Server
-using Robust.Shared.Configuration; // DS14: Connect To Another Server
 using Content.Shared.CCVar; // DS14: Connect To Another Server
 
 namespace Content.Client.Launcher

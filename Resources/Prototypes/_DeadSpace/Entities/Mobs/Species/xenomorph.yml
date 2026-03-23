@@ -14,16 +14,8 @@
   - type: Respirator #It just works?
     minSaturation: 5.0
   - type: Temperature
-    heatDamageThreshold: 325
-    coldDamageThreshold: 253.15
     currentTemperature: 310.15
     specificHeat: 42
-    coldDamage:
-      types:
-        Cold: 0.06 #per second, scales with temperature & other constants
-    heatDamage:
-      types:
-        Heat: 3 #per second, scales with temperature & other constants
   - type: Fingerprint
   - type: Blindable
   - type: TypingIndicator
@@ -40,7 +32,6 @@
     damageContainer: Biological
     damageModifierSet: XenoRace
   - type: Bloodstream
-    bloodReagent: AcidicBlood
   - type: Hunger
     baseDecayRate: 0.05
   - type: Thirst

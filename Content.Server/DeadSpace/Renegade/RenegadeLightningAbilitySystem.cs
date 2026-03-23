@@ -65,8 +65,7 @@ public sealed class RenegadeLightningAbilitySystem : EntitySystem
         if (HasComp<RenegadeCANTLightningAbilityComponent>(target))
             return;
 
-        if (!TryComp<TransformComponent>(target, out var xform))
-            return;
+        var xform = Transform(target);
         if (HasComp<BorgChassisComponent>(target))
             return;
 

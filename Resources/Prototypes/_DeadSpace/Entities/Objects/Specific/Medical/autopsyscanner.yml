@@ -45,10 +45,9 @@
   suffix: Заряжен
   parent: [ HandheldAutopsyScannerUnpowered, PowerCellSlotSmallItem]
   components:
-  - type: PredictedBatteryVisuals
+  - type: BatteryVisuals
   - type: PowerCellDraw
-    drawRate: 0
-    useRate: 20
+    drawRate: 20
   - type: ActivatableUIRequiresPowerCell
 
 - type: entity

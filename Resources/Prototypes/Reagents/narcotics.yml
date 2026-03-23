@@ -346,7 +346,7 @@
           min: 8
 # DS-14-start
         - !type:MetabolizerTypeCondition
-          type: SuperSoldier
+          type: [ SuperSoldier ]
           inverted: true
 # DS-14-end
         effectProto: StatusEffectForcedSleeping
@@ -375,7 +375,7 @@
 # DS-14-start
         conditions:
         - !type:MetabolizerTypeCondition
-          type: SuperSoldier
+          type: [ SuperSoldier ]
           inverted: true
 # DS-14-end
 
@@ -455,7 +455,7 @@
 # DS-14-start
         conditions:
         - !type:MetabolizerTypeCondition
-          type: SuperSoldier
+          type: [ SuperSoldier ]
           inverted: true
 # DS-14-end
       - !type:PopupMessage
@@ -470,7 +470,7 @@
 # DS-14-start
         conditions:
         - !type:MetabolizerTypeCondition
-          type: SuperSoldier
+          type: [ SuperSoldier ]
           inverted: true
 # DS-14-end
       - !type:Emote

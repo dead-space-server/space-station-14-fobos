@@ -712,21 +712,21 @@
 # DS14-start
           conditions:
           - !type:MetabolizerTypeCondition
-            type: Xenomorph
+            type: [ Xenomorph ]
             inverted: true
 # DS14-end
         - !type:ModifyBloodLevel
           amount: 6
           conditions:
           - !type:MetabolizerTypeCondition
-            type: Xenomorph
+            type: [ Xenomorph ]
             inverted: true
 # DS14-start
         - !type:ModifyBloodLevel
           amount: 2
           conditions:
           - !type:MetabolizerTypeCondition
-            type: Xenomorph
+            type: [ Xenomorph ]
 # DS14-end
 
 - type: reagent

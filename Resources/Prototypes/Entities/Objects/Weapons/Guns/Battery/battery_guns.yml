@@ -904,7 +904,6 @@
       pacifismAllowedMode: true
   - type: BatterySelfRecharger
     autoRechargeRate: 48
-    autoRechargePause: true
     autoRechargePauseTime: 10
 
 - type: entity

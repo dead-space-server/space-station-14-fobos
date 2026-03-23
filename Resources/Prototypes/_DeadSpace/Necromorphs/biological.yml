@@ -17,5 +17,5 @@
         factor: 1.5
         conditions:
           - !type:MetabolizerTypeCondition
-            type: Human
+            type: [ Human ]
             inverted: true

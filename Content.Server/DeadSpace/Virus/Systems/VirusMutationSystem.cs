@@ -7,7 +7,6 @@ using Content.Shared.Hands.Components;
 using Robust.Shared.Utility;
 using Content.Shared.Database;
 using Content.Shared.DeadSpace.TimeWindow;
-using Robust.Shared.Timing;
 using Robust.Shared.Random;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
@@ -24,7 +23,6 @@ public sealed class VirusMutationSystem : EntitySystem
 {
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly VirusSystem _virus = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly ILogManager _logManager = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;

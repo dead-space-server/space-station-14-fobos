@@ -40,14 +40,10 @@
     containers:
       storagebase: !type:AllSelector
         children:
-        - id: JugBicaridine
-        - id: JugPuncturase
-        - id: JugDermaline
-        - id: JugDylovene
-        - id: JugHyronalin
-        - id: JugSaline
-        - id: JugDexalinPlus
-        - id: JugTranexamicAcid
+        - id: JugPunctTranex
+        - id: JugPyraDerma
+        - id: JugDexPlusSaline
+        - id: JugTrico
 
 - type: entity
   parent: ClothingBackpackDuffelSyndicateBundle

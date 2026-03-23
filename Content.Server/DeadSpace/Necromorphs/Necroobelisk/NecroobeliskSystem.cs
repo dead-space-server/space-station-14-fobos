@@ -21,12 +21,14 @@ using Content.Shared.Audio;
 using Content.Server.RoundEnd;
 using Content.Server.DeadSpace.Necromorphs.Unitology;
 using Content.Shared.Damage.Components;
+using Robust.Shared.Audio.Systems;
 
 namespace Content.Server.DeadSpace.Necromorphs.Necroobelisk;
 
 public sealed class NecroobeliskSystem : SharedNecroobeliskSystem
 {
     [Dependency] private readonly IGameTiming _gameTiming = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly DamageableSystem _damage = default!;
     [Dependency] private readonly StationSystem _stationSystem = default!;
@@ -127,6 +129,12 @@ public sealed class NecroobeliskSystem : SharedNecroobeliskSystem
     {
         if (_mobState.IsDead(uid))
             return;
+
+        if (_gameTiming.CurTime >= component.NextSoundTime)
+        {
+            _audio.PlayPvs(component.Sound, uid, AudioParams.Default.WithVariation(0.05f).WithVolume(15f));
+            component.NextSoundTime = _gameTiming.CurTime + component.SoundCooldown;
+        }
     }
 
     private void OnSanityLost(EntityUid uid, NecroobeliskComponent component, ref SanityLostEvent args)

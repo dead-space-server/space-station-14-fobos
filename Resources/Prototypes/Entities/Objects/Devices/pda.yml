@@ -1552,7 +1552,7 @@
   description: You stealthy bastard, you!
   components:
   - type: Pda
-    id: NinjaIDCard
+    id: AgentIDCard
   - type: Appearance
     appearanceDataInit:
       enum.PdaVisuals.PdaType:

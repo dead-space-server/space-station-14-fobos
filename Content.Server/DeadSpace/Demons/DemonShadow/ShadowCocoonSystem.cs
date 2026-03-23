@@ -2,7 +2,6 @@
 
 using Content.Server.DeadSpace.Demons.DemonShadow.Components;
 using Robust.Server.GameObjects;
-using Robust.Shared.Containers;
 using Robust.Shared.Timing;
 using Content.Shared.Destructible;
 using Content.Server.DeadSpace.Abilities.Cocoon.Components;
@@ -13,7 +12,6 @@ namespace Content.Server.DeadSpace.Demons.LockCocoon;
 
 public sealed class ShadowCocoonSystem : EntitySystem
 {
-    [Dependency] private readonly SharedContainerSystem _containerSystem = default!;
     [Dependency] private readonly IGameTiming _gameTiming = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
@@ -46,8 +44,7 @@ public sealed class ShadowCocoonSystem : EntitySystem
 
     private void TurnOffElectricity(EntityUid uid, ShadowCocoonComponent component)
     {
-        if (!TryComp<TransformComponent>(uid, out var xform))
-            return;
+        var xform = Transform(uid);
 
         var entities = _lookup.GetEntitiesInRange<PointLightComponent>(_transform.GetMapCoordinates(uid, xform), component.Range);
         List<EntityUid> lights = new List<EntityUid>();

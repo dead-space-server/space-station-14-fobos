@@ -278,7 +278,7 @@
       hypo:
         whitelist:
           components:
-          - Hypospray
+          - Injector
     sprite: _DeadSpace/Sponsor/Sil/belt_overlay.rsi
   - type: Appearance
 
