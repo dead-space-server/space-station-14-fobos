@@ -489,7 +489,8 @@
       amount: 6
 
 - type: entity
-  id: HappyHonk
+  abstract: true
+  id: HappyHonkBase
   parent: [ BoxCardboard, BaseBagOpenClose ]
   name: happy honk meal
   suffix: Toy Safe
@@ -510,6 +511,14 @@
     - Trash
     - HappyHonk
     - BoxCardboard
+
+- type: entity
+  id: HappyHonk
+  parent: HappyHonkBase
+  name: happy honk meal
+  suffix: Toy Safe
+  description: The toy is more edible than the food.
+  components:
   - type: StorageFill
     contents:
       - id: ToyMouse
@@ -689,7 +698,7 @@
 
 - type: entity
   id: FoodMealHappyHonkClown
-  parent: HappyHonk
+  parent: HappyHonkBase
   suffix: random food spawner meal
   categories: [ HideSpawnMenu ]
   components:
@@ -709,7 +718,7 @@
 
 - type: entity
   id: FoodMealHappyHonkBigBite
-  parent: HappyHonk
+  parent: HappyHonkBase
   name: Happy Honk Big Bite Meal
   description: Someone paid good money to get this fast food meal shipped out this way. It smells fresh, somehow.
   components:

@@ -10,8 +10,9 @@
     sprite: Clothing/OuterClothing/Coats/bomber.rsi
 
 - type: entity
+  abstract: true
   parent: [ ClothingOuterArmorBase, ClothingOuterStorageBase, AllowSuitStorageClothing, BaseSecurityContraband ]
-  id: ClothingOuterCoatDetective
+  id: ClothingOuterCoatDetectiveBase
   name: detective armored trenchcoat
   description: An 18th-century multi-purpose trenchcoat. Someone who wears this means serious business.
   components:
@@ -21,6 +22,11 @@
     sprite: Clothing/OuterClothing/Coats/detective.rsi
   - type: ExplosionResistance
     damageCoefficient: 1 #its a coat. it doesnt do shit
+
+- type: entity
+  parent: ClothingOuterCoatDetectiveBase
+  id: ClothingOuterCoatDetective
+  components:
   - type: EntityTableContainerFill
     containers:
       storagebase: !type:AllSelector
@@ -41,7 +47,7 @@
 
 
 - type: entity
-  parent: ClothingOuterCoatDetective
+  parent: ClothingOuterCoatDetectiveBase
   id: ClothingOuterCoatDetectiveLoadout
   components:
   - type: StorageFill

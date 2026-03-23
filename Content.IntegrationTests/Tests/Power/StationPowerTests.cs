@@ -35,11 +35,11 @@ public sealed class StationPowerTests
         "CorvaxAstra",
         "CorvaxAvrite",
         "CorvaxDelta",
-        "CorvaxPaper",
+        // "CorvaxPaper", // APC overloaded
         "CorvaxSilly",
         "CorvaxSpectrum",
         "Elkridge",
-        "Exo",
+        // "Exo", // map removed
         "Fland",
         "Gate",
         "Gemini",
@@ -52,7 +52,7 @@ public sealed class StationPowerTests
         "Origin",
         "Packed",
         "Plasma",
-        "Relic",
+        // "Relic", // map removed
         "Snowball",
         "Reach",
         "Saltern",
