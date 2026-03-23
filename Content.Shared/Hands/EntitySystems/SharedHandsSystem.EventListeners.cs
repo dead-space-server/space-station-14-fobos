@@ -40,6 +40,14 @@ public abstract partial class SharedHandsSystem
         if (totalHands == 0)
             args.SpeedModifier = 0f;
         else
-            args.SpeedModifier *= (float)freeHands / totalHands;
+        // DS14-start
+        {
+            float ratio = (float)freeHands / totalHands;
+            float minRatio = 0.5f;
+            if (ratio < minRatio)
+                ratio = minRatio;
+            args.SpeedModifier *= ratio;
+        }
+        // DS14-end
     }
 }
