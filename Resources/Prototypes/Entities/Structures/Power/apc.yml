@@ -86,7 +86,7 @@
     voltage: Apc
   - type: Apc
     voltage: Apc
-    maxLoad: 25000 #DS14
+    maxLoad: 35000 #DS14
   - type: ExtensionCableProvider
   - type: UserInterface
     interfaces:
