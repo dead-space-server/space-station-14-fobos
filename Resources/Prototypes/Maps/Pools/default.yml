@@ -7,7 +7,7 @@
   - Bagel
   - Barratry
   - Box
-  - Cluster
+  # - Cluster # broken map, needs resave
   - Cog
   - Convex
   - Core
@@ -20,16 +20,18 @@
   - Elkridge
   - Fland
   - Gate
-  - Gemini
-  - Loop
-  - Loop
+  # - Gemini # broken map, needs resave
+  # - Loop # broken map, needs resave
+  # - Loop
   - Marathon
   - Meta
   - Oasis
   - Omega
   - Origin
   - Packed
-  - Plasma
+  # - Plasma # broken map, needs resave
   - Reach
+  # - Exo # map prototype is commented out
   - Saltern
+  - Snowball
   - Train

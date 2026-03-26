@@ -24,6 +24,8 @@ using Robust.Shared.Spawners;
 using Content.Shared.Alert;
 using Content.Shared.Item;
 using Robust.Shared.Prototypes;
+using Content.Shared.Silicons.Borgs.Components;
+using Content.Shared.Inventory;
 
 namespace Content.Server.DeadSpace.Renegade;
 
@@ -39,6 +41,7 @@ public sealed class RenegadeForceAbilitySystem : EntitySystem
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly SharedStunSystem _stun = default!;
     [Dependency] private readonly AlertsSystem _alerts = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!;
     private static readonly ProtoId<StatusEffectPrototype> StunEffect = "Stun";
     public const float MinGravPulseRange = 0.00001f;
     public const float MinRange = 0.01f;
@@ -137,7 +140,13 @@ public sealed class RenegadeForceAbilitySystem : EntitySystem
 
         var target = args.Target;
 
-        if (component.IsActiveAbility)
+        if (_inventory.TryGetSlotEntity(target, "shoes", out var shoes) &&
+                HasComp<RenegadeCANTRenegadeForceComponent>(shoes))
+        {
+            return;
+        }
+
+        if (HasComp<BorgChassisComponent>(uid))
             return;
 
         if (!TryComp<PhysicsComponent>(target, out var physics)
@@ -197,8 +206,7 @@ public sealed class RenegadeForceAbilitySystem : EntitySystem
         if (args.Handled)
             return;
 
-        if (!TryComp<TransformComponent>(uid, out var xform))
-            return;
+        var xform = Transform(uid);
 
         if (component.IsActiveAbility)
             return;

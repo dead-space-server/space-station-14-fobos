@@ -76,7 +76,6 @@
   - MeteorSwarmScheduler
   - RampingStationEventScheduler
   - SpaceTrafficControlEventScheduler
-  - SpaceTrafficControlFriendlyEventScheduler
   - BasicRoundstartVariation
 
 - type: gamePreset

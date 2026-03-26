@@ -33,18 +33,10 @@
       types:
         Piercing: 5
   - type: Temperature
-    heatDamageThreshold: 400
-    coldDamageThreshold: 200
     currentTemperature: 310.15
     specificHeat: 46
-    coldDamage:
-      types:
-        Cold : 0.2 #per second, scales with temperature & other constants
-    heatDamage:
-      types:
-        Heat : 0.1 #per second, scales with temperature & other constants
   - type: Perishable
-  - type: Sanity # DS14
+  - type: Sanity
   - type: TypingIndicator
     proto: plafeim
   - type: Language
@@ -55,6 +47,8 @@
   # - type: FootPrints
     # leftBarePrint: "footprint-left-bare-lizard"
     # rightBarePrint: "footprint-right-bare-lizard"
+  - type: SpeedSliding
+    slideDistance: 12
 
 - type: entity
   parent: BaseSpeciesDummy

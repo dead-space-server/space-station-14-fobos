@@ -1,3 +1,8 @@
+## base
+
+roles-antag-spider-terror-name = Паук ужаса
+roles-antag-spider-terror-objective = Ваша цель захватить станцию.
+
 ## quin
 
 roles-antag-spider-terror-quin-name = Королева Пауков

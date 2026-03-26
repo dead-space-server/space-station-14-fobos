@@ -7,7 +7,7 @@
   - DrumForSinabirBurn
   - DrumForSinabir
   - MagazineCaselessRifleBurn
-  - MagazineCaselessRifle
+  - BSAAMagazinePistolCaselessRifle
   - ExtMagazineRifleBurn
   - ADTExtMagazineRifle
 
@@ -59,8 +59,8 @@
 
 - type: latheRecipe
   parent: BaseAmmoRecipe
-  id: MagazineCaselessRifle
-  result: MagazineCaselessRifle
+  id: BSAAMagazinePistolCaselessRifle
+  result: MagazinePistolCaselessRifle
   materials:
     Steel: 375
 

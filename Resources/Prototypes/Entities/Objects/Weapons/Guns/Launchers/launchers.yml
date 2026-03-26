@@ -1,6 +1,6 @@
 - type: entity
   name: BaseWeaponLauncher
-  parent: BaseItem
+  parent: [ BaseItem, BaseGunWieldable ]
   id: BaseWeaponLauncher
   description: A rooty tooty point and shooty.
   abstract: true
@@ -19,10 +19,18 @@
     containers:
       ballistic-ammo: !type:Container
         ents: []
+  - type: Gun
+    fireRate: 1
+    projectileSpeed: 25 # Slower than a bullet, same speed as our old projectile limit.
+    selectedMode: SemiAuto
+    availableModes:
+    - SemiAuto
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/grenade_launcher.ogg
 
 - type: entity
   name: china lake
-  parent: [BaseWeaponLauncher, BaseGunWieldable, BaseSyndicateContraband]
+  parent: [BaseWeaponLauncher, BaseSyndicateContraband]
   id: WeaponLauncherChinaLake
   description: PLOOP.
   components:
@@ -41,13 +49,6 @@
     shape:
     - 0,0,4,2
   - type: AmmoCounter
-  - type: Gun
-    fireRate: 1
-    selectedMode: SemiAuto
-    availableModes:
-      - SemiAuto
-    soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/grenade_launcher.ogg
   - type: BallisticAmmoProvider
     whitelist:
       tags:
@@ -64,7 +65,7 @@
     - LauncherChinaLake
 
 - type: entity
-  parent: [ BaseWeaponLauncher, BaseGunWieldable, BaseMajorContraband ]
+  parent: [ BaseWeaponLauncher, BaseMajorContraband ]
   id: WeaponLauncherHydra
   name: hydra
   description: PLOOP... FSSSSSS...
@@ -82,13 +83,6 @@
   - type: Item
     size: Huge
   - type: AmmoCounter
-  - type: Gun
-    fireRate: 1
-    selectedMode: SemiAuto
-    availableModes:
-    - SemiAuto
-    soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/grenade_launcher.ogg
   - type: GunRequiresWield
   - type: ContainerContainer
     containers:
@@ -138,6 +132,14 @@
     proto: SnapPop
     soundInsert:
       path: /Audio/Weapons/Guns/MagIn/batrifle_magin.ogg
+
+- type: entity
+  parent: [WeaponLauncherHydra]
+  id: WeaponLauncherHydraLethal
+  suffix: frag
+  components:
+  - type: RevolverAmmoProvider
+    proto: GrenadeFrag
 
 - type: entity
   name: RPG-7
@@ -461,9 +463,6 @@
   description: It fires large meteors.
   components:
   - type: BallisticAmmoProvider
-    whitelist: # Redundant
-      tags:
-        - CartridgeRocket
     proto: MeteorMedium
 
 - type: entity
@@ -474,7 +473,4 @@
   description: It fires slow immovable rods.
   components:
   - type: BallisticAmmoProvider
-    whitelist: # Redundant
-      tags:
-        - CartridgeRocket
     proto: ImmovableRodSlow

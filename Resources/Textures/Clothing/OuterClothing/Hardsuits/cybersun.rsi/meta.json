@@ -1,22 +1,22 @@
 {
     "version": 1,
     "license": "CC-BY-SA-3.0",
-    "copyright": "Created by discord:IAmRasputin#5242, vox state made by Flareguy for SS14, monkey state made by MercerBray for Ss14, equipped-OUTERCLOTHING-dog modified from equipped-OUTERCLOTHING by casiliuscestus for SS14.",
+    "copyright": "Created by discord:IAmRasputin#5242, vox state made by Flareguy for SS14, monkey state made by MercerBray for Ss14, equipped-OUTERCLOTHING-dog modified from equipped-OUTERCLOTHING by casiliuscestus for SS14. Sprite made by Gtheglorious based on the sprite made by emisse for ss14, vox state made by Flareguy for SS14, monkey state made by MercerBray for Ss14, Tail sprites by Tiniest Shark (github).",
     "size": {
-      "x": 32,
-      "y": 32
+        "x": 32,
+        "y": 32
     },
     "states": [
         {
-          "name": "icon"
+            "name": "icon"
         },
         {
-          "name": "equipped-OUTERCLOTHING",
-          "directions": 4
+            "name": "equipped-OUTERCLOTHING",
+            "directions": 4
         },
         {
-          "name": "equipped-OUTERCLOTHING-vox",
-          "directions": 4
+            "name": "equipped-OUTERCLOTHING-vox",
+            "directions": 4
         },
         {
             "name": "equipped-OUTERCLOTHING-reptilian",
@@ -27,16 +27,12 @@
             "directions": 4
         },
         {
-            "name": "equipped-OUTERCLOTHING-dog",
+            "name": "inhand-left",
             "directions": 4
         },
         {
-          "name": "inhand-left",
-          "directions": 4
-        },
-        {
-          "name": "inhand-right",
-          "directions": 4
+            "name": "inhand-right",
+            "directions": 4
         }
     ]
 }

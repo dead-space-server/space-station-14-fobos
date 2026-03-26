@@ -2,6 +2,8 @@
 
 using Content.Shared.Movement.Systems;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Components;
+using Content.Shared.Damage.Systems;
 using Content.Shared.DeadSpace.Necromorphs.CorpseCollector.Components;
 using Robust.Shared.Timing;
 using Content.Shared.Mobs.Components;
@@ -54,6 +56,6 @@ public abstract class SharedCorpseCollectorSystem : EntitySystem
         if (_mobState.IsDead(uid, mobStateComponent))
             return;
 
-        _damageable.TryChangeDamage(uid, component.PassiveHealing * component.PassiveHealingMultiplier, true, false, damageableComponent);
+        _damageable.TryChangeDamage(uid, component.PassiveHealing * component.PassiveHealingMultiplier, ignoreResistances: true, interruptsDoAfters: false);
     }
 }

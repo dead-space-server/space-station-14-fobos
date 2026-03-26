@@ -51,7 +51,6 @@
     soundHit:
       path: /Audio/Effects/hit_kick.ogg
   - type: Stamina
-    critThreshold: 85
   - type: Perishable
   - type: Vocal
     wilhelm: "/Audio/_DeadSpace/Voice/Felinid/cat_wilhelm.ogg"

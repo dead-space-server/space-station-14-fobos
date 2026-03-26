@@ -11,7 +11,7 @@ namespace Content.Server.DeadSpace.SpawnERTShuttleCommand;
 [Prototype("ertShuttle")]
 public sealed partial class ERTShuttlePrototype : IPrototype
 {
-    [IdDataField] public string ID { get; } = default!;
+    [IdDataField] public string ID { get; private set; } = default!;
 
     [DataField(required: true)] public ResPath Path = new("Maps/Shuttles/dart.yml");
 }
