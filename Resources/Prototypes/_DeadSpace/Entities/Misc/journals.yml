@@ -1,0 +1,17 @@
+- type: entity
+  name: инженерный журнал
+  parent: Paper
+  id: JournalENGI
+  description: журнал с глянцевой желтой обложкой.
+  suffix: Nanotrasen
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Other/journals.rsi
+    layers:
+    - state: JEngi
+  - type: PaperVisuals
+    headerImagePath: "/Textures/Interface/Paper/journal_penistest.svg.png"
+    backgroundImagePath: "/Textures/Interface/Paper/journal_engiBackgorund.svg.png"
+    backgroundPatchMargin: 16.0, 16.0, 16.0, 16.0
+    contentMargin: 6.0, 6.0, 6.0, 6.0
+    headerMargin: 0.0, 2.0, 0.0, 0.0
