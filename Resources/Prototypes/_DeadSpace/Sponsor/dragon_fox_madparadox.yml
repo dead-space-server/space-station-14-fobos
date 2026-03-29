@@ -173,8 +173,6 @@
   - type: ClothingSpeedModifier
     walkModifier: 0.9
     sprintModifier: 0.9
-  - type: HardsuitIdentification
-    nonlethal: true
   - type: HardsuitSpeedBuff
   - type: PowerCellDraw
     drawRate: 3.6 # 100 seconds on the default cell
