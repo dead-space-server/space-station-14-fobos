@@ -508,8 +508,6 @@
   - type: FlavorProfile
     flavors:
       - horses
-  - type: Food
-    transferAmount: 5
   - type: Sprite
     sprite: /Textures/_DeadSpace/Objects/Consumable/Food/besh.rsi
     state: besh
