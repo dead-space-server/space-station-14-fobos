@@ -386,6 +386,9 @@ public sealed class NewsSystem : SharedNewsSystem
             return;
 
         var article = articles[ent.Comp.ArticleNumber];
+        
+        // Простая логика: просто добавляем лайк/дизлайк
+        // В будущем можно добавить отслеживание кто уже лайкнул
         if (isLike)
         {
             article.Likes++;
@@ -430,6 +433,9 @@ public sealed class NewsSystem : SharedNewsSystem
             LogType.Chat,
             LogImpact.Low,
             $"{ToPrettyString(loaderUid):actor} добавил комментарий к новости \"{article.Title}\": {content}");
+        
+        // Принудительно обновляем UI
+        UpdateReaderUi(ent, loaderUid.Value);
     }
 
     private void UpdateWriterDevices()
