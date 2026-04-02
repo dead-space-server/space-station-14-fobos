@@ -433,9 +433,10 @@ public sealed class NewsSystem : SharedNewsSystem
             LogType.Chat,
             LogImpact.Low,
             $"{ToPrettyString(loaderUid):actor} добавил комментарий к новости \"{article.Title}\": {content}");
-        
+
         // Принудительно обновляем UI
-        UpdateReaderUi(ent, loaderUid.Value);
+        if (loaderUid.HasValue)
+            UpdateReaderUi(ent, loaderUid.Value);
     }
 
     private void UpdateWriterDevices()
