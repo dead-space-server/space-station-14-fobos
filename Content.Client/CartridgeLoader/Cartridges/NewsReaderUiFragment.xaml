@@ -62,7 +62,7 @@
             HorizontalAlignment="Left"
             ToolTip="{Loc 'news-read-ui-like-tooltip'}">
             <BoxContainer Orientation="Horizontal">
-                <Label Text="👍" FontSize="16" VerticalAlignment="Center"/>
+                <Label Text="👍" VerticalAlignment="Center"/>
                 <Label Name="LikeCount" Text="0" Margin="4,0,0,0" VerticalAlignment="Center"/>
             </BoxContainer>
         </Button>
@@ -73,7 +73,7 @@
             HorizontalAlignment="Left"
             ToolTip="{Loc 'news-read-ui-dislike-tooltip'}">
             <BoxContainer Orientation="Horizontal">
-                <Label Text="👎" FontSize="16" VerticalAlignment="Center"/>
+                <Label Text="👎" VerticalAlignment="Center"/>
                 <Label Name="DislikeCount" Text="0" Margin="4,0,0,0" VerticalAlignment="Center"/>
             </BoxContainer>
         </Button>
