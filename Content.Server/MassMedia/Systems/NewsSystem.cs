@@ -207,13 +207,12 @@ public sealed class NewsSystem : SharedNewsSystem
 
         var strippedContent = FormattedMessage.RemoveMarkupPermissive(content); // DS14
 
-        article = new NewsArticle
-        {
-            Title = title.Length <= MaxTitleLength ? title : $"{title[..MaxTitleLength]}...",
-            Content = strippedContent.Length <= MaxContentLength ? strippedContent : $"{strippedContent[..MaxContentLength]}...", // DS14
-            Author = author,
-            ShareTime = _ticker.RoundDuration()
-        };
+        article = new NewsArticle(
+            title.Length <= MaxTitleLength ? title : $"{title[..MaxTitleLength]}...",
+            strippedContent.Length <= MaxContentLength ? strippedContent : $"{strippedContent[..MaxContentLength]}...", // DS14
+            author,
+            _ticker.RoundDuration()
+        );
 
         articles.Add(article.Value);
 
@@ -297,6 +296,15 @@ public sealed class NewsSystem : SharedNewsSystem
             case NewsReaderUiAction.NotificationSwitch:
                 ent.Comp.NotificationOn = !ent.Comp.NotificationOn;
                 break;
+            case NewsReaderUiAction.Like:
+                HandleLike(ent, true);
+                break;
+            case NewsReaderUiAction.Dislike:
+                HandleLike(ent, false);
+                break;
+            case NewsReaderUiAction.AddComment:
+                HandleAddComment(ent, message.CommentContent, args.LoaderUid);
+                break;
         }
 
         UpdateReaderUi(ent, GetEntity(args.LoaderUid));
@@ -367,6 +375,61 @@ public sealed class NewsSystem : SharedNewsSystem
 
         if (ent.Comp.ArticleNumber < 0)
             ent.Comp.ArticleNumber = articles.Count - 1;
+    }
+
+    private void HandleLike(Entity<NewsReaderCartridgeComponent> ent, bool isLike)
+    {
+        if (!TryGetArticles(ent, out var articles))
+            return;
+
+        if (ent.Comp.ArticleNumber < 0 || ent.Comp.ArticleNumber >= articles.Count)
+            return;
+
+        var article = articles[ent.Comp.ArticleNumber];
+        if (isLike)
+        {
+            article.Likes++;
+        }
+        else
+        {
+            article.Dislikes++;
+        }
+
+        articles[ent.Comp.ArticleNumber] = article;
+    }
+
+    private void HandleAddComment(Entity<NewsReaderCartridgeComponent> ent, string? commentContent, EntityUid? loaderUid)
+    {
+        if (string.IsNullOrWhiteSpace(commentContent))
+            return;
+
+        if (!TryGetArticles(ent, out var articles))
+            return;
+
+        if (ent.Comp.ArticleNumber < 0 || ent.Comp.ArticleNumber >= articles.Count)
+            return;
+
+        var article = articles[ent.Comp.ArticleNumber];
+
+        // Получаем имя автора комментария
+        string? authorName = null;
+        if (loaderUid.HasValue && TryComp<MetaDataComponent>(loaderUid.Value, out var meta))
+        {
+            authorName = meta.EntityName;
+        }
+
+        // Ограничиваем длину комментария
+        var strippedContent = FormattedMessage.RemoveMarkupPermissive(commentContent);
+        var content = strippedContent.Length <= MaxCommentLength ? strippedContent : $"{strippedContent[..MaxCommentLength]}...";
+
+        var comment = new NewsComment(content, authorName, _ticker.RoundDuration());
+        article.Comments.Add(comment);
+        articles[ent.Comp.ArticleNumber] = article;
+
+        _adminLogger.Add(
+            LogType.Chat,
+            LogImpact.Low,
+            $"{ToPrettyString(loaderUid):actor} добавил комментарий к новости \"{article.Title}\": {content}");
     }
 
     private void UpdateWriterDevices()

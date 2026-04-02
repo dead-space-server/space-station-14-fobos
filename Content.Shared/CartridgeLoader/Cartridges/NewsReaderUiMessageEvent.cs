@@ -6,10 +6,12 @@ namespace Content.Shared.CartridgeLoader.Cartridges;
 public sealed class NewsReaderUiMessageEvent : CartridgeMessageEvent
 {
     public readonly NewsReaderUiAction Action;
+    public readonly string? CommentContent;
 
-    public NewsReaderUiMessageEvent(NewsReaderUiAction action)
+    public NewsReaderUiMessageEvent(NewsReaderUiAction action, string? commentContent = null)
     {
         Action = action;
+        CommentContent = commentContent;
     }
 }
 
@@ -18,5 +20,8 @@ public enum NewsReaderUiAction
 {
     Next,
     Prev,
-    NotificationSwitch
+    NotificationSwitch,
+    Like,
+    Dislike,
+    AddComment
 }

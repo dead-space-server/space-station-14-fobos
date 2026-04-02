@@ -11,8 +11,10 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
 {
     public event Action? OnNextButtonPressed;
     public event Action? OnPrevButtonPressed;
-
     public event Action? OnNotificationSwithPressed;
+    public event Action? OnLikeButtonPressed;
+    public event Action? OnDislikeButtonPressed;
+    public event Action<string>? OnSendCommentPressed;
 
     public NewsReaderUiFragment()
     {
@@ -21,6 +23,10 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
         Next.OnPressed += _ => OnNextButtonPressed?.Invoke();
         Prev.OnPressed += _ => OnPrevButtonPressed?.Invoke();
         NotificationSwitch.OnPressed += _ => OnNotificationSwithPressed?.Invoke();
+        LikeButton.OnPressed += _ => OnLikeButtonPressed?.Invoke();
+        DislikeButton.OnPressed += _ => OnDislikeButtonPressed?.Invoke();
+        SendCommentButton.OnPressed += _ => OnSendCommentPressed?.Invoke(CommentInput.Text);
+        CommentInput.OnTextEntered += _ => OnSendCommentPressed?.Invoke(CommentInput.Text);
     }
 
     public void UpdateState(NewsArticle article, int targetNum, int totalNum, bool notificationOn)
@@ -44,6 +50,64 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
 
         Prev.Disabled = targetNum <= 1;
         Next.Disabled = targetNum >= totalNum;
+
+        // Обновляем счетчики лайков/дизлайков
+        LikeCount.Text = article.Likes.ToString();
+        DislikeCount.Text = article.Dislikes.ToString();
+
+        // Обновляем комментарии
+        UpdateComments(article.Comments);
+    }
+
+    private void UpdateComments(List<NewsComment> comments)
+    {
+        CommentsContainer.DisposeAllChildren();
+
+        if (comments.Count == 0)
+        {
+            var noCommentsLabel = new Label
+            {
+                Text = Loc.GetString("news-read-ui-no-comments"),
+                Margin = new Thickness(4, 4, 4, 4)
+            };
+            CommentsContainer.AddChild(noCommentsLabel);
+            return;
+        }
+
+        foreach (var comment in comments)
+        {
+            var commentPanel = new PanelContainer
+            {
+                Margin = new Thickness(0, 0, 0, 4),
+                PanelOverride = new StyleBoxFlat
+                {
+                    BackgroundColor = new Color(0, 0, 0, 0.3f)
+                }
+            };
+
+            var commentBox = new BoxContainer
+            {
+                Orientation = BoxOrientation.Vertical,
+                Margin = new Thickness(4, 4, 4, 4)
+            };
+
+            var authorLabel = new RichTextLabel
+            {
+                Margin = new Thickness(0, 0, 0, 2)
+            };
+            authorLabel.SetMarkup(Loc.GetString("news-read-ui-comment-author", ("author", comment.Author ?? Loc.GetString("news-read-ui-anonymous")), ("time", comment.CommentTime.ToString(@"hh\:mm\:ss"))));
+
+            var contentLabel = new Label
+            {
+                Text = comment.Content,
+                Wrap = true
+            };
+
+            commentBox.AddChild(authorLabel);
+            commentBox.AddChild(contentLabel);
+            commentPanel.AddChild(commentBox);
+            CommentsContainer.AddChild(commentPanel);
+        }
     }
 
     public void UpdateEmptyState(bool notificationOn)
@@ -56,5 +120,10 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
         PageName.Text = Loc.GetString("news-read-ui-not-found-text");
 
         NotificationSwitch.Text = Loc.GetString(notificationOn ? "news-read-ui-notification-on" : "news-read-ui-notification-off");
+
+        // Очищаем комментарии в пустом состоянии
+        CommentsContainer.DisposeAllChildren();
+        LikeCount.Text = "0";
+        DislikeCount.Text = "0";
     }
 }
