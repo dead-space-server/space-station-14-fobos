@@ -27,16 +27,32 @@ jobs:
         SSH_KEY: ${{ secrets.SECRETS_PRIVATE_KEY }}
       if: ${{ env.SSH_KEY != '' }}
       run: |
-        mkdir ~/.ssh
+        mkdir -p ~/.ssh
         echo "${{ secrets.SECRETS_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         echo "HOST *" > ~/.ssh/config
         echo "StrictHostKeyChecking no" >> ~/.ssh/config
+        echo "::group::Cloning secrets"
         git clone git@github.com:dead-space-server/space-station-14-secrets.git Secrets
+        echo "::endgroup::"
+        if [ ! -d "Secrets" ]; then
+          echo "::error::Failed to clone secrets repository"
+          exit 1
+        fi
+        echo "Secrets cloned OK"
         cp -R Secrets/Resources/Prototypes Resources/Prototypes/DeadSpaceSecrets
         cp -R Secrets/Resources/ServerPrototypes Resources/Prototypes/DeadSpaceSecretsServer
         cp -R Secrets/Resources/Locale Resources/Locale/ru-RU/deadspace-secrets
         cp -R Secrets/Resources/Textures Resources/Textures/DeadSpaceSecrets
+        echo "Resources copied OK"
+
+    - name: Verify secrets
+      run: |
+        if [ -d "Secrets" ]; then
+          echo "Secrets: OK"
+        else
+          echo "::warning::Secrets not loaded - SECRETS_PRIVATE_KEY may not be configured"
+        fi
     # DS14-secrets-end
 
     - name: Setup .NET Core
