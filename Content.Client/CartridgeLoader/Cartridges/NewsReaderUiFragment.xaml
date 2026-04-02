@@ -108,7 +108,7 @@
                     Name="CommentsContainer"
                     Orientation="Vertical"
                     HorizontalExpand="True"
-                    VerticalExpand="True"/>
+                    VerticalExpand="False"/>
             </ScrollContainer>
         </PanelContainer>
     </BoxContainer>

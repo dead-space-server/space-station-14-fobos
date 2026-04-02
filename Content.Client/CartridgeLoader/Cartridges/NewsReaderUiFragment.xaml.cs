@@ -66,30 +66,22 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
 
         if (comments.Count == 0)
         {
-            var noCommentsLabel = new Label
+            var noCommentsLabel = new RichTextLabel
             {
-                Text = Loc.GetString("news-read-ui-no-comments"),
-                Margin = new Thickness(4, 4, 4, 4)
+                Margin = new Thickness(4, 4, 4, 4),
+                HorizontalAlignment = HAlignment.Center
             };
+            noCommentsLabel.SetMarkup(Loc.GetString("news-read-ui-no-comments"));
             CommentsContainer.AddChild(noCommentsLabel);
             return;
         }
 
         foreach (var comment in comments)
         {
-            var commentPanel = new PanelContainer
-            {
-                Margin = new Thickness(0, 0, 0, 4),
-                PanelOverride = new StyleBoxFlat
-                {
-                    BackgroundColor = new Color(0, 0, 0, 0.3f)
-                }
-            };
-
             var commentBox = new BoxContainer
             {
                 Orientation = BoxContainer.LayoutOrientation.Vertical,
-                Margin = new Thickness(4, 4, 4, 4)
+                Margin = new Thickness(0, 0, 0, 4)
             };
 
             var authorLabel = new RichTextLabel
@@ -98,16 +90,12 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
             };
             authorLabel.SetMarkup(Loc.GetString("news-read-ui-comment-author", ("author", comment.Author ?? Loc.GetString("news-read-ui-anonymous")), ("time", comment.CommentTime.ToString(@"hh\:mm\:ss"))));
 
-            var contentLabel = new RichTextLabel
-            {
-                Text = comment.Content
-            };
+            var contentLabel = new RichTextLabel();
             contentLabel.SetMarkupPermissive(comment.Content);
 
             commentBox.AddChild(authorLabel);
             commentBox.AddChild(contentLabel);
-            commentPanel.AddChild(commentBox);
-            CommentsContainer.AddChild(commentPanel);
+            CommentsContainer.AddChild(commentBox);
         }
     }
 
