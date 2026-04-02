@@ -387,17 +387,57 @@ public sealed class NewsSystem : SharedNewsSystem
 
         var article = articles[ent.Comp.ArticleNumber];
         
-        // Простая логика: просто добавляем лайк/дизлайк
-        // В будущем можно добавить отслеживание кто уже лайкнул
-        if (isLike)
+        // Получаем имя пользователя (упрощенно - по имени сущности)
+        var loaderUid = GetEntity(ent.Comp.Owner);
+        string? userName = null;
+        if (TryComp<MetaDataComponent>(loaderUid, out var meta))
+        {
+            userName = meta.EntityName;
+        }
+
+        if (string.IsNullOrEmpty(userName))
+            userName = "Unknown";
+
+        // Если уже лайкнул эту новость - убираем лайк
+        if (isLike && article.LikedBy.Contains(userName))
+        {
+            article.Likes = Math.Max(0, article.Likes - 1);
+            article.LikedBy.Remove(userName);
+        }
+        // Если уже дизлайкнул - убираем дизлайк и ставим лайк
+        else if (isLike && article.DislikedBy.Contains(userName))
+        {
+            article.Dislikes = Math.Max(0, article.Dislikes - 1);
+            article.DislikedBy.Remove(userName);
+            article.Likes++;
+            article.LikedBy.Add(userName);
+        }
+        // Ставим лайк
+        else if (isLike)
         {
             article.Likes++;
-            article.Dislikes = Math.Max(0, article.Dislikes - 1);
+            article.LikedBy.Add(userName);
         }
-        else
+
+        // Если уже дизлайкнул эту новость - убираем дизлайк
+        if (!isLike && article.DislikedBy.Contains(userName))
+        {
+            article.Dislikes = Math.Max(0, article.Dislikes - 1);
+            article.DislikedBy.Remove(userName);
+        }
+        // Если уже лайкнул - убираем лайк и ставим дизлайк
+        else if (!isLike && article.LikedBy.Contains(userName))
+        {
+            article.Likes = Math.Max(0, article.Likes - 1);
+            article.LikedBy.Remove(userName);
+            article.Dislikes++;
+            article.DislikedBy.Add(userName);
+        }
+        // Ставим дизлайк
+        else if (!isLike)
         {
             article.Dislikes++;
-            article.Likes = Math.Max(0, article.Likes - 1);
+            article.DislikedBy.Add(userName);
         }
 
         articles[ent.Comp.ArticleNumber] = article;

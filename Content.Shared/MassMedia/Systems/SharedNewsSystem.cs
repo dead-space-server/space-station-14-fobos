@@ -56,6 +56,12 @@ public struct NewsArticle
     [ViewVariables(VVAccess.ReadWrite)]
     public List<NewsComment> Comments;
 
+    [ViewVariables(VVAccess.ReadWrite)]
+    public List<string> LikedBy;
+
+    [ViewVariables(VVAccess.ReadWrite)]
+    public List<string> DislikedBy;
+
     public NewsArticle(string title, string content, string? author, TimeSpan shareTime)
     {
         Title = title;
@@ -65,6 +71,8 @@ public struct NewsArticle
         Likes = 0;
         Dislikes = 0;
         Comments = new List<NewsComment>();
+        LikedBy = new List<string>();
+        DislikedBy = new List<string>();
     }
 }
 
