@@ -53,9 +53,9 @@
             <RichTextLabel Margin="8,8,8,8" Name="PageText" VerticalAlignment="Top"/>
         </ScrollContainer>
     </PanelContainer>
-    
-    <!-- Like/Dislike buttons -->
-    <BoxContainer Orientation="Horizontal" HorizontalExpand="True" Margin="5,5,5,0">
+
+    <!-- Like/Dislike buttons (moved below article) -->
+    <BoxContainer Orientation="Horizontal" HorizontalExpand="True" Margin="5,2,5,2">
         <Button
             Name="LikeButton"
             MinWidth="60"
@@ -78,18 +78,16 @@
             </BoxContainer>
         </Button>
     </BoxContainer>
-    
-    <!-- Comments section -->
-    <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Margin="5,8,5,5">
-        <Label Text="{Loc 'news-read-ui-comments-title'}" StyleClasses="TileInfoTitle"/>
-        
+
+    <!-- Comments section (compact, no title) -->
+    <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Margin="5,2,5,5" SizeFlagsStretchRatio="1">
+
         <!-- Split 50/50 horizontally: Input on left, Comments list on right -->
         <BoxContainer Orientation="Horizontal" HorizontalExpand="True" VerticalExpand="True">
-            
+
             <!-- Comment input (left half) -->
-            <PanelContainer StyleClasses="BackgroundDark" HorizontalExpand="True" SizeFlagsStretchRatio="1" Margin="0,4,2,4">
+            <PanelContainer StyleClasses="BackgroundDark" HorizontalExpand="True" SizeFlagsStretchRatio="1" Margin="0,2,2,2">
                 <BoxContainer Orientation="Vertical" Margin="4">
-                    <Label Text="Написать комментарий:"/>
                     <LineEdit
                         Name="CommentInput"
                         PlaceHolder="{Loc 'news-read-ui-comment-placeholder'}"
@@ -104,9 +102,9 @@
                         ToolTip="{Loc 'news-read-ui-comment-send-tooltip'}"/>
                 </BoxContainer>
             </PanelContainer>
-            
+
             <!-- Comments list (right half) -->
-            <PanelContainer StyleClasses="BackgroundDark" HorizontalExpand="True" SizeFlagsStretchRatio="1" Margin="2,4,0,4">
+            <PanelContainer StyleClasses="BackgroundDark" HorizontalExpand="True" SizeFlagsStretchRatio="1" Margin="2,2,0,2">
                 <ScrollContainer
                     Name="CommentsScroll"
                     HScrollEnabled="False"
@@ -119,7 +117,7 @@
                         VerticalExpand="False"/>
                 </ScrollContainer>
             </PanelContainer>
-            
+
         </BoxContainer>
     </BoxContainer>
     
