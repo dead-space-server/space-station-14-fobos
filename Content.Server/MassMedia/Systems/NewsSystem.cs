@@ -303,7 +303,7 @@ public sealed class NewsSystem : SharedNewsSystem
                 HandleLike(ent, false);
                 break;
             case NewsReaderUiAction.AddComment:
-                HandleAddComment(ent, message.CommentContent, args.LoaderUid);
+                HandleAddComment(ent, message.CommentContent, GetEntity(args.LoaderUid));
                 break;
         }
 
