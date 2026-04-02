@@ -62,7 +62,7 @@
             HorizontalAlignment="Left"
             ToolTip="{Loc 'news-read-ui-like-tooltip'}">
             <BoxContainer Orientation="Horizontal">
-                <TextureRect Texture="/Textures/Interface/Icons/Actions/like.svg" Scale="1.2"/>
+                <TextureRect TexturePath="/Textures/Interface/Icons/Actions/like.svg" MinSize="20 20"/>
                 <Label Name="LikeCount" Text="0" Margin="4,0,0,0" VerticalAlignment="Center"/>
             </BoxContainer>
         </Button>
@@ -73,7 +73,7 @@
             HorizontalAlignment="Left"
             ToolTip="{Loc 'news-read-ui-dislike-tooltip'}">
             <BoxContainer Orientation="Horizontal">
-                <TextureRect Texture="/Textures/Interface/Icons/Actions/dislike.svg" Scale="1.2"/>
+                <TextureRect TexturePath="/Textures/Interface/Icons/Actions/dislike.svg" MinSize="20 20"/>
                 <Label Name="DislikeCount" Text="0" Margin="4,0,0,0" VerticalAlignment="Center"/>
             </BoxContainer>
         </Button>
@@ -98,7 +98,7 @@
         <BoxContainer Orientation="Horizontal" Margin="0,4,0,0">
             <LineEdit
                 Name="CommentInput"
-                PlaceholderText="{Loc 'news-read-ui-comment-placeholder'}"
+                PlaceHolder="{Loc 'news-read-ui-comment-placeholder'}"
                 HorizontalExpand="True"/>
             <Button
                 Name="SendCommentButton"
