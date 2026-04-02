@@ -58,23 +58,23 @@
     <BoxContainer Orientation="Horizontal" HorizontalExpand="True" Margin="5,5,5,0">
         <Button
             Name="LikeButton"
-            MinWidth="40"
+            MinWidth="60"
             HorizontalAlignment="Left"
             ToolTip="{Loc 'news-read-ui-like-tooltip'}">
             <BoxContainer Orientation="Horizontal">
                 <Label Text="👍" VerticalAlignment="Center"/>
-                <Label Name="LikeCount" Text="0" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                <Label Name="LikeCount" Text="0" Margin="6,0,0,0" VerticalAlignment="Center"/>
             </BoxContainer>
         </Button>
         <Button
             Name="DislikeButton"
-            MinWidth="40"
+            MinWidth="60"
             Margin="4,0,0,0"
             HorizontalAlignment="Left"
             ToolTip="{Loc 'news-read-ui-dislike-tooltip'}">
             <BoxContainer Orientation="Horizontal">
                 <Label Text="👎" VerticalAlignment="Center"/>
-                <Label Name="DislikeCount" Text="0" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                <Label Name="DislikeCount" Text="0" Margin="6,0,0,0" VerticalAlignment="Center"/>
             </BoxContainer>
         </Button>
     </BoxContainer>
