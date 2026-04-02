@@ -388,9 +388,8 @@ public sealed class NewsSystem : SharedNewsSystem
         var article = articles[ent.Comp.ArticleNumber];
         
         // Получаем имя пользователя (упрощенно - по имени сущности)
-        var loaderUid = GetEntity(ent.Comp.Owner);
         string? userName = null;
-        if (TryComp<MetaDataComponent>(loaderUid, out var meta))
+        if (TryComp<MetaDataComponent>(ent.Comp.Owner, out var meta))
         {
             userName = meta.EntityName;
         }
