@@ -455,6 +455,25 @@ public sealed class NewsSystem : SharedNewsSystem
 
         var article = articles[ent.Comp.ArticleNumber];
 
+        // Проверка лимита комментариев
+        if (article.Comments.Count >= 50)
+        {
+            _popup.PopupEntity(Loc.GetString("news-comment-limit-reached"), ent, PopupType.SmallCaution);
+            return;
+        }
+
+        // Проверка кулдауна (30 секунд)
+        if (ent.Comp.LastCommentTime.HasValue)
+        {
+            var timeSinceLastComment = _timing.CurTime - ent.Comp.LastCommentTime.Value;
+            if (timeSinceLastComment.TotalSeconds < 30)
+            {
+                var remainingTime = (int)(30 - timeSinceLastComment.TotalSeconds);
+                _popup.PopupEntity(Loc.GetString("news-comment-cooldown", ("seconds", remainingTime)), ent, PopupType.SmallCaution);
+                return;
+            }
+        }
+
         // Получаем имя автора комментария
         string? authorName = null;
         if (loaderUid.HasValue && TryComp<MetaDataComponent>(loaderUid.Value, out var meta))
@@ -470,11 +489,14 @@ public sealed class NewsSystem : SharedNewsSystem
         article.Comments.Add(comment);
         articles[ent.Comp.ArticleNumber] = article;
 
+        // Устанавливаем кулдаун
+        ent.Comp.LastCommentTime = _timing.CurTime;
+
         _adminLogger.Add(
             LogType.Chat,
             LogImpact.Low,
             $"{ToPrettyString(loaderUid):actor} добавил комментарий к новости \"{article.Title}\": {content}");
-
+        
         // Принудительно обновляем UI
         if (loaderUid.HasValue)
             UpdateReaderUi(ent, loaderUid.Value);

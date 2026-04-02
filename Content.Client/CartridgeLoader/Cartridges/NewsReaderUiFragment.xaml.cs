@@ -26,8 +26,22 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
         NotificationSwitch.OnPressed += _ => OnNotificationSwithPressed?.Invoke();
         LikeButton.OnPressed += _ => OnLikeButtonPressed?.Invoke();
         DislikeButton.OnPressed += _ => OnDislikeButtonPressed?.Invoke();
-        SendCommentButton.OnPressed += _ => OnSendCommentPressed?.Invoke(CommentInput.Text);
-        CommentInput.OnTextEntered += _ => OnSendCommentPressed?.Invoke(CommentInput.Text);
+        SendCommentButton.OnPressed += _ =>
+        {
+            if (!string.IsNullOrWhiteSpace(CommentInput.Text))
+            {
+                OnSendCommentPressed?.Invoke(CommentInput.Text);
+                CommentInput.Text = ""; // Автоочистка поля
+            }
+        };
+        CommentInput.OnTextEntered += _ =>
+        {
+            if (!string.IsNullOrWhiteSpace(CommentInput.Text))
+            {
+                OnSendCommentPressed?.Invoke(CommentInput.Text);
+                CommentInput.Text = ""; // Автоочистка поля
+            }
+        };
     }
 
     public void UpdateState(NewsArticle article, int targetNum, int totalNum, bool notificationOn)

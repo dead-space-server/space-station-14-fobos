@@ -18,6 +18,8 @@ news-read-ui-comment-placeholder = Введите комментарий...
 news-read-ui-comment-send = Отправить
 news-read-ui-comment-send-tooltip = Отправить комментарий
 news-read-ui-comment-author = [color=Gray]{ $author }[/color] • { $time }
+news-read-ui-comment-limit = Достигнут лимит комментариев (50)
+news-read-ui-comment-cooldown = Подождите еще { $seconds } сек.
 news-read-ui-anonymous = Аноним
 news-write-ui-default-title = Управление новостями
 news-write-ui-articles-label = Статьи:
