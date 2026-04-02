@@ -82,6 +82,22 @@
     <!-- Comments section -->
     <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Margin="5,8,5,5" SizeFlagsStretchRatio="1">
         <Label Text="{Loc 'news-read-ui-comments-title'}" StyleClasses="TileInfoTitle"/>
+        
+        <!-- Comment input at top -->
+        <BoxContainer Orientation="Horizontal" Margin="0,4,0,4">
+            <LineEdit
+                Name="CommentInput"
+                PlaceHolder="{Loc 'news-read-ui-comment-placeholder'}"
+                HorizontalExpand="True"/>
+            <Button
+                Name="SendCommentButton"
+                MinWidth="60"
+                Margin="4,0,0,0"
+                Text="{Loc 'news-read-ui-comment-send'}"
+                ToolTip="{Loc 'news-read-ui-comment-send-tooltip'}"/>
+        </BoxContainer>
+        
+        <!-- Comments list with scroll -->
         <PanelContainer StyleClasses="BackgroundDark" VerticalExpand="True">
             <ScrollContainer
                 Name="CommentsScroll"
@@ -95,18 +111,6 @@
                     VerticalExpand="True"/>
             </ScrollContainer>
         </PanelContainer>
-        <BoxContainer Orientation="Horizontal" Margin="0,4,0,0">
-            <LineEdit
-                Name="CommentInput"
-                PlaceHolder="{Loc 'news-read-ui-comment-placeholder'}"
-                HorizontalExpand="True"/>
-            <Button
-                Name="SendCommentButton"
-                MinWidth="60"
-                Margin="4,0,0,0"
-                Text="{Loc 'news-read-ui-comment-send'}"
-                ToolTip="{Loc 'news-read-ui-comment-send-tooltip'}"/>
-        </BoxContainer>
     </BoxContainer>
     
     <BoxContainer Orientation="Horizontal" HorizontalExpand="True" Margin="5,5,5,5">

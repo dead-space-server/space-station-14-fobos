@@ -392,10 +392,12 @@ public sealed class NewsSystem : SharedNewsSystem
         if (isLike)
         {
             article.Likes++;
+            article.Dislikes = Math.Max(0, article.Dislikes - 1);
         }
         else
         {
             article.Dislikes++;
+            article.Likes = Math.Max(0, article.Likes - 1);
         }
 
         articles[ent.Comp.ArticleNumber] = article;
