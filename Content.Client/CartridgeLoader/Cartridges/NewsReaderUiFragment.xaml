@@ -54,6 +54,7 @@
         </ScrollContainer>
     </PanelContainer>
 
+    <!-- DS14-start -->
     <!-- Like/Dislike buttons (moved below article) -->
     <BoxContainer Orientation="Horizontal" HorizontalExpand="True" Margin="5,2,5,2">
         <Button
@@ -120,6 +121,7 @@
 
         </BoxContainer>
     </BoxContainer>
+    <!-- DS14-end -->
     
     <BoxContainer Orientation="Horizontal" HorizontalExpand="True" Margin="5,5,5,5">
         <Button

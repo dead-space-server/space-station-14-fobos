@@ -24,6 +24,8 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
         Next.OnPressed += _ => OnNextButtonPressed?.Invoke();
         Prev.OnPressed += _ => OnPrevButtonPressed?.Invoke();
         NotificationSwitch.OnPressed += _ => OnNotificationSwithPressed?.Invoke();
+        
+        // DS14-start
         LikeButton.OnPressed += _ => OnLikeButtonPressed?.Invoke();
         DislikeButton.OnPressed += _ => OnDislikeButtonPressed?.Invoke();
         SendCommentButton.OnPressed += _ =>
@@ -42,6 +44,7 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
                 CommentInput.Text = ""; // Автоочистка поля
             }
         };
+        // DS14-end
     }
 
     public void UpdateState(NewsArticle article, int targetNum, int totalNum, bool notificationOn)
@@ -66,14 +69,17 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
         Prev.Disabled = targetNum <= 1;
         Next.Disabled = targetNum >= totalNum;
 
+        // DS14
         // Обновляем счетчики лайков/дизлайков
         LikeCount.Text = article.Likes.ToString();
         DislikeCount.Text = article.Dislikes.ToString();
 
         // Обновляем комментарии
         UpdateComments(article.Comments);
+        // DS14-end
     }
 
+    // DS14-start
     private void UpdateComments(List<NewsComment> comments)
     {
         CommentsContainer.DisposeAllChildren();
@@ -98,20 +104,22 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
                 Margin = new Thickness(0, 0, 0, 4)
             };
 
-            var authorLabel = new RichTextLabel
+            var timeLabel = new RichTextLabel
             {
-                Margin = new Thickness(0, 0, 0, 2)
+                Margin = new Thickness(0, 0, 0, 2),
+                FontSize = 10
             };
-            authorLabel.SetMarkup(Loc.GetString("news-read-ui-comment-author", ("author", comment.Author ?? Loc.GetString("news-read-ui-anonymous")), ("time", comment.CommentTime.ToString(@"hh\:mm\:ss"))));
+            timeLabel.SetMarkup(Loc.GetString("news-read-ui-comment-time", ("time", comment.CommentTime.ToString(@"hh\:mm\:ss"))));
 
             var contentLabel = new RichTextLabel();
             contentLabel.SetMarkupPermissive(comment.Content);
 
-            commentBox.AddChild(authorLabel);
+            commentBox.AddChild(timeLabel);
             commentBox.AddChild(contentLabel);
             CommentsContainer.AddChild(commentBox);
         }
     }
+    // DS14-end
 
     public void UpdateEmptyState(bool notificationOn)
     {

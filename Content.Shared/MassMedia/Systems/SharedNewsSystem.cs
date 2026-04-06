@@ -6,9 +6,11 @@ public abstract class SharedNewsSystem : EntitySystem
 {
     public const int MaxTitleLength = 25;
     public const int MaxContentLength = 2048;
+    // DS14
     public const int MaxCommentLength = 512;
 }
 
+// DS14-start
 [Serializable, NetSerializable]
 public struct NewsComment
 {
@@ -28,6 +30,7 @@ public struct NewsComment
         CommentTime = commentTime;
     }
 }
+// DS14-end
 
 [Serializable, NetSerializable]
 public struct NewsArticle
@@ -47,18 +50,23 @@ public struct NewsArticle
     [ViewVariables]
     public TimeSpan ShareTime;
 
+    // DS14
     [ViewVariables(VVAccess.ReadWrite)]
     public int Likes;
 
+    // DS14
     [ViewVariables(VVAccess.ReadWrite)]
     public int Dislikes;
 
+    // DS14
     [ViewVariables(VVAccess.ReadWrite)]
     public List<NewsComment> Comments;
 
+    // DS14
     [ViewVariables(VVAccess.ReadWrite)]
     public List<string> LikedBy;
 
+    // DS14
     [ViewVariables(VVAccess.ReadWrite)]
     public List<string> DislikedBy;
 

@@ -296,6 +296,7 @@ public sealed class NewsSystem : SharedNewsSystem
             case NewsReaderUiAction.NotificationSwitch:
                 ent.Comp.NotificationOn = !ent.Comp.NotificationOn;
                 break;
+            // DS14-start
             case NewsReaderUiAction.Like:
                 HandleLike(ent, true);
                 break;
@@ -305,6 +306,7 @@ public sealed class NewsSystem : SharedNewsSystem
             case NewsReaderUiAction.AddComment:
                 HandleAddComment(ent, message.CommentContent, GetEntity(args.LoaderUid));
                 break;
+            // DS14-end
         }
 
         UpdateReaderUi(ent, GetEntity(args.LoaderUid));
@@ -377,6 +379,7 @@ public sealed class NewsSystem : SharedNewsSystem
             ent.Comp.ArticleNumber = articles.Count - 1;
     }
 
+    // DS14-start
     private void HandleLike(Entity<NewsReaderCartridgeComponent> ent, bool isLike)
     {
         if (!TryGetArticles(ent, out var articles))
@@ -501,6 +504,7 @@ public sealed class NewsSystem : SharedNewsSystem
         if (loaderUid.HasValue)
             UpdateReaderUi(ent, loaderUid.Value);
     }
+    // DS14-end
 
     private void UpdateWriterDevices()
     {
