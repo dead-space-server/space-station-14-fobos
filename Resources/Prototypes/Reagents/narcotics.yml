@@ -215,6 +215,10 @@
   plantMetabolism:
   - !type:PlantAdjustHealth
     amount: -5
+  metabolisms:
+    Narcotic:
+      effects:
+      - !type:NicotineAddictionEffect
 
 # TODO: Replace these nonstandardized effects with generic brain damage
 - type: reagent
@@ -245,7 +249,7 @@
         - !type:OrganType
           type: SuperSoldier
           shouldHave: false
-# DS-14-end 
+# DS-14-end
       - !type:ChemVomit # Vomiting is a symptom of brain damage
         probability: 0.05
       - !type:Drunk # Headaches and slurring are major symptoms of brain damage, this is close enough

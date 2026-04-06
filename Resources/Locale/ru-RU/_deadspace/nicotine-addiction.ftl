@@ -1,0 +1,3 @@
+nicotine-addiction-deprivation-popup = Нужно срочно покурить...
+
+trait-nicotine-addiction-desc = Вы зависимы от никотина.
