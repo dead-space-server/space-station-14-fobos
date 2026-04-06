@@ -26,7 +26,7 @@
     maxAngle: 25
     angleIncrease: 4
     angleDecay: 16
-    fireRate: 8
+    fireRate: 7 #DS14-value
     selectedMode: FullAuto
     availableModes:
       - FullAuto
@@ -101,7 +101,7 @@
       maxAngle: 25
       angleIncrease: 4
       angleDecay: 16
-      fireRate: 8
+      fireRate: 7 #DS14-value
       selectedMode: FullAuto
       availableModes:
         - FullAuto

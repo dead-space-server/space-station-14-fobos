@@ -845,17 +845,24 @@
   - type: BatteryWeaponFireModes
     fireModes:
     - proto: BulletLaserSpreadNarrow
-      fireCost: 80
+      fireCost: 120 #DS14
     - proto: BulletDisablerSmgSpread
-      fireCost: 48
+      fireCost: 80 #DS14
   - type: Item
     size: Large
     sprite: Objects/Weapons/Guns/Battery/inhands_64x.rsi
     heldPrefix: energy
   - type: GunRequiresWield #remove when inaccuracy on spreads is fixed
   - type: Battery
-    maxCharge: 480
-    startingCharge: 480
+    maxCharge: 960 #DS14
+    startingCharge: 960 #DS14
+  #DS14-start
+  - type: BatterySelfRecharger
+    autoRecharge: true
+    autoRechargeRate: 20
+    autoRechargePause: true
+    autoRechargePauseTime: 5
+  #DS14-end
 
 - type: entity
   name: energy magnum

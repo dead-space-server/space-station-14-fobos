@@ -84,6 +84,15 @@
   - type: Sprite
     sprite: _Sirena/Clothing/Underwear/Socks/socksthigh.rsi
 
+- type: entity
+  parent: ClothingUnderwearSocksBase
+  id: ClothingUnderwearStockingsBlack
+  name: black stockings
+  description: Standard Nanotrasen stockings for station employees. Dyed black.
+  components:
+  - type: Sprite
+    sprite: Clothing/Under/Socks/stockingsblack.rsi
+
 # DS14 socks
 ## Cargo
 - type: entity

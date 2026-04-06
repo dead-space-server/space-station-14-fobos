@@ -11,6 +11,7 @@
     - state: icon
   - type: Clothing
     sprite: _DeadSpace/Clothing/Shoes/Boots/magboots-deathsquad.rsi
+  - type: Unremoveable
   - type: NoSlip
   - type: Magboots
   - type: ClothingSpeedModifier
