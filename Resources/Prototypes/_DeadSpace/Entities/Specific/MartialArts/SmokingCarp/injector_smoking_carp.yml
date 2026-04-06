@@ -1,0 +1,46 @@
+- type: entity
+  parent: BaseItem
+  id: SmokingCarpInjector
+  name: инъектор "Smoking Carp"
+  description: Одноразовый инъектор, имеется гравировка "Smoking Carp".
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Objects/Misc/injector_smoking_carp.rsi
+      layers:
+      - state: icon
+    - type: MartialArtsTrainingCarp
+      addAtackRate: 1.15
+      itemAfterLerning: SmokingCarpInjectorAfter
+      params:
+        - staminaDamageSmokePunch: 35.0
+          hitDamageForPowerPunch: 30
+          hitDamageForSmokePunch: 5
+          ignoreResist: true
+          damageTypeForPowerPunch: "Slash"
+          damageTypeForSmokePunch: "Slash"
+          effectPowerPunch: EffectPowerPunchCarp
+          effectSmokePunch: WeaponArcBite
+          hitSoundForSmokePunch: 
+            path: /Audio/Effects/bite.ogg
+          hitSoundForPowerPunch: 
+            path: /Audio/Weapons/genhit1.ogg
+          pushStrength: 4000
+          maxPushDistance: 5
+          packMessageOnHit:
+            - voice-message-carp-1
+            - voice-message-carp-2
+            - voice-message-carp-3
+            - voice-message-carp-4
+            - voice-message-carp-5
+            - voice-message-carp-6
+
+- type: entity
+  parent: BaseItem
+  id: SmokingCarpInjectorAfter
+  name: инъектор "Smoking Carp"
+  description: Одноразовый инъектор, имеется гравировка "Smoking Carp", он пустой.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Misc/injector_smoking_carp.rsi
+    layers:
+    - state: icon_after
