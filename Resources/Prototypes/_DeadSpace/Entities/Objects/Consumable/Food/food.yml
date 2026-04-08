@@ -498,3 +498,25 @@
     flavors:
       - sweetdough
       - sakura
+
+- type: entity
+  name: бешбармак
+  parent: FoodBurgerBase
+  id: FoodBeshbarmak
+  description: Блюдо из космического Казахстана, добавьте конину, тесто и много-много лука.
+  components:
+  - type: FlavorProfile
+    flavors:
+      - horses
+  - type: Sprite
+    sprite: /Textures/_DeadSpace/Objects/Consumable/Food/besh.rsi
+    state: besh
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        maxVol: 15
+        reagents:
+        - ReagentId: Protein
+          Quantity: 15
+  - type: Item
+    sprite: /Textures/_DeadSpace/Objects/Consumable/Food/besh.rsi

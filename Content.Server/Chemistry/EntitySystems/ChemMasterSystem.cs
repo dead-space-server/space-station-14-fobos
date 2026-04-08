@@ -196,7 +196,9 @@ namespace Content.Server.Chemistry.EntitySystems
             }
 
             // Ensure the number is valid.
-            if (message.Number == 0 || !_storageSystem.HasSpace((container, storage)))
+            if (message.Number == 0
+                || message.Number > SharedChemMaster.MaxPillsPerBatch
+                || !_storageSystem.HasSpace((container, storage)))
                 return;
 
             // Ensure the amount is valid.
@@ -215,8 +217,16 @@ namespace Content.Server.Chemistry.EntitySystems
 
             for (var i = 0; i < message.Number; i++)
             {
+                if (!_storageSystem.HasSpace((container, storage)))
+                    break;
+
                 var item = Spawn(PillPrototypeId, Transform(container).Coordinates);
-                _storageSystem.Insert(container, item, out _, user: user, storage);
+                if (!_storageSystem.Insert(container, item, out _, user: user, storage))
+                {
+                    QueueDel(item);
+                    break;
+                }
+
                 _labelSystem.Label(item, message.Label);
 
                 _solutionContainerSystem.EnsureSolutionEntity(item, SharedChemMaster.PillSolutionName,out var itemSolution ,message.Dosage);

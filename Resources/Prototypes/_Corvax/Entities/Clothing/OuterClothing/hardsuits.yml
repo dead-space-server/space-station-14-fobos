@@ -14,17 +14,11 @@
   - type: ClothingSpeedModifier
     walkModifier: 1.0
     sprintModifier: 1.0
-  - type: TemperatureProtection
+  - type: TemperatureProtection   
     heatingCoefficient: 0.001
     coolingCoefficient: 0.001
   - type: Armor
     modifiers:
-      armorLvls:
-        Blunt: 2
-        Slash: 2
-        Radiation: 2
-        Piercing: 2
-        Heat: 2
       coefficients:
         Blunt: 0.7
         Slash: 0.7

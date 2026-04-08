@@ -67,99 +67,68 @@
       - SMGTommyGun
 
 - type: entity
-  id: WeaponSMGTommyGunFMJ
-  parent: WeaponSMGTommyGun
-  name: пистолет-пулемёт Томпсона
-  description: "- Это ещё что такое? куда они везут капитана?\n- Прости, капитан в сделку не входил"
+  id: MagazineDrumTommyGun
+  name: барабан для пистолет-пулемёта Томпсона
+  description: большой магазин для больших бандитов
+  parent: BaseItem
   components:
-  - type: ItemSlots
-    slots:
-      gun_magazine:
-        name: Magazine
-        startingItem: MagazineTommyGunFMJ
-        insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
-        ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
-        priority: 2
-        whitelist:
-          tags:
-            - MagazineTommyGun
-        whitelistFailPopup: gun-magazine-whitelist-fail
-      gun_chamber:
-        name: Chamber
-        startingItem: CartridgePistolFMJ
-        priority: 1
-        whitelist:
-          tags:
-            - CartridgePistol
+  - type: Tag
+    tags:
+      - MagazineTommyGun
+  - type: BallisticAmmoProvider
+    mayTransfer: true
+    whitelist:
+      tags:
+        - CartridgePistol
+    proto: CartridgePistol
+    capacity: 50
+  - type: Item
+    size: Normal
+  - type: ContainerContainer
+    containers:
+      ballistic-ammo: !type:Container
+  - type: Sprite
+    sprite: _DeadSpace/Items/Toys/TommyGun/round_magazine.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: MagazineVisuals
+    magState: mag
+    steps: 2
+    zeroVisible: false
+  - type: Appearance
 
 - type: entity
-  parent: WeaponSubMachineGunC20r
-  id: WeaponSubMachineGunC20rFMJ
+  id: MagazineTommyGun
+  name: магазин для пистолет-пулемёта Томпсона
+  parent: BaseItem
   components:
-  - type: ItemSlots
-    slots:
-      gun_magazine:
-        name: Magazine
-        startingItem: MagazinePistolSubMachineGunFMJ
-        insertSound: /Audio/Weapons/Guns/MagIn/smg_magin.ogg
-        ejectSound: /Audio/Weapons/Guns/MagOut/smg_magout.ogg
-        priority: 2
-        whitelist:
-          tags:
-            - MagazinePistolSubMachineGun
-        whitelistFailPopup: gun-magazine-whitelist-fail
-      gun_chamber:
-        name: Chamber
-        startingItem: CartridgePistolFMJ
-        priority: 1
-        whitelist:
-          tags:
-            - CartridgePistol
-
-- type: entity
-  parent: WeaponSubMachineGunVector
-  id: WeaponSubMachineGunVectorFMJ
-  components:
-  - type: ItemSlots
-    slots:
-      gun_magazine:
-        name: Magazine
-        startingItem: MagazinePistolSubMachineGunFMJ
-        insertSound: /Audio/Weapons/Guns/MagIn/smg_magin.ogg
-        ejectSound: /Audio/Weapons/Guns/MagOut/smg_magout.ogg
-        priority: 2
-        whitelist:
-          tags:
-            - MagazinePistolSubMachineGun
-      gun_chamber:
-        name: Chamber
-        startingItem: CartridgePistolFMJ
-        priority: 1
-        whitelist:
-          tags:
-            - CartridgePistol
-        whitelistFailPopup: gun-magazine-whitelist-fail
-
-- type: entity
-  parent: WeaponSubMachineGunWt550
-  id: WeaponSubMachineGunWt550FMJ
-  components:
-  - type: ItemSlots
-    slots:
-      gun_magazine:
-        name: Magazine
-        startingItem: MagazinePistolSubMachineGunTopMountedFMJ
-        insertSound: /Audio/Weapons/Guns/MagIn/smg_magin.ogg
-        ejectSound: /Audio/Weapons/Guns/MagOut/smg_magout.ogg
-        priority: 2
-        whitelist:
-          tags:
-            - MagazinePistolSubMachineGunTopMounted
-        whitelistFailPopup: gun-magazine-whitelist-fail
-      gun_chamber:
-        name: Chamber
-        startingItem: CartridgePistolFMJ
-        priority: 1
-        whitelist:
-          tags:
-            - CartridgePistol
+  - type: Tag
+    tags:
+      - MagazineTommyGun
+  - type: BallisticAmmoProvider
+    mayTransfer: true
+    whitelist:
+      tags:
+        - CartridgePistol
+    proto: CartridgePistol
+    capacity: 20
+  - type: Item
+    size: Small
+  - type: ContainerContainer
+    containers:
+      ballistic-ammo: !type:Container
+  - type: Sprite
+    sprite: _DeadSpace/Items/Toys/TommyGun/magazine.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: MagazineVisuals
+    magState: mag
+    steps: 2
+    zeroVisible: false
+  - type: Appearance

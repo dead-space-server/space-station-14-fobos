@@ -6,6 +6,7 @@
     - id: BoxFolderQmClipboard
     - id: BoxQMCircuitboards
     - id: BoxQMStamps
+    - id: SalvageShuttleConsoleCircuitboard #DS14
     - id: CigPackGreen
       prob: 0.50
     - id: ClothingHeadsetAltCargo

@@ -723,3 +723,133 @@
     delay: 2.0
   - type: Execution
     doAfterDuration: 4.0
+
+- type: entity
+  parent: BaseImplantOnlyImplanterSyndi
+  id: UnitologyWeaponHandHookImplanter
+  name: имплантер цепной руки
+  description: Подозрительный имплант неизвестного происхождения.
+  components:
+  - type: Implanter
+    implant: UnitologyWeaponHandHookImplant
+
+- type: entity
+  parent: BaseSubdermalImplant
+  id: UnitologyWeaponHandHookImplant
+  name: имплантер цепной руки
+  description: Подозрительный имплант неизвестного происхождения.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: SubdermalImplant
+    implantAction: ActionRetractableItemUnitologyWeaponHandHookImplant
+    whitelist:
+      components:
+      - Hands
+
+- type: entity
+  parent: BaseAction
+  id: ActionRetractableItemUnitologyWeaponHandHookImplant
+  name: "[color=red]Освободить цепную руку[/color]"
+  description: ТУШКУ МНЕ!!!
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    useDelay: 1
+    raiseOnAction: true
+    itemIconStyle: BigAction
+    icon:
+      sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/melee/hand-hook.rsi
+      state: icon
+  - type: InstantAction
+    event: !type:OnRetractableItemActionEvent
+  - type: RetractableItemAction
+    spawnedPrototype: WeaponHandHook
+    summonSounds:
+      collection: splinter-blade-extend
+    retractSounds:
+      collection: splinter-blade-retract
+
+- type: entity
+  name: цепная рука
+  parent: BaseItem
+  categories: [ HideSpawnMenu ]
+  id: WeaponHandHook
+  description: ЭТО КТО К НАМ ЗАСКОЧИЛ НА УЖИН?!
+  components:
+    - type: MeleeWeapon
+      attackRate: 2
+      animation: WeaponArcClaw
+      damage:
+        types:
+          Slash: 12
+          Structural: 20
+      soundHit:
+        collection: splinter-blade-attack
+      soundNoDamage:
+        collection: splinter-blade-miss
+    - type: Item
+      sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/melee/hand-hook.rsi
+      size: Large
+      shape:
+      - 0,0,3,2
+    - type: AmmoCounter
+    - type: GrapplingGun
+      pullTargetToShooter: true 
+      reelRate: 175
+      cycleSound:
+        path: /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/hook-sfx/reload_hook.ogg
+      ropeSprite:
+        sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/melee/hand-hook.rsi
+        state: rope
+    - type: Gun
+      soundGunshot: /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/hook-sfx/shot_hook.ogg
+      fireRate: 0.15
+    - type: BasicEntityAmmoProvider
+      proto: HandHookProjectile
+      capacity: 1
+    - type: Sprite
+      sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/melee/hand-hook.rsi
+      layers:
+        - state: base
+        - state: base-unshaded
+          map: [ "unshaded" ]
+          visible: true
+    - type: Appearance
+    - type: GenericVisualizer
+      visuals:
+        enum.TetherVisualsStatus.Key:
+          unshaded:
+            True: { state: base-unshaded }
+            False: { state: base-unshaded-off }
+    - type: UseDelay
+      delay: 2
+    - type: AltFireMelee
+      attackType: Light
+
+- type: entity
+  id: HandHookProjectile
+  name: цепная ладонь
+  parent: BaseBullet
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: EmbeddableProjectile
+      deleteOnRemove: true
+    - type: Clickable
+    - type: InteractionOutline
+    - type: Sprite
+      noRot: false
+      sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/melee/hand-hook.rsi
+      layers:
+        - state: hook
+    - type: Physics
+      bodyType: Dynamic
+      linearDamping: 0
+      angularDamping: 0
+    - type: Projectile
+      deleteOnCollide: false
+      damage:
+        types:
+          Slash: 5
+      soundHit:
+        path: /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/hook-sfx/hit_hook.ogg
+    - type: GrapplingProjectile

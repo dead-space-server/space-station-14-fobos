@@ -1008,8 +1008,6 @@
     reduction: 0.2
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2 #это все таки шлем
       coefficients:
         Blunt: 0.80
         Slash: 0.80
@@ -1020,7 +1018,7 @@
         Poison: 0.80 # DS14
 # DS14-start
   - type: ClothingGrantComponent
-    component:
+    component: 
       - type: ImmunNecroobelisk
 # DS14-end
   - type: Tag

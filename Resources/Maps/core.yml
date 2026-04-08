@@ -98600,7 +98600,7 @@ entities:
     - type: Transform
       pos: 55.5,8.5
       parent: 2
-- proto: LockerMime
+- proto: LockerMimeFilled
   entities:
   - uid: 14101
     components:

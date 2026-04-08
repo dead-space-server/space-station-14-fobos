@@ -70,8 +70,6 @@
     color: "#f00a19"
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Heat: 1
       types:
         Heat: 16
   - type: Reflective
