@@ -416,14 +416,15 @@
     sprite: Clothing/Hands/Gloves/northstar.rsi
   - type: MeleeWeapon
     autoAttack: true
-    attackRate: 4
+    attackRate: 5.5 #DS14
     damage:
       types:
-       Blunt: 8
+       Blunt: 7.5 #DS14
     soundHit:
       collection: Punch
     animation: WeaponArcFist
     mustBeEquippedToUse: true
+  - type: Insulated #DS14
   - type: Fiber
     fiberMaterial: fibers-leather
     fiberColor: fibers-blue

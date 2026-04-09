@@ -135,10 +135,10 @@
     damageCap: 0
     damage:
       types:
-        Poison: -0.5
+        Poison: -1
       groups:
-        Brute: -0.5
-        Burn: -0.5
+        Brute: -1
+        Burn: -1
   - type: Access
     tags:
     - SpiderTerror
@@ -815,10 +815,10 @@
     damageCap: 0
     damage:
       types:
-        Poison: -1
+        Poison: -2
       groups:
-        Brute: -1
-        Burn: -1
+        Brute: -2
+        Burn: -2
 
 - type: entity
   name: король пауков

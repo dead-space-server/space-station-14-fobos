@@ -530,7 +530,7 @@
   sponsorOnly: true
   sprites:
   - sprite: _DeadSpace/Sponsor/DragonFox/ninetails.rsi
-    state: nine_tail_icon
+    state: nine_tail
 
 # РСУ
 
