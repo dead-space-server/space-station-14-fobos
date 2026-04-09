@@ -32,6 +32,8 @@
     - id: JukeboxMK
     - id: TapeRecorderr
     - id: TapeEmpty
+    - id: PaperMysticalRayUSSP
+    - id: PaperMysticalRay
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -490,7 +492,7 @@
 #Документ
 - type: entity
   parent: PaperPrintedCentcomm
-  id: PaperVelmet
+  id: PaperMysticalRay
   name: распечатанный документ
   description: Лист бумаги с заголовком центкома. Страшно даже смотреть на него.
   categories: [ HideSpawnMenu ]
@@ -502,6 +504,24 @@
       stampedName: Центральное Командование
     - stampedColor: '#00BE00FF'
       stampedName: Одобрено
-    content: paper-law-MysticalRay
+    content: paper-law-mysticalray
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+- type: entity
+  parent: PaperPrintedCentcomm
+  id: PaperMysticalRayUSSP
+  name: распечатанный документ
+  description: Лист бумаги с заголовком генштаба. Страшно даже смотреть на него.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Paper
+    stampState: paper_stamp-centcom
+    stampedBy:
+    - stampedColor: '#006600FF'
+      stampedName: Генеральный Штаб
+    - stampedColor: '#00BE00FF'
+      stampedName: Одобрено
+    content: paper-law-mysticalray-ussp
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
