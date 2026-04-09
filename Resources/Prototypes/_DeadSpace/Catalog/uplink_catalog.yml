@@ -43,7 +43,7 @@
   description: uplink-energy-crossbow-large-desc
   productEntity: WeaponEnergyCrossbowLarge
   cost:
-    Telecrystal: 20
+    Telecrystal: 18
   categories:
   - UplinkWeaponry
   conditions:
@@ -86,7 +86,7 @@
     Telecrystal: 6
   productEntity: ClothingBeltSheathSyndieFilled
   cost:
-    Telecrystal: 10
+    Telecrystal: 8
   categories:
   - UplinkWeaponry
 
@@ -421,6 +421,22 @@
       - NukeOpsUplink
 
 - type: listing
+  id: UplinkBoxLethalshotMagnum
+  name: коробка ружейных патронов (12х70 магнум)
+  description: Коробка с 16 магнум картечью.
+  icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Boxes/shotgun.rsi, state: base }
+  productEntity: BoxLethalshotMagnum
+  cost:
+    Telecrystal: 3
+  categories:
+  - UplinkAmmo
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
   id: UplinkCarbineSKSBundleAgent
   name: Набор "СКС"
   description: Содержит в себе модифицированный самозарядный карабин с пластиковым ложе, а так же 1 дополнительный магазин на 20 патрон
@@ -449,7 +465,7 @@
   discountDownTo:
     Telecrystal: 8
   cost:
-    Telecrystal: 11
+    Telecrystal: 10
   categories:
   - UplinkWeaponry
   conditions:

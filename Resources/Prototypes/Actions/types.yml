@@ -177,11 +177,13 @@
   name: Activate EMP
   description: Triggers a small EMP pulse around you
   components:
-  - type: LimitedCharges
-    maxCharges: 3
+# DS14-start
+#  - type: LimitedCharges
+#    maxCharges: 3
+# DS14-end
   - type: Action
     checkCanInteract: false
-    useDelay: 5
+    useDelay: 10 #DS14-value
     itemIconStyle: BigAction
     priority: -20
     icon:
@@ -194,11 +196,13 @@
   name: SCRAM!
   description: Randomly teleports you within a large distance.
   components:
-  - type: LimitedCharges
-    maxCharges: 2
+# DS14-start
+#  - type: LimitedCharges
+#    maxCharges: 2
+# DS14-end
   - type: Action
     checkCanInteract: false
-    useDelay: 5
+    useDelay: 14 #DS14-value
     itemIconStyle: BigAction
     priority: -20
     icon:

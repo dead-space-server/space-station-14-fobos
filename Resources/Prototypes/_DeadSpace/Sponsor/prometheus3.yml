@@ -7,6 +7,7 @@
 - type: entity
   parent: ClothingBackpack
   id: ClothingBackpackPrometheus3
+  categories: [ HideSpawnMenu ]
   name: тактический подсумок «BlackOps»
   description: Компактный снаружи, необъятный внутри. Оснащен блюспейс технологией. Не пытайтесь запихнуть туда свои проблемы!
   components:
@@ -48,8 +49,6 @@
   - type: Tag
     tags: [ ] # ignore "WhitelistChameleon" tag
 
-
-
 # MEDKIT
 - type: entity
   parent: MedkitCombat
@@ -67,9 +66,20 @@
     - id: MedicatedSuture
     - id: RegenerativeMesh
     - id: Bloodpack
-    - id: DefibrillatorSyndicate
+    - id: DefibrillatorPrometheus3
     - id: HypoPrometheus3
 
+- type: entity
+  parent: DefibrillatorCompact
+  name: компактный дефибриллятор «BlackOps»
+  description: ЧИСТО! РАЗРЯД!
+  id: DefibrillatorPrometheus3
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: Objects/Specific/Medical/defibsyndi.rsi
+  - type: Item
+    sprite: Objects/Specific/Medical/defibsyndi.rsi
 # ГИПОСПРЕЙ
 - type: entity
   parent: BaseItem
@@ -97,6 +107,8 @@
     maxFillLevels: 2
     fillBaseName: hypo_fill
     emptySpriteName: hypo_empty
+    inHandsMaxFillLevels: 2
+    inHandsFillBaseName: -fill-
     changeColor: true
   - type: SolutionContainerManager
     solutions:

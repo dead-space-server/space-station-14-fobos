@@ -1788,6 +1788,28 @@
   - !type:ListingLimitedStockCondition
     stock: 2
 
+- type: listing
+  id: ClothingShoesMachineInventory20
+  productEntity: ClothingUnderwearStockingsBlack
+  cost:
+    SpaceCash: 70
+  categories:
+  - ClothingShoesMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 4
+
+- type: listing
+  id: ClothingShoesMachineInventory21
+  productEntity: ClothingUnderwearSocksThigh
+  cost:
+    SpaceCash: 70
+  categories:
+  - ClothingShoesMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 4
+
 # Neck
 - type: listing
   id: ClothingNeckMachineInventory1

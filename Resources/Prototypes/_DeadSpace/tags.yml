@@ -5,6 +5,9 @@
   id: AmbrosiaDeus
 
 - type: Tag
+  id: AnimateSpellBlacklist
+
+- type: Tag
   id: BatteryWeaponFireModesSprites
 
 - type: Tag

@@ -37,4 +37,9 @@ public sealed partial class GrapplingGunComponent : Component
         new SpriteSpecifier.Rsi(new ResPath("Objects/Weapons/Guns/Launchers/grappling_gun.rsi"), "rope");
 
     public EntityUid? Stream;
+
+//DS14-start
+    [DataField]
+    public bool PullTargetToShooter = false; // true = тянем цель к стрелку, false = стрелок к цели
+//DS14-end
 }
