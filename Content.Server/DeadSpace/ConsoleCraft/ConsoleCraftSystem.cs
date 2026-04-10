@@ -196,10 +196,10 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
         if (args.Handled)
             return;
 
-        if (_tool.HasQuality(args.Used, "Prying")   ||
-            _tool.HasQuality(args.Used, "Screwing")  ||
-            _tool.HasQuality(args.Used, "Welding")   ||
-            _tool.HasQuality(args.Used, "Anchoring"))
+        if (_tool.HasQuality(args.Used, new ProtoId<ToolQualityPrototype>("Prying"))   ||
+            _tool.HasQuality(args.Used, new ProtoId<ToolQualityPrototype>("Screwing"))  ||
+            _tool.HasQuality(args.Used, new ProtoId<ToolQualityPrototype>("Welding"))   ||
+            _tool.HasQuality(args.Used, new ProtoId<ToolQualityPrototype>("Anchoring")))
         {
             return;
         }
