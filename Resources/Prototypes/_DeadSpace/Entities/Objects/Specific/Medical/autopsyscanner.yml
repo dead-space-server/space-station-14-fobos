@@ -32,10 +32,11 @@
   - type: Appearance
   - type: GenericVisualizer
     visuals:
-      enum.PowerCellSlotVisuals.Enabled:
+      enum.BatteryVisuals.State:
         enum.PowerDeviceVisualLayers.Powered:
-          True: { visible: true }
-          False: { visible: false }
+          Full: { visible: true }
+          Neither: { visible: true }
+          Empty: { visible: false }
 
 - type: entity
   id: HandheldAutopsyScanner
@@ -44,9 +45,9 @@
   suffix: Заряжен
   parent: [ HandheldAutopsyScannerUnpowered, PowerCellSlotSmallItem]
   components:
+  - type: BatteryVisuals
   - type: PowerCellDraw
-    drawRate: 0
-    useRate: 20
+    drawRate: 20
   - type: ActivatableUIRequiresPowerCell
 
 - type: entity

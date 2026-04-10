@@ -152,7 +152,7 @@
     необходимым оборудованием для выполнения их миссии.
     Время прибытия отряда от 10 до 15 минут.
   sender: ert-responce-cso-sender
-  rule: SpawnGammaShuttle # это буквально одинаковые шаттлы
+  rule: SpawnRedShuttle
   cooldown:
     min: 10m
     max: 10m

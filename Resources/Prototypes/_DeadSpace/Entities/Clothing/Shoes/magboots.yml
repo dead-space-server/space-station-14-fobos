@@ -20,3 +20,6 @@
   - type: Appearance
   - type: StaticPrice
     price: 400
+  - type: ClothingGrantComponent
+    component: 
+      - type: RenegadeCANTRenegadeForce

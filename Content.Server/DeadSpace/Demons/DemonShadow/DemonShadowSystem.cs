@@ -21,6 +21,7 @@ using Content.Shared.Weapons.Melee.Events;
 using Content.Shared.Examine;
 using Robust.Shared.Map;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Maps;
 using Content.Shared.Popups;
@@ -33,7 +34,10 @@ using Content.Shared.Interaction;
 using Content.Server.DeadSpace.Abilities.Cocoon;
 using Content.Server.DeadSpace.Demons.DemonShadow.Components;
 using Content.Server.StationEvents.Events;
+using Content.Shared.Damage.Components;
 using Content.Shared.Ghost;
+using Content.Server.PDA;
+using Content.Shared.PDA;
 
 namespace Content.Server.DeadSpace.Demons.DemonShadow;
 
@@ -121,7 +125,7 @@ public sealed class DemonShadowSystem : SharedDemonShadowSystem
             ? component.PassiveHealingMultiplier
             : 1f;
 
-        _damageable.TryChangeDamage(uid, component.PassiveHealing * multiplier, true, false, damageableComponent);
+        _damageable.TryChangeDamage(uid, component.PassiveHealing * multiplier, true, false);
     }
 
     public void ShadowCheck(EntityUid uid, DemonShadowComponent component)
@@ -376,6 +380,9 @@ public sealed class DemonShadowSystem : SharedDemonShadowSystem
                 continue;
 
             if (HasComp<GhostComponent>(ent))
+                continue;
+
+            if (HasComp<PdaComponent>(ent))
                 continue;
 
             if (TryComp<VisibilityComponent>(ent, out var layer) && layer.Layer != (int)VisibilityFlags.Normal)

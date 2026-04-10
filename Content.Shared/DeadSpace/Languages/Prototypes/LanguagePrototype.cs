@@ -6,7 +6,7 @@ using Robust.Shared.Audio;
 
 namespace Content.Shared.DeadSpace.Languages.Prototypes;
 
-[Prototype("language")]
+[Prototype]
 public sealed partial class LanguagePrototype : IPrototype
 {
     [IdDataField]

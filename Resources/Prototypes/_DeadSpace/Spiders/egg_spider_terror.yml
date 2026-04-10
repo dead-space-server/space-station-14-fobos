@@ -70,16 +70,8 @@
     sprite: Mobs/Effects/onfire.rsi
     normalState: Mouse_burning
   - type: Temperature
-    heatDamageThreshold: 292
-    coldDamageThreshold: 288
     currentTemperature: 290
     specificHeat: 42
-    coldDamage:
-      types:
-        Cold: 1.5
-    heatDamage:
-      types:
-        Heat: 2.5
   - type: Barotrauma
     damage:
       types:

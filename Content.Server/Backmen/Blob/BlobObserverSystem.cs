@@ -153,6 +153,10 @@ public sealed class BlobObserverSystem : SharedBlobObserverSystem
             isNewMind = true;
         }
 
+        _mindSystem.TransferTo(mindId, observer, true, mind: mind);
+
+        _actorSystem.SetAttachedEntity(session, observer, true);
+
         _roleSystem.MindAddRole(mindId, core.MindRoleBlobPrototypeId.Id);
 
         SendBlobBriefing(session);
@@ -163,10 +167,6 @@ public sealed class BlobObserverSystem : SharedBlobObserverSystem
         blobRule?.Blobs.Add((mindId, mind));
 
         _mindSystem.TryAddObjective(mindId, mind, "BlobCaptureObjective");
-
-        _mindSystem.TransferTo(mindId, observer, true, mind: mind);
-
-        _actorSystem.SetAttachedEntity(session, observer, true);
 
         UpdateUi(observer, core);
     }

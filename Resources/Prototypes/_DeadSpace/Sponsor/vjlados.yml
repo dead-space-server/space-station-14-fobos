@@ -21,7 +21,7 @@
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,13,5
+    - 0,0,15,5
   - type: StorageFill
     contents:
       - id: ClothingBeltVjladosFilled
@@ -59,7 +59,7 @@
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,13,5
+    - 0,0,15,5
 
 # Belt
 - type: entity

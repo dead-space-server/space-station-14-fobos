@@ -317,6 +317,9 @@
   id: TaipanRole
 
 - type: Tag
+  id: TapeRecorderCoin
+
+- type: Tag
   id: Titanium
 
 - type: Tag

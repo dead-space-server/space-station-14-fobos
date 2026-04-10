@@ -18,3 +18,13 @@
     Steel: 100
     Glass: 100
     Plastic: 200
+
+- type: latheRecipe
+  id: BluespaceVial
+  result: BluespaceVial
+  completetime: 2
+  materials:
+    Steel: 250
+    Plastic: 250
+    Plasma: 100
+    Silver: 50

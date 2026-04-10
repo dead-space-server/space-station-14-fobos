@@ -21,6 +21,7 @@ using Content.Shared.NPC.Prototypes;
 using Content.Shared.NPC.Systems;
 using Content.Shared.Physics;
 using Content.Shared.Tag;
+using Content.Shared.Temperature.Components;
 using Content.Shared.Trigger.Systems;
 using Content.Shared.Zombies;
 using Robust.Server.Player;
@@ -138,10 +139,10 @@ public sealed class ZombieBlobSystem : EntitySystem
         EnsureComp<PressureImmunityComponent>(uid);
         EnsureComp<RespiratorImmunityComponent>(uid);
 
-        if (TryComp<TemperatureComponent>(uid, out var temperatureComponent))
+        if (TryComp<TemperatureDamageComponent>(uid, out var temperatureDamageComponent))
         {
-            component.OldColdDamageThreshold = temperatureComponent.ColdDamageThreshold;
-            temperatureComponent.ColdDamageThreshold = 0;
+            component.OldColdDamageThreshold = temperatureDamageComponent.ColdDamageThreshold;
+            temperatureDamageComponent.ColdDamageThreshold = 0;
         }
 
         // DS14-start
@@ -196,9 +197,9 @@ public sealed class ZombieBlobSystem : EntitySystem
         RemComp<PressureImmunityComponent>(uid);
         RemComp<RespiratorImmunityComponent>(uid);
 
-        if (TryComp<TemperatureComponent>(uid, out var temperatureComponent) && component.OldColdDamageThreshold != null)
+        if (TryComp<TemperatureDamageComponent>(uid, out var temperatureDamageComponent) && component.OldColdDamageThreshold != null)
         {
-            temperatureComponent.ColdDamageThreshold = component.OldColdDamageThreshold.Value;
+            temperatureDamageComponent.ColdDamageThreshold = component.OldColdDamageThreshold.Value;
         }
 
         _tag.RemoveTag(uid, BlobTag);

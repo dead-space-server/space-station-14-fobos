@@ -51,6 +51,8 @@
       amount: 4
     - id: BoxTapeRecorder # DS14
     - id: CriminalRecordsMonitor
+    - id: PlushieLizardJobWarden
+      prob: 0.02
 
 - type: entityTable
   id: FillLockerWardenHarduit
@@ -93,10 +95,14 @@
     #   prob: 0.1
     - id: HoloprojectorSecurity
       prob: 0.6
-    # - id: BookSpaceLaw # DS14-disabled
-    #   prob: 0.5
+    - id: BookSpaceLaw
+      prob: 0.5
     - id: ClothingNeckBodyCamera # DS14
     - id: ClothingMaskGasSecurity # DS14
+    - id: PlushieLizardJobSecuritycadet
+      prob: 0.02
+    - id: PlushieLizardJobSecurityofficer
+      prob: 0.02
 
 - type: entity
   id: LockerBrigmedicFilled
@@ -180,6 +186,8 @@
     - id: BoxFolderRed # DS14
     - id: BoxFolderYellow # DS14
     - id: BoxTapeRecorder # DS14
+    - id: PlushieLizardJobDetective
+      prob: 0.02
 
 - type: entity
   id: ClosetBombFilled

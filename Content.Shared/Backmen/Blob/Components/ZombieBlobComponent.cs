@@ -1,4 +1,4 @@
-using Content.Shared.DeadSpace.Languages.Prototypes; //DS14
+using Content.Shared.DeadSpace.Languages.Prototypes;
 using Content.Shared.StatusIcon;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
@@ -24,7 +24,7 @@ public sealed partial class ZombieBlobComponent : Component
 
     public ProtoId<FactionIconPrototype> StatusIcon { get; set; } = "BlobFaction";
 
-    public List<ProtoId<LanguagePrototype>> OldLanguages = new(); //DS14
 
-    public ProtoId<LanguagePrototype>? OldSelectedLanguage; //DS14
+    public List<ProtoId<LanguagePrototype>> OldLanguages = new();
+    public ProtoId<LanguagePrototype>? OldSelectedLanguage;
 }
