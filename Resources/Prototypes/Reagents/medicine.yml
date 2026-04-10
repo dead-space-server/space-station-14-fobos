@@ -834,9 +834,6 @@
     Medicine:
       effects:
       - !type:EvenHealthChange
-        conditions:
-        - !type:TotalDamageCondition
-          max: 50
         damage:
           Brute: -1
           Burn: -1
