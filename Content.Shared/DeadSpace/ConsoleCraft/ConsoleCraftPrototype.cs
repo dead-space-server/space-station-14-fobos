@@ -5,7 +5,7 @@ using Robust.Shared.Serialization.Manager.Attributes;
 
 namespace Content.Shared.DeadSpace.ConsoleCraft;
 
-[Prototype("consoleCraft")]
+[Prototype]
 public sealed partial class ConsoleCraftPrototype : IPrototype
 {
     [IdDataField]
