@@ -99,10 +99,14 @@ public sealed partial class GunSystem
 
             if (!args.AppearanceData.TryGetValue(AmmoVisuals.AmmoCount, out var current))
             {
-                current = ent.Comp.MagSteps;
+                current = 0;
             }
 
-            var step = ContentHelpers.RoundToLevels((int)current, (int)capacity, ent.Comp.MagSteps);
+            // Treat invalid capacity as empty so RoundToLevels' (actual >= max) branch
+            // doesn't accidentally render the FULL sprite for an unloaded mag.
+            var step = (int)capacity <= 0
+                ? 0
+                : ContentHelpers.RoundToLevels((int)current, (int)capacity, ent.Comp.MagSteps);
 
             if (step == 0 && !ent.Comp.ZeroVisible)
             {
