@@ -53,6 +53,24 @@
   - type: Clothing
     sprite: _DeadSpace/Clothing/Head/Hats/beret_chemist.rsi
 
+- type: entity
+  parent: ClothingHeadHelmetBasic
+  id: ClothingHeadHatUshankaHOS
+  name: бронеушанка главы службы безопасности 
+  description: Ушанка с бронеплитой из кевлара.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Head/Hats/hos_ushanka.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Head/Hats/hos_ushanka.rsi
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        maxVol: 10
+        reagents:
+        - ReagentId: Fiber
+          Quantity: 10
+
 # Taipan
 - type: entity
   parent: ClothingHeadBase

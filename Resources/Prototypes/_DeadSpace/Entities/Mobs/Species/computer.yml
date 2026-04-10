@@ -8,12 +8,8 @@
   components:
   - type: Blindable
   - type: Temperature
-    heatDamageThreshold: 5000
     currentTemperature: 310.15
     specificHeat: 42
-    heatDamage:
-      types:
-        Heat : 1 #per second, scales with temperature & other constants
   - type: Barotrauma
     damage:
       types:
@@ -55,7 +51,6 @@
       - ActionCritSuccumb
       - ActionCritFakeDeath
   - type: Bloodstream
-    bloodReagent: Oil
     bloodlossDamage:
       types:
         Bloodloss:
@@ -65,7 +60,6 @@
         Bloodloss:
           -1
     maxBleedAmount: 0
-    chemicalMaxVolume: 0
   - type: MobThresholds
     thresholds:
       0: Alive

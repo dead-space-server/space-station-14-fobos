@@ -12,10 +12,11 @@
       effects:
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: SpiderExtract
           min: 1
-        - !type:OrganType
-          type: Bloodsucker
+        - !type:MetabolizerTypeCondition
+          type: [ Bloodsucker ]
         damage:
           groups:
             Burn: -2
@@ -27,14 +28,15 @@
               -1
   metabolisms:
     Medicine:
-      metabolismRate: 0.05
+      metabolismRate: 0.5
       effects:
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: SpiderExtract
           min: 1
-        - !type:OrganType
-          type: Bloodsucker
+        - !type:MetabolizerTypeCondition
+          type: [ Bloodsucker ]
         damage:
           groups:
             Burn: -2
@@ -59,10 +61,11 @@
       effects:
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: Karachnocid
           min: 1
-        - !type:OrganType
-          type: Bloodsucker
+        - !type:MetabolizerTypeCondition
+          type: [ Bloodsucker ]
         damage:
           groups:
             Toxin: 10
@@ -85,7 +88,7 @@
 - type: reagent
   id: SpiderExtractLurker
   name: reagent-name-extract-lurker
-  group: Medicine
+  group: Toxins
   desc: reagent-desc-omnizine
   physicalDesc: reagent-physical-desc-soothing
   flavor: medicine
@@ -93,15 +96,15 @@
   metabolisms:
     Medicine:
       effects:
-      - !type:ModifyBleedAmount
+      - !type:ModifyBleed
         amount: -1.5
       - !type:HealthChange
         damage:
           groups:
-            Burn: -0.5
-            Toxin: -0.5
-            Airloss: -5
-            Brute: -0.5
+            Burn: 0.5
+            Toxin: 0.5
+            Airloss: 5
+            Brute: 0.5
 
 - type: reagent
   id: SpiderLurkerSmokeExtract
@@ -115,20 +118,21 @@
     Poison:
       metabolismRate: 0.1
       effects:
-      - !type:MovespeedModifier
+      - !type:MovementSpeedModifier
         conditions:
-        - !type:OrganType
-          type: Bloodsucker
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Bloodsucker ]
+          inverted: true
         walkSpeedModifier: 0.5
         sprintSpeedModifier: 0.5
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: SpiderLurkerSmokeExtract
           min: 1
-        - !type:OrganType
-          type: Bloodsucker
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Bloodsucker ]
+          inverted: true
         damage:
           groups:
             Toxin: 3
@@ -137,20 +141,21 @@
     Acidic:
       methods: [ Touch ]
       effects:
-      - !type:MovespeedModifier
+      - !type:MovementSpeedModifier
         conditions:
-        - !type:OrganType
-          type: Bloodsucker
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Bloodsucker ]
+          inverted: true
         walkSpeedModifier: 0.5
         sprintSpeedModifier: 0.5
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: SpiderLurkerSmokeExtract
           min: 1
-        - !type:OrganType
-          type: Bloodsucker
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Bloodsucker ]
+          inverted: true
         damage:
           groups:
             Toxin: 3
@@ -168,20 +173,21 @@
     Poison:
       metabolismRate: 0.05
       effects:
-      - !type:MovespeedModifier
+      - !type:MovementSpeedModifier
         conditions:
-        - !type:OrganType
-          type: Bloodsucker
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Bloodsucker ]
+          inverted: true
         walkSpeedModifier: 0.4
         sprintSpeedModifier: 0.4
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: SpiderWebExtract
           min: 1
-        - !type:OrganType
-          type: Bloodsucker
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Bloodsucker ]
+          inverted: true
         damage:
           groups:
             Toxin: 0.1
@@ -201,10 +207,11 @@
       effects:
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: SpiderReaperExtract
           min: 1
-        - !type:OrganType
-          type: Bloodsucker
+        - !type:MetabolizerTypeCondition
+          type: [ Bloodsucker ]
         damage:
           groups:
             Burn: -4
@@ -233,5 +240,6 @@
         - id: MobSpiderTerrorGuardian
           amount: 3
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: SpiderEggs
           min: 1

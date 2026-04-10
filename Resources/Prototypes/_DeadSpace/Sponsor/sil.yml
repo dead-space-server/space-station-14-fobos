@@ -278,7 +278,7 @@
       hypo:
         whitelist:
           components:
-          - Hypospray
+          - Injector
     sprite: _DeadSpace/Sponsor/Sil/belt_overlay.rsi
   - type: Appearance
 
@@ -637,8 +637,13 @@
     solution: hypospray
   - type: ExaminableSolution
     solution: hypospray
-  - type: Hypospray
-    onlyAffectsMobs: false
+  - type: Injector
+    solutionName: hypospray
+    ignoreClosed: false
+    activeModeProtoId: HyposprayDynamicMode
+    allowedModes:
+    - HyposprayDynamicMode
+    - HyposprayInjectMode
   - type: UseDelay
     delay: 0.5
 

@@ -88,6 +88,15 @@
     accentVColor: "#EAEAEA"
   - type: Icon
     state: pda-coroner
+  - type: CartridgeLoader
+    uiKey: enum.PdaUiKey.Key
+    preinstalled:
+      - CrewManifestCartridge
+      - NotekeeperCartridge
+      - NanoTaskCartridge
+      - NewsReaderCartridge
+      - MedTekCartridge
+      - BankCartridge # DS14
 
 - type: entity
   parent: BasePDA
@@ -107,6 +116,15 @@
     accentVColor: "#12445b"
   - type: Icon
     state: pda-virology
+  - type: CartridgeLoader
+    uiKey: enum.PdaUiKey.Key
+    preinstalled:
+      - CrewManifestCartridge
+      - NotekeeperCartridge
+      - NanoTaskCartridge
+      - NewsReaderCartridge
+      - MedTekCartridge
+      - BankCartridge # DS14
 
 - type: entity
   parent: BasePDA
@@ -132,8 +150,10 @@
     preinstalled:
       - CrewManifestCartridge
       - NotekeeperCartridge
+      - NanoTaskCartridge
       - NewsReaderCartridge
       - AstroNavCartridge
+      - BankCartridge # DS14
 
 - type: entity
   parent: BasePDA
@@ -155,10 +175,13 @@
   - type: CartridgeLoader
     uiKey: enum.PdaUiKey.Key
     preinstalled:
-      - CrewManifestCartridge
-      - NotekeeperCartridge
-      - NewsReaderCartridge
-      - AstroNavCartridge
+    - CrewManifestCartridge
+    - NotekeeperCartridge
+    - NanoTaskCartridge
+    - NewsReaderCartridge
+    - WantedListCartridge
+    - AstroNavCartridge
+    - BankCartridge # DS14
 
 - type: entity
   parent: BasePDA

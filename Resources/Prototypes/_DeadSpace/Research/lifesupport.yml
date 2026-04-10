@@ -134,8 +134,6 @@
   tier: 2
   cost: 15000
   diskAvailable: false
-  recipeUnlocks:
-  - BorgModuleAdvancedChemical
 
 - type: technology
   id: TaipanAdvancedCleaning

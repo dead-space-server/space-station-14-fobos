@@ -6,7 +6,6 @@ namespace Content.Client.DeadSpace.Abilities.Bloodsucker;
 
 public sealed partial class BloodIncubatorSystem : EntitySystem
 {
-    [Dependency] private readonly IEntityManager _entityManager = default!;
     [Dependency] private readonly SpriteSystem _sprite = default!;
     public override void Initialize()
     {

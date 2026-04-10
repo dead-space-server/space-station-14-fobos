@@ -27274,7 +27274,7 @@ entities:
         moles:
           Oxygen: 1.7459903
           Nitrogen: 6.568249
-- proto: CrateSyndicateSecure
+- proto: CrateSyndicateSecureDS
   entities:
   - uid: 3787
     components:

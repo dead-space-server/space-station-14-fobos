@@ -38,7 +38,7 @@ public sealed class AICameraListBoundUserInterface : BoundUserInterface
         SendMessage(new EyeMoveToCam { Entity = EntMan.GetNetEntity(Owner), Uid = obj });
     }
 
-    public void Update()
+    public void UpdateCameras()
     {
         Window?.UpdateCameras();
     }
