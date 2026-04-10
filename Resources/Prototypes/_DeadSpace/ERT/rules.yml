@@ -10,7 +10,7 @@
   id: SpawnRedShuttle
   components:
   - type: ErtSpawnRule
-    shuttle: AmberShuttle
+    shuttle: RedShuttle
 
 - type: entity
   parent: BaseGameRule

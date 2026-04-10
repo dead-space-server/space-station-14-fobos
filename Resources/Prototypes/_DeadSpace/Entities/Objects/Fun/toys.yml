@@ -17,7 +17,7 @@
       path: /Audio/_DeadSpace/Items/Toys/DiscordToy/user_join.ogg
       params:
         volume: -5
-  - type: Food
+  - type: Edible
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/_DeadSpace/Items/Toys/DiscordToy/call_ringing.ogg
@@ -283,7 +283,7 @@
       Cloth: 100
   - type: StaticPrice
     price: 5
-  - type: Food
+  - type: Edible
     requiresSpecialDigestion: true
     useSound:
       collection: ToySqueak

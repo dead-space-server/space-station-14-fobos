@@ -7,7 +7,7 @@
     flavors:
       - bun
       - egg
-  - type: Food
+  - type: Edible
     transferAmount: 5
   - type: Sprite
     sprite: /Textures/_DeadSpace/Objects/Consumable/Food/lasagna.rsi
@@ -34,7 +34,7 @@
   - type: FlavorProfile
     flavors:
       - bun
-  - type: Food
+  - type: Edible
     transferAmount: 5
   - type: Sprite
     state: icon
@@ -60,7 +60,7 @@
     flavors:
       - bun
       - egg
-  - type: Food
+  - type: Edible
     transferAmount: 5
   - type: Sprite
     sprite: /Textures/_DeadSpace/Objects/Consumable/Food/chawanmushi.rsi
@@ -425,7 +425,7 @@
     flavors:
       - potatoes
       - creamy
-  - type: Food
+  - type: Edible
     transferAmount: 5
   - type: Sprite
     sprite: /Textures/_DeadSpace/Objects/Consumable/Food/mashed-potatoes.rsi

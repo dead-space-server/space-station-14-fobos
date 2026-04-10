@@ -46,7 +46,7 @@
     thresholds:
       0: Alive
       100: Critical
-      200: Dead
+      300: Dead # Same as destruction threshold. Borgs act exactly like crit when dead, except for ghosting on move
     stateAlertDict:
       Alive: BorgHealth
       Critical: BorgCrit
@@ -110,7 +110,9 @@
   - type: ZombieImmune
   - type: ImmunitetInfectionDead
   - type: Repairable
-    doAfterDelay: 10
+    damageValue: -10 # 10 seconds to repair from crit
+    doAfterDelay: 1
+    fuelCost: 0.5
     allowSelfRepair: false
   - type: BorgChassis
   - type: LockingWhitelist
@@ -119,7 +121,6 @@
       - BorgChassis
       - RoboticsConsole
   - type: WiresPanel
-    openingTool: Prying
   - type: ActivatableUIRequiresPanel
   - type: NameIdentifier
     group: Silicon
@@ -132,17 +133,11 @@
   - type: PowerCellSlot
     cellSlotId: cell_slot
     fitsInCharger: true
-  - type: ItemToggle
-    onActivate: false # You should not be able to turn off a borg temporarily.
-    activated: false # gets activated when a mind is added
-    onUse: false # no item-borg toggling sorry
-  - type: ItemTogglePointLight
-  - type: AccessToggle
-  # TODO: refactor movement to just be based on toggle like speedboots but for the boots themselves
-  # TODO: or just have sentient speedboots be fast idk
+  - type: Access
+    enabled: false # needs a player so that scientists can't drag around an empty borg for free AA
   - type: PowerCellDraw
-    drawRate: 0.8 # DS14-value
-  # no ToggleCellDraw since dont want to lose access when power is gone
+    drawRate: 0.6
+    enabled: false # the borg is only activated when a player takes over, otherwise the battery is likely empty
   - type: ItemSlots
     slots:
       cell_slot:
@@ -211,6 +206,11 @@
     wattage: 0.2
     blinkingBehaviourId: blinking
     radiatingBehaviourId: radiating
+  # These two components are required to make HandheldLight work, even though we don't even have ItemToggle.
+  # The code is a total mess and needs a complete rewrite.
+  - type: ItemTogglePointLight
+  - type: ToggleableVisuals
+    spriteLayer: light
   - type: LightBehaviour
     behaviours:
     - !type:FadeBehaviour
@@ -227,8 +227,6 @@
       startValue: 0.1
       endValue: 2.0
       isLooped: true
-  - type: ToggleableVisuals
-    spriteLayer: light
   - type: PointLight
     enabled: false
     mask: /Textures/Effects/LightMasks/cone.png
@@ -279,6 +277,12 @@
   - type: LightningTarget # DS14
     priority: 2
     lightningExplode: false
+  - type: BypassLock
+    openWiresPanel: true
+  - type: BypassLockRequiresMobState
+    requiredMobState:
+    - Critical
+    - Dead
 
 - type: entity
   abstract: true
@@ -329,6 +333,7 @@
     networkSet: true
     nameSet: True
     id: Xenoborg
+    useEntityNameAsCameraId: true
   - type: Explosive
     explosionType: Minibomb
     deleteAfterExplosion: false # let damage threshold gib the borg
@@ -357,6 +362,7 @@
   - type: AccessReader
     access: [["Command"], ["Research"]]
   - type: ShowJobIcons
+  - type: ShowCrewIcons
   - type: InteractionPopup
     interactSuccessSound:
       path: /Audio/Ambience/Objects/periodic_beep.ogg
@@ -399,6 +405,8 @@
     color: "#dd200b"
   - type: Damageable
     damageModifierSet: CombatBorg # DS14
+  - type: BypassLock
+    bypassDelay: 15
 
 - type: entity
   id: BaseBorgChassisDerelict
@@ -419,6 +427,7 @@
   - type: IonStormTarget
     chance: 1
   - type: ShowJobIcons
+  - type: ShowCrewIcons
 
 - type: entity
   id: BaseBorgChassisSyndicateDerelict #For assault borg and maybe others in time
@@ -432,6 +441,7 @@
   - type: IonStormTarget
     chance: 1
   - type: ShowJobIcons
+  - type: ShowCrewIcons
   - type: NpcFactionMember # They're still syndicate even if they can't listen to the radio or see icons
     factions:
     - Syndicate
@@ -459,6 +469,8 @@
     color: "#dd200b"
   - type: Damageable # DS14
     damageModifierSet: CombatBorg
+  - type: BypassLock
+    bypassDelay: 15
 
 - type: entity
   parent: BaseBorgChassisNotIonStormable
@@ -494,8 +506,6 @@
     - Mothership
     - Xenoborg
     - Binary
-  - type: Repairable
-    doAfterDelay: 13 # 25% more HP, so 30% more time to heal
   - type: BorgChassis
     maxModules: 0
     hasMindState: robot_e
@@ -549,6 +559,11 @@
       - !type:PlaySoundBehavior
         sound:
           collection: MetalBreak
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          PinpointerMothershipPiece: # drop a piece of core pinpointer upon being destructed (4 pieces to make a core pinpointer)
+            min: 1
+            max: 1
       - !type:EmptyContainersBehaviour
         containers:
         - borg_brain
@@ -557,7 +572,8 @@
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
   - type: PointLight
-    color: "#0033ff"
+    color: "#3010ff"
+    energy: 7
   - type: GuideHelp
     guides:
     - Cyborgs
@@ -570,8 +586,12 @@
   - type: AccessReader
     access: [["Xenoborg"]]
   - type: ShowJobIcons # not sure if it is needed
+  - type: ShowCrewIcons
   - type: InteractionPopup
     interactSuccessSound:
       path: /Audio/Ambience/Objects/periodic_beep.ogg
   - type: Damageable # DS14
     damageModifierSet: CombatBorg
+  - type: Xenoborg
+  - type: BypassLock
+    bypassDelay: 15

@@ -1,7 +1,7 @@
 - type: entity
-  name: cardboard box
   parent: BoxBase
   id: BoxCardboard
+  name: cardboard box
   description: A cardboard box for storing things.
   components:
   - type: Item
@@ -12,6 +12,34 @@
     maxItemSize: Small
     grid:
     - 0,0,2,2
+  - type: Construction
+    graph: BoxCardboard
+    node: boxcardboard
+    containers:
+      - storagebase
+  - type: PhysicalComposition
+    materialComposition:
+      Cardboard: 100
+  - type: Sprite
+    state: box
+  - type: Tag
+    tags:
+    - BoxCardboard
+
+- type: entity
+  parent: BoxBaseSmall
+  id: BoxCardboardSmall
+  name: small cardboard box
+  description: A small cardboard box for storing things.
+  components:
+  - type: Construction
+    graph: BoxCardboardSmall
+    node: boxcardboardsmall
+    containers:
+      - storagebase
+  - type: PhysicalComposition
+    materialComposition:
+      Cardboard: 50
   - type: Sprite
     state: box
   - type: Tag
@@ -49,20 +77,24 @@
     whitelist:
       components:
       - LightBulb
-  - type: StorageFill
-    contents:
-      - id: LightBulb
-        amount: 12
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: LightBulb
+          amount: 12
 
 - type: entity
   name: lightbulb box warm
   parent: BoxLightbulb
   id: BoxWarmLightbulb
   components:
-  - type: StorageFill
-    contents:
-      - id: WarmLightBulb
-        amount: 12
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: WarmLightBulb
+          amount: 12
 
 - type: entity
   name: lighttube box
@@ -73,10 +105,12 @@
     layers:
       - state: box
       - state: lighttube
-  - type: StorageFill
-    contents:
-      - id: LightTube
-        amount: 12
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: LightTube
+          amount: 12
 
 - type: entity
   name: mixed lights box
@@ -87,32 +121,36 @@
     layers:
       - state: box
       - state: lightmixed
-  - type: StorageFill
-    contents:
-      - id: LightTube
-        amount: 6
-      - id: LightBulb
-        amount: 6
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: LightTube
+          amount: 6
+        - id: LightBulb
+          amount: 6
 
 - type: entity
   name: holiday lighttube box
   parent: BoxLightbulb
   id: BoxLighttubeHoliday
   components:
-  - type: StorageFill
-    contents:
-      - id: LightTubeCrystalRed # Its alternating on purpose for the light replacer.
-      - id: LightTubeCrystalGreen
-      - id: LightTubeCrystalRed
-      - id: LightTubeCrystalGreen
-      - id: LightTubeCrystalRed
-      - id: LightTubeCrystalGreen
-      - id: LightTubeCrystalRed
-      - id: LightTubeCrystalGreen
-      - id: LightTubeCrystalRed
-      - id: LightTubeCrystalGreen
-      - id: LightTubeCrystalRed
-      - id: LightTubeCrystalGreen
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: LightTubeCrystalRed # Its alternating on purpose for the light replacer.
+        - id: LightTubeCrystalGreen
+        - id: LightTubeCrystalRed
+        - id: LightTubeCrystalGreen
+        - id: LightTubeCrystalRed
+        - id: LightTubeCrystalGreen
+        - id: LightTubeCrystalRed
+        - id: LightTubeCrystalGreen
+        - id: LightTubeCrystalRed
+        - id: LightTubeCrystalGreen
+        - id: LightTubeCrystalRed
+        - id: LightTubeCrystalGreen
 
 - type: entity
   name: PDA box
@@ -160,6 +198,17 @@
       - state: headset
 
 - type: entity
+  parent: BoxCardboardSmall
+  id: BoxStamps
+  name: stamp box
+  description: A small box containing stamps.
+  components: # Baking a "default" EntityTableContainerFill into this prototype seems like bad practice, so this is currently an empty box. If you need a new type of prefilled stamp box, create a new child prototype with the appropriate stamps!
+  - type: Sprite
+    layers:
+      - state: box
+      - state: stamp
+
+- type: entity
   name: meson box
   parent: BoxCardboard
   id: BoxMesonScanners
@@ -197,10 +246,12 @@
   id: BoxHugHealing
   suffix: Medical
   components:
-  - type: StorageFill
-    contents:
-      - id: Brutepack
-        amount: 3
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: Brutepack
+          amount: 3
 
 - type: entity
   name: inflatable wall box
@@ -444,11 +495,17 @@
         amount: 4
 
 - type: entity
-  name: darts box
   parent: BoxCardboard
   id: BoxDarts
+  name: darts box
   description: A box filled with colorful darts.
   components:
+  - type: Item
+    size: Normal
+    shape:
+    - 0,0,1,1
+  - type: Storage
+    maxItemSize: Tiny
   - type: Sprite
     layers:
       - state: box

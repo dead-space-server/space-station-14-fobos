@@ -24,8 +24,13 @@
   - type: ExaminableSolution
     solution: hypospray
     exactVolume: true
-  - type: Hypospray
-    onlyAffectsMobs: false
+  - type: Injector
+    solutionName: hypospray
+    ignoreClosed: false
+    activeModeProtoId: HyposprayDynamicMode
+    allowedModes:
+    - HyposprayDynamicMode
+    - HyposprayInjectMode
   - type: UseDelay
     delay: 0.5
   - type: Appearance
@@ -60,8 +65,13 @@
   - type: ExaminableSolution
     solution: hypospray
     exactVolume: true
-  - type: Hypospray
-    onlyAffectsMobs: false
+  - type: Injector
+    solutionName: hypospray
+    ignoreClosed: false
+    activeModeProtoId: HyposprayDynamicMode
+    allowedModes:
+    - HyposprayDynamicMode
+    - HyposprayInjectMode
   - type: UseDelay
     delay: 1.25
   - type: Appearance

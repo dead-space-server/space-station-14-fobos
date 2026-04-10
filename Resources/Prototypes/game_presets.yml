@@ -8,12 +8,11 @@
   voteType: rdm # DS14
   description: survival-description
   rules:
-  - WageScheduler # backmen: currency
-  - MeteorSwarmScheduler
-  - RampingStationEventScheduler
-  - SpaceTrafficControlEventScheduler
-  - SpaceTrafficControlFriendlyEventScheduler
-  - BasicRoundstartVariation
+    - WageScheduler # backmen: currency
+    - MeteorSwarmScheduler
+    - RampingStationEventScheduler
+    - SpaceTrafficControlEventScheduler
+    - BasicRoundstartVariation
 
 - type: gamePreset
   id: KesslerSyndrome
@@ -51,8 +50,52 @@
   - BlobGameMode
   - SpiderTerror
   - Wizard
+  - Xenoborgs
   - KesslerSyndromeScheduler
   - RampingStationEventScheduler
+  - SpaceTrafficControlEventScheduler
+  - BasicRoundstartVariation
+
+- type: gamePreset
+  id: AllerAtOnce
+  alias:
+  - allall
+  - aller
+  - badidea
+  - punishment
+  name: aller-at-once-title
+  description: aller-at-once-description
+  showInVote: false
+  rules:
+    - Nukeops
+    - Traitor
+    - Revolutionary
+    - Zombie
+    - Wizard
+    - Xenoborgs
+    - BasicStationEventScheduler
+    - KesslerSyndromeScheduler
+    - MeteorSwarmMildScheduler
+    - MeteorSwarmScheduler
+    - RampingStationEventScheduler
+    - SpaceTrafficControlEventScheduler
+    - BasicRoundstartVariation
+
+- type: gamePreset
+  id: Xenoborgs
+  alias:
+    - xenoborgs
+  name: xenoborgs-title
+  description: xenoborgs-description
+  showInVote: false
+  showInAdminVote: true # DS14
+  voteType: rdm # DS14
+  rules:
+  - Xenoborgs
+  - DummyNonAntagChance
+  - SubGamemodesRuleNoWizardNoXenoborg
+  - BasicStationEventScheduler
+  - MeteorSwarmScheduler
   - SpaceTrafficControlEventScheduler
   - BasicRoundstartVariation
 
@@ -71,7 +114,7 @@
   - MeteorSwarmScheduler
   - SpaceTrafficControlEventScheduler
   - BasicRoundstartVariation
-  - SubGamemodesRule # DS14
+  - SubGamemodesRuleNoWizard # DS14
 
 - type: gamePreset
   id: Greenshift
@@ -83,9 +126,8 @@
   voteType: admin # DS14
   description: greenshift-description
   rules:
-  - WageScheduler # backmen: currency
-  - SpaceTrafficControlFriendlyEventScheduler
-  - BasicRoundstartVariation
+    - WageScheduler # backmen: currency
+    - BasicRoundstartVariation
 
 - type: gamePreset
   id: Dynamic
@@ -94,7 +136,9 @@
   - multiantag
   - director
   name: dynamic-title
-  showInVote: false # admin-only for now until we fix some bugs
+  showInVote: true # DS14
+  showInAdminVote: true # DS14
+  voteType: rdm # DS14
   description: dynamic-description
   rules:
   - DynamicRule
@@ -109,6 +153,8 @@
   alias:
     - secret
   name: secret-title
+  showInAdminVote: true # DS14
+  voteType: calm # DS14
   showInVote: true
   description: secret-description
   rules:
@@ -129,7 +175,7 @@
   - MeteorSwarmScheduler
   - SpaceTrafficControlEventScheduler
   - BasicRoundstartVariation
-  - SubGamemodesRule # DS14
+  - SubGamemodesRuleNoWizard # DS14
 
 - type: gamePreset
   id: SecretGreenshift #For Admin Use: Runs Greenshift but shows "Secret" in lobby.
@@ -142,7 +188,6 @@
   description: secret-description
   rules:
   - WageScheduler # backmen: currency
-  - SpaceTrafficControlFriendlyEventScheduler
   - BasicRoundstartVariation
 
 - type: gamePreset
@@ -170,7 +215,7 @@
   - WageScheduler # backmen: currency
   - DummyNonAntagChance
   - Traitor
-  - SubGamemodesRule
+  - SubGamemodesRuleNoWizard
   - BasicStationEventScheduler
   - MeteorSwarmScheduler
   - SpaceTrafficControlEventScheduler
@@ -277,4 +322,4 @@
   - KesslerSyndromeScheduler
   - SpaceTrafficControlEventScheduler
   - BasicRoundstartVariation
-  - SubGamemodesRule # DS14
+  - SubGamemodesRuleNoWizard # DS14

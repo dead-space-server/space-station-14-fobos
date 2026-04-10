@@ -15,6 +15,8 @@
           cost: 2
         - proto: BluespaceBeaker
           cost: 2
+        - proto: BluespaceVial
+          cost: 2
         - proto: CyborgEndoskeleton
           cost: 3
           prob: 0.5

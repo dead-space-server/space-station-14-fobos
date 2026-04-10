@@ -11,7 +11,7 @@
     size: Small
   - type: Clothing
     slots: [underweart]
-  - type: Food
+  - type: Edible
     requiresSpecialDigestion: true
   - type: SolutionContainerManager
     solutions:

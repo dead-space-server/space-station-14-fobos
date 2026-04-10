@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 12/27/2025 23:01:02
-  entityCount: 745
+  time: 02/08/2026 14:09:31
+  entityCount: 746
 maps: []
 grids:
 - 1
@@ -1948,13 +1948,6 @@ entities:
         414:
         - - MedicalScannerSender
           - MedicalScannerReceiver
-- proto: ComputerComms
-  entities:
-  - uid: 208
-    components:
-    - type: Transform
-      pos: 1.5,4.5
-      parent: 1
 - proto: ComputerRadar
   entities:
   - uid: 209
@@ -2092,6 +2085,20 @@ entities:
     components:
     - type: Transform
       pos: 3.5,-10.5
+      parent: 1
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 208
+    components:
+    - type: Transform
+      pos: 1.5,4.5
+      parent: 1
+- proto: ErtSpawnPoint
+  entities:
+  - uid: 746
+    components:
+    - type: Transform
+      pos: 0.5,1.5
       parent: 1
 - proto: FireAlarm
   entities:

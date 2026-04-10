@@ -68,10 +68,12 @@
   suffix: СОБСТВЕННОСТЬ ОСО
   categories: [ DoNotMap ]
   components:
-    - type: StorageFill
-      contents:
-      - id: Paper
-        amount: 8
+    - type: EntityTableContainerFill
+      containers:
+        storagebase: !type:AllSelector
+          children:
+          - id: Paper
+            amount: 8
     - type: Sprite
       sprite: Objects/Misc/folders.rsi
       layers:

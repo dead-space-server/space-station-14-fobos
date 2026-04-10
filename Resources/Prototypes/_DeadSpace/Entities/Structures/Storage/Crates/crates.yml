@@ -61,7 +61,7 @@
 
 - type: entity
   parent: CrateBaseSecure
-  id: CrateSyndicateSecure
+  id: CrateSyndicateSecureDS
   name: защищённый ящик Синдиката
   description: Тяжёлый чёрный ящик с эмблемой Синдиката. Открывать без санкции — верный способ исчезнуть без следа.
   components:
