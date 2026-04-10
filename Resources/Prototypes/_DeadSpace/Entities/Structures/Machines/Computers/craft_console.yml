@@ -18,10 +18,6 @@
       state: generic_panel_open
   - type: ConsoleCraftConsole
   - type: ConsoleCraftBlueprintReceiver
-  - type: DeviceList
-  - type: DeviceNetwork
-    deviceNetId: Wired
-    receiveFrequencyId: ConsoleCraft
   - type: DeviceLinkSource
     range: 8
     ports:

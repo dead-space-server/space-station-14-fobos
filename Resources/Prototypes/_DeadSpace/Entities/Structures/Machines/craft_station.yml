@@ -14,9 +14,6 @@
       visible: false
       map: ["working"]
   - type: ConsoleCraftStation
-  - type: DeviceNetwork
-    deviceNetId: Wireless
-    receiveFrequencyId: ConsoleCraft
   - type: Destructible
     thresholds:
     - trigger:

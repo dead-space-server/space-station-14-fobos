@@ -25,12 +25,6 @@
       toggleable-clothing: !type:ContainerSlot {}
       storagebase: !type:Container
         ents: []
-  - type: Construction
-    graph: NIORIGCraft
-    node: start
-    defaultTarget: nio_rig
-    containers:
-    - part-container
 
 - type: entity
   parent: ClothingOuterHardsuitBase
