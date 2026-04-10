@@ -1,0 +1,53 @@
+# Закреплённые чертежи при крафте
+
+- type: consoleCraft
+  id: ResearchModifiedBackpack
+  name: Модифицированный рюкзак научного специалиста
+  item: ClothingBackpackRIGResearch
+  time: 10
+  requestItems:
+  - itemProto: MediumCoreForModifiedBackpack
+    amount: 1
+    label: Среднее ядро модифицированного рюкзака
+  minorItems:
+  - StorageModule
+  - SpeedModifierModule
+  - DelayModifierModule
+
+- type: consoleCraft
+  id: LecterCraft
+  name: Лектер
+  item: WeaponRifleLecter
+  time: 10
+  requestItems:
+  - itemProto: ScrapFirelock3
+    amount: 1
+    label: Каркас Лектера
+  - itemProto: MediumCoreForModifiedBackpack
+    amount: 1
+    label: Модуль Лектера
+  minorItems:
+  - MassSkope
+  - EnhancedCoolingModule
+  - SpeedBullet
+  - ExtendedAmmoMag
+  - OverchargeModule
+
+# Рамдомные чертежи при крафте
+# Если вы хотите чтобы был рамдомный предмет во время крафта у чертежа, ставьте не requestItems, а randomRequestItems, а после чего составляйте список.
+
+- type: consoleCraft
+  id: WeaponRifleAEKCraft
+  name: AEK
+  item: WeaponRifleAEK
+  time: 10
+  randomRequestItems:
+  - items:
+      - ScrapFirelock3
+      - MediumCoreForModifiedBackpack
+    amount: 1
+    label: "Металл (случайный)"
+  minorItems:
+  - EnhancedCoolingModule
+  - OverchargeModule
+  - MassSkope

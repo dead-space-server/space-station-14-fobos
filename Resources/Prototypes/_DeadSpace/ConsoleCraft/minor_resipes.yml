@@ -1,0 +1,86 @@
+# Обычные минор рецепты для крафтов, что повышают градус безумие
+
+- type: minorItemModule
+  id: ExtendedAmmoMag
+  moduleItem: ExtendedAmmoMagItem
+  description: Поддержка большего магазина
+  components:
+    ItemSlots:
+      slots:
+        gun_magazine:
+          name: Magazine
+          startingItem: ADTExtMagazineRifle
+          insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
+          ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
+          priority: 2
+          whitelist:
+            tags:
+              - MagazineRifle
+              - ADTExtMagazineRifle
+
+- type: minorItemModule
+  id: EnhancedCoolingModule
+  moduleItem: EnhancedCoolingModuleItem
+  description: Ускореная стрельба
+  components:
+    Gun:
+      fireRate: 8
+      fireRateModified: 8
+
+- type: minorItemModule
+  id: OverchargeModule
+  moduleItem: OverchargeModuleItem
+  description: Медленные пули
+  components:
+    Gun:
+      projectileSpeed: 10
+      projectileSpeedModified: 10
+
+- type: minorItemModule
+  id: MassSkope
+  moduleItem: MassSkopeModuleItem
+  description: Прицел с двух рук
+  components:
+    CursorOffsetRequiresWield:
+    EyeCursorOffset:
+      maxOffset: 4
+      pvsIncrease: 0.3
+
+- type: minorItemModule
+  id: SpeedBullet
+  moduleItem: SpeedBulletModuleItem
+  description: Быстрые пули
+  components:
+    Gun:
+      projectileSpeed: 60
+      projectileSpeedModified: 60
+
+- type: minorItemModule
+  id: DelayModifierModule
+  moduleItem: DelayModifierModuleItem
+  description: Быстрое разворачивание
+  components:
+    ToggleableClothing:
+      toggleDelay: 0
+
+- type: minorItemModule
+  id: StorageModule
+  moduleItem: StorageModuleItem
+  description: Больше места
+  components:
+    Storage:
+      grid:
+      - 0,0,8,5
+
+# То что затрагивает скаф ригов
+# ВОТ ТУТ ВНИМАТЕЛЬНО, вы должны вписать прототип скафа который указан в сумке что вы строите, иначе игра просто даст компачи сумке, а не перепишет компачи скафандру.
+
+- type: minorItemModule
+  id: SpeedModifierModule
+  moduleItem: SpeedModifierModuleItem
+  description: Облегчение скафандра
+  ifModSuit: ClothingOuterRIGResearch
+  components:
+    ClothingSpeedModifier:
+      walkModifier: 0.9
+      sprintModifier: 0.9

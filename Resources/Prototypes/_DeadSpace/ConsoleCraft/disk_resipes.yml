@@ -1,0 +1,37 @@
+ # Да, можно указать количество использование чертежа через maxCrafts, если использование сводится до нуля, рецепт слетает с консоли, потому нужно вставлять новый.
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGResearchInfinite
+  name: чертёж РИГа научного отдела
+  description: Schematics for a plasma rifle assembly. Unlimited production runs.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: ResearchModifiedBackpack
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintWeaponRifleAEKCraft
+  name: чертёж AEK
+  description: Schematics for a plasma rifle assembly. Unlimited production runs.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: WeaponRifleAEKCraft
+    maxCrafts: 3
+- type: entity
+  parent: BaseItem
+  id: BlueprintWeaponRifleLekterCraft
+  name: чертёж Лектера
+  description: Schematics for a plasma rifle assembly. Unlimited production runs.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: LecterCraft

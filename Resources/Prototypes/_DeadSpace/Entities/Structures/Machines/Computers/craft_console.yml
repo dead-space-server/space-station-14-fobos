@@ -1,0 +1,45 @@
+- type: entity
+  parent: BaseComputerAiAccess
+  id: CraftConsole
+  name: консоль управление станка
+  description: A console used to control the linked crafting station. Select a blueprint and coordinate assembly.
+  components:
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: rdcomp
+    - map: ["computerLayerKeys"]
+      state: rd_key
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: ConsoleCraftConsole
+  - type: ConsoleCraftBlueprintReceiver
+  - type: DeviceList
+  - type: DeviceNetwork
+    deviceNetId: Wired
+    receiveFrequencyId: ConsoleCraft
+  - type: DeviceLinkSource
+    range: 8
+    ports:
+      - ConsoleCraftSender
+  - type: ActivatableUI
+    key: enum.ConsoleCraftUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.ConsoleCraftUiKey.Key:
+        type: ConsoleCraftConsoleBui
+  - type: ApcPowerReceiver
+    powerLoad: 50
+  - type: PowerState
+    idlePowerDraw: 50
+    workingPowerDraw: 200
+  - type: Computer
+    board: CraftConsoleCircuitboard
+  - type: PointLight
+    radius: 1.5
+    energy: 3.0
+    color: "#3ca1b5"
