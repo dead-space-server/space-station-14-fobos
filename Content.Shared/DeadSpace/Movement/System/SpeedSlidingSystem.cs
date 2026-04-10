@@ -1,46 +1,34 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
-using Content.Shared.Standing;
-using Content.Shared.Stunnable;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Systems;
-using System.Numerics;
 
 namespace Content.Shared.DeadSpace.Abilities.Slide;
 
 public sealed class SpeedSlidingSystem : EntitySystem
 {
-    [Dependency] private readonly SharedStunSystem _stun = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
 
-    public override void Initialize()
+    public bool TrySlide(EntityUid uid)
     {
-        base.Initialize();
-        SubscribeLocalEvent<SpeedSlidingComponent, DownAttemptEvent>(OnDownAttempt);
-    }
+        if (!TryComp<SpeedSlidingComponent>(uid, out var slide))
+            return false;
 
-    private void OnDownAttempt(Entity<SpeedSlidingComponent> ent, ref DownAttemptEvent args)
-    {
-        if (args.Cancelled)
-            return;
-
-        if (!TryComp<PhysicsComponent>(ent.Owner, out var physics))
-            return;
+        if (!TryComp<PhysicsComponent>(uid, out var physics))
+            return false;
 
         var velocity = physics.LinearVelocity;
-        if (velocity.Length() < ent.Comp.MinSlideSpeed)
-            return;
+        var speed = velocity.Length();
+        if (speed < slide.MinSlideSpeed)
+            return false;
 
-        _stun.TryKnockdown(ent.Owner, TimeSpan.FromSeconds(1.2f), false, false, true);
+        var direction = velocity / speed;
+        var slideVelocity = direction * (speed + slide.SlideSpeed);
 
-        var direction = velocity.Normalized();
-        var impulseMagnitude = ent.Comp.SlideSpeed * ent.Comp.SlideDistance * physics.Mass;
-        var impulse = direction * impulseMagnitude;
+        _physics.SetLinearVelocity(uid, slideVelocity);
 
-        _physics.SetLinearVelocity(ent.Owner, Vector2.Zero);
-        _physics.ApplyLinearImpulse(ent.Owner, impulse);
-
-        _audio.PlayPredicted(ent.Comp.SlideSound, ent.Owner, ent.Owner);
+        _audio.PlayPredicted(slide.SlideSound, uid, uid);
+        return true;
     }
 }

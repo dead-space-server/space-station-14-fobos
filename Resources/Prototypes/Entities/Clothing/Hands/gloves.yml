@@ -275,7 +275,13 @@
     - state: icon
       map: [ "enum.ToggleableVisuals.Layer" ]
   - type: Clothing
-    sprite: Clothing/Hands/Gloves/spaceninja.rsi
+#DS14-start
+    clothingVisuals:
+      gloves:
+      - state: green-equipped-HAND
+      - state: green-equipped-HAND-unshaded
+        shader: unshaded
+#DS14-end
   - type: Appearance
   - type: GenericVisualizer
     visuals:

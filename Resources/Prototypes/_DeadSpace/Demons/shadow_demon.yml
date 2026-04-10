@@ -57,9 +57,9 @@
   - type: Eye
     visMask:
       - Normal
-      - Ghost
+      - Astral
   - type: Visibility
-    layer: 2
+    layer: 16
   - type: ContentEye
     maxZoom: 1.2, 1.2
   - type: Speech
