@@ -129,12 +129,14 @@
   components:
   - type: EntityTableContainerFill
     containers:
-      entity_storage: !type:AllSelector
-        children:
-        - !type:NestedSelector
-          tableId: FillLockerAtmospherics
-        - !type:NestedSelector
-          tableId: FillAtmosphericsHardsuit
+        entity_storage: !type:NestedSelector # DS14
+          tableId: FillAtmosphericsHardsuit # DS14
+#      entity_storage: !type:AllSelector
+#        children:
+#        - !type:NestedSelector
+#          tableId: FillLockerAtmospherics
+#        - !type:NestedSelector
+#          tableId: FillAtmosphericsHardsuit
 
 - type: entity
   id: LockerAtmosphericsFilled
@@ -160,9 +162,7 @@
     - id: RCDAmmo
     - id: AirGrenade
     - id: ClothingOuterCoatAtmosWorking # DS14
-      prob: 0.75
-    - id: PlushieLizardJobAtmospherictechnician
-      prob: 0.02
+    prob: 1 # DS14
 
 - type: entityTable
   id: FillAtmosphericsHardsuit
@@ -206,10 +206,6 @@
     - id: RCD
     - id: RCDAmmo
     - id: MetalFoamGrenade
-    - id: PlushieLizardJobTechnicalassistant
-      prob: 0.02
-    - id: PlushieLizardJobStationengineer
-      prob: 0.02
 
 - type: entityTable
   id: FillEngineerHardsuit
@@ -235,11 +231,11 @@
   table: !type:AllSelector
     children:
     - id: ClothingOuterSuitRad
-      amount: 2
+      amount: !type:ConstantNumberSelector
+        value: 2
     - id: GeigerCounter
-      amount: 2
-    - id: PillCanisterPotassiumIodide
-      prob: 0.75
+      amount: !type:ConstantNumberSelector
+        value: 2
 
 - type: entity
   parent: LockerEvacRepair
