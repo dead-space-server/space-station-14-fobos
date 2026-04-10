@@ -55,7 +55,6 @@ public sealed partial class ConsoleCraftConsoleComponent : Component
 
     public bool ShowingList = true;
 
-    // recipeId -> groupIndex -> выбранный proto ID, сохраняется навсегда пока чертёж в консоли
     public Dictionary<string, Dictionary<int, string>> SavedRandomChoices { get; set; } = new();
 }
 
