@@ -55,3 +55,8 @@
   - type: EmptyOnMachineDeconstruct
     containers:
     - consolecraft_items
+  - type: ContainerContainer
+    containers:
+      machine_board: !type:Container {}
+      machine_parts: !type:Container {}
+      consolecraft_items: !type:Container {}
