@@ -125,6 +125,7 @@ namespace Content.Server.Ghost
             if (ent.Comp.LifeStage <= ComponentLifeStage.Running)
             {
                 args.VisibilityMask |= (int)VisibilityFlags.Ghost;
+                args.VisibilityMask |= (int)VisibilityFlags.Astral; //DS14 Пусть призраки видят астральные сущности, ибо иначе не получится следить за геймплеем того же ревенанта.
             }
         }
 

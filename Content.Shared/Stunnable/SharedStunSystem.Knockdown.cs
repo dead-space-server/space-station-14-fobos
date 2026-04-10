@@ -4,6 +4,7 @@ using Content.Shared.CCVar;
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Database;
+using Content.Shared.DeadSpace.Abilities.Slide;
 using Content.Shared.DoAfter;
 using Content.Shared.Gravity;
 using Content.Shared.Hands;
@@ -37,6 +38,7 @@ public abstract partial class SharedStunSystem
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly StandingStateSystem _standingState = default!;
     [Dependency] private readonly IConfigurationManager _cfgManager = default!;
+    [Dependency] private readonly SpeedSlidingSystem _speedSliding = default!; // DS14
 
     public static readonly ProtoId<AlertPrototype> KnockdownAlert = "Knockdown";
 
@@ -264,7 +266,8 @@ public abstract partial class SharedStunSystem
 
         if (!Resolve(entity, ref entity.Comp2, false))
         {
-            TryKnockdown(entity.Owner, entity.Comp1.DefaultKnockedDuration, true, false, false);
+            if (TryKnockdown(entity.Owner, entity.Comp1.DefaultKnockedDuration, true, false, false))
+                _speedSliding.TrySlide(entity.Owner);
             return;
         }
 
