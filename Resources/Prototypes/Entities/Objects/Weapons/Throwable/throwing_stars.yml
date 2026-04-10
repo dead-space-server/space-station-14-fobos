@@ -51,3 +51,11 @@
   # also limits the crew's use
   - type: TimedDespawn
     lifetime: 30
+#DS14-start
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Throwable/ninja_kunay.rsi
+    layers:
+    - state: icon
+      map: ["base"]
+#DS14-end
+  - type: Appearance
