@@ -185,7 +185,7 @@ public sealed class MindSystem : SharedMindSystem
             component = EnsureComp<MindContainerComponent>(entity.Value);
 
             if (component.HasMind)
-                _ghosts.OnGhostAttempt(component.Mind.Value, false);
+                _ghosts.OnGhostAttempt(component.Mind!.Value, false);
 
             if (TryComp<ActorComponent>(entity.Value, out var actor))
             {
@@ -225,12 +225,18 @@ public sealed class MindSystem : SharedMindSystem
                 _pvsOverride.RemoveSessionOverride(oldEntity.Value, oldSession);
             }
 
-            oldContainer.Mind = null;
-            mind.OwnedEntity = null;
             Entity<MindComponent> mindEnt = (mindId, mind);
             Entity<MindContainerComponent> containerEnt = (oldEntity.Value, oldContainer);
-            RaiseLocalEvent(oldEntity.Value, new MindRemovedMessage(mindEnt, containerEnt));
-            RaiseLocalEvent(mindId, new MindGotRemovedEvent(mindEnt, containerEnt));
+
+            RaiseLocalEvent(oldEntity.Value, new BeforeMindRemovedMessage(mindEnt, containerEnt, entity));
+            RaiseLocalEvent(mindId, new BeforeMindGotRemovedEvent(mindEnt, containerEnt, entity));
+
+            oldContainer.Mind = null;
+            oldContainer.HasMind = false;
+            mind.OwnedEntity = null;
+
+            RaiseLocalEvent(oldEntity.Value, new MindRemovedMessage(mindEnt, containerEnt, entity));
+            RaiseLocalEvent(mindId, new MindGotRemovedEvent(mindEnt, containerEnt, entity));
             Dirty(oldEntity.Value, oldContainer);
         }
 
@@ -254,20 +260,26 @@ public sealed class MindSystem : SharedMindSystem
         if (mind.UserId != null && _players.TryGetSessionById(mind.UserId.Value, out var userSession)
                                 && !alreadyAttached && mind.VisitingEntity == null)
         {
-            _players.SetAttachedEntity(userSession, entity, true);
-            DebugTools.Assert(userSession.AttachedEntity == entity, "Failed to attach entity.");
-            Log.Info($"Session {userSession.Name} transferred to entity {entity}.");
+            if (!_players.SetAttachedEntity(userSession, entity, true))
+            {
+                Log.Warning($"Failed to attach session {userSession.Name} to entity {entity}.");
+            }
+            else
+            {
+                Log.Info($"Session {userSession.Name} transferred to entity {entity}.");
+            }
         }
 
         if (entity != null)
         {
             component!.Mind = mindId;
+            component.HasMind = true;
             mind.OwnedEntity = entity;
             mind.OriginalOwnedEntity ??= GetNetEntity(mind.OwnedEntity);
             Entity<MindComponent> mindEnt = (mindId, mind);
             Entity<MindContainerComponent> containerEnt = (entity.Value, component);
-            RaiseLocalEvent(entity.Value, new MindAddedMessage(mindEnt, containerEnt));
-            RaiseLocalEvent(mindId, new MindGotAddedEvent(mindEnt, containerEnt));
+            RaiseLocalEvent(entity.Value, new MindAddedMessage(mindEnt, containerEnt, oldEntity));
+            RaiseLocalEvent(mindId, new MindGotAddedEvent(mindEnt, containerEnt, oldEntity));
             Dirty(entity.Value, component);
 
             // DS14 Add PVS override for new entity so player always sees their controlled entity

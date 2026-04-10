@@ -15,7 +15,6 @@ public sealed partial class DiscordAuthGui : Control
 {
     [Dependency] private readonly DiscordAuthManager _discordAuthManager = default!;
     [Dependency] private readonly IClientConsoleHost _consoleHost = default!;
-    [Dependency] private readonly INetManager _netManager = default!;
 
     private readonly IClipboardManager _clipboard;
     public DiscordAuthGui(IClipboardManager clipboard)

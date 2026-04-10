@@ -88,7 +88,7 @@
   - type: Gun
     #minAngle: 2
     #maxAngle: 8
-    fireRate: 6.5
+    fireRate: 6
     #angleIncrease: 1
     #angleDecay: 12
     selectedMode: FullAuto

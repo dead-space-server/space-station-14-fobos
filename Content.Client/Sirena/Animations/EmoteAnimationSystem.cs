@@ -11,12 +11,12 @@ using System.ComponentModel;
 
 namespace Content.Client.Sirena.Animations;
 
-public class EmoteAnimationSystem : SharedEmoteAnimationSystem
+public sealed class EmoteAnimationSystem : SharedEmoteAnimationSystem
 {
     [Dependency] private readonly AnimationPlayerSystem AnimationSystem = default!;
-    [Dependency] private readonly EntityManager _entityManager = default!;
     public override void Initialize()
     {
+        base.Initialize();
         SubscribeLocalEvent<EmoteAnimationComponent, ComponentHandleState>(OnHandleState);
     }
 

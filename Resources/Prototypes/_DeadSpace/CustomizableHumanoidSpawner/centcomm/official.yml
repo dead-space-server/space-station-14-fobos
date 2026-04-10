@@ -59,7 +59,7 @@
     outerClothing: ClothingOuterArmorCentcommCarapace
     shoes: ClothingShoesBootsLaceup
     mask: ClothingMaskGasCentcom
-    id: CentcomAdministratorPDA
+    id: CentcomOfficialPDA
   storage:
     back:
     - PhoneInstrument

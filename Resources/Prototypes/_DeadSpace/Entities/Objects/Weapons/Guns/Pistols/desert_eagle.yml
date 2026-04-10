@@ -11,7 +11,7 @@
     whitelist:
       tags:
         - CartridgeMagnum
-    capacity: 8
+    capacity: 10
   - type: Item
     size: Small
   - type: ContainerContainer
@@ -130,7 +130,7 @@
   - type: Clothing
     sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/deserteagle.rsi
   - type: Gun
-    fireRate: 2
+    fireRate: 1.5
     availableModes:
     - SemiAuto
     soundGunshot:

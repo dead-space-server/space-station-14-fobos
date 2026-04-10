@@ -28,11 +28,11 @@
     slots:
       gun_magazine:
         name: Magazine
-        startingItem: MagazineCaselessRifle
+        startingItem: MagazinePistolCaselessRifle
         priority: 2
         whitelist:
           tags:
-          - MagazineCaselessRifle
+          - MagazinePistolCaselessRifle
       gun_chamber:
         name: Chamber
         startingItem: CartridgeCaselessRifle

@@ -9,6 +9,8 @@ using Content.Shared.Construction.Prototypes;
 using Content.Server.Construction.Components;
 using Content.Shared.EntityEffects.Effects;
 
+#pragma warning disable RA0026
+
 namespace Content.Server.GuideGenerator;
 
 public sealed class MealsRecipesJsonGenerator
@@ -64,7 +66,7 @@ public sealed class MealsRecipesJsonGenerator
         {
             if (ent.Components.TryGetComponent("Construction", out var constructionCompRaw))
             {
-                var constructionComp = (ConstructionComponent) constructionCompRaw;
+                var constructionComp = (ConstructionComponent)constructionCompRaw;
                 entityGraphs[ent.ID] = constructionComp.Graph;
             }
         }
@@ -94,13 +96,13 @@ public sealed class MealsRecipesJsonGenerator
 
 
         var mixableRecipes = new Dictionary<string, Dictionary<string, string>>(); // this is a list because we have https://station14.ru/wiki/Модуль:Chemistry_Lookup that already has everything we need and does everything for us.
-
+/*
         foreach (var react in reactionPrototypes)
         {
             foreach (var effect in react.Effects)
                 if (effect.GetType().Equals(typeof(CreateEntityReactionEffect)))
                 {
-                    var trueEffect = (CreateEntityReactionEffect) effect;
+                    var trueEffect = (CreateEntityReactionEffect)effect;
                     if (Regex.Match(trueEffect.Entity.ToLower().Trim(), @".*[Ff]ood*").Success) if (!mixableRecipes.ContainsKey(react.Id))
                         {
                             mixableRecipes[react.Id] = new Dictionary<string, string>();
@@ -108,7 +110,7 @@ public sealed class MealsRecipesJsonGenerator
                             mixableRecipes[react.Id]["type"] = "mixableRecipes";
                         }
                 }
-        }
+        }*/
         // reaction-related items end
 
         output["microwaveRecipes"] = microwaveRecipes;

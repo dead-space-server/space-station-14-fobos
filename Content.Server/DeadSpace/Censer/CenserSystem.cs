@@ -7,6 +7,7 @@ using Content.Shared.DeadSpace.Censer;
 using Content.Server.Bible.Components;
 using Content.Server.Popups;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Content.Shared.IdentityManagement;
 using Robust.Shared.Player;
 using Content.Shared.Popups;
@@ -52,7 +53,7 @@ public sealed class CenserSystem : EntitySystem
 
         var damage = _damageableSystem.TryChangeDamage(args.Target!.Value, ent.Comp.Damage, true, origin: ent);
 
-        if (damage == null || damage.Empty)
+        if (damage)
         {
             var othersMessage = Loc.GetString("censer-heal-success-none-others", ("user", Identity.Entity(args.User, EntityManager)), ("target", Identity.Entity(args.Target.Value, EntityManager)));
             _popupSystem.PopupEntity(othersMessage, args.User, Filter.PvsExcept(args.User), true, PopupType.Medium);
