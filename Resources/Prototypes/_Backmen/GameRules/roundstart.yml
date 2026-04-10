@@ -27,6 +27,7 @@
         color: Plum
       mindRoles:
       - MindRoleBlob
+      sponsorsPriority: true
 
 - type: entity
   id: Blob

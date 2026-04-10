@@ -27,6 +27,7 @@
     tags: [] # ignore "WhitelistChameleon" tag
   - type: ExplosionResistance # DS14
     damageCoefficient: 0.1
+  - type: Unremoveable #DS14-Won't let you take it off, it`s working.
 
 - type: entity
   parent: ClothingBackpack

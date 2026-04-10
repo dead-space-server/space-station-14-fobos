@@ -5,6 +5,7 @@ using Content.Shared.DeadSpace.Virus.Components;
 using Content.Server.Popups;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
+using Content.Shared.Damage.Systems;
 using Content.Shared.DeadSpace.TimeWindow;
 using Content.Shared.Popups;
 using Robust.Shared.Prototypes;

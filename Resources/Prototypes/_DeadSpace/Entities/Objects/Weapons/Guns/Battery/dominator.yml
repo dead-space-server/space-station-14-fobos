@@ -26,7 +26,7 @@
       path: /Audio/_DeadSpace/Weapons/Guns/Gunshots/dominator.ogg
       params:
         volume: -2
-  - type: ProjectileBatteryAmmoProvider
+  - type: BatteryAmmoProvider
     proto: BulletDisabler
     fireCost: 50
   - type: Dominator

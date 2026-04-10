@@ -20,7 +20,6 @@ namespace Content.Server.DeadSpace.Renegade;
 public sealed class RenegadeRule : StationEventSystem<Renegade.Components.RenegadeRuleComponent>
 {
     [Dependency] private readonly AntagSelectionSystem _antag = default!;
-    [Dependency] private readonly IEntityManager _entMan = default!;
     [Dependency] private readonly MindSystem _mindSystem = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly StationSystem _stationSystem = default!;

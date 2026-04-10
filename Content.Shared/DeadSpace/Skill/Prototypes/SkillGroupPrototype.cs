@@ -4,7 +4,7 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Shared.DeadSpace.Skills.Prototypes;
 
-[Prototype("skillGroup")]
+[Prototype]
 public sealed partial class SkillGroupPrototype : IPrototype
 {
     [IdDataField]

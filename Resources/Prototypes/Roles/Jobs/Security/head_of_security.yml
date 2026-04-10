@@ -27,10 +27,11 @@
   - Brigmedic # DS14
   - Armory
   - Maintenance
-  - Service
   - External
   - Detective
   - Cryogenics
+  - GenpopEnter
+  - GenpopLeave
   #start-backmen: currency
   minBankBalance: 400
   maxBankBalance: 600

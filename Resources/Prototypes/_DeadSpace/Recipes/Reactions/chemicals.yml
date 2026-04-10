@@ -30,7 +30,7 @@
     Fluorine: 1
     Sulfur: 1
   effects:
-    - !type:CreateEntityReactionEffect
+    - !type:SpawnEntity
       entity: SheetUranium1
 
 - type: reaction

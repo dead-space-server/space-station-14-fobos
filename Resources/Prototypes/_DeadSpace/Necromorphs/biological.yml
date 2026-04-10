@@ -16,6 +16,6 @@
       - !type:SatiateThirst
         factor: 1.5
         conditions:
-          - !type:OrganType
-            type: Human
-            shouldHave: false
+          - !type:MetabolizerTypeCondition
+            type: [ Human ]
+            inverted: true
