@@ -275,9 +275,6 @@
             "name": "Zookeeper"
         },
         {
-            "name": "ERTLeader"
-        },
-        {
             "name": "Zombie"
         }
     ]
