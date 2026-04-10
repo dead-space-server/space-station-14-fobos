@@ -7,11 +7,13 @@ using Content.Shared.DeadSpace.Renegade.Components;
 using Content.Shared.Inventory.Events;
 using Robust.Server.Audio;
 using Robust.Server.GameObjects;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Renegade;
 
 public sealed class RenegadeEswordSystem : EntitySystem
 {
+    private static readonly EntProtoId RecallRenegadeEswordAction = "ActionRecallRenegadeEsword";
     [Dependency] private readonly HandsSystem _hands = default!;
     [Dependency] private readonly TransformSystem _transform = default!;
     [Dependency] private readonly PopupSystem _popup = default!;
@@ -39,7 +41,7 @@ public sealed class RenegadeEswordSystem : EntitySystem
     private void BindEsword(EntityUid uid, RenegadeEswordComponent comp)
     {
         comp.IsConnected = true;
-        _actions.AddAction(uid, "ActionRecallRenegadeEsword");
+        _actions.AddAction(uid, RecallRenegadeEswordAction);
     //    _actions.AddAction(uid, "ActionRenegadeEswordTeleport");
     }
 

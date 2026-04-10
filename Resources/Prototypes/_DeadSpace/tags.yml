@@ -5,6 +5,9 @@
   id: AmbrosiaDeus
 
 - type: Tag
+  id: AnimateSpellBlacklist
+
+- type: Tag
   id: BatteryWeaponFireModesSprites
 
 - type: Tag
@@ -312,6 +315,9 @@
 
 - type: Tag
   id: TaipanRole
+
+- type: Tag
+  id: TapeRecorderCoin
 
 - type: Tag
   id: Titanium

@@ -27,7 +27,7 @@
       path: /Audio/_DeadSpace/Weapons/Guns/Gunshots/multishot.ogg
       params:
         volume: -2
-  - type: ProjectileBatteryAmmoProvider
+  - type: BatteryAmmoProvider
     proto: BulletDisablerShotgun
     fireCost: 50
   - type: BatteryWeaponFireModes

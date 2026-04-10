@@ -17,6 +17,10 @@
   path: /Maps/Shuttles/ERT/amber.yml
 
 - type: ertShuttle
+  id: RedShuttle
+  path: /Maps/Shuttles/ERT/red.yml
+
+- type: ertShuttle
   id: GammaShuttle
   path: /Maps/Shuttles/ERT/gamma.yml
 

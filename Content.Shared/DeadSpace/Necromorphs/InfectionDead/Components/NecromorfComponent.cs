@@ -1,6 +1,7 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Content.Shared.Chat.Prototypes;
+using Content.Shared.Chemistry.Components;
 using Content.Shared.Chemistry.Reagent;
 using Content.Shared.Damage;
 using Content.Shared.Humanoid;
@@ -103,16 +104,16 @@ public sealed partial class NecromorfComponent : Component
     public SoundSpecifier BiteSound = new SoundPathSpecifier("/Audio/Weapons/bladeslice.ogg");
 
     /// <summary>
-    /// The blood reagent of the humanoid to restore in case of cloning
+    /// The blood reagents of the humanoid to restore in case of cloning
     /// </summary>
     [DataField]
-    public string BeforeNecroficationBloodReagent = string.Empty;
+    public Solution BeforeNecroficationBloodReagents = new();
 
     /// <summary>
-    /// The blood reagent to give the Necromorf. In case you want Necromorfs that bleed milk, or something.
+    /// The blood reagents to give the Necromorf. In case you want Necromorfs that bleed milk, or something.
     /// </summary>
     [DataField]
-    public ProtoId<ReagentPrototype> NewBloodReagent = "NecromorfBlood";
+    public Solution NewBloodReagents = new([new("NecromorfBlood", 1)]);
 
     [DataField("useInventory")]
     public bool IsCanUseInventory = true;

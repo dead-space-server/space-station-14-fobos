@@ -19,7 +19,6 @@
   roles:
   - Bartender
   - Botanist
-  - Boxer
   - Chaplain
   - Chef
   - Clown
@@ -31,7 +30,6 @@
   - Passenger
   - Reporter
   - Visitor
-  - Zookeeper
   - ServiceWorker
   - ClownSponsor
   - SeniorAdministrator
@@ -146,9 +144,7 @@
   color: "#6ca729"
   weight: 10
   roles:
-  - Boxer
   - Reporter
-  - Zookeeper
   - Psychologist
   primary: false
   accountNumber: 1322  #backmen: currency

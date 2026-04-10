@@ -15,6 +15,7 @@
         <Button Access="Public" Name="DiscordButton" Text="{Loc 'ui-escape-discord'}" />
         <Button Access="Public" Name="PatrionButton" Text="{Loc 'ui-escape-patrion'}" />
         <changelog:ChangelogButton Access="Public" Name="ChangelogButton" />
+        <Button Access="Public" Name="FeedbackButton" Text="{Loc 'ui-escape-feedback'}"/>
         <PanelContainer StyleClasses="LowDivider" Margin="0 2.5 0 2.5" />
         <Button Access="Public" Name="OptionsButton" Text="{Loc 'ui-escape-options'}" />
         <PanelContainer StyleClasses="LowDivider" Margin="0 2.5 0 2.5" />

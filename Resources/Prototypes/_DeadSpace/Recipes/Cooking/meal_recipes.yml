@@ -280,15 +280,15 @@
     FoodCakePlain: 1
     FoodSakuraFlower: 3
 
-- type: microwaveMealRecipe
-  id: RecipeFoodNuclearNachosBowl
-  name: nuclear nachos bowl recipe
-  result: FoodNuclearNachosBowl
-  time: 10
-  group: Savory
-  solids:
-    FoodSnackNanonachos: 1
-    SheetUranium1: 1
+# - type: microwaveMealRecipe
+#   id: RecipeFoodNuclearNachosBowl
+#   name: nuclear nachos bowl recipe
+#   result: FoodNuclearNachosBowl
+#   time: 10
+#   group: Savory
+#   solids:
+#     FoodSnackNanonachos: 1
+#     SheetUranium1: 1
 
 - type: microwaveMealRecipe
   id: RecipeFoodNachosBowl
@@ -314,3 +314,14 @@
     FoodSnackNanonachos: 1
     FoodTomato: 1
     FoodCabbage: 1
+
+- type: microwaveMealRecipe
+  id: RecipeFoodBeshbarmak
+  name: beshbarmak recipe
+  result: FoodBeshbarmak
+  time: 10
+  group: Savory
+  solids:
+    FoodOnionSlice: 5
+    FoodMeat: 1
+    FoodDough: 1
