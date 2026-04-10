@@ -34,9 +34,6 @@
         type: ConsoleCraftConsoleBui
   - type: ApcPowerReceiver
     powerLoad: 50
-  - type: PowerState
-    idlePowerDraw: 50
-    workingPowerDraw: 200
   - type: Computer
     board: CraftConsoleCircuitboard
   - type: PointLight
