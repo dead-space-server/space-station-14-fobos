@@ -5,7 +5,7 @@
         "y": 32
     },
     "license": "CC-BY-SA-3.0",
-    "copyright": "art by RED idea and code by nope_ingeneer",
+    "copyright": "art by RED idea and code by nope_ingeneer, resprite by sastr. (discord) for Space Station 14 server Мёртвый Космос",
     "states": [
         {
             "name": "base"
@@ -21,6 +21,9 @@
         },
         {
             "name": "mag-1"
-        }
+        },
+    {
+      "name": "incendiary"
+    }
     ]
 }
