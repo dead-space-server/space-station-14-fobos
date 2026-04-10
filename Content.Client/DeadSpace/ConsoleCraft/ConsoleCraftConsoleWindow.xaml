@@ -9,7 +9,6 @@
 
     <BoxContainer Name="RootContainer" Orientation="Vertical" Margin="8" SeparationOverride="6">
 
-        <!-- ══ СПИСОК ЧЕРТЕЖЕЙ ══ -->
         <BoxContainer Name="ListPanel" Orientation="Vertical" VerticalExpand="True" SeparationOverride="6">
 
             <Label Text="{Loc consolecraft-select-blueprint}"
@@ -33,14 +32,11 @@
 
         </BoxContainer>
 
-        <!-- ══ ДЕТАЛЬНЫЙ ВИД ══ -->
         <BoxContainer Name="DetailPanel" Orientation="Horizontal"
                       VerticalExpand="True" SeparationOverride="8">
 
-            <!-- ── ЛЕВАЯ КОЛОНКА ── -->
             <BoxContainer Orientation="Vertical" MinWidth="230" SeparationOverride="6">
 
-                <!-- Превью предмета -->
                 <PanelContainer>
                     <PanelContainer.PanelOverride>
                         <gfx:StyleBoxFlat BackgroundColor="#0d0d0dFF"
@@ -63,7 +59,6 @@
                     </BoxContainer>
                 </PanelContainer>
 
-                <!-- Модули -->
                 <BoxContainer Orientation="Vertical" VerticalExpand="True" SeparationOverride="2">
                     <Label Text="{Loc consolecraft-modules-label}"
                            StyleClasses="LabelSubText"
@@ -74,13 +69,6 @@
                                               BorderColor="#555555FF"
                                               BorderThickness="1" />
                         </PanelContainer.PanelOverride>
-                        <!--
-                            Убран MaxHeight="90" — теперь панель растёт вместе с окном.
-                            HScrollEnabled="False" — горизонтальный скролл не нужен.
-                            Вертикальная полоса прокрутки появляется автоматически только
-                            когда контент не помещается, и скрывается когда помещается.
-                            Name="ModulesScroll" — нужен для сброса позиции из кода.
-                        -->
                         <ScrollContainer Name="ModulesScroll"
                                          VerticalExpand="True"
                                          HScrollEnabled="True"
@@ -93,7 +81,6 @@
                     </PanelContainer>
                 </BoxContainer>
 
-                <!-- Статус -->
                 <PanelContainer>
                     <PanelContainer.PanelOverride>
                         <gfx:StyleBoxFlat BackgroundColor="#0d0d0dFF"
@@ -108,10 +95,8 @@
 
             </BoxContainer>
 
-            <!-- ── ПРАВАЯ КОЛОНКА ── -->
             <BoxContainer Orientation="Vertical" HorizontalExpand="True" SeparationOverride="6">
 
-                <!-- Необходимые материалы -->
                 <BoxContainer Orientation="Vertical" VerticalExpand="True" SeparationOverride="2">
                     <Label Text="{Loc consolecraft-required-label}"
                            StyleClasses="LabelBig"
@@ -131,7 +116,6 @@
                     </PanelContainer>
                 </BoxContainer>
 
-                <!-- Кнопки -->
                 <BoxContainer Orientation="Vertical" SeparationOverride="4">
                     <Button Name="CraftButton"
                             Text="{Loc consolecraft-craft-button}"
@@ -145,7 +129,6 @@
 
         </BoxContainer>
 
-        <!-- Предупреждение -->
         <Label Name="NoStationLabel"
                Text="{Loc consolecraft-no-station-warning}"
                StyleClasses="LabelSubText"
