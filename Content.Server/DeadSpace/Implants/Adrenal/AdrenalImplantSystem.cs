@@ -24,7 +24,7 @@ public sealed class AdrenalImplantSystem : EntitySystem
 
         var reagents = new List<(string, FixedPoint2)>()
         {
-            ("Stimulants", 50f)
+            ("Stimulants", 44.9f)
         };
 
         if (TryInjectReagents(target, reagents))
