@@ -143,6 +143,7 @@
 - type: entity
   id: InjectorCaseFilled
   parent: InjectorCase
+  suffix: Заполненная
   components:
   - type: StorageFill
     contents:
@@ -159,6 +160,7 @@
 - type: entity
   id: InjectorCaseStimFilled
   parent: InjectorCaseStim
+  suffix: Заполненная
   components:
   - type: StorageFill
     contents:
