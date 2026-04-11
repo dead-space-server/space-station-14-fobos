@@ -27,6 +27,10 @@
         Cold: 0.1
         Shock: 0.1
         Radiation: 0.1
+        Poison: 0.55 # DS14
+        Stun: 0.4 # DS14
+  - type: StaminaResistance # DS14
+    damageCoefficient: 0.4
   - type: ExplosionResistance
     damageCoefficient: 0.7
   - type: ToggleableClothing

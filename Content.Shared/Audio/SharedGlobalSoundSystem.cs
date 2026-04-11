@@ -41,6 +41,17 @@ public sealed class GameGlobalSoundEvent : GlobalSoundEvent
     public GameGlobalSoundEvent(ResolvedSoundSpecifier specifier, AudioParams? audioParams = null) : base(specifier, audioParams){}
 }
 
+// DS14-start
+/// <summary>
+/// Intended for alert level sounds. Volume is adjusted client-side by a dedicated cvar.
+/// </summary>
+[Serializable, NetSerializable]
+public sealed class AlertLevelSoundEvent : GlobalSoundEvent
+{
+    public AlertLevelSoundEvent(ResolvedSoundSpecifier specifier, AudioParams? audioParams = null) : base(specifier, audioParams){}
+}
+// DS14-end
+
 public enum StationEventMusicType : byte
 {
     Nuke,

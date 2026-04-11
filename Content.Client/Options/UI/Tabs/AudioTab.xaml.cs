@@ -55,6 +55,13 @@ public sealed partial class AudioTab : Control
             SliderVolumeInterface,
             scale: ContentAudioSystem.InterfaceMultiplier);
 
+        // DS14-start
+        Control.AddOptionPercentSlider(
+            CCCCVars.AlertLevelVolume,
+            SliderVolumeAlertLevel,
+            scale: 1f);
+        // DS14-end
+
         Control.AddOptionSlider(
             CCVars.MaxAmbientSources,
             SliderMaxAmbienceSounds,

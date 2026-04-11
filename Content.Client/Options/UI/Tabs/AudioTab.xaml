@@ -13,7 +13,8 @@
                 <ui:OptionSlider Name="SliderVolumeAmbience" Title="{Loc 'ui-options-ambience-volume'}" />
                 <ui:OptionSlider Name="SliderVolumeLobby" Title="{Loc 'ui-options-lobby-volume'}" />
                 <ui:OptionSlider Name="SliderVolumeInterface" Title="{Loc 'ui-options-interface-volume'}" />
-                <ui:OptionSlider Name="SliderMaxAmbienceSounds" Title="{Loc 'ui-options-ambience-max-sounds'}" 
+                <ui:OptionSlider Name="SliderVolumeAlertLevel" Title="{Loc 'ui-options-alert-level-volume'}" /> <!-- DS14 -->
+                <ui:OptionSlider Name="SliderMaxAmbienceSounds" Title="{Loc 'ui-options-ambience-max-sounds'}"
                                  Margin="0 0 0 8" />
                 <ui:OptionSlider Name="SliderVolumeTts" Title="{Loc 'ui-options-tts-volume'}"/>
                 <ui:OptionSlider Name="SliderVolumeTtsRadio" Title="{Loc 'ui-options-tts-radio-volume'}"

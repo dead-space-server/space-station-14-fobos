@@ -273,7 +273,7 @@
   - delta
   - epsilon
   - gamma
-  special: RandomHumanoidSpawnerCentralCommandOfficial
+  special: CustomizableSpawnerCentralCommandOfficial
   spawns:
     - id: CustomizableSpawnerCentralCommandBlueShieldOfficer
       amount: 3

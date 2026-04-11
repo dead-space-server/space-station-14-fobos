@@ -507,14 +507,6 @@
 
 - type: jobIcon
   parent: JobIcon
-  id: JobIconERTEngineer
-  icon:
-    sprite: *icon-rsi
-    state: ERTEngineer
-  jobName: job-name-ertengineer
-
-- type: jobIcon
-  parent: JobIcon
   id: JobIconERTSecurity
   icon:
     sprite: *icon-rsi
@@ -528,14 +520,6 @@
     sprite: *icon-rsi
     state: ERTMedical
   jobName: job-name-ertmedic
-
-- type: jobIcon
-  parent: JobIcon
-  id: JobIconERTJanitor
-  icon:
-    sprite: *icon-rsi
-    state: ERTJanitor
-  jobName: job-name-ertjanitor
 
 - type: jobIcon
   parent: JobIcon

@@ -25,6 +25,19 @@ public sealed class ServerGlobalSoundSystem : SharedGlobalSoundSystem
         RaiseNetworkEvent(msg, playerFilter, recordReplay: replay);
     }
 
+    // DS14-start
+    public void PlayAlertLevelGlobal(Filter playerFilter, SoundSpecifier sound, AudioParams? audioParams = null, bool replay = true)
+    {
+        PlayAlertLevelGlobal(playerFilter, _audio.ResolveSound(sound), audioParams ?? sound.Params, replay);
+    }
+
+    public void PlayAlertLevelGlobal(Filter playerFilter, ResolvedSoundSpecifier specifier, AudioParams? audioParams = null, bool replay = true)
+    {
+        var msg = new AlertLevelSoundEvent(specifier, audioParams);
+        RaiseNetworkEvent(msg, playerFilter, recordReplay: replay);
+    }
+    // DS14-end
+
     private Filter GetStationAndPvs(EntityUid source)
     {
         var stationFilter = _stationSystem.GetInOwningStation(source);

@@ -1,32 +1,33 @@
-﻿#ERT
+﻿# Special Operations Corps laws
 - type: siliconLaw
-  id: ERT0
-  order: 0
-  lawString: law-ert-0
-
-- type: siliconLaw
-  id: ERT1
+  id: SOC1
   order: 1
-  lawString: law-ert-1
+  lawString: law-SOC-1
 
 - type: siliconLaw
-  id: ERT2
+  id: SOC2
   order: 2
-  lawString: law-ert-2
+  lawString: law-SOC-2
 
 - type: siliconLaw
-  id: ERT3
+  id: SOC3
   order: 3
-  lawString: law-ert-3
+  lawString: law-SOC-3
+
+- type: siliconLaw
+  id: SOC4
+  order: 4
+  lawString: law-SOC-4
 
 - type: siliconLawset
-  id: ERT
+  id: SpecialOperationsCorpsLawset
   laws:
-  - ERT0
-  - ERT1
-  - ERT2
-  - ERT3
-  obeysTo: laws-owner-beings
+  - SOC1
+  - SOC2
+  - SOC3
+  - SOC4
+  obeysTo: laws-owner-soc
+
 
 #Servant
 - type: siliconLaw

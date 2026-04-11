@@ -287,12 +287,22 @@
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
-    - state: stripe
-      color: "#cc4502"
+    - state: practice
   - type: MagazineVisuals
     magState: mag
-    steps: 2
+    steps: 5
     zeroVisible: false
+  - type: Appearance
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#76270d"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#76270d"
 
 # Арес
 
