@@ -267,7 +267,7 @@
     sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/rpl20/rpl20-drum.rsi
   - type: MagazineVisuals
     magState: mag
-    steps: 8
+    steps: 5
     zeroVisible: false
   - type: Appearance
 

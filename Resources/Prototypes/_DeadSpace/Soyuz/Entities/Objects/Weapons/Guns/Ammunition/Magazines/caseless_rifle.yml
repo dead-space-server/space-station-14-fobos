@@ -1,7 +1,7 @@
 - type: entity
   id: MagazineCaselessRifleIncendiary
   name: "magazine (.25 caseless incendiary)"
-  parent: BaseMagazinePistolCaselessRifle
+  parent: BaseMagazineCaselessRifle
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeCaselessRifleIncendiary
@@ -11,23 +11,22 @@
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
-    - state: stripe
-      color: "#cc4502"
+    - state: incendiary
   - type: Item
     inhandVisuals:
       left:
       - state: inhand-left-mag
       - state: inhand-left-stripe
-        color: "#cc4502"
+        color: "#3f1329"
       right:
       - state: inhand-right-mag
       - state: inhand-right-stripe
-        color: "#cc4502"
+        color: "#3f1329"
 
 - type: entity
   id: MagazineCaselessRifleUranium
   name: "magazine (.25 caseless uranium)"
-  parent: BaseMagazinePistolCaselessRifle
+  parent: BaseMagazineCaselessRifle
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeCaselessRifleUranium
@@ -37,15 +36,14 @@
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
-    - state: stripe
-      color: "#03ae03"
+    - state: uranium
   - type: Item
     inhandVisuals:
       left:
       - state: inhand-left-mag
       - state: inhand-left-stripe
-        color: "#03ae03"
+        color: "#01501c"
       right:
       - state: inhand-right-mag
       - state: inhand-right-stripe
-        color: "#03ae03"
+        color: "#01501c"

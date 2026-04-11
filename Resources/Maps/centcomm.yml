@@ -111128,7 +111128,7 @@ entities:
     - type: Transform
       pos: -49.5,-26.5
       parent: 1
-- proto: VendingMachineChemicalsSyndicate
+- proto: VendingMachineChemicals
   entities:
   - uid: 15237
     components:
