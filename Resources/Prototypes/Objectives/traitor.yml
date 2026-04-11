@@ -284,21 +284,6 @@
   - type: StealCondition
     stealGroup: HandTeleporter
 
-## hos
-
-- type: entity # DS14 objective
-  parent: BaseTraitorStealObjective
-  id: WeaponX01StealObjective
-  components:
-  - type: Objective
-    # HoS will have this on them a lot of the time so..
-    difficulty: 4
-  - type: NotJobRequirement
-    jobs: [ HeadOfSecurity ]
-  - type: StealCondition
-    stealGroup: WeaponPistolX01
-    owner: job-name-hos
-
 ## ce
 
 - type: entity
