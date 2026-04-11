@@ -26,7 +26,13 @@
             "name": "mag-4"
         },
     {
+      "name": "incendiary"
+    },
+    {
       "name": "practice"
+    },
+    {
+      "name": "uranium"
     }
     ]
 }
