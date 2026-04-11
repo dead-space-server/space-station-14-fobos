@@ -40,3 +40,5 @@ role-subtype-spider-terror = Паук ужаса
 role-subtype-spider-terror-queen = Королева пауков ужаса
 role-subtype-spider-terror-king = Король пауков ужаса
 role-subtype-spider-terror-kingblood = Королевский паук ужаса
+role-subtype-shadowling-slave = Слуга Тенеморфа
+role-subtype-shadowling = Тенеморф

@@ -266,37 +266,13 @@
             "name": "Syndicate"
         },
         {
-            "name": "SyndicateCommander"
+            "name": "shadowling_Icon"
         },
         {
-            "name": "SyndicateCorpsman"
+            "name": "shadowling_Icon2"
         },
         {
-            "name": "SyndicateOperative"
-        },
-        {
-            "name": "TechnicalAssistant"
-        },
-        {
-            "name": "Unknown"
-        },
-        {
-            "name": "Virologist"
-        },
-        {
-            "name": "Visitor"
-        },
-        {
-            "name": "Warden"
-        },
-        {
-            "name": "Wizard"
-        },
-        {
-            "name": "Zookeeper"
-        },
-        {
-            "name": "Zombie"
+            "name": "ERTLeader"
         }
     ]
 }

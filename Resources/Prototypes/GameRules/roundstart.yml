@@ -625,3 +625,29 @@
     - id: BasicDecalDirtMonospaceVariationPass
       prob: 0.50
       orGroup: monospaceDecals
+
+- type: entity
+  id: ShadowlingRule
+  parent: BaseGameRule
+  components:
+  - type: GameRule
+  - type: ShadowlingRule
+  - type: AntagSelection
+    selectionTime: IntraPlayerSpawn
+    definitions:
+    - prefRoles: [ Shadowling ]
+      max: 3
+      playerRatio: 15
+      briefing:
+        text: shadowling-role-greeting
+        color: Red
+        sound: "/Audio/Misc/narsie_rises.ogg"
+      components:
+      - type: ShadowlingRevealComponent
+      - type: Skill
+        group: ALL
+      mindRoles:
+      - MindRoleShadowling
+  - type: AntagObjectives
+    objectives:
+    - ShadowlingRecruitObjective

@@ -355,3 +355,31 @@
   - type: ChangelingRole
   - type: RoleBriefing
     briefing: changeling-briefing
+
+# Роль главного Тенеморфа
+- type: entity
+  parent: BaseMindRoleAntag
+  id: MindRoleShadowling
+  name: Shadowling Role
+  components:
+  - type: MindRole
+    antagPrototype: Shadowling
+    exclusiveAntag: true
+    roleType: TeamAntagonist
+    subtype: role-subtype-shadowling
+  - type: ShadowlingRole
+  - type: AntagObjectives
+    objectives:
+    - ShadowlingRecruitObjective
+
+# Роль завербованного Раба
+- type: entity
+  parent: BaseMindRoleAntag
+  id: MindRoleShadowlingSlave
+  name: Shadowling Slave Role
+  components:
+  - type: MindRole
+    antagPrototype: ShadowlingSlave # Ссылка на - type: antag для раба
+    roleType: TeamAntagonist
+    subtype: role-subtype-shadowling-slave
+  - type: ShadowlingSlaveRole

@@ -53,3 +53,21 @@
   icon:
     sprite: /Textures/Interface/Misc/job_icons.rsi
     state: Syndicate
+
+- type: factionIcon
+  id: ShadowlingSlaveFaction
+  priority: 15
+  showTo:
+    components:
+      - ShadowlingRecruit
+      - ShadowlingSlave
+  icon:
+    sprite: /Textures/Interface/Misc/job_icons.rsi
+    state: shadowling_Icon
+
+- type: factionIcon
+  id: ShadowlingMasterFaction
+  priority: 20
+  icon:
+    sprite: /Textures/Interface/Misc/job_icons.rsi
+    state: shadowling_Icon2

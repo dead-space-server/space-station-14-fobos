@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "size": { "x": 32, "y": 32 },
+  "states": [
+    {
+      "name": "shadowling",
+      "directions": 4
+    },
+    {
+      "name": "shadowling_ascended",
+      "directions": 4
+    },
+    {
+      "name": "shadowling_ascended_eyes",
+      "directions": 4
+    },
+    {
+      "name": "shadowling_slave-eyes_arachnid",
+      "directions": 4
+    },
+    {
+      "name": "shadowling_slave-eyes_vox",
+      "directions": 4
+    },
+    {
+      "name": "shadowling_slave-eyes_moth",
+      "directions": 4
+    },
+    {
+      "name": "shadow_ghost",
+      "directions": 4
+    },
+    {
+      "name": "shadowling_slave-eyes",
+      "directions": 4
+    },
+    {
+      "name": "shadowling_recruit_objective"
+    },
+    {
+      "name": "eyes_shadowling",
+      "directions": 4
+    }
+  ]
+}
