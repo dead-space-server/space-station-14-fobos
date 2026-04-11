@@ -161,8 +161,8 @@
         Heat: 0.7
         Radiation: 0.3
         Caustic: 0.7
-        Stun: 0.7
-  - type: StaminaResistance
+        Stun: 0.7 #DS14
+  - type: StaminaResistance #DS14
     damageCoefficient: 0.7
   - type: ClothingSpeedModifier
     walkModifier: 0.75
@@ -293,7 +293,7 @@
         Heat: 0.8
         Caustic: 0.7
         Stun: 0.6 # DS14
-  - type: StaminaResistance
+  - type: StaminaResistance # DS14
     damageCoefficient: 0.6
   - type: ClothingSpeedModifier
     walkModifier: 0.75
@@ -558,8 +558,8 @@
         Heat: 0.3
         Radiation: 0.1
         Caustic: 0.2
-        Stun: 0.8
-  - type: StaminaResistance
+        Stun: 0.8 # DS14
+  - type: StaminaResistance # DS14
     damageCoefficient: 0.8
   - type: ExplosionResistance
     damageCoefficient: 0.1
@@ -619,7 +619,7 @@
         Radiation: 0.5
         Caustic: 0.6
         Stun: 0.5 # DS14
-  - type: StaminaResistance
+  - type: StaminaResistance # DS14
     damageCoefficient: 0.5
   - type: ClothingSpeedModifier
     walkModifier: 0.8
@@ -712,7 +712,7 @@
         Radiation: 0.5
         Caustic: 0.5
         Stun: 0.5 # DS14-value
-  - type: StaminaResistance
+  - type: StaminaResistance # DS14
     damageCoefficient: 0.5
   - type: ClothingSpeedModifier
     walkModifier: 0.9
@@ -790,7 +790,7 @@
         Radiation: 0.05 # DS14-value
         Caustic: 0.5
         Stun: 0.5 # DS14-value: 6 stunbaton hits for stun
-  - type: StaminaResistance
+  - type: StaminaResistance # DS14
     damageCoefficient: 0.5
   - type: Item
     size: Huge
