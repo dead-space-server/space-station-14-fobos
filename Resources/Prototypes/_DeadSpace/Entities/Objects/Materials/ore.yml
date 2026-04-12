@@ -1,0 +1,26 @@
+- type: entity
+  parent: OreBase
+  id: MagmiteOre
+  name: магмитовая руда
+  description: Кусок неочищенной руды.
+  suffix: Полная
+  components:
+  - type: Stack
+    stackType: MagmiteOre
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Materials/magmite-ore.rsi
+    state: magmite
+  - type: Material
+  - type: PhysicalComposition
+    materialComposition:
+      RawMagmite: 300
+  - type: Item
+    heldPrefix: magmite
+
+- type: entity
+  parent: MagmiteOre
+  id: MagmiteOre1
+  suffix: Одна
+  components:
+  - type: Stack
+    count: 1

@@ -126,3 +126,58 @@
   - type: Stack
     stackType: Plastitanium
     count: 1
+
+- type: entity
+  parent: SheetOtherBase
+  id: SheetMagmite
+  name: магмитовая сталь
+  description: Лист крайне плотной и сложной в производстве магмитовой стали.
+  suffix: Полный
+  components:
+  - type: Material
+  - type: PhysicalComposition
+    materialComposition:
+      Magmite: 100
+  - type: Stack
+    stackType: Magmite
+    baseLayer: base
+    layerStates:
+    - magmite
+    - magmite_2
+    - magmite_3
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Materials/Sheets/magmite-sheet.rsi
+    state: magmite_3
+    layers:
+    - state: magmite_3
+      map: ["base"]
+  - type: Item
+    sprite: _DeadSpace/Objects/Materials/Sheets/magmite-sheet.rsi
+  - type: Appearance
+  - type: Tag
+    tags:
+    - Sheet
+
+- type: entity
+  parent: SheetMagmite
+  id: SheetMagmite10
+  name: магмитовая сталь
+  suffix: 10
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Materials/Sheets/magmite-sheet.rsi
+    state: magmite
+  - type: Stack
+    count: 10
+
+- type: entity
+  parent: SheetMagmite
+  id: SheetMagmite1
+  name: магмитовая сталь
+  suffix: Один
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Materials/Sheets/magmite-sheet.rsi
+    state: magmite
+  - type: Stack
+    count: 1

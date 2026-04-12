@@ -95,6 +95,14 @@
       count: 60 # you don't really hit it on purpose so it should be common
       minGroupSize: 1
       maxGroupSize: 1
+#DS14-start
+    - !type:OreDunGen
+      replacement: IronRock
+      entity: IronRockMagmite
+      count: 20
+      minGroupSize: 2
+      maxGroupSize: 3
+#DS14-end
 
 # Configs
 - type: dungeonConfig

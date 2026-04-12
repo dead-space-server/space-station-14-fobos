@@ -35,3 +35,10 @@
     RawSalt: 150
     RawIron: 150
     Coal: 150
+
+- type: latheRecipe
+  id: SheetMagmite1
+  result: SheetMagmite1
+  completetime: 0
+  materials:
+    RawMagmite: 500

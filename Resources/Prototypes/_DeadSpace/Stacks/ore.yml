@@ -1,0 +1,6 @@
+- type: stack
+  parent: BaseMediumStack
+  id: MagmiteOre
+  name: магмитовая руда
+  icon: { sprite: /Textures/_DeadSpace/Objects/Materials/magmite-ore.rsi, state: magmite }
+  spawn: MagmiteOre1

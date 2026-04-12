@@ -87,5 +87,5 @@
   description: A precision cooling array. Install via the crafting station.
   components:
   - type: Sprite
-    sprite: Objects/Misc/stock_parts.rsi
-    state: adv_scan_module
+    sprite: _DeadSpace/RIGs/Parts/core.rsi
+    state: medium

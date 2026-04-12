@@ -11,3 +11,10 @@
   icon: { sprite: /Textures/Objects/Materials/Sheets/metal.rsi, state: plastitanium }
   spawn: SheetPlastitanium1
   maxCount: 30
+
+- type: stack
+  id: Magmite
+  name: магмитовая сталь
+  icon: { sprite: /Textures/_DeadSpace/Objects/Materials/Sheets/magmite-sheet.rsi, state: magmite }
+  spawn: SheetMagmite1
+  maxCount: 30

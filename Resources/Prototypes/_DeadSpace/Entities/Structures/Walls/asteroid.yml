@@ -1,0 +1,24 @@
+- type: entity
+  id: IronRockMagmite
+  parent: IronRock
+  name: железный камень
+  description: Рудная жила, богатая магмитом.
+  suffix: Магмит
+  components:
+    - type: OreVein
+      oreChance: 1.0
+      currentOre: OreMagmite
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Walls/magmite-rock.rsi
+      layers:
+        - state: ironrock
+        - map: [ "enum.EdgeLayer.South" ]
+          state: ironrock_south
+        - map: [ "enum.EdgeLayer.East" ]
+          state: ironrock_east
+        - map: [ "enum.EdgeLayer.North" ]
+          state: ironrock_north
+        - map: [ "enum.EdgeLayer.West" ]
+          state: ironrock_west
+        - state: rock_magmite
+          map: [ "enum.MiningScannerVisualLayers.Overlay" ]

@@ -161,6 +161,9 @@
   id: MagazineCarbineSKS
 
 - type: Tag
+  id: Magmite
+
+- type: Tag
   id: MagazineEagle
 
 - type: Tag
