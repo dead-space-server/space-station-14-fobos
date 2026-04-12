@@ -141,12 +141,29 @@
     severity: HighlyIllegal
   - type: Sprite
     sprite: Objects/Weapons/Melee/energykatana.rsi
+#DS14-start
+    layers:
+    - state: icon
+    - state: icon-unshaded
+      shader: unshaded
+#DS14-end
   - type: MeleeWeapon
     wideAnimationRotation: -60
     damage:
       types:
         Slash: 30
   - type: Item
+#DS14-start
+    inhandVisuals:
+      left:
+      - state: inhand-left
+      - state: inhand-left-unshaded
+        shader: unshaded
+      right:
+      - state: inhand-right
+      - state: inhand-right-unshaded
+        shader: unshaded
+#DS14-end
     storedSprite:
       state: storage
       sprite: Objects/Weapons/Melee/energykatana_storage_64x.rsi #Done in 64x64 because it looks way too puny in 32x32
@@ -166,6 +183,9 @@
   - type: Reflect
     slotFlags:
     - NONE
+  - type: Tag #DS14
+    tags:
+    - EnergyKatana
 
 #Greatswords
 - type: entity

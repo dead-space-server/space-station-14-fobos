@@ -26,6 +26,7 @@
     damage:
       types:
         Blunt: 3
+    wideAnimationRotation: -135
   - type: Item
     size: Small
     sprite: _ADT/Objects/Weapons/Melee/telescopic_baton.rsi

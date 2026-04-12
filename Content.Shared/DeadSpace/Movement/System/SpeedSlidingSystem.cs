@@ -2,6 +2,7 @@
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Systems;
+using System.Numerics;
 
 namespace Content.Shared.DeadSpace.Abilities.Slide;
 
@@ -24,9 +25,10 @@ public sealed class SpeedSlidingSystem : EntitySystem
             return false;
 
         var direction = velocity / speed;
-        var slideVelocity = direction * (speed + slide.SlideSpeed);
+        var slideImpulse = direction * (slide.SlideSpeed * slide.SlideDistance * physics.Mass);
 
-        _physics.SetLinearVelocity(uid, slideVelocity);
+        _physics.SetLinearVelocity(uid, Vector2.Zero, body: physics);
+        _physics.ApplyLinearImpulse(uid, slideImpulse, body: physics);
 
         _audio.PlayPredicted(slide.SlideSound, uid, uid);
         return true;

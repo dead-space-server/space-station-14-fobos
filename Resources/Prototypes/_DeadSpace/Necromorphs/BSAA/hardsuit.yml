@@ -26,6 +26,8 @@
         Caustic: 0.4
         Stun: 0.5
         Poison: 0.5
+  - type: StaminaResistance
+    damageCoefficient: 0.5
   - type: ClothingSpeedModifier
     walkModifier: 0.9
     sprintModifier: 0.9
@@ -103,6 +105,8 @@
         Caustic: 0.5
         Stun: 0.55
         Poison: 0.5
+  - type: StaminaResistance
+    damageCoefficient: 0.5
   - type: ClothingSpeedModifier
     walkModifier: 0.85
     sprintModifier: 0.85
@@ -180,6 +184,8 @@
         Caustic: 0.45
         Stun: 0.4
         Poison: 0.4
+  - type: StaminaResistance
+    damageCoefficient: 0.4
   - type: ClothingSpeedModifier
     walkModifier: 0.9
     sprintModifier: 0.9

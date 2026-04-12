@@ -21,6 +21,8 @@
   suffix: Теневой демон
   description: Жуткий демон.
   components:
+  - type: StaminaResistance
+    damageCoefficient: 0.2
   - type: MovementSpeedModifier
     baseWalkSpeed: 4
     baseSprintSpeed: 4

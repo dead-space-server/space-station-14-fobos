@@ -1,46 +1,58 @@
 {
-    "version": 1,
-    "license": "CC-BY-SA-3.0",
-    "copyright": "Normal and vox sprites created by https://github.com/Pronana / princesscheeseballs (Discord). Dog states modified from base states by Sparlight (GitHub). Reptilian states by TiniestShark (Github) Normal and vox sprites created by https://github.com/Pronana / princesscheeseballs (Discord). Reptilian states by TiniestShark (Github)",
-    "size": {
-        "x": 32,
-        "y": 32
-    },
-    "states": [
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Made by pyfya - yri_nouri (discord) for Space Station 14 server Мёртвый Космос",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
         {
-            "name": "icon"
+          "name": "icon"
         },
         {
-            "name": "icon-unshaded"
+          "name": "icon-unshaded"
         },
         {
-            "name": "icon-flash"
+          "name": "icon-flash"
         },
         {
-            "name": "light-overlay"
+          "name": "light-overlay"
         },
         {
-            "name": "equipped-head",
-            "directions": 4
+          "name": "equipped-head",
+          "directions": 4
         },
         {
             "name": "equipped-head-light",
             "directions": 4
         },
         {
-            "name": "equipped-head-unshaded",
-            "directions": 4
+          "name": "equipped-head-unshaded",
+          "directions": 4
         },
         {
-            "name": "equipped-head-vox",
-            "directions": 4
+          "name": "equipped-head-vox",
+          "directions": 4
         },
         {
             "name": "equipped-head-light-vox",
             "directions": 4
         },
         {
-            "name": "equipped-head-unshaded-vox",
+          "name": "equipped-head-unshaded-vox",
+          "directions": 4
+        },
+        {
+            "name": "equipped-head-vulpkanin",
+            "directions": 4
+        },
+        {
+            "name": "equipped-head-light-vulpkanin",
+            "directions": 4
+        },
+        {
+            "name": "equipped-head-unshaded-vulpkanin",
             "directions": 4
         },
         {
@@ -54,10 +66,6 @@
         {
             "name": "equipped-head-unshaded-reptilian",
             "directions": 4
-        },
-        {
-            "name": "equipped-head-vulpkanin",
-            "directions": 4
         }
-    ]
+  ]
 }
