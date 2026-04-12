@@ -22,6 +22,6 @@
 - type: stack
   id: ClearBluspaceCrystal
   name: stack-bluespace-sheet
-  icon: { sprite: /Textures/_DeadSpace/Objects/Materials/Sheets/bluespace-sheet.rsi, state: bluespace }
+  icon: { sprite: /Textures/_DeadSpace/Objects/Materials/Sheets/bluespace-crystal-sheet.rsi, state: synthetic_bluespace_crystal }
   spawn: SheetBluespaceCrystal1
   maxCount: 30

@@ -42,3 +42,10 @@
   completetime: 0
   materials:
     RawMagmite: 500
+
+- type: latheRecipe
+  id: SheetBluespaceCrystal1
+  result: SheetBluespaceCrystal1
+  completetime: 0
+  materials:
+    RawBluespaceCrystal: 300

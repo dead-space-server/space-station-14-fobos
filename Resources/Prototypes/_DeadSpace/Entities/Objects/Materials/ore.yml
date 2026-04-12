@@ -33,16 +33,16 @@
   suffix: Полная
   components:
   - type: Stack
-    stackType: BluespaceCrystal
+    stackType: BluespaceCrystalOre
   - type: Sprite
-    sprite: _DeadSpace/Objects/Materials/magmite-ore.rsi
-    state: magmite
+    sprite: _DeadSpace/Objects/Materials/bluespace-crystal-ore.rsi
+    state: bluespace_crystal_ore
   - type: Material
   - type: PhysicalComposition
     materialComposition:
-      RawMagmite: 300
+      RawBluespaceCrystal: 300
   - type: Item
-    heldPrefix: magmite
+    heldPrefix: bluespace_crystal_ore
 
 - type: entity
   parent: BluespaceCrystalOre
