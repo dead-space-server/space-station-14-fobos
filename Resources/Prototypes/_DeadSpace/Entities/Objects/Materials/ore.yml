@@ -24,3 +24,30 @@
   components:
   - type: Stack
     count: 1
+
+- type: entity
+  parent: OreBase
+  id: BluespaceCrystalOre
+  name: блюспейс кристалл
+  description: Кусок неочищенной руды.
+  suffix: Полная
+  components:
+  - type: Stack
+    stackType: BluespaceCrystal
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Materials/magmite-ore.rsi
+    state: magmite
+  - type: Material
+  - type: PhysicalComposition
+    materialComposition:
+      RawMagmite: 300
+  - type: Item
+    heldPrefix: magmite
+
+- type: entity
+  parent: BluespaceCrystalOre
+  id: BluespaceCrystalOre1
+  suffix: Одна
+  components:
+  - type: Stack
+    count: 1

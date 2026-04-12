@@ -181,3 +181,58 @@
     state: magmite
   - type: Stack
     count: 1
+
+- type: entity
+  parent: SheetOtherBase
+  id: SheetBluespaceCrystal
+  name: очищеный блюспейс кристал
+  description: Бесконечный на первый взгляд кристал.
+  suffix: Полный
+  components:
+  - type: Material
+  - type: PhysicalComposition
+    materialComposition:
+      Magmite: 100
+  - type: Stack
+    stackType: Magmite
+    baseLayer: base
+    layerStates:
+    - magmite
+    - magmite_2
+    - magmite_3
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Materials/Sheets/magmite-sheet.rsi
+    state: magmite_3
+    layers:
+    - state: magmite_3
+      map: ["base"]
+  - type: Item
+    sprite: _DeadSpace/Objects/Materials/Sheets/magmite-sheet.rsi
+  - type: Appearance
+  - type: Tag
+    tags:
+    - Sheet
+
+- type: entity
+  parent: SheetMagmite
+  id: SheetBluespaceCrystal10
+  name: очищеный блюспейс кристал
+  suffix: 10
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Materials/Sheets/magmite-sheet.rsi
+    state: magmite
+  - type: Stack
+    count: 10
+
+- type: entity
+  parent: SheetMagmite
+  id: SheetBluespaceCrystal1
+  name: очищеный блюспейс кристал
+  suffix: Один
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Materials/Sheets/magmite-sheet.rsi
+    state: magmite
+  - type: Stack
+    count: 1

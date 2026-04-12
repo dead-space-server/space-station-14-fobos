@@ -1,0 +1,22 @@
+{
+  "license": "CC-BY-SA-3.0", 
+  "copyright": "Taken from https://github.com/tgstation/tgstation/blob/fd3af6bb8acba1bce192c9fc8f5cf65e7e6019a4/icons/obj/telescience.dmi + recolor telecrystal",
+  "version": 1,
+  "size": { "x": 32, "y": 32 },
+  "states": [
+    {
+      "name": "bluespace_crystal"
+    },
+    {
+      "name": "bluespace_crystal_ore"
+    },
+	{
+	  "name": "inhand-left",
+	  "directions": 4
+	},
+	{
+	  "name": "inhand-right",
+	  "directions": 4
+	}
+  ]
+}

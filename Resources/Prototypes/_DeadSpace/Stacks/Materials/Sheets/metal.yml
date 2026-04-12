@@ -14,7 +14,14 @@
 
 - type: stack
   id: Magmite
-  name: магмитовая сталь
+  name: stack-magmite-sheet
   icon: { sprite: /Textures/_DeadSpace/Objects/Materials/Sheets/magmite-sheet.rsi, state: magmite }
   spawn: SheetMagmite1
+  maxCount: 30
+
+- type: stack
+  id: ClearBluspaceCrystal
+  name: stack-bluespace-sheet
+  icon: { sprite: /Textures/_DeadSpace/Objects/Materials/Sheets/bluespace-sheet.rsi, state: bluespace }
+  spawn: SheetBluespaceCrystal1
   maxCount: 30
