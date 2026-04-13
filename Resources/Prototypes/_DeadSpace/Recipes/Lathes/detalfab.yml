@@ -15,6 +15,7 @@
     Gold: 1500
     Plasma: 500
     MaterialScrapGlass: 500
+    MaterialHardDiskDrive: 250
 
 - type: latheRecipe
   id: AdvancedCoreForModifiedBackpack
