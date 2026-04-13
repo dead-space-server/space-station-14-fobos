@@ -1,0 +1,527 @@
+# Backpack
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBackpackMysticalRay
+  name: рюкзак TraumaTec
+  description: Этот рюкзак предназначен для хранения медицинских принадлежностей и инструментов, необходимых для быстрого реагирования в экстренных ситуациях.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Wisdom/backpack.rsi
+  - type: Storage
+    maxItemSize: Huge
+    grid:
+    - 0,0,14,5
+  - type: StorageFill
+    contents:
+    - id: ClothingBeltMysticalRay
+    - id: ClothingHandsGlovesMysticalRay
+    - id: ClothingOuterHardsuitMysticalRay
+    - id: ClothingUniformJumpsuitMysticalRay
+    - id: ClothingMaskMysticalRay
+    - id: ClothingHeadsetMysticalRay
+    - id: PDAMysticalRay
+    - id: ClothingShoesBootsMagMysticalRay
+    - id: ClothingOuterCoatMysticalRay
+    - id: ClothingBeltHolsterMysticalRay
+    - id: WhistleMysticalRay
+    - id: ClothingEyesHudMedicalMysticalRay
+    - id: JetpackVoidFilleddMysticalRay
+    - id: DefibrillatorMysticalRay
+    - id: HyposprayMysticalRay
+    - id: JukeboxMK
+    - id: TapeRecorderr
+    - id: TapeEmpty
+    - id: PaperMysticalRayUSSP
+    - id: PaperMysticalRay
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Belt
+- type: entity
+  parent: ClothingBeltStorageBase
+  id: ClothingBeltMysticalRay
+  name: РПС TraumaTec
+  description: Разгрузочный жилет с медикаментами, необходимыми для оказания помощи и спасения жизней в экстремальных условиях.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Wisdom/belt.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Wisdom/belt.rsi
+  - type: Item
+    size: Huge
+  - type: StorageFill
+    contents:
+      - id: PowerDrillMysticalRay
+      - id: WelderExperimentalMysticalRay
+      - id: SyndicateJawsOfLifeMysticalRay
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Hardsuit
+- type: entity
+  parent: ClothingOuterHardsuitAtmos
+  id: ClothingOuterHardsuitMysticalRay
+  name: скафандр TraumaTec
+  description: Скафандр с биокодированием, обеспечивающий защиту в критических ситуациях.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Wisdom/hardsuit.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Wisdom/hardsuit.rsi
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitMysticalRay
+  - type: Item
+    size: Huge
+  - type: HardsuitIdentification
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.65
+        Slash: 0.65
+        Piercing: 0.55
+        Heat: 0.65
+        Radiation: 0.55
+        Caustic: 0.55
+  - type: ClothingSpeedModifier
+    walkModifier: 0.9
+    sprintModifier: 0.9
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase, ShowMedicalIcons ]
+  id: ClothingHeadHelmetHardsuitMysticalRay
+  categories: [ HideSpawnMenu ]
+  name: шлем скафандра TraumaTec
+  description: Шлем с встроенным медицинским визором, который обеспечивает защиту и освещение для работы в темных условиях.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/MysticalRay/helmet.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/MysticalRay/helmet.rsi
+  - type: PointLight
+    color: "#ebebeb"
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: ShowHealthBars
+    damageContainers:
+    - Biological
+    - Inorganic
+    - Silicon
+  - type: EyeProtection
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Gloves
+- type: entity
+  parent: ClothingHandsGlovesCombat
+  id: ClothingHandsGlovesMysticalRay
+  name: защитные перчатки TraumaTec
+  description: Перчатки, обеспечивающие защиту рук в опасных условиях, идеальны для оказания первой помощи. Изолированы.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Wisdom/gloves.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Wisdom/gloves.rsi
+  - type: Fiber
+    fiberMaterial: fibers-insulative
+    fiberColor: fibers-red
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Jumpsuit
+- type: entity
+  parent: ClothingUniformSkirtBase
+  id: ClothingUniformJumpsuitMysticalRay
+  name: комбинезон TraumaTec
+  description: Стильный и функциональный комбинезон, который обеспечивает комфорт и свободу передвижения во время спасательных операций.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Wisdom/jumpsuit.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Wisdom/jumpsuit.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Magboots
+- type: entity
+  parent: ClothingShoesBootsMag
+  id: ClothingShoesBootsMagMysticalRay
+  name: магнитные ботинки TraumaTec
+  description: Ботинки, обеспечивающие отличное сцепление с поверхностями для выполнения задач в условиях невесомости.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Wisdom/magboots.rsi
+    layers:
+    - state: icon
+      map: [ "enum.ToggleableVisuals.Layer" ]
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Wisdom/magboots.rsi
+  - type: ClothingSpeedModifier
+    walkModifier: 0.95
+    sprintModifier: 0.9
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Mask
+- type: entity
+  parent: ClothingMaskGas
+  id: ClothingMaskMysticalRay
+  name: противогаз TraumaTec
+  description: Противогаз, защищающий от токсичных веществ и обеспечивающий дыхание в неблагоприятных условиях.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Wisdom/gasmask.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Wisdom/gasmask.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Headset
+- type: entity
+  parent: ClothingHeadset
+  id: ClothingHeadsetMysticalRay
+  name: гарнитура TraumaTec
+  description: Гарнитура, обеспечивающая связь и возможность получения критической информации в полевых условиях.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Wisdom/headset.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Wisdom/headset.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# PDA
+- type: entity
+  parent: BaseMedicalPDA
+  id: PDAMysticalRay
+  name: КПК TraumaTec
+  description: Персональный цифровой помощник с встроенными GPS и медицинским сканером для отслеживания состояния пациентов.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Icon
+    sprite: _DeadSpace/Sponsor/Wisdom/pda.rsi
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Wisdom/pda.rsi
+  - type: CartridgeLoader
+    uiKey: enum.PdaUiKey.Key
+    preinstalled:
+    - CrewManifestCartridge
+    - NotekeeperCartridge
+    - NewsReaderCartridge
+    - AstroNavCartridge
+    - MedTekCartridge
+  - type: PdaBorderColor
+    borderColor: "#222227"
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Coat
+- type: entity
+  parent: ClothingOuterStorageBase
+  id: ClothingOuterCoatMysticalRay
+  name: защитная куртка TraumaTec
+  description: Укреплённая куртка, защищающая владельца во время спасательных операций.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Wisdom/coat.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Wisdom/coat.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Holster
+- type: entity
+  parent: ClothingBeltStorageBase
+  id: ClothingBeltHolsterMysticalRay
+  name: набедренная сумка TraumaTec
+  description: Набедренная сумка для удобного ношения дефибриллятора.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/Wisdom/hipbag.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/Wisdom/hipbag.rsi
+    slots:
+    - neck
+  - type: Storage
+    grid:
+    - 0,0,3,1
+    maxItemSize: Large
+    whitelist:
+      components:
+      - Defibrillator
+  - type: Item
+    size: Normal
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+#Свисток
+- type: entity
+  parent: BaseItem
+  id: WhistleMysticalRay
+  name: свисток TraumaTec
+  description: Внимание! Белый металлический свисток с эмблемой TraumaTec.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Item
+    sprite: _DeadSpace/Sponsor/MysticalRay/whistles.rsi
+    size: Tiny
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/MysticalRay/whistles.rsi
+    state: icon
+  - type: UseDelay
+    delay: 3
+  - type: EmitSoundOnUse
+    sound:
+      collection: WhistleMysticalRay
+  - type: Whistle
+    distance: 10
+
+- type: soundCollection
+  id: WhistleMysticalRay
+  files:
+    - /Audio/_DeadSpace/Sponsor/MysticalRay/whistle.ogg
+
+# Hud
+- type: entity
+  parent: ClothingEyesHudAdvanced
+  id: ClothingEyesHudMedicalMysticalRay
+  name: зелёные очки TraumaTec
+  description: Зелёные очки TraumaTec. Имеют встроенный мед визор.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/MysticalRay/hud.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/MysticalRay/hud.rsi
+  - type: IdentityBlocker
+    coverage: EYES
+  - type: EyeProtection
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Jetpack
+- type: entity
+  parent: JetpackVoidFilled
+  id: JetpackVoidFilleddMysticalRay
+  name: пустотный джетпак TraumaTec
+  description: Джетпак для покорение даже самых тёмный уголков космоса.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Item
+    sprite: _DeadSpace/Sponsor/MysticalRay/jetpack.rsi
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/MysticalRay/jetpack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/MysticalRay/jetpack.rsi
+    slots:
+      - Back
+      - suitStorage
+      - Belt
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Defibrillator
+- type: entity
+  parent: DefibrillatorCompact
+  name: портативный дефибриллятор TraumaTec
+  description: Высокотехнологичный портативный дефибриллятор с эмблеймой TraumaTec.
+  id: DefibrillatorMysticalRay
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/MysticalRay/defibsmall.rsi
+  - type: Item
+    sprite: _DeadSpace/Sponsor/MysticalRay/defibsmall.rsi
+
+# Hypo
+- type: entity
+  name: Тактический гипоспрей TraumaTec  "Жало"
+  parent: BaseItem
+  description: Особая разработка для лечения в особых задачах.
+  categories: [ HideSpawnMenu ]
+  id: HyposprayMysticalRay
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/MysticalRay/hypo.rsi
+    layers:
+      - state: hypo
+        map: ["enum.SolutionContainerLayers.Base"]
+      - state: hypo_fill1
+        map: ["enum.SolutionContainerLayers.Fill"]
+        visible: false
+  - type: Item
+    sprite: _DeadSpace/Sponsor/MysticalRay/hypo.rsi
+  - type: SolutionContainerManager
+    solutions:
+      hypospray:
+        maxVol: 5
+  - type: RefillableSolution
+    solution: hypospray
+  - type: ExaminableSolution
+    solution: hypospray
+    exactVolume: true
+  - type: Hypospray
+    onlyAffectsMobs: false
+  - type: UseDelay
+    delay: 0.5
+  - type: StaticPrice
+    price: 750
+  - type: StealTarget
+    stealGroup: Hypospray
+  - type: Appearance
+  - type: SolutionContainerVisuals
+    maxFillLevels: 4
+    fillBaseName: hypo_fill
+    solutionName: hypospray
+
+# instruments
+# drill
+- type: entity
+  parent: BaseItem
+  id: PowerDrillMysticalRay
+  name: тактическая электродрель TraumaTec
+  description: Более компактная и также более эффективная вариация электродрели.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/MysticalRay/tools_powerdrill.rsi
+    state: drill_screw
+  - type: Item
+    sprite: _DeadSpace/Sponsor/MysticalRay/tools_powerdrill.rsi
+    size: Small
+  - type: Tool
+    qualities:
+      - Screwing
+    speedModifier: 1.5
+    useSound: /Audio/Items/drill_use.ogg
+  - type: MultipleTool
+    statusShowBehavior: true
+    entries:
+      - behavior: Screwing
+        sprite:
+          sprite: _DeadSpace/Sponsor/MysticalRay/tools_powerdrill.rsi
+          state: drill_screw
+        useSound:
+          path: /Audio/Items/drill_use.ogg
+        changeSound:
+          path: /Audio/Items/change_drill.ogg
+      - behavior: Anchoring
+        sprite:
+          sprite: _DeadSpace/Sponsor/MysticalRay/tools_powerdrill.rsi
+          state: drill_bolt
+        useSound:
+          path: /Audio/Items/drill_use.ogg
+        changeSound:
+          path: /Audio/Items/change_drill.ogg
+  - type: PhysicalComposition
+    materialComposition:
+      Steel: 300
+      Plastic: 100
+  - type: StaticPrice
+    price: 100
+  - type: MeleeWeapon
+    wideAnimationRotation: -90
+    attackRate: 1.5
+    damage:
+      types:
+        Piercing: 10
+    soundHit:
+      path: "/Audio/Items/drill_hit.ogg"
+
+#JawsOfLife
+- type: entity
+  parent: SyndicateJawsOfLife
+  id: SyndicateJawsOfLifeMysticalRay
+  name: тактические челюсти TraumaTec
+  description: Косметическая модификация челюстей жизни.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/MysticalRay/tools_jawsoflife.rsi
+    state: syn_jaws_pry
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: syn_inhand-left
+      right:
+      - state: syn_inhand-right
+    size: Normal
+  - type: MultipleTool
+    entries:
+      - behavior: Prying
+        sprite:
+          sprite: _DeadSpace/Sponsor/MysticalRay/tools_jawsoflife.rsi
+          state: syn_jaws_pry
+        useSound: /Audio/Items/jaws_pry.ogg
+        changeSound: /Audio/Items/change_jaws.ogg
+      - behavior: Cutting
+        sprite:
+          sprite: _DeadSpace/Sponsor/MysticalRay/tools_jawsoflife.rsi
+          state: syn_jaws_cutter
+        useSound: /Audio/Items/jaws_cut.ogg
+        changeSound: /Audio/Items/change_jaws.ogg
+  - type: MeleeWeapon
+    damage:
+      types:
+        Blunt: 14
+
+#WelderExperimental
+- type: entity
+  parent: WelderExperimental
+  id: WelderExperimentalMysticalRay
+  name: тактический сварочный аппарат TraumaTec
+  description: Косметическая модификация экспериментального сварочного аппарат.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/MysticalRay/tools_welder.rsi
+  - type: Item
+    sprite: _DeadSpace/Sponsor/MysticalRay/tools_welder.rsi
+
+#Документ
+- type: entity
+  parent: PaperPrintedCentcomm
+  id: PaperMysticalRay
+  name: распечатанный документ
+  description: Лист бумаги с заголовком центкома. Страшно даже смотреть на него.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Paper
+    stampState: paper_stamp-centcom
+    stampedBy:
+    - stampedColor: '#006600FF'
+      stampedName: Центральное Командование
+    - stampedColor: '#00BE00FF'
+      stampedName: Одобрено
+    content: paper-law-mysticalray
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+- type: entity
+  parent: PaperPrintedCentcomm
+  id: PaperMysticalRayUSSP
+  name: распечатанный документ
+  description: Лист бумаги с заголовком генштаба. Страшно даже смотреть на него.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Paper
+    stampState: paper_stamp-centcom
+    stampedBy:
+    - stampedColor: '#006600FF'
+      stampedName: Генеральный Штаб
+    - stampedColor: '#00BE00FF'
+      stampedName: Одобрено
+    content: paper-law-mysticalray-ussp
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
