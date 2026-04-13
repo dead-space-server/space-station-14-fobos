@@ -53,9 +53,9 @@
         harddisk: ""
         harddisk_mini: ""
         harddisk_micro: ""
-  - type: StaticPrice
-    price: 275
-#DS14-start
+#DS14-star:
+# - type: StaticPrice
+#   price: 275
   - type: PhysicalComposition
     materialComposition:
       MaterialHardDiskDrive: 100
