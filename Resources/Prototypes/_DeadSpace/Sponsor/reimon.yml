@@ -119,8 +119,6 @@
     sprintModifier: 1
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
@@ -325,8 +323,13 @@
     solution: hypospray
   - type: ExaminableSolution
     solution: hypospray
-  - type: Hypospray
-    onlyAffectsMobs: false
+  - type: Injector
+    solutionName: hypospray
+    ignoreClosed: false
+    activeModeProtoId: HyposprayDynamicMode
+    allowedModes:
+    - HyposprayDynamicMode
+    - HyposprayInjectMode
   - type: UseDelay
     delay: 0.5
 

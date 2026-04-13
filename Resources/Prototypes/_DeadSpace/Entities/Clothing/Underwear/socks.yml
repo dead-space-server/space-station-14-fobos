@@ -11,7 +11,7 @@
     size: Small
   - type: Clothing
     slots: [socks]
-  - type: Food
+  - type: Edible
     requiresSpecialDigestion: true
   - type: SolutionContainerManager
     solutions:
@@ -84,6 +84,15 @@
   - type: Sprite
     sprite: _Sirena/Clothing/Underwear/Socks/socksthigh.rsi
 
+- type: entity
+  parent: ClothingUnderwearSocksBase
+  id: ClothingUnderwearStockingsBlack
+  name: black stockings
+  description: Standard Nanotrasen stockings for station employees. Dyed black.
+  components:
+  - type: Sprite
+    sprite: Clothing/Under/Socks/stockingsblack.rsi
+
 # DS14 socks
 ## Cargo
 - type: entity
@@ -115,12 +124,12 @@
 
 - type: entity
   parent: ClothingUnderwearSocksBase
-  id: ClothingUnderwearSocksSeniorCourier
-  name: носки ведущего логиста
+  id: ClothingUnderwearSocksSeniorSalvage
+  name: носки ведущего утилизатора
   description: Стандартные носки ведущего утилизатора.
   components:
   - type: Sprite
-    sprite: _DeadSpace/Clothing/Underwear/Cargo/senior_courier/socks.rsi
+    sprite: _DeadSpace/Clothing/Underwear/Cargo/salvage_specialist/socks.rsi
 
 ## Civilian
 - type: entity

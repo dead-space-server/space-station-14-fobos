@@ -1,0 +1,12 @@
+# Tier 1
+- type: technology
+  id: HolopadHandheldTech
+  name: research-technology-holopadhandheld
+  icon:
+    sprite: _DeadSpace/Structures/Machines/holopad_h.rsi
+    state: base
+  discipline: Industrial
+  tier: 1
+  cost: 5000
+  recipeUnlocks:
+    - HolopadHandheld

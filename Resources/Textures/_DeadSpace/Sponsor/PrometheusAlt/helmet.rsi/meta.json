@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from  Shiptest at commit https://github.com/shiptest-ss13/Shiptest/commit/ad2c3810abb389dc0f33281093be170706f72aed",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+        {
+          "name": "icon"
+        },
+        {
+          "name": "icon-flash"
+        },
+        {
+          "name": "off-equipped-HELMET",
+          "directions": 4
+        },
+        {
+          "name": "on-equipped-HELMET",
+          "directions": 4
+        }
+  ]
+}

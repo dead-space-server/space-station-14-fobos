@@ -151,18 +151,19 @@
     highPressureMultiplier: 0.5
     lowPressureMultiplier: 1000
   - type: ExplosionResistance
-    damageCoefficient: 0.7
+    damageCoefficient: 0.5 #DS14-value
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
-        Blunt: 0.7
+        Blunt: 0.6 #DS14-value
         Slash: 0.6
-        Piercing: 0.7
+        Piercing: 0.65 #DS14-value
         Heat: 0.7
         Radiation: 0.3
         Caustic: 0.7
+        Stun: 0.7 #DS14
+  - type: StaminaResistance #DS14
+    damageCoefficient: 0.7
   - type: ClothingSpeedModifier
     walkModifier: 0.75
     sprintModifier: 0.75
@@ -201,8 +202,6 @@
     damageCoefficient: 0.3
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.7
         Slash: 0.7
@@ -252,14 +251,15 @@
     sprintModifier: 1.0
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.6
         Slash: 0.6
         Piercing: 0.6 # DS14-value
         Heat: 0.4 # DS14-value
         Radiation: 0.1
+        Stun: 0.5 # DS14
+  - type: StaminaResistance
+    damageCoefficient: 0.5
   - type: ExplosionResistance
     damageCoefficient: 0.2
   - type: TemperatureProtection
@@ -286,14 +286,15 @@
     damageCoefficient: 0.4
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.6
         Slash: 0.6
         Piercing: 0.6
         Heat: 0.8
         Caustic: 0.7
+        Stun: 0.6 # DS14
+  - type: StaminaResistance # DS14
+    damageCoefficient: 0.6
   - type: ClothingSpeedModifier
     walkModifier: 0.75
     sprintModifier: 0.75
@@ -330,8 +331,6 @@
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Heat: 0.7 # DS14-value
         Blunt: 0.7
@@ -339,6 +338,9 @@
         Piercing: 0.6 # DS14-value
         Radiation: 0.75 # DS14-value
         Caustic: 0.5 # DS14-value
+        Stun: 0.4 # DS14
+  - type: StaminaResistance
+    damageCoefficient: 0.4
   - type: ClothingSpeedModifier
     walkModifier: 0.85 # DS14-value
     sprintModifier: 0.85 # DS14-value
@@ -371,17 +373,18 @@
     damageCoefficient: 0.4
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.4
         Slash: 0.5
         Piercing: 0.6
         Heat: 0.6 # DS14-value
         Caustic: 0.7
+        Stun: 0.5 # DS14
+  - type: StaminaResistance # DS14
+    damageCoefficient: 0.5
   - type: ClothingSpeedModifier
-    walkModifier: 0.75 # DS14-value
-    sprintModifier: 0.75 # DS14-value
+    walkModifier: 0.8 # DS14-value
+    sprintModifier: 0.8 # DS14-value
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitWarden
@@ -412,8 +415,6 @@
     damageCoefficient: 0.5
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.8
         Slash: 0.8
@@ -421,6 +422,9 @@
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.6
+        Stun: 0.45 # DS14
+  - type: StaminaResistance # DS14
+    damageCoefficient: 0.45
   - type: ClothingSpeedModifier
     walkModifier: 0.8
     sprintModifier: 0.8
@@ -461,8 +465,6 @@
     damageCoefficient: 0.2
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 1
       coefficients:
         Blunt: 0.8
         Slash: 0.8
@@ -549,8 +551,6 @@
     lowPressureMultiplier: 1000
   - type: Armor
     modifiers:
-      armorLvls:
-        Heat: 1
       coefficients:
         Blunt: 0.6
         Slash: 0.8
@@ -558,6 +558,9 @@
         Heat: 0.3
         Radiation: 0.1
         Caustic: 0.2
+        Stun: 0.8 # DS14
+  - type: StaminaResistance # DS14
+    damageCoefficient: 0.8
   - type: ExplosionResistance
     damageCoefficient: 0.1
   - type: ClothingSpeedModifier
@@ -608,8 +611,6 @@
     damageCoefficient: 0.5
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.6
         Slash: 0.5
@@ -617,6 +618,9 @@
         Heat: 0.5 # DS14-value
         Radiation: 0.5
         Caustic: 0.6
+        Stun: 0.5 # DS14
+  - type: StaminaResistance # DS14
+    damageCoefficient: 0.5
   - type: ClothingSpeedModifier
     walkModifier: 0.8
     sprintModifier: 0.8
@@ -700,17 +704,16 @@
   #   damageCoefficient: 0.75
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
-        Heat: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.4 # DS14-value
-        Heat: 0.6
+        Piercing: 0.35 # DS14-value
+        Heat: 0.45 # DS14-value
         Radiation: 0.5
         Caustic: 0.5
-        Stun: 0.65 # DS14-value: 5 stunbaton hits for stun
+        Stun: 0.5 # DS14-value
+  - type: StaminaResistance # DS14
+    damageCoefficient: 0.5
   - type: ClothingSpeedModifier
     walkModifier: 0.9
     sprintModifier: 0.9
@@ -779,17 +782,16 @@
   #   damageCoefficient: 0.6
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2 # он типа элитный же
-        Heat: 3
       coefficients:
-        Blunt: 0.5
-        Slash: 0.5
-        Piercing: 0.5 # DS14-value ибо баланс
-        Heat: 0.4
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.55 # DS14-value
+        Heat: 0.15 # DS14-value
         Radiation: 0.05 # DS14-value
         Caustic: 0.5
         Stun: 0.5 # DS14-value: 6 stunbaton hits for stun
+  - type: StaminaResistance # DS14
+    damageCoefficient: 0.5
   - type: Item
     size: Huge
   - type: ClothingSpeedModifier
@@ -828,9 +830,6 @@
   #   damageCoefficient: 0.6
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
-        Heat: 2
       coefficients:
         Blunt: 0.4
         Slash: 0.4
@@ -838,7 +837,9 @@
         Heat: 0.5
         Radiation: 0.25
         Caustic: 0.4
-        Stun: 0.5 # DS14-value: 6 stunbaton hits for stun
+        Stun: 0.4 # DS14-value: 6 stunbaton hits for stun
+  - type: StaminaResistance #DS14
+    damageCoefficient: 0.4
   - type: ClothingSpeedModifier
     walkModifier: 0.9
     sprintModifier: 0.9
@@ -851,7 +852,7 @@
     - Hardsuit
     - WhitelistChameleon
   - type: HardsuitIdentification # DS14
-  - type: Speech # DS14 # DS14
+  - type: Speech # DS14
   - type: TTS
     voice: Adjutant
 
@@ -874,20 +875,19 @@
   # - type: StaminaResistance # Should not have stamina resistance, this is purely so people know it was not forgotten.
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 4
-        Heat: 3
       coefficients:
         Blunt: 0.2
         Slash: 0.2
-        Piercing: 0.3 # DS14-value ибо баланс
-        Heat: 0.3 # DS14-value
+        Piercing: 0.2
+        Heat: 0.2
         Radiation: 0.2
         Caustic: 0.2
         Stun: 0.1 # DS14-value: what is stun?
+  - type: StaminaResistance # DS14
+    damageCoefficient: 0.1
   - type: ClothingSpeedModifier
-    walkModifier: 0.6 # DS14-value
-    sprintModifier: 0.6 # DS14-value
+    walkModifier: 0.85 # DS14-value
+    sprintModifier: 0.65
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitCybersun
@@ -921,9 +921,6 @@
     damageCoefficient: 0.5
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
-        Heat: 2
       coefficients:
         Blunt: 0.6
         Slash: 0.6
@@ -1025,8 +1022,6 @@
     damageCoefficient: 0.6
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.7
         Slash: 0.8
@@ -1055,13 +1050,10 @@
 #DS14-start
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 3
-        Heat: 2
       coefficients:
         Blunt: 0.4
         Slash: 0.4
-        Piercing: 0.5 # DS14-value
+        Piercing: 0.3
         Poison: 0.75 # DS14-value: what is poison?
         Heat: 0.45
         Radiation: 0.25
@@ -1074,6 +1066,8 @@
     damageCoefficient: 0.6
   - type: ZombificationResistance
     zombificationResistanceCoefficient: 0.7
+  - type: StaminaResistance
+    damageCoefficient: 0.45
 #DS14-end
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitERTLeader
@@ -1110,17 +1104,16 @@
 #DS14-start
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
-        Heat: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.6 # DS14-value
+        Piercing: 0.4
         Heat: 0.1
         Cold: 0.1
         Radiation: 0.1
         Stun: 0.6 # DS14-value: what is stun?
+  - type: StaminaResistance
+    damageCoefficient: 0.6
   - type: ClothingSpeedModifier
     walkModifier: 0.85
     sprintModifier: 0.85
@@ -1150,8 +1143,6 @@
 #DS14-start
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
@@ -1162,6 +1153,8 @@
         Radiation: 0.6
         Caustic: 0.4
         Stun: 0.65 # DS14-value: what is stun?
+  - type: StaminaResistance
+    damageCoefficient: 0.65
   - type: ClothingSpeedModifier
     walkModifier: 0.95
     sprintModifier: 0.95
@@ -1191,17 +1184,16 @@
 #DS14-start
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
-        Heat: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.5 # DS14-value
+        Piercing: 0.4
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
-        Stun: 0.6 # DS14-value: what is stun?
+        Stun: 0.5 # DS14-value: what is stun?
+  - type: StaminaResistance
+    damageCoefficient: 0.5
   - type: ClothingSpeedModifier
     walkModifier: 0.9
     sprintModifier: 0.9
@@ -1221,7 +1213,7 @@
 
 #ERT Janitor Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitCBURN
+  parent: [ BaseCentcommContraband, ClothingOuterHardsuitSyndieElite ]
   id: ClothingOuterHardsuitERTJanitor
   name: ERT janitor's hardsuit
   description: A protective hardsuit worn by the janitors of an emergency response team.
@@ -1262,9 +1254,6 @@
   #   damageCoefficient: 0.15 # Needs 21 hits with a disabler to stun :godo:
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 4
-        Heat: 3
       coefficients:
         Blunt: 0.3 #best armor in the game
         Slash: 0.3
@@ -1294,6 +1283,9 @@
       Omnizine: 10
   - type: Reflect
     reflectProb: 0.10
+  - type: Unremoveable #DS14-Won't let you take it off, it`s working.
+  - type: StaminaResistance
+    damageCoefficient: 0.05
 # DS14-end
   - type: HardsuitIdentification # DS14
   - type: Speech # DS14
@@ -1323,11 +1315,6 @@
     damageCoefficient: 0.7
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
-        Heat: 2
-        Blunt: 2
-        Slash: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
@@ -1337,6 +1324,10 @@
         Shock: 0.1
         Radiation: 0.1
         Caustic: 0.1
+        Poison: 0.55 # DS14
+        Stun: 0.4 # DS14
+  - type: StaminaResistance # DS14
+    damageCoefficient: 0.4
   - type: ZombificationResistance
     zombificationResistanceCoefficient: 0.25
   - type: ClothingSpeedModifier

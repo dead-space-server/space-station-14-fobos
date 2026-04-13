@@ -223,11 +223,15 @@
   id: MobLeviathanNecro
   suffix: Некроморф
   components:
+  - type: Transform
+    anchored: false
   - type: WallHack
   - type: Leviathan
   - type: ImmunNecroobelisk
   - type: ZombieImmune
   - type: Necromorf
+  - type: Physics
+    bodyType: KinematicController
   - type: Destructible
     thresholds:
     - trigger:
@@ -252,9 +256,9 @@
           bounds: "-0.45,-0.45,0.45,0.45"
         density: 60
         mask:
-          - MachineMask
+          - MobMask
         layer:
-          - MachineLayer
+          - MobLayer
   - type: CombatMode
   - type: MeleeWeapon
     range: 2
@@ -301,8 +305,6 @@
       Extinguish: [ Touch ]
       Acidic: [Touch, Ingestion]
   - type: Bloodstream
-    bloodReagent: NecromorfBlood
-    bloodMaxVolume: 500
     bloodlossThreshold: 0.2
     bloodlossDamage:
       types:

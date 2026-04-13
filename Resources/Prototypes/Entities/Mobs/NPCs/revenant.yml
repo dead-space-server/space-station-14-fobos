@@ -29,7 +29,8 @@
     drawFov: false
     visMask:
       - Normal
-      - Ghost
+      # DS14
+      - Astral
   - type: ContentEye
     maxZoom: 1.2, 1.2
   - type: NameIdentifier
@@ -66,7 +67,7 @@
       enum.StoreUiKey.Key:
         type: StoreBoundUserInterface
   - type: Visibility
-    layer: 2 #ghost vis layer
+    layer: 16 # DS14
   - type: ActionGrant
     actions:
     - ActionRevenantShop

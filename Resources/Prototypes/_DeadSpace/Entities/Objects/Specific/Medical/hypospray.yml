@@ -13,16 +13,20 @@
     maxFillLevels: 1
     changeColor: false
     emptySpriteName: steam_empty
-  - type: Hypospray
-    transferAmount: 20
+  - type: Injector
+    solutionName: pen
+    currentTransferAmount: null
+    activeModeProtoId: HyposprayInjectMode
+    allowedModes:
+    - HyposprayInjectMode
   - type: SolutionContainerManager
     solutions:
       pen:
-        maxVol: 20
+        maxVol: 30
         reagents:
         - ReagentId: Desoxyephedrine
           Quantity: 10
-        - ReagentId: Dylovene
-          Quantity: 10
+        - ReagentId: Tricordrazine
+          Quantity: 20
   - type: Tag
     tags: []

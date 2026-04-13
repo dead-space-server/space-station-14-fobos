@@ -62,12 +62,12 @@
       - state: qm
 
 - type: entity
-  id: SpawnPointSeniorCourier
+  id: SpawnPointSeniorSalvageSpecialist
   parent: SpawnPointJobBase
-  name: senior сourier
+  name: senior salvage specialist
   components:
   - type: SpawnPoint
-    job_id: SeniorCourier
+    job_id: SeniorSalvageSpecialist
   - type: Sprite
     layers:
       - state: green
@@ -302,18 +302,6 @@
     layers:
       - state: green
       - state: musician
-
-- type: entity
-  id: SpawnPointBoxer
-  parent: SpawnPointJobBase
-  name: boxer
-  components:
-  - type: SpawnPoint
-    job_id: Boxer
-  - type: Sprite
-    layers:
-      - state: green
-      - state: boxer
 
 - type: entity
   id: SpawnPointBorg

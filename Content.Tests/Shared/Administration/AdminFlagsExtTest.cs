@@ -10,7 +10,9 @@ namespace Content.Tests.Shared.Administration
     {
         [Test]
         [TestCase("ADMIN", AdminFlags.Admin)]
+        [TestCase("CHATTOGGLE", AdminFlags.ChatToggle)] // DS14
         [TestCase("ADMIN,DEBUG", AdminFlags.Admin | AdminFlags.Debug)]
+        [TestCase("ADMIN,CHATTOGGLE,HOST", AdminFlags.Admin | AdminFlags.ChatToggle | AdminFlags.Host)] // DS14
         [TestCase("ADMIN,DEBUG,HOST", AdminFlags.Admin | AdminFlags.Debug | AdminFlags.Host)]
         [TestCase("", AdminFlags.None)]
         public void TestNamesToFlags(string namesConcat, AdminFlags flags)
@@ -22,7 +24,9 @@ namespace Content.Tests.Shared.Administration
 
         [Test]
         [TestCase("ADMIN", AdminFlags.Admin)]
+        [TestCase("CHATTOGGLE", AdminFlags.ChatToggle)] // DS14
         [TestCase("ADMIN,DEBUG", AdminFlags.Admin | AdminFlags.Debug)]
+        [TestCase("ADMIN,CHATTOGGLE,HOST", AdminFlags.Admin | AdminFlags.ChatToggle | AdminFlags.Host)] // DS14
         [TestCase("ADMIN,DEBUG,HOST", AdminFlags.Admin | AdminFlags.Debug | AdminFlags.Host)]
         [TestCase("", AdminFlags.None)]
         public void TestFlagsToNames(string namesConcat, AdminFlags flags)

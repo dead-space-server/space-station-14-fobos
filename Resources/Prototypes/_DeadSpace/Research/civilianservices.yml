@@ -7,7 +7,19 @@
     sprite: Objects/Specific/Medical/defibsmall.rsi
     state: icon
   discipline: CivilianServices
-  tier: 3
-  cost: 15000
+  tier: 2
+  cost: 10000
   recipeUnlocks:
   - CompactDefibrillator
+
+- type: technology
+  id: PinpointerUniversalTech
+  name: research-technology-pinpointeruniversal
+  icon:
+    sprite: Objects/Devices/pinpointer.rsi
+    state: pinpointer-way
+  discipline: Industrial
+  tier: 3
+  cost: 10000
+  recipeUnlocks:
+    - PinpointerUniversal

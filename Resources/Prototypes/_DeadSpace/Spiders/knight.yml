@@ -19,7 +19,7 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Slash: 2
+        Piercing: 2
         Poison: 2
       groups:
         Brute: 8
@@ -45,8 +45,6 @@
     baseWalkSpeed: 3
     baseSprintSpeed: 3
   - type: Bloodstream
-    bloodReagent: CopperBlood
-    bloodMaxVolume: 200
     bloodlossThreshold: 0.4
   - type: Puller
     needsHands: false
@@ -93,16 +91,14 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Slash: 2
+        Piercing: 2
         Poison: 1
       groups:
         Brute: 12
   - type: MobThresholds
     thresholds:
       0: Alive
-      350: Dead
-  - type: Damageable
-    damageModifierSet: HeavySpiderTerror
+      250: Dead
   - type: Fixtures
     fixtures:
       fix1:
@@ -120,8 +116,6 @@
     baseWalkSpeed: 3
     baseSprintSpeed: 3
   - type: Bloodstream
-    bloodReagent: CopperBlood
-    bloodMaxVolume: 150
     bloodlossThreshold: 0.2
   - type: Puller
     needsHands: false

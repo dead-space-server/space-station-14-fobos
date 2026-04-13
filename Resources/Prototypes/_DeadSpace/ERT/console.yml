@@ -16,8 +16,6 @@
       state: generic_keys
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
       state: generic_panel_open
-  - type: ApcPowerReceiver
-    powerLoad: 3100
   - type: Computer
     board: ErtResponceConsoleCircuitboard
   - type: PointLight
@@ -40,8 +38,8 @@
     teams:
     - Cburn
     - CburnSierra
-    - Red
     - Gamma
+    - Red
     - Amber
     - Engineers
     - BSAA
@@ -69,8 +67,6 @@
       state: generic_keys
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
       state: generic_panel_open
-  - type: ApcPowerReceiver
-    powerLoad: 3100
   - type: Computer
     board: ErtComputerShuttleCircuitboard
   - type: PointLight

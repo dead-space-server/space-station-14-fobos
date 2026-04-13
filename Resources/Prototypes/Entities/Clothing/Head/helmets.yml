@@ -42,9 +42,6 @@
     tags:
     - WhitelistChameleon
     - SecurityHelmet
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
 
 #Mercenary Helmet
 - type: entity
@@ -122,9 +119,6 @@
         Slash: 0.8
         Piercing: 0.95
         Heat: 0.95 # DS14-value
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
 
 #Bombsuit Helmet
 - type: entity
@@ -200,7 +194,25 @@
   - type: Sprite
     sprite: Clothing/Head/Helmets/spaceninja.rsi
   - type: Clothing
-    sprite: Clothing/Head/Helmets/spaceninja.rsi
+#DS14-start
+    clothingVisuals:
+      head:
+      - state: equipped-HELMET
+      - state: equipped-head-unshaded
+        shader: unshaded
+      head-vox:
+      - state: equipped-HELMET-vox
+      - state: equipped-head-unshaded-vox
+        shader: unshaded
+      head-vulpkanin:
+      - state: equipped-HELMET-vulpkanin
+      - state: equipped-head-unshaded-vulpkanin
+        shader: unshaded
+      head-reptilian:
+      - state: equipped-HELMET-reptilian
+      - state: equipped-head-unshaded-reptilian
+        shader: unshaded
+#DS14-end
   - type: Tag
     tags:
     - WhitelistChameleon
@@ -222,6 +234,8 @@
     sprite: Clothing/Head/Helmets/templar.rsi
   - type: Clothing
     sprite: Clothing/Head/Helmets/templar.rsi
+  - type: Item
+    storedRotation: 0
   - type: IngestionBlocker
   - type: IdentityBlocker
   - type: HideLayerClothing
@@ -322,7 +336,6 @@
     tags:
     - WhitelistChameleon
     - FireHelmet
-    - CorgiWearable
   - type: HideLayerClothing
     layers:
       Hair: HEAD
@@ -376,9 +389,6 @@
     sprite: Clothing/Head/Helmets/ert_leader.rsi
   - type: Clothing
     sprite: Clothing/Head/Helmets/ert_leader.rsi
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
 
 #ERT Security Helmet
 - type: entity
@@ -391,9 +401,6 @@
     sprite: Clothing/Head/Helmets/ert_security.rsi
   - type: Clothing
     sprite: Clothing/Head/Helmets/ert_security.rsi
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
 
 #ERT Medic Helmet
 - type: entity
@@ -406,9 +413,6 @@
     sprite: Clothing/Head/Helmets/ert_medic.rsi
   - type: Clothing
     sprite: Clothing/Head/Helmets/ert_medic.rsi
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
 
 #ERT Engineer Helmet
 - type: entity
@@ -421,9 +425,6 @@
     sprite: Clothing/Head/Helmets/ert_engineer.rsi
   - type: Clothing
     sprite: Clothing/Head/Helmets/ert_engineer.rsi
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
 
 #ERT Janitor Helmet
 - type: entity
@@ -436,9 +437,6 @@
     sprite: Clothing/Head/Helmets/ert_janitor.rsi
   - type: Clothing
     sprite: Clothing/Head/Helmets/ert_janitor.rsi
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
 
 - type: entity
   parent: [ BaseSyndicateContraband, ClothingHeadHelmetBase ]
@@ -540,7 +538,7 @@
   - type: PointLight
     enabled: false
     radius: 1.4
-    energy: 1.4
+    energy: 2.5
     color: red
     netsync: false
     mask: /Textures/Effects/LightMasks/double_cone.png
@@ -562,9 +560,6 @@
   - type: Construction
     graph: HelmetJustice
     node: helmet
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
 
 - type: entity
   parent: ClothingHeadHelmetJustice

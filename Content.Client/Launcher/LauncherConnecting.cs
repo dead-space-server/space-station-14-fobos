@@ -8,7 +8,6 @@ using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Content.Shared.DeadSpace.CCCCVars; // DS14: Connect To Another Server
-using Robust.Shared.Configuration; // DS14: Connect To Another Server
 using Content.Shared.CCVar; // DS14: Connect To Another Server
 
 namespace Content.Client.Launcher
@@ -23,11 +22,11 @@ namespace Content.Client.Launcher
         [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
         [Dependency] private readonly IConfigurationManager _cfg = default!;
         [Dependency] private readonly IClipboardManager _clipboard = default!;
+        [Dependency] private readonly IUriOpener _uri = default!; // DS14: Connect To Another Server
         [Dependency] private readonly ILogManager _logManager = default!;
-		[Dependency] private readonly IUriOpener _uri = default!; // DS14: Connect To Another Server
 
-        private ISawmill _sawmill = default!;
         private LauncherConnectingGui? _control;
+        private ISawmill _sawmill = default!;
 
         private Page _currentPage;
         private string? _connectFailReason;
@@ -65,9 +64,9 @@ namespace Content.Client.Launcher
 
         protected override void Startup()
         {
-            _sawmill = _logManager.GetSawmill("launcher-ui");
-
             _control = new LauncherConnectingGui(this, _random, _prototypeManager, _cfg, _clipboard);
+
+            _sawmill = _logManager.GetSawmill("launcher-ui");
 
             _userInterfaceManager.StateRoot.AddChild(_control);
 

@@ -69,6 +69,9 @@ public sealed class AddWearAfterUseSystem : EntitySystem
 
     private void OnLearnDoAfter(EntityUid uid, AddWearAfterUseComponent component, LearnDoAfterEvent args)
     {
+        if (args.Cancelled || args.Handled)
+            return;
+
         if ((component.Triggers & WearTrigger.Learn) == 0)
             return;
 

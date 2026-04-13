@@ -156,8 +156,6 @@
     damageCoefficient: 0.5
   - type: Armor
     modifiers:
-      armorLvls:
-        Piercing: 2
       coefficients:
         Blunt: 0.5
         Slash: 0.5
@@ -398,7 +396,7 @@
     color: red
     netsync: false
   - type: Appearance
-  - type: ToggleableLightVisuals
+  - type: ToggleableVisuals
     spriteLayer: blade
     inhandVisuals:
       left:
@@ -462,7 +460,7 @@
     color: red
     netsync: false
   - type: Appearance
-  - type: ToggleableLightVisuals
+  - type: ToggleableVisuals
     spriteLayer: blade
     inhandVisuals:
       left:
@@ -832,8 +830,13 @@
     solution: hypospray
   - type: ExaminableSolution
     solution: hypospray
-  - type: Hypospray
-    onlyAffectsMobs: false
+  - type: Injector
+    solutionName: hypospray
+    ignoreClosed: false
+    activeModeProtoId: HyposprayDynamicMode
+    allowedModes:
+    - HyposprayDynamicMode
+    - HyposprayInjectMode
   - type: UseDelay
     delay: 1.0
 
@@ -1044,6 +1047,7 @@
       types:
         Blunt: 20
         Structural: 15
+    wideAnimationRotation: -135
 
 - type: entity
   parent: [ClothingBeltBase, ClothingSlotBase]

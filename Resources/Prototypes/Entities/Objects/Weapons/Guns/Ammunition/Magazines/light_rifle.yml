@@ -1,9 +1,9 @@
 # Empty mags
 - type: entity
+  abstract: true
+  parent: [ BaseItem, BaseSecurityContraband ]
   id: BaseMagazineLightRifle
   name: "magazine (.30 rifle)"
-  parent: [ BaseItem, BaseSecurityContraband ]
-  abstract: true
   components:
   - type: Tag
     tags:
@@ -35,9 +35,9 @@
 
 # Magazines
 - type: entity
+  parent: BaseMagazineLightRifle
   id: MagazineLightRifleBox
   name: "L6 SAW magazine box (.30 rifle)"
-  parent: BaseMagazineLightRifle
   description: Box containing a 100-round belt of linked .30 rifle rounds, used by light machine guns such as the L6. Intended to hold general-purpose kinetic ammunition.
   components:
   - type: Tag
@@ -51,14 +51,14 @@
     sprite: Objects/Weapons/Guns/Ammunition/Magazine/LightRifle/light_rifle_box.rsi
   - type: MagazineVisuals
     magState: mag
-    steps: 8
+    steps: 5
     zeroVisible: false
   - type: Appearance
 
 - type: entity
+  parent: BaseMagazineLightRifle
   id: MagazineLightRifle
   name: "magazine (.30 rifle)"
-  parent: BaseMagazineLightRifle
   description: Curved 30-round double stack magazine for combat rifles. Intended to hold general-purpose kinetic ammunition.
   components:
   - type: BallisticAmmoProvider
@@ -77,10 +77,10 @@
       - state: inhand-right-mag
 
 - type: entity
+  parent: MagazineLightRifle
   id: MagazineLightRifleEmpty
   name: "magazine (.30 rifle any)"
   suffix: empty
-  parent: MagazineLightRifle
   description: Curved 30-round double stack magazine for combat rifles.
   components:
   - type: BallisticAmmoProvider
@@ -99,10 +99,10 @@
       - state: inhand-right-mag
 
 - type: entity
+  parent: BaseMagazineLightRifle
   id: MagazineLightRiflePractice
   name: "magazine (.30 rifle practice)"
-  parent: BaseMagazineLightRifle
-  description: Curved 30-round double stack magazine for combat rifles. Intended to hold non-harmful chalk ammunition.
+  description: Curved 30-round double stack magazine for combat rifles. Intended to hold harmless practice ammunition.
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeLightRiflePractice
@@ -112,23 +112,22 @@
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
-    - state: stripe
-      color: "#dbdbdb"
+    - state: practice
   - type: Item
     inhandVisuals:
       left:
       - state: inhand-left-mag
       - state: inhand-left-stripe
-        color: "#dbdbdb"
+        color: "#76270d"
       right:
       - state: inhand-right-mag
       - state: inhand-right-stripe
-        color: "#dbdbdb"
+        color: "#76270d"
 
 - type: entity
+  parent: BaseMagazineLightRifle
   id: MagazineLightRifleUranium
   name: "magazine (.30 rifle uranium)"
-  parent: BaseMagazineLightRifle
   description: Curved 30-round double stack magazine for combat rifles. Intended to hold exotic uranium-core ammunition.
   components:
   - type: BallisticAmmoProvider
@@ -139,23 +138,22 @@
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
-    - state: stripe
-      color: "#00cd42"
+    - state: uranium
   - type: Item
     inhandVisuals:
       left:
       - state: inhand-left-mag
       - state: inhand-left-stripe
-        color: "#00cd42"
+        color: "#01501c"
       right:
       - state: inhand-right-mag
       - state: inhand-right-stripe
-        color: "#00cd42"
+        color: "#01501c"
 
 - type: entity
+  parent: MagazineLightRifle
   id: MagazineLightRifleIncendiary
   name: "magazine (.30 rifle incendiary)"
-  parent: MagazineLightRifle
   description: Curved 30-round double stack magazine for combat rifles. Intended to hold self-igniting incendiary ammunition.
   components:
   - type: BallisticAmmoProvider
@@ -166,15 +164,14 @@
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
-    - state: stripe
-      color: "#ff6e52"
+    - state: incendiary
   - type: Item
     inhandVisuals:
       left:
       - state: inhand-left-mag
       - state: inhand-left-stripe
-        color: "#ff6e52"
+        color: "#3f1329"
       right:
       - state: inhand-right-mag
       - state: inhand-right-stripe
-        color: "#ff6e52"
+        color: "#3f1329"

@@ -26,7 +26,7 @@
       path: /Audio/_DeadSpace/Weapons/Guns/Gunshots/dominator.ogg
       params:
         volume: -2
-  - type: ProjectileBatteryAmmoProvider
+  - type: BatteryAmmoProvider
     proto: BulletDisabler
     fireCost: 50
   - type: Dominator
@@ -70,8 +70,6 @@
     color: "#f00a19"
   - type: Projectile
     damage:
-      armorPiercingLevels:
-        Heat: 1
       types:
         Heat: 16
   - type: Reflective

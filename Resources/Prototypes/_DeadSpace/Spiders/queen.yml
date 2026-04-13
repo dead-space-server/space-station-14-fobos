@@ -20,7 +20,7 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Slash: 1
+        Piercing: 1
         Poison: 8
   - type: MobThresholds
     thresholds:
@@ -42,16 +42,12 @@
     baseWalkSpeed: 5
     baseSprintSpeed: 5
   - type: Bloodstream
-    bloodReagent: CopperBlood
-    bloodMaxVolume: 250
     bloodlossThreshold: 0.4
   - type: Evolution
     duration: 60 # Время до получения возможности эволюционировать
     spawnedEntities: # В кого можно эволюционировать
       - MobSpiderTerrorQueenLvl2
   - type: SpiderKing
-  - type: Damageable
-    damageModifierSet: HeavySpiderTerror
 
 - type: entity
   name: королева пауков
@@ -75,7 +71,7 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Slash: 5
+        Piercing: 5
         Poison: 12
   - type: MobThresholds
     thresholds:
@@ -97,8 +93,6 @@
     baseWalkSpeed: 4
     baseSprintSpeed: 4
   - type: Bloodstream
-    bloodReagent: CopperBlood
-    bloodMaxVolume: 250
     bloodlossThreshold: 0.4
   - type: Evolution
     duration: 300 # Время до получения возможности эволюционировать
@@ -148,7 +142,7 @@
       path: /Audio/Effects/bite.ogg
     damage:
       types:
-        Slash: 15
+        Piercing: 15
         Poison: 15
         Structural: 40
   - type: MobThresholds
@@ -171,8 +165,6 @@
     baseWalkSpeed: 4
     baseSprintSpeed: 4
   - type: Bloodstream
-    bloodReagent: CopperBlood
-    bloodMaxVolume: 250
     bloodlossThreshold: 0.4
   - type: SpawnAgainst
     duration: 5

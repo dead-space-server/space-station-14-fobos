@@ -1,0 +1,34 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Taken from  Shiptest at commit https://github.com/shiptest-ss13/Shiptest/commit/40a23dcd2a5023373bb6d1dc78514759a7e3e873 ; equipped-OUTERCLOTHING-monkey by siwathecat (discord)",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "icon"
+        },
+        {
+            "name": "equipped-OUTERCLOTHING",
+            "directions": 4
+        },
+        {
+            "name": "equipped-OUTERCLOTHING-vox",
+            "directions": 4
+        },
+        {
+            "name": "equipped-OUTERCLOTHING-monkey",
+            "directions": 4
+        },
+        {
+            "name": "inhand-left",
+            "directions": 4
+        },
+        {
+            "name": "inhand-right",
+            "directions": 4
+        }
+  ]
+}

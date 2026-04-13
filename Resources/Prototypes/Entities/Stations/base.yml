@@ -53,6 +53,10 @@
       path: /Maps/Shuttles/cargo.yml
     - type: GridSpawn
       groups:
+        mining: !type:GridSpawnGroup #DS14-Start
+          paths:
+            - /Maps/Shuttles/mining.yml
+          nameDataset: NamesMiningShuttle # DS14-End
         trade: !type:GridSpawnGroup
           addComponents:
             - type: ProtectedGrid

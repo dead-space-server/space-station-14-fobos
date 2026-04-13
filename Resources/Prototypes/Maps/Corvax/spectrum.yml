@@ -13,7 +13,7 @@
             !type:NanotrasenNameGenerator
             prefixCreator: 'NR'
         - type: StationEmergencyShuttle
-          emergencyShuttlePath: /Maps/Shuttles/emergency_courser.yml
+          emergencyShuttlePath: /Maps/Shuttles/emergency_corvaxspectrum.yml
         - type: StationJobs
           availableJobs:
             # cmd
@@ -54,7 +54,7 @@
             TechnicalAssistant: [ 3, 3 ]
             # sup
             Quartermaster: [ 1, 1 ]
-            SeniorCourier: [ 1, 1 ]
+            SeniorSalvageSpecialist: [ 1, 1 ]
             SalvageSpecialist: [ 3, 3 ]
             CargoTechnician: [ 3, 3 ]
             # civ

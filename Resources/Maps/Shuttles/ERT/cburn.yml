@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.2.0
   forkId: ""
   forkVersion: ""
-  time: 01/08/2026 12:39:58
-  entityCount: 1019
+  time: 01/04/2026 09:37:17
+  entityCount: 1020
 maps: []
 grids:
 - 1
@@ -351,90 +351,84 @@ entities:
       data:
         tiles:
           0,0:
-            0: 3
-            1: 61440
+            0: 61567
           0,-1:
-            0: 30487
+            0: 65531
+            1: 4
           -1,0:
-            0: 8
-            1: 61696
-          1,0:
-            1: 4898
-          1,-1:
-            1: 12028
-          0,-4:
-            0: 62702
-          -1,-4:
-            0: 58623
-          0,-3:
-            0: 64447
-          -1,-3:
-            0: 60334
-          0,-2:
-            0: 65311
-          -1,-2:
-            0: 65294
+            0: 61902
           -1,-1:
-            0: 52236
-            1: 16
-          0,-5:
-            0: 61166
-          1,-4:
-            0: 19
-            1: 33856
-          1,-3:
-            0: 61422
+            0: 61183
+          -1,-2:
+            0: 65535
+          0,-2:
+            0: 65535
           1,-2:
-            0: 4366
+            0: 56831
             2: 8704
-            1: 52352
-          1,-5:
-            0: 14199
-            1: 32768
-          2,-4:
-            1: 4096
-          2,-3:
-            0: 4368
-          2,-2:
-            1: 16
-          2,-1:
-            1: 273
-          -2,0:
-            1: 2184
-          -2,-1:
-            1: 36855
-          -2,-4:
-            1: 13376
-            0: 8
-          -2,-3:
-            0: 65534
           -2,-2:
-            1: 26160
-            0: 14
+            0: 30719
             3: 34816
-          -2,-5:
-            0: 36044
-            1: 8192
+          -2,-3:
+            0: 65535
+          -1,-3:
+            0: 65535
+          0,-3:
+            0: 65535
+          1,-3:
+            0: 65535
+          -2,-4:
+            0: 64716
+          -1,-4:
+            0: 65535
+          0,-4:
+            0: 65535
+          1,-4:
+            0: 63351
           -1,-5:
             0: 65535
-          -2,-7:
-            1: 8192
-          -2,-6:
-            0: 52428
           -1,-6:
-            0: 29491
-            1: 2056
-          -1,-7:
-            1: 16384
+            0: 65407
+          0,-5:
+            0: 65535
           0,-6:
-            1: 771
-            0: 51336
-          0,-7:
-            1: 16384
+            0: 65487
+          -2,-5:
+            0: 61166
+          -2,-6:
+            0: 44782
+            4: 16384
+          1,-5:
+            0: 65535
           1,-6:
-            0: 30583
+            0: 49151
+            5: 16384
+          -1,-7:
+            0: 28672
+          0,-7:
+            0: 49152
+          -2,-7:
+            0: 57344
           1,-7:
-            1: 32768
+            0: 61440
+          -2,0:
+            0: 2303
+          1,0:
+            0: 5102
+          1,-1:
+            0: 61183
+          -2,-1:
+            0: 65535
+          2,0:
+            0: 17
+          2,-1:
+            0: 4369
+          2,-2:
+            0: 4369
+          2,-3:
+            0: 4369
+          2,-4:
+            0: 4096
         uniqueMixes:
         - volume: 2500
           temperature: 293.15
@@ -442,8 +436,10 @@ entities:
             Oxygen: 21.824879
             Nitrogen: 82.10312
         - volume: 2500
-          immutable: True
-          moles: {}
+          temperature: 293.14975
+          moles:
+            Oxygen: 21.824879
+            Nitrogen: 82.10312
         - volume: 2500
           temperature: 293.15
           moles:
@@ -452,6 +448,16 @@ entities:
           temperature: 293.15
           moles:
             Oxygen: 6666.982
+        - volume: 2500
+          temperature: 293.14975
+          moles:
+            Oxygen: 20.078888
+            Nitrogen: 75.53487
+        - volume: 2500
+          temperature: 293.15
+          moles:
+            Oxygen: 21.6852
+            Nitrogen: 81.57766
         chunkSize: 4
     - type: GasTileOverlay
     - type: RadiationGridResistance
@@ -2637,6 +2643,20 @@ entities:
           occludes: True
           ents:
           - 491
+- proto: ComputerRadar
+  entities:
+  - uid: 492
+    components:
+    - type: Transform
+      pos: -0.5,0.5
+      parent: 1
+    - type: ContainerContainer
+      containers:
+        board: !type:Container
+          showEnts: False
+          occludes: True
+          ents:
+          - 493
 - proto: ComputerShuttle
   entities:
   - uid: 494
@@ -3073,11 +3093,6 @@ entities:
       parent: 1
 - proto: ErtComputerShuttle
   entities:
-  - uid: 492
-    components:
-    - type: Transform
-      pos: -0.5,0.5
-      parent: 1
   - uid: 850
     components:
     - type: Transform
@@ -5501,6 +5516,14 @@ entities:
       rot: 1.5707963267948966 rad
       pos: -5.5,-17.5
       parent: 1
+- proto: RadarConsoleCircuitboard
+  entities:
+  - uid: 493
+    components:
+    - type: Transform
+      parent: 492
+    - type: Physics
+      canCollide: False
 - proto: RemoteSignaller
   entities:
   - uid: 771

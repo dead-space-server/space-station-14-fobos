@@ -8,7 +8,6 @@ using Content.Shared.Destructible;
 using Robust.Shared.Player;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Utility;
-using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Content.Shared.Random;
 using Content.Shared.Random.Helpers;
@@ -21,7 +20,6 @@ public sealed class DemonPortalSystem : EntitySystem
     [Dependency] private readonly NavMapSystem _navMap = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly IGameTiming _gameTiming = default!;
-    [Dependency] private readonly IPrototypeManager _proto = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
 
     public override void Initialize()

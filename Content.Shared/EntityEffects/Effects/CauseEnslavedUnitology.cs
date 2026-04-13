@@ -12,40 +12,8 @@ using Content.Shared.Mindshield.Components;
 
 namespace Content.Shared.EntityEffects.Effects;
 
-public sealed partial class CauseEnslavedUnitology : EventEntityEffect<CauseEnslavedUnitology>
+public sealed partial class CauseEnslavedUnitology : EntityEffectBase<CauseEnslavedUnitology>
 {
-    protected override string? ReagentEffectGuidebookText(IPrototypeManager prototype, IEntitySystemManager entSys)
+    public override string? EntityEffectGuidebookText(IPrototypeManager prototype, IEntitySystemManager entSys)
         => Loc.GetString("reagent-effect-guidebook-cause-enslave", ("chance", Probability));
-
-    public override void Effect(EntityEffectBaseArgs args)
-    {
-        if (!args.EntityManager.HasComponent<MobStateComponent>(args.TargetEntity)
-            || !args.EntityManager.HasComponent<HumanoidAppearanceComponent>(args.TargetEntity))
-        {
-            return;
-        }
-
-        if (args.EntityManager.HasComponent<MindShieldComponent>(args.TargetEntity))
-        {
-            return;
-        }
-
-        if (args.EntityManager.HasComponent<ImmunitetInfectionDeadComponent>(args.TargetEntity))
-        {
-            DamageSpecifier dspec = new();
-            dspec.DamageDict.Add("Cellular", 5f);
-            args.EntityManager.System<DamageableSystem>().TryChangeDamage(args.TargetEntity, dspec, true, false);
-            return;
-        }
-
-        if (args.EntityManager.HasComponent<UnitologyComponent>(args.TargetEntity)
-            || args.EntityManager.HasComponent<UnitologyEnslavedComponent>(args.TargetEntity)
-            || args.EntityManager.HasComponent<NecromorfComponent>(args.TargetEntity)
-            || args.EntityManager.HasComponent<ZombieComponent>(args.TargetEntity)
-            || !args.EntityManager.HasComponent<SanityComponent>(args.TargetEntity))
-            return;
-
-        args.EntityManager.RemoveComponent<InfectionDeadComponent>(args.TargetEntity);
-        args.EntityManager.EnsureComponent<UnitologyEnslavedComponent>(args.TargetEntity);
-    }
 }

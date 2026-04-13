@@ -183,10 +183,10 @@
       upgrades: !type:Container
 
 - type: entity
-  id: WeaponAdvancedKinetik
-  parent: [ BaseItem, BaseCargoContraband ]
+  id: WeaponSeniorKinetik
+  parent: [ BaseItem, BaseCargoContraband ] 
   name: продвинутый протокинетический ускоритель
-  description: Специальная модификация протокинетического ускорителя, представляющая из себя ослабленный в угоду компактности гибрид протокинетических повторителя и дробовика с выбором режима работы между ними. Спроектирован для повышения эффективности работы утилизаторов объектов NanoTrasen.
+  description: Специальная модификация протокинетического ускорителя, представляющая из себя ослабленный в угоду компактности гибрид протокинетических повторителя и дробовика с выбором режима работы между ними. Спроектирован для повышения эффективности работы ведущих утилизаторов объектов NanoTrasen.
   components:
   - type: AmmoCounter
   - type: Appearance
@@ -197,7 +197,7 @@
           True: { visible: False }
           False: { visible: True }
         #todo: add other 'empty' animations
-  - type: ProjectileBatteryAmmoProvider
+  - type: BatteryAmmoProvider
     proto: BulletKinetic
     fireCost: 50
   - type: Gun
@@ -245,9 +245,7 @@
     - proto: BulletKineticSeniorSpread
       fireCost: 100
   - type: BatterySelfRecharger
-    autoRecharge: true
     autoRechargeRate: 50
-    autoRechargePause: true
     autoRechargePauseTime: 1
   - type: Battery
     maxCharge: 100

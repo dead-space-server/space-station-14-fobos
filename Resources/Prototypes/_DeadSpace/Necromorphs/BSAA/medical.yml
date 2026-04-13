@@ -13,9 +13,12 @@
     maxFillLevels: 1
     changeColor: false
     emptySpriteName: OPPY-OPNY-Medipen-Empty
-  - type: Hypospray
+  - type: Injector
     solutionName: pen
-    transferAmount: 30
+    currentTransferAmount: null
+    activeModeProtoId: HyposprayInjectMode
+    allowedModes:
+    - HyposprayInjectMode
   - type: SolutionContainerManager
     solutions:
       pen:
@@ -48,7 +51,7 @@
 
 - type: entity
   id: InjectorCase
-  parent: [ BaseStorageItem, BaseBagOpenClose ]
+  parent: Medkit
   name: боевой медицинский комплект
   description: Кейс для специализированных медицинских автоинъекторов.
   components:
@@ -56,10 +59,7 @@
     sprite: _DeadSpace/Necromorfs/BSAA/misc/medipen-case.rsi
     layers:
     - state: closed
-    - state: animation-closed-unshaded
-      visible: true
       map: [ "empty-icon" ]
-      shader: unshaded
     - state: open
       map: ["openLayer"]
       visible: false
@@ -87,6 +87,23 @@
     - state: pen8
       map: ["pen8"]
       visible: false
+  - type: UserInterface
+    interfaces:
+      enum.StorageUiKey.Key:
+        type: StorageBoundUserInterface
+  - type: ContainerContainer
+    containers:
+      storagebase: !type:Container
+        ents: []
+  - type: GenericVisualizer
+    visuals:
+      enum.SharedBagOpenVisuals.BagState: # You don't have to use both of these if its not necessary.
+        closeLayer:
+          Open: { visible: false }
+          Closed: { visible: true }
+        openLayer:
+          Open: { visible: true }
+          Closed: { visible: false }
   - type: Tag
     tags:
     - CigPack
@@ -126,6 +143,7 @@
 - type: entity
   id: InjectorCaseFilled
   parent: InjectorCase
+  suffix: Заполненная
   components:
   - type: StorageFill
     contents:
@@ -142,6 +160,7 @@
 - type: entity
   id: InjectorCaseStimFilled
   parent: InjectorCaseStim
+  suffix: Заполненная
   components:
   - type: StorageFill
     contents:

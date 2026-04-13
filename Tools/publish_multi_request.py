@@ -30,21 +30,33 @@ def main():
         "Authorization": f"Bearer {PUBLISH_TOKEN}",
     }
 
-    print(f"Starting publish on Robust.Cdn for version {VERSION}")
+    engine_version = get_engine_version()
+    print(f"Version: {VERSION}")
+    print(f"Engine version: {engine_version}")
+    print(f"Fork: {fork_id}")
+    print(f"CDN: {ROBUST_CDN_URL}")
 
     data = {
         "version": VERSION,
-        "engineVersion": get_engine_version(),
+        "engineVersion": engine_version,
     }
     headers = {
         "Content-Type": "application/json"
     }
-    resp = session.post(f"{ROBUST_CDN_URL}fork/{fork_id}/publish/start", json=data, headers=headers)
-    resp.raise_for_status()
-    print("Publish successfully started, adding files...")
 
-    for file in get_files_to_publish():
-        print(f"Publishing {file}")
+    print(f"Starting publish...")
+    resp = session.post(f"{ROBUST_CDN_URL}fork/{fork_id}/publish/start", json=data, headers=headers)
+    if not resp.ok:
+        print(f"Publish start FAILED: {resp.status_code} {resp.reason}")
+        print(f"Response: {resp.text}")
+        resp.raise_for_status()
+    print("Publish started OK, uploading files...")
+
+    files = list(get_files_to_publish())
+    print(f"Files to upload: {len(files)}")
+    for file in files:
+        size_mb = os.path.getsize(file) / (1024 * 1024)
+        print(f"  Uploading {os.path.basename(file)} ({size_mb:.1f} MB)")
         with open(file, "rb") as f:
             headers = {
                 "Content-Type": "application/octet-stream",
@@ -53,9 +65,12 @@ def main():
             }
             resp = session.post(f"{ROBUST_CDN_URL}fork/{fork_id}/publish/file", data=f, headers=headers)
 
-        resp.raise_for_status()
+        if not resp.ok:
+            print(f"  Upload FAILED: {resp.status_code} {resp.reason}")
+            print(f"  Response: {resp.text}")
+            resp.raise_for_status()
 
-    print("Successfully pushed files, finishing publish...")
+    print("All files uploaded, finishing publish...")
 
     data = {
         "version": VERSION
@@ -64,7 +79,10 @@ def main():
         "Content-Type": "application/json"
     }
     resp = session.post(f"{ROBUST_CDN_URL}fork/{fork_id}/publish/finish", json=data, headers=headers)
-    resp.raise_for_status()
+    if not resp.ok:
+        print(f"Publish finish FAILED: {resp.status_code} {resp.reason}")
+        print(f"Response: {resp.text}")
+        resp.raise_for_status()
 
     print("SUCCESS!")
 
@@ -75,10 +93,10 @@ def get_files_to_publish() -> Iterable[str]:
 
 
 def get_engine_version() -> str:
-    proc = subprocess.run(["git", "describe","--tags", "--abbrev=0"], stdout=subprocess.PIPE, cwd="RobustToolbox", check=True, encoding="UTF-8")
-    tag = proc.stdout.strip()
-    assert tag.startswith("v")
-    return tag[1:] # Cut off v prefix.
+    import xml.etree.ElementTree as ET
+    tree = ET.parse(os.path.join("RobustToolbox", "MSBuild", "Robust.Engine.Version.props"))
+    version = tree.getroot().find(".//Version").text.strip()
+    return version
 
 
 if __name__ == '__main__':
