@@ -154,11 +154,11 @@
 
   - !type:EntranceFlankDunGen
     tile: FloorDark
-    contents: TitaniumWinow #DS14
+    contents: TitaniumWindow #DS14
 
   - !type:ExternalWindowDunGen
     tile: FloorDark
-    contents: TitaniumWinow #DS14
+    contents: TitaniumWindow #DS14
 
   - !type:WallMountDunGen
     contents: ScienceLabsWalls
@@ -380,7 +380,7 @@
 
 #DS14-start
 - type: entityTable
-  id: TitaniumWinow
+  id: TitaniumWindow 
   table: !type:GroupSelector
     children:
     - id: Grille
