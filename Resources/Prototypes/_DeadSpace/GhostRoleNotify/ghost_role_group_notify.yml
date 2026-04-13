@@ -17,6 +17,10 @@
   name: Гуляющий демон
 
 - type: ghostNotifyGroup
+  id: Shadowlingping
+  name: Тенеморф
+
+- type: ghostNotifyGroup
   id: DemonShadowping
   name: Теневой демон
 
