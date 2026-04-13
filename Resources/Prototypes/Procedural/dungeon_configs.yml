@@ -74,7 +74,28 @@
       SouthEast: BrickTileWhiteInnerSe
       NorthWest: BrickTileWhiteInnerNw
       NorthEast: BrickTileWhiteInnerNe
-
+#DS14-start
+  - !type:EntityTableDunGen
+    minCount: 25
+    maxCount: 40
+    table: !type:NestedSelector
+      tableId: SalvageScrapSpawnerCommon
+  - !type:EntityTableDunGen
+    minCount: 30
+    maxCount: 40
+    table: !type:NestedSelector
+      tableId: SalvageScrapSpawnerValuable
+  - !type:EntityTableDunGen
+    minCount: 30
+    maxCount: 45
+    table: !type:NestedSelector
+      tableId: SalvageTreasureSpawnerCommon
+  - !type:EntityTableDunGen
+    minCount: 30
+    maxCount: 45
+    table: !type:NestedSelector
+      tableId: SalvageTreasureSpawnerValuable
+#DS14-end
 - type: dungeonConfig
   id: Haunted
   layers:
@@ -133,19 +154,19 @@
 
   - !type:EntranceFlankDunGen
     tile: FloorDark
-    contents: BaseWindow
+    contents: TitaniumWinow #DS14
 
   - !type:ExternalWindowDunGen
     tile: FloorDark
-    contents: BaseWindow
+    contents: TitaniumWinow #DS14
 
   - !type:WallMountDunGen
     contents: ScienceLabsWalls
     tile: FloorDark
 
   - !type:BoundaryWallDunGen
-    wall: WallSolid
-    cornerWall: WallReinforced
+    wall: WallPlastitanium #DS14
+    cornerWall: WallPlastitanium #DS14
     tile: FloorDark
 
   - !type:JunctionDunGen
@@ -180,7 +201,28 @@
       SouthEast: BrickTileWhiteInnerSe
       NorthWest: BrickTileWhiteInnerNw
       NorthEast: BrickTileWhiteInnerNe
-
+#DS14-start
+  - !type:EntityTableDunGen
+    minCount: 25
+    maxCount: 40
+    table: !type:NestedSelector
+      tableId: SalvageScrapSpawnerCommon
+  - !type:EntityTableDunGen
+    minCount: 30
+    maxCount: 40
+    table: !type:NestedSelector
+      tableId: SalvageScrapSpawnerValuable
+  - !type:EntityTableDunGen
+    minCount: 30
+    maxCount: 45
+    table: !type:NestedSelector
+      tableId: SalvageTreasureSpawnerCommon
+  - !type:EntityTableDunGen
+    minCount: 30
+    maxCount: 45
+    table: !type:NestedSelector
+      tableId: SalvageTreasureSpawnerValuable
+#DS14-end
 - type: dungeonConfig
   id: Mineshaft
   layers:
@@ -291,7 +333,28 @@
 
   - !type:AutoCablingDunGen
     entity: CableApcExtension
-
+#DS14-start
+  - !type:EntityTableDunGen
+    minCount: 25
+    maxCount: 40
+    table: !type:NestedSelector
+      tableId: SalvageScrapSpawnerCommon
+  - !type:EntityTableDunGen
+    minCount: 30
+    maxCount: 40
+    table: !type:NestedSelector
+      tableId: SalvageScrapSpawnerValuable
+  - !type:EntityTableDunGen
+    minCount: 30
+    maxCount: 45
+    table: !type:NestedSelector
+      tableId: SalvageTreasureSpawnerCommon
+  - !type:EntityTableDunGen
+    minCount: 30
+    maxCount: 45
+    table: !type:NestedSelector
+      tableId: SalvageTreasureSpawnerValuable
+#DS14-end
 # Spawn groups
 # Basic
 - type: entityTable
@@ -314,6 +377,15 @@
     children:
     - id: Grille
     - id: Window
+
+#DS14-start
+- type: entityTable
+  id: TitaniumWinow
+  table: !type:GroupSelector
+    children:
+    - id: Grille
+    - id: PlastitaniumWindow
+#DS14-end
 
 # Lava brig
 - type: entityTable
