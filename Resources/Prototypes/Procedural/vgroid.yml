@@ -170,7 +170,7 @@
     minCount: 25
     maxCount: 40
     perDungeon: true #DS14
-    table: !type:NestedSeЦlector
+    table: !type:NestedSelector
       tableId: SalvageScrapSpawnerCommon
   - !type:EntityTableDunGen
     minCount: 30
