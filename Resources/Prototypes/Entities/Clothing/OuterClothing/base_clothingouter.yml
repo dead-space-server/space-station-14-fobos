@@ -133,7 +133,6 @@
         Piercing: 0.95
         Heat: 0.90
         Radiation: 0.25
-        Stun: 0.85 # DS14-value: 4 stunbaton hits for stun
   - type: ToggleableClothing
     slot: head
   - type: ContainerContainer

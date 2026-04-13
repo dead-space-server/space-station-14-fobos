@@ -141,7 +141,6 @@
         Slash: 0.6
         Piercing: 0.6
         Caustic: 0.6
-        Stun: 0.5
   - type: StaminaResistance
     damageCoefficient: 0.5
   - type: ClothingSpeedModifier

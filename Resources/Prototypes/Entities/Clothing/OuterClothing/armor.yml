@@ -21,8 +21,7 @@
         Slash: 0.7
         Piercing: 0.7 #Can save you, but bullets will still hurt. Will take about 10 shots from a Viper before critting, as opposed to 7 while unarmored and 16~ with a bulletproof vest.
         Heat: 0.7 # DS14
-        Stun: 0.65 # DS14
-  - type: StaminaResistance
+  - type: StaminaResistance #DS14
     damageCoefficient: 0.65
   - type: ExplosionResistance
     damageCoefficient: 0.90
@@ -164,6 +163,8 @@
         Slash: 0.6
         Piercing: 0.3
         Heat: 0.9
+  - type: StaminaResistance #DS14
+    damageCoefficient: 0.4
   - type: StaticPrice
     price: 1500
 
@@ -190,6 +191,8 @@
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
+  - type: StaminaResistance #DS14
+    damageCoefficient: 0.4
   - type: ExplosionResistance
     damageCoefficient: 0.5
   - type: FireProtection
@@ -215,7 +218,8 @@
         Slash: 0.5
         Piercing: 0.4
         Heat: 0.9
-
+  - type: StaminaResistance #DS14
+    damageCoefficient: 0.4
 
 # Armor covering multiple body parts including limbs
 - type: entity
@@ -241,7 +245,8 @@
         Piercing: 0.35
         Heat: 0.35
         Caustic: 0.5
-        Stun: 0.65 # DS14-value: 5 stunbaton hits for stun
+  - type: StaminaResistance #DS14
+    damageCoefficient: 0.3
   - type: ExplosionResistance
     damageCoefficient: 0.35
   # - type: StaminaResistance # do not add these to other equipment or mobs, we don't want to microbalance these everywhere
@@ -316,8 +321,7 @@
         Piercing: 0.6 # DS14-value
         Heat: 0.7 # DS14-value
         Caustic: 0.9
-        Stun: 0.25 # DS14-value
-  - type: StaminaResistance
+  - type: StaminaResistance #DS14
     damageCoefficient: 0.25
   - type: ExplosionResistance
     damageCoefficient: 0.9
@@ -364,7 +368,6 @@
         Heat: 0.5
         # Radiation: 0 # DS14-value
         Caustic: 0.75
-        Stun: 0.4 # DS14
   - type: StaminaResistance # DS14
     damageCoefficient: 0.4
   - type: GroupExamine
