@@ -1,0 +1,7 @@
+- type: trait
+  id: Uncloning
+  name: trait-uncloning-name
+  description: trait-uncloning-desc
+  category: Disabilities
+  components:
+    - type: Uncloning

@@ -4,6 +4,7 @@ using Content.Server.Temperature.Components;
 using Content.Shared.Body.Components;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Damage;
+using Content.Shared.Cloning; // Добавлено для UncloningComponent
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DoAfter;
 using Content.Shared.IdentityManagement;
@@ -200,7 +201,7 @@ public sealed class HealthAnalyzerSystem : EntitySystem
         var bloodAmount = float.NaN;
         var bleeding = false;
         var unrevivable = false;
-
+        var unclonable = false; // Добавлено
         if (TryComp<BloodstreamComponent>(target, out var bloodstream) &&
             _solutionContainerSystem.ResolveSolution(target, bloodstream.BloodSolutionName,
                 ref bloodstream.BloodSolution, out var bloodSolution))
@@ -216,6 +217,9 @@ public sealed class HealthAnalyzerSystem : EntitySystem
             curProg = virus.Data.Threshold / virus.Data.MaxThreshold;
 
         float infectionLevel = 1f - curProg;
+
+        if (HasComp<UncloningComponent>(target))
+            unclonable = true;
         // DS14-end
 
         if (TryComp<UnrevivableComponent>(target, out var unrevivableComp) && unrevivableComp.Analyzable)
@@ -228,6 +232,7 @@ public sealed class HealthAnalyzerSystem : EntitySystem
             scanMode,
             bleeding,
             unrevivable,
+            unclonable, // DS14
             virus != null, // DS14
             infectionLevel // DS14
         ));

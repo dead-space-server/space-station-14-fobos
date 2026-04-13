@@ -16,11 +16,12 @@ public sealed class HealthAnalyzerScannedUserMessage : BoundUserInterfaceMessage
     public bool? Unrevivable;
 
     // DS14-start
+    public bool? Unclonable;
     public bool? HasVirus;
     public float CureProgress; // 0..1
     // DS14-end
 
-    public HealthAnalyzerScannedUserMessage(NetEntity? targetEntity, float temperature, float bloodLevel, bool? scanMode, bool? bleeding, bool? unrevivable, bool? hasVirus, float cureProgress = 1)
+    public HealthAnalyzerScannedUserMessage(NetEntity? targetEntity, float temperature, float bloodLevel, bool? scanMode, bool? bleeding, bool? unrevivable, bool? unclonable, bool? hasVirus, float cureProgress = 1)
     {
         TargetEntity = targetEntity;
         Temperature = temperature;
@@ -28,6 +29,7 @@ public sealed class HealthAnalyzerScannedUserMessage : BoundUserInterfaceMessage
         ScanMode = scanMode;
         Bleeding = bleeding;
         Unrevivable = unrevivable;
+        Unclonable = unclonable; // DS14
         HasVirus = hasVirus;
         CureProgress = cureProgress;
     }

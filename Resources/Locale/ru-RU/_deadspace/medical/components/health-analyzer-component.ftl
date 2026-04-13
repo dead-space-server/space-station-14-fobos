@@ -1,0 +1,1 @@
+health-analyzer-window-entity-uncloning-text = [color=violet]Обнаружен нестабильный генетический код! Пациент не может быть клонирован![/color]

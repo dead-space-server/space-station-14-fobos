@@ -135,7 +135,16 @@ public sealed class CloningPodSystem : EntitySystem
 
         if (HasComp<ActiveCloningPodComponent>(uid))
             return false;
-
+// DS14-start
+        if (HasComp<UncloningComponent>(bodyToClone) && !clonePod.CanCloneUnclonable)
+        {
+            if (clonePod.ConnectedConsole != null)
+                _chatSystem.TrySendInGameICMessage(clonePod.ConnectedConsole.Value,
+                    Loc.GetString("cloning-console-uncloning-error"),
+                    InGameICChatType.Speak, false);
+            return false;
+        }
+// DS14-end
         var mind = mindEnt.Comp;
         if (ClonesWaitingForMind.TryGetValue(mind, out var clone))
         {
