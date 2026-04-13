@@ -15,6 +15,11 @@
   - type: Sprite
     sprite: Objects/Consumable/Food/plates.rsi
     state: plate
+  # DS14-start
+  - type: ContainerContainer
+    containers:
+      plate_slot: !type:ContainerSlot
+  # DS14-end
   - type: Item
     shape:
     - 0,0,1,0
@@ -24,6 +29,20 @@
       - state: plate-inhand-left
       right:
       - state: plate-inhand-right
+  # DS14-start
+  - type: ItemSlots
+    slots:
+      plate_slot:
+        insertOnInteract: true
+        ejectOnInteract: false
+        ejectOnUse: true
+        disableEject: false
+        swap: true 
+        ejectOnBreak: false
+  - type: Plate
+    contentOffset: 0, -0.1 
+    maxItemSize: Normal
+  # DS14-end
   - type: DamageOnLand
     damage:
       types:
@@ -45,6 +64,7 @@
           collection: GlassBreak
           params:
             volume: -8
+      - !type:EmptyAllContainersBehaviour #DS14
       - !type:SpawnEntitiesBehavior
         spawn:
           FoodPlateTrash:
@@ -96,6 +116,11 @@
       - state: plate-inhand-left
       right:
       - state: plate-inhand-right
+  # DS14-start
+  - type: Plate
+    contentOffset: 0, 0
+    maxItemSize: Normal
+  # DS14-end
 # Needs the full thing because inherting is dumb sometimes.
   - type: Destructible
     thresholds:
@@ -108,6 +133,7 @@
           collection: GlassBreak
           params:
             volume: -8
+      - !type:EmptyAllContainersBehaviour #DS14
       - !type:SpawnEntitiesBehavior
         spawn:
           FoodPlateSmallTrash:
@@ -140,6 +166,11 @@
   - type: Sprite
     sprite: Objects/Consumable/Food/plates.rsi
     state: plate-plastic
+  # DS14-start
+  - type: ContainerContainer
+    containers:
+      plate_slot: !type:ContainerSlot
+  # DS14-end
   - type: Item
     shape:
     - 0,0,1,0
@@ -149,6 +180,20 @@
       - state: plate-plastic-inhand-left
       right:
       - state: plate-plastic-inhand-right
+  # DS14-start
+  - type: ItemSlots
+    slots:
+      plate_slot:
+        insertOnInteract: true
+        ejectOnInteract: false
+        ejectOnUse: true
+        disableEject: false
+        swap: true
+        ejectOnBreak: false
+  - type: Plate
+    contentOffset: 0, -0.1
+    maxItemSize: Normal
+  # DS14-end
   - type: Tag
     tags:
     - Trash
@@ -162,6 +207,11 @@
   - type: Sprite
     sprite: Objects/Consumable/Food/plates.rsi
     state: plate-small-plastic
+  # DS14-start
+  - type: ContainerContainer
+    containers:
+      plate_slot: !type:ContainerSlot
+  # DS14-end
   - type: Item
     shape:
     - 0,0,1,0
@@ -171,6 +221,20 @@
       - state: plate-plastic-inhand-left
       right:
       - state: plate-plastic-inhand-right
+  # DS14-start
+  - type: ItemSlots
+    slots:
+      plate_slot:
+        insertOnInteract: true
+        ejectOnInteract: false
+        ejectOnUse: true
+        disableEject: false
+        swap: true
+        ejectOnBreak: false
+  - type: Plate
+    contentOffset: 0, 0
+    maxItemSize: Normal
+  # DS14-end
   - type: Tag
     tags:
     - Trash
@@ -186,11 +250,29 @@
   - type: Sprite
     sprite: Objects/Consumable/Food/plates.rsi
     state: tin
+  # DS14-start
+  - type: ContainerContainer
+    containers:
+      plate_slot: !type:ContainerSlot
+  # DS14-end
   - type: Item
     size: Small
     shape:
     - 0,0,1,0
     storedOffset: 0,-3
+  # DS14-start
+  - type: ItemSlots
+    slots:
+      plate_slot:
+        insertOnInteract: true
+        ejectOnInteract: false
+        ejectOnUse: true
+        disableEject: false
+        swap: true
+        ejectOnBreak: false
+  - type: Plate
+    maxItemSize: Normal
+  # DS14-end
   - type: Tag
     tags:
     - Trash
@@ -210,11 +292,29 @@
   - type: Sprite
     sprite: Objects/Consumable/Food/plates.rsi
     state: muffin-tin
+  # DS14-start
+  - type: ContainerContainer
+    containers:
+      plate_slot: !type:ContainerSlot
+  # DS14-end
   - type: Item
     size: Tiny
     shape:
     - 0,0,0,0
     storedOffset: 0,-2
+  # DS14-start
+  - type: ItemSlots
+    slots:
+      plate_slot:
+        insertOnInteract: true
+        ejectOnInteract: false
+        ejectOnUse: true
+        disableEject: false
+        swap: true
+        ejectOnBreak: false
+  - type: Plate
+    maxItemSize: Small
+  # DS14-end
   - type: Tag
     tags:
     - Trash

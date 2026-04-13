@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "sprites by zekal_l (discord) for Space Station 14 server Мёртвый Космос",
+  "size": { "x": 32, "y": 32 },
+  "states": [
+    {
+      "name": "eye_blink_moth",
+      "directions": 4
+    },
+    {
+      "name": "eye_blink_arachnid",
+      "directions": 4
+    },
+    {
+      "name": "eye_blink_reptilian",
+      "directions": 4
+    },
+    {
+      "name": "eye_blink_vox",
+      "directions": 4
+    },
+    {
+      "name": "eye_blink",
+      "directions": 4
+    }
+  ]
+}
