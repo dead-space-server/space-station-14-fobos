@@ -372,8 +372,6 @@
   - type: ExaminableSolution
     solution: hypospray
     exactVolume: true
-  - type: Hypospray
-    onlyAffectsMobs: false
   - type: UseDelay
     delay: 0.5
   - type: StaticPrice
