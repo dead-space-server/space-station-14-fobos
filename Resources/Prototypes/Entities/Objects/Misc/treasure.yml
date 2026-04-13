@@ -16,9 +16,9 @@
     energy: 0.5
     castShadows: false
     color: "#0000ff"
-  - type: StaticPrice
-    price: 500
 #DS14-start
+#  - type: StaticPrice
+#    price: 500
   - type: PhysicalComposition
     materialComposition:
       MaterialDatadiskEncrypted: 100
