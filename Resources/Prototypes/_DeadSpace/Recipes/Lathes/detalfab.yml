@@ -1,0 +1,28 @@
+- type: latheRecipe
+  id: DefaultCoreForModifiedBackpack
+  result: DefaultCoreForModifiedBackpack
+  materials:
+    Steel: 1500
+    Plastic: 1500
+    Gold: 1000
+
+- type: latheRecipe
+  id: MediumCoreForModifiedBackpack
+  result: MediumCoreForModifiedBackpack
+  materials:
+    Steel: 1500
+    Plastic: 1500
+    Gold: 1500
+    Plasma: 500
+    MaterialScrapGlass: 500
+
+- type: latheRecipe
+  id: AdvancedCoreForModifiedBackpack
+  result: AdvancedCoreForModifiedBackpack
+  materials:
+    Steel: 2000
+    Plastic: 1500
+    Gold: 2000
+    Plasma: 1000
+    MaterialScrapGlass: 1500
+    Magmite: 1250

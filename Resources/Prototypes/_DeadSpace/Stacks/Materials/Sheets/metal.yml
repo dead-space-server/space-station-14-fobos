@@ -25,3 +25,24 @@
   icon: { sprite: /Textures/_DeadSpace/Objects/Materials/Sheets/bluespace-crystal-sheet.rsi, state: synthetic_bluespace_crystal }
   spawn: SheetBluespaceCrystal1
   maxCount: 30
+
+- type: stack
+  id: ScrapGlassBroken
+  name: stack-glass-scrap
+  icon: { sprite: /Textures/Objects/Materials/Scrap/generic.rsi, state: glass-2 }
+  spawn: ScrapGlass
+  maxCount: 15
+
+- type: stack
+  id: ScrapHardDiskDrive
+  name: stack-hard-disk
+  icon: { sprite: /Textures/Objects/Misc/module.rsi, state: harddisk }
+  spawn: TreasureHardDiskDrive
+  maxCount: 10
+
+- type: stack
+  id: ScrapDatadiskEncrypted
+  name: stack-datadisk-encrypted
+  icon: { sprite: /Textures/Objects/Misc/module.rsi, state: datadisk_encrypted }
+  spawn: TreasureDatadiskEncrypted
+  maxCount: 10

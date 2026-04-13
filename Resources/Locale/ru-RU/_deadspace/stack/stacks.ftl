@@ -88,3 +88,24 @@ stack-bluespace-sheet =
         [few] кусочка
        *[other] кусочков
     } чистого блюспейс кристала
+
+stack-glass-scrap =
+    { $amount ->
+        [1] кусок
+        [few] кусочка
+       *[other] кусочков
+    } чистого блюспейс кристала
+
+stack-hard-disk =
+    { $amount ->
+        [1] кусок
+        [few] кусочка
+       *[other] кусочков
+    } чистого блюспейс кристала
+
+stack-datadisk-encrypted =
+    { $amount ->
+        [1] кусок
+        [few] кусочка
+       *[other] кусочков
+    } чистого блюспейс кристала

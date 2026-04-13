@@ -1,0 +1,6 @@
+- type: latheRecipePack
+  id: StartDetailCraftStation
+  recipes:
+    - DefaultCoreForModifiedBackpack
+    - MediumCoreForModifiedBackpack
+    - AdvancedCoreForModifiedBackpack

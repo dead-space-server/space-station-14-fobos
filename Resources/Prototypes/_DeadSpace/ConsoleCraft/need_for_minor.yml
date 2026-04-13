@@ -82,6 +82,16 @@
 
 - type: entity
   parent: BaseItem
+  id: DefaultCoreForModifiedBackpack
+  name: обычное ядро модифицированного рюкзака
+  description: A precision cooling array. Install via the crafting station.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/core.rsi
+    state: default
+
+- type: entity
+  parent: BaseItem
   id: MediumCoreForModifiedBackpack
   name: среднее ядро модифицированного рюкзака
   description: A precision cooling array. Install via the crafting station.
@@ -89,3 +99,23 @@
   - type: Sprite
     sprite: _DeadSpace/RIGs/Parts/core.rsi
     state: medium
+
+- type: entity
+  parent: BaseItem
+  id: AdvancedCoreForModifiedBackpack
+  name: продвинутое ядро модифицированного рюкзака
+  description: A precision cooling array. Install via the crafting station.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/core.rsi
+    state: adv
+
+- type: entity
+  parent: BaseItem
+  id: HyperCoreForModifiedBackpack
+  name: гипер ядро модифицированного рюкзака
+  description: A precision cooling array. Install via the crafting station.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/core.rsi
+    state: hyper
