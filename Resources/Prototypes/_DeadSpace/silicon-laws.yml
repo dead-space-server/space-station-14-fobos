@@ -154,6 +154,7 @@
   - EmptyLaw1
   - EmptyLaw2
   - EmptyLaw3
+  obeysTo: laws-owner-crew
 # Station Ai Crewsimov without law-crewsimov-0
 - type: siliconLaw
   id: CrewsimovAi1

@@ -1717,6 +1717,9 @@
       state: generic_panel_open
   - type: ApcPowerReceiver
     powerLoad: 1000
+  - type: PowerState
+    idlePowerDraw: 1000
+    workingPowerDraw: 1000
   - type: Computer
     board: LawBoardConfiguratorComputerCircuitboard
   - type: Lock
