@@ -39,6 +39,8 @@
         disableEject: false
         swap: true 
         ejectOnBreak: false
+        insertSound: null
+        ejectSound: null
   - type: Plate
     contentOffset: 0, -0.1 
     maxItemSize: Normal
@@ -190,6 +192,8 @@
         disableEject: false
         swap: true
         ejectOnBreak: false
+        insertSound: null
+        ejectSound: null
   - type: Plate
     contentOffset: 0, -0.1
     maxItemSize: Normal
@@ -231,6 +235,8 @@
         disableEject: false
         swap: true
         ejectOnBreak: false
+        insertSound: null
+        ejectSound: null
   - type: Plate
     contentOffset: 0, 0
     maxItemSize: Normal
@@ -270,6 +276,8 @@
         disableEject: false
         swap: true
         ejectOnBreak: false
+        insertSound: null
+        ejectSound: null
   - type: Plate
     maxItemSize: Normal
   # DS14-end
@@ -312,6 +320,8 @@
         disableEject: false
         swap: true
         ejectOnBreak: false
+        insertSound: null
+        ejectSound: null
   - type: Plate
     maxItemSize: Small
   # DS14-end
