@@ -25,7 +25,6 @@
   tier: 3
   cost: 20000
   recipeUnlocks:
-  - ClothingShoesBootsMagSuper
     - ClothingShoesBootsMagSuper
 
 - type: technology
