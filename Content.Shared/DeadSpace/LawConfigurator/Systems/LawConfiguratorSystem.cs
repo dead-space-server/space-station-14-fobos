@@ -4,7 +4,6 @@ using Content.Shared.DeadSpace.LawConfigurator.Components;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Interaction;
 using Content.Shared.Popups;
-using Content.Shared.Tag;
 using Content.Shared.Silicons.Laws.Components;
 using Content.Shared.Containers.ItemSlots;
 using Content.Shared.Wires;
@@ -20,7 +19,6 @@ public sealed class LawConfiguratorSystem : EntitySystem
 {
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly TagSystem _tag = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfterSystem = default!;
