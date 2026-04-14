@@ -115,7 +115,13 @@ public partial class ChatBox : UIWidget
     {
         var formatted = new FormattedMessage(3);
         formatted.PushColor(color);
-        formatted.AddMarkupOrThrow(message);
+        // DS14-start
+        if (!formatted.TryAddMarkup(message, out var error))
+        {
+            _sawmill.Warning($"Invalid chat markup, falling back to permissive parsing: {error}\n{message}");
+            formatted.AddMarkupPermissive(message);
+        }
+        // DS14-end
         formatted.Pop();
         Contents.AddMessage(formatted);
     }

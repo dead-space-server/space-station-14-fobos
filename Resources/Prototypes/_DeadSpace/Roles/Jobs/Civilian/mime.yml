@@ -1,0 +1,16 @@
+# Neck
+
+- type: loadout
+  id: MimeNeckSexy
+  equipment:
+    neck: ClothingNeckMimeSexy
+
+- type: loadout
+  id: MimeNeckScarfStripedZebra
+  equipment:
+    neck: ClothingNeckScarfStripedZebra
+
+- type: loadout
+  id: MimeNeckScarfStripedBlack
+  equipment:
+    neck: ClothingNeckScarfStripedBlack

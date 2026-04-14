@@ -99,7 +99,7 @@
     - ReptilianLanguage
     - GeneralLanguage
   - type: SpeedSliding
-    minSlideSpeed: 5.1
+    minSlideSpeed: 5
 
 - type: entity
   parent: BaseSpeciesDummy

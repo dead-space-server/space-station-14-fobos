@@ -11,3 +11,27 @@
   cost: 20000
   recipeUnlocks:
     - ClothingShoesBootsMagSuper
+
+- type: technology
+  id: ClothingHandsGlovesPowergloveActiveTech
+  name: research-technology-glovespowergloveactive
+  icon:
+    sprite: Clothing/Hands/Gloves/powerglove.rsi
+    state: icon
+  discipline: Experimental
+  tier: 3
+  cost: 15000
+  recipeUnlocks:
+    - ClothingHandsGlovesPowergloveActive
+
+- type: technology
+  id: HandTeleporterResearchTech
+  name: research-technology-handteleporter
+  icon:
+    sprite: _DeadSpace/Objects/Fun/hand_teleporter.rsi
+    state: icon
+  discipline: Experimental
+  tier: 3
+  cost: 20000
+  recipeUnlocks:
+    - HandTeleporterResearch

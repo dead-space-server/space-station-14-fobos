@@ -223,17 +223,6 @@
       - NukeOpsUplink
 
 - type: listing
-  id: UplinkMagazineShothgun
-  name: uplink-shotgun-magazine-name
-  description: uplink-shotgun-magazine-desc
-  icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Magazine/Shotgun/m12.rsi, state: base }
-  productEntity: MagazineShotgun
-  cost:
-    Telecrystal: 2
-  categories:
-  - UplinkAmmo
-
-- type: listing
   id: UplinkMagazineMachineGun
   name: uplink-machine-gun-magazine-name
   description: uplink-machine-gun-magazine-desc
