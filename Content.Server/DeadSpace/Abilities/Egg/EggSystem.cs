@@ -10,6 +10,7 @@ using Content.Server.Ghost.Roles;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mind;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Robust.Shared.Player;
 
 namespace Content.Server.DeadSpace.Abilities.Egg;

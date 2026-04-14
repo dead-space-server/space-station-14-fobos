@@ -17,6 +17,6 @@ public sealed partial class BlacklistedJobsMindFilter : MindFilter
     protected override bool ShouldRemove(Entity<MindComponent> mind, EntityUid? exclude, IEntityManager entMan, SharedMindSystem mindSys)
     {
         var jobSys = entMan.System<SharedJobSystem>();
-        return !Blacklist.Any(job => jobSys.MindHasJobWithId(mind, job));
+        return Blacklist.Any(job => jobSys.MindHasJobWithId(mind, job));
     }
 }

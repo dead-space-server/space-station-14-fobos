@@ -16,6 +16,15 @@
           Piercing: 0.4
           Heat: 0.6
           Caustic: 0.75
+    - type: StaminaResistance # DS14
+      damageCoefficient: 0.55
+    - type: SolutionContainerManager
+      solutions:
+        food:
+          maxVol: 30
+          reagents:
+          - ReagentId: Fiber
+            Quantity: 30
 
 - type: entity
   parent: ClothingOuterStorageBase

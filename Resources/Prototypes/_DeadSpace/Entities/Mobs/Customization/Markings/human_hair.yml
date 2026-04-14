@@ -20,3 +20,10 @@
   sprites:
   - sprite: _DeadSpace/Mobs/Customization/human_hair.rsi
     state: braid2
+- type: marking
+  id: HumanHairChinaTail
+  bodyPart: Hair
+  markingCategory: Hair
+  sprites:
+  - sprite: _DeadSpace/Mobs/Customization/human_hair.rsi
+    state: china_tail

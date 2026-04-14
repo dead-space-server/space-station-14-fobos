@@ -3,11 +3,11 @@
 using Content.Server.Body.Systems;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead;
-using Content.Server.Chat.Systems;
 using Content.Server.Emoting.Systems;
 using Content.Server.Speech.EntitySystems;
 using Content.Shared.Bed.Sleep;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Content.Shared.Mind;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
@@ -39,7 +39,6 @@ public sealed partial class NecromorfSystem : SharedInfectionDeadSystem
     [Dependency] private readonly IPrototypeManager _protoManager = default!;
     [Dependency] private readonly BloodstreamSystem _bloodstream = default!;
     [Dependency] private readonly DamageableSystem _damageable = default!;
-    [Dependency] private readonly ChatSystem _chat = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
@@ -105,7 +104,7 @@ public sealed partial class NecromorfSystem : SharedInfectionDeadSystem
                 : 1f;
 
             // Gradual healing for living Necromorfs.
-            _damageable.TryChangeDamage(uid, comp.PassiveHealing * multiplier, true, false, damage);
+            _damageable.TryChangeDamage(uid, comp.PassiveHealing * multiplier, true, false);
         }
     }
 

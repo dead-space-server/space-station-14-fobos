@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace Content.Shared.EntityEffects.Effects;
 
-public sealed partial class CauseInfectionDead : EventEntityEffect<CauseInfectionDead>
+public sealed partial class CauseInfectionDead : EntityEffectBase<CauseInfectionDead>
 {
     [DataField]
     public InfectionDeadStrainData StrainData = new InfectionDeadStrainData();
 
-    protected override string? ReagentEffectGuidebookText(IPrototypeManager prototype, IEntitySystemManager entSys)
+    public override string? EntityEffectGuidebookText(IPrototypeManager prototype, IEntitySystemManager entSys)
         => Loc.GetString("reagent-effect-guidebook-cause-infection-dead", ("chance", Probability));
 }

@@ -1,5 +1,9 @@
 research-technology-supermagboots = Улучшенный локализованный магнетизм
 research-technology-law-board-configuration = Конфигурация плат законов
+research-technology-handteleporter = Разрыв пространства 
+research-technology-glovespowergloveactive = Пробитие пространства
+research-technology-pinpointeruniversal = Наводка на объект
+research-technology-holopadhandheld = Связь с космосом
 research-discipline-mechworks = Механика
 research-discipline-weaponry = Вооружение
 research-discipline-research = Исследование

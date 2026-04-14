@@ -15,3 +15,6 @@ ent-WeaponSubMachineGunVector = Вектор
 ent-WeaponSubMachineGunWt550 = WT550
     .desc = Отличный пистолет-пулемёт, производства NanoTrasen's Small Arms Division. Использует патроны калибра 9х19 мм.
     .suffix = Пистолет-пулемёт
+ent-WeaponSubMachineGunBriefcase = коричневый чемодан
+    .desc = Полезен для хранения вещей
+    .suffix = Боевой

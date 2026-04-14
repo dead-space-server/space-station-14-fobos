@@ -132,6 +132,7 @@
   equipment:
     belt: ClothingBeltUnitologyHeavyWebbing
     id: UnitologyHeavyPDA
+    neck: ClothingNeckUnitologyHeavyMantle
 
 - type: startingGear
   parent: TheCircleBaseGear

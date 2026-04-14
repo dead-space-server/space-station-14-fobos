@@ -110,7 +110,6 @@
     slots: WITHOUT_POCKET
   - type: Tag
     tags:
-    - CorgiWearable
     - WhitelistChameleon
   - type: HideLayerClothing
     slots:
@@ -168,7 +167,8 @@
         Slash: 0.75
         Piercing: 0.75
         Heat: 0.75
-        Stun: 0.65 # DS14-value: 4 stunbaton hits for stun
+  - type: StaminaResistance #DS14
+    damageCoefficient: 0.5
   # phase cloak
   - type: ToggleClothing
     action: ActionTogglePhaseCloak
@@ -190,6 +190,8 @@
     noPowerPopup: ninja-no-power
   # core ninja suit stuff
   - type: NinjaSuit
+  - type: EmpResistance
+    strengthMultiplier: 0
   - type: UseDelay
     delay: 5 # disable time
   - type: PowerCellSlot
@@ -287,7 +289,6 @@
     slots: WITHOUT_POCKET
   - type: Tag
     tags:
-    - CorgiWearable
     - WhitelistChameleon
   - type: AddAccentClothing
     accent: BarkAccent

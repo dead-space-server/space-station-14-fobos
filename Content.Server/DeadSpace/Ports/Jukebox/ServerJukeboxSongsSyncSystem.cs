@@ -6,8 +6,6 @@ public sealed class ServerJukeboxSongsSyncSystem : EntitySystem
 {
     [Dependency] private readonly ServerJukeboxSongsSyncManager _jukeboxManager = default!;
 
-    public event Action? PostRoundCleanUp;
-
     public override void Initialize()
     {
         base.Initialize();
