@@ -24,7 +24,13 @@
   - DeviceQuantumSpinInverter
   - DeviceDesynchronizer
   - ClothingBackpackHarmpack
-  - ObeliskStoper # DS14
+  # DS14-start
+  - ObeliskStoper
+  - HandTeleporterResearch
+  - ClothingHandsGlovesPowergloveActive
+  - PinpointerUniversal
+  - HolopadHandheld
+  # DS14-end
 
 - type: latheRecipePack
   id: ScienceClothing
