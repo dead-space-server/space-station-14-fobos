@@ -331,7 +331,6 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
         }
         else
         {
-            // Листовой узел (скаляр, список и т.п.)
             yield return prefix;
         }
     }
@@ -400,7 +399,6 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
                 continue;
             }
 
-            // Спавним новый startingItem
             var newItem = EntityManager.SpawnEntity(protoId, coords);
             _itemSlots.TryInsert(target, slot, newItem, null);
         }
@@ -538,7 +536,6 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
             if (!_proto.TryIndex<MinorItemModulePrototype>(moduleId, out var moduleDef))
                 continue;
 
-            // Определяем целевую сущность: сам крафт или его ToggleableClothing
             var moduleTarget = crafted;
 
             if (moduleDef.IfModSuit.HasValue)
@@ -587,7 +584,6 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
                 }
             }
 
-            // После патчинга компонентов — переспавниваем startingItem если модуль менял ItemSlots
             RespawnModuleStartingItems(moduleTarget, moduleDef, coords);
         }
 
@@ -616,7 +612,6 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
                 }
                 else
                 {
-                    // ifModSuit вписан, но костюм не найден — fallback на crafted
                     modulesForCrafted.Add(moduleId);
                 }
             }
@@ -651,9 +646,7 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
 
     private static void DeepMerge(MappingDataNode target, MappingDataNode patch)
     {
-        // MappingDataNode.Keys — IEnumerable<string> имён ключей
-        // MappingDataNode[string] — индексатор по строке возвращает DataNode
-        var keys = patch.Keys.ToList(); // сначала материализуем, чтобы не итерировать во время изменений
+        var keys = patch.Keys.ToList();
         foreach (var key in keys)
         {
             var patchValue = patch[key]; // DataNode
@@ -687,7 +680,6 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
                 var attr = field.GetCustomAttribute<DataFieldAttribute>();
                 if (attr == null) continue;
     
-                // Tag может быть null (CallerMemberName) — фоллбэк на camelCase имени поля
                 var key = string.IsNullOrEmpty(attr.Tag)
                     ? char.ToLowerInvariant(field.Name[0]) + field.Name[1..]
                     : attr.Tag;
