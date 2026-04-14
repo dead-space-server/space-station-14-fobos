@@ -649,7 +649,7 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
         var keys = patch.Keys.ToList();
         foreach (var key in keys)
         {
-            var patchValue = patch[key]; // DataNode
+            var patchValue = patch[key];
     
             if (patchValue is MappingDataNode patchMap && target.Has(key))
             {
