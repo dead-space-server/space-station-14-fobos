@@ -1,0 +1,17 @@
+- type: startingGear
+  id: PirateHoloparasiteGear
+  equipment:
+    pocket1: WeaponRevolverPirateHoloparasite
+  inhand:
+    - PirateHoloparasiteCutlass
+
+- type: startingGear
+  id: PirateMonkeyGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitPirate
+    head: ClothingHeadBandRed
+    id: PiratePDA
+    back: ClothingBackpackSatchelLeather
+    ears: ClothingHeadsetFreelance
+  inhand:
+    - Cutlass

@@ -133,6 +133,18 @@
   name: Голопаразит
 
 - type: ghostNotifyGroup
+  id: PirateHoloparasiteping
+  name: Летучий голландец
+
+- type: ghostNotifyGroup
+  id: ReinforcementRadioPirateping
+  name: Космический пират
+
+- type: ghostNotifyGroup
+  id: ReinforcementRadioMonkeyPirateping
+  name: Предок космического пирата
+
+- type: ghostNotifyGroup
   id: HoloClownping
   name: Голоклоун
 
