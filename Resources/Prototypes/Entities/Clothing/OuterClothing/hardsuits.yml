@@ -161,7 +161,6 @@
         Heat: 0.7
         Radiation: 0.3
         Caustic: 0.7
-        Stun: 0.7 #DS14
   - type: StaminaResistance #DS14
     damageCoefficient: 0.7
   - type: ClothingSpeedModifier
@@ -257,7 +256,6 @@
         Piercing: 0.6 # DS14-value
         Heat: 0.4 # DS14-value
         Radiation: 0.1
-        Stun: 0.5 # DS14
   - type: StaminaResistance
     damageCoefficient: 0.5
   - type: ExplosionResistance
@@ -292,7 +290,6 @@
         Piercing: 0.6
         Heat: 0.8
         Caustic: 0.7
-        Stun: 0.6 # DS14
   - type: StaminaResistance # DS14
     damageCoefficient: 0.6
   - type: ClothingSpeedModifier
@@ -338,7 +335,6 @@
         Piercing: 0.6 # DS14-value
         Radiation: 0.75 # DS14-value
         Caustic: 0.5 # DS14-value
-        Stun: 0.4 # DS14
   - type: StaminaResistance
     damageCoefficient: 0.4
   - type: ClothingSpeedModifier
@@ -379,7 +375,6 @@
         Piercing: 0.6
         Heat: 0.6 # DS14-value
         Caustic: 0.7
-        Stun: 0.5 # DS14
   - type: StaminaResistance # DS14
     damageCoefficient: 0.5
   - type: ClothingSpeedModifier
@@ -422,7 +417,6 @@
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.6
-        Stun: 0.45 # DS14
   - type: StaminaResistance # DS14
     damageCoefficient: 0.45
   - type: ClothingSpeedModifier
@@ -558,7 +552,6 @@
         Heat: 0.3
         Radiation: 0.1
         Caustic: 0.2
-        Stun: 0.8 # DS14
   - type: StaminaResistance # DS14
     damageCoefficient: 0.8
   - type: ExplosionResistance
@@ -618,7 +611,6 @@
         Heat: 0.5 # DS14-value
         Radiation: 0.5
         Caustic: 0.6
-        Stun: 0.5 # DS14
   - type: StaminaResistance # DS14
     damageCoefficient: 0.5
   - type: ClothingSpeedModifier
@@ -711,7 +703,6 @@
         Heat: 0.45 # DS14-value
         Radiation: 0.5
         Caustic: 0.5
-        Stun: 0.5 # DS14-value
   - type: StaminaResistance # DS14
     damageCoefficient: 0.5
   - type: ClothingSpeedModifier
@@ -789,7 +780,6 @@
         Heat: 0.15 # DS14-value
         Radiation: 0.05 # DS14-value
         Caustic: 0.5
-        Stun: 0.5 # DS14-value: 6 stunbaton hits for stun
   - type: StaminaResistance # DS14
     damageCoefficient: 0.5
   - type: Item
@@ -837,7 +827,6 @@
         Heat: 0.5
         Radiation: 0.25
         Caustic: 0.4
-        Stun: 0.4 # DS14-value: 6 stunbaton hits for stun
   - type: StaminaResistance #DS14
     damageCoefficient: 0.4
   - type: ClothingSpeedModifier
@@ -882,7 +871,6 @@
         Heat: 0.2
         Radiation: 0.2
         Caustic: 0.2
-        Stun: 0.1 # DS14-value: what is stun?
   - type: StaminaResistance # DS14
     damageCoefficient: 0.1
   - type: ClothingSpeedModifier
@@ -1058,7 +1046,6 @@
         Heat: 0.45
         Radiation: 0.25
         Caustic: 0.5
-        Stun: 0.45 # DS14-value: what is stun?
   - type: ClothingSpeedModifier
     walkModifier: 0.9
     sprintModifier: 0.9
@@ -1111,8 +1098,7 @@
         Heat: 0.1
         Cold: 0.1
         Radiation: 0.1
-        Stun: 0.6 # DS14-value: what is stun?
-  - type: StaminaResistance
+  - type: StaminaResistance #DS14
     damageCoefficient: 0.6
   - type: ClothingSpeedModifier
     walkModifier: 0.85
@@ -1152,8 +1138,7 @@
         Shock: 0.7
         Radiation: 0.6
         Caustic: 0.4
-        Stun: 0.65 # DS14-value: what is stun?
-  - type: StaminaResistance
+  - type: StaminaResistance #DS14
     damageCoefficient: 0.65
   - type: ClothingSpeedModifier
     walkModifier: 0.95
@@ -1191,8 +1176,7 @@
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
-        Stun: 0.5 # DS14-value: what is stun?
-  - type: StaminaResistance
+  - type: StaminaResistance #DS14
     damageCoefficient: 0.5
   - type: ClothingSpeedModifier
     walkModifier: 0.9
@@ -1264,7 +1248,6 @@
         Shock: 0.1
         Radiation: 0.1
         Caustic: 0.1
-        Stun: 0.05 # DS14-value: what is stun?
   - type: ClothingSpeedModifier
     walkModifier: 1.0
     sprintModifier: 0.9
@@ -1325,7 +1308,6 @@
         Radiation: 0.1
         Caustic: 0.1
         Poison: 0.55 # DS14
-        Stun: 0.4 # DS14
   - type: StaminaResistance # DS14
     damageCoefficient: 0.4
   - type: ZombificationResistance
