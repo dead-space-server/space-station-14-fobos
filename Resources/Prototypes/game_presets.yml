@@ -114,7 +114,7 @@
   - MeteorSwarmScheduler
   - SpaceTrafficControlEventScheduler
   - BasicRoundstartVariation
-  - SubGamemodesRuleNoWizard # DS14
+  - SubGamemodesRuleNoWizardNoXenoborg # DS14
 
 - type: gamePreset
   id: Greenshift

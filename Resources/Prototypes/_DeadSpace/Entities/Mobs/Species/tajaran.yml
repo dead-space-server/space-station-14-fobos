@@ -36,6 +36,8 @@
     currentTemperature: 310.15
     specificHeat: 46
   - type: Perishable
+  - type: SpeedSliding
+    minSlideSpeed: 4.7
   - type: Sanity # DS14
   - type: Inventory
     speciesId: vulpkanin # for vulpkanin helmets

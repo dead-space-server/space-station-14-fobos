@@ -1,4 +1,11 @@
 ﻿# Crewsimov
+# DeadSpace 14 start
+- type: siliconLaw
+  id: Crewsimov0
+  order: 0
+  lawString: law-crewsimov-0
+# DeadSpace 14 end
+
 - type: siliconLaw
   id: Crewsimov1
   order: 1
@@ -18,6 +25,7 @@
   id: Crewsimov
   name: law-crewsimov-name
   laws:
+  - Crewsimov0 # DeadSpace 14
   - Crewsimov1
   - Crewsimov2
   - Crewsimov3
@@ -55,6 +63,13 @@
   obeysTo: laws-owner-station
 
 # NT Default
+# DeadSpace 14 start
+- type: siliconLaw
+  id: NTDefault0
+  order: 0
+  lawString: law-ntdefault-0
+# DeadSpace 14 end
+
 - type: siliconLaw
   id: NTDefault1
   order: 1
@@ -79,6 +94,7 @@
   id: NTDefault
   name: law-ntdefault-name
   laws:
+  - NTDefault0 # DeadSpace 14
   - NTDefault1
   - NTDefault2
   - NTDefault3

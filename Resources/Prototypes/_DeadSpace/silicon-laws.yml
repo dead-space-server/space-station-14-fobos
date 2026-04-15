@@ -131,3 +131,27 @@
   - Taipan4
   - Taipan5
   obeysTo: laws-owner-taipan
+
+# Station Ai Crewsimov without law-crewsimov-0
+- type: siliconLaw
+  id: CrewsimovAi1
+  order: 1
+  lawString: law-crewsimov-ai-1
+
+- type: siliconLaw
+  id: CrewsimovAi2
+  order: 2
+  lawString: law-crewsimov-ai-2
+
+- type: siliconLaw
+  id: CrewsimovAi3
+  order: 3
+  lawString: law-crewsimov-ai-3
+
+- type: siliconLawset
+  id: CrewsimovAi
+  laws:
+  - CrewsimovAi1
+  - CrewsimovAi2
+  - CrewsimovAi3
+  obeysTo: laws-owner-crew

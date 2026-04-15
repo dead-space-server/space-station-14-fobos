@@ -1,6 +1,6 @@
 - type: entity
   id: ActionHeraldEnrage
-  name: Впасть в бешенство
+  name: Впасть в бешенство!!
   description: Вы сильно злы! Ваша скорость увеличена.
   categories: [ HideSpawnMenu ]
   components:
