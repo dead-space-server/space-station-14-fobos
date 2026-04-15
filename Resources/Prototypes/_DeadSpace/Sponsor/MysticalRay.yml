@@ -76,6 +76,7 @@
   - type: Item
     size: Huge
   - type: HardsuitIdentification
+    nonlethal: true
   - type: Armor
     modifiers:
       coefficients:
