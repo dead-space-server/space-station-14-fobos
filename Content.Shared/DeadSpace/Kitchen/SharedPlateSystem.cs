@@ -1,10 +1,12 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Content.Shared.Containers.ItemSlots;
 using Content.Shared.DeadSpace.Kitchen.Components;
+using Content.Shared.DoAfter;
 using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction;
@@ -13,6 +15,7 @@ using Content.Shared.Item;
 using Content.Shared.Nutrition;
 using Content.Shared.Nutrition.Components;
 using Content.Shared.Nutrition.EntitySystems;
+using Content.Shared.Popups;
 using Content.Shared.Verbs;
 using Content.Shared.Whitelist;
 using Robust.Shared.Containers;
@@ -27,12 +30,14 @@ public sealed class SharedPlateSystem : EntitySystem
     private const UtensilType PlateUtensils = UtensilType.Fork | UtensilType.Spoon;
 
     [Dependency] private readonly SharedContainerSystem _containers = default!;
+    [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly IngestionSystem _ingestion = default!;
     [Dependency] private readonly SharedInteractionSystem _interaction = default!;
     [Dependency] private readonly SharedItemSystem _item = default!;
     [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
     [Dependency] private readonly INetManager _net = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
 
     private readonly Dictionary<ProtoId<ItemSizePrototype>, EntityWhitelist> _sizeWhitelistCache = new();
@@ -85,7 +90,7 @@ public sealed class SharedPlateSystem : EntitySystem
         }
 
         if (_ingestion.GetEdibleType((content.Value, CompOrNull<EdibleComponent>(content.Value))) != null)
-            _ingestion.TryUseUtensil(args.User, content.Value, (args.Used, utensil));
+            TryUsePlateContentWithUtensil(ent.Owner, ent.Comp, args.User, args.Used, utensil, content.Value);
 
         args.Handled = true;
     }
@@ -117,6 +122,53 @@ public sealed class SharedPlateSystem : EntitySystem
             return false;
 
         return _ingestion.TryIngest(user, user, content.Value);
+    }
+
+    private bool TryUsePlateContentWithUtensil(
+        EntityUid plate,
+        PlateComponent component,
+        EntityUid user,
+        EntityUid utensilUid,
+        UtensilComponent utensil,
+        EntityUid content)
+    {
+        if (!TryGetPlateContent(plate, component, out var plateContent) || plateContent != content)
+            return false;
+
+        var utensilEv = new GetUtensilsEvent();
+        RaiseLocalEvent(content, ref utensilEv);
+
+        if (utensilEv.Types != UtensilType.None && (utensilEv.Types & utensil.Types) == 0)
+        {
+            _popup.PopupClient(
+                Loc.GetString(
+                    "ingestion-try-use-wrong-utensil",
+                    ("verb", _ingestion.GetEdibleVerb((content, CompOrNull<EdibleComponent>(content)))),
+                    ("food", content),
+                    ("utensil", utensilUid)),
+                user,
+                user);
+            return true;
+        }
+
+        if (!_interaction.InRangeUnobstructed(user, content, popup: true))
+            return true;
+
+        if (!_ingestion.CanConsume(user, user, content, out _, out var time))
+            return true;
+
+        var doAfter = new DoAfterArgs(EntityManager, user, time ?? TimeSpan.Zero, new EatingDoAfterEvent(), user, content, utensilUid)
+        {
+            BreakOnHandChange = true,
+            BreakOnDropItem = true,
+            BreakOnMove = false,
+            BreakOnDamage = true,
+            MovementThreshold = 0.01f,
+            DistanceThreshold = IngestionSystem.MaxFeedDistance,
+            NeedHand = true,
+        };
+
+        return _doAfter.TryStartDoAfter(doAfter);
     }
 
     private bool TryGetIngestionVerb(EntityUid user, EntityUid content, [NotNullWhen(true)] out AlternativeVerb? verb)
