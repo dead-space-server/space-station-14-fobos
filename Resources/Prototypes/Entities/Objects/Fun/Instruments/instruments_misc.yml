@@ -50,6 +50,23 @@
   - type: Sprite
     sprite: Objects/Fun/Instruments/otherinstruments.rsi
     state: red_phone
+  # DS14-start
+  - type: Telephone
+    transmissionRange: Unlimited
+    compatibleRanges:
+    - Grid
+    - Map
+    - Unlimited
+    speakerVolume: Speak
+  - type: Speech
+  - type: TTS
+  - type: RedPhone
+    kind: Ordinary
+  - type: UserInterface
+    interfaces:
+      enum.RedPhoneUiKey.Report:
+        type: RedPhoneReportBoundUserInterface
+  # DS14-end
   - type: EmitSoundOnLand
     sound:
        path: /Audio/Items/ring.ogg
@@ -63,6 +80,27 @@
   #   verbImage: null
   # - type: UseDelay # DS14
   #   delay: 300
+
+# DS14-start
+- type: entity
+  parent: PhoneInstrument
+  id: PhoneInstrumentCentComm
+  name: CentComm red phone
+  description: A direct callback line to Central Command.
+  components:
+  - type: RedPhone
+    kind: CentComm
+  - type: ActivatableUI
+    key: enum.RedPhoneUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.RedPhoneUiKey.Key:
+        type: RedPhoneBoundUserInterface
+  - type: ActivatableUIRequiresAccess
+    popupMessage: red-phone-access-denied
+  - type: AccessReader
+    access: [["CentralCommand"]]
+# DS14-end
 
 - type: entity
   parent: PhoneInstrument
