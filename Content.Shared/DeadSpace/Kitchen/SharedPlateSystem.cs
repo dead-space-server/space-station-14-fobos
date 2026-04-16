@@ -24,6 +24,7 @@ namespace Content.Shared.DeadSpace.Kitchen;
 public sealed class SharedPlateSystem : EntitySystem
 {
     private const int EatAltVerbPriority = 10;
+    private const UtensilType PlateUtensils = UtensilType.Fork | UtensilType.Spoon;
 
     [Dependency] private readonly SharedContainerSystem _containers = default!;
     [Dependency] private readonly SharedHandsSystem _hands = default!;
@@ -42,6 +43,7 @@ public sealed class SharedPlateSystem : EntitySystem
 
         if (!_net.IsClient)
             SubscribeLocalEvent<PlateComponent, MapInitEvent>(OnPlateMapInit);
+        SubscribeLocalEvent<PlateComponent, InteractUsingEvent>(OnInteractUsing, before: [typeof(ItemSlotsSystem)]);
         SubscribeLocalEvent<PlateComponent, UseInHandEvent>(OnUseInHand, before: [typeof(ItemSlotsSystem)]);
         SubscribeLocalEvent<PlateComponent, GetVerbsEvent<AlternativeVerb>>(OnGetAlternativeVerbs);
         SubscribeLocalEvent<HandsComponent, AccessibleOverrideEvent>(OnAccessibleOverride);
@@ -69,6 +71,22 @@ public sealed class SharedPlateSystem : EntitySystem
             return;
 
         TryUsePlateContent(ent.Owner, ent.Comp, args.User);
+        args.Handled = true;
+    }
+
+    private void OnInteractUsing(Entity<PlateComponent> ent, ref InteractUsingEvent args)
+    {
+        if (args.Handled ||
+            !TryComp(args.Used, out UtensilComponent? utensil) ||
+            (utensil.Types & PlateUtensils) == 0 ||
+            !TryGetPlateContent(ent.Owner, ent.Comp, out var content))
+        {
+            return;
+        }
+
+        if (_ingestion.GetEdibleType((content.Value, CompOrNull<EdibleComponent>(content.Value))) != null)
+            _ingestion.TryUseUtensil(args.User, content.Value, (args.Used, utensil));
+
         args.Handled = true;
     }
 
@@ -108,10 +126,16 @@ public sealed class SharedPlateSystem : EntitySystem
         return type != null && _ingestion.TryGetIngestionVerb(user, content, type.Value, out verb);
     }
 
-    private bool TryGetEdibleContent(EntityUid plate, PlateComponent component, [NotNullWhen(true)] out EntityUid? content)
+    private bool TryGetPlateContent(EntityUid plate, PlateComponent component, [NotNullWhen(true)] out EntityUid? content)
     {
         content = _itemSlots.GetItemOrNull(plate, component.SlotId);
-        return content != null && _ingestion.GetEdibleType((content.Value, CompOrNull<EdibleComponent>(content.Value))) != null;
+        return content != null;
+    }
+
+    private bool TryGetEdibleContent(EntityUid plate, PlateComponent component, [NotNullWhen(true)] out EntityUid? content)
+    {
+        return TryGetPlateContent(plate, component, out content) &&
+               _ingestion.GetEdibleType((content.Value, CompOrNull<EdibleComponent>(content.Value))) != null;
     }
 
     private void OnAccessibleOverride(Entity<HandsComponent> ent, ref AccessibleOverrideEvent args)
