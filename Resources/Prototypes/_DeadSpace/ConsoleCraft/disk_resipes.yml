@@ -35,3 +35,29 @@
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: LecterCraft
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintWeaponRPL20
+  name: чертёж РПЛ-20
+  description: Schematics for a plasma rifle assembly. Unlimited production runs.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: WeaponRifleAEKCraft
+    maxCrafts: 3
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintWeaponRifleASH12
+  name: чертёж АША-12
+  description: Schematics for a plasma rifle assembly. Unlimited production runs.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: WeaponRifleAEKCraft
+    maxCrafts: 3
