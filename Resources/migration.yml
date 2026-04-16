@@ -1207,7 +1207,7 @@ BookNewFood: null
 HandheldHealthAnalyzerUnpowered: HandheldHealthAnalyzer
 HandheldHealthAnalyzerEmpty: HandheldHealthAnalyzer
 
-#2026-01-09
+# 2026-01-09
 BorgModuleAdvancedChemical: BorgModuleAdvancedTopical
 
 # 2026-01-19
@@ -1230,3 +1230,7 @@ TowelColorYellow: null
 TowelColorMaroon: null
 TowelColorSilver: null
 TowelColorMime: null
+
+# 2026-04-19
+HandheldAutopsyScannerUnpowered: HandheldAutopsyScanner
+HandheldAutopsyScannerEmpty: HandheldAutopsyScanner
