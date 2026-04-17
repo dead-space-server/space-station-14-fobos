@@ -31,6 +31,7 @@ using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
+using Robust.Shared.Maths;
 
 namespace Content.Server.DeadSpace.ERT;
 
@@ -315,6 +316,12 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             return;
         }
 
+        if (!_prototypeManager.TryIndex(request.RequestedTeamId, out var prototype))
+        {
+            RaiseNetworkEvent(new ErtAdminActionResult(false, "Prototype missing"), args.SenderSession.Channel);
+            return;
+        }
+
         _pendingRequests.Remove(msg.RequestId);
         _manualApprovedRequests[msg.RequestId] = new ManualApprovedErtRequestData
         {
@@ -327,7 +334,7 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             ReservedPrice = request.ReservedPrice,
         };
 
-        PlayGlobalSound(DecisionSound);
+        AnnounceApprovedRequest(prototype);
 
         _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} manually approved pending ERT request #{msg.RequestId}");
         _chatManager.SendAdminAlert($"Админ {args.SenderSession.Name} одобрил заявку ОБР #{msg.RequestId} для ручного спавна.");
@@ -351,7 +358,7 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
 
         _pendingRequests.Remove(msg.RequestId);
         QueueApprovedRequest(request, prototype);
-        AnnounceApprovedAutoRequest(prototype);
+        AnnounceApprovedRequest(prototype);
 
         _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} auto-approved pending ERT request #{msg.RequestId}");
         _chatManager.SendAdminAlert($"Админ {args.SenderSession.Name} одобрил заявку ОБР #{msg.RequestId} с автоматическим спавном.");
@@ -590,19 +597,7 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             return false;
 
         if (needWarn)
-        {
-            _chatSystem.DispatchGlobalAnnouncement(
-                message: string.IsNullOrEmpty(prototype.Notification)
-                    ? Loc.GetString("ert-response-caused-messager", ("team", prototype.Name))
-                    : Loc.GetString(prototype.Notification),
-                sender: string.IsNullOrEmpty(prototype.Sender)
-                    ? Loc.GetString("chat-manager-sender-announcement")
-                    : Loc.GetString(prototype.Sender),
-                colorOverride: Color.FromHex("#1d8bad"),
-                playSound: true,
-                usePresetTTS: true,
-                languageId: LanguageSystem.DefaultLanguageId);
-        }
+            AnnounceApprovedRequest(prototype);
 
         var requestId = _nextRequestId++;
         var effectiveRequester = string.IsNullOrWhiteSpace(requestedByName)
@@ -648,7 +643,7 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             ReservedPrice = prototype.Price,
         };
 
-        PlayGlobalSound(RequestSound);
+        AnnounceConsoleRequestReceived();
         _adminLogger.Add(LogType.Action, LogImpact.Medium, $"ERT request #{requestId} for '{team}' submitted by '{requestedByName}'");
         _chatManager.SendAdminAlert($"Поступила заявка ОБР #{requestId}: '{prototype.Name}' от '{requestedByName}'.");
 
@@ -861,8 +856,11 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
         };
     }
 
-    private void AnnounceApprovedAutoRequest(ErtTeamPrototype prototype)
+    private void AnnounceApprovedRequest(ErtTeamPrototype prototype)
     {
+        if (!prototype.AnnounceOnApproval)
+            return;
+
         _chatSystem.DispatchGlobalAnnouncement(
             message: string.IsNullOrEmpty(prototype.Notification)
                 ? Loc.GetString("ert-response-caused-messager", ("team", prototype.Name))
@@ -870,8 +868,20 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             sender: string.IsNullOrEmpty(prototype.Sender)
                 ? Loc.GetString("chat-manager-sender-announcement")
                 : Loc.GetString(prototype.Sender),
+            colorOverride: prototype.ApprovalColor ?? Color.FromHex("#1d8bad"),
+            announcementSound: prototype.ApprovalAudio ?? DecisionSound,
+            playSound: true,
+            usePresetTTS: true,
+            languageId: LanguageSystem.DefaultLanguageId);
+    }
+
+    private void AnnounceConsoleRequestReceived()
+    {
+        _chatSystem.DispatchGlobalAnnouncement(
+            message: Loc.GetString("ert-console-request-submitted-announcement"),
+            sender: Loc.GetString("ert-response-cso-sender"),
             colorOverride: Color.FromHex("#1d8bad"),
-            announcementSound: DecisionSound,
+            announcementSound: RequestSound,
             playSound: true,
             usePresetTTS: true,
             languageId: LanguageSystem.DefaultLanguageId);

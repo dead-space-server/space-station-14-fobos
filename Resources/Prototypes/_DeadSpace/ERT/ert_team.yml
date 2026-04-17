@@ -1,6 +1,10 @@
 - type: ertTeam
   id: Cburn
   name: РХБЗ
+  notification: ert-response-caused-messager-cburn
+  approvalColor: "#3f6e70"
+  approvalAudio:
+    path: /Audio/Misc/delta_alt.ogg
   startAnnouncement: station-event-response-team-arrival-cburn
   startAudio:
     path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
@@ -34,6 +38,9 @@
 - type: ertTeam
   id: CburnSierra
   name: РХБЗЗ Сьерра
+  approvalColor: "#3f6e70"
+  approvalAudio:
+    path: /Audio/Misc/delta_alt.ogg
   startAnnouncement: station-event-response-team-arrival-cburn-sierra
   startAudio:
     path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
@@ -68,6 +75,9 @@
 - type: ertTeam
   id: Engineers
   name: ОБР Инженеры
+  notification: ert-response-caused-messager-engineers
+  approvalAudio:
+    path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
   startAnnouncement: station-event-response-team-arrival
   startAudio:
     path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
@@ -102,6 +112,9 @@
 - type: ertTeam
   id: Amber
   name: ОБР Эмбер
+  notification: ert-response-caused-messager-amber
+  approvalAudio:
+    path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
   startAnnouncement: station-event-response-team-arrival
   startAudio:
     path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
@@ -139,6 +152,10 @@
 - type: ertTeam
   id: Red
   name: ОБР Красный
+  notification: ert-response-caused-messager-red
+  approvalColor: "#a66286"
+  approvalAudio:
+    path: /Audio/Misc/gamma.ogg
   startAnnouncement: station-event-response-team-arrival-red
   startAudio:
     path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
@@ -178,6 +195,9 @@
 - type: ertTeam
   id: Gamma
   name: ОБР Гамма
+  approvalColor: "#a66286"
+  approvalAudio:
+    path: /Audio/Misc/gamma.ogg
   startAnnouncement: station-event-response-team-arrival-gamma
   startAudio:
     path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
@@ -216,6 +236,10 @@
 - type: ertTeam
   id: BSAA
   name: АПБТ
+  notification: ert-response-caused-messager-bsaa
+  approvalColor: "#3f6e70"
+  approvalAudio:
+    path: /Audio/Misc/delta_alt.ogg
   startAudio:
     path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
   description: 
@@ -224,7 +248,6 @@
     Данный отряд отправляется при вторжении террористов Круг или в случае масштабного всплеска ред-спейс.
     Время прибытия отряда от 20 до 25 минут.
   rule: SpawnSierraShuttle
-  notification: ert-response-caused-messager-uni-ops
   sender: ert-response-cso-sender
   cooldown:
     min: 25m

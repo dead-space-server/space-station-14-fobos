@@ -8,6 +8,32 @@ ert-response-caused-messager =
     { $team } is moving to the station.
     Estimated arrival time: minimum possible.
 
+ert-response-caused-messager-gamma =
+    Attention, station! Early command channels have relayed alarming reports of a threat to corporate interests. This unacceptable development has placed the asset under full SOC control. Gamma threat level with martial law protocols has been initiated on the station, and crew mobilization is now in effect. ERT forces are being deployed toward the threat vector. We are coming for you. God save the Directorate!
+
+ert-response-caused-messager-red =
+    Attention, asset! Early communications have delivered alarming reports of a threat to corporate interests. This unacceptable development has resulted in the asset being placed under partial SOC control. ERT deployment toward the threat vector has begun. Expect the arrival of Red Code Emergency Response Team forces as soon as possible. We are coming for you. God save the Directorate!
+
+ert-response-caused-messager-amber =
+    Attention, asset! The Special Operations Corps has reviewed the situation aboard the asset and authorized deployment of ERT unit Amber. The team is en route to stabilize the situation and reinforce station security. Expect arrival as soon as possible. Glory to NanoTrasen!
+
+ert-response-caused-messager-engineers =
+    Attention, asset! The Special Operations Corps has authorized deployment of an ERT engineering detachment to restore critical asset systems. Specialists are en route and will begin infrastructure stabilization immediately upon arrival. Expect arrival as soon as possible. Glory to NanoTrasen!
+
+ert-response-caused-messager-bsaa =
+    Attention, station! Early command channels have relayed alarming reports of a critical biological catastrophe threat. The risk of sector-wide and external contamination has placed the asset under full SOC control. Sierra threat level with martial law protocols has been initiated on the station, and crew mobilization is now in effect. BSAA forces are being deployed toward the threat vector. By fire and sword. God save the Directorate!
+
+ert-response-caused-messager-official =
+    Attention station command! Sector Central Command Headquarters on the line!
+    Due to operational necessity, Sector Central Command Headquarters has decided to dispatch a Central Command Official
+    to your asset to conduct an inquiry. Expect arrival in the near future. Glory to NanoTrasen!
+
+ert-response-caused-messager-sierra =
+    Attention, station! Early command channels have relayed alarming reports of a biological catastrophe threat. The risk of sector contamination has placed the asset under full SOC control. Sierra threat level with martial law protocols has been initiated on the station, and crew mobilization is now in effect. NBC forces are being deployed toward the threat vector. By fire and sword. God save the Directorate!
+
+ert-response-caused-messager-cburn =
+    Attention, station! Early command channels have relayed reports of a biological catastrophe threat aboard the asset. NBC forces are being deployed to contain the contamination and clear hazardous zones. Expect the team's arrival shortly. By fire and sword. God save the Directorate!
+
 ert-response-cso-sender = Special Operations Corps
 
 ert-computer-window-title = ERT Computer
@@ -17,12 +43,33 @@ ert-computer-time-until-eval = { $time } seconds until evacuation.
 
 station-event-response-team-arrival = The emergency response team has begun its mission on the station.
 
+station-event-response-team-arrival-gamma =
+    Gamma-class Emergency Response Team has arrived in the station sector.
+    Crew are ordered to remain calm and report the location of the active threat.
+
+station-event-response-team-arrival-red =
+    Red-class Emergency Response Team has arrived in the station sector.
+    Crew are ordered to remain calm and report the location of the active threat.
+
+station-event-response-team-arrival-cburn =
+    NBC-class Emergency Response Team has arrived in the station sector.
+    Crew are ordered to remain calm and report the location of the active threat.
+
+station-event-response-team-arrival-cburn-sierra =
+    NBC-class Emergency Response Team has arrived in the station sector.
+    Crew are ordered to remain calm and report the location of the active threat.
+
+station-event-centcomm-official-arrival =
+    Attention station command! Sector Central Command Headquarters on the line!
+    The Central Command Official has arrived in the station sector. Await further instructions over standard communication channels. Glory to NanoTrasen!
+
 ert-call-fail-already-waiting = Already requested
 ert-call-fail-prototype-missing = The team is unavailable.
 ert-call-fail-code-blacklist = Current alert level ({$level}) forbids calling this team.
 ert-call-fail-not-enough-points = Not enough call resources (need {$price}, available {$balance}).
 ert-call-fail-cooldown = Another call can be made in {$seconds} seconds.
 ert-response-call-submitted = The ERT request has been submitted to the Special Operations Corps.
+ert-console-request-submitted-announcement = Attention Station Command! The Special Operations Corps has received the asset's request for Emergency Response Team deployment. The request will be processed shortly. Glory to NanoTrasen!
 ert-console-auth-required = Access requires two cards: captain + captain or captain + head of security.
 ert-console-auth-card-invalid = Only captain and head of security ID cards can be inserted into this console.
 ert-console-requester-unknown = unknown operator
