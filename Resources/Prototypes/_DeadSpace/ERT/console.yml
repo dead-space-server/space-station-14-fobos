@@ -51,8 +51,8 @@
 - type: entity
   parent: BaseComputerAiAccess
   id: ErtComputerShuttle
-  name: консоль вызова обр NanoTrasen
-  description: Консоль для вызова отрядов быстрого реагирования на станции NanoTrasen.
+  name: консоль эвакуации сил КСО
+  description: Консоль для эвакуации сил КСО с актива NanoTrasen.
   components:
   - type: Sprite
     layers:
@@ -116,8 +116,8 @@
 - type: entity
   parent: BaseComputerCircuitboard
   id: ErtComputerShuttleCircuitboard
-  name: машинная плата консоли обр NanoTrasen
-  description: Компьютерная печатная плата для консоли обр NanoTrasen.
+  name: машинная плата консоли эвакуации сил КСО
+  description: Компьютерная печатная плата для консоли эвакуации сил КСО.
   components:
     - type: Sprite
       state: cpu_command
@@ -136,7 +136,7 @@
       prototype: ErtResponseConsole
 
 - type: entity
-  parent: 
+  parent:
   - BaseItem
   id: TelephoneIaa
   name: устройство связи с ЦК
