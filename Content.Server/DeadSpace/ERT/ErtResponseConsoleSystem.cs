@@ -35,7 +35,7 @@ public sealed class ErtResponseConsoleSystem : EntitySystem
         SubscribeLocalEvent<ErtResponseConsoleComponent, ErtResponseConsoleUiButtonPressedMessage>(OnButtonPressed);
         SubscribeLocalEvent<ErtResponseConsoleComponent, AfterActivatableUIOpenEvent>(OnUiOpened);
         SubscribeLocalEvent<ErtResponseConsoleComponent, PowerChangedEvent>(OnPowerChanged);
-        SubscribeLocalEvent<ErtResponseConsoleComponent, ComponentInit>(OnComponentInit);
+        SubscribeLocalEvent<ErtResponseConsoleComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<ErtResponseConsoleComponent, ItemSlotInsertAttemptEvent>(OnItemSlotInsertAttempt);
         SubscribeLocalEvent<ErtResponseConsoleComponent, EntInsertedIntoContainerMessage>(OnCardInserted);
         SubscribeLocalEvent<ErtResponseConsoleComponent, EntRemovedFromContainerMessage>(OnCardRemoved);
@@ -98,7 +98,7 @@ public sealed class ErtResponseConsoleSystem : EntitySystem
         UpdateUserInterface((uid, component));
     }
 
-    private void OnComponentInit(EntityUid uid, ErtResponseConsoleComponent component, ComponentInit args)
+    private void OnMapInit(EntityUid uid, ErtResponseConsoleComponent component, MapInitEvent args)
     {
         component.IsAuthorized = IsConsoleAuthorized((uid, component));
         Dirty(uid, component);
@@ -195,6 +195,9 @@ public sealed class ErtResponseConsoleSystem : EntitySystem
 
     private bool IsConsoleAuthorized(Entity<ErtResponseConsoleComponent> console)
     {
+        if (!TryComp<ItemSlotsComponent>(console.Owner, out var itemSlots))
+            return false;
+
         if (!_itemSlots.TryGetSlot(console, ErtResponseConsoleComponent.AuthSlotAId, out var slotA) ||
             !_itemSlots.TryGetSlot(console, ErtResponseConsoleComponent.AuthSlotBId, out var slotB))
             return false;
