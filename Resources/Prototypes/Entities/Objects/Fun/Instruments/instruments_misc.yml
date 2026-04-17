@@ -52,12 +52,17 @@
     state: red_phone
   # DS14-start
   - type: Telephone
+    ringTone: /Audio/Items/ring.ogg
+    ringInterval: 3
+    ringingTimeout: 20
     transmissionRange: Unlimited
     compatibleRanges:
     - Grid
     - Map
     - Unlimited
     speakerVolume: Speak
+  - type: ActivatableUI
+    key: enum.RedPhoneUiKey.Report
   - type: Speech
   - type: TTS
   - type: RedPhone

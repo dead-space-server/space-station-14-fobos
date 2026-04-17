@@ -1,7 +1,6 @@
-using System;
-using System.Collections.Generic;
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
 using Content.Shared.Telephone;
-using Robust.Shared.GameStates;
 using Robust.Shared.Serialization;
 
 namespace Content.Shared.DeadSpace.RedPhone;
@@ -91,6 +90,11 @@ public sealed class RedPhoneStartCallMessage : BoundUserInterfaceMessage
 
 [Serializable, NetSerializable]
 public sealed class RedPhoneEndCallMessage : BoundUserInterfaceMessage
+{
+}
+
+[Serializable, NetSerializable]
+public sealed class RedPhoneAnswerCallMessage : BoundUserInterfaceMessage
 {
 }
 

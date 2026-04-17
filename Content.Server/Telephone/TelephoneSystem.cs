@@ -261,11 +261,7 @@ public sealed class TelephoneSystem : SharedTelephoneSystem
 
         var callerInfo = GetNameAndJobOfCallingEntity(user);
 
-        // Base the name of the device on its label
-        string? deviceName = null;
-
-        if (TryComp<LabelComponent>(source, out var label))
-            deviceName = label.CurrentLabel;
+        var deviceName = GetTelephoneDeviceName(source); // DS14
 
         receiver.Comp.LastCallerId = (callerInfo.Item1, callerInfo.Item2, deviceName); // This will be networked when the state changes
         receiver.Comp.LinkedTelephones.Add(source);
@@ -484,9 +480,12 @@ public sealed class TelephoneSystem : SharedTelephoneSystem
     public string? GetTelephoneDeviceName(EntityUid uid)
     {
         if (TryComp<LabelComponent>(uid, out var label))
-            return label.CurrentLabel;
+        {
+            if (!string.IsNullOrWhiteSpace(label.CurrentLabel))
+                return label.CurrentLabel;
+        }
 
-        return null;
+        return Name(uid);
     }
     // DS14-end
 

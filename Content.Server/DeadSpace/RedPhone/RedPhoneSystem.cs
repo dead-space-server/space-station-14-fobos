@@ -12,7 +12,6 @@ using Content.Shared.DeadSpace.RedPhone;
 using Content.Shared.Popups;
 using Content.Shared.Telephone;
 using Content.Shared.UserInterface;
-using Content.Shared.Verbs;
 using Robust.Server.Audio;
 using Robust.Server.GameObjects;
 using Robust.Shared.Audio;
@@ -39,37 +38,14 @@ public sealed class RedPhoneSystem : EntitySystem
     {
         base.Initialize();
 
-        SubscribeLocalEvent<RedPhoneComponent, GetVerbsEvent<ActivationVerb>>(OnGetVerbs);
         SubscribeLocalEvent<RedPhoneComponent, BeforeActivatableUIOpenEvent>(OnBeforeUiOpen);
         SubscribeLocalEvent<RedPhoneComponent, RedPhoneStartCallMessage>(OnStartCall);
+        SubscribeLocalEvent<RedPhoneComponent, RedPhoneAnswerCallMessage>(OnAnswerCall);
         SubscribeLocalEvent<RedPhoneComponent, RedPhoneEndCallMessage>(OnEndCall);
         SubscribeLocalEvent<RedPhoneComponent, RedPhoneSubmitReportMessage>(OnSubmitReport);
-        SubscribeLocalEvent<RedPhoneComponent, TelephoneCallCommencedEvent>(OnCallCommenced);
         SubscribeLocalEvent<RedPhoneComponent, TelephoneCallEndedEvent>(OnCallEnded);
         SubscribeLocalEvent<RedPhoneComponent, TelephoneStateChangeEvent>(OnTelephoneStateChanged);
         SubscribeLocalEvent<RedPhoneComponent, ComponentShutdown>(OnComponentShutdown);
-    }
-
-    private void OnGetVerbs(Entity<RedPhoneComponent> ent, ref GetVerbsEvent<ActivationVerb> args)
-    {
-        if (ent.Comp.Kind != RedPhoneKind.Ordinary ||
-            !args.CanInteract ||
-            !TryComp<ActorComponent>(args.User, out var actor))
-        {
-            return;
-        }
-
-        args.Verbs.Add(new ActivationVerb
-        {
-            Text = Loc.GetString("red-phone-verb-report"),
-            Act = () => OpenReportUi(ent.Owner, actor.PlayerSession)
-        });
-    }
-
-    private void OpenReportUi(EntityUid phoneUid, ICommonSession session)
-    {
-        if (_ui.HasUi(phoneUid, RedPhoneUiKey.Report))
-            _ui.OpenUi(phoneUid, RedPhoneUiKey.Report, session);
     }
 
     public bool TrySubmitReport(EntityUid phoneUid, EntityUid user, ICommonSession session, string message)
@@ -107,14 +83,6 @@ public sealed class RedPhoneSystem : EntitySystem
         ReplayReportOnCentCommPhones(user, message);
         RefreshCentCommPhoneUis();
         return true;
-    }
-
-    private void OnCallCommenced(Entity<RedPhoneComponent> ent, ref TelephoneCallCommencedEvent args)
-    {
-        if (ent.Comp.Kind != RedPhoneKind.Ordinary)
-            return;
-
-        _popup.PopupEntity(Loc.GetString("red-phone-emote-incoming-call"), ent.Owner, PopupType.Medium);
     }
 
     private void OnCallEnded(Entity<RedPhoneComponent> ent, ref TelephoneCallEndedEvent args)
@@ -161,6 +129,19 @@ public sealed class RedPhoneSystem : EntitySystem
         TryStartCall(ent.Owner, receiverUidNet.Value, args.Actor);
     }
 
+    private void OnAnswerCall(Entity<RedPhoneComponent> ent, ref RedPhoneAnswerCallMessage args)
+    {
+        if (ent.Comp.Kind != RedPhoneKind.Ordinary ||
+            args.Actor == EntityUid.Invalid ||
+            !TryComp<TelephoneComponent>(ent.Owner, out var telephone))
+        {
+            return;
+        }
+
+        _telephone.AnswerTelephone((ent.Owner, telephone), args.Actor);
+        RefreshCentCommPhoneUis();
+    }
+
     private void OnSubmitReport(Entity<RedPhoneComponent> ent, ref RedPhoneSubmitReportMessage args)
     {
         if (ent.Comp.Kind != RedPhoneKind.Ordinary ||
@@ -176,9 +157,13 @@ public sealed class RedPhoneSystem : EntitySystem
 
     private void OnEndCall(Entity<RedPhoneComponent> ent, ref RedPhoneEndCallMessage args)
     {
-        if (ent.Comp.Kind != RedPhoneKind.CentComm ||
-            args.Actor == EntityUid.Invalid ||
-            !TryComp<TelephoneComponent>(ent.Owner, out var telephone) ||
+        if (args.Actor == EntityUid.Invalid ||
+            !TryComp<TelephoneComponent>(ent.Owner, out var telephone))
+        {
+            return;
+        }
+
+        if (ent.Comp.Kind == RedPhoneKind.CentComm &&
             !HasCentCommAccess(args.Actor, ent.Owner))
         {
             return;
@@ -219,7 +204,6 @@ public sealed class RedPhoneSystem : EntitySystem
             user,
             new TelephoneCallOptions
             {
-                ForceConnect = true,
                 IgnoreRange = true
             });
 
@@ -229,6 +213,12 @@ public sealed class RedPhoneSystem : EntitySystem
 
     private void OnTelephoneStateChanged(Entity<RedPhoneComponent> ent, ref TelephoneStateChangeEvent args)
     {
+        if (ent.Comp.Kind == RedPhoneKind.Ordinary &&
+            args.NewState == TelephoneState.Ringing)
+        {
+            _popup.PopupEntity(Loc.GetString("red-phone-emote-incoming-call"), ent.Owner, PopupType.Medium);
+        }
+
         RefreshCentCommPhoneUis();
     }
 

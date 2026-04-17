@@ -21,7 +21,10 @@ public sealed class RedPhoneReportBoundUserInterface : BoundUserInterface
         base.Open();
 
         _window = this.CreateWindow<RedPhoneReportWindow>();
+        _window.Title = Loc.GetString("red-phone-window-title", ("title", EntMan.GetComponent<MetaDataComponent>(Owner).EntityName));
+        _window.SetOwner(Owner);
         _window.Submit += message => SendMessage(new RedPhoneSubmitReportMessage(message));
-        _window.MessageInput.GrabKeyboardFocus();
+        _window.AnswerCall += () => SendMessage(new RedPhoneAnswerCallMessage());
+        _window.EndCall += () => SendMessage(new RedPhoneEndCallMessage());
     }
 }
