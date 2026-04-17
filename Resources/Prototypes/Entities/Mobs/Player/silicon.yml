@@ -463,7 +463,7 @@
     # Once it's in a core it's pretty much an abstract entity at that point.
     visible: false
   - type: SiliconLawProvider
-    laws: Crewsimov
+    laws: CrewsimovAi # DS14
   - type: SiliconLawBound
   - type: ActionGrant
     actions:
@@ -626,7 +626,7 @@
       job: Borg
     - type: GhostTakeoverAvailable
     #DS14-start
-    - type: GhostRoleNotifys 
+    - type: GhostRoleNotifys
       groupPrototype: SyndicateBorgGroup
     #DS14-end
 
@@ -664,7 +664,7 @@
       job: Borg
     - type: GhostTakeoverAvailable
     #DS14-start
-    - type: GhostRoleNotifys 
+    - type: GhostRoleNotifys
       groupPrototype: SyndicateBorgGroup
     #DS14-end
 
@@ -724,7 +724,7 @@
     job: Borg
   - type: GhostTakeoverAvailable
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: DerelictCyborg
   #DS14-end
 
@@ -764,7 +764,7 @@
       job: Borg
     - type: GhostTakeoverAvailable
     #DS14-start
-    - type: GhostRoleNotifys 
+    - type: GhostRoleNotifys
       groupPrototype: DerelictCyborg
     #DS14-end
 
@@ -806,7 +806,7 @@
     job: Borg
   - type: GhostTakeoverAvailable
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: DerelictCyborg
   #DS14-end
 
@@ -849,7 +849,7 @@
     job: Borg
   - type: GhostTakeoverAvailable
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: DerelictCyborg
   #DS14-end
 
@@ -891,7 +891,7 @@
     job: Borg
   - type: GhostTakeoverAvailable
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: DerelictCyborg
   #DS14-end
 
@@ -931,6 +931,6 @@
     job: Borg
   - type: GhostTakeoverAvailable
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: DerelictCyborg
   #DS14-end

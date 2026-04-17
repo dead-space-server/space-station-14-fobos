@@ -9,7 +9,7 @@ namespace Content.Shared.DeadSpace.Abilities.Slide;
 public sealed partial class SpeedSlidingComponent : Component
 {
     [DataField, AutoNetworkedField] 
-    public float MinSlideSpeed = 4.9f;
+    public float MinSlideSpeed = 4.6f;
 
     [DataField, AutoNetworkedField] 
     public float SlideDistance = 8.5f;

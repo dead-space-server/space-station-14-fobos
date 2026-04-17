@@ -83,6 +83,9 @@
   id: EnergySword
 
 - type: Tag
+  id: EnergyKatana
+
+- type: Tag
   id: EnergySwordDouble
 
 - type: Tag

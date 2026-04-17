@@ -1,5 +1,6 @@
 ﻿using Content.Shared.Audio;
 using Content.Shared.CCVar;
+using Content.Shared.DeadSpace.CCCCVars; // DS14
 using Content.Shared.GameTicking;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
@@ -21,6 +22,9 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
     private bool _eventAudioEnabled = true;
     private Dictionary<StationEventMusicType, EntityUid?> _eventAudio = new(1);
 
+    // Alert level sounds
+    private float _alertLevelVolume = 1f; // DS14
+
     public override void Initialize()
     {
         base.Initialize();
@@ -33,6 +37,8 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
         Subs.CVar(_cfg, CCVars.EventMusicEnabled, ToggleStationEventMusic, true);
 
         SubscribeNetworkEvent<GameGlobalSoundEvent>(PlayGameSound);
+        SubscribeNetworkEvent<AlertLevelSoundEvent>(PlayAlertLevelSound); // DS14
+        Subs.CVar(_cfg, CCCCVars.AlertLevelVolume, SetAlertLevelVolume, true); // DS-14
     }
 
     private void OnRoundRestart(RoundRestartCleanupEvent ev)
@@ -84,6 +90,15 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
         _audio.PlayGlobal(soundEvent.Specifier, Filter.Local(), false, soundEvent.AudioParams);
     }
 
+    // DS14-start
+    private void PlayAlertLevelSound(AlertLevelSoundEvent soundEvent)
+    {
+        var audioParams = soundEvent.AudioParams ?? AudioParams.Default;
+        audioParams = audioParams.AddVolume(SharedAudioSystem.GainToVolume(_alertLevelVolume));
+        _audio.PlayGlobal(soundEvent.Specifier, Filter.Local(), false, audioParams);
+    }
+    // DS14-end
+
     private void StopStationEventMusic(StopStationEventMusic soundEvent)
     {
         if (!_eventAudio.TryGetValue(soundEvent.Type, out var stream))
@@ -114,4 +129,11 @@ public sealed class ClientGlobalSoundSystem : SharedGlobalSoundSystem
         }
         _eventAudio.Clear();
     }
+
+    // DS14-start
+    private void SetAlertLevelVolume(float volume)
+    {
+        _alertLevelVolume = volume;
+    }
+    // DS14-end
 }
