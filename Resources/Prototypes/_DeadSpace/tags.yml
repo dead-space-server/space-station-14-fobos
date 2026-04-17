@@ -350,6 +350,9 @@
   id: WeldingMaskWhite
 
 - type: Tag
+  id: GasTank
+
+- type: Tag
   id: WhiteFlower
 
 - type: Tag

@@ -12,8 +12,11 @@ public sealed partial class MinorItemModulePrototype : IPrototype
     [IdDataField]
     public string ID { get; private set; } = default!;
 
-    [DataField("moduleItem", required: true)]
-    public EntProtoId ModuleItem = default!;
+    [DataField("moduleItem")]
+    public EntProtoId? ModuleItem;
+
+    [DataField("tag")]
+    public List<string>? Tag;
 
     [DataField("description")]
     public string Description = string.Empty;

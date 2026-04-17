@@ -1,6 +1,6 @@
 - type: salvageFaction
   id: Demons
-  desc: Демоны
+  desc: salvage-faction-demon
   entries:
     - proto: MobDemonIfrit
       cost: 2
@@ -23,7 +23,7 @@
 
 - type: salvageFaction
   id: Argocyte
-  desc: Аргоциты
+  desc: salvage-faction-argocyte
   entries:
     - proto: MobArgocyteHarvester
     - proto: MobArgocyteGlider
@@ -42,7 +42,7 @@
 
 - type: salvageFaction
   id: SpiderTerror
-  desc: Пауки Ужаса
+  desc: salvage-faction-spider-terror
   entries:
     - proto: MobSpiderTerrorWarrior
     - proto: MobSpiderTerrorDrone

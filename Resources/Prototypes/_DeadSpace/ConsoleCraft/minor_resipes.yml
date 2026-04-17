@@ -70,13 +70,36 @@
   components:
     Storage:
       grid:
-      - 0,0,8,5
+      - 0,0,12,8
+
+- type: minorItemModule
+  id: OuterSuitMiniJet
+  tag:
+    - GasTank
+  description: Встроенный миниджет
+  components:
+    GasTank:
+      outputPressure: 42.6
+      air:
+        volume: 1.5
+    Jetpack:
+      moleUsage: 0.00085
+    UserInterface:
+      interfaces:
+        enum.SharedGasTankUiKey.Key:
+          type: GasTankBoundUserInterface
+    UseDelay:
+      delays:
+        gasTank:
+          length: 1.0
+    ActivatableUI:
+      key: enum.SharedGasTankUiKey.Key
 
 # То что затрагивает скаф ригов
 # ВОТ ТУТ ВНИМАТЕЛЬНО, вы должны вписать прототип скафа который указан в сумке что вы строите, иначе игра просто даст компачи сумке, а не перепишет компачи скафандру.
 
 - type: minorItemModule
-  id: SpeedModifierModule
+  id: SpeedModifierModuleResearch
   moduleItem: SpeedModifierModuleItem
   description: Облегчение скафандра
   ifModSuit: ClothingOuterRIGResearch

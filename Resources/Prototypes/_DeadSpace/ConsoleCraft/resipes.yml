@@ -11,7 +11,7 @@
     label: Среднее ядро модифицированного рюкзака
   minorItems:
   - StorageModule
-  - SpeedModifierModule
+  - SpeedModifierModuleResearch
   - DelayModifierModule
 
 - type: consoleCraft

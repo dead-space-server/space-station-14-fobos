@@ -13,6 +13,7 @@ using Content.Shared.UserInterface;
 using Content.Shared.Tools.Components;
 using Content.Shared.Power;
 using Content.Shared.DeviceNetwork.Components;
+using Content.Shared.Tag;
 using Content.Shared.Containers.ItemSlots;
 using Content.Shared.Tools.Systems;
 using Content.Shared.Tools;
@@ -42,6 +43,7 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
+    [Dependency] private readonly TagSystem _tag = default!;
 
     private ConsoleCraftBlueprintSystem? _blueprints;
     private ConsoleCraftBlueprintSystem Blueprints =>
@@ -930,18 +932,25 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
             if (!_proto.TryIndex<MinorItemModulePrototype>(moduleProtoId, out var moduleDef))
                 continue;
 
-            if (moduleDef.ModuleItem.Id == itemProto)
-            {
-                if (stationComp.InsertedModules.ContainsKey(moduleProtoId.Id))
-                    return InsertResult.ModuleDuplicate;
+            var matchesItem = moduleDef.ModuleItem.HasValue &&
+                              moduleDef.ModuleItem.Value.Id == itemProto;
 
-                if (stationComp.InsertedModules.Count >= 2)
-                    return InsertResult.ModuleFull;
+            var matchesTag = !matchesItem &&
+                             moduleDef.Tag != null &&
+                             moduleDef.Tag.Any(t => _tag.HasTag(itemUid, t));
 
-                _container.Insert(itemUid, stationComp.ItemContainer);
-                stationComp.InsertedModules[moduleProtoId.Id] = itemUid;
-                return InsertResult.SuccessModule;
-            }
+            if (!matchesItem && !matchesTag)
+                continue;
+
+            if (stationComp.InsertedModules.ContainsKey(moduleProtoId.Id))
+                return InsertResult.ModuleDuplicate;
+
+            if (stationComp.InsertedModules.Count >= 2)
+                return InsertResult.ModuleFull;
+
+            _container.Insert(itemUid, stationComp.ItemContainer);
+            stationComp.InsertedModules[moduleProtoId.Id] = itemUid;
+            return InsertResult.SuccessModule;
         }
 
         var requiredItem = recipe.RequestItems.FirstOrDefault(r => r.ItemProto.Id == itemProto);
