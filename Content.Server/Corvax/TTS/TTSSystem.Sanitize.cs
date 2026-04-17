@@ -10,6 +10,10 @@ namespace Content.Server.Corvax.TTS;
 // ReSharper disable once InconsistentNaming
 public sealed partial class TTSSystem
 {
+    private const string AllowedTtsCharsPattern = @"[^a-zA-Zа-яА-ЯёЁ0-9,\-+?!. ]";
+    private const string AllowedTtsWordPattern = @"(?<![a-zA-Zа-яёА-ЯЁ])[a-zA-Zа-яёА-ЯЁ]+?(?![a-zA-Zа-яёА-ЯЁ])";
+    private const string LatinTranslitPattern = @"jsh|je|zh|ch|sh|hh|ih|jh|eh|ju|ja|[a-zA-Z]";
+
     private void OnTransformSpeech(TransformSpeechEvent args)
     {
         if (!_isEnabled) return;
@@ -19,9 +23,9 @@ public sealed partial class TTSSystem
     private string Sanitize(string text)
     {
         text = text.Trim();
-        text = Regex.Replace(text, @"[^a-zA-Zа-яА-ЯёЁ0-9,\-+?!. ]", "");
-        text = Regex.Replace(text, @"[a-zA-Z]", ReplaceLat2Cyr, RegexOptions.Multiline | RegexOptions.IgnoreCase);
-        text = Regex.Replace(text, @"(?<![a-zA-Zа-яёА-ЯЁ])[a-zA-Zа-яёА-ЯЁ]+?(?![a-zA-Zа-яёА-ЯЁ])", ReplaceMatchedWord, RegexOptions.Multiline | RegexOptions.IgnoreCase);
+        text = Regex.Replace(text, AllowedTtsCharsPattern, "");
+        text = Regex.Replace(text, AllowedTtsWordPattern, ReplaceMatchedWord, RegexOptions.Multiline | RegexOptions.IgnoreCase);
+        text = Regex.Replace(text, LatinTranslitPattern, ReplaceLat2Cyr, RegexOptions.Multiline | RegexOptions.IgnoreCase);
         text = Regex.Replace(text, @"(?<=[1-90])(\.|,)(?=[1-90])", " целых ");
         text = Regex.Replace(text, @"\d+", ReplaceWord2Num);
         text = text.Trim();
@@ -30,14 +34,14 @@ public sealed partial class TTSSystem
 
     private string ReplaceLat2Cyr(Match oneChar)
     {
-        if (ReverseTranslit.TryGetValue(oneChar.Value.ToLower(), out var replace))
+        if (ReverseTranslit.TryGetValue(oneChar.Value.ToLowerInvariant(), out var replace))
             return replace;
         return oneChar.Value;
     }
 
     private string ReplaceMatchedWord(Match word)
     {
-        if (WordReplacement.TryGetValue(word.Value.ToLower(), out var replace))
+        if (WordReplacement.TryGetValue(word.Value.ToLowerInvariant(), out var replace))
             return replace;
         return word.Value;
     }
