@@ -12,7 +12,7 @@
     5 бойцов РХБЗЗ и 1 лидер прибывают на шаттле РХБЗЗ, который оснащён
     всем необходимым оборудованием для выполнения их миссии.
     Время прибытия отряда от 10 до 15 минут.
-  sender: ert-responce-cso-sender
+  sender: ert-response-cso-sender
   rule: SpawnCburnShuttle
   cooldown:
     min: 15m
@@ -45,8 +45,8 @@
     10 бойцов РХБЗЗ и 1 лидер прибывают на шаттле РХБЗЗ, который оснащён
     всем необходимым оборудованием для выполнения их миссии.
     Время прибытия отряда от 10 до 15 минут.
-  notification: ert-responce-caused-messager-sierra
-  sender: ert-responce-cso-sender
+  notification: ert-response-caused-messager-sierra
+  sender: ert-response-cso-sender
   rule: SpawnSierraShuttle
   cooldown:
     min: 15m
@@ -151,7 +151,7 @@
     7 членов отряда прибывают на шаттле типа Гамма, который оснащён всем
     необходимым оборудованием для выполнения их миссии.
     Время прибытия отряда от 10 до 15 минут.
-  sender: ert-responce-cso-sender
+  sender: ert-response-cso-sender
   rule: SpawnRedShuttle
   cooldown:
     min: 10m
@@ -190,8 +190,8 @@
     необходимым оборудованием для выполнения их миссии.
     Время прибытия отряда 20 минут.
   rule: SpawnGammaShuttle
-  notification: ert-responce-caused-messager-gamma
-  sender: ert-responce-cso-sender
+  notification: ert-response-caused-messager-gamma
+  sender: ert-response-cso-sender
   cooldown:
     min: 20m
     max: 20m
@@ -224,8 +224,8 @@
     Данный отряд отправляется при вторжении террористов Круг или в случае масштабного всплеска ред-спейс.
     Время прибытия отряда от 20 до 25 минут.
   rule: SpawnSierraShuttle
-  notification: ert-responce-caused-messager-uni-ops
-  sender: ert-responce-cso-sender
+  notification: ert-response-caused-messager-uni-ops
+  sender: ert-response-cso-sender
   cooldown:
     min: 25m
     max: 25m
@@ -254,7 +254,7 @@
     на шаттле, который оснащён всем необходимым оборудованием
     для выполнения их миссии.
     Время прибытия от 5 до 7 минут.
-  notification: ert-responce-caused-messager-official
+  notification: ert-response-caused-messager-official
   rule: SpawnCentCommOfficialShuttle
   cancelMessage: 
     Представитель Центрального Командования NanoTrasen не смог прибыть на станцию

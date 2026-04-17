@@ -1230,3 +1230,7 @@ TowelColorYellow: null
 TowelColorMaroon: null
 TowelColorSilver: null
 TowelColorMime: null
+
+# 2026-04-17 - DS14
+ErtResponceConsole: ErtResponseConsole
+ErtResponceConsoleCircuitboard: ErtResponseConsoleCircuitboard

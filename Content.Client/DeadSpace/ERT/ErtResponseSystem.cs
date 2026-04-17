@@ -4,7 +4,7 @@ using Content.Shared.DeadSpace.ERT;
 
 namespace Content.Client.DeadSpace.ERT;
 
-public sealed class ErtResponceSystem : SharedErtResponceSystem
+public sealed class ErtResponseSystem : SharedErtResponseSystem
 {
     public ErtAdminStateResponse? LastState { get; private set; }
 
@@ -34,11 +34,6 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
         RaiseNetworkEvent(new RequestErtAdminStateMessage());
     }
 
-    public void AdminModifyEntry(string protoId, int seconds)
-    {
-        RaiseNetworkEvent(new AdminModifyErtEntryMessage(protoId, seconds));
-    }
-
     public void AdminSetPoints(int points)
     {
         RaiseNetworkEvent(new AdminSetPointsMessage(points));
@@ -49,18 +44,53 @@ public sealed class ErtResponceSystem : SharedErtResponceSystem
         RaiseNetworkEvent(new AdminSetCooldownMessage(seconds));
     }
 
-    public void AdminDeleteErt(string protoId)
+    public void AdminSetReason(int requestId, string reason)
     {
-        RaiseNetworkEvent(new AdminDeleteErtMessage(protoId));
+        RaiseNetworkEvent(new AdminSetErtReasonMessage(requestId, reason));
     }
 
-    public void AdminSetReason(string protoId, string reason)
+    public void AdminModifyEntry(int requestId, int seconds)
     {
-        RaiseNetworkEvent(new AdminSetErtReasonMessage(protoId, reason));
+        RaiseNetworkEvent(new AdminModifyErtEntryMessage(requestId, seconds));
     }
 
-    public void AdminCallErt(string protoId, string reason)
+    public void AdminDeleteErt(int requestId)
+    {
+        RaiseNetworkEvent(new AdminDeleteErtMessage(requestId));
+    }
+
+    public void AdminRejectRequest(int requestId)
+    {
+        RaiseNetworkEvent(new AdminRejectErtRequestMessage(requestId));
+    }
+
+    public void AdminApproveRequestManual(int requestId)
+    {
+        RaiseNetworkEvent(new AdminApproveErtRequestManualMessage(requestId));
+    }
+
+    public void AdminApproveRequestAuto(int requestId)
+    {
+        RaiseNetworkEvent(new AdminApproveErtRequestAutoMessage(requestId));
+    }
+
+    public void AdminSetApprovedTeam(int requestId, string protoId)
+    {
+        RaiseNetworkEvent(new AdminSetApprovedErtTeamMessage(requestId, protoId));
+    }
+
+    public void QueueAutoApprovedRequest(string protoId, string reason)
     {
         RaiseNetworkEvent(new AdminCallErtMessage(protoId, reason));
+    }
+
+    public void AdminSendErtNow(int requestId)
+    {
+        RaiseNetworkEvent(new AdminSendErtNowMessage(requestId));
+    }
+
+    public void AdminPromoteManualApprovedRequest(int requestId)
+    {
+        RaiseNetworkEvent(new AdminPromoteManualApprovedErtMessage(requestId));
     }
 }

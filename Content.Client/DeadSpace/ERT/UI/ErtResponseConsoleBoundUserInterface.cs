@@ -8,12 +8,12 @@ using Content.Shared.DeadSpace.ERT;
 namespace Content.Client.DeadSpace.ERT.UI
 {
     [UsedImplicitly]
-    public sealed class ErtResponceConsoleBoundUserInterface : BoundUserInterface
+    public sealed class ErtResponseConsoleBoundUserInterface : BoundUserInterface
     {
         [ViewVariables]
-        private ErtResponceConsoleWindow? _window;
+        private ErtResponseConsoleWindow? _window;
 
-        public ErtResponceConsoleBoundUserInterface(EntityUid owner, Enum uiKey)
+        public ErtResponseConsoleBoundUserInterface(EntityUid owner, Enum uiKey)
             : base(owner, uiKey)
         {
         }
@@ -22,11 +22,11 @@ namespace Content.Client.DeadSpace.ERT.UI
         {
             base.Open();
 
-            _window = this.CreateWindow<ErtResponceConsoleWindow>();
+            _window = this.CreateWindow<ErtResponseConsoleWindow>();
 
-            _window.ResponceTeamButton.OnPressed += _ =>
-                SendMessage(new ErtResponceConsoleUiButtonPressedMessage(
-                    ErtResponceConsoleUiButton.ResponceErt,
+            _window.ResponseTeamButton.OnPressed += _ =>
+                SendMessage(new ErtResponseConsoleUiButtonPressedMessage(
+                    ErtResponseConsoleUiButton.ResponseErt,
                     team: GenSelectedAvailableTeam(),
                     callReason: GetCallReason()
                 ));
@@ -45,7 +45,7 @@ namespace Content.Client.DeadSpace.ERT.UI
         protected override void UpdateState(BoundUserInterfaceState state)
         {
             base.UpdateState(state);
-            _window?.Populate((ErtResponceConsoleBoundUserInterfaceState)state);
+            _window?.Populate((ErtResponseConsoleBoundUserInterfaceState)state);
         }
 
         private string? GenSelectedAvailableTeam()

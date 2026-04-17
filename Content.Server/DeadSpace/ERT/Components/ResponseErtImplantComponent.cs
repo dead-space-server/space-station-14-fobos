@@ -6,8 +6,8 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.ERT.Components;
 
-[RegisterComponent]
-public sealed partial class ResponceErtImplantComponent : Component
+[RegisterComponent, ComponentProtoName("ResponseErtImplant")]
+public sealed partial class ResponseErtImplantComponent : Component
 {
     [DataField(required: true)]
     public ProtoId<ErtTeamPrototype> Team;

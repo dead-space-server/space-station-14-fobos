@@ -1,7 +1,7 @@
 <!--Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT-->
 
 <DefaultWindow xmlns="https://spacestation14.io"
-               Title="{Loc 'ert-responce-window-title'}"
+               Title="{Loc 'ert-response-window-title'}"
                MinSize="900 600"
                SetSize="1000 700">
 
@@ -22,7 +22,7 @@
                                 Margin="5">
                     <BoxContainer Orientation="Vertical"
                                   VerticalExpand="True">
-                        <Label Text="{Loc 'ert-responce-available-teams'}" />
+                        <Label Text="{Loc 'ert-response-available-teams'}" />
                         <ScrollContainer VerticalExpand="True">
                             <ItemList Name="AvailableTeamsList"
                                       Access="Public"
@@ -40,7 +40,11 @@
                     <Label Name="BalanceLabel"
                            Margin="0 0 0 5"/>
 
-                    <Label Text="{Loc 'ert-responce-team-description'}" />
+                    <Label Name="AuthorizationLabel"
+                           Access="Public"
+                           Margin="0 0 0 5" />
+
+                    <Label Text="{Loc 'ert-response-team-description'}" />
 
                     <PanelContainer StyleClasses="BackgroundPanelDark"
                                     VerticalExpand="True">
@@ -65,10 +69,10 @@
         <BoxContainer Orientation="Horizontal"
                       HorizontalAlignment="Center"
                       Margin="5">
-            <Button Name="ResponceTeamButton"
+            <Button Name="ResponseTeamButton"
                     Access="Public"
                     MinWidth="250"
-                    Text="{Loc 'responce-ert-team-button'}"/>
+                    Text="{Loc 'response-ert-team-button'}"/>
         </BoxContainer>
 
     </BoxContainer>

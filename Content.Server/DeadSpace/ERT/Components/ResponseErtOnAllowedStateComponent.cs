@@ -6,8 +6,8 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.ERT.Components;
 
-[RegisterComponent]
-public sealed partial class ResponceErtOnAllowedStateComponent : Component
+[RegisterComponent, ComponentProtoName("ResponseErtOnAllowedState")]
+public sealed partial class ResponseErtOnAllowedStateComponent : Component
 {
     [DataField(required: true), ViewVariables(VVAccess.ReadOnly)]
     public ProtoId<ErtTeamPrototype> Team;

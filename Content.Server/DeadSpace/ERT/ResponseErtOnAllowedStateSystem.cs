@@ -14,12 +14,12 @@ using Content.Server.Actions;
 
 namespace Content.Server.DeadSpace.ERT;
 
-public sealed class ResponceErtOnAllowedStateSystem : EntitySystem
+public sealed class ResponseErtOnAllowedStateSystem : EntitySystem
 {
     [Dependency] private readonly EuiManager _euiManager = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly ILogManager _logManager = default!;
-    [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
+    [Dependency] private readonly ErtResponseSystem _ertResponseSystem = default!;
     [Dependency] private readonly RoleSystem _roleSystem = default!;
     [Dependency] private readonly MindSystem _mindSystem = default!;
     [Dependency] private readonly ActionsSystem _actionsSystem = default!;
@@ -28,17 +28,17 @@ public sealed class ResponceErtOnAllowedStateSystem : EntitySystem
     {
         base.Initialize();
 
-        SubscribeLocalEvent<ResponceErtOnAllowedStateComponent, ComponentShutdown>(OnShutdown);
-        SubscribeLocalEvent<ResponceErtOnAllowedStateComponent, MobStateChangedEvent>(OnMobStateChange);
-        SubscribeLocalEvent<ResponceErtOnAllowedStateComponent, CallErtHelpActionEvent>(OnCallErtHelpAction);
+        SubscribeLocalEvent<ResponseErtOnAllowedStateComponent, ComponentShutdown>(OnShutdown);
+        SubscribeLocalEvent<ResponseErtOnAllowedStateComponent, MobStateChangedEvent>(OnMobStateChange);
+        SubscribeLocalEvent<ResponseErtOnAllowedStateComponent, CallErtHelpActionEvent>(OnCallErtHelpAction);
     }
 
-    private void OnShutdown(Entity<ResponceErtOnAllowedStateComponent> ent, ref ComponentShutdown args)
+    private void OnShutdown(Entity<ResponseErtOnAllowedStateComponent> ent, ref ComponentShutdown args)
     {
         _actionsSystem.RemoveAction(ent.Owner, ent.Comp.ActionEntity);
     }
 
-    private void OnMobStateChange(Entity<ResponceErtOnAllowedStateComponent> ent, ref MobStateChangedEvent args)
+    private void OnMobStateChange(Entity<ResponseErtOnAllowedStateComponent> ent, ref MobStateChangedEvent args)
     {
         if (!ent.Comp.IsReady)
             return;
@@ -58,7 +58,7 @@ public sealed class ResponceErtOnAllowedStateSystem : EntitySystem
         _actionsSystem.RemoveAction(ent.Owner, ent.Comp.ActionEntity);
     }
 
-    private void OnCallErtHelpAction(Entity<ResponceErtOnAllowedStateComponent> ent, ref CallErtHelpActionEvent args)
+    private void OnCallErtHelpAction(Entity<ResponseErtOnAllowedStateComponent> ent, ref CallErtHelpActionEvent args)
     {
         if (!ent.Comp.IsReady)
             return;
@@ -105,7 +105,7 @@ public sealed class ResponceErtOnAllowedStateSystem : EntitySystem
         if (!accepted)
             return;
 
-        if (!TryComp<ResponceErtOnAllowedStateComponent>(player.AttachedEntity, out var component))
+        if (!TryComp<ResponseErtOnAllowedStateComponent>(player.AttachedEntity, out var component))
             return;
 
         var mind = _mindSystem.GetMind(player.AttachedEntity.Value);
@@ -114,18 +114,18 @@ public sealed class ResponceErtOnAllowedStateSystem : EntitySystem
 
         if (_roleSystem.MindIsAntagonist(mind))
         {
-            RemComp<ResponceErtOnAllowedStateComponent>(player.AttachedEntity.Value);
+            RemComp<ResponseErtOnAllowedStateComponent>(player.AttachedEntity.Value);
             return;
         }
 
         string? callReason = null;
-        if (_mindSystem.TryGetMind(player.AttachedEntity.Value, out _, out var mindComp))
-        {
-            var playerName = mindComp.CharacterName ?? player.Name ?? Loc.GetString("ert-critical-force-unknown-player");
-            callReason = Loc.GetString("ert-critical-force-reason", ("name", playerName));
-        }
+        var playerName = Name(player.AttachedEntity.Value);
+        if (string.IsNullOrWhiteSpace(playerName))
+            playerName = Loc.GetString("ert-critical-force-unknown-player");
 
-        _ertResponceSystem.TryCallErt(
+        callReason = Loc.GetString("ert-critical-force-reason", ("name", playerName));
+
+        _ertResponseSystem.TryCallErt(
             component.Team,
             station: null,
             out _,
@@ -136,6 +136,6 @@ public sealed class ResponceErtOnAllowedStateSystem : EntitySystem
             pinpointerTarget: player.AttachedEntity.Value
         );
 
-        RemComp<ResponceErtOnAllowedStateComponent>(player.AttachedEntity.Value);
+        RemComp<ResponseErtOnAllowedStateComponent>(player.AttachedEntity.Value);
     }
 }

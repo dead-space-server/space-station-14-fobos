@@ -1,35 +1,35 @@
 admin-player-actions-window-ert = Окно управления ОБР
 
-ert-responce-balance-label =
+ert-response-balance-label =
     Баланс: { $cost }
 
-ert-responce-caused-messager =
+ert-response-caused-messager =
     Центральное командование получило запрос.
     { $team } выдвигается на станцию.
     Расчётное время прибытия: минимально возможное.
 
-ert-responce-cso-sender = Корпус Специальных Операций
+ert-response-cso-sender = Корпус Специальных Операций
 
-ert-responce-caused-messager-gamma =
+ert-response-caused-messager-gamma =
     Внимание, станция! Первыми средствами связи командования были 
     переданы тревожные сообщения об угрозе уничтожения корпоративных интересов. 
     Недопустимый акт привёл к переходу актива под полный контроль КСО. 
     На станции инициализирован уровень угрозы Гамма с протоколами военного положения, объявляется мобилизация экипажа. 
     Инициировано развёртывание сил ОБР по вектору угрозы.
 
-ert-responce-caused-messager-uni-ops =
+ert-response-caused-messager-uni-ops =
     Внимание, станция! Первыми средствами связи командования были 
     переданы тревожные сообщения об угрозе уничтожения корпоративных интересов. 
     Недопустимый акт привёл к переходу актива под полный контроль КСО. 
     На станции инициализирован уровень угрозы Sierra с протоколами военного положения, объявляется мобилизация экипажа. 
     Инициировано развёртывание сил ОБР по вектору угрозы.
 
-ert-responce-caused-messager-official =
+ert-response-caused-messager-official =
     Внимание командованию станции! На связи Секторальный Штаб ЦК!
     В связи с необходимостью, Секторальный Штаб ЦК принял решение об отправке Представителя Центрального Командования 
     на ваш актив, для проведения разбирательств. Ожидайте прибытия в ближайшее время. Слава NanoTrasen!
     
-ert-responce-caused-messager-sierra =
+ert-response-caused-messager-sierra =
     Внимание, станция! Первыми средствами связи командования были переданы тревожные сообщения об угрозе биологической катастрофы.
     Риск секторального загрязнения привёл к переходу актива под полный контроль КСО. 
     На станции инициализирован уровень угрозы Сьерра с протоколами военного положения, объявляется мобилизация экипажа. 
@@ -69,3 +69,41 @@ ert-call-fail-prototype-missing = Отряда не доступен.
 ert-call-fail-code-blacklist = Уровень тревоги ({$level}) запрещает вызов этого отряда.
 ert-call-fail-not-enough-points = Недостаточно ресурса для вызова (нужно {$price}, доступно {$balance}).
 ert-call-fail-cooldown = Повторный вызов возможен через {$seconds} сек.
+ert-response-call-submitted = Заявка на вызов ОБР отправлена в Корпус Специальных Операций.
+ert-console-auth-required = Для доступа требуются две карты: капитан + капитан или капитан + ГСБ.
+ert-console-auth-card-invalid = В консоль допускаются только карты капитана и ГСБ.
+ert-console-requester-unknown = неизвестный оператор
+ert-console-requester-name-with-job = { $name } ({ $job })
+ert-console-request-rejected-announcement = Внимание командованию Станции! Корпус Специальных Операций отклонил запрос на вызов Отряда Быстрого Реагирования. Справляйтесь своими силами. Слава NanoTrasen!
+ert-console-auth-slot-a = карта авторизации A
+ert-console-auth-slot-b = карта авторизации B
+ert-admin-requester-system = системный вызов
+
+ert-admin-settings-title = Настройки вызова ОБР
+ert-admin-cooldown-label = Cooldown (сек):
+ert-admin-points-label = Баланс очков вызова:
+ert-admin-actions-label = Действия
+ert-admin-refresh-button = Обновить
+ert-admin-apply-button = Применить
+ert-admin-pending-tab = Ожидающие
+ert-admin-approved-tab = Автоспавн
+ert-admin-manual-approved-tab = Ручное одобрение
+
+ert-admin-pending-title = Ожидающие решения заявки
+ert-admin-selected-requester = Заявитель:
+ert-admin-selected-reason = Цель вызова:
+ert-admin-reject-button = Отклонить
+ert-admin-approve-manual-button = Одобрить с ручным спавном
+ert-admin-approve-auto-button = Одобрить с автоспавном
+
+ert-admin-approved-title = Авто-одобренные заявки
+ert-admin-arrival-label = Время прибытия (сек):
+ert-admin-approved-reason-label = Цель вызова:
+ert-admin-approved-team-label = Отряд для автоспавна:
+ert-admin-set-reason-button = Изменить цель
+ert-admin-set-team-button = Сменить отряд
+ert-admin-send-now-button = Отправить отряд
+ert-admin-cancel-auto-button = Отменить автоспавн
+
+ert-admin-promote-manual-button = Запустить автоспавн без уведомлений
+ert-admin-queue-auto-button = Добавить в автоспавн

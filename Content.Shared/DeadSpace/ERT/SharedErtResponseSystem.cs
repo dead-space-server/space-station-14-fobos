@@ -5,7 +5,7 @@ using Content.Shared.DeadSpace.ERT.Prototypes;
 
 namespace Content.Shared.DeadSpace.ERT;
 
-public abstract class SharedErtResponceSystem : EntitySystem
+public abstract class SharedErtResponseSystem : EntitySystem
 {
     [Dependency] private readonly IPrototypeManager _prototype = default!;
 

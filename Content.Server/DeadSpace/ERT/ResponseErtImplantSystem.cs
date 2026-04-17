@@ -5,18 +5,18 @@ using Content.Shared.Implants;
 
 namespace Content.Server.DeadSpace.ERT;
 
-public sealed class ResponceErtImplantSystem : EntitySystem
+public sealed class ResponseErtImplantSystem : EntitySystem
 {
     public override void Initialize()
     {
         base.Initialize();
 
-        SubscribeLocalEvent<ResponceErtImplantComponent, ImplantImplantedEvent>(OnImplantImplanted);
+        SubscribeLocalEvent<ResponseErtImplantComponent, ImplantImplantedEvent>(OnImplantImplanted);
     }
 
-    private void OnImplantImplanted(Entity<ResponceErtImplantComponent> ent, ref ImplantImplantedEvent args)
+    private void OnImplantImplanted(Entity<ResponseErtImplantComponent> ent, ref ImplantImplantedEvent args)
     {
-        if (TryComp<ResponceErtOnAllowedStateComponent>(args.Implanted, out var imp))
+        if (TryComp<ResponseErtOnAllowedStateComponent>(args.Implanted, out var imp))
         {
             imp.AllowedStates = ent.Comp.AllowedStates;
             imp.Team = ent.Comp.Team;
@@ -25,7 +25,7 @@ public sealed class ResponceErtImplantSystem : EntitySystem
         }
         else
         {
-            AddComp(args.Implanted, new ResponceErtOnAllowedStateComponent
+            AddComp(args.Implanted, new ResponseErtOnAllowedStateComponent
             {
                 AllowedStates = ent.Comp.AllowedStates,
                 Team = ent.Comp.Team,
