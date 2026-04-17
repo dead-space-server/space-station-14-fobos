@@ -117,12 +117,9 @@ public sealed class TelephoneSystem : SharedTelephoneSystem
     {
         var nameEv = new TransformSpeakerNameEvent(messageSource, Name(messageSource));
         RaiseLocalEvent(messageSource, nameEv);
-        // DS14-end
 
-        // Determine if speech should be relayed via the telephone itself or a designated speaker
-        var speaker = receiver.Comp.Speaker != null ? receiver.Comp.Speaker.Value.Owner : receiver.Owner; // DS14
-
-        // DS14-start
+        var speaker = receiver.Comp.Speaker != null ? receiver.Comp.Speaker.Value.Owner : receiver.Owner;
+        
         SyncRelayedSpeakerState(messageSource, speaker);
         // DS14-end
 
