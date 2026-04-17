@@ -44,7 +44,28 @@
     - Engineers
     - BSAA
     useApprovalWorkflow: true
-    requireDualAuthorization: true
+  - type: ContainerContainer
+    containers:
+      board: !type:Container
+        showEnts: False
+        occludes: True
+        ents: []
+      ErtConsole-auth-a: !type:ContainerSlot
+        showEnts: False
+        occludes: True
+        ent: null
+      ErtConsole-auth-b: !type:ContainerSlot
+        showEnts: False
+        occludes: True
+        ent: null
+  - type: ItemSlots
+    slots:
+      ErtConsole-auth-a:
+        name: ert-console-auth-slot-a
+        swap: false
+      ErtConsole-auth-b:
+        name: ert-console-auth-slot-b
+        swap: false
   - type: Language
     selectedLanguage: GeneralLanguage
 
@@ -182,7 +203,6 @@
     teams:
     - CentralCommandOfficial
     useApprovalWorkflow: false
-    requireDualAuthorization: false
   - type: Language
     selectedLanguage: GeneralLanguage
   - type: Speech

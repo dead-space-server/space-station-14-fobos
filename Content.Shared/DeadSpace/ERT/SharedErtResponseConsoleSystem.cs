@@ -20,7 +20,7 @@ public sealed class SharedErtResponseConsoleSystem : EntitySystem
 
     private void OnUiOpenAttempt(Entity<ErtResponseConsoleComponent> ent, ref ActivatableUIOpenAttemptEvent args)
     {
-        if (args.Cancelled || !ent.Comp.RequireDualAuthorization || ent.Comp.IsAuthorized)
+        if (args.Cancelled || ent.Comp.IsAuthorized)
             return;
 
         args.Cancel();

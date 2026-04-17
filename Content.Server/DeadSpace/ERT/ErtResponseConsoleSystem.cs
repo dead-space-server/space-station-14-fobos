@@ -24,9 +24,9 @@ public sealed class ErtResponseConsoleSystem : EntitySystem
     [Dependency] private readonly StationSystem _stationSystem = default!;
     [Dependency] private readonly ErtResponseSystem _ertResponseSystem = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
-    [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly IdCardSystem _idCardSystem = default!;
+    [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
 
     public override void Initialize()
     {
@@ -36,7 +36,6 @@ public sealed class ErtResponseConsoleSystem : EntitySystem
         SubscribeLocalEvent<ErtResponseConsoleComponent, AfterActivatableUIOpenEvent>(OnUiOpened);
         SubscribeLocalEvent<ErtResponseConsoleComponent, PowerChangedEvent>(OnPowerChanged);
         SubscribeLocalEvent<ErtResponseConsoleComponent, ComponentInit>(OnComponentInit);
-        SubscribeLocalEvent<ErtResponseConsoleComponent, ComponentRemove>(OnComponentRemove);
         SubscribeLocalEvent<ErtResponseConsoleComponent, ItemSlotInsertAttemptEvent>(OnItemSlotInsertAttempt);
         SubscribeLocalEvent<ErtResponseConsoleComponent, EntInsertedIntoContainerMessage>(OnCardInserted);
         SubscribeLocalEvent<ErtResponseConsoleComponent, EntRemovedFromContainerMessage>(OnCardRemoved);
@@ -103,26 +102,11 @@ public sealed class ErtResponseConsoleSystem : EntitySystem
     {
         component.IsAuthorized = IsConsoleAuthorized((uid, component));
         Dirty(uid, component);
-
-        if (!component.RequireDualAuthorization)
-            return;
-
-        _itemSlots.AddItemSlot(uid, ErtResponseConsoleComponent.AuthSlotAId, component.AuthSlotA);
-        _itemSlots.AddItemSlot(uid, ErtResponseConsoleComponent.AuthSlotBId, component.AuthSlotB);
-    }
-
-    private void OnComponentRemove(EntityUid uid, ErtResponseConsoleComponent component, ComponentRemove args)
-    {
-        if (!component.RequireDualAuthorization)
-            return;
-
-        _itemSlots.RemoveItemSlot(uid, component.AuthSlotA);
-        _itemSlots.RemoveItemSlot(uid, component.AuthSlotB);
     }
 
     private void OnItemSlotInsertAttempt(EntityUid uid, ErtResponseConsoleComponent component, ref ItemSlotInsertAttemptEvent args)
     {
-        if (!component.RequireDualAuthorization || !IsAuthorizationSlot(args.Slot))
+        if (!IsAuthorizationSlot(args.Slot))
             return;
 
         if (IsAllowedAuthorizationCard(args.Item))
@@ -151,9 +135,6 @@ public sealed class ErtResponseConsoleSystem : EntitySystem
             console.Comp.IsAuthorized = isAuthorized;
             Dirty(console);
         }
-
-        if (!console.Comp.RequireDualAuthorization)
-            return;
 
         if (!isAuthorized && TryComp<UserInterfaceComponent>(console, out var ui))
             _uiSystem.CloseUis((console, ui));
@@ -192,7 +173,7 @@ public sealed class ErtResponseConsoleSystem : EntitySystem
     private ErtResponseConsoleBoundUserInterfaceState GetUserInterfaceState(Entity<ErtResponseConsoleComponent> console)
     {
         var balance = _ertResponseSystem.GetBalance();
-        var isAuthorized = console.Comp.IsAuthorized || !console.Comp.RequireDualAuthorization;
+        var isAuthorized = console.Comp.IsAuthorized;
 
         return new ErtResponseConsoleBoundUserInterfaceState(
             console.Comp.Teams,
@@ -214,19 +195,22 @@ public sealed class ErtResponseConsoleSystem : EntitySystem
 
     private bool IsConsoleAuthorized(Entity<ErtResponseConsoleComponent> console)
     {
-        if (!console.Comp.RequireDualAuthorization)
-            return true;
+        if (!_itemSlots.TryGetSlot(console, ErtResponseConsoleComponent.AuthSlotAId, out var slotA) ||
+            !_itemSlots.TryGetSlot(console, ErtResponseConsoleComponent.AuthSlotBId, out var slotB))
+            return false;
 
-        var firstCard = GetAuthorizationCardKind(console.Comp.AuthSlotA.Item);
-        var secondCard = GetAuthorizationCardKind(console.Comp.AuthSlotB.Item);
+        var firstCard = GetAuthorizationCardKind(slotA.Item);
+        var secondCard = GetAuthorizationCardKind(slotB.Item);
 
         if (firstCard == AuthorizationCardKind.Invalid || secondCard == AuthorizationCardKind.Invalid)
             return false;
 
-        if (firstCard == AuthorizationCardKind.HeadOfSecurity && secondCard == AuthorizationCardKind.HeadOfSecurity)
+        if (firstCard == AuthorizationCardKind.HeadOfSecurity &&
+            secondCard == AuthorizationCardKind.HeadOfSecurity)
             return false;
 
-        return firstCard == AuthorizationCardKind.Captain || secondCard == AuthorizationCardKind.Captain;
+        return firstCard == AuthorizationCardKind.Captain ||
+               secondCard == AuthorizationCardKind.Captain;
     }
 
     private AuthorizationCardKind GetAuthorizationCardKind(EntityUid? uid)

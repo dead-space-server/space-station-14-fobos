@@ -24,23 +24,6 @@ public sealed partial class ErtResponseConsoleComponent : Component
     [DataField]
     public bool UseApprovalWorkflow = true;
 
-    [DataField, AutoNetworkedField]
-    public bool RequireDualAuthorization = true;
-
     [AutoNetworkedField]
     public bool IsAuthorized;
-
-    [DataField]
-    public ItemSlot AuthSlotA = new()
-    {
-        Name = "ert-console-auth-slot-a",
-        Swap = false,
-    };
-
-    [DataField]
-    public ItemSlot AuthSlotB = new()
-    {
-        Name = "ert-console-auth-slot-b",
-        Swap = false,
-    };
 }
