@@ -214,8 +214,9 @@
       Omnizine: 20
   - type: VirusResistance
     virusResistanceCoefficient: 0.9
-  - type: Speech # DS14
-  - type: TTS # DS14
+  - type: HardsuitIdentification
+  - type: Speech
+  - type: TTS
     voice: Glados
     
 - type: entity
