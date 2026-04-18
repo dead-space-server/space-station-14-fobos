@@ -24,6 +24,7 @@ public sealed class ConsoleCraftConsoleBui : BoundUserInterface
         _window.OnBlueprintSelected += OnBlueprintSelected;
         _window.OnBackPressed += OnBackPressed;
         _window.OnCraftPressed += OnCraftPressed;
+        _window.OnEjectPressed += OnEjectPressed;
         _window.OpenCentered();
     }
 
@@ -55,5 +56,9 @@ public sealed class ConsoleCraftConsoleBui : BoundUserInterface
     private void OnCraftPressed()
     {
         SendMessage(new ConsoleCraftStartMessage());
+    }
+    private void OnEjectPressed()
+    {
+        SendMessage(new ConsoleCraftEjectMessage());
     }
 }

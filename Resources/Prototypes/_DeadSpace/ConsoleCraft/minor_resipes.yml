@@ -73,10 +73,37 @@
       - 0,0,12,8
 
 - type: minorItemModule
+  id: PNVModuleMaxim
+  moduleItem: ClothingHeadHelmetHardsuitMaximPNV
+  description: Шлем с ПНВ
+  components:
+    ToggleableClothing:
+      clothingPrototype: ClothingHeadHelmetHardsuitMaximPNV
+
+- type: minorItemModule
+  id: PlusSpeedModule
+  moduleItem: PlusSpeedModule
+  description: +5% к скорости
+  components:
+    ClothingSpeedModifier:
+      walkModifier: 1.05
+      sprintModifier: 1.05
+
+- type: minorItemModule
+  id: PoisonResistanceModule
+  moduleItem: PoisonResistanceModule
+  description: Защита от ядов
+  components:
+    Armor:
+      modifiers:
+        coefficients:
+          Poison: 0.6
+
+- type: minorItemModule
   id: OuterSuitMiniJet
   tag:
     - GasTank
-  description: Встроенный миниджет
+  description: Встроенный миниджет (Требуется большой баллон)
   components:
     GasTank:
       outputPressure: 42.6
@@ -100,10 +127,30 @@
 
 - type: minorItemModule
   id: SpeedModifierModuleResearch
-  moduleItem: SpeedModifierModuleItem
+  moduleItem: SpeedModifierModuleItemResearch
   description: Облегчение скафандра
   ifModSuit: ClothingOuterRIGResearch
   components:
     ClothingSpeedModifier:
       walkModifier: 0.9
       sprintModifier: 0.9
+
+- type: minorItemModule
+  id: FireResistanceModuleEngineer
+  moduleItem: FireResistanceModuleEngineer
+  description: Огнестойкость атмос костюма
+  ifModSuit: ClothingOuterRIGEngineer
+  components:
+    FireProtection:
+      reduction: 0.8
+
+- type: minorItemModule
+  id: HeatResistanceModuleEngineer
+  moduleItem: HeatResistanceModuleEngineer
+  description: Улучшение термической защиты
+  ifModSuit: ClothingOuterRIGEngineer
+  components:
+    Armor:
+      modifiers:
+        coefficients:
+          Heat: 0.45

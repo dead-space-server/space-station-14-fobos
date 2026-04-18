@@ -15,6 +15,51 @@
   - DelayModifierModule
 
 - type: consoleCraft
+  id: EngineerModifiedBackpack
+  name: Модифицированный рюкзак инженера
+  item: ClothingBackpackRIGEngineer
+  time: 10
+  requestItems:
+  - itemProto: DefaultCoreForModifiedBackpack
+    amount: 1
+    label: Обычное ядро модифицированного рюкзака
+  - itemProto: PlastineOfEngineerRIG
+    amount: 2
+    label: Пластина для модифицированного рюкзака инженера
+  - itemProto: HardsuitGirderLeg
+    amount: 1
+    label: Каркас ног скафандра
+  - itemProto: HardsuitGirderTorso
+    amount: 1
+    label: Каркас торса скафандра
+  minorItems:
+  - StorageModule
+  - OuterSuitMiniJet
+  - DelayModifierModule
+  - FireResistanceModuleEngineer
+  - HeatResistanceModuleEngineer
+
+- type: consoleCraft
+  id: HardsuitMaxim
+  name: Максимальный скафандр утилизатора
+  item: ClothingOuterHardsuitMaxim
+  time: 10
+  requestItems:
+  - itemProto: PlastineOfEngineerRIG
+    amount: 2
+    label: Пластина продвинутого скафандра
+  - itemProto: HardsuitGirderLeg
+    amount: 1
+    label: Каркас ног скафандра
+  - itemProto: HardsuitGirderTorso
+    amount: 1
+    label: Каркас торса скафандра
+  minorItems:
+  - PlusSpeedModule
+  - PoisonResistanceModule
+  - PNVModuleMaxim
+
+- type: consoleCraft
   id: LecterCraft
   name: Лектер
   item: WeaponRifleLecter

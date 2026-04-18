@@ -59,3 +59,6 @@ public sealed class ConsoleCraftBackMessage : BoundUserInterfaceMessage { }
 
 [Serializable, NetSerializable]
 public sealed class ConsoleCraftStartMessage : BoundUserInterfaceMessage { }
+
+[Serializable, NetSerializable]
+public sealed class ConsoleCraftEjectMessage : BoundUserInterfaceMessage { }

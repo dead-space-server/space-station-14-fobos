@@ -27,6 +27,8 @@ consolecraft-examine-modules-header = [color=cyan]Установленые мо�
 consolecraft-examine-module-entry = [color=lightblue] - {$description}[/color]
 consolecraft-craft-cancelled-no-power = Крафт прерван: станок обесточен. Материалы выброшены.
 consolecraft-no-power = Станок не получает питание.
+consolecraft-eject-button = Вытащить детали
+consolecraft-items-ejected = Все детали выброшены из станка.
 # Blueprint-related
 consolecraft-blueprint-inserted = Чертёж загружен: { $recipe }.
 consolecraft-blueprint-already-loaded = Этот чертёж уже загружен.

@@ -42,6 +42,17 @@
   - type: FireProtection
     reduction: 0.2
 
+- type: entity
+  parent: ClothingHeadHelmetHardsuitMaxim
+  id: ClothingHeadHelmetHardsuitMaximPNV
+  name: максимальный шлем утилизатора
+  suffix: PNV
+  description: Предчувствие упадка овладевает вашим сознанием. Удобно что тут ПНВ.
+  components:
+  - type: PNV
+    color: "#edd3900b"
+    activateSound: 
+      path: /Audio/_DeadSpace/NightVision/pnv.ogg
 # Taipan
 
 - type: entity

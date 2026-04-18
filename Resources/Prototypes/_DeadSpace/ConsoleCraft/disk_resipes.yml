@@ -14,6 +14,30 @@
 
 - type: entity
   parent: BaseItem
+  id: BlueprintRIGEngineerInfinite
+  name: чертёж РИГа инженерного отдела
+  description: Schematics for a plasma rifle assembly. Unlimited production runs.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: EngineerModifiedBackpack
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintOuterHardsuitMaximInfinite
+  name: чертёж максимального скафандра
+  description: Schematics for a plasma rifle assembly. Unlimited production runs.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: HardsuitMaxim
+
+- type: entity
+  parent: BaseItem
   id: BlueprintWeaponRifleAEKCraft
   name: чертёж AEK
   description: Schematics for a plasma rifle assembly. Unlimited production runs.

@@ -300,9 +300,9 @@
 
 #Maxim Hardsuit
 - type: entity
-  parent: ClothingHeadHardsuitBase
+  parent: ClothingHeadHardsuitBase 
   id: ClothingHeadHelmetHardsuitMaxim
-  categories: [ HideSpawnMenu ]
+  # categories: [ HideSpawnMenu ] #DS14
   name: salvager maxim helmet
   description: A predication of decay washes over your mind.
   components:
@@ -320,6 +320,8 @@
         Slash: 0.9
         Piercing: 0.9
         Heat: 0.9
+  - type: Item #DS14
+    size: Normal
 
 #Security Hardsuit
 - type: entity

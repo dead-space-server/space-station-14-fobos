@@ -17,6 +17,8 @@ using Content.Shared.Tag;
 using Content.Shared.Containers.ItemSlots;
 using Content.Shared.Tools.Systems;
 using Content.Shared.Tools;
+using Content.Shared.Actions;
+using Content.Shared.Actions.Components;
 using Robust.Server.GameObjects;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
@@ -28,6 +30,7 @@ using Robust.Shared.Serialization.Markdown.Mapping;
 using Robust.Shared.Serialization.Markdown;
 using Robust.Shared.Serialization.Manager.Attributes;
 using Robust.Shared.Map;
+using Robust.Shared.GameObjects;
 
 namespace Content.Server.DeadSpace.ConsoleCraft;
 
@@ -65,6 +68,7 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
         SubscribeLocalEvent<ConsoleCraftConsoleComponent, InteractUsingEvent>(OnConsoleInteractUsing);
 
         SubscribeLocalEvent<CraftedItemModulesComponent, ExaminedEvent>(OnExamineCraftedModules);
+        SubscribeLocalEvent<ConsoleCraftConsoleComponent, ConsoleCraftEjectMessage>(OnEjectItems);
     }
 
     private void OnExamineCraftedModules(EntityUid uid, CraftedItemModulesComponent comp, ExaminedEvent args)
@@ -320,6 +324,34 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
         RefreshConsoleState(uid, comp, showList: true);
     }
 
+    private void OnEjectItems(EntityUid uid, ConsoleCraftConsoleComponent comp, ConsoleCraftEjectMessage msg)
+    {
+        if (!TryGetLinkedStation(uid, comp, out var station, out var stationComp))
+        {
+            _popup.PopupEntity(Loc.GetString("consolecraft-no-station"), uid, msg.Actor);
+            return;
+        }
+
+        if (stationComp!.CraftInProgress)
+        {
+            _popup.PopupEntity(Loc.GetString("consolecraft-craft-in-progress"), uid, msg.Actor);
+            return;
+        }
+
+        EjectAllItems(station, stationComp);
+
+        stationComp.ChosenRandomItems.Clear();
+
+        if (stationComp.ActiveRecipeId != null &&
+            _proto.TryIndex<ConsoleCraftPrototype>(stationComp.ActiveRecipeId, out var recipe))
+        {
+            RollRandomItems(stationComp, recipe, comp);
+        }
+
+        _popup.PopupEntity(Loc.GetString("consolecraft-items-ejected"), uid, msg.Actor);
+        RefreshConsoleState(uid, comp);
+    }
+
     private static IEnumerable<string> GetLeafPaths(DataNode node, string prefix = "")
     {
         if (node is MappingDataNode map)
@@ -557,6 +589,58 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
             foreach (var (compName, rawNode) in moduleDef.Components)
             {
                 var compType = EntityManager.ComponentFactory.GetRegistration(compName).Type;
+
+                if (compName == "ToggleableClothing")
+                {
+                    const BindingFlags bf = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+
+                    if (EntityManager.TryGetComponent(moduleTarget, compType, out var existingComp))
+                    {
+                        FieldInfo? actionField = null;
+                        foreach (var name in new[] { "ActionEntity", "_actionEntity", "action", "Action" })
+                        {
+                            var f = compType.GetField(name, bf);
+                            if (f != null && (f.FieldType == typeof(EntityUid?) || f.FieldType == typeof(EntityUid)))
+                            {
+                                actionField = f;
+                                break;
+                            }
+                        }
+
+                        if (actionField != null)
+                        {
+                            var raw = actionField.GetValue(existingComp);
+                            EntityUid? actionEnt = null;
+                            if (raw is EntityUid eu)
+                                actionEnt = eu;
+                            else if (raw != null && raw.GetType() == typeof(EntityUid?))
+                                actionEnt = (EntityUid?) raw;
+
+                            if (actionEnt.HasValue && EntityManager.EntityExists(actionEnt.Value))
+                            {
+                                if (actionField.FieldType == typeof(EntityUid?))
+                                    actionField.SetValue(existingComp, (EntityUid?) null);
+
+                                EntityManager.DeleteEntity(actionEnt.Value);
+                            }
+                        }
+                    }
+
+                    if (_container.TryGetContainer(moduleTarget, "toggleable-clothing", out var tcContainer))
+                    {
+                        foreach (var ent in tcContainer.ContainedEntities.ToArray())
+                        {
+                            _container.Remove(ent, tcContainer, reparent: false, force: true);
+                            EntityManager.DeleteEntity(ent);
+                        }
+                    }
+
+                    EntityManager.RemoveComponent(moduleTarget, compType);
+
+                    var newToggle = (Component) _serialization.Read(compType, rawNode, skipHook: true)!;
+                    EntityManager.AddComponent(moduleTarget, newToggle);
+                    continue;
+                }
 
                 if (EntityManager.TryGetComponent(moduleTarget, compType, out var existing))
                 {

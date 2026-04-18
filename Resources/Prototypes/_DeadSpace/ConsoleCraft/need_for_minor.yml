@@ -3,8 +3,8 @@
 - type: entity
   parent: BaseItem
   id: EnhancedCoolingModuleItem
-  name: модуль скоростельности (Ускореная стрельба)
-  description: A precision cooling array. Install via the crafting station.
+  name: модуль скоростельности Лектера (Ускореная стрельба)
+  description: Я вот так хватаюсь за пушку а потом РА-ТА-ТА-ТА-ТА...
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
@@ -42,9 +42,9 @@
 
 - type: entity
   parent: BaseItem
-  id: SpeedModifierModuleItem
-  name: модуль облегчения скафандра РИГа
-  description: A precision cooling array. Install via the crafting station.
+  id: SpeedModifierModuleItemResearch
+  name: модуль НИО - облегчение скафандра модифицированного рюкзака
+  description: Облгечает скафандр, однако если ты будешь делать вид что разбираешься в науке, твои остатки что называется мозгом не станут легче.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
@@ -64,7 +64,7 @@
   parent: BaseItem
   id: DelayModifierModuleItem
   name: модуль быстрой активации РИГа
-  description: A precision cooling array. Install via the crafting station.
+  description: Как хорошо что этот модуль заправлен WD40, а то эти скафандры так скрипят при активации.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
@@ -73,8 +73,8 @@
 - type: entity
   parent: BaseItem
   id: StorageModuleItem
-  name: модуль большего места РИГа
-  description: A precision cooling array. Install via the crafting station.
+  name: модуль большего места модифицированных рюкзаков
+  description: Модуль что позволяет расширить свою крутую сумку, однако пивное пузо твоего папы ничего не переплюнит.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
@@ -82,9 +82,51 @@
 
 - type: entity
   parent: BaseItem
+  id: FireResistanceModuleEngineer
+  name: модуль ИНЖ - огнестойкость
+  description: Pushes energy output past factory spec.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: treatment_disk
+
+- type: entity
+  parent: BaseItem
+  id: HeatResistanceModuleEngineer
+  name: модуль ИНЖ - термическая защита
+  description: Облгечает скафандр, однако если ты будешь делать вид что разбираешься в науке, твои остатки что называется мозгом не станут легче.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: high_micro_laser
+
+- type: entity
+  parent: BaseItem
+  id: PlusSpeedModule
+  name: модуль ускорение скафандра
+  description: A precision cooling array. Install via the crafting station.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: adv_scan_module
+
+- type: entity
+  parent: BaseItem
+  id: PoisonResistanceModule
+  name: модуль защиты от ядов
+  description: A precision cooling array. Install via the crafting station.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: adv_scan_module
+
+# Ядра
+
+- type: entity
+  parent: BaseItem
   id: DefaultCoreForModifiedBackpack
   name: обычное ядро модифицированного рюкзака
-  description: A precision cooling array. Install via the crafting station.
+  description: Такое ядро скорее всего нашли где-то на помойке.
   components:
   - type: Sprite
     sprite: _DeadSpace/RIGs/Parts/core.rsi
@@ -94,7 +136,7 @@
   parent: BaseItem
   id: MediumCoreForModifiedBackpack
   name: среднее ядро модифицированного рюкзака
-  description: A precision cooling array. Install via the crafting station.
+  description: Если в обычное ядро залить плазму, она не станет от этого лучше работать и питать твою сумочку.
   components:
   - type: Sprite
     sprite: _DeadSpace/RIGs/Parts/core.rsi
@@ -104,7 +146,7 @@
   parent: BaseItem
   id: AdvancedCoreForModifiedBackpack
   name: продвинутое ядро модифицированного рюкзака
-  description: A precision cooling array. Install via the crafting station.
+  description: Это ядро позволит питать более требовательные скафандры, однако шутки тут не будет.
   components:
   - type: Sprite
     sprite: _DeadSpace/RIGs/Parts/core.rsi
@@ -114,8 +156,40 @@
   parent: BaseItem
   id: HyperCoreForModifiedBackpack
   name: гипер ядро модифицированного рюкзака
-  description: A precision cooling array. Install via the crafting station.
+  description: Говорят если положить два таких рядом друг с другом, то они начнут издавать звук похожий на Bad Apple.
   components:
   - type: Sprite
     sprite: _DeadSpace/RIGs/Parts/core.rsi
     state: hyper
+
+# Пластина и части скафов
+
+- type: entity
+  parent: BaseItem
+  id: HardsuitGirderLeg
+  name: каркас ног скафандра
+  description: За место этих каркасов можно было использовать веточки какого-то бога.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/hardsuit.rsi
+    state: legs
+
+- type: entity
+  parent: BaseItem
+  id: HardsuitGirderTorso
+  name: каркас торса скафандра
+  description: Каркас который потырили по частям на колёсики с рулём.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/hardsuit.rsi
+    state: body
+
+- type: entity
+  parent: BaseItem
+  id: PlastineOfEngineerRIG
+  name: пластина для модифицированного рюкзака инженера
+  description: Пластина что забита стекловатой.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/hardsuit.rsi
+    state: eng

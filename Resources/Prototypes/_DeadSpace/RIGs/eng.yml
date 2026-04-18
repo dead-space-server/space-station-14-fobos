@@ -1,8 +1,8 @@
 - type: entity
   parent: ClothingBackpack
   id: ClothingBackpackRIGEngineer
-  name: модифицированный РИГ инженера
-  description: Крайне удобный РИГ для инжинеров вашей станции.
+  name: модифицированный рюкзак инженера
+  description: Крайне удобный РИГ для инженеров вашей станции.
   components:
   - type: Clothing
     equipDelay: 1.5
@@ -29,7 +29,7 @@
 - type: entity
   parent: ClothingOuterHardsuitBase
   id: ClothingOuterRIGEngineer
-  name: упрощённый РИГ скафандр инженера
+  name: упрощённый скафандр инженера
   description: Тут должно было быть красивое описание от ex1stence, должно.
   components:
   - type: Sprite
@@ -63,7 +63,7 @@
 - type: entity
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
   id: ClothingHeadHelmetRIGEngineer
-  name: шлем боевого офицерского скафандра
+  name: шлем модифицированного рюкзака инженера
   description: Надеюсь оно спасёт от кирпича.
   components:
   - type: Sprite

@@ -28,6 +28,7 @@ public sealed partial class ConsoleCraftConsoleWindow : DefaultWindow
     public event Action<string>? OnBlueprintSelected;
     public event Action? OnBackPressed;
     public event Action? OnCraftPressed;
+    public event Action? OnEjectPressed;
 
     public ConsoleCraftConsoleWindow()
     {
@@ -36,6 +37,7 @@ public sealed partial class ConsoleCraftConsoleWindow : DefaultWindow
 
         BackButton.OnPressed += _ => OnBackPressed?.Invoke();
         CraftButton.OnPressed += _ => OnCraftPressed?.Invoke();
+        EjectButton.OnPressed += _ => OnEjectPressed?.Invoke();
     }
 
     public void UpdateState(ConsoleCraftConsoleState state, IEntityManager entMan)
@@ -211,6 +213,7 @@ public sealed partial class ConsoleCraftConsoleWindow : DefaultWindow
         }
 
         CraftButton.Disabled = !state.CanCraft || state.CraftInProgress || state.NoStation;
+        EjectButton.Disabled = state.CraftInProgress;
         BackButton.Disabled = state.CraftInProgress;
     }
 
