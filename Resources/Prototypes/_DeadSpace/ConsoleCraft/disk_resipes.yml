@@ -2,6 +2,66 @@
 
 - type: entity
   parent: BaseItem
+  id: BlueprintRIGSecurityInfinite
+  name: чертёж РИГа СБ
+  description: Schematics for a plasma rifle assembly. Unlimited production runs.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: SecurityModifiedBackpack
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGSecurityAdvancedInfinite
+  name: чертёж продвинутого РИГа СБ
+  description: Schematics for a plasma rifle assembly. Unlimited production runs.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: SecurityAdvancedModifiedBackpack
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGSalvageInfinite
+  name: чертёж РИГа карго
+  description: Schematics for a plasma rifle assembly. Unlimited production runs.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: SalvageModifiedBackpack
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGSalvageAdvancedInfinite
+  name: чертёж продвинутого РИГа карго
+  description: Schematics for a plasma rifle assembly. Unlimited production runs.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: SalvageAdvancedModifiedBackpack
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGEVAInfinite
+  name: чертёж РИГа ЕВА
+  description: Schematics for a plasma rifle assembly. Unlimited production runs.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: EVAModifiedBackpack
+
+- type: entity
+  parent: BaseItem
   id: BlueprintRIGResearchInfinite
   name: чертёж РИГа научного отдела
   description: Schematics for a plasma rifle assembly. Unlimited production runs.

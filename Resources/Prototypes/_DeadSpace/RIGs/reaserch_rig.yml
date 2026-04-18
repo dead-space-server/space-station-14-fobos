@@ -46,9 +46,9 @@
         Blunt: 0.8
         Slash: 0.8
         Piercing: 0.9
-        Heat: 0.3
+        Heat: 0.5
         Radiation: 0.45
-        Caustic: 0.3
+        Caustic: 0.5
   - type: ExplosionResistance
     damageCoefficient: 0.5
   - type: PressureProtection

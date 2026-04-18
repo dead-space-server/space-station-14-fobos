@@ -43,7 +43,7 @@
 - type: entity
   parent: BaseItem
   id: SpeedModifierModuleItemResearch
-  name: модуль НИО - облегчение скафандра модифицированного рюкзака
+  name: модуль НИО - облегчение скафандра
   description: Облгечает скафандр, однако если ты будешь делать вид что разбираешься в науке, твои остатки что называется мозгом не станут легче.
   components:
   - type: Sprite
@@ -63,7 +63,7 @@
 - type: entity
   parent: BaseItem
   id: DelayModifierModuleItem
-  name: модуль быстрой активации РИГа
+  name: модуль РИГ - быстрая активация РИГа
   description: Как хорошо что этот модуль заправлен WD40, а то эти скафандры так скрипят при активации.
   components:
   - type: Sprite
@@ -73,7 +73,7 @@
 - type: entity
   parent: BaseItem
   id: StorageModuleItem
-  name: модуль большего места модифицированных рюкзаков
+  name: модуль РИГ - расширенние рюкзака
   description: Модуль что позволяет расширить свою крутую сумку, однако пивное пузо твоего папы ничего не переплюнит.
   components:
   - type: Sprite
@@ -102,8 +102,8 @@
 
 - type: entity
   parent: BaseItem
-  id: PlusSpeedModule
-  name: модуль ускорение скафандра
+  id: PlusSpeedModuleMaxim
+  name: модуль Карго - ускорение передвижение (Максимальный скафандр)
   description: A precision cooling array. Install via the crafting station.
   components:
   - type: Sprite
@@ -112,8 +112,8 @@
 
 - type: entity
   parent: BaseItem
-  id: PoisonResistanceModule
-  name: модуль защиты от ядов
+  id: PoisonResistanceModuleMaxim
+  name: модуль Карго - защита от ядов (Максимальный скафандр)
   description: A precision cooling array. Install via the crafting station.
   components:
   - type: Sprite
@@ -122,8 +122,8 @@
 
 - type: entity
   parent: BaseItem
-  id: PNVMaximModule
-  name: модуль ПНВ шлема максимального скафандра
+  id: PNVModuleMaxim
+  name: модуль Карго - ПНВ в шлем (Максимальный скафандр)
   description: A precision cooling array. Install via the crafting station.
   components:
   - type: Sprite
@@ -133,7 +133,17 @@
 - type: entity
   parent: BaseItem
   id: ReflectModuleSecurityAdvanced
-  name: модуль СБ - отражение пуль
+  name: модуль СБ - отражение пуль (Продвинутый РИГ)
+  description: A precision cooling array. Install via the crafting station.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: adv_scan_module
+
+- type: entity
+  parent: BaseItem
+  id: StorageModuleSecurity
+  name: модуль СБ - малая подсумка (Обычный РИГ)
   description: A precision cooling array. Install via the crafting station.
   components:
   - type: Sprite
@@ -149,6 +159,57 @@
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: adv_scan_module
+
+- type: entity
+  parent: BaseItem
+  id: SpeedModifierModuleSecurityAdvanced
+  name: модуль СБ - облегчение скафандра (Продвинутый РИГ)
+  description: A precision cooling array. Install via the crafting station.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: adv_scan_module
+
+- type: entity
+  parent: BaseItem
+  id: SpeedModifierModuleSalvage
+  name: модуль Карго - облегчение скафандра (Обычный РИГ)
+  description: A precision cooling array. Install via the crafting station.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: adv_scan_module
+
+- type: entity
+  parent: BaseItem
+  id: SpeedModifierModuleSalvageAdvanced
+  name: модуль Карго - облегчение скафандра (Продвинутый РИГ)
+  description: A precision cooling array. Install via the crafting station.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: adv_scan_module
+
+- type: entity
+  parent: BaseItem
+  id: RadiationResistanceModuleResearch
+  name: модуль НИО - защита от радиации
+  description: A precision cooling array. Install via the crafting station.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: adv_scan_module
+
+- type: entity
+  parent: BaseItem
+  id: ExplosionResistanceModuleResearch
+  name: модуль НИО - защита от взрыва
+  description: A precision cooling array. Install via the crafting station.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: adv_scan_module
+
 
 - type: entity
   parent: BaseItem
@@ -232,3 +293,73 @@
   - type: Sprite
     sprite: _DeadSpace/RIGs/Parts/hardsuit.rsi
     state: eng
+
+- type: entity
+  parent: BaseItem
+  id: PlastineOfEVARIG
+  name: пластина для модифицированного рюкзака ВКД
+  description: Пластина что забита травой.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/hardsuit.rsi
+    state: eva
+
+- type: entity
+  parent: BaseItem
+  id: PlastineOfResearchRIG
+  name: пластина для модифицированного рюкзака НИО
+  description: Пластина что забита отходами урана.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/hardsuit.rsi
+    state: research
+
+- type: entity
+  parent: BaseItem
+  id: PlastineOfOtherHardsuit
+  name: пластина для различных скафандров
+  description: Пластина что забита... А чем?
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/hardsuit.rsi
+    state: other
+
+- type: entity
+  parent: BaseItem
+  id: PlastineOfSecurAdvancedityRIG
+  name: пластина для продвинутого модифицированного рюкзака СБ
+  description: Пластина что забита гильзами от МК.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/hardsuit.rsi
+    state: adv_sec
+
+- type: entity
+  parent: BaseItem
+  id: PlastineOfSalvageAdvancedRIG
+  name: пластина для продвинутого модифицированного рюкзака Карго
+  description: Пластина что забита землёй.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/hardsuit.rsi
+    state: adv_salvage
+
+- type: entity
+  parent: BaseItem
+  id: PlastineOfSalvageRIG
+  name: пластина для модифицированного рюкзака Карго
+  description: Пластина что забита остатками роя.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/hardsuit.rsi
+    state: salvage
+
+- type: entity
+  parent: BaseItem
+  id: PlastineOfSecurityRIG
+  name: пластина для модифицированного рюкзака СБ
+  description: Пластина что забита остатками кадета.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/hardsuit.rsi
+    state: sec

@@ -851,7 +851,11 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
                     ? il.Count : 0;
                 requiredStatus.Add(new ConsoleCraftRequirementStatus
                 {
-                    Label    = string.IsNullOrEmpty(req.Label) ? req.ItemProto.Id : req.Label,
+                    Label    = string.IsNullOrEmpty(req.Label)
+                        ? (_proto.TryIndex<EntityPrototype>(req.ItemProto.Id, out var reqProto)
+                            ? reqProto.Name
+                            : req.ItemProto.Id)
+                        : req.Label,
                     ProtoId  = req.ItemProto.Id,
                     Required = req.Amount,
                     Inserted = inserted,

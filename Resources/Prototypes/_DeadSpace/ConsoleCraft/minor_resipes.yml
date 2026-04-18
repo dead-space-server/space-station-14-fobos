@@ -74,15 +74,15 @@
 
 - type: minorItemModule
   id: PNVModuleMaxim
-  moduleItem: PNVMaximModule
+  moduleItem: PNVModuleMaxim
   description: Шлем с ПНВ
   components:
     ToggleableClothing:
       clothingPrototype: ClothingHeadHelmetHardsuitMaximPNV
 
 - type: minorItemModule
-  id: PlusSpeedModule
-  moduleItem: PlusSpeedModule
+  id: PlusSpeedModuleMaxim
+  moduleItem: PlusSpeedModuleMaxim
   description: +5% к скорости
   components:
     ClothingSpeedModifier:
@@ -90,8 +90,8 @@
       sprintModifier: 1.05
 
 - type: minorItemModule
-  id: PoisonResistanceModule
-  moduleItem: PoisonResistanceModule
+  id: PoisonResistanceModuleMaxim
+  moduleItem: PoisonResistanceModuleMaxim
   description: Защита от ядов
   components:
     Armor:
@@ -136,6 +136,26 @@
       sprintModifier: 0.9
 
 - type: minorItemModule
+  id: RadiationResistanceModuleResearch
+  moduleItem: RadiationResistanceModuleResearch
+  description: + 25 % к защите от радиации
+  ifModSuit: ClothingOuterRIGResearch
+  components:
+    Armor:
+      modifiers:
+        coefficients:
+          Radiation: 0.2
+
+- type: minorItemModule
+  id: ExplosionResistanceModuleResearch
+  moduleItem: ExplosionResistanceModuleResearch
+  description: + 30 % к защите от взрыва
+  ifModSuit: ClothingOuterRIGResearch
+  components:
+    ExplosionResistance:
+      damageCoefficient: 0.2
+
+- type: minorItemModule
   id: FireResistanceModuleEngineer
   moduleItem: FireResistanceModuleEngineer
   description: Огнестойкость атмос костюма
@@ -175,8 +195,8 @@
       sprintModifier: 0.9
 
 - type: minorItemModule
-  id: HeatResistanceModuleEngineer
-  moduleItem: HeatResistanceModuleEngineer
+  id: PiercingResistanceModuleSecurityAdvanced
+  moduleItem: PiercingResistanceModuleSecurityAdvanced
   description: + 10 % к защите от колотого
   ifModSuit: ClothingOuterRIGSecurityAdvanced
   components:
@@ -196,6 +216,24 @@
       sprintModifier: 0.95
 
 - type: minorItemModule
+  id: StorageModuleSecurity
+  moduleItem: StorageModuleSecurity
+  description: Малая подсумка
+  ifModSuit: ClothingOuterRIGSecurity
+  components:
+    Storage:
+      grid:
+      - 0,0,3,1
+    ContainerContainer:
+      containers:
+        storagebase: !type:Container
+          ents: []
+    UserInterface:
+      interfaces:
+        enum.StorageUiKey.Key:
+          type: StorageBoundUserInterface
+
+- type: minorItemModule
   id: SpeedModifierModuleSalvage
   moduleItem: SpeedModifierModuleSalvage
   description: Облегчение скафандра (-10% штрафу к скорости)
@@ -206,7 +244,38 @@
       sprintModifier: 0.95
 
 - type: minorItemModule
-  id: MineralScannerModule
+  id: SpeedModifierModuleSalvageAdvanced
+  moduleItem: SpeedModifierModuleSalvageAdvanced
+  description: Облегчение скафандра (Нету штрафа к скорости)
+  ifModSuit: ClothingOuterRIGSalvageAdvanced
+  components:
+    ClothingSpeedModifier:
+      walkModifier: 1
+      sprintModifier: 1
+
+- type: minorItemModule
+  id: MineralScannerModuleSalvage
+  tag:
+    - AdvancedMineralScanner
+  description: Встроенный сканер минералов в скафандр (Требуется продвинутый сканер минералов)
+  ifModSuit: ClothingOuterRIGSalvage
+  components:
+    ItemToggleActiveSound:
+      activeSound:
+        path: /Audio/Ambience/Objects/light_hum.ogg
+        params:
+          volume: -10
+          maxDistance: 1
+    MiningScanner:
+      range: 10
+    ItemToggle:
+      soundActivate:
+        path: /Audio/Weapons/click.ogg
+        params:
+          maxDistance: 1
+
+- type: minorItemModule
+  id: MineralScannerModuleSalvageAdvanced
   tag:
     - AdvancedMineralScanner
   description: Встроенный сканер минералов в скафандр (Требуется продвинутый сканер минералов)
