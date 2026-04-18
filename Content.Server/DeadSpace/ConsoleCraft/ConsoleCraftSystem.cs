@@ -590,7 +590,11 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
             {
                 var compType = EntityManager.ComponentFactory.GetRegistration(compName).Type;
 
-                if (compName == "ToggleableClothing")
+            if (compName == "ToggleableClothing")
+            {
+                var mappedRaw = (MappingDataNode) rawNode;
+
+                if (mappedRaw.Has("clothingPrototype"))
                 {
                     const BindingFlags bf = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
@@ -636,11 +640,33 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
                     }
 
                     EntityManager.RemoveComponent(moduleTarget, compType);
-
-                    var newToggle = (Component) _serialization.Read(compType, rawNode, skipHook: true)!;
+                    var newToggle = (Component) _serialization.Read(compType, mappedRaw, skipHook: true)!;
                     EntityManager.AddComponent(moduleTarget, newToggle);
-                    continue;
                 }
+                else
+                {
+                    if (EntityManager.TryGetComponent(moduleTarget, compType, out var existingToggle))
+                        PatchComponentFields((Component) existingToggle, compType, mappedRaw);
+                }
+
+                continue;
+            }
+
+            if (compName == "ContainerContainer")
+            {
+                if (rawNode is MappingDataNode containerRaw &&
+                    containerRaw.TryGet("containers", out MappingDataNode? containersNode))
+                {
+                    foreach (var (containerKey, containerNode) in containersNode)
+                    {
+                        if (containerNode.Tag == "!type:ContainerSlot")
+                            _container.EnsureContainer<ContainerSlot>(moduleTarget, containerKey);
+                        else
+                            _container.EnsureContainer<Container>(moduleTarget, containerKey);
+                    }
+                }
+                continue;
+            }
 
                 if (EntityManager.TryGetComponent(moduleTarget, compType, out var existing))
                 {

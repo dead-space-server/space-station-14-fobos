@@ -1,5 +1,6 @@
 # Вот тут просто заглушки, те ентити что требуют минор рецепты, тут можно играться как хотите, такое же и с дисками по факту.
 
+# Оружейные
 - type: entity
   parent: BaseItem
   id: EnhancedCoolingModuleItem
@@ -42,16 +43,6 @@
 
 - type: entity
   parent: BaseItem
-  id: SpeedModifierModuleItemResearch
-  name: модуль НИО - облегчение скафандра
-  description: Облгечает скафандр, однако если ты будешь делать вид что разбираешься в науке, твои остатки что называется мозгом не станут легче.
-  components:
-  - type: Sprite
-    sprite: Objects/Misc/stock_parts.rsi
-    state: high_micro_laser
-
-- type: entity
-  parent: BaseItem
   id: ExtendedAmmoMagItem
   name: модуль расширенного магазина Лектера
   description: A precision cooling array. Install via the crafting station.
@@ -59,6 +50,9 @@
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: high_micro_laser
+
+# Риги
+# Общие модули ригов
 
 - type: entity
   parent: BaseItem
@@ -80,6 +74,8 @@
     sprite: Objects/Misc/stock_parts.rsi
     state: bluespace_matter_bin
 
+# Модули инж рига
+
 - type: entity
   parent: BaseItem
   id: FireResistanceModuleEngineer
@@ -99,6 +95,8 @@
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: high_micro_laser
+
+# Модули карго рига и скафов
 
 - type: entity
   parent: BaseItem
@@ -129,6 +127,28 @@
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: adv_scan_module
+
+- type: entity
+  parent: BaseItem
+  id: SpeedModifierModuleSalvage
+  name: модуль Карго - облегчение скафандра (Обычный РИГ)
+  description: A precision cooling array. Install via the crafting station.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: adv_scan_module
+
+- type: entity
+  parent: BaseItem
+  id: SpeedModifierModuleSalvageAdvanced
+  name: модуль Карго - облегчение скафандра (Продвинутый РИГ)
+  description: A precision cooling array. Install via the crafting station.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: adv_scan_module
+
+# Модули СБ рига
 
 - type: entity
   parent: BaseItem
@@ -172,23 +192,15 @@
 
 - type: entity
   parent: BaseItem
-  id: SpeedModifierModuleSalvage
-  name: модуль Карго - облегчение скафандра (Обычный РИГ)
+  id: PiercingResistanceModuleSecurityAdvanced
+  name: модуль СБ - продвинутая защита от пуль (Продвинутый РИГ)
   description: A precision cooling array. Install via the crafting station.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: adv_scan_module
 
-- type: entity
-  parent: BaseItem
-  id: SpeedModifierModuleSalvageAdvanced
-  name: модуль Карго - облегчение скафандра (Продвинутый РИГ)
-  description: A precision cooling array. Install via the crafting station.
-  components:
-  - type: Sprite
-    sprite: Objects/Misc/stock_parts.rsi
-    state: adv_scan_module
+# Модули нио рига
 
 - type: entity
   parent: BaseItem
@@ -210,16 +222,16 @@
     sprite: Objects/Misc/stock_parts.rsi
     state: adv_scan_module
 
-
 - type: entity
   parent: BaseItem
-  id: PiercingResistanceModuleSecurityAdvanced
-  name: модуль СБ - продвинутая защита от пуль (Продвинутый РИГ)
-  description: A precision cooling array. Install via the crafting station.
+  id: SpeedModifierModuleItemResearch
+  name: модуль НИО - облегчение скафандра
+  description: Облгечает скафандр, однако если ты будешь делать вид что разбираешься в науке, твои остатки что называется мозгом не станут легче.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
-    state: adv_scan_module
+    state: high_micro_laser
+
 # Ядра
 
 - type: entity
@@ -262,7 +274,7 @@
     sprite: _DeadSpace/RIGs/Parts/core.rsi
     state: hyper
 
-# Пластина и части скафов
+# Пластины и части скафов
 
 - type: entity
   parent: BaseItem
