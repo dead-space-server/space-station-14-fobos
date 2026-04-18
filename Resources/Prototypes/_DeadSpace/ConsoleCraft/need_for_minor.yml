@@ -213,8 +213,8 @@
 
 - type: entity
   parent: BaseItem
-  id: SpeedModifierModuleSecurityAdvanced
-  name: модуль СБ - облегчение скафандра (Продвинутый РИГ)
+  id: PiercingResistanceModuleSecurityAdvanced
+  name: модуль СБ - продвинутая защита от пуль (Продвинутый РИГ)
   description: A precision cooling array. Install via the crafting station.
   components:
   - type: Sprite
