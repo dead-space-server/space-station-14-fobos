@@ -6,6 +6,7 @@ using Content.Shared.Cargo.Components;
 using Content.Shared.Cargo.Events;
 using Content.Shared.Cargo.Prototypes;
 using Content.Shared.CCVar;
+using Content.Shared.Stacks; // DS14
 using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
 
@@ -18,6 +19,7 @@ public sealed partial class CargoSystem
      */
 
     private static readonly SoundPathSpecifier ApproveSound = new("/Audio/Effects/Cargo/ping.ogg");
+    private static readonly ProtoId<StackPrototype> CashStackType = "Credit"; // DS14
     private bool _lockboxCutEnabled;
 
     private void InitializeShuttle()
@@ -216,11 +218,16 @@ public sealed partial class CargoSystem
     {
         var xform = Transform(uid);
 
-        if (_station.GetOwningStation(uid) is not { } station ||
-            !TryComp<StationBankAccountComponent>(station, out var bankAccount))
+        if (_station.GetOwningStation(uid) is not { } station) // DS14
         {
             return;
         }
+
+        // DS14-start
+        var hasBankAccount = TryComp<StationBankAccountComponent>(station, out var bankAccount);
+        if (!component.GiveOutMoney && !hasBankAccount)
+            return;
+        // DS14-end
 
         if (xform.GridUid is not { } gridUid)
         {
@@ -233,40 +240,53 @@ public sealed partial class CargoSystem
         if (!SellPallets(gridUid, station, out var goods))
             return;
 
-        var baseDistribution = CreateAccountDistribution((station, bankAccount));
-        foreach (var (_, sellComponent, value) in goods)
+        // DS14-start
+        if (component.GiveOutMoney)
         {
-            Dictionary<ProtoId<CargoAccountPrototype>, double> distribution;
-            if (sellComponent != null)
+            var totalValue = (int) Math.Round(goods.Sum(good => good.Item3));
+            if (totalValue > 0)
+                _stack.SpawnAtPosition(totalValue, CashStackType, xform.Coordinates);
+        }
+        else
+        {
+            var bankAccountEnt = bankAccount!;
+            // DS14-end
+            var baseDistribution = CreateAccountDistribution((station, bankAccountEnt));
+            foreach (var (_, sellComponent, value) in goods)
             {
-                var cut = _lockboxCutEnabled ? bankAccount.LockboxCut : bankAccount.PrimaryCut;
-                distribution = new Dictionary<ProtoId<CargoAccountPrototype>, double>
+                Dictionary<ProtoId<CargoAccountPrototype>, double> distribution;
+                if (sellComponent != null)
                 {
-                    { sellComponent.OverrideAccount, cut },
-                    { bankAccount.PrimaryAccount, 1.0 - cut },
-                // DS14-start
-            };
-            }
-            else
-            {
-                if (component.IsTaipan)
-                {
+                    var cut = _lockboxCutEnabled ? bankAccountEnt.LockboxCut : bankAccountEnt.PrimaryCut;
                     distribution = new Dictionary<ProtoId<CargoAccountPrototype>, double>
                     {
-                        { "Taipan", 1.0 },
+                        { sellComponent.OverrideAccount, cut },
+                        { bankAccountEnt.PrimaryAccount, 1.0 - cut },
+                    // DS14-start
                     };
                 }
                 else
                 {
-                    distribution = baseDistribution;
+                    if (component.IsTaipan)
+                    {
+                        distribution = new Dictionary<ProtoId<CargoAccountPrototype>, double>
+                        {
+                            { "Taipan", 1.0 },
+                        };
+                    }
+                    else
+                    {
+                        distribution = baseDistribution;
+                    }
+                    // DS14-end
                 }
-                // DS14-end
+
+                UpdateBankAccount((station, bankAccountEnt), (int) Math.Round(value), distribution, false); // DS14
             }
 
-            UpdateBankAccount((station, bankAccount), (int) Math.Round(value), distribution, false);
+            Dirty(station, bankAccountEnt); // DS14
         }
 
-        Dirty(station, bankAccount);
         _audio.PlayPvs(ApproveSound, uid);
         UpdatePalletConsoleInterface(uid);
     }
