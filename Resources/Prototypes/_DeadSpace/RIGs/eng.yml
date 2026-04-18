@@ -48,6 +48,7 @@
         Blunt: 0.9
         Slash: 0.9
         Piercing: 0.9
+        Heat: 0.65
         Shock: 0.8
         Caustic: 0.5
         Radiation: 0.2

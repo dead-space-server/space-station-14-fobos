@@ -76,7 +76,7 @@
 - type: entity
   parent: BaseItem
   id: BlueprintWeaponRifleASH12
-  name: чертёж АША-12
+  name: чертёж АШ-12
   description: Schematics for a plasma rifle assembly. Unlimited production runs.
   components:
   - type: Sprite

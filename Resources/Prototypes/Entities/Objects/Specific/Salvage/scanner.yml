@@ -82,6 +82,9 @@
       - state: inhand-right-adv
   - type: MiningScanner
     range: 10
+  - type: Tag #DS14
+    tags:
+      - AdvancedMineralScanner
 
 - type: entity
   id: AdvancedMineralScanner

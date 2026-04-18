@@ -120,6 +120,45 @@
     sprite: Objects/Misc/stock_parts.rsi
     state: adv_scan_module
 
+- type: entity
+  parent: BaseItem
+  id: PNVMaximModule
+  name: модуль ПНВ шлема максимального скафандра
+  description: A precision cooling array. Install via the crafting station.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: adv_scan_module
+
+- type: entity
+  parent: BaseItem
+  id: ReflectModuleSecurityAdvanced
+  name: модуль СБ - отражение пуль
+  description: A precision cooling array. Install via the crafting station.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: adv_scan_module
+
+- type: entity
+  parent: BaseItem
+  id: SpeedModifierModuleSecurity
+  name: модуль СБ - облегчение скафандра (Обычный РИГ)
+  description: A precision cooling array. Install via the crafting station.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: adv_scan_module
+
+- type: entity
+  parent: BaseItem
+  id: SpeedModifierModuleSecurityAdvanced
+  name: модуль СБ - облегчение скафандра (Продвинутый РИГ)
+  description: A precision cooling array. Install via the crafting station.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: adv_scan_module
 # Ядра
 
 - type: entity

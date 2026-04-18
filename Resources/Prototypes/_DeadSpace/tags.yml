@@ -2,6 +2,9 @@
   id: ADTFoodSausageFried
 
 - type: Tag
+  id: AdvancedMineralScanner
+
+- type: Tag
   id: AmbrosiaDeus
 
 - type: Tag
@@ -111,6 +114,9 @@
 
 - type: Tag
   id: FoodChiliPepper
+
+- type: Tag
+  id: GasTank
 
 - type: Tag
   id: GiantSpiderSpace
@@ -351,9 +357,6 @@
 
 - type: Tag
   id: WeldingMaskWhite
-
-- type: Tag
-  id: GasTank
 
 - type: Tag
   id: WhiteFlower

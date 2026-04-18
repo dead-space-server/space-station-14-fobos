@@ -74,7 +74,7 @@
 
 - type: minorItemModule
   id: PNVModuleMaxim
-  moduleItem: ClothingHeadHelmetHardsuitMaximPNV
+  moduleItem: PNVMaximModule
   description: Шлем с ПНВ
   components:
     ToggleableClothing:
@@ -128,7 +128,7 @@
 - type: minorItemModule
   id: SpeedModifierModuleResearch
   moduleItem: SpeedModifierModuleItemResearch
-  description: Облегчение скафандра
+  description: Облегчение скафандра (-10% штрафу к скорости)
   ifModSuit: ClothingOuterRIGResearch
   components:
     ClothingSpeedModifier:
@@ -147,10 +147,81 @@
 - type: minorItemModule
   id: HeatResistanceModuleEngineer
   moduleItem: HeatResistanceModuleEngineer
-  description: Улучшение термической защиты
+  description: + 20 % к защите от термических
   ifModSuit: ClothingOuterRIGEngineer
   components:
     Armor:
       modifiers:
         coefficients:
           Heat: 0.45
+
+- type: minorItemModule
+  id: ReflectModuleSecurityAdvanced
+  moduleItem: ReflectModuleSecurityAdvanced
+  description: 10 % к рефлекту (Отражение пуль)
+  ifModSuit: ClothingOuterRIGSecurityAdvanced
+  components:
+    Reflect:
+      reflectProb: 0.10
+
+- type: minorItemModule
+  id: SpeedModifierModuleSecurityAdvanced
+  moduleItem: SpeedModifierModuleSecurityAdvanced
+  description: Облегчение скафандра (-10% штрафу к скорости)
+  ifModSuit: ClothingOuterRIGSecurityAdvanced
+  components:
+    ClothingSpeedModifier:
+      walkModifier: 0.9
+      sprintModifier: 0.9
+
+- type: minorItemModule
+  id: HeatResistanceModuleEngineer
+  moduleItem: HeatResistanceModuleEngineer
+  description: + 10 % к защите от колотого
+  ifModSuit: ClothingOuterRIGSecurityAdvanced
+  components:
+    Armor:
+      modifiers:
+        coefficients:
+          Piercing: 0.4
+
+- type: minorItemModule
+  id: SpeedModifierModuleSecurity
+  moduleItem: SpeedModifierModuleSecurity
+  description: Облегчение скафандра (-15% штрафу к скорости)
+  ifModSuit: ClothingOuterRIGSecurity
+  components:
+    ClothingSpeedModifier:
+      walkModifier: 0.95
+      sprintModifier: 0.95
+
+- type: minorItemModule
+  id: SpeedModifierModuleSalvage
+  moduleItem: SpeedModifierModuleSalvage
+  description: Облегчение скафандра (-10% штрафу к скорости)
+  ifModSuit: ClothingOuterRIGSalvage
+  components:
+    ClothingSpeedModifier:
+      walkModifier: 0.95
+      sprintModifier: 0.95
+
+- type: minorItemModule
+  id: MineralScannerModule
+  tag:
+    - AdvancedMineralScanner
+  description: Встроенный сканер минералов в скафандр (Требуется продвинутый сканер минералов)
+  ifModSuit: ClothingOuterRIGSalvage
+  components:
+    ItemToggleActiveSound:
+      activeSound:
+        path: /Audio/Ambience/Objects/light_hum.ogg
+        params:
+          volume: -10
+          maxDistance: 1
+    MiningScanner:
+      range: 10
+    ItemToggle:
+      soundActivate:
+        path: /Audio/Weapons/click.ogg
+        params:
+          maxDistance: 1
