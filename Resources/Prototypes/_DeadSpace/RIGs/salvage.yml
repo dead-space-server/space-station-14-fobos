@@ -87,6 +87,7 @@
     radius: 5
     energy: 3
   - type: Item
+    heldPrefix: off 
     size: Normal
 
 - type: entity
@@ -178,4 +179,5 @@
     radius: 10
     energy: 4
   - type: Item
+    heldPrefix: off 
     size: Normal

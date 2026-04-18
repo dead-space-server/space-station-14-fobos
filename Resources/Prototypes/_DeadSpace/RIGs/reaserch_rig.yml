@@ -94,4 +94,5 @@
     radius: 5
     energy: 3
   - type: Item
+    heldPrefix: off 
     size: Normal
