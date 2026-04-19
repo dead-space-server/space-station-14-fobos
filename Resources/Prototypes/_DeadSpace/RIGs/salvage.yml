@@ -70,6 +70,7 @@
   components:
   - type: Sprite
     sprite: _DeadSpace/RIGs/Salvage/Standart/helmet.rsi
+    scale: 0.7, 0.7
   - type: Clothing
     sprite: _DeadSpace/RIGs/Salvage/Standart/helmet.rsi
   - type: PressureProtection
@@ -162,6 +163,7 @@
   components:
   - type: Sprite
     sprite: _DeadSpace/RIGs/Salvage/Advanced/helmet.rsi
+    scale: 0.7, 0.7
   - type: Clothing
     sprite: _DeadSpace/RIGs/Salvage/Advanced/helmet.rsi
   - type: PressureProtection

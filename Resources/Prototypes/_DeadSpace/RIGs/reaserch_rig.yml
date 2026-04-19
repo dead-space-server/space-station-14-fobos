@@ -70,6 +70,7 @@
   components:
   - type: Sprite
     sprite: _DeadSpace/RIGs/Research/helmet.rsi
+    scale: 0.7, 0.7
   - type: Clothing
     sprite: _DeadSpace/RIGs/Research/helmet.rsi
   - type: IngestionBlocker

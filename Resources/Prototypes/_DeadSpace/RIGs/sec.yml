@@ -12,6 +12,7 @@
     unequipDelay: 1.5
   - type: Sprite
     sprite: _DeadSpace/RIGs/Security/Standart/backpack.rsi
+    scale: 0.8, 0.8
   - type: ClothingSpeedModifier
     walkModifier: 1
     sprintModifier: 1
@@ -48,7 +49,7 @@
       coefficients:
         Blunt: 0.6
         Slash: 0.6
-        Piercing: 0.55
+        Piercing: 0.6
         Heat: 0.6
         Caustic: 0.65
   - type: ExplosionResistance
@@ -69,6 +70,7 @@
   components:
   - type: Sprite
     sprite: _DeadSpace/RIGs/Security/Standart/helmet.rsi
+    scale: 0.7, 0.7
   - type: Clothing
     sprite: _DeadSpace/RIGs/Security/Standart/helmet.rsi
   - type: PressureProtection
@@ -103,6 +105,7 @@
     unequipDelay: 1
   - type: Sprite
     sprite: _DeadSpace/RIGs/Security/Advanced/backpack.rsi
+    scale: 0.8, 0.8
   - type: ClothingSpeedModifier
     walkModifier: 1
     sprintModifier: 1
@@ -160,6 +163,7 @@
   components:
   - type: Sprite
     sprite: _DeadSpace/RIGs/Security/Advanced/helmet.rsi
+    scale: 0.7, 0.7
   - type: Clothing
     sprite: _DeadSpace/RIGs/Security/Advanced/helmet.rsi
   - type: PressureProtection

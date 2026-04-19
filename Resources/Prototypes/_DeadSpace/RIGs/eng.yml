@@ -69,6 +69,7 @@
   components:
   - type: Sprite
     sprite: _DeadSpace/RIGs/Engineer/helmet.rsi
+    scale: 0.7, 0.7
   - type: Clothing
     sprite: _DeadSpace/RIGs/Engineer/helmet.rsi
   - type: PressureProtection

@@ -84,7 +84,7 @@
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
-    state: treatment_disk
+    state: micro_laser
 
 - type: entity
   parent: BaseItem
@@ -106,7 +106,7 @@
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
-    state: adv_scan_module
+    state: subspace_ansible
 
 - type: entity
   parent: BaseItem
@@ -116,7 +116,7 @@
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
-    state: adv_scan_module
+    state: super_capacitor
 
 - type: entity
   parent: BaseItem
@@ -126,7 +126,7 @@
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
-    state: adv_scan_module
+    state: scan_module
 
 - type: entity
   parent: BaseItem
@@ -136,7 +136,7 @@
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
-    state: adv_scan_module
+    state: adv_electrolite
 
 - type: entity
   parent: BaseItem
@@ -146,7 +146,7 @@
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
-    state: adv_scan_module
+    state: bluespace_electrolite
 
 # Модули СБ рига
 
@@ -158,7 +158,7 @@
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
-    state: adv_scan_module
+    state: triphasic_scan_module
 
 - type: entity
   parent: BaseItem
@@ -168,7 +168,7 @@
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
-    state: adv_scan_module
+    state: quadratic_capacitor
 
 - type: entity
   parent: BaseItem
@@ -178,7 +178,7 @@
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
-    state: adv_scan_module
+    state: adv_electrolite
 
 - type: entity
   parent: BaseItem
@@ -188,7 +188,7 @@
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
-    state: adv_scan_module
+    state: bluespace_electrolite
 
 - type: entity
   parent: BaseItem
@@ -198,7 +198,7 @@
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
-    state: adv_scan_module
+    state: subspace_amplifier
 
 # Модули нио рига
 
@@ -210,7 +210,7 @@
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
-    state: adv_scan_module
+    state: super_electrolite
 
 - type: entity
   parent: BaseItem
@@ -220,7 +220,7 @@
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
-    state: adv_scan_module
+    state: adv_capacitor
 
 - type: entity
   parent: BaseItem
@@ -230,7 +230,7 @@
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
-    state: high_micro_laser
+    state: adv_electrolite
 
 # Ядра
 
