@@ -2,6 +2,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using Content.Shared.CCVar;
 using Robust.Shared.Configuration;
+using Content.Shared.Humanoid; //DS14
+using Content.Shared.Humanoid.Prototypes; //DS14
 
 namespace Content.Server.Chat.Managers;
 
@@ -118,8 +120,24 @@ public sealed class ChatSanitizationManager : IChatSanitizationManager
         Entry("['=", "chatsan-tearfully-smiles"),
     ];
 
+    // DS14-Start
+    // Эмоции, для которых мы и юзаем половые варианты(Пополнить список, если я чтот забыл)
+    private static readonly HashSet<string> GenderedEmotes = new()
+    {
+        "chatsan-surprised",
+        "chatsan-uncertain",
+        "chatsan-annoyed",
+        "chatsan-unimpressed",
+        "chatsan-wide-eyed",
+        "chatsan-confused"
+    };
+    // DS14-End
+
     [Dependency] private readonly IConfigurationManager _configurationManager = default!;
     [Dependency] private readonly ILocalizationManager _loc = default!;
+    // DS14-Start
+    [Dependency] private readonly IEntityManager _entityManager = default!;
+    // DS14-End
 
     private bool _doSanitize;
 
@@ -147,6 +165,15 @@ public sealed class ChatSanitizationManager : IChatSanitizationManager
         if (!_doSanitize)
             return false;
 
+        // DS14-Start
+        // Определение пола
+        Sex sex = Sex.Unsexed;
+        if (_entityManager.TryGetComponent<HumanoidAppearanceComponent>(speaker, out var humanoid))
+        {
+            sex = humanoid.Sex;
+        }
+        // DS14-End
+
         // -1 is just a canary for nothing found yet
         var lastEmoteIndex = -1;
 
@@ -162,7 +189,26 @@ public sealed class ChatSanitizationManager : IChatSanitizationManager
             if (lastMatch.Index > lastEmoteIndex)
             {
                 lastEmoteIndex = lastMatch.Index;
-                emote = _loc.GetString(emoteKey, ("ent", speaker));
+                
+                // DS14-Start
+                // Суффиксы, да
+                string finalEmoteKey;
+                if (GenderedEmotes.Contains(emoteKey))
+                {
+                    finalEmoteKey = sex switch
+                    {
+                        Sex.Female => $"{emoteKey}-female",
+                        Sex.Male => $"{emoteKey}-male",
+                        _ => $"{emoteKey}-unsexed"
+                    };
+                }
+                else
+                {
+                    finalEmoteKey = emoteKey;
+                }
+                
+                emote = _loc.GetString(finalEmoteKey);
+                // DS14-End
             }
 
             message = r.Replace(message, string.Empty);

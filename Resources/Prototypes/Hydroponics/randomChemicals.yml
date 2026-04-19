@@ -121,6 +121,22 @@
     - TableSalt
     - Chlorine
     - Mercury
+  - quantity: 0.1 # DS14-Start
+    weight: 1
+    reagents:
+    - Nocturine
+    - MuteToxin
+    - Lead
+  - quantity: 0.1
+    weight: 0.1
+    reagents:
+    - Vestine
+  - quantity: 1.0 
+    weight: 0.6
+    reagents:
+    - Tazinide
+    - Stimulants
+    - Lexorin #DS14-End
 
 - type: weightedRandomFillSolution
   id: EvilRandomFillSolution

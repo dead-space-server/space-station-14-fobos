@@ -21,6 +21,7 @@
     containers:
       ballistic-ammo: !type:Container
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     sprite: Objects/Weapons/Guns/Ammunition/Magazine/LightRifle/light_rifle_mag.rsi
     layers:
     - state: base
@@ -48,6 +49,7 @@
     capacity: 100
   - type: Item
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     sprite: Objects/Weapons/Guns/Ammunition/Magazine/LightRifle/light_rifle_box.rsi
   - type: MagazineVisuals
     magState: mag
@@ -64,6 +66,7 @@
   - type: BallisticAmmoProvider
     proto: CartridgeLightRifle
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
@@ -107,6 +110,7 @@
   - type: BallisticAmmoProvider
     proto: CartridgeLightRiflePractice
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
@@ -133,6 +137,7 @@
   - type: BallisticAmmoProvider
     proto: CartridgeLightRifleUranium
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
