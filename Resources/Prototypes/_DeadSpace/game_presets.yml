@@ -12,7 +12,7 @@
     - Unitology
     - BasicStationEventScheduler
     - BasicRoundstartVariation
-    - SubGamemodesRuleNoWizard
+    - SubGamemodesRuleNoWizardNoXenoborg
 
 - type: gamePreset
   id: SecretUnitology
@@ -28,7 +28,7 @@
     - Unitology
     - BasicStationEventScheduler
     - BasicRoundstartVariation
-    - SubGamemodesRuleNoWizard
+    - SubGamemodesRuleNoWizardNoXenoborg
 
 - type: gamePreset
   id: SpiderTerror
@@ -44,7 +44,7 @@
     - SpiderTerror
     - BasicStationEventScheduler
     - BasicRoundstartVariation
-    - SubGamemodesRuleNoWizard
+    - SubGamemodesRuleNoWizardNoXenoborg
 
 - type: gamePreset
   id: SecretSpiderTerror
@@ -60,7 +60,7 @@
     - SpiderTerror
     - BasicStationEventScheduler
     - BasicRoundstartVariation
-    - SubGamemodesRuleNoWizard
+    - SubGamemodesRuleNoWizardNoXenoborg
 
 - type: gamePreset
   id: SecretSurvival
@@ -208,7 +208,7 @@
   - MeteorSwarmScheduler
   - SpaceTrafficControlEventScheduler
   - BasicRoundstartVariation
-  - SubGamemodesRuleNoWizard # DS14
+  - SubGamemodesRuleNoWizardNoXenoborg # DS14
   
 - type: gamePreset
   id: SecretZombieteors

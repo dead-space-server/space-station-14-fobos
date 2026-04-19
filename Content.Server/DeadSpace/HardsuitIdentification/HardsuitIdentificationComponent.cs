@@ -32,6 +32,18 @@ public sealed partial class HardsuitIdentificationComponent : Component
         Params = AudioParams.Default.WithVolume(8),
     };
 
+    /// <summary>
+    /// Sound played when a non-owner tries to equip the item.
+    /// </summary>
+    [DataField]
+    public SoundSpecifier WrongOwnerSound = new SoundPathSpecifier("/Audio/Effects/multitool_pulse.ogg")
+    {
+        Params = AudioParams.Default.WithVolume(4),
+    };
+
+    [DataField]
+    public bool CanEmag = true;
+
     [DataField]
     public bool Nonlethal;
 }

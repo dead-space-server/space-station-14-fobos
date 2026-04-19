@@ -41,6 +41,7 @@
 #    belt: ClothingBeltUtilityEngineering # DS14
     ears: ClothingHeadsetEngineering
     socks: ClothingUnderwearSocksAtmos
+    head: ClothingHeadHatBeretAtmos # DS14
   #storage:
     #back:
     #- Stuff

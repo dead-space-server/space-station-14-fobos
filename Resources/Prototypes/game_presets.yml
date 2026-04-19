@@ -175,7 +175,7 @@
   - MeteorSwarmScheduler
   - SpaceTrafficControlEventScheduler
   - BasicRoundstartVariation
-  - SubGamemodesRuleNoWizard # DS14
+  - SubGamemodesRuleNoWizardNoXenoborg # DS14
 
 - type: gamePreset
   id: SecretGreenshift #For Admin Use: Runs Greenshift but shows "Secret" in lobby.
@@ -304,7 +304,7 @@
   - MeteorSwarmScheduler
   - SpaceTrafficControlEventScheduler
   - BasicRoundstartVariation
-  - SubGamemodesRuleNoWizard # DS14
+  - SubGamemodesRuleNoWizardNoXenoborg # DS14
 
 - type: gamePreset
   id: Zombieteors
@@ -322,4 +322,4 @@
   - KesslerSyndromeScheduler
   - SpaceTrafficControlEventScheduler
   - BasicRoundstartVariation
-  - SubGamemodesRuleNoWizard # DS14
+  - SubGamemodesRuleNoWizardNoXenoborg # DS14
