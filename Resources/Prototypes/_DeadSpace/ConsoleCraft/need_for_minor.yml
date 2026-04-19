@@ -216,7 +216,7 @@
   parent: BaseItem
   id: ExplosionResistanceModuleResearch
   name: модуль НИО - защита от взрыва
-  description: Как то раз учёный таяр по имени Ноу'вость, решил активировать артефакт без защиты. Новость разлетелась по всей камере артефакта.
+  description: Как то раз учёная таяр по имени Ноу'вость, решила активировать артефакт без защиты. Ноу'вость разлетелась по всей станции.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
