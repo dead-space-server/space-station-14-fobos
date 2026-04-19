@@ -80,7 +80,7 @@
   parent: BaseItem
   id: FireResistanceModuleEngineer
   name: модуль ИНЖ - огнестойкость
-  description: Модуль позволяющий вам пережить ту ситуацию с горящей машиной, в которую сел медведь.
+  description: Модуль, позволяющий вам пережить ту ситуацию с горящей машиной, в которую сел медведь.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
@@ -90,7 +90,7 @@
   parent: BaseItem
   id: HeatResistanceModuleEngineer
   name: модуль ИНЖ - термическая защита
-  description: НТ уверяет вас, что этот модуль спасёт от внезнопого выстрала с термо пушки по мимо проходящей вульпе.
+  description: НТ уверяет вас, что этот модуль спасёт от внезнопого выстрела с термо пушки по мимо проходящей вульпе.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
