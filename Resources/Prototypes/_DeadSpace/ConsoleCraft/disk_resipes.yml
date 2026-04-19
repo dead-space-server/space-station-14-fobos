@@ -111,6 +111,7 @@
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: SecurityModifiedBackpack
+    maxCrafts: 3
 
 - type: entity
   parent: BaseItem
@@ -123,6 +124,7 @@
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: SecurityAdvancedModifiedBackpack
+    maxCrafts: 3
 
 - type: entity
   parent: BaseItem
@@ -135,6 +137,7 @@
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: SalvageModifiedBackpack
+    maxCrafts: 3
 
 - type: entity
   parent: BaseItem
@@ -147,6 +150,7 @@
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: EVAModifiedBackpack
+    maxCrafts: 3
 
 - type: entity
   parent: BaseItem
@@ -159,6 +163,7 @@
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: ResearchModifiedBackpack
+    maxCrafts: 3
 
 - type: entity
   parent: BaseItem
@@ -171,6 +176,7 @@
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: EngineerModifiedBackpack
+    maxCrafts: 3
 
 # 1 использование
 
@@ -185,6 +191,7 @@
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: SecurityModifiedBackpack
+    maxCrafts: 1
 
 - type: entity
   parent: BaseItem
@@ -197,6 +204,7 @@
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: SecurityAdvancedModifiedBackpack
+    maxCrafts: 1
 
 - type: entity
   parent: BaseItem
@@ -209,6 +217,7 @@
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: SalvageModifiedBackpack
+    maxCrafts: 1
 
 - type: entity
   parent: BaseItem
@@ -221,6 +230,7 @@
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: EVAModifiedBackpack
+    maxCrafts: 1
 
 - type: entity
   parent: BaseItem
@@ -233,6 +243,7 @@
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: ResearchModifiedBackpack
+    maxCrafts: 1
 
 - type: entity
   parent: BaseItem
@@ -245,6 +256,7 @@
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: EngineerModifiedBackpack
+    maxCrafts: 1
 
 # Экспедиции
 
@@ -277,7 +289,7 @@
 - type: entity
   parent: BaseItem
   id: BlueprintRIGSalvageAdvancedOneUse
-  name: чертёж продвинутого РИГа карго
+  name: чертёж продвинутого РИГа карго (одноразовый)
   description: Диск что зачастую содержит какую-то ебуристику.
   components:
   - type: Sprite
@@ -290,7 +302,7 @@
 - type: entity
   parent: BaseItem
   id: BlueprintRIGSalvageAdvancedThreeUse
-  name: чертёж продвинутого РИГа карго
+  name: чертёж продвинутого РИГа карго (трёхразовый)
   description: Диск что зачастую содержит какую-то ебуристику.
   components:
   - type: Sprite
