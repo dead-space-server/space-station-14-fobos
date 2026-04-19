@@ -62,6 +62,7 @@
     - id: HyposprayVelmet
     - id: PaperVelmet
     - id: MedkitAdvancedFilled
+    - id: OtherVelmet
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -478,6 +479,24 @@
   - type: Explosive
     explosionType: MicroBomb
     maxIntensity: 20
+
+- type: entity
+  name: имплант DMQ//66
+  description: Имплант DMQ//66.
+  parent: BaseItem
+  id: OtherVelmet
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/velmet/other.rsi
+    state: icon
+  - type: TriggerOnUse
+  - type: DeleteOnTrigger
+  - type: AddComponentsOnTrigger
+    removeExisting: true
+    targetUser: true
+    components:
+    - type: TTS
+      voice: Overwatch
 
 #instruments
 #drill

@@ -281,6 +281,19 @@
     price: 5500 # DS14-uranium-rework
   - type: RadiationBlockingContainer
     resistance: 2
+  # DS14-start
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.35
+        density: 190
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+  # DS14-end
 
 # TODO: need radioactive fallout when destroyed
 

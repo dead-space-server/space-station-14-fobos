@@ -280,6 +280,11 @@
     activatedDamage:
       types:
         Heat: 0.3
+  # DS14-start
+  - type: Tag
+    tags:
+    - ToySword
+  # DS14-end
 
 - type: entity
   parent: [ BaseItem, BaseToySword ]
