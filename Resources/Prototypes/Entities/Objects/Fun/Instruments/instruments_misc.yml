@@ -67,6 +67,7 @@
   - type: TTS
   - type: RedPhone
     kind: Ordinary
+    reportCooldown: 120
   - type: UserInterface
     interfaces:
       enum.RedPhoneUiKey.Report:
