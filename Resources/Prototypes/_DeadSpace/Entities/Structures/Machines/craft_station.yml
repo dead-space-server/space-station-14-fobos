@@ -2,7 +2,7 @@
   parent: [ BaseMachinePowered, ConstructibleMachine ]
   id: CraftMachineStation
   name: станок для создание всего
-  description: A fabrication platform. Insert components and use the linked console to begin assembly.
+  description: А вы знали? Если кричать на данный станок когда он будет собирать какую-то вещь, ему будет по-...
   components:
   - type: Sprite
     sprite: _DeadSpace/Structures/Machines/craftmachine.rsi
