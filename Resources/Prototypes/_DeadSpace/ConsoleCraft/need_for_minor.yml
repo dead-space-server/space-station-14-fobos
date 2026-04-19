@@ -102,7 +102,7 @@
   parent: BaseItem
   id: PlusSpeedModuleMaxim
   name: модуль Карго - ускорение передвижение (Максимальный скафандр)
-  description: Может стоит просто скинуть лишний жир а не внушать себе что какой-то модуль облегчит тяжесть скафандра?
+  description: Пружинный модуль, думаю его стоит почистить вод-.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
