@@ -80,7 +80,7 @@
   parent: BaseItem
   id: FireResistanceModuleEngineer
   name: модуль ИНЖ - огнестойкость
-  description: Pushes energy output past factory spec.
+  description: Модуль позволяющий вам пережить ту ситуацию с горящей машиной, в которую сел медведь.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
@@ -90,7 +90,7 @@
   parent: BaseItem
   id: HeatResistanceModuleEngineer
   name: модуль ИНЖ - термическая защита
-  description: Облгечает скафандр, однако если ты будешь делать вид что разбираешься в науке, твои остатки что называется мозгом не станут легче.
+  description: НТ уверяет вас, что этот модуль спасёт от внезнопого выстрала с термо пушки по мимо проходящей вульпе.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
@@ -102,7 +102,7 @@
   parent: BaseItem
   id: PlusSpeedModuleMaxim
   name: модуль Карго - ускорение передвижение (Максимальный скафандр)
-  description: A precision cooling array. Install via the crafting station.
+  description: Может стоит просто скинуть лишний жир а не внушать себе что какой-то модуль облегчит тяжесть скафандра?
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
@@ -112,7 +112,7 @@
   parent: BaseItem
   id: PoisonResistanceModuleMaxim
   name: модуль Карго - защита от ядов (Максимальный скафандр)
-  description: A precision cooling array. Install via the crafting station.
+  description: Если у змеи вырвать зубы и колоть ими себя всю жизнь, это не спасёт вас от простуды.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
@@ -122,7 +122,7 @@
   parent: BaseItem
   id: PNVModuleMaxim
   name: модуль Карго - ПНВ в шлем (Максимальный скафандр)
-  description: A precision cooling array. Install via the crafting station.
+  description: THINK FAST- *Громкий писк*.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
@@ -132,7 +132,7 @@
   parent: BaseItem
   id: SpeedModifierModuleSalvage
   name: модуль Карго - облегчение скафандра (Обычный РИГ)
-  description: A precision cooling array. Install via the crafting station.
+  description: Может стоит просто скинуть лишний жир а не внушать себе что какой-то модуль облегчит тяжесть скафандра?
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
@@ -142,7 +142,7 @@
   parent: BaseItem
   id: SpeedModifierModuleSalvageAdvanced
   name: модуль Карго - облегчение скафандра (Продвинутый РИГ)
-  description: A precision cooling array. Install via the crafting station.
+  description: Может стоит просто скинуть лишний жир а не внушать себе что какой-то модуль облегчит тяжесть скафандра?
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
@@ -154,7 +154,7 @@
   parent: BaseItem
   id: ReflectModuleSecurityAdvanced
   name: модуль СБ - отражение пуль (Продвинутый РИГ)
-  description: A precision cooling array. Install via the crafting station.
+  description: Ultra instinct?
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
@@ -164,7 +164,7 @@
   parent: BaseItem
   id: StorageModuleSecurity
   name: модуль СБ - малая подсумка (Обычный РИГ)
-  description: A precision cooling array. Install via the crafting station.
+  description: СЕЙЧАС КАК ЗАПИХНУ СЮДА ДИСК ЯДЕРКИ И БУДУ СИДЕТЬ УГАРАТЬ С НЮКЕРОВ. 
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
@@ -174,7 +174,7 @@
   parent: BaseItem
   id: SpeedModifierModuleSecurity
   name: модуль СБ - облегчение скафандра (Обычный РИГ)
-  description: A precision cooling array. Install via the crafting station.
+  description: Может стоит просто скинуть лишний жир а не внушать себе что какой-то модуль облегчит тяжесть скафандра?
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
@@ -184,7 +184,7 @@
   parent: BaseItem
   id: SpeedModifierModuleSecurityAdvanced
   name: модуль СБ - облегчение скафандра (Продвинутый РИГ)
-  description: A precision cooling array. Install via the crafting station.
+  description: Может стоит просто скинуть лишний жир а не внушать себе что какой-то модуль облегчит тяжесть скафандра?
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
@@ -194,7 +194,7 @@
   parent: BaseItem
   id: PiercingResistanceModuleSecurityAdvanced
   name: модуль СБ - продвинутая защита от пуль (Продвинутый РИГ)
-  description: A precision cooling array. Install via the crafting station.
+  description: Если ты будешь ловить ББшки зубами, то такой модуль тебе уж точно не нужен.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
@@ -206,7 +206,7 @@
   parent: BaseItem
   id: RadiationResistanceModuleResearch
   name: модуль НИО - защита от радиации
-  description: A precision cooling array. Install via the crafting station.
+  description: Оказывается, если съесть урановые кусочки с этим вставленным модулем, вы не станете урановым рудокрабом. Поделись с друзьями с такой информацией.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
@@ -216,7 +216,7 @@
   parent: BaseItem
   id: ExplosionResistanceModuleResearch
   name: модуль НИО - защита от взрыва
-  description: A precision cooling array. Install via the crafting station.
+  description: Как то раз учёный таяр по имени Ноу'вость, решил активировать артефакт без защиты. Новость разлетелась по всей камере артефакта.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
