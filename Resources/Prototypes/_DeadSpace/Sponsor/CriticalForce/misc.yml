@@ -78,7 +78,7 @@
       - Critical
     - type: RattleOnTrigger
       targetUser: true
-    - type: ResponceErtImplant
+    - type: ResponseErtImplant
       allowedStates:
       - Critical
       team: CriticalForce

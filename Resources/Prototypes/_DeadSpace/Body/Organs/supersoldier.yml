@@ -1,8 +1,8 @@
 - type: entity
   id: OrganSuperSoldierStomach
   parent: BaseHumanOrgan
-  name: stomach
-  description: "Gross. This is hard to stomach."
+  name: желудок
+  description: Мерзость. Не перевариваю его.
   components:
   - type: Sprite
     state: stomach
@@ -29,8 +29,8 @@
 - type: entity
   id: OrganSuperSoldierHeart
   parent: BaseHumanOrgan
-  name: heart
-  description: "I feel bad for the heartless bastard who lost this."
+  name: сердце
+  description: Мне жаль того бессердечного ублюдка, который его потерял.
   components:
   - type: Sprite
     state: heart-on
@@ -51,8 +51,8 @@
 - type: entity
   id: OrganSuperSoldierLiver
   parent: BaseHumanOrgan
-  name: liver
-  description: "Pairing suggestion: chianti and fava beans."
+  name: печень
+  description: Рекомендуется подавать с бобами, под кьянти.
   components:
   - type: Sprite
     state: liver

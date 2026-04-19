@@ -90341,7 +90341,7 @@ entities:
     - type: Transform
       pos: -83.49627,-22.399658
       parent: 1
-- proto: PhoneInstrument
+- proto: PhoneInstrumentCentComm
   entities:
   - uid: 12361
     components:

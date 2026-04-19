@@ -98,6 +98,7 @@
   name: Шаттл снабжения революции.
   description: 
     Шаттл снабжения революции.
+  announceOnApproval: false
   rule: SpawnRevSupShuttle
   cooldown:
     min: 1s
