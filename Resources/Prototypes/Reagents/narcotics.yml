@@ -16,25 +16,26 @@
       - !type:HealthChange
         damage:
           types:
-            Poison: 0.75
+            Poison: 0.75 # DS-14
       - !type:HealthChange
         conditions:
         - !type:ReagentCondition
           reagent: Desoxyephedrine
-          min: 30
+          min: 30 # DS-14
         damage:
           types:
-            Poison: 2 # this is added to the base damage of the meth.
+            Poison: 2 # DS-14
             Asphyxiation: 2
     Narcotic:
       effects:
       # Main effects
       - !type:MovementSpeedModifier
-        walkSpeedModifier: 1.35
-        sprintSpeedModifier: 1.35
+        walkSpeedModifier: 1.35 # DS-14
+        sprintSpeedModifier: 1.35 # DS-14
       - !type:GenericStatusEffect
         key: Stutter
         component: StutteringAccent
+        # DS-14-start
       - !type:Jitter
       - !type:ModifyStatusEffect
         effectProto: StatusEffectStunned
@@ -43,6 +44,7 @@
       - !type:ModifyKnockdown
         time: 3
         type: Remove
+        # DS-14-end
       - !type:ModifyStatusEffect
         conditions:
         - !type:ReagentCondition
@@ -75,8 +77,8 @@
     Narcotic:
       effects:
       - !type:MovementSpeedModifier
-        walkSpeedModifier: 1.25
-        sprintSpeedModifier: 1.25
+        walkSpeedModifier: 1.25 # DS-14
+        sprintSpeedModifier: 1.25 # DS-14
       - !type:HealthChange
         conditions:
         - !type:ReagentCondition
@@ -84,9 +86,10 @@
           min: 20
         damage:
           types:
-            Poison: 2 # this is added to the base damage of the meth.
+            Poison: 2 # DS-14
             Asphyxiation: 2
-      - !type:Jitter
+        # DS-14-start
+      - !type:Jitter 
       - !type:ModifyStatusEffect
         effectProto: StatusEffectStunned
         time: 1
@@ -94,6 +97,7 @@
       - !type:ModifyKnockdown
         time: 1
         type: Remove
+        # DS-14-end
       - !type:ModifyStatusEffect
         conditions:
         - !type:ReagentCondition
@@ -102,11 +106,13 @@
         effectProto: StatusEffectDrowsiness
         time: 10
         type: Remove
+        # DS-14-start
       - !type:PopupMessage
         visualType: Medium
         messages: ["ephedrine-effect-tight-pain", "ephedrine-effect-heart-pounds"]
         type: Local
         probability: 0.05
+        # DS-14-end
     Medicine:
       effects:
       # Side effects
@@ -129,9 +135,10 @@
   meltingPoint: 170.0
   metabolisms:
     Narcotic:
-      metabolismRate: 1.0
+      metabolismRate: 1.0 # DS-14
       effects:
       - !type:MovementSpeedModifier
+      # DS-14-start
         walkSpeedModifier: 1.3
         sprintSpeedModifier: 1.3
       - !type:HealthChange
@@ -149,6 +156,7 @@
           min: 1
         reagent: ChloralHydrate
         amount: -10
+        # DS-14-end
       - !type:ModifyStatusEffect
         effectProto: StatusEffectStunned
         time: 3.5
@@ -156,10 +164,12 @@
       - !type:ModifyKnockdown
         time: 3.5
         type: Remove
+        # DS-14-start
       - !type:GenericStatusEffect
         key: StaminaModifier
         component: StaminaModifier
         time: 3
+        # DS-14-end
       - !type:ModifyStatusEffect
         effectProto: StatusEffectForcedSleeping
         time: 3
@@ -174,6 +184,7 @@
         type: Remove
     Medicine:
       effects:
+      # DS-14-start
         - !type:ResetNarcolepsy
         - !type:SatiateHunger
           factor: 1
@@ -187,6 +198,7 @@
             groups:
               Burn: -1
               Brute: -1
+      # DS-14-end
 
 - type: reagent
   id: THC
