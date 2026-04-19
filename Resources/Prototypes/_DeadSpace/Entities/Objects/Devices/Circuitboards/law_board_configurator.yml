@@ -12,7 +12,7 @@
 - type: entity
   parent: BaseElectronics
   id: EmptyLawCircuitBoard
-  name: пустая плата законов
+  name: Пустая плата законов
   description: Я тут закон!
   components:
   - type: Sprite
