@@ -228,9 +228,6 @@
   files:
   - /Audio/_DeadSpace/Sponsor/HolyPain/CrystalBag/BagDrop.ogg
 
-#region Плюшевая Эри
-#база говорящей плюшки
-
 #plushie
 - type: entity
   parent: BasePlushieDeadSpaceMisc
@@ -293,5 +290,3 @@
   values:
     prefix: holypainplushie-
     count: 17
-
-#Тут ниже будет ещё целая куча предметов и прототипов, доделать я не успел, потому что просили скинуть, увы увы
