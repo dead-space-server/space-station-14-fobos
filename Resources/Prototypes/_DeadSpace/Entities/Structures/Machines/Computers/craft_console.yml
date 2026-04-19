@@ -2,7 +2,7 @@
   parent: BaseComputerAiAccess
   id: CraftConsole
   name: консоль управление станка
-  description: A console used to control the linked crafting station. Select a blueprint and coordinate assembly.
+  description: А вы знали, что если кричать на этот станок пару часов, ему будет по-...
   components:
   - type: Sprite
     layers:
