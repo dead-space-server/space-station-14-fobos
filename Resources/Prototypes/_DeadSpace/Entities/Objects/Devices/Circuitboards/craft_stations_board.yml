@@ -10,7 +10,7 @@
       prototype: CraftConsole
 
 - type: entity
-  id: ConsoleCraftMachineCircuitboard
+  id: CraftMachineCircuitboard
   parent: BaseMachineCircuitboard
   name: станок для создание всего (машинная плата)
   description: Станция погрянет в хаосе безумства НИО!

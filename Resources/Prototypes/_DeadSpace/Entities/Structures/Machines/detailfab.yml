@@ -19,5 +19,10 @@
     idleState: icon
     runningState: building
     staticPacks:
-    - StartDetailCraftStation
+    - RIGStartDetails
+    dynamicPacks:
+    - RIGHelmets
+    - RIGAdvancedCorePart
+    - RIGPlastines
+    - RIGModules
   - type: OreSiloClient

@@ -12,10 +12,10 @@
   - itemProto: PlastineOfResearchRIG
     amount: 2
     label: Пластина для модифицированного рюкзака НИО
-  - itemProto: HardsuitGirderLeg
+  - itemProto: HardsuitFrameLeg
     amount: 1
     label: Каркас ног скафандра
-  - itemProto: HardsuitGirderTorso
+  - itemProto: HardsuitFrameTorso
     amount: 1
     label: Каркас торса скафандра
   - itemProto: ClothingHeadHelmetRIGResearch
@@ -39,10 +39,10 @@
   - itemProto: PlastineOfSecurityRIG
     amount: 2
     label: Пластина для модифицированного рюкзака СБ
-  - itemProto: HardsuitGirderLeg
+  - itemProto: HardsuitFrameLeg
     amount: 1
     label: Каркас ног скафандра
-  - itemProto: HardsuitGirderTorso
+  - itemProto: HardsuitFrameTorso
     amount: 1
     label: Каркас торса скафандра
   - itemProto: ClothingHeadHelmetRIGSecurity
@@ -66,10 +66,10 @@
   - itemProto: PlastineOfSecurAdvancedityRIG
     amount: 2
     label: Пластина для продвинутого модифицированного рюкзака СБ
-  - itemProto: HardsuitGirderLeg
+  - itemProto: HardsuitFrameLeg
     amount: 1
     label: Каркас ног скафандра
-  - itemProto: HardsuitGirderTorso
+  - itemProto: HardsuitFrameTorso
     amount: 1
     label: Каркас торса скафандра
   - itemProto: ClothingHeadHelmetRIGSecurityAdvanced
@@ -94,10 +94,10 @@
   - itemProto: PlastineOfSalvageRIG
     amount: 2
     label: Пластина для модифицированного рюкзака Карго
-  - itemProto: HardsuitGirderLeg
+  - itemProto: HardsuitFrameLeg
     amount: 1
     label: Каркас ног скафандра
-  - itemProto: HardsuitGirderTorso
+  - itemProto: HardsuitFrameTorso
     amount: 1
     label: Каркас торса скафандра
   - itemProto: ClothingHeadHelmetRIGSalvage
@@ -121,10 +121,10 @@
   - itemProto: PlastineOfSalvageAdvancedRIG
     amount: 2
     label: Пластина для продвинутого модифицированного рюкзака Карго
-  - itemProto: HardsuitGirderLeg
+  - itemProto: HardsuitFrameLeg
     amount: 1
     label: Каркас ног скафандра
-  - itemProto: HardsuitGirderTorso
+  - itemProto: HardsuitFrameTorso
     amount: 1
     label: Каркас торса скафандра
   - itemProto: ClothingHeadHelmetRIGSalvageAdvanced
@@ -148,10 +148,10 @@
   - itemProto: PlastineOfEVARIG
     amount: 1
     label: Пластина для модифицированного рюкзака ВКД
-  - itemProto: HardsuitGirderLeg
+  - itemProto: HardsuitFrameLeg
     amount: 1
     label: Каркас ног скафандра
-  - itemProto: HardsuitGirderTorso
+  - itemProto: HardsuitFrameTorso
     amount: 1
     label: Каркас торса скафандра
   - itemProto: ClothingHeadHelmetRIGEVA
@@ -173,10 +173,10 @@
   - itemProto: PlastineOfEngineerRIG
     amount: 2
     label: Пластина для модифицированного рюкзака инженера
-  - itemProto: HardsuitGirderLeg
+  - itemProto: HardsuitFrameLeg
     amount: 1
     label: Каркас ног скафандра
-  - itemProto: HardsuitGirderTorso
+  - itemProto: HardsuitFrameTorso
     amount: 1
     label: Каркас торса скафандра
   - itemProto: ClothingHeadHelmetRIGEngineer
@@ -198,10 +198,10 @@
   - itemProto: PlastineOfOtherHardsuit
     amount: 2
     label: Пластина для различных скафандров
-  - itemProto: HardsuitGirderLeg
+  - itemProto: HardsuitFrameLeg
     amount: 1
     label: Каркас ног скафандра
-  - itemProto: HardsuitGirderTorso
+  - itemProto: HardsuitFrameTorso
     amount: 1
     label: Каркас торса скафандра
   - itemProto: ClothingHeadHelmetHardsuitMaxim

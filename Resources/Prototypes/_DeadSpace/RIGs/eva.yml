@@ -64,8 +64,7 @@
     highPressureMultiplier: 0.08
     lowPressureMultiplier: 1000
   - type: PointLight
-    color: "#00FFFF"
-    radius: 2
+    radius: 4
     energy: 3
   - type: Item
     heldPrefix: off 

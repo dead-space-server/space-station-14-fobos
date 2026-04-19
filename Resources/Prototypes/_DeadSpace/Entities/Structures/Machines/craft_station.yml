@@ -37,7 +37,7 @@
   - type: Appearance
   - type: Lathe
   - type: Machine
-    board: ConsoleCraftMachineCircuitboard
+    board: CraftMachineCircuitboard
   - type: Construction
     graph: Machine
     node: machine

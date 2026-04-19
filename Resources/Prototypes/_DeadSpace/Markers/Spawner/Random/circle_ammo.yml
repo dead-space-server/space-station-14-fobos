@@ -14,13 +14,13 @@
         - WeaponCaseHeavyFilledSCARAB
         - WeaponCaseHeavyFilledVSK
         - WeaponCaseHeavyFilledVAL
-        - BlueprintWeaponRPL20
-        - BlueprintWeaponRifleASH12
+#         - BlueprintWeaponRPL20
+#         - BlueprintWeaponRifleASH12
         - UnitologySplinterBladeImplanter
-      rareChance: 0.15
+        - WeaponRevolverRSh12
+      rareChance: 0.2
       prototypes:
         - WeaponCaseHeavyFilledAmmo
         - WeaponCaseHeavy
-        - WeaponRevolverRSh12
       chance: 0.97
       offset: 0

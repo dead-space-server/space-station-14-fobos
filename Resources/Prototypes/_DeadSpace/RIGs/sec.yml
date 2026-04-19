@@ -158,7 +158,7 @@
 - type: entity
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
   id: ClothingHeadHelmetRIGSecurityAdvanced
-  name: продвиунтый шлем боевого офицерского скафандра
+  name: шлем продвинутого боевого офицерского скафандра
   description: Честно, тут должно быть что-то написано.
   components:
   - type: Sprite

@@ -278,7 +278,7 @@
 
 - type: entity
   parent: BaseItem
-  id: HardsuitGirderLeg
+  id: HardsuitFrameLeg
   name: каркас ног скафандра
   description: За место этих каркасов можно было использовать веточки какого-то бога.
   components:
@@ -288,7 +288,7 @@
 
 - type: entity
   parent: BaseItem
-  id: HardsuitGirderTorso
+  id: HardsuitFrameTorso
   name: каркас торса скафандра
   description: Каркас который потырили по частям на колёсики с рулём.
   components:

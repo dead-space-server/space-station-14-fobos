@@ -297,8 +297,8 @@
   id: AsteroidRockBluespaceCrystal
   parent: AsteroidRock
   name: камень
-  description: An ore vein rich with coal.
-  suffix: Coal
+  description: Рудная жила, богатая блюспейс кристаллами.
+  suffix: Блюспейс кристал
   components:
   - type: OreVein
     oreChance: 1.0
@@ -321,8 +321,8 @@
   id: WallRockBluespaceCrystal
   parent: WallRock
   name: камень
-  description: Рудная жила, богатая магмитом.
-  suffix: Магмит
+  description: Рудная жила, богатая блюспейс кристаллами.
+  suffix: Блюспейс кристал
   components:
   - type: EntityRemap
     mask:
