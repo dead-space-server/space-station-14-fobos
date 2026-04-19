@@ -11,7 +11,7 @@
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,14,5
+    - 0,0,15,5
   - type: StorageFill
     contents:
     - id: ClothingBeltMysticalRay
@@ -34,6 +34,7 @@
     - id: TapeEmpty
     - id: PaperMysticalRayUSSP
     - id: PaperMysticalRay
+    - id: OtherMysticalRay
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -384,6 +385,26 @@
     fillBaseName: hypo_fill
     solutionName: hypospray
 
+# Other
+
+- type: entity
+  name: имплант TraumaTec
+  description: Имплант TraumaTec.
+  parent: BaseItem
+  id: OtherMysticalRay
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/MysticalRay/other.rsi
+    state: icon
+  - type: TriggerOnUse
+  - type: DeleteOnTrigger
+  - type: AddComponentsOnTrigger
+    removeExisting: true
+    targetUser: true
+    components:
+    - type: TTS
+      voice: Glowtron
+
 # instruments
 # drill
 - type: entity
@@ -391,6 +412,7 @@
   id: PowerDrillMysticalRay
   name: тактическая электродрель TraumaTec
   description: Более компактная и также более эффективная вариация электродрели.
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/MysticalRay/tools_powerdrill.rsi
