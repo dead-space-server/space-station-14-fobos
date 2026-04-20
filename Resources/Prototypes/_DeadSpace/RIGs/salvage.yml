@@ -84,7 +84,7 @@
         Piercing: 0.9
         Heat: 0.95
   - type: PointLight
-    color: "#ff9100"
+    color: "#40E0D0"
     radius: 5
     energy: 3
   - type: Item
@@ -141,7 +141,7 @@
       coefficients:
         Blunt: 0.4
         Slash: 0.4
-        Piercing: 0.5
+        Piercing: 0.55
         Heat: 0.5
         Radiation: 0.3
         Caustic: 0.3
@@ -177,7 +177,7 @@
         Piercing: 0.9
         Heat: 0.9
   - type: PointLight
-    color: "#ff9100"
+    color: "#40E0D0"
     radius: 10
     energy: 4
   - type: Item

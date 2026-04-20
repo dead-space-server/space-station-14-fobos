@@ -9,6 +9,7 @@ namespace Content.Server.DeadSpace.ConsoleCraft;
 public sealed class ConsoleCraftBlueprintSystem : SharedConsoleCraftBlueprintSystem
 {
     [Dependency] private readonly ConsoleCraftSystem _craftSystem = default!;
+    [Dependency] private readonly IPrototypeManager _proto = default!;
 
     protected override void OnBlueprintInserted(
         Entity<ConsoleCraftBlueprintReceiverComponent> receiver,
@@ -54,9 +55,13 @@ public sealed class ConsoleCraftBlueprintSystem : SharedConsoleCraftBlueprintSys
         Container.Remove(blueprint.Owner, bpContainer, reparent: false, force: true);
         EntityManager.DeleteEntity(blueprint.Owner);
 
+        var recipeName = _proto.TryIndex<ConsoleCraftPrototype>(blueprint.Comp.Recipe.Id, out var recipeDef)
+            ? recipeDef.Name
+            : blueprint.Comp.Recipe.Id;
+
         Popup.PopupEntity(
             Loc.GetString("consolecraft-blueprint-exhausted",
-                ("recipe", blueprint.Comp.Recipe.Id)),
+                ("recipe", recipeName)),
             receiver);
 
         if (TryComp<ConsoleCraftConsoleComponent>(receiver, out var consoleComp) &&
