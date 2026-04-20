@@ -8,6 +8,24 @@
   id: GeneratorRTGMachineCircuitboard
   result: GeneratorRTGMachineCircuitboard
 
+- type: latheRecipe
+  parent: [ BaseGoldCircuitboardRecipe, BaseResearchComputerRecipeCategory ]
+  id: LawBoardConfiguratorComputerCircuitboard
+  result: LawBoardConfiguratorComputerCircuitboard
+  materials:
+    Steel: 500
+    Silver: 200
+    Gold: 200
+
+- type: latheRecipe
+  parent: [ BaseCircuitboardRecipe, BaseCircuitryRecipeCategory ]
+  id: EmptyLawCircuitBoard
+  result: EmptyLawCircuitBoard
+  materials:
+    Steel: 500
+    Silver: 200
+    Gold: 200
+
 # Taipan
 - type: latheRecipe
   parent: BaseCircuitboardRecipe
