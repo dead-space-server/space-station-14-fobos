@@ -44,6 +44,7 @@
   cost: 10000
   recipeUnlocks:
     - AdvancedCoreForModifiedBackpack
+
   id: LawBoardConfiguratorTech
   name: research-technology-law-board-configuration
   icon:
