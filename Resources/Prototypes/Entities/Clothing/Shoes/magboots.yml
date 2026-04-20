@@ -65,10 +65,6 @@
     price: 750
   - type: StealTarget
     stealGroup: ClothingShoesBootsMagAdv
-  - type: ComponentToggler
-    components:
-    - type: NoSlip
-    - type: RenegadeCANTRenegadeForce
 
 - type: entity
   parent: [ClothingShoesBootsMagBase]
