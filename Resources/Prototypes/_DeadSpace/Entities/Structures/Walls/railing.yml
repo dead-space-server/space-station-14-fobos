@@ -2,7 +2,7 @@
   parent: BaseStructure
   id: BaseRailingWood
   abstract: true
-  name: деревянная перила
+  name: деревянные перила
   description: Обычные перила, предназначенные для защиты таких идиотов, как ты, от падения.
   components:
   - type: Sprite
