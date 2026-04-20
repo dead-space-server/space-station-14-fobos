@@ -4,6 +4,15 @@
   description: job-description-blue-shield-officer
   playTimeTracker: JobCentralCommandBlueShieldOfficer
   setPreference: false
+  requirements:
+    - !type:OverallPlaytimeRequirement
+      time: 252000 # 70 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 # 20 hours
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 36000 # 10 hours
   startingGear: CentcomBlueShieldGear
   icon: "JobIconBlueShieldOfficer"
   supervisors: job-supervisors-centcom-administrator
