@@ -1,4 +1,5 @@
 research-technology-supermagboots = Улучшенный локализованный магнетизм
+research-technology-law-board-configuration = Конфигурация плат законов
 research-technology-handteleporter = Разрыв пространства 
 research-technology-glovespowergloveactive = Пробитие пространства
 research-technology-pinpointeruniversal = Наводка на объект

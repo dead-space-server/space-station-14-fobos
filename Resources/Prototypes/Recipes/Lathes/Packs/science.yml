@@ -96,6 +96,10 @@
   - APECircuitboard
   - ArtifactAnalyzerMachineCircuitboard
   - ArtifactCrusherMachineCircuitboard
+  #DeadSpace-start
+  - LawBoardConfiguratorComputerCircuitboard
+  - EmptyLawCircuitBoard
+  #DeadSpace-end
 
 - type: latheRecipePack
   id: CameraBoards
