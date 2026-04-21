@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Content.Server.DeadSpace.Maps; // DS14
 using Content.Server.GameTicking;
 using Content.Shared.CCVar;
 using Content.Shared.Maps;
@@ -28,6 +29,12 @@ public sealed class GameMapManager : IGameMapManager
     private GameMapPrototype? _configSelectedMap;
     [ViewVariables(VVAccess.ReadOnly)]
     private GameMapPrototype? _selectedMap; // Don't change this value during a round!
+    // DS14-start
+    [ViewVariables(VVAccess.ReadOnly)]
+    private bool _autoMapVoteOverrideActive;
+    [ViewVariables(VVAccess.ReadOnly)]
+    private bool _suppressConfigSelection;
+    // DS14-end
     [ViewVariables(VVAccess.ReadOnly)]
     private bool _mapRotationEnabled;
     [ViewVariables(VVAccess.ReadOnly)]
@@ -129,39 +136,75 @@ public sealed class GameMapManager : IGameMapManager
         return _prototypeManager.EnumeratePrototypes<GameMapPrototype>();
     }
 
+    public bool AutoMapVoteOverrideActive => _autoMapVoteOverrideActive; // DS14
+
     public GameMapPrototype? GetSelectedMap()
     {
-        return _configSelectedMap ?? _selectedMap;
+        return _suppressConfigSelection
+            ? _selectedMap
+            : _configSelectedMap ?? _selectedMap; // DS14
     }
 
     public void ClearSelectedMap()
     {
+        // DS14-start
+        _selectedMap = default!;
+        _autoMapVoteOverrideActive = false;
+        _suppressConfigSelection = false;
+    }
+
+    public void BeginAutoMapVoteOverride()
+    {
+        _autoMapVoteOverrideActive = true;
+        _suppressConfigSelection = true;
+        // DS14-end
         _selectedMap = default!;
     }
 
-    public bool TrySelectMapIfEligible(string gameMap)
+    public bool TrySelectMapIfEligible(string gameMap, MapSelectionContext context = MapSelectionContext.Default) // DS14
     {
         if (!TryLookupMap(gameMap, out var map) || !IsMapEligible(map))
             return false;
+
+        // DS14-start
+        if (!CanApplySelection(context))
+            return false;
+        // DS14-end
+
         _selectedMap = map;
         return true;
     }
 
-    public void SelectMap(string gameMap)
+    public void SelectMap(string gameMap, MapSelectionContext context = MapSelectionContext.Default) // DS14
     {
+        // DS14-start
+        if (!CanApplySelection(context))
+            return;
+        // DS14-end
+
         if (!TryLookupMap(gameMap, out var map))
             throw new ArgumentException($"The map \"{gameMap}\" is invalid!");
         _selectedMap = map;
     }
 
-    public void SelectMapRandom()
+    public void SelectMapRandom(MapSelectionContext context = MapSelectionContext.Default) // DS14
     {
+        // DS14-start
+        if (!CanApplySelection(context))
+            return;
+        // DS14-end
+
         var maps = CurrentlyEligibleMaps().ToList();
         _selectedMap = _random.Pick(maps);
     }
 
-    public void SelectMapFromRotationQueue(bool markAsPlayed = false)
+    public void SelectMapFromRotationQueue(bool markAsPlayed = false, MapSelectionContext context = MapSelectionContext.Default) // DS14
     {
+        // DS14-start
+        if (!CanApplySelection(context))
+            return;
+        // DS14-end
+
         var map = GetFirstInRotationQueue();
 
         _selectedMap = map;
@@ -170,17 +213,35 @@ public sealed class GameMapManager : IGameMapManager
             EnqueueMap(map.ID);
     }
 
-    public void SelectMapByConfigRules()
+    public void SelectMapByConfigRules(MapSelectionContext context = MapSelectionContext.Default) // DS14
     {
+        // DS14-start
+        if (!CanApplySelection(context))
+        {
+            // If a round starts before auto map voting finishes, fall back to config rules
+            // so the ticker still has a valid map to load.
+            if (_autoMapVoteOverrideActive && context == MapSelectionContext.Default && _selectedMap == null)
+                context = MapSelectionContext.AutoMapVote;
+            else
+                return;
+        }
+
+        if (context == MapSelectionContext.AutoMapVote)
+        {
+            _autoMapVoteOverrideActive = true;
+            _suppressConfigSelection = true;
+        }
+        // DS14-end
+
         if (_mapRotationEnabled)
         {
             _log.Info("selecting the next map from the rotation queue");
-            SelectMapFromRotationQueue(true);
+            SelectMapFromRotationQueue(true, context); // DS14
         }
         else
         {
             _log.Info("selecting a random map");
-            SelectMapRandom();
+            SelectMapRandom(context); // DS14
         }
     }
 
@@ -201,6 +262,13 @@ public sealed class GameMapManager : IGameMapManager
     {
         return _prototypeManager.TryIndex(gameMap, out map);
     }
+
+    // DS14-start
+    private bool CanApplySelection(MapSelectionContext context)
+    {
+        return !_autoMapVoteOverrideActive || context == MapSelectionContext.AutoMapVote;
+    }
+    // DS14-end
 
     private int GetMapRotationQueuePriority(string gameMapProtoName)
     {

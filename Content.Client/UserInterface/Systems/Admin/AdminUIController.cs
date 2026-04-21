@@ -1,4 +1,4 @@
-﻿using Content.Client.Administration.Managers;
+using Content.Client.Administration.Managers;
 using Content.Client.Administration.Systems;
 using Content.Client.Administration.UI;
 using Content.Client.Administration.UI.Tabs.ObjectsTab;
@@ -9,6 +9,7 @@ using Content.Client.Lobby;
 using Content.Client.UserInterface.Controls;
 using Content.Client.Verbs.UI;
 using Content.Shared.Administration.Events;
+using Content.Shared.DeadSpace.Administration.Events; // DS14
 using Content.Shared.Input;
 using JetBrains.Annotations;
 using Robust.Client.Console;
@@ -36,13 +37,23 @@ public sealed class AdminUIController : UIController,
 
     private AdminMenuWindow? _window;
     private MenuButton? AdminButton => UIManager.GetActiveUIWidgetOrNull<MenuBar.Widgets.GameTopMenuBar>()?.AdminButton;
+    private AutoMapVoteAdminState? _autoMapVoteState; // DS14
     private PanicBunkerStatus? _panicBunker;
 
     public override void Initialize()
     {
         base.Initialize();
+        SubscribeNetworkEvent<AutoMapVoteAdminStateChangedEvent>(OnAutoMapVoteUpdated); // DS14
         SubscribeNetworkEvent<PanicBunkerChangedEvent>(OnPanicBunkerUpdated);
     }
+
+    // DS14-start
+    private void OnAutoMapVoteUpdated(AutoMapVoteAdminStateChangedEvent msg, EntitySessionEventArgs args)
+    {
+        _autoMapVoteState = msg.State;
+        _window?.UpdateAutoMapVoteState(msg.State);
+    }
+    // DS14-end
 
     private void OnPanicBunkerUpdated(PanicBunkerChangedEvent msg, EntitySessionEventArgs args)
     {
@@ -100,6 +111,11 @@ public sealed class AdminUIController : UIController,
 
         if (_panicBunker != null)
             _window.PanicBunkerControl.UpdateStatus(_panicBunker);
+
+        // DS14-start
+        if (_autoMapVoteState != null)
+            _window.UpdateAutoMapVoteState(_autoMapVoteState);
+        // DS14-end
 
         _window.PlayerTabControl.OnEntryKeyBindDown += PlayerTabEntryKeyBindDown;
         _window.ObjectsTabControl.OnEntryKeyBindDown += ObjectsTabEntryKeyBindDown;
