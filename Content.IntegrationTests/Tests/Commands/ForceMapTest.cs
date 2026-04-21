@@ -91,33 +91,48 @@ public sealed class ForceMapTest
     [Test]
     public async Task TestForceMapOverridesAutoMapVoteSelection()
     {
-        await using var pair = await PoolManager.GetServerClient();
-        var server = pair.Server;
-
-        var configManager = server.ResolveDependency<IConfigurationManager>();
-        var consoleHost = server.ResolveDependency<IConsoleHost>();
-        var gameMapMan = server.ResolveDependency<IGameMapManager>();
-
-        await server.WaitAssertion(() =>
+        var pair = await PoolManager.GetServerClient(new PoolSettings
         {
-            gameMapMan.BeginAutoMapVoteOverride();
-
-            consoleHost.ExecuteCommand($"forcemap {TestMapEligibleName}");
-            Assert.That(gameMapMan.GetSelectedMap()?.ID, Is.EqualTo(TestMapEligibleName),
-                $"Forcemap did not override auto map vote state with map ({TestMapEligibleName})!");
-
-            gameMapMan.SelectMap(TestMapIneligibleName, MapSelectionContext.AutoMapVote);
-            Assert.That(gameMapMan.GetSelectedMap()?.ID, Is.EqualTo(TestMapEligibleName),
-                $"Auto map vote selection overrode forced map ({TestMapEligibleName})!");
-
-            gameMapMan.BeginAutoMapVoteOverride();
-            Assert.That(gameMapMan.GetSelectedMap(), Is.Null,
-                "Starting a new auto map vote cycle did not clear the previous forced map override.");
+            Fresh = true
         });
+        var cleanReturned = false;
 
-        configManager.SetCVar(CCVars.GameMap, DefaultMapName);
+        try
+        {
+            var server = pair.Server;
 
-        await pair.CleanReturnAsync();
+            var configManager = server.ResolveDependency<IConfigurationManager>();
+            var consoleHost = server.ResolveDependency<IConsoleHost>();
+            var gameMapMan = server.ResolveDependency<IGameMapManager>();
+
+            await server.WaitAssertion(() =>
+            {
+                gameMapMan.BeginAutoMapVoteOverride();
+
+                consoleHost.ExecuteCommand($"forcemap {TestMapEligibleName}");
+                Assert.That(gameMapMan.GetSelectedMap()?.ID, Is.EqualTo(TestMapEligibleName),
+                    $"Forcemap did not override auto map vote state with map ({TestMapEligibleName})!");
+
+                gameMapMan.SelectMap(TestMapIneligibleName, MapSelectionContext.AutoMapVote);
+                Assert.That(gameMapMan.GetSelectedMap()?.ID, Is.EqualTo(TestMapEligibleName),
+                    $"Auto map vote selection overrode forced map ({TestMapEligibleName})!");
+
+                gameMapMan.BeginAutoMapVoteOverride();
+                Assert.That(gameMapMan.GetSelectedMap(), Is.Null,
+                    "Starting a new auto map vote cycle did not clear the previous forced map override.");
+            });
+
+            await server.WaitPost(() => gameMapMan.ClearSelectedMap());
+            configManager.SetCVar(CCVars.GameMap, DefaultMapName);
+
+            await pair.CleanReturnAsync();
+            cleanReturned = true;
+        }
+        finally
+        {
+            if (!cleanReturned)
+                await pair.DisposeAsync();
+        }
     }
     // DS14-end
 }
