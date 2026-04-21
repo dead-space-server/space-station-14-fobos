@@ -48,6 +48,11 @@ public interface IGameMapManager
 
     // DS14-start
     /// <summary>
+    /// Clears the current forced-map override, if any.
+    /// </summary>
+    void ClearForcedMap();
+
+    /// <summary>
     /// Begins an authoritative auto map vote cycle for the current lobby.
     /// </summary>
     void BeginAutoMapVoteOverride();

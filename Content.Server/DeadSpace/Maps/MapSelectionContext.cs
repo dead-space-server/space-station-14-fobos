@@ -5,5 +5,6 @@ namespace Content.Server.DeadSpace.Maps;
 public enum MapSelectionContext
 {
     Default,
-    AutoMapVote
+    AutoMapVote,
+    Forced
 }

@@ -31,6 +31,8 @@ public sealed class GameMapManager : IGameMapManager
     private GameMapPrototype? _selectedMap; // Don't change this value during a round!
     // DS14-start
     [ViewVariables(VVAccess.ReadOnly)]
+    private GameMapPrototype? _forcedMap;
+    [ViewVariables(VVAccess.ReadOnly)]
     private bool _autoMapVoteOverrideActive;
     [ViewVariables(VVAccess.ReadOnly)]
     private bool _suppressConfigSelection;
@@ -140,6 +142,11 @@ public sealed class GameMapManager : IGameMapManager
 
     public GameMapPrototype? GetSelectedMap()
     {
+        // DS14-start
+        if (_forcedMap != null)
+            return _forcedMap;
+        // DS14-end
+
         return _suppressConfigSelection
             ? _selectedMap
             : _configSelectedMap ?? _selectedMap; // DS14
@@ -148,13 +155,20 @@ public sealed class GameMapManager : IGameMapManager
     public void ClearSelectedMap()
     {
         // DS14-start
+        _forcedMap = default!;
         _selectedMap = default!;
         _autoMapVoteOverrideActive = false;
         _suppressConfigSelection = false;
     }
 
+    public void ClearForcedMap()
+    {
+        _forcedMap = default!;
+    }
+
     public void BeginAutoMapVoteOverride()
     {
+        _forcedMap = default!;
         _autoMapVoteOverrideActive = true;
         _suppressConfigSelection = true;
         // DS14-end
@@ -178,12 +192,21 @@ public sealed class GameMapManager : IGameMapManager
     public void SelectMap(string gameMap, MapSelectionContext context = MapSelectionContext.Default) // DS14
     {
         // DS14-start
+        if (!TryLookupMap(gameMap, out var map))
+            throw new ArgumentException($"The map \"{gameMap}\" is invalid!");
+
+        if (context == MapSelectionContext.Forced)
+        {
+            _forcedMap = map;
+            _autoMapVoteOverrideActive = false;
+            _suppressConfigSelection = false;
+            return;
+        }
+
         if (!CanApplySelection(context))
             return;
         // DS14-end
 
-        if (!TryLookupMap(gameMap, out var map))
-            throw new ArgumentException($"The map \"{gameMap}\" is invalid!");
         _selectedMap = map;
     }
 
@@ -228,6 +251,7 @@ public sealed class GameMapManager : IGameMapManager
 
         if (context == MapSelectionContext.AutoMapVote)
         {
+            _forcedMap = default!;
             _autoMapVoteOverrideActive = true;
             _suppressConfigSelection = true;
         }
@@ -266,7 +290,9 @@ public sealed class GameMapManager : IGameMapManager
     // DS14-start
     private bool CanApplySelection(MapSelectionContext context)
     {
-        return !_autoMapVoteOverrideActive || context == MapSelectionContext.AutoMapVote;
+        return !_autoMapVoteOverrideActive ||
+               context == MapSelectionContext.AutoMapVote ||
+               context == MapSelectionContext.Forced;
     }
     // DS14-end
 

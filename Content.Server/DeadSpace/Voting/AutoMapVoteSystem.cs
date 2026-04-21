@@ -207,11 +207,8 @@ public sealed class AutoMapVoteSystem : EntitySystem
     {
         _enabled = value;
 
-        if (!value && _activeVote is { Finished: false })
-        {
-            _activeVoteEndTime = null;
-            _activeVote.Cancel();
-        }
+        if (!value)
+            CancelActiveVote();
 
         SendAdminState();
     }
@@ -266,11 +263,8 @@ public sealed class AutoMapVoteSystem : EntitySystem
             return;
         }
 
-        if (args.New != GameRunLevel.PreRoundLobby && _activeVote is { Finished: false } vote)
-        {
-            _activeVoteEndTime = null;
-            vote.Cancel();
-        }
+        if (args.New != GameRunLevel.PreRoundLobby)
+            CancelActiveVote();
     }
 
     private void StartAutoMapVoteCycle()
@@ -287,13 +281,7 @@ public sealed class AutoMapVoteSystem : EntitySystem
 
     private void StartAutoMapVoteCycleCore()
     {
-        if (_activeVote is { Finished: false } vote)
-        {
-            _activeVote = null;
-            _activeVoteCategory = null;
-            _activeVoteEndTime = null;
-            vote.Cancel();
-        }
+        CancelActiveVote();
 
         _gameMapManager.BeginAutoMapVoteOverride();
         _gameTicker.UpdateInfoText();
@@ -605,6 +593,28 @@ public sealed class AutoMapVoteSystem : EntitySystem
     private TimeSpan GetVoteDuration()
     {
         return TimeSpan.FromSeconds(_voteDurationSeconds);
+    }
+
+    private void CancelActiveVote()
+    {
+        if (_activeVote is not { Finished: false } vote)
+            return;
+
+        _activeVote = null;
+        _activeVoteCategory = null;
+        _activeVoteEndTime = null;
+        vote.Cancel();
+    }
+
+    public void OnForcedMapSelected()
+    {
+        CancelActiveVote();
+        _gameTicker.UpdateInfoText();
+    }
+
+    public void OnForcedMapCleared()
+    {
+        _gameTicker.UpdateInfoText();
     }
 
     private void SendAdminState(ICommonSession? player = null)
