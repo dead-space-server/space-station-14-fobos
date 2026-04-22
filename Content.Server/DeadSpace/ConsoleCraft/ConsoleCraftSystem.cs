@@ -303,6 +303,13 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
         if (!Blueprints.GetAvailableRecipeIds((uid, receiver)).Contains(msg.RecipeId))
             return;
 
+        if (TryGetLinkedStation(uid, comp, out _, out var guardComp) &&
+            guardComp!.CraftInProgress)
+        {
+            _popup.PopupEntity(Loc.GetString("consolecraft-craft-in-progress"), uid, msg.Actor);
+            return;
+        }
+
         comp.SelectedBlueprintId = msg.RecipeId;
         comp.ShowingList = false;
 
