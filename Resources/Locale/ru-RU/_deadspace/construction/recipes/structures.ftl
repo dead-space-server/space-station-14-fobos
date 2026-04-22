@@ -17,3 +17,6 @@ construction-recipe-stairs-stage = ступеньки (одиночные)
 construction-recipe-stairs = ступеньки
 construction-recipe-stairs-stage-steel-dark = тёмные ступеньки (одиночные)
 construction-recipe-stairs-steel-dark = тёмные ступеньки
+construction-recipe-railing-wood-corner = деревянные перила (угол)
+construction-recipe-railing-wood-corner-small = деревянные перила (угол маленький)
+construction-recipe-railing-wood-round = деревянные перила (круглые)
