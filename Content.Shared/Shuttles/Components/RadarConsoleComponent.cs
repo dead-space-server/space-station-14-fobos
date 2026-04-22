@@ -25,4 +25,7 @@ public sealed partial class RadarConsoleComponent : Component
     /// </summary>
     [DataField]
     public bool FollowEntity = false;
+
+    [DataField]
+    public bool Advanced = false;
 }

@@ -1,3 +1,4 @@
+using Content.Shared.DeadSpace.Shuttles.BUIStates; //DS14
 using Robust.Shared.Map;
 using Robust.Shared.Serialization;
 
@@ -22,16 +23,20 @@ public sealed class NavInterfaceState
 
     public bool RotateWithEntity = true;
 
+    public List<BlipState> Blips; //DS14
+
     public NavInterfaceState(
         float maxRange,
         NetCoordinates? coordinates,
         Angle? angle,
-        Dictionary<NetEntity, List<DockingPortState>> docks)
+        Dictionary<NetEntity, List<DockingPortState>> docks,
+        List<BlipState>? blips = null) //DS14
     {
         MaxRange = maxRange;
         Coordinates = coordinates;
         Angle = angle;
         Docks = docks;
+        Blips = blips ?? new List<BlipState>(); //DS14
     }
 }
 
