@@ -32,12 +32,54 @@
       factions:
       - CentralCommand
 
+- type: entity
+  parent: ClothingBackpackBlueShield
+  id: ClothingBackpackBlueShieldCentComFilled
+  name: модифицированный рюкзак офицера "Синий Щит"
+  description: Рюкзак офицера "Синий Щит" с функцией РИГ.
+  suffix: Заполненный, ЦентКом
+  components:
+  - type: StorageFill
+    contents:
+      - id: BoxMRE
+      - id: ADTtelescopicBaton
+      - id: TelescopicShield
+      - id: MagazinePistolSubMachineGun
+        amount: 3
+      - id: MedkitCombatFilled
+        amount: 2 
+      - id: HandheldCrewMonitor
+      - id: Zipties
+        amount: 3
+      - id: DesoxyephedrineMedipen
+        amount: 3
+
+- type: entity
+  id: ClothingBeltMilitaryWebbingBlueShieldCentComFilled
+  parent: ClothingBeltMilitaryWebbingBlueShieldFilled
+  name: РПС офицера "Синий Щит"
+  description: РПС, которую носят офицеры "Синий Щит"
+  suffix: Заполненный, ЦентКом
+  components:
+  - type: StorageFill
+    contents:
+      - id: JawsOfLife
+      - id: PowerDrill
+      - id: WelderExperimental
+      - id: ADTCombatHypo
+      - id: ChemistryBottleEphedrine
+      - id: ChemistryBottleOmnizine
+      - id: ChemistryBottleOmnizine
+      - id: ADTObjectsSpecificBicaridineChemistryBottle
+      - id: ADTObjectsSpecificDexalinPlusChemistryBottle
+      - id: ADTObjectsSpecificDermalineChemistryBottle
+
 - type: startingGear
   id: CentcomBlueShieldGear
   equipment:
     head: ClothingHeadHatBeretBlueShield
     jumpsuit: ClothingUniformJumpsuitBlueShield
-    # back: ClothingBackpackBlueShield
+    # back: ClothingBackpackBlueShieldCentComFilled
     mask: ClothingMaskGasSecurity
     eyes: ClothingEyesGlassesSecurity
     ears: ClothingHeadsetCentCom
@@ -46,16 +88,15 @@
     shoes: ClothingShoesBootsJackFilled
     id: BlueShieldOfficerPDA
     pocket1: PistolBlueShield
-    pocket2: PinpointerUniversal
-    belt: ClothingBeltMilitaryWebbingBlueShieldFilled
+    pocket2: WeaponDisabler
+    belt: ClothingBeltMilitaryWebbingBlueShieldCentComFilled
+    suitstorage: WeaponSubMachineGunDrozd
   storage:
-    back:
-    - DesoxyephedrineMedipen
-    - DesoxyephedrineMedipen
-    - DesoxyephedrineMedipen
-    - WelderIndustrialAdvanced
+    outerClothing:
     - ClothingEyesGlassesMeson
-    - MedkitCombatFilled
+    - DoubleEmergencyOxygenTankFilled
+    - PinpointerUniversal
+
 
 - type: chameleonOutfit
   id: CentralCommandBlueShieldOfficerChameleonOutfit
