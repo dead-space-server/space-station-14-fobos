@@ -17,6 +17,10 @@ public sealed partial class GameTicker
         if (_roundStartTime == TimeSpan.Zero)
             return TimeSpan.MaxValue;
 
-        return _roundStartTime - RoundPreloadTime - _gameTiming.CurTime;
+        var referenceTime = Paused && _pauseTime != TimeSpan.Zero
+            ? _pauseTime
+            : _gameTiming.CurTime;
+
+        return _roundStartTime - RoundPreloadTime - referenceTime;
     }
 }

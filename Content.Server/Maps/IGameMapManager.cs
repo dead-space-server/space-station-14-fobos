@@ -56,6 +56,11 @@ public interface IGameMapManager
     /// Begins an authoritative auto map vote cycle for the current lobby.
     /// </summary>
     void BeginAutoMapVoteOverride();
+
+    /// <summary>
+    /// Ends the current auto map vote override without clearing the chosen map state.
+    /// </summary>
+    void EndAutoMapVoteOverride();
     // DS14-end
 
     /// <summary>

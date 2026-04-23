@@ -46,30 +46,49 @@ public sealed partial class AutoMapVoteRoundControl : Control
             HintLabel.Text = Loc.GetString("auto-map-vote-round-hint");
             StartVoteButton.Text = Loc.GetString("auto-map-vote-round-start");
             StartVoteButton.ModulateSelfOverride = Color.FromHex("#1f6feb");
+            StartVoteButton.Disabled = true;
             ToggleButton.Text = Loc.GetString("auto-map-vote-round-toggle-loading");
             ToggleButton.ModulateSelfOverride = null;
+            ToggleButton.Disabled = true;
             return;
         }
 
         var enabled = state.Enabled;
-        StateBadge.Text = Loc.GetString(enabled
-            ? "auto-map-vote-round-state-enabled-short"
-            : "auto-map-vote-round-state-disabled-short");
-        StateBadge.ModulateSelfOverride = enabled ? Color.FromHex("#3fb950") : Color.FromHex("#f85149");
+        var blocked = enabled && state.VoteBlocked;
+        StateBadge.Text = Loc.GetString(!enabled
+            ? "auto-map-vote-round-state-disabled-short"
+            : blocked
+                ? "auto-map-vote-round-state-blocked-short"
+                : "auto-map-vote-round-state-enabled-short");
+        StateBadge.ModulateSelfOverride = !enabled
+            ? Color.FromHex("#f85149")
+            : blocked
+                ? Color.FromHex("#f0883e")
+                : Color.FromHex("#3fb950");
 
-        StatusLabel.Text = Loc.GetString(enabled
-            ? "auto-map-vote-round-state-enabled"
-            : "auto-map-vote-round-state-disabled");
-        StatusLabel.ModulateSelfOverride = enabled ? Color.FromHex("#3fb950") : Color.FromHex("#f85149");
+        StatusLabel.Text = Loc.GetString(!enabled
+            ? "auto-map-vote-round-state-disabled"
+            : blocked
+                ? "auto-map-vote-round-state-blocked"
+                : "auto-map-vote-round-state-enabled");
+        StatusLabel.ModulateSelfOverride = !enabled
+            ? Color.FromHex("#f85149")
+            : blocked
+                ? Color.FromHex("#f0883e")
+                : Color.FromHex("#3fb950");
 
         CategoryLabel.Text = GetCategoryName(state.CurrentCategory);
-        HintLabel.Text = Loc.GetString("auto-map-vote-round-hint");
+        HintLabel.Text = Loc.GetString(blocked
+            ? "auto-map-vote-round-hint-blocked"
+            : "auto-map-vote-round-hint");
         StartVoteButton.Text = Loc.GetString("auto-map-vote-round-start");
         StartVoteButton.ModulateSelfOverride = Color.FromHex("#1f6feb");
+        StartVoteButton.Disabled = state.VoteActive || state.VoteBlocked;
         ToggleButton.Text = Loc.GetString(enabled
             ? "auto-map-vote-round-toggle-disable"
             : "auto-map-vote-round-toggle-enable");
         ToggleButton.ModulateSelfOverride = enabled ? Color.FromHex("#f0883e") : Color.FromHex("#2ea043");
+        ToggleButton.Disabled = false;
     }
 
     protected override void Dispose(bool disposing)

@@ -44,6 +44,8 @@ public sealed class AutoMapVoteSystem : EntitySystem
     private TimeSpan? _activeVoteEndTime;
     private string _blacklistMapsCsv = string.Empty;
     private bool _enabled;
+    private bool? _lastReportedVoteActive;
+    private bool? _lastReportedVoteBlocked;
     private int _lastHandledRoundId = -1;
     private int _voteDurationSeconds = 90;
 
@@ -77,12 +79,19 @@ public sealed class AutoMapVoteSystem : EntitySystem
         base.Update(frameTime);
 
         if (_activeVote is not { Finished: false } vote || _activeVoteCategory == null)
+        {
+            UpdateDerivedAdminState();
             return;
+        }
 
         if (_activeVoteEndTime == null || _timing.CurTime < _activeVoteEndTime.Value)
+        {
+            UpdateDerivedAdminState();
             return;
+        }
 
         FinishExpiredVote(vote, _activeVoteCategory.Value);
+        UpdateDerivedAdminState();
     }
 
     public override void Shutdown()
@@ -96,7 +105,7 @@ public sealed class AutoMapVoteSystem : EntitySystem
     public AutoMapVoteAdminState GetAdminState()
     {
         var availableIds = _gameMapManager
-            .AllMaps()
+            .CurrentlyEligibleMaps()
             .Select(map => map.ID)
             .Where(id => !_blacklistedMaps.Contains(id))
             .ToHashSet(StringComparer.Ordinal);
@@ -117,6 +126,8 @@ public sealed class AutoMapVoteSystem : EntitySystem
         return new AutoMapVoteAdminState
         {
             Enabled = _enabled,
+            VoteActive = HasActiveVote(),
+            VoteBlocked = IsVoteBlocked(),
             CurrentPlayerCount = _playerManager.PlayerCount,
             CurrentCategory = ResolveCategory(_playerManager.PlayerCount),
             VoteDurationSeconds = _voteDurationSeconds,
@@ -155,8 +166,12 @@ public sealed class AutoMapVoteSystem : EntitySystem
             return false;
         }
 
+        if (!CanInitiateVote(out error))
+            return false;
+
         _lastHandledRoundId = _gameTicker.RoundId;
         StartAutoMapVoteCycleCore();
+        SendAdminState();
         return true;
     }
 
@@ -200,6 +215,7 @@ public sealed class AutoMapVoteSystem : EntitySystem
             _config.SetCVar(CCVars.VoteAutoMapDuration, voteDurationSeconds.Value);
 
         _config.SaveToFile();
+        SendAdminState();
         return true;
     }
 
@@ -208,7 +224,11 @@ public sealed class AutoMapVoteSystem : EntitySystem
         _enabled = value;
 
         if (!value)
+        {
             CancelActiveVote();
+            _gameMapManager.EndAutoMapVoteOverride();
+            _gameTicker.UpdateInfoText();
+        }
 
         SendAdminState();
     }
@@ -264,7 +284,11 @@ public sealed class AutoMapVoteSystem : EntitySystem
         }
 
         if (args.New != GameRunLevel.PreRoundLobby)
+        {
             CancelActiveVote();
+            _gameMapManager.EndAutoMapVoteOverride();
+            _gameTicker.UpdateInfoText();
+        }
     }
 
     private void StartAutoMapVoteCycle()
@@ -283,6 +307,9 @@ public sealed class AutoMapVoteSystem : EntitySystem
     {
         CancelActiveVote();
 
+        if (IsVoteBlocked())
+            return;
+
         _gameMapManager.BeginAutoMapVoteOverride();
         _gameTicker.UpdateInfoText();
 
@@ -298,8 +325,7 @@ public sealed class AutoMapVoteSystem : EntitySystem
         var voteDuration = GetVoteDuration();
         var forceWithoutVote =
             candidates.Count == 1 ||
-            _playerManager.PlayerCount == 0 ||
-            _gameTicker.TimeUntilMapChangeCloses() <= voteDuration;
+            _playerManager.PlayerCount == 0;
 
         if (forceWithoutVote)
         {
@@ -334,6 +360,7 @@ public sealed class AutoMapVoteSystem : EntitySystem
         _activeVoteEndTime = _timing.CurTime + duration;
         _activeVote.OnFinished += OnAutoVoteFinished;
         _activeVote.OnCancelled += OnAutoVoteCancelled;
+        SendAdminState();
     }
 
     private void OnAutoVoteFinished(IVoteHandle sender, VoteFinishedEventArgs args)
@@ -342,9 +369,8 @@ public sealed class AutoMapVoteSystem : EntitySystem
             return;
 
         var category = _activeVoteCategory.Value;
-        _activeVote = null;
-        _activeVoteCategory = null;
-        _activeVoteEndTime = null;
+        ClearActiveVoteState();
+        SendAdminState();
 
         if (_gameTicker.RunLevel != GameRunLevel.PreRoundLobby || !_gameTicker.CanUpdateMap())
             return;
@@ -362,11 +388,10 @@ public sealed class AutoMapVoteSystem : EntitySystem
         if (sender != _activeVote)
             return;
 
-        _activeVote = null;
-        _activeVoteCategory = null;
-        _activeVoteEndTime = null;
+        ClearActiveVoteState();
+        SendAdminState();
 
-        if (_gameTicker.RunLevel != GameRunLevel.PreRoundLobby)
+        if (_gameTicker.RunLevel != GameRunLevel.PreRoundLobby || !_gameTicker.CanUpdateMap())
             return;
 
         if (_gameMapManager.GetSelectedMap() != null)
@@ -381,10 +406,7 @@ public sealed class AutoMapVoteSystem : EntitySystem
         if (picked == null)
             return;
 
-        _activeVote = null;
-        _activeVoteCategory = null;
-        _activeVoteEndTime = null;
-        vote.Cancel();
+        CancelActiveVote();
 
         if (!_gameTicker.CanUpdateMap())
             return;
@@ -395,6 +417,9 @@ public sealed class AutoMapVoteSystem : EntitySystem
 
     private void ApplyDefaultSelection()
     {
+        if (!_gameTicker.CanUpdateMap())
+            return;
+
         var fallbackPool = _gameMapManager
             .CurrentlyEligibleMaps()
             .Where(map => !_blacklistedMaps.Contains(map.ID))
@@ -419,7 +444,12 @@ public sealed class AutoMapVoteSystem : EntitySystem
         if (!_gameTicker.CanUpdateMap())
             return;
 
-        _gameMapManager.SelectMap(map.ID, MapSelectionContext.AutoMapVote);
+        if (!_gameMapManager.TrySelectMapIfEligible(map.ID, MapSelectionContext.AutoMapVote))
+        {
+            ApplyDefaultSelection();
+            return;
+        }
+
         _playedMaps[category].Add(map.ID);
         _gameTicker.UpdateInfoText();
 
@@ -450,7 +480,7 @@ public sealed class AutoMapVoteSystem : EntitySystem
     private List<GameMapPrototype> BuildConfiguredEligiblePool(AutoMapVoteCategory category)
     {
         var configuredMaps = _gameMapManager
-            .AllMaps()
+            .CurrentlyEligibleMaps()
             .ToDictionary(map => map.ID, map => map, StringComparer.Ordinal);
 
         var result = new List<GameMapPrototype>();
@@ -595,15 +625,67 @@ public sealed class AutoMapVoteSystem : EntitySystem
         return TimeSpan.FromSeconds(_voteDurationSeconds);
     }
 
+    private bool CanInitiateVote([NotNullWhen(false)] out string? error)
+    {
+        error = null;
+
+        if (!_gameTicker.CanUpdateMap())
+        {
+            error = Loc.GetString("auto-map-vote-initiate-error-map-update-closed");
+            return false;
+        }
+
+        if (_gameTicker.TimeUntilMapChangeCloses() <= GetVoteDuration())
+        {
+            error = Loc.GetString("auto-map-vote-initiate-error-blocked");
+            return false;
+        }
+
+        return true;
+    }
+
+    private bool HasActiveVote()
+    {
+        return _activeVote is { Finished: false };
+    }
+
+    private bool IsVoteBlocked()
+    {
+        if (HasActiveVote())
+            return false;
+
+        if (_gameTicker.RunLevel != GameRunLevel.PreRoundLobby)
+            return true;
+
+        if (!_gameTicker.CanUpdateMap())
+            return true;
+
+        return _gameTicker.TimeUntilMapChangeCloses() <= GetVoteDuration();
+    }
+
+    private void UpdateDerivedAdminState()
+    {
+        var voteActive = HasActiveVote();
+        var voteBlocked = IsVoteBlocked();
+
+        if (_lastReportedVoteActive == voteActive && _lastReportedVoteBlocked == voteBlocked)
+            return;
+
+        SendAdminState();
+    }
+
     private void CancelActiveVote()
     {
         if (_activeVote is not { Finished: false } vote)
+        {
+            ClearActiveVoteState();
             return;
+        }
 
-        _activeVote = null;
-        _activeVoteCategory = null;
-        _activeVoteEndTime = null;
+        vote.OnFinished -= OnAutoVoteFinished;
+        vote.OnCancelled -= OnAutoVoteCancelled;
         vote.Cancel();
+        ClearActiveVoteState();
     }
 
     public void OnForcedMapSelected()
@@ -617,8 +699,17 @@ public sealed class AutoMapVoteSystem : EntitySystem
         _gameTicker.UpdateInfoText();
     }
 
+    private void ClearActiveVoteState()
+    {
+        _activeVote = null;
+        _activeVoteCategory = null;
+        _activeVoteEndTime = null;
+    }
+
     private void SendAdminState(ICommonSession? player = null)
     {
+        _lastReportedVoteActive = HasActiveVote();
+        _lastReportedVoteBlocked = IsVoteBlocked();
         var ev = new AutoMapVoteAdminStateChangedEvent(GetAdminState());
 
         if (player != null)

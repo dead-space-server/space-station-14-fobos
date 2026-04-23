@@ -65,6 +65,7 @@ auto-map-vote-config-error-negative-player-count = Пороги игроков �
 auto-map-vote-config-error-invalid-duration = Длительность голосования должна быть больше нуля.
 auto-map-vote-initiate-error-not-lobby = Инициировать автоголосование можно только пока сервер находится в лобби.
 auto-map-vote-initiate-error-already-running = Автоголосование карты уже запущено.
+auto-map-vote-initiate-error-map-update-closed = Инициировать автоголосование уже поздно: окно смены карты в этом лобби закрыто.
 
 toggle-auto-map-vote-command-enabled = Автоголосование карты включено.
 toggle-auto-map-vote-command-disabled = Автоголосование карты выключено.
@@ -84,3 +85,8 @@ cmd-toggleautomapvote-desc = Переключает автоголосовани
 cmd-toggleautomapvote-help = Использование: {$command} [true|false]
 cmd-setautomapvoteconfig-desc = Настраивает пороги игроков и пулы карт для автоголосования.
 cmd-setautomapvoteconfig-help = Использование: {$command} <small max> <medium max> <large max> "<small maps>" "<medium maps>" "<large maps>" ["<blacklist maps>"] [<длительность голосования в секундах>]
+
+auto-map-vote-round-state-blocked-short = ЗАБЛОКИРОВАНО
+auto-map-vote-round-state-blocked = Автоголосование карты заблокировано.
+auto-map-vote-round-hint-blocked = Автоголосование карты сейчас недоступно. Его можно запустить только в прераунд-лобби, пока остаётся достаточно времени, чтобы завершить голосование.
+auto-map-vote-initiate-error-blocked = Инициировать автоголосование уже нельзя: в этом лобби не хватает времени, чтобы завершить голосование.

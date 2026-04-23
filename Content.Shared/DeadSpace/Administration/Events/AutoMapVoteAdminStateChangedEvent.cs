@@ -46,6 +46,8 @@ public sealed class AutoMapVoteBlacklistStatus
 public sealed class AutoMapVoteAdminState
 {
     public bool Enabled;
+    public bool VoteActive;
+    public bool VoteBlocked;
     public int CurrentPlayerCount;
     public AutoMapVoteCategory CurrentCategory;
     public int VoteDurationSeconds;

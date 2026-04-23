@@ -175,6 +175,14 @@ public sealed class GameMapManager : IGameMapManager
         _selectedMap = default!;
     }
 
+    // DS14-start
+    public void EndAutoMapVoteOverride()
+    {
+        _autoMapVoteOverrideActive = false;
+        _suppressConfigSelection = false;
+    }
+    // DS14-end
+
     public bool TrySelectMapIfEligible(string gameMap, MapSelectionContext context = MapSelectionContext.Default) // DS14
     {
         if (!TryLookupMap(gameMap, out var map) || !IsMapEligible(map))

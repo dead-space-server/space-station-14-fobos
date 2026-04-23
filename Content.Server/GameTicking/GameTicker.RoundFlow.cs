@@ -82,7 +82,7 @@ namespace Content.Server.GameTicking
         public bool CanUpdateMap()
         {
             return RunLevel == GameRunLevel.PreRoundLobby &&
-                   _roundStartTime - RoundPreloadTime > _gameTiming.CurTime;
+                   TimeUntilMapChangeCloses() > TimeSpan.Zero; // DS14
         }
 
         /// <summary>

@@ -65,6 +65,7 @@ auto-map-vote-config-error-negative-player-count = Player thresholds cannot be n
 auto-map-vote-config-error-invalid-duration = Vote duration must be greater than zero.
 auto-map-vote-initiate-error-not-lobby = Automatic map vote can only be initiated while the server is in the lobby.
 auto-map-vote-initiate-error-already-running = Automatic map vote is already running.
+auto-map-vote-initiate-error-map-update-closed = Automatic map vote can no longer be initiated because the map-change window for this lobby has already closed.
 
 toggle-auto-map-vote-command-enabled = Automatic map voting is now enabled.
 toggle-auto-map-vote-command-disabled = Automatic map voting is now disabled.
@@ -84,3 +85,8 @@ cmd-toggleautomapvote-desc = Toggles automatic map voting after the round ends.
 cmd-toggleautomapvote-help = Usage: {$command} [true|false]
 cmd-setautomapvoteconfig-desc = Sets automatic map vote player thresholds and configured map pools.
 cmd-setautomapvoteconfig-help = Usage: {$command} <small max> <medium max> <large max> "<small maps>" "<medium maps>" "<large maps>" ["<blacklist maps>"] [<vote duration seconds>]
+
+auto-map-vote-round-state-blocked-short = BLOCKED
+auto-map-vote-round-state-blocked = Automatic map voting is blocked.
+auto-map-vote-round-hint-blocked = Automatic map voting is currently unavailable. It can only be started in the pre-round lobby while enough time remains to complete the vote.
+auto-map-vote-initiate-error-blocked = Automatic map vote can no longer be initiated because there is not enough lobby time left to complete the vote.
