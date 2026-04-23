@@ -19,6 +19,7 @@
   - NodeScanner
   - AnomalyLocator
   - AnomalyLocatorWide
+  - HoloprojectorRND # DS14
   - HoloprojectorField
   - SignallerAdvanced
   - DeviceQuantumSpinInverter
