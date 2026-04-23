@@ -1,0 +1,11 @@
+- type: entity
+  parent: BaseToggleAction
+  id: ActionXenoVent
+  name: Залезть в вентиляцию
+  description: Переключить режим перемещения по вентиляции
+  components:
+  - type: Action
+    useDelay: 5
+    icon:
+      sprite: _DeadSpace/Events/Alien/xeno.rsi
+      state: sleeping

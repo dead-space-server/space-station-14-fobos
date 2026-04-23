@@ -1,0 +1,359 @@
+- type: Tag
+  id: LargeVentCrawler
+
+- type: soundCollection
+  id: EventXenoWalk
+  files:
+    - /Audio/_DeadSpace/Events/Alien/walk.ogg
+    - /Audio/_DeadSpace/Events/Alien/walk2.ogg
+    - /Audio/_DeadSpace/Events/Alien/walk3.ogg
+    - /Audio/_DeadSpace/Events/Alien/walk4.ogg
+    - /Audio/_DeadSpace/Events/Alien/walk5.ogg
+    - /Audio/_DeadSpace/Events/Alien/walk6.ogg
+    - /Audio/_DeadSpace/Events/Alien/walk7.ogg
+    - /Audio/_DeadSpace/Events/Alien/walk8.ogg
+
+- type: soundCollection
+  id: EventXenoRun
+  files:
+    - /Audio/_DeadSpace/Events/Alien/run.ogg
+    - /Audio/_DeadSpace/Events/Alien/run2.ogg
+    - /Audio/_DeadSpace/Events/Alien/run3.ogg
+    - /Audio/_DeadSpace/Events/Alien/run4.ogg
+    - /Audio/_DeadSpace/Events/Alien/run5.ogg
+
+- type: soundCollection
+  id: EventXenoScream
+  files:
+    - /Audio/_DeadSpace/Events/Alien/scream.ogg
+    - /Audio/_DeadSpace/Events/Alien/scream2.ogg
+    - /Audio/_DeadSpace/Events/Alien/scream3.ogg
+    - /Audio/_DeadSpace/Events/Alien/scream4.ogg
+    - /Audio/_DeadSpace/Events/Alien/scream5.ogg
+
+- type: soundCollection
+  id: EventXenoGrowl
+  files:
+    - /Audio/_DeadSpace/Events/Alien/growl.ogg
+    - /Audio/_DeadSpace/Events/Alien/growl2.ogg
+    - /Audio/_DeadSpace/Events/Alien/growl3.ogg
+    - /Audio/_DeadSpace/Events/Alien/growl4.ogg
+
+- type: soundCollection
+  id: EventXenoVent
+  files:
+    - /Audio/_DeadSpace/Events/Alien/vent.ogg
+    - /Audio/_DeadSpace/Events/Alien/vent2.ogg
+    - /Audio/_DeadSpace/Events/Alien/vent3.ogg
+    - /Audio/_DeadSpace/Events/Alien/vent4.ogg
+    - /Audio/_DeadSpace/Events/Alien/vent5.ogg
+    - /Audio/_DeadSpace/Events/Alien/vent6.ogg
+    - /Audio/_DeadSpace/Events/Alien/vent7.ogg
+    - /Audio/_DeadSpace/Events/Alien/vent8.ogg
+
+- type: speechSounds
+  id: EventXenoTalk
+  saySound:
+    collection: EventXenoGrowl
+  askSound:
+    collection: EventXenoGrowl
+  exclaimSound:
+    collection: EventXenoGrowl
+
+- type: damageModifierSet
+  id: MobEventXeno
+  coefficients:
+    Blunt: 0.4
+    Slash: 0.3
+    Piercing: 0.3
+    Shock: 0.2
+    Cold: 0
+    Heat: 0.7
+    Poison: 0
+    Radiation: 0
+
+- type: emoteSounds
+  id: EventXeno
+  sounds:
+    Scream:
+      collection: EventXenoScream
+      params:
+        volume: 2
+    ScreamOnDamage:
+      collection: EventXenoScream
+
+- type: entity
+  name: ксеноморф
+  parent: SimpleSpaceMobBase
+  id: MobEventXeno
+  description: Его структурное совершенство сравнимо только с его враждебностью. Не скрою, шансов у вас нет. Но мои симпатии на вашей стороне.
+  components:
+# Всякое
+  - type: InputMover
+  - type: MobMover
+  - type: HTN
+    rootTask:
+      task: XenoCompound
+    blackboard:
+      NavClimb: !type:Bool
+        true
+      NavInteract: !type:Bool
+        true
+      NavPry: !type:Bool
+        true
+      NavSmash: !type:Bool
+        true
+  - type: NpcFactionMember
+    factions:
+    - Xeno
+  - type: FlashImmunity
+    showInExamine: false
+  - type: TypingIndicator
+    proto: alien
+  - type: Tag
+    tags:
+    - FootstepSound
+    - DoorBumpOpener
+    - LargeVentCrawler
+    - CannotSuicide
+  - type: NoSlip
+  - type: ZombieImmune
+  - type: ImmunitetInfectionDead
+# Взаимодействия
+  - type: CombatMode
+  - type: MeleeWeapon
+    altDisarm: false
+    angle: 0
+    soundHit:
+     collection: AlienClaw
+    animation: WeaponArcBite
+    damage:
+      groups:
+        Brute: 35
+  - type: Insulated
+  - type: Prying
+    pryPowered: true
+    force: true
+    speedModifier: 3
+    useSound:
+      path: /Audio/Items/crowbar.ogg
+  - type: Reactive
+    groups:
+      Flammable: [Touch]
+      Extinguish: [Touch]
+  - type: ComplexInteraction
+  - type: Puller
+  - type: NightVision
+    color: "#8B000011"
+    animation: true
+    transitionSpeed: 100
+  - type: JumpAbility
+    jumpDistance: 4
+    jumpSound:
+      collection: EventXenoScream
+# Спрайты и хитбокс
+  - type: Sprite
+    drawdepth: Mobs
+    sprite: _DeadSpace/Events/Alien/xeno.rsi
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base"]
+      state: running
+      scale: "1.1, 1.1"
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: running
+        BaseUnshaded: glow
+      Critical:
+        Base: crit
+      Dead:
+        Base: dead
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.45
+        density: 400
+        mask:
+        - MobMask
+        layer:
+        - MobLayer
+# ХП и т.п.
+  - type: MobState
+    allowedStates:
+    - Alive
+    - Dead
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      500: Dead
+    stateAlertDict:
+      Alive: XenomorphHealth
+      Dead: XenomorphDead
+  - type: Stamina
+    critThreshold: 350
+  - type: Bloodstream
+    bloodReagent: AcidicBlood # DS14
+    bloodMaxVolume: 650
+  - type: Temperature
+    heatDamageThreshold: 360
+    coldDamageThreshold: -150
+    currentTemperature: 310.15
+  - type: SlowOnDamage
+    speedModifierThresholds:
+      50: 0.8
+  - type: Reflect
+    reflectProb: 0.3
+    spread: 75
+  - type: Damageable
+    damageModifierSet: MobEventXeno
+  - type: Perishable #Ummmm the acid kills a lot of the bacteria or something
+    molsPerSecondPerUnitMass: 0.0005
+  - type: PassiveDamage
+    allowedStates:
+    - Alive
+    - Critical
+    damageCap: 0
+    damage:
+      types:
+        Poison: -1
+      groups:
+        Brute: -1
+        Burn: -1
+# Звуки
+  - type: Vocal
+    sounds:
+      Unsexed: EventXeno
+  - type: Speech
+    speechSounds: EventXenoTalk
+  - type: FootstepModifier
+    footstepSoundCollection:
+      collection: EventXenoWalk
+# Язык
+  - type: Language
+    selectedLanguage: XenomorphLanguage
+    knownLanguages:
+    - XenomorphLanguage
+  - type: MovementSpeedModifier
+    baseWalkSpeed : 4.8
+    baseSprintSpeed : 2.6
+# Действия
+  - type: ActionGrant
+    actions:
+    - ActionXenoVent
+  - type: XenoVentAbility
+
+
+# Грудолом
+- type: entity
+  parent: SimpleSpaceMobBase
+  id: MobEventChestburster
+  name: Грудолом
+  description: Маленькое змееподобное существо. Он точно не способен на что-то ужасное.
+  components:
+  - type: Body
+    prototype: Mouse
+  - type: Speech
+    speechVerb: SmallMob
+    allowedEmotes: ['Squeak']
+  - type: Sprite
+    drawdepth: SmallMobs
+    sprite: _DeadSpace/Events/Alien/lilguy.rsi
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base"]
+      state: running
+      scale: "1.1, 1.1"
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: running
+        BaseUnshaded: glow
+      Critical:
+        Base: crit
+      Dead:
+        Base: dead
+  - type: HTN
+    constantlyReplan: false
+    rootTask:
+      task: MouseCompound
+  - type: NoSlip
+  - type: ZombieImmune
+  - type: ImmunitetInfectionDead
+  - type: NpcFactionMember
+    factions:
+    - Xeno
+  - type: FlashImmunity
+    showInExamine: false
+  - type: MovementSpeedModifier
+    baseWalkSpeed : 2.5
+    baseSprintSpeed : 4.7
+  - type: ReplacementAccent
+    accent: mouse
+  - type: Vocal
+    sounds:
+      Male: Mouse
+      Female: Mouse
+      Unsexed: Mouse
+  - type: CombatMode
+  - type: MeleeWeapon
+    soundHit:
+      path: /Audio/Effects/bite.ogg
+    angle: 0
+    animation: WeaponArcBite
+    damage:
+      types:
+        Piercing: 5
+  - type: Bloodstream
+    bloodReagent: AcidicBlood # DS14
+    bloodMaxVolume: 50
+  - type: FireVisuals
+    sprite: Mobs/Effects/onfire.rsi
+    normalState: Mouse_burning
+  - type: Evolution
+    duration: 300 # Время до получения возможности эволюционировать
+    spawnedEntities: # В кого можно эволюционировать
+      - MobEventXeno
+  - type: ActionGrant
+    actions:
+    - ActionXenoVent
+  - type: XenoVentAbility
+  - type: NightVision
+    color: "#8B000011"
+    animation: true
+    transitionSpeed: 100
+  - type: TypingIndicator
+    proto: alien
+  - type: Language
+    selectedLanguage: XenomorphLanguage
+    knownLanguages:
+    - XenomorphLanguage
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      30: Dead
+    stateAlertDict:
+      Alive: XenomorphHealth
+      Dead: XenomorphDead
+  - type: Temperature
+    heatDamageThreshold: 360
+    coldDamageThreshold: -150
+    currentTemperature: 310.15
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.2
+        density: 100
+        mask:
+        - SmallMobMask
+        layer:
+        - SmallMobLayer
+  - type: Hunger
+    thresholds:
+      Overfed: 50
+      Okay: 35
+      Peckish: 25
+      Starving: 15
+      Dead: 0

@@ -1,0 +1,249 @@
+- type: Tag
+  id: EventXenoWeedTile
+
+- type: Tag
+  id: EventXenoWeedNode
+
+- type: soundCollection
+  id: EventXenoResinBreak
+  files:
+  - /Audio/_DeadSpace/Events/Structures/alien_resin_break1.ogg
+  - /Audio/_DeadSpace/Events/Structures/alien_resin_break2.ogg
+  - /Audio/_DeadSpace/Events/Structures/alien_resin_break3.ogg
+
+- type: damageContainer
+  id: EventStructuralXeno
+  supportedGroups:
+  - Brute
+  supportedTypes:
+  - Heat
+  - Shock
+  - Structural
+
+- type: damageModifierSet
+  id: EventResin
+  coefficients:
+    Heat: 1.5
+
+- type: damageModifierSet
+  id: EventXenoWeed
+  coefficients:
+    Blunt: 0.333
+    Slash: 0.333
+    Piercing: 0.333
+    Heat: 0.333
+    Shock: 0.333
+    Structural: 0.333
+
+- type: entity
+  parent: BaseStructure
+  id: EventBaseXenoStructure
+  abstract: true
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: RadiationBlocker
+    resistance: 3
+  - type: MeleeSound
+    soundGroups:
+      Brute:
+        collection: EventXenoResinBreak
+  - type: Damageable
+    damageContainer: EventStructuralXeno
+    damageModifierSet: EventResin
+
+- type: entity
+  parent: [ BaseWall, EventBaseXenoStructure ]
+  id: EventWallResin
+  name: смоляная стена
+  description: Стена из странной смолы
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Events/Alien/xeno_resin_wall.rsi
+    state: resin
+  - type: WallReplacementMarker
+  - type: Construction
+    graph: Girder
+    node: wall
+  - type: Icon
+    sprite: _DeadSpace/Events/Alien/xeno_resin_wall.rsi
+    state: resin
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 900
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+  - type: IconSmooth
+    key: walls
+    base: resin
+
+
+- type: entity
+  parent: EventBaseXenoStructure
+  id: EventDoorResin
+  name: смоляная дверь
+  description: Дверь из странной смолы
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: InteractionOutline
+  - type: Sprite
+    sprite: _DeadSpace/Events/Alien/xeno_resin_door.rsi
+    layers:
+    - state: resinclosed
+      map: ["enum.DoorVisualLayers.Base"]
+    - state: closed_unlit
+      map: ["enum.DoorVisualLayers.BaseUnlit"]
+    - state: closed_unlit
+      map: ["enum.DoorVisualLayers.BaseBolted"]
+  - type: AnimationPlayer
+  - type: Physics
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.49,-0.49,0.49,0.49" # don't want this colliding with walls or they won't close
+        density: 100
+        mask:
+        - FullTileMask
+        layer:
+        - AirlockLayer
+  - type: Door
+    canPry: false
+    crushDamage:
+      types:
+        Blunt: 15
+    openSpriteState: resinopen
+    closedSpriteState: resinclosed
+    openingSpriteState: resinopening
+    closingSpriteState: resinclosing
+    openSound:
+      path: /Audio/_DeadSpace/Events/Alien/alien_resin_move1.ogg
+    closeSound:
+      path: /Audio/_DeadSpace/Events/Alien/alien_resin_move2.ogg
+  - type: Appearance
+  - type: Airtight
+    fixVacuum: true
+    noAirWhenFullyAirBlocked: false
+  - type: RadiationBlocker
+    resistance: 3
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 600
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+  - type: PlacementReplacement
+    key: walls
+  - type: IconSmooth
+    key: walls
+    mode: NoSprite
+  - type: Occluder
+#  - type: AccessReader
+#    access: [["EventAccessXeno"]]
+
+- type: entity
+  id: EventXenoWeeds
+  name: смола
+  description: странная чёрная смола...
+  placement:
+    mode: SnapgridCenter
+    snap:
+    - Wall
+  components:
+  - type: Clickable
+  - type: Transform
+    anchored: true
+  - type: Physics
+    bodyType: Static
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.45,-0.45,0.45,0.45"
+        layer:
+        - SlipLayer
+        mask:
+        - ItemMask
+        density: 1000
+        hard: false
+  - type: Sprite
+    sprite: _DeadSpace/Events/Alien/xeno_weeds.rsi
+    drawdepth: FloorTiles
+    layers:
+    - state: weed0
+      map: ["random"]
+  - type: IconSmooth
+    key: cm_xeno_weeds
+    base: weed_dir
+    mode: CardinalFlags
+  - type: Damageable
+    damageContainer: EventStructuralXeno
+    damageModifierSet: EventXenoWeed
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 5
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: MeleeSound
+    soundGroups:
+      Brute:
+        collection: EventXenoResinBreak
+  - type: Tag
+    tags:
+    - EventXenoWeedTile
+  - type: Reactive
+    groups:
+      Flammable: [Touch]
+      Extinguish: [Touch]
+    reactions:
+    - reagents: [WeedKiller, PlantBGone]
+      methods: [Touch]
+      effects:
+      - !type:HealthChange
+        scaleByQuantity: true
+        damage:
+          types:
+            Heat: 4
+  - type: SpeedModifierContacts
+    walkSpeedModifier: 0.3
+    sprintSpeedModifier: 0.3
+    ignoreWhitelist:
+      components:
+      - IgnoreKudzu #сделать особый компач
+
+- type: entity
+  parent: EventXenoWeeds
+  id: EventXenoWeedsSource
+  name: смоляной узел
+  description: Странный пульсирующий узел смолы
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Events/Alien/xeno_weeds.rsi
+    drawdepth: FloorTiles
+    layers:
+    - state: weed0
+    - state: constructionnode
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 11
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: Tag
+    tags:
+    - EventXenoWeedNode
