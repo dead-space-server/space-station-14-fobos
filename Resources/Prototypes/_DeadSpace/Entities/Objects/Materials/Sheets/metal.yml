@@ -126,3 +126,113 @@
   - type: Stack
     stackType: Plastitanium
     count: 1
+
+- type: entity
+  parent: SheetOtherBase
+  id: SheetMagmite
+  name: магмитовая сталь
+  description: Лист крайне плотной и сложной в производстве магмитовой стали.
+  suffix: Полный
+  components:
+  - type: Material
+  - type: PhysicalComposition
+    materialComposition:
+      Magmite: 100
+  - type: Stack
+    stackType: Magmite
+    baseLayer: base
+    layerStates:
+    - magmite
+    - magmite_2
+    - magmite_3
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Materials/Sheets/magmite-sheet.rsi
+    state: magmite_3
+    layers:
+    - state: magmite_3
+      map: ["base"]
+  - type: Item
+    sprite: _DeadSpace/Objects/Materials/Sheets/magmite-sheet.rsi
+  - type: Appearance
+  - type: Tag
+    tags:
+    - Sheet
+
+- type: entity
+  parent: SheetMagmite
+  id: SheetMagmite10
+  name: магмитовая сталь
+  suffix: 10
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Materials/Sheets/magmite-sheet.rsi
+    state: magmite
+  - type: Stack
+    count: 10
+
+- type: entity
+  parent: SheetMagmite
+  id: SheetMagmite1
+  name: магмитовая сталь
+  suffix: Один
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Materials/Sheets/magmite-sheet.rsi
+    state: magmite
+  - type: Stack
+    count: 1
+
+- type: entity
+  parent: SheetOtherBase
+  id: SheetBluespaceCrystal
+  name: очищенный блюспейс кристал
+  description: Бесконечный на первый взгляд кристал.
+  suffix: Полный
+  components:
+  - type: Material
+  - type: PhysicalComposition
+    materialComposition:
+      BluespaceCrystal: 100
+  - type: Stack
+    stackType: ClearBluspaceCrystal
+    baseLayer: base
+    layerStates:
+    - synthetic_bluespace_crystal
+    - synthetic_bluespace_crystal_2
+    - synthetic_bluespace_crystal_3
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Materials/Sheets/bluespace-crystal-sheet.rsi
+    state: synthetic_bluespace_crystal_3
+    layers:
+    - state: synthetic_bluespace_crystal_3
+      map: ["base"]
+  - type: Item
+    sprite: _DeadSpace/Objects/Materials/Sheets/bluespace-crystal-sheet.rsi
+  - type: Appearance
+  - type: Tag
+    tags:
+    - Sheet
+
+- type: entity
+  parent: SheetBluespaceCrystal
+  id: SheetBluespaceCrystal10
+  name: очищенный блюспейс кристал
+  suffix: 10
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Materials/Sheets/bluespace-crystal-sheet.rsi
+    state: synthetic_bluespace_crystal
+  - type: Stack
+    count: 10
+
+- type: entity
+  parent: SheetBluespaceCrystal
+  id: SheetBluespaceCrystal1
+  name: очищенный блюспейс кристал
+  suffix: Один
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Materials/Sheets/bluespace-crystal-sheet.rsi
+    state: synthetic_bluespace_crystal
+  - type: Stack
+    count: 1

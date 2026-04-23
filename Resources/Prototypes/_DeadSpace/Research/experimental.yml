@@ -1,6 +1,18 @@
 # Tier 1
 
 - type: technology
+  id: MediumCore
+  name: research-technology-rig-mid-core
+  icon:
+    sprite: _DeadSpace/RIGs/Parts/core.rsi
+    state: medium
+  discipline: Experimental
+  tier: 1
+  cost: 10000
+  recipeUnlocks:
+    - MediumCoreForModifiedBackpack
+
+- type: technology
   id: LawBoardConfiguratorTech
   name: research-technology-law-board-configuration
   icon:
@@ -12,6 +24,40 @@
   recipeUnlocks:
   - LawBoardConfiguratorComputerCircuitboard
   - EmptyLawCircuitBoard
+  
+# Tier 2
+
+- type: technology
+  id: RIGResearch
+  name: research-technology-rig-research
+  icon:
+    sprite: _DeadSpace/RIGs/Research/backpack.rsi
+    state: icon
+  discipline: Experimental
+  tier: 2
+  cost: 15000
+  recipeUnlocks:
+    - BlueprintRIGResearchInfinite
+    - BlueprintRIGResearchThreeUse
+    - BlueprintRIGResearchOneUse
+    - ClothingHeadHelmetRIGResearch
+    - PlastineOfResearchRIG
+    - RadiationResistanceModuleResearch
+    - SpeedModifierModuleItemResearch
+    - ExplosionResistanceModuleResearch
+
+- type: technology
+  id: AdvancedCore
+  name: research-technology-rig-adv-core
+  icon:
+    sprite: _DeadSpace/RIGs/Parts/core.rsi
+    state: adv
+  discipline: Experimental
+  tier: 2
+  cost: 10000
+  recipeUnlocks:
+    - AdvancedCoreForModifiedBackpack
+
 
 # Tier 3
 

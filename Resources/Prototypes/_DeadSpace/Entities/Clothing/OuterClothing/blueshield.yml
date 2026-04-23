@@ -8,6 +8,7 @@
     sprite: _DeadSpace/Clothing/OuterClothing/Hardsuits/blueshield.rsi
   - type: Clothing
     sprite: _DeadSpace/Clothing/OuterClothing/Hardsuits/blueshield.rsi
+    equipSound: /Audio/_DeadSpace/Misc/rig_equip.ogg
   - type: PressureProtection
     highPressureMultiplier: 0.45
     lowPressureMultiplier: 1000

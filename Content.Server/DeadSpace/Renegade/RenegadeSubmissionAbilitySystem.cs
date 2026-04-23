@@ -123,12 +123,6 @@ public sealed class RenegadeSubmissionAbilitySystem : EntitySystem
                 _popup.PopupEntity(Loc.GetString("Вы достигли лимита рабов, командование не в счёт!"), uid, uid);
                 return false;
             }
-            Console.WriteLine(HasComp<MindShieldComponent>(target));
-            if(HasComp<MindShieldComponent>(target))
-            {
-                _popup.PopupEntity(Loc.GetString("Вы должны сэкономить силы ради вашей миссии..."), uid, uid);
-                return false;
-            }
         }
 
         if (_mobState.IsDead(target))

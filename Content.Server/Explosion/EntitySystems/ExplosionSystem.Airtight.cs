@@ -84,6 +84,7 @@ public sealed partial class ExplosionSystem
         // Calculate tile new airtight state.
 
         var tolerance = new FixedPoint2[_explosionTypes.Count];
+        var entityTolerance = new FixedPoint2[_explosionTypes.Count]; // DS14
         var blockedDirections = AtmosDirection.Invalid;
 
         var anchoredEnumerator = _map.GetAnchoredEntitiesEnumerator(gridId, grid, tile);
@@ -94,7 +95,15 @@ public sealed partial class ExplosionSystem
                 continue;
 
             blockedDirections |= airtight.AirBlockedDirection;
-            GetExplosionTolerance(uid.Value, tolerance);
+            // DS14-start
+            entityTolerance.AsSpan().Clear();
+            GetExplosionTolerance(uid.Value, entityTolerance);
+
+            for (var i = 0; i < tolerance.Length; i++)
+            {
+                tolerance[i] = FixedPoint2.Max(tolerance[i], entityTolerance[i]);
+            }
+            // DS14-end
         }
 
         // Log.Info($"UPDATE {gridId}/{tile}: {blockedDirections}");
