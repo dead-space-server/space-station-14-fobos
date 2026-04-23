@@ -1,6 +1,9 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using Content.Server.Chat.Systems;
+using Content.Shared.Chat;
+
+#pragma warning disable RA0026
 
 namespace Content.Server.Corvax.TTS;
 
@@ -107,7 +110,6 @@ public sealed partial class TTSSystem
             {"лкп", "Эл Ка Пэ"},
             {"см", "Эс Эм"},
             {"ека", "Йе Ка"},
-            {"ка", "Кэ А"},
             {"бса", "Бэ Эс Аа"},
             {"тк", "Тэ Ка"},
             {"бфл", "Бэ Эф Эл"},
@@ -152,8 +154,9 @@ public sealed partial class TTSSystem
             {"мк", "Эм Ка"},
             {"mk", "Эм Ка"},
             {"рпг", "Эр Пэ Гэ"},
-            {"с4", "Си 4"}, // cyrillic
-            {"c4", "Си 4"}, // latinic
+            {"с4", "сичетыре"}, // cyrillic
+            {"c4", "сичетыре"}, // latinic
+            {"си4", "сичетыре"},
             {"бсс", "Бэ Эс Эс"},
             {"сии", "Эс И И"},
             {"ии", "И И"},

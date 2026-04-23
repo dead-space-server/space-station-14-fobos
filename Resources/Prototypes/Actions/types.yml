@@ -177,11 +177,13 @@
   name: Activate EMP
   description: Triggers a small EMP pulse around you
   components:
-  - type: LimitedCharges
-    maxCharges: 3
+# DS14-start
+#  - type: LimitedCharges
+#    maxCharges: 3
+# DS14-end
   - type: Action
     checkCanInteract: false
-    useDelay: 5
+    useDelay: 10 #DS14-value
     itemIconStyle: BigAction
     priority: -20
     icon:
@@ -194,11 +196,13 @@
   name: SCRAM!
   description: Randomly teleports you within a large distance.
   components:
-  - type: LimitedCharges
-    maxCharges: 2
+# DS14-start
+#  - type: LimitedCharges
+#    maxCharges: 2
+# DS14-end
   - type: Action
     checkCanInteract: false
-    useDelay: 5
+    useDelay: 14 #DS14-value
     itemIconStyle: BigAction
     priority: -20
     icon:
@@ -265,6 +269,17 @@
     icon: { sprite: Interface/Actions/voice-mask.rsi, state: icon }
   - type: InstantAction
     event: !type:VoiceMaskSetNameEvent
+
+- type: entity
+  parent: BaseAction
+  id: ActionShootWater
+  name: Spray water!
+  description: Spray water towards your enemies.
+  components:
+  - type: Action
+    icon: { sprite: Clothing/Neck/Misc/pins.rsi, state: flower }
+  - type: InstantAction
+    event: !type:SprayLiquidEvent
 
 - type: entity
   parent: BaseAction
@@ -417,16 +432,15 @@
     useDelay: 1
     itemIconStyle: BigAction
 
-#  TODO: Add back once we have animated tails again. Were removed due to the sprite rework, causing all of them to not fit anymore.
-# - type: entity
-#   parent: ActionToggleWagging
-#   id: ActionToggleWaggingVulpkanin
-#   components:
-#   - type: Action
-#     icon: { sprite: Mobs/Customization/Vulpkanin/tail_markings.rsi, state: tail-wag-icon }
-#     iconOn: { sprite: Mobs/Customization/Vulpkanin/tail_markings.rsi, state: tail-wag-icon }
-#     itemIconStyle: NoItem
-#     useDelay: 1 # Prevents Emote Spam
+- type: entity
+  parent: ActionToggleWagging
+  id: ActionToggleWaggingVulpkanin
+  components:
+  - type: Action
+    icon: { sprite: Mobs/Customization/Vulpkanin/tail_markings.rsi, state: tail-wag-icon }
+    iconOn: { sprite: Mobs/Customization/Vulpkanin/tail_markings.rsi, state: tail-wag-icon }
+    itemIconStyle: NoItem
+    useDelay: 1 # Prevents Emote Spam
 
 - type: entity
   parent: BaseAction
@@ -490,3 +504,11 @@
     icon: Interface/Actions/shop.png
   - type: InstantAction
     event: !type:IntrinsicStoreActionEvent
+
+- type: entity
+  parent: ActionChangeVoiceMask
+  id: ActionChangeVoiceMaskImplant
+  components:
+  - type: Action
+    icon: { sprite: Interface/Actions/voice-mask.rsi, state: icon }
+    itemIconStyle: BigAction

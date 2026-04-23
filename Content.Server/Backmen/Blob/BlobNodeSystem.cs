@@ -20,7 +20,6 @@ public sealed class BlobNodeSystem : EntitySystem
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly MapSystem _map = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly BlobCoreSystem _blobCoreSystem = default!;
     [Dependency] private readonly MobStateSystem _mob = default!;
 
     private EntityQuery<BlobTileComponent> _tileQuery;

@@ -95,6 +95,20 @@
       count: 60 # you don't really hit it on purpose so it should be common
       minGroupSize: 1
       maxGroupSize: 1
+#DS14-start
+    - !type:OreDunGen
+      replacement: IronRock
+      entity: IronRockMagmite
+      count: 25
+      minGroupSize: 2
+      maxGroupSize: 3
+    - !type:OreDunGen
+      replacement: IronRock
+      entity: IronRockBluespaceCrystal
+      count: 20
+      minGroupSize: 1
+      maxGroupSize: 2
+#DS14-end
 
 # Configs
 - type: dungeonConfig
@@ -155,21 +169,25 @@
   - !type:EntityTableDunGen
     minCount: 25
     maxCount: 40
+    perDungeon: true #DS14
     table: !type:NestedSelector
       tableId: SalvageScrapSpawnerCommon
   - !type:EntityTableDunGen
     minCount: 30
     maxCount: 40
+    perDungeon: true #DS14
     table: !type:NestedSelector
       tableId: SalvageScrapSpawnerValuable
   - !type:EntityTableDunGen
     minCount: 30
     maxCount: 45
+    perDungeon: true #DS14
     table: !type:NestedSelector
       tableId: SalvageTreasureSpawnerCommon
   - !type:EntityTableDunGen
     minCount: 30
     maxCount: 45
+    perDungeon: true #DS14
     table: !type:NestedSelector
       tableId: SalvageTreasureSpawnerValuable
   - !type:MobsDunGen

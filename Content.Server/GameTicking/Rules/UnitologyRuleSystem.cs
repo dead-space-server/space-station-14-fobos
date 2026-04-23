@@ -20,6 +20,7 @@ using Content.Server.Chat.Systems;
 using Content.Shared.DeadSpace.Necromorphs.Unitology.Components;
 using Content.Shared.Objectives.Systems;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Content.Shared.Speech.Components;
 using Robust.Shared.Audio.Systems;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
@@ -39,6 +40,7 @@ using Content.Server.DeadSpace.ERT;
 using Content.Server.AlertLevel;
 using Content.Shared.DeadSpace.ERT.Prototypes;
 using Content.Server.Database;
+using Content.Shared.Damage.Components;
 
 namespace Content.Server.GameTicking.Rules;
 
@@ -66,7 +68,7 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly CargoSystem _cargoSystem = default!;
     [Dependency] private readonly AlertLevelSystem _alertLevel = default!;
-    [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
+    [Dependency] private readonly ErtResponseSystem _ertResponseSystem = default!;
     private static readonly EntProtoId UnitologyRule = "Unitology";
     public static readonly ProtoId<AntagPrototype> UnitologyAntagRole = "UniHead";
     private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "CburnSierra";
@@ -134,7 +136,7 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
             if (!TryComp<StationBankAccountComponent>(station, out var stationAccount))
                 return;
 
-            var addMoneyAfterWarDeclared = _ertResponceSystem.GetErtPrice(ErtTeam) + AdditionalSupport;
+            var addMoneyAfterWarDeclared = _ertResponseSystem.GetErtPrice(ErtTeam) + AdditionalSupport;
 
             _cargoSystem.UpdateBankAccount(
                                 (station.Value, stationAccount),
@@ -387,7 +389,7 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
         if (!TryComp<DamageableComponent>(target, out var damageable))
             return;
 
-        _damageable.TryChangeDamage(target, component.Damage, false, false, damageable);
+        _damageable.TryChangeDamage(target, component.Damage, false, false);
         _stun.TryUpdateParalyzeDuration(target, TimeSpan.FromSeconds(2f));
 
         if (TryComp<VocalComponent>(target, out var vocal))
@@ -500,7 +502,7 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
 
                 var printout = new FaxPrintout(
                     content,
-                    Loc.GetString("nuke-codes-fax-paper-name"),
+                    Loc.GetString("paper-order-necromorph"),
                     null,
                     null,
                     "paper_stamp-centcom",

@@ -15,7 +15,7 @@
   - type: Item
     size: Small
   - type: Gun
-    fireRate: 0.5
+    fireRate: 1
     availableModes:
     - SemiAuto
     soundGunshot:
@@ -62,9 +62,9 @@
   - type: Item
     size: Huge
     shape:
-    - 0,0,3,1
+    - 0,0,2,1
   - type: Gun
-    fireRate: 0.5
+    fireRate: 2
     availableModes:
     - SemiAuto
     soundGunshot:
@@ -77,7 +77,7 @@
       path: /Audio/Magic/forcewall.ogg
       params:
         volume: -50
-    rechargeCooldown: 3
+    rechargeCooldown: 2.5
   - type: BasicEntityAmmoProvider
     proto: BulletEnergyCrossbowLarge
     capacity: 1

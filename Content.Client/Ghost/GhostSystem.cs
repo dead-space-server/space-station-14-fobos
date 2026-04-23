@@ -138,13 +138,13 @@ namespace Content.Client.Ghost
             if (uid != _playerManager.LocalEntity)
                 return;
 
-            GhostVisibility = false;
+            ResetGhostVisibility(); //DS14
             PlayerRemoved?.Invoke(component);
         }
 
         private void OnGhostPlayerAttach(EntityUid uid, GhostComponent component, LocalPlayerAttachedEvent localPlayerAttachedEvent)
         {
-            GhostVisibility = true;
+            ResetGhostVisibility(); //DS14
             PlayerAttached?.Invoke(component);
         }
 
@@ -161,9 +161,16 @@ namespace Content.Client.Ghost
 
         private void OnGhostPlayerDetach(EntityUid uid, GhostComponent component, LocalPlayerDetachedEvent args)
         {
-            GhostVisibility = false;
+            ResetGhostVisibility(); //DS14
             PlayerDetached?.Invoke();
         }
+
+        // DS14-start
+        private void ResetGhostVisibility()
+        {
+            GhostVisibility = true;
+        }
+        // DS14-end
 
         private void OnGhostWarpsResponse(GhostWarpsResponseEvent msg)
         {

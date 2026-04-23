@@ -8,8 +8,8 @@ namespace Content.Shared.DeadSpace.AntiAlcohol;
 ///     Простая метка для метаболизма спирта: когда эффект срабатывает,
 ///     серверный антиалкогольный имплант получает событие с <see cref="EntityEffectReagentArgs"/>
 /// </summary>
-public sealed partial class AntiAlcoholImplantEffect : EventEntityEffect<AntiAlcoholImplantEffect>
+public sealed partial class AntiAlcoholImplantEffect : EntityEffectBase<AntiAlcoholImplantEffect>
 {
-    protected override string? ReagentEffectGuidebookText(IPrototypeManager prototype, IEntitySystemManager entSys)
+    public override string? EntityEffectGuidebookText(IPrototypeManager prototype, IEntitySystemManager entSys)
         => null;
 }

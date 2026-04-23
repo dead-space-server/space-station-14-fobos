@@ -1,39 +1,46 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
-using Content.Shared.Actions;
-using Content.Shared.DeadSpace.Demons.DemonShadow.Components;
-using Content.Shared.DeadSpace.Demons.DemonShadow;
-using Content.Shared.Physics;
-using Robust.Shared.Audio.Systems;
-using Robust.Shared.Timing;
-using Robust.Shared.Audio;
-using Content.Shared.Mobs.Components;
-using Content.Server.Beam;
-using Robust.Server.GameObjects;
-using Content.Server.GameTicking;
-using Robust.Shared.Physics.Systems;
-using Content.Shared.Movement.Systems;
-using Robust.Shared.Physics;
 using System.Linq;
-using Content.Shared.Eye;
-using Content.Shared.Stunnable;
-using Content.Shared.Weapons.Melee.Events;
-using Content.Shared.Examine;
-using Robust.Shared.Map;
-using Content.Shared.Damage;
-using Content.Shared.Mobs.Systems;
-using Content.Shared.Maps;
-using Content.Shared.Popups;
-using Content.Shared.NPC.Systems;
-using Content.Shared.NPC.Components;
-using Content.Shared.NPC.Prototypes;
-using Robust.Shared.Prototypes;
-using Content.Shared.DeadSpace.Abilities.Cocoon;
-using Content.Shared.Interaction;
+using Content.Server.Beam;
+using Content.Server.GameTicking;
+using Content.Server.StationEvents.Events;
 using Content.Server.DeadSpace.Abilities.Cocoon;
 using Content.Server.DeadSpace.Demons.DemonShadow.Components;
-using Content.Server.StationEvents.Events;
+using Content.Shared.Actions;
+using Content.Shared.Damage;
+using Content.Shared.DeadSpace.Abilities.Cocoon;
+using Content.Shared.DeadSpace.Demons.DemonShadow;
+using Content.Shared.DeadSpace.Demons.DemonShadow.Components;
+using Content.Shared.Examine;
+using Content.Shared.Eye;
 using Content.Shared.Ghost;
+using Content.Shared.Interaction;
+using Content.Shared.Maps;
+using Content.Shared.Mobs.Components;
+using Content.Shared.Mobs.Systems;
+using Content.Shared.Movement.Systems;
+using Content.Shared.NPC.Components;
+using Content.Shared.NPC.Prototypes;
+using Content.Shared.NPC.Systems;
+using Content.Shared.Physics;
+using Content.Shared.Popups;
+using Content.Shared.Storage.Components;
+using Content.Shared.Stunnable;
+using Content.Shared.Weapons.Melee.Events;
+using Robust.Server.GameObjects;
+using Robust.Shared.Audio;
+using Robust.Shared.Audio.Systems;
+using Robust.Shared.Containers;
+using Robust.Shared.Map;
+using Robust.Shared.Physics;
+using Robust.Shared.Physics.Systems;
+using Robust.Shared.Prototypes;
+using Robust.Shared.Timing;
+using Content.Server.PDA;
+using Content.Shared.PDA;
+using Content.Shared.Gibbing;
+using Content.Shared.Damage.Systems;
+using Content.Shared.Damage.Components;
 
 namespace Content.Server.DeadSpace.Demons.DemonShadow;
 
@@ -57,6 +64,7 @@ public sealed class DemonShadowSystem : SharedDemonShadowSystem
     [Dependency] private readonly SharedInteractionSystem _interaction = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly TurfSystem _turf = default!;
+    [Dependency] private readonly SharedContainerSystem _containerSystem = default!;
 
     public override void Initialize()
     {
@@ -68,6 +76,7 @@ public sealed class DemonShadowSystem : SharedDemonShadowSystem
         SubscribeLocalEvent<DemonShadowComponent, ComponentInit>(OnComponentInit);
         SubscribeLocalEvent<DemonShadowComponent, ComponentShutdown>(OnComponentShutdown);
         SubscribeLocalEvent<DemonShadowComponent, MeleeHitEvent>(OnMeleeHit);
+        SubscribeLocalEvent<DemonShadowComponent, EntGotInsertedIntoContainerMessage>(OnInserted);
         SubscribeLocalEvent<DemonShadowComponent, LockCocoonEvent>(OnLockCocoon, before: new[] { typeof(LockCocoonSystem) });
 
         SubscribeLocalEvent<RoundEndTextAppendEvent>(_ => MakeVisible(true));
@@ -121,7 +130,7 @@ public sealed class DemonShadowSystem : SharedDemonShadowSystem
             ? component.PassiveHealingMultiplier
             : 1f;
 
-        _damageable.TryChangeDamage(uid, component.PassiveHealing * multiplier, true, false, damageableComponent);
+        _damageable.TryChangeDamage(uid, component.PassiveHealing * multiplier, true, false);
     }
 
     public void ShadowCheck(EntityUid uid, DemonShadowComponent component)
@@ -241,6 +250,27 @@ public sealed class DemonShadowSystem : SharedDemonShadowSystem
         }
     }
 
+    /// <summary>
+    /// Данный метод удаляет сущность из контейнера, в который ее вставили.
+    /// Необходимо для удаления возможности перемещать теневые коконы в ящиках/шкафах.
+    /// </summary>
+    private void OnInserted(EntityUid uid, DemonShadowComponent component, EntGotInsertedIntoContainerMessage args)
+    {
+        if (!HasComp<EntityStorageComponent>(args.Container.Owner))
+            return;
+
+        // Откладываем удаление на следующий тик! Иначе может возникнуть проблема с флагами системы контейнеров
+        Timer.Spawn(0, () =>
+        {
+            _popup.PopupEntity(
+                "Стены хранилища не могут удержать эту материю",
+                args.Container.Owner,
+                PopupType.MediumCaution
+            );
+            _containerSystem.Remove(uid, args.Container);
+        });
+    }
+
     private void ToggleFixtures(EntityUid uid, bool isHasFixture)
     {
         if (!isHasFixture)
@@ -273,11 +303,11 @@ public sealed class DemonShadowSystem : SharedDemonShadowSystem
         if (visible)
         {
             _visibility.AddLayer((uid, visibleComponent), (int) VisibilityFlags.Normal, false);
-            _visibility.RemoveLayer((uid, visibleComponent), (int) VisibilityFlags.Ghost, false);
+            _visibility.RemoveLayer((uid, visibleComponent), (int) VisibilityFlags.Astral, false);
         }
         else
         {
-            _visibility.AddLayer((uid, visibleComponent), (int) VisibilityFlags.Ghost, false);
+            _visibility.AddLayer((uid, visibleComponent), (int) VisibilityFlags.Astral, false);
             _visibility.RemoveLayer((uid, visibleComponent), (int) VisibilityFlags.Normal, false);
         }
 
@@ -378,6 +408,9 @@ public sealed class DemonShadowSystem : SharedDemonShadowSystem
             if (HasComp<GhostComponent>(ent))
                 continue;
 
+            if (HasComp<PdaComponent>(ent))
+                continue;
+
             if (TryComp<VisibilityComponent>(ent, out var layer) && layer.Layer != (int)VisibilityFlags.Normal)
                 continue;
 
@@ -398,11 +431,11 @@ public sealed class DemonShadowSystem : SharedDemonShadowSystem
             if (visible)
             {
                 _visibility.AddLayer((uid, vis), (int)VisibilityFlags.Normal, false);
-                _visibility.RemoveLayer((uid, vis), (int)VisibilityFlags.Ghost, false);
+                _visibility.RemoveLayer((uid, vis), (int)VisibilityFlags.Astral, false);
             }
             else
             {
-                _visibility.AddLayer((uid, vis), (int)VisibilityFlags.Ghost, false);
+                _visibility.AddLayer((uid, vis), (int)VisibilityFlags.Astral, false);
                 _visibility.RemoveLayer((uid, vis), (int)VisibilityFlags.Normal, false);
             }
 

@@ -21,6 +21,8 @@
   suffix: Теневой демон
   description: Жуткий демон.
   components:
+  - type: StaminaResistance
+    damageCoefficient: 0.2
   - type: MovementSpeedModifier
     baseWalkSpeed: 4
     baseSprintSpeed: 4
@@ -57,9 +59,9 @@
   - type: Eye
     visMask:
       - Normal
-      - Ghost
+      - Astral
   - type: Visibility
-    layer: 2
+    layer: 16
   - type: ContentEye
     maxZoom: 1.2, 1.2
   - type: Speech

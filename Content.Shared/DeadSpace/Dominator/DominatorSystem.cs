@@ -6,6 +6,7 @@ using Content.Shared.Interaction;
 using Content.Shared.Popups;
 using Content.Shared.Verbs;
 using Content.Shared.Weapons.Ranged.Components;
+using Content.Shared.Weapons.Ranged.Systems;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Audio.Systems;
 using Content.Shared.Timing;
@@ -31,6 +32,7 @@ public sealed class DominatorSystem : EntitySystem
     [Dependency] private readonly AccessReaderSystem _access = default!;
     [Dependency] private readonly SharedIdCardSystem _idCard = default!;
     [Dependency] private readonly SharedItemSystem _item = default!;
+    [Dependency] private readonly SharedGunSystem _gun = default!;
 
     public override void Initialize()
     {
@@ -141,13 +143,15 @@ public sealed class DominatorSystem : EntitySystem
         component.CurrentFireMode = index;
         Dirty(uid, component);
 
-        if (TryComp(uid, out ProjectileBatteryAmmoProviderComponent? projectileBatteryAmmoProvider))
+        if (TryComp(uid, out BatteryAmmoProviderComponent? projectileBatteryAmmoProvider))
         {
             if (!_prototypeManager.TryIndex<EntityPrototype>(fireMode.Prototype, out var prototype))
                 return;
 
             projectileBatteryAmmoProvider.Prototype = fireMode.Prototype;
             projectileBatteryAmmoProvider.FireCost = fireMode.FireCost;
+            Dirty(uid, projectileBatteryAmmoProvider);
+            _gun.UpdateShots((uid, projectileBatteryAmmoProvider));
 
             if (user != null)
             {
@@ -257,7 +261,7 @@ public sealed class DominatorSystem : EntitySystem
         if (TryComp<UseDelayComponent>(uid, out var useDelay) && _useDelay.IsDelayed((uid, useDelay)))
             return;
 
-        if (TryComp(uid, out ProjectileBatteryAmmoProviderComponent? projectileBatteryAmmoProvider) && projectileBatteryAmmoProvider.Shots == 0)
+        if (TryComp(uid, out BatteryAmmoProviderComponent? projectileBatteryAmmoProvider) && projectileBatteryAmmoProvider.Shots == 0)
         {
             _audio.PlayPredicted(component.LowBatterySound, uid, args.User, AudioParams.Default.WithVolume(-4f));
             if (useDelay != null)

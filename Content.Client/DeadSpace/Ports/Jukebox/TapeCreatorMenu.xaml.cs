@@ -10,6 +10,8 @@ using Robust.Shared.Configuration;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 
+#pragma warning disable RA0026
+
 namespace Content.Client.DeadSpace.Ports.Jukebox;
 
 [GenerateTypedNameReferences]
@@ -21,7 +23,6 @@ public sealed partial class TapeCreatorMenu : DefaultWindow
     private readonly CheZaHuetaSystem _huetaSystem = default!;
     private readonly SharedPopupSystem _popupSystem = default!;
 
-    private bool _fileDialogOpened;
     private double _maxFileSize;
     private double _currentFileSize;
     private readonly List<byte> _songBytes = new();

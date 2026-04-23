@@ -1,0 +1,30 @@
+- type: entity
+  parent: [BaseItem]
+  id: LawConfigurator
+  name: Конфигуратор законов
+  description: Устройство позволяющее менять законы синтетикам, снизу устройства виднеется разьëм под платы законов, на задней панели имеется надпись - убедительная просьба не вставлять свод законов "антимов".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Devices/law_configurator.rsi
+    state: icon
+  - type: Item
+    sprite: _DeadSpace/Objects/Devices/law_configurator.rsi
+  - type: ItemSlots
+    slots:
+      circuit_holder:
+        name: circuit-holder
+        insertSuccessPopup: law-configurator-update-laws
+        whitelistFailPopup: law-configurator-requires-board
+        whitelist:
+          requireAll: true
+          components:
+          - SiliconLawProvider
+          - Item
+  - type: ContainerContainer
+    containers:
+      circuit_holder: !type:ContainerSlot
+      board: !type:Container
+  - type: LawConfigurator
+    doAfter: 10.0
+    emptyState: icon
+    filledState: icon-filled

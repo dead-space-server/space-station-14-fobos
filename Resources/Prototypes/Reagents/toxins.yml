@@ -58,8 +58,6 @@
   physicalDesc: reagent-physical-desc-nondescript
   allowedDepartments:
   - Medical
-  allowedJobs:
-  - Zookeeper
   metabolisms:
     Poison:
       effects:
@@ -67,22 +65,22 @@
         emote: Yawn
         showInChat: true
         probability: 0.1
-      - !type:MovespeedModifier
+      - !type:MovementSpeedModifier
         walkSpeedModifier: 0.65
         sprintSpeedModifier: 0.65
       - !type:ModifyStatusEffect
         effectProto: StatusEffectDrowsiness
         time: 4
-        type: Add
-# DS-14-start
+        type: Update
+        # DS14-start
         conditions:
-        - !type:OrganType
-          type: SuperSoldier
-          shouldHave: false
-# DS-14-end
+        - !type:MetabolizerTypeCondition
+          type: [ SuperSoldier ]
+          inverted: true
+        # DS14-end
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
           reagent: ChloralHydrate
           min: 20
         damage:
@@ -104,9 +102,10 @@
           damage:
             types:
               Poison: 2
-        - !type:ChemVomit
+        - !type:Vomit
           conditions:
-          - !type:ReagentThreshold
+          - !type:ReagentCondition
+            reagent: GastroToxin
             min: 2
           probability: 0.2
 
@@ -150,7 +149,6 @@
       methods: [ Touch ]
       effects:
       - !type:HealthChange
-        scaleByQuantity: true
         ignoreResistances: false
         damage:
           types:
@@ -168,9 +166,9 @@
             Caustic: 11.0
 # DS14-start
         conditions:
-        - !type:OrganType
-          type: Xenomorph
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Xenomorph ]
+          inverted: true
 # DS14-end
       - !type:PopupMessage
         type: Local
@@ -179,25 +177,25 @@
         probability: 0.33
 # DS14-start
         conditions:
-        - !type:OrganType
-          type: Xenomorph
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Xenomorph ]
+          inverted: true
 # DS14-end
       - !type:Emote
         emote: Scream
         probability: 0.3
 # DS14-start
         conditions:
-        - !type:OrganType
-          type: Xenomorph
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Xenomorph ]
+          inverted: true
     Drink:
       effects:
       - !type:ModifyBloodLevel
         amount: 7
         conditions:
-        - !type:OrganType
-          type: Xenomorph
+        - !type:MetabolizerTypeCondition
+          type: [ Xenomorph ]
 # DS14-end
 
 - type: reagent
@@ -214,7 +212,6 @@
       - !type:SatiateThirst
         factor: -1.5
       - !type:HealthChange
-        scaleByQuantity: true
         ignoreResistances: true
         damage:
           types:
@@ -222,14 +219,14 @@
             Caustic: 1
 # DS14-start
         conditions:
-        - !type:OrganType
-          type: Xenomorph
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Xenomorph ]
+          inverted: true
       - !type:ModifyBloodLevel
         amount: 3
         conditions:
-        - !type:OrganType
-          type: Xenomorph
+        - !type:MetabolizerTypeCondition
+          type: [ Xenomorph ]
 # DS14-end
 
 - type: reagent
@@ -248,7 +245,6 @@
       methods: [ Touch ]
       effects:
       - !type:HealthChange
-        scaleByQuantity: true
         ignoreResistances: false
         damage:
           types:
@@ -266,9 +262,9 @@
             Caustic: 8
 # DS14-start
         conditions:
-        - !type:OrganType
-          type: Xenomorph
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Xenomorph ]
+          inverted: true
 # DS14-end
       - !type:PopupMessage
         type: Local
@@ -277,25 +273,25 @@
         probability: 0.33
 # DS14-start
         conditions:
-        - !type:OrganType
-          type: Xenomorph
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Xenomorph ]
+          inverted: true
 # DS14-end
       - !type:Emote
         emote: Scream
         probability: 0.25
 # DS14-start
         conditions:
-        - !type:OrganType
-          type: Xenomorph
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Xenomorph ]
+          inverted: true
     Drink:
       effects:
       - !type:ModifyBloodLevel
         amount: 9
         conditions:
-        - !type:OrganType
-          type: Xenomorph
+        - !type:MetabolizerTypeCondition
+          type: [ Xenomorph ]
 # DS14-end
 
 - type: reagent
@@ -323,7 +319,6 @@
       methods: [ Touch ]
       effects:
       - !type:HealthChange
-        scaleByQuantity: true
         ignoreResistances: false
         damage:
           types:
@@ -341,9 +336,9 @@
             Caustic: 5
 # DS14-start
         conditions:
-        - !type:OrganType
-          type: Xenomorph
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Xenomorph ]
+          inverted: true
 # DS14-end
       - !type:PopupMessage
         type: Local
@@ -352,25 +347,25 @@
         probability: 0.33
 # DS14-start
         conditions:
-        - !type:OrganType
-          type: Xenomorph
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Xenomorph ]
+          inverted: true
 # DS14-end
       - !type:Emote
         emote: Scream
         probability: 0.2
 # DS14-start
         conditions:
-        - !type:OrganType
-          type: Xenomorph
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Xenomorph ]
+          inverted: true
     Drink:
       effects:
       - !type:ModifyBloodLevel
         amount: 5
         conditions:
-        - !type:OrganType
-          type: Xenomorph
+        - !type:MetabolizerTypeCondition
+          type: [ Xenomorph ]
 # DS14-end
 
 - type: reagent
@@ -429,8 +424,9 @@
       effects:
       - !type:HealthChange
         damage:
-          groups:
-            Airloss: 10
+          types:
+            Asphyxiation: 5
+            Bloodloss: 5
 
 - type: reagent
   id: MindbreakerToxin
@@ -465,18 +461,18 @@
       - !type:HealthChange
         probability: 0.1
         damage:
-          groups:
-            Brute: 2
+          types:
+            Blunt: 2
       # todo: cough, sneeze
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: Histamine
           min: 45
         damage:
-          groups:
-            Brute: 2
-            Airloss: 2
           types:
+            Blunt: 2
+            Asphyxiation: 2
             Poison: 2
       - !type:PopupMessage
         type: Local
@@ -484,7 +480,8 @@
         probability: 0.1
       - !type:PopupMessage
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: Histamine
           min: 45
         type: Local
         visualType: Medium
@@ -506,16 +503,16 @@
       effects:
       - !type:HealthChange
         conditions:
-        - !type:OrganType
-          type: Animal # Applying damage to the mobs with lower metabolism capabilities
+        - !type:MetabolizerTypeCondition
+          type: [Animal] # Applying damage to the mobs with lower metabolism capabilities
         damage:
           types:
             Poison: 0.4
-      - !type:ChemVomit
+      - !type:Vomit
         probability: 0.04 #Scaled for time, not metabolismrate.
         conditions:
-          - !type:OrganType
-            type: Animal
+          - !type:MetabolizerTypeCondition
+            type: [Animal]
 
 - type: reagent
   id: Amatoxin
@@ -565,7 +562,8 @@
       effects:
         - !type:CauseZombieInfection
           conditions:
-            - !type:ReagentThreshold
+            - !type:ReagentCondition
+              reagent: Romerol
               min: 5
 
 - type: reagent
@@ -581,68 +579,51 @@
       effects:
       - !type:PopupMessage
         conditions:
-          - !type:OrganType
-            type: Animal
-            shouldHave: false
-          - !type:OrganType
-            type: Vox
-            shouldHave: false
-# DS14-start
-          - !type:OrganType
-            type: Xenomorph
-            shouldHave: false
-# DS14-end
+        - !type:MetabolizerTypeCondition
+          type: [ Animal, Vox, Xenomorph ] # DS14: added Xenomorph
+          inverted: true
         type: Local
         visualType: MediumCaution
         messages: [ "generic-reagent-effect-sick" ]
         probability: 0.5
-      - !type:ChemVomit
+      - !type:Vomit
         probability: 0.1
         conditions:
-          - !type:OrganType
-            type: Animal
-            shouldHave: false
-          - !type:OrganType
-            type: Vox
-            shouldHave: false
-# DS14-start
-          - !type:OrganType
-            type: Xenomorph
-            shouldHave: false
-# DS14-end
+        - !type:MetabolizerTypeCondition
+          type: [ Animal, Vox, Plant, Xenomorph ] # DS14: added Xenomorph
+          inverted: true
       - !type:HealthChange
         conditions:
-        - !type:OrganType
-          type: Animal
-          shouldHave: false
-        - !type:OrganType
-          type: Vox
-          shouldHave: false
-# DS14-start
-        - !type:OrganType
-          type: Xenomorph
-          shouldHave: false
-# DS14-end
+        - !type:MetabolizerTypeCondition
+          type: [ Animal, Vox, Plant, Xenomorph ] # DS14: added Xenomorph
+          inverted: true
         damage:
           types:
             Poison: 1
+      - !type:HealthChange
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ Plant ]
+        damage:
+          types:
+            Poison: .25
       - !type:AdjustReagent
         conditions:
-        - !type:OrganType
-          type: Animal
+        - !type:MetabolizerTypeCondition
+          type: [ Animal ]
         reagent: Protein
         amount: 0.5
       - !type:AdjustReagent
         conditions:
-        - !type:OrganType
-          type: Vox
+        - !type:MetabolizerTypeCondition
+          type: [ Vox ]
         reagent: Protein
         amount: 0.25
 # DS14-start
       - !type:AdjustReagent
         conditions:
-        - !type:OrganType
-          type: Xenomorph
+        - !type:MetabolizerTypeCondition
+          type: [ Xenomorph ]
         reagent: Protein
         amount: 0.3
 # DS14-end
@@ -661,10 +642,11 @@
       effects:
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: Allicin
           min: 1
-        - !type:OrganType
-          type: Animal
+        - !type:MetabolizerTypeCondition
+          type: [Animal]
         damage:
           types:
             Poison: 0.06
@@ -678,8 +660,6 @@
   allowedDepartments:
   - Security
   - Medical
-  allowedJobs:
-  - Zookeeper
   color: "#AAAAAA"
   metabolisms:
     Poison:
@@ -687,13 +667,12 @@
       - !type:GenericStatusEffect
         key: Pacified
         component: Pacified
-        type: Add
         time: 4
 # DS-14-start
         conditions:
-        - !type:OrganType
-          type: SuperSoldier
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ SuperSoldier ]
+          inverted: true
 # DS-14-end
 
 - type: reagent
@@ -716,10 +695,11 @@
         probability: 0.2
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: Honk
           min: 1
-        - !type:OrganType
-          type: Animal
+        - !type:MetabolizerTypeCondition
+          type: [ Animal ]
         damage:
           types:
             Poison: 0.06
@@ -768,20 +748,27 @@
   contrabandSeverity: Syndicate
   flavor: medicine
   color: "#435166"
+  plantMetabolism:
+  - !type:PlantMutateChemicals
+    randomPickBotanyReagent: EvilRandomFillSolution
+  - !type:PlantAdjustToxins
+    amount: 10
   metabolisms:
     Poison:
       effects:
       - !type:Jitter
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: Vestine
           min: 5
-      - !type:MovespeedModifier
+      - !type:MovementSpeedModifier
         walkSpeedModifier: 0.8
         sprintSpeedModifier: 0.8
       - !type:HealthChange
         damage:
-          groups:
-            Airloss: 2
+          types:
+            Asphyxiation: 1
+            Bloodloss: 1
 
 - type: reagent
   id: Tazinide
@@ -794,9 +781,11 @@
   color: "#FDD023"
   metabolisms:
     Poison:
+      metabolismRate : 2.0
       effects:
       - !type:Electrocute
-        probability: 0.8
+        electrocuteTime: 1
+        probability: 0.5
 
 - type: reagent
   id: Lipolicide
@@ -813,7 +802,7 @@
       effects:
       - !type:HealthChange
         conditions:
-        - !type:Hunger
+        - !type:HungerCondition
           max: 50
         damage:
           types:
@@ -837,30 +826,30 @@
       effects:
       - !type:HealthChange
         conditions:
-        - !type:OrganType
-          type: Arachnid
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [Arachnid]
+          inverted: true
         damage:
           types:
             Poison: 1.6
-      - !type:MovespeedModifier
+      - !type:MovementSpeedModifier
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
           reagent: Mechanotoxin
           min: 2
-        - !type:OrganType
-          type: Arachnid
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [Arachnid]
+          inverted: true
         walkSpeedModifier: 0.8
         sprintSpeedModifier: 0.8
-      - !type:MovespeedModifier
+      - !type:MovementSpeedModifier
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
           reagent: Mechanotoxin
           min: 4
-        - !type:OrganType
-          type: Arachnid
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [Arachnid]
+          inverted: true
         walkSpeedModifier: 0.4
         sprintSpeedModifier: 0.4
 
@@ -877,5 +866,24 @@
       - !type:SatiateHunger
         factor: 1
         conditions:
-        - !type:OrganType
-          type: Vox
+        - !type:MetabolizerTypeCondition
+          type: [Vox]
+
+- type: reagent
+  id: Hemorrhinol
+  name: reagent-name-hemorrhinol
+  group: Toxins
+  desc: reagent-desc-hemorrhinol
+  physicalDesc: reagent-physical-desc-thin
+  contrabandSeverity: Major
+  flavor: sharp
+  color: "#96424f"
+  metabolisms:
+    Poison:
+      effects:
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectHemorrhage
+        time: 21 # 7 bleed ticks, you bleed every 3 seconds by default.
+        type: Update
+      - !type:ModifyBleed
+        amount: 0.5

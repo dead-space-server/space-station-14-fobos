@@ -146,7 +146,6 @@ ghost-role-information-cburn-leader-description = Руководите кома�
 ghost-role-information-sindy-agent-sup-description = Агент синдиката, прилетевший на станцию для снабжения революции.
 ghost-role-information-cburn-agent-name = РХБЗЗ Оперативник
 ghost-role-information-cburn-agent-description = Высококвалифицированный оперативник, способный справиться с любыми угрозами.
-ghost-role-information-centcom-official-name = Представитель ЦК
 ghost-role-information-centcom-official-description = Инспектируйте станцию, пишите служебные характеристики на руководителей, орудуйте факсом.ghost-role-information-centcom-official-description = Выполняйте обязанности, связанные с Центком, такие как инспекция станции, составление служебных характеристик на руководителей и работа с факсом.
 ghost-role-information-nukeop-rules = Вы [color={ role-type-team-antagonist-color }][bold]{ role-type-team-antagonist-name }[/bold][/color], в команде с другими Ядерными оперативниками. Помощь агентов на станции не гарантируется.
 ghost-role-information-loneop-name = Одинокий оперативник
@@ -270,9 +269,13 @@ ghost-role-information-blueshieldofficer-description = Вы - Офицер ко�
 ghost-role-information-centcomofficer-name = Офицер Центрального Командования
 ghost-role-information-centcomofficer-description = Вы - Офицер Центрального Командования. Вы должны защищать довереное вам место на котором вы появились и выполнять приказы вышестоящих сотрудников Центрального Командования.
 ghost-role-information-centcom-personal-rules = Вы обязаны подчиняться приказам членов Центрального Командования.
-
+ghost-role-information-centcom-official-name = Представитель Центрального Командования
 ghost-role-information-ert-centcom-official-description =
-    Вы — Офицер Центрального Командования, направленный для инспекции станции по чрезвычайной ситуации.
+    Вы — Представитель Центрального Командования, направленный для инспекции станции по чрезвычайной ситуации.
     Роль требует хорошего знания СРП и Корпоративного Закона.
     Если вы не уверены в своих знаниях, пожалуйста, не берите эту роль.
     Роль предполагает высокий уровень ответственности и может быть предметом административного контроля со стороны модерации/администрации.
+ghost-role-information-mothership-core-name = Материнское ядро Ксеноборгов
+ghost-role-information-mothership-core-desc = Используйте Ксеноборгов, да бы сделать ещё больше ксеноборгов!
+ghost-role-information-xenoborg-name = Ксеноборг
+ghost-role-information-xenoborg-desc = Помогите материнскому ядру Ксеноборгов сделать больше ксеноборгов.

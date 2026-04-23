@@ -1,0 +1,292 @@
+#region Сумка
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBackpackHolyPain
+  name: блюспейс кристал HolyPain
+  description: Уникальный артефакт на золотой цепи — творение мастера HolyPain, стабилизированный в условиях мёртвого космоса и вручаемый как знак заслуг за вклад в одноимённый проект.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/HolyPain/backpack.rsi
+  - type: Storage
+    maxItemSize: Huge
+    grid:
+    - 0,0,19,9
+    storageOpenSound:
+      collection: CrystalBagOpening
+      params:
+        variation: 0.125
+    storageCloseSound:
+      collection: CrystalBagClosing
+      params:
+        variation: 0.125
+    storageInsertSound: 
+      collection: CrystalBagItemInsert
+      params:
+        variation: 0.125
+    storageRemoveSound:
+      collection: CrystalBagItemRemove
+      params:
+        variation: 0.125
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/HolyPain/backpack.rsi
+    quickEquip: false
+    slots:
+    - back
+    equipSound:
+      collection: CrystalBagEquip
+      params:
+        volume: -9
+        variation: 0.125
+    unequipSound:
+      collection: CrystalBagUnequip
+      params:
+        volume: -9
+        variation: 0.125
+  - type: EmitSoundOnPickup
+    sound:
+      collection: CrystalBagPickup
+      params:
+        volume: -9
+        variation: 0.125
+  - type: EmitSoundOnDrop
+    sound:
+      collection: CrystalBagDrop
+      params:
+        volume: -11
+        variation: 0.125
+  - type: EmitSoundOnLand
+    sound:
+      collection: CrystalBagLand
+      params:
+        volume: -11
+        variation: 0.125
+  - type: StorageFill
+    contents:
+      - id: PlushieHolyPainEri
+      - id: PillCanisterBicaridine
+      - id: PillCanisterDylovene
+      - id: PillCanisterDermaline
+      - id: PillCanisterDexalin
+      - id: PillCanisterHyronalin
+      - id: ClothingHandsGlovesHolyPainFirst
+      - id: ClothingHandsGlovesHolyPainSecond
+      - id: SyringeHolyPain
+      - id: SyringeHolyPain
+      - id: SyringeHolyPain
+      - id: SyringeHolyPain
+      - id: SyringeHolyPain
+      - id: BluespaceBeakerHolyPain
+  - type: Tag
+    tags: []
+  - type: HardsuitIdentification
+    nonlethal: true
+    wrongOwnerSound:
+      path: /Audio/_DeadSpace/Sponsor/HolyPain/CrystalBag/BagDelete.ogg
+
+- type: entity
+  parent: ClothingHandsGlovesCombat
+  id: ClothingHandsGlovesHolyPainFirst
+  name: объятия любимой
+  description: Исследователь любви 25Hydra08 пишет, что стоит ему еще хоть раз прочитать, как женщину сравнивают с цветком (или какой-то географической характеристикой, раз уж на то пошло), он возьмет кувалду и пойдет стучаться в двери поэтов.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/HolyPain/gloves/first.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/HolyPain/gloves/first.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+- type: entity
+  parent: ClothingHandsGlovesCombat
+  id: ClothingHandsGlovesHolyPainSecond
+  name: ласка любимого
+  description: Самой прагматичной и храброй любовницей в истории была, конечно же, HolyPain. В ее честь названа популярная прическа, и для нее было написано множество чрезвычайно сопливых стихов (в большинстве из них она сравнивается с какими-нибудь географическими объектами).
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/HolyPain/gloves/second.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/HolyPain/gloves/second.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+- type: entity
+  name: бронзовый измрудный шприц
+  parent: BaseItem
+  categories: [ HideSpawnMenu ]
+  description: Используется для забора образцов крови у благородных и не очень существ, или для введения им реагентов.
+  id: SyringeHolyPain
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/HolyPain/syringe.rsi
+    layers:
+      - state: syringe1
+        map: ["enum.SolutionContainerLayers.Fill"]
+        visible: false
+      - state: syringe_base0
+        map: ["enum.SolutionContainerLayers.Base"]
+  - type: Icon
+    sprite: _DeadSpace/Sponsor/HolyPain/syringe.rsi
+    state: "syringe_base0"
+  - type: Item
+    size: Tiny
+    sprite: _DeadSpace/Sponsor/HolyPain/syringe.rsi
+  - type: SolutionContainerManager
+    solutions:
+      injector:
+        maxVol: 30
+  - type: Injector
+    activeModeProtoId: SyringeDrawMode
+    allowedModes:
+    - SyringeDrawMode
+    - SyringeInjectMode
+  - type: ExaminableSolution
+    solution: injector
+    exactVolume: true
+  - type: Spillable
+    solution: injector
+  - type: TrashOnSolutionEmpty
+    solution: injector
+  - type: Appearance
+  - type: SolutionContainerVisuals
+    maxFillLevels: 2
+    fillBaseName: syringe
+    inHandsMaxFillLevels: 3
+    inHandsFillBaseName: -fill-
+  - type: Tag
+    tags:
+    - Syringe
+
+- type: entity
+  name: бронзовая мензурка с изумрудом
+  parent: BaseBeakerMetallic
+  categories: [ HideSpawnMenu ]
+  description: Чем сосуд наполнен, то из него и льётся.
+  id: BluespaceBeakerHolyPain
+  components:
+  - type: Spillable
+    solution: beaker
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/HolyPain/beaker_bluespace.rsi
+    layers:
+      - state: beakerbluespace
+  - type: SolutionContainerVisuals
+    maxFillLevels: 0
+  - type: SolutionContainerManager
+    solutions:
+      beaker:
+        maxVol: 1000
+
+#коллекции звуков
+- type: soundCollection
+  id: CrystalBagOpening
+  files:
+  - /Audio/_DeadSpace/Sponsor/HolyPain/CrystalBag/BagOpening.ogg
+
+- type: soundCollection
+  id: CrystalBagClosing
+  files:
+  - /Audio/_DeadSpace/Sponsor/HolyPain/CrystalBag/BagClosing.ogg
+
+- type: soundCollection
+  id: CrystalBagItemInsert
+  files:
+  - /Audio/_DeadSpace/Sponsor/HolyPain/CrystalBag/ItemInsert.ogg
+
+- type: soundCollection
+  id: CrystalBagItemRemove
+  files:
+  - /Audio/_DeadSpace/Sponsor/HolyPain/CrystalBag/ItemRemove.ogg
+
+- type: soundCollection
+  id: CrystalBagLand
+  files:
+  - /Audio/_DeadSpace/Sponsor/HolyPain/CrystalBag/BagLand1.ogg
+  - /Audio/_DeadSpace/Sponsor/HolyPain/CrystalBag/BagLand2.ogg
+
+- type: soundCollection
+  id: CrystalBagEquip
+  files:
+  - /Audio/_DeadSpace/Sponsor/HolyPain/CrystalBag/BagEquip.ogg
+
+- type: soundCollection
+  id: CrystalBagUnequip
+  files:
+  - /Audio/_DeadSpace/Sponsor/HolyPain/CrystalBag/BagUnequip.ogg
+
+- type: soundCollection
+  id: CrystalBagPickup
+  files:
+  - /Audio/_DeadSpace/Sponsor/HolyPain/CrystalBag/BagPickup.ogg
+
+- type: soundCollection
+  id: CrystalBagDrop
+  files:
+  - /Audio/_DeadSpace/Sponsor/HolyPain/CrystalBag/BagDrop.ogg
+
+#plushie
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  id: PlushieHolyPainEri
+  categories: [ HideSpawnMenu ]
+  name: плюшевая Эри
+  description: "Скажите ей спасибо, что оказались в такой ситуации! На бирке виднеется надпись: HolyPain"
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/HolyPain/plush.rsi
+    state: icon
+  - type: Item
+    sprite: _DeadSpace/Sponsor/HolyPain/plush.rsi
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/Items/Toys/weh.ogg
+  - type: EmitSoundOnCollide
+    sound:
+      path: /Audio/Items/Toys/weh.ogg
+  - type: MeleeWeapon
+    wideAnimationRotation: 180
+    soundHit:
+      path: /Audio/Items/Toys/weh.ogg
+  - type: Extractable
+    juiceSolution:
+      reagents:
+      - ReagentId: JuiceThatMakesYouWeh
+        Quantity: 30
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        maxVol: 20
+        reagents:
+        - ReagentId: Fiber
+          Quantity: 10
+        - ReagentId: JuiceThatMakesYouWeh
+          Quantity: 10
+  - type: Clothing
+    quickEquip: false
+    sprite: _DeadSpace/Sponsor/HolyPain/plush.rsi
+    slots:
+    - HEAD
+  - type: Speech
+    speechVerb: Reptilian
+  - type: FoodSequenceElement
+    entries:
+      CottonBurger: LizardPlushie
+  - type: Tag
+    tags:
+    - Payload
+    - ClothMade
+    - PlushieLizard
+  - type: SpeakOnTrigger
+    pack: HolyPainPlushieSpeak
+  - type: TTS
+    voice: Naisha
+
+- type: localizedDataset
+  id: HolyPainPlushieSpeak
+  values:
+    prefix: holypainplushie-
+    count: 17

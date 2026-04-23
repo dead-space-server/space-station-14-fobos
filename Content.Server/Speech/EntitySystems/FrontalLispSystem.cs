@@ -3,6 +3,8 @@ using Content.Server.Speech.Components;
 using Robust.Shared.Random;
 using Content.Shared.Speech;
 
+#pragma warning disable RA0026
+
 namespace Content.Server.Speech.EntitySystems;
 
 public sealed class FrontalLispSystem : EntitySystem

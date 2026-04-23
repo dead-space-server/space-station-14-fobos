@@ -431,8 +431,8 @@
     Cloth: 100
 
 - type: latheRecipe
-  id: ClothingHandsGlovesBoxingRigged
-  result: ClothingHandsGlovesBoxingRigged
+  id: ClothingHandsGlovesBoxingRiggedRed
+  result: ClothingHandsGlovesBoxingRiggedRed
   completetime: 3
   materials:
     Steel: 150

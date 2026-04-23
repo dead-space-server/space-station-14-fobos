@@ -16,7 +16,7 @@
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,13,5
+    - 0,0,15,5
   - type: StorageFill
     contents:
       - id: ClothingBelt0black_cat0Filled
@@ -160,7 +160,7 @@
       sprite: _DeadSpace/Sponsor/0black_cat0/disabler.rsi
     - type: Clothing
       sprite: _DeadSpace/Sponsor/0black_cat0/disabler.rsi
-    - type: ProjectileBatteryAmmoProvider
+    - type: BatteryAmmoProvider
       proto: BulletDisablerPractice
       fireCost: 100
 

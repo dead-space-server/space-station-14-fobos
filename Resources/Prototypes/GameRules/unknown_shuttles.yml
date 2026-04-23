@@ -6,15 +6,11 @@
     children:
     - id: UnknownShuttleCargoLost
     - id: UnknownShuttleTravelingCuisine
-    - id: UnknownShuttleDisasterEvacPod
     - id: UnknownShuttleHonki
     - id: UnknownShuttleNTQuark
-    - id: UnknownShuttleCruiser
     - id: UnknownShuttleCryptid
     - id: UnknownShuttleEternal
-    - id: UnknownShuttleFlatline
     - id: UnknownShuttleGym
-    - id: UnknownShuttleNTIncorporation
     - id: UnknownShuttleJoe
     - id: UnknownShuttleLambordeere
     - id: UnknownShuttleMeatZone
@@ -75,16 +71,6 @@
   - type: LoadMapRule
     preloadedGrid: TravelingCuisine
 
-- type: entity
-  parent: BaseUnknownShuttleRule
-  id: UnknownShuttleDisasterEvacPod
-  components:
-  - type: StationEvent
-    startAnnouncement: station-event-unknown-shuttle-incoming
-    maxOccurrences: 3 # should be the same as [copies] in shuttle_incoming_event.yml
-  - type: LoadMapRule
-    preloadedGrid: DisasterEvacPod
-
 # The power of 3 clowns proved too strong for the players and may need to be 1984'ed. Replace this with a more engaging clown shuttle.
 - type: entity
   parent: BaseUnknownShuttleRule
@@ -124,16 +110,6 @@
     preloadedGrid: NTQuark
 
 - type: entity
-  id: UnknownShuttleCruiser
-  parent: BaseUnknownShuttleRule
-  components:
-  - type: StationEvent
-    startAnnouncement: station-event-unknown-shuttle-incoming #!!
-    weight: 2 # Its just a big ship, so it needs to be rarer to be interesting.
-  - type: LoadMapRule
-    preloadedGrid: Cruiser
-
-- type: entity
   id: UnknownShuttleCryptid
   parent: BaseUnknownShuttleRule
   components:
@@ -152,15 +128,6 @@
     preloadedGrid: Eternal
 
 - type: entity
-  id: UnknownShuttleFlatline
-  parent: BaseUnknownShuttleRule
-  components:
-  - type: StationEvent
-    startAnnouncement: station-event-unknown-shuttle-incoming #!!
-  - type: LoadMapRule
-    preloadedGrid: Flatline
-
-- type: entity
   id: UnknownShuttleGym
   parent: BaseUnknownShuttleRule
   components:
@@ -169,17 +136,6 @@
     weight: 5 # Its just a big ship, so it needs to be rarer to be interesting.
   - type: LoadMapRule
     preloadedGrid: Gym
-
-- type: entity
-  id: UnknownShuttleNTIncorporation
-  parent: BaseUnknownShuttleRule
-  components:
-  - type: StationEvent
-    startAnnouncement: station-event-unknown-shuttle-incoming #!!
-    weight: 2 # Its just a big ship, so it needs to be rarer to be interesting.
-    earliestStart: 45 # late to hopefully have enough ghosts to fill all roles quickly. (5-6)
-  - type: LoadMapRule
-    preloadedGrid: NTIncorporation
 
 - type: entity
   id: UnknownShuttleInstigator

@@ -68,6 +68,12 @@ public sealed partial class NecroobeliskComponent : Component
     [DataField, ViewVariables(VVAccess.ReadOnly)]
     public string Sound = "/Audio/_DeadSpace/Necromorfs/marker_red.ogg";
 
+    [DataField]
+    public TimeSpan SoundCooldown = TimeSpan.FromSeconds(15);
+
+    [ViewVariables]
+    public TimeSpan NextSoundTime = TimeSpan.Zero;
+
     #endregion
 
     #region Bool

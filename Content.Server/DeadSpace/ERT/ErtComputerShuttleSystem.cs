@@ -12,6 +12,7 @@ using Robust.Shared.Timing;
 using Content.Server.Shuttles.Components;
 using Content.Server.Shuttles.Systems;
 using Content.Server.Shuttles.Events;
+using Content.Shared.Chat;
 using Content.Shared.Station.Components;
 
 namespace Content.Server.DeadSpace.ERT;

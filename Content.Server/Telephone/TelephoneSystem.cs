@@ -1,9 +1,11 @@
 using Content.Server.Access.Systems;
 using Content.Server.Administration.Logs;
 using Content.Server.Chat.Systems;
+using Content.Server.DeadSpace.Languages; // DS14
 using Content.Server.Interaction;
 using Content.Server.Power.EntitySystems;
 using Content.Shared.Chat;
+using Content.Shared.Corvax.TTS; // DS14
 using Content.Shared.Database;
 using Content.Shared.Labels.Components;
 using Content.Shared.Mind.Components;
@@ -102,30 +104,55 @@ public sealed class TelephoneSystem : SharedTelephoneSystem
             !IsSourceConnectedToReceiver(args.TelephoneSource, entity))
             return;
 
-        var nameEv = new TransformSpeakerNameEvent(args.MessageSource, Name(args.MessageSource));
-        RaiseLocalEvent(args.MessageSource, nameEv);
+        RelayTelephoneSpeech(args.MessageSource, args.Message, entity, args.TelephoneSource); // DS14
+    }
 
-        // Determine if speech should be relayed via the telephone itself or a designated speaker
-        var speaker = entity.Comp.Speaker != null ? entity.Comp.Speaker.Value.Owner : entity.Owner;
+    // DS14-start
+    public void RelayTelephoneSpeech(
+        EntityUid messageSource,
+        string message,
+        Entity<TelephoneComponent> receiver,
+        Entity<TelephoneComponent>? sourceTelephone = null,
+        ChatTransmitRange? rangeOverride = null)
+    {
+        var nameEv = new TransformSpeakerNameEvent(messageSource, Name(messageSource));
+        RaiseLocalEvent(messageSource, nameEv);
 
-        // DS14-start
-        // Это решение, как и все телефонные не является грамотным, но оно простое и быстрое 
-        if (entity.Comp.Speaker != null && TryComp<LanguageComponent>(args.MessageSource, out var language))
-        {
-            var speakerLanguahe = EnsureComp<LanguageComponent>(speaker);
-            speakerLanguahe.SelectedLanguage = language.SelectedLanguage;
-        }
+        var speaker = receiver.Comp.Speaker != null ? receiver.Comp.Speaker.Value.Owner : receiver.Owner;
+        
+        SyncRelayedSpeakerState(messageSource, speaker);
         // DS14-end
 
         var name = Loc.GetString("chat-telephone-name-relay",
             ("originalName", nameEv.VoiceName),
             ("speaker", Name(speaker)));
 
-        var range = args.TelephoneSource.Comp.LinkedTelephones.Count > 1 ? ChatTransmitRange.HideChat : ChatTransmitRange.GhostRangeLimit;
-        var volume = entity.Comp.SpeakerVolume == TelephoneVolume.Speak ? InGameICChatType.Speak : InGameICChatType.Whisper;
+        // DS14-start
+        var range = rangeOverride ??
+                    (sourceTelephone != null && sourceTelephone.Value.Comp.LinkedTelephones.Count > 1
+                        ? ChatTransmitRange.HideChat
+                        : ChatTransmitRange.GhostRangeLimit);
+        var volume = receiver.Comp.SpeakerVolume == TelephoneVolume.Speak ? InGameICChatType.Speak : InGameICChatType.Whisper;
 
-        _chat.TrySendInGameICMessage(speaker, args.Message, volume, range, nameOverride: name, checkRadioPrefix: false);
+        _chat.TrySendInGameICMessage(speaker, message, volume, range, nameOverride: name, checkRadioPrefix: false);
+        // DS14-end
     }
+
+
+    // DS14-start
+    public void SyncRelayedSpeakerState(EntityUid messageSource, EntityUid speaker)
+    {
+        var speakerLanguage = EnsureComp<LanguageComponent>(speaker);
+        speakerLanguage.SelectedLanguage = TryComp<LanguageComponent>(messageSource, out var language)
+            ? language.SelectedLanguage
+            : LanguageSystem.DefaultLanguageId;
+
+        var speakerTts = EnsureComp<TTSComponent>(speaker);
+        speakerTts.VoicePrototypeId = TryComp<TTSComponent>(messageSource, out var sourceTts)
+            ? sourceTts.VoicePrototypeId
+            : null;
+    }
+    // DS14-end
 
     #endregion
 
@@ -231,11 +258,7 @@ public sealed class TelephoneSystem : SharedTelephoneSystem
 
         var callerInfo = GetNameAndJobOfCallingEntity(user);
 
-        // Base the name of the device on its label
-        string? deviceName = null;
-
-        if (TryComp<LabelComponent>(source, out var label))
-            deviceName = label.CurrentLabel;
+        var deviceName = GetTelephoneDeviceName(source); // DS14
 
         receiver.Comp.LastCallerId = (callerInfo.Item1, callerInfo.Item2, deviceName); // This will be networked when the state changes
         receiver.Comp.LinkedTelephones.Add(source);
@@ -429,7 +452,7 @@ public sealed class TelephoneSystem : SharedTelephoneSystem
         entity.Comp.Speaker = speaker;
     }
 
-    private (string?, string?) GetNameAndJobOfCallingEntity(EntityUid uid)
+    public (string?, string?) GetNameAndJobOfCallingEntity(EntityUid uid) // DS14
     {
         string? presumedName = null;
         string? presumedJob = null;
@@ -448,6 +471,20 @@ public sealed class TelephoneSystem : SharedTelephoneSystem
 
         return (presumedName, presumedJob);
     }
+
+
+    // DS14-start
+    public string? GetTelephoneDeviceName(EntityUid uid)
+    {
+        if (TryComp<LabelComponent>(uid, out var label))
+        {
+            if (!string.IsNullOrWhiteSpace(label.CurrentLabel))
+                return label.CurrentLabel;
+        }
+
+        return Name(uid);
+    }
+    // DS14-end
 
     public bool IsSourceAbleToReachReceiver(Entity<TelephoneComponent> source, Entity<TelephoneComponent> receiver)
     {

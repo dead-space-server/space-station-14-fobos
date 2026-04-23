@@ -52,6 +52,66 @@
     job: SeniorAdministrator
 
 - type: entity
+  parent: EngineeringIDCard
+  id: SeniorEngineerIDCard
+  name: senior engineer ID card
+  components:
+  - type: Sprite
+    layers:
+    - state: default
+    - state: idseniorengineer
+  - type: PresetIdCard
+    job: SeniorEngineer
+
+- type: entity
+  parent: ResearchIDCard
+  id: SeniorResearcherIDCard
+  name: senior researcher ID card
+  components:
+  - type: Sprite
+    layers:
+    - state: default
+    - state: idseniorresearcher
+  - type: PresetIdCard
+    job: SeniorResearcher
+
+- type: entity
+  parent: MedicalIDCard
+  id: SeniorPhysicianIDCard
+  name: senior physician ID card
+  components:
+  - type: Sprite
+    layers:
+    - state: default
+    - state: idseniorphysician
+  - type: PresetIdCard
+    job: SeniorPhysician
+
+- type: entity
+  parent: SecurityIDCard
+  id: SeniorOfficerIDCard
+  name: senior officer ID card
+  components:
+  - type: Sprite
+    layers:
+    - state: default
+    - state: idseniorofficer
+  - type: PresetIdCard
+    job: SeniorOfficer
+
+- type: entity
+  parent: IDCardStandard
+  id: SeniorSalvageIDCard
+  name: coroner ID card
+  components:
+  - type: Sprite
+    layers:
+    - state: default
+    - state: idseniorcargo
+  - type: PresetIdCard
+    job: SeniorSalvageSpecialist
+
+- type: entity
   parent: IDCardStandard
   id: CoronerIDCard
   name: coroner ID card
@@ -86,6 +146,186 @@
     - state: idvirologist
   - type: PresetIdCard
     job: Virologist
+
+- type: entity
+  parent: IDCardStandard
+  id: BrigmedicIDCard
+  name: brigmedic ID card
+  components:
+  - type: Sprite
+    layers:
+    - state: default
+    - state: idbrigmedic
+  - type: PresetIdCard
+    job: Brigmedic
+
+# Centcom
+
+- type: entity
+  parent: IDCardStandard
+  id: CentcomIDCard
+  name: command officer ID card
+  components:
+  - type: Sprite
+    layers:
+    - state: centcom
+    - state: idcentcom
+  - type: Item
+    heldPrefix: blue
+  - type: PresetIdCard
+    job: CentralCommandOfficer
+
+- type: entity
+  parent: CentcomIDCard
+  id: CentcomOfficialIDCard
+  components:
+  - type: PresetIdCard
+    job: CentralCommandOfficial
+
+- type: entity
+  parent: CentcomIDCard
+  id: CentcomAdministratorIDCard
+  components:
+  - type: Sprite
+    layers:
+    - state: gold
+    - state: idcentcom
+  - type: PresetIdCard
+    job: CentralCommandAdministrator
+
+- type: entity
+  parent: CentcomIDCard
+  id: CentcomOperatorIDCard
+  components:
+  - type: PresetIdCard
+    job: CentralCommandOperator
+
+- type: entity
+  parent: CentcomIDCard
+  id: CentcomSpecialOperationsOfficerIDCard
+  components:
+  - type: Sprite
+    layers:
+    - state: silver
+    - state: idcentcom
+  - type: PresetIdCard
+    job: CentralCommandSpecialOperationsOfficer
+
+- type: entity
+  parent: IDCardStandard
+  id: CentcomIDCardDeathsquad
+  name: death squad ID card
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Misc/id_cards.rsi
+    layers:
+    - state: deathsquad 
+      scale: 0.16, 0.16
+  - type: Item
+    heldPrefix: blue
+  - type: PresetIdCard
+    job: DeathSquad
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# ERT
+
+- type: entity
+  parent: IDCardStandard
+  id: ERTChaplainIDCard
+  name: ERT chaplain ID card
+  components:
+  - type: Sprite
+    layers:
+    - state: gold
+    - state: ert_chaplain # we have the sprite for the id but dont have chaplain ERT equipment for now.
+  - type: PresetIdCard
+    job: ERTChaplain
+  - type: Item
+    heldPrefix: blue
+
+- type: entity
+  parent: ERTLeaderIDCard
+  id: ERTLeaderRedIDCard
+  components:
+  - type: PresetIdCard
+    job: ERTLeaderRed
+
+- type: entity
+  parent: ERTLeaderIDCard
+  id: ERTLeaderGammaIDCard
+  components:
+  - type: PresetIdCard
+    job: ERTLeaderGamma
+
+- type: entity
+  parent: ERTEngineerIDCard
+  id: ERTEngineerRedIDCard
+  components:
+  - type: PresetIdCard
+    job: ERTEngineerRed
+
+- type: entity
+  parent: ERTEngineerIDCard
+  id: ERTEngineerGammaIDCard
+  components:
+  - type: PresetIdCard
+    job: ERTEngineerGamma
+
+- type: entity
+  parent: ERTJanitorIDCard
+  id: ERTJanitorRedIDCard
+  components:
+  - type: PresetIdCard
+    job: ERTJanitorRed
+
+- type: entity
+  parent: ERTJanitorIDCard
+  id: ERTJanitorGammaIDCard
+  components:
+  - type: PresetIdCard
+    job: ERTJanitorGamma
+
+- type: entity
+  parent: ERTMedicIDCard
+  id: ERTMedicRedIDCard
+  components:
+  - type: PresetIdCard
+    job: ERTMedicalRed
+
+- type: entity
+  parent: ERTMedicIDCard
+  id: ERTMedicGammaIDCard
+  components:
+  - type: PresetIdCard
+    job: ERTMedicalGamma
+
+- type: entity
+  parent: ERTSecurityIDCard
+  id: ERTSecurityRedIDCard
+  components:
+  - type: PresetIdCard
+    job: ERTSecurityRed
+
+- type: entity
+  parent: ERTSecurityIDCard
+  id: ERTSecurityGammaIDCard
+  components:
+  - type: PresetIdCard
+    job: ERTSecurityGamma
+
+- type: entity
+  parent: CentcomIDCard
+  id: CBURNLeaderIDcard
+  components:
+  - type: Sprite
+    layers:
+    - state: gold
+    - state: idcentcom
+  - type: Item
+    heldPrefix: gold
+  - type: PresetIdCard
+    job: CBURNLeader
 
 # Taipan
 
