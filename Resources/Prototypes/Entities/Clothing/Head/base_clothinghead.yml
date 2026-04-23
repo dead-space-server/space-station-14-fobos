@@ -279,6 +279,6 @@
   - type: GroupExamine
   - type: HideLayerClothing
     slots:
-    - Hair
+#    - Hair #DS14
     - HeadTop
     - HeadSide
