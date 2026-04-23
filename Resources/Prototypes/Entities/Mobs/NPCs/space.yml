@@ -380,12 +380,111 @@
     - type: StealthOnMove
       passiveVisibilityRate: -0.25
       movementVisibilityRate: 0.25
+    #DS14-start
+    - type: GhostRole
+      makeSentient: true
+      name: ghost-role-information-space-snake-name
+      description: ghost-role-information-space-snake-description
+      rules: ghost-role-information-space-snake-rules
+      mindRoles:
+      - MindRoleGhostRoleTeamAntagonist
+      raffle:
+        settings: short
+    - type: GhostTakeoverAvailable
+    #DS14-end
 
 - type: entity
   id: MobCobraSpaceSalvage
-  parent: MobCobraSpace
+  parent: MobSpaceBasic #DS14
   suffix: "Salvage Ruleset"
   components:
+    #DS14-start
+    - type: Sprite
+      drawdepth: Mobs
+      sprite: Mobs/Animals/spacecobra.rsi
+      layers:
+        - map: [ "enum.DamageStateVisualLayers.Base" ]
+          state: spacecobra
+        - map: [ "enum.DamageStateVisualLayers.BaseUnshaded" ]
+          state: glow
+          shader: unshaded
+    - type: FootstepModifier
+      footstepSoundCollection:
+        collection: FootstepSnake
+    - type: MobThresholds
+      thresholds:
+        0: Alive
+        45: Dead
+    - type: Stamina
+      baseCritThreshold: 150
+    - type: DamageStateVisuals
+      states:
+        Alive:
+          Base: spacecobra
+          BaseUnshaded: glow
+        Dead:
+          Base: dead_spacecobra
+    - type: Butcherable
+      spawned:
+        - id: FoodMeatSnake
+          amount: 2
+        - id: UraniumOre1
+          amount: 1
+        - id: ClothingShoesSnakeskinBoots
+          amount: 1
+          prob: 0.3
+    - type: Bloodstream
+      bloodReferenceSolution:
+        reagents:
+        - ReagentId: Cryoxadone
+          Quantity: 200
+    - type: Fixtures
+      fixtures:
+        fix1:
+          shape:
+            !type:PhysShapeCircle
+            radius: 0.40
+          density: 120
+          mask:
+          - MobMask
+          layer:
+          - MobLayer
+    - type: MeleeWeapon
+      hidden: true
+      soundHit:
+        path: /Audio/Effects/bite.ogg
+      angle: 0
+      animation: WeaponArcBite
+      damage:
+        types:
+          Piercing: 6
+          Poison: 4
+    - type: SolutionContainerManager
+      solutions:
+        melee:
+          reagents:
+          - ReagentId: NorepinephricAcid
+            Quantity: 90
+    - type: MeleeChemicalInjector
+      solution: melee
+      transferAmount: 6
+    - type: ReplacementAccent
+      accent: xeno
+    - type: InteractionPopup
+      successChance: 0.2
+      interactSuccessString: petting-success-snake
+      interactFailureString: petting-failure-generic
+    - type: PointLight
+      radius: 1.1
+      energy: 2.7
+      color: "#4faffb"
+    - type: Stealth
+      enabledOnDeath: false
+      maxVisibility: 1.2
+    - type: StealthOnMove
+      passiveVisibilityRate: -0.25
+      movementVisibilityRate: 0.25
+    #DS14-end
     - type: SalvageMobRestrictions
 
 - type: entity
