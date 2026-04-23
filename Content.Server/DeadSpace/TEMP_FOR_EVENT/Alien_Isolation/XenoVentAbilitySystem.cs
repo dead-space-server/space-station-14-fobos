@@ -204,7 +204,7 @@ public sealed class XenoVentAbilitySystem : EntitySystem
         _actionBlocker.UpdateCanMove(uid);
         if (_tag.HasTag(uid, LargeCrawlerTag))
         {
-            _audio.PlayGlobal(new SoundPathSpecifier("/Audio/_DeadSpace/Events/alien/vent_in.ogg"),
+            _audio.PlayGlobal(new SoundPathSpecifier("/Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/vent_in.ogg"),
                 Filter.Pvs(uid),
                 false);
         }
@@ -258,7 +258,7 @@ public sealed class XenoVentAbilitySystem : EntitySystem
 
         if (_tag.HasTag(uid, LargeCrawlerTag))
         {
-            _audio.PlayGlobal(new SoundPathSpecifier("/Audio/_DeadSpace/Events/alien/vent_out.ogg"),
+            _audio.PlayGlobal(new SoundPathSpecifier("/Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/vent_out.ogg"),
                 Filter.Pvs(uid),
                 false);
         }

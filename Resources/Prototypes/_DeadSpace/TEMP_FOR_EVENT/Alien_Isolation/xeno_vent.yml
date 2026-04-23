@@ -7,5 +7,5 @@
   - type: Action
     useDelay: 5
     icon:
-      sprite: _DeadSpace/Events/Alien/xeno.rsi
+      sprite: _DeadSpace/TEMP_FOR_EVENT/Alien_isolation/xeno.rsi
       state: sleeping

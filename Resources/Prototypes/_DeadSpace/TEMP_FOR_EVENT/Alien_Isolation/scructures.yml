@@ -7,9 +7,9 @@
 - type: soundCollection
   id: EventXenoResinBreak
   files:
-  - /Audio/_DeadSpace/Events/Structures/alien_resin_break1.ogg
-  - /Audio/_DeadSpace/Events/Structures/alien_resin_break2.ogg
-  - /Audio/_DeadSpace/Events/Structures/alien_resin_break3.ogg
+  - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Structures/alien_resin_break1.ogg
+  - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Structures/alien_resin_break2.ogg
+  - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Structures/alien_resin_break3.ogg
 
 - type: damageContainer
   id: EventStructuralXeno
@@ -61,14 +61,14 @@
     mode: SnapgridCenter
   components:
   - type: Sprite
-    sprite: _DeadSpace/Events/Alien/xeno_resin_wall.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/xeno_resin_wall.rsi
     state: resin
   - type: WallReplacementMarker
   - type: Construction
     graph: Girder
     node: wall
   - type: Icon
-    sprite: _DeadSpace/Events/Alien/xeno_resin_wall.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/xeno_resin_wall.rsi
     state: resin
   - type: Destructible
     thresholds:
@@ -93,7 +93,7 @@
   components:
   - type: InteractionOutline
   - type: Sprite
-    sprite: _DeadSpace/Events/Alien/xeno_resin_door.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/xeno_resin_door.rsi
     layers:
     - state: resinclosed
       map: ["enum.DoorVisualLayers.Base"]
@@ -124,9 +124,9 @@
     openingSpriteState: resinopening
     closingSpriteState: resinclosing
     openSound:
-      path: /Audio/_DeadSpace/Events/Alien/alien_resin_move1.ogg
+      path: /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/alien_resin_move1.ogg
     closeSound:
-      path: /Audio/_DeadSpace/Events/Alien/alien_resin_move2.ogg
+      path: /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/alien_resin_move2.ogg
   - type: Appearance
   - type: Airtight
     fixVacuum: true
@@ -177,7 +177,7 @@
         density: 1000
         hard: false
   - type: Sprite
-    sprite: _DeadSpace/Events/Alien/xeno_weeds.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/xeno_weeds.rsi
     drawdepth: FloorTiles
     layers:
     - state: weed0
@@ -231,7 +231,7 @@
   description: Странный пульсирующий узел смолы
   components:
   - type: Sprite
-    sprite: _DeadSpace/Events/Alien/xeno_weeds.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/xeno_weeds.rsi
     drawdepth: FloorTiles
     layers:
     - state: weed0

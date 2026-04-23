@@ -4,52 +4,52 @@
 - type: soundCollection
   id: EventXenoWalk
   files:
-    - /Audio/_DeadSpace/Events/Alien/walk.ogg
-    - /Audio/_DeadSpace/Events/Alien/walk2.ogg
-    - /Audio/_DeadSpace/Events/Alien/walk3.ogg
-    - /Audio/_DeadSpace/Events/Alien/walk4.ogg
-    - /Audio/_DeadSpace/Events/Alien/walk5.ogg
-    - /Audio/_DeadSpace/Events/Alien/walk6.ogg
-    - /Audio/_DeadSpace/Events/Alien/walk7.ogg
-    - /Audio/_DeadSpace/Events/Alien/walk8.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/walk.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/walk2.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/walk3.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/walk4.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/walk5.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/walk6.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/walk7.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/walk8.ogg
 
 - type: soundCollection
   id: EventXenoRun
   files:
-    - /Audio/_DeadSpace/Events/Alien/run.ogg
-    - /Audio/_DeadSpace/Events/Alien/run2.ogg
-    - /Audio/_DeadSpace/Events/Alien/run3.ogg
-    - /Audio/_DeadSpace/Events/Alien/run4.ogg
-    - /Audio/_DeadSpace/Events/Alien/run5.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/run.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/run2.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/run3.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/run4.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/run5.ogg
 
 - type: soundCollection
   id: EventXenoScream
   files:
-    - /Audio/_DeadSpace/Events/Alien/scream.ogg
-    - /Audio/_DeadSpace/Events/Alien/scream2.ogg
-    - /Audio/_DeadSpace/Events/Alien/scream3.ogg
-    - /Audio/_DeadSpace/Events/Alien/scream4.ogg
-    - /Audio/_DeadSpace/Events/Alien/scream5.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/scream.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/scream2.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/scream3.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/scream4.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/scream5.ogg
 
 - type: soundCollection
   id: EventXenoGrowl
   files:
-    - /Audio/_DeadSpace/Events/Alien/growl.ogg
-    - /Audio/_DeadSpace/Events/Alien/growl2.ogg
-    - /Audio/_DeadSpace/Events/Alien/growl3.ogg
-    - /Audio/_DeadSpace/Events/Alien/growl4.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/growl.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/growl2.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/growl3.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/growl4.ogg
 
 - type: soundCollection
   id: EventXenoVent
   files:
-    - /Audio/_DeadSpace/Events/Alien/vent.ogg
-    - /Audio/_DeadSpace/Events/Alien/vent2.ogg
-    - /Audio/_DeadSpace/Events/Alien/vent3.ogg
-    - /Audio/_DeadSpace/Events/Alien/vent4.ogg
-    - /Audio/_DeadSpace/Events/Alien/vent5.ogg
-    - /Audio/_DeadSpace/Events/Alien/vent6.ogg
-    - /Audio/_DeadSpace/Events/Alien/vent7.ogg
-    - /Audio/_DeadSpace/Events/Alien/vent8.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/vent.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/vent2.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/vent3.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/vent4.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/vent5.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/vent6.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/vent7.ogg
+    - /Audio/_DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/Xeno/vent8.ogg
 
 - type: speechSounds
   id: EventXenoTalk
@@ -154,7 +154,7 @@
 # Спрайты и хитбокс
   - type: Sprite
     drawdepth: Mobs
-    sprite: _DeadSpace/Events/Alien/xeno.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Alien_isolation/xeno.rsi
     layers:
     - map: ["enum.DamageStateVisualLayers.Base"]
       state: running
@@ -259,7 +259,7 @@
     allowedEmotes: ['Squeak']
   - type: Sprite
     drawdepth: SmallMobs
-    sprite: _DeadSpace/Events/Alien/lilguy.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Alien_Isolation/lilguy.rsi
     layers:
     - map: ["enum.DamageStateVisualLayers.Base"]
       state: running
