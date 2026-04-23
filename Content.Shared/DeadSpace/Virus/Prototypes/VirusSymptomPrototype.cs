@@ -5,7 +5,7 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Shared.DeadSpace.Virus.Prototypes;
 
-[Prototype("virusSymptom")]
+[Prototype]
 public sealed partial class VirusSymptomPrototype : IPrototype
 {
     [IdDataField]

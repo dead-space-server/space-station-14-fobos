@@ -116,14 +116,13 @@
       - FullAuto
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/laser_cannon.ogg
-  - type: HitscanBatteryAmmoProvider
+  - type: BatteryAmmoProvider
     proto: RedMediumLaser
     fireCost: 100
   - type: Battery
     maxCharge: 1000
     startingCharge: 1000
   - type: BatterySelfRecharger
-    autoRecharge: true
     autoRechargeRate: 20
 
 - type: entity
@@ -138,14 +137,13 @@
     layers:
     - state: icon
   - type: BatterySelfRecharger
-    autoRecharge: true
     autoRechargeRate: 10
   - type: Gun
     fireRate: 2
     projectileSpeed: 35 # any higher and this causes issues in lag
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/taser2.ogg
-  - type: ProjectileBatteryAmmoProvider
+  - type: BatteryAmmoProvider
     proto: BulletDisabler
     fireCost: 50
 
@@ -157,7 +155,6 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: BatterySelfRecharger
-    autoRecharge: true
     autoRechargeRate: 25
 
 - type: entity

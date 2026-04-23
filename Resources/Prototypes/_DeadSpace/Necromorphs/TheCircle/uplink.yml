@@ -182,6 +182,20 @@
   categories:
    - UniPhoneUplinkWeaponry
 
+- type: listing
+  id: UniPhoneUplinkWeaponScytheHook
+  name: Хук-Рука (Можно купить 2 раза)
+  icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/melee/hand-hook.rsi, state: icon }
+  description: "СВЕЖЕЕ МЯСО-!!!"
+  productEntity: UnitologyWeaponHandHookImplanter
+  cost:
+    Telecrystal: 12
+  categories:
+   - UniPhoneUplinkWeaponry
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
 ### Боеприпасы
 
 - type: listing

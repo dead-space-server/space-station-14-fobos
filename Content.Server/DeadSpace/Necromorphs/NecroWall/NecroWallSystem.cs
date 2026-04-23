@@ -6,6 +6,7 @@ using Robust.Shared.Timing;
 using Content.Shared.Tag;
 using Content.Shared.DeadSpace.Necromorphs.NecroWall;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Content.Server.DeadSpace.Necromorphs.NecroWall.Components;
 
 namespace Content.Server.DeadSpace.Necromorphs.NecroWall;

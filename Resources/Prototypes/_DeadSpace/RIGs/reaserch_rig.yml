@@ -1,0 +1,99 @@
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBackpackRIGResearch
+  name: модифицированный рюкзак научного специалиста
+  description: Повышенной вместительности рюкзак с функцией РИГ промышленного производства для работающих в опасной среде учёных.
+  components:
+  - type: Storage
+    grid:
+    - 0,0,6,5
+  - type: Clothing
+    equipDelay: 4
+    unequipDelay: 4
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Research/backpack.rsi
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: ToggleableClothing
+    toggleDelay: 4
+    clothingPrototype: ClothingOuterRIGResearch
+    requiredSlot: BACK
+    slot: outerClothing
+  - type: ContainerContainer
+    containers:
+      toggleable-clothing: !type:ContainerSlot {}
+      storagebase: !type:Container
+        ents: []
+
+- type: entity
+  parent: ClothingOuterHardsuitBase
+  id: ClothingOuterRIGResearch
+  name: экспериментальный скафандр научного специалиста
+  description: Модифицированный скафандр для учёных, работающих в экстрельмальных условиях.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Research/suit.rsi
+  - type: Clothing
+    sprite: _DeadSpace/RIGs/Research/suit.rsi
+    equipSound: /Audio/_DeadSpace/Misc/rig_equip.ogg
+  - type: ClothingSpeedModifier
+    walkModifier: 0.80
+    sprintModifier: 0.80
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.8
+        Slash: 0.8
+        Piercing: 0.9
+        Heat: 0.5
+        Radiation: 0.45
+        Caustic: 0.5
+  - type: ExplosionResistance
+    damageCoefficient: 0.5
+  - type: PressureProtection
+    highPressureMultiplier: 0.02
+    lowPressureMultiplier: 1000
+  - type: TemperatureProtection
+    heatingCoefficient: 0.001
+    coolingCoefficient: 0.05
+  - type: FireProtection
+    reduction: 0.8
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetRIGResearch
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ClothingHeadHelmetRIGResearch
+  name: шлем экспериментального скафандра научного специалиста
+  description: Ваш ум ещё нужен для корпорации.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Research/helmet.rsi
+    scale: 0.7, 0.7
+  - type: Clothing
+    sprite: _DeadSpace/RIGs/Research/helmet.rsi
+  - type: IngestionBlocker
+  - type: TemperatureProtection
+    heatingCoefficient: 0.01
+    coolingCoefficient: 0.2
+  - type: FireProtection
+    reduction: 0.2
+  - type: PressureProtection
+    highPressureMultiplier: 0.25
+    lowPressureMultiplier: 1000
+  - type: IdentityBlocker
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.95
+        Slash: 0.95
+        Piercing: 0.95
+        Heat: 0.95
+  - type: PointLight
+    color: "#8A2BE2"
+    radius: 5
+    energy: 3
+  - type: Item
+    heldPrefix: off 
+    size: Normal

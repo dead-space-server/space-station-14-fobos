@@ -5,6 +5,9 @@
   parent: MarkerBase
   categories: [ DoNotMap ]
   components:
+  - type: Transform
+    anchored: false
+  - type: MindContainer
   - type: BlobSpawner
   - type: GhostRole
     name: ghost-role-information-blob-name
@@ -280,11 +283,6 @@
   description: An ordinary part of yours required for the construction of more advanced tiles.
   components:
   - type: Temperature
-    heatDamage:
-      types:
-        Heat: 5
-    coldDamage: {}
-    coldDamageThreshold: 0
   - type: Flammable
     fireSpread: true
     damage:
@@ -316,11 +314,6 @@
   save: false
   components:
   - type: Temperature
-    heatDamage:
-      types:
-        Heat: 5
-    coldDamage: {}
-    coldDamageThreshold: 0
   - type: Flammable
     fireSpread: true
     damage:
@@ -388,11 +381,6 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: Temperature
-    heatDamage:
-      types:
-        Heat: 5
-    coldDamage: {}
-    coldDamageThreshold: 0
   - type: Flammable
     fireSpread: true
     damage:
@@ -425,11 +413,6 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: Temperature
-    heatDamage:
-      types:
-        Heat: 5
-    coldDamage: {}
-    coldDamageThreshold: 0
   - type: Flammable
     fireSpread: true
     damage:
@@ -463,11 +446,6 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: Temperature
-    heatDamage:
-      types:
-        Heat: 5
-    coldDamage: {}
-    coldDamageThreshold: 0
   - type: Flammable
     fireSpread: true
     damage:

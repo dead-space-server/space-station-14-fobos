@@ -1,6 +1,6 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
-using Content.Server.PowerCell;
+using Content.Shared.PowerCell;
 using Content.Shared.Damage;
 using Content.Shared.DoAfter;
 using Content.Shared.Interaction;
@@ -11,6 +11,7 @@ using Content.Shared.DeadSpace.Autopsy;
 using Content.Server.Buckle.Systems;
 using Content.Server.Popups;
 using Content.Shared.Buckle.Components;
+using Content.Shared.Damage.Components;
 using Content.Shared.Mobs;
 
 namespace Content.Server.DeadSpace.Autopsy;

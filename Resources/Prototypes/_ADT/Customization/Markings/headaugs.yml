@@ -49,3 +49,16 @@
   sprites:
   - sprite: _ADT/Mobs/Customization/augments/headaugs.rsi
     state: iron_jaw
+
+- type: marking
+  id: Malstrem2
+  bodyPart: Eyes
+  markingCategory: Head
+  coloring:
+    default:
+      type:
+        !type:EyeColoring
+          negative: true
+  sprites:
+  - sprite: _ADT/Mobs/Customization/augments/headaugs.rsi
+    state: malstrem2

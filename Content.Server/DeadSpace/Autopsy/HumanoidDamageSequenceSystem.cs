@@ -2,6 +2,7 @@
 
 using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
+using Content.Shared.Damage.Systems;
 using Content.Shared.DeadSpace.Autopsy;
 using Content.Shared.Mobs;
 using Robust.Shared.Prototypes;

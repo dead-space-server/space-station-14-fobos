@@ -2,6 +2,7 @@
 
 using Robust.Shared.Timing;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Content.Server.DeadSpace.MonkeyKing.Components;
 using Content.Shared.Movement.Systems;
 using Content.Server.Chat.Systems;

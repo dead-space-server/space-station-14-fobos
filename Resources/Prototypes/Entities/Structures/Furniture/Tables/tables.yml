@@ -521,7 +521,7 @@
         acts: [ "Destruction" ]
       - !type:PlaySoundBehavior
         sound:
-          collection: GlassBreak
+          collection: WoodDestroy
     - trigger:
         !type:DamageTrigger
         damage: 15
@@ -694,6 +694,12 @@
     damageModifierSet: Wood
   - type: Destructible
     thresholds:
+    - trigger: # Excess damage, don't spawn entities
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
     - trigger:
         !type:DamageTrigger
         damage: 25
@@ -730,6 +736,21 @@
   - type: Construction
     graph: Table
     node: TableFancyBlue
+
+- type: entity
+  id: TableFancySkyBlue
+  parent: TableFancyBase
+  suffix: SkyBlue
+  components:
+  - type: Sprite
+    sprite: Structures/Furniture/Tables/Fancy/skyblue.rsi
+  - type: Icon
+    sprite: Structures/Furniture/Tables/Fancy/skyblue.rsi
+  - type: Construction
+    graph: Table
+    node: TableFancySkyBlue
+  - type: IconSmooth
+    key: fancytableskyblue
 
 - type: entity
   id: TableFancyCyan
@@ -844,9 +865,6 @@
   description: PUT ON THEM CODERSOCKS!!
   suffix: DEBUG
   components:
-  - type: Tag
-    tags:
-      - Debug
   - type: Sprite
     sprite: Structures/Furniture/Tables/debug.rsi
   - type: Icon

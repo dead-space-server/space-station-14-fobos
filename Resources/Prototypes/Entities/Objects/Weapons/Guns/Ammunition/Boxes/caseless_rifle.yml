@@ -20,7 +20,7 @@
     sprite: _DeadSpace/Objects/Weapons/Guns/Ammunition/Boxes/caseless_rifle.rsi # DS14-texture-localization
   - type: MagazineVisuals
     magState: mag
-    steps: 4
+    steps: 5
     zeroVisible: false
   - type: Appearance
 
@@ -44,7 +44,7 @@
   parent: BaseMagazineBoxCaselessRifle
   id: MagazineBoxCaselessRiflePractice
   name: ammunition box (.25 caseless practice)
-  description: A cardboard box of .25 caseless rounds. Intended to hold non-harmful chalk ammunition.
+  description: A cardboard box of .25 caseless rounds. Intended to hold harmless practice ammunition.
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeCaselessRiflePractice

@@ -2,3 +2,15 @@
 - type: ore
   id: BlockSnow
   oreEntity: BlockSnow1
+
+- type: ore
+  id: OreMagmite
+  oreEntity: MagmiteOre1
+  minOreYield: 1
+  maxOreYield: 2
+
+- type: ore
+  id: OreBluespaceCrystal
+  oreEntity: BluespaceCrystalOre1
+  minOreYield: 2
+  maxOreYield: 4

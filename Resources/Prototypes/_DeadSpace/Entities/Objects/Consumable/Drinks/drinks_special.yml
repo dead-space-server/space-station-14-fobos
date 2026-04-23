@@ -18,5 +18,7 @@
       - state: base
       - state: base-unshaded
         shader: unshaded
+  - type: ExplosionResistance
+    damageCoefficient: 0
   - type: Item
     sprite: _DeadSpace/Objects/Consumable/Drinks/syndie_shaker.rsi

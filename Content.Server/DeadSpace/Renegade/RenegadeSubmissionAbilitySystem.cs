@@ -10,6 +10,7 @@ using Content.Server.Mind;
 using Content.Server.Revolutionary.Components;
 using Content.Shared.Examine;
 using Content.Shared.Silicons.Borgs.Components;
+using Content.Shared.Mindshield.Components;
 using Content.Shared.Mobs.Systems;
 
 namespace Content.Server.DeadSpace.Renegade;
@@ -109,6 +110,9 @@ public sealed class RenegadeSubmissionAbilitySystem : EntitySystem
 
     private bool IsCanSubmission(EntityUid uid, EntityUid target, RenegadeSubmissionAbilityComponent component)
     {
+        if (HasComp<RenegadeCANTSubordinateComponent>(target))
+            return false;
+
         if (HasComp<RenegadeSubordinateComponent>(target))
             return true;
 
@@ -138,7 +142,7 @@ public sealed class RenegadeSubmissionAbilitySystem : EntitySystem
             _popup.PopupEntity(Loc.GetString("Существо не обладает разумом!"), uid, uid);
             return false;
         }
-
+        
         return true;
     }
 }

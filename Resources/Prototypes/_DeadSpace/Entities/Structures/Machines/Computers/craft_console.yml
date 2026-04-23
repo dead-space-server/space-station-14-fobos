@@ -1,0 +1,38 @@
+- type: entity
+  parent: BaseComputerAiAccess
+  id: CraftConsole
+  name: консоль управление станка
+  description: В какой-то момент, при попытке вставить в консоль чертёж, тот может выкинуть чертёж обратно, не приняв его. То есть НТ на столько сэкономило на данной консоли, что просто соеденили банкомат и консоль. К чему этот бред? Шутку просто не придумать нормально...
+  components:
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: rdcomp
+    - map: ["computerLayerKeys"]
+      state: rd_key
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: ConsoleCraftConsole
+  - type: ConsoleCraftBlueprintReceiver
+  - type: ActivatableUI
+    key: enum.ConsoleCraftUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.ConsoleCraftUiKey.Key:
+        type: ConsoleCraftConsoleBui
+  - type: ApcPowerReceiver
+    powerLoad: 50
+  - type: Computer
+    board: CraftConsoleCircuitboard
+  - type: PointLight
+    radius: 1.5
+    energy: 3.0
+    color: "#3ca1b5"
+  - type: ContainerContainer
+    containers:
+      board: !type:Container {}
+      consolecraft_blueprints: !type:Container {}

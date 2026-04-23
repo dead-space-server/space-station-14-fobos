@@ -21,10 +21,11 @@
   - Brig
   - Armory
   - Maintenance
-  - Service
   - External
   - Detective
   - Cryogenics
+  - GenpopEnter
+  - GenpopLeave
   #start-backmen: currency
   minBankBalance: 150
   maxBankBalance: 250
@@ -38,7 +39,7 @@
     components:
       # DS14-Start
       - type: Skill
-        group: BaseSkills
+        group: BasicAndShuttleControl
       # DS14-End
 
 - type: startingGear

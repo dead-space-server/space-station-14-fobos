@@ -1,6 +1,6 @@
 ﻿using Content.Server.Actions;
 using Content.Server.Backmen.Blob.Components;
-using Content.Server.Body.Systems;
+using Content.Shared.Gibbing;
 using Content.Server.Ghost.Roles.Components;
 using Content.Server.Mind;
 using Content.Shared.Backmen.Blob;
@@ -16,7 +16,7 @@ public sealed class BlobCarrierSystem : SharedBlobCarrierSystem
 {
     [Dependency] private readonly BlobCoreSystem _blobCoreSystem = default!;
     [Dependency] private readonly MindSystem _mind = default!;
-    [Dependency] private readonly BodySystem _bodySystem = default!;
+    [Dependency] private readonly GibbingSystem _gibbing = default!;
     [Dependency] private readonly ActionsSystem _action = default!;
 
     public override void Initialize()
@@ -90,6 +90,6 @@ public sealed class BlobCarrierSystem : SharedBlobCarrierSystem
             Spawn(ent.Comp.CoreBlobGhostRolePrototype, xform.Coordinates);
         }
 
-        _bodySystem.GibBody(ent);
+        _gibbing.Gib(ent);
     }
 }

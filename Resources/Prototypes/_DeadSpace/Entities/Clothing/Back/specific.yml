@@ -7,7 +7,6 @@
   - type: Tag
     tags:
     - FlamethrowerBackTank
-    - GasTank
   - type: Sprite
     sprite: _DeadSpace/Objects/Tanks/Flamethrower/syndie_flametank.rsi
     state: icon

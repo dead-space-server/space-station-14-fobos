@@ -1,6 +1,6 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
-using Content.Server.Body.Systems;
+using Content.Shared.Gibbing;
 using Content.Shared.Inventory.Events;
 using Content.Server.Explosion.EntitySystems;
 using Content.Server.Chat.Systems;
@@ -16,6 +16,7 @@ using Content.Shared.Interaction.Components;
 using Content.Server.Speech.EntitySystems;
 using Content.Shared.Body.Components;
 using Content.Shared.Body.Part;
+using Content.Shared.Chat;
 using Content.Shared.Emag.Systems;
 using Robust.Shared.Audio.Systems;
 using Content.Shared.Speech.Components;
@@ -24,7 +25,7 @@ namespace Content.Server.DeadSpace.HardsuitIdentification;
 
 public sealed class HardsuitIdentificationSystem : EntitySystem
 {
-    [Dependency] private readonly BodySystem _bodySystem = default!;
+    [Dependency] private readonly GibbingSystem _gibbing = default!;
     [Dependency] private readonly ExplosionSystem _explosionSystem = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
     [Dependency] private readonly PopupSystem _popupSystem = default!;
@@ -44,25 +45,25 @@ public sealed class HardsuitIdentificationSystem : EntitySystem
     public void OnEquip(EntityUid uid, HardsuitIdentificationComponent comp, GotEquippedEvent args)
     {
         if (comp.Activated == true || comp.DNAWasStored == false)
-        {
             return;
-        }
 
         if (TryComp(args.Equipee, out DnaComponent? dna))
         {
             if (comp.DNA == dna.DNA)
-            {
                 return;
-            }
         }
+        _audio.PlayPvs(comp.WrongOwnerSound, uid);
 
         if (comp.Nonlethal)
         {
-            Timer.Spawn(0000,
+            Timer.Spawn(0,
                 () =>
                 {
-                    _popupSystem.PopupEntity(Loc.GetString("hardsuit-identification-error"), args.Equipee, args.Equipee);
-                    _inventory.TryUnequip(args.Equipee, "outerClothing", true, true);
+                    _popupSystem.PopupEntity(
+                        Loc.GetString("hardsuit-identification-error"),
+                        args.Equipee,
+                        args.Equipee);
+                    _inventory.TryUnequip(args.Equipee, args.Slot, true, true);
                 });
             return;
         }
@@ -74,87 +75,58 @@ public sealed class HardsuitIdentificationSystem : EntitySystem
 
         EnsureComp<UnremoveableComponent>(args.Equipment);
 
-        _popupSystem.PopupEntity(Loc.GetString("hardsuit-identification-error-spikes"), args.Equipee, args.Equipee, Shared.Popups.PopupType.Large);
-
-        // So, before you continue reading this code, I warn you that there is serious shit below. It works, but it needs a fix... FIX THIS PLEASE.
+        _popupSystem.PopupEntity(
+            Loc.GetString("hardsuit-identification-error-spikes"),
+            args.Equipee,
+            args.Equipee,
+            Shared.Popups.PopupType.Large);
 
         Timer.Spawn(1000,
-            () =>
-            {
-                _chat.TrySendInGameICMessage(args.Equipment, Loc.GetString("hardsuit-identification-error"), InGameICChatType.Speak, true);
-            });
+            () => _chat.TrySendInGameICMessage(args.Equipment,
+                Loc.GetString("hardsuit-identification-error"),
+                InGameICChatType.Speak, true));
 
         Timer.Spawn(1500,
-            () =>
-            {
-                if (TryComp(args.Equipee, out VocalComponent? vocal))
-                {
-                    _vocal.TryPlayScreamSound(args.Equipee, vocal);
-                }
-            });
+            () => { if (TryComp(args.Equipee, out VocalComponent? v)) _vocal.TryPlayScreamSound(args.Equipee, v); });
 
         Timer.Spawn(2000,
-            () =>
-            {
-                _chat.TrySendInGameICMessage(args.Equipment, "3", InGameICChatType.Speak, true);
-            });
+            () => _chat.TrySendInGameICMessage(args.Equipment, "3", InGameICChatType.Speak, true));
 
         Timer.Spawn(2500,
-            () =>
-            {
-                if (TryComp(args.Equipee, out VocalComponent? vocal))
-                {
-                    _vocal.TryPlayScreamSound(args.Equipee, vocal);
-                }
-            });
+            () => { if (TryComp(args.Equipee, out VocalComponent? v)) _vocal.TryPlayScreamSound(args.Equipee, v); });
 
         Timer.Spawn(3000,
-            () =>
-            {
-                _chat.TrySendInGameICMessage(args.Equipment, "2", InGameICChatType.Speak, true);
-            });
+            () => _chat.TrySendInGameICMessage(args.Equipment, "2", InGameICChatType.Speak, true));
 
         Timer.Spawn(3500,
-            () =>
-            {
-                if (TryComp(args.Equipee, out VocalComponent? vocal))
-                {
-                    _vocal.TryPlayScreamSound(args.Equipee, vocal);
-                }
-            });
+            () => { if (TryComp(args.Equipee, out VocalComponent? v)) _vocal.TryPlayScreamSound(args.Equipee, v); });
 
         Timer.Spawn(4000,
             () =>
             {
                 _chat.TrySendInGameICMessage(args.Equipment, "1", InGameICChatType.Speak, true);
-
-                if (TryComp(args.Equipee, out VocalComponent? vocal))
-                {
-                    _vocal.TryPlayScreamSound(args.Equipee, vocal);
-                }
+                if (TryComp(args.Equipee, out VocalComponent? v)) _vocal.TryPlayScreamSound(args.Equipee, v);
             });
 
         Timer.Spawn(5000,
             () =>
             {
                 if (!EntityManager.EntityExists(args.Equipment))
-                {
                     return;
-                }
 
-                _explosionSystem.QueueExplosion(args.Equipment, ExplosionSystem.DefaultExplosionPrototypeId,
+                _explosionSystem.QueueExplosion(args.Equipment,
+                    ExplosionSystem.DefaultExplosionPrototypeId,
                     4, 1, 2, maxTileBreak: 0);
 
                 if (_inventory.TryGetSlotEntity(args.Equipee, "outerClothing", out var hardsuitEntity) &&
-                hardsuitEntity == args.Equipment && TryComp<BodyComponent>(args.Equipee, out var body))
+                    hardsuitEntity == args.Equipment &&
+                    HasComp<BodyComponent>(args.Equipee))
                 {
-                    var ents = _bodySystem.GibBody(args.Equipee, true, body, false);
+                    var ents = _gibbing.Gib(args.Equipee, dropGiblets: false);
                     foreach (var part in ents)
                     {
                         if (HasComp<BodyPartComponent>(part))
-                        {
                             QueueDel(part);
-                        }
                     }
                 }
 
@@ -199,8 +171,11 @@ public sealed class HardsuitIdentificationSystem : EntitySystem
 
     public void OnEmagged(EntityUid uid, HardsuitIdentificationComponent comp, GotEmaggedEvent args)
     {
+        if (!comp.CanEmag)
+            return;
+    
         _audio.PlayPvs(comp.SparkSound, uid);
-
+    
         if (comp.Activated)
         {
             _popupSystem.PopupEntity(Loc.GetString("hardsuit-identification-on-emagged-late"), uid);
@@ -209,9 +184,9 @@ public sealed class HardsuitIdentificationSystem : EntitySystem
         {
             _popupSystem.PopupEntity(Loc.GetString("hardsuit-identification-on-emagged"), uid);
         }
-
+    
         EntityManager.RemoveComponent<HardsuitIdentificationComponent>(uid);
-
+    
         args.Handled = true;
     }
 }
