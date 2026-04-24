@@ -110,7 +110,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitLoToK1
   name: модифицированный ведьмин скафандр
   description: Принадлежат члену экипажа, находящемуся под покровительством спонсорской организации.

@@ -22,7 +22,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitDragonFox
   name: королевский украшенный скафандр
   description: Принадлежат члену экипажа, находящемуся под покровительством спонсорской организации.
@@ -78,7 +78,7 @@
 # HardSuit Event
 
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitDragonFoxEvent
   name: силовой доспех эгида
   description: Доспех изготавливают из самых продвинутых сплавов керамита, адамантия и некоторых других металлов. Точный состав сплава хранится в строжайшей тайне. Все элементы доспеха покрываются гексаграммными оберегами, омываются священными маслами и заклинаются древними защитными заклинаниями.
@@ -287,7 +287,7 @@
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.4
+        Piercing: 0.6
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
@@ -363,7 +363,7 @@
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.4
+        Piercing: 0.6
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
