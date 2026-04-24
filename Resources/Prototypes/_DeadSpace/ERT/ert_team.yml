@@ -1,6 +1,10 @@
 - type: ertTeam
   id: Cburn
   name: РХБЗ
+  notification: ert-response-caused-messager-cburn
+  approvalColor: "#3f6e70"
+  approvalAudio:
+    path: /Audio/Misc/delta_alt.ogg
   startAnnouncement: station-event-response-team-arrival-cburn
   startAudio:
     path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
@@ -12,7 +16,7 @@
     5 бойцов РХБЗЗ и 1 лидер прибывают на шаттле РХБЗЗ, который оснащён
     всем необходимым оборудованием для выполнения их миссии.
     Время прибытия отряда от 10 до 15 минут.
-  sender: ert-responce-cso-sender
+  sender: ert-response-cso-sender
   rule: SpawnCburnShuttle
   cooldown:
     min: 15m
@@ -34,6 +38,9 @@
 - type: ertTeam
   id: CburnSierra
   name: РХБЗЗ Сьерра
+  approvalColor: "#3f6e70"
+  approvalAudio:
+    path: /Audio/Misc/delta_alt.ogg
   startAnnouncement: station-event-response-team-arrival-cburn-sierra
   startAudio:
     path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
@@ -45,8 +52,8 @@
     10 бойцов РХБЗЗ и 1 лидер прибывают на шаттле РХБЗЗ, который оснащён
     всем необходимым оборудованием для выполнения их миссии.
     Время прибытия отряда от 10 до 15 минут.
-  notification: ert-responce-caused-messager-sierra
-  sender: ert-responce-cso-sender
+  notification: ert-response-caused-messager-sierra
+  sender: ert-response-cso-sender
   rule: SpawnSierraShuttle
   cooldown:
     min: 15m
@@ -68,6 +75,9 @@
 - type: ertTeam
   id: Engineers
   name: ОБР Инженеры
+  notification: ert-response-caused-messager-engineers
+  approvalAudio:
+    path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
   startAnnouncement: station-event-response-team-arrival
   startAudio:
     path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
@@ -102,6 +112,9 @@
 - type: ertTeam
   id: Amber
   name: ОБР Эмбер
+  notification: ert-response-caused-messager-amber
+  approvalAudio:
+    path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
   startAnnouncement: station-event-response-team-arrival
   startAudio:
     path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
@@ -139,6 +152,10 @@
 - type: ertTeam
   id: Red
   name: ОБР Красный
+  notification: ert-response-caused-messager-red
+  approvalColor: "#a66286"
+  approvalAudio:
+    path: /Audio/Misc/gamma.ogg
   startAnnouncement: station-event-response-team-arrival-red
   startAudio:
     path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
@@ -151,7 +168,7 @@
     7 членов отряда прибывают на шаттле типа Гамма, который оснащён всем
     необходимым оборудованием для выполнения их миссии.
     Время прибытия отряда от 10 до 15 минут.
-  sender: ert-responce-cso-sender
+  sender: ert-response-cso-sender
   rule: SpawnRedShuttle
   cooldown:
     min: 10m
@@ -178,6 +195,9 @@
 - type: ertTeam
   id: Gamma
   name: ОБР Гамма
+  approvalColor: "#a66286"
+  approvalAudio:
+    path: /Audio/Misc/gamma.ogg
   startAnnouncement: station-event-response-team-arrival-gamma
   startAudio:
     path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
@@ -190,8 +210,8 @@
     необходимым оборудованием для выполнения их миссии.
     Время прибытия отряда 20 минут.
   rule: SpawnGammaShuttle
-  notification: ert-responce-caused-messager-gamma
-  sender: ert-responce-cso-sender
+  notification: ert-response-caused-messager-gamma
+  sender: ert-response-cso-sender
   cooldown:
     min: 20m
     max: 20m
@@ -216,6 +236,10 @@
 - type: ertTeam
   id: BSAA
   name: АПБТ
+  notification: ert-response-caused-messager-bsaa
+  approvalColor: "#3f6e70"
+  approvalAudio:
+    path: /Audio/Misc/delta_alt.ogg
   startAudio:
     path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
   description: 
@@ -224,8 +248,7 @@
     Данный отряд отправляется при вторжении террористов Круг или в случае масштабного всплеска ред-спейс.
     Время прибытия отряда от 20 до 25 минут.
   rule: SpawnSierraShuttle
-  notification: ert-responce-caused-messager-uni-ops
-  sender: ert-responce-cso-sender
+  sender: ert-response-cso-sender
   cooldown:
     min: 25m
     max: 25m
@@ -254,7 +277,7 @@
     на шаттле, который оснащён всем необходимым оборудованием
     для выполнения их миссии.
     Время прибытия от 5 до 7 минут.
-  notification: ert-responce-caused-messager-official
+  notification: ert-response-caused-messager-official
   rule: SpawnCentCommOfficialShuttle
   cancelMessage: 
     Представитель Центрального Командования NanoTrasen не смог прибыть на станцию

@@ -26,6 +26,7 @@
   name: Spider Polymorph
   description: Polymorphs you into a Spider.
   components:
+  - type: Magic # DS14
   - type: Action
     icon:
       sprite: Mobs/Animals/spider.rsi
@@ -40,6 +41,7 @@
   name: Rod Form
   description: CLANG!
   components:
+  - type: Magic # DS14
   - type: Action
     icon:
       sprite: Objects/Fun/immovable_rod.rsi

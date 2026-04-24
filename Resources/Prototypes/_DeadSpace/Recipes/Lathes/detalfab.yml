@@ -1,0 +1,402 @@
+# Платы
+
+- type: latheRecipe
+  id: DetailTechFabMachineCircuitboard
+  result: DetailTechFabMachineCircuitboard
+  materials:
+    Steel: 500
+    Plastic: 500
+
+- type: latheRecipe
+  id: CraftConsoleCircuitboard
+  result: CraftConsoleCircuitboard
+  materials:
+    Steel: 500
+    Plastic: 500
+
+- type: latheRecipe
+  id: CraftMachineCircuitboard
+  result: CraftMachineCircuitboard
+  materials:
+    Steel: 500
+    Plastic: 500
+
+# Ядра и каркасы
+
+- type: latheRecipe
+  id: DefaultCoreForModifiedBackpack
+  result: DefaultCoreForModifiedBackpack
+  materials:
+    Steel: 1500
+    Plastic: 1000
+    Gold: 500
+
+- type: latheRecipe
+  id: MediumCoreForModifiedBackpack
+  result: MediumCoreForModifiedBackpack
+  materials:
+    Steel: 1500
+    Plastic: 1250
+    Gold: 1000
+    Plasma: 1000
+    MaterialHardDiskDrive: 125
+
+- type: latheRecipe
+  id: AdvancedCoreForModifiedBackpack
+  result: AdvancedCoreForModifiedBackpack
+  materials:
+    Steel: 2000
+    Plastic: 1250
+    Gold: 1250
+    Plasma: 500
+    Magmite: 250
+    MaterialHardDiskDrive: 250
+
+- type: latheRecipe
+  id: HardsuitFrameTorso
+  result: HardsuitFrameTorso
+  materials:
+    Steel: 1500
+    Plasteel: 250
+
+- type: latheRecipe
+  id: HardsuitFrameLeg
+  result: HardsuitFrameLeg
+  materials:
+    Steel: 1500
+    Plasteel: 250
+
+# Бесконечные чертежи
+
+- type: latheRecipe
+  id: BlueprintRIGSecurityInfinite
+  result: BlueprintRIGSecurityInfinite
+  materials:
+    MaterialDatadiskEncrypted: 1750
+
+- type: latheRecipe
+  id: BlueprintRIGSecurityAdvancedInfinite
+  result: BlueprintRIGSecurityAdvancedInfinite
+  materials:
+    MaterialDatadiskEncrypted: 1750
+
+- type: latheRecipe
+  id: BlueprintRIGSalvageInfinite
+  result: BlueprintRIGSalvageInfinite
+  materials:
+    MaterialDatadiskEncrypted: 1750
+
+- type: latheRecipe
+  id: BlueprintRIGEVAInfinite
+  result: BlueprintRIGEVAInfinite
+  materials:
+    MaterialDatadiskEncrypted: 1000
+
+- type: latheRecipe
+  id: BlueprintRIGResearchInfinite
+  result: BlueprintRIGResearchInfinite
+  materials:
+    MaterialDatadiskEncrypted: 1750
+
+- type: latheRecipe
+  id: BlueprintRIGEngineerInfinite
+  result: BlueprintRIGEngineerInfinite
+  materials:
+    MaterialDatadiskEncrypted: 1000
+
+# 3 использование
+
+- type: latheRecipe
+  id: BlueprintRIGSecurityThreeUse
+  result: BlueprintRIGSecurityThreeUse
+  materials:
+    MaterialDatadiskEncrypted: 1250
+
+- type: latheRecipe
+  id: BlueprintRIGSecurityAdvancedThreeUse
+  result: BlueprintRIGSecurityAdvancedThreeUse
+  materials:
+    MaterialDatadiskEncrypted: 1250
+
+- type: latheRecipe
+  id: BlueprintRIGSalvageThreeUse
+  result: BlueprintRIGSalvageThreeUse
+  materials:
+    MaterialDatadiskEncrypted: 1250
+
+- type: latheRecipe
+  id: BlueprintRIGEVAThreeUse
+  result: BlueprintRIGEVAThreeUse
+  materials:
+    MaterialDatadiskEncrypted: 750
+
+- type: latheRecipe
+  id: BlueprintRIGResearchThreeUse
+  result: BlueprintRIGResearchThreeUse
+  materials:
+    MaterialDatadiskEncrypted: 1250
+
+- type: latheRecipe
+  id: BlueprintRIGEngineerThreeUse
+  result: BlueprintRIGEngineerThreeUse
+  materials:
+    MaterialDatadiskEncrypted: 750
+
+# 1 использование
+
+- type: latheRecipe
+  id: BlueprintRIGSecurityOneUse
+  result: BlueprintRIGSecurityOneUse
+  materials:
+    MaterialDatadiskEncrypted: 750
+
+- type: latheRecipe
+  id: BlueprintRIGSecurityAdvancedOneUse
+  result: BlueprintRIGSecurityAdvancedOneUse
+  materials:
+    MaterialDatadiskEncrypted: 750
+
+- type: latheRecipe
+  id: BlueprintRIGSalvageOneUse
+  result: BlueprintRIGSalvageOneUse
+  materials:
+    MaterialDatadiskEncrypted: 750
+
+- type: latheRecipe
+  id: BlueprintRIGEVAOneUse
+  result: BlueprintRIGEVAOneUse
+  materials:
+    MaterialDatadiskEncrypted: 350
+
+- type: latheRecipe
+  id: BlueprintRIGResearchOneUse
+  result: BlueprintRIGResearchOneUse
+  materials:
+    MaterialDatadiskEncrypted: 750
+
+- type: latheRecipe
+  id: BlueprintRIGEngineerOneUse
+  result: BlueprintRIGEngineerOneUse
+  materials:
+    MaterialDatadiskEncrypted: 350
+
+# Шлема
+
+- type: latheRecipe
+  id: ClothingHeadHelmetRIGEVA
+  result: ClothingHeadHelmetRIGEVA
+  materials:
+    Steel: 1500
+    Glass: 500
+    Durathread: 500
+
+- type: latheRecipe
+  id: ClothingHeadHelmetRIGEngineer
+  result: ClothingHeadHelmetRIGEngineer
+  materials:
+    Steel: 1500
+    Durathread: 500
+    Glass: 500
+    Silver: 500
+
+- type: latheRecipe
+  id: ClothingHeadHelmetRIGResearch
+  result: ClothingHeadHelmetRIGResearch
+  materials:
+    Steel: 1500
+    Durathread: 500
+    Silver: 250
+    Glass: 500
+    Gold: 250
+
+- type: latheRecipe
+  id: ClothingHeadHelmetRIGSecurity
+  result: ClothingHeadHelmetRIGSecurity
+  materials:
+    Steel: 1500
+    Durathread: 500
+    Glass: 500
+    Plasteel: 1000
+
+- type: latheRecipe
+  id: ClothingHeadHelmetRIGSecurityAdvanced
+  result: ClothingHeadHelmetRIGSecurityAdvanced
+  materials:
+    Steel: 2000
+    Durathread: 500
+    Plasteel: 1500
+    Silver: 500
+    Glass: 500
+    Magmite: 500
+
+- type: latheRecipe
+  id: ClothingHeadHelmetRIGSalvage
+  result: ClothingHeadHelmetRIGSalvage
+  materials:
+    Steel: 1500
+    Durathread: 500
+    Plasteel: 1000
+    Gold: 250
+    Glass: 500
+    Magmite: 500
+
+# Пластины
+
+- type: latheRecipe
+  id: PlastineOfSecurAdvancedityRIG
+  result: PlastineOfSecurAdvancedityRIG
+  materials:
+    Steel: 3250
+    Plasteel: 1750
+    Uranium: 250
+    Magmite: 1500
+    Silver: 1000
+
+- type: latheRecipe
+  id: PlastineOfSecurityRIG
+  result: PlastineOfSecurityRIG
+  materials:
+    Steel: 2150
+    Plasteel: 1250
+    Magmite: 825
+    Uranium: 125
+    Silver: 500
+
+- type: latheRecipe
+  id: PlastineOfSalvageRIG
+  result: PlastineOfSalvageRIG
+  materials:
+    Steel: 2150
+    Plasteel: 1000
+    Magmite: 1250
+    Uranium: 175
+    Gold: 500
+
+- type: latheRecipe
+  id: PlastineOfResearchRIG
+  result: PlastineOfResearchRIG
+  materials:
+    Steel: 2000
+    Plasteel: 1250
+    Gold: 500
+    Silver: 250
+
+- type: latheRecipe
+  id: PlastineOfEngineerRIG
+  result: PlastineOfEngineerRIG
+  materials:
+    Steel: 1750
+    Plasteel: 550
+    Gold: 250
+
+- type: latheRecipe
+  id: PlastineOfEVARIG
+  result: PlastineOfEVARIG
+  materials:
+    Steel: 1500
+    Plasteel: 250
+
+# Модули
+
+- type: latheRecipe
+  id: StorageModuleItem
+  result: StorageModuleItem
+  materials:
+    Steel: 1500
+    BluespaceCrystal: 725
+    Plastic: 250
+    MaterialScrapGlass: 500
+
+- type: latheRecipe
+  id: DelayModifierModuleItem
+  result: DelayModifierModuleItem
+  materials:
+    Steel: 1250
+    Plastic: 500
+    MaterialScrapGlass: 125
+
+- type: latheRecipe
+  id: HeatResistanceModuleEngineer
+  result: HeatResistanceModuleEngineer
+  materials:
+    Steel: 1750
+    Glass: 500
+    Durathread: 500
+    MaterialScrapGlass: 500
+
+- type: latheRecipe
+  id: FireResistanceModuleEngineer
+  result: FireResistanceModuleEngineer
+  materials:
+    Steel: 2000
+    Glass: 725
+    MaterialScrapGlass: 500
+
+- type: latheRecipe
+  id: SpeedModifierModuleSalvage
+  result: SpeedModifierModuleSalvage
+  materials:
+    Steel: 1750
+    BluespaceCrystal: 200
+    Durathread: 200
+    MaterialScrapGlass: 500
+
+- type: latheRecipe
+  id: ExplosionResistanceModuleResearch
+  result: ExplosionResistanceModuleResearch
+  materials:
+    Steel: 1750
+    Silver: 750
+    MaterialScrapGlass: 300
+
+- type: latheRecipe
+  id: RadiationResistanceModuleResearch
+  result: RadiationResistanceModuleResearch
+  materials:
+    Steel: 1000
+    Gold: 1000
+    MaterialScrapGlass: 500
+
+- type: latheRecipe
+  id: SpeedModifierModuleItemResearch
+  result: SpeedModifierModuleItemResearch
+  materials:
+    Steel: 1250
+    BluespaceCrystal: 125
+    Durathread: 200
+    MaterialScrapGlass: 250
+
+- type: latheRecipe
+  id: StorageModuleSecurity
+  result: StorageModuleSecurity
+  materials:
+    Steel: 1000
+    Plastic: 500
+    Durathread: 1000
+    MaterialScrapGlass: 750
+
+- type: latheRecipe
+  id: PiercingResistanceModuleSecurityAdvanced
+  result: PiercingResistanceModuleSecurityAdvanced
+  materials:
+    Steel: 1500
+    Plasteel: 1500
+    MaterialScrapGlass: 1000
+
+- type: latheRecipe
+  id: SpeedModifierModuleSecurityAdvanced
+  result: SpeedModifierModuleSecurityAdvanced
+  materials:
+    Steel: 1550
+    BluespaceCrystal: 200
+    Durathread: 250
+    MaterialScrapGlass: 500
+
+- type: latheRecipe
+  id: SpeedModifierModuleSecurity
+  result: SpeedModifierModuleSecurity
+  materials:
+    Steel: 1250
+    BluespaceCrystal: 125
+    Durathread: 200
+    MaterialScrapGlass: 500

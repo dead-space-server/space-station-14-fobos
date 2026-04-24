@@ -4,7 +4,7 @@ using Content.Server.DeadSpace.ERT;
 
 namespace Content.Server.DeadSpace.ERTCall;
 
-[RegisterComponent, Access(typeof(ErtResponceSystem))]
+[RegisterComponent, Access(typeof(ErtResponseSystem))]
 public sealed partial class ErtSpeciesRoleComponent : Component
 {
     [ViewVariables(VVAccess.ReadOnly)]

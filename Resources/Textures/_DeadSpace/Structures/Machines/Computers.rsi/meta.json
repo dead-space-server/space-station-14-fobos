@@ -1,0 +1,60 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Made by axaxaxaxaxa_axa (discord) for Space Station 14 server Мёртвый Космос",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "computer",
+            "directions": 4
+        },
+        {
+            "name": "generic_keyboard",
+            "directions": 4
+        },
+        {
+            "name": "generic_keys",
+            "directions": 4
+        },
+        {
+            "name": "generic_panel_open",
+            "directions": 4
+        },
+        {
+            "name": "screen",
+            "directions": 4,
+            "delays": [
+                [
+                    0.12,
+                    0.12,
+                    0.12,
+                    0.12
+                ],
+                [
+                    0.12,
+                    0.12,
+                    0.12,
+                    0.12
+                ],
+                [
+                    0.12,
+                    0.12,
+                    0.12,
+                    0.12
+                ],
+                [
+                    0.12,
+                    0.12,
+                    0.12,
+                    0.12
+                ]
+            ]
+        },
+        {
+            "name": "law_board_configurator_console"
+        }
+    ]
+}

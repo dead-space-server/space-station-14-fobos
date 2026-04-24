@@ -4,6 +4,10 @@
   description: job-description-centcom-officer
   playTimeTracker: JobCentralCommandOfficer
   setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 # 20 hours
   startingGear: CentcomOfficerGear
   icon: "JobIconNanotrasen"
   supervisors: job-supervisors-centcom-administrator

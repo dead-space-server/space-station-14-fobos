@@ -1,0 +1,16 @@
+- type: material
+  id: RawMagmite
+  stackEntity: MagmiteOre1
+  name: руда магмита
+  unit: materials-unit-piece
+  icon: { sprite: /Textures/_DeadSpace/Objects/Materials/magmite-ore.rsi, state: magmite }
+  color: "#c73914"
+  price: 2.5
+
+- type: material
+  id: Magmite
+  stackEntity: SheetMagmite1
+  name: магмитовая сталь
+  icon: { sprite: /Textures/_DeadSpace/Objects/Materials/Sheets/magmite-sheet.rsi, state: magmite }
+  color: "#c73914"
+  price: 30

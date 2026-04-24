@@ -1,0 +1,89 @@
+- type: latheRecipePack
+  id: CraftStationCircuits
+  recipes:
+    - DetailTechFabMachineCircuitboard
+    - CraftConsoleCircuitboard
+    - CraftMachineCircuitboard
+
+- type: latheRecipePack
+  id: RIGStartDetails
+  recipes:
+    - DefaultCoreForModifiedBackpack
+    - HardsuitFrameTorso
+    - HardsuitFrameLeg
+    - DelayModifierModuleItem
+
+- type: latheRecipePack
+  id: RIGAdvancedCorePart
+  recipes:
+    - MediumCoreForModifiedBackpack
+    - AdvancedCoreForModifiedBackpack
+
+- type: latheRecipePack
+  id: BlueprintRIGInfinite
+  recipes:
+    - BlueprintRIGSecurityInfinite
+    - BlueprintRIGSecurityAdvancedInfinite
+    - BlueprintRIGSalvageInfinite
+    - BlueprintRIGEVAInfinite
+    - BlueprintRIGResearchInfinite
+    - BlueprintRIGEngineerInfinite
+
+- type: latheRecipePack
+  id: BlueprintRIGThreeUse
+  recipes:
+    - BlueprintRIGSecurityThreeUse
+    - BlueprintRIGSecurityAdvancedThreeUse
+    - BlueprintRIGSalvageThreeUse
+    - BlueprintRIGEVAThreeUse
+    - BlueprintRIGResearchThreeUse
+    - BlueprintRIGEngineerThreeUse
+
+- type: latheRecipePack
+  id: BlueprintRIGOneUse
+  recipes:
+    - BlueprintRIGSecurityOneUse
+    - BlueprintRIGSecurityAdvancedOneUse
+    - BlueprintRIGSalvageOneUse
+    - BlueprintRIGEVAOneUse
+    - BlueprintRIGResearchOneUse
+    - BlueprintRIGEngineerOneUse
+
+- type: latheRecipePack
+  id: RIGHelmets
+  recipes:
+    - ClothingHeadHelmetRIGEVA
+    - ClothingHeadHelmetRIGEngineer
+    - ClothingHeadHelmetRIGResearch
+    - ClothingHeadHelmetRIGSalvage
+
+- type: latheRecipePack
+  id: RIGPlastines
+  recipes:
+    - PlastineOfResearchRIG
+    - PlastineOfEngineerRIG
+    - PlastineOfEVARIG
+    - PlastineOfSalvageRIG
+
+- type: latheRecipePack
+  id: RIGModules
+  recipes:
+    - StorageModuleItem
+    - HeatResistanceModuleEngineer
+    - FireResistanceModuleEngineer
+    - SpeedModifierModuleSalvage
+    - ExplosionResistanceModuleResearch
+    - RadiationResistanceModuleResearch
+    - SpeedModifierModuleItemResearch
+
+- type: latheRecipePack
+  id: SecurityRIGCraftDetails
+  recipes:
+    - ClothingHeadHelmetRIGSecurity
+    - ClothingHeadHelmetRIGSecurityAdvanced
+    - PlastineOfSecurAdvancedityRIG
+    - PlastineOfSecurityRIG
+    - StorageModuleSecurity
+    - PiercingResistanceModuleSecurityAdvanced
+    - SpeedModifierModuleSecurityAdvanced
+    - SpeedModifierModuleSecurity
