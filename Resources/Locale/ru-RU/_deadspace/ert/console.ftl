@@ -79,6 +79,7 @@ ert-console-auth-card-invalid = В консоль допускаются тол�
 ert-console-requester-unknown = неизвестный оператор
 ert-console-requester-name-with-job = { $name } ({ $job })
 ert-console-request-rejected-announcement = Внимание командованию Станции! Корпус Специальных Операций отклонил запрос на вызов Отряда Быстрого Реагирования. Справляйтесь своими силами. Слава NanoTrasen!
+ert-response-team-changed-announcement = Внимание, станция! Корпус Специальных Операций пересмотрел прошлое решение по вызову Отряда Быстрого Реагирование. Было принято решение об отправке отряда { $team }. Боже, Директорат Храни!
 ert-console-auth-slot-a = карта авторизации А
 ert-console-auth-slot-b = карта авторизации Б
 ert-admin-requester-system = системный вызов

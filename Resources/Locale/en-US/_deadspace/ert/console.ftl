@@ -75,6 +75,7 @@ ert-console-auth-card-invalid = Only captain and head of security ID cards can b
 ert-console-requester-unknown = unknown operator
 ert-console-requester-name-with-job = { $name } ({ $job })
 ert-console-request-rejected-announcement = Attention Station Command! The Special Operations Corps has denied the Emergency Response Team request. Handle the situation with your own forces. Glory to NanoTrasen!
+ert-response-team-changed-announcement = Attention, station! The Special Operations Corps has reconsidered the previous Emergency Response Team decision. A decision has been made to dispatch { $team }. God save the Directorate!
 ert-console-auth-slot-a = authorization card A
 ert-console-auth-slot-b = authorization card B
 ert-admin-requester-system = system request

@@ -145,7 +145,7 @@ namespace Content.Client.Administration.UI.Tabs.AdminTab
             foreach (var entry in state.PendingRequests.OrderBy(e => e.RequestId))
             {
                 PendingRequestsList.AddItem(
-                    $"#{entry.RequestId} {entry.Name} ({entry.Price})",
+                    $"#{entry.RequestId} {entry.Name} - {entry.SecondsRemaining}s ({entry.Price})",
                     metadata: entry.RequestId);
             }
 
