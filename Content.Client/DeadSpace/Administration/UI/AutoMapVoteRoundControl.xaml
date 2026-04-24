@@ -1,0 +1,42 @@
+<controls:AutoMapVoteRoundControl
+    xmlns="https://spacestation14.io"
+    xmlns:controls="clr-namespace:Content.Client.DeadSpace.Administration.UI"
+    xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
+    Margin="0 10 0 0">
+    <PanelContainer StyleClasses="BackgroundPanelDark">
+        <BoxContainer Orientation="Vertical" Margin="10" SeparationOverride="8">
+            <BoxContainer Orientation="Horizontal">
+                <PanelContainer SetWidth="8">
+                    <PanelContainer.PanelOverride>
+                        <gfx:StyleBoxFlat BackgroundColor="#2ea043" />
+                    </PanelContainer.PanelOverride>
+                </PanelContainer>
+                <BoxContainer Orientation="Vertical" HorizontalExpand="True" Margin="8 0 0 0">
+                    <Label Text="{Loc auto-map-vote-round-title}" StyleClasses="LabelHeading" />
+                    <Label Text="{Loc auto-map-vote-round-subtitle}" StyleClasses="LabelSubText" />
+                </BoxContainer>
+                <Label Name="StateBadge" />
+            </BoxContainer>
+
+            <PanelContainer StyleClasses="LowDivider" />
+
+            <BoxContainer Orientation="Horizontal" SeparationOverride="18">
+                <BoxContainer Orientation="Vertical" HorizontalExpand="True">
+                    <Label Text="{Loc auto-map-vote-round-status-label}" StyleClasses="LabelSubText" />
+                    <Label Name="StatusLabel" StyleClasses="LabelBig" />
+                </BoxContainer>
+                <BoxContainer Orientation="Vertical" HorizontalExpand="True">
+                    <Label Text="{Loc auto-map-vote-round-category-label}" StyleClasses="LabelSubText" />
+                    <Label Name="CategoryLabel" />
+                </BoxContainer>
+            </BoxContainer>
+
+            <Label Name="HintLabel" StyleClasses="LabelSubText" />
+
+            <BoxContainer Orientation="Horizontal" SeparationOverride="8">
+                <Button Name="StartVoteButton" HorizontalExpand="True" />
+                <Button Name="ToggleButton" HorizontalExpand="True" />
+            </BoxContainer>
+        </BoxContainer>
+    </PanelContainer>
+</controls:AutoMapVoteRoundControl>

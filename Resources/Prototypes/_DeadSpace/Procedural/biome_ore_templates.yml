@@ -1,0 +1,27 @@
+- type: biomeMarkerLayer
+  id: OreMagmite
+  entityMask:
+    AsteroidRock: AsteroidRockMagmite
+    WallRock: WallRockMagmite
+    WallRockBasalt: WallRockBasaltMagmite
+    WallRockChromite: WallRockChromiteMagmite
+    WallRockSand: WallRockSandMagmite
+    WallRockSnow: WallRockSnowMagmite
+  maxCount: 6
+  minGroupSize: 1
+  maxGroupSize: 2
+  radius: 4
+
+- type: biomeMarkerLayer
+  id: OreBluespaceCrystal
+  entityMask:
+    AsteroidRock: AsteroidRockBluespaceCrystal
+    WallRock: WallRockBluespaceCrystal
+    WallRockBasalt: WallRockBasaltBluespaceCrystal
+    WallRockChromite: WallRockChromiteBluespaceCrystal
+    WallRockSand: WallRockSandBluespaceCrystal
+    WallRockSnow: WallRockSnowBluespaceCrystal
+  maxCount: 6
+  minGroupSize: 1
+  maxGroupSize: 2
+  radius: 4

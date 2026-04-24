@@ -250,3 +250,32 @@
   - type: Battery
     maxCharge: 100
     startingCharge: 100
+
+- type: entity
+  name: магмитовый протокинетический ускоритель
+  id: WeaponMagmiteAccelerator
+  parent: WeaponProtoKineticAcceleratorBase
+  description: Очень тяжелый и горячий. Имеет низкую скорость стрельбы, но высокую убойность.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Guns/Basic/magmite.rsi
+    layers:
+    - state: icon
+    - state: animation-icon
+      visible: false
+      map: [ "empty-icon" ]
+  - type: Item
+    sprite: _DeadSpace/Objects/Weapons/Guns/Basic/magmite.rsi
+    size: Normal
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Weapons/Guns/Basic/magmite.rsi
+  - type: Gun
+    fireRate: 0.3
+    projectileSpeed: 40
+  - type: Wieldable
+  - type: BasicEntityAmmoProvider
+    proto: BulletKineticMagmite
+  - type: HeldSpeedModifier
+  - type: ClothingSpeedModifier
+    walkModifier: 0.9
+    sprintModifier: 0.9

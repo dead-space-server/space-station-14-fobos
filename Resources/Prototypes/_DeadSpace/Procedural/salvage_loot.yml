@@ -1,0 +1,13 @@
+- type: salvageLoot
+  id: OreMagmite
+  guaranteed: true
+  loots:
+    - !type:BiomeMarkerLoot
+      proto: OreMagmite
+
+- type: salvageLoot
+  id: OreBluespaceCrystal
+  guaranteed: true
+  loots:
+    - !type:BiomeMarkerLoot
+      proto: OreBluespaceCrystal

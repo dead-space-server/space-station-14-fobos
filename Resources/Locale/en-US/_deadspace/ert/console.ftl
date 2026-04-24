@@ -9,7 +9,7 @@ ert-response-caused-messager =
     Estimated arrival time: minimum possible.
 
 ert-response-caused-messager-gamma =
-    Attention, station! Early command channels have relayed alarming reports of a threat to corporate interests. This unacceptable development has placed the asset under full SOC control. Gamma threat level with martial law protocols has been initiated on the station, and crew mobilization is now in effect. ERT forces are being deployed toward the threat vector. We are coming for you. God save the Directorate!
+    Attention, station! Early command channels have relayed alarming reports of a threat to corporate interests. This unacceptable development has placed the asset under full SOC control. Gamma threat level with martial law protocols has been initiated on the station. ERT forces are being deployed toward the threat vector. We are coming for you. God save the Directorate!
 
 ert-response-caused-messager-red =
     Attention, asset! Early communications have delivered alarming reports of a threat to corporate interests. This unacceptable development has resulted in the asset being placed under partial SOC control. ERT deployment toward the threat vector has begun. Expect the arrival of Red Code Emergency Response Team forces as soon as possible. We are coming for you. God save the Directorate!
@@ -21,7 +21,7 @@ ert-response-caused-messager-engineers =
     Attention, asset! The Special Operations Corps has authorized deployment of an ERT engineering detachment to restore critical asset systems. Specialists are en route and will begin infrastructure stabilization immediately upon arrival. Expect arrival as soon as possible. Glory to NanoTrasen!
 
 ert-response-caused-messager-bsaa =
-    Attention, station! Early command channels have relayed alarming reports of a critical biological catastrophe threat. The risk of sector-wide and external contamination has placed the asset under full SOC control. Sierra threat level with martial law protocols has been initiated on the station, and crew mobilization is now in effect. BSAA forces are being deployed toward the threat vector. By fire and sword. God save the Directorate!
+    Attention, station! Early command channels have relayed alarming reports of a critical biological catastrophe threat. The risk of sector-wide and external contamination has placed the asset under full SOC control. Sierra threat level with martial law protocols has been initiated on the station. BSAA forces are being deployed toward the threat vector. By fire and sword. God save the Directorate!
 
 ert-response-caused-messager-official =
     Attention station command! Sector Central Command Headquarters on the line!
@@ -29,7 +29,7 @@ ert-response-caused-messager-official =
     to your asset to conduct an inquiry. Expect arrival in the near future. Glory to NanoTrasen!
 
 ert-response-caused-messager-sierra =
-    Attention, station! Early command channels have relayed alarming reports of a biological catastrophe threat. The risk of sector contamination has placed the asset under full SOC control. Sierra threat level with martial law protocols has been initiated on the station, and crew mobilization is now in effect. NBC forces are being deployed toward the threat vector. By fire and sword. God save the Directorate!
+    Attention, station! Early command channels have relayed alarming reports of a biological catastrophe threat. The risk of sector contamination has placed the asset under full SOC control. Sierra threat level with martial law protocols has been initiated on the station. NBC forces are being deployed toward the threat vector. By fire and sword. God save the Directorate!
 
 ert-response-caused-messager-cburn =
     Attention, station! Early command channels have relayed reports of a biological catastrophe threat aboard the asset. NBC forces are being deployed to contain the contamination and clear hazardous zones. Expect the team's arrival shortly. By fire and sword. God save the Directorate!

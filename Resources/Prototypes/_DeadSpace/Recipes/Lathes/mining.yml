@@ -1,0 +1,32 @@
+- type: latheRecipe
+  id: WeaponMagmiteCrusher
+  result: WeaponMagmiteCrusher
+  completetime: 15
+  materials:
+    Magmite: 1000    
+    Steel: 5000
+    Plasma: 2500
+    Gold: 3500
+    Silver: 3500
+
+- type: latheRecipe
+  id: WeaponMagmiteCrusherGlaive
+  result: WeaponMagmiteCrusherGlaive
+  completetime: 15
+  materials:
+    Magmite: 1000    
+    Steel: 5000
+    Plasma: 2500
+    Gold: 3500
+    Silver: 3500
+
+- type: latheRecipe
+  id: WeaponMagmiteAccelerator
+  result: WeaponMagmiteAccelerator
+  completetime: 15
+  materials:
+    Magmite: 1000    
+    Steel: 5000
+    Plasma: 2500
+    Gold: 3500
+    Silver: 3500

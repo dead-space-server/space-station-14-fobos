@@ -1,3 +1,4 @@
+using Content.Server.DeadSpace.Maps; // DS14
 using Content.Shared.Maps;
 
 namespace Content.Server.Maps;
@@ -33,40 +34,64 @@ public interface IGameMapManager
     /// <returns>selected map</returns>
     GameMapPrototype? GetSelectedMap();
 
+    // DS14-start
+    /// <summary>
+    /// Whether the manager is currently suppressing external map selections in favor of auto map voting.
+    /// </summary>
+    bool AutoMapVoteOverrideActive { get; }
+    // DS14-end
+
     /// <summary>
     /// Clears the selected map, if any
     /// </summary>
     void ClearSelectedMap();
+
+    // DS14-start
+    /// <summary>
+    /// Clears the current forced-map override, if any.
+    /// </summary>
+    void ClearForcedMap();
+
+    /// <summary>
+    /// Begins an authoritative auto map vote cycle for the current lobby.
+    /// </summary>
+    void BeginAutoMapVoteOverride();
+
+    /// <summary>
+    /// Ends the current auto map vote override without clearing the chosen map state.
+    /// </summary>
+    void EndAutoMapVoteOverride();
+    // DS14-end
 
     /// <summary>
     /// Attempts to select the given map, checking eligibility criteria
     /// </summary>
     /// <param name="gameMap">map prototype</param>
     /// <returns>success or failure</returns>
-    bool TrySelectMapIfEligible(string gameMap);
+    bool TrySelectMapIfEligible(string gameMap, MapSelectionContext context = MapSelectionContext.Default); // DS14
 
     /// <summary>
     /// Select the given map regardless of eligibility
     /// </summary>
     /// <param name="gameMap">map prototype</param>
     /// <returns>success or failure</returns>
-    void SelectMap(string gameMap);
+    void SelectMap(string gameMap, MapSelectionContext context = MapSelectionContext.Default); // DS14
 
     /// <summary>
     /// Selects a random map eligible map
     /// </summary>
-    void SelectMapRandom();
+    void SelectMapRandom(MapSelectionContext context = MapSelectionContext.Default); // DS14
 
     /// <summary>
     /// Selects the map at the front of the rotation queue
     /// </summary>
     /// <returns>selected map</returns>
-    void SelectMapFromRotationQueue(bool markAsPlayed = false);
+    void SelectMapFromRotationQueue(bool markAsPlayed = false, MapSelectionContext context = MapSelectionContext.Default); // DS14
 
     /// <summary>
     /// Selects the map by following rules set in the config
     /// </summary>
-    public void SelectMapByConfigRules();
+    public void SelectMapByConfigRules(MapSelectionContext context = MapSelectionContext.Default); // DS14
 
     /// <summary>
     /// Checks if the given map exists

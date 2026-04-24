@@ -51,3 +51,25 @@
       sprite: _DeadSpace/Clothing/Shoes/Boots/sterile_shoes_chem.rsi
     - type: Clothing
       sprite: _DeadSpace/Clothing/Shoes/Boots/sterile_shoes_chem.rsi                                                                                                    
+
+- type: entity
+  parent: ClothingShoesBaseButcherable
+  id: ClothingShoesBootsCoolRed
+  name: крутые красные кроссовки
+  description: Будьте самыми крутыми на штрафной площадке.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Clothing/Shoes/Boots/cool_boots_red.rsi
+    - type: Clothing
+      sprite: _DeadSpace/Clothing/Shoes/Boots/cool_boots_red.rsi   
+
+- type: entity
+  parent: ClothingShoesBaseButcherable
+  id: ClothingShoesBootsCoolYellow
+  name: крутые жёлтые кроссовки
+  description: Будьте самыми крутыми на штрафной площадке.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Clothing/Shoes/Boots/cool_boots_yellow.rsi
+    - type: Clothing
+      sprite: _DeadSpace/Clothing/Shoes/Boots/cool_boots_yellow.rsi   

@@ -48,7 +48,9 @@ public sealed class ToggleableClothingSystem : EntitySystem
         SubscribeLocalEvent<ToggleableClothingComponent, GetVerbsEvent<EquipmentVerb>>(OnGetVerbs);
         SubscribeLocalEvent<AttachedClothingComponent, GetVerbsEvent<EquipmentVerb>>(OnGetAttachedStripVerbsEvent);
         SubscribeLocalEvent<ToggleableClothingComponent, ToggleClothingDoAfterEvent>(OnDoAfterComplete);
-    }
+        SubscribeLocalEvent<ToggleableClothingComponent, SelfToggleClothingDoAfterEvent>(OnSelfDoAfterComplete); //DS14
+
+    }   
 
     private void GetRelayedVerbs(EntityUid uid, ToggleableClothingComponent component, InventoryRelayedEvent<GetVerbsEvent<EquipmentVerb>> args)
     {
@@ -222,6 +224,16 @@ public sealed class ToggleableClothingSystem : EntitySystem
             _containerSystem.Insert(toggleComp.ClothingUid.Value, toggleComp.Container);
     }
 
+    //DS14-start
+    private void OnSelfDoAfterComplete(EntityUid uid, ToggleableClothingComponent component,
+        SelfToggleClothingDoAfterEvent args)
+    {
+        if (args.Cancelled)
+            return;
+        ToggleClothing(args.User, uid, component);
+    }
+    //DS14-end
+
     /// <summary>
     ///     Equip or unequip the toggleable clothing.
     /// </summary>
@@ -231,7 +243,25 @@ public sealed class ToggleableClothingSystem : EntitySystem
             return;
 
         args.Handled = true;
-        ToggleClothing(args.Performer, uid, component);
+        //DS14-start
+        if (component.ToggleDelay <= TimeSpan.Zero)
+        {
+            ToggleClothing(args.Performer, uid, component);
+            return;
+        }
+        var doAfterArgs = new DoAfterArgs(
+            EntityManager,
+            args.Performer,
+            component.ToggleDelay,
+            new SelfToggleClothingDoAfterEvent(),
+            uid,
+            args.Performer)
+        {
+            BreakOnMove    = false,
+        };
+
+        _doAfter.TryStartDoAfter(doAfterArgs);
+        //DS14-end
     }
 
     private void ToggleClothing(EntityUid user, EntityUid target, ToggleableClothingComponent component)
@@ -308,3 +338,10 @@ public sealed partial class ToggleClothingEvent : InstantActionEvent
 public sealed partial class ToggleClothingDoAfterEvent : SimpleDoAfterEvent
 {
 }
+
+//DS14-start
+[Serializable, NetSerializable]
+public sealed partial class SelfToggleClothingDoAfterEvent : SimpleDoAfterEvent
+{
+}
+//DS14-end

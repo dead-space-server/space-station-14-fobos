@@ -96,7 +96,7 @@
       Steel: 3000 # 30 sheets
 
 - type: entity
-  parent: BaseScrap
+  parent: [ BaseScrap, SheetOtherBase ] #DS14
   id: ScrapGlass
   name: scrap circuitry
   description: A huge lump of various circuits, strangely fused together. You could likely extract some materials out of this.
@@ -121,8 +121,19 @@
         glass-6: ""
   - type: PhysicalComposition
     materialComposition:
-      Glass: 1500 # 15 sheets
-      Steel: 500 # 5 sheets
+#DS14-start
+      MaterialScrapGlass: 100
+  - type: Material
+  - type: Tag
+    tags:
+    - Recyclable
+    - SalvageScrap
+    - Sheet
+  - type: Stack
+    count: 1
+    stackType: ScrapGlassBroken
+    baseLayer: base
+#DS14-end
 
 - type: entity
   parent: BaseScrap
