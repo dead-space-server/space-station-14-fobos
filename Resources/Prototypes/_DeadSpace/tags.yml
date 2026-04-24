@@ -2,6 +2,9 @@
   id: ADTFoodSausageFried
 
 - type: Tag
+  id: AdvancedMineralScanner
+
+- type: Tag
   id: AmbrosiaDeus
 
 - type: Tag
@@ -113,6 +116,9 @@
   id: FoodChiliPepper
 
 - type: Tag
+  id: GasTank
+
+- type: Tag
   id: GiantSpiderSpace
 
 - type: Tag
@@ -162,6 +168,9 @@
 
 - type: Tag
   id: MagazineCarbineSKS
+
+- type: Tag
+  id: Magmite
 
 - type: Tag
   id: MagazineEagle

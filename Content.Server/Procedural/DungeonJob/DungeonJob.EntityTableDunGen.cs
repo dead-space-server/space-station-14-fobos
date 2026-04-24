@@ -36,8 +36,8 @@ public sealed partial class DungeonJob
                 if (!ValidateResume())
                     return;
 
-                if (reservedTiles.Contains(tile))
-                    continue;
+// DS14               if (reservedTiles.Contains(tile))
+// DS14                   continue;
 
                 if (!_anchorable.TileFree((_gridUid, _grid),
                         tile,

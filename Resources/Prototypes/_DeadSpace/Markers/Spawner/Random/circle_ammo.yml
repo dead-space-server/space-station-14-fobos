@@ -1,0 +1,26 @@
+- type: entity
+  name: спавнер оружие Круга
+  id: TheCircleRandomWeaponSpawner
+  parent: MarkerBase
+  components:
+    - type: Sprite
+      layers:
+        - state: red
+        - sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/rsh12/rsh12.rsi
+          state: icon
+    - type: RandomSpawner
+      rarePrototypes:
+        - WeaponCaseHeavyFilledZastaba
+        - WeaponCaseHeavyFilledSCARAB
+        - WeaponCaseHeavyFilledVSK
+        - WeaponCaseHeavyFilledVAL
+#         - BlueprintWeaponRPL20
+#         - BlueprintWeaponRifleASH12
+        - UnitologySplinterBladeImplanter
+        - WeaponRevolverRSh12
+      rareChance: 0.2
+      prototypes:
+        - WeaponCaseHeavyFilledAmmo
+        - WeaponCaseHeavy
+      chance: 0.97
+      offset: 0

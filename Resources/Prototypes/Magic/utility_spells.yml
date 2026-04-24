@@ -4,6 +4,7 @@
   name: Charge
   description: Adds a charge back to your wand
   components:
+  - type: Magic # DS14
   - type: Action
     useDelay: 30
     itemIconStyle: BigAction

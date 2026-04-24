@@ -1,0 +1,27 @@
+- type: entity
+  parent: BaseComputerCircuitboard
+  id: CraftConsoleCircuitboard
+  name: плата консоли управление станка
+  description: Строиться турель!
+  components:
+    - type: Sprite
+      state: cpu_science
+    - type: ComputerBoard
+      prototype: CraftConsole
+
+- type: entity
+  id: CraftMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  name: станок для создание всего (машинная плата)
+  description: Станция погрянет в хаосе безумства НИО!
+  components:
+  - type: Sprite
+    state: engineering
+  - type: MachineBoard
+    prototype: CraftMachineStation
+    stackRequirements:
+      Manipulator: 4
+    tagRequirements:
+      GlassBeaker:
+        amount: 2
+        defaultPrototype: Beaker
