@@ -1,6 +1,7 @@
 - type: vendingMachineInventory
   id: AtmosDrobeInventory
   startingInventory:
+    ClothingHeadHatBeretAtmos: 2 # DS14
     ClothingBackpackDuffelAtmospherics: 2
     ClothingBackpackSatchelAtmospherics: 2
     ClothingBackpackAtmospherics: 2

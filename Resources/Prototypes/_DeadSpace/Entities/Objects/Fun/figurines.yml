@@ -37,13 +37,13 @@
 - type: entity
   parent: BaseFigurineDS14
   id: ToyFigurineERTCAP
-  name: фигурка Командира ОБР
+  name: фигурка командира ОБР
   description: Минифигурка командира ОБР.
   components:
   - type: Sprite
     state: ertcap
   - type: SpeakOnTrigger
-    pack: FigurinesHoP
+    pack: FigurinesERTLeader
 
 - type: entity
   parent: BaseFigurineDS14
@@ -54,7 +54,7 @@
   - type: Sprite
     state: ertengi
   - type: SpeakOnTrigger
-    pack: FigurinesHoP
+    pack: FigurinesERTEngineer
 
 - type: entity
   parent: BaseFigurineDS14
@@ -65,7 +65,7 @@
   - type: Sprite
     state: ertjunitor
   - type: SpeakOnTrigger
-    pack: FigurinesHoP
+    pack: FigurinesERTJanitor
 
 - type: entity
   parent: BaseFigurineDS14
@@ -76,7 +76,7 @@
   - type: Sprite
     state: ertofficer
   - type: SpeakOnTrigger
-    pack: FigurinesHoP
+    pack: FigurinesERTOfficer
 
 - type: entity
   parent: BaseFigurineDS14
@@ -87,4 +87,4 @@
   - type: Sprite
     state: ertmedic
   - type: SpeakOnTrigger
-    pack: FigurinesHoP
+    pack: FigurinesERTMedic

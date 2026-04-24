@@ -90341,7 +90341,7 @@ entities:
     - type: Transform
       pos: -83.49627,-22.399658
       parent: 1
-- proto: PhoneInstrument
+- proto: PhoneInstrumentCentComm
   entities:
   - uid: 12361
     components:
@@ -111128,7 +111128,7 @@ entities:
     - type: Transform
       pos: -49.5,-26.5
       parent: 1
-- proto: VendingMachineChemicalsSyndicate
+- proto: VendingMachineChemicals
   entities:
   - uid: 15237
     components:

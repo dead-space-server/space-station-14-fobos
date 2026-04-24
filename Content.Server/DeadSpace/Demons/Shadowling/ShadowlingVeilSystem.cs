@@ -69,7 +69,7 @@ public sealed class ShadowlingVeilSystem : EntitySystem
                 continue;
             }
 
-            if (TryComp<PointLightComponent>(entity, out var light) && light.Enabled)
+            if (TryComp<PointLightComponent>(entity, out var light))
             {
                 _light.SetEnabled(entity, false, light);
                 component.AffectedLights.Add(entity);

@@ -1,0 +1,377 @@
+# Вот тут просто заглушки, те ентити что требуют минор рецепты, тут можно играться как хотите, такое же и с дисками по факту.
+
+# Оружейные
+- type: entity
+  parent: BaseItem
+  id: EnhancedCoolingModuleItem
+  name: модуль скоростельности Лектера (Ускореная стрельба)
+  description: Я вот так хватаюсь за пушку а потом РА-ТА-ТА-ТА-ТА...
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: advanced_matter_bin
+
+- type: entity
+  parent: BaseItem
+  id: MassSkopeModuleItem
+  name: модуль прицеливания (Улучшенный прицел)
+  description: A precision cooling array. Install via the crafting station.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: high_micro_laser
+
+- type: entity
+  parent: BaseItem
+  id: SpeedBulletModuleItem
+  name: модуль скорости пули (Быстрые пули)
+  description: A precision cooling array. Install via the crafting station.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: adv_scan_module
+
+- type: entity
+  parent: BaseItem
+  id: OverchargeModuleItem
+  name: модуль слабого выборса (Медленные пули)
+  description: Pushes energy output past factory spec.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: treatment_disk
+
+- type: entity
+  parent: BaseItem
+  id: ExtendedAmmoMagItem
+  name: модуль расширенного магазина Лектера
+  description: A precision cooling array. Install via the crafting station.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: high_micro_laser
+
+# Риги
+# Общие модули ригов
+
+- type: entity
+  parent: BaseItem
+  id: DelayModifierModuleItem
+  name: модуль РИГ - быстрая активация РИГа
+  description: Как хорошо что этот модуль заправлен WD40, а то эти скафандры так скрипят при активации.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: hyperwave_filter
+
+- type: entity
+  parent: BaseItem
+  id: StorageModuleItem
+  name: модуль РИГ - расширенние рюкзака
+  description: Модуль что позволяет расширить свою крутую сумку, однако пивное пузо твоего папы ничего не переплюнит.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: bluespace_matter_bin
+
+# Модули инж рига
+
+- type: entity
+  parent: BaseItem
+  id: FireResistanceModuleEngineer
+  name: модуль ИНЖ - огнестойкость
+  description: Модуль, позволяющий вам пережить ту ситуацию с горящей машиной, в которую сел медведь.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: micro_laser
+
+- type: entity
+  parent: BaseItem
+  id: HeatResistanceModuleEngineer
+  name: модуль ИНЖ - термическая защита
+  description: НТ уверяет вас, что этот модуль спасёт от внезнопого выстрела с термо пушки по мимо проходящей вульпе.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: high_micro_laser
+
+# Модули карго рига и скафов
+
+- type: entity
+  parent: BaseItem
+  id: PlusSpeedModuleMaxim
+  name: модуль Карго - ускорение передвижение (Максимальный скафандр)
+  description: Пружинный модуль, думаю его стоит почистить вод-.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: subspace_ansible
+
+- type: entity
+  parent: BaseItem
+  id: PoisonResistanceModuleMaxim
+  name: модуль Карго - защита от ядов (Максимальный скафандр)
+  description: Если у змеи вырвать зубы и колоть ими себя всю жизнь, это не спасёт вас от простуды.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: super_capacitor
+
+- type: entity
+  parent: BaseItem
+  id: PNVModuleMaxim
+  name: модуль Карго - ПНВ в шлем (Максимальный скафандр)
+  description: THINK FAST- *Громкий писк*.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: scan_module
+
+- type: entity
+  parent: BaseItem
+  id: SpeedModifierModuleSalvage
+  name: модуль Карго - облегчение скафандра (Обычный РИГ)
+  description: Может стоит просто скинуть лишний жир а не внушать себе что какой-то модуль облегчит тяжесть скафандра?
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: adv_electrolite
+
+- type: entity
+  parent: BaseItem
+  id: SpeedModifierModuleSalvageAdvanced
+  name: модуль Карго - облегчение скафандра (Продвинутый РИГ)
+  description: Может стоит просто скинуть лишний жир а не внушать себе что какой-то модуль облегчит тяжесть скафандра?
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: bluespace_electrolite
+
+# Модули СБ рига
+
+- type: entity
+  parent: BaseItem
+  id: ReflectModuleSecurityAdvanced
+  name: модуль СБ - отражение пуль (Продвинутый РИГ)
+  description: Ultra instinct?
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: triphasic_scan_module
+
+- type: entity
+  parent: BaseItem
+  id: StorageModuleSecurity
+  name: модуль СБ - малая подсумка (Обычный РИГ)
+  description: СЕЙЧАС КАК ЗАПИХНУ СЮДА ДИСК ЯДЕРКИ И БУДУ СИДЕТЬ УГАРАТЬ С НЮКЕРОВ. 
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: quadratic_capacitor
+
+- type: entity
+  parent: BaseItem
+  id: SpeedModifierModuleSecurity
+  name: модуль СБ - облегчение скафандра (Обычный РИГ)
+  description: Может стоит просто скинуть лишний жир а не внушать себе что какой-то модуль облегчит тяжесть скафандра?
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: adv_electrolite
+
+- type: entity
+  parent: BaseItem
+  id: SpeedModifierModuleSecurityAdvanced
+  name: модуль СБ - облегчение скафандра (Продвинутый РИГ)
+  description: Может стоит просто скинуть лишний жир а не внушать себе что какой-то модуль облегчит тяжесть скафандра?
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: bluespace_electrolite
+
+- type: entity
+  parent: BaseItem
+  id: PiercingResistanceModuleSecurityAdvanced
+  name: модуль СБ - продвинутая защита от пуль (Продвинутый РИГ)
+  description: Если ты будешь ловить ББшки зубами, то такой модуль тебе уж точно не нужен.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: subspace_amplifier
+
+# Модули нио рига
+
+- type: entity
+  parent: BaseItem
+  id: RadiationResistanceModuleResearch
+  name: модуль НИО - защита от радиации
+  description: Оказывается, если съесть урановые кусочки с этим вставленным модулем, вы не станете урановым рудокрабом. Поделись с друзьями с такой информацией.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: super_electrolite
+
+- type: entity
+  parent: BaseItem
+  id: ExplosionResistanceModuleResearch
+  name: модуль НИО - защита от взрыва
+  description: Как то раз учёная таяр по имени Ноу'вость, решила активировать артефакт без защиты. Ноу'вость разлетелась по всей станции.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: adv_capacitor
+
+- type: entity
+  parent: BaseItem
+  id: SpeedModifierModuleItemResearch
+  name: модуль НИО - облегчение скафандра
+  description: Облгечает скафандр, однако если ты будешь делать вид что разбираешься в науке, твои остатки что называется мозгом не станут легче.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: adv_electrolite
+
+# Ядра
+
+- type: entity
+  parent: BaseItem
+  id: DefaultCoreForModifiedBackpack
+  name: обычное ядро модифицированного рюкзака
+  description: Такое ядро скорее всего нашли где-то на помойке.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/core.rsi
+    state: default
+
+- type: entity
+  parent: BaseItem
+  id: MediumCoreForModifiedBackpack
+  name: среднее ядро модифицированного рюкзака
+  description: Если в обычное ядро залить плазму, она не станет от этого лучше работать и питать твою сумочку.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/core.rsi
+    state: medium
+
+- type: entity
+  parent: BaseItem
+  id: AdvancedCoreForModifiedBackpack
+  name: продвинутое ядро модифицированного рюкзака
+  description: Это ядро позволит питать более требовательные скафандры, однако шутки тут не будет.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/core.rsi
+    state: adv
+
+- type: entity
+  parent: BaseItem
+  id: HyperCoreForModifiedBackpack
+  name: гипер ядро модифицированного рюкзака
+  description: Говорят если положить два таких рядом друг с другом, то они начнут издавать звук похожий на Bad Apple.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/core.rsi
+    state: hyper
+
+# Пластины и части скафов
+
+- type: entity
+  parent: BaseItem
+  id: HardsuitFrameLeg
+  name: каркас ног скафандра
+  description: За место этих каркасов можно было использовать веточки какого-то бога.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/hardsuit.rsi
+    state: legs
+
+- type: entity
+  parent: BaseItem
+  id: HardsuitFrameTorso
+  name: каркас торса скафандра
+  description: Каркас который потырили по частям на колёсики с рулём.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/hardsuit.rsi
+    state: body
+
+- type: entity
+  parent: BaseItem
+  id: PlastineOfEngineerRIG
+  name: пластина для модифицированного рюкзака инженера
+  description: Пластина что забита стекловатой.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/hardsuit.rsi
+    state: eng
+
+- type: entity
+  parent: BaseItem
+  id: PlastineOfEVARIG
+  name: пластина для модифицированного рюкзака ВКД
+  description: Пластина что забита травой.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/hardsuit.rsi
+    state: eva
+
+- type: entity
+  parent: BaseItem
+  id: PlastineOfResearchRIG
+  name: пластина для модифицированного рюкзака НИО
+  description: Пластина что забита отходами урана.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/hardsuit.rsi
+    state: research
+
+- type: entity
+  parent: BaseItem
+  id: PlastineOfOtherHardsuit
+  name: пластина для различных скафандров
+  description: Пластина что забита... А чем?
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/hardsuit.rsi
+    state: other
+
+- type: entity
+  parent: BaseItem
+  id: PlastineOfSecurAdvancedityRIG
+  name: пластина для продвинутого модифицированного рюкзака СБ
+  description: Пластина что забита гильзами от МК.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/hardsuit.rsi
+    state: adv_sec
+
+- type: entity
+  parent: BaseItem
+  id: PlastineOfSalvageAdvancedRIG
+  name: пластина для продвинутого модифицированного рюкзака Карго
+  description: Пластина что забита землёй.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/hardsuit.rsi
+    state: adv_salvage
+
+- type: entity
+  parent: BaseItem
+  id: PlastineOfSalvageRIG
+  name: пластина для модифицированного рюкзака Карго
+  description: Пластина что забита остатками роя.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/hardsuit.rsi
+    state: salvage
+
+- type: entity
+  parent: BaseItem
+  id: PlastineOfSecurityRIG
+  name: пластина для модифицированного рюкзака СБ
+  description: Пластина что забита остатками кадета.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Parts/hardsuit.rsi
+    state: sec

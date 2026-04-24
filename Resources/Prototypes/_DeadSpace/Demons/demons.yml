@@ -6,6 +6,8 @@
   description: Монстр!
   abstract: true
   components:
+  - type: StaminaResistance
+    damageCoefficient: 0.2
   - type: Sprite
     drawdepth: Mobs
     sprite: _DeadSpace/Demons/demon_simple.rsi

@@ -542,7 +542,7 @@ public sealed partial class AdminLogManager : SharedAdminLogManager, IAdminLogMa
     /// </summary>
     private string EscapeText(string text)
     {
-        return FormattedMessage.EscapeText(text).Replace("\"", "\\\"").Replace("'", "\\'");
+        return text.Replace("\r", " ").Replace("\n", " ").Replace("\"", "'"); // DS14
     }
 
     public async Task<List<SharedAdminLog>> All(LogFilter? filter = null, Func<List<SharedAdminLog>>? listProvider = null)

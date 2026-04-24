@@ -22,7 +22,8 @@
         Heat: 0.8
         Radiation: 0.6
         Caustic: 0.6
-        Stun: 0.65 # 5 stunbaton hits for stun
+  - type: StaminaResistance
+    damageCoefficient: 0.65
   - type: ClothingSpeedModifier
     walkModifier: 0.75
     sprintModifier: 0.75

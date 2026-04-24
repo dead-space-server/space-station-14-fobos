@@ -1,5 +1,5 @@
 - type: entity
-  id: HandheldAutopsyScannerUnpowered
+  id: HandheldAutopsyScanner
   parent: BaseItem
   name: сканер аутопсии
   description: Ручной сканер аутопсии, способный определить причину смерти и напечатать подробный отчёт.
@@ -11,8 +11,6 @@
       - state: icon
       - state: analyzer
         shader: unshaded
-        visible: true
-        map: [ "enum.PowerDeviceVisualLayers.Powered" ]
   - type: ActivatableUI
     key: enum.AutopsyScannerUiKey.Key
   - type: UserInterface
@@ -28,36 +26,4 @@
       path: "/Audio/_DeadSpace/Items/Medical/autopsyscanner-error.ogg"
   - type: Tag
     tags:
-      - DiscreteHealthAnalyzer
-  - type: Appearance
-  - type: GenericVisualizer
-    visuals:
-      enum.BatteryVisuals.State:
-        enum.PowerDeviceVisualLayers.Powered:
-          Full: { visible: true }
-          Neither: { visible: true }
-          Empty: { visible: false }
-
-- type: entity
-  id: HandheldAutopsyScanner
-  name: сканер аутопсии
-  description: Ручной сканер аутопсии, способный определить причину смерти и напечатать подробный отчёт.
-  suffix: Заряжен
-  parent: [ HandheldAutopsyScannerUnpowered, PowerCellSlotSmallItem]
-  components:
-  - type: BatteryVisuals
-  - type: PowerCellDraw
-    drawRate: 20
-  - type: ActivatableUIRequiresPowerCell
-
-- type: entity
-  id: HandheldAutopsyScannerEmpty
-  name: сканер аутопсии
-  description: Ручной сканер аутопсии, способный определить причину смерти и напечатать подробный отчёт.
-  suffix: Пустой
-  parent: HandheldAutopsyScanner
-  components:
-  - type: ItemSlots
-    slots:
-      cell_slot:
-        name: power-cell-slot-component-slot-name-default
+    - DiscreteHealthAnalyzer

@@ -160,7 +160,7 @@
       - CannotSuicide
       - DoorBumpOpener
   - type: Language
-    selectedLanguage: DemonLanguage
+    selectedLanguage: GeneralLanguage
     knownLanguages:
     - DemonLanguage
     - GeneralLanguage

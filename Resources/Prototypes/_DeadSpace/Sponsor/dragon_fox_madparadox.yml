@@ -437,7 +437,6 @@
   - type: Injector
     solutionName: hypospray
     ignoreClosed: false
-    ignoreMobs: true
     activeModeProtoId: HyposprayDynamicMode
     allowedModes:
     - HyposprayDynamicMode

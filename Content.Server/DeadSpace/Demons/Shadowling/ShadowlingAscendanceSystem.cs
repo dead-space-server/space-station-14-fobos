@@ -91,7 +91,7 @@ public sealed class ShadowlingAscendanceSystem : EntitySystem
         _sound.StopStationEventMusic(newMob, StationEventMusicType.Convergence);
         _sound.DispatchStationEventMusic(newMob, new SoundCollectionSpecifier("ShadowlingAscendance"), StationEventMusicType.Convergence);
 
-        Timer.Spawn(TimeSpan.FromSeconds(1.78), () =>
+        Timer.Spawn(TimeSpan.FromSeconds(1.48), () =>
         {
             _chat.DispatchGlobalAnnouncement(message, sender,
                 colorOverride: Color.FromHex("#ff0000"),
