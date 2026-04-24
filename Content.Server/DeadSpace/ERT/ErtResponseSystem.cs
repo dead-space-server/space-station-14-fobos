@@ -59,6 +59,7 @@ public sealed class ManualApprovedErtRequestData
     public EntityUid? StationUid { get; set; }
     public EntityUid? ConsoleUid { get; set; }
     public int ReservedPrice { get; set; }
+    public EntityUid? PinpointerTarget { get; set; }
 }
 
 public sealed class ApprovedErtRequestData
@@ -133,6 +134,7 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
         SubscribeNetworkEvent<AdminSetApprovedErtTeamMessage>(OnSetApprovedTeam);
         SubscribeNetworkEvent<AdminSendErtNowMessage>(OnSendErtNow);
         SubscribeNetworkEvent<AdminPromoteManualApprovedErtMessage>(OnPromoteManualApprovedRequest);
+        SubscribeNetworkEvent<AdminMoveApprovedErtToManualMessage>(OnMoveApprovedRequestToManual);
 
         SubscribeLocalEvent<ErtSpawnRuleComponent, RuleLoadedGridsEvent>(OnRuleLoadedGrids);
         SubscribeLocalEvent<ErtSpeciesRoleComponent, MindAddedMessage>(OnMindAdded);
@@ -438,6 +440,32 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
 
         _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} promoted manual-approved ERT request #{msg.RequestId} to auto spawn");
         _chatManager.SendAdminAlert($"Админ {args.SenderSession.Name} запустил автоспавн для вручную одобренной заявки ОБР #{msg.RequestId}.");
+        RaiseNetworkEvent(new ErtAdminActionResult(true, "OK"), args.SenderSession.Channel);
+    }
+
+    private void OnMoveApprovedRequestToManual(AdminMoveApprovedErtToManualMessage msg, EntitySessionEventArgs args)
+    {
+        if (!_approvedRequests.TryGetValue(msg.RequestId, out var request))
+        {
+            RaiseNetworkEvent(new ErtAdminActionResult(false, "No approved ERT request with that id"), args.SenderSession.Channel);
+            return;
+        }
+
+        _approvedRequests.Remove(msg.RequestId);
+        _manualApprovedRequests[msg.RequestId] = new ManualApprovedErtRequestData
+        {
+            RequestId = request.RequestId,
+            TeamId = request.TeamId,
+            RequestedByName = request.RequestedByName,
+            CallReason = request.CallReason,
+            StationUid = request.StationUid,
+            ConsoleUid = request.ConsoleUid,
+            ReservedPrice = request.ReservedPrice,
+            PinpointerTarget = request.PinpointerTarget,
+        };
+
+        _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} moved approved ERT request #{msg.RequestId} to manual approval");
+        _chatManager.SendAdminAlert($"Админ {args.SenderSession.Name} перенёс авто-одобренную заявку ОБР #{msg.RequestId} в ручное одобрение.");
         RaiseNetworkEvent(new ErtAdminActionResult(true, "OK"), args.SenderSession.Channel);
     }
 
@@ -858,7 +886,7 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             request.StationUid,
             request.ConsoleUid,
             request.ReservedPrice,
-            null);
+            request.PinpointerTarget);
     }
 
     private ApprovedErtRequestData CreateApprovedRequest(

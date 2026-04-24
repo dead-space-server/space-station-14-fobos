@@ -261,6 +261,17 @@ namespace Content.Shared.DeadSpace.ERT
     }
 
     [Serializable, NetSerializable]
+    public sealed class AdminMoveApprovedErtToManualMessage : EntityEventArgs
+    {
+        public int RequestId { get; }
+
+        public AdminMoveApprovedErtToManualMessage(int requestId)
+        {
+            RequestId = requestId;
+        }
+    }
+
+    [Serializable, NetSerializable]
     public sealed class ErtAdminActionResult : EntityEventArgs
     {
         public bool Success { get; }

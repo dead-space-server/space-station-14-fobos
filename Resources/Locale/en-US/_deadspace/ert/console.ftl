@@ -105,6 +105,7 @@ ert-admin-set-reason-button = Set reason
 ert-admin-set-team-button = Change team
 ert-admin-send-now-button = Send team now
 ert-admin-cancel-auto-button = Cancel auto spawn
+ert-admin-move-to-manual-button = Move to manual approval
 
 ert-admin-promote-manual-button = Start auto spawn without notifications
 ert-admin-queue-auto-button = Add to auto spawn

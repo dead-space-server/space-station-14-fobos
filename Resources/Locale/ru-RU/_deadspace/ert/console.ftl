@@ -109,6 +109,7 @@ ert-admin-set-reason-button = Изменить цель
 ert-admin-set-team-button = Сменить отряд
 ert-admin-send-now-button = Отправить отряд
 ert-admin-cancel-auto-button = Отменить автоспавн
+ert-admin-move-to-manual-button = Перенести в ручное одобрение
 
 ert-admin-promote-manual-button = Запустить автоспавн без уведомлений
 ert-admin-queue-auto-button = Добавить в автоспавн

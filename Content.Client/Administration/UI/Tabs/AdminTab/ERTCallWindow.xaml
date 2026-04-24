@@ -68,6 +68,7 @@
                                 <Button Name="ChangeApprovedTeamButton" Text="{Loc 'ert-admin-set-team-button'}" />
 
                                 <Button Name="QueueAutoSpawnButton" Text="{Loc 'ert-admin-queue-auto-button'}" Margin="0,8,0,0" />
+                                <Button Name="MoveApprovedToManualButton" Text="{Loc 'ert-admin-move-to-manual-button'}" />
                                 <Button Name="CancelApprovedAutoSpawnButton" Text="{Loc 'ert-admin-cancel-auto-button'}" />
                             </BoxContainer>
                         </PanelContainer>
