@@ -60,6 +60,7 @@
       - CigFilter
       - RollingPaper
       - Paper
+      - Lighter
 # DS14-end
   - type: StorageFill
     contents:
