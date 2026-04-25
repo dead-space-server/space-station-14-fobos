@@ -1,3 +1,4 @@
+using System.Linq; // DS14
 using Content.Server.Power.Components;
 using Content.Server.Power.EntitySystems;
 using Content.Server.Shuttles.Components;
@@ -54,13 +55,6 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
     private readonly HashSet<Entity<ShuttleConsoleComponent>> _consoles = new();
 
     private static readonly ProtoId<TagPrototype> CanPilotTag = "CanPilot";
-
-    //DS14-start
-    private static readonly Color _playerBlipColor = Color.White;
-    private static readonly Color _mobBlipColor    = Color.CornflowerBlue;
-    private static readonly Color _miscBlipColor   = new Color(1f, 1f, 0f);
-    private const float ShuttleBlipRadius = 0.5f;
-    //DS14-end
 
     public override void Initialize()
     {
@@ -484,6 +478,10 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
 
         var worldPos = _transform.GetWorldPosition(consoleXform);
         var mapId    = consoleXform.MapID;
+        var blacklistTypes = ResolveComponentTypes(radar.BlacklistComponents);
+        var allowedTypes   = ResolveAllowedEntries(radar.AllowedComponents);
+        var blacklistTags  = radar.BlacklistTags;
+        var allowedTags    = radar.AllowedTags;
 
         var nearby = new HashSet<EntityUid>();
         _lookup.GetEntitiesInRange(mapId, worldPos, maxRange, nearby, LookupFlags.Uncontained);
@@ -497,30 +495,69 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
                 continue;
 
             var entXform = Transform(ent);
-
             if (entXform.GridUid != null)
                 continue;
 
             if (!TryComp<PhysicsComponent>(ent, out var phys) || !phys.CanCollide)
                 continue;
 
+            if (blacklistTypes.Any(type => EntityManager.HasComponent(ent, type)))
+                continue;
+
+            if (blacklistTags.Any(tag => _tags.HasTag(ent, tag)))
+                continue;
+
+            var color = PickShuttleBlipColor(ent, allowedTypes, allowedTags);
+            if (color == null)
+                continue;
+
             var entWorldPos = _transform.GetWorldPosition(entXform);
-            blips.Add(new BlipState(entWorldPos, PickShuttleBlipColor(ent), ShuttleBlipRadius));
+            blips.Add(new BlipState(entWorldPos, color.Value, 0.5f));
         }
 
         return blips;
     }
 
-    private Color PickShuttleBlipColor(EntityUid ent)
+    private Color? PickShuttleBlipColor(EntityUid ent, List<(Type Type, Color Color)> allowedTypes, List<RadarBlipTagEntry> allowedTags)
     {
-        if (HasComp<MindComponent>(ent))     return _playerBlipColor;
-        if (HasComp<MobStateComponent>(ent)) return _mobBlipColor;
-        return _miscBlipColor;   
+        var compMatch = allowedTypes.FirstOrDefault(x => EntityManager.HasComponent(ent, x.Type));
+        if (compMatch != default)
+            return compMatch.Color;
+
+        var tagMatch = allowedTags.FirstOrDefault(x => _tags.HasTag(ent, x.Tag));
+        if (tagMatch != null)
+            return tagMatch.Color;
+
+        if (allowedTypes.Count == 0 && allowedTags.Count == 0)
+            return Color.Yellow;
+
+        return null;
+    }
+
+    private List<Type> ResolveComponentTypes(List<string> names)
+    {
+        var result = new List<Type>(names.Count);
+        foreach (var name in names)
+        {
+            if (IoCManager.Resolve<IComponentFactory>().TryGetRegistration(name, out var reg))
+                result.Add(reg.Type);
+        }
+        return result;
+    }
+
+    private List<(Type Type, Color Color)> ResolveAllowedEntries(List<RadarBlipEntry> entries)
+    {
+        var result = new List<(Type, Color)>(entries.Count);
+        foreach (var entry in entries)
+        {
+            if (IoCManager.Resolve<IComponentFactory>().TryGetRegistration(entry.Component, out var reg))
+                result.Add((reg.Type, entry.Color));
+        }
+        return result;
     }
 
     private void UpdateBlipsTick(float frameTime)
     {
-
     }
-    // DS14-end
+// DS14-end
 }

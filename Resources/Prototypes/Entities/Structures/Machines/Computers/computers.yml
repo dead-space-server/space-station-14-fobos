@@ -870,8 +870,13 @@
         color: "#FFFFFF"
       - component: Item
         color: "#FFD700"
+    allowedTags:
+      - tag: Structure
+        color: "#00FF00"
     blacklistComponents:
       - CartridgeAmmo
+    blacklistTags:
+      - Trash
 #DS14-end
   - type: ActivatableUI
     key: enum.RadarConsoleUiKey.Key

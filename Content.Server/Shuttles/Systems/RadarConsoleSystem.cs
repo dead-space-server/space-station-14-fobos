@@ -8,9 +8,9 @@ using Content.Shared.PowerCell;
 using Content.Shared.Movement.Components;
 // DS14-start
 using Content.Shared.DeadSpace.Shuttles.Components;
+using Content.Shared.Tag;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Physics.Components;
-using Robust.Shared.Reflection;
 // DS14-end
 using Robust.Server.GameObjects;
 using Robust.Shared.Map;
@@ -25,8 +25,7 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly SharedTransformSystem _xformSys = default!;
     [Dependency] private readonly IComponentFactory _componentFactory = default!;
-
-    private static readonly Color FallbackColor = new Color(1f, 1f, 0f);
+    [Dependency] private readonly TagSystem _tags = default!; //DS14
 
     private const float BlipRadius = 0.5f;
 
@@ -80,7 +79,7 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
             angle = Angle.Zero;
         }
 
-        // DS14-start
+    // DS14-start
         if (!_uiSystem.HasUi(uid, RadarConsoleUiKey.Key))
             return;
 
@@ -110,9 +109,10 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
 
         var worldPos = _xformSys.GetWorldPosition(consoleXform);
         var mapId    = consoleXform.MapID;
-        var blacklistTypes = ResolveComponentTypes(component.BlacklistComponents);
-        var allowedTypes   = ResolveAllowedEntries(component.AllowedComponents);
-
+        var blacklistTypes   = ResolveComponentTypes(component.BlacklistComponents);
+        var allowedTypes     = ResolveAllowedEntries(component.AllowedComponents);
+        var blacklistTagList = component.BlacklistTags;
+        var allowedTagList   = component.AllowedTags;
         var nearby = new HashSet<EntityUid>();
         _lookup.GetEntitiesInRange(mapId, worldPos, component.MaxRange, nearby, LookupFlags.Uncontained);
 
@@ -130,12 +130,13 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
 
             if (!TryComp<PhysicsComponent>(ent, out var phys) || !phys.CanCollide)
                 continue;
-
             if (blacklistTypes.Any(type => EntityManager.HasComponent(ent, type)))
                 continue;
 
-            var color = PickColor(ent, allowedTypes);
+            if (blacklistTagList.Any(tag => _tags.HasTag(ent, tag)))
+                continue;
 
+            var color = PickColor(ent, allowedTypes, allowedTagList);
             if (color == null)
                 continue;
 
@@ -146,16 +147,18 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
         return blips;
     }
 
-    private Color? PickColor(EntityUid ent, List<(Type Type, Color Color)> allowedTypes)
+    private Color? PickColor(EntityUid ent, List<(Type Type, Color Color)> allowedTypes, List<RadarBlipTagEntry> allowedTags)
     {
-        if (allowedTypes.Count == 0)
-            return FallbackColor;
+        var compMatch = allowedTypes.FirstOrDefault(x => EntityManager.HasComponent(ent, x.Type));
+        if (compMatch != default)
+            return compMatch.Color;
 
-        foreach (var (type, color) in allowedTypes)
-        {
-            if (EntityManager.HasComponent(ent, type))
-                return color;
-        }
+        var tagMatch = allowedTags.FirstOrDefault(x => _tags.HasTag(ent, x.Tag));
+        if (tagMatch != null)
+            return tagMatch.Color;
+
+        if (allowedTypes.Count == 0 && allowedTags.Count == 0)
+            return Color.Yellow;
 
         return null;
     }
@@ -167,6 +170,8 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
         {
             if (_componentFactory.TryGetRegistration(name, out var reg))
                 result.Add(reg.Type);
+            else
+                Log.Warning($"[RadarConsole] Blacklist: компонент '{name}' не найден.");
         }
         return result;
     }
@@ -178,6 +183,8 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
         {
             if (_componentFactory.TryGetRegistration(entry.Component, out var reg))
                 result.Add((reg.Type, entry.Color));
+            else
+                Log.Warning($"[RadarConsole] AllowedComponents: компонент '{entry.Component}' не найден.");
         }
         return result;
     }

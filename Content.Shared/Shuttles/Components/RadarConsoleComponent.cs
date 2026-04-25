@@ -36,5 +36,11 @@ public sealed partial class RadarConsoleComponent : Component
 
     [DataField]
     public List<string> BlacklistComponents = new();
+
+    [DataField]
+    public List<RadarBlipTagEntry> AllowedTags = new();
+
+    [DataField]
+    public List<string> BlacklistTags = new();
     //DS14-end
 }
