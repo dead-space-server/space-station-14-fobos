@@ -23,6 +23,7 @@ public sealed class SpawnERTShuttleCommand : LocalizedCommands
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
 
     private const string DockTagPrefix = "DockCentcommERT";
+    private static readonly ProtoId<TagPrototype> DefaultDockTag = "DockCentcommERT";
 
     public override string Command => "ert_spawn_shuttle";
     public override string Description => "Создаёт и стыкует к станции ЦК шаттл в заданный стык ОБР.";
@@ -72,33 +73,35 @@ public sealed class SpawnERTShuttleCommand : LocalizedCommands
             return;
         }
 
-        var dockGroups = GetDockGroups(centcommGrid.Value, docking, dockTag);
+        var requestedDockTag = dockTag.GetValueOrDefault();
+        var useDefaultDockTag = dockTag == null || requestedDockTag.Equals(DefaultDockTag);
+        var dockGroups = useDefaultDockTag
+            ? GetDefaultDockGroup(centcommGrid.Value, docking)
+            : GetDockGroups(centcommGrid.Value, docking, requestedDockTag);
 
         if (dockGroups.Count == 0)
         {
-            shell.WriteError(dockTag == null
-                ? "Ошибка: На ЦК не найдены стыки ОБР."
-                : $"Ошибка: На ЦК не найден стык ОБР с тегом {dockTag.Value}.");
+            shell.WriteError(useDefaultDockTag
+                ? $"Ошибка: На ЦК не найдены стыки ОБР с тегом {DefaultDockTag}."
+                : $"Ошибка: На ЦК не найден стык ОБР с тегом {requestedDockTag}.");
             return;
         }
 
-        if (dockTag != null)
+        if (useDefaultDockTag)
         {
-            if (IsDockGroupOccupied(dockGroups[0].Docks))
+            dockGroups[0].Docks.RemoveAll(dock => dock.Comp.Docked);
+
+            if (dockGroups[0].Docks.Count == 0)
             {
-                shell.WriteError($"Ошибка: Стык ОБР {dockTag.Value} занят.");
+                shell.WriteError($"Ошибка: Все стыки ОБР {DefaultDockTag} на ЦК заняты.");
                 return;
             }
         }
         else
         {
-            dockGroups = dockGroups
-                .Where(group => !IsDockGroupOccupied(group.Docks))
-                .ToList();
-
-            if (dockGroups.Count == 0)
+            if (IsDockGroupOccupied(dockGroups[0].Docks))
             {
-                shell.WriteError("Ошибка: Все стыки ОБР на ЦК заняты.");
+                shell.WriteError($"Ошибка: Стык ОБР {requestedDockTag} занят.");
                 return;
             }
         }
@@ -135,7 +138,7 @@ public sealed class SpawnERTShuttleCommand : LocalizedCommands
             return;
         }
 
-        if (!TryGetDockingConfig(shuttleUid, centcommGrid.Value, shuttleDocks, dockGroups, docking, out var config))
+        if (!TryGetDockingConfig(shuttleUid, centcommGrid.Value, shuttleDocks, dockGroups, docking, !useDefaultDockTag, out var config))
         {
             _entityManager.DeleteEntity(shuttleUid);
             shell.WriteError("Ошибка: Стыковка не выполнена.");
@@ -158,7 +161,7 @@ public sealed class SpawnERTShuttleCommand : LocalizedCommands
         if (args.Length == 2)
         {
             var dockTags = _prototypeManager.EnumeratePrototypes<TagPrototype>()
-                .Where(p => IsErtShuttleDockTag(p.ID))
+                .Where(p => p.ID == DefaultDockTag || IsErtShuttleDockTag(p.ID))
                 .Select(p => new CompletionOption(p.ID));
 
             return CompletionResult.FromHintOptions(dockTags, "<dockTag>");
@@ -170,7 +173,7 @@ public sealed class SpawnERTShuttleCommand : LocalizedCommands
     private List<(ProtoId<TagPrototype> Tag, List<Entity<DockingComponent>> Docks)> GetDockGroups(
         EntityUid grid,
         DockingSystem docking,
-        ProtoId<TagPrototype>? requestedTag)
+        ProtoId<TagPrototype> requestedTag)
     {
         var groups = new Dictionary<ProtoId<TagPrototype>, List<Entity<DockingComponent>>>();
 
@@ -181,11 +184,7 @@ public sealed class SpawnERTShuttleCommand : LocalizedCommands
                 continue;
             }
 
-            var dockTags = requestedTag == null
-                ? tagComponent.Tags.Where(tag => IsErtShuttleDockTag(tag.Id))
-                : tagComponent.Tags.Where(tag => tag.Equals(requestedTag.Value));
-
-            foreach (var currentTag in dockTags)
+            foreach (var currentTag in tagComponent.Tags.Where(tag => tag.Equals(requestedTag)))
             {
                 if (!groups.TryGetValue(currentTag, out var docks))
                 {
@@ -200,6 +199,31 @@ public sealed class SpawnERTShuttleCommand : LocalizedCommands
         return groups
             .Select(group => (group.Key, group.Value))
             .ToList();
+    }
+
+    private List<(ProtoId<TagPrototype> Tag, List<Entity<DockingComponent>> Docks)> GetDefaultDockGroup(
+        EntityUid grid,
+        DockingSystem docking)
+    {
+        var docks = new List<Entity<DockingComponent>>();
+
+        foreach (var dock in docking.GetDocks(grid))
+        {
+            if (!_entityManager.TryGetComponent(dock.Owner, out PriorityDockComponent? priorityDock) ||
+                priorityDock.Tag != DefaultDockTag.Id)
+            {
+                continue;
+            }
+
+            docks.Add(dock);
+        }
+
+        return docks.Count == 0
+            ? new List<(ProtoId<TagPrototype> Tag, List<Entity<DockingComponent>> Docks)>()
+            : new List<(ProtoId<TagPrototype> Tag, List<Entity<DockingComponent>> Docks)>
+            {
+                (DefaultDockTag, docks)
+            };
     }
 
     private static bool IsDockGroupOccupied(List<Entity<DockingComponent>> docks)
@@ -218,13 +242,14 @@ public sealed class SpawnERTShuttleCommand : LocalizedCommands
         List<Entity<DockingComponent>> shuttleDocks,
         List<(ProtoId<TagPrototype> Tag, List<Entity<DockingComponent>> Docks)> targetGroups,
         DockingSystem docking,
+        bool requireAllTargetDocks,
         [NotNullWhen(true)] out DockingConfig? config)
     {
         foreach (var (_, targetDocks) in targetGroups)
         {
             config = docking.GetDockingConfig(shuttleUid, targetGrid, shuttleDocks, targetDocks);
 
-            if (config != null && UsesAllTargetDocks(config, targetDocks))
+            if (config != null && (!requireAllTargetDocks || UsesAllTargetDocks(config, targetDocks)))
                 return true;
         }
 
