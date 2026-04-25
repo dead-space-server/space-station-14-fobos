@@ -177,7 +177,7 @@
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,19,9
+    - 0,0,15,10
   - type: StorageFill
     contents:
     - id: ClothingBeltLiverBFilled
