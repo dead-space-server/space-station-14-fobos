@@ -1,0 +1,44 @@
+- type: trait
+  id: ScaleGiant
+  name: Гигантизм
+  description: Кушал много растишки.
+  category: Scale
+  cost: 1
+  blacklist:
+    components:
+      - BorgChassis
+    tags:
+      - CantChangeScale
+  components:
+    - type: ScaleVisuals
+      scale: 1.15,1.15
+
+- type: trait
+  id: ScaleHigh
+  name: Высокий рост
+  description: Чуть выше среднего.
+  category: Scale
+  cost: 1
+  blacklist:
+    components:
+      - BorgChassis
+    tags:
+      - CantChangeScale
+  components:
+    - type: ScaleVisuals
+      scale: 1.075,1.075
+
+- type: trait
+  id: ScaleLow
+  name: Низкий рост
+  description: Чуть ниже среднего.
+  category: Scale
+  cost: 1
+  blacklist:
+    components:
+      - BorgChassis
+    tags:
+      - CantChangeScale
+  components:
+    - type: ScaleVisuals
+      scale: 0.9,0.9

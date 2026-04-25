@@ -44,6 +44,9 @@
   id: DrinkBeerBottleFull
 
 - type: Tag
+  id: CantChangeScale
+
+- type: Tag
   id: CakeBrain
 
 - type: Tag
