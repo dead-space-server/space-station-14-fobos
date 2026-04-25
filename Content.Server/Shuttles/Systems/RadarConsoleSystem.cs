@@ -26,7 +26,7 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
     [Dependency] private readonly SharedTransformSystem _xformSys = default!;
     [Dependency] private readonly IComponentFactory _componentFactory = default!;
 
-    private static readonly Color FallbackColor = new Color(1f, 1f, 0f); // жёлтый — если AllowedComponents пуст
+    private static readonly Color FallbackColor = new Color(1f, 1f, 0f);
 
     private const float BlipRadius = 0.5f;
 
