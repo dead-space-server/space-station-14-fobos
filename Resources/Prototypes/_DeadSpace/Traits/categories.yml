@@ -1,4 +1,4 @@
 - type: traitCategory
   id: Scale
-  name: "Рост ( Смена роста недоступна для: дворфов, кобольдов, фелинидов )"
+  name: trait-category-scale
   maxTraitPoints: 1

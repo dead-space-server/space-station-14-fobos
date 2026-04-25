@@ -1,7 +1,7 @@
 - type: trait
   id: ScaleGiant
-  name: Гигантизм
-  description: Кушал много растишки.
+  name: trait-scale-gigant-name
+  description: trait-scale-gigant-desc
   category: Scale
   cost: 1
   blacklist:
@@ -15,8 +15,8 @@
 
 - type: trait
   id: ScaleHigh
-  name: Высокий рост
-  description: Чуть выше среднего.
+  name: trait-scale-big-name
+  description: trait-scale-big-desc
   category: Scale
   cost: 1
   blacklist:
@@ -30,8 +30,8 @@
 
 - type: trait
   id: ScaleLow
-  name: Низкий рост
-  description: Чуть ниже среднего.
+  name: trait-scale-short-name
+  description: trait-scale-short-desc
   category: Scale
   cost: 1
   blacklist:
