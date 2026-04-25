@@ -1,19 +1,16 @@
-using System.Numerics;
-using Robust.Shared.Serialization;
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
-namespace Content.Shared.DeadSpace.Shuttles.BUIStates;
+using Robust.Shared.Serialization.Manager.Attributes;
 
-[Serializable, NetSerializable]
-public sealed class BlipState
+namespace Content.Shared.DeadSpace.Shuttles.Components;
+
+[DataDefinition]
+public sealed partial class RadarBlipEntry
 {
-    public Vector2 WorldPosition;
-    public Color Color;
-    public float Radius;
 
-    public BlipState(Vector2 worldPosition, Color color, float radius = 0.5f)
-    {
-        WorldPosition = worldPosition;
-        Color = color;
-        Radius = radius;
-    }
+    [DataField(required: true)]
+    public string Component = string.Empty;
+
+    [DataField]
+    public Color Color = Color.White;
 }

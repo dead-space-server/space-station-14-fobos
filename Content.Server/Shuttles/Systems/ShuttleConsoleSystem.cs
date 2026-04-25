@@ -16,7 +16,7 @@ using Content.Shared.Power;
 using Content.Shared.Shuttles.UI.MapObjects;
 using Content.Shared.Timing;
 //DS14-start
-using Content.Shared.DeadSpace.Shuttles.BUIStates;
+using Content.Shared.DeadSpace.Shuttles.Components;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mind;
 using Robust.Shared.Map.Components;

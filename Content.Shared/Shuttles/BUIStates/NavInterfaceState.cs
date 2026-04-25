@@ -1,4 +1,6 @@
-using Content.Shared.DeadSpace.Shuttles.BUIStates; //DS14
+using System.Numerics; //DS14
+using Content.Shared.Shuttles.BUIStates; //DS14
+using Content.Shared.DeadSpace.Shuttles.Components; //DS14
 using Robust.Shared.Map;
 using Robust.Shared.Serialization;
 
@@ -23,7 +25,9 @@ public sealed class NavInterfaceState
 
     public bool RotateWithEntity = true;
 
-    public List<BlipState> Blips; //DS14
+    //DS14-start
+    public List<BlipState> Blips;
+    //DS14-end
 
     public NavInterfaceState(
         float maxRange,
@@ -45,3 +49,20 @@ public enum RadarConsoleUiKey : byte
 {
     Key
 }
+
+//DS14-start
+[Serializable, NetSerializable]
+public sealed class BlipState
+{
+    public Vector2 WorldPosition;
+    public Color Color;
+    public float Radius;
+
+    public BlipState(Vector2 worldPosition, Color color, float radius = 0.5f)
+    {
+        WorldPosition = worldPosition;
+        Color = color;
+        Radius = radius;
+    }
+}
+//DS14-end

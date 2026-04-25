@@ -1,4 +1,5 @@
 using Content.Shared.Shuttles.Systems;
+using Content.Shared.DeadSpace.Shuttles.Components; //DS14
 using Robust.Shared.GameStates;
 
 namespace Content.Shared.Shuttles.Components;
@@ -26,6 +27,14 @@ public sealed partial class RadarConsoleComponent : Component
     [DataField]
     public bool FollowEntity = false;
 
+    //DS14-start
     [DataField]
     public bool Advanced = false;
+
+    [DataField]
+    public List<RadarBlipEntry> AllowedComponents = new();
+
+    [DataField]
+    public List<string> BlacklistComponents = new();
+    //DS14-end
 }
