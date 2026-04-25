@@ -4,8 +4,8 @@ meta:
   engineVersion: 272.0.0
   forkId: ""
   forkVersion: ""
-  time: 04/14/2026 18:26:10
-  entityCount: 42863
+  time: 04/25/2026 20:20:42
+  entityCount: 42881
 maps:
 - 1
 grids:
@@ -7034,12 +7034,6 @@ entities:
             color: '#285A91E7'
             id: MiniTileWhiteCornerNe
           decals:
-            14920: 67,8
-            14926: 70,7
-        - node:
-            color: '#285A91E7'
-            id: MiniTileWhiteCornerNe
-          decals:
             10309: 39,37
             10320: 35,37
             10328: 39,47
@@ -7066,6 +7060,8 @@ entities:
             10716: 33,68
             10745: 53,53
             10773: 60,53
+            14920: 67,8
+            14926: 70,7
         - node:
             color: '#285A91FF'
             id: MiniTileWhiteCornerNe
@@ -7235,15 +7231,11 @@ entities:
             color: '#FF9821E7'
             id: MiniTileWhiteCornerNe
           decals:
-            14947: 64,8
-        - node:
-            color: '#FF9821E7'
-            id: MiniTileWhiteCornerNe
-          decals:
             10885: 58,37
             10902: 57,29
             10903: 62,37
             10904: 57,41
+            14947: 64,8
         - node:
             color: '#FF9821FF'
             id: MiniTileWhiteCornerNe
@@ -7266,13 +7258,6 @@ entities:
           decals:
             9869: 37,23
             14753: 40,-25
-        - node:
-            color: '#285A91E7'
-            id: MiniTileWhiteCornerNw
-          decals:
-            14908: 59,6
-            14914: 56,5
-            14919: 65,8
         - node:
             color: '#285A91E7'
             id: MiniTileWhiteCornerNw
@@ -7302,6 +7287,9 @@ entities:
             10714: 30,68
             10742: 51,53
             10771: 55,53
+            14908: 59,6
+            14914: 56,5
+            14919: 65,8
         - node:
             color: '#285A91FF'
             id: MiniTileWhiteCornerNw
@@ -7458,14 +7446,10 @@ entities:
             color: '#FF9821E7'
             id: MiniTileWhiteCornerNw
           decals:
-            14946: 62,8
-        - node:
-            color: '#FF9821E7'
-            id: MiniTileWhiteCornerNw
-          decals:
             10899: 55,41
             10900: 60,37
             10901: 55,29
+            14946: 62,8
         - node:
             color: '#FF9821FF'
             id: MiniTileWhiteCornerNw
@@ -7521,10 +7505,6 @@ entities:
             10756: 53,46
             10784: 60,49
             10820: 60,55
-        - node:
-            color: '#285A91E7'
-            id: MiniTileWhiteCornerSe
-          decals:
             14902: 60,3
         - node:
             color: '#285A91FF'
@@ -7685,15 +7665,11 @@ entities:
             color: '#FF9821E7'
             id: MiniTileWhiteCornerSe
           decals:
-            14948: 64,7
-        - node:
-            color: '#FF9821E7'
-            id: MiniTileWhiteCornerSe
-          decals:
             10891: 58,31
             10908: 57,27
             10909: 62,31
             10928: 57,39
+            14948: 64,7
         - node:
             color: '#FF9821FF'
             id: MiniTileWhiteCornerSe
@@ -7717,12 +7693,6 @@ entities:
             9875: 37,19
             11282: 53,19
             14745: 40,-30
-        - node:
-            color: '#285A91E7'
-            id: MiniTileWhiteCornerSw
-          decals:
-            14901: 56,3
-            14935: 62,5
         - node:
             color: '#285A91E7'
             id: MiniTileWhiteCornerSw
@@ -7751,6 +7721,8 @@ entities:
             10761: 51,46
             10785: 55,49
             10819: 56,55
+            14901: 56,3
+            14935: 62,5
         - node:
             color: '#285A91FF'
             id: MiniTileWhiteCornerSw
@@ -7903,14 +7875,10 @@ entities:
             color: '#FF9821E7'
             id: MiniTileWhiteCornerSw
           decals:
-            14945: 62,7
-        - node:
-            color: '#FF9821E7'
-            id: MiniTileWhiteCornerSw
-          decals:
             10905: 55,39
             10906: 60,31
             10907: 55,27
+            14945: 62,7
         - node:
             color: '#FF9821FF'
             id: MiniTileWhiteCornerSw
@@ -7976,15 +7944,11 @@ entities:
             color: '#285A91E7'
             id: MiniTileWhiteInnerNe
           decals:
-            14923: 67,6
-        - node:
-            color: '#285A91E7'
-            id: MiniTileWhiteInnerNe
-          decals:
             10346: 39,42
             10651: 38,60
             10653: 37,61
             10859: 42,52
+            14923: 67,6
         - node:
             color: '#334E6DFF'
             id: MiniTileWhiteInnerNe
@@ -8067,10 +8031,6 @@ entities:
             10566: 29,46
             10830: 60,58
             10860: 48,52
-        - node:
-            color: '#285A91E7'
-            id: MiniTileWhiteInnerNw
-          decals:
             14913: 59,5
             14918: 65,6
             14924: 68,6
@@ -8402,10 +8362,6 @@ entities:
             10825: 60,57
             10826: 60,58
             10838: 48,52
-        - node:
-            color: '#285A91E7'
-            id: MiniTileWhiteLineE
-          decals:
             14911: 60,5
             14912: 60,4
             14922: 67,7
@@ -8797,15 +8753,6 @@ entities:
             color: '#285A91E7'
             id: MiniTileWhiteLineN
           decals:
-            14906: 57,5
-            14907: 58,5
-            14910: 60,6
-            14916: 62,6
-            14917: 64,6
-        - node:
-            color: '#285A91E7'
-            id: MiniTileWhiteLineN
-          decals:
             10307: 38,33
             10310: 38,37
             10323: 34,37
@@ -8874,6 +8821,11 @@ entities:
             10845: 45,52
             10846: 46,52
             10847: 47,52
+            14906: 57,5
+            14907: 58,5
+            14910: 60,6
+            14916: 62,6
+            14917: 64,6
         - node:
             color: '#285A91FF'
             id: MiniTileWhiteLineN
@@ -9248,14 +9200,10 @@ entities:
             color: '#FF9821E7'
             id: MiniTileWhiteLineN
           decals:
-            14949: 63,8
-        - node:
-            color: '#FF9821E7'
-            id: MiniTileWhiteLineN
-          decals:
             10883: 57,37
             10922: 61,37
             10930: 56,41
+            14949: 63,8
         - node:
             color: '#FFFFFFFF'
             id: MiniTileWhiteLineN
@@ -9303,20 +9251,6 @@ entities:
             11286: 57,19
             11287: 58,19
             14747: 41,-30
-        - node:
-            color: '#285A91E7'
-            id: MiniTileWhiteLineS
-          decals:
-            14903: 59,3
-            14904: 58,3
-            14905: 57,3
-            14928: 70,5
-            14929: 69,5
-            14930: 68,5
-            14931: 67,5
-            14932: 66,5
-            14933: 65,5
-            14934: 64,5
         - node:
             color: '#285A91E7'
             id: MiniTileWhiteLineS
@@ -9389,6 +9323,16 @@ entities:
             10853: 44,52
             10855: 43,52
             11333: 48,50
+            14903: 59,3
+            14904: 58,3
+            14905: 57,3
+            14928: 70,5
+            14929: 69,5
+            14930: 68,5
+            14931: 67,5
+            14932: 66,5
+            14933: 65,5
+            14934: 64,5
         - node:
             color: '#285A91FF'
             id: MiniTileWhiteLineS
@@ -9809,13 +9753,6 @@ entities:
             color: '#285A91E7'
             id: MiniTileWhiteLineW
           decals:
-            14915: 56,4
-            14921: 65,7
-            14925: 68,7
-        - node:
-            color: '#285A91E7'
-            id: MiniTileWhiteLineW
-          decals:
             10306: 37,32
             10335: 37,41
             10337: 37,43
@@ -9869,6 +9806,9 @@ entities:
             10827: 56,56
             10828: 56,57
             10858: 42,52
+            14915: 56,4
+            14921: 65,7
+            14925: 68,7
         - node:
             color: '#334E6DE6'
             id: MiniTileWhiteLineW
@@ -16181,7 +16121,8 @@ entities:
           10,11:
             0: 61164
           10,12:
-            0: 60942
+            0: 28174
+            5: 32768
           11,9:
             0: 12287
           11,10:
@@ -26112,7 +26053,7 @@ entities:
       pos: -0.5,-35.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -64314.465
+      secondsUntilStateChange: -64577.3
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -26617,7 +26558,7 @@ entities:
       pos: 5.5,14.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -45.174473
+      secondsUntilStateChange: -308.00946
       state: Opening
     - type: DeviceLinkSink
       invokeCounter: 1
@@ -27124,7 +27065,7 @@ entities:
       dockJointId: docking169116
       dockedWith: 500
     - type: Door
-      secondsUntilStateChange: -49533.9
+      secondsUntilStateChange: -49796.734
       changeAirtight: False
       state: Opening
     - type: DeviceLinkSource
@@ -27618,7 +27559,7 @@ entities:
       pos: 13.5,-37.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -60876.902
+      secondsUntilStateChange: -61139.74
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -28394,7 +28335,7 @@ entities:
       pos: -28.5,-19.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -69393.26
+      secondsUntilStateChange: -69656.09
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -37028,6 +36969,11 @@ entities:
       pos: 43.5,53.5
       parent: 2
   - uid: 1991
+    components:
+    - type: Transform
+      pos: 43.5,53.5
+      parent: 2
+  - uid: 42870
     components:
     - type: Transform
       pos: 43.5,53.5
@@ -101278,6 +101224,9 @@ entities:
     - type: Transform
       pos: 46.5,50.5
       parent: 2
+    - type: AccessReader
+      accessListsOriginal:
+      - - Armory
     - type: EntityStorage
       air:
         volume: 200
@@ -101292,9 +101241,11 @@ entities:
           showEnts: False
           occludes: True
           ents:
-          - 13854
+          - 24128
+          - 24129
           - 13855
           - 13853
+          - 13854
         paper_label: !type:ContainerSlot
           showEnts: False
           occludes: True
@@ -118110,7 +118061,7 @@ entities:
       parent: 16633
     - type: Physics
       canCollide: False
-- proto: ErtResponceConsole
+- proto: ErtResponseConsole
   entities:
   - uid: 16635
     components:
@@ -118118,8 +118069,12 @@ entities:
       pos: 1.5,-27.5
       parent: 2
     - type: AccessReader
+      accessLog: []
+      accessKeys: []
       accessListsOriginal:
       - - HeadOfSecurity
+      access: []
+      denyTags: []
 - proto: EvidenceMarkerEight
   entities:
   - uid: 16636
@@ -181378,6 +181333,32 @@ entities:
     - type: Transform
       pos: 43.5,51.5
       parent: 2
+    - type: EntityStorage
+      air:
+        volume: 200
+        immutable: False
+        temperature: 293.14673
+        moles:
+          Oxygen: 1.7459903
+          Nitrogen: 6.568249
+    - type: ContainerContainer
+      containers:
+        entity_storage: !type:Container
+          showEnts: False
+          occludes: True
+          ents:
+          - 24130
+          - 35974
+          - 35975
+          - 35977
+          - 35983
+          - 35984
+          - 35985
+          - 35986
+        paper_label: !type:ContainerSlot
+          showEnts: False
+          occludes: True
+          ent: null
     - type: AccessReader
       accessListsOriginal:
       - - Armory
@@ -182314,7 +182295,7 @@ entities:
       pos: 9.5,-57.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -69012.33
+      secondsUntilStateChange: -69275.164
       state: Opening
   - uid: 23686
     components:
@@ -185809,6 +185790,70 @@ entities:
       parent: 2
 - proto: MagazinePistolHighCapacity
   entities:
+  - uid: 24130
+    components:
+    - type: Transform
+      parent: 23546
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 23546
+  - uid: 35974
+    components:
+    - type: Transform
+      parent: 23546
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 23546
+  - uid: 35975
+    components:
+    - type: Transform
+      parent: 23546
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 23546
+  - uid: 35977
+    components:
+    - type: Transform
+      parent: 23546
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 23546
+  - uid: 35983
+    components:
+    - type: Transform
+      parent: 23546
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 23546
+  - uid: 35984
+    components:
+    - type: Transform
+      parent: 23546
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 23546
+  - uid: 35985
+    components:
+    - type: Transform
+      parent: 23546
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 23546
+  - uid: 35986
+    components:
+    - type: Transform
+      parent: 23546
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 23546
   - uid: 39344
     components:
     - type: Transform
@@ -185821,17 +185866,32 @@ entities:
       parent: 36716
 - proto: MagazinePistolSubMachineGun
   entities:
-  - uid: 24128
+  - uid: 42871
     components:
     - type: Transform
       pos: 41.5,53.5
       parent: 2
-  - uid: 24129
+  - uid: 42873
     components:
     - type: Transform
       pos: 41.5,53.5
       parent: 2
-  - uid: 24130
+  - uid: 42874
+    components:
+    - type: Transform
+      pos: 41.5,53.5
+      parent: 2
+  - uid: 42875
+    components:
+    - type: Transform
+      pos: 41.5,53.5
+      parent: 2
+  - uid: 42876
+    components:
+    - type: Transform
+      pos: 41.5,53.5
+      parent: 2
+  - uid: 42877
     components:
     - type: Transform
       pos: 41.5,53.5
@@ -185849,6 +185909,21 @@ entities:
       pos: 41.5,54.5
       parent: 2
   - uid: 24133
+    components:
+    - type: Transform
+      pos: 41.5,54.5
+      parent: 2
+  - uid: 42866
+    components:
+    - type: Transform
+      pos: 41.5,54.5
+      parent: 2
+  - uid: 42878
+    components:
+    - type: Transform
+      pos: 41.5,54.5
+      parent: 2
+  - uid: 42879
     components:
     - type: Transform
       pos: 41.5,54.5
@@ -192112,6 +192187,13 @@ entities:
     components:
     - type: Transform
       pos: -34.5,14.5
+      parent: 2
+- proto: PortableRecharger
+  entities:
+  - uid: 42867
+    components:
+    - type: Transform
+      pos: 45.5,54.5
       parent: 2
 - proto: PortableScrubber
   entities:
@@ -213491,6 +213573,7 @@ entities:
     - type: Physics
       canCollide: False
     - type: InsideEntityStorage
+      storage: 13852
   - uid: 28217
     components:
     - type: Transform
@@ -213660,6 +213743,7 @@ entities:
     - type: Physics
       canCollide: False
     - type: InsideEntityStorage
+      storage: 13852
 - proto: SheetRGlass
   entities:
   - uid: 28243
@@ -213696,6 +213780,23 @@ entities:
     - type: Physics
       canCollide: False
     - type: InsideEntityStorage
+      storage: 13852
+  - uid: 24128
+    components:
+    - type: Transform
+      parent: 13852
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 13852
+  - uid: 24129
+    components:
+    - type: Transform
+      parent: 13852
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 13852
   - uid: 28248
     components:
     - type: Transform
@@ -274593,25 +274694,10 @@ entities:
     - type: Transform
       pos: 44.5,54.5
       parent: 2
-  - uid: 35974
-    components:
-    - type: Transform
-      pos: 46.5,54.5
-      parent: 2
-  - uid: 35975
-    components:
-    - type: Transform
-      pos: 45.5,54.5
-      parent: 2
   - uid: 35976
     components:
     - type: Transform
       pos: 44.50232,54.624603
-      parent: 2
-  - uid: 35977
-    components:
-    - type: Transform
-      pos: 46.512733,54.624603
       parent: 2
 - proto: WeaponLaserCarbinePractice
   entities:
@@ -274674,12 +274760,29 @@ entities:
     - type: Transform
       pos: 41.53909,54.77733
       parent: 2
+- proto: WeaponShotgunAresSWC
+  entities:
+  - uid: 42880
+    components:
+    - type: Transform
+      pos: 43.5,54.5
+      parent: 2
+  - uid: 42881
+    components:
+    - type: Transform
+      pos: 43.505848,54.380856
+      parent: 2
 - proto: WeaponShotgunEnforcer
   entities:
   - uid: 35982
     components:
     - type: Transform
       pos: 43.52315,54.78096
+      parent: 2
+  - uid: 42869
+    components:
+    - type: Transform
+      pos: 43.547516,54.693573
       parent: 2
 - proto: WeaponShotgunHandmade
   entities:
@@ -274698,29 +274801,22 @@ entities:
     - type: Physics
       canCollide: False
     - type: InsideEntityStorage
-- proto: WeaponShotgunKammerer
-  entities:
-  - uid: 35983
-    components:
-    - type: Transform
-      pos: 43.53357,54.59333
-      parent: 2
-  - uid: 35984
-    components:
-    - type: Transform
-      pos: 43.53357,54.384853
-      parent: 2
 - proto: WeaponSubMachineGunDrozd
   entities:
-  - uid: 35985
+  - uid: 42864
     components:
     - type: Transform
-      pos: 41.603268,53.473812
+      pos: 41.55177,53.60949
       parent: 2
-  - uid: 35986
+  - uid: 42865
     components:
     - type: Transform
-      pos: 41.603268,53.78653
+      pos: 41.55177,53.473976
+      parent: 2
+  - uid: 42872
+    components:
+    - type: Transform
+      pos: 41.55177,53.713726
       parent: 2
 - proto: WeaponTurretLaserNanoTrasen
   entities:
@@ -274765,6 +274861,13 @@ entities:
     - type: Transform
       pos: 51.40176,28.296368
       parent: 36716
+- proto: WeaponXrayCannon
+  entities:
+  - uid: 42868
+    components:
+    - type: Transform
+      pos: 46.5,54.5
+      parent: 2
 - proto: WebBed
   entities:
   - uid: 42574
@@ -275670,7 +275773,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -36920.758
+      secondsUntilStateChange: -37183.594
       state: Opening
     - type: Airlock
       autoClose: False
