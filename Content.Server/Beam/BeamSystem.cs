@@ -4,13 +4,13 @@ using Content.Shared.Beam;
 using Content.Shared.Beam.Components;
 using Content.Shared.Physics;
 using Robust.Server.GameObjects;
-using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Map;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Collision.Shapes;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Systems;
+using Robust.Shared.Player; // DS14
 
 namespace Content.Server.Beam;
 
@@ -21,6 +21,7 @@ public sealed class BeamSystem : SharedBeamSystem
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedBroadphaseSystem _broadphase = default!;
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
+    [Dependency] private readonly VisibilitySystem _visibility = default!; // DS14
 
     public override void Initialize()
     {
@@ -74,10 +75,13 @@ public sealed class BeamSystem : SharedBeamSystem
         Vector2 distanceCorrection,
         EntityUid? controller,
         string? bodyState = null,
-        string shader = "unshaded")
+        string shader = "unshaded",
+        ushort? visibilityLayer = null, // DS14
+        Filter? filter = null) // DS14
     {
         var beamSpawnPos = beamStartPos;
         var ent = Spawn(prototype, beamSpawnPos);
+        SetVisibilityLayer(ent, visibilityLayer); // DS14
         var shape = new EdgeShape(distanceCorrection, new Vector2(0,0));
 
         if (!TryComp<PhysicsComponent>(ent, out var physics) || !TryComp<BeamComponent>(ent, out var beam))
@@ -101,7 +105,7 @@ public sealed class BeamSystem : SharedBeamSystem
         var distanceLength = distanceCorrection.Length();
 
         var beamVisualizerEvent = new BeamVisualizerEvent(GetNetEntity(ent), distanceLength, userAngle, bodyState, shader);
-        RaiseNetworkEvent(beamVisualizerEvent);
+        RaiseBeamVisualizerEvent(beamVisualizerEvent, filter); // DS14
 
         if (controller != null)
             beam.VirtualBeamController = controller;
@@ -109,9 +113,15 @@ public sealed class BeamSystem : SharedBeamSystem
         else
         {
             var controllerEnt = Spawn("VirtualBeamEntityController", beamSpawnPos);
+            SetVisibilityLayer(controllerEnt, visibilityLayer); // DS14
             beam.VirtualBeamController = controllerEnt;
 
-            _audio.PlayPvs(beam.Sound, ent);
+            // DS14-start
+            if (filter != null)
+                _audio.PlayEntity(beam.Sound, filter, ent, false);
+            else
+            // DS14-end
+                _audio.PlayPvs(beam.Sound, ent);
 
             var beamControllerCreatedEvent = new BeamControllerCreatedEvent(ent, controllerEnt);
             RaiseLocalEvent(controllerEnt, beamControllerCreatedEvent);
@@ -122,14 +132,37 @@ public sealed class BeamSystem : SharedBeamSystem
         {
             beamSpawnPos = beamSpawnPos.Offset(calculatedDistance.Normalized());
             var newEnt = Spawn(prototype, beamSpawnPos);
+            SetVisibilityLayer(newEnt, visibilityLayer); // DS14
 
             var ev = new BeamVisualizerEvent(GetNetEntity(newEnt), distanceLength, userAngle, bodyState, shader);
-            RaiseNetworkEvent(ev);
+            RaiseBeamVisualizerEvent(ev, filter); // DS14
         }
 
         var beamFiredEvent = new BeamFiredEvent(ent);
         RaiseLocalEvent(beam.VirtualBeamController.Value, beamFiredEvent);
     }
+
+    // DS14-start
+    private void SetVisibilityLayer(EntityUid uid, ushort? visibilityLayer)
+    {
+        if (visibilityLayer == null)
+            return;
+
+        var visibility = EnsureComp<VisibilityComponent>(uid);
+        _visibility.SetLayer((uid, visibility), visibilityLayer.Value);
+    }
+
+    private void RaiseBeamVisualizerEvent(BeamVisualizerEvent ev, Filter? filter)
+    {
+        if (filter != null)
+        {
+            RaiseNetworkEvent(ev, filter);
+            return;
+        }
+
+        RaiseNetworkEvent(ev);
+    }
+    // DS14-end
 
     /// <summary>
     /// Called where you want an entity to create a beam from one target to another.
@@ -141,7 +174,14 @@ public sealed class BeamSystem : SharedBeamSystem
     /// <param name="bodyState">Optional sprite state for the <see cref="bodyPrototype"/> if a default one is not given</param>
     /// <param name="shader">Optional shader for the <see cref="bodyPrototype"/> if a default one is not given</param>
     /// <param name="controller"></param>
-    public void TryCreateBeam(EntityUid user, EntityUid target, string bodyPrototype, string? bodyState = null, string shader = "unshaded", EntityUid? controller = null)
+    public void TryCreateBeam(EntityUid user,
+        EntityUid target,
+        string bodyPrototype,
+        string? bodyState = null,
+        string shader = "unshaded",
+        EntityUid? controller = null,
+        ushort? visibilityLayer = null, // DS14
+        Filter? filter = null) // DS14
     {
         if (Deleted(user) || Deleted(target))
             return;
@@ -171,7 +211,16 @@ public sealed class BeamSystem : SharedBeamSystem
 
         var distanceCorrection = calculatedDistance - calculatedDistance.Normalized();
 
-        CreateBeam(bodyPrototype, userAngle, calculatedDistance, beamStartPos, distanceCorrection, controller, bodyState, shader);
+        CreateBeam(bodyPrototype,
+            userAngle,
+            calculatedDistance,
+            beamStartPos,
+            distanceCorrection,
+            controller,
+            bodyState,
+            shader,
+            visibilityLayer, // DS14
+            filter); // DS14
 
         var ev = new CreateBeamSuccessEvent(user, target);
         RaiseLocalEvent(user, ev);
