@@ -12,6 +12,9 @@ public sealed partial class WeedComponent : Component
     [DataField, AutoNetworkedField]
     public EntProtoId Spawns = "EventXenoWeed";
 
+    [DataField("attachedWall")]
+    public EntityUid? AttachedWall;
+
     [DataField, AutoNetworkedField]
     public bool IsSource = true;
 

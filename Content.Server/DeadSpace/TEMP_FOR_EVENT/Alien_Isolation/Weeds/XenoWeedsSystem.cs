@@ -204,7 +204,9 @@ public sealed class XenoWeedsSystem : EntitySystem
 
         var weedWall = Spawn(XenoWallVisualId, xform.Coordinates);
 
-        _transform.AnchorEntity(weedWall, Transform(weedWall));
+        // Записываем стену в компонент сорняка, чтобы потом "почистить" её
+        var childWeeds = EnsureComp<WeedComponent>(weedWall);
+        childWeeds.AttachedWall = wallUid;
 
         EnsureComp<XenoWeedWallComponent>(wallUid);
         SetupWeedComponent(weedWall, parentUid, parentWeeds);
@@ -212,13 +214,16 @@ public sealed class XenoWeedsSystem : EntitySystem
 
     private void OnWeedsTerminating(EntityUid uid, WeedComponent component, ref EntityTerminatingEvent args)
     {
-        // Убираем себя из списка родителя
+        if (component.AttachedWall is { } wall && Exists(wall))
+        {
+            RemCompDeferred<XenoWeedWallComponent>(wall);
+        }
+
         if (!component.IsSource && component.Source is { } source && TryComp<WeedComponent>(source, out var sourceComp))
         {
             sourceComp.Spread.Remove(uid);
         }
 
-        // Если это источник — уничтожаем "семью" с задержкой
         if (component.IsSource)
         {
             foreach (var child in component.Spread)
@@ -227,8 +232,9 @@ public sealed class XenoWeedsSystem : EntitySystem
                     continue;
 
                 var timer = EnsureComp<TimedDespawnComponent>(child);
-                timer.Lifetime = _random.NextFloat(5f, 7.0f);
+                timer.Lifetime = _random.NextFloat(5f, 8.0f);
             }
+
             component.Spread.Clear();
         }
     }
