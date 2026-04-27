@@ -11,4 +11,4 @@ trait-scale-big-name = Высокий рост
 trait-scale-big-desc = Чуть выше среднего.
 
 trait-scale-gigant-name = Гигантизм
-trait-scale-gigant-desc = Кушал много растишки.
+trait-scale-gigant-desc = Кушал много растишки?
