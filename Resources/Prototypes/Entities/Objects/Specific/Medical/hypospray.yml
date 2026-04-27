@@ -235,6 +235,11 @@
     price: 75 # These are limited supply items.
   - type: TrashOnSolutionEmpty
     solution: pen
+  # DS14-start
+  - type: Tag
+    tags: 
+    - Medipen
+  # DS14-end
 
 - type: entity
   parent: ChemicalMedipen
