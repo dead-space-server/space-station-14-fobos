@@ -1,0 +1,71 @@
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBackpackRIGEVA
+  name: модифицированный рюкзак ВКД
+  description: Гражданский рюкзак с функцией РИГ.
+  components:
+  - type: Clothing
+    equipDelay: 4
+    unequipDelay: 4
+  - type: Storage
+    grid:
+    - 0,0,6,5
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/EVA/backpack.rsi
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: ToggleableClothing
+    toggleDelay: 3
+    clothingPrototype: ClothingOuterRIGEVA
+    requiredSlot: BACK
+    slot: outerClothing
+  - type: ContainerContainer
+    containers:
+      toggleable-clothing: !type:ContainerSlot {}
+      storagebase: !type:Container
+        ents: []
+
+- type: entity
+  parent: ClothingOuterHardsuitClown
+  id: ClothingOuterRIGEVA
+  name: гражданский скафандр ВКД
+  description: Новейшая разработка ВКД для массового пользования в условиях частой разгерметизации.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/EVA/outer.rsi
+  - type: Clothing
+    sprite: _DeadSpace/RIGs/EVA/outer.rsi
+    equipSound: /Audio/_DeadSpace/Misc/rig_equip.ogg
+  - type: PressureProtection
+    highPressureMultiplier: 0.02
+    lowPressureMultiplier: 1000
+  - type: ClothingSpeedModifier
+    walkModifier: 0.95
+    sprintModifier: 0.95
+  - type: TemperatureProtection
+    heatingCoefficient: 0.001
+    coolingCoefficient: 0.001
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetRIGEVA
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ClothingHeadHelmetRIGEVA
+  name: шлем гражданского скафандра ВКД
+  description: Не позвольте вакууму нарушить ваш покой.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/EVA/helmet.rsi
+    scale: 0.7, 0.7
+  - type: Clothing
+    sprite: _DeadSpace/RIGs/EVA/helmet.rsi
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: PointLight
+    radius: 4
+    energy: 3
+  - type: Item
+    heldPrefix: off 
+    size: Normal

@@ -149,9 +149,6 @@
     fiberColor: fibers-regal-blue
   - type: FingerprintMask
 # DS14-start 
-  - type: ClothingGrantComponent
-    component: 
-      - type: RenegadeCANTLightningAbility
   - type: PhysicalComposition
     materialComposition:
       Durathread: 10
@@ -275,7 +272,13 @@
     - state: icon
       map: [ "enum.ToggleableVisuals.Layer" ]
   - type: Clothing
-    sprite: Clothing/Hands/Gloves/spaceninja.rsi
+#DS14-start
+    clothingVisuals:
+      gloves:
+      - state: green-equipped-HAND
+      - state: green-equipped-HAND-unshaded
+        shader: unshaded
+#DS14-end
   - type: Appearance
   - type: GenericVisualizer
     visuals:
@@ -332,9 +335,6 @@
   - type: Fiber
     fiberMaterial: fibers-insulative
     fiberColor: fibers-black
-  - type: ClothingGrantComponent
-    component: 
-      - type: RenegadeCANTLightningAbility
 
 # can't parent combat gloves since they are butcherable
 - type: entity

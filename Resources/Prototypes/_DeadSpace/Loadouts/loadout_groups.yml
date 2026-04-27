@@ -26,6 +26,7 @@
 - type: loadoutGroup
   id: BlueShieldOfficerNeck
   name: loadout-group-blue-shield-officer-neck
+  minLimit: 0
   loadouts:
   - BlueShieldOfficerCloak
   - BlueShieldOfficerMantle

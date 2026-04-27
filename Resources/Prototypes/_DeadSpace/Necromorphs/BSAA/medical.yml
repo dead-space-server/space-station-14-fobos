@@ -51,7 +51,7 @@
 
 - type: entity
   id: InjectorCase
-  parent: BaseItem
+  parent: Medkit
   name: боевой медицинский комплект
   description: Кейс для специализированных медицинских автоинъекторов.
   components:
@@ -60,7 +60,6 @@
     layers:
     - state: closed
       map: [ "empty-icon" ]
-      shader: unshaded
     - state: open
       map: ["openLayer"]
       visible: false
@@ -144,6 +143,7 @@
 - type: entity
   id: InjectorCaseFilled
   parent: InjectorCase
+  suffix: Заполненная
   components:
   - type: StorageFill
     contents:
@@ -160,6 +160,7 @@
 - type: entity
   id: InjectorCaseStimFilled
   parent: InjectorCaseStim
+  suffix: Заполненная
   components:
   - type: StorageFill
     contents:

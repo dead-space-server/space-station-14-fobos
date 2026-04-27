@@ -338,7 +338,7 @@
   playTimeTracker: JobERTMedicalAmber
   setPreference: false
   startingGear: ERTMedicalGearAmber
-  icon: "JobIconERT"
+  icon: "JobIconERTMedical"
   supervisors: job-supervisors-centcom
   canBeAntag: false
   accessGroups:
@@ -395,7 +395,7 @@
   playTimeTracker: JobERTMedicalRed
   setPreference: false
   startingGear: ERTMedicalGearRed
-  icon: "JobIconERT"
+  icon: "JobIconERTMedical"
   supervisors: job-supervisors-centcom
   canBeAntag: false
   accessGroups:
@@ -452,7 +452,7 @@
   playTimeTracker: JobERTMedicalGamma
   setPreference: false
   startingGear: ERTMedicalGearGamma
-  icon: "JobIconERT"
+  icon: "JobIconERTMedical"
   supervisors: job-supervisors-centcom
   canBeAntag: false
   accessGroups:
@@ -514,7 +514,7 @@
   playTimeTracker: JobERTEngineerAmber
   setPreference: false
   startingGear: ERTEngineerGearAmber
-  icon: "JobIconERT"
+  icon: "JobIconERTEngineer"
   supervisors: job-supervisors-centcom
   canBeAntag: false
   accessGroups:
@@ -566,7 +566,7 @@
   playTimeTracker: JobERTEngineerRed
   setPreference: false
   startingGear: ERTEngineerGearRed
-  icon: "JobIconERT"
+  icon: "JobIconERTEngineer"
   supervisors: job-supervisors-centcom
   canBeAntag: false
   accessGroups:
@@ -618,7 +618,7 @@
   playTimeTracker: JobERTEngineerGamma
   setPreference: false
   startingGear: ERTEngineerGearGamma
-  icon: "JobIconERT"
+  icon: "JobIconERTEngineer"
   supervisors: job-supervisors-centcom
   canBeAntag: false
   accessGroups:
@@ -678,7 +678,7 @@
   playTimeTracker: JobERTJanitorAmber
   setPreference: false
   startingGear: ERTJanitorGearAmber
-  icon: "JobIconERT"
+  icon: "JobIconERTJanitor"
   supervisors: job-supervisors-centcom
   canBeAntag: false
   accessGroups:
@@ -732,7 +732,7 @@
   playTimeTracker: JobERTJanitorRed
   setPreference: false
   startingGear: ERTJanitorGearRed
-  icon: "JobIconERT"
+  icon: "JobIconERTJanitor"
   supervisors: job-supervisors-centcom
   canBeAntag: false
   accessGroups:
@@ -786,7 +786,7 @@
   playTimeTracker: JobERTJanitorGamma
   setPreference: false
   startingGear: ERTJanitorGearGamma
-  icon: "JobIconERT"
+  icon: "JobIconERTJanitor"
   supervisors: job-supervisors-centcom
   canBeAntag: false
   accessGroups:

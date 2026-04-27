@@ -129,9 +129,13 @@
     walkModifier: 1
     sprintModifier: 1
   - type: ToggleableClothing
+    toggleDelay: 2
     clothingPrototype: ClothingOuterHardsuitBlueShield
     requiredSlot: BACK
     slot: outerClothing
+  - type: Clothing
+    equipDelay: 2
+    unequipDelay: 2
   - type: ContainerContainer
     containers:
       toggleable-clothing: !type:ContainerSlot {}

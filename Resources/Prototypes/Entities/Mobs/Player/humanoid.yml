@@ -146,7 +146,10 @@
     category: ghost-role-information-centcomm-category # DS14
     requirements:
       - !type:OverallPlaytimeRequirement
-        time: 756000 # 210 hours
+        time: 1890000 # 525 hours
+      - !type:DepartmentTimeRequirement
+        department: Security
+        time: 108000 # 30 hours
     raffle:
       settings: short
   - type: GhostTakeoverAvailable

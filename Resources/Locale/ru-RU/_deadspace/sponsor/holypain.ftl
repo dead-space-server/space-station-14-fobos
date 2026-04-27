@@ -1,0 +1,17 @@
+holypainplushie-1 = да
+holypainplushie-2 = не тыкай!
+holypainplushie-3 = у меня есть зубки и я кусаюсь
+holypainplushie-4 = сссс
+holypainplushie-5 = где мой обрез?
+holypainplushie-6 = за сколько я убью их? За пять минуток
+holypainplushie-7 = я главная фанатка
+holypainplushie-8 = я настоящий Тёмный Соблазн
+holypainplushie-9 = а?! Мне их всех взять в гарем? А. Не обращайте внимание. Это голоса в моей голове
+holypainplushie-10 = сварить всю химку за пятнадцать минут, а за три мет? Легко
+holypainplushie-11 = скажите мне спасибо, что оказались в такой ситуации!
+holypainplushie-12 = ловить зубами корабельный выстрел? Что?
+holypainplushie-13 = мяу
+holypainplushie-14 = я имею навык, но не имею удачи…
+holypainplushie-15 = сссспасибо
+holypainplushie-16 = угуссс
+holypainplushie-17 = шо
