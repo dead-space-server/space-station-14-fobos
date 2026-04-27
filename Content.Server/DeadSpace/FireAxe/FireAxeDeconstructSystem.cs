@@ -5,7 +5,6 @@ using Content.Shared.Interaction;
 using Content.Shared.Maps;
 using Content.Shared.Physics;
 using Content.Shared.DeadSpace.FireAxe;
-using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
@@ -45,7 +44,15 @@ public sealed class FireAxeDeconstructSystem : EntitySystem
 
         var tile = _mapSystem.GetTileRef(gridUid.Value, mapGrid, location);
 
-        if (tile.Tile.IsEmpty || _turf.IsTileBlocked(tile, CollisionGroup.MobMask))
+        if (tile.Tile.IsEmpty)
+            return;
+
+        var tileDef = _turf.GetContentTileDefinition(tile);
+
+        if (!tileDef.IsSubFloor || tileDef.Indestructible)
+            return;
+
+        if (_turf.IsTileBlocked(tile, CollisionGroup.MobMask))
             return;
 
         var ev = new FireAxeDeconstructDoAfterEvent(GetNetCoordinates(location), GetNetEntity(gridUid.Value));
@@ -75,6 +82,17 @@ public sealed class FireAxeDeconstructSystem : EntitySystem
 
         var location = GetCoordinates(args.Location);
         var tile = _mapSystem.GetTileRef(gridUid, mapGrid, location);
+
+        if (tile.Tile.IsEmpty)
+            return;
+
+        var tileDef = _turf.GetContentTileDefinition(tile);
+
+        if (!tileDef.IsSubFloor || tileDef.Indestructible)
+            return;
+
+        if (_turf.IsTileBlocked(tile, CollisionGroup.MobMask))
+            return;
 
         _tile.DeconstructTile(tile, spawnItem: true);
         _audio.PlayPvs(new SoundPathSpecifier("/Audio/Items/crowbar.ogg"), uid);
