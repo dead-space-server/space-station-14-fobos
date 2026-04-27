@@ -24,6 +24,25 @@
   longRange: true
 
 - type: entity
+  name: пинпоинтер
+  suffix: вип
+  id: PinpointerVipClient
+  categories: [ HideSpawnMenu ]
+  description: указатель на vip клиента.
+  parent: [ PinpointerBase, BaseCommandContraband ]
+  components:
+  - type: Sprite
+    layers:
+    - state: pinpointer-way
+      map: ["enum.PinpointerLayers.Base"]
+    - state: pinonnull
+      map: ["enum.PinpointerLayers.Screen"]
+      shader: unshaded
+      visible: false
+  - type: Pinpointer
+    targetName: vip
+
+- type: entity
   parent: [ClothingShoesBootsMagBase, BaseJetpack]
   id: ClothingShoesMagBootsCriticalForce
   name: магнитные ботинки CriticalForce GravLock
