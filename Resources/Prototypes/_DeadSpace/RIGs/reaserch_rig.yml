@@ -58,7 +58,7 @@
     heatingCoefficient: 0.001
     coolingCoefficient: 0.05
   - type: FireProtection
-    reduction: 0.5
+    reduction: 0.8
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetRIGResearch
 
