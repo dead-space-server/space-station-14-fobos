@@ -63,22 +63,22 @@ public sealed partial class ResearchSystem
     private void OnClientMapInit(EntityUid uid, ResearchClientComponent component, MapInitEvent args)
     {
         // DS14-start
-        var taipanServers = new List<Entity<ResearchServerComponent>>();
-        var normalServers = new List<Entity<ResearchServerComponent>>();
         var allServers = GetServers(uid).ToList();
 
-        foreach (var (serverUid, serverComp) in allServers)
+        foreach (var server in allServers)
         {
-            if (component.isTaipan && serverComp.isTaipan)
-                taipanServers.Add((serverUid, serverComp));
-            else if (!component.isTaipan && !serverComp.isTaipan)
-                normalServers.Add((serverUid, serverComp));
-        }
+            var serverUid = server.Owner;
+            var serverComp = server.Comp;
 
-        if (normalServers.Count > 0)
-            RegisterClient(uid, normalServers[0], component, normalServers[0]);
-        if (taipanServers.Count > 0)
-            RegisterClient(uid, taipanServers[0], component, taipanServers[0]);
+            if (!Resolve(serverUid, ref serverComp, false))
+                continue;
+
+            if (component.isTaipan != serverComp.isTaipan)
+                continue;
+
+            RegisterClient(uid, serverUid, component, serverComp);
+            break;
+        }
         // DS14-end
     }
 
