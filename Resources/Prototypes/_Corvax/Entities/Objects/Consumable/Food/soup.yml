@@ -10,9 +10,7 @@
   - type: Edible
     trash:
       - FoodBowlBig
-    utensil:
-      - Spoon
-      - Fork
+    utensil: Spoon # DS14
   - type: Sprite
     sprite: _Corvax/Objects/Consumable/Food/bowl.rsi
     layers:

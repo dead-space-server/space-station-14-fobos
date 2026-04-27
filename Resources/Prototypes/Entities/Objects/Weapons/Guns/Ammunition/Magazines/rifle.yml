@@ -19,6 +19,7 @@
     containers:
       ballistic-ammo: !type:Container
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     sprite: Objects/Weapons/Guns/Ammunition/Magazine/Rifle/rifle_mag.rsi
     layers:
     - state: base
@@ -40,6 +41,7 @@
   - type: BallisticAmmoProvider
     proto: CartridgeRifle
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
@@ -109,6 +111,7 @@
   - type: BallisticAmmoProvider
     proto: CartridgeRiflePractice
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
@@ -135,6 +138,7 @@
   - type: BallisticAmmoProvider
     proto: CartridgeRifleUranium
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]

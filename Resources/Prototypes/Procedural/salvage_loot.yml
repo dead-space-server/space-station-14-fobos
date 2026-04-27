@@ -118,7 +118,7 @@
           prob: 0.1
         - proto: CrateSyndicateSuperSurplusBundle
           cost: 5
-          prob: 0.0001
+          prob: 0.001 #DS14
         - proto: CrateBerserk
           cost: 5
           prob: 0.055
@@ -134,7 +134,39 @@
         - proto: CargoTelepadMachineCircuitboard
           cost: 5
           prob: 0.1
-
+#DS14-start
+        - proto: ClothingHeadHelmetHardsuitMaxim
+          cost: 2
+        - proto: ClothingHeadHelmetRIGSalvageAdvanced
+          cost: 2
+        - proto: ReflectModuleSecurityAdvanced
+          cost: 5
+          prob: 0.1
+        - proto: PNVModuleMaxim
+          cost: 2
+        - proto: PoisonResistanceModuleMaxim
+          cost: 2
+        - proto: PlusSpeedModuleMaxim
+          cost: 2
+        - proto: SpeedModifierModuleSalvageAdvanced
+          cost: 5
+        - proto: PlastineOfSalvageAdvancedRIG
+        - proto: PlastineOfOtherHardsuit
+        - proto: BlueprintOuterHardsuitMaximOneUse
+          cost: 2
+        - proto: BlueprintOuterHardsuitMaximThreeUse
+          cost: 5
+        - proto: BlueprintRIGSalvageAdvancedOneUse
+          cost: 2
+        - proto: BlueprintRIGSalvageAdvancedThreeUse
+          cost: 5
+        - proto: BlueprintOuterHardsuitMaximInfinite
+          cost: 5
+          prob: 0.055
+        - proto: BlueprintRIGSalvageAdvancedInfinite
+          cost: 5
+          prob: 0.055
+#DS14-end
 # Mob loot table
 
 

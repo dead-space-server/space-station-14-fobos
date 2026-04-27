@@ -1,0 +1,185 @@
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBackpackRIGSecurity
+  name: модифицированный боевой рюкзак брига
+  description: Повышенной вместительности рюкзак с функцией РИГ промышленного производства для станционной службы безопасности.
+  components:
+  - type: Storage
+    grid:
+    - 0,0,7,5
+  - type: Clothing
+    equipDelay: 1.5
+    unequipDelay: 1.5
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Security/Standart/backpack.rsi
+    scale: 0.8, 0.8
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: ToggleableClothing
+    toggleDelay: 1.5
+    clothingPrototype: ClothingOuterRIGSecurity
+    requiredSlot: BACK
+    slot: outerClothing
+  - type: ContainerContainer
+    containers:
+      toggleable-clothing: !type:ContainerSlot {}
+      storagebase: !type:Container
+        ents: []
+
+- type: entity
+  parent: ClothingOuterHardsuitBase
+  id: ClothingOuterRIGSecurity
+  name: боевой офицерский скафандр
+  description: Тут должно было быть красивое описание от ex1stence, но он утерян.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Security/Standart/outer.rsi
+  - type: Clothing
+    sprite: _DeadSpace/RIGs/Security/Standart/outer.rsi
+    equipSound: /Audio/_DeadSpace/Misc/rig_equip.ogg
+  - type: PressureProtection
+    highPressureMultiplier: 0.02
+    lowPressureMultiplier: 1000
+  - type: ClothingSpeedModifier
+    walkModifier: 0.8
+    sprintModifier: 0.8
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.6
+        Heat: 0.6
+        Caustic: 0.65
+  - type: ExplosionResistance
+    damageCoefficient: 0.6
+  - type: TemperatureProtection
+    heatingCoefficient: 0.001
+    coolingCoefficient: 0.001
+  - type: StaminaResistance
+    damageCoefficient: 0.6
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetRIGSecurity
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ClothingHeadHelmetRIGSecurity
+  name: шлем боевого офицерского скафандра
+  description: The Love I Lost - Fried by Fluoride.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Security/Standart/helmet.rsi
+    scale: 0.7, 0.7
+  - type: Clothing
+    sprite: _DeadSpace/RIGs/Security/Standart/helmet.rsi
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: PointLight
+    color: "#00FFFF"
+    radius: 5
+    energy: 3
+  - type: Item
+    heldPrefix: off 
+    size: Normal
+
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBackpackRIGSecurityAdvanced
+  name: продвинутый модифицированный боевой рюкзак брига
+  description: Повышенной вместительности рюкзак с функцией РИГ промышленного производства для станционной службы безопасности.
+  components:
+  - type: Storage
+    grid:
+    - 0,0,8,7
+  - type: Clothing
+    equipDelay: 1
+    unequipDelay: 1
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Security/Advanced/backpack.rsi
+    scale: 0.8, 0.8
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: ToggleableClothing
+    toggleDelay: 1
+    clothingPrototype: ClothingOuterRIGSecurityAdvanced
+    requiredSlot: BACK
+    slot: outerClothing
+  - type: ContainerContainer
+    containers:
+      toggleable-clothing: !type:ContainerSlot {}
+      storagebase: !type:Container
+        ents: []
+
+- type: entity
+  parent: ClothingOuterHardsuitBase
+  id: ClothingOuterRIGSecurityAdvanced
+  name: продвинутый боевой офицерский скафандр
+  description: Тут должно было быть красивое описание от ex1stence, тоже.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Security/Advanced/outer.rsi
+  - type: Clothing
+    sprite: _DeadSpace/RIGs/Security/Advanced/outer.rsi
+    equipSound: /Audio/_DeadSpace/Misc/rig_equip.ogg
+  - type: PressureProtection
+    highPressureMultiplier: 0.02
+    lowPressureMultiplier: 1000
+  - type: ClothingSpeedModifier
+    walkModifier: 0.8
+    sprintModifier: 0.8
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.5
+        Slash: 0.5
+        Piercing: 0.5
+        Heat: 0.4
+        Caustic: 0.6
+  - type: ExplosionResistance
+    damageCoefficient: 0.5
+  - type: TemperatureProtection
+    heatingCoefficient: 0.001
+    coolingCoefficient: 0.001
+  - type: StaminaResistance
+    damageCoefficient: 0.4
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetRIGSecurityAdvanced
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ClothingHeadHelmetRIGSecurityAdvanced
+  name: шлем продвинутого боевого офицерского скафандра
+  description: Честно, тут должно быть что-то написано.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Security/Advanced/helmet.rsi
+    scale: 0.7, 0.7
+  - type: Clothing
+    sprite: _DeadSpace/RIGs/Security/Advanced/helmet.rsi
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: PointLight
+    color: "#00FFFF"
+    radius: 7
+    energy: 5
+  - type: Item
+    heldPrefix: off 
+    size: Normal

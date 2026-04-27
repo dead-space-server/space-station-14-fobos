@@ -10,3 +10,40 @@
   cost: 5000
   recipeUnlocks:
     - HolopadHandheld
+
+- type: technology
+  id: RIGEngineer
+  name: research-technology-rig-eng
+  icon:
+    sprite: _DeadSpace/RIGs/Engineer/backpack.rsi
+    state: icon
+  discipline: Industrial
+  tier: 1
+  cost: 5000
+  recipeUnlocks:
+    - BlueprintRIGEngineerInfinite
+    - BlueprintRIGEngineerThreeUse
+    - BlueprintRIGEngineerOneUse
+    - ClothingHeadHelmetRIGEngineer
+    - PlastineOfEngineerRIG
+    - HeatResistanceModuleEngineer
+    - FireResistanceModuleEngineer
+
+# Tier 3
+
+- type: technology
+  id: RIGSalvage
+  name: research-technology-rig-salvage
+  icon:
+    sprite: _DeadSpace/RIGs/Salvage/Standart/backpack.rsi
+    state: icon
+  discipline: Industrial
+  tier: 3
+  cost: 15000
+  recipeUnlocks:
+    - BlueprintRIGSalvageInfinite
+    - BlueprintRIGSalvageThreeUse
+    - BlueprintRIGSalvageOneUse
+    - ClothingHeadHelmetRIGSalvage
+    - PlastineOfSalvageRIG
+    - SpeedModifierModuleSalvage

@@ -7,7 +7,7 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.ERTCall;
 
-[RegisterComponent, Access(typeof(ErtResponceSystem))]
+[RegisterComponent, Access(typeof(ErtResponseSystem))]
 public sealed partial class ErtSpawnRuleComponent : Component
 {
     public ProtoId<ErtTeamPrototype> Team;

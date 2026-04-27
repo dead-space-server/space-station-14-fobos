@@ -35,6 +35,9 @@
   recipes:
   - BoxLethalshot
   - BoxShotgunSlug
+  - MagazineShotgun # DS14
+  - MagazineShotgunSlug # DS14
+  - MagazineShotgunEmpty # DS14
   - MagazineBoxLightRifle
   - MagazineBoxMagnum
   - MagazineBoxPistol
