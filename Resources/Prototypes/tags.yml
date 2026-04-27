@@ -871,6 +871,9 @@
 # Tagged entities always have BallisticAmmoProviderComponent.
 
 - type: Tag
+  id: MagazineCaselessRifle # DS-14
+
+- type: Tag
   id: MagazineDebug # WeaponPistolDebug
 
 - type: Tag

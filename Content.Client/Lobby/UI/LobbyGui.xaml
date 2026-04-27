@@ -66,6 +66,11 @@
                             <controls:HLine Color="#404040" Thickness="1" Margin="0 5"/>
 
                             <lobbyUi:ServerListBox Name="ServerListBox" Access="Public" MinSize="0 30" VerticalExpand="True" HorizontalExpand="True" Margin="3 3 3 3" HorizontalAlignment="Stretch"/>
+                            <!-- DS14-start -->
+                            <controls:HLine Color="#404040" Thickness="1" Margin="0 5"/>
+
+                            <RichTextLabel Name="LobbySong" Access="Public" HorizontalAlignment="Left" />
+                            <!-- DS14-end -->
 
                         </BoxContainer>
                     </PanelContainer>

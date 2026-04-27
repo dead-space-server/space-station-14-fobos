@@ -8,6 +8,7 @@
     sprite: _DeadSpace/Clothing/OuterClothing/Hardsuits/blueshield.rsi
   - type: Clothing
     sprite: _DeadSpace/Clothing/OuterClothing/Hardsuits/blueshield.rsi
+    equipSound: /Audio/_DeadSpace/Misc/rig_equip.ogg
   - type: PressureProtection
     highPressureMultiplier: 0.45
     lowPressureMultiplier: 1000
@@ -22,7 +23,8 @@
         Piercing: 0.7
         Radiation: 0.5
         Caustic: 0.6
-        Stun: 0.85 # DS14-value: 4 stunbaton hits for stun
+  - type: StaminaResistance
+    damageCoefficient: 0.7
   - type: ClothingSpeedModifier
     walkModifier: 1
     sprintModifier: 0.9

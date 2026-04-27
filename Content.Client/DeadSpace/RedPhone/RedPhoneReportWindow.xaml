@@ -1,0 +1,99 @@
+<ui:RedPhoneReportWindow xmlns="https://spacestation14.io"
+                         xmlns:ui="clr-namespace:Content.Client.DeadSpace.RedPhone"
+                         MinSize="420 220"
+                         MaxSize="420 340"
+                         SetSize="420 250"
+                         Resizable="False">
+    <BoxContainer Orientation="Vertical"
+                  VerticalExpand="True"
+                  HorizontalExpand="True">
+        <PanelContainer Name="ReportSection"
+                        Access="Public">
+            <BoxContainer Orientation="Vertical"
+                          Margin="10"
+                          SeparationOverride="6">
+                <Label Name="PromptLabel"
+                       Access="Public"
+                       Align="Center"
+                       HorizontalExpand="True" />
+
+                <LineEdit Name="MessageInput"
+                          Access="Public"
+                          HorizontalExpand="True" />
+
+                <BoxContainer Orientation="Horizontal"
+                              SeparationOverride="6">
+                    <Button Name="OkButton"
+                            Access="Public"
+                            HorizontalExpand="True"
+                            Text="{Loc 'quick-dialog-ui-ok'}" />
+                    <Button Name="CancelButton"
+                            Access="Public"
+                            HorizontalExpand="True"
+                            Text="{Loc 'quick-dialog-ui-cancel'}" />
+                </BoxContainer>
+            </BoxContainer>
+        </PanelContainer>
+
+        <PanelContainer Name="CallSection"
+                        Access="Public">
+            <BoxContainer Orientation="Vertical"
+                          VerticalExpand="True"
+                          HorizontalExpand="True"
+                          ReservesSpace="False">
+                <BoxContainer MinHeight="72"
+                              Orientation="Vertical"
+                              VerticalAlignment="Center">
+                    <Label Name="CallStatusText"
+                           Access="Public"
+                           Align="Center"
+                           HorizontalExpand="True"
+                           Margin="10 8 10 0"
+                           ReservesSpace="False" />
+
+                    <BoxContainer Name="CallerIdContainer"
+                                  Access="Public"
+                                  Orientation="Vertical"
+                                  ReservesSpace="False">
+                        <Label Name="CallerIdText"
+                               Access="Public"
+                               Align="Center"
+                               HorizontalExpand="True"
+                               Margin="10 0 10 0" />
+                        <Label Text="{Loc 'red-phone-call-window-relay-label'}"
+                               Align="Center"
+                               HorizontalExpand="True"
+                               HorizontalAlignment="Center"
+                               Margin="10 8 10 0"
+                               ReservesSpace="False" />
+                        <Label Name="DeviceIdText"
+                               Access="Public"
+                               Align="Center"
+                               HorizontalExpand="True"
+                               Margin="10 0 10 10" />
+                    </BoxContainer>
+                </BoxContainer>
+
+                <GridContainer Columns="2"
+                               ReservesSpace="False">
+                    <Control HorizontalExpand="True"
+                             Margin="10 0 2 8">
+                        <Button Name="AnswerCallButton"
+                                Access="Public"
+                                Text="{Loc 'red-phone-call-window-answer'}"
+                                StyleClasses="OpenRight"
+                                Margin="0 0 0 5" />
+                    </Control>
+                    <Control HorizontalExpand="True"
+                             Margin="2 0 10 8">
+                        <Button Name="EndCallButton"
+                                Access="Public"
+                                Text="{Loc 'red-phone-window-end-call'}"
+                                StyleClasses="OpenLeft"
+                                Margin="0 0 0 5" />
+                    </Control>
+                </GridContainer>
+            </BoxContainer>
+        </PanelContainer>
+    </BoxContainer>
+</ui:RedPhoneReportWindow>

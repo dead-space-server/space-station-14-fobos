@@ -1,0 +1,62 @@
+- type: entity
+  parent: [ BaseMachinePowered, ConstructibleMachine ]
+  id: CraftMachineStation
+  name: станок для создание всего
+  description: А вы знали? Если кричать на данный станок когда он будет собирать какую-то вещь, ему будет по-...
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Machines/craftmachine.rsi
+    snapCardinals: true
+    layers:
+    - state: icon
+      map: ["enum.LatheVisualLayers.IsRunning"]
+    - state: building
+      visible: false
+      map: ["working"]
+  - type: ConsoleCraftStation
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 200
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+  - type: Physics
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.45,-0.45,0.45,0.45"
+        density: 200
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+  - type: Appearance
+  - type: Lathe
+  - type: Machine
+    board: CraftMachineCircuitboard
+  - type: Construction
+    graph: Machine
+    node: machine
+    containers:
+    - machine_board
+    - machine_parts
+    - entity_storage
+    - consolecraft_items
+  - type: GenericVisualizer
+    visuals:
+      enum.ConsoleCraftStationVisuals.Working:
+        working:
+          enum.ConsoleCraftStationVisualState.Idle: { visible: false }
+          enum.ConsoleCraftStationVisualState.Crafting: { visible: true }
+  - type: EmptyOnMachineDeconstruct
+    containers:
+    - consolecraft_items
+  - type: ContainerContainer
+    containers:
+      machine_board: !type:Container {}
+      machine_parts: !type:Container {}
+      consolecraft_items: !type:Container {}

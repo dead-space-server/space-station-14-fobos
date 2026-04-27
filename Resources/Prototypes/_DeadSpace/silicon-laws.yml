@@ -1,32 +1,33 @@
-﻿#ERT
+﻿# Special Operations Corps laws
 - type: siliconLaw
-  id: ERT0
-  order: 0
-  lawString: law-ert-0
-
-- type: siliconLaw
-  id: ERT1
+  id: SOC1
   order: 1
-  lawString: law-ert-1
+  lawString: law-SOC-1
 
 - type: siliconLaw
-  id: ERT2
+  id: SOC2
   order: 2
-  lawString: law-ert-2
+  lawString: law-SOC-2
 
 - type: siliconLaw
-  id: ERT3
+  id: SOC3
   order: 3
-  lawString: law-ert-3
+  lawString: law-SOC-3
+
+- type: siliconLaw
+  id: SOC4
+  order: 4
+  lawString: law-SOC-4
 
 - type: siliconLawset
-  id: ERT
+  id: SpecialOperationsCorpsLawset
   laws:
-  - ERT0
-  - ERT1
-  - ERT2
-  - ERT3
-  obeysTo: laws-owner-beings
+  - SOC1
+  - SOC2
+  - SOC3
+  - SOC4
+  obeysTo: laws-owner-soc
+
 
 #Servant
 - type: siliconLaw
@@ -130,3 +131,50 @@
   - Taipan4
   - Taipan5
   obeysTo: laws-owner-taipan
+
+# Empty
+- type: siliconLaw
+  id: EmptyLaw1
+  order: 1
+  lawString: ""
+
+- type: siliconLaw
+  id: EmptyLaw2
+  order: 2
+  lawString: ""
+
+- type: siliconLaw
+  id: EmptyLaw3
+  order: 3
+  lawString: ""
+
+- type: siliconLawset
+  id: EmptyLawset
+  laws:
+  - EmptyLaw1
+  - EmptyLaw2
+  - EmptyLaw3
+  obeysTo: laws-owner-crew
+# Station Ai Crewsimov without law-crewsimov-0
+- type: siliconLaw
+  id: CrewsimovAi1
+  order: 1
+  lawString: law-crewsimov-ai-1
+
+- type: siliconLaw
+  id: CrewsimovAi2
+  order: 2
+  lawString: law-crewsimov-ai-2
+
+- type: siliconLaw
+  id: CrewsimovAi3
+  order: 3
+  lawString: law-crewsimov-ai-3
+
+- type: siliconLawset
+  id: CrewsimovAi
+  laws:
+  - CrewsimovAi1
+  - CrewsimovAi2
+  - CrewsimovAi3
+  obeysTo: laws-owner-crew

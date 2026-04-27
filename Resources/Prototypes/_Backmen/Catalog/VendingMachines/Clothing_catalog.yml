@@ -1810,6 +1810,28 @@
   - !type:ListingLimitedStockCondition
     stock: 4
 
+- type: listing
+  id: ClothingShoesMachineInventory22
+  productEntity: ClothingShoesBootsCoolRed
+  cost:
+    SpaceCash: 70
+  categories:
+  - ClothingShoesMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 6
+
+- type: listing
+  id: ClothingShoesMachineInventory23
+  productEntity: ClothingShoesBootsCoolYellow
+  cost:
+    SpaceCash: 70
+  categories:
+  - ClothingShoesMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 6
+
 # Neck
 - type: listing
   id: ClothingNeckMachineInventory1

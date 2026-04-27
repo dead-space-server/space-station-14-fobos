@@ -1,0 +1,299 @@
+# Обычные минор рецепты для крафтов, что повышают градус безумие
+
+- type: minorItemModule
+  id: ExtendedAmmoMag
+  moduleItem: ExtendedAmmoMagItem
+  description: Поддержка большего магазина
+  components:
+    ItemSlots:
+      slots:
+        gun_magazine:
+          name: Magazine
+          startingItem: ADTExtMagazineRifle
+          insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
+          ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
+          priority: 2
+          whitelist:
+            tags:
+              - MagazineRifle
+              - ADTExtMagazineRifle
+
+- type: minorItemModule
+  id: EnhancedCoolingModule
+  moduleItem: EnhancedCoolingModuleItem
+  description: Ускореная стрельба
+  components:
+    Gun:
+      fireRate: 8
+      fireRateModified: 8
+
+- type: minorItemModule
+  id: OverchargeModule
+  moduleItem: OverchargeModuleItem
+  description: Медленные пули
+  components:
+    Gun:
+      projectileSpeed: 10
+      projectileSpeedModified: 10
+
+- type: minorItemModule
+  id: MassSkope
+  moduleItem: MassSkopeModuleItem
+  description: Прицел с двух рук
+  components:
+    CursorOffsetRequiresWield:
+    EyeCursorOffset:
+      maxOffset: 4
+      pvsIncrease: 0.3
+
+- type: minorItemModule
+  id: SpeedBullet
+  moduleItem: SpeedBulletModuleItem
+  description: Быстрые пули
+  components:
+    Gun:
+      projectileSpeed: 60
+      projectileSpeedModified: 60
+
+- type: minorItemModule
+  id: DelayModifierModule
+  moduleItem: DelayModifierModuleItem
+  description: Быстрое разворачивание
+  components:
+    ToggleableClothing:
+      toggleDelay: 0
+
+- type: minorItemModule
+  id: StorageModule
+  moduleItem: StorageModuleItem
+  description: Больше места
+  components:
+    Storage:
+      grid:
+      - 0,0,12,8
+
+- type: minorItemModule
+  id: PNVModuleMaxim
+  moduleItem: PNVModuleMaxim
+  description: Шлем с ПНВ
+  ifModSuit: ClothingHeadHelmetHardsuitMaxim
+  components:
+    PNV:
+      color: "#edd3900b"
+      activateSound: 
+        path: /Audio/_DeadSpace/NightVision/pnv.ogg
+
+- type: minorItemModule
+  id: PlusSpeedModuleMaxim
+  moduleItem: PlusSpeedModuleMaxim
+  description: +5% к скорости
+  components:
+    ClothingSpeedModifier:
+      walkModifier: 1.05
+      sprintModifier: 1.05
+
+- type: minorItemModule
+  id: PoisonResistanceModuleMaxim
+  moduleItem: PoisonResistanceModuleMaxim
+  description: Защита от ядов
+  components:
+    Armor:
+      modifiers:
+        coefficients:
+          Poison: 0.6
+
+- type: minorItemModule
+  id: OuterSuitMiniJet
+  tag:
+    - GasTank
+  description: Встроенный миниджет (Требуется большой баллон)
+  components:
+    GasTank:
+      outputPressure: 42.6
+      air:
+        volume: 1.5
+    Jetpack:
+      moleUsage: 0.00085
+    UserInterface:
+      interfaces:
+        enum.SharedGasTankUiKey.Key:
+          type: GasTankBoundUserInterface
+    UseDelay:
+      delays:
+        gasTank:
+          length: 1.0
+    ActivatableUI:
+      key: enum.SharedGasTankUiKey.Key
+
+# То что затрагивает скаф ригов
+# ВОТ ТУТ ВНИМАТЕЛЬНО, вы должны вписать прототип скафа который указан в сумке что вы строите, иначе игра просто даст компачи сумке, а не перепишет компачи скафандру.
+
+- type: minorItemModule
+  id: SpeedModifierModuleResearch
+  moduleItem: SpeedModifierModuleItemResearch
+  description: Облегчение скафандра (-10% штрафу к скорости)
+  ifModSuit: ClothingOuterRIGResearch
+  components:
+    ClothingSpeedModifier:
+      walkModifier: 0.9
+      sprintModifier: 0.9
+
+- type: minorItemModule
+  id: RadiationResistanceModuleResearch
+  moduleItem: RadiationResistanceModuleResearch
+  description: + 25 % к защите от радиации
+  ifModSuit: ClothingOuterRIGResearch
+  components:
+    Armor:
+      modifiers:
+        coefficients:
+          Radiation: 0.2
+
+- type: minorItemModule
+  id: ExplosionResistanceModuleResearch
+  moduleItem: ExplosionResistanceModuleResearch
+  description: + 30 % к защите от взрыва
+  ifModSuit: ClothingOuterRIGResearch
+  components:
+    ExplosionResistance:
+      damageCoefficient: 0.2
+
+- type: minorItemModule
+  id: FireResistanceModuleEngineer
+  moduleItem: FireResistanceModuleEngineer
+  description: Огнестойкость атмос костюма
+  ifModSuit: ClothingOuterRIGEngineer
+  components:
+    FireProtection:
+      reduction: 0.8
+
+- type: minorItemModule
+  id: HeatResistanceModuleEngineer
+  moduleItem: HeatResistanceModuleEngineer
+  description: + 20 % к защите от термических
+  ifModSuit: ClothingOuterRIGEngineer
+  components:
+    Armor:
+      modifiers:
+        coefficients:
+          Heat: 0.45
+
+- type: minorItemModule
+  id: ReflectModuleSecurityAdvanced
+  moduleItem: ReflectModuleSecurityAdvanced
+  description: 10 % к рефлекту (Отражение пуль)
+  ifModSuit: ClothingOuterRIGSecurityAdvanced
+  components:
+    Reflect:
+      reflectProb: 0.10
+
+- type: minorItemModule
+  id: SpeedModifierModuleSecurityAdvanced
+  moduleItem: SpeedModifierModuleSecurityAdvanced
+  description: Облегчение скафандра (-10% штрафу к скорости)
+  ifModSuit: ClothingOuterRIGSecurityAdvanced
+  components:
+    ClothingSpeedModifier:
+      walkModifier: 0.9
+      sprintModifier: 0.9
+
+- type: minorItemModule
+  id: PiercingResistanceModuleSecurityAdvanced
+  moduleItem: PiercingResistanceModuleSecurityAdvanced
+  description: + 10 % к защите от колотого
+  ifModSuit: ClothingOuterRIGSecurityAdvanced
+  components:
+    Armor:
+      modifiers:
+        coefficients:
+          Piercing: 0.4
+
+- type: minorItemModule
+  id: SpeedModifierModuleSecurity
+  moduleItem: SpeedModifierModuleSecurity
+  description: Облегчение скафандра (-15% штрафу к скорости)
+  ifModSuit: ClothingOuterRIGSecurity
+  components:
+    ClothingSpeedModifier:
+      walkModifier: 0.95
+      sprintModifier: 0.95
+
+- type: minorItemModule
+  id: StorageModuleSecurity
+  moduleItem: StorageModuleSecurity
+  description: Малая подсумка
+  ifModSuit: ClothingOuterRIGSecurity
+  components:
+    Storage:
+      grid:
+      - 0,0,3,1
+    ContainerContainer:
+      containers:
+        storagebase: !type:Container
+          ents: []
+    UserInterface:
+      interfaces:
+        enum.StorageUiKey.Key:
+          type: StorageBoundUserInterface
+
+- type: minorItemModule
+  id: SpeedModifierModuleSalvage
+  moduleItem: SpeedModifierModuleSalvage
+  description: Облегчение скафандра (-10% штрафу к скорости)
+  ifModSuit: ClothingOuterRIGSalvage
+  components:
+    ClothingSpeedModifier:
+      walkModifier: 0.95
+      sprintModifier: 0.95
+
+- type: minorItemModule
+  id: SpeedModifierModuleSalvageAdvanced
+  moduleItem: SpeedModifierModuleSalvageAdvanced
+  description: Облегчение скафандра (Нету штрафа к скорости)
+  ifModSuit: ClothingOuterRIGSalvageAdvanced
+  components:
+    ClothingSpeedModifier:
+      walkModifier: 1
+      sprintModifier: 1
+
+- type: minorItemModule
+  id: MineralScannerModuleSalvage
+  tag:
+    - AdvancedMineralScanner
+  description: Встроенный сканер минералов в скафандр (Требуется продвинутый сканер минералов)
+  ifModSuit: ClothingOuterRIGSalvage
+  components:
+    ItemToggleActiveSound:
+      activeSound:
+        path: /Audio/Ambience/Objects/light_hum.ogg
+        params:
+          volume: -10
+          maxDistance: 1
+    MiningScanner:
+      range: 10
+    ItemToggle:
+      soundActivate:
+        path: /Audio/Weapons/click.ogg
+        params:
+          maxDistance: 1
+
+- type: minorItemModule
+  id: MineralScannerModuleSalvageAdvanced
+  tag:
+    - AdvancedMineralScanner
+  description: Встроенный сканер минералов в скафандр (Требуется продвинутый сканер минералов)
+  ifModSuit: ClothingOuterRIGSalvage
+  components:
+    ItemToggleActiveSound:
+      activeSound:
+        path: /Audio/Ambience/Objects/light_hum.ogg
+        params:
+          volume: -10
+          maxDistance: 1
+    MiningScanner:
+      range: 10
+    ItemToggle:
+      soundActivate:
+        path: /Audio/Weapons/click.ogg
+        params:
+          maxDistance: 1

@@ -66,6 +66,13 @@ public sealed class CCCCVars
         CVarDef.Create("jukebox.volume", 1f, CVar.CLIENTONLY | CVar.ARCHIVE);
 
     /*
+     * Alert Level
+     */
+
+    public static readonly CVarDef<float> AlertLevelVolume =
+        CVarDef.Create("audio.alert_level_volume", 1f, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    /*
     * Taipan
     */
 

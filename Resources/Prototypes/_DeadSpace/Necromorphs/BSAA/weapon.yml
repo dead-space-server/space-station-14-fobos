@@ -122,6 +122,7 @@
     containers:
       ballistic-ammo: !type:Container
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     sprite: Objects/Weapons/Guns/Ammunition/Magazine/Shotgun/m12.rsi
     layers:
     - state: base
@@ -148,8 +149,8 @@
   - type: Item
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/mag.rsi
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/mag.rsi
-    scale: 0.7, 0.7
     layers:
     - state: pellets
       map: ["enum.GunVisualLayers.Base"]
@@ -168,8 +169,8 @@
     tags:
     - MagazineForSinabirBurn
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/mag.rsi
-    scale: 0.7, 0.7
     layers:
     - state: slug
       map: ["enum.GunVisualLayers.Base"]
@@ -190,6 +191,7 @@
   - type: Item
     size: Normal
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/drum.rsi
     layers:
     - state: slug
@@ -211,6 +213,7 @@
   - type: Item
     size: Normal
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/drum.rsi
     layers:
     - state: base
@@ -281,18 +284,29 @@
   - type: BallisticAmmoProvider
     proto: CartridgeCaselessDragon
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/Tochmash/caseless_rifle_mag_burn.rsi
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
-    - state: stripe
-      color: "#cc4502"
+    - state: practice
   - type: MagazineVisuals
     magState: mag
-    steps: 2
+    steps: 5
     zeroVisible: false
+  - type: Appearance
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#76270d"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#76270d"
 
 # Арес
 

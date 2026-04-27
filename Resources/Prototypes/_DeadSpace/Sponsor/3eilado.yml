@@ -1047,6 +1047,7 @@
       types:
         Blunt: 20
         Structural: 15
+    wideAnimationRotation: -135
 
 - type: entity
   parent: [ClothingBeltBase, ClothingSlotBase]

@@ -1,0 +1,61 @@
+- type: salvageFaction
+  id: Demons
+  desc: salvage-faction-demon
+  entries:
+    - proto: MobDemonIfrit
+      cost: 2
+    - proto: MobDemonSnake
+      cost: 2
+    - proto: MobDemonMouth
+      cost: 10
+      prob: 0.02
+    - proto: MobDemonSlaughter
+      cost: 4
+    - proto: MobDemonJaunt
+      cost: 2
+    - proto: MobDemonBloodyArms
+      cost: 3
+      prob: 0.2
+    - proto: MobDemonHonker
+      prob: 0.1
+  configs:
+    Megafauna: MobDemonMouth
+
+- type: salvageFaction
+  id: Argocyte
+  desc: salvage-faction-argocyte
+  entries:
+    - proto: MobArgocyteHarvester
+    - proto: MobArgocyteGlider
+    - proto: MobArgocyteMolder
+      cost: 2
+    - proto: MobArgocyteSkitter
+    - proto: MobArgocyteCrawler
+      cost: 2
+    - proto: MobArgocyteSwiper
+      cost: 2
+    - proto: MobArgocyteFounder
+      cost: 10
+      prob: 0.02
+  configs:
+    Megafauna: MobArgocyteFounder
+
+- type: salvageFaction
+  id: SpiderTerror
+  desc: salvage-faction-spider-terror
+  entries:
+    - proto: MobSpiderTerrorWarrior
+    - proto: MobSpiderTerrorDrone
+    - proto: MobSpiderTerrorBuilder
+      cost: 2
+    - proto: MobSpiderTerrorMedic
+    - proto: MobSpiderTerrorVdova
+      cost: 2
+    - proto: MobSpiderTerrorGuardianLvl2
+      cost: 2
+    - proto: MobSpiderTerrorRoyalGuard
+      cost: 10
+      prob: 0.02
+  configs:
+    DefenseStructure: SpiderTomb
+    Megafauna: MobSpiderTerrorRoyalGuard
