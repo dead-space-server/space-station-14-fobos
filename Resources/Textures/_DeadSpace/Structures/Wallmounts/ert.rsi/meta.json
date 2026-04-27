@@ -24,6 +24,15 @@
         },
         {
             "name": "cburn"
+        },
+        {
+            "name": "dbct"
+        },
+        {
+            "name": "ber"
+        },
+        {
+            "name": "bsaa"
         }
     ]
 }

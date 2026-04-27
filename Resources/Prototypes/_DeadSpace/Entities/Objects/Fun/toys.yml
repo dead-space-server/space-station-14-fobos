@@ -588,7 +588,7 @@
 - type: entity
   parent: BasePlushieDeadSpaceMisc
   id: PlushieFloria
-  name: плюшевый Флория
+  name: плюшевая Флория
   description: Плюшевая игрушка арканы в форме инструктора. Вам кажется, что она улыбается, хотя как вы это увидели? Зачем вы... От неё не пахнет. Хочется погладить её по голове.
   components:
   - type: Sprite
