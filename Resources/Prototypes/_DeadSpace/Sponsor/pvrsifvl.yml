@@ -63,7 +63,7 @@
   components:
   - type: Storage
     grid:
-    - 0,0,9,1
+    - 0,0,7,1
   - type: Sprite
     sprite: _DeadSpace/Sponsor/pvrsifvl/belt.rsi
   - type: Clothing
@@ -75,7 +75,7 @@
       - id: PowerDrillpvrsifvl
       - id: WelderExperimentalpvrsifvl
       - id: Multitoolpvrsifvl
-      - id: SyndicateJawsOfLifepvrsifvl
+      - id: JawsOfLifepvrsifvl
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -191,7 +191,7 @@
 
 #Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitpvrsifvl
   name: скафандр железного лорда
   description: Необычайно красивой наружности, напоминающий рыцарские латы. Глядя на него Вы ощущаете, что доспех пропитан ненавистью и ложью. Разработан по чертежам спонсорской организации Warmind.
@@ -210,7 +210,7 @@
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.4
+        Piercing: 0.6
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
@@ -449,8 +449,8 @@
 
 #JawsOfLife
 - type: entity
-  parent: SyndicateJawsOfLife
-  id: SyndicateJawsOfLifepvrsifvl
+  parent: JawsOfLife
+  id: JawsOfLifepvrsifvl
   name: челюсти жизни железного лорда
   description: Выглядят устаревшими и местами сильно потёртыми, но не уступают в эффективности стандартным. Всегда окажутся под рукой. Разработаны по чертежам спонсорской организации Warmind.
   categories: [ HideSpawnMenu ]

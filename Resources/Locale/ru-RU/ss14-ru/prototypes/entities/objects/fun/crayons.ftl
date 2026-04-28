@@ -26,3 +26,5 @@ ent-CrayonBox = коробка для мелков
     .desc = Это коробка с мелками.
 ent-CrayonBoxEmpty = { ent-CrayonBox }
     .desc = { ent-CrayonBox.desc }
+ent-CrayonBorg = электромелок
+    .desc = Говорят, это самый вкусный вид мелков во вселенной. К сожалению, есть его нельзя.

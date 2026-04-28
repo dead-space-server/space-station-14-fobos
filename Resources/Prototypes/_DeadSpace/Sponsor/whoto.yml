@@ -20,7 +20,7 @@
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,19,9
+    - 0,0,15,10
   - type: StorageFill
     contents:
     - id: ClothingBeltWhoTo
@@ -50,7 +50,7 @@
     size: Huge
   - type: Storage
     grid:
-    - 0,0,9,1
+    - 0,0,7,1
   - type: StorageFill
     contents:
     - id: JawsOfLife
@@ -78,7 +78,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitWhoTo
   name: устаревший скафандр ОБР
   description: Надёжный, но старый скафандр Отряда Быстрого Реагирования. Отличается повышенной защитой от физических воздействий и высокой температуры.

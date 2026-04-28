@@ -93,7 +93,7 @@ public sealed class ForceMapTest
     {
         var pair = await PoolManager.GetServerClient(new PoolSettings
         {
-            Fresh = true
+            Dirty = true
         });
         var cleanReturned = false;
 
@@ -104,6 +104,13 @@ public sealed class ForceMapTest
             var configManager = server.ResolveDependency<IConfigurationManager>();
             var consoleHost = server.ResolveDependency<IConsoleHost>();
             var gameMapMan = server.ResolveDependency<IGameMapManager>();
+
+            // Reset map selection explicitly instead of paying the CI cost of a fresh pair.
+            await server.WaitPost(() =>
+            {
+                gameMapMan.ClearSelectedMap();
+                configManager.SetCVar(CCVars.GameMap, DefaultMapName);
+            });
 
             await server.WaitAssertion(() =>
             {
@@ -122,8 +129,11 @@ public sealed class ForceMapTest
                     "Starting a new auto map vote cycle did not clear the previous forced map override.");
             });
 
-            await server.WaitPost(() => gameMapMan.ClearSelectedMap());
-            configManager.SetCVar(CCVars.GameMap, DefaultMapName);
+            await server.WaitPost(() =>
+            {
+                gameMapMan.ClearSelectedMap();
+                configManager.SetCVar(CCVars.GameMap, DefaultMapName);
+            });
 
             await pair.CleanReturnAsync();
             cleanReturned = true;
