@@ -52,6 +52,9 @@ ghost-role-information-snoth-description = Маленькая молитка, к
 ghost-role-information-giant-spider-name = Гигантский паук
 ghost-role-information-giant-spider-description = Обитатели этой станции выглядят очень аппетитно, а ваша липкая паутина идеально подходит для их ловли!
 ghost-role-information-giant-spider-rules = Вы [color={ role-type-team-antagonist-color }][bold]{ role-type-team-antagonist-name }[/bold][/color], в команде с другими гигантскими пауками.
+ghost-role-information-space-snake-name = Космическая змея
+ghost-role-information-space-snake-description = Обитатели этой станции выглядят очень аппетитно, а ваши ядовитые клыки идеально подходят для их ловли!
+ghost-role-information-space-snake-rules = Вы [color={ role-type-team-antagonist-color }][bold]{ role-type-team-antagonist-name }[/bold][/color], в команде с другими космическими змеями.
 ghost-role-information-cognizine-description = Приобрело сознание с помощью магии когнизина.
 ghost-role-information-hamster-name = Хомяк
 ghost-role-information-hamster-description = Маленький ворчливый пушистик.

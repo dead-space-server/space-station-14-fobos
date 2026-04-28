@@ -11,31 +11,39 @@
 - type: ertShuttle
   id: CburnShuttle
   path: /Maps/Shuttles/ERT/cburn.yml
+  dockTag: DockCentcommERTCburnShuttle
 
 - type: ertShuttle
   id: AmberShuttle
   path: /Maps/Shuttles/ERT/amber.yml
+  dockTag: DockCentcommERTAmberShuttle
 
 - type: ertShuttle
   id: RedShuttle
   path: /Maps/Shuttles/ERT/red.yml
+  dockTag: DockCentcommERTRedShuttle
 
 - type: ertShuttle
   id: GammaShuttle
   path: /Maps/Shuttles/ERT/gamma.yml
+  dockTag: DockCentcommERTGammaShuttle
 
 - type: ertShuttle
   id: CentCommOfficialShuttle
   path: /Maps/Shuttles/ERT/official.yml
+  dockTag: DockCentcommERTOfficialShuttle
 
 - type: ertShuttle
   id: JanitorsShuttle
   path: /Maps/Shuttles/ERT/janitors.yml
+  dockTag: DockCentcommERTJanitorsShuttle
 
 - type: ertShuttle
   id: EngineersShuttle
   path: /Maps/Shuttles/ERT/engineers.yml
+  dockTag: DockCentcommERTEngineersShuttle
 
 - type: ertShuttle
   id: SierraShuttle
   path: /Maps/Shuttles/ERT/sierra.yml
+  dockTag: DockCentcommERTSierraShuttle

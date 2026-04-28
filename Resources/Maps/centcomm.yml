@@ -17694,24 +17694,50 @@ entities:
       rot: 1.5707963267948966 rad
       pos: -5.5,-125.5
       parent: 1
+    - type: Tag
+      tags:
+      - ForceNoFixRotations
+      - DockCentcommERTCburnShuttle
+      - DockCentcommERTSierraShuttle
+      - DockCentcommERTJanitorsShuttle
   - uid: 302
     components:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: -5.5,-123.5
       parent: 1
+    - type: Tag
+      tags:
+      - ForceNoFixRotations
+      - DockCentcommERTCburnShuttle
+      - DockCentcommERTSierraShuttle
+      - DockCentcommERTJanitorsShuttle
   - uid: 303
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: -37.5,-123.5
       parent: 1
+    - type: Tag
+      tags:
+      - ForceNoFixRotations
+      - DockCentcommERTGammaShuttle
+      - DockCentcommERTRedShuttle
+      - DockCentcommERTAmberShuttle
+      - DockCentcommERTEngineersShuttle
   - uid: 304
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: -37.5,-125.5
       parent: 1
+    - type: Tag
+      tags:
+      - ForceNoFixRotations
+      - DockCentcommERTGammaShuttle
+      - DockCentcommERTRedShuttle
+      - DockCentcommERTAmberShuttle
+      - DockCentcommERTEngineersShuttle
 - proto: AirlockExternalGlassShuttleEmergencyLocked
   entities:
   - uid: 305
@@ -18521,6 +18547,10 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -104.5,-80.5
       parent: 1
+    - type: Tag
+      tags:
+      - ForceNoFixRotations
+      - DockCentcommERTOfficialShuttle
 - proto: AirlockHydroGlassLocked
   entities:
   - uid: 378

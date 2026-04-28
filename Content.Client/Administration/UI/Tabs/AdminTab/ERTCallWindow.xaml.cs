@@ -52,6 +52,7 @@ namespace Content.Client.Administration.UI.Tabs.AdminTab
             ChangeApprovedTeamButton.OnPressed += _ => ChangeApprovedTeam();
             QueueAutoSpawnButton.OnPressed += _ => QueueAutoSpawnRequest();
             CancelApprovedAutoSpawnButton.OnPressed += _ => CancelApprovedRequest();
+            MoveApprovedToManualButton.OnPressed += _ => MoveApprovedToManual();
 
             ManualApprovedRequestsList.OnItemSelected += OnManualApprovedRequestSelected;
             PromoteManualApprovedButton.OnPressed += _ => PromoteManualApproved();
@@ -145,7 +146,7 @@ namespace Content.Client.Administration.UI.Tabs.AdminTab
             foreach (var entry in state.PendingRequests.OrderBy(e => e.RequestId))
             {
                 PendingRequestsList.AddItem(
-                    $"#{entry.RequestId} {entry.Name} ({entry.Price})",
+                    $"#{entry.RequestId} {entry.Name} - {entry.SecondsRemaining}s ({entry.Price})",
                     metadata: entry.RequestId);
             }
 
@@ -238,6 +239,7 @@ namespace Content.Client.Administration.UI.Tabs.AdminTab
             ChangeApprovedTeamButton.Disabled = !hasApprovedSelection || !hasAutoSpawnTeamSelection;
             QueueAutoSpawnButton.Disabled = !hasAutoSpawnTeamSelection;
             CancelApprovedAutoSpawnButton.Disabled = !hasApprovedSelection;
+            MoveApprovedToManualButton.Disabled = !hasApprovedSelection;
 
             PromoteManualApprovedButton.Disabled = !hasManualApprovedSelection;
         }
@@ -311,6 +313,15 @@ namespace Content.Client.Administration.UI.Tabs.AdminTab
                 return;
 
             _ertSystem.AdminDeleteErt(_selectedApprovedRequestId.Value);
+            Refresh();
+        }
+
+        private void MoveApprovedToManual()
+        {
+            if (_selectedApprovedRequestId == null)
+                return;
+
+            _ertSystem.AdminMoveApprovedRequestToManual(_selectedApprovedRequestId.Value);
             Refresh();
         }
 
