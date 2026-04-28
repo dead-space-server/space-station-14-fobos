@@ -9,6 +9,7 @@
       sprite: _DeadSpace/Actions/arkalyse_actions.rsi
       state: punch
     priority: -8
+    useDelay: 2
   - type: InstantAction
     event: !type:ArkalyseDamageEvent {}
 
@@ -23,6 +24,7 @@
       sprite: _DeadSpace/Actions/arkalyse_actions.rsi
       state: mute
     priority: -6
+    useDelay: 1.5
   - type: InstantAction
     event: !type:ArkalyseMuteEvent {}
 
@@ -37,6 +39,7 @@
       sprite: _DeadSpace/Actions/arkalyse_actions.rsi
       state: kick
     priority: -7
+    useDelay: 3
   - type: InstantAction
     event: !type:ArkalyseStunEvent {}
 
