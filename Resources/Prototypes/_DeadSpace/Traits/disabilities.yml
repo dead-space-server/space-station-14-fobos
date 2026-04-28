@@ -1,6 +1,6 @@
 - type: trait
   id: NicotineAddiction
-  name: Nicotine Addiction
+  name: trait-nicotine-addiction-name
   description: trait-nicotine-addiction-desc
   traitGear: CigPackBlack
   category: Disabilities
