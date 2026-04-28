@@ -1,5 +1,5 @@
 - type: entity
-  parent: BaseItem
+  parent: SheetOtherBase #DS14
   id: TreasureDatadiskEncrypted
   name: encrypted datadisk
   description: An old data disk. Someone savvier than you could unencrypt it and learn something juicy. All you can do is sell it.
@@ -16,11 +16,26 @@
     energy: 0.5
     castShadows: false
     color: "#0000ff"
-  - type: StaticPrice
-    price: 500
+#DS14-start
+#  - type: StaticPrice
+#    price: 500
+  - type: PhysicalComposition
+    materialComposition:
+      MaterialDatadiskEncrypted: 100
+  - type: Material
+  - type: Tag
+    tags:
+    - Recyclable
+    - SalvageScrap
+    - Sheet
+  - type: Stack
+    count: 1
+    stackType: ScrapDatadiskEncrypted
+    baseLayer: base
+#DS14-end
 
 - type: entity
-  parent: BaseItem
+  parent: SheetOtherBase #DS14
   id: TreasureHardDiskDrive
   name: hard disk drive
   description: A disk drive designed for old Earth technology, circa 1980. There's probably some kind of collector who might want to get their paws on this.
@@ -38,8 +53,23 @@
         harddisk: ""
         harddisk_mini: ""
         harddisk_micro: ""
-  - type: StaticPrice
-    price: 275
+#DS14-star:
+# - type: StaticPrice
+#   price: 275
+  - type: PhysicalComposition
+    materialComposition:
+      MaterialHardDiskDrive: 100
+  - type: Material
+  - type: Tag
+    tags:
+    - Recyclable
+    - SalvageScrap
+    - Sheet
+  - type: Stack
+    count: 1
+    stackType: ScrapHardDiskDrive
+    baseLayer: base
+#DS14-end
 
 - type: entity
   parent: BaseItem

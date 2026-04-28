@@ -21,8 +21,9 @@
       plate_slot: !type:ContainerSlot
   # DS14-end
   - type: Item
+    size: Normal # DS14
     shape:
-    - 0,0,1,0
+    - 0,0,1,1 # DS14
     storedOffset: 0,-6
     inhandVisuals:
       left:
@@ -39,6 +40,8 @@
         disableEject: false
         swap: true 
         ejectOnBreak: false
+        insertSound: null
+        ejectSound: null
   - type: Plate
     contentOffset: 0, -0.1 
     maxItemSize: Normal
@@ -110,6 +113,11 @@
     sprite: Objects/Consumable/Food/plates.rsi
     state: plate-small
   - type: Item
+    # DS14-start
+    size: Normal
+    shape:
+    - 0,0,1,1
+    # DS14-end
     storedOffset: 0,-3
     inhandVisuals:
       left:
@@ -172,8 +180,9 @@
       plate_slot: !type:ContainerSlot
   # DS14-end
   - type: Item
+    size: Normal # DS14
     shape:
-    - 0,0,1,0
+    - 0,0,1,1 # DS14
     storedOffset: 0,-6
     inhandVisuals:
       left:
@@ -190,6 +199,8 @@
         disableEject: false
         swap: true
         ejectOnBreak: false
+        insertSound: null
+        ejectSound: null
   - type: Plate
     contentOffset: 0, -0.1
     maxItemSize: Normal
@@ -213,8 +224,9 @@
       plate_slot: !type:ContainerSlot
   # DS14-end
   - type: Item
+    size: Normal # DS14
     shape:
-    - 0,0,1,0
+    - 0,0,1,1 # DS14
     storedOffset: 0,-3
     inhandVisuals:
       left:
@@ -231,6 +243,8 @@
         disableEject: false
         swap: true
         ejectOnBreak: false
+        insertSound: null
+        ejectSound: null
   - type: Plate
     contentOffset: 0, 0
     maxItemSize: Normal
@@ -270,6 +284,8 @@
         disableEject: false
         swap: true
         ejectOnBreak: false
+        insertSound: null
+        ejectSound: null
   - type: Plate
     maxItemSize: Normal
   # DS14-end
@@ -312,6 +328,8 @@
         disableEject: false
         swap: true
         ejectOnBreak: false
+        insertSound: null
+        ejectSound: null
   - type: Plate
     maxItemSize: Small
   # DS14-end

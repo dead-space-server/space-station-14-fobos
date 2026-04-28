@@ -13,3 +13,55 @@
   - PhotonShotgun
   - CartridgeLaserRifle
   - EnergyCartridge
+
+- type: technology
+  id: RIGSecurity
+  name: research-technology-rig-sec
+  icon:
+    sprite: _DeadSpace/RIGs/Security/Standart/backpack.rsi
+    state: icon
+  discipline: Arsenal
+  tier: 2
+  cost: 15000
+  recipeUnlocks:
+  - BlueprintRIGSecurityInfinite
+  - BlueprintRIGSecurityThreeUse
+  - BlueprintRIGSecurityOneUse
+  - ClothingHeadHelmetRIGSecurity
+  - PlastineOfSecurityRIG
+  - StorageModuleSecurity
+  - SpeedModifierModuleSecurity
+
+# Tier 3
+
+- type: technology
+  id: RIGSecurityAdvanced
+  name: research-technology-rig-sec-adv
+  icon:
+    sprite: _DeadSpace/RIGs/Security/Advanced/backpack.rsi
+    state: icon
+  discipline: Arsenal
+  tier: 3
+  cost: 15000
+  recipeUnlocks:
+  - BlueprintRIGSecurityAdvancedInfinite
+  - BlueprintRIGSecurityAdvancedThreeUse
+  - BlueprintRIGSecurityAdvancedOneUse
+  - ClothingHeadHelmetRIGSecurityAdvanced
+  - PlastineOfSecurAdvancedityRIG
+  - PiercingResistanceModuleSecurityAdvanced
+  - SpeedModifierModuleSecurityAdvanced
+
+- type: technology
+  id: MagmiteArsenalTech
+  name: research-technology-magmite-weapon
+  icon:
+    sprite: _DeadSpace/Objects/Weapons/Melee/magmite/magmite-crusher.rsi
+    state: icon
+  discipline: Arsenal
+  tier: 3
+  cost: 20000
+  recipeUnlocks:
+    - WeaponMagmiteCrusher
+    - WeaponMagmiteCrusherGlaive
+    - WeaponMagmiteAccelerator

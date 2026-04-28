@@ -2,18 +2,21 @@ using System.Linq;
 using Content.Server.Administration;
 using Content.Server.Maps;
 using Content.Shared.Administration;
-using Content.Shared.CCVar;
 using Content.Shared.Maps;
-using Robust.Shared.Configuration;
 using Robust.Shared.Console;
 using Robust.Shared.Prototypes;
+// DS14-start
+using Content.Server.DeadSpace.Maps;
+using Content.Server.DeadSpace.Voting;
+using Robust.Shared.GameObjects;
+// DS14-end
 
 namespace Content.Server.GameTicking.Commands
 {
     [AdminCommand(AdminFlags.Round)]
     public sealed class ForceMapCommand : LocalizedCommands
     {
-        [Dependency] private readonly IConfigurationManager _configurationManager = default!;
+        [Dependency] private readonly IEntityManager _entityManager = default!; // DS14
         [Dependency] private readonly IGameMapManager _gameMapManager = default!;
         [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
 
@@ -36,12 +39,20 @@ namespace Content.Server.GameTicking.Commands
                 return;
             }
 
-            _configurationManager.SetCVar(CCVars.GameMap, name);
-
+            // DS14-start
             if (string.IsNullOrEmpty(name))
+            {
+                _gameMapManager.ClearForcedMap();
+                _entityManager.System<AutoMapVoteSystem>().OnForcedMapCleared();
                 shell.WriteLine(Loc.GetString("cmd-forcemap-cleared"));
+            }
             else
+            {
+                _gameMapManager.SelectMap(name, MapSelectionContext.Forced);
+                _entityManager.System<AutoMapVoteSystem>().OnForcedMapSelected();
                 shell.WriteLine(Loc.GetString("cmd-forcemap-success", ("map", name)));
+            }
+            // DS14-end
         }
 
         public override CompletionResult GetCompletion(IConsoleShell shell, string[] args)

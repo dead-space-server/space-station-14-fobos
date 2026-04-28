@@ -1695,6 +1695,62 @@
       circuit_holder: !type:ContainerSlot
       board: !type:Container
 
+#DeadSpace-start
+- type: entity
+  id: LawBoardConfiguratorComputer
+  parent: BaseComputer
+  name: law board configurator console
+  description: Used to edit laws directly on inserted law boards.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Machines/Computers.rsi
+    layers:
+    - map: [ "computerLayerBody" ]
+      state: computer
+    - map: [ "computerLayerKeyboard" ]
+      state: generic_keyboard
+    - map: [ "computerLayerScreen" ]
+      state: screen
+    - map: [ "computerLayerKeys" ]
+      state: generic_keys
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: ApcPowerReceiver
+    powerLoad: 1000
+  - type: PowerState
+    idlePowerDraw: 1000
+    workingPowerDraw: 1000
+  - type: Computer
+    board: LawBoardConfiguratorComputerCircuitboard
+  - type: Lock
+    unlockOnClick: false
+    useAccess: true
+  - type: AccessReader
+    access: [ [ "ResearchDirector" ] ]
+  - type: LawBoardConfiguratorConsole
+    openSound: !type:SoundPathSpecifier
+      path: /Audio/Machines/Keyboard/keyboard1.ogg
+  - type: ItemSlotsLock
+    slots:
+    - circuit_holder
+  - type: ItemSlotRequiresPower
+  - type: ItemSlots
+    slots:
+      circuit_holder:
+        name: circuit-holder
+        insertSuccessPopup: law-board-configurator-inserted
+        lockedFailPopup: law-board-configurator-locked
+        whitelist:
+          requireAll: true
+          components:
+          - SiliconLawProvider
+          - Item
+  - type: ContainerContainer
+    containers:
+      circuit_holder: !type:ContainerSlot
+      board: !type:Container
+#DeadSpace-end
+
 - type: entity
   id: StationAiFixerComputer
   parent: BaseComputer

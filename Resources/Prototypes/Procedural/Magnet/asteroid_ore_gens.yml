@@ -11,6 +11,8 @@
     OreUranium: 0.20
     OreArtifactFragment: 0.10
     OreBananium: 0.10
+    OreBluespaceCrystal: 0.15 #DS14
+    OreMagmite: 0.15 #DS14
 
 - type: oreDunGen
   id: OreIron

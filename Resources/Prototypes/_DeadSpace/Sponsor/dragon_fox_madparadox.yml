@@ -67,7 +67,7 @@
       - id: PowerDrillDragonFoxMadParadox
       - id: WelderExperimentalDragonFoxMadParadox
       - id: MultitoolDragonFoxMadParadox
-      - id: SyndicateJawsOfLifeDragonFoxMadParadox
+      - id: JawsOfLifeDragonFoxMadParadox
       - id: HandHeldMassScannerDragonFoxMadParadox
       - id: RCDDragonFoxMadParadox
       - id: HolofanProjectorDragonFoxMadParadox
@@ -89,7 +89,7 @@
       sprite: _DeadSpace/Sponsor/DragonFox/MadParadox/waistbag_leather.rsi
     - type: Storage
       grid:
-      - 0,0,9,1
+      - 0,0,7,1
     - type: Item
       size: Huge
     - type: Tag
@@ -143,7 +143,7 @@
           False: {visible: true}
 
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitDragonFoxMadParadox
   name: броня «Покров чёрной бездны»
   description: Броня выглядит как переливающаяся тёмная субстанция, напоминающая ткань пространства‑времени вблизи чёрной дыры. Её поверхность не отражает свет — напротив, она будто поглощает его, создавая эффект мерцающей пустоты. По контурам доспехов пробегают тонкие линии искривлённого света — словно гравитационные волны, застывшие в металле. Шлем скрывает лицо носителя, оставляя лишь две точки тусклого излучения вместо глаз. Воплощает мощь и таинственность космических чёрных дыр. Её конструкция использует принципы гравитационного искажения и квантовой защиты. Капюшон создаёт вокруг носителя поле, имитирующее горизонт событий, — оно поглощает и рассеивает атаки. Броня предназначена для воинов и исследователей, работающих в экстремальных условиях - от радиационных зон до областей с гравитационными аномалиями.
@@ -221,15 +221,8 @@
   - type: Clothing
     sprite: _DeadSpace/Sponsor/DragonFox/MadParadox/bootsmadparadox.rsi
   - type: ClothingSpeedModifier
-    walkModifier: 1.3
-    sprintModifier: 1.3
-  - type: ToggleClothing
-    action: ActionToggleMagboots
-  - type: ItemSlots
-    slots:
-      cell_slot:
-        name: power-cell-slot-component-slot-name-default
-        startingItem: PowerCellMedium
+    walkModifier: 1.0
+    sprintModifier: 1.0
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -545,8 +538,8 @@
 
 #JawsOfLife
 - type: entity
-  parent: SyndicateJawsOfLife
-  id: SyndicateJawsOfLifeDragonFoxMadParadox
+  parent: JawsOfLife
+  id: JawsOfLifeDragonFoxMadParadox
   name: челюсти жизни «Гравитонный Кусач» 
   description: Высокотехнологичные гидравлические спасательные ножницы («челюсти жизни»), вдохновлённые физикой чёрных дыр. Принцип работы основан на идее концентрации силы в точке контакта - подобно тому, как чёрная дыра искривляет пространство‑время и поглощает материю, инструмент концентрирует усилие в зоне реза, преодолевая сопротивление самых прочных конструкций.
   categories: [ HideSpawnMenu ]

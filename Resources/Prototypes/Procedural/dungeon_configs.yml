@@ -74,7 +74,28 @@
       SouthEast: BrickTileWhiteInnerSe
       NorthWest: BrickTileWhiteInnerNw
       NorthEast: BrickTileWhiteInnerNe
-
+#DS14-start
+  - !type:EntityTableDunGen
+    minCount: 25
+    maxCount: 40
+    table: !type:NestedSelector
+      tableId: SalvageScrapSpawnerCommon
+  - !type:EntityTableDunGen
+    minCount: 30
+    maxCount: 40
+    table: !type:NestedSelector
+      tableId: SalvageScrapSpawnerValuable
+  - !type:EntityTableDunGen
+    minCount: 30
+    maxCount: 45
+    table: !type:NestedSelector
+      tableId: SalvageTreasureSpawnerCommon
+  - !type:EntityTableDunGen
+    minCount: 30
+    maxCount: 45
+    table: !type:NestedSelector
+      tableId: SalvageTreasureSpawnerValuable
+#DS14-end
 - type: dungeonConfig
   id: Haunted
   layers:
@@ -133,19 +154,19 @@
 
   - !type:EntranceFlankDunGen
     tile: FloorDark
-    contents: BaseWindow
+    contents: MiningAngorWindow #DS14
 
   - !type:ExternalWindowDunGen
     tile: FloorDark
-    contents: BaseWindow
+    contents: MiningAngorWindow #DS14
 
   - !type:WallMountDunGen
     contents: ScienceLabsWalls
     tile: FloorDark
 
   - !type:BoundaryWallDunGen
-    wall: WallSolid
-    cornerWall: WallReinforced
+    wall: WallMining #DS14
+    cornerWall: WallMining #DS14
     tile: FloorDark
 
   - !type:JunctionDunGen
@@ -180,7 +201,28 @@
       SouthEast: BrickTileWhiteInnerSe
       NorthWest: BrickTileWhiteInnerNw
       NorthEast: BrickTileWhiteInnerNe
-
+#DS14-start
+  - !type:EntityTableDunGen
+    minCount: 25
+    maxCount: 40
+    table: !type:NestedSelector
+      tableId: SalvageScrapSpawnerCommon
+  - !type:EntityTableDunGen
+    minCount: 30
+    maxCount: 40
+    table: !type:NestedSelector
+      tableId: SalvageScrapSpawnerValuable
+  - !type:EntityTableDunGen
+    minCount: 30
+    maxCount: 45
+    table: !type:NestedSelector
+      tableId: SalvageTreasureSpawnerCommon
+  - !type:EntityTableDunGen
+    minCount: 30
+    maxCount: 45
+    table: !type:NestedSelector
+      tableId: SalvageTreasureSpawnerValuable
+#DS14-end
 - type: dungeonConfig
   id: Mineshaft
   layers:
@@ -235,6 +277,35 @@
   - !type:CornerClutterDunGen
     contents: MineshaftClutter
 
+#DS14-start
+
+  - !type:BoundaryWallDunGen
+    tile: FloorCaveDrought
+    wall: WallRock
+  - !type:CorridorClutterDunGen
+    contents: HauntedClutter
+  - !type:EntityTableDunGen
+    minCount: 25
+    maxCount: 40
+    table: !type:NestedSelector
+      tableId: SalvageScrapSpawnerCommon
+  - !type:EntityTableDunGen
+    minCount: 30
+    maxCount: 40
+    table: !type:NestedSelector
+      tableId: SalvageScrapSpawnerValuable
+  - !type:EntityTableDunGen
+    minCount: 30
+    maxCount: 45
+    table: !type:NestedSelector
+      tableId: SalvageTreasureSpawnerCommon
+  - !type:EntityTableDunGen
+    minCount: 30
+    maxCount: 45
+    table: !type:NestedSelector
+      tableId: SalvageTreasureSpawnerValuable
+#DS14-end
+
 # TODO: Check decal skirting fix contents in code.
 
 - type: dungeonConfig
@@ -252,46 +323,67 @@
 
   - !type:CorridorDunGen
     width: 3
-    tile: FloorSteel
+    tile: FloorGrayConcrete #DS14
 
   - !type:DungeonEntranceDunGen
     count: 2
-    tile: FloorSteel
-    contents: BaseAirlock
+    tile: FloorGrayConcrete #DS14
+    contents: TheCircleAirLock #DS14
 
   - !type:RoomEntranceDunGen
-    tile: FloorSteel
-    contents: BaseAirlock
+    tile: FloorGrayConcrete #DS14
+    contents: TheCircleAirLock #DS14
 
   - !type:EntranceFlankDunGen
-    tile: FloorSteel
-    contents: BaseWindow
+    tile: FloorGrayConcrete #DS14
+    contents: TitaniumWindow #DS14
 
   - !type:ExternalWindowDunGen
-    tile: FloorSteel
-    contents: BaseWindow
+    tile: FloorGrayConcrete #DS14
+    contents: TitaniumWindow #DS14
 
   - !type:WallMountDunGen
     contents: SnowyLabsWalls
-    tile: FloorSteel
+    tile: FloorGrayConcrete #DS14
 
   - !type:BoundaryWallDunGen
-    wall: WallSilver
-    tile: FloorSteel
+    wall: WallPlastitanium #DS14
+    tile: FloorGrayConcrete #DS14
 
   - !type:JunctionDunGen
     width: 1
-    tile: FloorSteel
-    contents: BaseAirlock
+    tile: FloorGrayConcrete #DS14
+    contents: TheCircleAirLock #DS14
 
   - !type:JunctionDunGen
     width: 3
-    tile: FloorSteel
-    contents: BaseAirlock
+    tile: FloorGrayConcrete #DS14
+    contents: TheCircleAirLock #DS14
 
   - !type:AutoCablingDunGen
     entity: CableApcExtension
-
+#DS14-start
+  - !type:EntityTableDunGen
+    minCount: 25
+    maxCount: 40
+    table: !type:NestedSelector
+      tableId: SalvageScrapSpawnerCommon
+  - !type:EntityTableDunGen
+    minCount: 30
+    maxCount: 40
+    table: !type:NestedSelector
+      tableId: SalvageScrapSpawnerValuable
+  - !type:EntityTableDunGen
+    minCount: 30
+    maxCount: 45
+    table: !type:NestedSelector
+      tableId: SalvageTreasureSpawnerCommon
+  - !type:EntityTableDunGen
+    minCount: 30
+    maxCount: 45
+    table: !type:NestedSelector
+      tableId: SalvageTreasureSpawnerValuable
+#DS14-end
 # Spawn groups
 # Basic
 - type: entityTable
@@ -391,3 +483,26 @@
       prob: 0.05
     - id: IntercomScience
       prob: 0.1
+
+#DS14-start
+- type: entityTable
+  id: TitaniumWindow 
+  table: !type:GroupSelector
+    children:
+    - id: Grille
+    - id: PlastitaniumWindow
+
+- type: entityTable
+  id: TheCircleAirLock
+  table: !type:GroupSelector
+    children:
+    - id: CableApcExtension
+    - id: AirlockUnitologyCommand
+
+- type: entityTable
+  id: MiningAngorWindow
+  table: !type:GroupSelector
+    children:
+    - id: Grille
+    - id: MiningWindow
+#DS14-end

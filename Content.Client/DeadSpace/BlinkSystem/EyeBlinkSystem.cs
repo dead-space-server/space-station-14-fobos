@@ -4,34 +4,37 @@ using Content.Shared.Humanoid;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs;
 using Robust.Client.GameObjects;
-using Robust.Shared.GameObjects;
 using Robust.Shared.Random;
 using Robust.Shared.Utility;
-using System.Collections.Generic;
 using System.Linq;
 using Content.Shared.Bed.Sleep;
+using Content.Shared.Blink;
 
 namespace Content.Client.BlinkSystem;
 
 public sealed class EyeBlinkSystem : EntitySystem
 {
     [Dependency] private readonly IRobustRandom _random = default!;
+    private const string BlinkLayerKey = "humanoid_blink_layer";
 
     private readonly ResPath _rsiPath = new("/Textures/_DeadSpace/Effects/blink.rsi");
-    private const string LayerKey = "MobHumanBlinkLayer";
 
-    private readonly Dictionary<EntityUid, (float TimeLeft, bool IsClosed, int LayerIndex)> _blinkData = new();
+    private readonly Dictionary<EntityUid, (float TimeLeft, bool IsClosed)> _blinkData = new();
 
     public override void Initialize()
     {
         base.Initialize();
-        SubscribeLocalEvent<HumanoidAppearanceComponent, ComponentStartup>(OnHumanoidStartup);
-        SubscribeLocalEvent<HumanoidAppearanceComponent, ComponentShutdown>(OnHumanoidShutdown);
+
+        SubscribeLocalEvent<BlinkComponent, ComponentStartup>(OnBlinkStartup);
+        SubscribeLocalEvent<BlinkComponent, ComponentShutdown>(OnBlinkShutdown);
         SubscribeLocalEvent<SleepingComponent, ComponentShutdown>(OnSleepShutdown);
     }
 
-    private void OnHumanoidStartup(EntityUid uid, HumanoidAppearanceComponent component, ComponentStartup args)
+    private void OnBlinkStartup(EntityUid uid, BlinkComponent component, ComponentStartup args)
     {
+        if (!TryComp<HumanoidAppearanceComponent>(uid, out var appearance))
+            return;
+
         var meta = MetaData(uid);
         var protoId = meta.EntityPrototype?.ID;
         if (protoId == null) return;
@@ -50,24 +53,33 @@ public sealed class EyeBlinkSystem : EntitySystem
         else if (protoId.Contains("MobMoth")) state = "eye_blink_moth";
         else if (protoId.Contains("MobKobolt") || protoId.Contains("MobReptilian")) state = "eye_blink_reptilian";
 
-        if (!sprite.LayerMapTryGet(HumanoidVisualLayers.Eyes, out var eyeLayer))
+        if (!sprite.LayerMapTryGet(HumanoidVisualLayers.Eyes, out var eyeLayerIndex))
             return;
 
-        if (_blinkData.ContainsKey(uid))
-            return;
+        if (!sprite.LayerMapTryGet(BlinkLayerKey, out _))
+        {
+            var layer = sprite.AddLayer(new SpriteSpecifier.Rsi(_rsiPath, state), eyeLayerIndex + 1);
+            sprite.LayerMapSet(BlinkLayerKey, layer);
+        }
 
-        var targetIndex = eyeLayer + 1;
-        var actualIndex = sprite.AddLayer(new SpriteSpecifier.Rsi(_rsiPath, state), targetIndex);
+        if (sprite.LayerMapTryGet(BlinkLayerKey, out var actualIndex))
+        {
+            sprite.LayerSetVisible(actualIndex, false);
+            sprite.LayerSetColor(actualIndex, appearance.SkinColor);
+        }
 
-        sprite.LayerSetVisible(actualIndex, false);
-        sprite.LayerSetColor(actualIndex, component.SkinColor);
-
-        _blinkData[uid] = (_random.NextFloat(20f, 80f), false, actualIndex);
+        if (!_blinkData.ContainsKey(uid))
+            _blinkData[uid] = (_random.NextFloat(20f, 80f), false);
     }
 
-    private void OnHumanoidShutdown(EntityUid uid, HumanoidAppearanceComponent component, ComponentShutdown args)
+    private void OnBlinkShutdown(EntityUid uid, BlinkComponent component, ComponentShutdown args)
     {
         _blinkData.Remove(uid);
+
+        if (TryComp<SpriteComponent>(uid, out var sprite) && sprite.LayerMapTryGet(BlinkLayerKey, out var layer))
+        {
+            sprite.RemoveLayer(layer);
+        }
     }
 
     private void OnSleepShutdown(EntityUid uid, SleepingComponent component, ComponentShutdown args)
@@ -78,8 +90,11 @@ public sealed class EyeBlinkSystem : EntitySystem
         if (!TryComp<SpriteComponent>(uid, out var sprite))
             return;
 
-        sprite.LayerSetVisible(data.LayerIndex, false);
-        _blinkData[uid] = (_random.NextFloat(20f, 80f), false, data.LayerIndex);
+        if (sprite.LayerMapTryGet(BlinkLayerKey, out var layerIndex))
+        {
+            sprite.LayerSetVisible(layerIndex, false);
+        }
+        _blinkData[uid] = (_random.NextFloat(20f, 80f), false);
     }
 
     public override void Update(float frameTime)
@@ -94,7 +109,10 @@ public sealed class EyeBlinkSystem : EntitySystem
                 continue;
             }
 
-            var (timeLeft, isClosed, layerIndex) = _blinkData[uid];
+            if (!sprite.LayerMapTryGet(BlinkLayerKey, out var layerIndex))
+                continue;
+
+            var (timeLeft, isClosed) = _blinkData[uid];
 
             if (TryComp<MobStateComponent>(uid, out var mobState) && (mobState.CurrentState == MobState.Dead || mobState.CurrentState == MobState.Critical))
             {
@@ -116,18 +134,18 @@ public sealed class EyeBlinkSystem : EntitySystem
                 if (isClosed)
                 {
                     sprite.LayerSetVisible(layerIndex, false);
-                    _blinkData[uid] = (_random.NextFloat(20f, 80f), false, layerIndex);
+                    _blinkData[uid] = (_random.NextFloat(20f, 80f), false);
                 }
                 else
                 {
                     sprite.LayerSetColor(layerIndex, appearance.SkinColor);
                     sprite.LayerSetVisible(layerIndex, true);
-                    _blinkData[uid] = (2f, true, layerIndex);
+                    _blinkData[uid] = (2f, true);
                 }
             }
             else
             {
-                _blinkData[uid] = (timeLeft, isClosed, layerIndex);
+                _blinkData[uid] = (timeLeft, isClosed);
             }
         }
     }

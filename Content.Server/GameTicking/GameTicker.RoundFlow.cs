@@ -82,7 +82,7 @@ namespace Content.Server.GameTicking
         public bool CanUpdateMap()
         {
             return RunLevel == GameRunLevel.PreRoundLobby &&
-                   _roundStartTime - RoundPreloadTime > _gameTiming.CurTime;
+                   TimeUntilMapChangeCloses() > TimeSpan.Zero; // DS14
         }
 
         /// <summary>
@@ -810,7 +810,13 @@ namespace Content.Server.GameTicking
             // Preload maps so we can start faster
             else if (_roundStartTime - RoundPreloadTime < _gameTiming.CurTime)
             {
+                var hadMap = _map.MapExists(DefaultMap); // DS14
                 LoadMaps();
+
+                // DS14-start
+                if (!hadMap && _map.MapExists(DefaultMap))
+                    UpdateInfoText();
+                // DS14-end
             }
         }
 

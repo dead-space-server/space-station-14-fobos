@@ -10,13 +10,28 @@ on:
     branches: [ master, staging, stable ]
 
 jobs:
-  build:
-    if: github.actor != 'PJBot'
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
+  plan-integration-shards:
+    if: github.actor != 'PJBot' && (github.event_name != 'pull_request' || github.event.pull_request.draft == false)
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+    - name: Checkout Master
+      uses: actions/checkout@v4.2.2
 
-    runs-on: ${{ matrix.os }}
+    - name: Generate integration shard matrix
+      id: plan
+      shell: bash
+      run: echo "matrix=$(python3 Tools/integration_test_shards.py --shards 10)" >> "$GITHUB_OUTPUT"
+
+    - name: Print integration shards
+      shell: bash
+      run: python3 Tools/integration_test_shards.py --shards 10 --pretty
+
+  content-tests:
+    if: github.actor != 'PJBot' && (github.event_name != 'pull_request' || github.event.pull_request.draft == false)
+    runs-on: ubuntu-latest
+    name: Content.Tests
 
     steps:
     - name: Checkout Master
@@ -40,24 +55,116 @@ jobs:
         dotnet-version: 10.0.x
 
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore Content.Tests/Content.Tests.csproj
 
-    - name: Build Project
-      run: dotnet build --configuration DebugOpt --no-restore /m
+    - name: Build Content.Tests
+      run: dotnet build Content.Tests/Content.Tests.csproj --configuration DebugOpt --no-restore /m
 
     - name: Run Content.Tests
-      run: dotnet test --no-build --configuration DebugOpt Content.Tests/Content.Tests.csproj -- NUnit.ConsoleOut=0
+      run: >
+        dotnet test --no-build --configuration DebugOpt Content.Tests/Content.Tests.csproj
+        --logger "console;verbosity=normal"
+        --logger "trx;LogFileName=content-tests.trx"
+        --results-directory TestResults
+        -- NUnit.ConsoleOut=0
+
+    - name: Upload Content.Tests results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: content-tests-results
+        path: TestResults/
+        if-no-files-found: ignore
+
+  integration-tests:
+    if: github.actor != 'PJBot' && (github.event_name != 'pull_request' || github.event.pull_request.draft == false)
+    needs:
+      - plan-integration-shards
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.plan-integration-shards.outputs.matrix) }}
+    name: Integration Tests (${{ matrix.name }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+    - name: Checkout Master
+      uses: actions/checkout@v4.2.2
+
+    - name: Setup Submodule
+      run: |
+        git submodule update --init --recursive
+
+    - name: Pull engine updates
+      uses: space-wizards/submodule-dependency@v0.1.5
+
+    - name: Update Engine Submodules
+      run: |
+        cd RobustToolbox/
+        git submodule update --init --recursive
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v4.1.0
+      with:
+        dotnet-version: 10.0.x
+
+    - name: Install dependencies
+      run: dotnet restore Content.IntegrationTests/Content.IntegrationTests.csproj
+
+    - name: Build Content.IntegrationTests
+      run: dotnet build Content.IntegrationTests/Content.IntegrationTests.csproj --configuration DebugOpt --no-restore /m
+
+    - name: Print shard plan
+      shell: bash
+      run: |
+        echo "Shard: ${{ matrix.id }}"
+        echo "Estimated markers: ${{ matrix.tests }}"
+        echo "Units: ${{ matrix.units }}"
+        echo "Filter: ${{ matrix.filter }}"
 
     - name: Run Content.IntegrationTests
       shell: pwsh
+      env:
+        TEST_FILTER: ${{ matrix.filter }}
+        TEST_RESULTS_NAME: ${{ matrix.id }}.trx
       run: |
+        New-Item -ItemType Directory -Force -Path TestResults | Out-Null
         $env:DOTNET_gcServer=1
-        dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj -- NUnit.ConsoleOut=0 NUnit.MapWarningTo=Failed
+        dotnet test Content.IntegrationTests/Content.IntegrationTests.csproj `
+          --no-build `
+          --configuration DebugOpt `
+          --filter "$env:TEST_FILTER" `
+          --logger "console;verbosity=normal" `
+          --logger "trx;LogFileName=$env:TEST_RESULTS_NAME" `
+          --results-directory TestResults `
+          -- NUnit.ConsoleOut=1 NUnit.MapWarningTo=Failed
+
+    - name: Upload integration test results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: integration-test-results-${{ matrix.id }}
+        path: TestResults/
+        if-no-files-found: ignore
+
   ci-success:
     name: Build & Test Debug
+    if: ${{ always() && needs.plan-integration-shards.result != 'skipped' }}
     needs:
-      - build
+      - plan-integration-shards
+      - content-tests
+      - integration-tests
     runs-on: ubuntu-latest
     steps:
       - name: CI succeeded
-        run: exit 0
+        shell: bash
+        run: |
+          if [[ "${{ needs.content-tests.result }}" != "success" ]]; then
+            echo "content-tests finished with ${{ needs.content-tests.result }}"
+            exit 1
+          fi
+
+          if [[ "${{ needs.integration-tests.result }}" != "success" ]]; then
+            echo "integration-tests finished with ${{ needs.integration-tests.result }}"
+            exit 1
+          fi

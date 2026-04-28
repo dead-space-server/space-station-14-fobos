@@ -1,0 +1,11 @@
+law-configurator-requires-open-panel = Требуется открытая техническая панель!
+law-configurator-requires-board = Конфигуратору требуется плата с законами!
+law-configurator-update-laws = Законы конфигуратора были обновлены.
+law-configurator-start-configuring = Начинаю конфигурацию законов для {$target}...
+law-board-configurator-requires-board = Сначала вставьте плату законов.
+law-board-configurator-inserted = Плата законов вставлена.
+law-board-configurator-saved = Изменения платы законов сохранены.
+law-board-configurator-locked = Сначала разблокируйте консоль.
+law-board-configurator-ui-title = Редактирование законов
+law-board-configurator-ui-board-name = Название платы:
+law-board-configurator-ui-board-name-placeholder = Введите название платы...
