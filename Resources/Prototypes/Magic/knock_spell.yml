@@ -4,6 +4,7 @@
   name: Knock
   description: This spell opens nearby doors.
   components:
+  - type: Magic # DS14
   - type: Action
     useDelay: 10
     itemIconStyle: BigAction

@@ -20,6 +20,7 @@
     containers:
       ballistic-ammo: !type:Container
   - type: Sprite
+    scale: 1.2, 1.2 # DS-14
     sprite: Objects/Weapons/Guns/Ammunition/Magazine/CaselessRifle/caseless_rifle_mag.rsi
     layers:
     - state: base
@@ -50,6 +51,7 @@
   - type: Item
     size: Small
   - type: Sprite
+    scale: 1.2, 1.2 # DS-14
     sprite: Objects/Weapons/Guns/Ammunition/Magazine/CaselessRifle/caseless_pistol_mag.rsi
     layers:
     - state: base
@@ -72,6 +74,7 @@
     proto: CartridgeCaselessRifle
     capacity: 10
   - type: Sprite
+    scale: 1.2, 1.2 # DS-14
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
@@ -100,6 +103,7 @@
     proto: CartridgeCaselessRiflePractice
     capacity: 10
   - type: Sprite
+    scale: 1.2, 1.2 # DS-14
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
@@ -130,6 +134,7 @@
   - type: BallisticAmmoProvider
     proto: CartridgeCaselessRifle
   - type: Sprite
+    scale: 1.2, 1.2 # DS-14
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
@@ -150,6 +155,7 @@
   - type: BallisticAmmoProvider
     proto: CartridgeCaselessRiflePractice
   - type: Sprite
+    scale: 1.2, 1.2 # DS-14
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]

@@ -66,6 +66,15 @@ public sealed partial class ToggleableClothingComponent : Component
     [DataField, AutoNetworkedField]
     public TimeSpan? StripDelay = TimeSpan.FromSeconds(3);
 
+    //DS14-start
+    /// <summary>
+    /// Delay before the toggleable clothing is equipped/unequipped when
+    /// the player activates it themselves. Zero = instant (default).
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public TimeSpan ToggleDelay = TimeSpan.Zero;
+    //DS14-end
+
     /// <summary>
     ///     Text shown in the toggle-clothing verb. Defaults to using the name of the <see cref="ActionEntity"/> action.
     /// </summary>

@@ -12,11 +12,18 @@ using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Utility;
 using System.Diagnostics.CodeAnalysis;
+// DS14-start
+using Content.Shared.Actions;
+using Content.Shared.Actions.Components;
+using Content.Shared.Magic.Components;
+using System.Linq;
+// DS14-end
 
 namespace Content.Server.Mind;
 
 public sealed class MindSystem : SharedMindSystem
 {
+    [Dependency] private readonly ActionContainerSystem _actionContainer = default!; // DS14
     [Dependency] private readonly GameTicker _gameTicker = default!;
     [Dependency] private readonly IAdminLogManager _adminLogger = default!;
     [Dependency] private readonly IPlayerManager _players = default!;
@@ -380,7 +387,24 @@ public sealed class MindSystem : SharedMindSystem
             return;
         }
 
+        RemoveMindMagicActions(mindId); // DS14
         MakeSentient(target);
         TransferTo(mindId, target, ghostCheckOverride: true, mind: mind);
     }
+
+    // DS14-start
+    private void RemoveMindMagicActions(EntityUid mindId)
+    {
+        if (!TryComp<ActionsContainerComponent>(mindId, out var container))
+            return;
+
+        foreach (var action in container.Container.ContainedEntities.ToArray())
+        {
+            if (!HasComp<MagicComponent>(action))
+                continue;
+
+            _actionContainer.RemoveAction(action, logMissing: false);
+        }
+    }
+    // DS14-end
 }

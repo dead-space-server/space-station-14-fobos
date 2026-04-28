@@ -20,7 +20,7 @@
     sprite: _DeadSpace/Objects/Weapons/Guns/Ammunition/Boxes/light_rifle.rsi # DS14-texture-localization
   - type: MagazineVisuals
     magState: mag
-    steps: 5
+    steps: 9
     zeroVisible: false
   - type: Appearance
 

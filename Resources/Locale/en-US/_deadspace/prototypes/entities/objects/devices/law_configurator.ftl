@@ -1,0 +1,11 @@
+law-configurator-requires-open-panel = Requires an open maintenance panel!
+law-configurator-requires-board = The configurator requires a law board!
+law-configurator-update-laws = The configurator's laws have been updated.
+law-configurator-start-configuring = Starting law configuration for {$target}...
+law-board-configurator-requires-board = Insert a law board first.
+law-board-configurator-inserted = The law board has been inserted.
+law-board-configurator-saved = Law board changes saved.
+law-board-configurator-locked = Unlock the console first.
+law-board-configurator-ui-title = Law Editing
+law-board-configurator-ui-board-name = Board name:
+law-board-configurator-ui-board-name-placeholder = Enter board name...

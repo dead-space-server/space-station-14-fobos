@@ -18,6 +18,7 @@
     containers:
       ballistic-ammo: !type:Container
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     sprite: _DeadSpace/Objects/Weapons/Guns/Ammunition/Magazine/Pistol/magazinedeserteagle.rsi
     layers:
     - state: base
@@ -38,6 +39,7 @@
   - type: BallisticAmmoProvider
     proto: CartridgeMagnum
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
@@ -52,6 +54,7 @@
   - type: BallisticAmmoProvider
     proto: CartridgeMagnumAP
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     layers:
     - state: red
       map: ["enum.GunVisualLayers.Base"]
