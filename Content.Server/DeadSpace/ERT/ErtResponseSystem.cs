@@ -42,6 +42,7 @@ public sealed class PendingErtRequestData
 {
     public int RequestId { get; set; }
     public ProtoId<ErtTeamPrototype> RequestedTeamId { get; set; }
+    public TimedWindow DecisionWindow { get; set; } = default!;
     public string RequestedByName { get; set; } = string.Empty;
     public string? CallReason { get; set; }
     public EntityUid? StationUid { get; set; }
@@ -58,6 +59,7 @@ public sealed class ManualApprovedErtRequestData
     public EntityUid? StationUid { get; set; }
     public EntityUid? ConsoleUid { get; set; }
     public int ReservedPrice { get; set; }
+    public EntityUid? PinpointerTarget { get; set; }
 }
 
 public sealed class ApprovedErtRequestData
@@ -102,6 +104,8 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
 
     private static readonly SoundSpecifier RequestSound = new SoundPathSpecifier("/Audio/_DeadSpace/Announcements/ERT/call.ogg");
     private static readonly SoundSpecifier DecisionSound = new SoundPathSpecifier("/Audio/_DeadSpace/Announcements/ERT/decision.ogg");
+    private static readonly SoundSpecifier TeamChangedSound = new SoundPathSpecifier("/Audio/_DeadSpace/Announcements/centcomm.ogg");
+    private static readonly TimeSpan PendingRequestLifetime = TimeSpan.FromMinutes(2);
 
     /// <summary>
     ///     Сумма очков для заказа обр, доступная в начале каждого раунда.
@@ -130,6 +134,7 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
         SubscribeNetworkEvent<AdminSetApprovedErtTeamMessage>(OnSetApprovedTeam);
         SubscribeNetworkEvent<AdminSendErtNowMessage>(OnSendErtNow);
         SubscribeNetworkEvent<AdminPromoteManualApprovedErtMessage>(OnPromoteManualApprovedRequest);
+        SubscribeNetworkEvent<AdminMoveApprovedErtToManualMessage>(OnMoveApprovedRequestToManual);
 
         SubscribeLocalEvent<ErtSpawnRuleComponent, RuleLoadedGridsEvent>(OnRuleLoadedGrids);
         SubscribeLocalEvent<ErtSpeciesRoleComponent, MindAddedMessage>(OnMindAdded);
@@ -151,6 +156,7 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
                 data.RequestId,
                 data.RequestedTeamId.ToString(),
                 proto.Name,
+                _timedWindowSystem.GetSecondsRemaining(data.DecisionWindow),
                 data.ReservedPrice,
                 data.RequestedByName,
                 data.CallReason));
@@ -375,7 +381,7 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
         }
 
         var newTeam = new ProtoId<ErtTeamPrototype>(msg.ProtoId);
-        if (!_prototypeManager.TryIndex(newTeam, out _))
+        if (!_prototypeManager.TryIndex(newTeam, out var prototype))
         {
             RaiseNetworkEvent(new ErtAdminActionResult(false, "Prototype missing"), args.SenderSession.Channel);
             return;
@@ -387,7 +393,11 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             return;
         }
 
+        var teamChanged = request.TeamId != newTeam;
         request.TeamId = newTeam;
+
+        if (teamChanged)
+            AnnounceChangedApprovedTeam(prototype);
 
         _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} changed approved ERT request #{msg.RequestId} team to '{msg.ProtoId}'");
         _chatManager.SendAdminAlert($"Админ {args.SenderSession.Name} сменил отряд авто-одобренной заявки ОБР #{msg.RequestId} на '{msg.ProtoId}'.");
@@ -430,6 +440,32 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
 
         _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} promoted manual-approved ERT request #{msg.RequestId} to auto spawn");
         _chatManager.SendAdminAlert($"Админ {args.SenderSession.Name} запустил автоспавн для вручную одобренной заявки ОБР #{msg.RequestId}.");
+        RaiseNetworkEvent(new ErtAdminActionResult(true, "OK"), args.SenderSession.Channel);
+    }
+
+    private void OnMoveApprovedRequestToManual(AdminMoveApprovedErtToManualMessage msg, EntitySessionEventArgs args)
+    {
+        if (!_approvedRequests.TryGetValue(msg.RequestId, out var request))
+        {
+            RaiseNetworkEvent(new ErtAdminActionResult(false, "No approved ERT request with that id"), args.SenderSession.Channel);
+            return;
+        }
+
+        _approvedRequests.Remove(msg.RequestId);
+        _manualApprovedRequests[msg.RequestId] = new ManualApprovedErtRequestData
+        {
+            RequestId = request.RequestId,
+            TeamId = request.TeamId,
+            RequestedByName = request.RequestedByName,
+            CallReason = request.CallReason,
+            StationUid = request.StationUid,
+            ConsoleUid = request.ConsoleUid,
+            ReservedPrice = request.ReservedPrice,
+            PinpointerTarget = request.PinpointerTarget,
+        };
+
+        _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} moved approved ERT request #{msg.RequestId} to manual approval");
+        _chatManager.SendAdminAlert($"Админ {args.SenderSession.Name} перенёс авто-одобренную заявку ОБР #{msg.RequestId} в ручное одобрение.");
         RaiseNetworkEvent(new ErtAdminActionResult(true, "OK"), args.SenderSession.Channel);
     }
 
@@ -570,6 +606,27 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             }
         }
 
+        foreach (var (requestId, request) in _pendingRequests.ToArray())
+        {
+            if (!_timedWindowSystem.IsExpired(request.DecisionWindow))
+                continue;
+
+            _pendingRequests.Remove(requestId);
+
+            if (!_prototypeManager.TryIndex(request.RequestedTeamId, out var prototype))
+            {
+                _adminLogger.Add(LogType.Action, LogImpact.Medium, $"ERT request #{requestId} could not be automatically approved because prototype '{request.RequestedTeamId}' is missing");
+                _chatManager.SendAdminAlert($"Заявка ОБР #{requestId} не была автоматически одобрена: прототип '{request.RequestedTeamId}' не найден.");
+                continue;
+            }
+
+            QueueApprovedRequest(request, prototype);
+            AnnounceApprovedRequest(prototype);
+
+            _adminLogger.Add(LogType.Action, LogImpact.Medium, $"ERT request #{requestId} automatically approved for auto spawn after {PendingRequestLifetime.TotalSeconds:0} seconds without admin decision");
+            _chatManager.SendAdminAlert($"Заявка ОБР #{requestId} не была обработана за {PendingRequestLifetime.TotalSeconds:0} секунд и автоматически переведена в автоспавн.");
+        }
+
         foreach (var (requestId, data) in _approvedRequests.ToArray())
         {
             if (!_timedWindowSystem.IsExpired(data.Window))
@@ -632,10 +689,14 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             return false;
 
         var requestId = _nextRequestId++;
+        var decisionWindow = new TimedWindow(PendingRequestLifetime, PendingRequestLifetime);
+        _timedWindowSystem.Reset(decisionWindow);
+
         _pendingRequests[requestId] = new PendingErtRequestData
         {
             RequestId = requestId,
             RequestedTeamId = team,
+            DecisionWindow = decisionWindow,
             RequestedByName = requestedByName,
             CallReason = callReason,
             StationUid = station,
@@ -825,7 +886,7 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             request.StationUid,
             request.ConsoleUid,
             request.ReservedPrice,
-            null);
+            request.PinpointerTarget);
     }
 
     private ApprovedErtRequestData CreateApprovedRequest(
@@ -873,6 +934,28 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             playSound: true,
             usePresetTTS: true,
             languageId: LanguageSystem.DefaultLanguageId);
+    }
+
+    private void AnnounceChangedApprovedTeam(ErtTeamPrototype prototype)
+    {
+        _chatSystem.DispatchGlobalAnnouncement(
+            message: Loc.GetString("ert-response-team-changed-announcement", ("team", FormatTeamNameForAnnouncement(prototype))),
+            sender: Loc.GetString("ert-response-cso-sender"),
+            colorOverride: Color.FromHex("#1d8bad"),
+            announcementSound: TeamChangedSound,
+            playSound: true,
+            usePresetTTS: true,
+            languageId: LanguageSystem.DefaultLanguageId);
+    }
+
+    private static string FormatTeamNameForAnnouncement(ErtTeamPrototype prototype)
+    {
+        const string ertPrefix = "ОБР ";
+
+        if (prototype.Name.StartsWith(ertPrefix, StringComparison.Ordinal))
+            return $"{ertPrefix}\"{prototype.Name[ertPrefix.Length..]}\"";
+
+        return prototype.Name;
     }
 
     private void AnnounceConsoleRequestReceived()

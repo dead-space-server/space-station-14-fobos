@@ -19,7 +19,7 @@
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,19,9
+    - 0,0,15,10
   - type: StorageFill
     contents:
     - id: ClothingOuterHardsuitN0rthAir
@@ -35,6 +35,7 @@
     - id: BodyBagFolded
       amount: 2
     - id: PaperLawN0rthAir
+    - id: trayScannerN0rthAir
   - type: Tag
     tags: []
 
@@ -54,7 +55,7 @@
     size: Huge
   - type: Storage
     grid:
-    - 0,0,9,1
+    - 0,0,7,1
   - type: StorageFill
     contents:
     - id: GasAnalyzerN0rthAir
@@ -64,7 +65,6 @@
     - id: PowerDrillN0rthAir
     - id: AdvancedMineralScannerN0rthAir
     - id: WelderExperimentalN0rthAir
-    - id: trayScannerN0rthAir
 
 # Neck
 - type: entity
@@ -98,7 +98,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitN0rthAir
   name: скафандр Vitezstvi MK5
   description: Разработан корпорацией Vitezstvi в 2678 году и стал стандартом военной экиперовки корпорации. Странно почему-то серийные номера перебиты на корпорацию Nanotrasen...
@@ -120,7 +120,7 @@
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.4
+        Piercing: 0.6
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
@@ -285,7 +285,7 @@
 
 # JawsOfLife
 - type: entity
-  parent: SyndicateJawsOfLife
+  parent: JawsOfLife
   id: JawsOfLifeN0rthAir
   name: челюсти жизни Vitezstvi
   description: Надёжный инструмент для спасательных операций, улучшенный корпорацией Vitezstvi.

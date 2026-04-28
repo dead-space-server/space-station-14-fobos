@@ -60,6 +60,10 @@
         Bloodloss:
           -1
     maxBleedAmount: 0
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: WeldingFuel
+        Quantity: 300
   - type: MobThresholds
     thresholds:
       0: Alive

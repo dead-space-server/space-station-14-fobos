@@ -3,6 +3,7 @@
   id: CrateCybersunSecure
   name: защищённый ящик Cybersun
   description: Тяжёлый бронированный ящик корпорации Cybersun Industries. Лучше не вскрывать без приказа.
+  suffix: Защищённый
   components:
   - type: Icon
     sprite: _DeadSpace/Structures/Storage/Crates/cybersun_secure.rsi
@@ -27,6 +28,7 @@
   id: CrateGorlexWeapon
   name: ящик Gorlex
   description: Защищённый оружейный ящик корпорации Gorlex Marauders. От одной лишь его эмблемы веет агрессией.
+  suffix: Защищённый
   components:
   - type: Icon
     sprite: _DeadSpace/Structures/Storage/Crates/gorlex_weapon.rsi
@@ -51,6 +53,7 @@
   id: CrateInterdyneSecure
   name: защищённый ящик Interdyne
   description: Надёжно запертый ящик корпорации Interdyne Pharmaceuticals. Никто не знает, что внутри — и лучше не проверять.
+  suffix: Защищённый
   components:
   - type: Icon
     sprite: _DeadSpace/Structures/Storage/Crates/interdyne_secure.rsi
@@ -64,6 +67,7 @@
   id: CrateSyndicateSecureDS
   name: защищённый ящик Синдиката
   description: Тяжёлый чёрный ящик с эмблемой Синдиката. Открывать без санкции — верный способ исчезнуть без следа.
+  suffix: Защищённый
   components:
   - type: Icon
     sprite: _DeadSpace/Structures/Storage/Crates/syndicate_secure.rsi
