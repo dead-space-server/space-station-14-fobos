@@ -9,6 +9,10 @@
     "states": [
         {
             "name": "pinpointer-syndicate"
+        },
+        {
+
+            "name": "pinpointer-black"
         }
     ]
 }
