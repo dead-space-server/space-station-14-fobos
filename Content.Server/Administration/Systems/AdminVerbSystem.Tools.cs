@@ -66,7 +66,7 @@ public sealed partial class AdminVerbSystem
             return;
 
         // DS14-start
-        if (_adminToy.CanTarget(args.Target))
+        if (_adminToy.CanUse(player) && _adminToy.CanTarget(args.Target))
         {
             Verb spawnAdminToy = new()
             {

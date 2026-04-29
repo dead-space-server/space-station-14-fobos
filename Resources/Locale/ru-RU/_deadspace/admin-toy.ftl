@@ -10,6 +10,7 @@ admin-toy-tts-random = Случайный
 admin-toy-search-placeholder = Поиск
 
 admin-toy-invalid-target = Выбранная цель не является игроком.
+admin-toy-no-access = Для этого трюка с игрушкой нужен флаг +ADMIN.
 admin-toy-invalid-prototype = Выбранный прототип игрушки недоступен.
 admin-toy-invalid-tts = Выбранный голос TTS недоступен.
 admin-toy-no-mind = У вас нет mind, из которого можно вселиться.

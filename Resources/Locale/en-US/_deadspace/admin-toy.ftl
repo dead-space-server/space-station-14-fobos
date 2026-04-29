@@ -10,6 +10,7 @@ admin-toy-tts-random = Random
 admin-toy-search-placeholder = Search
 
 admin-toy-invalid-target = The selected target is not a player.
+admin-toy-no-access = This toy trick requires the +ADMIN flag.
 admin-toy-invalid-prototype = The selected toy prototype is not allowed.
 admin-toy-invalid-tts = The selected TTS voice is unavailable.
 admin-toy-no-mind = You do not have a mind to visit from.

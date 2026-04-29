@@ -106,10 +106,18 @@ public sealed class AdminToySystem : EntitySystem
         return TryGetTargetSession(target, out _);
     }
 
+    public bool CanUse(ICommonSession admin)
+    {
+        return _admin.HasAdminFlag(admin, AdminFlags.Admin);
+    }
+
     public void OpenSelection(ICommonSession admin, EntityUid target)
     {
-        if (!_admin.HasAdminFlag(admin, AdminFlags.Admin))
+        if (!CanUse(admin))
+        {
+            PopupTo(admin, Loc.GetString("admin-toy-no-access"));
             return;
+        }
 
         if (!TryGetTargetSession(target, out _))
         {
@@ -122,8 +130,11 @@ public sealed class AdminToySystem : EntitySystem
 
     public void TrySpawnToy(ICommonSession admin, EntityUid target, string toyPrototype, string name, string description, string ttsVoice)
     {
-        if (!_admin.HasAdminFlag(admin, AdminFlags.Admin))
+        if (!CanUse(admin))
+        {
+            PopupTo(admin, Loc.GetString("admin-toy-no-access"));
             return;
+        }
 
         if (!TryGetTargetSession(target, out var targetSession))
         {
