@@ -990,7 +990,7 @@
     slots:
       cell_slot:
         name: power-cell-slot-component-slot-name-default
-        startingItem: PowerCellAntiqueProto
+        startingItem: PowerCellMedium 
 
 - type: entity
   id: HoloFan3eilado
