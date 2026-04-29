@@ -24,7 +24,6 @@
         Shock: 0.4
         Radiation: 0.4
         Caustic: 0.4
-        Stun: 0.5
         Poison: 0.5
   - type: StaminaResistance
     damageCoefficient: 0.5
@@ -51,6 +50,10 @@
       Omnizine: 10
   - type: VirusResistance
     virusResistanceCoefficient: 0.9
+  - type: HardsuitIdentification
+  - type: Speech
+  - type: TTS
+    voice: Glados
 
 - type: entity
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
@@ -103,7 +106,6 @@
         Shock: 0.4
         Radiation: 0.4
         Caustic: 0.5
-        Stun: 0.55
         Poison: 0.5
   - type: StaminaResistance
     damageCoefficient: 0.5
@@ -130,6 +132,10 @@
       Omnizine: 5
   - type: VirusResistance
     virusResistanceCoefficient: 0.9
+  - type: HardsuitIdentification
+  - type: Speech
+  - type: TTS
+    voice: Glados
 
 - type: entity
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
@@ -182,7 +188,6 @@
         Shock: 0.5
         Radiation: 0.5
         Caustic: 0.45
-        Stun: 0.4
         Poison: 0.4
   - type: StaminaResistance
     damageCoefficient: 0.4
@@ -209,6 +214,10 @@
       Omnizine: 20
   - type: VirusResistance
     virusResistanceCoefficient: 0.9
+  - type: HardsuitIdentification
+  - type: Speech
+  - type: TTS
+    voice: Glados
     
 - type: entity
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]

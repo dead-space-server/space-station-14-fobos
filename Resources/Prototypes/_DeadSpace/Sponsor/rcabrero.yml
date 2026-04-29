@@ -50,7 +50,7 @@
   components:
   - type: Storage
     grid:
-    - 0,0,9,1
+    - 0,0,7,1
   - type: Sprite
     sprite: _DeadSpace/Sponsor/rcabrero/belt.rsi
   - type: Clothing
@@ -62,7 +62,7 @@
       - id: PowerDrillrcabrero
       - id: WelderExperimentalrcabrero
       - id: Multitoolrcabrero
-      - id: SyndicateJawsOfLifercabrero
+      - id: JawsOfLifercabrero
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -98,7 +98,7 @@
 
 #Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitrcabrero
   name: экспериментальный скафандр
   description: Специальный костюм, защищающий от опасной среды с низким давлением.
@@ -117,7 +117,7 @@
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.4
+        Piercing: 0.6
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
@@ -312,8 +312,8 @@
 
 #JawsOfLife
 - type: entity
-  parent: SyndicateJawsOfLife
-  id: SyndicateJawsOfLifercabrero
+  parent: JawsOfLife
+  id: JawsOfLifercabrero
   name: челюсти жизни
   description: Набор челюстей жизни, скомпонованных при помощи магии науки.
   categories: [ HideSpawnMenu ]

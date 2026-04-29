@@ -51,7 +51,7 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
     [Dependency] private readonly IServerDbManager _db = default!;
     [Dependency] private readonly AlertLevelSystem _alertLevel = default!;
     [Dependency] private readonly CargoSystem _cargoSystem = default!;
-    [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
+    [Dependency] private readonly ErtResponseSystem _ertResponseSystem = default!; // DS14
     private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "Gamma";
     private static readonly ProtoId<CargoAccountPrototype> Account = "Security";
     private const int AdditionalSupport = 70000;
@@ -426,7 +426,7 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
             if (!TryComp<StationBankAccountComponent>(nukeops.TargetStation, out var stationAccount))
                 return;
 
-            var addMoneyAfterWarDeclared = _ertResponceSystem.GetErtPrice(ErtTeam) + AdditionalSupport;
+            var addMoneyAfterWarDeclared = _ertResponseSystem.GetErtPrice(ErtTeam) + AdditionalSupport; // DS14
 
             _cargoSystem.UpdateBankAccount(
                                 (nukeops.TargetStation.Value, stationAccount),

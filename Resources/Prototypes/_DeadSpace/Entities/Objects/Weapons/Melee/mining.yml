@@ -1,0 +1,75 @@
+- type: entity
+  parent: WeaponCrusher
+  id: WeaponMagmiteCrusher
+  name: магмитовый крушитель
+  description: Поздний прототип протокинетического ускорителя, модифицированный с применением магмитовой стали.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Melee/magmite/magmite-crusher.rsi
+    layers:
+    - state: icon
+    - state: icon-uncharged
+      visible: false
+      map: [ "empty-icon" ]
+  - type: Item
+    size: Huge
+    sprite: _DeadSpace/Objects/Weapons/Melee/magmite/magmite-crusher.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Weapons/Melee/magmite/magmite-crusher.rsi
+    quickEquip: false
+    slots:
+    - Back
+    - suitStorage
+  - type: LeechOnMarker
+    leech:
+      groups:
+        Brute: -25
+        Burn: -25
+  - type: PointLight
+    color: "#df7126"
+  - type: BasicEntityAmmoProvider
+    proto: BulletMagnaCharge
+    capacity: 1
+    count: 1
+  - type: MeleeWeapon
+    attackRate: 1.5
+    wideAnimationRotation: -135
+    damage:
+      types:
+        Blunt: 10
+        Slash: 6
+    soundHit:
+      collection: MetalThud
+  - type: IncreaseDamageOnWield
+    damage:
+      types:
+        Blunt: 5
+        Slash: 5
+        Structural: 60
+
+- type: entity
+  parent: WeaponMagmiteCrusher
+  id: WeaponMagmiteCrusherGlaive
+  name: магмитовая глефа-крушитель
+  description: Поздний прототип протокинетического ускорителя в виде глефы, модифицированный с применением магмитовой стали.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Melee/magmite/magmite-glaive.rsi
+  - type: Item
+    size: Huge
+    sprite: _DeadSpace/Objects/Weapons/Melee/magmite/magmite-glaive.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Weapons/Melee/magmite/magmite-glaive.rsi
+    quickEquip: false
+    slots:
+    - Back
+    - suitStorage
+  - type: LeechOnMarker
+    leech:
+      groups:
+        Brute: -45
+        Burn: -5
+  - type: MeleeWeapon
+  - type: Tag
+    tags:
+      - Pickaxe

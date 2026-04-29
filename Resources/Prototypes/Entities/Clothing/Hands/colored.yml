@@ -339,9 +339,6 @@
     fiberMaterial: fibers-insulative
     fiberColor: fibers-yellow
 # DS14-start 
-  - type: ClothingGrantComponent
-    component: 
-      - type: RenegadeCANTLightningAbility
   - type: PhysicalComposition
     materialComposition:
       Cloth: 50

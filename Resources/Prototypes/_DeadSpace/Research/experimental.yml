@@ -1,3 +1,64 @@
+# Tier 1
+
+- type: technology
+  id: MediumCore
+  name: research-technology-rig-mid-core
+  icon:
+    sprite: _DeadSpace/RIGs/Parts/core.rsi
+    state: medium
+  discipline: Experimental
+  tier: 1
+  cost: 10000
+  recipeUnlocks:
+    - MediumCoreForModifiedBackpack
+
+- type: technology
+  id: LawBoardConfiguratorTech
+  name: research-technology-law-board-configuration
+  icon:
+    sprite: _DeadSpace/Structures/Machines/Computers.rsi
+    state: law_board_configurator_console
+  discipline: Experimental
+  tier: 1
+  cost: 5000
+  recipeUnlocks:
+  - LawBoardConfiguratorComputerCircuitboard
+  - EmptyLawCircuitBoard
+  
+# Tier 2
+
+- type: technology
+  id: RIGResearch
+  name: research-technology-rig-research
+  icon:
+    sprite: _DeadSpace/RIGs/Research/backpack.rsi
+    state: icon
+  discipline: Experimental
+  tier: 2
+  cost: 15000
+  recipeUnlocks:
+    - BlueprintRIGResearchInfinite
+    - BlueprintRIGResearchThreeUse
+    - BlueprintRIGResearchOneUse
+    - ClothingHeadHelmetRIGResearch
+    - PlastineOfResearchRIG
+    - RadiationResistanceModuleResearch
+    - SpeedModifierModuleItemResearch
+    - ExplosionResistanceModuleResearch
+
+- type: technology
+  id: AdvancedCore
+  name: research-technology-rig-adv-core
+  icon:
+    sprite: _DeadSpace/RIGs/Parts/core.rsi
+    state: adv
+  discipline: Experimental
+  tier: 2
+  cost: 10000
+  recipeUnlocks:
+    - AdvancedCoreForModifiedBackpack
+
+
 # Tier 3
 
 - type: technology
@@ -11,3 +72,27 @@
   cost: 20000
   recipeUnlocks:
     - ClothingShoesBootsMagSuper
+
+- type: technology
+  id: ClothingHandsGlovesPowergloveActiveTech
+  name: research-technology-glovespowergloveactive
+  icon:
+    sprite: Clothing/Hands/Gloves/powerglove.rsi
+    state: icon
+  discipline: Experimental
+  tier: 3
+  cost: 15000
+  recipeUnlocks:
+    - ClothingHandsGlovesPowergloveActive
+
+- type: technology
+  id: HandTeleporterResearchTech
+  name: research-technology-handteleporter
+  icon:
+    sprite: _DeadSpace/Objects/Fun/hand_teleporter.rsi
+    state: icon
+  discipline: Experimental
+  tier: 3
+  cost: 20000
+  recipeUnlocks:
+    - HandTeleporterResearch

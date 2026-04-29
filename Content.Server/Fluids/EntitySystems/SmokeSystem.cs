@@ -142,21 +142,47 @@ public sealed class SmokeSystem : EntitySystem
 
         // wtf is the logic behind any of this.
         var smokePerSpread = entity.Comp.SpreadAmount / Math.Max(1, args.NeighborFreeTiles.Count);
+        var hasSolution = solution.Volume > FixedPoint2.Zero; // DS14
+        var solutionPerSpread = hasSolution ? solution.Volume / (args.NeighborFreeTiles.Count + 1) : FixedPoint2.Zero; // DS14
         foreach (var neighbor in args.NeighborFreeTiles)
         {
+            // DS14-start
+            var spreadSolution = hasSolution
+                ? _solutionContainerSystem.SplitSolution(entity.Comp.Solution!.Value, solutionPerSpread)
+                : new Solution();
+            if (hasSolution && spreadSolution.Volume == FixedPoint2.Zero)
+            {
+                RemCompDeferred<ActiveEdgeSpreaderComponent>(entity);
+                break;
+            }
+            // DS14-end
+
             var coords = _map.GridTileToLocal(neighbor.Tile.GridUid, neighbor.Grid, neighbor.Tile.GridIndices);
             var ent = Spawn(prototype.ID, coords);
             var spreadAmount = Math.Max(0, smokePerSpread);
             entity.Comp.SpreadAmount -= args.NeighborFreeTiles.Count;
 
-            StartSmoke(ent, solution.Clone(), timer?.Lifetime ?? entity.Comp.Duration, spreadAmount);
+            StartSmoke(ent, spreadSolution, timer?.Lifetime ?? entity.Comp.Duration, spreadAmount); // DS14
 
-            if (entity.Comp.SpreadAmount == 0)
+            if (entity.Comp.SpreadAmount == 0 || (hasSolution && solution.Volume == FixedPoint2.Zero)) // DS14
             {
                 RemCompDeferred<ActiveEdgeSpreaderComponent>(entity);
                 break;
             }
         }
+
+        // DS14-start
+        if (hasSolution)
+        {
+            UpdateVisuals((entity.Owner, entity.Comp, null));
+
+            if (solution.Volume == FixedPoint2.Zero)
+            {
+                RemCompDeferred<ActiveEdgeSpreaderComponent>(entity);
+                return;
+            }
+        }
+        // DS14-end
 
         args.Updates--;
 
@@ -268,24 +294,22 @@ public sealed class SmokeSystem : EntitySystem
             return;
 
         var blockIngestion = _internals.AreInternalsWorking(entity);
-
-        var cloneSolution = solution.Clone();
-        var availableTransfer = FixedPoint2.Min(cloneSolution.Volume, component.TransferRate);
+        var availableTransfer = FixedPoint2.Min(solution.Volume, component.TransferRate); // DS14
         var transferAmount = FixedPoint2.Min(availableTransfer, bloodSolution.AvailableVolume);
-        var transferSolution = cloneSolution.SplitSolution(transferAmount);
-
-        foreach (var reagentQuantity in transferSolution.Contents.ToArray())
-        {
-            if (reagentQuantity.Quantity == FixedPoint2.Zero)
-                continue;
-
-            _reactive.ReactionEntity(entity, ReactionMethod.Touch, reagentQuantity);
-            if (!blockIngestion)
-                _reactive.ReactionEntity(entity, ReactionMethod.Ingestion, reagentQuantity);
-        }
+        // DS14-start
+        if (transferAmount <= FixedPoint2.Zero)
+            return;
 
         if (blockIngestion)
+        {
+            var sampledSolution = solution.Clone().SplitSolution(transferAmount);
+            ReactWithSolution(entity, sampledSolution, false);
             return;
+        }
+
+        var transferSolution = _solutionContainerSystem.SplitSolution(component.Solution!.Value, transferAmount);
+        ReactWithSolution(entity, transferSolution, true);
+        // DS14-end
 
         if (_blood.TryAddToBloodstream((entity, bloodstream), transferSolution))
         {
@@ -293,6 +317,22 @@ public sealed class SmokeSystem : EntitySystem
             _logger.Add(LogType.ForceFeed, LogImpact.Medium, $"{ToPrettyString(entity):target} ingested smoke {SharedSolutionContainerSystem.ToPrettyString(transferSolution)}");
         }
     }
+
+    // DS14-start
+    private void ReactWithSolution(EntityUid entity, Solution solution, bool ingestion)
+    {
+        foreach (var reagentQuantity in solution.Contents.ToArray())
+        {
+            if (reagentQuantity.Quantity == FixedPoint2.Zero)
+                continue;
+
+            _reactive.ReactionEntity(entity, ReactionMethod.Touch, reagentQuantity);
+
+            if (ingestion)
+                _reactive.ReactionEntity(entity, ReactionMethod.Ingestion, reagentQuantity);
+        }
+    }
+    // DS14-end
 
     private void ReactOnTile(EntityUid uid, SmokeComponent? component = null, TransformComponent? xform = null)
     {

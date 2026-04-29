@@ -224,6 +224,7 @@
     knownLanguages:
     - GeneralLanguage
   # DS14-Languages-end
+  - type: Blink #DS14
 
 - type: entity
   save: false

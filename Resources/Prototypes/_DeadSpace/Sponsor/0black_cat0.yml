@@ -84,7 +84,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuit0black_cat0
   name: скафандр тёмного воителя
   description: Изысканные доспехи. Имеют хорошую прочность, а так же сделаны более удобными для передвижения. Характеристики идентичны скафандру атмос-техника.

@@ -302,6 +302,7 @@
             state: jumpsuit-female
   - type: Sanity # DS14
   - type: RenegadeCANTSubordinate
+  - type: Blink #DS14
 # - type: DamageForceSay
 # - type: StatusIcon
 # - type: EmoteOnDamage

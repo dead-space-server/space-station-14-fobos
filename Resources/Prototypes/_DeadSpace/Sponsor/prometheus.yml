@@ -16,7 +16,7 @@
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,19,9
+    - 0,0,15,10
   - type: StorageFill
     contents:
     - id: ClothingOuterHardsuitPrometheus
@@ -40,7 +40,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitPrometheus
   name: тёмно-синий скафандр агента
   description: Тяжелобронированный скафандр, предназначенный для специальных операций. Прототип инверсивной инженерии NanoTrasen.
@@ -64,7 +64,7 @@
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.4
+        Piercing: 0.6
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
@@ -216,7 +216,7 @@
     size: Huge
   - type: Storage
     grid:
-    - 0,0,9,1
+    - 0,0,7,1
   - type: StorageFill
     contents:
     - id: PowerDrill
