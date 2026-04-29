@@ -61,7 +61,8 @@
     - id: PlushieScarlett
     - id: PaperLawPvrsifvlAlt2
     - id: ClothingHeadHelmetPvrsifvlAlt2
-    - id:WeaponPistolCHIMPPvrsifvlAlt2
+    - id: WeaponPistolCHIMPPvrsifvlAlt2
+    - id: PaperPvrsifvlAlt2USSP
   - type: TypingIndicatorClothing
     proto: TypingIndicatorPvrsifvlAlt2
   - type: Tag
@@ -905,3 +906,23 @@
     content: paper-law-pvrsifvlAlt2
   - type: Tag
     tags: [ ]
+
+- type: entity
+  parent: PaperPrintedUSSPCentcomm
+  id: PaperPvrsifvlAlt2USSP
+  name: распечатанный документ
+  description: Лист бумаги с заголовком генштаба. Страшно даже смотреть на него.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Paper
+    stampState: paper_stamp-centcom
+    stampedBy:
+    - stampedColor: '#006600FF'
+      stampedName: Генеральный Штаб
+    - stampedColor: '#00BE00FF'
+      stampedName: Одобрено
+    - stampedColor: "#ea2738"
+      stampedName: Милая Скарлетт
+    content: paper-law-pvrsifvlAlt2-ussp
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
