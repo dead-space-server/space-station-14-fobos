@@ -62,6 +62,7 @@
     - id: PaperLawPvrsifvlAlt2
     - id: PaperPvrsifvlAlt2USSP
     - id: WeaponPistolCHIMPPvrsifvlAlt2
+    - id: ClothingHeadHelmetPvrsifvlAlt2
   - type: TypingIndicatorClothing
     proto: TypingIndicatorPvrsifvlAlt2
   - type: Tag
@@ -186,6 +187,23 @@
     sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/outer.rsi
   - type: Clothing
     sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/outer.rsi
+  - type: Tag
+    tags: [ ]
+
+# helmet2.rsi
+- type: entity
+  parent: ClothingHeadHelmetArmoredBase
+  id: ClothingHeadHelmetPvrsifvlAlt2
+  name: тактический шлем mil.ULACH // gen.1
+  description: Не показывай себя, просто покажи им stock-image. Соври сотню тысяч раз, на ходу меняй цвета. Скажи, что просто сменил имидж. 
+  categories: [ HideSpawnMenu ] 
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/helmet2.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/helmet2.rsi
+  - type: Item
+    size: Small
   - type: Tag
     tags: [ ]
 
