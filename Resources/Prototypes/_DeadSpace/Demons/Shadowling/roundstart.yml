@@ -3,6 +3,7 @@
   parent: BaseGameRule
   components:
   - type: GameRule
+    minPlayers: 50
   - type: ShadowlingRule
   - type: AntagSelection
     selectionTime: IntraPlayerSpawn
@@ -15,7 +16,11 @@
         color: Red
         sound:
           collection: ShadowlingRecruitBriefing
+      blacklist:
+        components:
+        - AntagImmune
       components:
+      - type: ShadowlingReveal
       - type: Skill
         group: ALL
       - type: IntrinsicRadioTransmitter

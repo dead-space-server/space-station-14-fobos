@@ -13,6 +13,7 @@ public sealed partial class ShadowlingAbsoluteFreezingVeinsComponent : Component
     [DataField] public EntityUid? ActionAbsoluteFreezingVeinsEntity;
     [DataField] public float DamageCold = 50f;
     [DataField] public float TemperatureSet = 193.15f;
+    [DataField] public string ImmunePrototypeId = "MobHumanDeathSquadUnit";
 }
 
 public sealed partial class ShadowlingAbsoluteFreezingVeinsEvent : EntityTargetActionEvent { }

@@ -42,6 +42,10 @@ public sealed class ShadowlingFreezingVeinsSystem : EntitySystem
             HasComp<ShadowlingSlaveComponent>(target))
             return;
 
+        var meta = MetaData(target);
+        if (meta.EntityPrototype?.ID == component.ImmunePrototypeId)
+            return;
+
         if (TryComp<TemperatureComponent>(target, out var temp))
         {
             temp.CurrentTemperature = component.TemperatureSet;
@@ -49,7 +53,6 @@ public sealed class ShadowlingFreezingVeinsSystem : EntitySystem
 
         DamageSpecifier damage = new();
         damage.DamageDict.Add("Cold", component.DamageCold);
-
         _damageable.TryChangeDamage(target, damage, ignoreResistances: false, origin: uid);
 
         _popup.PopupEntity("Кровь в ваших венах начинает замерзать!", target, target, PopupType.LargeCaution);

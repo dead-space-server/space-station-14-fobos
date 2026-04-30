@@ -76,7 +76,7 @@
   components:
   - type: Storage
     grid:
-    - 0,0,9,1
+    - 0,0,7,1
   - type: Sprite
     sprite: _DeadSpace/Sponsor/velmet/belt.rsi
   - type: Clothing
@@ -92,7 +92,7 @@
       - id: PowerDrillVelmet
       - id: WelderExperimentalVelmet
       - id: MultitoolVelmet
-      - id: SyndicateJawsOfLifeVelmet
+      - id: JawsOfLifeVelmet
       - id: HandHeldMassScannerVelmet
       - id: RCDVelmet
   - type: Tag
@@ -128,7 +128,7 @@
 
 #Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitVelmet
   name: тактический разведывательный скафандр DMQ//66
   description: Вторая модификация лимитированной серии разведывательно-боевой линейки EVA-IVA скафандров. Отличается ещё менее броской расцветкой в угоду эффективности вверенного лазутчика.
@@ -147,7 +147,7 @@
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.4
+        Piercing: 0.6
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
@@ -358,7 +358,7 @@
   - type: SolutionContainerManager
     solutions:
       hypospray:
-        maxVol: 10
+        maxVol: 5
   - type: RefillableSolution
     solution: hypospray
   - type: ExaminableSolution
@@ -554,8 +554,8 @@
 
 #JawsOfLife
 - type: entity
-  parent: SyndicateJawsOfLife
-  id: SyndicateJawsOfLifeVelmet
+  parent: JawsOfLife
+  id: JawsOfLifeVelmet
   name: тактические челюсти DMQ//66
   description: Выполненные в bullpup-компоновке челюсти жизни обеспечивают более эргономичный хват при работе, из-за чего взломать шлюз они способны на порядок быстрее ваших.
   categories: [ HideSpawnMenu ]

@@ -93,4 +93,9 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
     {
         RaiseNetworkEvent(new AdminPromoteManualApprovedErtMessage(requestId));
     }
+
+    public void AdminMoveApprovedRequestToManual(int requestId)
+    {
+        RaiseNetworkEvent(new AdminMoveApprovedErtToManualMessage(requestId));
+    }
 }

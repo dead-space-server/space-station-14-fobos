@@ -31,7 +31,7 @@
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,19,9
+    - 0,0,15,10
   - type: StorageFill
     contents:
     - id: ClothingNeckReimon
@@ -45,6 +45,7 @@
     - id: ClothingHeadsetReimon
     - id: ClothingHeadCapReimon
     - id: PaperLawReimon
+    - id: trayScannerReimon
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
   - type: ToggleableClothing
@@ -73,7 +74,7 @@
     size: Huge
   - type: Storage
     grid:
-    - 0,0,9,1
+    - 0,0,7,1
   - type: StorageFill
     contents:
     - id: GasAnalyzerReimon
@@ -82,7 +83,6 @@
     - id: HandHeldMassScannerReimon
     - id: MultitoolReimon
     - id: PowerDrillReimon
-    - id: trayScannerReimon
     - id: WelderExperimentalReimon
 
 # Neck
@@ -100,7 +100,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitReimon
   name: пустотный скафандр Minaris
   description: Пустотный скафандр офицера-исследователя компании Minaris Technical. Выполнен из дорогих материалов и экспериментальных сплавов.
@@ -380,7 +380,7 @@
 
 # JawsOfLife
 - type: entity
-  parent: SyndicateJawsOfLife
+  parent: JawsOfLife
   id: JawsOfLifeReimon
   name: челюсти жизни Minaris
   description: Изготовлено на заказ организацией Minaris Technical.

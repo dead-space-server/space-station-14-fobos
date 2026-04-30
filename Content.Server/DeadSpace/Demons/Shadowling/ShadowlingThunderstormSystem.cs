@@ -21,7 +21,6 @@ namespace Content.Server.DeadSpace.Demons.Shadowling
         [Dependency] private readonly SharedStunSystem _stun = default!;
         [Dependency] private readonly SharedTransformSystem _transform = default!;
         [Dependency] private readonly DamageableSystem _damageable = default!;
-        [Dependency] private readonly IGameTiming _timing = default!;
 
         public override void Initialize()
         {

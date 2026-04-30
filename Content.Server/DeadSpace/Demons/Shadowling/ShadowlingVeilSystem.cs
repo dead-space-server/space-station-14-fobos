@@ -69,7 +69,7 @@ public sealed class ShadowlingVeilSystem : EntitySystem
                 continue;
             }
 
-            if (TryComp<PointLightComponent>(entity, out var light))
+            if (TryComp<PointLightComponent>(entity, out var light) && light.Enabled)
             {
                 _light.SetEnabled(entity, false, light);
                 component.AffectedLights.Add(entity);
@@ -91,6 +91,24 @@ public sealed class ShadowlingVeilSystem : EntitySystem
             if (!comp.VeilActive) continue;
 
             comp.VeilTimer -= frameTime;
+
+            var worldPos = _transform.GetMapCoordinates(uid);
+            var entities = _lookup.GetEntitiesInRange<PointLightComponent>(worldPos, 10f);
+
+            foreach (var entity in entities)
+            {
+                if (comp.AffectedLights.Contains(entity))
+                    continue;
+
+                if (_container.TryGetContainer(entity, "light_bulb", out _))
+                    continue;
+
+                if (TryComp<PointLightComponent>(entity, out var light) && light.Enabled)
+                {
+                    _light.SetEnabled(entity, false, light);
+                    comp.AffectedLights.Add(entity);
+                }
+            }
 
             foreach (var lightUid in comp.AffectedLights)
             {

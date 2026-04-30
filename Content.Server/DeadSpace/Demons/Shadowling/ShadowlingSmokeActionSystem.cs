@@ -4,11 +4,9 @@ using Content.Shared.Actions;
 using Content.Shared.DeadSpace.Demons.Shadowling;
 using Content.Server.Fluids.EntitySystems;
 using Content.Shared.Chemistry.Components;
-using Content.Shared.Mobs.Components;
-using Content.Shared.Mobs.Systems;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Systems;
-using Robust.Shared.Timing;
+using Content.Shared.Mobs.Components;
 
 namespace Content.Server.DeadSpace.Demons.Shadowling;
 
@@ -16,10 +14,10 @@ public sealed class ShadowlingSmokeActionSystem : EntitySystem
 {
     [Dependency] private readonly SharedActionsSystem _actions = default!;
     [Dependency] private readonly SmokeSystem _smoke = default!;
-    [Dependency] private readonly EntityLookupSystem _lookup = default!;
-    [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly DamageableSystem _damageable = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+
+    private float _smokeTickAccumulator;
 
     public override void Initialize()
     {
@@ -42,60 +40,57 @@ public sealed class ShadowlingSmokeActionSystem : EntitySystem
         if (xform.GridUid == null)
             return;
 
-        var smoke = Spawn("Smoke", xform.Coordinates);
+        var smoke = Spawn("ShadowSmoke", xform.Coordinates);
 
         if (TryComp<SmokeComponent>(smoke, out var smokeComp))
         {
             _smoke.StartSmoke(smoke, new Solution(), component.SmokeDuration, component.SmokeSpread, smokeComp);
-
-            StartSmokeDamage(smoke, uid, component, smokeComp);
+            args.Handled = true;
         }
-
-        args.Handled = true;
     }
 
-    private void StartSmokeDamage(EntityUid smoke, EntityUid user, ShadowlingSmokeActionComponent component, SmokeComponent smokeComp)
+    public override void Update(float frameTime)
     {
-        var elapsed = 0f;
+        base.Update(frameTime);
 
-        while (elapsed < component.SmokeDuration)
+        _smokeTickAccumulator += frameTime;
+        if (_smokeTickAccumulator < 1f)
+            return;
+        _smokeTickAccumulator -= 1f;
+
+        var processed = new HashSet<EntityUid>();
+        var smokeQuery = EntityQueryEnumerator<SmokeComponent>();
+
+        while (smokeQuery.MoveNext(out var smokeUid, out var smokeComp))
         {
-            Timer.Spawn(TimeSpan.FromSeconds(elapsed), () =>
+            if (MetaData(smokeUid).EntityPrototype?.ID != "ShadowSmoke")
+                continue;
+
+            var smokePos = Transform(smokeUid).MapPosition;
+            var entities = _lookup.GetEntitiesInRange<MobStateComponent>(smokePos, 0.5f);
+
+            foreach (var (entity, _) in entities)
             {
-                if (!Exists(smoke) || Deleted(smoke))
-                    return;
+                if (!processed.Add(entity))
+                    continue;
 
-                var smokeMapPos = Transform(smoke).MapPosition;
-                var entitiesInSmoke = _lookup.GetEntitiesInRange<MobStateComponent>(smokeMapPos, component.SmokeSpread);
-
-                foreach (var (ent, _) in entitiesInSmoke)
+                if (HasComp<ShadowlingComponent>(entity) ||
+                    HasComp<ShadowlingRevealComponent>(entity) ||
+                    HasComp<ShadowlingSlaveComponent>(entity))
                 {
-                    if (!Exists(ent) || Deleted(ent))
-                        continue;
-
-                    var entMapPos = Transform(ent).MapPosition;
-
-                    if (smokeMapPos.MapId != entMapPos.MapId)
-                        continue;
-
-                    var distance = (smokeMapPos.Position - entMapPos.Position).Length();
-
-                    if (distance > component.SmokeSpread)
-                        continue;
-
-                    if (HasComp<ShadowlingComponent>(ent) ||
-                        HasComp<ShadowlingSlaveComponent>(ent) ||
-                        HasComp<ShadowlingRevealComponent>(ent) ||
-                        HasComp<ShadowlingRecruitComponent>(ent))
-                        continue;
-
-                    var damage = new DamageSpecifier();
-                    damage.DamageDict.Add(component.DamageType, component.DamagePerTick);
-                    _damageable.TryChangeDamage(ent, damage, true);
+                    var healing = new DamageSpecifier();
+                    healing.DamageDict.Add("Slash", -1);
+                    healing.DamageDict.Add("Heat", -2);
+                    healing.DamageDict.Add("Blunt", -1);
+                    healing.DamageDict.Add("Piercing", -1);
+                    _damageable.TryChangeDamage(entity, healing, true);
+                    continue;
                 }
-            });
 
-            elapsed += component.DamageTickInterval;
+                var damage = new DamageSpecifier();
+                damage.DamageDict.Add("Slash", 2f);
+                _damageable.TryChangeDamage(entity, damage, true);
+            }
         }
     }
 }

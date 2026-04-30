@@ -17,15 +17,6 @@ public sealed partial class ShadowlingSmokeActionComponent : Component
 
     [DataField, ViewVariables(VVAccess.ReadWrite)]
     public int SmokeSpread = 30;
-
-    [DataField]
-    public float DamagePerTick = 2f;
-
-    [DataField]
-    public float DamageTickInterval = 0.5f;
-
-    [DataField]
-    public string DamageType = "Slash";
 }
 
 public sealed partial class ShadowlingSmokeActionEvent : InstantActionEvent { }

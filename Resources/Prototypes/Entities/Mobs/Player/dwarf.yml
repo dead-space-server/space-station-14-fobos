@@ -3,3 +3,13 @@
   name: Urist McHands The Dwarf
   parent: BaseMobDwarf
   id: MobDwarf
+#DS14-start
+  components:
+  - type: Tag
+    tags:
+    - CanPilot
+    - FootstepSound
+    - DoorBumpOpener
+    - AnomalyHost
+    - CantChangeScale
+#DS14-end

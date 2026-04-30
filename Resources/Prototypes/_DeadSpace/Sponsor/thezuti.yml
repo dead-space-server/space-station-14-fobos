@@ -37,7 +37,7 @@
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,19,9
+    - 0,0,15,10
   - type: StorageFill
     contents:
     - id: ClothingOuterHardsuitTheZuTi
@@ -53,6 +53,7 @@
     - id: ClothingHeadsetTheZuTi
     - id: JetpackVoidFilledTheZuTi
     - id: PaperLawTheZuTi
+    - id: AdvancedMineralScannerTheZuTi
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -76,7 +77,7 @@
     size: Huge
   - type: Storage
     grid:
-    - 0,0,9,1
+    - 0,0,7,1
   - type: StorageFill
     contents:
     - id: GasAnalyzerTheZuTi
@@ -85,7 +86,6 @@
     - id: HandHeldMassScannerTheZuTi
     - id: MultitoolTheZuTi
     - id: PowerDrillTheZuTi
-    - id: AdvancedMineralScannerTheZuTi
     - id: WelderExperimentalTheZuTi
 
 # Neck
@@ -103,7 +103,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitTheZuTi
   name: скафандр королевской стражи
   description: Бронированный скафандр с защитой 5 класса прочности стилизованный под латный доспех.
@@ -125,7 +125,7 @@
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.4
+        Piercing: 0.6
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
@@ -470,7 +470,7 @@
 
 # JawsOfLife
 - type: entity
-  parent: SyndicateJawsOfLife
+  parent: JawsOfLife
   id: JawsOfLifeTheZuTi
   name: челюсти жизни валькирии
   description: Челюсти жизни выполненные на заказ. Имеет повышенную эффективность и темно-фиолетовый дизайн.
