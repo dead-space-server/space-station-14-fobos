@@ -8,6 +8,7 @@ using Content.Shared.Stunnable;
 using Content.Server.Beam;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Systems;
+using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.Demons.Shadowling
 {
@@ -20,6 +21,7 @@ namespace Content.Server.DeadSpace.Demons.Shadowling
         [Dependency] private readonly SharedStunSystem _stun = default!;
         [Dependency] private readonly SharedTransformSystem _transform = default!;
         [Dependency] private readonly DamageableSystem _damageable = default!;
+        [Dependency] private readonly IGameTiming _timing = default!;
 
         public override void Initialize()
         {
@@ -48,46 +50,55 @@ namespace Content.Server.DeadSpace.Demons.Shadowling
             var struck = new List<EntityUid> { uid };
             var source = uid;
             var current = target;
+            var chains = 0;
 
-            for (var i = 0; i != component.MaxTargets; i++)
+            StrikeChain(uid, component, struck, source, current, chains);
+        }
+
+        private void StrikeChain(EntityUid uid, ShadowlingThunderstormComponent component, List<EntityUid> struck, EntityUid source, EntityUid current, int chains)
+        {
+            if (chains >= component.MaxTargets)
+                return;
+
+            _beam.TryCreateBeam(source, current, component.LightningPrototype);
+
+            _stun.TryUpdateParalyzeDuration(current, TimeSpan.FromSeconds(component.StunDuration));
+
+            var damage = new DamageSpecifier();
+            damage.DamageDict.Add("Shock", 25);
+            _damageable.TryChangeDamage(current, damage, true);
+
+            struck.Add(current);
+
+            var xform = Transform(current);
+            var mapPos = _transform.GetMapCoordinates(current, xform);
+
+            var nearby = _lookup.GetEntitiesInRange<MobStateComponent>(mapPos, component.Range);
+
+            EntityUid? next = null;
+            var dist = float.MaxValue;
+
+            foreach (var (ent, _) in nearby)
             {
-                _beam.TryCreateBeam(source, current, component.LightningPrototype);
+                if (struck.Contains(ent) || _mobState.IsDead(ent) || HasComp<ShadowlingComponent>(ent) || HasComp<ShadowlingSlaveComponent>(ent))
+                    continue;
 
-                _stun.TryUpdateParalyzeDuration(current, TimeSpan.FromSeconds(component.StunDuration));
-
-                var damage = new DamageSpecifier();
-                damage.DamageDict.Add("Shock", 25);
-                _damageable.TryChangeDamage(current, damage, true);
-
-                struck.Add(current);
-
-                var xform = Transform(current);
-                var mapPos = _transform.GetMapCoordinates(current, xform);
-
-                var nearby = _lookup.GetEntitiesInRange<MobStateComponent>(mapPos, component.Range);
-
-                EntityUid? next = null;
-                var dist = float.MaxValue;
-
-                foreach (var (ent, _) in nearby)
+                var curDist = (_transform.GetWorldPosition(ent) - _transform.GetWorldPosition(current)).LengthSquared();
+                if (dist > curDist)
                 {
-                    if (struck.Contains(ent) || _mobState.IsDead(ent) || HasComp<ShadowlingComponent>(ent) || HasComp<ShadowlingSlaveComponent>(ent))
-                        continue;
-
-                    var curDist = (_transform.GetWorldPosition(ent) - _transform.GetWorldPosition(current)).LengthSquared();
-                    if (dist > curDist)
-                    {
-                        dist = curDist;
-                        next = ent;
-                    }
+                    dist = curDist;
+                    next = ent;
                 }
-
-                if (next == null)
-                    break;
-
-                source = current;
-                current = next.Value;
             }
+
+            if (next == null)
+                return;
+
+            var nextChain = chains + 1;
+            Timer.Spawn(TimeSpan.FromSeconds(component.ChainDelay), () =>
+            {
+                StrikeChain(uid, component, struck, current, next.Value, nextChain);
+            });
         }
     }
 }

@@ -10,7 +10,6 @@ namespace Content.Shared.DeadSpace.Demons.Shadowling;
 public sealed partial class ShadowlingSmokeActionComponent : Component
 {
     [DataField] public EntProtoId ActionSmoke = "ActionShadowlingSmoke";
-
     [DataField] public EntityUid? ActionSmokeEntity;
 
     [DataField, ViewVariables(VVAccess.ReadWrite)]
@@ -18,6 +17,15 @@ public sealed partial class ShadowlingSmokeActionComponent : Component
 
     [DataField, ViewVariables(VVAccess.ReadWrite)]
     public int SmokeSpread = 30;
+
+    [DataField]
+    public float DamagePerTick = 2f;
+
+    [DataField]
+    public float DamageTickInterval = 0.5f;
+
+    [DataField]
+    public string DamageType = "Slash";
 }
 
 public sealed partial class ShadowlingSmokeActionEvent : InstantActionEvent { }

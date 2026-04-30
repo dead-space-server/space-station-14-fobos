@@ -15,6 +15,7 @@ public sealed partial class ShadowlingThunderstormComponent : Component
     [DataField] public float Range = 10f;
     [DataField] public int MaxTargets = 5;
     [DataField] public float StunDuration = 5f;
+    [DataField] public float ChainDelay = 0.1f;
     [DataField] public string LightningPrototype = "Lightning";
 }
 
