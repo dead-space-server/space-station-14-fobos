@@ -31,6 +31,14 @@ public sealed partial class HideLayerClothingComponent : Component
     /// </summary>
     [DataField]
     public HashSet<string> ClothingSlots = new();
+
+    /// <summary>
+    /// Humanoid body layers on the wearer to hide while this clothing is active.
+    /// Unlike <see cref="Slots"/> and <see cref="Layers"/>, these layers do not need to be listed in
+    /// <see cref="HumanoidAppearanceComponent.HideLayersOnEquip"/>.
+    /// </summary>
+    [DataField]
+    public HashSet<HumanoidVisualLayers> BodyLayers = new();
     // DS14-end
 
     /// <summary>
