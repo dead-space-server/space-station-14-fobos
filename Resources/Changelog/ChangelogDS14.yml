@@ -106,3 +106,32 @@ Entries:
   changes:
   - type: Add
     message: Компонент для изменения приоритета отрисовки слоёв.
+- id: 14
+  author: TheZuTi
+  time: '2026-04-30T08:52:52.443999+00:00'
+  pr: 1284
+  changes:
+  - type: Tweak
+    message: Экспедиция шахт теперь в стиле заброшеной шахты последователей ратвара
+      (много латуни), by Rino_Kobayashi
+- id: 15
+  author: CyberBobeks
+  time: '2026-04-30T08:54:32.900044+00:00'
+  pr: 1285
+  changes:
+  - type: Add
+    message: Скрытие слоёв тела в HideLayerClothing (bodyLayers).
+- id: 16
+  author: smiler009
+  time: '2026-04-30T12:45:32.460173+00:00'
+  pr: 1287
+  changes:
+  - type: Fix
+    message: Баг невидимых пауков ужаса исправлен
+- id: 17
+  author: CyberBobeks
+  time: '2026-04-30T12:50:13.022914+00:00'
+  pr: 1286
+  changes:
+  - type: Fix
+    message: Требования по времени для Эскадрона Смерти.
