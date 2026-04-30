@@ -58,11 +58,11 @@
     - id: ClothingUniformJumpsuitPvrsifvlAlt2
     - id: PDAPvrsifvlAlt2
     - id: MedkitAdvancedFilled
+    - id: ClothingHeadHelmetPvrsifvlAlt2
     - id: PlushieScarlett
     - id: PaperLawPvrsifvlAlt2
-    - id: ClothingHeadHelmetPvrsifvlAlt2
-    - id: WeaponPistolCHIMPPvrsifvlAlt2
     - id: PaperPvrsifvlAlt2USSP
+    - id: WeaponPistolCHIMPPvrsifvlAlt2
   - type: TypingIndicatorClothing
     proto: TypingIndicatorPvrsifvlAlt2
   - type: Tag
@@ -161,6 +161,17 @@
         Slash: 0.9
         Piercing: 0.9
         Heat: 0.9
+  - type: HideLayerClothing
+    slots:
+    - Hair
+    - Snout
+    - HeadTop
+    - HeadSide
+    - FacialHair
+    clothingSlots:
+    - ears
+    bodyLayers:
+    - Head
   - type: Tag
     tags: [ ]
 
@@ -191,6 +202,8 @@
     sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/helmet2.rsi
   - type: Clothing
     sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/helmet2.rsi
+  - type: Item
+    size: Small
   - type: Tag
     tags: [ ]
 
@@ -351,6 +364,13 @@
     sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/gasmask.rsi
   - type: Clothing
     sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/gasmask.rsi
+  - type: HideLayerClothing
+    slots:
+    - Hair
+    - Snout
+    - HeadTop
+    - HeadSide
+    - FacialHair
   - type: Tag
     tags: [ ]
 
