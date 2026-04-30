@@ -144,11 +144,11 @@
   id: SyndicateLoneOperativeGearFull
   parent: SyndicateOperativeGearFullNoUplink # DS14
   equipment:
-    pocket2: BaseUplinkRadio60TC
+    pocket2: BaseUplinkRadio60TC  #DS14-start
   storage:
     back:
     - WeaponPistolViper
     - PinpointerSyndicateNuclearBomb
     - PinpointerSyndicateNuclear
-    - PinpointerUniversal # DS14
-    - DeathAcidifierImplanter
+    - PinpointerUniversal 
+    - DeathAcidifierImplanter #DS14-end

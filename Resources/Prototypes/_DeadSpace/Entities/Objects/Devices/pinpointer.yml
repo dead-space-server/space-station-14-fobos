@@ -24,7 +24,7 @@
 - type: entity
   name: пинпоинтер
   description: Из под земли достану, для этого рождён.
-  suffix: Ядерная боеголовка
+  suffix: Ядерная боеголовка, Эскадрон Смерти
   id: PinpointerDeathSquadNuclearBomb
   parent: PinpointerBase
   components:
