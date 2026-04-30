@@ -67,3 +67,57 @@ Entries:
   changes:
   - type: Fix
     message: Распространение дыма от дымовых гранат и способности мага.
+- id: 9
+  author: Akitovsky
+  time: '2026-04-28T14:14:53.132318+00:00'
+  pr: 1275
+  changes:
+  - type: Add
+    message: В пачки сигарет теперь можно класть зажигалки, медипены и бутылочки.
+- id: 10
+  author: Akitovsky
+  time: '2026-04-28T14:19:38.104195+00:00'
+  pr: 1276
+  changes:
+  - type: Fix
+    message: Книги навыков теперь можно класть в сумку для книг.
+- id: 11
+  author: ZekA1L
+  time: '2026-04-28T23:10:43.522818+00:00'
+  pr: 1261
+  changes:
+  - type: Fix
+    message: Отображение морганий с чертой внешности наложения глаз поставленной в
+      персонализации.
+- id: 12
+  author: TheZuTi
+  time: '2026-04-28T23:15:28.802657+00:00'
+  pr: 1259
+  changes:
+  - type: Tweak
+    message: Инъекторы теперь можно вводить при ходьбе (Зачем визы добавили шприц
+      в другой обвёртке, не ясно)
+  - type: Fix
+    message: МЩ можно снова ввести в раба ренегата
+- id: 13
+  author: CyberBobeks
+  time: '2026-04-29T15:41:47.770612+00:00'
+  pr: 1279
+  changes:
+  - type: Add
+    message: Компонент для изменения приоритета отрисовки слоёв.
+- id: 14
+  author: TheZuTi
+  time: '2026-04-30T08:52:52.443999+00:00'
+  pr: 1284
+  changes:
+  - type: Tweak
+    message: Экспедиция шахт теперь в стиле заброшеной шахты последователей ратвара
+      (много латуни), by Rino_Kobayashi
+- id: 15
+  author: CyberBobeks
+  time: '2026-04-30T08:54:32.900044+00:00'
+  pr: 1285
+  changes:
+  - type: Add
+    message: Скрытие слоёв тела в HideLayerClothing (bodyLayers).
