@@ -202,8 +202,8 @@
   - type: Clothing
     sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/helmet2.rsi
   - type: Item
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/helmet2.rsi
     size: Small
-    storedRotation: -90
   - type: Tag
     tags: [ ]
 
