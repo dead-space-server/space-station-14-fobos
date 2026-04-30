@@ -203,6 +203,7 @@
     sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/helmet2.rsi
   - type: Item
     size: Small
+    storedRotation: -90
   - type: Tag
     tags: [ ]
 
