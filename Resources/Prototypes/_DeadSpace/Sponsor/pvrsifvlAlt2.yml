@@ -189,24 +189,6 @@
   - type: Tag
     tags: [ ]
 
-# helmet2.rsi
-- type: entity
-  parent: ClothingHeadHelmetBasic
-  id: ClothingHeadHelmetPvrsifvlAlt2
-  name: тактический шлем mil.ULACH // gen.1
-  description: Не показывай себя, просто покажи им stock-image. Соври сотню тысяч раз, на ходу меняй цвета. Скажи, что просто сменил имидж. 
-  categories: [ HideSpawnMenu ] 
-  components:
-  - type: Sprite
-    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/helmet2.rsi
-  - type: Clothing
-    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/helmet2.rsi
-  - type: Item
-    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/helmet2.rsi
-    size: Small
-  - type: Tag
-    tags: [ ]
-
 # jumpsuit.rsi
 - type: entity
   parent: ClothingUniformBase
