@@ -191,7 +191,7 @@
 
 # helmet2.rsi
 - type: entity
-  parent: ClothingHeadHelmetArmoredBase
+  parent: ClothingHeadHelmetBasic
   id: ClothingHeadHelmetPvrsifvlAlt2
   name: тактический шлем mil.ULACH // gen.1
   description: Не показывай себя, просто покажи им stock-image. Соври сотню тысяч раз, на ходу меняй цвета. Скажи, что просто сменил имидж. 
