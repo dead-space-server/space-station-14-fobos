@@ -15,6 +15,7 @@
       - state: variant-research
       - state: server_o
         map: ["enum.WiresVisualLayers.MaintenancePanel"]
+        visible: false # DS14
   - type: PointLight
     enabled: false
     castShadows: false
