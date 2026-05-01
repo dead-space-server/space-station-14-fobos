@@ -39,15 +39,15 @@
     - id: ClothingOuterVestPvrsifvlAlt2
     - id: ClothingHeadHelmetHardsuitPvrsifvlAlt2
     - id: WeaponProtoKineticAcceleratorPvrsifvlAlt2
-    - id: HyposprayPvrsifvlAlt2
-    - id: ResidentAxePvrsifvlAlt2
     - id: GasAnalyzerPvrsifvlAlt2
+    - id: ResidentAxePvrsifvlAlt2
+    - id: HyposprayPvrsifvlAlt2
     - id: HolofanProjectorPvrsifvlAlt2
     - id: DefibrillatorCompactPvrsifvlAlt2
     - id: RCDPvrsifvlAlt2
     - id: ClothingShoesBootsMagPvrsifvlAlt2
     - id: ClothingEyesHudMedicalPvrsifvlAlt2
-    - id: ClothingMaskPvrsifvlAlt2
+    - id: PaperLawPvrsifvlAlt2
     - id: ClothingHeadHatBeretPvrsifvlAlt2
     - id: ClothingHandsGlovesPvrsifvlAlt2
     - id: ClothingNeckMantlePvrsifvlAlt2
@@ -58,11 +58,11 @@
     - id: ClothingUniformJumpsuitPvrsifvlAlt2
     - id: PDAPvrsifvlAlt2
     - id: MedkitAdvancedFilled
-    - id: PlushieScarlett
-    - id: PaperLawPvrsifvlAlt2
-    - id: PaperPvrsifvlAlt2USSP
-    - id: WeaponPistolCHIMPPvrsifvlAlt2
     - id: ClothingHeadHelmetPvrsifvlAlt2
+    - id: PlushieScarlett
+    - id: ClothingMaskPvrsifvlAlt2
+    - id: WeaponPistolCHIMPPvrsifvlAlt2
+    - id: PaperPvrsifvlAlt2USSP
   - type: TypingIndicatorClothing
     proto: TypingIndicatorPvrsifvlAlt2
   - type: Tag
