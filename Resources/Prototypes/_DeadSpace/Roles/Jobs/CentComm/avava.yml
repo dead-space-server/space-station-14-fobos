@@ -3,7 +3,7 @@
   equipment:
     jumpsuit: ClothingUniformJumpsuitCentcomFormal
     head: ClothingHeadHatCentcomcap
-    ears: ClothingHeadsetCentCom
+    ears: ClothingHeadsetAltCentCom
     neck: ClothingNeckCloakCentcom
     gloves: ClothingHandsGlovesCentcomNaval
     id: CentcomPDA
