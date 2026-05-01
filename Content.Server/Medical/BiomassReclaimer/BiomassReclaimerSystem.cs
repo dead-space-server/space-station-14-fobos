@@ -210,8 +210,11 @@ namespace Content.Server.Medical.BiomassReclaimer
             if (TryComp<BloodstreamComponent>(toProcess, out var stream) &&
                 _solution.ResolveSolution(toProcess, stream.BloodSolutionName, ref stream.BloodSolution, out var solution))
             {
-                component.BloodReagents = solution.Clone();
-                component.BloodReagents.ScaleSolution(50 / component.BloodReagents.Volume);
+                if (solution.Volume > 0)
+                {
+                    component.BloodReagents = solution.Clone();
+                    component.BloodReagents.ScaleTo(50);
+                }
             }
             if (TryComp<ButcherableComponent>(toProcess, out var butcherableComponent))
             {
