@@ -1,0 +1,10 @@
+- type: startingGear
+  id: CentComAvavaGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitCentcomFormal
+    head: ClothingHeadHatCentcomcap
+    ears: ClothingHeadsetCentCom
+    neck: ClothingNeckCloakCentcom
+    gloves: ClothingHandsGlovesCentcomNaval
+    id: CentcomPDA
+    back: ClothingBagPet
