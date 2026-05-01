@@ -222,7 +222,7 @@
 
 - type: entity
   id: VirusSolutionAnalyzer
-  parent: BaseComputerAiAccess
+  parent: [ BaseMachinePowered, SmallConstructibleMachine ]
   name: анализатор жидкостей
   description: Это устройство анализирует ёмкость с жидкостью на наличие вирусных инфекций.
   placement:
@@ -277,6 +277,9 @@
           tags:
           - DiagnoserFlask
   - type: VirusSolutionAnalyzer
+  - type: Rotatable
+  - type: Transform
+    noRot: false
 
 - type: entity
   parent: BaseComputerAiAccess
