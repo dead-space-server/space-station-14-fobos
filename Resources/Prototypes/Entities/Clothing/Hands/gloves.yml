@@ -149,9 +149,6 @@
     fiberColor: fibers-regal-blue
   - type: FingerprintMask
 # DS14-start 
-  - type: ClothingGrantComponent
-    component: 
-      - type: RenegadeCANTLightningAbility
   - type: PhysicalComposition
     materialComposition:
       Durathread: 10
@@ -338,9 +335,6 @@
   - type: Fiber
     fiberMaterial: fibers-insulative
     fiberColor: fibers-black
-  - type: ClothingGrantComponent
-    component: 
-      - type: RenegadeCANTLightningAbility
 
 # can't parent combat gloves since they are butcherable
 - type: entity

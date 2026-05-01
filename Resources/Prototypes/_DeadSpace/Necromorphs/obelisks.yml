@@ -361,3 +361,21 @@
   cost: 9999999
   category: cargoproduct-category-name-science
   group: science
+
+- type: entity
+  parent: BaseStructure
+  id: StructureObeliskNonReal
+  name: черный обелиск
+  suffix: муляж
+  components:
+  - type: Sprite
+    noRot: true
+    sprite: _DeadSpace/Necromorfs/blackobelisk.rsi
+    layers:
+    - state: active
+      map: [ "enum.DamageStateVisualLayers.Base" ]
+  - type: Tag
+    tags:
+    - Wall
+  - type: Physics
+    bodyType: Static

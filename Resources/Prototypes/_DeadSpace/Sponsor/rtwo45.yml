@@ -50,7 +50,7 @@
     tags: [] # ignore "WhitelistChameleon" tag
 
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitrtwo45
   name: скафандр улья Белодис
   description: Скафандр защитника улья Белодис. Принадлежат члену экипажа, находящемуся под покровительством спонсорской организации.
@@ -74,7 +74,7 @@
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.4
+        Piercing: 0.6
         Heat: 0.5
         Stun: 0.65
   - type: ClothingSpeedModifier

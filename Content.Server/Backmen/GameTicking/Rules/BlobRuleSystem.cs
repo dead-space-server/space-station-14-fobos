@@ -10,7 +10,6 @@ using Content.Server.Database;
 using Content.Server.DeadSpace.ERT;
 using Content.Server.GameTicking;
 using Content.Server.GameTicking.Rules;
-using Content.Server.Mind;
 using Content.Server.Nuke;
 using Content.Server.Objectives;
 using Content.Server.RoundEnd;
@@ -40,7 +39,7 @@ public sealed class BlobRuleSystem : GameRuleSystem<BlobRuleComponent>
     [Dependency] private readonly AlertLevelSystem _alertLevel = default!;
     [Dependency] private readonly IChatManager _chatManager = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
-    [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
+    [Dependency] private readonly ErtResponseSystem _ertResponseSystem = default!; // DS14
     [Dependency] private readonly IServerDbManager _db = default!;
     private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "CburnSierra";
     private static readonly ProtoId<CargoAccountPrototype> Account = "Security";
@@ -154,7 +153,7 @@ public sealed class BlobRuleSystem : GameRuleSystem<BlobRuleComponent>
                 if (!TryComp<StationBankAccountComponent>(stationUid, out var stationAccount))
                     return;
 
-                var addMoneyAfterWarDeclared = _ertResponceSystem.GetErtPrice(ErtTeam) + AdditionalSupport;
+                var addMoneyAfterWarDeclared = _ertResponseSystem.GetErtPrice(ErtTeam) + AdditionalSupport; // DS14
 
                 _cargoSystem.UpdateBankAccount(
                                     (stationUid, stationAccount),

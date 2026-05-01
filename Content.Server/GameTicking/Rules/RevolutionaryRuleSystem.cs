@@ -72,7 +72,7 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
     [Dependency] private readonly ActionsSystem _actions = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly IServerDbManager _db = default!;
-    [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
+    [Dependency] private readonly ErtResponseSystem _ertResponseSystem = default!; // DS14
     public readonly ProtoId<ErtTeamPrototype> RevolutionarySupplyTeam = "RevSup";
     public readonly EntProtoId Objective = "KillCommandStaffObjective";
 
@@ -152,7 +152,7 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
                 colorOverride: Color.Red,
                 usePresetTTS: true);
 
-            _ertResponceSystem.TryCallErt(RevolutionarySupplyTeam,
+            _ertResponseSystem.TryCallErt(RevolutionarySupplyTeam,
                 null,
                 out _,
                 false,
@@ -160,7 +160,7 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
                 false,
                 "Доставить вооружение революционерам",
                 null
-            );
+            ); // DS14
         }
 
         // Если средний прогресс по цели >= 1, запускаем голосование за завершение раунда

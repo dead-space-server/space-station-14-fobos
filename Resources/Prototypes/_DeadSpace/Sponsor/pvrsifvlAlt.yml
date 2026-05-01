@@ -62,6 +62,7 @@
     - id: ClothingHeadsetpvrsifvlAlt
     - id: WeaponHeritagePKApvrsifvlAlt
     - id: PaperLawpvrsifvlAlt
+    - id: trayScannerpvrsifvlAlt
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -76,7 +77,7 @@
   components:
   - type: Storage
     grid:
-    - 0,0,9,1
+    - 0,0,7,1
   - type: Sprite
     sprite: _DeadSpace/Sponsor/pvrsifvlAlt/belt.rsi
   - type: Clothing
@@ -88,11 +89,10 @@
       - id: PowerDrillpvrsifvlAlt
       - id: WelderExperimentalpvrsifvlAlt
       - id: MultitoolpvrsifvlAlt
-      - id: SyndicateJawsOfLifepvrsifvlAlt
+      - id: JawsOfLifepvrsifvlAlt
       - id: GasAnalyzerpvrsifvlAlt
       - id: MineralScannerpvrsifvlAlt
       - id: HandHeldMassScannerpvrsifvlAlt
-      - id: trayScannerpvrsifvlAlt
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -246,7 +246,7 @@
 
 #Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitpvrsifvlAlt
   name: разведывательный скафандр ETL//07
   description: Легковесный скафандр разведывательного назначения в боевой комплектации. Передовые бронепластины скрыты за стильной накидкой. Разработан и спроектирован компанией Nakamura Engineering по индивидуальному заказу.
@@ -265,7 +265,7 @@
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.4
+        Piercing: 0.6
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
@@ -504,8 +504,8 @@
 
 #JawsOfLife
 - type: entity
-  parent: SyndicateJawsOfLife
-  id: SyndicateJawsOfLifepvrsifvlAlt
+  parent: JawsOfLife
+  id: JawsOfLifepvrsifvlAlt
   name: челюсти жизни ETL//07
   description: Но ты перестал верить в чудеса, кем мечтал — тем и стал. Модифицированы компанией Nakamura Engineering по индивидуальному заказу.
   categories: [ HideSpawnMenu ]

@@ -56,7 +56,7 @@
   - type: StorageFill
     contents:
     - id: PowerDrillSmoldering
-    - id: SyndicateJawsOfLifeSmoldering
+    - id: JawsOfLifeSmoldering
     - id: WelderExperimentalSmoldering
     - id: MultitoolSmoldering
   - type: Storage
@@ -97,7 +97,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitSmoldering
   name: скафандр осколков реальности
   description: Этот скафандр создан из материалов, в которых сплелись обломки артефактов и передовые технологии. Его поверхность сияет мистическими знаками.
@@ -121,7 +121,7 @@
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.4
+        Piercing: 0.6
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
@@ -313,8 +313,8 @@
 
 # JawsOfLife
 - type: entity
-  parent: SyndicateJawsOfLife
-  id: SyndicateJawsOfLifeSmoldering
+  parent: JawsOfLife
+  id: JawsOfLifeSmoldering
   name: челюсти жизни бездны
   description: Изготовлено на заказ организацией LaFleur Wear.
   categories: [ HideSpawnMenu ]

@@ -1,0 +1,363 @@
+ # Да, можно указать количество использование чертежа через maxCrafts, если использование сводится до нуля, рецепт слетает с консоли, потому нужно вставлять новый.
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGSecurityInfinite
+  name: чертёж РИГа СБ
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: SecurityModifiedBackpack
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGSecurityAdvancedInfinite
+  name: чертёж продвинутого РИГа СБ
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: SecurityAdvancedModifiedBackpack
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGSalvageInfinite
+  name: чертёж РИГа карго
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: SalvageModifiedBackpack
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGEVAInfinite
+  name: чертёж РИГа ЕВА
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: EVAModifiedBackpack
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGResearchInfinite
+  name: чертёж РИГа научного отдела
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: ResearchModifiedBackpack
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGEngineerInfinite
+  name: чертёж РИГа инженерного отдела
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: EngineerModifiedBackpack
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintOuterHardsuitMaximInfinite
+  name: чертёж максимального скафандра
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: HardsuitMaxim
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGSalvageAdvancedInfinite
+  name: чертёж продвинутого РИГа карго
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: SalvageAdvancedModifiedBackpack
+
+# Ограничение по крафтам
+
+# 3 использования
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGSecurityThreeUse
+  name: чертёж РИГа СБ (трёхразовый)
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: SecurityModifiedBackpack
+    maxCrafts: 3
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGSecurityAdvancedThreeUse
+  name: чертёж продвинутого РИГа СБ (трёхразовый)
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: SecurityAdvancedModifiedBackpack
+    maxCrafts: 3
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGSalvageThreeUse
+  name: чертёж РИГа карго (трёхразовый)
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: SalvageModifiedBackpack
+    maxCrafts: 3
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGEVAThreeUse
+  name: чертёж РИГа ЕВА (трёхразовый)
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: EVAModifiedBackpack
+    maxCrafts: 3
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGResearchThreeUse
+  name: чертёж РИГа научного отдела (трёхразовый)
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: ResearchModifiedBackpack
+    maxCrafts: 3
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGEngineerThreeUse
+  name: чертёж РИГа инженерного отдела (трёхразовый)
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: EngineerModifiedBackpack
+    maxCrafts: 3
+
+# 1 использование
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGSecurityOneUse
+  name: чертёж РИГа СБ (одноразовый)
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: SecurityModifiedBackpack
+    maxCrafts: 1
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGSecurityAdvancedOneUse
+  name: чертёж продвинутого РИГа СБ (одноразовый)
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: SecurityAdvancedModifiedBackpack
+    maxCrafts: 1
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGSalvageOneUse
+  name: чертёж РИГа карго (одноразовый)
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: SalvageModifiedBackpack
+    maxCrafts: 1
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGEVAOneUse
+  name: чертёж РИГа ЕВА (одноразовый)
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: EVAModifiedBackpack
+    maxCrafts: 1
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGResearchOneUse
+  name: чертёж РИГа научного отдела (одноразовый)
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: ResearchModifiedBackpack
+    maxCrafts: 1
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGEngineerOneUse
+  name: чертёж РИГа инженерного отдела (одноразовый)
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: EngineerModifiedBackpack
+    maxCrafts: 1
+
+# Экспедиции
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintOuterHardsuitMaximOneUse
+  name: чертёж максимального скафандра (одноразовый)
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: HardsuitMaxim
+    maxCrafts: 1
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintOuterHardsuitMaximThreeUse
+  name: чертёж максимального скафандра (трёхразовый)
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: HardsuitMaxim
+    maxCrafts: 3
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGSalvageAdvancedOneUse
+  name: чертёж продвинутого РИГа карго (одноразовый)
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: SalvageAdvancedModifiedBackpack
+    maxCrafts: 1
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGSalvageAdvancedThreeUse
+  name: чертёж продвинутого РИГа карго (трёхразовый)
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: SalvageAdvancedModifiedBackpack
+    maxCrafts: 3
+
+# - type: entity
+#   parent: BaseItem
+#   id: BlueprintWeaponRifleAEKCraft
+#   name: чертёж AEK
+#   description: Schematics for a plasma rifle assembly. Unlimited production runs.
+#   components:
+#   - type: Sprite
+#     sprite: Objects/Misc/module.rsi
+#     state: holodisk
+#   - type: ConsoleCraftBlueprint
+#     recipe: WeaponRifleAEKCraft
+#     maxCrafts: 3
+# - type: entity
+#   parent: BaseItem
+#   id: BlueprintWeaponRifleLekterCraft
+#   name: чертёж Лектера
+#   description: Schematics for a plasma rifle assembly. Unlimited production runs.
+#   components:
+#   - type: Sprite
+#     sprite: Objects/Misc/module.rsi
+#     state: holodisk
+#   - type: ConsoleCraftBlueprint
+#     recipe: LecterCraft
+# 
+# - type: entity
+#   parent: BaseItem
+#   id: BlueprintWeaponRPL20
+#   name: чертёж РПЛ-20
+#   description: Schematics for a plasma rifle assembly. Unlimited production runs.
+#   components:
+#   - type: Sprite
+#     sprite: Objects/Misc/module.rsi
+#     state: holodisk
+#   - type: ConsoleCraftBlueprint
+#     recipe: WeaponRifleAEKCraft
+#     maxCrafts: 3
+# 
+# - type: entity
+#   parent: BaseItem
+#   id: BlueprintWeaponRifleASH12
+#   name: чертёж АШ-12
+#   description: Schematics for a plasma rifle assembly. Unlimited production runs.
+#   components:
+#   - type: Sprite
+#     sprite: Objects/Misc/module.rsi
+#     state: holodisk
+#   - type: ConsoleCraftBlueprint
+#     recipe: WeaponRifleAEKCraft
+#     maxCrafts: 3

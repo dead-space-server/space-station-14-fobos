@@ -24,6 +24,23 @@ public sealed partial class HideLayerClothingComponent : Component
     [DataField]
     public Dictionary<HumanoidVisualLayers, SlotFlags> Layers = new();
 
+    // DS14-start
+    /// <summary>
+    /// Equipment slot visuals on the wearer to hide while this clothing is active.
+    /// Examples: belt, jumpsuit, outerClothing.
+    /// </summary>
+    [DataField]
+    public HashSet<string> ClothingSlots = new();
+
+    /// <summary>
+    /// Humanoid body layers on the wearer to hide while this clothing is active.
+    /// Unlike <see cref="Slots"/> and <see cref="Layers"/>, these layers do not need to be listed in
+    /// <see cref="HumanoidAppearanceComponent.HideLayersOnEquip"/>.
+    /// </summary>
+    [DataField]
+    public HashSet<HumanoidVisualLayers> BodyLayers = new();
+    // DS14-end
+
     /// <summary>
     /// If true, the layer will only hide when the item is in a toggled state (e.g. masks)
     /// </summary>
