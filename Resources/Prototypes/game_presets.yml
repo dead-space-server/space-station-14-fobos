@@ -109,6 +109,7 @@
   voteType: calm # DS14
   description: extended-description
   rules:
+  - BrokenTechEvent #DS14
   - WageScheduler # backmen: currency
   - BasicStationEventScheduler
   - MeteorSwarmScheduler

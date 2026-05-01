@@ -222,7 +222,7 @@
 
 - type: entity
   id: VirusSolutionAnalyzer
-  parent: [ BaseMachinePowered, SmallConstructibleMachine ]
+  parent: BaseComputerAiAccess
   name: анализатор жидкостей
   description: Это устройство анализирует ёмкость с жидкостью на наличие вирусных инфекций.
   placement:
@@ -230,7 +230,6 @@
   components:
   - type: Sprite
     sprite: _DeadSpace/Virus/solution_analyser.rsi
-    snapCardinals: true
     layers:
     - state: icon
       map: [machineLayer]
