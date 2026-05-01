@@ -5,7 +5,7 @@
   components:
   - type: BrokenTechGameRule
     listComponent:
-      - component: Apc
+      - componentName: Apc
         minuteMin: 27
         minuteMax: 36
         howMuchEntity: 2
@@ -17,7 +17,7 @@
           spawnOffset: "0,0"
           explosionIntensity: 1
           explosionType: Default
-      - component: NodeContainer
+      - componentName: NodeContainer
         minuteMin: 15
         minuteMax: 45
         howMuchEntity: 15

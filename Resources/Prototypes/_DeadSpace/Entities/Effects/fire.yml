@@ -26,9 +26,6 @@
         layer:
         - MidImpassable
   - type: Temperature
-    coldDamage:
-      types:
-        Cold: 5
   - type: Barotrauma
     damage:
       types:
