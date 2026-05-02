@@ -126,7 +126,6 @@ entities:
       name: NT-14-Indigo "Секторальный Штаб ЦК"
     - type: Transform
       pos: -3.1223872,-3.0540316
-      parent: invalid
     - type: MapGrid
       chunks:
         0,0:
