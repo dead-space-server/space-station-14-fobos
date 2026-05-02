@@ -299,14 +299,17 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             return;
         }
 
-        _chatSystem.DispatchGlobalAnnouncement(
-            Loc.GetString("ert-console-request-rejected-announcement"),
-            sender: Loc.GetString("ert-response-cso-sender"),
-            announcementSound: DecisionSound,
-            colorOverride: Color.FromHex("#1d8bad"),
-            playSound: true,
-            usePresetTTS: true,
-            languageId: LanguageSystem.DefaultLanguageId);
+        if (msg.SendNotification)
+        {
+            _chatSystem.DispatchGlobalAnnouncement(
+                Loc.GetString("ert-console-request-rejected-announcement"),
+                sender: Loc.GetString("ert-response-cso-sender"),
+                announcementSound: DecisionSound,
+                colorOverride: Color.FromHex("#1d8bad"),
+                playSound: true,
+                usePresetTTS: true,
+                languageId: LanguageSystem.DefaultLanguageId);
+        }
 
         _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} rejected pending ERT request #{msg.RequestId}");
         _chatManager.SendAdminAlert($"Админ {args.SenderSession.Name} отклонил заявку ОБР #{msg.RequestId}.");
@@ -340,7 +343,8 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             ReservedPrice = request.ReservedPrice,
         };
 
-        AnnounceApprovedRequest(prototype);
+        if (msg.SendNotification)
+            AnnounceApprovedRequest(prototype);
 
         _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} manually approved pending ERT request #{msg.RequestId}");
         _chatManager.SendAdminAlert($"Админ {args.SenderSession.Name} одобрил заявку ОБР #{msg.RequestId} для ручного спавна.");
@@ -364,7 +368,8 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
 
         _pendingRequests.Remove(msg.RequestId);
         QueueApprovedRequest(request, prototype);
-        AnnounceApprovedRequest(prototype);
+        if (msg.SendNotification)
+            AnnounceApprovedRequest(prototype);
 
         _adminLogger.Add(LogType.Action, LogImpact.Medium, $"Admin {args.SenderSession.Name} auto-approved pending ERT request #{msg.RequestId}");
         _chatManager.SendAdminAlert($"Админ {args.SenderSession.Name} одобрил заявку ОБР #{msg.RequestId} с автоматическим спавном.");
