@@ -56,7 +56,7 @@
     contents:
       - id: MultitooldrippenwagenAlt
       - id: trayScannerdrippenwagenAlt
-      - id: SyndicateJawsOfLifedrippenwagenAlt
+      - id: JawsOfLifedrippenwagenAlt
       - id: WelderExperimentaldrippenwagenAlt
       - id: PowerDrilldrippenwagenAlt
 
@@ -108,7 +108,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitdrippenwagenAlt
   name: скафандр Инквизитора
   description: Изготовлено на заказ организацией LaFleur Wear.
@@ -132,7 +132,7 @@
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.4
+        Piercing: 0.6
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
@@ -291,8 +291,8 @@
 
 # JawsOfLife
 - type: entity
-  parent: SyndicateJawsOfLife
-  id: SyndicateJawsOfLifedrippenwagenAlt
+  parent: JawsOfLife
+  id: JawsOfLifedrippenwagenAlt
   name: челюсти жизни
   description: Изготовлено на заказ организацией LaFleur Wear.
   categories: [ HideSpawnMenu ]

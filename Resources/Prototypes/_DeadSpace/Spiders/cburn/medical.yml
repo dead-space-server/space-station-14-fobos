@@ -32,5 +32,3 @@
             Quantity: 5
   - type: StaticPrice
     price: 300
-  - type: Tag
-    tags: []

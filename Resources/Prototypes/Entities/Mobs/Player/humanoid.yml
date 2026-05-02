@@ -146,12 +146,7 @@
     description: ghost-role-information-Death-Squad-description
     rules: ghost-role-information-Death-Squad-rules
     category: ghost-role-information-centcomm-category # DS14
-    requirements:
-      - !type:OverallPlaytimeRequirement
-        time: 1890000 # 525 hours
-      - !type:DepartmentTimeRequirement
-        department: Security
-        time: 108000 # 30 hours
+    job: DeathSquad # DS14
     raffle:
       settings: short
   - type: GhostTakeoverAvailable
@@ -195,16 +190,6 @@
       description: ghost-role-information-ert-leader-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category # DS14
-      requirements:
-        - !type:DepartmentTimeRequirement
-          department: Medical
-          time: 36000 # 10 hours
-        - !type:DepartmentTimeRequirement
-          department: Security
-          time: 72000 # 20 hours
-        - !type:DepartmentTimeRequirement
-          department: Command
-          time: 36000 # 10 hours
       raffle:
         settings: short
       job: ERTLeaderAmber
@@ -237,16 +222,6 @@
       description: ghost-role-information-ert-leader-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category # DS14
-      requirements:
-        - !type:DepartmentTimeRequirement
-          department: Medical
-          time: 36000 # 10 hours
-        - !type:DepartmentTimeRequirement
-          department: Security
-          time: 72000 # 20 hours
-        - !type:DepartmentTimeRequirement
-          department: Command
-          time: 36000 # 10 hours
       raffle:
         settings: short
       job: ERTLeaderRed
@@ -279,16 +254,6 @@
       description: ghost-role-information-ert-leader-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category # DS14
-      requirements:
-        - !type:DepartmentTimeRequirement
-          department: Medical
-          time: 36000 # 10 hours
-        - !type:DepartmentTimeRequirement
-          department: Security
-          time: 72000 # 20 hours
-        - !type:DepartmentTimeRequirement
-          department: Command
-          time: 36000 # 10 hours
       raffle:
         settings: short
       job: ERTLeaderGamma
@@ -321,16 +286,6 @@
       description: ghost-role-information-cburn-leader-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category # DS14
-      requirements:
-        - !type:DepartmentTimeRequirement
-          department: Medical
-          time: 36000 # 10 hours
-        - !type:DepartmentTimeRequirement
-          department: Security
-          time: 72000 # 20 hours
-        - !type:DepartmentTimeRequirement
-          department: Command
-          time: 36000 # 10 hours
       raffle:
         settings: short
       job: CBURNLeader
@@ -370,13 +325,6 @@
       description: ghost-role-information-ert-security-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category # DS14
-      requirements:
-        - !type:DepartmentTimeRequirement
-          department: Medical
-          time: 14400 # 4 hours
-        - !type:DepartmentTimeRequirement
-          department: Security
-          time: 72000 # 20 hours
       raffle:
         settings: short
       job: ERTSecurityAmber
@@ -406,13 +354,6 @@
       description: ghost-role-information-ert-security-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category # DS14
-      requirements:
-        - !type:DepartmentTimeRequirement
-          department: Medical
-          time: 14400 # 4 hours
-        - !type:DepartmentTimeRequirement
-          department: Security
-          time: 72000 # 20 hours
       raffle:
         settings: short
       job: ERTSecurityRed
@@ -437,13 +378,6 @@
       description: ghost-role-information-ert-security-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category # DS14
-      requirements:
-        - !type:DepartmentTimeRequirement
-          department: Medical
-          time: 14400 # 4 hours
-        - !type:DepartmentTimeRequirement
-          department: Security
-          time: 72000 # 20 hours
       raffle:
         settings: short
       job: ERTSecurityGamma
@@ -477,13 +411,6 @@
       description: ghost-role-information-ert-medical-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category # DS14
-      requirements:
-        - !type:DepartmentTimeRequirement
-          department: Medical
-          time: 36000 # 10 hours
-        - !type:DepartmentTimeRequirement
-          department: Security
-          time: 36000 # 10 hours
       raffle:
         settings: short
       job: ERTMedicalAmber
@@ -513,13 +440,6 @@
       description: ghost-role-information-ert-medical-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category # DS14
-      requirements:
-        - !type:DepartmentTimeRequirement
-          department: Medical
-          time: 36000 # 10 hours
-        - !type:DepartmentTimeRequirement
-          department: Security
-          time: 36000 # 10 hours
       raffle:
         settings: short
       job: ERTMedicalRed
@@ -544,13 +464,6 @@
       description: ghost-role-information-ert-medical-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category # DS14
-      requirements:
-        - !type:DepartmentTimeRequirement
-          department: Medical
-          time: 36000 # 10 hours
-        - !type:DepartmentTimeRequirement
-          department: Security
-          time: 36000 # 10 hours
       raffle:
         settings: short
       job: ERTMedicalGamma
@@ -584,10 +497,6 @@
       description: ghost-role-information-ert-janitor-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category # DS14
-      requirements:
-        - !type:DepartmentTimeRequirement
-          department: Security
-          time: 36000 # 10 hours
       raffle:
         settings: short
       job: ERTJanitorAmber
@@ -617,10 +526,6 @@
       description: ghost-role-information-ert-janitor-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category # DS14
-      requirements:
-        - !type:DepartmentTimeRequirement
-          department: Security
-          time: 36000 # 10 hours
       raffle:
         settings: short
       job: ERTJanitorRed
@@ -645,10 +550,6 @@
       description: ghost-role-information-ert-janitor-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category # DS14
-      requirements:
-        - !type:DepartmentTimeRequirement
-          department: Security
-          time: 36000 # 10 hours
       raffle:
         settings: short
       job: ERTJanitorGamma
@@ -682,13 +583,6 @@
       description: ghost-role-information-ert-engineer-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category # DS14
-      requirements:
-        - !type:DepartmentTimeRequirement
-          department: Engineering
-          time: 36000 # 10 hours
-        - !type:DepartmentTimeRequirement
-          department: Security
-          time: 36000 # 10 hours
       raffle:
         settings: short
       job: ERTEngineerAmber
@@ -718,13 +612,6 @@
       description: ghost-role-information-ert-engineer-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category # DS14
-      requirements:
-        - !type:DepartmentTimeRequirement
-          department: Engineering
-          time: 36000 # 10 hours
-        - !type:DepartmentTimeRequirement
-          department: Security
-          time: 36000 # 10 hours
       raffle:
         settings: short
       job: ERTEngineerRed
@@ -749,13 +636,6 @@
       description: ghost-role-information-ert-engineer-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category # DS14
-      requirements:
-        - !type:DepartmentTimeRequirement
-          department: Engineering
-          time: 36000 # 10 hours
-        - !type:DepartmentTimeRequirement
-          department: Security
-          time: 36000 # 10 hours
       raffle:
         settings: short
       job: ERTEngineerGamma
@@ -788,13 +668,6 @@
       description: ghost-role-information-cburn-agent-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category # DS14
-      requirements:
-        - !type:DepartmentTimeRequirement
-          department: Medical
-          time: 14400 # 4 hours
-        - !type:DepartmentTimeRequirement
-          department: Security
-          time: 50400 # 14 hours
       raffle:
         settings: short
       job: CBURNAgent

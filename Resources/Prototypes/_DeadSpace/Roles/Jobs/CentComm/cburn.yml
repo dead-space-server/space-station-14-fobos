@@ -8,6 +8,16 @@
   description: job-description-cburnleader
   playTimeTracker: JobCBURNLeader
   setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 36000 # 10 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 # 20 hours
+    - !type:DepartmentTimeRequirement
+      department: Command
+      time: 36000 # 10 hours
   startingGear: CBURNLeaderGear
   icon: "JobIconERTLeader"
   supervisors: job-supervisors-centcom
@@ -47,6 +57,13 @@
   description: job-description-cburnagent
   playTimeTracker: JobCBURNAgent
   setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 14400 # 4 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 50400 # 14 hours
   startingGear: CBURNAgentGear
   icon: "JobIconERT"
   supervisors: job-supervisors-centcom

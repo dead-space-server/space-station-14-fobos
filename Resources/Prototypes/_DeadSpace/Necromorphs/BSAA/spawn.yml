@@ -177,16 +177,6 @@
       description: ghost-role-information-cburn-leader-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category
-      requirements:
-        - !type:DepartmentTimeRequirement
-          department: Medical
-          time: 36000 # 10 hours
-        - !type:DepartmentTimeRequirement
-          department: Security
-          time: 72000 # 20 hours
-        - !type:DepartmentTimeRequirement
-          department: Command
-          time: 36000 # 10 hours
       raffle:
         settings: short
       job: BSAALeaderJob
@@ -211,10 +201,6 @@
       description: ghost-role-information-cburn-agent-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category
-      requirements:
-        - !type:DepartmentTimeRequirement
-          department: Security
-          time: 50400 # 14 hours
       raffle:
         settings: short
       job: BSAAFighterJob
@@ -239,13 +225,6 @@
       description: ghost-role-information-cburn-agent-description
       rules: ghost-role-information-nonantagonist-rules
       category: ghost-role-information-centcomm-category
-      requirements:
-        - !type:DepartmentTimeRequirement
-          department: Medical
-          time: 50400
-        - !type:DepartmentTimeRequirement
-          department: Security
-          time: 50400 
       raffle:
         settings: short
       job: BSAAMedicJob
