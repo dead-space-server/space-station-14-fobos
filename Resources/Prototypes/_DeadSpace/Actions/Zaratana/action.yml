@@ -1,4 +1,18 @@
 - type: entity
+  id: ActionZaratanaSpawn
+  name: Готовность к бою
+  description: Вы полностью вылазите из панцыря да бы дать бой, наверное.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    useDelay: 1
+    icon:
+      sprite: _DeadSpace/Mobs/Aliens/Zaratana/big.rsi
+      state: alive
+  - type: InstantAction
+    event: !type:HeraldSpawnActionEvent
+
+- type: entity
   id: ActionZaratanaThrowingMeteor
   name: Теликенез метеоров
   description: Вы заставляете лететь ваши 3 метеорита в сторону курсора, меняя их траекторию полёта.
@@ -52,8 +66,6 @@
   - type: InstantAction
     event: !type:RollingStoneActionEvent
       duration: 4
-      spritePath: _DeadSpace/Mobs/Aliens/Zaratana/action.rsi
-      spriteState: meteor
       speed: 19
       damage:
         types:

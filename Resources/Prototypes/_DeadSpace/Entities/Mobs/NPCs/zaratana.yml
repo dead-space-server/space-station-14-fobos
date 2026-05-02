@@ -9,6 +9,102 @@
     Heat: 0.4
     Radiation: 0
 
+- type: soundCollection
+  id: ZaratanaScream
+  files:
+  - /Audio/_DeadSpace/Mobs/Zaratana/zaratana_scream.ogg
+
+- type: soundCollection
+  id: ZaratanaXd
+  files:
+  - /Audio/_DeadSpace/Mobs/Zaratana/xd.ogg
+
+- type: emoteSounds
+  id: Zaratana
+  params:
+    variation: 0.125
+    volume: 2
+  sounds:
+    Scream:
+      collection: ZaratanaScream
+    Laugh:
+      collection: ZaratanaXd
+
+- type: entity
+  id: SpawnZaratana
+  name: спавнер Заратаны
+  components:
+  - type: TimedDespawn
+    lifetime: 1.5
+  - type: SpawnOnTrigger 
+    proto: SpawnZaratanaShadow
+  - type: TriggerOnSpawn
+  - type: Sprite
+    sprite: Markers/cross.rsi
+    state: red
+  - type: Marker
+
+- type: entity 
+  id: SpawnZaratanaShadow
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Mobs/Aliens/Zaratana/shadow.rsi
+    state: shadow
+  - type: TimedDespawn
+    lifetime: 3.5
+  - type: SpawnOnTrigger 
+    proto: SpawnZaratanaSound
+  - type: TriggerOnSpawn
+  - type: SpawnOnDespawn
+    prototype: SpawnZaratanaEfectExplosion
+  - type: Tag
+    tags:
+    - HideContextMenu
+
+- type: entity
+  id: SpawnZaratanaSound
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: EmitSoundOnTrigger
+    sound:
+      path: /Audio/_DeadSpace/Mobs/Zaratana/fall.ogg
+      params:
+        maxDistance: 25
+    positional: true
+  - type: TriggerOnSpawn
+
+- type: entity
+  id: SpawnZaratanaEfectExplosion
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: TriggerOnSpawn
+  - type: SpawnOnTrigger
+    proto: SpawnZaratanaExplosion
+  - type: Sprite
+    sprite: _DeadSpace/Mobs/Aliens/Zaratana/shadow.rsi
+  - type: TimedDespawn
+    lifetime: 0.01
+  - type: SpawnOnDespawn
+    prototype: MobStartZaratana
+  - type: Tag
+    tags:
+    - HideContextMenu
+
+- type: entity
+  id: SpawnZaratanaExplosion
+  parent: BaseItem
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: TriggerOnSpawn
+  - type: ExplodeOnTrigger
+  - type: Explosive
+    explosionType: FireBomb
+    totalIntensity: 500.0
+    intensitySlope: 20
+    maxIntensity: 20
+    canCreateVacuum: true
+
 - type: entity
   id: MobStartZaratana
   name: заратана
@@ -16,6 +112,8 @@
   parent:
   - BaseMob
   components:
+  - type: Speech
+    speechVerb: Ghost
   - type: MobThresholds
     thresholds:
       0: Alive
@@ -46,29 +144,32 @@
   - type: MovementIgnoreGravity
   - type: Damageable
     damageContainer: Biological
-  - type: Examiner
   - type: NoSlip
-  - type: Actions
   - type: UserInterface
     interfaces:
       enum.StoreUiKey.Key:
         type: StoreBoundUserInterface
-  - type: Muted
   - type: HeraldGhost
     heraldMobSpawnId: MobZaratana
     demonPortalSpawnId: Ash
+    actionHeraldSpawn: ActionZaratanaSpawn
   - type: GhostTakeoverAvailable
   - type: GhostRole
     allowMovement: true
     allowSpeech: true
     makeSentient: true
-    name: ghost-role-information-heraldghost-name
-    description: ghost-role-information-heraldghost-description
-    rules: ghost-role-information-heraldghost-rules
+    name: ghost-role-information-zaratana-name
+    description: ghost-role-information-zaratana-description
+    rules: ghost-role-information-freeagent-rules
     raffle:
       settings: default
   - type: GhostRoleNotifys 
     groupPrototype: DemonBoss
+  - type: Vocal
+    sounds:
+      Male: Zaratana
+      Female: Zaratana
+      Unsexed: Zaratana
 
 - type: entity
   name: заратана
@@ -76,6 +177,14 @@
   parent: [ BaseMob, MobDamageable, MobCombat ]
   description: Alien crater, feline invader!
   components:
+  - type: GhostTakeoverAvailable
+  - type: GhostRole
+    allowMovement: true
+    allowSpeech: true
+    makeSentient: true
+    name: ghost-role-information-zaratana-name
+    description: ghost-role-information-zaratana-description
+    rules: ghost-role-information-freeagent-rules
   - type: StaminaResistance
     damageCoefficient: 0.05
   - type: Damageable
@@ -90,6 +199,14 @@
     - map: ["enum.DamageStateVisualLayers.Base"]
       sprite: _DeadSpace/Mobs/Aliens/Zaratana/big.rsi
       state: alive
+    - map: ["enum.RollingStoneVisualLayers.Rolling"]
+      sprite: _DeadSpace/Mobs/Aliens/Zaratana/action.rsi
+      state: meteor
+      visible: false
+  - type: MobState
+    allowedStates:
+    - Alive
+    - Dead
   - type: MobThresholds
     thresholds:
       0: Alive
@@ -110,8 +227,6 @@
       Critical:
       - ActionCritSuccumb
       - ActionCritLastWords
-  - type: TypingIndicator
-    proto: moth
   - type: MovementSpeedModifier
     baseWalkSpeed: 2.5
     baseSprintSpeed: 2.5 
@@ -121,12 +236,12 @@
       path: /Audio/Weapons/smash.ogg
     altDisarm: false
     angle: 0
-    attackRate: 1.75
+    attackRate: 0.5
     animation: WeaponArcPunch
     damage:
       types:
         Blunt: 20 # NOM
-        Structural: 50
+        Structural: 100
   - type: Fixtures
     fixtures:
       fix1:
@@ -139,13 +254,12 @@
         layer:
         - MobLayer
   - type: MeleeThrowOnHit
-    StunTime: 2
-  - type: ProtectedFromStepTriggers
+    stunTime: 2
   - type: Vocal
     sounds:
-      Male: Demon
-      Female: Demon
-      Unsexed: Demon
+      Male: Zaratana
+      Female: Zaratana
+      Unsexed: Zaratana
   - type: MovementAlwaysTouching
   - type: NoSlip
   - type: Tag
@@ -167,7 +281,21 @@
   - type: FootstepModifier
     footstepSoundCollection:
       collection: FootstepThud
-  - type: Puller
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 1000
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          path: /Audio/Effects/demon_dies.ogg
+          params:
+            volume: 50
+  - type: Appearance
+  - type: Language
+    knownLanguages:
+    - GeneralLanguage
 
 - type: entity
   parent: BulletRocket

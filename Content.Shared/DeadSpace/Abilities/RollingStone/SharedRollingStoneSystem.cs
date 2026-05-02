@@ -24,7 +24,7 @@ public sealed class SharedRollingStoneSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly SharedAudioSystem _audio = default!; // <- добавлено
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
 
     public override void Initialize()
     {
@@ -48,8 +48,6 @@ public sealed class SharedRollingStoneSystem : EntitySystem
         active.Speed = args.Speed;
         active.Damage = args.Damage;
         active.HitSound = args.HitSound;
-        active.SpritePath = args.SpritePath;
-        active.SpriteState = args.SpriteState;
 
         if (TryComp<InputMoverComponent>(performer, out var mover))
         {
@@ -86,14 +84,12 @@ public sealed class SharedRollingStoneSystem : EntitySystem
         if (reflected.LengthSquared() < 0.01f)
             reflected = normal;
     
-        // Сохраняем направление удара ДО перезаписи
         var impactDirection = ent.Comp.Direction;
     
         var newDir = reflected.Normalized();
         _physics.SetLinearVelocity(uid, newDir * ent.Comp.Speed);
         ent.Comp.Direction = newDir;
     
-        // Если попали в стоящий на месте снаряд — запускаем его в сторону удара
         if (HasComp<ProjectileComponent>(args.OtherEntity) &&
             TryComp<PhysicsComponent>(args.OtherEntity, out var projPhysics) &&
             projPhysics.LinearVelocity.LengthSquared() < 0.1f)
@@ -101,7 +97,6 @@ public sealed class SharedRollingStoneSystem : EntitySystem
             _physics.SetBodyType(args.OtherEntity, BodyType.Dynamic, body: projPhysics);
             _physics.SetLinearVelocity(args.OtherEntity, impactDirection * ent.Comp.Speed, body: projPhysics);
     
-            // Назначаем стрелка, чтобы снаряд не ударил исполнителя формы
             if (TryComp<ProjectileComponent>(args.OtherEntity, out var projectile))
             {
                 projectile.Shooter = uid;
@@ -132,7 +127,6 @@ public sealed class SharedRollingStoneSystem : EntitySystem
         {
             if (_timing.CurTime > active.EndTime)
             {
-                // ВОССТАНАВЛИВАЕМ УПРАВЛЕНИЕ
                 if (TryComp<InputMoverComponent>(uid, out var mover))
                     mover.CanMove = active.OldCanMove;
 

@@ -3,7 +3,7 @@ using Content.Shared.DeadSpace.Damage;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Systems;
-using Content.Shared.Mobs.Systems;    // <-- добавить
+using Content.Shared.Mobs.Systems;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Random;
@@ -14,8 +14,8 @@ public sealed class ProjectileSpawnAfterDamageSystem : EntitySystem
 {
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly MobStateSystem _mobState = default!;  // <-- добавить
-    [Dependency] private readonly IRobustRandom _random = default!;     // <-- добавить
+    [Dependency] private readonly MobStateSystem _mobState = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
 
     public override void Initialize()
     {
@@ -31,7 +31,6 @@ public sealed class ProjectileSpawnAfterDamageSystem : EntitySystem
         if (args.DamageDelta == null)
             return;
 
-        // Не спавним, если сущность уже мертва
         if (_mobState.IsDead(ent))
             return;
 
@@ -51,7 +50,6 @@ public sealed class ProjectileSpawnAfterDamageSystem : EntitySystem
         var count = ent.Comp.Count;
         var coords = _transform.GetMapCoordinates(ent);
 
-        // Случайный базовый угол — каждый триггер даёт новое направление веера
         var baseAngle = _random.NextFloat(0f, 360f);
 
         for (var i = 0; i < count; i++)

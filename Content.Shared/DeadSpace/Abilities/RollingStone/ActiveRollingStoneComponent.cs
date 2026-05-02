@@ -25,19 +25,4 @@ public sealed partial class ActiveRollingStoneComponent : Component
 
     [DataField, AutoNetworkedField]
     public SoundSpecifier? HitSound;
-
-    [DataField, AutoNetworkedField]
-    public string? SpritePath;
-
-    [DataField, AutoNetworkedField]
-    public string? SpriteState;
-
-    [DataField, AutoNetworkedField]
-    public string? OldSpritePath;
-
-    [DataField, AutoNetworkedField]
-    public string? OldSpriteState;
-
-    [DataField, AutoNetworkedField]
-    public bool SpriteApplied;
 }

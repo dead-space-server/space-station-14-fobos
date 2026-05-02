@@ -12,12 +12,6 @@ public sealed partial class RollingStoneActionEvent : InstantActionEvent
     public float Duration = 8f;
 
     [DataField]
-    public string SpritePath = string.Empty;
-
-    [DataField]
-    public string SpriteState = string.Empty;
-
-    [DataField]
     public float Speed = 8f;
 
     [DataField]
