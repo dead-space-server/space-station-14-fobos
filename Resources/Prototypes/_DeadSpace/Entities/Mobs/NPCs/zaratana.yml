@@ -330,7 +330,6 @@
         Burn: -1
   - type: Speech
     speechSounds: Cat
-    speechVerb: SmallMob
   - type: Grammar
     attributes:
       gender: epicene
