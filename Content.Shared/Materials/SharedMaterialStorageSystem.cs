@@ -35,10 +35,10 @@ public abstract class SharedMaterialStorageSystem : EntitySystem
 
         SubscribeLocalEvent<MaterialStorageComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<MaterialStorageComponent, InteractUsingEvent>(OnInteractUsing);
-        // DS14 start
+        // DS14-start
         SubscribeLocalEvent<MaterialStorageComponent, GetDumpableVerbEvent>(OnGetDumpableVerb);
         SubscribeLocalEvent<MaterialStorageComponent, DumpEvent>(OnDump);
-        // DS14 end
+        // DS14-end
         SubscribeLocalEvent<MaterialStorageComponent, TechnologyDatabaseModifiedEvent>(OnDatabaseModified);
     }
 
@@ -410,7 +410,7 @@ public abstract class SharedMaterialStorageSystem : EntitySystem
         args.Handled = TryInsertMaterialEntity(args.User, args.Used, uid, component);
     }
 
-    // DS14 start
+    // DS14-start
     private void OnGetDumpableVerb(EntityUid uid, MaterialStorageComponent component, ref GetDumpableVerbEvent args)
     {
         if (!component.InsertOnInteract)
@@ -439,7 +439,7 @@ public abstract class SharedMaterialStorageSystem : EntitySystem
         args.Handled = true;
         args.PlaySound = inserted;
     }
-    // DS14 end
+    // DS14-end
 
     private void OnDatabaseModified(Entity<MaterialStorageComponent> ent, ref TechnologyDatabaseModifiedEvent args)
     {

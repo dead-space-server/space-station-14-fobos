@@ -1,8 +1,8 @@
 using Content.Shared.Inventory;
-// DS14 start
+// DS14-start
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Silicons.Borgs.Components;
-// DS14 end
+// DS14-end
 using Content.Shared.Storage.Components;
 using Content.Shared.Whitelist;
 using Robust.Shared.Physics.Components;
@@ -54,14 +54,14 @@ public sealed class MagnetPickupSystem : EntitySystem
             comp.NextScan += ScanDelay;
             Dirty(uid, comp);
 
-            // DS14 start
+            // DS14-start
             if (!_inventory.TryGetContainingSlot((uid, xform, meta), out var slotDef) &&
                 (!HasComp<BorgChassisComponent>(xform.ParentUid) || !_hands.TryGetActiveItem((xform.ParentUid, null), out var activeItem) || activeItem != uid))
                 continue;
 
             if (slotDef != null && (slotDef.SlotFlags & comp.SlotFlags) == 0x0)
                 continue;
-            // DS14 end
+            // DS14-end
 
             // No space
             if (!_storage.HasSpace((uid, storage)))
