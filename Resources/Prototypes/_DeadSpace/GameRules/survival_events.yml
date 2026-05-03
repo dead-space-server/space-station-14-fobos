@@ -21,6 +21,8 @@
     - id: SolarFlare
     - id: SnailMigrationLowPop
     - id: LowVirusPandemic
+    - !type:NestedSelector
+      tableId: UnknownShuttlesFriendlyTable
 
 - type: entityTable
   id: SurvivalStandardDerelictBorgEventTable
@@ -31,6 +33,15 @@
     - id: DerelictJanitorCyborgSpawn
     - id: DerelictMedicalCyborgSpawn
     - id: DerelictMiningCyborgSpawn
+
+- type: entityTable
+  id: SurvivalHostileUnknownShuttlesTable
+  table: !type:AllSelector
+    children:
+    - id: UnknownShuttleManOWar
+    - id: UnknownShuttleInstigator
+    - id: UnknownShuttlePirate
+    - id: UnknownShuttleSyndieEvacPod
 
 - type: entityTable
   id: SurvivalBaseThreatsTable
@@ -60,6 +71,10 @@
     - id: MonkeyKingSpawn
     - id: MediumVirusPandemic
     - id: DerelictSyndicateAssaultCyborgSpawn
+    - !type:NestedSelector
+      tableId: UnknownShuttlesFriendlyTable
+    - !type:NestedSelector
+      tableId: SurvivalHostileUnknownShuttlesTable
 
 - type: entityTable
   id: SurvivalHeavyThreatsTable
@@ -72,6 +87,8 @@
     - id: ShadowDemonInvasion
     - id: DemonsInvasion
     - id: SentientVirusEvent
+    - !type:NestedSelector
+      tableId: SurvivalHostileUnknownShuttlesTable
 
 - type: entityTable
   id: SurvivalLateThreatsTable
