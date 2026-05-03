@@ -8,6 +8,16 @@
     Cold: 0
     Heat: 0.4
     Radiation: 0
+    Structural: 0.8
+
+- type: damageContainer
+  id: Zaratana
+  supportedGroups:
+  - Brute
+  supportedTypes:
+  - Heat
+  - Shock
+  - Structural
 
 - type: soundCollection
   id: ZaratanaScream
@@ -191,7 +201,7 @@
     damageCoefficient: 0.05
   - type: Damageable
     damageModifierSet: Zaratana
-    damageContainer: BiologicalMetaphysical
+    damageContainer: Zaratana
   - type: ProjectileSpawnAfterDamage
     entity: MeteorZaratana
     count: 3
@@ -298,6 +308,17 @@
   - type: Language
     knownLanguages:
     - GeneralLanguage
+  - type: PassiveDamage
+    allowedStates:
+    - Alive
+    - Critical
+    damageCap: 0
+    damage:
+      types:
+        Structural: -3
+      groups:
+        Brute: -1
+        Burn: -1
 
 - type: entity
   parent: BulletRocket
