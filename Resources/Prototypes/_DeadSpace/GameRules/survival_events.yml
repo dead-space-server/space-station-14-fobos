@@ -205,7 +205,7 @@
   parent: BlobSpawn
   components:
   - type: StationEvent
-    weight: 0.4
+    weight: 1.5
     duration: 10
     earliestStart: 35
     minimumPlayers: 40
