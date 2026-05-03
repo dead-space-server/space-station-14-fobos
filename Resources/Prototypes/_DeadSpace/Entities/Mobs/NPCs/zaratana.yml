@@ -227,7 +227,7 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      1000: Dead
+      1250: Dead
   - type: DamageStateVisuals
     states:
       Alive:
