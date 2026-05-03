@@ -125,7 +125,8 @@
   - BaseMob
   components:
   - type: Speech
-    speechVerb: Ghost
+    speechSounds: Cat
+    speechVerb: SmallMob
   - type: MobThresholds
     thresholds:
       0: Alive
@@ -182,6 +183,8 @@
       Male: Zaratana
       Female: Zaratana
       Unsexed: Zaratana
+  - type: ReplacementAccent
+    accent: cat
 
 - type: entity
   name: заратана
@@ -189,6 +192,8 @@
   parent: [ BaseMob, MobDamageable, MobCombat ]
   description: Alien crater, feline invader!
   components:
+  - type: ReplacementAccent
+    accent: cat
   - type: GhostTakeoverAvailable
   - type: GhostRole
     allowMovement: true
@@ -308,6 +313,10 @@
   - type: Language
     knownLanguages:
     - GeneralLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
   - type: PassiveDamage
     allowedStates:
     - Alive
@@ -319,6 +328,12 @@
       groups:
         Brute: -1
         Burn: -1
+  - type: Speech
+    speechSounds: Cat
+    speechVerb: SmallMob
+  - type: Grammar
+    attributes:
+      gender: epicene
 
 - type: entity
   parent: BulletRocket
