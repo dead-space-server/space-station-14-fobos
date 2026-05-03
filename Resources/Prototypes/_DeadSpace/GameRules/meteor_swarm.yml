@@ -3,15 +3,14 @@
   id: GameRuleMeteorSwarmZaratana
   components:
   - type: StationEvent
-    weight: 6.5
+    weight: 7.5
+    duration: 1
     earliestStart: 45
-    reoccurrenceDelay: 20
-    minimumPlayers: 60
-    duration: null
+    minimumPlayers: 20
   - type: MeteorSwarm
     meteors:
       MeteorSmall: 2
       MeteorMedium: 4
-      MeteorLarge: 4
+      MeteorLarge: 1
   - type: RandomSpawnRule
     prototype: SpawnZaratana
