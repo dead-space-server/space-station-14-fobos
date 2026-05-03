@@ -100,10 +100,12 @@
   - type: Explosive
     explosionType: FireBomb
     totalIntensity: 500.0
-    intensitySlope: 20
-    maxIntensity: 20
+    intensitySlope: 12
+    maxIntensity: 12
     canCreateVacuum: true
     deleteAfterExplosion: true
+  - type: TimedDespawn
+    lifetime: 0.1
 
 - type: entity
   id: MobStartZaratana

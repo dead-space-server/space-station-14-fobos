@@ -32,6 +32,7 @@
     - id: GameRuleMeteorSwarmSmall
     - id: GameRuleMeteorSwarmMedium
     - id: GameRuleMeteorSwarmLarge
+    - id: GameRuleMeteorSwarmZaratana #DS14
     - id: GameRuleUristSwarm
     - id: GameRuleClownSwarm
     - id: GameRuleCowSwarm
@@ -188,7 +189,7 @@
   id: GameRuleUristSwarm
   components:
   - type: StationEvent
-    weight: 0.05
+    weight: 1 #DS14
     minimumPlayers: 25 # DS14
   - type: MeteorSwarm
     announcement: station-event-meteor-urist-start-announcement
@@ -250,7 +251,7 @@
   id: GameRuleCowSwarm
   components:
   - type: StationEvent
-    weight: 0.05
+    weight: 1 #DS14
   - type: MeteorSwarm
     announcement: station-event-meteor-cow-start-announcement
     announcementSound: /Audio/_DeadSpace/Announcements/attention.ogg # DS14-Announcements
@@ -268,7 +269,7 @@
   id: GameRuleClownSwarm
   components:
   - type: StationEvent
-    weight: 0.05
+    weight: 1 #DS14
   - type: MeteorSwarm
     announcement: station-event-meteor-clown-start-announcement
     announcementSound: /Audio/_DeadSpace/Announcements/attention.ogg # DS14-Announcements
@@ -286,7 +287,7 @@
   id: GameRulePotatoSwarm
   components:
   - type: StationEvent
-    weight: 0.05
+    weight: 1 #DS14
   - type: MeteorSwarm
     announcement: station-event-meteor-potato-start-announcement
     announcementSound: /Audio/_DeadSpace/Announcements/attention.ogg # DS14-Announcements
@@ -304,7 +305,7 @@
   id: GameRuleFunSwarm
   components:
   - type: StationEvent
-    weight: 0.03
+    weight: 1 #DS14
   - type: MeteorSwarm
     announcement: station-event-fun-swarm-start-announcement
     announcementSound: /Audio/_DeadSpace/Announcements/attention.ogg # DS14-Announcements

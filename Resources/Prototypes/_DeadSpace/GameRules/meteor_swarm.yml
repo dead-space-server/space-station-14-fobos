@@ -1,0 +1,17 @@
+- type: entity
+  parent: GameRuleMeteorSwarm
+  id: GameRuleMeteorSwarmZaratana
+  components:
+  - type: StationEvent
+    weight: 6.5
+    earliestStart: 45
+    reoccurrenceDelay: 20
+    minimumPlayers: 60
+    duration: null
+  - type: MeteorSwarm
+    meteors:
+      MeteorSmall: 2
+      MeteorMedium: 4
+      MeteorLarge: 4
+  - type: RandomSpawnRule
+    prototype: SpawnZaratana
