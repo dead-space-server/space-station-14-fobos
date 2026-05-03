@@ -1,13 +1,14 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 using System.Numerics;
 using Content.Shared.DeadSpace.Abilities;
 using Content.Shared.Ghost;
-using Content.Shared.Projectiles; // <-- добавить
+using Content.Shared.Projectiles;
 using Content.Shared.Throwing;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
-using Robust.Shared.Physics.Systems; // <-- добавить
+using Robust.Shared.Physics.Systems;
 
 namespace Content.Server.DeadSpace.Abilities.Systems;
 
@@ -74,8 +75,6 @@ public sealed class ThrowingThingsSystem : EntitySystem
             if (diff.LengthSquared() < 0.0001f)
                 diff = Vector2.UnitY;
 
-            // Projectile-объекты не реагируют на TryThrow —
-            // задаём скорость напрямую через физику.
             if (HasComp<ProjectileComponent>(item))
             {
                 LaunchProjectile(item, diff, args.ThrowStrength, uid);
@@ -99,7 +98,6 @@ public sealed class ThrowingThingsSystem : EntitySystem
         if (!TryComp<PhysicsComponent>(item, out var physics))
             return;
 
-        // Переводим тело в Dynamic, чтобы физика его двигала
         _physics.SetBodyType(item, BodyType.Dynamic, body: physics);
 
         var velocity = Vector2.Normalize(direction) * strength;

@@ -1,3 +1,4 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
@@ -6,33 +7,21 @@ namespace Content.Shared.DeadSpace.Damage;
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class ProjectileSpawnAfterDamageComponent : Component
 {
-    /// <summary>
-    /// Прототип снаряда.
-    /// </summary>
     [DataField, AutoNetworkedField]
     public EntProtoId? Entity = "MeteorSmall";
 
-    /// <summary>
-    /// Сколько снарядов вылетит.
-    /// </summary>
     [DataField, AutoNetworkedField]
     public int Count = 3;
 
-    /// <summary>
-    /// Порог урона для активации.
-    /// </summary>
     [DataField, AutoNetworkedField]
     public float Threshold = 25f;
 
-    /// <summary>
-    /// Скорость вылетающих снарядов.
-    /// </summary>
     [DataField, AutoNetworkedField]
     public float ProjectileSpeed = 12f;
 
     [DataField, AutoNetworkedField]
-    public float AccumulatedDamage = 0f; // накопленный урон между ударами
+    public float AccumulatedDamage = 0f;
 
     [DataField, AutoNetworkedField]
-    public float SpawnOffset = 2f; // смещение спавна, как в ShotInACircleSystem
+    public float SpawnOffset = 2f;
 }
