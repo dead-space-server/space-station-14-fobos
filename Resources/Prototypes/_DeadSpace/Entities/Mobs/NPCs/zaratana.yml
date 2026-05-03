@@ -93,7 +93,6 @@
 
 - type: entity
   id: SpawnZaratanaExplosion
-  parent: BaseItem
   categories: [ HideSpawnMenu ]
   components:
   - type: TriggerOnSpawn
@@ -104,6 +103,7 @@
     intensitySlope: 20
     maxIntensity: 20
     canCreateVacuum: true
+    deleteAfterExplosion: true
 
 - type: entity
   id: MobStartZaratana
