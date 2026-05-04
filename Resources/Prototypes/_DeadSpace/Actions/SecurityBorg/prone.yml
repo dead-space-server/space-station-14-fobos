@@ -1,0 +1,13 @@
+- type: entity
+  id: ActionSecurityBorgProne
+  name: Снизить профиль
+  description: Киборг службы безопасности опускает корпус ниже, чтобы по нему было сложнее попасть снарядами. Скорость движения снижается.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/SecurityBorg/securityborg.rsi
+      state: sec_down
+    itemIconStyle: NoItem
+  - type: InstantAction
+    event: !type:SecurityBorgProneActionEvent

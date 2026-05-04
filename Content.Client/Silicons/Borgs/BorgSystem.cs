@@ -1,4 +1,5 @@
 ﻿using Content.Shared.Alert;
+using Content.Shared.DeadSpace.SecurityBorg; // DS14
 using Content.Shared.Mobs;
 using Content.Shared.Power.EntitySystems;
 using Content.Shared.PowerCell;
@@ -87,7 +88,12 @@ public sealed partial class BorgSystem : SharedBorgSystem
             hasPlayer = false;
 
         _sprite.LayerSetVisible((ent.Owner, ent.Comp3), BorgVisualLayers.Light, ent.Comp1.BrainEntity != null || hasPlayer);
-        _sprite.LayerSetRsiState((ent.Owner, ent.Comp3), BorgVisualLayers.Light, hasPlayer ? ent.Comp1.HasMindState : ent.Comp1.NoMindState);
+        // DS14-start
+        var mindState = hasPlayer ? ent.Comp1.HasMindState : ent.Comp1.NoMindState;
+        if (_appearance.TryGetData<bool>(ent.Owner, SecurityBorgProneVisuals.Prone, out var securityBorgProne, ent.Comp2) && securityBorgProne)
+            mindState = hasPlayer ? "sec_down_e" : "sec_down_e_r";
+        _sprite.LayerSetRsiState((ent.Owner, ent.Comp3), BorgVisualLayers.Light, mindState);
+        // DS14-end
     }
 
     private void OnMMIAppearanceChanged(EntityUid uid, MMIComponent component, ref AppearanceChangeEvent args)
