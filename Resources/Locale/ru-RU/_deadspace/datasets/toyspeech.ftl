@@ -130,6 +130,7 @@ plushies-aino-2 = Пока отряд Флории зачистил компле
 plushies-aino-3 = Kiitos.
 plushies-aino-4 = Люблю свой сектор Титан.
 plushies-aino-5 = Может мы.. и встретимся снова...
+plushies-aino-6 = Сёгун Мальфур, эти морозные земли так прекрасны.
 plushies-aily-1 = Котятки!
 plushies-aily-2 = Мурр!
 plushies-aily-3 = Ты мой котёнок, а я твоя мама кошка.

@@ -146,7 +146,7 @@
   id: PlushieAinoSpeech
   values:
     prefix: plushies-aino-
-    count: 5
+    count: 6
 
 - type: localizedDataset
   id: PlushieAilySpeech
@@ -339,3 +339,9 @@
   values:
     prefix: plushies-amaliya-
     count: 3
+
+- type: localizedDataset
+  id: PlushieScarlettSpeech
+  values:
+    prefix: plushies-scarlett-
+    count: 6

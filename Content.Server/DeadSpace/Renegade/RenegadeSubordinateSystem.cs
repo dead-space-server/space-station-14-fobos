@@ -76,7 +76,7 @@ public sealed class RenegadeSubordinateSystem : EntitySystem
             var implantContainer = implantedComp.ImplantContainer;
             foreach (var implantEntity in implantContainer.ContainedEntities)
             {
-                if (HasComp<MindShieldComponent>(implantEntity))
+                if (HasComp<MindShieldImplantComponent>(implantEntity))
                 {
                     _sharedSubdermalImplantSystem.ForceRemove(uid, implantEntity);
                     break;

@@ -94,6 +94,15 @@ public sealed partial class InjectorComponent : Component
     [DataField]
     public float MovementThreshold = 0.1f;
 
+    //DS14-start
+    /// <summary>
+    /// Whether the injector can be used while the user is moving.
+    /// If true, movement will not cancel the injection doafter.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public bool InjectOnMove = false;
+    //DS14-end
+
     #endregion
 }
 

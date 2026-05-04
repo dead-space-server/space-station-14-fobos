@@ -123,8 +123,6 @@
             Quantity: 15
           - ReagentId: Phalanximine
             Quantity: 3
-  - type: Tag
-    tags: []
 
 - type: entity
   parent: ChemicalMedipen
@@ -154,8 +152,6 @@
             Quantity: 15
           - ReagentId: Impedrezene
             Quantity: 10
-  - type: Tag
-    tags: []
 
 - type: entity
   parent: BaseItem

@@ -465,6 +465,18 @@
     tags:
     - DoorBumpOpener
     - FootstepSound
+  #DS14-start
+  - type: GhostRole
+    makeSentient: true
+    name: ghost-role-information-space-snake-name
+    description: ghost-role-information-space-snake-description
+    rules: ghost-role-information-space-snake-rules
+    mindRoles:
+    - MindRoleGhostRoleTeamAntagonist
+    raffle:
+      settings: short
+  - type: GhostTakeoverAvailable
+  #DS14-end
 
 - type: entity
   name: space adder

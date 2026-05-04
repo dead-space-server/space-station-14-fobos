@@ -118,7 +118,7 @@ public sealed class HealingSystem : EntitySystem
             robot = true;
         }
 
-        if (TryComp<BlindableComponent>(target.Owner, out var blindable) && robot)
+        if (TryComp<BlindableComponent>(target.Owner, out var blindable) && (robot || healing.HealEyeDamage)) // DS14
         {
             _blindableSystem.AdjustEyeDamage((target.Owner, blindable), -blindable.EyeDamage);
         }
@@ -143,6 +143,11 @@ public sealed class HealingSystem : EntitySystem
 
     private bool HasDamage(Entity<HealingComponent> healing, Entity<DamageableComponent> target)
     {
+        // DS14-start
+        if (healing.Comp.HealEyeDamage && TryComp<BlindableComponent>(target.Owner, out var blindable) && blindable.EyeDamage > 0)
+            return true;
+        // DS14-end
+
         var damageableDict = target.Comp.Damage.DamageDict;
         var healingDict = healing.Comp.Damage.DamageDict;
         foreach (var type in healingDict)

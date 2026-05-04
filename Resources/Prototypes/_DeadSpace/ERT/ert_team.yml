@@ -1,6 +1,6 @@
 - type: ertTeam
   id: Cburn
-  name: РХБЗ
+  name: РХБЗЗ
   notification: ert-response-caused-messager-cburn
   approvalColor: "#3f6e70"
   approvalAudio:
@@ -9,7 +9,7 @@
   startAudio:
     path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
   description: 
-    Специализированный отряд радиационной, химической и биологической зомби защиты
+    Специализированный отряд радиационной, химической, биологической и зомби защиты
     NanoTrasen. Предназначен для локализации утечек опасных веществ,
     биологических угроз, а также проведения дезинфекции и эвакуации персонала
     в условиях заражения.
