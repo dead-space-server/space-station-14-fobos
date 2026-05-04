@@ -194,7 +194,7 @@
     alertSender: survival-alert-sender
     alertAnnouncementColor: OrangeRed
     alertSound:
-      path: /Audio/_DeadSpace/Announcements/survival_necromorph_alert.wav
+      path: /Audio/_DeadSpace/Announcements/survival_alert.ogg
       params:
         volume: -2
   - type: GameRule
