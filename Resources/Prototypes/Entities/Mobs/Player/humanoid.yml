@@ -144,12 +144,7 @@
     description: ghost-role-information-Death-Squad-description
     rules: ghost-role-information-Death-Squad-rules
     category: ghost-role-information-centcomm-category # DS14
-    requirements:
-      - !type:OverallPlaytimeRequirement
-        time: 1890000 # 525 hours
-      - !type:DepartmentTimeRequirement
-        department: Security
-        time: 108000 # 30 hours
+    job: DeathSquad # DS14
     raffle:
       settings: short
   - type: GhostTakeoverAvailable

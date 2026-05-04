@@ -23,6 +23,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.2
     energy: 3.0
