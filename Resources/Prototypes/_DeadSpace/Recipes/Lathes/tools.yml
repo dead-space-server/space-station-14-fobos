@@ -1,7 +1,18 @@
 - type: latheRecipe
+<<<<<<< jetpack
   id: BluespaceHandHeldMassScannerEmpty
   result: BluespaceHandHeldMassScannerEmpty
   materials:
     Steel: 1000
     Plastic: 250
     BluespaceCrystal: 750
+=======
+  parent: BaseToolRecipe
+  id: HoloprojectorRND
+  result: HoloprojectorRNDEmpty
+  completetime: 3
+  materials:
+    Steel: 500
+    Plasma: 200
+    Glass: 100
+>>>>>>> master

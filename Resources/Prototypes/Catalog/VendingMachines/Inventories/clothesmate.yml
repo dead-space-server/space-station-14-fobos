@@ -105,6 +105,7 @@
     ClothingEyesGlasses: 4 # DS14
     ClothingEyesGlassesBigSunglasses: 2 # DS14
     ADTClothingSandals: 2 # DS14
+    ADTClothingUniformTurleneckTactick: 2
     ADTClothingUniformTurleneckBlack: 2
     ADTClothingUniformTurleneckBlackWomen: 2
     ADTClothingUniformTurleneckBlue: 2
@@ -161,5 +162,5 @@
     ClothingBackpackSatchelSmugglerUnanchored: 1
     ClothingHeadHatSolidHeadband: 2
   # DO NOT ADD MORE, USE UNIFORM DYING # DO ADD MORE, DO NOT USE UNIFORM DYING
-    ADTClothingNeckSyndicateCloak: 1 # ADT
+    ClothingNeckSyndicateCloak: 1 # DS14
     ClothingOuterCoatLettermanS: 4 # DS14

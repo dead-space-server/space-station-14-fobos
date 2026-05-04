@@ -56,7 +56,7 @@
     size: Huge
   - type: StorageFill
     contents:
-      - id: SyndicateJawsOfLifeDrGnar
+      - id: JawsOfLifeDrGnar
       - id: PowerDrillDrGnar 
       - id: WelderExperimentalDrGnar 
       - id: MultitoolDrGnar
@@ -68,7 +68,7 @@
 
 #Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitDrGnar
   name: Devil Trigger
   description: To see a World in a Grain of sand And a Heaven in a Wild Flower...
@@ -87,7 +87,7 @@
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.4
+        Piercing: 0.6
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
@@ -396,8 +396,8 @@
 
 #JawsOfLife
 - type: entity
-  parent: SyndicateJawsOfLife
-  id: SyndicateJawsOfLifeDrGnar
+  parent: JawsOfLife
+  id: JawsOfLifeDrGnar
   name: челюсти Цербера
   description: В этих челюстях заключена сила короля Цербера, способная в форме кусачек разрезать любой провод и в форме монтировки - открыть любую дверь.
   categories: [ HideSpawnMenu ]

@@ -42,6 +42,7 @@
       map: ["variant-multiple"]
     - state: telecom-open
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: ItemMapper
     sprite: Structures/Machines/telecomms.rsi
     mapLayers:

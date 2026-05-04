@@ -21,3 +21,27 @@
   components:
   - type: RattleOnTrigger
     radioChannel: DeathSquad
+
+# SOD implants
+
+- type: entity
+  parent: BaseSubdermalImplant
+  id: RadioImplantSOC
+  name: имплант "радио"
+  description: Этот имплант даёт доступ к радиочастоте UNKNOWN без гарнитуры.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: SubdermalImplant
+  - type: RadioImplant
+    radioChannels:
+    - SOCChannel
+
+- type: entity
+  parent: DeathRattleImplant
+  id: DeathRattleImplantSOD
+  name: имплант "предсмертный хрип"
+  description: Этот имплант сообщит по радиоканалу UNKNOWN, если пользователь окажется в критическом состоянии или умрёт.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RattleOnTrigger
+    radioChannel: SOCChannel

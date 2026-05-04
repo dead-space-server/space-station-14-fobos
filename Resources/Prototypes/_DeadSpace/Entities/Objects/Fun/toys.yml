@@ -531,6 +531,88 @@
 
 - type: entity
   parent: BasePlushieDeadSpaceMisc
+  id: PlushieSmetanaJonita
+  name: плюшевая Джонита Райтмен
+  description: Плюшевая игрушка человека в форме Администратора ЦК. Она выглядит крайне строго, а сама плюшка из качественных материалов. На бирке написано - "Джонита Райтмен"
+  components:
+  - type: Sprite
+    state: plushie_jonita
+    scale: 0.9, 0.9
+  - type: TTS
+    voice: Sage
+  - type: SpeakOnTrigger
+    pack: PlushieJonitaSpeech
+
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  id: PlushieColleen
+  name: плюшевый Коллин
+  description: Плюшевая игрушка человека в форме Офицера СБ. Вы видете как на его бороде вшиты маленькие черные ниточки. От него пахнет шоколадным шампунем. На бирке написано - "Коллин Браун"
+  components:
+  - type: Sprite
+    state: plushie_colleen
+    scale: 0.9, 0.9
+  - type: TTS
+    voice: Lambert
+  - type: SpeakOnTrigger
+    pack: PlushieColleenSpeech
+
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  id: PlushieHermione
+  name: плюшевый Гермион
+  description: Это плюшевый утилизатор с ушками и милым хвостиком. На нём изображены сварочные очки, а на этикетке написано - "Гермион Кварто, лучший утилизатор сектора Титан"
+  components:
+  - type: Sprite
+    state: plushie_hermione
+    scale: 0.9, 0.9
+  - type: TTS
+    voice: Zac
+  - type: SpeakOnTrigger
+    pack: PlushieHermioneSpeech
+
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  id: PlushieRIP
+  name: плюшевый РИП
+  description: Игрушка КПБ в лаборантом халате. По бокам монитора расположены красные торчащие провода похожие на кошачьи усы. От игрушки пахнет едким запахом гари, горелой слизи и плазмой. На этикетке у туловища написано - "Если что-то непонятно, то изучить и понять. Неизведанность и есть главный интерес в жизни".
+  components:
+  - type: Sprite
+    state: plushie_rip
+    scale: 0.9, 0.9
+  - type: TTS
+    voice: CaveJohnson
+  - type: SpeakOnTrigger
+    pack: PlushieRIPSpeech
+
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  id: PlushieFloria
+  name: плюшевая Флория
+  description: Плюшевая игрушка арканы в форме инструктора. Вам кажется, что она улыбается, хотя как вы это увидели? Зачем вы... От неё не пахнет. Хочется погладить её по голове.
+  components:
+  - type: Sprite
+    state: plushie_floria
+  - type: TTS
+    voice: Olga
+  - type: SpeakOnTrigger
+    pack: PlushieFloriaSpeech
+
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  id: PlushieAino
+  name: плюшевая Айно Лийя Кайсанен
+  description: Плюшевая игрушка арканы в форме инструктора. Лицо у неё явно самодовольное, ей нравится эта работа! Зачем вы... От неё не пахнет.
+  components:
+  - type: Sprite
+    state: plushie_aino
+  - type: TTS
+    voice: Anivia
+  - type: SpeakOnTrigger
+    pack: PlushieAinoSpeech
+
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
   id: PlushieSilAily
   name: плюшевая Айли
   description: Плюшевая игрушка вульпканина в форме офицера специальных операций. Её хвост необычайно мягкий.

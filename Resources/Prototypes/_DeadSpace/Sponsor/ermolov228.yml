@@ -75,7 +75,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitErmolov228
   name: купол Рассвета
   description: Герметичный костюм исследователя бездны, модифицированный для нахождения в открытом космосе.

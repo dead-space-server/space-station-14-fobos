@@ -88,7 +88,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitdrippenwagen
   name: скафандр Банши
   description: Принадлежат члену экипажа, находящемуся под покровительством спонсорской организации.
