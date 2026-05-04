@@ -11,7 +11,18 @@ comms-console-permission-denied = В доступе отказано
 comms-console-shuttle-unavailable = В настоящее время шаттл недоступен
 comms-console-message-too-long = Сообщение слишком длинное
 # Placeholder values
-comms-console-announcement-sent-by = Отправитель
+comms-console-announcement-sent-by-female1 = Передала сообщение
+comms-console-announcement-sent-by-female2 = Высказалась
+comms-console-announcement-sent-by-female3 = Сообщила
+comms-console-announcement-sent-by-female4 = Ваша любимая
+comms-console-announcement-sent-by-male1 = Передал сообщение
+comms-console-announcement-sent-by-male2 = Высказался
+comms-console-announcement-sent-by-male3 = Сообщил
+comms-console-announcement-sent-by-male4 = Ваш любимый
+comms-console-announcement-sent-by-nonsexed1 = Передали сообщение
+comms-console-announcement-sent-by-nonsexed2 = Высказались
+comms-console-announcement-sent-by-nonsexed3 = Сообщили
+comms-console-announcement-sent-by-nonsexed4 = Ваши любимые
 comms-console-announcement-unknown-sender = Неизвестный
 # User interface
 comms-console-menu-title = Консоль связи
