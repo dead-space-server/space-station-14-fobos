@@ -835,9 +835,8 @@
     - AllAccess
     - TaipanAccess # DS14-taipan
     - Silicon
-    access:
-    - SOD
     tags:
+    - SOD
     - CentralCommand
     - NuclearOperative
     - SyndicateAgent

@@ -5,7 +5,7 @@ meta:
   forkId: ""
   forkVersion: ""
   time: 05/01/2026 22:17:42
-  entityCount: 23992
+  entityCount: 23991
 maps: []
 grids:
 - 1
@@ -415,6 +415,8 @@ entities:
       bodyType: Dynamic
     - type: Fixtures
       fixtures: {}
+    - type: BecomesStation
+      id: centcomm
     - type: OccluderTree
     - type: TileHistory
       chunkHistory: {}
@@ -21728,7 +21730,7 @@ entities:
     - type: Tag
       tags:
       - ForceNoFixRotations
-      - DockCentcommERTSierraShuttle
+      - DockCentcommERTBSAAShuttle
   - uid: 536
     components:
     - type: Transform
@@ -21738,7 +21740,7 @@ entities:
     - type: Tag
       tags:
       - ForceNoFixRotations
-      - DockCentcommERTSierraShuttle
+      - DockCentcommERTBSAAShuttle
   - uid: 537
     components:
     - type: Transform
@@ -21748,7 +21750,7 @@ entities:
     - type: Tag
       tags:
       - ForceNoFixRotations
-      - DockCentcommERTSierraShuttle
+      - DockCentcommERTBSAAShuttle
   - uid: 538
     components:
     - type: Transform
@@ -21758,7 +21760,7 @@ entities:
     - type: Tag
       tags:
       - ForceNoFixRotations
-      - DockCentcommERTSierraShuttle
+      - DockCentcommERTBSAAShuttle
   - uid: 539
     components:
     - type: Transform
@@ -126667,18 +126669,6 @@ entities:
     - type: Transform
       pos: -18.551617,-48.195263
       parent: 1
-    - type: Storage
-      storedItems:
-        16413:
-          position: 0,0
-          _rotation: South
-    - type: ContainerContainer
-      containers:
-        storagebase: !type:Container
-          showEnts: False
-          occludes: True
-          ents:
-          - 16413
 - proto: MopBucketFull
   entities:
   - uid: 16414
@@ -127560,7 +127550,7 @@ entities:
       parent: 1
     - type: Paper
       content: >-
-        Зачем ты катаешься в мусоропроводе? Ты псих? 
+        Зачем ты катаешься в мусоропроводе? Ты псих?
 
         Ты явно попал по адресу.
   - uid: 16512
@@ -127629,7 +127619,7 @@ entities:
       parent: 1
     - type: Paper
       content: >-
-        Ха-ха-ха, я подменю себя на фигурку клоуна и сбегу через вентеляцию. 
+        Ха-ха-ха, я подменю себя на фигурку клоуна и сбегу через вентеляцию.
 
         Эти тупые офицеры Цк дажене поймут, что случилось!
   - uid: 16523
@@ -131816,18 +131806,6 @@ entities:
       parent: 1
 - proto: PowerDrill
   entities:
-  - uid: 16413
-    mapInit: true
-    paused: true
-    components:
-    - type: Transform
-      parent: 16412
-    - type: MeleeWeapon
-      nextAttack: -96420.2378088
-    - type: EmitSoundOnCollide
-      nextSound: -96420.2378088
-    - type: Physics
-      canCollide: False
   - uid: 17052
     components:
     - type: Transform

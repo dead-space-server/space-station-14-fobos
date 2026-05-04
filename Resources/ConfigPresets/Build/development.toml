@@ -1,10 +1,10 @@
 ﻿[game]
 # Straight in-game baby
-lobbyenabled = false
+lobbyenabled = true
 # Dev map for faster loading & convenience
-map = "Dev"
+map = ""
 role_timers = false
-admin_job_tracking = true
+admin_job_tracking = false
 role_loadout_timers = false
 
 [events]
@@ -33,8 +33,8 @@ expedition_cooldown = 30.0
 [shuttle]
 grid_fill = false
 auto_call_time = 0
-emergency = false
-arrivals = false
+emergency = true
+arrivals = true
 preload_grids = true
 
 [admin]
@@ -55,4 +55,4 @@ patreon = "https://boosty.to/deadstation14"
 rules_file = "DeadSpaceDefaultRuleset"
 
 [taipan]
-enabled = false
+enabled = true
