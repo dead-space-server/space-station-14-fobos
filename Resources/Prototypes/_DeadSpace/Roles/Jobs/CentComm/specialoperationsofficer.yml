@@ -12,6 +12,7 @@
   - AllAccess
   access:
   - CentralCommand
+  - SOD
   special:
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant, TrackingImplant, DeathRattleImplantCentcomm, MacroBombImplant ]
@@ -22,10 +23,8 @@
     - type: NpcFactionMember
       factions:
       - CentralCommand
-    # DS14-Start
     - type: Skill
       group: ALL
-    # DS14-End
 
 - type: startingGear
   id: CentcomSpecialOperationsOfficerGear
@@ -38,8 +37,11 @@
     gloves: ClothingHandsGlovesCombat
     outerClothing: ClothingOuterVestWeb
     neck: ClothingNeckCloakCentcomBlack
+    belt: WeaponRevolverMateba
     id: CentcomSpecialOperationsOfficerPDA
     ears: ClothingHeadsetSpecialOperationsOfficer
+    pocket1: ADTObjectsWeaponsMeleeFoldingKnife
+    pocket2: DoorRemoteAll
   #   underwearb: ClothingUnderwearBottomBoxersWhite # DS14-Underwear
   # underweart: ClothingUnderwearTopBraWhite # DS14-Underwear
   # underwearb: ClothingUnderwearBottomPantiesWhite # DS14-Underwear
@@ -56,9 +58,13 @@
   components:
     - type: StorageFill
       contents:
-        - id: RubberStampCentcom
+        - id: ERTloadoutGammaPrimary
+        - id: RubberStampMemeDeny
         - id: RubberStampCentcomSpecialOperationOfficer
         - id: BoxFolderBlueFilled
+        - id: SpeedLoaderMagnum
+        - id: SpeedLoaderMagnum
+        - id: MagazineBoxMagnum
 
 - type: entity
   parent: BoxFolderBase
@@ -105,6 +111,7 @@
       - EncryptionKeyCentCom
       - EncryptionKeyStationMaster
       - EncryptionKeyDeathSquad
+      - EncryptionKeySOD
   - type: Sprite
     sprite: Clothing/Ears/Headsets/base.rsi
   - type: Clothing

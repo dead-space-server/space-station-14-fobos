@@ -29,6 +29,7 @@
           state: "smes-op1"
           shader: unshaded
         - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+          visible: false # DS14
           state: smes-open
     - type: Smes
     - type: Appearance
@@ -158,6 +159,7 @@
       state: "smes-op1"
       shader: unshaded
     - map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
       state: advancedsmes-open
   - type: Machine
     board: SMESAdvancedMachineCircuitboard

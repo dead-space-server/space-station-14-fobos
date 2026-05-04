@@ -20,3 +20,26 @@
   - type: Pinpointer
     component: Nuke
     targetName: nuclear fission explosive
+
+- type: entity
+  name: пинпоинтер
+  description: Из под земли достану, для этого рождён.
+  suffix: Ядерная боеголовка, Эскадрон Смерти
+  id: PinpointerDeathSquadNuclearBomb
+  parent: PinpointerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: pinpointer-black
+      sprite: _DeadSpace/Objects/Devices/pinpointer.rsi
+      map: ["enum.PinpointerLayers.Base"]
+    - state: pinonnull
+      map: ["enum.PinpointerLayers.Screen"]
+      shader: unshaded
+      visible: false
+  - type: Icon
+    sprite: _DeadSpace/Objects/Devices/pinpointer.rsi
+    state: pinpointer-black
+  - type: Pinpointer
+    component: Nuke
+    targetName: nuclear fission explosive

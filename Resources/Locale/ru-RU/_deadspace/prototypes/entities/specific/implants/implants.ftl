@@ -1,12 +1,12 @@
 ent-AdrenalImplant = адреналиновый имплант
     .desc = Имплант, который введёт в вас дозу стимуляторов.
 ent-AdrenalImplanter = { ent-Implanter }
-    .suffix = адреналиновый имплант
+    .suffix = Адреналиновый имплант
     .desc = { ent-BaseImplantOnlyImplanter.desc }
 ent-AutosurgeonRevive = восстанавливающий автоимплантер
     .desc = Многофункциональный автохирург для вживления в себя всего, что вы хотите. Разберите эту станцию на части и сделайте ее частью вашего внутреннего механизма.
 ent-AutosurgeonAfter = использованный автоимплантер
     .desc = Многофункциональный автохирург для вживления в себя всего, что вы хотите. Разберите эту станцию на части и сделайте ее частью вашего внутреннего механизма.
 ent-MantisBladesImplanter = { ent-Implanter }
-    .suffix = клинки богомола
+    .suffix = Клинки богомола
     .desc = { ent-BaseImplantOnlyImplanter.desc }

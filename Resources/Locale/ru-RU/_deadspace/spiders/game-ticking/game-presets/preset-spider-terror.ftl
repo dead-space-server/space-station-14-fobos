@@ -64,6 +64,7 @@ reagent-desc-karachnocid = Плотная жидкость тёмно-зелён
 reagent-physical-desc-harsh = harsh
 ent-CrateKarachnocidGrenade = ящик с карой арахнида
     .desc = Ящик с пенными гранатами против пауков ужаса, 100% гарантия.
+    .suffix = Защищённый
 ent-CrateKarachnocidGrenadeProduct = { ent-CrateKarachnocidGrenade }
     .desc = { ent-CrateKarachnocidGrenade.desc }
 reagent-name-spider-extract = экстракт паука

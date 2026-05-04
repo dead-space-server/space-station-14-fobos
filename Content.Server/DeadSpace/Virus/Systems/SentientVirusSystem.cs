@@ -22,8 +22,8 @@ public sealed class SentientVirusSystem : EntitySystem
     [Dependency] private readonly PopupSystem _popupSystem = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly TimedWindowSystem _timedWindowSystem = default!;
-    private const int PrimaryPacientPrice = 1000;
-    private const int ModifyPointsRegenPerInfected = 2;
+    private const int PrimaryPacientPrice = 250;
+    private const int ModifyPointsRegenPerInfected = 5;
     public override void Initialize()
     {
         base.Initialize();

@@ -70,4 +70,4 @@
   storage:
     back:
     - PhoneInstrument
-    - DoorRemoteAll
+    - DoorRemoteCustom

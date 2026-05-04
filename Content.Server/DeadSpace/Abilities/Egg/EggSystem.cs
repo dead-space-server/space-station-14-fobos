@@ -49,7 +49,7 @@ public sealed partial class EggSystem : SharedEggSystem
 
         foreach (var proto in spawns)
         {
-            popupEnt = Spawn(proto, coords.Offset(_robustRandom.NextVector2(0.25f)));
+            popupEnt = SpawnNextToOrDrop(proto, uid);
         }
 
         if (HasComp<MobStateComponent>(uid))
