@@ -110,6 +110,7 @@
     - map: ["computerLayerKeys"]
       state: syndie_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: AccessReader
     access: [[ "NuclearOperative" ]]

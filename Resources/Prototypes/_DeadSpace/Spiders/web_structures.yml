@@ -94,6 +94,8 @@
     animatePanel: false
     openingSpriteState: opening
     closingSpriteState: closing
+    openSpriteState: open
+    closedSpriteState: closed
 
 - type: entity
   parent: BaseWall

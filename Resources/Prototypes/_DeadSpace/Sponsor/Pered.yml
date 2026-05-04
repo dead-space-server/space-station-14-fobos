@@ -1,0 +1,819 @@
+# Backpack
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBackpackPERed
+  name: боевая сумка
+  description: Сумка для выдающихся граждан СССП
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/backpack.rsi
+  - type: Storage
+    maxItemSize: Huge
+    grid:
+    - 0,0,15,10
+  - type: StorageFill
+    contents:
+    - id: ClothingWebbingPERed
+    - id: AnomalyScannerPERed
+    - id: WeaponPistolCHIMPPERed
+    - id: ClothingHandsGlovesPERed
+    - id: ClothingOuterHardsuitPERed
+    - id: ClothingUniformPERed
+    - id: ClothingMaskPERed
+    - id: ClothingHeadsetPERed
+    - id: PDAPERed
+    - id: ClothingShoesBootsMagPERed
+    - id: ClothingEyesHudPERed
+    - id: JetpackVoidFilleddPERed
+    - id: DefibrillatorPERed
+    - id: telescopicBatonPERed
+    - id: HyposprayPERed
+    - id: ClothingNeckCloakPERed
+    - id: WeaponProtoKineticAcceleratorPERed
+    - id: WeaponCrusherPERed
+    - id: ClothingUnderwearSocksPERed
+    - id: ClothingUnderwearBottomBoxersPERed
+    - id: ClothingUnderwearTopBraPERed
+    - id: MedkitAdvancedFilled
+    - id: HolofanProjectorPERed
+    - id: PaperPERedUSSP
+    - id: PaperPERed
+    - id: ClothingHeadHatPERed
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Hardsuit
+- type: entity
+  parent: ClothingOuterHardsuitSecurity
+  id: ClothingOuterHardsuitPERed
+  name: боевой скафандр
+  description: Скафандр с биокодированием, обеспечивающий защиту в критических ситуациях.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/hardsuit/hard.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PERed/hardsuit/hard.rsi
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitPERed
+  - type: Item
+    size: Huge
+  - type: HardsuitIdentification
+    nonlethal: true
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.50
+        Slash: 0.50
+        Piercing: 0.60
+        Heat: 0.50
+        Radiation: 0.50
+        Caustic: 0.50
+  - type: ClothingSpeedModifier
+    walkModifier: 0.9
+    sprintModifier: 0.9
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase, ShowMedicalIcons ]
+  id: ClothingHeadHelmetHardsuitPERed
+  categories: [ HideSpawnMenu ]
+  name: шлем боевого скафандра
+  description: Шлем с встроенным медицинским визором, который обеспечивает защиту и освещение для работы в темных условиях.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/hardsuit/helmet.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PERed/hardsuit/helmet.rsi
+  - type: PointLight
+    color: "#ebebeb"
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: ShowHealthBars
+    damageContainers:
+    - Biological
+    - Inorganic
+    - Silicon
+  - type: EyeProtection
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Gloves
+- type: entity
+  parent: ClothingHandsGlovesCombat
+  id: ClothingHandsGlovesPERed
+  name: защитные перчатки
+  description: Перчатки, обеспечивающие защиту рук в опасных условиях. Изолированы.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/gloves.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PERed/gloves.rsi
+  - type: Fiber
+    fiberMaterial: fibers-insulative
+    fiberColor: fibers-red
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Magboots
+- type: entity
+  parent: ClothingShoesBootsMag
+  id: ClothingShoesBootsMagPERed
+  name: боевые магнитные ботинки
+  description: Ботинки, полученные в тяжелом сражение, обеспечивают отличное сцепление с поверхностями для выполнения задач в условиях невесомости.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/magboots.rsi
+    layers:
+    - state: icon
+      map: [ "enum.ToggleableVisuals.Layer" ]
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PERed/magboots.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: FootstepModifier
+    footstepSoundCollection:
+      collection: FootstepJackboots
+      params:
+        volume: -1
+
+# Mask
+- type: entity
+  parent: ClothingMaskGas
+  id: ClothingMaskPERed
+  name: боевой противогаз
+  description: Противогаз, защищающий от токсичных веществ и обеспечивающий дыхание в неблагоприятных условиях. Он кажется вам подозрительно знакомым.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/gasmask.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PERed/gasmask.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Headset
+- type: entity
+  parent: ClothingHeadset
+  id: ClothingHeadsetPERed
+  name: боевая гарнитура
+  description: Гарнитура, обеспечивающая связь и возможность получения критической информации на поле боя.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/headset.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PERed/headset.rsi
+  - type: Headset
+    color: "#336899"
+  - type: EncryptionKeyHolder
+    keySlots: 5
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# PDA
+- type: entity
+  parent: BaseMedicalPDA
+  id: PDAPERed
+  name: боевой КПК
+  description: КПК, дающий самую полезную информацию на поле боя.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Icon
+    sprite: _DeadSpace/Sponsor/PERed/pda.rsi
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/pda.rsi
+  - type: CartridgeLoader
+    uiKey: enum.PdaUiKey.Key
+    preinstalled:
+    - CrewManifestCartridge
+    - NotekeeperCartridge
+    - NewsReaderCartridge
+    - AstroNavCartridge
+    - MedTekCartridge
+  - type: PdaBorderColor
+    borderColor: "#336899"
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Jetpack
+- type: entity
+  parent: JetpackVoidFilled
+  id: JetpackVoidFilleddPERed
+  name: боевой джетпак
+  description: Джетпак для покорение даже самых тёмный уголков космоса.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Item
+    sprite: _DeadSpace/Sponsor/PERed/tank.rsi
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/tank.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PERed/tank.rsi
+    slots:
+      - Back
+      - suitStorage
+      - Belt
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Defibrillator
+- type: entity
+  parent: DefibrillatorCompact
+  name: боевой портативный дефибриллятор
+  description: Высокотехнологичный портативный дефибриллятор, отлично поможет раненным в бою.
+  id: DefibrillatorPERed
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/defib.rsi
+  - type: Item
+    sprite: _DeadSpace/Sponsor/PERed/defib.rsi
+
+# Hypo
+- type: entity
+  name: тактический гипоспрей
+  parent: BaseItem
+  description: Особая разработка для лечения в особых задачах.
+  categories: [ HideSpawnMenu ]
+  id: HyposprayPERed
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/hypo.rsi
+    layers:
+      - state: hypo
+        map: ["enum.SolutionContainerLayers.Base"]
+      - state: hypo_fill1
+        map: ["enum.SolutionContainerLayers.Fill"]
+        visible: false
+  - type: Item
+    sprite: _DeadSpace/Sponsor/PERed/hypo.rsi
+  - type: SolutionContainerManager
+    solutions:
+      hypospray:
+        maxVol: 5
+  - type: RefillableSolution
+    solution: hypospray
+  - type: ExaminableSolution
+    solution: hypospray
+    exactVolume: true
+  - type: Injector
+    solutionName: hypospray
+    ignoreClosed: false
+    activeModeProtoId: HyposprayDynamicMode
+    allowedModes:
+    - HyposprayDynamicMode
+    - HyposprayInjectMode
+  - type: UseDelay
+    delay: 0.5
+  - type: StaticPrice
+    price: 750
+  - type: StealTarget
+    stealGroup: Hypospray
+  - type: Appearance
+  - type: SolutionContainerVisuals
+    maxFillLevels: 4
+    fillBaseName: hypo_fill
+    solutionName: hypospray
+
+# Mantle
+- type: entity
+  parent: ClothingNeckBase
+  id: ClothingNeckCloakPERed
+  name: боевой плащ
+  description: Плащ, сильно напоминающий адский десант ОПЗ.
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Sponsor/PERed/cloack.rsi
+    - type: Clothing
+      sprite: _DeadSpace/Sponsor/PERed/cloack.rsi
+    - type: Tag
+      tags: [] # ignore "WhitelistChameleon" tag
+
+# Протокинетик
+- type: entity
+  parent: WeaponProtoKineticAccelerator
+  id: WeaponProtoKineticAcceleratorPERed
+  categories: [ HideSpawnMenu ]
+  name: боевой ускоритель
+  description: Выглядит стильно.
+  components:
+  - type: Gun
+    fireRate: 0.5
+    selectedMode: SemiAuto
+    angleDecay: 45
+    minAngle: 44
+    maxAngle: 45
+    availableModes:
+    - SemiAuto
+  - type: BasicEntityAmmoProvider
+    capacity: 1
+    count: 1
+  - type: RechargeBasicEntityAmmo
+    rechargeCooldown: 0.75
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/protokinetik.rsi
+    layers:
+      - state: icon
+  - type: Item
+    sprite: _DeadSpace/Sponsor/PERed/protokinetik.rsi
+    size: Normal
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PERed/protokinetik.rsi
+    quickEquip: false
+    slots:
+    - suitStorage
+
+#Документ
+- type: entity
+  parent: PaperPrintedCentcomm
+  id: PaperPERed
+  name: распечатанный документ
+  description: Лист бумаги с заголовком центкома. Страшно даже смотреть на него.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Paper
+    stampState: paper_stamp-centcom
+    stampedBy:
+    - stampedColor: '#006600FF'
+      stampedName: Центральное Командование
+    - stampedColor: '#00BE00FF'
+      stampedName: Одобрено
+    content: paper-law-PERed
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+- type: entity
+  parent: PaperPrintedUSSPCentcomm
+  id: PaperPERedUSSP
+  name: распечатанный документ
+  description: Лист бумаги с заголовком генштаба. Страшно даже смотреть на него.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Paper
+    stampState: paper_stamp-centcom
+    stampedBy:
+    - stampedColor: '#006600FF'
+      stampedName: Генеральный Штаб
+    - stampedColor: '#00BE00FF'
+      stampedName: Одобрено
+    content: paper-law-PERed-ussp
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+#Anomaly Scanner
+- type: entity
+  parent: BaseItem
+  id: AnomalyScannerPERed
+  categories: [ HideSpawnMenu ]
+  name: тактический сканер аномалий
+  description: Одноручный сканер аномалий, идеально подходит для гражданского и военного применения.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/anomalyscanner.rsi
+    layers:
+      - state: icon
+        map: ["enum.AnomalyScannerVisualLayers.Base"]
+      - map: ["enum.AnomalyScannerVisualLayers.Screen"]
+        visible: false
+        shader: unshaded
+      - state: severity_mask
+        map: ["enum.AnomalyScannerVisualLayers.SeverityMask"]
+        visible: false
+        shader: unshaded
+      - map: ["enum.AnomalyScannerVisualLayers.Stability"]
+        visible: false
+        shader: unshaded
+      - visible: false
+        map: ["enum.AnomalyScannerVisualLayers.Pulse"]
+        shader: unshaded
+      - state: supercritical
+        map: ["enum.AnomalyScannerVisualLayers.Supercritical"]
+        shader: unshaded
+        visible: false
+  - type: ActivatableUI
+    key: enum.AnomalyScannerUiKey.Key
+    requireActiveHand: false
+    inHandsOnly: true
+  - type: UserInterface
+    interfaces:
+      enum.AnomalyScannerUiKey.Key:
+        type: AnomalyScannerBoundUserInterface
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.AnomalyScannerVisuals.HasAnomaly:
+        enum.AnomalyScannerVisualLayers.Screen:
+          True: { visible: true }
+          False: { visible: false }
+        enum.AnomalyScannerVisualLayers.SeverityMask:
+          True: { visible: true }
+          False: { visible: false }
+      enum.AnomalyScannerVisuals.AnomalyStability:
+        enum.AnomalyScannerVisualLayers.Stability:
+          Stable: { visible: false }
+          Decaying: { visible: true, state: decaying }
+          Growing: { visible: true, state: growing }
+      enum.AnomalyScannerVisuals.AnomalyNextPulse:
+        enum.AnomalyScannerVisualLayers.Pulse:
+          0: { visible: false }
+          1: { visible: true, state: timer_1 }
+          2: { visible: true, state: timer_2 }
+          3: { visible: true, state: timer_3 }
+          4: { visible: true, state: timer_4 }
+          5: { visible: true, state: timer_5 }
+      enum.AnomalyScannerVisuals.AnomalyIsSupercritical:
+        enum.AnomalyScannerVisualLayers.Supercritical:
+          True: { visible: true }
+          False: { visible: false }
+  - type: AnomalyScanner
+  - type: AnomalyScannerScreen
+  - type: GuideHelp
+    guides:
+    - ScannersAndVessels
+  - type: Item
+    storedRotation: -90
+
+# РПС
+- type: entity
+  parent: ClothingBeltStorageBase
+  id: ClothingWebbingPERed
+  name: боевой РПС
+  description: Ременно-плечевая система тактических ремней, которую носят представители 51-десантной дивизии.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/belt.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PERed/belt.rsi
+  - type: ExplosionResistance
+    damageCoefficient: 0.8
+  - type: Item
+    size: Normal
+  - type: Storage
+    grid:
+    - 0,0,7,1
+  - type: StorageFill
+    contents:
+      - id: MultitoolPERed
+      - id: WelderExperimentalPERed
+      - id: JawsOfLifePERed
+      - id: PowerDrillPERed
+      - id: RCDDragonPERed
+      - id: GasAnalyzerPERed
+
+# chimp
+- type: entity
+  parent: WeaponPistolCHIMP
+  id: WeaponPistolCHIMPPERed
+  categories: [ HideSpawnMenu ]
+  name: боевой излучатель М.А.Р.Т.Ы.Х. 
+  description: Компактный научный прибор М.А.Р.Т.Ы.Х., созданный для исследований и экспериментов.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/chimp.rsi
+  
+# EYES
+- type: entity
+  parent: ClothingEyesHudMultiversal
+  id: ClothingEyesHudPERed
+  name: боевые очки
+  description: Защитные очки с голубым визором.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/clotchingeyes.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PERed/clotchingeyes.rsi
+  - type: EyeProtection
+  - type: IdentityBlocker
+    coverage: EYES
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Crusher
+- type: entity
+  id: WeaponCrusherPERed
+  parent: WeaponCrusherGlaive
+  name: боевая глефа
+  description: Продвинутый инструмнент, используемый утилизаторами.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/crusher/crusher.rsi
+    layers:
+    - state: icon
+  - type: Item
+    sprite: _DeadSpace/Sponsor/PERed/crusher/crusher-in-hand.rsi
+    size: Huge
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PERed/crusher/crusher.rsi
+    quickEquip: false
+    slots:
+    - suitStorage
+    - Back
+
+# Hat
+- type: entity
+  parent: ClothingHeadHatBeret
+  id: ClothingHeadHatPERed
+  name: накидка
+  description: Обычная, серая накидка с голубой подсветкой.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/head.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PERed/head.rsi
+  - type: HideLayerClothing
+    slots:
+    - Hair
+    - Snout
+    - HeadTop
+    - HeadSide
+    hideOnToggle: true
+
+#melee
+- type: entity
+  parent: BaseItem
+  id: telescopicBatonPERed
+  categories: [ HideSpawnMenu ]
+  name: телескопическая дубинка
+  description: Не очень большая и не очень опасная, выдвижная дубинка. Может храниться в карманах в сложенном состоянии.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/melee.rsi
+    layers:
+    - state: telescope_off
+      map: [ "enum.ToggleableVisuals.Layer" ]
+  - type: SwitchableWeapon
+    openSound: "/Audio/_ADT/open_telescopic_baton.ogg"
+    closeSound: "/Audio/_ADT/close_telescopic_baton.ogg"
+    damageOpen:
+      types:
+        Blunt: 3
+    damageFolded:
+      types:
+        Blunt: 0
+    staminaDamageFolded: 0
+    staminaDamageOpen: 30
+  - type: StaminaDamageOnHit
+    damage: 0
+  - type: MeleeWeapon
+    damage:
+      types:
+        Blunt: 3
+  - type: Item
+    size: Small
+    sprite: _DeadSpace/Sponsor/PERed/melee.rsi
+  - type: UseDelay
+    delay: 1
+  - type: DisarmMalus
+    malus: 0
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+     enum.ToggleableVisuals.Enabled:
+        enum.ToggleableVisuals.Layer:
+          True: {state: telescope_on}
+          False: {state: telescope_off}
+
+  #Underwearable
+- type: entity
+  parent: ClothingUnderwearTopBase
+  id: ClothingUnderwearTopBraPERed
+  name: бра
+  categories: [ HideSpawnMenu ]
+  description: Чёрное нижнее белье для женского персонала СССП.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/under/bra.rsi
+
+- type: entity
+  parent: ClothingUnderwearSocksBase
+  id: ClothingUnderwearSocksPERed
+  name: носки
+  categories: [ HideSpawnMenu ]
+  description: Чёрные носки.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/under/socks.rsi
+
+- type: entity
+  parent: ClothingUnderwearBottomBase
+  id: ClothingUnderwearBottomBoxersPERed
+  name: боксеры
+  categories: [ HideSpawnMenu ]
+  description: Чёрные боксеры.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/under/boxers.rsi
+
+#Uniform
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformPERed
+  name: боевая форма
+  categories: [ HideSpawnMenu ]
+  description: Подходит для встреч галактического масштаба.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/uniform.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/PERed/uniform.rsi
+
+#multitool
+- type: entity
+  parent: Multitool
+  id: MultitoolPERed
+  name: мультитул
+  description: Анализирует напряжение ситуации и точно измеряет силу вашего обаяния.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/tools/multitool.rsi
+
+#WelderExperimental
+- type: entity
+  parent: WelderExperimental
+  id: WelderExperimentalPERed
+  name: экспериментальный сварочный аппарат
+  description: Скрепляет разрозненные части реальности в единую, более совершенную конструкцию.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/tools/welder.rsi
+  - type: Item
+    sprite: _DeadSpace/Sponsor/PERed/tools/welder.rsi
+
+#JawsOfLife
+- type: entity
+  parent: JawsOfLife
+  id: JawsOfLifePERed
+  name: челюсти жизни 
+  description: Официальный инструмент для высвобождения из тисков рутины с минимальными психологическими травмами.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/tools/jaws.rsi
+    state: jaws_pry
+  - type: Item
+    size: Normal
+  - type: MultipleTool
+    entries:
+      - behavior: Prying
+        sprite:
+          sprite: _DeadSpace/Sponsor/PERed/tools/jaws.rsi
+          state: jaws_pry
+        useSound: /Audio/Items/jaws_pry.ogg
+        changeSound: /Audio/Items/change_jaws.ogg
+      - behavior: Cutting
+        sprite:
+          sprite: _DeadSpace/Sponsor/PERed/tools/jaws.rsi
+          state: jaws_cutter
+        useSound: /Audio/Items/jaws_cut.ogg
+        changeSound: /Audio/Items/change_jaws.ogg
+  - type: MeleeWeapon
+    damage:
+      types:
+        Blunt: 14
+
+#drill
+- type: entity
+  parent: BaseItem
+  id: PowerDrillPERed
+  name: электродрель
+  description: Протокол проникновения сквозь препятствия, исключающий повреждение декора.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/tools/drill.rsi
+    state: drill_screw
+  - type: Item
+    sprite: _DeadSpace/Sponsor/PERed/tools/drill.rsi
+    size: Small
+  - type: Tool
+    qualities:
+      - Screwing
+    speedModifier: 1.5
+    useSound: /Audio/Items/drill_use.ogg
+  - type: MultipleTool
+    statusShowBehavior: true
+    entries:
+      - behavior: Screwing
+        sprite:
+          sprite: _DeadSpace/Sponsor/PERed/tools/drill.rsi
+          state: drill_screw
+        useSound:
+          path: /Audio/Items/drill_use.ogg
+        changeSound:
+          path: /Audio/Items/change_drill.ogg
+      - behavior: Anchoring
+        sprite:
+          sprite: _DeadSpace/Sponsor/PERed/tools/drill.rsi
+          state: drill_bolt
+        useSound:
+          path: /Audio/Items/drill_use.ogg
+        changeSound:
+          path: /Audio/Items/change_drill.ogg
+  - type: PhysicalComposition
+    materialComposition:
+      Steel: 300
+      Plastic: 100
+  - type: StaticPrice
+    price: 100
+  - type: MeleeWeapon
+    wideAnimationRotation: -90
+    attackRate: 1.5
+    damage:
+      types:
+        Piercing: 10
+    soundHit:
+      path: "/Audio/Items/drill_hit.ogg"
+
+# RCD
+- type: entity
+  id: RCDDragonPERed
+  parent: RCD
+  name: РСУ 
+  description: Боевой рсу.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/tools/rcd.rsi
+    state: icon
+
+# HolofanProjector
+- type: entity
+  parent: HolofanProjector
+  id: HolofanProjectorPERed
+  name: голографический проектор
+  description: Боевой голопроектор.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/tools/holofanprojectors.rsi
+    state: icon
+  - type: ItemSlots
+    slots:
+      cell_slot:
+        name: power-cell-slot-component-slot-name-default
+        startingItem: PowerCellMedium 
+
+#gasanalyzer
+- type: entity
+  name: газоанализатор
+  parent: BaseItem
+  id: GasAnalyzerPERed
+  description: Боевой газоанализатор.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/PERed/tools/gasanalyzer.rsi
+    layers:
+      - state: icon
+        map: ["analyzer"]
+  - type: GasAnalyzer
+  - type: ActivatableUI
+    inHandsOnly: true
+    singleUser: true
+    requireActiveHand: false
+    key: enum.GasAnalyzerUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.GasAnalyzerUiKey.Key:
+        type: GasAnalyzerBoundUserInterface
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+        enum.GasAnalyzerVisuals.Enabled:
+          enabled:
+            True: { state: working }
+            False: { state: icon }
+  - type: StaticPrice
+    price: 80
+  - type: PhysicalComposition
+    materialComposition:
+      Steel: 400
+      Glass: 100
+  - type: GuideHelp
+    guides:
+    - AtmosTools
+    - PipeNetworks
+    - Pipes

@@ -9,6 +9,7 @@ using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.CustomControls;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Maths;
 
 namespace Content.Client.Administration.UI.Tabs.AdminTab
 {
@@ -60,6 +61,7 @@ namespace Content.Client.Administration.UI.Tabs.AdminTab
             _ertSystem.OnStateUpdated += PopulateFromSystem;
 
             PopulateAutoSpawnTeamList();
+            ApplyButtonColors();
             UpdateButtonStates();
             _ertSystem.RequestAdminState();
         }
@@ -249,7 +251,7 @@ namespace Content.Client.Administration.UI.Tabs.AdminTab
             if (_selectedPendingRequestId == null)
                 return;
 
-            _ertSystem.AdminRejectRequest(_selectedPendingRequestId.Value);
+            _ertSystem.AdminRejectRequest(_selectedPendingRequestId.Value, PendingNotifyCheckBox.Pressed);
             Refresh();
         }
 
@@ -258,7 +260,7 @@ namespace Content.Client.Administration.UI.Tabs.AdminTab
             if (_selectedPendingRequestId == null)
                 return;
 
-            _ertSystem.AdminApproveRequestManual(_selectedPendingRequestId.Value);
+            _ertSystem.AdminApproveRequestManual(_selectedPendingRequestId.Value, PendingNotifyCheckBox.Pressed);
             Refresh();
         }
 
@@ -267,7 +269,7 @@ namespace Content.Client.Administration.UI.Tabs.AdminTab
             if (_selectedPendingRequestId == null)
                 return;
 
-            _ertSystem.AdminApproveRequestAuto(_selectedPendingRequestId.Value);
+            _ertSystem.AdminApproveRequestAuto(_selectedPendingRequestId.Value, PendingNotifyCheckBox.Pressed);
             Refresh();
         }
 
@@ -350,6 +352,26 @@ namespace Content.Client.Administration.UI.Tabs.AdminTab
 
             _ertSystem.AdminSetPoints(points);
             Refresh();
+        }
+
+        private void ApplyButtonColors()
+        {
+            RefreshButton.ModulateSelfOverride = Color.FromHex("#1f6feb");
+            SetCooldownButton.ModulateSelfOverride = Color.FromHex("#1f6feb");
+            SetPointsButton.ModulateSelfOverride = Color.FromHex("#1f6feb");
+
+            RejectPendingButton.ModulateSelfOverride = Color.FromHex("#f85149");
+            ApprovePendingManualButton.ModulateSelfOverride = Color.FromHex("#2ea043");
+            ApprovePendingAutoButton.ModulateSelfOverride = Color.FromHex("#2ea043");
+
+            SetArrivalButton.ModulateSelfOverride = Color.FromHex("#1f6feb");
+            SetReasonButton.ModulateSelfOverride = Color.FromHex("#1f6feb");
+            ChangeApprovedTeamButton.ModulateSelfOverride = Color.FromHex("#1f6feb");
+            QueueAutoSpawnButton.ModulateSelfOverride = Color.FromHex("#2ea043");
+            MoveApprovedToManualButton.ModulateSelfOverride = Color.FromHex("#f0883e");
+            CancelApprovedAutoSpawnButton.ModulateSelfOverride = Color.FromHex("#f85149");
+
+            PromoteManualApprovedButton.ModulateSelfOverride = Color.FromHex("#2ea043");
         }
 
         private static void ReselectByMetadata(ItemList list, object? metadata)

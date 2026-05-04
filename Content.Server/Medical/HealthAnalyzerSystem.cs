@@ -1,5 +1,13 @@
 using Content.Server.Medical.Components;
 using Content.Shared.Body.Components;
+// DS14-start
+using Content.Shared.Chemistry.Components;
+using Content.Shared.Chemistry.Reagent;
+using Content.Shared.EntityConditions.Conditions;
+using Content.Shared.EntityEffects.Effects.Damage;
+using Content.Shared.FixedPoint;
+using Robust.Shared.Prototypes;
+// DS14-end
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Damage.Components;
 using Content.Shared.DeadSpace.Virus.Components;
@@ -35,6 +43,7 @@ public sealed class HealthAnalyzerSystem : EntitySystem
     [Dependency] private readonly TransformSystem _transformSystem = default!;
     [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
     [Dependency] private readonly BloodstreamSystem _bloodstreamSystem = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!; // DS14
 
     public override void Initialize()
     {
@@ -237,6 +246,7 @@ public sealed class HealthAnalyzerSystem : EntitySystem
         var bloodAmount = float.NaN;
         var bleeding = false;
         var unrevivable = false;
+        var reagents = new List<HealthAnalyzerReagentEntry>(); // DS14
 
         if (TryComp<BloodstreamComponent>(entity, out var bloodstream) &&
             _solutionContainerSystem.ResolveSolution(entity, bloodstream.BloodSolutionName,
@@ -244,6 +254,7 @@ public sealed class HealthAnalyzerSystem : EntitySystem
         {
             bloodAmount = _bloodstreamSystem.GetBloodLevel(entity);
             bleeding = bloodstream.BleedAmount > 0;
+            reagents = GetInjectedReagents(bloodSolution, bloodstream); // DS14
         }
 
         // DS14-start
@@ -266,7 +277,82 @@ public sealed class HealthAnalyzerSystem : EntitySystem
             bleeding,
             unrevivable,
             virus != null, // DS14
-            infectionLevel // DS14
+            infectionLevel, // DS14
+            reagents // DS14
         );
     }
+
+    // DS14-start
+    private List<HealthAnalyzerReagentEntry> GetInjectedReagents(Solution bloodSolution, BloodstreamComponent bloodstream)
+    {
+        var result = new List<HealthAnalyzerReagentEntry>();
+
+        foreach (var (reagentId, quantity) in bloodSolution)
+        {
+            if (quantity <= FixedPoint2.Zero || IsBloodReagent(reagentId.Prototype, bloodstream))
+                continue;
+
+            result.Add(new HealthAnalyzerReagentEntry(
+                reagentId.Prototype,
+                quantity,
+                IsOverdose(reagentId.Prototype, quantity)));
+        }
+
+        result.Sort((left, right) => right.Quantity.CompareTo(left.Quantity));
+        return result;
+    }
+
+    private bool IsBloodReagent(string reagentId, BloodstreamComponent bloodstream)
+    {
+        foreach (var (bloodReagentId, _) in bloodstream.BloodReferenceSolution)
+        {
+            if (bloodReagentId.Prototype == reagentId)
+                return true;
+        }
+
+        return false;
+    }
+
+    private bool IsOverdose(string reagentId, FixedPoint2 quantity)
+    {
+        if (!_prototype.TryIndex<ReagentPrototype>(reagentId, out var reagent) || reagent.Metabolisms == null)
+            return false;
+
+        FixedPoint2? overdoseThreshold = null;
+
+        foreach (var metabolism in reagent.Metabolisms.Values)
+        {
+            foreach (var effect in metabolism.Effects)
+            {
+                if (effect.Conditions == null)
+                    continue;
+
+                if (effect is not HealthChange healthChange || !HasPositiveDamage(healthChange.Damage))
+                    continue;
+
+                foreach (var condition in effect.Conditions)
+                {
+                    if (condition is not ReagentCondition reagentCondition || reagentCondition.Reagent != reagentId || reagentCondition.Min <= FixedPoint2.Zero)
+                        continue;
+
+                    if (overdoseThreshold == null || reagentCondition.Min < overdoseThreshold.Value)
+                        overdoseThreshold = reagentCondition.Min;
+                }
+            }
+        }
+
+        return overdoseThreshold != null && quantity >= overdoseThreshold.Value;
+    }
+
+    private bool HasPositiveDamage(Content.Shared.Damage.DamageSpecifier damage)
+    {
+        foreach (var (_, amount) in damage.DamageDict)
+        {
+            if (amount > FixedPoint2.Zero)
+                return true;
+        }
+
+        return false;
+    }
+    // DS14-end
 }
