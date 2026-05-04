@@ -1,9 +1,11 @@
 using Content.Shared.Actions;
+using Content.Shared.Actions.Components;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Movement.Systems;
 using Content.Shared.Rotation;
 using Content.Shared.Standing;
+using Robust.Shared.Network;
 
 namespace Content.Shared.DeadSpace.SecurityBorg;
 
@@ -12,6 +14,7 @@ public sealed class SharedSecurityBorgProneSystem : EntitySystem
     [Dependency] private readonly SharedActionsSystem _actions = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly MovementSpeedModifierSystem _movementSpeed = default!;
+    [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedRotationVisualsSystem _rotationVisuals = default!;
     [Dependency] private readonly StandingStateSystem _standing = default!;
 
@@ -30,7 +33,13 @@ public sealed class SharedSecurityBorgProneSystem : EntitySystem
 
     private void OnInit(EntityUid uid, SecurityBorgProneComponent component, ComponentInit args)
     {
-        _actions.AddAction(uid, ref component.ActionEntity, component.Action, uid);
+        if (_net.IsServer)
+        {
+            var actions = EnsureComp<ActionsComponent>(uid);
+            _actions.AddAction(uid, ref component.ActionEntity, component.Action, uid, actions);
+            _actions.SetToggled(component.ActionEntity, component.Enabled);
+        }
+
         SetProneVisuals(uid, component.Enabled && !IsIncapacitated(uid));
 
         if (component.Enabled && !IsIncapacitated(uid))
@@ -64,6 +73,7 @@ public sealed class SharedSecurityBorgProneSystem : EntitySystem
             {
                 component.Enabled = false;
                 Dirty(uid, component);
+                _actions.SetToggled(component.ActionEntity, false);
                 SetProneVisuals(uid, false);
                 _movementSpeed.RefreshMovementSpeedModifiers(uid);
             }
@@ -80,6 +90,7 @@ public sealed class SharedSecurityBorgProneSystem : EntitySystem
             {
                 component.Enabled = true;
                 Dirty(uid, component);
+                _actions.SetToggled(component.ActionEntity, true);
                 SetProneVisuals(uid, true);
                 _movementSpeed.RefreshMovementSpeedModifiers(uid);
             }

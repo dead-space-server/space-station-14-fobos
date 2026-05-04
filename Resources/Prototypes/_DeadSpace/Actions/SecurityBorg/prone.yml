@@ -8,6 +8,9 @@
     icon:
       sprite: _DeadSpace/SecurityBorg/securityborg.rsi
       state: sec_down
+    iconOn:
+      sprite: _DeadSpace/SecurityBorg/securityborg.rsi
+      state: sec
     itemIconStyle: NoItem
   - type: InstantAction
     event: !type:SecurityBorgProneActionEvent
