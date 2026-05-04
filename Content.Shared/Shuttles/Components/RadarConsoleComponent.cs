@@ -1,5 +1,6 @@
 using Content.Shared.Shuttles.Systems;
 using Content.Shared.DeadSpace.Shuttles.Components; //DS14
+using Robust.Shared.Prototypes; //DS14
 using Robust.Shared.GameStates;
 
 namespace Content.Shared.Shuttles.Components;
@@ -42,5 +43,11 @@ public sealed partial class RadarConsoleComponent : Component
 
     [DataField]
     public List<string> BlacklistTags = new();
+
+    [DataField]
+    public EntProtoId? ToggleAction;
+
+    [DataField, AutoNetworkedField]
+    public EntityUid? ToggleActionEntity;
     //DS14-end
 }
