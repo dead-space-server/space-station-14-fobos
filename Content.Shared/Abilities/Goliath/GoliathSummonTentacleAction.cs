@@ -32,5 +32,5 @@ public sealed partial class GoliathSummonTentacleAction : WorldTargetActionEvent
 //DS14-start
     [DataField, AutoNetworkedField]
     public LocId PopupMessage = "tentacle-ability-use-popup";
-//DS14Ned
+//DS14-end
 };

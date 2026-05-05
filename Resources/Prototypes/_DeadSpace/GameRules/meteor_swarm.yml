@@ -1,6 +1,6 @@
 - type: entity
   parent: GameRuleMeteorSwarm
-  id: GameRuleMeteorSwarmZaratana
+  id: ZaratanaSpawn
   components:
   - type: StationEvent
     weight: 7.5

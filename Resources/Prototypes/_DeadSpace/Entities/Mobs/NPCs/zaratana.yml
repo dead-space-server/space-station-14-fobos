@@ -1,12 +1,12 @@
 - type: damageModifierSet
   id: Zaratana
   coefficients:
-    Blunt: 2
+    Blunt: 1.2
     Slash: 1
     Piercing: 0.4
-    Shock: 0.2
+    Shock: 0
     Cold: 0
-    Heat: 0.4
+    Heat: 0.2
     Radiation: 0
     Structural: 0.8
 
@@ -83,6 +83,8 @@
         maxDistance: 25
     positional: true
   - type: TriggerOnSpawn
+  - type: TimedDespawn
+    lifetime: 5
 
 - type: entity
   id: SpawnZaratanaEfectExplosion
@@ -258,7 +260,7 @@
     damage:
       types:
         Blunt: 20 # NOM
-        Structural: 100
+        Structural: 150
   - type: Fixtures
     fixtures:
       fix1:

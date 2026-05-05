@@ -32,8 +32,13 @@ public sealed class SharedRollingStoneSystem : EntitySystem
         base.Initialize();
         SubscribeLocalEvent<RollingStoneActionEvent>(OnAction);
         SubscribeLocalEvent<ActiveRollingStoneComponent, StartCollideEvent>(OnCollide);
+        SubscribeLocalEvent<ActiveRollingStoneComponent, ProjectileReflectAttemptEvent>(OnProjectileReflect); 
     }
 
+    private void OnProjectileReflect(Entity<ActiveRollingStoneComponent> ent, ref ProjectileReflectAttemptEvent args)
+    {
+        args.Cancelled = true;
+    }
     private void OnAction(RollingStoneActionEvent args)
     {
         if (args.Handled)
