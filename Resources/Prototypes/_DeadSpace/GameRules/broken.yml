@@ -28,3 +28,21 @@
             amount: 1
           spawnOffset: "0,0"
           useEntityRotation: false
+      - componentName: ApcPowerReceiver
+        blacklistPrototypes:
+          - ResearchAndDevelopmentServer
+          - CrewMonitoringServer
+          - PlayerStationAi
+          - ResearchAndDevelopmentServerTaipan
+        # blacklistTags:
+        #   - HighRiskItem
+        minuteMin: 25
+        minuteMax: 45
+        howMuchEntity: 15
+        chance: 75
+        action: !type:BlockWorkingEntityAction
+          spawnTable: !type:EntSelector
+            id: EffectSparksBrokenEvent
+            amount: 1
+          spawnOffset: "0,0"
+          useEntityRotation: false

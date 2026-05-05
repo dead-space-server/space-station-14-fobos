@@ -6,14 +6,18 @@ using Content.Server.Explosion.EntitySystems;
 using Content.Server.GameTicking;
 using Content.Server.GameTicking.Rules;
 using Content.Server.Atmos.EntitySystems;
+using Content.Server.Power.Components;
 using Content.Shared.DeadSpace.GameRules.Components;
 using Content.Shared.EntityTable;
 using Content.Shared.EntityTable.EntitySelectors; 
 using Content.Shared.GameTicking.Components;
+using Content.Shared.DeviceLinking.Events;
+using Content.Shared.Tag;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Maths;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 
 namespace Content.Server.DeadSpace.GameRules;
@@ -27,41 +31,37 @@ public sealed class BrokenTechGameRuleSystem : GameRuleSystem<BrokenTechGameRule
     [Dependency] private readonly EntityTableSystem _entityTable = default!;
     [Dependency] private readonly SharedMapSystem _mapSystem = default!;
     [Dependency] private readonly AtmosphereSystem _atmos = default!;
+    [Dependency] private readonly TagSystem _tags = default!;
 
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
-    
+
         var query = EntityQueryEnumerator<BrokenTechGameRuleComponent, GameRuleComponent>();
         while (query.MoveNext(out var uid, out var ruleComp, out var gameRule))
         {
             if (!GameTicker.IsGameRuleActive(uid, gameRule))
                 continue;
-    
+
             foreach (var entry in ruleComp.ListComponent)
             {
                 entry.ElapsedSeconds += frameTime;
-                var maxSeconds = entry.MinuteMax * 60f;
-    
-                if (entry.ElapsedSeconds < entry.NextAttemptSeconds && entry.ElapsedSeconds < maxSeconds)
+
+                if (entry.ElapsedSeconds < entry.NextAttemptSeconds)
                     continue;
-    
-                bool forceTrigger = entry.ElapsedSeconds >= maxSeconds;
-    
-                if (!forceTrigger)
+
+                if (_random.Next(100) >= entry.Chance)
                 {
-                    if (_random.Next(100) >= entry.Chance)
-                    {
-                        var remaining = maxSeconds - entry.ElapsedSeconds;
-                        entry.NextAttemptSeconds = remaining > 1f
-                            ? entry.ElapsedSeconds + _random.NextFloat(1f, remaining)
-                            : maxSeconds;
-                        continue;
-                    }
+                    var maxSeconds = entry.MinuteMax * 60f;
+                    var remaining = maxSeconds - entry.ElapsedSeconds;
+
+                    entry.NextAttemptSeconds = entry.ElapsedSeconds +
+                        (remaining > 5f ? _random.NextFloat(1f, MathF.Min(remaining, 30f)) : 5f);
+                    continue;
                 }
-    
+
                 ExecuteEntry(entry);
-    
+
                 entry.ElapsedSeconds = 0f;
                 var minSec = entry.MinuteMin * 60f;
                 var maxSec = entry.MinuteMax * 60f;
@@ -91,9 +91,10 @@ public sealed class BrokenTechGameRuleSystem : GameRuleSystem<BrokenTechGameRule
             return;
 
         _random.Shuffle(entities);
-
-        var targets = entities
-            .Distinct()
+        
+        var filtered = FilterEntities(entities, entry);
+        
+        var targets = filtered
             .Take(entry.HowMuchEntity)
             .ToList();
 
@@ -109,6 +110,40 @@ public sealed class BrokenTechGameRuleSystem : GameRuleSystem<BrokenTechGameRule
                     break;
             }
         }
+    }
+
+    private List<EntityUid> FilterEntities(List<EntityUid> entities, BrokenTechEntry entry)
+    {
+        var result = new List<EntityUid>();
+        
+        foreach (var ent in entities)
+        {
+            if (TerminatingOrDeleted(ent))
+                continue;
+
+            if (TryComp<MetaDataComponent>(ent, out var meta) 
+                && meta.EntityPrototype != null 
+                && entry.BlacklistPrototypes.Contains(meta.EntityPrototype.ID))
+            {
+                continue;
+            }
+
+            var hasBlacklistedTag = false;
+            foreach (var tagId in entry.BlacklistTags)
+            {
+                if (_tags.HasTag(ent, tagId))
+                {
+                    hasBlacklistedTag = true;
+                    break;
+                }
+            }
+            if (hasBlacklistedTag)
+                continue;
+
+            result.Add(ent);
+        }
+
+        return result;
     }
 
     private List<EntityUid> GetEntitiesWithComponent(string componentName)
@@ -139,16 +174,32 @@ public sealed class BrokenTechGameRuleSystem : GameRuleSystem<BrokenTechGameRule
     {
         if (Deleted(uid))
             return;
-    
+
         SpawnFromTable(uid, action.SpawnTable);
-    
+
+        if (TryComp<ApcComponent>(uid, out var apc))
+        {
+            apc.MainBreakerEnabled = false;
+            Dirty(uid, apc);
+            EnsureComp<BrokenTechPowerDisabledComponent>(uid);
+            return;
+        }
+
+        if (TryComp<ApcPowerReceiverComponent>(uid, out var receiver))
+        {
+            receiver.PowerDisabled = true;
+            Dirty(uid, receiver);
+            EnsureComp<BrokenTechPowerDisabledComponent>(uid);
+            return;
+        }
+
         if (_compFactory.TryGetRegistration("NodeContainer", out var nodeReg)
             && EntityManager.HasComponent(uid, nodeReg.Type))
         {
             EntityManager.RemoveComponent(uid, nodeReg.Type);
             return;
         }
-    
+
         QueueDel(uid);
     }
 
@@ -157,8 +208,8 @@ public sealed class BrokenTechGameRuleSystem : GameRuleSystem<BrokenTechGameRule
         if (selector == null)
             return;
 
-        var spawns = _entityTable.GetSpawns(selector);
-        if (spawns == null)
+        var spawns = _entityTable.GetSpawns(selector).ToList();
+        if (spawns.Count == 0)
             return;
 
         var xform = Transform(anchor);
@@ -201,5 +252,29 @@ public sealed class BrokenTechGameRuleSystem : GameRuleSystem<BrokenTechGameRule
         }
 
         return null;
+    }
+
+    public override void Initialize()
+    {
+        base.Initialize();
+        SubscribeLocalEvent<BrokenTechPowerDisabledComponent, SignalReceivedEvent>(OnSignalRestorePower);
+    }
+
+    private void OnSignalRestorePower(EntityUid uid, BrokenTechPowerDisabledComponent comp, ref SignalReceivedEvent args)
+    {
+        if (TryComp<ApcComponent>(uid, out var apc))
+        {
+            apc.MainBreakerEnabled = true;
+            Dirty(uid, apc);
+            RemComp<BrokenTechPowerDisabledComponent>(uid);
+            return;
+        }
+
+        if (!TryComp<ApcPowerReceiverComponent>(uid, out var receiver))
+            return;
+
+        receiver.PowerDisabled = false;
+        Dirty(uid, receiver);
+        RemComp<BrokenTechPowerDisabledComponent>(uid);
     }
 }
