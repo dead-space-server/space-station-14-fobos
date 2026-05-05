@@ -89,18 +89,15 @@ public sealed class NightVisionSystem : EntitySystem
         component.Color = state.Color;
         component.ActivateSound = state.ActivateSound;
         component.ServerLastToggleTick = state.LastToggleTick;
-
-        // Применяю серверное состояние, если оно свежее предсказанного клиентом
+        component.Duration = state.Duration;
         if (component.ClientLastToggleTick > component.ServerLastToggleTick)
             return;
 
         component.IsToggled = false;
-
         if (component.IsNightVision == state.IsNightVision)
             return;
 
         ToggleNightVision(uid, component, state.IsNightVision);
-
         component.ClientLastToggleTick = component.ServerLastToggleTick;
     }
 

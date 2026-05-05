@@ -44,7 +44,7 @@
     head: ClothingHeadHatBeretCentcomNaval
     id: CentcomPDA
     gloves: ClothingHandsGlovesCombat
-    ears: ClothingHeadsetCentCom
+    ears: ClothingHeadsetAltCentCom
     belt: ClothingBeltSecurityFilled
 
 - type: chameleonOutfit
