@@ -10,8 +10,8 @@ namespace Content.Server.Corvax.TTS;
 // ReSharper disable once InconsistentNaming
 public sealed partial class TTSSystem
 {
-    private const string AllowedTtsCharsPattern = @"[^a-zA-Zа-яА-ЯёЁ0-9,\-+?!. ]";
-    private const string AllowedTtsWordPattern = @"(?<![a-zA-Zа-яёА-ЯЁ])[a-zA-Zа-яёА-ЯЁ]+?(?![a-zA-Zа-яёА-ЯЁ])";
+    private const string AllowedTtsCharsPattern = @"[^a-zA-ZäöüÄÖÜßа-яА-ЯёЁ0-9,\-+?!. ]";
+    private const string AllowedTtsWordPattern = @"(?<![a-zA-ZäöüÄÖÜßа-яёА-ЯЁ])[a-zA-ZäöüÄÖÜßа-яёА-ЯЁ]+?(?![a-zA-ZäöüÄÖÜßа-яёА-ЯЁ])";
     private const string LatinTranslitPattern = @"jsh|je|zh|ch|sh|hh|ih|jh|eh|ju|ja|[a-zA-Z]";
 
     private void OnTransformSpeech(TransformSpeechEvent args)
