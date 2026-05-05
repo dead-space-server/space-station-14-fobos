@@ -1,3 +1,4 @@
+using System.Linq; // DS14
 using Content.Server.Power.Components;
 using Content.Server.Power.EntitySystems;
 using Content.Server.Shuttles.Components;
@@ -15,6 +16,13 @@ using Content.Shared.Movement.Systems;
 using Content.Shared.Power;
 using Content.Shared.Shuttles.UI.MapObjects;
 using Content.Shared.Timing;
+//DS14-start
+using Content.Shared.DeadSpace.Shuttles.Components;
+using Content.Shared.Mobs.Components;
+using Content.Shared.Mind;
+using Robust.Shared.Map.Components;
+using Robust.Shared.Physics.Components;
+//DS14-end
 using Robust.Server.GameObjects;
 using Robust.Shared.Collections;
 using Robust.Shared.GameStates;
@@ -269,6 +277,7 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
         if (shuttleGridUid != null && entity != null)
         {
             navState = GetNavState(entity.Value, dockState.Docks);
+            navState.Blips = CollectShuttleSpaceBlips(consoleUid, navState.MaxRange); //DS14
             mapState = GetMapState(shuttleGridUid.Value);
         }
         else
@@ -290,6 +299,8 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
+
+        UpdateBlipsTick(frameTime); //DS14
 
         var toRemove = new ValueList<(EntityUid, PilotComponent)>();
         var query = EntityQueryEnumerator<PilotComponent>();
@@ -416,7 +427,6 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
     /// <summary>
     /// Global for all shuttles.
     /// </summary>
-    /// <returns></returns>
     public DockingInterfaceState GetDockState()
     {
         var docks = GetAllDocks();
@@ -454,5 +464,100 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
     {
         _link.InvokePort(uid, component.LinkingPort);
     }
-    // DS14-end
+
+    private List<BlipState> CollectShuttleSpaceBlips(EntityUid consoleUid, float maxRange)
+    {
+        if (!TryComp<RadarConsoleComponent>(consoleUid, out var radar) || !radar.Advanced)
+            return new List<BlipState>();
+
+        var blips = new List<BlipState>();
+
+        var consoleXform = Transform(consoleUid);
+        if (consoleXform.MapUid == null)
+            return blips;
+
+        var worldPos = _transform.GetWorldPosition(consoleXform);
+        var mapId    = consoleXform.MapID;
+        var blacklistTypes = ResolveComponentTypes(radar.BlacklistComponents);
+        var allowedTypes   = ResolveAllowedEntries(radar.AllowedComponents);
+        var blacklistTags  = radar.BlacklistTags;
+        var allowedTags    = radar.AllowedTags;
+
+        var nearby = new HashSet<EntityUid>();
+        _lookup.GetEntitiesInRange(mapId, worldPos, maxRange, nearby, LookupFlags.Uncontained);
+
+        foreach (var ent in nearby)
+        {
+            if (ent == consoleUid)
+                continue;
+
+            if (HasComp<MapComponent>(ent) || HasComp<MapGridComponent>(ent))
+                continue;
+
+            var entXform = Transform(ent);
+            if (entXform.GridUid != null)
+                continue;
+
+            if (!TryComp<PhysicsComponent>(ent, out var phys) || !phys.CanCollide)
+                continue;
+
+            if (blacklistTypes.Any(type => EntityManager.HasComponent(ent, type)))
+                continue;
+
+            if (blacklistTags.Any(tag => _tags.HasTag(ent, tag)))
+                continue;
+
+            var color = PickShuttleBlipColor(ent, allowedTypes, allowedTags);
+            if (color == null)
+                continue;
+
+            var entWorldPos = _transform.GetWorldPosition(entXform);
+            blips.Add(new BlipState(entWorldPos, color.Value, 0.5f));
+        }
+
+        return blips;
+    }
+
+    private Color? PickShuttleBlipColor(EntityUid ent, List<(Type Type, Color Color)> allowedTypes, List<RadarBlipTagEntry> allowedTags)
+    {
+        var compMatch = allowedTypes.FirstOrDefault(x => EntityManager.HasComponent(ent, x.Type));
+        if (compMatch != default)
+            return compMatch.Color;
+
+        var tagMatch = allowedTags.FirstOrDefault(x => _tags.HasTag(ent, x.Tag));
+        if (tagMatch != null)
+            return tagMatch.Color;
+
+        if (allowedTypes.Count == 0 && allowedTags.Count == 0)
+            return Color.Yellow;
+
+        return null;
+    }
+
+    private List<Type> ResolveComponentTypes(List<string> names)
+    {
+        var result = new List<Type>(names.Count);
+        foreach (var name in names)
+        {
+            if (IoCManager.Resolve<IComponentFactory>().TryGetRegistration(name, out var reg))
+                result.Add(reg.Type);
+        }
+        return result;
+    }
+
+    private List<(Type Type, Color Color)> ResolveAllowedEntries(List<RadarBlipEntry> entries)
+    {
+        var result = new List<(Type, Color)>(entries.Count);
+        foreach (var entry in entries)
+        {
+            if (IoCManager.Resolve<IComponentFactory>().TryGetRegistration(entry.Component, out var reg))
+                result.Add((reg.Type, entry.Color));
+        }
+        return result;
+    }
+
+    private void UpdateBlipsTick(float frameTime)
+    {
+    }
+// DS14-end
 }

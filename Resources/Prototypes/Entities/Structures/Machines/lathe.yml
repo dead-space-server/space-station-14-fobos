@@ -420,6 +420,7 @@
     - SecurityDisablers
     - WeaponMagmite # DS14
     - SecurityRIGCraftDetails # DS14
+    - GlovesArkalyse # DS14
   - type: EmagLatheRecipes
     emagStaticPacks:
     - SyndicateAmmoStatic

@@ -1,4 +1,12 @@
 - type: latheRecipe
+  id: BluespaceHandHeldMassScannerEmpty
+  result: BluespaceHandHeldMassScannerEmpty
+  materials:
+    Steel: 1000
+    Plastic: 250
+    BluespaceCrystal: 750
+    
+- type: latheRecipe
   parent: BaseToolRecipe
   id: HoloprojectorRND
   result: HoloprojectorRNDEmpty

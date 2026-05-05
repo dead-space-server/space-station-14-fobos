@@ -10,7 +10,7 @@
   rules:
     - WageScheduler # backmen: currency
     - MeteorSwarmScheduler
-    - RampingStationEventScheduler
+    - SurvivalRampingStationEventScheduler # DS14
     - SpaceTrafficControlEventScheduler
     - BasicRoundstartVariation
 
