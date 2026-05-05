@@ -10,6 +10,7 @@ using Content.Shared.Hands;
 using Content.Shared.Interaction;
 using Content.Shared.Inventory.Events;
 using Content.Shared.Mind;
+using Content.Shared.Mind.Components; // DS14
 using Content.Shared.Rejuvenate;
 using Content.Shared.Whitelist;
 using Robust.Shared.Audio.Systems;
@@ -56,6 +57,7 @@ public abstract partial class SharedActionsSystem : EntitySystem
         SubscribeLocalEvent<ActionsComponent, DidEquipHandEvent>(OnHandEquipped);
         SubscribeLocalEvent<ActionsComponent, DidUnequipEvent>(OnDidUnequip);
         SubscribeLocalEvent<ActionsComponent, DidUnequipHandEvent>(OnHandUnequipped);
+        SubscribeLocalEvent<ActionsComponent, MindRemovedMessage>(OnMindRemoved); // DS14
         SubscribeLocalEvent<ActionsComponent, RejuvenateEvent>(OnRejuventate);
 
         SubscribeLocalEvent<ActionsComponent, ComponentShutdown>(OnShutdown);
@@ -227,6 +229,13 @@ public abstract partial class SharedActionsSystem : EntitySystem
             ClearCooldown(act);
         }
     }
+
+    // DS14-start
+    private void OnMindRemoved(Entity<ActionsComponent> ent, ref MindRemovedMessage args)
+    {
+        RemoveProvidedActions(ent.Owner, args.Mind, ent.Comp);
+    }
+    // DS14-end
 
     #region ComponentStateManagement
     public virtual void UpdateAction(Entity<ActionComponent> ent)

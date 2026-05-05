@@ -4,6 +4,7 @@
   name: Summon Ghosts
   description: Makes all current ghosts permanently visible
   components:
+  - type: Magic # DS14
   - type: Action
     useDelay: 120
     itemIconStyle: BigAction

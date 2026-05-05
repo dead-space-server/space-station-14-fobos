@@ -9,45 +9,19 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
-    outputs:
-      should_send: ${{ steps.check-commented.outputs.should_send }}
-
     steps:
       - name: Extract PR details
         id: extract
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
         run: |
-          BODY=$(printf '%s' "${{ github.event.pull_request.body }}" | base64 -w0)
+          BODY=$(printf '%s' "$PR_BODY" | base64 -w0)
           echo "DESCRIPTION_B64=$BODY" >> $GITHUB_OUTPUT
           echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
           echo "AUTHOR=${{ github.event.pull_request.user.login }}" >> $GITHUB_OUTPUT
           echo "REPO=${{ github.repository }}" >> $GITHUB_OUTPUT
 
-      - name: Check commented
-        id: check-commented  # Важно: задаём id для доступа к outputs
-        env:
-          DESCRIPTION_B64: ${{ steps.extract.outputs.DESCRIPTION_B64 }}
-        run: |
-          python <<'EOF'
-          import re, os
-          import base64
-
-          desc_b64 = os.environ.get("DESCRIPTION_B64", "")
-          desc = base64.b64decode(desc_b64).decode("utf-8", errors="replace")
-
-          # Удаляем все HTML-комментарии (многострочные)
-          desc = re.sub(r'<!--.*?-->', '', desc, flags=re.DOTALL)
-
-          if ":cl:" not in desc:
-              print("Skip (:cl:)")
-              print("::set-output name=should_send::false")
-              exit(0)
-          else:
-              print("::set-output name=should_send::true")
-
-          EOF
-
-      - name: Parse PR and build JSON with jq
-        if: steps.check-commented.outputs.should_send == 'true'
+      - name: Parse PR and build JSON
         id: parse
         env:
           DESCRIPTION_B64: ${{ steps.extract.outputs.DESCRIPTION_B64 }}
@@ -55,70 +29,103 @@ jobs:
           AUTHOR: ${{ steps.extract.outputs.AUTHOR }}
           REPO: ${{ steps.extract.outputs.REPO }}
         run: |
-          sudo apt-get update && sudo apt-get install -y jq
-          DESC=$(echo "$DESCRIPTION_B64" | base64 -d)
-          DESC_CLEAN=$(echo "$DESC" | sed 's/<!--.*-->//g')
+          python <<'EOF'
+          import base64
+          import json
+          import os
+          import re
+          from datetime import datetime, timezone
 
-          ADDED=$(echo "$DESC_CLEAN" | grep -oP '(?<=- Добавлено:).*' || echo "")
-          REMOVED=$(echo "$DESC_CLEAN" | grep -oP '(?<=- Удалено:).*' || echo "")
-          CHANGED=$(echo "$DESC_CLEAN" | grep -oP '(?<=- Изменено:).*' || echo "")
-          FIXED=$(echo "$DESC_CLEAN" | grep -oP '(?<=- Исправлено:).*' || echo "")
+          def set_output(name, value):
+              with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
+                  f.write(f"{name}={value}\n")
 
-          # Преобразуем \n в реальные переносы строк для каждого поля
-          ADDED=$(echo -e "$ADDED")
-          REMOVED=$(echo -e "$REMOVED")
-          CHANGED=$(echo -e "$CHANGED")
-          FIXED=$(echo -e "$FIXED")
+          desc_b64 = os.environ.get("DESCRIPTION_B64", "")
+          desc = base64.b64decode(desc_b64).decode("utf-8", errors="replace")
+          desc = re.sub(r"<!--.*?-->", "", desc, flags=re.DOTALL)
 
-          # Если изменений нет — выходим без отправки
-          if [[ -z "$ADDED" && -z "$REMOVED" && -z "$CHANGED" && -z "$FIXED" ]]; then
-            echo "No changes found. Skipping Discord notification."
-            exit 0
-          fi
+          if ":cl:" not in desc:
+              print("Skip (:cl: not found)")
+              set_output("should_send", "false")
+              exit(0)
 
-          # Создаём JSON через jq с полями (fields) для каждого типа изменений
-          PAYLOAD=$(jq -n \
-            --arg title "Изменение (PR #$PR_NUMBER)" \
-            --arg url "https://github.com/$REPO/pull/$PR_NUMBER" \
-            --arg author "$AUTHOR" \
-            --arg footer "$(date -u +"%Y-%m-%d %H:%M:%S UTC")" \
-            --arg added "$ADDED" \
-            --arg removed "$REMOVED" \
-            --arg changed "$CHANGED" \
-            --arg fixed "$FIXED" \
-            '{
+          sections = [
+              ("Добавлено", "🆕 Добавлено:"),
+              ("Удалено", "❌ Удалено:"),
+              ("Изменено", "⚒️ Изменено:"),
+              ("Исправлено", "🐛 Исправлено:"),
+          ]
+
+          def trim(value, limit=1024):
+              return value if len(value) <= limit else value[:limit - 3] + "..."
+
+          fields = []
+
+          for title, field_name in sections:
+              pattern = rf"- {re.escape(title)}:\s*(.*?)(?=\n- [^:]|$)"
+              messages = []
+
+              for block in re.findall(pattern, desc, flags=re.DOTALL):
+                  lines = [
+                      line.strip("- ").strip()
+                      for line in block.splitlines()
+                      if line.strip()
+                  ]
+                  message = re.sub(r"\s+", " ", " ".join(lines)).strip()
+                  if message:
+                      messages.append(message)
+
+              if messages:
+                  value = "\n".join(f"- {message}" for message in messages)
+                  fields.append({"name": field_name, "value": trim(value), "inline": False})
+
+          if not fields:
+              print("No changelog changes found. Skipping Discord notification.")
+              set_output("should_send", "false")
+              exit(0)
+
+          fields.append({
+              "name": "👤 Автор:",
+              "value": os.environ.get("AUTHOR", "unknown"),
+              "inline": False,
+          })
+
+          pr_number = os.environ.get("PR_NUMBER", "")
+          repo = os.environ.get("REPO", "")
+          payload = {
               "username": "Капибарка МК-Изменения",
               "embeds": [
-                {
-                  "color": 3300375,
-                  "title": $title,
-                  "url": $url,
-                  "fields": [
-                    { "name": "🆕 Добавлено:", "value": $added, "inline": false },
-                    { "name": "❌ Удалено:", "value": $removed, "inline": false },
-                    { "name": "⚒️ Изменено:", "value": $changed, "inline": false },
-                    { "name": "🐛 Исправлено:", "value": $fixed, "inline": false },
-                    { "name": "👤 Автор:", "value": $author, "inline": false }
-                  ],
-                  "footer": {
-                    "text": $footer
+                  {
+                      "color": 3300375,
+                      "title": f"Изменение (PR #{pr_number})",
+                      "url": f"https://github.com/{repo}/pull/{pr_number}",
+                      "fields": fields,
+                      "footer": {
+                          "text": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+                      },
                   }
-                }
-              ]
-            }')
+              ],
+          }
 
-          echo "$PAYLOAD" > /tmp/discord_payload.json
-          echo "PAYLOAD_FILE=/tmp/discord_payload.json" >> $GITHUB_OUTPUT
+          payload_file = "/tmp/discord_payload.json"
+          with open(payload_file, "w", encoding="utf-8") as f:
+              json.dump(payload, f, ensure_ascii=False)
+
+          set_output("payload_file", payload_file)
+          set_output("should_send", "true")
+          EOF
 
       - name: Send to Discord
-        if: |
-          steps.parse.outcome == 'success' &&
-          steps.parse.outputs.PAYLOAD_FILE != '' &&
-          steps.check-commented.outputs.should_send == 'true'
+        if: steps.parse.outputs.should_send == 'true'
         env:
-          PAYLOAD_FILE: ${{ steps.parse.outputs.PAYLOAD_FILE }}
+          PAYLOAD_FILE: ${{ steps.parse.outputs.payload_file }}
           WEBHOOK_URL: ${{ secrets.CHANGELOG_DISCORD_WEBHOOK }}
         run: |
+          if [ -z "$WEBHOOK_URL" ]; then
+            echo "CHANGELOG_DISCORD_WEBHOOK secret is not set"
+            exit 1
+          fi
+
           PAYLOAD=$(cat "$PAYLOAD_FILE")
 
           curl -X POST \

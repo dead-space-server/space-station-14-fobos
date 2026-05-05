@@ -1,6 +1,6 @@
 - type: entity
   parent: BaseComputerAiAccess
-  id: ErtResponceConsole
+  id: ErtResponseConsole
   name: консоль запроса поддержки NanoTrasen
   description: Консоль запроса поддержки NanoTrasen которая отправляет сигнал отрядам быстрого реагирования для оказания поддержки станции в критических ситуациях.
   components:
@@ -17,24 +17,24 @@
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
       state: generic_panel_open
   - type: Computer
-    board: ErtResponceConsoleCircuitboard
+    board: ErtResponseConsoleCircuitboard
   - type: PointLight
     radius: 1.5
     energy: 1.6
     color: "#1d8bad"
   - type: ActivatableUI
-    key: enum.ErtResponceConsoleUiKey.Key
+    key: enum.ErtResponseConsoleUiKey.Key
   - type: UserInterface
     interfaces:
-        enum.ErtResponceConsoleUiKey.Key:
-          type: ErtResponceConsoleBoundUserInterface
+        enum.ErtResponseConsoleUiKey.Key:
+          type: ErtResponseConsoleBoundUserInterface
   - type: Speech
     speechVerb: Robotic
     speechSounds: Pai
   - type: Damageable
     damageContainer: StructuralInorganic
     damageModifierSet: StructuralMetallicStrong
-  - type: ErtResponceConsole
+  - type: ErtResponseConsole
     teams:
     - Cburn
     - CburnSierra
@@ -43,17 +43,37 @@
     - Amber
     - Engineers
     - BSAA
-  - type: ActivatableUIRequiresAccess
-  - type: AccessReader
-    access: [["HeadOfSecurity"]]
+    useApprovalWorkflow: true
+  - type: ContainerContainer
+    containers:
+      board: !type:Container
+        showEnts: False
+        occludes: True
+        ents: []
+      ErtConsole-auth-a: !type:ContainerSlot
+        showEnts: False
+        occludes: True
+        ent: null
+      ErtConsole-auth-b: !type:ContainerSlot
+        showEnts: False
+        occludes: True
+        ent: null
+  - type: ItemSlots
+    slots:
+      ErtConsole-auth-a:
+        name: ert-console-auth-slot-a
+        swap: false
+      ErtConsole-auth-b:
+        name: ert-console-auth-slot-b
+        swap: false
   - type: Language
     selectedLanguage: GeneralLanguage
 
 - type: entity
   parent: BaseComputerAiAccess
   id: ErtComputerShuttle
-  name: консоль вызова обр NanoTrasen
-  description: Консоль для вызова отрядов быстрого реагирования на станции NanoTrasen.
+  name: консоль эвакуации сил КСО
+  description: Консоль для эвакуации сил КСО с актива NanoTrasen.
   components:
   - type: Sprite
     layers:
@@ -117,8 +137,8 @@
 - type: entity
   parent: BaseComputerCircuitboard
   id: ErtComputerShuttleCircuitboard
-  name: машинная плата консоли обр NanoTrasen
-  description: Компьютерная печатная плата для консоли обр NanoTrasen.
+  name: машинная плата консоли эвакуации сил КСО
+  description: Компьютерная печатная плата для консоли эвакуации сил КСО.
   components:
     - type: Sprite
       state: cpu_command
@@ -127,62 +147,11 @@
 
 - type: entity
   parent: BaseComputerCircuitboard
-  id: ErtResponceConsoleCircuitboard
+  id: ErtResponseConsoleCircuitboard
   name: машинная плата консоли запроса поддержки NanoTrasen
   description: Компьютерная печатная плата для консоли запроса поддержки NanoTrasen.
   components:
     - type: Sprite
       state: cpu_command
     - type: ComputerBoard
-      prototype: ErtResponceConsole
-
-- type: entity
-  parent: 
-  - BaseItem
-  id: TelephoneIaa
-  name: устройство связи с ЦК
-  description: Устройство связи, которое выдаётся агентам внутренних дел для связи с Центральным Командованием в экстренных случаях.
-  components:
-  - type: ActivatableUI
-    key: enum.ErtResponceConsoleUiKey.Key
-    requiresComplex: true
-    requireActiveHand: false
-    singleUser: true
-  - type: UserInterface
-    interfaces:
-      enum.ErtResponceConsoleUiKey.Key:
-        type: ErtResponceConsoleBoundUserInterface
-  - type: CrewManifestViewer
-    ownerKey: enum.ErtResponceConsoleUiKey.Key
-  - type: Item
-    size: Small
-  - type: EmitSoundOnLand
-    sound:
-      path: /Audio/Items/multitool_drop.ogg
-  - type: Sprite
-    sprite: _DeadSpace/Ert/telephone_iaa.rsi
-    state: icon
-  - type: Clothing
-    sprite: _DeadSpace/Ert/telephone_iaa.rsi
-    quickEquip: false
-    slots:
-      - Belt
-  - type: Tag
-    tags:
-    - EmagImmune
-  - type: ActivatableUIRequiresAccess
-  - type: AccessReader
-    access:
-    - - Command
-      - Security
-      - Service
-      - Lawyer
-      - Brig
-      - Maintenance
-  - type: ErtResponceConsole
-    teams:
-    - CentralCommandOfficial
-  - type: Language
-    selectedLanguage: GeneralLanguage
-  - type: Speech
-    speechVerb: Robotic
+      prototype: ErtResponseConsole

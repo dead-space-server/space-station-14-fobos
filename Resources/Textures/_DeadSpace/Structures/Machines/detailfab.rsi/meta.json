@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright":  "taken from https://github.com/DS-13-Dev-Team/DS13-2.0/blob/master/icons/obj/wiremod.dmi, edit by thezuti(discord))",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "icon"
+    },
+    {
+      "name": "panel"
+    },
+    {
+      "name": "building",
+      "delays": [
+        [
+          0.15,
+          0.15,
+          0.15,
+          0.15,
+          0.15,
+          0.15,
+          0.15,
+          0.15,
+          0.15
+        ]
+      ]
+    },
+    {
+      "name": "inserting",
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      ]
+    }
+  ]
+}

@@ -429,6 +429,7 @@
       tags:
         - CartridgeRifleSCARAB
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/scarab/mag.rsi
     layers:
     - state: base

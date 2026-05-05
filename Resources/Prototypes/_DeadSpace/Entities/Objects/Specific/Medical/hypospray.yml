@@ -22,11 +22,9 @@
   - type: SolutionContainerManager
     solutions:
       pen:
-        maxVol: 30
+        maxVol: 20
         reagents:
         - ReagentId: Desoxyephedrine
           Quantity: 10
-        - ReagentId: Tricordrazine
-          Quantity: 20
-  - type: Tag
-    tags: []
+        - ReagentId: Dylovene
+          Quantity: 10

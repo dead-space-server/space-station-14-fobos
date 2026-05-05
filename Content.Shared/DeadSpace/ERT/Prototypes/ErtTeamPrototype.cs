@@ -4,6 +4,7 @@ using Robust.Shared.Prototypes;
 using Content.Shared.DeadSpace.TimeWindow;
 using Content.Shared.Storage;
 using Robust.Shared.Audio;
+using Robust.Shared.Maths;
 
 namespace Content.Shared.DeadSpace.ERT.Prototypes;
 
@@ -66,5 +67,14 @@ public sealed partial class ErtTeamPrototype : IPrototype
 
     [DataField]
     public SoundSpecifier? StartAudio = null;
+
+    [DataField]
+    public SoundSpecifier? ApprovalAudio = null;
+
+    [DataField]
+    public Color? ApprovalColor = null;
+
+    [DataField]
+    public bool AnnounceOnApproval = true;
 }
 

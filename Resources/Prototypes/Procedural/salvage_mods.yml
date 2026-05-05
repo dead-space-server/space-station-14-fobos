@@ -255,9 +255,11 @@
   biomes:
     - Snow
 
-- type: salvageDungeonMod
-  id: Haunted
-  desc: salvage-dungeon-mod-haunted
-  proto: Haunted
-  biomes:
-    - Caves
+#DS14-start
+# - type: salvageDungeonMod
+#   id: Haunted
+#   desc: salvage-dungeon-mod-haunted
+#   proto: Haunted
+#   biomes:
+#     - Caves
+#DS14-end

@@ -96,7 +96,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitDominator
   name: зелёный украшенный скафандр
   description: Принадлежат члену экипажа, находящемуся под покровительством спонсорской организации. Характеристики идентичны скафандру атмос-техника.

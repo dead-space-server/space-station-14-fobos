@@ -88,5 +88,9 @@ ent-ComputerXenoborgsControl = xenoborgs control console
     .desc = Used to remotely monitor all xenoborgs.
 ent-StationAiUploadComputer = AI upload console
     .desc = Used to update the laws of the station AI.
+#DeadSpace-start
+ent-LawBoardConfiguratorComputer = law board configurator console
+    .desc = Used to edit law boards directly. Requires Research Director access.
+#DeadSpace-end
 ent-StationAiFixerComputer = AI restoration console
     .desc = Used to repair damaged artifical intelligences.

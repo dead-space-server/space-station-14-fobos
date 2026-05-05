@@ -4,6 +4,7 @@
   name: Mind Swap
   description: Exchange bodies with another person!
   components:
+  - type: Magic # DS14
   - type: Action
     useDelay: 180
     sound: !type:SoundPathSpecifier

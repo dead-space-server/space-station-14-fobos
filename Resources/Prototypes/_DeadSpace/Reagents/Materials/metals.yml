@@ -13,3 +13,30 @@
   icon: { sprite: Objects/Materials/Sheets/metal.rsi, state: plastitanium }
   color: "#323232"
   price: 0.7
+
+- type: material
+  id: MaterialScrapGlass
+  stackEntity: ScrapGlass
+  unit: materials-unit-slab
+  name: бракованные схемы
+  icon: { sprite: Objects/Materials/Scrap/generic.rsi, state: glass-1 }
+  color: "#008000"
+  price: 5
+
+- type: material
+  id: MaterialHardDiskDrive
+  stackEntity: TreasureHardDiskDrive
+  unit: materials-unit-slab
+  name: жёсткий диск
+  icon: { sprite: Objects/Misc/module.rsi, state: harddisk }
+  color: "#A9A9A9"
+  price: 2
+
+- type: material
+  id: MaterialDatadiskEncrypted
+  unit: materials-unit-slab
+  stackEntity: TreasureDatadiskEncrypted
+  name: зашифрованный диск данных
+  icon: { sprite: Objects/Misc/module.rsi, state: cargodisk }
+  color: "#323232"
+  price: 5

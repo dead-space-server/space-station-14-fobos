@@ -912,13 +912,15 @@
       coefficients:
         Blunt: 0.6
         Slash: 0.6
-        Piercing: 0.4
-        Heat: 0.25
-        Radiation: 0.25
-        Caustic: 0.75
+        Piercing: 0.6 #DS14
+        Heat: 0.5 #DS14
+        Radiation: 0.4 #DS14
+        Caustic: 0.4 #DS14
+  - type: StaminaResistance # DS14
+    damageCoefficient: 0.45
   - type: ClothingSpeedModifier
-    walkModifier: 0.8
-    sprintModifier: 0.8
+    walkModifier: 0.9 #DS14
+    sprintModifier: 0.9 #DS14
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitWizard

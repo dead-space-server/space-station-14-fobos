@@ -1,13 +1,17 @@
-﻿<Control
+<Control
     xmlns="https://spacestation14.io"
     xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+    xmlns:ds="clr-namespace:Content.Client.DeadSpace.Administration.UI"
     Margin="4"
     MinSize="50 50">
-    <GridContainer
-        Columns="2">
-        <controls:ConfirmButton Name="StartRound" Text="{Loc administration-ui-round-tab-start-round}" />
-        <controls:ConfirmButton Name="EndRound" Text="{Loc administration-ui-round-tab-end-round}" />
-        <controls:ConfirmButton Name="RestartRound" Text="{Loc administration-ui-round-tab-restart-round}" />
-        <controls:ConfirmButton Name="RestartRoundNow" Text="{Loc administration-ui-round-tab-restart-round-now}" />
-    </GridContainer>
+    <BoxContainer Orientation="Vertical">
+        <GridContainer
+            Columns="2">
+            <controls:ConfirmButton Name="StartRound" Text="{Loc administration-ui-round-tab-start-round}" />
+            <controls:ConfirmButton Name="EndRound" Text="{Loc administration-ui-round-tab-end-round}" />
+            <controls:ConfirmButton Name="RestartRound" Text="{Loc administration-ui-round-tab-restart-round}" />
+            <controls:ConfirmButton Name="RestartRoundNow" Text="{Loc administration-ui-round-tab-restart-round-now}" />
+        </GridContainer>
+        <ds:AutoMapVoteRoundControl Name="AutoMapVoteControl" />
+    </BoxContainer>
 </Control>
