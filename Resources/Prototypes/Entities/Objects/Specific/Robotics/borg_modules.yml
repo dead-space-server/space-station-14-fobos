@@ -668,6 +668,13 @@
     - item: BorgFireExtinguisher
     - item: BorgHandheldGPSBasic
     - item: HandHeldMassScannerBorg
+    - item: Fulton #DS14
+      hand:
+        emptyRepresentative: Fulton
+        emptyLabel: borg-slot-fulton-empty
+        whitelist:
+          tags:
+          - Fulton
   - type: BorgModuleIcon
     icon: { sprite: Interface/Actions/actions_borg.rsi, state: grappling-module }
 

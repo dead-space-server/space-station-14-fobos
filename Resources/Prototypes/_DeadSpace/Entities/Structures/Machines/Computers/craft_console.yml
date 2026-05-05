@@ -15,6 +15,7 @@
     - map: ["computerLayerKeys"]
       state: rd_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: ConsoleCraftConsole
   - type: ConsoleCraftBlueprintReceiver

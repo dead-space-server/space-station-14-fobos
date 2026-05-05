@@ -16,7 +16,7 @@
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,19,9
+    - 0,0,15,10
   - type: StorageFill
     contents:
     - id: ClothingOuterHardsuitQretrojem
@@ -44,7 +44,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitQretrojem
   name: cкафандр последователя Церкви Юнитологии
   description: Элегантный и хорошо защищенный скафандр, созданный по заказу крайне религиозного человека.
@@ -70,7 +70,7 @@
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.4
+        Piercing: 0.6
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
@@ -251,11 +251,11 @@
     size: Huge
   - type: Storage
     grid:
-    - 0,0,9,1
+    - 0,0,7,1
   - type: StorageFill
     contents:
     - id: PowerDrillQretrojem
-    - id: SyndicateJawsOfLifeQretrojem
+    - id: JawsOfLifeQretrojem
     - id: WelderExperimentalQretrojem
     - id: MultitoolQretrojem
 
@@ -449,8 +449,8 @@
 
 #JawsOfLife
 - type: entity
-  parent: SyndicateJawsOfLife
-  id: SyndicateJawsOfLifeQretrojem
+  parent: JawsOfLife
+  id: JawsOfLifeQretrojem
   name: челюсти жизни последователя Церкви Юнитологии
   description: Набор челюстей жизни, скомпонованных при помощи магии науки.
   categories: [ HideSpawnMenu ]

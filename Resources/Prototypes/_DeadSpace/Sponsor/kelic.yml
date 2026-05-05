@@ -30,7 +30,7 @@
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,19,9
+    - 0,0,15,10
   - type: StorageFill
     contents:
       - id: ClothingNeckKelic
@@ -52,6 +52,7 @@
       - id: TapeRecorderr
       - id: TapeEmpty
         amount: 1
+      - id: HolofanProjector 
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
   - type: ToggleableClothing
@@ -80,7 +81,7 @@
     size: Huge
   - type: Storage
     grid:
-    - 0,0,9,1
+    - 0,0,7,1
   - type: StorageFill
     contents:
       - id: PowerDrill
@@ -90,7 +91,6 @@
       - id: trayScanner
       - id: GasAnalyzer
       - id: HandHeldMassScanner
-      - id: HolofanProjector
 
 # Neck
 - type: entity
@@ -107,7 +107,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitKelic
   name: MS-06
   description: Старая разработка не вышедшая в массовое производство. Теперь личная вещь, скорее всего выданная пользователю за какие-то заслуги перед командованием.

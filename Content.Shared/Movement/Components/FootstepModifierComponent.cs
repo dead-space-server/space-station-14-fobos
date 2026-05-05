@@ -11,4 +11,9 @@ public sealed partial class FootstepModifierComponent : Component
 {
     [DataField, AutoNetworkedField]
     public SoundSpecifier? FootstepSoundCollection;
+
+    //DS14-start
+    [DataField, AutoNetworkedField]
+    public HashSet<string>? AllowedSoundCollections;
+    //DS14-end
 }

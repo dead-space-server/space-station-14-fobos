@@ -5447,10 +5447,6 @@ entities:
     - type: Transform
       pos: 20.5,-4.5
       parent: 2
-    - type: UserInterface
-      actors:
-        enum.StorageUiKey.Key:
-        - invalid
     - type: Storage
       storedItems:
         240:

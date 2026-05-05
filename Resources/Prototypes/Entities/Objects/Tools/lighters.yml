@@ -320,6 +320,11 @@
   - type: UseDelay
   - type: IgnitionSource
     ignited: false
+# DS14-start
+  - type: Tag
+    tags:
+    - Lighter
+# DS14-end
 
 - type: entity
   parent: [BaseBrandedLighter, BaseSyndicateContraband]
