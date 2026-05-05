@@ -1462,6 +1462,7 @@
   minLimit: 0
   loadouts:
   - SecurityBandana
+  - SecurityGaiter
 
 - type: loadoutGroup
   id: SecurityJumpsuit

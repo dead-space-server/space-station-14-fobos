@@ -121,6 +121,7 @@
   id: JobSeniorOfficer
   groups:
   - GroupTankHarness
+  - SecurityMask # DS14-Mask
   - SeniorOfficerJumpsuit
   - SeniorOfficerBackpack
   - SeniorOfficerOuterClothing
