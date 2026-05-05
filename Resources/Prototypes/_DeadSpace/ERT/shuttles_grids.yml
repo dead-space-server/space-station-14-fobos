@@ -14,6 +14,11 @@
   dockTag: DockCentcommERTCburnShuttle
 
 - type: ertShuttle
+  id: BSAAShuttle
+  path: /Maps/Shuttles/ERT/sierra.yml
+  dockTag: DockCentcommERTBSAAShuttle
+
+- type: ertShuttle
   id: AmberShuttle
   path: /Maps/Shuttles/ERT/amber.yml
   dockTag: DockCentcommERTAmberShuttle

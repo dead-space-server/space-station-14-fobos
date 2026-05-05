@@ -87,6 +87,16 @@ public sealed class HideLayerClothingSystem : EntitySystem
             }
         }
 
+        // DS14-start
+        if (clothing.Comp1.BodyLayers.Count != 0 && clothing.Comp2.Slots.HasFlag(inSlot))
+        {
+            foreach (var layer in clothing.Comp1.BodyLayers)
+            {
+                _humanoid.SetLayerVisibility(user!, layer, !hideLayers, inSlot, ref dirty);
+            }
+        }
+        // DS14-end
+
         if (dirty)
             Dirty(user!);
     }

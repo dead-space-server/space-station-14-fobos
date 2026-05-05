@@ -68,7 +68,7 @@
     back:
     - WeaponPistolViper
     - PinpointerSyndicateNuclear
-    - PinpointerSyndicateNuclearBomb # DS14
+    - PinpointerUniversal # DS14
     - DeathAcidifierImplanter
 
 #Nuclear Operative Gear
@@ -125,7 +125,7 @@
     - CombatKnife
     - WeaponPistolViper
     - PinpointerSyndicateNuclear
-    - PinpointerSyndicateNuclearBomb # DS14
+    - PinpointerUniversal # DS14
     - HandheldHealthAnalyzer
     - CombatMedipen
     - DeathAcidifierImplanter
@@ -144,4 +144,11 @@
   id: SyndicateLoneOperativeGearFull
   parent: SyndicateOperativeGearFullNoUplink # DS14
   equipment:
-    pocket2: BaseUplinkRadio60TC
+    pocket2: BaseUplinkRadio60TC  #DS14-start
+  storage:
+    back:
+    - WeaponPistolViper
+    - PinpointerSyndicateNuclearBomb
+    - PinpointerSyndicateNuclear
+    - PinpointerUniversal 
+    - DeathAcidifierImplanter #DS14-end

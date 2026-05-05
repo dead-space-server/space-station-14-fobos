@@ -105,6 +105,7 @@
     - map: ["computerLayerKeys"]
       state: generic_keys
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: Computer
     board: ComputerDiagnoserConsoleCircuitboard
@@ -156,6 +157,7 @@
         color: "#4169E1"
       - state: server_o
         map: ["enum.WiresVisualLayers.MaintenancePanel"]
+        visible: false
   - type: DeviceNetwork
     deviceNetId: Wired
     receiveFrequencyId: BasicDevice
@@ -299,6 +301,7 @@
     - map: ["computerLayerKeys"]
       state: generic_keys
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: Computer
     board: ComputerVirusEvolutionConsoleCircuitboard

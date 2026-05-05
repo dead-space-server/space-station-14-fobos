@@ -18,11 +18,11 @@ public sealed partial class JetpackComponent : Component
     [DataField, AutoNetworkedField] public EntityUid? ToggleActionEntity;
 
     [ViewVariables(VVAccess.ReadWrite), DataField("acceleration")]
-    public float Acceleration = 1f;
+    public float Acceleration = 1.65f; //DS14
 
     [ViewVariables(VVAccess.ReadWrite), DataField("friction")]
-    public float Friction = 0.25f; // same as off-grid friction
+    public float Friction = 0.5f; // same as off-grid friction //DS14
 
     [ViewVariables(VVAccess.ReadWrite), DataField("weightlessModifier")]
-    public float WeightlessModifier = 1.2f;
+    public float WeightlessModifier = 1.65f; //DS14
 }

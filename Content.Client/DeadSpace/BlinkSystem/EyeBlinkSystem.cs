@@ -21,6 +21,8 @@ public sealed class EyeBlinkSystem : EntitySystem
 
     private readonly Dictionary<EntityUid, (float TimeLeft, bool IsClosed)> _blinkData = new();
 
+    private readonly string[] _skipMarkingKeys = { "Malstream-malstream", "Malstrem-malstrem", "Malstrem2-malstrem2", "Terminator-terminator", "Beholder-beholder" };
+
     public override void Initialize()
     {
         base.Initialize();
@@ -58,7 +60,7 @@ public sealed class EyeBlinkSystem : EntitySystem
 
         if (!sprite.LayerMapTryGet(BlinkLayerKey, out _))
         {
-            var layer = sprite.AddLayer(new SpriteSpecifier.Rsi(_rsiPath, state), eyeLayerIndex + 1);
+            var layer = sprite.AddLayer(new SpriteSpecifier.Rsi(_rsiPath, state), eyeLayerIndex + 2);
             sprite.LayerMapSet(BlinkLayerKey, layer);
         }
 
@@ -69,7 +71,17 @@ public sealed class EyeBlinkSystem : EntitySystem
         }
 
         if (!_blinkData.ContainsKey(uid))
-            _blinkData[uid] = (_random.NextFloat(20f, 80f), false);
+            _blinkData[uid] = (_random.NextFloat(30f, 80f), false);
+    }
+
+    private bool HasSkipMarkings(SpriteComponent sprite)
+    {
+        foreach (var key in _skipMarkingKeys)
+        {
+            if (sprite.LayerMapTryGet(key, out _))
+                return true;
+        }
+        return false;
     }
 
     private void OnBlinkShutdown(EntityUid uid, BlinkComponent component, ComponentShutdown args)
@@ -94,7 +106,7 @@ public sealed class EyeBlinkSystem : EntitySystem
         {
             sprite.LayerSetVisible(layerIndex, false);
         }
-        _blinkData[uid] = (_random.NextFloat(20f, 80f), false);
+        _blinkData[uid] = (_random.NextFloat(30f, 80f), false);
     }
 
     public override void Update(float frameTime)
@@ -111,6 +123,12 @@ public sealed class EyeBlinkSystem : EntitySystem
 
             if (!sprite.LayerMapTryGet(BlinkLayerKey, out var layerIndex))
                 continue;
+
+            if (HasSkipMarkings(sprite))
+            {
+                sprite.LayerSetVisible(layerIndex, false);
+                continue;
+            }
 
             var (timeLeft, isClosed) = _blinkData[uid];
 
@@ -134,13 +152,13 @@ public sealed class EyeBlinkSystem : EntitySystem
                 if (isClosed)
                 {
                     sprite.LayerSetVisible(layerIndex, false);
-                    _blinkData[uid] = (_random.NextFloat(20f, 80f), false);
+                    _blinkData[uid] = (_random.NextFloat(30f, 80f), false);
                 }
                 else
                 {
                     sprite.LayerSetColor(layerIndex, appearance.SkinColor);
                     sprite.LayerSetVisible(layerIndex, true);
-                    _blinkData[uid] = (2f, true);
+                    _blinkData[uid] = (1.5f, true);
                 }
             }
             else
