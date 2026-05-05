@@ -84,6 +84,7 @@ ert-console-auth-slot-a = карта авторизации А
 ert-console-auth-slot-b = карта авторизации Б
 ert-admin-requester-system = системный вызов
 
+ert-admin-window-subtitle = Заявки, автоспавн и ручное одобрение отрядов быстрого реагирования.
 ert-admin-settings-title = Настройки вызова ОБР
 ert-admin-cooldown-label = Cooldown (сек):
 ert-admin-points-label = Баланс очков вызова:
@@ -100,6 +101,7 @@ ert-admin-selected-reason = Цель вызова:
 ert-admin-reject-button = Отклонить
 ert-admin-approve-manual-button = Одобрить с ручным спавном
 ert-admin-approve-auto-button = Одобрить с автоспавном
+ert-admin-notify-checkbox = Сделать уведомление?
 
 ert-admin-approved-title = Авто-одобренные заявки
 ert-admin-arrival-label = Время прибытия (сек):

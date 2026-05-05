@@ -15,6 +15,7 @@
     - map: ["computerLayerKeys"]
       state: generic_keys
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: Computer
     board: ErtResponseConsoleCircuitboard
@@ -86,6 +87,7 @@
     - map: ["computerLayerKeys"]
       state: generic_keys
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: Computer
     board: ErtComputerShuttleCircuitboard

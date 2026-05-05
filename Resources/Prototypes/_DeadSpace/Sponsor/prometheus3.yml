@@ -151,7 +151,7 @@
   - type: Storage
     maxItemSize: Normal
     grid:
-    - 0,0,9,1
+    - 0,0,7,1
   - type: StorageFill
     contents:
     - id: SyndicatePowerDrill

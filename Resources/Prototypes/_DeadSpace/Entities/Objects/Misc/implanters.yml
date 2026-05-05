@@ -17,3 +17,14 @@
   components:
   - type: Implanter
     implant: DeathRattleImplantDeathSquad
+
+# SOD implanters
+
+- type: entity
+  id: RadioImplanterSOD
+  name: имплантер
+  suffix: Радио, КСО
+  parent: BaseImplantOnlyImplanter
+  components:
+  - type: Implanter
+    implant: RadioImplantSOC

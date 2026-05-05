@@ -126,7 +126,7 @@
     - BoxMRE
     - PinpointerNuclear
     - CrowbarRed
-    - DoorRemoteAll
+    - DoorRemoteCustom
     - Flare
     - EmergencyMedipen
     - ADTtelescopicBaton
@@ -186,7 +186,7 @@
     id: ERTLeaderGammaPDA
     belt: ClothingBeltSecurityWebbingFilled
     pocket1: DoubleEmergencyOxygenTankFilled
-    pocket2: DoorRemoteAll
+    pocket2: DoorRemoteCustom
   storage:
     back:
     - ERTloadoutGammaPrimary

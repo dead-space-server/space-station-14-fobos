@@ -5,6 +5,7 @@ using Content.Server.Lightning.Components;
 using Content.Shared.Lightning;
 using Robust.Server.GameObjects;
 using Robust.Shared.Random;
+using Robust.Shared.Player; // DS14
 
 namespace Content.Server.Lightning;
 
@@ -47,10 +48,15 @@ public sealed class LightningSystem : SharedLightningSystem
     /// <param name="target">Where the lightning fires to</param>
     /// <param name="lightningPrototype">The prototype for the lightning to be created</param>
     /// <param name="triggerLightningEvents">if the lightnings being fired should trigger lightning events.</param>
-    public void ShootLightning(EntityUid user, EntityUid target, string lightningPrototype = "Lightning", bool triggerLightningEvents = true)
+    public void ShootLightning(EntityUid user,
+        EntityUid target,
+        string lightningPrototype = "Lightning",
+        bool triggerLightningEvents = true,
+        ushort? visibilityLayer = null, // DS14
+        Filter? filter = null) // DS14
     {
         var spriteState = LightningRandomizer();
-        _beam.TryCreateBeam(user, target, lightningPrototype, spriteState);
+        _beam.TryCreateBeam(user, target, lightningPrototype, spriteState, visibilityLayer: visibilityLayer, filter: filter); // DS14
 
         if (triggerLightningEvents) // we don't want certain prototypes to trigger lightning level events
         {

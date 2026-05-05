@@ -915,6 +915,17 @@
   - !type:ListingLimitedStockCondition
     stock: 2
 
+- type: listing
+  id: ClothingJumpsuitMachineInventory50
+  productEntity: ADTClothingUniformTurleneckTactick
+  cost:
+    SpaceCash: 20
+  categories:
+  - ClothingJumpsuitMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
 # Jumpskirt
 
 - type: listing
