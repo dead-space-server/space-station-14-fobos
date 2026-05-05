@@ -1,0 +1,389 @@
+- type: entity
+  parent: ClothingOuterHardsuitSecurity
+  id: ClothingOuterHardsuitEllisTinker
+  name: бронескафандр UF-16
+  description: Это броню прославила серия детективных романов 'блюститель правды; правдивые блюстители', где её носил главный герой, настоящий образец патриотизма, защищавший нас от предательской лжи.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/EllisTinker/hardsuit.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/EllisTinker/hardsuit.rsi
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitEllisTinker
+  - type: Item
+    size: Huge
+  - type: PressureProtection
+    highPressureMultiplier: 0.05
+    lowPressureMultiplier: 1000
+  - type: ExplosionResistance
+    damageCoefficient: 0.5
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.5
+        Slash: 0.5
+        Piercing: 0.6
+        Heat: 0.5
+        Radiation: 0.5
+        Caustic: 0.5
+  - type: ClothingSpeedModifier
+    walkModifier: 0.9
+    sprintModifier: 0.9
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ClothingHeadHelmetHardsuitEllisTinker
+  categories: [ HideSpawnMenu ]
+  name: шлем бронескафандра UF-16
+  description: Шлем изолирующий владельца от страшного вакуума снаружи.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/EllisTinker/helmet.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor//EllisTinker/helmet.rsi
+  - type: PointLight
+    color: "#4eb1ae"
+    radius: 7
+    energy: 3
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Uniform
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpsuitEllisTinker
+  name: комбинезон 'Зона'
+  description: Усиленный комбинезон из композитной ткани. Принадлежат члену экипажа, находящемуся под покровительством спонсорской организации.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/EllisTinker/jumpsuit.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/EllisTinker/jumpsuit.rsi
+
+
+# Neck
+- type: entity
+  parent: ClothingNeckBase
+  id: ClothingNeckEllisTinker
+  name: доказательство безупречной добродетели
+  description: Этот плащ указывает на то, что его владелец думает, чуствует и действует правильно, и поэтому на него возложена обязанность учить и переобучать своих сограждан.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/EllisTinker/cloak.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Gloves
+- type: entity
+  parent: ClothingHandsGlovesCombat
+  id: ClothingHandsGlovesEllisTinker
+  name: чёрные перчатки
+  description: Принадлежат члену экипажа, находящемуся под покровительством спонсорской организации. Изолированы.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/EllisTinker/gloves.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/EllisTinker/gloves.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Boots
+- type: entity
+  parent: ClothingShoesBootsMag
+  id: ClothingShoesBootsMagEllisTinker
+  name: стальные когти
+  description: Магнитные ботинки с повышенной защитой. Обшиты пластинами из сплава пластитана и хрома.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/EllisTinker/magboots.rsi
+    layers:
+    - state: icon
+      map: [ "enum.ToggleableVisuals.Layer" ]
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/EllisTinker/magboots.rsi
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Belt
+- type: entity
+  parent: ClothingBeltStorageBase
+  id: ClothingBeltEllisTinkerFilled
+  name: защитный бот
+  description: Защитный бот. Верный помощник своего владельца.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite:  _DeadSpace/Sponsor/EllisTinker/belt.rsi
+  - type: Clothing
+    sprite:  _DeadSpace/Sponsor/EllisTinker/belt.rsi
+    clothingVisuals:
+      belt:
+      - state: equipped-BELT
+        scale: 0.5, 0.5
+  - type: Item
+    size: Huge
+  - type: Storage
+    grid:
+    - 0,0,7,1
+  - type: StorageFill
+    contents:
+    - id: PowerDrillEllisTinker
+    - id: WelderExperimentalEllisTinker
+    - id: MultitoolEllisTinker
+    - id: JawsOfLifeEllisTinker
+    - id: GasAnalyzerEllisTinker
+    - id: HandHeldMassScannerEllisTinker
+    - id: HolofanProjectorEllisTinker
+  - type: Appearance
+
+# Backpack
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBackpackEllisTinker
+  name: рюкзак Гвардейца
+  description: Вместительный рюкзак с множеством карманов. Имеет окрас городского камуфляжа. Принадлежит члену экипажа, находящемуся под покровительством спонсорской организации.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/EllisTinker/backpack.rsi
+  - type: Storage
+    maxItemSize: Huge
+    grid:
+    - 0,0,15,10
+  - type: StorageFill
+    contents:
+    - id: ClothingBeltEllisTinkerFilled
+    - id: ClothingShoesBootsMagEllisTinker
+    - id: PDAEllisTinker
+    - id: ClothingUniformJumpsuitEllisTinker
+    - id: ClothingNeckEllisTinker
+    - id: ClothingHandsGlovesEllisTinker
+    - id: ClothingEyesHudAdvanced
+    - id: MedkitAdvancedFilled
+    - id: JetpackVoidEllisTinker
+    - id: ClothingOuterHardsuitEllisTinker
+    - id: AdvancedJetInjector
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+#PDA
+
+- type: entity
+  parent: BaseMedicalPDA
+  id: PDAEllisTinker
+  name: КПК 'Верный боец'
+  description: Изготовлено на заказ организацией LaFleur Wear.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Icon
+    sprite: _DeadSpace/Sponsor/EllisTinker/pda.rsi
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/EllisTinker/pda.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+  - type: CartridgeLoader
+    uiKey: enum.PdaUiKey.Key
+    preinstalled:
+    - CrewManifestCartridge
+    - NotekeeperCartridge
+    - NanoTaskCartridge
+    - NewsReaderCartridge
+    - MedTekCartridge
+    - AstroNavCartridge
+
+- type: entity
+  parent: JawsOfLife
+  id: JawsOfLifeEllisTinker
+  name: бирюзовые челюсти жизни
+  description: Корпус похож на сплав тёмного титана и синего кварца, а между массивными губками переливается мягкая бирюзовая плазма-нить, создавая ощущение, будто инструмент «дышит» электрическим светом.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/EllisTinker/tools_jawsoflife.rsi
+    state: syn_jaws_pry
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: syn_inhand-left
+      right:
+      - state: syn_inhand-right
+    size: Normal
+  - type: MultipleTool
+    entries:
+    - behavior: Prying
+      sprite:
+        sprite: _DeadSpace/Sponsor/EllisTinker/tools_jawsoflife.rsi
+        state: syn_jaws_pry
+      useSound: /Audio/Items/jaws_pry.ogg
+      changeSound: /Audio/Items/change_jaws.ogg
+    - behavior: Cutting
+      sprite:
+        sprite: _DeadSpace/Sponsor/EllisTinker/tools_jawsoflife.rsi
+        state: syn_jaws_cutter
+      useSound: /Audio/Items/jaws_cut.ogg
+      changeSound: /Audio/Items/change_jaws.ogg
+  - type: MeleeWeapon
+    damage:
+      types:
+        Blunt: 14
+
+# drill
+- type: entity
+  parent: PowerDrill
+  id: PowerDrillEllisTinker
+  name: бирюзовая электродрель
+  description: Цилиндрическое тело обтянуто рёбрами из графитового волокна, внутреннее сверло виднеется сквозь прозрачную секцию, где мерцают крошечные арк-искры, будто внутри спрятан крошечный шторм.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/EllisTinker/tools_powerdrill.rsi
+    state: drill_screw
+  - type: Item
+    sprite: _DeadSpace/Sponsor/EllisTinker/tools_powerdrill.rsi
+    size: Small
+  - type: Tool
+    qualities:
+    - Screwing
+    speedModifier: 1.5
+    useSound: /Audio/Items/drill_use.ogg
+  - type: MultipleTool
+    statusShowBehavior: true
+    entries:
+    - behavior: Screwing
+      sprite:
+        sprite: _DeadSpace/Sponsor/EllisTinker/tools_powerdrill.rsi
+        state: drill_screw
+      useSound:
+        path: /Audio/Items/drill_use.ogg
+      changeSound:
+        path: /Audio/Items/change_drill.ogg
+    - behavior: Anchoring
+      sprite:
+        sprite: _DeadSpace/Sponsor/EllisTinker/tools_powerdrill.rsi
+        state: drill_bolt
+      useSound:
+        path: /Audio/Items/drill_use.ogg
+      changeSound:
+        path: /Audio/Items/change_drill.ogg
+
+# welder
+- type: entity
+  parent: WelderExperimental
+  id: WelderExperimentalEllisTinker
+  name: бирюзовый экспериментальный сварочный аппарат
+  description: Компактная рукоять плавно переходит в хромированный сопло-клюв, вокруг него клубится тонкое голубо-белое марево, словно пламя пытается выбраться наружу, но держится «в клетке» силового поля.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/EllisTinker/tools_welder.rsi
+  - type: Item
+    sprite: _DeadSpace/Sponsor/EllisTinker/tools_welder.rsi
+
+# multitool
+- type: entity
+  parent: Multitool
+  id: MultitoolEllisTinker
+  name: бирюзовый мультитул
+  description: Гладкий прямоугольник с рассыпанными по граням голографическими метками, при лёгком касании корпуса по его поверхности пробегает переливчатая сетка, напоминающая нервную систему живого организма.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/EllisTinker/tools_multitool.rsi
+
+# holofan projector
+- type: entity
+  parent: HolofanProjector
+  id: HolofanProjectorEllisTinker
+  name: бирюзовый голопроектор
+  description: Изготовлено на заказ организацией LaFleur Wear.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/EllisTinker/tools_holofanprojector.rsi
+    state: icon
+  - type: HolosignProjector
+    signProto: HoloFanEllisTinker
+    chargeUse: 120
+
+- type: entity
+  id: HoloFanEllisTinker
+  parent: HoloFan
+  name: атмосферный барьер
+  description: Барьер из твёрдого света, который блокирует воздух и ничего более.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/EllisTinker/holofan.rsi
+    state: icon
+
+# gas analyzer
+- type: entity
+  name: бирюзовый газоанализатор
+  parent: GasAnalyzer
+  id: GasAnalyzerEllisTinker
+  description: Изготовлено на заказ организацией LaFleur Wear.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/EllisTinker/tools_gasanalyzer.rsi
+    layers:
+    - state: icon
+      map: ["analyzer"]
+
+# mass scanner
+- type: entity
+  name: бирюзовый сканер массы
+  parent: HandHeldMassScanner
+  id: HandHeldMassScannerEllisTinker
+  description: Широкий датчик цвета иней с зеркальной линзой.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Item
+    sprite: _DeadSpace/Sponsor/EllisTinker/tools_massscanner.rsi
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/EllisTinker/tools_massscanner.rsi
+    state: icon
+    layers:
+    - state: icon
+    - state: scanner
+      shader: unshaded
+      visible: false
+      map: [ "enum.PowerDeviceVisualLayers.Powered" ]
+
+- type: entity
+  name: LIFT-850
+  parent: JetpackVoidFilled
+  id: JetpackVoidEllisTinker
+  description: Позволяет пользователю маневрировать свободнее чем допускает "гравитация" и "Безопасность".
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/EllisTinker/jet.rsi
+    state: icon
+  - type: Item
+    sprite: _DeadSpace/Sponsor/EllisTinker/jet.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/EllisTinker/jet.rsi
+    slots:
+      - back
+      - suitStorage
+      - belt
