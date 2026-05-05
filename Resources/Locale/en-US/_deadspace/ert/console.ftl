@@ -80,6 +80,7 @@ ert-console-auth-slot-a = authorization card A
 ert-console-auth-slot-b = authorization card B
 ert-admin-requester-system = system request
 
+ert-admin-window-subtitle = Requests, auto spawn, and manual approval for emergency response teams.
 ert-admin-settings-title = ERT Call Settings
 ert-admin-cooldown-label = Cooldown (sec):
 ert-admin-points-label = Call points balance:
@@ -96,6 +97,7 @@ ert-admin-selected-reason = Call reason:
 ert-admin-reject-button = Reject
 ert-admin-approve-manual-button = Approve with manual spawn
 ert-admin-approve-auto-button = Approve with auto spawn
+ert-admin-notify-checkbox = Make announcement?
 
 ert-admin-approved-title = Auto-approved Requests
 ert-admin-arrival-label = Arrival time (sec):

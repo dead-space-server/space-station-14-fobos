@@ -248,7 +248,7 @@
   id: UplinkSyndieCloak
   name: uplink-syndiecloak-name
   description: uplink-syndiecloak-desc
-  productEntity: ADTClothingNeckSyndicateCloak
+  productEntity: ClothingNeckSyndicateCloak
   cost:
     Telecrystal: 5
   categories:
@@ -263,7 +263,7 @@
   id: UplinkNukeOpsCloak
   name: uplink-nukeopscloak-name
   description: uplink-nukeopscloak-desc
-  productEntity: ADTClothingNeckNukeOpsCloak
+  productEntity: ClothingNeckNukeOpsCloak
   cost:
     Telecrystal: 5
   categories:

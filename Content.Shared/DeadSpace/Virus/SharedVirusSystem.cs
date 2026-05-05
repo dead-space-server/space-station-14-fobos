@@ -26,7 +26,7 @@ public struct BaseVirusSettings
     /// <summary>
     ///     Стандартная цена для удаления тела.
     /// </summary>
-    public const int StaticPriceDeleteBody = 1000;
+    public const int StaticPriceDeleteBody = 250;
 
     /// <summary>
     ///     Стандартная цена для удаления симптома.
@@ -36,7 +36,7 @@ public struct BaseVirusSettings
     /// <summary>
     ///     Стандартная цена для мутации всех тел.
     /// </summary>
-    public const int StaticBodyPrice = 500;
+    public const int StaticBodyPrice = 250;
 
     /// <summary>
     ///     Стандартный для всех вирусов белый список компонентов.

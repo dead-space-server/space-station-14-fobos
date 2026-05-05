@@ -1238,3 +1238,7 @@ HandheldAutopsyScannerEmpty: HandheldAutopsyScanner
 # 2026-04-17 - DS14
 ErtResponceConsole: ErtResponseConsole
 ErtResponceConsoleCircuitboard: ErtResponseConsoleCircuitboard
+
+# 2026-05-03
+ADTClothingNeckSyndicateCloak: ClothingNeckSyndicateCloak
+ADTClothingNeckNukeOpsCloak: ClothingNeckNukeOpsCloak

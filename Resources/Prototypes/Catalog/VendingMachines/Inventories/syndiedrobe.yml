@@ -16,7 +16,7 @@
     ClothingNeckScarfStripedSyndieRed: 2
     ClothingShoesBootsWinterSyndicate: 2
     ClothingOuterCoatLettermanS: 4 # DS14
-    ADTClothingNeckSyndicateCloak: 2 # ADT
+    ClothingNeckSyndicateCloak: 2 # DS14
   contrabandInventory:
     ToyFigurineFootsoldier: 1
     ToyFigurineNukieElite: 1
@@ -29,4 +29,4 @@
     ClothingHeadHatTacticalMaidHeadband: 2 # DS14
     ClothingUniformJumpskirtTacticalMaid: 4 # DS14
     ClothingHandsTacticalMaidGloves: 4 # DS14
-    ADTClothingNeckNukeOpsCloak: 2 # ADT
+    ClothingNeckNukeOpsCloak: 2 # ADT

@@ -17,6 +17,7 @@
     - map: ["computerLayerKeys"]
       state: aiupload_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: Computer
     board: StationAiUploadCircuitboardTaipan
@@ -65,6 +66,7 @@
     - map: ["computerLayerKeys"]
       state: tech_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: ResearchClient
     isTaipan: true
@@ -94,6 +96,7 @@
     - map: ["computerLayerKeys"]
       state: tech_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: CargoBountyConsole
   - type: ActivatableUI
@@ -132,6 +135,7 @@
     - map: ["computerLayerKeys"]
       state: tech_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: CargoOrderConsole
     isTaipan: true
@@ -173,6 +177,7 @@
     - map: ["computerLayerKeys"]
       state: tech_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: Computer
     board: SurveillanceCameraMonitorCircuitboardTaipan
@@ -214,6 +219,7 @@
     - map: ["computerLayerKeys"]
       state: syndie_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: AccessReader
     access: [["TaipanCommand"]]
@@ -268,6 +274,7 @@
     - map: ["computerLayerKeys"]
       state: med_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: PointLight
     radius: 1.5
@@ -358,6 +365,7 @@
     - map: ["computerLayerKeys"]
       state: id_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: Computer
     board: IDComputerCircuitboardTaipan
@@ -394,6 +402,7 @@
     - map: ["computerLayerKeys"]
       state: generic_keys
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: ActivatableUI
     key: enum.IFFConsoleUiKey.Key
@@ -429,6 +438,7 @@
     - map: ["computerLayerKeys"]
       state: generic_keys
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: CargoPalletConsole
     isTaipan: true
@@ -468,6 +478,7 @@
     - map: ["computerLayerKeys"]
       state: rd_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: ResearchClient
     isTaipan: true
@@ -515,6 +526,7 @@
     - map: ["computerLayerKeys"]
       state: rd_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: RoboticsConsole
     radioChannel: Taipan
@@ -564,6 +576,7 @@
     - map: ["computerLayerKeys"]
       state: generic_keys
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: Tag
     tags:

@@ -109,7 +109,7 @@
 # DS14-end
 
 - type: entity
-  parent: PhoneInstrument
+  parent: BaseItem # DS14
   id: PhoneInstrumentSyndicate
   name: blood-red phone
   description: For evil people to call their friends.
@@ -117,9 +117,18 @@
   - type: Sprite
     sprite: Objects/Fun/Instruments/blood_red_phone.rsi
     state: icon
+  # DS14-start
+  - type: EmitSoundOnLand
+    sound:
+       path: /Audio/Items/ring.ogg
+  - type: Item
+    size: Small
+  # DS14-end
   - type: Prayable
     sentMessage: prayer-popup-notify-syndicate-sent
     notificationPrefix: prayer-chat-notify-syndicate
+    verb: prayer-verbs-call # DS14
+    verbImage: null # DS14
 
 - type: entity
   parent: BaseHandheldInstrument

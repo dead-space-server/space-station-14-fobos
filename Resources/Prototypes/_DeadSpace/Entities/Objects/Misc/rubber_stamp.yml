@@ -92,6 +92,19 @@
     state: stamp-greytide
 
 - type: entity
+  name: печать АЦК
+  parent: RubberStampBase
+  id: RubberStampAdministratorCC
+  categories: [ DoNotMap ]
+  components:
+  - type: Stamp
+    stampedName: stamp-component-stamped-name-administrator
+    stampedColor: "#006600"
+    stampState: "paper_stamp-centcom"
+  - type: Sprite
+    state: stamp-centcom
+
+- type: entity
   name: senior engineer rubber stamp
   parent: RubberStampBase
   id: RubberStampSeniorEngineer

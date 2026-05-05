@@ -80,6 +80,9 @@
   id: DockCentcommERTCburnShuttle
 
 - type: Tag
+  id: DockCentcommERTBSAAShuttle
+
+- type: Tag
   id: DockCentcommERTSierraShuttle
 
 - type: Tag
@@ -126,6 +129,9 @@
 
 - type: Tag
   id: FlamethrowerNozzle
+
+- type: Tag
+  id: Fulton
 
 - type: Tag
   id: FelinidFood
@@ -219,6 +225,9 @@
 
 - type: Tag
   id: MeatWheat
+
+- type: Tag
+  id: Medipen
 
 - type: Tag
   id: MukhtarWearable

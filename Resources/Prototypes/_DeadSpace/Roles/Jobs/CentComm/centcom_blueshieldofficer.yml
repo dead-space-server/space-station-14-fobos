@@ -82,7 +82,7 @@
     # back: ClothingBackpackBlueShieldCentComFilled
     mask: ClothingMaskGasSecurity
     eyes: ClothingEyesGlassesSecurity
-    ears: ClothingHeadsetCentCom
+    ears: ClothingHeadsetAltCentCom
     gloves: ClothingHandsGlovesCombat
     outerClothing: ClothingOuterArmorBasicBlueShield
     shoes: ClothingShoesBootsJackFilled
