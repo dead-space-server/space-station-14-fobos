@@ -183,6 +183,7 @@
     - id: JetpackVoidEllisTinker
     - id: ClothingOuterHardsuitEllisTinker
     - id: AdvancedJetInjector
+    - id: PlushieEllis
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
