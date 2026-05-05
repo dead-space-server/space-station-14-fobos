@@ -183,11 +183,11 @@
     sprite: Clothing/OuterClothing/Vests/elitevest.rsi
   - type: Clothing
     sprite: Clothing/OuterClothing/Vests/elitevest.rsi
-  - type: TemperatureProtection
   - type: Item #DS-14 start
     size: Normal
     shape:
     - 0,0,1,2 #DS-14 end
+  - type: TemperatureProtection
     heatingCoefficient: 0.1
     coolingCoefficient: 0.1
   - type: Armor
