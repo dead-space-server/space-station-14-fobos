@@ -1164,11 +1164,11 @@
   name: ERT security's hardsuit
   description: A protective hardsuit worn by the security officers of an emergency response team.
   components:
+  #DS14-start
   - type: Sprite
-    sprite: Clothing/OuterClothing/Hardsuits/ERTSuits/ertsecurity.rsi
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERTSuits/ertsecurity.rsi #DS14
   - type: Clothing
-    sprite: Clothing/OuterClothing/Hardsuits/ERTSuits/ertsecurity.rsi
-#DS14-start
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERTSuits/ertsecurity.rsi #DS14
   - type: Armor
     modifiers:
       coefficients:
