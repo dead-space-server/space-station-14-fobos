@@ -13,4 +13,6 @@ public sealed partial class ArkalyseGlovesComponent : Component
     // Хранит EntityUid выданных экшенов для точного отзыва при снятии
     [DataField]
     public List<EntityUid> GrantedActions = new();
+
+    public bool AddedArkalyseComponent;
 }

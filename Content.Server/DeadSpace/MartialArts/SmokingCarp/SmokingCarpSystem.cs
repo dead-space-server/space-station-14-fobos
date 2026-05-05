@@ -123,7 +123,12 @@ public sealed class SmokingCarpSystem : EntitySystem
         {
             _popup.PopupEntity(Loc.GetString("unreflect-smoking-carp"), ent, ent);
             RemComp<ReflectComponent>(ent);
-            RemComp<PacifiedComponent>(ent);
+
+            if (HasComp<SmokingCarpPacifiedComponent>(ent))
+            {
+                RemComp<PacifiedComponent>(ent);
+                RemComp<SmokingCarpPacifiedComponent>(ent);
+            }
             return;
         }
 
@@ -132,7 +137,12 @@ public sealed class SmokingCarpSystem : EntitySystem
 
         args.Handled = true;
 
-        AddComp<PacifiedComponent>(ent);
+        if (!HasComp<PacifiedComponent>(ent))
+        {
+            AddComp<PacifiedComponent>(ent);
+            AddComp<SmokingCarpPacifiedComponent>(ent);
+        }
+
         var reflectComponent = EnsureComp<ReflectComponent>(ent);
         _popup.PopupEntity(Loc.GetString("reflect-smoking-carp"), ent, ent);
         reflectComponent.ReflectProb = 1.0f;
@@ -202,6 +212,9 @@ public sealed class SmokingCarpSystem : EntitySystem
 
         var distance = MathF.Sqrt(distSq);
         if (distance > maxPushDistance)
+            return;
+
+        if (distance < 0.001f)
             return;
 
         var dir = pushDirection / distance;

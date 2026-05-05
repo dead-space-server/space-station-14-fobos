@@ -24,6 +24,9 @@ public sealed class UseArkalyseBookSystem : EntitySystem
         if (args.Handled || TryComp<ArkalyseComponent>(args.User, out _))
             return;
 
+        if (HasComp<SmokingCarpComponent>(args.User))
+            return;
+
         EnsureComp<SmokingCarpTripPunchComponent>(args.User);
         EnsureComp<SmokingCarpNotShotComponent>(args.User);
         var userSmokingCarp = EnsureComp<SmokingCarpComponent>(args.User);

@@ -23,6 +23,13 @@ public sealed partial class ArkalyseGlovesSystem : EntitySystem
         if (args.SlotFlags != SlotFlags.GLOVES)
             return;
 
+        if (TryComp<ArkalyseComponent>(args.Equipee, out var existing) && existing.LearnedFromManual)
+        {
+            ent.Comp.AddedArkalyseComponent = false;
+            return;
+        }
+
+        ent.Comp.AddedArkalyseComponent = !HasComp<ArkalyseComponent>(args.Equipee);
         var arkalyse = EnsureComp<ArkalyseComponent>(args.Equipee);
         arkalyse.Params = ent.Comp.Params;
 
@@ -44,11 +51,11 @@ public sealed partial class ArkalyseGlovesSystem : EntitySystem
             return;
 
         foreach (var actionId in ent.Comp.GrantedActions)
-        {
             _actions.RemoveAction(args.Equipee, actionId);
-        }
+
         ent.Comp.GrantedActions.Clear();
 
-        RemComp<ArkalyseComponent>(args.Equipee);
+        if (ent.Comp.AddedArkalyseComponent)
+            RemComp<ArkalyseComponent>(args.Equipee);
     }
 }

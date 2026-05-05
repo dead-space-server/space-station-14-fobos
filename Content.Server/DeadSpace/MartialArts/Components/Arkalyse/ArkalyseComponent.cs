@@ -20,6 +20,8 @@ public sealed partial class ArkalyseComponent : Component
         "ActionMutedArkalyseAttack",
         "ActionRelaxArkalyseAttack",
     };
+
+    public bool LearnedFromManual;
 }
 
 [RegisterComponent]

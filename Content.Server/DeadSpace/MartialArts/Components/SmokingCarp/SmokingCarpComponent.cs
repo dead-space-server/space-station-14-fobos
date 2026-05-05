@@ -39,6 +39,9 @@ public sealed partial class SmokingCarpComponent : Component
     public SmokingCarpParams Params; // Передача всех переменных и хранение всех переменных, хранится в MartialArtsTrainingComponent
 }
 
+[RegisterComponent]
+public sealed partial class SmokingCarpPacifiedComponent : Component { }
+
 public enum SmokingCarpList
 {
     PowerPunch,

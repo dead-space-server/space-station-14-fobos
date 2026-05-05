@@ -65,3 +65,15 @@
     - WeaponMagmiteCrusher
     - WeaponMagmiteCrusherGlaive
     - WeaponMagmiteAccelerator
+
+- type: technology
+  id: ClothingHandsGlovesArkalyseTech
+  name: research-technology-arkalyse
+  icon:
+    sprite: _DeadSpace/Clothing/Hands/gloves_arkalis.rsi
+    state: icon
+  discipline: Arsenal
+  tier: 3
+  cost: 15000
+  recipeUnlocks:
+    - ClothingHandsGlovesArkalyse
