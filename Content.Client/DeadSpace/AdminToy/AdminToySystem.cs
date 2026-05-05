@@ -2,6 +2,7 @@
 
 using System.Linq;
 using Content.Client.Construction;
+using Content.Shared.Construction;
 using Content.Shared.Construction.Prototypes;
 using Content.Shared.DeadSpace.AdminToy;
 using Content.Shared.Wall;
@@ -27,6 +28,7 @@ public sealed class AdminToySystem : EntitySystem
         SubscribeLocalEvent<AdminToyComponent, AfterAutoHandleStateEvent>(OnToyState);
         SubscribeNetworkEvent<AdminToyConstructionGhostCreateEvent>(OnCreateConstructionGhost);
         SubscribeNetworkEvent<AdminToyClearConstructionGhostsEvent>(OnClearConstructionGhosts);
+        SubscribeNetworkEvent<AckStructureConstructionMessage>(OnAckStructure);
     }
 
     public void PlaceConstructionGhost(ConstructionPrototype prototype, EntityCoordinates coordinates, Angle angle)
@@ -136,14 +138,33 @@ public sealed class AdminToySystem : EntitySystem
             EnsureComp<WallMountComponent>(ghost).Arc = new(Math.Tau);
     }
 
+
+    private void OnAckStructure(AckStructureConstructionMessage msg)
+    {
+        // ConstructionSystem sends ConstructionGhostComponent.GhostId.
+        // For admin toy ghosts this is the same id as the server-side AdminToy ghost id.
+        if (!ClearLocalConstructionGhost(msg.GhostId))
+            return;
+
+        // Keep the server-side AdminToyComponent.ConstructionGhosts list in sync and
+        // make the server broadcast removal to the other private viewer as well.
+        RaiseNetworkEvent(new AdminToyClearConstructionGhostRequest(msg.GhostId));
+    }
+
+    private bool ClearLocalConstructionGhost(int ghostId)
+    {
+        if (!_constructionGhosts.Remove(ghostId, out var ghost))
+            return false;
+
+        QueueDel(ghost);
+        return true;
+    }
+
     private void OnClearConstructionGhosts(AdminToyClearConstructionGhostsEvent ev)
     {
         foreach (var ghostId in ev.GhostIds)
         {
-            if (!_constructionGhosts.Remove(ghostId, out var ghost))
-                continue;
-
-            QueueDel(ghost);
+            ClearLocalConstructionGhost(ghostId);
         }
     }
 }

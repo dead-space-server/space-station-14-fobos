@@ -3,6 +3,7 @@
 using System.Linq;
 using System.Diagnostics.CodeAnalysis;
 using Content.Server.Administration.Managers;
+using Content.Server.Administration.Logs;
 using Content.Server.Chat.Managers;
 using Content.Server.Chat.Systems;
 using Content.Server.EUI;
@@ -13,6 +14,7 @@ using Content.Server.Speech;
 using Content.Shared.Administration;
 using Content.Shared.Actions;
 using Content.Shared.Chat;
+using Content.Shared.Database;
 using Content.Shared.Construction.Prototypes;
 using Content.Shared.Corvax.TTS;
 using Content.Shared.DeadSpace.AdminToy;
@@ -34,6 +36,7 @@ using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
+using Robust.Shared.Replays;
 using Robust.Shared.Utility;
 using LanguageSystem = Content.Server.DeadSpace.Languages.LanguageSystem;
 
@@ -70,6 +73,8 @@ public sealed class AdminToySystem : EntitySystem
     [Dependency] private readonly SharedPointLightSystem _pointLight = default!;
     [Dependency] private readonly SharedRgbLightControllerSystem _rgb = default!;
     [Dependency] private readonly LanguageSystem _language = default!;
+    [Dependency] private readonly IAdminLogManager _adminLogger = default!;
+    [Dependency] private readonly IReplayRecordingManager _replay = default!;
 
     private readonly HashSet<ushort> _usedPrivateLayers = new();
     private readonly Dictionary<ICommonSession, HashSet<ushort>> _sessionLayers = new();
@@ -492,6 +497,11 @@ public sealed class AdminToySystem : EntitySystem
 
         var spokeEv = new EntitySpokeToEntityEvent(target, message, lexiconMessage, selectedLanguage);
         RaiseLocalEvent(ent.Owner, spokeEv, true);
+
+        _replay.RecordServerMessage(new ChatMessage(ChatChannel.Local, message, wrappedMessage, GetNetEntity(ent.Owner), null, false));
+        _adminLogger.Add(LogType.Chat, LogImpact.Low,
+            $"Admin toy private speech by {adminSession.Name} ({adminSession.UserId}) as {Name(ent.Owner)} " +
+            $"to {targetSession.Name} ({targetSession.UserId}): {message}");
     }
 
     private void OnPlaceConstructionGhost(AdminToyPlaceConstructionGhostRequest ev, EntitySessionEventArgs args)
@@ -591,7 +601,13 @@ public sealed class AdminToySystem : EntitySystem
 
     private void OnMindUnvisited(EntityUid uid, AdminToyComponent component, MindUnvisitedMessage args)
     {
+        var adminUserId = component.AdminUserId;
+        var targetUserId = component.TargetUserId;
+
         CleanupToy(uid, component, unvisit: false, delete: true);
+
+        RefreshSessionMask(adminUserId);
+        RefreshSessionMask(targetUserId);
     }
 
     private void OnShutdown(EntityUid uid, AdminToyComponent component, ComponentShutdown args)
@@ -715,6 +731,14 @@ public sealed class AdminToySystem : EntitySystem
             return;
 
         _eye.RefreshVisibilityMask(attached);
+    }
+
+    private void RefreshSessionMask(NetUserId? userId)
+    {
+        if (userId == null || !_player.TryGetSessionById(userId.Value, out var session))
+            return;
+
+        RefreshSessionMask(session);
     }
 
     private Filter GetPrivateFilter(AdminToyComponent component)
