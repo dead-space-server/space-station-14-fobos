@@ -45,6 +45,7 @@ admin-verbs-pause-map = Поставить карту на паузу
 admin-verbs-snap-joints = Разорвать соединения
 admin-verbs-make-minigun = Создать миниган
 admin-verbs-set-bullet-amount = Задать количество пуль
+admin-verbs-spawn-admin-toy = Спавн за игрушку
 # Переключатели
 admin-verbs-bolt = Заблокировать дверь
 admin-verbs-unbolt = Разблокировать дверь

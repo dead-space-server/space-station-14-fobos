@@ -1,0 +1,24 @@
+admin-toy-menu-title = Spawn as toy
+admin-toy-menu-target = Target: {$target}
+admin-toy-menu-confirm = Spawn
+admin-toy-name-label = Name
+admin-toy-name-placeholder = Duh nudnoy raboty
+admin-toy-description-label = Description
+admin-toy-description-placeholder = Duh rabochego, chto nekogda sluzhil na etoy stantsii i sgorel na rabote... Ili on prosto syel pelmeni ot Dzhonity Raytmen... Kto znaet?...
+admin-toy-tts-label = TTS voice
+admin-toy-tts-random = Random
+admin-toy-search-placeholder = Search
+
+admin-toy-invalid-target = The selected target is not a player.
+admin-toy-no-access = This toy trick requires the +ADMIN flag.
+admin-toy-invalid-prototype = The selected toy prototype is not allowed.
+admin-toy-invalid-tts = The selected TTS voice is unavailable.
+admin-toy-no-mind = You do not have a mind to visit from.
+admin-toy-no-private-layer = No private toy visibility layers are available.
+admin-toy-spawn-failed = Failed to find a valid spawn position near the target.
+admin-toy-spawn-success = Spawned as {$toy} near {$target}.
+admin-toy-boo-failed = No nearby lights flickered.
+admin-toy-lightning-wrong-target = This lightning can only target the selected player.
+admin-toy-lightning-invalid-target = The selected player is not a valid living target.
+admin-toy-construction-too-far = The construction ghost is too far away.
+admin-toy-private-speech-language = unknown

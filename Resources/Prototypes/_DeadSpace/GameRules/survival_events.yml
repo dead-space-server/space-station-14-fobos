@@ -1,0 +1,292 @@
+# Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
+- type: entityTable
+  id: SurvivalEarlyThreatsTable
+  table: !type:AllSelector
+    children:
+    - id: AnomalySpawn
+    - id: BluespaceArtifact
+    - id: BluespaceLocker
+    - id: BreakerFlip
+    - id: BureaucraticError
+    - id: ClericalError
+    - id: CockroachMigration
+    - id: GasLeak
+    - id: GreytideVirus
+    - id: IonStorm
+    - id: MassHallucinations
+    - id: MimicVendorRule
+    - id: PowerGridCheck
+    - id: RandomSentience
+    - id: SolarFlare
+    - id: SnailMigrationLowPop
+    - id: LowVirusPandemic
+    - !type:NestedSelector
+      tableId: UnknownShuttlesFriendlyTable
+
+- type: entityTable
+  id: SurvivalStandardDerelictBorgEventTable
+  table: !type:AllSelector
+    children:
+    - id: DerelictEngineerCyborgSpawn
+    - id: DerelictGenericCyborgSpawn
+    - id: DerelictJanitorCyborgSpawn
+    - id: DerelictMedicalCyborgSpawn
+    - id: DerelictMiningCyborgSpawn
+
+- type: entityTable
+  id: SurvivalHostileUnknownShuttlesTable
+  table: !type:AllSelector
+    children:
+    - id: UnknownShuttleManOWar
+    - id: UnknownShuttleInstigator
+    - id: UnknownShuttlePirate
+    - id: UnknownShuttleSyndieEvacPod
+
+- type: entityTable
+  id: SurvivalBaseThreatsTable
+  table: !type:AllSelector
+    children:
+    - id: MouseMigration
+    - id: SnailMigration
+    - id: SnakeSpawn
+    - id: SpiderSpawn
+    - id: SpiderClownSpawn
+    - id: SlimesSpawn
+    - id: KudzuGrowth
+    - id: VentClog
+    - id: ClosetSkeleton
+    - id: SurvivalNecromorphBreach
+    - !type:NestedSelector
+      tableId: SurvivalStandardDerelictBorgEventTable
+
+- type: entityTable
+  id: SurvivalMidThreatsTable
+  table: !type:AllSelector
+    children:
+    - id: ParadoxCloneSpawn
+    - id: SleeperAgents
+    - id: NinjaSpawn
+    - id: KingRatMigration
+    - id: MonkeyKingSpawn
+    - id: MediumVirusPandemic
+    - id: DerelictSyndicateAssaultCyborgSpawn
+    - !type:NestedSelector
+      tableId: UnknownShuttlesFriendlyTable
+    - !type:NestedSelector
+      tableId: SurvivalHostileUnknownShuttlesTable
+
+- type: entityTable
+  id: SurvivalHeavyThreatsTable
+  table: !type:AllSelector
+    children:
+    - id: SurvivalBlobSpawn
+    - id: DragonSpawn
+    - id: LoneOpsSpawn
+    - id: RevenantSpawn
+    - id: ShadowDemonInvasion
+    - id: DemonsInvasion
+    - id: SentientVirusEvent
+    - !type:NestedSelector
+      tableId: SurvivalHostileUnknownShuttlesTable
+
+- type: entityTable
+  id: SurvivalLateThreatsTable
+  table: !type:AllSelector
+    children:
+    - id: WizardSpawn
+    - id: RenegadeSpawn
+    - id: HardVirusPandemic
+
+- type: entityTable
+  id: SurvivalThreatsPhase0Table
+  table: !type:GroupSelector
+    children:
+    - !type:NestedSelector
+      tableId: SurvivalEarlyThreatsTable
+      weight: 100
+
+- type: entityTable
+  id: SurvivalThreatsPhase15Table
+  table: !type:GroupSelector
+    children:
+    - !type:NestedSelector
+      tableId: SurvivalEarlyThreatsTable
+      weight: 50
+    - !type:NestedSelector
+      tableId: SurvivalBaseThreatsTable
+      weight: 50
+
+- type: entityTable
+  id: SurvivalThreatsPhase30Table
+  table: !type:GroupSelector
+    children:
+    - !type:NestedSelector
+      tableId: SurvivalEarlyThreatsTable
+      weight: 15
+    - !type:NestedSelector
+      tableId: SurvivalBaseThreatsTable
+      weight: 30
+    - !type:NestedSelector
+      tableId: SurvivalMidThreatsTable
+      weight: 55
+
+- type: entityTable
+  id: SurvivalThreatsPhase45Table
+  table: !type:GroupSelector
+    children:
+    - !type:NestedSelector
+      tableId: SurvivalEarlyThreatsTable
+      weight: 8
+    - !type:NestedSelector
+      tableId: SurvivalBaseThreatsTable
+      weight: 17
+    - !type:NestedSelector
+      tableId: SurvivalMidThreatsTable
+      weight: 35
+    - !type:NestedSelector
+      tableId: SurvivalHeavyThreatsTable
+      weight: 40
+
+- type: entityTable
+  id: SurvivalThreatsPhase60Table
+  table: !type:GroupSelector
+    children:
+    - !type:NestedSelector
+      tableId: SurvivalEarlyThreatsTable
+      weight: 5
+    - !type:NestedSelector
+      tableId: SurvivalBaseThreatsTable
+      weight: 10
+    - !type:NestedSelector
+      tableId: SurvivalMidThreatsTable
+      weight: 25
+    - !type:NestedSelector
+      tableId: SurvivalHeavyThreatsTable
+      weight: 30
+    - !type:NestedSelector
+      tableId: SurvivalLateThreatsTable
+      weight: 30
+
+- type: entity
+  id: SurvivalRampingStationEventScheduler
+  parent: BaseGameRule
+  components:
+  - type: SurvivalRampingStationEventScheduler
+    phases:
+    - startTime: 0
+      scheduledGameRules: !type:NestedSelector
+        tableId: SurvivalThreatsPhase0Table
+    - startTime: 15
+      scheduledGameRules: !type:NestedSelector
+        tableId: SurvivalThreatsPhase15Table
+    - startTime: 30
+      scheduledGameRules: !type:NestedSelector
+        tableId: SurvivalThreatsPhase30Table
+    - startTime: 45
+      scheduledGameRules: !type:NestedSelector
+        tableId: SurvivalThreatsPhase45Table
+    - startTime: 60
+      scheduledGameRules: !type:NestedSelector
+        tableId: SurvivalThreatsPhase60Table
+    alertTime: 12
+    alertAnnouncement: survival-twelve-minute-alert-announcement
+    alertSender: survival-alert-sender
+    alertAnnouncementColor: OrangeRed
+    alertSound:
+      path: /Audio/_DeadSpace/Announcements/survival_alert.ogg
+      params:
+        volume: -2
+  - type: GameRule
+    minPlayers: 15
+
+- type: entity
+  id: SurvivalBlobSpawn
+  parent: BlobSpawn
+  components:
+  - type: StationEvent
+    weight: 1.5
+    duration: 10
+    earliestStart: 35
+    minimumPlayers: 40
+    maxOccurrences: 1
+
+- type: entity
+  id: SurvivalNecromorphBreach
+  parent: BaseGameRule
+  components:
+  - type: StationEvent
+    startAnnouncement: survival-necromorph-breach-start-announcement
+    startAnnouncementColor: "#b82525"
+    startAudio:
+      path: /Audio/_DeadSpace/Announcements/attention.ogg
+    weight: 4
+    duration: 30
+    earliestStart: 17
+    reoccurrenceDelay: 35
+    minimumPlayers: 15
+    maxOccurrences: 2
+  - type: SurvivalNecromorphBreachRule
+    breachCount: 10
+    breachInterval: 1.25
+
+- type: entity
+  id: SurvivalNecromorphBreachTelegraph
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: TimedDespawn
+    lifetime: 8
+  - type: PointLight
+    color: "#b82525"
+    radius: 4
+    energy: 1.8
+    netsync: false
+  - type: Sprite
+    drawdepth: Effects
+    noRot: true
+    layers:
+    - shader: unshaded
+      map: ["enum.EffectLayers.Unshaded"]
+      sprite: Effects/sparks.rsi
+      state: sparks
+  - type: EffectVisuals
+  - type: AnimationPlayer
+  - type: Tag
+    tags:
+    - HideContextMenu
+
+- type: entity
+  id: SurvivalNecromorphBreachSmoke
+  categories: [ HideSpawnMenu ]
+  parent: AdminInstantEffectBase
+  components:
+  - type: SmokeOnTrigger
+    duration: 3
+    spreadAmount: 1
+  - type: EmitSoundOnTrigger
+    sound: /Audio/Effects/smoke.ogg
+
+- type: entity
+  id: SurvivalNecromorphBreachSpawnEffect
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: TimedDespawn
+    lifetime: 1.5
+  - type: PointLight
+    color: "#7f1d1d"
+    radius: 3
+    energy: 1.4
+    netsync: false
+  - type: Sprite
+    drawdepth: Effects
+    noRot: true
+    layers:
+    - shader: unshaded
+      map: ["enum.EffectLayers.Unshaded"]
+      sprite: Effects/atmospherics.rsi
+      state: frezon_old
+  - type: EffectVisuals
+  - type: AnimationPlayer
+  - type: Tag
+    tags:
+    - HideContextMenu
