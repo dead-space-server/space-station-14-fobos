@@ -121,8 +121,8 @@ public sealed class BrokenTechGameRuleSystem : GameRuleSystem<BrokenTechGameRule
             if (TerminatingOrDeleted(ent))
                 continue;
 
-            if (TryComp<MetaDataComponent>(ent, out var meta) 
-                && meta.EntityPrototype != null 
+            var meta = MetaData(ent);
+            if (meta.EntityPrototype != null
                 && entry.BlacklistPrototypes.Contains(meta.EntityPrototype.ID))
             {
                 continue;
