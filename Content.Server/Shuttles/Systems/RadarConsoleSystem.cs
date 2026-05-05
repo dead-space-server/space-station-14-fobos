@@ -223,6 +223,9 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
     {
         _actions.RemoveAction(args.User, component.ToggleActionEntity);
         component.FollowEntity = false;
+
+        if (_uiSystem.IsUiOpen(uid, RadarConsoleUiKey.Key, args.User))
+            _uiSystem.CloseUi(uid, RadarConsoleUiKey.Key, args.User);
     }
 
     private void OnRadarEquipped(EntityUid uid, RadarConsoleComponent component, GotEquippedEvent args)
@@ -240,6 +243,9 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
         component.FollowEntity = false;
         
         _actions.RemoveAction(args.Equipee, component.ToggleActionEntity);
+
+        if (_uiSystem.IsUiOpen(uid, RadarConsoleUiKey.Key, args.Equipee))
+            _uiSystem.CloseUi(uid, RadarConsoleUiKey.Key, args.Equipee);
     }
 
     private void OnRadarConsoleShutdown(EntityUid uid, RadarConsoleComponent component, ComponentShutdown args)
