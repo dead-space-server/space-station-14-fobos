@@ -11,6 +11,8 @@ namespace Content.Server.StationEvents;
 
 public sealed class SurvivalRampingStationEventSchedulerSystem : GameRuleSystem<SurvivalRampingStationEventSchedulerComponent>
 {
+    private const int EventPickAttempts = 20;
+
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly EventManagerSystem _event = default!;
     [Dependency] private readonly GameTicker _gameTicker = default!;
@@ -60,8 +62,6 @@ public sealed class SurvivalRampingStationEventSchedulerSystem : GameRuleSystem<
                 continue;
             }
 
-            PickNextEventTime(uid, scheduler);
-
             var phase = PickPhase(scheduler);
             if (phase == null)
             {
@@ -69,7 +69,14 @@ public sealed class SurvivalRampingStationEventSchedulerSystem : GameRuleSystem<
                 continue;
             }
 
-            _event.RunRandomEvent(phase.ScheduledGameRules);
+            // Do not reset the cooldown until an event was actually queued.
+            // GroupSelector may pick an empty sub-pool after CanRun filtering
+            // e.g. heavy threats on low pop, so retry a few times before giving up
+            // for this tick.
+            if (!TryRunRandomEvent(phase))
+                continue;
+
+            PickNextEventTime(uid, scheduler);
         }
     }
 
@@ -79,6 +86,24 @@ public sealed class SurvivalRampingStationEventSchedulerSystem : GameRuleSystem<
 
         component.TimeUntilNextEvent = _random.NextFloat(240f / mod, 720f / mod);
     }
+
+    private bool TryRunRandomEvent(SurvivalRampingStationEventSchedulerPhase phase)
+    {
+        for (var i = 0; i < EventPickAttempts; i++)
+        {
+            if (!_event.TryBuildLimitedEvents(phase.ScheduledGameRules, out var limitedEvents))
+                continue;
+
+            if (_event.FindEvent(limitedEvents) is not { } randomEvent)
+                continue;
+
+            _gameTicker.AddGameRule(randomEvent);
+            return true;
+        }
+
+        return false;
+    }
+
 
     private SurvivalRampingStationEventSchedulerPhase? PickPhase(SurvivalRampingStationEventSchedulerComponent component)
     {
