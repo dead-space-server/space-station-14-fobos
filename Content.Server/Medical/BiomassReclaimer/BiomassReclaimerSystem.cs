@@ -107,6 +107,8 @@ namespace Content.Server.Medical.BiomassReclaimer
             SubscribeLocalEvent<BiomassReclaimerComponent, PowerChangedEvent>(OnPowerChanged);
             SubscribeLocalEvent<BiomassReclaimerComponent, SuicideByEnvironmentEvent>(OnSuicideByEnvironment);
             SubscribeLocalEvent<BiomassReclaimerComponent, ReclaimerDoAfterEvent>(OnDoAfter);
+            SubscribeLocalEvent<BiomassReclaimerComponent, AttemptClimbEvent>(OnAttemptClimb); // DS14
+            SubscribeLocalEvent<BiomassReclaimerComponent, TargetBeforeClimbEvent>(OnTargetBeforeClimb); // DS14
         }
 
         private void OnSuicideByEnvironment(Entity<BiomassReclaimerComponent> ent, ref SuicideByEnvironmentEvent args)
@@ -158,11 +160,19 @@ namespace Content.Server.Medical.BiomassReclaimer
             if (!args.CanReach || args.Target == null)
                 return;
 
-            if (!CanGib(reclaimer, args.Used))
+            // DS14-start
+            if (!CanGib(reclaimer, args.Used, out var reason))
+            {
+                _popup.PopupEntity(reason, reclaimer, args.User, PopupType.SmallCaution);
                 return;
+            }
 
             if (!TryComp<PhysicsComponent>(args.Used, out var physics))
+            {
+                _popup.PopupEntity(Loc.GetString("biomass-reclaimer-component-fail-no-physics", ("target", args.Used)), reclaimer, args.User, PopupType.SmallCaution);
                 return;
+            }
+            // DS14-end
 
             var delay = reclaimer.Comp.BaseInsertionDelay * physics.FixturesMass;
             _doAfterSystem.TryStartDoAfter(new DoAfterArgs(EntityManager, args.User, delay, new ReclaimerDoAfterEvent(), reclaimer, target: args.Target, used: args.Used)
@@ -172,10 +182,31 @@ namespace Content.Server.Medical.BiomassReclaimer
             });
         }
 
+        // DS14-start
+        private void OnAttemptClimb(Entity<BiomassReclaimerComponent> reclaimer, ref AttemptClimbEvent args)
+        {
+            if (CanGib(reclaimer, args.Climber, out var reason))
+                return;
+
+            _popup.PopupEntity(reason, reclaimer, args.User, PopupType.SmallCaution);
+            args.Cancelled = true;
+        }
+
+        private void OnTargetBeforeClimb(Entity<BiomassReclaimerComponent> reclaimer, ref TargetBeforeClimbEvent args)
+        {
+            if (CanGib(reclaimer, args.GettingPutOnTable, out var reason))
+                return;
+
+            _popup.PopupEntity(reason, reclaimer, args.PuttingOnTable, PopupType.SmallCaution);
+            args.Cancel();
+        }
+        // DS14-end
+
         private void OnClimbedOn(Entity<BiomassReclaimerComponent> reclaimer, ref ClimbedOnEvent args)
         {
-            if (!CanGib(reclaimer, args.Climber))
+            if (!CanGib(reclaimer, args.Climber, out var reason)) // DS14
             {
+                _popup.PopupEntity(reason, reclaimer, args.Instigator, PopupType.SmallCaution); // DS14
                 var direction = new Vector2(_robustRandom.Next(-2, 2), _robustRandom.Next(-2, 2));
                 _throwing.TryThrow(args.Climber, direction, 0.5f);
                 return;
@@ -210,8 +241,11 @@ namespace Content.Server.Medical.BiomassReclaimer
             if (TryComp<BloodstreamComponent>(toProcess, out var stream) &&
                 _solution.ResolveSolution(toProcess, stream.BloodSolutionName, ref stream.BloodSolution, out var solution))
             {
-                component.BloodReagents = solution.Clone();
-                component.BloodReagents.ScaleSolution(50 / component.BloodReagents.Volume);
+                if (solution.Volume > 0)
+                {
+                    component.BloodReagents = solution.Clone();
+                    component.BloodReagents.ScaleTo(50);
+                }
             }
             if (TryComp<ButcherableComponent>(toProcess, out var butcherableComponent))
             {
@@ -234,23 +268,38 @@ namespace Content.Server.Medical.BiomassReclaimer
             QueueDel(toProcess);
         }
 
-        private bool CanGib(Entity<BiomassReclaimerComponent> reclaimer, EntityUid dragged)
+        private bool CanGib(Entity<BiomassReclaimerComponent> reclaimer, EntityUid dragged, out string reason) // DS14
         {
             if (HasComp<ActiveBiomassReclaimerComponent>(reclaimer))
+            {
+                reason = Loc.GetString("biomass-reclaimer-component-fail-active"); // DS14
                 return false;
+            }
 
             bool isPlant = HasComp<ProduceComponent>(dragged);
             if (!isPlant && !HasComp<MobStateComponent>(dragged))
+            {
+                reason = Loc.GetString("biomass-reclaimer-component-fail-unreclaimable", ("target", dragged)); // DS14
                 return false;
+            }
 
             if (!Transform(reclaimer).Anchored)
+            {
+                reason = Loc.GetString("biomass-reclaimer-component-fail-unanchored"); // DS14
                 return false;
+            }
 
             if (TryComp<ApcPowerReceiverComponent>(reclaimer, out var power) && !power.Powered)
+            {
+                reason = Loc.GetString("biomass-reclaimer-component-fail-unpowered"); // DS14
                 return false;
+            }
 
             if (!isPlant && reclaimer.Comp.SafetyEnabled && !_mobState.IsDead(dragged))
+            {
+                reason = Loc.GetString("biomass-reclaimer-component-fail-alive", ("target", dragged)); // DS14
                 return false;
+            }
 
             // Reject souled bodies in easy mode.
             if (_configManager.GetCVar(CCVars.BiomassEasyMode) &&
@@ -258,9 +307,13 @@ namespace Content.Server.Medical.BiomassReclaimer
                 _minds.TryGetMind(dragged, out _, out var mind))
             {
                 if (mind.UserId != null && _playerManager.TryGetSessionById(mind.UserId.Value, out _))
+                {
+                    reason = Loc.GetString("biomass-reclaimer-component-fail-souled", ("target", dragged)); // DS14
                     return false;
+                }
             }
 
+            reason = string.Empty; // DS14
             return true;
         }
     }

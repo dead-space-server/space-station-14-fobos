@@ -26,11 +26,15 @@ public sealed class ShadowlingPhaseSystem : EntitySystem
 
     private void OnMapInit(EntityUid uid, ShadowlingPhaseComponent component, MapInitEvent args)
     {
+        if (HasComp<ShadowlingAnnihilationComponent>(uid))
+            return;
         _actions.AddAction(uid, ActionPhaseId);
     }
 
     private void OnShadowlingPhase(EntityUid uid, ShadowlingPhaseComponent component, ShadowlingPhaseActionEvent args)
     {
+        if (HasComp<ShadowlingAnnihilationComponent>(uid))
+            return;
         if (args.Handled) return;
 
         if (TryComp<HandsComponent>(uid, out var hands))

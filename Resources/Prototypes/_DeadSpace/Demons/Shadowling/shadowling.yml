@@ -47,9 +47,6 @@
   - type: Body
     prototype: Human
 
-  - type: Inventory
-    templateId: monkey
-
   - type: Hands
   - type: ComplexInteraction
   - type: CombatMode
@@ -123,7 +120,7 @@
     angle: 45
     soundHit:
         path: /Audio/Effects/demon_attack1.ogg
-    animation: WeaponArcClaw
+    animation: WeaponArcRed
     damage:
       types:
         Slash: 10
@@ -219,6 +216,42 @@
   - type: Eye
     drawFov: false
 
+- type: polymorph
+  id: ShadowlingAscendedPhasePolymorph
+  configuration:
+    entity: MobShadowlingAscendedPhaseForm
+    transferName: false
+    inventory: None
+    forced: true
+    revertOnDeath: true
+    revertOnCrit: true
+    polymorphSound: /Audio/Magic/ethereal_enter.ogg
+    exitPolymorphSound: /Audio/Magic/ethereal_exit.ogg
+
+- type: entity
+  id: MobShadowlingAscendedPhaseForm
+  parent: [Incorporeal, BaseMob]
+  name: Теневой призрак
+  description: Призрак. Чёрный.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Demons/shadowling.rsi
+    layers:
+    - state: shadowling_ascended_ghost
+  - type: ContentEye
+    maxZoom: 1, 1
+  - type: Eye
+    drawFov: false
+  - type: MovementSpeedModifier
+    baseSprintSpeed: 12
+    baseWalkSpeed: 8
+  - type: Input
+    context: "human"
+  - type: InputMover
+  - type: Spectral
+  - type: ShadowlingAscendedPhaseReturn
+
 - type: entity
   id: MobShadowlingAscended
   parent: MobShadowling
@@ -304,9 +337,23 @@
     baseCritThreshold: 1000
     decay: 100
     cooldown: 3
+  - type: ShadowlingAscendedPhase
   - type: ShadowlingAnnihilation
   - type: ShadowlingScreech
   - type: ShadowlingBlackMed
   - type: ShadowlingAbsoluteFreezingVeins
   - type: ShadowlingThunderstorm
   - type: Emoting
+
+- type: entity
+  id: WeaponArcRed
+  parent: WeaponArcStatic
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: WeaponArcVisuals
+      fadeOut: false
+    - type: Sprite
+      sprite: _DeadSpace/Demons/shadowling.rsi
+      state: red
+    - type: TimedDespawn
+      lifetime: 0.399

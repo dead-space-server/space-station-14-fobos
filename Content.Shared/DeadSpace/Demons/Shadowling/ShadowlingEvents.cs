@@ -8,6 +8,8 @@ namespace Content.Shared.DeadSpace.Demons.Shadowling;
 
 public sealed partial class ShadowlingVeilActionEvent : InstantActionEvent { }
 public sealed partial class ShadowlingPhaseActionEvent : InstantActionEvent { }
+public sealed partial class ShadowlingAscendedPhaseActionEvent : InstantActionEvent { }
+public sealed partial class ShadowlingAscendedPhaseReturnEvent : InstantActionEvent { }
 
 [Serializable, NetSerializable]
 public sealed partial class ShadowlingAscendanceDoAfterEvent : SimpleDoAfterEvent { }

@@ -40,6 +40,9 @@
         type: RadarConsoleBoundUserInterface
   - type: StaticPrice
     price: 150
+  - type: Tag
+    tags:
+    - HandHeldMassScanner
 
 - type: entity
   id: HandHeldMassScannerEmpty

@@ -64,6 +64,7 @@ public sealed class ShadowlingVeilSystem : EntitySystem
                         var damage = new DamageSpecifier();
                         damage.DamageDict.Add("Blunt", 20);
                         _damageable.TryChangeDamage(entity, damage, true);
+                        Spawn("EffectSparks", Transform(entity).Coordinates);
                     }
                 }
                 continue;

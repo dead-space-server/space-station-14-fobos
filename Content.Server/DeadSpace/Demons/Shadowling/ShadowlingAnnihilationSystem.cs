@@ -43,7 +43,7 @@ public sealed class ShadowlingAnnihilationSystem : EntitySystem
         if (!HasComp<HumanoidAppearanceComponent>(target))
             return;
 
-        if (target == performer || HasComp<ShadowlingComponent>(target) || HasComp<ShadowlingRevealComponent>(target))
+        if (target == performer || HasComp<ShadowlingComponent>(target))
             return;
 
         if (meta.EntityPrototype?.ID == component.ImmunePrototypeId)

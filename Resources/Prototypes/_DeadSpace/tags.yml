@@ -38,6 +38,9 @@
   id: BorgSecTorso
 
 - type: Tag
+  id: BluespaceHandHeldMassScanner
+
+- type: Tag
   id: DarkFlower
 
 - type: Tag
@@ -78,6 +81,9 @@
 
 - type: Tag
   id: DockCentcommERTCburnShuttle
+
+- type: Tag
+  id: DockCentcommERTBSAAShuttle
 
 - type: Tag
   id: DockCentcommERTSierraShuttle
@@ -128,6 +134,9 @@
   id: FlamethrowerNozzle
 
 - type: Tag
+  id: Fulton
+
+- type: Tag
   id: FelinidFood
 
 - type: Tag
@@ -162,6 +171,9 @@
 
 - type: Tag
   id: HardsuitSyndie
+
+- type: Tag
+  id: HandHeldMassScanner
 
 - type: Tag
   id: HolopadAdminNotification

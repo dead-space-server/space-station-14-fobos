@@ -1,6 +1,6 @@
 - type: entity
   id: ActionShadowlingVeil
-  name: Затенение
+  name: Затмение
   description: Вызывает всплеск аномальной энергии, поглощающей ближайшие источники света.
   categories: [ HideSpawnMenu ]
   components:
@@ -181,3 +181,29 @@
   - type: EntityTargetAction
     canTargetSelf: false
     event: !type:ShadowlingAbsoluteFreezingVeinsEvent
+
+- type: entity
+  id: ActionShadowlingAscendedPhase
+  name: Фазовый сдвиг
+  description: Позволяет вам быстро перемещаться сквозь стены.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon: _DeadSpace/Demons/ability_icons/shadowling_ascended_ghost_action.png
+    useDelay: 10
+    itemIconStyle: NoItem
+  - type: InstantAction
+    event: !type:ShadowlingAscendedPhaseActionEvent
+
+- type: entity
+  id: ActionShadowlingAscendedPhaseReturn
+  name: Вернуться
+  description: Вернуться в физическую форму.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon: _DeadSpace/Demons/ability_icons/shadowling_ascended_ghost_action.png
+    useDelay: 0.5
+    itemIconStyle: NoItem
+  - type: InstantAction
+    event: !type:ShadowlingAscendedPhaseReturnEvent

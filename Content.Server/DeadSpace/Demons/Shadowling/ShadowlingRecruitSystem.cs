@@ -190,6 +190,50 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
         if (args.Cancelled || target == null) return;
 
         var targetUid = target.Value;
+
+        if (HasComp<ShadowlingRecruitComponent>(targetUid) || HasComp<ShadowlingRevealComponent>(targetUid))
+        {
+            _popup.PopupEntity("Вы не можете поработить другого тенеморфа!", uid, uid, PopupType.Medium);
+            return;
+        }
+
+        var meta = MetaData(targetUid);
+        if (meta.EntityPrototype?.ID == component.ImmunePrototypeId)
+        {
+            _popup.PopupEntity(Loc.GetString("Его воля сопротивляется!"), uid, uid, PopupType.Medium);
+            return;
+        }
+
+        if (HasComp<ShadowlingSlaveComponent>(targetUid))
+        {
+            _popup.PopupEntity("Разум этой цели уже принадлежит тьме!", uid, uid, PopupType.Medium);
+            return;
+        }
+
+        if (HasComp<MindShieldComponent>(targetUid))
+        {
+            _popup.PopupEntity("Разум цели защищён имплантом!", uid, uid, PopupType.Medium);
+            return;
+        }
+
+        if (_mobState.IsDead(targetUid) || _mobState.IsCritical(targetUid))
+        {
+            _popup.PopupEntity("Цель должна быть в сознании!", uid, uid, PopupType.Medium);
+            return;
+        }
+
+        if (!HasComp<HumanoidAppearanceComponent>(targetUid))
+        {
+            _popup.PopupEntity("Этот разум слишком примитивен для порабощения.", uid, uid, PopupType.Medium);
+            return;
+        }
+
+        if (!_mind.TryGetMind(targetUid, out _, out _))
+        {
+            _popup.PopupEntity("Это существо не обладает разумом!", uid, uid);
+            return;
+        }
+
         var slave = EnsureComp<ShadowlingSlaveComponent>(targetUid);
         slave.Master = uid;
 

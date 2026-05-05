@@ -32,6 +32,7 @@
       map: ["enum.MaterialStorageVisualLayers.Inserting"]
     - state: core-o
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
     - state: core-e
       map: ["enum.BorgVisualLayers.Light"]
       shader: unshaded

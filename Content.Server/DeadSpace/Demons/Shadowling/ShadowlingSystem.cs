@@ -31,8 +31,11 @@ public sealed class ShadowlingSystem : EntitySystem
 
     private void OnMapInit(EntityUid uid, ShadowlingComponent component, MapInitEvent args)
     {
-        _eye.SetDrawFov(uid, false);
-        _eye.SetDrawLight(uid, true);
+        if (TryComp<EyeComponent>(uid, out var eye))
+        {
+            _eye.SetDrawFov(uid, false, eye);
+            _eye.SetDrawLight(uid, true);
+        }
     }
 
     public override void Update(float frameTime)
@@ -43,7 +46,7 @@ public sealed class ShadowlingSystem : EntitySystem
         {
             if (TryComp<EyeComponent>(uid, out var eye))
             {
-                if (eye.DrawFov) _eye.SetDrawFov(uid, false);
+                if (eye.DrawFov) _eye.SetDrawFov(uid, false, eye);
                 if (!eye.DrawLight) _eye.SetDrawLight(uid, true);
             }
 
@@ -53,7 +56,6 @@ public sealed class ShadowlingSystem : EntitySystem
 
             var currentLight = CalculateTotalLight(uid, xform);
             comp.IsInDarkness = currentLight <= comp.Threshold;
-
             _movement.RefreshMovementSpeedModifiers(uid);
 
             if (comp.IsInDarkness)
@@ -66,7 +68,6 @@ public sealed class ShadowlingSystem : EntitySystem
                 var heatUron = 5f + Math.Clamp((currentLight - comp.Threshold) * 10f, 0f, 10f);
                 damage.DamageDict.Add("Heat", heatUron);
                 _damageable.TryChangeDamage(uid, damage, true);
-
                 _popup.PopupEntity("Свет выжигает вас!", uid, uid, PopupType.LargeCaution);
                 _audio.PlayPvs(new SoundCollectionSpecifier("ShadowlingBurnDamage"), uid);
             }
@@ -82,7 +83,7 @@ public sealed class ShadowlingSystem : EntitySystem
             if (!TryComp<PointLightComponent>(lightUid, out var light) || !light.Enabled) continue;
             var distance = (xform.WorldPosition - Transform(lightUid).WorldPosition).Length();
             if (distance <= light.Radius && _examine.InRangeUnOccluded(uid, lightUid, light.Radius))
-                totalLight += (1.0f - (distance / light.Radius)) * light.Energy;
+                totalLight += (1.0f - distance / light.Radius) * light.Energy;
         }
         return totalLight;
     }

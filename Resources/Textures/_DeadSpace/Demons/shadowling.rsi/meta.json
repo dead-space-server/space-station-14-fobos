@@ -33,6 +33,10 @@
       "directions": 4
     },
     {
+      "name": "shadowling_ascended_ghost",
+      "directions": 4
+    },
+    {
       "name": "shadowling_slave-eyes",
       "directions": 4
     },
@@ -42,6 +46,17 @@
     {
       "name": "shadowling_eyes",
       "directions": 4
+    },
+    {
+      "name": "red",
+      "delays": [
+            [
+              0.1,
+              0.1,
+              0.1,
+              0.1
+            ]
+      ]
     }
   ]
 }
