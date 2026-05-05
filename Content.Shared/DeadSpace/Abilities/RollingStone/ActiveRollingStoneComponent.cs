@@ -26,4 +26,7 @@ public sealed partial class ActiveRollingStoneComponent : Component
 
     [DataField, AutoNetworkedField]
     public SoundSpecifier? HitSound;
+
+    [DataField]
+    public HashSet<EntityUid> DamagedThisTick = new();
 }

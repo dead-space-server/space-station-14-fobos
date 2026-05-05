@@ -6,6 +6,8 @@ using Content.Shared.Damage.Systems;
 using Content.Shared.Movement.Components;
 using Content.Shared.Popups;
 using Content.Shared.Projectiles;
+using Content.Shared.Weapons.Ranged.Events;
+using Content.Shared.Weapons.Reflect;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Audio;
@@ -37,7 +39,7 @@ public sealed class SharedRollingStoneSystem : EntitySystem
 
     private void OnProjectileReflect(Entity<ActiveRollingStoneComponent> ent, ref ProjectileReflectAttemptEvent args)
     {
-        args.Cancelled = true;
+        args.Cancelled = false;
     }
     private void OnAction(RollingStoneActionEvent args)
     {
@@ -49,6 +51,9 @@ public sealed class SharedRollingStoneSystem : EntitySystem
         var direction = xform.WorldRotation.ToWorldVec();
 
         var active = EnsureComp<ActiveRollingStoneComponent>(performer);
+        var reflect = EnsureComp<ReflectComponent>(performer);
+        reflect.Reflects = ReflectType.NonEnergy | ReflectType.Energy;
+        reflect.ReflectProb = 1f;
         active.EndTime = _timing.CurTime + TimeSpan.FromSeconds(args.Duration);
         active.Direction = direction;
         active.Speed = args.Speed;
@@ -97,17 +102,17 @@ public sealed class SharedRollingStoneSystem : EntitySystem
         ent.Comp.Direction = newDir;
     
         if (HasComp<ProjectileComponent>(args.OtherEntity) &&
-            TryComp<PhysicsComponent>(args.OtherEntity, out var projPhysics) &&
-            projPhysics.LinearVelocity.LengthSquared() < 0.1f)
+            TryComp<PhysicsComponent>(args.OtherEntity, out var projPhysics))
         {
             _physics.SetBodyType(args.OtherEntity, BodyType.Dynamic, body: projPhysics);
             _physics.SetLinearVelocity(args.OtherEntity, impactDirection * ent.Comp.Speed, body: projPhysics);
-    
+
             if (TryComp<ProjectileComponent>(args.OtherEntity, out var projectile))
             {
                 projectile.Shooter = uid;
                 projectile.Weapon = uid;
             }
+            return;
         }
     
         if (TryComp<DamageableComponent>(args.OtherEntity, out _))
@@ -116,7 +121,13 @@ public sealed class SharedRollingStoneSystem : EntitySystem
                                 HasComp<MapComponent>(args.OtherEntity);
 
             if (!isMapGeometry)
-                _damageable.TryChangeDamage(args.OtherEntity, ent.Comp.Damage);
+            {
+                if (!ent.Comp.DamagedThisTick.Contains(args.OtherEntity))
+                {
+                    ent.Comp.DamagedThisTick.Add(args.OtherEntity);
+                    _damageable.TryChangeDamage(args.OtherEntity, ent.Comp.Damage);
+                }
+            }
         }
     
         if (ent.Comp.HitSound != null)
@@ -131,12 +142,15 @@ public sealed class SharedRollingStoneSystem : EntitySystem
         var query = EntityQueryEnumerator<ActiveRollingStoneComponent, PhysicsComponent>();
         while (query.MoveNext(out var uid, out var active, out var physics))
         {
+            active.DamagedThisTick.Clear();
+
             if (_timing.CurTime > active.EndTime)
             {
                 if (TryComp<InputMoverComponent>(uid, out var mover))
                     mover.CanMove = active.OldCanMove;
 
                 RemCompDeferred<ActiveRollingStoneComponent>(uid);
+                RemCompDeferred<ReflectComponent>(uid);
                 _physics.SetLinearVelocity(uid, Vector2.Zero, body: physics);
                 continue;
             }
