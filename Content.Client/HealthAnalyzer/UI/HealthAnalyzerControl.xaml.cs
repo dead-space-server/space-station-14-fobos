@@ -107,7 +107,7 @@ public sealed partial class HealthAnalyzerControl : BoxContainer
 
         // Alerts
 
-        var showAlerts = state.Unrevivable == true || state.Bleeding == true || state.HasVirus == true; // DS14: virus
+        var showAlerts = state.Unrevivable == true || state.Bleeding == true;
 
         AlertsDivider.Visible = showAlerts;
         AlertsContainer.Visible = showAlerts;
@@ -130,23 +130,6 @@ public sealed partial class HealthAnalyzerControl : BoxContainer
                 Margin = new Thickness(0, 4),
                 MaxWidth = 300
             });
-
-        // DS14-start
-        if (state.HasVirus == true)
-        {
-            var percent = Math.Clamp(state.CureProgress, 0f, 1f) * 100f;
-
-            AlertsContainer.AddChild(new RichTextLabel
-            {
-                Text = Loc.GetString(
-                    "health-analyzer-window-entity-infected-text",
-                    ("progress", percent.ToString("F1"))
-                ),
-                Margin = new Thickness(0, 4),
-                MaxWidth = 300
-            });
-        }
-        // DS14-end
 
         // Damage Groups
 

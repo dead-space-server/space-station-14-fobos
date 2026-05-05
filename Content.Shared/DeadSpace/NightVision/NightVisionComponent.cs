@@ -19,6 +19,9 @@ public abstract partial class SharedNightVisionComponent : Component
     public SoundSpecifier? ActivateSound = null;
 
     [DataField]
+    public float? Duration = null;
+
+    [DataField]
     public bool Animation = false;
 }
 
@@ -32,13 +35,21 @@ public sealed class NightVisionComponentState : ComponentState
     public uint LastToggleTick;
     public SoundSpecifier? ActivateSound;
     public bool Animation;
+    public float? Duration;
 
-    public NightVisionComponentState(Color color, bool isNightVision, uint lastToggleTick, SoundSpecifier? activateSound = null, bool animation = true)
+    public NightVisionComponentState(
+        Color color,
+        bool isNightVision,
+        uint lastToggleTick,
+        SoundSpecifier? activateSound,
+        bool animation,
+        float? duration)
     {
         Color = color;
         IsNightVision = isNightVision;
         LastToggleTick = lastToggleTick;
         ActivateSound = activateSound;
         Animation = animation;
+        Duration = duration;
     }
 }

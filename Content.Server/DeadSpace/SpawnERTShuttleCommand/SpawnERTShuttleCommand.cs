@@ -2,6 +2,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Numerics;
 using Content.Server.Administration;
 using Content.Server.RoundEnd;
 using Content.Server.Shuttles;
@@ -23,6 +24,9 @@ public sealed class SpawnERTShuttleCommand : LocalizedCommands
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
 
     private const string DockTagPrefix = "DockCentcommERT";
+    private const int DockPairSize = 2;
+    private const double DockRotationBucketSize = 0.001;
+    private const double DockLineBucketSize = 0.25;
     private static readonly ProtoId<TagPrototype> DefaultDockTag = "DockCentcommERT";
 
     public override string Command => "ert_spawn_shuttle";
@@ -99,7 +103,9 @@ public sealed class SpawnERTShuttleCommand : LocalizedCommands
         }
         else
         {
-            if (IsDockGroupOccupied(dockGroups[0].Docks))
+            dockGroups.RemoveAll(group => IsDockGroupOccupied(group.Docks));
+
+            if (dockGroups.Count == 0)
             {
                 shell.WriteError($"Ошибка: Стык ОБР {requestedDockTag} занят.");
                 return;
@@ -175,7 +181,7 @@ public sealed class SpawnERTShuttleCommand : LocalizedCommands
         DockingSystem docking,
         ProtoId<TagPrototype> requestedTag)
     {
-        var groups = new Dictionary<ProtoId<TagPrototype>, List<Entity<DockingComponent>>>();
+        var docks = new List<Entity<DockingComponent>>();
 
         foreach (var dock in docking.GetDocks(grid))
         {
@@ -184,21 +190,58 @@ public sealed class SpawnERTShuttleCommand : LocalizedCommands
                 continue;
             }
 
-            foreach (var currentTag in tagComponent.Tags.Where(tag => tag.Equals(requestedTag)))
-            {
-                if (!groups.TryGetValue(currentTag, out var docks))
-                {
-                    docks = new List<Entity<DockingComponent>>();
-                    groups.Add(currentTag, docks);
-                }
+            if (!tagComponent.Tags.Any(tag => tag.Equals(requestedTag)))
+                continue;
 
-                docks.Add(dock);
+            docks.Add(dock);
+        }
+
+        if (docks.Count == 1)
+            return new List<(ProtoId<TagPrototype> Tag, List<Entity<DockingComponent>> Docks)>
+            {
+                (requestedTag, docks)
+            };
+
+        var dockLines = new Dictionary<(int Rotation, int Line), List<(Entity<DockingComponent> Dock, double SortKey)>>();
+
+        foreach (var dock in docks)
+        {
+            if (!_entityManager.TryGetComponent(dock.Owner, out TransformComponent? transform))
+                continue;
+
+            var key = GetDockLineKey(transform);
+            var sortKey = GetDockSortKey(transform);
+
+            if (!dockLines.TryGetValue(key, out var lineDocks))
+            {
+                lineDocks = new List<(Entity<DockingComponent>, double)>();
+                dockLines.Add(key, lineDocks);
+            }
+
+            lineDocks.Add((dock, sortKey));
+        }
+
+        var groups = new List<(ProtoId<TagPrototype> Tag, List<Entity<DockingComponent>> Docks)>();
+
+        foreach (var dockLine in dockLines
+            .OrderBy(group => group.Key.Rotation)
+            .ThenBy(group => group.Key.Line))
+        {
+            var lineDocks = dockLine.Value
+                .OrderBy(dock => dock.SortKey)
+                .Select(dock => dock.Dock)
+                .ToList();
+
+            for (var i = 0; i + DockPairSize - 1 < lineDocks.Count; i += DockPairSize)
+            {
+                groups.Add((requestedTag, lineDocks
+                    .Skip(i)
+                    .Take(DockPairSize)
+                    .ToList()));
             }
         }
 
-        return groups
-            .Select(group => (group.Key, group.Value))
-            .ToList();
+        return groups;
     }
 
     private List<(ProtoId<TagPrototype> Tag, List<Entity<DockingComponent>> Docks)> GetDefaultDockGroup(
@@ -236,6 +279,28 @@ public sealed class SpawnERTShuttleCommand : LocalizedCommands
         return tag.StartsWith(DockTagPrefix) && tag != DockTagPrefix;
     }
 
+    private static (int Rotation, int Line) GetDockLineKey(TransformComponent transform)
+    {
+        var angle = transform.LocalRotation.Reduced().Theta;
+        var normal = new Vector2((float) -Math.Sin(angle), (float) Math.Cos(angle));
+        var line = Vector2.Dot(transform.LocalPosition, normal);
+
+        return (GetBucket(angle, DockRotationBucketSize), GetBucket(line, DockLineBucketSize));
+    }
+
+    private static double GetDockSortKey(TransformComponent transform)
+    {
+        var angle = transform.LocalRotation.Reduced().Theta;
+        var tangent = new Vector2((float) Math.Cos(angle), (float) Math.Sin(angle));
+
+        return Vector2.Dot(transform.LocalPosition, tangent);
+    }
+
+    private static int GetBucket(double value, double bucketSize)
+    {
+        return (int) Math.Round(value / bucketSize);
+    }
+
     private static bool TryGetDockingConfig(
         EntityUid shuttleUid,
         EntityUid targetGrid,
@@ -247,6 +312,9 @@ public sealed class SpawnERTShuttleCommand : LocalizedCommands
     {
         foreach (var (_, targetDocks) in targetGroups)
         {
+            if (requireAllTargetDocks && IsDockGroupOccupied(targetDocks))
+                continue;
+
             config = docking.GetDockingConfig(shuttleUid, targetGrid, shuttleDocks, targetDocks);
 
             if (config != null && (!requireAllTargetDocks || UsesAllTargetDocks(config, targetDocks)))

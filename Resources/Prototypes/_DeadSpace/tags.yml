@@ -80,6 +80,9 @@
   id: DockCentcommERTCburnShuttle
 
 - type: Tag
+  id: DockCentcommERTBSAAShuttle
+
+- type: Tag
   id: DockCentcommERTSierraShuttle
 
 - type: Tag
