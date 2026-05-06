@@ -1026,7 +1026,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpsuitMachineInventory50
+  id: ClothingJumpsuitMachineInventory60
   productEntity: ClothingUniformTurtleneckTactic
   cost:
     SpaceCash: 20
