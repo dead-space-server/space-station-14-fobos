@@ -564,6 +564,23 @@ public abstract partial class SharedMoverController : VirtualController
 
         if (FootstepModifierQuery.TryComp(uid, out var moverModifier))
         {
+            //DS14-start
+            if (moverModifier.AllowedSoundCollections != null)
+            {
+                if (_inventory.TryGetSlotEntity(uid, "shoes", out var whitelistShoes) &&
+                    FootstepModifierQuery.TryComp(whitelistShoes, out var shoeModifier) &&
+                    shoeModifier.FootstepSoundCollection is SoundCollectionSpecifier collection &&
+                    collection.Collection is { } collectionId && 
+                    moverModifier.AllowedSoundCollections.Contains(collectionId))
+                {
+                    sound = shoeModifier.FootstepSoundCollection;
+                    return true;
+                }
+
+                sound = null;
+                return false;
+            }
+            //DS14-end
             sound = moverModifier.FootstepSoundCollection;
             return sound != null;
         }

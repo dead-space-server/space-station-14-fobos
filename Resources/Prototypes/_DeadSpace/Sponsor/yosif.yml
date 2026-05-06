@@ -64,7 +64,7 @@
   - type: StorageFill
     contents:
       - id: PowerDrillYosif
-      - id: SyndicateJawsOfLifeYosif
+      - id: JawsOfLifeYosif
       - id: WelderExperimentalYosif
       - id: Multitool
 
@@ -83,8 +83,8 @@
 - type: entity
   name: челюсти Ориона
   description: Пс... пока никто не видит! Воспользуйся ими для нелегального проникновения!
-  parent: SyndicateJawsOfLife
-  id: SyndicateJawsOfLifeYosif
+  parent: JawsOfLife
+  id: JawsOfLifeYosif
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -178,7 +178,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitYosif
   name: скафандр модификации "Орион"
   description: Идеально подходящий скафандр для путешествий по неизведанным просторам космоса.

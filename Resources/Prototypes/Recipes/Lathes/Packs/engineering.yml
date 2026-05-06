@@ -66,6 +66,7 @@
   - JawsOfLife
   - Fulton
   - FultonBeacon
+  - BluespaceHandHeldMassScannerEmpty #DS14
 
 - type: latheRecipePack
   id: AtmosTools

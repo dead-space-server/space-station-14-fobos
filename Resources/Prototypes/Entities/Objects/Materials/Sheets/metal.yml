@@ -45,6 +45,29 @@
   - type: PhysicalComposition
     materialComposition:
       Steel: 100
+#DS14-start
+  - type: Healing
+    damageContainers:
+    - Zaratana
+    damage:
+      types:
+        Heat: -5
+        Shock: -5
+        Blunt: -10
+        Slash: -5
+        Piercing: -5
+        Structural: -10
+    healingBeginSound:
+      path: "/Audio/Weapons/smash.ogg"
+      params:
+        volume: 1.0
+        variation: 0.125
+    healingEndSound:
+      path: "/Audio/Weapons/smash.ogg"
+      params:
+        volume: 1.0
+        variation: 0.125
+#DS14-end
   - type: Stack
     stackType: Steel
     baseLayer: base

@@ -32,6 +32,10 @@
     damageContainer: Biological
     damageModifierSet: XenoRace
   - type: Bloodstream
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: AcidicBlood
+        Quantity: 300
   - type: Hunger
     baseDecayRate: 0.05
   - type: Thirst

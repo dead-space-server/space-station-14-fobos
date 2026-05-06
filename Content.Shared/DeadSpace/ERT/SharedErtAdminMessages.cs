@@ -15,15 +15,24 @@ namespace Content.Shared.DeadSpace.ERT
         public int RequestId { get; }
         public string ProtoId { get; }
         public string Name { get; }
+        public int SecondsRemaining { get; }
         public int Price { get; }
         public string RequestedByName { get; }
         public string? CallReason { get; }
 
-        public ErtPendingRequestEntry(int requestId, string protoId, string name, int price, string requestedByName, string? callReason = null)
+        public ErtPendingRequestEntry(
+            int requestId,
+            string protoId,
+            string name,
+            int secondsRemaining,
+            int price,
+            string requestedByName,
+            string? callReason = null)
         {
             RequestId = requestId;
             ProtoId = protoId;
             Name = name;
+            SecondsRemaining = secondsRemaining;
             Price = price;
             RequestedByName = requestedByName;
             CallReason = callReason;
@@ -187,10 +196,12 @@ namespace Content.Shared.DeadSpace.ERT
     public sealed class AdminRejectErtRequestMessage : EntityEventArgs
     {
         public int RequestId { get; }
+        public bool SendNotification { get; }
 
-        public AdminRejectErtRequestMessage(int requestId)
+        public AdminRejectErtRequestMessage(int requestId, bool sendNotification = true)
         {
             RequestId = requestId;
+            SendNotification = sendNotification;
         }
     }
 
@@ -198,10 +209,12 @@ namespace Content.Shared.DeadSpace.ERT
     public sealed class AdminApproveErtRequestManualMessage : EntityEventArgs
     {
         public int RequestId { get; }
+        public bool SendNotification { get; }
 
-        public AdminApproveErtRequestManualMessage(int requestId)
+        public AdminApproveErtRequestManualMessage(int requestId, bool sendNotification = true)
         {
             RequestId = requestId;
+            SendNotification = sendNotification;
         }
     }
 
@@ -209,10 +222,12 @@ namespace Content.Shared.DeadSpace.ERT
     public sealed class AdminApproveErtRequestAutoMessage : EntityEventArgs
     {
         public int RequestId { get; }
+        public bool SendNotification { get; }
 
-        public AdminApproveErtRequestAutoMessage(int requestId)
+        public AdminApproveErtRequestAutoMessage(int requestId, bool sendNotification = true)
         {
             RequestId = requestId;
+            SendNotification = sendNotification;
         }
     }
 
@@ -246,6 +261,17 @@ namespace Content.Shared.DeadSpace.ERT
         public int RequestId { get; }
 
         public AdminPromoteManualApprovedErtMessage(int requestId)
+        {
+            RequestId = requestId;
+        }
+    }
+
+    [Serializable, NetSerializable]
+    public sealed class AdminMoveApprovedErtToManualMessage : EntityEventArgs
+    {
+        public int RequestId { get; }
+
+        public AdminMoveApprovedErtToManualMessage(int requestId)
         {
             RequestId = requestId;
         }

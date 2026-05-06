@@ -75,10 +75,12 @@ ert-console-auth-card-invalid = Only captain and head of security ID cards can b
 ert-console-requester-unknown = unknown operator
 ert-console-requester-name-with-job = { $name } ({ $job })
 ert-console-request-rejected-announcement = Attention Station Command! The Special Operations Corps has denied the Emergency Response Team request. Handle the situation with your own forces. Glory to NanoTrasen!
+ert-response-team-changed-announcement = Attention, station! The Special Operations Corps has reconsidered the previous Emergency Response Team decision. A decision has been made to dispatch { $team }. God save the Directorate!
 ert-console-auth-slot-a = authorization card A
 ert-console-auth-slot-b = authorization card B
 ert-admin-requester-system = system request
 
+ert-admin-window-subtitle = Requests, auto spawn, and manual approval for emergency response teams.
 ert-admin-settings-title = ERT Call Settings
 ert-admin-cooldown-label = Cooldown (sec):
 ert-admin-points-label = Call points balance:
@@ -95,6 +97,7 @@ ert-admin-selected-reason = Call reason:
 ert-admin-reject-button = Reject
 ert-admin-approve-manual-button = Approve with manual spawn
 ert-admin-approve-auto-button = Approve with auto spawn
+ert-admin-notify-checkbox = Make announcement?
 
 ert-admin-approved-title = Auto-approved Requests
 ert-admin-arrival-label = Arrival time (sec):
@@ -104,6 +107,7 @@ ert-admin-set-reason-button = Set reason
 ert-admin-set-team-button = Change team
 ert-admin-send-now-button = Send team now
 ert-admin-cancel-auto-button = Cancel auto spawn
+ert-admin-move-to-manual-button = Move to manual approval
 
 ert-admin-promote-manual-button = Start auto spawn without notifications
 ert-admin-queue-auto-button = Add to auto spawn

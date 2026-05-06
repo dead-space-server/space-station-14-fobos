@@ -2,10 +2,10 @@ meta:
   format: 7
   category: Grid
   engineVersion: 272.0.0
-  forkId: dsfobos
-  forkVersion: 01fd9284afa98f76980a6d318627339044384691
-  time: 04/16/2026 23:40:38
-  entityCount: 495
+  forkId: ""
+  forkVersion: ""
+  time: 04/24/2026 12:55:49
+  entityCount: 496
 maps: []
 grids:
 - 1
@@ -330,50 +330,50 @@ entities:
             0: 64055
           -1,0:
             0: 51369
-            2: 2
-            1: 4096
+            1: 2
+            2: 4096
           0,1:
             0: 10103
           -1,1:
             0: 36044
-            1: 17
+            2: 17
           0,2:
             0: 13107
-            1: 136
+            2: 136
           -1,2:
             0: 34952
-            1: 34
+            2: 34
           0,3:
             0: 1
-            1: 36
+            2: 36
           -1,3:
-            1: 132
+            2: 132
           1,0:
             0: 1
-            1: 4192
+            2: 4192
           1,1:
-            1: 17
+            2: 17
           1,-1:
             0: 13072
-            1: 34820
+            2: 34820
           0,-2:
             0: 8704
           -1,-2:
             0: 34816
-            1: 4096
+            2: 4096
           -1,-1:
             0: 64412
           1,-2:
-            1: 54784
+            2: 54784
           2,-1:
-            1: 256
+            2: 256
           -2,0:
-            1: 192
+            2: 192
           -2,-1:
             0: 34816
-            1: 8964
+            2: 8964
           -2,-2:
-            1: 27648
+            2: 27648
         uniqueMixes:
         - volume: 2500
           temperature: 293.15
@@ -381,13 +381,13 @@ entities:
             Oxygen: 21.824879
             Nitrogen: 82.10312
         - volume: 2500
-          immutable: True
-          moles: {}
-        - volume: 2500
           temperature: 293.14975
           moles:
             Oxygen: 20.078888
             Nitrogen: 75.53487
+        - volume: 2500
+          immutable: True
+          moles: {}
         chunkSize: 4
     - type: GasTileOverlay
     - type: ExplosionAirtightGrid
@@ -1532,13 +1532,6 @@ entities:
       parent: 1
     - type: Fixtures
       fixtures: {}
-- proto: ComputerComms
-  entities:
-  - uid: 210
-    components:
-    - type: Transform
-      pos: 1.5,11.5
-      parent: 1
 - proto: ComputerRadar
   entities:
   - uid: 209
@@ -1575,6 +1568,20 @@ entities:
       parent: 1
     - type: Fixtures
       fixtures: {}
+- proto: ErtComputerShuttle
+  entities:
+  - uid: 210
+    components:
+    - type: Transform
+      pos: 1.5,11.5
+      parent: 1
+- proto: ErtSpawnPoint
+  entities:
+  - uid: 496
+    components:
+    - type: Transform
+      pos: 0.5,4.5
+      parent: 1
 - proto: ExtinguisherCabinetFilled
   entities:
   - uid: 457

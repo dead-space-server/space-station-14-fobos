@@ -55,6 +55,7 @@
     - id: ClothingShoesBootsMagAkitovsky
     - id: ClothingHeadsetAkitovsky
     - id: PaperLawAkitovsky
+    - id: HandHeldMassScannerAkitovsky
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -69,7 +70,7 @@
   components:
   - type: Storage
     grid:
-    - 0,0,9,1
+    - 0,0,7,1
   - type: Sprite
     sprite: _DeadSpace/Sponsor/Akitovsky/belt.rsi
   - type: Clothing
@@ -85,10 +86,9 @@
       - id: PowerDrillAkitovsky
       - id: WelderExperimentalAkitovsky
       - id: MultitoolAkitovsky
-      - id: SyndicateJawsOfLifeAkitovsky
+      - id: JawsOfLifeAkitovsky
       - id: GasAnalyzerAkitovsky
       - id: MineralScannerAkitovsky
-      - id: HandHeldMassScannerAkitovsky
       - id: trayScannerAkitovsky
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
@@ -138,7 +138,7 @@
 
 #Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitAkitovsky
   name: скафандр Ми-ми-милитари
   description: Герметичная защита от суровой реальности, позволяющая дышать только розовым воздухом. Подойдёт для выполнения сверхсекретной миссии по покорению сердец в самых враждебных условиях.
@@ -157,7 +157,7 @@
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.4
+        Piercing: 0.6
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
@@ -387,8 +387,8 @@
 
 #JawsOfLife
 - type: entity
-  parent: SyndicateJawsOfLife
-  id: SyndicateJawsOfLifeAkitovsky
+  parent: JawsOfLife
+  id: JawsOfLifeAkitovsky
   name: челюсти жизни Ми-ми-милитари
   description: Официальный инструмент для высвобождения из тисков рутины с минимальными психологическими травмами.
   categories: [ HideSpawnMenu ]

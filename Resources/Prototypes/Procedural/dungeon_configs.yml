@@ -141,67 +141,67 @@
 
   - !type:CorridorDunGen
     width: 3
-    tile: FloorDark
+    tile: FloorShuttleMonoBlack
 
   - !type:DungeonEntranceDunGen
     count: 2
-    tile: FloorDark
-    contents: LavaBrigEntrance
+    tile: FloorShuttleMonoBlack #DS14
+    contents: SyndiAirlock #DS14
 
   - !type:RoomEntranceDunGen
-    tile: FloorDark
-    contents: BaseAirlock
+    tile: FloorShuttleMonoBlack #DS14
+    contents: SyndiAirlock #DS14
 
   - !type:EntranceFlankDunGen
-    tile: FloorDark
-    contents: MiningAngorWindow #DS14
+    tile: FloorShuttleMonoBlack #DS14
+    contents: TitaniumWindow  #DS14
 
   - !type:ExternalWindowDunGen
-    tile: FloorDark
-    contents: MiningAngorWindow #DS14
+    tile: FloorShuttleMonoBlack #DS14
+    contents: TitaniumWindow  #DS14
 
   - !type:WallMountDunGen
     contents: ScienceLabsWalls
-    tile: FloorDark
+    tile: FloorShuttleMonoBlack #DS14
 
   - !type:BoundaryWallDunGen
-    wall: WallMining #DS14
-    cornerWall: WallMining #DS14
-    tile: FloorDark
+    wall: WallPlastitanium #DS14
+    cornerWall: WallPlastitanium #DS14
+    tile: FloorShuttleMonoBlack #DS14
 
   - !type:JunctionDunGen
     width: 1
-    tile: FloorDark
-    contents: BaseAirlock
+    tile: FloorShuttleMonoBlack #DS14
+    contents: SyndiAirlock #DS14
 
   - !type:JunctionDunGen
     width: 3
-    tile: FloorDark
-    contents: BaseAirlock
+    tile: FloorShuttleMonoBlack #DS14
+    contents: SyndiAirlock #DS14
 
   - !type:AutoCablingDunGen
     entity: CableApcExtension
 
   - !type:CornerClutterDunGen
     contents: BaseClutter
-
-  - !type:CorridorDecalSkirtingDunGen
-    cardinalDecals:
-      South: BrickTileWhiteLineS
-      East: BrickTileWhiteLineE
-      North: BrickTileWhiteLineN
-      West: BrickTileWhiteLineW
-    cornerDecals:
-      SouthEast: BrickTileWhiteCornerSe
-      SouthWest: BrickTileWhiteCornerSw
-      NorthEast: BrickTileWhiteCornerNe
-      NorthWest: BrickTileWhiteCornerNw
-    pocketDecals:
-      SouthWest: BrickTileWhiteInnerSw
-      SouthEast: BrickTileWhiteInnerSe
-      NorthWest: BrickTileWhiteInnerNw
-      NorthEast: BrickTileWhiteInnerNe
 #DS14-start
+#  - !type:CorridorDecalSkirtingDunGen
+#    cardinalDecals:
+#      South: BrickTileWhiteLineS
+#      East: BrickTileWhiteLineE
+#      North: BrickTileWhiteLineN
+#      West: BrickTileWhiteLineW
+#    cornerDecals:
+#      SouthEast: BrickTileWhiteCornerSe
+#      SouthWest: BrickTileWhiteCornerSw
+#      NorthEast: BrickTileWhiteCornerNe
+#      NorthWest: BrickTileWhiteCornerNw
+#    pocketDecals:
+#      SouthWest: BrickTileWhiteInnerSw
+#      SouthEast: BrickTileWhiteInnerSe
+#      NorthWest: BrickTileWhiteInnerNw
+#      NorthEast: BrickTileWhiteInnerNe
+
   - !type:EntityTableDunGen
     minCount: 25
     maxCount: 40
@@ -256,7 +256,11 @@
   - !type:ExternalWindowDunGen
     tile: FloorCaveDrought
     contents: BaseWoodWall
-
+#DS14-start
+  - !type:BoundaryWallDunGen
+    tile: FloorCaveDrought
+    wall: WallRock
+#DS14-end
   # No wallmounts
 
   # No boundary wall
@@ -278,10 +282,6 @@
     contents: MineshaftClutter
 
 #DS14-start
-
-  - !type:BoundaryWallDunGen
-    tile: FloorCaveDrought
-    wall: WallRock
   - !type:CorridorClutterDunGen
     contents: HauntedClutter
   - !type:EntityTableDunGen
@@ -485,6 +485,13 @@
       prob: 0.1
 
 #DS14-start
+- type: entityTable
+  id: SyndiAirlock
+  table: !type:GroupSelector
+    children:
+    - id: CableApcExtension
+    - id: AirlockSyndicate
+
 - type: entityTable
   id: TitaniumWindow 
   table: !type:GroupSelector

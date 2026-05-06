@@ -74,7 +74,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitmeowsp
   name: няно скафандр
   description: Очень дорогой скафандр сделанный на заказ. Встроенный экзоскелет увеличивает скорость передвижения владельца. Не фелиниду будет в нём крайне не удобно находится.

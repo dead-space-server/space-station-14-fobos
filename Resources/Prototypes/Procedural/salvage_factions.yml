@@ -4,15 +4,15 @@
   entries:
     - proto: MobXeno
     - proto: MobXenoDrone
-      cost: 2
+    #   cost: 2 #DS14
     - proto: MobXenoPraetorian
-      cost: 5
-      prob: 0.1
+      cost: 2 #DS14
+    #   prob: 0.1 #DS14
     - proto: MobXenoQueen
       cost: 10
       prob: 0.02
     - proto: MobXenoRavager
-      cost: 5
+      cost: 2 #DS14
     - proto: MobXenoRouny
       cost: 3
       prob: 0.02
@@ -31,30 +31,30 @@
     # These do too much damage for salvage, need nerfs
 #DS14-start
     - proto: MobCarpHolo
-      cost: 5
-      prob: 0.1
+      cost: 2
+      prob: 0.5
     - proto: MobCarpMagic
-      cost: 5
-      prob: 0.1
+      cost: 2
+      prob: 0.5
     - proto: MobMiniDragonIce
-      cost: 3
-      prob: 0.1
+      cost: 2
+      prob: 0.5
     - proto: MobMiniDragonToxic
       cost: 3
-      prob: 0.1
+      prob: 0.5
     - proto: MobMiniDragonFire
       cost: 3
-      prob: 0.1
+      prob: 0.5
     - proto: MobSharkSalvage
       cost: 2
-      prob: 0.1
+      prob: 1
 #DS14-end
     - proto: MobCarpRainbow # carp version of rouny...
       cost: 3
       prob: 0.05
     - proto: MobDragonDungeon
       cost: 10
-      prob: 0.02
+      prob: 1 #DS14
   configs:
     DefenseStructure: CarpStatue
     Megafauna: MobDragonDungeon

@@ -45,7 +45,7 @@
 
 - type: soundForPing
   id: Sadtrombone
-  name: Грустный трамбон
+  name: Грустный тромбон
   path: /Audio/Effects/sadtrombone.ogg
 
 - type: soundForPing

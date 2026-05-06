@@ -38,10 +38,16 @@
   id: BorgSecTorso
 
 - type: Tag
+  id: BluespaceHandHeldMassScanner
+
+- type: Tag
   id: DarkFlower
 
 - type: Tag
   id: DrinkBeerBottleFull
+
+- type: Tag
+  id: CantChangeScale
 
 - type: Tag
   id: CakeBrain
@@ -74,6 +80,33 @@
   id: DockCentcommERT
 
 - type: Tag
+  id: DockCentcommERTCburnShuttle
+
+- type: Tag
+  id: DockCentcommERTBSAAShuttle
+
+- type: Tag
+  id: DockCentcommERTSierraShuttle
+
+- type: Tag
+  id: DockCentcommERTJanitorsShuttle
+
+- type: Tag
+  id: DockCentcommERTGammaShuttle
+
+- type: Tag
+  id: DockCentcommERTRedShuttle
+
+- type: Tag
+  id: DockCentcommERTAmberShuttle
+
+- type: Tag
+  id: DockCentcommERTEngineersShuttle
+
+- type: Tag
+  id: DockCentcommERTOfficialShuttle
+
+- type: Tag
   id: DonkCo
 
 - type: Tag
@@ -99,6 +132,9 @@
 
 - type: Tag
   id: FlamethrowerNozzle
+
+- type: Tag
+  id: Fulton
 
 - type: Tag
   id: FelinidFood
@@ -135,6 +171,9 @@
 
 - type: Tag
   id: HardsuitSyndie
+
+- type: Tag
+  id: HandHeldMassScanner
 
 - type: Tag
   id: HolopadAdminNotification
@@ -192,6 +231,9 @@
 
 - type: Tag
   id: MeatWheat
+
+- type: Tag
+  id: Medipen
 
 - type: Tag
   id: MukhtarWearable

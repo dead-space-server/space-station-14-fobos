@@ -53,3 +53,10 @@
   components:
   - type: ErtSpawnRule
     shuttle: SierraShuttle
+
+- type: entity
+  parent: BaseGameRule
+  id: SpawnBSAAShuttle
+  components:
+  - type: ErtSpawnRule
+    shuttle: BSAAShuttle
