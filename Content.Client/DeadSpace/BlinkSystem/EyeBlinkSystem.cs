@@ -21,7 +21,7 @@ public sealed class EyeBlinkSystem : EntitySystem
 
     private readonly Dictionary<EntityUid, (float TimeLeft, bool IsClosed)> _blinkData = new();
 
-    private readonly string[] _skipMarkingKeys = { "Malstream-malstream", "Malstrem-malstrem", "Malstrem2-malstrem2", "Terminator-terminator", "Beholder-beholder" };
+    private readonly string[] _skipMarkingKeys = { "Malstrem-malstrem", "Malstrem2-malstrem2", "Terminator-terminator", "Beholder-beholder" };
 
     public override void Initialize()
     {
