@@ -5,6 +5,8 @@
   description: Это броню прославила серия детективных романов 'блюститель правды; правдивые блюстители', где её носил главный герой, настоящий образец патриотизма, защищавший нас от предательской лжи.
   categories: [ HideSpawnMenu ]
   components:
+  - type: HardsuitIdentification
+    nonlethal: true
   - type: Sprite
     sprite: _DeadSpace/Sponsor/EllisTinker/hardsuit.rsi
   - type: Clothing
