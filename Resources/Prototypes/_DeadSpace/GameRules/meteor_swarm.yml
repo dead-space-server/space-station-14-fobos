@@ -13,4 +13,4 @@
       MeteorMedium: 4
       MeteorLarge: 1
   - type: RandomSpawnRule
-    prototype: SpawnZaratana
+    prototype: MobStartZaratana

@@ -40,84 +40,84 @@
     Laugh:
       collection: ZaratanaXd
 
-- type: entity
-  id: SpawnZaratana
-  name: спавнер Заратаны
-  components:
-  - type: TimedDespawn
-    lifetime: 1.5
-  - type: SpawnOnTrigger 
-    proto: SpawnZaratanaShadow
-  - type: TriggerOnSpawn
-  - type: Sprite
-    sprite: Markers/cross.rsi
-    state: red
-  - type: Marker
-
-- type: entity 
-  id: SpawnZaratanaShadow
-  categories: [ HideSpawnMenu ]
-  components:
-  - type: Sprite
-    sprite: _DeadSpace/Mobs/Aliens/Zaratana/shadow.rsi
-    state: shadow
-  - type: TimedDespawn
-    lifetime: 3.5
-  - type: SpawnOnTrigger 
-    proto: SpawnZaratanaSound
-  - type: TriggerOnSpawn
-  - type: SpawnOnDespawn
-    prototype: SpawnZaratanaEfectExplosion
-  - type: Tag
-    tags:
-    - HideContextMenu
-
-- type: entity
-  id: SpawnZaratanaSound
-  categories: [ HideSpawnMenu ]
-  components:
-  - type: EmitSoundOnTrigger
-    sound:
-      path: /Audio/_DeadSpace/Mobs/Zaratana/fall.ogg
-      params:
-        maxDistance: 25
-    positional: true
-  - type: TriggerOnSpawn
-  - type: TimedDespawn
-    lifetime: 5
-
-- type: entity
-  id: SpawnZaratanaEfectExplosion
-  categories: [ HideSpawnMenu ]
-  components:
-  - type: TriggerOnSpawn
-  - type: SpawnOnTrigger
-    proto: SpawnZaratanaExplosion
-  - type: Sprite
-    sprite: _DeadSpace/Mobs/Aliens/Zaratana/shadow.rsi
-  - type: TimedDespawn
-    lifetime: 0.01
-  - type: SpawnOnDespawn
-    prototype: MobStartZaratana
-  - type: Tag
-    tags:
-    - HideContextMenu
-
-- type: entity
-  id: SpawnZaratanaExplosion
-  categories: [ HideSpawnMenu ]
-  components:
-  - type: TriggerOnSpawn
-  - type: ExplodeOnTrigger
-  - type: Explosive
-    explosionType: FireBomb
-    totalIntensity: 500.0
-    intensitySlope: 12
-    maxIntensity: 12
-    canCreateVacuum: true
-    deleteAfterExplosion: true
-  - type: TimedDespawn
-    lifetime: 0.1
+# - type: entity
+#   id: SpawnZaratana
+#   name: спавнер Заратаны
+#   components:
+#   - type: TimedDespawn
+#     lifetime: 1.5
+#   - type: SpawnOnTrigger 
+#     proto: SpawnZaratanaShadow
+#   - type: TriggerOnSpawn
+#   - type: Sprite
+#     sprite: Markers/cross.rsi
+#     state: red
+#   - type: Marker
+# 
+# - type: entity 
+#   id: SpawnZaratanaShadow
+#   categories: [ HideSpawnMenu ]
+#   components:
+#   - type: Sprite
+#     sprite: _DeadSpace/Mobs/Aliens/Zaratana/shadow.rsi
+#     state: shadow
+#   - type: TimedDespawn
+#     lifetime: 3.5
+#   - type: SpawnOnTrigger 
+#     proto: SpawnZaratanaSound
+#   - type: TriggerOnSpawn
+#   - type: SpawnOnDespawn
+#     prototype: SpawnZaratanaEfectExplosion
+#   - type: Tag
+#     tags:
+#     - HideContextMenu
+# 
+# - type: entity
+#   id: SpawnZaratanaSound
+#   categories: [ HideSpawnMenu ]
+#   components:
+#   - type: EmitSoundOnTrigger
+#     sound:
+#       path: /Audio/_DeadSpace/Mobs/Zaratana/fall.ogg
+#       params:
+#         maxDistance: 25
+#     positional: true
+#   - type: TriggerOnSpawn
+#   - type: TimedDespawn
+#     lifetime: 5
+# 
+# - type: entity
+#   id: SpawnZaratanaEfectExplosion
+#   categories: [ HideSpawnMenu ]
+#   components:
+#   - type: TriggerOnSpawn
+#   - type: SpawnOnTrigger
+#     proto: SpawnZaratanaExplosion
+#   - type: Sprite
+#     sprite: _DeadSpace/Mobs/Aliens/Zaratana/shadow.rsi
+#   - type: TimedDespawn
+#     lifetime: 0.01
+#   - type: SpawnOnDespawn
+#     prototype: MobStartZaratana
+#   - type: Tag
+#     tags:
+#     - HideContextMenu
+# 
+# - type: entity
+#   id: SpawnZaratanaExplosion
+#   categories: [ HideSpawnMenu ]
+#   components:
+#   - type: TriggerOnSpawn
+#   - type: ExplodeOnTrigger
+#   - type: Explosive
+#     explosionType: FireBomb
+#     totalIntensity: 500.0
+#     intensitySlope: 12
+#     maxIntensity: 12
+#     canCreateVacuum: true
+#     deleteAfterExplosion: true
+#   - type: TimedDespawn
+#     lifetime: 0.1
 
 - type: entity
   id: MobStartZaratana
