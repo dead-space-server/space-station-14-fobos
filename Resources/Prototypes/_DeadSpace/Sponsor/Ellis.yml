@@ -43,7 +43,7 @@
   - type: Sprite
     sprite: _DeadSpace/Sponsor/EllisTinker/helmet.rsi
   - type: Clothing
-    sprite: _DeadSpace/Sponsor//EllisTinker/helmet.rsi
+    sprite: _DeadSpace/Sponsor/EllisTinker/helmet.rsi
   - type: PointLight
     color: "#4eb1ae"
     radius: 7
