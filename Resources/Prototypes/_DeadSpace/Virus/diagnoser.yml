@@ -232,7 +232,6 @@
   components:
   - type: Sprite
     sprite: _DeadSpace/Virus/solution_analyser.rsi
-    snapCardinals: true
     layers:
     - state: icon
       map: [machineLayer]
@@ -280,6 +279,9 @@
           tags:
           - DiagnoserFlask
   - type: VirusSolutionAnalyzer
+  - type: Rotatable
+  - type: Transform
+    noRot: false
 
 - type: entity
   parent: BaseComputerAiAccess

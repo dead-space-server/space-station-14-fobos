@@ -113,6 +113,42 @@
     count: 5
 
 - type: localizedDataset
+  id: PlushieJonitaSpeech
+  values:
+    prefix: plushies-jonita-
+    count: 7
+
+- type: localizedDataset
+  id: PlushieColleenSpeech
+  values:
+    prefix: plushies-colleen-
+    count: 9
+
+- type: localizedDataset
+  id: PlushieHermioneSpeech
+  values:
+    prefix: plushies-hermione-
+    count: 10
+
+- type: localizedDataset
+  id: PlushieRIPSpeech
+  values:
+    prefix: plushies-rip-
+    count: 6
+
+- type: localizedDataset
+  id: PlushieFloriaSpeech
+  values:
+    prefix: plushies-floria-
+    count: 5
+
+- type: localizedDataset
+  id: PlushieAinoSpeech
+  values:
+    prefix: plushies-aino-
+    count: 6
+
+- type: localizedDataset
   id: PlushieAilySpeech
   values:
     prefix: plushies-aily-

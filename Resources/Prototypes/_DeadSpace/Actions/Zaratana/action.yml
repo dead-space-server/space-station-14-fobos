@@ -1,0 +1,102 @@
+- type: entity
+  id: ActionZaratanaSpawn
+  name: Готовность к бою
+  description: Вы полностью вылазите из панцыря да бы дать бой, наверное.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    useDelay: 1
+    icon:
+      sprite: _DeadSpace/Mobs/Aliens/Zaratana/big.rsi
+      state: alive
+  - type: InstantAction
+    event: !type:HeraldSpawnActionEvent
+
+- type: entity
+  id: ActionZaratanaThrowingMeteor
+  name: Теликенез метеоров
+  description: Вы заставляете лететь ваши 3 метеорита в сторону курсора, меняя их траекторию полёта.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: TargetAction
+    range: 10
+    checkCanAccess: false
+  - type: Action
+    icon: { sprite: Interface/Actions/actions_mecha.rsi, state: mech_overload_off }
+    useDelay: 1
+  - type: WorldTargetAction 
+    event: !type:ThrowingThingsActionEvent
+      throwStrength: 10
+      howMuch: 3
+      entities:
+        - MeteorSmall
+        - MeteorZaratana
+
+- type: entity
+  id: ActionZaratanaShotInACircle
+  name: Выстрел по кругу камнями
+  description: Вы разбрасываете камни по сторонам около себя.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon: { sprite: Objects/Misc/meteor.rsi, state: space_dust }
+    useDelay: 6
+    sound:
+      path: /Audio/Weapons/Guns/Gunshots/rpgfire.ogg
+      params:
+        volume: -5
+  - type: InstantAction
+    event: !type:ShotInACircleActionEvent
+      count: 8
+      entity: MeteorZaratana
+      projectileSpeed: 15
+      offset: 2
+
+- type: entity
+  id: ActionZaratanaRollingStone
+  name: Превратиться в шар
+  description: Вы превращаетесь в каменный шар, который отскакивает от препятствий. Также вы отбиваете пули в которые влетели.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Mobs/Aliens/Zaratana/action.rsi
+      state: meteor_alt
+    useDelay: 12
+  - type: InstantAction
+    event: !type:RollingStoneActionEvent
+      duration: 4
+      speed: 19
+      damage:
+        types:
+          Heat: 10
+          Blunt: 10
+          Structural: 100
+      hitSound:
+        !type:SoundCollectionSpecifier
+        collection: FootstepThud
+
+- type: entity
+  id: ActionZaratanaSpawnRock
+  parent: BaseAction
+  name: Создать камень
+  description: Вы спавните в заданном месте камень, который сможете запустить куда нужно.
+  components:
+  - type: Action
+    raiseOnUser: true
+    icon:
+      sprite: Objects/Misc/meteor.rsi
+      state: small
+    sound:
+      path: /Audio/Effects/guardian_warn.ogg
+      params:
+        volume: -5
+    useDelay: 4
+  - type: TargetAction
+    range: 10
+  - type: WorldTargetAction
+    event: !type:GoliathSummonTentacleAction
+      entityId: MeteorZaratana
+      offsetDirections:
+        - North
+      extraSpawns: 0

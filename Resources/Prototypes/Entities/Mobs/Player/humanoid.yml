@@ -90,9 +90,10 @@
     - type: AutoImplant
       implants:
       - MindShieldImplant
-      - DeathRattleImplantCentcomm
-      - TrackingImplant
     #DS14-start
+      - TrackingImplant
+      - RadioImplantSOC
+      - DeathRattleImplantSOD
     - type: GhostRoleNotifys 
       groupPrototype: ERTGroup
     - type: ErtStaff
@@ -131,6 +132,7 @@
     - FreedomImplant
     - DeathAcidifierImplant
 # DS14-start
+    - RadioImplantSOC
     - RadioImplantCentcomm
   - type: BlobSpeak
     overrideName: false

@@ -105,38 +105,55 @@
     ClothingEyesGlasses: 4 # DS14
     ClothingEyesGlassesBigSunglasses: 2 # DS14
     ADTClothingSandals: 2 # DS14
-    ADTClothingUniformTurleneckTactick: 2
-    ADTClothingUniformTurleneckBlack: 2
-    ADTClothingUniformTurleneckBlackWomen: 2
-    ADTClothingUniformTurleneckBlue: 2
-    ADTClothingUniformTurleneckBlueBlack: 2
-    ADTClothingUniformTurleneckBlueWomen: 2
-    ADTClothingUniformTurleneckGolub: 2
-    ADTClothingUniformTurleneckGolubBlack: 2
-    ADTClothingUniformTurleneckGolubWomen: 2
-    ADTClothingUniformTurleneckGreen: 2
-    ADTClothingUniformTurleneckGreenBlack: 2
-    ADTClothingUniformTurleneckGreenWomen: 2
-    ADTClothingUniformTurleneckOrange: 2
-    ADTClothingUniformTurleneckOrangeBlack: 2
-    ADTClothingUniformTurleneckOrangeWomen: 2
-    ADTClothingUniformTurleneckPurpur: 2
-    ADTClothingUniformTurleneckPurpurBlack: 2
-    ADTClothingUniformTurleneckPurpurWomen: 2
-    ADTClothingUniformTurleneckRed: 2
-    ADTClothingUniformTurleneckRedBlack: 2
-    ADTClothingUniformTurleneckRedWomen: 2
-    ADTClothingUniformTurleneckSalat: 2
-    ADTClothingUniformTurleneckSalatBlack: 2
-    ADTClothingUniformTurleneckSalatWomen: 2
-    ADTClothingUniformTurleneckWhite: 2
-    ADTClothingUniformTurleneckWhiteBlack: 2
-    ADTClothingUniformTurleneckWhiteWomen: 2
-    ADTClothingUniformTurleneckBlackSleeveless: 2
-    ADTClothingUniformTurleneckBlackWomenSleeveless: 2
-    ADTClothingUniformTurleneckWhiteSleeveless: 2
-    ADTClothingUniformTurleneckWhiteBlackSleeveless: 2
-    ADTClothingUniformTurleneckWhiteWomenSleeveless: 2
+    # DS14-start
+    ClothingUniformTurtleneckTactic: 2
+    ClothingUniformTurtleneckBlack: 2
+    ClothingUniformTurtleneckBlackWomen: 2
+    ClothingUniformTurtleneckBlue: 2
+    ClothingUniformTurtleneckBlueBlack: 2
+    ClothingUniformTurtleneckBlueWomen: 2
+    ClothingUniformTurtleneckBrown: 2
+    ClothingUniformTurtleneckBrownBlack: 2
+    ClothingUniformTurtleneckBrownWomen: 2
+    ClothingUniformTurtleneckCyan: 2
+    ClothingUniformTurtleneckCyanBlack: 2
+    ClothingUniformTurtleneckCyanWomen: 2
+    ClothingUniformTurtleneckGreen: 2
+    ClothingUniformTurtleneckGreenBlack: 2
+    ClothingUniformTurtleneckGreenWomen: 2
+    ClothingUniformTurtleneckGrey: 2
+    ClothingUniformTurtleneckGreyBlack: 2
+    ClothingUniformTurtleneckGreyWomen: 2
+    ClothingUniformTurtleneckLime: 2
+    ClothingUniformTurtleneckLimeBlack: 2
+    ClothingUniformTurtleneckLimeWomen: 2
+    ClothingUniformTurtleneckOrange: 2
+    ClothingUniformTurtleneckOrangeBlack: 2
+    ClothingUniformTurtleneckOrangeWomen: 2
+    ClothingUniformTurtleneckPink: 2
+    ClothingUniformTurtleneckPinkBlack: 2
+    ClothingUniformTurtleneckPinkWomen: 2
+    ClothingUniformTurtleneckPurple: 2
+    ClothingUniformTurtleneckPurpleBlack: 2
+    ClothingUniformTurtleneckPurpleWomen: 2
+    ClothingUniformTurtleneckRed: 2
+    ClothingUniformTurtleneckRedBlack: 2
+    ClothingUniformTurtleneckRedWomen: 2
+    ClothingUniformTurtleneckTurquoise: 2
+    ClothingUniformTurtleneckTurquoiseBlack: 2
+    ClothingUniformTurtleneckTurquoiseWomen: 2
+    ClothingUniformTurtleneckWhite: 2
+    ClothingUniformTurtleneckWhiteBlack: 2
+    ClothingUniformTurtleneckWhiteWomen: 2
+    ClothingUniformTurtleneckYellow: 2
+    ClothingUniformTurtleneckYellowBlack: 2
+    ClothingUniformTurtleneckYellowWomen: 2
+    ClothingUniformTurtleneckBlackSleeveless: 2
+    ClothingUniformTurtleneckBlackWomenSleeveless: 2
+    ClothingUniformTurtleneckWhiteSleeveless: 2
+    ClothingUniformTurtleneckWhiteBlackSleeveless: 2
+    ClothingUniformTurtleneckWhiteWomenSleeveless: 2
+    # DS14-end
     ADTClothingNeckGothicCloak: 2
     ADTClothingNeckDarkGreyCloak: 2
     ClothingNeckMantleMaid: 2 # DS14
@@ -162,5 +179,5 @@
     ClothingBackpackSatchelSmugglerUnanchored: 1
     ClothingHeadHatSolidHeadband: 2
   # DO NOT ADD MORE, USE UNIFORM DYING # DO ADD MORE, DO NOT USE UNIFORM DYING
-    ClothingNeckSyndicateCloak: 1 # DS14
+    ClothingNeckSyndicateCloak: 1 # ADT
     ClothingOuterCoatLettermanS: 4 # DS14
