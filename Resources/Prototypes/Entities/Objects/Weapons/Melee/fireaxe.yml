@@ -50,6 +50,7 @@
     stealGroup: FireAxe
   - type: IgniteOnMeleeHit
     fireStacks: -4
+  - type: FireAxeDeconstruct # DS14
 
 - type: entity
   id: FireAxeFlaming
@@ -70,3 +71,4 @@
     slots:
     - back
     - suitStorage # DS14
+  - type: FireAxeDeconstruct # DS14
