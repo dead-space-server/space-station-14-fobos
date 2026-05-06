@@ -1,3 +1,4 @@
+using System.Numerics;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
@@ -20,6 +21,9 @@ public sealed partial class SecurityBorgProneComponent : Component
 
     [DataField]
     public float SpeedModifier = 0.7f;
+
+    [DataField]
+    public Vector2 HeadSlotProneOffsetDelta = new(0f, -0.24f);
 }
 
 [Serializable, NetSerializable]
