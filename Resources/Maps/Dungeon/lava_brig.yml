@@ -9370,7 +9370,6 @@ entities:
       fingerprints: []
     - type: StoreRefund
       boughtTime: 9237.4574292
-      storeEntity: invalid
 - proto: ClosetTaipanMaintenanceFilledRandom
   entities:
   - uid: 894
@@ -10473,7 +10472,6 @@ entities:
       fingerprints: []
     - type: StoreRefund
       boughtTime: 8976.1243572
-      storeEntity: invalid
   - uid: 1036
     components:
     - type: Transform
@@ -12349,10 +12347,6 @@ entities:
     - type: Transform
       pos: 14.616403,43.577236
       parent: 1
-    - type: UserInterface
-      actors:
-        enum.StorageUiKey.Key:
-        - invalid
     - type: ActiveUserInterface
 - proto: PillSpaceDrugs
   entities:
