@@ -1027,7 +1027,7 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory50
-  productEntity: ADTClothingUniformTurleneckTactick
+  productEntity: ClothingUniformTurtleneckTactic
   cost:
     SpaceCash: 20
   categories:
