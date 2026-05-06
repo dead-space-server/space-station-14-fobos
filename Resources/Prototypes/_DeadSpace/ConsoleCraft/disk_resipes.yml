@@ -312,6 +312,56 @@
     recipe: SalvageAdvancedModifiedBackpack
     maxCrafts: 3
 
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGRIGNukeOpsOneUse
+  name: чертёж (#!$$!$!!1@#!@@!#@#)
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: RIGNukeOps
+    maxCrafts: 1
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGRIGNukeOpsEliteOneUse
+  name: чертёж ($#!!!##1#)
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: RIGNukeOpsElite
+    maxCrafts: 1
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGRIGNukeOps
+  name: чертёж (#!$$!$!!@#!@@!#@#)
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: RIGNukeOps
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintRIGRIGNukeOpsElite
+  name: чертёж ($#!!!###)
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: RIGNukeOpsElite
+
 # - type: entity
 #   parent: BaseItem
 #   id: BlueprintWeaponRifleAEKCraft

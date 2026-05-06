@@ -60,6 +60,9 @@
       - CigFilter
       - RollingPaper
       - Paper
+      - Lighter
+      - Medipen
+      - Bottle
 # DS14-end
   - type: StorageFill
     contents:

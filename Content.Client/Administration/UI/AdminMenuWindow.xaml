@@ -11,8 +11,8 @@
         <adminTab:AdminTab />
         <adminbusTab:AdminbusTab />
         <atmosTab:AtmosTab />
-        <tabs:RoundTab />
-        <tabs:ServerTab />
+        <tabs:RoundTab Name="RoundTabControl" />
+        <tabs:ServerTab Name="ServerTabControl" />
         <panic:PanicBunkerTab Name="PanicBunkerControl" Access="Public" />
         <playerTab:PlayerTab Name="PlayerTabControl" Access="Public" />
         <objectsTab:ObjectsTab Name="ObjectsTabControl" Access="Public" />

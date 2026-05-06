@@ -1,0 +1,37 @@
+- type: entity
+  name: Авава ЦентКомович
+  description: Это существо, широко известно как Вава. Именно оно является официальным сотрудником ЦК и питомцем АЦК. Самое лояльное и милое существо на весь сектор!
+  id: MobAvavaCentComm
+  parent: MobBaseScurret
+  components:
+  # They come in a variety of colours
+  - type: RandomSprite
+    available:
+    - enum.DamageStateVisualLayers.Base:
+        scurret: ScurretColors
+  # They are of a mysterious gender.
+  - type: Grammar
+    attributes:
+      gender: epicene
+      proper: true
+  # Strips the name identifier from them, so they're just "Confident Waters" rather than "Confident Waters (123)"
+  - type: NameIdentifier
+    group: null
+  - type: Loadout
+    prototypes:
+      - CentComAvavaGear
+
+- type: entity
+  name: спавнер Авава ЦентКомович
+  suffix: Не маппить, только для ЦК!
+  id: SpawnMobAvavaCentComm
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: green
+    - state: scurret
+      sprite: Mobs/Animals/scurret/scurret.rsi
+  - type: ConditionalSpawner
+    prototypes:
+    - MobAvavaCentComm

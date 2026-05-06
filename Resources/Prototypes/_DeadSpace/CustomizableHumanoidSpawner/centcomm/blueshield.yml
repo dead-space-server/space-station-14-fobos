@@ -38,7 +38,6 @@
   groups:
   # - GroupTankHarness # outerClothing slot occupied by startingGear
   - CentralCommandBlueShieldOfficerLoadout
-  - Survival
   - GroupSpeciesBreathTool
   - BlueShieldOfficerUnderwear
 
@@ -52,4 +51,4 @@
 - type: loadout
   id: CentralCommandBlueShieldOfficerLoadout
   equipment:
-    back: ClothingBackpackBlueShield
+    back: ClothingBackpackBlueShieldCentComFilled

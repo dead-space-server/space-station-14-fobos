@@ -17,7 +17,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitSil
   name: скафандр "СЕВА"
   description: Принадлежат члену экипажа, находящемуся под покровительством спонсорской организации.
@@ -252,7 +252,7 @@
     - id: PowerDrillSil
     - id: WelderExperimentalSil
     - id: MultitoolSil
-    - id: SyndicateJawsOfLifeSil
+    - id: JawsOfLifeSil
     - id: trayScannerSil
     - id: GasAnalyzerSil
     - id: HandHeldMassScannerSil
@@ -458,8 +458,8 @@
 
 # JawsOfLife
 - type: entity
-  parent: SyndicateJawsOfLife
-  id: SyndicateJawsOfLifeSil
+  parent: JawsOfLife
+  id: JawsOfLifeSil
   name: бирюзовые челюсти жизни
   description: Корпус похож на сплав тёмного титана и синего кварца, а между массивными губками переливается мягкая бирюзовая плазма-нить, создавая ощущение, будто инструмент «дышит» электрическим светом.
   categories: [ HideSpawnMenu ]

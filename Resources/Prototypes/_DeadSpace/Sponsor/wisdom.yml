@@ -11,7 +11,7 @@
   name: рюкзак Мед-Техника
   description: Этот рюкзак предназначен для хранения медицинских принадлежностей и инструментов, необходимых для быстрого реагирования в экстренных ситуациях.
   suffix: Не спавнить
- # categories: [ HideSpawnMenu ]
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/Wisdom/backpack.rsi
@@ -31,7 +31,7 @@
     - id: PDAWisdom
     - id: ClothingOuterCoatWisdom
     - id: ClothingBeltHolsterWisdom
-    - id: SyndicateJawsOfLifeWisdom
+    - id: JawsOfLifeWisdom
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -86,7 +86,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitWisdom
   name: скафандр Мед-Техника
   description: Скафандр с биокодированием, обеспечивающий защиту в критических ситуациях.
@@ -101,6 +101,7 @@
   - type: Item
     size: Huge
   - type: HardsuitIdentification
+    nonlethal: true
   - type: Armor
     modifiers:
       coefficients:
@@ -234,8 +235,8 @@
 
 # JawsOfLife
 - type: entity
-  parent: SyndicateJawsOfLife
-  id: SyndicateJawsOfLifeWisdom
+  parent: JawsOfLife
+  id: JawsOfLifeWisdom
   name: челюсти жизни Мед-Техника
   description: Изготовлено на заказ организацией LaFleur Wear.
   categories: [ HideSpawnMenu ]

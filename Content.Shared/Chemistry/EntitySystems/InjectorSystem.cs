@@ -200,12 +200,12 @@ public sealed partial class InjectorSystem : EntitySystem
 
         if (!_doAfter.TryStartDoAfter(new DoAfterArgs(EntityManager, user, doAfterTime, new InjectorDoAfterEvent(), injector.Owner, target: target, used: injector.Owner)
         {
-            BreakOnMove = true,
+            BreakOnMove = !injector.Comp.InjectOnMove, //DS14
             BreakOnWeightlessMove = false,
             BreakOnDamage = true,
             NeedHand = injector.Comp.NeedHand,
             BreakOnHandChange = injector.Comp.BreakOnHandChange,
-            MovementThreshold = injector.Comp.MovementThreshold,
+            MovementThreshold = injector.Comp.InjectOnMove ? float.MaxValue : injector.Comp.MovementThreshold, //DS14
         }))
             return false;
 
@@ -318,12 +318,12 @@ public sealed partial class InjectorSystem : EntitySystem
 
         return _doAfter.TryStartDoAfter(new DoAfterArgs(EntityManager, user, doAfterTime, new InjectorDoAfterEvent(), injector.Owner, target: target, used: injector.Owner)
         {
-            BreakOnMove = true,
+            BreakOnMove = !injector.Comp.InjectOnMove, //DS14
             BreakOnWeightlessMove = false,
             BreakOnDamage = true,
             NeedHand = injector.Comp.NeedHand,
             BreakOnHandChange = injector.Comp.BreakOnHandChange,
-            MovementThreshold = injector.Comp.MovementThreshold,
+            MovementThreshold = injector.Comp.InjectOnMove ? float.MaxValue : injector.Comp.MovementThreshold, //DS14
         });
     }
 
