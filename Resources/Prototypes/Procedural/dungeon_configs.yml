@@ -256,7 +256,11 @@
   - !type:ExternalWindowDunGen
     tile: FloorCaveDrought
     contents: BaseWoodWall
-
+#DS14-start
+  - !type:BoundaryWallDunGen
+    tile: FloorCaveDrought
+    wall: WallRock
+#DS14-end
   # No wallmounts
 
   # No boundary wall
@@ -278,10 +282,6 @@
     contents: MineshaftClutter
 
 #DS14-start
-
-  - !type:BoundaryWallDunGen
-    tile: FloorCaveDrought
-    wall: WallRock
   - !type:CorridorClutterDunGen
     contents: HauntedClutter
   - !type:EntityTableDunGen
