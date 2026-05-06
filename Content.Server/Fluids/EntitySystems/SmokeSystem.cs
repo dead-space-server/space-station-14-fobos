@@ -108,7 +108,10 @@ public sealed class SmokeSystem : EntitySystem
         {
             if (exists && ent == entity.Owner)
                 continue;
-
+            //DS14-start
+            if (TerminatingOrDeleted(ent))
+            continue;
+            //DS14-end
             if (!_smokeQuery.HasComponent(ent))
                 continue;
 

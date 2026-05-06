@@ -19,6 +19,7 @@
     tags:
     - Trash
     - CentrifugeCompatible # unique feature of vials
+    - DiagnoserFlask #DS14
 
 ## Entities
 

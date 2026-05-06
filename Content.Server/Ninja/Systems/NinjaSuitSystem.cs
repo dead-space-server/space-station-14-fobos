@@ -114,23 +114,41 @@ public sealed class NinjaSuitSystem : SharedNinjaSuitSystem
 
         args.Handled = true;
 
+        // DS14-start
+        if (CheckDisabled(ent, user))
+            return;
+        // DS14-end
+
         var katana = ninja.Katana.Value;
         var coords = _transform.GetWorldPosition(katana);
         var distance = (_transform.GetWorldPosition(user) - coords).Length();
+
+        // DS14-start
+        if (!_ninja.GetNinjaBattery(user, out _, out var battery))
+        {
+            Popup.PopupEntity(Loc.GetString("ninja-no-power"), user, user);
+            return;
+        }
+        // DS14-end
+
         var chargeNeeded = distance * comp.RecallCharge;
+
+        // DS14-start
+        if (chargeNeeded >= battery.MaxCharge)
+            chargeNeeded = battery.MaxCharge * comp.RecallOverMaxChargeRatio;
+        // DS14-end
+
         if (!_ninja.TryUseCharge(user, chargeNeeded))
         {
             Popup.PopupEntity(Loc.GetString("ninja-no-power"), user, user);
             return;
         }
 
-        if (CheckDisabled(ent, user))
-            return;
-
         // TODO: teleporting into belt slot
         var message = _hands.TryPickupAnyHand(user, katana)
             ? "ninja-katana-recalled"
             : "ninja-hands-full";
+
         Popup.PopupEntity(Loc.GetString(message), user, user);
     }
 
