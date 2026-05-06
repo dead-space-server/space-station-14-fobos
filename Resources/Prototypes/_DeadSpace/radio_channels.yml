@@ -53,3 +53,11 @@
   frequency: 3918
   color: "#8539bf"
   longRange: false
+
+- type: radioChannel
+  id: SOCChannel
+  name: chat-radio-soc
+  keycode: 'у' # DS14-Localization
+  frequency: 1984
+  color: "#00FA9A"
+  longRange: true

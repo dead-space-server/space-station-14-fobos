@@ -1,4 +1,5 @@
 #Code by HacksLua(discord) for DeadSpace/LuaWorld
+$ErrorActionPreference = "Stop"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $utf8Encoding = [System.Text.Encoding]::UTF8
 [System.Console]::InputEncoding = $utf8Encoding
@@ -53,7 +54,7 @@ function Read-ConfigFile {
         $config = @{}
 
         Get-Content -Path $filePath | ForEach-Object {
-            $split = $_ -split "="
+            $split = $_ -split "=", 2
             if ($split.Count -ne 2) {
                 throw "Ошибка в строке конфигурации: $_"
             }
@@ -85,6 +86,33 @@ function Get-EngineVersion {
     }
 }
 
+function Abort-Publish {
+    param (
+        [string]$cdnUrl,
+        [string]$updateToken,
+        [string]$version,
+        [string]$publishId
+    )
+
+    if ([string]::IsNullOrWhiteSpace($publishId)) {
+        return
+    }
+
+    try {
+        Invoke-RestMethod -Uri "$cdnUrl/publish/abort" `
+                          -Method Post `
+                          -Headers @{
+                              "Authorization" = "Bearer $updateToken"
+                              "Content-Type" = "application/json"
+                              "Robust-Cdn-Publish-Id" = $publishId
+                          } `
+                          -Body (@{ version = $version } | ConvertTo-Json -Depth 10) `
+                          -ErrorAction Stop
+    } catch {
+        Write-Host "Ошибка при отмене публикации: $_" -ForegroundColor Yellow
+    }
+}
+
 $scriptPath = $MyInvocation.MyCommand.Path
 $deadspacePath = (Split-Path -Path $scriptPath -Parent)
 $rootPath = (Split-Path -Path (Split-Path -Path (Split-Path -Path $scriptPath -Parent) -Parent) -Parent)
@@ -92,17 +120,21 @@ Set-Location -Path $rootPath
 
 $binPath = "bin"
 
-Backup-BinDirectory -binPath $binPath
-
 $tokenFilePath = "C:\token.txt" # Установить свой путь или оставить текущий (его в любом случае запросит)
-$config = Read-ConfigFile -filePath $tokenFilePath
-$engineVersionFile = Join-Path -Path $rootPath -ChildPath "RobustToolbox\\MSBuild\\Robust.Engine.Version.props"
+$engineVersionFile = Join-Path -Path $rootPath -ChildPath "RobustToolbox\MSBuild\Robust.Engine.Version.props"
 $releaseDir = "release"
 $tempClientDir = "temp_client"
+$binPrepared = $false
+$scriptFailed = $false
 
 while (-not (Test-Path -Path $tokenFilePath)) {
     Write-Host "Файл токенов не найден по пути $tokenFilePath." -ForegroundColor Red
     $tokenFilePath = Read-Host "Укажите путь до файла токенов"
+}
+
+$config = Read-ConfigFile -filePath $tokenFilePath
+if ($null -eq $config) {
+    exit 1
 }
 
 $expectedKeys = @("cdnUrl", "updateToken", "privateUsername", "privatePassword")
@@ -116,7 +148,7 @@ foreach ($key in $expectedKeys) {
 if ($missingKeys.Count -gt 0) {
     Write-Host "Следующие параметры отсутствуют в конфигурационном файле:" -ForegroundColor Red
     $missingKeys | ForEach-Object { Write-Host "- $_" -ForegroundColor Red }
-    return
+    exit 1
 }
 
 $cdnUrl = $config["cdnUrl"]
@@ -124,12 +156,36 @@ $updateToken = $config["updateToken"]
 $privateUsername = $config["privateUsername"]
 $privatePassword = $config["privatePassword"]
 
-$version = (Get-Date -Format "ddMMyyyyHHmmss") # Авто установка версии
+if (-not [string]::IsNullOrWhiteSpace($env:PUBLISH_VERSION)) {
+    $version = $env:PUBLISH_VERSION.Trim()
+} else {
+    try {
+        [string]$version = & git rev-parse HEAD 2>$null
+    } catch {
+        Write-Host "Не удалось определить git SHA для версии публикации." -ForegroundColor Red
+        exit 1
+    }
+    if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($version)) {
+        Write-Host "Не удалось определить git SHA для версии публикации." -ForegroundColor Red
+        exit 1
+    }
 
-$engineVersionFile = "RobustToolbox\MSBuild\Robust.Engine.Version.props" # Авто установка версии движка
+    $dirtyFiles = @(git status --porcelain)
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Не удалось проверить состояние git." -ForegroundColor Red
+        exit 1
+    }
+    if ($dirtyFiles.Count -ne 0) {
+        Write-Host "Рабочая копия содержит незакоммиченные изменения. Установите PUBLISH_VERSION явно или очистите рабочую копию." -ForegroundColor Red
+        $dirtyFiles | ForEach-Object { Write-Host $_ -ForegroundColor Yellow }
+        exit 1
+    }
+}
+$version = $version.Trim()
+
 if (-not (Test-Path -Path $engineVersionFile)) {
     Write-Host "Не удалось найти файл версии движка: $engineVersionFile" -ForegroundColor Red
-    return
+    exit 1
 }
 $engineVersion = Select-String -Path $engineVersionFile -Pattern "<Version>(.*?)</Version>" | ForEach-Object {
     $_.Matches.Groups[1].Value
@@ -153,8 +209,11 @@ try {
     Write-Host "Robust.Cdn доступен." -ForegroundColor Green
 } catch {
     Write-Host "Robust.Cdn недоступен или указан неверный Fork ID." -ForegroundColor Red
-    return
+    throw "Robust.Cdn недоступен или указан неверный Fork ID."
 }
+
+Backup-BinDirectory -binPath $binPath
+$binPrepared = $true
 
 foreach ($dir in @($releaseDir, $tempClientDir)) {
     if (Test-Path -Path $dir) {
@@ -163,10 +222,15 @@ foreach ($dir in @($releaseDir, $tempClientDir)) {
     New-Item -ItemType Directory -Path $dir | Out-Null
 }
 
-cd 
 Write-Host "Сборка клиентского пакета..." -ForegroundColor Green
 dotnet build Content.Packaging --configuration Release
+if ($LASTEXITCODE -ne 0) {
+    throw "Сборка Content.Packaging завершилась с кодом $LASTEXITCODE."
+}
 dotnet run --project Content.Packaging client --no-wipe-release
+if ($LASTEXITCODE -ne 0) {
+    throw "Сборка клиентского пакета завершилась с кодом $LASTEXITCODE."
+}
 
 Write-Host "Перемещение клиентских файлов..." -ForegroundColor Yellow
 Get-ChildItem -Path $releaseDir -Filter "SS14.Client*" | ForEach-Object {
@@ -175,6 +239,9 @@ Get-ChildItem -Path $releaseDir -Filter "SS14.Client*" | ForEach-Object {
 
 Write-Host "Сборка серверных пакетов..." -ForegroundColor Green
 dotnet run --project Content.Packaging server --platform linux-x64 # --platform win-x64 --platform osx-x64 --platform linux-arm64 # Раскоментировать если нужны другие версии
+if ($LASTEXITCODE -ne 0) {
+    throw "Сборка серверных пакетов завершилась с кодом $LASTEXITCODE."
+}
 
 Write-Host "Возврат клиентских файлов..." -ForegroundColor Yellow
 Get-ChildItem -Path $tempClientDir | ForEach-Object {
@@ -195,26 +262,37 @@ try {
     Write-Host "Robust.Cdn доступен." -ForegroundColor Green
 } catch {
     Write-Host "Robust.Cdn недоступен или указан неверный Fork ID." -ForegroundColor Red
-    return
+    throw "Robust.Cdn недоступен или указан неверный Fork ID."
 }
 
 Write-Host "Начало публикации в CDN..." -ForegroundColor Green
 try {
-    Invoke-RestMethod -Uri "$cdnUrl/publish/start" `
+    $startResponse = Invoke-WebRequest -Uri "$cdnUrl/publish/start" `
                       -Method Post `
                       -Headers @{
                           "Authorization" = "Bearer $updateToken"
                           "Content-Type" = "application/json"
                       } `
-                      -Body (@{ version = $version; engineVersion = $engineVersion } | ConvertTo-Json -Depth 10)
+                      -Body (@{ version = $version; engineVersion = $engineVersion } | ConvertTo-Json -Depth 10) `
+                      -ErrorAction Stop
+    $publishId = $startResponse.Headers["Robust-Cdn-Publish-Id"]
+    if (-not $publishId) {
+        throw "CDN did not return Robust-Cdn-Publish-Id"
+    }
     Write-Host "Публикация успешно начата." -ForegroundColor Green
 } catch {
     Write-Host "Ошибка при запуске публикации." -ForegroundColor Red
-    return
+    throw "Ошибка при запуске публикации."
 }
 
 Write-Host "Загрузка файлов..." -ForegroundColor Green
-foreach ($file in Get-ChildItem -Path $releaseDir -Filter *.zip) {
+$zipFiles = @(Get-ChildItem -Path $releaseDir -Filter *.zip)
+if ($zipFiles.Count -eq 0) {
+    Abort-Publish -cdnUrl $cdnUrl -updateToken $updateToken -version $version -publishId $publishId
+    throw "Файлы для публикации не найдены."
+}
+
+foreach ($file in $zipFiles) {
     try {
         $filePath = $file.FullName
         $fileName = $file.Name
@@ -225,11 +303,15 @@ foreach ($file in Get-ChildItem -Path $releaseDir -Filter *.zip) {
                               "Authorization" = "Bearer $updateToken"
                               "Robust-Cdn-Publish-File" = $fileName
                               "Robust-Cdn-Publish-Version" = $version
+                              "Robust-Cdn-Publish-Id" = $publishId
                           } `
-                          -Body $fileContent -ContentType "application/octet-stream"
+                          -Body $fileContent -ContentType "application/octet-stream" `
+                          -ErrorAction Stop
         Write-Host "$fileName успешно загружен." -ForegroundColor Green
     } catch {
         Write-Host "Ошибка при загрузке $fileName." -ForegroundColor Red
+        Abort-Publish -cdnUrl $cdnUrl -updateToken $updateToken -version $version -publishId $publishId
+        throw "Ошибка при загрузке $fileName."
     }
 }
 
@@ -240,11 +322,15 @@ try {
                       -Headers @{
                           "Authorization" = "Bearer $updateToken"
                           "Content-Type" = "application/json"
+                          "Robust-Cdn-Publish-Id" = $publishId
                       } `
-                      -Body (@{ version = $version } | ConvertTo-Json -Depth 10)
+                      -Body (@{ version = $version } | ConvertTo-Json -Depth 10) `
+                      -ErrorAction Stop
     Write-Host "Публикация успешно завершена." -ForegroundColor Green
 } catch {
     Write-Host "Ошибка при завершении публикации." -ForegroundColor Red
+    Abort-Publish -cdnUrl $cdnUrl -updateToken $updateToken -version $version -publishId $publishId
+    throw "Ошибка при завершении публикации."
 }
 
 Write-Host "Очистка временных файлов..." -ForegroundColor Yellow
@@ -257,6 +343,7 @@ Write-Host "Очистка завершена." -ForegroundColor Green
 
     Write-Host "Сборка завершена." -ForegroundColor Green
 } catch {
+    $scriptFailed = $true
     Write-Host "Ошибка при сборке: $_" -ForegroundColor Red
 } finally {
     Write-Host "Удаление временных папок..." -ForegroundColor Yellow
@@ -266,8 +353,13 @@ Write-Host "Очистка завершена." -ForegroundColor Green
         }
     }
     Write-Host "Временные папки удалены." -ForegroundColor Green
-    Restore-BinDirectory -binPath $binPath
+    if ($binPrepared) {
+        Restore-BinDirectory -binPath $binPath
+    }
     Set-Location -Path $deadspacePath
 }
 Write-Host "Нажмите любую клавишу для выхода..." -ForegroundColor Yellow
 Read-Host
+if ($scriptFailed) {
+    exit 1
+}

@@ -13,6 +13,10 @@ using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Enums;
 using Robust.Shared.Prototypes;
+// DS14-start
+using Content.Client.DeadSpace.AdminToy;
+using Content.Shared.DeadSpace.AdminToy;
+// DS14-end
 
 namespace Content.Client.Construction.UI
 {
@@ -106,7 +110,15 @@ namespace Content.Client.Construction.UI
 
             _constructionView.OnClose +=
                 () => _uiManager.GetActiveUIWidget<GameTopMenuBar>().CraftingButton.Pressed = false;
-            _constructionView.ClearAllGhosts += (_, _) => _constructionSystem?.ClearAllGhosts();
+            // DS14-start
+            _constructionView.ClearAllGhosts += (_, _) =>
+            {
+                if (IsAdminToyControlled())
+                    _entManager.System<AdminToySystem>().ClearAllConstructionGhosts();
+                else
+                    _constructionSystem?.ClearAllGhosts();
+            };
+            // DS14-end
             _constructionView.PopulateRecipes += OnViewPopulateRecipes;
             _constructionView.RecipeSelected += OnViewRecipeSelected;
             _constructionView.BuildButtonToggled += (_, b) => BuildButtonToggled(b);
@@ -263,11 +275,17 @@ namespace Content.Client.Construction.UI
             var (search, category) = args;
             var isEmptyCategory = string.IsNullOrEmpty(category) || category == ForAllCategoryName;
             _selectedCategory = isEmptyCategory ? string.Empty : category;
+            var adminToyControlled = IsAdminToyControlled(); // DS14
 
             foreach (var recipe in _prototypeManager.EnumeratePrototypes<ConstructionPrototype>())
             {
                 if (recipe.Hide)
                     continue;
+
+                // DS14-start
+                if (adminToyControlled && recipe.Type != ConstructionType.Structure)
+                    continue;
+                // DS14-end
 
                 if (_playerManager.LocalSession == null
                     || _playerManager.LocalEntity == null
@@ -319,9 +337,15 @@ namespace Content.Client.Construction.UI
         private void PopulateCategories(string? selectCategory = null)
         {
             var uniqueCategories = new HashSet<string>();
+            var adminToyControlled = IsAdminToyControlled(); // DS14
 
             foreach (var prototype in _prototypeManager.EnumeratePrototypes<ConstructionPrototype>())
             {
+                // DS14-start
+                if (adminToyControlled && prototype.Type != ConstructionType.Structure)
+                    continue;
+                // DS14-end
+
                 var category = prototype.Category;
 
                 if (!string.IsNullOrEmpty(category))
@@ -472,6 +496,14 @@ namespace Content.Client.Construction.UI
 
             _constructionView.BuildButtonPressed = true;
         }
+
+        // DS14-start
+        private bool IsAdminToyControlled()
+        {
+            return _playerManager.LocalEntity is { } localEntity &&
+                   _entManager.HasComponent<AdminToyComponent>(localEntity);
+        }
+        // DS14-end
 
         private void OnSystemLoaded(object? sender, SystemChangedArgs args)
         {

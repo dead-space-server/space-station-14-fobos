@@ -1,0 +1,947 @@
+# from SADAR with love </3
+- type: sponsorLoadout
+  id: pvrsifvlAlt2
+  entity: ClothingBackpackPvrsifvlAlt2
+  sponsorOnly: true
+
+# backpack.rsi
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBackpackPvrsifvlAlt2
+  categories: [ HideSpawnMenu ]
+  name: разведывательная сумка mil.RELIABLE // gen.1
+  description: Компактного вида набедренная сумка, закреплённая к снаряжению на магнитном жгуте. Достаточно вместительная для своего размера.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/backpack.rsi
+    layers:
+    - state: icon
+      map: [ base ]
+  - type: GenericVisualizer
+    visuals:
+      enum.StorageVisuals.Open:
+        base:
+          True: { state: icon-open }
+          False: { state: icon }
+  - type: ExplosionResistance
+    damageCoefficient: 0.1
+  - type: Appearance
+  - type: Storage
+    maxItemSize: Huge
+    grid:
+    - 0,0,13,10
+  - type: StorageFill
+    contents:
+    - id: ClothingOuterHardsuitPvrsifvlAlt2
+    - id: ClothingBeltMilitaryWebbingPvrsifvlAlt2
+    - id: JetpackVoidFilledPvrsifvlAlt2
+    - id: WeaponCrusherPvrsifvlAlt2
+    - id: ClothingOuterVestPvrsifvlAlt2
+    - id: WeaponProtoKineticAcceleratorPvrsifvlAlt2
+    - id: GasAnalyzerPvrsifvlAlt2
+    - id: ResidentAxePvrsifvlAlt2
+    - id: HyposprayPvrsifvlAlt2
+    - id: HolofanProjectorPvrsifvlAlt2
+    - id: DefibrillatorCompactPvrsifvlAlt2
+    - id: RCDPvrsifvlAlt2
+    - id: ClothingShoesBootsMagPvrsifvlAlt2
+    - id: ClothingEyesHudMedicalPvrsifvlAlt2
+    - id: PaperLawPvrsifvlAlt2
+    - id: ClothingHeadHatBeretPvrsifvlAlt2
+    - id: ClothingHandsGlovesPvrsifvlAlt2
+    - id: ClothingNeckMantlePvrsifvlAlt2
+    - id: ClothingNeckGhilliePvrsifvlAlt2
+    - id: ClothingNeckGhillieAltPvrsifvlAlt2
+    - id: ClothingHeadsetPvrsifvlAlt2
+    - id: DoubleEmergencyOxygenTankPvrsifvlAlt2
+    - id: ClothingUniformJumpsuitPvrsifvlAlt2
+    - id: PDAPvrsifvlAlt2
+    - id: MedkitAdvancedFilled
+    - id: ClothingHeadHelmetPvrsifvlAlt2
+    - id: PlushieScarlett
+    - id: ClothingMaskPvrsifvlAlt2
+    - id: WeaponPistolCHIMPPvrsifvlAlt2
+    - id: PaperPvrsifvlAlt2USSP
+  - type: TypingIndicatorClothing
+    proto: TypingIndicatorPvrsifvlAlt2
+  - type: Tag
+    tags: [ ]
+
+# belt.rsi
+- type: entity
+  parent: ClothingBeltStorageBase
+  id: ClothingBeltMilitaryWebbingPvrsifvlAlt2
+  name: разгрузочная нагрудная система mil.RAPID // gen.1
+  description: Фиксированная разгрузочная система, содержащая все необходимые базовые подсумки.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Storage
+    grid:
+    - 0,0,7,1
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/belt.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/belt.rsi
+  - type: Item
+    size: Huge
+  - type: StorageFill
+    contents:
+      - id: JawsOfLifePvrsifvlAlt2
+      - id: PowerDrillPvrsifvlAlt2
+      - id: WelderExperimentalPvrsifvlAlt2
+      - id: MultitoolPvrsifvlAlt2
+      - id: AdvancedMineralScannerPvrsifvlAlt2
+      - id: HandHeldMassScannerPvrsifvlAlt2
+      - id: AnomalyScannerPvrsifvlAlt2
+  - type: Tag
+    tags: [ ]
+
+# hardsuit.rsi
+- type: entity
+  parent: ClothingOuterHardsuitSecurity
+  id: ClothingOuterHardsuitPvrsifvlAlt2
+  name: диверсионно-разведывательный скафандр mil.HAZE // gen.1
+  description: Все самые лучшие при виде меня говорят «Вау». Ты пытаешься всем угодить — это провал.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/hardsuit.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/hardsuit.rsi
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitPvrsifvlAlt2
+  - type: Item
+    size: Huge
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.5
+        Slash: 0.5
+        Piercing: 0.6
+        Heat: 0.5
+        Radiation: 0.5
+        Caustic: 0.5
+        Stun: 0.65
+  - type: ExplosionResistance
+    damageCoefficient: 0.5
+  - type: ClothingSpeedModifier
+    walkModifier: 1.0
+    sprintModifier: 1.0
+  - type: HideLayerClothing
+    clothingSlots: 
+    - belt
+  - type: HardsuitIdentification
+    nonlethal: true
+  - type: Tag
+    tags: [ ]
+
+# helmet.rsi
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ClothingHeadHelmetHardsuitPvrsifvlAlt2
+  name: шлем диверсионно-разведывательного скафандра mil.HAZE // gen.1
+  description: Мне не нужен целый оркестр. Дайте мне медийку два квадратных метра — и я создам планету.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/helmet.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/helmet.rsi
+  - type: PointLight
+    color: "#ea2738"
+    radius: 7
+    energy: 3
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: HideLayerClothing
+    slots:
+    - Hair
+    - Snout
+    - HeadTop
+    - HeadSide
+    - FacialHair
+    clothingSlots:
+    - ears
+    bodyLayers:
+    - Head
+  - type: Tag
+    tags: [ ]
+
+# outer.rsi
+- type: entity
+  parent: ClothingOuterVestArmorSec
+  id: ClothingOuterVestPvrsifvlAlt2
+  name: тактический бронежилет mil.SLICK // gen.1
+  description: Бездна прям перед тобой. Шаг вперёд — попал в софтлок. Ты герой, но всё равно сфидишь.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/outer.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/outer.rsi
+  - type: Tag
+    tags: [ ]
+
+# helmet2.rsi
+- type: entity
+  parent: ClothingHeadHelmetArmoredBase
+  id: ClothingHeadHelmetPvrsifvlAlt2
+  name: тактический шлем mil.ULACH // gen.1
+  description: Не показывай себя, просто покажи им stock-image. Соври сотню тысяч раз, на ходу меняй цвета. Скажи, что просто сменил имидж. 
+  categories: [ HideSpawnMenu ] 
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/helmet2.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/helmet2.rsi
+  - type: Item
+    size: Small
+  - type: Tag
+    tags: [ ]
+
+# jumpsuit.rsi
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpsuitPvrsifvlAlt2
+  name: униформа mil.FEAR // gen.1
+  description: Я бы с тобой погулял, но у меня слишком много дел. Если бы я пошёл, что бы я надел тогда?
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/jumpsuit.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/jumpsuit.rsi
+  - type: Tag
+    tags: [ ]
+
+# headset.rsi
+- type: entity
+  parent: ClothingHeadset
+  id: ClothingHeadsetPvrsifvlAlt2
+  name: модифицированная гарнитура mil.CLEAR // gen.1
+  description: Пропустил звонки, пропустил сообщения. Не перезвоню, отдыхаю, нету времени.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/headset.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/headset.rsi
+  - type: Headset
+    color: "#3a4533"
+  - type: EncryptionKeyHolder
+    keySlots: 5
+  - type: Tag
+    tags: []
+
+# gloves.rsi
+- type: entity
+  parent: ClothingHandsGlovesCombat
+  id: ClothingHandsGlovesPvrsifvlAlt2
+  name: тактические перчатки mil.BURN // gen.1
+  description: Тебе становится чуть-чуть лучше, прикосновения вспоминая. Пока в наушниках играет МИЛАЯ СКАРЛЕТТ. МИЛАЯ СКАРЛЕТТ.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/gloves.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/gloves.rsi
+  - type: Tag
+    tags: [ ]
+
+# beret.rsi
+- type: entity
+  parent: ClothingHeadBase
+  id: ClothingHeadHatBeretPvrsifvlAlt2
+  name: фирменный берет
+  description: Берет колониальной морской пехоты. Выглядит достойно, отражает гордый статус специалиста по матерям.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/beret.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/beret.rsi
+  - type: Tag
+    tags: [ ]
+
+# cloak.rsi
+- type: entity
+  parent: ClothingNeckBase
+  id: ClothingNeckMantlePvrsifvlAlt2
+  name: широкая мантия mil.DISCIPLINE // gen.1
+  description: Крепкие руки тебя обнимали, не объяснишь своей маме.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/cloak.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/cloak.rsi
+  - type: Tag
+    tags: [ ]
+
+# cloak2.rsi
+- type: entity
+  parent: ClothingNeckBase
+  id: ClothingNeckGhilliePvrsifvlAlt2
+  name: зелёный маскхалат mil.DISGUISE // gen.1
+  description: Если хочешь быть со мной, тогда будь самой крутой. Почему такая ты разная-разная?
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/cloak2.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/cloak2.rsi
+  - type: HideLayerClothing
+    slots:
+    - Hair
+    - Snout
+    - HeadTop
+    - HeadSide
+    - FacialHair
+  - type: ClothingVisualLayerAnchor
+    slot: head
+  - type: Tag
+    tags: [ ]
+
+# cloak3.rsi
+- type: entity
+  parent: ClothingNeckBase
+  id: ClothingNeckGhillieAltPvrsifvlAlt2
+  name: серый маскхалат mil.URBAN // gen.1
+  description: Ты не слышишь ничего, ну же потанцуй со мной. Почему такая ты красная-красная?
+  categories: [ HideSpawnMenu ]
+  components: 
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/cloak3.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/cloak3.rsi
+  - type: HideLayerClothing
+    slots:
+    - Hair
+    - Snout
+    - HeadTop
+    - HeadSide
+    - FacialHair
+  - type: ClothingVisualLayerAnchor
+    slot: head
+  - type: Tag
+    tags: [ ]
+
+# hud.rsi
+- type: entity
+  parent: ClothingEyesHudAdvanced
+  id: ClothingEyesHudMedicalPvrsifvlAlt2
+  name: тактические очки mil.THRU // gen.1
+  description: Пойдём со мной, пойдём ко мне домой. Там будет лето, а мы будем под луной. Пойдём со мной, и всё что есть с собой — ты хочешь показать, а я хочу увидеееть. Я хочу увидеееть.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/hud.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/hud.rsi
+  - type: IdentityBlocker
+    coverage: EYES
+  - type: EyeProtection
+  - type: Tag
+    tags: [ ]
+
+# gasmask.rsi
+- type: entity
+  parent: ClothingMaskGasSecurity
+  id: ClothingMaskPvrsifvlAlt2
+  name: тактическая маска mil.HAZE // gen.1
+  description: Давай оставлю свой автограф, только на тебе. Скрепляю степлером оставленный тобой порез. Не замечаю, что вокруг один тупой протест.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/gasmask.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/gasmask.rsi
+  - type: HideLayerClothing
+    slots:
+    - Hair
+    - Snout
+    - HeadTop
+    - HeadSide
+    - FacialHair
+  - type: Tag
+    tags: [ ]
+
+# magboots.rsi
+- type: entity
+  parent: ClothingShoesBootsMag
+  id: ClothingShoesBootsMagPvrsifvlAlt2
+  name: армейские ботинки mil.GRAVES // gen.1
+  description: Я как Пеннивайз — твой ночной кошмар. Тебя не буду ждать, мне нечего терять. Видим мир в твоих словах, тебе не стоит лгать
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/magboots.rsi
+      layers:
+      - state: icon
+        map: [ "enum.ToggleableVisuals.Layer" ]
+    - type: Clothing
+      sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/magboots.rsi
+    - type: ClothingSpeedModifier
+      walkModifier: 1
+      sprintModifier: 1
+    - type: FootstepModifier # DS14-Sounds
+      footstepSoundCollection:
+        collection: FootstepCombatBoots
+        params:
+          volume: -1
+    - type: Tag
+      tags: [ ]
+
+# jetpack.rsi
+- type: entity
+  parent: JetpackVoidFilled
+  id: JetpackVoidFilledPvrsifvlAlt2
+  name: пустотный джетпак mil.FLY-BY // gen.1
+  description: Достаю билет на небеса, станцуем на луне. Мы не такие, как все. Давай утонем в темноте.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Item
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/jetpack.rsi
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/jetpack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/jetpack.rsi
+    slots:
+      - Back
+      - suitStorage
+      - Belt
+  - type: Tag
+    tags: [ ]
+
+# pda.rsi
+- type: entity
+  parent: BaseMedicalPDA
+  id: PDAPvrsifvlAlt2
+  name: тактический планшет mil.FORWARD // gen.1
+  description: Gucci, Louis, Александра Прада. Всё, что на тебе, скажи — «Спасибо, папа». Нет, man, это не твоя награда. Ты ничего не сделал — тебе идёт расплата.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Icon
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/pda.rsi
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/pda.rsi
+  - type: CartridgeLoader
+    uiKey: enum.PdaUiKey.Key
+    preinstalled:
+      - CrewManifestCartridge
+      - NotekeeperCartridge
+      - NanoTaskCartridge
+      - NewsReaderCartridge
+      - MedTekCartridge
+      - AstroNavCartridge
+  - type: PdaBorderColor
+    borderColor: "#2a3424"
+    accentHColor: "#242424"
+    accentVColor: "#3a4533"
+  - type: Tag
+    tags: [ ]
+
+# tank.rsi
+- type: entity
+  parent: DoubleEmergencyOxygenTank
+  id: DoubleEmergencyOxygenTankPvrsifvlAlt2
+  name: двойной аварийный кислородный баллон mil.LIFESAVER // gen.1
+  description: Имею шесть слотов, и всё на фулл саппорте. Мне не нужна команда, могу выиграть в solo.
+  categories: [ HideSpawnMenu ] 
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tank.rsi
+  - type: Item
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tank.rsi
+    storedSprite:
+      state: storage
+      sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tank.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tank.rsi
+
+# defibsmall.rsi
+- type: entity
+  parent: DefibrillatorCompact
+  id: DefibrillatorCompactPvrsifvlAlt2
+  name: компактный дефибриллятор mil.BOREALIS // gen.1
+  description: Я не знаю, как ты, но я знаю, станет лучше. Так что помолчи, послушай или уходи. Прячься дома днём и выходи лишь тёмной ночью и тогда, наверное, сможешь ты быть со мной.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/defibsmall.rsi
+  - type: Item
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/defibsmall.rsi
+
+# hypo.rsi
+- type: entity
+  parent: BaseItem
+  id: HyposprayPvrsifvlAlt2
+  name: лимитированный гипоспрей mil.AURORA // gen.1
+  description: Я не хочу быть здесь, мне надоели тёмные переулки. Я давно бросил свои потуги. Я ещё жив, но умру от скуки.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/hypo.rsi
+    layers:
+      - state: hypo
+        map: ["enum.SolutionContainerLayers.Base"]
+      - state: hypo_fill1
+        map: ["enum.SolutionContainerLayers.Fill"]
+        visible: false
+  - type: Item
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/hypo.rsi
+  - type: SolutionContainerManager
+    solutions:
+      hypospray:
+        maxVol: 5
+  - type: RefillableSolution
+    solution: hypospray
+  - type: ExaminableSolution
+    solution: hypospray
+    exactVolume: true
+  - type: Injector
+    solutionName: hypospray
+    ignoreClosed: false
+    activeModeProtoId: HyposprayDynamicMode
+    allowedModes:
+    - HyposprayDynamicMode
+    - HyposprayInjectMode
+  - type: UseDelay
+    delay: 0.5
+  - type: Appearance
+  - type: SolutionContainerVisuals
+    maxFillLevels: 6
+    fillBaseName: hypo_fill
+    solutionName: hypospray
+
+# tools_jawsoflife.rsi
+- type: entity
+  parent: JawsOfLife
+  id: JawsOfLifePvrsifvlAlt2
+  name: челюсти жизни mil.BREAK-IN // gen.1
+  description: So, what do you wanna do? What's your point of view?
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tools_jawsoflife.rsi
+    state: syn_jaws_pry
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: syn_inhand-left
+      right:
+      - state: syn_inhand-right
+    size: Normal
+  - type: MultipleTool
+    entries:
+      - behavior: Prying
+        sprite:
+          sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tools_jawsoflife.rsi
+          state: syn_jaws_pry
+        useSound: /Audio/Items/jaws_pry.ogg
+        changeSound: /Audio/Items/change_jaws.ogg
+      - behavior: Cutting
+        sprite:
+          sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tools_jawsoflife.rsi
+          state: syn_jaws_cutter
+        useSound: /Audio/Items/jaws_cut.ogg
+        changeSound: /Audio/Items/change_jaws.ogg
+  - type: MeleeWeapon
+    damage:
+      types:
+        Blunt: 10
+
+# tools_powerdrill.rsi
+- type: entity
+  parent: PowerDrill
+  id: PowerDrillPvrsifvlAlt2
+  name: электродрель mil.PRIMARY // gen.1
+  description: There's a party, screw it, do you wanna go?
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tools_powerdrill.rsi
+    state: drill_screw
+  - type: Item
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tools_powerdrill.rsi
+    size: Small
+  - type: MultipleTool
+    statusShowBehavior: true
+    entries:
+      - behavior: Screwing
+        sprite:
+          sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tools_powerdrill.rsi
+          state: drill_screw
+        useSound:
+          path: /Audio/Items/drill_use.ogg
+        changeSound:
+          path: /Audio/Items/change_drill.ogg
+      - behavior: Anchoring
+        sprite:
+          sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tools_powerdrill.rsi
+          state: drill_bolt
+        useSound:
+          path: /Audio/Items/drill_use.ogg
+        changeSound:
+          path: /Audio/Items/change_drill.ogg
+
+# tools_welder.rsi
+- type: entity
+  parent: WelderExperimental
+  id: WelderExperimentalPvrsifvlAlt2
+  name: экспериментальный сварочный пистолет mil.HEAT // gen.1
+  description: A handshake with you, what's your point of view?
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tools_welder.rsi
+  - type: Item
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tools_welder.rsi
+
+# tools_multitool.rsi
+- type: entity
+  parent: Multitool
+  id: MultitoolPvrsifvlAlt2
+  name: мультитул mil.PULSE // gen.1
+  description: I'm on top of you, I don't wanna go.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tools_multitool.rsi
+  - type: Item
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tools_multitool.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tools_multitool.rsi
+
+# tools_gasanalyzer.rsi
+- type: entity
+  parent: GasAnalyzer
+  id: GasAnalyzerPvrsifvlAlt2
+  name: газоанализатор mil.CAUTION // gen.1
+  description: But now you're gone and leaving nothing but a sign.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tools_gasanalyzer.rsi
+    layers:
+    - state: icon
+      map: ["analyzer"]
+
+# tools_holofanprojector.rsi
+- type: entity
+  parent: HolofanProjector
+  id: HolofanProjectorPvrsifvlAlt2
+  name: атмос-проектор mil.BREACH // gen.1
+  description: Cause I really wanna stay at your housе.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tools_holofanprojector.rsi
+    state: icon
+  - type: HolosignProjector
+    signProto: HoloFanPvrsifvlAlt2
+    chargeUse: 120
+
+# tools_holo.rsi
+- type: entity
+  parent: HoloFan
+  id: HoloFanPvrsifvlAlt2
+  name: атмос-поле mil.STAY // gen.1
+  description: And I hopе this works out.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tools_holo.rsi
+    state: icon
+
+# tools_rcd.rci
+- type: entity
+  parent: RCDCE
+  id: RCDPvrsifvlAlt2
+  name: РСУ mil.PROTECTOR // gen.1
+  description: But you know how much you broke me apart. I'm done with you, I'm ignoring you. I don't wanna know.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tools_rcd.rsi
+    layers:
+    - state: icon
+  - type: AutoRecharge
+    rechargeDuration: 15
+
+# tools_mineralscanner.rsi
+- type: entity
+  parent: AdvancedMineralScanner
+  id: AdvancedMineralScannerPvrsifvlAlt2
+  name: сканер минералов mil.TRIAL // gen.1
+  description: And I'm awarе that you were lying in the gutter. Cause I did everything to be there by your side.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tools_mineralscanner.rsi
+    layers:
+    - state: adv
+    - state: adv-o
+      shader: unshaded
+      visible: false
+      map: ["enum.ToggleableVisuals.Layer"]
+
+# tools_massscanner.rsi
+- type: entity
+  parent: HandHeldMassScanner
+  id: HandHeldMassScannerPvrsifvlAlt2
+  name: сканер массы mil.RECONNAISSANCE // gen.1
+  description: So, when you tell me I'm the reason, I just can't believe the lies. And why do I still want to call you?
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Item
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tools_massscanner.rsi
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tools_massscanner.rsi
+    state: icon
+    layers:
+    - state: icon
+    - state: scanner
+      shader: unshaded
+      visible: false
+      map: [ "enum.PowerDeviceVisualLayers.Powered" ]
+
+# tools_anomalyscanner.rsi
+- type: entity
+  parent: AnomalyScanner
+  id: AnomalyScannerPvrsifvlAlt2
+  name: сканер аномалий mil.FORECAST // gen.1
+  description: Another evening, I'll be sitting reading in-between your lines.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tools_anomalyscanner.rsi
+    layers:
+      - state: icon
+        map: ["enum.AnomalyScannerVisualLayers.Base"]
+      - map: ["enum.AnomalyScannerVisualLayers.Screen"]
+        visible: false
+        shader: unshaded
+      - state: severity_mask
+        map: ["enum.AnomalyScannerVisualLayers.SeverityMask"]
+        visible: false
+        shader: unshaded
+      - map: ["enum.AnomalyScannerVisualLayers.Stability"]
+        visible: false
+        shader: unshaded
+      - visible: false
+        map: ["enum.AnomalyScannerVisualLayers.Pulse"]
+        shader: unshaded
+      - state: supercritical
+        map: ["enum.AnomalyScannerVisualLayers.Supercritical"]
+        shader: unshaded
+        visible: false
+
+# axe.rsi
+- type: entity
+  parent: BaseSword
+  id: ResidentAxePvrsifvlAlt2
+  name: томагавк mil.JAEGER // gen.1
+  description: Только не надо, осталось недолго. Не надо плакать, недолго осталось.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/axe.rsi
+  - type: MeleeWeapon
+    wideAnimationRotation: 135
+    swingLeft: true
+    damage:
+      types:
+        Slash: 0  
+  - type: StaminaDamageOnHit
+    damage: 30
+  - type: Item
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/axe.rsi
+    size: Normal
+
+# crusher.rsi
+- type: entity
+  parent: [ BaseWeaponCrusher, BaseSecurityCargoContraband ]
+  id: WeaponCrusherPvrsifvlAlt2
+  name: протокинетическое копьё mil.FRIDAY // gen.1 
+  description: При лунном свете я ощущал капли дождя и теплый ветер обнял меня, и я так рад что тебя встретил — вокруг лишь злые голоса. Но ты мне веришь — отважно веришь до конца, веришь в меня, эй.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/crusher.rsi
+    state: icon
+  - type: Item
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/crusher.rsi
+    size: Huge
+  - type: AmmoCounter
+  - type: UseDelayOnShoot
+  - type: UseDelay
+    delay: 0.9
+  - type: LeechOnMarker
+    leech:
+      groups:
+        Brute: -11
+  - type: Gun
+    soundGunshot: /Audio/_DeadSpace/Sponsor/pvrsifvlAlt2/crusher_shot.ogg
+    fireRate: 1
+    useKey: false
+  - type: RechargeBasicEntityAmmo
+    rechargeCooldown: 0.5
+    rechargeSound:
+      path: /Audio/_DeadSpace/Sponsor/pvrsifvlAlt2/crusher_reload.ogg
+  - type: BasicEntityAmmoProvider
+    proto: BulletCharge
+    capacity: 1
+    count: 1
+  - type: MeleeWeapon
+    attackRate: 1
+    wideAnimationRotation: -135
+    damage:
+      types:
+        Blunt: 6
+        Slash: 4
+    soundHit:
+      collection: MetalThud
+  - type: Wieldable
+  - type: IncreaseDamageOnWield
+    damage:
+      types:
+        Blunt: 6
+        Slash: 2
+        Structural: 30
+  - type: PointLight
+    color: "#ea2738"
+    enabled: false
+    radius: 4
+  - type: GunRequiresWield
+  - type: DisarmMalus
+  - type: Prying
+  
+# kinetic_accelerator.rsi
+- type: entity
+  parent: WeaponProtoKineticAccelerator
+  id: WeaponProtoKineticAcceleratorPvrsifvlAlt2
+  categories: [ HideSpawnMenu ]
+  name: протокинетическое ружьё mil.PEACEKEEPER // gen.1
+  description: Модифицированное протокинетическое ружьё с рычажным механизмом. Распространяет демократию среди дикой фауны космоса.
+  components:
+  - type: Gun
+    fireRate: 0.5
+    selectedMode: SemiAuto
+    angleDecay: 45
+    minAngle: 44
+    maxAngle: 45
+    availableModes:
+    - SemiAuto
+    soundGunshot:
+      path: /Audio/_DeadSpace/Sponsor/pvrsifvlAlt2/peacekeeper_shot.ogg
+  - type: RechargeBasicEntityAmmo
+    rechargeCooldown: 0.75
+    rechargeSound:
+      path: /Audio/_DeadSpace/Sponsor/pvrsifvlAlt2/peacekeeper_reload.ogg
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/kinetic_accelerator.rsi
+    layers:
+    - state: icon
+    - state: animation-icon
+      visible: false
+      map: [ "empty-icon" ]
+  - type: Item
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/kinetic_accelerator.rsi
+    size: Normal
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/kinetic_accelerator.rsi
+    quickEquip: false
+    slots:
+    - suitStorage
+
+# chimp.rsi
+- type: entity
+  parent: WeaponPistolCHIMP
+  id: WeaponPistolCHIMPPvrsifvlAlt2
+  name: эргономичный излучатель mil.RSh // gen.1
+  description: В крайней степени модифицированный экземпляр продвинутого прибора R&D М.А.Р.Т.Ы.Х., лишённый любой летальности несмотря на свой вызывающий облик, далеко опередивший оригинальный вид.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/chimp.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/chimp.rsi
+
+# speech.rsi
+- type: typingIndicator
+  id: TypingIndicatorPvrsifvlAlt2
+  spritePath: _DeadSpace/Sponsor/pvrsifvlAlt2/speech.rsi
+  typingState: default0
+  idleState: default3
+  offset: 0.125, 0.125
+
+# sound-collection
+- type: soundCollection
+  id: FootstepCombatBoots
+  files:
+  - /Audio/_DeadSpace/Sponsor/pvrsifvlAlt2/combatboots1.ogg
+  - /Audio/_DeadSpace/Sponsor/pvrsifvlAlt2/combatboots2.ogg
+  - /Audio/_DeadSpace/Sponsor/pvrsifvlAlt2/combatboots3.ogg
+  - /Audio/_DeadSpace/Sponsor/pvrsifvlAlt2/combatboots4.ogg
+  - /Audio/_DeadSpace/Sponsor/pvrsifvlAlt2/combatboots5.ogg
+
+# toy.rsi
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  id: PlushieScarlett
+  name: плюшевая Скарлетт Хелль'Веттиа
+  description: Плюшевая игрушка одной важной и постоянно занятой личности, во взгляде которой отражена сильная усталость. От неё исходит аромат крепкого кофе и сигаретного дыма.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/toy.rsi
+    state: scarlett
+  - type: TTS
+    voice: Pharah
+  - type: SpeakOnTrigger
+    pack: PlushieScarlettSpeech
+
+# документ
+- type: entity
+  parent: PaperPrintedCentcomm
+  id: PaperLawPvrsifvlAlt2
+  name: распечатанная лицензия
+  description: Роскошный лист бумаги с заголовком ЦентКома. Выглядит лучше, чем другие.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Paper
+    stampState: paper_stamp-centcom
+    stampedBy:
+    - stampedColor: '#006600FF'
+      stampedName: Центральное Командование
+    - stampedColor: '#00BE00FF'
+      stampedName: Одобрено
+    - stampedColor: "#ea2738"
+      stampedName: Милая Скарлетт
+    content: paper-law-pvrsifvlAlt2
+  - type: Tag
+    tags: [ ]
+
+- type: entity
+  parent: PaperPrintedUSSPCentcomm
+  id: PaperPvrsifvlAlt2USSP
+  name: распечатанный документ
+  description: Лист бумаги с заголовком генштаба. Страшно даже смотреть на него.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Paper
+    stampState: paper_stamp-centcom
+    stampedBy:
+    - stampedColor: '#006600FF'
+      stampedName: Генеральный Штаб
+    - stampedColor: '#00BE00FF'
+      stampedName: Одобрено
+    - stampedColor: "#ea2738"
+      stampedName: Милая Скарлетт
+    content: paper-law-pvrsifvlAlt2-ussp
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag

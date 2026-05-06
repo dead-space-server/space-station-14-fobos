@@ -134,6 +134,7 @@
       map: ["enum.SpaceHeaterVisualLayers.Main"]
     - state: sheaterPanelOpen
       map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false # DS14
   - type: Appearance
   - type: GenericVisualizer
     visuals:

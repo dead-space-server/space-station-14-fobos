@@ -1,0 +1,58 @@
+- type: entity
+  id: ActionDamageArkalyseAttack
+  name: Болевой удар в живот
+  description: Молниеносный удар ладонью в живот противника, наносит чистый урон.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/arkalyse_actions.rsi
+      state: punch
+    priority: -8
+    useDelay: 2
+  - type: InstantAction
+    event: !type:ArkalyseDamageEvent {}
+
+- type: entity
+  id: ActionMutedArkalyseAttack
+  name: Удар в горло
+  description: Удар в горло, перекрывающий дыхательные пути.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/arkalyse_actions.rsi
+      state: mute
+    priority: -6
+    useDelay: 1.5
+  - type: InstantAction
+    event: !type:ArkalyseMuteEvent {}
+
+- type: entity
+  id: ActionStunArkalyseAttack
+  name: Удар оверхенд
+  description: Гибридый удар в голову противника, сшибающий того с ног.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/arkalyse_actions.rsi
+      state: kick
+    priority: -7
+    useDelay: 3
+  - type: InstantAction
+    event: !type:ArkalyseStunEvent {}
+
+- type: entity
+  id: ActionRelaxArkalyseAttack
+  name: Расслабить руку
+  description: Отмена всех эффектов на удар.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/arkalyse_actions.rsi
+      state: relax
+    priority: -5
+  - type: InstantAction
+    event: !type:ArkalyseRelaxEvent {}
