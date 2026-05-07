@@ -121,7 +121,7 @@
   id: JobSeniorOfficer
   groups:
   - GroupTankHarness
-  - SecurityMask # DS14-Mask
+  - SecurityMask
   - SeniorOfficerJumpsuit
   - SeniorOfficerBackpack
   - SeniorOfficerOuterClothing
@@ -166,7 +166,7 @@
   - MedicalShoes
   - PhysicianSocks
   - SeniorPhysicianPDA
-  - Glasses
+  - MedicalEyewear
   - Survival
   - Trinkets
   - GroupSpeciesBreathTool
@@ -181,7 +181,7 @@
   - CoronerJumpsuit
   - MedicalGloves
   - CoronerBackpack
-  - Glasses
+  - MedicalEyewear
   - Survival
   - Trinkets
   - GroupSpeciesBreathTool
@@ -199,7 +199,7 @@
   - VirologistUnderwear
   - MedicalShoes
   - VirologistOuterclothing
-  - Glasses
+  - MedicalEyewear
   - Survival
   - Trinkets
   - GroupSpeciesBreathTool

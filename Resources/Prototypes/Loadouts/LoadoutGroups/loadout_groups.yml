@@ -1509,7 +1509,7 @@
   - JackSecBoots
   - CombatBoots
   - JackBoots
-  # - SecurityWinterBoots
+  - SecurityWinterBoots
 
 # DS14-disabled
 #- type: loadoutGroup
