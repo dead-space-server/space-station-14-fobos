@@ -64,6 +64,15 @@ public sealed partial class CarriedComponent : Component
 
     [ViewVariables]
     public bool WasStanding;
+
+    [ViewVariables]
+    public bool EscapeInProgress;
+
+    [ViewVariables]
+    public TimeSpan EscapeCompleteTime;
+
+    [ViewVariables]
+    public TimeSpan NextEscapePopupTime;
 }
 
 [Serializable, NetSerializable]

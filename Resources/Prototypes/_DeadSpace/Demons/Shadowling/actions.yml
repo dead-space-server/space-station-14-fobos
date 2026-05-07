@@ -7,7 +7,6 @@
   - type: Action
     icon: _DeadSpace/Demons/ability_icons/shadowling_veil_action.png
     useDelay: 20
-    itemIconStyle: NoItem
   - type: InstantAction
     event: !type:ShadowlingVeilActionEvent
 
@@ -19,7 +18,6 @@
   - type: Action
     icon: _DeadSpace/Demons/ability_icons/shadowling_ghost_action.png
     useDelay: 40
-    itemIconStyle: NoItem
   - type: InstantAction
     event: !type:ShadowlingPhaseActionEvent
 
@@ -31,6 +29,7 @@
   - type: Action
     icon: _DeadSpace/Demons/ability_icons/shadowling_recruit_action.png
     useDelay: 5
+    itemIconStyle: NoItem
   - type: TargetAction
     range: 1
   - type: EntityTargetAction
@@ -68,7 +67,6 @@
   - type: Action
     icon: _DeadSpace/Demons/ability_icons/shadowling_exalt_action.png
     useDelay: 30
-    itemIconStyle: NoItem
   - type: InstantAction
     event: !type:ShadowlingAscendanceEvent
 
@@ -80,6 +78,7 @@
   - type: Action
     icon: _DeadSpace/Demons/ability_icons/shadowling_blink_action.png
     useDelay: 40
+    itemIconStyle: NoItem
   - type: TargetAction
     range: 7
   - type: EntityTargetAction
@@ -161,6 +160,7 @@
   - type: Action
     icon: _DeadSpace/Demons/ability_icons/shadowling_thunderstorm_action.png
     useDelay: 25
+    itemIconStyle: NoItem
   - type: TargetAction
     range: 10
   - type: EntityTargetAction
@@ -191,7 +191,6 @@
   - type: Action
     icon: _DeadSpace/Demons/ability_icons/shadowling_ascended_ghost_action.png
     useDelay: 10
-    itemIconStyle: NoItem
   - type: InstantAction
     event: !type:ShadowlingAscendedPhaseActionEvent
 
@@ -204,6 +203,17 @@
   - type: Action
     icon: _DeadSpace/Demons/ability_icons/shadowling_ascended_ghost_action.png
     useDelay: 0.5
-    itemIconStyle: NoItem
   - type: InstantAction
     event: !type:ShadowlingAscendedPhaseReturnEvent
+
+- type: entity
+  id: ActionShadowlingReReveal
+  name: Перераскрытие
+  description: Заживляет все раны, полностью восстанавливая тело.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon: _DeadSpace/Demons/ability_icons/shadowling_reveal_action.png
+    useDelay: 180
+  - type: InstantAction
+    event: !type:ShadowlingReRevealEvent

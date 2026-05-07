@@ -9,15 +9,15 @@ using Robust.Shared.Serialization;
 namespace Content.Shared.DeadSpace.Demons.Shadowling;
 
 [RegisterComponent, NetworkedComponent]
-public sealed partial class ShadowlingBlackMedComponent : Component
+public sealed partial class ShadowlingReRevealComponent : Component
 {
-    [DataField] public EntProtoId ActionBlackMed = "ActionShadowlingBlackMed";
-    [DataField] public EntityUid? ActionBlackMedEntity;
-    [DataField] public int RequiredSlaves = 9;
-    [DataField] public float Duration = 2f;
+    [DataField] public EntProtoId ActionReReveal = "ActionShadowlingReReveal";
+    [DataField] public EntityUid? ActionReRevealEntity;
+    [DataField] public int RequiredSlaves = 7;
+    [DataField] public float Duration = 5f;
 }
 
-public sealed partial class ShadowlingBlackMedEvent : EntityTargetActionEvent { }
+public sealed partial class ShadowlingReRevealEvent : InstantActionEvent { }
 
 [Serializable, NetSerializable]
-public sealed partial class ShadowlingBlackMedDoAfterEvent : SimpleDoAfterEvent { }
+public sealed partial class ShadowlingReRevealDoAfterEvent : SimpleDoAfterEvent { }

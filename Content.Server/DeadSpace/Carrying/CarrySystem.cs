@@ -15,10 +15,12 @@ using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Humanoid;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Components;
+using Content.Shared.Interaction.Events;
 using Content.Shared.Inventory.VirtualItem;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
+using Content.Shared.Movement.Events;
 using Content.Shared.Movement.Pulling.Components;
 using Content.Shared.Movement.Pulling.Systems;
 using Content.Shared.Standing;
@@ -30,6 +32,7 @@ using Robust.Shared.Map;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Systems;
+using Robust.Shared.Timing;
 
 namespace Content.Server.DeadSpace.Carrying;
 
@@ -41,6 +44,9 @@ public sealed class CarrySystem : EntitySystem
     private static readonly TimeSpan HeavyBodyPickupTime = TimeSpan.FromSeconds(4);
     private static readonly TimeSpan LightBodyPickupTime = TimeSpan.FromSeconds(2);
     private static readonly TimeSpan AnimalPickupTime = TimeSpan.FromSeconds(1);
+    private static readonly TimeSpan EscapeDuration = TimeSpan.FromSeconds(7);
+    private static readonly TimeSpan EscapePopupInterval = TimeSpan.FromSeconds(2);
+    private static readonly TimeSpan EscapeKnockdownTime = TimeSpan.FromSeconds(1.5f);
 
     [Dependency] private readonly ActionBlockerSystem _actionBlocker = default!;
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
@@ -57,6 +63,7 @@ public sealed class CarrySystem : EntitySystem
     [Dependency] private readonly SharedVirtualItemSystem _virtual = default!;
     [Dependency] private readonly StunSystem _stun = default!;
     [Dependency] private readonly ThrowingSystem _throwing = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
 
     public override void Initialize()
     {
@@ -73,8 +80,44 @@ public sealed class CarrySystem : EntitySystem
         SubscribeLocalEvent<CarryingComponent, ComponentShutdown>(OnCarryingShutdown);
         SubscribeLocalEvent<CarriedComponent, EntGotInsertedIntoContainerMessage>(OnCarriedInsertedIntoContainer);
         SubscribeLocalEvent<CarriedComponent, BuckledEvent>(OnCarriedBuckled);
+        SubscribeLocalEvent<CarriedComponent, MoveInputEvent>(OnCarriedMoveInput);
+        SubscribeLocalEvent<CarriedComponent, AttackAttemptEvent>(OnCarriedAttackAttempt);
         SubscribeLocalEvent<CarriedComponent, StandAttemptEvent>(OnCarriedStandAttempt);
         SubscribeLocalEvent<CarriedComponent, ComponentShutdown>(OnCarriedShutdown);
+    }
+
+    public override void Update(float frameTime)
+    {
+        base.Update(frameTime);
+
+        var time = _timing.CurTime;
+        var query = EntityQueryEnumerator<CarriedComponent>();
+
+        while (query.MoveNext(out var uid, out var carried))
+        {
+            if (carried.Carrier is not { } carrier ||
+                !TryComp<CarryingComponent>(carrier, out var carrying) ||
+                carrying.Carried != uid)
+            {
+                CleanupInvalidCarriedState(uid, carried);
+                continue;
+            }
+
+            if (!carried.EscapeInProgress)
+                continue;
+
+            if (time >= carried.EscapeCompleteTime)
+            {
+                CompleteCarryEscape(uid, carried, carrier, carrying);
+                continue;
+            }
+
+            if (time < carried.NextEscapePopupTime)
+                continue;
+
+            PopupCarryEscapeAttempt(uid, carrier);
+            carried.NextEscapePopupTime = time + EscapePopupInterval;
+        }
     }
 
     private void OnGetCarryVerb(Entity<CarrySizeComponent> ent, ref GetVerbsEvent<AlternativeVerb> args)
@@ -175,6 +218,9 @@ public sealed class CarrySystem : EntitySystem
         carried.PreviousCanCollide = null;
         carried.ForcedDown = false;
         carried.WasStanding = false;
+        carried.EscapeInProgress = false;
+        carried.EscapeCompleteTime = TimeSpan.Zero;
+        carried.NextEscapePopupTime = TimeSpan.Zero;
 
         if (carried.AddedBlockMovement)
             EnsureComp<BlockMovementComponent>(target);
@@ -406,6 +452,23 @@ public sealed class CarrySystem : EntitySystem
         StopCarry(carrier, carrying);
     }
 
+    private void OnCarriedMoveInput(Entity<CarriedComponent> ent, ref MoveInputEvent args)
+    {
+        if (!args.HasDirectionalMovement)
+            return;
+
+        TryStartCarryEscape(ent);
+    }
+
+    private void OnCarriedAttackAttempt(Entity<CarriedComponent> ent, ref AttackAttemptEvent args)
+    {
+        if (ent.Comp.Carrier == null || args.Target != ent.Comp.Carrier)
+            return;
+
+        if (TryStartCarryEscape(ent))
+            args.Cancel();
+    }
+
     private void OnCarriedStandAttempt(Entity<CarriedComponent> ent, ref StandAttemptEvent args)
     {
         args.Cancel();
@@ -549,6 +612,76 @@ public sealed class CarrySystem : EntitySystem
         _standing.Stand(target, force: true);
     }
 
+    private bool TryStartCarryEscape(Entity<CarriedComponent> ent)
+    {
+        if (ent.Comp.EscapeInProgress)
+            return true;
+
+        if (ent.Comp.Carrier is not { } carrier || !HasComp<CarryingComponent>(carrier))
+            return false;
+
+        var time = _timing.CurTime;
+        ent.Comp.EscapeInProgress = true;
+        ent.Comp.EscapeCompleteTime = time + EscapeDuration;
+        ent.Comp.NextEscapePopupTime = time + EscapePopupInterval;
+
+        PopupCarryEscapeAttempt(ent.Owner, carrier);
+        Dirty(ent.Owner, ent.Comp);
+
+        return true;
+    }
+
+    private void CompleteCarryEscape(EntityUid target, CarriedComponent carried, EntityUid carrier, CarryingComponent carrying)
+    {
+        StopCarryEscape(target, carried);
+
+        StopCarry(carrier, carrying, keepTargetDown: true);
+        EnsureCarryEscapeCleanup(target, carried, carrier, carrying);
+        _stun.TryKnockdown(target, EscapeKnockdownTime, autoStand: false, drop: false, force: true);
+
+        _adminLogger.Add(LogType.Action, LogImpact.Medium, $"{ToPrettyString(target):target} escaped from being carried by {ToPrettyString(carrier):user}");
+    }
+
+    private void CleanupInvalidCarriedState(EntityUid target, CarriedComponent carried)
+    {
+        if (carried.AddedBlockMovement && HasComp<BlockMovementComponent>(target))
+            RemComp<BlockMovementComponent>(target);
+
+        StopCarryEscape(target, carried);
+        RemComp<CarriedComponent>(target);
+        _actionBlocker.UpdateCanMove(target);
+    }
+
+    private void EnsureCarryEscapeCleanup(EntityUid target, CarriedComponent carried, EntityUid carrier, CarryingComponent carrying)
+    {
+        if (carried.AddedBlockMovement && HasComp<BlockMovementComponent>(target))
+            RemComp<BlockMovementComponent>(target);
+
+        if (HasComp<CarriedComponent>(target))
+            RemComp<CarriedComponent>(target);
+
+        if (carrying.Carried == target && HasComp<CarryingComponent>(carrier))
+            RemComp<CarryingComponent>(carrier);
+
+        _actionBlocker.UpdateCanMove(target);
+    }
+
+    private void StopCarryEscape(EntityUid target, CarriedComponent carried)
+    {
+        if (!carried.EscapeInProgress)
+            return;
+
+        carried.EscapeInProgress = false;
+        carried.EscapeCompleteTime = TimeSpan.Zero;
+        carried.NextEscapePopupTime = TimeSpan.Zero;
+        Dirty(target, carried);
+    }
+
+    private void PopupCarryEscapeAttempt(EntityUid target, EntityUid carrier)
+    {
+        _popup.PopupEntity(Loc.GetString("carry-popup-escape-victim"), target, target);
+        _popup.PopupEntity(Loc.GetString("carry-popup-escape-carrier"), carrier, carrier);
+    }
 
     private bool ShouldKeepDroppedTargetDown(EntityUid carrier)
     {

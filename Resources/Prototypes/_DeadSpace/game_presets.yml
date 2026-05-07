@@ -227,3 +227,20 @@
   - SpaceTrafficControlEventScheduler
   - BasicRoundstartVariation
   - SubGamemodesRule # DS14
+
+- type: gamePreset
+  id: Shadowling
+  alias:
+    - shadowling
+  name: shadowling-title
+  description: shadowling-description
+  showInVote: true
+  showInAdminVote: true # DS14
+  voteType: rdm # DS14
+  rules:
+  - WageScheduler # backmen: currency
+  - ShadowlingRule
+  - BasicStationEventScheduler
+  - MeteorSwarmScheduler
+  - SpaceTrafficControlEventScheduler
+  - BasicRoundstartVariation

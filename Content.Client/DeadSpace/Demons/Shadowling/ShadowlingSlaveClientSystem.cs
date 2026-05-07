@@ -8,6 +8,7 @@ using Robust.Client.GameObjects;
 using Robust.Client.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
+using Content.Shared.Antag;
 
 namespace Content.Client.DeadSpace.Demons.Shadowling;
 
@@ -115,6 +116,7 @@ public sealed class ShadowlingSlaveClientSystem : EntitySystem
 
         return HasComp<ShadowlingRecruitComponent>(localPlayer.Value) ||
                HasComp<ShadowlingSlaveComponent>(localPlayer.Value) ||
-               HasComp<ShadowlingRevealComponent>(localPlayer.Value);
+               HasComp<ShadowlingRevealComponent>(localPlayer.Value) ||
+               HasComp<ShowAntagIconsComponent>(localPlayer.Value);
     }
 }

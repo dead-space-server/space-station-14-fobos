@@ -28,6 +28,7 @@ public sealed class ShadowlingVeilSystem : EntitySystem
         base.Initialize();
         SubscribeLocalEvent<ShadowlingVeilComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<ShadowlingVeilComponent, ShadowlingVeilActionEvent>(OnShadowlingVeil);
+        SubscribeLocalEvent<ShadowlingVeilComponent, ComponentShutdown>(OnVeilShutdown);
     }
 
     private void OnMapInit(EntityUid uid, ShadowlingVeilComponent component, MapInitEvent args)
@@ -119,21 +120,36 @@ public sealed class ShadowlingVeilSystem : EntitySystem
 
             if (comp.VeilTimer <= 0)
             {
-                foreach (var lightUid in comp.AffectedLights)
-                {
-                    if (!Exists(lightUid)) continue;
-
-                    bool canLight = true;
-                    if (TryComp<ApcPowerReceiverComponent>(lightUid, out var power) && !power.Powered) canLight = false;
-                    if (canLight && TryComp<HandheldLightComponent>(lightUid, out var handheld) && !handheld.Activated) canLight = false;
-                    if (canLight && TryComp<UnpoweredFlashlightComponent>(lightUid, out var unp) && !unp.LightOn) canLight = false;
-
-                    if (canLight) _light.SetEnabled(lightUid, true);
-                }
+                RestoreLights(comp);
                 _popup.PopupEntity("Тьма рассеивается!", uid, uid, PopupType.Large);
                 comp.AffectedLights.Clear();
                 comp.VeilActive = false;
             }
+        }
+    }
+
+    private void OnVeilShutdown(EntityUid uid, ShadowlingVeilComponent component, ComponentShutdown args)
+    {
+        if (!component.VeilActive)
+            return;
+
+        RestoreLights(component);
+        component.AffectedLights.Clear();
+        component.VeilActive = false;
+    }
+
+    private void RestoreLights(ShadowlingVeilComponent component)
+    {
+        foreach (var lightUid in component.AffectedLights)
+        {
+            if (!Exists(lightUid)) continue;
+
+            bool canLight = true;
+            if (TryComp<ApcPowerReceiverComponent>(lightUid, out var power) && !power.Powered) canLight = false;
+            if (canLight && TryComp<HandheldLightComponent>(lightUid, out var handheld) && !handheld.Activated) canLight = false;
+            if (canLight && TryComp<UnpoweredFlashlightComponent>(lightUid, out var unp) && !unp.LightOn) canLight = false;
+
+            if (canLight) _light.SetEnabled(lightUid, true);
         }
     }
 }
