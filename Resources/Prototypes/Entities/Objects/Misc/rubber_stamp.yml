@@ -47,6 +47,7 @@
     stampedName: stamp-component-stamped-name-captain
     stampedColor: "#3681bb"
     stampState: "paper_stamp-cap"
+    stampPatternTexture: "/Textures/Interface/Stamps/nt_print_pattern.png"
   - type: Sprite
     state: stamp-cap
 
@@ -60,6 +61,7 @@
     stampedName: stamp-component-stamped-name-centcom
     stampedColor: "#006600"
     stampState: "paper_stamp-centcom"
+    stampTexture: "/Textures/Interface/Stamps/centralcommand_print.png"
   - type: Sprite
     state: stamp-centcom
 
@@ -138,6 +140,9 @@
     stampedName: stamp-component-stamped-name-hop
     stampedColor: "#6ec0ea"
     stampState: "paper_stamp-hop"
+    stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
+    stampHeaderText: "Нач. Состав"
+    stampBackgroundText: "NanoTrasen"
   - type: Sprite
     state: stamp-hop
 
@@ -216,6 +221,25 @@
     stampedName: stamp-component-stamped-name-syndicate
     stampedColor: "#850000"
     stampState: "paper_stamp-syndicate"
+    stampPatternTexture: "/Textures/Interface/Stamps/syndicate_print_pattern.png"
+    stampScale: 1.35
+  - type: Sprite
+    state: stamp-syndicate
+  - type: StaticPrice
+    price: 1000
+
+- type: entity
+  name: syndicate emblem rubber stamp
+  parent: RubberStampBase
+  id: RubberStampSyndicateEmblem
+  categories: [ DoNotMap ]
+  components:
+  - type: Stamp
+    stampedName: stamp-component-stamped-name-syndicate-emblem
+    stampedColor: "#850000"
+    stampState: "paper_stamp-syndicate"
+    stampTexture: "/Textures/Interface/Stamps/syndicate_print.png"
+    stampScale: 1.35
   - type: Sprite
     state: stamp-syndicate
   - type: StaticPrice
@@ -243,6 +267,8 @@
     stampedName: stamp-component-stamped-name-approved
     stampedColor: "#00be00"
     stampState: "paper_stamp-ok"
+    stampTexture: "/Textures/Interface/Stamps/refus_print.png"
+    stampScale: 1.65
   - type: Sprite
     state: stamp-ok
 
@@ -255,6 +281,8 @@
     stampedName: stamp-component-stamped-name-denied
     stampedColor: "#a23e3e"
     stampState: "paper_stamp-deny"
+    stampTexture: "/Textures/Interface/Stamps/reject_print.png"
+    stampScale: 1.65
   - type: Sprite
     state: stamp-deny
 

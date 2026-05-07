@@ -2295,6 +2295,26 @@
       - NukeOpsUplink
   # DS14-end
 
+- type: listing
+  id: UplinkSyndicateEmblemStamp
+  name: uplink-syndicate-emblem-stamp-name
+  description: uplink-syndicate-emblem-stamp-desc
+  productEntity: RubberStampSyndicateEmblem
+  discountCategory: rareDiscounts
+  discountDownTo:
+    Telecrystal: 1
+  cost:
+    Telecrystal: 2
+  categories:
+  - UplinkPointless
+  # DS14-start
+  conditions:
+  - !type:StoreWhitelistCondition
+    blacklist:
+      tags:
+      - NukeOpsUplink
+  # DS14-end
+
 # - type: listing
 #   id: UplinkCatEars
 #   name: uplink-cat-ears-name

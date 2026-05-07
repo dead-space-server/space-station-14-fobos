@@ -3084,6 +3084,7 @@ entities:
       stampedBy:
       - stampedColor: '#006600FF'
         stampedName: stamp-component-stamped-name-centcom
+        stampTexture: /Textures/Interface/Stamps/centralcommand_print.png
       content: >+
         ═════════════════════════════════════
 

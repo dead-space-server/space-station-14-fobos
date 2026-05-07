@@ -180,7 +180,13 @@ public sealed class PaperSystem : EntitySystem
         {
             StampedName = stamp.StampedName,
             StampedColor = stamp.StampedColor,
-            StampTexture = stamp.StampTexture
+            StampTexture = stamp.StampTexture,
+            // DS14-start
+            StampPatternTexture = stamp.StampPatternTexture,
+            StampHeaderText = stamp.StampHeaderText,
+            StampBackgroundText = stamp.StampBackgroundText,
+            StampScale = stamp.StampScale
+            // DS14-end
         };
     }
 

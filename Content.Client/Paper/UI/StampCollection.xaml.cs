@@ -10,6 +10,7 @@ namespace Content.Client.Paper.UI;
 public sealed partial class StampCollection : Container
 {
     private List<StampWidget> _stamps = new();
+    private readonly List<List<int>> _rows = new();
 
     /// Seed for random number generator to place stamps deterministically
     public int PlacementSeed;
@@ -41,42 +42,105 @@ public sealed partial class StampCollection : Container
     protected override Vector2 ArrangeOverride(Vector2 finalSize)
     {
         var random = new Random(PlacementSeed);
-        var r = (finalSize * 0.5f).Length();
-        var dtheta = -MathHelper.DegreesToRadians(90);
-        var theta0 = random.Next(0, 3) * dtheta;
-        var thisCenter = PixelSizeBox.TopLeft + finalSize * UIScale * 0.5f;
+        // DS14-start
+        var controlBox = new UIBox2(PixelSizeBox.TopLeft, PixelSizeBox.TopLeft + finalSize * UIScale);
+        const float padding = 10.0f;
+        const int maxColumns = 3;
+        const float columnGap = 8.0f;
+        const float rowGap = 8.0f;
+        var availableWidth = MathF.Max(0.0f, controlBox.Width - padding * 2.0f);
+        var availableHeight = MathF.Max(0.0f, controlBox.Height - padding * 2.0f);
 
-        // Here's where we lay out the stamps. The first stamp goes in the
-        // center of this container; subsequent stamps will chose an angle
-        // (theta) to place the center of the stamp. The stamp is moved out
-        // as far as it can in that direction, taking the size and
-        // orientation of the stamp into account.
-        for (var i = 0; i < _stamps.Count; i++)
+        BuildRows(availableWidth, maxColumns, columnGap);
+
+        var rowHeights = new float[_rows.Count];
+        for (var row = 0; row < _rows.Count; row++)
         {
-            var stampOrientation = MathHelper.DegreesToRadians((random.NextFloat() - 0.5f) * 10.0f) ;
-            _stamps[i].Orientation = stampOrientation;
-
-            var theta = theta0 + dtheta * 0.5f + dtheta * i + (i > 4 ? MathF.Log(1 + i / 4) * dtheta : 0); // There is probably a better way to lay these out, to minimize overlaps
-            var childCenterOnCircle = thisCenter;
-            if (i > 0)
+            foreach (var index in _rows[row])
             {
-                // First stamp can go in the center. Subsequent stamps have to find space.
-                childCenterOnCircle += new Vector2(MathF.Cos(theta), MathF.Sin(theta)) * r * UIScale;
+                rowHeights[row] = MathF.Max(rowHeights[row], _stamps[index].DesiredPixelSize.Y);
             }
-
-            var childHeLocal = _stamps[i].DesiredPixelSize * 0.5f;
-            var c = childHeLocal * MathF.Abs(MathF.Cos(stampOrientation));
-            var s = childHeLocal * MathF.Abs(MathF.Sin(stampOrientation));
-            var childHePage = new Vector2(c.X + s.Y, s.X + c.Y);
-            var controlBox = new UIBox2(PixelSizeBox.TopLeft, PixelSizeBox.TopLeft + finalSize * UIScale);
-            var clampedCenter = Clamp(Shrink(controlBox, childHePage), childCenterOnCircle);
-            var finalPosition = clampedCenter - childHePage;
-            var finalPositionAsInt = new Vector2i((int)finalPosition.X, (int)finalPosition.Y);
-            _stamps[i].ArrangePixel(new UIBox2i(finalPositionAsInt, finalPositionAsInt + _stamps[i].DesiredPixelSize));
         }
 
+        var totalNaturalHeight = rowGap * Math.Max(0, _rows.Count - 1);
+        foreach (var rowHeight in rowHeights)
+        {
+            totalNaturalHeight += rowHeight;
+        }
+        var rowScale = totalNaturalHeight <= 0.0f || totalNaturalHeight <= availableHeight
+            ? 1.0f
+            : availableHeight / totalNaturalHeight;
+
+        var y = controlBox.Top + padding;
+
+        for (var row = 0; row < _rows.Count; row++)
+        {
+            var rowIndices = _rows[row];
+            var rowHeight = rowHeights[row] * rowScale;
+            var rowWidth = -columnGap;
+            foreach (var index in rowIndices)
+            {
+                rowWidth += _stamps[index].DesiredPixelSize.X + columnGap;
+            }
+
+            var x = controlBox.Left + padding + MathF.Max(0.0f, (availableWidth - rowWidth) * 0.5f);
+            foreach (var index in rowIndices)
+            {
+                var stampOrientation = MathHelper.DegreesToRadians((random.NextFloat() - 0.5f) * 4.0f);
+                _stamps[index].Orientation = stampOrientation;
+                var jitter = new Vector2(
+                    (random.NextFloat() - 0.5f) * 4.0f,
+                    (random.NextFloat() - 0.5f) * 3.0f);
+                var childCenter = new Vector2(
+                    x + _stamps[index].DesiredPixelSize.X * 0.5f,
+                    y + rowHeight * 0.5f) + jitter;
+
+                var childHeLocal = _stamps[index].DesiredPixelSize * 0.5f;
+                var c = childHeLocal * MathF.Abs(MathF.Cos(stampOrientation));
+                var s = childHeLocal * MathF.Abs(MathF.Sin(stampOrientation));
+                var childHePage = new Vector2(c.X + s.Y, s.X + c.Y);
+                var clampedCenter = Clamp(Shrink(controlBox, childHePage), childCenter);
+                var finalPosition = clampedCenter - childHePage;
+                var finalPositionAsInt = new Vector2i((int)finalPosition.X, (int)finalPosition.Y);
+                _stamps[index].ArrangePixel(new UIBox2i(finalPositionAsInt, finalPositionAsInt + _stamps[index].DesiredPixelSize));
+
+                x += _stamps[index].DesiredPixelSize.X + columnGap;
+            }
+
+            y += rowHeight + rowGap * rowScale;
+        }
+        // DS14-end
         return finalSize;
     }
+
+    // DS14-start
+    private void BuildRows(float availableWidth, int maxColumns, float columnGap)
+    {
+        _rows.Clear();
+
+        for (var i = 0; i < _stamps.Count; i++)
+        {
+            if (_rows.Count == 0 || !CanFit(_rows[^1], i, availableWidth, maxColumns, columnGap))
+                _rows.Add(new List<int>());
+
+            _rows[^1].Add(i);
+        }
+    }
+
+    private bool CanFit(List<int> row, int stampIndex, float availableWidth, int maxColumns, float columnGap)
+    {
+        if (row.Count >= maxColumns)
+            return false;
+
+        var width = (float) _stamps[stampIndex].DesiredPixelSize.X;
+        foreach (var index in row)
+        {
+            width += _stamps[index].DesiredPixelSize.X + columnGap;
+        }
+
+        return width <= availableWidth;
+    }
+    // DS14-end
 
     /// <summary>
     /// Shrink a UIBox2 by a half extents, moving both the top-left and

@@ -289,7 +289,8 @@ namespace Content.Client.Paper.UI
                 Input.InsertAtCursor(state.Text);
             }
 
-            for (var i = 0; i <= state.StampedBy.Count * 3 + 1; i++)
+            var stampReserveLines = state.StampedBy.Count == 0 ? 1 : 14; // DS14
+            for (var i = 0; i <= stampReserveLines; i++) // DS14
             {
                 msg.AddMarkupPermissive("\r\n");
             }

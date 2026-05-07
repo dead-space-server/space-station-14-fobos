@@ -26,6 +26,19 @@ public partial struct StampDisplayInfo
     [DataField("stampTexture")]
     public string? StampTexture { get; set; } = null;
 
+    // DS14-start
+    [DataField("stampPatternTexture")]
+    public string? StampPatternTexture { get; set; } = null;
+
+    [DataField("stampHeaderText")]
+    public string? StampHeaderText { get; set; } = null;
+
+    [DataField("stampBackgroundText")]
+    public string? StampBackgroundText { get; set; } = null;
+
+    [DataField("stampScale")]
+    public float StampScale { get; set; } = 1.0f;
+    // DS14-end
 };
 
 [RegisterComponent]
@@ -57,4 +70,18 @@ public sealed partial class StampComponent : Component
 
     [DataField("stampTexture")]
     public string? StampTexture { get; set; } = null;
+
+    // DS14-start
+    [DataField("stampPatternTexture")]
+    public string? StampPatternTexture { get; set; } = null;
+
+    [DataField("stampHeaderText")]
+    public string? StampHeaderText { get; set; } = null;
+
+    [DataField("stampBackgroundText")]
+    public string? StampBackgroundText { get; set; } = null;
+
+    [DataField("stampScale")]
+    public float StampScale { get; set; } = 1.0f;
+    // DS14-end
 }

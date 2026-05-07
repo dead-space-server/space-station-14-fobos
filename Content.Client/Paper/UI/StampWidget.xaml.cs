@@ -6,6 +6,7 @@ using Robust.Client.ResourceManagement;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Prototypes;
+using System.Text; // DS14
 
 namespace Content.Client.Paper.UI;
 
@@ -14,37 +15,96 @@ public sealed partial class StampWidget : PanelContainer
 {
     private static readonly ProtoId<ShaderPrototype> PaperStamp = "PaperStamp";
 
+    // DS14-start
+    private const string StampFontPath = "/Fonts/OpenLukyanov/OpenLukyanov.otf";
+    private const int StampFontSize = 24;
+    private const int HeadStampFontSize = 18;
+    private const int LowPatternStampFontSize = 18;
+    private const int StampHeaderFontSize = 11;
+    private const int StampBackgroundFontSize = 10;
+    private const int FontOversample = 2;
+    private const float FontOversampleScale = 1.0f / FontOversample;
+    private const float PatternTextAlpha = 0.94f;
+    private const float PatternBackgroundTextAlpha = 0.95f;
+    private const float PatternTextHorizontalInset = 22.0f;
+    private const float HeadPatternTextHorizontalInset = 18.0f;
+    private const float PatternTextTop = 29.0f;
+    private const float HeadPatternTextTop = 30.0f;
+    private const float PatternTextLineHeight = 23.0f;
+    private const float HeadPatternTextLineHeight = 19.0f;
+    private const float LowPatternTextHorizontalInset = 42.0f;
+    private const float LowPatternTextTop = 9.0f;
+    private const float LowPatternTextLineHeight = 18.0f;
+    private const float PatternHeaderLeft = 8.0f;
+    private const float PatternHeaderTop = 5.0f;
+    private const float PatternBackgroundRight = 9.0f;
+    private const float PatternBackgroundTop = 6.0f;
+    private const float LegacyStampMaxWidth = 180.0f;
+    // DS14-end
+
     private readonly IResourceCache _resCache;
     private StyleBoxTexture _borderTexture;
     private ShaderInstance? _stampShader;
     private Texture? _stampTexture;
-    private float _orientation;
-
-    public float Orientation
-    {
-        get => _orientation;
-        set => _orientation = value;
-    }
+    // DS14-start
+    private Texture? _stampPatternTexture;
+    private Color? _stampTextureModulate;
+    private Font? _stampFont;
+    private Font? _stampHeaderFont;
+    private Font? _stampBackgroundFont;
+    private string[] _stampTextLines = Array.Empty<string>();
+    private string? _stampHeaderText;
+    private string? _stampBackgroundText;
+    private Vector2 _stampPatternSize;
+    private float _stampScale = 1.0f;
+    private float _patternTextHorizontalInset;
+    private float _patternTextTop;
+    private float _patternTextLineHeight;
+    // DS14-end
 
     public StampDisplayInfo StampInfo
     {
         set
         {
+            ClearStampVisuals(); // DS14
+
             if (!string.IsNullOrEmpty(value.StampTexture))
             {
                 _stampTexture = _resCache.GetResource<TextureResource>(value.StampTexture);
-                AddChild(new TextureRect{Texture = _stampTexture});
+                _stampScale = value.StampScale > 0.0f ? value.StampScale : 1.0f; // DS14
+                PanelOverride = null; // DS14
                 StampedByLabel.Visible = false;
             }
+            // DS14-start
+            else if (!string.IsNullOrEmpty(value.StampPatternTexture))
+            {
+                _stampPatternTexture = _resCache.GetResource<TextureResource>(value.StampPatternTexture);
+                _stampTextureModulate = value.StampedColor;
+                _stampScale = value.StampScale > 0.0f ? value.StampScale : 1.0f;
+                var hasHeader = value.StampHeaderText != null;
+                var isLowPattern = _stampPatternTexture.Size.Y <= 60;
+                var stampFontSize = isLowPattern ? LowPatternStampFontSize : hasHeader ? HeadStampFontSize : StampFontSize;
+                _stampFont = new VectorFont(_resCache.GetResource<FontResource>(StampFontPath), stampFontSize * FontOversample);
+                _stampHeaderFont = new VectorFont(_resCache.GetResource<FontResource>(StampFontPath), StampHeaderFontSize * FontOversample);
+                _stampBackgroundFont = new VectorFont(_resCache.GetResource<FontResource>(StampFontPath), StampBackgroundFontSize * FontOversample);
+                _stampHeaderText = value.StampHeaderText;
+                _stampBackgroundText = value.StampBackgroundText;
+                _patternTextHorizontalInset = isLowPattern ? LowPatternTextHorizontalInset : hasHeader ? HeadPatternTextHorizontalInset : PatternTextHorizontalInset;
+                _patternTextTop = isLowPattern ? LowPatternTextTop : hasHeader ? HeadPatternTextTop : PatternTextTop;
+                _patternTextLineHeight = isLowPattern ? LowPatternTextLineHeight : hasHeader ? HeadPatternTextLineHeight : PatternTextLineHeight;
+                _stampTextLines = GetStampTextLines(Loc.GetString(value.StampedName).ToUpperInvariant(), hasHeader);
+                PanelOverride = null;
+            }
+            // DS14-end
             else
             {
+                PanelOverride = _borderTexture; // DS14
                 StampedByLabel.Text = Loc.GetString(value.StampedName);
                 StampedByLabel.FontColorOverride = value.StampedColor;
+                StampedByLabel.MaxWidth = LegacyStampMaxWidth; // DS14
                 StampedByLabel.Visible = true;
-                _stampTexture = null;
+                ModulateSelfOverride = value.StampedColor; // DS14
             }
-
-            ModulateSelfOverride = value.StampedColor;
         }
     }
 
@@ -67,18 +127,210 @@ public sealed partial class StampWidget : PanelContainer
         _stampShader = prototypes.Index(PaperStamp).InstanceUnique();
     }
 
+    // DS14-start
+    private void ClearStampVisuals()
+    {
+        _stampTexture = null;
+        _stampPatternTexture = null;
+        _stampTextureModulate = null;
+        _stampFont = null;
+        _stampHeaderFont = null;
+        _stampBackgroundFont = null;
+        _stampTextLines = Array.Empty<string>();
+        _stampHeaderText = null;
+        _stampBackgroundText = null;
+        _stampPatternSize = Vector2.Zero;
+        _stampScale = 1.0f;
+        _patternTextHorizontalInset = PatternTextHorizontalInset;
+        _patternTextTop = PatternTextTop;
+        _patternTextLineHeight = PatternTextLineHeight;
+        StampedByLabel.FontOverride = null;
+        StampedByLabel.ClipText = false;
+        StampedByLabel.MaxWidth = float.PositiveInfinity;
+        StampedByLabel.Visible = false;
+        ModulateSelfOverride = null;
+        PanelOverride = _borderTexture;
+    }
+
+    protected override Vector2 MeasureOverride(Vector2 availableSize)
+    {
+        var texture = _stampTexture ?? _stampPatternTexture;
+        if (texture == null)
+            return base.MeasureOverride(availableSize);
+
+        if (_stampPatternTexture != null)
+            return _stampPatternSize = GetPatternSize(texture);
+
+        return texture.Size * _stampScale;
+    }
+
+    protected override Vector2 ArrangeOverride(Vector2 finalSize)
+    {
+        if (_stampPatternTexture == null)
+            return base.ArrangeOverride(finalSize);
+
+        return finalSize;
+    }
+    // DS14-end
+
     protected override void Draw(DrawingHandleScreen handle)
     {
         _stampShader?.SetParameter("objCoord", GlobalPosition * UIScale * new Vector2(1, -1));
         handle.UseShader(_stampShader);
-        handle.SetTransform(GlobalPosition * UIScale, Orientation, Vector2.One);
+        handle.SetTransform(GlobalPosition * UIScale, 0f, Vector2.One); // DS14
 
-        if (_stampTexture == null)
+        // DS14-start
+        var texture = _stampTexture ?? _stampPatternTexture;
+        if (texture != null)
         {
-            base.Draw(handle);
+            var textureSize = _stampPatternTexture != null
+                ? (_stampPatternSize == Vector2.Zero ? GetPatternSize(texture) : _stampPatternSize)
+                : texture.Size * _stampScale;
+            handle.DrawTextureRect(texture, UIBox2.FromDimensions(Vector2.Zero, textureSize * UIScale), _stampTextureModulate);
         }
+        // DS14-end
+        else
+            base.Draw(handle);
 
         handle.SetTransform(Matrix3x2.Identity);
         handle.UseShader(null);
+
+        // DS14-start
+        if (_stampPatternTexture != null)
+            DrawPatternText(handle);
+        // DS14-end
     }
+
+    // DS14-start
+    private static string[] GetStampTextLines(string text, bool splitWords)
+    {
+        if (!splitWords)
+            return new[] { text };
+
+        var words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        return words.Length == 0 ? new[] { text } : words;
+    }
+
+    private Vector2 GetPatternSize(Texture texture)
+    {
+        if (_stampFont == null)
+            return texture.Size;
+
+        var mainTextWidth = 0.0f;
+        foreach (var line in _stampTextLines)
+        {
+            mainTextWidth = MathF.Max(mainTextWidth, MeasureText(_stampFont, line, FontOversampleScale));
+        }
+
+        var requiredWidth = mainTextWidth + _patternTextHorizontalInset * 2;
+        var headerWidth = _stampHeaderFont != null && _stampHeaderText != null
+            ? MeasureText(_stampHeaderFont, _stampHeaderText, FontOversampleScale)
+            : 0.0f;
+        var backgroundWidth = _stampBackgroundFont != null && _stampBackgroundText != null
+            ? MeasureText(_stampBackgroundFont, _stampBackgroundText, FontOversampleScale)
+            : 0.0f;
+
+        if (headerWidth > 0.0f || backgroundWidth > 0.0f)
+            requiredWidth = MathF.Max(requiredWidth, PatternHeaderLeft + headerWidth + 24.0f + backgroundWidth + PatternBackgroundRight);
+
+        var scale = MathF.Max(1.0f, requiredWidth / texture.Size.X) * _stampScale;
+        return texture.Size * scale;
+    }
+
+    private static float MeasureText(Font font, string text, float fontScale = 1.0f)
+    {
+        var width = 0.0f;
+        foreach (var rune in text.EnumerateRunes())
+        {
+            if (rune == new Rune('\n'))
+                break;
+
+            width += font.GetCharMetrics(rune, fontScale)?.Advance ?? 0.0f;
+        }
+
+        return width;
+    }
+
+    private void DrawPatternText(DrawingHandleScreen handle)
+    {
+        if (_stampFont == null || _stampTextureModulate == null)
+            return;
+
+        var oldTransform = handle.GetTransform();
+        handle.UseShader(null);
+        handle.SetTransform(GlobalPosition * UIScale, 0f, Vector2.One);
+
+        var textureScale = _stampPatternTexture == null || _stampPatternTexture.Size.X <= 0
+            ? 1.0f
+            : _stampPatternSize.X / _stampPatternTexture.Size.X;
+        var color = _stampTextureModulate.Value.WithAlpha(_stampTextureModulate.Value.A * PatternTextAlpha);
+        const float fontScale = 1.0f;
+        const float layoutFontScale = FontOversampleScale;
+
+        if (_stampHeaderFont != null && _stampHeaderText != null)
+            DrawText(
+                handle,
+                _stampHeaderFont,
+                _stampHeaderText,
+                new Vector2(PatternHeaderLeft, PatternHeaderTop) * textureScale,
+                color,
+                fontScale,
+                UIScale,
+                GlobalPosition);
+
+        if (_stampBackgroundFont != null && _stampBackgroundText != null)
+        {
+            var backgroundWidth = MeasureText(_stampBackgroundFont, _stampBackgroundText, layoutFontScale);
+            DrawText(
+                handle,
+                _stampBackgroundFont,
+                _stampBackgroundText,
+                new Vector2(_stampPatternSize.X - (PatternBackgroundRight * textureScale) - backgroundWidth, PatternBackgroundTop * textureScale),
+                Color.White.WithAlpha(PatternBackgroundTextAlpha),
+                fontScale,
+                UIScale,
+                GlobalPosition);
+        }
+
+        var lineHeight = _patternTextLineHeight * textureScale;
+        var textBlockHeight = _stampTextLines.Length * lineHeight;
+        var y = (_patternTextTop * textureScale) + MathF.Max(0.0f, (_patternTextLineHeight * textureScale - _stampFont.GetHeight(layoutFontScale)) * 0.5f);
+
+        if (_stampTextLines.Length > 1)
+            y = MathF.Max(_patternTextTop * textureScale, (_stampPatternSize.Y - textBlockHeight) * 0.62f);
+
+        foreach (var line in _stampTextLines)
+        {
+            var lineWidth = MeasureText(_stampFont, line, layoutFontScale);
+            var x = _patternTextHorizontalInset * textureScale;
+            if (_stampTextLines.Length == 1)
+                x = MathF.Max(_patternTextHorizontalInset * textureScale, (_stampPatternSize.X - lineWidth) * 0.5f);
+
+            DrawText(handle, _stampFont, line, new Vector2(x, y), color, fontScale, UIScale, GlobalPosition);
+            y += lineHeight;
+        }
+
+        handle.SetTransform(oldTransform);
+        handle.UseShader(null);
+    }
+
+    private static void DrawText(
+        DrawingHandleScreen handle,
+        Font font,
+        string text,
+        Vector2 topLeft,
+        Color color,
+        float fontScale,
+        float uiScale,
+        Vector2 globalPosition)
+    {
+        var oldTransform = handle.GetTransform();
+        var local = topLeft * uiScale;
+        var offset = new Vector2(local.X - local.Y, local.Y + local.X);
+
+        handle.SetTransform(globalPosition * uiScale + offset, 0f, Vector2.One * FontOversampleScale);
+        handle.DrawString(font, Vector2.Zero, text, fontScale * uiScale, color);
+        handle.SetTransform(oldTransform);
+    }
+    // DS14-end
 }
