@@ -49,7 +49,7 @@
             Blunt: 10
       - type: NpcFactionMember
         factions:
-        - Wizard
+        - AllHostile
       - type: NoSlip
       - type: MovementAlwaysTouching
       - type: CanMoveInAir
