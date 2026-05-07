@@ -1,17 +1,21 @@
 - type: entity
-  id: ShadowlingRule
+  id: ShadowlingMidround
   parent: BaseGameRule
   components:
-  - type: GameRule
-    minPlayers: 45
+  - type: StationEvent
+    weight: 5
+    earliestStart: 25
+    minimumPlayers: 40
+    maxOccurrences: 3
+    duration: null
+    occursDuringRoundEnd: false
   - type: ShadowlingRule
   - type: AntagSelection
-    selectionTime: IntraPlayerSpawn
     definitions:
     - prefRoles: [ Shadowling ]
       min: 1
-      max: 3
-      playerRatio: 25
+      max: 1
+      playerRatio: 20
       briefing:
         text: shadowling-role-greeting
         color: Red
@@ -36,3 +40,5 @@
   - type: AntagObjectives
     objectives:
     - ShadowlingRecruitObjective
+  - type: DynamicRuleCost
+    cost: 100

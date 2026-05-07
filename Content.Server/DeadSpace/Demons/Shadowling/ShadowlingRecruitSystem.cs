@@ -14,6 +14,8 @@ using Content.Shared.Mobs;
 using Robust.Shared.Audio;
 using Content.Server.Antag;
 using Content.Shared.Radio.Components;
+using Content.Server.DeadSpace.Components.NightVision;
+using Content.Server.DeadSpace.Races;
 
 namespace Content.Server.DeadSpace.Demons.Shadowling;
 
@@ -37,14 +39,15 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
         SubscribeLocalEvent<ShadowlingRecruitComponent, ShadowlingRecruitEvent>(OnRecruitAction);
         SubscribeLocalEvent<ShadowlingRecruitComponent, ShadowlingRecruitDoAfterEvent>(OnDoAfter);
         SubscribeLocalEvent<ShadowlingRecruitComponent, MobStateChangedEvent>(OnMasterStateChanged);
+        SubscribeLocalEvent<ShadowlingRecruitComponent, ComponentShutdown>(OnMasterShutdown);
         SubscribeLocalEvent<ShadowlingSlaveComponent, MobStateChangedEvent>(OnSlaveStateChanged);
         SubscribeLocalEvent<MindShieldComponent, ComponentInit>(OnMindShieldImplanted);
         SubscribeLocalEvent<ShadowlingSlaveComponent, ComponentShutdown>(OnSlaveRemoved);
         SubscribeLocalEvent<ShadowlingSlaveComponent, ComponentStartup>(OnSlaveStartup);
-
         SubscribeLocalEvent<ShadowlingScreechComponent, ComponentStartup>(OnAbilityStartup);
         SubscribeLocalEvent<ShadowlingFreezingVeinsComponent, ComponentStartup>(OnAbilityStartup);
         SubscribeLocalEvent<ShadowlingBlackMedComponent, ComponentStartup>(OnAbilityStartup);
+        SubscribeLocalEvent<ShadowlingReRevealComponent, ComponentStartup>(OnAbilityStartup);
         SubscribeLocalEvent<ShadowlingAscendanceComponent, ComponentStartup>(OnAbilityStartup);
         SubscribeLocalEvent<ShadowlingRecruitComponent, ComponentStartup>(OnMasterStartup);
     }
@@ -70,18 +73,49 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
     {
         UpdateAllRecruiters();
         GiveShadowlingRadio(uid);
+
+        if (HasComp<FelinidComponent>(uid))
+            return;
+
+        if (!TryComp<NightVisionComponent>(uid, out _))
+        {
+            var nightVision = EnsureComp<NightVisionComponent>(uid);
+            nightVision.Color = new Color(0xDC, 0x14, 0x3C, 0x11);
+            nightVision.Animation = true;
+            nightVision.IsNightVision = false;
+        }
     }
 
     private void OnMasterStateChanged(EntityUid uid, ShadowlingRecruitComponent component, MobStateChangedEvent args)
     {
         if (args.NewMobState != MobState.Dead) return;
+        ReleaseAllSlaves(uid);
+    }
+
+    private void OnMasterShutdown(EntityUid uid, ShadowlingRecruitComponent component, ComponentShutdown args)
+    {
+        ReleaseAllSlaves(uid);
+    }
+
+    private void ReleaseAllSlaves(EntityUid uid)
+    {
         var query = EntityQueryEnumerator<ShadowlingSlaveComponent>();
         while (query.MoveNext(out var sUid, out var slave))
         {
             if (slave.Master != uid) continue;
-            _stun.TryUpdateParalyzeDuration(sUid, TimeSpan.FromSeconds(10));
+
+            if (!TerminatingOrDeleted(sUid))
+            {
+                _stun.TryUpdateParalyzeDuration(sUid, TimeSpan.FromSeconds(10));
+                _popup.PopupEntity("Связь с хозяином разорвана, тьма отступает!", sUid, sUid, PopupType.LargeCaution);
+            }
+
             if (_mind.TryGetMind(sUid, out var mindId, out _))
                 _role.MindRemoveRole(mindId, "MindRoleShadowlingSlave");
+
+            if (!HasComp<FelinidComponent>(sUid) && !TerminatingOrDeleted(sUid))
+                RemCompDeferred<NightVisionComponent>(sUid);
+
             RemCompDeferred<ShadowlingSlaveComponent>(sUid);
         }
     }
@@ -90,6 +124,9 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
     {
         UpdateAllRecruiters();
         RemoveShadowlingRadio(uid);
+
+        if (!HasComp<FelinidComponent>(uid) && !TerminatingOrDeleted(uid))
+            RemCompDeferred<NightVisionComponent>(uid);
     }
 
     private void GiveShadowlingRadio(EntityUid uid)
@@ -164,7 +201,6 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
         }
         if (!HasComp<HumanoidAppearanceComponent>(target))
         {
-            _popup.PopupEntity("Этот разум слишком примитивен для порабощения.", uid, uid, PopupType.Medium);
             return;
         }
         if (!_mind.TryGetMind(target, out _, out _))
@@ -178,7 +214,8 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
         var doAfterArgs = new DoAfterArgs(EntityManager, uid, component.Duration, new ShadowlingRecruitDoAfterEvent(), uid, target: target)
         {
             BreakOnMove = true,
-            NeedHand = true,
+            NeedHand = false,
+            BreakOnDamage = true,
             DistanceThreshold = 2f
         };
         _doAfter.TryStartDoAfter(doAfterArgs);
@@ -224,7 +261,6 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
 
         if (!HasComp<HumanoidAppearanceComponent>(targetUid))
         {
-            _popup.PopupEntity("Этот разум слишком примитивен для порабощения.", uid, uid, PopupType.Medium);
             return;
         }
 
@@ -236,6 +272,13 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
 
         var slave = EnsureComp<ShadowlingSlaveComponent>(targetUid);
         slave.Master = uid;
+        component.TotalRecruited++;
+
+        if (_mind.TryGetMind(uid, out var masterMindId, out var masterMind) &&
+            _role.MindHasRole<ShadowlingRoleComponent>(masterMindId, out var shadowlingRole))
+        {
+            shadowlingRole.Value.Comp2.TotalRecruited++;
+        }
 
         if (_mind.TryGetMind(targetUid, out var mindId, out var mind))
         {
@@ -254,6 +297,10 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
             _stun.TryUpdateParalyzeDuration(uid, TimeSpan.FromSeconds(10));
             if (_mind.TryGetMind(uid, out var mindId, out _))
                 _role.MindRemoveRole(mindId, "MindRoleShadowlingSlave");
+
+            if (!HasComp<FelinidComponent>(uid) && !TerminatingOrDeleted(uid))
+                RemComp<NightVisionComponent>(uid);
+
             RemComp<ShadowlingSlaveComponent>(uid);
             UpdateAllRecruiters();
         }
@@ -319,6 +366,20 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
             {
                 _actions.RemoveAction(uid, veins.ActionFreezingVeinsEntity);
                 veins.ActionFreezingVeinsEntity = null;
+            }
+        }
+
+        if (TryComp<ShadowlingReRevealComponent>(uid, out var reReveal))
+        {
+            if (isAscended || count >= reReveal.RequiredSlaves)
+            {
+                if (reReveal.ActionReRevealEntity == null)
+                    _actions.AddAction(uid, ref reReveal.ActionReRevealEntity, reReveal.ActionReReveal);
+            }
+            else if (reReveal.ActionReRevealEntity != null)
+            {
+                _actions.RemoveAction(uid, reReveal.ActionReRevealEntity);
+                reReveal.ActionReRevealEntity = null;
             }
         }
 

@@ -11,7 +11,7 @@ public sealed partial class ShadowlingFreezingVeinsComponent : Component
 {
     [DataField] public EntProtoId ActionFreezingVeins = "ActionShadowlingFreezingVeins";
     [DataField] public EntityUid? ActionFreezingVeinsEntity;
-    [DataField] public int RequiredSlaves = 5;
+    [DataField] public int RequiredSlaves = 3;
     [DataField] public float DamageCold = 25f;
     [DataField] public float TemperatureSet = 233.15f;
     [DataField] public string ImmunePrototypeId = "MobHumanDeathSquadUnit";

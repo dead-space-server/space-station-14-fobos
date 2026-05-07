@@ -11,7 +11,7 @@ public sealed partial class ShadowlingComponent : Component
     [DataField("passiveHealing")] public DamageSpecifier PassiveHealing = new();
     [DataField("healingInterval")] public float HealingInterval = 1.0f;
     [DataField("speedMultiplier")] public float SpeedMultiplier = 1.25f;
-    [DataField("threshold")] public float Threshold = 0.5f;
+    [DataField("threshold")] public float Threshold = 0.35f;
 
     [ViewVariables] public float Accumulator = 0f;
     [ViewVariables] public bool IsInDarkness = false;

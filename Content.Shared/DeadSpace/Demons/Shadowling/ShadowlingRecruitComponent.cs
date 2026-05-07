@@ -15,6 +15,7 @@ public sealed partial class ShadowlingRecruitComponent : Component
     [DataField] public EntityUid? ActionRecruitEntity;
     [DataField] public float Duration = 5f;
     [ViewVariables] public int CurrentSlaves = 0;
+    [ViewVariables] public int TotalRecruited = 0;
 
     [DataField]
     public string ImmunePrototypeId = "MobHumanDeathSquadUnit";

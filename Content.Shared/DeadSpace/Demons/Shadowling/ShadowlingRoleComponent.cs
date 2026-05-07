@@ -6,7 +6,11 @@ using Robust.Shared.GameStates;
 namespace Content.Shared.DeadSpace.Demons.Shadowling;
 
 [RegisterComponent, NetworkedComponent]
-public sealed partial class ShadowlingRoleComponent : BaseMindRoleComponent { }
+public sealed partial class ShadowlingRoleComponent : BaseMindRoleComponent
+{
+    [ViewVariables]
+    public int TotalRecruited;
+}
 
 [RegisterComponent, NetworkedComponent]
 public sealed partial class ShadowlingSlaveRoleComponent : BaseMindRoleComponent { }
