@@ -61,6 +61,17 @@ public sealed partial class StampWidget : PanelContainer
     private float _patternTextTop;
     private float _patternTextLineHeight;
     // DS14-end
+    private float _orientation;
+
+    public float Orientation
+    {
+        get => _orientation;
+        set
+        {
+            _orientation = value;
+            StampedByLabel.Orientation = value;
+        }
+    }
 
     public StampDisplayInfo StampInfo
     {
@@ -177,7 +188,7 @@ public sealed partial class StampWidget : PanelContainer
     {
         _stampShader?.SetParameter("objCoord", GlobalPosition * UIScale * new Vector2(1, -1));
         handle.UseShader(_stampShader);
-        handle.SetTransform(GlobalPosition * UIScale, 0f, Vector2.One); // DS14
+        handle.SetTransform(GlobalPosition * UIScale, Orientation, Vector2.One);
 
         // DS14-start
         var texture = _stampTexture ?? _stampPatternTexture;
@@ -258,7 +269,7 @@ public sealed partial class StampWidget : PanelContainer
 
         var oldTransform = handle.GetTransform();
         handle.UseShader(null);
-        handle.SetTransform(GlobalPosition * UIScale, 0f, Vector2.One);
+        handle.SetTransform(GlobalPosition * UIScale, Orientation, Vector2.One);
 
         var textureScale = _stampPatternTexture == null || _stampPatternTexture.Size.X <= 0
             ? 1.0f
@@ -276,7 +287,8 @@ public sealed partial class StampWidget : PanelContainer
                 color,
                 fontScale,
                 UIScale,
-                GlobalPosition);
+                GlobalPosition,
+                Orientation);
 
         if (_stampBackgroundFont != null && _stampBackgroundText != null)
         {
@@ -289,7 +301,8 @@ public sealed partial class StampWidget : PanelContainer
                 Color.White.WithAlpha(PatternBackgroundTextAlpha),
                 fontScale,
                 UIScale,
-                GlobalPosition);
+                GlobalPosition,
+                Orientation);
         }
 
         var lineHeight = _patternTextLineHeight * textureScale;
@@ -306,7 +319,7 @@ public sealed partial class StampWidget : PanelContainer
             if (_stampTextLines.Length == 1)
                 x = MathF.Max(_patternTextHorizontalInset * textureScale, (_stampPatternSize.X - lineWidth) * 0.5f);
 
-            DrawText(handle, _stampFont, line, new Vector2(x, y), color, fontScale, UIScale, GlobalPosition);
+            DrawText(handle, _stampFont, line, new Vector2(x, y), color, fontScale, UIScale, GlobalPosition, Orientation);
             y += lineHeight;
         }
 
@@ -322,13 +335,16 @@ public sealed partial class StampWidget : PanelContainer
         Color color,
         float fontScale,
         float uiScale,
-        Vector2 globalPosition)
+        Vector2 globalPosition,
+        float orientation)
     {
         var oldTransform = handle.GetTransform();
         var local = topLeft * uiScale;
-        var offset = new Vector2(local.X - local.Y, local.Y + local.X);
+        var offset = new Vector2(
+            local.X * MathF.Cos(orientation) - local.Y * MathF.Sin(orientation),
+            local.Y * MathF.Cos(orientation) + local.X * MathF.Sin(orientation));
 
-        handle.SetTransform(globalPosition * uiScale + offset, 0f, Vector2.One * FontOversampleScale);
+        handle.SetTransform(globalPosition * uiScale + offset, orientation, Vector2.One * FontOversampleScale);
         handle.DrawString(font, Vector2.Zero, text, fontScale * uiScale, color);
         handle.SetTransform(oldTransform);
     }
