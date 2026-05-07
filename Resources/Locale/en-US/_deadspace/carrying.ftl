@@ -11,3 +11,5 @@ carry-popup-cannot-interact = You cannot reach that.
 carry-popup-target-buckled = They are buckled in.
 carry-popup-no-free-hands = You need both hands free.
 carry-popup-not-standing = You cannot pick creatures up while lying down.
+carry-popup-escape-victim = You try to break free
+carry-popup-escape-carrier = The object is trying to break free from your hands
