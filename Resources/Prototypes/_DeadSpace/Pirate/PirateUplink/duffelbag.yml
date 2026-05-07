@@ -1,0 +1,124 @@
+- type: entity
+  parent: ClothingBackpackDuffelSyndicateBundle
+  id: ClothingBackpackDuffelPirateFilledAKMS
+  name: вещмешок
+  description: Большой вещмешок для хранения дополнительных предметов.
+  suffix: Пиратский набор АКМС
+  components:
+  - type: StorageFill
+    contents:
+      - id: WeaponRifleAk
+      - id: MagazineLightRifle
+        amount: 3
+
+- type: entity
+  parent: ClothingBackpackDuffelSyndicateBundle
+  id: ClothingBackpackDuffelPirateFilledKammerer
+  name: вещмешок
+  description: Большой вещмешок для хранения дополнительных предметов.
+  suffix: Пиратский набор с Каммерером
+  components:
+  - type: StorageFill
+    contents:
+      - id: WeaponShotgunKammerer
+      - id: BoxLethalshot
+
+- type: entity
+  parent: ClothingBackpackDuffelSyndicateBundle
+  id: ClothingBackpackDuffelPirateFilledBombs
+  name: вещмешок
+  description: Большой вещмешок для хранения дополнительных предметов.
+  suffix: Пиратский набор бомб
+  components:
+  - type: StorageFill
+    contents:
+      - id: C4
+        amount: 2
+      - id: SeismicCharge
+        amount: 3
+      - id: FireBomb
+        amount: 2
+      - id: PipeBomb
+        amount: 2
+
+- type: entity
+  parent: ClothingBackpackDuffelSyndicateBundle
+  id: ClothingBackpackDuffelPirateFilledCannonBalls
+  name: вещмешок
+  description: Большой вещмешок для хранения дополнительных предметов.
+  suffix: Пиратский набор пушечных ядер
+  components:
+  - type: StorageFill
+    contents:
+      - id: CannonBall
+        amount: 6
+      - id: CannonBallGrapeshot
+        amount: 2
+      - id: CannonBallGlassshot
+        amount: 2
+
+- type: entity
+  parent: HappyHonkNukie
+  name: комбо с чизбургером
+  description: АКЦИЯ!!! 4 всего за $9.99
+  id: HappyHonkNukiePirateBurger
+  suffix: Комбо с чизбургером
+  components:
+  - type: StorageFill
+    contents:
+      - id: FoodBurgerCheese
+      - id: FoodMealFries
+      - id: DrinkColaCan
+      - id: FoodCondimentPacketBbq
+
+- type: entity
+  parent: ClothingBackpackDuffelSyndicateBundle
+  id: ClothingBackpackDuffelHardsuitPirateCap
+  name: вещмешок
+  description: Большой вещмешок для хранения дополнительных предметов.
+  suffix: Древний бронескафандр
+  components:
+  - type: StorageFill
+    contents:
+      - id: ClothingOuterHardsuitPirateCap
+      - id: OxygenTankFilled
+      - id: ClothingMaskGas
+      - id: ClothingHandsGlovesColorYellowBudget
+
+- type: entity
+  parent: ClothingBackpackDuffelSyndicateBundle
+  id: ClothingBackpackDuffelHardsuitPirateEVA
+  name: вещмешок
+  description: Большой вещмешок для хранения дополнительных предметов.
+  suffix: Cкафандр ВКД космических глубин
+  components:
+  - type: StorageFill
+    contents:
+      - id: ClothingOuterHardsuitPirateEVA
+      - id: OxygenTankFilled
+      - id: ClothingMaskGas
+      - id: ClothingHandsGlovesColorYellowBudget
+
+- type: entity
+  parent: ClothingBackpackDuffelSyndicateMedical
+  id: ClothingBackpackDuffelPirateMedipen
+  name: вещмешок
+  description: Большой вещмешок для хранения дополнительных предметов.
+  suffix: Пиратский супер набор медипенов
+  components:
+  - type: StorageFill
+    contents:
+      - id: EmergencyMedipen
+        amount: 4
+      - id: AirlossAutoInjector
+        amount: 2
+      - id: CombatMedipen
+        amount: 2
+      - id: BruteAutoInjector
+        amount: 2
+      - id: PunctAutoInjector
+        amount: 2
+      - id: PyraAutoInjector
+        amount: 2
+      - id: BurnAutoInjector
+        amount: 2

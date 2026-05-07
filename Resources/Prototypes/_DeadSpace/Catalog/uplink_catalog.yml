@@ -713,3 +713,25 @@
     whitelist:
       tags:
       - NukeOpsUplink
+
+- type: listing
+  id: UplinkClothingBackpackSatchelTaipan
+  name: Сумка Синдиката
+  description: Самая красивая приду на перестрелочку.
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Back/bag.rsi, state: icon }
+  productEntity: ClothingBackpackSatchelTaipan
+  cost:
+    Telecrystal: 3
+  categories:
+  - UplinkWearables
+
+- type: listing
+  id: UplinkClothingHeadHelmetSwatSyndicate
+  name: Шлем спецназа
+  description: Самый прочный шлем в мире. Клянусь.
+  icon: { sprite: /Textures/Clothing/Head/Helmets/swat_syndicate.rsi, state: icon }
+  productEntity: ClothingHeadHelmetSwatSyndicate
+  cost:
+    Telecrystal: 3
+  categories:
+  - UplinkWearables

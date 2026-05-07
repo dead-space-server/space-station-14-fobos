@@ -66,6 +66,7 @@
     possibleSets:
     - Mk58DisablerSet
     - DominatorSet
+    - VerdictDisablerSet
   - type: ActivatableUI
     key: enum.ThiefBackpackUIKey.Key
   - type: UserInterface
@@ -525,6 +526,17 @@
     state: icon
   content:
   - WeaponPistolMk58
+  - WeaponDisabler
+
+- type: thiefBackpackSet
+  id: VerdictDisablerSet
+  name: ert-loadout-category-verdict-name
+  description: ert-loadout-category-verdict-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/verdict.rsi
+    state: icon
+  content:
+  - WeaponRevolverVerdict
   - WeaponDisabler
 
 - type: thiefBackpackSet

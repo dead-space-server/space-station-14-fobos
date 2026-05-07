@@ -373,6 +373,18 @@
 
 - type: entity
   parent: [GunSafeBaseSecure, BaseSecurityContraband]
+  id: GunSafeVerdict
+  name: verdicts safe
+  components:
+  - type: StorageFill
+    contents:
+    - id: WeaponRevolverVerdict
+      amount: 3
+    - id: SpeedLoaderMagnum
+      amount: 6
+
+- type: entity
+  parent: [GunSafeBaseSecure, BaseSecurityContraband]
   id: GunSafeArmorHeavy
   name: armor heavy safe
   components:

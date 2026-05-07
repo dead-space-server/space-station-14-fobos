@@ -1,0 +1,65 @@
+- type: entity
+  id: BriefcaseKitchenKnife
+  parent: [ BaseStorageItem, BaseBagOpenClose ]
+  name: кейс для именных ножей
+  suffix: заполненный
+  description: Кейс ножей с именем местного повара. Он явно что то умеет.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Storage/briefcase_kirchen_knife.rsi
+    layers:
+    - state: closed
+      map: ["closeLayer"]
+    - state: open
+      map: ["openLayer"]
+      visible: false
+    - state: knife1
+      map: ["knife1"]
+      visible: false
+    - state: knife2
+      map: ["knife2"]
+      visible: false
+    - state: knife3
+      map: ["knife3"]
+      visible: false
+    - state: knife4
+      map: ["knife4"]
+      visible: false
+    - state: knife5
+      map: ["knife5"]
+      visible: false
+    - state: knife6
+      map: ["knife6"]
+      visible: false
+  - type: PhysicalComposition
+    materialComposition:
+      Wood: 50
+  - type: Item
+    size: Large
+  - type: Storage
+    maxItemSize: Normal
+    grid:
+    - 0,0,6,1
+    whitelist:
+      tags:
+      - Knife
+  - type: StorageFill
+    contents:
+    - id: NameKitchenKnife
+    - id: NameButcherKnife
+    - id: NameFileKnife
+    - id: NameVegetableKnife
+    - id: NameChefKnife
+    - id: NameBredKnife
+  - type: ItemCounter
+    count:
+      tags: [Knife]
+    composite: true
+    layerStates:
+    - knife1
+    - knife2
+    - knife3
+    - knife4
+    - knife5
+    - knife6
+  - type: Appearance

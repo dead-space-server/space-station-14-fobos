@@ -1,0 +1,37 @@
+- type: entity
+  id: ShadowlingRule
+  parent: BaseGameRule
+  components:
+  - type: GameRule
+    minPlayers: 50
+  - type: ShadowlingRule
+  - type: AntagSelection
+    selectionTime: IntraPlayerSpawn
+    definitions:
+    - prefRoles: [ Shadowling ]
+      max: 1
+      playerRatio: 15
+      briefing:
+        text: shadowling-role-greeting
+        color: Red
+        sound:
+          collection: ShadowlingRecruitBriefing
+      blacklist:
+        components:
+        - AntagImmune
+      components:
+      - type: ShadowlingReveal
+      - type: Skill
+        group: ALL
+      - type: IntrinsicRadioTransmitter
+        channels:
+        - Shadowling
+      - type: ActiveRadio
+        channels:
+        - Shadowling
+      - type: IntrinsicRadioReceiver
+      mindRoles:
+      - MindRoleShadowling
+  - type: AntagObjectives
+    objectives:
+    - ShadowlingRecruitObjective

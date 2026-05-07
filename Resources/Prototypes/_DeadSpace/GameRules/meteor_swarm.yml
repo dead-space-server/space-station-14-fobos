@@ -3,7 +3,7 @@
   id: ZaratanaSpawn
   components:
   - type: StationEvent
-    weight: 7.5
+    weight: 1.5
     duration: 1
     earliestStart: 45
     minimumPlayers: 20

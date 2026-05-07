@@ -15,7 +15,6 @@ public sealed class SharedSecurityBorgProneSystem : EntitySystem
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly MovementSpeedModifierSystem _movementSpeed = default!;
     [Dependency] private readonly INetManager _net = default!;
-    [Dependency] private readonly SharedRotationVisualsSystem _rotationVisuals = default!;
     [Dependency] private readonly StandingStateSystem _standing = default!;
 
     public override void Initialize()
@@ -44,8 +43,8 @@ public sealed class SharedSecurityBorgProneSystem : EntitySystem
 
         if (component.Enabled && !IsIncapacitated(uid))
         {
-            _rotationVisuals.SetHorizontalAngle(uid, Angle.Zero);
             _standing.Down(uid, playSound: false, dropHeldItems: false);
+            SetRotationState(uid, RotationState.Vertical);
         }
     }
 
@@ -67,36 +66,26 @@ public sealed class SharedSecurityBorgProneSystem : EntitySystem
 
         if (component.Enabled)
         {
-            _rotationVisuals.ResetHorizontalAngle(uid);
-
             if (_standing.Stand(uid))
             {
                 component.Enabled = false;
                 Dirty(uid, component);
                 _actions.SetToggled(component.ActionEntity, false);
+                SetRotationState(uid, RotationState.Vertical);
                 SetProneVisuals(uid, false);
                 _movementSpeed.RefreshMovementSpeedModifiers(uid);
-            }
-            else
-            {
-                _rotationVisuals.SetHorizontalAngle(uid, Angle.Zero);
             }
         }
         else
         {
-            _rotationVisuals.SetHorizontalAngle(uid, Angle.Zero);
-
             if (_standing.Down(uid, playSound: false, dropHeldItems: false))
             {
                 component.Enabled = true;
                 Dirty(uid, component);
                 _actions.SetToggled(component.ActionEntity, true);
+                SetRotationState(uid, RotationState.Vertical);
                 SetProneVisuals(uid, true);
                 _movementSpeed.RefreshMovementSpeedModifiers(uid);
-            }
-            else
-            {
-                _rotationVisuals.ResetHorizontalAngle(uid);
             }
         }
 
@@ -111,6 +100,7 @@ public sealed class SharedSecurityBorgProneSystem : EntitySystem
 
     private void OnStood(EntityUid uid, SecurityBorgProneComponent component, StoodEvent args)
     {
+        SetRotationState(uid, RotationState.Vertical);
         SetProneVisuals(uid, false);
         _movementSpeed.RefreshMovementSpeedModifiers(uid);
     }
@@ -122,9 +112,15 @@ public sealed class SharedSecurityBorgProneSystem : EntitySystem
 
         if (args.NewMobState == MobState.Alive)
         {
-            _rotationVisuals.SetHorizontalAngle(uid, Angle.Zero);
             _standing.Down(uid, playSound: false, dropHeldItems: false);
+            SetRotationState(uid, RotationState.Vertical);
         }
+    }
+
+    private void SetRotationState(EntityUid uid, RotationState state)
+    {
+        if (TryComp<AppearanceComponent>(uid, out var appearance))
+            _appearance.SetData(uid, RotationVisuals.RotationState, state, appearance);
     }
 
     private void OnRefreshMovementSpeed(EntityUid uid, SecurityBorgProneComponent component, RefreshMovementSpeedModifiersEvent args)

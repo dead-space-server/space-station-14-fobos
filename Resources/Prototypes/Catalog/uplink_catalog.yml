@@ -2840,12 +2840,13 @@
   productEntity: WeaponSubMachineGunBriefcase
   discountCategory: veryRareDiscounts
   discountDownTo:
-    Telecrystal: 10
+    Telecrystal: 8 #DS-14 start
   cost:
-    Telecrystal: 15
+    Telecrystal: 13
   categories:
-  - UplinkJob
+  - UplinkWeaponry
   conditions:
-  - !type:BuyerJobCondition
-    whitelist:
-    - Lawyer
+  - !type:StoreWhitelistCondition
+    blacklist:
+      tags:
+      - NukeOpsUplink #DS-14 end

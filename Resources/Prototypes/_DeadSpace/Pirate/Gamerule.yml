@@ -1,0 +1,11 @@
+- type: entity
+  id: FreelancersOutpost
+  parent: BaseUnknownShuttleRule
+  components:
+  - type: StationEvent
+    startAnnouncement: null
+    weight: 1
+    earliestStart: 40
+    minimumPlayers: 45
+  - type: LoadMapRule
+    mapPath: /Maps/Nonstations/freelancers_Outpost.yml

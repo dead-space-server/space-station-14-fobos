@@ -493,6 +493,10 @@
   name: snail
   description: Revolting unless you're french.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Body
     prototype: Mouse
   - type: GhostRole
@@ -636,7 +640,7 @@
         messages: [ "snail-hurt-by-salt-popup" ]
         probability: 0.66
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: PetsGroup
   #DS14-end
 

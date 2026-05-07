@@ -45,10 +45,9 @@
   name: спавнер Заратаны
   components:
   - type: TimedDespawn
-    lifetime: 1.5
-  - type: SpawnOnTrigger 
-    proto: SpawnZaratanaShadow
-  - type: TriggerOnSpawn
+    lifetime: 0.01
+  - type: SpawnOnDespawn
+    prototype: SpawnZaratanaShadow
   - type: Sprite
     sprite: Markers/cross.rsi
     state: red
@@ -63,19 +62,6 @@
     state: shadow
   - type: TimedDespawn
     lifetime: 3.5
-  - type: SpawnOnTrigger 
-    proto: SpawnZaratanaSound
-  - type: TriggerOnSpawn
-  - type: SpawnOnDespawn
-    prototype: SpawnZaratanaEfectExplosion
-  - type: Tag
-    tags:
-    - HideContextMenu
-
-- type: entity
-  id: SpawnZaratanaSound
-  categories: [ HideSpawnMenu ]
-  components:
   - type: EmitSoundOnTrigger
     sound:
       path: /Audio/_DeadSpace/Mobs/Zaratana/fall.ogg
@@ -83,8 +69,27 @@
         maxDistance: 25
     positional: true
   - type: TriggerOnSpawn
-  - type: TimedDespawn
-    lifetime: 5
+  - type: SpawnOnDespawn
+    prototype: SpawnZaratanaEfectExplosion
+  - type: Tag
+    tags:
+    - HideContextMenu
+
+#   id: SpawnZaratanaEfectExplosion
+#   categories: [ HideSpawnMenu ]
+#   components:
+#   - type: TriggerOnSpawn
+#   - type: SpawnOnTrigger
+#     proto: SpawnZaratanaExplosion
+#   - type: Sprite
+#     sprite: _DeadSpace/Mobs/Aliens/Zaratana/shadow.rsi
+#   - type: TimedDespawn
+#     lifetime: 0.01
+#   - type: SpawnOnDespawn
+#     prototype: MobStartZaratana
+#   - type: Tag
+#     tags:
+#     - HideContextMenu
 
 - type: entity
   id: SpawnZaratanaEfectExplosion

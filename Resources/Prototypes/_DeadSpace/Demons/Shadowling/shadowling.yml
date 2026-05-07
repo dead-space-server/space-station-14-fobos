@@ -1,0 +1,359 @@
+- type: damageModifierSet
+  id: DemonShadowling
+  coefficients:
+    Blunt: 1
+    Slash: 1
+    Piercing: 1
+    Shock: 1
+    Cold: 0
+    Heat: 1.5
+    Poison: 0
+    Radiation: 0
+
+- type: entity
+  id: MobShadowling
+  parent:
+  - MobCombat
+  - MobDamageable
+  - BaseMob
+  name: Тенеморф
+  suffix: Тенеморф
+  description: Жуткий.
+  components:
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 4
+    baseSprintSpeed: 4
+    baseWeightlessModifier: 1
+
+  - type: Sprite
+    noRot: true
+    overrideContainerOcclusion: true
+    drawdepth: Mobs
+    sprite: _DeadSpace/Demons/shadowling.rsi
+    layers:
+    - map: [ "enum.DamageStateVisualLayers.Base" ]
+      state: shadowling
+    - state: shadowling_eyes
+      shader: unshaded
+      visible: true
+
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: shadowling
+      Dead:
+        Base: shadowling
+
+  - type: Body
+    prototype: Human
+
+  - type: Hands
+  - type: ComplexInteraction
+  - type: CombatMode
+  - type: InteractionPopup
+  - type: Puller
+  - type: Strippable
+  - type: NoSlip
+  - type: Speech
+  - type: Vocal
+    sounds:
+      Male: DemonNarSi
+      Female: DemonNarSi
+      Unsexed: DemonNarSi
+  - type: Stamina
+  - type: Emoting
+  - type: ZombieImmune
+  - type: ImmunitetInfectionDead
+  - type: AutoDeleteOnDeath
+  - type: GhostTakeoverAvailable
+  - type: AccessReader
+  - type: CanMoveInAir
+  - type: MovementAlwaysTouching
+  - type: Physics
+    bodyType: KinematicController
+    bodyStatus: OnGround
+
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.35
+        density: 200
+        mask:
+        - MobMask
+        layer:
+        - MobLayer
+        - BulletImpassable
+        hard: true
+
+  - type: Damageable
+    damageContainer: BiologicalMetaphysical
+    damageModifierSet: DemonShadowling
+
+  - type: Examiner
+    skipChecks: true
+
+  - type: IntrinsicRadioTransmitter
+    channels:
+    - Shadowling
+  - type: ActiveRadio
+    channels:
+    - Shadowling
+  - type: IntrinsicRadioReceiver
+
+  - type: Eye
+    visMask:
+      - Normal
+
+  - type: ContentEye
+    maxZoom: 1, 1
+
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      250: Dead
+
+  - type: MeleeWeapon
+    altDisarm: false
+    hidden: true
+    angle: 45
+    soundHit:
+        path: /Audio/Effects/demon_attack1.ogg
+    animation: WeaponArcRed
+    damage:
+      types:
+        Slash: 10
+        Blunt: 5
+
+  - type: NpcFactionMember
+    factions:
+    - SimpleHostile
+
+  - type: NightVision
+    animation: true
+    transitionSpeed: 100
+    color: "#DC143C11"
+
+  - type: Prying
+    pryPowered: true
+    force: true
+    speedModifier: 1.5
+    useSound:
+      path: /Audio/Items/crowbar.ogg
+
+  - type: GhostRole
+    allowMovement: true
+    allowSpeech: true
+    makeSentient: true
+    name: ghost-role-information-shadowling-name
+    description: ghost-role-information-shadowling-description
+    rules: ghost-role-information-shadowling-rules
+    raffle:
+      settings: default
+
+  - type: Tag
+    tags:
+      - CannotSuicide
+      - DoorBumpOpener
+  - type: Language
+    selectedLanguage: GeneralLanguage
+    knownLanguages:
+    - DemonLanguage
+    - GeneralLanguage
+
+  - type: GhostRoleNotifys
+    groupPrototype: Shadowlingping
+
+  - type: Shadowling
+    passiveHealing:
+      types:
+        Slash: -1
+        Heat: -2
+        Blunt: -1
+        Piercing: -1
+
+  - type: ShadowlingRecruit
+  - type: ShadowlingVeil
+  - type: ShadowlingBlackMed
+  - type: ShadowlingPhase
+  - type: ShadowlingDarkMind
+  - type: ShadowlingBlink
+  - type: ShadowlingScreech
+  - type: ShadowlingFreezingVeins
+  - type: ShadowlingAscendance
+  - type: ShadowlingSmokeAction
+
+- type: polymorph
+  id: ShadowlingPhasePolymorph
+  configuration:
+    entity: MobShadowlingPhaseForm
+    transferName: false
+    inventory: None
+    forced: true
+    revertOnDeath: true
+    revertOnCrit: true
+    duration: 5
+    polymorphSound: /Audio/Magic/ethereal_enter.ogg
+    exitPolymorphSound: /Audio/Magic/ethereal_exit.ogg
+
+- type: entity
+  id: MobShadowlingPhaseForm
+  parent: [BaseMobJaunt]
+  name: Теневой призрак
+  description: Призрак. Черный.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Demons/shadowling.rsi
+    layers:
+    - state: shadowling_ghost
+  - type: ContentEye
+    maxZoom: 1, 1
+  - type: MovementSpeedModifier
+    baseSprintSpeed: 12
+    baseWalkSpeed: 8
+  - type: Eye
+    drawFov: false
+
+- type: polymorph
+  id: ShadowlingAscendedPhasePolymorph
+  configuration:
+    entity: MobShadowlingAscendedPhaseForm
+    transferName: false
+    inventory: None
+    forced: true
+    revertOnDeath: true
+    revertOnCrit: true
+    polymorphSound: /Audio/Magic/ethereal_enter.ogg
+    exitPolymorphSound: /Audio/Magic/ethereal_exit.ogg
+
+- type: entity
+  id: MobShadowlingAscendedPhaseForm
+  parent: [Incorporeal, BaseMob]
+  name: Теневой призрак
+  description: Призрак. Чёрный.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Demons/shadowling.rsi
+    layers:
+    - state: shadowling_ascended_ghost
+  - type: ContentEye
+    maxZoom: 1, 1
+  - type: Eye
+    drawFov: false
+  - type: MovementSpeedModifier
+    baseSprintSpeed: 12
+    baseWalkSpeed: 8
+  - type: Input
+    context: "human"
+  - type: InputMover
+  - type: Spectral
+  - type: ShadowlingAscendedPhaseReturn
+
+- type: entity
+  id: MobShadowlingAscended
+  parent: MobShadowling
+  name: Вознесенный
+  description: Совершенная форма тьмы.
+  components:
+  - type: Sprite
+    noRot: true
+    overrideContainerOcclusion: true
+    drawdepth: Mobs
+    sprite: _DeadSpace/Demons/shadowling.rsi
+    layers:
+    - map: [ "enum.DamageStateVisualLayers.Base" ]
+      state: shadowling_ascended
+    - state: shadowling_ascended_eyes
+      shader: unshaded
+      visible: true
+
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: shadowling_ascended
+      Dead:
+        Base: shadowling_ascended
+
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      1000: Dead
+
+  - type: PointLight
+    radius: 4
+    energy: 3.5
+    color: "#ff0000"
+    enabled: true
+    castShadows: false
+
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 7
+    baseSprintSpeed: 7
+
+  - type: MeleeWeapon
+    attackRate: 1.5
+    soundHit:
+        path: /Audio/Effects/demon_attack1.ogg
+    damage:
+      types:
+        Slash: 25
+        Blunt: 50
+
+  - type: Shadowling
+    speedMultiplier: 1.0
+    threshold: 2000.0
+    passiveHealing:
+      types:
+        Slash: -4
+        Heat: -8
+        Blunt: -4
+        Piercing: -4
+
+  - type: Prying
+    pryPowered: true
+    force: true
+    speedModifier: 15
+    useSound:
+      path: /Audio/Items/crowbar.ogg
+
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.35
+        density: 1200
+        mask:
+        - MobMask
+        layer:
+        - MobLayer
+        - BulletImpassable
+        hard: true
+
+  - type: Stamina
+    baseCritThreshold: 1000
+    decay: 100
+    cooldown: 3
+  - type: ShadowlingAscendedPhase
+  - type: ShadowlingAnnihilation
+  - type: ShadowlingScreech
+  - type: ShadowlingBlackMed
+  - type: ShadowlingAbsoluteFreezingVeins
+  - type: ShadowlingThunderstorm
+  - type: Emoting
+
+- type: entity
+  id: WeaponArcRed
+  parent: WeaponArcStatic
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: WeaponArcVisuals
+      fadeOut: false
+    - type: Sprite
+      sprite: _DeadSpace/Demons/shadowling.rsi
+      state: red
+    - type: TimedDespawn
+      lifetime: 0.399
