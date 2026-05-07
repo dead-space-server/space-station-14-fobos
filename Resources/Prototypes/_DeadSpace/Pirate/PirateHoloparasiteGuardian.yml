@@ -1,0 +1,127 @@
+- type: entity
+  name: инъектор летучего голландца
+  id: PirateHoloparasiteInjector
+  parent: [BaseItem, BaseSyndicateContraband]
+  description: Специализированное устройство, материализующее легендарного призрака морей для защиты своего носителя.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Pirates/PirateHoloparasiteInjector.rsi
+    layers: 
+    - state: icon
+  - type: Item
+    sprite: _DeadSpace/Pirates/PirateHoloparasiteInjector.rsi
+  - type: GuardianCreator
+    guardianProto: MobPirateHoloparasiteGuardian
+
+- type: entity
+  name: Летучий голландец
+  id: MobPirateHoloparasiteGuardian
+  parent: [MobGuardianBase, InventoryBase]
+  description: Изъеденный временем эфирный капитан, чей призрачный облик источает могильный холод и неутолимую жажду чужих душ.
+  components:
+    - type: GhostRole
+      allowMovement: true
+      allowSpeech: true
+      makeSentient: true
+      name: ghost-role-information-pirate-holoparasite-name
+      description: ghost-role-information-pirate-holoparasite-description
+      rules: ghost-role-information-familiar-rules
+      raffle:
+        settings: default
+    - type: GhostTakeoverAvailable
+    - type: NameIdentifier
+      group: Holoparasite
+    - type: TypingIndicator
+      proto: holo
+    - type: Sprite
+      drawdepth: Mobs
+      sprite: _DeadSpace/Pirates/PirateHoloparasite.rsi
+      layers:
+        - state: magic_pirate
+          map: [ "enum.DamageStateVisualLayers.Base" ]
+        - state: magic_pirate_flare
+          map: [ "enum.DamageStateVisualLayers.BaseUnshaded" ]
+          shader: unshaded
+    - type: RandomSprite
+      available:
+        - enum.DamageStateVisualLayers.Base:
+            magic_pirate: ""
+          enum.DamageStateVisualLayers.BaseUnshaded:
+            magic_pirate_flare: ""
+    - type: ContentEye
+      maxZoom: 1.0, 1.0
+    - type: HTN
+      rootTask:
+        task: SimpleHumanoidHostileCompound
+    - type: GhostRoleNotifys
+      groupPrototype: PirateHoloparasiteping
+    - type: Body
+      prototype: Primate
+    - type: Inventory
+      templateId: holoclown
+    - type: PirateAccent
+    - type: TTS
+      voice: Abaddon
+    - type: Hands
+    - type: ComplexInteraction
+    - type: MeleeWeapon
+      damage:
+        types:
+          Blunt: 8
+          Structural: 10
+    - type: Loadout
+      prototypes: [ PirateHoloparasiteGear ]
+
+- type: entity
+  name: проклятие Дейви Джонса
+  id: PirateHoloparasiteCutlass
+  parent: Cutlass
+  description: Легендарный абордажный клинок. Сталь источает могильный холод, а лезвие никогда не тупится.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Pirates/PirateHoloparasiteCutlass.rsi
+  - type: Item
+    size: Small
+    storedSprite:
+      state: storage
+      sprite: _DeadSpace/Pirates/PirateHoloparasiteCutlass.rsi
+    shape:
+    - 0,0,0,2
+  - type: MeleeWeapon
+    attackRate: 1.5
+
+- type: entity
+  name: эхо бездны
+  parent: [BaseItem, BaseCentcommContraband]
+  id: WeaponRevolverPirateHoloparasite
+  description: Старинный револьвер, принадлежавший древнему капитану. Его металл ледяной на ощупь, а барабан медленно вращается сам по себе, черпая патроны из самой пустоты.
+  components:
+  - type: Item
+    size: Small
+    shape:
+    - 0,0,1,0
+    - 0,1,0,1
+  - type: Sprite
+    sprite: _DeadSpace/Pirates/WeaponRevolverPirateHoloparasite.rsi
+    layers:
+    - state: icon
+  - type: Clothing
+    sprite: _DeadSpace/Pirates/WeaponRevolverPirateHoloparasite.rsi
+    quickEquip: false
+    slots:
+    - suitStorage
+    - Belt
+  - type: Gun
+    fireRate: 1
+    availableModes:
+      - SemiAuto
+    soundGunshot: /Audio/Weapons/Guns/Gunshots/revolver.ogg
+    soundEmpty: /Audio/Weapons/Guns/Cock/revolver_cock.ogg
+  - type: BasicEntityAmmoProvider
+    proto: BulletRSh2
+    capacity: 5
+    count: 5
+  - type: RechargeBasicEntityAmmo
+    rechargeCooldown: 5
+    rechargeSound: /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/rsh12-sfx/rsh-reload.ogg
+  - type: AmmoCounter

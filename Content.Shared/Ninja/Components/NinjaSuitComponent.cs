@@ -42,6 +42,15 @@ public sealed partial class NinjaSuitComponent : Component
     [DataField]
     public float RecallCharge = 3.6f;
 
+    // DS14-start
+    /// <summary>
+    /// If the katana recall cost would be equal to or higher than the current battery capacity,
+    /// recalling it costs this fraction of the current battery capacity instead.
+    /// </summary>
+    [DataField]
+    public float RecallOverMaxChargeRatio = 0.9f;
+    // DS14-end
+
     /// <summary>
     /// The action id for creating an EMP burst
     /// </summary>
@@ -58,6 +67,7 @@ public sealed partial class NinjaSuitComponent : Component
     public float EmpCharge = 180f;
 
     // TODO: EmpOnTrigger bruh
+
     /// <summary>
     /// Range of the EMP in tiles.
     /// </summary>
@@ -78,5 +88,4 @@ public sealed partial class NinjaSuitComponent : Component
 }
 
 public sealed partial class RecallKatanaEvent : InstantActionEvent;
-
 public sealed partial class NinjaEmpEvent : InstantActionEvent;

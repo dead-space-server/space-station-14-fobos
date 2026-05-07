@@ -4,6 +4,10 @@
   parent: [ SimpleMobBase, MobCombat ]
   description: He's da rat. He make da roolz.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: CombatMode
   - type: MovementSpeedModifier
     baseWalkSpeed : 3.00
@@ -137,7 +141,7 @@
     color: "#7A886611"
     transitionSpeed: 100
   - type: ZombieImmune
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: Ratking
   # DS14-end
 
@@ -185,6 +189,10 @@
   description: He's da mini rat. He don't make da roolz.
   categories: [ HideSpawnMenu ] #Must be configured to a King or the AI breaks.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: CombatMode
   - type: MovementSpeedModifier
     baseWalkSpeed : 3.5

@@ -7,6 +7,10 @@
     noRot: true
     drawdepth: Mobs
     scale: 0.8, 0.8
+  - type: CarrySize
+    size: Small
+  - type: CarryStrength
+    strength: SmallOnly
   - type: HumanoidAppearance
     species: Felinid
     hideLayersOnEquip:

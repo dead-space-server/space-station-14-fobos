@@ -4,9 +4,7 @@ using Content.Server.Ghost;
 using Content.Server.Mind;
 using Content.Shared.Administration;
 using Content.Shared.Ghost;
-using Content.Shared.Mind;
 using Robust.Server.GameObjects;
-using Robust.Server.Player;
 using Robust.Shared.Console;
 using Robust.Shared.Player;
 
@@ -42,6 +40,7 @@ public sealed class AGhostCommand : LocalizedCommands
 
         var player = shell.Player;
         var self = player != null;
+
         if (player == null)
         {
             // If you are not a player, you require a player argument.
@@ -70,33 +69,38 @@ public sealed class AGhostCommand : LocalizedCommands
             }
         }
 
-        var mindSystem = _entities.System<SharedMindSystem>();
+        var mindSystem = _entities.System<MindSystem>(); // DS14
         var metaDataSystem = _entities.System<MetaDataSystem>();
-        var ghostSystem = _entities.System<SharedGhostSystem>();
+        var ghostSystem = _entities.System<GhostSystem>(); // DS14
         var transformSystem = _entities.System<TransformSystem>();
         var gameTicker = _entities.System<GameTicker>();
 
-        if (!mindSystem.TryGetMind(player, out var mindId, out var mind))
+        if (!mindSystem.TryGetMind(player!, out var mindId, out var mind)) // DS14
         {
-            shell.WriteError(self
-                ? LocalizationManager.GetString("aghost-no-mind-self")
-                : LocalizationManager.GetString("aghost-no-mind-other"));
+            shell.WriteError(self ? LocalizationManager.GetString("aghost-no-mind-self") : LocalizationManager.GetString("aghost-no-mind-other")); // DS14
             return;
         }
 
-        if (mind.VisitingEntity != default && _entities.TryGetComponent<GhostComponent>(mind.VisitingEntity, out var oldGhostComponent))
+        // DS14-start
+        if (mind.VisitingEntity is { Valid: true } visiting)
         {
-            mindSystem.UnVisit(mindId, mind);
-            // If already an admin ghost, then return to body.
-            if (oldGhostComponent.CanGhostInteract)
-                return;
-        }
+            if (_entities.TryGetComponent<GhostComponent>(visiting, out var oldGhostComponent))
+            {
+                mindSystem.UnVisit(mindId, mind);
 
-        var canReturn = mind.CurrentEntity != null
-                        && !_entities.HasComponent<GhostComponent>(mind.CurrentEntity);
+                if (oldGhostComponent.CanGhostInteract)
+                    return;
+            }
+            else
+                mindSystem.UnVisit(mindId, mind);
+        }
+        // DS14-end
+
+        var canReturn = mind.CurrentEntity != null && !_entities.HasComponent<GhostComponent>(mind.CurrentEntity.Value); // DS14
         var coordinates = player!.AttachedEntity != null
             ? _entities.GetComponent<TransformComponent>(player.AttachedEntity.Value).Coordinates
             : gameTicker.GetObserverSpawnPoint();
+
         var ghost = _entities.SpawnEntity(GameTicker.AdminObserverPrototypeName, coordinates);
         transformSystem.AttachToGridOrMap(ghost, _entities.GetComponent<TransformComponent>(ghost));
 
@@ -108,19 +112,11 @@ public sealed class AGhostCommand : LocalizedCommands
             else if (!string.IsNullOrWhiteSpace(player.Name))
                 metaDataSystem.SetEntityName(ghost, player.Name);
 
-            if (player.Channel.UserName == "ahahahahha") // funny
-                metaDataSystem.SetEntityName(ghost, "");
-
-
             mindSystem.Visit(mindId, ghost, mind);
         }
         else
         {
             metaDataSystem.SetEntityName(ghost, player.Name);
-
-            if (player.Channel.UserName == "ahahahahha") // funny
-                metaDataSystem.SetEntityName(ghost, "");
-
             mindSystem.TransferTo(mindId, ghost, mind: mind);
         }
 

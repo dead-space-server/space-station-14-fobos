@@ -846,9 +846,9 @@
   - type: BatteryWeaponFireModes
     fireModes:
     - proto: BulletLaserSpreadNarrow
-      fireCost: 120 #DS14
+      fireCost: 80 # DS14
     - proto: BulletDisablerSmgSpread
-      fireCost: 48
+      fireCost: 120 # DS14
       pacifismAllowedMode: true
   - type: Item
     size: Large

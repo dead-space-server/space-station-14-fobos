@@ -38,6 +38,9 @@
   id: BorgSecTorso
 
 - type: Tag
+  id: BluespaceHandHeldMassScanner
+
+- type: Tag
   id: DarkFlower
 
 - type: Tag
@@ -168,6 +171,9 @@
 
 - type: Tag
   id: HardsuitSyndie
+
+- type: Tag
+  id: HandHeldMassScanner
 
 - type: Tag
   id: HolopadAdminNotification

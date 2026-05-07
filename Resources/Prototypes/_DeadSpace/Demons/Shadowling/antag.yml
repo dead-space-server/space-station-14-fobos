@@ -1,0 +1,25 @@
+- type: factionIcon
+  id: ShadowlingSlaveFaction
+  priority: 15
+  showTo:
+    components:
+      - ShowAntagIcons
+      - ShadowlingRecruit
+      - ShadowlingSlave
+      - ShadowlingReveal
+  icon:
+    sprite: /Textures/_DeadSpace/Interface/Misc/antag_icons.rsi
+    state: shadowling_Icon
+
+- type: factionIcon
+  id: ShadowlingMasterFaction
+  priority: 20
+  showTo:
+    components:
+      - ShowAntagIcons
+      - ShadowlingRecruit
+      - ShadowlingSlave
+      - ShadowlingReveal
+  icon:
+    sprite: /Textures/_DeadSpace/Interface/Misc/antag_icons.rsi
+    state: shadowling_Icon2

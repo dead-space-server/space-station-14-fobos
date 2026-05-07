@@ -6,3 +6,44 @@
   components:
   - type: StealCondition
     stealGroup: TabletRD
+
+## hos
+
+- type: entity
+  parent: BaseTraitorStealObjective
+  id: PinpointerNuclearStealObjective
+  components:
+  - type: Objective
+    difficulty: 2
+  - type: NotJobRequirement
+    jobs: [ HeadOfSecurity ]
+  - type: StealCondition
+    stealGroup: PinpointerNuclear
+    owner: job-name-hos
+
+- type: entity
+  parent: BaseTraitorStealObjective
+  id: WeaponX01StealObjective
+  components:
+  - type: Objective
+    # HoS will have this on them a lot of the time so..
+    difficulty: 4
+  - type: NotJobRequirement
+    jobs: [ HeadOfSecurity ]
+  - type: StealCondition
+    stealGroup: WeaponPistolX01
+    owner: job-name-hos
+
+# blue-shield-officer
+
+- type: entity
+  parent: BaseTraitorStealObjective
+  id: PistolBlueShieldStealObjective
+  components:
+  - type: Objective
+    difficulty: 3
+  - type: NotJobRequirement
+    jobs: [ BlueShieldOfficer ]
+  - type: StealCondition
+    stealGroup: PistolBlueShield
+    owner: job-name-blue-shield-officer

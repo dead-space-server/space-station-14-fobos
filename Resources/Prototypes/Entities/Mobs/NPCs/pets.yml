@@ -318,6 +318,10 @@
   id: MobBingus
   description: Bingus my beloved...
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     sprite: Mobs/Pets/bingus.rsi
@@ -388,6 +392,10 @@
   id: MobMcGriff
   description: This dog can tell something smells around here, and that something is CRIME!
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     sprite: Mobs/Pets/mcgriff.rsi
@@ -518,6 +526,10 @@
   id: MobWalter
   description: He likes chems and treats. Walter.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     sprite: Mobs/Pets/walter.rsi
@@ -725,7 +737,7 @@
     - GeneralLanguage
     unlockLanguagesAfterMakeSentient:
     - GeneralLanguage
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: PetsGroup
 # DS14-end
 
@@ -833,7 +845,7 @@
     - GeneralLanguage
     unlockLanguagesAfterMakeSentient:
     - GeneralLanguage
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: PetsGroup
 # DS14-end
 
@@ -968,7 +980,7 @@
     - GeneralLanguage
     unlockLanguagesAfterMakeSentient:
     - GeneralLanguage
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: Kangarooping
 # DS14-end
 
@@ -1063,7 +1075,7 @@
     - GeneralLanguage
   - type: StealTarget
     stealGroup: SmileExtract
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: PetsGroup
 # DS14-end
 
@@ -1115,7 +1127,7 @@
     - GeneralLanguage
     unlockLanguagesAfterMakeSentient:
     - GeneralLanguage
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: PunPunping
 # DS14-end
 

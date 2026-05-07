@@ -1,0 +1,185 @@
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBackpackRIGNukeOps
+  name: модифицированный боевой рюкзак синдиката
+  description: БЛИН БЛИНСКИЙ, ЭТО ЖЕ ОЧЕНЬ ОПАСТНЫЙ РЮКЗАК СИНДИКАТА!!!!!
+  components:
+  - type: Storage
+    grid:
+    - 0,0,9,9
+  - type: Clothing
+    equipDelay: 1.5
+    unequipDelay: 1.5
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Syndicat/Standart/backpack.rsi
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: ToggleableClothing
+    toggleDelay: 1.5
+    clothingPrototype: ClothingOuterRIGNukeOps
+    requiredSlot: BACK
+    slot: outerClothing
+  - type: ContainerContainer
+    containers:
+      toggleable-clothing: !type:ContainerSlot {}
+      storagebase: !type:Container
+        ents: []
+
+- type: entity
+  parent: ClothingOuterHardsuitBase
+  id: ClothingOuterRIGNukeOps
+  name: упрощённый скафандр синдиката
+  description: Тут должно было быть красивое описание от ex1stence, но это писалось глубоко ночью.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Syndicat/Standart/outer.rsi
+  - type: Clothing
+    sprite: _DeadSpace/RIGs/Syndicat/Standart/outer.rsi
+    equipSound: /Audio/_DeadSpace/Misc/rig_equip.ogg
+  - type: PressureProtection
+    highPressureMultiplier: 0.02
+    lowPressureMultiplier: 1000
+  - type: ClothingSpeedModifier
+    walkModifier: 0.9
+    sprintModifier: 0.9
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.45
+        Slash: 0.45
+        Piercing: 0.55
+        Heat: 0.5
+        Caustic: 0.5
+        Radiation: 0.7
+  - type: ExplosionResistance
+    damageCoefficient: 0.6
+  - type: TemperatureProtection
+    heatingCoefficient: 0.001
+    coolingCoefficient: 0.001
+  - type: StaminaResistance
+    damageCoefficient: 0.4
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetRIGNukeOps
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ClothingHeadHelmetRIGNukeOps
+  name: шлем упрощённого скафандра синдиката
+  description: Disturbed - The Night.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Syndicat/Standart/helmet.rsi
+    scale: 0.9, 0.9
+  - type: Clothing
+    sprite: _DeadSpace/RIGs/Syndicat/Standart/helmet.rsi
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: PointLight
+    color: "#00ff37"
+    radius: 7
+    energy: 3
+  - type: Item
+    heldPrefix: off 
+    size: Normal
+
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBackpackRIGNukeOpsElite
+  name: элитный модифицированный боевой рюкзак синдиката
+  description: Элитка для бомжей.
+  components:
+  - type: Storage
+    grid:
+    - 0,0,16,4
+  - type: Clothing
+    equipDelay: 1
+    unequipDelay: 1
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Syndicat/Elite/backpack.rsi
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: ToggleableClothing
+    toggleDelay: 1
+    clothingPrototype: ClothingOuterRIGNukeOpsElite
+    requiredSlot: BACK
+    slot: outerClothing
+  - type: ContainerContainer
+    containers:
+      toggleable-clothing: !type:ContainerSlot {}
+      storagebase: !type:Container
+        ents: []
+
+- type: entity
+  parent: ClothingOuterHardsuitBase
+  id: ClothingOuterRIGNukeOpsElite
+  name: лёгкий элитный скафандр синдиката
+  description: Тут должно было быть красивое описание от ex1stence, тоже.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Syndicat/Elite/outer.rsi
+  - type: Clothing
+    sprite: _DeadSpace/RIGs/Syndicat/Elite/outer.rsi
+    equipSound: /Audio/_DeadSpace/Misc/rig_equip.ogg
+  - type: PressureProtection
+    highPressureMultiplier: 0.02
+    lowPressureMultiplier: 1000
+  - type: ClothingSpeedModifier
+    walkModifier: 0.95
+    sprintModifier: 0.95
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.6
+        Heat: 0.3
+        Caustic: 0.3
+        Radiation: 0.3
+  - type: ExplosionResistance
+    damageCoefficient: 0.5
+  - type: TemperatureProtection
+    heatingCoefficient: 0.001
+    coolingCoefficient: 0.001
+  - type: StaminaResistance
+    damageCoefficient: 0.4
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetRIGNukeOpsElite
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ClothingHeadHelmetRIGNukeOpsElite
+  name: шлем лёгкого элитного скафандра синдиката
+  description: Честно, тут должно быть что-то написано.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Syndicat/Elite/helmet.rsi
+    scale: 1.2, 1.2
+  - type: Clothing
+    sprite: _DeadSpace/RIGs/Syndicat/Elite/helmet.rsi
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: PointLight
+    color: "#ffff00"
+    radius: 12
+    energy: 5
+  - type: Item
+    heldPrefix: off 
+    size: Normal

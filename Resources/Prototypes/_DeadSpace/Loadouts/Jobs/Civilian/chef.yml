@@ -1,0 +1,33 @@
+- type: loadoutEffectGroup
+  id: BriefcaseKitchenKnife
+  effects:
+  - !type:JobRequirementLoadoutEffect
+    requirement:
+      !type:RoleTimeRequirement
+      role: JobChef
+      time: 108000 # 30 hours
+
+- type: loadoutEffectGroup
+  id: CaseChefGoldenKnife
+  effects:
+  - !type:JobRequirementLoadoutEffect
+    requirement:
+      !type:RoleTimeRequirement
+      role: JobChef
+      time: 108000 # 30 hours
+
+- type: loadout
+  id: BriefcaseKitchenKnife
+  inhand:
+  - BriefcaseKitchenKnife
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: BriefcaseKitchenKnife
+
+- type: loadout
+  id: CaseChefGoldenKnife
+  inhand:
+  - CaseChefGoldenKnife
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: CaseChefGoldenKnife
