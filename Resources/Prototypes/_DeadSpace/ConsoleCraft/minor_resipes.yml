@@ -125,6 +125,46 @@
     ActivatableUI:
       key: enum.SharedGasTankUiKey.Key
 
+- type: minorItemModule
+  id: HandHeldMassScannerModule
+  moduleItem: HandHeldMassScanner
+  description: Встроенный сканнер масс в рюкзак (Требуется ручной сканер масс).
+  components:
+    UserInterface:
+      interfaces:
+        enum.RadarConsoleUiKey.Key:
+          type: RadarConsoleBoundUserInterface
+    RadarConsole:
+      toggleAction: ActionHandheldRadarToggle
+      maxRange: 256
+      followEntity: true
+
+- type: minorItemModule
+  id: BluespaceHandHeldMassScannerModule
+  moduleItem: BluespaceHandHeldMassScanner
+  description: Встроенный продвинутый сканнер масс в рюкзак (Требуется блюспейс ручной сканер масс).
+  components:
+    UserInterface:
+      interfaces:
+        enum.RadarConsoleUiKey.Key:
+          type: RadarConsoleBoundUserInterface
+    RadarConsole:
+      toggleAction: ActionHandheldRadarToggle
+      maxRange: 342
+      advanced: true
+      allowedComponents:
+        - component: Projectile
+          color: "#FF0000"
+        - component: MobState
+          color: "#FFFFFF"
+        - component: Item
+          color: "#FFD700"
+      blacklistComponents:
+        - CartridgeAmmo
+      blacklistTags:
+        - Ore
+        - Trash
+
 # То что затрагивает скаф ригов
 # ВОТ ТУТ ВНИМАТЕЛЬНО, вы должны вписать прототип скафа который указан в сумке что вы строите, иначе игра просто даст компачи сумке, а не перепишет компачи скафандру.
 

@@ -1,0 +1,29 @@
+- type: entity
+  parent: BaseMindRoleAntag
+  id: MindRoleShadowling
+  name: Shadowling Role
+  components:
+  - type: MindRole
+    antagPrototype: Shadowling
+    exclusiveAntag: true
+    roleType: TeamAntagonist
+    subtype: role-subtype-shadowling
+  - type: ShadowlingRole
+  - type: AntagObjectives
+    objectives:
+    - ShadowlingRecruitObjective
+  - type: RoleBriefing
+    briefing: shadowling-role-briefing
+
+- type: entity
+  parent: BaseMindRoleAntag
+  id: MindRoleShadowlingSlave
+  name: Shadowling Slave Role
+  components:
+  - type: MindRole
+    antagPrototype: ShadowlingSlave
+    roleType: TeamAntagonist
+    subtype: role-subtype-shadowling-slave
+  - type: ShadowlingSlaveRole
+  - type: RoleBriefing
+    briefing: shadowlingslave-role-briefing

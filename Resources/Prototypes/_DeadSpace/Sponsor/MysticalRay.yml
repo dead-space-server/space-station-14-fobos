@@ -56,13 +56,13 @@
     contents:
       - id: PowerDrillMysticalRay
       - id: WelderExperimentalMysticalRay
-      - id: SyndicateJawsOfLifeMysticalRay
+      - id: JawsOfLifeMysticalRay
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitMysticalRay
   name: скафандр TraumaTec
   description: Скафандр с биокодированием, обеспечивающий защиту в критических ситуациях.
@@ -199,6 +199,8 @@
     sprite: _DeadSpace/Sponsor/Wisdom/headset.rsi
   - type: Clothing
     sprite: _DeadSpace/Sponsor/Wisdom/headset.rsi
+  - type: Headset
+    color: "#1d8bad"
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -374,6 +376,13 @@
   - type: ExaminableSolution
     solution: hypospray
     exactVolume: true
+  - type: Injector
+    solutionName: hypospray
+    ignoreClosed: false
+    activeModeProtoId: HyposprayDynamicMode
+    allowedModes:
+    - HyposprayDynamicMode
+    - HyposprayInjectMode
   - type: UseDelay
     delay: 0.5
   - type: StaticPrice
@@ -387,7 +396,6 @@
     solutionName: hypospray
 
 # Other
-
 - type: entity
   name: имплант TraumaTec
   description: Имплант TraumaTec.
@@ -462,8 +470,8 @@
 
 #JawsOfLife
 - type: entity
-  parent: SyndicateJawsOfLife
-  id: SyndicateJawsOfLifeMysticalRay
+  parent: JawsOfLife
+  id: JawsOfLifeMysticalRay
   name: тактические челюсти TraumaTec
   description: Косметическая модификация челюстей жизни.
   categories: [ HideSpawnMenu ]

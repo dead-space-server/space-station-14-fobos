@@ -119,6 +119,21 @@ public sealed partial class DockingSystem
         return GetDockingConfigPrivate(shuttleUid, targetGrid, shuttleDocks, gridDocks, priorityTag);
     }
 
+    // DS14-start
+    /// <summary>
+    /// Tries to get a valid docking configuration for the shuttle to a restricted set of target grid docks.
+    /// </summary>
+    public DockingConfig? GetDockingConfig(
+        EntityUid shuttleUid,
+        EntityUid targetGrid,
+        List<Entity<DockingComponent>> shuttleDocks,
+        List<Entity<DockingComponent>> gridDocks,
+        string? priorityTag = null)
+    {
+        return GetDockingConfigPrivate(shuttleUid, targetGrid, shuttleDocks, gridDocks, priorityTag);
+    }
+    // DS14-end
+
     /// <summary>
     /// Tries to get a docking config at the specified coordinates and angle.
     /// </summary>

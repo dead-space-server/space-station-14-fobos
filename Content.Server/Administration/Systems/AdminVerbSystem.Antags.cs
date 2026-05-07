@@ -15,6 +15,7 @@ using Robust.Shared.Utility;
 using Content.Shared.DeadSpace.Events.Roles.Components;
 using Content.Shared.DeadSpace.Renegade.Roles;
 using Content.Shared.Roles.Components;
+using Content.Shared.DeadSpace.Demons.Shadowling; //DS14
 
 namespace Content.Server.Administration.Systems;
 
@@ -149,6 +150,23 @@ public sealed partial class AdminVerbSystem
             Message = string.Join(": ", dragonName, Loc.GetString("admin-verb-make-dragon")),
         };
         args.Verbs.Add(dragon);
+
+        var shadowlingName = Loc.GetString("admin-verb-text-make-shadowling");
+        Verb shadowling = new()
+        {
+            Text = shadowlingName,
+            Category = VerbCategory.Antag,
+            Icon = new SpriteSpecifier.Rsi(new("/Textures/_DeadSpace/Interface/Misc/antag_icons.rsi"), "shadowling_Icon2"),
+            Act = () =>
+            {
+                if (targetPlayer.AttachedEntity is not { } target) return;
+                _antag.ForceMakeAntag<ShadowlingRuleComponent>(targetPlayer, "ShadowlingRule");
+                EntityManager.EnsureComponent<ShadowlingRevealComponent>(target);
+            },
+            Impact = LogImpact.High,
+            Message = string.Join(": ", shadowlingName, "Сделать скрытым тенеморфом"),
+        };
+        args.Verbs.Add(shadowling);
 
         var renegadeName = Loc.GetString("admin-verb-text-make-renegade");
         Verb renegade = new()

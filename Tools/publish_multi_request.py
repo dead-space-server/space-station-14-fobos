@@ -7,7 +7,7 @@ import subprocess
 from typing import Iterable
 
 PUBLISH_TOKEN = os.environ["PUBLISH_TOKEN"]
-VERSION = os.environ["GITHUB_SHA"]
+VERSION = os.environ.get("PUBLISH_VERSION") or os.environ["GITHUB_SHA"]
 
 RELEASE_DIR = "release"
 
@@ -36,6 +36,16 @@ def main():
     print(f"Fork: {fork_id}")
     print(f"CDN: {ROBUST_CDN_URL}")
 
+    def abort_publish():
+        try:
+            session.post(
+                f"{ROBUST_CDN_URL}fork/{fork_id}/publish/abort",
+                json={"version": VERSION},
+                headers={"Content-Type": "application/json", "Robust-Cdn-Publish-Id": publish_id},
+                timeout=30)
+        except Exception as e:
+            print(f"Abort publish failed: {e}")
+
     data = {
         "version": VERSION,
         "engineVersion": engine_version,
@@ -50,24 +60,37 @@ def main():
         print(f"Publish start FAILED: {resp.status_code} {resp.reason}")
         print(f"Response: {resp.text}")
         resp.raise_for_status()
+    publish_id = resp.headers.get("Robust-Cdn-Publish-Id")
+    if not publish_id:
+        raise RuntimeError("CDN did not return Robust-Cdn-Publish-Id")
     print("Publish started OK, uploading files...")
 
     files = list(get_files_to_publish())
     print(f"Files to upload: {len(files)}")
+    if not files:
+        abort_publish()
+        raise RuntimeError("No files found to publish")
+
     for file in files:
-        size_mb = os.path.getsize(file) / (1024 * 1024)
-        print(f"  Uploading {os.path.basename(file)} ({size_mb:.1f} MB)")
-        with open(file, "rb") as f:
-            headers = {
-                "Content-Type": "application/octet-stream",
-                "Robust-Cdn-Publish-File": os.path.basename(file),
-                "Robust-Cdn-Publish-Version": VERSION
-            }
-            resp = session.post(f"{ROBUST_CDN_URL}fork/{fork_id}/publish/file", data=f, headers=headers)
+        try:
+            size_mb = os.path.getsize(file) / (1024 * 1024)
+            print(f"  Uploading {os.path.basename(file)} ({size_mb:.1f} MB)")
+            with open(file, "rb") as f:
+                headers = {
+                    "Content-Type": "application/octet-stream",
+                    "Robust-Cdn-Publish-File": os.path.basename(file),
+                    "Robust-Cdn-Publish-Version": VERSION,
+                    "Robust-Cdn-Publish-Id": publish_id
+                }
+                resp = session.post(f"{ROBUST_CDN_URL}fork/{fork_id}/publish/file", data=f, headers=headers)
+        except Exception:
+            abort_publish()
+            raise
 
         if not resp.ok:
             print(f"  Upload FAILED: {resp.status_code} {resp.reason}")
             print(f"  Response: {resp.text}")
+            abort_publish()
             resp.raise_for_status()
 
     print("All files uploaded, finishing publish...")
@@ -76,12 +99,18 @@ def main():
         "version": VERSION
     }
     headers = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Robust-Cdn-Publish-Id": publish_id
     }
-    resp = session.post(f"{ROBUST_CDN_URL}fork/{fork_id}/publish/finish", json=data, headers=headers)
+    try:
+        resp = session.post(f"{ROBUST_CDN_URL}fork/{fork_id}/publish/finish", json=data, headers=headers)
+    except Exception:
+        abort_publish()
+        raise
     if not resp.ok:
         print(f"Publish finish FAILED: {resp.status_code} {resp.reason}")
         print(f"Response: {resp.text}")
+        abort_publish()
         resp.raise_for_status()
 
     print("SUCCESS!")

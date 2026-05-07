@@ -92,6 +92,12 @@ public sealed class SmokeSystem : EntitySystem
 
     private void OnEndCollide(Entity<SmokeComponent> entity, ref EndCollideEvent args)
     {
+
+        //DS14-start
+        if (Terminating(args.OtherEntity))
+            return;
+        //DS14-end
+
         // if we are already in smoke, make sure the thing we are exiting is the current smoke we are in.
         if (_smokeAffectedQuery.TryGetComponent(args.OtherEntity, out var smokeAffectedComponent))
         {
@@ -129,14 +135,6 @@ public sealed class SmokeSystem : EntitySystem
             return;
         }
 
-        // DS14-start
-        if (solution.Volume == FixedPoint2.Zero)
-        {
-            RemCompDeferred<ActiveEdgeSpreaderComponent>(entity);
-            return;
-        }
-        // DS14-end
-
         if (Prototype(entity) is not { } prototype)
         {
             RemCompDeferred<ActiveEdgeSpreaderComponent>(entity);
@@ -150,12 +148,15 @@ public sealed class SmokeSystem : EntitySystem
 
         // wtf is the logic behind any of this.
         var smokePerSpread = entity.Comp.SpreadAmount / Math.Max(1, args.NeighborFreeTiles.Count);
-        var solutionPerSpread = solution.Volume / (args.NeighborFreeTiles.Count + 1); // DS14
+        var hasSolution = solution.Volume > FixedPoint2.Zero; // DS14
+        var solutionPerSpread = hasSolution ? solution.Volume / (args.NeighborFreeTiles.Count + 1) : FixedPoint2.Zero; // DS14
         foreach (var neighbor in args.NeighborFreeTiles)
         {
             // DS14-start
-            var spreadSolution = _solutionContainerSystem.SplitSolution(entity.Comp.Solution!.Value, solutionPerSpread);
-            if (spreadSolution.Volume == FixedPoint2.Zero)
+            var spreadSolution = hasSolution
+                ? _solutionContainerSystem.SplitSolution(entity.Comp.Solution!.Value, solutionPerSpread)
+                : new Solution();
+            if (hasSolution && spreadSolution.Volume == FixedPoint2.Zero)
             {
                 RemCompDeferred<ActiveEdgeSpreaderComponent>(entity);
                 break;
@@ -169,7 +170,7 @@ public sealed class SmokeSystem : EntitySystem
 
             StartSmoke(ent, spreadSolution, timer?.Lifetime ?? entity.Comp.Duration, spreadAmount); // DS14
 
-            if (entity.Comp.SpreadAmount == 0 || solution.Volume == FixedPoint2.Zero) // DS14
+            if (entity.Comp.SpreadAmount == 0 || (hasSolution && solution.Volume == FixedPoint2.Zero)) // DS14
             {
                 RemCompDeferred<ActiveEdgeSpreaderComponent>(entity);
                 break;
@@ -177,12 +178,15 @@ public sealed class SmokeSystem : EntitySystem
         }
 
         // DS14-start
-        UpdateVisuals((entity.Owner, entity.Comp, null));
-
-        if (solution.Volume == FixedPoint2.Zero)
+        if (hasSolution)
         {
-            RemCompDeferred<ActiveEdgeSpreaderComponent>(entity);
-            return;
+            UpdateVisuals((entity.Owner, entity.Comp, null));
+
+            if (solution.Volume == FixedPoint2.Zero)
+            {
+                RemCompDeferred<ActiveEdgeSpreaderComponent>(entity);
+                return;
+            }
         }
         // DS14-end
 

@@ -1,0 +1,24 @@
+admin-toy-menu-title = Спавн за игрушку
+admin-toy-menu-target = Цель: {$target}
+admin-toy-menu-confirm = Заспавниться
+admin-toy-name-label = Название
+admin-toy-name-placeholder = Дух нудной работы
+admin-toy-description-label = Описание
+admin-toy-description-placeholder = Дух рабочего, что некогда служил на этой станции и сгорел на работе... Или он просто съел пельмени от Джониты Райтмен... Кто знает?...
+admin-toy-tts-label = Голос TTS
+admin-toy-tts-random = Случайный
+admin-toy-search-placeholder = Поиск
+
+admin-toy-invalid-target = Выбранная цель не является игроком.
+admin-toy-no-access = Для этого трюка с игрушкой нужен флаг +ADMIN.
+admin-toy-invalid-prototype = Выбранный прототип игрушки недоступен.
+admin-toy-invalid-tts = Выбранный голос TTS недоступен.
+admin-toy-no-mind = У вас нет mind, из которого можно вселиться.
+admin-toy-no-private-layer = Нет свободных приватных слоёв видимости для игрушек.
+admin-toy-spawn-failed = Не удалось найти подходящую позицию рядом с целью.
+admin-toy-spawn-success = Вы заспавнились за {$toy} рядом с {$target}.
+admin-toy-boo-failed = Рядом не нашлось ламп для мигания.
+admin-toy-lightning-wrong-target = Этой молнией можно бить только выбранного игрока.
+admin-toy-lightning-invalid-target = Выбранный игрок не является подходящей живой целью.
+admin-toy-construction-too-far = Призрак постройки слишком далеко.
+admin-toy-private-speech-language = неизвестно

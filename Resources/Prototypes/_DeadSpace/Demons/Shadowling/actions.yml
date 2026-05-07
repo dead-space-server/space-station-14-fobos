@@ -1,0 +1,209 @@
+- type: entity
+  id: ActionShadowlingVeil
+  name: Затмение
+  description: Вызывает всплеск аномальной энергии, поглощающей ближайшие источники света.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon: _DeadSpace/Demons/ability_icons/shadowling_veil_action.png
+    useDelay: 20
+    itemIconStyle: NoItem
+  - type: InstantAction
+    event: !type:ShadowlingVeilActionEvent
+
+- type: entity
+  id: ActionShadowlingPhase
+  name: Теневой сдвиг
+  description: Позволяет вам быстро перемещаться сквозь стены.
+  components:
+  - type: Action
+    icon: _DeadSpace/Demons/ability_icons/shadowling_ghost_action.png
+    useDelay: 40
+    itemIconStyle: NoItem
+  - type: InstantAction
+    event: !type:ShadowlingPhaseActionEvent
+
+- type: entity
+  id: ActionShadowlingRecruit
+  name: Порабощение
+  description: Позволяет превратить члена экипажа в слугу.
+  components:
+  - type: Action
+    icon: _DeadSpace/Demons/ability_icons/shadowling_recruit_action.png
+    useDelay: 5
+  - type: TargetAction
+    range: 1
+  - type: EntityTargetAction
+    canTargetSelf: false
+    event: !type:ShadowlingRecruitEvent
+
+- type: entity
+  id: ActionShadowlingDarkMind
+  name: Узы тьмы
+  description: Позволяет узнать количество слуг тенеморфов на станции.
+  components:
+  - type: Action
+    icon: _DeadSpace/Demons/ability_icons/shadowling_dark_mind_action.png
+    useDelay: 5
+  - type: InstantAction
+    event: !type:ShadowlingDarkMindEvent
+
+- type: entity
+  id: ActionShadowlingReveal
+  name: Раскрытие
+  description: Принять истинную форму Тенеморфа.
+  components:
+  - type: Action
+    icon: _DeadSpace/Demons/ability_icons/shadowling_reveal_action.png
+    useDelay: 30
+  - type: InstantAction
+    event: !type:ShadowlingRevealEvent
+
+- type: entity
+  id: ActionShadowlingAscendance
+  name: Превознесение
+  description: Превозносит вас, делая Вознесённым, повышая ваши характеристики.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon: _DeadSpace/Demons/ability_icons/shadowling_exalt_action.png
+    useDelay: 30
+    itemIconStyle: NoItem
+  - type: InstantAction
+    event: !type:ShadowlingAscendanceEvent
+
+- type: entity
+  id: ActionShadowlingBlink
+  name: Оцепенение
+  description: Оглушает одиночную цель.
+  components:
+  - type: Action
+    icon: _DeadSpace/Demons/ability_icons/shadowling_blink_action.png
+    useDelay: 40
+  - type: TargetAction
+    range: 7
+  - type: EntityTargetAction
+    canTargetSelf: false
+    event: !type:ShadowlingBlinkEvent
+
+- type: entity
+  id: ActionShadowlingScreech
+  name: Волна визга
+  description: Оглушить всех в радиусе 5 метров.
+  components:
+  - type: Action
+    icon: _DeadSpace/Demons/ability_icons/shadowling_screech_action.png
+    useDelay: 90
+  - type: InstantAction
+    event: !type:ShadowlingScreechEvent
+
+- type: entity
+  id: ActionShadowlingAnnihilation
+  name: Аннигиляция
+  description: Разрывает цель на органы.
+  components:
+  - type: Action
+    icon: _DeadSpace/Demons/ability_icons/shadowling_annihilation_action.png
+    useDelay: 20
+    itemIconStyle: NoItem
+  - type: TargetAction
+    range: 3
+  - type: EntityTargetAction
+    canTargetSelf: false
+    event: !type:ShadowlingAnnihilationEvent
+
+- type: entity
+  id: ActionShadowlingBlackMed
+  name: Тёмный ритуал
+  description: Мгновенно воскрешает и полностью исцеляет вашего слугу.
+  components:
+  - type: Action
+    icon: _DeadSpace/Demons/ability_icons/shadowling_blackmed_action.png
+    useDelay: 180
+    itemIconStyle: NoItem
+  - type: TargetAction
+    range: 2
+  - type: EntityTargetAction
+    canTargetSelf: false
+    event: !type:ShadowlingBlackMedEvent
+
+- type: entity
+  id: ActionShadowlingFreezingVeins
+  name: Криогенный удар
+  description: Замораживает вашу жертву.
+  components:
+  - type: Action
+    icon: _DeadSpace/Demons/ability_icons/shadowling_freezing_veins_action.png
+    useDelay: 80
+    itemIconStyle: NoItem
+  - type: TargetAction
+    range: 7
+  - type: EntityTargetAction
+    canTargetSelf: false
+    event: !type:ShadowlingFreezingVeinsEvent
+
+- type: entity
+  id: ActionShadowlingSmoke
+  name: Дымовая завеса
+  description: Выпускает облако густого дыма, скрывающее ваше присутствие.
+  components:
+  - type: Action
+    icon: _DeadSpace/Demons/ability_icons/shadowling_smoke_action.png
+    useDelay: 50
+  - type: InstantAction
+    event: !type:ShadowlingSmokeActionEvent
+
+- type: entity
+  id: ActionShadowlingThunderstorm
+  name: Грозовой шторм
+  description: Поражает врагов цепной молнией.
+  components:
+  - type: Action
+    icon: _DeadSpace/Demons/ability_icons/shadowling_thunderstorm_action.png
+    useDelay: 25
+  - type: TargetAction
+    range: 10
+  - type: EntityTargetAction
+    canTargetSelf: false
+    event: !type:ShadowlingThunderstormEvent
+
+- type: entity
+  id: ActionShadowlingAbsoluteFreezingVeins
+  name: Абсолютная заморозка
+  description: Опускает температуру тела цели до абсолютного нуля.
+  components:
+  - type: Action
+    icon: _DeadSpace/Demons/ability_icons/shadowling_absolute_freezing_veins_action.png
+    useDelay: 20
+    itemIconStyle: NoItem
+  - type: TargetAction
+    range: 7
+  - type: EntityTargetAction
+    canTargetSelf: false
+    event: !type:ShadowlingAbsoluteFreezingVeinsEvent
+
+- type: entity
+  id: ActionShadowlingAscendedPhase
+  name: Фазовый сдвиг
+  description: Позволяет вам быстро перемещаться сквозь стены.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon: _DeadSpace/Demons/ability_icons/shadowling_ascended_ghost_action.png
+    useDelay: 10
+    itemIconStyle: NoItem
+  - type: InstantAction
+    event: !type:ShadowlingAscendedPhaseActionEvent
+
+- type: entity
+  id: ActionShadowlingAscendedPhaseReturn
+  name: Вернуться
+  description: Вернуться в физическую форму.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon: _DeadSpace/Demons/ability_icons/shadowling_ascended_ghost_action.png
+    useDelay: 0.5
+    itemIconStyle: NoItem
+  - type: InstantAction
+    event: !type:ShadowlingAscendedPhaseReturnEvent
