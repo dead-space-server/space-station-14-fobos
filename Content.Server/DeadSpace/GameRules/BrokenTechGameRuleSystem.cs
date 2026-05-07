@@ -7,6 +7,9 @@ using Content.Server.GameTicking;
 using Content.Server.GameTicking.Rules;
 using Content.Server.Atmos.EntitySystems;
 using Content.Server.Power.Components;
+using Content.Server.Shuttles.Systems;
+using Content.Server.Station.Components;
+using Content.Server.Station.Systems;
 using Content.Shared.DeadSpace.GameRules.Components;
 using Content.Shared.EntityTable;
 using Content.Shared.EntityTable.EntitySelectors; 
@@ -32,6 +35,8 @@ public sealed class BrokenTechGameRuleSystem : GameRuleSystem<BrokenTechGameRule
     [Dependency] private readonly SharedMapSystem _mapSystem = default!;
     [Dependency] private readonly AtmosphereSystem _atmos = default!;
     [Dependency] private readonly TagSystem _tags = default!;
+    [Dependency] private readonly ArrivalsSystem _arrivals = default!;
+    [Dependency] private readonly StationSystem _station = default!;
 
     public override void Update(float frameTime)
     {
@@ -121,6 +126,9 @@ public sealed class BrokenTechGameRuleSystem : GameRuleSystem<BrokenTechGameRule
             if (TerminatingOrDeleted(ent))
                 continue;
 
+            if (!IsValidEventTarget(ent))
+                continue;
+
             var meta = MetaData(ent);
             if (meta.EntityPrototype != null
                 && entry.BlacklistPrototypes.Contains(meta.EntityPrototype.ID))
@@ -144,6 +152,18 @@ public sealed class BrokenTechGameRuleSystem : GameRuleSystem<BrokenTechGameRule
         }
 
         return result;
+    }
+
+    private bool IsValidEventTarget(EntityUid ent)
+    {
+        if (!TryComp(ent, out TransformComponent? xform))
+            return false;
+
+        if (_arrivals.IsOnArrivals((ent, xform)))
+            return false;
+
+        var station = _station.GetOwningStation(ent, xform);
+        return station != null && HasComp<StationEventEligibleComponent>(station.Value);
     }
 
     private List<EntityUid> GetEntitiesWithComponent(string componentName)
