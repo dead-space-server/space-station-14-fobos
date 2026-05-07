@@ -23,6 +23,8 @@
     CaptainJetpackStealObjective: 0.5
     HandTeleporterStealObjective: 0.5
     WeaponX01StealObjective: 0.25 # DS14
+    PistolBlueShieldStealObjective: 0.5 # DS14
+    PinpointerNuclearStealObjective: 1 # DS14
 
 - type: weightedRandom
   id: TraitorObjectiveGroupKill
@@ -88,6 +90,7 @@
     BibleStealObjective: 1
     ClothingNeckGoldmedalStealObjective: 1              #other
     ClothingNeckClownmedalStealObjective: 0.5
+    WeaponRevolverDeckardStealObjective: 1 # DS14
 
 - type: weightedRandom
   id: ThiefObjectiveGroupStructure

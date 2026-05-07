@@ -78,6 +78,8 @@
   - type: Appearance
   - type: StaticPrice
     price: 1500
+  - type: StealTarget #DS14
+    stealGroup: WeaponRevolverDeckard #DS14        
 
 - type: entity
   name: Inspector

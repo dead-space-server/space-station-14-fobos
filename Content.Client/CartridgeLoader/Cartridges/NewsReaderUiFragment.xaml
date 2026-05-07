@@ -53,6 +53,70 @@
             <RichTextLabel Margin="8,8,8,8" Name="PageText" VerticalAlignment="Top"/>
         </ScrollContainer>
     </PanelContainer>
+
+    <!-- DS14-start -->
+    <BoxContainer Orientation="Horizontal" HorizontalExpand="True" Margin="5,2,5,2">
+        <Button
+            Name="LikeButton"
+            MinWidth="60"
+            HorizontalAlignment="Left"
+            ToolTip="{Loc 'news-read-ui-like-tooltip'}">
+            <BoxContainer Orientation="Horizontal">
+                <Label Text="+" VerticalAlignment="Center"/>
+                <Label Name="LikeCount" Text="0" Margin="6,0,0,0" VerticalAlignment="Center"/>
+            </BoxContainer>
+        </Button>
+        <Button
+            Name="DislikeButton"
+            MinWidth="60"
+            Margin="4,0,0,0"
+            HorizontalAlignment="Left"
+            ToolTip="{Loc 'news-read-ui-dislike-tooltip'}">
+            <BoxContainer Orientation="Horizontal">
+                <Label Text="-" VerticalAlignment="Center"/>
+                <Label Name="DislikeCount" Text="0" Margin="6,0,0,0" VerticalAlignment="Center"/>
+            </BoxContainer>
+        </Button>
+    </BoxContainer>
+
+    <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Margin="5,2,5,5" SizeFlagsStretchRatio="1">
+
+        <BoxContainer Orientation="Horizontal" HorizontalExpand="True" VerticalExpand="True">
+
+            <PanelContainer StyleClasses="BackgroundDark" HorizontalExpand="True" SizeFlagsStretchRatio="1" Margin="0,2,2,2">
+                <BoxContainer Orientation="Vertical" Margin="4">
+                    <LineEdit
+                        Name="CommentInput"
+                        PlaceHolder="{Loc 'news-read-ui-comment-placeholder'}"
+                        HorizontalExpand="True"/>
+                    <Button
+                        Name="SendCommentButton"
+                        MinWidth="60"
+                        Margin="0,4,0,0"
+                        HorizontalAlignment="Center"
+                        Text="{Loc 'news-read-ui-comment-send'}"
+                        ToolTip="{Loc 'news-read-ui-comment-send-tooltip'}"/>
+                </BoxContainer>
+            </PanelContainer>
+
+            <PanelContainer StyleClasses="BackgroundDark" HorizontalExpand="True" SizeFlagsStretchRatio="1" Margin="2,2,0,2">
+                <ScrollContainer
+                    Name="CommentsScroll"
+                    HScrollEnabled="False"
+                    HorizontalExpand="True"
+                    VerticalExpand="True">
+                    <BoxContainer
+                        Name="CommentsContainer"
+                        Orientation="Vertical"
+                        HorizontalExpand="True"
+                        VerticalExpand="False"/>
+                </ScrollContainer>
+            </PanelContainer>
+
+        </BoxContainer>
+    </BoxContainer>
+    <!-- DS14-end -->
+
     <BoxContainer Orientation="Horizontal" HorizontalExpand="True" Margin="5,5,5,5">
         <Button
             Name="NotificationSwitch"

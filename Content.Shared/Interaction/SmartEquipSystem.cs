@@ -22,6 +22,7 @@ public sealed class SmartEquipSystem : EntitySystem
 {
     private const string SheathInsertVerb = "sheath-insert-verb"; // DS14
     private const string SheathEjectVerb = "sheath-eject-verb"; // DS14
+    private const string SuitStorageSlot = "suitstorage"; // DS14
 
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly SharedStorageSystem _storage = default!;
@@ -73,7 +74,7 @@ public sealed class SmartEquipSystem : EntitySystem
 
     private void HandleSmartEquipSuitStorage(ICommonSession? session)
     {
-        HandleSmartEquip(session, "suitstorage");
+        HandleSmartEquip(session, SuitStorageSlot); // DS14
     }
 
     private void HandleSmartEquip(ICommonSession? session, string equipmentSlot)
@@ -193,7 +194,7 @@ public sealed class SmartEquipSystem : EntitySystem
         }
 
         // case 3 (itemslot item):
-        if (TryComp<ItemSlotsComponent>(slotItem, out var slots) && ShouldUseContainedItemSlot(slots, handItem)) // DS14
+        if (TryComp<ItemSlotsComponent>(slotItem, out var slots) && ShouldUseContainedItemSlot(slots, handItem, equipmentSlot)) // DS14
         {
             if (handItem == null)
             {
@@ -252,9 +253,12 @@ public sealed class SmartEquipSystem : EntitySystem
     }
 
     // DS14-start
-    private static bool ShouldUseContainedItemSlot(ItemSlotsComponent slots, EntityUid? handItem)
+    private static bool ShouldUseContainedItemSlot(ItemSlotsComponent slots, EntityUid? handItem, string equipmentSlot)
     {
         if (handItem != null)
+            return true;
+
+        if (equipmentSlot == SuitStorageSlot)
             return true;
 
         foreach (var slot in slots.Slots.Values)

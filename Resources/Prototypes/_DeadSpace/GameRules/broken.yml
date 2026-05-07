@@ -1,0 +1,48 @@
+- type: entity
+  id: BrokenTechEvent
+  parent: BaseGameRule
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: BrokenTechGameRule
+    listComponent:
+      - componentName: Apc
+        minuteMin: 27
+        minuteMax: 36
+        howMuchEntity: 2
+        chance: 65
+        action: !type:ExplodeEntityAction
+          spawnTable: !type:EntSelector
+            id: FireNRFHELL
+            amount: 2
+          spawnOffset: "0,0"
+          explosionIntensity: 1
+          explosionType: Default
+      - componentName: NodeContainer
+        minuteMin: 15
+        minuteMax: 45
+        howMuchEntity: 15
+        chance: 75
+        action: !type:BlockWorkingEntityAction
+          spawnTable: !type:EntSelector
+            id: EffectSparksBrokenEvent
+            amount: 1
+          spawnOffset: "0,0"
+          useEntityRotation: false
+      - componentName: ApcPowerReceiver
+        blacklistPrototypes:
+          - ResearchAndDevelopmentServer
+          - CrewMonitoringServer
+          - PlayerStationAi
+          - ResearchAndDevelopmentServerTaipan
+        # blacklistTags:
+        #   - HighRiskItem
+        minuteMin: 25
+        minuteMax: 45
+        howMuchEntity: 15
+        chance: 75
+        action: !type:BlockWorkingEntityAction
+          spawnTable: !type:EntSelector
+            id: EffectSparksBrokenEvent
+            amount: 1
+          spawnOffset: "0,0"
+          useEntityRotation: false

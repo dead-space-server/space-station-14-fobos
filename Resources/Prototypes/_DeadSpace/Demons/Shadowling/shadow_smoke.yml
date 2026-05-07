@@ -1,0 +1,15 @@
+- type: entity
+  parent: BaseFoam
+  id: ShadowSmoke
+  name: дым
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Occluder
+  - type: Sprite
+    sprite: Effects/chemsmoke.rsi
+    state: chemsmoke
+  - type: TimedDespawn
+    lifetime: 10
+  - type: Tag
+    tags:
+    - HideContextMenu
