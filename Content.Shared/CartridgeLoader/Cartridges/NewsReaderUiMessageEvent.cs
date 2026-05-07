@@ -7,9 +7,14 @@ public sealed class NewsReaderUiMessageEvent : CartridgeMessageEvent
 {
     public readonly NewsReaderUiAction Action;
 
-    public NewsReaderUiMessageEvent(NewsReaderUiAction action)
+    // DS14
+    public readonly string? CommentContent;
+
+    // DS14
+    public NewsReaderUiMessageEvent(NewsReaderUiAction action, string? commentContent = null)
     {
         Action = action;
+        CommentContent = commentContent;
     }
 }
 
@@ -18,5 +23,11 @@ public enum NewsReaderUiAction
 {
     Next,
     Prev,
-    NotificationSwitch
+    NotificationSwitch,
+    // DS14
+    Like,
+    // DS14
+    Dislike,
+    // DS14
+    AddComment
 }

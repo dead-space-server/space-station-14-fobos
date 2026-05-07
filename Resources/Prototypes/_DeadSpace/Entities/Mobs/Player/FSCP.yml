@@ -255,7 +255,7 @@
   # duffelbag: ClothingBackpackFSCPCorporalFilled
 
 - type: entity
-  parent: ADTClothingUniformTurleneckWhite
+  parent: ClothingUniformTurtleneckWhite
   id: ClothingUniformJumpsuitFSCPCorporal
   name: стандартный костюм медика КПСК
   description: Удобный и прочный современный штурмовой костюм из плотной ткани, который хорошо показал себя на космической войне с капиталистами.

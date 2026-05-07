@@ -92,6 +92,12 @@ public sealed class SmokeSystem : EntitySystem
 
     private void OnEndCollide(Entity<SmokeComponent> entity, ref EndCollideEvent args)
     {
+
+        //DS14-start
+        if (Terminating(args.OtherEntity))
+            return;
+        //DS14-end
+
         // if we are already in smoke, make sure the thing we are exiting is the current smoke we are in.
         if (_smokeAffectedQuery.TryGetComponent(args.OtherEntity, out var smokeAffectedComponent))
         {

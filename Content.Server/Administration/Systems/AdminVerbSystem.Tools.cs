@@ -12,7 +12,6 @@ using Content.Shared.Access.Components;
 using Content.Shared.Access.Systems;
 using Content.Shared.Administration;
 using Content.Shared.Administration.Components;
-using Content.Shared.Administration.Systems;
 using Content.Shared.Atmos;
 using Content.Shared.Atmos.Components;
 using Content.Shared.Construction.Components;
@@ -36,6 +35,7 @@ using Robust.Shared.Physics.Components;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
+using Content.Server.DeadSpace.AdminToy; // DS14
 
 namespace Content.Server.Administration.Systems;
 
@@ -53,6 +53,7 @@ public sealed partial class AdminVerbSystem
     [Dependency] private readonly SharedBatterySystem _batterySystem = default!;
     [Dependency] private readonly MetaDataSystem _metaSystem = default!;
     [Dependency] private readonly GunSystem _gun = default!;
+    [Dependency] private readonly AdminToySystem _adminToy = default!; // DS14
 
     private void AddTricksVerbs(GetVerbsEvent<Verb> args)
     {
@@ -63,6 +64,23 @@ public sealed partial class AdminVerbSystem
 
         if (!_adminManager.HasAdminFlag(player, AdminFlags.Admin))
             return;
+
+        // DS14-start
+        if (_adminToy.CanUse(player) && _adminToy.CanTarget(args.Target))
+        {
+            Verb spawnAdminToy = new()
+            {
+                Text = Loc.GetString("admin-verbs-spawn-admin-toy"),
+                Category = VerbCategory.Tricks,
+                Icon = new SpriteSpecifier.Rsi(new("/Textures/Objects/Fun/Plushies/lizard.rsi"), "icon"),
+                Act = () => _adminToy.OpenSelection(player, args.Target),
+                Impact = LogImpact.High,
+                Message = Loc.GetString("admin-trick-spawn-admin-toy-description"),
+                Priority = (int) TricksVerbPriorities.SpawnAdminToy,
+            };
+            args.Verbs.Add(spawnAdminToy);
+        }
+        // DS14-end
 
         if (TryComp<DoorBoltComponent>(args.Target, out var bolts))
         {
@@ -876,5 +894,6 @@ public sealed partial class AdminVerbSystem
         SnapJoints = -27,
         MakeMinigun = -28,
         SetBulletAmount = -29,
+        SpawnAdminToy = -30, // DS14
     }
 }

@@ -167,10 +167,14 @@
     damageCoefficient: 0.4
   - type: StaticPrice
     price: 1500
+  - type: Item #DS-14 start
+    size: Normal
+    shape:
+    - 0,0,1,2 #DS-14 end
 
 #Elite web vest
 - type: entity
-  parent: [ClothingOuterArmorBase, AllowSuitStorageClothing, BaseSyndicateContraband]
+  parent: [ClothingOuterArmorBase, ClothingOuterStorageBase, BaseSyndicateContraband] #DS-14
   id: ClothingOuterVestWebElite
   name: elite web vest
   description: A synthetic armor vest. This one has added webbing and heat resistant fibers.
@@ -179,6 +183,10 @@
     sprite: Clothing/OuterClothing/Vests/elitevest.rsi
   - type: Clothing
     sprite: Clothing/OuterClothing/Vests/elitevest.rsi
+  - type: Item #DS-14 start
+    size: Normal
+    shape:
+    - 0,0,1,2 #DS-14 end
   - type: TemperatureProtection
     heatingCoefficient: 0.1
     coolingCoefficient: 0.1
@@ -199,6 +207,7 @@
     reduction: 0.85
   - type: StaticPrice
     price: 2500
+
 
 #Mercenary web vest
 - type: entity

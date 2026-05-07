@@ -565,7 +565,7 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory18
-  productEntity: ADTClothingUniformTurleneckBlack
+  productEntity: ClothingUniformTurtleneckBlack
   cost:
     SpaceCash: 25
   categories:
@@ -576,7 +576,7 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory19
-  productEntity: ADTClothingUniformTurleneckBlue
+  productEntity: ClothingUniformTurtleneckBlue
   cost:
     SpaceCash: 25
   categories:
@@ -587,7 +587,7 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory20
-  productEntity: ADTClothingUniformTurleneckBlueBlack
+  productEntity: ClothingUniformTurtleneckBlueBlack
   cost:
     SpaceCash: 25
   categories:
@@ -598,7 +598,7 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory21
-  productEntity: ADTClothingUniformTurleneckGolub
+  productEntity: ClothingUniformTurtleneckBrown
   cost:
     SpaceCash: 25
   categories:
@@ -609,7 +609,7 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory22
-  productEntity: ADTClothingUniformTurleneckGolubBlack
+  productEntity: ClothingUniformTurtleneckBrownBlack
   cost:
     SpaceCash: 25
   categories:
@@ -620,7 +620,7 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory23
-  productEntity: ADTClothingUniformTurleneckGreen
+  productEntity: ClothingUniformTurtleneckCyan
   cost:
     SpaceCash: 25
   categories:
@@ -631,7 +631,7 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory24
-  productEntity: ADTClothingUniformTurleneckGreenBlack
+  productEntity: ClothingUniformTurtleneckCyanBlack
   cost:
     SpaceCash: 25
   categories:
@@ -642,7 +642,7 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory25
-  productEntity: ADTClothingUniformTurleneckOrange
+  productEntity: ClothingUniformTurtleneckGreen
   cost:
     SpaceCash: 25
   categories:
@@ -653,7 +653,7 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory26
-  productEntity: ADTClothingUniformTurleneckOrangeBlack
+  productEntity: ClothingUniformTurtleneckGreenBlack
   cost:
     SpaceCash: 25
   categories:
@@ -664,7 +664,7 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory27
-  productEntity: ADTClothingUniformTurleneckPurpur
+  productEntity: ClothingUniformTurtleneckGrey
   cost:
     SpaceCash: 25
   categories:
@@ -675,7 +675,7 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory28
-  productEntity: ADTClothingUniformTurleneckPurpurBlack
+  productEntity: ClothingUniformTurtleneckGreyBlack
   cost:
     SpaceCash: 25
   categories:
@@ -686,7 +686,7 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory29
-  productEntity: ADTClothingUniformTurleneckRed
+  productEntity: ClothingUniformTurtleneckLime
   cost:
     SpaceCash: 25
   categories:
@@ -697,7 +697,7 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory30
-  productEntity: ADTClothingUniformTurleneckRedBlack
+  productEntity: ClothingUniformTurtleneckLimeBlack
   cost:
     SpaceCash: 25
   categories:
@@ -708,7 +708,7 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory31
-  productEntity: ADTClothingUniformTurleneckSalat
+  productEntity: ClothingUniformTurtleneckOrange
   cost:
     SpaceCash: 25
   categories:
@@ -719,7 +719,7 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory32
-  productEntity: ADTClothingUniformTurleneckSalatBlack
+  productEntity: ClothingUniformTurtleneckOrangeBlack
   cost:
     SpaceCash: 25
   categories:
@@ -730,7 +730,7 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory33
-  productEntity: ADTClothingUniformTurleneckWhite
+  productEntity: ClothingUniformTurtleneckPink
   cost:
     SpaceCash: 25
   categories:
@@ -741,7 +741,7 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory34
-  productEntity: ADTClothingUniformTurleneckWhiteBlack
+  productEntity: ClothingUniformTurtleneckPinkBlack
   cost:
     SpaceCash: 25
   categories:
@@ -752,7 +752,7 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory35
-  productEntity: ADTClothingUniformTurleneckBlackSleeveless
+  productEntity: ClothingUniformTurtleneckPurple
   cost:
     SpaceCash: 25
   categories:
@@ -763,7 +763,7 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory36
-  productEntity: ADTClothingUniformTurleneckWhiteSleeveless
+  productEntity: ClothingUniformTurtleneckPurpleBlack
   cost:
     SpaceCash: 25
   categories:
@@ -774,7 +774,7 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory37
-  productEntity: ADTClothingUniformTurleneckWhiteBlackSleeveless
+  productEntity: ClothingUniformTurtleneckRed
   cost:
     SpaceCash: 25
   categories:
@@ -785,6 +785,116 @@
 
 - type: listing
   id: ClothingJumpsuitMachineInventory38
+  productEntity: ClothingUniformTurtleneckRedBlack
+  cost:
+    SpaceCash: 25
+  categories:
+  - ClothingJumpsuitMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+- type: listing
+  id: ClothingJumpsuitMachineInventory39
+  productEntity: ClothingUniformTurtleneckTurquoise
+  cost:
+    SpaceCash: 25
+  categories:
+  - ClothingJumpsuitMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+- type: listing
+  id: ClothingJumpsuitMachineInventory40
+  productEntity: ClothingUniformTurtleneckTurquoiseBlack
+  cost:
+    SpaceCash: 25
+  categories:
+  - ClothingJumpsuitMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+- type: listing
+  id: ClothingJumpsuitMachineInventory41
+  productEntity: ClothingUniformTurtleneckWhite
+  cost:
+    SpaceCash: 25
+  categories:
+  - ClothingJumpsuitMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+- type: listing
+  id: ClothingJumpsuitMachineInventory42
+  productEntity: ClothingUniformTurtleneckWhiteBlack
+  cost:
+    SpaceCash: 25
+  categories:
+  - ClothingJumpsuitMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+- type: listing
+  id: ClothingJumpsuitMachineInventory43
+  productEntity: ClothingUniformTurtleneckYellow
+  cost:
+    SpaceCash: 25
+  categories:
+  - ClothingJumpsuitMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+- type: listing
+  id: ClothingJumpsuitMachineInventory44
+  productEntity: ClothingUniformTurtleneckYellowBlack
+  cost:
+    SpaceCash: 25
+  categories:
+  - ClothingJumpsuitMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+- type: listing
+  id: ClothingJumpsuitMachineInventory45
+  productEntity: ClothingUniformTurtleneckBlackSleeveless
+  cost:
+    SpaceCash: 25
+  categories:
+  - ClothingJumpsuitMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+- type: listing
+  id: ClothingJumpsuitMachineInventory46
+  productEntity: ClothingUniformTurtleneckWhiteSleeveless
+  cost:
+    SpaceCash: 25
+  categories:
+  - ClothingJumpsuitMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+- type: listing
+  id: ClothingJumpsuitMachineInventory47
+  productEntity: ClothingUniformTurtleneckWhiteBlackSleeveless
+  cost:
+    SpaceCash: 25
+  categories:
+  - ClothingJumpsuitMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+- type: listing
+  id: ClothingJumpsuitMachineInventory48
   productEntity: ClothingUniformJumpsuitFlannel
   cost:
     SpaceCash: 40
@@ -795,7 +905,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpsuitMachineInventory39
+  id: ClothingJumpsuitMachineInventory49
   productEntity: ClothingUniformJumpsuitSuitCheckered
   cost:
     SpaceCash: 70
@@ -806,7 +916,7 @@
     stock: 4
 
 - type: listing
-  id: ClothingJumpsuitMachineInventory40
+  id: ClothingJumpsuitMachineInventory50
   productEntity: ClothingUniformJumpsuitSuitTan
   cost:
     SpaceCash: 70
@@ -817,7 +927,7 @@
     stock: 4
 
 - type: listing
-  id: ClothingJumpsuitMachineInventory41
+  id: ClothingJumpsuitMachineInventory51
   productEntity: ClothingRandomSpawner
   cost:
     SpaceCash: 20
@@ -828,7 +938,7 @@
     stock: 8
 
 - type: listing
-  id: ClothingJumpsuitMachineInventory42
+  id: ClothingJumpsuitMachineInventory52
   productEntity: ClothingUniformJumpsuitFamilyGuy
   cost:
     SpaceCash: 50
@@ -839,7 +949,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpsuitMachineInventory43
+  id: ClothingJumpsuitMachineInventory53
   productEntity: ClothingUniformJumpsuitAerostatic
   cost:
     SpaceCash: 50
@@ -850,7 +960,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpsuitMachineInventory44
+  id: ClothingJumpsuitMachineInventory54
   productEntity: ClothingUniformJumpsuitSuperstarCop
   cost:
     SpaceCash: 50
@@ -861,7 +971,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpsuitMachineInventory45
+  id: ClothingJumpsuitMachineInventory55
   productEntity: ClothingUniformJumpsuitLoungewear
   cost:
     SpaceCash: 10
@@ -872,7 +982,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpsuitMachineInventory46
+  id: ClothingJumpsuitMachineInventory56
   productEntity: ClothingUniformJumpsuitHawaiBlue
   cost:
     SpaceCash: 20
@@ -883,7 +993,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpsuitMachineInventory47
+  id: ClothingJumpsuitMachineInventory57
   productEntity: ClothingUniformJumpsuitHawaiRed
   cost:
     SpaceCash: 20
@@ -894,7 +1004,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpsuitMachineInventory48
+  id: ClothingJumpsuitMachineInventory58
   productEntity: ClothingUniformJumpsuitHawaiBlack
   cost:
     SpaceCash: 20
@@ -905,7 +1015,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpsuitMachineInventory49
+  id: ClothingJumpsuitMachineInventory59
   productEntity: ClothingUniformJumpsuitHawaiYellow
   cost:
     SpaceCash: 20
@@ -916,8 +1026,8 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpsuitMachineInventory50
-  productEntity: ADTClothingUniformTurleneckTactick
+  id: ClothingJumpsuitMachineInventory60
+  productEntity: ClothingUniformTurtleneckTactic
   cost:
     SpaceCash: 20
   categories:
@@ -930,7 +1040,7 @@
 
 - type: listing
   id: ClothingJumpskirtMachineInventory1
-  productEntity: ADTClothingUniformTurleneckBlackWomen
+  productEntity: ClothingUniformTurtleneckBlackWomen
   cost:
     SpaceCash: 25
   categories:
@@ -941,7 +1051,7 @@
 
 - type: listing
   id: ClothingJumpskirtMachineInventory2
-  productEntity: ADTClothingUniformTurleneckBlueWomen
+  productEntity: ClothingUniformTurtleneckBlueWomen
   cost:
     SpaceCash: 25
   categories:
@@ -952,7 +1062,7 @@
 
 - type: listing
   id: ClothingJumpskirtMachineInventory3
-  productEntity: ADTClothingUniformTurleneckGolubWomen
+  productEntity: ClothingUniformTurtleneckBrownWomen
   cost:
     SpaceCash: 25
   categories:
@@ -963,7 +1073,7 @@
 
 - type: listing
   id: ClothingJumpskirtMachineInventory4
-  productEntity: ADTClothingUniformTurleneckGreenWomen
+  productEntity: ClothingUniformTurtleneckCyanWomen
   cost:
     SpaceCash: 25
   categories:
@@ -974,7 +1084,7 @@
 
 - type: listing
   id: ClothingJumpskirtMachineInventory5
-  productEntity: ADTClothingUniformTurleneckOrangeWomen
+  productEntity: ClothingUniformTurtleneckGreenWomen
   cost:
     SpaceCash: 25
   categories:
@@ -985,7 +1095,7 @@
 
 - type: listing
   id: ClothingJumpskirtMachineInventory6
-  productEntity: ADTClothingUniformTurleneckPurpurWomen
+  productEntity: ClothingUniformTurtleneckGreyWomen
   cost:
     SpaceCash: 25
   categories:
@@ -996,7 +1106,7 @@
 
 - type: listing
   id: ClothingJumpskirtMachineInventory7
-  productEntity: ADTClothingUniformTurleneckRedWomen
+  productEntity: ClothingUniformTurtleneckLimeWomen
   cost:
     SpaceCash: 25
   categories:
@@ -1007,7 +1117,7 @@
 
 - type: listing
   id: ClothingJumpskirtMachineInventory8
-  productEntity: ADTClothingUniformTurleneckSalatWomen
+  productEntity: ClothingUniformTurtleneckOrangeWomen
   cost:
     SpaceCash: 25
   categories:
@@ -1018,7 +1128,7 @@
 
 - type: listing
   id: ClothingJumpskirtMachineInventory9
-  productEntity: ADTClothingUniformTurleneckWhiteWomen
+  productEntity: ClothingUniformTurtleneckPinkWomen
   cost:
     SpaceCash: 25
   categories:
@@ -1027,9 +1137,10 @@
   - !type:ListingLimitedStockCondition
     stock: 2
 
+
 - type: listing
   id: ClothingJumpskirtMachineInventory10
-  productEntity: ADTClothingUniformTurleneckBlackWomenSleeveless
+  productEntity: ClothingUniformTurtleneckPurpleWomen
   cost:
     SpaceCash: 25
   categories:
@@ -1040,7 +1151,7 @@
 
 - type: listing
   id: ClothingJumpskirtMachineInventory11
-  productEntity: ADTClothingUniformTurleneckWhiteWomenSleeveless
+  productEntity: ClothingUniformTurtleneckRedWomen
   cost:
     SpaceCash: 25
   categories:
@@ -1051,6 +1162,61 @@
 
 - type: listing
   id: ClothingJumpskirtMachineInventory12
+  productEntity: ClothingUniformTurtleneckTurquoiseWomen
+  cost:
+    SpaceCash: 25
+  categories:
+  - ClothingJumpskirtMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+- type: listing
+  id: ClothingJumpskirtMachineInventory13
+  productEntity: ClothingUniformTurtleneckWhiteWomen
+  cost:
+    SpaceCash: 25
+  categories:
+  - ClothingJumpskirtMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+- type: listing
+  id: ClothingJumpskirtMachineInventory14
+  productEntity: ClothingUniformTurtleneckYellowWomen
+  cost:
+    SpaceCash: 25
+  categories:
+  - ClothingJumpskirtMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+- type: listing
+  id: ClothingJumpskirtMachineInventory15
+  productEntity: ClothingUniformTurtleneckBlackWomenSleeveless
+  cost:
+    SpaceCash: 25
+  categories:
+  - ClothingJumpskirtMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+- type: listing
+  id: ClothingJumpskirtMachineInventory16
+  productEntity: ClothingUniformTurtleneckWhiteWomenSleeveless
+  cost:
+    SpaceCash: 25
+  categories:
+  - ClothingJumpskirtMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+- type: listing
+  id: ClothingJumpskirtMachineInventory17
   productEntity: ClothingUniformJumpskirtCasualBlue
   cost:
     SpaceCash: 20
@@ -1061,7 +1227,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory13
+  id: ClothingJumpskirtMachineInventory18
   productEntity: ClothingUniformJumpskirtCasualPurple
   cost:
     SpaceCash: 20
@@ -1072,7 +1238,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory14
+  id: ClothingJumpskirtMachineInventory19
   productEntity: ClothingUniformJumpskirtCasualRed
   cost:
     SpaceCash: 20
@@ -1083,7 +1249,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory15
+  id: ClothingJumpskirtMachineInventory20
   productEntity: ClothingUniformJumpskirtCasualGreen
   cost:
     SpaceCash: 20
@@ -1094,7 +1260,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory16
+  id: ClothingJumpskirtMachineInventory21
   productEntity: ClothingUniformJumpskirtBlackElegantDress
   cost:
     SpaceCash: 45
@@ -1105,7 +1271,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory17
+  id: ClothingJumpskirtMachineInventory22
   productEntity: ClothingUniformJumpskirtRedElegantDress
   cost:
     SpaceCash: 45
@@ -1116,7 +1282,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory18
+  id: ClothingJumpskirtMachineInventory23
   productEntity: ClothingUniformJumpskirtGreenElegantDress
   cost:
     SpaceCash: 45
@@ -1127,7 +1293,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory19
+  id: ClothingJumpskirtMachineInventory24
   productEntity: ClothingUniformJumpskirtBlueElegantDress
   cost:
     SpaceCash: 45
@@ -1138,7 +1304,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory20
+  id: ClothingJumpskirtMachineInventory25
   productEntity: ClothingUniformJumpskirtPurpleElegantDress
   cost:
     SpaceCash: 45
@@ -1149,7 +1315,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory21
+  id: ClothingJumpskirtMachineInventory26
   productEntity: ClothingUniformJumpskirtCyanStripedDress
   cost:
     SpaceCash: 45
@@ -1160,7 +1326,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory22
+  id: ClothingJumpskirtMachineInventory27
   productEntity: ClothingUniformJumpskirtRedStripedDress
   cost:
     SpaceCash: 45
@@ -1171,7 +1337,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory23
+  id: ClothingJumpskirtMachineInventory28
   productEntity: ClothingUniformJumpskirtGreenStripedDress
   cost:
     SpaceCash: 45
@@ -1182,7 +1348,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory24
+  id: ClothingJumpskirtMachineInventory29
   productEntity: ClothingUniformJumpskirtPinkStripedDress
   cost:
     SpaceCash: 45
@@ -1193,7 +1359,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory25
+  id: ClothingJumpskirtMachineInventory30
   productEntity: ClothingUniformJumpskirtOrangeStripedDress
   cost:
     SpaceCash: 45
@@ -1204,7 +1370,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory26
+  id: ClothingJumpskirtMachineInventory31
   productEntity: ClothingUniformJumpskirtPurpleTurtleneckDress
   cost:
     SpaceCash: 25
@@ -1215,7 +1381,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory27
+  id: ClothingJumpskirtMachineInventory32
   productEntity: ClothingUniformJumpskirtRedTurtleneckDress
   cost:
     SpaceCash: 25
@@ -1226,7 +1392,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory28
+  id: ClothingJumpskirtMachineInventory33
   productEntity: ClothingUniformJumpskirtGreenTurtleneckDress
   cost:
     SpaceCash: 25
@@ -1237,7 +1403,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory29
+  id: ClothingJumpskirtMachineInventory34
   productEntity: ClothingUniformJumpskirtBlueTurtleneckDress
   cost:
     SpaceCash: 25
@@ -1248,7 +1414,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory30
+  id: ClothingJumpskirtMachineInventory35
   productEntity: ClothingUniformJumpskirtYellowTurtleneckDress
   cost:
     SpaceCash: 25
@@ -1259,7 +1425,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory31
+  id: ClothingJumpskirtMachineInventory36
   productEntity: ClothingUniformJumpskirtYellowOldDress
   cost:
     SpaceCash: 45
@@ -1270,7 +1436,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory32
+  id: ClothingJumpskirtMachineInventory37
   productEntity: ClothingUniformJumpskirtDressRed
   cost:
     SpaceCash: 80
@@ -1281,7 +1447,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory33
+  id: ClothingJumpskirtMachineInventory38
   productEntity: ADTClothingUniformLilitBlackDress
   cost:
     SpaceCash: 70
@@ -1292,7 +1458,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory34
+  id: ClothingJumpskirtMachineInventory39
   productEntity: ADTClothingUniformYunaBlackDress
   cost:
     SpaceCash: 70
@@ -1303,7 +1469,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory35
+  id: ClothingJumpskirtMachineInventory40
   productEntity: ClothingUniformJumpskirtColorGrey
   cost:
     SpaceCash: 15
@@ -1314,7 +1480,7 @@
     stock: 4
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory36
+  id: ClothingJumpskirtMachineInventory41
   productEntity: ClothingUniformJumpskirtColorWhite
   cost:
     SpaceCash: 15
@@ -1325,7 +1491,7 @@
     stock: 4
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory37
+  id: ClothingJumpskirtMachineInventory42
   productEntity: ClothingUniformJumpskirtColorBlack
   cost:
     SpaceCash: 15
@@ -1336,7 +1502,7 @@
     stock: 4
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory38
+  id: ClothingJumpskirtMachineInventory43
   productEntity: ClothingUniformJumpskirtColorBlue
   cost:
     SpaceCash: 15
@@ -1347,7 +1513,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory39
+  id: ClothingJumpskirtMachineInventory44
   productEntity: ClothingUniformJumpskirtColorYellow
   cost:
     SpaceCash: 15
@@ -1358,7 +1524,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory40
+  id: ClothingJumpskirtMachineInventory45
   productEntity: ClothingUniformJumpskirtColorGreen
   cost:
     SpaceCash: 15
@@ -1369,7 +1535,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory41
+  id: ClothingJumpskirtMachineInventory46
   productEntity: ClothingUniformJumpskirtColorOrange
   cost:
     SpaceCash: 15
@@ -1380,7 +1546,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory42
+  id: ClothingJumpskirtMachineInventory47
   productEntity: ClothingUniformJumpskirtColorRed
   cost:
     SpaceCash: 15
@@ -1391,7 +1557,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory43
+  id: ClothingJumpskirtMachineInventory48
   productEntity: ClothingUniformJumpskirtColorPurple
   cost:
     SpaceCash: 15
@@ -1402,7 +1568,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory44
+  id: ClothingJumpskirtMachineInventory49
   productEntity: ClothingUniformJumpskirtColorPink
   cost:
     SpaceCash: 15
@@ -1413,7 +1579,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory45
+  id: ClothingJumpskirtMachineInventory50
   productEntity: ClothingUniformJumpskirtColorDarkBlue
   cost:
     SpaceCash: 15
@@ -1424,7 +1590,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory46
+  id: ClothingJumpskirtMachineInventory51
   productEntity: ClothingUniformJumpskirtColorDarkGreen
   cost:
     SpaceCash: 15
@@ -1435,7 +1601,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory47
+  id: ClothingJumpskirtMachineInventory52
   productEntity: ClothingUniformJumpskirtColorTeal
   cost:
     SpaceCash: 15
@@ -1446,7 +1612,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory48
+  id: ClothingJumpskirtMachineInventory53
   productEntity: ClothingUniformJumpskirtColorLightBrown
   cost:
     SpaceCash: 15
@@ -1457,7 +1623,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory49
+  id: ClothingJumpskirtMachineInventory54
   productEntity: ClothingUniformJumpskirtColorBrown
   cost:
     SpaceCash: 15
@@ -1468,7 +1634,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory50
+  id: ClothingJumpskirtMachineInventory55
   productEntity: ClothingUniformJumpskirtColorMaroon
   cost:
     SpaceCash: 15
@@ -1480,7 +1646,7 @@
 
 # Продолжение нумерации (id: 51-61)
 - type: listing
-  id: ClothingJumpskirtMachineInventory51
+  id: ClothingJumpskirtMachineInventory56
   productEntity: ClothingUniformJumpskirtPencilBlack
   cost:
     SpaceCash: 40
@@ -1491,7 +1657,7 @@
     stock: 4
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory52
+  id: ClothingJumpskirtMachineInventory57
   productEntity: ClothingUniformJumpskirtPencilBurgandy
   cost:
     SpaceCash: 40
@@ -1502,7 +1668,7 @@
     stock: 4
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory53
+  id: ClothingJumpskirtMachineInventory58
   productEntity: ClothingUniformJumpskirtPencilCheckered
   cost:
     SpaceCash: 40
@@ -1513,7 +1679,7 @@
     stock: 4
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory54
+  id: ClothingJumpskirtMachineInventory59
   productEntity: ClothingUniformJumpskirtPencilNavy
   cost:
     SpaceCash: 40
@@ -1524,7 +1690,7 @@
     stock: 4
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory55
+  id: ClothingJumpskirtMachineInventory60
   productEntity: ClothingUniformJumpskirtPencilTan
   cost:
     SpaceCash: 40
@@ -1535,7 +1701,7 @@
     stock: 4
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory56
+  id: ClothingJumpskirtMachineInventory61
   productEntity: ClothingUniformJumpskirtGothic
   cost:
     SpaceCash: 80
@@ -1546,7 +1712,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory57
+  id: ClothingJumpskirtMachineInventory62
   productEntity: ClothingUniformColorJumpskirtRainbow
   cost:
     SpaceCash: 15
@@ -1557,7 +1723,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory58
+  id: ClothingJumpskirtMachineInventory63
   productEntity: ClothingUniformJumpskirtTango
   cost:
     SpaceCash: 80
@@ -1568,7 +1734,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory59
+  id: ClothingJumpskirtMachineInventory64
   productEntity: ClothingUniformJumpskirtVictorianBlack
   cost:
     SpaceCash: 80
@@ -1579,7 +1745,7 @@
     stock: 2
 
 - type: listing
-  id: ClothingJumpskirtMachineInventory60
+  id: ClothingJumpskirtMachineInventory65
   productEntity: ClothingUniformJumpskirtVictorianrRed
   cost:
     SpaceCash: 80

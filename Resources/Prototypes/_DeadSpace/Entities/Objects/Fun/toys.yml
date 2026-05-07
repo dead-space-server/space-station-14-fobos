@@ -247,6 +247,7 @@
   id: BasePlushieDeadSpaceMisc
   abstract: true
   components:
+  - type: AdminToySpawnable
   - type: Sprite
     sprite: _DeadSpace/Items/Toys/misc.rsi
   - type: Tag
