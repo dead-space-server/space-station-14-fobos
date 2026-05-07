@@ -87,7 +87,7 @@
   suffix: Адский
   components:
   - type: BrokenTechFireSpread
-    maxRadius: 15
+    maxRadius: 100
     spreadDelay: 5
     waterReagents:
     - Water
