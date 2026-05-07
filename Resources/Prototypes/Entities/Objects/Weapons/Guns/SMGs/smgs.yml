@@ -358,6 +358,12 @@
     contents:
     - id: MagazinePistolSubMachineGun
       amount: 2 #DS-14 end
+  - type: ContainerContainer
+    containers:
+      gun_magazine: !type:ContainerSlot
+      gun_chamber: !type:ContainerSlot
+      storagebase: !type:Container
+        ents: []
   - type: Gun
     fireRate: 9
     minAngle: 25

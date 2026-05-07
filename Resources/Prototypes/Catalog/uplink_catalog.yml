@@ -2842,7 +2842,7 @@
   discountDownTo:
     Telecrystal: 8 #DS-14 start
   cost:
-    Telecrystal: 13 
+    Telecrystal: 13
   categories:
   - UplinkWeaponry
   conditions:
