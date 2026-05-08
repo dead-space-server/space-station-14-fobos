@@ -10,8 +10,8 @@
     fixtures:
       fix1:
         shape:
-          # DS14-start
           !type:PhysShapeAabb
+          # DS14-start
           bounds: "-0.25,-0.35,0.25,0.35"
           # DS14-end
         density: 190
