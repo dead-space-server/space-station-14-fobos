@@ -6,7 +6,7 @@
   components:
   - type: Sprite
     noRot: true
-    sprite: _DeadSpace/Structures/Decoration/statues.rsi
+    sprite: _DeadSpace/Structures/Decoration/statues64х64.rsi
     state: angel
     drawdepth: Mobs
     offset: "0.0,0.5"
@@ -22,3 +22,16 @@
         layer:
         - MidImpassable
         - LowImpassable
+
+- type: entity
+  id: StatueThemis
+  parent: BaseStructure
+  name: статуя Фемиды
+  description: Статуя древнегреческой богини правосудия.
+  components:
+  - type: Sprite
+    noRot: true
+    sprite: _DeadSpace/Structures/Decoration/statues32х64.rsi
+    state: themis
+    drawdepth: Mobs
+    offset: "0.0,0.5"
