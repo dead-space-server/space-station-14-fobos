@@ -216,7 +216,7 @@
   - WageScheduler # backmen: currency
   - DummyNonAntagChance
   - Traitor
-  - SubGamemodesRuleNoWizard
+  - SubGamemodesRuleNoWizardNoXenoborg # DS14
   - BasicStationEventScheduler
   - MeteorSwarmScheduler
   - SpaceTrafficControlEventScheduler

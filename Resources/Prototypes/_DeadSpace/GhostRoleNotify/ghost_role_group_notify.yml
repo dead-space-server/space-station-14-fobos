@@ -17,6 +17,10 @@
   name: Гуляющий демон
 
 - type: ghostNotifyGroup
+  id: Shadowlingping
+  name: Тенеморф
+
+- type: ghostNotifyGroup
   id: DemonShadowping
   name: Теневой демон
 
@@ -131,6 +135,18 @@
 - type: ghostNotifyGroup
   id: Holoparasiteping
   name: Голопаразит
+
+- type: ghostNotifyGroup
+  id: PirateHoloparasiteping
+  name: Летучий голландец
+
+- type: ghostNotifyGroup
+  id: ReinforcementRadioPirateping
+  name: Космический пират
+
+- type: ghostNotifyGroup
+  id: ReinforcementRadioMonkeyPirateping
+  name: Предок космического пирата
 
 - type: ghostNotifyGroup
   id: HoloClownping

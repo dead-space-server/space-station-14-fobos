@@ -1,0 +1,35 @@
+- type: entity
+  abstract: true
+  parent: BaseObjective
+  id: BaseShadowlingObjective
+  components:
+  - type: Objective
+    difficulty: 1.5
+    issuer: objective-issuer-shadowling
+  - type: RoleRequirement
+    roles:
+      - ShadowlingRole
+
+- type: entity
+  abstract: true
+  parent: BaseObjective
+  id: BaseShadowlingSlaveObjective
+  components:
+  - type: Objective
+    difficulty: 1.5
+    issuer: objective-issuer-shadowlingslave
+  - type: RoleRequirement
+    roles:
+      - ShadowlingSlaveRole
+
+- type: entity
+  parent: BaseShadowlingObjective
+  id: ShadowlingRecruitObjective
+  components:
+  - type: Objective
+    difficulty: 1.5
+    icon:
+      sprite: _DeadSpace/Demons/shadowling.rsi
+      state: shadowling_recruit_objective
+  - type: ShadowlingRecruitObjective
+    targetCount: 15

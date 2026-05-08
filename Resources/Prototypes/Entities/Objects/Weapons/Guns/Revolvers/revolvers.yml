@@ -68,9 +68,9 @@
   - type: Gun
     fireRate: 2
   - type: RevolverAmmoProvider
-    capacity: 5
-    chambers: [ True, True, True, True, True ]
-    ammoSlots: [ null, null, null, null, null ]
+    capacity: 6
+    chambers: [ True, True, True, True, True, True ]
+    ammoSlots: [ null, null, null, null, null, null ]
   - type: MagazineVisuals
     magState: mag
     steps: 4
@@ -78,6 +78,8 @@
   - type: Appearance
   - type: StaticPrice
     price: 1500
+  - type: StealTarget #DS14
+    stealGroup: WeaponRevolverDeckard #DS14        
 
 - type: entity
   name: Inspector

@@ -1,0 +1,93 @@
+- type: entity
+  parent: ReinforcementRadio
+  id: ReinforcementRadioPirate
+  name: радио подкрепления космического пирата
+  description: Срочно вызывает одного пиратского наёмника сомнительного качества. Не ждите от него чудес, он просто хочет свою долю.
+  components:
+  - type: GhostRole
+    name: ghost-role-information-pirate-name
+    description: ghost-role-information-pirate-description
+    rules: ghost-role-information-rules-team-antagonist
+    mindRoles:
+    - MindRoleGhostRoleTeamAntagonist
+    requirements:
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 36000 # 10 hours
+    raffle:
+      settings: default
+  - type: GhostRoleMobSpawner
+    prototype: MobHumanPirateBase
+  - type: GhostRoleNotifys 
+    groupPrototype: ReinforcementRadioPirateping
+
+- type: entity
+  parent: MobHuman
+  id: MobHumanPirateBase
+  categories: [ HideSpawnMenu ]
+  name: космический пират
+  components:
+  - type: RandomHumanoidAppearance
+    randomizeName: true
+  - type: Loadout
+    prototypes: [ PirateScoonerAltA, PirateScoonerAltB, PirateScoonerAltC, PirateScoonerAltD ]
+    roleLoadout: [ RoleSurvivalEVA ]
+  - type: PirateAccent
+  - type: NpcFactionMember
+    factions:
+    - Syndicate
+
+- type: entity
+  parent: ReinforcementRadio
+  id: ReinforcementRadioMonkeyPirate
+  name: радио подкрепления космической макаки пирата
+  description: Призывает специально обученную макаку для оказания помощи.
+  components:
+  - type: GhostRole
+    name: ghost-role-information-pirate-monkey-reinforcement-name
+    description: ghost-role-information-syndicate-monkey-reinforcement-description
+    rules: ghost-role-information-rules-team-antagonist
+    mindRoles:
+    - MindRoleGhostRoleTeamAntagonist
+    requirements:
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 36000 # 10 hours
+    raffle:
+      settings: default
+  - type: GhostRoleMobSpawner
+    prototype: MobMonkeyPirate
+  - type: GhostRoleNotifys 
+    groupPrototype: ReinforcementRadioMonkeyPirateping
+
+- type: entity
+  name: космическая обезьяна пират
+  id: MobMonkeyPirate
+  parent: MobBaseAncestor
+  description: Предок космического пирата.
+  suffix: пират
+  components:
+  - type: NameIdentifier
+    group: Monkey
+  - type: Speech
+    speechVerb: Monkey
+  - type: MonkeyAccent
+  - type: PirateAccent
+  - type: NpcFactionMember
+    factions:
+    - Syndicate
+  - type: GhostRole
+    prob: 0.05
+    makeSentient: true
+    name: ghost-role-information-pirate-monkey-reinforcement-name
+    description: ghost-role-information-syndicate-monkey-reinforcement-description
+    rules: ghost-role-information-rules-team-antagonist
+    mindRoles:
+    - MindRoleGhostRoleTeamAntagonist
+    raffle:
+      settings: default
+  - type: GhostTakeoverAvailable
+  - type: Loadout
+    prototypes: [ PirateMonkeyGear ]
+  - type: GhostRoleNotifys 
+    groupPrototype: ReinforcementRadioMonkeyPirateping

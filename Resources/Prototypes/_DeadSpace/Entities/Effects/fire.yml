@@ -86,15 +86,15 @@
   parent: FireNRFBase
   suffix: Адский
   components:
-  - type: EdgeSpreader
-    id: Kudzu
-  - type: ActiveEdgeSpreader
+  - type: BrokenTechFireSpread
+    maxRadius: 100
+    spreadDelay: 5
+    waterReagents:
+    - Water
+    - Holywater
+    - CoconutWater
   - type: PointLight
     enabled: true
     color: "#FF8C00"
     radius: 2.0
     energy: 2.0
-  - type: Kudzu
-    growthTickChance: 1.0
-    spreadChance: 1.0
-  - type: GrowingKudzu

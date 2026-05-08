@@ -330,29 +330,40 @@
 
 - type: entity
   name: brown briefcase
-  parent: [BaseWeaponSubMachineGun]
+  parent: [BaseWeaponSubMachineGun, BaseStorageItem] #DS-14
   id: WeaponSubMachineGunBriefcase
   description: Useful for carrying items in your hands.
   suffix: Gun
   components:
   - type: Item
-    size: Ginormous
+    size: Large #DS-14 start
+    shape:
+    - 0,0,3,2 #DS-14 end
     inhandVisuals:
       left:
         - sprite: Objects/Storage/Briefcases/briefcase_brown.rsi
           state: inhand-left
-        - state: inhand-left-muzzle
       right:
         - sprite: Objects/Storage/Briefcases/briefcase_brown.rsi
           state: inhand-right
-        - state: inhand-right-muzzle
   - type: Sprite
-    sprite: Objects/Weapons/Guns/SMGs/briefcase.rsi
+    sprite: Objects/Storage/Briefcases/briefcase_brown.rsi #DS-14
     layers:
     - sprite: Objects/Storage/Briefcases/briefcase_brown.rsi
       state: icon
-    - state: icon-muzzle
-      map: ["enum.GunVisualLayers.Base"]
+  - type: Storage #DS-14 start
+    grid:
+    - 0,0,1,1
+  - type: StorageFill
+    contents:
+    - id: MagazinePistolSubMachineGun
+      amount: 2 #DS-14 end
+  - type: ContainerContainer
+    containers:
+      gun_magazine: !type:ContainerSlot
+      gun_chamber: !type:ContainerSlot
+      storagebase: !type:Container
+        ents: []
   - type: Gun
     fireRate: 9
     minAngle: 25
@@ -369,4 +380,10 @@
   - type: MeleeWeapon
     damage:
       types:
-        Blunt: 8
+        Blunt: 14 #DS-14 start
+    angle: 150
+    animation: WeaponArcThrust
+    soundHit:
+      collection: WeakHit
+  - type: AltFireMelee
+    attackType: Heavy #DS-14 end

@@ -371,7 +371,9 @@
   name: loadout-group-chef-hand
   minLimit: 0
   loadouts:
-  - ChefGoldenKnife
+ ## - ChefGoldenKnife ##DS14
+  - CaseChefGoldenKnife ##DS14
+  - BriefcaseKitchenKnife ##DS14
 
 - type: loadoutGroup
   id: ChefGloves
@@ -1462,6 +1464,7 @@
   minLimit: 0
   loadouts:
   - SecurityBandana
+  - SecurityGaiter
 
 - type: loadoutGroup
   id: SecurityJumpsuit
@@ -1508,7 +1511,7 @@
   - JackSecBoots
   - CombatBoots
   - JackBoots
-  # - SecurityWinterBoots
+  - SecurityWinterBoots
 
 # DS14-disabled
 #- type: loadoutGroup

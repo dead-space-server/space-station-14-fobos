@@ -1,0 +1,44 @@
+- type: entity
+  id: CaseChefGoldenKnife
+  parent: [ BaseStorageItem, BaseBagOpenClose ]
+  name: футляр для золотого ножа
+  suffix: заполненный
+  description: Эксклюзивный футляр для золотого ножа понты важнее всего!
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Storage/chef_golden_knife_case.rsi
+    layers:
+    - state: closed
+      map: ["closeLayer"]
+    - state: open
+      map: ["openLayer"]
+      visible: false
+    - state: knife1
+      map: ["knife1"]
+      visible: false
+    - state: knife2
+      map: ["knife2"]
+      visible: false
+  - type: PhysicalComposition
+    materialComposition:
+      Wood: 50
+  - type: Item
+    size: Normal
+  - type: Storage
+    maxItemSize: Small
+    grid:
+    - 0,0,1,0
+    whitelist:
+      tags:
+      - ChefGoldenKnife
+  - type: StorageFill
+    contents:
+    - id: ChefGoldenKnife
+  - type: ItemCounter
+    count:
+      tags: [ChefGoldenKnife]
+    composite: true
+    layerStates:
+    - knife1
+    - knife2
+  - type: Appearance

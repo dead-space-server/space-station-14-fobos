@@ -55,6 +55,14 @@
   longRange: false
 
 - type: radioChannel
+  id: Shadowling
+  name: chat-radio-shadowling
+  keycode: 'б' # DS14-Localization
+  frequency: 1337
+  color: "#c00000"
+  longRange: true
+
+- type: radioChannel
   id: SOCChannel
   name: chat-radio-soc
   keycode: 'у' # DS14-Localization

@@ -31,7 +31,7 @@
     - id: LoneOpsSpawn
     - id: UnknownShuttleManOWar
     - id: UnknownShuttleInstigator
-    - id: UnknownShuttlePirate # DS14
+    - id: FreelancersOutpost # DS14
     - id: UnknownShuttleSyndieEvacPod # DS14
 
 # Shuttle Game Rules

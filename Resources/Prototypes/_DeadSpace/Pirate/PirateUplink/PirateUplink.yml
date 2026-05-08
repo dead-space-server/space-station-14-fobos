@@ -1,0 +1,680 @@
+# 1. ВООРУЖЕНИЕ
+
+- type: listing
+  id: CutlassList
+  name: uplink-pirate-cutlass-name
+  icon: { sprite: Objects/Weapons/Melee/cutlass.rsi, state: icon } 
+  productEntity: Cutlass
+  cost:
+    SpaceCash: 1500
+  categories:
+    - PirateUplinkWeaponry
+
+- type: listing
+  id: WeaponSniperMosinList
+  icon: { sprite: Objects/Weapons/Guns/Snipers/bolt_gun_wood.rsi, state: base } 
+  productEntity: WeaponSniperMosin
+  cost:
+    SpaceCash: 2000
+  categories:
+    - PirateUplinkWeaponry
+
+- type: listing
+  id: WeaponRevolverPirateList
+  name: uplink-pirate-weapon-revolver-pirate-name
+  icon: { sprite: Objects/Weapons/Guns/Revolvers/pirate_revolver.rsi, state: icon } 
+  productEntity: WeaponRevolverPirate
+  cost:
+    SpaceCash: 2500
+  categories:
+    - PirateUplinkWeaponry
+
+- type: listing
+  id: ADTtelescopicBatonList
+  name: uplink-pirate-adt-telescopic-baton-name
+  icon: { sprite: _ADT/Objects/Weapons/Melee/telescopic_baton.rsi, state: telescope_on } 
+  productEntity: ADTtelescopicBaton
+  cost:
+    SpaceCash: 3000
+  categories:
+    - PirateUplinkWeaponry
+
+- type: listing
+  id: WeaponShotgunBlunderbussList
+  name: uplink-pirate-weapon-shotgun-blunderbuss-name
+  description: uplink-pirate-weapon-shotgun-blunderbuss-description
+  icon: { sprite: Objects/Weapons/Guns/Shotguns/blunderbuss.rsi, state: icon } 
+  productEntity: WeaponShotgunBlunderbuss
+  cost:
+    SpaceCash: 3500
+  categories:
+    - PirateUplinkWeaponry
+
+- type: listing
+  id: ClothingHandsKnuckleDustersList
+  name: uplink-pirate-clothing-hands-knuckle-dusters
+  icon: { sprite: Clothing/Hands/Gloves/KnuckleDusters/knuckleduster.rsi, state: knuckleduster } 
+  productEntity: ClothingHandsKnuckleDusters
+  cost:
+    SpaceCash: 4000
+  categories:
+    - PirateUplinkWeaponry
+
+- type: listing
+  id: WeaponLauncherPirateCannonList
+  name: uplink-pirate-weapon-launcher-pirate-cannon-name
+  icon: { sprite: Objects/Weapons/Guns/Launchers/pirate_cannon.rsi, state: icon } 
+  productEntity: WeaponLauncherPirateCannon
+  cost:
+    SpaceCash: 4500
+  categories:
+    - PirateUplinkWeaponry
+
+- type: listing
+  id: ClothingBackpackDuffelPirateFilledKammererList
+  name: uplink-pirate-clothing-backpack-duffel-filled-kammerer-name
+  description: uplink-pirate-clothing-backpack-duffel-filled-kammerer-description
+  icon: { sprite: /Textures/Objects/Weapons/Guns/Shotguns/pump.rsi, state: icon } 
+  productEntity: ClothingBackpackDuffelPirateFilledKammerer
+  cost:
+    SpaceCash: 6000
+  categories:
+    - PirateUplinkWeaponry
+
+- type: listing
+  id: WeaponLaserGunList
+  name: uplink-pirate-weapon-laser-gun-name
+  description: uplink-pirate-weapon-laser-gun-description
+  icon: { sprite: Objects/Weapons/Guns/Battery/laser_retro.rsi, state: icon } 
+  productEntity: WeaponLaserGun
+  cost:
+    SpaceCash: 8000
+  categories:
+    - PirateUplinkWeaponry
+
+- type: listing
+  id: ToolboxElectricalTurretFilledList
+  name: uplink-pirate-disposable-turret-name
+  description: uplink-pirate-disposable-turret-description
+  icon: { sprite: Objects/Tools/Toolboxes/toolbox_yellow.rsi, state: icon } 
+  productEntity: ToolboxElectricalTurretFilled
+  cost:
+    SpaceCash: 8500
+  categories:
+    - PirateUplinkWeaponry
+
+- type: listing
+  id: EnergyCutlassList
+  name: uplink-pirate-energy-cutlass-name
+  description: uplink-pirate-energy-cutlass-description
+  icon: { sprite: Objects/Weapons/Melee/e_cutlass.rsi, state: e_cutlass }
+  productEntity: EnergyCutlass
+  cost:
+    SpaceCash: 11000
+  categories:
+    - PirateUplinkWeaponry
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 3
+
+- type: listing
+  id: ClothingBackpackDuffelPirateFilledAKMSList
+  name: uplink-pirate-clothing-backpack-duffel-filled-akms-name
+  description: uplink-pirate-clothing-backpack-duffel-filled-akms-description
+  icon: { sprite: /Textures/Objects/Weapons/Guns/Rifles/ak.rsi, state: icon } 
+  productEntity: ClothingBackpackDuffelPirateFilledAKMS
+  cost:
+    SpaceCash: 20000
+  categories:
+    - PirateUplinkWeaponry
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+# 2. БОЕПРИПАСЫ
+
+- type: listing
+  id: ZiptiesList
+  name: uplink-pirate-zipties-name
+  icon: { sprite: Objects/Misc/zipties.rsi, state: cuff } 
+  productEntity: Zipties
+  cost:
+    SpaceCash: 400
+  categories:
+    - PirateUplinkAmmo
+
+- type: listing
+  id: SpeedLoaderLightRifleList
+  name: uplink-pirate-speed-loader-light-rifle-name
+  description: uplink-pirate-speed-loader-light-rifle-description
+  icon: { sprite: _DeadSpace/Pirates/PirateUplinkCategories.rsi, state: speed-loader-light-rifle } 
+  productEntity: SpeedLoaderLightRifle
+  cost:
+    SpaceCash: 500
+  categories:
+    - PirateUplinkAmmo
+
+- type: listing
+  id: SpeedLoaderMagnumList
+  name: uplink-pirate-speed-loader-magnum-name
+  description: uplink-pirate-speed-loader-magnum-description
+  icon: { sprite: Objects/Weapons/Guns/Ammunition/SpeedLoaders/Magnum/magnum_speed_loader.rsi, state: icon } 
+  productEntity: SpeedLoaderMagnum
+  cost:
+    SpaceCash: 600
+  categories:
+    - PirateUplinkAmmo
+
+- type: listing
+  id: MagazineShotgunList
+  name: uplink-pirate-magazine-shotgun-name
+  description: uplink-pirate-magazine-shotgun-description
+  icon: { sprite: _DeadSpace/Pirates/PirateUplinkCategories.rsi, state: magazine-shotgun } 
+  productEntity: MagazineShotgun
+  cost:
+    SpaceCash: 800
+  categories:
+    - PirateUplinkAmmo
+
+- type: listing
+  id: CannonBallList
+  name: uplink-pirate-cannon-ball-name
+  description: uplink-pirate-cannon-ball-description
+  icon: { sprite: Objects/Weapons/Guns/Ammunition/Explosives/explosives.rsi, state: ball }
+  productEntity: CannonBall
+  cost:
+    SpaceCash: 900
+  categories:
+    - PirateUplinkAmmo
+
+- type: listing
+  id: MagazineBoxMagnumList
+  name: uplink-pirate-magazine-box-magnum-name
+  description: uplink-pirate-magazine-box-magnum-description
+  icon: { sprite: _DeadSpace/Pirates/PirateUplinkCategories.rsi, state: magazine-box-magnum }
+  productEntity: MagazineBoxMagnum
+  cost:
+    SpaceCash: 1200
+  categories:
+    - PirateUplinkAmmo
+
+- type: listing
+  id: BoxLethalshotList
+  name: uplink-pirate-box-lethalshot-name
+  description: uplink-pirate-box-lethalshot-description
+  icon: { sprite: _DeadSpace/Pirates/PirateUplinkCategories.rsi, state: box-lethalshot }
+  productEntity: BoxLethalshot
+  cost:
+    SpaceCash: 1600
+  categories:
+    - PirateUplinkAmmo
+
+- type: listing
+  id: ClothingBackpackDuffelPirateFilledCannonBallsList
+  name: uplink-pirate-clothing-backpack-duffel-filled-cannon-balls-name
+  description: uplink-pirate-clothing-backpack-duffel-filled-cannon-balls-description
+  icon: { sprite: _DeadSpace/Pirates/PirateUplinkCategories.rsi, state: cannon-ball-pack }
+  productEntity: ClothingBackpackDuffelPirateFilledCannonBalls
+  cost:
+    SpaceCash: 6000
+  categories:
+    - PirateUplinkAmmo
+
+# 3. ВЗРЫВЧАТКА
+
+- type: listing
+  id: FireBombList
+  name: uplink-pirate-fire-bomb-name
+  icon: { sprite: Objects/Weapons/Bombs/ied.rsi, state: icon } 
+  productEntity: FireBomb
+  cost:
+    SpaceCash: 900
+  categories:
+    - PirateUplinkExplosives
+
+- type: listing
+  id: PipeBombList
+  name: uplink-pirate-pipe-bomb-name
+  icon: { sprite: Objects/Weapons/Bombs/pipebomb.rsi, state: icon } 
+  productEntity: PipeBomb
+  cost:
+    SpaceCash: 1200
+  categories:
+    - PirateUplinkExplosives
+
+- type: listing
+  id: SmokeGrenadeList
+  name: uplink-pirate-smoke-grenade-name
+  icon: { sprite: Objects/Weapons/Grenades/smoke.rsi, state: icon } 
+  productEntity: SmokeGrenade
+  cost:
+    SpaceCash: 1500
+  categories:
+    - PirateUplinkExplosives
+
+- type: listing
+  id: SeismicChargeList
+  name: uplink-pirate-seismic-charge-name
+  icon: { sprite: Objects/Weapons/Bombs/seismic.rsi, state: icon } 
+  productEntity: SeismicCharge
+  cost:
+    SpaceCash: 1800
+  categories:
+    - PirateUplinkExplosives
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 8
+
+- type: listing
+  id: C4List
+  name: uplink-pirate-C4-name
+  icon: { sprite: Objects/Weapons/Bombs/c4.rsi, state: icon } 
+  productEntity: C4
+  cost:
+    SpaceCash: 2250
+  categories:
+    - PirateUplinkExplosives
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 5
+
+- type: listing
+  id: ClothingBackpackDuffelPirateFilledBombsList
+  name: uplink-pirate-clothing-backpack-duffel-filled-bombs-name
+  description: uplink-pirate-clothing-backpack-duffel-filled-bombs-description
+  icon: { sprite: _DeadSpace/Pirates/PirateUplinkCategories.rsi, state: bomb-pack } 
+  productEntity: ClothingBackpackDuffelPirateFilledBombs
+  cost:
+    SpaceCash: 9000
+  categories:
+    - PirateUplinkExplosives
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+# 4. ХИМИКАТЫ
+
+- type: listing
+  id: MedkitFilledList
+  icon: { sprite: Objects/Specific/Medical/firstaidkits.rsi, state: firstaid }
+  name: uplink-pirate-medkit-filled-name
+  productEntity: MedkitFilled
+  cost:
+    SpaceCash: 1500
+  categories:
+    - PirateUplinkChemicals
+
+- type: listing
+  id: MedkitAdvancedFilledList
+  icon: { sprite: Objects/Specific/Medical/firstaidkits.rsi, state: advkit }
+  name: uplink-pirate-medkit-advanced-filled-name
+  productEntity: MedkitAdvancedFilled
+  cost:
+    SpaceCash: 4000
+  categories:
+    - PirateUplinkChemicals
+
+- type: listing
+  id: MedkitCombatFilledList
+  name: uplink-pirate-medkit-combat-filled-name
+  icon: { sprite: Objects/Specific/Medical/firstaidkits.rsi, state: blackkit }
+  productEntity: MedkitCombatFilled
+  cost:
+    SpaceCash: 8000
+  categories:
+    - PirateUplinkChemicals
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 3
+
+- type: listing
+  id: ClothingBackpackDuffelPirateMedipenList
+  name: uplink-pirate-clothing-backpack-duffel-pirate-medipen-name
+  description: uplink-pirate-clothing-backpack-duffel-pirate-medipen-description
+  icon: { sprite: Clothing/Back/Duffels/syndicate.rsi, state: icon-med }
+  productEntity: ClothingBackpackDuffelPirateMedipen
+  cost:
+    SpaceCash: 12000
+  categories:
+    - PirateUplinkChemicals
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+# 5. ИМПЛАНТЫ
+
+- type: listing
+  id: FreedomImplanterList
+  name: uplink-pirate-freedom-implanter-name
+  description: uplink-freedom-implanter-desc
+  icon: { sprite: /Textures/Actions/Implants/implants.rsi, state: freedom }
+  productEntity: FreedomImplanter
+  cost:
+    SpaceCash: 6000
+  categories:
+    - PirateUplinkImplants
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+- type: listing
+  id: MicroBombImplanterList
+  name: uplink-pirate-micro-bomb-implanter-name
+  description: uplink-micro-bomb-implanter-desc
+  icon: { sprite: /Textures/Actions/Implants/implants.rsi, state: explosive }
+  productEntity: MicroBombImplanter
+  cost:
+    SpaceCash: 8000
+  categories:
+    - PirateUplinkImplants
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+# 6. СОЮЗНИКИ
+
+- type: listing
+  id: DehydratedSpaceCarpList
+  name: uplink-pirate-dehydrated-space-carp-name
+  icon: { sprite: Objects/Fun/Plushies/carp.rsi, state: carpplush }
+  productEntity: DehydratedSpaceCarp
+  cost:
+    SpaceCash: 1500
+  categories:
+    - PirateUplinkAllies
+
+- type: listing
+  id: ReinforcementRadioMonkeyPirateList
+  name: uplink-pirate-reinforcement-radio-pirate-monkey-name
+  description: uplink-pirate-reinforcement-radio-pirate-monkey-description
+  icon: { sprite: Objects/Devices/communication.rsi, state: old-radio }
+  productEntity: ReinforcementRadioMonkeyPirate
+  cost:
+    SpaceCash: 4500
+  categories:
+    - PirateUplinkAllies
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 3
+
+- type: listing
+  id: ReinforcementRadioPirateList
+  name: uplink-pirate-reinforcement-radio-pirate-name
+  description: uplink-pirate-reinforcement-radio-pirate-description
+  icon: { sprite: Objects/Devices/communication.rsi, state: old-radio }
+  productEntity: ReinforcementRadioPirate
+  cost:
+    SpaceCash: 12000
+  categories:
+    - PirateUplinkAllies
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+- type: listing
+  id: PirateHoloparasiteInjectorList
+  name: uplink-pirate-pirate-holoparasite-injector-name
+  description: uplink-pirate-pirate-holoparasite-injector-description
+  icon: { sprite: _DeadSpace/Pirates/PirateHoloparasite.rsi, state: icon }
+  productEntity: PirateHoloparasiteInjector
+  cost:
+    SpaceCash: 20000
+  categories:
+    - PirateUplinkAllies
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+# 7. ЭКИПИРОВКА
+
+- type: listing
+  id: ClothingHeadHelmetPodWarsList
+  name: uplink-pirate-clothing-head-helmet-pod-wars-name
+  icon: { sprite: Clothing/Head/Helmets/podwars_helmet.rsi, state: icon }
+  productEntity: ClothingHeadHelmetPodWars
+  cost:
+    SpaceCash: 1200
+  categories:
+    - PirateUplinkWearables
+
+- type: listing
+  id: ClothingShoesBootsMag
+  name: uplink-pirate-clothing-shoes-boots-mag-name
+  icon: { sprite: Clothing/Shoes/Boots/magboots.rsi, state: icon }
+  productEntity: ClothingShoesBootsMag
+  cost:
+    SpaceCash: 2000
+  categories:
+    - PirateUplinkWearables
+
+- type: listing
+  id: ClothingOuterArmorBasicList
+  name: uplink-pirate-clothing-outer-armor-basic-name
+  icon: { sprite: Clothing/OuterClothing/Armor/security.rsi, state: icon }
+  productEntity: ClothingOuterArmorBasic
+  cost:
+    SpaceCash: 2500
+  categories:
+    - PirateUplinkWearables
+
+- type: listing
+  id: JetpackMiniFilledList
+  name: uplink-pirate-jetpack-mini-filled-name
+  description: uplink-pirate-jetpack-mini-filled-description
+  icon: { sprite: Objects/Tanks/Jetpacks/mini.rsi, state: icon }
+  productEntity: JetpackMiniFilled
+  cost:
+    SpaceCash: 3000
+  categories:
+    - PirateUplinkWearables
+
+- type: listing
+  id: ClothingOuterArmorPodWarsList
+  name: uplink-pirate-clothing-outer-armor-pod-wars-name
+  description: uplink-pirate-clothing-outer-armor-pod-wars-description
+  icon: { sprite: Clothing/OuterClothing/Armor/podwars_armor.rsi, state: icon }
+  productEntity: ClothingOuterArmorPodWars
+  cost:
+    SpaceCash: 3500
+  categories:
+    - PirateUplinkWearables
+
+- type: listing
+  id: ClothingBackpackDuffelHardsuitPirateEVAList
+  name: uplink-pirate-clothing-backpack-duffel-hardsuit-pirate-eva-name
+  description: uplink-pirate-clothing-backpack-duffel-hardsuit-pirate-eva-description
+  icon: { sprite: Clothing/OuterClothing/Hardsuits/pirateeva.rsi, state: icon }
+  productEntity: ClothingBackpackDuffelHardsuitPirateEVA
+  cost:
+    SpaceCash: 4000
+  categories:
+    - PirateUplinkWearables
+
+- type: listing
+  id: ClothingShoesBootsMagSyndieList
+  name: uplink-pirate-clothing-shoes-boots-mag-syndie-name
+  description: uplink-clothing-shoes-boots-mag-syndie-desc
+  icon: { sprite: Clothing/Shoes/Boots/magboots-syndicate.rsi, state: icon }
+  productEntity: ClothingShoesBootsMagSyndie
+  cost:
+    SpaceCash: 6000
+  categories:
+    - PirateUplinkWearables
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+- type: listing
+  id: ClothingBackpackDuffelSyndicateEVABundleList
+  name: uplink-eva-syndie-name 
+  description: uplink-eva-syndie-desc
+  icon: { sprite: Clothing/OuterClothing/Suits/eva_syndicate.rsi, state: icon }
+  productEntity: ClothingBackpackDuffelSyndicateEVABundle
+  cost:
+    SpaceCash: 8000
+  categories:
+    - PirateUplinkWearables
+
+- type: listing
+  id: ClothingBackpackDuffelHardsuitPirateCapList
+  name: uplink-pirate-clothing-backpack-duffel-hardsuit-pirate-cap-name
+  description: uplink-pirate-clothing-backpack-duffel-hardsuit-pirate-cap-description
+  icon: { sprite: Clothing/OuterClothing/Hardsuits/piratecaptain.rsi, state: icon }
+  productEntity: ClothingBackpackDuffelHardsuitPirateCap
+  cost:
+    SpaceCash: 9000
+  categories:
+    - PirateUplinkWearables
+
+- type: listing
+  id: ClothingOuterVestWebList
+  name: uplink-pirate-clothing-outer-vest-web-name
+  icon: { sprite: Clothing/OuterClothing/Vests/webvest.rsi, state: icon }
+  productEntity: ClothingOuterVestWeb
+  cost:
+    SpaceCash: 10000
+  categories:
+    - PirateUplinkWearables
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 2
+
+# 8. БЕЗДЕЛУШКИ
+
+- type: listing
+  id: BedsheetPirateList
+  name: uplink-pirate-bedsheet-name
+  icon: { sprite: _DeadSpace/Objects/Misc/bedsheets.rsi, state: sheetpirate }
+  productEntity: BedsheetPirate
+  cost:
+    SpaceCash: 100
+  categories:
+    - PirateUplinkPointless
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 50
+
+- type: listing
+  id: ClothingHeadHatPirateList
+  name: uplink-pirate-clothing-head-hat-pirate-name
+  icon: { sprite: Clothing/Head/Hats/pirate.rsi, state: icon }
+  productEntity: ClothingHeadHatPirate
+  cost:
+    SpaceCash: 150
+  categories:
+    - PirateUplinkPointless
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 50
+
+- type: listing
+  id: PirateHandyFlagList
+  name: uplink-pirate-handy-flag-name
+  icon: { sprite: Objects/Misc/Handy_Flags/pirate_handy_flag.rsi, state: icon }
+  productEntity: PirateHandyFlag
+  cost:
+    SpaceCash: 200
+  categories:
+    - PirateUplinkPointless
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 50
+
+- type: listing
+  id: ClothingNeckCloakPirateCapList
+  name: uplink-pirate-clothing-neck-cloak-pirate-cap-name
+  icon: { sprite: Clothing/Neck/Cloaks/piratecap.rsi, state: icon }
+  productEntity: ClothingNeckCloakPirateCap
+  cost:
+    SpaceCash: 300
+  categories:
+    - PirateUplinkPointless
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 50
+
+- type: listing
+  id: HappyHonkNukiePirateBurgerList
+  name: uplink-pirate-happy-honk-nukie-pirate-burger-name
+  description: uplink-pirate-happy-honk-nukie-pirate-burger-description
+  icon: { sprite: Objects/Consumable/Food/burger.rsi, state: cheese }
+  productEntity: HappyHonkNukiePirateBurger
+  cost:
+    SpaceCash: 350
+  categories:
+    - PirateUplinkPointless
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 20
+
+- type: listing
+  id: MysteryLighterBoxList
+  name: uplink-pirate-mystery-lighter-box-name
+  icon: { sprite: Objects/Tools/Lighters/syndielighter.rsi, state: icon }
+  productEntity: MysteryLighterBox
+  cost:
+    SpaceCash: 500
+  categories:
+    - PirateUplinkPointless
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 10
+
+- type: entity
+  id: StorePresetPirateUplink
+  abstract: true
+  components:
+  - type: Store
+    name: store-preset-pirate-uplink-name
+    categories:
+    - PirateUplinkWeaponry
+    - PirateUplinkAmmo
+    - PirateUplinkExplosives
+    - PirateUplinkChemicals
+#    - PirateUplinkDeception
+#    - PirateUplinkDisruption
+    - PirateUplinkImplants
+    - PirateUplinkAllies
+    - PirateUplinkWearables
+    - PirateUplinkPointless
+    currencyWhitelist:
+    - SpaceCash
+    balance:
+      SpaceCash: 0
+    expectedFaction:
+    - Syndicate
+
+- type: entity
+  parent: [ BaseItem, StorePresetPirateUplink ]
+  id: BasePirateUplink
+  name: чёрный рынок пиратов
+  description: Устройство, дающее доступ к нелегальному космическому рынку.
+  suffix: 25000
+  components:
+  - type: Sprite
+    sprite: Objects/Devices/communication.rsi
+    layers:
+    - state: old-radio
+  - type: Item
+    sprite: Objects/Devices/communication.rsi
+    heldPrefix: old-radio
+  - type: UserInterface
+    interfaces:
+      enum.StoreUiKey.Key:
+        type: StoreBoundUserInterface
+  - type: ActivatableUI
+    key: enum.StoreUiKey.Key
+  - type: Store
+    balance:
+      SpaceCash: 25000
+
+- type: entity
+  parent: BasePirateUplink
+  id: BasePirateUplinkDebug
+  name: чёрный рынок пиратов
+  description: Устройство, дающее доступ к нелегальному космическому рынку.
+  suffix: ДЕБАГ
+  components:
+  - type: Store
+    balance:
+      SpaceCash: 1000000
