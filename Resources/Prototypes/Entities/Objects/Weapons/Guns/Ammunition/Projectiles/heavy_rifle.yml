@@ -19,8 +19,8 @@
     damage:
       types:
       #DS14-start
-        Piercing: 3
-        Heat: 2
+        Piercing: 2
+        Heat: 4
   - type: PointLight
     enabled: true
     color: "#ff4300"
