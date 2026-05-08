@@ -566,7 +566,7 @@
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/walkflis/tools/toy.rsi
-    state: plushie_walkflis
+    state: icon
   - type: TTS
     voice: Vor
   - type: SpeakOnTrigger
