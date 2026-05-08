@@ -28,7 +28,7 @@
   components:
   - type: Action
     icon: _DeadSpace/Demons/ability_icons/shadowling_recruit_action.png
-    useDelay: 5
+    useDelay: 20
     itemIconStyle: NoItem
   - type: TargetAction
     range: 1
@@ -205,15 +205,3 @@
     useDelay: 0.5
   - type: InstantAction
     event: !type:ShadowlingAscendedPhaseReturnEvent
-
-- type: entity
-  id: ActionShadowlingReReveal
-  name: Перераскрытие
-  description: Заживляет все раны, полностью восстанавливая тело.
-  categories: [ HideSpawnMenu ]
-  components:
-  - type: Action
-    icon: _DeadSpace/Demons/ability_icons/shadowling_reveal_action.png
-    useDelay: 180
-  - type: InstantAction
-    event: !type:ShadowlingReRevealEvent

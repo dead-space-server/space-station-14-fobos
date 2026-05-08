@@ -13,7 +13,7 @@ public sealed partial class ShadowlingBlackMedComponent : Component
 {
     [DataField] public EntProtoId ActionBlackMed = "ActionShadowlingBlackMed";
     [DataField] public EntityUid? ActionBlackMedEntity;
-    [DataField] public int RequiredSlaves = 9;
+    [DataField] public int RequiredSlaves = 18;
     [DataField] public float Duration = 2f;
 }
 
