@@ -81,8 +81,10 @@
       fixtures:
         fix1:
           shape:
+            # DS14-start
             !type:PhysShapeAabb
-            bounds: "-0.25,-0.5,0.25,0.5"
+            bounds: "-0.25,-0.35,0.25,0.35"
+            # DS14-end
           density: 190
           mask:
           - MachineMask
