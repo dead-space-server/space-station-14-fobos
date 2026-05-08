@@ -11,6 +11,8 @@ public sealed partial class ShadowlingBlinkComponent : Component
 {
     [DataField] public EntProtoId ActionBlink = "ActionShadowlingBlink";
     [DataField] public EntityUid? ActionBlinkEntity;
+
+    [DataField] public float StunDuration = 5f;
 }
 
 public sealed partial class ShadowlingBlinkEvent : EntityTargetActionEvent { }

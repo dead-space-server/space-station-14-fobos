@@ -13,7 +13,6 @@ using Content.Shared.Chemistry.Components;
 using Robust.Shared.Timing;
 using Content.Server.Audio;
 using Content.Shared.Audio;
-using Content.Server.RoundEnd;
 
 namespace Content.Server.DeadSpace.Demons.Shadowling;
 
@@ -26,8 +25,6 @@ public sealed class ShadowlingAscendanceSystem : EntitySystem
     [Dependency] private readonly SharedStunSystem _stun = default!;
     [Dependency] private readonly SmokeSystem _smoke = default!;
     [Dependency] private readonly ServerGlobalSoundSystem _sound = default!;
-    [Dependency] private readonly RoundEndSystem _roundEnd = default!;
-
     public override void Initialize()
     {
         base.Initialize();
@@ -112,11 +109,6 @@ public sealed class ShadowlingAscendanceSystem : EntitySystem
         {
             ruleComp.IsAscended = true;
         }
-
-        Timer.Spawn(TimeSpan.FromMinutes(3), () =>
-        {
-            _roundEnd.EndRound();
-        });
 
         QueueDel(uid);
     }

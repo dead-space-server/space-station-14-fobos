@@ -12,7 +12,7 @@ using Content.Shared.Damage.Systems;
 
 namespace Content.Server.DeadSpace.Demons.Shadowling;
 
-public sealed class ShadowlingSystem : EntitySystem
+public sealed class ShadowlingSystem : SharedShadowlingSystem
 {
     [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly MovementSpeedModifierSystem _movement = default!;

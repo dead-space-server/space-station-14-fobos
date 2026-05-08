@@ -345,3 +345,9 @@
   values:
     prefix: plushies-scarlett-
     count: 6
+
+- type: localizedDataset
+  id: PlushieWalkflisSpeech
+  values:
+    prefix: plushies-walkflis-
+    count: 3

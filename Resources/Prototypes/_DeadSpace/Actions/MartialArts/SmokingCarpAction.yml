@@ -7,7 +7,7 @@
     icon:
       sprite: _DeadSpace/Actions/smoking_carp_actions.rsi
       state: power_punch
-    useDelay: 4
+    useDelay: 8
     priority: -7
   - type: InstantAction
     event: !type:SmokingCarpPowerPunchEvent {}
@@ -21,6 +21,7 @@
     icon:
       sprite: _DeadSpace/Actions/smoking_carp_actions.rsi
       state: smoke_punch
+    useDelay: 1.5
     priority: -8
   - type: InstantAction
     event: !type:SmokingCarpSmokePunchEvent {}
@@ -34,7 +35,7 @@
     icon:
       sprite: _DeadSpace/Actions/smoking_carp_actions.rsi
       state: trip_punch
-    useDelay: 5
+    useDelay: 10
     priority: -6
   - type: InstantAction
     event: !type:SmokingCarpTripPunchEvent {}
@@ -49,6 +50,7 @@
       sprite: _DeadSpace/Actions/smoking_carp_actions.rsi
       state: reflect
       noRot: true
+    useDelay: 5
     priority: -5
   - type: InstantAction
     event: !type:ReflectCarpEvent {}
