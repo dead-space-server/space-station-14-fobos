@@ -565,6 +565,7 @@
   description: Это 
   components:
   - type: Sprite
+    sprite: _DeadSpace/Sponsor/walkflis/tools/toy.rsi
     state: plushie_walkflis
   - type: TTS
     voice: Vor
