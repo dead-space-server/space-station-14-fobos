@@ -85,7 +85,7 @@
     - stampedName: stamp-component-stamped-name-syndicate
       stampedColor: "#850000"
       stampPatternTexture: "/Textures/Interface/Stamps/syndicate_print_pattern.png"
-      stampScale: 0.85
+      stampScale: 1.10
     - stampedName: stamp-component-stamped-name-syndicate-emblem
       stampedColor: "#850000"
       stampTexture: "/Textures/Interface/Stamps/syndicate_print.png"

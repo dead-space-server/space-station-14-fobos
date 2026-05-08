@@ -19,9 +19,9 @@ public sealed partial class StampWidget : PanelContainer
     private const string StampFontPath = "/Fonts/OpenLukyanov/OpenLukyanov.otf";
     private const int StampFontSize = 24;
     private const int HeadStampFontSize = 18;
-    private const int LowPatternStampFontSize = 18;
+    private const int LowPatternStampFontSize = 12;
     private const int StampHeaderFontSize = 11;
-    private const int StampBackgroundFontSize = 10;
+    private const int StampBackgroundFontSize = 20;
     private const int FontOversample = 2;
     private const float FontOversampleScale = 1.0f / FontOversample;
     private const float PatternTextAlpha = 0.94f;
@@ -32,7 +32,8 @@ public sealed partial class StampWidget : PanelContainer
     private const float HeadPatternTextTop = 30.0f;
     private const float PatternTextLineHeight = 23.0f;
     private const float HeadPatternTextLineHeight = 19.0f;
-    private const float LowPatternTextHorizontalInset = 42.0f;
+    private const float LowPatternTextHorizontalInset = 35.0f;
+    private const float LowPatternTextOffsetX = 18.0f;
     private const float LowPatternTextBottom = 37.5f;
     private const float LowPatternTextLineHeight = 18.0f;
     private const float PatternHeaderLeft = 8.0f;
@@ -551,6 +552,8 @@ public sealed partial class StampWidget : PanelContainer
         {
             var lineWidth = MeasureText(_stampFont, line, mainLayoutFontScale);
             var x = horizontalInset + MathF.Max(0.0f, (availableTextWidth - lineWidth) * 0.5f);
+            if (_isLowPattern)
+                x += LowPatternTextOffsetX * textureScale;
 
             DrawText(handle, _stampFont, line, new Vector2(x, y), color, mainFontScale, UIScale, patternPivot, patternGlobalPivot, Orientation);
             y += lineHeight;
