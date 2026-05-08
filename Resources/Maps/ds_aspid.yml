@@ -126643,7 +126643,6 @@ entities:
       stampedBy:
       - stampedColor: '#006600FF'
         stampedName: stamp-component-stamped-name-centcom
-        stampTexture: /Textures/Interface/Stamps/centralcommand_print.png
       content: ' Знай клоун! Если ты еще раз сделаешь документ с печатью всех глав на запрет опрс у вульп! То я тебя убью! Мне надоело уже просить пцк чтобы он прител на вашу станцию! Мы не будем отменять опрс у вульп!'
     - type: SolutionContainerManager
       solutions: null
@@ -126699,7 +126698,6 @@ entities:
       stampedBy:
       - stampedColor: '#006600FF'
         stampedName: stamp-component-stamped-name-centcom
-        stampTexture: /Textures/Interface/Stamps/centralcommand_print.png
       content: >-
         Поздравляем, командование NanoTrasen решило обновить минимальный охранный шаттл службы безопасности станции NT-Raven-GE до версии 08.
 

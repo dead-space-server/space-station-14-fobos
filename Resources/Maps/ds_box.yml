@@ -177145,7 +177145,7 @@ entities:
     - type: Paper
       stampState: paper_stamp-centcom
       stampedBy:
-      - stampTexture: /Textures/Interface/Stamps/centralcommand_print.png
+      - stampTexture: null
         stampedColor: '#006600FF'
         stampedName: Центральное Командование
       content: >
@@ -177223,7 +177223,7 @@ entities:
     - type: Paper
       stampState: paper_stamp-centcom
       stampedBy:
-      - stampTexture: /Textures/Interface/Stamps/centralcommand_print.png
+      - stampTexture: null
         stampedColor: '#006600FF'
         stampedName: stamp-component-stamped-name-centcom
       content: >-

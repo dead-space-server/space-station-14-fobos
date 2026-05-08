@@ -39382,7 +39382,7 @@ entities:
     - type: Paper
       stampState: paper_stamp-centcom
       stampedBy:
-      - stampTexture: /Textures/Interface/Stamps/centralcommand_print.png
+      - stampTexture: null
         stampedColor: '#006600FF'
         stampedName: stamp-component-stamped-name-centcom
       content: Приветствуем дорогой Офицер корпуса "Синего Щита". В связи с необычными условиями вашей работы на данной станции, было принято решение оснастить вас дополнительным снаряжением в виде пустотного джетпака. Удачной работы! Слава Nanotrasen!
