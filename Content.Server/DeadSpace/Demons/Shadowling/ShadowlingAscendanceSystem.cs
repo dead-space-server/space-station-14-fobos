@@ -13,6 +13,7 @@ using Content.Shared.Chemistry.Components;
 using Robust.Shared.Timing;
 using Content.Server.Audio;
 using Content.Shared.Audio;
+using Content.Server.RoundEnd;
 
 namespace Content.Server.DeadSpace.Demons.Shadowling;
 
@@ -25,6 +26,7 @@ public sealed class ShadowlingAscendanceSystem : EntitySystem
     [Dependency] private readonly SharedStunSystem _stun = default!;
     [Dependency] private readonly SmokeSystem _smoke = default!;
     [Dependency] private readonly ServerGlobalSoundSystem _sound = default!;
+    [Dependency] private readonly RoundEndSystem _roundEnd = default!;
 
     public override void Initialize()
     {
@@ -81,6 +83,13 @@ public sealed class ShadowlingAscendanceSystem : EntitySystem
                 slave.Master = newMob;
         }
 
+        if (TryComp<ShadowlingRecruitComponent>(uid, out var oldRecruit) &&
+            TryComp<ShadowlingRecruitComponent>(newMob, out var newRecruit))
+        {
+            newRecruit.TotalRecruited = oldRecruit.TotalRecruited;
+            newRecruit.CurrentSlaves = oldRecruit.CurrentSlaves;
+        }
+
         if (_mind.TryGetMind(uid, out var mindId, out var mind))
             _mind.TransferTo(mindId, newMob, mind: mind);
 
@@ -96,6 +105,17 @@ public sealed class ShadowlingAscendanceSystem : EntitySystem
             _chat.DispatchGlobalAnnouncement(message, sender,
                 colorOverride: Color.FromHex("#ff0000"),
                 announcementSound: new SoundCollectionSpecifier("ShadowlingAscendanceAnnouncement"));
+        });
+
+        var ruleQuery = EntityQueryEnumerator<ShadowlingRuleComponent>();
+        while (ruleQuery.MoveNext(out var ruleUid, out var ruleComp))
+        {
+            ruleComp.IsAscended = true;
+        }
+
+        Timer.Spawn(TimeSpan.FromMinutes(3), () =>
+        {
+            _roundEnd.EndRound();
         });
 
         QueueDel(uid);

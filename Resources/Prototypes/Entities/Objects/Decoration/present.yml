@@ -213,6 +213,19 @@
         orGroup: GiftPool
       - id: PlushieEvelina
         orGroup: GiftPool
+      - id: PlushieSmetanaJonita
+        orGroup: GiftPool
+      - id: PlushieColleen
+        orGroup: GiftPool
+      - id: PlushieAino
+        orGroup: GiftPool
+      - id: PlushieFloria
+        orGroup: GiftPool
+      - id: PlushieRIP
+        orGroup: GiftPool
+      - id: PlushieHermione
+        orGroup: GiftPool
+
 
 - type: entity
   id: PresentFigurine

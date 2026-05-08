@@ -33,6 +33,12 @@
             - voice-message-carp-4
             - voice-message-carp-5
             - voice-message-carp-6
+            - voice-message-carp-7
+            - voice-message-carp-8
+            - voice-message-carp-9
+            - voice-message-carp-10
+            - voice-message-carp-11
+            - voice-message-carp-12
 
 - type: entity
   parent: BaseItem

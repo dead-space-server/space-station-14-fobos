@@ -1,6 +1,6 @@
 - type: factionIcon
   id: ShadowlingSlaveFaction
-  priority: 15
+  priority: 11
   showTo:
     components:
       - ShowAntagIcons
@@ -13,7 +13,7 @@
 
 - type: factionIcon
   id: ShadowlingMasterFaction
-  priority: 20
+  priority: 11
   showTo:
     components:
       - ShowAntagIcons
