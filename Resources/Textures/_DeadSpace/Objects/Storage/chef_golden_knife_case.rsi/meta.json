@@ -1,0 +1,31 @@
+﻿{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Created by discord yri_nouri",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+     {
+      "name": "knife1"
+    },
+    {
+      "name": "knife2"
+    },
+    {
+      "name": "open"
+    },
+    {
+      "name": "closed"
+    },
+    {
+      "name": "inhand-left",
+      "directions": 4
+    },
+    {
+      "name": "inhand-right",
+      "directions": 4
+    }
+  ]
+}

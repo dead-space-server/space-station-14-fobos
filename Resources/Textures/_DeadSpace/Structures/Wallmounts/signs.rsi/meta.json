@@ -1,0 +1,44 @@
+{
+    "version": 1,
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Taken from https://github.com/ss220-space/Paradise/tree/master220/icons/obj",
+    "states": [
+        {
+            "name": "logo1"
+        },
+        {
+            "name": "logo2"
+        },
+        {
+            "name": "logo3"
+        },
+        {
+            "name": "logo4"
+        },
+        {
+            "name": "logo5"
+        },
+        {
+            "name": "logo6"
+        },
+        {
+            "name": "NTlogo1"
+        },
+        {
+            "name": "NTlogo2"
+        },
+        {
+            "name": "NTlogo3"
+        },
+        {
+            "name": "NTlogo4"
+        },
+        {
+            "name": "NTlogo5"
+        }
+    ]
+}

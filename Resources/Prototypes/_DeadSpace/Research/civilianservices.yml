@@ -2,7 +2,7 @@
 
 - type: technology
   id: RIGEVA
-  name: research-technology-rig-sec-adv
+  name: research-technology-rig-eva
   icon:
     sprite: _DeadSpace/RIGs/EVA/backpack.rsi
     state: icon

@@ -3,6 +3,7 @@ loadout-group-species-restriction = Этот предмет недоступен
 loadout-group-sex-restriction = Этот предмет недоступен для вашего пола.
 # Miscellaneous
 loadout-group-trinkets = Безделушки
+loadout-group-jobtrinkets = Рабочие безделушки
 loadout-group-glasses = Очки
 loadout-group-backpack = Рюкзак
 loadout-group-instruments = Инструменты

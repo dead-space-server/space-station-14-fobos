@@ -8,14 +8,25 @@
     sprite: _DeadSpace/SecurityBorg/securityborg.rsi
     layers:
     - state: sec
+      map: ["enum.BorgVisualLayers.Body", "movement"]
     - state: sec_e
       map: ["enum.BorgVisualLayers.Light"]
       shader: unshaded
       visible: false
     - state: sec_l
       shader: unshaded
-      map: ["light"]
+      map: ["light", "enum.BorgVisualLayers.LightStatus"]
       visible: false
+  - type: GenericVisualizer
+    visuals:
+      enum.SecurityBorgProneVisuals.Prone:
+        enum.BorgVisualLayers.Body:
+          True: {state: sec_down}
+          False: {state: sec}
+        enum.BorgVisualLayers.LightStatus:
+          True: {state: sec_down_l}
+          False: {state: sec_l}
+  - type: SecurityBorgProne
   - type: BorgChassis
     maxModules: 6
     moduleWhitelist:

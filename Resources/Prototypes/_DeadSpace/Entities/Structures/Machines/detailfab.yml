@@ -13,6 +13,7 @@
       map: ["enum.MaterialStorageVisualLayers.Inserting"]
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
   - type: Machine
     board: DetailTechFabMachineCircuitboard
   - type: Lathe

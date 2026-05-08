@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Created by zekal_l (discord) for Space Station 14 server Мёртвый Космос",
+  "size": { "x": 32, "y": 32 },
+  "states": [
+    {
+      "name": "shadowling",
+      "directions": 4
+    },
+    {
+      "name": "shadowling_ascended",
+      "directions": 4
+    },
+    {
+      "name": "shadowling_ascended_eyes",
+      "directions": 4
+    },
+    {
+      "name": "shadowling_slave-eyes_MobArachnid",
+      "directions": 4
+    },
+    {
+      "name": "shadowling_slave-eyes_MobVox",
+      "directions": 4
+    },
+    {
+      "name": "shadowling_slave-eyes_MobMoth",
+      "directions": 4
+    },
+    {
+      "name": "shadowling_ghost",
+      "directions": 4
+    },
+    {
+      "name": "shadowling_ascended_ghost",
+      "directions": 4
+    },
+    {
+      "name": "shadowling_slave-eyes",
+      "directions": 4
+    },
+    {
+      "name": "shadowling_recruit_objective"
+    },
+    {
+      "name": "shadowling_eyes",
+      "directions": 4
+    },
+    {
+      "name": "red",
+      "delays": [
+            [
+              0.1,
+              0.1,
+              0.1,
+              0.1
+            ]
+      ]
+    }
+  ]
+}

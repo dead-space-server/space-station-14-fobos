@@ -15,8 +15,10 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
 {
     public event Action? OnNextButtonPressed;
     public event Action? OnPrevButtonPressed;
-
     public event Action? OnNotificationSwithPressed;
+    public event Action? OnLikeButtonPressed;
+    public event Action? OnDislikeButtonPressed;
+    public event Action<string>? OnSendCommentPressed;
 
     public NewsReaderUiFragment()
     {
@@ -25,7 +27,26 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
         Next.OnPressed += _ => OnNextButtonPressed?.Invoke();
         Prev.OnPressed += _ => OnPrevButtonPressed?.Invoke();
         NotificationSwitch.OnPressed += _ => OnNotificationSwithPressed?.Invoke();
+
+        // DS14-start
+        LikeButton.OnPressed += _ => OnLikeButtonPressed?.Invoke();
+        DislikeButton.OnPressed += _ => OnDislikeButtonPressed?.Invoke();
+        SendCommentButton.OnPressed += _ => SubmitComment();
+        CommentInput.OnTextEntered += _ => SubmitComment();
+        // DS14-end
     }
+
+    // DS14-start
+    private void SubmitComment()
+    {
+        var comment = CommentInput.Text.Trim();
+        if (string.IsNullOrWhiteSpace(comment))
+            return;
+
+        OnSendCommentPressed?.Invoke(comment);
+        CommentInput.Text = string.Empty;
+    }
+    // DS14-end
 
     public void UpdateState(NewsArticle article, int targetNum, int totalNum, bool notificationOn)
     {
@@ -49,7 +70,66 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
 
         Prev.Disabled = targetNum <= 1;
         Next.Disabled = targetNum >= totalNum;
+        LikeButton.Disabled = false;
+        DislikeButton.Disabled = false;
+        CommentInput.Editable = true;
+        SendCommentButton.Disabled = false;
+
+        LikeCount.Text = article.Likes.ToString();
+        DislikeCount.Text = article.Dislikes.ToString();
+
+        UpdateComments(article.Comments);
+        // DS14-end
     }
+
+    // DS14-start
+    private void UpdateComments(IReadOnlyList<NewsComment>? comments)
+    {
+        CommentsContainer.DisposeAllChildren();
+
+        if (comments == null || comments.Count == 0)
+        {
+            var noCommentsLabel = new RichTextLabel
+            {
+                Margin = new Thickness(4, 4, 4, 4),
+                HorizontalAlignment = HAlignment.Center
+            };
+            noCommentsLabel.SetMarkup(Loc.GetString("news-read-ui-no-comments"));
+            CommentsContainer.AddChild(noCommentsLabel);
+            return;
+        }
+
+        foreach (var comment in comments)
+        {
+            var commentBox = new BoxContainer
+            {
+                Orientation = BoxContainer.LayoutOrientation.Vertical,
+                Margin = new Thickness(0, 0, 0, 4)
+            };
+
+            var metaLabel = new RichTextLabel
+            {
+                Margin = new Thickness(0, 0, 0, 2)
+            };
+
+            var author = string.IsNullOrWhiteSpace(comment.Author)
+                ? Loc.GetString("news-read-ui-anonymous")
+                : comment.Author;
+            var time = comment.CommentTime.ToString(@"hh\:mm\:ss");
+            metaLabel.SetMarkup(Loc.GetString(
+                "news-read-ui-comment-author",
+                ("author", FormattedMessage.EscapeText(author)),
+                ("time", time)));
+
+            var contentLabel = new RichTextLabel();
+            contentLabel.SetMessage(comment.Content);
+
+            commentBox.AddChild(metaLabel);
+            commentBox.AddChild(contentLabel);
+            CommentsContainer.AddChild(commentBox);
+        }
+    }
+    // DS14-end
 
     public void UpdateEmptyState(bool notificationOn)
     {
@@ -61,5 +141,17 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
         PageName.Text = Loc.GetString("news-read-ui-not-found-text");
 
         NotificationSwitch.Text = Loc.GetString(notificationOn ? "news-read-ui-notification-on" : "news-read-ui-notification-off");
+
+        Prev.Disabled = true;
+        Next.Disabled = true;
+        LikeButton.Disabled = true;
+        DislikeButton.Disabled = true;
+        CommentInput.Editable = false;
+        CommentInput.Text = string.Empty;
+        SendCommentButton.Disabled = true;
+
+        CommentsContainer.DisposeAllChildren();
+        LikeCount.Text = "0";
+        DislikeCount.Text = "0";
     }
 }

@@ -371,7 +371,9 @@
   name: loadout-group-chef-hand
   minLimit: 0
   loadouts:
-  - ChefGoldenKnife
+ ## - ChefGoldenKnife ##DS14
+  - CaseChefGoldenKnife ##DS14
+  - BriefcaseKitchenKnife ##DS14
 
 - type: loadoutGroup
   id: ChefGloves
@@ -771,7 +773,7 @@
   id: Instruments
   name: loadout-group-instruments
   minLimit: 0
-  maxLimit: 2
+  maxLimit: 4 # DS14
   loadouts:
   - Glockenspiel
   - MusicBox
@@ -1462,6 +1464,7 @@
   minLimit: 0
   loadouts:
   - SecurityBandana
+  - SecurityGaiter
 
 - type: loadoutGroup
   id: SecurityJumpsuit
@@ -1508,7 +1511,7 @@
   - JackSecBoots
   - CombatBoots
   - JackBoots
-  # - SecurityWinterBoots
+  - SecurityWinterBoots
 
 # DS14-disabled
 #- type: loadoutGroup

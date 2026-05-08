@@ -50,6 +50,11 @@
   equipment:
     mask: ClothingMaskBandSecurity
 
+- type: loadout
+  id: SecurityGaiter
+  equipment:
+    mask: ClothingMaskNeckGaiter
+
 # Jumpsuit
 - type: loadout
   id: SecurityJumpsuit

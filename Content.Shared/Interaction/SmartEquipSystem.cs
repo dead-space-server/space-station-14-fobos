@@ -20,6 +20,10 @@ namespace Content.Shared.Interaction;
 /// </summary>
 public sealed class SmartEquipSystem : EntitySystem
 {
+    private const string SheathInsertVerb = "sheath-insert-verb"; // DS14
+    private const string SheathEjectVerb = "sheath-eject-verb"; // DS14
+    private const string SuitStorageSlot = "suitstorage"; // DS14
+
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly SharedStorageSystem _storage = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
@@ -70,7 +74,7 @@ public sealed class SmartEquipSystem : EntitySystem
 
     private void HandleSmartEquipSuitStorage(ICommonSession? session)
     {
-        HandleSmartEquip(session, "suitstorage");
+        HandleSmartEquip(session, SuitStorageSlot); // DS14
     }
 
     private void HandleSmartEquip(ICommonSession? session, string equipmentSlot)
@@ -190,7 +194,7 @@ public sealed class SmartEquipSystem : EntitySystem
         }
 
         // case 3 (itemslot item):
-        if (TryComp<ItemSlotsComponent>(slotItem, out var slots))
+        if (TryComp<ItemSlotsComponent>(slotItem, out var slots) && ShouldUseContainedItemSlot(slots, handItem, equipmentSlot)) // DS14
         {
             if (handItem == null)
             {
@@ -247,4 +251,23 @@ public sealed class SmartEquipSystem : EntitySystem
         _inventory.TryUnequip(uid, equipmentSlot, inventory: inventory, predicted: true, checkDoafter: true);
         _hands.TryPickup(uid, slotItem, handsComp: hands);
     }
+
+    // DS14-start
+    private static bool ShouldUseContainedItemSlot(ItemSlotsComponent slots, EntityUid? handItem, string equipmentSlot)
+    {
+        if (handItem != null)
+            return true;
+
+        if (equipmentSlot == SuitStorageSlot)
+            return true;
+
+        foreach (var slot in slots.Slots.Values)
+        {
+            if (slot.InsertVerbText == SheathInsertVerb && slot.EjectVerbText == SheathEjectVerb)
+                return true;
+        }
+
+        return false;
+    }
+    // DS14-end
 }

@@ -14,7 +14,6 @@ steal-target-groups-weapon-antique-laser = антикварный лазерны
 steal-target-groups-weapon-energy-magnum = энергетический магнум
 steal-target-groups-nuke-disk = диск ядерной аутентификации
 steal-target-groups-weapon-energy-shot-gun = энергетический дробовик
-steal-target-groups-weapon-X01-pistol = X-01 мультифазовый энергетический пистолет
 # Thief Collection
 steal-target-groups-figurines = фигурки
 steal-target-groups-heads-cloaks = плащи глав

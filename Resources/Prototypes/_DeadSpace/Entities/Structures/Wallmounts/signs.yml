@@ -1,0 +1,120 @@
+- type: entity
+  parent: BaseSign
+  id: SignNTlogo1
+  name: синее лого nanotrasen 1
+  description: Часть 1.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Wallmounts/signs.rsi
+    state: NTlogo1
+    snapCardinals: false
+
+- type: entity
+  parent: BaseSign
+  id: SignNTlogo2
+  name: синее лого nanotrasen 2
+  description: Часть 2.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Wallmounts/signs.rsi
+    state: NTlogo2
+    snapCardinals: false
+
+- type: entity
+  parent: BaseSign
+  id: SignNTlogo3
+  name: синее лого nanotrasen 3
+  description: Часть 3.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Wallmounts/signs.rsi
+    state: NTlogo3
+    snapCardinals: false
+
+- type: entity
+  parent: BaseSign
+  id: SignNTlogo4
+  name: синее лого nanotrasen 4
+  description: Часть 4.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Wallmounts/signs.rsi
+    state: NTlogo4
+    snapCardinals: false
+
+- type: entity
+  parent: BaseSign
+  id: SignNTlogo5
+  name: синее лого nanotrasen 5
+  description: Часть 5.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Wallmounts/signs.rsi
+    state: NTlogo5
+    snapCardinals: false
+
+- type: entity
+  parent: BaseSign
+  id: SignNlogo1
+  name: логотип nanotrasen 1
+  description: Часть 1.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Wallmounts/signs.rsi
+    state: logo1
+    snapCardinals: false
+
+- type: entity
+  parent: BaseSign
+  id: SignNlogo2
+  name: логотип nanotrasen 2
+  description: Часть 2.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Wallmounts/signs.rsi
+    state: logo2
+    snapCardinals: false
+
+- type: entity
+  parent: BaseSign
+  id: SignNlogo3
+  name: логотип nanotrasen 3
+  description: Часть 3.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Wallmounts/signs.rsi
+    state: logo3
+    snapCardinals: false
+
+- type: entity
+  parent: BaseSign
+  id: SignNlogo4
+  name: логотип nanotrasen 4
+  description: Часть 4.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Wallmounts/signs.rsi
+    state: logo4
+    snapCardinals: false
+
+- type: entity
+  parent: BaseSign
+  id: SignNlogo5
+  name: логотип nanotrasen 5
+  description: Часть 5.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Wallmounts/signs.rsi
+    state: logo5
+    snapCardinals: false
+
+- type: entity
+  parent: BaseSign
+  id: SignNlogo6
+  name: логотип nanotrasen 6
+  description: Часть 5.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Wallmounts/signs.rsi
+    state: logo6
+    snapCardinals: false

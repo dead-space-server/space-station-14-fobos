@@ -36,8 +36,8 @@
     ears: ClothingHeadsetAltCentCom
     neck: ClothingNeckCloakCentcom
     belt: ADTClothingBeltSupremeSheathFilled
-    pocket1: RubberStampCentcom
-    pocket2: ClothingMaskGasCentcom
+    pocket1: RubberStampAdministratorCC
+    pocket2: DoorRemoteAll
 
 - type: chameleonOutfit
   id: CentralCommandAdministratorChameleonOutfit

@@ -48,6 +48,7 @@
       - state: variant-research
       - state: server_o
         map: ["enum.WiresVisualLayers.MaintenancePanel"]
+        visible: false
   - type: ResearchServer
     isTaipan: true
   - type: TechnologyDatabase
@@ -80,6 +81,7 @@
       map: [ "enum.AnomalyVesselVisualLayers.Base" ]
     - state: panel
       map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
   - type: ResearchClient
     isTaipan: true
   - type: Machine

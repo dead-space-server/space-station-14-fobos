@@ -63,6 +63,11 @@ ert-loadout-category-mk58-description =
     Дешёвый и распространённый пистолет,
     производимый дочерней компанией Nanotrasen.
     Использует патроны калибра 9х19 мм.
+ert-loadout-category-verdict-name = Вердикт
+ert-loadout-category-verdict-description =
+    Надёжный револьвер любого сотрудника СБ.
+    Имеет барабан на 6 патрон и нескользящую ручку.
+    Использует патроны .45 магнум, так как это то, что предполагали основатели.
 ert-loadout-category-n1984-name = N1984
 ert-loadout-category-n1984-description =
     Запасное оружие любого уважающего себя офицера.

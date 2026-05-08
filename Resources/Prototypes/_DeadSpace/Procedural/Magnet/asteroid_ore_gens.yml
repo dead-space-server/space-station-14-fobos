@@ -1,0 +1,15 @@
+- type: oreDunGen
+  id: OreBluespaceCrystal
+  replacement: AsteroidRock
+  entity: AsteroidRockBluespaceCrystal
+  count: 4
+  minGroupSize: 5
+  maxGroupSize: 7
+
+- type: oreDunGen
+  id: OreMagmite
+  replacement: AsteroidRock
+  entity: AsteroidRockMagmite
+  count: 4
+  minGroupSize: 5
+  maxGroupSize: 7

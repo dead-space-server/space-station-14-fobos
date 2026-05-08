@@ -1,0 +1,40 @@
+- type: soundCollection
+  id: ShadowlingReveal
+  files:
+    - /Audio/_DeadSpace/Demons/Reveal.ogg
+
+- type: soundCollection
+  id: ShadowlingAscendance1
+  files:
+    - /Audio/_DeadSpace/Demons/Ascendance1.ogg
+
+- type: soundCollection
+  id: ShadowlingAscendance2
+  files:
+    - /Audio/_DeadSpace/Demons/Ascendance2.ogg
+
+- type: soundCollection
+  id: ShadowlingAscendanceAnnouncement
+  files:
+    - /Audio/_DeadSpace/Demons/Tear_of_veil_by_Bolgarich.ogg
+    - /Audio/_DeadSpace/Demons/Retribution_by_Bolgarich.ogg
+
+- type: soundCollection
+  id: ShadowlingRecruitBriefing
+  files:
+    - /Audio/Misc/narsie_rises.ogg
+
+- type: soundCollection
+  id: ShadowlingBurnDamage
+  files:
+    - /Audio/Weapons/Guns/Hits/energy_meat1.ogg
+
+- type: soundCollection
+  id: ShadowlingAnnihilation
+  files:
+    - /Audio/Magic/disintegrate.ogg
+
+- type: soundCollection
+  id: ShadowlingAscendance
+  files:
+    - /Audio/_DeadSpace/Demons/Ascendance.ogg

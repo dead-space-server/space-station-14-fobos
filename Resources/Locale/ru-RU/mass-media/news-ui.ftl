@@ -10,6 +10,19 @@ news-read-ui-notification-off = ̶♫̶
 news-read-ui-notification-on = ♫
 news-read-ui-no-author = Аноним
 news-read-ui-author-prefix = Автор:
+# DS14-start
+news-read-ui-like-tooltip = Лайкнуть
+news-read-ui-dislike-tooltip = Дизлайкнуть
+news-read-ui-comments-title = Комментарии:
+news-read-ui-no-comments = Нет комментариев
+news-read-ui-comment-placeholder = Введите комментарий...
+news-read-ui-comment-send = Отправить
+news-read-ui-comment-send-tooltip = Отправить комментарий
+news-read-ui-comment-author = [color=Gray]{ $author }[/color] • { $time }
+news-read-ui-comment-limit = Достигнут лимит комментариев (50)
+news-read-ui-comment-cooldown = Подождите еще { $seconds } сек.
+news-read-ui-anonymous = Аноним
+# DS14-end
 news-write-ui-default-title = Управление новостями
 news-write-ui-articles-label = Статьи:
 news-write-ui-delete-text = Удалить

@@ -79,10 +79,12 @@ ert-console-auth-card-invalid = В консоль допускаются тол�
 ert-console-requester-unknown = неизвестный оператор
 ert-console-requester-name-with-job = { $name } ({ $job })
 ert-console-request-rejected-announcement = Внимание командованию Станции! Корпус Специальных Операций отклонил запрос на вызов Отряда Быстрого Реагирования. Справляйтесь своими силами. Слава NanoTrasen!
+ert-response-team-changed-announcement = Внимание, станция! Корпус Специальных Операций пересмотрел прошлое решение по вызову Отряда Быстрого Реагирование. Было принято решение об отправке отряда { $team }. Боже, Директорат Храни!
 ert-console-auth-slot-a = карта авторизации А
 ert-console-auth-slot-b = карта авторизации Б
 ert-admin-requester-system = системный вызов
 
+ert-admin-window-subtitle = Заявки, автоспавн и ручное одобрение отрядов быстрого реагирования.
 ert-admin-settings-title = Настройки вызова ОБР
 ert-admin-cooldown-label = Cooldown (сек):
 ert-admin-points-label = Баланс очков вызова:
@@ -99,6 +101,7 @@ ert-admin-selected-reason = Цель вызова:
 ert-admin-reject-button = Отклонить
 ert-admin-approve-manual-button = Одобрить с ручным спавном
 ert-admin-approve-auto-button = Одобрить с автоспавном
+ert-admin-notify-checkbox = Сделать уведомление?
 
 ert-admin-approved-title = Авто-одобренные заявки
 ert-admin-arrival-label = Время прибытия (сек):
@@ -108,6 +111,7 @@ ert-admin-set-reason-button = Изменить цель
 ert-admin-set-team-button = Сменить отряд
 ert-admin-send-now-button = Отправить отряд
 ert-admin-cancel-auto-button = Отменить автоспавн
+ert-admin-move-to-manual-button = Перенести в ручное одобрение
 
 ert-admin-promote-manual-button = Запустить автоспавн без уведомлений
 ert-admin-queue-auto-button = Добавить в автоспавн

@@ -1,0 +1,59 @@
+- type: entity
+  id: HolosignRND
+  parent: HolosignWetFloor
+  name: РНД голобарьер
+  description: Барьер из твёрдого света, не пропускает через себя аномальных сущностей, но довольно хрупкий.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Structures/Holo/rnd.rsi
+      state: icon
+    - type: Physics
+      bodyType: Static
+      canCollide: true
+    - type: Fixtures
+      fixtures:
+        fix1:
+          shape:
+            !type:PhysShapeAabb
+            bounds: "-0.5,-0.5,0.5,0.5"
+          hard: true
+          mask:
+            - TableLayer
+          layer:
+            - TableLayer
+    - type: EntityFilterBarrier
+      blockedPrototypes:
+        - MobFleshLover
+        - MobFleshGolem
+        - MobFleshJared
+        - MobFleshClamp
+        - MobLuminousEntity
+        - MobLuminousObject
+        - MobLuminousPerson
+        - MobCoalCrab
+        - MobGoldCrab
+        - MobQuartzCrab
+        - MobSilverCrab
+        - MobTinCrab
+        - MobUraniumCrab
+        - MobBananiumCrab
+        - ReagentSlime
+        - ReagentSlimeBeer
+        - ReagentSlimePax
+        - ReagentSlimeNocturine
+        - ReagentSlimeTHC
+        - ReagentSlimeBicaridine
+        - ReagentSlimeToxin
+        - ReagentSlimeNapalm
+        - ReagentSlimeOmnizine
+        - ReagentSlimeMuteToxin
+        - ReagentSlimeNorepinephricAcid
+        - ReagentSlimeEphedrine
+        - ReagentSlimeRobustHarvest
+    - type: TimedDespawn
+      lifetime: 300
+    - type: PointLight
+      enabled: true
+      radius: 3
+      color: violet
+    - type: Clickable

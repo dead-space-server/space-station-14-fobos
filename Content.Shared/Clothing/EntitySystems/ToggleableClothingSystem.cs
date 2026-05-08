@@ -230,6 +230,15 @@ public sealed class ToggleableClothingSystem : EntitySystem
     {
         if (args.Cancelled)
             return;
+
+        var parent = Transform(uid).ParentUid;
+        if (parent != args.User)
+            return;
+
+        if (!_inventorySystem.TryGetSlotEntity(args.User, component.Slot, out _)
+            && !_inventorySystem.InSlotWithFlags(uid, component.RequiredFlags))
+            return;
+
         ToggleClothing(args.User, uid, component);
     }
     //DS14-end

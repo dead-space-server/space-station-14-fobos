@@ -23,6 +23,8 @@ using Robust.Server;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Configuration;
 using Robust.Shared.Maths;
+using Robust.Shared.Network;
+using Robust.Shared.Player;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using System.Diagnostics.CodeAnalysis;
@@ -207,13 +209,12 @@ public sealed class NewsSystem : SharedNewsSystem
 
         var strippedContent = FormattedMessage.RemoveMarkupPermissive(content); // DS14
 
-        article = new NewsArticle
-        {
-            Title = title.Length <= MaxTitleLength ? title : $"{title[..MaxTitleLength]}...",
-            Content = strippedContent.Length <= MaxContentLength ? strippedContent : $"{strippedContent[..MaxContentLength]}...", // DS14
-            Author = author,
-            ShareTime = _ticker.RoundDuration()
-        };
+        article = new NewsArticle(
+            title.Length <= MaxTitleLength ? title : $"{title[..MaxTitleLength]}...",
+            strippedContent.Length <= MaxContentLength ? strippedContent : $"{strippedContent[..MaxContentLength]}...", // DS14
+            author,
+            _ticker.RoundDuration()
+        );
 
         articles.Add(article.Value);
 
@@ -286,6 +287,9 @@ public sealed class NewsSystem : SharedNewsSystem
         if (args is not NewsReaderUiMessageEvent message)
             return;
 
+        var loaderUid = GetEntity(args.LoaderUid);
+        var updateAllReaders = false;
+
         switch (message.Action)
         {
             case NewsReaderUiAction.Next:
@@ -297,9 +301,23 @@ public sealed class NewsSystem : SharedNewsSystem
             case NewsReaderUiAction.NotificationSwitch:
                 ent.Comp.NotificationOn = !ent.Comp.NotificationOn;
                 break;
+            // DS14-start
+            case NewsReaderUiAction.Like:
+                updateAllReaders = HandleReaction(ent, args.Actor, true);
+                break;
+            case NewsReaderUiAction.Dislike:
+                updateAllReaders = HandleReaction(ent, args.Actor, false);
+                break;
+            case NewsReaderUiAction.AddComment:
+                updateAllReaders = HandleAddComment(ent, args.Actor, message.CommentContent);
+                break;
+            // DS14-end
         }
 
-        UpdateReaderUi(ent, GetEntity(args.LoaderUid));
+        if (updateAllReaders)
+            UpdateReaderDevices();
+        else
+            UpdateReaderUi(ent, loaderUid);
     }
 
     private void OnReaderUiReady(Entity<NewsReaderCartridgeComponent> ent, ref CartridgeUiReadyEvent args)
@@ -310,14 +328,25 @@ public sealed class NewsSystem : SharedNewsSystem
 
     private bool TryGetArticles(EntityUid uid, [NotNullWhen(true)] out List<NewsArticle>? articles)
     {
-        if (_station.GetOwningStation(uid) is not { } station ||
-            !TryComp<StationNewsComponent>(station, out var stationNews))
+        if (!TryGetStationNews(uid, out var stationNews))
         {
             articles = null;
             return false;
         }
 
         articles = stationNews.Articles;
+        return true;
+    }
+
+    private bool TryGetStationNews(EntityUid uid, [NotNullWhen(true)] out StationNewsComponent? stationNews)
+    {
+        if (_station.GetOwningStation(uid) is not { } station ||
+            !TryComp(station, out stationNews))
+        {
+            stationNews = null;
+            return false;
+        }
+
         return true;
     }
 
@@ -355,6 +384,16 @@ public sealed class NewsSystem : SharedNewsSystem
         _cartridgeLoaderSystem.UpdateCartridgeUiState(loaderUid, state);
     }
 
+    private void UpdateReaderDevices()
+    {
+        var query = EntityQueryEnumerator<NewsReaderCartridgeComponent, CartridgeComponent>();
+        while (query.MoveNext(out var owner, out var reader, out var cartridge))
+        {
+            if (cartridge.LoaderUid is { } loaderUid)
+                UpdateReaderUi((owner, reader), loaderUid);
+        }
+    }
+
     private void NewsReaderLeafArticle(Entity<NewsReaderCartridgeComponent> ent, int leafDir)
     {
         if (!TryGetArticles(ent, out var articles))
@@ -368,6 +407,123 @@ public sealed class NewsSystem : SharedNewsSystem
         if (ent.Comp.ArticleNumber < 0)
             ent.Comp.ArticleNumber = articles.Count - 1;
     }
+
+    // DS14-start
+    private bool HandleReaction(Entity<NewsReaderCartridgeComponent> ent, EntityUid actor, bool isLike)
+    {
+        if (!TryGetArticles(ent, out var articles))
+            return false;
+
+        if (ent.Comp.ArticleNumber < 0 || ent.Comp.ArticleNumber >= articles.Count)
+            return false;
+
+        if (!TryGetActorUserId(actor, out var userId))
+            return false;
+
+        var article = articles[ent.Comp.ArticleNumber];
+        EnsureArticleLists(ref article);
+
+        var selectedReactions = isLike ? article.LikedBy : article.DislikedBy;
+        var oppositeReactions = isLike ? article.DislikedBy : article.LikedBy;
+
+        if (!selectedReactions.Remove(userId))
+        {
+            oppositeReactions.Remove(userId);
+            selectedReactions.Add(userId);
+        }
+
+        article.Likes = article.LikedBy.Count;
+        article.Dislikes = article.DislikedBy.Count;
+        articles[ent.Comp.ArticleNumber] = article;
+        return true;
+    }
+
+    private bool HandleAddComment(Entity<NewsReaderCartridgeComponent> ent, EntityUid actor, string? commentContent)
+    {
+        if (string.IsNullOrWhiteSpace(commentContent))
+            return false;
+
+        if (!TryGetStationNews(ent, out var stationNews))
+            return false;
+
+        var articles = stationNews.Articles;
+
+        if (ent.Comp.ArticleNumber < 0 || ent.Comp.ArticleNumber >= articles.Count)
+            return false;
+
+        if (!TryGetActorUserId(actor, out var userId))
+            return false;
+
+        var article = articles[ent.Comp.ArticleNumber];
+        EnsureArticleLists(ref article);
+
+        if (article.Comments.Count >= MaxComments)
+        {
+            _popup.PopupEntity(Loc.GetString("news-read-ui-comment-limit"), actor, actor, PopupType.SmallCaution);
+            return false;
+        }
+
+        if (stationNews.LastCommentTimes.TryGetValue(userId, out var lastCommentTime))
+        {
+            var remainingCooldown = CommentCooldown - (_timing.CurTime - lastCommentTime);
+            if (remainingCooldown > TimeSpan.Zero)
+            {
+                var remainingSeconds = (int)Math.Ceiling(remainingCooldown.TotalSeconds);
+                var popup = Loc.GetString("news-read-ui-comment-cooldown", ("seconds", remainingSeconds));
+                _popup.PopupEntity(popup, actor, actor, PopupType.SmallCaution);
+                return false;
+            }
+        }
+
+        var strippedContent = FormattedMessage.RemoveMarkupPermissive(commentContent).Trim();
+        if (string.IsNullOrWhiteSpace(strippedContent))
+            return false;
+
+        var content = strippedContent.Length <= MaxCommentLength ? strippedContent : $"{strippedContent[..MaxCommentLength]}...";
+
+        var authorName = GetNewsActorName(actor, ent);
+        var comment = new NewsComment(content, authorName, _ticker.RoundDuration());
+        article.Comments.Add(comment);
+        articles[ent.Comp.ArticleNumber] = article;
+
+        stationNews.LastCommentTimes[userId] = _timing.CurTime;
+
+        _adminLogger.Add(
+            LogType.Chat,
+            LogImpact.Low,
+            $"{ToPrettyString(actor):actor} added a comment to news article \"{article.Title}\": {content}");
+
+        return true;
+    }
+
+    private static void EnsureArticleLists(ref NewsArticle article)
+    {
+        article.Comments ??= new List<NewsComment>();
+        article.LikedBy ??= new HashSet<NetUserId>();
+        article.DislikedBy ??= new HashSet<NetUserId>();
+    }
+
+    private bool TryGetActorUserId(EntityUid actor, out NetUserId userId)
+    {
+        if (TryComp<ActorComponent>(actor, out var actorComp))
+        {
+            userId = actorComp.PlayerSession.UserId;
+            return true;
+        }
+
+        userId = default;
+        return false;
+    }
+
+    private string GetNewsActorName(EntityUid actor, EntityUid whileInteractingWith)
+    {
+        var tryGetIdentityShortInfoEvent = new TryGetIdentityShortInfoEvent(whileInteractingWith, actor);
+        RaiseLocalEvent(tryGetIdentityShortInfoEvent);
+        return string.IsNullOrWhiteSpace(tryGetIdentityShortInfoEvent.Title)
+            ? Name(actor)
+            : tryGetIdentityShortInfoEvent.Title;
+    }
+    // DS14-end
 
     private void UpdateWriterDevices()
     {
