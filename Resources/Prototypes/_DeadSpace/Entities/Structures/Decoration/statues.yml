@@ -6,7 +6,7 @@
   components:
   - type: Sprite
     noRot: true
-    sprite: _DeadSpace/Structures/Decoration/statues64х64.rsi
+    sprite: _DeadSpace/Structures/Decoration/statues6464.rsi
     state: angel
     drawdepth: Mobs
     offset: "0.0,0.5"
@@ -31,7 +31,7 @@
   components:
   - type: Sprite
     noRot: true
-    sprite: _DeadSpace/Structures/Decoration/statues32х64.rsi
+    sprite: _DeadSpace/Structures/Decoration/statues3264.rsi
     state: themis
     drawdepth: Mobs
     offset: "0.0,0.5"
