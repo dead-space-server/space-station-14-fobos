@@ -555,14 +555,6 @@ entities:
       parent: 1
     - type: Fixtures
       fixtures: {}
-- proto: AquariumBroken
-  entities:
-  - uid: 34
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -15.5,28.5
-      parent: 1
 - proto: Ash
   entities:
   - uid: 35
