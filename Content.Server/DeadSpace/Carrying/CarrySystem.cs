@@ -175,7 +175,7 @@ public sealed class CarrySystem : EntitySystem
         if (!TryComp<CarryingComponent>(carrier, out var carrying))
             return false;
 
-        StopCarry(carrier, carrying);
+        StopCarry(carrier, carrying, keepTargetDown: true);
         return true;
     }
 
@@ -410,7 +410,12 @@ public sealed class CarrySystem : EntitySystem
         if (ent.Comp.Stopping || ent.Comp.Carried != args.BlockingEntity)
             return;
 
-        StopCarry(ent.Owner, ent.Comp, placeTarget: !TerminatingOrDeleted(ent.Owner), keepTargetDown: ShouldKeepDroppedTargetDown(ent.Owner));
+        StopCarry(
+            ent.Owner,
+            ent.Comp,
+            placeTarget: !TerminatingOrDeleted(ent.Owner),
+            keepTargetDown: true,
+            inheritCarrierVelocity: true);
     }
 
     private void OnCarrierInsertedIntoContainer(Entity<CarryingComponent> ent, ref EntGotInsertedIntoContainerMessage args)
@@ -420,7 +425,7 @@ public sealed class CarrySystem : EntitySystem
 
     private void OnCarrierBuckled(Entity<CarryingComponent> ent, ref BuckledEvent args)
     {
-        StopCarry(ent.Owner, ent.Comp, keepTargetDown: ShouldKeepDroppedTargetDown(ent.Owner));
+        StopCarry(ent.Owner, ent.Comp, keepTargetDown: true);
     }
 
     private void OnCarrierDowned(Entity<CarryingComponent> ent, ref DownedEvent args)
@@ -449,7 +454,7 @@ public sealed class CarrySystem : EntitySystem
         if (ent.Comp.Carrier is not { } carrier || !TryComp<CarryingComponent>(carrier, out var carrying))
             return;
 
-        StopCarry(carrier, carrying);
+        StopCarry(carrier, carrying, placeTarget: false, keepTargetDown: true);
     }
 
     private void OnCarriedMoveInput(Entity<CarriedComponent> ent, ref MoveInputEvent args)
@@ -495,10 +500,17 @@ public sealed class CarrySystem : EntitySystem
         CarryingComponent carrying,
         bool thrown = false,
         bool placeTarget = true,
-        bool keepTargetDown = false)
+        bool keepTargetDown = true,
+        bool inheritCarrierVelocity = false)
     {
         placeTarget &= !TerminatingOrDeleted(carrier);
-        CleanupCarry(carrier, carrying, thrown, placeTarget, keepTargetDown: keepTargetDown);
+        CleanupCarry(
+            carrier,
+            carrying,
+            thrown,
+            placeTarget,
+            keepTargetDown: keepTargetDown,
+            inheritCarrierVelocity: inheritCarrierVelocity);
     }
 
     private void CleanupCarry(
@@ -508,7 +520,8 @@ public sealed class CarrySystem : EntitySystem
         bool placeTarget,
         bool removeCarrierComponent = true,
         bool removeCarriedComponent = true,
-        bool keepTargetDown = false)
+        bool keepTargetDown = true,
+        bool inheritCarrierVelocity = false)
     {
         if (carrying.Stopping)
             return;
@@ -525,7 +538,7 @@ public sealed class CarrySystem : EntitySystem
 
         if (target is { } targetUid && !Deleted(targetUid))
         {
-            RestoreCarried(targetUid, carried, carrier, placeTarget, thrown, keepTargetDown);
+            RestoreCarried(targetUid, carried, carrier, placeTarget, thrown, keepTargetDown, inheritCarrierVelocity);
 
             if (removeCarriedComponent && HasComp<CarriedComponent>(targetUid))
                 RemComp<CarriedComponent>(targetUid);
@@ -550,8 +563,13 @@ public sealed class CarrySystem : EntitySystem
         EntityUid carrier,
         bool placeTarget,
         bool thrown,
-        bool keepTargetDown)
+        bool keepTargetDown,
+        bool inheritCarrierVelocity)
     {
+        var inheritedVelocity = Vector2.Zero;
+        if (inheritCarrierVelocity && TryComp<PhysicsComponent>(carrier, out var carrierPhysics))
+            inheritedVelocity = carrierPhysics.LinearVelocity;
+
         if (carried?.AddedBlockMovement == true && HasComp<BlockMovementComponent>(target))
             RemComp<BlockMovementComponent>(target);
 
@@ -564,6 +582,7 @@ public sealed class CarrySystem : EntitySystem
         }
 
         RestoreForcedDown(target, carried, thrown, keepTargetDown);
+        _actionBlocker.UpdateCanMove(target);
 
         if (!placeTarget || TerminatingOrDeleted(carrier) || TerminatingOrDeleted(target))
             return;
@@ -578,6 +597,12 @@ public sealed class CarrySystem : EntitySystem
         {
             _transform.PlaceNextTo(target, carrier);
         }
+
+        if (!inheritCarrierVelocity || inheritedVelocity.LengthSquared() <= 0.001f)
+            return;
+
+        if (TryComp<PhysicsComponent>(target, out var targetPhysics))
+            _physics.SetLinearVelocity(target, inheritedVelocity, body: targetPhysics);
     }
 
     private void ForceHumanoidDown(EntityUid target, CarriedComponent carried)
@@ -598,14 +623,20 @@ public sealed class CarrySystem : EntitySystem
     private void RestoreForcedDown(EntityUid target, CarriedComponent? carried, bool thrown, bool keepTargetDown)
     {
         if (thrown ||
-            keepTargetDown ||
             carried?.ForcedDown != true ||
             !carried.WasStanding ||
             TerminatingOrDeleted(target) ||
             HasComp<KnockedDownComponent>(target) ||
             HasComp<StunnedComponent>(target) ||
+            TryComp<BuckleComponent>(target, out var buckle) && buckle.Buckled ||
             TryComp<MobStateComponent>(target, out var mobState) && _mobState.IsIncapacitated(target, mobState))
         {
+            return;
+        }
+
+        if (keepTargetDown)
+        {
+            _stun.TryCrawling(target, null, autoStand: false, drop: false, force: true);
             return;
         }
 
@@ -681,14 +712,6 @@ public sealed class CarrySystem : EntitySystem
     {
         _popup.PopupEntity(Loc.GetString("carry-popup-escape-victim"), target, target);
         _popup.PopupEntity(Loc.GetString("carry-popup-escape-carrier"), carrier, carrier);
-    }
-
-    private bool ShouldKeepDroppedTargetDown(EntityUid carrier)
-    {
-        if (TryComp<StandingStateComponent>(carrier, out var standing) && !standing.Standing)
-            return true;
-
-        return TryComp<MobStateComponent>(carrier, out var mobState) && _mobState.IsIncapacitated(carrier, mobState);
     }
 
     private void StopPullingConflicts(EntityUid carrier, EntityUid target)
