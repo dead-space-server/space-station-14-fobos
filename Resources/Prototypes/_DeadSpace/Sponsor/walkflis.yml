@@ -562,10 +562,10 @@
   parent: BasePlushieDeadSpaceMisc
   id: PlushieWalkflis
   name: плюшевая Рейм
-  description: Это 
+  description: Это.
   components:
   - type: Sprite
-    sprite: _DeadSpace/Sponsor/walkflis/tools/toy.rsi
+    sprite: _DeadSpace/Sponsor/walkflis/toy.rsi
     state: icon
   - type: TTS
     voice: Vor
