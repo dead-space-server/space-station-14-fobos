@@ -149,7 +149,7 @@
         amount: 2
       - id: EmergencyMedipen
         amount: 2
-      - id: ADTObjectsSpecificBicaridineChemistryBottle
+      - id: ChemistryBottleBicaridine
         amount: 2
       - id: ADTObjectsSpecificDermalineChemistryBottle
         amount: 2

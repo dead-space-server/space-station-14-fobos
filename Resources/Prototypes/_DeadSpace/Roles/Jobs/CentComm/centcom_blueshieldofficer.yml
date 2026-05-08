@@ -70,7 +70,7 @@
       - id: ChemistryBottleEphedrine
       - id: ChemistryBottleOmnizine
       - id: ChemistryBottleOmnizine
-      - id: ADTObjectsSpecificBicaridineChemistryBottle
+      - id: ChemistryBottleBicaridine
       - id: ADTObjectsSpecificDexalinPlusChemistryBottle
       - id: ADTObjectsSpecificDermalineChemistryBottle
 

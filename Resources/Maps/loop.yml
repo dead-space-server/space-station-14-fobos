@@ -13171,7 +13171,7 @@ entities:
     - type: Transform
       pos: -71.826645,12.451012
       parent: 2
-- proto: ADTObjectsSpecificBicaridineChemistryBottle
+- proto: ChemistryBottleBicaridine
   entities:
   - uid: 115
     components:
