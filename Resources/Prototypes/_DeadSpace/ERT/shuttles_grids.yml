@@ -5,10 +5,6 @@
   path: /Maps/Shuttles/ERT/rev_sup.yml
 
 - type: ertShuttle
-  id: CriticalForceShuttle
-  path: /Maps/Shuttles/ERT/ds_cf_septofil.yml
-
-- type: ertShuttle
   id: CburnShuttle
   path: /Maps/Shuttles/ERT/cburn.yml
   dockTag: DockCentcommERTCburnShuttle

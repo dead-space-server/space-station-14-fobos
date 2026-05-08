@@ -213,6 +213,7 @@
   id: ClothingBeltMilitaryWebbingERT
   name: ERT chest rig
   description: A set of tactical webbing worn by Emergency Response Team operatives.
+  categories: [ HideSpawnMenu ] # DS-14
   components:
   - type: Sprite
     sprite: Clothing/Belt/militarywebbingert.rsi
