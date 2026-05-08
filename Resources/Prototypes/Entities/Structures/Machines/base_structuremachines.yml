@@ -16,9 +16,7 @@
       fix1:
         shape:
           !type:PhysShapeAabb
-          # DS14-start
-          bounds: "-0.25,-0.35,0.25,0.35"
-          # DS14-end
+          bounds: "-0.25,-0.35,0.25,0.35" # DS14
         density: 190
         mask:
         - MachineMask
