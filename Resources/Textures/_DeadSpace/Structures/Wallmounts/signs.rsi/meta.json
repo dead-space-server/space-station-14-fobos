@@ -5,8 +5,17 @@
         "y": 32
     },
     "license": "CC-BY-SA-3.0",
-    "copyright": "Taken from https://github.com/ss220-space/Paradise/tree/master220/icons/obj",
+    "copyright": "Taken from SS1984 at https://github.com/ss220-space/Paradise/blob/master220/icons/obj/NT_logo_long_torn.dmi, https://github.com/ss220-space/Paradise/blob/master220/icons/obj/NT_logo_short2_torn.dmi, taken from BayStation12 at https://github.com/Baystation12/Baystation12/blob/dev/icons/obj/structures/decals.dmi, edited by mtf0036 (discord) for SS14 Мёртвый Космос",
     "states": [
+        {
+            "name": "lifestar"
+        },
+        {
+            "name": "safety"
+        },
+        {
+            "name": "smoking"
+        },
         {
             "name": "logo1"
         },
