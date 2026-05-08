@@ -36,6 +36,8 @@
           - /Maps/Ruins/Taipan/bluespace_science_grid.yml
           - /Maps/Ruins/Taipan/colossal_asteroid.yml
           - /Maps/Ruins/Taipan/lincore_crush.yml
+          - /Maps/Ruins/Taipan/taipan_terminal.yml
+          - /Maps/Ruins/Taipan/taipan_factory.yml
 
 - type: entity
   id: BaseTaipanStationAlertLevels
