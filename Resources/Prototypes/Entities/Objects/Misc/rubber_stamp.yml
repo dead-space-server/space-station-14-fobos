@@ -293,7 +293,7 @@
     stampState: "paper_stamp-syndicate"
     # DS14-start
     stampPatternTexture: "/Textures/Interface/Stamps/syndicate_print_pattern.png"
-    stampScale: 1.12
+    stampScale: 0.85
     # DS14-end
   - type: Sprite
     state: stamp-syndicate

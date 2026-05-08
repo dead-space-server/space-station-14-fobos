@@ -33,7 +33,7 @@ public sealed partial class StampWidget : PanelContainer
     private const float PatternTextLineHeight = 23.0f;
     private const float HeadPatternTextLineHeight = 19.0f;
     private const float LowPatternTextHorizontalInset = 42.0f;
-    private const float LowPatternTextTop = 9.0f;
+    private const float LowPatternTextBottom = 37.5f;
     private const float LowPatternTextLineHeight = 18.0f;
     private const float PatternHeaderLeft = 8.0f;
     private const float PatternHeaderTop = 3.0f;
@@ -76,6 +76,7 @@ public sealed partial class StampWidget : PanelContainer
     private string? _stampBackgroundText;
     private float _stampTextMaxScale;
     private bool _isNtPattern;
+    private bool _isLowPattern;
     private Vector2 _stampTextureSize;
     private Vector2 _stampPatternSize;
     private float _stampScale = 1.0f;
@@ -117,17 +118,17 @@ public sealed partial class StampWidget : PanelContainer
                 _stampScale = GetPrototypeStampScale(value.StampScale);
                 _isNtPattern = value.StampPatternTexture.EndsWith("nt_print_pattern.png", StringComparison.Ordinal);
                 var hasHeader = value.StampHeaderText != null;
-                var isLowPattern = _stampPatternTexture.Size.Y <= 60;
-                var stampFontSize = isLowPattern ? LowPatternStampFontSize : hasHeader ? HeadStampFontSize : StampFontSize;
+                _isLowPattern = _stampPatternTexture.Size.Y <= 60;
+                var stampFontSize = _isLowPattern ? LowPatternStampFontSize : hasHeader ? HeadStampFontSize : StampFontSize;
                 _stampFont = new VectorFont(_resCache.GetResource<FontResource>(StampFontPath), stampFontSize * FontOversample);
                 _stampHeaderFont = new VectorFont(_resCache.GetResource<FontResource>(StampFontPath), StampHeaderFontSize * FontOversample);
                 _stampBackgroundFont = new VectorFont(_resCache.GetResource<FontResource>(StampFontPath), StampBackgroundFontSize * FontOversample);
                 _stampHeaderText = value.StampHeaderText;
                 _stampBackgroundText = value.StampBackgroundText;
                 _stampTextMaxScale = value.StampTextMaxScale;
-                _patternTextHorizontalInset = isLowPattern ? LowPatternTextHorizontalInset : hasHeader ? HeadPatternTextHorizontalInset : PatternTextHorizontalInset;
-                _patternTextTop = isLowPattern ? LowPatternTextTop : hasHeader ? HeadPatternTextTop : PatternTextTop;
-                _patternTextLineHeight = isLowPattern ? LowPatternTextLineHeight : hasHeader ? HeadPatternTextLineHeight : PatternTextLineHeight;
+                _patternTextHorizontalInset = _isLowPattern ? LowPatternTextHorizontalInset : hasHeader ? HeadPatternTextHorizontalInset : PatternTextHorizontalInset;
+                _patternTextTop = hasHeader ? HeadPatternTextTop : PatternTextTop;
+                _patternTextLineHeight = _isLowPattern ? LowPatternTextLineHeight : hasHeader ? HeadPatternTextLineHeight : PatternTextLineHeight;
                 _stampMainText = (value.StampMainText ?? GetStampDisplayText(value.StampedName)).ToUpperInvariant();
                 _stampTextLines = Array.Empty<string>();
                 PanelOverride = null;
@@ -184,6 +185,7 @@ public sealed partial class StampWidget : PanelContainer
         _stampBackgroundText = null;
         _stampTextMaxScale = 0.0f;
         _isNtPattern = false;
+        _isLowPattern = false;
         _stampTextureSize = Vector2.Zero;
         _stampPatternSize = Vector2.Zero;
         _stampScale = 1.0f;
@@ -618,6 +620,9 @@ public sealed partial class StampWidget : PanelContainer
 
     private float GetMainTextAreaTop(float textureScale)
     {
+        if (_isLowPattern)
+            return 0.0f;
+
         if (_stampHeaderText != null)
             return _patternTextTop * textureScale;
 
@@ -626,6 +631,9 @@ public sealed partial class StampWidget : PanelContainer
 
     private float GetMainTextAreaBottom(Vector2 patternSize, float textureScale)
     {
+        if (_isLowPattern)
+            return MathF.Min(patternSize.Y, LowPatternTextBottom * textureScale);
+
         var bottomInset = _stampHeaderText != null
             ? HeadPatternSingleLineBottomInset
             : PatternMainFieldBottomInset;
