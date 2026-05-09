@@ -1,6 +1,6 @@
 - type: technology
   id: AdvancedMagicTechnologieSmiler
-  name: Подаркомат
+  name: research-technology-present-machine
   icon:
     sprite: Clothing/Head/Hats/wizardhat.rsi
     state: icon
