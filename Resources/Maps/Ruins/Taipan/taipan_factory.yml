@@ -5465,34 +5465,6 @@ entities:
     - type: Transform
       pos: -0.5,-0.5
       parent: 1
-- proto: CrateSyndicate
-  entities:
-  - uid: 907
-    components:
-    - type: Transform
-      pos: -2.5,21.5
-      parent: 1
-    - type: Fixtures
-      fixtures:
-        fix1:
-          shape: !type:PolygonShape
-            radius: 0.01
-            vertices:
-            - -0.4,-0.4
-            - 0.4,-0.4
-            - 0.4,0.29
-            - -0.4,0.29
-          mask:
-          - Impassable
-          - HighImpassable
-          - LowImpassable
-          layer:
-          - BulletImpassable
-          - Opaque
-          density: 50
-          hard: True
-          restitution: 0
-          friction: 0.4
     - type: EntityStorage
       open: True
       removedMasks: 20
