@@ -5,8 +5,9 @@
     sprite: Clothing/Head/Hats/wizardhat.rsi
     state: icon
   discipline: CivilianServices
-  tier: 4
+  tier: 3
   cost: 1000000
   diskAvailable: true
+  Hidden: true
   recipeUnlocks:
   - SmilersMashineToysCircuitboard
