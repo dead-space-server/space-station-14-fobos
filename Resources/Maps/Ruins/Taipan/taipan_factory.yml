@@ -13537,18 +13537,6 @@ entities:
     - type: Transform
       pos: -28.585245,15.564867
       parent: 1
-- proto: ToolboxSyndicateFilled
-  entities:
-  - uid: 2195
-    components:
-    - type: Transform
-      pos: -0.5172046,11.588202
-      parent: 1
-  - uid: 2196
-    components:
-    - type: Transform
-      pos: -28.585245,15.685238
-      parent: 1
 - proto: TwoWayLever
   entities:
   - uid: 2197
