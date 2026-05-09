@@ -18,4 +18,13 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 5
+      #DS14-start
+        Piercing: 2
+        Heat: 4
+  - type: PointLight
+    enabled: true
+    color: "#ff4300"
+    radius: 2.0
+    energy: 7.0
+  - type: IgniteOnCollide
+    fireStacks: 0.25

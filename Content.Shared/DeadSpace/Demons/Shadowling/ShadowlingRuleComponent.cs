@@ -7,10 +7,10 @@ namespace Content.Shared.DeadSpace.Demons.Shadowling;
 [RegisterComponent, NetworkedComponent]
 public sealed partial class ShadowlingRuleComponent : Component
 {
-    [DataField] public int TargetSlaves = 15;
-
+    [DataField] public int TargetSlaves = 30;
     [ViewVariables] public bool IsAscended;
     [ViewVariables] public bool AllDead;
     [ViewVariables] public bool ManifestWritten;
     [ViewVariables] public bool HadShadowlings;
+    [ViewVariables] public bool AlertAnnounced;
 }

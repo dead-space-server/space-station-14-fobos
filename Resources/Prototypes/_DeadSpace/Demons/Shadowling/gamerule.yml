@@ -5,7 +5,7 @@
   - type: StationEvent
     weight: 5
     earliestStart: 25
-    minimumPlayers: 40
+    minimumPlayers: 45
     maxOccurrences: 3
     duration: null
     occursDuringRoundEnd: false

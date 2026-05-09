@@ -13,7 +13,7 @@ public sealed partial class ShadowlingRecruitComponent : Component
 {
     [DataField] public EntProtoId ActionRecruit = "ActionShadowlingRecruit";
     [DataField] public EntityUid? ActionRecruitEntity;
-    [DataField] public float Duration = 5f;
+    [DataField] public float Duration = 8f;
     [ViewVariables] public int CurrentSlaves = 0;
     [ViewVariables] public int TotalRecruited = 0;
 

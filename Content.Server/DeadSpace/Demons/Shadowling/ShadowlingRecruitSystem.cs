@@ -16,6 +16,7 @@ using Content.Server.Antag;
 using Content.Shared.Radio.Components;
 using Content.Server.DeadSpace.Components.NightVision;
 using Content.Server.DeadSpace.Races;
+using Content.Server.Chat.Systems;
 
 namespace Content.Server.DeadSpace.Demons.Shadowling;
 
@@ -29,6 +30,7 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
     [Dependency] private readonly SharedStunSystem _stun = default!;
     [Dependency] private readonly RoleSystem _role = default!;
     [Dependency] private readonly AntagSelectionSystem _antag = default!;
+    [Dependency] private readonly ChatSystem _chat = default!;
 
     private const string ShadowlingChannel = "Shadowling";
 
@@ -47,7 +49,6 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
         SubscribeLocalEvent<ShadowlingScreechComponent, ComponentStartup>(OnAbilityStartup);
         SubscribeLocalEvent<ShadowlingFreezingVeinsComponent, ComponentStartup>(OnAbilityStartup);
         SubscribeLocalEvent<ShadowlingBlackMedComponent, ComponentStartup>(OnAbilityStartup);
-        SubscribeLocalEvent<ShadowlingReRevealComponent, ComponentStartup>(OnAbilityStartup);
         SubscribeLocalEvent<ShadowlingAscendanceComponent, ComponentStartup>(OnAbilityStartup);
         SubscribeLocalEvent<ShadowlingRecruitComponent, ComponentStartup>(OnMasterStartup);
     }
@@ -325,6 +326,24 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
         }
         component.CurrentSlaves = count;
 
+        if (count >= 15)
+        {
+            var ruleQuery = EntityQueryEnumerator<ShadowlingRuleComponent>();
+            while (ruleQuery.MoveNext(out var ruleComp))
+            {
+                if (!ruleComp.AlertAnnounced)
+                {
+                    ruleComp.AlertAnnounced = true;
+                    var message = Loc.GetString("shadowling-alert-announcement");
+                    var sender = Loc.GetString("shadowling-alert-sender");
+                    _chat.DispatchGlobalAnnouncement(message, sender,
+                        colorOverride: Color.FromHex("#aa0000"),
+                        announcementSound: new SoundCollectionSpecifier("ShadowlingAnnouncement"));
+                }
+                break;
+            }
+        }
+
         bool isAscended = HasComp<ShadowlingAnnihilationComponent>(uid);
 
         if (TryComp<ShadowlingAscendanceComponent>(uid, out var asc))
@@ -366,20 +385,6 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
             {
                 _actions.RemoveAction(uid, veins.ActionFreezingVeinsEntity);
                 veins.ActionFreezingVeinsEntity = null;
-            }
-        }
-
-        if (TryComp<ShadowlingReRevealComponent>(uid, out var reReveal))
-        {
-            if (isAscended || count >= reReveal.RequiredSlaves)
-            {
-                if (reReveal.ActionReRevealEntity == null)
-                    _actions.AddAction(uid, ref reReveal.ActionReRevealEntity, reReveal.ActionReReveal);
-            }
-            else if (reReveal.ActionReRevealEntity != null)
-            {
-                _actions.RemoveAction(uid, reReveal.ActionReRevealEntity);
-                reReveal.ActionReRevealEntity = null;
             }
         }
 

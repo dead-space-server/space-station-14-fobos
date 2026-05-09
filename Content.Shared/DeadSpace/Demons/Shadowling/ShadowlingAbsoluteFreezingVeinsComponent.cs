@@ -12,7 +12,7 @@ public sealed partial class ShadowlingAbsoluteFreezingVeinsComponent : Component
     [DataField] public EntProtoId ActionAbsoluteFreezingVeins = "ActionShadowlingAbsoluteFreezingVeins";
     [DataField] public EntityUid? ActionAbsoluteFreezingVeinsEntity;
     [DataField] public float DamageCold = 50f;
-    [DataField] public float TemperatureSet = 193.15f;
+    [DataField] public float TemperatureSet = 153.15f;
     [DataField] public string ImmunePrototypeId = "MobHumanDeathSquadUnit";
 }
 

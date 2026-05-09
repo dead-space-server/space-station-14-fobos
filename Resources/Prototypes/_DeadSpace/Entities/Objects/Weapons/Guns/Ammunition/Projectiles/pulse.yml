@@ -48,11 +48,8 @@
     layers:
     - state: pulse_taser
       shader: unshaded
-  - type: StunOnCollide
-    stunAmount: 5
-    knockdownAmount: 5
   - type: StaminaDamageOnCollide
-    damage: 50
+    damage: 30
   - type: Projectile
     impactEffect: BulletImpactEffectDisabler
     damage:
