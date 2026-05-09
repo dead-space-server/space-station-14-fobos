@@ -1,0 +1,48 @@
+- type: entity
+  id: PresentCookie
+  parent: FoodBakedGingerbreadPresent
+  name: Пряничный человек
+  description: Вкуси этот божественный вкус нового года и возможно лиши кого-нибудь жизни...
+  suffix: Smiler
+
+- type: entity
+  id: PresentPresentRandomCash
+  parent: PresentRandomCash
+  name: Денежный подарок
+  description: ОООО ДА!! ДЕНЬГИ ЗА ДЕНЬГИ?! Да это же казино! Я в деле!
+  suffix: Smiler
+
+- type: entity
+  id: PresentPresentRandom
+  parent: PresentRandom
+  name: Подарок
+  description: Просто подарок для наведения атмосферы нового года
+  suffix: Smiler
+
+- type: entity
+  id: PresentPresentRandomInsane
+  parent: PresentRandomInsane
+  name: Подарок от главного архимага Конфедерации Магов
+  description: Вы даже не догадываетесь что во мне!
+  suffix: Smiler
+
+- type: entity
+  id: PresentPresentRandomUnsafe
+  parent: PresentRandomUnsafe
+  name: Подарок от мага из Конфедерации Магов
+  description: Что же скрывается под обёрткой?
+  suffix: Smiler
+
+- type: entity
+  id: PresentPresentRandomCoal
+  parent: PresentRandomCoal
+  name: Подарок с углём
+  description: Для тех о ком вы действительно заботитесь
+  suffix: Smiler
+
+- type: entity
+  id: PresentPresent
+  parent: Present
+  name: Подарок
+  description: Это... Просто подарок?
+  suffix: Smiler

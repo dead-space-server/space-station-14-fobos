@@ -1,0 +1,70 @@
+- type: vendingMachineInventory
+  id: PresentSmileInventory
+  startingInventory:
+    PresentCookie: 9999
+    PresentPresentRandomCash: 9999
+    PresentPresentRandom: 9999
+    PresentPresentRandomInsane: 9999
+    PresentPresentRandomUnsafe: 9999
+    PresentPresentRandomCoal: 9999
+    PresentPresent: 9999
+
+- type: listing
+  id: ToysInventoryS1
+  productEntity: PresentCookie
+  cost:
+    SpaceCash: 100
+  categories:
+    - PresentSmileInventory
+
+- type: listing
+  id: ToysInventoryS2
+  productEntity: PresentPresentRandomCash
+  cost:
+    SpaceCash: 400
+  categories:
+    - PresentSmileInventory
+
+- type: listing
+  id: ToysInventoryS3
+  productEntity: PresentPresentRandom
+  cost:
+    SpaceCash: 175
+  categories:
+    - PresentSmileInventory
+- type: listing
+
+  id: ToysInventoryS4
+  productEntity: PresentPresentRandomInsane
+  cost:
+    SpaceCash: 1500
+  categories:
+    - PresentSmileInventory
+
+- type: listing
+  id: ToysInventoryS5
+  productEntity: PresentPresentRandomUnsafe
+  cost:
+    SpaceCash: 1000
+  categories:
+    - PresentSmileInventory
+
+- type: listing
+  id: ToysInventoryS6
+  productEntity: PresentPresentRandomCoal
+  cost:
+    SpaceCash: 125
+  categories:
+    - PresentSmileInventory
+
+- type: listing
+  id: ToysInventoryS7
+  productEntity: PresentPresent
+  cost:
+    SpaceCash: 30
+  categories:
+    - PresentSmileInventory
+
+- type: storeCategory
+  id: PresentSmileInventory
+  name: Подарки

@@ -1,0 +1,10 @@
+- type: latheRecipePack
+  id: PresentMat
+  recipes:
+  - SmilersMashineToysCircuitboard
+
+- type: latheRecipe
+  parent: [ BaseGoldCircuitboardRecipe, BaseMachineRecipeCategory ]
+  id: SmilersMashineToysCircuitboard
+  result: SmilersMashineToysCircuitboard
+  completetime: 12

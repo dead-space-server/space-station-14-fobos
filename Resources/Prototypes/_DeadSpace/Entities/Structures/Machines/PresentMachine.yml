@@ -1,0 +1,14 @@
+- type: entity
+  parent: BackmenVendingMachineToys
+  id: SmilersMashineToys
+  name: Подаркомат
+  description: Если вы видите его то вы наверное находитесь в раю, это САМОЕ редкое, что вы бы могли найти в вашей жизни, берегите его чёрт возьми и отдайте карго они будут благодарны.
+  suffix: Смайлера, платный
+  components:
+  - type: Store
+    categories:
+    - PresentSmileInventory
+    currencyWhitelist:
+    - SpaceCash
+    balance:
+      SpaceCash: 0

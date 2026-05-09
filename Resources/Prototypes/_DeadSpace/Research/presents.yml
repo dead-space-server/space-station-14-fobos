@@ -1,0 +1,12 @@
+- type: technology
+  id: AdvancedMagicTechnologieSmiler
+  name: Подаркомат
+  icon:
+    sprite: Clothing/Head/Hats/wizardhat.rsi
+    state: icon
+  discipline: CivilianServices
+  tier: 4
+  cost: 1000000
+  diskAvailable: true
+  recipeUnlocks:
+  - SmilersMashineToysCircuitboard

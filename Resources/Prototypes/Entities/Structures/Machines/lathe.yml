@@ -279,6 +279,7 @@
     - BlueprintRIGInfinite # DS14
     - BlueprintRIGThreeUse # DS14
     - BlueprintRIGOneUse # DS14
+    - PresentMat #DS14
   - type: EmagLatheRecipes
     emagDynamicPacks:
     - SecurityBoards
