@@ -78,7 +78,11 @@ public sealed partial class AtmosAlarmEntryContainer : BoxContainer
         AlarmStateLabel.FontColorOverride = GetAlarmStateColor(entry.AlarmState);
 
         // Update alarm name
-        AlarmNameLabel.Text = Loc.GetString("atmos-alerts-window-alarm-label", ("name", entry.EntityName), ("address", entry.Address));
+        // DS14-start
+        AlarmNameLabel.Text = string.IsNullOrEmpty(entry.Address)
+            ? Loc.GetString("atmos-alerts-window-alarm-label-no-address", ("name", entry.EntityName))
+            : Loc.GetString("atmos-alerts-window-alarm-label", ("name", entry.EntityName), ("address", entry.Address));
+        // DS14-end
 
         // Focus updates
         FocusContainer.Visible = isFocus;
@@ -87,6 +91,11 @@ public sealed partial class AtmosAlarmEntryContainer : BoxContainer
             SetAsFocus();
         else
             RemoveAsFocus();
+
+        // DS14-start
+        MainDataContainer.Visible = false;
+        NoDataLabel.Visible = isFocus;
+        // DS14-end
 
         if (isFocus && entry.Group == AtmosAlertsComputerGroup.AirAlarm)
         {
