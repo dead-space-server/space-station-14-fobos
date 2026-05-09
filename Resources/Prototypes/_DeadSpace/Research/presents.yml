@@ -1,13 +1,13 @@
 - type: technology
   id: AdvancedMagicTechnologieSmiler
-  name: research-technology-present-machine
+  name: research-technology-compact-defibrillator
   icon:
     sprite: Clothing/Head/Hats/wizardhat.rsi
     state: icon
   discipline: CivilianServices
-  tier: 3
+  tier: 4
   cost: 1000000
   diskAvailable: true
-  Hidden: true
   recipeUnlocks:
-  - SmilersMashineToysCircuitboard
+  - MashineToysCircuitboard
+

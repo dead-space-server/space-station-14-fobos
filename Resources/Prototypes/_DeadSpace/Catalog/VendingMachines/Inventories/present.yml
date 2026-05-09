@@ -1,5 +1,5 @@
 - type: vendingMachineInventory
-  id: PresentSmileInventory
+  id: PresentMashineToysInventory
   startingInventory:
     PresentCookie: 9999
     PresentPresentRandomCash: 9999
@@ -15,7 +15,7 @@
   cost:
     SpaceCash: 100
   categories:
-    - PresentSmileInventory
+    - PresentMashineToysInventory
 
 - type: listing
   id: ToysInventoryS2
@@ -23,7 +23,7 @@
   cost:
     SpaceCash: 400
   categories:
-    - PresentSmileInventory
+    - PresentMashineToysInventory
 
 - type: listing
   id: ToysInventoryS3
@@ -31,7 +31,7 @@
   cost:
     SpaceCash: 175
   categories:
-    - PresentSmileInventory
+    - PresentMashineToysInventory
 - type: listing
 
   id: ToysInventoryS4
@@ -39,7 +39,7 @@
   cost:
     SpaceCash: 1500
   categories:
-    - PresentSmileInventory
+    - PresentMashineToysInventory
 
 - type: listing
   id: ToysInventoryS5
@@ -47,7 +47,7 @@
   cost:
     SpaceCash: 1000
   categories:
-    - PresentSmileInventory
+    - PresentMashineToysInventory
 
 - type: listing
   id: ToysInventoryS6
@@ -55,7 +55,7 @@
   cost:
     SpaceCash: 125
   categories:
-    - PresentSmileInventory
+    - PresentMashineToysInventory
 
 - type: listing
   id: ToysInventoryS7
@@ -63,8 +63,8 @@
   cost:
     SpaceCash: 30
   categories:
-    - PresentSmileInventory
+    - PresentMashineToysInventory
 
 - type: storeCategory
-  id: PresentSmileInventory
+  id: PresentMashineToysInventory
   name: Подарки

@@ -1,13 +1,14 @@
 - type: entity
-  id: SmilersMashineToysCircuitboard
+  id: MashineToysCircuitboard
+
   parent: BaseMachineCircuitboard
   name: Плата подаркомата
   description: Плата подаркомата
-  suffix: Smiler
+  
   components:
   - type: Sprite
     state: security
   - type: MachineBoard
-    prototype: SmilersMashineToys
+    prototype: PresentMashineToys
     stackRequirements:
       Steel: 1
