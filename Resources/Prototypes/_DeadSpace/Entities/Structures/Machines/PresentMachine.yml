@@ -5,6 +5,7 @@
   description: Если вы видите его то вы наверное находитесь в раю, это САМОЕ редкое, что вы бы могли найти в вашей жизни, берегите его чёрт возьми и отдайте карго они будут благодарны.
   suffix: платный
   components:
+  - type: ContainerContainer
   - type: Machine
     board: MashineToysCircuitboard
   - type: Store
