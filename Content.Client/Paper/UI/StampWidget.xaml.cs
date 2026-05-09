@@ -39,7 +39,7 @@ public sealed partial class StampWidget : PanelContainer
     private const float PatternHeaderLeft = 8.0f;
     private const float PatternHeaderTop = 3.0f;
     private const float PatternBackgroundRight = 9.0f;
-    private const float PatternBackgroundTop = 4.0f;
+    private const float PatternBackgroundTop = 5.0f;
     private const float PatternHeaderMaxWidth = 72.0f;
     private const float PatternBackgroundMaxWidth = 70.0f;
     private const float HeadPatternSingleLineBottomInset = 7.0f;
@@ -483,8 +483,9 @@ public sealed partial class StampWidget : PanelContainer
             return;
 
         var oldTransform = handle.GetTransform();
-        _stampShader?.SetParameter("objCoord", GlobalPosition * UIScale * new Vector2(1, -1));
-        handle.UseShader(_stampShader);
+        // Keep the contact/noise shader on the stamp texture only. Applying it to
+        // generated text makes small fitted words lose strokes unpredictably.
+        handle.UseShader(null);
 
         var patternSize = _stampPatternTexture == null
             ? _stampPatternSize
@@ -533,7 +534,8 @@ public sealed partial class StampWidget : PanelContainer
                 UIScale,
                 patternPivot,
                 patternGlobalPivot,
-                Orientation);
+                Orientation,
+                alignGlyphTops: true);
         }
 
         var fontHeight = _stampFont.GetHeight(mainLayoutFontScale);
@@ -666,7 +668,8 @@ public sealed partial class StampWidget : PanelContainer
         float uiScale,
         Vector2 pivot,
         Vector2 globalPivot,
-        float orientation)
+        float orientation,
+        bool alignGlyphTops = false)
     {
         var oldTransform = handle.GetTransform();
         var local = topLeft * uiScale - pivot;
@@ -674,9 +677,41 @@ public sealed partial class StampWidget : PanelContainer
             local.X * MathF.Cos(orientation) - local.Y * MathF.Sin(orientation),
             local.Y * MathF.Cos(orientation) + local.X * MathF.Sin(orientation));
 
-        handle.SetTransform(globalPivot + offset, orientation, Vector2.One * FontOversampleScale);
-        handle.DrawString(font, Vector2.Zero, text, fontScale * uiScale, color);
+        var position = globalPivot + offset;
+        if (MathF.Abs(orientation) < 0.001f)
+            position = new Vector2(MathF.Round(position.X), MathF.Round(position.Y));
+
+        handle.SetTransform(position, orientation, Vector2.One);
+        var drawScale = fontScale * uiScale * FontOversampleScale;
+        if (alignGlyphTops)
+            DrawStringGlyphTopAligned(handle, font, text, drawScale, color);
+        else
+            handle.DrawString(font, Vector2.Zero, text, drawScale, color);
+
         handle.SetTransform(oldTransform);
+    }
+
+    private static void DrawStringGlyphTopAligned(
+        DrawingHandleScreen handle,
+        Font font,
+        string text,
+        float scale,
+        Color color)
+    {
+        var x = 0.0f;
+
+        foreach (var rune in text.EnumerateRunes())
+        {
+            if (rune == new Rune('\n'))
+                break;
+
+            var metrics = font.GetCharMetrics(rune, scale);
+            if (metrics == null)
+                continue;
+
+            var baseline = new Vector2(x, metrics.Value.BearingY);
+            x += font.DrawChar(handle, rune, baseline, scale, color);
+        }
     }
     // DS14-end
 }

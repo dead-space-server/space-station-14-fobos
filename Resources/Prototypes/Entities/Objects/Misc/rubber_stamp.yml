@@ -124,8 +124,8 @@
     # DS14-start
     stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
     stampScale: 0.92
-    stampHeaderText: "Сервис"
-    stampBackgroundText: "NanoTrasen"
+    stampHeaderText: "Король"
+    stampBackgroundText: "Весь мир"
     # DS14-end
   - type: Sprite
     state: stamp-clown
@@ -143,7 +143,7 @@
     # DS14-start
     stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
     stampScale: 0.92
-    stampHeaderText: "Нач. Состав"
+    stampHeaderText: "Ком. Состав"
     stampBackgroundText: "NanoTrasen"
     # DS14-end
   - type: Sprite
@@ -162,7 +162,7 @@
     # DS14-start
     stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
     stampScale: 0.92
-    stampHeaderText: "Нач. Состав"
+    stampHeaderText: "Ком. Состав"
     stampBackgroundText: "NanoTrasen"
     # DS14-end
   - type: Sprite
@@ -181,7 +181,7 @@
     # DS14-start
     stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
     stampScale: 0.92
-    stampHeaderText: "Нач. Состав"
+    stampHeaderText: "Ком. Состав"
     stampBackgroundText: "NanoTrasen"
     # DS14-end
   - type: Sprite
@@ -200,7 +200,7 @@
     # DS14-start
     stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
     stampScale: 0.92
-    stampHeaderText: "Нач. Состав"
+    stampHeaderText: "Ком. Состав"
     stampBackgroundText: "NanoTrasen"
     # DS14-end
   - type: Sprite
@@ -219,8 +219,8 @@
     # DS14-start
     stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
     stampScale: 0.92
-    stampHeaderText: "Сервис"
-    stampBackgroundText: "NanoTrasen"
+    stampHeaderText: "ВЕЛИКИЙ"
+    stampBackgroundText: "МОЛЧУН"
     # DS14-end
     sound: null
   - type: Sprite
@@ -239,7 +239,7 @@
     # DS14-start
     stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
     stampScale: 0.92
-    stampHeaderText: "Нач. Состав"
+    stampHeaderText: "Ком. Состав"
     stampBackgroundText: "NanoTrasen"
     # DS14-end
   - type: Sprite
@@ -258,7 +258,7 @@
     # DS14-start
     stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
     stampScale: 0.92
-    stampHeaderText: "Нач. Состав"
+    stampHeaderText: "Ком. Состав"
     stampBackgroundText: "NanoTrasen"
     # DS14-end
   - type: Sprite
@@ -332,7 +332,7 @@
     # DS14-start
     stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
     stampScale: 0.92
-    stampHeaderText: "Сл. Без"
+    stampHeaderText: "Безопасность"
     stampBackgroundText: "NanoTrasen"
     # DS14-end
   - type: Sprite
@@ -383,7 +383,7 @@
     # DS14-start
     stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
     stampScale: 0.92
-    stampHeaderText: "Сл. Без"
+    stampHeaderText: "Безопасность"
     stampBackgroundText: "NanoTrasen"
     # DS14-end
   - type: Sprite

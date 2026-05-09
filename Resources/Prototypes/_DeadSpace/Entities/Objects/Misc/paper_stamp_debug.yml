@@ -33,49 +33,49 @@
       stampedColor: "#ff33cc"
       stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
       stampScale: 0.92
-      stampHeaderText: "Сервис"
-      stampBackgroundText: "NanoTrasen"
+      stampHeaderText: "Король"
+      stampBackgroundText: "Весь мир"
     - stampedName: stamp-component-stamped-name-ce
       stampedColor: "#c69b17"
       stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
       stampScale: 0.92
-      stampHeaderText: "Нач. Состав"
+      stampHeaderText: "Ком. Состав"
       stampBackgroundText: "NanoTrasen"
     - stampedName: stamp-component-stamped-name-cmo
       stampedColor: "#33ccff"
       stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
       stampScale: 0.92
-      stampHeaderText: "Нач. Состав"
+      stampHeaderText: "Ком. Состав"
       stampBackgroundText: "NanoTrasen"
     - stampedName: stamp-component-stamped-name-hop
       stampedColor: "#6ec0ea"
       stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
       stampScale: 0.92
-      stampHeaderText: "Нач. Состав"
+      stampHeaderText: "Ком. Состав"
       stampBackgroundText: "NanoTrasen"
     - stampedName: stamp-component-stamped-name-hos
       stampedColor: "#cc0000"
       stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
       stampScale: 0.92
-      stampHeaderText: "Нач. Состав"
+      stampHeaderText: "Ком. Состав"
       stampBackgroundText: "NanoTrasen"
     - stampedName: stamp-component-stamped-name-mime
       stampedColor: "#777777"
       stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
       stampScale: 0.92
-      stampHeaderText: "Сервис"
-      stampBackgroundText: "NanoTrasen"
+      stampHeaderText: "ВЕЛИКИЙ"
+      stampBackgroundText: "МОЛЧУН"
     - stampedName: stamp-component-stamped-name-qm
       stampedColor: "#a23e3e"
       stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
       stampScale: 0.92
-      stampHeaderText: "Нач. Состав"
+      stampHeaderText: "Ком. Состав"
       stampBackgroundText: "NanoTrasen"
     - stampedName: stamp-component-stamped-name-rd
       stampedColor: "#1f66a0"
       stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
       stampScale: 0.92
-      stampHeaderText: "Нач. Состав"
+      stampHeaderText: "Ком. Состав"
       stampBackgroundText: "NanoTrasen"
     - stampedName: stamp-component-stamped-name-trader
       stampedColor: "#000000"
@@ -94,7 +94,7 @@
       stampedColor: "#5b0000"
       stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
       stampScale: 0.92
-      stampHeaderText: "Сл. Без"
+      stampHeaderText: "Безопасность"
       stampBackgroundText: "NanoTrasen"
     - stampedName: stamp-component-stamped-name-approved
       stampedColor: "#00be00"
@@ -108,7 +108,7 @@
       stampedColor: "#754d36"
       stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
       stampScale: 0.92
-      stampHeaderText: "Сл. Без"
+      stampHeaderText: "Безопасность"
       stampBackgroundText: "NanoTrasen"
     - stampedName: stamp-component-stamped-name-greytide
       stampedColor: "#323232"
@@ -140,7 +140,7 @@
       stampedColor: "#CC2369"
       stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
       stampScale: 0.92
-      stampHeaderText: "Сл. Без"
+      stampHeaderText: "Безопасность"
       stampBackgroundText: "NanoTrasen"
     - stampedName: stamp-component-stamped-name-meme-deny
       stampedColor: "#a23e3e"
@@ -182,7 +182,7 @@
       stampedColor: "#1c8a97"
       stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
       stampScale: 0.92
-      stampHeaderText: "Сл. Без"
+      stampHeaderText: "Безопасность"
       stampBackgroundText: "NanoTrasen"
     - stampedName: stamp-component-stamped-name-senior-researcher
       stampedColor: "#6d0477"
