@@ -32,7 +32,7 @@ public sealed class ShadowlingBlinkSystem : EntitySystem
 
         _chat.TrySendInGameICMessage(uid, "кричит!", InGameICChatType.Emote, ChatTransmitRange.Normal);
 
-        _stun.TryUpdateParalyzeDuration(args.Target, TimeSpan.FromSeconds(5));
+        _stun.TryUpdateParalyzeDuration(args.Target, TimeSpan.FromSeconds(component.StunDuration));
 
         args.Handled = true;
     }

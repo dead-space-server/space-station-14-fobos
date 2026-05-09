@@ -47,7 +47,6 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
         SubscribeLocalEvent<ShadowlingScreechComponent, ComponentStartup>(OnAbilityStartup);
         SubscribeLocalEvent<ShadowlingFreezingVeinsComponent, ComponentStartup>(OnAbilityStartup);
         SubscribeLocalEvent<ShadowlingBlackMedComponent, ComponentStartup>(OnAbilityStartup);
-        SubscribeLocalEvent<ShadowlingReRevealComponent, ComponentStartup>(OnAbilityStartup);
         SubscribeLocalEvent<ShadowlingAscendanceComponent, ComponentStartup>(OnAbilityStartup);
         SubscribeLocalEvent<ShadowlingRecruitComponent, ComponentStartup>(OnMasterStartup);
     }
@@ -366,20 +365,6 @@ public sealed class ShadowlingRecruitSystem : EntitySystem
             {
                 _actions.RemoveAction(uid, veins.ActionFreezingVeinsEntity);
                 veins.ActionFreezingVeinsEntity = null;
-            }
-        }
-
-        if (TryComp<ShadowlingReRevealComponent>(uid, out var reReveal))
-        {
-            if (isAscended || count >= reReveal.RequiredSlaves)
-            {
-                if (reReveal.ActionReRevealEntity == null)
-                    _actions.AddAction(uid, ref reReveal.ActionReRevealEntity, reReveal.ActionReReveal);
-            }
-            else if (reReveal.ActionReRevealEntity != null)
-            {
-                _actions.RemoveAction(uid, reReveal.ActionReRevealEntity);
-                reReveal.ActionReRevealEntity = null;
             }
         }
 

@@ -10,6 +10,12 @@ voice-message-carp-3 = УКУС КАРПА!
 voice-message-carp-4 = КАЛАБАНГА!
 voice-message-carp-5 = ХИЯ!
 voice-message-carp-6 = ЗАВТРА ВОСКРЕСЕНЬЕ!
+voice-message-carp-7 = МОГУ Я НЕ ОРАТЬ?!
+voice-message-carp-8 = САМЫЙ ТИХИЙ УДАР В МИРЕ!
+voice-message-carp-9 = ТВОЯ БАБУШКА - ТОЛСТУШКА!
+voice-message-carp-10 = Я ХОЧУ ДОМОЙ!
+voice-message-carp-11 = ДАУБИ! КТО! Я!!!
+voice-message-carp-12 = Я СДАЮСЬ!
 
 paper-text-arkalyse-manual =
     Руководство для чайников
