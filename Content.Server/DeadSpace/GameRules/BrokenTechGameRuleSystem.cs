@@ -82,9 +82,6 @@ public sealed class BrokenTechGameRuleSystem : GameRuleSystem<BrokenTechGameRule
             var minSeconds = entry.MinuteMin * 60f;
             var maxSeconds = entry.MinuteMax * 60f;
             entry.NextAttemptSeconds = _random.NextFloat(minSeconds, maxSeconds);
-
-            // ТУТ УДАЛИТЬ ЧТОБЫ СТАЛО ОКЕЙ
-            ExecuteEntry(entry);
         }
     }
 
