@@ -776,6 +776,16 @@
   - type: PressureProtection
     highPressureMultiplier: 0.3
     lowPressureMultiplier: 1000
+  #DS14-start
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+        Radiation: 0.25
+  #DS14-end
 
 #Pirate Captain Hardsuit
 - type: entity
@@ -827,6 +837,7 @@
         Slash: 0.9
         Piercing: 0.9
         Heat: 0.9
+        Radiation: 0.25 #DS14
 
 #CENTCOMM / ERT HARDSUITS
 #ERT Leader Hardsuit

@@ -1,0 +1,29 @@
+- type: localizedDataset
+  id: NamesPirateTitle
+  values:
+    prefix: names-pirate-title-dataset-
+    count: 6
+
+- type: localizedDataset
+  id: NamesPirate
+  values:
+    prefix: names-pirate-dataset-
+    count: 28
+
+- type: localizedDataset
+  id: NamesPirateCapitanTitle
+  values:
+    prefix: names-pirate-capitan-title-dataset-
+    count: 1
+
+- type: localizedDataset
+  id: NamesPirateCapitan
+  values:
+    prefix: names-pirate-capitan-dataset-
+    count: 7
+
+- type: localizedDataset
+  id: NamesPirateMonkey
+  values:
+    prefix: names-pirate-monkey-dataset-
+    count: 13

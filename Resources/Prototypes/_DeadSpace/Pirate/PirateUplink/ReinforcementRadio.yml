@@ -28,11 +28,16 @@
   name: космический пират
   components:
   - type: RandomHumanoidAppearance
-    randomizeName: true
+    randomizeName: false
   - type: Loadout
     prototypes: [ PirateScoonerAltA, PirateScoonerAltB, PirateScoonerAltC, PirateScoonerAltD ]
     roleLoadout: [ RoleSurvivalEVA ]
   - type: PirateAccent
+  - type: RandomMetadata
+    nameSegments:
+    - NamesPirateTitle
+    - NamesPirate
+    nameFormat: name-format-pirate
   - type: NpcFactionMember
     factions:
     - Syndicate
@@ -73,6 +78,10 @@
     speechVerb: Monkey
   - type: MonkeyAccent
   - type: PirateAccent
+  - type: RandomMetadata
+    nameSegments:
+    - NamesPirateMonkey
+    nameFormat: name-format-pirate-monkey
   - type: NpcFactionMember
     factions:
     - Syndicate

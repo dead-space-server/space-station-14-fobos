@@ -981,12 +981,13 @@
       coefficients:
         Blunt: 0.8
         Slash: 0.8
-        Piercing: 0.9
+        Piercing: 0.75 #DS14
         Heat: 0.4
         Caustic: 0.75
+        Stun: 0.65 #DS14
   - type: ClothingSpeedModifier
-    walkModifier: 0.6
-    sprintModifier: 0.6
+    walkModifier: 0.7 #DS14
+    sprintModifier: 0.7 #DS14
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitPirateEVA
@@ -1009,17 +1010,20 @@
     lowPressureMultiplier: 1000
   - type: ExplosionResistance
     damageCoefficient: 0.6
+  #DS14-start
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.7
-        Slash: 0.8
-        Piercing: 0.85
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.6
         Heat: 0.4
         Caustic: 0.75
+        Stun: 0.60
   - type: ClothingSpeedModifier
-    walkModifier: 0.8
-    sprintModifier: 0.8
+    walkModifier: 0.85
+    sprintModifier: 0.85
+  #DS14-end
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitPirateCap
