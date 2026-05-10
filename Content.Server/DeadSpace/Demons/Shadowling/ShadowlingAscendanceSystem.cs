@@ -77,7 +77,10 @@ public sealed class ShadowlingAscendanceSystem : EntitySystem
         while (query.MoveNext(out var sUid, out var slave))
         {
             if (slave.Master == uid)
+            {
                 slave.Master = newMob;
+                Dirty(sUid, slave);
+            }
         }
 
         if (TryComp<ShadowlingRecruitComponent>(uid, out var oldRecruit) &&
