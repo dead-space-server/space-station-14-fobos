@@ -226,9 +226,10 @@
     stampedName: stamp-component-stamped-name-special-operation-officer
     stampedColor: "#323232"
     stampState: "paper_stamp-greytide"
-    stampPatternTexture: "/Textures/Interface/Stamps/nt_print_pattern.png"
-    stampScale: 0.78
-    stampTextMaxScale: 0.54
+    stampPatternTexture: "/Textures/Interface/Stamps/deparmforce_print_pattern.png"
+    stampScale: 0.92
+    stampMainText: "Офицер Специальных Операций"
+    stampTextMaxScale: 0.38
     stampCanRotate: false
   - type: Sprite
     state: stamp-greytide
