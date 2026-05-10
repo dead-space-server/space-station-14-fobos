@@ -311,7 +311,7 @@
         color: Green
         sound: /Audio/Misc/ninja_greeting.ogg
       components:
-      - type: RenegadeCANTSubordinate #DS14 
+      - type: RenegadeCANTSubordinate #DS14
       - type: SpaceNinja
       - type: NpcFactionMember
         factions:
@@ -407,6 +407,7 @@
         #sound: "/Audio/Ambience/Antag/wizard_start.ogg"
       # TODO: WizardComp as needed
       components:
+      - type: GunUsageBlocker # DS14
       - type: NpcFactionMember
         factions:
         - Wizard

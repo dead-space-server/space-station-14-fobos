@@ -404,6 +404,7 @@
       components:
       - type: Skill
         group: ALL
+      - type: GunUsageBlocker # DS14
       - type: NpcFactionMember
         factions:
         - Wizard

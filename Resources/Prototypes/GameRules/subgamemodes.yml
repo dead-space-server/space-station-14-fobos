@@ -60,6 +60,7 @@
       startingGear: WizardBlueGear
       # TODO: WizardComp as needed
       components:
+      - type: GunUsageBlocker # DS14
       - type: NpcFactionMember
         factions:
         - Wizard
