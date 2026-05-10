@@ -100,17 +100,30 @@ public sealed class ShadowlingAscendanceSystem : EntitySystem
         _sound.StopStationEventMusic(newMob, StationEventMusicType.Convergence);
         _sound.DispatchStationEventMusic(newMob, new SoundCollectionSpecifier("ShadowlingAscendance"), StationEventMusicType.Convergence);
 
-        Timer.Spawn(TimeSpan.FromSeconds(1.48), () =>
-        {
-            _chat.DispatchGlobalAnnouncement(message, sender,
-                colorOverride: Color.FromHex("#ff0000"),
-                announcementSound: new SoundCollectionSpecifier("ShadowlingAscendanceAnnouncement"));
-        });
-
+        var alreadyAnnounced = false;
         var ruleQuery = EntityQueryEnumerator<ShadowlingRuleComponent>();
-        while (ruleQuery.MoveNext(out var ruleUid, out var ruleComp))
+        while (ruleQuery.MoveNext(out var ruleComp))
         {
             ruleComp.IsAscended = true;
+            if (ruleComp.AscendanceAnnounced)
+            {
+                alreadyAnnounced = true;
+                break;
+            }
+        }
+
+        if (!alreadyAnnounced)
+        {
+            var allRules = EntityQuery<ShadowlingRuleComponent>();
+            foreach (var ruleComp in allRules)
+                ruleComp.AscendanceAnnounced = true;
+
+            Timer.Spawn(TimeSpan.FromSeconds(1.48), () =>
+            {
+                _chat.DispatchGlobalAnnouncement(message, sender,
+                    colorOverride: Color.FromHex("#ff0000"),
+                    announcementSound: new SoundCollectionSpecifier("ShadowlingAscendanceAnnouncement"));
+            });
         }
 
         QueueDel(uid);
