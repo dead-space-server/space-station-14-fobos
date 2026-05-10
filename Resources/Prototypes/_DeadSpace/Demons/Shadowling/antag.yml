@@ -4,12 +4,33 @@
   showTo:
     components:
       - ShowAntagIcons
-      - ShadowlingRecruit
-      - ShadowlingSlave
-      - ShadowlingReveal
   icon:
     sprite: /Textures/_DeadSpace/Interface/Misc/antag_icons.rsi
-    state: shadowling_Icon
+    state: ShadowlingIcon
+
+- type: factionIcon
+  id: ShadowlingSlaveFactionAlly
+  priority: 11
+  showTo:
+    components:
+      - ShadowlingRecruit
+      - ShadowlingReveal
+      - ShadowlingSlave
+  icon:
+    sprite: /Textures/_DeadSpace/Interface/Misc/antag_icons.rsi
+    state: ShadowlingIconGreen
+
+- type: factionIcon
+  id: ShadowlingSlaveFactionEnemy
+  priority: 11
+  showTo:
+    components:
+      - ShadowlingRecruit
+      - ShadowlingReveal
+      - ShadowlingSlave
+  icon:
+    sprite: /Textures/_DeadSpace/Interface/Misc/antag_icons.rsi
+    state: ShadowlingIconRed
 
 - type: factionIcon
   id: ShadowlingMasterFaction
@@ -17,9 +38,30 @@
   showTo:
     components:
       - ShowAntagIcons
-      - ShadowlingRecruit
+  icon:
+    sprite: /Textures/_DeadSpace/Interface/Misc/antag_icons.rsi
+    state: ShadowlingIcon2
+
+- type: factionIcon
+  id: ShadowlingMasterFactionAlly
+  priority: 11
+  showTo:
+    components:
       - ShadowlingSlave
+      - ShadowlingRecruit
       - ShadowlingReveal
   icon:
     sprite: /Textures/_DeadSpace/Interface/Misc/antag_icons.rsi
-    state: shadowling_Icon2
+    state: ShadowlingIcon2Green
+
+- type: factionIcon
+  id: ShadowlingMasterFactionEnemy
+  priority: 11
+  showTo:
+    components:
+      - ShadowlingRecruit
+      - ShadowlingReveal
+      - ShadowlingSlave
+  icon:
+    sprite: /Textures/_DeadSpace/Interface/Misc/antag_icons.rsi
+    state: ShadowlingIcon2Red

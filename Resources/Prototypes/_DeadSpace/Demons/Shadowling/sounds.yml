@@ -38,3 +38,8 @@
   id: ShadowlingAscendance
   files:
     - /Audio/_DeadSpace/Demons/Ascendance.ogg
+
+- type: soundCollection
+  id: ShadowlingAnnouncement
+  files:
+    - /Audio/_DeadSpace/Announcements/ERT/spawn.ogg

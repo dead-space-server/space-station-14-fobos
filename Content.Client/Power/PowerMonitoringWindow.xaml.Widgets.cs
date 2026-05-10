@@ -6,6 +6,7 @@ using Robust.Shared.Utility;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
+using Robust.Shared.Map; // DS14
 
 namespace Content.Client.Power;
 
@@ -16,6 +17,7 @@ public sealed partial class PowerMonitoringWindow
 
     private bool _autoScrollActive = false;
     private bool _autoScrollAwaitsUpdate = false;
+    private int? _selectedDamageIndex; // DS14
 
     private void UpdateWindowConsoleEntry
         (BoxContainer masterContainer,
@@ -326,6 +328,126 @@ public sealed partial class PowerMonitoringWindow
         SystemWarningLabel.SetMessage(msg);
     }
 
+    // DS14-start
+    private void UpdateDamageList()
+    {
+        if (!_entManager.TryGetComponent<PowerMonitoringCableNetworksComponent>(Entity, out var cableNetworks))
+        {
+            DamageList.RemoveAllChildren();
+            return;
+        }
+
+        var markers = NavMap.GetDecodedBrokenPowerCableMarkers(cableNetworks.BrokenChunks);
+        markers.Sort(SortDamageMarkers);
+        NavMap.BrokenCableMarkers = markers;
+
+        if (markers.Count == 0)
+        {
+            DamageList.RemoveAllChildren();
+            DamageList.AddChild(new Label
+            {
+                Text = Loc.GetString("power-monitoring-window-damage-empty"),
+                HorizontalExpand = true,
+            });
+            _selectedDamageIndex = null;
+            return;
+        }
+
+        if (DamageList.Children.Any(child => child is not PowerMonitoringDamageEntry))
+            DamageList.RemoveAllChildren();
+
+        if (_selectedDamageIndex >= markers.Count)
+            _selectedDamageIndex = null;
+
+        while (DamageList.ChildCount > markers.Count)
+            DamageList.RemoveChild(DamageList.GetChild(DamageList.ChildCount - 1));
+
+        for (var index = 0; index < markers.Count; index++)
+        {
+            var marker = markers[index];
+            PowerMonitoringDamageEntry damageEntry;
+
+            if (index >= DamageList.ChildCount || DamageList.GetChild(index) is not PowerMonitoringDamageEntry existingEntry)
+            {
+                damageEntry = new PowerMonitoringDamageEntry();
+                DamageList.AddChild(damageEntry);
+
+                damageEntry.Button.OnButtonUp += _ =>
+                {
+                    _selectedDamageIndex = damageEntry.Index;
+                    FocusDamagePoint(damageEntry.Marker);
+                    UpdateDamageSelection();
+                };
+            }
+            else
+            {
+                damageEntry = existingEntry;
+            }
+
+            damageEntry.Index = index;
+            damageEntry.Marker = marker;
+
+            var mapPosition = new Vector2(marker.Position.X, -marker.Position.Y);
+            damageEntry.Label.Text = Loc.GetString(
+                "power-monitoring-window-damage-entry",
+                ("index", index + 1),
+                ("cable", GetCableGroupName(marker.Group)),
+                ("x", Math.Round(mapPosition.X)),
+                ("y", Math.Round(mapPosition.Y)));
+        }
+
+        UpdateDamageSelection();
+    }
+
+    private void FocusDamagePoint(PowerMonitoringConsoleMarker marker)
+    {
+        if (NavMap.MapUid == null)
+            return;
+
+        var mapPosition = new Vector2(marker.Position.X, -marker.Position.Y);
+        NavMap.CenterToCoordinates(new EntityCoordinates(NavMap.MapUid.Value, mapPosition));
+        NavMap.AddRadarRange(-NavMap.WorldRange);
+    }
+
+    private void UpdateDamageSelection()
+    {
+        foreach (var child in DamageList.Children)
+        {
+            if (child is not PowerMonitoringDamageEntry damageEntry)
+                continue;
+
+            if (_selectedDamageIndex == damageEntry.Index)
+                damageEntry.Button.AddStyleClass(StyleClass.Positive);
+            else
+                damageEntry.Button.RemoveStyleClass(StyleClass.Positive);
+        }
+    }
+
+    private string GetCableGroupName(PowerMonitoringConsoleLineGroup group)
+    {
+        return group switch
+        {
+            PowerMonitoringConsoleLineGroup.HighVoltage => Loc.GetString("power-monitoring-window-show-hv-cable"),
+            PowerMonitoringConsoleLineGroup.MediumVoltage => Loc.GetString("power-monitoring-window-show-mv-cable"),
+            PowerMonitoringConsoleLineGroup.Apc => Loc.GetString("power-monitoring-window-show-lv-cable"),
+            _ => Loc.GetString("power-monitoring-window-label-misc"),
+        };
+    }
+
+    private static int SortDamageMarkers(PowerMonitoringConsoleMarker x, PowerMonitoringConsoleMarker y)
+    {
+        var groupCompare = x.Group.CompareTo(y.Group);
+        if (groupCompare != 0)
+            return groupCompare;
+
+        var xCompare = x.Position.X.CompareTo(y.Position.X);
+        if (xCompare != 0)
+            return xCompare;
+
+        return x.Position.Y.CompareTo(y.Position.Y);
+    }
+    // DS14-end
+
     private void SwitchTabsBasedOnPowerMonitoringConsoleGroup(PowerMonitoringConsoleGroup group)
     {
         switch (group)
@@ -434,6 +556,37 @@ public abstract class PowerMonitoringWindowBaseEntry : BoxContainer
         Button = new PowerMonitoringButton();
     }
 }
+
+// DS14-start
+public sealed class PowerMonitoringDamageEntry : BoxContainer
+{
+    public int Index;
+    public PowerMonitoringConsoleMarker Marker;
+    public Button Button;
+    public Label Label;
+
+    public PowerMonitoringDamageEntry()
+    {
+        HorizontalExpand = true;
+
+        Button = new Button
+        {
+            HorizontalExpand = true,
+            Margin = new Thickness(0f, 1f, 0f, 1f),
+        };
+        Button.StyleClasses.Add("OpenLeft");
+        AddChild(Button);
+
+        Label = new Label
+        {
+            HorizontalExpand = true,
+            ClipText = true,
+            Margin = new Thickness(6f, 4f),
+        };
+        Button.AddChild(Label);
+    }
+}
+// DS14-end
 
 public sealed class PowerMonitoringButton : Button
 {

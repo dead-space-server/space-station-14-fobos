@@ -32,4 +32,4 @@
       sprite: _DeadSpace/Demons/shadowling.rsi
       state: shadowling_recruit_objective
   - type: ShadowlingRecruitObjective
-    targetCount: 15
+    targetCount: 30

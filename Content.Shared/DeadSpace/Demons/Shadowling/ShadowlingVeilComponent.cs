@@ -10,4 +10,5 @@ public sealed partial class ShadowlingVeilComponent : Component
     [ViewVariables] public float VeilTimer = 0f;
     [ViewVariables] public bool VeilActive = false;
     [ViewVariables] public List<EntityUid> AffectedLights = new();
+    [ViewVariables] public List<EntityUid> WereActivated = new();
 }

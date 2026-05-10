@@ -6,12 +6,12 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Shared.DeadSpace.Demons.Shadowling;
 
-[RegisterComponent, NetworkedComponent]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class ShadowlingSlaveComponent : Component
 {
     [DataField]
     public ProtoId<FactionIconPrototype> StatusIcon { get; set; } = "ShadowlingSlaveFaction";
 
-    [ViewVariables]
+    [ViewVariables, AutoNetworkedField]
     public EntityUid? Master;
 }

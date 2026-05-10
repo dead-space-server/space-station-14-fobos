@@ -7,6 +7,7 @@
     Shock: 1
     Cold: 0
     Heat: 1.5
+    Holy: 1
     Poison: 0
     Radiation: 0
 
@@ -46,7 +47,8 @@
 
   - type: Body
     prototype: Human
-
+  - type: ShowJobIcons
+  - type: ShowMindShieldIcons
   - type: Hands
   - type: ComplexInteraction
   - type: CombatMode
@@ -77,6 +79,9 @@
     bodyStatus: OnGround
   - type: TTS
     voice: Abaddon
+
+  - type: StatusIcon
+    bounds: -0.5,-0.5,0.5,0.5
 
   - type: Fixtures
     fixtures:
@@ -117,7 +122,7 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      250: Dead
+      200: Dead
 
   - type: MeleeWeapon
     altDisarm: false
@@ -134,6 +139,9 @@
   - type: NpcFactionMember
     factions:
     - SimpleHostile
+
+  - type: StaminaDamageOnHit
+    damage: 20
 
   - type: NightVision
     animation: true
@@ -177,6 +185,7 @@
         Heat: -2
         Blunt: -1
         Piercing: -1
+        Holy: -0.25
 
   - type: ShadowlingRecruit
   - type: ShadowlingVeil
@@ -188,7 +197,6 @@
   - type: ShadowlingFreezingVeins
   - type: ShadowlingAscendance
   - type: ShadowlingSmokeAction
-  - type: ShadowlingReReveal
 
 - type: polymorph
   id: ShadowlingPhasePolymorph
@@ -286,7 +294,7 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      1000: Dead
+      800: Dead
 
   - type: PointLight
     radius: 4
@@ -349,7 +357,6 @@
   - type: ShadowlingBlackMed
   - type: ShadowlingAbsoluteFreezingVeins
   - type: ShadowlingThunderstorm
-  - type: ShadowlingReReveal
   - type: Emoting
 
 - type: entity

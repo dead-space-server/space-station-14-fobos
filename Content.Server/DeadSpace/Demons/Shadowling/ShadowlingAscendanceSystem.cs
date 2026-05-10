@@ -13,7 +13,6 @@ using Content.Shared.Chemistry.Components;
 using Robust.Shared.Timing;
 using Content.Server.Audio;
 using Content.Shared.Audio;
-using Content.Server.RoundEnd;
 
 namespace Content.Server.DeadSpace.Demons.Shadowling;
 
@@ -26,8 +25,6 @@ public sealed class ShadowlingAscendanceSystem : EntitySystem
     [Dependency] private readonly SharedStunSystem _stun = default!;
     [Dependency] private readonly SmokeSystem _smoke = default!;
     [Dependency] private readonly ServerGlobalSoundSystem _sound = default!;
-    [Dependency] private readonly RoundEndSystem _roundEnd = default!;
-
     public override void Initialize()
     {
         base.Initialize();
@@ -80,7 +77,10 @@ public sealed class ShadowlingAscendanceSystem : EntitySystem
         while (query.MoveNext(out var sUid, out var slave))
         {
             if (slave.Master == uid)
+            {
                 slave.Master = newMob;
+                Dirty(sUid, slave);
+            }
         }
 
         if (TryComp<ShadowlingRecruitComponent>(uid, out var oldRecruit) &&
@@ -100,23 +100,31 @@ public sealed class ShadowlingAscendanceSystem : EntitySystem
         _sound.StopStationEventMusic(newMob, StationEventMusicType.Convergence);
         _sound.DispatchStationEventMusic(newMob, new SoundCollectionSpecifier("ShadowlingAscendance"), StationEventMusicType.Convergence);
 
-        Timer.Spawn(TimeSpan.FromSeconds(1.48), () =>
-        {
-            _chat.DispatchGlobalAnnouncement(message, sender,
-                colorOverride: Color.FromHex("#ff0000"),
-                announcementSound: new SoundCollectionSpecifier("ShadowlingAscendanceAnnouncement"));
-        });
-
+        var alreadyAnnounced = false;
         var ruleQuery = EntityQueryEnumerator<ShadowlingRuleComponent>();
-        while (ruleQuery.MoveNext(out var ruleUid, out var ruleComp))
+        while (ruleQuery.MoveNext(out var ruleComp))
         {
             ruleComp.IsAscended = true;
+            if (ruleComp.AscendanceAnnounced)
+            {
+                alreadyAnnounced = true;
+                break;
+            }
         }
 
-        Timer.Spawn(TimeSpan.FromMinutes(3), () =>
+        if (!alreadyAnnounced)
         {
-            _roundEnd.EndRound();
-        });
+            var allRules = EntityQuery<ShadowlingRuleComponent>();
+            foreach (var ruleComp in allRules)
+                ruleComp.AscendanceAnnounced = true;
+
+            Timer.Spawn(TimeSpan.FromSeconds(1.48), () =>
+            {
+                _chat.DispatchGlobalAnnouncement(message, sender,
+                    colorOverride: Color.FromHex("#ff0000"),
+                    announcementSound: new SoundCollectionSpecifier("ShadowlingAscendanceAnnouncement"));
+            });
+        }
 
         QueueDel(uid);
     }
