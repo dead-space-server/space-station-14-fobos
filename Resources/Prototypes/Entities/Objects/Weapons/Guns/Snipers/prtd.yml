@@ -1,0 +1,35 @@
+- type: entity
+  name: ПТРД
+  description: Противотанковое однозарядное ружьё образца 1941 года системы Дегтярёва.
+  parent: [BaseWeaponSniper, BaseGunWieldable]
+  id: PTRDsoviet
+  components:
+  - type: Item
+    size: Large
+  - type: Gun
+    fireRate: 0.4
+    selectedMode: SemiAuto
+    availableModes:
+    - SemiAuto
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/sniper.ogg
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Snipers/ptrd.rsi
+    layers:
+    - state: base
+  - type: Clothing
+    slots:
+    - Back
+    quickEquip: false
+  - type: BallisticAmmoProvider
+    proto: CartridgeAntiMateriel
+    capacity: 1
+    whitelist:
+      tags:
+      - CartridgeAntiMateriel
+  - type: GunRequiresWield
+  - type: CursorOffsetRequiresWield 
+  - type: EyeCursorOffset
+    maxOffset: 8 
+    pvsIncrease: 0.6
+ 
