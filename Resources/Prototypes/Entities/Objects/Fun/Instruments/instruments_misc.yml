@@ -199,12 +199,13 @@
     quickEquip: false
 
 - type: entity
-  parent: PhoneInstrument
+  parent: BaseItem # DS14
   id: BananaPhoneInstrument
   name: banana phone
   description: A direct line to the Honkmother. Seems to always go to voicemail.
   components:
   - type: Sprite
+    sprite: Objects/Fun/Instruments/otherinstruments.rsi # DS14
     state: banana_phone
   - type: EmitSoundOnLand
     sound:
