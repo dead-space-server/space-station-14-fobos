@@ -2,13 +2,18 @@
 
 using Content.Shared.DeadSpace.Weapons.Ranged.Components;
 using Content.Shared.Popups;
+using Content.Shared.Tag;
 using Content.Shared.Weapons.Ranged.Events;
+using Robust.Shared.Prototypes;
 
 namespace Content.Shared.DeadSpace.Weapons.Ranged;
 
 public sealed class SharedGunUsageBlockerSystem : EntitySystem
 {
+    private static readonly ProtoId<TagPrototype> WizardWandTag = "WizardWand";
+
     [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly TagSystem _tag = default!;
 
     public override void Initialize()
     {
@@ -19,6 +24,9 @@ public sealed class SharedGunUsageBlockerSystem : EntitySystem
 
     private void OnShotAttempted(Entity<GunUsageBlockerComponent> ent, ref ShotAttemptedEvent args)
     {
+        if (_tag.HasTag(args.Used, WizardWandTag))
+            return;
+
         _popup.PopupClient(Loc.GetString("gun-disabled"), ent, ent);
         args.Cancel();
     }
