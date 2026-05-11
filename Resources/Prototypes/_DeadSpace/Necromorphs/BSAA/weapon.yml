@@ -8,10 +8,10 @@
   components:
     - type: Sprite
       sprite: _DeadSpace/Necromorfs/BSAA/weapons/vant/vant.rsi
-      state: icon
+      state: VANT-VM
     - type: Item
       sprite: _DeadSpace/Necromorfs/BSAA/weapons/vant/vant.rsi
-      heldPrefix: icon
+      heldPrefix: VANT-VM
     - type: Clothing
       sprite: _DeadSpace/Necromorfs/BSAA/weapons/vant/vant.rsi
       quickEquip: false
