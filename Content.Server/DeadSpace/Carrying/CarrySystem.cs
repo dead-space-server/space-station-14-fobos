@@ -92,7 +92,6 @@ public sealed class CarrySystem : EntitySystem
 
         var time = _timing.CurTime;
         var query = EntityQueryEnumerator<CarriedComponent>();
-
         while (query.MoveNext(out var uid, out var carried))
         {
             if (carried.Carrier is not { } carrier ||
@@ -130,6 +129,7 @@ public sealed class CarrySystem : EntitySystem
 
         var user = args.User;
         var target = ent.Owner;
+
         args.Verbs.Add(new AlternativeVerb
         {
             Text = Loc.GetString("carry-verb-pick-up"),
@@ -239,8 +239,8 @@ public sealed class CarrySystem : EntitySystem
         var targetXform = Transform(target);
         _transform.SetCoordinates(target, targetXform, new EntityCoordinates(carrier, Vector2.Zero), rotation: Angle.Zero);
         _interaction.DoContactInteraction(target, carrier);
-        _adminLogger.Add(LogType.Action, LogImpact.Medium, $"{ToPrettyString(carrier):user} started carrying {ToPrettyString(target):target}");
 
+        _adminLogger.Add(LogType.Action, LogImpact.Medium, $"{ToPrettyString(carrier):user} started carrying {ToPrettyString(target):target}");
         return true;
     }
 
@@ -504,6 +504,7 @@ public sealed class CarrySystem : EntitySystem
         bool inheritCarrierVelocity = false)
     {
         placeTarget &= !TerminatingOrDeleted(carrier);
+
         CleanupCarry(
             carrier,
             carrying,
@@ -527,8 +528,8 @@ public sealed class CarrySystem : EntitySystem
             return;
 
         carrying.Stopping = true;
-
         var target = carrying.Carried;
+
         CarriedComponent? carried = null;
         if (target != null)
             TryComp(target.Value, out carried);
@@ -584,8 +585,18 @@ public sealed class CarrySystem : EntitySystem
         RestoreForcedDown(target, carried, thrown, keepTargetDown);
         _actionBlocker.UpdateCanMove(target);
 
-        if (!placeTarget || TerminatingOrDeleted(carrier) || TerminatingOrDeleted(target))
+        if (TerminatingOrDeleted(target))
             return;
+
+        if (!placeTarget || TerminatingOrDeleted(carrier))
+        {
+            var xform = Transform(target);
+
+            if (xform.ParentUid == carrier)
+                _transform.AttachToGridOrMap(target);
+
+            return;
+        }
 
         if (thrown)
         {
@@ -665,21 +676,44 @@ public sealed class CarrySystem : EntitySystem
     private void CompleteCarryEscape(EntityUid target, CarriedComponent carried, EntityUid carrier, CarryingComponent carrying)
     {
         StopCarryEscape(target, carried);
-
         StopCarry(carrier, carrying, keepTargetDown: true);
         EnsureCarryEscapeCleanup(target, carried, carrier, carrying);
-        _stun.TryKnockdown(target, EscapeKnockdownTime, autoStand: false, drop: false, force: true);
 
+        _stun.TryKnockdown(target, EscapeKnockdownTime, autoStand: false, drop: false, force: true);
         _adminLogger.Add(LogType.Action, LogImpact.Medium, $"{ToPrettyString(target):target} escaped from being carried by {ToPrettyString(carrier):user}");
     }
 
     private void CleanupInvalidCarriedState(EntityUid target, CarriedComponent carried)
     {
+        var carrier = carried.Carrier;
+
         if (carried.AddedBlockMovement && HasComp<BlockMovementComponent>(target))
             RemComp<BlockMovementComponent>(target);
 
+        if (TryComp<PhysicsComponent>(target, out var physics))
+        {
+            if (carried.PreviousCanCollide is { } previous)
+                _physics.SetCanCollide(target, previous, body: physics);
+
+            _physics.ResetDynamics(target, physics);
+        }
+
         StopCarryEscape(target, carried);
-        RemComp<CarriedComponent>(target);
+
+        if (!TerminatingOrDeleted(target))
+        {
+            var xform = Transform(target);
+
+            if (carrier == null || TerminatingOrDeleted(carrier.Value) || xform.ParentUid == carrier.Value)
+                _transform.AttachToGridOrMap(target);
+        }
+
+        if (carrier is { } carrierUid && !TerminatingOrDeleted(carrierUid))
+            _virtual.DeleteInHandsMatching(carrierUid, target);
+
+        if (HasComp<CarriedComponent>(target))
+            RemComp<CarriedComponent>(target);
+
         _actionBlocker.UpdateCanMove(target);
     }
 
