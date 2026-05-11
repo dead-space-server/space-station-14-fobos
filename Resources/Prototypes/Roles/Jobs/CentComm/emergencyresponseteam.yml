@@ -255,16 +255,12 @@
     - BodyBagFolded
     - BodyBagFolded
     - JugWater
-    - JugBlood # End of first row
+    - JugBlood
     - FoodBakedBunHotX
     - FoodBakedBunHotX
     - FoodBakedBunHotX
     - FoodBakedBunHotX
     belt:
-    - Lantern
-    - Lantern
-    - Lantern
-    - CrowbarRed
     - WeaponPistolMk58
     - MagazinePistol
 
