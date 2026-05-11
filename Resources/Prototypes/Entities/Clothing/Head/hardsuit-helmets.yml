@@ -836,10 +836,12 @@
   name: ERT leader hardsuit helmet
   description: A special hardsuit helmet worn by members of an emergency response team.
   components:
+  #DS14-start
   - type: Sprite
-    sprite: Clothing/Head/Hardsuits/ERThelmets/ertleader.rsi
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERThelmets/ertleader.rsi
   - type: Clothing
-    sprite: Clothing/Head/Hardsuits/ERThelmets/ertleader.rsi
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERThelmets/ertleader.rsi
+  #DS14-end
   - type: PointLight # Corvax-Resprite
     color: cyan
   - type: Armor
@@ -857,10 +859,12 @@
   name: ERT chaplain hardsuit helmet
   description: A special hardsuit helmet worn by members of an emergency response team.
   components:
+  #DS14-start
   - type: Sprite
-    sprite: Clothing/Head/Hardsuits/ERThelmets/ertchaplain.rsi
+    sprite: _DeadSpace/Clothing/ERT/ERT_Priests/ERThelmets/ertsecurity.rsi
   - type: Clothing
-    sprite: Clothing/Head/Hardsuits/ERThelmets/ertchaplain.rsi
+    sprite: _DeadSpace/Clothing/ERT/ERT_Priests/ERThelmets/ertsecurity.rsi
+  #DS14-end
   - type: PointLight
     color: "#ffffff"
 
@@ -871,10 +875,12 @@
   name: ERT engineer hardsuit helmet
   description: A special hardsuit helmet worn by members of an emergency response team.
   components:
+  #DS14-start
   - type: Sprite
-    sprite: Clothing/Head/Hardsuits/ERThelmets/ertengineer.rsi
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERThelmets/ertengineer.rsi
   - type: Clothing
-    sprite: Clothing/Head/Hardsuits/ERThelmets/ertengineer.rsi
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERThelmets/ertengineer.rsi
+  #DS14-end
   - type: PointLight
     color: "#f4ffad"
   - type: FireProtection
@@ -894,10 +900,12 @@
   name: ERT medic hardsuit helmet
   description: A special hardsuit helmet worn by members of an emergency response team.
   components:
+  #DS14-start
   - type: Sprite
-    sprite: Clothing/Head/Hardsuits/ERThelmets/ertmedical.rsi
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERThelmets/ertmedical.rsi
   - type: Clothing
-    sprite: Clothing/Head/Hardsuits/ERThelmets/ertmedical.rsi
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERThelmets/ertmedical.rsi
+  #DS14-end
   - type: PointLight
     color: "#adffec"
 
@@ -908,10 +916,12 @@
   name: ERT security hardsuit helmet
   description: A special hardsuit helmet worn by members of an emergency response team.
   components:
+  #DS14-start
   - type: Sprite
-    sprite: Clothing/Head/Hardsuits/ERThelmets/ertsecurity.rsi
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERThelmets/ertsecurity.rsi
   - type: Clothing
-    sprite: Clothing/Head/Hardsuits/ERThelmets/ertsecurity.rsi
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERThelmets/ertsecurity.rsi
+  #DS14-end
   - type: PointLight
     color: "#ffadc6"
   - type: Armor
@@ -929,10 +939,12 @@
   name: ERT janitor hardsuit helmet
   description: A special hardsuit helmet worn by members of an emergency response team.
   components:
+  #DS14-start
   - type: Sprite
-    sprite: Clothing/Head/Hardsuits/ERThelmets/ertjanitor.rsi
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERThelmets/ertjanitor.rsi
   - type: Clothing
-    sprite: Clothing/Head/Hardsuits/ERThelmets/ertjanitor.rsi
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERThelmets/ertjanitor.rsi
+  #DS14-end
   - type: PointLight
     color: "#cbadff"
 

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "license": "CC-BY-SA-3.0",
-  "copyright": "Sprite made by discord:kuro_0001 (388673708753027083)",
+  "copyright": "Made by pyfya (discord) for Space Station 14 server Мёртвый Космос",
   "size": {
     "x": 32,
     "y": 32
@@ -11,7 +11,7 @@
       "name": "icon"
     },
     {
-      "name": "equipped-HELMET",
+      "name": "equipped-BELT",
       "directions": 4
     },
     {

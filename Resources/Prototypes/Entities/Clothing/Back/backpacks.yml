@@ -240,6 +240,8 @@
   components:
   - type: Sprite
     sprite: Clothing/Back/Backpacks/ertmed.rsi
+  - type: ExplosionResistance #DS-14
+    damageCoefficient: 0
 
 - type: entity
   parent: ClothingBackpackERTLeader
@@ -249,7 +251,9 @@
   components:
   - type: Sprite
     sprite: Clothing/Back/Backpacks/erteng.rsi
-
+  - type: ExplosionResistance #DS-14
+    damageCoefficient: 0
+    
 - type: entity
   parent: ClothingBackpackERTLeader
   id: ClothingBackpackERTJanitor

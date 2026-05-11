@@ -38,3 +38,18 @@
     solutions:
       beaker:
         maxVol: 300
+
+- type: entity
+  id: JugTheCircleOmnizine
+  suffix: Омнизин
+  parent: JugTheCircle
+  components:
+  - type: Label
+    currentLabel: reagent-name-omnizine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 300
+        reagents:
+        - ReagentId: Omnizine
+          Quantity: 300
