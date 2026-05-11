@@ -635,6 +635,22 @@
       staticPacks:
       - OreSmelting
       - RGlassSmelting
+#DS14-start
+    - type: LavalandOreRedeemer
+      oreValues:
+        SteelOre: 1
+        Coal: 1
+        SaltOre: 1
+        PlasmaOre: 2
+        SpaceQuartz: 2
+        SilverOre: 3
+        GoldOre: 4
+        MagmiteOre: 5
+        UraniumOre: 6
+        BananiumOre: 8
+        DiamondOre: 12
+        BluespaceCrystalOre: 12
+#DS14-end
 
 - type: entity
   parent: OreProcessor

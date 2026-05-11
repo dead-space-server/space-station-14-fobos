@@ -854,6 +854,9 @@
 - type: Tag # Used on DungeonRoom prototypes.
   id: LavaBrig # PrefabDunGen whitelist on LavaBrig DungeonConfig.
 
+- type: Tag # Used on DungeonRoom prototypes.
+  id: LavalandLavaBrig # PrefabDunGen whitelist on LavalandLavaBrig DungeonConfig.
+
 - type: Tag
   id: Lemon # CargoBounty: BountyLemon
 

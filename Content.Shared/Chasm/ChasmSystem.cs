@@ -57,13 +57,22 @@ public sealed class ChasmSystem : EntitySystem
 
     public void StartFalling(EntityUid chasm, ChasmComponent component, EntityUid tripper, bool playSound = true)
     {
+        if (HasComp<ChasmFallingComponent>(tripper))
+            return;
+
+        var attempt = new ChasmFallingAttemptEvent(tripper, chasm);
+        RaiseLocalEvent(tripper, attempt, true);
+
+        if (attempt.Cancelled)
+            return;
+
         var falling = AddComp<ChasmFallingComponent>(tripper);
 
         falling.NextDeletionTime = _timing.CurTime + falling.DeletionTime;
         _blocker.UpdateCanMove(tripper);
 
-        if (playSound)
-            _audio.PlayPredicted(component.FallingSound, chasm, tripper);
+        if (playSound && _net.IsServer)
+            _audio.PlayPvs(component.FallingSound, chasm);
     }
 
     private void OnStepTriggerAttempt(EntityUid uid, ChasmComponent component, ref StepTriggerAttemptEvent args)
