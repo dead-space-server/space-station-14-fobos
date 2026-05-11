@@ -247,7 +247,8 @@
     id: ERTChaplainPDA
     ears: ClothingHeadsetAltCentCom
     belt: ClothingBeltMilitaryWebbingERT
-    pocket2: CombatKnife
+    pocket1: Bible
+    pocket2: FlippoEngravedLighter
   storage:
     back:
     - BoxCandle
@@ -260,14 +261,12 @@
     - FoodBakedBunHotX
     - FoodBakedBunHotX
     belt:
-    - Bible
     - Lantern
     - Lantern
     - Lantern
     - CrowbarRed
     - WeaponPistolMk58
     - MagazinePistol
-    - FlippoEngravedLighter
 
 # - type: startingGear
 #   id: ERTChaplainGearEVA
