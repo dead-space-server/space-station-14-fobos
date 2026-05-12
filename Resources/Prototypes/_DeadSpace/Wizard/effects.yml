@@ -65,6 +65,9 @@
     intensitySlope: 5
     maxIntensity: 4
     canCreateVacuum: true
+    deleteAfterExplosion: true
+  - type: TimedDespawn
+    lifetime: 0.1
   - type: EmitSoundOnTrigger
     sound:
       path: "/Audio/_DeadSpace/Wizard/Effect/lightning_hit.ogg"

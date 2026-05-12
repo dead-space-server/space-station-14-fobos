@@ -10,6 +10,8 @@
       sprite: Structures/Power/Generation/Tesla/energy_miniball.rsi
       state: tesla_projectile
     useDelay: 120
+  - type: TargetAction
+    range: 10
   - type: WorldTargetAction
     event: !type:GoliathSummonTentacleAction
       entityId: WirardEffectLightning
