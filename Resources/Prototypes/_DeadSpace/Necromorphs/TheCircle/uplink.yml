@@ -267,7 +267,7 @@
   id: UniPhoneUplinkFilledAmmo
   name: Ящик с каждым типом патрона
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/heavy-case.rsi, state: icon }
-  description: Ящик с каждым типом патрона внутри. Удобно брать патроны оптом.
+  description: Ящик с каждым типом патрона внутри. Удобно брать боеприпасы оптом.
   productEntity: WeaponCaseHeavyFilledAmmo
   cost:
     Telecrystal: 10
