@@ -13,10 +13,10 @@ public sealed partial class StampCollection : Container
     private const float ColumnGap = 6.0f;
     private const float RowGap = 6.0f;
     private const float FallbackStampZoneWidth = 520.0f;
-    // DS14-end
 
     private readonly List<StampWidget> _stamps = new();
     private readonly List<List<int>> _rows = new();
+    // DS14-end
 
     public StampCollection()
     {

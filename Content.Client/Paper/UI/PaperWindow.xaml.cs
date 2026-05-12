@@ -282,15 +282,14 @@ namespace Content.Client.Paper.UI
                 Input.InsertAtCursor(state.Text);
             }
 
-            // DS14: stamp spacing is handled by StampDisplay itself. Do not append
-            // a fixed 14-line reserve to the text; that reserve was the reason stamps
-            // started too far below "Место для печатей" and why extra rows were clipped.
-            if (state.StampedBy.Count == 0)
+            if (state.StampedBy.Count == 0) // DS14
                 msg.AddMarkupPermissive("\r\n");
 
+            // DS14-start
             WrittenTextLabel.SetMessage(msg, UserFormattableTags.BaseAllowedTags, DefaultTextColor);
             WrittenTextLabel.Visible = !isEditing && (state.Text.Length > 0 || hasSignatures); // DS14-signatures
             BlankPaperIndicator.Visible = !isEditing && state.Text.Length == 0 && !hasSignatures;
+            // DS14-end
 
             StampDisplay.RemoveStamps();
             foreach (var stamper in state.StampedBy)
@@ -298,7 +297,7 @@ namespace Content.Client.Paper.UI
                 StampDisplay.AddStamp(new StampWidget { StampInfo = stamper });
             }
 
-            StampDisplay.Visible = !isEditing && state.StampedBy.Count > 0;
+            StampDisplay.Visible = !isEditing && state.StampedBy.Count > 0; // DS14
         }
 
         /// <summary>
