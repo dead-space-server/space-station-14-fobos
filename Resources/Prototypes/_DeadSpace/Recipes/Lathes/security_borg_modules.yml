@@ -1,8 +1,12 @@
 - type: latheRecipePack
-  id: SecurityBorgModules
+  id: SecurityBorgModulesTierTwo
+  recipes:
+  - BorgModuleSecurityJump
+
+- type: latheRecipePack
+  id: SecurityBorgModulesTierThree
   recipes:
   - BorgModuleSecurityFirearms
-  - BorgModuleSecurityJump
   - BorgModuleSecurityEmergency
 
 - type: latheRecipe
