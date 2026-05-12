@@ -2,7 +2,7 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Shared.DeadSpace.Lavaland.Bosses;
 
-[Prototype("lavalandBossArena")]
+[Prototype]
 public sealed partial class LavalandBossArenaPrototype : IPrototype
 {
     [IdDataField]
