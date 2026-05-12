@@ -24248,7 +24248,7 @@ entities:
     - type: Transform
       pos: 85.5,-19.5
       parent: 2
-- proto: ADTObjectsSpecificDexalinChemistryBottle
+- proto: ChemistryBottleDexalin
   entities:
   - uid: 63
     components:
