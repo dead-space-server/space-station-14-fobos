@@ -3,7 +3,7 @@
   parent: [ BaseStorageItem, BaseBagOpenClose ]
   name: кейс для именных ножей
   suffix: Заполненный
-  description: Кейс ножей с именем местного повара. Он явно что-то умеет.
+  description: Кейс ножей с именем местного шефа. Он явно что-то умеет.
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Storage/briefcase_kirchen_knife.rsi
