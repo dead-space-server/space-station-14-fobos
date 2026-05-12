@@ -738,7 +738,6 @@
     sprite: Clothing/OuterClothing/Hardsuits/syndiemedic.rsi
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitSyndieMedic
-  - type: Tag
   - type: Armor
     modifiers:
       coefficients:
@@ -752,6 +751,7 @@
   - type: ClothingSpeedModifier
     walkModifier: 0.95 # DS14-value
     sprintModifier: 0.95 # DS14-value
+  - type: Tag
     tags:
     - Hardsuit
     - WhitelistChameleon
