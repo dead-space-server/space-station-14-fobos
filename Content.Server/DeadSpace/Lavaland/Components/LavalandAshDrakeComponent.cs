@@ -8,7 +8,16 @@ namespace Content.Server.DeadSpace.Lavaland.Components;
 public sealed partial class LavalandAshDrakeComponent : Component
 {
     [DataField]
-    public TimeSpan RangedCooldown = TimeSpan.FromSeconds(4.5);
+    public TimeSpan RangedCooldown = TimeSpan.FromSeconds(3.8);
+
+    [DataField]
+    public TimeSpan ForcePressureAfter = TimeSpan.FromSeconds(7);
+
+    [DataField]
+    public TimeSpan TargetSwitchCooldown = TimeSpan.FromSeconds(5);
+
+    [DataField]
+    public TimeSpan TargetPressureMemory = TimeSpan.FromSeconds(30);
 
     [DataField]
     public TimeSpan FireWallStepDelay = TimeSpan.FromSeconds(0.06);
@@ -20,7 +29,7 @@ public sealed partial class LavalandAshDrakeComponent : Component
     public TimeSpan SwoopWindup = TimeSpan.FromSeconds(0.7);
 
     [DataField]
-    public TimeSpan SwoopStepDelay = TimeSpan.FromSeconds(0.11);
+    public TimeSpan SwoopStepDelay = TimeSpan.FromSeconds(0.1);
 
     [DataField]
     public TimeSpan SwoopRecover = TimeSpan.FromSeconds(0.45);
@@ -35,16 +44,16 @@ public sealed partial class LavalandAshDrakeComponent : Component
     public int FireRainRadius = 9;
 
     [DataField]
-    public float FireRainTileChance = 0.11f;
+    public float FireRainTileChance = 0.14f;
 
     [DataField]
-    public int FireRainMaxTiles = 18;
+    public int FireRainMaxTiles = 24;
 
     [DataField]
-    public int SwoopSteps = 32;
+    public int SwoopSteps = 36;
 
     [DataField]
-    public int TripleSwoopSteps = 24;
+    public int TripleSwoopSteps = 28;
 
     [DataField]
     public int SwoopFireRainMaxTiles = 12;
@@ -115,6 +124,21 @@ public sealed partial class LavalandAshDrakeComponent : Component
 
     [ViewVariables]
     public TimeSpan BusyUntil;
+
+    [ViewVariables]
+    public TimeSpan LastPressureAt;
+
+    [ViewVariables]
+    public string LastAttackKind = string.Empty;
+
+    [ViewVariables]
+    public EntityUid? CurrentPrimaryTarget;
+
+    [ViewVariables]
+    public TimeSpan LastTargetSwitchAt;
+
+    [ViewVariables]
+    public readonly Dictionary<EntityUid, TimeSpan> LastPressureByTarget = new();
 
     [ViewVariables]
     public bool Swooping;

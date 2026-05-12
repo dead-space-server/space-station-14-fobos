@@ -8,16 +8,25 @@ namespace Content.Server.DeadSpace.Lavaland.Components;
 public sealed partial class LavalandHierophantComponent : Component
 {
     [DataField]
-    public TimeSpan RangedCooldown = TimeSpan.FromSeconds(4.5);
+    public TimeSpan RangedCooldown = TimeSpan.FromSeconds(3.8);
 
     [DataField]
-    public TimeSpan MajorAttackCooldown = TimeSpan.FromSeconds(8);
+    public TimeSpan MajorAttackCooldown = TimeSpan.FromSeconds(7);
 
     [DataField]
-    public TimeSpan ChaserCooldown = TimeSpan.FromSeconds(14);
+    public TimeSpan ChaserCooldown = TimeSpan.FromSeconds(10);
 
     [DataField]
-    public TimeSpan BlinkCooldown = TimeSpan.FromSeconds(7);
+    public TimeSpan BlinkCooldown = TimeSpan.FromSeconds(5.5);
+
+    [DataField]
+    public TimeSpan ForcePressureAfter = TimeSpan.FromSeconds(8);
+
+    [DataField]
+    public TimeSpan TargetSwitchCooldown = TimeSpan.FromSeconds(5);
+
+    [DataField]
+    public TimeSpan TargetPressureMemory = TimeSpan.FromSeconds(30);
 
     [DataField]
     public TimeSpan BlinkDelay = TimeSpan.FromSeconds(0.2);
@@ -32,10 +41,10 @@ public sealed partial class LavalandHierophantComponent : Component
     public TimeSpan BurstStepDelay = TimeSpan.FromSeconds(0.1);
 
     [DataField]
-    public TimeSpan ChaserStepDelay = TimeSpan.FromSeconds(0.4);
+    public TimeSpan ChaserStepDelay = TimeSpan.FromSeconds(0.36);
 
     [DataField]
-    public TimeSpan ChaserLifetime = TimeSpan.FromSeconds(6.5);
+    public TimeSpan ChaserLifetime = TimeSpan.FromSeconds(7);
 
     [DataField]
     public int BaseBurstRange = 3;
@@ -50,16 +59,16 @@ public sealed partial class LavalandHierophantComponent : Component
     public int ChaserRepathSteps = 4;
 
     [DataField]
-    public int ChaserSwarmCount = 2;
+    public int ChaserSwarmCount = 3;
 
     [DataField]
-    public int MaxActiveChasers = 2;
+    public int MaxActiveChasers = 3;
 
     [DataField]
-    public int MaxCrossSpamCount = 2;
+    public int MaxCrossSpamCount = 3;
 
     [DataField]
-    public int MaxBlinkSpamCount = 2;
+    public int MaxBlinkSpamCount = 3;
 
     [DataField]
     public int MaxBurstRange = 5;
@@ -68,7 +77,13 @@ public sealed partial class LavalandHierophantComponent : Component
     public int MaxBeamRange = 8;
 
     [DataField]
-    public float MajorAttackChancePerRage = 0.0025f;
+    public float BaseMajorAttackChance = 0.12f;
+
+    [DataField]
+    public float MajorAttackChancePerRage = 0.006f;
+
+    [DataField]
+    public int ForceMajorAfterBasicAttacks = 3;
 
     [DataField]
     public int MaxPendingBlasts = 140;
@@ -152,6 +167,24 @@ public sealed partial class LavalandHierophantComponent : Component
 
     [ViewVariables]
     public TimeSpan NextMovementTrail;
+
+    [ViewVariables]
+    public TimeSpan LastPressureAt;
+
+    [ViewVariables]
+    public int BasicAttacksSinceMajor;
+
+    [ViewVariables]
+    public string LastAttackKind = string.Empty;
+
+    [ViewVariables]
+    public EntityUid? CurrentPrimaryTarget;
+
+    [ViewVariables]
+    public TimeSpan LastTargetSwitchAt;
+
+    [ViewVariables]
+    public readonly Dictionary<EntityUid, TimeSpan> LastPressureByTarget = new();
 
     [ViewVariables]
     public readonly List<LavalandHierophantPendingBlast> PendingBlasts = new();

@@ -103,7 +103,7 @@ public sealed class LavalandHierophantSystem : EntitySystem
             ProcessPendingBlasts(uid, hierophant, arena.Grid, grid, now);
             ProcessChasers(uid, hierophant, arena, arena.Grid, grid, now);
 
-            var target = PickTarget(uid, arena.Grid, grid);
+            var target = PickTarget(hierophant, uid, arena.Grid, grid, now);
             if (target == null)
                 continue;
 
@@ -133,10 +133,14 @@ public sealed class LavalandHierophantSystem : EntitySystem
     {
         ClearRuntimeState(component);
         component.BusyUntil = TimeSpan.Zero;
-        component.NextAttack = _timing.CurTime + TimeSpan.FromSeconds(1);
-        component.NextChaser = _timing.CurTime;
-        component.NextBlink = _timing.CurTime + TimeSpan.FromSeconds(2);
-        component.NextMovementTrail = _timing.CurTime + component.MovementTrailInterval;
+        var now = _timing.CurTime;
+        component.NextAttack = now + TimeSpan.FromSeconds(1);
+        component.NextChaser = now;
+        component.NextBlink = now + TimeSpan.FromSeconds(2);
+        component.NextMovementTrail = now + component.MovementTrailInterval;
+        component.LastPressureAt = now;
+        component.BasicAttacksSinceMajor = 0;
+        component.LastAttackKind = string.Empty;
     }
 
     private void RunAttack(
@@ -160,11 +164,23 @@ public sealed class LavalandHierophantSystem : EntitySystem
         if (ChebyshevDistance(targetTile.Value, bossTile.Value) <= 2)
         {
             QueueBurst(hierophant, arena, gridUid, grid, bossTile.Value, burstRange, now, 0.25f);
+            MarkPressure(hierophant, now, "close-burst", false, target);
             hierophant.NextAttack = now + GetScaledCooldown(hierophant.RangedCooldown, rage);
             return;
         }
 
         var distance = ChebyshevDistance(targetTile.Value, bossTile.Value);
+        var forceMajor = NeedsPressure(hierophant, now) ||
+                         hierophant.BasicAttacksSinceMajor >= Math.Max(1, hierophant.ForceMajorAfterBasicAttacks);
+        var majorChance = Math.Clamp(hierophant.BaseMajorAttackChance + rage * hierophant.MajorAttackChancePerRage, 0f, 0.85f);
+
+        if ((forceMajor || _random.Prob(majorChance)) &&
+            TryRunMajorAttack(boss, hierophant, arena, gridUid, grid, target, rage, beamRange, now))
+        {
+            MarkPressure(hierophant, now, forceMajor ? "forced-major" : "major", true, target);
+            hierophant.NextAttack = now + GetScaledCooldown(hierophant.MajorAttackCooldown, rage);
+            return;
+        }
 
         if (distance > 2 &&
             hierophant.NextBlink <= now &&
@@ -172,13 +188,8 @@ public sealed class LavalandHierophantSystem : EntitySystem
         {
             QueueBlink(boss, hierophant, arena, gridUid, grid, bossTile.Value, targetTile.Value, now);
             hierophant.NextBlink = now + GetScaledCooldown(hierophant.BlinkCooldown, rage);
+            MarkPressure(hierophant, now, "blink", false, target);
             hierophant.NextAttack = now + GetScaledCooldown(hierophant.RangedCooldown, rage);
-            return;
-        }
-
-        if (_random.Prob(rage * hierophant.MajorAttackChancePerRage) && TryRunMajorAttack(boss, hierophant, arena, gridUid, grid, target, rage, beamRange, now))
-        {
-            hierophant.NextAttack = now + GetScaledCooldown(hierophant.MajorAttackCooldown, rage);
             return;
         }
 
@@ -191,10 +202,12 @@ public sealed class LavalandHierophantSystem : EntitySystem
                 (_random.Prob(rage * 0.006f) || distance <= 2) &&
                 _participants.Count > 1)
             {
-                var secondTarget = _random.Pick(_participants);
+                var secondTarget = PickSecondaryTarget(hierophant, target, gridUid, grid, now) ?? _random.Pick(_participants);
                 SpawnChaser(hierophant, arena, gridUid, grid, bossTile.Value, secondTarget, rage, now, _random.Pick(Cardinals));
+                MarkTargetPressure(hierophant, secondTarget, now);
             }
 
+            MarkPressure(hierophant, now, "chaser", false, target);
             hierophant.NextAttack = now + GetScaledCooldown(hierophant.RangedCooldown, rage);
             return;
         }
@@ -205,6 +218,7 @@ public sealed class LavalandHierophantSystem : EntitySystem
         {
             QueueBlink(boss, hierophant, arena, gridUid, grid, bossTile.Value, targetTile.Value, now);
             hierophant.NextBlink = now + GetScaledCooldown(hierophant.BlinkCooldown, rage);
+            MarkPressure(hierophant, now, "fallback-blink", false, target);
             hierophant.NextAttack = now + GetScaledCooldown(hierophant.RangedCooldown, rage);
             return;
         }
@@ -223,6 +237,7 @@ public sealed class LavalandHierophantSystem : EntitySystem
             QueueBurst(hierophant, arena, gridUid, grid, bossTile.Value, burstRange, now, 0.5f);
         }
 
+        MarkPressure(hierophant, now, "pattern", false, target);
         hierophant.NextAttack = now + GetScaledCooldown(hierophant.RangedCooldown, rage);
     }
 
@@ -268,7 +283,7 @@ public sealed class LavalandHierophantSystem : EntitySystem
                 QueueCrossSpam(hierophant, arena, gridUid, grid, target, Math.Max(2, crossCounter), beamRange, now);
                 return true;
             case "chaser_swarm":
-                QueueChaserSwarm(hierophant, arena, gridUid, grid, bossTile.Value, rage, now);
+                QueueChaserSwarm(hierophant, arena, gridUid, grid, bossTile.Value, target, rage, now);
                 hierophant.NextChaser = now + hierophant.ChaserCooldown;
                 return true;
         }
@@ -290,11 +305,14 @@ public sealed class LavalandHierophantSystem : EntitySystem
 
         for (var i = 0; i < count; i++)
         {
-            var tile = GetEntityTile(target, gridUid, grid);
+            var start = now + TimeSpan.FromSeconds(0.6 + i * 0.6);
+            var attackTarget = i > 0
+                ? PickSecondaryTarget(hierophant, target, gridUid, grid, start) ?? target
+                : target;
+            var tile = GetEntityTile(attackTarget, gridUid, grid);
             if (tile == null)
                 return;
 
-            var start = now + TimeSpan.FromSeconds(0.6 + i * 0.6);
             var origin = tile.Value;
             if (i > 0 && _random.Prob(0.65f))
                 origin = ClampToInnerArena(arena, origin + _random.Pick(Cardinals));
@@ -303,6 +321,8 @@ public sealed class LavalandHierophantSystem : EntitySystem
                 QueueCross(hierophant, arena, gridUid, grid, origin, Cardinals, hierophant.TelegraphCardinalPrototype, beamRange, start);
             else
                 QueueCross(hierophant, arena, gridUid, grid, origin, Diagonals, hierophant.TelegraphDiagonalPrototype, beamRange, start);
+
+            MarkTargetPressure(hierophant, attackTarget, start);
         }
     }
 
@@ -323,13 +343,17 @@ public sealed class LavalandHierophantSystem : EntitySystem
 
         for (var i = 0; i < count; i++)
         {
-            var targetTile = GetEntityTile(target, gridUid, grid);
+            var blinkTarget = i > 0
+                ? PickSecondaryTarget(hierophant, target, gridUid, grid, now + TimeSpan.FromSeconds(0.6 + i * 0.8)) ?? target
+                : target;
+            var targetTile = GetEntityTile(blinkTarget, gridUid, grid);
             if (targetTile == null)
                 return;
 
             var destination = targetTile.Value + (i == 0 ? Vector2i.Zero : _random.Pick(AllDirections));
             destination = ClampToInnerArena(arena, destination);
             QueueBlink(boss, hierophant, arena, gridUid, grid, source.Value, destination, now + TimeSpan.FromSeconds(0.6 + i * 0.8));
+            MarkTargetPressure(hierophant, blinkTarget, now + TimeSpan.FromSeconds(0.6 + i * 0.8));
             source = destination;
         }
     }
@@ -340,6 +364,7 @@ public sealed class LavalandHierophantSystem : EntitySystem
         EntityUid gridUid,
         MapGridComponent grid,
         Vector2i start,
+        EntityUid primaryTarget,
         float rage,
         TimeSpan now)
     {
@@ -353,12 +378,15 @@ public sealed class LavalandHierophantSystem : EntitySystem
 
         for (var i = 0; i < chaserCount && directions.Count > 0; i++)
         {
-            var target = _participants.Count == 0 ? EntityUid.Invalid : _random.Pick(_participants);
+            var target = i == 0
+                ? primaryTarget
+                : PickSecondaryTarget(hierophant, primaryTarget, gridUid, grid, now + TimeSpan.FromSeconds(0.6 + i * 0.8)) ?? _random.Pick(_participants);
             if (!target.Valid)
                 return;
 
             var dir = _random.PickAndTake(directions);
             SpawnChaser(hierophant, arena, gridUid, grid, start, target, rage, now + TimeSpan.FromSeconds(0.6 + i * 0.8), dir);
+            MarkTargetPressure(hierophant, target, now + TimeSpan.FromSeconds(0.6 + i * 0.8));
         }
     }
 
@@ -753,32 +781,141 @@ public sealed class LavalandHierophantSystem : EntitySystem
         return _participants.Count;
     }
 
-    private EntityUid? PickTarget(EntityUid boss, EntityUid gridUid, MapGridComponent grid)
+    private EntityUid? PickTarget(
+        LavalandHierophantComponent hierophant,
+        EntityUid boss,
+        EntityUid gridUid,
+        MapGridComponent grid,
+        TimeSpan now)
     {
         if (_participants.Count == 0)
             return null;
 
-        var bossTile = GetEntityTile(boss, gridUid, grid);
-        if (bossTile == null)
-            return _random.Pick(_participants);
+        PruneTargetMemory(hierophant);
 
-        EntityUid? nearest = null;
-        var nearestDistance = int.MaxValue;
+        if (_participants.Count == 1)
+        {
+            SetPrimaryTarget(hierophant, _participants[0], now);
+            return _participants[0];
+        }
+
+        if (hierophant.CurrentPrimaryTarget is { Valid: true } current &&
+            _participants.Contains(current) &&
+            now - hierophant.LastTargetSwitchAt < hierophant.TargetSwitchCooldown)
+        {
+            return current;
+        }
+
+        var bossTile = boss.Valid ? GetEntityTile(boss, gridUid, grid) : null;
+        EntityUid? best = null;
+        var bestScore = float.MinValue;
         foreach (var participant in _participants)
         {
             var tile = GetEntityTile(participant, gridUid, grid);
             if (tile == null)
                 continue;
 
-            var distance = ChebyshevDistance(bossTile.Value, tile.Value);
-            if (distance >= nearestDistance)
+            var score = ScoreTarget(hierophant, participant, bossTile, tile.Value, now, true);
+            if (score <= bestScore)
                 continue;
 
-            nearest = participant;
-            nearestDistance = distance;
+            best = participant;
+            bestScore = score;
         }
 
-        return nearest ?? _random.Pick(_participants);
+        if (best == null)
+            best = _random.Pick(_participants);
+
+        SetPrimaryTarget(hierophant, best.Value, now);
+        return best;
+    }
+
+    private EntityUid? PickSecondaryTarget(
+        LavalandHierophantComponent hierophant,
+        EntityUid excluded,
+        EntityUid gridUid,
+        MapGridComponent grid,
+        TimeSpan now)
+    {
+        if (_participants.Count <= 1)
+            return null;
+
+        PruneTargetMemory(hierophant);
+
+        EntityUid? best = null;
+        var bestScore = float.MinValue;
+        foreach (var participant in _participants)
+        {
+            if (participant == excluded)
+                continue;
+
+            var tile = GetEntityTile(participant, gridUid, grid);
+            if (tile == null)
+                continue;
+
+            var score = ScoreTarget(hierophant, participant, null, tile.Value, now, false);
+            if (score <= bestScore)
+                continue;
+
+            best = participant;
+            bestScore = score;
+        }
+
+        return best;
+    }
+
+    private float ScoreTarget(
+        LavalandHierophantComponent hierophant,
+        EntityUid target,
+        Vector2i? bossTile,
+        Vector2i targetTile,
+        TimeSpan now,
+        bool applyCurrentPenalty)
+    {
+        var safeSeconds = hierophant.TargetPressureMemory.TotalSeconds;
+        if (hierophant.LastPressureByTarget.TryGetValue(target, out var lastPressure))
+            safeSeconds = Math.Clamp((now - lastPressure).TotalSeconds, 0, hierophant.TargetPressureMemory.TotalSeconds);
+
+        var distancePenalty = bossTile == null
+            ? 0f
+            : ChebyshevDistance(bossTile.Value, targetTile) * 0.2f;
+        var score = (float) safeSeconds - distancePenalty + _random.NextFloat(0f, 1.5f);
+
+        if (applyCurrentPenalty &&
+            hierophant.CurrentPrimaryTarget == target &&
+            now - hierophant.LastTargetSwitchAt >= hierophant.TargetSwitchCooldown)
+        {
+            score -= 8f;
+        }
+
+        return score;
+    }
+
+    private void PruneTargetMemory(LavalandHierophantComponent hierophant)
+    {
+        if (hierophant.CurrentPrimaryTarget is { Valid: true } current &&
+            !_participants.Contains(current))
+        {
+            hierophant.CurrentPrimaryTarget = null;
+        }
+
+        if (hierophant.LastPressureByTarget.Count == 0)
+            return;
+
+        foreach (var target in new List<EntityUid>(hierophant.LastPressureByTarget.Keys))
+        {
+            if (!_participants.Contains(target))
+                hierophant.LastPressureByTarget.Remove(target);
+        }
+    }
+
+    private static void SetPrimaryTarget(LavalandHierophantComponent hierophant, EntityUid target, TimeSpan now)
+    {
+        if (hierophant.CurrentPrimaryTarget == target)
+            return;
+
+        hierophant.CurrentPrimaryTarget = target;
+        hierophant.LastTargetSwitchAt = now;
     }
 
     private float CalculateRage(EntityUid boss)
@@ -816,7 +953,7 @@ public sealed class LavalandHierophantSystem : EntitySystem
 
     private static TimeSpan GetScaledCooldown(TimeSpan baseCooldown, float rage)
     {
-        return TimeSpan.FromSeconds(Math.Max(1.8, baseCooldown.TotalSeconds - rage * 0.04));
+        return TimeSpan.FromSeconds(Math.Max(1.6, baseCooldown.TotalSeconds - rage * 0.045));
     }
 
     private Vector2i? GetEntityTile(EntityUid uid, EntityUid gridUid, MapGridComponent grid)
@@ -854,6 +991,33 @@ public sealed class LavalandHierophantSystem : EntitySystem
         hierophant.PendingBlasts.Clear();
         hierophant.PendingTeleports.Clear();
         hierophant.Chasers.Clear();
+        hierophant.CurrentPrimaryTarget = null;
+        hierophant.LastTargetSwitchAt = TimeSpan.Zero;
+        hierophant.LastPressureByTarget.Clear();
+    }
+
+    private static bool NeedsPressure(LavalandHierophantComponent hierophant, TimeSpan now)
+    {
+        return hierophant.LastPressureAt == TimeSpan.Zero ||
+               now - hierophant.LastPressureAt >= hierophant.ForcePressureAfter;
+    }
+
+    private static void MarkPressure(LavalandHierophantComponent hierophant, TimeSpan now, string attackKind, bool major, EntityUid target)
+    {
+        hierophant.LastPressureAt = now;
+        hierophant.LastAttackKind = attackKind;
+        MarkTargetPressure(hierophant, target, now);
+        hierophant.BasicAttacksSinceMajor = major
+            ? 0
+            : hierophant.BasicAttacksSinceMajor + 1;
+    }
+
+    private static void MarkTargetPressure(LavalandHierophantComponent hierophant, EntityUid target, TimeSpan now)
+    {
+        if (!target.Valid)
+            return;
+
+        hierophant.LastPressureByTarget[target] = now;
     }
 
     private static int ChebyshevDistance(Vector2i a, Vector2i b)

@@ -250,6 +250,14 @@
     thresholds:
       0: Alive
       2500: Dead
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTypeTrigger
+        damageType: Blunt
+        damage: 1000000
+      behaviors:
+      - !type:GibBehavior { }
   - type: LavalandBoss
     bossName: Иерофант
     maxHealth: 2500
@@ -268,9 +276,9 @@
       task: SimpleHostileCompound
     blackboard:
       VisionRadius: !type:Single
-        8
+        64
       AggroVisionRadius: !type:Single
-        24
+        64
       NavSmash: !type:Bool
         false
   - type: MeleeWeapon
@@ -284,8 +292,8 @@
         Blunt: 15
         Structural: 40
   - type: MovementSpeedModifier
-    baseWalkSpeed: 1.5
-    baseSprintSpeed: 2.4
+    baseWalkSpeed: 1.7
+    baseSprintSpeed: 2.7
   - type: Fixtures
     fixtures:
       fix1:
@@ -470,6 +478,14 @@
     thresholds:
       0: Alive
       2500: Dead
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTypeTrigger
+        damageType: Blunt
+        damage: 1000000
+      behaviors:
+      - !type:GibBehavior { }
   - type: LavalandBoss
     bossName: пепельный дракон
     maxHealth: 2500
@@ -490,9 +506,9 @@
       task: SimpleHostileCompound
     blackboard:
       VisionRadius: !type:Single
-        10
+        64
       AggroVisionRadius: !type:Single
-        28
+        64
       NavSmash: !type:Bool
         false
   - type: MeleeWeapon
@@ -506,8 +522,8 @@
         Slash: 40
         Structural: 40
   - type: MovementSpeedModifier
-    baseWalkSpeed: 1.5
-    baseSprintSpeed: 2.4
+    baseWalkSpeed: 1.7
+    baseSprintSpeed: 2.8
   - type: Fixtures
     fixtures:
       fix1:
@@ -801,6 +817,14 @@
     thresholds:
       0: Alive
       2500: Dead
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTypeTrigger
+        damageType: Blunt
+        damage: 1000000
+      behaviors:
+      - !type:GibBehavior { }
   - type: LavalandBoss
     bossName: баблгам
     maxHealth: 2500
@@ -820,9 +844,9 @@
       task: SimpleHostileCompound
     blackboard:
       VisionRadius: !type:Single
-        10
+        64
       AggroVisionRadius: !type:Single
-        30
+        64
       NavSmash: !type:Bool
         false
   - type: MeleeWeapon
@@ -836,8 +860,8 @@
         Slash: 40
         Structural: 40
   - type: MovementSpeedModifier
-    baseWalkSpeed: 1.6
-    baseSprintSpeed: 2.5
+    baseWalkSpeed: 1.8
+    baseSprintSpeed: 2.9
   - type: Fixtures
     fixtures:
       fix1:
@@ -892,9 +916,9 @@
       task: SimpleHostileCompound
     blackboard:
       VisionRadius: !type:Single
-        10
+        32
       AggroVisionRadius: !type:Single
-        12
+        32
       NavSmash: !type:Bool
         false
   - type: TimedDespawn

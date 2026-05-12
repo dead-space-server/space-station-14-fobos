@@ -96,7 +96,7 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
                 continue;
             }
 
-            var target = PickTarget(uid, arena.Grid, grid);
+            var target = PickTarget(drake, uid, arena.Grid, grid, now);
             if (target == null)
                 continue;
 
@@ -113,7 +113,10 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
     private void OnBossReset(EntityUid uid, LavalandAshDrakeComponent component, LavalandBossResetEvent args)
     {
         ClearRuntimeState(uid, component, true);
-        component.NextAttack = _timing.CurTime + TimeSpan.FromSeconds(1);
+        var now = _timing.CurTime;
+        component.NextAttack = now + TimeSpan.FromSeconds(1);
+        component.LastPressureAt = now;
+        component.LastAttackKind = string.Empty;
     }
 
     private void OnRefreshMovementSpeed(EntityUid uid, LavalandAshDrakeComponent component, RefreshMovementSpeedModifiersEvent args)
@@ -133,30 +136,79 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
     {
         var rage = CalculateRage(boss);
         var belowHalf = IsBelowHalfHealth(boss);
-
-        if (_random.Prob((15f + rage) / 100f))
+        var targetTile = GetEntityTile(target, gridUid, grid);
+        var bossTile = GetEntityTile(boss, gridUid, grid);
+        if (targetTile == null || bossTile == null)
         {
-            if (belowHalf)
-                StartSwoop(boss, drake, arena, gridUid, grid, target, drake.SwoopSteps, true, now, 0, true);
+            drake.NextAttack = now + TimeSpan.FromSeconds(0.5);
+            return;
+        }
+
+        var distance = ChebyshevDistance(bossTile.Value, targetTile.Value);
+        var targetNearEdge = IsNearInnerArenaEdge(arena, targetTile.Value, 5);
+        var targetFar = distance >= Math.Max(10, arena.Width / 4);
+        var forcePressure = NeedsPressure(drake, now);
+
+        if (forcePressure)
+        {
+            if (targetFar || belowHalf || _random.Prob(0.55f))
+            {
+                StartSwoop(boss, drake, arena, gridUid, grid, target, belowHalf ? drake.TripleSwoopSteps : drake.SwoopSteps, true, now, belowHalf ? 1 : 0, true);
+                MarkPressure(drake, now, "forced-swoop", target);
+            }
             else
-                QueueFireRain(drake, arena, gridUid, grid, target, now);
+            {
+                QueueFireRain(drake, arena, gridUid, grid, target, now, true);
+                MarkPressure(drake, now, "forced-fire-rain", target);
+            }
 
             drake.NextAttack = now + GetScaledCooldown(drake.RangedCooldown, rage);
             return;
         }
 
-        if (_random.Prob((10f + rage) / 100f))
+        if (targetFar || targetNearEdge)
+        {
+            if (_random.Prob(belowHalf ? 0.55f : 0.35f))
+            {
+                StartSwoop(boss, drake, arena, gridUid, grid, target, belowHalf ? drake.TripleSwoopSteps : drake.SwoopSteps, true, now, belowHalf ? 1 : 0, true);
+                MarkPressure(drake, now, targetNearEdge ? "edge-swoop" : "far-swoop", target);
+            }
+            else
+            {
+                QueueFireRain(drake, arena, gridUid, grid, target, now, true);
+                MarkPressure(drake, now, targetNearEdge ? "edge-fire-rain" : "far-fire-rain", target);
+            }
+
+            drake.NextAttack = now + GetScaledCooldown(drake.RangedCooldown, rage);
+            return;
+        }
+
+        if (_random.Prob((22f + rage * 1.1f) / 100f))
+        {
+            if (belowHalf)
+                StartSwoop(boss, drake, arena, gridUid, grid, target, drake.SwoopSteps, true, now, 0, true);
+            else
+                QueueFireRain(drake, arena, gridUid, grid, target, now, false);
+
+            MarkPressure(drake, now, belowHalf ? "swoop-fire-rain" : "fire-rain", target);
+            drake.NextAttack = now + GetScaledCooldown(drake.RangedCooldown, rage);
+            return;
+        }
+
+        if (_random.Prob((18f + rage) / 100f))
         {
             if (belowHalf)
                 StartSwoop(boss, drake, arena, gridUid, grid, target, drake.TripleSwoopSteps, false, now, 2, true);
             else
                 StartSwoop(boss, drake, arena, gridUid, grid, target, drake.SwoopSteps, false, now, 0, true);
 
+            MarkPressure(drake, now, belowHalf ? "triple-swoop" : "swoop", target);
             drake.NextAttack = now + GetScaledCooldown(drake.RangedCooldown, rage);
             return;
         }
 
         QueueFireWalls(boss, drake, arena, gridUid, grid, now);
+        MarkPressure(drake, now, "fire-walls", target);
         drake.NextAttack = now + GetScaledCooldown(drake.RangedCooldown, rage);
     }
 
@@ -209,7 +261,8 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
         EntityUid gridUid,
         MapGridComponent grid,
         EntityUid target,
-        TimeSpan now)
+        TimeSpan now,
+        bool focused)
     {
         var targetTile = GetEntityTile(target, gridUid, grid);
         if (targetTile == null)
@@ -218,7 +271,19 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
         var radius = Math.Max(0, drake.FireRainRadius);
         var chance = Math.Clamp(drake.FireRainTileChance, 0f, 1f);
         var maxTiles = Math.Max(0, drake.FireRainMaxTiles);
+        var priority = new List<Vector2i>();
         var candidates = new List<Vector2i>();
+
+        AddFireRainCandidate(priority, arena, targetTile.Value);
+        if (focused)
+        {
+            foreach (var direction in Cardinals)
+            {
+                AddFireRainCandidate(priority, arena, targetTile.Value + direction);
+                AddFireRainCandidate(priority, arena, targetTile.Value + direction * 2);
+            }
+        }
+
         for (var x = -radius; x <= radius; x++)
         {
             for (var y = -radius; y <= radius; y++)
@@ -226,7 +291,9 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
                 var tile = targetTile.Value + new Vector2i(x, y);
                 if (!IsInsideInnerArena(arena, tile) ||
                     ChebyshevDistance(targetTile.Value, tile) > radius ||
-                    !_random.Prob(chance))
+                    !_random.Prob(chance) ||
+                    priority.Contains(tile) ||
+                    candidates.Contains(tile))
                 {
                     continue;
                 }
@@ -235,16 +302,27 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
             }
         }
 
-        while (candidates.Count > maxTiles)
+        while (priority.Count + candidates.Count > maxTiles && candidates.Count > 0)
             candidates.RemoveAt(_random.Next(candidates.Count));
+
+        foreach (var tile in priority)
+            QueueFireRainTile(drake, gridUid, grid, tile, now);
 
         foreach (var tile in candidates)
             QueueFireRainTile(drake, gridUid, grid, tile, now);
 
-        if (candidates.Count > 0)
+        if (priority.Count > 0)
+            _audio.PlayPvs(drake.FireRainSound, _map.GridTileToLocal(gridUid, grid, priority[0]), AudioParams.Default.WithVolume(-1f));
+        else if (candidates.Count > 0)
             _audio.PlayPvs(drake.FireRainSound, _map.GridTileToLocal(gridUid, grid, candidates[0]), AudioParams.Default.WithVolume(-1f));
 
         drake.BusyUntil = now + drake.FireRainDelay + TimeSpan.FromSeconds(0.4);
+
+        static void AddFireRainCandidate(List<Vector2i> output, LavalandBossArenaComponent arena, Vector2i tile)
+        {
+            if (IsInsideInnerArena(arena, tile) && !output.Contains(tile))
+                output.Add(tile);
+        }
     }
 
     private void QueueFireRainTile(
@@ -379,7 +457,7 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
             return true;
         }
 
-        var targetTile = GetSwoopTargetTile(drake, arena, gridUid, grid) ?? currentTile.Value;
+        var targetTile = GetSwoopTargetTile(drake, arena, gridUid, grid, now) ?? currentTile.Value;
         if (currentTile.Value == targetTile || drake.SwoopRemainingSteps <= 0)
         {
             QueueSwoopImpact(boss, drake, gridUid, grid, now);
@@ -423,7 +501,7 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
         if (now < drake.NextQueuedSwoop)
             return true;
 
-        var target = PickTarget(boss, gridUid, grid);
+        var target = PickTarget(drake, boss, gridUid, grid, now);
         if (target == null)
         {
             drake.PendingSwoops = 0;
@@ -439,13 +517,14 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
         LavalandAshDrakeComponent drake,
         LavalandBossArenaComponent arena,
         EntityUid gridUid,
-        MapGridComponent grid)
+        MapGridComponent grid,
+        TimeSpan now)
     {
         if (drake.SwoopTarget is not { Valid: true } target ||
             !Exists(target) ||
             IsDead(target))
         {
-            var fallback = PickTarget(EntityUid.Invalid, gridUid, grid);
+            var fallback = PickTarget(drake, EntityUid.Invalid, gridUid, grid, now);
             if (fallback == null)
                 return null;
 
@@ -663,32 +742,107 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
         return _participants.Count;
     }
 
-    private EntityUid? PickTarget(EntityUid boss, EntityUid gridUid, MapGridComponent grid)
+    private EntityUid? PickTarget(
+        LavalandAshDrakeComponent drake,
+        EntityUid boss,
+        EntityUid gridUid,
+        MapGridComponent grid,
+        TimeSpan now)
     {
         if (_participants.Count == 0)
             return null;
 
-        var bossTile = boss.Valid ? GetEntityTile(boss, gridUid, grid) : null;
-        if (bossTile == null)
-            return _random.Pick(_participants);
+        PruneTargetMemory(drake);
 
-        EntityUid? nearest = null;
-        var nearestDistance = int.MaxValue;
+        if (_participants.Count == 1)
+        {
+            SetPrimaryTarget(drake, _participants[0], now);
+            return _participants[0];
+        }
+
+        if (drake.CurrentPrimaryTarget is { Valid: true } current &&
+            _participants.Contains(current) &&
+            now - drake.LastTargetSwitchAt < drake.TargetSwitchCooldown)
+        {
+            return current;
+        }
+
+        var bossTile = boss.Valid ? GetEntityTile(boss, gridUid, grid) : null;
+        EntityUid? best = null;
+        var bestScore = float.MinValue;
         foreach (var participant in _participants)
         {
             var tile = GetEntityTile(participant, gridUid, grid);
             if (tile == null)
                 continue;
 
-            var distance = ChebyshevDistance(bossTile.Value, tile.Value);
-            if (distance >= nearestDistance)
+            var score = ScoreTarget(drake, participant, bossTile, tile.Value, now, true);
+            if (score <= bestScore)
                 continue;
 
-            nearest = participant;
-            nearestDistance = distance;
+            best = participant;
+            bestScore = score;
         }
 
-        return nearest ?? _random.Pick(_participants);
+        if (best == null)
+            best = _random.Pick(_participants);
+
+        SetPrimaryTarget(drake, best.Value, now);
+        return best;
+    }
+
+    private float ScoreTarget(
+        LavalandAshDrakeComponent drake,
+        EntityUid target,
+        Vector2i? bossTile,
+        Vector2i targetTile,
+        TimeSpan now,
+        bool applyCurrentPenalty)
+    {
+        var safeSeconds = drake.TargetPressureMemory.TotalSeconds;
+        if (drake.LastPressureByTarget.TryGetValue(target, out var lastPressure))
+            safeSeconds = Math.Clamp((now - lastPressure).TotalSeconds, 0, drake.TargetPressureMemory.TotalSeconds);
+
+        var distancePenalty = bossTile == null
+            ? 0f
+            : ChebyshevDistance(bossTile.Value, targetTile) * 0.2f;
+        var score = (float) safeSeconds - distancePenalty + _random.NextFloat(0f, 1.5f);
+
+        if (applyCurrentPenalty &&
+            drake.CurrentPrimaryTarget == target &&
+            now - drake.LastTargetSwitchAt >= drake.TargetSwitchCooldown)
+        {
+            score -= 8f;
+        }
+
+        return score;
+    }
+
+    private void PruneTargetMemory(LavalandAshDrakeComponent drake)
+    {
+        if (drake.CurrentPrimaryTarget is { Valid: true } current &&
+            !_participants.Contains(current))
+        {
+            drake.CurrentPrimaryTarget = null;
+        }
+
+        if (drake.LastPressureByTarget.Count == 0)
+            return;
+
+        foreach (var target in new List<EntityUid>(drake.LastPressureByTarget.Keys))
+        {
+            if (!_participants.Contains(target))
+                drake.LastPressureByTarget.Remove(target);
+        }
+    }
+
+    private static void SetPrimaryTarget(LavalandAshDrakeComponent drake, EntityUid target, TimeSpan now)
+    {
+        if (drake.CurrentPrimaryTarget == target)
+            return;
+
+        drake.CurrentPrimaryTarget = target;
+        drake.LastTargetSwitchAt = now;
     }
 
     private float CalculateRage(EntityUid boss)
@@ -715,7 +869,7 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
 
     private static TimeSpan GetScaledCooldown(TimeSpan baseCooldown, float rage)
     {
-        return TimeSpan.FromSeconds(Math.Max(2.4, baseCooldown.TotalSeconds - rage * 0.035));
+        return TimeSpan.FromSeconds(Math.Max(2.1, baseCooldown.TotalSeconds - rage * 0.04));
     }
 
     private Vector2i? GetEntityTile(EntityUid uid, EntityUid gridUid, MapGridComponent grid)
@@ -756,6 +910,9 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
         drake.SwoopImpactAt = TimeSpan.Zero;
         drake.PendingSwoops = 0;
         drake.NextQueuedSwoop = TimeSpan.Zero;
+        drake.CurrentPrimaryTarget = null;
+        drake.LastTargetSwitchAt = TimeSpan.Zero;
+        drake.LastPressureByTarget.Clear();
 
         if (!Exists(uid))
             return;
@@ -764,6 +921,27 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
             SetVisual(uid, LavalandAshDrakeVisualState.Dragon);
 
         _movement.RefreshMovementSpeedModifiers(uid);
+    }
+
+    private static bool NeedsPressure(LavalandAshDrakeComponent drake, TimeSpan now)
+    {
+        return drake.LastPressureAt == TimeSpan.Zero ||
+               now - drake.LastPressureAt >= drake.ForcePressureAfter;
+    }
+
+    private static void MarkPressure(LavalandAshDrakeComponent drake, TimeSpan now, string attackKind, EntityUid target)
+    {
+        drake.LastPressureAt = now;
+        drake.LastAttackKind = attackKind;
+        MarkTargetPressure(drake, target, now);
+    }
+
+    private static void MarkTargetPressure(LavalandAshDrakeComponent drake, EntityUid target, TimeSpan now)
+    {
+        if (!target.Valid)
+            return;
+
+        drake.LastPressureByTarget[target] = now;
     }
 
     private void SetVisual(EntityUid uid, LavalandAshDrakeVisualState state)
@@ -788,6 +966,15 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
     {
         var (minX, maxX, minY, maxY) = GetInnerBounds(arena);
         return tile.X >= minX && tile.X <= maxX && tile.Y >= minY && tile.Y <= maxY;
+    }
+
+    private static bool IsNearInnerArenaEdge(LavalandBossArenaComponent arena, Vector2i tile, int distance)
+    {
+        var (minX, maxX, minY, maxY) = GetInnerBounds(arena);
+        return tile.X - minX <= distance ||
+               maxX - tile.X <= distance ||
+               tile.Y - minY <= distance ||
+               maxY - tile.Y <= distance;
     }
 
     private static Vector2i ClampToInnerArena(LavalandBossArenaComponent arena, Vector2i tile)

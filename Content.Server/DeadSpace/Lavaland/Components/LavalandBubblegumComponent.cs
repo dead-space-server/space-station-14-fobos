@@ -8,7 +8,16 @@ namespace Content.Server.DeadSpace.Lavaland.Components;
 public sealed partial class LavalandBubblegumComponent : Component
 {
     [DataField]
-    public TimeSpan RangedCooldown = TimeSpan.FromSeconds(4.8);
+    public TimeSpan RangedCooldown = TimeSpan.FromSeconds(4);
+
+    [DataField]
+    public TimeSpan ForcePressureAfter = TimeSpan.FromSeconds(7);
+
+    [DataField]
+    public TimeSpan TargetSwitchCooldown = TimeSpan.FromSeconds(5);
+
+    [DataField]
+    public TimeSpan TargetPressureMemory = TimeSpan.FromSeconds(30);
 
     [DataField]
     public TimeSpan BloodSmackDelay = TimeSpan.FromSeconds(0.35);
@@ -26,7 +35,7 @@ public sealed partial class LavalandBubblegumComponent : Component
     public TimeSpan ChargeWindup = TimeSpan.FromSeconds(0.45);
 
     [DataField]
-    public TimeSpan ChargeStepDelay = TimeSpan.FromSeconds(0.055);
+    public TimeSpan ChargeStepDelay = TimeSpan.FromSeconds(0.05);
 
     [DataField]
     public TimeSpan ChargeRecover = TimeSpan.FromSeconds(0.4);
@@ -35,10 +44,10 @@ public sealed partial class LavalandBubblegumComponent : Component
     public TimeSpan ChainedChargeDelay = TimeSpan.FromSeconds(0.3);
 
     [DataField]
-    public TimeSpan SummonCooldown = TimeSpan.FromSeconds(12);
+    public TimeSpan SummonCooldown = TimeSpan.FromSeconds(10);
 
     [DataField]
-    public int BloodSprayBaseRange = 6;
+    public int BloodSprayBaseRange = 8;
 
     [DataField]
     public float BloodSprayRageRangeMultiplier = 0.4f;
@@ -50,10 +59,10 @@ public sealed partial class LavalandBubblegumComponent : Component
     public int MaxPendingBloodTiles = 80;
 
     [DataField]
-    public int ChargeMaxSteps = 32;
+    public int ChargeMaxSteps = 36;
 
     [DataField]
-    public int TripleChargeSteps = 24;
+    public int TripleChargeSteps = 28;
 
     [DataField]
     public int MaxActiveSlaughterlings = 6;
@@ -147,6 +156,21 @@ public sealed partial class LavalandBubblegumComponent : Component
 
     [ViewVariables]
     public TimeSpan NextSummon;
+
+    [ViewVariables]
+    public TimeSpan LastPressureAt;
+
+    [ViewVariables]
+    public string LastAttackKind = string.Empty;
+
+    [ViewVariables]
+    public EntityUid? CurrentPrimaryTarget;
+
+    [ViewVariables]
+    public TimeSpan LastTargetSwitchAt;
+
+    [ViewVariables]
+    public readonly Dictionary<EntityUid, TimeSpan> LastPressureByTarget = new();
 
     [ViewVariables]
     public bool Charging;
