@@ -36,7 +36,7 @@
   parent: Jug
   id: JugTheCircle
   name: крепкий кувшин
-  description: Крепкий кувшин, что вмещает чуть больше, нежели обычный кувшин. Сделан специально для бойцов Круга.
+  description: Крепкий кувшин, что вмещает чуть больше, нежели обычный.
   components:
     - type: Sprite
       sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/jug.rsi
@@ -107,7 +107,7 @@
   parent: Paper
   id: TheCircleMedicPaper
   name: инструкция медика "Круг"
-  description: Лист бумаги, на котором указаны пропорции варки новых химикатов и способ их использования.
+  description: Лист бумаги, на котором указаны пропорции варки новых химикатов и способы их использования.
   components:
   - type: Paper
     content: paper-medic-circle

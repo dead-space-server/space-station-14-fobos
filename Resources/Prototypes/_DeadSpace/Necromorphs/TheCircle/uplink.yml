@@ -594,7 +594,7 @@
 - type: listing
   id: UniPhoneInfectionDeadList
   name: Экстракт заразителя
-  description: Шприц с экстрактом заразителя на 15 едениц.
+  description: Шприц с экстрактом заразителя на 15 единиц.
   icon: { sprite: Objects/Specific/Chemistry/syringe.rsi, state: syringe1 }
   productEntity: SyringeExtractInfectorDead
   cost:

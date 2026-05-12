@@ -87,7 +87,7 @@
   parent: BaseItem
   id: BaseMagRifleZastaba
   name: ZASTABA 30 GEN M4
-  description: Вмещает всего 30 патронов 5.7х39 мм калибра.
+  description: Вмещает 30 патронов 5.7х39 мм калибра.
   abstract: true
   components:
   - type: Tag
