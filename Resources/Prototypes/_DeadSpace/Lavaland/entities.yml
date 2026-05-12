@@ -114,6 +114,7 @@
     - LavalandMiningUtility
     - LavalandMiningMedical
     - LavalandMiningDetails
+    - LavalandMiningCash
     currencyWhitelist:
     - LavalandMiningPoint
     balance:

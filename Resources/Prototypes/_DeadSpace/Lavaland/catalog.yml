@@ -179,6 +179,22 @@
     LavalandMiningPoint: 1750
 
 - type: listing
+  id: LavalandMiningWeaponMagmiteCrusher
+  productEntity: WeaponMagmiteCrusher
+  categories:
+  - LavalandMiningTools
+  cost:
+    LavalandMiningPoint: 1750
+
+- type: listing
+  id: LavalandMiningWeaponMagmiteCrusherGlaive
+  productEntity: WeaponMagmiteCrusherGlaive
+  categories:
+  - LavalandMiningTools
+  cost:
+    LavalandMiningPoint: 1750
+
+- type: listing
   id: LavalandMiningPKAUpgradeDamage
   productEntity: PKAUpgradeDamage
   categories:
@@ -364,6 +380,52 @@
   cost:
     LavalandMiningPoint: 650
 
+# Бабки
+
+- type: listing
+  id: LavalandMiningSpaceCash1000
+  productEntity: SpaceCash1000
+  name: 1000 кредитов
+  categories:
+  - LavalandMiningCash
+  cost:
+    LavalandMiningPoint: 75
+
+- type: listing
+  id: LavalandMiningSpaceCash2500
+  productEntity: SpaceCash2500
+  name: 2500 кредитов
+  categories:
+  - LavalandMiningCash
+  cost:
+    LavalandMiningPoint: 150
+
+- type: listing
+  id: LavalandMiningSpaceCash5000
+  productEntity: SpaceCash5000
+  name: 5000 кредитов
+  categories:
+  - LavalandMiningCash
+  cost:
+    LavalandMiningPoint: 225
+
+- type: listing
+  id: LavalandMiningSpaceCash10000
+  productEntity: SpaceCash10000
+  name: 10000 кредитов
+  categories:
+  - LavalandMiningCash
+  cost:
+    LavalandMiningPoint: 525
+
+- type: listing
+  id: LavalandMiningSpaceCash20000
+  productEntity: SpaceCash20000
+  name: 20000 кредитов
+  categories:
+  - LavalandMiningCash
+  cost:
+    LavalandMiningPoint: 675
 # Медицина
 
 - type: listing

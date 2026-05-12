@@ -143,6 +143,11 @@
   priority: 6
 
 - type: storeCategory
+  id: LavalandMiningCash
+  name: store-category-lavaland-mining-cash
+  priority: 7
+
+- type: storeCategory
   id: LavalandMiningContraband
   name: store-category-lavaland-mining-contraband
   priority: 10

@@ -241,7 +241,7 @@
   name: магмитовый протокинетический ускоритель
   id: WeaponMagmiteAccelerator
   parent: WeaponProtoKineticAcceleratorBase
-  description: Очень тяжелый и горячий. Имеет низкую скорость стрельбы, но высокую убойность.
+  description: Очень горячий. Имеет низкую скорость стрельбы, но высокую убойность.
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Basic/magmite.rsi
@@ -262,6 +262,3 @@
   - type: BasicEntityAmmoProvider
     proto: BulletKineticMagmite
   - type: HeldSpeedModifier
-  - type: ClothingSpeedModifier
-    walkModifier: 0.9
-    sprintModifier: 0.9

@@ -241,6 +241,8 @@
   suffix: Lavaland, Boss
   categories: [ HideSpawnMenu ]
   components:
+  - type: StaminaResistance
+    damageCoefficient: 0.1
   - type: Sprite
     drawdepth: Mobs
     sprite: _DeadSpace/Lavaland/Mobs/Hierophant.rsi
@@ -459,6 +461,8 @@
   suffix: Lavaland, Boss
   categories: [ HideSpawnMenu ]
   components:
+  - type: StaminaResistance
+    damageCoefficient: 0.1
   - type: Sprite
     drawdepth: Mobs
     sprite: _DeadSpace/Lavaland/Mobs/AshDrake.rsi
@@ -702,7 +706,6 @@
     color: "#ff1f1f"
     layers:
     - state: landing
-      shader: unshaded
   - type: TimedDespawn
     lifetime: 0.9
   - type: PointLight
@@ -721,7 +724,7 @@
     sprite: _DeadSpace/Lavaland/Effects/BubblegumHands.rsi
     layers:
     - state: rightsmack
-      shader: unshaded
+
   - type: TimedDespawn
     lifetime: 1.1
 
@@ -736,7 +739,6 @@
     sprite: _DeadSpace/Lavaland/Effects/BubblegumHands.rsi
     layers:
     - state: leftsmack
-      shader: unshaded
   - type: TimedDespawn
     lifetime: 1.1
 
@@ -751,7 +753,6 @@
     sprite: _DeadSpace/Lavaland/Effects/BubblegumHands.rsi
     layers:
     - state: rightpawgrab
-      shader: unshaded
   - type: TimedDespawn
     lifetime: 1.2
 
@@ -766,7 +767,6 @@
     sprite: _DeadSpace/Lavaland/Effects/BubblegumHands.rsi
     layers:
     - state: leftpawgrab
-      shader: unshaded
   - type: TimedDespawn
     lifetime: 1.2
 
@@ -781,7 +781,6 @@
     sprite: _DeadSpace/Lavaland/Effects/BubblegumHands.rsi
     layers:
     - state: rightthumbgrab
-      shader: unshaded
   - type: TimedDespawn
     lifetime: 1.2
 
@@ -808,6 +807,8 @@
   suffix: Lavaland, Boss
   categories: [ HideSpawnMenu ]
   components:
+  - type: StaminaResistance
+    damageCoefficient: 0.1
   - type: Sprite
     drawdepth: Mobs
     sprite: _DeadSpace/Lavaland/Mobs/Bubblegum.rsi
