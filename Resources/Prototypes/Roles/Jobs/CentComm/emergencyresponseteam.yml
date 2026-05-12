@@ -349,44 +349,6 @@
 #     - SheetSteel
 #     - SheetGlass
 
-- type: startingGear
-  id: ERTEngineerGearEVA
-  equipment:
-    jumpsuit: ClothingUniformJumpsuitERTEngineer
-    back: ClothingBackpackERTEngineer
-    shoes: ClothingShoesBootsMagERT
-    mask: ClothingMaskGasERT
-    eyes: ClothingEyesHudDiagnostic
-    gloves: ClothingHandsGlovesCombat
-    outerClothing: ClothingOuterHardsuitERTEngineer
-    id: ERTEngineerPDA
-    ears: ClothingHeadsetAltCentCom
-    belt: ClothingBeltMilitaryWebbingERT
-    pocket2: CombatKnife
-  storage:
-    back:
-    - RCD
-    - GasAnalyzer
-    - trayScanner
-    - HolofanProjector
-    - PartRodMetal
-    - SheetPlasteel # End of first line
-    - MiningDrillDiamond
-    - RCDAmmo
-    - RCDAmmo
-    - RCDAmmo
-    - RCDAmmo
-    - MetalFoamGrenade
-    - AirGrenade
-    belt:
-    - JawsOfLife
-    - PowerDrill
-    - WelderIndustrialAdvanced
-    - Multitool
-    - WeaponPistolMk58
-    - MagazinePistol
-    - EmergencyMedipen
-
 # - type: chameleonOutfit
 #   id: ERTEngineerChameleonOutfit
 #   job: ERTEngineer
