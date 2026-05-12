@@ -72,7 +72,6 @@
     layers:
       - state: box
       - state: flashbang
-
 # DS14-End
 
 - type: entity
