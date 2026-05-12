@@ -196,7 +196,6 @@
 
 # DS14-start
 - type: startingGear
-  parent: ERTChaplainGearEVA
   id: ERTChaplainGear
   equipment:
     jumpsuit: ClothingUniformJumpsuitERTChaplain
@@ -233,32 +232,6 @@
     - Censer
     belt: []
 # DS14-end
-
-- type: startingGear
-  id: ERTChaplainGearEVA
-  equipment:
-    jumpsuit: ClothingUniformJumpsuitERTChaplain
-    back: ClothingBackpackERTChaplain
-    shoes: ClothingShoesBootsMagERT
-    mask: ClothingMaskGasERT
-    eyes: ClothingEyesHudMedical
-    gloves: ClothingHandsGlovesCombat
-    outerClothing: ClothingOuterHardsuitERTChaplain
-    id: ERTChaplainPDA
-    ears: ClothingHeadsetAltCentCom
-    belt: ClothingBeltMilitaryWebbingERT
-    pocket1: Bible
-    pocket2: FlippoEngravedLighter
-  storage:
-    back:
-    - BoxCandle
-    - BodyBagFolded
-    - BodyBagFolded
-    - FoodBakedBunHotX
-    - FoodBakedBunHotX
-    belt:
-    - WeaponPistolMk58
-    - MagazinePistol
 
 # - type: startingGear
 #   id: ERTChaplainGearEVA
