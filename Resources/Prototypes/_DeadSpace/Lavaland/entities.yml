@@ -61,7 +61,7 @@
 - type: entity
   parent: BaseMachinePowered
   id: LavalandMiningShop
-  name: утильмаг Лаваленда
+  name: продвинутый Утильмаг
   description: Тут всё самое вкусное!
   placement:
     mode: SnapgridCenter

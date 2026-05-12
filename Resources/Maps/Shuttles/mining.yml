@@ -2442,7 +2442,7 @@ entities:
     - type: Transform
       pos: -0.52087,-2.3066819
       parent: 1
-- proto: VendingMachineSalvage
+- proto: LavalandMiningShop
   entities:
   - uid: 144
     components:
