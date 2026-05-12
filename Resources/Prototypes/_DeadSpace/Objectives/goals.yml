@@ -100,8 +100,14 @@
   text: "/Paperwork/StationGoal/MilitaryShuttle.xml"
   modifyStationBalance: 30000
   extraStamps:
-  - stampedName: Департамент Вооруженных Сил NanoTrasen
+  - stampedName: "Г.В.С"
     stampedColor: "#505050"
+    stampState: "paper_stamp-greytide"
+    stampPatternTexture: "/Textures/Interface/Stamps/deparmforce_print_pattern.png"
+    stampScale: 1
+    stampMainText: "Г.В.С"
+    stampTextMaxScale: 0.85
+    stampCanRotate: false
   - stampedName: stamp-component-stamped-name-centcom
     stampTexture: /Textures/Interface/Stamps/centralcommand_print.png
     stampedColor: "#006600"
@@ -111,8 +117,14 @@
   text: "/Paperwork/StationGoal/OrbitalBunker.xml"
   modifyStationBalance: 30000
   extraStamps:
-    - stampedName: Департамент Вооруженных Сил NanoTrasen
+    - stampedName: "Г.В.С"
       stampedColor: "#505050"
+      stampState: "paper_stamp-greytide"
+      stampPatternTexture: "/Textures/Interface/Stamps/deparmforce_print_pattern.png"
+      stampScale: 1
+      stampMainText: "Г.В.С"
+      stampTextMaxScale: 0.85
+      stampCanRotate: false
     - stampedName: stamp-component-stamped-name-centcom
       stampTexture: /Textures/Interface/Stamps/centralcommand_print.png
       stampedColor: "#006600"
