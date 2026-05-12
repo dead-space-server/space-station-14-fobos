@@ -350,15 +350,6 @@
 #     - SheetGlass
 
 - type: startingGear
-  parent: ERTEngineerGearEVA
-  id: ERTEngineerGear
-  equipment:
-    shoes: ClothingShoesBootsJackFilled
-    head: ClothingHeadHelmetERTEngineer
-    outerClothing: ClothingOuterArmorBasic
-    pocket2: FlashlightSeclite
-
-- type: startingGear
   id: ERTEngineerGearEVA
   equipment:
     jumpsuit: ClothingUniformJumpsuitERTEngineer
