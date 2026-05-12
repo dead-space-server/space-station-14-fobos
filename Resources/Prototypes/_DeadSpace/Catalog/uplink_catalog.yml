@@ -735,3 +735,38 @@
     Telecrystal: 3
   categories:
   - UplinkWearables
+
+- type: listing
+  id: UplinkThermalVisorNuke
+  name: uplink-thermal-visor-name
+  description: uplink-thermal-visor-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Eyes/Hud/thermal.rsi, state: icon }
+  productEntity: ClothingEyesGlassesThermalVisor
+  cost:
+    Telecrystal: 10
+  categories:
+  - UplinkWearables
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkThermalVisor
+  name: uplink-thermal-visor-name
+  description: uplink-thermal-visor-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Eyes/Hud/thermal.rsi, state: icon }
+  productEntity: ClothingEyesGlassesThermalVisor
+  discountCategory: rareDiscounts
+  discountDownTo:
+    Telecrystal: 3
+  cost:
+    Telecrystal: 4
+  categories:
+  - UplinkWearables
+  conditions:
+  - !type:StoreWhitelistCondition
+    blacklist:
+      tags:
+      - NukeOpsUplink
