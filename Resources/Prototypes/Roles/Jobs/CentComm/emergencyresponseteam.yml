@@ -387,26 +387,6 @@
     - MagazinePistol
     - EmergencyMedipen
 
-- type: startingGear
-  parent: ERTEngineerGearEVA
-  id: ERTEngineerGearArmed
-  equipment:
-    suitstorage: WeaponShotgunEnforcer
-  storage:
-    back:
-    - RCD
-    - GasAnalyzer
-    - HolofanProjector
-    - MiningDrillDiamond
-    - BoxLethalshot
-    - BoxShotgunSlug # End of first line
-    - RCDAmmo
-    - RCDAmmo
-    - RCDAmmo
-    - RCDAmmo
-    - CableDetStack
-    - BoxDetonator
-
 # - type: chameleonOutfit
 #   id: ERTEngineerChameleonOutfit
 #   job: ERTEngineer
