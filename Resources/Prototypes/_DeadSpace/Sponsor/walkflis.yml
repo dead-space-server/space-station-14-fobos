@@ -29,7 +29,7 @@
     - id: HolofanProjectorwalkflis
     - id: PaperwalkflisUSSP
     - id: Paperwalkflis
-    # - id: PlushieWalkflis
+    - id: PlushieWalkflis
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -568,6 +568,6 @@
     sprite: _DeadSpace/Sponsor/walkflis/toy.rsi
     state: icon
   - type: TTS
-    voice: Vor
+    voice: Janna
   - type: SpeakOnTrigger
     pack: PlushieWalkflisSpeech

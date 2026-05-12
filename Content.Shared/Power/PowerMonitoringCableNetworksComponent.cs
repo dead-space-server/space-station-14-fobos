@@ -19,6 +19,14 @@ public sealed partial class PowerMonitoringCableNetworksComponent : Component
     /// </summary>
     [ViewVariables, AutoNetworkedField]
     public Dictionary<Vector2i, PowerCableChunk> FocusChunks = new();
+
+    // DS14-start
+    /// <summary>
+    /// A dictionary of the nav map chunks that contain broken anchored power cables.
+    /// </summary>
+    [ViewVariables, AutoNetworkedField]
+    public Dictionary<Vector2i, PowerCableChunk> BrokenChunks = new();
+    // DS14-end
 }
 
 [Serializable, NetSerializable]

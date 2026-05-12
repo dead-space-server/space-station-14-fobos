@@ -31,7 +31,10 @@ using Content.Shared.Weapons.Melee;
 using Content.Shared.Prying.Components;
 using Content.Shared.Traits.Assorted;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Prototypes;
+using Content.Shared.NPC.Components;
+using Content.Shared.Speech.Components;
 using System.Numerics;
+using System.Linq;
 using Robust.Server.GameObjects;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Collision.Shapes;
@@ -282,6 +285,23 @@ public sealed partial class NecromorfSystem
         if (TryComp<DamageableComponent>(target, out var damageablecomp))
             _damageable.SetAllDamage(target, 0);
         _mobState.ChangeMobState(target, MobState.Alive);
+
+        if (TryComp<NpcFactionMemberComponent>(target, out var factionComp))
+        {
+            necromorfComp.BeforeNecroficationFactions =
+                factionComp.Factions.ToHashSet();
+        }
+
+        if (TryComp<VocalComponent>(target, out var vocalComp))
+        {
+            necromorfComp.BeforeNecroficationHadVocal = true;
+            necromorfComp.BeforeNecroficationVocalSounds = vocalComp.Sounds is null
+                ? null
+                : new(vocalComp.Sounds);
+            necromorfComp.BeforeNecroficationScreamId = vocalComp.ScreamId;
+            necromorfComp.BeforeNecroficationWilhelm = vocalComp.Wilhelm;
+            necromorfComp.BeforeNecroficationWilhelmProbability = vocalComp.WilhelmProbability;
+        }
 
         _faction.ClearFactions(target, dirty: false);
         _faction.AddFaction(target, NecromorfsFaction);

@@ -3,6 +3,7 @@
 using Content.Shared.Actions;
 using Content.Shared.DeadSpace.Demons.Shadowling;
 using Content.Shared.Stunnable;
+using Content.Shared.Humanoid;
 using Content.Server.Chat.Systems;
 using Content.Shared.Chat;
 
@@ -30,9 +31,14 @@ public sealed class ShadowlingBlinkSystem : EntitySystem
     {
         if (args.Handled) return;
 
+        var target = args.Target;
+
+        if (!HasComp<HumanoidAppearanceComponent>(target))
+            return;
+
         _chat.TrySendInGameICMessage(uid, "кричит!", InGameICChatType.Emote, ChatTransmitRange.Normal);
 
-        _stun.TryUpdateParalyzeDuration(args.Target, TimeSpan.FromSeconds(component.StunDuration));
+        _stun.TryUpdateParalyzeDuration(target, TimeSpan.FromSeconds(component.StunDuration));
 
         args.Handled = true;
     }

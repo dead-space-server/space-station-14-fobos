@@ -28,7 +28,7 @@
   components:
   - type: Action
     icon: _DeadSpace/Demons/ability_icons/shadowling_recruit_action.png
-    useDelay: 20
+    useDelay: 10
     itemIconStyle: NoItem
   - type: TargetAction
     range: 1

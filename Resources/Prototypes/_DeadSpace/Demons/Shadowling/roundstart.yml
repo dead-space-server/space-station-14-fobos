@@ -3,7 +3,7 @@
   parent: BaseGameRule
   components:
   - type: GameRule
-    minPlayers: 45
+    minPlayers: 55
   - type: ShadowlingRule
   - type: AntagSelection
     selectionTime: IntraPlayerSpawn
