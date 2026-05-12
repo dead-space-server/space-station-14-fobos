@@ -281,3 +281,19 @@
   - ShuttleGunDusterCircuitboard
   technologyPrerequisites:
   - BasicShuttleArmament
+
+# DS14-start
+- type: technology
+  id: SecurityBorgModules
+  name: research-technology-security-borg-modules
+  icon:
+    sprite: _DeadSpace/SecurityBorg/borg_module_sec.rsi
+    state: security
+  discipline: Arsenal
+  tier: 3
+  cost: 15000
+  recipeUnlocks:
+  - BorgModuleSecurityFirearms
+  - BorgModuleSecurityJump
+  - BorgModuleSecurityEmergency
+# DS14-end
