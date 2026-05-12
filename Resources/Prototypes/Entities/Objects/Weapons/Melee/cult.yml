@@ -21,6 +21,8 @@
     slots:
     - back
   - type: DisarmMalus
+  - type: Execution # DS-14
+    doAfterDuration: 4.0
 
 - type: entity
   name: eldritch blade

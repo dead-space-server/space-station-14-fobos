@@ -2,8 +2,8 @@
   id: BriefcaseKitchenKnife
   parent: [ BaseStorageItem, BaseBagOpenClose ]
   name: кейс для именных ножей
-  suffix: заполненный
-  description: Кейс ножей с именем местного повара. Он явно что то умеет.
+  suffix: Заполненный
+  description: Кейс ножей с именем местного повара. Он явно что-то умеет.
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Storage/briefcase_kirchen_knife.rsi
@@ -45,12 +45,12 @@
       - Knife
   - type: StorageFill
     contents:
-    - id: NameKitchenKnife
-    - id: NameButcherKnife
-    - id: NameFileKnife
-    - id: NameVegetableKnife
-    - id: NameChefKnife
-    - id: NameBredKnife
+    - id: PersonalKitchenKnife
+    - id: PersonalButcherKnife
+    - id: PersonalFilletKnife
+    - id: PersonalVegetableKnife
+    - id: PersonalChefKnife
+    - id: PersonalBreadKnife
   - type: ItemCounter
     count:
       tags: [Knife]
