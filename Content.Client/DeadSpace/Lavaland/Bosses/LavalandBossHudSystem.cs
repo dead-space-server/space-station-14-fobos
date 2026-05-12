@@ -1,4 +1,5 @@
 using System.Numerics;
+using Content.Client.Audio;
 using Content.Client.UserInterface.Controls;
 using Content.Client.Viewport;
 using Content.Shared.DeadSpace.CCCCVars;
@@ -18,8 +19,11 @@ public sealed class LavalandBossHudSystem : EntitySystem
 {
     private const float HudTopMargin = 14f;
     private const float BossMusicMutedVolumeOffset = -32f;
+    private const float BossMusicFadeInDuration = 1.75f;
+    private const float BossMusicFadeOutDuration = 2.5f;
 
     [Dependency] private readonly AudioSystem _audio = default!;
+    [Dependency] private readonly ContentAudioSystem _contentAudio = default!;
     [Dependency] private readonly IConfigurationManager _cfg = default!;
     [Dependency] private readonly IUserInterfaceManager _ui = default!;
 
@@ -89,11 +93,14 @@ public sealed class LavalandBossHudSystem : EntitySystem
         if (_activeArena != null && _activeArena != ev.ArenaId)
             return;
 
+        if (_musicStream != null && _activeArena == ev.ArenaId)
+            return;
+
         _activeArena ??= ev.ArenaId;
         _musicSpecifier = ev.Specifier;
         _musicBaseParams = (ev.AudioParams ?? AudioParams.Default).WithLoop(true);
 
-        StopMusic();
+        FadeOutCurrentMusic(false);
         TryStartMusic();
     }
 
@@ -102,7 +109,7 @@ public sealed class LavalandBossHudSystem : EntitySystem
         if (_activeArena != null && _activeArena != ev.ArenaId)
             return;
 
-        ClearMusic();
+        FadeOutCurrentMusic(true);
     }
 
     private void OnRoundRestart(RoundRestartCleanupEvent ev)
@@ -179,14 +186,21 @@ public sealed class LavalandBossHudSystem : EntitySystem
         _activeArena = null;
     }
 
-    private void StopMusic()
-    {
-        _musicStream = _audio.Stop(_musicStream);
-    }
-
     private void ClearMusic()
     {
-        StopMusic();
+        FadeOutCurrentMusic(true);
+    }
+
+    private void FadeOutCurrentMusic(bool clearMusicData)
+    {
+        if (_musicStream != null)
+            _contentAudio.FadeOut(_musicStream, duration: BossMusicFadeOutDuration);
+
+        _musicStream = null;
+
+        if (!clearMusicData)
+            return;
+
         _musicSpecifier = null;
         _musicBaseParams = null;
     }
@@ -200,7 +214,11 @@ public sealed class LavalandBossHudSystem : EntitySystem
             return;
         }
 
-        _musicStream = _audio.PlayGlobal(_musicSpecifier, Filter.Local(), false, CreateBossMusicParams())?.Entity;
+        var stream = _audio.PlayGlobal(_musicSpecifier, Filter.Local(), false, CreateBossMusicParams());
+        _musicStream = stream?.Entity;
+
+        if (stream != null)
+            _contentAudio.FadeIn(_musicStream, stream.Value.Component, BossMusicFadeInDuration);
     }
 
     private void ApplyMusicVolume()
@@ -227,7 +245,7 @@ public sealed class LavalandBossHudSystem : EntitySystem
         if (enabled)
             TryStartMusic();
         else
-            StopMusic();
+            FadeOutCurrentMusic(false);
     }
 
     private void OnBossMusicVolumeChanged(float volume)

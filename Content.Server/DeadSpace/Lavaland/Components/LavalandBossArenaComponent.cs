@@ -34,6 +34,9 @@ public sealed partial class LavalandBossArenaComponent : Component
     public float MaxHealth = 1000f;
 
     [ViewVariables]
+    public float FightStartDistance = 8f;
+
+    [ViewVariables]
     public readonly HashSet<NetUserId> Participants = new();
 
     [ViewVariables]
@@ -44,6 +47,12 @@ public sealed partial class LavalandBossArenaComponent : Component
 
     [ViewVariables]
     public TimeSpan NextHudUpdate;
+
+    [ViewVariables]
+    public TimeSpan NextBossLeashCheck;
+
+    [ViewVariables]
+    public TimeSpan? BossOutsideArenaSince;
 
     [ViewVariables]
     public TimeSpan? EmptySince;
@@ -74,6 +83,9 @@ public sealed partial class LavalandBossArenaComponent : Component
 
     [ViewVariables]
     public bool ReturnParticipantsOnDelete;
+
+    [ViewVariables]
+    public bool FightStarted;
 
     [ViewVariables]
     public bool Ended;

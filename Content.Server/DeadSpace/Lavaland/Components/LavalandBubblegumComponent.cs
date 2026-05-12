@@ -8,7 +8,7 @@ namespace Content.Server.DeadSpace.Lavaland.Components;
 public sealed partial class LavalandBubblegumComponent : Component
 {
     [DataField]
-    public TimeSpan RangedCooldown = TimeSpan.FromSeconds(4);
+    public TimeSpan RangedCooldown = TimeSpan.FromSeconds(3.4);
 
     [DataField]
     public TimeSpan ForcePressureAfter = TimeSpan.FromSeconds(7);
@@ -27,6 +27,12 @@ public sealed partial class LavalandBubblegumComponent : Component
 
     [DataField]
     public TimeSpan BloodWarpDelay = TimeSpan.FromSeconds(0.35);
+
+    [DataField]
+    public TimeSpan BloodHandRecover = TimeSpan.FromSeconds(0.45);
+
+    [DataField]
+    public TimeSpan BloodReactionCooldown = TimeSpan.FromSeconds(2.25);
 
     [DataField]
     public TimeSpan BloodSprayStepDelay = TimeSpan.FromSeconds(0.055);
@@ -72,6 +78,12 @@ public sealed partial class LavalandBubblegumComponent : Component
 
     [DataField]
     public float ChargeThrowSpeed = 7f;
+
+    [DataField]
+    public float BloodGrabChance = 0.25f;
+
+    [DataField]
+    public float BloodGrabChanceBelowHalf = 0.4f;
 
     [DataField]
     public string BloodPoolPrototype = "LavalandBubblegumBloodPool";
@@ -156,6 +168,9 @@ public sealed partial class LavalandBubblegumComponent : Component
 
     [ViewVariables]
     public TimeSpan NextSummon;
+
+    [ViewVariables]
+    public TimeSpan NextBloodReaction;
 
     [ViewVariables]
     public TimeSpan LastPressureAt;

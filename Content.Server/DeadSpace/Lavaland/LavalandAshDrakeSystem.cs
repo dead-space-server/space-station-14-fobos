@@ -51,6 +51,7 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
         base.Initialize();
 
         SubscribeLocalEvent<LavalandAshDrakeComponent, BeforeDamageChangedEvent>(OnBeforeDamage);
+        SubscribeLocalEvent<LavalandAshDrakeComponent, LavalandBossFightStartedEvent>(OnBossFightStarted);
         SubscribeLocalEvent<LavalandAshDrakeComponent, LavalandBossResetEvent>(OnBossReset);
         SubscribeLocalEvent<LavalandAshDrakeComponent, RefreshMovementSpeedModifiersEvent>(OnRefreshMovementSpeed);
     }
@@ -66,6 +67,7 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
             if (boss.Arena is not { Valid: true } arenaUid ||
                 !TryComp<LavalandBossArenaComponent>(arenaUid, out var arena) ||
                 arena.Ended ||
+                !arena.FightStarted ||
                 xform.GridUid != arena.Grid ||
                 !TryComp<MapGridComponent>(arena.Grid, out var grid) ||
                 IsDead(uid))
@@ -111,6 +113,16 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
     }
 
     private void OnBossReset(EntityUid uid, LavalandAshDrakeComponent component, LavalandBossResetEvent args)
+    {
+        PrepareFight(uid, component);
+    }
+
+    private void OnBossFightStarted(EntityUid uid, LavalandAshDrakeComponent component, LavalandBossFightStartedEvent args)
+    {
+        PrepareFight(uid, component);
+    }
+
+    private void PrepareFight(EntityUid uid, LavalandAshDrakeComponent component)
     {
         ClearRuntimeState(uid, component, true);
         var now = _timing.CurTime;
@@ -869,7 +881,7 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
 
     private static TimeSpan GetScaledCooldown(TimeSpan baseCooldown, float rage)
     {
-        return TimeSpan.FromSeconds(Math.Max(2.1, baseCooldown.TotalSeconds - rage * 0.04));
+        return TimeSpan.FromSeconds(Math.Max(1.85, baseCooldown.TotalSeconds - rage * 0.04));
     }
 
     private Vector2i? GetEntityTile(EntityUid uid, EntityUid gridUid, MapGridComponent grid)

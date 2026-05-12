@@ -8,10 +8,10 @@ namespace Content.Server.DeadSpace.Lavaland.Components;
 public sealed partial class LavalandAshDrakeComponent : Component
 {
     [DataField]
-    public TimeSpan RangedCooldown = TimeSpan.FromSeconds(3.8);
+    public TimeSpan RangedCooldown = TimeSpan.FromSeconds(3.2);
 
     [DataField]
-    public TimeSpan ForcePressureAfter = TimeSpan.FromSeconds(7);
+    public TimeSpan ForcePressureAfter = TimeSpan.FromSeconds(6);
 
     [DataField]
     public TimeSpan TargetSwitchCooldown = TimeSpan.FromSeconds(5);
@@ -26,16 +26,16 @@ public sealed partial class LavalandAshDrakeComponent : Component
     public TimeSpan FireRainDelay = TimeSpan.FromSeconds(0.9);
 
     [DataField]
-    public TimeSpan SwoopWindup = TimeSpan.FromSeconds(0.7);
+    public TimeSpan SwoopWindup = TimeSpan.FromSeconds(0.6);
 
     [DataField]
-    public TimeSpan SwoopStepDelay = TimeSpan.FromSeconds(0.1);
+    public TimeSpan SwoopStepDelay = TimeSpan.FromSeconds(0.085);
 
     [DataField]
-    public TimeSpan SwoopRecover = TimeSpan.FromSeconds(0.45);
+    public TimeSpan SwoopRecover = TimeSpan.FromSeconds(0.35);
 
     [DataField]
-    public TimeSpan ChainedSwoopDelay = TimeSpan.FromSeconds(0.35);
+    public TimeSpan ChainedSwoopDelay = TimeSpan.FromSeconds(0.28);
 
     [DataField]
     public int FireWallRange = 10;

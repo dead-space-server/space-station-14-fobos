@@ -8,19 +8,19 @@ namespace Content.Server.DeadSpace.Lavaland.Components;
 public sealed partial class LavalandHierophantComponent : Component
 {
     [DataField]
-    public TimeSpan RangedCooldown = TimeSpan.FromSeconds(3.8);
+    public TimeSpan RangedCooldown = TimeSpan.FromSeconds(3.3);
 
     [DataField]
-    public TimeSpan MajorAttackCooldown = TimeSpan.FromSeconds(7);
+    public TimeSpan MajorAttackCooldown = TimeSpan.FromSeconds(5.8);
 
     [DataField]
-    public TimeSpan ChaserCooldown = TimeSpan.FromSeconds(10);
+    public TimeSpan ChaserCooldown = TimeSpan.FromSeconds(8);
 
     [DataField]
-    public TimeSpan BlinkCooldown = TimeSpan.FromSeconds(5.5);
+    public TimeSpan BlinkCooldown = TimeSpan.FromSeconds(4.8);
 
     [DataField]
-    public TimeSpan ForcePressureAfter = TimeSpan.FromSeconds(8);
+    public TimeSpan ForcePressureAfter = TimeSpan.FromSeconds(6.5);
 
     [DataField]
     public TimeSpan TargetSwitchCooldown = TimeSpan.FromSeconds(5);
@@ -41,7 +41,7 @@ public sealed partial class LavalandHierophantComponent : Component
     public TimeSpan BurstStepDelay = TimeSpan.FromSeconds(0.1);
 
     [DataField]
-    public TimeSpan ChaserStepDelay = TimeSpan.FromSeconds(0.36);
+    public TimeSpan ChaserStepDelay = TimeSpan.FromSeconds(0.32);
 
     [DataField]
     public TimeSpan ChaserLifetime = TimeSpan.FromSeconds(7);

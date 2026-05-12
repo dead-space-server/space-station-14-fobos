@@ -48,6 +48,7 @@ public sealed class LavalandBubblegumSystem : EntitySystem
         base.Initialize();
 
         SubscribeLocalEvent<LavalandBubblegumComponent, DamageChangedEvent>(OnDamageChanged);
+        SubscribeLocalEvent<LavalandBubblegumComponent, LavalandBossFightStartedEvent>(OnBossFightStarted);
         SubscribeLocalEvent<LavalandBubblegumComponent, LavalandBossResetEvent>(OnBossReset);
         SubscribeLocalEvent<LavalandBubblegumComponent, MobStateChangedEvent>(OnMobStateChanged);
         SubscribeLocalEvent<LavalandBubblegumComponent, RefreshMovementSpeedModifiersEvent>(OnRefreshMovementSpeed);
@@ -64,6 +65,7 @@ public sealed class LavalandBubblegumSystem : EntitySystem
             if (boss.Arena is not { Valid: true } arenaUid ||
                 !TryComp<LavalandBossArenaComponent>(arenaUid, out var arena) ||
                 arena.Ended ||
+                !arena.FightStarted ||
                 xform.GridUid != arena.Grid ||
                 !TryComp<MapGridComponent>(arena.Grid, out var grid) ||
                 IsDead(uid))
@@ -87,6 +89,18 @@ public sealed class LavalandBubblegumSystem : EntitySystem
             if (ProcessCharge(uid, bubblegum, arena, arena.Grid, grid, now) ||
                 ProcessQueuedCharge(uid, bubblegum, arena, arena.Grid, grid, now))
             {
+                continue;
+            }
+
+            var bloodReactionWindow = GetBloodReactionWindow(bubblegum);
+            if (bubblegum.BusyUntil <= now &&
+                bubblegum.NextAttack - now > bloodReactionWindow &&
+                bubblegum.NextBloodReaction <= now &&
+                TryQueueBloodAttack(uid, bubblegum, arena, arena.Grid, grid, now))
+            {
+                bubblegum.LastPressureAt = now;
+                bubblegum.LastAttackKind = "blood-reaction";
+                bubblegum.NextBloodReaction = now + bubblegum.BloodReactionCooldown;
                 continue;
             }
 
@@ -134,9 +148,20 @@ public sealed class LavalandBubblegumSystem : EntitySystem
 
     private void OnBossReset(EntityUid uid, LavalandBubblegumComponent component, LavalandBossResetEvent args)
     {
+        PrepareFight(uid, component);
+    }
+
+    private void OnBossFightStarted(EntityUid uid, LavalandBubblegumComponent component, LavalandBossFightStartedEvent args)
+    {
+        PrepareFight(uid, component);
+    }
+
+    private void PrepareFight(EntityUid uid, LavalandBubblegumComponent component)
+    {
         ClearRuntimeState(uid, component, true);
         var now = _timing.CurTime;
         component.NextAttack = now + TimeSpan.FromSeconds(1);
+        component.NextBloodReaction = now + TimeSpan.FromSeconds(1.5);
         component.LastPressureAt = now;
         component.LastAttackKind = string.Empty;
     }
@@ -190,12 +215,23 @@ public sealed class LavalandBubblegumSystem : EntitySystem
         {
             forcedAmbush = QueueBloodPressureAtTarget(bubblegum, arena, gridUid, grid, pressureTargetTile, now, forcePressure);
             if (forcedAmbush)
+            {
                 MarkPressure(bubblegum, now, forcePressure ? "forced-blood-pressure" : "blood-pressure", pressureTarget);
+                bubblegum.BusyUntil = now + bubblegum.BloodSmackDelay + bubblegum.BloodHandRecover;
+                bubblegum.NextAttack = now + GetScaledCooldown(bubblegum.RangedCooldown, rage);
+                bubblegum.NextBloodReaction = now + bubblegum.BloodReactionCooldown;
+                return;
+            }
         }
 
         var didBloodAttack = !forcedAmbush && TryQueueBloodAttack(boss, bubblegum, arena, gridUid, grid, now);
         if (didBloodAttack)
+        {
             MarkPressure(bubblegum, now, "blood-hand", target);
+            bubblegum.NextAttack = now + GetScaledCooldown(bubblegum.RangedCooldown, rage);
+            bubblegum.NextBloodReaction = now + bubblegum.BloodReactionCooldown;
+            return;
+        }
 
         var warped = false;
         if (!didBloodAttack)
@@ -248,7 +284,7 @@ public sealed class LavalandBubblegumSystem : EntitySystem
         foreach (var participant in _participants)
         {
             var tile = GetEntityTile(participant, gridUid, grid);
-            if (tile != null && HasBloodPoolAt(bubblegum, gridUid, tile.Value))
+            if (tile != null && HasBloodPoolWithin(bubblegum, gridUid, tile.Value, 1))
                 _bloodTargets.Add(participant);
         }
 
@@ -265,8 +301,11 @@ public sealed class LavalandBubblegumSystem : EntitySystem
             if (tile == null)
                 continue;
 
+            var grabChance = IsBelowHalfHealth(boss)
+                ? bubblegum.BloodGrabChanceBelowHalf
+                : bubblegum.BloodGrabChance;
             var grab = (TryComp<MobStateComponent>(target, out var targetMobState) &&
-                targetMobState.CurrentState != MobState.Alive) || _random.Prob(0.1f);
+                targetMobState.CurrentState != MobState.Alive) || _random.Prob(Math.Clamp(grabChance, 0f, 1f));
             QueueHandAttack(bubblegum, gridUid, grid, tile.Value, now, grab, rightHand);
             MarkTargetPressure(bubblegum, target, now);
             latestAttack = now + (grab ? bubblegum.BloodGrabDelay : bubblegum.BloodSmackDelay);
@@ -489,7 +528,15 @@ public sealed class LavalandBubblegumSystem : EntitySystem
 
         if (bubblegum.PendingHandAttacks.Count < 12)
         {
-            QueueHandAttack(bubblegum, gridUid, grid, targetTile, now + (urgent ? TimeSpan.Zero : TimeSpan.FromSeconds(0.12)), false, _random.Prob(0.5f));
+            var grabChance = urgent ? bubblegum.BloodGrabChanceBelowHalf : bubblegum.BloodGrabChance;
+            QueueHandAttack(
+                bubblegum,
+                gridUid,
+                grid,
+                targetTile,
+                now + (urgent ? TimeSpan.Zero : TimeSpan.FromSeconds(0.12)),
+                _random.Prob(Math.Clamp(grabChance, 0f, 1f)),
+                _random.Prob(0.5f));
             queued = true;
         }
 
@@ -1129,7 +1176,13 @@ public sealed class LavalandBubblegumSystem : EntitySystem
 
     private static TimeSpan GetScaledCooldown(TimeSpan baseCooldown, float rage)
     {
-        return TimeSpan.FromSeconds(Math.Max(2.6, baseCooldown.TotalSeconds - rage * 0.04));
+        return TimeSpan.FromSeconds(Math.Max(2.25, baseCooldown.TotalSeconds - rage * 0.04));
+    }
+
+    private static TimeSpan GetBloodReactionWindow(LavalandBubblegumComponent bubblegum)
+    {
+        return TimeSpan.FromSeconds(Math.Max(bubblegum.BloodSmackDelay.TotalSeconds, bubblegum.BloodGrabDelay.TotalSeconds)) +
+               bubblegum.BloodHandRecover;
     }
 
     private Vector2i? GetEntityTile(EntityUid uid, EntityUid gridUid, MapGridComponent grid)

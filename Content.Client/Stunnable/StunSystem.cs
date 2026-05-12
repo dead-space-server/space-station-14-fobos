@@ -8,12 +8,14 @@ using Robust.Shared.Animations;
 using Robust.Shared.Input;
 using Robust.Shared.Input.Binding;
 using Robust.Shared.Random;
+using Robust.Shared.Timing;
 
 namespace Content.Client.Stunnable;
 
 public sealed class StunSystem : SharedStunSystem
 {
     [Dependency] private readonly SharedCombatModeSystem _combat = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly SpriteSystem _spriteSystem = default!;
 
@@ -38,6 +40,9 @@ public sealed class StunSystem : SharedStunSystem
 
         if (args.EntityUid != uid || !HasComp<KnockedDownComponent>(uid) || !_combat.IsInCombatMode(uid))
             return false;
+
+        if (!_timing.InPrediction || !_timing.IsFirstTimePredicted)
+            return true;
 
         RaisePredictiveEvent(new ForceStandUpEvent());
         return true;

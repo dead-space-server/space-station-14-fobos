@@ -34,3 +34,8 @@ public sealed class LavalandBossResetEvent(EntityUid arena, Vector2i spawnTile) 
     public readonly EntityUid Arena = arena;
     public readonly Vector2i SpawnTile = spawnTile;
 }
+
+public sealed class LavalandBossFightStartedEvent(EntityUid arena) : EntityEventArgs
+{
+    public readonly EntityUid Arena = arena;
+}

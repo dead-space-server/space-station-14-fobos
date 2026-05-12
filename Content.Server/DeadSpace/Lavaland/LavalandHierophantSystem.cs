@@ -60,6 +60,7 @@ public sealed class LavalandHierophantSystem : EntitySystem
         base.Initialize();
 
         SubscribeLocalEvent<LavalandHierophantComponent, MoveEvent>(OnMove);
+        SubscribeLocalEvent<LavalandHierophantComponent, LavalandBossFightStartedEvent>(OnBossFightStarted);
         SubscribeLocalEvent<LavalandHierophantComponent, LavalandBossResetEvent>(OnBossReset);
     }
 
@@ -74,6 +75,7 @@ public sealed class LavalandHierophantSystem : EntitySystem
             if (boss.Arena is not { Valid: true } arenaUid ||
                 !TryComp<LavalandBossArenaComponent>(arenaUid, out var arena) ||
                 arena.Ended ||
+                !arena.FightStarted ||
                 xform.GridUid != arena.Grid ||
                 !TryComp<MapGridComponent>(arena.Grid, out var grid) ||
                 IsDead(uid))
@@ -130,6 +132,16 @@ public sealed class LavalandHierophantSystem : EntitySystem
     }
 
     private void OnBossReset(EntityUid uid, LavalandHierophantComponent component, LavalandBossResetEvent args)
+    {
+        PrepareFight(component);
+    }
+
+    private void OnBossFightStarted(EntityUid uid, LavalandHierophantComponent component, LavalandBossFightStartedEvent args)
+    {
+        PrepareFight(component);
+    }
+
+    private void PrepareFight(LavalandHierophantComponent component)
     {
         ClearRuntimeState(component);
         component.BusyUntil = TimeSpan.Zero;
@@ -953,7 +965,7 @@ public sealed class LavalandHierophantSystem : EntitySystem
 
     private static TimeSpan GetScaledCooldown(TimeSpan baseCooldown, float rage)
     {
-        return TimeSpan.FromSeconds(Math.Max(1.6, baseCooldown.TotalSeconds - rage * 0.045));
+        return TimeSpan.FromSeconds(Math.Max(1.45, baseCooldown.TotalSeconds - rage * 0.045));
     }
 
     private Vector2i? GetEntityTile(EntityUid uid, EntityUid gridUid, MapGridComponent grid)

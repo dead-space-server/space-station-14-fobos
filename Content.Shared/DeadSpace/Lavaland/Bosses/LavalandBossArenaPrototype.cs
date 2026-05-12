@@ -30,6 +30,9 @@ public sealed partial class LavalandBossArenaPrototype : IPrototype
     public int Size = 35;
 
     [DataField]
+    public float FightStartDistance;
+
+    [DataField]
     public int SpawnAttempts = 128;
 
     [DataField]

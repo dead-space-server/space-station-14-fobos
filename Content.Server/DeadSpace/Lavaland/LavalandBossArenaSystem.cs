@@ -1,8 +1,10 @@
 using System.Numerics;
 using Content.Server.DeadSpace.Lavaland.Components;
+using Content.Server.NPC.HTN;
 using Content.Server.Parallax;
 using Content.Server.Tiles;
 using Content.Shared.Chasm;
+using Content.Shared.Damage;
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Systems;
 using Content.Shared.DeadSpace.Lavaland;
@@ -32,9 +34,14 @@ public sealed class LavalandBossArenaSystem : EntitySystem
     private const int MaxArenaSize = 65;
     private const int EntranceHalfWidth = 2;
     private const int EntranceDepth = 3;
+    private const float MinFightStartDistance = 7f;
+    private const float MaxFightStartDistance = 11f;
+    private const float FightStartDistanceFraction = 0.22f;
 
     private static readonly TimeSpan ParticipantScanInterval = TimeSpan.FromSeconds(0.35);
     private static readonly TimeSpan HudUpdateInterval = TimeSpan.FromSeconds(0.25);
+    private static readonly TimeSpan BossLeashCheckInterval = TimeSpan.FromSeconds(1);
+    private static readonly TimeSpan BossLeashResetDelay = TimeSpan.FromSeconds(5);
     private static readonly TimeSpan EmptyCleanupDelay = TimeSpan.FromMinutes(2);
     private static readonly TimeSpan BossDeadCleanupDelay = TimeSpan.FromMinutes(3);
     private static readonly Vector2i[] RewardOffsets =
@@ -59,6 +66,7 @@ public sealed class LavalandBossArenaSystem : EntitySystem
     [Dependency] private readonly ITileDefinitionManager _tileDefinition = default!;
     [Dependency] private readonly MetaDataSystem _metadata = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly HTNSystem _htn = default!;
     [Dependency] private readonly SharedMapSystem _map = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly TileSystem _tile = default!;
@@ -74,6 +82,7 @@ public sealed class LavalandBossArenaSystem : EntitySystem
     {
         base.Initialize();
 
+        SubscribeLocalEvent<LavalandBossComponent, BeforeDamageChangedEvent>(OnBossBeforeDamageChanged);
         SubscribeLocalEvent<LavalandBossComponent, DamageChangedEvent>(OnBossDamageChanged);
         SubscribeLocalEvent<LavalandBossComponent, MobStateChangedEvent>(OnBossMobStateChanged);
         SubscribeLocalEvent<LavalandBossArenaComponent, ComponentShutdown>(OnArenaShutdown);
@@ -105,7 +114,13 @@ public sealed class LavalandBossArenaSystem : EntitySystem
                 ScanParticipants((uid, arena), now);
             }
 
-            if (!arena.Ended && arena.NextHudUpdate <= now)
+            if (!arena.Ended && arena.FightStarted && arena.NextBossLeashCheck <= now)
+            {
+                arena.NextBossLeashCheck = now + BossLeashCheckInterval;
+                UpdateBossLeash((uid, arena), now);
+            }
+
+            if (!arena.Ended && arena.FightStarted && arena.NextHudUpdate <= now)
             {
                 arena.NextHudUpdate = now + HudUpdateInterval;
                 SendHudUpdateToParticipants((uid, arena));
@@ -183,6 +198,7 @@ public sealed class LavalandBossArenaSystem : EntitySystem
         var bossComponent = EnsureComp<LavalandBossComponent>(boss);
         bossComponent.Arena = grid.Owner;
         bossComponent.MaxHealth = Math.Max(1f, bossComponent.MaxHealth);
+        SetBossAiEnabled(boss, false);
 
         var arena = AddComp<LavalandBossArenaComponent>(grid.Owner);
         arena.ArenaId = _nextArenaId++;
@@ -192,6 +208,9 @@ public sealed class LavalandBossArenaSystem : EntitySystem
         arena.BossSpawnTile = Vector2i.Zero;
         arena.Width = width;
         arena.Height = height;
+        arena.FightStartDistance = arenaPrototype.FightStartDistance > 0f
+            ? arenaPrototype.FightStartDistance
+            : GetDefaultFightStartDistance(width, height);
         arena.DeleteOnEmpty = arenaPrototype.DeleteOnEmpty;
         arena.DeleteOnBossDeath = arenaPrototype.DeleteOnBossDeath;
         arena.ReturnParticipantsOnDelete = arenaPrototype.ReturnParticipantsOnDelete;
@@ -207,6 +226,7 @@ public sealed class LavalandBossArenaSystem : EntitySystem
         arena.MaxHealth = bossComponent.MaxHealth;
         arena.NextParticipantScan = _timing.CurTime;
         arena.NextHudUpdate = _timing.CurTime;
+        arena.NextBossLeashCheck = _timing.CurTime + BossLeashCheckInterval;
 
         Log.Info($"Lavaland boss arena {arenaPrototype.ID} spawned at {center}.");
         return true;
@@ -366,8 +386,7 @@ public sealed class LavalandBossArenaSystem : EntitySystem
                 !Exists(attached) ||
                 HasComp<GhostComponent>(attached) ||
                 IsDead(attached) ||
-                !TryComp(attached, out TransformComponent? xform) ||
-                xform.GridUid != arena.Comp.Grid)
+                !IsEntityInsideInnerArena(attached, arena.Comp))
             {
                 continue;
             }
@@ -385,8 +404,11 @@ public sealed class LavalandBossArenaSystem : EntitySystem
         foreach (var participant in _leavingParticipants)
         {
             arena.Comp.Participants.Remove(participant);
-            if (_players.TryGetSessionById(participant, out var session))
+            if (arena.Comp.FightStarted &&
+                _players.TryGetSessionById(participant, out var session))
+            {
                 SendHideAndStop(session, arena.Comp.ArenaId);
+            }
         }
 
         if (arena.Comp.Ended)
@@ -412,15 +434,22 @@ public sealed class LavalandBossArenaSystem : EntitySystem
                     arena.Comp.ReturnCoordinates[userId] = _transform.GetMapCoordinates(attached);
                 }
 
-                SendHudUpdate(session, arena.Comp);
-                SendMusicStart(session, arena.Comp);
+                if (arena.Comp.FightStarted)
+                {
+                    SendHudUpdate(session, arena.Comp);
+                    SendMusicStart(session, arena.Comp);
+                }
             }
         }
+
+        if (!arena.Comp.FightStarted && ShouldStartFightByProximity((arena.Owner, arena.Comp), current.Values))
+            StartFight((arena.Owner, arena.Comp));
 
         if (arena.Comp.Participants.Count == 0)
         {
             arena.Comp.EmptySince ??= now;
-            if (arena.Comp.ResetOnEmpty &&
+            if (arena.Comp.FightStarted &&
+                arena.Comp.ResetOnEmpty &&
                 !arena.Comp.HasResetWhileEmpty &&
                 now - arena.Comp.EmptySince >= arena.Comp.EmptyResetDelay)
             {
@@ -440,6 +469,9 @@ public sealed class LavalandBossArenaSystem : EntitySystem
 
     private void SendHudUpdateToParticipants(Entity<LavalandBossArenaComponent> arena)
     {
+        if (!arena.Comp.FightStarted)
+            return;
+
         foreach (var participant in arena.Comp.Participants)
         {
             if (_players.TryGetSessionById(participant, out var session))
@@ -449,7 +481,7 @@ public sealed class LavalandBossArenaSystem : EntitySystem
 
     private void SendHudUpdate(ICommonSession session, LavalandBossArenaComponent arena)
     {
-        if (!Exists(arena.Boss))
+        if (!arena.FightStarted || !Exists(arena.Boss))
         {
             SendHideAndStop(session, arena.ArenaId);
             return;
@@ -467,8 +499,12 @@ public sealed class LavalandBossArenaSystem : EntitySystem
 
     private void SendMusicStart(ICommonSession session, LavalandBossArenaComponent arena)
     {
-        if (!TryComp<LavalandBossComponent>(arena.Boss, out var boss) || boss.Music == null)
+        if (!arena.FightStarted ||
+            !TryComp<LavalandBossComponent>(arena.Boss, out var boss) ||
+            boss.Music == null)
+        {
             return;
+        }
 
         var audioParams = boss.Music.Params.WithLoop(true);
         RaiseNetworkEvent(new LavalandBossMusicStartEvent(arena.ArenaId, _audio.ResolveSound(boss.Music), audioParams), session.Channel);
@@ -489,6 +525,28 @@ public sealed class LavalandBossArenaSystem : EntitySystem
         }
     }
 
+    private void OnBossBeforeDamageChanged(Entity<LavalandBossComponent> ent, ref BeforeDamageChangedEvent args)
+    {
+        if (args.Cancelled ||
+            ent.Comp.Arena is not { Valid: true } arenaUid ||
+            !TryComp<LavalandBossArenaComponent>(arenaUid, out var arena) ||
+            arena.Ended ||
+            !IncreasesDamage(args.Damage))
+        {
+            return;
+        }
+
+        if (IsDamageOriginFromArenaParticipant(arena, args.Origin))
+            return;
+
+        // Explosions do not currently preserve an attacker origin. Keep them from
+        // waking a dormant boss, but don't make them useless during an active fight.
+        if (arena.FightStarted && args.Origin == null)
+            return;
+
+        args.Cancelled = true;
+    }
+
     private void OnBossDamageChanged(Entity<LavalandBossComponent> ent, ref DamageChangedEvent args)
     {
         if (ent.Comp.Arena is not { Valid: true } arenaUid ||
@@ -496,6 +554,9 @@ public sealed class LavalandBossArenaSystem : EntitySystem
         {
             return;
         }
+
+        if (!arena.FightStarted && ShouldStartFightByDamage(arena, args))
+            StartFight((arenaUid, arena));
 
         SendHudUpdateToParticipants((arenaUid, arena));
     }
@@ -594,10 +655,180 @@ public sealed class LavalandBossArenaSystem : EntitySystem
 
         _transform.SetCoordinates(arena.Comp.Boss, _map.GridTileToLocal(arena.Comp.Grid, grid, arena.Comp.BossSpawnTile));
         HealBossOnReset(arena.Comp);
+        arena.Comp.FightStarted = false;
+        arena.Comp.BossOutsideArenaSince = null;
+        arena.Comp.NextBossLeashCheck = now + BossLeashCheckInterval;
+        SetBossAiEnabled(arena.Comp.Boss, false);
 
         RaiseLocalEvent(arena.Comp.Boss, new LavalandBossResetEvent(arena.Owner, arena.Comp.BossSpawnTile));
 
+        SendHideAndStopToParticipants(arena.Comp);
+
         arena.Comp.NextHudUpdate = now;
+    }
+
+    private void StartFight(Entity<LavalandBossArenaComponent> arena)
+    {
+        if (arena.Comp.FightStarted ||
+            arena.Comp.Ended ||
+            !Exists(arena.Comp.Boss))
+        {
+            return;
+        }
+
+        arena.Comp.FightStarted = true;
+        arena.Comp.EmptySince = null;
+        arena.Comp.HasResetWhileEmpty = false;
+        arena.Comp.BossOutsideArenaSince = null;
+        arena.Comp.NextBossLeashCheck = _timing.CurTime + BossLeashCheckInterval;
+        arena.Comp.NextHudUpdate = _timing.CurTime;
+
+        SetBossAiEnabled(arena.Comp.Boss, true);
+        RaiseLocalEvent(arena.Comp.Boss, new LavalandBossFightStartedEvent(arena.Owner));
+
+        foreach (var participant in arena.Comp.Participants)
+        {
+            if (!_players.TryGetSessionById(participant, out var session))
+                continue;
+
+            SendHudUpdate(session, arena.Comp);
+            SendMusicStart(session, arena.Comp);
+        }
+    }
+
+    private bool ShouldStartFightByProximity(
+        Entity<LavalandBossArenaComponent> arena,
+        IEnumerable<ICommonSession> sessions)
+    {
+        if (!Exists(arena.Comp.Boss) ||
+            !TryComp(arena.Comp.Boss, out TransformComponent? bossXform) ||
+            bossXform.GridUid != arena.Comp.Grid)
+        {
+            return false;
+        }
+
+        var maxDistance = MathF.Max(0.1f, arena.Comp.FightStartDistance);
+        var maxDistanceSquared = maxDistance * maxDistance;
+        var bossPosition = bossXform.Coordinates.Position;
+
+        foreach (var session in sessions)
+        {
+            if (session.AttachedEntity is not { Valid: true } attached ||
+                !TryComp(attached, out TransformComponent? xform) ||
+                xform.GridUid != arena.Comp.Grid)
+            {
+                continue;
+            }
+
+            if ((xform.Coordinates.Position - bossPosition).LengthSquared() <= maxDistanceSquared)
+                return true;
+        }
+
+        return false;
+    }
+
+    private bool ShouldStartFightByDamage(LavalandBossArenaComponent arena, DamageChangedEvent args)
+    {
+        return args.DamageIncreased && IsDamageOriginFromArenaParticipant(arena, args.Origin);
+    }
+
+    private void UpdateBossLeash(Entity<LavalandBossArenaComponent> arena, TimeSpan now)
+    {
+        if (IsEntityInsideInnerArena(arena.Comp.Boss, arena.Comp))
+        {
+            arena.Comp.BossOutsideArenaSince = null;
+            return;
+        }
+
+        arena.Comp.BossOutsideArenaSince ??= now;
+        if (now - arena.Comp.BossOutsideArenaSince < BossLeashResetDelay)
+            return;
+
+        ResetBoss(arena, now);
+    }
+
+    private bool IsDamageOriginFromArenaParticipant(LavalandBossArenaComponent arena, EntityUid? damageOrigin)
+    {
+        if (damageOrigin is not { Valid: true } origin ||
+            !Exists(origin))
+        {
+            return false;
+        }
+
+        foreach (var session in _players.Sessions)
+        {
+            if (session.AttachedEntity is not { Valid: true } attached ||
+                !IsCombatParticipant(attached, arena))
+            {
+                continue;
+            }
+
+            if (origin == attached || IsTransformChildOf(origin, attached))
+                return true;
+        }
+
+        return false;
+    }
+
+    private static bool IncreasesDamage(DamageSpecifier damage)
+    {
+        foreach (var amount in damage.DamageDict.Values)
+        {
+            if (amount > 0)
+                return true;
+        }
+
+        return false;
+    }
+
+    private bool IsCombatParticipant(EntityUid uid, LavalandBossArenaComponent arena)
+    {
+        return Exists(uid) &&
+               !HasComp<GhostComponent>(uid) &&
+               !IsDead(uid) &&
+               IsEntityInsideInnerArena(uid, arena);
+    }
+
+    private bool IsEntityInsideInnerArena(EntityUid uid, LavalandBossArenaComponent arena)
+    {
+        if (!TryComp(uid, out TransformComponent? xform) ||
+            xform.GridUid != arena.Grid ||
+            !TryComp<MapGridComponent>(arena.Grid, out var grid))
+        {
+            return false;
+        }
+
+        var tile = _map.LocalToTile(arena.Grid, grid, xform.Coordinates);
+        return IsInsideInnerArena(arena, tile);
+    }
+
+    private bool IsTransformChildOf(EntityUid uid, EntityUid expectedAncestor)
+    {
+        for (var i = 0; i < 32; i++)
+        {
+            if (!Exists(uid) ||
+                !TryComp(uid, out TransformComponent? xform))
+            {
+                return false;
+            }
+
+            var parent = xform.ParentUid;
+            if (!parent.IsValid() || parent == uid)
+                return false;
+
+            if (parent == expectedAncestor)
+                return true;
+
+            uid = parent;
+        }
+
+        return false;
+    }
+
+    private void SetBossAiEnabled(EntityUid boss, bool enabled)
+    {
+        if (TryComp<HTNComponent>(boss, out var htn))
+            _htn.SetHTNEnabled((boss, htn), enabled, enabled ? 0.75f : 0f);
     }
 
     private void HealBossOnReset(LavalandBossArenaComponent arena)
@@ -802,6 +1033,26 @@ public sealed class LavalandBossArenaSystem : EntitySystem
     {
         var diameter = Math.Max(width, height) + EntranceDepth * 2;
         return diameter * 0.5f;
+    }
+
+    private static float GetDefaultFightStartDistance(int width, int height)
+    {
+        return Math.Clamp(Math.Min(width, height) * FightStartDistanceFraction,
+            MinFightStartDistance,
+            MaxFightStartDistance);
+    }
+
+    private static bool IsInsideInnerArena(LavalandBossArenaComponent arena, Vector2i tile)
+    {
+        var (minX, maxX, minY, maxY) = GetInnerBounds(arena);
+        return tile.X >= minX && tile.X <= maxX && tile.Y >= minY && tile.Y <= maxY;
+    }
+
+    private static (int MinX, int MaxX, int MinY, int MaxY) GetInnerBounds(LavalandBossArenaComponent arena)
+    {
+        var halfWidth = arena.Width / 2;
+        var halfHeight = arena.Height / 2;
+        return (-halfWidth + 1, halfWidth - 1, -halfHeight + 1, halfHeight - 1);
     }
 
     private static Box2i GetReservationBounds(Vector2i center, int width, int height)
