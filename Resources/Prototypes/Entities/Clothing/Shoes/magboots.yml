@@ -123,7 +123,7 @@
     price: 1500
 
 - type: entity
-  parent: ClothingShoesBootsMag
+  parent: [ClothingShoesBootsMag, BaseCentcommContraband ]
   id: ADTClothingShoesBootsMagERT
   name: magboots
   description: Magnetic boots, often used during extravehicular activity to ensure the user remains safely attached to the vehicle.
@@ -140,6 +140,18 @@
     components:
     - type: NoSlip
     - type: RenegadeCANTRenegadeForce
+  - type: ContainerContainer
+    containers:
+      item: !type:ContainerSlot
+  - type: ItemSlots
+    slots:
+      item:
+        startingItem: CombatKnife
+        name: clothing-military-boots-sidearm
+        whitelist:
+          tags:
+          - Knife
+          - Sidearm
 
 - type: entity
   parent: [ClothingShoesBootsMagBase, BaseJetpack, BaseSyndicateContraband]

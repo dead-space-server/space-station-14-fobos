@@ -20,6 +20,60 @@
     - state: internals
     - state: emergencytank
 
+# DS14-Start
+- type: entity
+  parent: BoxBase
+  id: BoxCardboardERT
+  name: cardboard box
+  description: A cardboard box for storing things.
+  suffix: ERT
+  components:
+  - type: Item
+    size: Large
+    shape:
+    - 0,0,2,1
+  - type: Storage
+    maxItemSize: Small
+    grid:
+    - 0,0,3,3
+  - type: Sprite
+    layers:
+    - state: internals
+    - state: emergencytank
+  - type: StorageFill
+    contents:
+      - id: ClothingMaskGasERT
+      - id: FoodSnackNutribrickOpen
+      - id: DrinkMREFlask
+      - id: EmergencyMedipen
+      - id: AirlossAutoInjector
+      - id: HandHeldMassScanner
+      - id: Flare
+      - id: Flare
+      - id: Flash
+      - id: DoubleEmergencyOxygenTankFilled
+
+- type: entity
+  name: C4 box
+  parent: BoxCardboard
+  id: BoxC4ERT
+  description: A box full of C-4.
+  components:
+  - type: Storage
+    maxItemSize: Small
+    grid:
+    - 0,0,2,3
+  - type: StorageFill
+    contents:
+      - id: C4
+        amount: 5
+      - id: RemoteSignallerAdvanced
+  - type: Sprite
+    layers:
+      - state: box
+      - state: flashbang
+# DS14-End
+
 - type: entity
   parent: BoxSurvival
   id: BoxSurvivalNitrogen

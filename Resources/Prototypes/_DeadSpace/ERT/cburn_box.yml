@@ -316,3 +316,90 @@
       - id: RegenerativeMesh
       - id: PillCanisterCBURN
       - id: EmergencyMedipen
+
+# ERT
+
+- type: entity
+  parent: [ClothingBeltStorageBase, ContentsExplosionResistanceBase, BaseSyndicateContraband]
+  id: ClothingBeltMilitaryWebbingERTPatern
+  name: армейская РПС ОБР
+  description: У нас есть цель, цель будет выполнена любой ценой.
+  suffix: Пустой
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Belt/stormywebbing.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Belt/stormywebbing.rsi
+
+- type: entity
+  name: армейская РПС ОБР
+  parent: ClothingBeltMilitaryWebbingERTPatern
+  id: ClothingBeltMilitaryWebbingERT
+  description: У нас есть цель, цель будет выполнена любой ценой.
+  suffix: ОБР
+  components:
+  - type: StorageFill
+    contents:
+      - id: Truncheon
+      - id: ADTtelescopicBaton
+      - id: Handcuffs
+      - id: Handcuffs
+      - id: Zipties
+      - id: GrenadeStinger
+      - id: GrenadeFlashBang
+      - id: Zipties
+
+- type: entity
+  name: армейская РПС ОБР
+  parent: ClothingBeltMilitaryWebbingERTPatern
+  id: ClothingBeltMilitaryWebbingERTGamma
+  description: У нас есть цель, цель будет выполнена любой ценой.
+  suffix: ОБР, Гамма
+  components:
+  - type: StorageFill
+    contents:
+      - id: Truncheon
+      - id: ADTtelescopicBaton
+      - id: Handcuffs
+      - id: Handcuffs
+      - id: Zipties
+      - id: GrenadeStinger
+      - id: SmokeGrenade
+      - id: Zipties
+
+- type: entity
+  name: армейская РПС ОБР
+  parent: ClothingBeltMilitaryWebbingERTPatern
+  id: ClothingBeltMilitaryWebbingERTMed
+  description: У нас есть цель, цель будет выполнена любой ценой.
+  suffix: ОБР Медик
+  components:
+  - type: StorageFill
+    contents:
+      - id: BSAACombatKitFilled
+      - id: BSAACombatKitFilled
+      - id: ChemistryBottlePuncturase
+      - id: ChemistryBottlePuncturase
+      - id: ChemistryBottleArithrazine
+      - id: ChemistryBottleDylovene
+      - id: ChemistryBottleBicaridine
+      - id: ChemistryBottleBicaridine
+      - id: ChemistryBottleDermaline
+      - id: ChemistryBottleDermaline
+  - type: ExplosionResistance
+    damageCoefficient: 0
+
+- type: entity
+  id: ClothingBeltJanitorFilledERT
+  parent: ClothingBeltJanitor
+  suffix: Filled
+  components:
+  - type: StorageFill
+    contents:
+     - id: SoapOmega
+     - id: MegaSprayBottleSpaceCleaner
+       amount: 2
+     - id: LightReplacer
+     - id: WireBrush
+     - id: BagOfSummoningGarbage
+     - id: Holoprojector
