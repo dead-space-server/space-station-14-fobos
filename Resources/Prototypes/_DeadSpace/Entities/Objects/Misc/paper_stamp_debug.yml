@@ -4,6 +4,7 @@
   name: листок со всеми печатями
   description: Древнее бюрократическое зло, созданное неадекватным кодером...
   suffix: Debug, Current Stamps
+  categories: [ DoNotMap ]
   components:
   - type: Paper
     stampState: paper_stamp-generic
