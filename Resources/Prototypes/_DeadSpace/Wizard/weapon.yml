@@ -63,7 +63,6 @@
       linearDamping: 0
       angularDamping: 0
     - type: Projectile
-      ignoreResistance: true
       deleteOnCollide: false
       damage:
         types:
