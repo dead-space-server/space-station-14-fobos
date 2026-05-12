@@ -211,6 +211,7 @@
 - type: entity
   parent: ClothingBeltMilitaryWebbing
   id: ClothingBeltMilitaryWebbingSSS #DS-14
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: Clothing/Belt/militarywebbingert.rsi

@@ -71,8 +71,8 @@
       - id: ChemistryBottleOmnizine
       - id: ChemistryBottleOmnizine
       - id: ChemistryBottleBicaridine
-      - id: ADTObjectsSpecificDexalinPlusChemistryBottle
-      - id: ADTObjectsSpecificDermalineChemistryBottle
+      - id: ChemistryBottleDexalinPlus
+      - id: ChemistryBottleDermaline
 
 - type: startingGear
   id: CentcomBlueShieldGear

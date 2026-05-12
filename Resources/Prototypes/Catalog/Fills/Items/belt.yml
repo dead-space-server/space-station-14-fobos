@@ -151,7 +151,7 @@
         amount: 2
       - id: ChemistryBottleBicaridine
         amount: 2
-      - id: ADTObjectsSpecificDermalineChemistryBottle
+      - id: ChemistryBottleDermaline
         amount: 2
 
 - type: entity
