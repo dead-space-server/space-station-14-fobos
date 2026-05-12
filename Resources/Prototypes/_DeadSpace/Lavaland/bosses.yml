@@ -242,7 +242,7 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: StaminaResistance
-    damageCoefficient: 0.1
+    damageCoefficient: 0.0001
   - type: Sprite
     drawdepth: Mobs
     sprite: _DeadSpace/Lavaland/Mobs/Hierophant.rsi
@@ -462,7 +462,7 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: StaminaResistance
-    damageCoefficient: 0.1
+    damageCoefficient: 0.0001
   - type: Sprite
     drawdepth: Mobs
     sprite: _DeadSpace/Lavaland/Mobs/AshDrake.rsi
@@ -808,7 +808,7 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: StaminaResistance
-    damageCoefficient: 0.1
+    damageCoefficient: 0.0001
   - type: Sprite
     drawdepth: Mobs
     sprite: _DeadSpace/Lavaland/Mobs/Bubblegum.rsi

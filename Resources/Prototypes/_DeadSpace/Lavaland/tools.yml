@@ -278,10 +278,10 @@
       - state: inhand-right
         shader: unshaded
     shape:
-    - 0,0,0,3
+    - 0,0,3,0
   - type: MeleeWeapon
     attackRate: 1
-    wideAnimationRotation: -135
+    wideAnimationRotation: 135
     resistanceBypass: true
     damage:
       types:
