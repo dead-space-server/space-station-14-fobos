@@ -614,8 +614,8 @@
   - type: StaminaResistance # DS14
     damageCoefficient: 0.5
   - type: ClothingSpeedModifier
-    walkModifier: 0.85
-    sprintModifier: 0.85
+    walkModifier: 0.85 # DS-14 value
+    sprintModifier: 0.85 # DS-14 value
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitSecurityRed
