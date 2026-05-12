@@ -2,6 +2,7 @@
 
 using Content.Shared.DeadSpace.Demons.Shadowling;
 using Content.Shared.Stunnable;
+using Content.Shared.Humanoid;
 using Content.Server.Chat.Systems;
 using Content.Shared.Chat;
 
@@ -28,6 +29,8 @@ public sealed class ShadowlingScreechSystem : EntitySystem
         foreach (var target in _lookup.GetEntitiesInRange(uid, component.Range))
         {
             if (target == uid) continue;
+
+            if (!HasComp<HumanoidAppearanceComponent>(target)) continue;
 
             if (HasComp<ShadowlingRecruitComponent>(target) ||
                 HasComp<ShadowlingSlaveComponent>(target) ||

@@ -1,11 +1,61 @@
 - type: entity
-  id: FreelancersOutpost
-  parent: BaseUnknownShuttleRule
+  id: PirateRaid
+  parent: BaseGameRule
   components:
+  - type: RuleGrids
+  - type: LoadMapRule
+    mapPath: /Maps/Nonstations/freelancers_Outpost.yml
+  - type: AntagSelection
+    definitions:
+    - spawnerPrototype: PirateCaptainSpawner
+      min: 1
+      max: 1
+      pickPlayer: false
+      briefing:
+        text: pirate-welcome
+        color: Red
+        sound: /Audio/Ambience/Antag/pirate_start.ogg
+      roleLoadout:
+      - RoleSurvivalEVA
+      components:
+      - type: Loadout
+        prototypes: [ PirateCaptainScooner ]
+      - type: RandomMetadata
+        nameSegments:
+        - NamesPirateCapitanTitle
+        - NamesPirateCapitan
+        nameFormat: name-format-pirate
+      - type: NpcFactionMember
+        factions:
+        - Syndicate
+      mindRoles:
+      - MindRoleGhostRoleTeamAntagonist
+    - spawnerPrototype: PirateSpawner
+      min: 4
+      max: 4
+      pickPlayer: false
+      briefing:
+        text: pirate-welcome
+        color: Red
+        sound: /Audio/Ambience/Antag/pirate_start.ogg
+      roleLoadout:
+      - RoleSurvivalEVA
+      components:
+      - type: Loadout
+        prototypes: [ PirateScoonerAltA, PirateScoonerAltB, PirateScoonerAltC, PirateScoonerAltD ]
+      - type: RandomMetadata
+        nameSegments:
+        - NamesPirateTitle
+        - NamesPirate
+        nameFormat: name-format-pirate
+      - type: NpcFactionMember
+        factions:
+        - Syndicate
+      mindRoles:
+      - MindRoleGhostRoleTeamAntagonist
+  - type: AntagLoadProfileRule
   - type: StationEvent
-    startAnnouncement: null
     weight: 1
     earliestStart: 40
     minimumPlayers: 45
-  - type: LoadMapRule
-    mapPath: /Maps/Nonstations/freelancers_Outpost.yml
+    duration: 1

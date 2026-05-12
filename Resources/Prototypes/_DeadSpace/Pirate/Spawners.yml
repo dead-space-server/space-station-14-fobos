@@ -1,0 +1,54 @@
+- type: entity
+  categories: [ HideSpawnMenu, Spawner ]
+  parent: BaseAntagSpawner
+  id: PirateCaptainSpawner
+  components:
+  - type: GhostRole
+    name: ghost-role-information-pirate-captain-name
+    description: ghost-role-information-pirate-captain-description
+    rules: ghost-role-information-rules-team-antagonist
+    mindRoles:
+    - MindRoleGhostRoleTeamAntagonist
+    requirements:
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 36000
+    - !type:DepartmentTimeRequirement
+      department: Command
+      time: 36000
+    raffle:
+      settings: default
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    layers:
+    - state: green
+    - sprite: Structures/Decoration/banner.rsi
+      state: banner-red
+  - type: GhostRoleNotifys
+    groupPrototype: ReinforcementRadioPirateping
+
+- type: entity
+  categories: [ HideSpawnMenu, Spawner ]
+  parent: BaseAntagSpawner
+  id: PirateSpawner
+  components:
+  - type: GhostRole
+    name: ghost-role-information-pirate-name
+    description: ghost-role-information-pirate-description
+    rules: ghost-role-information-rules-team-antagonist
+    mindRoles:
+    - MindRoleGhostRoleTeamAntagonist
+    requirements:
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 36000
+    raffle:
+      settings: default
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    layers:
+    - state: green
+    - sprite: Structures/Decoration/banner.rsi
+      state: banner-red
+  - type: GhostRoleNotifys
+    groupPrototype: ReinforcementRadioPirateping

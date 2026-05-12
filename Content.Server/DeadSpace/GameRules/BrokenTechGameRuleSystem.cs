@@ -212,6 +212,7 @@ public sealed class BrokenTechGameRuleSystem : GameRuleSystem<BrokenTechGameRule
         if (_compFactory.TryGetRegistration("NodeContainer", out var nodeReg)
             && EntityManager.HasComponent(uid, nodeReg.Type))
         {
+            EnsureComp<BrokenTechPowerDisabledComponent>(uid);
             EntityManager.RemoveComponent(uid, nodeReg.Type);
             return;
         }

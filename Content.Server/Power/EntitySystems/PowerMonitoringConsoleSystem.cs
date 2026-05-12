@@ -15,6 +15,7 @@ using Robust.Shared.Map.Components;
 using Robust.Shared.Utility;
 using System.Linq;
 using Content.Shared.NodeContainer;
+using Content.Shared.DeadSpace.GameRules.Components; // DS14
 
 namespace Content.Server.Power.EntitySystems;
 
@@ -27,6 +28,7 @@ internal sealed partial class PowerMonitoringConsoleSystem : SharedPowerMonitori
 
     // Note: this data does not need to be saved
     private Dictionary<EntityUid, Dictionary<Vector2i, PowerCableChunk>> _gridPowerCableChunks = new();
+    private Dictionary<EntityUid, Dictionary<Vector2i, PowerCableChunk>> _gridBrokenPowerCableChunks = new(); // DS14
     private float _updateTimer = 1.0f;
 
     private const float UpdateTime = 1.0f;
@@ -51,6 +53,10 @@ internal sealed partial class PowerMonitoringConsoleSystem : SharedPowerMonitori
         SubscribeLocalEvent<CableComponent, CableAnchorStateChangedEvent>(OnCableAnchorStateChanged);
         SubscribeLocalEvent<PowerMonitoringDeviceComponent, AnchorStateChangedEvent>(OnDeviceAnchoringChanged);
         SubscribeLocalEvent<PowerMonitoringDeviceComponent, NodeGroupsRebuilt>(OnNodeGroupRebuilt);
+        // DS14-start
+        SubscribeLocalEvent<BrokenTechPowerDisabledComponent, ComponentStartup>(OnBrokenPowerCableChanged);
+        SubscribeLocalEvent<BrokenTechPowerDisabledComponent, ComponentShutdown>(OnBrokenPowerCableChanged);
+        // DS14-end
 
         // Game rule events
         SubscribeLocalEvent<GameRuleStartedEvent>(OnPowerGridCheckStarted);
@@ -133,6 +139,7 @@ internal sealed partial class PowerMonitoringConsoleSystem : SharedPowerMonitori
                 continue;
 
             RefreshPowerCableGrid(grid, map);
+            RefreshBrokenPowerCableGrid(grid, map); // DS14
         }
 
         // Update power monitoring consoles that stand upon an updated grid
@@ -161,22 +168,15 @@ internal sealed partial class PowerMonitoringConsoleSystem : SharedPowerMonitori
             allChunks = new();
 
         var tile = _sharedMapSystem.LocalToTile(xform.GridUid.Value, grid, xform.Coordinates);
-        var chunkOrigin = SharedMapSystem.GetChunkIndices(tile, ChunkSize);
+        // DS14-start
+        SetCableChunkBit(allChunks, tile, component.CableType, args.Anchored);
+        _gridPowerCableChunks[xform.GridUid.Value] = allChunks;
 
-        if (!allChunks.TryGetValue(chunkOrigin, out var chunk))
-        {
-            chunk = new PowerCableChunk(chunkOrigin);
-            allChunks[chunkOrigin] = chunk;
-        }
+        if (!_gridBrokenPowerCableChunks.TryGetValue(xform.GridUid.Value, out var brokenChunks))
+            brokenChunks = new();
 
-        var relative = SharedMapSystem.GetChunkRelative(tile, ChunkSize);
-        var flag = GetFlag(relative);
-
-        if (args.Anchored)
-            chunk.PowerCableData[(int) component.CableType] |= flag;
-
-        else
-            chunk.PowerCableData[(int) component.CableType] &= ~flag;
+        SetCableChunkBit(brokenChunks, tile, component.CableType, args.Anchored && HasComp<BrokenTechPowerDisabledComponent>(uid));
+        _gridBrokenPowerCableChunks[xform.GridUid.Value] = brokenChunks;
 
         var query = AllEntityQuery<PowerMonitoringCableNetworksComponent, TransformComponent>();
         while (query.MoveNext(out var ent, out var entCableNetworks, out var entXform))
@@ -185,9 +185,77 @@ internal sealed partial class PowerMonitoringConsoleSystem : SharedPowerMonitori
                 continue;
 
             entCableNetworks.AllChunks = allChunks;
+            entCableNetworks.BrokenChunks = brokenChunks;
+            Dirty(ent, entCableNetworks);
+        }
+        // DS14-end
+    }
+
+    // DS14-start
+    private void OnBrokenPowerCableChanged(EntityUid uid, BrokenTechPowerDisabledComponent component, ComponentStartup args)
+    {
+        RefreshBrokenPowerCable(uid, true);
+    }
+
+    private void OnBrokenPowerCableChanged(EntityUid uid, BrokenTechPowerDisabledComponent component, ComponentShutdown args)
+    {
+        RefreshBrokenPowerCable(uid, false);
+    }
+
+    private void RefreshBrokenPowerCable(EntityUid uid, bool broken)
+    {
+        if (!TryComp<CableComponent>(uid, out var cable))
+            return;
+
+        var xform = Transform(uid);
+        var gridUid = xform.GridUid;
+
+        if (gridUid == null || !TryComp<MapGridComponent>(gridUid, out var grid))
+            return;
+
+        if (!_gridBrokenPowerCableChunks.TryGetValue(gridUid.Value, out var brokenChunks))
+            brokenChunks = new();
+        // DS14-end
+
+        var tile = _sharedMapSystem.LocalToTile(gridUid.Value, grid, xform.Coordinates);
+        SetCableChunkBit(brokenChunks, tile, cable.CableType, xform.Anchored && broken);
+        _gridBrokenPowerCableChunks[gridUid.Value] = brokenChunks;
+
+        var query = AllEntityQuery<PowerMonitoringCableNetworksComponent, TransformComponent>();
+        while (query.MoveNext(out var ent, out var entCableNetworks, out var entXform))
+        {
+            if (entXform.GridUid != gridUid) // DS14
+                continue;
+
+            entCableNetworks.BrokenChunks = brokenChunks; // DS14
             Dirty(ent, entCableNetworks);
         }
     }
+
+    // DS14-start
+    private static void SetCableChunkBit(
+        Dictionary<Vector2i, PowerCableChunk> chunks,
+        Vector2i tile,
+        CableType cableType,
+        bool enabled)
+    {
+        var chunkOrigin = SharedMapSystem.GetChunkIndices(tile, ChunkSize);
+
+        if (!chunks.TryGetValue(chunkOrigin, out var chunk))
+        {
+            chunk = new PowerCableChunk(chunkOrigin);
+            chunks[chunkOrigin] = chunk;
+        }
+
+        var relative = SharedMapSystem.GetChunkRelative(tile, ChunkSize);
+        var flag = GetFlag(relative);
+
+        if (enabled)
+            chunk.PowerCableData[(int)cableType] |= flag;
+        else
+            chunk.PowerCableData[(int)cableType] &= ~flag;
+    }
+    // DS14-end
 
     private void OnDeviceAnchoringChanged(EntityUid uid, PowerMonitoringDeviceComponent component, AnchorStateChangedEvent args)
     {
@@ -897,21 +965,30 @@ internal sealed partial class PowerMonitoringConsoleSystem : SharedPowerMonitori
                 continue;
 
             var tile = _sharedMapSystem.GetTileRef(gridUid, grid, entXform.Coordinates);
-            var chunkOrigin = SharedMapSystem.GetChunkIndices(tile.GridIndices, ChunkSize);
-
-            if (!allChunks.TryGetValue(chunkOrigin, out var chunk))
-            {
-                chunk = new PowerCableChunk(chunkOrigin);
-                allChunks[chunkOrigin] = chunk;
-            }
-
-            var relative = SharedMapSystem.GetChunkRelative(tile.GridIndices, ChunkSize);
-            var flag = GetFlag(relative);
-
-            chunk.PowerCableData[(int) cable.CableType] |= flag;
+            // DS14-start
+            SetCableChunkBit(allChunks, tile.GridIndices, cable.CableType, true);
         }
 
         return allChunks;
+    }
+
+    private Dictionary<Vector2i, PowerCableChunk> RefreshBrokenPowerCableGrid(EntityUid gridUid, MapGridComponent grid)
+    {
+        var brokenChunks = new Dictionary<Vector2i, PowerCableChunk>();
+        _gridBrokenPowerCableChunks[gridUid] = brokenChunks;
+
+        var query = AllEntityQuery<CableComponent, BrokenTechPowerDisabledComponent, TransformComponent>();
+        while (query.MoveNext(out _, out var cable, out _, out var entXform))
+        {
+            if (entXform.GridUid != gridUid || !entXform.Anchored)
+                continue;
+
+            var tile = _sharedMapSystem.GetTileRef(gridUid, grid, entXform.Coordinates);
+            SetCableChunkBit(brokenChunks, tile.GridIndices, cable.CableType, true);
+        }
+
+        return brokenChunks;
+        // DS14-end
     }
 
     private void UpdateFocusNetwork(EntityUid uid, PowerMonitoringCableNetworksComponent component, EntityUid gridUid, MapGridComponent grid, List<EntityUid> nodeList)
@@ -1003,6 +1080,13 @@ internal sealed partial class PowerMonitoringConsoleSystem : SharedPowerMonitori
             allChunks = RefreshPowerCableGrid(grid, map);
 
         component.AllChunks = allChunks;
+
+        // DS14-start
+        if (!_gridBrokenPowerCableChunks.TryGetValue(grid, out var brokenChunks))
+            brokenChunks = RefreshBrokenPowerCableGrid(grid, map);
+
+        component.BrokenChunks = brokenChunks;
+        // DS14-end
         component.FocusChunks.Clear();
 
         Dirty(uid, component);

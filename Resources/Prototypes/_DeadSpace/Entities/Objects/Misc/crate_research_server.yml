@@ -1,0 +1,9 @@
+- type: entity
+  id: CrateServerResearchAndDevelopmentServer
+  parent: CrateScienceSecure
+  name: научный ящик с Сервером РНД
+  description: Ящик что содержит плату Сервера РНД.
+  components:
+  - type: StorageFill
+    contents:
+      - id: ResearchAndDevelopmentServerMachineCircuitboard
