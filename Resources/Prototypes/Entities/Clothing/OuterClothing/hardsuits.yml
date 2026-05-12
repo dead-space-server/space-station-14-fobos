@@ -293,8 +293,8 @@
   - type: StaminaResistance # DS14
     damageCoefficient: 0.6
   - type: ClothingSpeedModifier
-    walkModifier: 0.75
-    sprintModifier: 0.75
+    walkModifier: 0.85 # DS14-value
+    sprintModifier: 0.85 # DS14-value
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitSecurity
@@ -338,8 +338,8 @@
   - type: StaminaResistance
     damageCoefficient: 0.4
   - type: ClothingSpeedModifier
-    walkModifier: 0.85 # DS14-value
-    sprintModifier: 0.85 # DS14-value
+    walkModifier: 0.90 # DS14-value
+    sprintModifier: 0.90 # DS14-value
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitBrigmedic
@@ -378,8 +378,8 @@
   - type: StaminaResistance # DS14
     damageCoefficient: 0.5
   - type: ClothingSpeedModifier
-    walkModifier: 0.8 # DS14-value
-    sprintModifier: 0.8 # DS14-value
+    walkModifier: 0.85 # DS14-value
+    sprintModifier: 0.85 # DS14-value
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitWarden
@@ -614,8 +614,8 @@
   - type: StaminaResistance # DS14
     damageCoefficient: 0.5
   - type: ClothingSpeedModifier
-    walkModifier: 0.8
-    sprintModifier: 0.8
+    walkModifier: 0.85
+    sprintModifier: 0.85
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitSecurityRed
@@ -739,6 +739,19 @@
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitSyndieMedic
   - type: Tag
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.5
+        Slash: 0.5
+        Piercing: 0.40 # DS14-value
+        Heat: 0.35 # DS14-value
+        Radiation: 0.5
+        Caustic: 0.5
+  - type: StaminaResistance #
+  - type: ClothingSpeedModifier
+    walkModifier: 0.95 # DS14-value
+    sprintModifier: 0.95 # DS14-value
     tags:
     - Hardsuit
     - WhitelistChameleon
@@ -775,7 +788,7 @@
       coefficients:
         Blunt: 0.6
         Slash: 0.6
-        Piercing: 0.55 # DS14-value
+        Piercing: 0.5 # DS14-value
         Heat: 0.15 # DS14-value
         Radiation: 0.05 # DS14-value
         Caustic: 0.5

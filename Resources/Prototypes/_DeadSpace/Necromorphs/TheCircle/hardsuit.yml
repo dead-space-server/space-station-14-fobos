@@ -20,8 +20,8 @@
       coefficients:
         Blunt: 0.45
         Slash: 0.4
-        Piercing: 0.35
-        Heat: 0.55
+        Piercing: 0.4
+        Heat: 0.40
         Cold: 0.3
         Radiation: 0.5
         Poison: 0.5
@@ -102,8 +102,8 @@
       coefficients:
         Blunt: 0.3
         Slash: 0.3
-        Piercing: 0.3
-        Heat: 0.5
+        Piercing: 0.35  
+        Heat: 0.3
         Cold: 0.35
         Radiation: 0.25
         Poison: 0.25
@@ -185,7 +185,7 @@
         Blunt: 0.65
         Slash: 0.55
         Piercing: 0.65
-        Heat: 0.65
+        Heat: 0.45
         Cold: 0.6
         Radiation: 0.55
         Poison: 0.5

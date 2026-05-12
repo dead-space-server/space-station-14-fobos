@@ -589,6 +589,8 @@
   - type: Clothing
     sprite: Clothing/Head/Hardsuits/syndicate.rsi
   - type: PointLight
+    radius: 7 #DS-14 start
+    energy: 4 #DS-14 end
     color: green
   - type: PressureProtection
     highPressureMultiplier: 0.08
@@ -617,6 +619,8 @@
   - type: Clothing
     sprite: Clothing/Head/Hardsuits/syndiemedic.rsi
   - type: PointLight
+    radius: 7 #DS-14 start
+    energy: 4 #DS-14 end
     color: green
   - type: PressureProtection
     highPressureMultiplier: 0.08
@@ -641,6 +645,8 @@
   - type: Clothing
     sprite: Clothing/Head/Hardsuits/syndieelite.rsi
   - type: PointLight
+    radius: 7 #DS-14 start
+    energy: 4 #DS-14 end
     color: red
   - type: PressureProtection
     highPressureMultiplier: 0.08
@@ -674,6 +680,8 @@
   - type: Clothing
     sprite: Clothing/Head/Hardsuits/syndiecommander.rsi
   - type: PointLight
+    radius: 7 #DS-14 start
+    energy: 4 #DS-14 end
     color: green
   - type: PressureProtection
     highPressureMultiplier: 0.08
@@ -702,6 +710,8 @@
   - type: Clothing
     sprite: Clothing/Head/Hardsuits/cybersun.rsi
   - type: PointLight # Corvax-Resprite
+    radius: 7 #DS-14 start
+    energy: 4 #DS-14 end
     color: red
   - type: PressureProtection
     highPressureMultiplier: 0.3
