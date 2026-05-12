@@ -64,7 +64,7 @@ public sealed class LavalandNecropolisTendrilSystem : EntitySystem
         var collapseQuery = EntityQueryEnumerator<LavalandTendrilCollapseComponent, TransformComponent>();
         while (collapseQuery.MoveNext(out var uid, out var collapse, out var xform))
         {
-            if (!collapse.Initialized ||
+            if (!collapse.TendrilCollapseInitialized ||
                 collapse.CollapseTime > now)
             {
                 continue;
@@ -94,7 +94,7 @@ public sealed class LavalandNecropolisTendrilSystem : EntitySystem
 
     private void OnCollapseMapInit(Entity<LavalandTendrilCollapseComponent> ent, ref MapInitEvent args)
     {
-        ent.Comp.Initialized = true;
+        ent.Comp.TendrilCollapseInitialized = true;
         ent.Comp.CollapseTime = _timing.CurTime + ent.Comp.Delay;
 
         _popup.PopupEntity("The ground begins to collapse around the tendril!", ent.Owner, PopupType.LargeCaution);

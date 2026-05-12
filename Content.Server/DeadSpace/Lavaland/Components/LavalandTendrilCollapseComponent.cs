@@ -26,5 +26,5 @@ public sealed partial class LavalandTendrilCollapseComponent : Component
     [DataField]
     public SoundSpecifier CollapseSound = new SoundPathSpecifier("/Audio/_DeadSpace/Lavaland/tendril_destroyed.ogg");
 
-    public bool Initialized;
+    public bool TendrilCollapseInitialized;
 }
