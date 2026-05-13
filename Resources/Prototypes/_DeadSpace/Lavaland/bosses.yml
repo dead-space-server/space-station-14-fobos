@@ -241,8 +241,7 @@
   suffix: Lavaland, Boss
   categories: [ HideSpawnMenu ]
   components:
-  - type: StaminaResistance
-    damageCoefficient: 0.0001
+  - type: StunImmune
   - type: Sprite
     drawdepth: Mobs
     sprite: _DeadSpace/Lavaland/Mobs/Hierophant.rsi
@@ -461,8 +460,7 @@
   suffix: Lavaland, Boss
   categories: [ HideSpawnMenu ]
   components:
-  - type: StaminaResistance
-    damageCoefficient: 0.0001
+  - type: StunImmune
   - type: Sprite
     drawdepth: Mobs
     sprite: _DeadSpace/Lavaland/Mobs/AshDrake.rsi
@@ -807,8 +805,7 @@
   suffix: Lavaland, Boss
   categories: [ HideSpawnMenu ]
   components:
-  - type: StaminaResistance
-    damageCoefficient: 0.0001
+  - type: StunImmune
   - type: Sprite
     drawdepth: Mobs
     sprite: _DeadSpace/Lavaland/Mobs/Bubblegum.rsi
