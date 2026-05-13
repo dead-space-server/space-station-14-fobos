@@ -39,6 +39,7 @@
         Slash: 0.70
         Piercing: 0.70 
         Heat: 0.80
+        Stun: 0.60
   - type: ExplosionResistance
     damageCoefficient: 0.90 
   - type: ClothingSpeedModifier

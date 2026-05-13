@@ -3,7 +3,8 @@
   parent: [ BaseWeaponRifle, BaseSyndicateContraband ]
   id: WeaponRifleZastaba
   name: Zastaba Nosle CZN-M22
-  description: Штурмовой автомат специальных войск на утяжелённом калибре 5.7x39. Он отличается системой булл-пап, высоким темпом стрельбы и убойной пулей, буквально сбивающей с ног врагов.
+  description: Штурмовой автомат специальных войск на утяжелённом калибре 5.7x39. Он отличается системой булл-пап, высоким темпом стрельбы и убойной пулей, буквально сбивающей врагов с ног.
+  suffix: Автомат
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/zastaba/zastaba-icon.rsi
@@ -86,7 +87,7 @@
   parent: BaseItem
   id: BaseMagRifleZastaba
   name: ZASTABA 30 GEN M4
-  description: Вмещает всего 30 патронов 5,7х39 мм калибра.
+  description: Вмещает 30 патронов 5.7х39 мм калибра.
   abstract: true
   components:
   - type: Tag
@@ -138,6 +139,7 @@
   id: WeaponRevolverRSh12
   name: РШ-12
   description: Мощный штурмовой револьвер под патрон 12.7x55 мм. Убойный калибр позволяет сильно пробивать структуры и небронированные цели. Встроенный фабрикатор восполняет боезапас каждые 3 секунды.
+  suffix: Револьвер
   components:
   - type: Item
     size: Small
@@ -177,7 +179,8 @@
   name: РПЛ-20
   id: WeaponLightMachineGunRPL20
   parent: BaseWeaponRifle
-  description: Пулемет предназначен для поражения живой силы, огневых и небронированных транспортных средств противника.
+  description: Пулемёт предназначен для поражения живой силы и небронированных транспортных средств противника.
+  suffix: Пулемёт
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/rpl20/rpl20.rsi
@@ -250,7 +253,7 @@
 - type: entity
   id: MagazineRPL20
   parent: MagazineLightRifleBox
-  description: Вмещает всего 85 патронов 5.45х39 мм калибра.
+  description: Вмещает 85 патронов 5.45х39 мм калибра.
   name: короб патронов РПЛ-20
   components:
   - type: Tag
@@ -276,7 +279,8 @@
   name: АШ-12
   id: WeaponRifleASh12
   parent: [ BaseWeaponRifle, BaseSyndicateContraband ]
-  description: Крупнокалиберный штурмовой автомат под патрон 12.7х55 мм. Оружие разрабатывалось с расчетом на сверхсильную ближнебойную останавливающую силу.
+  description: Крупнокалиберный штурмовой автомат под патрон 12.7х55 мм. Оружие разрабатывалось с расчетом на сверхсильную останавливающую силу.
+  suffix: Автомат
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/ash12/ash12.rsi
@@ -336,7 +340,7 @@
 - type: entity
   id: MagazineASh12
   name: магазин 12.7х55 АШ-12
-  description: Вмещает всего 20 патронов 12.7х55 калибра.
+  description: Вмещает 20 патронов 12.7х55 калибра.
   parent: BaseMagazineRifle
   components:
   - type: Tag
@@ -368,6 +372,7 @@
   parent: BaseWeaponRifle
   id: WeaponRifleSCARAB
   description: Штурмовой автомат из семейства FN SCAR, модифицированный под патрон 6.8х51 мм. На месте пулевых попаданий оставляет зверские порезы и впрыскивает в рану слабую кислоту.
+  suffix: Автомат
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/scarab/scarab.rsi
@@ -420,7 +425,7 @@
   id: MagazineRifleSCARAB
   name: SCARAB POLYMAG 30 GEN2
   parent: BaseMagazineRifle
-  description: Вмещает всего 30 патронов 6.8х51 мм калибра.
+  description: Вмещает 30 патронов 6.8х51 мм калибра.
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeRifleSCARAB
@@ -518,7 +523,7 @@
 - type: entity
   id: MagazineVSK
   name: магазин от VSK-94
-  description: Вмещает всего 22 патронов калибра 9х39, для VSK.
+  description: Вмещает 22 патрона калибра 9х39, для VSK.
   parent: MagazinePistolSubMachineGun
   components:
   - type: Tag
@@ -550,6 +555,7 @@
   parent: [BaseWeaponRifle, BaseSecurityContraband]
   id: WeaponRifleAsVal
   description: Бесшумный автомат, используется в ан-... Террористических операциях. Да, точно не украдено у СССП.
+  suffix: Автомат
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/asval/asval.rsi
@@ -775,7 +781,7 @@
   parent: BaseItem
   categories: [ HideSpawnMenu ]
   id: WeaponHandHook
-  description: ЭТО КТО К НАМ ЗАСКОЧИЛ НА УЖИН?!
+  description: ЭТО КТО ЗАШЁЛ НА УЖИН?!
   components:
     - type: MeleeWeapon
       attackRate: 2

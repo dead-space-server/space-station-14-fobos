@@ -9,6 +9,7 @@ using Robust.Shared.Map.Components;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Systems;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Abilities.Systems;
 
@@ -18,6 +19,7 @@ public sealed class ThrowingThingsSystem : EntitySystem
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly ThrowingSystem _throwing = default!;
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
+    [Dependency] private readonly IComponentFactory _componentFactory = default!;
 
     public override void Initialize()
     {
@@ -37,6 +39,7 @@ public sealed class ThrowingThingsSystem : EntitySystem
         var uid = args.Performer;
         var performerMapPos = _transform.GetMapCoordinates(uid);
         var targetPos = targetMapPos.Position;
+        var componentTypes = ResolveComponentTypes(args.Components);
 
         var items = new List<(EntityUid Item, float DistanceSquared)>();
 
@@ -48,15 +51,8 @@ public sealed class ThrowingThingsSystem : EntitySystem
                 continue;
             if (!TryComp<PhysicsComponent>(item, out var physics) || physics.BodyType == BodyType.Static)
                 continue;
-
-            if (args.Entities.Count > 0)
-            {
-                var prototype = MetaData(item).EntityPrototype;
-                if (prototype == null)
-                    continue;
-                if (!args.Entities.Contains(prototype.ID))
-                    continue;
-            }
+            if (!MatchesFilter(item, args.Entities, componentTypes))
+                continue;
 
             var itemPos = _transform.GetMapCoordinates(item).Position;
             items.Add((item, Vector2.DistanceSquared(performerMapPos.Position, itemPos)));
@@ -76,34 +72,56 @@ public sealed class ThrowingThingsSystem : EntitySystem
                 diff = Vector2.UnitY;
 
             if (HasComp<ProjectileComponent>(item))
-            {
                 LaunchProjectile(item, diff, args.ThrowStrength, uid);
-            }
             else
-            {
-                _throwing.TryThrow(
-                    item,
-                    diff,
-                    args.ThrowStrength,
-                    uid,
-                    recoil: false,
-                    compensateFriction: false);
-            }
+                _throwing.TryThrow(item, diff, args.ThrowStrength, uid, recoil: false, compensateFriction: false);
         }
 
         args.Handled = true;
     }
+
+    private List<Type> ResolveComponentTypes(List<string> componentNames)
+    {
+        var types = new List<Type>(componentNames.Count);
+        foreach (var name in componentNames)
+        {
+            if (_componentFactory.TryGetRegistration(name, out var registration))
+                types.Add(registration.Type);
+            else
+                Log.Warning($"ThrowingThingsSystem: неизвестный компонент '{name}', пропускаем.");
+        }
+        return types;
+    }
+
+    private bool MatchesFilter(EntityUid item, List<EntProtoId> entities, List<Type> componentTypes)
+    {
+        if (entities.Count == 0 && componentTypes.Count == 0)
+            return false;
+
+        if (entities.Count > 0)
+        {
+            var prototype = MetaData(item).EntityPrototype;
+            if (prototype != null && entities.Contains(prototype.ID))
+                return true;
+        }
+
+        foreach (var type in componentTypes)
+        {
+            if (EntityManager.HasComponent(item, type))
+                return true;
+        }
+
+        return false;
+    }
+
     private void LaunchProjectile(EntityUid item, Vector2 direction, float strength, EntityUid shooter)
     {
         if (!TryComp<PhysicsComponent>(item, out var physics))
             return;
 
         _physics.SetBodyType(item, BodyType.Dynamic, body: physics);
+        _physics.SetLinearVelocity(item, Vector2.Normalize(direction) * strength, body: physics);
 
-        var velocity = Vector2.Normalize(direction) * strength;
-        _physics.SetLinearVelocity(item, velocity, body: physics);
-
-        // Указываем стрелка, чтобы снаряд не ударил самого исполнителя
         if (TryComp<ProjectileComponent>(item, out var projectile))
         {
             projectile.Shooter = shooter;

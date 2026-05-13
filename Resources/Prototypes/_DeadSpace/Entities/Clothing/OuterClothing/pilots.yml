@@ -25,7 +25,7 @@
   - type: Clothing
     sprite: _DeadSpace/Clothing/OuterClothing/Hardsuits/pilotsuitsec.rsi
   - type: ClothingSpeedModifier
-    walkModifier: 0.8
-    sprintModifier: 0.8
+    walkModifier: 0.85
+    sprintModifier: 0.85
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitSecurityPilot

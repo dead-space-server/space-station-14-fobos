@@ -8,10 +8,10 @@
   components:
     - type: Sprite
       sprite: _DeadSpace/Necromorfs/BSAA/weapons/vant/vant.rsi
-      state: icon
+      state: VANT-VM
     - type: Item
       sprite: _DeadSpace/Necromorfs/BSAA/weapons/vant/vant.rsi
-      heldPrefix: icon
+      heldPrefix: VANT-VM
     - type: Clothing
       sprite: _DeadSpace/Necromorfs/BSAA/weapons/vant/vant.rsi
       quickEquip: false
@@ -315,6 +315,7 @@
   parent: [BaseWeaponRifle, BaseSecurityContraband]
   id: WeaponRifleAres
   description: Автомат имеет подвижный ствол, двухкамерный ДТК замкнутого типа и смещенный вправо относительно оси канала ствола магазин.
+  suffix: Автомат
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/Ares/icon.rsi

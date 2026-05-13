@@ -23,6 +23,12 @@
       "name": "bomb-pack"
     },
     {
+      "name": "weapon-grappling-gun"
+    },
+    {
+      "name": "magazine-box-anti-materiel"
+    },
+    {
       "name": "magazine-shotgun"
     }
   ]
