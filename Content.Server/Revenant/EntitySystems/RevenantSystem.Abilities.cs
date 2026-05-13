@@ -18,6 +18,9 @@ using Content.Shared.Silicons.Laws.Components;
 using System.Linq;
 using System.Numerics;
 using Content.Server.Revenant.Components;
+using Content.Server.Roles;
+using Content.Shared.DeadSpace.Demons.Shadowling;
+using Content.Shared.DeadSpace.Renegade.Components;
 using Content.Shared.Physics;
 using Content.Shared.DoAfter;
 using Content.Shared.Emag.Systems;
@@ -29,6 +32,7 @@ using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Revenant.Components;
+using Content.Shared.Revolutionary.Components;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Utility;
 using Robust.Shared.Map.Components;
@@ -61,6 +65,7 @@ public sealed partial class RevenantSystem
     [Dependency] private readonly LightningSystem _lightning = default!;
     [Dependency] private readonly IonStormSystem _ionStorm = default!;
     [Dependency] private readonly SharedMindSystem _mind = default!;
+    [Dependency] private readonly RoleSystem _role = default!; //DS14
 
     private static readonly ProtoId<TagPrototype> WindowTag = "Window";
 
@@ -382,7 +387,7 @@ public sealed partial class RevenantSystem
         if (args.Handled)
             return;
 
-        if (HasComp<MindShieldComponent>(args.Target))
+        if (HasComp<MindShieldComponent>(args.Target) || IsSleepProtectedAntagonist(args.Target))
         {
             _popup.PopupEntity(Loc.GetString("revenant-sleep-too-powerful"), uid, uid);
             return;
@@ -394,6 +399,20 @@ public sealed partial class RevenantSystem
         args.Handled = true;
 
         EnsureComp<RevenantForcedSleepComponent>(args.Target);
+    }
+
+    private bool IsSleepProtectedAntagonist(EntityUid target)
+    {
+        if (HasComp<RenegadeSubordinateComponent>(target) && !HasComp<RenegadeComponent>(target))
+            return false;
+
+        if (HasComp<RevolutionaryComponent>(target) && !HasComp<HeadRevolutionaryComponent>(target))
+            return false;
+
+        if (HasComp<ShadowlingSlaveComponent>(target) && !HasComp<ShadowlingComponent>(target))
+            return false;
+
+        return true;
     }
 
     private void OnMindCaptureAction(EntityUid uid, RevenantComponent component, RevenantMindCaptureActionEvent args)
