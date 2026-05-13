@@ -365,26 +365,6 @@
   - BallisticAmmoShotgunsModule
 
 - type: consoleCraft
-  id: Enforcer
-  name: Силовик
-  item: WeaponShotgunEnforcer
-  time: 10
-  requestItems:
-  - itemProto: FirstPartEnforcer
-    amount: 1
-  - itemProto: SecondPartEnforcer
-    amount: 1
-  - itemProto: ThirdPartEnforcer
-    amount: 1
-  minorItems:
-  - GunSpreadModifierShotgunLow
-  - GunSpreadModifierShotgunHigh
-  - RateOfFireEnforcerAdvanced
-  - MassSkope
-  - SpeedBullet
-  - BallisticAmmoShotgunsModule
-
-- type: consoleCraft
   id: AresSWC
   name: Арес SWC
   item: WeaponShotgunAresSWC
