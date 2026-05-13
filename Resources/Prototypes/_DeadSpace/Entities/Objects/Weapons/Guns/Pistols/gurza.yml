@@ -28,7 +28,7 @@
     slots:
       gun_magazine:
         name: Magazine
-        startingItem: MagazinePistolHighCapacity
+        startingItem: MagazineGurza
         insertSound: /Audio/Weapons/Guns/MagIn/pistol_magin.ogg
         ejectSound: /Audio/Weapons/Guns/MagOut/pistol_magout.ogg
         priority: 2
@@ -36,6 +36,7 @@
           tags:
             - MagazinePistolHighCapacity
             - MagazinePistol
+            - MagazineGurza
         whitelistFailPopup: gun-magazine-whitelist-fail
       gun_chamber:
         name: Chamber
@@ -50,3 +51,85 @@
       gun_chamber: !type:ContainerSlot
   - type: StaticPrice
     price: 1000
+
+- type: entity
+  abstract: true
+  parent: [ BaseItem, BaseSyndicateContraband ]
+  id: BaseMagazineGurza
+  name: machine pistol magazine (.35 auto)
+  components:
+  - type: Tag
+    tags:
+      - MagazineGurza
+  - type: BallisticAmmoProvider
+    mayTransfer: true
+    whitelist:
+      tags:
+        - CartridgePistol
+    capacity: 38
+  - type: Item
+    size: Small
+  - type: ContainerContainer
+    containers:
+      ballistic-ammo: !type:Container
+  - type: Sprite
+    scale: 1.2, 1.2 # DS-14
+    sprite: _DeadSpace/Objects/Weapons/Guns/Ammunition/Magazine/Pistol/gurza_mag.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: MagazineVisuals
+    magState: mag
+    steps: 8
+    zeroVisible: false
+  - type: Appearance
+  # DS14-start
+  - type: PhysicalComposition
+    materialComposition:
+      Steel: 25
+  # DS14-end
+
+- type: entity
+  id: MagazineGurza
+  name: чёрный автопистолетный магазин (9х19 мм)
+  parent: BaseMagazineGurza
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgePistol
+  - type: Sprite
+    scale: 1.2, 1.2 # DS-14
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      right:
+      - state: inhand-right-mag
+
+- type: entity
+  id: MagazineGurzaEmpty
+  name: чёрный автопистолетный магазин (9х19 мм любой)
+  suffix: пустой
+  parent: BaseMagazineGurza
+  components:
+  - type: BallisticAmmoProvider
+    proto: null
+  - type: Sprite
+    scale: 1.2, 1.2 # DS-14
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      right:
+      - state: inhand-right-mag

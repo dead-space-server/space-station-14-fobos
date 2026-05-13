@@ -742,11 +742,11 @@
       - NukeOpsUplink
 
 - type: listing
-  id: UplinkMagazinePistolHighCapacity
-  name: Автопистолетный магазин (9х19 мм)
-  description: Увеличинный магазин на 28 патронов.
-  icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Magazine/Pistol/pistol_high_capacity_mag.rsi, state: base }
-  productEntity: MagazinePistolHighCapacity
+  id: UplinkMagazineGurza
+  name: Чёрный автопистолетный магазин (9х19 мм)
+  description: Увеличинный магазин на 38 патронов. Подходит для пистолета Гюрза.
+  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Ammunition/Magazine/Pistol/gurza_mag.rsi, state: base-icon }
+  productEntity: MagazineGurza
   cost:
     Telecrystal: 2
   categories:
