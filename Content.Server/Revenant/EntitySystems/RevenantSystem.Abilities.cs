@@ -46,6 +46,7 @@ using Robust.Shared.Containers;
 using Content.Shared.DeadSpace.Languages.Components;
 using Content.Shared.Beam.Components;
 using Content.Shared.Damage.Components;
+using Content.Shared.Ninja.Components;
 
 namespace Content.Server.Revenant.EntitySystems;
 
@@ -403,16 +404,19 @@ public sealed partial class RevenantSystem
 
     private bool IsSleepProtectedAntagonist(EntityUid target)
     {
-        if (HasComp<RenegadeSubordinateComponent>(target) && !HasComp<RenegadeComponent>(target))
-            return false;
+        if (HasComp<RenegadeComponent>(target))
+            return true;
 
-        if (HasComp<RevolutionaryComponent>(target) && !HasComp<HeadRevolutionaryComponent>(target))
-            return false;
+        if (HasComp<HeadRevolutionaryComponent>(target))
+            return true;
 
-        if (HasComp<ShadowlingSlaveComponent>(target) && !HasComp<ShadowlingComponent>(target))
-            return false;
+        if (HasComp<ShadowlingComponent>(target))
+            return true;
 
-        return true;
+        if (HasComp<SpaceNinjaComponent>(target))
+            return true;
+
+        return false;
     }
 
     private void OnMindCaptureAction(EntityUid uid, RevenantComponent component, RevenantMindCaptureActionEvent args)
