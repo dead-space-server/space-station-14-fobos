@@ -54,7 +54,6 @@
 
 - type: entity
   id: WirardEffectLightningExplosion
-  parent: BaseItem
   categories: [ HideSpawnMenu ]
   components:
   - type: TriggerOnSpawn
