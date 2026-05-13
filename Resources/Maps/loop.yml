@@ -13171,28 +13171,28 @@ entities:
     - type: Transform
       pos: -71.826645,12.451012
       parent: 2
-- proto: ADTObjectsSpecificBicaridineChemistryBottle
+- proto: ChemistryBottleBicaridine
   entities:
   - uid: 115
     components:
     - type: Transform
       pos: -29.809208,66.24502
       parent: 2
-- proto: ADTObjectsSpecificDermalineChemistryBottle
+- proto: ChemistryBottleDermaline
   entities:
   - uid: 116
     components:
     - type: Transform
       pos: -17.69445,70.576805
       parent: 2
-- proto: ADTObjectsSpecificDexalinPlusChemistryBottle
+- proto: ChemistryBottleDexalinPlus
   entities:
   - uid: 117
     components:
     - type: Transform
       pos: -0.039233208,74.10447
       parent: 2
-- proto: ADTObjectsSpecificLeporazineChemistryBottle
+- proto: ChemistryBottleLeporazine
   entities:
   - uid: 118
     components:

@@ -26,6 +26,12 @@
       name: ghost-role-information-pirate-holoparasite-name
       description: ghost-role-information-pirate-holoparasite-description
       rules: ghost-role-information-familiar-rules
+      mindRoles:
+      - MindRoleGhostRoleTeamAntagonist
+      requirements:
+      - !type:DepartmentTimeRequirement
+        department: Security
+        time: 36000 # 10 hours
       raffle:
         settings: default
     - type: GhostTakeoverAvailable

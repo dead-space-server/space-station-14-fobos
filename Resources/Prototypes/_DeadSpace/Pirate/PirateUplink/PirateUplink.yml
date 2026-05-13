@@ -11,6 +11,16 @@
     - PirateUplinkWeaponry
 
 - type: listing
+  id: ClothingHandsKnuckleDustersList
+  name: uplink-pirate-clothing-hands-knuckle-dusters
+  icon: { sprite: Clothing/Hands/Gloves/KnuckleDusters/knuckleduster.rsi, state: knuckleduster } 
+  productEntity: ClothingHandsKnuckleDusters
+  cost:
+    SpaceCash: 2000
+  categories:
+    - PirateUplinkWeaponry
+
+- type: listing
   id: WeaponSniperMosinList
   icon: { sprite: Objects/Weapons/Guns/Snipers/bolt_gun_wood.rsi, state: base } 
   productEntity: WeaponSniperMosin
@@ -40,23 +50,23 @@
     - PirateUplinkWeaponry
 
 - type: listing
-  id: WeaponShotgunBlunderbussList
-  name: uplink-pirate-weapon-shotgun-blunderbuss-name
-  description: uplink-pirate-weapon-shotgun-blunderbuss-description
-  icon: { sprite: Objects/Weapons/Guns/Shotguns/blunderbuss.rsi, state: icon } 
-  productEntity: WeaponShotgunBlunderbuss
+  id: WeaponPistolFlintlockList
+  name: uplink-pirate-weapon-pistol-flintlock-name
+  icon: { sprite: Objects/Weapons/Guns/Snipers/flintlock.rsi, state: base } 
+  productEntity: WeaponPistolFlintlock
   cost:
-    SpaceCash: 3500
+    SpaceCash: 3000
   categories:
     - PirateUplinkWeaponry
 
 - type: listing
-  id: ClothingHandsKnuckleDustersList
-  name: uplink-pirate-clothing-hands-knuckle-dusters
-  icon: { sprite: Clothing/Hands/Gloves/KnuckleDusters/knuckleduster.rsi, state: knuckleduster } 
-  productEntity: ClothingHandsKnuckleDusters
+  id: WeaponShotgunSawnList
+  name: uplink-pirate-weapon-shotgun-sawn-name
+  description: uplink-pirate-weapon-shotgun-sawn-description
+  icon: { sprite: Objects/Weapons/Guns/Shotguns/sawn.rsi, state: icon } 
+  productEntity: WeaponShotgunSawn
   cost:
-    SpaceCash: 4000
+    SpaceCash: 3500
   categories:
     - PirateUplinkWeaponry
 
@@ -67,6 +77,17 @@
   productEntity: WeaponLauncherPirateCannon
   cost:
     SpaceCash: 4500
+  categories:
+    - PirateUplinkWeaponry
+
+- type: listing
+  id: WeaponRevolverPythonList
+  name: uplink-pirate-weapon-revolver-python-name
+  description: uplink-pirate-weapon-revolver-python-description
+  icon: { sprite: Objects/Weapons/Guns/Revolvers/python.rsi, state: icon } 
+  productEntity: WeaponRevolverPython
+  cost:
+    SpaceCash: 5000
   categories:
     - PirateUplinkWeaponry
 
@@ -206,6 +227,17 @@
   productEntity: BoxLethalshot
   cost:
     SpaceCash: 1600
+  categories:
+    - PirateUplinkAmmo
+
+- type: listing
+  id: MagazineBoxAntiMaterielList
+  name: uplink-pirate-magazine-box-anti-materiel-name
+  description: uplink-pirate-magazine-box-anti-materiel-description
+  icon: { sprite: _DeadSpace/Pirates/PirateUplinkCategories.rsi, state: magazine-box-anti-materiel }
+  productEntity: MagazineBoxAntiMateriel
+  cost:
+    SpaceCash: 2000
   categories:
     - PirateUplinkAmmo
 
@@ -438,6 +470,17 @@
     - PirateUplinkWearables
 
 - type: listing
+  id: WeaponGrapplingGunList
+  name: uplink-pirate-weapon-grappling-gun-name
+  description: uplink-pirate-weapon-grappling-gun-description
+  icon: { sprite: _DeadSpace/Pirates/PirateUplinkCategories.rsi, state: weapon-grappling-gun }
+  productEntity: WeaponGrapplingGun
+  cost:
+    SpaceCash: 1500
+  categories:
+    - PirateUplinkWearables
+
+- type: listing
   id: ClothingShoesBootsMag
   name: uplink-pirate-clothing-shoes-boots-mag-name
   icon: { sprite: Clothing/Shoes/Boots/magboots.rsi, state: icon }
@@ -463,6 +506,16 @@
   description: uplink-pirate-jetpack-mini-filled-description
   icon: { sprite: Objects/Tanks/Jetpacks/mini.rsi, state: icon }
   productEntity: JetpackMiniFilled
+  cost:
+    SpaceCash: 3000
+  categories:
+    - PirateUplinkWearables
+
+- type: listing
+  id: ClothingBeltMilitaryWebbingList
+  name: uplink-pirate-clothing-belt-military-webbing-name
+  icon: { sprite: Clothing/Belt/militarywebbing.rsi, state: icon }
+  productEntity: ClothingBeltMilitaryWebbing
   cost:
     SpaceCash: 3000
   categories:
@@ -511,7 +564,7 @@
   icon: { sprite: Clothing/OuterClothing/Suits/eva_syndicate.rsi, state: icon }
   productEntity: ClothingBackpackDuffelSyndicateEVABundle
   cost:
-    SpaceCash: 8000
+    SpaceCash: 6500
   categories:
     - PirateUplinkWearables
 
@@ -537,7 +590,7 @@
     - PirateUplinkWearables
   conditions:
   - !type:ListingLimitedStockCondition
-    stock: 2
+    stock: 1
 
 # 8. БЕЗДЕЛУШКИ
 

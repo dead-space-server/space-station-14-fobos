@@ -421,6 +421,8 @@
     - WeaponMagmite # DS14
     - SecurityRIGCraftDetails # DS14
     - GlovesArkalyse # DS14
+    - SecurityBorgModulesTierTwo # DS14
+    - SecurityBorgModulesTierThree # DS14
   - type: EmagLatheRecipes
     emagStaticPacks:
     - SyndicateAmmoStatic

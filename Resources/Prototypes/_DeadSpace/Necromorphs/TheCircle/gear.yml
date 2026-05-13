@@ -85,7 +85,7 @@
   parent: [ BasePDA, BaseSyndicateContraband ]
   id: UnitologyPDA
   name: тактический планшет «uniPod»
-  description: В теории на ней можно запустить DOOM1984-...
+  description: В теории, на нём можно запустить DOOM1984-...
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -174,7 +174,7 @@
 - type: entity
   parent: SyndicateIDCard
   id: UnitologyIDCard
-  description: Карта, с которой возможно красть доступы с другой карты.
+  description: ID-карта, которая может воровать доступы с другой ID-карты.
   categories: [ HideSpawnMenu ]
   components:
   - type: IdCard
@@ -499,7 +499,6 @@
   parent: ClothingBackpackUnitology
   id: ClothingBackpackUnitologyFilled
   name: штурмовой рюкзак
-  description: Компактный, но вместительный рюкзак для оперативных задач.
   suffix: Заполенная
   components:
   - type: StorageFill
@@ -511,7 +510,6 @@
   parent: ClothingBackpackUnitology
   id: ClothingBackpackUnitologyEngineerFilled
   name: штурмовой рюкзак
-  description: Компактный, но вместительный рюкзак для оперативных задач.
   suffix: Заполненная, Зодчий
   components:
   - type: StorageFill

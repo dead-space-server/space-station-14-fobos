@@ -50,7 +50,7 @@ public sealed class AdminToySystem : EntitySystem
     private const int MaxToyNameLength = 80;
     private const int MaxToyDescriptionLength = 512;
     private const string DefaultToyName = "Дух нудной работы";
-    private const string DefaultToyDescription = "Дух рабочего, что некогда служил на этой станции и сгорел на работе... Или он просто съел пельмени от Джониты Райтмен... Кто знает?...";
+    private const string DefaultToyDescription = "Дух рабочего, что некогда служил на этой станции и сгорел на работе... Или он просто съел пельмени от Джониты Райтмен... Кто знает?..";
 
     [Dependency] private readonly IAdminManager _admin = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
