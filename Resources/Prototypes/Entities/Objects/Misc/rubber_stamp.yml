@@ -300,9 +300,10 @@
   - type: StaticPrice
     price: 1000
 
+# DS14-start
 - type: entity
   name: syndicate emblem rubber stamp
-  parent: RubberStampBase
+  parent: [RubberStampBase, BaseSyndicateContraband]
   id: RubberStampSyndicateEmblem
   categories: [ DoNotMap ]
   components:
@@ -310,14 +311,13 @@
     stampedName: stamp-component-stamped-name-syndicate-emblem
     stampedColor: "#850000"
     stampState: "paper_stamp-syndicate"
-    # DS14-start
     stampTexture: "/Textures/Interface/Stamps/syndicate_print.png"
     stampScale: 1.12
-    # DS14-end
   - type: Sprite
     state: stamp-syndicate
   - type: StaticPrice
     price: 1000
+# DS14-end
 
 - type: entity
   name: warden's rubber stamp
