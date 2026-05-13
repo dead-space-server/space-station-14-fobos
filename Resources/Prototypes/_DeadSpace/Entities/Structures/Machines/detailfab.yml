@@ -52,6 +52,7 @@
     staticPacks:
     - RIGStartDetails
     dynamicPacks:
+    - RIGAdvancedCorePart
     - GunsModules
     - RifleCraftDetails
     - PistolsCraftDetails

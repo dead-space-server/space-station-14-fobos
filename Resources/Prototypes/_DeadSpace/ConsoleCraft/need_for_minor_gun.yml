@@ -81,7 +81,7 @@
 - type: entity
   parent: BaseItem
   id: GunSpreadModifierShotgunLowModuleItem
-  name: модуль Дробовика - Понижение разброса
+  name: модуль Дробовика - понижение разброса
   description: Валентин Шевченко никого не убивал. Можно использовать только для Ареса и Силовика.
   components:
   - type: Sprite
@@ -91,7 +91,7 @@
 - type: entity
   parent: BaseItem
   id: GunSpreadModifierShotgunHighModuleItem
-  name: модуль Дробовика - Повышение разброса
+  name: модуль Дробовика - повышение разброса
   description: Скажи, ты стихи любишь? Можно использовать только для Ареса и Силовика.
   components:
   - type: Sprite
@@ -103,7 +103,7 @@
 - type: entity
   parent: BaseItem
   id: RateOfFireEnforcerModuleItem
-  name: модуль Силовика - Повышенная скорострельность
+  name: модуль Силовика - повышенная скорострельность
   description: Превратите своих врагов в кукл на руку в виде Степашки и Хрюшки.
   components:
   - type: Sprite
@@ -115,7 +115,7 @@
 - type: entity
   parent: BaseItem
   id: RateOfFireKammererModuleItem
-  name: модуль Каммера - Повышенная скорострельность
+  name: модуль Каммера - повышенная скорострельность
   description: Превратите своих врагов в кукл на руку в виде Степашки и Хрюшки.
   components:
   - type: Sprite
@@ -127,7 +127,7 @@
 - type: entity
   parent: BaseItem
   id: RateOfFireAresSWCModuleItem
-  name: модуль Ареса - Повышенная скорострельность
+  name: модуль Ареса - повышенная скорострельность
   description: Превратите своих врагов в кукл на руку в виде Степашки и Хрюшки.
   components:
   - type: Sprite

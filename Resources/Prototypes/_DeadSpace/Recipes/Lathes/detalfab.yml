@@ -530,6 +530,7 @@
   materials:
     Steel: 2000
     Plasteel: 250
+    Wood: 500
 
 - type: latheRecipe
   id: ThirdPartKammerer
@@ -537,6 +538,7 @@
   materials:
     Steel: 1250
     Plasteel: 350
+    Wood: 500
 
 # Модули
 
