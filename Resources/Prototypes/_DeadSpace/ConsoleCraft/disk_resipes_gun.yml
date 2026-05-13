@@ -1,0 +1,71 @@
+- type: entity
+  parent: BaseItem
+  id: BlueprintEnforcerInfinite
+  name: чертёж Силовика
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: Enforcer
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintKammererInfinite
+  name: чертёж Каммера
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: Kammerer
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintAresSWCInfinite
+  name: чертёж Арес SWC
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: AresSWC
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintLecterInfinite
+  name: чертёж Лектера
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: Lecter
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintDrozdInfinite
+  name: чертёж Дрозда
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: Drozd
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintМК58Infinite
+  name: чертёж МК58
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: PistolMk58
