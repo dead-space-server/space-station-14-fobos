@@ -14,7 +14,7 @@
     range: 10
   - type: WorldTargetAction
     event: !type:GoliathSummonTentacleAction
-      entityId: WirardEffectLightning
+      entityId: WizardEffectLightning
       offsetDirections:
         - North
       extraSpawns: 0
