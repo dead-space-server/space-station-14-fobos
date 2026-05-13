@@ -69,3 +69,83 @@
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: PistolMk58
+
+# 3 использование
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintEnforcerThreeUse
+  name: чертёж Силовика
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: Enforcer
+    maxCrafts: 3
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintKammererThreeUse
+  name: чертёж Каммера
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: Kammerer
+    maxCrafts: 3
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintAresSWCThreeUse
+  name: чертёж Арес SWC
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: AresSWC
+    maxCrafts: 3
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintLecterThreeUse
+  name: чертёж Лектера
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: Lecter
+    maxCrafts: 3
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintDrozdThreeUse
+  name: чертёж Дрозда
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: Drozd
+    maxCrafts: 3
+
+- type: entity
+  parent: BaseItem
+  id: BlueprintМК58ThreeUse
+  name: чертёж МК58
+  description: Диск что зачастую содержит какую-то ебуристику.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: holodisk
+  - type: ConsoleCraftBlueprint
+    recipe: PistolMk58
+    maxCrafts: 3

@@ -226,25 +226,6 @@
   - PoisonResistanceModuleMaxim
   - PNVModuleMaxim
 
-- type: consoleCraft
-  id: LecterCraft
-  name: Лектер
-  item: WeaponRifleLecter
-  time: 10
-  requestItems:
-  - itemProto: ScrapFirelock3
-    amount: 1
-    label: Каркас Лектера
-  - itemProto: MediumCoreForModifiedBackpack
-    amount: 1
-    label: Модуль Лектера
-  minorItems:
-  - MassSkope
-  - EnhancedCoolingModule
-  - SpeedBullet
-  - ExtendedAmmoMag
-  - OverchargeModule
-
 # Рамдомные чертежи при крафте
 # Если вы хотите чтобы был рамдомный предмет во время крафта у чертежа, ставьте не requestItems, а randomRequestItems, а после чего составляйте список.
 
@@ -382,7 +363,6 @@
   - RateOfFireAresSWCAdvanced
   - MassSkope
   - SpeedBullet
-  - BallisticAmmoShotgunsModule
 
 - type: consoleCraft
   id: Lecter
