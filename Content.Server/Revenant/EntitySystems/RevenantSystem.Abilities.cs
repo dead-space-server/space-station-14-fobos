@@ -44,9 +44,9 @@ using Content.Shared.Ghost;
 using Robust.Shared.Containers;
 
 using Content.Shared.DeadSpace.Languages.Components;
-using Content.Shared.Beam.Components;
 using Content.Shared.Damage.Components;
 using Content.Shared.Ninja.Components;
+using Content.Shared.Roles.Components;
 
 namespace Content.Server.Revenant.EntitySystems;
 
@@ -414,6 +414,10 @@ public sealed partial class RevenantSystem
             return true;
 
         if (HasComp<SpaceNinjaComponent>(target))
+            return true;
+
+        if (_mind.TryGetMind(target, out var mindId, out _) &&
+            _role.MindHasRole<NukeopsRoleComponent>(mindId))
             return true;
 
         return false;
