@@ -358,9 +358,9 @@
   productEntity: ClothingBackpackDuffelSyndicateFilledGrenadeLauncher
   discountCategory: veryRareDiscounts
   discountDownTo:
-    Telecrystal: 30 # DS14-value
+    Telecrystal: 20
   cost:
-    Telecrystal: 35 # DS14-value
+    Telecrystal: 25
   categories:
   - UplinkWeaponry
   # DS14-start

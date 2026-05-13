@@ -202,7 +202,7 @@
 # DS14-end
   - type: Action
     checkCanInteract: false
-    useDelay: 45 #DS14-value
+    useDelay: 120 #DS14-value
     itemIconStyle: BigAction
     priority: -20
     icon:
