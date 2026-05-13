@@ -223,17 +223,6 @@
       - NukeOpsUplink
 
 - type: listing
-  id: UplinkMagazineMachineGun
-  name: uplink-machine-gun-magazine-name
-  description: uplink-machine-gun-magazine-desc
-  icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Magazine/Pistol/smg_mag.rsi, state: red }
-  productEntity: MagazinePistolSubMachineGun
-  cost:
-    Telecrystal: 3
-  categories:
-  - UplinkAmmo
-
-- type: listing
   id: UplinkMagazineLightRifle
   name: uplink-light-rifle-magazine-name
   description: uplink-light-rifle-magazine-desc
@@ -735,3 +724,35 @@
     Telecrystal: 3
   categories:
   - UplinkWearables
+
+- type: listing
+  id: UplinkWeaponPistolGurza
+  name: Гюрза
+  description: Крайне скорострельный автоматический пистолет в калибре 9х19 мм. Не имеет ничего общего с аномалиями.
+  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Pistols/gurza.rsi, state: icon }
+  productEntity: WeaponPistolGurza
+  cost:
+    Telecrystal: 7
+  categories:
+  - UplinkWeaponry
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkMagazinePistolHighCapacity
+  name: Автопистолетный магазин (9х19 мм)
+  description: Увеличинный магазин на 28 патронов.
+  icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Magazine/Pistol/pistol_high_capacity_mag.rsi, state: base }
+  productEntity: MagazinePistolHighCapacity
+  cost:
+    Telecrystal: 2
+  categories:
+  - UplinkAmmo
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink

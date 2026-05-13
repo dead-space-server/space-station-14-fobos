@@ -1,0 +1,162 @@
+- type: entity
+  id: BorgModuleSecurityFirearms
+  parent: [ BaseBorgModuleSecurity, BaseProviderBorgModule ]
+  name: огнестрельный модуль
+  description: Модуль с Дроздом и ножом кукри.
+  suffix: Security
+  components:
+  - type: Sprite
+    sprite: /Textures/_DeadSpace/SecurityBorg/borg_module_sec.rsi
+    layers:
+    - state: security
+    - state: icon-energy
+  - type: ItemBorgModule
+    hands:
+    - item: WeaponSubMachineGunDrozdSecurityBorg
+    - item: KukriKnife
+  - type: BorgModuleIcon
+    icon:
+      sprite: /Textures/Objects/Weapons/Guns/SMGs/drozd.rsi
+      state: base
+
+- type: entity
+  id: BorgModuleSecurityJump
+  parent: BaseBorgModuleSecurity
+  name: прыжковый модуль
+  description: Модуль со встроенным приводом для совершения того самого последнего прыжка.
+  suffix: Security
+  components:
+  - type: Sprite
+    sprite: /Textures/_DeadSpace/SecurityBorg/borg_module_sec.rsi
+    layers:
+    - state: security
+    - state: icon-energy
+  - type: ComponentBorgModule
+    components:
+    - type: JumpAbility
+      jumpDistance: 4
+      jumpSound: /Audio/Effects/stealthoff.ogg
+  - type: BorgModuleIcon
+    icon:
+      sprite: Interface/Actions/actions_borg.rsi
+      state: no-action
+
+- type: entity
+  id: BorgModuleSecurityEmergency
+  parent: [ BaseBorgModuleSecurity, BaseProviderBorgModule ]
+  name: модуль экстренной помощи
+  description: Модуль с двумя самовосполняющимися экстренными автоинъекторами.
+  suffix: Security
+  components:
+  - type: Sprite
+    sprite: /Textures/_DeadSpace/SecurityBorg/borg_module_sec.rsi
+    layers:
+    - state: security
+    - state: icon-energy
+  - type: ItemBorgModule
+    hands:
+    - item: SecurityBorgEmergencyMedipen
+    - item: SecurityBorgEmergencyMedipen
+  - type: BorgModuleIcon
+    icon:
+      sprite: Interface/Actions/actions_borg.rsi
+      state: no-action
+
+- type: entity
+  id: WeaponSubMachineGunDrozdSecurityBorg
+  parent: BaseItem
+  name: Дрозд
+  description: Автоматический пистолет-пулемёт для огнестрельного модуля. Работает только очередями и постепенно восстанавливает боезапас.
+  suffix: Security Borg
+  components:
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/SMGs/drozd.rsi
+    layers:
+    - state: base
+  - type: Item
+    size: Huge
+    sprite: Objects/Weapons/Guns/SMGs/drozd.rsi
+  - type: Clothing
+    sprite: Objects/Weapons/Guns/SMGs/drozd.rsi
+    quickEquip: false
+    slots:
+    - Back
+    - suitStorage
+  - type: Gun
+    minAngle: 2
+    maxAngle: 16
+    angleIncrease: 3
+    angleDecay: 16
+    fireRate: 6
+    burstFireRate: 18
+    shotsPerBurst: 3
+    burstCooldown: 0.375
+    selectedMode: Burst
+    availableModes:
+    - Burst
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/atreides.ogg
+    defaultDirection: 1, 0
+  - type: ContainerContainer
+    containers:
+      ballistic-ammo: !type:Container
+  - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CartridgePistol
+    capacity: 30
+    proto: CartridgePistol
+    cycleable: false
+  - type: BallisticAmmoSelfRefiller
+    autoRefillRate: 4s
+    affectedByEmp: true
+  - type: AmmoCounter
+  - type: StaticPrice
+    price: 500
+
+- type: entity
+  id: SecurityBorgEmergencyMedipen
+  parent: BorgHypo
+  name: экстренный автоинъектор
+  description: Самовосполняющийся автоинъектор со смесью эпинефрина и транексамовой кислоты. Является многоразовым, но для синтеза препарата нужно время.
+  suffix: Security Borg
+  components:
+  - type: Sprite
+    sprite: Objects/Specific/Medical/hypospray.rsi
+    layers:
+    - state: borghypo
+      map: [ "enum.SolutionContainerLayers.Base" ]
+    - state: borghypo_fill1
+      map: [ "enum.SolutionContainerLayers.Fill" ]
+      visible: false
+  - type: Item
+    sprite: Objects/Specific/Medical/hypospray.rsi
+  - type: SolutionContainerManager
+    solutions:
+      hypospray:
+        maxVol: 15
+        reagents:
+        - ReagentId: Epinephrine
+          Quantity: 12
+        - ReagentId: TranexamicAcid
+          Quantity: 3
+  - type: Injector
+    solutionName: hypospray
+    currentTransferAmount: null
+    activeModeProtoId: HyposprayInjectMode
+    allowedModes:
+    - HyposprayInjectMode
+  - type: SolutionRegeneration
+    solution: hypospray
+    generated:
+      reagents:
+      - ReagentId: Epinephrine
+        Quantity: 0.2
+      - ReagentId: TranexamicAcid
+        Quantity: 0.05
+  - type: UseDelay
+    delay: 120
+  - type: SolutionContainerVisuals
+    maxFillLevels: 2
+    fillBaseName: borghypo_fill
+    solutionName: hypospray

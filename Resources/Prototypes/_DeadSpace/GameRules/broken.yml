@@ -9,7 +9,7 @@
         minuteMin: 27
         minuteMax: 36
         howMuchEntity: 2
-        chance: 65
+        chance: 35
         action: !type:ExplodeEntityAction
           spawnTable: !type:EntSelector
             id: FireNRFHELL

@@ -189,7 +189,7 @@
       burstFireRate: 20 # DS14-value
       soundGunshot:
         path: /Audio/Weapons/Guns/Gunshots/atreides.ogg
-      selectedMode: Burst
+      selectedMode: FullAuto #DS-14
       availableModes:
       - Burst
       - FullAuto

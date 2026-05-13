@@ -20708,7 +20708,7 @@ entities:
     - type: Transform
       pos: -11.584424,8.2665615
       parent: 2
-- proto: ADTObjectsSpecificBicaridineChemistryBottle
+- proto: ChemistryBottleBicaridine
   entities:
   - uid: 68
     components:
@@ -20722,7 +20722,7 @@ entities:
       parent: 80
     - type: Physics
       canCollide: False
-- proto: ADTObjectsSpecificDermalineChemistryBottle
+- proto: ChemistryBottleDermaline
   entities:
   - uid: 69
     components:
@@ -20730,7 +20730,7 @@ entities:
       parent: 67
     - type: Physics
       canCollide: False
-- proto: ADTObjectsSpecificDexalinChemistryBottle
+- proto: ChemistryBottleDexalin
   entities:
   - uid: 82
     components:
@@ -20738,7 +20738,7 @@ entities:
       parent: 80
     - type: Physics
       canCollide: False
-- proto: ADTObjectsSpecificDexalinPlusChemistryBottle
+- proto: ChemistryBottleDexalinPlus
   entities:
   - uid: 83
     components:

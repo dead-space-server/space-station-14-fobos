@@ -156,7 +156,7 @@ public sealed partial class AdminVerbSystem
         {
             Text = shadowlingName,
             Category = VerbCategory.Antag,
-            Icon = new SpriteSpecifier.Rsi(new("/Textures/_DeadSpace/Interface/Misc/antag_icons.rsi"), "shadowling_Icon2"),
+            Icon = new SpriteSpecifier.Rsi(new("/Textures/_DeadSpace/Interface/Misc/antag_icons.rsi"), "ShadowlingIcon2"),
             Act = () =>
             {
                 if (targetPlayer.AttachedEntity is not { } target) return;

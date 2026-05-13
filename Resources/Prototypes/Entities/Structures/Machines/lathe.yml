@@ -11,7 +11,7 @@
       fix1:
         shape:
           !type:PhysShapeAabb
-          bounds: "-0.4,-0.4,0.4,0.4"
+          bounds: "-0.25,-0.35,0.25,0.35" # DS14
         density: 190
         mask:
         - MachineMask
@@ -421,6 +421,8 @@
     - WeaponMagmite # DS14
     - SecurityRIGCraftDetails # DS14
     - GlovesArkalyse # DS14
+    - SecurityBorgModulesTierTwo # DS14
+    - SecurityBorgModulesTierThree # DS14
   - type: EmagLatheRecipes
     emagStaticPacks:
     - SyndicateAmmoStatic

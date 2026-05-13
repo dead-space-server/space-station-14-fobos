@@ -8,5 +8,5 @@ namespace Content.Shared.DeadSpace.Demons.Shadowling;
 public sealed partial class ShadowlingRecruitObjectiveComponent : Component
 {
     [DataField]
-    public int TargetCount = 15;
+    public int TargetCount = 30;
 }
