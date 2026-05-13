@@ -276,9 +276,6 @@
     - MechBoards
     - ShuttleBoards
     - VirologyBoards # DS14
-    - BlueprintRIGInfinite # DS14
-    - BlueprintRIGThreeUse # DS14
-    - BlueprintRIGOneUse # DS14
   - type: EmagLatheRecipes
     emagDynamicPacks:
     - SecurityBoards
@@ -409,6 +406,7 @@
     - SecurityAmmoStatic
     - SecurityWeaponsStatic
     - SecurityBorgModulesStatic # DS14
+    - SecDetailTechFab # DS14
     dynamicPacks:
     - SalvageSecurityBoards
     - SalvageSecurityWeapons
@@ -419,7 +417,6 @@
     - SecurityWeapons
     - SecurityDisablers
     - WeaponMagmite # DS14
-    - SecurityRIGCraftDetails # DS14
     - GlovesArkalyse # DS14
   - type: EmagLatheRecipes
     emagStaticPacks:

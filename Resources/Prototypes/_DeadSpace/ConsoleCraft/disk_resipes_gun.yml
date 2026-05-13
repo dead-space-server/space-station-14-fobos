@@ -75,7 +75,7 @@
 - type: entity
   parent: BaseItem
   id: BlueprintEnforcerThreeUse
-  name: чертёж Силовика
+  name: чертёж Силовика (3 использования)
   description: Диск что зачастую содержит какую-то ебуристику.
   components:
   - type: Sprite
@@ -88,7 +88,7 @@
 - type: entity
   parent: BaseItem
   id: BlueprintKammererThreeUse
-  name: чертёж Каммера
+  name: чертёж Каммера (3 использования)
   description: Диск что зачастую содержит какую-то ебуристику.
   components:
   - type: Sprite
@@ -101,7 +101,7 @@
 - type: entity
   parent: BaseItem
   id: BlueprintAresSWCThreeUse
-  name: чертёж Арес SWC
+  name: чертёж Арес SWC (3 использования)
   description: Диск что зачастую содержит какую-то ебуристику.
   components:
   - type: Sprite
@@ -114,7 +114,7 @@
 - type: entity
   parent: BaseItem
   id: BlueprintLecterThreeUse
-  name: чертёж Лектера
+  name: чертёж Лектера (3 использования)
   description: Диск что зачастую содержит какую-то ебуристику.
   components:
   - type: Sprite
@@ -127,7 +127,7 @@
 - type: entity
   parent: BaseItem
   id: BlueprintDrozdThreeUse
-  name: чертёж Дрозда
+  name: чертёж Дрозда (3 использования)
   description: Диск что зачастую содержит какую-то ебуристику.
   components:
   - type: Sprite
@@ -140,7 +140,7 @@
 - type: entity
   parent: BaseItem
   id: BlueprintМК58ThreeUse
-  name: чертёж МК58
+  name: чертёж МК58 (3 использования)
   description: Диск что зачастую содержит какую-то ебуристику.
   components:
   - type: Sprite
