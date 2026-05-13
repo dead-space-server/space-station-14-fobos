@@ -51,8 +51,8 @@
     stock: 1
 
 - type: listing
-  id: SpellbookWizardFisghingRod
-  productEntity: WizardFisghingRod
+  id: SpellbookWizardFishingRod
+  productEntity: WizardFishingRod
   cost:
     WizCoin: 2
   categories:
@@ -76,7 +76,7 @@
 
 - type: listing
   id: SpellbookDeathImplanter
-  name: Имплант после смертия
+  name: Запретyй имплант призыва
   description: Как только вы умрёте, или же сами наложите на себя руки, на вашем месте появится очень сильное адское отродье.
   productEntity: WizardDeathImplanter
   cost:

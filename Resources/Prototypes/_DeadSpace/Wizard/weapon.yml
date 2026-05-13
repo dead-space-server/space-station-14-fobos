@@ -1,7 +1,7 @@
 - type: entity
   name: волшебная удочка
   parent: BaseItem
-  id: WizardFisghingRod
+  id: WizardFishingRod
   description: Пора рыбачить экипажем!
   components:
     - type: Item
@@ -21,7 +21,7 @@
       soundGunshot: /Audio/Weapons/Guns/Gunshots/harpoon.ogg
       fireRate: 0.5
     - type: BasicEntityAmmoProvider
-      proto: WizardFisghingRodProjectile
+      proto: WizardFishingRodProjectile
       capacity: 1
     - type: Sprite
       sprite: _DeadSpace/Wizard/fishing_rod.rsi
@@ -44,7 +44,7 @@
         - WizardWand
 
 - type: entity
-  id: WizardFisghingRodProjectile
+  id: WizardFishingRodProjectile
   name: крючок
   parent: BaseBullet
   categories: [ HideSpawnMenu ]

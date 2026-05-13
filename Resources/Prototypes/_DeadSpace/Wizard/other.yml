@@ -1,6 +1,6 @@
 - type: entity
   id: WizardDeathImplanter
-  name: запретная имплант перерождение
+  name: запретный имплант призыва
   description: Вы чувствуете то, как этот имплантер напитан силой самого дьявола...
   parent: BaseImplantOnlyImplanterSyndi
   components:

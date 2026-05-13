@@ -96,7 +96,7 @@ public sealed class ThrowingThingsSystem : EntitySystem
     private bool MatchesFilter(EntityUid item, List<EntProtoId> entities, List<Type> componentTypes)
     {
         if (entities.Count == 0 && componentTypes.Count == 0)
-            return true;
+            return false;
 
         if (entities.Count > 0)
         {

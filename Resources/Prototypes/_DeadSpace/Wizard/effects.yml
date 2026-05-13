@@ -30,30 +30,30 @@
     positional: true
   - type: TriggerOnSpawn
   - type: SpawnOnDespawn
-    prototype: SpawnWirardEffectLightningExplosion
+    prototype: SpawnWizardEffectLightningExplosion
   - type: Tag
     tags:
     - HideContextMenu
 
 - type: entity
-  id: SpawnWirardEffectLightningExplosion
+  id: SpawnWizardEffectLightningExplosion
   categories: [ HideSpawnMenu ]
   components:
   - type: TriggerOnSpawn
   - type: SpawnOnTrigger
-    proto: WirardEffectLightningExplosion
+    proto: WizardEffectLightningExplosion
   - type: Sprite
     sprite: _DeadSpace/Wizard/effects/lightning.rsi
   - type: TimedDespawn
     lifetime: 0.01
   - type: SpawnOnDespawn
-    prototype: TeslaWiradLightning
+    prototype: TeslaWizardLightning
   - type: Tag
     tags:
     - HideContextMenu
 
 - type: entity
-  id: WirardEffectLightningExplosion
+  id: WizardEffectLightningExplosion
   categories: [ HideSpawnMenu ]
   components:
   - type: TriggerOnSpawn
@@ -74,7 +74,7 @@
 
 - type: entity
   name: шаровая молния
-  id: TeslaWiradLightning
+  id: TeslaWizardLightning
   parent: BaseBullet
   categories: [ HideSpawnMenu ]
   components:
