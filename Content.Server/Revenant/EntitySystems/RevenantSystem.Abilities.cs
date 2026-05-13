@@ -18,9 +18,6 @@ using Content.Shared.Silicons.Laws.Components;
 using System.Linq;
 using System.Numerics;
 using Content.Server.Revenant.Components;
-using Content.Server.Roles;
-using Content.Shared.DeadSpace.Demons.Shadowling;
-using Content.Shared.DeadSpace.Renegade.Components;
 using Content.Shared.Physics;
 using Content.Shared.DoAfter;
 using Content.Shared.Emag.Systems;
@@ -32,7 +29,6 @@ using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Revenant.Components;
-using Content.Shared.Revolutionary.Components;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Utility;
 using Robust.Shared.Map.Components;
@@ -44,9 +40,8 @@ using Content.Shared.Ghost;
 using Robust.Shared.Containers;
 
 using Content.Shared.DeadSpace.Languages.Components;
+using Content.Shared.Beam.Components;
 using Content.Shared.Damage.Components;
-using Content.Shared.Ninja.Components;
-using Content.Shared.Roles.Components;
 
 namespace Content.Server.Revenant.EntitySystems;
 
@@ -66,7 +61,6 @@ public sealed partial class RevenantSystem
     [Dependency] private readonly LightningSystem _lightning = default!;
     [Dependency] private readonly IonStormSystem _ionStorm = default!;
     [Dependency] private readonly SharedMindSystem _mind = default!;
-    [Dependency] private readonly RoleSystem _role = default!; //DS14
 
     private static readonly ProtoId<TagPrototype> WindowTag = "Window";
 
@@ -388,7 +382,7 @@ public sealed partial class RevenantSystem
         if (args.Handled)
             return;
 
-        if (HasComp<MindShieldComponent>(args.Target) || IsSleepProtectedAntagonist(args.Target))
+        if (HasComp<MindShieldComponent>(args.Target))
         {
             _popup.PopupEntity(Loc.GetString("revenant-sleep-too-powerful"), uid, uid);
             return;
@@ -400,27 +394,6 @@ public sealed partial class RevenantSystem
         args.Handled = true;
 
         EnsureComp<RevenantForcedSleepComponent>(args.Target);
-    }
-
-    private bool IsSleepProtectedAntagonist(EntityUid target)
-    {
-        if (HasComp<RenegadeComponent>(target))
-            return true;
-
-        if (HasComp<HeadRevolutionaryComponent>(target))
-            return true;
-
-        if (HasComp<ShadowlingComponent>(target))
-            return true;
-
-        if (HasComp<SpaceNinjaComponent>(target))
-            return true;
-
-        if (_mind.TryGetMind(target, out var mindId, out _) &&
-            _role.MindHasRole<NukeopsRoleComponent>(mindId))
-            return true;
-
-        return false;
     }
 
     private void OnMindCaptureAction(EntityUid uid, RevenantComponent component, RevenantMindCaptureActionEvent args)
