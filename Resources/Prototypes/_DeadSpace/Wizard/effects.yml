@@ -1,20 +1,20 @@
 # Молния
 
 - type: entity
-  id: WirardEffectLightning
+  id: WizardEffectLightning
   name: спавнер молний
   components:
   - type: TimedDespawn
     lifetime: 0.01
   - type: SpawnOnDespawn
-    prototype: WirardEffectLightningMarker
+    prototype: WizardEffectLightningMarker
   - type: Sprite
     sprite: Markers/cross.rsi
     state: red
   - type: Marker
 
 - type: entity 
-  id: WirardEffectLightningMarker
+  id: WizardEffectLightningMarker
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
