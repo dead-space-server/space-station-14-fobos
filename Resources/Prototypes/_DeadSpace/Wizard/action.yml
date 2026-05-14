@@ -32,7 +32,7 @@
       state: spawn
     sound:
       path: /Audio/Magic/fireball.ogg
-    useDelay: 120
+    useDelay: 60
   - type: TargetAction
     range: 10
   - type: WorldTargetAction

@@ -207,8 +207,8 @@
       types:
         Heat: 10
   - type: BrokenTechFireSpread
-    maxRadius: 100
-    spreadDelay: 5
+    maxRadius: 15
+    spreadDelay: 2
     waterReagents:
     - Water
     - Holywater
