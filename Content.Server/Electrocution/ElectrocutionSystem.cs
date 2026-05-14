@@ -314,7 +314,7 @@ public sealed class ElectrocutionSystem : SharedElectrocutionSystem
         TransformComponent? sourceTransform = null,
         bool ignoreInsulation = false) //DS14
     {
-        if (!DoCommonElectrocutionAttempt(uid, sourceUid, ref siemensCoefficient))
+        if (!DoCommonElectrocutionAttempt(uid, sourceUid, ref siemensCoefficient, ignoreInsulation))
             return false;
 
         if (!DoCommonElectrocution(uid, sourceUid, shockDamage, time, refresh, siemensCoefficient, statusEffects))
