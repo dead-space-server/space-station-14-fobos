@@ -21,7 +21,7 @@ public sealed partial class LavalandTendrilCollapseComponent : Component
     public int Radius = 2;
 
     [DataField]
-    public bool SkipCenter = true;
+    public bool SkipCenter = false;
 
     [DataField]
     public SoundSpecifier CollapseSound = new SoundPathSpecifier("/Audio/_DeadSpace/Lavaland/tendril_destroyed.ogg");

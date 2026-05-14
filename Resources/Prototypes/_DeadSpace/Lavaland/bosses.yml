@@ -16,9 +16,9 @@
   ftlBeaconExclusionRadius: 64
   gridSeparation: 32
   resetOnEmpty: true
-  emptyResetDelay: 20
-  emptyResetHealFraction: 0.5
-  emptyResetMinHeal: 250
+  emptyResetDelay: 10
+  emptyResetHealFraction: 5
+  emptyResetMinHeal: 450
 
 - type: tile
   id: FloorHierophantArena
@@ -244,6 +244,7 @@
   - type: StunImmune
   - type: Sprite
     drawdepth: Mobs
+    scale: 1.2, 1.2
     sprite: _DeadSpace/Lavaland/Mobs/Hierophant.rsi
     layers:
     - state: hierophant
@@ -326,9 +327,9 @@
   ftlBeaconExclusionRadius: 64
   gridSeparation: 42
   resetOnEmpty: true
-  emptyResetDelay: 20
-  emptyResetHealFraction: 0.5
-  emptyResetMinHeal: 250
+  emptyResetDelay: 10
+  emptyResetHealFraction: 5
+  emptyResetMinHeal: 450
 
 - type: tile
   id: FloorAshDrakeArena
@@ -572,9 +573,9 @@
   ftlBeaconExclusionRadius: 64
   gridSeparation: 48
   resetOnEmpty: true
-  emptyResetDelay: 20
-  emptyResetHealFraction: 0.5
-  emptyResetMinHeal: 250
+  emptyResetDelay: 10
+  emptyResetHealFraction: 5
+  emptyResetMinHeal: 450
 
 - type: tile
   id: FloorBubblegumArena

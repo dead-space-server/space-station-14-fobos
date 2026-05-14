@@ -119,15 +119,15 @@
   ashStormEnabled: true
   ashStormWarningWeather: AshfallLight
   ashStormWeather: AshfallHeavy
-  ashStormWarningDuration: 25
-  ashStormDurationMin: 50
-  ashStormDurationMax: 100
-  ashStormCooldownMin: 300
-  ashStormCooldownMax: 600
+  ashStormWarningDuration: 45
+  ashStormDurationMin: 100
+  ashStormDurationMax: 150
+  ashStormCooldownMin: 600
+  ashStormCooldownMax: 750
   ashStormDamageInterval: 1
   ashStormDamage:
     types:
-      Heat: 4
+      Heat: 20
   ftlBeaconName: Lavaland Landing Zone
   ftlBeaconOffset: 0,-180
   ftlFallbackMinOffset: 8
