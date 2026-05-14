@@ -12,11 +12,22 @@ using Robust.Shared.Audio.Systems;
 using static Content.Shared.Paper.PaperComponent;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
+// DS14-start
+using Robust.Shared.Timing;
+using Robust.Shared.Network;
+// DS14-end
 
 namespace Content.Shared.Paper;
 
 public sealed class PaperSystem : EntitySystem
 {
+    // DS14-start
+    private const int MaxStampsPerPaper = 30;
+    private const int RotatedStampChancePercent = 17;
+    private const float MaxRotationDegrees = 360.0f;
+    private const float DegreesToRadians = MathF.PI / 180.0f;
+    // DS14-end
+
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
     [Dependency] private readonly IPrototypeManager _protoMan = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
@@ -27,6 +38,11 @@ public sealed class PaperSystem : EntitySystem
     [Dependency] private readonly SharedUserInterfaceSystem _uiSystem = default!;
     [Dependency] private readonly MetaDataSystem _metaSystem = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
+    // DS14-start
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly INetManager _net = default!;
+    [Dependency] private readonly ILocalizationManager _loc = default!;
+    // DS14-end
 
     private static readonly ProtoId<TagPrototype> WriteIgnoreStampsTag = "WriteIgnoreStamps";
     private static readonly ProtoId<TagPrototype> WriteTag = "Write";
@@ -100,7 +116,7 @@ public sealed class PaperSystem : EntitySystem
             if (entity.Comp.StampedBy.Count > 0)
             {
                 var commaSeparated =
-                    string.Join(", ", entity.Comp.StampedBy.Select(s => Loc.GetString(s.StampedName)));
+                    string.Join(", ", entity.Comp.StampedBy.Select(s => GetStampDisplayText(s.StampedName))); // DS14
                 args.PushMarkup(
                     Loc.GetString(
                         "paper-component-examine-detail-stamped-by",
@@ -114,7 +130,7 @@ public sealed class PaperSystem : EntitySystem
     private void OnInteractUsing(Entity<PaperComponent> entity, ref InteractUsingEvent args)
     {
         // only allow editing if there are no stamps or when using a cyberpen
-        var editable = entity.Comp.Signatures.Count == 0 && entity.Comp.StampedBy.Count == 0 || _tagSystem.HasTag(args.Used, WriteIgnoreStampsTag); // DS14-signatures
+        var editable = (entity.Comp.Signatures.Count == 0 && entity.Comp.StampedBy.Count == 0) || _tagSystem.HasTag(args.Used, WriteIgnoreStampsTag); // DS14-signatures
         if (_tagSystem.HasTag(args.Used, WriteTag))
         {
             if (editable)
@@ -154,35 +170,89 @@ public sealed class PaperSystem : EntitySystem
         }
 
         // If a stamp, attempt to stamp paper
-        if (TryComp<StampComponent>(args.Used, out var stampComp) && TryStamp(entity, GetStampInfo(stampComp), stampComp.StampState))
+        // DS14-start
+        if (TryComp<StampComponent>(args.Used, out var stampComp))
         {
+            if (!_timing.IsFirstTimePredicted)
+            {
+                args.Handled = true;
+                return;
+            }
+
+            if (entity.Comp.StampedBy.Count >= MaxStampsPerPaper)
+            {
+                var stampPaperFullMessage = Loc.GetString("paper-component-action-stamp-paper-full");
+                _popupSystem.PopupClient(stampPaperFullMessage, entity, args.User);
+
+                args.Handled = true;
+                return;
+            }
+
+            if (!TryStamp(entity, GetStampInfo(entity, args.Used, stampComp), stampComp.StampState))
+            {
+                args.Handled = true;
+                return;
+            }
+            // DS14-end
+
             // successfully stamped, play popup
             var stampPaperOtherMessage = Loc.GetString("paper-component-action-stamp-paper-other",
-                    ("user", args.User),
-                    ("target", args.Target),
-                    ("stamp", args.Used));
+                ("user", args.User),
+                ("target", args.Target),
+                ("stamp", args.Used));
 
             _popupSystem.PopupEntity(stampPaperOtherMessage, args.User, Filter.PvsExcept(args.User, entityManager: EntityManager), true);
             var stampPaperSelfMessage = Loc.GetString("paper-component-action-stamp-paper-self",
-                    ("target", args.Target),
-                    ("stamp", args.Used));
+                ("target", args.Target),
+                ("stamp", args.Used));
             _popupSystem.PopupClient(stampPaperSelfMessage, args.User, args.User);
 
             _audio.PlayPredicted(stampComp.Sound, entity, args.User);
 
-            UpdateUserInterface(entity);
+            // DS14-start
+            if (_net.IsServer)
+                UpdateUserInterface(entity);
+            // DS14-end
         }
     }
 
-    private static StampDisplayInfo GetStampInfo(StampComponent stamp)
+    private StampDisplayInfo GetStampInfo(EntityUid paper, EntityUid stampUid, StampComponent stamp) // DS14
     {
         return new StampDisplayInfo
         {
             StampedName = stamp.StampedName,
             StampedColor = stamp.StampedColor,
-            StampTexture = stamp.StampTexture
+            StampTexture = stamp.StampTexture,
+            StampPatternTexture = stamp.StampPatternTexture,
+            StampHeaderText = stamp.StampHeaderText,
+            StampBackgroundText = stamp.StampBackgroundText,
+            StampRotation = stamp.StampCanRotate ? GetStampRotation(paper, stampUid) : 0.0f,
+            // DS14-start
+            StampScale = stamp.StampScale,
+            StampMainText = stamp.StampMainText,
+            StampTextMaxScale = stamp.StampTextMaxScale
+            // DS14-end
         };
     }
+
+    // DS14-start
+    private float GetStampRotation(EntityUid paper, EntityUid stamp)
+    {
+        var random = SharedRandomExtensions.PredictedRandom(_timing, GetNetEntity(paper), GetNetEntity(stamp));
+        if (!random.Prob(RotatedStampChancePercent / 100.0f))
+            return 0.0f;
+
+        var magnitude = random.NextFloat(0.0f, MaxRotationDegrees);
+        var direction = random.Prob(0.5f) ? 1.0f : -1.0f;
+
+        return magnitude * direction * DegreesToRadians;
+    }
+
+    private string GetStampDisplayText(string stampName)
+    {
+        return _loc.TryGetString(stampName, out var localized) ? localized : stampName;
+    }
+    // DS14-end
 
     private void OnInputTextMessage(Entity<PaperComponent> entity, ref PaperInputTextMessage args)
     {
@@ -247,27 +317,31 @@ public sealed class PaperSystem : EntitySystem
     }
 
     /// <summary>
-    ///     Accepts the name and state to be stamped onto the paper, returns true if successful.
+    /// Accepts the name and state to be stamped onto the paper, returns true if successful.
     /// </summary>
     public bool TryStamp(Entity<PaperComponent> entity, StampDisplayInfo stampInfo, string spriteStampState)
     {
-        if (!entity.Comp.StampedBy.Contains(stampInfo))
+        // DS14-start
+        if (entity.Comp.StampedBy.Count >= MaxStampsPerPaper)
+            return false;
+
+        entity.Comp.StampedBy.Add(stampInfo);
+        Dirty(entity);
+
+        if (entity.Comp.StampState == null && TryComp<AppearanceComponent>(entity, out var appearance))
         {
-            entity.Comp.StampedBy.Add(stampInfo);
-            Dirty(entity);
-            if (entity.Comp.StampState == null && TryComp<AppearanceComponent>(entity, out var appearance))
-            {
-                entity.Comp.StampState = spriteStampState;
-                // Would be nice to be able to display multiple sprites on the paper
-                // but most of the existing images overlap
-                _appearance.SetData(entity, PaperVisuals.Stamp, entity.Comp.StampState, appearance);
-            }
+            entity.Comp.StampState = spriteStampState;
+            // Would be nice to be able to display multiple sprites on the paper
+            // but most of the existing images overlap
+            _appearance.SetData(entity, PaperVisuals.Stamp, entity.Comp.StampState, appearance);
         }
+        // DS14-end
+
         return true;
     }
 
     /// <summary>
-    ///     Copy any stamp information from one piece of paper to another.
+    /// Copy any stamp information from one piece of paper to another.
     /// </summary>
     public void CopyStamps(Entity<PaperComponent?> source, Entity<PaperComponent?> target)
     {
@@ -313,7 +387,7 @@ public sealed class PaperSystem : EntitySystem
 
     private void UpdateUserInterface(Entity<PaperComponent> entity)
     {
-        _uiSystem.SetUiState(entity.Owner, PaperUiKey.Key, new PaperBoundUserInterfaceState(entity.Comp.Content, entity.Comp.StampedBy, entity.Comp.Signatures, entity.Comp.Mode)); // DS14-signatures
+        _uiSystem.SetUiState(entity.Owner, PaperUiKey.Key, new PaperBoundUserInterfaceState(entity.Comp.Content, entity.Comp.StampedBy, entity.Comp.Signatures, entity.Comp.Mode)); // DS14
     }
 }
 

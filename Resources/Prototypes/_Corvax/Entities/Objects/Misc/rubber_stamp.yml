@@ -8,5 +8,11 @@
       stampedName: stamp-component-stamped-name-iaa
       stampedColor: "#6B6B6B"
       stampState: "paper_stamp-iaa"
+      # DS14-start
+      stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
+      stampScale: 0.92
+      stampHeaderText: "Юр. Отдел"
+      stampBackgroundText: "NanoTrasen"
+      # DS14-end
     - type: Sprite
       state: stamp-chaplain

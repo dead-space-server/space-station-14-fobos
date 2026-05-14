@@ -73,6 +73,18 @@
     event: !type:ToggleIntrinsicUIEvent { key: enum.CommunicationsConsoleUiKey.Key }
 
 - type: entity
+  id: AIActionSendCentCommFax
+  components:
+  - type: Action
+    itemIconStyle: BigAction
+    icon:
+      sprite: Interface/Actions/actions_ai.rsi
+      state: centcomm_fax
+    priority: 99
+  - type: InstantAction
+    event: !type:ToggleIntrinsicUIEvent { key: enum.StationAiCentCommFaxUiKey.Key }
+
+- type: entity
   id: AIActionAGhostShowCrewMonitoring
   components:
   - type: Action
@@ -119,3 +131,16 @@
     priority: -9
   - type: InstantAction
     event: !type:AIEyeCamerasActionEvent
+
+- type: entity
+  id: ActionAILeaveRound
+  components:
+  - type: Action
+    itemIconStyle: BigAction
+    icon:
+      sprite: Interface/Actions/actions_ai.rsi
+      state: core_purge
+    priority: 100
+    clientExclusive: true
+  - type: InstantAction
+    event: !type:StationAiLeaveRoundEvent

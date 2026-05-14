@@ -5,6 +5,8 @@
   id: MobHellspawnWizard
   description: Нам конец.
   components:
+  - type: StaminaResistance
+    damageCoefficient: 0.01
   - type: MovementSpeedModifier
     baseWalkSpeed: 4.5
     baseSprintSpeed: 4.5

@@ -16,7 +16,6 @@
   components:
   - type: SubdermalImplant
     permanent: true
-    implantAction: WizardActionActivateDeath
   - type: TriggerOnMobstateChange
     mobState:
     - Dead
@@ -32,7 +31,7 @@
     - MicroBomb
   - type: Explosive
     explosionType: MicroBomb
-    totalIntensity: 120
+    totalIntensity: 60
     intensitySlope: 5
-    maxIntensity: 10
+    maxIntensity: 5
     canCreateVacuum: false

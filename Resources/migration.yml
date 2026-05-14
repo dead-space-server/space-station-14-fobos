@@ -1278,6 +1278,12 @@ ADTClothingUniformTurleneckWhiteWomenSleeveless: ClothingUniformTurtleneckWhiteW
 ADTClothingNeckSyndicateCloak: ClothingNeckSyndicateCloak
 ADTClothingNeckNukeOpsCloak: ClothingNeckNukeOpsCloak
 
+# 2026-05-08
+ADTClothingUniformRedgiSuit: ClothingUniformRedjiSuit
+ADTClothingUniformRedgiJumpskirt: ClothingUniformRedjiJumpskirt
+ADTClothingHeadHatRedji: ClothingHeadHatRedji
+ADTClothingRedjiShoes: ClothingRedjiShoes
+
 # 2026-05-09 - DS14
 ADTObjectsSpecificBicaridineChemistryBottle: ChemistryBottleBicaridine
 ADTObjectsSpecificDexalinPlusChemistryBottle: ChemistryBottleDexalinPlus
