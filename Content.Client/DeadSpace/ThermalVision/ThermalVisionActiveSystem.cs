@@ -116,7 +116,7 @@ public sealed class ThermalVisionOverlay : Overlay
         if (player == null || !_entityManager.TryGetComponent<ThermalVisionActiveComponent>(player.Value, out var comp))
             return false;
 
-        if (args.Viewport.Eye != _entityManager.GetComponent<EyeComponent>(player.Value).Eye)
+        if (!_entityManager.TryGetComponent<EyeComponent>(player.Value, out var eye) || args.Viewport.Eye != eye.Eye)
             return false;
 
         return comp.IsActive;
