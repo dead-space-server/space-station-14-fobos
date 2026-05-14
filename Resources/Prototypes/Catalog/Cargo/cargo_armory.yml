@@ -4,7 +4,7 @@
     sprite: Objects/Weapons/Guns/SMGs/wt550.rsi
     state: icon
   product: CrateArmorySMG
-  cost: 9000 # DS14-value
+  cost: 6000 # DS14-value
   category: cargoproduct-category-name-armory
   group: security # DS14
 
@@ -14,7 +14,7 @@
     sprite: Objects/Weapons/Guns/SMGs/drozd.rsi
     state: icon
   product: CrateArmoryDrozd
-  cost: 6000 # DS14-value
+  cost: 5000 # DS14-value
   category: cargoproduct-category-name-armory
   group: security # DS14
 
@@ -53,7 +53,6 @@
   icon:
     sprite: _DeadSpace/Objects/Weapons/Guns/Shotguns/ares.rsi
     state: icon
-    
   product: CrateArmoryAres
   cost: 10000
   category: cargoproduct-category-name-armory
@@ -125,6 +124,6 @@
     sprite: Objects/Weapons/Guns/Rifles/lecter.rsi
     state: icon
   product: CrateArmoryRifle
-  cost: 6500 # DS14-value
+  cost: 5500 # DS14-value
   category: cargoproduct-category-name-armory
   group: security # DS14

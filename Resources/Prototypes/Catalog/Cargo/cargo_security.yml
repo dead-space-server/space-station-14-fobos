@@ -151,11 +151,11 @@
   group: security # DS14
 
 - type: cargoProduct
-  id: AtmosphericsLiquidOxygen
+  id: AtmosphericsLiquidOxygenSec
   icon:
     sprite: Structures/Storage/canister.rsi
     state: blue
   product: LiquidOxygenCanister
   cost: 1000
-  category: cargoproduct-category-name-atmospherics
+  category: cargoproduct-category-name-security
   group: security # DS14
