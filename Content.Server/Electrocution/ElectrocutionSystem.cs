@@ -358,7 +358,10 @@ public sealed class ElectrocutionSystem : SharedElectrocutionSystem
     {
 
         var attemptEvent = new ElectrocutionAttemptEvent(uid, sourceUid, siemensCoefficient,
-            ignoreInsulation ? SlotFlags.NONE : ~SlotFlags.POCKET);
+            ignoreInsulation ? SlotFlags.NONE : ~SlotFlags.POCKET)
+        {
+        IgnoreInsulation = ignoreInsulation // DS14
+        };
         RaiseLocalEvent(uid, attemptEvent, true);
 
         // Cancel the electrocution early, so we don't recursively electrocute anything.
