@@ -547,8 +547,8 @@
     impactEffect: BulletImpactEffectKinetic
     damage:
       types:
-        Blunt: 12
-        Structural: 15
+        Blunt: 8
+        Structural: 30
     soundHit:
       path: /Audio/Weapons/plasma_cutter.ogg
       params:

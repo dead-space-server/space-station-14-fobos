@@ -33,8 +33,8 @@ public abstract partial class LavalandHierophantStaffActionEvent : WorldTargetAc
     {
         DamageDict = new()
         {
-            { "Heat", FixedPoint2.New(13) },
-            { "Blunt", FixedPoint2.New(5) },
+            { "Heat", FixedPoint2.New(20) },
+            { "Blunt", FixedPoint2.New(8) },
         },
     };
 }
@@ -107,8 +107,8 @@ public sealed partial class LavalandHierophantStaffChaserActionEvent : EntityTar
     {
         DamageDict = new()
         {
-            { "Heat", FixedPoint2.New(11) },
-            { "Blunt", FixedPoint2.New(4) },
+            { "Heat", FixedPoint2.New(14) },
+            { "Blunt", FixedPoint2.New(6) },
         },
     };
 

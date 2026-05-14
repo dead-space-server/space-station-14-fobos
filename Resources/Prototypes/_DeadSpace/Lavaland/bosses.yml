@@ -241,6 +241,8 @@
   suffix: Lavaland, Boss
   categories: [ HideSpawnMenu ]
   components:
+  - type: IgnoreKudzu
+  - type: Insulated
   - type: StunImmune
   - type: Sprite
     drawdepth: Mobs
@@ -461,6 +463,8 @@
   suffix: Lavaland, Boss
   categories: [ HideSpawnMenu ]
   components:
+  - type: IgnoreKudzu
+  - type: Insulated
   - type: StunImmune
   - type: Sprite
     drawdepth: Mobs
@@ -723,7 +727,6 @@
     sprite: _DeadSpace/Lavaland/Effects/BubblegumHands.rsi
     layers:
     - state: rightsmack
-
   - type: TimedDespawn
     lifetime: 1.1
 
@@ -794,7 +797,6 @@
     sprite: _DeadSpace/Lavaland/Effects/BubblegumHands.rsi
     layers:
     - state: leftthumbgrab
-      shader: unshaded
   - type: TimedDespawn
     lifetime: 1.2
 
@@ -806,6 +808,8 @@
   suffix: Lavaland, Boss
   categories: [ HideSpawnMenu ]
   components:
+  - type: IgnoreKudzu
+  - type: Insulated
   - type: StunImmune
   - type: Sprite
     drawdepth: Mobs

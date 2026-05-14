@@ -23,7 +23,7 @@ public sealed partial class LavalandResonatorComponent : Component
     public bool UseLongBurstDelay;
 
     [DataField]
-    public float LavalandDamageMultiplier = 3f;
+    public float LavalandDamageMultiplier = 2f;
 
     [DataField]
     public float DamageRadius = 1.15f;
@@ -51,7 +51,7 @@ public sealed partial class LavalandResonatorComponent : Component
     {
         DamageDict =
         {
-            { "Blunt", FixedPoint2.New(20) },
+            { "Blunt", FixedPoint2.New(12) },
         },
     };
 
