@@ -27,6 +27,8 @@
     rules: ghost-role-information-antagonist-rules
     mindRoles:
     - MindRoleGhostRoleSoloAntagonist
+  - type: StaminaResistance
+    damageCoefficient: 0.01
   - type: MovementSpeedModifier
     baseWalkSpeed: 4.5
     baseSprintSpeed: 4.5

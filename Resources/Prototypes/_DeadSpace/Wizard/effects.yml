@@ -98,13 +98,24 @@
     shootMinInterval: 0.5
     shootMaxInterval: 1.5
     shootRange: 10
-    lightningPrototype: Lightning
+    lightningPrototype: WizardLightning
   - type: Electrified
     requirePower: false
   - type: Tag
     tags:
       - HideContextMenu
 
+- type: entity
+  name: lightning
+  id: WizardLightning
+  parent: BaseLightning
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Lightning
+      canArc: true
+    - type: Electrified
+      requirePower: false
+      ignoreInsulation: true
 # Огонь
 
 - type: entity
@@ -117,7 +128,91 @@
   - type: TimedDespawn
     lifetime: 1.5
   - type: SpawnOnDespawn
-    prototype: FireNRFHELL
+    prototype: WizardFireHELL
+
+- type: entity
+  name: волшебный огонь
+  suffix: Не пропадает, Маг
+  placement:
+    mode: SnapgridCenter
+    snap:
+      - Wall
+  description: Горячо!
+  id: WizardFireHELL
+  components:
+  - type: Physics
+  - type: Sprite
+    layers:
+    - sprite: _DeadSpace/Effects/fire.rsi
+      state: fire
+      shader: unshaded
+      map: [ "unshaded" ]
+  - type: Fixtures
+    fixtures:
+      fix1:
+        hard: false
+        density: 7
+        shape:
+          !type:PhysShapeAabb
+           bounds: "-0.5,-0.5,0.5,0.5"
+        layer:
+        - MidImpassable
+  - type: Temperature
+  - type: AtmosExposed
+  - type: PointLight
+    enabled: true
+    color: "#FF8C00"
+    radius: 2.0
+    energy: 2.0
+  - type: Projectile
+    deleteOnCollide: false
+    damage:
+      types:
+        Heat: 5
+    soundHit:
+      path: "/Audio/Weapons/Guns/Hits/energy_meat1.ogg"
+  - type: IgniteOnCollide
+    fireStacks: 0.6
+    count: 90
+    fixtureId: fix1
+  - type: Transform
+    anchored: true
+  - type: IgnitionSource
+    temperature: 600
+    ignited: true
+  - type: Damageable
+    damageModifierSet: Wood
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 45
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: Reactive
+    groups:
+      Flammable: [Touch]
+      Extinguish: [Touch]
+    reactions:
+    - reagents: [Water]
+      methods: [Touch]
+      effects:
+      - !type:HealthChange
+        damage:
+          types:
+            Heat: 5
+  - type: DamageContacts
+    damage:
+      types:
+        Heat: 10
+  - type: BrokenTechFireSpread
+    maxRadius: 15
+    spreadDelay: 2
+    waterReagents:
+    - Water
+    - Holywater
+    - CoconutWater
 
 # Бревно 2.6
 

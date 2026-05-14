@@ -28,7 +28,7 @@
     stampState: "paper_stamp-hos"
     stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
     stampScale: 0.92
-    stampHeaderText: "Сл. Без"
+    stampHeaderText: "Безопасность"
     stampBackgroundText: "NanoTrasen"
   - type: Sprite
     sprite: _DeadSpace/Objects/Misc/rubberstampbrigmedic.rsi
@@ -160,7 +160,7 @@
     stampState: "paper_stamp-hos"
     stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
     stampScale: 0.92
-    stampHeaderText: "Сл. Без"
+    stampHeaderText: "Безопасность"
     stampBackgroundText: "NanoTrasen"
   - type: Sprite
     state: stamp-senior-officer
