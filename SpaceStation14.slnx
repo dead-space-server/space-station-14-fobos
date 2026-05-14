@@ -161,7 +161,6 @@
     <Project Path="RobustToolbox/Robust.Shared.Maths/Robust.Shared.Maths.csproj" />
     <Project Path="RobustToolbox/Robust.Shared.Scripting/Robust.Shared.Scripting.csproj" />
     <Project Path="RobustToolbox/Robust.Shared.Testing/Robust.Shared.Testing.csproj" />
-    <Project Path="RobustToolbox/Robust.Shared.Tests/Robust.Shared.Tests.csproj" />
     <Project Path="RobustToolbox/Robust.Shared/Robust.Shared.csproj" />
     <Project Path="RobustToolbox/Robust.UnitTesting/Robust.UnitTesting.csproj" />
     <Project Path="RobustToolbox/Robust.Xaml/Robust.Xaml.csproj">
