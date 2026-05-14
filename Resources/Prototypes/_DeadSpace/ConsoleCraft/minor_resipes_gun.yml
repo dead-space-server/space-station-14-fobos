@@ -1,0 +1,154 @@
+# Лектер
+- type: minorItemModule
+  id: LecterExtendedAmmoMag
+  moduleItem: LecterExtendedAmmoMagModuleItem
+  description: Поддержка большего магазина
+  components:
+    ItemSlots:
+      slots:
+        gun_magazine:
+          name: Magazine
+          startingItem: ADTExtMagazineRifle
+          insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
+          ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
+          priority: 2
+          whitelist:
+            tags:
+              - MagazineRifle
+              - ADTExtMagazineRifle
+
+- type: minorItemModule
+  id: RateOfFireLecterStandart
+  moduleItem: RateOfFireLecterModuleItemStandart
+  description: Ускореная стрельба
+  components:
+    Gun:
+      fireRate: 6
+      fireRateModified: 6
+
+- type: minorItemModule
+  id: RateOfFireLecterAdvanced
+  moduleItem: RateOfFireLecterModuleItemAdv
+  description: Продвинутая ускоренная стрельба
+  components:
+    Gun:
+      fireRate: 6.5
+      fireRateModified: 6.5
+
+# Дрозд
+
+- type: minorItemModule
+  id: RateOfFireDrozdAdvanced
+  moduleItem: RateOfFireDrozdModuleItemAdv
+  description: Продвинутая ускоренная стрельба
+  components:
+    Gun:
+      fireRate: 8.5
+      fireRateModified: 8.5
+
+# МК
+
+- type: minorItemModule
+  id: RateOfFireMKdAdvanced
+  moduleItem: RateOfFireMKModuleItemAdv
+  description: Продвинутая ускоренная стрельба
+  components:
+    Gun:
+      fireRate: 6.5
+      fireRateModified: 6.5
+
+- type: minorItemModule
+  id: AvailableModesMK
+  moduleItem: AvailableModesMKModuleItem
+  description: Авто стрельба
+  components:
+    Gun:
+     availableModes:
+     - SemiAuto
+     - Burst
+     - FullAuto
+
+# Силовик и Каммер 
+
+- type: minorItemModule
+  id: BallisticAmmoShotgunsModule
+  moduleItem: BallisticAmmoShotgunsModuleItem
+  description: + 3 вместимости патрона
+  components:
+    BallisticAmmoProvider:
+      whitelist:
+        tags:
+        - ShellShotgun
+      capacity: 10
+
+# Силовик и Арес
+
+- type: minorItemModule
+  id: GunSpreadModifierShotgunLow
+  moduleItem: GunSpreadModifierShotgunLowModuleItem
+  description: Пониженый разброс на 20 процентов
+  components:
+    GunSpreadModifier:
+      spread: 0.8
+
+- type: minorItemModule
+  id: GunSpreadModifierShotgunHigh
+  moduleItem: GunSpreadModifierShotgunHighModuleItem
+  description: Повышенный разброс на 20 процентов
+  components:
+    GunSpreadModifier:
+      spread: 1.2
+
+# Силовик
+
+- type: minorItemModule
+  id: RateOfFireEnforcerAdvanced
+  moduleItem: RateOfFireEnforcerModuleItem
+  description: Продвинутая ускоренная стрельба
+  components:
+    Gun:
+      fireRate: 2.15
+      fireRateModified: 2.15
+
+# Каммер
+
+- type: minorItemModule
+  id: RateOfFireKammerAdvanced
+  moduleItem: RateOfFireKammererModuleItem
+  description: Продвинутая ускоренная стрельба
+  components:
+    Gun:
+      fireRate: 1.85
+      fireRateModified: 1.85
+
+# Арес
+
+- type: minorItemModule
+  id: RateOfFireAresSWCAdvanced
+  moduleItem: RateOfFireAresSWCModuleItem
+  description: Продвинутая ускоренная стрельба
+  components:
+    Gun:
+      fireRate: 2
+      fireRateModified: 2
+
+# Общее
+
+- type: minorItemModule
+  id: MassSkope
+  moduleItem: MassSkopeModuleItem
+  description: Прицел с двух рук
+  components:
+    CursorOffsetRequiresWield:
+    EyeCursorOffset:
+      maxOffset: 6
+      pvsIncrease: 0.3
+
+- type: minorItemModule
+  id: SpeedBullet
+  moduleItem: SpeedBulletModuleItem
+  description: Быстрые пули
+  components:
+    Gun:
+      projectileSpeed: 60
+      projectileSpeedModified: 60

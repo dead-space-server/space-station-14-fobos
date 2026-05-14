@@ -226,25 +226,6 @@
   - PoisonResistanceModuleMaxim
   - PNVModuleMaxim
 
-- type: consoleCraft
-  id: LecterCraft
-  name: Лектер
-  item: WeaponRifleLecter
-  time: 10
-  requestItems:
-  - itemProto: ScrapFirelock3
-    amount: 1
-    label: Каркас Лектера
-  - itemProto: MediumCoreForModifiedBackpack
-    amount: 1
-    label: Модуль Лектера
-  minorItems:
-  - MassSkope
-  - EnhancedCoolingModule
-  - SpeedBullet
-  - ExtendedAmmoMag
-  - OverchargeModule
-
 # Рамдомные чертежи при крафте
 # Если вы хотите чтобы был рамдомный предмет во время крафта у чертежа, ставьте не requestItems, а randomRequestItems, а после чего составляйте список.
 
@@ -308,18 +289,130 @@
   - HandHeldMassScannerModule
   - BluespaceHandHeldMassScannerModule
 
+# - type: consoleCraft
+#   id: WeaponRifleAEKCraft
+#   name: AEK
+#   item: WeaponRifleAEK
+#   time: 10
+#   randomRequestItems:
+#   - items:
+#       - ScrapFirelock3
+#       - MediumCoreForModifiedBackpack
+#     amount: 1
+#     label: "Металл (случайный)"
+#   minorItems:
+#   - EnhancedCoolingModule
+#   - OverchargeModule
+#   - MassSkope
+
+# Оружие
+
 - type: consoleCraft
-  id: WeaponRifleAEKCraft
-  name: AEK
-  item: WeaponRifleAEK
+  id: Enforcer
+  name: Силовик
+  item: WeaponShotgunEnforcer
   time: 10
-  randomRequestItems:
-  - items:
-      - ScrapFirelock3
-      - MediumCoreForModifiedBackpack
+  requestItems:
+  - itemProto: FirstPartEnforcer
     amount: 1
-    label: "Металл (случайный)"
+  - itemProto: SecondPartEnforcer
+    amount: 1
+  - itemProto: ThirdPartEnforcer
+    amount: 1
   minorItems:
-  - EnhancedCoolingModule
-  - OverchargeModule
+  - GunSpreadModifierShotgunLow
+  - GunSpreadModifierShotgunHigh
+  - RateOfFireEnforcerAdvanced
   - MassSkope
+  - SpeedBullet
+  - BallisticAmmoShotgunsModule
+
+- type: consoleCraft
+  id: Kammerer
+  name: Каммер
+  item: WeaponShotgunKammerer
+  time: 10
+  requestItems:
+  - itemProto: FirstPartKammerer
+    amount: 1
+  - itemProto: SecondPartKammerer
+    amount: 1
+  - itemProto: ThirdPartKammerer
+    amount: 1
+  minorItems:
+  - RateOfFireKammerAdvanced
+  - MassSkope
+  - SpeedBullet
+  - BallisticAmmoShotgunsModule
+
+- type: consoleCraft
+  id: AresSWC
+  name: Арес SWC
+  item: WeaponShotgunAresSWC
+  time: 10
+  requestItems:
+  - itemProto: FirstPartAres
+    amount: 1
+  - itemProto: SecondPartAres
+    amount: 1
+  - itemProto: ThirdPartAres
+    amount: 1
+  minorItems:
+  - GunSpreadModifierShotgunLow
+  - GunSpreadModifierShotgunHigh
+  - RateOfFireAresSWCAdvanced
+  - MassSkope
+  - SpeedBullet
+
+- type: consoleCraft
+  id: Lecter
+  name: Лектер
+  item: WeaponRifleLecter
+  time: 10
+  requestItems:
+  - itemProto: FirstPartLecter
+    amount: 1
+  - itemProto: SecondPartLecter
+    amount: 1
+  - itemProto: ThirdPartLecter
+    amount: 1
+  minorItems:
+  - LecterExtendedAmmoMag
+  - RateOfFireLecterStandart
+  - RateOfFireLecterAdvanced
+  - MassSkope
+  - SpeedBullet
+
+- type: consoleCraft
+  id: Drozd
+  name: Дрозд
+  item: WeaponSubMachineGunDrozd
+  time: 10
+  requestItems:
+  - itemProto: FirstPartDrozd
+    amount: 1
+  - itemProto: SecondPartDrozd
+    amount: 1
+  - itemProto: ThirdPartDrozd
+    amount: 1
+  minorItems:
+  - RateOfFireDrozdAdvanced
+  - MassSkope
+  - SpeedBullet
+
+- type: consoleCraft
+  id: PistolMk58
+  name: МК58
+  item: WeaponPistolMk58
+  time: 10
+  requestItems:
+  - itemProto: FirstPartMK
+    amount: 1
+  - itemProto: SecondPartMK
+    amount: 1
+  - itemProto: ThirdPartMK
+    amount: 1
+  minorItems:
+  - RateOfFireMKdAdvanced
+  - AvailableModesMK
+  - SpeedBullet

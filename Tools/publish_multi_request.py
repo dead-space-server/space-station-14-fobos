@@ -4,12 +4,14 @@ import argparse
 import requests
 import os
 import subprocess
+import time
 from typing import Iterable
 
 PUBLISH_TOKEN = os.environ["PUBLISH_TOKEN"]
 VERSION = os.environ.get("PUBLISH_VERSION") or os.environ["GITHUB_SHA"]
 
 RELEASE_DIR = "release"
+PROGRESS_INTERVAL_SECONDS = 60
 
 #
 # CONFIGURATION PARAMETERS
@@ -17,6 +19,42 @@ RELEASE_DIR = "release"
 #
 ROBUST_CDN_URL = "https://cdn.deadspace14.net/"
 FORK_ID = "dsfobos"
+
+
+class ProgressFileReader:
+    def __init__(self, file, file_name: str, total_bytes: int):
+        self._file = file
+        self._file_name = file_name
+        self._total_bytes = total_bytes
+        self._bytes_read = 0
+        self._last_log_at = time.monotonic()
+
+    @property
+    def bytes_read(self) -> int:
+        return self._bytes_read
+
+    def __len__(self) -> int:
+        return self._total_bytes
+
+    def tell(self) -> int:
+        return self._file.tell()
+
+    def read(self, size=-1):
+        chunk = self._file.read(size)
+        if not chunk:
+            return chunk
+
+        self._bytes_read += len(chunk)
+        now = time.monotonic()
+        if now - self._last_log_at >= PROGRESS_INTERVAL_SECONDS:
+            self._last_log_at = now
+            sent_mb = self._bytes_read / 1024 / 1024
+            total_mb = self._total_bytes / 1024 / 1024
+            percent = self._bytes_read / self._total_bytes * 100 if self._total_bytes else 100
+            print(f"    Uploading {self._file_name}: {sent_mb:.1f}/{total_mb:.1f} MB ({percent:.1f}%)")
+
+        return chunk
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -38,6 +76,7 @@ def main():
 
     def abort_publish():
         try:
+            print(f"Aborting publish id {publish_id}...")
             session.post(
                 f"{ROBUST_CDN_URL}fork/{fork_id}/publish/abort",
                 json={"version": VERSION},
@@ -73,16 +112,7 @@ def main():
 
     for file in files:
         try:
-            size_mb = os.path.getsize(file) / (1024 * 1024)
-            print(f"  Uploading {os.path.basename(file)} ({size_mb:.1f} MB)")
-            with open(file, "rb") as f:
-                headers = {
-                    "Content-Type": "application/octet-stream",
-                    "Robust-Cdn-Publish-File": os.path.basename(file),
-                    "Robust-Cdn-Publish-Version": VERSION,
-                    "Robust-Cdn-Publish-Id": publish_id
-                }
-                resp = session.post(f"{ROBUST_CDN_URL}fork/{fork_id}/publish/file", data=f, headers=headers)
+            resp = upload_file(session, fork_id, publish_id, file)
         except Exception:
             abort_publish()
             raise
@@ -107,6 +137,7 @@ def main():
     except Exception:
         abort_publish()
         raise
+
     if not resp.ok:
         print(f"Publish finish FAILED: {resp.status_code} {resp.reason}")
         print(f"Response: {resp.text}")
@@ -114,6 +145,31 @@ def main():
         resp.raise_for_status()
 
     print("SUCCESS!")
+
+
+def upload_file(session: requests.Session, fork_id: str, publish_id: str, file: str) -> requests.Response:
+    size_bytes = os.path.getsize(file)
+    file_name = os.path.basename(file)
+    size_mb = size_bytes / 1024 / 1024
+    print(f"  Uploading {file_name} ({size_mb:.1f} MB)")
+
+    with open(file, "rb") as f:
+        body = ProgressFileReader(f, file_name, size_bytes)
+        headers = {
+            "Content-Type": "application/octet-stream",
+            "Robust-Cdn-Publish-File": file_name,
+            "Robust-Cdn-Publish-Version": VERSION,
+            "Robust-Cdn-Publish-Id": publish_id
+        }
+        try:
+            resp = session.post(f"{ROBUST_CDN_URL}fork/{fork_id}/publish/file", data=body, headers=headers)
+        except requests.RequestException:
+            sent_mb = body.bytes_read / 1024 / 1024
+            print(f"  Upload exception for {file_name}; sent {sent_mb:.1f}/{size_mb:.1f} MB")
+            raise
+
+    print(f"  Upload finished {file_name}: {resp.status_code} {resp.reason}")
+    return resp
 
 
 def get_files_to_publish() -> Iterable[str]:

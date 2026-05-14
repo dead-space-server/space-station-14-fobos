@@ -190,7 +190,7 @@
   parent: ClothingOuterCoatDetective
   id: ClothingOuterCoatDetectiveAlt
   name: куртка следователя
-  description: Лёгкая куртка следователя, сделанная из серой ткани внутри куртки вшит лёгкий бронежилет, на левом плече куртки пришита нашивка "Детектив".
+  description: Лёгкая куртка следователя, сделанная из серой ткани. Внутри куртки вшит лёгкий бронежилет. На левом плече куртки пришита нашивка "Детектив".
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/OuterClothing/Coats/detective_punk.rsi
@@ -203,12 +203,14 @@
   parent: ClothingOuterCoatSecurityOvercoat
   id: ClothingOuterCoatSeniorOfficerTrench
   name: шинель инструктора СБ
-  description: Шинель из плотной ткани с вшитым под ней кевларом, так же виден бронежилет первого класса защиты.
+  description: Шинель из плотной ткани с вшитым под ней кевларом. Также виден бронежилет первого класса защиты.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/OuterClothing/Coats/senior_officer_leather.rsi
   - type: Clothing
     sprite: _DeadSpace/Clothing/OuterClothing/Coats/senior_officer_leather.rsi
+  - type: StaminaResistance # DS14
+    damageCoefficient: 0.6
 
 - type: entity
   parent: ClothingOuterStorageFoldableBase
@@ -240,11 +242,13 @@
         Heat: 0.9
   - type: ExplosionResistance
     damageCoefficient: 0.9
+  - type: StaminaResistance
+    damageCoefficient: 0.55
 
 - type: entity
   parent: ClothingOuterCoatParamedicWB
   id: ClothingOuterCoatParamedicALT
-  name: чёрная ветровка парамедика
+  name: зелёная ветровка парамедика
   description: Надёжная ветровка фельдшера, защита от любого космического ветра.
   components:
   - type: Sprite

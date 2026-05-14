@@ -1,4 +1,107 @@
+# Tier 1
+- type: technology
+  id: PistolsMKWeapons
+  name: research-technology-pistols
+  icon:
+    sprite: Objects/Weapons/Guns/Pistols/mk58.rsi
+    state: icon
+  discipline: Arsenal
+  tier: 1
+  cost: 5000
+  recipeUnlocks:
+  - BlueprintМК58ThreeUse
+  - BlueprintМК58Infinite
+  - FirstPartMK
+  - SecondPartMK
+  - ThirdPartMK
+
 # Tier 2
+
+- type: technology
+  id: ShotgunsWeapons
+  name: research-technology-nt-shotguns
+  icon:
+    sprite: Objects/Weapons/Guns/Shotguns/enforcer.rsi
+    state: icon
+  discipline: Arsenal
+  tier: 2
+  cost: 10000
+  recipeUnlocks:
+  - FirstPartEnforcer
+  - SecondPartEnforcer
+  - ThirdPartEnforcer
+  - FirstPartAres
+  - SecondPartAres
+  - ThirdPartAres
+  - FirstPartKammerer
+  - SecondPartKammerer
+  - ThirdPartKammerer
+  - BlueprintEnforcerInfinite
+  - BlueprintKammererInfinite
+  - BlueprintAresSWCInfinite
+  - BlueprintEnforcerThreeUse
+  - BlueprintKammererThreeUse
+  - BlueprintAresSWCThreeUse
+
+- type: technology
+  id: RiflesWeapons
+  name: research-technology-rifles
+  icon:
+    sprite: Objects/Weapons/Guns/Rifles/lecter.rsi
+    state: icon
+  discipline: Arsenal
+  tier: 2
+  cost: 10000
+  recipeUnlocks:
+  - FirstPartLecter
+  - SecondPartLecter
+  - ThirdPartLecter
+  - FirstPartDrozd
+  - SecondPartDrozd
+  - ThirdPartDrozd
+  - BlueprintLecterThreeUse
+  - BlueprintDrozdThreeUse
+  - BlueprintLecterInfinite
+  - BlueprintDrozdInfinite
+
+- type: technology
+  id: GunsDetails
+  name: research-technology-guns-details
+  icon:
+    sprite: Objects/Misc/stock_parts.rsi
+    state: micro_laser
+  discipline: Arsenal
+  tier: 2
+  cost: 10000
+  recipeUnlocks:
+  - RateOfFireLecterModuleItemStandart
+  - RateOfFireLecterModuleItemAdv
+  - LecterExtendedAmmoMagModuleItem
+  - RateOfFireDrozdModuleItemAdv
+  - RateOfFireMKModuleItemAdv
+  - AvailableModesMKModuleItem
+  - BallisticAmmoShotgunsModuleItem
+  - GunSpreadModifierShotgunLowModuleItem
+  - GunSpreadModifierShotgunHighModuleItem
+  - RateOfFireEnforcerModuleItem
+  - RateOfFireKammererModuleItem
+  - RateOfFireAresSWCModuleItem
+  - MassSkopeModuleItem
+  - SpeedBulletModuleItem
+
+- type: technology
+  id: ExtraMagazine
+  name: research-technology-ext-ammo
+  icon:
+    sprite: Objects/Weapons/Guns/Ammunition/Magazine/Pistol/pistol_high_capacity_mag.rsi
+    state: base-icon
+  discipline: Arsenal
+  tier: 2
+  cost: 10000
+  recipeUnlocks:
+  - ADTExtMagazineRifle
+  - MagazinePistolHighCapacity
+  - ADTMagazineShotgunXL
 
 - type: technology
   id: ConcentratedPhotonWeaponry
@@ -77,3 +180,15 @@
   cost: 15000
   recipeUnlocks:
     - ClothingHandsGlovesArkalyse
+
+- type: technology
+  id: ShotgunMagnum
+  name: research-technology-shotgun-magnum
+  icon:
+    sprite: Objects/Weapons/Guns/Ammunition/Casings/shotgun_shell.rsi
+    state: base
+  discipline: Arsenal
+  tier: 3
+  cost: 15000
+  recipeUnlocks:
+  - BoxLethalshotMagnum

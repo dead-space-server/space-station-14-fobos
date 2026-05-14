@@ -1,6 +1,6 @@
 - type: entity
   id: ShellShotgunMagnum
-  name: shell (.50 pellet)
+  name: ружейный патрон (12х70 магнум)
   parent: [ BaseShellShotgun, BaseSecurityContraband ]
   components:
   - type: Sprite

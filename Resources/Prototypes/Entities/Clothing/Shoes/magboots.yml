@@ -123,7 +123,7 @@
     price: 1500
 
 - type: entity
-  parent: ClothingShoesBootsMag
+  parent: [ClothingShoesBootsMag, BaseCentcommContraband ]
   id: ADTClothingShoesBootsMagERT
   name: magboots
   description: Magnetic boots, often used during extravehicular activity to ensure the user remains safely attached to the vehicle.
@@ -140,6 +140,18 @@
     components:
     - type: NoSlip
     - type: RenegadeCANTRenegadeForce
+  - type: ContainerContainer
+    containers:
+      item: !type:ContainerSlot
+  - type: ItemSlots
+    slots:
+      item:
+        startingItem: CombatKnife
+        name: clothing-military-boots-sidearm
+        whitelist:
+          tags:
+          - Knife
+          - Sidearm
 
 - type: entity
   parent: [ClothingShoesBootsMagBase, BaseJetpack, BaseSyndicateContraband]
@@ -180,6 +192,7 @@
   id: ClothingShoesBootsMagERT
   name: ERT magboots
   description: Upgraded magnetic boots utilized by Nanotrasen's Emergency Response Teams, they have a heavy magnetic pull and integrated thrusters. It can hold 0.75 L of gas.
+  categories: [ HideSpawnMenu ] # DS-14
   components:
   - type: Sprite
     sprite: Clothing/Shoes/Boots/magboots-ert.rsi

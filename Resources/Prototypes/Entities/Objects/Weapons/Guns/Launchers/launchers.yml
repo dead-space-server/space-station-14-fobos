@@ -53,7 +53,7 @@
     whitelist:
       tags:
         - Grenade
-    capacity: 1
+    capacity: 3
     proto: GrenadeFrag
     soundInsert:
       path: /Audio/Weapons/Guns/MagIn/batrifle_magin.ogg

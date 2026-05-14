@@ -461,6 +461,8 @@ uplink-revolver-cap-gun-desc = Выглядит почти как настоящ
 
 uplink-syndicate-stamp-name = Печать Синдиката
 uplink-syndicate-stamp-desc = Печать из резины для проставления печатей на важных документах.
+uplink-syndicate-emblem-stamp-name = Печать Синдиката "эмблема"
+uplink-syndicate-emblem-stamp-desc = Резиновая печать для отметки документов эмблемой Синдиката.
 
 uplink-cat-ears-name = Кошачьи ушки
 uplink-cat-ears-desc = UwU

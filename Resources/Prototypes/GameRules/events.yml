@@ -54,6 +54,7 @@
     - id: LoneOpsSpawn
     - id: WizardSpawn
     # DS14-start
+    - id: PirateRaid
     - id: ZaratanaSpawn
     - id: RenegadeSpawn
     - id: ShadowDemonInvasion
@@ -311,7 +312,7 @@
         color: Green
         sound: /Audio/Misc/ninja_greeting.ogg
       components:
-      - type: RenegadeCANTSubordinate #DS14 
+      - type: RenegadeCANTSubordinate #DS14
       - type: SpaceNinja
       - type: NpcFactionMember
         factions:

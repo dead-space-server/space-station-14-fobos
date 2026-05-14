@@ -17,4 +17,7 @@ public sealed partial class ThrowingThingsActionEvent : WorldTargetActionEvent
 
     [DataField]
     public List<EntProtoId> Entities = new();
+
+    [DataField]
+    public List<string> Components = new();
 }

@@ -20,27 +20,35 @@ public sealed class LawyerStampProviderSystem : EntitySystem
     {
         var stamp = Spawn(comp.StampPrototype, Transform(args.Mob).Coordinates);
 
-        if (!TryComp<StampComponent>(stamp, out var stampComp))
-        {
+        if (!TrySetupLawyerStamp(stamp, args.Profile.Name)) // DS14
             return;
-        }
 
-        stampComp.StampedName = Loc.GetString("stamp-component-stamped-name-lawyer") + " " + args.Profile.Name; // StampedName gets Loc.GetString() later, soo thats needs to be fixed
-
-        _inventory.TryEquip(uid, stamp, comp.Slot, true, true); // Slot = "pocket1", also not a greate sollution, in future better to store in backpack or rework
+        _inventory.TryEquip(uid, stamp, comp.Slot, true, true); // DS14
     }
 
     private void OnTakeGhostRole(EntityUid uid, LawyerStampProviderComponent comp, MapInitEvent args)
     {
         var stamp = Spawn(comp.StampPrototype, Transform(uid).Coordinates);
+        var name = MetaData(uid).EntityName; // DS14
 
-        if (!TryComp<StampComponent>(stamp, out var stampComp))
-        {
+        if (!TrySetupLawyerStamp(stamp, name)) // DS14
             return;
-        }
 
-        stampComp.StampedName = Loc.GetString("stamp-component-stamped-name-lawyer") + " " + MetaData(uid).EntityName; // StampedName gets Loc.GetString() later, soo thats needs to be fixed
-
-        _inventory.TryEquip(uid, stamp, comp.Slot, true, true); // Slot = "pocket1", also not a greate sollution, in future better to store in backpack or rework
+        _inventory.TryEquip(uid, stamp, comp.Slot, true, true); // DS14
     }
+
+    // DS14-start
+    private bool TrySetupLawyerStamp(EntityUid stamp, string ownerName)
+    {
+        if (!TryComp<StampComponent>(stamp, out var stampComp))
+            return false;
+
+        var lawyerText = Loc.GetString("stamp-component-stamped-name-lawyer");
+        stampComp.StampedName = $"{lawyerText} {ownerName}";
+        stampComp.StampMainText = ownerName;
+        Dirty(stamp, stampComp);
+
+        return true;
+    }
+    // DS14-end
 }

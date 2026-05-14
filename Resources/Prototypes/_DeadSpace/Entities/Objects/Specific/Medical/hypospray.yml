@@ -28,3 +28,19 @@
           Quantity: 10
         - ReagentId: Dylovene
           Quantity: 10
+
+- type: entity
+  parent: SpaceMedipen
+  id: NutritiousMedipen
+  name: инъектор питательных веществ
+  description: Содержит в себе питательные вещества, которые насытят твой организм едой и водой. Одного медипена хватает на 45 минут.
+  components:
+  - type: SolutionContainerManager
+    solutions:
+      pen:
+        maxVol: 60
+        reagents:
+          - ReagentId: Nutriment
+            Quantity: 30
+          - ReagentId: Water
+            Quantity: 30

@@ -17,10 +17,10 @@
     ClothingOuterVest: 2
     ClothingBeltBandolier: 2
     ClothingEyesGlassesSunglasses: 2
-    ADTClothingUniformRedgiSuit: 2 # ADT
-    ADTClothingUniformRedgiJumpskirt: 2 # ADT
-    ADTClothingHeadHatRedji: 1 # ADT
-    ADTClothingRedjiShoes: 1 # ADT
+    ClothingUniformRedjiSuit: 2 # DS14
+    ClothingUniformRedjiJumpskirt: 2 # DS14
+    ClothingHeadHatRedji: 1 # DS14
+    ClothingRedjiShoes: 1 # DS14
     ADTClothingOuterJacketBartender: 2 # ADT
     ADTClothingUniformNewBarmanSuit: 2 # ADT
     ADTClothingUniformNewBarmanSkirt: 2 # ADT

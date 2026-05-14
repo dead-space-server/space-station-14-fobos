@@ -210,9 +210,8 @@
 
 - type: entity
   parent: ClothingBeltMilitaryWebbing
-  id: ClothingBeltMilitaryWebbingERT
-  name: ERT chest rig
-  description: A set of tactical webbing worn by Emergency Response Team operatives.
+  id: ClothingBeltMilitaryWebbingSSS #DS-14
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: Clothing/Belt/militarywebbingert.rsi

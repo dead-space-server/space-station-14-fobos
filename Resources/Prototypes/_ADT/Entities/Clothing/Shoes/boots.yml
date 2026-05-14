@@ -12,18 +12,6 @@
     walkModifier: 1
     sprintModifier: 1
 
-#nope_ingeneer
-- type: entity
-  parent: ClothingShoesBaseButcherable
-  id: ADTClothingRedjiShoes
-  name: стильные туфли
-  description: Пара потрёпаных временем, тем не менее, стильных туфель.
-  components:
-  - type: Sprite
-    sprite: _ADT/Clothing/Shoes/Boots/redji_shoes.rsi
-  - type: Clothing
-    sprite: _ADT/Clothing/Shoes/Boots/redji_shoes.rsi
-
 - type: entity
   parent: ClothingShoesBaseButcherable
   id: ADTClothingSandals

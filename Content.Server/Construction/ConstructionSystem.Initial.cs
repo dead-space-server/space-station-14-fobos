@@ -312,6 +312,13 @@ namespace Content.Server.Construction
                 completed.PerformAction(newEntity, user, EntityManager);
             }
 
+            // DS14-start
+            // Completion actions can normalize an intermediate frame back to south.
+            // Keep the requested angle for multi-step recipes like diagonal walls.
+            if (edge.Target != targetNode.Name && angle != Angle.Zero && Exists(newEntity))
+                _transformSystem.SetLocalRotation(newEntity, angle);
+            // DS14-end
+
             return newEntity;
         }
 

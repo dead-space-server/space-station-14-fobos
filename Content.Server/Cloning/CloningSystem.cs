@@ -290,6 +290,11 @@ public sealed partial class CloningSystem : SharedCloningSystem
             if (!TryComp<StatusEffectComponent>(effect, out var effectComp))
                 continue;
 
+            // DS14-start
+            if (HasComp<RejuvenateRemovedStatusEffectComponent>(effect))
+                continue;
+            // DS14-end
+
             //We are not interested in temporary effects, only permanent ones.
             if (effectComp.EndEffectTime is not null)
                 continue;
