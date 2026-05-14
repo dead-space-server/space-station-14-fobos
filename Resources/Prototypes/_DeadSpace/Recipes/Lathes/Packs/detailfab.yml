@@ -27,8 +27,6 @@
 - type: latheRecipePack
   id: BlueprintRIGInfinite
   recipes:
-    - BlueprintRIGSecurityInfinite
-    - BlueprintRIGSecurityAdvancedInfinite
     - BlueprintRIGSalvageInfinite
     - BlueprintRIGEVAInfinite
     - BlueprintRIGResearchInfinite
@@ -37,8 +35,6 @@
 - type: latheRecipePack
   id: BlueprintRIGThreeUse
   recipes:
-    - BlueprintRIGSecurityThreeUse
-    - BlueprintRIGSecurityAdvancedThreeUse
     - BlueprintRIGSalvageThreeUse
     - BlueprintRIGEVAThreeUse
     - BlueprintRIGResearchThreeUse
@@ -47,12 +43,20 @@
 - type: latheRecipePack
   id: BlueprintRIGOneUse
   recipes:
-    - BlueprintRIGSecurityOneUse
-    - BlueprintRIGSecurityAdvancedOneUse
     - BlueprintRIGSalvageOneUse
     - BlueprintRIGEVAOneUse
     - BlueprintRIGResearchOneUse
     - BlueprintRIGEngineerOneUse
+
+- type: latheRecipePack
+  id: BlueprintRIGSecurity
+  recipes:
+    - BlueprintRIGSecurityOneUse
+    - BlueprintRIGSecurityAdvancedOneUse
+    - BlueprintRIGSecurityThreeUse
+    - BlueprintRIGSecurityAdvancedThreeUse
+    - BlueprintRIGSecurityInfinite
+    - BlueprintRIGSecurityAdvancedInfinite
 
 - type: latheRecipePack
   id: RIGHelmets

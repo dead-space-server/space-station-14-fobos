@@ -57,8 +57,6 @@
     - RifleCraftDetails
     - PistolsCraftDetails
     - ShotgunCraftDetails
-    - BlueprintRIGInfinite
-    - BlueprintRIGThreeUse
-    - BlueprintRIGOneUse
+    - BlueprintRIGSecurity
     - SecurityRIGCraftDetails
   - type: OreSiloClient
