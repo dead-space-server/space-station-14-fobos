@@ -8,6 +8,13 @@
     Plastic: 500
 
 - type: latheRecipe
+  id: SecDetailTechFabMachineCircuitboard
+  result: SecDetailTechFabMachineCircuitboard
+  materials:
+    Steel: 500
+    Plastic: 500
+
+- type: latheRecipe
   id: CraftConsoleCircuitboard
   result: CraftConsoleCircuitboard
   materials:
@@ -400,3 +407,315 @@
     BluespaceCrystal: 125
     Durathread: 200
     MaterialScrapGlass: 500
+
+# Оружие
+
+# Детали
+
+- type: latheRecipe
+  id: FirstPartLecter
+  result: FirstPartLecter
+  materials:
+    Steel: 1050
+    Plasteel: 250
+
+- type: latheRecipe
+  id: SecondPartLecter
+  result: SecondPartLecter
+  materials:
+    Steel: 1250
+    Plasteel: 650
+
+- type: latheRecipe
+  id: ThirdPartLecter
+  result: ThirdPartLecter
+  materials:
+    Steel: 750
+    Plasteel: 350
+
+- type: latheRecipe
+  id: FirstPartDrozd
+  result: FirstPartDrozd
+  materials:
+    Steel: 1250
+    Plasteel: 350
+
+- type: latheRecipe
+  id: SecondPartDrozd
+  result: SecondPartDrozd
+  materials:
+    Steel: 1150
+    Plasteel: 150
+
+- type: latheRecipe
+  id: ThirdPartDrozd
+  result: ThirdPartDrozd
+  materials:
+    Steel: 550
+    Plasteel: 350
+
+- type: latheRecipe
+  id: FirstPartMK
+  result: FirstPartMK
+  materials:
+    Steel: 1000
+    Plasteel: 250
+
+- type: latheRecipe
+  id: SecondPartMK
+  result: SecondPartMK
+  materials:
+    Steel: 750
+    Plasteel: 150
+
+- type: latheRecipe
+  id: ThirdPartMK
+  result: ThirdPartMK
+  materials:
+    Steel: 450
+    Plasteel: 350
+
+- type: latheRecipe
+  id: FirstPartEnforcer
+  result: FirstPartEnforcer
+  materials:
+    Steel: 1250
+    Plasteel: 350
+
+- type: latheRecipe
+  id: SecondPartEnforcer
+  result: SecondPartEnforcer
+  materials:
+    Steel: 1450
+    Plasteel: 350
+
+- type: latheRecipe
+  id: ThirdPartEnforcer
+  result: ThirdPartEnforcer
+  materials:
+    Steel: 550
+    Plasteel: 350
+
+- type: latheRecipe
+  id: FirstPartAres
+  result: FirstPartAres
+  materials:
+    Steel: 1250
+    Plasteel: 350
+
+- type: latheRecipe
+  id: SecondPartAres
+  result: SecondPartAres
+  materials:
+    Steel: 2000
+    Plasteel: 250
+
+- type: latheRecipe
+  id: ThirdPartAres
+  result: ThirdPartAres
+  materials:
+    Steel: 1050
+    Plasteel: 350
+
+- type: latheRecipe
+  id: FirstPartKammerer
+  result: FirstPartKammerer
+  materials:
+    Steel: 1250
+    Plasteel: 350
+
+- type: latheRecipe
+  id: SecondPartKammerer
+  result: SecondPartKammerer
+  materials:
+    Steel: 2000
+    Plasteel: 250
+    Wood: 500
+
+- type: latheRecipe
+  id: ThirdPartKammerer
+  result: ThirdPartKammerer
+  materials:
+    Steel: 1250
+    Plasteel: 350
+    Wood: 500
+
+# Модули
+
+- type: latheRecipe
+  id: RateOfFireLecterModuleItemStandart
+  result: RateOfFireLecterModuleItemStandart
+  materials:
+    Steel: 1250
+    MaterialScrapGlass: 500
+
+- type: latheRecipe
+  id: RateOfFireLecterModuleItemAdv
+  result: RateOfFireLecterModuleItemAdv
+  materials:
+    Steel: 2250
+    Silver: 350
+    MaterialScrapGlass: 850
+
+- type: latheRecipe
+  id: LecterExtendedAmmoMagModuleItem
+  result: LecterExtendedAmmoMagModuleItem
+  materials:
+    Steel: 1250
+    MaterialScrapGlass: 500
+
+- type: latheRecipe
+  id: RateOfFireDrozdModuleItemAdv
+  result: RateOfFireDrozdModuleItemAdv
+  materials:
+    Steel: 1250
+    MaterialScrapGlass: 500
+
+- type: latheRecipe
+  id: RateOfFireMKModuleItemAdv
+  result: RateOfFireMKModuleItemAdv
+  materials:
+    Steel: 850
+    MaterialScrapGlass: 150
+
+- type: latheRecipe
+  id: AvailableModesMKModuleItem
+  result: AvailableModesMKModuleItem
+  materials:
+    Steel: 1050
+    MaterialScrapGlass: 500
+
+- type: latheRecipe
+  id: BallisticAmmoShotgunsModuleItem
+  result: BallisticAmmoShotgunsModuleItem
+  materials:
+    Steel: 1450
+    MaterialScrapGlass: 600
+
+- type: latheRecipe
+  id: GunSpreadModifierShotgunLowModuleItem
+  result: GunSpreadModifierShotgunLowModuleItem
+  materials:
+    Steel: 1250
+    MaterialScrapGlass: 600
+
+- type: latheRecipe
+  id: GunSpreadModifierShotgunHighModuleItem
+  result: GunSpreadModifierShotgunHighModuleItem
+  materials:
+    Steel: 750
+    MaterialScrapGlass: 500
+
+- type: latheRecipe
+  id: RateOfFireEnforcerModuleItem
+  result: RateOfFireEnforcerModuleItem
+  materials:
+    Steel: 950
+    MaterialScrapGlass: 500
+
+- type: latheRecipe
+  id: RateOfFireKammererModuleItem
+  result: RateOfFireKammererModuleItem
+  materials:
+    Steel: 1250
+    MaterialScrapGlass: 500
+
+- type: latheRecipe
+  id: RateOfFireAresSWCModuleItem
+  result: RateOfFireAresSWCModuleItem
+  materials:
+    Steel: 1250
+    MaterialScrapGlass: 500
+
+- type: latheRecipe
+  id: MassSkopeModuleItem
+  result: MassSkopeModuleItem
+  materials:
+    Steel: 500
+    MaterialScrapGlass: 500
+
+- type: latheRecipe
+  id: SpeedBulletModuleItem
+  result: SpeedBulletModuleItem
+  materials:
+    Steel: 750
+    Plasteel: 350
+    MaterialScrapGlass: 600
+
+# Чертежи
+
+# Бесконечные чертежи
+
+- type: latheRecipe
+  id: BlueprintEnforcerInfinite
+  result: BlueprintEnforcerInfinite
+  materials:
+    MaterialDatadiskEncrypted: 1250
+
+- type: latheRecipe
+  id: BlueprintKammererInfinite
+  result: BlueprintKammererInfinite
+  materials:
+    MaterialDatadiskEncrypted: 1250
+
+- type: latheRecipe
+  id: BlueprintAresSWCInfinite
+  result: BlueprintAresSWCInfinite
+  materials:
+    MaterialDatadiskEncrypted: 1250
+
+- type: latheRecipe
+  id: BlueprintDrozdInfinite
+  result: BlueprintDrozdInfinite
+  materials:
+    MaterialDatadiskEncrypted: 1250
+
+- type: latheRecipe
+  id: BlueprintLecterInfinite
+  result: BlueprintLecterInfinite
+  materials:
+    MaterialDatadiskEncrypted: 1250
+
+- type: latheRecipe
+  id: BlueprintМК58Infinite
+  result: BlueprintМК58Infinite
+  materials:
+    MaterialDatadiskEncrypted: 750
+
+# 3 использование
+
+- type: latheRecipe
+  id: BlueprintEnforcerThreeUse
+  result: BlueprintEnforcerThreeUse
+  materials:
+    MaterialDatadiskEncrypted: 750
+
+- type: latheRecipe
+  id: BlueprintKammererThreeUse
+  result: BlueprintKammererThreeUse
+  materials:
+    MaterialDatadiskEncrypted: 750
+
+- type: latheRecipe
+  id: BlueprintAresSWCThreeUse
+  result: BlueprintAresSWCThreeUse
+  materials:
+    MaterialDatadiskEncrypted: 750
+
+- type: latheRecipe
+  id: BlueprintDrozdThreeUse
+  result: BlueprintDrozdThreeUse
+  materials:
+    MaterialDatadiskEncrypted: 750
+
+- type: latheRecipe
+  id: BlueprintLecterThreeUse
+  result: BlueprintLecterThreeUse
+  materials:
+    MaterialDatadiskEncrypted: 750
+
+- type: latheRecipe
+  id: BlueprintМК58ThreeUse
+  result: BlueprintМК58ThreeUse
+  materials:
+    MaterialDatadiskEncrypted: 350

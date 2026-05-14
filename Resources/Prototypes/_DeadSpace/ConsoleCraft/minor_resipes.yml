@@ -1,61 +1,6 @@
 # Обычные минор рецепты для крафтов, что повышают градус безумие
 
 - type: minorItemModule
-  id: ExtendedAmmoMag
-  moduleItem: ExtendedAmmoMagItem
-  description: Поддержка большего магазина
-  components:
-    ItemSlots:
-      slots:
-        gun_magazine:
-          name: Magazine
-          startingItem: ADTExtMagazineRifle
-          insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
-          ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
-          priority: 2
-          whitelist:
-            tags:
-              - MagazineRifle
-              - ADTExtMagazineRifle
-
-- type: minorItemModule
-  id: EnhancedCoolingModule
-  moduleItem: EnhancedCoolingModuleItem
-  description: Ускореная стрельба
-  components:
-    Gun:
-      fireRate: 8
-      fireRateModified: 8
-
-- type: minorItemModule
-  id: OverchargeModule
-  moduleItem: OverchargeModuleItem
-  description: Медленные пули
-  components:
-    Gun:
-      projectileSpeed: 10
-      projectileSpeedModified: 10
-
-- type: minorItemModule
-  id: MassSkope
-  moduleItem: MassSkopeModuleItem
-  description: Прицел с двух рук
-  components:
-    CursorOffsetRequiresWield:
-    EyeCursorOffset:
-      maxOffset: 4
-      pvsIncrease: 0.3
-
-- type: minorItemModule
-  id: SpeedBullet
-  moduleItem: SpeedBulletModuleItem
-  description: Быстрые пули
-  components:
-    Gun:
-      projectileSpeed: 60
-      projectileSpeedModified: 60
-
-- type: minorItemModule
   id: DelayModifierModule
   moduleItem: DelayModifierModuleItem
   description: Быстрое разворачивание
@@ -127,7 +72,8 @@
 
 - type: minorItemModule
   id: HandHeldMassScannerModule
-  moduleItem: HandHeldMassScanner
+  tag:
+    - HandHeldMassScanner
   description: Встроенный сканнер масс в рюкзак (Требуется ручной сканер масс).
   components:
     UserInterface:
@@ -141,7 +87,8 @@
 
 - type: minorItemModule
   id: BluespaceHandHeldMassScannerModule
-  moduleItem: BluespaceHandHeldMassScanner
+  tag:
+    - BluespaceHandHeldMassScanner
   description: Встроенный продвинутый сканнер масс в рюкзак (Требуется блюспейс ручной сканер масс).
   components:
     UserInterface:

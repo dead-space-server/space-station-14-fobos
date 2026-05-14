@@ -315,6 +315,7 @@
   parent: [BaseWeaponRifle, BaseSecurityContraband]
   id: WeaponRifleAres
   description: Автомат имеет подвижный ствол, двухкамерный ДТК замкнутого типа и смещенный вправо относительно оси канала ствола магазин.
+  suffix: Автомат
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/Ares/icon.rsi

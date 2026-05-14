@@ -144,6 +144,10 @@
   - SpeedLoaderMagnumIncendiary
   - SpeedLoaderMagnumUranium
   - MagazineBox357Incendiary # ADT
+  - MagazinePistolHighCapacity #DS14
+  - ADTMagazineShotgunXL # DS14
+  - BoxLethalshotMagnum # DS14
+  - ADTExtMagazineRifle # DS14
 
 - type: latheRecipePack
   id: SecurityWeapons

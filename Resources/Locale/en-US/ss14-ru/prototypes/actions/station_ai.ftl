@@ -14,3 +14,7 @@ ent-AIActionAGhostShowRadar = { "" }
     .desc = { "" }
 ent-AIEyeCamAction = { "" }
     .desc = { "" }
+ent-ActionAILeaveRound = Leave AI core
+    .desc = Permanently disconnect your consciousness from the AI core.
+ent-AIActionSendCentCommFax = AI-CC
+    .desc = Transmit an address to Central Command.

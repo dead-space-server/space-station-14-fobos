@@ -1,5 +1,6 @@
 - type: entity
-  name: ammunition box (.50 pellet)
+  name: коробка ружейных патронов (12х70 магнум)
+  description: Коробка, что содержит в себе магнум-картечь. Назвать человека что использует такие патроны недоброжелателем нельзя. Ибо сказать что он желает тебе только зла, язык не поворачивается.
   parent: AmmoProviderShotgunShell
   id: BoxLethalshotMagnum
   components:

@@ -20,6 +20,17 @@
   - type: Clothing
     sprite: _DeadSpace/Clothing/Uniforms/Jumpsuit/Alt_paramedic.rsi
 
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformRedjiSuit
+  name: костюм заведующего отелем
+  description: Потёртый, но от того не менее стильный, костюм.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpsuit/redji_suit.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpsuit/redji_suit.rsi
+
 # Taipan
 
 - type: entity

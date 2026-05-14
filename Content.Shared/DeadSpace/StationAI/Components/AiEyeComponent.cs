@@ -3,7 +3,7 @@ using Robust.Shared.Map;
 
 namespace Content.Shared.DeadSpace.StationAi;
 
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState(true)]
 public sealed partial class AiEyeComponent : Component
 {
     [ViewVariables, AutoNetworkedField]

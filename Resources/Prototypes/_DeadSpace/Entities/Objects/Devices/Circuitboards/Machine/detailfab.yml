@@ -11,3 +11,17 @@
     stackRequirements:
       Plastic: 5
       Steel: 5
+
+- type: entity
+  id: SecDetailTechFabMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  name: оружейный деталь фаб (машинная плата)
+  description: Из этой машинной платы собирается... О боже...
+  components:
+  - type: Sprite
+    state: security
+  - type: MachineBoard
+    prototype: SecDetailTechFab
+    stackRequirements:
+      Plastic: 5
+      Steel: 5

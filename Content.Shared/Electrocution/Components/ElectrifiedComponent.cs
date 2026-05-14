@@ -128,4 +128,9 @@ public sealed partial class ElectrifiedComponent : Component
 
     [DataField, AutoNetworkedField]
     public bool IsWireCut = false;
+
+    //DS14-start
+    [DataField, AutoNetworkedField]
+    public bool IgnoreInsulation = false;
+    //DS14-end
 }

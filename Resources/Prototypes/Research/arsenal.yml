@@ -225,6 +225,18 @@
   recipeUnlocks:
   - WeaponEnergyTurretCommandMachineCircuitboard
   - WeaponEnergyTurretCommandControlPanelElectronics
+
+- type: technology
+  id: SecurityBorgModulesTierTwo
+  name: research-technology-security-borg-modules-two
+  icon:
+    sprite: _DeadSpace/SecurityBorg/borg_module_sec.rsi
+    state: security
+  discipline: Arsenal
+  tier: 2
+  cost: 7500
+  recipeUnlocks:
+  - BorgModuleSecurityJump
 # DS14-end
 
 - type: technology
@@ -281,3 +293,18 @@
   - ShuttleGunDusterCircuitboard
   technologyPrerequisites:
   - BasicShuttleArmament
+
+# DS14-start
+- type: technology
+  id: SecurityBorgModulesTierThree
+  name: research-technology-security-borg-modules-three
+  icon:
+    sprite: _DeadSpace/SecurityBorg/borg_module_sec.rsi
+    state: security
+  discipline: Arsenal
+  tier: 3
+  cost: 15000
+  recipeUnlocks:
+  - BorgModuleSecurityFirearms
+  - BorgModuleSecurityEmergency
+# DS14-end

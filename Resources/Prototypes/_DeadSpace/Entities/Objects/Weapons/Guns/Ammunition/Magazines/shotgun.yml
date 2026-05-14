@@ -1,6 +1,6 @@
 - type: entity
   id: MagazineShotgunMagnum
-  name: ammo drum (.50 pellet)
+  name: магазин (12х70 магнум)
   parent: BaseMagazineShotgun
   components:
   - type: BallisticAmmoProvider

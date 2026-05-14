@@ -80,7 +80,7 @@
   id: UniPhoneUplinkWeaponZastaba
   name: Zastaba Nosle CZN-M22 (Можно купить 3 раза)
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/zastaba/zastaba-icon.rsi, state: icon }
-  description: Штурмовой автомат специальных войск на утяжелённом калибре 5.7x39. Высокий темпм стрельбы, что сбиваюет с ног врагов.
+  description: Штурмовой автомат специальных войск на утяжелённом калибре 5.7x39. Высокий темп стрельбы, что сбивает с ног врагов.
   productEntity: WeaponCaseHeavyFilledZastaba
   cost:
     Telecrystal: 14
@@ -94,7 +94,7 @@
   id: UniPhoneUplinkWeaponVSK
   name: VSK-94 (Можно купить 3 раза)
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/vsk/big.rsi, state: icon }
-  description: Точный винторез, что заточен под дальний бой и сбивание позиции врагов, нежели тупого штурма.
+  description: Точный винторез, что заточен под дальний бой и разбитие позиций врагов, вместо тупого штурма.
   productEntity: WeaponCaseHeavyFilledVSK
   cost:
     Telecrystal: 15
@@ -122,7 +122,7 @@
   id: UniPhoneUplinkWeaponRPL20
   name: РПЛ 20 (Можно купить 2 раза)
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/rpl20/rpl20.rsi, state: icon }
-  description: Пулемет предназначен для поражения живой силы, огневых и небронированных транспортных средств противника.
+  description: Пулемёт предназначен для поражения живой силы и небронированных транспортных средств противника.
   productEntity: WeaponCaseHeavyFilledRPL20
   cost:
     Telecrystal: 18
@@ -150,7 +150,7 @@
   id: UniPhoneUplinkWeaponASh12
   name: АШ-12 (Можно купить 2 раза)
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/ash12/ash12.rsi, state: icon }
-  description: Крупнокалиберный штурмовой автомат под патрон 12.7х55 мм. Оружие разрабатывалось с расчетом на сверхсильную ближнебойную останавливающую силу.
+  description: Крупнокалиберный штурмовой автомат под патрон 12.7х55 мм. Оружие разрабатывалось с расчетом на сверхсильную останавливающую силу.
   productEntity: WeaponCaseHeavyFilledASh12
   cost:
     Telecrystal: 18
@@ -175,7 +175,7 @@
   id: UniPhoneUplinkWeaponSplinterBlade
   name: Осколочный клинок
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/melee/splinter-blade.rsi, state: icon }
-  description: "Идея вживления в свой организм чего-то инородного, живого, меня крайне пугает... Могу ли я пойти на этот риск ради своего Бога?"
+  description: "Идея вживления в свой организм чего-то инородного, живого меня крайне пугает... Могу ли я пойти на этот риск ради своего Бога?"
   productEntity: UnitologySplinterBladeImplanter
   cost:
     Telecrystal: 8
@@ -202,7 +202,7 @@
   id: UniPhoneUplinkMagZastaba
   name: ZASTABA 30 GEN M4
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/zastaba/zastaba-mag.rsi, state: base }
-  description: Вмещает всего 30 патронов 5,7х39 мм калибра.
+  description: Вмещает 30 патронов 5.7х39 мм калибра.
   productEntity: MagRifleZastaba
   cost:
     Telecrystal: 1
@@ -211,9 +211,9 @@
 
 - type: listing
   id: UniPhoneUplinkMagRPL20
-  name: короб патронов РПЛ-20
+  name: Короб патронов РПЛ-20
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/rpl20/rpl20-drum.rsi, state: base }
-  description: Вмещает всего 85 патронов 5.45х39 мм калибра.
+  description: Вмещает 85 патронов 5.45х39 мм калибра.
   productEntity: MagazineRPL20
   cost:
     Telecrystal: 2
@@ -223,7 +223,7 @@
 - type: listing
   id: UniPhoneUplinkMagSCARAB
   name: SCARAB POLYMAG 30 GEN2
-  description: Вмещает всего 30 патронов 6.8х51 мм калибра. 
+  description: Вмещает 30 патронов 6.8х51 мм калибра. 
   productEntity: MagazineRifleSCARAB
   cost:
     Telecrystal: 2
@@ -232,9 +232,9 @@
 
 - type: listing
   id: UniPhoneUplinkMagASh12
-  name: магазин для АШ-12
+  name: Магазин для АШ-12
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/ash12/ash12-mag.rsi, state: base }
-  description: Вмещает всего 20 патронов 12.7х55 калибра.
+  description: Вмещает 20 патронов 12.7х55 калибра.
   productEntity: MagazineASh12
   cost:
     Telecrystal: 2
@@ -243,9 +243,9 @@
 
 - type: listing
   id: UniPhoneUplinkMagazineLightRifleAsVal
-  name: магазин для АС "Вал"
+  name: Магазин для АС "Вал"
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/asval/mag.rsi, state: base }
-  description: Вмещает всего 20 патронов 7.62х39 мм калибра.
+  description: Вмещает 20 патронов 7.62х39 мм калибра.
   productEntity: MagazineLightRifleAsVal
   cost:
     Telecrystal: 1
@@ -254,9 +254,9 @@
 
 - type: listing
   id: UniPhoneUplinkMagazineVSK
-  name: магазин от VSK-94 
+  name: Магазин от VSK-94 
   icon: { sprite: Objects/Weapons/Guns/Ammunition/Magazine/Rifle/rifle_mag.rsi, state: base }
-  description: Вмещает всего 22 патронов калибра 9х39, для VSK.
+  description: Вмещает 22 патрона калибра 9х39 для VSK.
   productEntity: MagazineVSK
   cost:
     Telecrystal: 1
@@ -267,7 +267,7 @@
   id: UniPhoneUplinkFilledAmmo
   name: Ящик с каждым типом патрона
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/heavy-case.rsi, state: icon }
-  description: Ящик с каждым типом патрона внутри. Удобно брать его оптом.
+  description: Ящик с каждым типом патрона внутри. Удобно брать боеприпасы оптом.
   productEntity: WeaponCaseHeavyFilledAmmo
   cost:
     Telecrystal: 10
@@ -287,7 +287,7 @@
 
 - type: listing
   id: UniPhoneUplinkChemVendSyndicate
-  name: набор пополнения СиндиСоки
+  name: Набор пополнения СиндиСоки
   icon: { sprite: _DeadSpace/Objects/Specific/Service/vending_machine_restock.rsi, state: base }
   productEntity: VendingMachineRestockChemVendSyndicate
   description: Простое пополнение для СиндиСока. Пополнение можно купить 2 раза.
@@ -301,10 +301,10 @@
 
 - type: listing
   id: UniPhoneUplinkExtraborilKit
-  name: набор медика "Круг"
+  name: Набор медика "Круг"
   icon: { sprite: /Textures/Objects/Storage/boxicons.rsi, state: vials }
   productEntity: ExtraborilKit
-  description: Важный набор для твоего медика Круга. Кстати, скажи спасибо своему медику, ему будет приятно. Данный набор можно купить 6 раза.
+  description: Важный набор для твоего медика Круга. Кстати, скажи спасибо своему медику, ему будет приятно. Данный набор можно купить 6 раз.
   cost:
     Telecrystal: 6
   categories:
@@ -508,7 +508,7 @@
 
 - type: listing
   id: UniPhoneUplinkGrenadeNecroKudzu
-  name: некрго-граната
+  name: Некрограната
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/grenade.rsi, state: icon }
   productEntity: GrenadeNecroKudzu
   cost:
@@ -518,7 +518,7 @@
 
 - type: listing
   id: UniPhoneUplinkMetalFoamGrenade
-  name: металлопенная граната
+  name: Металлопенная граната
   icon: { sprite: Objects/Weapons/Grenades/metalfoam.rsi, state: icon }
   productEntity: MetalFoamGrenade
   cost:
@@ -538,7 +538,7 @@
 
 - type: listing
   id: UniPhoneUplinkEmpGrenade
-  name: эми-граната
+  name: ЭМИ граната
   productEntity: EmpGrenade
   cost:
     Telecrystal: 1
@@ -550,7 +550,7 @@
 - type: listing
   id: UniPhoneSyringeNecromorphMutagenBruteList
   name: Шприц с мутагеном некроморфа зверя
-  description: После ввода вещества 5 ед. вещества в животное, после заражения он станет зверем.
+  description: Вводите 5 ед. вещества в животное. После заражения он станет зверем.
   icon: { sprite: Objects/Specific/Chemistry/syringe.rsi, state: syringe1 }
   productEntity: SyringeNecromorphMutagenBrute
   cost:
@@ -594,7 +594,7 @@
 - type: listing
   id: UniPhoneInfectionDeadList
   name: Экстракт заразителя
-  description: Шприц с экстрактом заразителя, 15 едениц.
+  description: Шприц с экстрактом заразителя на 15 единиц.
   icon: { sprite: Objects/Specific/Chemistry/syringe.rsi, state: syringe1 }
   productEntity: SyringeExtractInfectorDead
   cost:
