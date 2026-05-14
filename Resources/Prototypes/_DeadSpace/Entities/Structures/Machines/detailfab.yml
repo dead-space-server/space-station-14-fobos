@@ -27,3 +27,38 @@
     - RIGPlastines
     - RIGModules
   - type: OreSiloClient
+
+- type: entity
+  id: SecDetailTechFab
+  parent: BaseLatheLube
+  name: оружейный деталь фаб
+  description: О БОЖЕ!!! ЗДЕСЬ СТОЛЬКО ДЕТАЛЕЙ!!! ДА КАКИЕ НАФИГ НЕБОЛЬШИЕ КОМПОНЕНТЫ?! ДЖОНИ ЗДЕСЬ УЙМА ДЕТАЛЕЙ!! ТУТ БУКВАЛЬНО ТЫСЯЧУ ДЕТАЛЕЙ!! КАКОЙ КОШМАР, ДА ТУТ ЦЕЛАЯ КАРТОТЕКА...
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Machines/sec_detailfab.rsi
+    layers:
+    - state: icon
+      map: ["enum.LatheVisualLayers.IsRunning"]
+    - state: inserting
+      map: ["enum.MaterialStorageVisualLayers.Inserting"]
+    - state: panel
+      map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
+  - type: Machine
+    board: SecDetailTechFabMachineCircuitboard
+  - type: Lathe
+    idleState: icon
+    runningState: building
+    staticPacks:
+    - RIGStartDetails
+    dynamicPacks:
+    - RIGAdvancedCorePart
+    - GunsModules
+    - RifleCraftDetails
+    - PistolsCraftDetails
+    - ShotgunCraftDetails
+    - BlueprintRIGInfinite
+    - BlueprintRIGThreeUse
+    - BlueprintRIGOneUse
+    - SecurityRIGCraftDetails
+  - type: OreSiloClient

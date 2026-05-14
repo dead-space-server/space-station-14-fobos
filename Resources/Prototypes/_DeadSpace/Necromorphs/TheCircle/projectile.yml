@@ -41,7 +41,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 14
+        Piercing: 15
         Blunt: 3
   - type: StaminaDamageOnCollide
     damage: 15
@@ -57,7 +57,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 21
+        Piercing: 23
         Structural: 25
 
 ### Картриджи РПЛ20
@@ -99,7 +99,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 15
+        Piercing: 18
 
 ## Картриджи АШ12
 - type: entity
@@ -130,7 +130,7 @@
   - type: Projectile
     damage:
       types:
-       Piercing: 25
+       Piercing: 30
        Structural: 10
 
 ## Картриджи Скараб
@@ -162,7 +162,7 @@
   - type: Projectile
     damage:
       types:
-       Piercing: 13
+       Piercing: 14
        Slash: 2
        Caustic: 4
 

@@ -1,0 +1,160 @@
+# Молния
+
+- type: entity
+  id: WizardEffectLightning
+  name: спавнер молний
+  components:
+  - type: TimedDespawn
+    lifetime: 0.01
+  - type: SpawnOnDespawn
+    prototype: WizardEffectLightningMarker
+  - type: Sprite
+    sprite: Markers/cross.rsi
+    state: red
+  - type: Marker
+
+- type: entity 
+  id: WizardEffectLightningMarker
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Wizard/effects/lightning.rsi
+    state: light
+  - type: TimedDespawn
+    lifetime: 1.5
+  - type: EmitSoundOnTrigger
+    sound:
+      path: /Audio/_DeadSpace/Wizard/Effect/lightning_start.ogg
+      params:
+        maxDistance: 25
+    positional: true
+  - type: TriggerOnSpawn
+  - type: SpawnOnDespawn
+    prototype: SpawnWizardEffectLightningExplosion
+  - type: Tag
+    tags:
+    - HideContextMenu
+
+- type: entity
+  id: SpawnWizardEffectLightningExplosion
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: TriggerOnSpawn
+  - type: SpawnOnTrigger
+    proto: WizardEffectLightningExplosion
+  - type: Sprite
+    sprite: _DeadSpace/Wizard/effects/lightning.rsi
+  - type: TimedDespawn
+    lifetime: 0.01
+  - type: SpawnOnDespawn
+    prototype: TeslaWizardLightning
+  - type: Tag
+    tags:
+    - HideContextMenu
+
+- type: entity
+  id: WizardEffectLightningExplosion
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: TriggerOnSpawn
+  - type: ExplodeOnTrigger
+  - type: Explosive
+    explosionType: Cryo
+    totalIntensity: 20.0
+    intensitySlope: 5
+    maxIntensity: 4
+    canCreateVacuum: true
+    deleteAfterExplosion: true
+  - type: TimedDespawn
+    lifetime: 0.1
+  - type: EmitSoundOnTrigger
+    sound:
+      path: "/Audio/_DeadSpace/Wizard/Effect/lightning_hit.ogg"
+    positional: true
+
+- type: entity
+  name: шаровая молния
+  id: TeslaWizardLightning
+  parent: BaseBullet
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: TimedDespawn
+    lifetime: 5
+  - type: Sprite
+    sprite: Structures/Power/Generation/Tesla/energy_miniball.rsi
+    layers:
+    - state: tesla_projectile
+      shader: unshaded
+  - type: StaminaDamageOnCollide
+    damage: 75
+  - type: EmbeddableProjectile
+  - type: Projectile
+    deleteOnCollide: false
+    soundHit:
+      path: /Audio/Weapons/Guns/Hits/bullet_hit.ogg
+  - type: LightningArcShooter
+    arcDepth: 1
+    maxLightningArc: 10
+    shootMinInterval: 0.5
+    shootMaxInterval: 1.5
+    shootRange: 10
+    lightningPrototype: Lightning
+  - type: Electrified
+    requirePower: false
+  - type: Tag
+    tags:
+      - HideContextMenu
+
+# Огонь
+
+- type: entity
+  id: WizardFireSpawn
+  name: спавнер огня мага
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Wizard/effects/marker_fire.rsi
+    state: spawn
+  - type: TimedDespawn
+    lifetime: 1.5
+  - type: SpawnOnDespawn
+    prototype: FireNRFHELL
+
+# Бревно 2.6
+
+# - type: entity
+#   name: летящее бревно
+#   description: Это бревно летит прямо в твоё сосалище.
+#   id: WizardLogProjectile
+#   categories: [ HideSpawnMenu ]
+#   parent: [ BaseItem, BaseMagicalContraband ]
+#   components:
+#   - type: Sprite
+#     sprite: Objects/Specific/Hydroponics/towercap.rsi
+#     state: produce
+#   - type: MeleeThrowOnHit
+#     stunTime: 1.5
+#     activateOnThrown: true
+#     speed: 30
+#   - type: MeleeWeapon
+#     wideAnimationRotation: -135
+#     damage:
+#       types:
+#         Blunt: 15
+#         Structural: 5
+#     soundHit:
+#       path: /Audio/Effects/tesla_consume.ogg
+#       params:
+#         variation: 0.10
+#   - type: TimedDespawn
+#     lifetime: 2
+#   - type: DamageOtherOnHit
+#     damage:
+#       types:
+#         Blunt: 15
+#         Structural: 5
+#   - type: UseDelayOnMeleeHit
+#   - type: Item
+#     size: Ginormous
+#   - type: UseDelay
+#     delay: 0.5
+#   - type: LandAtCursor

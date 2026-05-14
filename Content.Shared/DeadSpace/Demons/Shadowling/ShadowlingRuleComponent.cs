@@ -13,4 +13,5 @@ public sealed partial class ShadowlingRuleComponent : Component
     [ViewVariables] public bool ManifestWritten;
     [ViewVariables] public bool HadShadowlings;
     [ViewVariables] public bool AlertAnnounced;
+    [ViewVariables] public bool AscendanceAnnounced;
 }

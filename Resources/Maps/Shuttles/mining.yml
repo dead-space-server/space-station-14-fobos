@@ -1270,7 +1270,7 @@ entities:
     - type: Transform
       pos: -0.5,10.5
       parent: 1
-- proto: ComputerSalvageExpedition
+- proto: ComputerBroken
   entities:
   - uid: 136
     components:

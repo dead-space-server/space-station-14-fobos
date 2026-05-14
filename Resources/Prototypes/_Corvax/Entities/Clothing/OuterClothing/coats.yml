@@ -82,6 +82,8 @@
           Slash: 0.8
           Piercing: 0.6
           Heat: 0.9
+    - type: StaminaResistance #DS14
+      damageCoefficient: 0.65
 
 - type: entity
   parent: ClothingOuterStorageFoldableBase

@@ -1,3 +1,5 @@
+using System.Text;
+using Content.Client.DeadSpace.Chat;
 using Content.Client.UserInterface.Systems.Chat.Controls;
 using Content.Shared.Chat;
 using Content.Shared.Input;
@@ -68,7 +70,17 @@ public partial class ChatBox : UIWidget
 
         var color = msg.MessageColorOverride ?? msg.Channel.TextColor();
 
-        AddLine(msg.WrappedMessage, color);
+        // DS14-start
+        var wrappedMessage = msg.WrappedMessage;
+        string? commandLinkPrefix = null;
+        if (_entManager.SystemOrNull<ChatEntityCommandLinkSystem>() is { } commandLinks &&
+            commandLinks.TryGetPrefix(msg, out var prefix))
+        {
+            commandLinkPrefix = prefix;
+        }
+
+        AddLine(wrappedMessage, color, commandLinkPrefix);
+        // DS14-end
     }
 
     private void OnHighlightsUpdated(string highlights)
@@ -111,11 +123,25 @@ public partial class ChatBox : UIWidget
         _controller.UpdateHighlights(highlighs);
     }
 
-    public void AddLine(string message, Color color)
+    public void AddLine(string message, Color color, string? commandLinkPrefix = null) // DS14
     {
         var formatted = new FormattedMessage(3);
         formatted.PushColor(color);
         // DS14-start
+        if (commandLinkPrefix != null)
+        {
+            if (!formatted.TryAddMarkup(commandLinkPrefix, out var prefixError))
+            {
+                _sawmill.Warning($"Invalid trusted chat command-link markup, dropping prefix: {prefixError}\n{commandLinkPrefix}");
+            }
+            else
+            {
+                formatted.AddText(" ");
+            }
+
+            message = EscapeCommandLinkMarkup(message);
+        }
+
         if (!formatted.TryAddMarkup(message, out var error))
         {
             _sawmill.Warning($"Invalid chat markup, falling back to permissive parsing: {error}\n{message}");
@@ -123,8 +149,68 @@ public partial class ChatBox : UIWidget
         }
         // DS14-end
         formatted.Pop();
-        Contents.AddMessage(formatted);
+        // DS14-start
+        if (commandLinkPrefix != null)
+            Contents.AddMessage(formatted, ChatEntityCommandLinkSystem.TagsWithCommandLinks);
+        else
+            Contents.AddMessage(formatted);
+        // DS14-end
     }
+
+    // DS14-start
+    private static string EscapeCommandLinkMarkup(string message)
+    {
+        StringBuilder? builder = null;
+
+        for (var i = 0; i < message.Length; i++)
+        {
+            if (message[i] != '[' ||
+                IsEscaped(message, i) ||
+                !StartsCommandLinkTag(message, i))
+            {
+                builder?.Append(message[i]);
+                continue;
+            }
+
+            builder ??= new StringBuilder(message.Length + 1).Append(message, 0, i);
+            builder.Append('\\');
+            builder.Append(message[i]);
+        }
+
+        return builder?.ToString() ?? message;
+    }
+
+    private static bool StartsCommandLinkTag(string message, int bracketIndex)
+    {
+        return StartsTag(message, bracketIndex, "cmdlink") ||
+               StartsTag(message, bracketIndex, "/cmdlink");
+    }
+
+    private static bool StartsTag(string message, int bracketIndex, string tagName)
+    {
+        var tagStart = bracketIndex + 1;
+        if (tagStart + tagName.Length > message.Length)
+            return false;
+
+        if (!message.AsSpan(tagStart, tagName.Length).Equals(tagName, StringComparison.OrdinalIgnoreCase))
+            return false;
+
+        var delimiterIndex = tagStart + tagName.Length;
+        return delimiterIndex >= message.Length ||
+               message[delimiterIndex] is ']' or '=' or ' ' or '\t' or '/';
+    }
+
+    private static bool IsEscaped(string message, int index)
+    {
+        var backslashes = 0;
+        for (var i = index - 1; i >= 0 && message[i] == '\\'; i--)
+        {
+            backslashes++;
+        }
+
+        return backslashes % 2 == 1;
+    }
+    // DS14-end
 
     public void Focus(ChatSelectChannel? channel = null)
     {

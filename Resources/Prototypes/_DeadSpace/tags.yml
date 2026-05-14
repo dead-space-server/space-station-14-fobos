@@ -218,6 +218,9 @@
   id: MagazineEagleAP
 
 - type: Tag
+  id: MagazineGurza
+
+- type: Tag
   id: MagazineTommyGun
 
 - type: Tag

@@ -502,7 +502,7 @@ entities:
     - type: RadiationGridResistance
     - type: IFF
       color: '#00D0FFFF'
-- proto: ADTObjectsSpecificDexalinPlusChemistryBottle
+- proto: ChemistryBottleDexalinPlus
   entities:
   - uid: 3
     components:

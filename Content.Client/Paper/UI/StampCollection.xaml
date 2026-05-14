@@ -1,5 +1,5 @@
 <paper:StampCollection xmlns="https://spacestation14.io"
     xmlns:paper="clr-namespace:Content.Client.Paper.UI"
-    MinSize="150 150">
+    MinSize="150 260">
 
 </paper:StampCollection>

@@ -293,8 +293,8 @@
   - type: StaminaResistance # DS14
     damageCoefficient: 0.6
   - type: ClothingSpeedModifier
-    walkModifier: 0.75
-    sprintModifier: 0.75
+    walkModifier: 0.85 # DS14-value
+    sprintModifier: 0.85 # DS14-value
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitSecurity
@@ -338,8 +338,8 @@
   - type: StaminaResistance
     damageCoefficient: 0.4
   - type: ClothingSpeedModifier
-    walkModifier: 0.85 # DS14-value
-    sprintModifier: 0.85 # DS14-value
+    walkModifier: 0.90 # DS14-value
+    sprintModifier: 0.90 # DS14-value
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitBrigmedic
@@ -378,8 +378,8 @@
   - type: StaminaResistance # DS14
     damageCoefficient: 0.5
   - type: ClothingSpeedModifier
-    walkModifier: 0.8 # DS14-value
-    sprintModifier: 0.8 # DS14-value
+    walkModifier: 0.85 # DS14-value
+    sprintModifier: 0.85 # DS14-value
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitWarden
@@ -614,8 +614,8 @@
   - type: StaminaResistance # DS14
     damageCoefficient: 0.5
   - type: ClothingSpeedModifier
-    walkModifier: 0.8
-    sprintModifier: 0.8
+    walkModifier: 0.85 # DS-14 value
+    sprintModifier: 0.85 # DS-14 value
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitSecurityRed
@@ -738,6 +738,19 @@
     sprite: Clothing/OuterClothing/Hardsuits/syndiemedic.rsi
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitSyndieMedic
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.5
+        Slash: 0.5
+        Piercing: 0.40 # DS14-value
+        Heat: 0.35 # DS14-value
+        Radiation: 0.5
+        Caustic: 0.5
+  - type: StaminaResistance #
+  - type: ClothingSpeedModifier
+    walkModifier: 0.95 # DS14-value
+    sprintModifier: 0.95 # DS14-value
   - type: Tag
     tags:
     - Hardsuit
@@ -775,7 +788,7 @@
       coefficients:
         Blunt: 0.6
         Slash: 0.6
-        Piercing: 0.55 # DS14-value
+        Piercing: 0.5 # DS14-value
         Heat: 0.15 # DS14-value
         Radiation: 0.05 # DS14-value
         Caustic: 0.5
@@ -981,12 +994,13 @@
       coefficients:
         Blunt: 0.8
         Slash: 0.8
-        Piercing: 0.9
+        Piercing: 0.75 #DS14
         Heat: 0.4
         Caustic: 0.75
+        Stun: 0.65 #DS14
   - type: ClothingSpeedModifier
-    walkModifier: 0.6
-    sprintModifier: 0.6
+    walkModifier: 0.7 #DS14
+    sprintModifier: 0.7 #DS14
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitPirateEVA
@@ -1009,17 +1023,20 @@
     lowPressureMultiplier: 1000
   - type: ExplosionResistance
     damageCoefficient: 0.6
+  #DS14-start
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.7
-        Slash: 0.8
-        Piercing: 0.85
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.6
         Heat: 0.4
         Caustic: 0.75
+        Stun: 0.60
   - type: ClothingSpeedModifier
-    walkModifier: 0.8
-    sprintModifier: 0.8
+    walkModifier: 0.85
+    sprintModifier: 0.85
+  #DS14-end
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitPirateCap
@@ -1032,11 +1049,11 @@
   name: ERT leader's hardsuit
   description: A protective hardsuit worn by the leader of an emergency response team.
   components:
+  #DS14-start
   - type: Sprite
-    sprite: Clothing/OuterClothing/Hardsuits/ERTSuits/ertleader.rsi
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERTSuits/ertleader.rsi
   - type: Clothing
-    sprite: Clothing/OuterClothing/Hardsuits/ERTSuits/ertleader.rsi
-#DS14-start
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERTSuits/ertleader.rsi
   - type: Armor
     modifiers:
       coefficients:
@@ -1056,7 +1073,7 @@
     zombificationResistanceCoefficient: 0.7
   - type: StaminaResistance
     damageCoefficient: 0.45
-#DS14-end
+  #DS14-end
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitERTLeader
   - type: HardsuitIdentification # DS14
@@ -1071,10 +1088,12 @@
   name: ERT chaplain's hardsuit
   description: A protective hardsuit worn by the chaplains of an Emergency Response Team.
   components:
+  #DS14-start
   - type: Sprite
-    sprite: Clothing/OuterClothing/Hardsuits/ERTSuits/ertchaplain.rsi #if you change this, please update the humanoid.yml with a better markers sprite.
+    sprite: _DeadSpace/Clothing/ERT/ERT_Priests/ERTSuits/ertpriest.rsi
   - type: Clothing
-    sprite: Clothing/OuterClothing/Hardsuits/ERTSuits/ertchaplain.rsi
+    sprite: _DeadSpace/Clothing/ERT/ERT_Priests/ERTSuits/ertpriest.rsi
+  #DS14-end
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitERTChaplain
 
@@ -1085,11 +1104,11 @@
   name: ERT engineer's hardsuit
   description: A protective hardsuit worn by the engineers of an emergency response team.
   components:
+  #DS14-start
   - type: Sprite
-    sprite: Clothing/OuterClothing/Hardsuits/ERTSuits/ertengineer.rsi
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERTSuits/ertengineer.rsi
   - type: Clothing
-    sprite: Clothing/OuterClothing/Hardsuits/ERTSuits/ertengineer.rsi
-#DS14-start
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERTSuits/ertengineer.rsi
   - type: Armor
     modifiers:
       coefficients:
@@ -1123,11 +1142,11 @@
   name: ERT medic's hardsuit
   description: A protective hardsuit worn by the medics of an emergency response team.
   components:
+  #DS14-start
   - type: Sprite
-    sprite: Clothing/OuterClothing/Hardsuits/ERTSuits/ertmedical.rsi
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERTSuits/ertmedical.rsi
   - type: Clothing
-    sprite: Clothing/OuterClothing/Hardsuits/ERTSuits/ertmedical.rsi
-#DS14-start
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERTSuits/ertmedical.rsi
   - type: Armor
     modifiers:
       coefficients:
@@ -1163,11 +1182,11 @@
   name: ERT security's hardsuit
   description: A protective hardsuit worn by the security officers of an emergency response team.
   components:
+  #DS14-start
   - type: Sprite
-    sprite: Clothing/OuterClothing/Hardsuits/ERTSuits/ertsecurity.rsi
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERTSuits/ertsecurity.rsi
   - type: Clothing
-    sprite: Clothing/OuterClothing/Hardsuits/ERTSuits/ertsecurity.rsi
-#DS14-start
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERTSuits/ertsecurity.rsi
   - type: Armor
     modifiers:
       coefficients:
@@ -1177,7 +1196,7 @@
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
-  - type: StaminaResistance #DS14
+  - type: StaminaResistance
     damageCoefficient: 0.5
   - type: ClothingSpeedModifier
     walkModifier: 0.9
@@ -1203,10 +1222,12 @@
   name: ERT janitor's hardsuit
   description: A protective hardsuit worn by the janitors of an emergency response team.
   components:
+  #DS14-start
   - type: Sprite
-    sprite: Clothing/OuterClothing/Hardsuits/ERTSuits/ertjanitor.rsi
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERTSuits/ertjanitor.rsi
   - type: Clothing
-    sprite: Clothing/OuterClothing/Hardsuits/ERTSuits/ertjanitor.rsi
+    sprite: _DeadSpace/Clothing/ERT/ERT_Gamma/ERTSuits/ertjanitor.rsi
+  #DS14-утв
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitERTJanitor
   - type: HardsuitIdentification # DS14

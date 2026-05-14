@@ -18,7 +18,11 @@ public sealed class ShadowlingSlaveClientSystem : EntitySystem
     [Dependency] private readonly IPlayerManager _player = default!;
 
     private const string SlaveFactionId = "ShadowlingSlaveFaction";
+    private const string SlaveFactionAllyId = "ShadowlingSlaveFactionAlly";
+    private const string SlaveFactionEnemyId = "ShadowlingSlaveFactionEnemy";
     private const string MasterFactionId = "ShadowlingMasterFaction";
+    private const string MasterFactionAllyId = "ShadowlingMasterFactionAlly";
+    private const string MasterFactionEnemyId = "ShadowlingMasterFactionEnemy";
     private const string LayerKey = "ShadowlingSlaveEyes";
     private const string DefaultEyesState = "shadowling_slave-eyes";
 
@@ -90,33 +94,83 @@ public sealed class ShadowlingSlaveClientSystem : EntitySystem
         sprite.LayerSetVisible(eyesLayer, true);
     }
 
+    private bool IsMaster(EntityUid uid)
+    {
+        return HasComp<ShadowlingRecruitComponent>(uid) ||
+               HasComp<ShadowlingRevealComponent>(uid);
+    }
+
     private void OnGetSlaveIcon(EntityUid uid, ShadowlingSlaveComponent component, ref GetStatusIconsEvent args)
     {
-        if (!IsShadowlingFaction())
+        if (!IsShadowlingFaction(out var localPlayer))
             return;
 
-        if (_prototype.TryIndex<FactionIconPrototype>(SlaveFactionId, out var icon))
+        string factionId;
+
+        if (HasComp<ShowAntagIconsComponent>(localPlayer))
+        {
+            factionId = SlaveFactionId;
+        }
+        else if (uid == localPlayer)
+        {
+            factionId = SlaveFactionAllyId;
+        }
+        else if (TryComp<ShadowlingSlaveComponent>(localPlayer, out var mySlave) && mySlave.Master != null)
+        {
+            factionId = component.Master == mySlave.Master ? SlaveFactionAllyId : SlaveFactionEnemyId;
+        }
+        else if (IsMaster(localPlayer))
+        {
+            factionId = component.Master == localPlayer ? SlaveFactionAllyId : SlaveFactionEnemyId;
+        }
+        else
+        {
+            factionId = SlaveFactionEnemyId;
+        }
+
+        if (_prototype.TryIndex<FactionIconPrototype>(factionId, out var icon))
             args.StatusIcons.Add(icon);
     }
 
     private void OnGetMasterIcon(EntityUid uid, IComponent component, ref GetStatusIconsEvent args)
     {
-        if (!IsShadowlingFaction())
+        if (!IsShadowlingFaction(out var localPlayer))
             return;
 
-        if (_prototype.TryIndex<FactionIconPrototype>(MasterFactionId, out var icon))
+        string factionId;
+
+        if (HasComp<ShowAntagIconsComponent>(localPlayer))
+        {
+            factionId = MasterFactionId;
+        }
+        else if (uid == localPlayer)
+        {
+            factionId = MasterFactionAllyId;
+        }
+        else if (TryComp<ShadowlingSlaveComponent>(localPlayer, out var mySlave) && mySlave.Master != null)
+        {
+            factionId = mySlave.Master == uid ? MasterFactionAllyId : MasterFactionEnemyId;
+        }
+        else
+        {
+            factionId = MasterFactionEnemyId;
+        }
+
+        if (_prototype.TryIndex<FactionIconPrototype>(factionId, out var icon))
             args.StatusIcons.Add(icon);
     }
 
-    private bool IsShadowlingFaction()
+    private bool IsShadowlingFaction(out EntityUid localPlayer)
     {
-        var localPlayer = _player.LocalEntity;
-        if (localPlayer == null)
+        localPlayer = EntityUid.Invalid;
+        var player = _player.LocalEntity;
+        if (player == null)
             return false;
 
-        return HasComp<ShadowlingRecruitComponent>(localPlayer.Value) ||
-               HasComp<ShadowlingSlaveComponent>(localPlayer.Value) ||
-               HasComp<ShadowlingRevealComponent>(localPlayer.Value) ||
-               HasComp<ShowAntagIconsComponent>(localPlayer.Value);
+        localPlayer = player.Value;
+        return HasComp<ShadowlingRecruitComponent>(localPlayer) ||
+               HasComp<ShadowlingSlaveComponent>(localPlayer) ||
+               HasComp<ShadowlingRevealComponent>(localPlayer) ||
+               HasComp<ShowAntagIconsComponent>(localPlayer);
     }
 }

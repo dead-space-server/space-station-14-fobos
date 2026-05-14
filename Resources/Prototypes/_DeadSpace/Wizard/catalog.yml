@@ -1,0 +1,88 @@
+- type: listing
+  id: SpellbookLightningSpawn
+  name: Удар молнией
+  description: Весёлый подрыв ЛКП.
+  productAction: ActionWizardLightningSpawn
+  cost:
+    WizCoin: 3
+  categories:
+  - SpellbookOffensive
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+- type: listing
+  id: SpellbookFireSpawn
+  name: Создать огонь
+  description: НАЧИНАЕМ ПОЖАР!
+  productAction: ActionWizardFireSpawn
+  cost:
+    WizCoin: 3
+  categories:
+  - SpellbookOffensive
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+- type: listing
+  id: SpellbookThrowingProjectiles
+  name: Телепатия пуль
+  description: Отражайте пули что летят около вас.
+  productAction: ActionWizardThrowingProjectiles
+  cost:
+    WizCoin: 4
+  categories:
+  - SpellbookDefensive
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+- type: listing
+  id: SpellbookSpawnCarp
+  name: Мануал призыва карпов
+  description: Мануал что может призвать аж 3 карпа!
+  productEntity: SpawnSpellbook
+  cost:
+    WizCoin: 3
+  categories:
+  - SpellbookEquipment
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+- type: listing
+  id: SpellbookWizardFishingRod
+  productEntity: WizardFishingRod
+  cost:
+    WizCoin: 2
+  categories:
+  - SpellbookEquipment
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+- type: listing
+  id: SpellbookHamsterWizard
+  name: Маглет
+  description: Хотели себе помощника? Маглет в помощь! Он уже имеет возможность ставить стенки, делать дым, открывать двери, и откидывать по сторонам ваших врагов! Умеет дышать в космосе... Стоп, дышать?
+  productEntity: MobHamsterWizard
+  cost:
+    WizCoin: 3
+  categories:
+  - SpellbookEquipment
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+- type: listing
+  id: SpellbookDeathImplanter
+  name: Запретyй имплант призыва
+  description: Как только вы умрёте, или же сами наложите на себя руки, на вашем месте появится очень сильное адское отродье.
+  productEntity: WizardDeathImplanter
+  cost:
+    WizCoin: 5
+  categories:
+  - SpellbookEquipment
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1

@@ -1,0 +1,92 @@
+- type: entity
+  id: ActionWizardLightningSpawn
+  parent: BaseAction
+  name: Удар с небес
+  description: Вы бьёте молнией по указаной части.
+  components:
+  - type: Action
+    raiseOnUser: true
+    icon:
+      sprite: Structures/Power/Generation/Tesla/energy_miniball.rsi
+      state: tesla_projectile
+    useDelay: 120
+  - type: TargetAction
+    range: 10
+  - type: WorldTargetAction
+    event: !type:GoliathSummonTentacleAction
+      entityId: WizardEffectLightning
+      offsetDirections:
+        - North
+      extraSpawns: 0
+
+- type: entity
+  id: ActionWizardFireSpawn
+  parent: BaseAction
+  name: Создание огня
+  description: Вы создаёте огонь в указаной части.
+  components:
+  - type: Action
+    raiseOnUser: true
+    icon:
+      sprite: _DeadSpace/Wizard/effects/marker_fire.rsi
+      state: spawn
+    sound:
+      path: /Audio/Magic/fireball.ogg
+    useDelay: 260
+  - type: TargetAction
+    range: 10
+  - type: WorldTargetAction
+    event: !type:GoliathSummonTentacleAction
+      entityId: WizardFireSpawn
+
+- type: entity
+  id: ActionHellspawnFireSpawn
+  parent: BaseAction
+  name: Создание огня
+  description: Вы создаёте огонь в указаной части.
+  components:
+  - type: Action
+    raiseOnUser: true
+    icon:
+      sprite: _DeadSpace/Wizard/effects/marker_fire.rsi
+      state: spawn
+    sound:
+      path: /Audio/Magic/fireball.ogg
+    useDelay: 10
+  - type: TargetAction
+    range: 10
+  - type: WorldTargetAction
+    event: !type:GoliathSummonTentacleAction
+      entityId: WizardFireSpawn
+    
+- type: entity
+  id: ActionWizardThrowingProjectiles
+  name: Отбить пули
+  description: Вы меняете траекторию полёта 10-ти пуль что летят в вас.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: TargetAction
+    range: 60
+    checkCanAccess: false
+  - type: Action
+    icon: { sprite: Interface/Actions/actions_mecha.rsi, state: mech_overload_off }
+    useDelay: 0.1
+  - type: WorldTargetAction 
+    event: !type:ThrowingThingsActionEvent
+      throwStrength: 60
+      howMuch: 10
+      components:
+        - Projectile
+
+- type: entity
+  parent: [BaseSuicideAction, BaseImplantAction]
+  id: WizardActionActivateDeath
+  name: Призыв
+  description: Момент настал.
+  components:
+  - type: Action
+    itemIconStyle: BigAction
+    priority: 20 # DS14-value
+    icon:
+      sprite: Objects/Magic/magicactions.rsi
+      state: gib
