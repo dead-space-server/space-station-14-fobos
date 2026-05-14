@@ -14,7 +14,7 @@
     sprite: Objects/Weapons/Guns/SMGs/drozd.rsi
     state: icon
   product: CrateArmoryDrozd
-  cost: 9000 # DS14-value
+  cost: 6000 # DS14-value
   category: cargoproduct-category-name-armory
   group: security # DS14
 
