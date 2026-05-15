@@ -30,7 +30,7 @@
   description: Отражайте пули что летят около вас.
   productAction: ActionWizardThrowingProjectiles
   cost:
-    WizCoin: 4
+    WizCoin: 3
   categories:
   - SpellbookDefensive
   conditions:
@@ -67,7 +67,7 @@
   description: Хотели себе помощника? Маглет в помощь! Он уже имеет возможность ставить стенки, делать дым, открывать двери, и откидывать по сторонам ваших врагов! Умеет дышать в космосе... Стоп, дышать?
   productEntity: MobHamsterWizard
   cost:
-    WizCoin: 3
+    WizCoin: 2
   categories:
   - SpellbookEquipment
   conditions:

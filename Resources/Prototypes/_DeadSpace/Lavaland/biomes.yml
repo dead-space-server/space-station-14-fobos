@@ -1,0 +1,40 @@
+- type: biomeTemplate
+  id: LavalandSurface
+  layers:
+  - !type:BiomeEntityLayer
+    threshold: 0.38
+    noise:
+      seed: 4
+      noiseType: OpenSimplex2
+      frequency: 0.018
+      fractalType: Ridged
+      octaves: 2
+      lacunarity: 1.8
+      gain: 0.45
+    allowedTiles:
+    - FloorBasalt
+    entities:
+    - FloorLavaEntity
+
+  - !type:BiomeEntityLayer
+    allowedTiles:
+    - FloorBasalt
+    threshold: -0.28
+    noise:
+      seed: 0
+      noiseType: Cellular
+      frequency: 0.052
+      lacunarity: 2
+      fractalType: FBm
+      octaves: 5
+      cellularDistanceFunction: Euclidean
+      cellularReturnType: Distance2
+    entities:
+    - WallRockBasalt
+
+  - !type:BiomeDummyLayer
+    id: Loot
+
+  - !type:BiomeTileLayer
+    threshold: -1
+    tile: FloorBasalt

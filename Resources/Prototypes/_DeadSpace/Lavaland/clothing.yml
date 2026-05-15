@@ -1,0 +1,89 @@
+- type: entity
+  parent: [ClothingOuterBaseToggleable, GeigerCounterClothing, AllowSuitStorageClothing, BaseCargoContraband]
+  id: ClothingOuterSuitExplorerLavaland
+  name: костюм исследователя Лаваленда
+  description: Броня для любителей найти приключение себе на пятую точку.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Lavaland/Clothing/OuterClothing/Suits/explorer.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Lavaland/Clothing/OuterClothing/Suits/explorer.rsi
+  - type: Item
+    size: Huge
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHatHoodExplorerLavaland
+    slot: head
+  - type: PressureProtection
+    lowPressureModifier: 14
+  - type: TemperatureProtection
+    heatingCoefficient: 0.001
+    coolingCoefficient: 0.001
+  - type: FireProtection
+    reduction: 0.85
+  - type: LavalandWeatherImmune
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.55
+        Slash: 0.55
+        Piercing: 0.60
+        Heat: 0.45
+        Cold: 0.45
+        Radiation: 0.30
+        Caustic: 0.60
+  - type: StaminaResistance
+    damageCoefficient: 0.60
+  - type: ExplosionResistance
+    damageCoefficient: 0.50
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: HeldSpeedModifier
+  - type: DamageOnInteractProtection
+    damageProtection:
+      flatReductions:
+        Heat: 12
+    slots: OUTERCLOTHING
+  - type: GroupExamine
+  - type: StaticPrice
+    price: 1000
+  - type: Tag
+    tags:
+    - WhitelistChameleon
+  - type: HideLayerClothing
+    slots:
+    - Tail
+
+- type: entity
+  parent: ClothingHeadBase
+  id: ClothingHeadHatHoodExplorerLavaland
+  categories: [ HideSpawnMenu ]
+  name: капюшон исследователя
+  description: A protective hood designed for exploring Lavaland.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Lavaland/Clothing/Head/Hoods/explorer.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Lavaland/Clothing/Head/Hoods/explorer.rsi
+  - type: PressureProtection
+    lowPressureModifier: 14
+  - type: LavalandWeatherImmune
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.90
+        Slash: 0.90
+        Piercing: 0.95
+        Heat: 0.90
+        Cold: 0.90
+        Radiation: 0.25
+  - type: Tag
+    tags:
+    - WhitelistChameleon
+  - type: HideLayerClothing
+    slots:
+    - Hair
+    - Snout
+    - HeadTop
+    - HeadSide
+    - FacialHair

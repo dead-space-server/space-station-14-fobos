@@ -273,3 +273,4 @@
     bloodlossHealDamage:
       types:
         Bloodloss: -1
+  - type: ThermalVisible # DS14

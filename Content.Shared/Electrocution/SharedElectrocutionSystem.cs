@@ -71,6 +71,9 @@ namespace Content.Shared.Electrocution
 
         private void OnInsulatedElectrocutionAttempt(EntityUid uid, InsulatedComponent insulated, ElectrocutionAttemptEvent args)
         {
+            if (args.IgnoreInsulation) // DS14
+                return;
+
             args.SiemensCoefficient *= insulated.Coefficient;
         }
     }

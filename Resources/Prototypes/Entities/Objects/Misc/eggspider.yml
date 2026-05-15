@@ -23,6 +23,7 @@
           Quantity: 5
   - type: Body
     prototype: EggSpider
+  - type: Polymorphable
   - type: InjectableSolution
     solution: chemicals
   - type: ContainerContainer
