@@ -1,10 +1,32 @@
 - type: entity
+  parent: MarkerBase
+  id: SpawnMobHellspawnWizard
+  name: спавнер адского отродья мага
+  components:
+  - type: Sprite
+    layers:
+    - state: green
+    - state: hellspawn
+      sprite: Markers/mobs.rsi
+  - type: ConditionalSpawner
+    prototypes:
+    - MobHellspawnWizard
+
+- type: entity
   name: адское отродье
   parent: MobHellspawn
   suffix: Маг
   id: MobHellspawnWizard
   description: Нам конец.
   components:
+  - type: GhostRole
+    allowMovement: true
+    makeSentient: true
+    name: ghost-role-information-hellspawn-name
+    description: ghost-role-information-hellspawn-description
+    rules: ghost-role-information-antagonist-rules
+    mindRoles:
+    - MindRoleGhostRoleSoloAntagonist
   - type: StaminaResistance
     damageCoefficient: 0.01
   - type: MovementSpeedModifier
@@ -153,3 +175,11 @@
     templateId: pet
   - type: Item
     size: Tiny
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: hamster-0
+      Critical:
+        Base: dead-0
+      Dead:
+        Base: splat-0

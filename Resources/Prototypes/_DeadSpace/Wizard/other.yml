@@ -22,7 +22,7 @@
   - type: TriggerOnActivateImplant
   - type: ExplodeOnTrigger
   - type: SpawnOnTrigger
-    proto: MobHellspawnWizard
+    proto: SpawnMobHellspawnWizard
     predicted: true
   - type: Tag
     tags:
