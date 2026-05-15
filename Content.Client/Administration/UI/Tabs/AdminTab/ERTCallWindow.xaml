@@ -1,98 +1,135 @@
 <DefaultWindow xmlns="https://spacestation14.io"
+               xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
                Title="{Loc 'admin-player-actions-window-ert'}"
-               MinWidth="980"
-               MinHeight="760">
-    <BoxContainer Orientation="Vertical" SeparationOverride="12" Margin="12">
-        <PanelContainer StyleClasses="panel">
-            <BoxContainer Orientation="Vertical" SeparationOverride="8" Margin="12">
-                <Label Text="{Loc 'ert-admin-settings-title'}" StyleClasses="LabelHeading" />
-                <BoxContainer Orientation="Horizontal" SeparationOverride="12">
-                    <BoxContainer Orientation="Vertical" HorizontalExpand="True" SeparationOverride="4">
-                        <Label Text="{Loc 'ert-admin-cooldown-label'}" />
-                        <LineEdit Name="CooldownSeconds" />
-                        <Button Name="SetCooldownButton" Text="{Loc 'ert-admin-apply-button'}" />
-                    </BoxContainer>
-                    <BoxContainer Orientation="Vertical" HorizontalExpand="True" SeparationOverride="4">
-                        <Label Text="{Loc 'ert-admin-points-label'}" />
-                        <LineEdit Name="PointsEdit" />
-                        <Button Name="SetPointsButton" Text="{Loc 'ert-admin-apply-button'}" />
-                    </BoxContainer>
-                    <BoxContainer Orientation="Vertical" SeparationOverride="4" MinWidth="180">
-                        <Label Text="{Loc 'ert-admin-actions-label'}" />
-                        <Button Name="RefreshButton" Text="{Loc 'ert-admin-refresh-button'}" />
-                    </BoxContainer>
+               MinSize="950 700"
+               SetSize="1120 820">
+    <PanelContainer StyleClasses="BackgroundPanelDark" HorizontalExpand="True" VerticalExpand="True">
+        <BoxContainer Orientation="Vertical" Margin="10" SeparationOverride="10" HorizontalExpand="True" VerticalExpand="True">
+            <BoxContainer Orientation="Horizontal">
+                <PanelContainer SetWidth="8">
+                    <PanelContainer.PanelOverride>
+                        <gfx:StyleBoxFlat BackgroundColor="#1d8bad" />
+                    </PanelContainer.PanelOverride>
+                </PanelContainer>
+                <BoxContainer Orientation="Vertical" HorizontalExpand="True" Margin="8 0 0 0">
+                    <Label Text="{Loc 'admin-player-actions-window-ert'}" StyleClasses="LabelHeading" />
+                    <Label Text="{Loc 'ert-admin-window-subtitle'}" StyleClasses="LabelSubText" />
                 </BoxContainer>
             </BoxContainer>
-        </PanelContainer>
 
-        <TabContainer Name="RequestsTabContainer" VerticalExpand="True">
-            <PanelContainer StyleClasses="panel">
-                <BoxContainer Orientation="Vertical" SeparationOverride="8" Margin="12">
-                    <BoxContainer Orientation="Horizontal" SeparationOverride="12" VerticalExpand="True">
-                        <ItemList Name="PendingRequestsList" MinSize="420 420" HorizontalExpand="True" VerticalExpand="True" />
-                        <PanelContainer StyleClasses="panel" MinSize="300 420">
-                            <BoxContainer Orientation="Vertical" SeparationOverride="8" Margin="12" VerticalExpand="True">
-                                <Label Text="{Loc 'ert-admin-selected-requester'}" />
-                                <Label Name="PendingRequesterLabel" StyleClasses="LabelSubText" />
-                                <Label Text="{Loc 'ert-admin-selected-reason'}" Margin="0,8,0,0" />
-                                <RichTextLabel Name="PendingReasonLabel" StyleClasses="LabelSubText" />
-                                <Control VerticalExpand="True" />
-                                <Button Name="RejectPendingButton" Text="{Loc 'ert-admin-reject-button'}" Margin="0,8,0,0" />
+            <PanelContainer StyleClasses="PanelDark">
+                <BoxContainer Orientation="Vertical" Margin="10" SeparationOverride="8">
+                    <Label Text="{Loc 'ert-admin-settings-title'}" StyleClasses="LabelSubText" />
+                    <BoxContainer Orientation="Horizontal" SeparationOverride="8">
+                        <BoxContainer Orientation="Vertical" HorizontalExpand="True" SeparationOverride="4">
+                            <Label Text="{Loc 'ert-admin-cooldown-label'}" StyleClasses="LabelSubText" />
+                            <BoxContainer Orientation="Horizontal" SeparationOverride="6">
+                                <LineEdit Name="CooldownSeconds" HorizontalExpand="True" />
+                                <Button Name="SetCooldownButton" Text="{Loc 'ert-admin-apply-button'}" MinWidth="110" />
+                            </BoxContainer>
+                        </BoxContainer>
+
+                        <BoxContainer Orientation="Vertical" HorizontalExpand="True" SeparationOverride="4">
+                            <Label Text="{Loc 'ert-admin-points-label'}" StyleClasses="LabelSubText" />
+                            <BoxContainer Orientation="Horizontal" SeparationOverride="6">
+                                <LineEdit Name="PointsEdit" HorizontalExpand="True" />
+                                <Button Name="SetPointsButton" Text="{Loc 'ert-admin-apply-button'}" MinWidth="110" />
+                            </BoxContainer>
+                        </BoxContainer>
+
+                        <BoxContainer Orientation="Vertical" SeparationOverride="4" MinWidth="170">
+                            <Label Text="{Loc 'ert-admin-actions-label'}" StyleClasses="LabelSubText" />
+                            <Button Name="RefreshButton" Text="{Loc 'ert-admin-refresh-button'}" />
+                        </BoxContainer>
+                    </BoxContainer>
+                </BoxContainer>
+            </PanelContainer>
+
+            <PanelContainer StyleClasses="LowDivider" />
+
+            <TabContainer Name="RequestsTabContainer" VerticalExpand="True">
+                <PanelContainer StyleClasses="PanelDark">
+                    <BoxContainer Orientation="Horizontal" SeparationOverride="10" Margin="10" VerticalExpand="True">
+                        <BoxContainer Orientation="Vertical" SeparationOverride="6" HorizontalExpand="True" VerticalExpand="True">
+                            <Label Text="{Loc 'ert-admin-pending-title'}" StyleClasses="LabelSubText" />
+                            <ItemList Name="PendingRequestsList" MinSize="420 420" HorizontalExpand="True" VerticalExpand="True" />
+                        </BoxContainer>
+
+                        <PanelContainer StyleClasses="PanelDark" MinSize="330 420" VerticalExpand="True">
+                            <BoxContainer Orientation="Vertical" SeparationOverride="8" Margin="10" VerticalExpand="True">
+                                <Label Text="{Loc 'ert-admin-selected-requester'}" StyleClasses="LabelSubText" />
+                                <Label Name="PendingRequesterLabel" />
+
+                                <Label Text="{Loc 'ert-admin-selected-reason'}" StyleClasses="LabelSubText" Margin="0 8 0 0" />
+                                <RichTextLabel Name="PendingReasonLabel" StyleClasses="LabelSubText" VerticalExpand="True" />
+
+                                <CheckBox Name="PendingNotifyCheckBox" Text="{Loc 'ert-admin-notify-checkbox'}" Pressed="True" />
+                                <Button Name="RejectPendingButton" Text="{Loc 'ert-admin-reject-button'}" Margin="0 4 0 0" />
                                 <Button Name="ApprovePendingManualButton" Text="{Loc 'ert-admin-approve-manual-button'}" />
                                 <Button Name="ApprovePendingAutoButton" Text="{Loc 'ert-admin-approve-auto-button'}" />
                             </BoxContainer>
                         </PanelContainer>
                     </BoxContainer>
-                </BoxContainer>
-            </PanelContainer>
+                </PanelContainer>
 
-            <PanelContainer StyleClasses="panel">
-                <BoxContainer Orientation="Vertical" SeparationOverride="8" Margin="12">
-                    <BoxContainer Orientation="Horizontal" SeparationOverride="12" VerticalExpand="True">
-                        <ItemList Name="ApprovedRequestsList" MinSize="420 420" HorizontalExpand="True" VerticalExpand="True" />
-                        <PanelContainer StyleClasses="panel" MinSize="340 420">
-                            <BoxContainer Orientation="Vertical" SeparationOverride="8" Margin="12" VerticalExpand="True">
-                                <Label Text="{Loc 'ert-admin-selected-requester'}" />
-                                <Label Name="ApprovedRequesterLabel" StyleClasses="LabelSubText" />
+                <PanelContainer StyleClasses="PanelDark">
+                    <BoxContainer Orientation="Horizontal" SeparationOverride="10" Margin="10" VerticalExpand="True">
+                        <BoxContainer Orientation="Vertical" SeparationOverride="6" HorizontalExpand="True" VerticalExpand="True">
+                            <Label Text="{Loc 'ert-admin-approved-title'}" StyleClasses="LabelSubText" />
+                            <ItemList Name="ApprovedRequestsList" MinSize="420 420" HorizontalExpand="True" VerticalExpand="True" />
+                        </BoxContainer>
 
-                                <Label Text="{Loc 'ert-admin-arrival-label'}" Margin="0,8,0,0" />
-                                <LineEdit Name="ArrivalSeconds" />
-                                <Button Name="SetArrivalButton" Text="{Loc 'ert-admin-apply-button'}" />
+                        <PanelContainer StyleClasses="PanelDark" MinSize="360 420" VerticalExpand="True">
+                            <BoxContainer Orientation="Vertical" SeparationOverride="8" Margin="10" VerticalExpand="True">
+                                <Label Text="{Loc 'ert-admin-selected-requester'}" StyleClasses="LabelSubText" />
+                                <Label Name="ApprovedRequesterLabel" />
 
-                                <Label Text="{Loc 'ert-admin-approved-reason-label'}" Margin="0,8,0,0" />
-                                <LineEdit Name="ReasonEdit" />
-                                <Button Name="SetReasonButton" Text="{Loc 'ert-admin-set-reason-button'}" />
+                                <Label Text="{Loc 'ert-admin-arrival-label'}" StyleClasses="LabelSubText" Margin="0 8 0 0" />
+                                <BoxContainer Orientation="Horizontal" SeparationOverride="6">
+                                    <LineEdit Name="ArrivalSeconds" HorizontalExpand="True" />
+                                    <Button Name="SetArrivalButton" Text="{Loc 'ert-admin-apply-button'}" MinWidth="110" />
+                                </BoxContainer>
 
-                                <Label Text="{Loc 'ert-admin-approved-team-label'}" Margin="0,8,0,0" />
+                                <Label Text="{Loc 'ert-admin-approved-reason-label'}" StyleClasses="LabelSubText" Margin="0 8 0 0" />
+                                <BoxContainer Orientation="Horizontal" SeparationOverride="6">
+                                    <LineEdit Name="ReasonEdit" HorizontalExpand="True" />
+                                    <Button Name="SetReasonButton" Text="{Loc 'ert-admin-set-reason-button'}" MinWidth="120" />
+                                </BoxContainer>
+
+                                <Label Text="{Loc 'ert-admin-approved-team-label'}" StyleClasses="LabelSubText" Margin="0 8 0 0" />
                                 <ItemList Name="AutoSpawnTeamList" MinSize="0 120" VerticalExpand="True" />
                                 <Button Name="ChangeApprovedTeamButton" Text="{Loc 'ert-admin-set-team-button'}" />
 
-                                <Button Name="QueueAutoSpawnButton" Text="{Loc 'ert-admin-queue-auto-button'}" Margin="0,8,0,0" />
+                                <PanelContainer StyleClasses="LowDivider" Margin="0 4 0 0" />
+                                <Button Name="QueueAutoSpawnButton" Text="{Loc 'ert-admin-queue-auto-button'}" />
                                 <Button Name="MoveApprovedToManualButton" Text="{Loc 'ert-admin-move-to-manual-button'}" />
                                 <Button Name="CancelApprovedAutoSpawnButton" Text="{Loc 'ert-admin-cancel-auto-button'}" />
                             </BoxContainer>
                         </PanelContainer>
                     </BoxContainer>
-                </BoxContainer>
-            </PanelContainer>
+                </PanelContainer>
 
-            <PanelContainer StyleClasses="panel">
-                <BoxContainer Orientation="Vertical" SeparationOverride="8" Margin="12">
-                    <BoxContainer Orientation="Horizontal" SeparationOverride="12" VerticalExpand="True">
-                        <ItemList Name="ManualApprovedRequestsList" MinSize="420 420" HorizontalExpand="True" VerticalExpand="True" />
-                        <PanelContainer StyleClasses="panel" MinSize="300 420">
-                            <BoxContainer Orientation="Vertical" SeparationOverride="8" Margin="12" VerticalExpand="True">
-                                <Label Text="{Loc 'ert-admin-selected-requester'}" />
-                                <Label Name="ManualApprovedRequesterLabel" StyleClasses="LabelSubText" />
-                                <Label Text="{Loc 'ert-admin-selected-reason'}" Margin="0,8,0,0" />
-                                <RichTextLabel Name="ManualApprovedReasonLabel" StyleClasses="LabelSubText" />
-                                <Control VerticalExpand="True" />
-                                <Button Name="PromoteManualApprovedButton" Text="{Loc 'ert-admin-promote-manual-button'}" Margin="0,8,0,0" />
+                <PanelContainer StyleClasses="PanelDark">
+                    <BoxContainer Orientation="Horizontal" SeparationOverride="10" Margin="10" VerticalExpand="True">
+                        <BoxContainer Orientation="Vertical" SeparationOverride="6" HorizontalExpand="True" VerticalExpand="True">
+                            <Label Text="{Loc 'ert-admin-manual-approved-tab'}" StyleClasses="LabelSubText" />
+                            <ItemList Name="ManualApprovedRequestsList" MinSize="420 420" HorizontalExpand="True" VerticalExpand="True" />
+                        </BoxContainer>
+
+                        <PanelContainer StyleClasses="PanelDark" MinSize="330 420" VerticalExpand="True">
+                            <BoxContainer Orientation="Vertical" SeparationOverride="8" Margin="10" VerticalExpand="True">
+                                <Label Text="{Loc 'ert-admin-selected-requester'}" StyleClasses="LabelSubText" />
+                                <Label Name="ManualApprovedRequesterLabel" />
+
+                                <Label Text="{Loc 'ert-admin-selected-reason'}" StyleClasses="LabelSubText" Margin="0 8 0 0" />
+                                <RichTextLabel Name="ManualApprovedReasonLabel" StyleClasses="LabelSubText" VerticalExpand="True" />
+
+                                <Button Name="PromoteManualApprovedButton" Text="{Loc 'ert-admin-promote-manual-button'}" Margin="0 4 0 0" />
                             </BoxContainer>
                         </PanelContainer>
                     </BoxContainer>
-                </BoxContainer>
-            </PanelContainer>
-        </TabContainer>
-    </BoxContainer>
+                </PanelContainer>
+            </TabContainer>
+        </BoxContainer>
+    </PanelContainer>
 </DefaultWindow>

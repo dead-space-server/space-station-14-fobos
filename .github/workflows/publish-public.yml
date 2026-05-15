@@ -14,17 +14,27 @@ on:
 
 jobs:
   build:
+    if: >-
+      ${{
+        github.event_name != 'workflow_run' ||
+        (
+          github.event.workflow_run.conclusion == 'success' &&
+          github.event.workflow_run.head_repository.full_name == github.repository &&
+          github.event.workflow_run.head_branch == github.event.repository.default_branch
+        )
+      }}
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4.2.2
       with:
         submodules: 'recursive'
+        ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
 
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v4.1.0
       with:
-        dotnet-version: 9.0.x
+        dotnet-version: 10.0.x
 
     - name: Install dependencies
       run: dotnet restore
@@ -39,7 +49,8 @@ jobs:
       run: dotnet run --project Content.Packaging client --no-wipe-release
 
     - name: Publish version
-      run: Tools/publish_multi_request.py --fork-id dspublicfobos
+      run: python3 -u Tools/publish_multi_request.py --fork-id dspublicfobos
       env:
         PUBLISH_TOKEN: ${{ secrets.PUBLISH_PUBLIC_TOKEN }}
         GITHUB_REPOSITORY: ${{ vars.GITHUB_REPOSITORY }}
+        PUBLISH_VERSION: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}

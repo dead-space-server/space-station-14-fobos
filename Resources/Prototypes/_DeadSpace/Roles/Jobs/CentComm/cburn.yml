@@ -44,7 +44,7 @@
     shoes: ClothingShoesBootsCombatFilled
     id: CBURNLeaderPDA
     pocket1: DoubleEmergencyOxygenTankFilled
-    pocket2: DoorRemoteAll
+    pocket2: DoorRemoteCustom
   inhand:
   - ERTloadoutCBURNLeader
 

@@ -1,5 +1,27 @@
 - type: listing
-  id: UplinkEswordDouble
+  id: UplinkEswordDoubleLone
+  name: uplink-esword-double-name
+  description: Воскрес и разнёс паблик. Только один к покупке.
+  icon: { sprite: /Textures/Objects/Weapons/Melee/e_sword_double.rsi, state: icon }
+  productEntity: EnergySwordDouble
+  cost:
+    Telecrystal: 36
+  categories:
+  - UplinkWeaponry
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - LoneOpsUplink
+  - !type:ListingLimitedStockCondition
+    stock: 1
+  - !type:BuyerWhitelistCondition
+    blacklist:
+      components:
+      - SurplusBundle
+
+- type: listing
+  id: UplinkEswordDoubleAgents
   name: uplink-esword-double-name
   description: uplink-esword-double-desc
   icon: { sprite: /Textures/Objects/Weapons/Melee/e_sword_double.rsi, state: icon }
@@ -13,10 +35,12 @@
     blacklist:
       tags:
       - NukeOpsUplink
+      - LoneOpsUplink
   - !type:BuyerWhitelistCondition
     blacklist:
       components:
       - SurplusBundle
+
 
 - type: listing
   id: UplinkEnergyCrossbow
@@ -223,17 +247,6 @@
       - NukeOpsUplink
 
 - type: listing
-  id: UplinkMagazineMachineGun
-  name: uplink-machine-gun-magazine-name
-  description: uplink-machine-gun-magazine-desc
-  icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Magazine/Pistol/smg_mag.rsi, state: red }
-  productEntity: MagazinePistolSubMachineGun
-  cost:
-    Telecrystal: 3
-  categories:
-  - UplinkAmmo
-
-- type: listing
   id: UplinkMagazineLightRifle
   name: uplink-light-rifle-magazine-name
   description: uplink-light-rifle-magazine-desc
@@ -248,7 +261,7 @@
   id: UplinkSyndieCloak
   name: uplink-syndiecloak-name
   description: uplink-syndiecloak-desc
-  productEntity: ADTClothingNeckSyndicateCloak
+  productEntity: ClothingNeckSyndicateCloak
   cost:
     Telecrystal: 5
   categories:
@@ -263,7 +276,7 @@
   id: UplinkNukeOpsCloak
   name: uplink-nukeopscloak-name
   description: uplink-nukeopscloak-desc
-  productEntity: ADTClothingNeckNukeOpsCloak
+  productEntity: ClothingNeckNukeOpsCloak
   cost:
     Telecrystal: 5
   categories:
@@ -274,19 +287,60 @@
       tags:
       - NukeOpsUplink
 
-# - type: listing
-#   id: UplinkArkalyseBundle
-#   name: uplink-arkalyse-bundle-name
-#   description: uplink-arkalyse-bundle-desc
-#   icon: { sprite: _DeadSpace/Objects/Specific/Arkalyse/arkalyse_book.rsi, state: icon }
-#   productEntity: BoxArkalyse
-#   discountCategory: usualDiscounts
-#   discountDownTo:
-#     Telecrystal: 5
-#   cost:
-#     Telecrystal: 10
-#   categories:
-#   - UplinkWeaponry
+
+- type: listing
+  id: UplinkArkalyseBundle
+  name: uplink-arkalyse-bundle-name
+  description: uplink-arkalyse-bundle-desc
+  icon: { sprite: _DeadSpace/Objects/Specific/Arkalyse/arkalyse_book.rsi, state: icon }
+  productEntity: BoxArkalyse
+  discountCategory: usualDiscounts
+  discountDownTo:
+    Telecrystal: 4
+  cost:
+    Telecrystal: 8
+  categories:
+  - UplinkWeaponry
+  conditions:
+  - !type:StoreWhitelistCondition
+    blacklist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkSmokingCarpInjector
+  name: uplink-smoking-carp-name
+  description: uplink-smoking-carp-desc
+  icon: { sprite: _DeadSpace/Objects/Misc/injector_smoking_carp.rsi, state: icon }
+  productEntity: SmokingCarpInjector
+  discountCategory: usualDiscounts
+  discountDownTo:
+    Telecrystal: 8
+  cost:
+    Telecrystal: 14
+  categories:
+  - UplinkWeaponry
+  conditions:
+  - !type:StoreWhitelistCondition
+    blacklist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkArkalyseBundleNukeOps
+  name: uplink-arkalyse-bundle-name
+  description: uplink-arkalyse-bundle-desc
+  icon: { sprite: _DeadSpace/Objects/Specific/Arkalyse/arkalyse_book.rsi, state: icon }
+  productEntity: BoxArkalyse
+  cost:
+    Telecrystal: 15
+  categories:
+  - UplinkWeaponry
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
 
 - type: listing
   id: UplinkAdrenalineImplanter
@@ -670,5 +724,114 @@
   conditions:
   - !type:StoreWhitelistCondition
     whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkClothingBackpackSatchelTaipan
+  name: Сумка Синдиката
+  description: Самая красивая приду на перестрелочку.
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Back/bag.rsi, state: icon }
+  productEntity: ClothingBackpackSatchelTaipan
+  cost:
+    Telecrystal: 3
+  categories:
+  - UplinkWearables
+
+- type: listing
+  id: UplinkClothingHeadHelmetSwatSyndicate
+  name: Шлем спецназа
+  description: Самый прочный шлем в мире. Клянусь.
+  icon: { sprite: /Textures/Clothing/Head/Helmets/swat_syndicate.rsi, state: icon }
+  productEntity: ClothingHeadHelmetSwatSyndicate
+  cost:
+    Telecrystal: 3
+  categories:
+  - UplinkWearables
+
+- type: listing
+  id: UplinkWeaponPistolGurza
+  name: Гюрза
+  description: Крайне скорострельный автоматический пистолет в калибре 9х19 мм. Не имеет ничего общего с аномалиями.
+  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Pistols/gurza.rsi, state: icon }
+  productEntity: WeaponPistolGurza
+  cost:
+    Telecrystal: 7
+  categories:
+  - UplinkWeaponry
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkMagazineGurza
+  name: Чёрный автопистолетный магазин (9х19 мм)
+  description: Увеличинный магазин на 38 патронов. Подходит для пистолета Гюрза.
+  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Ammunition/Magazine/Pistol/gurza_mag.rsi, state: base-icon }
+  productEntity: MagazineGurza
+  cost:
+    Telecrystal: 2
+  categories:
+  - UplinkAmmo
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkSyndicateChemBundle
+  name: продвинутый набор химического синтеза
+  description: Источник огромного количества реагентов для варки вашего ширева. Рецепт крокодила в комплекте не идёт.
+  icon: { sprite: _DeadSpace/Structures/Machines/VendingMachines/chemvend.rsi, state: deny }
+  productEntity: ClothingBackpackSatchelChemistrySyndicateChemBundle
+  cost:
+    Telecrystal: 25
+  categories:
+  - UplinkChemicals
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - LoneOpsUplink
+  - !type:BuyerWhitelistCondition
+    blacklist:
+      components:
+      - SurplusBundle
+
+- type: listing
+  id: UplinkThermalVisorNuke
+  name: uplink-thermal-visor-name
+  description: uplink-thermal-visor-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Eyes/Hud/thermal.rsi, state: icon }
+  productEntity: ClothingEyesGlassesThermalVisor
+  cost:
+    Telecrystal: 10
+  categories:
+  - UplinkWearables
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkThermalVisor
+  name: uplink-thermal-visor-name
+  description: uplink-thermal-visor-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Eyes/Hud/thermal.rsi, state: icon }
+  productEntity: ClothingEyesGlassesThermalVisor
+  discountCategory: rareDiscounts
+  discountDownTo:
+    Telecrystal: 3
+  cost:
+    Telecrystal: 4
+  categories:
+  - UplinkWearables
+  conditions:
+  - !type:StoreWhitelistCondition
+    blacklist:
       tags:
       - NukeOpsUplink

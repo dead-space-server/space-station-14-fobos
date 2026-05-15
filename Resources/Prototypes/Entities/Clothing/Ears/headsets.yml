@@ -88,7 +88,6 @@
   - type: ContainerFill
     containers:
       key_slots:
-      - EncryptionKeyCentCom
       - EncryptionKeyStationMaster
   - type: Sprite
     sprite: Clothing/Ears/Headsets/centcom.rsi
@@ -96,6 +95,7 @@
     sprite: Clothing/Ears/Headsets/centcom.rsi
   - type: Headset
     color: "#2681a5"
+    #deleted the Central Committee encryption key by DS14
 
 - type: entity
   parent: [ClothingHeadset, BaseCommandContraband]

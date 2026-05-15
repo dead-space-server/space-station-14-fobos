@@ -48,9 +48,12 @@
   - type: Pda
     id: CentcomSpecialOperationsOfficerIDCard
 
+# ERT PDA
+# Leader
 - type: entity
   parent: ERTLeaderPDA
   id: ERTLeaderRedPDA
+  suffix: ЛОБР RED
   components:
   - type: Pda
     id: ERTLeaderRedIDCard
@@ -58,9 +61,80 @@
 - type: entity
   parent: ERTLeaderPDA
   id: ERTLeaderGammaPDA
+  suffix: ЛОБР Gamma
   components:
   - type: Pda
     id: ERTLeaderGammaIDCard
+
+# Security
+- type: entity
+  parent: ERTSecurityPDA
+  id: ERTSecurityRedPDA
+  suffix: ОБР RED
+  components:
+  - type: Pda
+    id: ERTSecurityRedIDCard
+
+- type: entity
+  parent: ERTSecurityPDA
+  id: ERTSecurityGammaPDA
+  suffix: ОБР Gamma
+  components:
+  - type: Pda
+    id: ERTSecurityGammaIDCard
+
+# Medic
+- type: entity
+  parent: ERTMedicPDA
+  id: ERTMedicRedPDA
+  suffix: Медик RED
+  components:
+  - type: Pda
+    id: ERTMedicRedIDCard
+
+- type: entity
+  parent: ERTMedicPDA
+  id: ERTMedicGammaPDA
+  suffix: Медик Gamma
+  components:
+  - type: Pda
+    id: ERTMedicGammaIDCard
+
+# Engineer
+- type: entity
+  parent: ERTEngineerPDA
+  id: ERTEngineerRedPDA
+  suffix: Инженер RED
+  components:
+  - type: Pda
+    id: ERTEngineerRedIDCard
+
+- type: entity
+  parent: ERTEngineerPDA
+  id: ERTEngineerGammaPDA
+  suffix: Инженер Gamma
+  components:
+  - type: Pda
+    id: ERTEngineerGammaIDCard
+
+# Janitor
+- type: entity
+  parent: ERTJanitorPDA
+  id: ERTJanitorRedPDA
+  suffix: Уборщик RED
+  components:
+  - type: Pda
+    id: ERTJanitorRedIDCard
+
+- type: entity
+  parent: ERTJanitorPDA
+  id: ERTJanitorGammaPDA
+  suffix: Уборщик Gamma
+  components:
+  - type: Pda
+    id: ERTJanitorGammaIDCard
+
+#CBURN
 
 - type: entity
   parent: CBURNPDA

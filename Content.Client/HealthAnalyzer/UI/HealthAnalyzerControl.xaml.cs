@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Numerics;
 using Content.Shared.Atmos;
+using Content.Shared.Chemistry.Reagent; // DS14
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.FixedPoint;
@@ -50,6 +51,7 @@ public sealed partial class HealthAnalyzerControl : BoxContainer
             || !_entityManager.TryGetComponent<DamageableComponent>(target, out var damageable))
         {
             NoPatientDataText.Visible = true;
+            DrawInjectedReagents(null); // DS14
             return;
         }
 
@@ -105,7 +107,7 @@ public sealed partial class HealthAnalyzerControl : BoxContainer
 
         // Alerts
 
-        var showAlerts = state.Unrevivable == true || state.Bleeding == true || state.HasVirus == true; // DS14: virus
+        var showAlerts = state.Unrevivable == true || state.Bleeding == true;
 
         AlertsDivider.Visible = showAlerts;
         AlertsContainer.Visible = showAlerts;
@@ -129,23 +131,6 @@ public sealed partial class HealthAnalyzerControl : BoxContainer
                 MaxWidth = 300
             });
 
-        // DS14-start
-        if (state.HasVirus == true)
-        {
-            var percent = Math.Clamp(state.CureProgress, 0f, 1f) * 100f;
-
-            AlertsContainer.AddChild(new RichTextLabel
-            {
-                Text = Loc.GetString(
-                    "health-analyzer-window-entity-infected-text",
-                    ("progress", percent.ToString("F1"))
-                ),
-                Margin = new Thickness(0, 4),
-                MaxWidth = 300
-            });
-        }
-        // DS14-end
-
         // Damage Groups
 
         var damageSortedGroups =
@@ -155,6 +140,8 @@ public sealed partial class HealthAnalyzerControl : BoxContainer
         var damagePerType = damageable.Damage.DamageDict;
 
         DrawDiagnosticGroups(damageSortedGroups, damagePerType);
+
+        DrawInjectedReagents(state.Reagents); // DS14
     }
 
     private static string GetStatus(MobState mobState)
@@ -213,6 +200,46 @@ public sealed partial class HealthAnalyzerControl : BoxContainer
             }
         }
     }
+
+    // DS14-start
+    private void DrawInjectedReagents(IReadOnlyList<HealthAnalyzerReagentEntry>? reagents)
+    {
+        ReagentsContainer.RemoveAllChildren();
+
+        var showReagents = reagents != null && reagents.Count > 0;
+        ReagentsDivider.Visible = showReagents;
+        ReagentsContainer.Visible = showReagents;
+
+        if (reagents == null || reagents.Count == 0)
+            return;
+
+        ReagentsContainer.AddChild(new Label
+        {
+            Text = Loc.GetString("health-analyzer-window-reagents-title"),
+            Margin = new Thickness(0, 0, 0, 3),
+        });
+
+        foreach (var reagent in reagents)
+        {
+            var name = _prototypes.TryIndex<ReagentPrototype>(reagent.ReagentId, out var prototype)
+                ? prototype.LocalizedName
+                : reagent.ReagentId;
+
+            var amount = $"{name} - {reagent.Quantity} {Loc.GetString("health-analyzer-window-reagents-unit")}";
+            var escapedAmount = FormattedMessage.EscapeText(amount);
+            var label = new RichTextLabel
+            {
+                Margin = new Thickness(0, 1),
+            };
+
+            label.SetMessage(reagent.Overdosed
+                ? FormattedMessage.FromMarkupPermissive($"[bold][color=red]{escapedAmount}[/color][/bold]")
+                : FormattedMessage.FromUnformatted(amount));
+
+            ReagentsContainer.AddChild(label);
+        }
+    }
+    // DS14-end
 
     private Texture GetTexture(string texture)
     {

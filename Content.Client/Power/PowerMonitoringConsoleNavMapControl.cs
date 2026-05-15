@@ -1,17 +1,18 @@
 using Content.Client.Pinpointer.UI;
-using Content.Shared.Pinpointer;
 using Content.Shared.Power;
 using Robust.Client.Graphics;
 using Robust.Shared.Collections;
 using Robust.Shared.Map.Components;
 using System.Numerics;
 using static Content.Shared.Power.SharedPowerMonitoringConsoleSystem;
+using Robust.Shared.Timing; // DS14
 
 namespace Content.Client.Power;
 
 public sealed partial class PowerMonitoringConsoleNavMapControl : NavMapControl
 {
     [Dependency] private readonly IEntityManager _entManager = default!;
+    [Dependency] private readonly IGameTiming _timing = default!; // DS14
 
     // Cable indexing
     // 0: CableType.HighVoltage
@@ -19,6 +20,7 @@ public sealed partial class PowerMonitoringConsoleNavMapControl : NavMapControl
     // 2: CableType.Apc
 
     private readonly Color[] _powerCableColors = { Color.OrangeRed, Color.Yellow, Color.LimeGreen };
+    private readonly Color _brokenCableColor = Color.Red; // DS14
     private readonly Vector2[] _powerCableOffsets = { new Vector2(-0.2f, -0.2f), Vector2.Zero, new Vector2(0.2f, 0.2f) };
     private Dictionary<Color, Color> _sRGBLookUp = new Dictionary<Color, Color>();
 
@@ -26,6 +28,8 @@ public sealed partial class PowerMonitoringConsoleNavMapControl : NavMapControl
     public List<PowerMonitoringConsoleLineGroup> HiddenLineGroups = new();
     public List<PowerMonitoringConsoleLine> PowerCableNetwork = new();
     public List<PowerMonitoringConsoleLine> FocusCableNetwork = new();
+    public List<PowerMonitoringConsoleLine> BrokenCableNetwork = new(); // DS14
+    public List<PowerMonitoringConsoleMarker> BrokenCableMarkers = new(); // DS14
 
     private Dictionary<Vector2i, Vector2i>[] _horizLines = [new(), new(), new()];
     private Dictionary<Vector2i, Vector2i>[] _horizLinesReversed = [new(), new(), new()];
@@ -56,6 +60,11 @@ public sealed partial class PowerMonitoringConsoleNavMapControl : NavMapControl
 
         PowerCableNetwork = GetDecodedPowerCableChunks(cableNetworks.AllChunks);
         FocusCableNetwork = GetDecodedPowerCableChunks(cableNetworks.FocusChunks);
+
+        // DS14-start
+        BrokenCableNetwork = GetDecodedPowerCableChunks(cableNetworks.BrokenChunks, true);
+        BrokenCableMarkers = GetDecodedBrokenPowerCableMarkers(cableNetworks.BrokenChunks);
+        // DS14-end
     }
 
     public void DrawAllCableNetworks(DrawingHandleScreen handle)
@@ -73,9 +82,43 @@ public sealed partial class PowerMonitoringConsoleNavMapControl : NavMapControl
         // Draw focus network
         if (FocusCableNetwork != null && FocusCableNetwork.Count > 0)
             DrawCableNetwork(handle, FocusCableNetwork, Color.White);
+
+        // DS14-start
+        // Draw broken cables last so faults remain visible over the normal and focused networks.
+        if (BrokenCableNetwork != null && BrokenCableNetwork.Count > 0)
+        {
+            var blink = 0.45f + 0.55f * MathF.Abs(MathF.Sin((float) _timing.RealTime.TotalSeconds * 5f));
+            DrawCableNetwork(handle, BrokenCableNetwork, Color.White, _brokenCableColor.WithAlpha(blink));
+            DrawBrokenCableMarkers(handle, BrokenCableMarkers, _brokenCableColor.WithAlpha(blink));
+        }
+        // DS14-end
     }
 
-    public void DrawCableNetwork(DrawingHandleScreen handle, List<PowerMonitoringConsoleLine> fullCableNetwork, Color modulator)
+    // DS14-start
+    private void DrawBrokenCableMarkers(DrawingHandleScreen handle, List<PowerMonitoringConsoleMarker> markers, Color color)
+    {
+        if (!_entManager.TryGetComponent(MapUid, out _grid))
+            return;
+
+        var offset = GetOffset();
+        offset = offset with { Y = -offset.Y };
+
+        var radius = _grid.TileSize * 0.38f * MinimapScale;
+
+        foreach (var marker in markers)
+        {
+            if (HiddenLineGroups.Contains(marker.Group))
+                continue;
+
+            var cableOffset = _powerCableOffsets[(int) marker.Group];
+            var center = ScalePosition(marker.Position + cableOffset - offset);
+
+            handle.DrawCircle(center, radius, color, false);
+        }
+    }
+    // DS14-end
+
+    public void DrawCableNetwork(DrawingHandleScreen handle, List<PowerMonitoringConsoleLine> fullCableNetwork, Color modulator, Color? overrideColor = null) // DS14
     {
         if (!_entManager.TryGetComponent(MapUid, out _grid))
             return;
@@ -106,7 +149,7 @@ public sealed partial class PowerMonitoringConsoleNavMapControl : NavMapControl
 
                 if (cableNetwork.Count > 0)
                 {
-                    var color = _powerCableColors[cableNetworkIdx] * modulator;
+                    var color = (overrideColor ?? _powerCableColors[cableNetworkIdx]) * modulator; // DS14
 
                     if (!_sRGBLookUp.TryGetValue(color, out var sRGB))
                     {
@@ -164,7 +207,7 @@ public sealed partial class PowerMonitoringConsoleNavMapControl : NavMapControl
 
                 if (cableVertexUV.Count > 0)
                 {
-                    var color = _powerCableColors[cableNetworkIdx] * modulator;
+                    var color = (overrideColor ?? _powerCableColors[cableNetworkIdx]) * modulator; // DS14
 
                     if (!_sRGBLookUp.TryGetValue(color, out var sRGB))
                     {
@@ -178,7 +221,7 @@ public sealed partial class PowerMonitoringConsoleNavMapControl : NavMapControl
         }
     }
 
-    public List<PowerMonitoringConsoleLine> GetDecodedPowerCableChunks(Dictionary<Vector2i, PowerCableChunk>? chunks)
+    public List<PowerMonitoringConsoleLine> GetDecodedPowerCableChunks(Dictionary<Vector2i, PowerCableChunk>? chunks, bool includeTileMarkers = false) // DS14
     {
         var decodedOutput = new List<PowerMonitoringConsoleLine>();
 
@@ -192,6 +235,11 @@ public sealed partial class PowerMonitoringConsoleNavMapControl : NavMapControl
         Array.ForEach(_horizLinesReversed, x=> x.Clear());
         Array.ForEach(_vertLines, x=> x.Clear());
         Array.ForEach(_vertLinesReversed, x=> x.Clear());
+
+        // DS14-start
+        var gridOffset = new Vector2(_grid.TileSize * 0.5f, -_grid.TileSize * 0.5f);
+        var markerSize = _grid.TileSize * 0.28f;
+        // DS14-end
 
         foreach (var (chunkOrigin, chunk) in chunks)
         {
@@ -215,6 +263,23 @@ public sealed partial class PowerMonitoringConsoleNavMapControl : NavMapControl
                     var relativeTile = GetTileFromIndex(chunkIdx);
                     var tile = (chunk.Origin * ChunkSize + relativeTile) * _grid.TileSize;
                     tile = tile with { Y = -tile.Y };
+                    // DS14-start
+                    var group = (PowerMonitoringConsoleLineGroup) cableIdx;
+
+                    if (includeTileMarkers)
+                    {
+                        var center = tile + gridOffset;
+
+                        decodedOutput.Add(new PowerMonitoringConsoleLine(
+                            center + new Vector2(-markerSize, 0f),
+                            center + new Vector2(markerSize, 0f),
+                            group));
+                        decodedOutput.Add(new PowerMonitoringConsoleLine(
+                            center + new Vector2(0f, -markerSize),
+                            center + new Vector2(0f, markerSize),
+                            group));
+                    }
+                    // DS14-end
 
                     PowerCableChunk neighborChunk;
                     bool neighbor;
@@ -261,8 +326,6 @@ public sealed partial class PowerMonitoringConsoleNavMapControl : NavMapControl
             }
         }
 
-        var gridOffset = new Vector2(_grid.TileSize * 0.5f, -_grid.TileSize * 0.5f);
-
         for (var index = 0; index < _horizLines.Length; index++)
         {
             var horizLines = _horizLines[index];
@@ -285,6 +348,48 @@ public sealed partial class PowerMonitoringConsoleNavMapControl : NavMapControl
 
         return decodedOutput;
     }
+
+    // DS14-start
+    public List<PowerMonitoringConsoleMarker> GetDecodedBrokenPowerCableMarkers(Dictionary<Vector2i, PowerCableChunk>? chunks)
+    {
+        var decodedOutput = new List<PowerMonitoringConsoleMarker>();
+
+        if (!_entManager.TryGetComponent(MapUid, out _grid))
+            return decodedOutput;
+
+        if (chunks == null)
+            return decodedOutput;
+
+        var gridOffset = new Vector2(_grid.TileSize * 0.5f, -_grid.TileSize * 0.5f);
+
+        foreach (var chunk in chunks.Values)
+        {
+            for (var cableIdx = 0; cableIdx < 3; cableIdx++)
+            {
+                var chunkMask = chunk.PowerCableData[cableIdx];
+
+                for (var chunkIdx = 0; chunkIdx < ChunkSize * ChunkSize; chunkIdx++)
+                {
+                    var value = 1 << chunkIdx;
+                    var mask = chunkMask & value;
+
+                    if (mask == 0x0)
+                        continue;
+
+                    var relativeTile = GetTileFromIndex(chunkIdx);
+                    var tile = (chunk.Origin * ChunkSize + relativeTile) * _grid.TileSize;
+                    tile = tile with { Y = -tile.Y };
+
+                    decodedOutput.Add(new PowerMonitoringConsoleMarker(
+                        tile + gridOffset,
+                        (PowerMonitoringConsoleLineGroup) cableIdx));
+                }
+            }
+        }
+
+        return decodedOutput;
+    }
+    // DS14-end
 }
 
 public struct PowerMonitoringConsoleLine
@@ -300,6 +405,20 @@ public struct PowerMonitoringConsoleLine
         Group = group;
     }
 }
+
+// DS14-start
+public struct PowerMonitoringConsoleMarker
+{
+    public readonly Vector2 Position;
+    public readonly PowerMonitoringConsoleLineGroup Group;
+
+    public PowerMonitoringConsoleMarker(Vector2 position, PowerMonitoringConsoleLineGroup group)
+    {
+        Position = position;
+        Group = group;
+    }
+}
+// DS14-end
 
 public enum PowerMonitoringConsoleLineGroup : byte
 {

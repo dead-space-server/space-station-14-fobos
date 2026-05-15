@@ -1,3 +1,4 @@
+using Content.Shared.DeadSpace.StationAI.UI;
 using Content.Shared.Silicons.StationAi;
 using JetBrains.Annotations;
 
@@ -31,6 +32,8 @@ public sealed class AICameraListBoundUserInterface : BoundUserInterface
         Window.OpenCentered();
         Window.OnClose += Close;
         Window.WarpToCamera += WindowOnWarpToCamera;
+        Window.SearchRequested += WindowOnSearchRequested;
+        Window.WarpToTarget += WindowOnWarpToTarget;
     }
 
     private void WindowOnWarpToCamera(NetEntity obj)
@@ -38,9 +41,32 @@ public sealed class AICameraListBoundUserInterface : BoundUserInterface
         SendMessage(new EyeMoveToCam { Entity = EntMan.GetNetEntity(Owner), Uid = obj });
     }
 
+    private void WindowOnSearchRequested(string query, AiCameraSearchType type)
+    {
+        SendMessage(new AiCameraSearchRequestMessage
+        {
+            Entity = EntMan.GetNetEntity(Owner),
+            Query = query,
+            Type = type,
+        });
+    }
+
+    private void WindowOnWarpToTarget(NetEntity obj)
+    {
+        SendMessage(new AiCameraJumpToTargetMessage { Entity = EntMan.GetNetEntity(Owner), Target = obj });
+    }
+
     public void UpdateCameras()
     {
         Window?.UpdateCameras();
+    }
+
+    protected override void UpdateState(BoundUserInterfaceState state)
+    {
+        base.UpdateState(state);
+
+        if (state is AiCameraSearchResultsState searchState)
+            Window?.UpdateSearchResults(searchState);
     }
 
     protected override void Dispose(bool disposing)
@@ -48,6 +74,13 @@ public sealed class AICameraListBoundUserInterface : BoundUserInterface
         base.Dispose(disposing);
         if (!disposing)
             return;
+
+        if (Window != null)
+        {
+            Window.WarpToCamera -= WindowOnWarpToCamera;
+            Window.SearchRequested -= WindowOnSearchRequested;
+            Window.WarpToTarget -= WindowOnWarpToTarget;
+        }
 
         Window?.Parent?.RemoveChild(Window);
     }

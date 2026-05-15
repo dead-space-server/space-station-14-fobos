@@ -1,0 +1,19 @@
+- type: antag
+  id: Shadowling
+  name: roles-antag-shadowling-name
+  antagonist: true
+  setPreference: true
+  objective: roles-antag-shadowling-objective
+  requirements:
+    - !type:OverallPlaytimeRequirement
+      time: 100h
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 20h
+
+- type: antag
+  id: ShadowlingSlave
+  name: roles-antag-shadowlingslave-name
+  antagonist: true
+  setPreference: false
+  objective: roles-antag-shadowlingslave-objective

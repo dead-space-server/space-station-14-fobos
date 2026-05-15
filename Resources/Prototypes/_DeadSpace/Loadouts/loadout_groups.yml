@@ -274,42 +274,49 @@
 - type: loadoutGroup
   id: SecurityOfficerMedal
   name: loadout-group-security-officer-medal
+  minLimit: 0
   loadouts:
   - SecurityOfficerMedal
 
 - type: loadoutGroup
   id: DetectiveMedal
   name: loadout-group-detective-medal
+  minLimit: 0
   loadouts:
   - DetectiveMedal
 
 - type: loadoutGroup
   id: WardenMedal
   name: loadout-group-warden-medal
+  minLimit: 0
   loadouts:
   - WardenMedal
 
 - type: loadoutGroup
   id: SeniorOfficerMedal
   name: loadout-group-senior-officer-medal
+  minLimit: 0
   loadouts:
   - SeniorOfficerMedal
 
 - type: loadoutGroup
   id: HeadOfSecurityMedal
   name: loadout-group-head-of-security-medal
+  minLimit: 0
   loadouts:
   - HeadOfSecurityMedal
 
 - type: loadoutGroup
   id: BrigMedicMedal
   name: loadout-group-brigmedic-medal
+  minLimit: 0
   loadouts:
   - BrigMedicMedal
 
 - type: loadoutGroup
   id: SecurityPilotMedal
   name: loadout-group-security-pilot-medal
+  minLimit: 0
   loadouts:
   - SecurityPilotMedal
 

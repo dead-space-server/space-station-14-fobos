@@ -1,6 +1,7 @@
 using Content.Shared.GameTicking;
 using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
+using Content.Shared.Preferences;
 using Content.Shared.Roles;
 using Content.Shared.Traits;
 using Content.Shared.Whitelist;
@@ -24,15 +25,20 @@ public sealed class TraitSystem : EntitySystem
     // When the player is spawned in, add all trait components selected during character creation
     private void OnPlayerSpawnComplete(PlayerSpawnCompleteEvent args)
     {
+        ApplyTraits(args.Mob, args.JobId, args.Profile);
+    }
+
+    public void ApplyTraits(EntityUid mob, ProtoId<JobPrototype>? jobId, HumanoidCharacterProfile profile)
+    {
         // Check if player's job allows to apply traits
-        if (args.JobId == null ||
-            !_prototypeManager.Resolve<JobPrototype>(args.JobId, out var protoJob) ||
+        if (jobId == null ||
+            !_prototypeManager.Resolve<JobPrototype>(jobId.Value, out var protoJob) ||
             !protoJob.ApplyTraits)
         {
             return;
         }
 
-        foreach (var traitId in args.Profile.TraitPreferences)
+        foreach (var traitId in profile.TraitPreferences)
         {
             if (!_prototypeManager.TryIndex<TraitPrototype>(traitId, out var traitPrototype))
             {
@@ -40,30 +46,30 @@ public sealed class TraitSystem : EntitySystem
                 return;
             }
 
-            if (_whitelistSystem.IsWhitelistFail(traitPrototype.Whitelist, args.Mob) ||
-                _whitelistSystem.IsWhitelistPass(traitPrototype.Blacklist, args.Mob))
+            if (_whitelistSystem.IsWhitelistFail(traitPrototype.Whitelist, mob) ||
+                _whitelistSystem.IsWhitelistPass(traitPrototype.Blacklist, mob))
                 continue;
 
             // Add all components required by the prototype
             if (traitPrototype.Components.Count > 0)
-                EntityManager.AddComponents(args.Mob, traitPrototype.Components, false);
+                EntityManager.AddComponents(mob, traitPrototype.Components, false);
 
             // Add all JobSpecials required by the prototype
             foreach (var special in traitPrototype.Specials)
             {
-                special.AfterEquip(args.Mob);
+                special.AfterEquip(mob);
             }
 
             // Add item required by the trait
             if (traitPrototype.TraitGear == null)
                 continue;
 
-            if (!TryComp(args.Mob, out HandsComponent? handsComponent))
+            if (!TryComp(mob, out HandsComponent? handsComponent))
                 continue;
 
-            var coords = Transform(args.Mob).Coordinates;
+            var coords = Transform(mob).Coordinates;
             var inhandEntity = Spawn(traitPrototype.TraitGear, coords);
-            _sharedHandsSystem.TryPickup(args.Mob,
+            _sharedHandsSystem.TryPickup(mob,
                 inhandEntity,
                 checkActionBlocker: false,
                 handsComp: handsComponent);

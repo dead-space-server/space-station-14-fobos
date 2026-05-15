@@ -15,6 +15,13 @@
                         <Control Name="TextAlignmentPadding" VerticalAlignment="Top"/>
                         <RichTextLabel Name="BlankPaperIndicator" StyleClasses="LabelWeak" VerticalAlignment="Top" HorizontalAlignment="Center"/>
                         <RichTextLabel StyleClasses="PaperWrittenText" Name="WrittenTextLabel" VerticalAlignment="Top"/>
+                        <paper:StampCollection Name="StampDisplay"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Stretch"
+                            HorizontalExpand="True"
+                            MinHeight="250"
+                            MouseFilter="Ignore"
+                            Margin="26 8 26 26"/>
                         <BoxContainer Name="InputContainer" StyleIdentifier="PaperContainer" Orientation="Vertical" VerticalExpand="True" VerticalAlignment="Stretch">
                             <PanelContainer StyleIdentifier="PaperEditBackground" MinHeight="100"
                                 VerticalAlignment="Stretch" VerticalExpand="True" HorizontalExpand="True">
@@ -24,8 +31,6 @@
                         </BoxContainer>
                         <TextureButton Name="FooterImage" HorizontalAlignment="Center" VerticalAlignment="Top" MouseFilter="Ignore"/>
                     </BoxContainer>
-                    <paper:StampCollection Name="StampDisplay" VerticalAlignment="Bottom" Margin="6"/>
-
                 </PanelContainer>
             </ScrollContainer>
         </PanelContainer>

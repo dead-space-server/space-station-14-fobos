@@ -2,6 +2,7 @@
   parent: MobHuman
   id: TestVirusMobHuman
   name: больной
+  suffix: Кашель
   components:
   - type: Virus
     data:
@@ -14,10 +15,10 @@
       
 
 - type: entity
-  name: Virus Urist Spawner
-  id: SpawnTestVirusMobHuman
   parent: MarkerBase
-  suffix: DEBUG
+  id: SpawnTestVirusMobHuman
+  name: спавнер больной
+  suffix: ДЕБАГ
   components:
   - type: Sprite
     layers:
@@ -31,7 +32,8 @@
 - type: entity
   parent: MobHuman
   id: TestVirusMobHuman2
-  name: больной2
+  name: больной
+  suffix: Кашель, рвота
   components:
   - type: Virus
     data:

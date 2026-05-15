@@ -46,3 +46,16 @@
       - id: WeaponCarbineSKS
       - id: MagazineCarbineSKS
         amount: 1
+
+- type: entity
+  parent: ClothingBackpackSatchelChemistry
+  name: сумка химика
+  id: ClothingBackpackSatchelChemistrySyndicateChemBundle
+  description: "Помогите найти вену.."
+  suffix: хим синтез лонопса
+  components:
+    - type: StorageFill
+      contents:
+        - id: ChemMasterFlatpack
+        - id: SyndiChemFlatpack
+        - id: ChemistryHotplateFlatpack

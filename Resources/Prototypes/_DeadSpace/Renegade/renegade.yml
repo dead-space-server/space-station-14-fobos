@@ -43,6 +43,7 @@
   - IPC
   components:
   - type: Renegade
+  - type: GunUsageBlocker
   - type: RenegadeSubmissionAbility
   - type: RenegadeForceShieldAbility
     proto: RenegadeForceShield

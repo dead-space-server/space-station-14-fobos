@@ -5,6 +5,7 @@ using Content.Shared.Chemistry.Components;
 using Content.Shared.Chemistry.Reagent;
 using Content.Shared.Damage;
 using Content.Shared.Humanoid;
+using Content.Shared.NPC.Prototypes;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
@@ -108,6 +109,27 @@ public sealed partial class NecromorfComponent : Component
     /// </summary>
     [DataField]
     public Solution BeforeNecroficationBloodReagents = new();
+
+    /// <summary>
+    /// Factions to restore in case of cloning.
+    /// </summary>
+    [DataField]
+    public HashSet<ProtoId<NpcFactionPrototype>> BeforeNecroficationFactions = new();
+
+    [DataField]
+    public bool BeforeNecroficationHadVocal;
+
+    [DataField]
+    public Dictionary<Sex, ProtoId<EmoteSoundsPrototype>>? BeforeNecroficationVocalSounds;
+
+    [DataField]
+    public string BeforeNecroficationScreamId = "Scream";
+
+    [DataField]
+    public SoundSpecifier BeforeNecroficationWilhelm = new SoundPathSpecifier("/Audio/Voice/Human/wilhelm_scream.ogg");
+
+    [DataField]
+    public float BeforeNecroficationWilhelmProbability = 0.0002f;
 
     /// <summary>
     /// The blood reagents to give the Necromorf. In case you want Necromorfs that bleed milk, or something.

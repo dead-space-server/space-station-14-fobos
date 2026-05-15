@@ -211,6 +211,10 @@
   id: MobChicken
   description: Comes before an egg, and IS a dinosaur!
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     layers:
@@ -364,6 +368,10 @@
   id: MobCockroach
   description: This station is just crawling with bugs.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: SmallMobs
     sprite: Mobs/Animals/cockroach.rsi
@@ -674,7 +682,7 @@
             sprite: Mobs/Animals/mothroach/displacement.rsi
             state: neck
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: PetsGroup
   #DS14-end
 
@@ -688,6 +696,10 @@
   id: MobDuckMallard
   description: An adorable mallard duck, it's fluffy and soft!
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     layers:
@@ -985,6 +997,10 @@
   id: MobCrab
   description: A folk legend goes around that his claw snaps spacemen out of existence over distasteful remarks. Be polite and tolerant for your own safety.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     layers:
@@ -1055,6 +1071,10 @@
   id: MobGoat
   description: Her spine consists of long sharp segments, no wonder she is so grumpy.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Large
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     layers:
@@ -1159,6 +1179,10 @@
   id: MobGoose
   description: Its stomach and mind are an enigma beyond human comprehension.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     layers:
@@ -1397,6 +1421,10 @@
   description: The genetic bipedal ancestor of... Uh... Something. Yeah, there's definitely something on the station that descended from whatever this is.
   abstract: true
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: CombatMode
     canDisarm: true
   - type: Inventory
@@ -1517,6 +1545,10 @@
   parent: MobBaseAncestor
   description: New church of neo-darwinists actually believe that EVERY animal evolved from a monkey. Tastes like pork, and killing them is both fun and relaxing.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: NameIdentifier
     group: Monkey
   - type: Speech
@@ -1547,15 +1579,15 @@
   # DS14-start
   - type: Language
     selectedLanguage: MonkeyLanguage
-    knownLanguages: 
+    knownLanguages:
     - MonkeyLanguage
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: PetsGroup
   - type: Tag
     tags:
     - MonkeyKingTarget # DS14
   # DS14-end
-  
+
 - type: entity
   name: monkey
   id: MobBaseSyndicateMonkey
@@ -1589,7 +1621,7 @@
   - type: Loadout
     prototypes: [SyndicateOperativeGearMonkey]
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: SyndicateGroup
   #DS14-end
 
@@ -1616,6 +1648,10 @@
   description: Cousins to the sentient race of lizard people, kobolds blend in with their natural habitat and are as nasty as monkeys; ready to pull out your hair and stab you to death.
   abstract: true
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: NameIdentifier
     group: Kobold
   - type: LizardAccent
@@ -1726,7 +1762,7 @@
     description: ghost-role-information-kobold-description
     rules: ghost-role-information-nonantagonist-rules
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: PetsGroup
   #DS14-end
 
@@ -1773,7 +1809,7 @@
   - type: AutoTraitor
     profile: TraitorReinforcement
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: SyndicateGroup
   #DS14-end
 
@@ -1799,6 +1835,10 @@
   id: MobMouse
   description: Squeak!
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Body
     prototype: Mouse
   - type: GhostRole
@@ -1982,7 +2022,7 @@
   - type: NecromorfAfterInfection
     necroPrototype: NecroSmall
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: PetsGroup
   #DS14-end
 
@@ -2127,6 +2167,10 @@
   id: MobLizard
   description: A harmless dragon.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: MovementSpeedModifier
     baseWalkSpeed: 2
     baseSprintSpeed: 3
@@ -2184,6 +2228,10 @@
   id: MobSlug
   description: And they called this a lizard?
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: MovementSpeedModifier
     baseWalkSpeed : 2
     baseSprintSpeed : 3
@@ -2234,6 +2282,10 @@
   id: MobFrog
   description: Hop hop hop. Lookin' moist.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: MovementSpeedModifier
     baseWalkSpeed: 3
     baseSprintSpeed: 6
@@ -2395,6 +2447,10 @@
   id: MobPenguin
   description: Their lives are constant pain due to their inner-body knees.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     layers:
@@ -2534,6 +2590,10 @@
   id: MobSnake
   description: Hissss! Bites aren't poisonous.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     layers:
@@ -2675,7 +2735,7 @@
   - type: ReplacementAccent
     accent: xeno
   - type: Language
-    knownLanguages: 
+    knownLanguages:
     - ArachnidLanguage
     selectedLanguage: ArachnidLanguage
   # DS14-end
@@ -2704,7 +2764,7 @@
       settings: short
   - type: GhostTakeoverAvailable
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: SpidersGroup
   #DS14-end
 
@@ -2818,6 +2878,10 @@
   id: MobPossum
   description: '"O Possum! My Possum!" -- Walt Whitman, 1865'
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     sprite: Mobs/Animals/possum.rsi
@@ -2891,6 +2955,10 @@
   id: MobRaccoon
   description: Trash panda!
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     sprite: Mobs/Animals/raccoon.rsi
@@ -2944,6 +3012,10 @@
   id: MobFox
   description: They're a fox.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     sprite: Mobs/Animals/fox.rsi
@@ -3027,6 +3099,10 @@
   name: corgi
   description: Finally, a space corgi!
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     sprite: Mobs/Pets/corgi.rsi
@@ -3197,6 +3273,10 @@
   id: MobCat
   description: Feline pet, very funny.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     sprite: Mobs/Pets/cat.rsi
@@ -3345,7 +3425,7 @@
     - GeneralLanguage
     unlockLanguagesAfterMakeSentient:
     - GeneralLanguage
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: ExplosiveCat
   # DS14-end
 
@@ -3447,6 +3527,10 @@
   id: MobSloth
   description: Very slow animal. For people with low energy.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: MovementSpeedModifier
     baseWalkSpeed : 0.5
     baseSprintSpeed : 1
@@ -3504,6 +3588,10 @@
   id: MobFerret
   description: Just a silly little guy!
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     sprite: Mobs/Pets/ferret.rsi
@@ -3558,6 +3646,10 @@
   id: MobHamster
   description: A cute, fluffy, robust hamster.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: GhostRole
     makeSentient: true
     allowSpeech: true
@@ -3707,9 +3799,9 @@
       - !type:GibBehavior
         recursive: false
   #DS14-start
-  - type: NecromorfAfterInfection 
+  - type: NecromorfAfterInfection
     necroPrototype: NecroSmall
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: PetsGroup
   #DS14-end
 
@@ -3719,6 +3811,10 @@
   id: MobPig
   description: Oink.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Large
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     layers:
@@ -3790,6 +3886,10 @@
   id: MobDionaNymph
   description: It's like a cat, only.... branch-ier.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     layers:

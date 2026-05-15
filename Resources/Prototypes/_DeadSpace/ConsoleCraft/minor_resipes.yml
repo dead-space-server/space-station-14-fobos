@@ -1,61 +1,6 @@
 # Обычные минор рецепты для крафтов, что повышают градус безумие
 
 - type: minorItemModule
-  id: ExtendedAmmoMag
-  moduleItem: ExtendedAmmoMagItem
-  description: Поддержка большего магазина
-  components:
-    ItemSlots:
-      slots:
-        gun_magazine:
-          name: Magazine
-          startingItem: ADTExtMagazineRifle
-          insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
-          ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
-          priority: 2
-          whitelist:
-            tags:
-              - MagazineRifle
-              - ADTExtMagazineRifle
-
-- type: minorItemModule
-  id: EnhancedCoolingModule
-  moduleItem: EnhancedCoolingModuleItem
-  description: Ускореная стрельба
-  components:
-    Gun:
-      fireRate: 8
-      fireRateModified: 8
-
-- type: minorItemModule
-  id: OverchargeModule
-  moduleItem: OverchargeModuleItem
-  description: Медленные пули
-  components:
-    Gun:
-      projectileSpeed: 10
-      projectileSpeedModified: 10
-
-- type: minorItemModule
-  id: MassSkope
-  moduleItem: MassSkopeModuleItem
-  description: Прицел с двух рук
-  components:
-    CursorOffsetRequiresWield:
-    EyeCursorOffset:
-      maxOffset: 4
-      pvsIncrease: 0.3
-
-- type: minorItemModule
-  id: SpeedBullet
-  moduleItem: SpeedBulletModuleItem
-  description: Быстрые пули
-  components:
-    Gun:
-      projectileSpeed: 60
-      projectileSpeedModified: 60
-
-- type: minorItemModule
   id: DelayModifierModule
   moduleItem: DelayModifierModuleItem
   description: Быстрое разворачивание
@@ -124,6 +69,48 @@
           length: 1.0
     ActivatableUI:
       key: enum.SharedGasTankUiKey.Key
+
+- type: minorItemModule
+  id: HandHeldMassScannerModule
+  tag:
+    - HandHeldMassScanner
+  description: Встроенный сканнер масс в рюкзак (Требуется ручной сканер масс).
+  components:
+    UserInterface:
+      interfaces:
+        enum.RadarConsoleUiKey.Key:
+          type: RadarConsoleBoundUserInterface
+    RadarConsole:
+      toggleAction: ActionHandheldRadarToggle
+      maxRange: 256
+      followEntity: true
+
+- type: minorItemModule
+  id: BluespaceHandHeldMassScannerModule
+  tag:
+    - BluespaceHandHeldMassScanner
+  description: Встроенный продвинутый сканнер масс в рюкзак (Требуется блюспейс ручной сканер масс).
+  components:
+    UserInterface:
+      interfaces:
+        enum.RadarConsoleUiKey.Key:
+          type: RadarConsoleBoundUserInterface
+    RadarConsole:
+      toggleAction: ActionHandheldRadarToggle
+      maxRange: 342
+      advanced: true
+      allowedComponents:
+        - component: Projectile
+          color: "#FF0000"
+        - component: MobState
+          color: "#FFFFFF"
+        - component: Item
+          color: "#FFD700"
+      blacklistComponents:
+        - CartridgeAmmo
+      blacklistTags:
+        - Ore
+        - Trash
 
 # То что затрагивает скаф ригов
 # ВОТ ТУТ ВНИМАТЕЛЬНО, вы должны вписать прототип скафа который указан в сумке что вы строите, иначе игра просто даст компачи сумке, а не перепишет компачи скафандру.

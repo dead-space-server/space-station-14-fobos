@@ -60,6 +60,8 @@
   - type: Pinpointer
     component: NukeDisk
     targetName: nuclear authentication disk
+  - type: StealTarget #DS14
+    stealGroup: PinpointerNuclear #DS14
 
 - type: entity
   name: syndicate pinpointer

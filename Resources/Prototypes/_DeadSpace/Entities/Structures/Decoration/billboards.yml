@@ -1,0 +1,25 @@
+- type: entity
+  id: BillboardNT
+  parent: BaseStructure
+  name: билборд нанотрейзен
+  description: Рекламный билборд НаноТрейзен с логотипом и слоганом.
+  components:
+  - type: Sprite
+    noRot: true
+    sprite: _DeadSpace/Structures/Decoration/billboards.rsi
+    state: billboard_nanotrasen
+    drawdepth: Mobs
+    offset: "0.0,0.5"
+
+- type: entity
+  id: BillboardFuckNT
+  parent: BaseStructure
+  name: разукрашеный билборд нанотрейзен
+  description: Рекламный билборд НаноТрейзен с логотипом и слоганом. Поверх нанесено антикорпоративное граффити.
+  components:
+  - type: Sprite
+    noRot: true
+    sprite: _DeadSpace/Structures/Decoration/billboards.rsi
+    state: billboard_fuck_corps
+    drawdepth: Mobs
+    offset: "0.0,0.5"

@@ -3,28 +3,11 @@
 using Content.Shared.Actions;
 using Robust.Shared.Serialization;
 using Content.Shared.DoAfter;
-using Content.Shared.Popups;
-using Content.Shared.DeadSpace.Renegade.Components;
-using Content.Shared.Weapons.Ranged.Events;
 
 namespace Content.Shared.DeadSpace.Renegade;
 
 public abstract class SharedRenegadeSystem : EntitySystem
 {
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
-
-    public override void Initialize()
-    {
-        base.Initialize();
-
-        SubscribeLocalEvent<RenegadeComponent, ShotAttemptedEvent>(OnShotAttempted);
-    }
-
-    private void OnShotAttempted(Entity<RenegadeComponent> ent, ref ShotAttemptedEvent args)
-    {
-        _popup.PopupClient(Loc.GetString("gun-disabled"), ent, ent);
-        args.Cancel();
-    }
 }
 
 public sealed partial class RenegadeSubmissionEvent : EntityTargetActionEvent { }

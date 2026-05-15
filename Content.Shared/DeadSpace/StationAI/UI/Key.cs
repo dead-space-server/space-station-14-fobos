@@ -7,3 +7,9 @@ public enum AICameraListUiKey : byte
 {
     Key,
 }
+
+[Serializable, NetSerializable]
+public enum StationAiCentCommFaxUiKey : byte
+{
+    Key,
+}

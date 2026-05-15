@@ -31,6 +31,7 @@
     - Law
   - type: IgnoreUIRange
   - type: StationAiHeld
+  - type: StationAiCentCommFax # DS14
   - type: StationAiOverlay
   - type: ShowElectrocutionHUD
   - type: ActionGrant
@@ -39,6 +40,7 @@
     - ActionSurvCameraLights
     - ActionAIViewLaws
     - AIEyeCamAction
+    - ActionAILeaveRound # DS14
   - type: UserInterface
     interfaces:
       enum.RadarConsoleUiKey.Key:
@@ -53,8 +55,12 @@
         type: CommunicationsConsoleBoundUserInterface
       enum.AICameraListUiKey.Key:
         type: AICameraListBoundUserInterface
+      enum.StationAiCentCommFaxUiKey.Key: # DS14
+        type: StationAiCentCommFaxBoundUserInterface # DS14
   - type: IntrinsicUI
     uis:
+      enum.StationAiCentCommFaxUiKey.Key: # DS14
+        toggleAction: AIActionSendCentCommFax # DS14
       enum.RadarConsoleUiKey.Key:
         toggleAction: AIActionAGhostShowRadar
       enum.CrewMonitoringUIKey.Key:
@@ -69,6 +75,7 @@
     deviceNetId: Wireless
     receiveFrequencyId: CrewMonitor
     transmitFrequencyId: ShuttleTimer
+  - type: StationLimitedNetwork # DS14
   - type: RadarConsole
     followEntity: false
   - type: CommunicationsConsole

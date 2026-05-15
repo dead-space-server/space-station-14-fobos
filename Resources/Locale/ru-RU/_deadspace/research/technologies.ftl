@@ -13,6 +13,14 @@ research-technology-rig-sec = Экспериментальная офицерс�
 research-technology-rig-sec-adv = Продвинутая экспериментальная офицерская экипировка
 research-technology-rig-salvage = Экспериментальная утилизационная экипировка
 research-technology-magmite-weapon = Магмитовое снаряжение
+research-technology-arkalyse = Техника батиного щелбана
+research-technology-pistols = Оружие для начинающих
+research-technology-nt-shotguns = Охота на врагов
+research-technology-rifles = Стрельба по бутылкам
+research-technology-guns-details = Лего детали для оружия
+research-technology-shotgun-magnum = Техника отрыва гузла
+research-technology-ext-ammo = Большие магазины
+
 research-discipline-mechworks = Механика
 research-discipline-weaponry = Вооружение
 research-discipline-research = Исследование

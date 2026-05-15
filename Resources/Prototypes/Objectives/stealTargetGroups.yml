@@ -84,13 +84,6 @@
     sprite: Objects/Misc/nukedisk.rsi
     state: icon
 
-- type: stealTargetGroup
-  id: WeaponPistolX01
-  name: steal-target-groups-weapon-X01-pistol
-  sprite:
-    sprite: _DeadSpace/Objects/Weapons/Guns/Battery/x01.rsi
-    state: icon
-
 # Thief Collection
 
 - type: stealTargetGroup

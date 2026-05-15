@@ -11,7 +11,7 @@
       fix1:
         shape:
           !type:PhysShapeAabb
-          bounds: "-0.4,-0.4,0.4,0.4"
+          bounds: "-0.25,-0.35,0.25,0.35" # DS14
         density: 190
         mask:
         - MachineMask
@@ -109,6 +109,7 @@
       map: ["enum.MaterialStorageVisualLayers.Inserting"]
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: Machine
     board: AutolatheMachineCircuitboard
   - type: MaterialStorage
@@ -185,6 +186,7 @@
       map: ["enum.MaterialStorageVisualLayers.Inserting"]
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: Machine
     board: ProtolatheMachineCircuitboard
   - type: MaterialStorage
@@ -250,6 +252,7 @@
       map: ["enum.PowerDeviceVisualLayers.Powered"]
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: Machine
     board: CircuitImprinterMachineCircuitboard
   - type: Lathe
@@ -310,6 +313,7 @@
       map: ["enum.MaterialStorageVisualLayers.Inserting"]
     - state: fab-o
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: Machine
     board: ExosuitFabricatorMachineCircuitboard
   - type: Lathe
@@ -354,6 +358,7 @@
       color: "#ffaaaa"
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: Machine
     board: BiofabricatorMachineCircuitboard
   - type: MaterialStorage
@@ -390,6 +395,7 @@
       map: ["enum.MaterialStorageVisualLayers.Inserting"]
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: Machine
     board: SecurityTechFabCircuitboard
   - type: Lathe
@@ -403,6 +409,7 @@
     - SecurityAmmoStatic
     - SecurityWeaponsStatic
     - SecurityBorgModulesStatic # DS14
+    - SecDetailTechFab # DS14
     dynamicPacks:
     - SalvageSecurityBoards
     - SalvageSecurityWeapons
@@ -413,7 +420,9 @@
     - SecurityWeapons
     - SecurityDisablers
     - WeaponMagmite # DS14
-    - SecurityRIGCraftDetails # DS14
+    - GlovesArkalyse # DS14
+    - SecurityBorgModulesTierTwo # DS14
+    - SecurityBorgModulesTierThree # DS14
   - type: EmagLatheRecipes
     emagStaticPacks:
     - SyndicateAmmoStatic
@@ -442,6 +451,7 @@
           map: ["enum.MaterialStorageVisualLayers.Inserting"]
         - state: panel
           map: ["enum.WiresVisualLayers.MaintenancePanel"]
+          visible: false # DS14
     - type: Machine
       board: AmmoTechFabCircuitboard
     - type: Lathe
@@ -477,6 +487,7 @@
       map: ["enum.MaterialStorageVisualLayers.Inserting"]
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: Lathe
     idleState: icon
     runningState: icon
@@ -564,6 +575,7 @@
       map: ["enum.MaterialStorageVisualLayers.Inserting"]
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: Machine
     board: BiogeneratorMachineCircuitboard
   - type: MaterialStorage
@@ -610,6 +622,7 @@
           map: ["enum.MaterialStorageVisualLayers.Inserting"]
         - state: panel
           map: ["enum.WiresVisualLayers.MaintenancePanel"]
+          visible: false # DS14
     - type: Machine
       board: OreProcessorMachineCircuitboard
     - type: MaterialStorage
@@ -693,6 +706,7 @@
       map: ["enum.PowerDeviceVisualLayers.Powered"]
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: Machine
     board: CutterMachineCircuitboard
   - type: Lathe

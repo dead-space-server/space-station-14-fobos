@@ -1,8 +1,8 @@
 - type: entity
   parent: ProjectileGrenadeBase
   id: GrenadeNecroKudzu
-  name: граната с некро волокнами
-  description: Противный на вид. Выпускает при активации пару волокон некро-кудзы на пол.
+  name: граната с некроволокнами
+  description: Противная на вид. При активации выпускает пару волокон некрокудзы на пол.
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/grenade.rsi
@@ -36,7 +36,7 @@
   parent: Jug
   id: JugTheCircle
   name: крепкий кувшин
-  description: крепкий кувшин что вмещает чуть больше чем обычный кувшин, имее меньший размер. Специально сделан для бойцов Круга.
+  description: Крепкий кувшин, что вмещает чуть больше, нежели обычный.
   components:
     - type: Sprite
       sprite: _DeadSpace/Necromorfs/TheCircle/Mics/etc/jug.rsi
@@ -58,6 +58,8 @@
 - type: entity
   parent: BaseWeaponBallisticTurret
   id: WeaponTurretTheCircle
+  name: баллистическая турель
+  description: Автоматическая турель с баллистическим пулемётом.
   suffix: Круг
   components:
   - type: NpcFactionMember
@@ -67,7 +69,7 @@
 
 - type: entity
   id: ExtraborilVial
-  name: пробирка с  экстраборилом
+  name: пробирка с экстраборилом
   description: Пробирка, заполненная до краев экстраборилом.
   parent: BaseChemistryEmptyVial
   components:
@@ -105,7 +107,7 @@
   parent: Paper
   id: TheCircleMedicPaper
   name: инструкция медика "Круг"
-  description: Лист бумаги где указаны пропорции варки новых химикатов и их способы использование.
+  description: Лист бумаги, на котором указаны пропорции варки новых химикатов и способы их использования.
   components:
   - type: Paper
     content: paper-medic-circle

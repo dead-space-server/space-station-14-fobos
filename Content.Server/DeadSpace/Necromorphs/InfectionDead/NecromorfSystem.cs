@@ -1,6 +1,8 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Content.Server.Body.Systems;
+using Content.Server.Cloning;
+using Content.Shared.Cloning.Events;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead;
 using Content.Server.Emoting.Systems;
@@ -29,6 +31,8 @@ using Content.Shared.Movement.Pulling.Components;
 using Content.Shared.Mobs;
 using Content.Shared.Damage.Components;
 using Content.Shared.Humanoid;
+using Content.Shared.NPC.Components;
+using Content.Shared.Speech.Components;
 using Robust.Shared.Random;
 
 namespace Content.Server.DeadSpace.Necromorphs.InfectionDead;
@@ -56,6 +60,9 @@ public sealed partial class NecromorfSystem : SharedInfectionDeadSystem
         SubscribeLocalEvent<NecromorfComponent, IsEquippingAttemptEvent>(OnEquipAttempt);
         SubscribeLocalEvent<NecromorfComponent, RefreshMovementSpeedModifiersEvent>(OnRefreshSpeed);
         SubscribeLocalEvent<NecromorfComponent, MeleeHitEvent>(OnMeleeHit);
+        SubscribeLocalEvent<NecromorfComponent, CloningEvent>(
+            OnNecromorfCloning,
+            after: [typeof(CloningSystem)]);
     }
 
     private void OnRefreshSpeed(EntityUid uid, NecromorfComponent component, RefreshMovementSpeedModifiersEvent args)
@@ -138,6 +145,69 @@ public sealed partial class NecromorfSystem : SharedInfectionDeadSystem
 //           return;
 //
 //       args.Handled = _chat.TryPlayEmoteSound(uid, component.EmoteSounds, args.Emote);
+    }
+
+    private void OnNecromorfCloning(Entity<NecromorfComponent> ent, ref CloningEvent args)
+    {
+        UnNecroficate(ent.Owner, args.CloneUid, ent.Comp);
+    }
+
+    private bool UnNecroficate(EntityUid source, EntityUid target, NecromorfComponent? necromorfComp)
+    {
+        if (!Resolve(source, ref necromorfComp))
+            return false;
+
+        foreach (var (layer, info) in necromorfComp.BeforeNecroficationCustomBaseLayers)
+        {
+            _humanoidAppearance.SetBaseLayerColor(target, layer, info.Color);
+            _humanoidAppearance.SetBaseLayerId(target, layer, info.Id);
+        }
+
+        if (TryComp<HumanoidAppearanceComponent>(target, out var appcomp))
+            appcomp.EyeColor = necromorfComp.BeforeNecroficationEyeColor;
+
+        _humanoidAppearance.SetSkinColor(target, necromorfComp.BeforeNecroficationSkinColor, false);
+        _bloodstream.ChangeBloodReagents(target, necromorfComp.BeforeNecroficationBloodReagents);
+
+        if (TryComp<NpcFactionMemberComponent>(target, out _))
+        {
+            _faction.ClearFactions(target);
+            foreach (var faction in necromorfComp.BeforeNecroficationFactions)
+            {
+                _faction.AddFaction(target, faction);
+            }
+        }
+
+        RestoreVocalComponent(target, necromorfComp);
+
+        return true;
+    }
+
+    private void RestoreVocalComponent(EntityUid target, NecromorfComponent necromorfComp)
+    {
+        if (!necromorfComp.BeforeNecroficationHadVocal)
+        {
+            RemComp<VocalComponent>(target);
+            return;
+        }
+
+        var vocalComp = EnsureComp<VocalComponent>(target);
+        vocalComp.Sounds = necromorfComp.BeforeNecroficationVocalSounds is null
+            ? null
+            : new(necromorfComp.BeforeNecroficationVocalSounds);
+        vocalComp.ScreamId = necromorfComp.BeforeNecroficationScreamId;
+        vocalComp.Wilhelm = necromorfComp.BeforeNecroficationWilhelm;
+        vocalComp.WilhelmProbability = necromorfComp.BeforeNecroficationWilhelmProbability;
+        vocalComp.EmoteSounds = null;
+
+        var sex = CompOrNull<HumanoidAppearanceComponent>(target)?.Sex ?? Sex.Unsexed;
+        if (vocalComp.Sounds?.TryGetValue(sex, out var emoteSounds) == true &&
+            _protoManager.HasIndex(emoteSounds))
+        {
+            vocalComp.EmoteSounds = emoteSounds;
+        }
+
+        Dirty(target, vocalComp);
     }
 
     public void ApplyVirusStrain(EntityUid uid, NecromorfComponent component)

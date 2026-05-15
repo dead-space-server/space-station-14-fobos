@@ -36,6 +36,8 @@
   - type: Battery
     maxCharge: 750
     startingCharge: 750
+  - type: StealTarget #DS14
+    stealGroup: PistolBlueShield #DS14    
 
 - type: entity
   parent: BasicHitscan

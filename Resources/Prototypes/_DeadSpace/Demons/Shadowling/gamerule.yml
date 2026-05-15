@@ -1,0 +1,44 @@
+- type: entity
+  id: ShadowlingMidround
+  parent: BaseGameRule
+  components:
+  - type: StationEvent
+    weight: 5
+    earliestStart: 25
+    minimumPlayers: 45
+    maxOccurrences: 3
+    duration: null
+    occursDuringRoundEnd: false
+  - type: ShadowlingRule
+  - type: AntagSelection
+    definitions:
+    - prefRoles: [ Shadowling ]
+      min: 1
+      max: 1
+      playerRatio: 20
+      briefing:
+        text: shadowling-role-greeting
+        color: Red
+        sound:
+          collection: ShadowlingRecruitBriefing
+      blacklist:
+        components:
+        - AntagImmune
+      components:
+      - type: ShadowlingReveal
+      - type: Skill
+        group: ALL
+      - type: IntrinsicRadioTransmitter
+        channels:
+        - Shadowling
+      - type: ActiveRadio
+        channels:
+        - Shadowling
+      - type: IntrinsicRadioReceiver
+      mindRoles:
+      - MindRoleShadowling
+  - type: AntagObjectives
+    objectives:
+    - ShadowlingRecruitObjective
+  - type: DynamicRuleCost
+    cost: 100
