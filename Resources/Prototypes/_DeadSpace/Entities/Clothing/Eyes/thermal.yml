@@ -1,0 +1,31 @@
+- type: entity
+  parent: ClothingEyesBase
+  id: ClothingEyesGlassesThermalVisor
+  name: оптический тепловизор
+  description: Тепловизор, который оснащён инфракрасными сенсорами для обнаружения живых существ по тепловым сигнатурам сквозь твёрдые преграды.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Eyes/Hud/thermal.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Eyes/Hud/thermal.rsi
+  - type: Armor
+    modifiers:
+      coefficients:
+        Heat: 0.95
+  - type: GroupExamine
+  - type: IdentityBlocker
+    coverage: EYES
+  - type: ThermalVision
+    activateSound:
+      path: /Audio/_DeadSpace/NightVision/pnv.ogg
+    activateSoundOff:
+      path: /Audio/_DeadSpace/NightVision/pnv_off.ogg
+  - type: Tag
+    tags:
+    - WhitelistChameleon
+  - type: FlashImmunity
+  - type: EyeProtection
+  - type: ShowJobIcons
+  - type: ShowMindShieldIcons
+  - type: ShowCriminalRecordIcons
+  - type: ShowSyndicateIcons
