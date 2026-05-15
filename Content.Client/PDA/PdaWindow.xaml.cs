@@ -39,7 +39,7 @@ public partial class PdaWindow : BaseWindow
         }
     }
 
-    private const int DRAG_MARGIN_SIZE = 7;
+    private const int DRAG_MARGIN_SIZE = 7; // DS14
 
     public PdaWindow()
     {
@@ -54,6 +54,7 @@ public partial class PdaWindow : BaseWindow
 
     protected override DragMode GetDragModeFor(Vector2 relativeMousePos)
     {
+        // DS14-start
         var mode = DragMode.Move;
 
         if (Resizable)
@@ -70,5 +71,6 @@ public partial class PdaWindow : BaseWindow
         }
 
         return mode;
+        // DS14-end
     }
 }
