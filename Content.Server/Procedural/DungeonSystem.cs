@@ -184,7 +184,9 @@ public sealed partial class DungeonSystem : SharedDungeonSystem
         if (!_loader.TryLoadGeneric(proto.AtlasPath, out var res, opts) || !res.Maps.TryFirstOrNull(out var map))
             throw new Exception($"Failed to load dungeon template.");
 
-        comp = AddComp<DungeonAtlasTemplateComponent>(map.Value.Owner);
+        if (!TryComp(map.Value.Owner, out comp))
+            comp = AddComp<DungeonAtlasTemplateComponent>(map.Value.Owner);
+
         comp.Path = proto.AtlasPath;
         return map.Value.Comp.MapId;
     }

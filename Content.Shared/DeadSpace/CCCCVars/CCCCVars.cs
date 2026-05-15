@@ -73,6 +73,16 @@ public sealed class CCCCVars
         CVarDef.Create("audio.alert_level_volume", 1f, CVar.CLIENTONLY | CVar.ARCHIVE);
 
     /*
+     * Boss music
+     */
+
+    public static readonly CVarDef<bool> BossMusicEnabled =
+        CVarDef.Create("audio.boss_music_enabled", true, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    public static readonly CVarDef<float> BossMusicVolume =
+        CVarDef.Create("audio.boss_music_volume", 1f, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    /*
     * Taipan
     */
 

@@ -38,6 +38,8 @@ public sealed partial class DungeonJob
                 if (reservedTiles.Contains(entrance))
                     continue;
 
+                ClearDoor(dungeon, _grid, entrance);
+
                 _entManager.SpawnEntitiesAttachedTo(
                     _maps.GridTileToLocal(_gridUid, _grid, entrance),
                     _entTable.GetSpawns(contents, random));

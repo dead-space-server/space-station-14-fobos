@@ -1171,3 +1171,10 @@ Entries:
     message: Адское отродье не пропадает после гиба мага
   - type: Fix
     message: Маглет получил спрайты когда тот в крите
+- id: 113
+  author: rhailrake
+  time: '2026-05-15T13:57:34.695742+00:00'
+  pr: 1403
+  changes:
+  - type: Add
+    message: Lavaland

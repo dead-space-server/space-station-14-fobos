@@ -1,16 +1,28 @@
 ﻿- type: entity
   name: watcher
   id: MobWatcherBase
-  parent: [ SimpleSpaceMobBase, FlyingMobBase ]
+  parent: [ SimpleSpaceMobBase, FlyingMobBase, BaseMobLavalandFauna ]
   abstract: true
   description: It's like it's staring right through you.
   components:
+  - type: Flammable
+    maximumFireStacks: 0
+    firestacksOnIgnite: 0
+    fireSpread: false
+    canResistFire: false
+    damage:
+      types: {}
   - type: NpcFactionMember
     factions:
     - SimpleHostile
   - type: HTN
     rootTask:
       task: SimpleRangedHostileCompound
+    blackboard:
+      VisionRadius: !type:Single
+        5
+      AggroVisionRadius: !type:Single
+        9
   - type: Sprite
     drawdepth: Mobs
     sprite: Mobs/Aliens/Lavaland/watcher.rsi
@@ -42,14 +54,29 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      50: Dead
+      200: Dead
   - type: Butcherable
     spawned:
     - id: DiamondOre1
+      amount: 2
+    - id: LavalandWatcherSinew1
+      amount: 2
+    - id: MaterialBones1
       amount: 1
+    - id: LavalandWatcherWing
+      prob: 0.15
+    - id: PKAUpgradeRange
+      prob: 0.05
   - type: MovementSpeedModifier
-    baseWalkSpeed: 5
-    baseSprintSpeed: 7
+    baseWalkSpeed: 3
+    baseSprintSpeed: 3.5
+  - type: MeleeWeapon
+    angle: 0
+    attackRate: 1
+    animation: WeaponArcThrust
+    damage:
+      types:
+        Piercing: 15
   - type: BatteryAmmoProvider
     proto: WatcherBolt
     fireCost: 50
@@ -95,6 +122,10 @@
   parent: MobWatcherBase
   name: icewing watcher
   components:
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      170: Dead
   - type: Sprite
     layers:
     - map: [ "enum.DamageStateVisualLayers.Base" ]
@@ -107,12 +138,27 @@
     radius: 1
     energy: 3
     color: deepskyblue
+  - type: BatteryAmmoProvider
+    proto: WatcherBoltIcewing
+    fireCost: 50
+  - type: Butcherable
+    spawned:
+    - id: DiamondOre1
+      amount: 5
+    - id: MaterialBones1
+      amount: 1
+    - id: PKAUpgradeRange
+      prob: 0.08
 
 - type: entity
   id: MobWatcherMagmawing
   parent: MobWatcherBase
   name: magmawing watcher
   components:
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      215: Dead
   - type: Sprite
     layers:
     - map: [ "enum.DamageStateVisualLayers.Base" ]

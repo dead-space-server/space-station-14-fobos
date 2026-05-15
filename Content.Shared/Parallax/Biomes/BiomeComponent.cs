@@ -30,6 +30,12 @@ public sealed partial class BiomeComponent : Component
     public List<IBiomeLayer> Layers = new();
 
     /// <summary>
+    /// Optional tile-space bounds where this biome may generate.
+    /// </summary>
+    [DataField]
+    public Box2i? Bounds;
+
+    /// <summary>
     /// Templates to use for <see cref="Layers"/>.
     /// If this is set on mapinit, it will fill out layers automatically.
     /// If not set, use <c>BiomeSystem</c> to do it.

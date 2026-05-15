@@ -1,9 +1,12 @@
-﻿using Content.Shared.ActionBlocker;
+﻿using System.Numerics; //DS14
+using Content.Shared.ActionBlocker;
 using Content.Shared.Movement.Events;
 using Content.Shared.StepTrigger.Systems;
 using Content.Shared.Weapons.Misc;
 using Robust.Shared.Audio.Systems;
+using Robust.Shared.Map; //DS14
 using Robust.Shared.Network;
+using Robust.Shared.Physics; //DS14
 using Robust.Shared.Timing;
 
 namespace Content.Shared.Chasm;
@@ -18,15 +21,46 @@ public sealed class ChasmSystem : EntitySystem
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedGrapplingGunSystem _grapple = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!; //DS14
+    [Dependency] private readonly SharedTransformSystem _transform = default!; //DS14
 
     public override void Initialize()
     {
         base.Initialize();
 
+        SubscribeLocalEvent<ChasmComponent, ComponentStartup>(OnChasmStartup); //DS14
         SubscribeLocalEvent<ChasmComponent, StepTriggeredOffEvent>(OnStepTriggered);
         SubscribeLocalEvent<ChasmComponent, StepTriggerAttemptEvent>(OnStepTriggerAttempt);
         SubscribeLocalEvent<ChasmFallingComponent, UpdateCanMoveEvent>(OnUpdateCanMove);
     }
+
+    //DS14-start
+    private void OnChasmStartup(EntityUid uid, ChasmComponent component, ComponentStartup args)
+    {
+        if (_net.IsClient)
+            return;
+
+        var xform = Transform(uid);
+
+        if (!xform.Anchored)
+            return;
+
+        var worldPos = _transform.GetWorldPosition(uid);
+        var box = Box2.CenteredAround(worldPos, new Vector2(0.9f, 0.9f));
+
+        foreach (var entity in _lookup.GetEntitiesIntersecting(xform.MapID, box,
+                     LookupFlags.Dynamic | LookupFlags.Sundries))
+        {
+            if (entity == uid)
+                continue;
+
+            if (_grapple.IsEntityHooked(entity))
+                continue;
+
+            StartFalling(uid, component, entity);
+        }
+    }
+    //DS14-end
 
     public override void Update(float frameTime)
     {
@@ -57,13 +91,22 @@ public sealed class ChasmSystem : EntitySystem
 
     public void StartFalling(EntityUid chasm, ChasmComponent component, EntityUid tripper, bool playSound = true)
     {
+        if (HasComp<ChasmFallingComponent>(tripper))
+            return;
+
+        var attempt = new ChasmFallingAttemptEvent(tripper, chasm);
+        RaiseLocalEvent(tripper, attempt, true);
+
+        if (attempt.Cancelled)
+            return;
+
         var falling = AddComp<ChasmFallingComponent>(tripper);
 
         falling.NextDeletionTime = _timing.CurTime + falling.DeletionTime;
         _blocker.UpdateCanMove(tripper);
 
-        if (playSound)
-            _audio.PlayPredicted(component.FallingSound, chasm, tripper);
+        if (playSound && _net.IsServer)
+            _audio.PlayPvs(component.FallingSound, chasm);
     }
 
     private void OnStepTriggerAttempt(EntityUid uid, ChasmComponent component, ref StepTriggerAttemptEvent args)
