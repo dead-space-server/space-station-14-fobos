@@ -64,3 +64,32 @@
   - type: Construction
     graph: HudMedCom
     node: medcomHud
+
+- type: entity
+  parent: ClothingEyesHudAdvanced
+  id: ClothingEyesHudERT
+  name: тактические очки ОБР
+  description: Очки с индикатором на стекле, который сканирует гуманоидов в поле зрения и предоставляет точные данные об их состоянии здоровья, идентификационном статусе и записях в системе безопасности.
+  suffix: ОБР
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Eyes/tactical_glasses.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Eyes/tactical_glasses.rsi
+
+- type: entity
+  parent: ClothingEyesHudAdvanced
+  id: ClothingEyesHudERTGamma
+  name: тактические очки ОБР
+  description: Очки с индикатором на стекле, который сканирует гуманоидов в поле зрения и предоставляет точные данные об их состоянии здоровья, идентификационном статусе и записях в системе безопасности. Также, имеют в себе встроенные ПНВ.
+  suffix: ОБР, ПНВ
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Eyes/tactical_glasses.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Eyes/tactical_glasses.rsi
+  - type: PNV
+    color: "#AFC4D111"
+    activateSound: 
+      path: /Audio/_DeadSpace/NightVision/pnv.ogg
+

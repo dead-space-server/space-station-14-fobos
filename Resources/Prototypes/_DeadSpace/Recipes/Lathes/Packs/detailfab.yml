@@ -6,6 +6,11 @@
     - CraftMachineCircuitboard
 
 - type: latheRecipePack
+  id: SecDetailTechFab
+  recipes:
+    - SecDetailTechFabMachineCircuitboard
+
+- type: latheRecipePack
   id: RIGStartDetails
   recipes:
     - DefaultCoreForModifiedBackpack
@@ -22,8 +27,6 @@
 - type: latheRecipePack
   id: BlueprintRIGInfinite
   recipes:
-    - BlueprintRIGSecurityInfinite
-    - BlueprintRIGSecurityAdvancedInfinite
     - BlueprintRIGSalvageInfinite
     - BlueprintRIGEVAInfinite
     - BlueprintRIGResearchInfinite
@@ -32,8 +35,6 @@
 - type: latheRecipePack
   id: BlueprintRIGThreeUse
   recipes:
-    - BlueprintRIGSecurityThreeUse
-    - BlueprintRIGSecurityAdvancedThreeUse
     - BlueprintRIGSalvageThreeUse
     - BlueprintRIGEVAThreeUse
     - BlueprintRIGResearchThreeUse
@@ -42,12 +43,20 @@
 - type: latheRecipePack
   id: BlueprintRIGOneUse
   recipes:
-    - BlueprintRIGSecurityOneUse
-    - BlueprintRIGSecurityAdvancedOneUse
     - BlueprintRIGSalvageOneUse
     - BlueprintRIGEVAOneUse
     - BlueprintRIGResearchOneUse
     - BlueprintRIGEngineerOneUse
+
+- type: latheRecipePack
+  id: BlueprintRIGSecurity
+  recipes:
+    - BlueprintRIGSecurityOneUse
+    - BlueprintRIGSecurityAdvancedOneUse
+    - BlueprintRIGSecurityThreeUse
+    - BlueprintRIGSecurityAdvancedThreeUse
+    - BlueprintRIGSecurityInfinite
+    - BlueprintRIGSecurityAdvancedInfinite
 
 - type: latheRecipePack
   id: RIGHelmets
@@ -87,3 +96,65 @@
     - PiercingResistanceModuleSecurityAdvanced
     - SpeedModifierModuleSecurityAdvanced
     - SpeedModifierModuleSecurity
+
+# Рецепты для оружия
+
+- type: latheRecipePack
+  id: PistolsCraftDetails
+  recipes:
+    - BlueprintМК58ThreeUse
+    - BlueprintМК58Infinite
+    - FirstPartMK
+    - SecondPartMK
+    - ThirdPartMK
+
+- type: latheRecipePack
+  id: RifleCraftDetails
+  recipes:
+    - FirstPartLecter
+    - SecondPartLecter
+    - ThirdPartLecter
+    - FirstPartDrozd
+    - SecondPartDrozd
+    - ThirdPartDrozd
+    - BlueprintLecterThreeUse
+    - BlueprintDrozdThreeUse
+    - BlueprintLecterInfinite
+    - BlueprintDrozdInfinite
+
+- type: latheRecipePack
+  id: ShotgunCraftDetails
+  recipes:
+    - FirstPartEnforcer
+    - SecondPartEnforcer
+    - ThirdPartEnforcer
+    - FirstPartAres
+    - SecondPartAres
+    - ThirdPartAres
+    - FirstPartKammerer
+    - SecondPartKammerer
+    - ThirdPartKammerer
+    - BlueprintEnforcerInfinite
+    - BlueprintKammererInfinite
+    - BlueprintAresSWCInfinite
+    - BlueprintEnforcerThreeUse
+    - BlueprintKammererThreeUse
+    - BlueprintAresSWCThreeUse
+
+- type: latheRecipePack
+  id: GunsModules
+  recipes:
+    - RateOfFireLecterModuleItemStandart
+    - RateOfFireLecterModuleItemAdv
+    - LecterExtendedAmmoMagModuleItem
+    - RateOfFireDrozdModuleItemAdv
+    - RateOfFireMKModuleItemAdv
+    - AvailableModesMKModuleItem
+    - BallisticAmmoShotgunsModuleItem
+    - GunSpreadModifierShotgunLowModuleItem
+    - GunSpreadModifierShotgunHighModuleItem
+    - RateOfFireEnforcerModuleItem
+    - RateOfFireKammererModuleItem
+    - RateOfFireAresSWCModuleItem
+    - MassSkopeModuleItem
+    - SpeedBulletModuleItem

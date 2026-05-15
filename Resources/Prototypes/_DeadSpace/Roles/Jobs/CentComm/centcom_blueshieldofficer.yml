@@ -70,9 +70,9 @@
       - id: ChemistryBottleEphedrine
       - id: ChemistryBottleOmnizine
       - id: ChemistryBottleOmnizine
-      - id: ADTObjectsSpecificBicaridineChemistryBottle
-      - id: ADTObjectsSpecificDexalinPlusChemistryBottle
-      - id: ADTObjectsSpecificDermalineChemistryBottle
+      - id: ChemistryBottleBicaridine
+      - id: ChemistryBottleDexalinPlus
+      - id: ChemistryBottleDermaline
 
 - type: startingGear
   id: CentcomBlueShieldGear

@@ -257,20 +257,37 @@ public abstract class SharedGrapplingGunSystem : VirtualController
                     }
                     else
                     {
-                        var posShooter = Transform(uid).WorldPosition;
-                        var posTarget = Transform(target).WorldPosition;
-                        var direction = posShooter - posTarget;
-
-                        if (direction.LengthSquared() > 0.1f)
+                        if (ropeLength <= distance.MinLength + grappling.RopeFullyReeledMargin)
                         {
-                            direction = Vector2.Normalize(direction);
-                            var impulse = direction * grappling.ReelRate * frameTime * physicsTarget.Mass;
+                            SetReeling(uid, grappling, false, null);
+                        }
+                        else
+                        {
+                            var posShooter = Transform(uid).WorldPosition;
+                            var posTarget = Transform(target).WorldPosition;
+                            var direction = posShooter - posTarget;
 
-                            _physics.ApplyLinearImpulse(target, impulse);
-                            _physics.WakeBody(target);
+                            if (direction.LengthSquared() > 0.1f)
+                            {
+                                direction = Vector2.Normalize(direction);
+                                var impulse = direction * grappling.ReelRate * frameTime * physicsTarget.Mass;
+
+                                _physics.ApplyLinearImpulse(target, impulse);
+                                _physics.WakeBody(target);
+                            }
                         }
                     }
                 }
+
+                if (distance.MaxLength >= ropeLength + grappling.RopeMargin)
+                {
+                    distance.MaxLength = MathF.Max(distance.MinLength + grappling.RopeMargin, distance.MaxLength - grappling.ReelRate * frameTime);
+                    distance.MaxLength = MathF.Max(ropeLength + grappling.RopeMargin, distance.MaxLength);
+                    ropeLength = MathF.Min(distance.MaxLength, ropeLength);
+                    distance.Length = ropeLength;
+                }
+
+                Dirty(uid, jointComp);
                 continue;
             }
             //DS14-end

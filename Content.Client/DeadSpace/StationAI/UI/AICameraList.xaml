@@ -2,34 +2,51 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
     xmlns:ui="clr-namespace:Content.Client.DeadSpace.StationAI.UI"
-    MinWidth="450" MinHeight="350" Title="Экран просмотра камер">
+    MinWidth="540" MinHeight="420" Title="{Loc 'station-ai-camera-window-title'}">
     <BoxContainer Orientation="Vertical">
-        <!-- Main display -->
-        <BoxContainer Orientation="Horizontal" VerticalExpand="True" HorizontalExpand="True">
-            <!-- Nav map -->
-            <BoxContainer Orientation="Vertical" VerticalExpand="True" HorizontalExpand="True">
-                <ui:CameraNavMapControl Name="NavMapScreen" Margin="5 5" VerticalExpand="True" HorizontalExpand="True">
-                    <!-- System warning -->
-                    <PanelContainer Name="SystemWarningPanel"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Top"
-                                    HorizontalExpand="True"
-                                    Margin="0 48 0 0"
-                                    Visible="False">
-                        <RichTextLabel Name="SystemWarningLabel" Margin="12 8 12 8"/>
-                    </PanelContainer>
-                </ui:CameraNavMapControl>
-                <!-- Nav map legend -->
-                <BoxContainer Orientation="Horizontal" Margin="0 10 0 10">
-                    <TextureRect Stretch="KeepAspectCentered"
-                                 TexturePath="/Textures/Interface/NavMap/beveled_circle.png"
-                                 SetSize="16 16"
-                                 Modulate="#00ccff"
-                                 Margin="20 0 5 0"/>
-                    <Label Text="Камера"/>
+        <TabContainer Name="Tabs" VerticalExpand="True" HorizontalExpand="True">
+            <BoxContainer Orientation="Horizontal" VerticalExpand="True" HorizontalExpand="True">
+                <BoxContainer Orientation="Vertical" VerticalExpand="True" HorizontalExpand="True">
+                    <ui:CameraNavMapControl Name="NavMapScreen" Margin="5 5" VerticalExpand="True" HorizontalExpand="True">
+                        <PanelContainer Name="SystemWarningPanel"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        HorizontalExpand="True"
+                                        Margin="0 48 0 0"
+                                        Visible="False">
+                            <RichTextLabel Name="SystemWarningLabel" Margin="12 8 12 8"/>
+                        </PanelContainer>
+                    </ui:CameraNavMapControl>
+                    <BoxContainer Orientation="Horizontal" Margin="0 10 0 10">
+                        <TextureRect Stretch="KeepAspectCentered"
+                                     TexturePath="/Textures/Interface/NavMap/beveled_circle.png"
+                                     SetSize="16 16"
+                                     Modulate="#00ccff"
+                                     Margin="20 0 5 0"/>
+                        <Label Text="{Loc 'station-ai-camera-map-legend-camera'}"/>
+                    </BoxContainer>
                 </BoxContainer>
             </BoxContainer>
-        </BoxContainer>
+            <BoxContainer Orientation="Vertical" VerticalExpand="True" HorizontalExpand="True">
+                <BoxContainer Orientation="Horizontal" Margin="5 5 5 0" HorizontalExpand="True">
+                    <LineEdit Name="SearchInput"
+                              PlaceHolder="{Loc 'station-ai-camera-search-placeholder'}"
+                              HorizontalExpand="True"/>
+                    <OptionButton Name="SearchType" MinWidth="120" Margin="5 0 0 0"/>
+                    <Button Name="SearchButton"
+                            Text="{Loc 'station-ai-camera-search-button'}"
+                            Margin="5 0 0 0"/>
+                </BoxContainer>
+                <Label Name="SearchStatus"
+                       Text="{Loc 'station-ai-camera-search-hint'}"
+                       Margin="7 4 5 0"/>
+                <ItemList Name="SearchResults"
+                          SelectMode="Button"
+                          Margin="5"
+                          HorizontalExpand="True"
+                          VerticalExpand="True"/>
+            </BoxContainer>
+        </TabContainer>
         <!-- Footer -->
         <BoxContainer Orientation="Vertical">
             <PanelContainer StyleClasses="LowDivider" />

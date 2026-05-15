@@ -1,0 +1,351 @@
+# Лектер
+
+- type: entity
+  parent: BaseItem
+  id: RateOfFireLecterModuleItemStandart
+  name: модуль Лектера - улучшенная скорострельность
+  description: Я вот так хватаюсь за пушку а потом РА-ТА-ТА-ТА-ТА...
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: micro_laser
+
+- type: entity
+  parent: BaseItem
+  id: RateOfFireLecterModuleItemAdv
+  name: модуль Лектера - продвинутая скорострельность
+  description: Я вот так хватаюсь за пушку а потом РА-ТА-ТА-ТА-ТА...
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: micro_laser
+
+- type: entity
+  parent: BaseItem
+  id: LecterExtendedAmmoMagModuleItem
+  name: модуль Лектера - расширенный магазин
+  description: Расширенный магазин для оружия Лектера, взятый на основе Х-67.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: matter_bin
+
+# Дрозд
+
+- type: entity
+  parent: BaseItem
+  id: RateOfFireDrozdModuleItemAdv
+  name: модуль Дрозд - продвинутая скорострельность
+  description: Скорости хочется?
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: micro_laser
+
+# МК
+
+- type: entity
+  parent: BaseItem
+  id: RateOfFireMKModuleItemAdv
+  name: модуль МК - продвинутая скорострельность
+  description: Скорости хочется?
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: micro_laser
+
+- type: entity
+  parent: BaseItem
+  id: AvailableModesMKModuleItem
+  name: модуль МК - автострельба
+  description: Палец уже горит от однотипной стрельбы?
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: high_micro_laser
+
+# Силовик и Каммер
+
+- type: entity
+  parent: BaseItem
+  id: BallisticAmmoShotgunsModuleItem
+  name: модуль Дробовиков - дополнительная вместимость патронов
+  description: Палец уже горит от однотипной стрельбы?
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: matter_bin
+
+# Силовик и Арес
+
+- type: entity
+  parent: BaseItem
+  id: GunSpreadModifierShotgunLowModuleItem
+  name: модуль Дробовика - понижение разброса
+  description: Валентин Шевченко никого не убивал. Можно использовать только для Ареса и Силовика.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: wavelength_analyzer
+
+- type: entity
+  parent: BaseItem
+  id: GunSpreadModifierShotgunHighModuleItem
+  name: модуль Дробовика - повышение разброса
+  description: Скажи, ты стихи любишь? Можно использовать только для Ареса и Силовика.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: wavelength_analyzer
+
+# Силовик
+
+- type: entity
+  parent: BaseItem
+  id: RateOfFireEnforcerModuleItem
+  name: модуль Силовика - повышенная скорострельность
+  description: Превратите своих врагов в кукл на руку в виде Степашки и Хрюшки.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: micro_laser
+
+# Каммер
+
+- type: entity
+  parent: BaseItem
+  id: RateOfFireKammererModuleItem
+  name: модуль Каммера - повышенная скорострельность
+  description: Превратите своих врагов в кукл на руку в виде Степашки и Хрюшки.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: micro_laser
+
+# Арес
+
+- type: entity
+  parent: BaseItem
+  id: RateOfFireAresSWCModuleItem
+  name: модуль Ареса - повышенная скорострельность
+  description: Превратите своих врагов в кукл на руку в виде Степашки и Хрюшки.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: micro_laser
+
+# Общее
+
+- type: entity
+  parent: BaseItem
+  id: MassSkopeModuleItem
+  name: модуль оружия - прицел
+  description: Если совсем нечего делать то можно использовать прицел, благо без замедления
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: high_micro_laser
+
+- type: entity
+  parent: BaseItem
+  id: SpeedBulletModuleItem
+  name: модуль оружия - уcкорение пуль
+  description: Пули летят прямо в гузло твоего врага.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/stock_parts.rsi
+    state: electrolite
+
+# Детали
+
+# Лектер
+
+- type: entity
+  parent: BaseItem
+  id: FirstPartLecter
+  name: рукоять Лектера
+  description: Держитесь крепче.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/ConsoleCraft/Gun/lecter.rsi
+    state: part_1
+
+- type: entity
+  parent: BaseItem
+  id: SecondPartLecter
+  name: цевьё Лектера
+  description: Тут уже всё установлено. Да ведь?
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/ConsoleCraft/Gun/lecter.rsi
+    state: part_2
+
+- type: entity
+  parent: BaseItem
+  id: ThirdPartLecter
+  name: приклад Лектера
+  description: Жаль НТ не позволяет бить оружием прикладом.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/ConsoleCraft/Gun/lecter.rsi
+    state: part_3
+
+# Дрозд
+
+- type: entity
+  parent: BaseItem
+  id: FirstPartDrozd
+  name: рукоять Дрозда
+  description: Держитесь крепче.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/ConsoleCraft/Gun/drozd.rsi
+    state: part_1
+
+- type: entity
+  parent: BaseItem
+  id: SecondPartDrozd
+  name: цевьё Дрозда
+  description: Тут уже всё установлено. Да ведь?
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/ConsoleCraft/Gun/drozd.rsi
+    state: part_2
+
+- type: entity
+  parent: BaseItem
+  id: ThirdPartDrozd
+  name: приклад Дрозда
+  description: Жаль НТ не позволяет бить оружием прикладом.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/ConsoleCraft/Gun/drozd.rsi
+    state: part_3
+
+# МК
+
+- type: entity
+  parent: BaseItem
+  id: FirstPartMK
+  name: патронник МК
+  description: Держитесь крепче.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/ConsoleCraft/Gun/mk.rsi
+    state: part_1
+
+- type: entity
+  parent: BaseItem
+  id: SecondPartMK
+  name: спусковой скоба МК
+  description: Тут уже всё установлено. Да ведь?
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/ConsoleCraft/Gun/mk.rsi
+    state: part_2
+
+- type: entity
+  parent: BaseItem
+  id: ThirdPartMK
+  name: рукоять МК
+  description: Жаль НТ не позволяет бить оружием прикладом.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/ConsoleCraft/Gun/mk.rsi
+    state: part_3
+
+# Силовик
+
+- type: entity
+  parent: BaseItem
+  id: FirstPartEnforcer
+  name: цевьё Силовика
+  description: Держитесь крепче.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/ConsoleCraft/Gun/enforcer.rsi
+    state: part_1
+
+- type: entity
+  parent: BaseItem
+  id: SecondPartEnforcer
+  name: прицельная планка Силовика
+  description: Тут уже всё установлено. Да ведь?
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/ConsoleCraft/Gun/enforcer.rsi
+    state: part_2
+
+- type: entity
+  parent: BaseItem
+  id: ThirdPartEnforcer
+  name: приклад Силовика
+  description: Жаль НТ не позволяет бить оружием прикладом.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/ConsoleCraft/Gun/enforcer.rsi
+    state: part_3
+
+# Арес
+
+- type: entity
+  parent: BaseItem
+  id: FirstPartAres
+  name: рукоять Ареса
+  description: Держитесь крепче.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/ConsoleCraft/Gun/ares.rsi
+    state: part_1
+
+- type: entity
+  parent: BaseItem
+  id: SecondPartAres
+  name: прицельная планка Ареса
+  description: Тут уже всё установлено. Да ведь?
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/ConsoleCraft/Gun/ares.rsi
+    state: part_2
+
+- type: entity
+  parent: BaseItem
+  id: ThirdPartAres
+  name: цевьё Ареса
+  description: Жаль НТ не позволяет бить оружием прикладом.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/ConsoleCraft/Gun/ares.rsi
+    state: part_3
+
+# Каммер
+
+- type: entity
+  parent: BaseItem
+  id: FirstPartKammerer
+  name: цевьё Каммера
+  description: Держитесь крепче.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/ConsoleCraft/Gun/kammer.rsi
+    state: part_1
+
+- type: entity
+  parent: BaseItem
+  id: SecondPartKammerer
+  name: дульный срез Каммера
+  description: Тут уже всё установлено. Да ведь?
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/ConsoleCraft/Gun/kammer.rsi
+    state: part_2
+
+- type: entity
+  parent: BaseItem
+  id: ThirdPartKammerer
+  name: приклад Каммера
+  description: Жаль НТ не позволяет бить оружием прикладом.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/ConsoleCraft/Gun/kammer.rsi
+    state: part_3

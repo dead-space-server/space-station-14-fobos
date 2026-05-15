@@ -1,7 +1,7 @@
 # Empty mags
 - type: entity
   id: ADTBaseExtMagazineRifle
-  name: расширенный магазин 6.5 мм
+  name: магазин (Расширенный, 6.5х39 мм TSF)
   description: Увеличенный магазин под патрон 6.5 мм, с вместимостью в 45 единиц
   parent: BaseItem
   abstract: true
@@ -36,7 +36,7 @@
 # Magazines
 - type: entity
   id: ADTExtMagazineRifle
-  name: расширенный магазин 6.5 мм
+  name: магазин (Расширенный, 6.5х39 мм TSF)
   description: Увеличенный магазин под патрон 6.5 мм, с вместимостью в 45 единиц
   parent: ADTBaseExtMagazineRifle
   components:

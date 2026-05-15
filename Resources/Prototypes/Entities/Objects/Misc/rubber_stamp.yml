@@ -47,6 +47,10 @@
     stampedName: stamp-component-stamped-name-captain
     stampedColor: "#3681bb"
     stampState: "paper_stamp-cap"
+    # DS14-start
+    stampPatternTexture: "/Textures/Interface/Stamps/nt_print_pattern.png"
+    stampScale: 0.92
+    # DS14-end
   - type: Sprite
     state: stamp-cap
 
@@ -60,6 +64,11 @@
     stampedName: stamp-component-stamped-name-centcom
     stampedColor: "#006600"
     stampState: "paper_stamp-centcom"
+    # DS14-start
+    stampTexture: "/Textures/Interface/Stamps/centralcommand_print.png"
+    stampScale: 0.92
+    stampCanRotate: false
+    # DS14-end
   - type: Sprite
     state: stamp-centcom
 
@@ -73,6 +82,12 @@
     stampedName: stamp-component-stamped-name-chaplain
     stampedColor: "#d70601"
     stampState: "paper_stamp-chaplain"
+    # DS14-start
+    stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
+    stampScale: 0.92
+    stampHeaderText: "Сервис"
+    stampBackgroundText: "NanoTrasen"
+    # DS14-end
   - type: Sprite
     state: stamp-chaplain
 
@@ -86,6 +101,13 @@
     stampedName: stamp-component-stamped-name-lawyer
     stampedColor: "#2F0069" # DS14-color
     stampState: "paper_stamp-lawyer"
+    # DS14-start
+    stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
+    stampScale: 0.92
+    stampTextMaxScale: 0.62
+    stampHeaderText: "Юр. Отдел"
+    stampBackgroundText: "NanoTrasen"
+    # DS14-end
   - type: Sprite
     state: stamp-lawyer
 
@@ -99,6 +121,12 @@
     stampedName: stamp-component-stamped-name-clown
     stampedColor: "#ff33cc"
     stampState: "paper_stamp-clown"
+    # DS14-start
+    stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
+    stampScale: 0.92
+    stampHeaderText: "Король"
+    stampBackgroundText: "Весь мир"
+    # DS14-end
   - type: Sprite
     state: stamp-clown
 
@@ -112,6 +140,12 @@
     stampedName: stamp-component-stamped-name-ce
     stampedColor: "#c69b17"
     stampState: "paper_stamp-ce"
+    # DS14-start
+    stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
+    stampScale: 0.92
+    stampHeaderText: "Ком. Состав"
+    stampBackgroundText: "NanoTrasen"
+    # DS14-end
   - type: Sprite
     state: stamp-ce
 
@@ -125,6 +159,12 @@
     stampedName: stamp-component-stamped-name-cmo
     stampedColor: "#33ccff"
     stampState: "paper_stamp-cmo"
+    # DS14-start
+    stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
+    stampScale: 0.92
+    stampHeaderText: "Ком. Состав"
+    stampBackgroundText: "NanoTrasen"
+    # DS14-end
   - type: Sprite
     state: stamp-cmo
 
@@ -138,6 +178,12 @@
     stampedName: stamp-component-stamped-name-hop
     stampedColor: "#6ec0ea"
     stampState: "paper_stamp-hop"
+    # DS14-start
+    stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
+    stampScale: 0.92
+    stampHeaderText: "Ком. Состав"
+    stampBackgroundText: "NanoTrasen"
+    # DS14-end
   - type: Sprite
     state: stamp-hop
 
@@ -151,6 +197,12 @@
     stampedName: stamp-component-stamped-name-hos
     stampedColor: "#cc0000"
     stampState: "paper_stamp-hos"
+    # DS14-start
+    stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
+    stampScale: 0.92
+    stampHeaderText: "Ком. Состав"
+    stampBackgroundText: "NanoTrasen"
+    # DS14-end
   - type: Sprite
     state: stamp-hos
 
@@ -164,6 +216,12 @@
     stampedName: stamp-component-stamped-name-mime
     stampedColor: "#777777"
     stampState: "paper_stamp-mime"
+    # DS14-start
+    stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
+    stampScale: 0.92
+    stampHeaderText: "ВЕЛИКИЙ"
+    stampBackgroundText: "МОЛЧУН"
+    # DS14-end
     sound: null
   - type: Sprite
     state: stamp-mime
@@ -178,6 +236,12 @@
     stampedName: stamp-component-stamped-name-qm
     stampedColor: "#a23e3e"
     stampState: "paper_stamp-qm"
+    # DS14-start
+    stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
+    stampScale: 0.92
+    stampHeaderText: "Ком. Состав"
+    stampBackgroundText: "NanoTrasen"
+    # DS14-end
   - type: Sprite
     state: stamp-qm
 
@@ -191,6 +255,12 @@
     stampedName: stamp-component-stamped-name-rd
     stampedColor: "#1f66a0"
     stampState: "paper_stamp-rd"
+    # DS14-start
+    stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
+    stampScale: 0.92
+    stampHeaderText: "Ком. Состав"
+    stampBackgroundText: "NanoTrasen"
+    # DS14-end
   - type: Sprite
     state: stamp-rd
 
@@ -203,6 +273,11 @@
     stampedName: stamp-component-stamped-name-trader
     stampedColor: "#000000"
     stampState: "paper_stamp-trader"
+    # DS14-start
+    stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
+    stampScale: 0.92
+    stampHeaderText: "Торговля"
+    # DS14-end
   - type: Sprite
     state: stamp-trader
 
@@ -216,10 +291,33 @@
     stampedName: stamp-component-stamped-name-syndicate
     stampedColor: "#850000"
     stampState: "paper_stamp-syndicate"
+    # DS14-start
+    stampPatternTexture: "/Textures/Interface/Stamps/syndicate_print_pattern.png"
+    stampScale: 1.10
+    # DS14-end
   - type: Sprite
     state: stamp-syndicate
   - type: StaticPrice
     price: 1000
+
+# DS14-start
+- type: entity
+  name: syndicate emblem rubber stamp
+  parent: [RubberStampBase, BaseSyndicateContraband]
+  id: RubberStampSyndicateEmblem
+  categories: [ DoNotMap ]
+  components:
+  - type: Stamp
+    stampedName: stamp-component-stamped-name-syndicate-emblem
+    stampedColor: "#850000"
+    stampState: "paper_stamp-syndicate"
+    stampTexture: "/Textures/Interface/Stamps/syndicate_print.png"
+    stampScale: 1.12
+  - type: Sprite
+    state: stamp-syndicate
+  - type: StaticPrice
+    price: 1000
+# DS14-end
 
 - type: entity
   name: warden's rubber stamp
@@ -231,6 +329,12 @@
     stampedName: stamp-component-stamped-name-warden
     stampedColor: "#5b0000"
     stampState: "paper_stamp-warden"
+    # DS14-start
+    stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
+    stampScale: 0.92
+    stampHeaderText: "Безопасность"
+    stampBackgroundText: "NanoTrasen"
+    # DS14-end
   - type: Sprite
     state: stamp-warden
 
@@ -243,6 +347,10 @@
     stampedName: stamp-component-stamped-name-approved
     stampedColor: "#00be00"
     stampState: "paper_stamp-ok"
+    # DS14-start
+    stampTexture: "/Textures/Interface/Stamps/refus_print.png"
+    stampScale: 1.15
+    # DS14-end
   - type: Sprite
     state: stamp-ok
 
@@ -255,6 +363,10 @@
     stampedName: stamp-component-stamped-name-denied
     stampedColor: "#a23e3e"
     stampState: "paper_stamp-deny"
+    # DS14-start
+    stampTexture: "/Textures/Interface/Stamps/reject_print.png"
+    stampScale: 1.15
+    # DS14-end
   - type: Sprite
     state: stamp-deny
 
@@ -268,6 +380,12 @@
     stampedName: stamp-component-stamped-name-detective
     stampedColor: "#754d36"
     stampState: "paper_stamp-detective"
+    # DS14-start
+    stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
+    stampScale: 0.92
+    stampHeaderText: "Безопасность"
+    stampBackgroundText: "NanoTrasen"
+    # DS14-end
   - type: Sprite
     state: stamp-detective
 
@@ -281,6 +399,10 @@
     stampedName: stamp-component-stamped-name-greytide
     stampedColor: "#323232"
     stampState: "paper_stamp-greytide"
+    # DS14-start
+    stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
+    stampScale: 0.92
+    # DS14-end
   - type: Sprite
     state: stamp-greytide
 
@@ -295,6 +417,12 @@
     stampedName: stamp-component-stamped-name-psychologist
     stampedColor: "#5B97BC"
     stampState: "paper_stamp-psychologist"
+    # DS14-start
+    stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
+    stampScale: 0.92
+    stampHeaderText: "Мед. Отдел"
+    stampBackgroundText: "NanoTrasen"
+    # DS14-end
   - type: Sprite
     state: stamp-psychologist
 
@@ -309,5 +437,9 @@
     stampedName: Wizard
     stampedColor: "#881bc1"
     stampState: "paper_stamp-wizard"
+    # DS14-start
+    stampPatternTexture: "/Textures/Interface/Stamps/headdep_print_pattern.png"
+    stampScale: 0.92
+    # DS14-end
   - type: Sprite
     state: stamp-wizard
