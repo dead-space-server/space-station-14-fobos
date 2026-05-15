@@ -164,7 +164,7 @@
   parent: BaseItem
   id: LavalandWormholeJaunter
   name: джаунтер
-  description: Устройство что может спасти от паданеие из-за банана в яму.
+  description: Устройство, способное спасти владельца от падения в пропасть. Должно быть в руке или надето на пояс; из сумки не срабатывает.
   components:
   - type: Sprite
     sprite: _DeadSpace/Lavaland/Objects/Specific/Mining/wormhole_jaunter.rsi
