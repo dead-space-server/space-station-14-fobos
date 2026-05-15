@@ -54,6 +54,8 @@
     - type: GridSpawn
       groups:
         mining: !type:GridSpawnGroup #DS14-Start
+          addComponents:
+            - type: LavalandShuttle
           paths:
             - /Maps/Shuttles/mining.yml
           nameDataset: NamesMiningShuttle # DS14-End
@@ -142,6 +144,12 @@
   abstract: true
   components:
     - type: SalvageExpeditionData
+
+- type: entity
+  id: BaseStationLavaland
+  abstract: true
+  components:
+    - type: StationLavaland
 
 - type: entity
   id: BaseStationMagnet

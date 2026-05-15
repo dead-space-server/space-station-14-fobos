@@ -1,0 +1,137 @@
+- type: lavalandPlanet
+  id: Lavaland
+  biome: LavalandSurface
+  mapName: Lavaland
+  lightColor: "#A34931"
+  mapHalfSize: 350
+  boundaryEnabled: true
+  boundaryWallWidth: 2
+  boundaryLavaWidth: 3
+  boundaryTile: FloorBasalt
+  boundaryWallEntity: WallRockBasaltLavalandBoundary
+  boundaryLavaEntity: FloorLavaEntity
+  landingPadRadius: 24
+  landingPadTile: FloorBasalt
+  terminalReservationEnabled: true
+  terminalReservationSize: 70
+  terminalTile: FloorBasalt
+  terminalGridPath: /Maps/_DeadSpace/Lavaland/LavaLandBase.yml
+  terminalGridName: Lavaland Mining Outpost
+  minStructureDistance: 140
+  maxStructureDistance: 310
+  minStructureSeparation: 95
+  structures:
+    LavalandLavaBrig: 4
+  tendrilsEnabled: true
+  tendrilSpawnCount: 16
+  tendrilRespawnInterval: 1200
+  tendrilRespawnBatchMin: 1
+  tendrilRespawnBatchMax: 1
+  tendrilSpawnAttempts: 320
+  tendrilMinDistance: 120
+  tendrilMaxDistance: 320
+  tendrilMinSeparation: 80
+  tendrilClearRadius: 1
+  tendrilMapEdgePadding: 24
+  tendrilOutpostExclusionRadius: 100
+  tendrilLandingExclusionRadius: 56
+  tendrilFtlBeaconExclusionRadius: 56
+  tendrilSpawns:
+  - prototype: LavalandNecropolisTendrilWatcher
+    weight: 3
+    maxCount: 5
+  - prototype: LavalandNecropolisTendrilGoliath
+    weight: 2
+    maxCount: 7
+  - prototype: LavalandNecropolisTendrilLegion
+    weight: 1
+    maxCount: 4
+  bossArenas:
+    LavalandHierophantArena: 1
+    LavalandAshDrakeArena: 1
+    LavalandBubblegumArena: 1
+  markerLayers:
+  - LavalandOreIron
+  - LavalandOreCoal
+  - LavalandOrePlasma
+  - LavalandOreQuartz
+  - LavalandOreSalt
+  - LavalandOreSilver
+  - LavalandOreGold
+  - LavalandOreMagmite
+  - LavalandOreUranium
+  - LavalandOreBananium
+  - LavalandOreArtifactFragment
+  - LavalandOreDiamond
+  - LavalandOreBluespaceCrystal
+  - LavalandChasms
+  - LavalandChasmsMedium
+  - LavalandChasmsLarge
+  faunaEnabled: true
+  faunaInitialSpawnCount: 200
+  faunaSoftCap: 200
+  faunaHardCap: 220
+  faunaUpdateInterval: 80
+  faunaSpawnBatchMin: 3
+  faunaSpawnBatchMax: 5
+  faunaLowPopulationThreshold: 120
+  faunaLowPopulationBatchMax: 10
+  faunaSpawnAttempts: 360
+  faunaSpawnClearance: 1
+  faunaMapEdgePadding: 18
+  faunaMinPlayerDistance: 32
+  faunaOutpostExclusionRadius: 80
+  faunaLandingExclusionRadius: 36
+  faunaFtlBeaconExclusionRadius: 32
+  faunaSectorSize: 48
+  faunaSectorCooldown: 480
+  faunaSpawns:
+  - prototype: MobWatcherLavaland
+    weight: 22
+    maxCount: 58
+  - prototype: MobLavalandHivelord
+    weight: 18
+    maxCount: 46
+  - prototype: MobLavalandBasilisk
+    weight: 14
+    maxCount: 36
+  - prototype: MobLavalandGoliath
+    weight: 11
+    maxCount: 28
+  - prototype: MobWatcherMagmawing
+    weight: 5
+    maxCount: 14
+  - prototype: MobWatcherIcewing
+    weight: 5
+    maxCount: 14
+  - prototype: MobLavalandLegion
+    weight: 3
+    maxCount: 10
+  - prototype: MobLavalandGoldgrub
+    weight: 1
+    maxCount: 7
+  atmosphere:
+    volume: 2500
+    temperature: 300
+    moles:
+    - 14
+    - 23
+  ashStormEnabled: true
+  ashStormWarningWeather: AshfallLight
+  ashStormWeather: AshfallHeavy
+  ashStormWarningDuration: 45
+  ashStormDurationMin: 100
+  ashStormDurationMax: 150
+  ashStormCooldownMin: 600
+  ashStormCooldownMax: 750
+  ashStormDamageInterval: 1
+  ashStormDamage:
+    types:
+      Heat: 20
+  ftlBeaconName: Lavaland Landing Zone
+  ftlBeaconOffset: 0,-180
+  ftlFallbackMinOffset: 8
+  ftlFallbackMaxOffset: 96
+  ftlDockWhitelist:
+    components:
+    - LavalandShuttle

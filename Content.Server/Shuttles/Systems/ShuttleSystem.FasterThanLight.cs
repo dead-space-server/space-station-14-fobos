@@ -289,13 +289,29 @@ public sealed partial class ShuttleSystem
         Angle angle,
         float? startupTime = null,
         float? hyperspaceTime = null,
-        string? priorityTag = null)
+        string? priorityTag = null,
+        bool useProximity = false,
+        float proximityMinOffset = 0f,
+        float proximityMaxOffset = 64f)
     {
         if (!TrySetupFTL(shuttleUid, component, out var hyperspace))
             return;
 
         startupTime ??= DefaultStartupTime;
         hyperspaceTime ??= DefaultTravelTime;
+
+        if (useProximity &&
+            TryGetFTLProximity(
+                shuttleUid,
+                coordinates,
+                out var proximityCoordinates,
+                out var proximityAngle,
+                proximityMinOffset,
+                proximityMaxOffset))
+        {
+            coordinates = proximityCoordinates;
+            angle = proximityAngle;
+        }
 
         hyperspace.StartupTime = startupTime.Value;
         hyperspace.TravelTime = hyperspaceTime.Value;
@@ -324,7 +340,11 @@ public sealed partial class ShuttleSystem
         EntityUid target,
         float? startupTime = null,
         float? hyperspaceTime = null,
-        string? priorityTag = null)
+        string? priorityTag = null,
+        EntityCoordinates? fallbackCoordinates = null,
+        Angle? fallbackAngle = null,
+        float fallbackMinOffset = 0f,
+        float fallbackMaxOffset = 64f)
     {
         if (!TrySetupFTL(shuttleUid, component, out var hyperspace))
             return;
@@ -348,10 +368,27 @@ public sealed partial class ShuttleSystem
             hyperspace.TargetCoordinates = config.Coordinates;
             hyperspace.TargetAngle = config.Angle;
         }
+        else if (fallbackCoordinates != null &&
+                 TryGetFTLProximity(
+                     shuttleUid,
+                     fallbackCoordinates.Value,
+                     out var fallbackProximityCoordinates,
+                     out var fallbackProximityAngle,
+                     fallbackMinOffset,
+                     fallbackMaxOffset))
+        {
+            hyperspace.TargetCoordinates = fallbackProximityCoordinates;
+            hyperspace.TargetAngle = fallbackProximityAngle;
+        }
         else if (TryGetFTLProximity(shuttleUid, new EntityCoordinates(target, Vector2.Zero), out var coords, out var targAngle))
         {
             hyperspace.TargetCoordinates = coords;
             hyperspace.TargetAngle = targAngle;
+        }
+        else if (fallbackCoordinates != null)
+        {
+            hyperspace.TargetCoordinates = fallbackCoordinates.Value;
+            hyperspace.TargetAngle = fallbackAngle ?? Angle.Zero;
         }
         else
         {

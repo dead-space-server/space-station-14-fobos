@@ -1,5 +1,6 @@
 using Content.Shared.Construction.Prototypes;
 using Content.Shared.Lathe.Prototypes;
+using Content.Shared.Materials;
 using Content.Shared.Research.Prototypes;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
@@ -121,4 +122,24 @@ namespace Content.Shared.Lathe
     /// </summary>
     [ByRefEvent]
     public readonly record struct LatheStartPrintingEvent(LatheRecipePrototype Recipe);
+
+    /// <summary>
+    /// Event raised after materials are removed from storage and placed into the lathe queue.
+    /// </summary>
+    [ByRefEvent]
+    public readonly record struct LatheMaterialsQueuedEvent(Dictionary<ProtoId<MaterialPrototype>, int> Materials);
+
+    /// <summary>
+    /// Event raised after queued or active recipe materials are returned to storage.
+    /// </summary>
+    [ByRefEvent]
+    public readonly record struct LatheMaterialsRefundedEvent(Dictionary<ProtoId<MaterialPrototype>, int> Materials);
+
+    /// <summary>
+    /// Event raised on a lathe when one recipe output has finished.
+    /// </summary>
+    [ByRefEvent]
+    public readonly record struct LatheRecipeFinishedEvent(
+        LatheRecipePrototype Recipe,
+        Dictionary<ProtoId<MaterialPrototype>, int> Materials);
 }

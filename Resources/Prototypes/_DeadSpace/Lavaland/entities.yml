@@ -1,0 +1,146 @@
+- type: entity
+  id: WallRockBasaltLavalandBoundary
+  name: indestructible basalt
+  description: It looks impossible to destroy.
+  suffix: Lavaland Boundary, Indestructible
+  placement:
+    mode: SnapgridCenter
+    snap:
+    - Wall
+  components:
+  - type: Transform
+    anchored: true
+    noRot: true
+  - type: Clickable
+  - type: Tag
+    tags:
+    - Wall
+  - type: IsRoof
+  - type: IconSmooth
+    key: walls
+    mode: NoSprite
+  - type: SmoothEdge
+  - type: Icon
+    sprite: Structures/Walls/rock.rsi
+    state: rock_wall
+  - type: Sprite
+    drawdepth: Walls
+    sprite: Structures/Walls/rock.rsi
+    layers:
+    - state: rock_wall
+    - map: [ "enum.EdgeLayer.South" ]
+      state: rock_wall_south
+    - map: [ "enum.EdgeLayer.East" ]
+      state: rock_wall_east
+    - map: [ "enum.EdgeLayer.North" ]
+      state: rock_wall_north
+    - map: [ "enum.EdgeLayer.West" ]
+      state: rock_wall_west
+  - type: PlacementReplacement
+    key: walls
+  - type: Physics
+    bodyType: Static
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.5,-0.5,0.5,0.5"
+        mask:
+        - FullTileMask
+        layer:
+        - WallLayer
+        density: 4000
+  - type: Airtight
+  - type: RadiationBlocker
+    resistance: 2
+  - type: BlockWeather
+  - type: SunShadowCast
+  - type: Occluder
+
+- type: entity
+  parent: BaseMachinePowered
+  id: LavalandMiningShop
+  name: продвинутый Утильмаг
+  description: Тут всё самое вкусное!
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Transform
+    anchored: true
+  - type: Sprite
+    sprite: Structures/Machines/VendingMachines/mining.rsi
+    snapCardinals: true
+    layers:
+    - state: off
+    - state: normal-unshaded
+      shader: unshaded
+    - state: panel
+      visible: false
+  - type: LavalandMiningShop
+    cardSlot:
+      name: lavaland-mining-shop-card-slot
+      ejectSound: /Audio/Machines/id_swipe.ogg
+      insertSound: /Audio/Machines/id_swipe.ogg
+      insertOnInteract: false
+      ejectOnBreak: true
+      swap: false
+      whitelistFailPopup: lavaland-mining-shop-wrong-card
+      insertSuccessPopup: lavaland-mining-shop-card-inserted
+      whitelist:
+        components:
+        - LavalandMiningPoints
+    voucherSlot:
+      name: lavaland-mining-shop-voucher-slot
+      ejectSound: /Audio/Machines/id_swipe.ogg
+      insertSound: /Audio/Machines/id_swipe.ogg
+      insertOnInteract: false
+      ejectOnBreak: true
+      swap: false
+      whitelistFailPopup: lavaland-mining-shop-wrong-voucher
+      insertSuccessPopup: lavaland-mining-voucher-inserted
+      whitelist:
+        components:
+        - LavalandMiningVoucher
+  - type: ContainerContainer
+    containers:
+      LavalandMiningShop-card: !type:ContainerSlot
+      LavalandMiningShop-voucher: !type:ContainerSlot
+  - type: Store
+    name: lavaland-mining-shop-ui-title
+    categories:
+    - LavalandMiningEquipment
+    - LavalandMiningTools
+    - LavalandMiningUtility
+    - LavalandMiningMedical
+    - LavalandMiningDetails
+    - LavalandMiningCash
+    currencyWhitelist:
+    - LavalandMiningPoint
+    balance:
+      LavalandMiningPoint: 0
+  - type: ActivatableUI
+    key: enum.StoreUiKey.Key
+    singleUser: true
+  - type: ActivatableUIRequiresPower
+  - type: UserInterface
+    interfaces:
+      enum.StoreUiKey.Key:
+        type: StoreBoundUserInterface
+      enum.LavalandMiningVoucherUiKey.Key:
+        type: LavalandMiningVoucherBoundUserInterface
+  - type: AmbientOnPowered
+  - type: AmbientSound
+    volume: -9
+    range: 3
+    enabled: false
+    sound:
+      path: /Audio/Ambience/Objects/vending_machine_hum.ogg
+  - type: PointLight
+    enabled: false
+    castShadows: false
+    radius: 1.5
+    color: "#b89f25"
+  - type: LitOnPowered
+  - type: StaticPrice
+    price: 500

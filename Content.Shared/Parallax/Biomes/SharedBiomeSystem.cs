@@ -21,6 +21,14 @@ public abstract class SharedBiomeSystem : EntitySystem
 
     protected const byte ChunkSize = 8;
 
+    public void SetBounds(EntityUid uid, BiomeComponent component, Box2i? bounds, bool dirty = true)
+    {
+        component.Bounds = bounds;
+
+        if (dirty)
+            Dirty(uid, component);
+    }
+
     private T Pick<T>(List<T> collection, float value)
     {
         // Listen I don't need this exact and I'm too lazy to finetune just for random ent picking.
