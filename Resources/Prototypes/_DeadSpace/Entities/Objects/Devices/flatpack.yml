@@ -14,7 +14,7 @@
     - state: icon-default
 
 - type: entity
-  parent: BaseFlatpack
+  parent: [BaseFlatpack, BaseSyndicateContraband]
   id: SyndiChemFlatpack
   name: упаковка Синдисоки
   description: "У него мет вместо крови, чёрт."
