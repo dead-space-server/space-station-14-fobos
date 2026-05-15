@@ -122,3 +122,21 @@
         amount: 2
       - id: BurnAutoInjector
         amount: 2
+
+- type: entity
+  parent: ClothingBackpackMerc
+  id: ClothingBackpackMercFilled
+  name: рюкзак наёмника
+  description: Надёжный боевой рюкзак, побывавший во многих опасных местах.
+  suffix: Filled
+  components:
+  - type: StorageFill
+    contents:
+      - id: ClothingHeadHelmetMerc
+      - id: ClothingMaskGasMerc
+      - id: MagazinePistolCaselessRifle
+        amount: 2
+      - id: MagazineBoxCaselessRifle
+      - id: TelescopicShield
+      - id: MedkitFilled
+      - id: ADTtelescopicBaton
