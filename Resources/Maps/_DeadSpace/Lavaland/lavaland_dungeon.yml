@@ -4461,11 +4461,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 61896.49205
-      thrownTime: 61896.4381035
-      thrower: invalid
 - proto: BoxFolderGreen
   entities:
   - uid: 69
@@ -4511,11 +4506,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 61811.0608466
-      thrownTime: 61811.0381889
-      thrower: invalid
 - proto: BoxLethalshot
   entities:
   - uid: 70
@@ -8700,11 +8690,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 63455.1206209
-      thrownTime: 63455.0365449
-      thrower: invalid
 - proto: ClothingBeltMercWebbing
   entities:
   - uid: 871
@@ -8814,11 +8799,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 62142.3072751
-      thrownTime: 62142.271191
-      thrower: invalid
 - proto: ClothingHandsGlovesMercFingerless
   entities:
   - uid: 878
@@ -9176,11 +9156,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 64216.1097232
-      thrownTime: 64216.1024505
-      thrower: invalid
   - uid: 923
     components:
     - type: Transform
@@ -9224,11 +9199,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 64206.5333932
-      thrownTime: 64206.5024601
-      thrower: invalid
   - uid: 924
     components:
     - type: Transform
@@ -9272,11 +9242,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 64200.4097389
-      thrownTime: 64200.4024662
-      thrower: invalid
   - uid: 925
     components:
     - type: Transform
@@ -9320,11 +9285,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 64195.3720337
-      thrownTime: 64195.3358046
-      thrower: invalid
 - proto: ComputerAlert
   entities:
   - uid: 926
@@ -11105,11 +11065,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 62047.4258328
-      thrownTime: 62047.4046192
-      thrower: invalid
   - uid: 1664
     components:
     - type: Transform
@@ -11153,11 +11108,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 62051.7019636
-      thrownTime: 62051.6712816
-      thrower: invalid
 - proto: Joint
   entities:
   - uid: 1212
@@ -11590,11 +11540,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 61907.4830742
-      thrownTime: 61907.4714258
-      thrower: invalid
   - uid: 1253
     components:
     - type: Transform

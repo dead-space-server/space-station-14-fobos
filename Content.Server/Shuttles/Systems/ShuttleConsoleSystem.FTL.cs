@@ -1,3 +1,4 @@
+using Content.Server.DeadSpace.Lavaland.Components;
 using Content.Server.Shuttles.Components;
 using Content.Server.Shuttles.Events;
 using Content.Shared.Shuttles.BUIStates;
@@ -173,7 +174,7 @@ public sealed partial class ShuttleConsoleSystem
         }
 
         // Check shuttle can FTL to this target.
-        if (!_shuttle.CanFTLTo(shuttleUid.Value, targetMap, ent))
+        if (!CanConsoleFTLToMap(shuttleUid.Value, targetMap, ent))
         {
             return;
         }
@@ -226,7 +227,7 @@ public sealed partial class ShuttleConsoleSystem
         if (!_shuttle.CanFTL(shuttleUid.Value, out _))
             return;
 
-        if (!_shuttle.CanFTLTo(shuttleUid.Value, targetMap, ent))
+        if (!CanConsoleFTLToMap(shuttleUid.Value, targetMap, ent))
             return;
 
         var tagEv = new FTLTagEvent();
@@ -272,7 +273,7 @@ public sealed partial class ShuttleConsoleSystem
         if (!_shuttle.CanFTL(shuttleUid.Value, out _))
             return false;
 
-        if (!_shuttle.CanFTLTo(shuttleUid.Value, targetMap, ent))
+        if (!CanConsoleFTLToMap(shuttleUid.Value, targetMap, ent))
             return false;
 
         var ev = new ShuttleConsoleFTLTravelStartEvent(ent.Owner);
@@ -290,5 +291,42 @@ public sealed partial class ShuttleConsoleSystem
             dockingBeacon.FallbackMinOffset,
             dockingBeacon.FallbackMaxOffset);
         return true;
+    }
+
+    private bool CanConsoleFTLToMap(EntityUid shuttleUid, MapId targetMap, EntityUid consoleUid)
+    {
+        if (IsShuttleAlreadyOnLavalandMap(shuttleUid, targetMap))
+            return false;
+
+        return _shuttle.CanFTLTo(shuttleUid, targetMap, consoleUid);
+    }
+
+    private bool IsShuttleAlreadyOnLavalandMap(EntityUid shuttleUid, MapId targetMap)
+    {
+        if (!_xformQuery.TryGetComponent(shuttleUid, out var shuttleXform) ||
+            shuttleXform.MapID != targetMap)
+        {
+            return false;
+        }
+
+        var mapUid = _mapSystem.GetMapOrInvalid(targetMap);
+        return mapUid.IsValid() && HasComp<LavalandMapComponent>(mapUid);
+    }
+
+    private void RemoveCurrentLavalandBeacons(EntityUid shuttleUid, List<ShuttleBeaconObject>? beacons)
+    {
+        if (beacons == null ||
+            !_xformQuery.TryGetComponent(shuttleUid, out var shuttleXform) ||
+            !IsShuttleAlreadyOnLavalandMap(shuttleUid, shuttleXform.MapID))
+        {
+            return;
+        }
+
+        for (var i = beacons.Count - 1; i >= 0; i--)
+        {
+            var beaconCoordinates = _transform.ToMapCoordinates(GetCoordinates(beacons[i].Coordinates));
+            if (beaconCoordinates.MapId == shuttleXform.MapID)
+                beacons.RemoveAt(i);
+        }
     }
 }
