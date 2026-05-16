@@ -44,7 +44,6 @@
     sprite: _DeadSpace/Sponsor/qu0565alt/hardsuit/hard.rsi
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitQu0565Alt
-    size: Huge
   - type: HardsuitIdentification
     nonlethal: true
   - type: Armor
