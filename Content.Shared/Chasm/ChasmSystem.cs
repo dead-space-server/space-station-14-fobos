@@ -3,6 +3,7 @@ using Content.Shared.ActionBlocker;
 using Content.Shared.Movement.Events;
 using Content.Shared.StepTrigger.Systems;
 using Content.Shared.Weapons.Misc;
+using Content.Shared.Gravity; //DS14
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Map; //DS14
 using Robust.Shared.Network;
@@ -21,6 +22,7 @@ public sealed class ChasmSystem : EntitySystem
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedGrapplingGunSystem _grapple = default!;
+    [Dependency] private readonly SharedGravitySystem _gravity = default!; //DS14
     [Dependency] private readonly EntityLookupSystem _lookup = default!; //DS14
     [Dependency] private readonly SharedTransformSystem _transform = default!; //DS14
 
@@ -55,6 +57,9 @@ public sealed class ChasmSystem : EntitySystem
                 continue;
 
             if (_grapple.IsEntityHooked(entity))
+                continue;
+
+            if (_gravity.IsWeightless(entity))
                 continue;
 
             StartFalling(uid, component, entity);
@@ -116,6 +121,14 @@ public sealed class ChasmSystem : EntitySystem
             args.Cancelled = true;
             return;
         }
+
+        //DS14-start
+        if (_gravity.IsWeightless(args.Tripper))
+        {
+            args.Cancelled = true;
+            return;
+        }
+        //DS14-end
 
         args.Continue = true;
     }

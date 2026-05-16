@@ -102,6 +102,7 @@
       whitelist:
         components:
         - LavalandMiningVoucher
+  - type: ItemSlots
   - type: ContainerContainer
     containers:
       LavalandMiningShop-card: !type:ContainerSlot

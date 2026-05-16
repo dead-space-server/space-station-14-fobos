@@ -78,7 +78,7 @@ public sealed class LavalandResonatorSystem : EntitySystem
         var query = EntityQueryEnumerator<LavalandResonanceFieldComponent>();
         while (query.MoveNext(out var uid, out var field))
         {
-            if (!field.Bursting && field.BurstAt <= curTime)
+            if (!field.Bursting && field.Resonator != null && field.BurstAt <= curTime)
                 BurstField((uid, field), 1f);
         }
     }

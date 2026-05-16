@@ -41,7 +41,6 @@ public sealed class LavalandSpectralBladeSystem : EntitySystem
     {
         base.Initialize();
 
-        SubscribeLocalEvent<LavalandSpectralBladeComponent, ComponentStartup>(OnStartup);
         SubscribeLocalEvent<LavalandSpectralBladeComponent, ComponentShutdown>(OnShutdown);
         SubscribeLocalEvent<LavalandSpectralBladeComponent, UseInHandEvent>(OnUseInHand);
         SubscribeLocalEvent<LavalandSpectralBladeComponent, ExaminedEvent>(OnExamined);
@@ -63,11 +62,6 @@ public sealed class LavalandSpectralBladeSystem : EntitySystem
             component.CurrentSpirits = 0;
             ApplyDamage((uid, component));
         }
-    }
-
-    private void OnStartup(Entity<LavalandSpectralBladeComponent> ent, ref ComponentStartup args)
-    {
-        ApplyDamage(ent);
     }
 
     private void OnShutdown(Entity<LavalandSpectralBladeComponent> ent, ref ComponentShutdown args)

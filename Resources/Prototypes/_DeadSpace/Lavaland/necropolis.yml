@@ -105,8 +105,8 @@
 - type: entity
   parent: CrateGeneric
   id: LavalandNecropolisChest
-  name: necropolis chest
-  description: It watches you suspiciously.
+  name: сундук некрополя
+  description: Сундук не дышит.
   suffix: Lavaland
   components:
   - type: Icon
@@ -131,6 +131,18 @@
         tableId: LavalandNecropolisChestLootTable
   - type: StaticPrice
     price: 2500
+
+- type: entity
+  parent: LavalandNecropolisChest
+  id: LavalandNecropolisChestHardsuit
+  name: сундук некрополя
+  description: Сундук не дышит.
+  suffix: Lavaland, Скафандры
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:NestedSelector
+        tableId: LavalandNecropolisChestHardsuitLootTable
 
 # Main editable loot listing for necropolis chests. Adjust category weights here,
 # then add concrete SS14 entity ids to the category tables below.
@@ -174,8 +186,6 @@
       weight: 1.1
     - id: WeaponWandPolymorphDoor
       weight: 1
-    - id: WeaponWandDeath
-      weight: 0.1
     - id: WizardTeleportScroll
       weight: 0.8
     - id: BlinkBook
@@ -186,8 +196,6 @@
       weight: 0.5
     - id: ScrollRunes
       weight: 0.6
-    - id: WizardsGrimoireNoRefund
-      weight: 0.08
 
 - type: entityTable
   id: LavalandNecropolisChestScienceLootTable
@@ -288,7 +296,7 @@
       weight: 0.8
     - id: LavalandMiningVoucher
       weight: 0.7
-    - id: HandTeleporter
+    - id: HandTeleporterResearch
       weight: 0.7
     - id: SyndicateJawsOfLife
       weight: 1
@@ -301,8 +309,6 @@
     - id: BluespaceVial
       weight: 0.7
     - id: JetpackBlackFilled
-      weight: 0.7
-    - id: ClothingShoesBootsJump
       weight: 0.7
     - id: ClothingShoesBootsMagSyndie
       weight: 0.8
@@ -356,7 +362,7 @@
         amount: !type:RangeNumberSelector
           range: 2, 4
       - id: CombatMedipen
-    - id: Hypospray
+    - id: ADTCyberHypospray
       weight: 0.5
     - id: Stimpack
       weight: 0.8
@@ -370,7 +376,7 @@
   table: !type:GroupSelector
     children:
     - !type:AllSelector
-      weight: 0.3
+      weight: 0.1
       children:
       - id: ClothingOuterHardsuitSyndie
       - id: JetpackBlackFilled
@@ -379,19 +385,17 @@
       - id: DoubleEmergencyOxygenTankFilled
       - id: DoubleEmergencyNitrogenTankFilled
     - !type:AllSelector
-      weight: 0.25
+      weight: 0.5
       children:
-      - id: ClothingOuterHardsuitSyndieElite
+      - id: ClothingOuterOldExplorerLavaland
       - id: JetpackBlackFilled
-      - id: ClothingMaskGasSyndicate
       - id: ClothingHandsGlovesCombat
       - id: DoubleEmergencyOxygenTankFilled
       - id: DoubleEmergencyNitrogenTankFilled
     - !type:AllSelector
-      weight: 0.01
+      weight: 0.1
       children:
-      - id: ClothingOuterHardsuitJuggernaut
-      - id: ClothingMaskGasSyndicate
+      - id: ADTClothingOuterHardsuitCerber
       - id: ClothingHandsGlovesCombat
       - id: DoubleEmergencyOxygenTankFilled
       - id: DoubleEmergencyNitrogenTankFilled
@@ -403,25 +407,17 @@
       - id: DoubleEmergencyOxygenTankFilled
       - id: DoubleEmergencyNitrogenTankFilled
     - !type:AllSelector
-      weight: 0.3
+      weight: 0.1
       children:
-      - id: ClothingOuterHardsuitCBURN
+      - id: ADTClothingOuterHardsuitCybersunBodyGuard
       - id: ClothingMaskBreath
       - id: ClothingHandsGlovesCombat
       - id: DoubleEmergencyOxygenTankFilled
       - id: DoubleEmergencyNitrogenTankFilled
     - !type:AllSelector
-      weight: 0.008
+      weight: 0.5
       children:
-      - id: ClothingOuterHardsuitDeathsquad
-      - id: ClothingMaskGasSyndicate
-      - id: ClothingHandsGlovesCombat
-      - id: DoubleEmergencyOxygenTankFilled
-      - id: DoubleEmergencyNitrogenTankFilled
-    - !type:AllSelector
-      weight: 0.2
-      children:
-      - id: ClothingOuterHardsuitERTSecurity
+      - id: ADTSpaceMarinne
       - id: MedkitCombatFilled
       - id: ClothingEyesHudAdvanced
       - id: ClothingMaskBreath
@@ -441,8 +437,6 @@
       weight: 0.15
     - id: EnergySword
       weight: 0.2
-    - id: EnergySwordDouble
-      weight: 0.01
     - id: EnergyKatana
       weight: 0.1
     - !type:AllSelector
