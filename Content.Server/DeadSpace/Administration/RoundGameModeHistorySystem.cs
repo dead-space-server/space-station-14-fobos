@@ -30,7 +30,6 @@ public sealed class RoundGameModeHistorySystem : EntitySystem
     {
         try
         {
-            var preset = _ticker.CurrentPreset;
             var presetName = GetPresetNameForHistory();
 
             await _db.SetRoundGamePresetAsync(
