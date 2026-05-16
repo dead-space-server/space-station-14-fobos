@@ -115,3 +115,39 @@
   id: DiscountedItems
   name: store-discounted-items
   priority: 200
+
+# Lavaland
+- type: storeCategory
+  id: LavalandMiningEquipment
+  name: store-category-lavaland-mining-equipment
+  priority: 0
+
+- type: storeCategory
+  id: LavalandMiningTools
+  name: store-category-lavaland-mining-tools
+  priority: 1
+
+- type: storeCategory
+  id: LavalandMiningUtility
+  name: store-category-lavaland-mining-utility
+  priority: 2
+
+- type: storeCategory
+  id: LavalandMiningMedical
+  name: store-category-lavaland-mining-medical
+  priority: 5
+
+- type: storeCategory
+  id: LavalandMiningDetails
+  name: store-category-lavaland-mining-details
+  priority: 6
+
+- type: storeCategory
+  id: LavalandMiningCash
+  name: store-category-lavaland-mining-cash
+  priority: 7
+
+- type: storeCategory
+  id: LavalandMiningContraband
+  name: store-category-lavaland-mining-contraband
+  priority: 10

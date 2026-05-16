@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from tgstation.",
+  "size": {
+    "x": 54,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "watcher",
+      "directions": 4,
+      "delays": [
+        [0.3, 0.3, 0.3, 0.3],
+        [0.3, 0.3, 0.3, 0.3],
+        [0.3, 0.3, 0.3, 0.3],
+        [0.3, 0.3, 0.3, 0.3]
+      ]
+    },
+    {
+      "name": "watcher_dead"
+    },
+    {
+      "name": "watcher_magmawing",
+      "directions": 4,
+      "delays": [
+        [0.3, 0.3, 0.3, 0.3],
+        [0.3, 0.3, 0.3, 0.3],
+        [0.3, 0.3, 0.3, 0.3],
+        [0.3, 0.3, 0.3, 0.3]
+      ]
+    },
+    {
+      "name": "watcher_magmawing_dead"
+    },
+    {
+      "name": "watcher_icewing",
+      "directions": 4,
+      "delays": [
+        [0.3, 0.3, 0.3, 0.3],
+        [0.3, 0.3, 0.3, 0.3],
+        [0.3, 0.3, 0.3, 0.3],
+        [0.3, 0.3, 0.3, 0.3]
+      ]
+    },
+    {
+      "name": "watcher_icewing_dead"
+    }
+  ]
+}

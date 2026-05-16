@@ -5,4 +5,4 @@
 /// </summary>
 /// <param name="NewId">The entity id of the new stack.</param>
 [ByRefEvent]
-public readonly record struct StackSplitEvent(EntityUid NewId);
+public readonly record struct StackSplitEvent(EntityUid NewId, int Amount);

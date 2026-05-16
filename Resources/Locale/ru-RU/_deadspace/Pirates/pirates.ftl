@@ -155,3 +155,5 @@ pirate-role-name = Космический пират
 ghost-role-information-merc-name = Наёмник
 ghost-role-information-merc-description = Вы - профессиональный наёмник, выполняйте все приказы ваших заказчиков.
 uplink-pirate-reinforcement-radio-merc-name = Радио подкрепления наёмника (Можно купить 1)
+ghost-role-information-pirate-holoparasite-name = Летучий голландец
+ghost-role-information-pirate-holoparasite-description = Вы - древний призрак морей, вызванный из глубин. Ваша душа привязана к носителю инъектора, и ваша цель - защищать его любой ценой!
