@@ -164,7 +164,7 @@
   parent: BaseItem
   id: LavalandWormholeJaunter
   name: джаунтер
-  description: Устройство, способное спасти владельца от падения в пропасть. Должно быть в руке или надето на пояс; из сумки не срабатывает.
+  description: Устройство, способное спасти владельца от падения в пропасть. Должно быть в руке или в кармане, из сумки не срабатывает.
   components:
   - type: Sprite
     sprite: _DeadSpace/Lavaland/Objects/Specific/Mining/wormhole_jaunter.rsi
@@ -197,7 +197,8 @@
     - name: lavaland-mining-voucher-reward-survival
       entries:
       - id: LavalandShelterCapsule
-      - id: ClothingBeltSalvageWebbing
+      - id: LavalandShelterCapsule
+      - id: LavalandWormholeJaunter
     - name: lavaland-mining-voucher-reward-resonator
       entries:
       - id: LavalandResonator
