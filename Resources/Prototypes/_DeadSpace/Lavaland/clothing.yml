@@ -142,8 +142,8 @@
         Blunt: 0.45
         Slash: 0.45
         Piercing: 0.55
-        Heat: 0.4
-        Cold: 0.4
+        Heat: 0.45
+        Cold: 0.45
         Radiation: 0.3
         Caustic: 0.6
   - type: StaminaResistance
