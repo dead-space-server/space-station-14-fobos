@@ -182,6 +182,7 @@
   table: !type:AllSelector
     children:
     - id: OxygenTankFilled
+    - id: ClothingShoesBootsMagSecurity #DS14
     - id: ClothingOuterHardsuitSecurity
     - id: ClothingOuterHardsuitSecurity # DS14
       prob: 0.5
@@ -196,6 +197,7 @@
   - type: StorageFill
     contents:
         - id: OxygenTankFilled
+        - id: ClothingShoesBootsMagSecurity #DS14
         - id: ClothingOuterHardsuitSecurityPilot
         - id: ClothingMaskBreath
   - type: AccessReader
@@ -210,6 +212,7 @@
   - type: StorageFill
     contents:
         - id: OxygenTankFilled
+        - id: ClothingShoesBootsMagSecurity #DS14
         - id: ClothingOuterHardsuitSeniorOfficer
         - id: ClothingMaskBreath
   - type: AccessReader

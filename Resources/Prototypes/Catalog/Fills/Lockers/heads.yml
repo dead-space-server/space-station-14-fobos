@@ -387,6 +387,7 @@
     - id: ClothingOuterHardsuitSecurityRed
     - id: JetpackSecurityFilled
     - id: OxygenTankFilled
+    - id: ClothingShoesBootsMagHos #DS14
 
 # No hardsuit locker
 - type: entity

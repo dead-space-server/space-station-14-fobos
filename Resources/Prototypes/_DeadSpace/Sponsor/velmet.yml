@@ -32,12 +32,30 @@
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/velmet/backpack.rsi
+    layers:
+    - state: icon
+      map: [ "unfoldedLayer" ]
+    - state: h-icon
+      map: ["foldedLayer"]
+      visible: false
   - type: Clothing
     sprite: _DeadSpace/Sponsor/velmet/backpack.rsi
-    clothingVisuals:
-      back:
-      - state: equipped-BACKPACK
-        scale: 0.75, 0.75
+  - type: Appearance
+  - type: Foldable
+    canFoldInsideContainer: true
+  - type: GroupExamine
+  - type: FoldableClothing
+    foldedEquippedPrefix: h
+    foldedHeldPrefix: h
+  - type: GenericVisualizer
+    visuals:
+      enum.FoldedVisuals.State:
+        foldedLayer:
+          True: {visible: true}
+          False: {visible: false}
+        unfoldedLayer:
+          True: {visible: false}
+          False: {visible: true}
   - type: Storage
     maxItemSize: Huge
     grid:
@@ -63,6 +81,7 @@
     - id: PaperVelmet
     - id: MedkitAdvancedFilled
     - id: OtherVelmet
+    - id: VapeVelmet
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -79,14 +98,32 @@
     - 0,0,7,1
   - type: Sprite
     sprite: _DeadSpace/Sponsor/velmet/belt.rsi
+    layers:
+    - state: icon
+      map: [ "unfoldedLayer" ]
+    - state: h-icon
+      map: ["foldedLayer"]
+      visible: false
   - type: Clothing
     sprite: _DeadSpace/Sponsor/velmet/belt.rsi
-    clothingVisuals:
-      belt:
-      - state: equipped-BELT
-        scale: 0.75, 0.75
   - type: Item
     size: Huge
+  - type: Appearance
+  - type: Foldable
+    canFoldInsideContainer: true
+  - type: GroupExamine
+  - type: FoldableClothing
+    foldedEquippedPrefix: h
+    foldedHeldPrefix: h
+  - type: GenericVisualizer
+    visuals:
+      enum.FoldedVisuals.State:
+        foldedLayer:
+          True: {visible: true}
+          False: {visible: false}
+        unfoldedLayer:
+          True: {visible: false}
+          False: {visible: true}
   - type: StorageFill
     contents:
       - id: PowerDrillVelmet
@@ -485,6 +522,7 @@
   description: Имплант DMQ//66.
   parent: BaseItem
   id: OtherVelmet
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/velmet/other.rsi
@@ -497,6 +535,41 @@
     components:
     - type: TTS
       voice: Overwatch
+
+- type: entity
+  parent: BaseItem
+  id: VapeVelmet
+  name: X-CARP
+  description: Доставка никотина для рыбы покрупнее.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/velmet/vape.rsi
+    state: icon
+  - type: Vape
+    damage:
+      types:
+        Heat: 0.01
+    delay: 0.5
+    userDelay: 1
+  - type: SolutionContainerManager
+    solutions:
+      smokable:
+        maxVol: 15
+  - type: Injector
+    solutionName: smokable
+    ignoreClosed: false
+    activeModeProtoId: JetInjectorDynamicMode
+    allowedModes:
+    - JetInjectorDynamicMode
+    injectOnMove: false
+  - type: UseDelay
+    delay: 10
+  - type: RefillableSolution
+    solution: smokable
+  - type: ExaminableSolution
+    solution: smokable
+
 
 #instruments
 #drill

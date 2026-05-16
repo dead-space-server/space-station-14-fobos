@@ -1288,11 +1288,11 @@
       Omnizine: 10
   - type: Reflect
     reflectProb: 0.10
-  - type: Unremoveable #DS14-Won't let you take it off, it`s working.
   - type: StaminaResistance
     damageCoefficient: 0.05
 # DS14-end
   - type: HardsuitIdentification # DS14
+    canEmag: false
   - type: Speech # DS14
   - type: TTS # DS14
     voice: Adjutant

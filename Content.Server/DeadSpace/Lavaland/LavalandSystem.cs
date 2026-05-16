@@ -1,4 +1,5 @@
 using System.Numerics;
+using System.Threading;
 using System.Threading.Tasks;
 using Content.Server.Atmos.EntitySystems;
 using Content.Server.DeadSpace.Lavaland.Components;
@@ -7,13 +8,16 @@ using Content.Server.Procedural;
 using Content.Server.Shuttles.Components;
 using Content.Server.Station.Events;
 using Content.Shared.Atmos;
+using Content.Shared.DeadSpace.CCCCVars;
 using Content.Shared.DeadSpace.Lavaland;
+using Content.Shared.GameTicking;
 using Content.Shared.Gravity;
 using Content.Shared.Maps;
 using Content.Shared.Parallax.Biomes;
 using Content.Shared.Procedural;
 using Content.Shared.Shuttles.Components;
 using Content.Shared.Warps;
+using Robust.Shared.Configuration;
 using Robust.Shared.EntitySerialization.Systems;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
@@ -28,6 +32,7 @@ public sealed class LavalandSystem : EntitySystem
 
     [Dependency] private readonly AtmosphereSystem _atmosphere = default!;
     [Dependency] private readonly BiomeSystem _biome = default!;
+    [Dependency] private readonly IConfigurationManager _configuration = default!;
     [Dependency] private readonly DungeonSystem _dungeon = default!;
     [Dependency] private readonly LavalandBossArenaSystem _bossArena = default!;
     [Dependency] private readonly LavalandFaunaPopulationSystem _faunaPopulation = default!;
@@ -50,11 +55,18 @@ public sealed class LavalandSystem : EntitySystem
         _xformQuery = GetEntityQuery<TransformComponent>();
         SubscribeLocalEvent<StationLavalandComponent, StationPostInitEvent>(OnStationPostInit);
         SubscribeLocalEvent<StationLavalandComponent, ComponentShutdown>(OnStationShutdown);
+        SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestartCleanup);
     }
 
     private void OnStationPostInit(Entity<StationLavalandComponent> ent, ref StationPostInitEvent args)
     {
+        if (!_configuration.GetCVar(CCCCVars.LavalandAutoGenerate))
+            return;
+
         if (ent.Comp.GeneratedMap is { Valid: true } generated && Exists(generated))
+            return;
+
+        if (ent.Comp.GenerationTask is { IsCompleted: false })
             return;
 
         if (ent.Comp.Planets.Count == 0)
@@ -63,43 +75,105 @@ public sealed class LavalandSystem : EntitySystem
         var planetId = _random.Pick(ent.Comp.Planets);
         var planet = _prototype.Index(planetId);
 
-        GeneratePlanetDeferred(ent.Owner, ent.Comp, planet, planetId);
+        StartPlanetGeneration(ent, planet, planetId);
     }
 
-    private async void GeneratePlanetDeferred(
-        EntityUid station,
-        StationLavalandComponent component,
+    private void StartPlanetGeneration(
+        Entity<StationLavalandComponent> station,
         LavalandPlanetPrototype planet,
         ProtoId<LavalandPlanetPrototype> planetId)
     {
+        var cancel = new CancellationTokenSource();
+        station.Comp.GenerationCancel = cancel;
+        station.Comp.GenerationTask = GeneratePlanetDeferred(station.Owner, station.Comp, planet, planetId, cancel);
+    }
+
+    private async Task GeneratePlanetDeferred(
+        EntityUid station,
+        StationLavalandComponent component,
+        LavalandPlanetPrototype planet,
+        ProtoId<LavalandPlanetPrototype> planetId,
+        CancellationTokenSource cancel)
+    {
         try
         {
-            component.GeneratedMap = await GeneratePlanet(station, planet, planetId);
+            await GeneratePlanet(station, component, planet, planetId, cancel.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            DeleteGeneratedMap(component);
+        }
+        catch (Exception) when (IsGenerationCancellation(component, cancel.Token))
+        {
+            DeleteGeneratedMap(component);
         }
         catch (Exception e)
         {
+            DeleteGeneratedMap(component);
             Log.Error($"Failed to generate Lavaland planet {planet.ID}: {e}");
+        }
+        finally
+        {
+            if (ReferenceEquals(component.GenerationCancel, cancel))
+            {
+                component.GenerationCancel = null;
+                component.GenerationTask = null;
+                cancel.Dispose();
+            }
         }
     }
 
     private void OnStationShutdown(Entity<StationLavalandComponent> ent, ref ComponentShutdown args)
     {
-        if (ent.Comp.GeneratedMap is not { Valid: true } map || Deleted(map))
-            return;
+        CancelGeneration(ent.Comp);
+        DeleteGeneratedMap(ent.Comp);
+    }
 
-        QueueDel(map);
-        ent.Comp.GeneratedMap = null;
+    private void OnRoundRestartCleanup(RoundRestartCleanupEvent ev)
+    {
+        var query = EntityQueryEnumerator<StationLavalandComponent>();
+        while (query.MoveNext(out _, out var component))
+        {
+            CancelGeneration(component);
+            DeleteGeneratedMap(component);
+        }
+    }
+
+    private void CancelGeneration(StationLavalandComponent component)
+    {
+        component.GenerationCancel?.Cancel();
+    }
+
+    private void DeleteGeneratedMap(StationLavalandComponent component)
+    {
+        if (component.GeneratedMap is not { Valid: true } map)
+        {
+            component.GeneratedMap = null;
+            return;
+        }
+
+        if (Exists(map) && !Deleted(map))
+            QueueDel(map);
+
+        component.GeneratedMap = null;
     }
 
     private async Task<EntityUid> GeneratePlanet(
         EntityUid station,
+        StationLavalandComponent component,
         LavalandPlanetPrototype planet,
-        ProtoId<LavalandPlanetPrototype> planetId)
+        ProtoId<LavalandPlanetPrototype> planetId,
+        CancellationToken cancellation)
     {
+        cancellation.ThrowIfCancellationRequested();
+
         var seed = _random.Next();
         var random = new Random(seed);
         var mapUid = _map.CreateMap(out var mapId, runMapInit: false);
         var grid = EnsureComp<MapGridComponent>(mapUid);
+        component.GeneratedMap = mapUid;
+
+        cancellation.ThrowIfCancellationRequested();
 
         SetupMetadata(mapUid, planet);
         SetupFtl(mapUid, planet);
@@ -120,14 +194,16 @@ public sealed class LavalandSystem : EntitySystem
         CreateLandingWarp(mapUid);
         CreateFtlBeacon(mapUid, planet, terminalGrid);
         PreloadLandingArea(mapUid, biome, planet);
+        cancellation.ThrowIfCancellationRequested();
 
         if (planet.LandingSite != null)
         {
             var landingSite = _prototype.Index(planet.LandingSite.Value);
-            await TryGenerateDungeon(mapUid, grid, landingSite, Vector2i.Zero, random.Next());
+            await TryGenerateDungeon(mapUid, grid, landingSite, Vector2i.Zero, random.Next(), cancellation);
         }
 
-        await GenerateStructures(mapUid, grid, planet, random);
+        await GenerateStructures(mapUid, grid, planet, random, cancellation);
+        cancellation.ThrowIfCancellationRequested();
 
         _tendrilPlacement.SetupMap(mapUid, planet);
         _bossArena.SpawnConfiguredArenas(mapUid, grid, biome, planet, random);
@@ -449,7 +525,8 @@ public sealed class LavalandSystem : EntitySystem
         EntityUid mapUid,
         MapGridComponent grid,
         LavalandPlanetPrototype planet,
-        Random random)
+        Random random,
+        CancellationToken cancellation)
     {
         if (planet.Structures.Count == 0)
             return;
@@ -469,9 +546,10 @@ public sealed class LavalandSystem : EntitySystem
         var placed = new List<Vector2i>();
         foreach (var structure in structures)
         {
+            cancellation.ThrowIfCancellationRequested();
             var position = PickStructurePosition(planet, random, placed);
             placed.Add(position);
-            await TryGenerateDungeon(mapUid, grid, structure, position, random.Next());
+            await TryGenerateDungeon(mapUid, grid, structure, position, random.Next(), cancellation);
         }
     }
 
@@ -616,9 +694,13 @@ public sealed class LavalandSystem : EntitySystem
         MapGridComponent grid,
         DungeonConfigPrototype dungeon,
         Vector2i position,
-        int seed)
+        int seed,
+        CancellationToken cancellation)
     {
-        var result = await _dungeon.GenerateDungeonAsync(dungeon, mapUid, grid, position, seed);
+        cancellation.ThrowIfCancellationRequested();
+        var result = await _dungeon.GenerateDungeonAsync(dungeon, mapUid, grid, position, seed, cancellation);
+        cancellation.ThrowIfCancellationRequested();
+
         if (result.Count == 0 || result[0].Rooms.Count == 0)
         {
             Log.Warning($"Lavaland dungeon {dungeon.ID} generated no rooms at {position}.");
@@ -633,15 +715,37 @@ public sealed class LavalandSystem : EntitySystem
         MapGridComponent grid,
         DungeonConfigPrototype dungeon,
         Vector2i position,
-        int seed)
+        int seed,
+        CancellationToken cancellation)
     {
         try
         {
-            await GenerateDungeon(mapUid, grid, dungeon, position, seed);
+            await GenerateDungeon(mapUid, grid, dungeon, position, seed, cancellation);
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception e) when (IsGenerationCancellation(mapUid, cancellation))
+        {
+            throw new OperationCanceledException("Lavaland dungeon generation was canceled.", e, cancellation);
         }
         catch (Exception e)
         {
             Log.Error($"Failed to generate Lavaland dungeon {dungeon.ID} at {position}: {e}");
         }
+    }
+
+    private bool IsGenerationCancellation(StationLavalandComponent component, CancellationToken cancellation)
+    {
+        if (cancellation.IsCancellationRequested)
+            return true;
+
+        return component.GeneratedMap is { Valid: true } map && IsGenerationCancellation(map, cancellation);
+    }
+
+    private bool IsGenerationCancellation(EntityUid mapUid, CancellationToken cancellation)
+    {
+        return cancellation.IsCancellationRequested || !Exists(mapUid) || Deleted(mapUid);
     }
 }
