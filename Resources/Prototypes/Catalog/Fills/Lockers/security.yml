@@ -61,6 +61,7 @@
     - id: ClothingOuterHardsuitWarden
     - id: OxygenTankFilled
     - id: ClothingMaskBreath
+    - id: ClothingShoesBootsMagSecurity #DS14
 
 - type: entity
   id: LockerSecurityFilled
@@ -122,6 +123,7 @@
     - id: TrackingImplanter
     - id: RubberStampBrigmedic
     - id: ClothingOuterHardsuitBrigmedic
+    - id: ClothingShoesBootsMagSecurity #DS14
     - id: ClothingHandsGlovesLatex
     - id: ClothingOuterCoatAMG
     - id: ClothingUniformJumpsuitBrigmedic

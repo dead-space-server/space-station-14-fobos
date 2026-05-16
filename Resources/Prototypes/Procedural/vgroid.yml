@@ -32,63 +32,63 @@
     - !type:OreDunGen
       replacement: IronRock
       entity: IronRockIron
-      count: 50
-      minGroupSize: 20
-      maxGroupSize: 30
+      count: 36 #DS14
+      minGroupSize: 20 #DS14
+      maxGroupSize: 30 #DS14
     - !type:OreDunGen
       replacement: IronRock
       entity: IronRockCoal
-      count: 50
-      minGroupSize: 8
-      maxGroupSize: 12
+      count: 32 #DS14
+      minGroupSize: 8 #DS14
+      maxGroupSize: 12 #DS14
     - !type:OreDunGen
       replacement: IronRock
       entity: IronRockQuartz
-      count: 50
-      minGroupSize: 10
-      maxGroupSize: 15
+      count: 28 #DS14
+      minGroupSize: 10 #DS14
+      maxGroupSize: 15 #DS14
     - !type:OreDunGen
       replacement: IronRock
       entity: IronRockSalt
-      count: 50
-      minGroupSize: 8
-      maxGroupSize: 12
+      count: 25 #DS14
+      minGroupSize: 8 #DS14
+      maxGroupSize: 12 #DS14
     - !type:OreDunGen
       replacement: IronRock
       entity: IronRockGold
-      count: 50
-      minGroupSize: 10
-      maxGroupSize: 20
+      count: 18 #DS14
+      minGroupSize: 10 #DS14
+      maxGroupSize: 20 #DS14
     - !type:OreDunGen
       replacement: IronRock
       entity: IronRockSilver
-      count: 50
-      minGroupSize: 10
-      maxGroupSize: 20
+      count: 18 #DS14
+      minGroupSize: 10 #DS14
+      maxGroupSize: 20 #DS14
     - !type:OreDunGen
       replacement: IronRock
       entity: IronRockPlasma
-      count: 50
-      minGroupSize: 10
-      maxGroupSize: 20
+      count: 18 #DS14
+      minGroupSize: 10 #DS14
+      maxGroupSize: 20 #DS14
     - !type:OreDunGen
       replacement: IronRock
       entity: IronRockUranium
-      count: 35
-      minGroupSize: 4
-      maxGroupSize: 8
+      count: 18 #DS14
+      minGroupSize: 4 #DS14
+      maxGroupSize: 8 #DS14
     - !type:OreDunGen
       replacement: IronRock
       entity: IronRockArtifactFragment
-      count: 25
+      count: 18 #DS14
       minGroupSize: 1
-      maxGroupSize: 3
+      maxGroupSize: 3 #DS14
     - !type:OreDunGen
       replacement: IronRock
       entity: IronRockDiamond
-      count: 15
+      count: 10 #DS14
       minGroupSize: 1
-      maxGroupSize: 2
+      maxGroupSize: 2 #DS14
     - !type:OreDunGen
       replacement: IronRock
       entity: IronRockGibtonite
@@ -99,13 +99,13 @@
     - !type:OreDunGen
       replacement: IronRock
       entity: IronRockMagmite
-      count: 25
+      count: 10
       minGroupSize: 2
       maxGroupSize: 3
     - !type:OreDunGen
       replacement: IronRock
       entity: IronRockBluespaceCrystal
-      count: 20
+      count: 10
       minGroupSize: 1
       maxGroupSize: 2
 #DS14-end
@@ -191,8 +191,8 @@
     table: !type:NestedSelector
       tableId: SalvageTreasureSpawnerValuable
   - !type:MobsDunGen
-    minCount: 12 #DS14
-    maxCount: 16 #DS14
+    minCount: 8 #DS14
+    maxCount: 14 #DS14
     contents: VGRoidExteriorDungeonsMobs
 
 - type: entityTable

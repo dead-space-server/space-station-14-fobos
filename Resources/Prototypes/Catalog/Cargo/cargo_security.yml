@@ -54,7 +54,7 @@
     sprite: Clothing/Head/Hoods/Bio/security.rsi
     state: icon
   product: CrateSecurityBiosuit
-  cost: 9000 # DS14
+  cost: 6000 # DS14
   category: cargoproduct-category-name-security
   group: security # DS14
 
@@ -64,7 +64,7 @@
     sprite: Objects/Specific/Security/barrier.rsi
     state: idle
   product: DeployableBarrier
-  cost: 1000
+  cost: 500 #DS14
   category: cargoproduct-category-name-security
   group: security # DS14
 
@@ -116,6 +116,57 @@
     sprite: Structures/Machines/bomb.rsi
     state: training-bomb
   product: CrateTrainingBombs
+  cost: 1000
+  category: cargoproduct-category-name-security
+  group: security # DS14
+
+
+- type: cargoProduct
+  id: JetpackSecurity
+  icon:
+    sprite: Objects/Tanks/Jetpacks/security.rsi
+    state: icon
+  product: CrateSecurityJetpack
+  cost: 2500
+  category: cargoproduct-category-name-security
+  group: security # DS14
+
+- type: cargoProduct
+  id: PortableFlasher
+  icon:
+    sprite:  Objects/Weapons/pflash.rsi
+    state: on
+  product: PortableFlasher
+  cost: 1000
+  category: cargoproduct-category-name-security
+  group: security # DS14
+
+- type: cargoProduct
+  id: CrateSecurityGlovesCombat
+  icon:
+    sprite:  Clothing/Hands/Gloves/combat.rsi
+    state: icon
+  product: CrateSecurityGlovesCombat
+  cost: 2000
+  category: cargoproduct-category-name-security
+  group: security # DS14
+
+- type: cargoProduct
+  id: AtmosphericsLiquidOxygenSec
+  icon:
+    sprite: Structures/Storage/canister.rsi
+    state: blue
+  product: LiquidOxygenCanister
+  cost: 1000
+  category: cargoproduct-category-name-security
+  group: security # DS14
+
+- type: cargoProduct
+  id: CrateSecurityBootsMagSecurity
+  icon:
+    sprite:  _DeadSpace/Clothing/Shoes/Boots/sec_mag_boots.rsi
+    state: icon
+  product: CrateSecurityBootsMagSecurity
   cost: 1000
   category: cargoproduct-category-name-security
   group: security # DS14

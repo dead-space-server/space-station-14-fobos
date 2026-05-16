@@ -182,13 +182,20 @@ namespace Content.Server.Lathe
             if (!CanProduce(uid, recipe, quantity, component))
                 return false;
 
-            foreach (var (mat, amount) in GetAdjustedAmount(component, recipe))
-                _materialStorage.TryChangeMaterialAmount(uid, mat, -amount * quantity);
+            var materials = GetAdjustedAmount(component, recipe).ToDictionary(
+                entry => entry.mat,
+                entry => entry.amount * quantity);
+
+            foreach (var (mat, amount) in materials)
+                _materialStorage.TryChangeMaterialAmount(uid, mat, -amount);
 
             if (component.Queue.Last is { } node && node.ValueRef.Recipe == recipe.ID)
                 node.ValueRef.ItemsRequested += quantity;
             else
                 component.Queue.AddLast(new LatheRecipeBatch(recipe.ID, 0, quantity));
+
+            var ev = new LatheMaterialsQueuedEvent(materials);
+            RaiseLocalEvent(uid, ref ev);
 
             return true;
         }
@@ -235,6 +242,10 @@ namespace Content.Server.Lathe
             if (comp.CurrentRecipe != null)
             {
                 var currentRecipe = _proto.Index(comp.CurrentRecipe.Value);
+                var materials = GetAdjustedAmount(comp, currentRecipe).ToDictionary(
+                    entry => entry.mat,
+                    entry => entry.amount);
+
                 if (currentRecipe.Result is { } resultProto)
                 {
                     var result = Spawn(resultProto, Transform(uid).Coordinates);
@@ -260,6 +271,9 @@ namespace Content.Server.Lathe
                         _puddle.TrySpillAt(uid, toAdd, out _);
                     }
                 }
+
+                var ev = new LatheRecipeFinishedEvent(currentRecipe, materials);
+                RaiseLocalEvent(uid, ref ev);
             }
 
             comp.CurrentRecipe = null;
@@ -446,8 +460,15 @@ namespace Content.Server.Lathe
         {
             _proto.Resolve(lathe.CurrentRecipe, out var recipe);
 
-            foreach (var (mat, amount) in GetAdjustedAmount(lathe, recipe!))
+            var materials = GetAdjustedAmount(lathe, recipe!).ToDictionary(
+                entry => entry.mat,
+                entry => entry.amount);
+
+            foreach (var (mat, amount) in materials)
                 _materialStorage.TryChangeMaterialAmount(uid, mat, amount);
+
+            var ev = new LatheMaterialsRefundedEvent(materials);
+            RaiseLocalEvent(uid, ref ev);
         }
 
         /// <summary>
@@ -457,11 +478,20 @@ namespace Content.Server.Lathe
         private void RefundBatch(EntityUid uid, LatheComponent lathe, LatheRecipeBatch batch)
         {
             var delta = batch.ItemsRequested - batch.ItemsPrinted;
+            if (delta <= 0)
+                return;
 
             _proto.Resolve(batch.Recipe, out var recipe);
 
-            foreach (var (mat, amount) in GetAdjustedAmount(lathe, recipe!))
-                _materialStorage.TryChangeMaterialAmount(uid, mat, amount * delta);
+            var materials = GetAdjustedAmount(lathe, recipe!).ToDictionary(
+                entry => entry.mat,
+                entry => entry.amount * delta);
+
+            foreach (var (mat, amount) in materials)
+                _materialStorage.TryChangeMaterialAmount(uid, mat, amount);
+
+            var ev = new LatheMaterialsRefundedEvent(materials);
+            RaiseLocalEvent(uid, ref ev);
         }
 
         public void AbortProduction(EntityUid uid, LatheComponent? component = null)
