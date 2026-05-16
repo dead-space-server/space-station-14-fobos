@@ -1,3 +1,5 @@
+using System.Threading;
+using System.Threading.Tasks;
 using Content.Shared.DeadSpace.Lavaland;
 using Robust.Shared.Prototypes;
 
@@ -14,4 +16,8 @@ public sealed partial class StationLavalandComponent : Component
 
     [DataField]
     public EntityUid? GeneratedMap;
+
+    public CancellationTokenSource? GenerationCancel;
+
+    public Task? GenerationTask;
 }

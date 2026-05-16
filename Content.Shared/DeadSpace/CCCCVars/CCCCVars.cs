@@ -93,6 +93,16 @@ public sealed class CCCCVars
         CVarDef.Create("taipan.enabled", false, CVar.SERVERONLY);
 
     /*
+    * Lavaland
+    */
+
+    /// <summary>
+    /// Should stations auto-generate Lavaland on round start.
+    /// </summary>
+    public static readonly CVarDef<bool> LavalandAutoGenerate =
+        CVarDef.Create("lavaland.auto_generate", true, CVar.SERVERONLY);
+
+    /*
     * Lobby ui
     */
 

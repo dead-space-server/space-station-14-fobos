@@ -86,8 +86,12 @@ public sealed class LavalandMiningSystem : EntitySystem
         if (args.Handled)
             return;
 
-        // This machine awards points only for ore it actually accepts into its material storage.
-        // Handle the interaction here so unsupported ore cannot bypass the point whitelist.
+        if (!TryComp<StackComponent>(args.Used, out _) &&
+            !TryComp<StorageComponent>(args.Used, out _))
+        {
+            return;
+        }
+
         args.Handled = true;
 
         if (!this.IsPowered(ent.Owner, EntityManager))

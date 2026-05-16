@@ -1,3 +1,4 @@
 - files: ["demon_attack1.ogg", "enter_blood.ogg", "exit_blood.ogg", "meteorimpact.ogg", "pierce.ogg", "splat.ogg"]
   license: "CC-BY-SA-3.0"
   copyright: "Taken from tgstation."
+  source: "https://github.com/tgstation/tgstation"
