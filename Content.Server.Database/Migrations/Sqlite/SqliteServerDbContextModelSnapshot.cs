@@ -1210,6 +1210,10 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .HasColumnType("INTEGER")
                         .HasColumnName("server_id");
 
+                    b.Property<string>("GamePresetName")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("game_preset_name");
+
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("TEXT")
                         .HasColumnName("start_date");
