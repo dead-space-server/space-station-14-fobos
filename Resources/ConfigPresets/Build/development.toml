@@ -25,16 +25,16 @@ mob_pushing = true
 grid_splitting = false
 
 [procgen]
-preload = false
+preload = true
 
 [salvage]
 expedition_cooldown = 30.0
 
 [shuttle]
-grid_fill = false
+grid_fill = true
 auto_call_time = 0
-emergency = false
-arrivals = false
+emergency = true
+arrivals = true
 preload_grids = true
 
 [admin]

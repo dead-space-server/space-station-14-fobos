@@ -68,6 +68,9 @@
   id: CleanerGrenade
 
 - type: Tag
+  id: ClothingShoesBootsJump
+
+- type: Tag
   id: CloningPodMachineCircuitboard
 
 - type: Tag
@@ -126,6 +129,9 @@
 
 - type: Tag
   id: EncryptionTaipan
+
+- type: Tag
+  id: ExplorerSuitLavaland
 
 - type: Tag
   id: FlamethrowerBackTank
