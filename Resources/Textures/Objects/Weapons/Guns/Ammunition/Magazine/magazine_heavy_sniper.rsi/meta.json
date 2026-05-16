@@ -3,45 +3,40 @@
     "license": "CC-BY-SA-3.0",
     "copyright": "made by pyfya (discord) for Space Station 14 server Мёртвый Космос",
     "size": {
-        "x": 48,
-        "y": 48
+        "x": 32,
+        "y": 32
     },
     "states": [
-        {
-            "name": "icon"
-        },
         {
             "name": "base"
         },
         {
-            "name": "mag-0"
+            "name": "armorpiercing"
         },
         {
-            "name": "bolt-open"
+            "name": "stripe"
         },
         {
-            "name": "inhand-left",
+            "name": "mag-1"
+        },
+        {
+            "name": "iconap"
+        },
+        {
+            "name": "inhand-left-mag",
             "directions": 4
         },
         {
-            "name": "inhand-right",
+            "name": "inhand-left-stripe",
             "directions": 4
         },
         {
-            "name": "wielded-inhand-left",
+            "name": "inhand-right-mag",
             "directions": 4
         },
         {
-            "name": "wielded-inhand-right",
+            "name": "inhand-right-stripe",
             "directions": 4
-        },
-        {
-            "name": "equipped-BACKPACK",
-            "directions": 4
-        },
-        {
-            "name": "equipped-SUITSTORAGE",
-            "directions": 4
-        }
+    }
     ]
 }

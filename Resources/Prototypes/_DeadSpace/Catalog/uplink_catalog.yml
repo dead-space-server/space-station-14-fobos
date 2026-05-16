@@ -835,3 +835,24 @@
     blacklist:
       tags:
       - NukeOpsUplink
+
+- type: listing
+  id: UplinkHristovMag
+  name: Магазин Христова
+  description: Рецепт каши из костей и мяса.
+  productEntity: MagazineHristov
+  cost:
+    Telecrystal: 2
+  categories:
+  - UplinkAmmo
+
+- type: listing
+  id: UplinkHristovMagAP
+  name: Магазин бронебойных патронов для Христова
+  description: Заряд сваги каждому на прицельной линии.
+  productEntity: MagazineHristovAP
+  icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Magazine/magazine_heavy_sniper.rsi, state: iconap }
+  cost:
+    Telecrystal: 3
+  categories:
+  - UplinkAmmo
