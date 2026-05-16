@@ -110,6 +110,7 @@
     - state: idseniorcargo
   - type: PresetIdCard
     job: SeniorSalvageSpecialist
+  - type: LavalandMiningPoints
 
 - type: entity
   parent: IDCardStandard

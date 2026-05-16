@@ -316,6 +316,9 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
             while (enumerator.MoveNext(out var chunk))
             {
                 var chunkOrigin = chunk * proto.Size;
+                if (!AreaIntersectsBiomeBounds(chunkOrigin.Value, proto.Size, component.Bounds))
+                    continue;
+
                 var layerChunks = goobers.GetOrNew(proto.ID);
                 layerChunks.Add(chunkOrigin.Value);
             }
@@ -416,7 +419,11 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
 
         while (enumerator.MoveNext(out var chunkOrigin))
         {
-            _activeChunks[biome].Add(chunkOrigin.Value * ChunkSize);
+            var origin = chunkOrigin.Value * ChunkSize;
+            if (!AreaIntersectsBiomeBounds(origin, ChunkSize, biome.Bounds))
+                continue;
+
+            _activeChunks[biome].Add(origin);
         }
     }
 
@@ -430,9 +437,37 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
 
         while (enumerator.MoveNext(out var chunkOrigin))
         {
+            var origin = chunkOrigin.Value * layer.Size;
+            if (!AreaIntersectsBiomeBounds(origin, layer.Size, biome.Bounds))
+                continue;
+
             var lay = _markerChunks[biome].GetOrNew(layer.ID);
-            lay.Add(chunkOrigin.Value * layer.Size);
+            lay.Add(origin);
         }
+    }
+
+    private static bool AreaIntersectsBiomeBounds(Vector2i origin, int size, Box2i? bounds)
+    {
+        if (bounds == null)
+            return true;
+
+        var biomeBounds = bounds.Value;
+        return origin.X < biomeBounds.Right &&
+               origin.X + size > biomeBounds.Left &&
+               origin.Y < biomeBounds.Top &&
+               origin.Y + size > biomeBounds.Bottom;
+    }
+
+    private static bool TileInsideBiomeBounds(Vector2i index, Box2i? bounds)
+    {
+        if (bounds == null)
+            return true;
+
+        var biomeBounds = bounds.Value;
+        return index.X >= biomeBounds.Left &&
+               index.X < biomeBounds.Right &&
+               index.Y >= biomeBounds.Bottom &&
+               index.Y < biomeBounds.Top;
     }
 
     #region Load
@@ -516,6 +551,9 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
 
                 foreach (var node in spawnSet.Keys)
                 {
+                    if (!TileInsideBiomeBounds(node, component.Bounds))
+                        continue;
+
                     var chunkOrigin = SharedMapSystem.GetChunkIndices(node, ChunkSize) * ChunkSize;
 
                     if (!pending.TryGetValue(chunkOrigin, out var pendingMarkers))
@@ -723,6 +761,9 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
 
             foreach (var node in nodes)
             {
+                if (!TileInsideBiomeBounds(node, component.Bounds))
+                    continue;
+
                 if (modified.Contains(node))
                     continue;
 
@@ -785,6 +826,9 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
             {
                 var indices = new Vector2i(x + chunk.X, y + chunk.Y);
 
+                if (!TileInsideBiomeBounds(indices, component.Bounds))
+                    continue;
+
                 // Pass in null so we don't try to get the tileref.
                 if (modified.Contains(indices))
                     continue;
@@ -812,6 +856,9 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
             for (var y = 0; y < ChunkSize; y++)
             {
                 var indices = new Vector2i(x + chunk.X, y + chunk.Y);
+
+                if (!TileInsideBiomeBounds(indices, component.Bounds))
+                    continue;
 
                 if (modified.Contains(indices))
                     continue;
@@ -845,6 +892,9 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
             for (var y = 0; y < ChunkSize; y++)
             {
                 var indices = new Vector2i(x + chunk.X, y + chunk.Y);
+
+                if (!TileInsideBiomeBounds(indices, component.Bounds))
+                    continue;
 
                 if (modified.Contains(indices))
                     continue;
@@ -961,6 +1011,9 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
             for (var y = 0; y < ChunkSize; y++)
             {
                 var indices = new Vector2i(x + chunk.X, y + chunk.Y);
+
+                if (!TileInsideBiomeBounds(indices, component.Bounds))
+                    continue;
 
                 if (modified.Contains(indices))
                     continue;

@@ -42,6 +42,9 @@ public abstract partial class SharedStackSystem
         if (amount > 0)
             transferred = Math.Min(transferred, amount.Value);
 
+        var ev = new StackMergedEvent(recipient.Owner, transferred);
+        RaiseLocalEvent(donor.Owner, ref ev);
+
         SetCount(donor, donor.Comp.Count - transferred);
         SetCount(recipient, recipient.Comp.Count + transferred);
         return true;
@@ -291,3 +294,6 @@ public abstract partial class SharedStackSystem
 
     #endregion
 }
+
+[ByRefEvent]
+public readonly record struct StackMergedEvent(EntityUid Recipient, int Amount);

@@ -11,7 +11,7 @@
   - type: ExplosionResistance
     damageCoefficient: 0.5
   - type: ClothingSpeedModifier
-    walkModifier: 0.8
-    sprintModifier: 0.8
+    walkModifier: 0.85
+    sprintModifier: 0.85
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitSeniorOfficer

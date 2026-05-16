@@ -508,9 +508,23 @@
     impactEffect: BulletImpactEffectOrangeDisabler
     damage:
       types:
-        Heat: 0
+        Heat: 5
   - type: ChangeTemperatureOnCollide
     heat: 50000
+
+- type: entity
+  name: icewing watcher bolt
+  id: WatcherBoltIcewing
+  parent: WatcherBolt
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    impactEffect: BulletImpactEffectDisabler
+    damage:
+      types:
+        Cold: 5
+  - type: ChangeTemperatureOnCollide
+    heat: -100000
 
 - type: entity
   name: scorching bolt

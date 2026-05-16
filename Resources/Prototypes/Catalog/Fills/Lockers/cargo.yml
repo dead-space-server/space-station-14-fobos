@@ -11,6 +11,7 @@
   id: LockerFillSalvageSpecialist
   table: !type:AllSelector
     children:
+    - id: WeaponProtoKineticAccelerator #DS14
     - id: ClothingBeltUtilityFilled
     - id: SurvivalKnife
     - id: HandheldGPSBasic

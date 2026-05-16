@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from tgstation.",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "sinew"
+    },
+    {
+      "name": "sinew_2"
+    },
+    {
+      "name": "sinew_3"
+    },
+    {
+      "name": "skull"
+    }
+  ]
+}

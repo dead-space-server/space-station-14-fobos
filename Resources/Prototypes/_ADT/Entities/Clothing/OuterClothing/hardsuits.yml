@@ -87,17 +87,20 @@
     highPressureMultiplier: 0.02
     lowPressureMultiplier: 10000
   - type: ClothingSpeedModifier
-    walkModifier: 0.65
-    sprintModifier: 0.65
+    walkModifier: 0.75
+    sprintModifier: 0.75
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.1
+        Blunt: 0.4
         Slash: 0.4
-        Piercing: 0.3
-        Heat: 0.1
-        Radiation: 0.35
-        Caustic: 0.7
+        Piercing: 0.4
+        Heat: 0.4
+        Radiation: 0.4
+        Caustic: 0.4
+        Cold: 0.4
+  - type: StaminaResistance
+    damageCoefficient: 0.4
   - type: TemperatureProtection
     heatingCoefficient: 0.001
     coolingCoefficient: 0.001

@@ -23,3 +23,39 @@
   - type: ClothingGrantComponent
     component: 
       - type: RenegadeCANTRenegadeForce
+
+- type: entity
+  parent: ClothingShoesBootsMag
+  id: ClothingShoesBootsMagSecurity
+  name: магнитные ботинки службы безопасности
+  description: Несколько лет в них пытались засунуть ещё одну светяшку.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Shoes/Boots/sec_mag_boots.rsi
+    state: icon
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Shoes/Boots/sec_mag_boots.rsi
+  - type: ClothingSpeedModifier
+    walkModifier: 0.85
+    sprintModifier: 0.85
+  - type: StaticPrice
+    price: 250
+
+- type: entity
+  parent: ClothingShoesBootsMag
+  id: ClothingShoesBootsMagHos
+  name: магнитные ботинки главы службы безопасности
+  description: Элитные магнитки для элиты. Золото не настоящее, кстати.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Shoes/Boots/hos-mag-boots.rsi
+    state: icon
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Shoes/Boots/hos-mag-boots.rsi
+  - type: ClothingSpeedModifier
+    walkModifier: 0.9
+    sprintModifier: 0.9
+  - type: ClothingSlowOnDamageModifier
+    modifier: 0.5
+  - type: StaticPrice
+    price: 750

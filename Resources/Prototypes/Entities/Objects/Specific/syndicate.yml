@@ -114,6 +114,7 @@
   - type: Tag
     tags:
     - NukeOpsUplink
+    - LoneOpsUplink #DS-14
 
 - type: entity
   parent: BaseUplinkRadio

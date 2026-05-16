@@ -12,3 +12,45 @@
     - state: overlay
       color: "#EFB341"
     - state: icon-default
+
+- type: entity
+  parent: [BaseFlatpack, BaseSyndicateContraband]
+  id: SyndiChemFlatpack
+  name: упаковка Синдисоки
+  description: "У него мет вместо крови, чёрт."
+  components:
+  - type: Sprite
+    layers:
+    - state: ame-part
+  - type: Flatpack
+    entity: VendingMachineChemicalsSyndicate
+
+- type: entity
+  parent: BaseFlatpack
+  id: ChemistryHotplateFlatpack
+  name: упаковка электроплитка
+  description: "Джесси, нам нужно готовить."
+  components:
+  - type: Sprite
+    layers:
+    - state: solar-assembly-part
+    - state: overlay
+      color: "#52B4E9"
+      map: ["enum.FlatpackVisualLayers.Overlay"]
+  - type: Flatpack
+    entity: ChemistryHotplate
+
+- type: entity
+  parent: BaseFlatpack
+  id: ChemMasterFlatpack
+  name: упаковка ХимМастер 4000
+  description: "Упаковка ХихМастера. Не смешно уже."
+  components:
+  - type: Sprite
+    layers:
+    - state: radiation-collector
+    - state: overlay
+      color: "#52B4E9"
+      map: ["enum.FlatpackVisualLayers.Overlay"]
+  - type: Flatpack
+    entity: ChemMaster
