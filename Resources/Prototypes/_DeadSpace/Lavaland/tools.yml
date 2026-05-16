@@ -469,6 +469,9 @@
     price: 220
   - type: Tag
     tags: []
+  - type: Construction
+    graph: ClothingShoesBootsJump
+    node: shoesBootsJumpLavaland
 
 - type: construction
   id: ClothingShoesBootsJump
