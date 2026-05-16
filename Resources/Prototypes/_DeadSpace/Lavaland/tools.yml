@@ -93,7 +93,7 @@
     sprite: _DeadSpace/Lavaland/Objects/Specific/Mining/diamond_pickaxe.rsi
     storedRotation: -45
   - type: MeleeWeapon
-    attackRate: 1
+    attackRate: 0.5
     wideAnimationRotation: -135
     soundHit:
       path: "/Audio/Weapons/smash.ogg"
@@ -141,7 +141,7 @@
       types:
         Structural: 35
   - type: UseDelay
-    delay: 2.5
+    delay: 1.5
   - type: LavalandSonicJackhammer
 
 - type: entity

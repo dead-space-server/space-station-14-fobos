@@ -253,7 +253,7 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      2500: Dead
+      2750: Dead
   - type: Destructible
     thresholds:
     - trigger:
@@ -264,11 +264,12 @@
       - !type:GibBehavior { }
   - type: LavalandBoss
     bossName: Иерофант
-    maxHealth: 2500
+    maxHealth: 2750
     music: /Audio/_DeadSpace/Lavaland/Bosses/title1.ogg
     deathSound: /Audio/_DeadSpace/Lavaland/Hierophant/repulse.ogg
     deathRewards:
     - LavalandNecropolisChestHardsuit
+    - LavalandNecropolisChest
     - LavalandNecropolisChest
     - LavalandHierophantStaff
   - type: LavalandHierophant
@@ -837,7 +838,7 @@
     - LavalandNecropolisChestHardsuit
     - LavalandNecropolisChest
     - LavalandSpellBlade
-    - EnergyShield
+    - LavalandNecropolisChest
   - type: LavalandBubblegum
   - type: NpcFactionMember
     factions:

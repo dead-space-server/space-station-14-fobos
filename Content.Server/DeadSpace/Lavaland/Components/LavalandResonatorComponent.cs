@@ -51,7 +51,7 @@ public sealed partial class LavalandResonatorComponent : Component
     {
         DamageDict =
         {
-            { "Blunt", FixedPoint2.New(12) },
+            { "Blunt", FixedPoint2.New(2.5) },
         },
     };
 
