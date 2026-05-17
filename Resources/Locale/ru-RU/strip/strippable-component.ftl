@@ -26,4 +26,4 @@ strippable-bound-user-interface-stripping-menu-ensnare-button = Ограничи
 strippable-bound-user-interface-inserting-menu-title = Уведомление о вложении!
 strippable-bound-user-interface-inserting-menu-message = { $user } вкладывает вам в руку { $item }
 strippable-bound-user-interface-inserting-menu-yes-answer = принять { $item }
-strippable-bound-user-interface-inserting-menu-no-answer = отолкнуть { $item }
+strippable-bound-user-interface-inserting-menu-no-answer = оттолкнуть { $item }

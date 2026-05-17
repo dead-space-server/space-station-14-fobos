@@ -605,7 +605,13 @@ public abstract class SharedStrippableSystem : EntitySystem
     private void OnStrippableDoAfterFinished(Entity<HandsComponent> entity, ref StrippableDoAfterEvent ev)
     {
         if (ev.Cancelled)
+        {
+            if (ev.Target != null && _playerManager.TryGetSessionByEntity(ev.Target.Value, out var targetNetUser)) //DS14-start
+            {
+                RaiseNetworkEvent(new EndStripInsertInventoryMessage(), targetNetUser);
+            } //DS14-end
             return;
+        }
 
         DebugTools.Assert(entity.Owner == ev.User);
         DebugTools.Assert(ev.Target != null);
