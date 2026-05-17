@@ -12,6 +12,8 @@ public sealed partial class ControlAcceptStripInt : EntitySystem
     }
     private void Open(StartStripInsertInventoryMessage message)
     {
+        if (_menu != null)
+            _menu.Close();
         _menu = new AcceptStipInputInterface(message);
         _menu.OpenCenteredLeft();
         _menu.Title = Loc.GetString("strippable-bound-user-interface-inserting-menu-title");
