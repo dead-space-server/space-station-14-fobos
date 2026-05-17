@@ -465,6 +465,14 @@
       sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tank.rsi
   - type: Clothing
     sprite: _DeadSpace/Sponsor/pvrsifvlAlt2/tank.rsi
+  - type: GasTank
+    outputPressure: 21.3
+    air:
+      # 15 minutes
+      volume: 2.5
+      moles:
+        Oxygen: 1.025689525 # oxygen
+      temperature: 293.15
 
 # defibsmall.rsi
 - type: entity
