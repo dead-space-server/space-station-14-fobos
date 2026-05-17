@@ -12,6 +12,10 @@
         },
         {
             "name": "base-spent"
+        },
+        {
+            "name": "piercing"
         }
+        
     ]
 }
