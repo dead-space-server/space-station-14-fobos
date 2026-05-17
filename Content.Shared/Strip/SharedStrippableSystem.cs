@@ -18,8 +18,7 @@ using Content.Shared.Popups;
 using Content.Shared.Strip.Components;
 using Content.Shared.Verbs;
 using Robust.Shared.Utility;
-using Robust.Shared.Player;
-using System.Xml;
+using Robust.Shared.Player; //DS14
 
 namespace Content.Shared.Strip;
 
@@ -35,7 +34,7 @@ public abstract class SharedStrippableSystem : EntitySystem
     [Dependency] private readonly SharedDoAfterSystem _doAfterSystem = default!;
     [Dependency] private readonly SharedHandsSystem _handsSystem = default!;
     [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
-    [Dependency] private readonly ISharedPlayerManager _playerManager = default!;
+    [Dependency] private readonly ISharedPlayerManager _playerManager = default!; //DS14
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
 
     public override void Initialize()
@@ -419,10 +418,10 @@ public abstract class SharedStrippableSystem : EntitySystem
                                                         target,
                                                         target,
                                                         PopupType.Large);
-            if (_playerManager.TryGetSessionByEntity(target, out var targetNetUser))
+            if (_playerManager.TryGetSessionByEntity(target, out var targetNetUser)) //DS14-start
             {
                 RaiseNetworkEvent(new StartStripInsertInventoryMessage(Identity.Name(_handsSystem.GetActiveItem(user)!.Value, EntityManager), Identity.Name(user, EntityManager), user.Owner), targetNetUser);
-            }
+            } //DS14-end
         }
 
         var prefix = stealth ? "stealthily " : "";
@@ -625,10 +624,10 @@ public abstract class SharedStrippableSystem : EntitySystem
             if (ev.InsertOrRemove)
             {
                 StripInsertHand((entity.Owner, entity.Comp), ev.Target.Value, ev.Used.Value, ev.SlotOrHandName, ev.Args.Hidden);
-                if (_playerManager.TryGetSessionByEntity(ev.Target.Value, out var targetNetUser))
+                if (_playerManager.TryGetSessionByEntity(ev.Target.Value, out var targetNetUser)) //DS14-start
                 {
                     RaiseNetworkEvent(new EndStripInsertInventoryMessage(), targetNetUser);
-                }
+                } //DS14-end
             }
             else
                 StripRemoveHand((entity.Owner, entity.Comp), ev.Target.Value, ev.Used.Value, ev.SlotOrHandName, ev.Args.Hidden);
@@ -712,7 +711,7 @@ public abstract class SharedStrippableSystem : EntitySystem
         return !HasComp<BypassInteractionChecksComponent>(viewer);
     }
 
-    private void ReactOnAnswer(AnswerStripInsertInventoryMessage answer)
+    private void ReactOnAnswer(AnswerStripInsertInventoryMessage answer) //DS14-start
     {
         if (!answer.Answer)
             return;
@@ -744,5 +743,5 @@ public abstract class SharedStrippableSystem : EntitySystem
                 _doAfterSystem.TryStartDoAfter(doAfterArgs);
             }
         }
-    }
+    } //DS14-end
 }

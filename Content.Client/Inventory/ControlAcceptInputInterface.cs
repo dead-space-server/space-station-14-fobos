@@ -1,7 +1,5 @@
-using System.Diagnostics;
+//Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 using Content.Shared.Strip.Components;
-using Robust.Client.UserInterface.CustomControls;
-using Robust.Shared.Log;
 
 namespace Content.Client.Inventory;
 public sealed partial class ControlAcceptStripInt : EntitySystem

@@ -2,7 +2,7 @@ using Content.Shared.DoAfter;
 using Content.Shared.Inventory;
 using Robust.Shared.GameStates;
 using Robust.Shared.Serialization;
-using Robust.Shared.GameObjects;
+using Robust.Shared.GameObjects; //DS14
 
 namespace Content.Shared.Strip.Components
 {
@@ -91,7 +91,7 @@ namespace Content.Shared.Strip.Components
 
         public override DoAfterEvent Clone() => this;
     }
-    [Serializable, NetSerializable]
+    [Serializable, NetSerializable] //DS14-start
     public sealed partial class StartStripInsertInventoryMessage : EntityEventArgs
     {
         public string Held { get; set; }
@@ -119,4 +119,5 @@ namespace Content.Shared.Strip.Components
     public sealed partial class EndStripInsertInventoryMessage : EntityEventArgs
     {
     }
+    //DS14-end
 }
