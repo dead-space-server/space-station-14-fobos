@@ -2,6 +2,7 @@ using Content.Shared.DoAfter;
 using Content.Shared.Inventory;
 using Robust.Shared.GameStates;
 using Robust.Shared.Serialization;
+using Robust.Shared.GameObjects;
 
 namespace Content.Shared.Strip.Components
 {
@@ -89,5 +90,33 @@ namespace Content.Shared.Strip.Components
         }
 
         public override DoAfterEvent Clone() => this;
+    }
+    [Serializable, NetSerializable]
+    public sealed partial class StartStripInsertInventoryMessage : EntityEventArgs
+    {
+        public string Held { get; set; }
+        public string Name { get; set; }
+        public int WhoAnswer { get; set; }
+        public StartStripInsertInventoryMessage(string held, string name, EntityUid whoAnswer)
+        {
+            Held = held;
+            Name = name;
+            WhoAnswer = whoAnswer.Id;
+        }
+    }
+    [Serializable, NetSerializable]
+    public sealed partial class AnswerStripInsertInventoryMessage : EntityEventArgs
+    {
+        public int EUID { get; set; }
+        public bool Answer { get; set; }
+        public AnswerStripInsertInventoryMessage(int eUID, bool answer)
+        {
+            EUID = eUID;
+            Answer = answer;
+        }
+    }
+    [Serializable, NetSerializable]
+    public sealed partial class EndStripInsertInventoryMessage : EntityEventArgs
+    {
     }
 }
