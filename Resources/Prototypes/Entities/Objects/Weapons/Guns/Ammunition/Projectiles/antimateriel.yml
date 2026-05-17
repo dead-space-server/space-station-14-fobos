@@ -7,7 +7,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 55 #DS14 value
+        Piercing: 45 #DS14 value
         Blunt: 25 #DS14 value
         Structural: 336
     penetrationThreshold: 360
