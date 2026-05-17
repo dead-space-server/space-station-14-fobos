@@ -23,7 +23,37 @@ public sealed partial class LavalandAshDrakeComponent : Component
     public TimeSpan FireWallStepDelay = TimeSpan.FromSeconds(0.06);
 
     [DataField]
+    public int FireWallRange = 10;
+
+    [DataField]
+    public DamageSpecifier FireWallDamage = new()
+    {
+        DamageDict = new()
+        {
+            { "Heat", FixedPoint2.New(20) },
+        },
+    };
+
+    [DataField]
     public TimeSpan FireRainDelay = TimeSpan.FromSeconds(0.9);
+
+    [DataField]
+    public int FireRainRadius = 9;
+
+    [DataField]
+    public float FireRainTileChance = 0.14f;
+
+    [DataField]
+    public int FireRainMaxTiles = 24;
+
+    [DataField]
+    public DamageSpecifier FireRainDamage = new()
+    {
+        DamageDict = new()
+        {
+            { "Heat", FixedPoint2.New(40) },
+        },
+    };
 
     [DataField]
     public TimeSpan SwoopWindup = TimeSpan.FromSeconds(0.6);
@@ -38,18 +68,6 @@ public sealed partial class LavalandAshDrakeComponent : Component
     public TimeSpan ChainedSwoopDelay = TimeSpan.FromSeconds(0.28);
 
     [DataField]
-    public int FireWallRange = 10;
-
-    [DataField]
-    public int FireRainRadius = 9;
-
-    [DataField]
-    public float FireRainTileChance = 0.14f;
-
-    [DataField]
-    public int FireRainMaxTiles = 24;
-
-    [DataField]
     public int SwoopSteps = 36;
 
     [DataField]
@@ -59,13 +77,104 @@ public sealed partial class LavalandAshDrakeComponent : Component
     public int SwoopFireRainMaxTiles = 12;
 
     [DataField]
+    public float SwoopThrowSpeed = 7.5f;
+
+    [DataField]
+    public DamageSpecifier SwoopDamage = new()
+    {
+        DamageDict = new()
+        {
+            { "Blunt", FixedPoint2.New(45) },
+            { "Heat", FixedPoint2.New(30) },
+        },
+    };
+
+    [DataField]
+    public float CageAttackChance = 0.20f;
+
+    [DataField]
+    public TimeSpan CageDuration = TimeSpan.FromSeconds(14.0);
+
+    [DataField]
+    public TimeSpan CageTargetInterval = TimeSpan.FromSeconds(1.5);
+
+    [DataField]
+    public TimeSpan CageDamageInterval = TimeSpan.FromSeconds(0.75);
+
+    [DataField]
+    public int CageHalfSize = 3;
+
+    [DataField]
+    public int CagePhaseCount = 3;
+
+    [DataField]
+    public string CageFirePrototype = "LavalandAshDrakeCageFire";
+
+    [DataField]
+    public string CageBorderFirePrototype = "LavalandAshDrakeCageBorderFire";
+
+    [DataField]
+    public string CageTargetPrototype = "LavalandAshDrakeCageTarget";
+
+    [DataField]
+    public DamageSpecifier CageInteriorFireDamage = new()
+    {
+        DamageDict = new()
+        {
+            { "Heat", FixedPoint2.New(20) },
+        },
+    };
+
+    [DataField]
+    public DamageSpecifier CageBorderFireDamage = new()
+    {
+        DamageDict = new()
+        {
+            { "Heat", FixedPoint2.New(50) },
+        },
+    };
+
+    [ViewVariables]
+    public bool CageActive;
+
+    [ViewVariables]
+    public int CagePhase;
+
+    [ViewVariables]
+    public Vector2i CageCenter;
+
+    [ViewVariables]
+    public TimeSpan CageEndAt;
+
+    [ViewVariables]
+    public TimeSpan NextCageTargetAt;
+
+    [ViewVariables]
+    public TimeSpan NextCageFillAt;
+
+    [ViewVariables]
+    public TimeSpan NextCageDamageTick;
+
+    [ViewVariables]
+    public Vector2i? CurrentCageTargetTile;
+
+    [ViewVariables]
+    public EntityUid? CageTargetEntity;
+
+    [ViewVariables]
+    public Vector2i? CageSafeTile;
+
+    [ViewVariables]
+    public readonly List<EntityUid> CageBorderEntities = new();
+
+    [ViewVariables]
+    public readonly List<EntityUid> CageInteriorEntities = new();
+
+    [DataField]
     public int MaxPendingTiles = 160;
 
     [DataField]
     public float FireStacks = 2.5f;
-
-    [DataField]
-    public float SwoopThrowSpeed = 7.5f;
 
     [DataField]
     public string FirePrototype = "LavalandAshDrakeFire";
@@ -78,34 +187,6 @@ public sealed partial class LavalandAshDrakeComponent : Component
 
     [DataField]
     public string LandingPrototype = "LavalandAshDrakeLanding";
-
-    [DataField]
-    public DamageSpecifier FireWallDamage = new()
-    {
-        DamageDict = new()
-        {
-            { "Heat", FixedPoint2.New(20) },
-        },
-    };
-
-    [DataField]
-    public DamageSpecifier FireRainDamage = new()
-    {
-        DamageDict = new()
-        {
-            { "Heat", FixedPoint2.New(40) },
-        },
-    };
-
-    [DataField]
-    public DamageSpecifier SwoopDamage = new()
-    {
-        DamageDict = new()
-        {
-            { "Blunt", FixedPoint2.New(45) },
-            { "Heat", FixedPoint2.New(30) },
-        },
-    };
 
     [DataField]
     public SoundSpecifier FireSound = new SoundPathSpecifier("/Audio/_DeadSpace/Lavaland/AshDrake/fireball.ogg");
