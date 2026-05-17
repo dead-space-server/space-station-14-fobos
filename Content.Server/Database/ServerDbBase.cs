@@ -893,12 +893,13 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
             await db.DbContext.SaveChangesAsync();
         }
 
-        public async Task<List<RoundGameModeRecord>> GetRoundGameModeHistoryAsync(DateTime fromUtc)
+        public async Task<List<RoundGameModeRecord>> GetRoundGameModeHistoryAsync(int serverId, DateTime fromUtc)
         {
             await using var db = await GetDb();
 
             var rounds = await db.DbContext.Round
                 .Where(round =>
+                    round.ServerId == serverId &&
                     round.StartDate != null &&
                     round.StartDate >= fromUtc &&
                     round.GamePresetName != null &&
