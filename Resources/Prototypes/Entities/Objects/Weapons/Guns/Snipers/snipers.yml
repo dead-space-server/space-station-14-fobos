@@ -92,7 +92,7 @@
 #DS14 rework start
 - type: entity 
   name: Hristov
-  parent: [BaseWeaponRifle, BaseSecurityContraband]
+  parent: [BaseWeaponRifle, BaseSyndicateContraband]
   id: WeaponSniperHristov
   description: A high-precision, large-caliber sniper rifle manufactured by Idalias Concerns.
   components:
@@ -151,6 +151,9 @@
   - type: GunRequiresWield
   - type: StaticPrice
     price: 3500
+  - type: Tag # DS14
+    tags:
+    - SniperHristov
 #DS14 END
 
 - type: entity
