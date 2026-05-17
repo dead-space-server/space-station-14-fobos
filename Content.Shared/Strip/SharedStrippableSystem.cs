@@ -629,10 +629,10 @@ public abstract class SharedStrippableSystem : EntitySystem
         {
             // DS14-start
             if (!ev.InventoryOrHand && ev.InsertOrRemove)
-                ClearStripInsertHandRequest(ev.DoAfter.Id);
-
-            if (!ev.InventoryOrHand && ev.InsertOrRemove && ev.Target != null)
-                CloseStripInsertInventoryWindow(ev.Target.Value);
+            {
+                if (ClearStripInsertHandRequest(ev.DoAfter.Id, out var requestId) && ev.Target != null)
+                    CloseStripInsertInventoryWindow(ev.Target.Value, requestId);
+            }
             // DS14-end
 
             return;
@@ -654,9 +654,12 @@ public abstract class SharedStrippableSystem : EntitySystem
         {
             if (ev.InsertOrRemove)
             {
-                ClearStripInsertHandRequest(ev.DoAfter.Id); // DS14
+                var closeWindow = ClearStripInsertHandRequest(ev.DoAfter.Id, out var requestId); // DS14
                 StripInsertHand((entity.Owner, entity.Comp), ev.Target.Value, ev.Used.Value, ev.SlotOrHandName, ev.Args.Hidden);
-                CloseStripInsertInventoryWindow(ev.Target.Value); // DS14
+                // DS14-start
+                if (closeWindow)
+                    CloseStripInsertInventoryWindow(ev.Target.Value, requestId);
+                // DS14-end
             }
             else
                 StripRemoveHand((entity.Owner, entity.Comp), ev.Target.Value, ev.Used.Value, ev.SlotOrHandName, ev.Args.Hidden);
@@ -843,16 +846,25 @@ public abstract class SharedStrippableSystem : EntitySystem
 
     private void ClearStripInsertHandRequest(DoAfterId doAfterId)
     {
-        if (!_stripInsertHandRequestIds.Remove(doAfterId, out var requestId))
-            return;
-
-        _stripInsertHandRequests.Remove(requestId);
+        ClearStripInsertHandRequest(doAfterId, out _);
     }
 
-    private void CloseStripInsertInventoryWindow(EntityUid target)
+    private bool ClearStripInsertHandRequest(DoAfterId doAfterId, out int requestId)
+    {
+        if (!_stripInsertHandRequestIds.Remove(doAfterId, out requestId))
+        {
+            requestId = default;
+            return false;
+        }
+
+        _stripInsertHandRequests.Remove(requestId);
+        return true;
+    }
+
+    private void CloseStripInsertInventoryWindow(EntityUid target, int requestId)
     {
         if (_playerManager.TryGetSessionByEntity(target, out var targetNetUser))
-            RaiseNetworkEvent(new EndStripInsertInventoryMessage(), targetNetUser);
+            RaiseNetworkEvent(new EndStripInsertInventoryMessage(requestId), targetNetUser);
     }
 
     private sealed record StripInsertHandRequest(

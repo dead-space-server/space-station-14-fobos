@@ -119,6 +119,11 @@ namespace Content.Shared.Strip.Components
     [Serializable, NetSerializable]
     public sealed partial class EndStripInsertInventoryMessage : EntityEventArgs
     {
+        public int RequestId { get; set; }
+        public EndStripInsertInventoryMessage(int requestId)
+        {
+            RequestId = requestId;
+        }
     }
     // DS14-end
 }
