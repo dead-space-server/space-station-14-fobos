@@ -91,27 +91,28 @@ namespace Content.Shared.Strip.Components
 
         public override DoAfterEvent Clone() => this;
     }
-    [Serializable, NetSerializable] //DS14-start
+    // DS14-start
+    [Serializable, NetSerializable]
     public sealed partial class StartStripInsertInventoryMessage : EntityEventArgs
     {
         public string Held { get; set; }
         public string Name { get; set; }
-        public int WhoAnswer { get; set; }
-        public StartStripInsertInventoryMessage(string held, string name, EntityUid whoAnswer)
+        public int RequestId { get; set; }
+        public StartStripInsertInventoryMessage(string held, string name, int requestId)
         {
             Held = held;
             Name = name;
-            WhoAnswer = whoAnswer.Id;
+            RequestId = requestId;
         }
     }
     [Serializable, NetSerializable]
     public sealed partial class AnswerStripInsertInventoryMessage : EntityEventArgs
     {
-        public int EUID { get; set; }
+        public int RequestId { get; set; }
         public bool Answer { get; set; }
-        public AnswerStripInsertInventoryMessage(int eUID, bool answer)
+        public AnswerStripInsertInventoryMessage(int requestId, bool answer)
         {
-            EUID = eUID;
+            RequestId = requestId;
             Answer = answer;
         }
     }
@@ -119,5 +120,5 @@ namespace Content.Shared.Strip.Components
     public sealed partial class EndStripInsertInventoryMessage : EntityEventArgs
     {
     }
-    //DS14-end
+    // DS14-end
 }

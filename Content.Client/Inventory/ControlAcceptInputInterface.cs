@@ -4,7 +4,7 @@ using Content.Shared.Strip.Components;
 namespace Content.Client.Inventory;
 public sealed partial class ControlAcceptStripInt : EntitySystem
 {
-    private AcceptStipInputInterface? _menu;
+    private AcceptStripInputInterface? _menu;
     public override void Initialize()
     {
         SubscribeNetworkEvent<StartStripInsertInventoryMessage>(Open);
@@ -14,22 +14,22 @@ public sealed partial class ControlAcceptStripInt : EntitySystem
     {
         if (_menu != null)
             _menu.Close();
-        _menu = new AcceptStipInputInterface(message);
+        _menu = new AcceptStripInputInterface(message);
         _menu.OpenCenteredLeft();
         _menu.Title = Loc.GetString("strippable-bound-user-interface-inserting-menu-title");
-        // Assign button actions
-        _menu.AnswerCallButton.OnPressed += args => { AnswerFunction(true, message.WhoAnswer, _menu); };
-        _menu.EndCallButton.OnPressed += args => { AnswerFunction(false, message.WhoAnswer, _menu); };
+        _menu.Answered += answer => AnswerFunction(answer, message.RequestId);
     }
 
-    public void AnswerFunction(bool answer, int eUid, AcceptStipInputInterface menu)
+    public void AnswerFunction(bool answer, int requestId)
     {
-        RaiseNetworkEvent(new AnswerStripInsertInventoryMessage(eUid, answer));
-        menu.Close();
+        RaiseNetworkEvent(new AnswerStripInsertInventoryMessage(requestId, answer));
+        _menu?.Close();
+        _menu = null;
     }
     public void CloseFunction(EndStripInsertInventoryMessage message)
     {
         if (_menu != null)
             _menu.Close();
+        _menu = null;
     }
 }
