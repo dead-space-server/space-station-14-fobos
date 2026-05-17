@@ -11,7 +11,7 @@
             <!-- Header text -->
             <BoxContainer MinHeight="60" Orientation="Vertical" VerticalAlignment="Center">
                 <BoxContainer Name="InsertnerIdContainer" Orientation="Vertical" ReservesSpace="False">
-                    <Label Name="Message" Text="{Loc 'strippable-bound-user-interface-inserting-menu-message'}" Margin="10 10 10 0" ReservesSpace="False"/>
+                    <Label Name="MessageText" Text="{Loc 'strippable-bound-user-interface-inserting-menu-message'}" Margin="10 10 10 0" ReservesSpace="False"/>
                 </BoxContainer>
             </BoxContainer>
             <!-- Controls (the answer call button is absent when the phone is not ringing) -->

@@ -30,6 +30,6 @@ public sealed partial class AcceptStipInputInterface : FancyWindow
         AnswerCallButton.Text = Loc.GetString("strippable-bound-user-interface-inserting-menu-yes-answer", ("item", message.Held));
         EndCallButton.Text = Loc.GetString("strippable-bound-user-interface-inserting-menu-no-answer", ("item", message.Held));
 
-        Message.Text = Loc.GetString("strippable-bound-user-interface-inserting-menu-message", ("user", message.Name), ("item", message.Held));
+        MessageText.Text = Loc.GetString("strippable-bound-user-interface-inserting-menu-message", ("user", message.Name), ("item", message.Held));
     }
 }
