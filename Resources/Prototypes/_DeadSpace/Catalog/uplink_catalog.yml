@@ -519,8 +519,8 @@
 
 - type: listing
   id: UplinkMagazineCarbineSKSAmmo
-  name: Магазин для СКС
-  description: Магазин для СКС на 20 патрон (7.62х39 мм винтовочные)
+  name: уменьшенный магазин (7.62х39 мм винтовочные)
+  description: Малый магазин на 20 патрон (7.62х39 мм винтовочные)
   icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Ammunition/Magazine/Carbines/sks_scope.rsi, state: red }
   productEntity: MagazineCarbineSKS
   cost:

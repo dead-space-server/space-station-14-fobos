@@ -1,0 +1,37 @@
+- type: entity
+  name: продвинутый лазерный пистолет ОБР
+  parent: [BaseWeaponBatterySmall, BaseCentcommContraband]
+  id: WeaponAdvancedLaserERT
+  description: Эксперементальная разработка КСО на основе микро-ядерного синтеза. Благодарю этому данное оружие может самозаряжаться, и хранить намного больше заряда
+  components:
+  - type: Item
+    size: Normal
+    shape:
+    - 0,0,1,1
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Guns/Battery/advancedlasergunert.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-unshaded-4
+      map: ["enum.GunVisualLayers.MagUnshaded"]
+      shader: unshaded
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Weapons/Guns/Battery/advancedlasergunert.rsi
+  - type: Gun
+    fireRate: 2.5 # DS14-value
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/laser_cannon.ogg
+  - type: BatteryAmmoProvider
+    proto: RedMediumLaser
+    fireCost: 100
+  - type: BatterySelfRecharger
+    autoRechargeRate: 30
+  - type: MagazineVisuals
+    magState: mag
+    steps: 5
+    zeroVisible: true
+  - type: Appearance
+  - type: Battery
+    maxCharge: 2400
+    startingCharge: 2400
