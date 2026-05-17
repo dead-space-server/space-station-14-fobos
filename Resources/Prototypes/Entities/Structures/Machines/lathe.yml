@@ -276,6 +276,9 @@
     - MechBoards
     - ShuttleBoards
     - VirologyBoards # DS14
+    - BlueprintRIGInfinite # DS14
+    - BlueprintRIGThreeUse # DS14
+    - BlueprintRIGOneUse # DS14
   - type: EmagLatheRecipes
     emagDynamicPacks:
     - SecurityBoards

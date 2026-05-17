@@ -1,0 +1,11 @@
+- type: entity
+  id: ActionToggleThermalVision
+  name: Переключить тепловизор
+  description: Включает или выключает режим теплового зрения.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon: _DeadSpace/Actions/thermal/thermal_toogle.png
+    useDelay: 1
+  - type: InstantAction
+    event: !type:ToggleThermalVisionActionEvent

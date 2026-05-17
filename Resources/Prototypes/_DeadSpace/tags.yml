@@ -206,6 +206,9 @@
   id: LightReplacer
 
 - type: Tag
+  id: LoneOpsUplink #DS-14
+
+- type: Tag
   id: MagazineCarbineSKS
 
 - type: Tag
