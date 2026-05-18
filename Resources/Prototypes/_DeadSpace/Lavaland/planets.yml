@@ -144,7 +144,7 @@
     minDistance: 160
     maxDistance: 300
     minSeparation: 120
-    footprintRadius: 80
+    footprintRadius: 20
     spawnAttempts: 160
   - path: /Maps/Lavaland/ds_mini_ratvar.yml
     count: 1
@@ -160,5 +160,5 @@
     minDistance: 140
     maxDistance: 330
     minSeparation: 80
-    footprintRadius: 80
+    footprintRadius: 20
     spawnAttempts: 200
