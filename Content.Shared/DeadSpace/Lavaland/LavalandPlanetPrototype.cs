@@ -91,6 +91,9 @@ public sealed partial class LavalandPlanetPrototype : IPrototype
     public Dictionary<ProtoId<DungeonConfigPrototype>, int> Structures = new();
 
     [DataField]
+    public List<LavalandCustomGridEntry> CustomGrids = new();
+
+    [DataField]
     public ProtoId<DungeonConfigPrototype>? LandingSite;
 
     [DataField]
@@ -327,4 +330,32 @@ public sealed partial class LavalandTendrilSpawnEntry
 
     [DataField]
     public int MaxCount = 8;
+}
+
+[DataDefinition]
+public sealed partial class LavalandCustomGridEntry
+{
+    [DataField(required: true)]
+    public ResPath Path = default!;
+
+    [DataField]
+    public int Count = 1;
+
+    [DataField]
+    public string? Name;
+
+    [DataField]
+    public int SpawnAttempts = 96;
+
+    [DataField]
+    public int? MinDistance;
+
+    [DataField]
+    public int? MaxDistance;
+
+    [DataField]
+    public int? MinSeparation;
+
+    [DataField]
+    public int FootprintRadius = 32;
 }
