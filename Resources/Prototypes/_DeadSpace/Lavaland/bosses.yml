@@ -507,6 +507,7 @@
       shader: unshaded
   - type: TimedDespawn
     lifetime: 1.2
+  - type: LavalandAshDrakeFire
   - type: PointLight
     radius: 2
     energy: 1.1

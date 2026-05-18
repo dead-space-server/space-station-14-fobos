@@ -259,3 +259,31 @@ public sealed class LavalandAshDrakePendingTile
     public bool PlayImpactSound;
     public string EffectPrototype = string.Empty;
 }
+
+[RegisterComponent]
+public sealed partial class LavalandAshDrakeFireComponent : Component
+{
+    [DataField]
+    public TimeSpan InitialDelay = TimeSpan.Zero;
+
+    [DataField]
+    public TimeSpan DamageInterval = TimeSpan.FromSeconds(0.3);
+
+    [DataField]
+    public float FireStacks = 2.5f;
+
+    [DataField]
+    public DamageSpecifier Damage = new()
+    {
+        DamageDict = new()
+        {
+            { "Heat", FixedPoint2.New(10) },
+        },
+    };
+
+    [ViewVariables]
+    public TimeSpan SpawnedAt;
+
+    [ViewVariables]
+    public readonly Dictionary<EntityUid, TimeSpan> NextDamageByEntity = new();
+}

@@ -32,6 +32,7 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
     [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly FlammableSystem _flammable = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly IPlayerManager _players = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly MovementSpeedModifierSystem _movement = default!;
@@ -45,6 +46,7 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
     private readonly HashSet<Vector2i> _detonatingTiles = new();
     private readonly Dictionary<Vector2i, DamageSpecifier> _detonatingDamage = new();
     private readonly HashSet<Vector2i> _detonatingIgniteTiles = new();
+    private readonly HashSet<EntityUid> _fireTileEntities = new();
 
     public override void Initialize()
     {
@@ -61,6 +63,8 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
         base.Update(frameTime);
 
         var now = _timing.CurTime;
+        ProcessResidualFires(now);
+
         var query = EntityQueryEnumerator<LavalandAshDrakeComponent, LavalandBossComponent, TransformComponent>();
         while (query.MoveNext(out var uid, out var drake, out var boss, out var xform))
         {
@@ -109,6 +113,66 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
                 continue;
 
             RunAttack(uid, drake, arena, arena.Grid, grid, target.Value, now);
+        }
+    }
+
+    private void ProcessResidualFires(TimeSpan now)
+    {
+        var query = EntityQueryEnumerator<LavalandAshDrakeFireComponent, TransformComponent>();
+        while (query.MoveNext(out var fireUid, out var fire, out var xform))
+        {
+            if (fire.SpawnedAt == TimeSpan.Zero)
+                fire.SpawnedAt = now;
+
+            if (xform.GridUid is not { Valid: true } gridUid ||
+                !TryComp<MapGridComponent>(gridUid, out var grid))
+            {
+                continue;
+            }
+
+            var fireTile = _map.LocalToTile(gridUid, grid, xform.Coordinates);
+            _fireTileEntities.Clear();
+            _lookup.GetLocalEntitiesIntersecting(
+                gridUid,
+                fireTile,
+                _fireTileEntities,
+                0f,
+                LookupFlags.Dynamic | LookupFlags.Sundries,
+                grid);
+
+            foreach (var uid in _fireTileEntities)
+            {
+                if (uid == fireUid ||
+                    HasComp<LavalandBossComponent>(uid) ||
+                    !TryComp(uid, out DamageableComponent? damageable) ||
+                    !TryComp(uid, out MobStateComponent? mobState) ||
+                    mobState.CurrentState == MobState.Dead ||
+                    !TryComp(uid, out TransformComponent? targetXform) ||
+                    targetXform.GridUid != gridUid)
+                {
+                    continue;
+                }
+
+                var targetTile = _map.LocalToTile(gridUid, grid, targetXform.Coordinates);
+                if (targetTile != fireTile)
+                    continue;
+
+                var firstDamageAt = fire.SpawnedAt + fire.InitialDelay;
+                if (!fire.NextDamageByEntity.TryGetValue(uid, out var nextDamage))
+                    nextDamage = now < firstDamageAt ? firstDamageAt : now;
+
+                if (nextDamage > now)
+                {
+                    fire.NextDamageByEntity[uid] = nextDamage;
+                    continue;
+                }
+
+                _damageable.TryChangeDamage((uid, damageable), fire.Damage, origin: fireUid);
+                IgniteEntity(uid, fire.FireStacks, fireUid);
+                fire.NextDamageByEntity[uid] = now + fire.DamageInterval;
+            }
+
+            _fireTileEntities.Clear();
         }
     }
 
@@ -1049,13 +1113,18 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
 
     private void IgniteEntity(EntityUid uid, LavalandAshDrakeComponent drake, EntityUid source)
     {
-        if (drake.FireStacks <= 0f ||
+        IgniteEntity(uid, drake.FireStacks, source);
+    }
+
+    private void IgniteEntity(EntityUid uid, float fireStacks, EntityUid source)
+    {
+        if (fireStacks <= 0f ||
             !TryComp(uid, out FlammableComponent? flammable))
         {
             return;
         }
 
-        _flammable.AdjustFireStacks(uid, drake.FireStacks, flammable, true);
+        _flammable.AdjustFireStacks(uid, fireStacks, flammable, true);
         _flammable.Ignite(uid, source, flammable);
     }
 

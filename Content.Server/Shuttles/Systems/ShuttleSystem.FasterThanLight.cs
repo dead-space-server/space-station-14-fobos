@@ -898,16 +898,19 @@ public sealed partial class ShuttleSystem
             if (iteration != FTLProximityIterations)
                 continue;
 
-            var query = AllEntityQuery<MapGridComponent>();
-            while (query.MoveNext(out var uid, out var grid))
+            var query = AllEntityQuery<MapGridComponent, TransformComponent>();
+            while (query.MoveNext(out var uid, out var grid, out var gridXform))
             {
+                if (gridXform.MapID != mapId)
+                    continue;
+
                 // Don't add anymore as it is irrelevant, but that doesn't mean we need to re-do existing work.
                 if (nearbyGrids.Contains(uid))
                     continue;
 
                 targetAABB = targetAABB.Union(
                     _transform.GetWorldMatrix(uid)
-                    .TransformBox(Comp<MapGridComponent>(uid).LocalAABB.Enlarged(expansionAmount)));
+                    .TransformBox(grid.LocalAABB.Enlarged(expansionAmount)));
             }
 
             break;
