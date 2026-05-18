@@ -382,8 +382,8 @@
 
 - type: entity
   parent: LavalandAshDrakeEffectBase
-  id: LavalandAshDrakeCageBorderFire
-  name: стена клетки пепельного дракона
+  id: LavalandAshDrakeCageBarrier
+  name: барьер клетки пепельного дракона
   components:
   - type: Sprite
     noRot: true
@@ -393,11 +393,28 @@
     layers:
     - state: fire
       shader: unshaded
+  - type: Physics
+    bodyType: Static
+    canCollide: true
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.49,-0.49,0.49,0.49"
+        density: 100
+        mask:
+        - Impassable
+        layer:
+        - Impassable
+        - HighImpassable
+        - MidImpassable
+        - LowImpassable
   - type: TimedDespawn
-    lifetime: 16
+    lifetime: 10
   - type: PointLight
-    radius: 3.0
-    energy: 2.8
+    radius: 2.0
+    energy: 1.4
     color: "#ff1200"
 
 - type: entity
