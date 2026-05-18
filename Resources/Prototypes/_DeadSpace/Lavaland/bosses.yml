@@ -319,6 +319,30 @@
   floorTile: FloorAshDrakeArena
   wallPrototype: WallAshDrakeArena
   lightPrototype: LavalandAshDrakeArenaLight
+  decorations:
+  - prototype: FloorLavaEntity
+    count: 34
+    spawnAttempts: 80
+    clusterSize: 4
+    clusterRadius: 1
+    minDistance: 10
+    maxDistance: 20
+    edgePadding: 3
+    minSeparation: 0
+  - prototype: FloraRockSolid
+    count: 5
+    spawnAttempts: 80
+    minDistance: 16
+    maxDistance: 20
+    edgePadding: 3
+    minSeparation: 3
+  - prototype: BasaltRandom
+    count: 85
+    spawnAttempts: 100
+    minDistance: 5
+    maxDistance: 21
+    edgePadding: 2
+    minSeparation: 1
   size: 45
   spawnAttempts: 180
   minDistance: 180
@@ -645,6 +669,30 @@
   floorTile: FloorBubblegumArena
   wallPrototype: WallBubblegumArena
   lightPrototype: LavalandBubblegumArenaLight
+  decorations:
+  - prototype: FloorLavaEntity
+    count: 28
+    spawnAttempts: 80
+    clusterSize: 3
+    clusterRadius: 1
+    minDistance: 12
+    maxDistance: 22
+    edgePadding: 4
+    minSeparation: 0
+  - prototype: FloraRockSolid
+    count: 7
+    spawnAttempts: 90
+    minDistance: 18
+    maxDistance: 22
+    edgePadding: 3
+    minSeparation: 3
+  - prototype: BasaltRandom
+    count: 95
+    spawnAttempts: 110
+    minDistance: 5
+    maxDistance: 23
+    edgePadding: 2
+    minSeparation: 1
   size: 49
   spawnAttempts: 200
   minDistance: 190
