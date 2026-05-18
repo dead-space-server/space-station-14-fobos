@@ -53,6 +53,7 @@ public abstract partial class SharedFultonSystem : EntitySystem
         SubscribeLocalEvent<FultonedComponent, ExaminedEvent>(OnFultonedExamine);
         SubscribeLocalEvent<FultonedComponent, EntGotInsertedIntoContainerMessage>(OnFultonContainerInserted);
 
+        SubscribeLocalEvent<LavalandFultonableComponent, InteractUsingEvent>(OnFultonableInteractUsing, before: [typeof(SharedStorageSystem)]); //DS14
         SubscribeLocalEvent<FultonComponent, AfterInteractEvent>(OnFultonInteract, before: [typeof(SharedStorageSystem)]); //DS14
 
         SubscribeLocalEvent<FultonComponent, StackSplitEvent>(OnFultonSplit);
@@ -62,7 +63,7 @@ public abstract partial class SharedFultonSystem : EntitySystem
     {
         if (HasComp<LavalandFultonableComponent>(uid)) //DS14
             return;
-    
+
         RemCompDeferred<FultonedComponent>(uid);
     }
 
@@ -95,6 +96,14 @@ public abstract partial class SharedFultonSystem : EntitySystem
             return;
 
         RemCompDeferred<FultonedComponent>(uid);
+    }
+
+    private void OnFultonableInteractUsing(EntityUid uid, LavalandFultonableComponent component, InteractUsingEvent args)
+    {
+        if (args.Handled || !TryComp<FultonComponent>(args.Used, out var fulton))
+            return;
+
+        args.Handled = TryStartFulton(args.Used, fulton, args.User, uid);
     }
 
     private void OnFultonDoAfter(FultonedDoAfterEvent args)
@@ -139,29 +148,32 @@ public abstract partial class SharedFultonSystem : EntitySystem
             return;
         }
 
+        args.Handled = TryStartFulton(args.Used, component, args.User, args.Target.Value);
+    }
+
+    private bool TryStartFulton(EntityUid used, FultonComponent component, EntityUid user, EntityUid target)
+    {
         if (Deleted(component.Beacon))
         {
-            _popup.PopupClient(Loc.GetString("fulton-not-found"), uid, args.User);
-            return;
+            _popup.PopupClient(Loc.GetString("fulton-not-found"), used, user);
+            return false;
         }
 
-        if (!CanApplyFulton(args.Target.Value, component))
+        if (!CanApplyFulton(target, component))
         {
-            _popup.PopupClient(Loc.GetString("fulton-invalid"), uid, uid);
-            return;
+            _popup.PopupClient(Loc.GetString("fulton-invalid"), used, user);
+            return false;
         }
 
-        if (HasComp<FultonedComponent>(args.Target))
+        if (HasComp<FultonedComponent>(target))
         {
-            _popup.PopupClient(Loc.GetString("fulton-fultoned"), uid, uid);
-            return;
+            _popup.PopupClient(Loc.GetString("fulton-fultoned"), used, user);
+            return false;
         }
-
-        args.Handled = true;
 
         var ev = new FultonedDoAfterEvent();
-        _doAfter.TryStartDoAfter(
-            new DoAfterArgs(EntityManager, args.User, component.ApplyFultonDuration, ev, args.Target, args.Target, args.Used)
+        return _doAfter.TryStartDoAfter(
+            new DoAfterArgs(EntityManager, user, component.ApplyFultonDuration, ev, target, target, used)
             {
                 MovementThreshold = 0.5f,
                 BreakOnMove = true,
