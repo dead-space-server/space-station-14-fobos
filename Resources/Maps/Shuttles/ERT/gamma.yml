@@ -5115,11 +5115,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 43756.4501671
-      thrownTime: 43756.3562436
-      thrower: invalid
 - proto: ComputerCloningConsole
   entities:
   - uid: 270
@@ -9526,11 +9521,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 43733.1711038
-      thrownTime: 43733.1562668
-      thrower: invalid
 - proto: PinpointerNuclear
   entities:
   - uid: 733
