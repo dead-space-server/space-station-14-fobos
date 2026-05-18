@@ -156,8 +156,8 @@
 
 - type: entity
   id: WeaponryTechFabBSAA
-  parent: [BaseLatheLube, BaseHyperlathe, Autolathe]
-  name: оружейный техфаб КСО
+  parent: BaseLatheLube
+  name: оружейный техфаб АПБТ
   description: С него так и веет жаром.
   components:
   - type: Sprite
@@ -181,25 +181,6 @@
     runningState: icon
     staticPacks:
     - BSAAAmmoStatic
-    - SecurityEquipmentStatic
-    - SecurityPracticeStatic
-    - SecurityAmmoStatic
-    - SecurityWeaponsStatic
-    - SecurityBorgModulesStatic
-    - SecDetailTechFab
-    dynamicPacks:
-    - SalvageSecurityBoards
-    - SalvageSecurityWeapons
-    - SecurityEquipment
-    - SecurityBoards
-    - SecurityExplosives
-    - SecurityAmmo
-    - SecurityWeapons
-    - SecurityDisablers
-    - WeaponMagmite # DS14
-    - GlovesArkalyse # DS14
-    - SecurityBorgModulesTierTwo # DS14
-    - SecurityBorgModulesTierThree # DS14
   - type: MaterialStorage
     whitelist:
       tags:
