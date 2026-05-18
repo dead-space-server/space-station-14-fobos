@@ -222,6 +222,12 @@ public sealed partial class LavalandPlanetPrototype : IPrototype
     public float FaunaMapEdgePadding = 18f;
 
     [DataField]
+    public float FaunaMinDistance;
+
+    [DataField]
+    public float FaunaMaxDistance;
+
+    [DataField]
     public float FaunaMinPlayerDistance = 32f;
 
     [DataField]
