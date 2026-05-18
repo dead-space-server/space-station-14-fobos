@@ -130,7 +130,7 @@
   name: АК-305
   parent: [BaseWeaponRifle, BaseSecurityContraband]
   id: WeaponRifleAk305
-  description: A somewhat battered combat rifle of a design originating from old Earth. Favored by criminals, militias, and terrorists due to its famed reliability and easy-to-manufacture design. Feeds from .30 rifle magazines.
+  description: Надёжный модифицированный АК, используемый силовыми структурами, на цевье вы видите гравировку на одном из диалектов общегалактического «For the Earth!». Использует патроны 7.62х39 мм винтовочные.
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/ak305.rsi
@@ -139,6 +139,8 @@
         map: ["enum.GunVisualLayers.Base"]
       - state: mag-0
         map: ["enum.GunVisualLayers.Mag"]
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/ak305.rsi
   - type: Gun
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/rifle2.ogg
@@ -178,7 +180,7 @@
   name: АМД-76
   parent: [BaseWeaponRifle, BaseSecurityContraband]
   id: WeaponRifleAMD76
-  description: A somewhat battered combat rifle of a design originating from old Earth. Favored by criminals, militias, and terrorists due to its famed reliability and easy-to-manufacture design. Feeds from .30 rifle magazines.
+  description: Скорострельный автомат калибра 7.62x39, произведённый одной компанией ОПЗ.
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/amd76.rsi
@@ -236,7 +238,7 @@
   name: Hk-G3A1 
   parent: [BaseWeaponRifle, BaseSecurityContraband]
   id: WeaponRiflehkg3a1
-  description: A somewhat battered combat rifle of a design originating from old Earth. Favored by criminals, militias, and terrorists due to its famed reliability and easy-to-manufacture design. Feeds from .30 rifle magazines.
+  description: Старый добрый автомат, производившийся ещё во времена 60-х годов 20-го века Земли, текущими производителями являются Vítězství. Использует исключительно уменьшенный магазин калибра 7.62х39мм винтовочные.
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/hkg3a1.rsi
@@ -286,7 +288,7 @@
   name: Scar-L
   parent: [BaseWeaponRifle, BaseSecurityContraband]
   id: WeaponRifleScarL
-  description: "Popular gas-operated combat rifle used heavily by Nanotrasen and SolGov. Operating in semi or fully automatic, its accuracy, stopping power, and reliability make it excel in all manner of environments.\nFeeds from .20 rifle magazines."
+  description: Стандартизированная штурмовая винтовка армии ОПЗ, одна из многих винтовок, используемая правительством. Использует патроны 6.5х39 мм TSF.
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/scarl.rsi
@@ -328,7 +330,7 @@
   name: SG-336
   parent: [BaseWeaponRifle, BaseSecurityContraband]
   id: WeaponRifleSG336
-  description: "Popular gas-operated combat rifle used heavily by Nanotrasen and SolGov. Operating in semi or fully automatic, its accuracy, stopping power, and reliability make it excel in all manner of environments.\nFeeds from .20 rifle magazines."
+  description: Точный автомат с тактическим фонариком и рукояткой, его используют крутые мужчины из кино. Погоди-ка, вы тоже крутой! Использует патроны 7.62х39 мм винтовочные.
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/sg336.rsi
@@ -339,40 +341,3 @@
         map: ["enum.GunVisualLayers.Mag"]
   - type: Clothing
     sprite: Objects/Weapons/Guns/Rifles/sg336.rsi
-  - type: ToggleableVisuals
-    spriteLayer: light
-  - type: ItemTogglePointLight
-  - type: PointLight
-    enabled: false
-    radius: 7 # DS14
-    energy: 2
-    autoRot: true
-    netsync: false
-  - type: Appearance
-  - type: HandheldLight
-    addPrefix: true
-    blinkingBehaviourId: blinking
-    radiatingBehaviourId: radiating
-  - type: LightBehaviour
-    behaviours:
-      - !type:FadeBehaviour
-        id: radiating
-        interpolate: Linear
-        maxDuration: 2.0
-        startValue: 3.0
-        endValue: 2.0
-        isLooped: true
-        reverseWhenFinished: true
-      - !type:PulseBehaviour
-        id: blinking
-        interpolate: Nearest
-        maxDuration: 1.0
-        startValue: 0.1
-        endValue: 2.0
-        isLooped: true
-  - type: Battery
-    maxCharge: 600 #lights drain 3/s but recharge of 2 makes this 1/s. Therefore 600 is 10 minutes of light.
-    startingCharge: 600
-  - type: BatterySelfRecharger
-    autoRechargeRate: 2
-
