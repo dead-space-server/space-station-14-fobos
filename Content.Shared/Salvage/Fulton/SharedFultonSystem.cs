@@ -7,6 +7,13 @@ using Content.Shared.Popups;
 using Content.Shared.Stacks;
 using Content.Shared.Verbs;
 using Content.Shared.Whitelist;
+//DS14-start
+using Content.Shared.Storage;
+using Content.Shared.Storage.Components;
+using Content.Shared.Storage.EntitySystems;
+using Content.Shared.DeadSpace.Lavaland.Components;
+using Content.Shared.DeadSpace.Lavaland;
+//DS14-end
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
@@ -46,13 +53,16 @@ public abstract partial class SharedFultonSystem : EntitySystem
         SubscribeLocalEvent<FultonedComponent, ExaminedEvent>(OnFultonedExamine);
         SubscribeLocalEvent<FultonedComponent, EntGotInsertedIntoContainerMessage>(OnFultonContainerInserted);
 
-        SubscribeLocalEvent<FultonComponent, AfterInteractEvent>(OnFultonInteract);
+        SubscribeLocalEvent<FultonComponent, AfterInteractEvent>(OnFultonInteract, before: [typeof(SharedStorageSystem)]); //DS14
 
         SubscribeLocalEvent<FultonComponent, StackSplitEvent>(OnFultonSplit);
     }
 
     private void OnFultonContainerInserted(EntityUid uid, FultonedComponent component, EntGotInsertedIntoContainerMessage args)
     {
+        if (HasComp<LavalandFultonableComponent>(uid)) //DS14
+            return;
+    
         RemCompDeferred<FultonedComponent>(uid);
     }
 
@@ -191,7 +201,7 @@ public abstract partial class SharedFultonSystem : EntitySystem
             return false;
 
         // Shouldn't need recursive container checks I think.
-        if (Container.IsEntityInContainer(uid))
+        if (Container.IsEntityInContainer(uid) && !HasComp<LavalandFultonableComponent>(uid)) //DS14
             return false;
 
         return true;

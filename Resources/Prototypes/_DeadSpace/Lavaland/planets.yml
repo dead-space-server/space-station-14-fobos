@@ -137,3 +137,28 @@
   ftlDockWhitelist:
     components:
     - LavalandShuttle
+  customGrids:
+  - path: /Maps/Lavaland/ds_ashwalkers_base.yml
+    count: 1
+    name: Lavaland Ruin
+    minDistance: 160
+    maxDistance: 300
+    minSeparation: 120
+    footprintRadius: 80
+    spawnAttempts: 160
+  - path: /Maps/Lavaland/ds_mini_ratvar.yml
+    count: 1
+    name: Заброшеный мостик
+    minDistance: 120
+    maxDistance: 320
+    minSeparation: 90
+    footprintRadius: 20
+    spawnAttempts: 160
+  - path: /Maps/Lavaland/ds_tunnel_rofl.yml
+    count: 1
+    name: Lavaland Ruin
+    minDistance: 140
+    maxDistance: 330
+    minSeparation: 80
+    footprintRadius: 80
+    spawnAttempts: 200
