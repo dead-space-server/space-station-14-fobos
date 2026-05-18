@@ -6,6 +6,7 @@ using Content.Shared.Damage;
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Systems;
 using Content.Shared.DeadSpace.Lavaland;
+using Content.Shared.Interaction.Events;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Movement.Systems;
@@ -53,6 +54,8 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
         base.Initialize();
 
         SubscribeLocalEvent<LavalandAshDrakeComponent, BeforeDamageChangedEvent>(OnBeforeDamage);
+        SubscribeLocalEvent<LavalandAshDrakeComponent, AttackAttemptEvent>(OnAttackAttempt);
+        SubscribeLocalEvent<LavalandAshDrakeComponent, GettingAttackedAttemptEvent>(OnGettingAttackedAttempt);
         SubscribeLocalEvent<LavalandAshDrakeComponent, LavalandBossFightStartedEvent>(OnBossFightStarted);
         SubscribeLocalEvent<LavalandAshDrakeComponent, LavalandBossResetEvent>(OnBossReset);
         SubscribeLocalEvent<LavalandAshDrakeComponent, RefreshMovementSpeedModifiersEvent>(OnRefreshMovementSpeed);
@@ -178,8 +181,27 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
 
     private void OnBeforeDamage(Entity<LavalandAshDrakeComponent> ent, ref BeforeDamageChangedEvent args)
     {
-        if (ent.Comp.SwoopInvulnerable || ent.Comp.CageActive)
+        if (IsSwoopUntargetable(ent.Comp) || ent.Comp.CageActive)
             args.Cancelled = true;
+    }
+
+    private void OnAttackAttempt(EntityUid uid, LavalandAshDrakeComponent component, AttackAttemptEvent args)
+    {
+        if (IsSwoopUntargetable(component))
+            args.Cancel();
+    }
+
+    private void OnGettingAttackedAttempt(EntityUid uid, LavalandAshDrakeComponent component, ref GettingAttackedAttemptEvent args)
+    {
+        if (IsSwoopUntargetable(component))
+            args.Cancelled = true;
+    }
+
+    private static bool IsSwoopUntargetable(LavalandAshDrakeComponent component)
+    {
+        return component.Swooping ||
+               component.SwoopInvulnerable ||
+               component.SwoopImpactAt != TimeSpan.Zero;
     }
 
     private void OnBossReset(EntityUid uid, LavalandAshDrakeComponent component, LavalandBossResetEvent args)
