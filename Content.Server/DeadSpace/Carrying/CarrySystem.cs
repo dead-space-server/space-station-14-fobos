@@ -74,6 +74,7 @@ public sealed class CarrySystem : EntitySystem
         SubscribeLocalEvent<CarryingComponent, BeforeThrowEvent>(OnBeforeThrow);
         SubscribeLocalEvent<CarryingComponent, VirtualItemDeletedEvent>(OnVirtualItemDeleted);
         SubscribeLocalEvent<CarryingComponent, EntGotInsertedIntoContainerMessage>(OnCarrierInsertedIntoContainer);
+        SubscribeLocalEvent<CarryingComponent, BuckleAttemptEvent>(OnCarrierBuckleAttempt);
         SubscribeLocalEvent<CarryingComponent, BuckledEvent>(OnCarrierBuckled);
         SubscribeLocalEvent<CarryingComponent, DownedEvent>(OnCarrierDowned);
         SubscribeLocalEvent<CarryingComponent, MobStateChangedEvent>(OnCarrierMobStateChanged);
@@ -305,6 +306,12 @@ public sealed class CarrySystem : EntitySystem
             return false;
         }
 
+        if (TryComp<BuckleComponent>(carrier, out var carrierBuckle) && carrierBuckle.Buckled)
+        {
+            failure = "carry-popup-carrier-buckled";
+            return false;
+        }
+
         if (HasComp<CarryingComponent>(carrier) || HasComp<CarriedComponent>(carrier))
         {
             failure = "carry-popup-busy";
@@ -421,6 +428,17 @@ public sealed class CarrySystem : EntitySystem
     private void OnCarrierInsertedIntoContainer(Entity<CarryingComponent> ent, ref EntGotInsertedIntoContainerMessage args)
     {
         StopCarry(ent.Owner, ent.Comp);
+    }
+
+    private void OnCarrierBuckleAttempt(Entity<CarryingComponent> ent, ref BuckleAttemptEvent args)
+    {
+        if (args.Cancelled)
+            return;
+
+        args.Cancelled = true;
+
+        if (args.Popup && args.User is { } user)
+            _popup.PopupEntity(Loc.GetString("carry-popup-carrier-carrying"), ent.Owner, user);
     }
 
     private void OnCarrierBuckled(Entity<CarryingComponent> ent, ref BuckledEvent args)

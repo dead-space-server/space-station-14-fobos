@@ -20,6 +20,7 @@
     availableModes:
     - SemiAuto
     - Burst
+    - FullAuto
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/mk58.ogg
   - type: StealTarget
@@ -48,10 +49,11 @@
   - type: Item
     storedOffset: 0,-2
   - type: Gun
-    fireRate: 6.5 # DS14
+    fireRate: 5.8
     availableModes:
     - SemiAuto
     - Burst
+    - FullAuto
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/mk58.ogg
   - type: StealTarget
