@@ -45,31 +45,31 @@
     contents: BaseClutter
 
   - !type:MobsDunGen
-    minCount: 3
-    maxCount: 6
+    minCount: 8
+    maxCount: 12
     contents: LavalandLavaBrigMobs
 
   - !type:EntityTableDunGen
-    minCount: 25
-    maxCount: 40
+    minCount: 35
+    maxCount: 50
     perDungeon: true
     table: !type:NestedSelector
       tableId: SalvageScrapSpawnerCommon
   - !type:EntityTableDunGen
-    minCount: 30
-    maxCount: 40
+    minCount: 40
+    maxCount: 50
     perDungeon: true
     table: !type:NestedSelector
       tableId: SalvageScrapSpawnerValuable
   - !type:EntityTableDunGen
-    minCount: 30
-    maxCount: 45
+    minCount: 40
+    maxCount: 55
     perDungeon: true
     table: !type:NestedSelector
       tableId: SalvageTreasureSpawnerCommon
   - !type:EntityTableDunGen
-    minCount: 30
-    maxCount: 45    
+    minCount: 40
+    maxCount: 55    
     perDungeon: true
     table: !type:NestedSelector
       tableId: SalvageTreasureSpawnerValuable

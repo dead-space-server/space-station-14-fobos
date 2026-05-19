@@ -48,6 +48,7 @@
     sprite: _DeadSpace/Virus/virus.rsi
     layers:
     - state: icon
+    - state: animation
       shader: unshaded
       map: ["base"]
   - type: UserInterface

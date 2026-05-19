@@ -238,3 +238,65 @@
     color: "#ffac26"
     radius: 10
     energy: 4
+
+- type: entity
+  parent: ClothingOuterHardsuitBase
+  id: ClothingOuterSpaceMarinne
+  name: скафандр чемпиона
+  description: Скафандр принадлежащий лучшими из лучших воинов древности. Не очерните его имя.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Lavaland/Clothing/OuterClothing/Outer/marinne.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Lavaland/Clothing/OuterClothing/Outer/marinne.rsi
+  - type: PressureProtection
+    highPressureMultiplier: 0.05
+    lowPressureMultiplier: 1000
+  - type: ExplosionResistance
+    damageCoefficient: 0.5
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.5
+        Slash: 0.5
+        Piercing: 0.5
+        Heat: 0.5
+        Radiation: 0.5
+        Caustic: 0.5
+  - type: StaminaResistance
+    damageCoefficient: 0.5
+  - type: ClothingSpeedModifier
+    walkModifier: 0.95
+    sprintModifier: 0.95
+  - type: HeldSpeedModifier
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetSpaceMarinne
+  - type: Item
+    size: Huge
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ClothingHeadHelmetSpaceMarinne
+  categories: [ HideSpawnMenu ]
+  name: шлем скафандра чемпиона
+  description: И не знает он страха.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Lavaland/Clothing/Head/Outer/marinnehead.rsi
+    scale: 0.7, 0.7
+  - type: Clothing
+    sprite: _DeadSpace/Lavaland/Clothing/Head/Outer/marinnehead.rsi
+  - type: PointLight
+    color: "#ffac26"
+    radius: 14
+    energy: 6
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9

@@ -7,12 +7,15 @@ using Content.Server.Parallax;
 using Content.Server.Procedural;
 using Content.Server.Shuttles.Components;
 using Content.Server.Station.Events;
+using Content.Server.Tiles;
 using Content.Shared.Atmos;
+using Content.Shared.Chasm;
 using Content.Shared.DeadSpace.CCCCVars;
 using Content.Shared.DeadSpace.Lavaland;
 using Content.Shared.GameTicking;
 using Content.Shared.Gravity;
 using Content.Shared.Maps;
+using Content.Shared.Mining.Components;
 using Content.Shared.Parallax.Biomes;
 using Content.Shared.Procedural;
 using Content.Shared.Shuttles.Components;
@@ -39,6 +42,7 @@ public sealed class LavalandSystem : EntitySystem
     [Dependency] private readonly LavalandNecropolisTendrilPlacementSystem _tendrilPlacement = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly IMapManager _mapManager = default!;
     [Dependency] private readonly ITileDefinitionManager _tileDefinition = default!;
     [Dependency] private readonly MapLoaderSystem _mapLoader = default!;
     [Dependency] private readonly MetaDataSystem _metadata = default!;
@@ -47,6 +51,10 @@ public sealed class LavalandSystem : EntitySystem
     [Dependency] private readonly TileSystem _tile = default!;
 
     private EntityQuery<TransformComponent> _xformQuery;
+    private List<Entity<MapGridComponent>> _nearbyGrids = new();
+    private readonly List<(Vector2i Index, Tile Tile)> _reservedTiles = new();
+    private readonly List<(Vector2i Index, Tile Tile)> _terrainTiles = new();
+    private readonly List<EntityUid> _anchoredToDelete = new();
 
     public override void Initialize()
     {
@@ -202,10 +210,12 @@ public sealed class LavalandSystem : EntitySystem
             await TryGenerateDungeon(mapUid, grid, landingSite, Vector2i.Zero, random.Next(), cancellation);
         }
 
-        await GenerateStructures(mapUid, grid, planet, random, cancellation);
+        var placedStructures = new List<Vector2i>();
+        await GenerateStructures(mapUid, grid, planet, random, placedStructures, cancellation);
         cancellation.ThrowIfCancellationRequested();
 
         _tendrilPlacement.SetupMap(mapUid, planet);
+        LoadCustomGrids(mapId, mapUid, grid, biome, planet, random, placedStructures, cancellation);
         _bossArena.SpawnConfiguredArenas(mapUid, grid, biome, planet, random);
         _faunaPopulation.SetupMap(mapUid, planet);
 
@@ -526,6 +536,7 @@ public sealed class LavalandSystem : EntitySystem
         MapGridComponent grid,
         LavalandPlanetPrototype planet,
         Random random,
+        List<Vector2i> placed,
         CancellationToken cancellation)
     {
         if (planet.Structures.Count == 0)
@@ -543,7 +554,6 @@ public sealed class LavalandSystem : EntitySystem
 
         _random.Shuffle(structures);
 
-        var placed = new List<Vector2i>();
         foreach (var structure in structures)
         {
             cancellation.ThrowIfCancellationRequested();
@@ -551,6 +561,147 @@ public sealed class LavalandSystem : EntitySystem
             placed.Add(position);
             await TryGenerateDungeon(mapUid, grid, structure, position, random.Next(), cancellation);
         }
+    }
+
+    private void LoadCustomGrids(
+        MapId mapId,
+        EntityUid mapUid,
+        MapGridComponent terrainGrid,
+        BiomeComponent biome,
+        LavalandPlanetPrototype planet,
+        Random random,
+        List<Vector2i> placed,
+        CancellationToken cancellation)
+    {
+        if (planet.CustomGrids.Count == 0)
+            return;
+
+        var grids = new List<LavalandCustomGridEntry>();
+        foreach (var entry in planet.CustomGrids)
+        {
+            var count = Math.Max(0, entry.Count);
+            for (var i = 0; i < count; i++)
+            {
+                grids.Add(entry);
+            }
+        }
+
+        if (grids.Count == 0)
+            return;
+
+        _random.Shuffle(grids);
+
+        var loaded = 0;
+        foreach (var entry in grids)
+        {
+            cancellation.ThrowIfCancellationRequested();
+
+            if (!TryPickCustomGridPosition(mapUid, terrainGrid, planet, entry, random, placed, out var position))
+            {
+                Log.Warning($"Failed to place Lavaland custom grid {entry.Path} for planet {planet.ID}.");
+                continue;
+            }
+
+            var footprint = Math.Max(1, entry.FootprintRadius);
+            var footprintBounds = GetCustomGridFootprintBounds(position, footprint);
+            PrepareCustomGridTerrain(mapUid, terrainGrid, biome, planet, random, footprintBounds);
+
+            if (!_mapLoader.TryLoadGrid(mapId, entry.Path, out var customGrid))
+            {
+                Log.Error($"Failed to load Lavaland custom grid {entry.Path} for planet {planet.ID} at {position}.");
+                continue;
+            }
+
+            if (customGrid == null || TerminatingOrDeleted(customGrid.Value.Owner))
+            {
+                Log.Error($"Lavaland custom grid loader returned no grid for {entry.Path} on planet {planet.ID} at {position}.");
+                continue;
+            }
+
+            if (!string.IsNullOrWhiteSpace(entry.Name))
+                _metadata.SetEntityName(customGrid.Value, entry.Name);
+
+            _transform.SetMapCoordinates(customGrid.Value.Owner, new MapCoordinates(new Vector2(position.X, position.Y), mapId));
+            placed.Add(position);
+            loaded++;
+        }
+
+        Log.Info($"Lavaland custom grids loaded {loaded}/{grids.Count} for planet {planet.ID}.");
+    }
+
+    private bool TryPickCustomGridPosition(
+        EntityUid mapUid,
+        MapGridComponent terrainGrid,
+        LavalandPlanetPrototype planet,
+        LavalandCustomGridEntry entry,
+        Random random,
+        List<Vector2i> placed,
+        out Vector2i position)
+    {
+        position = default;
+
+        var footprint = Math.Max(1, entry.FootprintRadius);
+        var mapLimit = GetCustomGridPlacementLimit(planet, footprint);
+        var minSeparation = Math.Max(1, entry.MinSeparation ?? Math.Max(planet.MinStructureSeparation, footprint * 2));
+        var exclusionPadding = Math.Max(footprint, minSeparation);
+        var reservedDistance = GetTerminalReservedDistance(planet) + exclusionPadding;
+        var requestedMinDistance = Math.Max(
+            entry.MinDistance ?? planet.MinStructureDistance,
+            Math.Max(planet.LandingPadRadius + exclusionPadding, reservedDistance));
+        var minDistance = Math.Min(requestedMinDistance, mapLimit);
+        var maxDistance = Math.Clamp(entry.MaxDistance ?? planet.MaxStructureDistance, minDistance, mapLimit);
+        var minSeparationSquared = minSeparation * minSeparation;
+        var attempts = Math.Max(1, entry.SpawnAttempts);
+
+        for (var attempt = 0; attempt < attempts; attempt++)
+        {
+            var angle = random.NextDouble() * MathF.PI * 2f;
+            var distance = random.Next(minDistance, maxDistance + 1);
+            var candidate = new Vector2i(
+                (int) MathF.Round(MathF.Cos((float) angle) * distance),
+                (int) MathF.Round(MathF.Sin((float) angle) * distance));
+
+            if (IsInsideStructureExclusion(candidate, planet, exclusionPadding) ||
+                !IsSeparatedFromPlaced(candidate, placed, minSeparationSquared) ||
+                HasNearbyNonTerrainGrid(mapUid, new Vector2(candidate.X, candidate.Y), footprint + minSeparation) ||
+                HasPersistentAnchoredEntityInFootprint(mapUid, terrainGrid, candidate, footprint))
+            {
+                continue;
+            }
+
+            position = candidate;
+            return true;
+        }
+
+        return false;
+    }
+
+    private void PrepareCustomGridTerrain(
+        EntityUid mapUid,
+        MapGridComponent terrainGrid,
+        BiomeComponent biome,
+        LavalandPlanetPrototype planet,
+        Random random,
+        Box2i bounds)
+    {
+        _reservedTiles.Clear();
+        _biome.ReserveTiles(mapUid, ToBox2(bounds), _reservedTiles, biome, terrainGrid);
+        _reservedTiles.Clear();
+
+        ClearClearableTerrainEntities(mapUid, terrainGrid, bounds);
+
+        var tileDef = _tileDefinition[planet.BoundaryTile];
+        _terrainTiles.Clear();
+        for (var x = bounds.Left; x < bounds.Right; x++)
+        {
+            for (var y = bounds.Bottom; y < bounds.Top; y++)
+            {
+                _terrainTiles.Add((new Vector2i(x, y), CreateTile(tileDef, random)));
+            }
+        }
+
+        _map.SetTiles(mapUid, terrainGrid, _terrainTiles);
+        _terrainTiles.Clear();
     }
 
     private Vector2i PickStructurePosition(
@@ -648,6 +799,28 @@ public sealed class LavalandSystem : EntitySystem
         return Math.Max(1, planet.MapHalfSize - edgePadding);
     }
 
+    private static int GetCustomGridPlacementLimit(LavalandPlanetPrototype planet, int footprint)
+    {
+        if (planet.MapHalfSize <= 0)
+            return Math.Max(1, planet.MaxStructureDistance);
+
+        var edgePadding = 16 + Math.Max(1, footprint);
+        if (planet.BoundaryEnabled)
+            edgePadding += Math.Max(0, planet.BoundaryLavaWidth) + Math.Max(1, planet.BoundaryWallWidth);
+
+        return Math.Max(1, planet.MapHalfSize - edgePadding);
+    }
+
+    private static Box2i GetCustomGridFootprintBounds(Vector2i center, int radius)
+    {
+        radius = Math.Max(1, radius);
+        return new Box2i(
+            center.X - radius,
+            center.Y - radius,
+            center.X + radius + 1,
+            center.Y + radius + 1);
+    }
+
     private static bool IsInsideTerminalReservation(
         Vector2i position,
         LavalandPlanetPrototype planet,
@@ -687,6 +860,105 @@ public sealed class LavalandSystem : EntitySystem
     private static Box2 ToBox2(Box2i bounds)
     {
         return new Box2(bounds.Left, bounds.Bottom, bounds.Right, bounds.Top);
+    }
+
+    private bool HasNearbyNonTerrainGrid(EntityUid terrainGridUid, Vector2 center, float radius)
+    {
+        _nearbyGrids.Clear();
+
+        var mapId = Transform(terrainGridUid).MapID;
+        var bounds = Box2.CenteredAround(center, Vector2.One * (radius * 2f + 1f));
+        _mapManager.FindGridsIntersecting(mapId, bounds, ref _nearbyGrids);
+
+        foreach (var grid in _nearbyGrids)
+        {
+            if (grid.Owner != terrainGridUid)
+                return true;
+        }
+
+        return false;
+    }
+
+    private bool HasPersistentAnchoredEntityInFootprint(
+        EntityUid terrainGridUid,
+        MapGridComponent terrainGrid,
+        Vector2i center,
+        int radius)
+    {
+        var bounds = new Box2i(
+            center.X - radius,
+            center.Y - radius,
+            center.X + radius + 1,
+            center.Y + radius + 1);
+
+        for (var x = bounds.Left; x < bounds.Right; x++)
+        {
+            for (var y = bounds.Bottom; y < bounds.Top; y++)
+            {
+                var anchored = _map.GetAnchoredEntitiesEnumerator(terrainGridUid, terrainGrid, new Vector2i(x, y));
+                while (anchored.MoveNext(out var uid))
+                {
+                    if (uid == null ||
+                        TerminatingOrDeleted(uid.Value) ||
+                        IsClearableTerrainEntity(uid.Value))
+                    {
+                        continue;
+                    }
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private void ClearClearableTerrainEntities(
+        EntityUid terrainGridUid,
+        MapGridComponent terrainGrid,
+        Box2i bounds)
+    {
+        _anchoredToDelete.Clear();
+
+        for (var x = bounds.Left; x < bounds.Right; x++)
+        {
+            for (var y = bounds.Bottom; y < bounds.Top; y++)
+            {
+                var anchored = _map.GetAnchoredEntitiesEnumerator(terrainGridUid, terrainGrid, new Vector2i(x, y));
+                while (anchored.MoveNext(out var uid))
+                {
+                    if (uid != null &&
+                        !TerminatingOrDeleted(uid.Value) &&
+                        IsClearableTerrainEntity(uid.Value))
+                    {
+                        _anchoredToDelete.Add(uid.Value);
+                    }
+                }
+            }
+        }
+
+        foreach (var uid in _anchoredToDelete)
+        {
+            if (!TerminatingOrDeleted(uid))
+                QueueDel(uid);
+        }
+
+        _anchoredToDelete.Clear();
+    }
+
+    private bool IsClearableTerrainEntity(EntityUid uid)
+    {
+        if (HasComp<TileEntityEffectComponent>(uid) ||
+            HasComp<ChasmComponent>(uid) ||
+            HasComp<OreVeinComponent>(uid))
+        {
+            return true;
+        }
+
+        var prototypeId = MetaData(uid).EntityPrototype?.ID;
+        return prototypeId is not null &&
+               (prototypeId.StartsWith("WallRockBasalt", StringComparison.Ordinal) ||
+                prototypeId is "FloorLavaEntity" or "FloorChasmEntity");
     }
 
     private async Task GenerateDungeon(

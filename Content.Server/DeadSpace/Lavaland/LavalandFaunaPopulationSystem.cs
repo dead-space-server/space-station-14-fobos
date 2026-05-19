@@ -271,9 +271,7 @@ public sealed class LavalandFaunaPopulationSystem : EntitySystem
             var avoidUsedSectors = pass == 0 && usedSectors.Count > 0;
             for (var attempt = 0; attempt < planet.FaunaSpawnAttempts; attempt++)
             {
-                var indices = new Vector2i(
-                    _random.Next(-limit, limit + 1),
-                    _random.Next(-limit, limit + 1));
+                var indices = PickSpawnIndices(planet, limit);
 
                 var center = _map.GridTileToLocal(mapUid, grid, indices).Position;
                 sector = GetSector(center, planet.FaunaSectorSize);
@@ -298,6 +296,25 @@ public sealed class LavalandFaunaPopulationSystem : EntitySystem
         coordinates = default;
         sector = default;
         return false;
+    }
+
+    private Vector2i PickSpawnIndices(LavalandPlanetPrototype planet, int limit)
+    {
+        if (planet.FaunaMaxDistance <= 0f)
+        {
+            return new Vector2i(
+                _random.Next(-limit, limit + 1),
+                _random.Next(-limit, limit + 1));
+        }
+
+        var minDistance = Math.Min(Math.Max(0f, planet.FaunaMinDistance), limit);
+        var maxDistance = Math.Clamp(planet.FaunaMaxDistance, minDistance, limit);
+        var angle = _random.NextFloat(MathF.PI * 2f);
+        var distance = _random.NextFloat(minDistance, maxDistance);
+
+        return new Vector2i(
+            (int) MathF.Round(MathF.Cos(angle) * distance),
+            (int) MathF.Round(MathF.Sin(angle) * distance));
     }
 
     private bool ReserveSpawnArea(

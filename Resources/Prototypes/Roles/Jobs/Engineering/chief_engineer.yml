@@ -52,10 +52,11 @@
   id: ChiefEngineerGear
   equipment:
     id: CEPDA
-    eyes: ClothingEyesGlassesMeson
+    eyes: ClothingEyesGlassesMesonCE #DS14
     ears: ClothingHeadsetCE
     belt: ClothingBeltUtilityEngineering
     socks: ClothingUnderwearSocksChiefEngineer
+    gloves: ClothingHandsGlovesColorYellow # DS14
   storage:
     back:
     - Flash

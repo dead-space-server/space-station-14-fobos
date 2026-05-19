@@ -444,6 +444,19 @@
     stock: 2
 
 - type: listing
+  id: ReinforcementRadioMercList
+  name: uplink-pirate-reinforcement-radio-merc-name
+  icon: { sprite: Objects/Devices/communication.rsi, state: old-radio }
+  productEntity: ReinforcementRadioMerc
+  cost:
+    SpaceCash: 18000
+  categories:
+    - PirateUplinkAllies
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+- type: listing
   id: PirateHoloparasiteInjectorList
   name: uplink-pirate-pirate-holoparasite-injector-name
   description: uplink-pirate-pirate-holoparasite-injector-description

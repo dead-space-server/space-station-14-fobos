@@ -132,3 +132,133 @@
     steps: 2
     zeroVisible: false
   - type: Appearance
+
+- type: entity
+  name: MP-5
+  parent: [BaseWeaponSubMachineGun, BaseSecurityContraband]
+  id: WeaponSubMachineGunMP5
+  description: Лёгкий пистолет-пулемет, точный и компактный, самая лучшая замена простому Дрозду. Использует патроны калибра 9х19 мм.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Objects/Weapons/Guns/smgs/mp5.rsi  
+      layers:
+        - state: base
+          map: ["enum.GunVisualLayers.Base"]
+        - state: mag-0
+          map: ["enum.GunVisualLayers.Mag"]
+    - type: Clothing
+      sprite: _DeadSpace/Objects/Weapons/Guns/smgs/mp5.rsi 
+    - type: Wieldable
+      unwieldOnUse: false
+    - type: GunWieldBonus
+      minAngle: -22 
+      maxAngle: -21 
+    - type: Gun
+      minAngle: 21
+      maxAngle: 30
+      fireRate: 8
+      burstFireRate: 20 
+      soundGunshot:
+        path: /Audio/Weapons/Guns/Gunshots/c-20r.ogg
+      selectedMode: FullAuto 
+      availableModes:
+      - Burst
+      - FullAuto
+      - SemiAuto
+      shotsPerBurst: 3
+      burstCooldown: 0.375
+    - type: ItemSlots
+      slots:
+        gun_magazine:
+          name: Magazine
+          startingItem: MagazinePistolSubMachineGun
+          insertSound: /Audio/Weapons/Guns/MagIn/smg_magin.ogg
+          ejectSound: /Audio/Weapons/Guns/MagOut/smg_magout.ogg
+          priority: 2
+          whitelist:
+            tags:
+              - MagazinePistolSubMachineGun
+          whitelistFailPopup: gun-magazine-whitelist-fail
+        gun_chamber:
+          name: Chamber
+          priority: 1
+          whitelist:
+            tags:
+              - CartridgePistol
+    - type: MagazineVisuals
+      magState: mag
+      steps: 1 # DS14
+      zeroVisible: true
+    - type: Appearance
+
+- type: entity
+  name: MP-5SD
+  parent: WeaponSubMachineGunMP5
+  id: WeaponSubMachineGunMP5SD
+  description: Модифицированный MP5 с интегрированным глушителем, использует тот же калибр, что и обычный MP5. Использует патроны калибра 9х19 мм.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Objects/Weapons/Guns/smgs/mp5sd.rsi 
+      layers:
+        - state: base
+          map: ["enum.GunVisualLayers.Base"]
+        - state: mag-0
+          map: ["enum.GunVisualLayers.Mag"]
+    - type: Clothing
+      sprite: _DeadSpace/Objects/Weapons/Guns/smgs/mp5sd.rsi
+    - type: Gun
+      minAngle: 21
+      maxAngle: 30
+      fireRate: 8
+      burstFireRate: 20 
+      soundGunshot:
+         path: /Audio/Weapons/Guns/Gunshots/silenced.ogg
+         params:
+           volume: -14
+
+- type: entity
+  name: MP-7
+  parent: BaseWeaponSubMachineGun
+  id: WeaponSubMachineGunMP7
+  description: Точный пистолет пулемёт, используется бравыми сотрудниками спецназа, хороший аргумент при стычке с бунтовщиками и террористами. Использует патроны калибра 9х19 мм.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Guns/smgs/mp7.rsi  
+    layers:
+      - state: base
+        map: ["enum.GunVisualLayers.Base"]
+      - state: mag-0
+        map: ["enum.GunVisualLayers.Mag"]
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Weapons/Guns/smgs/mp7.rsi  
+  - type: Gun
+    fireRate: 9
+    selectedMode: FullAuto
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/atreides.ogg
+    availableModes:
+    - FullAuto
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: MagazinePistolSubMachineGun
+        insertSound: /Audio/Weapons/Guns/MagIn/smg_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/smg_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+            - MagazinePistolSubMachineGun
+      gun_chamber:
+        name: Chamber
+        startingItem: CartridgePistol
+        priority: 1
+        whitelist:
+          tags:
+            - CartridgePistol
+        whitelistFailPopup: gun-magazine-whitelist-fail
+  - type: MagazineVisuals
+    magState: mag
+    steps: 1
+    zeroVisible: true
+  - type: Appearance
