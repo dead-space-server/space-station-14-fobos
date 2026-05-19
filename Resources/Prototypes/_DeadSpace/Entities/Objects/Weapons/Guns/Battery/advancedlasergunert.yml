@@ -177,7 +177,7 @@
   name: Мульти-Лазерный-Эмулятор
   parent: [BaseWeaponBattery, BaseGunWieldable, BaseCentcommContraband]
   id: WeaponXrayEmulator
-  description: Пушка что заставляет мутировать прямо на твоих глазах недругов.
+  description: Пушка что заставляет мутировать прямо на твоих глазах недругов. Стреляет залпом радиации и термического повреждение.
   components:
   - type: Item
     size: Huge
@@ -194,7 +194,7 @@
   - type: Clothing
     sprite: _DeadSpace/Objects/Weapons/Guns/Battery/multi_lens_immolator.rsi
   - type: Gun
-    fireRate: 0.75
+    fireRate: 0.85
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/laser_cannon2.ogg
   - type: BatteryAmmoProvider
@@ -216,7 +216,7 @@
   - type: HitscanBasicDamage
     damage:
       types:
-        Heat: 20
-        Radiation: 40
+        Heat: 25
+        Radiation: 25
   - type: HitscanBasicEffects
     temperature: 15
