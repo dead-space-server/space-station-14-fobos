@@ -137,7 +137,7 @@
 #DS14-start
   - type: PhysicalComposition
     materialComposition:
-      ArtifactFragment: 300
+      RawArtifactFragment: 300
 #DS14-end
 
 - type: entity
