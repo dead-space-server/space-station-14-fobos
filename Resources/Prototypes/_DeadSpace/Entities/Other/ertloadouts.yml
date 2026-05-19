@@ -138,7 +138,6 @@
     - XrayCannonSet
     - LaserRifleSet
     - amd76Set
-    - hkg3a1Set
     - ScarLSet
   - type: ActivatableUI
     key: enum.ThiefBackpackUIKey.Key
