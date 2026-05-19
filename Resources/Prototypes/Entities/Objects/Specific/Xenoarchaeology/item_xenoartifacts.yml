@@ -135,6 +135,7 @@
     guides:
     - Xenoarchaeology
 #DS14-start
+  - type: Material
   - type: PhysicalComposition
     materialComposition:
       RawArtifactFragment: 300
