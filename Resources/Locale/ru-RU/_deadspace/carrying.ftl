@@ -11,5 +11,7 @@ carry-popup-cannot-interact = Вы не можете дотянуться.
 carry-popup-target-buckled = Существо пристегнуто.
 carry-popup-no-free-hands = Для этого нужны обе свободные руки.
 carry-popup-not-standing = Вы не можете поднимать существ на руки лёжа.
+carry-popup-carrier-buckled = Вы не можете поднимать существ на руки пристёгнутым.
+carry-popup-carrier-carrying = Вы не можете пристегнуться, пока несёте кого-то на руках.
 carry-popup-escape-victim = Вы пытаетесь вырваться
 carry-popup-escape-carrier = Объект пытается вырваться из рук
