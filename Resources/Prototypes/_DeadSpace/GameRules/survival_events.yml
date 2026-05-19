@@ -40,7 +40,7 @@
     children:
     - id: UnknownShuttleManOWar
     - id: UnknownShuttleInstigator
-    - id: UnknownShuttlePirate
+#    - id: UnknownShuttlePirate
     - id: UnknownShuttleSyndieEvacPod
 
 - type: entityTable

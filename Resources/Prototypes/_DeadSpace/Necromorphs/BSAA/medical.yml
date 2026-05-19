@@ -166,3 +166,19 @@
       - id: DesoxyephedrineMedipen
       - id: DesoxyephedrineMedipen
       - id: DesoxyephedrineMedipen
+
+## Боевая медицина ОБР
+- type: entity
+  id: InjectorCaseERTFilled
+  parent: InjectorCase
+  suffix: Заполненная, ОБР
+  components:
+  - type: StorageFill
+    contents:
+      - id: AdvancedJetInjector
+      - id: ChemistryBottlePuncturase
+      - id: ChemistryBottlePuncturase
+      - id: ChemistryBottleDermaline
+      - id: ChemistryBottleDermaline
+      - id: CombatMedipen
+      - id: CombatMedipen
