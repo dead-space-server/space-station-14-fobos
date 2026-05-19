@@ -134,6 +134,11 @@
   - type: GuideHelp
     guides:
     - Xenoarchaeology
+#DS14-start
+  - type: PhysicalComposition
+    materialComposition:
+      ArtifactFragment: 300
+#DS14-end
 
 - type: entity
   parent: ArtifactFragment

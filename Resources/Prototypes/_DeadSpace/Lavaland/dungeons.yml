@@ -50,25 +50,25 @@
     contents: LavalandLavaBrigMobs
 
   - !type:EntityTableDunGen
-    minCount: 35
+    minCount: 40
     maxCount: 50
     perDungeon: true
     table: !type:NestedSelector
       tableId: SalvageScrapSpawnerCommon
   - !type:EntityTableDunGen
-    minCount: 40
-    maxCount: 50
+    minCount: 50
+    maxCount: 55
     perDungeon: true
     table: !type:NestedSelector
       tableId: SalvageScrapSpawnerValuable
   - !type:EntityTableDunGen
-    minCount: 40
+    minCount: 50
     maxCount: 55
     perDungeon: true
     table: !type:NestedSelector
       tableId: SalvageTreasureSpawnerCommon
   - !type:EntityTableDunGen
-    minCount: 40
+    minCount: 50
     maxCount: 55    
     perDungeon: true
     table: !type:NestedSelector
