@@ -199,7 +199,7 @@
       path: /Audio/Weapons/Guns/Gunshots/laser_cannon2.ogg
   - type: BatteryAmmoProvider
     proto: XrayLaserEmulator
-    fireCost: 80
+    fireCost: 65
   - type: MagazineVisuals
     magState: mag
     steps: 5
