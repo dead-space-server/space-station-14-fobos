@@ -1,0 +1,47 @@
+- type: entity
+  id: MagazineHristov
+  name: магазин (.60)
+  description: ""
+  parent: MagazineRifle
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeAntiMateriel
+    capacity: 5
+    whitelist:
+      tags:
+      - CartridgeAntiMateriel
+      - CartridgeAntiMaterielAP
+  - type: Tag
+    tags:
+    - MagazineHristov
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Ammunition/Magazine/magazine_heavy_sniper.rsi
+    layers:
+    - state: base
+    - state: mag-1
+
+- type: entity
+  parent: MagazineHristov
+  id: MagazineHristovAP
+  name: магазин (.60 бронебойные) 
+  description: "Синяя изолента для маркировки бронебойных. Финансовая эффективность, мать её."
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeAntiMaterielAP
+  - type: Sprite
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+    - state: armorpiercing
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#336899"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#336899"

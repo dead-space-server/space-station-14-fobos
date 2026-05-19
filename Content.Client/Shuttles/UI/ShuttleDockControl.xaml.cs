@@ -136,6 +136,11 @@ public sealed partial class ShuttleDockControl : BaseShuttleControl
 
         foreach (var grid in _grids)
         {
+            // DS14-start
+            if (EntManager.HasComponent<MapComponent>(grid.Owner))
+                continue;
+            // DS14-end
+
             EntManager.TryGetComponent(grid.Owner, out IFFComponent? iffComp);
 
             if (grid.Owner != GridEntity && !_shuttles.CanDraw(grid.Owner, iffComp: iffComp))

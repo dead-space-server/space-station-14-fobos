@@ -7,10 +7,30 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 75
-        Structural: 226
+        Piercing: 45 #DS14 value
+        Blunt: 25 #DS14 value
+        Structural: 336
     penetrationThreshold: 360
     penetrationDamageTypeRequirement:
     - Structural
   - type: StaminaDamageOnCollide
-    damage: 60
+    damage: 50
+#DS14 start
+- type: entity 
+  categories: [ HideSpawnMenu ]
+  parent: BaseBulletAP
+  id: BulletAntiMaterielAP
+  name: bullet (.60 anti-materiel AP)
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 50
+        Structural: 126
+    penetrationThreshold: 360
+    penetrationDamageTypeRequirement:
+    - Structural
+    ignoreResistances: true
+  - type: StaminaDamageOnCollide
+    damage: 40
+#DS14 end

@@ -116,3 +116,74 @@
     contents:
       - id: PistolDominator
         amount: 3
+
+- type: entity
+  parent: [ CrateWeaponSecure, BaseSecurityContraband ]
+  id: CrateArmoryVerdict
+  name: verdict crate
+  description: Contains two verdicts and 4 speedloaders for them. Requires Armory access to open.
+  components:
+  - type: StorageFill
+    contents:
+      - id: WeaponRevolverVerdict
+        amount: 2
+      - id: SpeedLoaderMagnum
+        amount: 4
+
+- type: entity
+  parent: [ CrateWeaponSecure, BaseSecurityContraband ]
+  id: CrateArmoryDrozd
+  name: drozd crate
+  description: Contains two drozds and 4 four mags 9x19 from them. Requires Armory access to open.
+  components:
+  - type: StorageFill
+    contents:
+      - id: WeaponSubMachineGunDrozd
+        amount: 2
+      - id: MagazinePistolSubMachineGun
+        amount: 4
+
+- type: entity
+  parent: [ CrateWeaponSecure, BaseSecurityContraband ]
+  id: CrateArmoryAres
+  name: ares 12 crate
+  description: For when the enemy absolutely needs to be replaced with lead. Contains two Ares SWC, and some standard shotgun shells. Requires Armory access to open.
+  components:
+  - type: StorageFill
+    contents:
+      - id: WeaponShotgunAresSWC
+        amount: 2
+      - id: MagazineShotgun
+        amount: 4
+      - id: BoxLethalshot
+        amount: 2
+
+- type: entity
+  parent: [ CrateWeaponSecure, BaseSecurityContraband ]
+  id: CrateArmoryKammerer
+  name: kammerer crate
+  description: For when the enemy absolutely needs to be replaced with lead. Contains two Kammerer, and some standard shotgun shells. Requires Armory access to open.
+  components:
+  - type: StorageFill
+    contents:
+      - id: WeaponShotgunKammerer
+        amount: 2
+      - id: BoxLethalshot
+        amount: 4
+      - id: ClothingBeltBandolier
+        amount: 2
+
+- type: entity
+  parent: [ CrateWeaponSecure, BaseSecurityContraband ]
+  id: CrateArmoryDoubleBarreled
+  name: double barreled crate
+  description: For when the enemy absolutely needs to be replaced with lead. Contains two Double Barreled, and some standard shotgun shells. Requires Armory access to open.
+  components:
+  - type: StorageFill
+    contents:
+      - id: WeaponShotgunDoubleBarreled
+        amount: 2
+      - id: BoxLethalshot
+        amount: 4
+      - id: ClothingBeltBandolier
+        amount: 2

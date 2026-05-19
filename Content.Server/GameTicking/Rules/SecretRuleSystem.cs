@@ -27,6 +27,8 @@ public sealed class SecretRuleSystem : GameRuleSystem<SecretRuleComponent>
 
     private string _ruleCompName = default!;
 
+    public GamePresetPrototype? SelectedSecretPreset { get; private set; } // DS14
+
     public override void Initialize()
     {
         base.Initialize();
@@ -47,6 +49,7 @@ public sealed class SecretRuleSystem : GameRuleSystem<SecretRuleComponent>
 
         Log.Info($"Selected {preset.ID} as the secret preset.");
         _adminLogger.Add(LogType.EventStarted, $"Selected {preset.ID} as the secret preset.");
+        SelectedSecretPreset = preset; // DS14
 
         foreach (var rule in preset.Rules)
         {
@@ -72,6 +75,8 @@ public sealed class SecretRuleSystem : GameRuleSystem<SecretRuleComponent>
         {
             GameTicker.EndGameRule(rule);
         }
+
+        SelectedSecretPreset = null; // DS14
     }
 
     private bool TryPickPreset(ProtoId<WeightedRandomPrototype> weights, [NotNullWhen(true)] out GamePresetPrototype? preset)

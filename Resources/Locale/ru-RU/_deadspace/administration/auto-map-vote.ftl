@@ -1,5 +1,5 @@
-auto-map-vote-round-title = Автоголосование карты
-auto-map-vote-round-subtitle = Запускается после конца раунда и берёт выбор следующей карты под свой контроль.
+auto-map-vote-round-title = Управление рауном
+auto-map-vote-round-subtitle = Автоголосование карты и история игровых режимов.
 auto-map-vote-round-status-label = Состояние
 auto-map-vote-round-category-label = Активный пул
 auto-map-vote-round-state-loading = Загрузка...
@@ -14,6 +14,19 @@ auto-map-vote-round-start = Инициировать голосование
 auto-map-vote-round-toggle-loading = Загрузка...
 auto-map-vote-round-toggle-enable = Включить автоголосование
 auto-map-vote-round-toggle-disable = Выключить автоголосование
+
+round-game-mode-history-open-button = Игровые режимы
+round-game-mode-history-window-title = Игровые режимы
+round-game-mode-history-refresh = Обновить
+round-game-mode-history-tab-today = Сегодня
+round-game-mode-history-tab-yesterday = Вчера
+round-game-mode-history-tab-before-yesterday = Позавчера
+round-game-mode-history-loading = Загрузка истории игровых режимов...
+round-game-mode-history-empty = За сегодня, вчера и позавчера игровых режимов не найдено.
+round-game-mode-history-empty-tab = Игровые режимы не найдены.
+round-game-mode-history-summary = Найдено режимов: {$count}
+round-game-mode-history-row = #{$round} | {$started} | {$mode}
+round-game-mode-history-secret-format = {$secret} ({$selected})
 
 auto-map-vote-category-small = Маленькие
 auto-map-vote-category-medium = Средние

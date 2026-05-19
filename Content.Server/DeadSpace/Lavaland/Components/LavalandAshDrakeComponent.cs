@@ -119,6 +119,42 @@ public sealed partial class LavalandAshDrakeComponent : Component
     [DataField]
     public SoundSpecifier HitSound = new SoundPathSpecifier("/Audio/_DeadSpace/Lavaland/AshDrake/sear.ogg");
 
+    [DataField]
+    public float CageAttackChance = 0.22f;
+
+    [DataField]
+    public TimeSpan CageDuration = TimeSpan.FromSeconds(14);
+
+    [DataField]
+    public TimeSpan CageTargetInterval = TimeSpan.FromSeconds(1.5);
+
+    [DataField]
+    public TimeSpan CageDamageInterval = TimeSpan.FromSeconds(0.75);
+
+    [DataField]
+    public int CageHalfSize = 3;
+
+    [DataField]
+    public int CagePhaseCount = 3;
+
+    [DataField]
+    public string CageBorderFirePrototype = "LavalandAshDrakeCageBarrier";
+
+    [DataField]
+    public string CageTargetPrototype = "LavalandAshDrakeCageTarget";
+
+    [DataField]
+    public string CageFirePrototype = "LavalandAshDrakeCageFire";
+
+    [DataField]
+    public DamageSpecifier CageInteriorFireDamage = new()
+    {
+        DamageDict = new()
+        {
+            { "Heat", FixedPoint2.New(35) },
+        },
+    };
+
     [ViewVariables]
     public TimeSpan NextAttack;
 
@@ -175,6 +211,42 @@ public sealed partial class LavalandAshDrakeComponent : Component
 
     [ViewVariables]
     public readonly List<LavalandAshDrakePendingTile> PendingTiles = new();
+
+    [ViewVariables]
+    public bool CageActive;
+
+    [ViewVariables]
+    public int CagePhase;
+
+    [ViewVariables]
+    public Vector2i CageCenter;
+
+    [ViewVariables]
+    public TimeSpan CageEndAt;
+
+    [ViewVariables]
+    public TimeSpan NextCageTargetAt;
+
+    [ViewVariables]
+    public TimeSpan NextCageFillAt;
+
+    [ViewVariables]
+    public TimeSpan NextCageDamageTick;
+
+    [ViewVariables]
+    public Vector2i? CurrentCageTargetTile;
+
+    [ViewVariables]
+    public Vector2i? CageSafeTile;
+
+    [ViewVariables]
+    public EntityUid? CageTargetEntity;
+
+    [ViewVariables]
+    public readonly List<EntityUid> CageBorderEntities = new();
+
+    [ViewVariables]
+    public readonly List<EntityUid> CageInteriorEntities = new();
 }
 
 public sealed class LavalandAshDrakePendingTile
@@ -186,4 +258,32 @@ public sealed class LavalandAshDrakePendingTile
     public bool Ignite;
     public bool PlayImpactSound;
     public string EffectPrototype = string.Empty;
+}
+
+[RegisterComponent]
+public sealed partial class LavalandAshDrakeFireComponent : Component
+{
+    [DataField]
+    public TimeSpan InitialDelay = TimeSpan.Zero;
+
+    [DataField]
+    public TimeSpan DamageInterval = TimeSpan.FromSeconds(0.3);
+
+    [DataField]
+    public float FireStacks = 2.5f;
+
+    [DataField]
+    public DamageSpecifier Damage = new()
+    {
+        DamageDict = new()
+        {
+            { "Heat", FixedPoint2.New(10) },
+        },
+    };
+
+    [ViewVariables]
+    public TimeSpan SpawnedAt;
+
+    [ViewVariables]
+    public readonly Dictionary<EntityUid, TimeSpan> NextDamageByEntity = new();
 }

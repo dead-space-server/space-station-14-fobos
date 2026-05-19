@@ -14,9 +14,9 @@
       params:
         - staminaDamageMuteAtack: 25.0
           paralyzeTimeMuteAtack: 7
-          hitDamageForDamageAtack: 15
+          hitDamageForDamageAtack: 30
           hitDamageForMuteAtack: 5
-          paralyzeTimeStunAtack: 0.5
+          paralyzeTimeStunAtack: 1
           ignoreResist: true
           damageTypeForDamageAtack: Piercing
           damageTypeForMuteAtack: Blunt
