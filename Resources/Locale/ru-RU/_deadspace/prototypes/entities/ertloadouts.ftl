@@ -184,3 +184,5 @@ ert-loadout-category-combatmedicine-name = Набор автоинъекторо
 ert-loadout-category-combatmedicine-description =
     Состоит из четырёх боевых, двух пунктураза, двух пиразина и двух автоинъекторов от яда.
     Помогут вам залатать свои раны прямо в бою.
+ent-MagazineLightRifleExtended = магазин (Расширенный, 7.62х39мм)
+    .suffix = Автомат
