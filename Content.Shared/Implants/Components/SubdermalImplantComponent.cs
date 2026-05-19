@@ -78,6 +78,10 @@ public sealed partial class UseAdrenalImplantEvent : InstantActionEvent
 {
 
 }
+public sealed partial class UseRezervImplantEvent : InstantActionEvent
+{
+    
+}
 // DS14-implants-end
 
 /// <summary>
@@ -92,3 +96,4 @@ public sealed partial class ActivateImplantEvent : InstantActionEvent;
 /// TODO: Delete this and just add a ToggleUIOnTriggerComponent
 /// </remarks>
 public sealed partial class OpenUplinkImplantEvent : InstantActionEvent;
+
