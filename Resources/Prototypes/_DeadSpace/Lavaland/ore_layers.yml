@@ -69,7 +69,7 @@
   id: LavalandOreMagmite
   entityMask:
     WallRockBasalt: WallRockBasaltMagmite
-  maxCount: 26
+  maxCount: 30
   minGroupSize: 2
   maxGroupSize: 4
   radius: 4
@@ -105,7 +105,7 @@
   id: LavalandOreDiamond
   entityMask:
     WallRockBasalt: WallRockBasaltDiamond
-  maxCount: 21
+  maxCount: 30
   minGroupSize: 2
   maxGroupSize: 3
   radius: 6
