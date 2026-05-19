@@ -145,6 +145,10 @@
   name: Космический пират
 
 - type: ghostNotifyGroup
+  id: ReinforcementRadioMercping
+  name: Наёмник
+
+- type: ghostNotifyGroup
   id: ReinforcementRadioMonkeyPirateping
   name: Предок космического пирата
 

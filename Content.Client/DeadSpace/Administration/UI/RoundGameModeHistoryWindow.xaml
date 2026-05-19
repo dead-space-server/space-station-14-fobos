@@ -1,0 +1,46 @@
+<DefaultWindow
+    xmlns="https://spacestation14.io"
+    Title="{Loc round-game-mode-history-window-title}"
+    MinSize="520 360"
+    SetSize="650 480">
+    <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="6">
+        <BoxContainer Orientation="Horizontal" SeparationOverride="6">
+            <Label
+                Name="StatusLabel"
+                StyleClasses="LabelSubText"
+                HorizontalExpand="True" />
+            <Button
+                Name="RefreshButton"
+                Text="{Loc round-game-mode-history-refresh}" />
+        </BoxContainer>
+        <TabContainer
+            Name="HistoryTabs"
+            VerticalExpand="True"
+            HorizontalExpand="True">
+            <ScrollContainer VerticalExpand="True" HorizontalExpand="True">
+                <BoxContainer
+                    Name="TodayEntriesContainer"
+                    Orientation="Vertical"
+                    SeparationOverride="4"
+                    VerticalExpand="True"
+                    HorizontalExpand="True" />
+            </ScrollContainer>
+            <ScrollContainer VerticalExpand="True" HorizontalExpand="True">
+                <BoxContainer
+                    Name="YesterdayEntriesContainer"
+                    Orientation="Vertical"
+                    SeparationOverride="4"
+                    VerticalExpand="True"
+                    HorizontalExpand="True" />
+            </ScrollContainer>
+            <ScrollContainer VerticalExpand="True" HorizontalExpand="True">
+                <BoxContainer
+                    Name="BeforeYesterdayEntriesContainer"
+                    Orientation="Vertical"
+                    SeparationOverride="4"
+                    VerticalExpand="True"
+                    HorizontalExpand="True" />
+            </ScrollContainer>
+        </TabContainer>
+    </BoxContainer>
+</DefaultWindow>

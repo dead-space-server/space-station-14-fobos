@@ -90,6 +90,8 @@
     - KammererSet
     - DrozdSet
     - LaserCarbineSet
+    - MP5Set
+    - ScarLSet
   - type: ActivatableUI
     key: enum.ThiefBackpackUIKey.Key
   - type: UserInterface
@@ -110,6 +112,8 @@
     possibleSets:
     - Mk58Set
     - DominatorSet
+    - BerettaM92Set
+    - VerdictSet
   - type: ActivatableUI
     key: enum.ThiefBackpackUIKey.Key
   - type: UserInterface
@@ -134,6 +138,10 @@
     - LaserCannonSet
     - XrayCannonSet
     - LaserRifleSet
+    - amd76Set
+    - hkg3a1Set
+    - MP5Set
+    - ScarLSet
   - type: ActivatableUI
     key: enum.ThiefBackpackUIKey.Key
   - type: UserInterface
@@ -153,7 +161,8 @@
   - type: ThiefUndeterminedBackpack
     possibleSets:
     - N1984Set
-    - LaserGunSet
+    - AdvancedLaserSet
+    - BerettaM92Set
   - type: ActivatableUI
     key: enum.ThiefBackpackUIKey.Key
   - type: UserInterface
@@ -176,6 +185,11 @@
     - EnergyShotgunSet
     - VectorSet
     - PulseCarbineSet
+    - Ak305Set
+    - MP7Set
+    - LaserImpulseSMGERTSet
+    - PulseCarbineMK2ERTSet
+    - XrayEmulatorERTSet
   - type: ActivatableUI
     key: enum.ThiefBackpackUIKey.Key
   - type: UserInterface
@@ -196,7 +210,9 @@
     possibleSets:
     - MatebaSet
     - PulsePistolSet
-    - AdvancedLaserSet
+    - Mk79tacticalSet
+    - AdvancedLaserERTSet
+    - EnergyMagnumrERTSet
   - type: ActivatableUI
     key: enum.ThiefBackpackUIKey.Key
   - type: UserInterface
@@ -418,6 +434,93 @@
   - MagazineBoxPistol
 
 - type: thiefBackpackSet
+  id: Ak305Set
+  name: ert-loadout-category-ak305-name
+  description: ert-loadout-category-ak305-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/ak305.rsi
+    state: icon
+  content:
+  - WeaponRifleAk305
+  - MagazineLightRifle
+  - MagazineLightRifle
+  - MagazineLightRifle
+  - MagazineBoxLightRifle
+
+- type: thiefBackpackSet
+  id: amd76Set
+  name: ert-loadout-category-amd76-name
+  description: ert-loadout-category-amd76-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/amd76.rsi
+    state: icon
+  content:
+  - WeaponRifleAMD76
+  - MagazineCarbineSKS
+  - MagazineCarbineSKS
+  - MagazineCarbineSKS
+  - MagazineBoxLightRifle
+
+- type: thiefBackpackSet
+  id: hkg3a1Set
+  name: ert-loadout-category-hkg3a1-name
+  description: ert-loadout-category-hkg3a1-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/hkg3a1.rsi
+    state: icon
+  content:
+  - WeaponRiflehkg3a1
+  - MagazineCarbineSKS
+  - MagazineCarbineSKS
+  - MagazineCarbineSKS
+  - MagazineBoxLightRifle
+
+- type: thiefBackpackSet
+  id: MP5Set
+  name: ert-loadout-category-mp5-name
+  description: ert-loadout-category-mp5-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/smgs/mp5.rsi  
+    state: icon
+  content:
+  - WeaponSubMachineGunMP5
+  - MagazinePistolSubMachineGun
+  - MagazinePistolSubMachineGun
+  - MagazinePistolSubMachineGun
+  - MagazineBoxPistol
+  - MagazineBoxPistol
+
+- type: thiefBackpackSet
+  id: MP7Set
+  name: ert-loadout-category-mp7-name
+  description: ert-loadout-category-mp7-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/smgs/mp7.rsi  
+    state: icon
+  content:
+  - WeaponSubMachineGunMP7
+  - MagazinePistolSubMachineGun
+  - MagazinePistolSubMachineGun
+  - MagazinePistolSubMachineGun
+  - MagazineBoxPistol
+  - TelescopicShield
+  - TelescopicShield
+
+- type: thiefBackpackSet
+  id: ScarLSet
+  name: ert-loadout-category-scarl-name
+  description: ert-loadout-category-scarl-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/scarl.rsi
+    state: icon
+  content:
+  - WeaponRifleScarL
+  - MagazineRifle
+  - MagazineRifle
+  - MagazineRifle
+  - MagazineBoxRifle
+
+- type: thiefBackpackSet
   id: LecterSet
   name: ert-loadout-category-lecter-name
   description: ert-loadout-category-lecter-description
@@ -518,6 +621,32 @@
   - MagazinePistol
 
 - type: thiefBackpackSet
+  id: BerettaM92Set
+  name: ert-loadout-category-berettam92-name
+  description: ert-loadout-category-berettam92-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/beretta_m92.rsi
+    state: icon
+  content:
+  - WeaponPistolBerettaM92
+  - MagazinePistol
+  - MagazinePistol
+  - MagazinePistol
+
+- type: thiefBackpackSet
+  id: Mk79tacticalSet
+  name: ert-loadout-category-mk79tactical-name
+  description: ert-loadout-category-mk79tactical-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/mk79_tactical.rsi
+    state: icon
+  content:
+  - WeaponPistolMk79tactical
+  - MagazinePistolHighCapacity
+  - MagazinePistolHighCapacity
+  - MagazinePistolHighCapacity
+
+- type: thiefBackpackSet
   id: Mk58DisablerSet
   name: ert-loadout-category-mk58-name
   description: ert-loadout-category-mk58-description
@@ -538,6 +667,19 @@
   content:
   - WeaponRevolverVerdict
   - WeaponDisabler
+
+- type: thiefBackpackSet
+  id: VerdictSet
+  name: ert-loadout-category-verdict-name
+  description: ert-loadout-category-verdict-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/verdict.rsi
+    state: icon
+  content:
+  - WeaponRevolverVerdict
+  - SpeedLoaderMagnum
+  - SpeedLoaderMagnum
+  - MagazineBoxMagnum
 
 - type: thiefBackpackSet
   id: MatebaSet
@@ -624,6 +766,58 @@
     state: icon
   content:
   - WeaponAdvancedLaser
+
+- type: thiefBackpackSet
+  id: LaserImpulseSMGERTSet
+  name: ert-loadout-category-laserimpulsesmg-name
+  description: ert-loadout-category-laserimpulsesmg-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Battery/pulse_smg.rsi
+    state: icon
+  content:
+  - WeaponLaserImpulseSMG
+  - TelescopicShield
+  - TelescopicShield
+
+- type: thiefBackpackSet
+  id: PulseCarbineMK2ERTSet
+  name: ert-loadout-category-pulseCarbinemk2-name
+  description: ert-loadout-category-pulseCarbinemk2-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Battery/pulse_carbine_mk2.rsi
+    state: icon
+  content:
+  - WeaponPulseCarbineMK2
+
+- type: thiefBackpackSet
+  id: XrayEmulatorERTSet
+  name: ert-loadout-category-xrayemulator-name
+  description: ert-loadout-category-xrayemulator-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Battery/multi_lens_immolator.rsi
+    state: icon
+  content:
+  - WeaponXrayEmulator
+
+- type: thiefBackpackSet
+  id: AdvancedLaserERTSet
+  name: ert-loadout-category-advancedlaserert-name
+  description: ert-loadout-category-advancedlaser-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Battery/advancedlasergunert.rsi
+    state: icon
+  content:
+  - WeaponAdvancedLaserERT
+
+- type: thiefBackpackSet
+  id: EnergyMagnumrERTSet
+  name: ert-loadout-category-energymagnum-name
+  description: ert-loadout-category-energymagnum-description
+  sprite:
+    sprite: Objects/Weapons/Guns/Battery/energy_magnum.rsi
+    state: icon
+  content:
+  - WeaponEnergyMagnum
 
 - type: thiefBackpackSet
   id: PulsePistolSet

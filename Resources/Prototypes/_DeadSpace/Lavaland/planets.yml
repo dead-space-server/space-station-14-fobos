@@ -23,29 +23,29 @@
   structures:
     LavalandLavaBrig: 4
   tendrilsEnabled: true
-  tendrilSpawnCount: 26
-  tendrilRespawnInterval: 1200
+  tendrilSpawnCount: 36
+  tendrilRespawnInterval: 900
   tendrilRespawnBatchMin: 1
-  tendrilRespawnBatchMax: 1
-  tendrilSpawnAttempts: 320
-  tendrilMinDistance: 120
-  tendrilMaxDistance: 320
-  tendrilMinSeparation: 80
+  tendrilRespawnBatchMax: 2
+  tendrilSpawnAttempts: 460
+  tendrilMinDistance: 105
+  tendrilMaxDistance: 325
+  tendrilMinSeparation: 72
   tendrilClearRadius: 1
   tendrilMapEdgePadding: 24
-  tendrilOutpostExclusionRadius: 100
+  tendrilOutpostExclusionRadius: 92
   tendrilLandingExclusionRadius: 56
   tendrilFtlBeaconExclusionRadius: 56
   tendrilSpawns:
   - prototype: LavalandNecropolisTendrilWatcher
     weight: 2
-    maxCount: 8
+    maxCount: 10
   - prototype: LavalandNecropolisTendrilGoliath
     weight: 3
-    maxCount: 12
+    maxCount: 16
   - prototype: LavalandNecropolisTendrilLegion
     weight: 1
-    maxCount: 6
+    maxCount: 10
   bossArenas:
     LavalandHierophantArena: 1
     LavalandAshDrakeArena: 1
@@ -68,19 +68,21 @@
   - LavalandChasmsMedium
   - LavalandChasmsLarge
   faunaEnabled: true
-  faunaInitialSpawnCount: 200
-  faunaSoftCap: 200
-  faunaHardCap: 220
-  faunaUpdateInterval: 80
-  faunaSpawnBatchMin: 3
-  faunaSpawnBatchMax: 5
-  faunaLowPopulationThreshold: 120
-  faunaLowPopulationBatchMax: 10
-  faunaSpawnAttempts: 360
+  faunaInitialSpawnCount: 300
+  faunaSoftCap: 300
+  faunaHardCap: 340
+  faunaUpdateInterval: 70
+  faunaSpawnBatchMin: 4
+  faunaSpawnBatchMax: 7
+  faunaLowPopulationThreshold: 180
+  faunaLowPopulationBatchMax: 14
+  faunaSpawnAttempts: 520
   faunaSpawnClearance: 1
   faunaMapEdgePadding: 18
-  faunaMinPlayerDistance: 32
-  faunaOutpostExclusionRadius: 80
+  faunaMinDistance: 85
+  faunaMaxDistance: 325
+  faunaMinPlayerDistance: 26
+  faunaOutpostExclusionRadius: 72
   faunaLandingExclusionRadius: 36
   faunaFtlBeaconExclusionRadius: 32
   faunaSectorSize: 48
@@ -88,28 +90,28 @@
   faunaSpawns:
   - prototype: MobWatcherLavaland
     weight: 22
-    maxCount: 58
+    maxCount: 86
   - prototype: MobLavalandHivelord
     weight: 18
-    maxCount: 46
+    maxCount: 70
   - prototype: MobLavalandBasilisk
     weight: 14
-    maxCount: 36
+    maxCount: 56
   - prototype: MobLavalandGoliath
     weight: 11
-    maxCount: 28
+    maxCount: 44
   - prototype: MobWatcherMagmawing
     weight: 5
-    maxCount: 14
+    maxCount: 24
   - prototype: MobWatcherIcewing
     weight: 5
-    maxCount: 14
+    maxCount: 24
   - prototype: MobLavalandLegion
     weight: 3
-    maxCount: 10
+    maxCount: 20
   - prototype: MobLavalandGoldgrub
     weight: 1
-    maxCount: 7
+    maxCount: 12
   atmosphere:
     volume: 2500
     temperature: 300
@@ -135,3 +137,20 @@
   ftlDockWhitelist:
     components:
     - LavalandShuttle
+  customGrids:
+  - path: /Maps/Lavaland/ds_ashwalkers_base.yml
+    count: 1
+    name: База пеплоходцев
+    minDistance: 160
+    maxDistance: 300
+    minSeparation: 120
+    footprintRadius: 10
+    spawnAttempts: 160
+  - path: /Maps/Lavaland/ds_mini_ratvar.yml
+    count: 1
+    name: Заброшеный мостик
+    minDistance: 120
+    maxDistance: 320
+    minSeparation: 90
+    footprintRadius: 5
+    spawnAttempts: 160

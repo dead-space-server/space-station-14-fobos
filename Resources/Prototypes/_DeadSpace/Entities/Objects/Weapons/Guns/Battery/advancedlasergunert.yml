@@ -1,0 +1,227 @@
+- type: entity
+  name: продвинутый лазерный пистолет ОБР
+  parent: [BaseWeaponBatterySmall, BaseCentcommContraband]
+  id: WeaponAdvancedLaserERT
+  description: Эксперементальная разработка КСО на основе микро-ядерного синтеза. Благодарю этому данное оружие может самозаряжаться, и хранить намного больше заряда
+  components:
+  - type: Item
+    size: Normal
+    shape:
+    - 0,0,1,1
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Guns/Battery/advancedlasergunert.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-unshaded-4
+      map: ["enum.GunVisualLayers.MagUnshaded"]
+      shader: unshaded
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Weapons/Guns/Battery/advancedlasergunert.rsi
+  - type: Gun
+    fireRate: 2.5 # DS14-value
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/laser_cannon.ogg
+  - type: BatteryAmmoProvider
+    proto: RedMediumLaser
+    fireCost: 100
+  - type: BatterySelfRecharger
+    autoRechargeRate: 30
+  - type: MagazineVisuals
+    magState: mag
+    steps: 5
+    zeroVisible: true
+  - type: Appearance
+  - type: Battery
+    maxCharge: 2400
+    startingCharge: 2400
+
+# Дальше зути сделал ибо я ебал
+
+- type: entity
+  parent: [BaseWeaponBattery, BaseCentcommContraband]
+  id: WeaponLaserImpulseSMG
+  name: импульсный ПП
+  description: Облегчённая версия импульсного карабина, имеет наивысшую скорострельность из всех представителей импульсного вооружения NT, а также имеет большой запас батареи, но точность желает оставлять лучшего.
+  components:
+  - type: Item
+    size: Large
+    shape:
+    - 0,0,2,1
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Guns/Battery/pulse_smg.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-unshaded-4
+      map: ["enum.GunVisualLayers.MagUnshaded"]
+      shader: unshaded
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Weapons/Guns/Battery/pulse_smg.rsi
+  - type: Gun
+    minAngle: 35
+    maxAngle: 45
+    angleIncrease: 4
+    angleDecay: 16
+    fireRate: 7
+    soundGunshot:
+      path: /Audio/_DeadSpace/Weapons/Guns/Gunshots/laser_rifle.ogg
+      params:
+        volume: 1
+    selectedMode: FullAuto
+    availableModes:
+    - FullAuto
+    - SemiAuto
+  - type: BatteryAmmoProvider
+    proto: LaserImpulseSMGBullet
+    fireCost: 25
+  - type: Battery
+    maxCharge: 1400
+    startingCharge: 1400
+  - type: MagazineVisuals
+    magState: mag
+    steps: 5
+    zeroVisible: true
+  - type: Appearance
+
+- type: entity
+  name: заряженный заряд
+  id: LaserImpulseSMGBullet
+  parent: DominatorBullet
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Heat: 15
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Projectiles/projectiles_tg.rsi
+    layers:
+    - state: omnilaser
+      shader: unshaded
+
+- type: entity
+  parent: [BaseWeaponBattery, BaseGunWieldable, BaseCentcommContraband]
+  id: WeaponPulseCarbineMK2
+  description: Новейший импульсный карабин новой модели, скорострельнее и имеет больший запас батареи, но точность понижена.
+  name: Импульсный карабин MK2
+  components:
+  - type: Item
+    size: Large
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Guns/Battery/pulse_carbine_mk2.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-unshaded-4
+      map: ["enum.GunVisualLayers.MagUnshaded"]
+      shader: unshaded
+  - type: MagazineVisuals
+    magState: mag
+    steps: 5
+    zeroVisible: false
+  - type: Appearance
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Weapons/Guns/Battery/pulse_carbine_mk2.rsi
+  - type: Gun
+    minAngle: 35
+    maxAngle: 45
+    angleIncrease: 4
+    angleDecay: 16
+    selectedMode: SemiAuto
+    fireRate: 5
+    availableModes:
+      - SemiAuto
+      - FullAuto
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/laser3.ogg
+  - type: GunWieldBonus
+    minAngle: -10
+    maxAngle: -10
+  - type: BatteryAmmoProvider
+    proto: PulseMK2
+    fireCost: 100
+  - type: Battery
+    maxCharge: 5000
+    startingCharge: 5000
+
+- type: entity
+  parent: BasicHitscan
+  id: PulseMK2
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: HitscanBasicDamage
+    damage:
+      types:
+        Heat: 20
+  - type: HitscanBasicVisuals
+    muzzleFlash:
+      sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
+      state: muzzle_blue
+    travelFlash:
+      sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
+      state: beam_blue
+    impactFlash:
+      sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
+      state: impact_blue
+  - type: HitscanBasicEffects
+    temperature: 50
+    fireStacks: 2
+
+- type: entity
+  name: Мульти-Лазерный-Эмулятор
+  parent: [BaseWeaponBattery, BaseGunWieldable, BaseCentcommContraband]
+  id: WeaponXrayEmulator
+  description: Пушка что заставляет мутировать прямо на твоих глазах недругов.
+  components:
+  - type: Item
+    size: Huge
+    shape:
+    - 0,0,4,1
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Guns/Battery/multi_lens_immolator.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-unshaded-0
+      map: ["enum.GunVisualLayers.MagUnshaded"]
+      shader: unshaded
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Weapons/Guns/Battery/multi_lens_immolator.rsi
+  - type: Gun
+    fireRate: 0.75
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/laser3.ogg
+  - type: BatteryAmmoProvider
+    proto: XrayLaserEmulator
+    fireCost: 80
+  - type: MagazineVisuals
+    magState: mag
+    steps: 5
+    zeroVisible: true
+  - type: Appearance
+  - type: GunRequiresWield
+
+- type: entity
+  parent: BasicHitscan
+  id: XrayLaserEmulator
+  name: анигилятор
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: HitscanBasicDamage
+    damage:
+      types:
+        Heat: 20
+        Radiation: 40
+  - type: HitscanBasicVisuals
+    muzzleFlash:
+      sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
+      state: muzzle_xray
+    travelFlash:
+      sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
+      state: xray
+    impactFlash:
+      sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
+      state: impact_xray
+  - type: HitscanBasicEffects
+    temperature: 15

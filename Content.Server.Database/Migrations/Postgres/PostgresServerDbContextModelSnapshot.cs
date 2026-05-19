@@ -1282,6 +1282,10 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("integer")
                         .HasColumnName("server_id");
 
+                    b.Property<string>("GamePresetName")
+                        .HasColumnType("text")
+                        .HasColumnName("game_preset_name");
+
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("start_date");

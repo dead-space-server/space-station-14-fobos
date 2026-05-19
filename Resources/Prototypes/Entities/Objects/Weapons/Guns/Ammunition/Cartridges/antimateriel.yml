@@ -18,3 +18,26 @@
   - type: SpentAmmoVisuals
   - type: StaticPrice
     price: 20
+    
+#DS14 start
+- type: entity
+  parent: CartridgeAntiMateriel
+  id: CartridgeAntiMaterielAP
+  name: патрон (.60 бронебойный)
+  description: A high-power cartridge used by high-precision rifles.
+  components:
+  - type: Tag
+    tags:
+    - CartridgeAntiMaterielAP
+  - type: CartridgeAmmo
+    proto: BulletAntiMaterielAP
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Ammunition/Casings/large_casing.rsi
+    layers:
+    - state: piercing
+      map: ["enum.AmmoVisualLayers.Base"]
+  - type: Appearance
+  - type: SpentAmmoVisuals
+  - type: StaticPrice
+    price: 20
+#DS14 end

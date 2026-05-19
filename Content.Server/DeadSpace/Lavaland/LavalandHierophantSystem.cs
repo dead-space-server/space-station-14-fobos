@@ -440,6 +440,8 @@ public sealed class LavalandHierophantSystem : EntitySystem
         if (!IsInsideInnerArena(arena, destination))
             destination = ClampToInnerArena(arena, destination);
 
+        SpawnAnchored(hierophant.TelegraphTeleportPrototype, gridUid, grid, source);
+        SpawnAnchored(hierophant.TelegraphTeleportPrototype, gridUid, grid, destination);
         PlayTile(hierophant.BlinkSourceSound, gridUid, grid, source, -1f);
         PlayTile(hierophant.BlinkDestinationSound, gridUid, grid, destination, -1f);
 
@@ -685,6 +687,8 @@ public sealed class LavalandHierophantSystem : EntitySystem
             {
                 var destination = ClampToInnerArena(arena, pending.Destination);
                 _transform.SetCoordinates(pending.Boss, _map.GridTileToLocal(gridUid, grid, destination));
+                var destTile = _map.LocalToTile(gridUid, grid, _map.GridTileToLocal(gridUid, grid, pending.Destination));
+                SpawnAnchored(hierophant.TelegraphTeleportPrototype, gridUid, grid, destTile);
                 _transform.SetLocalRotation(pending.Boss, xform.LocalRotation);
             }
 

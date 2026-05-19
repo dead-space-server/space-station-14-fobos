@@ -36,15 +36,15 @@
       messages: ShieldMessages
     - type: Destructible
       thresholds:
+#        - trigger:
+#            !type:DamageTrigger
+#            damage: 140
+#          behaviors:
+#            - !type:DoActsBehavior
+#              acts: [ "Destruction" ]
         - trigger:
             !type:DamageTrigger
-            damage: 140
-          behaviors:
-            - !type:DoActsBehavior
-              acts: [ "Destruction" ]
-        - trigger:
-            !type:DamageTrigger
-            damage: 100 #This is probably enough damage before it breaks
+            damage: 220 #DS14 curse 220
           behaviors:
             - !type:DoActsBehavior
               acts: [ "Destruction" ]
@@ -578,15 +578,15 @@
       messages: EnergyShieldMessages
     - type: Destructible
       thresholds:
+#        - trigger:
+#            !type:DamageTrigger
+#            damage: 180
+#          behaviors:
+#            - !type:DoActsBehavior
+#              acts: [ "Destruction" ]
         - trigger:
             !type:DamageTrigger
-            damage: 180
-          behaviors:
-            - !type:DoActsBehavior
-              acts: [ "Destruction" ]
-        - trigger:
-            !type:DamageTrigger
-            damage: 100
+            damage: 260 #DS14 no curse 220((
           behaviors:
             - !type:DoActsBehavior
               acts: [ "Destruction" ]
@@ -660,15 +660,15 @@
     - type: Appearance
     - type: Destructible
       thresholds:
+#        - trigger:
+#            !type:DamageTrigger
+#            damage: 100
+#          behaviors:
+#            - !type:DoActsBehavior
+#              acts: [ "Destruction" ]
         - trigger:
             !type:DamageTrigger
-            damage: 100
-          behaviors:
-            - !type:DoActsBehavior
-              acts: [ "Destruction" ]
-        - trigger:
-            !type:DamageTrigger
-            damage: 70
+            damage: 180
           behaviors:
             - !type:DoActsBehavior
               acts: [ "Destruction" ]

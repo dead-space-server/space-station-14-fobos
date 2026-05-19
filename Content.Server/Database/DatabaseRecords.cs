@@ -120,5 +120,6 @@ public sealed record PlayerRecord(
     ImmutableTypedHwid? HWId);
 
 public sealed record RoundRecord(int Id, DateTimeOffset? StartDate, ServerRecord Server);
+public sealed record RoundGameModeRecord(int RoundId, DateTime StartDate, string GamePresetName); // DS14
 
 public sealed record ServerRecord(int Id, string Name);

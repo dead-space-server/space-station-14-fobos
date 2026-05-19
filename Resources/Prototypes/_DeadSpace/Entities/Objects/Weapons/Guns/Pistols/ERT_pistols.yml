@@ -1,0 +1,58 @@
+- type: entity
+  name: МК-79 "tactical"
+  parent: [BaseWeaponPistol, BaseSecurityContraband]
+  id: WeaponPistolMk79tactical
+  description: Точность, скорострельность, надёжность! Главный слоган этого пистолета, он спасёт вас от всего, от тьмы с помощью фонарика, до клоуна с мимом. Использует патроны калибра 9х19.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/mk79_tactical.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-0
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/mk79_tactical.rsi
+  - type: Item
+    storedOffset: 0,-2
+  - type: Gun
+    fireRate: 6.5 # DS14
+    availableModes:
+    - SemiAuto
+    - Burst
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/mk58.ogg
+  - type: StealTarget
+    stealGroup: OfficerHandgun
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: MagazinePistolHighCapacity
+
+- type: entity
+  name: Beretta M92
+  parent: [BaseWeaponPistol, BaseSecurityContraband]
+  id: WeaponPistolBerettaM92
+  description: Точный и давно зарекомендовавший себя пистолет, вы чувствуете себя крутым полицейским старой Терры, когда держите его в руке. Использует патроны калибра 9х19.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/beretta_m92.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-0
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/mk79_tactical.rsi
+  - type: Item
+    storedOffset: 0,-2
+  - type: Gun
+    fireRate: 6.5 # DS14
+    availableModes:
+    - SemiAuto
+    - Burst
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/mk58.ogg
+  - type: StealTarget
+    stealGroup: OfficerHandgun

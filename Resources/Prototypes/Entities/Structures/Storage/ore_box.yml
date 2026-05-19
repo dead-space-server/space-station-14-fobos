@@ -32,7 +32,23 @@
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
   - type: Climbable
-
+  #DS14-start
+  - type: LavalandOreRedeemer
+    oreValues:
+      SteelOre: 1
+      Coal: 1
+      SaltOre: 1
+      PlasmaOre: 2
+      SpaceQuartz: 3
+      SilverOre: 4
+      GoldOre: 4
+      MagmiteOre: 8
+      UraniumOre: 8
+      BananiumOre: 8
+      BluespaceCrystalOre: 12
+      DiamondOre: 16
+  - type: LavalandFultonable
+  #DS14-end
   # orebox-specific
   - type: Sprite
     noRot: true
@@ -51,7 +67,7 @@
           False: { visible: true }
   - type: Storage
     grid:
-    - 0,0,9,5
+    - 0,0,18,10 #DS14
     maxItemSize: Normal
     storageOpenSound: /Audio/Effects/closetopen.ogg
     storageCloseSound: /Audio/Effects/closetclose.ogg
