@@ -881,7 +881,7 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
         }
 
         // DS14-start
-        public async Task SetRoundGamePresetAsync(int id, string? presetName)
+        public async Task SetRoundGameModeHistoryAsync(int id, string? presetName, int? playerCount, string? mapName)
         {
             await using var db = await GetDb();
 
@@ -890,6 +890,8 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
                 return;
 
             round.GamePresetName = string.IsNullOrWhiteSpace(presetName) ? null : presetName;
+            round.StartPlayerCount = playerCount;
+            round.MapName = string.IsNullOrWhiteSpace(mapName) ? null : mapName;
             await db.DbContext.SaveChangesAsync();
         }
 
@@ -909,7 +911,9 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
                 {
                     round.Id,
                     StartDate = round.StartDate!.Value,
-                    GamePresetName = round.GamePresetName!
+                    GamePresetName = round.GamePresetName!,
+                    PlayerCount = round.StartPlayerCount,
+                    round.MapName
                 })
                 .ToListAsync();
 
@@ -917,7 +921,9 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
                 .Select(round => new RoundGameModeRecord(
                     round.Id,
                     NormalizeDatabaseTime(round.StartDate),
-                    round.GamePresetName))
+                    round.GamePresetName,
+                    round.PlayerCount,
+                    round.MapName))
                 .ToList();
         }
         // DS14-end

@@ -26,6 +26,7 @@ round-game-mode-history-empty = No game modes found for today, yesterday, and th
 round-game-mode-history-empty-tab = No game modes found.
 round-game-mode-history-summary = Found modes: {$count}
 round-game-mode-history-row = #{$round} | {$started} | {$mode}
+round-game-mode-history-row-with-details = #{$round} | {$started} | {$mode} | {$map} | players: {$players}
 round-game-mode-history-secret-format = {$secret} ({$selected})
 
 auto-map-vote-category-small = Small
