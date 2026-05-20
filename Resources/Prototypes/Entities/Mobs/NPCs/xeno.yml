@@ -476,6 +476,8 @@
     raffle:
       settings: short
   - type: GhostTakeoverAvailable
+  - type: GhostRoleNotifys 
+    groupPrototype: SnakeGroup
   #DS14-end
 
 - type: entity

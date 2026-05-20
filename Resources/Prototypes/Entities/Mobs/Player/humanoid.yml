@@ -304,6 +304,8 @@
     - type: Loadout
       prototypes: [ CBURNLeaderGear ]
       roleLoadout: [ RoleSurvivalExtended ]
+    - type: GhostRoleNotifys # DS14
+      groupPrototype: CBURNGroup
 
 ## Security
 ### Amber
@@ -713,7 +715,9 @@
       nameFormat: name-format-ert
     - type: Loadout
       prototypes: [ CBURNAgentGear ]
-
+    - type: GhostRoleNotifys # DS14
+      groupPrototype: CBURNGroup
+      
 ## Syndicate
 
 - type: entity
