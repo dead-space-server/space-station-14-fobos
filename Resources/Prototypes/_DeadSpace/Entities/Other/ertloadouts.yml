@@ -454,9 +454,10 @@
     state: icon
   content:
   - WeaponRifleAk305
-  - MagazineLightRifle
-  - MagazineLightRifle
-  - MagazineLightRifle
+  - MagazineLightRifleExtended
+  - MagazineLightRifleExtended
+  - MagazineLightRifleExtended
+  - MagazineBoxLightRifle
   - MagazineBoxLightRifle
 
 - type: thiefBackpackSet

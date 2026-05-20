@@ -203,7 +203,7 @@ namespace Content.Server.Database
         Task<int> AddNewRound(Server server, params Guid[] playerIds);
         Task<Round> GetRound(int id);
         Task AddRoundPlayers(int id, params Guid[] playerIds);
-        Task SetRoundGamePresetAsync(int id, string? presetName); // DS14
+        Task SetRoundGameModeHistoryAsync(int id, string? presetName, int? playerCount, string? mapName); // DS14
         Task<List<RoundGameModeRecord>> GetRoundGameModeHistoryAsync(int serverId, DateTime fromUtc); // DS14
 
         #endregion
@@ -671,10 +671,10 @@ namespace Content.Server.Database
         }
 
         // DS14-start
-        public Task SetRoundGamePresetAsync(int id, string? presetName)
+        public Task SetRoundGameModeHistoryAsync(int id, string? presetName, int? playerCount, string? mapName)
         {
             DbWriteOpsMetric.Inc();
-            return RunDbCommand(() => _db.SetRoundGamePresetAsync(id, presetName));
+            return RunDbCommand(() => _db.SetRoundGameModeHistoryAsync(id, presetName, playerCount, mapName));
         }
 
         public Task<List<RoundGameModeRecord>> GetRoundGameModeHistoryAsync(int serverId, DateTime fromUtc)

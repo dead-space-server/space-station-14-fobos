@@ -121,10 +121,21 @@ public sealed partial class RoundGameModeHistoryWindow : DefaultWindow
 
     private static string FormatEntry(RoundGameModeHistoryEntry entry)
     {
+        if (entry.PlayerCount < 0 || string.IsNullOrWhiteSpace(entry.MapName))
+        {
+            return Loc.GetString(
+                "round-game-mode-history-row",
+                ("round", entry.RoundId),
+                ("started", entry.StartedAt),
+                ("mode", entry.GameMode));
+        }
+
         return Loc.GetString(
-            "round-game-mode-history-row",
+            "round-game-mode-history-row-with-details",
             ("round", entry.RoundId),
             ("started", entry.StartedAt),
-            ("mode", entry.GameMode));
+            ("mode", entry.GameMode),
+            ("map", entry.MapName),
+            ("players", entry.PlayerCount));
     }
 }
