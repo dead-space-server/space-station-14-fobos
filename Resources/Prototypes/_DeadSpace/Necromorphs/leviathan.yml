@@ -224,7 +224,6 @@
   suffix: Некроморф
   components:
   - type: Transform
-    anchored: true
   - type: WallHack
   - type: Leviathan
   - type: ImmunNecroobelisk

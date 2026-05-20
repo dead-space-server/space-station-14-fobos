@@ -346,3 +346,8 @@
         map: ["enum.GunVisualLayers.Mag"]
   - type: Clothing
     sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/sg336.rsi
+  - type: MagazineVisuals
+    magState: mag
+    steps: 1
+    zeroVisible: true
+  - type: Appearance
