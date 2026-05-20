@@ -1,8 +1,8 @@
 - type: entity
   parent: [ BaseStorageItem, BaseBagOpenClose ]
   id: CaseR17
-  name: особо ценный кейс
-  description: Даже страшно задуматься что спрятанно внутри.
+  name: оружейный кейс
+  description: Даже страшно задуматься что спрятанно внутри. Крест никак не связан с закатом.
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Misc/case_sr.rsi
@@ -49,8 +49,8 @@
 - type: entity
   parent: [ BaseStorageItem, BaseBagOpenClose ]
   id: CaseGurza
-  name: особо ценный кейс
-  description: Даже страшно задуматься что спрятанно внутри.
+  name: оружейный кейс
+  description: Даже страшно задуматься что спрятанно внутри. Крест никак не связан с закатом.
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Misc/case_gr.rsi
@@ -72,7 +72,7 @@
     grid:
     - 0,0,3,1
   - type: Item
-    sprite: _DeadSpace/Objects/Misc/case_sr.rsi
+    sprite: _DeadSpace/Objects/Misc/case_gr.rsi
     size: Ginormous
   - type: StorageFill
     contents:
