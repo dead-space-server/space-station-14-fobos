@@ -1,5 +1,5 @@
 - type: entity
-  name: Гюрза
+  name: R8 "Гюрза"
   parent: [BaseWeaponPistol, BaseSyndicateContraband]
   id: WeaponPistolGurza
   description: Крайне скорострельный автоматический пистолет в калибре 9х19 мм. Не имеет ничего общего с аномалиями.

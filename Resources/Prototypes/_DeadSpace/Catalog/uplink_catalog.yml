@@ -751,12 +751,12 @@
 
 - type: listing
   id: UplinkWeaponPistolGurza
-  name: Гюрза
+  name: R8 "Гюрза"
   description: Крайне скорострельный автоматический пистолет в калибре 9х19 мм. Не имеет ничего общего с аномалиями.
   icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Pistols/gurza.rsi, state: icon }
-  productEntity: WeaponPistolGurza
+  productEntity: CaseGurza
   cost:
-    Telecrystal: 7
+    Telecrystal: 10
   categories:
   - UplinkWeaponry
   conditions:
@@ -771,6 +771,38 @@
   description: Увеличинный магазин на 38 патронов. Подходит для пистолета Гюрза.
   icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Ammunition/Magazine/Pistol/gurza_mag.rsi, state: base-icon }
   productEntity: MagazineGurza
+  cost:
+    Telecrystal: 2
+  categories:
+  - UplinkAmmo
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkWeaponSniperR17
+  name: R17 ISASS "Мор"
+  description: Высокоточная полуавтоматическая винтовка для дальних дистанций. Использует патроны калибра .308 
+  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Snipers/sr.rsi, state: icon }
+  productEntity: CaseR17
+  cost:
+    Telecrystal: 18
+  categories:
+  - UplinkWeaponry
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkMagazineR17
+  name: Магазин (.308 Винчестер)
+  description: Магазин на 20 патронов. Подходит для R17 ISASS "Мор".
+  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Ammunition/Magazine/sr.rsi, state: base }
+  productEntity: MagazineR17
   cost:
     Telecrystal: 2
   categories:

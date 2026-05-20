@@ -56,6 +56,9 @@
   id: CartridgeAntiMaterielAP
 
 - type: Tag
+  id: CartridgeSniperRifle
+
+- type: Tag
   id: CatEmotes
 
 - type: Tag
@@ -222,6 +225,9 @@
 
 - type: Tag
   id: Magmite
+
+- type: Tag
+  id: MagazineR17
 
 - type: Tag
   id: MagazineEagle
