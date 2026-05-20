@@ -1,10 +1,12 @@
 using System.Numerics;
+using Content.Shared.CCVar;
 using Content.Shared.Light.Components;
 using Content.Shared.Weather;
 using Robust.Client.Audio;
 using Robust.Client.GameObjects;
 using Robust.Client.Player;
 using Robust.Shared.Audio.Systems;
+using Robust.Shared.Configuration;
 using Robust.Shared.GameStates;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
@@ -17,12 +19,16 @@ public sealed class WeatherSystem : SharedWeatherSystem
 {
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly AudioSystem _audio = default!;
+    [Dependency] private readonly IConfigurationManager _cfg = default!; // DS14
     [Dependency] private readonly MapSystem _mapSystem = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
+
+    private float _ambienceVolume; // DS14
 
     public override void Initialize()
     {
         base.Initialize();
+        Subs.CVar(_cfg, CCVars.AmbienceVolume, SetAmbienceVolume, true); // DS14
         SubscribeLocalEvent<WeatherComponent, ComponentHandleState>(OnWeatherHandleState);
     }
 
@@ -117,10 +123,17 @@ public sealed class WeatherSystem : SharedWeatherSystem
         }
 
         var alpha = GetPercent(weather, uid);
-        alpha *= SharedAudioSystem.VolumeToGain(weatherProto.Sound.Params.Volume);
+        alpha *= SharedAudioSystem.VolumeToGain(weatherProto.Sound.Params.Volume + _ambienceVolume); // DS14
         _audio.SetGain(weather.Stream, alpha, comp);
         comp.Occlusion = occlusion;
     }
+
+    // DS14-start
+    private void SetAmbienceVolume(float value)
+    {
+        _ambienceVolume = SharedAudioSystem.GainToVolume(value);
+    }
+    // DS14-end
 
     protected override bool SetState(EntityUid uid, WeatherState state, WeatherComponent comp, WeatherData weather, WeatherPrototype weatherProto)
     {
