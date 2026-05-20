@@ -14,7 +14,7 @@
     useDelay: 3
     checkCanInteract: false
   - type: InstantAction
-    event: !type:UseAdrenalImplantEvent
+    event: !type:UseInjectReagentsImplantEvent
 
 - type: entity
   parent: BaseAction
@@ -69,4 +69,4 @@
     useDelay: 90
     checkCanInteract: false
   - type: InstantAction
-    event: !type:UseRezervImplantEvent
+    event: !type:UseInjectReagentsImplantEvent

@@ -74,14 +74,7 @@ public sealed partial class SubdermalImplantComponent : Component
 public sealed partial class OpenStorageImplantEvent : InstantActionEvent;
 
 // DS14-implants-start
-public sealed partial class UseAdrenalImplantEvent : InstantActionEvent
-{
-
-}
-public sealed partial class UseRezervImplantEvent : InstantActionEvent
-{
-    
-}
+public sealed partial class UseInjectReagentsImplantEvent : InstantActionEvent;
 // DS14-implants-end
 
 /// <summary>

@@ -7,6 +7,10 @@
   components:
   - type: SubdermalImplant
     implantAction: ActionActivateAdrenalImplant
+  - type: InjectReagentsImplant
+    popup: adrenal-implant-activated
+    reagents:
+      Stimulants: 50
 
 - type: entity
   id: AdrenalImplanter
@@ -121,6 +125,11 @@
   components:
   - type: SubdermalImplant
     implantAction: ActionActivateRezervImplant
+  - type: InjectReagentsImplant
+    popup: rezerv-implant-activated
+    reagents:
+      Desoxyephedrine: 15
+      Dylovene: 15
 
 - type: entity
   id: RezervImplanter
