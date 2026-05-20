@@ -45,6 +45,9 @@
     tags:
       - MagazineRifleBox
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+        - CartridgeRifle
     proto: CartridgeRifle 
     capacity: 100
   - type: Item
