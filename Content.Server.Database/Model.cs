@@ -600,6 +600,12 @@ namespace Content.Server.Database
 
         public DateTime? StartDate { get; set; }
 
+        public string? GamePresetName { get; set; }
+
+        public int? StartPlayerCount { get; set; }
+
+        public string? MapName { get; set; }
+
         public List<Player> Players { get; set; } = default!;
 
         public List<AdminLog> AdminLogs { get; set; } = default!;

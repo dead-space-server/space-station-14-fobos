@@ -8,6 +8,15 @@
     - Wall
   components:
   - type: Chasm
+#DS14-start
+  - type: Drain
+  - type: SolutionContainerManager
+    solutions:
+      drainBuffer:
+        maxVol: 1000
+  - type: DumpableSolution
+    solution: drainBuffer
+#DS14-end
   - type: StepTrigger
     requiredTriggeredSpeed: 0
     intersectRatio: 0.25

@@ -1,0 +1,55 @@
+- type: startingGear
+  id: PirateHoloparasiteGear
+  equipment:
+    pocket1: WeaponRevolverPirateHoloparasite
+  inhand:
+    - PirateHoloparasiteCutlass
+
+- type: startingGear
+  id: PirateMonkeyGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitPirate
+    head: ClothingHeadBandRed
+    id: PiratePDA
+    back: ClothingBackpackSatchelLeather
+    ears: ClothingHeadsetFreelance
+  inhand:
+    - Cutlass
+
+- type: startingGear
+  id: PirateCaptainStartinggear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitPirate
+    shoes: ClothingShoesBootsLaceup
+    id: PiratePDA
+    back: ClothingBackpackSatchelLeather
+    belt: ClothingBeltMilitaryWebbing
+    pocket2: BasePirateUplink
+    head: ClothingHeadHatPirate
+    mask: ClothingMaskNeckGaiter
+    eyes: ClothingEyesGlassesHiddenSecurity
+    gloves: ClothingHandsGlovesCombat
+    ears: ClothingHeadsetAltFreelancer
+    neck: ClothingNeckCloakPirateCap
+    outerClothing: ClothingOuterVestWeb
+    pocket1: WeaponRevolverPirate
+  inhand:
+    - EnergyCutlass
+
+- type: startingGear
+  id: MercStartinggear
+  equipment:
+    jumpsuit: ClothingUniformTurtleneckMerc
+    shoes: ClothingShoesBootsMercFilled
+    id: PiratePDA
+    back: ClothingBackpackMercFilled
+    belt: ClothingBeltMercWebbing
+    pocket2: WeaponPistolCobra
+    head: ClothingHeadHatBeretMerc
+    mask: ClothingMaskBandMerc
+    eyes: ClothingEyesGlassesMercenary
+    gloves: ClothingHandsMercGlovesCombat
+    ears: ClothingHeadsetAltFreelancer
+    neck: ClothingNeckEarthPin
+    outerClothing: ClothingOuterVestWebMerc
+    pocket1: DoubleEmergencyOxygenTankFilled

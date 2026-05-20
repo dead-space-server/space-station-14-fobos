@@ -94,10 +94,9 @@
     - id: FoodMeatGoliath
       amount: 2
     - id: MaterialGoliathHide1
-      amount: 1
-    - id: MaterialBones1
-      amount: 2
-    - id: PKAUpgradeDamage
+      amount: 2 #DS14
+      maxAmount: 4 #DS14
+    - id: PKAUpgradeDamage #DS14
       prob: 0.05
 
 - type: entity

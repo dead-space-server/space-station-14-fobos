@@ -1,6 +1,7 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Robust.Shared.Containers;
+using Content.Shared.Light;
 
 namespace Content.Server.DeadSpace.Demons.DemonShadow.Components;
 
@@ -14,5 +15,7 @@ public sealed partial class ShadowCocoonComponent : Component
     [DataField]
     public float Range = 10f;
 
-    public List<EntityUid> PointEntities = new();
+    public Dictionary<EntityUid, bool> PointEntities = new();
+
+    public Dictionary<EntityUid, PoweredLightState> PoweredLightStates = new();
 }

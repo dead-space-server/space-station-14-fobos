@@ -1,0 +1,67 @@
+<!--Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT-->
+<controls:FancyWindow xmlns="https://spacestation14.io"
+                      xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+                      xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
+                      Resizable="False"
+                      MinSize="420 120">
+    <PanelContainer StyleClasses="BackgroundPanelDark" Margin="8 8 8 8">
+        <BoxContainer Orientation="Vertical" Margin="10" SeparationOverride="10" HorizontalExpand="True">
+            <Label Name="MessageText"
+                   Text="{Loc 'strippable-bound-user-interface-inserting-menu-message'}"
+                   HorizontalExpand="True"
+                   Align="Center"
+                   VAlign="Center"/>
+
+            <PanelContainer StyleClasses="LowDivider" />
+
+            <BoxContainer Orientation="Horizontal" SeparationOverride="8" HorizontalExpand="True">
+                <ContainerButton Name="AnswerCallButton"
+                                 StyleClasses="OpenRight"
+                                 HorizontalExpand="True"
+                                 MinHeight="54">
+                    <ContainerButton.StyleBoxOverride>
+                        <gfx:StyleBoxFlat BackgroundColor="#1f4a2d"
+                                          BorderColor="#2ea043"
+                                          BorderThickness="1" />
+                    </ContainerButton.StyleBoxOverride>
+                    <BoxContainer Orientation="Vertical" HorizontalExpand="True">
+                        <Label Name="AnswerCallText"
+                               Text="{Loc 'strippable-bound-user-interface-inserting-menu-yes-answer'}"
+                               Margin="8 6 8 5"
+                               HorizontalExpand="True"
+                               Align="Center"
+                               VAlign="Center"/>
+                        <PanelContainer SetHeight="3" Margin="8 0 8 6">
+                            <PanelContainer.PanelOverride>
+                                <gfx:StyleBoxFlat BackgroundColor="#50d26f" />
+                            </PanelContainer.PanelOverride>
+                        </PanelContainer>
+                    </BoxContainer>
+                </ContainerButton>
+                <ContainerButton Name="EndCallButton"
+                                 StyleClasses="OpenLeft"
+                                 HorizontalExpand="True"
+                                 MinHeight="54">
+                    <ContainerButton.StyleBoxOverride>
+                        <gfx:StyleBoxFlat BackgroundColor="#5a262d"
+                                          BorderColor="#d73a49"
+                                          BorderThickness="1" />
+                    </ContainerButton.StyleBoxOverride>
+                    <BoxContainer Orientation="Vertical" HorizontalExpand="True">
+                        <Label Name="EndCallText"
+                               Text="{Loc 'strippable-bound-user-interface-inserting-menu-no-answer'}"
+                               Margin="8 6 8 5"
+                               HorizontalExpand="True"
+                               Align="Center"
+                               VAlign="Center"/>
+                        <PanelContainer SetHeight="3" Margin="8 0 8 6">
+                            <PanelContainer.PanelOverride>
+                                <gfx:StyleBoxFlat BackgroundColor="#ff6875" />
+                            </PanelContainer.PanelOverride>
+                        </PanelContainer>
+                    </BoxContainer>
+                </ContainerButton>
+            </BoxContainer>
+        </BoxContainer>
+    </PanelContainer>
+</controls:FancyWindow>

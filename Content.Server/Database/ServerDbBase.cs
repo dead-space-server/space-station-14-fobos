@@ -880,6 +880,54 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
             await db.DbContext.SaveChangesAsync();
         }
 
+        // DS14-start
+        public async Task SetRoundGameModeHistoryAsync(int id, string? presetName, int? playerCount, string? mapName)
+        {
+            await using var db = await GetDb();
+
+            var round = await db.DbContext.Round.SingleOrDefaultAsync(round => round.Id == id);
+            if (round == null)
+                return;
+
+            round.GamePresetName = string.IsNullOrWhiteSpace(presetName) ? null : presetName;
+            round.StartPlayerCount = playerCount;
+            round.MapName = string.IsNullOrWhiteSpace(mapName) ? null : mapName;
+            await db.DbContext.SaveChangesAsync();
+        }
+
+        public async Task<List<RoundGameModeRecord>> GetRoundGameModeHistoryAsync(int serverId, DateTime fromUtc)
+        {
+            await using var db = await GetDb();
+
+            var rounds = await db.DbContext.Round
+                .Where(round =>
+                    round.ServerId == serverId &&
+                    round.StartDate != null &&
+                    round.StartDate >= fromUtc &&
+                    round.GamePresetName != null &&
+                    round.GamePresetName != string.Empty)
+                .OrderByDescending(round => round.StartDate)
+                .Select(round => new
+                {
+                    round.Id,
+                    StartDate = round.StartDate!.Value,
+                    GamePresetName = round.GamePresetName!,
+                    PlayerCount = round.StartPlayerCount,
+                    round.MapName
+                })
+                .ToListAsync();
+
+            return rounds
+                .Select(round => new RoundGameModeRecord(
+                    round.Id,
+                    NormalizeDatabaseTime(round.StartDate),
+                    round.GamePresetName,
+                    round.PlayerCount,
+                    round.MapName))
+                .ToList();
+        }
+        // DS14-end
+
         [return: NotNullIfNotNull(nameof(round))]
         protected RoundRecord? MakeRoundRecord(Round? round)
         {

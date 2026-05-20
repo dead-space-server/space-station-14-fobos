@@ -10,11 +10,36 @@ namespace Content.Shared.EntityEffects.Effects.EntitySpawning;
 public sealed partial class SpawnEntityEntityEffectSystem : EntityEffectSystem<TransformComponent, SpawnEntity>
 {
     [Dependency] private readonly INetManager _net = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!; // DS14
 
     protected override void Effect(Entity<TransformComponent> entity, ref EntityEffectEvent<SpawnEntity> args)
     {
         var quantity = args.Effect.Number * (int)Math.Floor(args.Scale);
         var proto = args.Effect.Entity;
+
+        // DS14-start
+        if (args.Effect.UseMapCoords)
+        {
+            var mapCoords = _transform.GetMapCoordinates(entity, entity.Comp);
+
+            if (args.Effect.Predicted)
+            {
+                for (var i = 0; i < quantity; i++)
+                {
+                    EntityManager.PredictedSpawn(proto, mapCoords);
+                }
+            }
+            else if (_net.IsServer)
+            {
+                for (var i = 0; i < quantity; i++)
+                {
+                    EntityManager.Spawn(proto, mapCoords);
+                }
+            }
+
+            return;
+        }
+        // DS14-end
 
         if (args.Effect.Predicted)
         {
@@ -34,4 +59,14 @@ public sealed partial class SpawnEntityEntityEffectSystem : EntityEffectSystem<T
 }
 
 /// <inheritdoc cref="BaseSpawnEntityEntityEffect{T}"/>
-public sealed partial class SpawnEntity : BaseSpawnEntityEntityEffect<SpawnEntity>;
+public sealed partial class SpawnEntity : BaseSpawnEntityEntityEffect<SpawnEntity>
+{
+    // DS14-start
+    /// <summary>
+    /// Spawn directly at map coordinates instead of spawning in nullspace before dropping near the target.
+    /// This keeps MapInit spawners, such as EntityTableSpawner prototypes, at the intended position.
+    /// </summary>
+    [DataField]
+    public bool UseMapCoords;
+    // DS14-end
+}
