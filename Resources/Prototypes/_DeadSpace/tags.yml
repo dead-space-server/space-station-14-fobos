@@ -215,7 +215,7 @@
   id: LightReplacer
 
 - type: Tag
-  id: LoneOpsUplink #DS-14
+  id: LoneOpsUplink
 
 - type: Tag
   id: MagazineCarbineSKS
@@ -234,6 +234,9 @@
 
 - type: Tag
   id: MagazineHristov
+
+- type: Tag
+  id: MagazineRifleBox
 
 - type: Tag
   id: MagazineTommyGun

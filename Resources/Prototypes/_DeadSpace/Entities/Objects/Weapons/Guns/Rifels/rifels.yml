@@ -70,7 +70,7 @@
   parent: BaseWeaponRifle
   id: WeaponRifleXC67
   name: штурмовая винтовка xC-67
-  description: Прототип новой штурмовой винтовки от создателей знаменитой С-20r. Использует патрон 6.5х39 TSF. Усовершенствованная эргономика позволяет достичь превосходных показателей точности стрельбы.
+  description: Прототип новой штурмовой винтовки от создателей знаменитой С-20r. Использует патрон 5.56х45 мм. Усовершенствованная эргономика позволяет достичь превосходных показателей точности стрельбы.
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/xc67.rsi
@@ -88,7 +88,7 @@
   - type: Gun
     #minAngle: 2
     #maxAngle: 8
-    fireRate: 6
+    fireRate: 7
     #angleIncrease: 1
     #angleDecay: 12
     selectedMode: FullAuto
@@ -288,7 +288,7 @@
   name: Scar-L
   parent: [BaseWeaponRifle, BaseSecurityContraband]
   id: WeaponRifleScarL
-  description: Стандартизированная штурмовая винтовка армии ОПЗ, одна из многих винтовок, используемая правительством. Использует патроны 6.5х39 мм TSF.
+  description: Стандартизированная штурмовая винтовка армии ОПЗ, одна из многих винтовок, используемая правительством. Использует патроны 5.56х45 мм.
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/scarl.rsi
