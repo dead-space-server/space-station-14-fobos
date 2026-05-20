@@ -15,7 +15,7 @@
     sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/gurza.rsi
   - type: Gun
     fireRate: 7.5
-    maxAngle: 10
+    maxAngle: 13
     selectedMode: FullAuto
     availableModes:
     - FullAuto
