@@ -1,6 +1,6 @@
 - type: entity
   name: R17 ISASS "Мор"
-  parent: BaseWeaponRifle
+  parent: [ BaseWeaponRifle, BaseSyndicateContraband ]
   id: WeaponSniperR17
   description: Высокоточная полуавтоматическая винтовка для дальних дистанций. Использует патроны калибра .308 
   components:
