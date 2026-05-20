@@ -1,6 +1,6 @@
 ## Zastaba
 - type: entity
-  parent: [ BaseWeaponRifle, BaseSyndicateContraband ]
+  parent: BaseWeaponRifle
   id: WeaponRifleZastaba
   name: Zastaba Nosle CZN-M22
   description: Штурмовой автомат специальных войск на утяжелённом калибре 5.7x39. Он отличается системой булл-пап, высоким темпом стрельбы и убойной пулей, буквально сбивающей врагов с ног.
@@ -135,7 +135,7 @@
 
 ## РШ-12
 - type: entity
-  parent: [BaseItem, BaseCentcommContraband]
+  parent: BaseItem
   id: WeaponRevolverRSh12
   name: РШ-12
   description: Мощный штурмовой револьвер под патрон 12.7x55 мм. Убойный калибр позволяет сильно пробивать структуры и небронированные цели. Встроенный фабрикатор восполняет боезапас каждые 3 секунды.
@@ -278,7 +278,7 @@
 - type: entity
   name: АШ-12
   id: WeaponRifleASh12
-  parent: [ BaseWeaponRifle, BaseSyndicateContraband ]
+  parent: BaseWeaponRifle
   description: Крупнокалиберный штурмовой автомат под патрон 12.7х55 мм. Оружие разрабатывалось с расчетом на сверхсильную останавливающую силу.
   suffix: Автомат
   components:
@@ -552,7 +552,7 @@
 
 - type: entity
   name: АС "Вал"
-  parent: [BaseWeaponRifle, BaseSecurityContraband]
+  parent: BaseWeaponRifle
   id: WeaponRifleAsVal
   description: Бесшумный автомат, используется в ан-... Террористических операциях. Да, точно не украдено у СССП.
   suffix: Автомат

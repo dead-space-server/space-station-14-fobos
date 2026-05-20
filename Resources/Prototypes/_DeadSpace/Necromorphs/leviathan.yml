@@ -223,8 +223,6 @@
   id: MobLeviathanNecro
   suffix: Некроморф
   components:
-  - type: Transform
-    anchored: false
   - type: WallHack
   - type: Leviathan
   - type: ImmunNecroobelisk
