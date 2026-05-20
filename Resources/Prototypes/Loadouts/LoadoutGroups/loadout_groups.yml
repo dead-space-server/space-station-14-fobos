@@ -1585,6 +1585,7 @@
   - DetectiveCoat
   - DetectiveCoatGrey
   - DetectiveCoatAlt
+  - DetectiveDarkCoat
 
 - type: loadoutGroup
   id: DetectiveShoes

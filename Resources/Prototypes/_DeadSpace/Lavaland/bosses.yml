@@ -320,6 +320,30 @@
   floorTile: FloorAshDrakeArena
   wallPrototype: WallAshDrakeArena
   lightPrototype: LavalandAshDrakeArenaLight
+  decorations:
+  - prototype: FloorLavaEntity
+    count: 34
+    spawnAttempts: 80
+    clusterSize: 4
+    clusterRadius: 1
+    minDistance: 10
+    maxDistance: 20
+    edgePadding: 3
+    minSeparation: 0
+  - prototype: FloraRockSolid
+    count: 5
+    spawnAttempts: 80
+    minDistance: 16
+    maxDistance: 20
+    edgePadding: 3
+    minSeparation: 3
+  - prototype: BasaltRandom
+    count: 85
+    spawnAttempts: 100
+    minDistance: 5
+    maxDistance: 21
+    edgePadding: 2
+    minSeparation: 1
   size: 45
   spawnAttempts: 180
   minDistance: 180
@@ -383,6 +407,83 @@
 
 - type: entity
   parent: LavalandAshDrakeEffectBase
+  id: LavalandAshDrakeCageBarrier
+  name: барьер клетки пепельного дракона
+  components:
+  - type: Sprite
+    noRot: true
+    drawdepth: Effects
+    sprite: _DeadSpace/Lavaland/Effects/AshDrakeFire.rsi
+    color: "#ff0000"
+    layers:
+    - state: fire
+      shader: unshaded
+  - type: Physics
+    bodyType: Static
+    canCollide: true
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.49,-0.49,0.49,0.49"
+        density: 100
+        mask:
+        - Impassable
+        layer:
+        - Impassable
+        - HighImpassable
+        - MidImpassable
+        - LowImpassable
+  - type: TimedDespawn
+    lifetime: 10
+  - type: PointLight
+    radius: 2.0
+    energy: 1.4
+    color: "#ff1200"
+
+- type: entity
+  parent: LavalandAshDrakeEffectBase
+  id: LavalandAshDrakeCageFire
+  name: огонь клетки пепельного дракона
+  components:
+  - type: Sprite
+    noRot: true
+    drawdepth: Effects
+    sprite: _DeadSpace/Lavaland/Effects/AshDrakeFire.rsi
+    color: "#ff6b2d"
+    layers:
+    - state: fire
+      shader: unshaded
+  - type: TimedDespawn
+    lifetime: 1
+  - type: PointLight
+    radius: 2.0
+    energy: 1.4
+    color: "#ff5a25"
+
+- type: entity
+  parent: LavalandAshDrakeEffectBase
+  id: LavalandAshDrakeCageTarget
+  name: безопасная метка клетки
+  components:
+  - type: Sprite
+    noRot: true
+    drawdepth: Effects
+    sprite: _DeadSpace/Lavaland/Effects/AshDrakeTarget.rsi
+    color: "#ff5507"
+    layers:
+    - state: sniper_zoom
+      shader: unshaded
+  - type: TimedDespawn
+    lifetime: 10
+  - type: PointLight
+    radius: 2.0
+    energy: 1.3
+    color: "#ff8000"
+
+- type: entity
+  parent: LavalandAshDrakeEffectBase
   id: LavalandAshDrakeTarget
   name: метка пепельного дракона
   components:
@@ -431,6 +532,7 @@
       shader: unshaded
   - type: TimedDespawn
     lifetime: 1.2
+  - type: LavalandAshDrakeFire
   - type: PointLight
     radius: 2
     energy: 1.1
@@ -568,6 +670,30 @@
   floorTile: FloorBubblegumArena
   wallPrototype: WallBubblegumArena
   lightPrototype: LavalandBubblegumArenaLight
+  decorations:
+  - prototype: FloorLavaEntity
+    count: 28
+    spawnAttempts: 80
+    clusterSize: 3
+    clusterRadius: 1
+    minDistance: 12
+    maxDistance: 22
+    edgePadding: 4
+    minSeparation: 0
+  - prototype: FloraRockSolid
+    count: 7
+    spawnAttempts: 90
+    minDistance: 18
+    maxDistance: 22
+    edgePadding: 3
+    minSeparation: 3
+  - prototype: BasaltRandom
+    count: 95
+    spawnAttempts: 110
+    minDistance: 5
+    maxDistance: 23
+    edgePadding: 2
+    minSeparation: 1
   size: 49
   spawnAttempts: 200
   minDistance: 190
@@ -800,6 +926,27 @@
     - state: leftthumbgrab
   - type: TimedDespawn
     lifetime: 1.2
+
+- type: entity
+  id: LavalandBubblegumClone
+  name: bubblegum
+  suffix: Lavaland, Fake
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Transform
+    noRot: true
+  - type: Sprite
+    drawdepth: Mobs
+    sprite: _DeadSpace/Lavaland/Mobs/Bubblegum.rsi
+    color: "#ff4d4db8"
+    layers:
+    - state: bubblegum
+      shader: unshaded
+  - type: TimedDespawn
+    lifetime: 6
+  - type: Tag
+    tags:
+    - HideContextMenu
 
 - type: entity
   parent: [ BaseMobAsteroid, BaseMobLavalandFauna ]

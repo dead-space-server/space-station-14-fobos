@@ -27,6 +27,9 @@ public sealed partial class LavalandBossArenaPrototype : IPrototype
     public EntProtoId? LightPrototype;
 
     [DataField]
+    public List<LavalandBossArenaDecorationEntry> Decorations = new();
+
+    [DataField]
     public int Size = 35;
 
     [DataField]
@@ -76,4 +79,38 @@ public sealed partial class LavalandBossArenaPrototype : IPrototype
 
     [DataField]
     public float EmptyResetMinHeal;
+}
+
+[DataDefinition]
+public sealed partial class LavalandBossArenaDecorationEntry
+{
+    [DataField(required: true)]
+    public EntProtoId Prototype = default;
+
+    [DataField]
+    public int Count = 1;
+
+    [DataField]
+    public int SpawnAttempts = 32;
+
+    [DataField]
+    public int ClusterSize = 1;
+
+    [DataField]
+    public int ClusterRadius = 1;
+
+    [DataField]
+    public float MinDistance;
+
+    [DataField]
+    public float MaxDistance;
+
+    [DataField]
+    public int EdgePadding = 2;
+
+    [DataField]
+    public int MinSeparation = 1;
+
+    [DataField]
+    public bool AvoidEntrances = true;
 }

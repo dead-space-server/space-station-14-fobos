@@ -9,6 +9,7 @@
         children:
         - id: CommsComputerCircuitboard
         - id: StationRecordsComputerCircuitboard
+        - id: ErtResponseConsoleCircuitboard #DS14
 
 - type: entity
   parent: ToteBase
@@ -91,6 +92,7 @@
         - id: SalvageMagnetMachineCircuitboard
         - id: SalvageJobBoardComputerCircuitboard
         - id: MailTeleporterMachineCircuitboard
+        - id: SalvageShuttleConsoleCircuitboard #DS14
 
 - type: entity
   parent: BoxStamps
@@ -114,11 +116,13 @@
     containers:
       storagebase: !type:AllSelector
         children:
-        - id: CircuitImprinterMachineCircuitboard
-        - id: ProtolatheMachineCircuitboard
+        - id: CircuitImprinterMachineCircuitboard 
+#       - id: ProtolatheMachineCircuitboard #DS14
         - id: ResearchComputerCircuitboard
         - id: CargoRequestScienceComputerCircuitboard
         - id: RoboticsConsoleCircuitboard
         - id: AnalysisComputerCircuitboard #Because sometimes round start artis just fucking explode on the pad.
         - id: ArtifactAnalyzerMachineCircuitboard
         - id: StationAiFixerCircuitboard
+        - id: CorporateCircuitBoard #DS14
+        - id: NTDefaultCircuitBoard #DS14

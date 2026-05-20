@@ -20,3 +20,10 @@ strip-all-verb-get-data-text = Снять всё
 
 strippable-bound-user-interface-stripping-menu-title = Инвентарь { $ownerName }
 strippable-bound-user-interface-stripping-menu-ensnare-button = Ограничители ног
+
+## UI DS14
+
+strippable-bound-user-interface-inserting-menu-title = Уведомление о вложении!
+strippable-bound-user-interface-inserting-menu-message = { $user } вкладывает вам в руку { $item }
+strippable-bound-user-interface-inserting-menu-yes-answer = принять { $item }
+strippable-bound-user-interface-inserting-menu-no-answer = оттолкнуть { $item }

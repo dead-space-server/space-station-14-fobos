@@ -18,6 +18,7 @@ using Content.Shared.Popups;
 using Content.Shared.Strip.Components;
 using Content.Shared.Verbs;
 using Robust.Shared.Utility;
+using Robust.Shared.Player; //DS14
 
 namespace Content.Shared.Strip;
 
@@ -33,8 +34,14 @@ public abstract class SharedStrippableSystem : EntitySystem
     [Dependency] private readonly SharedDoAfterSystem _doAfterSystem = default!;
     [Dependency] private readonly SharedHandsSystem _handsSystem = default!;
     [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
-
+    [Dependency] private readonly ISharedPlayerManager _playerManager = default!; // DS14
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
+
+    // DS14-start
+    private readonly Dictionary<int, StripInsertHandRequest> _stripInsertHandRequests = new();
+    private readonly Dictionary<DoAfterId, int> _stripInsertHandRequestIds = new();
+    private int _nextStripInsertHandRequestId;
+    // DS14-end
 
     public override void Initialize()
     {
@@ -45,6 +52,7 @@ public abstract class SharedStrippableSystem : EntitySystem
 
         // BUI
         SubscribeLocalEvent<StrippableComponent, StrippingSlotButtonPressed>(OnStripButtonPressed);
+        SubscribeNetworkEvent<AnswerStripInsertInventoryMessage>(ReactOnAnswer); // DS14
 
         // DoAfters
         SubscribeLocalEvent<HandsComponent, DoAfterAttemptEvent<StrippableDoAfterEvent>>(OnStrippableDoAfterRunning);
@@ -416,7 +424,6 @@ public abstract class SharedStrippableSystem : EntitySystem
                                                         target,
                                                         target,
                                                         PopupType.Large);
-
         }
 
         var prefix = stealth ? "stealthily " : "";
@@ -432,7 +439,26 @@ public abstract class SharedStrippableSystem : EntitySystem
             DuplicateCondition = DuplicateConditions.SameTool
         };
 
-        _doAfterSystem.TryStartDoAfter(doAfterArgs);
+        // DS14-start
+        if (!_doAfterSystem.TryStartDoAfter(doAfterArgs, out var doAfterId))
+            return;
+
+        if (stealth ||
+            doAfterId == null ||
+            !_playerManager.TryGetSessionByEntity(target, out var targetNetUser) ||
+            !HasActiveDoAfter(doAfterId.Value))
+            return;
+
+        var requestId = GetNextStripInsertHandRequestId();
+        var request = new StripInsertHandRequest(doAfterId.Value, user, target, held, handName);
+        _stripInsertHandRequests[requestId] = request;
+        _stripInsertHandRequestIds[doAfterId.Value] = requestId;
+
+        RaiseNetworkEvent(new StartStripInsertInventoryMessage(
+            Identity.Name(held, EntityManager),
+            Identity.Name(user, EntityManager),
+            requestId), targetNetUser);
+        // DS14-end
     }
 
     /// <summary>
@@ -600,7 +626,17 @@ public abstract class SharedStrippableSystem : EntitySystem
     private void OnStrippableDoAfterFinished(Entity<HandsComponent> entity, ref StrippableDoAfterEvent ev)
     {
         if (ev.Cancelled)
+        {
+            // DS14-start
+            if (!ev.InventoryOrHand && ev.InsertOrRemove)
+            {
+                if (ClearStripInsertHandRequest(ev.DoAfter.Id, out var requestId) && ev.Target != null)
+                    CloseStripInsertInventoryWindow(ev.Target.Value, requestId);
+            }
+            // DS14-end
+
             return;
+        }
 
         DebugTools.Assert(entity.Owner == ev.User);
         DebugTools.Assert(ev.Target != null);
@@ -617,7 +653,14 @@ public abstract class SharedStrippableSystem : EntitySystem
         else
         {
             if (ev.InsertOrRemove)
+            {
+                var closeWindow = ClearStripInsertHandRequest(ev.DoAfter.Id, out var requestId); // DS14
                 StripInsertHand((entity.Owner, entity.Comp), ev.Target.Value, ev.Used.Value, ev.SlotOrHandName, ev.Args.Hidden);
+                // DS14-start
+                if (closeWindow)
+                    CloseStripInsertInventoryWindow(ev.Target.Value, requestId);
+                // DS14-end
+            }
             else
                 StripRemoveHand((entity.Owner, entity.Comp), ev.Target.Value, ev.Used.Value, ev.SlotOrHandName, ev.Args.Hidden);
         }
@@ -699,4 +742,136 @@ public abstract class SharedStrippableSystem : EntitySystem
 
         return !HasComp<BypassInteractionChecksComponent>(viewer);
     }
+
+    // DS14-start
+    private void ReactOnAnswer(AnswerStripInsertInventoryMessage answer, EntitySessionEventArgs args)
+    {
+        if (!_stripInsertHandRequests.TryGetValue(answer.RequestId, out var request))
+            return;
+
+        if (args.SenderSession.AttachedEntity is not { } sender || sender != request.Target)
+            return;
+
+        if (!TryGetActiveStripInsertHandDoAfter(answer.RequestId, request, out _))
+            return;
+
+        ClearStripInsertHandRequest(answer.RequestId);
+
+        if (!answer.Answer)
+            return;
+
+        _doAfterSystem.Cancel(request.DoAfterId);
+        StripInsertHand((request.User, null), request.Target, request.Used, request.HandName, false);
+    }
+
+    private int GetNextStripInsertHandRequestId()
+    {
+        do
+        {
+            _nextStripInsertHandRequestId++;
+        } while (_stripInsertHandRequests.ContainsKey(_nextStripInsertHandRequestId));
+
+        return _nextStripInsertHandRequestId;
+    }
+
+    private bool TryGetActiveStripInsertHandDoAfter(int requestId, StripInsertHandRequest request, out global::Content.Shared.DoAfter.DoAfter doAfter)
+    {
+        doAfter = default!;
+
+        if (!TryComp<DoAfterComponent>(request.User, out var comp))
+        {
+            ClearStripInsertHandRequest(requestId);
+            return false;
+        }
+
+        var found = false;
+        foreach (var component in comp.DoAfters)
+        {
+            if (component.Key != request.DoAfterId.Index)
+                continue;
+
+            doAfter = component.Value;
+            found = true;
+            break;
+        }
+
+        if (!found ||
+            doAfter.Id != request.DoAfterId ||
+            doAfter.Cancelled ||
+            doAfter.Completed)
+        {
+            ClearStripInsertHandRequest(requestId);
+            return false;
+        }
+
+        if (doAfter.Args.User != request.User ||
+            doAfter.Args.Target != request.Target ||
+            doAfter.Args.Used != request.Used ||
+            doAfter.Args.Event is not StrippableDoAfterEvent strippableEvent ||
+            !strippableEvent.InsertOrRemove ||
+            strippableEvent.InventoryOrHand ||
+            strippableEvent.SlotOrHandName != request.HandName)
+        {
+            ClearStripInsertHandRequest(requestId);
+            return false;
+        }
+
+        return true;
+    }
+
+    private bool HasActiveDoAfter(DoAfterId doAfterId)
+    {
+        if (!TryComp<DoAfterComponent>(doAfterId.Uid, out var comp))
+            return false;
+
+        foreach (var component in comp.DoAfters)
+        {
+            if (component.Key == doAfterId.Index &&
+                component.Value.Id == doAfterId &&
+                !component.Value.Cancelled &&
+                !component.Value.Completed)
+                return true;
+        }
+
+        return false;
+    }
+
+    private void ClearStripInsertHandRequest(int requestId)
+    {
+        if (!_stripInsertHandRequests.Remove(requestId, out var request))
+            return;
+
+        _stripInsertHandRequestIds.Remove(request.DoAfterId);
+    }
+
+    private void ClearStripInsertHandRequest(DoAfterId doAfterId)
+    {
+        ClearStripInsertHandRequest(doAfterId, out _);
+    }
+
+    private bool ClearStripInsertHandRequest(DoAfterId doAfterId, out int requestId)
+    {
+        if (!_stripInsertHandRequestIds.Remove(doAfterId, out requestId))
+        {
+            requestId = default;
+            return false;
+        }
+
+        _stripInsertHandRequests.Remove(requestId);
+        return true;
+    }
+
+    private void CloseStripInsertInventoryWindow(EntityUid target, int requestId)
+    {
+        if (_playerManager.TryGetSessionByEntity(target, out var targetNetUser))
+            RaiseNetworkEvent(new EndStripInsertInventoryMessage(requestId), targetNetUser);
+    }
+
+    private sealed record StripInsertHandRequest(
+        DoAfterId DoAfterId,
+        EntityUid User,
+        EntityUid Target,
+        EntityUid Used,
+        string HandName);
+    // DS14-end
 }
