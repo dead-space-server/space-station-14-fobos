@@ -40732,8 +40732,6 @@ entities:
           - 7
           - 8
     - type: HandheldLight
-      selfToggleActionEntity: 8
-      toggleActionEntity: 7
     - type: PointLight
       enabled: False
     - type: ActionsContainer
@@ -154037,7 +154035,6 @@ entities:
       pos: -46.616955,-20.452642
       parent: 2
     - type: HandheldLight
-      toggleActionEntity: 89
     - type: ContainerContainer
       containers:
         cell_slot: !type:ContainerSlot
@@ -154294,7 +154291,6 @@ entities:
       pos: 2.4978046,0.6471896
       parent: 45265
     - type: HandheldLight
-      toggleActionEntity: 45267
     - type: ContainerContainer
       containers:
         cell_slot: !type:ContainerSlot
@@ -211084,7 +211080,6 @@ entities:
       pos: -6.661128,40.339676
       parent: 2
     - type: HandheldLight
-      toggleActionEntity: 91
     - type: ContainerContainer
       containers:
         cell_slot: !type:ContainerSlot
@@ -211105,7 +211100,6 @@ entities:
       pos: -13.395503,40.402176
       parent: 2
     - type: HandheldLight
-      toggleActionEntity: 93
     - type: ContainerContainer
       containers:
         cell_slot: !type:ContainerSlot
