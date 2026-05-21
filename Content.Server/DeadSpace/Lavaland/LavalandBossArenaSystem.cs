@@ -226,6 +226,7 @@ public sealed class LavalandBossArenaSystem : EntitySystem
             ? Name(boss)
             : bossComponent.BossName;
         arena.MaxHealth = bossComponent.MaxHealth;
+        arena.ScaledMaxHealth = bossComponent.MaxHealth;
         arena.NextParticipantScan = _timing.CurTime;
         arena.NextHudUpdate = _timing.CurTime;
         arena.NextBossLeashCheck = _timing.CurTime + BossLeashCheckInterval;
@@ -628,6 +629,7 @@ public sealed class LavalandBossArenaSystem : EntitySystem
                 {
                     SendHudUpdate(session, arena.Comp);
                     SendMusicStart(session, arena.Comp);
+                    TryScaleBossHpForParticipants((arena.Owner, arena.Comp));
                 }
             }
         }
@@ -677,12 +679,12 @@ public sealed class LavalandBossArenaSystem : EntitySystem
             return;
         }
 
-        var currentHealth = GetCurrentBossHealth(arena.Boss, arena.MaxHealth);
+        var currentHealth = GetCurrentBossHealth(arena.Boss, arena.ScaledMaxHealth);
         var ev = new LavalandBossHudUpdateEvent(
             arena.ArenaId,
             arena.BossName,
             currentHealth,
-            arena.MaxHealth,
+            arena.ScaledMaxHealth,
             arena.Participants.Count);
         RaiseNetworkEvent(ev, session.Channel);
     }
@@ -846,6 +848,8 @@ public sealed class LavalandBossArenaSystem : EntitySystem
         _transform.SetCoordinates(arena.Comp.Boss, _map.GridTileToLocal(arena.Comp.Grid, grid, arena.Comp.BossSpawnTile));
         HealBossOnReset(arena.Comp);
         arena.Comp.FightStarted = false;
+        arena.Comp.ScaledMaxHealth = arena.Comp.MaxHealth;
+        arena.Comp.PeakParticipantCount = 0;
         arena.Comp.BossOutsideArenaSince = null;
         arena.Comp.NextBossLeashCheck = now + BossLeashCheckInterval;
         SetBossAiEnabled(arena.Comp.Boss, false);
@@ -865,6 +869,8 @@ public sealed class LavalandBossArenaSystem : EntitySystem
         {
             return;
         }
+
+        TryScaleBossHpForParticipants((arena.Owner, arena.Comp));
 
         arena.Comp.FightStarted = true;
         arena.Comp.EmptySince = null;
@@ -1297,5 +1303,28 @@ public sealed class LavalandBossArenaSystem : EntitySystem
             value++;
 
         return Math.Min(value, MaxArenaSize);
+    }
+    private void TryScaleBossHpForParticipants(Entity<LavalandBossArenaComponent> arena)
+    {
+        var count = arena.Comp.Participants.Count;
+        if (count == 0 || count <= arena.Comp.PeakParticipantCount)
+            return;
+
+        arena.Comp.PeakParticipantCount = count;
+
+        float newMax;
+        if (!arena.Comp.FightStarted)
+            newMax = arena.Comp.MaxHealth * (1f + 0.20f * (count - 1));
+        else
+            newMax = arena.Comp.ScaledMaxHealth * 1.30f;
+
+        if (newMax <= arena.Comp.ScaledMaxHealth)
+            return;
+
+        var healDelta = newMax - arena.Comp.ScaledMaxHealth;
+        arena.Comp.ScaledMaxHealth = newMax;
+
+        if (TryComp<DamageableComponent>(arena.Comp.Boss, out var damageable))
+            _damageable.HealDistributed((arena.Comp.Boss, damageable), FixedPoint2.New(healDelta), origin: arena.Comp.Boss);
     }
 }
