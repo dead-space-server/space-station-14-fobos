@@ -471,16 +471,11 @@
     noRot: true
     drawdepth: Effects
     sprite: _DeadSpace/Lavaland/Effects/AshDrakeTarget.rsi
-    color: "#ff5507"
     layers:
-    - state: sniper_zoom
+    - state: sniper_zoom_green
       shader: unshaded
   - type: TimedDespawn
     lifetime: 10
-  - type: PointLight
-    radius: 2.0
-    energy: 1.3
-    color: "#ff8000"
 
 - type: entity
   parent: LavalandAshDrakeEffectBase

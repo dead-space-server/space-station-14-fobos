@@ -1,0 +1,90 @@
+- type: entity
+  parent: [ BaseStorageItem, BaseBagOpenClose ]
+  id: CaseR17
+  name: оружейный кейс
+  description: Даже страшно задуматься что спрятанно внутри. Крест никак не связан с закатом.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Misc/case_sr.rsi
+    layers:
+    - state: closed
+      map: ["closeLayer"]
+    - state: open
+      map: ["openLayer"]
+    - state: c1
+      map: ["c1"]
+      visible: false
+    - state: c2
+      map: ["c2"]
+      visible: false
+    - state: c3
+      map: ["c3"]
+      visible: false
+    - state: c4
+      map: ["c4"]
+      visible: false
+  - type: Storage
+    grid:
+    - 0,0,5,2
+  - type: Item
+    sprite: _DeadSpace/Objects/Misc/case_sr.rsi
+    size: Ginormous
+  - type: StorageFill
+    contents:
+    - id: MagazineR17
+    - id: MagazineR17
+    - id: MagazineR17
+    - id: WeaponSniperR17
+  - type: ItemCounter
+    count:
+      components: [Item]
+    composite: true
+    layerStates:
+    - c1
+    - c2
+    - c3
+    - c4
+  - type: Appearance
+
+- type: entity
+  parent: [ BaseStorageItem, BaseBagOpenClose ]
+  id: CaseGurza
+  name: оружейный кейс
+  description: Даже страшно задуматься что спрятанно внутри. Крест никак не связан с закатом.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Misc/case_gr.rsi
+    layers:
+    - state: closed
+      map: ["closeLayer"]
+    - state: open
+      map: ["openLayer"]
+    - state: c1
+      map: ["c1"]
+      visible: false
+    - state: c2
+      map: ["c2"]
+      visible: false
+    - state: c3
+      map: ["c3"]
+      visible: false
+  - type: Storage
+    grid:
+    - 0,0,3,1
+  - type: Item
+    sprite: _DeadSpace/Objects/Misc/case_gr.rsi
+    size: Ginormous
+  - type: StorageFill
+    contents:
+    - id: WeaponPistolGurza
+    - id: MagazineGurza
+    - id: MagazineGurza
+  - type: ItemCounter
+    count:
+      components: [Item]
+    composite: true
+    layerStates:
+    - c1
+    - c2
+    - c3
+  - type: Appearance

@@ -897,19 +897,19 @@
       path: /Audio/Weapons/Guns/Gunshots/laser_cannon.ogg
   - type: BatteryAmmoProvider
     proto: BulletLaserMagnum
-    fireCost: 150
+    fireCost: 50 #DS14
   - type: BatteryWeaponFireModes
     fireModes:
     - proto: BulletLaserMagnum
-      fireCost: 150
+      fireCost: 50 #DS14
     - proto: BulletLaserWindowPiercingMagnum
-      fireCost: 150
+      fireCost: 75 #DS14
     - proto: BulletDisabler
-      fireCost: 62.5
+      fireCost: 35 #DS14
       pacifismAllowedMode: true
   - type: BatterySelfRecharger
     autoRechargeRate: 48
-    autoRechargePauseTime: 10
+    # autoRechargePauseTime: 10 #DS14
 
 - type: entity
   name: temperature gun

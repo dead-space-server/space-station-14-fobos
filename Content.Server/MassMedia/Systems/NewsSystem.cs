@@ -365,7 +365,10 @@ public sealed class NewsSystem : SharedNewsSystem
     private void UpdateReaderUi(Entity<NewsReaderCartridgeComponent> ent, EntityUid loaderUid)
     {
         if (!TryGetArticles(ent, out var articles))
+        {
+            _cartridgeLoaderSystem.UpdateCartridgeUiState(loaderUid, new NewsReaderEmptyBoundUserInterfaceState(ent.Comp.NotificationOn)); // DS14
             return;
+        }
 
         NewsReaderLeafArticle(ent, 0);
 

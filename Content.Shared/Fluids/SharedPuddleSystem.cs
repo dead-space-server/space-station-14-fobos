@@ -332,6 +332,7 @@ public abstract partial class SharedPuddleSystem : EntitySystem
             var comp = EnsureComp<SpeedModifierContactsComponent>(uid);
             var speed = 1 - maxViscosity;
             _speedModContacts.ChangeSpeedModifiers(uid, speed, comp);
+            Dirty(uid, comp); //DS14
         }
         else
         {

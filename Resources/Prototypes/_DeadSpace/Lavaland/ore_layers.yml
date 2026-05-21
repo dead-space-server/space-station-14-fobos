@@ -105,7 +105,7 @@
   id: LavalandOreDiamond
   entityMask:
     WallRockBasalt: WallRockBasaltDiamond
-  maxCount: 21
+  maxCount: 26
   minGroupSize: 2
   maxGroupSize: 3
   radius: 6

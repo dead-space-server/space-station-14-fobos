@@ -1286,9 +1286,17 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("text")
                         .HasColumnName("game_preset_name");
 
+                    b.Property<string>("MapName")
+                        .HasColumnType("text")
+                        .HasColumnName("map_name");
+
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("start_date");
+
+                    b.Property<int?>("StartPlayerCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("start_player_count");
 
                     b.HasKey("Id")
                         .HasName("PK_round");

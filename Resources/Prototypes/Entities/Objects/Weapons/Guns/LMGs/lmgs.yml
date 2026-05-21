@@ -48,7 +48,7 @@
         priority: 2
         whitelist:
           tags:
-            - MagazineLightRifleBox
+            - MagazineRifleBox #DS-14
       gun_chamber:
         name: Chamber
         startingItem: CartridgeRifle
