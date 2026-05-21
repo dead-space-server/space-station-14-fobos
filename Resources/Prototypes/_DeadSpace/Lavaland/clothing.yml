@@ -180,9 +180,6 @@
   name: старомодный скафандр исследователя Лаваленда
   description: Кажется, это что-то такое старое, но такое родное. Защищает от бури.
   components:
-  - type: TemperatureProtection
-    heatingCoefficient: 0.001
-    coolingCoefficient: 0.001
   - type: FireProtection
     reduction: 0.4
   - type: LavalandWeatherImmune
