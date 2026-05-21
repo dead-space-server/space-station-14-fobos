@@ -1,18 +1,18 @@
 - type: gameMap
-  id: Omega
-  mapName: 'Omega'
-  mapPath: /Maps/omega.yml
-  minPlayers: 0
-  maxPlayers: 40
+  id: Ishimura
+  mapName: 'USG Ishimura'
+  mapPath: /Maps/ishimura.yml
+  minPlayers: 25
+  maxPlayers: 55
   stations:
-    Omega:
+    Ishimura:
       stationProto: StandardNanotrasenStation
       components:
         - type: StationNameSetup
-          mapNameTemplate: '{0} Omega {1}'
+          mapNameTemplate: '{0} Ishimura {1}'
           nameGenerator:
             !type:NanotrasenNameGenerator
-            prefixCreator: 'TG'
+            prefixCreator: 'USG'
         - type: StationEmergencyShuttle
           emergencyShuttlePath: /Maps/Shuttles/emergency_omega.yml
         - type: StationJobs
@@ -28,8 +28,7 @@
             Warden: [ 1, 1 ]
             SeniorOfficer: [ 1, 1 ]
             Detective: [ 1, 1 ]
-            SecurityPilot: [ 1, 1 ]
-            SecurityOfficer: [ 3, 3 ]
+            SecurityOfficer: [ 4, 4 ]
             Brigmedic: [ 1, 1 ]
             SecurityCadet: [ 2, 2 ]
             # med
@@ -39,31 +38,33 @@
             MedicalDoctor: [ 3, 3 ]
             Paramedic: [ 1, 1 ]
             Coroner: [ 1, 1 ]
-            MedicalIntern: [ 2, 2 ]
+            Psychologist: [ 1, 1 ]
+            Virologist: [ 1, 1 ]
+            MedicalIntern: [ 3, 3 ]
             # rnd
             ResearchDirector: [ 1, 1 ]
             SeniorResearcher: [ 1, 1 ]
-            Scientist: [ 2, 2 ]
+            Scientist: [ 4, 4 ]
             ResearchAssistant: [ 2, 2 ]
             # eng
             ChiefEngineer: [ 1, 1 ]
             SeniorEngineer: [ 1, 1 ]
             AtmosphericTechnician: [ 2, 2 ]
             StationEngineer: [ 3, 3 ]
-            TechnicalAssistant: [ 2, 2 ]
+            TechnicalAssistant: [ 3, 3 ]
             # sup
             Quartermaster: [ 1, 1 ]
             SeniorSalvageSpecialist: [ 1, 1 ]
             SalvageSpecialist: [ 3, 3 ]
-            CargoTechnician: [ 2, 2 ]
+            CargoTechnician: [ 3, 3 ]
             # civ
             HeadOfPersonnel: [ 1, 1 ]
             SeniorAdministrator: [ 1, 1 ]
             Chef: [ 1, 1 ]
-            Botanist: [ 1, 2 ]
+            Botanist: [ 2, 2 ]
             Bartender: [ 1, 1 ]
-            ServiceWorker: [ 2, 2 ]
-            Janitor: [ 2, 2 ]
+            ServiceWorker: [ 2, 3 ]
+            Janitor: [ 1, 2 ]
             Librarian: [ 1, 1 ]
             Chaplain: [ 1, 1 ]
             Reporter: [ 1, 1 ]
@@ -73,7 +74,7 @@
             Clown: [ 1, 1 ]
             # sil
             StationAi: [ 1, 1 ]
-            Borg: [ 1, 1 ]
+            Borg: [ 2, 2 ]
             BorgSecurity: [ 1, 1 ]
             # etc
             ClownSponsor: [ 0, 2 ]

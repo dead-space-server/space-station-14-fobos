@@ -121,6 +121,7 @@ namespace Content.IntegrationTests.Tests
             "Elkridge",
             "Fland",
             "Gate",
+            "Ishimura",
             // "Gemini", // map load failure
             // "Loop", // map load failure
             // "Loop",
