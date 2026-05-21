@@ -34386,8 +34386,6 @@ entities:
       pos: -9.5,-14.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 197
   - uid: 1032
@@ -44057,11 +44055,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 112947.6915785
-      thrownTime: 112947.6203856
-      thrower: invalid
 - proto: BowImprovised
   entities:
   - uid: 2531
@@ -131768,11 +131761,6 @@ entities:
           friction: 0.4
     - type: Physics
       bodyStatus: InAir
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 81609.2142725
-      thrownTime: 81609.1517241
-      thrower: invalid
 - proto: DartBlue
   entities:
   - uid: 18314
@@ -151142,8 +151130,6 @@ entities:
       pos: -12.5,-11.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 21090
       - 197
@@ -152555,8 +152541,6 @@ entities:
       pos: -7.5,-14.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 263
       - 197
@@ -153437,8 +153421,6 @@ entities:
       pos: -9.5,-20.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 197
   - uid: 21583
@@ -193507,8 +193489,6 @@ entities:
       pos: -8.5,-11.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 197
     - type: AtmosPipeColor
@@ -196164,8 +196144,6 @@ entities:
       pos: -8.5,-17.5
       parent: 2
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 197
     - type: AtmosPipeColor
@@ -215880,11 +215858,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 15756.8049081
-      thrownTime: 15756.7509099
-      thrower: invalid
   - uid: 29466
     components:
     - type: Transform
@@ -215928,11 +215901,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 15751.9352178
-      thrownTime: 15751.7842482
-      thrower: invalid
   - uid: 29467
     components:
     - type: Transform
@@ -217153,11 +217121,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 82131.2403213
-      thrownTime: 82131.1845354
-      thrower: invalid
   - uid: 29622
     components:
     - type: Transform
@@ -219620,11 +219583,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 110515.004219
-      thrownTime: 110514.8228184
-      thrower: invalid
   - uid: 29865
     components:
     - type: Transform
@@ -245218,11 +245176,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 49425.2167283
-      thrownTime: 49425.1505748
-      thrower: invalid
   - uid: 33856
     components:
     - type: Transform
@@ -245509,11 +245462,6 @@ entities:
       enabled: True
     - type: Physics
       bodyStatus: InAir
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 22166.9123317
-      thrownTime: 22166.8111665
-      thrower: invalid
 - proto: SheetGlass
   entities:
   - uid: 18174
@@ -267460,11 +267408,6 @@ entities:
           hard: False
           restitution: 0
           friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 74946.2522936
-      thrownTime: 74946.1583871
-      thrower: invalid
 - proto: TowelColorNT
   entities:
   - uid: 36999
@@ -299732,8 +299675,6 @@ entities:
       - - StationAi
       - - Security
     - type: DeviceNetwork
-      configurators:
-      - invalid
       deviceLists:
       - 42635
   - uid: 42632
@@ -300226,12 +300167,7 @@ entities:
           density: 1
           hard: False
           restitution: 0
-          friction: 0.4
-    - type: ThrownItem
-      playLandSound: True
-      landTime: 81607.2687273
-      thrownTime: 81607.2183927
-      thrower: invalid
+          friction: 0.4   
 - proto: WelderIndustrialAdvanced
   entities:
   - uid: 42684
