@@ -87,7 +87,6 @@ public sealed class LavalandHierophantSystem : EntitySystem
             var participantCount = CollectParticipants(arena);
             if (participantCount == 0)
             {
-                TryFireCriticalBurst(uid, hierophant, arena, arena.Grid, grid, now);
                 ClearRuntimeState(hierophant);
                 hierophant.BusyUntil = TimeSpan.Zero;
                 continue;
