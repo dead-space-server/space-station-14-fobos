@@ -8,8 +8,8 @@
     sprite: _DeadSpace/Objects/Weapons/Throwable/energybola.rsi
     state: icon
   - type: Ensnaring
-    freeTime: 1.0
-    breakoutTime: 1.5
+    freeTime: 1
+    breakoutTime: 1
     walkSpeed: 0.3
     sprintSpeed: 0.3
     staminaDamage: 0
@@ -24,3 +24,8 @@
           collection: MetalBreak
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
+  - type: StunOnCollide
+    stunAmount: 0
+    knockdownAmount: 0.5
+    drop: false
+    slowdownAmount: 0
