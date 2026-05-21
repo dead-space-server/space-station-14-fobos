@@ -209905,7 +209905,6 @@ entities:
     - type: GasTank
       toggleActionEntity: 49
     - type: Jetpack
-      toggleActionEntity: 50
     - type: ActionsContainer
     - type: ContainerContainer
       containers:
@@ -209946,7 +209945,6 @@ entities:
     - type: GasTank
       toggleActionEntity: 53
     - type: Jetpack
-      toggleActionEntity: 54
     - type: ActionsContainer
     - type: ContainerContainer
       containers:
@@ -209965,7 +209963,6 @@ entities:
     - type: GasTank
       toggleActionEntity: 57
     - type: Jetpack
-      toggleActionEntity: 58
     - type: ActionsContainer
     - type: ContainerContainer
       containers:
@@ -209984,7 +209981,6 @@ entities:
     - type: GasTank
       toggleActionEntity: 61
     - type: Jetpack
-      toggleActionEntity: 62
     - type: ActionsContainer
     - type: ContainerContainer
       containers:
@@ -210003,7 +209999,6 @@ entities:
     - type: GasTank
       toggleActionEntity: 65
     - type: Jetpack
-      toggleActionEntity: 66
     - type: ActionsContainer
     - type: ContainerContainer
       containers:
