@@ -59,13 +59,13 @@
   - type: Clothing
     sprite: _DeadSpace/Objects/Weapons/Guns/Battery/pulse_smg.rsi
   - type: Gun
-    minAngle: 35
-    maxAngle: 45
+    minAngle: 15
+    maxAngle: 30
     angleIncrease: 4
     angleDecay: 16
     fireRate: 7
     soundGunshot:
-      path: /Audio/_DeadSpace/Weapons/Guns/Gunshots/laser_rifle.ogg
+      path: /Audio/Weapons/Guns/Gunshots/ship_svalinn.ogg
       params:
         volume: 1
     selectedMode: FullAuto
@@ -95,10 +95,15 @@
       types:
         Heat: 15
   - type: Sprite
+    scale: 0.9, 0.9
     sprite: Objects/Weapons/Guns/Projectiles/projectiles_tg.rsi
     layers:
     - state: omnilaser
       shader: unshaded
+  - type: PointLight
+    radius: 2
+    energy: 2
+    color: "#0047AB"
 
 - type: entity
   parent: [BaseWeaponBattery, BaseGunWieldable, BaseCentcommContraband]
@@ -136,8 +141,8 @@
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/laser3.ogg
   - type: GunWieldBonus
-    minAngle: -10
-    maxAngle: -10
+    minAngle: -15
+    maxAngle: -15
   - type: BatteryAmmoProvider
     proto: PulseMK2
     fireCost: 100
@@ -172,7 +177,7 @@
   name: Мульти-Лазерный-Эмулятор
   parent: [BaseWeaponBattery, BaseGunWieldable, BaseCentcommContraband]
   id: WeaponXrayEmulator
-  description: Пушка что заставляет мутировать прямо на твоих глазах недругов.
+  description: Пушка что заставляет мутировать прямо на твоих глазах недругов. Стреляет залпом радиации и термического повреждение.
   components:
   - type: Item
     size: Huge
@@ -189,12 +194,12 @@
   - type: Clothing
     sprite: _DeadSpace/Objects/Weapons/Guns/Battery/multi_lens_immolator.rsi
   - type: Gun
-    fireRate: 0.75
+    fireRate: 0.85
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/laser3.ogg
+      path: /Audio/Weapons/Guns/Gunshots/laser_cannon2.ogg
   - type: BatteryAmmoProvider
     proto: XrayLaserEmulator
-    fireCost: 80
+    fireCost: 65
   - type: MagazineVisuals
     magState: mag
     steps: 5
@@ -211,17 +216,7 @@
   - type: HitscanBasicDamage
     damage:
       types:
-        Heat: 20
-        Radiation: 40
-  - type: HitscanBasicVisuals
-    muzzleFlash:
-      sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
-      state: muzzle_xray
-    travelFlash:
-      sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
-      state: xray
-    impactFlash:
-      sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
-      state: impact_xray
+        Heat: 25
+        Radiation: 25
   - type: HitscanBasicEffects
     temperature: 15

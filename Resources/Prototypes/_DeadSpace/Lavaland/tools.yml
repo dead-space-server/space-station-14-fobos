@@ -243,7 +243,7 @@
     shape:
     - 0,0,0,3
   - type: MeleeWeapon
-    attackRate: 1.15
+    attackRate: 2
     wideAnimationRotation: -135
     damage:
       types:
@@ -281,7 +281,7 @@
     shape:
     - 0,0,3,0
   - type: MeleeWeapon
-    attackRate: 1
+    attackRate: 1.15
     wideAnimationRotation: 135
     resistanceBypass: true
     damage:

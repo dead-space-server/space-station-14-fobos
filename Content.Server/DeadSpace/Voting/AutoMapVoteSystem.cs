@@ -24,6 +24,8 @@ namespace Content.Server.DeadSpace.Voting;
 
 public sealed class AutoMapVoteSystem : EntitySystem
 {
+    private const int MaxVoteOptions = byte.MaxValue;
+
     [Dependency] private readonly IAdminManager _adminManager = default!;
     [Dependency] private readonly IChatManager _chatManager = default!;
     [Dependency] private readonly IConfigurationManager _config = default!;
@@ -37,6 +39,7 @@ public sealed class AutoMapVoteSystem : EntitySystem
 
     private readonly Dictionary<AutoMapVoteCategory, AutoMapVoteCategoryConfig> _configs = new();
     private readonly Dictionary<AutoMapVoteCategory, HashSet<string>> _playedMaps = new();
+    private readonly Dictionary<AutoMapVoteCategory, Queue<string>> _queuedMaps = new();
     private readonly HashSet<string> _blacklistedMaps = new(StringComparer.Ordinal);
 
     private IVoteHandle? _activeVote;
@@ -57,6 +60,7 @@ public sealed class AutoMapVoteSystem : EntitySystem
         {
             _configs[category] = new AutoMapVoteCategoryConfig();
             _playedMaps[category] = new HashSet<string>(StringComparer.Ordinal);
+            _queuedMaps[category] = new Queue<string>();
         }
 
         SubscribeLocalEvent<GameRunLevelChangedEvent>(OnGameRunLevelChanged);
@@ -352,7 +356,7 @@ public sealed class AutoMapVoteSystem : EntitySystem
 
         foreach (var map in candidates)
         {
-            options.Options.Add((map.MapName, map));
+            options.Options.Add((map.ID == "CorvaxSpectrum" ? "Spectrum2k" : map.MapName, map));
         }
 
         _activeVote = _voteManager.CreateVote(options);
@@ -471,10 +475,59 @@ public sealed class AutoMapVoteSystem : EntitySystem
             .ToList();
 
         if (available.Count != 0)
-            return available;
+            return TakeCandidateBatch(category, available);
 
         played.Clear();
-        return basePool;
+        return TakeCandidateBatch(category, basePool);
+    }
+
+    private List<GameMapPrototype> TakeCandidateBatch(AutoMapVoteCategory category, List<GameMapPrototype> available)
+    {
+        SynchronizeCandidateQueue(category, available);
+
+        var queue = _queuedMaps[category];
+        var byId = available.ToDictionary(map => map.ID, map => map, StringComparer.Ordinal);
+        var count = Math.Min(MaxVoteOptions, queue.Count);
+        var result = new List<GameMapPrototype>(count);
+
+        for (var i = 0; i < count; i++)
+        {
+            var id = queue.Dequeue();
+            queue.Enqueue(id);
+
+            if (byId.TryGetValue(id, out var map))
+                result.Add(map);
+        }
+
+        return result;
+    }
+
+    private void SynchronizeCandidateQueue(AutoMapVoteCategory category, List<GameMapPrototype> available)
+    {
+        var queue = _queuedMaps[category];
+        var availableIds = available
+            .Select(map => map.ID)
+            .ToHashSet(StringComparer.Ordinal);
+        var queuedIds = new HashSet<string>(StringComparer.Ordinal);
+        var retained = new List<string>(queue.Count);
+
+        while (queue.Count > 0)
+        {
+            var id = queue.Dequeue();
+            if (availableIds.Contains(id) && queuedIds.Add(id))
+                retained.Add(id);
+        }
+
+        foreach (var map in available)
+        {
+            if (queuedIds.Add(map.ID))
+                retained.Add(map.ID);
+        }
+
+        foreach (var id in retained)
+        {
+            queue.Enqueue(id);
+        }
     }
 
     private List<GameMapPrototype> BuildConfiguredEligiblePool(AutoMapVoteCategory category)

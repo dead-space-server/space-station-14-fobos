@@ -391,6 +391,8 @@
       raffle:
         settings: short
     - type: GhostTakeoverAvailable
+    - type: GhostRoleNotifys 
+      groupPrototype: CobraGroup
     #DS14-end
 
 - type: entity
