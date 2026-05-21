@@ -784,7 +784,7 @@
 - type: listing
   id: UplinkWeaponSniperR17
   name: R17 ISASS "Мор"
-  description: Высокоточная полуавтоматическая винтовка для дальних дистанций. Использует патроны калибра .308 
+  description: Высокоточная полуавтоматическая винтовка для дальних дистанций. Использует патроны калибра .338 LM
   icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Snipers/sr.rsi, state: icon }
   productEntity: CaseR17
   cost:
@@ -799,7 +799,7 @@
 
 - type: listing
   id: UplinkMagazineR17
-  name: Магазин (.308 Винчестер)
+  name: Магазин (.338 LM)
   description: Магазин на 20 патронов. Подходит для R17 ISASS "Мор".
   icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Ammunition/Magazine/sr.rsi, state: base }
   productEntity: MagazineR17

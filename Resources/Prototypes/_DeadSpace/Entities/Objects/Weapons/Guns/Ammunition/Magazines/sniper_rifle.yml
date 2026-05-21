@@ -1,6 +1,6 @@
 - type: entity
   id: MagazineR17
-  name: магазин (.308 Винчестер)
+  name: магазин (.338 LM)
   description: ""
   parent: BaseItem
   components:
