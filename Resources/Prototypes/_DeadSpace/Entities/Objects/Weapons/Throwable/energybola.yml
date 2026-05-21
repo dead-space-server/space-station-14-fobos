@@ -9,10 +9,10 @@
     state: icon
   - type: Ensnaring
     freeTime: 1.0
-    breakoutTime: 1.5 #all bola should generally be fast to remove
-    walkSpeed: 0.3 #makeshift bola shouldn't slow too much
+    breakoutTime: 1.5
+    walkSpeed: 0.3
     sprintSpeed: 0.3
-    staminaDamage: 0 # anything but this is gamebreaking
+    staminaDamage: 0
   - type: Destructible
     thresholds:
     - trigger:
