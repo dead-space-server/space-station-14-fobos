@@ -3,18 +3,16 @@
   name: Активировать имплант
   description: Повышает ваш пульс, скорость и все побочки, не используйте все заряды разом.
   components:
-  - type: LimitedCharges
-    maxCharges: 3
   - type: Action
     itemIconStyle: BigAction
     priority: -20
     icon:
       sprite: _DeadSpace/Actions/implants_actions.rsi
       state: adrenal
-    useDelay: 3
+    useDelay: 120
     checkCanInteract: false
   - type: InstantAction
-    event: !type:UseAdrenalImplantEvent
+    event: !type:UseInjectReagentsImplantEvent
 
 - type: entity
   parent: BaseAction
@@ -53,3 +51,20 @@
       state: mantis-dash
   - type: InstantAction
     event: !type:GravityJumpEvent {}
+
+
+- type: entity
+  id: ActionActivateRezervImplant
+  name: "[color=cyan]Высвободить резервы[/color]"
+  description: Форсаж организма для того самого момента.
+  components:
+  - type: Action
+    itemIconStyle: BigAction
+    priority: -20
+    icon:
+      sprite: _DeadSpace/Actions/implants_actions.rsi
+      state: rezerv
+    useDelay: 90
+    checkCanInteract: false
+  - type: InstantAction
+    event: !type:UseInjectReagentsImplantEvent

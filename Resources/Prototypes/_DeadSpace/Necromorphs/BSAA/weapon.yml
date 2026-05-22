@@ -8,10 +8,10 @@
   components:
     - type: Sprite
       sprite: _DeadSpace/Necromorfs/BSAA/weapons/vant/vant.rsi
-      state: VANT-VM
+      state: icon
     - type: Item
       sprite: _DeadSpace/Necromorfs/BSAA/weapons/vant/vant.rsi
-      heldPrefix: VANT-VM
+      heldPrefix: icon
     - type: Clothing
       sprite: _DeadSpace/Necromorfs/BSAA/weapons/vant/vant.rsi
       quickEquip: false
@@ -373,8 +373,8 @@
 
 - type: entity
   id: ExtMagazineRifleBurn
-  name: расширенный магазин (6.5х39 мм TSF Dragon's breath)
-  description: Увеличенный магазин под патрон 6.5 мм, с вместимостью в 45 единиц
+  name: расширенный магазин (5.56х45 мм Dragon's breath)
+  description: Увеличенный магазин под патрон 5.56 мм, с вместимостью в 45 единиц
   parent: ADTExtMagazineRifle
   components:
   - type: BallisticAmmoProvider

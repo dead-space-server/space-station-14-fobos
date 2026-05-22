@@ -41,6 +41,7 @@
       PlasmaOre: 2
       SpaceQuartz: 3
       SilverOre: 4
+      ArtifactFragment: 4
       GoldOre: 4
       MagmiteOre: 8
       UraniumOre: 8
@@ -74,6 +75,7 @@
     whitelist:
       tags:
       - Ore
+      - ArtifactFragment #DS14
   - type: UserInterface
     interfaces:
       enum.StorageUiKey.Key:

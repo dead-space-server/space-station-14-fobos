@@ -110,6 +110,12 @@ public sealed class LavalandHierophantSystem : EntitySystem
                 continue;
 
             RunAttack(uid, hierophant, arena, arena.Grid, grid, target.Value, now);
+            if (IsBelowCriticalHealth(uid))
+            {
+                var critCap = now + TimeSpan.FromSeconds(hierophant.CriticalPhaseBusyCapSeconds);
+                if (hierophant.BusyUntil > critCap)
+                    hierophant.BusyUntil = critCap;
+            }
         }
     }
 
@@ -153,6 +159,7 @@ public sealed class LavalandHierophantSystem : EntitySystem
         component.LastPressureAt = now;
         component.BasicAttacksSinceMajor = 0;
         component.LastAttackKind = string.Empty;
+        component.NextCriticalBurst = now + TimeSpan.FromSeconds(5);
     }
 
     private void RunAttack(
@@ -177,20 +184,20 @@ public sealed class LavalandHierophantSystem : EntitySystem
         {
             QueueBurst(hierophant, arena, gridUid, grid, bossTile.Value, burstRange, now, 0.25f);
             MarkPressure(hierophant, now, "close-burst", false, target);
-            hierophant.NextAttack = now + GetScaledCooldown(hierophant.RangedCooldown, rage);
+            hierophant.NextAttack = now + GetFinalAttackCooldown(boss, hierophant, hierophant.RangedCooldown, rage);
             return;
         }
 
         var distance = ChebyshevDistance(targetTile.Value, bossTile.Value);
         var forceMajor = NeedsPressure(hierophant, now) ||
                          hierophant.BasicAttacksSinceMajor >= Math.Max(1, hierophant.ForceMajorAfterBasicAttacks);
-        var majorChance = Math.Clamp(hierophant.BaseMajorAttackChance + rage * hierophant.MajorAttackChancePerRage, 0f, 0.85f);
+        var majorChance = IsBelowCriticalHealth(boss) ? 0.95f : Math.Clamp(hierophant.BaseMajorAttackChance + rage * hierophant.MajorAttackChancePerRage, 0f, 0.85f);
 
         if ((forceMajor || _random.Prob(majorChance)) &&
             TryRunMajorAttack(boss, hierophant, arena, gridUid, grid, target, rage, beamRange, now))
         {
             MarkPressure(hierophant, now, forceMajor ? "forced-major" : "major", true, target);
-            hierophant.NextAttack = now + GetScaledCooldown(hierophant.MajorAttackCooldown, rage);
+            hierophant.NextAttack = now + GetFinalAttackCooldown(boss, hierophant, hierophant.MajorAttackCooldown, rage);
             return;
         }
 
@@ -199,9 +206,9 @@ public sealed class LavalandHierophantSystem : EntitySystem
             _random.Prob((60f + rage * 0.2f) / 100f))
         {
             QueueBlink(boss, hierophant, arena, gridUid, grid, bossTile.Value, targetTile.Value, now);
-            hierophant.NextBlink = now + GetScaledCooldown(hierophant.BlinkCooldown, rage);
+           hierophant.NextBlink = now + GetFinalAttackCooldown(boss, hierophant, hierophant.BlinkCooldown, rage);
             MarkPressure(hierophant, now, "blink", false, target);
-            hierophant.NextAttack = now + GetScaledCooldown(hierophant.RangedCooldown, rage);
+            hierophant.NextAttack = now + GetFinalAttackCooldown(boss, hierophant, hierophant.RangedCooldown, rage);
             return;
         }
 
@@ -220,7 +227,7 @@ public sealed class LavalandHierophantSystem : EntitySystem
             }
 
             MarkPressure(hierophant, now, "chaser", false, target);
-            hierophant.NextAttack = now + GetScaledCooldown(hierophant.RangedCooldown, rage);
+            hierophant.NextAttack = now + GetFinalAttackCooldown(boss, hierophant, hierophant.RangedCooldown, rage);
             return;
         }
 
@@ -231,7 +238,7 @@ public sealed class LavalandHierophantSystem : EntitySystem
             QueueBlink(boss, hierophant, arena, gridUid, grid, bossTile.Value, targetTile.Value, now);
             hierophant.NextBlink = now + GetScaledCooldown(hierophant.BlinkCooldown, rage);
             MarkPressure(hierophant, now, "fallback-blink", false, target);
-            hierophant.NextAttack = now + GetScaledCooldown(hierophant.RangedCooldown, rage);
+            hierophant.NextAttack = now + GetFinalAttackCooldown(boss, hierophant, hierophant.RangedCooldown, rage);
             return;
         }
 
@@ -250,7 +257,7 @@ public sealed class LavalandHierophantSystem : EntitySystem
         }
 
         MarkPressure(hierophant, now, "pattern", false, target);
-        hierophant.NextAttack = now + GetScaledCooldown(hierophant.RangedCooldown, rage);
+        hierophant.NextAttack = now + GetFinalAttackCooldown(boss, hierophant, hierophant.RangedCooldown, rage);
     }
 
     private bool TryRunMajorAttack(
@@ -284,6 +291,12 @@ public sealed class LavalandHierophantSystem : EntitySystem
 
         if (choices.Count == 0)
             return false;
+
+        if (IsBelowCriticalHealth(boss) && choices.Contains("cross_blast_spam"))
+        {
+            QueueCrossSpam(hierophant, arena, gridUid, grid, target, Math.Max(2, crossCounter), beamRange, now);
+            return true;
+        }
 
         switch (_random.Pick(choices))
         {
@@ -1046,7 +1059,57 @@ public sealed class LavalandHierophantSystem : EntitySystem
         var (minX, maxX, minY, maxY) = GetInnerBounds(arena);
         return tile.X >= minX && tile.X <= maxX && tile.Y >= minY && tile.Y <= maxY;
     }
+    private bool IsBelowCriticalHealth(EntityUid boss)
+    {
+        if (!TryComp<LavalandBossComponent>(boss, out var bossComp) ||
+            !TryComp<DamageableComponent>(boss, out var damageable))
+            return false;
 
+        return damageable.TotalDamage.Float() >= bossComp.MaxHealth * 0.75f;
+    }
+
+    private void TryFireCriticalBurst(
+        EntityUid boss,
+        LavalandHierophantComponent hierophant,
+        LavalandBossArenaComponent arena,
+        EntityUid gridUid,
+        MapGridComponent grid,
+        TimeSpan now)
+    {
+        if (!IsBelowCriticalHealth(boss) || now < hierophant.NextCriticalBurst)
+            return;
+
+        hierophant.NextCriticalBurst = now + TimeSpan.FromSeconds(1.2);
+
+        var bossTile = GetEntityTile(boss, gridUid, grid);
+        if (bossTile == null)
+            return;
+
+        var rage = CalculateRage(boss);
+        QueueBurst(hierophant, arena, gridUid, grid, bossTile.Value, GetBurstRange(hierophant, rage), now, 0.35f);
+
+        var beamRange = GetBeamRange(hierophant, rage);
+        foreach (var participant in _participants)
+        {
+            var targetTile = GetEntityTile(participant, gridUid, grid);
+            if (targetTile == null)
+                continue;
+
+            QueueCross(hierophant, arena, gridUid, grid, targetTile.Value, AllDirections, hierophant.TelegraphPrototype, beamRange, now + TimeSpan.FromSeconds(0.5));
+        }
+    }
+
+    private TimeSpan GetFinalAttackCooldown(
+        EntityUid boss,
+        LavalandHierophantComponent hierophant,
+        TimeSpan baseCooldown,
+        float rage)
+    {
+        if (IsBelowCriticalHealth(boss))
+            return hierophant.CriticalPhaseCooldown;
+    
+        return GetScaledCooldown(baseCooldown, rage);
+    }
     private static Vector2i ClampToInnerArena(LavalandBossArenaComponent arena, Vector2i tile)
     {
         var (minX, maxX, minY, maxY) = GetInnerBounds(arena);

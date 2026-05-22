@@ -37,15 +37,18 @@
 # Magazines
 - type: entity
   parent: BaseMagazineLightRifle
-  id: MagazineLightRifleBox
-  name: "L6 SAW magazine box (.30 rifle)"
-  description: Box containing a 100-round belt of linked .30 rifle rounds, used by light machine guns such as the L6. Intended to hold general-purpose kinetic ammunition.
+  id: MagazineLightRifleBox #DS-14 - .30 to .20
+  name: "L6 SAW magazine box (.20 rifle)"
+  description: Box containing a 100-round belt of linked .20 rifle rounds, used by light machine guns such as the L6. Intended to hold general-purpose kinetic ammunition.
   components:
   - type: Tag
     tags:
-      - MagazineLightRifleBox
+      - MagazineRifleBox
   - type: BallisticAmmoProvider
-    proto: CartridgeLightRifle
+    whitelist:
+      tags:
+        - CartridgeRifle
+    proto: CartridgeRifle 
     capacity: 100
   - type: Item
   - type: Sprite

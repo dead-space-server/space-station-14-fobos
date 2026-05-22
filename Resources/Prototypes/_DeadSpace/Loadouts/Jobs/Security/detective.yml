@@ -8,3 +8,8 @@
   id: DetectiveBrownFlatCap
   equipment:
     head: ClothingHeadHatBrownFlatcap
+
+- type: loadout
+  id: DetectiveDarkCoat
+  equipment:
+    outerClothing: ClothingOuterCoatDetectiveDark

@@ -176,7 +176,7 @@
   categories:
   - LavalandMiningTools
   cost:
-    LavalandMiningPoint: 1750
+    LavalandMiningPoint: 2750
 
 - type: listing
   id: LavalandMiningWeaponMagmiteCrusher
@@ -184,7 +184,7 @@
   categories:
   - LavalandMiningTools
   cost:
-    LavalandMiningPoint: 1750
+    LavalandMiningPoint: 2750
 
 - type: listing
   id: LavalandMiningWeaponMagmiteCrusherGlaive
@@ -192,7 +192,7 @@
   categories:
   - LavalandMiningTools
   cost:
-    LavalandMiningPoint: 1750
+    LavalandMiningPoint: 2750
 
 - type: listing
   id: LavalandMiningPKAUpgradeDamage
@@ -584,7 +584,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 550
+    LavalandMiningPoint: 1550
 
 - type: listing
   id: LavalandMiningCigPackSyndicate
@@ -600,7 +600,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 950
+    LavalandMiningPoint: 1450
 
 - type: listing
   id: LavalandMiningPlastineOfOtherHardsuit
@@ -616,7 +616,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 1150
+    LavalandMiningPoint: 750
 
 - type: listing
   id: LavalandMiningClothingHeadHelmetRIGNukeOpsElite
@@ -624,7 +624,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 1350
+    LavalandMiningPoint: 950
 
 - type: listing
   id: LavalandMiningBlueprintRIGRIGNukeOpsEliteOneUse
@@ -632,7 +632,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 1760
+    LavalandMiningPoint: 1560
 
 - type: listing
   id: LavalandMiningBlueprintRIGRIGNukeOpsOneUse
@@ -666,4 +666,4 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 1250
+    LavalandMiningPoint: 1650

@@ -264,6 +264,13 @@
       - NamesFirstERTLeader
       - NamesLastERT
       nameFormat: name-format-ert
+    - type: AutoImplant
+      implants:
+      - MindShieldImplant
+      - TrackingImplant
+      - RadioImplantSOC
+      - DeathRattleImplantSOD
+      - RezervImplant
 
 ### CBURN
 - type: entity
@@ -297,6 +304,8 @@
     - type: Loadout
       prototypes: [ CBURNLeaderGear ]
       roleLoadout: [ RoleSurvivalExtended ]
+    - type: GhostRoleNotifys # DS14
+      groupPrototype: CBURNGroup
 
 ## Security
 ### Amber
@@ -383,6 +392,13 @@
       job: ERTSecurityGamma
     - type: Loadout
       prototypes: [ ERTSecurityGearGamma ]
+    - type: AutoImplant
+      implants:
+      - MindShieldImplant
+      - TrackingImplant
+      - RadioImplantSOC
+      - DeathRattleImplantSOD
+      - RezervImplant
 
 ## Medical
 ### Amber
@@ -469,6 +485,13 @@
       job: ERTMedicalGamma
     - type: Loadout
       prototypes: [ ERTMedicalGearGamma ]
+    - type: AutoImplant
+      implants:
+      - MindShieldImplant
+      - TrackingImplant
+      - RadioImplantSOC
+      - DeathRattleImplantSOD
+      - RezervImplant
 
 ## Janitor
 ### Amber
@@ -555,6 +578,13 @@
       job: ERTJanitorGamma
     - type: Loadout
       prototypes: [ ERTJanitorGearGamma ]
+    - type: AutoImplant
+      implants:
+      - MindShieldImplant
+      - TrackingImplant
+      - RadioImplantSOC
+      - DeathRattleImplantSOD
+      - RezervImplant
 
 ## Engineer
 ### Amber
@@ -641,6 +671,13 @@
       job: ERTEngineerGamma
     - type: Loadout
       prototypes: [ ERTEngineerGearGamma ]
+    - type: AutoImplant
+      implants:
+      - MindShieldImplant
+      - TrackingImplant
+      - RadioImplantSOC
+      - DeathRattleImplantSOD
+      - RezervImplant
 
 ## CBURN Agent
 - type: entity
@@ -678,7 +715,9 @@
       nameFormat: name-format-ert
     - type: Loadout
       prototypes: [ CBURNAgentGear ]
-
+    - type: GhostRoleNotifys # DS14
+      groupPrototype: CBURNGroup
+      
 ## Syndicate
 
 - type: entity

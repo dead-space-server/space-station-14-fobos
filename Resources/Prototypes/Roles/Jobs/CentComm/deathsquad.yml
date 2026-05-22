@@ -22,7 +22,7 @@
   - CentralCommand
   special:
   - !type:AddImplantSpecial
-    implants: [ MindShieldImplant, RadioImplantDeathSquad, DeathRattleImplantDeathSquad ]
+    implants: [ MindShieldImplant, RadioImplantDeathSquad, DeathRattleImplantDeathSquad, RezervImplant ]
   - !type:AddComponentSpecial
     components:
       # DS14-Start
