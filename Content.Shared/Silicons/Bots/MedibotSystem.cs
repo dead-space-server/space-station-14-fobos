@@ -2,6 +2,7 @@ using Robust.Shared.Audio.Systems;
 using Robust.Shared.Serialization;
 using System.Diagnostics.CodeAnalysis;
 using Content.Shared.Chemistry.EntitySystems;
+using Content.Shared.Chemistry.Events;
 using Content.Shared.Damage.Components;
 using Content.Shared.DoAfter;
 using Content.Shared.Emag.Components;
@@ -101,6 +102,16 @@ public sealed class MedibotSystem : EntitySystem
         if (!TryComp<DamageableComponent>(target, out var damageable)) return false;
         if (!_solutionContainer.TryGetInjectableSolution(target, out _, out _)) return false;
 
+        // DS14-start
+        var injectAttempt = new TargetBeforeInjectEvent(medibot.Owner, medibot.Owner, target);
+        RaiseLocalEvent(target, ref injectAttempt);
+        if (injectAttempt.Cancelled)
+        {
+            _popup.PopupClient(Loc.GetString("injector-component-blocked-user"), medibot, medibot);
+            return false;
+        }
+        // DS14-end
+
         if (mobState.CurrentState != MobState.Alive && mobState.CurrentState != MobState.Critical)
         {
             _popup.PopupClient(Loc.GetString("medibot-target-dead"), medibot, medibot);
@@ -131,6 +142,13 @@ public sealed class MedibotSystem : EntitySystem
         if (!TryComp<MobStateComponent>(target, out var mobState)) return false;
         if (!TryGetTreatment(medibot.Comp, mobState.CurrentState, out var treatment)) return false;
         if (!_solutionContainer.TryGetInjectableSolution(target, out var injectable, out _)) return false;
+
+        // DS14-start
+        var injectAttempt = new TargetBeforeInjectEvent(medibot.Owner, medibot.Owner, target);
+        RaiseLocalEvent(target, ref injectAttempt);
+        if (injectAttempt.Cancelled)
+            return false;
+        // DS14-end
 
         _solutionContainer.TryAddReagent(injectable.Value, treatment.Reagent, treatment.Quantity, out _);
 

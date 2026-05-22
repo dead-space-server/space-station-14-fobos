@@ -7,6 +7,7 @@ using Content.Server.Chat.Systems;
 using Content.Shared.Fax.Components;
 using Content.Shared.Paper;
 using Content.Server.Fax;
+using Content.Server.Station.Systems;
 
 namespace Content.Server.GameTicking.Rules;
 
@@ -15,6 +16,7 @@ public sealed class NecroobeliskArtefactRuleSystem : GameRuleSystem<Necroobelisk
     [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly FaxSystem _faxSystem = default!;
+    [Dependency] private readonly StationSystem _station = default!;
 
     public override void Initialize()
     {
@@ -55,6 +57,9 @@ public sealed class NecroobeliskArtefactRuleSystem : GameRuleSystem<Necroobelisk
                 continue;
 
             var content = Loc.GetString("paper-order-obelisk");
+
+            if (_station.GetOwningStation(faxEnt) is { } station)
+                content = content.Replace("STATION XX-00", Name(station));
 
             var printout = new FaxPrintout(
                 content,

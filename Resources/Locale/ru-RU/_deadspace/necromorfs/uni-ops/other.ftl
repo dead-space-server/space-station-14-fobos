@@ -5,9 +5,10 @@ uni-ops-cargo-gifts-obelisk-event-announcement = { $sender } отправили 
 uni-ops-gift-obelisk-description = объект исследования
 
 paper-order-name = приказ сектрального штаба 
-paper-order-obelisk = [head=3]ЦК-КОМ[/head]
+paper-order-obelisk = [head=3]STATION XX-00[/head]
+    [head=3]ЦК-КОМ[/head]
     ═════════════════════════════════════
-    Приказ Центрального Командования
+    [bold]Приказ Центрального Командования[/bold]
     ═════════════════════════════════════
     Составитель документа: Эвелин Маршалл
     Должность составителя: Офицер сектрального штаба
