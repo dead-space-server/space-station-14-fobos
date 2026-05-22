@@ -65,11 +65,14 @@ public sealed partial class GunSystem : SharedGunSystem
             }
         }
 
-        var fromMap = TransformSystem.ToMapCoordinates(fromCoordinates);
-        var toMap = TransformSystem.ToMapCoordinates(toCoordinates).Position;
-        var mapDirection = toMap - fromMap.Position;
+        if (!TryGetShootMapDirection(fromCoordinates, toCoordinates, out var fromMap, out var mapDirection))
+        {
+            userImpulse = false;
+            return;
+        }
+
         var mapAngle = mapDirection.ToAngle();
-        var angle = GetRecoilAngle(Timing.CurTime, gun, mapDirection.ToAngle());
+        var angle = GetRecoilAngle(Timing.CurTime, gun, mapAngle);
 
         // If applicable, this ensures the projectile is parented to grid on spawn, instead of the map.
         var fromEnt = MapManager.TryFindGridAt(fromMap, out var gridUid, out _)
@@ -77,7 +80,7 @@ public sealed partial class GunSystem : SharedGunSystem
             : new EntityCoordinates(_map.GetMapOrInvalid(fromMap.MapId), fromMap.Position);
 
         // Update shot based on the recoil
-        toMap = fromMap.Position + angle.ToVec() * mapDirection.Length();
+        var toMap = fromMap.Position + angle.ToVec() * mapDirection.Length();
         mapDirection = toMap - fromMap.Position;
         var gunVelocity = Physics.GetMapLinearVelocity(fromEnt);
 
