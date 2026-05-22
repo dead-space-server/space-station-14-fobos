@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Chemistry.Events;
 using Content.Shared.Damage.Components;
+using Content.Shared.DeadSpace.Chemistry.Components;
 using Content.Shared.DoAfter;
 using Content.Shared.Emag.Components;
 using Content.Shared.Emag.Systems;
@@ -92,6 +93,11 @@ public sealed class MedibotSystem : EntitySystem
     {
         if (!Resolve(medibot, ref medibot.Comp, false)) return false;
 
+        // DS14-start
+        if (HasComp<InjectionBlockerComponent>(target))
+            return false;
+        // DS14-end
+
         if (HasComp<NPCRecentlyInjectedComponent>(target))
         {
             _popup.PopupClient(Loc.GetString("medibot-recently-injected"), medibot, medibot);
@@ -136,6 +142,11 @@ public sealed class MedibotSystem : EntitySystem
     public bool TryInject(Entity<MedibotComponent?> medibot, EntityUid target)
     {
         if (!Resolve(medibot, ref medibot.Comp, false)) return false;
+
+        // DS14-start
+        if (HasComp<InjectionBlockerComponent>(target))
+            return false;
+        // DS14-end
 
         if (!_interaction.InRangeUnobstructed(medibot.Owner, target)) return false;
 

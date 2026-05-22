@@ -16,6 +16,9 @@ public sealed class InjectionBlockerSystem : EntitySystem
 
     private void OnBeforeInject(Entity<InjectionBlockerComponent> ent, ref TargetBeforeInjectEvent args)
     {
+        if (ent.Comp.BlockedMessage is { } message)
+            args.OverrideMessage = Loc.GetString(message, ("target", ent.Owner), ("user", args.EntityUsingInjector), ("injector", args.UsedInjector));
+
         args.Cancel();
     }
 }

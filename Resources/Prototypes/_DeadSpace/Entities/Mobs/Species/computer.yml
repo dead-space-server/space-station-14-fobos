@@ -8,6 +8,7 @@
   components:
   - type: Blindable
   - type: InjectionBlocker
+    blockedMessage: injection-blocker-component-ipc-message
   - type: Temperature
     currentTemperature: 310.15
     specificHeat: 42

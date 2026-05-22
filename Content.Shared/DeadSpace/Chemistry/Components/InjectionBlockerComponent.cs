@@ -6,4 +6,8 @@ namespace Content.Shared.DeadSpace.Chemistry.Components;
 /// Prevents reagents from being injected into this entity.
 /// </summary>
 [RegisterComponent]
-public sealed partial class InjectionBlockerComponent : Component;
+public sealed partial class InjectionBlockerComponent : Component
+{
+    [DataField]
+    public LocId? BlockedMessage;
+}
