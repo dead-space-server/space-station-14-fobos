@@ -4,8 +4,8 @@ meta:
   engineVersion: 272.0.1
   forkId: ""
   forkVersion: ""
-  time: 05/21/2026 10:24:21
-  entityCount: 28050
+  time: 05/21/2026 18:06:32
+  entityCount: 28075
 maps:
 - 1
 grids:
@@ -7585,6 +7585,8 @@ entities:
             6633: -15.342225,23.678722
             6928: 7.8317585,-10.100004
             7921: 25.061918,9.819908
+            17482: -0.045809865,33.721252
+            17483: -0.03539321,35.138905
         - node:
             color: '#FFFFFFFF'
             id: Bushe4
@@ -7657,6 +7659,7 @@ entities:
             11245: 58.65647,4.5607786
             11274: 19,-8
             11276: 19,-10
+            17484: 0.047940135,34.419655
         - node:
             cleanable: True
             color: '#FFFFFFFF'
@@ -7672,6 +7675,8 @@ entities:
             6644: -5.9633284,11.963072
             6887: -8,4
             7397: 12.534116,-3.0816636
+            17485: 0.0062734485,35.941544
+            17486: -0.0041432083,33.054123
         - node:
             cleanable: True
             color: '#FFFFFFFF'
@@ -8737,6 +8742,7 @@ entities:
             6904: 5,-8
             8357: 5,3
             17274: -28,12
+            17487: 0.058356762,34.075665
         - node:
             color: '#FFFFFFFF'
             id: Grassc1
@@ -8993,6 +8999,7 @@ entities:
             16990: 50,4
             16991: 49.8887,3.6117487
             17273: -28,12
+            17488: 0.058356762,33.908882
         - node:
             cleanable: True
             color: '#FFFFFFFF'
@@ -9027,6 +9034,7 @@ entities:
             17388: -4,-58
             17389: -3,-58
             17390: -10,-58
+            17489: 0.0062734485,35.118057
         - node:
             color: '#FFFFFFFF'
             id: Grasse2
@@ -14367,7 +14375,8 @@ entities:
           11,0:
             0: 61695
           12,-4:
-            0: 55775
+            0: 55711
+            3: 64
           12,-3:
             0: 61917
           12,-2:
@@ -14571,10 +14580,10 @@ entities:
             0: 136
           -11,2:
             1: 252
-            3: 57344
+            4: 57344
           -11,3:
             1: 61440
-            4: 224
+            5: 224
           -10,1:
             0: 49407
             1: 12288
@@ -14601,14 +14610,14 @@ entities:
             1: 52428
           -11,6:
             1: 61440
-            5: 224
-          -11,4:
             6: 224
-            5: 57344
+          -11,4:
+            7: 224
+            6: 57344
           -11,5:
-            5: 57568
+            6: 57568
           -11,7:
-            5: 57568
+            6: 57568
           -10,6:
             1: 12834
             0: 34952
@@ -14881,7 +14890,7 @@ entities:
           10,10:
             0: 3549
           10,11:
-            5: 275
+            6: 275
             1: 34944
           10,12:
             0: 305
@@ -15189,17 +15198,17 @@ entities:
             1: 52464
           -11,9:
             1: 4604
-            5: 49152
+            6: 49152
           -11,10:
             1: 33041
-            5: 204
+            6: 204
           -11,11:
             1: 248
           -10,9:
             1: 52479
-            5: 4096
+            6: 4096
           -10,10:
-            5: 17
+            6: 17
             1: 34952
           -10,11:
             1: 2296
@@ -15767,6 +15776,11 @@ entities:
           moles:
             Oxygen: 27.225372
             Nitrogen: 102.419266
+        - volume: 2500
+          temperature: 293.14948
+          moles:
+            Oxygen: 18.472576
+            Nitrogen: 69.49208
         - volume: 2500
           temperature: 293.15
           moles:
@@ -20854,7 +20868,7 @@ entities:
       pos: -1.5,15.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -283893.72
+      secondsUntilStateChange: -284305.22
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -20887,7 +20901,7 @@ entities:
       pos: -14.5,-1.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -280186.4
+      secondsUntilStateChange: -280597.9
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -20914,7 +20928,7 @@ entities:
       pos: -5.5,2.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -283910.53
+      secondsUntilStateChange: -284322.03
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -27512,6 +27526,13 @@ entities:
     components:
     - type: Transform
       pos: -2.5,17.5
+      parent: 2
+- proto: BackmenVendingMachineHappyHonk
+  entities:
+  - uid: 28074
+    components:
+    - type: Transform
+      pos: -11.5,-9.5
       parent: 2
 - proto: BackmenVendingMachineSnackOrange
   entities:
@@ -49281,6 +49302,21 @@ entities:
     components:
     - type: Transform
       pos: 5.5,-56.5
+      parent: 2
+  - uid: 28071
+    components:
+    - type: Transform
+      pos: 48.5,28.5
+      parent: 2
+  - uid: 28072
+    components:
+    - type: Transform
+      pos: 48.5,29.5
+      parent: 2
+  - uid: 28073
+    components:
+    - type: Transform
+      pos: 48.5,30.5
       parent: 2
 - proto: CableApcStack
   entities:
@@ -74654,6 +74690,56 @@ entities:
     - type: Transform
       pos: -22.450724,20.252073
       parent: 2
+- proto: ClothingShoesColorBlack
+  entities:
+  - uid: 28051
+    components:
+    - type: Transform
+      parent: 27183
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 27183
+  - uid: 28052
+    components:
+    - type: Transform
+      parent: 27183
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 27183
+  - uid: 28053
+    components:
+    - type: Transform
+      parent: 27183
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 27183
+  - uid: 28054
+    components:
+    - type: Transform
+      parent: 27183
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 27183
+  - uid: 28065
+    components:
+    - type: Transform
+      parent: 27183
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 27183
+  - uid: 28066
+    components:
+    - type: Transform
+      parent: 27183
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 27183
 - proto: ClothingShoesColorWhite
   entities:
   - uid: 10373
@@ -74758,6 +74844,86 @@ entities:
       canCollide: False
     - type: InsideEntityStorage
       storage: 10379
+  - uid: 28055
+    components:
+    - type: Transform
+      parent: 27183
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 27183
+  - uid: 28056
+    components:
+    - type: Transform
+      parent: 27183
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 27183
+  - uid: 28057
+    components:
+    - type: Transform
+      parent: 27183
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 27183
+  - uid: 28058
+    components:
+    - type: Transform
+      parent: 27183
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 27183
+  - uid: 28059
+    components:
+    - type: Transform
+      parent: 27183
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 27183
+  - uid: 28060
+    components:
+    - type: Transform
+      parent: 27183
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 27183
+  - uid: 28061
+    components:
+    - type: Transform
+      parent: 27183
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 27183
+  - uid: 28062
+    components:
+    - type: Transform
+      parent: 27183
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 27183
+  - uid: 28063
+    components:
+    - type: Transform
+      parent: 27183
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 27183
+  - uid: 28064
+    components:
+    - type: Transform
+      parent: 27183
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+      storage: 27183
 - proto: ClothingUniformJumpsuitRecruitNT
   entities:
   - uid: 10316
@@ -86571,7 +86737,7 @@ entities:
       pos: -63.5,-41.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -1276.0548
+      secondsUntilStateChange: -1687.5463
       state: Opening
   - uid: 12333
     components:
@@ -108499,14 +108665,6 @@ entities:
       parent: 2
     - type: AtmosPipeColor
       color: '#990000FF'
-  - uid: 15003
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 37.5,-33.5
-      parent: 2
-    - type: AtmosPipeColor
-      color: '#990000FF'
   - uid: 15004
     components:
     - type: Transform
@@ -117774,6 +117932,14 @@ entities:
       parent: 2
     - type: AtmosPipeColor
       color: '#0055CCFF'
+  - uid: 21042
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 37.5,-33.5
+      parent: 2
+    - type: AtmosPipeColor
+      color: '#990000FF'
   - uid: 27880
     components:
     - type: Transform
@@ -140597,7 +140763,7 @@ entities:
   - uid: 19311
     components:
     - type: Transform
-      pos: 42.32167,-15.717806
+      pos: 42.98655,-15.434629
       parent: 2
 - proto: PottedPlantAlt6
   entities:
@@ -149954,7 +150120,7 @@ entities:
     components:
     - type: Transform
       rot: 3.141592653589793 rad
-      pos: -5.5,5.5
+      pos: -6.5,6.5
       parent: 2
   - uid: 20891
     components:
@@ -149994,7 +150160,7 @@ entities:
   - uid: 20897
     components:
     - type: Transform
-      pos: -5.5,5.5
+      pos: -4.5,4.5
       parent: 2
   - uid: 20898
     components:
@@ -150197,7 +150363,7 @@ entities:
     components:
     - type: Transform
       rot: 3.141592653589793 rad
-      pos: -4.5,-7.5
+      pos: -5.5,-6.5
       parent: 2
   - uid: 20933
     components:
@@ -150224,7 +150390,7 @@ entities:
   - uid: 20937
     components:
     - type: Transform
-      pos: -4.5,-7.5
+      pos: -3.5,-8.5
       parent: 2
   - uid: 20938
     components:
@@ -150851,11 +151017,6 @@ entities:
     components:
     - type: Transform
       pos: -3.5,-3.5
-      parent: 2
-  - uid: 21042
-    components:
-    - type: Transform
-      pos: 37.5,-33.5
       parent: 2
   - uid: 21043
     components:
@@ -188389,6 +188550,17 @@ entities:
     - type: Transform
       pos: 27.5,-28.5
       parent: 2
+  - uid: 28067
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 36.5,-14.5
+      parent: 2
+  - uid: 28069
+    components:
+    - type: Transform
+      pos: 29.5,-24.5
+      parent: 2
 - proto: WardrobeBotanist
   entities:
   - uid: 27174
@@ -188453,16 +188625,45 @@ entities:
     - type: Transform
       pos: 45.5,-41.5
       parent: 2
-- proto: WardrobePrisonFilled
-  entities:
   - uid: 27183
     components:
     - type: Transform
-      anchored: True
       pos: 50.5,-14.5
       parent: 2
-    - type: Physics
-      bodyType: Static
+    - type: EntityStorage
+      air:
+        volume: 200
+        immutable: False
+        temperature: 293.1462
+        moles:
+          Oxygen: 1.606311
+          Nitrogen: 6.042789
+    - type: ContainerContainer
+      containers:
+        entity_storage: !type:Container
+          showEnts: False
+          occludes: True
+          ents:
+          - 28051
+          - 28052
+          - 28053
+          - 28054
+          - 28055
+          - 28056
+          - 28057
+          - 28058
+          - 28059
+          - 28060
+          - 28061
+          - 28062
+          - 28063
+          - 28064
+          - 28065
+          - 28066
+        paper_label: !type:ContainerSlot
+          showEnts: False
+          occludes: True
+          ent: null
 - proto: WardrobeVirologyFilled
   entities:
   - uid: 27184
@@ -188647,6 +188848,16 @@ entities:
     - type: Transform
       pos: 30.5,-20.5
       parent: 2
+  - uid: 28068
+    components:
+    - type: Transform
+      pos: 34.5,-0.5
+      parent: 2
+  - uid: 28075
+    components:
+    - type: Transform
+      pos: -9.5,-11.5
+      parent: 2
 - proto: WatermelonSeeds
   entities:
   - uid: 27210
@@ -188781,6 +188992,12 @@ entities:
       parent: 2
 - proto: WeaponCapacitorRecharger
   entities:
+  - uid: 15003
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 37.5,-33.5
+      parent: 2
   - uid: 27231
     components:
     - type: Transform
@@ -188849,6 +189066,12 @@ entities:
     - type: Transform
       pos: -1.5,0.5
       parent: 27771
+  - uid: 28070
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 42.5,-15.5
+      parent: 2
 - proto: WeaponDisabler
   entities:
   - uid: 27242
@@ -189281,7 +189504,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -273108.1
+      secondsUntilStateChange: -273519.6
       state: Opening
     - type: Airlock
       autoClose: False
