@@ -10,7 +10,7 @@
   - type: InjectReagentsImplant
     popup: adrenal-implant-activated
     reagents:
-      Stimulants: 50
+      Stimulants: 30
 
 - type: entity
   id: AdrenalImplanter
