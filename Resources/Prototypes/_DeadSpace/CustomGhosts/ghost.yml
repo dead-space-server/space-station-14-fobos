@@ -1,0 +1,7 @@
+﻿- type: customGhost
+  id: hydrated-ghost
+  login: hydrated
+  spritePath: _DeadSpace/Ghosts/hydrated.rsi
+  alpha: 0.7
+  name: Hydrated
+  description: O_0
