@@ -38,7 +38,7 @@ public sealed class ScramOnTriggerSystem : XOnTriggerSystem<ScramOnTriggerCompon
         if (_net.IsClient)
             return;
 
-        var targetCoords = SelectRandomTileInRange(target, ent.Comp.TeleportRadius);
+        var targetCoords = SelectRandomTileInFacingArea(target, ent.Comp.TeleportRadius); // DS14
 
         if (targetCoords != null)
         {
@@ -46,19 +46,24 @@ public sealed class ScramOnTriggerSystem : XOnTriggerSystem<ScramOnTriggerCompon
             args.Handled = true;
         }
     }
+    // DS14-start
     /// <summary>
-    /// Method to find a random empty tile within a certain radius. Will not select off-grid tiles. Returns
-    /// null if no tile is found within a certain number of tries.
+    /// Finds an empty tile inside the area in front of the entity. Will not select off-grid tiles.
     /// </summary>
-    /// <remarks> Trends towards the outer radius. Compensates for small grids. </remarks>
-    private EntityCoordinates? SelectRandomTileInRange(EntityUid uid, Vector2 radius, int tries = 40, PhysicsComponent? physicsComponent = null)
+    /// <remarks> Trends towards the outer distance. Compensates for small grids. </remarks>
+    private EntityCoordinates? SelectRandomTileInFacingArea(EntityUid uid, Vector2 radius, int tries = 40, PhysicsComponent? physicsComponent = null)
     {
-        var userCoords = Transform(uid).Coordinates;
+        var userXform = Transform(uid);
+        var userCoords = userXform.Coordinates;
         EntityCoordinates? targetCoords = null;
 
         if (!Resolve(uid, ref physicsComponent))
             return targetCoords;
 
+        var forward = userXform.LocalRotation.ToWorldVec().Normalized();
+        var side = new Vector2(-forward.Y, forward.X);
+        var minDistance = MathF.Max(1f, radius.X);
+        var maxDistance = MathF.Max(minDistance, radius.Y);
 
         for (var i = 0; i < tries; i++)
         {
@@ -69,10 +74,11 @@ public sealed class ScramOnTriggerSystem : XOnTriggerSystem<ScramOnTriggerCompon
             // i = A percentage based on the current try count, which results in each
             // subsequent try landing closer and closer towards the entity.
             // Beneficial for smaller maps, especially when the radius is large.
-            var distance = (radius.Y - radius.X) * MathF.Sqrt(_random.NextFloat()) * (1 - (float)i / tries) + radius.X;
+            var distance = (maxDistance - minDistance) * MathF.Sqrt(_random.NextFloat()) * (1 - (float)i / tries) + minDistance;
 
-            // We then offset the user coords from a random angle * distance
-            var tempTargetCoords = userCoords.Offset(_random.NextAngle().ToVec() * distance);
+            // The user is the rear edge of the target area: depth is measured forward from their view direction.
+            var lateralOffset = _random.NextFloat(-distance / 2f, distance / 2f);
+            var tempTargetCoords = userCoords.Offset(forward * distance + side * lateralOffset);
 
             if (!_turfSystem.TryGetTileRef(tempTargetCoords, out var tileRef)
                 || _turfSystem.IsSpace(tileRef.Value)
@@ -85,4 +91,5 @@ public sealed class ScramOnTriggerSystem : XOnTriggerSystem<ScramOnTriggerCompon
 
         return targetCoords;
     }
+    // DS14-end
 }
