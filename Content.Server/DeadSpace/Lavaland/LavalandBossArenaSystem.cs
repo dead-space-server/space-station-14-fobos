@@ -3,6 +3,7 @@ using Content.Server.DeadSpace.Lavaland.Components;
 using Content.Server.NPC.HTN;
 using Content.Server.Parallax;
 using Content.Server.Tiles;
+using Content.Shared.Mobs.Systems;
 using Content.Shared.Chasm;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Components;
@@ -70,6 +71,7 @@ public sealed class LavalandBossArenaSystem : EntitySystem
     [Dependency] private readonly SharedMapSystem _map = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly TileSystem _tile = default!;
+    [Dependency] private readonly MobThresholdSystem _mobThreshold = default!;
 
     private List<Entity<MapGridComponent>> _nearbyGrids = new();
     private readonly List<EntityUid> _anchoredToDelete = new();
@@ -854,6 +856,9 @@ public sealed class LavalandBossArenaSystem : EntitySystem
         arena.Comp.NextBossLeashCheck = now + BossLeashCheckInterval;
         SetBossAiEnabled(arena.Comp.Boss, false);
 
+        if (TryComp<MobThresholdsComponent>(arena.Comp.Boss, out var thresholds))
+            _mobThreshold.SetMobStateThreshold(arena.Comp.Boss, FixedPoint2.New(arena.Comp.MaxHealth), MobState.Dead, thresholds);
+
         RaiseLocalEvent(arena.Comp.Boss, new LavalandBossResetEvent(arena.Owner, arena.Comp.BossSpawnTile));
 
         SendHideAndStopToParticipants(arena.Comp);
@@ -1326,5 +1331,8 @@ public sealed class LavalandBossArenaSystem : EntitySystem
 
         if (TryComp<DamageableComponent>(arena.Comp.Boss, out var damageable))
             _damageable.HealDistributed((arena.Comp.Boss, damageable), FixedPoint2.New(healDelta), origin: arena.Comp.Boss);
+
+        if (TryComp<MobThresholdsComponent>(arena.Comp.Boss, out var thresholds))
+            _mobThreshold.SetMobStateThreshold(arena.Comp.Boss, FixedPoint2.New(newMax), MobState.Dead, thresholds);
     }
 }
