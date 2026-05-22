@@ -3,9 +3,13 @@
 using System.Linq;
 using Content.Server.DeadSpace.Taipan.Components;
 using Content.Server.GameTicking;
+using Content.Server.Shuttles.Components;
+using Content.Server.Shuttles.Systems;
 using Content.Server.Station.Components;
 using Content.Shared.DeadSpace.CCCCVars;
 using Content.Shared.GameTicking;
+using Content.Shared.Tag;
+using Content.Shared.Whitelist;
 using Robust.Server.GameObjects;
 using Robust.Shared.Configuration;
 using Robust.Shared.EntitySerialization;
@@ -17,10 +21,14 @@ namespace Content.Server.DeadSpace.Taipan;
 
 public sealed class TaipanStationSystem : EntitySystem
 {
+    private static readonly ProtoId<TagPrototype> TaipanTag = "Taipan";
+
     [Dependency] private readonly IConfigurationManager _cfg = default!;
     [Dependency] private readonly GameTicker _gameTicker = default!;
     [Dependency] private readonly MapSystem _map = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly ShuttleSystem _shuttle = default!;
+    [Dependency] private readonly TagSystem _tag = default!;
 
     private EntityUid _stationGrid = EntityUid.Invalid;
     private MapId _mapId = MapId.Nullspace;
@@ -84,6 +92,7 @@ public sealed class TaipanStationSystem : EntitySystem
 
         if (_stationGrid.IsValid())
         {
+            SetupTaipanFtl();
             return;
         }
 
@@ -91,5 +100,28 @@ public sealed class TaipanStationSystem : EntitySystem
 
         var opts = DeserializationOptions.Default with { InitializeMaps = true };
         _stationGrid = _gameTicker.LoadGameMap(_prototypeManager.Index(source.Comp.Station), out _mapId, opts).FirstOrNull(HasComp<BecomesStationComponent>)!.Value;
+        SetupTaipanFtl();
+    }
+
+    private void SetupTaipanFtl()
+    {
+        if (_mapId == MapId.Nullspace)
+            return;
+
+        if (!_shuttle.TryAddFTLDestination(_mapId, true, false, false, out var destination))
+            return;
+
+        var mapUid = _map.GetMapOrInvalid(_mapId);
+        _shuttle.SetFTLWhitelist((mapUid, destination), new EntityWhitelist
+        {
+            Tags = new List<ProtoId<TagPrototype>> { TaipanTag },
+        });
+
+        var query = EntityQueryEnumerator<ShuttleComponent, TransformComponent>();
+        while (query.MoveNext(out var uid, out _, out var xform))
+        {
+            if (xform.MapID == _mapId)
+                _tag.AddTag(uid, TaipanTag);
+        }
     }
 }
