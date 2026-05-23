@@ -21,10 +21,6 @@
     - id: SolarFlare
     - id: SnailMigrationLowPop
     - id: LowVirusPandemic
-#DS14-start
-#      - !type:NestedSelector
-#        tableId: UnknownShuttlesFriendlyTable
-#DS14-end
 
 - type: entityTable
   id: SurvivalStandardDerelictBorgEventTable
@@ -85,9 +81,7 @@
   id: SurvivalHeavyThreatsTable
   table: !type:AllSelector
     children:
-    - id: SurvivalBlobSpawn
     - id: DragonSpawn
-    - id: LoneOpsSpawn
     - id: RevenantSpawn
     - id: ShadowDemonInvasion
     - id: DemonsInvasion
@@ -96,11 +90,18 @@
       tableId: SurvivalHostileUnknownShuttlesTable
 
 - type: entityTable
+  id: SurvivalMajorAntagsTable
+  table: !type:AllSelector
+    children:
+    - id: SurvivalBlobSpawn
+    - id: LoneOpsSpawn
+    - id: RenegadeSpawn
+
+- type: entityTable
   id: SurvivalLateThreatsTable
   table: !type:AllSelector
     children:
     - id: WizardSpawn
-    - id: RenegadeSpawn
     - id: HardVirusPandemic
 
 - type: entityTable
@@ -128,33 +129,39 @@
     children:
     - !type:NestedSelector
       tableId: SurvivalEarlyThreatsTable
-      weight: 15
+      weight: 10
     - !type:NestedSelector
       tableId: SurvivalBaseThreatsTable
-      weight: 30
-    - !type:NestedSelector
-      tableId: SurvivalMidThreatsTable
-      weight: 55
-
-- type: entityTable
-  id: SurvivalThreatsPhase45Table
-  table: !type:GroupSelector
-    children:
-    - !type:NestedSelector
-      tableId: SurvivalEarlyThreatsTable
-      weight: 8
-    - !type:NestedSelector
-      tableId: SurvivalBaseThreatsTable
-      weight: 17
+      weight: 20
     - !type:NestedSelector
       tableId: SurvivalMidThreatsTable
       weight: 35
     - !type:NestedSelector
       tableId: SurvivalHeavyThreatsTable
-      weight: 40
+      weight: 35
 
 - type: entityTable
-  id: SurvivalThreatsPhase60Table
+  id: SurvivalThreatsPhase35Table
+  table: !type:GroupSelector
+    children:
+    - !type:NestedSelector
+      tableId: SurvivalEarlyThreatsTable
+      weight: 5
+    - !type:NestedSelector
+      tableId: SurvivalBaseThreatsTable
+      weight: 15
+    - !type:NestedSelector
+      tableId: SurvivalMidThreatsTable
+      weight: 30
+    - !type:NestedSelector
+      tableId: SurvivalHeavyThreatsTable
+      weight: 30
+    - !type:NestedSelector
+      tableId: SurvivalMajorAntagsTable
+      weight: 20
+
+- type: entityTable
+  id: SurvivalThreatsPhase40Table
   table: !type:GroupSelector
     children:
     - !type:NestedSelector
@@ -165,10 +172,33 @@
       weight: 10
     - !type:NestedSelector
       tableId: SurvivalMidThreatsTable
-      weight: 25
+      weight: 20
     - !type:NestedSelector
       tableId: SurvivalHeavyThreatsTable
       weight: 30
+    - !type:NestedSelector
+      tableId: SurvivalMajorAntagsTable
+      weight: 20
+    - !type:NestedSelector
+      tableId: SurvivalLateThreatsTable
+      weight: 15
+
+- type: entityTable
+  id: SurvivalThreatsPhase60Table
+  table: !type:GroupSelector
+    children:
+    - !type:NestedSelector
+      tableId: SurvivalBaseThreatsTable
+      weight: 5
+    - !type:NestedSelector
+      tableId: SurvivalMidThreatsTable
+      weight: 10
+    - !type:NestedSelector
+      tableId: SurvivalHeavyThreatsTable
+      weight: 35
+    - !type:NestedSelector
+      tableId: SurvivalMajorAntagsTable
+      weight: 20
     - !type:NestedSelector
       tableId: SurvivalLateThreatsTable
       weight: 30
@@ -188,9 +218,12 @@
     - startTime: 30
       scheduledGameRules: !type:NestedSelector
         tableId: SurvivalThreatsPhase30Table
-    - startTime: 45
+    - startTime: 35
       scheduledGameRules: !type:NestedSelector
-        tableId: SurvivalThreatsPhase45Table
+        tableId: SurvivalThreatsPhase35Table
+    - startTime: 40
+      scheduledGameRules: !type:NestedSelector
+        tableId: SurvivalThreatsPhase40Table
     - startTime: 60
       scheduledGameRules: !type:NestedSelector
         tableId: SurvivalThreatsPhase60Table
