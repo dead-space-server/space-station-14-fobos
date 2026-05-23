@@ -14,8 +14,10 @@
   - Maintenance
   - Engineering
   - External
-  extendedAccess:
-  - Atmospherics
+  # DS14-start
+  # extendedAccess:
+  # - Atmospherics
+  # DS14-end
   #start-backmen: currency
   minBankBalance: 150
   maxBankBalance: 250

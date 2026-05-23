@@ -48,6 +48,9 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
     private readonly Dictionary<Vector2i, DamageSpecifier> _detonatingDamage = new();
     private readonly HashSet<Vector2i> _detonatingIgniteTiles = new();
     private readonly HashSet<EntityUid> _fireTileEntities = new();
+    private readonly HashSet<EntityUid> _tileEntities = new();
+    private readonly HashSet<EntityUid> _damagedEntities = new();
+    private readonly HashSet<Vector2i> _cageFireTiles = new();
 
     public override void Initialize()
     {
@@ -584,44 +587,62 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
         EntityUid gridUid,
         MapGridComponent grid)
     {
-        var interiorFireTiles = new HashSet<Vector2i>();
+        _cageFireTiles.Clear();
         foreach (var entity in drake.CageInteriorEntities)
         {
             if (!Exists(entity) || !TryComp(entity, out TransformComponent? fxform))
                 continue;
-            interiorFireTiles.Add(_map.LocalToTile(gridUid, grid, fxform.Coordinates));
+
+            _cageFireTiles.Add(_map.LocalToTile(gridUid, grid, fxform.Coordinates));
         }
 
         var half = drake.CageHalfSize;
-        var innerHalf = half - 1;
         var center = drake.CageCenter;
+        _damagedEntities.Clear();
 
-        var query = EntityQueryEnumerator<DamageableComponent, MobStateComponent, TransformComponent>();
-        while (query.MoveNext(out var uid, out var damageable, out var mobState, out var xform))
+        foreach (var fireTile in _cageFireTiles)
         {
-            if (uid == boss ||
-                mobState.CurrentState == MobState.Dead ||
-                xform.GridUid != gridUid)
+            _tileEntities.Clear();
+            _lookup.GetLocalEntitiesIntersecting(
+                gridUid,
+                fireTile,
+                _tileEntities,
+                flags: LookupFlags.Dynamic | LookupFlags.Sundries,
+                gridComp: grid);
+
+            foreach (var uid in _tileEntities)
             {
-                continue;
+                if (uid == boss ||
+                    !_damagedEntities.Add(uid) ||
+                    !TryComp(uid, out DamageableComponent? damageable) ||
+                    !TryComp(uid, out MobStateComponent? mobState) ||
+                    mobState.CurrentState == MobState.Dead ||
+                    !TryComp(uid, out TransformComponent? xform) ||
+                    xform.GridUid != gridUid)
+                {
+                    continue;
+                }
+
+                var tile = _map.LocalToTile(gridUid, grid, xform.Coordinates);
+                var dx = Math.Abs(tile.X - center.X);
+                var dy = Math.Abs(tile.Y - center.Y);
+
+                if (tile != fireTile ||
+                    dx > half ||
+                    dy > half)
+                {
+                    continue;
+                }
+
+                _damageable.TryChangeDamage((uid, damageable), drake.CageInteriorFireDamage, origin: boss);
+                IgniteEntity(uid, drake, boss);
+                _audio.PlayPvs(drake.HitSound, uid, AudioParams.Default.WithVolume(-6f));
             }
-
-            var tile = _map.LocalToTile(gridUid, grid, xform.Coordinates);
-            var dx = Math.Abs(tile.X - center.X);
-            var dy = Math.Abs(tile.Y - center.Y);
-
-            if (dx > half || dy > half)
-                continue;
-
-            var onBorder = dx == half || dy == half; 
-
-            if (!interiorFireTiles.Contains(tile))
-                continue;
-
-            _damageable.TryChangeDamage((uid, damageable), drake.CageInteriorFireDamage, origin: boss);
-            IgniteEntity(uid, drake, boss);
-            _audio.PlayPvs(drake.HitSound, uid, AudioParams.Default.WithVolume(-6f));
         }
+
+        _tileEntities.Clear();
+        _damagedEntities.Clear();
+        _cageFireTiles.Clear();
     }
 
     private static Vector2i GetCageCenter(LavalandBossArenaComponent arena, Vector2i target, int halfSize)
@@ -1060,34 +1081,47 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
         EntityUid gridUid,
         MapGridComponent grid)
     {
-        var query = EntityQueryEnumerator<DamageableComponent, MobStateComponent, TransformComponent>();
-        while (query.MoveNext(out var uid, out var damageable, out var mobState, out var xform))
+        _damagedEntities.Clear();
+
+        foreach (var tile in _detonatingTiles)
         {
-            if (uid == boss ||
-                mobState.CurrentState == MobState.Dead ||
-                xform.GridUid != gridUid)
-            {
+            if (!_detonatingDamage.TryGetValue(tile, out var damage))
                 continue;
-            }
-            var tile = _map.LocalToTile(gridUid, grid, xform.Coordinates);
 
-            if (_detonatingTiles.Contains(tile))
+            _tileEntities.Clear();
+            _lookup.GetLocalEntitiesIntersecting(
+                gridUid,
+                tile,
+                _tileEntities,
+                flags: LookupFlags.Dynamic | LookupFlags.Sundries,
+                gridComp: grid);
+
+            foreach (var uid in _tileEntities)
             {
+                if (uid == boss ||
+                    !_damagedEntities.Add(uid) ||
+                    !TryComp(uid, out DamageableComponent? damageable) ||
+                    !TryComp(uid, out MobStateComponent? mobState) ||
+                    mobState.CurrentState == MobState.Dead ||
+                    !TryComp(uid, out TransformComponent? xform) ||
+                    xform.GridUid != gridUid ||
+                    _map.LocalToTile(gridUid, grid, xform.Coordinates) != tile)
+                {
+                    continue;
+                }
+
                 IgniteEntity(uid, drake, boss);
+                _damageable.TryChangeDamage((uid, damageable), damage, origin: boss);
+
+                if (_detonatingIgniteTiles.Contains(tile))
+                    IgniteEntity(uid, drake, boss);
+
+                _audio.PlayPvs(drake.HitSound, uid, AudioParams.Default.WithVolume(-6f));
             }
-
-            if (!_detonatingTiles.Contains(tile) ||
-                !_detonatingDamage.TryGetValue(tile, out var damage))
-            {
-                continue;
-            }
-
-            _damageable.TryChangeDamage((uid, damageable), damage, origin: boss);
-            if (_detonatingIgniteTiles.Contains(tile))
-                IgniteEntity(uid, drake, boss);
-
-            _audio.PlayPvs(drake.HitSound, uid, AudioParams.Default.WithVolume(-6f));
         }
+
+        _tileEntities.Clear();
+        _damagedEntities.Clear();
     }
 
     private void DamageArea(
@@ -1101,36 +1135,59 @@ public sealed class LavalandAshDrakeSystem : EntitySystem
         bool ignite,
         bool throwTargets)
     {
-        var query = EntityQueryEnumerator<DamageableComponent, MobStateComponent, TransformComponent>();
-        while (query.MoveNext(out var uid, out var damageable, out var mobState, out var xform))
+        _damagedEntities.Clear();
+
+        for (var x = center.X - radius; x <= center.X + radius; x++)
         {
-            if (uid == boss ||
-                mobState.CurrentState == MobState.Dead ||
-                xform.GridUid != gridUid)
+            for (var y = center.Y - radius; y <= center.Y + radius; y++)
             {
-                continue;
+                var tile = new Vector2i(x, y);
+                if (ChebyshevDistance(center, tile) > radius)
+                    continue;
+
+                _tileEntities.Clear();
+                _lookup.GetLocalEntitiesIntersecting(
+                    gridUid,
+                    tile,
+                    _tileEntities,
+                    flags: LookupFlags.Dynamic | LookupFlags.Sundries,
+                    gridComp: grid);
+
+                foreach (var uid in _tileEntities)
+                {
+                    if (uid == boss ||
+                        !_damagedEntities.Add(uid) ||
+                        !TryComp(uid, out DamageableComponent? damageable) ||
+                        !TryComp(uid, out MobStateComponent? mobState) ||
+                        mobState.CurrentState == MobState.Dead ||
+                        !TryComp(uid, out TransformComponent? xform) ||
+                        xform.GridUid != gridUid ||
+                        _map.LocalToTile(gridUid, grid, xform.Coordinates) != tile)
+                    {
+                        continue;
+                    }
+
+                    _damageable.TryChangeDamage((uid, damageable), damage, origin: boss);
+
+                    if (ignite)
+                        IgniteEntity(uid, drake, boss);
+
+                    if (throwTargets)
+                    {
+                        var direction = new Vector2(tile.X - center.X, tile.Y - center.Y);
+                        if (direction.LengthSquared() < 0.01f)
+                            direction = _random.NextVector2();
+
+                        _throwing.TryThrow(uid, direction.Normalized() * 2.5f, drake.SwoopThrowSpeed, boss, playSound: false, doSpin: false);
+                    }
+
+                    _audio.PlayPvs(drake.HitSound, uid, AudioParams.Default.WithVolume(-4f));
+                }
             }
-
-            var tile = _map.LocalToTile(gridUid, grid, xform.Coordinates);
-            if (ChebyshevDistance(center, tile) > radius)
-                continue;
-
-            _damageable.TryChangeDamage((uid, damageable), damage, origin: boss);
-
-            if (ignite)
-                IgniteEntity(uid, drake, boss);
-
-            if (throwTargets)
-            {
-                var direction = new Vector2(tile.X - center.X, tile.Y - center.Y);
-                if (direction.LengthSquared() < 0.01f)
-                    direction = _random.NextVector2();
-
-                _throwing.TryThrow(uid, direction.Normalized() * 2.5f, drake.SwoopThrowSpeed, boss, playSound: false, doSpin: false);
-            }
-
-            _audio.PlayPvs(drake.HitSound, uid, AudioParams.Default.WithVolume(-4f));
         }
+
+        _tileEntities.Clear();
+        _damagedEntities.Clear();
     }
 
     private void IgniteEntity(EntityUid uid, LavalandAshDrakeComponent drake, EntityUid source)

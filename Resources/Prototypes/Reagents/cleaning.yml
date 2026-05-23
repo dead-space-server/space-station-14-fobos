@@ -31,6 +31,10 @@
     cleanCost: 0.13
   - !type:CleanDecalsReaction
     cleanCost: 0.13
+  - !type:ReplaceTileReaction
+    cost: 0.13
+    replacements:
+      FloorSteelDirty: FloorSteel
 
 - type: reagent
   id: SpaceCleaner
@@ -43,8 +47,12 @@
   boilingPoint: 147.0 # Made this up, loosely based on bleach
   meltingPoint: -11.0
   tileReactions:
-    - !type:CleanTileReaction {}
+    - !type:CleanTileReaction
+      cleanCost: 0.01
     - !type:CleanDecalsReaction {}
+    - !type:ReplaceTileReaction
+      replacements:
+        FloorSteelDirty: FloorSteel
 
 - type: reagent
   id: SoapReagent

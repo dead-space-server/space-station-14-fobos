@@ -48,12 +48,15 @@ public sealed class LavalandHierophantSystem : EntitySystem
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IPlayerManager _players = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly SharedMapSystem _map = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     private readonly List<EntityUid> _participants = new();
     private readonly HashSet<Vector2i> _detonatingTiles = new();
     private readonly Dictionary<Vector2i, DamageSpecifier> _detonatingDamage = new();
+    private readonly HashSet<EntityUid> _tileEntities = new();
+    private readonly HashSet<EntityUid> _damagedEntities = new();
 
     public override void Initialize()
     {
@@ -766,26 +769,42 @@ public sealed class LavalandHierophantSystem : EntitySystem
         EntityUid gridUid,
         MapGridComponent grid)
     {
-        var query = EntityQueryEnumerator<DamageableComponent, MobStateComponent, TransformComponent>();
-        while (query.MoveNext(out var uid, out var damageable, out var mobState, out var xform))
+        _damagedEntities.Clear();
+
+        foreach (var tile in _detonatingTiles)
         {
-            if (uid == boss ||
-                mobState.CurrentState == MobState.Dead ||
-                xform.GridUid != gridUid)
-            {
+            if (!_detonatingDamage.TryGetValue(tile, out var damage))
                 continue;
-            }
 
-            var tile = _map.LocalToTile(gridUid, grid, xform.Coordinates);
-            if (!_detonatingTiles.Contains(tile) ||
-                !_detonatingDamage.TryGetValue(tile, out var damage))
+            _tileEntities.Clear();
+            _lookup.GetLocalEntitiesIntersecting(
+                gridUid,
+                tile,
+                _tileEntities,
+                flags: LookupFlags.Dynamic | LookupFlags.Sundries,
+                gridComp: grid);
+
+            foreach (var uid in _tileEntities)
             {
-                continue;
-            }
+                if (uid == boss ||
+                    !_damagedEntities.Add(uid) ||
+                    !TryComp(uid, out DamageableComponent? damageable) ||
+                    !TryComp(uid, out MobStateComponent? mobState) ||
+                    mobState.CurrentState == MobState.Dead ||
+                    !TryComp(uid, out TransformComponent? xform) ||
+                    xform.GridUid != gridUid ||
+                    _map.LocalToTile(gridUid, grid, xform.Coordinates) != tile)
+                {
+                    continue;
+                }
 
-            _damageable.TryChangeDamage((uid, damageable), damage, origin: boss);
-            _audio.PlayPvs(hierophant.HitSound, uid, AudioParams.Default.WithVolume(-4f));
+                _damageable.TryChangeDamage((uid, damageable), damage, origin: boss);
+                _audio.PlayPvs(hierophant.HitSound, uid, AudioParams.Default.WithVolume(-4f));
+            }
         }
+
+        _tileEntities.Clear();
+        _damagedEntities.Clear();
     }
 
     private int CollectParticipants(LavalandBossArenaComponent arena)
