@@ -29,6 +29,7 @@ public sealed partial class AdminVerbSystem
     private static readonly EntProtoId DefaultTraitorRule = "Traitor";
     private static readonly EntProtoId DefaultInitialInfectedRule = "Zombie";
     private static readonly EntProtoId DefaultNukeOpRule = "LoneOpsSpawn";
+    private static readonly EntProtoId NukeopsRule = "Nukeops"; // DS14
     private static readonly EntProtoId DefaultRevsRule = "Revolutionary";
     private static readonly EntProtoId DefaultThiefRule = "Thief";
     private static readonly EntProtoId DefaultChangelingRule = "Changeling";
@@ -127,6 +128,15 @@ public sealed partial class AdminVerbSystem
             Icon = new SpriteSpecifier.Rsi(new("/Textures/Clothing/Head/Hardsuits/syndicate.rsi"), "icon"),
             Act = () =>
             {
+                // DS14-start
+                if (_gameTicker.IsGameRuleActive(NukeopsRule))
+                {
+                    var rule = _antag.ForceGetGameRuleEnt<NukeopsRuleComponent>(NukeopsRule);
+                    _antag.MakeAntag(rule, targetPlayer, rule.Comp.Definitions[^1]);
+                    return;
+                }
+                // DS14-end
+
                 _antag.ForceMakeAntag<NukeopsRuleComponent>(targetPlayer, DefaultNukeOpRule, forceNewRule: true);
             },
             Impact = LogImpact.High,
