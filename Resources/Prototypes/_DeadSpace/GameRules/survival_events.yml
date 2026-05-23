@@ -21,8 +21,10 @@
     - id: SolarFlare
     - id: SnailMigrationLowPop
     - id: LowVirusPandemic
-    - !type:NestedSelector
-      tableId: UnknownShuttlesFriendlyTable
+#DS14-start
+#      - !type:NestedSelector
+#        tableId: UnknownShuttlesFriendlyTable
+#DS14-end
 
 - type: entityTable
   id: SurvivalStandardDerelictBorgEventTable
@@ -72,8 +74,10 @@
     - id: PirateRaid
     - id: MediumVirusPandemic
     - id: DerelictSyndicateAssaultCyborgSpawn
-    - !type:NestedSelector
-      tableId: UnknownShuttlesFriendlyTable
+#DS14-start
+#      - !type:NestedSelector
+#        tableId: UnknownShuttlesFriendlyTable
+#DS14-end
     - !type:NestedSelector
       tableId: SurvivalHostileUnknownShuttlesTable
 
