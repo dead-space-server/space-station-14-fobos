@@ -49,6 +49,9 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
                     if (component.VirusSolutionAnalyzer == null || !TryComp<VirusSolutionAnalyzerComponent>(component.VirusSolutionAnalyzer, out var virusSolutionAnalyzer))
                         return;
 
+                    if (virusSolutionAnalyzer.Status == VirusSolutionAnalyzerStatus.Scanning)
+                        return;
+
                     _virusSolutionAnalyzer.StartScanVirus((component.VirusSolutionAnalyzer.Value, virusSolutionAnalyzer));
                     break;
                 }
@@ -68,6 +71,9 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
                     if (component.VirusDiagnoser == null || !TryComp(component.VirusDiagnoser, out diagnoser))
                         return;
 
+                    if (_diagnoser.IsBusy(diagnoser.Status))
+                        return;
+
                     if (component.VirusDiagnoserDataServer == null || !TryComp(component.VirusDiagnoserDataServer, out dataServer))
                         return;
 
@@ -82,6 +88,9 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
             case UiButton.PrintReport:
                 {
                     if (component.VirusDiagnoser == null || !TryComp(component.VirusDiagnoser, out diagnoser))
+                        return;
+
+                    if (_diagnoser.IsBusy(diagnoser.Status))
                         return;
 
                     if (component.VirusDiagnoserDataServer == null || !TryComp(component.VirusDiagnoserDataServer, out dataServer))
@@ -100,7 +109,21 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
                     if (component.VirusDiagnoser == null || !TryComp(component.VirusDiagnoser, out diagnoser))
                         return;
 
+                    if (_diagnoser.IsBusy(diagnoser.Status))
+                        return;
+
                     _diagnoser.StartScanVirus((component.VirusDiagnoser.Value, diagnoser));
+                    break;
+                }
+            case UiButton.CheckBloodVirus:
+                {
+                    if (component.VirusDiagnoser == null || !TryComp(component.VirusDiagnoser, out diagnoser))
+                        return;
+
+                    if (_diagnoser.IsBusy(diagnoser.Status))
+                        return;
+
+                    _diagnoser.StartBloodVirusCheck((component.VirusDiagnoser.Value, diagnoser));
                     break;
                 }
             default:
@@ -265,6 +288,30 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
         var diagnoserConnected = console.Comp.VirusDiagnoser != null;
         var dataServerConnected = console.Comp.VirusDiagnoserDataServer != null;
         var solutionAnalyzerConnected = console.Comp.VirusSolutionAnalyzer != null;
+        var diagnoserStatus = VirusDiagnoserStatus.Off;
+        var solutionAnalyzerStatus = VirusSolutionAnalyzerStatus.Off;
+        var diagnoserHasSample = false;
+        var diagnoserHasBloodSample = false;
+        var solutionAnalyzerHasSample = false;
+        var diagnoserScanProgress = 0;
+        var solutionAnalyzerScanProgress = 0;
+
+        if (console.Comp.VirusDiagnoser != null &&
+            TryComp<VirusDiagnoserComponent>(console.Comp.VirusDiagnoser, out var diagnoser))
+        {
+            diagnoserStatus = diagnoser.Status;
+            diagnoserHasSample = _diagnoser.CanScanning((console.Comp.VirusDiagnoser.Value, diagnoser));
+            diagnoserHasBloodSample = _diagnoser.CanCheckBloodVirus((console.Comp.VirusDiagnoser.Value, diagnoser));
+            diagnoserScanProgress = _diagnoser.GetScanProgress((console.Comp.VirusDiagnoser.Value, diagnoser));
+        }
+
+        if (console.Comp.VirusSolutionAnalyzer != null &&
+            TryComp<VirusSolutionAnalyzerComponent>(console.Comp.VirusSolutionAnalyzer, out var solutionAnalyzer))
+        {
+            solutionAnalyzerStatus = solutionAnalyzer.Status;
+            solutionAnalyzerHasSample = _virusSolutionAnalyzer.CanScanning((console.Comp.VirusSolutionAnalyzer.Value, solutionAnalyzer));
+            solutionAnalyzerScanProgress = _virusSolutionAnalyzer.GetScanProgress((console.Comp.VirusSolutionAnalyzer.Value, solutionAnalyzer));
+        }
 
         return new VirusDiagnoserConsoleBoundUserInterfaceState(
             strains,
@@ -274,7 +321,14 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
             solutionAnalyzerConnected,
             console.Comp.DiagnoserInRange,
             console.Comp.DataServerInRange,
-            console.Comp.SolutionAnalyzerInRange
+            console.Comp.SolutionAnalyzerInRange,
+            diagnoserStatus,
+            solutionAnalyzerStatus,
+            diagnoserHasSample,
+            diagnoserHasBloodSample,
+            solutionAnalyzerHasSample,
+            diagnoserScanProgress,
+            solutionAnalyzerScanProgress
         );
     }
 

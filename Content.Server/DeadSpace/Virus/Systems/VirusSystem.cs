@@ -16,6 +16,7 @@ using Robust.Shared.Timing;
 using Content.Server.DeadSpace.Virus.Symptoms;
 using Content.Shared.Tag;
 using Content.Shared.Body.Components;
+using Content.Shared.Chemistry.Components;
 using Content.Shared.Mobs;
 using Content.Server.DeadSpace.Virus.Components;
 using Content.Shared.Chemistry.Reagent;
@@ -168,6 +169,8 @@ public sealed partial class VirusSystem : SharedVirusSystem
 
         if (string.IsNullOrEmpty(component.Data.StrainId))
             component.Data.StrainId = GenerateStrainId();
+
+        UpdateBloodVirusData((uid, component), true);
     }
 
     private void OnShutdown(EntityUid uid, VirusComponent component, ComponentShutdown args)
@@ -176,6 +179,8 @@ public sealed partial class VirusSystem : SharedVirusSystem
         {
             symptom.OnRemoved(uid, component);
         }
+
+        UpdateBloodVirusData((uid, component), false);
     }
 
     /// <summary>
@@ -302,6 +307,39 @@ public sealed partial class VirusSystem : SharedVirusSystem
             {
                 instance.ApplyDataEffect(host.Comp.Data, true);
             }
+        }
+
+        UpdateBloodVirusData(host, true);
+    }
+
+    private void UpdateBloodVirusData(Entity<VirusComponent> host, bool add)
+    {
+        if (!TryComp<BloodstreamComponent>(host, out var bloodstream))
+            return;
+
+        var bloodReagents = bloodstream.BloodReferenceSolution.Contents
+            .Select(reagent => reagent.Reagent.Prototype)
+            .ToHashSet();
+
+        UpdateSolutionVirusData(bloodstream.BloodReferenceSolution, host.Comp, add, bloodReagents);
+
+        if (bloodstream.BloodSolution is { } bloodSolution)
+            UpdateSolutionVirusData(bloodSolution.Comp.Solution, host.Comp, add, bloodReagents);
+    }
+
+    private void UpdateSolutionVirusData(
+        Solution solution,
+        VirusComponent component,
+        bool add,
+        HashSet<string> bloodReagents)
+    {
+        foreach (var reagent in solution.Contents)
+        {
+            var reagentData = reagent.Reagent.EnsureReagentData();
+            reagentData.RemoveAll(data => data is VirusData);
+
+            if (add && bloodReagents.Contains(reagent.Reagent.Prototype))
+                reagentData.Add((VirusData) component.Data.Clone());
         }
     }
 

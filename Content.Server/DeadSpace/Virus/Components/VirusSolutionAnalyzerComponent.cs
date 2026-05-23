@@ -42,4 +42,13 @@ public sealed partial class VirusSolutionAnalyzerComponent : Component
 
     [ViewVariables(VVAccess.ReadOnly)]
     public EntityUid? CurrentSoundEntity = default!;
+
+    [ViewVariables(VVAccess.ReadOnly)]
+    public TimeSpan NextConsoleStatusUpdate = TimeSpan.Zero;
+
+    [ViewVariables(VVAccess.ReadOnly)]
+    public TimeSpan ScanStartedAt = TimeSpan.Zero;
+
+    [ViewVariables(VVAccess.ReadOnly)]
+    public TimeSpan ScanDuration = TimeSpan.Zero;
 }

@@ -8,6 +8,7 @@ using Content.Shared.Chemistry.Reagent;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Systems;
 using Content.Shared.DeadSpace.Abilities.Bloodsucker;
+using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.EntityEffects.Effects.Solution;
 using Content.Shared.FixedPoint;
 using Content.Shared.Fluids;
@@ -600,6 +601,10 @@ public abstract class SharedBloodstreamSystem : EntitySystem
             dnaData.DNA = Loc.GetString("forensics-dna-unknown");
 
         bloodData.Add(dnaData);
+        // DS14-start
+        if (TryComp<VirusComponent>(uid, out var virus))
+            bloodData.Add((VirusData) virus.Data.Clone());
+        // DS14-end
         return bloodData;
     }
 }

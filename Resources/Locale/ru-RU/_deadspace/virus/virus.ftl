@@ -67,22 +67,63 @@ virus-report-body-any = Не выявлены
 
 virus-report-footer = Отчёт сгенерирован вирусным диагностическим модулем.
 
+virus-blood-report-title = АНАЛИЗ КРОВИ НА ВИРУС
+virus-blood-report-patient = Пациент: {$name}
+virus-blood-report-dna = ДНК: {$dna}
+virus-blood-report-blood-types = Тип крови: {$types}
+virus-blood-report-blood-volume = Объем образца: {$volume}u
+virus-blood-report-disease-status = Статус заболевания: {$status}
+virus-blood-report-virus-detected = Вирус обнаружен. Штамм: {$id}
+virus-blood-report-virus-detected-unknown = Вирус обнаружен.
+virus-blood-report-virus-not-detected = Вирус не обнаружен.
+virus-blood-report-known-strain = Название на сервере: {$name}
+virus-blood-report-known-strain-none = Штамм отсутствует на сервере данных.
+virus-blood-report-recognition-error = Ошибка распознавания
+virus-blood-report-disease-clean = признаков активного заболевания не выявлено.
+virus-blood-report-disease-active = активное заражение.
+virus-blood-report-disease-sample = вирус найден в образце.
+virus-blood-report-disease-progress = Прогресс вируса: {$progress}%.
+
 ## UI
 
 ### Заголовок окна
 virus-diagnoser-window-title = Диагност заболеваний
+virus-diagnoser-window-subtitle = Сканирование, хранение и подготовка вирусных образцов
+virus-diagnoser-tab-server = Сервер
+virus-diagnoser-tab-diagnoser = Диагност
+virus-diagnoser-tab-analyzer = Анализатор
+virus-diagnoser-summary = Штаммов в базе: { $strains } | Очки исследований: { $points }
+virus-diagnoser-status-ready = Готово к работе
+virus-diagnoser-status-unavailable = Нет соединения
+virus-diagnoser-status-out-of-range = Устройство вне радиуса
+virus-diagnoser-status-no-sample = Нет образца
+virus-diagnoser-process-status = Статус процесса: { $percent }%
+virus-diagnoser-status-scanning = Идет сканирование вирусного образца...
+virus-diagnoser-status-blood-scanning = Идет проверка крови на вирус...
+virus-diagnoser-status-printing = Идет печать отчета...
+virus-diagnoser-status-generating = Идет генерация вирусного раствора...
+virus-diagnoser-status-denial = Операция не выполнена. Проверьте образец и контейнер.
+virus-diagnoser-status-success = Операция завершена.
 
 ### Вкладка сервера
 virus-diagnoser-server-strains-label = Штаммы вируса на сервере
 virus-diagnoser-delete-strain-button = Удалить штамм
+virus-diagnoser-strain-column-strain = Штамм
+virus-diagnoser-strain-column-time = Исследован
+virus-diagnoser-strain-row = { $strain }    исследован: { $time }
+virus-diagnoser-strain-empty = На сервере пока нет изученных штаммов.
+virus-diagnoser-select-strain = Выберите штамм, чтобы напечатать отчёт, сгенерировать раствор или удалить данные.
+virus-diagnoser-selected-strain = Выбран: { $strain } | исследован: { $time }
 
 virus-diagnoser-server-missing = Нет соединения с сервером данных
 virus-diagnoser-server-far = Сервер данных находится слишком далеко
 
 ### Вкладка диагноста
 virus-diagnoser-actions-label = Доступные действия
+virus-diagnoser-scan-hint = Запустите сканирование диагноста: новые данные о вирусе попадут в базу сервера.
 
 virus-diagnoser-scan-button = Сканировать вирус
+virus-diagnoser-check-blood-button = Проверить на вирус
 virus-diagnoser-print-button = Печать отчёта
 virus-diagnoser-generate-button = Сгенерировать вирус
 
@@ -90,9 +131,14 @@ virus-diagnoser-missing = Нет соединения с диагностом
 virus-diagnoser-far = Диагност находится слишком далеко
 
 # Solution аналайзер
-virus-solution-analyser-start-analys-button = Запустить анализ
+virus-diagnoser-solution-analyzer-title = Анализатор растворов
+virus-diagnoser-solution-analyzer-hint = Сохраните вирусный раствор на сервер данных, чтобы добавить или обновить запись о штамме.
+virus-solution-analyser-start-analys-button = Сохранить вирус
 virus-solution-analyser-missing = Нет соединения с анализатором веществ
 virus-solution-analyser-far = Анализатор веществ находится слишком далеко
+virus-solution-analyser-status-scanning = Идет сохранение вирусного раствора...
+virus-solution-analyser-status-denial = Сохранение не выполнено. Проверьте содержимое колбы.
+virus-solution-analyser-status-success = Вирус сохранен.
 
 # Ports
 
@@ -125,6 +171,17 @@ virus-mutation-verb = Очистить от вируса
 ### WINDOW ###
 
 virus-evolution-window-title = Эволюция вируса
+virus-evolution-window-subtitle = Управление симптомами, носителями и очками мутации
+virus-evolution-symptoms-title = Симптомы штамма
+virus-evolution-summary = Активных симптомов: { $active } | Носителей: { $bodies }
+virus-evolution-bodies-title = Носители штамма
+virus-evolution-bodies-subtitle = Настройте расы, которые может заражать этот раствор.
+virus-evolution-body-hint = Добавление рас расширяет заражение, удаление сужает список подходящих целей.
+virus-evolution-status-unavailable = Нет соединения
+virus-evolution-status-no-virus = Вирус не найден
+virus-evolution-status-out-of-range = Устройство вне радиуса
+virus-evolution-select-symptom = Выберите симптом
+virus-evolution-select-body = Выберите расу
 
 
 ### TABS ###
@@ -159,13 +216,16 @@ virus-evolution-points-per-second =
 virus-evolution-cost-label =
     Стоимость: { $cost }
 
+virus-evolution-delete-cost-label =
+    Стоимость удаления: { $cost }
+
 
 ### WHITELIST TAB ###
 
-virus-evolution-available-bodies = Доступные тела
-virus-evolution-active-bodies = Активные тела
-virus-evolution-buy-body = Добавить тело
-virus-evolution-delete-body = Удалить тело
+virus-evolution-available-bodies = Доступные расы
+virus-evolution-active-bodies = Активные расы
+virus-evolution-buy-body = Добавить расу
+virus-evolution-delete-body = Удалить расу
 
 ### DATASERVER STATES ###
 

@@ -48,6 +48,9 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
         if (!TryComp<VirusSolutionAnalyzerComponent>(component.VirusSolutionAnalyzer, out var analyzer))
             return;
 
+        if (analyzer.Status != VirusSolutionAnalyzerStatus.On)
+            return;
+
         if (component.VirusDiagnoserDataServer == null
             || !TryComp<VirusDiagnoserDataServerComponent>(component.VirusDiagnoserDataServer, out var server))
             return;
@@ -154,13 +157,13 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
             if (TryComp<VirusSolutionAnalyzerComponent>(port, out var solutionAnalyzer))
             {
                 component.VirusSolutionAnalyzer = port;
-                solutionAnalyzer.ConnectedConsole = uid;
+                solutionAnalyzer.ConnectedEvolutionConsole = uid;
             }
 
             if (TryComp<VirusDiagnoserDataServerComponent>(port, out var server))
             {
                 component.VirusDiagnoserDataServer = port;
-                server.ConnectedConsole = uid;
+                server.ConnectedEvolutionConsole = uid;
             }
         }
     }
@@ -170,13 +173,13 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
         if (TryComp<VirusDiagnoserDataServerComponent>(args.Sink, out var server) && args.SourcePort == component.VirusDiagnoserDataServerPort)
         {
             component.VirusDiagnoserDataServer = args.Sink;
-            server.ConnectedConsole = uid;
+            server.ConnectedEvolutionConsole = uid;
         }
 
         if (TryComp<VirusSolutionAnalyzerComponent>(args.Sink, out var solutionAnalyzer) && args.SourcePort == component.VirusSolutionAnalyzerPort)
         {
             component.VirusSolutionAnalyzer = args.Sink;
-            solutionAnalyzer.ConnectedConsole = uid;
+            solutionAnalyzer.ConnectedEvolutionConsole = uid;
         }
 
         RecheckConnections((uid, component));
@@ -261,6 +264,13 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
 
         var dataServerConnected = console.Comp.VirusDiagnoserDataServer != null;
         var solutionAnalyzerConnected = console.Comp.VirusSolutionAnalyzer != null;
+        var solutionAnalyzerStatus = VirusSolutionAnalyzerStatus.Off;
+
+        if (console.Comp.VirusSolutionAnalyzer != null &&
+            TryComp<VirusSolutionAnalyzerComponent>(console.Comp.VirusSolutionAnalyzer.Value, out var analyzer))
+        {
+            solutionAnalyzerStatus = analyzer.Status;
+        }
 
         if (console.Comp.VirusSolutionAnalyzer != null &&
             _virusSolutionAnalyzer.TryGetVirusDataFromContainer(console.Comp.VirusSolutionAnalyzer.Value, out var virusDataList))
@@ -288,7 +298,8 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
             virusData != null,
             virusData?.ActiveSymptom,
             virusData?.BodyWhitelist,
-            isSentientVirus: false
+            isSentientVirus: false,
+            solutionAnalyzerStatus: solutionAnalyzerStatus
         );
     }
 
