@@ -185,9 +185,6 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
 
         server.Comp.Points += points;
 
-        if (server.Comp.ConnectedConsole == null || !TryComp<VirusDiagnoserConsoleComponent>(server.Comp.ConnectedConsole, out var console))
-            return;
-
         UpdateConnectedInterfaces(server, server.Comp);
     }
 
