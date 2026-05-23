@@ -70,7 +70,9 @@ public sealed partial class VirusDiagnoserConsoleWindow : DefaultWindow
                 state.SolutionAnalyzerScanProgress);
             StartAnalysButton.Disabled =
                 state.SolutionAnalyzerStatus == VirusSolutionAnalyzerStatus.Scanning ||
-                !state.SolutionAnalyzerHasSample;
+                !state.SolutionAnalyzerHasSample ||
+                !state.DataServerConnected ||
+                !state.DataServerInRange;
         }
 
         // Состояние 1: сервер недоступен

@@ -1,7 +1,9 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Content.Server.DeadSpace.Virus.Components;
+using Content.Server.DeviceLinking.Systems;
 using Content.Shared.DeadSpace.Virus.Components;
+using Content.Shared.DeviceLinking;
 using Content.Shared.DeviceLinking.Events;
 using Content.Server.Power.EntitySystems;
 using System.Linq;
@@ -23,6 +25,8 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
     [Dependency] private readonly VirusEvolutionConsoleSystem _evolutionConsoleSystem = default!;
     [Dependency] private readonly TimedWindowSystem _timedWindowSystem = default!;
     [Dependency] private readonly VirusSystem _virus = default!;
+    [Dependency] private readonly DeviceLinkSystem _deviceLink = default!;
+
     public override void Initialize()
     {
         base.Initialize();
@@ -148,7 +152,46 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
     private void OnPortDisconnected(Entity<VirusDiagnoserDataServerComponent> server, ref PortDisconnectedEvent args)
     {
         if (args.Port == server.Comp.VirusDiagnoserDataServerPort)
-            server.Comp.ConnectedConsole = null;
+        {
+            var uid = server.Owner;
+            Timer.Spawn(0, () => RebuildLinkedConsoles(uid));
+        }
+    }
+
+    private void RebuildLinkedConsoles(EntityUid uid)
+    {
+        if (!TryComp<VirusDiagnoserDataServerComponent>(uid, out var comp))
+            return;
+
+        comp.ConnectedConsole = null;
+        comp.ConnectedEvolutionConsole = null;
+
+        if (!TryComp<DeviceLinkSinkComponent>(uid, out var sink))
+        {
+            UpdateConnectedInterfaces(uid, comp);
+            return;
+        }
+
+        foreach (var sourceUid in sink.LinkedSources)
+        {
+            var links = _deviceLink.GetLinks(sourceUid, uid);
+            if (links.Count == 0)
+                continue;
+
+            if (TryComp<VirusDiagnoserConsoleComponent>(sourceUid, out var console) &&
+                links.Contains((console.VirusDiagnoserDataServerPort, comp.VirusDiagnoserDataServerPort)))
+            {
+                comp.ConnectedConsole = sourceUid;
+            }
+
+            if (TryComp<VirusEvolutionConsoleComponent>(sourceUid, out var evolutionConsole) &&
+                links.Contains((evolutionConsole.VirusDiagnoserDataServerPort, comp.VirusDiagnoserDataServerPort)))
+            {
+                comp.ConnectedEvolutionConsole = sourceUid;
+            }
+        }
+
+        UpdateConnectedInterfaces(uid, comp);
     }
 
     private void OnAnchor(Entity<VirusDiagnoserDataServerComponent> server, ref AnchorStateChangedEvent args)
@@ -262,7 +305,10 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
             .FirstOrDefault(k => k.Strain == strainId);
 
         if (!key.Equals(default(VirusStrainRecord)))
+        {
             server.Comp.StrainData.Remove(key);
+            UpdateConnectedInterfaces(server, server.Comp);
+        }
     }
 
     public VirusData? GetData(Entity<VirusDiagnoserDataServerComponent?> server, string strainId)
