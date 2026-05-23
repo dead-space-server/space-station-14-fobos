@@ -4,9 +4,11 @@ using System.Linq;
 using Content.Server.Chat.Systems;
 using Content.Server.GameTicking;
 using Content.Server.GameTicking.Rules;
+using Content.Server.RoundEnd;
 using Content.Server.StationEvents.Components;
 using Content.Shared.EntityTable;
 using Content.Shared.GameTicking.Components;
+using Robust.Server.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 
@@ -21,7 +23,9 @@ public sealed class SurvivalRampingStationEventSchedulerSystem : GameRuleSystem<
     [Dependency] private readonly GameTicker _gameTicker = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
     [Dependency] private readonly EntityTableSystem _entityTable = default!;
+    [Dependency] private readonly IPlayerManager _player = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly RoundEndSystem _roundEnd = default!;
 
     public float GetChaosModifier(EntityUid uid, SurvivalRampingStationEventSchedulerComponent component)
     {
@@ -142,8 +146,8 @@ public sealed class SurvivalRampingStationEventSchedulerSystem : GameRuleSystem<
 
     private bool CanQueueSurvivalEvent(EntityPrototype prototype, StationEventComponent stationEvent)
     {
-        // Survival phase tables are the local timing gate. Once a rule is in the
-        // active phase pool, queue it directly like an admin-forced game rule.
+        // Survival phase tables are the local timing gate, so ignore only the
+        // StationEvent time gates: EarliestStart and ReoccurrenceDelay.
         if (_gameTicker.IsGameRuleActive(prototype.ID))
             return false;
 
@@ -151,6 +155,12 @@ public sealed class SurvivalRampingStationEventSchedulerSystem : GameRuleSystem<
             return false;
 
         if (stationEvent.MaxOccurrences.HasValue && GetOccurrences(prototype.ID) >= stationEvent.MaxOccurrences.Value)
+            return false;
+
+        if (_player.PlayerCount < stationEvent.MinimumPlayers)
+            return false;
+
+        if (_roundEnd.IsRoundEndRequested() && !stationEvent.OccursDuringRoundEnd)
             return false;
 
         return true;
