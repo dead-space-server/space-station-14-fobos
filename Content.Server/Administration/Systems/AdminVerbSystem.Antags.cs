@@ -127,7 +127,7 @@ public sealed partial class AdminVerbSystem
             Icon = new SpriteSpecifier.Rsi(new("/Textures/Clothing/Head/Hardsuits/syndicate.rsi"), "icon"),
             Act = () =>
             {
-                _antag.ForceMakeAntag<NukeopsRuleComponent>(targetPlayer, DefaultNukeOpRule);
+                _antag.ForceMakeAntag<NukeopsRuleComponent>(targetPlayer, DefaultNukeOpRule, forceNewRule: true);
             },
             Impact = LogImpact.High,
             Message = string.Join(": ", nukeOpName, Loc.GetString("admin-verb-make-nuclear-operative")),
