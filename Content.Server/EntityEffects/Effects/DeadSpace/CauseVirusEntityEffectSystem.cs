@@ -42,6 +42,9 @@ public sealed partial class CauseVirusEntityEffectSystem : EntityEffectSystem<Mo
         if (data == null)
             return;
 
-        _virus.ProbInfect(data, entity);
+        if (!_virus.CanInfect(entity, data))
+            return;
+
+        _virus.InfectEntity(data, entity);
     }
 }
