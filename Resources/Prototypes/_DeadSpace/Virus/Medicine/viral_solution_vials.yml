@@ -53,3 +53,42 @@
     tags:
     - CentrifugeCompatible
     - DiagnoserFlask
+
+- type: entity
+  parent: CrateLockBoxMedical
+  id: CrateWeakViralSolution
+  name: медицинский ящик со слабым вирусом
+  description: Защищённый медицинский ящик с пробиркой слабого случайного вирусного штамма. Открывается только доступом вирусолога.
+  components:
+  - type: AccessReader
+    access: [["Virology"]]
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage:
+        id: WeakViralSolutionVial
+
+- type: entity
+  parent: CrateLockBoxMedical
+  id: CrateMediumViralSolution
+  name: медицинский ящик со средним вирусом
+  description: Защищённый медицинский ящик с пробиркой среднего случайного вирусного штамма. Открывается только доступом вирусолога.
+  components:
+  - type: AccessReader
+    access: [["Virology"]]
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage:
+        id: MediumViralSolutionVial
+
+- type: entity
+  parent: CrateLockBoxMedical
+  id: CrateStrongViralSolution
+  name: медицинский ящик с сильным вирусом
+  description: Защищённый медицинский ящик с пробиркой сильного случайного вирусного штамма. Открывается только доступом вирусолога.
+  components:
+  - type: AccessReader
+    access: [["Virology"]]
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage:
+        id: StrongViralSolutionVial
