@@ -166,8 +166,11 @@ public sealed class MoverController : SharedMoverController
         var inputQueryEnumerator = AllEntityQuery<ActiveInputMoverComponent, InputMoverComponent>();
         while (inputQueryEnumerator.MoveNext(out var uid, out var activeComp, out var moverComp))
         {
-            _seenRelayMovers.Clear(); // O(1) if already empty
-            QueueRelaySources(activeComp.RelayedFrom);
+            if (activeComp.RelayedFrom != null)
+            {
+                _seenRelayMovers.Clear(); // O(1) if already empty
+                QueueRelaySources(activeComp.RelayedFrom);
+            }
 
             // If it's already inserted, that's fine—that means it'll still be
             // handled before its child movers
@@ -189,20 +192,25 @@ public sealed class MoverController : SharedMoverController
         // one entity so we just recurse as needed.
         void QueueRelaySources(EntityUid? next)
         {
-            // We only care if it's still a mover
-            if (!_activeQuery.TryComp(next, out var nextActive)
-                || !MoverQuery.TryComp(next, out var nextMover)
-                || !_seenRelayMovers.Add(next.Value))
+            if (next == null)
                 return;
 
-            Debug.Assert(next.Value != nextActive.RelayedFrom);
+            var nextUid = next.Value;
+
+            // We only care if it's still a mover
+            if (!_activeQuery.TryComp(nextUid, out var nextActive)
+                || !MoverQuery.TryComp(nextUid, out var nextMover)
+                || !_seenRelayMovers.Add(nextUid))
+                return;
+
+            Debug.Assert(nextUid != nextActive.RelayedFrom);
 
             // While it is (as of writing) currently true that this recursion
             // should always terminate due to RelayedFrom always being written
             // in a way that tracks if it's made a loop, we still take the extra
             // memory (and small time cost) of making sure via _seenRelayMovers.
             QueueRelaySources(nextActive.RelayedFrom);
-            AddMover((next.Value, nextMover));
+            AddMover((nextUid, nextMover));
         }
 
         // Track inserts so we have ~ O(1) inserts without duplicates. Hopefully
