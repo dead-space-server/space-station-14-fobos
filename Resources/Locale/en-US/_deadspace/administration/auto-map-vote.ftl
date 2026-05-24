@@ -77,6 +77,7 @@ auto-map-vote-config-preview-with-unknown = Current input: {$configured} configu
 
 auto-map-vote-config-error-negative-player-count = Player thresholds cannot be negative.
 auto-map-vote-config-error-invalid-duration = Vote duration must be greater than zero.
+auto-map-vote-config-error-db = Failed to save automatic map vote configuration to the database.
 auto-map-vote-initiate-error-not-lobby = Automatic map vote can only be initiated while the server is in the lobby.
 auto-map-vote-initiate-error-already-running = Automatic map vote is already running.
 auto-map-vote-initiate-error-map-update-closed = Automatic map vote can no longer be initiated because the map-change window for this lobby has already closed.

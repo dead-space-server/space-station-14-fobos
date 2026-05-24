@@ -208,6 +208,15 @@ namespace Content.Server.Database
 
         #endregion
 
+        // DS14-start
+        #region Auto Map Vote
+
+        Task<AutoMapVoteConfigRecord?> GetAutoMapVoteConfigAsync(string serverId, CancellationToken cancel = default);
+        Task UpsertAutoMapVoteConfigAsync(AutoMapVoteConfigRecord config, CancellationToken cancel = default);
+
+        #endregion
+        // DS14-end
+
         Task AddBiStatAsync(string gameMode, BiStatWinner winner, DateTime date); // DS14
 
         #region Admin Logs
@@ -681,6 +690,20 @@ namespace Content.Server.Database
         {
             DbReadOpsMetric.Inc();
             return RunDbCommand(() => _db.GetRoundGameModeHistoryAsync(serverId, fromUtc));
+        }
+        // DS14-end
+
+        // DS14-start
+        public Task<AutoMapVoteConfigRecord?> GetAutoMapVoteConfigAsync(string serverId, CancellationToken cancel = default)
+        {
+            DbReadOpsMetric.Inc();
+            return RunDbCommand(() => _db.GetAutoMapVoteConfigAsync(serverId, cancel));
+        }
+
+        public Task UpsertAutoMapVoteConfigAsync(AutoMapVoteConfigRecord config, CancellationToken cancel = default)
+        {
+            DbWriteOpsMetric.Inc();
+            return RunDbCommand(() => _db.UpsertAutoMapVoteConfigAsync(config, cancel));
         }
         // DS14-end
 
