@@ -51,6 +51,7 @@
           Denial: {state: "icon"}
           Successfully: {state: "icon"}
           GenerateVirus: {state: "icon"}
+          BloodScanning: {state: "icon"}
         terminalLayer:
           Off: {state: "off_unlit", shader: unshaded}
           On: {state: "unlit", shader: unshaded}
@@ -59,6 +60,7 @@
           Denial: {state: "denial_unlit", shader: unshaded}
           Successfully: {state: "successfully_unlit", shader: unshaded}
           GenerateVirus: {state: "unlit", shader: unshaded}
+          BloodScanning: {state: "unlit", shader: unshaded}
   - type: Machine
     board: DiagnoserMachineCircuitboard
   - type: DeviceNetwork

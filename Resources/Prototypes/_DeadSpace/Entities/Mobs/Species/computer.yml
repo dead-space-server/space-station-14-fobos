@@ -1,6 +1,7 @@
 - type: entity
   save: false
   parent:
+  - MobFlammable
   - MobBloodstream
   - BaseMobSpecies
   id: BaseMobSpeciesComputer
@@ -130,4 +131,8 @@
     - FootstepSound
     - DoorBumpOpener
     - AnomalyHost
+  - type: Flammable
+    damage:
+      types:
+        Heat: 1.3
   # - type: FootPrints

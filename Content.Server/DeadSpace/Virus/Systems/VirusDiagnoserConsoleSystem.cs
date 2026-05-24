@@ -39,6 +39,8 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
         if (!_powerReceiverSystem.IsPowered(uid))
             return;
 
+        RecheckConnections((uid, component));
+
         var dataServer = new VirusDiagnoserDataServerComponent();
         var diagnoser = new VirusDiagnoserComponent();
 
@@ -46,7 +48,16 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
         {
             case UiButton.StartAnalys:
                 {
+                    if (!component.SolutionAnalyzerInRange || !component.DataServerInRange)
+                        return;
+
+                    if (component.VirusDiagnoserDataServer == null || !TryComp(component.VirusDiagnoserDataServer, out dataServer))
+                        return;
+
                     if (component.VirusSolutionAnalyzer == null || !TryComp<VirusSolutionAnalyzerComponent>(component.VirusSolutionAnalyzer, out var virusSolutionAnalyzer))
+                        return;
+
+                    if (virusSolutionAnalyzer.Status == VirusSolutionAnalyzerStatus.Scanning)
                         return;
 
                     _virusSolutionAnalyzer.StartScanVirus((component.VirusSolutionAnalyzer.Value, virusSolutionAnalyzer));
@@ -54,6 +65,9 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
                 }
             case UiButton.DeleteData:
                 {
+                    if (!component.DataServerInRange)
+                        return;
+
                     if (component.VirusDiagnoserDataServer == null || !TryComp(component.VirusDiagnoserDataServer, out dataServer))
                         return;
 
@@ -65,7 +79,13 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
                 }
             case UiButton.GenerateVirus:
                 {
+                    if (!component.DiagnoserInRange || !component.DataServerInRange)
+                        return;
+
                     if (component.VirusDiagnoser == null || !TryComp(component.VirusDiagnoser, out diagnoser))
+                        return;
+
+                    if (_diagnoser.IsBusy(diagnoser.Status))
                         return;
 
                     if (component.VirusDiagnoserDataServer == null || !TryComp(component.VirusDiagnoserDataServer, out dataServer))
@@ -81,7 +101,13 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
                 }
             case UiButton.PrintReport:
                 {
+                    if (!component.DiagnoserInRange || !component.DataServerInRange)
+                        return;
+
                     if (component.VirusDiagnoser == null || !TryComp(component.VirusDiagnoser, out diagnoser))
+                        return;
+
+                    if (_diagnoser.IsBusy(diagnoser.Status))
                         return;
 
                     if (component.VirusDiagnoserDataServer == null || !TryComp(component.VirusDiagnoserDataServer, out dataServer))
@@ -97,10 +123,30 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
                 }
             case UiButton.ScanVirus:
                 {
+                    if (!component.DiagnoserInRange)
+                        return;
+
                     if (component.VirusDiagnoser == null || !TryComp(component.VirusDiagnoser, out diagnoser))
                         return;
 
+                    if (_diagnoser.IsBusy(diagnoser.Status))
+                        return;
+
                     _diagnoser.StartScanVirus((component.VirusDiagnoser.Value, diagnoser));
+                    break;
+                }
+            case UiButton.CheckBloodVirus:
+                {
+                    if (!component.DiagnoserInRange)
+                        return;
+
+                    if (component.VirusDiagnoser == null || !TryComp(component.VirusDiagnoser, out diagnoser))
+                        return;
+
+                    if (_diagnoser.IsBusy(diagnoser.Status))
+                        return;
+
+                    _diagnoser.StartBloodVirusCheck((component.VirusDiagnoser.Value, diagnoser));
                     break;
                 }
             default:
@@ -220,22 +266,29 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
         if (!Resolve(console, ref console.Comp, false))
             return;
 
+        console.Comp.DiagnoserInRange = false;
+        console.Comp.DataServerInRange = false;
+        console.Comp.SolutionAnalyzerInRange = false;
+
         var distance = 0f;
 
         if (console.Comp.VirusDiagnoser != null)
         {
-            Transform(console.Comp.VirusDiagnoser.Value).Coordinates.TryDistance(EntityManager, Transform(console).Coordinates, out distance);
-            console.Comp.DiagnoserInRange = distance <= console.Comp.MaxDistanceForOther;
+            console.Comp.DiagnoserInRange =
+                Transform(console.Comp.VirusDiagnoser.Value).Coordinates.TryDistance(EntityManager, Transform(console).Coordinates, out distance) &&
+                distance <= console.Comp.MaxDistanceForOther;
         }
         if (console.Comp.VirusDiagnoserDataServer != null)
         {
-            Transform(console.Comp.VirusDiagnoserDataServer.Value).Coordinates.TryDistance(EntityManager, Transform(console).Coordinates, out distance);
-            console.Comp.DataServerInRange = distance <= console.Comp.MaxDistanceForDataServer;
+            console.Comp.DataServerInRange =
+                Transform(console.Comp.VirusDiagnoserDataServer.Value).Coordinates.TryDistance(EntityManager, Transform(console).Coordinates, out distance) &&
+                distance <= console.Comp.MaxDistanceForDataServer;
         }
         if (console.Comp.VirusSolutionAnalyzer != null)
         {
-            Transform(console.Comp.VirusSolutionAnalyzer.Value).Coordinates.TryDistance(EntityManager, Transform(console).Coordinates, out distance);
-            console.Comp.SolutionAnalyzerInRange = distance <= console.Comp.MaxDistanceForOther;
+            console.Comp.SolutionAnalyzerInRange =
+                Transform(console.Comp.VirusSolutionAnalyzer.Value).Coordinates.TryDistance(EntityManager, Transform(console).Coordinates, out distance) &&
+                distance <= console.Comp.MaxDistanceForOther;
         }
 
         UpdateUserInterface((console, console.Comp));
@@ -265,6 +318,30 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
         var diagnoserConnected = console.Comp.VirusDiagnoser != null;
         var dataServerConnected = console.Comp.VirusDiagnoserDataServer != null;
         var solutionAnalyzerConnected = console.Comp.VirusSolutionAnalyzer != null;
+        var diagnoserStatus = VirusDiagnoserStatus.Off;
+        var solutionAnalyzerStatus = VirusSolutionAnalyzerStatus.Off;
+        var diagnoserHasSample = false;
+        var diagnoserHasBloodSample = false;
+        var solutionAnalyzerHasSample = false;
+        var diagnoserScanProgress = 0;
+        var solutionAnalyzerScanProgress = 0;
+
+        if (console.Comp.VirusDiagnoser != null &&
+            TryComp<VirusDiagnoserComponent>(console.Comp.VirusDiagnoser, out var diagnoser))
+        {
+            diagnoserStatus = diagnoser.Status;
+            diagnoserHasSample = _diagnoser.CanScanning((console.Comp.VirusDiagnoser.Value, diagnoser));
+            diagnoserHasBloodSample = _diagnoser.CanCheckBloodVirus((console.Comp.VirusDiagnoser.Value, diagnoser));
+            diagnoserScanProgress = _diagnoser.GetScanProgress((console.Comp.VirusDiagnoser.Value, diagnoser));
+        }
+
+        if (console.Comp.VirusSolutionAnalyzer != null &&
+            TryComp<VirusSolutionAnalyzerComponent>(console.Comp.VirusSolutionAnalyzer, out var solutionAnalyzer))
+        {
+            solutionAnalyzerStatus = solutionAnalyzer.Status;
+            solutionAnalyzerHasSample = _virusSolutionAnalyzer.CanScanning((console.Comp.VirusSolutionAnalyzer.Value, solutionAnalyzer));
+            solutionAnalyzerScanProgress = _virusSolutionAnalyzer.GetScanProgress((console.Comp.VirusSolutionAnalyzer.Value, solutionAnalyzer));
+        }
 
         return new VirusDiagnoserConsoleBoundUserInterfaceState(
             strains,
@@ -274,7 +351,14 @@ public sealed class VirusDiagnoserConsoleSystem : EntitySystem
             solutionAnalyzerConnected,
             console.Comp.DiagnoserInRange,
             console.Comp.DataServerInRange,
-            console.Comp.SolutionAnalyzerInRange
+            console.Comp.SolutionAnalyzerInRange,
+            diagnoserStatus,
+            solutionAnalyzerStatus,
+            diagnoserHasSample,
+            diagnoserHasBloodSample,
+            solutionAnalyzerHasSample,
+            diagnoserScanProgress,
+            solutionAnalyzerScanProgress
         );
     }
 

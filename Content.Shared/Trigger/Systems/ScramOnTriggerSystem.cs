@@ -48,10 +48,10 @@ public sealed class ScramOnTriggerSystem : XOnTriggerSystem<ScramOnTriggerCompon
     }
     // DS14-start
     /// <summary>
-    /// Finds an empty tile inside the area in front of the entity. Will not select off-grid tiles.
+    /// Finds a non-empty tile inside the area in front of the entity. Will not select off-grid tiles.
     /// </summary>
     /// <remarks> Trends towards the outer distance. Compensates for small grids. </remarks>
-    private EntityCoordinates? SelectRandomTileInFacingArea(EntityUid uid, Vector2 radius, int tries = 40, PhysicsComponent? physicsComponent = null)
+    private EntityCoordinates? SelectRandomTileInFacingArea(EntityUid uid, Vector2 radius, int tries = 80, PhysicsComponent? physicsComponent = null)
     {
         var userXform = Transform(uid);
         var userCoords = userXform.Coordinates;
@@ -78,14 +78,14 @@ public sealed class ScramOnTriggerSystem : XOnTriggerSystem<ScramOnTriggerCompon
 
             // The user is the rear edge of the target area: depth is measured forward from their view direction.
             var lateralOffset = _random.NextFloat(-distance / 2f, distance / 2f);
-            var tempTargetCoords = userCoords.Offset(forward * distance + side * lateralOffset);
+            var candidateCoords = userCoords.Offset(forward * distance + side * lateralOffset);
 
-            if (!_turfSystem.TryGetTileRef(tempTargetCoords, out var tileRef)
-                || _turfSystem.IsSpace(tileRef.Value)
+            if (!_turfSystem.TryGetTileRef(candidateCoords, out var tileRef)
+                || tileRef.Value.Tile.IsEmpty
                 || _turfSystem.IsTileBlocked(tileRef.Value, (CollisionGroup)physicsComponent.CollisionMask))
                 continue;
 
-            targetCoords = tempTargetCoords;
+            targetCoords = _turfSystem.GetTileCenter(tileRef.Value);
             break;
         }
 

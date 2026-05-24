@@ -1,12 +1,16 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Robust.Shared.Prototypes;
+using Content.Shared.Chemistry.Reagent;
 using Content.Shared.DeadSpace.Virus.Components;
 
 namespace Content.Shared.EntityEffects.Effects;
 
 public sealed partial class CauseVirus : EntityEffectBase<CauseVirus>
 {
+    [DataField]
+    public ProtoId<ReagentPrototype> Reagent = "ViralSolution";
+
     [DataField]
     public VirusData Data = new();
 

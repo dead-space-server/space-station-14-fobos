@@ -1,0 +1,94 @@
+- type: entity
+  parent: ChemistryEmptyVial
+  id: WeakViralSolutionVial
+  name: пробирка со слабым вирусом
+  suffix: случайный слабый вирус
+  description: Вирусный раствор со слабым случайным штаммом.
+  components:
+  - type: Label
+    currentLabel: reagent-name-viral-solution
+  - type: RandomViralSolution
+    minSymptoms: 1
+    maxSymptoms: 3
+    allowedDangers: [ Low ]
+  - type: Tag
+    tags:
+    - CentrifugeCompatible
+    - DiagnoserFlask
+
+- type: entity
+  parent: ChemistryEmptyVial
+  id: MediumViralSolutionVial
+  name: пробирка со средним вирусом
+  suffix: случайный средний вирус
+  description: Вирусный раствор со средним случайным штаммом.
+  components:
+  - type: Label
+    currentLabel: reagent-name-viral-solution
+  - type: RandomViralSolution
+    minSymptoms: 2
+    maxSymptoms: 4
+    allowedDangers: [ Low, Medium ]
+    requiredDangers: [ Medium ]
+  - type: Tag
+    tags:
+    - CentrifugeCompatible
+    - DiagnoserFlask
+
+- type: entity
+  parent: ChemistryEmptyVial
+  id: StrongViralSolutionVial
+  name: пробирка с сильным вирусом
+  suffix: случайный сильный вирус
+  description: Вирусный раствор с сильным случайным штаммом.
+  components:
+  - type: Label
+    currentLabel: reagent-name-viral-solution
+  - type: RandomViralSolution
+    minSymptoms: 3
+    maxSymptoms: 5
+    allowedDangers: [ Medium, High ]
+    requiredDangers: [ High ]
+  - type: Tag
+    tags:
+    - CentrifugeCompatible
+    - DiagnoserFlask
+
+- type: entity
+  parent: CrateLockBoxMedical
+  id: CrateWeakViralSolution
+  name: медицинский ящик со слабым вирусом
+  description: Защищённый медицинский ящик с пробиркой слабого случайного вирусного штамма. Открывается только доступом вирусолога.
+  components:
+  - type: AccessReader
+    access: [["Virology"]]
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage:
+        id: WeakViralSolutionVial
+
+- type: entity
+  parent: CrateLockBoxMedical
+  id: CrateMediumViralSolution
+  name: медицинский ящик со средним вирусом
+  description: Защищённый медицинский ящик с пробиркой среднего случайного вирусного штамма. Открывается только доступом вирусолога.
+  components:
+  - type: AccessReader
+    access: [["Virology"]]
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage:
+        id: MediumViralSolutionVial
+
+- type: entity
+  parent: CrateLockBoxMedical
+  id: CrateStrongViralSolution
+  name: медицинский ящик с сильным вирусом
+  description: Защищённый медицинский ящик с пробиркой сильного случайного вирусного штамма. Открывается только доступом вирусолога.
+  components:
+  - type: AccessReader
+    access: [["Virology"]]
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage:
+        id: StrongViralSolutionVial
