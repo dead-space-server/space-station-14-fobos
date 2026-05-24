@@ -279,7 +279,8 @@ namespace Content.Server.Power.EntitySystems
         {
             base.Update(frameTime);
 
-            ReconnectNetworks();
+            if (_apcNetReconnectQueue.Count != 0 || _powerNetReconnectQueue.Count != 0)
+                ReconnectNetworks();
 
             // Synchronize batteries
             RaiseLocalEvent(new NetworkBatteryPreSync());
@@ -339,6 +340,9 @@ namespace Content.Server.Power.EntitySystems
             var enumerator = AllEntityQuery<ApcPowerReceiverComponent>();
             while (enumerator.MoveNext(out var uid, out var apcReceiver))
             {
+                if (apcReceiver.NetworkLoad.Paused)
+                    continue;
+
                 var powered = IsPoweredCalculate(apcReceiver);
 
                 MetaDataComponent? metadata = null;
@@ -424,6 +428,9 @@ namespace Content.Server.Power.EntitySystems
             {
                 var lastSupply = powerNetBattery.LastSupply;
                 var currentSupply = powerNetBattery.CurrentSupply;
+
+                if (lastSupply == currentSupply)
+                    continue;
 
                 if (lastSupply == 0f && currentSupply != 0f)
                 {

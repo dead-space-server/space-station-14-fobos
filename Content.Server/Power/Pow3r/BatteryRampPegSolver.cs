@@ -62,7 +62,7 @@ namespace Content.Server.Power.Pow3r
                 // suppliers + discharger) Then decide based on total layer size whether its worth parallelizing that
                 // layer?
                 _networkJob.Networks = group;
-                if (_disableParallel)
+                if (_disableParallel || group.Count <= 1)
                     parallel.ProcessSerialNow(_networkJob, group.Count);
                 else
                     parallel.ProcessNow(_networkJob, group.Count);
@@ -80,7 +80,8 @@ namespace Content.Server.Power.Pow3r
                 if (load.Paused)
                     continue;
 
-                load.ReceivingPower = 0;
+                if (load.ReceivingPower != 0f)
+                    load.ReceivingPower = 0f;
             }
 
             foreach (var supply in state.Supplies.Values)
@@ -88,13 +89,18 @@ namespace Content.Server.Power.Pow3r
                 if (supply.Paused)
                     continue;
 
-                supply.CurrentSupply = 0;
-                supply.SupplyRampTarget = 0;
+                if (supply.CurrentSupply != 0f)
+                    supply.CurrentSupply = 0f;
+
+                if (supply.SupplyRampTarget != 0f)
+                    supply.SupplyRampTarget = 0f;
             }
         }
 
         private void UpdateNetwork(Network network, PowerState state, float frameTime)
         {
+            var invFrameTime = 1f / frameTime;
+
             // TODO Look at SIMD.
             // a lot of this is performing very basic math on arrays of data objects like batteries
             // this really shouldn't be hard to do.
@@ -126,7 +132,7 @@ namespace Content.Server.Power.Pow3r
 
                 var batterySpace = (battery.Capacity - battery.CurrentStorage) * (1 / battery.Efficiency);
                 batterySpace = Math.Max(0, batterySpace);
-                var scaledSpace = batterySpace / frameTime;
+                var scaledSpace = batterySpace * invFrameTime;
 
                 var chargeRate = battery.MaxChargeRate + battery.LoadingNetworkDemand / battery.Efficiency;
 
@@ -177,7 +183,7 @@ namespace Content.Server.Power.Pow3r
                     if (!battery.Enabled || !battery.CanDischarge || battery.Paused)
                         continue;
 
-                    var scaledSpace = battery.CurrentStorage / frameTime;
+                    var scaledSpace = battery.CurrentStorage * invFrameTime;
                     var supplyCap = Math.Min(battery.MaxSupply,
                         battery.SupplyRampPosition + battery.SupplyRampTolerance);
                     var supplyAndPassthrough = supplyCap + battery.CurrentReceiving * battery.Efficiency;
@@ -185,7 +191,7 @@ namespace Content.Server.Power.Pow3r
                     battery.AvailableSupply = Math.Min(scaledSpace, supplyAndPassthrough);
                     battery.LoadingNetworkDemand = unmet;
 
-                    battery.MaxEffectiveSupply = Math.Min(battery.CurrentStorage / frameTime, battery.MaxSupply + battery.CurrentReceiving * battery.Efficiency);
+                    battery.MaxEffectiveSupply = Math.Min(scaledSpace, battery.MaxSupply + battery.CurrentReceiving * battery.Efficiency);
                     totalBatterySupply += battery.AvailableSupply;
                     totalMaxBatterySupply += battery.MaxEffectiveSupply;
                 }
@@ -209,7 +215,9 @@ namespace Content.Server.Power.Pow3r
                 if (!load.Enabled || load.DesiredPower == 0 || load.Paused)
                     continue;
 
-                load.ReceivingPower = load.DesiredPower * supplyRatio;
+                load.ReceivingPower = supplyRatio >= 1f
+                    ? load.DesiredPower
+                    : load.DesiredPower * supplyRatio;
             }
 
             // Distribute supply to batteries
@@ -220,7 +228,9 @@ namespace Content.Server.Power.Pow3r
                     continue;
 
                 battery.LoadingMarked = true;
-                battery.CurrentReceiving = battery.DesiredPower * supplyRatio;
+                battery.CurrentReceiving = supplyRatio >= 1f
+                    ? battery.DesiredPower
+                    : battery.DesiredPower * supplyRatio;
                 battery.CurrentStorage += frameTime * battery.CurrentReceiving * battery.Efficiency;
 
                 DebugTools.Assert(battery.CurrentStorage <= battery.Capacity || MathHelper.CloseTo(battery.CurrentStorage, battery.Capacity, 1e-5));
@@ -303,14 +313,20 @@ namespace Content.Server.Power.Pow3r
 
                 if (!battery.SupplyingMarked)
                 {
-                    battery.CurrentSupply = 0;
-                    battery.SupplyRampTarget = 0;
-                    battery.LoadingNetworkDemand = 0;
+                    if (battery.CurrentSupply != 0f)
+                        battery.CurrentSupply = 0f;
+
+                    if (battery.SupplyRampTarget != 0f)
+                        battery.SupplyRampTarget = 0f;
+
+                    if (battery.LoadingNetworkDemand != 0f)
+                        battery.LoadingNetworkDemand = 0f;
                 }
 
                 if (!battery.LoadingMarked)
                 {
-                    battery.CurrentReceiving = 0;
+                    if (battery.CurrentReceiving != 0f)
+                        battery.CurrentReceiving = 0f;
                 }
 
                 battery.SupplyingMarked = false;
