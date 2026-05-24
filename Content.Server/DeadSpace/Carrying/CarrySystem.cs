@@ -81,6 +81,7 @@ public sealed class CarrySystem : EntitySystem
         SubscribeLocalEvent<CarryingComponent, ComponentShutdown>(OnCarryingShutdown);
         SubscribeLocalEvent<CarriedComponent, EntGotInsertedIntoContainerMessage>(OnCarriedInsertedIntoContainer);
         SubscribeLocalEvent<CarriedComponent, BuckledEvent>(OnCarriedBuckled);
+        SubscribeLocalEvent<CarriedComponent, EntParentChangedMessage>(OnCarriedParentChanged);
         SubscribeLocalEvent<CarriedComponent, MoveInputEvent>(OnCarriedMoveInput);
         SubscribeLocalEvent<CarriedComponent, AttackAttemptEvent>(OnCarriedAttackAttempt);
         SubscribeLocalEvent<CarriedComponent, StandAttemptEvent>(OnCarriedStandAttempt);
@@ -471,6 +472,23 @@ public sealed class CarrySystem : EntitySystem
     {
         if (ent.Comp.Carrier is not { } carrier || !TryComp<CarryingComponent>(carrier, out var carrying))
             return;
+
+        StopCarry(carrier, carrying, placeTarget: false, keepTargetDown: true);
+    }
+
+    private void OnCarriedParentChanged(Entity<CarriedComponent> ent, ref EntParentChangedMessage args)
+    {
+        if (_timing.ApplyingState || ent.Comp.Stopping)
+            return;
+
+        if (ent.Comp.Carrier is not { } carrier || args.Transform.ParentUid == carrier)
+            return;
+
+        if (!TryComp<CarryingComponent>(carrier, out var carrying) || carrying.Carried != ent.Owner)
+        {
+            CleanupInvalidCarriedState(ent.Owner, ent.Comp);
+            return;
+        }
 
         StopCarry(carrier, carrying, placeTarget: false, keepTargetDown: true);
     }
