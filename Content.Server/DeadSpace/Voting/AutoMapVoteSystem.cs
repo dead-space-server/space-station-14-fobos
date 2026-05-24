@@ -58,6 +58,7 @@ public sealed class AutoMapVoteSystem : EntitySystem
     private string _serverId = UnknownServerId;
     private bool _usingDatabaseConfig;
     private int _databaseConfigVersion;
+    private int _explicitConfigVersion;
     private int _voteDurationSeconds = 90;
 
     public override void Initialize()
@@ -165,13 +166,21 @@ public sealed class AutoMapVoteSystem : EntitySystem
     {
         if (save)
         {
-            var record = BuildConfigRecord(enabled);
-            var saveResult = await TrySaveConfigurationAsync(record);
+            System.Threading.Interlocked.Increment(ref _explicitConfigVersion);
+            var saveResult = await TrySaveConfigurationAsync(
+                () => BuildConfigRecord(enabled),
+                _ =>
+                {
+                    System.Threading.Interlocked.Increment(ref _databaseConfigVersion);
+                    _usingDatabaseConfig = true;
+                    ApplyEnabled(enabled, sendAdminState: false);
+                });
+
             if (!saveResult.Success)
                 return (false, saveResult.Error);
 
-            System.Threading.Interlocked.Increment(ref _databaseConfigVersion);
-            _usingDatabaseConfig = true;
+            SendAdminState();
+            return (true, null);
         }
 
         ApplyEnabled(enabled);
@@ -225,24 +234,33 @@ public sealed class AutoMapVoteSystem : EntitySystem
 
         var normalizedBlacklist = NormalizeMapsCsv(blacklistMaps);
         var blacklistIds = ParseMapIds(normalizedBlacklist).ToHashSet(StringComparer.Ordinal);
-        var record = BuildConfigRecord(
-            _enabled,
-            smallMaxPlayers,
-            mediumMaxPlayers,
-            largeMaxPlayers,
-            NormalizeMapsCsv(smallMaps, blacklistIds),
-            NormalizeMapsCsv(mediumMaps, blacklistIds),
-            NormalizeMapsCsv(largeMaps, blacklistIds),
-            normalizedBlacklist,
-            voteDurationSeconds ?? _voteDurationSeconds);
+        var normalizedSmallMaps = NormalizeMapsCsv(smallMaps, blacklistIds);
+        var normalizedMediumMaps = NormalizeMapsCsv(mediumMaps, blacklistIds);
+        var normalizedLargeMaps = NormalizeMapsCsv(largeMaps, blacklistIds);
+        var normalizedVoteDurationSeconds = voteDurationSeconds ?? _voteDurationSeconds;
 
-        var saveResult = await TrySaveConfigurationAsync(record);
+        System.Threading.Interlocked.Increment(ref _explicitConfigVersion);
+        var saveResult = await TrySaveConfigurationAsync(
+            () => BuildConfigRecord(
+                _enabled,
+                smallMaxPlayers,
+                mediumMaxPlayers,
+                largeMaxPlayers,
+                normalizedSmallMaps,
+                normalizedMediumMaps,
+                normalizedLargeMaps,
+                normalizedBlacklist,
+                normalizedVoteDurationSeconds),
+            record =>
+            {
+                System.Threading.Interlocked.Increment(ref _databaseConfigVersion);
+                _usingDatabaseConfig = true;
+                ApplyConfiguration(record);
+            });
+
         if (!saveResult.Success)
             return (false, saveResult.Error);
 
-        System.Threading.Interlocked.Increment(ref _databaseConfigVersion);
-        _usingDatabaseConfig = true;
-        ApplyConfiguration(record);
         SendAdminState();
         return (true, null);
     }
@@ -301,6 +319,7 @@ public sealed class AutoMapVoteSystem : EntitySystem
     public async Task LoadConfigurationFromDatabaseAsync()
     {
         var configVersion = System.Threading.Volatile.Read(ref _databaseConfigVersion);
+        var explicitConfigVersion = System.Threading.Volatile.Read(ref _explicitConfigVersion);
 
         try
         {
@@ -308,7 +327,8 @@ public sealed class AutoMapVoteSystem : EntitySystem
             if (record == null)
                 return;
 
-            if (configVersion != System.Threading.Volatile.Read(ref _databaseConfigVersion))
+            if (configVersion != System.Threading.Volatile.Read(ref _databaseConfigVersion) ||
+                explicitConfigVersion != System.Threading.Volatile.Read(ref _explicitConfigVersion))
                 return;
 
             _usingDatabaseConfig = true;
@@ -321,17 +341,26 @@ public sealed class AutoMapVoteSystem : EntitySystem
         }
     }
 
-    private async Task<(bool Success, string? Error)> TrySaveConfigurationAsync(AutoMapVoteConfigRecord record)
+    private async Task<(bool Success, string? Error)> TrySaveConfigurationAsync(
+        Func<AutoMapVoteConfigRecord?> buildRecord,
+        Action<AutoMapVoteConfigRecord>? afterSave = null)
     {
         await _databaseSaveSemaphore.WaitAsync();
+        AutoMapVoteConfigRecord? record = null;
+
         try
         {
+            record = buildRecord();
+            if (record == null)
+                return (true, null);
+
             await _db.UpsertAutoMapVoteConfigAsync(record);
+            afterSave?.Invoke(record);
             return (true, null);
         }
         catch (Exception e)
         {
-            Log.Error($"Failed to save auto map vote database config for server.id '{record.ServerId}': {e}");
+            Log.Error($"Failed to save auto map vote database config for server.id '{record?.ServerId ?? _serverId}': {e}");
             return (false, Loc.GetString("auto-map-vote-config-error-db"));
         }
         finally
@@ -478,18 +507,23 @@ public sealed class AutoMapVoteSystem : EntitySystem
 
     private void SaveRuntimeConfiguration()
     {
-        _ = SaveRuntimeConfigurationAsync();
+        _ = SaveRuntimeConfigurationAsync(System.Threading.Volatile.Read(ref _explicitConfigVersion));
     }
 
-    private async Task SaveRuntimeConfigurationAsync()
+    private async Task SaveRuntimeConfigurationAsync(int explicitConfigVersion)
     {
-        var record = BuildConfigRecord(_enabled);
-        var saveResult = await TrySaveConfigurationAsync(record);
+        var saveResult = await TrySaveConfigurationAsync(
+            () => explicitConfigVersion == System.Threading.Volatile.Read(ref _explicitConfigVersion)
+                ? BuildConfigRecord(_enabled)
+                : null,
+            _ =>
+            {
+                System.Threading.Interlocked.Increment(ref _databaseConfigVersion);
+                _usingDatabaseConfig = true;
+            });
+
         if (!saveResult.Success)
             return;
-
-        System.Threading.Interlocked.Increment(ref _databaseConfigVersion);
-        _usingDatabaseConfig = true;
     }
 
     private void OnAdminPermsChanged(AdminPermsChangedEventArgs args)
