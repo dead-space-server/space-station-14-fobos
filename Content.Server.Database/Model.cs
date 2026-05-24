@@ -50,6 +50,7 @@ namespace Content.Server.Database
         public DbSet<BanTemplate> BanTemplate { get; set; } = null!;
         public DbSet<IPIntelCache> IPIntelCache { get; set; } = null!;
         public DbSet<BiStat> BiStats { get; set; } = null!; // DS14
+        public DbSet<AutoMapVoteConfig> AutoMapVoteConfigs { get; set; } = null!; // DS14
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -304,6 +305,9 @@ namespace Content.Server.Database
 
             modelBuilder.Entity<BiStat>()
                 .HasIndex(b => b.GameMode);
+
+            modelBuilder.Entity<AutoMapVoteConfig>()
+                .HasKey(config => config.ServerId);
             // DS14-End
         }
 
@@ -601,6 +605,10 @@ namespace Content.Server.Database
         public DateTime? StartDate { get; set; }
 
         public string? GamePresetName { get; set; }
+
+        public int? StartPlayerCount { get; set; }
+
+        public string? MapName { get; set; }
 
         public List<Player> Players { get; set; } = default!;
 
@@ -1083,6 +1091,43 @@ namespace Content.Server.Database
         public BiStatWinner Winner { get; set; }
 
         public DateTime Date { get; set; }
+    }
+
+    [Table("auto_map_vote_config")]
+    public sealed class AutoMapVoteConfig
+    {
+        [Key, MaxLength(128)]
+        public string ServerId { get; set; } = null!;
+
+        public bool Enabled { get; set; }
+
+        public int SmallMaxPlayers { get; set; }
+
+        public int MediumMaxPlayers { get; set; }
+
+        public int LargeMaxPlayers { get; set; }
+
+        public string SmallMaps { get; set; } = string.Empty;
+
+        public string MediumMaps { get; set; } = string.Empty;
+
+        public string LargeMaps { get; set; } = string.Empty;
+
+        public string BlacklistMaps { get; set; } = string.Empty;
+
+        public int VoteDurationSeconds { get; set; }
+
+        public string SmallPlayedMaps { get; set; } = string.Empty;
+
+        public string MediumPlayedMaps { get; set; } = string.Empty;
+
+        public string LargePlayedMaps { get; set; } = string.Empty;
+
+        public string SmallPoolQueueMaps { get; set; } = string.Empty;
+
+        public string MediumPoolQueueMaps { get; set; } = string.Empty;
+
+        public string LargePoolQueueMaps { get; set; } = string.Empty;
     }
     // DS14-End
 }

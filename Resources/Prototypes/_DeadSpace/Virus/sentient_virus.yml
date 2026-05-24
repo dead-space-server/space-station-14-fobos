@@ -73,6 +73,8 @@
     requirements:
     - !type:OverallPlaytimeRequirement
       time: 36000 # 10h overall
+  - type: GhostRoleNotifys 
+    groupPrototype: SentientVirusGroup
 
 - type: entity
   categories: [ HideSpawnMenu, Spawner ]

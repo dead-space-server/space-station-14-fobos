@@ -146,6 +146,12 @@ public sealed partial class LavalandBubblegumComponent : Component
     public int CloneCriticalCount = 3;
 
     [DataField]
+    public int MaxActiveClones = 8;
+
+    [DataField]
+    public TimeSpan CriticalCloneCooldown = TimeSpan.FromSeconds(2.5);
+
+    [DataField]
     public int CloneMinOffset = 2;
 
     [DataField]
@@ -190,6 +196,14 @@ public sealed partial class LavalandBubblegumComponent : Component
         },
     };
 
+    [DataField]
+    public DamageSpecifier CloneChargeDamage = new()
+    {
+        DamageDict = new()
+        {
+            { "Slash", FixedPoint2.New(10) },
+        },
+    };
     [DataField]
     public SoundSpecifier AttackSound = new SoundPathSpecifier("/Audio/_DeadSpace/Lavaland/Bubblegum/demon_attack1.ogg");
 
@@ -279,6 +293,9 @@ public sealed partial class LavalandBubblegumComponent : Component
 
     [ViewVariables]
     public readonly List<LavalandBubblegumPendingHandAttack> PendingHandAttacks = new();
+
+    [ViewVariables]
+    public TimeSpan NextCriticalCloneSpawn;
 }
 
 [RegisterComponent]
@@ -320,4 +337,6 @@ public sealed class LavalandBubblegumCloneCharge
     public Vector2i TargetTile;
     public int RemainingSteps;
     public TimeSpan NextStep;
+    public DamageSpecifier? ChargeDamage;
+    public readonly HashSet<EntityUid> HitEntities = new();
 }

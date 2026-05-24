@@ -340,6 +340,8 @@
     - HivelordRemains
     - Meat
     - Raw
+    - FelinidFood # DS14
+    - ReptilianFood
 
 - type: entity
   id: FoodHivelordRemainsInert

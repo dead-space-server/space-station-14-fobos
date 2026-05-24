@@ -8,5 +8,8 @@
           steps:
             - tool: Sawing
               doAfter: 2
+          completed:
+            - !type:AddContainer
+              container: ballistic-ammo
     - node: shotgunsawn
       entity: WeaponShotgunSawnEmpty # Makes the sawn-off spawn empty. At max they're losing 2 shells.

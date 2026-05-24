@@ -1,0 +1,54 @@
+- type: entity
+  name: R17 ISASS "Мор"
+  parent: [ BaseWeaponRifle, BaseSyndicateContraband ]
+  id: WeaponSniperR17
+  description: Высокоточная полуавтоматическая винтовка для дальних дистанций. Использует патроны калибра .338 LM
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Guns/Snipers/sr.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-0
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Weapons/Guns/Snipers/sr.rsi
+  - type: Item
+    size: Normal
+    shape:
+    - 0,0,5,1
+  - type: Gun
+    fireRate: 2.8
+    soundGunshot:
+      path: /Audio/_DeadSpace/Weapons/Guns/Gunshots/sr.ogg
+  - type: ChamberMagazineAmmoProvider
+    soundRack:
+      path: /Audio/Weapons/Guns/Cock/smg_cock.ogg
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: MagazineR17
+        insertSound: /Audio/Weapons/Guns/MagIn/smg_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/smg_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+            - MagazineR17
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        startingItem: CartridgeSniperRifle
+        priority: 1
+        whitelist:
+          tags:
+            - CartridgeSniperRifle
+  - type: ContainerContainer
+    containers:
+      gun_magazine: !type:ContainerSlot
+      gun_chamber: !type:ContainerSlot
+  - type: MagazineVisuals
+    magState: mag
+    steps: 1
+    zeroVisible: true
+  - type: Appearance

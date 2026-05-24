@@ -13,4 +13,4 @@
   name: очищенный блюспейс кристалл
   icon: { sprite: /Textures/_DeadSpace/Objects/Materials/Sheets/bluespace-crystal-sheet.rsi, state: synthetic_bluespace_crystal }
   color: "#1ea4c5"
-  price: 15
+  price: 10

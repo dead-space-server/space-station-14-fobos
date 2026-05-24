@@ -19,11 +19,13 @@
     - !type:PrototypeDunGen
       proto: VGRoidSmallPaths
       inheritDungeons: All
-    - !type:EntityTableDunGen
-      minCount: 7
-      maxCount: 12
-      table:
-        id: VGRoidInteriorRoomMarker
+# DS14-start
+#     - !type:EntityTableDunGen
+#       minCount: 7
+#       maxCount: 12
+#       table:
+#         id: VGRoidInteriorRoomMarker
+# DS14-end
     # Fill
     - !type:PrototypeDunGen
       proto: VGRoidFill

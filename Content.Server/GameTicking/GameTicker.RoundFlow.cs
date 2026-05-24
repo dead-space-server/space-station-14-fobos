@@ -443,7 +443,7 @@ namespace Content.Server.GameTicking
             AnnounceRound();
             UpdateInfoText();
             SendRoundStartedDiscordMessage();
-            RaiseLocalEvent(new RoundStartedEvent(RoundId)); // Corvax
+            RaiseLocalEvent(new RoundStartedEvent(RoundId, _playerManager.PlayerCount, _gameMapManager.GetSelectedMap()?.MapName)); // Corvax
 
 #if EXCEPTION_TOLERANCE
             }

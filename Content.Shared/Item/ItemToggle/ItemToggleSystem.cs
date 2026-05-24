@@ -43,6 +43,7 @@ public sealed class ItemToggleSystem : EntitySystem
         SubscribeLocalEvent<ItemToggleHotComponent, IsHotEvent>(OnIsHotEvent);
 
         SubscribeLocalEvent<ItemToggleActiveSoundComponent, ItemToggledEvent>(UpdateActiveSound);
+        SubscribeLocalEvent<ItemToggleActiveSoundComponent, ComponentShutdown>(OnActiveSoundShutdown); // DS14
     }
 
     private void OnStartup(Entity<ItemToggleComponent> ent, ref ComponentStartup args)
@@ -307,7 +308,7 @@ public sealed class ItemToggleSystem : EntitySystem
     /// </summary>
     private void TurnOffOnUnwielded(Entity<ItemToggleComponent> ent, ref ItemUnwieldedEvent args)
     {
-        TryDeactivate((ent, ent.Comp), args.User);
+        TryDeactivate((ent, ent.Comp), args.User, predicted: false); // DS14
     }
 
     /// <summary>
@@ -315,8 +316,7 @@ public sealed class ItemToggleSystem : EntitySystem
     /// </summary>
     private void TurnOnOnWielded(Entity<ItemToggleComponent> ent, ref ItemWieldedEvent args)
     {
-        // FIXME: for some reason both client and server play sound
-        TryActivate((ent, ent.Comp));
+        TryActivate((ent, ent.Comp), args.User, predicted: false); // DS14
     }
 
     public bool IsActivated(Entity<ItemToggleComponent?> ent)
@@ -357,4 +357,11 @@ public sealed class ItemToggleSystem : EntitySystem
                 comp.PlayingStream = entity;
         }
     }
+
+    // DS14-start
+    private void OnActiveSoundShutdown(Entity<ItemToggleActiveSoundComponent> ent, ref ComponentShutdown args)
+    {
+        ent.Comp.PlayingStream = _audio.Stop(ent.Comp.PlayingStream);
+    }
+    // DS14-end
 }

@@ -1,10 +1,12 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Robust.Server.Audio;
+using Content.Server.DeviceLinking.Systems;
 using Content.Shared.Examine;
 using Robust.Shared.Containers;
 using Content.Server.DeadSpace.Virus.Components;
 using Content.Shared.DeviceLinking.Events;
+using Content.Shared.DeviceLinking;
 using System.Linq;
 using Content.Server.Power.EntitySystems;
 using Content.Shared.DeadSpace.Virus.Components;
@@ -15,11 +17,16 @@ using Content.Shared.DeadSpace.Virus;
 using Robust.Shared.Prototypes;
 using Content.Shared.DeadSpace.Virus.Prototypes;
 using Content.Shared.Body.Prototypes;
+using Robust.Shared.Timing;
+using Robust.Shared.Audio;
+using Robust.Shared.Audio.Systems;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
 public sealed class VirusSolutionAnalyzerSystem : EntitySystem
 {
+    private static readonly TimeSpan ConsoleStatusUpdateCooldown = TimeSpan.FromSeconds(5);
+
     [Dependency] private readonly AudioSystem _audio = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly VirusDiagnoserConsoleSystem _console = default!;
@@ -29,7 +36,10 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly VirusEvolutionConsoleSystem _evolutionConsoleSystem = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly DeviceLinkSystem _deviceLink = default!;
     private const string FlaskContainerKey = "flask_container_virus_solution_analyzer";
+
     public override void Initialize()
     {
         base.Initialize();
@@ -39,16 +49,34 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
         SubscribeLocalEvent<VirusSolutionAnalyzerComponent, PortDisconnectedEvent>(OnPortDisconnected);
         SubscribeLocalEvent<VirusSolutionAnalyzerComponent, EntInsertedIntoContainerMessage>(OnEntInsertCont);
         SubscribeLocalEvent<VirusSolutionAnalyzerComponent, EntRemovedFromContainerMessage>(OnEntRemoveCont);
+        SubscribeLocalEvent<VirusSolutionAnalyzerComponent, ContainerIsRemovingAttemptEvent>(OnContainerRemoveAttempt);
     }
 
     private void OnEntInsertCont(Entity<VirusSolutionAnalyzerComponent> ent, ref EntInsertedIntoContainerMessage args)
     {
+        if (args.Container.ID != FlaskContainerKey)
+            return;
+
         UpdateContainerAppearance((ent, ent.Comp));
+        UpdateConnectedConsole((ent, ent.Comp));
     }
 
     private void OnEntRemoveCont(Entity<VirusSolutionAnalyzerComponent> ent, ref EntRemovedFromContainerMessage args)
     {
+        if (args.Container.ID != FlaskContainerKey)
+            return;
+
         UpdateContainerAppearance((ent, ent.Comp));
+        UpdateConnectedConsole((ent, ent.Comp));
+    }
+
+    private void OnContainerRemoveAttempt(Entity<VirusSolutionAnalyzerComponent> ent, ref ContainerIsRemovingAttemptEvent args)
+    {
+        if (ent.Comp.Status == VirusSolutionAnalyzerStatus.Scanning &&
+            args.Container.ID == FlaskContainerKey)
+        {
+            args.Cancel();
+        }
     }
 
     public override void Update(float frameTime)
@@ -69,7 +97,10 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
                 SetStatus((uid, comp), VirusSolutionAnalyzerStatus.On);
 
             if (EntityManager.EntityExists(comp.CurrentSoundEntity))
+            {
+                UpdateConnectedConsoleThrottled((uid, comp));
                 continue;
+            }
 
             switch (comp.Status)
             {
@@ -102,7 +133,46 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
     private void OnPortDisconnected(Entity<VirusSolutionAnalyzerComponent> ent, ref PortDisconnectedEvent args)
     {
         if (args.Port == ent.Comp.VirusSolutionAnalyzerPort)
-            ent.Comp.ConnectedConsole = null;
+        {
+            var uid = ent.Owner;
+            Timer.Spawn(0, () => RebuildLinkedConsoles(uid));
+        }
+    }
+
+    private void RebuildLinkedConsoles(EntityUid uid)
+    {
+        if (!TryComp<VirusSolutionAnalyzerComponent>(uid, out var comp))
+            return;
+
+        comp.ConnectedConsole = null;
+        comp.ConnectedEvolutionConsole = null;
+
+        if (!TryComp<DeviceLinkSinkComponent>(uid, out var sink))
+        {
+            UpdateConnectedConsole((uid, comp));
+            return;
+        }
+
+        foreach (var sourceUid in sink.LinkedSources)
+        {
+            var links = _deviceLink.GetLinks(sourceUid, uid);
+            if (links.Count == 0)
+                continue;
+
+            if (TryComp<VirusDiagnoserConsoleComponent>(sourceUid, out var console) &&
+                links.Contains((console.VirusSolutionAnalyzerPort, comp.VirusSolutionAnalyzerPort)))
+            {
+                comp.ConnectedConsole = sourceUid;
+            }
+
+            if (TryComp<VirusEvolutionConsoleComponent>(sourceUid, out var evolutionConsole) &&
+                links.Contains((evolutionConsole.VirusSolutionAnalyzerPort, comp.VirusSolutionAnalyzerPort)))
+            {
+                comp.ConnectedEvolutionConsole = sourceUid;
+            }
+        }
+
+        UpdateConnectedConsole((uid, comp));
     }
 
     private void OnAnchor(Entity<VirusSolutionAnalyzerComponent> ent, ref AnchorStateChangedEvent args)
@@ -151,6 +221,9 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
         if (!Resolve(ent, ref ent.Comp, false))
             return;
 
+        if (ent.Comp.Status == VirusSolutionAnalyzerStatus.Scanning)
+            return;
+
         if (!CanScanning((ent, ent.Comp)))
         {
             SetStatus((ent, ent.Comp), VirusSolutionAnalyzerStatus.Denial);
@@ -183,13 +256,16 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
 
         foreach (var data in virusData)
         {
-            _dataServer.SaveData(
+            var savedStrainId = _dataServer.SaveData(
                 (console.VirusDiagnoserDataServer.Value, server),
-                data);
+                data,
+                saveModifiedAsCopy: true);
+
+            if (!string.IsNullOrEmpty(savedStrainId))
+                data.StrainId = savedStrainId;
         }
 
-        _console.UpdateUserInterface(
-            (ent.Comp.ConnectedConsole.Value, console));
+        _dataServer.UpdateConnectedInterfaces(console.VirusDiagnoserDataServer.Value, server);
     }
 
 
@@ -243,100 +319,110 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
         return virusData.Count > 0;
     }
 
-    public void AddSymptom(Entity<VirusSolutionAnalyzerComponent?> console, string symptom)
+    public bool AddSymptom(Entity<VirusSolutionAnalyzerComponent?> console, string symptom)
     {
         if (!Resolve(console, ref console.Comp, false))
-            return;
+            return false;
 
         if (console.Comp.Status != VirusSolutionAnalyzerStatus.On)
-            return;
+            return false;
 
-        SetStatus((console, console.Comp), VirusSolutionAnalyzerStatus.Successfully);
-
-        if (_prototypeManager.Index<VirusSymptomPrototype>(symptom) == null)
-            return;
+        if (!_prototypeManager.HasIndex<VirusSymptomPrototype>(symptom))
+            return false;
 
         if (!TryGetVirusDataFromContainer(console, out var virusDataList))
-            return;
+            return false;
 
         var virusData = virusDataList.FirstOrDefault();
 
         if (virusData == null)
-            return;
+            return false;
+
+        if (virusData.ActiveSymptom.Contains(symptom))
+            return false;
 
         virusData.ActiveSymptom.Add(symptom);
+        SetStatus((console, console.Comp), VirusSolutionAnalyzerStatus.Successfully);
+        return true;
     }
 
-    public void AddBody(Entity<VirusSolutionAnalyzerComponent?> console, string body)
+    public bool AddBody(Entity<VirusSolutionAnalyzerComponent?> console, string body)
     {
         if (!Resolve(console, ref console.Comp, false))
-            return;
+            return false;
 
         if (console.Comp.Status != VirusSolutionAnalyzerStatus.On)
-            return;
+            return false;
 
-        SetStatus((console, console.Comp), VirusSolutionAnalyzerStatus.Successfully);
-
-        if (_prototypeManager.Index<BodyPrototype>(body) == null)
-            return;
+        if (!_prototypeManager.HasIndex<BodyPrototype>(body))
+            return false;
 
         if (!TryGetVirusDataFromContainer(console, out var virusDataList))
-            return;
+            return false;
 
         var virusData = virusDataList.FirstOrDefault();
 
         if (virusData == null)
-            return;
+            return false;
+
+        if (virusData.BodyWhitelist.Contains(body))
+            return false;
 
         virusData.BodyWhitelist.Add(body);
+        SetStatus((console, console.Comp), VirusSolutionAnalyzerStatus.Successfully);
+        return true;
     }
 
-    public void RemSymptom(Entity<VirusSolutionAnalyzerComponent?> console, string symptom)
+    public bool RemSymptom(Entity<VirusSolutionAnalyzerComponent?> console, string symptom)
     {
         if (!Resolve(console, ref console.Comp, false))
-            return;
+            return false;
 
         if (console.Comp.Status != VirusSolutionAnalyzerStatus.On)
-            return;
+            return false;
 
-        SetStatus((console, console.Comp), VirusSolutionAnalyzerStatus.Successfully);
-
-        if (_prototypeManager.Index<VirusSymptomPrototype>(symptom) == null)
-            return;
+        if (!_prototypeManager.HasIndex<VirusSymptomPrototype>(symptom))
+            return false;
 
         if (!TryGetVirusDataFromContainer(console, out var virusDataList))
-            return;
+            return false;
 
         var virusData = virusDataList.FirstOrDefault();
 
         if (virusData == null)
-            return;
+            return false;
 
-        virusData.ActiveSymptom.Remove(symptom);
-    }
-
-    public void RemBody(Entity<VirusSolutionAnalyzerComponent?> console, string body)
-    {
-        if (!Resolve(console, ref console.Comp, false))
-            return;
-
-        if (console.Comp.Status != VirusSolutionAnalyzerStatus.On)
-            return;
+        if (!virusData.ActiveSymptom.Remove(symptom))
+            return false;
 
         SetStatus((console, console.Comp), VirusSolutionAnalyzerStatus.Successfully);
+        return true;
+    }
 
-        if (_prototypeManager.Index<BodyPrototype>(body) == null)
-            return;
+    public bool RemBody(Entity<VirusSolutionAnalyzerComponent?> console, string body)
+    {
+        if (!Resolve(console, ref console.Comp, false))
+            return false;
+
+        if (console.Comp.Status != VirusSolutionAnalyzerStatus.On)
+            return false;
+
+        if (!_prototypeManager.HasIndex<BodyPrototype>(body))
+            return false;
 
         if (!TryGetVirusDataFromContainer(console, out var virusDataList))
-            return;
+            return false;
 
         var virusData = virusDataList.FirstOrDefault();
 
         if (virusData == null)
-            return;
+            return false;
 
-        virusData.BodyWhitelist.Remove(body);
+        if (!virusData.BodyWhitelist.Remove(body))
+            return false;
+
+        SetStatus((console, console.Comp), VirusSolutionAnalyzerStatus.Successfully);
+        return true;
     }
 
     private void UpdateAppearance(Entity<VirusSolutionAnalyzerComponent> ent)
@@ -396,8 +482,78 @@ public sealed class VirusSolutionAnalyzerSystem : EntitySystem
         }
 
         ent.Comp.Status = newStatus;
+        if (newStatus == VirusSolutionAnalyzerStatus.Scanning)
+        {
+            ent.Comp.ScanStartedAt = _timing.CurTime;
+            ent.Comp.ScanDuration = GetScanDuration(ent.Comp.ScanningSound);
+        }
+        else
+        {
+            ent.Comp.ScanStartedAt = TimeSpan.Zero;
+            ent.Comp.ScanDuration = TimeSpan.Zero;
+        }
 
         UpdateAppearance((ent, ent.Comp));
+        ent.Comp.NextConsoleStatusUpdate = newStatus == VirusSolutionAnalyzerStatus.Scanning
+            ? _timing.CurTime + ConsoleStatusUpdateCooldown
+            : TimeSpan.Zero;
+        UpdateConnectedConsole((ent, ent.Comp));
+    }
+
+    public int GetScanProgress(Entity<VirusSolutionAnalyzerComponent?> ent)
+    {
+        if (!Resolve(ent, ref ent.Comp, false))
+            return 0;
+
+        if (ent.Comp.Status != VirusSolutionAnalyzerStatus.Scanning ||
+            ent.Comp.ScanDuration <= TimeSpan.Zero)
+            return 0;
+
+        var elapsed = _timing.CurTime - ent.Comp.ScanStartedAt;
+        var progress = elapsed.TotalSeconds / ent.Comp.ScanDuration.TotalSeconds * 100;
+        return Math.Clamp((int)Math.Round(progress), 0, 100);
+    }
+
+    private TimeSpan GetScanDuration(SoundSpecifier? sound)
+    {
+        if (sound == null)
+            return TimeSpan.Zero;
+
+        var duration = _audio.GetAudioLength(_audio.ResolveSound(sound));
+        return duration + TimeSpan.FromSeconds(SharedAudioSystem.AudioDespawnBuffer);
+    }
+
+    private void UpdateConnectedConsoleThrottled(Entity<VirusSolutionAnalyzerComponent?> ent)
+    {
+        if (!Resolve(ent, ref ent.Comp, false))
+            return;
+
+        if (ent.Comp.Status != VirusSolutionAnalyzerStatus.Scanning)
+            return;
+
+        if (_timing.CurTime < ent.Comp.NextConsoleStatusUpdate)
+            return;
+
+        ent.Comp.NextConsoleStatusUpdate = _timing.CurTime + ConsoleStatusUpdateCooldown;
+        UpdateConnectedConsole((ent, ent.Comp));
+    }
+
+    private void UpdateConnectedConsole(Entity<VirusSolutionAnalyzerComponent?> ent)
+    {
+        if (!Resolve(ent, ref ent.Comp, false))
+            return;
+
+        if (ent.Comp.ConnectedConsole != null &&
+            TryComp<VirusDiagnoserConsoleComponent>(ent.Comp.ConnectedConsole, out var console))
+        {
+            _console.UpdateUserInterface((ent.Comp.ConnectedConsole.Value, console));
+        }
+
+        if (ent.Comp.ConnectedEvolutionConsole != null &&
+            TryComp<VirusEvolutionConsoleComponent>(ent.Comp.ConnectedEvolutionConsole, out var evolutionConsole))
+        {
+            _evolutionConsoleSystem.UpdateUserInterface((ent.Comp.ConnectedEvolutionConsole.Value, evolutionConsole));
+        }
     }
 
     public bool CanScanning(Entity<VirusSolutionAnalyzerComponent?> ent)

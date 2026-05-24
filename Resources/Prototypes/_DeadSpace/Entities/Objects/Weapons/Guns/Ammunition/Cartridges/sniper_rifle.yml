@@ -1,0 +1,26 @@
+- type: entity
+  abstract: true
+  parent: BaseCartridge
+  id: BaseCartridgeSniperRifle
+  name: патрон (.338 LM)
+  components:
+  - type: Tag
+    tags:
+    - CartridgeSniperRifle
+  - type: CartridgeAmmo
+    proto: BulletSniperRifle
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Ammunition/Casings/ammo_casing.rsi
+    layers:
+    - state: base
+      map: ["enum.AmmoVisualLayers.Base"]
+  - type: Appearance
+  - type: SpentAmmoVisuals
+
+- type: entity
+  parent: BaseCartridgeSniperRifle
+  id: CartridgeSniperRifle
+  name: патрон (.338 LM)
+  components:
+  - type: CartridgeAmmo
+    proto: BulletSniperRifle

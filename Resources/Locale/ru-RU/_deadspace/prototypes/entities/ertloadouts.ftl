@@ -35,7 +35,7 @@ ert-loadout-category-vector-description =
 ert-loadout-category-lecter-name = Лектер
 ert-loadout-category-lecter-description =
     Первоклассная армейская штурмовая винтовка.
-    Использует патроны калибра 6.5х39 мм TSF.
+    Использует патроны калибра 5.56х45 мм.
 ert-loadout-category-ak305-name = АК-305
 ert-loadout-category-ak305-description =
     Надёжный модифицированный АК, используемый силовыми структурами. 
@@ -60,7 +60,7 @@ ert-loadout-category-mp7-description =
 ert-loadout-category-scarl-name = Scar-L
 ert-loadout-category-scarl-description =
     Стандартизированная штурмовая винтовка армии ОПЗ.
-    Использует патроны 6.5х39 мм TSF.
+    Использует патроны 5.56х45 мм.
 ert-loadout-category-lasercarbine-name = Лазерная винтовка
 ert-loadout-category-lasercarbine-description =
     Предпочитается службой безопасности NanoTrasen

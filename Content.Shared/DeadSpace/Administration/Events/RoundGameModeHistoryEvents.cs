@@ -16,6 +16,8 @@ public sealed class RoundGameModeHistoryEntry
     public int DayOffset;
     public string StartedAt = string.Empty;
     public string GameMode = string.Empty;
+    public int PlayerCount = -1;
+    public string MapName = string.Empty;
 }
 
 [Serializable, NetSerializable]

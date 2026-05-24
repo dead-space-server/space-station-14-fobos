@@ -737,10 +737,11 @@
   components:
   - type: Sprite
     sprite: Clothing/Head/Hardsuits/wizard.rsi
+    scale: 1.2, 1.2 #DS14
   - type: Clothing
     sprite: Clothing/Head/Hardsuits/wizard.rsi
   - type: PointLight
-    color: "#ffadfb"
+    color: "#00e5ff" #DS14
   - type: PressureProtection
     highPressureMultiplier: 0.27
     lowPressureMultiplier: 1000

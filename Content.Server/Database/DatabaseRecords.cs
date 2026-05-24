@@ -120,6 +120,25 @@ public sealed record PlayerRecord(
     ImmutableTypedHwid? HWId);
 
 public sealed record RoundRecord(int Id, DateTimeOffset? StartDate, ServerRecord Server);
-public sealed record RoundGameModeRecord(int RoundId, DateTime StartDate, string GamePresetName); // DS14
+// DS14-start
+public sealed record RoundGameModeRecord(int RoundId, DateTime StartDate, string GamePresetName, int? PlayerCount, string? MapName);
+public sealed record AutoMapVoteConfigRecord(
+    string ServerId,
+    bool Enabled,
+    int SmallMaxPlayers,
+    int MediumMaxPlayers,
+    int LargeMaxPlayers,
+    string SmallMaps,
+    string MediumMaps,
+    string LargeMaps,
+    string BlacklistMaps,
+    int VoteDurationSeconds,
+    string SmallPlayedMaps,
+    string MediumPlayedMaps,
+    string LargePlayedMaps,
+    string SmallPoolQueueMaps,
+    string MediumPoolQueueMaps,
+    string LargePoolQueueMaps);
+// DS14-end
 
 public sealed record ServerRecord(int Id, string Name);
