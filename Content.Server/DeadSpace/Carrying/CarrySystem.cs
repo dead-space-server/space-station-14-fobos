@@ -107,6 +107,12 @@ public sealed class CarrySystem : EntitySystem
             if (!carried.EscapeInProgress)
                 continue;
 
+            if (TryComp<MobStateComponent>(uid, out var mobState) && _mobState.IsIncapacitated(uid, mobState))
+            {
+                StopCarryEscape(uid, carried);
+                continue;
+            }
+
             if (time >= carried.EscapeCompleteTime)
             {
                 CompleteCarryEscape(uid, carried, carrier, carrying);
@@ -696,6 +702,9 @@ public sealed class CarrySystem : EntitySystem
             return true;
 
         if (ent.Comp.Carrier is not { } carrier || !HasComp<CarryingComponent>(carrier))
+            return false;
+
+        if (TryComp<MobStateComponent>(ent.Owner, out var mobState) && _mobState.IsIncapacitated(ent.Owner, mobState))
             return false;
 
         var time = _timing.CurTime;
