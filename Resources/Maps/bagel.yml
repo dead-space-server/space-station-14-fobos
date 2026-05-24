@@ -4,7 +4,7 @@ meta:
   engineVersion: 272.0.1
   forkId: dsfobos
   forkVersion: 088e61b37e7561329a61af124143be1ce3058a93
-  time: 05/23/2026 12:17:15
+  time: 05/23/2026 12:20:30
   entityCount: 26994
 maps:
 - 1
@@ -10028,7 +10028,8 @@ entities:
           10,-13:
             0: 30327
           10,-10:
-            0: 26208
+            0: 9824
+            1: 16384
           10,-8:
             0: 48063
           11,-12:
@@ -10099,7 +10100,8 @@ entities:
           14,-10:
             0: 56796
           14,-9:
-            0: 60637
+            0: 52445
+            4: 8192
           14,-8:
             0: 26214
           15,-10:
@@ -10898,7 +10900,7 @@ entities:
             0: 112
             2: 28672
           17,-7:
-            4: 1
+            5: 1
             2: 4104
           17,-6:
             2: 4593
@@ -11006,8 +11008,8 @@ entities:
           -12,7:
             2: 2016
           -12,8:
-            5: 12
-            6: 3072
+            6: 12
+            7: 3072
           -11,5:
             0: 62463
           -11,6:
@@ -11016,9 +11018,9 @@ entities:
           -11,7:
             2: 17532
           -11,8:
-            5: 1
+            6: 1
             2: 17476
-            6: 256
+            7: 256
           -10,4:
             0: 45296
           -10,5:
@@ -11124,10 +11126,10 @@ entities:
             0: 255
             2: 57344
           -8,11:
-            7: 816
+            8: 816
             2: 34952
           -9,11:
-            7: 2176
+            8: 2176
             2: 8738
           -8,12:
             2: 34959
@@ -11147,7 +11149,7 @@ entities:
           -6,11:
             0: 4095
           -6,12:
-            7: 61166
+            8: 61166
           -5,9:
             0: 65535
           -5,10:
@@ -11155,7 +11157,7 @@ entities:
           -5,11:
             0: 36863
           -5,12:
-            7: 30515
+            8: 30515
             0: 12
           -4,9:
             0: 65535
@@ -11165,7 +11167,7 @@ entities:
             0: 4095
           -4,12:
             0: 1
-            7: 65518
+            8: 65518
           -4,13:
             2: 61680
           -5,13:
@@ -11179,7 +11181,7 @@ entities:
           -5,15:
             2: 17487
           -3,12:
-            7: 13107
+            8: 13107
             2: 34944
           -3,13:
             2: 47792
@@ -11245,7 +11247,7 @@ entities:
             2: 61713
           -12,9:
             0: 16
-            7: 3084
+            8: 3084
           -13,9:
             2: 51882
           -13,10:
@@ -11255,19 +11257,19 @@ entities:
             2: 43144
             0: 17
           -12,10:
-            4: 12
-            7: 3072
+            5: 12
+            8: 3072
           -12,11:
-            7: 12
+            8: 12
           -11,9:
-            7: 257
+            8: 257
             2: 17476
           -11,10:
-            4: 1
-            7: 256
+            5: 1
+            8: 256
             2: 17476
           -11,11:
-            7: 1
+            8: 1
             2: 17476
           -11,12:
             2: 17487
@@ -11355,11 +11357,11 @@ entities:
             2: 62671
           -7,14:
             2: 244
-            7: 57344
+            8: 57344
             0: 1024
           -7,15:
             2: 61440
-            7: 238
+            8: 238
             0: 1024
           -7,16:
             2: 65524
@@ -11983,6 +11985,11 @@ entities:
           moles:
             Oxygen: 27.225372
             Nitrogen: 102.419266
+        - volume: 2500
+          temperature: 293.15
+          moles:
+            Oxygen: 21.596506
+            Nitrogen: 81.243996
         - volume: 2500
           temperature: 293.15
           moles:
@@ -12685,7 +12692,7 @@ entities:
       - 11782
       - 15689
       - 15481
-      - 45
+      - 1223
     - type: Fixtures
       fixtures: {}
   - uid: 19
@@ -13332,7 +13339,7 @@ entities:
       - 15462
       - 15435
       - 15659
-      - 45
+      - 1223
     - type: Fixtures
       fixtures: {}
   - uid: 53
@@ -14935,13 +14942,12 @@ entities:
     - type: Transform
       pos: -21.5,12.5
       parent: 2
-- proto: AirlockChemistryLocked
+- proto: AirlockChemistryGlassLocked
   entities:
-  - uid: 178
+  - uid: 45
     components:
-    - type: MetaData
-      name: chemistry
     - type: Transform
+      rot: 3.141592653589793 rad
       pos: 42.5,-31.5
       parent: 2
 - proto: AirlockChiefEngineerGlassLocked
@@ -16933,6 +16939,8 @@ entities:
     - type: Transform
       pos: 44.5,-25.5
       parent: 2
+    - type: AccessReader
+      accessListsOriginal: []
 - proto: AirlockMedicalLocked
   entities:
   - uid: 459
@@ -17484,28 +17492,17 @@ entities:
       parent: 2
 - proto: AirlockVirologyLocked
   entities:
-  - uid: 551
+  - uid: 178
     components:
-    - type: MetaData
-      name: virology
     - type: Transform
+      rot: 3.141592653589793 rad
       pos: 46.5,-32.5
       parent: 2
-    - type: DeviceLinkSource
-      linkedPorts:
-        552:
-        - - DoorStatus
-          - DoorBolt
   - uid: 552
     components:
     - type: Transform
       pos: 49.5,-32.5
       parent: 2
-    - type: DeviceLinkSource
-      linkedPorts:
-        551:
-        - - DoorStatus
-          - DoorBolt
 - proto: AirSensor
   entities:
   - uid: 553
@@ -21795,6 +21792,14 @@ entities:
     - type: Transform
       pos: 40.456047,-10.342315
       parent: 2
+- proto: BoxBottle
+  entities:
+  - uid: 551
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 37.529613,-31.848862
+      parent: 2
 - proto: BoxCandleSmall
   entities:
   - uid: 1163
@@ -22100,13 +22105,6 @@ entities:
     components:
     - type: Transform
       pos: 52.41004,-28.5372
-      parent: 2
-- proto: BoxPillCanister
-  entities:
-  - uid: 1223
-    components:
-    - type: Transform
-      pos: 37.529434,-31.837435
       parent: 2
 - proto: BoxShotgunFlare
   entities:
@@ -66634,6 +66632,14 @@ entities:
     - type: Transform
       pos: 42.5,-36.5
       parent: 2
+    - type: EntityStorage
+      air:
+        volume: 200
+        immutable: False
+        temperature: 293.14673
+        moles:
+          Oxygen: 1.7459903
+          Nitrogen: 6.568249
 - proto: ClosetRadiationSuitFilled
   entities:
   - uid: 9738
@@ -66734,8 +66740,8 @@ entities:
         immutable: False
         temperature: 293.1496
         moles:
-          Oxygen: 1.6495836
-          Nitrogen: 6.2055764
+          Oxygen: 1.877957
+          Nitrogen: 7.0646954
   - uid: 9749
     components:
     - type: Transform
@@ -77992,7 +77998,7 @@ entities:
       - 597
       - 11703
       - 11782
-      - 45
+      - 1223
     - type: Fixtures
       fixtures: {}
   - uid: 11499
@@ -78419,7 +78425,7 @@ entities:
       - 11754
       - 11753
       - 598
-      - 45
+      - 1223
     - type: Fixtures
       fixtures: {}
   - uid: 11525
@@ -80068,20 +80074,6 @@ entities:
       parent: 2
 - proto: FirelockGlass
   entities:
-  - uid: 45
-    components:
-    - type: Transform
-      pos: -37.5,5.5
-      parent: 2
-    - type: DeviceNetwork
-      deviceLists:
-      - 11524
-      - 52
-      - 11498
-      - 18
-    - type: AccessReader
-      accessListsOriginal:
-      - - Engineering
   - uid: 685
     components:
     - type: Transform
@@ -80106,6 +80098,20 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 59
+  - uid: 1223
+    components:
+    - type: Transform
+      pos: -37.5,5.5
+      parent: 2
+    - type: DeviceNetwork
+      deviceLists:
+      - 11524
+      - 52
+      - 11498
+      - 18
+    - type: AccessReader
+      accessListsOriginal:
+      - - Engineering
   - uid: 11201
     components:
     - type: Transform
