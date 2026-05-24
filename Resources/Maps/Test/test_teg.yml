@@ -2695,4 +2695,14 @@ entities:
     - type: Transform
       pos: -2.5,8.5
       parent: 2
+# DS14-Start: force test TEG station grid static without adding a blocking machine.
+- proto: DSStationGridAnchor
+  entities:
+  - uid: 438
+    components:
+    - type: Transform
+      anchored: True
+      pos: 0,0
+      parent: 2
+# DS14-End
 ...

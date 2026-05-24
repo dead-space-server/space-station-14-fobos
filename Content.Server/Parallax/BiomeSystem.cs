@@ -81,6 +81,11 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
     private readonly Dictionary<BiomeComponent,
         Dictionary<string, HashSet<Vector2i>>> _markerChunks = new();
 
+    // DS14-Start: reuse biome unload buffers instead of allocating per unload pass.
+    private readonly List<Vector2i> _unloadChunksBuffer = new();
+    private readonly List<(Vector2i, Tile)> _unloadTilesBuffer = new();
+    // DS14-End
+
     public override void Initialize()
     {
         base.Initialize();
@@ -434,6 +439,7 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
         var halfLayer = new Vector2(layer.Size / 2f);
 
         var enumerator = new ChunkIndicesEnumerator(loadArea.Translated(worldPos - halfLayer), layer.Size);
+        var lay = _markerChunks[biome].GetOrNew(layer.ID); // DS14 Edit: avoid repeated dictionary lookup per marker chunk.
 
         while (enumerator.MoveNext(out var chunkOrigin))
         {
@@ -441,7 +447,6 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
             if (!AreaIntersectsBiomeBounds(origin, layer.Size, biome.Bounds))
                 continue;
 
-            var lay = _markerChunks[biome].GetOrNew(layer.ID);
             lay.Add(origin);
         }
     }
@@ -936,17 +941,25 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
     private void UnloadChunks(BiomeComponent component, EntityUid gridUid, MapGridComponent grid, int seed)
     {
         var active = _activeChunks[component];
-        List<(Vector2i, Tile)>? tiles = null;
+        _unloadChunksBuffer.Clear();
+        _unloadTilesBuffer.Clear();
 
         foreach (var chunk in component.LoadedChunks)
         {
-            if (active.Contains(chunk) || !component.LoadedChunks.Remove(chunk))
-                continue;
-
-            // Unload NOW!
-            tiles ??= new List<(Vector2i, Tile)>(ChunkSize * ChunkSize);
-            UnloadChunk(component, gridUid, grid, chunk, seed, tiles);
+            if (!active.Contains(chunk))
+                _unloadChunksBuffer.Add(chunk);
         }
+
+        if (_unloadChunksBuffer.Count == 0)
+            return;
+
+        // DS14-Start: unload after enumeration so LoadedChunks is not modified during foreach.
+        foreach (var chunk in _unloadChunksBuffer)
+        {
+            component.LoadedChunks.Remove(chunk);
+            UnloadChunk(component, gridUid, grid, chunk, seed, _unloadTilesBuffer);
+        }
+        // DS14-End
     }
 
     /// <summary>
@@ -956,7 +969,7 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
     {
         // Reverse order to loading
         component.ModifiedTiles.TryGetValue(chunk, out var modified);
-        modified ??= new HashSet<Vector2i>();
+        modified ??= _tilePool.Get(); // DS14 Edit: use biome tile pool for temporary modified set.
 
         // Delete decals
         foreach (var (dec, indices) in component.LoadedDecals[chunk])
@@ -974,11 +987,10 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
         // Ideally any entities that aren't modified just get deleted and re-generated later
         // This is because if we want to save the map (e.g. persistent server) it makes the file much smaller
         // and also if the map is enormous will make stuff like physics broadphase much faster
-        var xformQuery = GetEntityQuery<TransformComponent>();
 
         foreach (var (ent, tile) in component.LoadedEntities[chunk])
         {
-            if (Deleted(ent) || !xformQuery.TryGetComponent(ent, out var xform))
+            if (Deleted(ent) || !_xformQuery.TryGetComponent(ent, out var xform)) // DS14 Edit: reuse cached transform query.
             {
                 modified.Add(tile);
                 continue;
@@ -1045,7 +1057,18 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
 
         if (modified.Count == 0)
         {
-            component.ModifiedTiles.Remove(chunk);
+            // DS14-Start: return temporary or removed modified tile sets to the pool.
+            if (component.ModifiedTiles.Remove(chunk, out var toReturn))
+            {
+                toReturn.Clear();
+                _tilePool.Return(toReturn);
+            }
+            else
+            {
+                modified.Clear();
+                _tilePool.Return(modified);
+            }
+            // DS14-End
         }
         else
         {

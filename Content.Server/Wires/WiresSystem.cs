@@ -296,14 +296,21 @@ public sealed class WiresSystem : SharedWiresSystem
     }
 
     private Dictionary<EntityUid, List<ActiveWireAction>> _activeWires = new();
+    // DS14-Start: reuse buffers for wire action cleanup.
+    private readonly List<EntityUid> _activeWiresRemoveBuffer = new();
+    // DS14-End
     private List<(EntityUid, ActiveWireAction)> _finishedWires = new();
 
     public override void Update(float frameTime)
     {
+        _activeWiresRemoveBuffer.Clear(); // DS14 Edit: defer dictionary removals until after enumeration.
         foreach (var (owner, activeWires) in _activeWires)
         {
             if (!HasComp<WiresComponent>(owner))
-                _activeWires.Remove(owner);
+            {
+                _activeWiresRemoveBuffer.Add(owner);
+                continue;
+            }
 
             foreach (var wire in activeWires)
             {
@@ -323,6 +330,13 @@ public sealed class WiresSystem : SharedWiresSystem
                 }
             }
         }
+
+        // DS14-Start: apply deferred wire action owner removals.
+        foreach (var owner in _activeWiresRemoveBuffer)
+        {
+            _activeWires.Remove(owner);
+        }
+        // DS14-End
 
         if (_finishedWires.Count != 0)
         {
