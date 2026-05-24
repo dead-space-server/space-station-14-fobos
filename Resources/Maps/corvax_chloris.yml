@@ -4,8 +4,8 @@ meta:
   engineVersion: 272.0.1
   forkId: ""
   forkVersion: ""
-  time: 05/24/2026 13:53:19
-  entityCount: 52988
+  time: 05/24/2026 16:47:00
+  entityCount: 53006
 maps:
 - 1
 grids:
@@ -626,7 +626,7 @@ entities:
           version: 7
         9,7:
           ind: 9,7
-          tiles: FQAAAAAAABYAAAAAAAAWAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAATQAAAAAAAD4AAAAAAABOAAAAAAAATgAAAAAAAJMAAAAAAABNAAAAAAAATQAAAAAAAJMAAAAAAAADAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAE0AAAAAAABOAAAAAAAATQAAAAAAAE0AAAAAAAA+AAAAAAAATgAAAAAAAE0AAAAAAAAVAAAAAAAAFgAAAAAAABYAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAAA+AAAAAAAAPgAAAAAAAE4AAAAAAAA+AAAAAAAAPgAAAAAAAE4AAAAAAABOAAAAAAAAKQAAAAAAACkAAAAAAAAWAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAATQAAAAAAAD4AAAAAAABNAAAAAAAATQAAAAAAAD4AAAAAAAA+AAAAAAAATQAAAAAAACkAAAAAAAApAAAAAAAAAgAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAD4AAAAAAAA+AAAAAAAATQAAAAAAAJMAAAAAAABNAAAAAAAAkwAAAAAAAE0AAAAAAAAWAAAAAAAAFgAAAAAAABYAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAABNAAAAAAAATQAAAAAAAE0AAAAAAACTAAAAAAAATQAAAAAAAE0AAAAAAABNAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAE0AAAAAAAA+AAAAAAAATQAAAAAAAAMAAAAAAAADAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAE0AAAAAAABNAAAAAAAATQAAAAAAAJMAAAAAAABNAAAAAAAAPgAAAAAAAE0AAAAAAAADAAAAAAAAAwAAAAAAAJMAAAAAAACTAAAAAAAAPQAAAAAAACkAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAABNAAAAAAAATQAAAAAAAE0AAAAAAACTAAAAAAAATQAAAAAAAE0AAAAAAABNAAAAAAAAAwAAAAAAAAMAAAAAAACTAAAAAAAAkwAAAAAAAD0AAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAE0AAAAAAACTAAAAAAAAkwAAAAAAAE0AAAAAAACTAAAAAAAATQAAAAAAAAMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAAwAAAAAAAJMAAAAAAACTAAAAAAAAKQAAAAAAACkAAAAAAAApAAAAAAAAKQAAAAAAACkAAAAAAAApAAAAAAAAKQAAAAAAACkAAAAAAAAWAAAAAAAAFgAAAAAAABYAAAAAAAADAAAAAAAAKQAAAAAAACkAAAAAAAApAAAAAAAAAwAAAAAAACkAAAAAAAA9AAAAAAAAPQAAAAAAAD0AAAAAAAA9AAAAAAAAPQAAAAAAAD0AAAAAAAA9AAAAAAAAFgAAAAAAABYAAAAAAAAWAAAAAAAAkwAAAAAAACkAAAAAAAApAAAAAAAAKQAAAAAAAJMAAAAAAAApAAAAAAAAKQAAAAAAACkAAAAAAAApAAAAAAAAKQAAAAAAACkAAAAAAAApAAAAAAAAKQAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAAwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAAApAAAAAAAAkwAAAAAAAJMAAAAAAAA9AAAAAAAAkwAAAAAAAD0AAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAAApAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAKQAAAAAAACkAAAAAAACTAAAAAAAAKQAAAAAAAJMAAAAAAAApAAAAAAAAPQAAAAAAAJMAAAAAAAApAAAAAAAAPQAAAAAAAD0AAAAAAAApAAAAAAAAPQAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAACkAAAAAAAApAAAAAAAAKQAAAAAAACkAAAAAAAApAAAAAAAAKQAAAAAAAA==
+          tiles: FQAAAAAAABYAAAAAAAAWAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAATQAAAAAAAD4AAAAAAABOAAAAAAAATgAAAAAAAJMAAAAAAABNAAAAAAAATQAAAAAAAJMAAAAAAAADAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAE0AAAAAAABOAAAAAAAATQAAAAAAAE0AAAAAAAA+AAAAAAAATgAAAAAAAE0AAAAAAAAVAAAAAAAAFgAAAAAAABYAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAAA+AAAAAAAAPgAAAAAAAE4AAAAAAAA+AAAAAAAAPgAAAAAAAE4AAAAAAABOAAAAAAAAKQAAAAAAACkAAAAAAAAWAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAATQAAAAAAAD4AAAAAAABNAAAAAAAATQAAAAAAAD4AAAAAAAA+AAAAAAAATQAAAAAAACkAAAAAAAApAAAAAAAAAgAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAD4AAAAAAAA+AAAAAAAATQAAAAAAAJMAAAAAAABNAAAAAAAAkwAAAAAAAE0AAAAAAAAWAAAAAAAAFgAAAAAAABYAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAABNAAAAAAAATQAAAAAAAE0AAAAAAACTAAAAAAAATQAAAAAAAD4AAAAAAABNAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAE0AAAAAAAA+AAAAAAAATQAAAAAAAAMAAAAAAAADAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAE0AAAAAAABNAAAAAAAATQAAAAAAAJMAAAAAAABNAAAAAAAAPgAAAAAAAE0AAAAAAAADAAAAAAAAAwAAAAAAAJMAAAAAAACTAAAAAAAAPQAAAAAAACkAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAABNAAAAAAAATQAAAAAAAE0AAAAAAACTAAAAAAAATQAAAAAAAD4AAAAAAABNAAAAAAAAAwAAAAAAAAMAAAAAAACTAAAAAAAAkwAAAAAAAD0AAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAE0AAAAAAACTAAAAAAAAkwAAAAAAAE0AAAAAAACTAAAAAAAATQAAAAAAAAMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAAwAAAAAAAJMAAAAAAACTAAAAAAAAKQAAAAAAACkAAAAAAAApAAAAAAAAKQAAAAAAACkAAAAAAAApAAAAAAAAKQAAAAAAACkAAAAAAAAWAAAAAAAAFgAAAAAAABYAAAAAAAADAAAAAAAAKQAAAAAAACkAAAAAAAApAAAAAAAAAwAAAAAAACkAAAAAAAA9AAAAAAAAPQAAAAAAAD0AAAAAAAA9AAAAAAAAPQAAAAAAAD0AAAAAAAA9AAAAAAAAFgAAAAAAABYAAAAAAAAWAAAAAAAAkwAAAAAAACkAAAAAAAApAAAAAAAAKQAAAAAAAJMAAAAAAAApAAAAAAAAKQAAAAAAACkAAAAAAAApAAAAAAAAKQAAAAAAACkAAAAAAAApAAAAAAAAKQAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAAwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAAApAAAAAAAAkwAAAAAAAJMAAAAAAAA9AAAAAAAAkwAAAAAAAD0AAAAAAACTAAAAAAAAkwAAAAAAAJMAAAAAAAApAAAAAAAAkwAAAAAAAJMAAAAAAACTAAAAAAAAKQAAAAAAACkAAAAAAACTAAAAAAAAKQAAAAAAAJMAAAAAAAApAAAAAAAAPQAAAAAAAJMAAAAAAAApAAAAAAAAPQAAAAAAAD0AAAAAAAApAAAAAAAAPQAAAAAAAJMAAAAAAACTAAAAAAAAkwAAAAAAACkAAAAAAAApAAAAAAAAKQAAAAAAACkAAAAAAAApAAAAAAAAKQAAAAAAAA==
           version: 7
         9,8:
           ind: 9,8
@@ -982,6 +982,20 @@ entities:
             17094: 138,109
             17177: 139,129
             17178: 138,129
+            17201: 161,117
+            17202: 162,117
+            17203: 162,117
+            17204: 163,117
+            17205: 164,117
+            17206: 163,120
+            17207: 164,120
+            17209: 158,117
+            17210: 164,122
+            17211: 164,126
+            17212: 164,127
+            17213: 162,127
+            17214: 162,126
+            17215: 162,125
         - node:
             cleanable: True
             color: '#FFFFFFFF'
@@ -1218,6 +1232,7 @@ entities:
             16483: 134,129
             16484: 134,126
             16501: 138,133
+            17208: 161,120
         - node:
             angle: 1.5707963267948966 rad
             color: '#FFFFFFFF'
@@ -4689,10 +4704,6 @@ entities:
             17010: 148,104
             17018: 148,96
             17019: 148,95
-        - node:
-            color: '#285A91E5'
-            id: BrickTileWhiteLineE
-          decals:
             17147: 127,114
         - node:
             color: '#285A91E6'
@@ -6903,6 +6914,10 @@ entities:
             16475: 133,132
             16476: 133,131
             16499: 133,132
+            17193: 158,119
+            17194: 158,118
+            17199: 158,117
+            17200: 158,120
         - node:
             color: '#439909FF'
             id: ConcreteTrimLineN
@@ -7070,6 +7085,10 @@ entities:
             16469: 133,131
             16473: 135,132
             16474: 135,131
+            17195: 158,118
+            17196: 158,119
+            17197: 158,120
+            17198: 158,117
         - node:
             color: '#439909FF'
             id: Delivery
@@ -11289,6 +11308,10 @@ entities:
             16392: 165,112
             16394: 165,114
             16395: 165,113
+            17189: 159,117
+            17190: 159,118
+            17191: 159,119
+            17192: 159,120
         - node:
             color: '#FFFFFFFF'
             id: OldConcreteTrimLineN
@@ -11314,6 +11337,10 @@ entities:
             16380: 158,110
             16382: 158,109
             16398: 164,103
+            17185: 157,117
+            17186: 157,118
+            17187: 157,119
+            17188: 157,120
         - node:
             color: '#0E7F1BFF'
             id: Psyke
@@ -13588,10 +13615,6 @@ entities:
             16875: 157,128
             16880: 157,131
             16973: 145,107
-        - node:
-            color: '#285A91E5'
-            id: WarnLineGreyscaleN
-          decals:
             17115: 120,117
         - node:
             color: '#285A91E6'
@@ -13736,12 +13759,6 @@ entities:
             color: '#285A91E5'
             id: WarnLineGreyscaleS
           decals:
-            17116: 120,109
-            17148: 127,114
-        - node:
-            color: '#285A91E5'
-            id: WarnLineGreyscaleS
-          decals:
             16457: 133,126
             16540: 144,99
             16545: 138,93
@@ -13752,6 +13769,8 @@ entities:
             16567: 162,122
             16874: 157,126
             16878: 157,130
+            17116: 120,109
+            17148: 127,114
         - node:
             color: '#285A91E6'
             id: WarnLineGreyscaleS
@@ -19021,10 +19040,10 @@ entities:
             1: 64443
           28,9:
             1: 13115
-            8: 34816
+            6: 34816
           28,10:
             1: 30515
-            8: 8
+            6: 8
           28,11:
             1: 45943
           27,12:
@@ -19281,17 +19300,17 @@ entities:
             1: 4095
           30,6:
             1: 255
-            6: 28672
+            7: 28672
           30,7:
-            6: 119
+            7: 119
             0: 61440
           31,5:
             1: 3581
           31,6:
             1: 239
-            7: 28672
+            8: 28672
           31,7:
-            7: 119
+            8: 119
             0: 61440
           32,4:
             1: 45311
@@ -19299,9 +19318,9 @@ entities:
             1: 35771
           32,6:
             1: 255
-            8: 28672
+            6: 28672
           32,7:
-            8: 119
+            6: 119
             0: 61440
           29,41:
             1: 28680
@@ -19349,9 +19368,9 @@ entities:
             1: 8191
           29,9:
             1: 34823
-            8: 13056
+            6: 13056
           29,10:
-            8: 3
+            6: 3
             1: 64392
           29,11:
             1: 64315
@@ -19614,26 +19633,26 @@ entities:
             1: 61917
           33,6:
             1: 255
-            8: 28672
+            6: 28672
           33,7:
-            8: 119
+            6: 119
             0: 61440
           34,5:
             1: 63709
           34,6:
             1: 255
-            8: 28672
+            6: 28672
           34,7:
-            8: 117
+            6: 117
             0: 61440
             9: 2
           35,5:
             1: 61678
           35,6:
             1: 127
-            8: 28672
+            6: 28672
           35,7:
-            8: 119
+            6: 119
             0: 28672
           36,4:
             1: 35763
@@ -19949,7 +19968,7 @@ entities:
             1: 14192
           37,8:
             1: 575
-            8: 28672
+            6: 28672
           38,5:
             1: 32354
           38,6:
@@ -19959,7 +19978,7 @@ entities:
           38,8:
             1: 30567
           37,9:
-            8: 119
+            6: 119
             1: 24576
           37,10:
             1: 2032
@@ -20128,15 +20147,15 @@ entities:
             Nitrogen: 102.419266
         - volume: 2500
           temperature: 293.15
+          moles: {}
+        - volume: 2500
+          temperature: 293.15
           moles:
             Nitrogen: 6666.982
         - volume: 2500
           temperature: 293.15
           moles:
             Oxygen: 6666.982
-        - volume: 2500
-          temperature: 293.15
-          moles: {}
         - volume: 2500
           temperature: 293.15
           moles:
@@ -21007,23 +21026,6 @@ entities:
     - type: ContainedSolution
       containerName: food
       container: 110
-  - uid: 113
-    components:
-    - type: MetaData
-      name: solution - food
-    - type: Transform
-      parent: 112
-    - type: Solution
-      solution:
-        maxVol: 1
-        name: food
-        reagents:
-        - data: []
-          ReagentId: Fiber
-          Quantity: 1
-    - type: ContainedSolution
-      containerName: food
-      container: 112
   - uid: 115
     components:
     - type: MetaData
@@ -28003,7 +28005,7 @@ entities:
       pos: 148.5,130.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -25748.469
+      secondsUntilStateChange: -26869.15
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -29370,7 +29372,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -303205.75
+      secondsUntilStateChange: -304326.44
       state: Opening
     - type: Forensics
       residues: []
@@ -30249,7 +30251,7 @@ entities:
       pos: 25.5,132.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -308205.66
+      secondsUntilStateChange: -309326.34
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -30432,7 +30434,7 @@ entities:
       pos: 99.5,50.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -225496.97
+      secondsUntilStateChange: -226617.64
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -31806,7 +31808,7 @@ entities:
       pos: 14.5,132.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -296286.78
+      secondsUntilStateChange: -297407.47
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -39041,6 +39043,11 @@ entities:
       parent: 2
 - proto: BlastDoor
   entities:
+  - uid: 113
+    components:
+    - type: Transform
+      pos: 140.5,108.5
+      parent: 2
   - uid: 2194
     components:
     - type: Transform
@@ -39049,7 +39056,6 @@ entities:
   - uid: 2195
     components:
     - type: Transform
-      rot: 1.5707963267948966 rad
       pos: 142.5,108.5
       parent: 2
   - uid: 2196
@@ -39200,12 +39206,6 @@ entities:
     components:
     - type: Transform
       pos: 135.5,11.5
-      parent: 2
-  - uid: 2222
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 140.5,108.5
       parent: 2
   - uid: 2223
     components:
@@ -41400,6 +41400,11 @@ entities:
     - type: Transform
       pos: 61.503784,62.704094
       parent: 2
+  - uid: 21924
+    components:
+    - type: Transform
+      pos: 153.47363,115.49111
+      parent: 2
 - proto: BoxFlare
   entities:
   - uid: 2488
@@ -41782,6 +41787,11 @@ entities:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 61.330173,107.05262
+      parent: 2
+  - uid: 52991
+    components:
+    - type: Transform
+      pos: 120.08692,121.5697
       parent: 2
 - proto: BoxFolderRedEmpty
   entities:
@@ -42793,6 +42803,12 @@ entities:
       parent: 52692
 - proto: ButtonFrameCautionSecurity
   entities:
+  - uid: 2222
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 139.5,109.5
+      parent: 2
   - uid: 2774
     components:
     - type: Transform
@@ -42822,6 +42838,12 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 5.5,-0.5
       parent: 52692
+  - uid: 52989
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 148.5,106.5
+      parent: 2
 - proto: ButtonFrameExit
   entities:
   - uid: 2777
@@ -72453,6 +72475,36 @@ entities:
     - type: Transform
       pos: 3.5,4.5
       parent: 52692
+  - uid: 52992
+    components:
+    - type: Transform
+      pos: 2.5,-3.5
+      parent: 52692
+  - uid: 52993
+    components:
+    - type: Transform
+      pos: 2.5,-4.5
+      parent: 52692
+  - uid: 52994
+    components:
+    - type: Transform
+      pos: 2.5,-5.5
+      parent: 52692
+  - uid: 52995
+    components:
+    - type: Transform
+      pos: 153.5,122.5
+      parent: 2
+  - uid: 52996
+    components:
+    - type: Transform
+      pos: 163.5,122.5
+      parent: 2
+  - uid: 52997
+    components:
+    - type: Transform
+      pos: 163.5,123.5
+      parent: 2
 - proto: CableApcStack
   entities:
   - uid: 8640
@@ -148450,6 +148502,8 @@ entities:
     - type: Transform
       pos: 139.5,121.5
       parent: 2
+    - type: FaxMachine
+      name: Кабинет смотрителя
   - uid: 21913
     components:
     - type: Transform
@@ -148527,13 +148581,6 @@ entities:
       parent: 2
     - type: FaxMachine
       name: Отдел СБ
-  - uid: 21924
-    components:
-    - type: Transform
-      pos: 153.5,115.5
-      parent: 2
-    - type: FaxMachine
-      name: Перма
 - proto: FaxMachineCaptain
   entities:
   - uid: 21925
@@ -150627,7 +150674,7 @@ entities:
       pos: 145.5,140.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -74888.016
+      secondsUntilStateChange: -76008.695
       state: Closing
     - type: DeviceNetwork
       deviceLists:
@@ -159612,7 +159659,7 @@ entities:
   - uid: 23003
     components:
     - type: Transform
-      pos: 164.5,120.5
+      pos: 164.57812,119.59339
       parent: 2
   - uid: 23004
     components:
@@ -254011,9 +254058,6 @@ entities:
         2205:
         - - Pressed
           - Toggle
-        2195:
-        - - Pressed
-          - Toggle
         2194:
         - - Pressed
           - Toggle
@@ -255037,6 +255081,9 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 166.5,112.5
       parent: 2
+    - type: AccessReader
+      accessListsOriginal:
+      - - Security
     - type: DeviceLinkSource
       linkedPorts:
         41192:
@@ -256426,6 +256473,11 @@ entities:
       parent: 2
     - type: Physics
       bodyType: Static
+  - uid: 36223
+    components:
+    - type: Transform
+      pos: 161.5,117.5
+      parent: 2
 - proto: LockerPrisoner2
   entities:
   - uid: 36220
@@ -256439,22 +256491,7 @@ entities:
   - uid: 36221
     components:
     - type: Transform
-      pos: 161.5,117.5
-      parent: 2
-  - uid: 36222
-    components:
-    - type: Transform
-      pos: 164.5,117.5
-      parent: 2
-  - uid: 36223
-    components:
-    - type: Transform
       pos: 162.5,117.5
-      parent: 2
-  - uid: 36224
-    components:
-    - type: Transform
-      pos: 163.5,117.5
       parent: 2
 - proto: LockerPrisoner3
   entities:
@@ -256466,6 +256503,11 @@ entities:
       parent: 2
     - type: Physics
       bodyType: Static
+  - uid: 53000
+    components:
+    - type: Transform
+      pos: 163.5,117.5
+      parent: 2
 - proto: LockerPrisoner4
   entities:
   - uid: 36226
@@ -256476,6 +256518,11 @@ entities:
       parent: 2
     - type: Physics
       bodyType: Static
+  - uid: 53001
+    components:
+    - type: Transform
+      pos: 164.5,117.5
+      parent: 2
 - proto: LockerPrisoner5
   entities:
   - uid: 36227
@@ -256486,6 +256533,11 @@ entities:
       parent: 2
     - type: Physics
       bodyType: Static
+  - uid: 53002
+    components:
+    - type: Transform
+      pos: 163.5,120.5
+      parent: 2
 - proto: LockerPrisoner6
   entities:
   - uid: 36228
@@ -256496,6 +256548,11 @@ entities:
       parent: 2
     - type: Physics
       bodyType: Static
+  - uid: 53003
+    components:
+    - type: Transform
+      pos: 164.5,120.5
+      parent: 2
 - proto: LockerPrisoner7
   entities:
   - uid: 36229
@@ -265981,101 +266038,6 @@ entities:
       containers:
         solution@food: !type:ContainerSlot
           ent: 111
-  - uid: 112
-    components:
-    - type: MetaData
-      name: Информационная листовка
-    - type: Transform
-      pos: 119.54938,121.5347
-      parent: 2
-    - type: Paper
-      content: >+
-        [bold]Добро пожаловать на исследовательскую станцию Хлорис![/bold]
-
-        Мы рады приветствовать вас на Венере-2. Это уникальное место, где вы сможете насладиться удивительными видами и провести незабываемое время.
-
-
-        [head=3]Краткая информация о станции[/head]
-
-
-        - Высота: 100 километров над уровнем поверхности Венеры-2
-
-        - Основные цели: Научные исследования, наблюдение за атмосферными явлениями, экзобиология и астрофизика.
-
-        - Запланировано: Через несколько месяцев станция начнёт постепенный спуск в более плотные слои атмосферы Венеры-2 для углублённых исследований.
-
-        На такой высоте в атмосфере Венеры-2 абсолютно отсутствует давление. Однако внутри нашей станции поддерживается комфортный микроклимат.
-
-
-        [color=#ff0000]Важно помнить:
-
-
-        - Не покидайте пределы станции без разрешения и жестких скафандров.
-
-        - Обязательно носите ваш кислородный баллон и маску при себе на случай аварийных ситуаций.
-
-        [/color]
-
-
-        [head=3]Услуги для пассажиров
-
-        [/head]
-
-
-        1. Залы и парки с удобными креслами и прекраснымм видом на поверхность планеты.
-
-        2. Бар и кухня с высококлассным сервисом и отличным меню.
-
-        3. Баня, бассейн, театр и библиотека для культурного досуга.
-
-    - type: SolutionContainerManager
-      solutions:
-        food:
-          temperature: 293.15
-          canReact: True
-          maxVol: 0
-          name: food
-          reagents: []
-      containers:
-      - food
-    - type: Fixtures
-      fixtures:
-        fix1:
-          shape: !type:PolygonShape
-            radius: 0.01
-            vertices:
-            - -0.25,-0.25
-            - 0.25,-0.25
-            - 0.25,0.25
-            - -0.25,0.25
-          mask:
-          - Impassable
-          - HighImpassable
-          layer: []
-          density: 20
-          hard: True
-          restitution: 0.3
-          friction: 0.2
-        flammable:
-          shape: !type:PhysShapeCircle
-            radius: 0.35
-            position: 0,0
-          mask:
-          - MidImpassable
-          - HighImpassable
-          - LowImpassable
-          - BulletImpassable
-          - InteractImpassable
-          - Opaque
-          layer: []
-          density: 1
-          hard: False
-          restitution: 0
-          friction: 0.4
-    - type: ContainerContainer
-      containers:
-        solution@food: !type:ContainerSlot
-          ent: 113
   - uid: 114
     components:
     - type: MetaData
@@ -271854,7 +271816,7 @@ entities:
     paused: true
     components:
     - type: Transform
-      pos: 136.61948,118.61488
+      pos: 136.55243,118.53776
       parent: 2
     - type: Paper
       stampState: paper_stamp-centcom
@@ -273072,7 +273034,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -291239.94
+      secondsUntilStateChange: -292360.62
       state: Opening
     - type: Airlock
       autoClose: False
@@ -274109,6 +274071,14 @@ entities:
       parent: 2
     - type: Fixtures
       fixtures: {}
+  - uid: 53006
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 157.5,134.5
+      parent: 2
+    - type: Fixtures
+      fixtures: {}
 - proto: PosterLegitNoERP
   entities:
   - uid: 37327
@@ -274924,7 +274894,7 @@ entities:
   - uid: 37455
     components:
     - type: Transform
-      pos: 163.5,120.5
+      pos: 164.80731,118.90351
       parent: 2
   - uid: 37456
     components:
@@ -275169,6 +275139,11 @@ entities:
     components:
     - type: Transform
       pos: 29.16534,128.4718
+      parent: 2
+  - uid: 52990
+    components:
+    - type: Transform
+      pos: 120.5,121.5
       parent: 2
 - proto: PottedPlantAlt8
   entities:
@@ -281922,6 +281897,18 @@ entities:
     - type: Transform
       pos: 2.5,3.5
       parent: 52692
+  - uid: 53004
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 155.5,128.5
+      parent: 2
+  - uid: 53005
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 159.5,128.5
+      parent: 2
 - proto: PoweredSmallLightEmpty
   entities:
   - uid: 36087
@@ -282734,6 +282721,11 @@ entities:
     components:
     - type: Transform
       pos: 71.5,155.5
+      parent: 2
+  - uid: 36222
+    components:
+    - type: Transform
+      pos: 164.5,119.5
       parent: 2
   - uid: 38682
     components:
@@ -284543,12 +284535,6 @@ entities:
     - type: Transform
       pos: 141.5,117.5
       parent: 2
-  - uid: 39018
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 164.5,120.5
-      parent: 2
   - uid: 52893
     components:
     - type: Transform
@@ -284800,6 +284786,12 @@ entities:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 158.5,133.5
+      parent: 2
+  - uid: 36224
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 163.5,120.5
       parent: 2
   - uid: 36660
     components:
@@ -298655,20 +298647,6 @@ entities:
       baseName: кнопка сигнала
     - type: Fixtures
       fixtures: {}
-  - uid: 41347
-    components:
-    - type: MetaData
-      name: кнопка сигнала (открыть тюремный блок)
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: 136.69693,118.20172
-      parent: 2
-    - type: Label
-      currentLabel: открыть тюремный блок
-    - type: NameModifier
-      baseName: кнопка сигнала
-    - type: Fixtures
-      fixtures: {}
   - uid: 41348
     components:
     - type: MetaData
@@ -298682,10 +298660,10 @@ entities:
         2205:
         - - Pressed
           - Open
-        2222:
+        2195:
         - - Pressed
           - Open
-        2195:
+        113:
         - - Pressed
           - Open
         2206:
@@ -298734,20 +298712,6 @@ entities:
       baseName: кнопка сигнала
     - type: Fixtures
       fixtures: {}
-  - uid: 41350
-    components:
-    - type: MetaData
-      name: кнопка сигнала (закрыть тюремный блок)
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: 136.69693,118.48297
-      parent: 2
-    - type: Label
-      currentLabel: закрыть тюремный блок
-    - type: NameModifier
-      baseName: кнопка сигнала
-    - type: Fixtures
-      fixtures: {}
   - uid: 41351
     components:
     - type: MetaData
@@ -298761,10 +298725,10 @@ entities:
         2205:
         - - Pressed
           - Close
-        2222:
+        2195:
         - - Pressed
           - Close
-        2195:
+        113:
         - - Pressed
           - Close
         2194:
@@ -299639,6 +299603,32 @@ entities:
       fixtures: {}
 - proto: SignalButtonDirectional
   entities:
+  - uid: 41347
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 139.5,109.5
+      parent: 2
+    - type: DeviceLinkSource
+      linkedPorts:
+        2205:
+        - - Pressed
+          - Toggle
+    - type: Fixtures
+      fixtures: {}
+  - uid: 41350
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 148.5,106.5
+      parent: 2
+    - type: DeviceLinkSource
+      linkedPorts:
+        2194:
+        - - Pressed
+          - Toggle
+    - type: Fixtures
+      fixtures: {}
   - uid: 41384
     components:
     - type: MetaData
@@ -300092,7 +300082,10 @@ entities:
       parent: 2
     - type: DeviceLinkSource
       linkedPorts:
-        2222:
+        113:
+        - - Pressed
+          - Toggle
+        2195:
         - - Pressed
           - Toggle
     - type: Label
@@ -312326,6 +312319,27 @@ entities:
       setupAvailableNetworks:
       - SurveillanceCameraSecurity
       id: 'Бриг: восточный дополнительный коридор'
+  - uid: 52998
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 157.5,128.5
+      parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraSecurity
+      nameSet: True
+      id: 'Бриг: штрафной изолятор'
+  - uid: 52999
+    components:
+    - type: Transform
+      pos: 156.5,130.5
+      parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraSecurity
+      nameSet: True
+      id: 'Бриг: камера казни'
 - proto: SurveillanceCameraService
   entities:
   - uid: 42970
@@ -321295,7 +321309,7 @@ entities:
   - uid: 44497
     components:
     - type: Transform
-      pos: 164.5,120.5
+      pos: 164.50522,119.48915
       parent: 2
   - uid: 47776
     components:
@@ -359895,6 +359909,12 @@ entities:
       parent: 2
 - proto: WeaponCapacitorRecharger
   entities:
+  - uid: 112
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 119.5,121.5
+      parent: 2
   - uid: 51511
     components:
     - type: Transform
@@ -361911,6 +361931,12 @@ entities:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: 127.5,140.5
+      parent: 2
+  - uid: 39018
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 163.5,120.5
       parent: 2
   - uid: 39381
     components:
