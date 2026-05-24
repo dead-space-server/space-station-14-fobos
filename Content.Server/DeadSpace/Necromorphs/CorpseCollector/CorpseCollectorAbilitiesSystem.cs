@@ -95,7 +95,7 @@ public sealed class CorpseCollectorAbilitiesSystem : SharedCorpseCollectorSystem
 
         var ent = Spawn(component.LeviathanId, Transform(uid).Coordinates);
 
-        if (!EntityManager.TryGetComponent<GhostRoleComponent>(ent, out var ghostRoleComponent))
+        if (!TryComp<GhostRoleComponent>(ent, out var ghostRoleComponent))
         {
             _mindSystem.TransferTo(mindId, ent);
             QueueDel(uid);
@@ -223,7 +223,7 @@ public sealed class CorpseCollectorAbilitiesSystem : SharedCorpseCollectorSystem
 
         UpdateState(uid, component);
 
-        if (!EntityManager.TryGetComponent(uid, out MeleeWeaponComponent? weapon))
+        if (!TryComp(uid, out MeleeWeaponComponent? weapon))
             return;
 
         weapon.Damage *= component.BuffDamage;
@@ -241,7 +241,7 @@ public sealed class CorpseCollectorAbilitiesSystem : SharedCorpseCollectorSystem
 
         UpdateState(uid, component);
 
-        if (!EntityManager.TryGetComponent(uid, out MeleeWeaponComponent? weapon))
+        if (!TryComp(uid, out MeleeWeaponComponent? weapon))
             return;
 
         weapon.Damage /= component.BuffDamage;

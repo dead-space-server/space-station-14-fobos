@@ -33,7 +33,7 @@ public sealed partial class SpawnEntityEntityEffectSystem : EntityEffectSystem<T
             {
                 for (var i = 0; i < quantity; i++)
                 {
-                    EntityManager.Spawn(proto, mapCoords);
+                    Spawn(proto, mapCoords);
                 }
             }
 

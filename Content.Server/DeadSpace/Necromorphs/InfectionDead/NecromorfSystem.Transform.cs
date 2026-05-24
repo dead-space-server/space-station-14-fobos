@@ -385,15 +385,15 @@ public sealed partial class NecromorfSystem
         var physics = EntityManager.System<SharedPhysicsSystem>();
         var appearance = EntityManager.System<AppearanceSystem>();
 
-        EntityManager.EnsureComponent<ScaleVisualsComponent>(uid);
+        EnsureComp<ScaleVisualsComponent>(uid);
 
-        var appearanceComponent = EntityManager.EnsureComponent<AppearanceComponent>(uid);
+        var appearanceComponent = EnsureComp<AppearanceComponent>(uid);
         if (!appearance.TryGetData<Vector2>(uid, ScaleVisuals.Scale, out var oldScale, appearanceComponent))
             oldScale = Vector2.One;
 
         appearance.SetData(uid, ScaleVisuals.Scale, oldScale * scale, appearanceComponent);
 
-        if (EntityManager.TryGetComponent(uid, out FixturesComponent? manager))
+        if (TryComp(uid, out FixturesComponent? manager))
         {
             foreach (var (id, fixture) in manager.Fixtures)
             {

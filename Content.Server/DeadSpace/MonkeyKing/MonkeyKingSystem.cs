@@ -164,7 +164,7 @@ public sealed partial class MonkeyKingSystem : EntitySystem
 
         EnsureComp<MonkeyServantComponent>(target);
 
-        if (EntityManager.TryGetComponent<MetaDataComponent>(target, out var entityData))
+        if (TryComp(target, out MetaDataComponent? entityData))
         {
             ghostRole.RoleName = entityData.EntityName;
             ghostRole.RoleDescription = Loc.GetString("ghost-role-information-intelligence-description");
