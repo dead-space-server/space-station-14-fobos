@@ -24,7 +24,8 @@ public sealed partial class VirusEvolutionConsoleWindow : DefaultWindow
     private ProtoId<BodyPrototype>? _selectedActiveBody;
 
     private bool EvolutionActionBlocked =>
-        _lastUpdate?.SolutionAnalyzerStatus != VirusSolutionAnalyzerStatus.On;
+        _lastUpdate is not { IsSentientVirus: true }
+        && _lastUpdate?.SolutionAnalyzerStatus != VirusSolutionAnalyzerStatus.On;
 
 
     public VirusEvolutionConsoleWindow()
