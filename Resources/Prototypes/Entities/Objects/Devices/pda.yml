@@ -1195,6 +1195,7 @@
   components:
   - type: Pda
     id: ERTLeaderIDCard
+  - type: ErtTrackerPda # DS14
   - type: Appearance
     appearanceDataInit:
      enum.PdaVisuals.PdaType:

@@ -1,0 +1,8 @@
+ert-tracking-alert-name = Guidance
+ert-tracking-alert-desc =
+    The arrow points toward the selected target.
+    Current target: { $target } ({ $job })
+
+ert-tracking-set = Tracking target updated: { $target }.
+ert-tracking-invalid-target = The PDA can only target a character.
+ert-tracking-too-far = The target is too far away.
