@@ -134,5 +134,5 @@
   - type: Flammable
     damage:
       types:
-        Heat: 1.3
+        Heat: 1.2
   # - type: FootPrints
