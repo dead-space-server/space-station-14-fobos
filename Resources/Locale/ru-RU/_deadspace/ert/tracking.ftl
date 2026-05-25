@@ -4,6 +4,7 @@ ert-tracking-alert-desc =
     Текущая цель: { $target } ({ $job })
 
 ert-tracking-set = Метка привязана к цели: { $target }.
+ert-tracking-unauthorized = Система наведения этого КПК не принимает ваши учётные данные.
 ert-tracking-invalid-target = КПК может назначить целью только персонажа.
 ert-tracking-too-far = Цель слишком далеко.
 ert-tracking-unbind-verb = Отвязать метку

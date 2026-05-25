@@ -8,9 +8,11 @@ using Content.Shared.Database;
 using Content.Shared.DeadSpace.ERT.Components;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Interaction;
+using Content.Shared.Mind.Components;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Pinpointer;
 using Content.Shared.Popups;
+using Content.Shared.Roles.Jobs;
 using Content.Shared.Verbs;
 using Robust.Shared.Prototypes;
 
@@ -23,6 +25,7 @@ public sealed class ErtTrackingSystem : EntitySystem
     [Dependency] private readonly AlertsSystem _alerts = default!;
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
     [Dependency] private readonly IdCardSystem _idCard = default!;
+    [Dependency] private readonly SharedJobSystem _job = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
 
@@ -43,6 +46,13 @@ public sealed class ErtTrackingSystem : EntitySystem
     {
         if (args.Handled || args.Target is not { } target)
             return;
+
+        if (!IsAuthorizedUser(args.User, ent.Comp))
+        {
+            _popup.PopupEntity(Loc.GetString("ert-tracking-unauthorized"), args.User, args.User, PopupType.SmallCaution);
+            args.Handled = true;
+            return;
+        }
 
         if (HasActiveTarget(args.User))
             return;
@@ -146,6 +156,36 @@ public sealed class ErtTrackingSystem : EntitySystem
         }
 
         return Loc.GetString("generic-unknown-title");
+    }
+
+    private bool IsAuthorizedUser(EntityUid user, ErtTrackerPdaComponent tracker)
+    {
+        if (tracker.AllowedDepartments.Count == 0 && tracker.AllowedJobs.Count == 0)
+            return true;
+
+        if (!TryComp(user, out MindContainerComponent? mind) ||
+            !_job.MindTryGetJobId(mind.Mind, out var jobId) ||
+            jobId == null)
+        {
+            return false;
+        }
+
+        if (tracker.AllowedJobs.Contains(jobId.Value))
+            return true;
+
+        if (tracker.AllowedDepartments.Count == 0 ||
+            !_job.TryGetAllDepartments(jobId.Value, out var departments))
+        {
+            return false;
+        }
+
+        foreach (var department in departments)
+        {
+            if (tracker.AllowedDepartments.Contains(department.ID))
+                return true;
+        }
+
+        return false;
     }
 
     private void UpdateDirectionToTarget(EntityUid uid, ErtTrackingComponent tracking)
