@@ -93,7 +93,6 @@
   id: SurvivalMajorAntagsTable
   table: !type:AllSelector
     children:
-    - id: SurvivalBlobSpawn
     - id: LoneOpsSpawn
     - id: RenegadeSpawn
 
@@ -237,17 +236,6 @@
         volume: -2
   - type: GameRule
     minPlayers: 15
-
-- type: entity
-  id: SurvivalBlobSpawn
-  parent: BlobSpawn
-  components:
-  - type: StationEvent
-    weight: 1.5
-    duration: 10
-    earliestStart: 35
-    minimumPlayers: 40
-    maxOccurrences: 1
 
 - type: entity
   id: SurvivalNecromorphBreach
