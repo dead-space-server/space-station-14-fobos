@@ -642,6 +642,10 @@
     sprite: Clothing/Mask/neckgaiter.rsi
   - type: Clothing
     sprite: Clothing/Mask/neckgaiter.rsi
+  # DS14-start
+  - type: ClothingVisualLayerAnchor
+    slot: neck
+  # DS14-end
   - type: IdentityBlocker
     coverage: MOUTH
   - type: Tag
