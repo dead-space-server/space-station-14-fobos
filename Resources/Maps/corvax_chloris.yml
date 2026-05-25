@@ -4,8 +4,8 @@ meta:
   engineVersion: 272.0.1
   forkId: ""
   forkVersion: ""
-  time: 05/24/2026 16:47:00
-  entityCount: 53006
+  time: 05/25/2026 13:35:19
+  entityCount: 52983
 maps:
 - 1
 grids:
@@ -28005,7 +28005,7 @@ entities:
       pos: 148.5,130.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -26869.15
+      secondsUntilStateChange: -28111.912
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -29372,7 +29372,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -304326.44
+      secondsUntilStateChange: -305569.2
       state: Opening
     - type: Forensics
       residues: []
@@ -30251,7 +30251,7 @@ entities:
       pos: 25.5,132.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -309326.34
+      secondsUntilStateChange: -310569.1
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -30434,7 +30434,7 @@ entities:
       pos: 99.5,50.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -226617.64
+      secondsUntilStateChange: -227860.4
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -31808,7 +31808,7 @@ entities:
       pos: 14.5,132.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -297407.47
+      secondsUntilStateChange: -298650.22
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -42789,6 +42789,12 @@ entities:
       rot: 3.141592653589793 rad
       pos: 118.5,122.5
       parent: 2
+  - uid: 36132
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 121.5,112.5
+      parent: 2
   - uid: 52675
     components:
     - type: Transform
@@ -42831,6 +42837,12 @@ entities:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 89.5,163.5
+      parent: 2
+  - uid: 41134
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 121.49864,112.931145
       parent: 2
   - uid: 52725
     components:
@@ -150674,7 +150686,7 @@ entities:
       pos: 145.5,140.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -76008.695
+      secondsUntilStateChange: -77251.46
       state: Closing
     - type: DeviceNetwork
       deviceLists:
@@ -254028,6 +254040,8 @@ entities:
   entities:
   - uid: 36111
     components:
+    - type: MetaData
+      name: кнопка с замком (болты)
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 122.5,111.5
@@ -254179,6 +254193,9 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 65.5,138.5
       parent: 2
+    - type: AccessReader
+      accessListsOriginal:
+      - - Chemistry
     - type: DeviceLinkSource
       linkedPorts:
         41129:
@@ -254594,175 +254611,19 @@ entities:
   entities:
   - uid: 36131
     components:
+    - type: MetaData
+      name: кнопка с замком (ставни)
     - type: Transform
       pos: 135.5,91.5
       parent: 2
+    - type: AccessReader
+      accessListsOriginal:
+      - - HeadOfSecurity
     - type: DeviceLinkSource
       linkedPorts:
         41288:
         - - Pressed
           - Toggle
-    - type: Fixtures
-      fixtures: {}
-  - uid: 36132
-    components:
-    - type: MetaData
-      name: кнопка с замком (отмена локдауна)
-    - type: Transform
-      pos: 134.39868,97.64006
-      parent: 2
-    - type: AccessReader
-      accessListsOriginal:
-      - - HeadOfSecurity
-    - type: DeviceLinkSource
-      range: 300
-      linkedPorts:
-        2282:
-        - - Pressed
-          - Open
-        2280:
-        - - Pressed
-          - Open
-        2281:
-        - - Pressed
-          - Open
-        2278:
-        - - Pressed
-          - Open
-        2277:
-        - - Pressed
-          - Open
-        2279:
-        - - Pressed
-          - Open
-        41163:
-        - - Pressed
-          - Open
-        41164:
-        - - Pressed
-          - Open
-        41176:
-        - - Pressed
-          - Open
-        41175:
-        - - Pressed
-          - Open
-        41174:
-        - - Pressed
-          - Open
-        2270:
-        - - Pressed
-          - Open
-        2273:
-        - - Pressed
-          - Open
-        2274:
-        - - Pressed
-          - Open
-        2275:
-        - - Pressed
-          - Open
-        2276:
-        - - Pressed
-          - Open
-        2231:
-        - - Pressed
-          - Open
-        2232:
-        - - Pressed
-          - Open
-        2233:
-        - - Pressed
-          - Open
-        2234:
-        - - Pressed
-          - Open
-        2235:
-        - - Pressed
-          - Open
-    - type: Label
-      currentLabel: отмена локдауна
-    - type: NameModifier
-      baseName: кнопка с замком
-    - type: Fixtures
-      fixtures: {}
-  - uid: 36133
-    components:
-    - type: MetaData
-      name: кнопка с замком (отмена тревога)
-    - type: Transform
-      pos: 134.7268,97.64006
-      parent: 2
-    - type: AccessReader
-      accessListsOriginal:
-      - - HeadOfSecurity
-    - type: DeviceLinkSource
-      range: 300
-      linkedPorts:
-        36059:
-        - - Pressed
-          - Off
-        36065:
-        - - Pressed
-          - Off
-        36063:
-        - - Pressed
-          - Off
-        36061:
-        - - Pressed
-          - Off
-        36067:
-        - - Pressed
-          - Off
-        36083:
-        - - Pressed
-          - Off
-        36081:
-        - - Pressed
-          - Off
-        36073:
-        - - Pressed
-          - Off
-        36071:
-        - - Pressed
-          - Off
-        36069:
-        - - Pressed
-          - Off
-        36075:
-        - - Pressed
-          - Off
-        36077:
-        - - Pressed
-          - Off
-        36079:
-        - - Pressed
-          - Off
-        36085:
-        - - Pressed
-          - Off
-    - type: Label
-      currentLabel: отмена тревога
-    - type: NameModifier
-      baseName: кнопка с замком
-    - type: Fixtures
-      fixtures: {}
-  - uid: 36134
-    components:
-    - type: MetaData
-      name: кнопка с замком (отмена изоляции техов)
-    - type: Transform
-      pos: 135.07056,97.64006
-      parent: 2
-    - type: AccessReader
-      accessListsOriginal:
-      - - HeadOfSecurity
-    - type: DeviceLinkSource
-      range: 300
-    - type: Label
-      currentLabel: отмена изоляции техов
-    - type: NameModifier
-      baseName: кнопка с замком
     - type: Fixtures
       fixtures: {}
   - uid: 36135
@@ -254780,13 +254641,13 @@ entities:
       linkedPorts:
         2275:
         - - Pressed
-          - Close
+          - Toggle
         2276:
         - - Pressed
-          - Close
+          - Toggle
         2231:
         - - Pressed
-          - Close
+          - Toggle
         2232:
         - - Pressed
           - Close
@@ -254801,13 +254662,13 @@ entities:
           - Close
         2274:
         - - Pressed
-          - Close
+          - Toggle
         2273:
         - - Pressed
-          - Close
+          - Toggle
         2270:
         - - Pressed
-          - Close
+          - Toggle
         41174:
         - - Pressed
           - Close
@@ -254825,22 +254686,22 @@ entities:
           - Close
         2279:
         - - Pressed
-          - Close
+          - Toggle
         2277:
         - - Pressed
-          - Close
+          - Toggle
         2278:
         - - Pressed
-          - Close
+          - Toggle
         2280:
         - - Pressed
-          - Close
+          - Toggle
         2282:
         - - Pressed
-          - Close
+          - Toggle
         2281:
         - - Pressed
-          - Close
+          - Toggle
     - type: Label
       currentLabel: локдаун
     - type: NameModifier
@@ -254865,40 +254726,40 @@ entities:
           - On
         36069:
         - - Pressed
-          - On
+          - Toggle
         36071:
         - - Pressed
-          - On
+          - Toggle
         36073:
         - - Pressed
           - On
         36075:
         - - Pressed
-          - On
+          - Toggle
         36059:
         - - Pressed
-          - On
+          - Toggle
         36083:
         - - Pressed
-          - On
+          - Toggle
         36081:
         - - Pressed
-          - On
+          - Toggle
         36063:
         - - Pressed
-          - On
+          - Toggle
         36065:
         - - Pressed
-          - On
+          - Toggle
         36061:
         - - Pressed
-          - On
+          - Toggle
         36077:
         - - Pressed
-          - On
+          - Toggle
         36079:
         - - Pressed
-          - On
+          - Toggle
         36085:
         - - Pressed
           - On
@@ -254923,22 +254784,25 @@ entities:
       linkedPorts:
         2282:
         - - Pressed
-          - Close
+          - Toggle
         2281:
         - - Pressed
-          - Close
+          - Toggle
         2280:
         - - Pressed
-          - Close
+          - Toggle
         2278:
         - - Pressed
-          - Close
+          - Toggle
         2277:
         - - Pressed
-          - Close
+          - Toggle
         2279:
         - - Pressed
-          - Close
+          - Toggle
+        36073:
+        - - Pressed
+          - Toggle
     - type: Label
       currentLabel: изоляция техов
     - type: NameModifier
@@ -254947,6 +254811,8 @@ entities:
       fixtures: {}
   - uid: 36138
     components:
+    - type: MetaData
+      name: кнопка с замком (ставни)
     - type: Transform
       rot: 3.141592653589793 rad
       pos: 132.26424,93.52777
@@ -255128,37 +254994,6 @@ entities:
         41184:
         - - Pressed
           - Toggle
-    - type: Fixtures
-      fixtures: {}
-  - uid: 36144
-    components:
-    - type: MetaData
-      name: кнопка с замком (тревога)
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 121.91177,112.693054
-      parent: 2
-    - type: AccessReader
-      accessListsOriginal:
-      - - Security
-    - type: DeviceLinkSource
-      linkedPorts:
-        36061:
-        - - Pressed
-          - Toggle
-        36059:
-        - - Pressed
-          - Toggle
-        36065:
-        - - Pressed
-          - Toggle
-        36063:
-        - - Pressed
-          - Toggle
-    - type: Label
-      currentLabel: тревога
-    - type: NameModifier
-      baseName: кнопка с замком
     - type: Fixtures
       fixtures: {}
   - uid: 52878
@@ -271816,7 +271651,7 @@ entities:
     paused: true
     components:
     - type: Transform
-      pos: 136.55243,118.53776
+      pos: 136.77917,118.63892
       parent: 2
     - type: Paper
       stampState: paper_stamp-centcom
@@ -273034,7 +272869,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -292360.62
+      secondsUntilStateChange: -293603.38
       state: Opening
     - type: Airlock
       autoClose: False
@@ -296967,76 +296802,6 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 62.5,135.5
       parent: 2
-  - uid: 41132
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 56.5,128.5
-      parent: 2
-  - uid: 41133
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 58.5,127.5
-      parent: 2
-  - uid: 41134
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 59.5,127.5
-      parent: 2
-  - uid: 41135
-    components:
-    - type: Transform
-      pos: 60.5,127.5
-      parent: 2
-  - uid: 41136
-    components:
-    - type: Transform
-      pos: 57.5,127.5
-      parent: 2
-  - uid: 41137
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 58.5,131.5
-      parent: 2
-  - uid: 41138
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 59.5,131.5
-      parent: 2
-  - uid: 41139
-    components:
-    - type: Transform
-      pos: 57.5,131.5
-      parent: 2
-  - uid: 41140
-    components:
-    - type: Transform
-      pos: 60.5,131.5
-      parent: 2
-  - uid: 41141
-    components:
-    - type: Transform
-      pos: 61.5,132.5
-      parent: 2
-  - uid: 41143
-    components:
-    - type: Transform
-      pos: 61.5,134.5
-      parent: 2
-  - uid: 41144
-    components:
-    - type: Transform
-      pos: 56.5,134.5
-      parent: 2
-  - uid: 41145
-    components:
-    - type: Transform
-      pos: 56.5,132.5
-      parent: 2
   - uid: 41147
     components:
     - type: Transform
@@ -298078,6 +297843,138 @@ entities:
       fixtures: {}
 - proto: SignalButton
   entities:
+  - uid: 36133
+    components:
+    - type: MetaData
+      name: кнопка сигнала (ставни)
+    - type: Transform
+      pos: 30.29026,125.948975
+      parent: 2
+    - type: DeviceLinkSource
+      linkedPorts:
+        41119:
+        - - Pressed
+          - Toggle
+        41120:
+        - - Pressed
+          - Toggle
+    - type: Fixtures
+      fixtures: {}
+  - uid: 36134
+    components:
+    - type: MetaData
+      name: кнопка сигнала (гермозатворы техов)
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 136.5,118.5
+      parent: 2
+    - type: DeviceLinkSource
+      linkedPorts:
+        2280:
+        - - Pressed
+          - Toggle
+        2281:
+        - - Pressed
+          - Toggle
+        2282:
+        - - Pressed
+          - Toggle
+        2279:
+        - - Pressed
+          - Toggle
+        2278:
+        - - Pressed
+          - Toggle
+        2277:
+        - - Pressed
+          - Toggle
+    - type: Fixtures
+      fixtures: {}
+  - uid: 36144
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 136.29037,118.49806
+      parent: 2
+    - type: DeviceLinkSource
+      linkedPorts:
+        2205:
+        - - Pressed
+          - Toggle
+        113:
+        - - Pressed
+          - Toggle
+        2195:
+        - - Pressed
+          - Toggle
+        2206:
+        - - Pressed
+          - Toggle
+        2194:
+        - - Pressed
+          - Toggle
+    - type: Fixtures
+      fixtures: {}
+  - uid: 41132
+    components:
+    - type: MetaData
+      name: кнопка сигнала (гермозатворы)
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 121.5,112.5
+      parent: 2
+    - type: DeviceLinkSource
+      linkedPorts:
+        2273:
+        - - Pressed
+          - Toggle
+        2274:
+        - - Pressed
+          - Toggle
+        2270:
+        - - Pressed
+          - Toggle
+        2234:
+        - - Pressed
+          - Toggle
+        2235:
+        - - Pressed
+          - Toggle
+        2233:
+        - - Pressed
+          - Toggle
+        2232:
+        - - Pressed
+          - Toggle
+        2275:
+        - - Pressed
+          - Toggle
+        2276:
+        - - Pressed
+          - Toggle
+        2231:
+        - - Pressed
+          - Toggle
+    - type: Fixtures
+      fixtures: {}
+  - uid: 41133
+    components:
+    - type: MetaData
+      name: кнопка сигнала (тревога)
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 121.49864,112.931145
+      parent: 2
+    - type: DeviceLinkSource
+      linkedPorts:
+        36061:
+        - - Pressed
+          - Toggle
+        36059:
+        - - Pressed
+          - Toggle
+    - type: Fixtures
+      fixtures: {}
   - uid: 41328
     components:
     - type: MetaData
@@ -298319,258 +298216,6 @@ entities:
       baseName: кнопка сигнала
     - type: Fixtures
       fixtures: {}
-  - uid: 41338
-    components:
-    - type: MetaData
-      name: кнопка сигнала (Открытие медотдела)
-    - type: Transform
-      pos: 30.47,125.85
-      parent: 2
-    - type: DeviceLinkSource
-      range: 300
-      linkedPorts:
-        41135:
-        - - Pressed
-          - Open
-        41134:
-        - - Pressed
-          - Open
-        41133:
-        - - Pressed
-          - Open
-        41136:
-        - - Pressed
-          - Open
-        41132:
-        - - Pressed
-          - Open
-        41130:
-        - - Pressed
-          - Open
-        41127:
-        - - Pressed
-          - Open
-        41128:
-        - - Pressed
-          - Open
-        41125:
-        - - Pressed
-          - Open
-        41124:
-        - - Pressed
-          - Open
-        41126:
-        - - Pressed
-          - Open
-        41129:
-        - - Pressed
-          - Open
-        41150:
-        - - Pressed
-          - Open
-        41140:
-        - - Pressed
-          - Open
-        41138:
-        - - Pressed
-          - Open
-        41137:
-        - - Pressed
-          - Open
-        41139:
-        - - Pressed
-          - Open
-        41143:
-        - - Pressed
-          - Open
-        41141:
-        - - Pressed
-          - Open
-    - type: Label
-      currentLabel: Открытие медотдела
-    - type: NameModifier
-      baseName: кнопка сигнала
-    - type: Fixtures
-      fixtures: {}
-  - uid: 41339
-    components:
-    - type: MetaData
-      name: кнопка сигнала (Закрытие медотдела)
-    - type: Transform
-      pos: 30.26,125.85
-      parent: 2
-    - type: DeviceLinkSource
-      range: 300
-      linkedPorts:
-        41125:
-        - - Pressed
-          - Close
-        41129:
-        - - Pressed
-          - Close
-        41126:
-        - - Pressed
-          - Close
-        41124:
-        - - Pressed
-          - Close
-        41143:
-        - - Pressed
-          - Close
-        41128:
-        - - Pressed
-          - Close
-        41127:
-        - - Pressed
-          - Close
-        41130:
-        - - Pressed
-          - Close
-        41141:
-        - - Pressed
-          - Close
-        41140:
-        - - Pressed
-          - Close
-        41138:
-        - - Pressed
-          - Close
-        41137:
-        - - Pressed
-          - Close
-        41139:
-        - - Pressed
-          - Close
-        41132:
-        - - Pressed
-          - Close
-        2215:
-        - - Pressed
-          - Close
-        2214:
-        - - Pressed
-          - Close
-        41135:
-        - - Pressed
-          - Close
-        41134:
-        - - Pressed
-          - Close
-        41133:
-        - - Pressed
-          - Close
-        41136:
-        - - Pressed
-          - Close
-        41150:
-        - - Pressed
-          - Close
-    - type: Label
-      currentLabel: Закрытие медотдела
-    - type: NameModifier
-      baseName: кнопка сигнала
-    - type: Fixtures
-      fixtures: {}
-  - uid: 41340
-    components:
-    - type: MetaData
-      name: кнопка сигнала (Ставни)
-    - type: Transform
-      pos: 30.26,125.65
-      parent: 2
-    - type: DeviceLinkSource
-      linkedPorts:
-        41119:
-        - - Pressed
-          - Toggle
-        41120:
-        - - Pressed
-          - Toggle
-    - type: Label
-      currentLabel: Ставни
-    - type: NameModifier
-      baseName: кнопка сигнала
-    - type: Fixtures
-      fixtures: {}
-  - uid: 41341
-    components:
-    - type: MetaData
-      name: кнопка сигнала (Блокировка Вирусологии)
-    - type: Transform
-      pos: 30.26,126.065
-      parent: 2
-    - type: DeviceLinkSource
-      linkedPorts:
-        2242:
-        - - Pressed
-          - Close
-        2236:
-        - - Pressed
-          - Close
-        2237:
-        - - Pressed
-          - Close
-        2238:
-        - - Pressed
-          - Close
-        2239:
-        - - Pressed
-          - Close
-        2241:
-        - - Pressed
-          - Close
-        2240:
-        - - Pressed
-          - Close
-    - type: Label
-      currentLabel: Блокировка Вирусологии
-    - type: NameModifier
-      baseName: кнопка сигнала
-    - type: Fixtures
-      fixtures: {}
-  - uid: 41342
-    components:
-    - type: MetaData
-      name: кнопка сигнала (Разблокировка Вирусологии)
-    - type: Transform
-      pos: 30.47,126.065
-      parent: 2
-    - type: DeviceLinkSource
-      linkedPorts:
-        2242:
-        - - Pressed
-          - Open
-        2241:
-        - - Pressed
-          - Open
-        2240:
-        - - Pressed
-          - Open
-        2239:
-        - - Pressed
-          - Open
-        2238:
-        - - Pressed
-          - Open
-        2237:
-        - - Pressed
-          - Open
-        2236:
-        - - Pressed
-          - Open
-    - type: Label
-      currentLabel: Разблокировка Вирусологии
-    - type: NameModifier
-      baseName: кнопка сигнала
-    - type: Fixtures
-      fixtures: {}
-  - uid: 41343
-    components:
-    - type: Transform
-      pos: 30.47,125.65
-      parent: 2
-    - type: Fixtures
-      fixtures: {}
   - uid: 41344
     components:
     - type: MetaData
@@ -298643,214 +298288,6 @@ entities:
           - Toggle
     - type: Label
       currentLabel: ставни
-    - type: NameModifier
-      baseName: кнопка сигнала
-    - type: Fixtures
-      fixtures: {}
-  - uid: 41348
-    components:
-    - type: MetaData
-      name: кнопка сигнала (открыть оружейную)
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: 136.22818,118.48297
-      parent: 2
-    - type: DeviceLinkSource
-      linkedPorts:
-        2205:
-        - - Pressed
-          - Open
-        2195:
-        - - Pressed
-          - Open
-        113:
-        - - Pressed
-          - Open
-        2206:
-        - - Pressed
-          - Open
-        2194:
-        - - Pressed
-          - Open
-    - type: Label
-      currentLabel: открыть оружейную
-    - type: NameModifier
-      baseName: кнопка сигнала
-    - type: Fixtures
-      fixtures: {}
-  - uid: 41349
-    components:
-    - type: MetaData
-      name: кнопка сигнала (изоляция техов)
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: 136.46255,118.4986
-      parent: 2
-    - type: DeviceLinkSource
-      linkedPorts:
-        2280:
-        - - Pressed
-          - Close
-        2281:
-        - - Pressed
-          - Close
-        2282:
-        - - Pressed
-          - Close
-        2278:
-        - - Pressed
-          - Close
-        2277:
-        - - Pressed
-          - Close
-        2279:
-        - - Pressed
-          - Close
-    - type: Label
-      currentLabel: изоляция техов
-    - type: NameModifier
-      baseName: кнопка сигнала
-    - type: Fixtures
-      fixtures: {}
-  - uid: 41351
-    components:
-    - type: MetaData
-      name: кнопка сигнала (закрыть оружейную)
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: 136.2438,118.17047
-      parent: 2
-    - type: DeviceLinkSource
-      linkedPorts:
-        2205:
-        - - Pressed
-          - Close
-        2195:
-        - - Pressed
-          - Close
-        113:
-        - - Pressed
-          - Close
-        2194:
-        - - Pressed
-          - Close
-        2206:
-        - - Pressed
-          - Close
-    - type: Label
-      currentLabel: закрыть оружейную
-    - type: NameModifier
-      baseName: кнопка сигнала
-    - type: Fixtures
-      fixtures: {}
-  - uid: 41352
-    components:
-    - type: MetaData
-      name: кнопка сигнала (отмена изоляции)
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: 136.47818,118.20172
-      parent: 2
-    - type: DeviceLinkSource
-      linkedPorts:
-        2280:
-        - - Pressed
-          - Open
-        2281:
-        - - Pressed
-          - Open
-        2282:
-        - - Pressed
-          - Open
-        2278:
-        - - Pressed
-          - Open
-        2277:
-        - - Pressed
-          - Open
-        2279:
-        - - Pressed
-          - Open
-    - type: Label
-      currentLabel: отмена изоляции
-    - type: NameModifier
-      baseName: кнопка сигнала
-    - type: Fixtures
-      fixtures: {}
-  - uid: 41353
-    components:
-    - type: MetaData
-      name: кнопка сигнала (гермы верх)
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 121.53677,112.92743
-      parent: 2
-    - type: DeviceLinkSource
-      linkedPorts:
-        2275:
-        - - Pressed
-          - Toggle
-        2276:
-        - - Pressed
-          - Toggle
-        2231:
-        - - Pressed
-          - Toggle
-    - type: Label
-      currentLabel: гермы верх
-    - type: NameModifier
-      baseName: кнопка сигнала
-    - type: Fixtures
-      fixtures: {}
-  - uid: 41354
-    components:
-    - type: MetaData
-      name: кнопка сигнала (гермы низ)
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 121.5524,112.45868
-      parent: 2
-    - type: DeviceLinkSource
-      linkedPorts:
-        2274:
-        - - Pressed
-          - Toggle
-        2273:
-        - - Pressed
-          - Toggle
-        2270:
-        - - Pressed
-          - Toggle
-    - type: Label
-      currentLabel: гермы низ
-    - type: NameModifier
-      baseName: кнопка сигнала
-    - type: Fixtures
-      fixtures: {}
-  - uid: 41355
-    components:
-    - type: MetaData
-      name: кнопка сигнала (гермы центр)
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 121.53677,112.693054
-      parent: 2
-    - type: DeviceLinkSource
-      linkedPorts:
-        2235:
-        - - Pressed
-          - Toggle
-        2234:
-        - - Pressed
-          - Toggle
-        2233:
-        - - Pressed
-          - Toggle
-        2232:
-        - - Pressed
-          - Toggle
-    - type: Label
-      currentLabel: гермы центр
     - type: NameModifier
       baseName: кнопка сигнала
     - type: Fixtures
@@ -299605,6 +299042,8 @@ entities:
   entities:
   - uid: 41347
     components:
+    - type: MetaData
+      name: кнопка сигнала (гермозатвор)
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 139.5,109.5
@@ -299618,6 +299057,8 @@ entities:
       fixtures: {}
   - uid: 41350
     components:
+    - type: MetaData
+      name: кнопка сигнала (гермозатвор)
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 148.5,106.5
@@ -360237,6 +359678,10 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 144.5,111.5
       parent: 2
+    - type: AccessReader
+      accessListsOriginal:
+      - - StationAi
+      - - Security
     - type: DeviceNetwork
       deviceLists:
       - 51558
