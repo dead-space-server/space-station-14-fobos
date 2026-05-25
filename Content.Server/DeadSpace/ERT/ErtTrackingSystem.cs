@@ -11,6 +11,7 @@ using Content.Shared.Interaction;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Pinpointer;
 using Content.Shared.Popups;
+using Content.Shared.Verbs;
 using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.ERT;
@@ -34,12 +35,16 @@ public sealed class ErtTrackingSystem : EntitySystem
         _transformQuery = GetEntityQuery<TransformComponent>();
 
         SubscribeLocalEvent<ErtTrackerPdaComponent, AfterInteractEvent>(OnAfterInteract);
+        SubscribeLocalEvent<ErtTrackerPdaComponent, GetVerbsEvent<AlternativeVerb>>(OnGetAlternativeVerbs);
         SubscribeLocalEvent<ErtTrackingComponent, ComponentShutdown>(OnTrackingShutdown);
     }
 
     private void OnAfterInteract(Entity<ErtTrackerPdaComponent> ent, ref AfterInteractEvent args)
     {
         if (args.Handled || args.Target is not { } target)
+            return;
+
+        if (HasActiveTarget(args.User))
             return;
 
         if (!args.CanReach)
@@ -66,6 +71,23 @@ public sealed class ErtTrackingSystem : EntitySystem
         args.Handled = true;
     }
 
+    private void OnGetAlternativeVerbs(Entity<ErtTrackerPdaComponent> ent, ref GetVerbsEvent<AlternativeVerb> args)
+    {
+        if (!args.CanAccess || !args.CanInteract ||
+            !TryComp(args.User, out ErtTrackingComponent? tracking) ||
+            tracking.Target == null)
+        {
+            return;
+        }
+
+        var user = args.User;
+        args.Verbs.Add(new AlternativeVerb
+        {
+            Text = Loc.GetString("ert-tracking-unbind-verb"),
+            Act = () => UnbindTarget(user, ent.Owner),
+        });
+    }
+
     private void OnTrackingShutdown(Entity<ErtTrackingComponent> ent, ref ComponentShutdown args)
     {
         _alerts.ClearAlert(ent.Owner, TrackingAlert);
@@ -90,6 +112,28 @@ public sealed class ErtTrackingSystem : EntitySystem
         Dirty(user, tracking);
 
         UpdateDirectionToTarget(user, tracking);
+    }
+
+    private void UnbindTarget(EntityUid user, EntityUid pda)
+    {
+        if (!TryComp(user, out ErtTrackingComponent? tracking) || tracking.Target == null)
+            return;
+
+        RemComp<ErtTrackingComponent>(user);
+        _popup.PopupEntity(Loc.GetString("ert-tracking-unbound"), user, user);
+        _adminLogger.Add(LogType.Action, LogImpact.Low, $"{ToPrettyString(user):user} cleared ERT tracking target with {ToPrettyString(pda):pda}");
+    }
+
+    private bool HasActiveTarget(EntityUid user)
+    {
+        if (!TryComp(user, out ErtTrackingComponent? tracking) ||
+            tracking.Target is not { } target ||
+            !Exists(target))
+        {
+            return false;
+        }
+
+        return CalculateDirection(user, target) != null;
     }
 
     private string GetTargetJobName(EntityUid target)
@@ -159,19 +203,13 @@ public sealed class ErtTrackingSystem : EntitySystem
         if (tracking.DistanceToTarget == distance)
         {
             if (distance == Distance.Unknown)
-                _alerts.ClearAlert(uid, TrackingAlert);
+                _alerts.ShowAlert(uid, TrackingAlert, (short) distance);
 
             return;
         }
 
         tracking.DistanceToTarget = distance;
         Dirty(uid, tracking);
-
-        if (distance == Distance.Unknown)
-        {
-            _alerts.ClearAlert(uid, TrackingAlert);
-            return;
-        }
 
         _alerts.ShowAlert(uid, TrackingAlert, (short) distance);
     }

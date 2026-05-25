@@ -30,7 +30,7 @@ public sealed class ErtTrackingSystem : EntitySystem
 
         var rotation = ent.Comp.DistanceToTarget switch
         {
-            Distance.Close or Distance.Medium or Distance.Far => ent.Comp.ArrowAngle + _eyeManager.CurrentEye.Rotation,
+            Distance.Reached or Distance.Close or Distance.Medium or Distance.Far => ent.Comp.ArrowAngle + _eyeManager.CurrentEye.Rotation,
             _ => Angle.Zero
         };
 

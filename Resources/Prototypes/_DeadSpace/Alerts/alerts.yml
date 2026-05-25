@@ -43,7 +43,9 @@
   id: ErtTracking
   icons:
   - sprite: /Textures/_DeadSpace/Interface/Alerts/ert_tracking.rsi
-    state: reached
+    state: alert
+  - sprite: /Textures/_DeadSpace/Interface/Alerts/ert_tracking.rsi
+    state: close
   - sprite: /Textures/_DeadSpace/Interface/Alerts/ert_tracking.rsi
     state: close
   - sprite: /Textures/_DeadSpace/Interface/Alerts/ert_tracking.rsi
@@ -52,5 +54,5 @@
     state: far
   name: ert-tracking-alert-name
   description: ert-tracking-alert-desc
-  minSeverity: 1
+  minSeverity: 0
   maxSeverity: 4
