@@ -203,7 +203,7 @@ public sealed class ErtTrackingSystem : EntitySystem
         if (tracking.DistanceToTarget == distance)
         {
             if (distance == Distance.Unknown)
-                _alerts.ShowAlert(uid, TrackingAlert, (short) distance);
+                ShowTrackingAlert(uid, distance);
 
             return;
         }
@@ -211,7 +211,20 @@ public sealed class ErtTrackingSystem : EntitySystem
         tracking.DistanceToTarget = distance;
         Dirty(uid, tracking);
 
-        _alerts.ShowAlert(uid, TrackingAlert, (short) distance);
+        ShowTrackingAlert(uid, distance);
+    }
+
+    private void ShowTrackingAlert(EntityUid uid, Distance distance)
+    {
+        var severity = distance switch
+        {
+            Distance.Unknown => 0,
+            Distance.Reached or Distance.Close => 1,
+            Distance.Medium => 2,
+            _ => 3,
+        };
+
+        _alerts.ShowAlert(uid, TrackingAlert, (short) severity);
     }
 
     private void TrySetArrowAngle(EntityUid uid, Angle arrowAngle, ErtTrackingComponent tracking)
