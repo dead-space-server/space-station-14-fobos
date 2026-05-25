@@ -384,7 +384,6 @@
     sprite: *icon-rsi
     state: Borg
   jobName: job-name-borg
-  isCrewJob: false
 
 - type: jobIcon
   parent: JobIcon
@@ -393,7 +392,6 @@
     sprite: *icon-rsi
     state: StationAi
   jobName: job-name-station-ai
-  isCrewJob: false
 
 # Bad guys
 
@@ -404,7 +402,6 @@
     sprite: *icon-rsi
     state: Cluwne
   jobName: job-name-cluwne
-  isCrewJob: false
 
 - type: jobIcon
   parent: JobIcon
@@ -413,7 +410,6 @@
     sprite: *icon-rsi
     state: Ninja
   jobName: job-name-ninja
-  isCrewJob: false
 
 - type: jobIcon
   parent: JobIcon
@@ -422,7 +418,6 @@
     sprite: *icon-rsi
     state: Pirate
   jobName: job-name-pirate
-  isCrewJob: false
 
 - type: jobIcon
   parent: JobIcon
@@ -431,7 +426,6 @@
     sprite: *icon-rsi
     state: Prisoner
   jobName: job-name-prisoner
-  isCrewJob: false
 
 - type: jobIcon
   parent: JobIcon
@@ -440,7 +434,6 @@
     sprite: *icon-rsi
     state: Syndicate
   jobName: job-name-syndicate
-  isCrewJob: false
 
 - type: jobIcon
   parent: JobIcon
@@ -449,7 +442,6 @@
     sprite: *icon-rsi
     state: SyndicateCommander
   jobName: job-name-syndicate-commander
-  isCrewJob: false
 
 - type: jobIcon
   parent: JobIcon
@@ -458,7 +450,6 @@
     sprite: *icon-rsi
     state: SyndicateCorpsman
   jobName: job-name-syndicate-corpsman
-  isCrewJob: false
 
 - type: jobIcon
   parent: JobIcon
@@ -467,7 +458,6 @@
     sprite: *icon-rsi
     state: SyndicateOperative
   jobName: job-name-syndicate-operative
-  isCrewJob: false
 
 - type: jobIcon
   parent: JobIcon
@@ -476,7 +466,6 @@
     sprite: *icon-rsi
     state: Wizard
   jobName: job-name-wizard
-  isCrewJob: false
 
 - type: jobIcon
   parent: JobIcon
@@ -485,7 +474,6 @@
     sprite: *icon-rsi
     state: Zombie
   jobName: job-name-zombie
-  isCrewJob: false
 
 # Admin
 
@@ -578,7 +566,6 @@
     sprite: *icon-rsi
     state: NoId
   jobName: job-name-no-id
-  isCrewJob: false
 
 - type: jobIcon
   parent: JobIcon
@@ -587,4 +574,3 @@
     sprite: *icon-rsi
     state: Unknown
   jobName: job-name-unknown
-  isCrewJob: false
