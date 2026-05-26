@@ -68,6 +68,8 @@
       groups:
         Brute: -4
         Burn: -4
+  - type: NoSlip
+  - type: NightVision
 
 - type: entity
   parent: MobCarpMagic
