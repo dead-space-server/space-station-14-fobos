@@ -12,6 +12,7 @@ using Microsoft.Extensions.ObjectPool;
 using Robust.Server.GameObjects;
 using Robust.Server.Player;
 using Robust.Shared;
+using Robust.Shared.Collections;
 using Robust.Shared.Configuration;
 using Robust.Shared.Enums;
 using Robust.Shared.Map;
@@ -468,6 +469,7 @@ namespace Content.Server.Decals
             var chunksInRange = _chunking.GetChunksForSession(player, ChunkSize, _chunkIndexPool, _chunkViewerPool);
             var staleChunks = _chunkViewerPool.Get();
             var previouslySent = _previousSentChunks[player];
+            var previouslySentRemoveBuffer = new ValueList<NetEntity>(); // DS14 Edit: local buffer, UpdatePlayer runs in parallel.
 
             // Get any chunks not in range anymore
             // Then, remove them from previousSentChunks (for stuff like grids out of range)
@@ -478,21 +480,7 @@ namespace Content.Server.Decals
                 // Mark the whole grid as stale and flag for removal.
                 if (!chunksInRange.TryGetValue(netGrid, out var chunks))
                 {
-                    previouslySent.Remove(netGrid);
-
-                    // Was the grid deleted?
-                    if (TryGetEntity(netGrid, out var gridId) && HasComp<MapGridComponent>(gridId.Value))
-                    {
-                        // no -> add it to the list of stale chunks
-                        staleChunks[netGrid] = oldIndices;
-                    }
-                    else
-                    {
-                        // If the grid was deleted then don't worry about telling the client to delete the chunk.
-                        oldIndices.Clear();
-                        _chunkIndexPool.Return(oldIndices);
-                    }
-
+                    previouslySentRemoveBuffer.Add(netGrid);
                     continue;
                 }
 
@@ -515,6 +503,27 @@ namespace Content.Server.Decals
 
                 staleChunks.Add(netGrid, elmo);
             }
+
+            // DS14-Start: apply deferred removals from the player's previous decal chunks.
+            foreach (var netGrid in previouslySentRemoveBuffer)
+            {
+                if (!previouslySent.Remove(netGrid, out var oldIndices))
+                    continue;
+
+                // Was the grid deleted?
+                if (TryGetEntity(netGrid, out var gridId) && HasComp<MapGridComponent>(gridId.Value))
+                {
+                    // no -> add it to the list of stale chunks
+                    staleChunks[netGrid] = oldIndices;
+                }
+                else
+                {
+                    // If the grid was deleted then don't worry about telling the client to delete the chunk.
+                    oldIndices.Clear();
+                    _chunkIndexPool.Return(oldIndices);
+                }
+            }
+            // DS14-End
 
             var updatedChunks = _chunkViewerPool.Get();
             foreach (var (netGrid, gridChunks) in chunksInRange)

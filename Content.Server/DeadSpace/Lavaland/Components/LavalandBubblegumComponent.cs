@@ -146,6 +146,12 @@ public sealed partial class LavalandBubblegumComponent : Component
     public int CloneCriticalCount = 3;
 
     [DataField]
+    public int MaxActiveClones = 8;
+
+    [DataField]
+    public TimeSpan CriticalCloneCooldown = TimeSpan.FromSeconds(2.5);
+
+    [DataField]
     public int CloneMinOffset = 2;
 
     [DataField]
@@ -332,4 +338,5 @@ public sealed class LavalandBubblegumCloneCharge
     public int RemainingSteps;
     public TimeSpan NextStep;
     public DamageSpecifier? ChargeDamage;
+    public readonly HashSet<EntityUid> HitEntities = new();
 }

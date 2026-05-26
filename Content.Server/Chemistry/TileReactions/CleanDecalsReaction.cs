@@ -28,7 +28,7 @@ public sealed partial class CleanDecalsReaction : ITileReaction
         IEntityManager entityManager,
         List<ReagentData>? data)
     {
-        if (reactVolume <= CleanCost ||
+        if (reactVolume < CleanCost ||
             !entityManager.TryGetComponent<MapGridComponent>(tile.GridUid, out var grid) ||
             !entityManager.TryGetComponent<DecalGridComponent>(tile.GridUid, out var decalGrid))
         {

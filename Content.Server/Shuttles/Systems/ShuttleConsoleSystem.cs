@@ -502,7 +502,7 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
             if (!TryComp<PhysicsComponent>(ent, out var phys) || !phys.CanCollide)
                 continue;
 
-            if (blacklistTypes.Any(type => EntityManager.HasComponent(ent, type)))
+            if (blacklistTypes.Any(type => HasComp(ent, type)))
                 continue;
 
             if (blacklistTags.Any(tag => _tags.HasTag(ent, tag)))
@@ -521,7 +521,7 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
 
     private Color? PickShuttleBlipColor(EntityUid ent, List<(Type Type, Color Color)> allowedTypes, List<RadarBlipTagEntry> allowedTags)
     {
-        var compMatch = allowedTypes.FirstOrDefault(x => EntityManager.HasComponent(ent, x.Type));
+        var compMatch = allowedTypes.FirstOrDefault(x => HasComp(ent, x.Type));
         if (compMatch != default)
             return compMatch.Color;
 

@@ -14,6 +14,7 @@ using Content.Shared.Interaction.Components;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Inventory;
 using Content.Shared.Inventory.VirtualItem;
+using Content.Shared.Mobs.Systems; //DS14
 using Content.Shared.Popups;
 using Content.Shared.Strip.Components;
 using Content.Shared.Verbs;
@@ -35,6 +36,7 @@ public abstract class SharedStrippableSystem : EntitySystem
     [Dependency] private readonly SharedHandsSystem _handsSystem = default!;
     [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
     [Dependency] private readonly ISharedPlayerManager _playerManager = default!; // DS14
+    [Dependency] private readonly MobStateSystem _mobState = default!; // DS14
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
 
     // DS14-start
@@ -448,7 +450,10 @@ public abstract class SharedStrippableSystem : EntitySystem
             !_playerManager.TryGetSessionByEntity(target, out var targetNetUser) ||
             !HasActiveDoAfter(doAfterId.Value))
             return;
-
+//DS14-Start
+        if (_mobState.IsIncapacitated(target))
+            return;
+//DS14-End
         var requestId = GetNextStripInsertHandRequestId();
         var request = new StripInsertHandRequest(doAfterId.Value, user, target, held, handName);
         _stripInsertHandRequests[requestId] = request;

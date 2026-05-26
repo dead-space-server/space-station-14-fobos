@@ -8,6 +8,8 @@
     sprite: _DeadSpace/Clothing/Mask/redneckgaiter.rsi
   - type: Clothing
     sprite: _DeadSpace/Clothing/Mask/redneckgaiter.rsi
+  - type: ClothingVisualLayerAnchor
+    slot: neck
   - type: IdentityBlocker
   - type: Tag
     tags:

@@ -5,7 +5,7 @@ meta:
   forkId: ""
   forkVersion: ""
   time: 01/08/2026 05:21:13
-  entityCount: 2587
+  entityCount: 2588 # DS14 Edit: added invisible station grid anchor.
 maps:
 - 1
 grids:
@@ -18105,4 +18105,14 @@ entities:
     - type: Transform
       pos: -22.499155,-1.51554
       parent: 2
+# DS14-Start: force Reach station grid static without adding a blocking machine.
+- proto: DSStationGridAnchor
+  entities:
+  - uid: 2588
+    components:
+    - type: Transform
+      anchored: True
+      pos: 0,0
+      parent: 2
+# DS14-End
 ...

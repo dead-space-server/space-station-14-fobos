@@ -1633,4 +1633,14 @@ entities:
     - type: Transform
       pos: -5.5,9.5
       parent: 2
+# DS14-Start: force meteor arena station grid static without adding a blocking machine.
+- proto: DSStationGridAnchor
+  entities:
+  - uid: 241
+    components:
+    - type: Transform
+      anchored: True
+      pos: 0,0
+      parent: 2
+# DS14-End
 ...

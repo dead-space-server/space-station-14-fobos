@@ -38,12 +38,12 @@ public sealed class OwOActionSystem : EntitySystem
         if (ev.Handled)
             return;
 
-        var enabled = EntityManager.HasComponent<OwOAccentComponent>(uid);
+        var enabled = HasComp<OwOAccentComponent>(uid);
 
         if (enabled)
-            EntityManager.RemoveComponent<OwOAccentComponent>(uid);
+            RemComp<OwOAccentComponent>(uid);
         else
-            EntityManager.AddComponent<OwOAccentComponent>(uid);
+            AddComp<OwOAccentComponent>(uid);
 
         ev.Handled = true;
     }

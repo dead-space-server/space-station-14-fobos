@@ -4,6 +4,7 @@ using Content.Shared.NPC.Components;
 using Content.Server.NPC.Pathfinding;
 using Content.Shared.Chemistry.Components.SolutionManager;
 using Content.Shared.Damage.Components;
+using Content.Shared.DeadSpace.Chemistry.Components;
 using Content.Shared.Interaction;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Silicons.Bots;
@@ -22,6 +23,7 @@ public sealed partial class PickNearbyInjectableOperator : HTNOperator
     private EntityQuery<NPCRecentlyInjectedComponent> _recentlyInjected = default!;
     private EntityQuery<MobStateComponent> _mobState = default!;
     private EntityQuery<EmaggedComponent> _emaggedQuery = default!;
+    private EntityQuery<InjectionBlockerComponent> _injectionBlockerQuery = default!; // DS14
 
     [DataField("rangeKey")] public string RangeKey = NPCBlackboard.MedibotInjectRange;
 
@@ -48,6 +50,7 @@ public sealed partial class PickNearbyInjectableOperator : HTNOperator
         _recentlyInjected = _entManager.GetEntityQuery<NPCRecentlyInjectedComponent>();
         _mobState = _entManager.GetEntityQuery<MobStateComponent>();
         _emaggedQuery = _entManager.GetEntityQuery<EmaggedComponent>();
+        _injectionBlockerQuery = _entManager.GetEntityQuery<InjectionBlockerComponent>(); // DS14
     }
 
     public override async Task<(bool Valid, Dictionary<string, object>? Effects)> Plan(NPCBlackboard blackboard,
@@ -67,6 +70,11 @@ public sealed partial class PickNearbyInjectableOperator : HTNOperator
 
         foreach (var (entity, _) in patients)
         {
+            // DS14-start
+            if (_injectionBlockerQuery.HasComponent(entity))
+                continue;
+            // DS14-end
+
             if (_mobState.TryGetComponent(entity, out var state) &&
                 _injectQuery.HasComponent(entity) &&
                 _damageQuery.TryGetComponent(entity, out var damage) &&

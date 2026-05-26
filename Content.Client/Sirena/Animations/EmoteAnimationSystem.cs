@@ -57,7 +57,7 @@ public sealed class EmoteAnimationSystem : SharedEmoteAnimationSystem
             return;
 
         var baseAngle = Angle.Zero;
-        if (EntityManager.TryGetComponent(uid, out SpriteComponent? sprite))
+        if (TryComp(uid, out SpriteComponent? sprite))
         {
             if (sprite != null)
                 baseAngle = sprite.Rotation;

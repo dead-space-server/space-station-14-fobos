@@ -75,7 +75,7 @@ public abstract partial class SharedMoverController : VirtualController
     /// <summary>
     /// Cache the mob movement calculation to re-use elsewhere.
     /// </summary>
-    public Dictionary<EntityUid, bool> UsedMobMovement = new();
+    public HashSet<EntityUid> UsedMobMovement = new();
 
     private readonly HashSet<EntityUid> _aroundColliderSet = [];
 
@@ -206,7 +206,7 @@ public abstract partial class SharedMoverController : VirtualController
             || !PhysicsQuery.TryComp(uid, out var physicsComponent)
             || PullableQuery.TryGetComponent(uid, out var pullable) && pullable.BeingPulled)
         {
-            UsedMobMovement[uid] = false;
+            UsedMobMovement.Remove(uid);
             return;
         }
 
@@ -235,13 +235,13 @@ public abstract partial class SharedMoverController : VirtualController
         {
             if (!weightless)
             {
-                UsedMobMovement[uid] = false;
+                UsedMobMovement.Remove(uid);
                 return;
             }
             inAirHelpless = true;
         }
 
-        UsedMobMovement[uid] = true;
+        UsedMobMovement.Add(uid);
 
         var moveSpeedComponent = ModifierQuery.CompOrNull(uid);
 
@@ -433,9 +433,7 @@ public abstract partial class SharedMoverController : VirtualController
 
     public void Friction(float minimumFrictionSpeed, float frameTime, float friction, ref Vector2 velocity)
     {
-        var speed = velocity.Length();
-
-        if (speed < minimumFrictionSpeed)
+        if (minimumFrictionSpeed > 0f && velocity.LengthSquared() < minimumFrictionSpeed * minimumFrictionSpeed)
             return;
 
         // This equation is lifted from the Physics Island solver.
@@ -460,8 +458,11 @@ public abstract partial class SharedMoverController : VirtualController
     /// </summary>
     public static void Accelerate(ref Vector2 currentVelocity, in Vector2 velocity, float accel, float frameTime)
     {
-        var wishDir = velocity != Vector2.Zero ? velocity.Normalized() : Vector2.Zero;
         var wishSpeed = velocity.Length();
+        if (wishSpeed == 0f)
+            return;
+
+        var wishDir = velocity / wishSpeed;
 
         var currentSpeed = Vector2.Dot(currentVelocity, wishDir);
         var addSpeed = wishSpeed - currentSpeed;
@@ -477,7 +478,7 @@ public abstract partial class SharedMoverController : VirtualController
 
     public bool UseMobMovement(EntityUid uid)
     {
-        return UsedMobMovement.TryGetValue(uid, out var used) && used;
+        return UsedMobMovement.Contains(uid);
     }
 
     /// <summary>
@@ -660,8 +661,10 @@ public abstract partial class SharedMoverController : VirtualController
 
         var total = walkDir * walkSpeed + sprintDir * sprintSpeed;
 
-        var parentRotation = GetParentGridAngle(mover);
-        var wishDir = _relativeMovement ? parentRotation.RotateVec(total) : total;
+        if (!_relativeMovement)
+            return total;
+
+        var wishDir = GetParentGridAngle(mover).RotateVec(total);
 
         DebugTools.Assert(MathHelper.CloseToPercent(total.Length(), wishDir.Length()));
 

@@ -242,7 +242,12 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
         int maxTileBreak = int.MaxValue,
         bool canCreateVacuum = true,
         EntityUid? user = null,
-        bool addLog = true)
+        bool addLog = true,
+        // DS14-start
+        bool deleteEntities = false,
+        bool destroyTiles = false,
+        bool ignoreTileBlockers = false)
+        // DS14-end
     {
         var pos = Transform(uid);
 
@@ -250,7 +255,8 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
 
         var posFound = _transformSystem.TryGetMapOrGridCoordinates(uid, out var gridPos, pos);
 
-        QueueExplosion(mapPos, typeId, totalIntensity, slope, maxTileIntensity, uid, tileBreakScale, maxTileBreak, canCreateVacuum, addLog: false);
+        QueueExplosion(mapPos, typeId, totalIntensity, slope, maxTileIntensity, uid, tileBreakScale, maxTileBreak, canCreateVacuum, addLog: false,
+            deleteEntities: deleteEntities, destroyTiles: destroyTiles, ignoreTileBlockers: ignoreTileBlockers); // DS14
 
         if (!addLog)
             return;
@@ -286,7 +292,12 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
         float tileBreakScale = 1f,
         int maxTileBreak = int.MaxValue,
         bool canCreateVacuum = true,
-        bool addLog = true)
+        bool addLog = true,
+        // DS14-start
+        bool deleteEntities = false,
+        bool destroyTiles = false,
+        bool ignoreTileBlockers = false)
+        // DS14-end
     {
         if (totalIntensity <= 0 || slope <= 0)
             return;
@@ -307,6 +318,15 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
             if (queued.Proto.ID != type.ID || queued.Epicenter.MapId != epicenter.MapId)
                 continue;
 
+            // DS14-start
+            if (queued.DeleteEntities != deleteEntities ||
+                queued.DestroyTiles != destroyTiles ||
+                queued.IgnoreTileBlockers != ignoreTileBlockers)
+            {
+                continue;
+            }
+            // DS14-end
+
             var dst2 = queued.Proto.MaxCombineDistance * queued.Proto.MaxCombineDistance;
             var direction = queued.Epicenter.Position - epicenter.Position;
             if (direction.LengthSquared() > dst2)
@@ -326,6 +346,11 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
             TileBreakScale = tileBreakScale,
             MaxTileBreak = maxTileBreak,
             CanCreateVacuum = canCreateVacuum,
+            // DS14-start
+            DeleteEntities = deleteEntities,
+            DestroyTiles = destroyTiles,
+            IgnoreTileBlockers = ignoreTileBlockers,
+            // DS14-end
             Cause = cause
         };
         _explosionQueue.Enqueue(boom);
@@ -343,7 +368,7 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
         if (!_map.MapExists(pos.MapId))
             return null;
 
-        var results = GetExplosionTiles(pos, queued.Proto.ID, queued.TotalIntensity, queued.Slope, queued.MaxTileIntensity);
+        var results = GetExplosionTiles(pos, queued.Proto.ID, queued.TotalIntensity, queued.Slope, queued.MaxTileIntensity, queued.IgnoreTileBlockers); // DS14
 
         if (results == null)
             return null;
@@ -398,6 +423,10 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
             queued.TileBreakScale,
             queued.MaxTileBreak,
             queued.CanCreateVacuum,
+            // DS14-start
+            queued.DeleteEntities,
+            queued.DestroyTiles,
+            // DS14-end
             EntityManager,
             visualEnt,
             queued.Cause,

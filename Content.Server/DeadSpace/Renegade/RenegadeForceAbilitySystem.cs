@@ -298,10 +298,10 @@ public sealed class RenegadeForceAbilitySystem : EntitySystem
     private bool CanGravPulseAffect(EntityUid entity)
     {
         return !(
-            EntityManager.HasComponent<GhostComponent>(entity) ||
-            EntityManager.HasComponent<MapGridComponent>(entity) ||
-            EntityManager.HasComponent<MapComponent>(entity) ||
-            EntityManager.HasComponent<GravityWellComponent>(entity)
+            HasComp<GhostComponent>(entity) ||
+            HasComp<MapGridComponent>(entity) ||
+            HasComp<MapComponent>(entity) ||
+            HasComp<GravityWellComponent>(entity)
         );
     }
     public void SetForce(EntityUid uid, RenegadeForceAbilityComponent? component = null)

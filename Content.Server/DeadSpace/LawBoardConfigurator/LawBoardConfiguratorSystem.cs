@@ -65,7 +65,7 @@ public sealed class LawBoardConfiguratorSystem : EntitySystem
                     continue;
                 }
 
-                if (!EntityManager.EntityExists(user) || !_interaction.InRangeUnobstructed(user, console))
+                if (!Exists(user) || !_interaction.InRangeUnobstructed(user, console))
                 {
                     eui.Close();
                     euis.Remove(session);

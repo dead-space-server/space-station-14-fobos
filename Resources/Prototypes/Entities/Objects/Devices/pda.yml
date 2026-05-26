@@ -1195,6 +1195,13 @@
   components:
   - type: Pda
     id: ERTLeaderIDCard
+  - type: ErtTrackerPda # DS14
+    allowedDepartments:
+    - SpecialOperationsCorps
+    allowedJobs:
+    - BlueShieldOfficer
+    - CentralCommandBlueShieldOfficer
+    - CentralCommandSpecialOperationsOfficer
   - type: Appearance
     appearanceDataInit:
      enum.PdaVisuals.PdaType:

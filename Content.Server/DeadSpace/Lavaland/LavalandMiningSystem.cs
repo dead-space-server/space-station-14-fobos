@@ -92,16 +92,17 @@ public sealed class LavalandMiningSystem : EntitySystem
         if (HasComp<FultonComponent>(args.Used))
             return;
 
-        if (!TryComp<StackComponent>(args.Used, out _) &&
-            !TryComp<StorageComponent>(args.Used, out _))
+        var usedIsStack = HasComp<StackComponent>(args.Used);
+        var usedIsStorage = HasComp<StorageComponent>(args.Used);
+
+        if (!usedIsStack && !usedIsStorage)
         {
             return;
         }
 
-        args.Handled = true;
-
         if (!this.IsPowered(ent.Owner, EntityManager))
         {
+            args.Handled = true;
             _popup.PopupEntity(Loc.GetString("lavaland-ore-redeemer-unpowered"), ent.Owner, args.User);
             return;
         }
@@ -109,6 +110,10 @@ public sealed class LavalandMiningSystem : EntitySystem
         var hasCard = TryGetMiningCard(args.User, ent.Comp.MiningAccess, out var cardUid, out var points);
 
         var result = Redeem(args.User, args.Used, ent.Owner, ent.Comp, hasCard);
+        if (result.Units <= 0 && !usedIsStorage)
+            return;
+
+        args.Handled = true;
         ApplyRedeemResult(ent.Owner, args.User, result, hasCard, cardUid, points);
     }
 

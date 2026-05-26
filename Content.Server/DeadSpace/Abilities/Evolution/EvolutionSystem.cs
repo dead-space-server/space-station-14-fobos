@@ -96,7 +96,7 @@ public sealed class EvolutionSystem : EntitySystem
         if (args.Handled)
             return;
 
-        if (EntityManager.TryGetComponent<ActorComponent?>(uid, out var actorComponent))
+        if (TryComp<ActorComponent>(uid, out var actorComponent))
         {
             var ev = new RequestEntityMenuEvent(uid.Id, true, false);
 
@@ -115,7 +115,7 @@ public sealed class EvolutionSystem : EntitySystem
     {
         if (msg.IsUseEvolutionSystem)
         {
-            if (EntityManager.TryGetComponent<EvolutionComponent>(new EntityUid(msg.Target), out var evolutionComponent))
+            if (TryComp<EvolutionComponent>(new EntityUid(msg.Target), out var evolutionComponent))
             {
                 evolutionComponent.SelectEntity = msg.PrototypeId;
                 OnEvolutionAction(new EntityUid(msg.Target), evolutionComponent);
@@ -154,7 +154,7 @@ public sealed class EvolutionSystem : EntitySystem
 
         var ent = Spawn(component.SelectEntity, Transform(uid).Coordinates);
 
-        if (!EntityManager.TryGetComponent<GhostRoleComponent>(ent, out var ghostRoleComponent))
+        if (!TryComp<GhostRoleComponent>(ent, out var ghostRoleComponent))
         {
             _mindSystem.TransferTo(mindId, ent);
             QueueDel(uid);

@@ -27,6 +27,9 @@
   - CentralCommandSpecialOperationsOfficer
   - CBURNLeader
   - CBURNAgent
+  - BSAALeaderJob
+  - BSAAFighterJob
+  - BSAAMedicJob
   - ERTLeaderAmber
   - ERTLeaderRed
   - ERTLeaderGamma
