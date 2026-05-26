@@ -110,7 +110,8 @@ namespace Content.IntegrationTests.Tests
             "Convex",
             "Core",
             "CorvaxAstra",
-            "CorvaxAvrite",
+            "CorvaxAvrite"
+            "CorvaxChloris",,
             "CorvaxDelta",
             "CorvaxPaper",
             "CorvaxPearl",
