@@ -4,8 +4,8 @@ meta:
   engineVersion: 272.0.1
   forkId: ""
   forkVersion: ""
-  time: 05/25/2026 13:35:19
-  entityCount: 52983
+  time: 05/26/2026 16:37:12
+  entityCount: 52989
 maps:
 - 1
 grids:
@@ -28005,7 +28005,7 @@ entities:
       pos: 148.5,130.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -28111.912
+      secondsUntilStateChange: -28185.148
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -29372,7 +29372,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -305569.2
+      secondsUntilStateChange: -305642.44
       state: Opening
     - type: Forensics
       residues: []
@@ -30251,7 +30251,7 @@ entities:
       pos: 25.5,132.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -310569.1
+      secondsUntilStateChange: -310642.34
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -30434,7 +30434,7 @@ entities:
       pos: 99.5,50.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -227860.4
+      secondsUntilStateChange: -227933.64
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -31808,7 +31808,7 @@ entities:
       pos: 14.5,132.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -298650.22
+      secondsUntilStateChange: -298723.47
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -150686,7 +150686,7 @@ entities:
       pos: 145.5,140.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -77251.46
+      secondsUntilStateChange: -77324.695
       state: Closing
     - type: DeviceNetwork
       deviceLists:
@@ -272869,7 +272869,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -293603.38
+      secondsUntilStateChange: -293676.62
       state: Opening
     - type: Airlock
       autoClose: False
@@ -305938,6 +305938,26 @@ entities:
       parent: 2
 - proto: SpawnPointSecurityOfficer
   entities:
+  - uid: 41135
+    components:
+    - type: Transform
+      pos: 128.5,105.5
+      parent: 2
+  - uid: 41136
+    components:
+    - type: Transform
+      pos: 125.5,103.5
+      parent: 2
+  - uid: 41137
+    components:
+    - type: Transform
+      pos: 126.5,103.5
+      parent: 2
+  - uid: 41138
+    components:
+    - type: Transform
+      pos: 127.5,104.5
+      parent: 2
   - uid: 42269
     components:
     - type: Transform
@@ -305958,15 +305978,27 @@ entities:
     - type: Transform
       pos: 148.5,95.5
       parent: 2
-  - uid: 42273
+- proto: SpawnPointSecurityPilot
+  entities:
+  - uid: 41139
     components:
     - type: Transform
-      pos: 146.5,95.5
+      pos: 127.5,105.5
       parent: 2
-  - uid: 42274
+  - uid: 41140
     components:
     - type: Transform
-      pos: 145.5,95.5
+      pos: 139.5,105.5
+      parent: 2
+  - uid: 41141
+    components:
+    - type: Transform
+      pos: 154.5,94.5
+      parent: 2
+  - uid: 41143
+    components:
+    - type: Transform
+      pos: 163.5,94.5
       parent: 2
 - proto: SpawnPointSeniorAdministrator
   entities:
