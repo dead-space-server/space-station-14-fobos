@@ -4,6 +4,7 @@ using Content.Shared.Damage.Components;
 using Content.Shared.Database;
 using Content.Shared.Explosion;
 using Content.Shared.Explosion.Components;
+using Content.Shared.Ghost;
 using Content.Shared.Maps;
 using Content.Shared.Physics;
 using Content.Shared.Projectiles;
@@ -528,7 +529,8 @@ public sealed partial class ExplosionSystem
         if (EntityManager.IsQueuedForDeletion(uid) ||
             HasComp<MapComponent>(uid) ||
             HasComp<MapGridComponent>(uid) ||
-            HasComp<ExplosionVisualsComponent>(uid))
+            HasComp<ExplosionVisualsComponent>(uid) ||
+            HasComp<GhostComponent>(uid))
         {
             return;
         }
