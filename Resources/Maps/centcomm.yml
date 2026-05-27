@@ -28118,7 +28118,7 @@ entities:
     - type: Transform
       pos: 15.5,-102.5
       parent: 1
-- proto: BookshelfFilled
+- proto: Bookshelf
   entities:
   - uid: 1512
     components:
@@ -28165,6 +28165,8 @@ entities:
           - 1514
           - 1516
           - 1520
+- proto: BookshelfFilled
+  entities:
   - uid: 1534
     components:
     - type: Transform
