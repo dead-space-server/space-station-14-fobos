@@ -387,7 +387,7 @@
       - state: staffofstorms-inhand-right
         shader: unshaded
   - type: Gun
-    fireRate: 0.3
+    fireRate: 0.35
     soundGunshot:
       path: /Audio/Magic/fireball.ogg
     projectileSpeed: 25
@@ -410,9 +410,9 @@
   components:
   - type: Explosive
     explosionType: Default
-    maxIntensity: 15
+    maxIntensity: 20
     intensitySlope: 3
-    totalIntensity: 50
+    totalIntensity: 60
     maxTileBreak: 0
 
 - type: entity
