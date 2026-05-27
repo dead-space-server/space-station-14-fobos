@@ -17,12 +17,6 @@
     sprite: _DeadSpace/Objects/Misc/tabletPowerMonitoring.rsi
   - type: PowerMonitoringConsole
   - type: PowerMonitoringCableNetworks
-  - type: NodeContainer
-    examinable: true
-    nodes:
-      hv:
-        !type:CableDeviceNode
-        nodeGroupID: HVPower
   - type: ActivatableUI
     singleUser: true
     key: enum.PowerMonitoringConsoleUiKey.Key
@@ -30,5 +24,3 @@
     interfaces:
       enum.PowerMonitoringConsoleUiKey.Key:
         type: PowerMonitoringConsoleBoundUserInterface
-      enum.WiresUiKey.Key:
-        type: WiresBoundUserInterface
