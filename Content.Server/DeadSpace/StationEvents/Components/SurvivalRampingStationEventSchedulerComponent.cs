@@ -9,17 +9,16 @@ namespace Content.Server.StationEvents.Components;
 public sealed partial class SurvivalRampingStationEventSchedulerComponent : Component
 {
     /// <summary>
-    ///     Average ending chaos modifier for the ramping event scheduler. Higher means faster.
-    ///     Max chaos chosen for a round will deviate from this.
+    ///     Ending chaos modifier for the ramping event scheduler. Higher means faster.
     /// </summary>
     [DataField]
-    public float AverageChaos = 12f;
+    public float AverageChaos = 2.4f;
 
     /// <summary>
-    ///     Average time (in minutes) for when the ramping event scheduler should stop increasing the chaos modifier.
+    ///     Time (in minutes) for when the ramping event scheduler should stop increasing the chaos modifier.
     /// </summary>
     [DataField]
-    public float AverageEndTime = 90f;
+    public float AverageEndTime = 45f;
 
     [DataField]
     public float EndTime;
