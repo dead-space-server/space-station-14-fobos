@@ -1,6 +1,6 @@
 - type: job
   id: CentralCommandFieldOfficer
-  name: job-name-soo
+  name: job-name-field-officer
   description: job-description-soo
   playTimeTracker: JobCentralCommandFieldOfficer
   setPreference: false
@@ -39,7 +39,7 @@
     outerClothing: ClothingOuterVestWeb
     neck: ClothingNeckMantileCentcomBlack
     belt: ClothingBeltSheathMilitaryWebbingCentcomBlackFilled
-    id: CentcomSpecialOperationsOfficerPDA
+    id: CentcomFieldOfficerPDA
     ears: ClothingHeadsetFieldOfficer
     pocket1: WeaponRevolverMateba
     pocket2: DoorRemoteAll
