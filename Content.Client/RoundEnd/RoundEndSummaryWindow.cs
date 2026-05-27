@@ -120,8 +120,9 @@ namespace Content.Client.RoundEnd
                 HorizontalExpand = true, // DS14
             };
 
-            //Put observers at the bottom of the list. Put antags on top.
-            var sortedPlayersInfo = playersInfo.OrderBy(p => p.Observer).ThenBy(p => !p.Antag).ToArray();
+            var sortedPlayersInfo = playersInfo
+                .OrderBy(player => player.PlayerOOCName, StringComparer.CurrentCultureIgnoreCase)
+                .ToArray();
             playerInfoContainer.AddChild(MakePlayerManifestHeader(sortedPlayersInfo.Length)); // DS14
 
             foreach (var playerInfo in sortedPlayersInfo)
