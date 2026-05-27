@@ -23,6 +23,7 @@ public sealed class HeraldGhostSystem : EntitySystem
     [Dependency] private readonly TurfSystem _turf = default!;
     [Dependency] private readonly GhostRoleSystem _ghost = default!;
     [Dependency] private readonly ISharedPlayerManager _player = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     public override void Initialize()
     {
@@ -42,7 +43,10 @@ public sealed class HeraldGhostSystem : EntitySystem
         if (args.Handled)
             return;
 
-        var tileref = _turf.GetTileRef(Transform(uid).Coordinates);
+        var xform = Transform(uid);
+        var spawnCoordinates = _transform.GetMapCoordinates(uid, xform);
+        var spawnRotation = _transform.GetWorldRotation(xform);
+        var tileref = _turf.GetTileRef(xform.Coordinates);
         if (tileref != null)
         {
             if (_physics.GetEntitiesIntersectingBody(uid, (int)CollisionGroup.Impassable).Count > 0)
@@ -57,12 +61,12 @@ public sealed class HeraldGhostSystem : EntitySystem
         if (!_mindSystem.TryGetMind(uid, out var mindId, out var mind))
             return;
 
-        var ent = Spawn(component.HeraldMobSpawnId, Transform(uid).Coordinates);
+        var ent = Spawn(component.HeraldMobSpawnId, spawnCoordinates, rotation: spawnRotation);
 
         if (!TryComp<GhostRoleComponent>(ent, out var ghostRoleComponent))
         {
             _mindSystem.TransferTo(mindId, ent);
-            Spawn(component.DemonPortalSpawnId, Transform(uid).Coordinates);
+            Spawn(component.DemonPortalSpawnId, spawnCoordinates, rotation: spawnRotation);
             QueueDel(uid);
 
             return;
@@ -81,7 +85,7 @@ public sealed class HeraldGhostSystem : EntitySystem
             return;
         }
 
-        Spawn(component.DemonPortalSpawnId, Transform(uid).Coordinates);
+        Spawn(component.DemonPortalSpawnId, spawnCoordinates, rotation: spawnRotation);
 
         QueueDel(uid);
     }
