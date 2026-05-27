@@ -64689,7 +64689,7 @@ entities:
       parent: 9430
     - type: Physics
       canCollide: False
-- proto: ErtComputerShuttle
+- proto: ErtResponseConsole
   entities:
   - uid: 8231
     components:

@@ -18,6 +18,7 @@ public sealed class LeviathanSystem : EntitySystem
     [Dependency] private readonly SharedMindSystem _mindSystem = default!;
     [Dependency] private readonly GhostRoleSystem _ghost = default!;
     [Dependency] private readonly ISharedPlayerManager _player = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     public override void Initialize()
     {
@@ -33,7 +34,10 @@ public sealed class LeviathanSystem : EntitySystem
     {
         TryTerminateGhost(component);
 
-        var leviathan = Spawn(component.GhostLeviathanId, Transform(uid).Coordinates);
+        var xform = Transform(uid);
+        var leviathan = Spawn(component.GhostLeviathanId,
+            _transform.GetMapCoordinates(uid, xform),
+            rotation: _transform.GetWorldRotation(xform));
 
         if (TryComp<LeviathanGhostComponent>(leviathan, out var leviathanGhostComp))
             leviathanGhostComp.MasterEntity = uid;

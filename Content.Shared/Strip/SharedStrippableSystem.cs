@@ -14,12 +14,10 @@ using Content.Shared.Interaction.Components;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Inventory;
 using Content.Shared.Inventory.VirtualItem;
-using Content.Shared.Mobs.Systems; //DS14
 using Content.Shared.Popups;
 using Content.Shared.Strip.Components;
 using Content.Shared.Verbs;
 using Robust.Shared.Utility;
-using Robust.Shared.Player; //DS14
 
 namespace Content.Shared.Strip;
 
@@ -35,15 +33,7 @@ public abstract class SharedStrippableSystem : EntitySystem
     [Dependency] private readonly SharedDoAfterSystem _doAfterSystem = default!;
     [Dependency] private readonly SharedHandsSystem _handsSystem = default!;
     [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
-    [Dependency] private readonly ISharedPlayerManager _playerManager = default!; // DS14
-    [Dependency] private readonly MobStateSystem _mobState = default!; // DS14
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
-
-    // DS14-start
-    private readonly Dictionary<int, StripInsertHandRequest> _stripInsertHandRequests = new();
-    private readonly Dictionary<DoAfterId, int> _stripInsertHandRequestIds = new();
-    private int _nextStripInsertHandRequestId;
-    // DS14-end
 
     public override void Initialize()
     {
@@ -54,7 +44,6 @@ public abstract class SharedStrippableSystem : EntitySystem
 
         // BUI
         SubscribeLocalEvent<StrippableComponent, StrippingSlotButtonPressed>(OnStripButtonPressed);
-        SubscribeNetworkEvent<AnswerStripInsertInventoryMessage>(ReactOnAnswer); // DS14
 
         // DoAfters
         SubscribeLocalEvent<HandsComponent, DoAfterAttemptEvent<StrippableDoAfterEvent>>(OnStrippableDoAfterRunning);
@@ -145,10 +134,10 @@ public abstract class SharedStrippableSystem : EntitySystem
             return;
         }
 
-        if (_handsSystem.GetActiveItem(user.AsNullable()) is { } activeItem && heldEntity == null)
-            StartStripInsertHand(user, target, activeItem, handId, targetStrippable);
-        else if (heldEntity != null)
+        // DS14-Edit-Start: Hand insertion is handled by ItemTransferSystem verbs.
+        if (heldEntity != null)
             StartStripRemoveHand(user, target, heldEntity.Value, handId, targetStrippable);
+        // DS14-Edit-End
     }
 
     /// <summary>
@@ -365,132 +354,6 @@ public abstract class SharedStrippableSystem : EntitySystem
     }
 
     /// <summary>
-    ///     Checks whether the item in the user's active hand can be inserted into one of the target's hands.
-    /// </summary>
-    private bool CanStripInsertHand(
-        Entity<HandsComponent?> user,
-        Entity<HandsComponent?> target,
-        EntityUid held,
-        string handName)
-    {
-        if (!Resolve(user, ref user.Comp) ||
-            !Resolve(target, ref target.Comp))
-            return false;
-
-        if (!target.Comp.CanBeStripped)
-            return false;
-
-        if (!_handsSystem.TryGetActiveItem(user, out var activeItem) || activeItem != held)
-            return false;
-
-        if (!_handsSystem.CanDropHeld(user, user.Comp.ActiveHandId!))
-        {
-            _popupSystem.PopupCursor(Loc.GetString("strippable-component-cannot-drop"));
-            return false;
-        }
-
-        if (!_handsSystem.CanPickupToHand(target, activeItem.Value, handName, checkActionBlocker: false, handsComp: target.Comp))
-        {
-            _popupSystem.PopupCursor(Loc.GetString("strippable-component-cannot-put-message", ("owner", Identity.Entity(target, EntityManager))));
-            return false;
-        }
-
-        return true;
-    }
-
-    /// <summary>
-    ///     Begins a DoAfter to insert the item in the user's active hand into one of the target's hands.
-    /// </summary>
-    private void StartStripInsertHand(
-        Entity<HandsComponent?> user,
-        Entity<HandsComponent?> target,
-        EntityUid held,
-        string handName,
-        StrippableComponent? targetStrippable = null)
-    {
-        if (!Resolve(user, ref user.Comp) ||
-            !Resolve(target, ref target.Comp) ||
-            !Resolve(target, ref targetStrippable))
-            return;
-
-        if (!CanStripInsertHand(user, target, held, handName))
-            return;
-
-        var (time, stealth) = GetStripTimeModifiers(user, target, null, targetStrippable.HandStripDelay);
-
-        if (!stealth)
-        {
-            _popupSystem.PopupEntity(Loc.GetString("strippable-component-alert-owner-insert-hand",
-                                                        ("user", Identity.Entity(user, EntityManager)),
-                                                        ("item", _handsSystem.GetActiveItem(user)!.Value)),
-                                                        target,
-                                                        target,
-                                                        PopupType.Large);
-        }
-
-        var prefix = stealth ? "stealthily " : "";
-        _adminLogger.Add(LogType.Stripping, LogImpact.Low, $"{ToPrettyString(user):actor} is trying to {prefix}place the item {ToPrettyString(held):item} in {ToPrettyString(target):target}'s hands");
-
-        var doAfterArgs = new DoAfterArgs(EntityManager, user, time, new StrippableDoAfterEvent(true, false, handName), user, target, held)
-        {
-            Hidden = stealth,
-            AttemptFrequency = AttemptFrequency.EveryTick,
-            BreakOnDamage = true,
-            BreakOnMove = true,
-            NeedHand = true,
-            DuplicateCondition = DuplicateConditions.SameTool
-        };
-
-        // DS14-start
-        if (!_doAfterSystem.TryStartDoAfter(doAfterArgs, out var doAfterId))
-            return;
-
-        if (stealth ||
-            doAfterId == null ||
-            !_playerManager.TryGetSessionByEntity(target, out var targetNetUser) ||
-            !HasActiveDoAfter(doAfterId.Value))
-            return;
-//DS14-Start
-        if (_mobState.IsIncapacitated(target))
-            return;
-//DS14-End
-        var requestId = GetNextStripInsertHandRequestId();
-        var request = new StripInsertHandRequest(doAfterId.Value, user, target, held, handName);
-        _stripInsertHandRequests[requestId] = request;
-        _stripInsertHandRequestIds[doAfterId.Value] = requestId;
-
-        RaiseNetworkEvent(new StartStripInsertInventoryMessage(
-            Identity.Name(held, EntityManager),
-            Identity.Name(user, EntityManager),
-            requestId), targetNetUser);
-        // DS14-end
-    }
-
-    /// <summary>
-    ///     Places the item in the user's active hand into one of the target's hands.
-    /// </summary>
-    private void StripInsertHand(
-        Entity<HandsComponent?> user,
-        Entity<HandsComponent?> target,
-        EntityUid held,
-        string handName,
-        bool stealth)
-    {
-        if (!Resolve(user, ref user.Comp) ||
-            !Resolve(target, ref target.Comp))
-            return;
-
-        if (!CanStripInsertHand(user, target, held, handName))
-            return;
-
-        _handsSystem.TryDrop(user, checkActionBlocker: false);
-        _handsSystem.TryPickup(target, held, handName, checkActionBlocker: false, animateUser: stealth, animate: !stealth, handsComp: target.Comp);
-        _adminLogger.Add(LogType.Stripping, LogImpact.Medium, $"{ToPrettyString(user):actor} has placed the item {ToPrettyString(held):item} in {ToPrettyString(target):target}'s hands");
-
-        // Hand update will trigger strippable update.
-    }
-
-    /// <summary>
     ///     Checks whether the item is in the target's hand and whether it can be dropped.
     /// </summary>
     private bool CanStripRemoveHand(
@@ -612,7 +475,7 @@ public abstract class SharedStrippableSystem : EntitySystem
 
         if (ev.Event.InventoryOrHand)
         {
-            if ( ev.Event.InsertOrRemove && !CanStripInsertInventory((entity.Owner, entity.Comp), args.Target.Value, args.Used.Value, ev.Event.SlotOrHandName) ||
+            if (ev.Event.InsertOrRemove && !CanStripInsertInventory((entity.Owner, entity.Comp), args.Target.Value, args.Used.Value, ev.Event.SlotOrHandName) ||
                 !ev.Event.InsertOrRemove && !CanStripRemoveInventory(entity.Owner, args.Target.Value, args.Used.Value, ev.Event.SlotOrHandName))
             {
                 ev.Cancel();
@@ -620,28 +483,20 @@ public abstract class SharedStrippableSystem : EntitySystem
         }
         else
         {
-            if ( ev.Event.InsertOrRemove && !CanStripInsertHand((entity.Owner, entity.Comp), args.Target.Value, args.Used.Value, ev.Event.SlotOrHandName) ||
-                !ev.Event.InsertOrRemove && !CanStripRemoveHand(entity.Owner, args.Target.Value, args.Used.Value, ev.Event.SlotOrHandName))
+            // DS14-Edit-Start: Legacy hand insertion do-afters are disabled.
+            if (ev.Event.InsertOrRemove ||
+                !CanStripRemoveHand(entity.Owner, args.Target.Value, args.Used.Value, ev.Event.SlotOrHandName))
             {
                 ev.Cancel();
             }
+            // DS14-Edit-End
         }
     }
 
     private void OnStrippableDoAfterFinished(Entity<HandsComponent> entity, ref StrippableDoAfterEvent ev)
     {
         if (ev.Cancelled)
-        {
-            // DS14-start
-            if (!ev.InventoryOrHand && ev.InsertOrRemove)
-            {
-                if (ClearStripInsertHandRequest(ev.DoAfter.Id, out var requestId) && ev.Target != null)
-                    CloseStripInsertInventoryWindow(ev.Target.Value, requestId);
-            }
-            // DS14-end
-
             return;
-        }
 
         DebugTools.Assert(entity.Owner == ev.User);
         DebugTools.Assert(ev.Target != null);
@@ -657,17 +512,10 @@ public abstract class SharedStrippableSystem : EntitySystem
         }
         else
         {
-            if (ev.InsertOrRemove)
-            {
-                var closeWindow = ClearStripInsertHandRequest(ev.DoAfter.Id, out var requestId); // DS14
-                StripInsertHand((entity.Owner, entity.Comp), ev.Target.Value, ev.Used.Value, ev.SlotOrHandName, ev.Args.Hidden);
-                // DS14-start
-                if (closeWindow)
-                    CloseStripInsertInventoryWindow(ev.Target.Value, requestId);
-                // DS14-end
-            }
-            else
+            // DS14-Edit-Start: Hand insertion is handled by ItemTransferSystem verbs.
+            if (!ev.InsertOrRemove)
                 StripRemoveHand((entity.Owner, entity.Comp), ev.Target.Value, ev.Used.Value, ev.SlotOrHandName, ev.Args.Hidden);
+            // DS14-Edit-End
         }
     }
 
@@ -748,135 +596,4 @@ public abstract class SharedStrippableSystem : EntitySystem
         return !HasComp<BypassInteractionChecksComponent>(viewer);
     }
 
-    // DS14-start
-    private void ReactOnAnswer(AnswerStripInsertInventoryMessage answer, EntitySessionEventArgs args)
-    {
-        if (!_stripInsertHandRequests.TryGetValue(answer.RequestId, out var request))
-            return;
-
-        if (args.SenderSession.AttachedEntity is not { } sender || sender != request.Target)
-            return;
-
-        if (!TryGetActiveStripInsertHandDoAfter(answer.RequestId, request, out _))
-            return;
-
-        ClearStripInsertHandRequest(answer.RequestId);
-
-        if (!answer.Answer)
-            return;
-
-        _doAfterSystem.Cancel(request.DoAfterId);
-        StripInsertHand((request.User, null), request.Target, request.Used, request.HandName, false);
-    }
-
-    private int GetNextStripInsertHandRequestId()
-    {
-        do
-        {
-            _nextStripInsertHandRequestId++;
-        } while (_stripInsertHandRequests.ContainsKey(_nextStripInsertHandRequestId));
-
-        return _nextStripInsertHandRequestId;
-    }
-
-    private bool TryGetActiveStripInsertHandDoAfter(int requestId, StripInsertHandRequest request, out global::Content.Shared.DoAfter.DoAfter doAfter)
-    {
-        doAfter = default!;
-
-        if (!TryComp<DoAfterComponent>(request.User, out var comp))
-        {
-            ClearStripInsertHandRequest(requestId);
-            return false;
-        }
-
-        var found = false;
-        foreach (var component in comp.DoAfters)
-        {
-            if (component.Key != request.DoAfterId.Index)
-                continue;
-
-            doAfter = component.Value;
-            found = true;
-            break;
-        }
-
-        if (!found ||
-            doAfter.Id != request.DoAfterId ||
-            doAfter.Cancelled ||
-            doAfter.Completed)
-        {
-            ClearStripInsertHandRequest(requestId);
-            return false;
-        }
-
-        if (doAfter.Args.User != request.User ||
-            doAfter.Args.Target != request.Target ||
-            doAfter.Args.Used != request.Used ||
-            doAfter.Args.Event is not StrippableDoAfterEvent strippableEvent ||
-            !strippableEvent.InsertOrRemove ||
-            strippableEvent.InventoryOrHand ||
-            strippableEvent.SlotOrHandName != request.HandName)
-        {
-            ClearStripInsertHandRequest(requestId);
-            return false;
-        }
-
-        return true;
-    }
-
-    private bool HasActiveDoAfter(DoAfterId doAfterId)
-    {
-        if (!TryComp<DoAfterComponent>(doAfterId.Uid, out var comp))
-            return false;
-
-        foreach (var component in comp.DoAfters)
-        {
-            if (component.Key == doAfterId.Index &&
-                component.Value.Id == doAfterId &&
-                !component.Value.Cancelled &&
-                !component.Value.Completed)
-                return true;
-        }
-
-        return false;
-    }
-
-    private void ClearStripInsertHandRequest(int requestId)
-    {
-        if (!_stripInsertHandRequests.Remove(requestId, out var request))
-            return;
-
-        _stripInsertHandRequestIds.Remove(request.DoAfterId);
-    }
-
-    private void ClearStripInsertHandRequest(DoAfterId doAfterId)
-    {
-        ClearStripInsertHandRequest(doAfterId, out _);
-    }
-
-    private bool ClearStripInsertHandRequest(DoAfterId doAfterId, out int requestId)
-    {
-        if (!_stripInsertHandRequestIds.Remove(doAfterId, out requestId))
-        {
-            requestId = default;
-            return false;
-        }
-
-        _stripInsertHandRequests.Remove(requestId);
-        return true;
-    }
-
-    private void CloseStripInsertInventoryWindow(EntityUid target, int requestId)
-    {
-        if (_playerManager.TryGetSessionByEntity(target, out var targetNetUser))
-            RaiseNetworkEvent(new EndStripInsertInventoryMessage(requestId), targetNetUser);
-    }
-
-    private sealed record StripInsertHandRequest(
-        DoAfterId DoAfterId,
-        EntityUid User,
-        EntityUid Target,
-        EntityUid Used,
-        string HandName);
-    // DS14-end
 }

@@ -101841,7 +101841,7 @@ entities:
       parent: 16149
     - type: Physics
       canCollide: False
-- proto: ErtComputerShuttle
+- proto: ErtResponseConsole
   entities:
   - uid: 14049
     components:
