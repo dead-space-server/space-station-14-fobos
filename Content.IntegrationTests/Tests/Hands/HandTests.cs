@@ -1,3 +1,4 @@
+using System.Numerics;
 using System.Linq;
 using Content.Server.Storage.EntitySystems;
 using Content.Shared.Hands.Components;
@@ -6,6 +7,7 @@ using Robust.Server.GameObjects;
 using Robust.Server.Player;
 using Robust.Shared.Containers;
 using Robust.Shared.GameObjects;
+using Robust.Shared.Physics.Systems;
 
 namespace Content.IntegrationTests.Tests.Hands;
 
@@ -132,6 +134,67 @@ public sealed class HandTests
         var itemXform = entMan.GetComponent<TransformComponent>(item);
         Assert.That(sys.GetActiveItem((player, hands)), Is.Not.EqualTo(item));
         Assert.That(containerSystem.IsInSameOrNoContainer((player, xform), (item, itemXform)));
+
+        await server.WaitPost(() => mapSystem.DeleteMap(map.MapId));
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task TestDropTowardsWallKeepsItemOutsideWall()
+    {
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings
+        {
+            Connected = true,
+            DummyTicker = false
+        });
+        var server = pair.Server;
+
+        var entMan = server.ResolveDependency<IEntityManager>();
+        var playerMan = server.ResolveDependency<IPlayerManager>();
+        var mapSystem = server.System<SharedMapSystem>();
+        var handsSystem = entMan.System<SharedHandsSystem>();
+        var transformSystem = entMan.System<TransformSystem>();
+        var physicsSystem = entMan.System<SharedPhysicsSystem>();
+
+        var map = await pair.CreateTestMap();
+        await pair.RunTicksSync(5);
+
+        EntityUid item = default;
+        EntityUid wall = default;
+        EntityUid player = default;
+        HandsComponent hands = default!;
+
+        await server.WaitPost(() =>
+        {
+            player = playerMan.Sessions.First().AttachedEntity!.Value;
+            transformSystem.SetCoordinates(player, map.GridCoords);
+
+            var wallCoords = map.GridCoords.Offset(new Vector2(1f, 0f));
+            wall = entMan.SpawnEntity("WallSolid", wallCoords);
+
+            item = entMan.SpawnEntity("Crowbar", map.GridCoords);
+            hands = entMan.GetComponent<HandsComponent>(player);
+            Assert.That(handsSystem.TryPickup(player, item, hands.ActiveHandId!), Is.True);
+        });
+
+        await pair.RunTicksSync(5);
+        Assert.That(handsSystem.GetActiveItem((player, hands)), Is.EqualTo(item));
+
+        await server.WaitPost(() =>
+        {
+            var wallCoords = map.GridCoords.Offset(new Vector2(1f, 0f));
+            Assert.That(handsSystem.TryDrop(player, item, wallCoords), Is.True);
+        });
+
+        await pair.RunTicksSync(5);
+
+        await server.WaitAssertion(() =>
+        {
+            var itemBounds = physicsSystem.GetWorldAABB(item);
+            var wallBounds = physicsSystem.GetWorldAABB(wall);
+
+            Assert.That(itemBounds.Intersects(wallBounds), Is.False);
+        });
 
         await server.WaitPost(() => mapSystem.DeleteMap(map.MapId));
         await pair.CleanReturnAsync();
