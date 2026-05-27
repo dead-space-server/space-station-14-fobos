@@ -33,9 +33,9 @@
     grid:
     - 0,0,9,1
   - type: ContainerContainer
-  containers:
-    item: !type:ContainerSlot {}
-    storagebase: !type:Container {}
+    containers:
+      item: !type:ContainerSlot {}
+      storagebase: !type:Container {}
 
 - type: entity
   parent: ClothingBeltSheathMilitaryWebbingCentcomBlack
