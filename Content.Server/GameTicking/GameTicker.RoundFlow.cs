@@ -1,15 +1,18 @@
 using System.Linq;
 using System.Numerics;
 using Content.Server.Announcements;
+using Content.Server.DeadSpace.RoundEnd;
 using Content.Server.Discord;
 using Content.Server.GameTicking.Events;
 using Content.Server.Maps;
 using Content.Server.Roles;
+using Content.Shared.Body.Components;
 using Content.Shared.CCVar;
 using Content.Shared.Database;
 using Content.Shared.GameTicking;
 using Content.Shared.Maps;
 using Content.Shared.Mind;
+using Content.Shared.Objectives.Systems;
 using Content.Shared.Players;
 using Content.Shared.Preferences;
 using Content.Shared.Roles.Components;
@@ -34,6 +37,8 @@ namespace Content.Server.GameTicking
     {
         [Dependency] private readonly DiscordWebhook _discord = default!;
         [Dependency] private readonly RoleSystem _role = default!;
+        [Dependency] private readonly RoundEndManifestStatsSystem _roundEndManifestStats = default!; // DS14
+        [Dependency] private readonly SharedObjectivesSystem _objectives = default!; // DS14
         [Dependency] private readonly ITaskManager _taskManager = default!;
 
         private static readonly Counter RoundNumberMetric = Metrics.CreateCounter(
@@ -561,12 +566,19 @@ namespace Content.Server.GameTicking
                 else if (mind.CurrentEntity != null && TryName(mind.CurrentEntity.Value, out var icName))
                     playerIcName = icName;
 
-                if (TryGetEntity(mind.OriginalOwnedEntity, out var entity) && pvsOverride)
-                {
-                    _pvsOverride.AddGlobalOverride(entity.Value);
-                }
+                // DS14-start
+                var displayEntity = GetRoundEndDisplayEntity(mindId, mind);
 
-                var roles = _roles.MindGetAllRoleInfo(mindId);
+                if (displayEntity != null && pvsOverride)
+                    _pvsOverride.AddGlobalOverride(displayEntity.Value);
+                // DS14-end
+
+                var roles = _roles.MindGetAllRoleInfo(mindId).ToArray();
+                // DS14-start
+                var jobRoles = roles.Where(role => !role.Antagonist).ToArray();
+                var antagRoles = roles.Where(role => role.Antagonist).ToArray();
+                var manifestStats = _roundEndManifestStats.GetManifestStats(mindId);
+                // DS14-end
 
                 var playerEndRoundInfo = new RoundEndMessageEvent.RoundEndPlayerInfo()
                 {
@@ -576,13 +588,21 @@ namespace Content.Server.GameTicking
                     // Character name takes precedence over current entity name
                     PlayerICName = playerIcName,
                     PlayerGuid = userId,
-                    PlayerNetEntity = GetNetEntity(entity),
-                    Role = antag
-                        ? roles.First(role => role.Antagonist).Name
-                        : roles.FirstOrDefault().Name ?? Loc.GetString("game-ticker-unknown-role"),
+                    PlayerNetEntity = displayEntity != null ? GetNetEntity(displayEntity.Value) : null, // DS14
+                    Role = jobRoles.FirstOrDefault().Name
+                        ?? antagRoles.FirstOrDefault().Name
+                        ?? Loc.GetString("game-ticker-unknown-role"), // DS14
                     Antag = antag,
-                    JobPrototypes = roles.Where(role => !role.Antagonist).Select(role => role.Prototype).ToArray(),
-                    AntagPrototypes = roles.Where(role => role.Antagonist).Select(role => role.Prototype).ToArray(),
+                    // DS14-start
+                    JobPrototypes = jobRoles.Select(role => role.Prototype).ToArray(),
+                    AntagPrototypes = antagRoles.Select(role => role.Prototype).ToArray(),
+                    JobRoleNames = jobRoles.Select(role => role.Name).ToArray(),
+                    AntagRoleNames = antag ? antagRoles.Select(role => role.Name).ToArray() : Array.Empty<string>(),
+                    ManifestQuote = manifestStats.Quote,
+                    ManifestKills = antag ? manifestStats.Kills : 0,
+                    ManifestAssists = antag ? manifestStats.Assists : 0,
+                    ManifestObjectives = antag ? GetRoundEndObjectives(mindId, mind) : Array.Empty<RoundEndMessageEvent.RoundEndObjectiveInfo>(),
+                    // DS14-end
                     Observer = observer,
                     Connected = connected
                 };
@@ -610,6 +630,62 @@ namespace Content.Server.GameTicking
             _replayRoundPlayerInfo = listOfPlayerInfoFinal;
             _replayRoundText = roundEndText;
         }
+
+        // DS14-start
+        private RoundEndMessageEvent.RoundEndObjectiveInfo[] GetRoundEndObjectives(EntityUid mindId, MindComponent mind)
+        {
+            if (mind.Objectives.Count == 0)
+                return Array.Empty<RoundEndMessageEvent.RoundEndObjectiveInfo>();
+
+            var objectives = new List<RoundEndMessageEvent.RoundEndObjectiveInfo>(mind.Objectives.Count);
+            foreach (var objective in mind.Objectives)
+            {
+                var info = _objectives.GetInfo(objective, mindId, mind);
+                if (info == null)
+                    continue;
+
+                objectives.Add(new RoundEndMessageEvent.RoundEndObjectiveInfo
+                {
+                    Title = info.Value.Title,
+                    Progress = info.Value.Progress,
+                });
+            }
+
+            return objectives.ToArray();
+        }
+
+        private EntityUid? GetRoundEndDisplayEntity(EntityUid mindId, MindComponent mind)
+        {
+            var ownedEntity = mind.OwnedEntity;
+            EntityUid? originalEntity = null;
+            if (TryGetEntity(mind.OriginalOwnedEntity, out var foundOriginalEntity))
+                originalEntity = foundOriginalEntity.Value;
+
+            if (IsRoundEndDisplayBody(ownedEntity))
+                return ownedEntity;
+
+            if (IsRoundEndDisplayBody(originalEntity))
+                return originalEntity;
+
+            if (_roundEndManifestStats.GetDisplaySnapshot(mindId) is { } snapshot)
+                return snapshot;
+
+            if (ownedEntity != null && !TerminatingOrDeleted(ownedEntity.Value))
+                return ownedEntity;
+
+            if (originalEntity != null && !TerminatingOrDeleted(originalEntity.Value))
+                return originalEntity;
+
+            return null;
+        }
+
+        private bool IsRoundEndDisplayBody(EntityUid? uid)
+        {
+            return uid != null &&
+                   !TerminatingOrDeleted(uid.Value) &&
+                   HasComp<BodyComponent>(uid.Value);
+        }
+        // DS14-end
 
         private async void SendRoundEndDiscordMessage()
         {
