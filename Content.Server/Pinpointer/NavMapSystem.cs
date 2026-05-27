@@ -168,12 +168,13 @@ public sealed partial class NavMapSystem : SharedNavMapSystem
 
     private void OnNavMapBeaconMapInit(EntityUid uid, NavMapBeaconComponent component, MapInitEvent args)
     {
-        if (component.DefaultText == null || component.Text != null)
-            return;
+        if (component.DefaultText != null && component.Text == null)
+        {
+            component.Text = Loc.GetString(component.DefaultText);
+            Dirty(uid, component);
+        }
 
-        component.Text = Loc.GetString(component.DefaultText);
-        Dirty(uid, component);
-
+        UpdateBeaconEnabledVisuals((uid, component));
         UpdateNavMapBeaconData(uid, component);
     }
 
@@ -358,7 +359,10 @@ public sealed partial class NavMapSystem : SharedNavMapSystem
             return;
 
         comp.Enabled = enabled;
+        Dirty(uid, comp);
+
         UpdateBeaconEnabledVisuals((uid, comp));
+        UpdateNavMapBeaconData(uid, comp);
     }
 
     /// <summary>
