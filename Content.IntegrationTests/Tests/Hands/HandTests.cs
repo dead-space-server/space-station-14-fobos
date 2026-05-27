@@ -4,7 +4,6 @@ using Content.Server.Storage.EntitySystems;
 using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
 using Robust.Server.GameObjects;
-using Robust.Server.Player;
 using Robust.Shared.Containers;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Physics.Systems;
@@ -24,6 +23,21 @@ public sealed class HandTests
   - type: ContainerContainer
     containers:
       entity_storage: !type:Container
+
+- type: entity
+  id: TestHandsDummy
+  name: hands dummy
+  components:
+  - type: Hands
+    hands:
+      hand_right:
+        location: Right
+      hand_left:
+        location: Left
+    sortedHands:
+    - hand_right
+    - hand_left
+  - type: MobState
 ";
 
 
@@ -38,10 +52,8 @@ public sealed class HandTests
         var server = pair.Server;
 
         var entMan = server.ResolveDependency<IEntityManager>();
-        var playerMan = server.ResolveDependency<IPlayerManager>();
         var mapSystem = server.System<SharedMapSystem>();
         var sys = entMan.System<SharedHandsSystem>();
-        var tSys = entMan.System<TransformSystem>();
 
         var data = await pair.CreateTestMap();
         await pair.RunTicksSync(5);
@@ -51,11 +63,10 @@ public sealed class HandTests
         HandsComponent hands = default!;
         await server.WaitPost(() =>
         {
-            player = playerMan.Sessions.First().AttachedEntity!.Value;
-            var xform = entMan.GetComponent<TransformComponent>(player);
-            item = entMan.SpawnEntity("Crowbar", tSys.GetMapCoordinates(player, xform: xform));
+            player = entMan.SpawnEntity("TestHandsDummy", data.GridCoords);
+            item = entMan.SpawnEntity("Crowbar", data.GridCoords);
             hands = entMan.GetComponent<HandsComponent>(player);
-            sys.TryPickup(player, item, hands.ActiveHandId!);
+            Assert.That(sys.TryPickup(player, item, hands.ActiveHandId!), Is.True);
         });
 
         // run ticks here is important, as errors may happen within the container system's frame update methods.
@@ -87,10 +98,8 @@ public sealed class HandTests
         await pair.RunTicksSync(5);
 
         var entMan = server.ResolveDependency<IEntityManager>();
-        var playerMan = server.ResolveDependency<IPlayerManager>();
         var mapSystem = server.System<SharedMapSystem>();
         var sys = entMan.System<SharedHandsSystem>();
-        var tSys = entMan.System<TransformSystem>();
         var containerSystem = server.System<SharedContainerSystem>();
 
         EntityUid item = default;
@@ -104,10 +113,9 @@ public sealed class HandTests
         // place the player at the exact same coordinates and have them grab the crowbar
         await server.WaitPost(() =>
         {
-            player = playerMan.Sessions.First().AttachedEntity!.Value;
-            tSys.PlaceNextTo(player, item);
+            player = entMan.SpawnEntity("TestHandsDummy", map.GridCoords);
             hands = entMan.GetComponent<HandsComponent>(player);
-            sys.TryPickup(player, item, hands.ActiveHandId!);
+            Assert.That(sys.TryPickup(player, item, hands.ActiveHandId!), Is.True);
         });
         await pair.RunTicksSync(5);
         Assert.That(sys.GetActiveItem((player, hands)), Is.EqualTo(item));
@@ -150,7 +158,6 @@ public sealed class HandTests
         var server = pair.Server;
 
         var entMan = server.ResolveDependency<IEntityManager>();
-        var playerMan = server.ResolveDependency<IPlayerManager>();
         var mapSystem = server.System<SharedMapSystem>();
         var handsSystem = entMan.System<SharedHandsSystem>();
         var transformSystem = entMan.System<TransformSystem>();
@@ -166,8 +173,7 @@ public sealed class HandTests
 
         await server.WaitPost(() =>
         {
-            player = playerMan.Sessions.First().AttachedEntity!.Value;
-            transformSystem.SetCoordinates(player, map.GridCoords);
+            player = entMan.SpawnEntity("TestHandsDummy", map.GridCoords);
 
             var wallCoords = map.GridCoords.Offset(new Vector2(1f, 0f));
             wall = entMan.SpawnEntity("WallSolid", wallCoords);
