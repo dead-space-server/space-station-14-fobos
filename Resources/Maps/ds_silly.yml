@@ -26195,7 +26195,7 @@ entities:
     - type: Transform
       pos: 0.49856567,6.503723
       parent: 7522
-- proto: ErtComputerShuttle
+- proto: ErtResponseConsole
   entities:
   - uid: 2405
     components:

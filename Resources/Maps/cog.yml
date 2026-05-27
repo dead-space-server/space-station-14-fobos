@@ -110791,7 +110791,7 @@ entities:
     - type: Transform
       pos: 33.51501,-6.2675023
       parent: 2
-- proto: ErtComputerShuttle
+- proto: ErtResponseConsole
   entities:
   - uid: 23095
     components:
