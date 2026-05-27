@@ -41,6 +41,7 @@
   equipment:
     ears: ClothingHeadsetMedical
     belt: ClothingBeltMedicalFilled
+    id: SeniorPhysicianPDA
   storage:
     back:
     - RubberStampSeniorPhysician # DS14
