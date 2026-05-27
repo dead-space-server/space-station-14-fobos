@@ -42,14 +42,14 @@
   id: ClothingBeltSheathMilitaryWebbingCentcomBlackFilled
   suffix: Заполненный
   components:
-  - type: ContainerFill
+  - type: EntityTableContainerFill
     containers:
       item:
-      - ADTObjectWeaponsMeleeSupremeSabre
-  - type: StorageFill
-    contents:
-      - id: Truncheon
-      - id: ADTtelescopicBaton
-      - id: Handcuffs
-        amount: 2
-      - id: SmokeGrenade
+        id: ADTObjectWeaponsMeleeSupremeSabre
+      storagebase: !type:AllSelector
+        children:
+        - id: Truncheon
+        - id: ADTtelescopicBaton
+        - id: Handcuffs
+          amount: 2
+        - id: SmokeGrenade
