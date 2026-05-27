@@ -1,5 +1,5 @@
 - type: entity
-  name: МК-79 "tactical"
+  name: МК-79 "Тактика"
   parent: [BaseWeaponPistol, BaseSecurityContraband]
   id: WeaponPistolMk79tactical
   description: Точность, скорострельность, надёжность! Главный слоган этого пистолета, он спасёт вас от всего, от тьмы с помощью фонарика, до клоуна с мимом. Использует патроны калибра 9х19.
