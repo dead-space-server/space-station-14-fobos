@@ -39,6 +39,13 @@ public sealed partial class SurvivalRampingStationEventSchedulerComponent : Comp
     [DataField(required: true)]
     public List<SurvivalRampingStationEventSchedulerPhase> Phases = new();
 
+    /// <summary>
+    /// Survival-only per-event occurrence caps. These are combined with StationEvent maxOccurrences,
+    /// and the lower cap wins.
+    /// </summary>
+    [DataField]
+    public Dictionary<string, int> MaxEventOccurrences = new();
+
     [DataField]
     public float? AlertTime;
 
