@@ -7,6 +7,9 @@ using Content.Shared.Storage.Components;
 using Content.Shared.Tag;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
+using Robust.Shared.Physics;
+using Robust.Shared.Physics.Components;
+using Robust.Shared.Physics.Systems;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 
@@ -15,8 +18,10 @@ namespace Content.Shared.Hands.EntitySystems;
 public abstract partial class SharedHandsSystem
 {
     [Dependency] private readonly TagSystem _tagSystem = default!;
+    [Dependency] private readonly SharedPhysicsSystem _physics = default!;
 
     private static readonly ProtoId<TagPrototype> BypassDropChecksTag = "BypassDropChecks";
+    private const float DropCollisionBuffer = PhysicsConstants.PolygonRadius * 4f;
 
     private void InitializeDrop()
     {
@@ -211,8 +216,32 @@ public abstract partial class SharedHandsSystem
         }
 
         if (dropLength < requestedDropDistance)
-            return origin.Position + dropVector.Normalized() * dropLength;
+        {
+            var direction = dropVector.Normalized();
+            var clearance = GetDropForwardClearance(held, origin.Position, direction);
+            return origin.Position + direction * MathF.Max(0f, dropLength - clearance);
+        }
+
         return target.Position;
+    }
+
+    private float GetDropForwardClearance(EntityUid held, Vector2 origin, Vector2 direction)
+    {
+        if (!TryComp<FixturesComponent>(held, out var fixtures) ||
+            !TryComp<PhysicsComponent>(held, out var physics))
+        {
+            return DropCollisionBuffer;
+        }
+
+        var bounds = _physics.GetHardAABB(held, fixtures, physics);
+        var forwardClearance = 0f;
+
+        forwardClearance = MathF.Max(forwardClearance, Vector2.Dot(bounds.BottomLeft - origin, direction));
+        forwardClearance = MathF.Max(forwardClearance, Vector2.Dot(bounds.BottomRight - origin, direction));
+        forwardClearance = MathF.Max(forwardClearance, Vector2.Dot(bounds.TopLeft - origin, direction));
+        forwardClearance = MathF.Max(forwardClearance, Vector2.Dot(bounds.TopRight - origin, direction));
+
+        return forwardClearance + DropCollisionBuffer;
     }
 
     /// <summary>

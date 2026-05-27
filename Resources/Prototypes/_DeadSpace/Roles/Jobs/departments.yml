@@ -25,6 +25,7 @@
   color: "#7fffd4"
   roles:
   - CentralCommandSpecialOperationsOfficer
+  - CentralCommandFieldOfficer
   - CBURNLeader
   - CBURNAgent
   - BSAALeaderJob

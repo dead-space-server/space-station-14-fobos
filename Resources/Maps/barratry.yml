@@ -51229,7 +51229,7 @@ entities:
     - type: Transform
       pos: -28.521805,-11.50697
       parent: 2
-- proto: ErtComputerShuttle
+- proto: ErtResponseConsole
   entities:
   - uid: 16732
     components:

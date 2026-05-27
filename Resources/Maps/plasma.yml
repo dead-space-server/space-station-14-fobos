@@ -80920,7 +80920,7 @@ entities:
     - type: Transform
       pos: -143.17523,-19.971285
       parent: 2
-- proto: ErtComputerShuttle
+- proto: ErtResponseConsole
   entities:
   - uid: 10528
     components:

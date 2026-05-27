@@ -38,6 +38,9 @@
   id: JobCentralCommandSpecialOperationsOfficer
 
 - type: playTimeTracker
+  id: JobCentralCommandFieldOfficer
+
+- type: playTimeTracker
   id: JobCentralCommandBlueShieldOfficer
 
 - type: playTimeTracker

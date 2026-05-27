@@ -633,7 +633,7 @@
     - Snout
 
 - type: entity
-  parent: ClothingMaskBase
+  parent: [ ClothingMaskBase, ClothingMaskFoldableBase ] # DS-14
   id: ClothingMaskNeckGaiter
   name: neck gaiter
   description: Stylish neck gaiter for your neck, can protect from the cosmic wind?...
