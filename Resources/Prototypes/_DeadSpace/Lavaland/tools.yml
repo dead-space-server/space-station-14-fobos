@@ -387,7 +387,7 @@
       - state: staffofstorms-inhand-right
         shader: unshaded
   - type: Gun
-    fireRate: 0.35
+    fireRate: 0.3
     soundGunshot:
       path: /Audio/Magic/fireball.ogg
     projectileSpeed: 25
@@ -395,13 +395,25 @@
     rechargeCooldown: 12
     rechargeSound: null
   - type: BasicEntityAmmoProvider
-    proto: ProjectileFireball
-    capacity: 4
-    count: 4
+    proto: ProjectileFireballLavalandFireStaff
+    capacity: 2
+    count: 2
   - type: PointLight
     radius: 1.5
     energy: 1.2
     color: "#ff5b26"
+
+- type: entity
+  id: ProjectileFireballLavalandFireStaff
+  parent: ProjectileFireball
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Explosive
+    explosionType: Default
+    maxIntensity: 15
+    intensitySlope: 3
+    totalIntensity: 50
+    maxTileBreak: 0
 
 - type: entity
   parent: BaseItem
