@@ -140608,7 +140608,6 @@ entities:
       parent: 2
     - type: Blocking
       blockingToggleActionEntity: 11791
-      user: invalid
     - type: ActionsContainer
     - type: ContainerContainer
       containers:
@@ -140650,7 +140649,6 @@ entities:
       parent: 2
     - type: Blocking
       blockingToggleActionEntity: 27056
-      user: invalid
     - type: ActionsContainer
     - type: ContainerContainer
       containers:
