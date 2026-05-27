@@ -27,9 +27,9 @@
   description: Special Operations Officer uniform, nothing like that. Although... If you have time to read this, it's too late...
   components:
     - type: Sprite
-      sprite: _Corvax/Clothing/Uniforms/Jumpsuit/centcom_officer_black.rsi
+      sprite: _DeadSpace/Clothing/Uniforms/Jumpsuit/centcom_officer_black.rsi #DS14
     - type: Clothing
-      sprite: _Corvax/Clothing/Uniforms/Jumpsuit/centcom_officer_black.rsi
+      sprite: _DeadSpace/Clothing/Uniforms/Jumpsuit/centcom_officer_black.rsi #DS14
 
 - type: entity
   parent: ClothingUniformBase
