@@ -287,7 +287,7 @@
     fireSpread: true
     damage:
       types:
-        Heat: 1
+        Heat: 3 # DS14-value
   - type: BlobTile
     tileType: Normal
   - type: Destructible
@@ -318,7 +318,7 @@
     fireSpread: true
     damage:
       types:
-        Heat: 1
+        Heat: 3 # DS14-value
   - type: Destructible
     thresholds:
     - trigger:
@@ -385,7 +385,7 @@
     fireSpread: true
     damage:
       types:
-        Heat: 1
+        Heat: 3 # DS14-value
   - type: BlobTile
     tileType: Factory
   - type: Destructible
@@ -417,7 +417,7 @@
     fireSpread: true
     damage:
       types:
-        Heat: 1
+        Heat: 3 # DS14-value
   - type: BlobTile
     tileType: Resource
   - type: Destructible
@@ -450,7 +450,7 @@
     fireSpread: true
     damage:
       types:
-        Heat: 1
+        Heat: 3 # DS14-value
   - type: BlobTile
     tileType: Node
   - type: Destructible
@@ -479,6 +479,14 @@
   description: The basis of defensive positions has not only a strength of 6 times, this tile is also capable of withstanding various gases in order to become an atmospheric technician to protect the core, for example, from plasma that the enemy can set on fire.
   categories: [ HideSpawnMenu ]
   components:
+  # DS14-start
+  - type: Temperature
+  - type: Flammable
+    fireSpread: true
+    damage:
+      types:
+        Heat: 3
+  # DS14-end
   - type: BlobTile
     tileType: Strong
   - type: Airtight
@@ -506,6 +514,14 @@
   description: Upgrading a fortified cell in which they pay less strength for the ability to reflect only energy projectiles and lasers with a 90% chance.
   categories: [ HideSpawnMenu ]
   components:
+    # DS14-start
+    - type: Temperature
+    - type: Flammable
+      fireSpread: true
+      damage:
+        types:
+          Heat: 3
+    # DS14-end
     - type: Damageable
       damageContainer: Blob
       damageModifierSet: BlobReflective

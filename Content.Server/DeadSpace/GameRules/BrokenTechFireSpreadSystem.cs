@@ -4,10 +4,12 @@ using System;
 using System.Collections.Generic;
 using Content.Server.Atmos.Components;
 using Content.Shared.Atmos;
+using Content.Shared.Backmen.Blob.Components;
 using Content.Shared.Chemistry;
 using Content.Shared.Chemistry.Components;
 using Content.Shared.Chemistry.Components.SolutionManager;
 using Content.Shared.Chemistry.EntitySystems;
+using Content.Shared.Damage.Systems;
 using Content.Shared.DeadSpace.GameRules.Components;
 using Content.Shared.FixedPoint;
 using Content.Shared.Fluids.Components;
@@ -24,6 +26,7 @@ public sealed class BrokenTechFireSpreadSystem : EntitySystem
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly SharedMapSystem _map = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
+    [Dependency] private readonly DamageableSystem _damageable = default!;
 
     private readonly List<SpreadRequest> _spreadQueue = new();
     private readonly HashSet<EntityUid> _tileEntities = new();
@@ -63,6 +66,10 @@ public sealed class BrokenTechFireSpreadSystem : EntitySystem
                 QueueDel(uid);
                 continue;
             }
+
+            // DS14-start blob fire damage
+            DamageBlobTiles(fire, gridUid, grid, tile);
+            // DS14-end
 
             if (fire.Finished)
                 continue;
@@ -162,6 +169,10 @@ public sealed class BrokenTechFireSpreadSystem : EntitySystem
             childFire.MaxRadius = fire.MaxRadius;
             childFire.SpreadDelay = fire.SpreadDelay;
             childFire.WaterReagents = new(fire.WaterReagents);
+            // DS14-start blob fire damage
+            childFire.BlobTileDamage = new(fire.BlobTileDamage);
+            childFire.BlobTileDamageInterval = fire.BlobTileDamageInterval;
+            // DS14-end
             childFire.NextSpread = _timing.CurTime + TimeSpan.FromSeconds(childFire.SpreadDelay);
             spawned = true;
         }
@@ -281,6 +292,31 @@ public sealed class BrokenTechFireSpreadSystem : EntitySystem
 
         return false;
     }
+
+    // DS14-start blob fire damage
+    private void DamageBlobTiles(
+        BrokenTechFireSpreadComponent fire,
+        EntityUid gridUid,
+        MapGridComponent grid,
+        Vector2i tile)
+    {
+        if (fire.BlobTileDamage.Empty || _timing.CurTime < fire.NextBlobTileDamage)
+            return;
+
+        fire.NextBlobTileDamage = _timing.CurTime + TimeSpan.FromSeconds(Math.Max(fire.BlobTileDamageInterval, 0.1f));
+
+        var anchored = _map.GetAnchoredEntitiesEnumerator(gridUid, grid, tile);
+        var blobTileQuery = GetEntityQuery<BlobTileComponent>();
+
+        while (anchored.MoveNext(out var ent))
+        {
+            if (!blobTileQuery.HasComponent(ent))
+                continue;
+
+            _damageable.TryChangeDamage(ent.Value, fire.BlobTileDamage, interruptsDoAfters: false);
+        }
+    }
+    // DS14-end
 
     private readonly record struct SpreadRequest(
         EntityUid Uid,
