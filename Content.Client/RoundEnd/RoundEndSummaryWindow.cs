@@ -144,7 +144,6 @@ namespace Content.Client.RoundEnd
         private static readonly Color ObjectivePartialSuccessColor = Color.FromHex("#d29922");
         private static readonly Color ObjectivePartialFailureColor = Color.FromHex("#f0883e");
         private static readonly Color ObjectiveFailureColor = Color.FromHex("#f85149");
-
         private Control MakeRoundOverviewCard(string gamemode, TimeSpan roundDuration, int roundId)
         {
             var panel = new PanelContainer
@@ -343,7 +342,7 @@ namespace Content.Client.RoundEnd
         private Control MakeAntagManifestSection(RoundEndMessageEvent.RoundEndPlayerInfo[] playersInfo)
         {
             var antags = playersInfo
-                .Where(player => player.Antag)
+                .Where(player => player.ShowInAntagManifest)
                 .OrderByDescending(player => player.ManifestKills)
                 .ThenByDescending(player => player.ManifestAssists)
                 .ThenBy(GetRoleSortKey)

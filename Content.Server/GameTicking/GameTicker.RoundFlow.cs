@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Numerics;
 using Content.Server.Announcements;
+using Content.Server.Antag.Components;
 using Content.Server.DeadSpace.RoundEnd;
 using Content.Server.Discord;
 using Content.Server.GameTicking.Events;
@@ -48,6 +49,8 @@ namespace Content.Server.GameTicking
         private static readonly Gauge RoundLengthMetric = Metrics.CreateGauge(
             "ss14_round_length",
             "Round length in seconds.");
+
+        private const string SentientVirusAntagPrototype = "SentientVirus"; // DS14
 
 #if EXCEPTION_TOLERANCE
         [ViewVariables]
@@ -533,6 +536,7 @@ namespace Content.Server.GameTicking
 
             //Generate a list of basic player info to display in the end round summary.
             var listOfPlayerInfo = new List<RoundEndMessageEvent.RoundEndPlayerInfo>();
+            var manifestAntagMinds = GetRoundEndManifestAntagMinds(); // DS14
             // Grab the great big book of all the Minds, we'll need them for this.
             var allMinds = EntityQueryEnumerator<MindComponent>();
             var pvsOverride = _cfg.GetCVar(CCVars.RoundEndPVSOverrides);
@@ -578,6 +582,13 @@ namespace Content.Server.GameTicking
                 var jobRoles = roles.Where(role => !role.Antagonist).ToArray();
                 var antagRoles = roles.Where(role => role.Antagonist).ToArray();
                 var manifestStats = _roundEndManifestStats.GetManifestStats(mindId);
+                var manifestObjectives = antag
+                    ? GetRoundEndObjectives(mindId, mind)
+                    : Array.Empty<RoundEndMessageEvent.RoundEndObjectiveInfo>();
+                var showInAntagManifest = antag &&
+                    (manifestAntagMinds.Contains(mindId) ||
+                     manifestObjectives.Length > 0 ||
+                     antagRoles.Any(role => role.Prototype == SentientVirusAntagPrototype));
                 // DS14-end
 
                 var playerEndRoundInfo = new RoundEndMessageEvent.RoundEndPlayerInfo()
@@ -601,7 +612,8 @@ namespace Content.Server.GameTicking
                     ManifestQuote = manifestStats.Quote,
                     ManifestKills = antag ? manifestStats.Kills : 0,
                     ManifestAssists = antag ? manifestStats.Assists : 0,
-                    ManifestObjectives = antag ? GetRoundEndObjectives(mindId, mind) : Array.Empty<RoundEndMessageEvent.RoundEndObjectiveInfo>(),
+                    ManifestObjectives = manifestObjectives,
+                    ShowInAntagManifest = showInAntagManifest,
                     // DS14-end
                     Observer = observer,
                     Connected = connected
@@ -632,6 +644,21 @@ namespace Content.Server.GameTicking
         }
 
         // DS14-start
+        private HashSet<EntityUid> GetRoundEndManifestAntagMinds()
+        {
+            var minds = new HashSet<EntityUid>();
+            var query = EntityQueryEnumerator<AntagSelectionComponent>();
+            while (query.MoveNext(out _, out var selection))
+            {
+                foreach (var (mindId, _) in selection.AssignedMinds)
+                {
+                    minds.Add(mindId);
+                }
+            }
+
+            return minds;
+        }
+
         private RoundEndMessageEvent.RoundEndObjectiveInfo[] GetRoundEndObjectives(EntityUid mindId, MindComponent mind)
         {
             if (mind.Objectives.Count == 0)

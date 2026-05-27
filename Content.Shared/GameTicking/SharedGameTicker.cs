@@ -204,6 +204,8 @@ namespace Content.Shared.GameTicking
             public int ManifestAssists;
 
             public RoundEndObjectiveInfo[] ManifestObjectives;
+
+            public bool ShowInAntagManifest;
             // DS14-end
 
             public NetEntity? PlayerNetEntity;
