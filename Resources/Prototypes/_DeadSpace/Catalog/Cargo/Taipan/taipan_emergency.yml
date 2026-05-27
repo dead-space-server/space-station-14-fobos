@@ -3,7 +3,7 @@
   icon:
     sprite: Clothing/Head/Helmets/bombsuit.rsi
     state: icon
-  product: CrateEmergencyExplosive
+  product: CrateEmergencyExplosiveTaipan
   cost: 1000
   category: cargoproduct-category-name-emergency
   group: taipan_market
