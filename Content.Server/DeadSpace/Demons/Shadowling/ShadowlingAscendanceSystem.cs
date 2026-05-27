@@ -24,6 +24,7 @@ public sealed class ShadowlingAscendanceSystem : EntitySystem
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedStunSystem _stun = default!;
     [Dependency] private readonly SmokeSystem _smoke = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly ServerGlobalSoundSystem _sound = default!;
     public override void Initialize()
     {
@@ -45,7 +46,7 @@ public sealed class ShadowlingAscendanceSystem : EntitySystem
 
         if (xform.GridUid != null)
         {
-            var smoke = Spawn("Smoke", xform.Coordinates);
+            var smoke = Spawn("Smoke", _transform.GetMapCoordinates(uid, xform));
             if (TryComp<SmokeComponent>(smoke, out var smokeComp))
                 _smoke.StartSmoke(smoke, new Solution(), 10f, 20, smokeComp);
         }
@@ -70,7 +71,9 @@ public sealed class ShadowlingAscendanceSystem : EntitySystem
         if (args.Cancelled) return;
 
         var xform = Transform(uid);
-        var newMob = Spawn("MobShadowlingAscended", xform.Coordinates);
+        var newMob = Spawn("MobShadowlingAscended",
+            _transform.GetMapCoordinates(uid, xform),
+            rotation: _transform.GetWorldRotation(xform));
         EnsureComp<EmotingComponent>(newMob);
 
         var query = EntityQueryEnumerator<ShadowlingSlaveComponent>();

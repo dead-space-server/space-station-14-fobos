@@ -40,6 +40,7 @@ public sealed class CorpseCollectorAbilitiesSystem : SharedCorpseCollectorSystem
     [Dependency] private readonly SharedMindSystem _mindSystem = default!;
     [Dependency] private readonly PhysicsSystem _physics = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly DamageableSystem _damage = default!;
     [Dependency] private readonly TurfSystem _turf = default!;
     [Dependency] private readonly GhostRoleSystem _ghost = default!;
@@ -78,7 +79,8 @@ public sealed class CorpseCollectorAbilitiesSystem : SharedCorpseCollectorSystem
         if (args.Handled)
             return;
 
-        var tileref = _turf.GetTileRef(Transform(uid).Coordinates);
+        var xform = Transform(uid);
+        var tileref = _turf.GetTileRef(xform.Coordinates);
         if (tileref != null)
         {
             if (_physics.GetEntitiesIntersectingBody(uid, (int)CollisionGroup.Impassable).Count > 0)
@@ -93,7 +95,9 @@ public sealed class CorpseCollectorAbilitiesSystem : SharedCorpseCollectorSystem
         if (!_mindSystem.TryGetMind(uid, out var mindId, out var mind))
             return;
 
-        var ent = Spawn(component.LeviathanId, Transform(uid).Coordinates);
+        var ent = Spawn(component.LeviathanId,
+            _transform.GetMapCoordinates(uid, xform),
+            rotation: _transform.GetWorldRotation(xform));
 
         if (!TryComp<GhostRoleComponent>(ent, out var ghostRoleComponent))
         {
@@ -142,7 +146,7 @@ public sealed class CorpseCollectorAbilitiesSystem : SharedCorpseCollectorSystem
 
         args.Handled = true;
 
-        SpawnPointNecro(component, Transform(uid).Coordinates);
+        SpawnPointNecro(component, _transform.GetMapCoordinates(uid));
         component.CountNecroDoDebuff += 1;
         if (component.CountNecroDoDebuff >= component.CountNecroDoDebuffMax)
         {
@@ -154,7 +158,7 @@ public sealed class CorpseCollectorAbilitiesSystem : SharedCorpseCollectorSystem
         _audio.PlayPvs("/Audio/Effects/Fluids/splat.ogg", uid, AudioParams.Default.WithVolume(3).WithMaxDistance(2f));
     }
 
-    private void SpawnPointNecro(CorpseCollectorComponent component, EntityCoordinates coordinates)
+    private void SpawnPointNecro(CorpseCollectorComponent component, MapCoordinates coordinates)
     {
         var spawn = _proto.Index<WeightedRandomEntityPrototype>(component.MobIds).Pick(_random);
         Spawn(spawn, coordinates);

@@ -91,7 +91,7 @@
   - type: LockedAnchorable
   - type: LockedWiresPanel
   - type: AccessReader
-    access: [[ "Engineering" ]]
+    access: [[ "Engineering" ], ["TaipanEngineering"]] # DS14
   - type: Machine
     board: EmitterCircuitboard
   - type: GuideHelp

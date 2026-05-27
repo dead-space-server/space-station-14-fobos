@@ -202,6 +202,15 @@
     radius: 1.5
     energy: 1.6
     color: "#8B0000"
+  - type: VendingMachine
+    pack: SalvageEquipmentInventoryTaipan
+    dispenseOnHitChance: 0.25
+    dispenseOnHitThreshold: 2
+    offState: off
+    brokenState: broken
+    normalState: normal-unshaded
+    ejectState: eject-unshaded
+    denyState: deny-unshaded
   - type: AccessReader
     access: [["TaipanCargo"]]
 

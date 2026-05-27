@@ -27,10 +27,10 @@
     outerClothing: ClothingOuterCoatLabSeniorPhysician
 
 # ID
-- type: loadout
-  id: SeniorPhysicianPDA
-  equipment:
-    id: SeniorPhysicianPDA
+# - type: loadout
+#   id: SeniorPhysicianPDA
+#   equipment:
+#     id: SeniorPhysicianPDA
 
 # Underwear
 - type: loadout

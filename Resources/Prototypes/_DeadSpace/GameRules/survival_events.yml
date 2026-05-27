@@ -70,10 +70,6 @@
     - id: PirateRaid
     - id: MediumVirusPandemic
     - id: DerelictSyndicateAssaultCyborgSpawn
-#DS14-start
-#      - !type:NestedSelector
-#        tableId: UnknownShuttlesFriendlyTable
-#DS14-end
     - !type:NestedSelector
       tableId: SurvivalHostileUnknownShuttlesTable
 
@@ -95,12 +91,12 @@
     children:
     - id: LoneOpsSpawn
     - id: RenegadeSpawn
+    - id: WizardSpawn
 
 - type: entityTable
   id: SurvivalLateThreatsTable
   table: !type:AllSelector
     children:
-    - id: WizardSpawn
     - id: HardVirusPandemic
 
 - type: entityTable

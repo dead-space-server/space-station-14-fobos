@@ -255,7 +255,7 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
 
         var posFound = _transformSystem.TryGetMapOrGridCoordinates(uid, out var gridPos, pos);
 
-        QueueExplosion(mapPos, typeId, totalIntensity, slope, maxTileIntensity, uid, tileBreakScale, maxTileBreak, canCreateVacuum, addLog: false,
+        QueueExplosion(mapPos, typeId, totalIntensity, slope, maxTileIntensity, GetExplosionDamageOrigin(uid, user), tileBreakScale, maxTileBreak, canCreateVacuum, addLog: false,
             deleteEntities: deleteEntities, destroyTiles: destroyTiles, ignoreTileBlockers: ignoreTileBlockers); // DS14
 
         if (!addLog)
@@ -278,6 +278,16 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
                 _adminLogger.Add(LogType.Explosion, logImpact, $"{ToPrettyString(user.Value):user} caused {ToPrettyString(uid):entity} to explode ({typeId}) at Pos:[Grid or Map not found] with intensity {totalIntensity} slope {slope}");
         }
     }
+
+    // DS14-start
+    private EntityUid? GetExplosionDamageOrigin(EntityUid uid, EntityUid? user)
+    {
+        if (_projectileQuery.TryComp(uid, out var projectile))
+            return projectile.Shooter ?? projectile.Weapon ?? user ?? uid;
+
+        return user ?? uid;
+    }
+    // DS14-end
 
 
     /// <summary>
@@ -321,7 +331,8 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
             // DS14-start
             if (queued.DeleteEntities != deleteEntities ||
                 queued.DestroyTiles != destroyTiles ||
-                queued.IgnoreTileBlockers != ignoreTileBlockers)
+                queued.IgnoreTileBlockers != ignoreTileBlockers ||
+                queued.Cause != cause)
             {
                 continue;
             }

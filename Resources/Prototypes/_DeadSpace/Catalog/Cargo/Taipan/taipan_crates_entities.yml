@@ -1,0 +1,208 @@
+#Наверное, это костыль. Но мне кажется, это удобнее.
+- type: entity
+  id: CrateArtifactContainerNecroobeliskTaipan
+  parent: CrateArtifactContainerNecroobelisk
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanResearch"], ["TaipanCargo"]]
+
+- type: entity
+  id: CrateCrewMonitoringTaipan
+  parent: CrateCrewMonitoring
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanResearch"]]
+
+- type: entity
+  id: CrateObeliskStoperTaipan
+  parent: CrateObeliskStoper
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanResearch"]]
+
+- type: entity
+  id: CrateKarachnocidGrenadeTaipan
+  parent: CrateKarachnocidGrenade
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanArmory"]]
+
+- type: entity
+  id: CrateEngineeringFoamGrenadeTaipan
+  parent: CrateEngineeringFoamGrenade
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanEngineering"]]
+
+- type: entity
+  id: CrateParticleDeceleratorsTaipan
+  parent: CrateParticleDecelerators
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanEngineering"]]
+
+- type: entity
+  id: CrateEngineeringSingularityGeneratorTaipan
+  parent: CrateEngineeringSingularityGenerator
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanEngineering"]]
+
+- type: entity
+  id: CrateEngineeringSingularityContainmentTaipan
+  parent: CrateEngineeringSingularityContainment
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanEngineering"]]
+
+- type: entity
+  id: CrateEngineeringSingularityEmitterTaipan
+  parent: CrateEngineeringSingularityEmitter
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanEngineering"]]
+
+- type: entity
+  id: CrateEngineeringSingularityCollectorTaipan
+  parent: CrateEngineeringSingularityCollector
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanEngineering"]]
+
+- type: entity
+  id: CrateEngineeringParticleAcceleratorTaipan
+  parent: CrateEngineeringParticleAccelerator
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanEngineering"]]
+
+- type: entity
+  id: CrateEngineeringTeslaGeneratorTaipan
+  parent: CrateEngineeringTeslaGenerator
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanEngineering"]]
+
+- type: entity
+  id: CrateEngineeringTeslaCoilTaipan
+  parent: CrateEngineeringTeslaCoil
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanEngineering"]]
+
+- type: entity
+  id: CrateEngineeringTeslaGroundingRodTaipan
+  parent: CrateEngineeringTeslaGroundingRod
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanEngineering"]]
+
+- type: entity
+  id: CrateMaterialPlasmaTaipan
+  parent: CrateMaterialPlasma
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanEngineering"], ["TaipanResearch"], ["TaipanMedical"]]
+
+- type: entity
+  id: CrateChemistryPTaipan
+  parent: CrateChemistryP
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanMedical"]]
+
+- type: entity
+  id: CrateChemistrySTaipan
+  parent: CrateChemistryS
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanMedical"]]
+
+- type: entity
+  id: CrateChemistryDTaipan
+  parent: CrateChemistryD
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanMedical"]]
+
+- type: entity
+  id: CrateZetaOneMedipenTaipan
+  parent: CrateZetaOneMedipen
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanMedical"]]
+
+- type: entity
+  id: CrateVendingMachineRestockEngineeringFilledTaipan
+  parent: CrateVendingMachineRestockEngineeringFilled
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanEngineering"]]
+
+- type: entity
+  id: CrateVendingMachineRestockMedicalFilledTaipan
+  parent: CrateVendingMachineRestockMedicalFilled
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanMedical"]]
+
+- type: entity
+  id: CrateVendingMachineRestockNutriMaxFilledTaipan
+  parent: CrateVendingMachineRestockNutriMaxFilled
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanService"]]
+
+- type: entity
+  id: CrateVendingMachineRestockSeedsFilledTaipan
+  parent: CrateVendingMachineRestockSeedsFilled
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanService"]]
+
+- type: entity
+  id: CrateHydroponicsSeedsExoticTaipan
+  parent: CrateHydroponicsSeedsExotic
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanService"]]
+
+- type: entity
+  id: CrateHydroponicsSeedsMedicinalTaipan
+  parent: CrateHydroponicsSeedsMedicinal
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanService"]]
+
+- type: entity
+  id: CrateEmergencyExplosiveTaipan
+  parent: CrateEmergencyExplosive
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["TaipanArmory"]]

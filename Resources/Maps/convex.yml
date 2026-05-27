@@ -123842,7 +123842,7 @@ entities:
       parent: 19263
     - type: Physics
       canCollide: False
-- proto: ErtComputerShuttle
+- proto: ErtResponseConsole
   entities:
   - uid: 38132
     components:

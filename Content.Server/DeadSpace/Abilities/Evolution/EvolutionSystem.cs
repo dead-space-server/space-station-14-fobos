@@ -19,6 +19,7 @@ public sealed class EvolutionSystem : EntitySystem
     [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly SharedMindSystem _mindSystem = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly GhostRoleSystem _ghost = default!;
     [Dependency] private readonly ISharedPlayerManager _player = default!;
@@ -152,7 +153,9 @@ public sealed class EvolutionSystem : EntitySystem
             return;
         }
 
-        var ent = Spawn(component.SelectEntity, Transform(uid).Coordinates);
+        var ent = Spawn(component.SelectEntity,
+            _transform.GetMapCoordinates(uid, xform),
+            rotation: _transform.GetWorldRotation(xform));
 
         if (!TryComp<GhostRoleComponent>(ent, out var ghostRoleComponent))
         {

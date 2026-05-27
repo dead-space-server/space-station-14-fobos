@@ -27,9 +27,9 @@
   description: Leather, black, high-quality shoes, you can hardly find similar ones on the black market...
   components:
     - type: Sprite
-      sprite: _Corvax/Clothing/Shoes/Specific/centcom_officer_black.rsi
+      sprite: _DeadSpace/Clothing/Shoes/Boots/centcom_officer_black.rsi
     - type: Clothing
-      sprite: _Corvax/Clothing/Shoes/Specific/centcom_officer_black.rsi
+      sprite: _DeadSpace/Clothing/Shoes/Boots/centcom_officer_black.rsi
 
 - type: entity
   parent: ClothingShoesBaseButcherable

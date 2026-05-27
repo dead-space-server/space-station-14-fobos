@@ -71,6 +71,7 @@ public sealed partial class NecromorfSystem
 {
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly ServerInventorySystem _inventory = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly NpcFactionSystem _faction = default!;
     [Dependency] private readonly NPCSystem _npc = default!;
     [Dependency] private readonly HumanoidAppearanceSystem _humanoidAppearance = default!;
@@ -238,14 +239,20 @@ public sealed partial class NecromorfSystem
             if (necromorf != null && !string.IsNullOrEmpty(necromorf.Claws))
             {
                 _inventory.TryUnequip(target, "neck", true, true);
-                var item = Spawn(necromorf.Claws, Transform(target).Coordinates);
+                var targetXform = Transform(target);
+                var item = Spawn(necromorf.Claws,
+                    _transform.GetMapCoordinates(target, targetXform),
+                    rotation: _transform.GetWorldRotation(targetXform));
                 _inventory.TryEquip(target, item, "neck", true, true);
             }
 
             if (necromorf != null && !string.IsNullOrEmpty(necromorf.Hardsuit))
             {
                 _inventory.TryUnequip(target, "outerClothing", true, true);
-                var item = Spawn(necromorf.Hardsuit, Transform(target).Coordinates);
+                var targetXform = Transform(target);
+                var item = Spawn(necromorf.Hardsuit,
+                    _transform.GetMapCoordinates(target, targetXform),
+                    rotation: _transform.GetWorldRotation(targetXform));
                 _inventory.TryEquip(target, item, "outerClothing", true, true);
             }
 

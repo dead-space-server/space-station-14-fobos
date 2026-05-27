@@ -60,7 +60,10 @@ public sealed partial class LavalandGoldgrubComponent : Component
         "SilverOre",
         "GoldOre",
         "UraniumOre",
-        "DiamondOre"
+        "DiamondOre",
+        "BluespaceCrystalOre",
+        "MagmiteOre",
+        "ArtifactFragment"
     ];
 
     [DataField]
@@ -69,7 +72,10 @@ public sealed partial class LavalandGoldgrubComponent : Component
         "SilverOre",
         "GoldOre",
         "UraniumOre",
-        "DiamondOre"
+        "DiamondOre",
+        "BluespaceCrystalOre",
+        "MagmiteOre",
+        "ArtifactFragment"
     ];
 
     [DataField]

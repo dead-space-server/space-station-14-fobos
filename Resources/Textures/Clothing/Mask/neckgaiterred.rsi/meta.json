@@ -1,7 +1,7 @@
 {
   "version": 1,
   "license": "CC-BY-SA-3.0",
-  "copyright": "Originally sprited by belay5 (Discord) then recolored by Nairod (Github). equipped-MASK-vox sprited by PuroSlavKing (Github) and recolored by Flareguy | equipped-MASK-vulpkanin sprited by TJohnson (Delta-V)",
+  "copyright": "Originally sprited by belay5 (Discord) then recolored by Nairod (Github). equipped-MASK-vox sprited by PuroSlavKing (Github) and recolored by Flareguy | equipped-MASK-vulpkanin sprited by TJohnson (Delta-V) | open states sprited by Akitovsky (Github)",
   "size": {
     "x": 32,
     "y": 32
@@ -11,7 +11,14 @@
       "name": "icon"
     },
     {
+      "name": "icon-open"
+    },
+    {
       "name": "equipped-MASK",
+      "directions": 4
+    },
+    {
+      "name": "open-equipped-MASK",
       "directions": 4
     },
     {

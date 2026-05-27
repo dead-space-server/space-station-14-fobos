@@ -1,0 +1,17 @@
+- type: vendingMachineInventory
+  id: SalvageEquipmentInventoryTaipan
+  startingInventory:
+    Crowbar: 2
+    Pickaxe: 4
+    OreBag: 4
+    BoxFlare: 3
+    FlashlightLantern: 2
+    HandheldGPSBasic: 2
+    RadioHandheld: 2
+    Fulton: 4
+    FultonBeacon: 1
+    WeaponProtoKineticAccelerator: 1
+    WeaponProtoKineticAcceleratorReapeter: 1
+    WeaponProtoKineticAcceleratorShotgun: 1
+  contrabandInventory:
+    PlushieCarp: 1
