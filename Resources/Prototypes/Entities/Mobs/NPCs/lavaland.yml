@@ -145,6 +145,8 @@
     spawned:
     - id: DiamondOre1
       amount: 5
+    - id: LavalandWatcherSinew1
+      amount: 2
     - id: MaterialBones1
       amount: 1
     - id: PKAUpgradeRange
