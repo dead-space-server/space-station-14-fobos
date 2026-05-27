@@ -1,6 +1,7 @@
 using Content.Server.Ghost;
 using Content.Shared.Light.Components;
 using Content.Shared.Light.EntitySystems;
+using Robust.Shared.Timing;
 
 namespace Content.Server.Light.EntitySystems;
 
@@ -33,7 +34,7 @@ public sealed class PoweredLightSystem : SharedPoweredLightSystem
         light.LastGhostBlink = time;
 
         ToggleBlinkingLight(uid, light, true);
-        uid.SpawnTimer(light.GhostBlinkingTime, () =>
+        Timer.Spawn(light.GhostBlinkingTime, () =>
         {
             ToggleBlinkingLight(uid, light, false);
         });
@@ -46,7 +47,7 @@ public sealed class PoweredLightSystem : SharedPoweredLightSystem
         // TODO: Use ContainerFill dog
         if (light.HasLampOnSpawn != null)
         {
-            var entity = EntityManager.SpawnEntity(light.HasLampOnSpawn, EntityManager.GetComponent<TransformComponent>(uid).Coordinates);
+            var entity = Spawn(light.HasLampOnSpawn, Comp<TransformComponent>(uid).Coordinates);
             ContainerSystem.Insert(entity, light.LightBulbContainer);
         }
         // need this to update visualizers

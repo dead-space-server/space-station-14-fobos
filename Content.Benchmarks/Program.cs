@@ -1,7 +1,6 @@
 ﻿using System;
 using BenchmarkDotNet.Running;
 using BenchmarkDotNet.Configs;
-using Robust.Benchmarks.Configs;
 
 namespace Content.Benchmarks
 {
@@ -16,9 +15,7 @@ namespace Content.Benchmarks
             Console.WriteLine("THE DEBUG BUILD IS ONLY GOOD FOR FIXING A CRASHING BENCHMARK\n");
             var baseConfig = new DebugInProcessConfig();
 #else
-            var baseConfig = Environment.GetEnvironmentVariable("ROBUST_BENCHMARKS_ENABLE_SQL") != null
-                ? DefaultSQLConfig.Instance
-                : DefaultConfig.Instance;
+            var baseConfig = DefaultConfig.Instance;
 #endif
             var config = ManualConfig.Create(baseConfig);
             config.BuildTimeout = TimeSpan.FromMinutes(5);

@@ -11,6 +11,7 @@ using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Input;
 using Content.Shared.Movement.Pulling.Components;
 using Content.Shared.Movement.Pulling.Systems;
+using Content.Shared.Silicons.Borgs.Components;
 using Content.Shared.Stacks;
 using Content.Shared.Standing;
 using Content.Shared.Throwing;
@@ -111,6 +112,11 @@ namespace Content.Server.Hands.Systems
         {
             if (args.Part.Comp.PartType != BodyPartType.Hand)
                 return;
+
+            // DS14-start
+            if (HasComp<BorgChassisComponent>(ent.Owner))
+                return;
+            // DS14-end
 
             // If this annoys you, which it should.
             // Ping Smugleaf.

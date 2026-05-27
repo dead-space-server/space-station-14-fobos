@@ -11,6 +11,7 @@ using Robust.Shared.Containers;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.GameObjects;
 using Content.Shared.DoAfter;
+using Content.Shared.Xenoborgs.Components;
 using Robust.Shared.Serialization;
 
 namespace Content.Shared.DeadSpace.LawConfigurator.Systems;
@@ -41,6 +42,13 @@ public sealed class LawConfiguratorSystem : EntitySystem
 
         var target = args.Args.Target.Value;
         var user = args.Args.User;
+
+        if (HasComp<XenoborgComponent>(target))
+        {
+            _popup.PopupClient(Loc.GetString("law-configurator-xenoborg-blocked"), user, user);
+            args.Handled = true;
+            return;
+        }
 
         // Получаем плату из слота конфигуратора
         if (!_itemSlots.TryGetSlot(uid, "circuit_holder", out var slot) || slot.Item == null)
@@ -119,6 +127,13 @@ public sealed class LawConfiguratorSystem : EntitySystem
 
         if (!TryComp<SiliconLawBoundComponent>(target, out var siliconLaw))
             return;
+
+        if (HasComp<XenoborgComponent>(target))
+        {
+            _popup.PopupClient(Loc.GetString("law-configurator-xenoborg-blocked"), args.User, args.User);
+            args.Handled = true;
+            return;
+        }
 
         if (!_itemSlots.TryGetSlot(uid, "circuit_holder", out var slot) || slot.Item == null)
         {

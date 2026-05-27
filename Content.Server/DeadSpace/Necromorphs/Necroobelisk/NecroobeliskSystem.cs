@@ -153,7 +153,7 @@ public sealed class NecroobeliskSystem : SharedNecroobeliskSystem
     private void DoSetObeliskVerbs(EntityUid uid, NecroobeliskComponent component, GetVerbsEvent<Verb> args)
     {
 
-        if (!EntityManager.TryGetComponent(args.User, out ActorComponent? actor))
+        if (!TryComp(args.User, out ActorComponent? actor))
             return;
 
         var player = actor.PlayerSession;

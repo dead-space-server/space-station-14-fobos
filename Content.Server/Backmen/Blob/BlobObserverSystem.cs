@@ -367,7 +367,7 @@ public sealed class BlobObserverSystem : SharedBlobObserverSystem
         }
 
         QueueDel(blobTile.Value);
-        var newCore = EntityManager.SpawnEntity(blobCoreComponent.CoreBlobTile, args.Target);
+        var newCore = Spawn(blobCoreComponent.CoreBlobTile, args.Target);
         blobCoreComponent.CanSplit = false;
         if (TryComp<BlobCoreComponent>(newCore, out var newBlobCoreComponent))
             newBlobCoreComponent.CanSplit = false;

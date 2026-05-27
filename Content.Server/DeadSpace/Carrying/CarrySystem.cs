@@ -81,6 +81,7 @@ public sealed class CarrySystem : EntitySystem
         SubscribeLocalEvent<CarryingComponent, ComponentShutdown>(OnCarryingShutdown);
         SubscribeLocalEvent<CarriedComponent, EntGotInsertedIntoContainerMessage>(OnCarriedInsertedIntoContainer);
         SubscribeLocalEvent<CarriedComponent, BuckledEvent>(OnCarriedBuckled);
+        SubscribeLocalEvent<CarriedComponent, EntParentChangedMessage>(OnCarriedParentChanged);
         SubscribeLocalEvent<CarriedComponent, MoveInputEvent>(OnCarriedMoveInput);
         SubscribeLocalEvent<CarriedComponent, AttackAttemptEvent>(OnCarriedAttackAttempt);
         SubscribeLocalEvent<CarriedComponent, StandAttemptEvent>(OnCarriedStandAttempt);
@@ -105,6 +106,12 @@ public sealed class CarrySystem : EntitySystem
 
             if (!carried.EscapeInProgress)
                 continue;
+
+            if (TryComp<MobStateComponent>(uid, out var mobState) && _mobState.IsIncapacitated(uid, mobState))
+            {
+                StopCarryEscape(uid, carried);
+                continue;
+            }
 
             if (time >= carried.EscapeCompleteTime)
             {
@@ -475,6 +482,23 @@ public sealed class CarrySystem : EntitySystem
         StopCarry(carrier, carrying, placeTarget: false, keepTargetDown: true);
     }
 
+    private void OnCarriedParentChanged(Entity<CarriedComponent> ent, ref EntParentChangedMessage args)
+    {
+        if (_timing.ApplyingState || ent.Comp.Stopping)
+            return;
+
+        if (ent.Comp.Carrier is not { } carrier || args.Transform.ParentUid == carrier)
+            return;
+
+        if (!TryComp<CarryingComponent>(carrier, out var carrying) || carrying.Carried != ent.Owner)
+        {
+            CleanupInvalidCarriedState(ent.Owner, ent.Comp);
+            return;
+        }
+
+        StopCarry(carrier, carrying, placeTarget: false, keepTargetDown: true);
+    }
+
     private void OnCarriedMoveInput(Entity<CarriedComponent> ent, ref MoveInputEvent args)
     {
         if (!args.HasDirectionalMovement)
@@ -678,6 +702,9 @@ public sealed class CarrySystem : EntitySystem
             return true;
 
         if (ent.Comp.Carrier is not { } carrier || !HasComp<CarryingComponent>(carrier))
+            return false;
+
+        if (TryComp<MobStateComponent>(ent.Owner, out var mobState) && _mobState.IsIncapacitated(ent.Owner, mobState))
             return false;
 
         var time = _timing.CurTime;

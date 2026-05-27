@@ -59,7 +59,7 @@ public sealed class HeraldGhostSystem : EntitySystem
 
         var ent = Spawn(component.HeraldMobSpawnId, Transform(uid).Coordinates);
 
-        if (!EntityManager.TryGetComponent<GhostRoleComponent>(ent, out var ghostRoleComponent))
+        if (!TryComp<GhostRoleComponent>(ent, out var ghostRoleComponent))
         {
             _mindSystem.TransferTo(mindId, ent);
             Spawn(component.DemonPortalSpawnId, Transform(uid).Coordinates);

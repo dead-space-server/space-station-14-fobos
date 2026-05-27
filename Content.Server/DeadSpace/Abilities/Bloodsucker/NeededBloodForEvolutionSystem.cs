@@ -22,10 +22,10 @@ public sealed partial class NeededBloodForEvolutionSystem : SharedBloodsuckerSys
         if (args.Cancelled || args.Handled)
             return;
 
-        if (!EntityManager.TryGetComponent<BloodsuckerComponent>(uid, out var bloodsuckerComponent))
+        if (!TryComp<BloodsuckerComponent>(uid, out var bloodsuckerComponent))
             return;
 
-        if (!EntityManager.TryGetComponent<EvolutionComponent>(uid, out var evolutionComponent))
+        if (!TryComp<EvolutionComponent>(uid, out var evolutionComponent))
             return;
 
         float price = CalculateBloodCost(evolutionComponent.SelectEntity, component.BloodCosts, component.DefaultCost);

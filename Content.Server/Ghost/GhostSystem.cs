@@ -40,6 +40,7 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Content.Server.Administration.Managers;
+using Content.Server.DeadSpace.CustomGhosts;
 using Content.Server.Preferences.Managers;
 
 namespace Content.Server.Ghost
@@ -75,6 +76,7 @@ namespace Content.Server.Ghost
         // DS14-start
         [Dependency] private readonly IAdminManager _adminManager = default!;
         [Dependency] private readonly IServerPreferencesManager _preferencesManager = default!;
+        [Dependency] private readonly CustomGhostSystem _customGhostSystem = default!;
         // DS14-end
 
         private EntityQuery<GhostComponent> _ghostQuery;
@@ -630,7 +632,13 @@ namespace Content.Server.Ghost
         // DS14-start GhostColoring
         public void OnPlayerAttached(EntityUid uid, GhostComponent component, PlayerAttachedEvent args)
         {
-            var session = args.Player;
+            TryColorGhost(uid, component, args.Player);
+            _customGhostSystem.TryMakeCustomGhost(uid);
+        }
+
+        private void TryColorGhost(EntityUid uid, GhostComponent component, ICommonSession player)
+        {
+            var session = player;
 
             if (!_adminManager.IsAdmin(session))
                 return;

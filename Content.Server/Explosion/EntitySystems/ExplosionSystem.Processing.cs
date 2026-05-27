@@ -13,9 +13,11 @@ using Robust.Shared.Map.Components;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Dynamics;
+using Robust.Shared.Containers;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
+using System.Linq;
 using System.Numerics;
 using Content.Shared.Damage.Systems;
 using Robust.Shared.Prototypes;
@@ -206,7 +208,8 @@ public sealed partial class ExplosionSystem
         float? fireStacks,
         float? temperature,
         float currentIntensity,
-        EntityUid? cause)
+        EntityUid? cause,
+        bool deleteEntities = false) // DS14
     {
         var size = grid.Comp.TileSize;
         var gridBox = new Box2(tile * size, (tile + 1) * size);
@@ -225,7 +228,7 @@ public sealed partial class ExplosionSystem
         // process those entities
         foreach (var (uid, xform) in list)
         {
-            ProcessEntity(uid, epicenter, damage, throwForce, id, xform, fireStacks, cause);
+            ProcessEntity(uid, epicenter, damage, throwForce, id, xform, fireStacks, cause, deleteEntities); // DS14
         }
 
         // process anchored entities
@@ -235,7 +238,7 @@ public sealed partial class ExplosionSystem
         foreach (var entity in _anchored)
         {
             processed.Add(entity);
-            ProcessEntity(entity, epicenter, damage, throwForce, id, null, fireStacks, cause);
+            ProcessEntity(entity, epicenter, damage, throwForce, id, null, fireStacks, cause, deleteEntities); // DS14
         }
 
         // heat the atmosphere
@@ -269,6 +272,11 @@ public sealed partial class ExplosionSystem
         if (throwForce <= 0)
             return !tileBlocked;
 
+        // DS14-start
+        if (deleteEntities)
+            return true;
+        // DS14-end
+
         list.Clear();
         lookup.DynamicTree.QueryAabb(ref state, GridQueryCallback, gridBox, true);
         lookup.SundriesTree.QueryAabb(ref state, GridQueryCallback, gridBox, true);
@@ -277,7 +285,7 @@ public sealed partial class ExplosionSystem
         {
             // Here we only throw, no dealing damage. Containers n such might drop their entities after being destroyed, but
             // they should handle their own damage pass-through, with their own damage reduction calculation.
-            ProcessEntity(uid, epicenter, null, throwForce, id, xform, null, cause);
+            ProcessEntity(uid, epicenter, null, throwForce, id, xform, null, cause, deleteEntities); // DS14
         }
 
         return !tileBlocked;
@@ -314,7 +322,8 @@ public sealed partial class ExplosionSystem
         HashSet<EntityUid> processed,
         string id,
         float? fireStacks,
-        EntityUid? cause)
+        EntityUid? cause,
+        bool deleteEntities = false) // DS14
     {
         var gridBox = Box2.FromDimensions(tile * DefaultTileSize, new Vector2(DefaultTileSize, DefaultTileSize));
         var worldBox = spaceMatrix.TransformBox(gridBox);
@@ -330,11 +339,16 @@ public sealed partial class ExplosionSystem
         foreach (var (uid, xform) in state.Item1)
         {
             processed.Add(uid);
-            ProcessEntity(uid, epicenter, damage, throwForce, id, xform, fireStacks, cause);
+            ProcessEntity(uid, epicenter, damage, throwForce, id, xform, fireStacks, cause, deleteEntities); // DS14
         }
 
         if (throwForce <= 0)
             return;
+
+        // DS14-start
+        if (deleteEntities)
+            return;
+        // DS14-end
 
         // Also, throw any entities that were spawned as shrapnel. Compared to entity spawning & destruction, this extra
         // lookup is relatively minor computational cost, and throwing is disabled for nukes anyways.
@@ -344,7 +358,7 @@ public sealed partial class ExplosionSystem
 
         foreach (var (uid, xform) in list)
         {
-            ProcessEntity(uid, epicenter, null, throwForce, id, xform, fireStacks, cause);
+            ProcessEntity(uid, epicenter, null, throwForce, id, xform, fireStacks, cause, deleteEntities); // DS14
         }
     }
 
@@ -443,8 +457,17 @@ public sealed partial class ExplosionSystem
         string id,
         TransformComponent? xform,
         float? fireStacksOnIgnite,
-        EntityUid? cause)
+        EntityUid? cause,
+        bool deleteEntity = false) // DS14
     {
+        // DS14-start
+        if (deleteEntity)
+        {
+            QueueDeleteExplosionEntity(uid);
+            return;
+        }
+        // DS14-end
+
         if (originalDamage is not null)
         {
             GetEntitiesToDamage(uid, originalDamage, id);
@@ -499,6 +522,32 @@ public sealed partial class ExplosionSystem
         }
     }
 
+    // DS14-start
+    private void QueueDeleteExplosionEntity(EntityUid uid)
+    {
+        if (EntityManager.IsQueuedForDeletion(uid) ||
+            HasComp<MapComponent>(uid) ||
+            HasComp<MapGridComponent>(uid) ||
+            HasComp<ExplosionVisualsComponent>(uid))
+        {
+            return;
+        }
+
+        if (TryComp<ContainerManagerComponent>(uid, out var containerManager))
+        {
+            foreach (var container in containerManager.Containers.Values)
+            {
+                foreach (var contained in container.ContainedEntities.ToArray())
+                {
+                    QueueDeleteExplosionEntity(contained);
+                }
+            }
+        }
+
+        QueueDel(uid);
+    }
+    // DS14-end
+
     /// <summary>
     ///     Tries to damage floor tiles. Not to be confused with the function that damages entities intersecting the
     ///     grid tile.
@@ -546,6 +595,21 @@ public sealed partial class ExplosionSystem
 
         damagedTiles.Add((tileRef.GridIndices, new Tile(tileDef.TileId)));
     }
+
+    // DS14-start
+    public void DestroyFloorTile(TileRef tileRef,
+        List<(Vector2i GridIndices, Tile Tile)> damagedTiles)
+    {
+        if (_tileDefinitionManager[tileRef.Tile.TypeId] is not ContentTileDefinition tileDef || tileDef.Indestructible)
+            return;
+
+        var spaceTileId = _tileDefinitionManager["Space"].TileId;
+        if (tileRef.Tile.TypeId == spaceTileId)
+            return;
+
+        damagedTiles.Add((tileRef.GridIndices, new Tile(spaceTileId)));
+    }
+    // DS14-end
 
     private ProtoId<ContentTileDefinition>? GetNextTile((ContentTileDefinition tileDef, Vector2i gridIndices) tile,
         TileHistoryComponent? history,
@@ -709,6 +773,11 @@ sealed class Explosion
     /// </summary>
     private readonly bool _canCreateVacuum;
 
+    // DS14-start
+    private readonly bool _deleteEntities;
+    private readonly bool _destroyTiles;
+    // DS14-end
+
     private readonly IEntityManager _entMan;
     private readonly ExplosionSystem _system;
     private readonly SharedMapSystem _mapSystem;
@@ -732,6 +801,10 @@ sealed class Explosion
         float tileBreakScale,
         int maxTileBreak,
         bool canCreateVacuum,
+        // DS14-start
+        bool deleteEntities,
+        bool destroyTiles,
+        // DS14-end
         IEntityManager entMan,
         EntityUid visualEnt,
         EntityUid? cause,
@@ -751,6 +824,10 @@ sealed class Explosion
         _tileBreakScale = tileBreakScale;
         _maxTileBreak = maxTileBreak;
         _canCreateVacuum = canCreateVacuum;
+        // DS14-start
+        _deleteEntities = deleteEntities;
+        _destroyTiles = destroyTiles;
+        // DS14-end
         _entMan = entMan;
         _damageable = damageable;
 
@@ -913,10 +990,15 @@ sealed class Explosion
                     ExplosionType.FireStacks,
                     ExplosionType.Temperature,
                     _currentIntensity,
-                    Cause);
+                    Cause,
+                    _deleteEntities); // DS14
 
                 // If the floor is not blocked by some dense object, damage the floor tiles.
-                if (canDamageFloor)
+                if (_destroyTiles) // DS14
+                {
+                    _system.DestroyFloorTile(tileRef, tileUpdateList); // DS14
+                }
+                else if (canDamageFloor)
                 {
                     var tileIndices = _currentEnumerator.Current;
                     var chunkIndices = SharedMapSystem.GetChunkIndices(tileIndices, TileSystem.ChunkSize);
@@ -949,7 +1031,8 @@ sealed class Explosion
                     ProcessedEntities,
                     ExplosionType.ID,
                     ExplosionType.FireStacks,
-                    Cause);
+                    Cause,
+                    _deleteEntities); // DS14
             }
 
             if (!MoveNext())
@@ -992,5 +1075,8 @@ public sealed class QueuedExplosion(ExplosionPrototype proto)
     public float TotalIntensity, Slope, MaxTileIntensity, TileBreakScale;
     public int MaxTileBreak;
     public bool CanCreateVacuum;
+    // DS14-start
+    public bool DeleteEntities, DestroyTiles, IgnoreTileBlockers;
+    // DS14-end
     public EntityUid? Cause; // The entity that exploded, for logging purposes.
 }

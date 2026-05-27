@@ -394,14 +394,12 @@ namespace Content.Server.Atmos.EntitySystems
             // Note: This is still processed even if space wind is turned off since this handles playing the sounds.
 
             var number = 0;
-            var bodies = GetEntityQuery<PhysicsComponent>();
-            var xforms = GetEntityQuery<TransformComponent>();
-            var metas = GetEntityQuery<MetaDataComponent>();
-            var pressureQuery = GetEntityQuery<MovedByPressureComponent>();
 
             while (atmosphere.CurrentRunTiles.TryDequeue(out var tile))
             {
-                HighPressureMovements(ent, tile, bodies, xforms, pressureQuery, metas);
+                // DS14-Start: reuse cached EntityQuery instances in this hot atmos loop.
+                HighPressureMovements(ent, tile, _physicsQuery, _xformQuery, _movedByPressureQuery, _metaQuery);
+                // DS14-End
                 tile.PressureDifference = 0f;
                 tile.LastPressureDirection = tile.PressureDirection;
                 tile.PressureDirection = AtmosDirection.Invalid;

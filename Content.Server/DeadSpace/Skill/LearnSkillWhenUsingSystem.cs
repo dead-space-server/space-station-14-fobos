@@ -94,7 +94,7 @@ public sealed class LearnSkillWhenUsingSystem : EntitySystem
 
     private void OnDoAfter(EntityUid uid, LearnSkillWhenUsingComponent component, LearnDoAfterEvent args)
     {
-        if (args.Cancelled || args.Handled || !EntityManager.EntityExists(args.Used))
+        if (args.Cancelled || args.Handled || !Exists(args.Used))
             return;
 
         foreach (var skill in component.Skills)

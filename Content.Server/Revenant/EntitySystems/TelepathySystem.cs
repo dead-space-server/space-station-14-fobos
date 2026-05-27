@@ -29,7 +29,7 @@ public sealed partial class TelepathySystem : EntitySystem
 
     private void AddRevenantVerbs(GetVerbsEvent<Verb> args)
     {
-        if (!EntityManager.TryGetComponent(args.User, out ActorComponent? actor) || args.User == args.Target)
+        if (!TryComp(args.User, out ActorComponent? actor) || args.User == args.Target)
             return;
 
         var player = actor.PlayerSession;

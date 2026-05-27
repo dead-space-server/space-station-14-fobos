@@ -40,7 +40,7 @@
     solution:
       reagents:
       - ReagentId: SpaceCleaner
-        Quantity: 30
+        Quantity: 60
   - type: Tag # DS14
     tags:
     - CleanerGrenade

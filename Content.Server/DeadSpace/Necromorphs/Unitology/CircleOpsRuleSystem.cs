@@ -136,7 +136,7 @@ public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
         if (component.State == CircleOpsState.ObeliskActivated
             && _timedWindow.IsExpired(component.WindowUntilSpawnMoon)
             && component.Obelisk.HasValue
-            && EntityManager.EntityExists(component.Obelisk.Value)
+            && Exists(component.Obelisk.Value)
             && TryComp<NecroobeliskComponent>(component.Obelisk.Value, out var obeliskComp)
             && !obeliskComp.IsStageConvergence)
         {

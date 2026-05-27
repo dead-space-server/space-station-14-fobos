@@ -40,7 +40,7 @@ public sealed class LeviathanSystem : EntitySystem
 
         component.GhostLeviathanEntity = leviathan;
 
-        if (!EntityManager.TryGetComponent<GhostRoleComponent>(leviathan, out var ghostRoleComponent))
+        if (!TryComp<GhostRoleComponent>(leviathan, out var ghostRoleComponent))
         {
             _mindSystem.TransferTo(args.Mind, leviathan);
             component.MindFlag = true;

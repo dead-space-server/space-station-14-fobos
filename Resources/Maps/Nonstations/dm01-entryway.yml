@@ -6134,4 +6134,14 @@ entities:
     - type: Transform
       pos: 1.5,33.5
       parent: 2
+# DS14-Start: force deathmatch entryway station grid static without adding a blocking machine.
+- proto: DSStationGridAnchor
+  entities:
+  - uid: 1032
+    components:
+    - type: Transform
+      anchored: True
+      pos: 0,0
+      parent: 2
+# DS14-End
 ...
