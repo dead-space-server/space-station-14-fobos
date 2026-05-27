@@ -26,6 +26,17 @@
     - type: Skill
       group: ALL
 
+- type: chameleonOutfit
+  id: CentcomFieldOfficerChameleonOutfit
+  job: CentralCommandFieldOfficer
+  equipment:
+    shoes: ClothingShoesCentcomBlack
+    head: ClothingHeadCapCentcomBlack
+    eyes: ClothingEyesGlassesSecurity
+    gloves: ClothingHandsGlovesCombat
+    outerClothing: ClothingOuterArmorCentcomCarapace
+    neck: ClothingNeckCloakCentcomBlack
+
 - type: startingGear
   id: CentcomFieldOfficerGear
   equipment:
