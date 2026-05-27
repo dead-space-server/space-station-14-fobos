@@ -52,7 +52,7 @@
   - type: ShowHealthBars
   - type: PNV
     color: "#AFC4D111"
-    activateSound: 
+    activateSound:
       path: /Audio/_DeadSpace/NightVision/pnv.ogg
 
 # Перчатки

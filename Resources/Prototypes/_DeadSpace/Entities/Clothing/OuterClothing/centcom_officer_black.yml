@@ -2,7 +2,7 @@
   parent: ClothingOuterHardsuitBase
   id: ClothingOuterHardsuitCentcomBlack
   name: скафандр Полевого Офицера
-  description: Скафандр предназначенный для элитного офицера КСО. 
+  description: Скафандр предназначенный для элитного офицера КСО.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/OuterClothing/Hardsuits/centcom_officer_black.rsi
@@ -38,7 +38,7 @@
   id: ClothingHeadHelmetHardsuitCentcomBlack
   categories: [ HideSpawnMenu, DoNotMap ]
   name: шлем скафандра Полевого Офицера
-  description: Предназначен для элитного офицера КСО. 
+  description: Предназначен для элитного офицера КСО.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Head/Hardsuits/centcom_officer_black.rsi
