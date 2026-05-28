@@ -227,7 +227,8 @@
   name: СР-92 Точмаш
   parent: [BaseWeaponSubMachineGun, BaseMajorContraband]
   id: WeaponTochmash
-  description: Убойный пистолет-пулемёт специальной разработки, стоящий на вооружении у АПБТ. Отточен под CQB.
+  description: Убойный пистолет-пулемёт специальной разработки, стоящий на вооружении у АПБТ. Заточен под CQB.
+  suffix: Пистолет-пулемёт
   components:
   - type: Item
     size: Small

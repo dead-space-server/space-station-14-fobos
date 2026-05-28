@@ -5,3 +5,4 @@ ent-WeaponLightMachineGunL6 = L6 SAW
     .suffix = Пулемёт
 ent-WeaponLightMachineGunL6C = L6C ROW
     .desc = L6 SAW для киборгов. На ходу создаёт патроны из встроенного самозарядного фабрикатора боеприпасов.
+    .suffix = Для боргов

@@ -240,7 +240,8 @@
   name: Hk-G3A1 
   parent: [BaseWeaponRifle, BaseSecurityContraband]
   id: WeaponRiflehkg3a1
-  description: Старый добрый автомат, производившийся ещё во времена 60-х годов 20-го века Земли, текущими производителями являются Vítězství. Использует исключительно уменьшенный магазин калибра 7.62х39мм винтовочные.
+  description: Старый добрый автомат, производившийся ещё во времена 60-х годов 20-го века Земли. Текущими производителями являются Vítězství. Использует исключительно уменьшенный магазин калибра 7.62х39мм винтовочные.
+  suffix: Автомат
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/hkg3a1.rsi

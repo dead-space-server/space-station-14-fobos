@@ -2,7 +2,8 @@
   name: СР-2 "Вереск"
   parent: [BaseWeaponSubMachineGun, BaseMajorContraband]
   id: WeaponVeresk
-  description: Убойный пистолет-пулемёт специальной разработки, стоящий на вооружении СССП. Отточен под CQB.
+  description: Убойный пистолет-пулемёт специальной разработки, стоящий на вооружении СССП. Заточен под CQB.
+  suffix: Пистолет-пулемёт
   components:
   - type: Item
     size: Small
