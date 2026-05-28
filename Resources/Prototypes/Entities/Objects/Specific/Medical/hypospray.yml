@@ -420,7 +420,7 @@
   parent: ChemicalMedipen
   id: PunctAutoInjector
   name: puncturase auto-injector
-  description: A single-dose, non-refillable medipen containing puncturase and tranexamic acid, used to quickly and easily treat puncture wounds. Commonly used as a combat medicine.
+  description: A single-dose, non-refillable medipen containing puncturase, used to quickly and easily treat puncture wounds. Commonly used as a combat medicine.
   components:
   - type: Item
     inhandVisuals:
@@ -450,8 +450,6 @@
         reagents:
         - ReagentId: Puncturase
           Quantity: 10
-        - ReagentId: TranexamicAcid
-          Quantity: 5
 
 - type: entity
   parent: ChemicalMedipen

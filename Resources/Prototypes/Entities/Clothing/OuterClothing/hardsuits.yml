@@ -1286,7 +1286,6 @@
     reagents:
       DexalinPlus: 10
       Puncturase: 10
-      TranexamicAcid: 10
       Omnizine: 10
   - type: Reflect
     reflectProb: 0.10
