@@ -1,5 +1,8 @@
 # КСО
 
+ent-CentcomFieldOfficerPDA = { ent-CentcomPDA }
+    .desc = { ent-CentcomPDA.desc }
+
 ent-ERTLeaderGammaPDA = { ent-ERTLeaderPDA }
     .desc = { ent-ERTLeaderPDA.desc }
     .suffix = Гамма
