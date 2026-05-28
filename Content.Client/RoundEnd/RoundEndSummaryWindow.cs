@@ -629,7 +629,6 @@ namespace Content.Client.RoundEnd
                 HorizontalExpand = true,
             });
 
-            table.AddChild(MakeObjectivesTableRow(
             var table = new TableContainer
             {
                 Columns = 2,
@@ -753,7 +752,6 @@ namespace Content.Client.RoundEnd
                 HorizontalAlignment = HAlignment.Center,
                 VerticalAlignment = VAlignment.Center,
             };
-                    VerticalAlignment = VAlignment.Center,
             view.SnapshotFailed += () => panel.Visible = false;
             _manifestDollViews.Add(view);
             panel.AddChild(view);
