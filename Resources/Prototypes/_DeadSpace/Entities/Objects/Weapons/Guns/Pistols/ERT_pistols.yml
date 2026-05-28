@@ -1,8 +1,9 @@
 - type: entity
-  name: МК-79 "tactical"
+  name: МК 79 "Тактика"
   parent: [BaseWeaponPistol, BaseSecurityContraband]
   id: WeaponPistolMk79tactical
-  description: Точность, скорострельность, надёжность! Главный слоган этого пистолета, он спасёт вас от всего, от тьмы с помощью фонарика, до клоуна с мимом. Использует патроны калибра 9х19.
+  description: Точность, скорострельность, надёжность! Он спасёт вас даже от темноты благодаря фонарику. Ой, батарейки сели... Использует патроны калибра 9х19.
+  suffix: Пистолет
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/mk79_tactical.rsi
@@ -49,7 +50,8 @@
   name: Beretta M92
   parent: [BaseWeaponPistol, BaseSecurityContraband]
   id: WeaponPistolBerettaM92
-  description: Точный и давно зарекомендовавший себя пистолет, вы чувствуете себя крутым полицейским старой Терры, когда держите его в руке. Использует патроны калибра 9х19.
+  description: Точный и давно зарекомендовавший себя пистолет. Вы чувствуете себя крутым полицейским старой Терры, когда держите его в руке. Использует патроны калибра 9х19.
+  suffix: Пистолет
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/beretta_m92.rsi

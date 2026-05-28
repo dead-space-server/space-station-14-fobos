@@ -59,6 +59,7 @@
   id: CrateWeakViralSolution
   name: медицинский ящик со слабым вирусом
   description: Защищённый медицинский ящик с пробиркой слабого случайного вирусного штамма. Открывается только доступом вирусолога.
+  suffix: Защищённый
   components:
   - type: AccessReader
     access: [["Virology"]]
@@ -72,6 +73,7 @@
   id: CrateMediumViralSolution
   name: медицинский ящик со средним вирусом
   description: Защищённый медицинский ящик с пробиркой среднего случайного вирусного штамма. Открывается только доступом вирусолога.
+  suffix: Защищённый
   components:
   - type: AccessReader
     access: [["Virology"]]
@@ -85,6 +87,7 @@
   id: CrateStrongViralSolution
   name: медицинский ящик с сильным вирусом
   description: Защищённый медицинский ящик с пробиркой сильного случайного вирусного штамма. Открывается только доступом вирусолога.
+  suffix: Защищённый
   components:
   - type: AccessReader
     access: [["Virology"]]

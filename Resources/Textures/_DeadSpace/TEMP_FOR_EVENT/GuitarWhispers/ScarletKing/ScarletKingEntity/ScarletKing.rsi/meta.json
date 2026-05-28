@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Made by musicwaslive (discord) for his events yo, NO ONE can copy that without mine approve",
+  "size": {
+    "x": 512,
+    "y": 512
+  },
+  "states": [
+    {
+      "name": "King",
+      "frames": 9,
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      ]
+    }
+  ]
+}

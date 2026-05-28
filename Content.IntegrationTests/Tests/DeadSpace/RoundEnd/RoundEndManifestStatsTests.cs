@@ -25,6 +25,7 @@ using Robust.UnitTesting;
 namespace Content.IntegrationTests.Tests.DeadSpace.RoundEnd;
 
 [TestFixture]
+[NonParallelizable]
 public sealed class RoundEndManifestStatsTests
 {
     private static readonly ProtoId<DamageTypePrototype> BluntDamageType = "Blunt";
@@ -72,7 +73,7 @@ public sealed class RoundEndManifestStatsTests
         await using var pair = await PoolManager.GetServerClient();
         var server = pair.Server;
 
-        await server.WaitAssertion(() =>
+        await server.WaitPost(() =>
         {
             var context = GetContext(server);
             var antagA = SpawnPlayerMind(context, antag: true);
@@ -95,7 +96,7 @@ public sealed class RoundEndManifestStatsTests
         await using var pair = await PoolManager.GetServerClient();
         var server = pair.Server;
 
-        await server.WaitAssertion(() =>
+        await server.WaitPost(() =>
         {
             var context = GetContext(server);
             var antagA = SpawnPlayerMind(context, antag: true);
@@ -119,7 +120,7 @@ public sealed class RoundEndManifestStatsTests
         await using var pair = await PoolManager.GetServerClient();
         var server = pair.Server;
 
-        await server.WaitAssertion(() =>
+        await server.WaitPost(() =>
         {
             var context = GetContext(server);
             var antagA = SpawnPlayerMind(context, antag: true);
@@ -143,7 +144,7 @@ public sealed class RoundEndManifestStatsTests
         await using var pair = await PoolManager.GetServerClient();
         var server = pair.Server;
 
-        await server.WaitAssertion(() =>
+        await server.WaitPost(() =>
         {
             var context = GetContext(server);
             var nonAntag = SpawnPlayerMind(context, antag: false);
@@ -166,7 +167,7 @@ public sealed class RoundEndManifestStatsTests
         await using var pair = await PoolManager.GetServerClient();
         var server = pair.Server;
 
-        await server.WaitAssertion(() =>
+        await server.WaitPost(() =>
         {
             var context = GetContext(server);
             var antagA = SpawnPlayerMind(context, antag: true);
@@ -189,7 +190,7 @@ public sealed class RoundEndManifestStatsTests
         await using var pair = await PoolManager.GetServerClient();
         var server = pair.Server;
 
-        await server.WaitAssertion(() =>
+        await server.WaitPost(() =>
         {
             var context = GetContext(server);
             var antag = SpawnPlayerMind(context, antag: true);
@@ -211,7 +212,7 @@ public sealed class RoundEndManifestStatsTests
         await using var pair = await PoolManager.GetServerClient();
         var server = pair.Server;
 
-        await server.WaitAssertion(() =>
+        await server.WaitPost(() =>
         {
             var context = GetContext(server);
             var antag = SpawnPlayerMind(context, antag: true);

@@ -230,6 +230,15 @@
       path: /Audio/_DeadSpace/Announcements/survival_alert.ogg
       params:
         volume: -2
+    maxEventOccurrences:
+      PirateRaid: 2
+      RevenantSpawn: 2
+      DemonsInvasion: 2
+      ShadowDemonInvasion: 2
+      SentientVirusEvent: 2
+      LoneOpsSpawn: 2
+      RenegadeSpawn: 2
+      WizardSpawn: 2
   - type: GameRule
     minPlayers: 15
 

@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Made by musicwaslive (discord) for his events yo, NO ONE can copy that without mine approve",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "Altaris",
+      "frames": 1
+    }
+  ]
+}

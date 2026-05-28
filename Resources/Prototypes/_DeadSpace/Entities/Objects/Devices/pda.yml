@@ -65,7 +65,6 @@
 - type: entity
   parent: ERTLeaderPDA
   id: ERTLeaderRedPDA
-  suffix: ЛОБР RED
   components:
   - type: Pda
     id: ERTLeaderRedIDCard
@@ -73,7 +72,6 @@
 - type: entity
   parent: ERTLeaderPDA
   id: ERTLeaderGammaPDA
-  suffix: ЛОБР Gamma
   components:
   - type: Pda
     id: ERTLeaderGammaIDCard
@@ -82,7 +80,6 @@
 - type: entity
   parent: ERTSecurityPDA
   id: ERTSecurityRedPDA
-  suffix: ОБР RED
   components:
   - type: Pda
     id: ERTSecurityRedIDCard
@@ -90,7 +87,6 @@
 - type: entity
   parent: ERTSecurityPDA
   id: ERTSecurityGammaPDA
-  suffix: ОБР Gamma
   components:
   - type: Pda
     id: ERTSecurityGammaIDCard
@@ -99,7 +95,6 @@
 - type: entity
   parent: ERTMedicPDA
   id: ERTMedicRedPDA
-  suffix: Медик RED
   components:
   - type: Pda
     id: ERTMedicRedIDCard
@@ -107,7 +102,6 @@
 - type: entity
   parent: ERTMedicPDA
   id: ERTMedicGammaPDA
-  suffix: Медик Gamma
   components:
   - type: Pda
     id: ERTMedicGammaIDCard
@@ -116,7 +110,6 @@
 - type: entity
   parent: ERTEngineerPDA
   id: ERTEngineerRedPDA
-  suffix: Инженер RED
   components:
   - type: Pda
     id: ERTEngineerRedIDCard
@@ -124,7 +117,6 @@
 - type: entity
   parent: ERTEngineerPDA
   id: ERTEngineerGammaPDA
-  suffix: Инженер Gamma
   components:
   - type: Pda
     id: ERTEngineerGammaIDCard
@@ -133,7 +125,6 @@
 - type: entity
   parent: ERTJanitorPDA
   id: ERTJanitorRedPDA
-  suffix: Уборщик RED
   components:
   - type: Pda
     id: ERTJanitorRedIDCard
@@ -141,7 +132,6 @@
 - type: entity
   parent: ERTJanitorPDA
   id: ERTJanitorGammaPDA
-  suffix: Уборщик Gamma
   components:
   - type: Pda
     id: ERTJanitorGammaIDCard

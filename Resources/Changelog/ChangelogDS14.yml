@@ -2149,3 +2149,61 @@ Entries:
     message: Изменён спрайт ОСО, теперь он реально крутой!
   - type: Fix
     message: АПБТ скинулись ОСО, и теперь у них в визоре встроен ПНВ!
+- id: 206
+  author: CyberBobeks
+  time: '2026-05-27T19:17:35.822807+00:00'
+  pr: 1538
+  changes:
+  - type: Fix
+    message: Отображение антагонистов в манифесте.
+- id: 207
+  author: IvanKuvalda
+  time: '2026-05-28T05:57:53.429956+00:00'
+  pr: 1537
+  changes:
+  - type: Fix
+    message: Священник ОБР теперь отображается в соответственной группе меню ролей
+      призраков.
+- id: 208
+  author: CyberBobeks
+  time: '2026-05-28T06:22:16.803782+00:00'
+  pr: 1539
+  changes:
+  - type: Fix
+    message: Сортировка игроков в манифесте.
+  - type: Fix
+    message: Логика выдачи антагонистов в режим "Выживание".
+- id: 209
+  author: CyberBobeks
+  time: '2026-05-28T08:32:51.127369+00:00'
+  pr: 1540
+  changes:
+  - type: Fix
+    message: Звук погоды в лобби.
+- id: 210
+  author: CyberBobeks
+  time: '2026-05-28T10:40:44.037537+00:00'
+  pr: 1541
+  changes:
+  - type: Fix
+    message: Слышимость ревенанта через красный телефон и портативные рации.
+- id: 211
+  author: CyberBobeks
+  time: '2026-05-28T14:45:37.198261+00:00'
+  pr: 1542
+  changes:
+  - type: Fix
+    message: Вирусу также убрали виртуальный рот, теперь его не слышно в рациях.
+  - type: Fix
+    message: Некоторые иные баги, доработан дизайн манифеста.
+- id: 212
+  author: Akitovsky
+  time: '2026-05-28T15:29:06.100757+00:00'
+  pr: 1544
+  changes:
+  - type: Add
+    message: Частичная руссификация.
+  - type: Remove
+    message: Частичная англификация.
+  - type: Fix
+    message: Положение иконки спрайта МК 58.
