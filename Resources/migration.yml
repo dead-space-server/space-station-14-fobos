@@ -1291,3 +1291,6 @@ ADTObjectsSpecificLeporazineChemistryBottle: ChemistryBottleLeporazine
 ADTObjectsSpecificArithrazineChemistryBottle: ChemistryBottleArithrazine
 ADTObjectsSpecificDexalinChemistryBottle: ChemistryBottleDexalin
 ADTObjectsSpecificDermalineChemistryBottle: ChemistryBottleDermaline
+
+# 2026-05-22 - DS14
+ClothingMaskRedNeckGaiter: ClothingMaskNeckGaiterRed

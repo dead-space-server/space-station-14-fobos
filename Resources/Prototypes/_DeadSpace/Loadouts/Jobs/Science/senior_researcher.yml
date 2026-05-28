@@ -37,10 +37,10 @@
     outerClothing: ClothingOuterWinterCoatSeniorResearcher
 
 # ID
-- type: loadout
-  id: SeniorResearcherPDA
-  equipment:
-    id: SeniorResearcherPDA
+# - type: loadout
+#   id: SeniorResearcherPDA
+#   equipment:
+#     id: SeniorResearcherPDA
 
 # Underwear
 - type: loadout

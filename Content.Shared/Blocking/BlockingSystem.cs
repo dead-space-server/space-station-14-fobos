@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Content.Shared.Actions;
 using Content.Shared.Damage;
+using Content.Shared.Emp;
 using Content.Shared.Examine;
 using Content.Shared.Hands;
 using Content.Shared.Hands.Components;
@@ -49,6 +50,9 @@ public sealed partial class BlockingSystem : EntitySystem
 
         SubscribeLocalEvent<BlockingComponent, GetVerbsEvent<ExamineVerb>>(OnVerbExamine);
         SubscribeLocalEvent<BlockingComponent, MapInitEvent>(OnMapInit);
+        // DS14-start EMP-disables-energy-shield
+        SubscribeLocalEvent<EmpDisableItemToggleComponent, EmpItemToggleDisabledEvent>(OnEmpItemToggleDisabled);
+        // DS14-end
     }
 
     private void OnMapInit(EntityUid uid, BlockingComponent component, MapInitEvent args)
@@ -91,6 +95,15 @@ public sealed partial class BlockingSystem : EntitySystem
         if (args.Handled)
             return;
 
+        // DS14-start EMP-disables-energy-shield
+        if (HasComp<EmpDisableItemToggleComponent>(uid) && HasComp<EmpDisabledComponent>(uid))
+        {
+            CantBlockError(args.Performer);
+            args.Handled = true;
+            return;
+        }
+        // DS14-end
+
         var blockQuery = GetEntityQuery<BlockingComponent>();
         var handQuery = GetEntityQuery<HandsComponent>();
 
@@ -118,6 +131,17 @@ public sealed partial class BlockingSystem : EntitySystem
 
         args.Handled = true;
     }
+
+    // DS14-start EMP-disables-energy-shield
+    private void OnEmpItemToggleDisabled(Entity<EmpDisableItemToggleComponent> ent, ref EmpItemToggleDisabledEvent args)
+    {
+        if (!TryComp<BlockingComponent>(ent.Owner, out var blocking))
+            return;
+
+        if (blocking.User is { } user)
+            StopBlocking(ent.Owner, blocking, user);
+    }
+    // DS14-end
 
     private void OnShutdown(EntityUid uid, BlockingComponent component, ComponentShutdown args)
     {

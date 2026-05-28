@@ -78,6 +78,7 @@ public sealed class CarrySystem : EntitySystem
         SubscribeLocalEvent<CarryingComponent, BuckledEvent>(OnCarrierBuckled);
         SubscribeLocalEvent<CarryingComponent, DownedEvent>(OnCarrierDowned);
         SubscribeLocalEvent<CarryingComponent, MobStateChangedEvent>(OnCarrierMobStateChanged);
+        SubscribeLocalEvent<CarryingComponent, EntityTerminatingEvent>(OnCarrierTerminating);
         SubscribeLocalEvent<CarryingComponent, ComponentShutdown>(OnCarryingShutdown);
         SubscribeLocalEvent<CarriedComponent, EntGotInsertedIntoContainerMessage>(OnCarriedInsertedIntoContainer);
         SubscribeLocalEvent<CarriedComponent, BuckledEvent>(OnCarriedBuckled);
@@ -85,6 +86,8 @@ public sealed class CarrySystem : EntitySystem
         SubscribeLocalEvent<CarriedComponent, MoveInputEvent>(OnCarriedMoveInput);
         SubscribeLocalEvent<CarriedComponent, AttackAttemptEvent>(OnCarriedAttackAttempt);
         SubscribeLocalEvent<CarriedComponent, StandAttemptEvent>(OnCarriedStandAttempt);
+        SubscribeLocalEvent<CarriedComponent, MobStateChangedEvent>(OnCarriedMobStateChanged);
+        SubscribeLocalEvent<CarriedComponent, EntityTerminatingEvent>(OnCarriedTerminating);
         SubscribeLocalEvent<CarriedComponent, ComponentShutdown>(OnCarriedShutdown);
     }
 
@@ -331,6 +334,12 @@ public sealed class CarrySystem : EntitySystem
             return false;
         }
 
+        if (HasComp<CarryingComponent>(target))
+        {
+            failure = "carry-popup-target-carrying";
+            return false;
+        }
+
         if (!TryComp<CarryStrengthComponent>(carrier, out var strength))
         {
             failure = "carry-popup-no-strength";
@@ -434,7 +443,7 @@ public sealed class CarrySystem : EntitySystem
 
     private void OnCarrierInsertedIntoContainer(Entity<CarryingComponent> ent, ref EntGotInsertedIntoContainerMessage args)
     {
-        StopCarry(ent.Owner, ent.Comp);
+        StopCarry(ent.Owner, ent.Comp, placeTarget: false, keepTargetDown: true);
     }
 
     private void OnCarrierBuckleAttempt(Entity<CarryingComponent> ent, ref BuckleAttemptEvent args)
@@ -464,6 +473,14 @@ public sealed class CarrySystem : EntitySystem
             return;
 
         StopCarry(ent.Owner, ent.Comp, keepTargetDown: true);
+    }
+
+    private void OnCarrierTerminating(Entity<CarryingComponent> ent, ref EntityTerminatingEvent args)
+    {
+        if (ent.Comp.Stopping)
+            return;
+
+        CleanupCarry(ent.Owner, ent.Comp, thrown: false, placeTarget: false, removeCarrierComponent: false);
     }
 
     private void OnCarriedInsertedIntoContainer(Entity<CarriedComponent> ent, ref EntGotInsertedIntoContainerMessage args)
@@ -519,6 +536,25 @@ public sealed class CarrySystem : EntitySystem
     private void OnCarriedStandAttempt(Entity<CarriedComponent> ent, ref StandAttemptEvent args)
     {
         args.Cancel();
+    }
+
+    private void OnCarriedMobStateChanged(Entity<CarriedComponent> ent, ref MobStateChangedEvent args)
+    {
+        if (args.OldMobState == MobState.Alive || args.NewMobState != MobState.Alive)
+            return;
+
+        if (ent.Comp.Carrier is not { } carrier || !TryComp<CarryingComponent>(carrier, out var carrying))
+            return;
+
+        StopCarry(carrier, carrying, keepTargetDown: false);
+    }
+
+    private void OnCarriedTerminating(Entity<CarriedComponent> ent, ref EntityTerminatingEvent args)
+    {
+        if (ent.Comp.Stopping || ent.Comp.Carrier is not { } carrier || !TryComp<CarryingComponent>(carrier, out var carrying))
+            return;
+
+        CleanupCarry(carrier, carrying, thrown: false, placeTarget: false, removeCarriedComponent: false);
     }
 
     private void OnCarryingShutdown(Entity<CarryingComponent> ent, ref ComponentShutdown args)
@@ -743,6 +779,7 @@ public sealed class CarrySystem : EntitySystem
             _physics.ResetDynamics(target, physics);
         }
 
+        RestoreForcedDown(target, carried, thrown: false, keepTargetDown: true);
         StopCarryEscape(target, carried);
 
         if (!TerminatingOrDeleted(target))

@@ -70,10 +70,6 @@
     - id: PirateRaid
     - id: MediumVirusPandemic
     - id: DerelictSyndicateAssaultCyborgSpawn
-#DS14-start
-#      - !type:NestedSelector
-#        tableId: UnknownShuttlesFriendlyTable
-#DS14-end
     - !type:NestedSelector
       tableId: SurvivalHostileUnknownShuttlesTable
 
@@ -95,12 +91,12 @@
     children:
     - id: LoneOpsSpawn
     - id: RenegadeSpawn
+    - id: WizardSpawn
 
 - type: entityTable
   id: SurvivalLateThreatsTable
   table: !type:AllSelector
     children:
-    - id: WizardSpawn
     - id: HardVirusPandemic
 
 - type: entityTable
@@ -234,6 +230,15 @@
       path: /Audio/_DeadSpace/Announcements/survival_alert.ogg
       params:
         volume: -2
+    maxEventOccurrences:
+      PirateRaid: 2
+      RevenantSpawn: 2
+      DemonsInvasion: 2
+      ShadowDemonInvasion: 2
+      SentientVirusEvent: 2
+      LoneOpsSpawn: 2
+      RenegadeSpawn: 2
+      WizardSpawn: 2
   - type: GameRule
     minPlayers: 15
 

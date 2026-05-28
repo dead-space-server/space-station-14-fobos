@@ -23,6 +23,7 @@
 - type: entity
   parent: CentcomPDA
   id: CentcomOfficialPDA
+  suffix: Представитель ЦК
   components:
   - type: Pda
     id: CentcomOfficialIDCard
@@ -30,6 +31,7 @@
 - type: entity
   parent: CentcomPDA
   id: CentcomAdministratorPDA
+  suffix: Администратор ЦК
   components:
   - type: Pda
     id: CentcomAdministratorIDCard
@@ -37,6 +39,7 @@
 - type: entity
   parent: CentcomPDA
   id: CentcomOperatorPDA
+  suffix: Оператор ЦК
   components:
   - type: Pda
     id: CentcomOperatorIDCard
@@ -44,9 +47,18 @@
 - type: entity
   parent: CentcomPDA
   id: CentcomSpecialOperationsOfficerPDA
+  suffix: Офицер СО
   components:
   - type: Pda
     id: CentcomSpecialOperationsOfficerIDCard
+
+- type: entity
+  parent: CentcomPDA
+  id: CentcomFieldOfficerPDA
+  suffix: ПО
+  components:
+  - type: Pda
+    id: CentcomFieldOfficerIDCar
 
 # ERT PDA
 # Leader

@@ -18,6 +18,7 @@ public sealed class LockCocoonSystem : EntitySystem
     [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly NpcFactionSystem _npcFaction = default!;
     [Dependency] private readonly SharedCuffableSystem _cuffs = default!;
     [Dependency] private readonly CocoonSystem _cocoon = default!;
@@ -91,7 +92,10 @@ public sealed class LockCocoonSystem : EntitySystem
             }
         }
 
-        var cocoon = Spawn(component.Cocoon, Transform(target).Coordinates);
+        var targetXform = Transform(target);
+        var cocoon = Spawn(component.Cocoon,
+            _transform.GetMapCoordinates(target, targetXform),
+            rotation: _transform.GetWorldRotation(targetXform));
 
         if (!TryComp<CocoonComponent>(cocoon, out var cocoonComponent))
             return;

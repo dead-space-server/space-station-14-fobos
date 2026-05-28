@@ -4,6 +4,7 @@ using Content.Shared.Damage.Components;
 using Content.Shared.Database;
 using Content.Shared.Explosion;
 using Content.Shared.Explosion.Components;
+using Content.Shared.Ghost;
 using Content.Shared.Maps;
 using Content.Shared.Physics;
 using Content.Shared.Projectiles;
@@ -477,7 +478,7 @@ public sealed partial class ExplosionSystem
                     continue;
 
                 // TODO EXPLOSIONS turn explosions into entities, and pass the the entity in as the damage origin.
-                _damageableSystem.TryChangeDamage((entity, damageable), damage, ignoreResistances: true, ignoreGlobalModifiers: true);
+                _damageableSystem.TryChangeDamage((entity, damageable), damage, ignoreResistances: true, ignoreGlobalModifiers: true, origin: cause); // DS14
 
                 if (_actorQuery.HasComp(entity))
                 {
@@ -528,7 +529,8 @@ public sealed partial class ExplosionSystem
         if (EntityManager.IsQueuedForDeletion(uid) ||
             HasComp<MapComponent>(uid) ||
             HasComp<MapGridComponent>(uid) ||
-            HasComp<ExplosionVisualsComponent>(uid))
+            HasComp<ExplosionVisualsComponent>(uid) ||
+            HasComp<GhostComponent>(uid))
         {
             return;
         }

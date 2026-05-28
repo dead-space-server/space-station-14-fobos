@@ -68,7 +68,7 @@
           False: { visible: true }
   - type: Storage
     grid:
-    - 0,0,18,10 #DS14
+    - 0,0,21,11 #DS14
     maxItemSize: Normal
     storageOpenSound: /Audio/Effects/closetopen.ogg
     storageCloseSound: /Audio/Effects/closetclose.ogg
