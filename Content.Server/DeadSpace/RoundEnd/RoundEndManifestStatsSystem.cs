@@ -17,6 +17,8 @@ using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Projectiles;
 using Content.Shared.Roles;
+using Robust.Server.GameStates;
+using Robust.Shared.Containers;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 
@@ -27,6 +29,7 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
     private static readonly ProtoId<CloningSettingsPrototype> DisplayCloneSettings = "RoundEndManifestDisplayClone";
 
     [Dependency] private readonly CloningSystem _cloning = default!;
+    [Dependency] private readonly PvsOverrideSystem _pvsOverride = default!;
     [Dependency] private readonly SharedRoleSystem _roles = default!;
 
     private const int MinQuoteLength = 8;
@@ -45,6 +48,7 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
         SubscribeLocalEvent<RoundStartingEvent>(OnRoundStarting);
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestartCleanup);
         SubscribeLocalEvent<EntitySpokeEvent>(OnEntitySpoke);
+        SubscribeLocalEvent<RoleAddedEvent>(OnRoleAdded);
         SubscribeLocalEvent<MindContainerComponent, BeingGibbedEvent>(OnMindBeingGibbed);
         SubscribeLocalEvent<MobStateComponent, DamageChangedEvent>(OnDamageChanged, before: [typeof(MobThresholdSystem)]);
         SubscribeLocalEvent<MobStateChangedEvent>(OnMobStateChanged);
@@ -107,6 +111,14 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
         _lastQuoteByMind[mindId] = quote;
     }
 
+    private void OnRoleAdded(RoleAddedEvent args)
+    {
+        if (!IsAntagPlayerMind(args.MindId, args.Mind))
+            return;
+
+        EnsureDisplaySnapshot(args.MindId, args.Mind);
+    }
+
     private void OnMindBeingGibbed(EntityUid uid, MindContainerComponent component, BeingGibbedEvent args)
     {
         if (!HasComp<BodyComponent>(uid) ||
@@ -115,13 +127,86 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
             return;
         }
 
-        if (_displaySnapshotByMind.TryGetValue(mindId, out var oldSnapshot) && !TerminatingOrDeleted(oldSnapshot))
-            Del(oldSnapshot);
+        TryCreateDisplaySnapshot(mindId, uid, replaceExisting: false);
+    }
 
-        if (!_cloning.TryCloning(uid, null, DisplayCloneSettings, out var snapshot) || snapshot == null)
-            return;
+    private bool EnsureDisplaySnapshot(EntityUid mindId, MindComponent mind)
+    {
+        if (_displaySnapshotByMind.TryGetValue(mindId, out var oldSnapshot) && !TerminatingOrDeleted(oldSnapshot))
+            return true;
+
+        if (GetSnapshotSourceBody(mind) is not { } source)
+            return false;
+
+        return TryCreateDisplaySnapshot(mindId, source, replaceExisting: false);
+    }
+
+    private EntityUid? GetSnapshotSourceBody(MindComponent mind)
+    {
+        if (IsSnapshotSourceBody(mind.OwnedEntity))
+            return mind.OwnedEntity;
+
+        if (TryGetEntity(mind.OriginalOwnedEntity, out var originalEntity) &&
+            IsSnapshotSourceBody(originalEntity))
+        {
+            return originalEntity.Value;
+        }
+
+        return null;
+    }
+
+    private bool IsSnapshotSourceBody(EntityUid? uid)
+    {
+        return uid != null &&
+               !TerminatingOrDeleted(uid.Value) &&
+               HasComp<BodyComponent>(uid.Value);
+    }
+
+    private bool TryCreateDisplaySnapshot(EntityUid mindId, EntityUid source, bool replaceExisting)
+    {
+        if (_displaySnapshotByMind.TryGetValue(mindId, out var oldSnapshot))
+        {
+            if (!TerminatingOrDeleted(oldSnapshot))
+            {
+                if (!replaceExisting)
+                    return true;
+
+                Del(oldSnapshot);
+            }
+
+            _displaySnapshotByMind.Remove(mindId);
+        }
+
+        if (!_cloning.TryCloning(source, null, DisplayCloneSettings, out var snapshot) || snapshot == null)
+            return false;
 
         _displaySnapshotByMind[mindId] = snapshot.Value;
+        AddDisplaySnapshotPvsOverride(snapshot.Value);
+        return true;
+    }
+
+    private void AddDisplaySnapshotPvsOverride(EntityUid uid)
+    {
+        AddDisplaySnapshotPvsOverride(uid, new HashSet<EntityUid>());
+    }
+
+    private void AddDisplaySnapshotPvsOverride(EntityUid uid, HashSet<EntityUid> visited)
+    {
+        if (!visited.Add(uid) || TerminatingOrDeleted(uid))
+            return;
+
+        _pvsOverride.AddGlobalOverride(uid);
+
+        if (!TryComp<ContainerManagerComponent>(uid, out var containers))
+            return;
+
+        foreach (var container in containers.Containers.Values)
+        {
+            foreach (var contained in container.ContainedEntities)
+            {
+                AddDisplaySnapshotPvsOverride(contained, visited);
+            }
+        }
     }
 
     private void OnDamageChanged(EntityUid uid, MobStateComponent component, DamageChangedEvent args)

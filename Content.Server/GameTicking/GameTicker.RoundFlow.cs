@@ -536,7 +536,9 @@ namespace Content.Server.GameTicking
 
             //Generate a list of basic player info to display in the end round summary.
             var listOfPlayerInfo = new List<RoundEndMessageEvent.RoundEndPlayerInfo>();
-            var manifestAntagMinds = GetRoundEndManifestAntagMinds(); // DS14
+            // DS14-start
+            var manifestAntagMinds = GetRoundEndManifestAntagMinds();
+            // DS14-end
             // Grab the great big book of all the Minds, we'll need them for this.
             var allMinds = EntityQueryEnumerator<MindComponent>();
             var pvsOverride = _cfg.GetCVar(CCVars.RoundEndPVSOverrides);
@@ -688,14 +690,14 @@ namespace Content.Server.GameTicking
             if (TryGetEntity(mind.OriginalOwnedEntity, out var foundOriginalEntity))
                 originalEntity = foundOriginalEntity.Value;
 
+            if (_roundEndManifestStats.GetDisplaySnapshot(mindId) is { } snapshot)
+                return snapshot;
+
             if (IsRoundEndDisplayBody(ownedEntity))
                 return ownedEntity;
 
             if (IsRoundEndDisplayBody(originalEntity))
                 return originalEntity;
-
-            if (_roundEndManifestStats.GetDisplaySnapshot(mindId) is { } snapshot)
-                return snapshot;
 
             if (ownedEntity != null && !TerminatingOrDeleted(ownedEntity.Value))
                 return ownedEntity;
