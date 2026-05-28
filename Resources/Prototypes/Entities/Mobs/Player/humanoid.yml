@@ -272,41 +272,6 @@
       - DeathRattleImplantSOD
       - RezervImplant
 
-### CBURN
-- type: entity
-  id: RandomHumanoidSpawnerCBURNLeader
-  parent: RandomHumanoidSpawnerERTLeaderAmber
-  name: CBURN leader
-  components:
-    - type: Sprite
-      sprite: Markers/jobs.rsi
-      state: cburn
-    - type: RandomHumanoidSpawner
-      settings: CBURNLeader
-
-- type: randomHumanoidSettings
-  id: CBURNLeader
-  parent: EventHumanoidERTZombieImmune
-  components:
-    - type: GhostRole
-      name: ghost-role-information-cburn-leader-name
-      description: ghost-role-information-cburn-leader-description
-      rules: ghost-role-information-nonantagonist-rules
-      category: ghost-role-information-centcomm-category # DS14
-      raffle:
-        settings: short
-      job: CBURNLeader
-    - type: RandomMetadata
-      nameSegments:
-      - NamesFirstERTLeader
-      - NamesLastERT
-      nameFormat: name-format-ert
-    - type: Loadout
-      prototypes: [ CBURNLeaderGear ]
-      roleLoadout: [ RoleSurvivalExtended ]
-    - type: GhostRoleNotifys # DS14
-      groupPrototype: CBURNGroup
-
 ## Security
 ### Amber
 - type: entity
@@ -678,6 +643,82 @@
       - RadioImplantSOC
       - DeathRattleImplantSOD
       - RezervImplant
+
+### CBURN and DBCT
+### Leader
+### CBURN
+
+- type: entity
+  id: RandomHumanoidSpawnerCBURNLeader
+  parent: RandomHumanoidSpawnerERTLeaderAmber
+  name: CBURN leader
+  components:
+    - type: Sprite
+      sprite: Markers/jobs.rsi
+      state: cburn
+    - type: RandomHumanoidSpawner
+      settings: CBURNLeader
+
+- type: randomHumanoidSettings
+  id: CBURNLeader
+  parent: EventHumanoidERTZombieImmune
+  components:
+    - type: GhostRole
+      name: ghost-role-information-cburn-leader-name
+      description: ghost-role-information-cburn-leader-description
+      rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category # DS14
+      raffle:
+        settings: short
+      job: CBURNLeader
+    - type: RandomMetadata
+      nameSegments:
+      - NamesFirstERTLeader
+      - NamesLastERT
+      nameFormat: name-format-ert
+    - type: Loadout
+      prototypes: [ CBURNLeaderGear ]
+      roleLoadout: [ RoleSurvivalExtended ]
+    - type: GhostRoleNotifys # DS14
+      groupPrototype: CBURNGroup
+
+### SCST
+
+- type: entity
+  id: RandomHumanoidSpawnerSCSTLeader
+  parent: RandomHumanoidSpawnerERTLeaderAmber
+  name: SCST leader
+  components:
+    - type: Sprite
+      sprite: Markers/jobs.rsi
+      state: cburn
+    - type: RandomHumanoidSpawner
+      settings: SCSTLeader
+
+- type: randomHumanoidSettings
+  id: SCSTLeader
+  parent: EventHumanoidERTZombieImmune
+  components:
+    - type: GhostRole
+      name: ghost-role-information-cburn-leader-name
+      description: ghost-role-information-cburn-leader-description
+      rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category # DS14
+      raffle:
+        settings: short
+      job: SCSTLeader
+    - type: RandomMetadata
+      nameSegments:
+      - NamesFirstERTLeader
+      - NamesLastERT
+      nameFormat: name-format-ert
+    - type: Loadout
+      prototypes: [ SCSTLeaderGear ]
+      roleLoadout: [ RoleSurvivalExtended ]
+    - type: GhostRoleNotifys # DS14
+      groupPrototype: CBURNGroup
+
+
 
 ## CBURN Agent
 - type: entity

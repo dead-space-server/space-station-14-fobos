@@ -1,7 +1,7 @@
-# DS14 CBURN GEAR
+# DS14 CBURN and DBCT GEAR
 
-# Leader
-## CBURN
+### Leader
+### CBURN
 - type: job
   id: CBURNLeader
   name: job-name-cburn-leader
@@ -40,13 +40,68 @@
     ears: ClothingHeadsetCentCom
     neck: ClothingNeckMantleCBURNLeaderShoulder
     gloves: ClothingHandsGlovesCombat
+    back: ClothingMilitaryBackpackCBURNLeader
+    belt: ClothingBeltMilitaryWebbingCBURNLeader
     outerClothing: ClothingOuterHardsuitCBURNLeader
     shoes: ClothingShoesBootsCombatFilled
     id: CBURNLeaderPDA
     pocket1: DoubleEmergencyOxygenTankFilled
     pocket2: DoorRemoteCustom
-  inhand:
-  - ERTloadoutCBURNLeader
+
+
+### SCST
+- type: job
+  id: SCSTLeader
+  name: job-name-cburn-leader
+  description: job-description-cburnleader
+  playTimeTracker: JobSCSTLeader
+  setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 36000 # 10 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 # 20 hours
+    - !type:DepartmentTimeRequirement
+      department: Command
+      time: 36000 # 10 hours
+  startingGear: SCSTLeaderGear
+  icon: "JobIconERTLeader"
+  supervisors: job-supervisors-centcom
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+  - ErtTeamLeader
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant, TrackingImplant ]
+
+- type: startingGear
+  id: SCSTLeaderGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitColorBrown
+    mask: ClothingMaskGasExplorer
+    eyes: ClothingEyesHudAdvanced
+    ears: ClothingHeadsetCentCom
+    neck: ClothingNeckMantleCBURNLeaderShoulder
+    gloves: ClothingHandsGlovesCombat
+    back: ClothingMilitaryBackpackCBURNSpiderLeader
+    belt: ClothingBeltMilitaryWebbingCBURNSpiderLeader
+    outerClothing: ClothingOuterHardsuitCBURNLeader
+    shoes: ClothingShoesBootsCombatFilled
+    id: CBURNLeaderPDA
+    pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: DoorRemoteCustom
+
+
+
+
+
+
+
 
 # Agent
 

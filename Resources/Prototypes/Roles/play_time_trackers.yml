@@ -119,6 +119,9 @@
   id: JobCBURNLeader
 
 - type: playTimeTracker
+  id: JobSCSTLeader
+
+- type: playTimeTracker
   id: JobCBURNAgent
 
 - type: playTimeTracker
