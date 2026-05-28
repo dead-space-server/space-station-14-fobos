@@ -30,10 +30,18 @@ public sealed class SurvivalRampingStationEventSchedulerSystem : GameRuleSystem<
     public float GetChaosModifier(EntityUid uid, SurvivalRampingStationEventSchedulerComponent component)
     {
         var roundTime = (float) _gameTicker.RoundDuration().TotalSeconds;
-        if (component.EndTime <= 0f || roundTime >= component.EndTime)
+        if (component.EndTime <= 0f)
             return component.MaxChaos;
 
-        return component.StartingChaos + (component.MaxChaos - component.StartingChaos) / component.EndTime * roundTime;
+        if (roundTime <= component.EndTime)
+            return component.StartingChaos + (component.MaxChaos - component.StartingChaos) / component.EndTime * roundTime;
+
+        if (component.FalloffEndTime <= component.EndTime || roundTime >= component.FalloffEndTime)
+            return component.StartingChaos;
+
+        var falloffDuration = component.FalloffEndTime - component.EndTime;
+        var falloffTime = roundTime - component.EndTime;
+        return component.MaxChaos - (component.MaxChaos - component.StartingChaos) / falloffDuration * falloffTime;
     }
 
     protected override void Started(EntityUid uid,
@@ -45,7 +53,10 @@ public sealed class SurvivalRampingStationEventSchedulerSystem : GameRuleSystem<
 
         component.MaxChaos = component.AverageChaos;
         component.EndTime = component.AverageEndTime * 60f;
-        component.StartingChaos = component.MaxChaos / 10;
+        component.FalloffEndTime = component.MinimumChaosTime * 60f;
+
+        if (component.StartingChaos > component.MaxChaos)
+            component.StartingChaos = component.MaxChaos;
 
         PickNextEventTime(uid, component);
     }

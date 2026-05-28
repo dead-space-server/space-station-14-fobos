@@ -20,14 +20,26 @@ public sealed partial class SurvivalRampingStationEventSchedulerComponent : Comp
     [DataField]
     public float AverageEndTime = 45f;
 
+    /// <summary>
+    ///     Time (in minutes) when the ramping event scheduler should finish falling back to the initial chaos modifier.
+    /// </summary>
+    [DataField]
+    public float MinimumChaosTime = 70f;
+
     [DataField]
     public float EndTime;
 
     [DataField]
-    public float MaxChaos;
+    public float FalloffEndTime;
 
     [DataField]
-    public float StartingChaos;
+    public float MaxChaos;
+
+    /// <summary>
+    ///     Initial chaos modifier for the ramping event scheduler.
+    /// </summary>
+    [DataField]
+    public float StartingChaos = 1f;
 
     [DataField]
     public float TimeUntilNextEvent;
