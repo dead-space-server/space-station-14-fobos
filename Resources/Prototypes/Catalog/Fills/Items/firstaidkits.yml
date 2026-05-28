@@ -95,7 +95,7 @@
     contents:
       - id: MedicatedSuture
       - id: RegenerativeMesh
-      - id: DesoxyephedrineMedipen
+      - id: CelestinMedipen
       - id: SyringeSaline
       - id: BruteAutoInjector
       - id: BurnAutoInjector

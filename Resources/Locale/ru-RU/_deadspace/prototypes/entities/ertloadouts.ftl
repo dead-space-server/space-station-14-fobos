@@ -178,7 +178,7 @@ ert-loadout-category-explosion-description =
     Используйте с крайней осторожностью.
 ert-loadout-category-stimulator-name = Набор стимуляторов
 ert-loadout-category-stimulator-description =
-    Шесть автоинъекторов дезоксиэфедрина.
+    Шесть автоинъекторов целестина.
     Помогают обрести максимальную мобильность в пылу сражения.
 ert-loadout-category-combatmedicine-name = Набор автоинъекторов
 ert-loadout-category-combatmedicine-description =

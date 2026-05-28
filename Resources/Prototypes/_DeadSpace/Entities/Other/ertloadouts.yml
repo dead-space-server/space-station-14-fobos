@@ -865,12 +865,12 @@
     sprite: _DeadSpace/Objects/Specific/Medical/medipen.rsi
     state: steam
   content:
-  - DesoxyephedrineMedipen
-  - DesoxyephedrineMedipen
-  - DesoxyephedrineMedipen
-  - DesoxyephedrineMedipen
-  - DesoxyephedrineMedipen
-  - DesoxyephedrineMedipen
+  - CelestinMedipen
+  - CelestinMedipen
+  - CelestinMedipen
+  - CelestinMedipen
+  - CelestinMedipen
+  - CelestinMedipen
 
 - type: thiefBackpackSet
   id: CombatMedicineSet

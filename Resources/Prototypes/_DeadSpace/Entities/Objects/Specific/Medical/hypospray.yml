@@ -1,7 +1,7 @@
 - type: entity
-  name: инъектор дезоксиэфедрина
+  name: инъектор целестина
   parent: ChemicalMedipen
-  id: DesoxyephedrineMedipen
+  id: CelestinMedipen
   description: Медипен который помогает обрести максимальную мобильность в пылу сражения.
   components:
   - type: Sprite
@@ -24,10 +24,8 @@
       pen:
         maxVol: 20
         reagents:
-        - ReagentId: Desoxyephedrine
-          Quantity: 10
-        - ReagentId: Dylovene
-          Quantity: 10
+        - ReagentId: Celestin
+          Quantity: 20
 
 - type: entity
   parent: SpaceMedipen
