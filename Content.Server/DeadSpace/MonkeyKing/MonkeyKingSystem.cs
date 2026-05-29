@@ -18,6 +18,7 @@ using Content.Shared.Tag;
 using Robust.Shared.Prototypes;
 using Content.Shared.NPC.Systems;
 using Content.Shared.NPC.Prototypes;
+using Content.Shared.Zombies;
 
 namespace Content.Server.DeadSpace.MonkeyKing;
 
@@ -48,6 +49,7 @@ public sealed partial class MonkeyKingSystem : EntitySystem
         SubscribeLocalEvent<MonkeyKingComponent, KingBuffActionEvent>(OnKingBuff);
         SubscribeLocalEvent<MonkeyKingComponent, GiveIntelligenceActionEvent>(OnGiveIntelligence);
         SubscribeLocalEvent<MonkeyKingComponent, GiveIntelligenceDoAfterEvent>(OnDoAfter);
+        SubscribeLocalEvent<MonkeyKingComponent, EntityZombifiedEvent>(OnZombified);
     }
 
     private void OnComponentInit(EntityUid uid, MonkeyKingComponent component, ComponentInit args)
@@ -64,9 +66,19 @@ public sealed partial class MonkeyKingSystem : EntitySystem
         _actionsSystem.RemoveAction(uid, component.ActionGiveIntelligenceEntity);
     }
 
+    private void OnZombified(EntityUid uid, MonkeyKingComponent component, EntityZombifiedEvent args)
+    {
+        _actionsSystem.RemoveAction(uid, component.ActionArmyEntity);
+        _actionsSystem.RemoveAction(uid, component.ActionKingBuffEntity);
+        _actionsSystem.RemoveAction(uid, component.ActionGiveIntelligenceEntity);
+    }
+
     private void OnArmy(EntityUid uid, MonkeyKingComponent component, ArmyEvent args)
     {
         if (args.Handled)
+            return;
+
+        if (HasComp<ZombieComponent>(uid))
             return;
 
         var monkey = Spawn(component.ServantMonkeyProto, Transform(uid).Coordinates);
@@ -96,6 +108,9 @@ public sealed partial class MonkeyKingSystem : EntitySystem
         if (args.Handled)
             return;
 
+        if (HasComp<ZombieComponent>(uid))
+            return;
+
         var entities = _lookup.GetEntitiesInRange<MonkeyServantComponent>(_transform.GetMapCoordinates(uid, Transform(uid)), component.RangeBuff);
 
         if (entities.Count == 0)
@@ -123,6 +138,9 @@ public sealed partial class MonkeyKingSystem : EntitySystem
         if (args.Handled || args.Target == uid)
             return;
 
+        if (HasComp<ZombieComponent>(uid))
+            return;
+
         var target = args.Target;
 
         if (!_tagSystem.HasTag(target, MonkeyKingTargetTag))
@@ -146,6 +164,9 @@ public sealed partial class MonkeyKingSystem : EntitySystem
     private void OnDoAfter(EntityUid uid, MonkeyKingComponent component, GiveIntelligenceDoAfterEvent args)
     {
         if (args.Cancelled || args.Handled || args.Args.Target == null)
+            return;
+
+        if (HasComp<ZombieComponent>(uid))
             return;
 
         var target = args.Args.Target.Value;
