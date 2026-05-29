@@ -3,6 +3,7 @@
   id: ClothingOuterHardsuitRdWoman
   name: экспериментальный скафандр научного руководителя
   description: Специальный костюм, защищающий от опасной среды с низким давлением. Имеет дополнительный слой брони и значительную защиту от взрыва.
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/Wisdom/rd/hardsuit.rsi
@@ -16,6 +17,7 @@
   id: ClothingHeadHelmetHardsuitRdWoman
   name: шлем экспериментального скафандра научного руководителя
   description: Лёгкий шлем скафандра, не стесняющий движений головы.
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/Wisdom/rd/helmet.rsi

@@ -16,6 +16,7 @@
   id: ClothingBackpackErmolov228
   name: потрёпанная сумка
   description: Вместилище полезных и не очень вещей, ей явно уже не один десяток лет
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/ermolov228/satchel.rsi

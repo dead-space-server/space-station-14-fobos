@@ -563,6 +563,7 @@
   id: PlushieWalkflis
   name: плюшевая Рейм
   description: Это.
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/walkflis/toy.rsi
