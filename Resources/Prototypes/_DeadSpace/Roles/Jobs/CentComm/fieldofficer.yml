@@ -1,0 +1,83 @@
+- type: job
+  id: CentralCommandFieldOfficer
+  name: job-name-field-officer
+  description: job-description-soo
+  playTimeTracker: JobCentralCommandFieldOfficer
+  setPreference: false
+  startingGear: CentcomFieldOfficerGear
+  icon: "JobIconNanotrasenRed"
+  supervisors: job-supervisors-no-one
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+  - SOD
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant, TrackingImplant, DeathRattleImplantCentcomm, MacroBombImplant ]
+  - !type:AddComponentSpecial
+    components:
+    - type: AntagImmune
+    - type: ZombieImmune
+    - type: NpcFactionMember
+      factions:
+      - CentralCommand
+    - type: Skill
+      group: ALL
+
+- type: chameleonOutfit
+  id: CentcomFieldOfficerChameleonOutfit
+  job: CentralCommandFieldOfficer
+  equipment:
+    shoes: ClothingShoesCentcomBlack
+    head: ClothingHeadCapCentcomBlack
+    eyes: ClothingEyesGlassesSecurity
+    gloves: ClothingHandsGlovesCombat
+    outerClothing: ClothingOuterArmorCentcomCarapace
+    neck: ClothingNeckCloakCentcomBlack
+
+- type: startingGear
+  id: CentcomFieldOfficerGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitCentcomOfficerBlack
+    # back: ClothingBackpackCentcomBlack
+    shoes: ClothingShoesCentcomBlack
+    head: ClothingHeadCapCentcomBlack
+    eyes: ClothingEyesHudERTGamma
+    mask: ClothingMaskBSAA
+    gloves: ClothingHandsGlovesCombat
+    outerClothing: ClothingOuterVestWeb
+    neck: ClothingNeckMantileCentcomBlack
+    belt: ClothingBeltSheathMilitaryWebbingCentcomBlackFilled
+    id: CentcomFieldOfficerPDA
+    ears: ClothingHeadsetFieldOfficer
+    pocket1: WeaponRevolverMateba
+    pocket2: DoorRemoteAll
+  #   underwearb: ClothingUnderwearBottomBoxersWhite # DS14-Underwear
+  # underweart: ClothingUnderwearTopBraWhite # DS14-Underwear
+  # underwearb: ClothingUnderwearBottomPantiesWhite # DS14-Underwear
+  # innerClothingSkirt: ClothingUniformJumpskirtPencilSpecialOperationsOfficer
+  # storage:
+  #   back:
+  #   -
+
+- type: entity
+  parent: ClothingHeadset
+  id: ClothingHeadsetFieldOfficer
+  name: гарнитура Полевого Офицера
+  description: Уникальный образец гарнитуры c доступом во все каналы. Собственность Полевого Офицера.
+  suffix: СОБСТВЕННОСТЬ ПО
+  components:
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeyCentCom
+      - EncryptionKeyStationMaster
+      - EncryptionKeySOD
+  - type: Sprite
+    sprite: Clothing/Ears/Headsets/base.rsi
+  - type: Clothing
+    sprite: Clothing/Ears/Headsets/base.rsi
+  - type: Headset
+    color: "#CF1CFF"

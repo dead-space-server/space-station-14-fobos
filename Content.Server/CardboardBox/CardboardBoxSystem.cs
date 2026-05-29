@@ -100,7 +100,7 @@ public sealed class CardboardBoxSystem : SharedCardboardBoxSystem
         _stealth.SetEnabled(uid, false);
         if (HasComp<StealthComponent>(uid))
         {
-            EntityManager.RemoveComponent<SlipperyComponent>(uid);
+            RemComp<SlipperyComponent>(uid);
         }
     }
 
@@ -111,7 +111,7 @@ public sealed class CardboardBoxSystem : SharedCardboardBoxSystem
         {
             _stealth.SetVisibility(uid, stealth.MaxVisibility, stealth);
             _stealth.SetEnabled(uid, true, stealth);
-            EntityManager.EnsureComponent<SlipperyComponent>(uid, out var slippery);
+            EnsureComp<SlipperyComponent>(uid, out var slippery);
         }
     }
 

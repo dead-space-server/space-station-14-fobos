@@ -11,10 +11,12 @@ criminal-records-console-show-all = Все
 
 criminal-records-console-status = Статус
 criminal-records-status-none = Нет
-criminal-records-status-wanted = Разыскивается
-criminal-records-status-detained = Под арестом
 criminal-records-status-suspected = Подозревается
+criminal-records-status-wanted = Разыскивается
+criminal-records-status-hostile = Ликвидация
+criminal-records-status-detained = Под арестом
 criminal-records-status-discharged = Освобождён
+criminal-records-status-eliminated = Устранён
 criminal-records-console-wanted-reason = [color=gray]Причина розыска[/color]
 criminal-records-console-suspected-reason = [color=gray]Причина подозрения[/color]
 criminal-records-console-reason = Причина

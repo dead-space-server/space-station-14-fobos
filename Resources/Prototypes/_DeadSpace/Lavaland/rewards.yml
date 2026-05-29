@@ -77,6 +77,10 @@
     state: legion_soul
   - type: Item
     size: Small
+  - type: Tag
+    tags:
+    - FelinidFood
+    - ReptilianFood
   - type: Perishable
     rotAfter: 180
     molsPerSecondPerUnitMass: 0

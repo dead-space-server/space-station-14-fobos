@@ -189332,7 +189332,7 @@ entities:
     - type: Transform
       pos: -87.48833,28.387346
       parent: 2
-- proto: ErtComputerShuttle
+- proto: ErtResponseConsole
   entities:
   - uid: 26648
     components:
@@ -323205,7 +323205,7 @@ entities:
     - type: AccessReader
       accessListsOriginal:
       - - ResearchDirector
-- proto: StationAnchor
+- proto: StationAnchorIndestructible # DS14 Edit: force static station grid
   entities:
   - uid: 45350
     components:

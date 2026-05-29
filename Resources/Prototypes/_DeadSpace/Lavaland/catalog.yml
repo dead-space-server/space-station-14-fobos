@@ -484,7 +484,7 @@
   categories:
   - LavalandMiningDetails
   cost:
-    LavalandMiningPoint: 1125
+    LavalandMiningPoint: 1000
 
 - type: listing
   id: LavalandDetailsClothingHeadHelmetRIGSalvageAdvanced
@@ -524,7 +524,7 @@
   categories:
   - LavalandMiningDetails
   cost:
-    LavalandMiningPoint: 1600
+    LavalandMiningPoint: 1500
 
 # Контра
 

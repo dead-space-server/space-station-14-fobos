@@ -67,7 +67,7 @@
   parent: BaseItem
   name: Дрозд
   description: Автоматический пистолет-пулемёт для огнестрельного модуля. Работает только очередями и постепенно восстанавливает боезапас.
-  suffix: Security Borg
+  suffix: Для боргов
   components:
   - type: Sprite
     sprite: Objects/Weapons/Guns/SMGs/drozd.rsi

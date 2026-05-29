@@ -14,6 +14,7 @@
       name: ghost-role-information-ert-chaplain-name
       description: ghost-role-information-ert-security-description
       rules: ghost-role-information-nonantagonist-rules
+      category: ghost-role-information-centcomm-category
       requirements:
         - !type:DepartmentTimeRequirement
           department: Civilian

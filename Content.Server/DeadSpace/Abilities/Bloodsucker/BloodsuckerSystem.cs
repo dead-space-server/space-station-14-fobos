@@ -173,7 +173,7 @@ public sealed partial class BloodsuckerSystem : SharedBloodsuckerSystem
             return;
         }
 
-        if (!EntityManager.TryGetComponent(target, out BloodstreamComponent? bloodstreamComponent))
+        if (!TryComp(target, out BloodstreamComponent? bloodstreamComponent))
             return;
 
         if (!TryModifyBloodLevel(target, -component.HowMuchWillItSuck, bloodstreamComponent))

@@ -33,7 +33,7 @@
   icon:
     sprite: Objects/Weapons/Grenades/metalfoam.rsi
     state: icon
-  product: CrateEngineeringFoamGrenade
+  product: CrateEngineeringFoamGrenadeTaipan
   cost: 2500
   category: cargoproduct-category-name-engineering
   group: taipan_market
@@ -113,7 +113,7 @@
   icon:
     sprite: Objects/Weapons/Guns/Battery/particle_decelerator.rsi
     state: base
-  product: CrateParticleDecelerators
+  product: CrateParticleDeceleratorsTaipan
   cost: 15000
   category: cargoproduct-category-name-engineering
   group: taipan_market

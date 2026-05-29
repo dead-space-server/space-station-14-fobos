@@ -17,3 +17,33 @@
   cost: 12000
   category: cargoproduct-category-name-medical
   group: medical # DS14
+
+- type: cargoProduct
+  id: WeakViralSolution
+  icon:
+    sprite: Objects/Specific/Chemistry/vial.rsi
+    state: vial
+  product: CrateWeakViralSolution
+  cost: 50000
+  category: cargoproduct-category-name-medical
+  group: medical
+
+- type: cargoProduct
+  id: MediumViralSolution
+  icon:
+    sprite: Objects/Specific/Chemistry/vial.rsi
+    state: vial
+  product: CrateMediumViralSolution
+  cost: 100000
+  category: cargoproduct-category-name-medical
+  group: medical
+
+- type: cargoProduct
+  id: StrongViralSolution
+  icon:
+    sprite: Objects/Specific/Chemistry/vial.rsi
+    state: vial
+  product: CrateStrongViralSolution
+  cost: 150000
+  category: cargoproduct-category-name-medical
+  group: medical

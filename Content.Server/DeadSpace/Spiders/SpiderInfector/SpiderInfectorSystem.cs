@@ -80,7 +80,7 @@ public sealed partial class SpiderInfectorSystem : EntitySystem
         if (!IsInfectionPossible(uid, args.Args.Target.Value))
             return;
 
-        var eggComponent = EntityManager.AddComponent<EggComponent>(args.Args.Target.Value);
+        var eggComponent = AddComp<EggComponent>(args.Args.Target.Value);
 
         eggComponent.SpawnedEntities = component.SpawnedEntities;
         _eggSystem.Postpone(component.InfectDuration, eggComponent);

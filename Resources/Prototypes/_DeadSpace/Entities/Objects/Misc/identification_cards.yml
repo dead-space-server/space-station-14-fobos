@@ -213,6 +213,17 @@
     job: CentralCommandSpecialOperationsOfficer
 
 - type: entity
+  parent: CentcomIDCard
+  id: CentcomFieldOfficerIDCar
+  components:
+  - type: Sprite
+    layers:
+    - state: silver
+    - state: idcentcom
+  - type: PresetIdCard
+    job: CentralCommandFieldOfficer
+
+- type: entity
   parent: IDCardStandard
   id: CentcomIDCardDeathsquad
   name: death squad ID card

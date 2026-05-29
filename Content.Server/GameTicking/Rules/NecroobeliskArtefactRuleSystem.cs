@@ -7,14 +7,21 @@ using Content.Server.Chat.Systems;
 using Content.Shared.Fax.Components;
 using Content.Shared.Paper;
 using Content.Server.Fax;
+using Content.Server.Station.Systems;
+using Robust.Shared.ContentPack;
+using Robust.Shared.Utility;
 
 namespace Content.Server.GameTicking.Rules;
 
 public sealed class NecroobeliskArtefactRuleSystem : GameRuleSystem<NecroobeliskArtefactRuleComponent>
 {
+    private static readonly ResPath ObeliskOrderPath = new("/Paperwork/StationGoal/Obelisk.xml");
+
     [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly FaxSystem _faxSystem = default!;
+    [Dependency] private readonly StationSystem _station = default!;
+    [Dependency] private readonly IResourceManager _resourceManager = default!;
 
     public override void Initialize()
     {
@@ -48,13 +55,17 @@ public sealed class NecroobeliskArtefactRuleSystem : GameRuleSystem<Necroobelisk
         component.IsArtefactSended = true;
 
         var faxes = EntityQueryEnumerator<FaxMachineComponent>();
+        var contentTemplate = _resourceManager.ContentFileReadText(ObeliskOrderPath).ReadToEnd();
 
         while (faxes.MoveNext(out var faxEnt, out var fax))
         {
             if (!fax.ReceiveNukeCodes)
                 continue;
 
-            var content = Loc.GetString("paper-order-obelisk");
+            var content = contentTemplate;
+
+            if (_station.GetOwningStation(faxEnt) is { } station)
+                content = content.Replace("STATION XX-00", Name(station));
 
             var printout = new FaxPrintout(
                 content,
@@ -64,7 +75,13 @@ public sealed class NecroobeliskArtefactRuleSystem : GameRuleSystem<Necroobelisk
                 "paper_stamp-centcom",
                 new List<StampDisplayInfo>
                 {
-                    new StampDisplayInfo { StampedName = Loc.GetString("stamp-component-stamped-name-centcom"), StampedColor = Color.FromHex("#006600") },
+                    new StampDisplayInfo
+                    {
+                        StampedName = Loc.GetString("stamp-component-stamped-name-centcom"),
+                        StampedColor = Color.FromHex("#006600"),
+                        StampTexture = "/Textures/Interface/Stamps/centralcommand_print.png",
+                        StampScale = 0.92f,
+                    },
                 },
                 signatures: new List<string> { "Эвелин Маршалл" }
             );

@@ -3,7 +3,7 @@
   icon:
     sprite: Objects/Specific/Hydroponics/banana.rsi
     state: seed
-  product: CrateHydroponicsSeedsExotic
+  product: CrateHydroponicsSeedsExoticTaipan
   cost: 1000
   category: cargoproduct-category-name-hydroponics
   group: taipan_market
@@ -13,7 +13,7 @@
   icon:
     sprite: Objects/Specific/Hydroponics/galaxythistle.rsi
     state: seed
-  product: CrateHydroponicsSeedsMedicinal
+  product: CrateHydroponicsSeedsMedicinalTaipan
   cost: 500
   category: cargoproduct-category-name-hydroponics
   group: taipan_market

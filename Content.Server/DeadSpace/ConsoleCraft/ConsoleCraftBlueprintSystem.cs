@@ -53,7 +53,7 @@ public sealed class ConsoleCraftBlueprintSystem : SharedConsoleCraftBlueprintSys
     {
         var bpContainer = Container.GetContainer(receiver, ConsoleCraftBlueprintReceiverComponent.ContainerId);
         Container.Remove(blueprint.Owner, bpContainer, reparent: false, force: true);
-        EntityManager.DeleteEntity(blueprint.Owner);
+        Del(blueprint.Owner);
 
         var recipeName = _proto.TryIndex<ConsoleCraftPrototype>(blueprint.Comp.Recipe.Id, out var recipeDef)
             ? recipeDef.Name

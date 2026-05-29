@@ -1,10 +1,15 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
+using System.Linq;
 using Content.Server.Chat.Systems;
 using Content.Server.GameTicking;
 using Content.Server.GameTicking.Rules;
+using Content.Server.RoundEnd;
 using Content.Server.StationEvents.Components;
+using Content.Shared.EntityTable;
 using Content.Shared.GameTicking.Components;
+using Robust.Server.Player;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 
 namespace Content.Server.StationEvents;
@@ -17,14 +22,26 @@ public sealed class SurvivalRampingStationEventSchedulerSystem : GameRuleSystem<
     [Dependency] private readonly EventManagerSystem _event = default!;
     [Dependency] private readonly GameTicker _gameTicker = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
+    [Dependency] private readonly EntityTableSystem _entityTable = default!;
+    [Dependency] private readonly IPlayerManager _player = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly RoundEndSystem _roundEnd = default!;
 
     public float GetChaosModifier(EntityUid uid, SurvivalRampingStationEventSchedulerComponent component)
     {
         var roundTime = (float) _gameTicker.RoundDuration().TotalSeconds;
-        if (roundTime > component.EndTime)
+        if (component.EndTime <= 0f)
             return component.MaxChaos;
 
-        return component.MaxChaos / component.EndTime * roundTime + component.StartingChaos;
+        if (roundTime <= component.EndTime)
+            return component.StartingChaos + (component.MaxChaos - component.StartingChaos) / component.EndTime * roundTime;
+
+        if (component.FalloffEndTime <= component.EndTime || roundTime >= component.FalloffEndTime)
+            return component.StartingChaos;
+
+        var falloffDuration = component.FalloffEndTime - component.EndTime;
+        var falloffTime = roundTime - component.EndTime;
+        return component.MaxChaos - (component.MaxChaos - component.StartingChaos) / falloffDuration * falloffTime;
     }
 
     protected override void Started(EntityUid uid,
@@ -34,9 +51,12 @@ public sealed class SurvivalRampingStationEventSchedulerSystem : GameRuleSystem<
     {
         base.Started(uid, component, gameRule, args);
 
-        component.MaxChaos = _random.NextFloat(component.AverageChaos - component.AverageChaos / 4, component.AverageChaos + component.AverageChaos / 4);
-        component.EndTime = _random.NextFloat(component.AverageEndTime - component.AverageEndTime / 4, component.AverageEndTime + component.AverageEndTime / 4) * 60f;
-        component.StartingChaos = component.MaxChaos / 10;
+        component.MaxChaos = component.AverageChaos;
+        component.EndTime = component.AverageEndTime * 60f;
+        component.FalloffEndTime = component.MinimumChaosTime * 60f;
+
+        if (component.StartingChaos > component.MaxChaos)
+            component.StartingChaos = component.MaxChaos;
 
         PickNextEventTime(uid, component);
     }
@@ -70,10 +90,9 @@ public sealed class SurvivalRampingStationEventSchedulerSystem : GameRuleSystem<
             }
 
             // Do not reset the cooldown until an event was actually queued.
-            // GroupSelector may pick an empty sub-pool after CanRun filtering
-            // e.g. heavy threats on low pop, so retry a few times before giving up
-            // for this tick.
-            if (!TryRunRandomEvent(phase))
+            // GroupSelector may pick a sub-pool that has no queueable events after
+            // max occurrence / active-rule filtering, so retry a few times.
+            if (!TryRunRandomEvent(scheduler, phase))
                 continue;
 
             PickNextEventTime(uid, scheduler);
@@ -87,11 +106,13 @@ public sealed class SurvivalRampingStationEventSchedulerSystem : GameRuleSystem<
         component.TimeUntilNextEvent = _random.NextFloat(240f / mod, 720f / mod);
     }
 
-    private bool TryRunRandomEvent(SurvivalRampingStationEventSchedulerPhase phase)
+    private bool TryRunRandomEvent(
+        SurvivalRampingStationEventSchedulerComponent component,
+        SurvivalRampingStationEventSchedulerPhase phase)
     {
         for (var i = 0; i < EventPickAttempts; i++)
         {
-            if (!_event.TryBuildLimitedEvents(phase.ScheduledGameRules, out var limitedEvents))
+            if (!TryBuildSurvivalEvents(component, phase, out var limitedEvents))
                 continue;
 
             if (_event.FindEvent(limitedEvents) is not { } randomEvent)
@@ -104,6 +125,75 @@ public sealed class SurvivalRampingStationEventSchedulerSystem : GameRuleSystem<
         return false;
     }
 
+    private bool TryBuildSurvivalEvents(
+        SurvivalRampingStationEventSchedulerComponent component,
+        SurvivalRampingStationEventSchedulerPhase phase,
+        out Dictionary<EntityPrototype, StationEventComponent> limitedEvents)
+    {
+        limitedEvents = new Dictionary<EntityPrototype, StationEventComponent>();
+
+        foreach (var eventId in _entityTable.GetSpawns(phase.ScheduledGameRules))
+        {
+            if (!_prototype.Resolve(eventId, out var eventPrototype))
+            {
+                Log.Warning($"Survival event ID {eventId} has no prototype index.");
+                continue;
+            }
+
+            if (limitedEvents.ContainsKey(eventPrototype))
+                continue;
+
+            if (eventPrototype.Abstract)
+                continue;
+
+            if (!eventPrototype.TryGetComponent<StationEventComponent>(out var stationEvent, EntityManager.ComponentFactory))
+                continue;
+
+            if (!CanQueueSurvivalEvent(component, eventPrototype, stationEvent))
+                continue;
+
+            limitedEvents.Add(eventPrototype, stationEvent);
+        }
+
+        return limitedEvents.Count > 0;
+    }
+
+    private bool CanQueueSurvivalEvent(
+        SurvivalRampingStationEventSchedulerComponent component,
+        EntityPrototype prototype,
+        StationEventComponent stationEvent)
+    {
+        // Survival phase tables are the local timing gate, so ignore only the
+        // StationEvent time gates: EarliestStart and ReoccurrenceDelay.
+        if (_gameTicker.IsGameRuleActive(prototype.ID))
+            return false;
+
+        if (stationEvent.WillNotStartRandomly)
+            return false;
+
+        var maxOccurrences = stationEvent.MaxOccurrences;
+        if (component.MaxEventOccurrences.TryGetValue(prototype.ID, out var survivalMaxOccurrences) &&
+            (!maxOccurrences.HasValue || survivalMaxOccurrences < maxOccurrences.Value))
+        {
+            maxOccurrences = survivalMaxOccurrences;
+        }
+
+        if (maxOccurrences.HasValue && GetOccurrences(prototype.ID) >= maxOccurrences.Value)
+            return false;
+
+        if (_player.PlayerCount < stationEvent.MinimumPlayers)
+            return false;
+
+        if (_roundEnd.IsRoundEndRequested() && !stationEvent.OccursDuringRoundEnd)
+            return false;
+
+        return true;
+    }
+
+    private int GetOccurrences(string stationEvent)
+    {
+        return _gameTicker.AllPreviousGameRules.Count(rule => rule.Item2 == stationEvent);
+    }
 
     private SurvivalRampingStationEventSchedulerPhase? PickPhase(SurvivalRampingStationEventSchedulerComponent component)
     {

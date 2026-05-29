@@ -3,6 +3,7 @@
   parent: [BaseWeaponPistol, BaseSyndicateContraband]
   id: WeaponPistolGurza
   description: Крайне скорострельный автоматический пистолет в калибре 9х19 мм. Не имеет ничего общего с аномалиями.
+  suffix: Пистолет
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/gurza.rsi

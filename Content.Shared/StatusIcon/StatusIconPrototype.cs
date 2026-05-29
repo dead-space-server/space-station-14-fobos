@@ -124,12 +124,6 @@ public sealed partial class JobIconPrototype : StatusIconPrototype, IInheritingP
     /// </summary>
     [DataField]
     public bool AllowSelection = true;
-
-    /// <summary>
-    /// Should this job icon be considered a crew job for silicons?
-    /// </summary>
-    [DataField]
-    public bool IsCrewJob = true;
 }
 
 /// <summary>

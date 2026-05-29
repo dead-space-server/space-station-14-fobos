@@ -177,7 +177,7 @@ public sealed partial class AnomalySystem
             grid = xform.GridUid.Value;
         }
 
-        var author = EntityManager.GetComponent<GeneratingAnomalyGeneratorComponent>(uid).Author; // DS14
+        var author = Comp<GeneratingAnomalyGeneratorComponent>(uid).Author; // DS14
 
         SpawnOnRandomGridLocation(grid, component.SpawnerPrototype);
         RemComp<GeneratingAnomalyGeneratorComponent>(uid);

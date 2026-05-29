@@ -926,6 +926,83 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
                     round.MapName))
                 .ToList();
         }
+
+        public async Task<AutoMapVoteConfigRecord?> GetAutoMapVoteConfigAsync(
+            string serverId,
+            CancellationToken cancel = default)
+        {
+            await using var db = await GetDb(cancel);
+
+            var entity = await db.DbContext.AutoMapVoteConfigs
+                .SingleOrDefaultAsync(config => config.ServerId == serverId, cancel);
+
+            return entity == null
+                ? null
+                : MakeAutoMapVoteConfigRecord(entity);
+        }
+
+        public async Task UpsertAutoMapVoteConfigAsync(
+            AutoMapVoteConfigRecord config,
+            CancellationToken cancel = default)
+        {
+            await using var db = await GetDb(cancel);
+
+            var entity = await db.DbContext.AutoMapVoteConfigs
+                .SingleOrDefaultAsync(existing => existing.ServerId == config.ServerId, cancel);
+
+            if (entity == null)
+            {
+                entity = new AutoMapVoteConfig
+                {
+                    ServerId = config.ServerId,
+                };
+
+                db.DbContext.AutoMapVoteConfigs.Add(entity);
+            }
+
+            ApplyAutoMapVoteConfig(entity, config);
+            await db.DbContext.SaveChangesAsync(cancel);
+        }
+
+        private static AutoMapVoteConfigRecord MakeAutoMapVoteConfigRecord(AutoMapVoteConfig entity)
+        {
+            return new AutoMapVoteConfigRecord(
+                entity.ServerId,
+                entity.Enabled,
+                entity.SmallMaxPlayers,
+                entity.MediumMaxPlayers,
+                entity.LargeMaxPlayers,
+                entity.SmallMaps,
+                entity.MediumMaps,
+                entity.LargeMaps,
+                entity.BlacklistMaps,
+                entity.VoteDurationSeconds,
+                entity.SmallPlayedMaps,
+                entity.MediumPlayedMaps,
+                entity.LargePlayedMaps,
+                entity.SmallPoolQueueMaps,
+                entity.MediumPoolQueueMaps,
+                entity.LargePoolQueueMaps);
+        }
+
+        private static void ApplyAutoMapVoteConfig(AutoMapVoteConfig entity, AutoMapVoteConfigRecord config)
+        {
+            entity.Enabled = config.Enabled;
+            entity.SmallMaxPlayers = config.SmallMaxPlayers;
+            entity.MediumMaxPlayers = config.MediumMaxPlayers;
+            entity.LargeMaxPlayers = config.LargeMaxPlayers;
+            entity.SmallMaps = config.SmallMaps;
+            entity.MediumMaps = config.MediumMaps;
+            entity.LargeMaps = config.LargeMaps;
+            entity.BlacklistMaps = config.BlacklistMaps;
+            entity.VoteDurationSeconds = config.VoteDurationSeconds;
+            entity.SmallPlayedMaps = config.SmallPlayedMaps;
+            entity.MediumPlayedMaps = config.MediumPlayedMaps;
+            entity.LargePlayedMaps = config.LargePlayedMaps;
+            entity.SmallPoolQueueMaps = config.SmallPoolQueueMaps;
+            entity.MediumPoolQueueMaps = config.MediumPoolQueueMaps;
+            entity.LargePoolQueueMaps = config.LargePoolQueueMaps;
+        }
         // DS14-end
 
         [return: NotNullIfNotNull(nameof(round))]

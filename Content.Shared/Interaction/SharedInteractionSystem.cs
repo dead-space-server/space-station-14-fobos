@@ -626,12 +626,15 @@ namespace Content.Shared.Interaction
 
             predicate ??= _ => false;
             var ray = new CollisionRay(origin.Position, dir.Normalized(), collisionMask);
-            var rayResults = _broadphase.IntersectRayWithPredicate(origin.MapId, ray, dir.Length(), predicate.Invoke, false).ToList();
+            // DS14-Start: consume only the first ray hit instead of materializing the full result list.
+            var rayResults = _broadphase.IntersectRayWithPredicate(origin.MapId, ray, dir.Length(), predicate.Invoke, true);
+            using var enumerator = rayResults.GetEnumerator();
 
-            if (rayResults.Count == 0)
+            if (!enumerator.MoveNext())
                 return dir.Length();
 
-            return (rayResults[0].HitPos - origin.Position).Length();
+            return (enumerator.Current.HitPos - origin.Position).Length();
+            // DS14-End
         }
 
         /// <summary>
@@ -689,9 +692,12 @@ namespace Content.Shared.Interaction
             }
 
             var ray = new CollisionRay(origin.Position, dir.Normalized(), (int) collisionMask);
-            var rayResults = _broadphase.IntersectRayWithPredicate(origin.MapId, ray, length, predicate.Invoke, false).ToList();
+            // DS14-Start: consume only the first obstruction instead of materializing the full result list.
+            var rayResults = _broadphase.IntersectRayWithPredicate(origin.MapId, ray, length, predicate.Invoke, true);
+            using var enumerator = rayResults.GetEnumerator();
 
-            return rayResults.Count == 0;
+            return !enumerator.MoveNext();
+            // DS14-End
         }
 
         public bool InRangeUnobstructed(
