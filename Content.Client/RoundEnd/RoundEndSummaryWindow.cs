@@ -1050,6 +1050,7 @@ namespace Content.Client.RoundEnd
                 var snapshotSprite = EntMan.GetComponent<SpriteComponent>(snapshotUid);
                 SpriteSystem.CopySprite((source, sourceSprite), (snapshotUid, snapshotSprite));
                 HideTypingIndicator(snapshotUid, snapshotSprite);
+                SpriteSystem.SetRotation((snapshotUid, snapshotSprite), Angle.Zero);
 
                 if (!HasDrawableSprite(snapshotSprite))
                 {
