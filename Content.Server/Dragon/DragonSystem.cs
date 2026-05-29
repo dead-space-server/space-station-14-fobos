@@ -70,7 +70,7 @@ public sealed partial class DragonSystem : EntitySystem
             {
                 comp.WeakenedAccumulator -= frameTime;
 
-                    // No longer weakened.
+                // No longer weakened.
                 if (comp.WeakenedAccumulator < 0f)
                 {
                     comp.WeakenedAccumulator = 0f;
@@ -129,8 +129,8 @@ public sealed partial class DragonSystem : EntitySystem
             _popup.PopupEntity(Loc.GetString("carp-rift-weakened"), uid, uid);
             return;
         }
+        
         //DS14-Start
-
         if (HasComp<ZombieComponent>(uid) || HasComp<NecromorfComponent>(uid))
         {
             _popup.PopupEntity(Loc.GetString("carp-rift-infected"), uid, uid);
