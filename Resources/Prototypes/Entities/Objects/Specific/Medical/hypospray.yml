@@ -420,7 +420,7 @@
   parent: ChemicalMedipen
   id: PunctAutoInjector
   name: puncturase auto-injector
-  description: A single-dose, non-refillable medipen containing puncturase, used to quickly and easily treat puncture wounds. Commonly used as a combat medicine.
+  description: A single-dose, non-refillable medipen containing puncturase, used to quickly and easily treat puncture wounds. Commonly used as a combat medicine. #DS-14
   components:
   - type: Item
     inhandVisuals:
@@ -447,7 +447,7 @@
     solutions:
       pen:
         maxVol: 15
-        reagents:
+        reagents: #DS-14
         - ReagentId: Puncturase
           Quantity: 10
 
