@@ -26,6 +26,5 @@
           sprite: Objects/Misc/rifle_stock.rsi
           state: icon
         name: construction-graph-tag-rifle-stock
-        doAfer: 10
   - node: shotGunBread
     entity: WeaponShotgunBreadBaguette
