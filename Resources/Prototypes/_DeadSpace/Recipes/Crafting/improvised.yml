@@ -71,7 +71,7 @@
   objectType: Item
 
 - type: construction
-  id: BreadGun
+  id: ImprovisedShotgunBread
   graph: ImprovisedShotgunBreadGraph
   startNode: start
   targetNode: shotGunBread

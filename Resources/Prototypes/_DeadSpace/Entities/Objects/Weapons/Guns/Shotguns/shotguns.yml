@@ -209,7 +209,7 @@
         - ReagentId: Blackpepper
           Quantity: 1
   - type: Construction
-    graph: BreadGun
+    graph: ImprovisedShotgunBread
     node: start
     deconstructionTarget: null
 
