@@ -81,6 +81,10 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
     private readonly Dictionary<BiomeComponent,
         Dictionary<string, HashSet<Vector2i>>> _markerChunks = new();
 
+    // DS14-Start: cache marker layer prototype lookups for one biome update pass.
+    private readonly Dictionary<ProtoId<BiomeMarkerLayerPrototype>, BiomeMarkerLayerPrototype> _markerLayerPrototypeCache = new();
+    // DS14-End
+
     // DS14-Start: reuse biome unload buffers instead of allocating per unload pass.
     private readonly List<Vector2i> _unloadChunksBuffer = new();
     private readonly List<(Vector2i, Tile)> _unloadTilesBuffer = new();
@@ -363,7 +367,7 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
 
                 foreach (var layer in biome.MarkerLayers)
                 {
-                    var layerProto = ProtoManager.Index(layer);
+                    var layerProto = GetMarkerLayerPrototype(layer); // DS14 Edit
                     AddMarkerChunksInRange(biome, worldPos, layerProto);
                 }
             }
@@ -384,7 +388,7 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
 
                 foreach (var layer in biome.MarkerLayers)
                 {
-                    var layerProto = ProtoManager.Index(layer);
+                    var layerProto = GetMarkerLayerPrototype(layer); // DS14 Edit
                     AddMarkerChunksInRange(biome, worldPos, layerProto);
                 }
             }
@@ -416,6 +420,7 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
 
         _activeChunks.Clear();
         _markerChunks.Clear();
+        _markerLayerPrototypeCache.Clear(); // DS14 Edit
     }
 
     private void AddChunksInRange(BiomeComponent biome, Vector2 worldPos)
@@ -450,6 +455,18 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
             lay.Add(origin);
         }
     }
+
+    // DS14-Start: cache marker layer prototype lookups for one update pass.
+    private BiomeMarkerLayerPrototype GetMarkerLayerPrototype(ProtoId<BiomeMarkerLayerPrototype> layer)
+    {
+        if (_markerLayerPrototypeCache.TryGetValue(layer, out var layerProto))
+            return layerProto;
+
+        layerProto = ProtoManager.Index(layer);
+        _markerLayerPrototypeCache[layer] = layerProto;
+        return layerProto;
+    }
+    // DS14-End
 
     private static bool AreaIntersectsBiomeBounds(Vector2i origin, int size, Box2i? bounds)
     {
@@ -518,19 +535,41 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
             idx++;
             var localIdx = idx;
 
+            // DS14-Start: avoid scheduling marker jobs when this layer has no new chunks to build.
+            if (chunks.Count == 0)
+                continue;
+
+            if (loadedMarkers.TryGetValue(layer, out var loadedLayerMarkers))
+            {
+                var hasUnloadedChunk = false;
+
+                foreach (var chunk in chunks)
+                {
+                    if (loadedLayerMarkers.Contains(chunk))
+                        continue;
+
+                    hasUnloadedChunk = true;
+                    break;
+                }
+
+                if (!hasUnloadedChunk)
+                    continue;
+            }
+
+            var forced = component.ForcedMarkerLayers.Contains(layer);
+            var layerProto = ProtoManager.Index<BiomeMarkerLayerPrototype>(layer);
+            // DS14-End
+
             Parallel.ForEach(chunks, new ParallelOptions() { MaxDegreeOfParallelism = _parallel.ParallelProcessCount }, chunk =>
             {
                 if (loadedMarkers.TryGetValue(layer, out var mobChunks) && mobChunks.Contains(chunk))
                     return;
-
-                var forced = component.ForcedMarkerLayers.Contains(layer);
 
                 // Make a temporary version and copy back in later.
                 var pending = new Dictionary<Vector2i, Dictionary<string, List<Vector2i>>>();
 
                 // Essentially get the seed + work out a buffer to adjacent chunks so we don't
                 // inadvertantly spawn too many near the edges.
-                var layerProto = ProtoManager.Index<BiomeMarkerLayerPrototype>(layer);
                 var markerSeed = seed + chunk.X * ChunkSize + chunk.Y + localIdx;
                 var rand = new Random(markerSeed);
                 var buffer = (int)(layerProto.Radius / 2f);
@@ -1053,7 +1092,6 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
 
         _mapSystem.SetTiles(gridUid, grid, tiles);
         tiles.Clear();
-        component.LoadedChunks.Remove(chunk);
 
         if (modified.Count == 0)
         {
