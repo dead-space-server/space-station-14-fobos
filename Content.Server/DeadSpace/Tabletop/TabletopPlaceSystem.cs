@@ -4,6 +4,7 @@ using Content.Server.Tabletop;
 using Content.Server.Tabletop.Components;
 using Content.Shared.CCVar;
 using Content.Shared.DeadSpace.Tabletop.Components;
+using Content.Shared.Interaction;
 using Content.Shared.Tabletop;
 using Content.Shared.Tabletop.Components;
 using Content.Shared.Verbs;
@@ -29,6 +30,7 @@ public sealed partial class TabletopPlaceSystem : EntitySystem
         base.Initialize();
 
         SubscribeLocalEvent<GetVerbsEvent<ActivationVerb>>(AddPlaceFigurineVerb);
+        SubscribeLocalEvent<InteractUsingEvent>(OnInteractUsing);
         SubscribeNetworkEvent<SharedTabletopSystem.TabletopRequestTakeOut>(OnTabletopRequestTakeOut);
     }
 
@@ -51,6 +53,24 @@ public sealed partial class TabletopPlaceSystem : EntitySystem
         };
 
         args.Verbs.Add(verb);
+    }
+
+    private void OnInteractUsing(InteractUsingEvent args)
+    {
+        if (args.Handled)
+            return;
+
+        if (!TryComp(args.Target, out TabletopGameComponent? component))
+            return;
+
+        if (!TryComp(args.Used, out TabletopPlaceableComponent? _))
+            return;
+
+        if (_cfg.GetCVar(CCVars.GameTabletopPlace))
+            return;
+
+        args.Handled = true;
+        PlaceFigurine(args.Used, args.Target, component, args.User);
     }
 
     private void PlaceFigurine(EntityUid held, EntityUid tableUid, TabletopGameComponent component, EntityUid user)
