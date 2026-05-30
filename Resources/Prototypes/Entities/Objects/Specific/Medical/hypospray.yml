@@ -446,10 +446,14 @@
   - type: SolutionContainerManager
     solutions:
       pen:
-        maxVol: 15
-        reagents: #DS-14
+        maxVol: 10 #DS-14
+        reagents:
         - ReagentId: Puncturase
           Quantity: 10
+        #DS14-start
+        # - ReagentId: TranexamicAcid
+        #   Quantity: 5
+        #DS14-end
 
 - type: entity
   parent: ChemicalMedipen
