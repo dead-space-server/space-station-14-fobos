@@ -209,8 +209,8 @@
         - ReagentId: Blackpepper
           Quantity: 1
   - type: Construction
-    graph: ImprovisedShotgunBread
-    node: start
+    graph: ImprovisedShotgunGraph
+    node: shotgunBread
     deconstructionTarget: null
 
 - type: entity
