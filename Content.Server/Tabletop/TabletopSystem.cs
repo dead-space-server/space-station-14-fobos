@@ -1,4 +1,3 @@
-using Content.Server.Hands.Systems;
 using Content.Server.Popups;
 using Content.Server.Tabletop.Components;
 using Content.Shared.CCVar;
@@ -23,7 +22,6 @@ namespace Content.Server.Tabletop
     {
         [Dependency] private readonly SharedMapSystem _map = default!;
         [Dependency] private readonly EyeSystem _eye = default!;
-        [Dependency] private readonly HandsSystem _hands = default!;
         [Dependency] private readonly ViewSubscriberSystem _viewSubscriberSystem = default!;
         [Dependency] private readonly PopupSystem _popupSystem = default!;
         [Dependency] private readonly IConfigurationManager _cfg = default!;
@@ -86,13 +84,10 @@ namespace Content.Server.Tabletop
             if (component.Session is not { } session)
                 return;
 
-            if (!_hands.TryGetActiveItem(uid, out var handEnt))
+            if (!TryComp(args.Used, out ItemComponent? item)) // DS14
                 return;
 
-            if (!TryComp<ItemComponent>(handEnt, out var item))
-                return;
-
-            var meta = MetaData(handEnt.Value);
+            var meta = MetaData(args.Used);
             var protoId = meta.EntityPrototype?.ID;
 
             var hologram = Spawn(protoId, session.Position.Offset(-1, 0));
