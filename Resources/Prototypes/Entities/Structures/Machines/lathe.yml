@@ -421,6 +421,7 @@
     - SecurityDisablers
     - WeaponMagmite # DS14
     - GlovesArkalyse # DS14
+    - GlassesThermal # DS14
     - SecurityBorgModulesTierTwo # DS14
     - SecurityBorgModulesTierThree # DS14
   - type: EmagLatheRecipes

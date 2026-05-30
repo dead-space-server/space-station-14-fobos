@@ -1,6 +1,7 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Content.Shared.DeadSpace.ThermalVision;
+using Content.Shared.Inventory;
 using Robust.Client.Audio;
 using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
@@ -12,7 +13,7 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Client.DeadSpace.ThermalVision;
 
-public sealed class ThermalVisionActiveSystem : EntitySystem
+public sealed class ThermalVisorSystem : EntitySystem
 {
     [Dependency] private readonly IPlayerManager _player = default!;
     [Dependency] private readonly IOverlayManager _overlayMan = default!;
@@ -26,10 +27,10 @@ public sealed class ThermalVisionActiveSystem : EntitySystem
     public override void Initialize()
     {
         base.Initialize();
-        SubscribeLocalEvent<ThermalVisionActiveComponent, ComponentInit>(OnActiveInit);
-        SubscribeLocalEvent<ThermalVisionActiveComponent, ComponentShutdown>(OnActiveShutdown);
-        SubscribeLocalEvent<ThermalVisionActiveComponent, LocalPlayerAttachedEvent>(OnPlayerAttached);
-        SubscribeLocalEvent<ThermalVisionActiveComponent, LocalPlayerDetachedEvent>(OnPlayerDetached);
+        SubscribeLocalEvent<ThermalVisionComponent, ComponentInit>(OnActiveInit);
+        SubscribeLocalEvent<ThermalVisionComponent, ComponentShutdown>(OnActiveShutdown);
+        SubscribeLocalEvent<ThermalVisionComponent, LocalPlayerAttachedEvent>(OnPlayerAttached);
+        SubscribeLocalEvent<ThermalVisionComponent, LocalPlayerDetachedEvent>(OnPlayerDetached);
 
         _overlay = new ThermalVisionOverlay(EntityManager, _spriteSys, _lookup);
     }
@@ -44,7 +45,7 @@ public sealed class ThermalVisionActiveSystem : EntitySystem
     {
         base.FrameUpdate(frameTime);
         var player = _player.LocalEntity;
-        if (player == null || !TryComp<ThermalVisionActiveComponent>(player, out var comp))
+        if (player == null || !TryComp<ThermalVisionComponent>(player, out var comp))
             return;
 
         if (comp.IsActive && !_wasActive)
@@ -54,13 +55,13 @@ public sealed class ThermalVisionActiveSystem : EntitySystem
         _wasActive = comp.IsActive;
     }
 
-    private void OnActiveInit(EntityUid uid, ThermalVisionActiveComponent component, ComponentInit args)
+    private void OnActiveInit(EntityUid uid, ThermalVisionComponent component, ComponentInit args)
     {
         if (_player.LocalEntity == uid)
             AddVision();
     }
 
-    private void OnActiveShutdown(EntityUid uid, ThermalVisionActiveComponent component, ComponentShutdown args)
+    private void OnActiveShutdown(EntityUid uid, ThermalVisionComponent component, ComponentShutdown args)
     {
         if (_player.LocalEntity == uid)
         {
@@ -69,12 +70,12 @@ public sealed class ThermalVisionActiveSystem : EntitySystem
         }
     }
 
-    private void OnPlayerAttached(EntityUid uid, ThermalVisionActiveComponent component, LocalPlayerAttachedEvent args)
+    private void OnPlayerAttached(EntityUid uid, ThermalVisionComponent component, LocalPlayerAttachedEvent args)
     {
         AddVision();
     }
 
-    private void OnPlayerDetached(EntityUid uid, ThermalVisionActiveComponent component, LocalPlayerDetachedEvent args)
+    private void OnPlayerDetached(EntityUid uid, ThermalVisionComponent component, LocalPlayerDetachedEvent args)
     {
         _wasActive = false;
         RemVision();
@@ -113,7 +114,7 @@ public sealed class ThermalVisionOverlay : Overlay
     protected override bool BeforeDraw(in OverlayDrawArgs args)
     {
         var player = IoCManager.Resolve<IPlayerManager>().LocalEntity;
-        if (player == null || !_entityManager.TryGetComponent<ThermalVisionActiveComponent>(player.Value, out var comp))
+        if (player == null || !_entityManager.TryGetComponent<ThermalVisionComponent>(player.Value, out var comp))
             return false;
 
         if (!_entityManager.TryGetComponent<EyeComponent>(player.Value, out var eye) || args.Viewport.Eye != eye.Eye)
@@ -156,9 +157,15 @@ public sealed class ThermalVisionOverlay : Overlay
             var drawSprite = sprite;
             var drawXform = xform;
 
-            if (xform.ParentUid.IsValid() && !_entityManager.HasComponent<MapGridComponent>(xform.ParentUid))
+            var parentUid = xform.ParentUid;
+            while (parentUid.IsValid() && !_entityManager.HasComponent<MapGridComponent>(parentUid))
             {
-                var parentUid = xform.ParentUid;
+                if (_entityManager.HasComponent<InventoryComponent>(parentUid))
+                {
+                    drawUid = EntityUid.Invalid;
+                    break;
+                }
+
                 if (_entityManager.TryGetComponent(parentUid, out SpriteComponent? parentSprite) &&
                     _entityManager.TryGetComponent(parentUid, out TransformComponent? parentXform))
                 {
@@ -166,7 +173,12 @@ public sealed class ThermalVisionOverlay : Overlay
                     drawSprite = parentSprite;
                     drawXform = parentXform;
                 }
+
+                parentUid = _entityManager.GetComponent<TransformComponent>(parentUid).ParentUid;
             }
+
+            if (drawUid == EntityUid.Invalid)
+                continue;
 
             var worldPos = xformSys.GetWorldPosition(drawXform);
             var worldRot = xformSys.GetWorldRotation(drawXform);

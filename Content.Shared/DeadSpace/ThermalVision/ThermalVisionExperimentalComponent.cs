@@ -8,25 +8,34 @@ using Robust.Shared.Prototypes;
 namespace Content.Shared.DeadSpace.ThermalVision;
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
-public sealed partial class ThermalVisionActiveComponent : Component
+public sealed partial class ThermalVisionExperimentalComponent : Component
 {
     [DataField]
-    public EntProtoId ActionToggleThermalVision = "ActionToggleThermalVision";
+    public EntProtoId ActionToggleThermalVisionExperimental = "ActionToggleThermalVisionExperimental";
 
     [DataField, AutoNetworkedField]
-    public EntityUid? ActionToggleThermalVisionEntity;
+    public EntityUid? ActionToggleThermalVisionExperimentalEntity;
 
     [DataField, AutoNetworkedField]
     public bool IsActive;
 
     [DataField, AutoNetworkedField]
-    public bool Animation = true;
+    public float PulseDuration = 2f;
+
+    [DataField, AutoNetworkedField]
+    public float CurrentPulseTime;
 
     [DataField, AutoNetworkedField]
     public SoundSpecifier? ActivateSound = null;
 
     [DataField, AutoNetworkedField]
     public SoundSpecifier? ActivateSoundOff = null;
+
+    [DataField, AutoNetworkedField]
+    public EntityUid? VisorUid;
+
+    [DataField, AutoNetworkedField]
+    public TimeSpan? LastToggleTime;
 }
 
-public sealed partial class ToggleThermalVisionActionEvent : InstantActionEvent;
+public sealed partial class ToggleThermalVisionExperimentalActionEvent : InstantActionEvent;
