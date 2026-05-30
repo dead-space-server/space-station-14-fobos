@@ -72,8 +72,8 @@
 
 - type: construction
   id: ImprovisedShotgunBread
-  graph: ImprovisedShotgunBreadGraph
+  graph: ImprovisedShotgunGraph
   startNode: start
-  targetNode: shotGunBread
+  targetNode: shotgunBread
   category: construction-category-weapons
   objectType: Item
