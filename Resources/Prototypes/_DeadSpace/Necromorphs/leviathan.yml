@@ -376,3 +376,10 @@
     selectedLanguage: NecromorfLanguage
     knownLanguages:
     - NecromorfLanguage
+  - type: IntrinsicRadioTransmitter
+    channels:
+    - Unitolog
+  - type: ActiveRadio
+    channels:
+    - Unitolog
+  - type: IntrinsicRadioReceiver
