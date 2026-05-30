@@ -1,3 +1,4 @@
+// using Content.Server.Hands.Systems;
 using Content.Server.Popups;
 using Content.Server.Tabletop.Components;
 using Content.Shared.CCVar;
@@ -22,6 +23,7 @@ namespace Content.Server.Tabletop
     {
         [Dependency] private readonly SharedMapSystem _map = default!;
         [Dependency] private readonly EyeSystem _eye = default!;
+        // [Dependency] private readonly HandsSystem _hands = default!;
         [Dependency] private readonly ViewSubscriberSystem _viewSubscriberSystem = default!;
         [Dependency] private readonly PopupSystem _popupSystem = default!;
         [Dependency] private readonly IConfigurationManager _cfg = default!;
@@ -84,7 +86,7 @@ namespace Content.Server.Tabletop
             if (component.Session is not { } session)
                 return;
 
-            if (!TryComp(args.Used, out ItemComponent? item)) // DS14
+            if (!TryComp(args.Used, out ItemComponent? item)) // DS14 - was "if (!_hands.TryGetActiveItem(uid, out var handEnt))"
                 return;
 
             var meta = MetaData(args.Used);
