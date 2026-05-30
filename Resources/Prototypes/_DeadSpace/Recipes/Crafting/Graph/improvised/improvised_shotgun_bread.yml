@@ -1,0 +1,34 @@
+- type: constructionGraph
+  id: ImprovisedShotgunBreadGraph
+  start: start
+  graph:
+  - node: start
+    edges:
+    - to: shotGunBread
+      steps:
+      - tag: FoodBreadBaguette
+        icon:
+          sprite: Objects/Consumable/Food/Baked/bread.rsi
+          state: baguette
+        name: construction-graph-tag-bagguet
+        doAfer: 1
+      - tag: Pipe
+        icon:
+          sprite: Structures/Piping/Atmospherics/pipe.rsi
+          state: pipeStraight
+        name: construction-graph-tag-pipe
+        doAfer: 1
+      - tag: ModularReceiver
+        icon:
+          sprite: Objects/Misc/modular_receiver.rsi
+          state: icon
+        name: construction-graph-tag-modular-receiver
+        doAfer: 1
+      - tag: RifleStock
+        icon:
+          sprite: Objects/Misc/rifle_stock.rsi
+          state: icon
+        name: construction-graph-tag-rifle-stock
+        doAfer: 2
+  - node: shotGunBread
+    entity: WeaponShotgunBreadBaguette

@@ -140,6 +140,9 @@
   id: ExplorerSuitLavaland
 
 - type: Tag
+  id: FoodBreadBaguette
+
+- type: Tag
   id: FlamethrowerBackTank
 
 - type: Tag
