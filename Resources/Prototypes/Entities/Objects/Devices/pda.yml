@@ -1131,7 +1131,7 @@
       - NotekeeperCartridge
       - NanoTaskCartridge
       - BankCartridge
-      - MedTekCartridge
+      - MedTekCartridge #DS-14
 
 - type: entity
   parent: [ SyndiPDA, BaseSyndicateContraband ]
