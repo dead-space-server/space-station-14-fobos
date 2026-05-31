@@ -46,18 +46,21 @@ public sealed class TriggerOnActionSystem : TriggerOnXSystem
     }
     private void OnComponentShutdown(Entity<TriggerOnActionComponent> ent, ref ComponentShutdown args)
     {
-        _actions.RemoveAction(ent.Owner, ent.Comp.ActionEntity);
-        if (!ent.Comp.Parent)
-            return;
-
-        if (!TryComp<ActionComponent>(ent.Comp.ActionEntity, out var actionComp))
-            return;
-
-        var parentUid = Transform(ent).ParentUid;
-        if (actionComp.AttachedEntity != parentUid)
-            return;
-
-        _actions.RemoveAction(parentUid, ent.Comp.ActionEntity);
         
+        if (!ent.Comp.Parent)
+        {
+            _actions.RemoveAction(ent.Owner, ent.Comp.ActionEntity);
+        }
+        else
+        {
+            if (!TryComp<ActionComponent>(ent.Comp.ActionEntity, out var actionComp))
+            return;
+
+            var parentUid = Transform(ent).ParentUid;
+            if (actionComp.AttachedEntity != parentUid)
+                return;
+
+            _actions.RemoveAction(parentUid, ent.Comp.ActionEntity);
+        }
     }
 }
