@@ -11,6 +11,7 @@
   - type: SingularityGenerator # TODO: rename the generator
     spawnId: TeslaEnergyBall
   - type: InteractionOutline
+  - type: GravityAffected #DS14
   - type: Fixtures
     fixtures:
       fix1:
