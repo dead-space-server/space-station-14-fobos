@@ -24,7 +24,7 @@
   spawnWindow:
     min: 10m
     max: 15m
-  price: 4
+  price: 2
   codeBlackList:
   - enigma
   - epsilon
@@ -34,6 +34,78 @@
       amount: 1
     - id: RandomHumanoidSpawnerCBURNAgent
       amount: 5
+
+- type: ertTeam
+  id: SCST
+  name: ОППУ
+  notification: ert-response-caused-messager-scst
+  approvalColor: "#3f6e70"
+  approvalAudio:
+    path: /Audio/Misc/delta_alt.ogg
+  startAnnouncement: station-event-response-team-arrival-scst
+  startAudio:
+    path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
+  description: 
+    Специализированный Отряд Против Пауков Ужаса NanoTrasen. 
+    Предназначен для ликвидации и локализации угрозы Пауков Ужаса,
+    а также эвакуации персонала в условиях заражения.
+    6 бойцов ОППУ и 1 лидер прибывают на шаттле ОППУ, который оснащён
+    всем необходимым оборудованием для выполнения их миссии.
+    Время прибытия отряда от 10 до 15 минут.
+  sender: ert-response-cso-sender
+  rule: SpawnSpiderShuttle
+  cooldown:
+    min: 15m
+    max: 15m
+  spawnWindow:
+    min: 10m
+    max: 15m
+  price: 4
+  codeBlackList:
+  - enigma
+  - epsilon
+  - gamma
+  spawns:
+    - id: RandomHumanoidSpawnerSCSTLeader
+      amount: 1
+    - id: RandomHumanoidSpawnerSCSTAgent
+      amount: 6
+
+- type: ertTeam
+  id: SCNT
+  name: ОПНУ
+  notification: ert-response-caused-messager-scnt
+  approvalColor: "#3f6e70"
+  approvalAudio:
+    path: /Audio/Misc/delta_alt.ogg
+  startAnnouncement: station-event-response-team-arrival-scnt
+  startAudio:
+    path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
+  description: 
+    Специализированный Отряд Против Некро Угрозы NanoTrasen. 
+    Предназначен для ликвидации и локализации очагов Некро Угрозы,
+    а также эвакуации персонала в условиях заражения.
+    6 бойцов ОПНУ и 1 лидер прибывают на шаттле ОПНУ, который оснащён
+    всем необходимым оборудованием для выполнения их миссии.
+    Время прибытия отряда от 10 до 15 минут.
+  sender: ert-response-cso-sender
+  rule: SpawnNecroShuttle
+  cooldown:
+    min: 15m
+    max: 15m
+  spawnWindow:
+    min: 10m
+    max: 15m
+  price: 4
+  codeBlackList:
+  - enigma
+  - epsilon
+  - gamma
+  spawns:
+    - id: RandomHumanoidSpawnerSCNTLeader
+      amount: 1
+    - id: RandomHumanoidSpawnerSCNTAgent
+      amount: 6
 
 - type: ertTeam
   id: CburnSierra
@@ -48,8 +120,9 @@
     Элитный специализированный отряд радиационной, химической и биологической зомби защиты
     NanoTrasen. Предназначен для локализации утечек особо опасных веществ,
     биологических угроз, а также проведения дезинфекции и эвакуации персонала
-    в условиях масштабного заражения.
-    10 бойцов РХБЗЗ и 1 лидер прибывают на шаттле РХБЗЗ, который оснащён
+    в условиях масштабного заражения. 
+    Будет автоматически отправлен в случае смерти ОППУ, РХБЗЗ или ОПНУ.
+    10 бойцов РХБЗЗ и 1 лидер прибывают на шаттле РХБЗЗ Сьерры, который оснащён
     всем необходимым оборудованием для выполнения их миссии.
     Время прибытия отряда от 10 до 15 минут.
   notification: ert-response-caused-messager-sierra
@@ -61,7 +134,7 @@
   spawnWindow:
     min: 10m
     max: 15m
-  price: 6
+  price: 8
   codeBlackList:
   - enigma
   - epsilon

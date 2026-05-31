@@ -12,6 +12,12 @@ ert-loadout-category-enforcer-name = Силовик
 ert-loadout-category-enforcer-description =
     Дробовик марки Frozen Star нового поколения.
     Использует патроны калибра 12х70. В комплект включён бандольер.
+ert-loadout-category-ares-swc-incendiary-name = SWC-432-5 "Арес"
+ert-loadout-category-ares-swc-incendiary-description =
+    Автоматический дробовик. Совершенно новый аналог нашумевшей "Сайге". 
+    Обладает барабанным магазином и общей мобильностью. 
+    Создано по предварительному договору NanoTrasen с SWC.
+    Имеет зажигательные патроны.
 ert-loadout-category-energyshotgun-name = Энергетический дробовик
 ert-loadout-category-energyshotgun-description =
     Новейший прототип, с возможностью смены режима на летальный
@@ -176,10 +182,41 @@ ert-loadout-category-explosion-name = Дополнительная взрывч�
 ert-loadout-category-explosion-description =
     Набор из четырёх мощных взрывных устройств X4.
     Используйте с крайней осторожностью.
+ert-loadout-category-exgrenade-name = Дополнительные разрывные гранаты
+ert-loadout-category-exgrenade-description =
+    Набор из четырёх разрывных гранат, что создают разрушительный взрыв.
+    Используйте с крайней осторожностью.
+ert-loadout-category-grenadeincendiary-name = Дополнительные зажигательные гранаты
+ert-loadout-category-grenadeincendiary-description =
+    Набор из четырёх зажигательные гранаты, что смогу поджарить ваших врагов.
+    Используйте с крайней осторожностью.
+ert-loadout-category-karachnocid-name = Набор "Кара арахнида"
+ert-loadout-category-karachnocid-description =
+    Набор из четырёх гранат "Кара арахнида". 
+    Крайне эффективны против Пауков Ужаса.
+    Используйте с крайней осторожностью.
 ert-loadout-category-stimulator-name = Набор стимуляторов
 ert-loadout-category-stimulator-description =
     Шесть автоинъекторов дезоксиэфедрина.
     Помогают обрести максимальную мобильность в пылу сражения.
+ert-loadout-category-scstmed-name = Набор медипенов ОППУ
+ert-loadout-category-scstmed-description =
+    Набор содержит четыре медипенов ОППУ. 
+    Содержит вещества для лечения колющих повреждений и ядов.
+ert-loadout-category-scntmed-name = Набор медипенов ОПНУ
+ert-loadout-category-scntmed-description =
+    Набор содержит четыре медипенов ОПНУ.
+    Содержит вещества для лечения колющих повреждений и ядов.
+ert-loadout-category-zetatwo-name = Набор медипенов ZetaTwo
+ert-loadout-category-zetatwo-description =
+    Набор содержит два медипена ZetaTwo.
+    Содержит в себе лекарство от некроинфеции,
+    а также сильно действующий наркотик импердразин.
+    Восстанавливающий рассудок после пребывание возле обелиска.
+ert-loadout-category-zetaone-name = Набор медипенов ZetaOne
+ert-loadout-category-zetaone-description =
+    Набор содержит четыре медипена ZetaOne.
+    Содержит в себе лекарство от некроинфеции.
 ert-loadout-category-combatmedicine-name = Набор автоинъекторов
 ert-loadout-category-combatmedicine-description =
     Состоит из четырёх боевых, двух пунктураза, двух пиразина и двух автоинъекторов от яда.
