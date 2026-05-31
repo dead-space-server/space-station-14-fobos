@@ -61,7 +61,6 @@
     baseAcceleration: 1.7
     baseFriction: 0.6
     baseWalkSpeed: 3.5
-    baseRunningSpeed: 4
 #DS14-end
   - type: Strap
     buckleOffset: "0,-0.05"
@@ -91,7 +90,6 @@
     baseAcceleration: 1.7
     baseFriction: 0.6
     baseWalkSpeed: 4.3
-    baseRunningSpeed: 8
   - type: GravityAffected
 #DS14-end
   - type: Sprite
@@ -144,7 +142,6 @@
       #      max: 1
   - type: Strap
     buckleOffset: "0.01,0.15"
-    modifyBuckleDrawDepth: false
   - type: ItemSlots
     slots:
       key_slot:
