@@ -81,6 +81,11 @@ public sealed class RespiratorSystem : EntitySystem
             if (_mobState.IsDead(uid))
                 continue;
 
+            // DS14-Start
+            if (Transform(uid).MapUid == null)
+                continue;
+            // DS14-End
+
             UpdateSaturation(uid, -(float)respirator.UpdateInterval.TotalSeconds, respirator);
 
             if (!_mobState.IsIncapacitated(uid)) // cannot breathe in crit.

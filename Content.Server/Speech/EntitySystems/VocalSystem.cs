@@ -75,6 +75,11 @@ public sealed class VocalSystem : EntitySystem
         if (args.Handled || !args.Emote.Category.HasFlag(EmoteCategory.Vocal))
             return;
 
+        // DS14-Start
+        if (Transform(uid).MapUid == null)
+            return;
+        // DS14-End
+
         // snowflake case for wilhelm scream easter egg
         if (args.Emote.ID == component.ScreamId)
         {
