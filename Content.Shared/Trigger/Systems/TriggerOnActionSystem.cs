@@ -37,7 +37,7 @@ public sealed class TriggerOnActionSystem : TriggerOnXSystem
     private void OnTriggerAction(Entity<TriggerOnActionComponent> ent, ref TriggerActionEvent args)
     {
         Trigger.Trigger(ent.Owner, args.Performer, ent.Comp.KeyOut);
-        if (ent.Comp.DeleteActionAfterTrigger)
+        if (ent.Comp.DeleteComponentAfterTrigger)
         {
             EntityManager.RemoveComponent(ent, ent.Comp);
         }
@@ -55,7 +55,7 @@ public sealed class TriggerOnActionSystem : TriggerOnXSystem
         var parentUid = Transform(ent).ParentUid;
         if (actionComp.AttachedEntity != parentUid)
             return;
-            
+
         _actions.RemoveAction(parentUid, ent.Comp.ActionEntity);
         
     }

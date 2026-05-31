@@ -23,7 +23,7 @@ public sealed partial class TriggerOnActionComponent : BaseTriggerOnXComponent
     /// If true, delete component after use.
     /// </summary>
     [DataField, AutoNetworkedField]
-    public bool DeleteActionAfterTrigger = false;
+    public bool DeleteComponentAfterTrigger = false;
 
     /// <summary>
     /// The action to add.
