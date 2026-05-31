@@ -39,7 +39,7 @@ public sealed class TriggerOnActionSystem : TriggerOnXSystem
         Trigger.Trigger(ent.Owner, args.Performer, ent.Comp.KeyOut);
         if (ent.Comp.DeleteComponentAfterTrigger)
         {
-            EntityManager.RemoveComponent(ent, ent.Comp);
+            RemComp<TriggerOnActionComponent>(ent.Owner);
         }
         args.Handled = true;
     }
