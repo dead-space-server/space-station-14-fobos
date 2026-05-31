@@ -1,10 +1,10 @@
-using Content.Shared.Clothing.EntitySystems;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 using Content.Shared.Actions;
 using Content.Shared.Actions.Components;
+using Content.Shared.Trigger.Components.Triggers;
 
-namespace Content.Shared.Trigger.Components.Triggers;
+namespace Content.Shared.DeadSpace.Triggers.Components;
 
 /// <summary>
 /// Triggers an entity when it is use action.

@@ -1,8 +1,9 @@
-using Content.Shared.Trigger.Components.Triggers;
 using Content.Shared.Actions;
 using Content.Shared.Actions.Components;
+using Content.Shared.DeadSpace.Triggers.Components;
+using Content.Shared.Trigger;
 
-namespace Content.Shared.Trigger.Systems;
+namespace Content.Shared.DeadSpace.Triggers.Systems;
 
 public sealed class TriggerOnActionSystem : TriggerOnXSystem
 {
