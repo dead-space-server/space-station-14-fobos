@@ -212,6 +212,21 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
 
         args.AddLine(Loc.GetString("rev-objectives-progress", ("progress", totalProgress.ToString("P0"))));
 
+        var sessionData = _antag.GetAntagIdentifiers(uid);
+        args.AddLine(Loc.GetString("rev-headrev-count", ("initialCount", sessionData.Count)));
+        foreach (var (mind, data, name) in sessionData)
+        {
+            var count = 0u;
+            if (_role.MindHasRole<RevolutionaryRoleComponent>(mind, out var role))
+                count = role.Value.Comp2.ConvertedCount;
+
+            args.AddLine(Loc.GetString("rev-headrev-name-user",
+                ("name", name),
+                ("username", data.UserName),
+                ("count", count)));
+        }
+        args.AddLine("");
+
         // DS14 Статистика для дашборда
         var commandLost = CheckCommandLose();
         var winner = commandLost ? BiStatWinner.Antagonist : BiStatWinner.Crew;
