@@ -3,7 +3,6 @@
 using Content.Server.Antag;
 using Content.Server.Database;
 using Content.Server.GameTicking.Rules;
-using Content.Server.Roles;
 using Content.Shared.DeadSpace.Demons.Shadowling;
 using Content.Shared.GameTicking.Components;
 using Content.Shared.Mobs.Systems;
@@ -20,7 +19,6 @@ public sealed class ShadowlingRuleSystem : GameRuleSystem<ShadowlingRuleComponen
     [Dependency] private readonly MindSystem _mind = default!;
     [Dependency] private readonly AntagSelectionSystem _antag = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
-    [Dependency] private readonly RoleSystem _role = default!;
     [Dependency] private readonly IServerDbManager _db = default!;
 
     public readonly EntProtoId ObjectiveId = "ShadowlingRecruitObjective";
@@ -49,26 +47,8 @@ public sealed class ShadowlingRuleSystem : GameRuleSystem<ShadowlingRuleComponen
             return;
         component.ManifestWritten = true;
 
-        var sessionData = _antag.GetAntagIdentifiers(uid);
-
-        if (sessionData.Count == 0)
+        if (_antag.GetAntagIdentifiers(uid).Count == 0)
             return;
-
-        args.AddLine(Loc.GetString("shadowling-round-end-count", ("initialCount", sessionData.Count)));
-
-        foreach (var (mind, data, name) in sessionData)
-        {
-            var count = 0;
-            if (_role.MindHasRole<ShadowlingRoleComponent>(mind, out var role))
-                count = role.Value.Comp2.TotalRecruited;
-
-            args.AddLine(Loc.GetString("shadowling-round-end-name-user",
-                ("name", name),
-                ("username", data.UserName),
-                ("count", count)));
-        }
-
-        args.AddLine("");
 
         if (component.IsAscended)
             args.AddLine(Loc.GetString("shadowling-win"));

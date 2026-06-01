@@ -16,6 +16,7 @@ using Content.Shared.Mind;
 using Content.Shared.Objectives.Systems;
 using Content.Shared.Players;
 using Content.Shared.Preferences;
+using Content.Shared.Roles;
 using Content.Shared.Roles.Components;
 using JetBrains.Annotations;
 using Prometheus;
@@ -51,6 +52,8 @@ namespace Content.Server.GameTicking
             "Round length in seconds.");
 
         private const string SentientVirusAntagPrototype = "SentientVirus"; // DS14
+        private const string RevolutionaryAntagPrototype = "Rev"; // DS14
+        private const string HeadRevolutionaryAntagPrototype = "HeadRev"; // DS14
 
 #if EXCEPTION_TOLERANCE
         [ViewVariables]
@@ -588,9 +591,7 @@ namespace Content.Server.GameTicking
                     ? GetRoundEndObjectives(mindId, mind)
                     : Array.Empty<RoundEndMessageEvent.RoundEndObjectiveInfo>();
                 var showInAntagManifest = antag &&
-                    (manifestAntagMinds.Contains(mindId) ||
-                     manifestObjectives.Length > 0 ||
-                     antagRoles.Any(role => role.Prototype == SentientVirusAntagPrototype));
+                    ShouldShowInRoundEndAntagManifest(mindId, manifestAntagMinds, manifestObjectives, antagRoles);
                 // DS14-end
 
                 var playerEndRoundInfo = new RoundEndMessageEvent.RoundEndPlayerInfo()
@@ -659,6 +660,25 @@ namespace Content.Server.GameTicking
             }
 
             return minds;
+        }
+
+        private static bool ShouldShowInRoundEndAntagManifest(
+            EntityUid mindId,
+            HashSet<EntityUid> manifestAntagMinds,
+            RoundEndMessageEvent.RoundEndObjectiveInfo[] manifestObjectives,
+            RoleInfo[] antagRoles)
+        {
+            var isHeadRevolutionary = antagRoles.Any(role => role.Prototype == HeadRevolutionaryAntagPrototype);
+            var isOnlyRegularRevolutionary = !isHeadRevolutionary &&
+                                             antagRoles.Any(role => role.Prototype == RevolutionaryAntagPrototype) &&
+                                             antagRoles.All(role => role.Prototype == RevolutionaryAntagPrototype);
+
+            if (isOnlyRegularRevolutionary)
+                return false;
+
+            return manifestAntagMinds.Contains(mindId) ||
+                   manifestObjectives.Length > 0 ||
+                   antagRoles.Any(role => role.Prototype == SentientVirusAntagPrototype);
         }
 
         private RoundEndMessageEvent.RoundEndObjectiveInfo[] GetRoundEndObjectives(EntityUid mindId, MindComponent mind)
