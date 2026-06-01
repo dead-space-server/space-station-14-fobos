@@ -178,6 +178,10 @@ binds:
 - function: SaveItemLocation
   type: State
   key: MouseMiddle
+- function: ToggleItemPriority # DS14
+  type: State
+  key: MouseMiddle
+  mod1: Control
 - function: Drop
   type: State
   key: Q

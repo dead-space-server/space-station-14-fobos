@@ -68,6 +68,17 @@ public sealed class StorageSystem : SharedStorageSystem
             component.SavedLocations[loc.Key] = new(loc.Value);
         }
 
+        // DS14-start
+        component.PriorityItems.Clear();
+        foreach (var (netPlayer, netItem) in state.PriorityItems)
+        {
+            var player = GetEntity(netPlayer);
+            var item = GetEntity(netItem);
+            if (player.IsValid() && item.IsValid())
+                component.PriorityItems[player] = item;
+        }
+        // DS14-end
+
         UpdateOccupied((uid, component));
 
         var uiDirty = !component.StoredItems.SequenceEqual(_oldStoredItems);
