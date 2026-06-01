@@ -24,7 +24,7 @@
     sprite: Objects/Specific/Chemistry/vial.rsi
     state: vial
   product: CrateWeakViralSolution
-  cost: 50000
+  cost: 7500
   category: cargoproduct-category-name-medical
   group: medical
 
@@ -34,7 +34,7 @@
     sprite: Objects/Specific/Chemistry/vial.rsi
     state: vial
   product: CrateMediumViralSolution
-  cost: 100000
+  cost: 35000
   category: cargoproduct-category-name-medical
   group: medical
 
@@ -44,6 +44,6 @@
     sprite: Objects/Specific/Chemistry/vial.rsi
     state: vial
   product: CrateStrongViralSolution
-  cost: 150000
+  cost: 85000
   category: cargoproduct-category-name-medical
   group: medical
