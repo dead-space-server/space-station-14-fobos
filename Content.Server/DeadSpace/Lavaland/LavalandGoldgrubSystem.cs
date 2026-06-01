@@ -5,6 +5,7 @@ using Content.Server.NPC.Systems;
 using Content.Server.Stack;
 using Content.Shared.Chasm;
 using Content.Shared.Damage.Systems;
+using Content.Shared.Ghost;
 using Content.Shared.Humanoid;
 using Content.Shared.Maps;
 using Content.Shared.Mobs;
@@ -17,6 +18,7 @@ using Content.Shared.Stacks;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Player;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 
@@ -44,9 +46,13 @@ public sealed class LavalandGoldgrubSystem : EntitySystem
     [Dependency] private readonly StackSystem _stack = default!;
     [Dependency] private readonly TurfSystem _turf = default!;
 
+    private EntityQuery<GhostComponent> _ghostQuery;
+
     public override void Initialize()
     {
         base.Initialize();
+
+        _ghostQuery = GetEntityQuery<GhostComponent>();
 
         SubscribeLocalEvent<LavalandGoldgrubComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<LavalandGoldgrubComponent, DamageChangedEvent>(OnDamageChanged);
@@ -70,6 +76,16 @@ public sealed class LavalandGoldgrubSystem : EntitySystem
             if (IsDead(uid))
             {
                 _steering.Unregister(uid);
+                RemoveActiveNpc(uid);
+                continue;
+            }
+
+            if (goldgrub.BurrowAt == null && !HasNearbyPlayer(xform, goldgrub.ActivationRange))
+            {
+                _steering.Unregister(uid);
+                RemoveActiveNpc(uid);
+                goldgrub.FleeStartedAt = null;
+                goldgrub.NextUpdate = curTime + goldgrub.InactiveUpdateInterval;
                 continue;
             }
 
@@ -127,8 +143,6 @@ public sealed class LavalandGoldgrubSystem : EntitySystem
 
     private void OnMapInit(EntityUid uid, LavalandGoldgrubComponent component, MapInitEvent args)
     {
-        EnsureComp<ActiveNPCComponent>(uid);
-
         if (component.InitialOre.Count == 0)
             return;
 
@@ -453,6 +467,24 @@ public sealed class LavalandGoldgrubSystem : EntitySystem
     private bool IsDead(EntityUid uid)
     {
         return TryComp<MobStateComponent>(uid, out var mobState) && _mobState.IsDead(uid, mobState);
+    }
+
+    private bool HasNearbyPlayer(TransformComponent xform, float range)
+    {
+        var query = EntityQueryEnumerator<ActorComponent, TransformComponent>();
+        while (query.MoveNext(out var uid, out _, out var playerXform))
+        {
+            if (_ghostQuery.HasComp(uid))
+                continue;
+
+            if (xform.Coordinates.TryDistance(EntityManager, playerXform.Coordinates, out var distance) &&
+                distance <= range)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void RemoveActiveNpc(EntityUid uid)
