@@ -162,6 +162,22 @@
   - type: Construction
     graph: Seat
     node: chairOffice
+#DS14-start
+  - type: InputMover
+  - type: Physics
+    bodyType: KinematicController
+  - type: Vehicle
+  - type: StrapVehicle
+  - type: MovementSpeedModifier
+    weightlessModifier: 0
+    baseAcceleration: 1.7
+    acceleration: 2
+    baseFriction: 0.6
+    friction: 2
+    frictionNoInput: 6
+    baseWalkSpeed: 1
+    baseSprintSpeed: 2
+#DS14-end
 
 - type: entity
   name: dark office chair
