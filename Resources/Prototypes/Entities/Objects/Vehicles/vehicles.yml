@@ -99,6 +99,7 @@
 #DS14-end
   - type: Strap
     buckleOffset: "0,-0.05"
+    enabled: false #DS14
   - type: Fixtures
     fixtures:
       fix1:
