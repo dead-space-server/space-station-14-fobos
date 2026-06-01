@@ -118,6 +118,19 @@
   - EnergyCartridge
 
 - type: technology
+  id: StunBola
+  name: research-technology-bola
+  icon:
+    sprite: Objects/Weapons/Throwable/bola.rsi
+    state: icon
+  discipline: Arsenal
+  tier: 2
+  cost: 15000
+  recipeUnlocks:
+  - Bola
+  - EnergyBola
+
+- type: technology
   id: RIGSecurity
   name: research-technology-rig-sec
   icon:

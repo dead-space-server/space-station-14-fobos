@@ -239,6 +239,9 @@
   id: MagazineGurza
 
 - type: Tag
+  id: MagazineAMD
+
+- type: Tag
   id: MagazineHristov
 
 - type: Tag
