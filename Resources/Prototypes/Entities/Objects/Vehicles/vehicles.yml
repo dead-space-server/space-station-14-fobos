@@ -41,6 +41,7 @@
   - type: Vehicle
   - type: StrapVehicle
   - type: Strap
+    position: Stand
   - type: MovementSpeedModifier
     weightlessModifier: 0
     acceleration: 2
