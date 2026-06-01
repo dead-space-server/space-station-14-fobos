@@ -486,7 +486,7 @@ public sealed class StorageWindow : BaseWindow
                 var gridPiece = new ItemGridPiece((ent, itemEntComponent), loc, _entity)
                 {
                     MinSize = size,
-                    StorageEntity = StorageEntity,
+                    StorageEntity = StorageEntity, //DS14
                     Marked = IsMarked(ent),
                 };
                 gridPiece.OnPiecePressed += OnPiecePressed;
