@@ -176,7 +176,7 @@ namespace Content.Shared.Storage
         /// <summary>
         /// Dictionary: for each player - what item in this storage is his priority.
         /// </summary>
-        [DataField, ViewVariables(VVAccess.ReadWrite)]
+        [ViewVariables(VVAccess.ReadWrite)]
         public Dictionary<EntityUid, EntityUid> PriorityItems = new();
         // DS14-end
     }
