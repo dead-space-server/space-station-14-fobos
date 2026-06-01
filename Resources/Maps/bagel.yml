@@ -154002,11 +154002,6 @@ entities:
     - type: Transform
       pos: -66.5,8.5
       parent: 2
-  - uid: 9716
-    components:
-    - type: Transform
-      pos: -67.5,7.5
-      parent: 2
   - uid: 11977
     components:
     - type: Transform
