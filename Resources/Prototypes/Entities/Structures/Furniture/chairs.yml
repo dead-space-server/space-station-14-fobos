@@ -159,42 +159,9 @@
   components:
   - type: Sprite
     state: office-white
-    noRot: true #DS14
   - type: Construction
     graph: Seat
     node: chairOffice
-#DS14-start
-  - type: Fixtures
-    fixtures:
-      fix1:
-        shape:
-          !type:PhysShapeCircle
-          radius: 0.4
-        density: 360
-        restitution: 0.0
-        mask:
-        - MobMask
-        layer:
-        - TableLayer
-  - type: InputMover
-  - type: Physics
-    bodyType: KinematicController
-  - type: Vehicle
-  - type: StrapVehicle
-  - type: MovementSpeedModifier
-    weightlessModifier: 0
-    baseAcceleration: 1.7
-    acceleration: 2
-    baseFriction: 0.6
-    friction: 2
-    frictionNoInput: 6
-    baseWalkSpeed: 1
-    baseSprintSpeed: 2
-  - type: Tag
-    tags:
-    - DoorBumpOpener
-    - FootstepSound
-#DS14-end
 
 - type: entity
   name: dark office chair
