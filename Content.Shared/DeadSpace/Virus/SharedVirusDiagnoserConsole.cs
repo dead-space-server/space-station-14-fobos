@@ -21,6 +21,14 @@ public sealed class VirusDiagnoserConsoleBoundUserInterfaceState : BoundUserInte
     public bool DiagnoserInRange { get; }
     public bool DataServerInRange { get; }
     public bool SolutionAnalyzerInRange { get; }
+    public VirusDiagnoserStatus DiagnoserStatus { get; }
+    public VirusSolutionAnalyzerStatus SolutionAnalyzerStatus { get; }
+    public bool DiagnoserHasSample { get; }
+    public bool DiagnoserHasBloodSample { get; }
+    public bool SolutionAnalyzerHasSample { get; }
+    public int DiagnoserScanProgress { get; }
+    public int SolutionAnalyzerScanProgress { get; }
+
     public VirusDiagnoserConsoleBoundUserInterfaceState(
         List<VirusStrainRecord>? strains = null,
         int points = 0,
@@ -29,7 +37,14 @@ public sealed class VirusDiagnoserConsoleBoundUserInterfaceState : BoundUserInte
         bool solutionAnalyzerConnected = false,
         bool diagnoserInRange = false,
         bool dataServerInRange = false,
-        bool solutionAnalyzerInRange = false)
+        bool solutionAnalyzerInRange = false,
+        VirusDiagnoserStatus diagnoserStatus = VirusDiagnoserStatus.Off,
+        VirusSolutionAnalyzerStatus solutionAnalyzerStatus = VirusSolutionAnalyzerStatus.Off,
+        bool diagnoserHasSample = false,
+        bool diagnoserHasBloodSample = false,
+        bool solutionAnalyzerHasSample = false,
+        int diagnoserScanProgress = 0,
+        int solutionAnalyzerScanProgress = 0)
     {
         Strains = strains ?? new List<VirusStrainRecord>();
         Points = points;
@@ -39,6 +54,13 @@ public sealed class VirusDiagnoserConsoleBoundUserInterfaceState : BoundUserInte
         DiagnoserInRange = diagnoserInRange;
         DataServerInRange = dataServerInRange;
         SolutionAnalyzerInRange = solutionAnalyzerInRange;
+        DiagnoserStatus = diagnoserStatus;
+        SolutionAnalyzerStatus = solutionAnalyzerStatus;
+        DiagnoserHasSample = diagnoserHasSample;
+        DiagnoserHasBloodSample = diagnoserHasBloodSample;
+        SolutionAnalyzerHasSample = solutionAnalyzerHasSample;
+        DiagnoserScanProgress = diagnoserScanProgress;
+        SolutionAnalyzerScanProgress = solutionAnalyzerScanProgress;
     }
 }
 
@@ -72,6 +94,7 @@ public enum UiButton : byte
     GenerateVirus,
     PrintReport,
     ScanVirus,
+    CheckBloodVirus,
     StartAnalys,
     DeleteData
 }

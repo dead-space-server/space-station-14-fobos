@@ -682,6 +682,13 @@
     damage:
       types:
         Blunt: 1 # bonk
+  # DS14-start
+  - type: Tag
+    tags:
+    - Bread
+    - FoodBreadBaguette
+  # DS14-end
+
 # Tastes like France.
 
 - type: entity

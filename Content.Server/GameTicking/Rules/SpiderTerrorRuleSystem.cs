@@ -201,8 +201,8 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
             var stationUid = kvp.Key;
 
             var (progress, spiders) = GetCaptureStationProgress(uid, stationUid);
-            var msgProgress = "Прогресс захвата станции: " + EntityManager.ToPrettyString(stationUid).Name + ", " + (progress * 100).ToString() + "%";
-            var msgSpiders = "На станции: " + EntityManager.ToPrettyString(stationUid).Name + ", " + spiders.ToString() + " пауков.";
+            var msgProgress = "Прогресс захвата станции: " + ToPrettyString(stationUid).Name + ", " + (progress * 100).ToString() + "%";
+            var msgSpiders = "На станции: " + ToPrettyString(stationUid).Name + ", " + spiders.ToString() + " пауков.";
             var msgSpidersKing = "На станции: " + (GetSpiderKings()).ToString() + " живых королевских пауков.";
             _chatManager.SendAdminAnnouncement(msgProgress);
             _chatManager.SendAdminAnnouncement(msgSpiders);

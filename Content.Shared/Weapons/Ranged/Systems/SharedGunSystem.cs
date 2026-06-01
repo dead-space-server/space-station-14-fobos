@@ -263,6 +263,15 @@ public abstract partial class SharedGunSystem : EntitySystem
         if (toCoordinates == null)
             return false;
 
+        var fromCoordinates = Transform(user).Coordinates;
+
+        if (!TryGetShootMapDirection(fromCoordinates, toCoordinates.Value, out _, out _))
+        {
+            gun.Comp.BurstActivated = false;
+            gun.Comp.BurstShotsCount = 0;
+            return false;
+        }
+
         var curTime = Timing.CurTime;
 
         // check if anything wants to prevent shooting
@@ -345,7 +354,6 @@ public abstract partial class SharedGunSystem : EntitySystem
             return false;
         }
 
-        var fromCoordinates = Transform(user).Coordinates;
         // Remove ammo
         var ev = new TakeAmmoEvent(shots, [], fromCoordinates, user);
 
@@ -533,6 +541,27 @@ public abstract partial class SharedGunSystem : EntitySystem
         RemCompDeferred<AmmoComponent>(uid);
     }
 
+    protected bool TryGetShootMapDirection(
+        EntityCoordinates fromCoordinates,
+        EntityCoordinates toCoordinates,
+        out MapCoordinates fromMap,
+        out Vector2 direction)
+    {
+        fromMap = TransformSystem.ToMapCoordinates(fromCoordinates, logError: false);
+        var toMap = TransformSystem.ToMapCoordinates(toCoordinates, logError: false);
+        direction = Vector2.Zero;
+
+        if (fromMap.MapId == MapId.Nullspace ||
+            toMap.MapId == MapId.Nullspace ||
+            fromMap.MapId != toMap.MapId)
+        {
+            return false;
+        }
+
+        direction = toMap.Position - fromMap.Position;
+        return direction.LengthSquared() > 0.0001f;
+    }
+
     protected void MuzzleFlash(EntityUid gun, AmmoComponent component, Angle worldAngle, EntityUid? user = null)
     {
         var attemptEv = new GunMuzzleFlashAttemptEvent();
@@ -551,9 +580,10 @@ public abstract partial class SharedGunSystem : EntitySystem
 
     public void CauseImpulse(EntityCoordinates fromCoordinates, EntityCoordinates toCoordinates, Entity<PhysicsComponent> user)
     {
-        var fromMap = TransformSystem.ToMapCoordinates(fromCoordinates).Position;
-        var toMap = TransformSystem.ToMapCoordinates(toCoordinates).Position;
-        var shotDirection = (toMap - fromMap).Normalized();
+        if (!TryGetShootMapDirection(fromCoordinates, toCoordinates, out _, out var direction))
+            return;
+
+        var shotDirection = direction.Normalized();
 
         const float impulseStrength = 25.0f;
         var impulseVector = shotDirection * impulseStrength;

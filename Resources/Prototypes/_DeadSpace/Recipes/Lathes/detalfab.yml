@@ -46,7 +46,6 @@
     Plastic: 1250
     Gold: 1000
     Plasma: 1000
-    MaterialHardDiskDrive: 125
 
 - type: latheRecipe
   id: AdvancedCoreForModifiedBackpack
@@ -57,7 +56,6 @@
     Gold: 1250
     Plasma: 500
     Magmite: 250
-    MaterialHardDiskDrive: 250
 
 - type: latheRecipe
   id: HardsuitFrameTorso
@@ -79,37 +77,43 @@
   id: BlueprintRIGSecurityInfinite
   result: BlueprintRIGSecurityInfinite
   materials:
-    MaterialDatadiskEncrypted: 1750
+    Plastic: 1750
+    BluespaceCrystal: 525
 
 - type: latheRecipe
   id: BlueprintRIGSecurityAdvancedInfinite
   result: BlueprintRIGSecurityAdvancedInfinite
   materials:
-    MaterialDatadiskEncrypted: 1750
+    Plastic: 1750
+    BluespaceCrystal: 525
 
 - type: latheRecipe
   id: BlueprintRIGSalvageInfinite
   result: BlueprintRIGSalvageInfinite
   materials:
-    MaterialDatadiskEncrypted: 1750
+    Plastic: 1750
+    BluespaceCrystal: 525
 
 - type: latheRecipe
   id: BlueprintRIGEVAInfinite
   result: BlueprintRIGEVAInfinite
   materials:
-    MaterialDatadiskEncrypted: 1000
+    Plastic: 1150
+    BluespaceCrystal: 125
 
 - type: latheRecipe
   id: BlueprintRIGResearchInfinite
   result: BlueprintRIGResearchInfinite
   materials:
-    MaterialDatadiskEncrypted: 1750
+    Plastic: 1750
+    BluespaceCrystal: 525
 
 - type: latheRecipe
   id: BlueprintRIGEngineerInfinite
   result: BlueprintRIGEngineerInfinite
   materials:
-    MaterialDatadiskEncrypted: 1000
+    Plastic: 1150
+    BluespaceCrystal: 125
 
 # 3 использование
 
@@ -117,37 +121,43 @@
   id: BlueprintRIGSecurityThreeUse
   result: BlueprintRIGSecurityThreeUse
   materials:
-    MaterialDatadiskEncrypted: 1250
+    Plastic: 1250
+    Plasma: 800
 
 - type: latheRecipe
   id: BlueprintRIGSecurityAdvancedThreeUse
   result: BlueprintRIGSecurityAdvancedThreeUse
   materials:
-    MaterialDatadiskEncrypted: 1250
+    Plastic: 1250
+    Plasma: 800
 
 - type: latheRecipe
   id: BlueprintRIGSalvageThreeUse
   result: BlueprintRIGSalvageThreeUse
   materials:
-    MaterialDatadiskEncrypted: 1250
+    Plastic: 1250
+    Plasma: 800
 
 - type: latheRecipe
   id: BlueprintRIGEVAThreeUse
   result: BlueprintRIGEVAThreeUse
   materials:
-    MaterialDatadiskEncrypted: 750
+    Plastic: 950
+    Plasma: 350
 
 - type: latheRecipe
   id: BlueprintRIGResearchThreeUse
   result: BlueprintRIGResearchThreeUse
   materials:
-    MaterialDatadiskEncrypted: 1250
+    Plastic: 1250
+    Plasma: 800
 
 - type: latheRecipe
   id: BlueprintRIGEngineerThreeUse
   result: BlueprintRIGEngineerThreeUse
   materials:
-    MaterialDatadiskEncrypted: 750
+    Plastic: 950
+    Plasma: 350
 
 # 1 использование
 
@@ -155,37 +165,37 @@
   id: BlueprintRIGSecurityOneUse
   result: BlueprintRIGSecurityOneUse
   materials:
-    MaterialDatadiskEncrypted: 750
+    Plastic: 950
 
 - type: latheRecipe
   id: BlueprintRIGSecurityAdvancedOneUse
   result: BlueprintRIGSecurityAdvancedOneUse
   materials:
-    MaterialDatadiskEncrypted: 750
+    Plastic: 950
 
 - type: latheRecipe
   id: BlueprintRIGSalvageOneUse
   result: BlueprintRIGSalvageOneUse
   materials:
-    MaterialDatadiskEncrypted: 750
+    Plastic: 950
 
 - type: latheRecipe
   id: BlueprintRIGEVAOneUse
   result: BlueprintRIGEVAOneUse
   materials:
-    MaterialDatadiskEncrypted: 350
+    Plastic: 450
 
 - type: latheRecipe
   id: BlueprintRIGResearchOneUse
   result: BlueprintRIGResearchOneUse
   materials:
-    MaterialDatadiskEncrypted: 750
+    Plastic: 950
 
 - type: latheRecipe
   id: BlueprintRIGEngineerOneUse
   result: BlueprintRIGEngineerOneUse
   materials:
-    MaterialDatadiskEncrypted: 350
+    Plastic: 450
 
 # Шлема
 
@@ -310,9 +320,8 @@
   result: StorageModuleItem
   materials:
     Steel: 1500
-    BluespaceCrystal: 725
+    BluespaceCrystal: 525
     Plastic: 250
-    MaterialScrapGlass: 500
 
 - type: latheRecipe
   id: DelayModifierModuleItem
@@ -320,7 +329,6 @@
   materials:
     Steel: 1250
     Plastic: 500
-    MaterialScrapGlass: 125
 
 - type: latheRecipe
   id: HeatResistanceModuleEngineer
@@ -329,7 +337,6 @@
     Steel: 1750
     Glass: 500
     Durathread: 500
-    MaterialScrapGlass: 500
 
 - type: latheRecipe
   id: FireResistanceModuleEngineer
@@ -337,7 +344,6 @@
   materials:
     Steel: 2000
     Glass: 725
-    MaterialScrapGlass: 500
 
 - type: latheRecipe
   id: SpeedModifierModuleSalvage
@@ -346,7 +352,6 @@
     Steel: 1750
     BluespaceCrystal: 200
     Durathread: 200
-    MaterialScrapGlass: 500
 
 - type: latheRecipe
   id: ExplosionResistanceModuleResearch
@@ -354,7 +359,6 @@
   materials:
     Steel: 1750
     Silver: 750
-    MaterialScrapGlass: 300
 
 - type: latheRecipe
   id: RadiationResistanceModuleResearch
@@ -362,7 +366,6 @@
   materials:
     Steel: 1000
     Gold: 1000
-    MaterialScrapGlass: 500
 
 - type: latheRecipe
   id: SpeedModifierModuleItemResearch
@@ -371,7 +374,6 @@
     Steel: 1250
     BluespaceCrystal: 125
     Durathread: 200
-    MaterialScrapGlass: 250
 
 - type: latheRecipe
   id: StorageModuleSecurity
@@ -380,7 +382,6 @@
     Steel: 1000
     Plastic: 500
     Durathread: 1000
-    MaterialScrapGlass: 750
 
 - type: latheRecipe
   id: PiercingResistanceModuleSecurityAdvanced
@@ -388,7 +389,6 @@
   materials:
     Steel: 1500
     Plasteel: 1500
-    MaterialScrapGlass: 1000
 
 - type: latheRecipe
   id: SpeedModifierModuleSecurityAdvanced
@@ -397,7 +397,6 @@
     Steel: 1550
     BluespaceCrystal: 200
     Durathread: 250
-    MaterialScrapGlass: 500
 
 - type: latheRecipe
   id: SpeedModifierModuleSecurity
@@ -406,7 +405,6 @@
     Steel: 1250
     BluespaceCrystal: 125
     Durathread: 200
-    MaterialScrapGlass: 500
 
 # Оружие
 
@@ -547,92 +545,79 @@
   result: RateOfFireLecterModuleItemStandart
   materials:
     Steel: 1250
-    MaterialScrapGlass: 500
 
 - type: latheRecipe
   id: RateOfFireLecterModuleItemAdv
   result: RateOfFireLecterModuleItemAdv
   materials:
-    Steel: 2250
+    Steel: 3250
     Silver: 350
-    MaterialScrapGlass: 850
 
 - type: latheRecipe
   id: LecterExtendedAmmoMagModuleItem
   result: LecterExtendedAmmoMagModuleItem
   materials:
     Steel: 1250
-    MaterialScrapGlass: 500
 
 - type: latheRecipe
   id: RateOfFireDrozdModuleItemAdv
   result: RateOfFireDrozdModuleItemAdv
   materials:
     Steel: 1250
-    MaterialScrapGlass: 500
 
 - type: latheRecipe
   id: RateOfFireMKModuleItemAdv
   result: RateOfFireMKModuleItemAdv
   materials:
     Steel: 850
-    MaterialScrapGlass: 150
 
 - type: latheRecipe
   id: AvailableModesMKModuleItem
   result: AvailableModesMKModuleItem
   materials:
     Steel: 1050
-    MaterialScrapGlass: 500
 
 - type: latheRecipe
   id: BallisticAmmoShotgunsModuleItem
   result: BallisticAmmoShotgunsModuleItem
   materials:
     Steel: 1450
-    MaterialScrapGlass: 600
 
 - type: latheRecipe
   id: GunSpreadModifierShotgunLowModuleItem
   result: GunSpreadModifierShotgunLowModuleItem
   materials:
     Steel: 1250
-    MaterialScrapGlass: 600
 
 - type: latheRecipe
   id: GunSpreadModifierShotgunHighModuleItem
   result: GunSpreadModifierShotgunHighModuleItem
   materials:
     Steel: 750
-    MaterialScrapGlass: 500
 
 - type: latheRecipe
   id: RateOfFireEnforcerModuleItem
   result: RateOfFireEnforcerModuleItem
   materials:
     Steel: 950
-    MaterialScrapGlass: 500
 
 - type: latheRecipe
   id: RateOfFireKammererModuleItem
   result: RateOfFireKammererModuleItem
   materials:
     Steel: 1250
-    MaterialScrapGlass: 500
 
 - type: latheRecipe
   id: RateOfFireAresSWCModuleItem
   result: RateOfFireAresSWCModuleItem
   materials:
     Steel: 1250
-    MaterialScrapGlass: 500
 
 - type: latheRecipe
   id: MassSkopeModuleItem
   result: MassSkopeModuleItem
   materials:
     Steel: 500
-    MaterialScrapGlass: 500
 
 - type: latheRecipe
   id: SpeedBulletModuleItem
@@ -640,7 +625,6 @@
   materials:
     Steel: 750
     Plasteel: 350
-    MaterialScrapGlass: 600
 
 # Чертежи
 
@@ -650,37 +634,43 @@
   id: BlueprintEnforcerInfinite
   result: BlueprintEnforcerInfinite
   materials:
-    MaterialDatadiskEncrypted: 1250
+    Plastic: 1750
+    BluespaceCrystal: 525
 
 - type: latheRecipe
   id: BlueprintKammererInfinite
   result: BlueprintKammererInfinite
   materials:
-    MaterialDatadiskEncrypted: 1250
+    Plastic: 1750
+    BluespaceCrystal: 525
 
 - type: latheRecipe
   id: BlueprintAresSWCInfinite
   result: BlueprintAresSWCInfinite
   materials:
-    MaterialDatadiskEncrypted: 1250
+    Plastic: 1750
+    BluespaceCrystal: 525
 
 - type: latheRecipe
   id: BlueprintDrozdInfinite
   result: BlueprintDrozdInfinite
   materials:
-    MaterialDatadiskEncrypted: 1250
+    Plastic: 1750
+    BluespaceCrystal: 525
 
 - type: latheRecipe
   id: BlueprintLecterInfinite
   result: BlueprintLecterInfinite
   materials:
-    MaterialDatadiskEncrypted: 1250
+    Plastic: 1750
+    BluespaceCrystal: 525
 
 - type: latheRecipe
   id: BlueprintМК58Infinite
   result: BlueprintМК58Infinite
   materials:
-    MaterialDatadiskEncrypted: 750
+    Plastic: 1150
+    BluespaceCrystal: 125
 
 # 3 использование
 
@@ -688,34 +678,40 @@
   id: BlueprintEnforcerThreeUse
   result: BlueprintEnforcerThreeUse
   materials:
-    MaterialDatadiskEncrypted: 750
+    Plastic: 1250
+    Plasma: 800
 
 - type: latheRecipe
   id: BlueprintKammererThreeUse
   result: BlueprintKammererThreeUse
   materials:
-    MaterialDatadiskEncrypted: 750
+    Plastic: 1250
+    Plasma: 800
 
 - type: latheRecipe
   id: BlueprintAresSWCThreeUse
   result: BlueprintAresSWCThreeUse
   materials:
-    MaterialDatadiskEncrypted: 750
+    Plastic: 1250
+    Plasma: 800
 
 - type: latheRecipe
   id: BlueprintDrozdThreeUse
   result: BlueprintDrozdThreeUse
   materials:
-    MaterialDatadiskEncrypted: 750
+    Plastic: 1250
+    Plasma: 800
 
 - type: latheRecipe
   id: BlueprintLecterThreeUse
   result: BlueprintLecterThreeUse
   materials:
-    MaterialDatadiskEncrypted: 750
+    Plastic: 1250
+    Plasma: 800
 
 - type: latheRecipe
   id: BlueprintМК58ThreeUse
   result: BlueprintМК58ThreeUse
   materials:
-    MaterialDatadiskEncrypted: 350
+    Plastic: 950
+    Plasma: 350

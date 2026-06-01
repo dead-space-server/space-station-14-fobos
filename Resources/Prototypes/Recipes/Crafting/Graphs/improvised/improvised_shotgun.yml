@@ -24,5 +24,34 @@
       - material: Cloth
         amount: 3
         doAfter: 10
+
+    # DS14-start
+    - to: shotgunBread
+      steps:
+      - tag: FoodBreadBaguette
+        icon:
+          sprite: Objects/Consumable/Food/Baked/bread.rsi
+          state: baguette
+        name: construction-graph-tag-bagguet
+      - tag: Pipe
+        icon:
+          sprite: Structures/Piping/Atmospherics/pipe.rsi
+          state: pipeStraight
+        name: construction-graph-tag-pipe
+      - tag: ModularReceiver
+        icon:
+          sprite: Objects/Misc/modular_receiver.rsi
+          state: icon
+        name: construction-graph-tag-modular-receiver
+      - tag: RifleStock
+        icon:
+          sprite: Objects/Misc/rifle_stock.rsi
+          state: icon
+        name: construction-graph-tag-rifle-stock
+    # DS14-end
+
   - node: shotgun
     entity: WeaponShotgunImprovised
+    
+  - node: shotgunBread # DS14
+    entity: WeaponShotgunBreadBaguette

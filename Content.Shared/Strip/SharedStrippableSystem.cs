@@ -33,7 +33,6 @@ public abstract class SharedStrippableSystem : EntitySystem
     [Dependency] private readonly SharedDoAfterSystem _doAfterSystem = default!;
     [Dependency] private readonly SharedHandsSystem _handsSystem = default!;
     [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
-
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
 
     public override void Initialize()
@@ -135,10 +134,10 @@ public abstract class SharedStrippableSystem : EntitySystem
             return;
         }
 
-        if (_handsSystem.GetActiveItem(user.AsNullable()) is { } activeItem && heldEntity == null)
-            StartStripInsertHand(user, target, activeItem, handId, targetStrippable);
-        else if (heldEntity != null)
+        // DS14-Edit-Start: Hand insertion is handled by ItemTransferSystem verbs.
+        if (heldEntity != null)
             StartStripRemoveHand(user, target, heldEntity.Value, handId, targetStrippable);
+        // DS14-Edit-End
     }
 
     /// <summary>
@@ -355,111 +354,6 @@ public abstract class SharedStrippableSystem : EntitySystem
     }
 
     /// <summary>
-    ///     Checks whether the item in the user's active hand can be inserted into one of the target's hands.
-    /// </summary>
-    private bool CanStripInsertHand(
-        Entity<HandsComponent?> user,
-        Entity<HandsComponent?> target,
-        EntityUid held,
-        string handName)
-    {
-        if (!Resolve(user, ref user.Comp) ||
-            !Resolve(target, ref target.Comp))
-            return false;
-
-        if (!target.Comp.CanBeStripped)
-            return false;
-
-        if (!_handsSystem.TryGetActiveItem(user, out var activeItem) || activeItem != held)
-            return false;
-
-        if (!_handsSystem.CanDropHeld(user, user.Comp.ActiveHandId!))
-        {
-            _popupSystem.PopupCursor(Loc.GetString("strippable-component-cannot-drop"));
-            return false;
-        }
-
-        if (!_handsSystem.CanPickupToHand(target, activeItem.Value, handName, checkActionBlocker: false, handsComp: target.Comp))
-        {
-            _popupSystem.PopupCursor(Loc.GetString("strippable-component-cannot-put-message", ("owner", Identity.Entity(target, EntityManager))));
-            return false;
-        }
-
-        return true;
-    }
-
-    /// <summary>
-    ///     Begins a DoAfter to insert the item in the user's active hand into one of the target's hands.
-    /// </summary>
-    private void StartStripInsertHand(
-        Entity<HandsComponent?> user,
-        Entity<HandsComponent?> target,
-        EntityUid held,
-        string handName,
-        StrippableComponent? targetStrippable = null)
-    {
-        if (!Resolve(user, ref user.Comp) ||
-            !Resolve(target, ref target.Comp) ||
-            !Resolve(target, ref targetStrippable))
-            return;
-
-        if (!CanStripInsertHand(user, target, held, handName))
-            return;
-
-        var (time, stealth) = GetStripTimeModifiers(user, target, null, targetStrippable.HandStripDelay);
-
-        if (!stealth)
-        {
-            _popupSystem.PopupEntity(Loc.GetString("strippable-component-alert-owner-insert-hand",
-                                                        ("user", Identity.Entity(user, EntityManager)),
-                                                        ("item", _handsSystem.GetActiveItem(user)!.Value)),
-                                                        target,
-                                                        target,
-                                                        PopupType.Large);
-
-        }
-
-        var prefix = stealth ? "stealthily " : "";
-        _adminLogger.Add(LogType.Stripping, LogImpact.Low, $"{ToPrettyString(user):actor} is trying to {prefix}place the item {ToPrettyString(held):item} in {ToPrettyString(target):target}'s hands");
-
-        var doAfterArgs = new DoAfterArgs(EntityManager, user, time, new StrippableDoAfterEvent(true, false, handName), user, target, held)
-        {
-            Hidden = stealth,
-            AttemptFrequency = AttemptFrequency.EveryTick,
-            BreakOnDamage = true,
-            BreakOnMove = true,
-            NeedHand = true,
-            DuplicateCondition = DuplicateConditions.SameTool
-        };
-
-        _doAfterSystem.TryStartDoAfter(doAfterArgs);
-    }
-
-    /// <summary>
-    ///     Places the item in the user's active hand into one of the target's hands.
-    /// </summary>
-    private void StripInsertHand(
-        Entity<HandsComponent?> user,
-        Entity<HandsComponent?> target,
-        EntityUid held,
-        string handName,
-        bool stealth)
-    {
-        if (!Resolve(user, ref user.Comp) ||
-            !Resolve(target, ref target.Comp))
-            return;
-
-        if (!CanStripInsertHand(user, target, held, handName))
-            return;
-
-        _handsSystem.TryDrop(user, checkActionBlocker: false);
-        _handsSystem.TryPickup(target, held, handName, checkActionBlocker: false, animateUser: stealth, animate: !stealth, handsComp: target.Comp);
-        _adminLogger.Add(LogType.Stripping, LogImpact.Medium, $"{ToPrettyString(user):actor} has placed the item {ToPrettyString(held):item} in {ToPrettyString(target):target}'s hands");
-
-        // Hand update will trigger strippable update.
-    }
-
-    /// <summary>
     ///     Checks whether the item is in the target's hand and whether it can be dropped.
     /// </summary>
     private bool CanStripRemoveHand(
@@ -581,7 +475,7 @@ public abstract class SharedStrippableSystem : EntitySystem
 
         if (ev.Event.InventoryOrHand)
         {
-            if ( ev.Event.InsertOrRemove && !CanStripInsertInventory((entity.Owner, entity.Comp), args.Target.Value, args.Used.Value, ev.Event.SlotOrHandName) ||
+            if (ev.Event.InsertOrRemove && !CanStripInsertInventory((entity.Owner, entity.Comp), args.Target.Value, args.Used.Value, ev.Event.SlotOrHandName) ||
                 !ev.Event.InsertOrRemove && !CanStripRemoveInventory(entity.Owner, args.Target.Value, args.Used.Value, ev.Event.SlotOrHandName))
             {
                 ev.Cancel();
@@ -589,11 +483,13 @@ public abstract class SharedStrippableSystem : EntitySystem
         }
         else
         {
-            if ( ev.Event.InsertOrRemove && !CanStripInsertHand((entity.Owner, entity.Comp), args.Target.Value, args.Used.Value, ev.Event.SlotOrHandName) ||
-                !ev.Event.InsertOrRemove && !CanStripRemoveHand(entity.Owner, args.Target.Value, args.Used.Value, ev.Event.SlotOrHandName))
+            // DS14-Edit-Start: Legacy hand insertion do-afters are disabled.
+            if (ev.Event.InsertOrRemove ||
+                !CanStripRemoveHand(entity.Owner, args.Target.Value, args.Used.Value, ev.Event.SlotOrHandName))
             {
                 ev.Cancel();
             }
+            // DS14-Edit-End
         }
     }
 
@@ -616,10 +512,10 @@ public abstract class SharedStrippableSystem : EntitySystem
         }
         else
         {
-            if (ev.InsertOrRemove)
-                StripInsertHand((entity.Owner, entity.Comp), ev.Target.Value, ev.Used.Value, ev.SlotOrHandName, ev.Args.Hidden);
-            else
+            // DS14-Edit-Start: Hand insertion is handled by ItemTransferSystem verbs.
+            if (!ev.InsertOrRemove)
                 StripRemoveHand((entity.Owner, entity.Comp), ev.Target.Value, ev.Used.Value, ev.SlotOrHandName, ev.Args.Hidden);
+            // DS14-Edit-End
         }
     }
 
@@ -699,4 +595,5 @@ public abstract class SharedStrippableSystem : EntitySystem
 
         return !HasComp<BypassInteractionChecksComponent>(viewer);
     }
+
 }

@@ -924,12 +924,12 @@
       coefficients:
         Blunt: 0.6
         Slash: 0.6
-        Piercing: 0.6 #DS14
+        Piercing: 0.5 #DS14
         Heat: 0.5 #DS14
         Radiation: 0.4 #DS14
         Caustic: 0.4 #DS14
   - type: StaminaResistance # DS14
-    damageCoefficient: 0.45
+    damageCoefficient: 0.4
   - type: ClothingSpeedModifier
     walkModifier: 0.9 #DS14
     sprintModifier: 0.9 #DS14
@@ -997,7 +997,8 @@
         Piercing: 0.75 #DS14
         Heat: 0.4
         Caustic: 0.75
-        Stun: 0.65 #DS14
+  - type: StaminaResistance #DS14
+    damageCoefficient: 0.65
   - type: ClothingSpeedModifier
     walkModifier: 0.7 #DS14
     sprintModifier: 0.7 #DS14
@@ -1032,10 +1033,11 @@
         Piercing: 0.6
         Heat: 0.4
         Caustic: 0.75
-        Stun: 0.60
   - type: ClothingSpeedModifier
     walkModifier: 0.85
     sprintModifier: 0.85
+  - type: StaminaResistance
+    damageCoefficient: 0.6
   #DS14-end
   - type: HeldSpeedModifier
   - type: ToggleableClothing
@@ -1284,15 +1286,14 @@
     reagents:
       DexalinPlus: 10
       Puncturase: 10
-      TranexamicAcid: 10
       Omnizine: 10
   - type: Reflect
     reflectProb: 0.10
-  - type: Unremoveable #DS14-Won't let you take it off, it`s working.
   - type: StaminaResistance
     damageCoefficient: 0.05
 # DS14-end
   - type: HardsuitIdentification # DS14
+    canEmag: false
   - type: Speech # DS14
   - type: TTS # DS14
     voice: Adjutant

@@ -1,0 +1,11 @@
+names-field-officer-last-dataset-1 = Альфа
+names-field-officer-last-dataset-2 = Бета
+names-field-officer-last-dataset-3 = Дзета
+names-field-officer-last-dataset-4 = Гамма
+names-field-officer-last-dataset-5 = Омега
+names-field-officer-last-dataset-6 = Индиго
+names-field-officer-last-dataset-7 = Эпсилон
+names-field-officer-last-dataset-8 = Энигма
+names-field-officer-last-dataset-9 = Сьерра
+names-field-officer-last-dataset-10 = Сонг
+names-field-officer-last-dataset-11 = Голд-Игл

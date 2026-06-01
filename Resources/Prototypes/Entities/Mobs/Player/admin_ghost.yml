@@ -105,6 +105,10 @@
   - type: ShowContrabandDetails
   - type: ShowJobIcons # DS14
   - type: ShowMindShieldIcons # DS14
+  - type: ShowHealthBars # DS14
+    damageContainers:
+    - Biological
+    - Silicon
   - type: Inventory
     templateId: aghost
   - type: Loadout

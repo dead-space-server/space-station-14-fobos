@@ -42,7 +42,8 @@ public sealed class MaterialStorageSystem : SharedMaterialStorageSystem
 
         foreach (var (material, amount) in component.Storage)
         {
-            SpawnMultipleFromMaterial(amount, material, Transform(uid).Coordinates);
+            var spawned = SpawnMultipleFromMaterial(amount, material, Transform(uid).Coordinates, out var overflow);
+            RaiseMaterialEjected(uid, material, amount - overflow, spawned);
         }
     }
 
@@ -81,7 +82,9 @@ public sealed class MaterialStorageSystem : SharedMaterialStorageSystem
         if (volume <= 0 || !TryChangeMaterialAmount(uid, msg.Material, -volume))
             return;
 
-        var mats = SpawnMultipleFromMaterial(volume, material, Transform(uid).Coordinates, out _);
+        var mats = SpawnMultipleFromMaterial(volume, material, Transform(uid).Coordinates, out var overflow);
+        RaiseMaterialEjected(uid, new ProtoId<MaterialPrototype>(material.ID), volume - overflow, mats);
+
         foreach (var mat in mats.Where(mat => !TerminatingOrDeleted(mat)))
         {
             _stackSystem.TryMergeToContacts(mat);
@@ -95,6 +98,17 @@ public sealed class MaterialStorageSystem : SharedMaterialStorageSystem
         MaterialComponent? material = null,
         PhysicalCompositionComponent? composition = null)
     {
+        return TryInsertMaterialEntity(user, toInsert, receiver, true, storage, material, composition);
+    }
+
+    public bool TryInsertMaterialEntity(EntityUid user,
+        EntityUid toInsert,
+        EntityUid receiver,
+        bool showPopup,
+        MaterialStorageComponent? storage = null,
+        MaterialComponent? material = null,
+        PhysicalCompositionComponent? composition = null)
+    {
         if (!Resolve(receiver, ref storage) || !Resolve(toInsert, ref material, ref composition, false))
             return false;
         if (TryComp<ApcPowerReceiverComponent>(receiver, out var power) && !power.Powered)
@@ -102,11 +116,14 @@ public sealed class MaterialStorageSystem : SharedMaterialStorageSystem
         if (!base.TryInsertMaterialEntity(user, toInsert, receiver, storage, material, composition))
             return false;
         _audio.PlayPvs(storage.InsertingSound, receiver);
-        _popup.PopupEntity(Loc.GetString("machine-insert-item",
-                ("user", user),
-                ("machine", receiver),
-                ("item", toInsert)),
-            receiver);
+        if (showPopup)
+        {
+            _popup.PopupEntity(Loc.GetString("machine-insert-item",
+                    ("user", user),
+                    ("machine", receiver),
+                    ("item", toInsert)),
+                receiver);
+        }
         QueueDel(toInsert);
 
         // Logging
@@ -213,8 +230,20 @@ public sealed class MaterialStorageSystem : SharedMaterialStorageSystem
             amount = Math.Min(maxAmount.Value, amount);
 
         var spawned = SpawnMultipleFromMaterial(amount, material, coordinates.Value, out var overflow);
+        var removed = amount - overflow;
 
-        TryChangeMaterialAmount(entity, material, -(amount - overflow), component);
+        if (removed <= 0)
+            return spawned;
+
+        if (!TryChangeMaterialAmount(entity, material, -removed, component))
+        {
+            foreach (var spawnedEntity in spawned)
+                QueueDel(spawnedEntity);
+
+            return new List<EntityUid>();
+        }
+
+        RaiseMaterialEjected(entity, new ProtoId<MaterialPrototype>(material), removed, spawned);
         return spawned;
     }
 
@@ -243,5 +272,18 @@ public sealed class MaterialStorageSystem : SharedMaterialStorageSystem
         }
 
         return allSpawned;
+    }
+
+    private void RaiseMaterialEjected(
+        EntityUid uid,
+        ProtoId<MaterialPrototype> material,
+        int amount,
+        IReadOnlyList<EntityUid> entities)
+    {
+        if (amount <= 0 || entities.Count == 0)
+            return;
+
+        var ev = new MaterialEntitiesEjectedEvent(material, amount, entities);
+        RaiseLocalEvent(uid, ref ev);
     }
 }

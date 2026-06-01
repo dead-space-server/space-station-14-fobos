@@ -2,7 +2,7 @@
   id: Omega
   mapName: 'Omega'
   mapPath: /Maps/omega.yml
-  minPlayers: 15
+  minPlayers: 0
   maxPlayers: 40
   stations:
     Omega:
@@ -29,7 +29,7 @@
             SeniorOfficer: [ 1, 1 ]
             Detective: [ 1, 1 ]
             SecurityPilot: [ 1, 1 ]
-            SecurityOfficer: [ 4, 4 ]
+            SecurityOfficer: [ 3, 3 ]
             Brigmedic: [ 1, 1 ]
             SecurityCadet: [ 2, 2 ]
             # med
@@ -39,31 +39,31 @@
             MedicalDoctor: [ 3, 3 ]
             Paramedic: [ 1, 1 ]
             Coroner: [ 1, 1 ]
-            MedicalIntern: [ 3, 3 ]
+            MedicalIntern: [ 2, 2 ]
             # rnd
             ResearchDirector: [ 1, 1 ]
             SeniorResearcher: [ 1, 1 ]
-            Scientist: [ 4, 4 ]
+            Scientist: [ 2, 2 ]
             ResearchAssistant: [ 2, 2 ]
             # eng
             ChiefEngineer: [ 1, 1 ]
             SeniorEngineer: [ 1, 1 ]
             AtmosphericTechnician: [ 2, 2 ]
             StationEngineer: [ 3, 3 ]
-            TechnicalAssistant: [ 3, 3 ]
+            TechnicalAssistant: [ 2, 2 ]
             # sup
             Quartermaster: [ 1, 1 ]
             SeniorSalvageSpecialist: [ 1, 1 ]
             SalvageSpecialist: [ 3, 3 ]
-            CargoTechnician: [ 3, 3 ]
+            CargoTechnician: [ 2, 2 ]
             # civ
             HeadOfPersonnel: [ 1, 1 ]
             SeniorAdministrator: [ 1, 1 ]
             Chef: [ 1, 1 ]
-            Botanist: [ 2, 2 ]
+            Botanist: [ 1, 2 ]
             Bartender: [ 1, 1 ]
-            ServiceWorker: [ 2, 3 ]
-            Janitor: [ 1, 2 ]
+            ServiceWorker: [ 2, 2 ]
+            Janitor: [ 2, 2 ]
             Librarian: [ 1, 1 ]
             Chaplain: [ 1, 1 ]
             Reporter: [ 1, 1 ]
@@ -73,7 +73,7 @@
             Clown: [ 1, 1 ]
             # sil
             StationAi: [ 1, 1 ]
-            Borg: [ 2, 2 ]
+            Borg: [ 1, 1 ]
             BorgSecurity: [ 1, 1 ]
             # etc
             ClownSponsor: [ 0, 2 ]

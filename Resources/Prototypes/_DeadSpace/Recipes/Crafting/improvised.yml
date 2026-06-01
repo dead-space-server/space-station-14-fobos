@@ -69,3 +69,11 @@
   targetNode: redCraftFlower
   category: construction-category-misc
   objectType: Item
+
+- type: construction
+  id: ImprovisedShotgunBread
+  graph: ImprovisedShotgunGraph
+  startNode: start
+  targetNode: shotgunBread
+  category: construction-category-weapons
+  objectType: Item

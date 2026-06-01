@@ -13,7 +13,7 @@ public sealed class ToggleAutoMapVoteCommand : LocalizedEntityCommands
 
     public override string Command => "toggleautomapvote";
 
-    public override void Execute(IConsoleShell shell, string argStr, string[] args)
+    public override async void Execute(IConsoleShell shell, string argStr, string[] args)
     {
         if (args.Length > 1)
         {
@@ -32,7 +32,13 @@ public sealed class ToggleAutoMapVoteCommand : LocalizedEntityCommands
             return;
         }
 
-        _autoMapVote.SetEnabled(enabled);
+        var result = await _autoMapVote.SetEnabledAsync(enabled);
+        if (!result.Success)
+        {
+            shell.WriteError(result.Error ?? Loc.GetString("auto-map-vote-config-error-db"));
+            return;
+        }
+
         shell.WriteLine(Loc.GetString(enabled
             ? "toggle-auto-map-vote-command-enabled"
             : "toggle-auto-map-vote-command-disabled"));
@@ -46,7 +52,7 @@ public sealed class SetAutoMapVoteConfigCommand : LocalizedEntityCommands
 
     public override string Command => "setautomapvoteconfig";
 
-    public override void Execute(IConsoleShell shell, string argStr, string[] args)
+    public override async void Execute(IConsoleShell shell, string argStr, string[] args)
     {
         if (args.Length is < 6 or > 8)
         {
@@ -85,18 +91,19 @@ public sealed class SetAutoMapVoteConfigCommand : LocalizedEntityCommands
             voteDurationSeconds = parsedDuration;
         }
 
-        if (!_autoMapVote.TryApplyConfiguration(
-                smallMaxPlayers,
-                mediumMaxPlayers,
-                largeMaxPlayers,
-                args[3],
-                args[4],
-                args[5],
-                blacklistMaps,
-                voteDurationSeconds,
-                out var error))
+        var result = await _autoMapVote.TryApplyConfigurationAsync(
+            smallMaxPlayers,
+            mediumMaxPlayers,
+            largeMaxPlayers,
+            args[3],
+            args[4],
+            args[5],
+            blacklistMaps,
+            voteDurationSeconds);
+
+        if (!result.Success)
         {
-            shell.WriteError(error);
+            shell.WriteError(result.Error ?? Loc.GetString("auto-map-vote-config-error-db"));
             return;
         }
 

@@ -35,7 +35,6 @@
     head: ClothingHeadCapCentcomBlack
     eyes: ClothingEyesGlassesSecurity
     gloves: ClothingHandsGlovesCombat
-    outerClothing: ClothingOuterVestWeb
     neck: ClothingNeckCloakCentcomBlack
     belt: WeaponRevolverMateba
     id: CentcomSpecialOperationsOfficerPDA

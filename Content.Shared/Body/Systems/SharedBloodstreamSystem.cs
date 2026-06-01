@@ -8,6 +8,7 @@ using Content.Shared.Chemistry.Reagent;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Systems;
 using Content.Shared.DeadSpace.Abilities.Bloodsucker;
+using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.EntityEffects.Effects.Solution;
 using Content.Shared.FixedPoint;
 using Content.Shared.Fluids;
@@ -204,7 +205,10 @@ public abstract class SharedBloodstreamSystem : EntitySystem
 
         // Use both the receiver and the damage causing entity for the seed so that we have different results for multiple attacks in the same tick
         var prob = Math.Clamp(totalFloat / 25, 0, 1);
-        if (totalFloat > 0 && SharedRandomExtensions.PredictedProb(_timing, prob, GetNetEntity(ent), GetNetEntity(args.Origin)))
+        // DS14-start
+        var damageOrigin = TryGetNetEntity(args.Origin, out var netOrigin) ? netOrigin : null;
+        if (totalFloat > 0 && SharedRandomExtensions.PredictedProb(_timing, prob, GetNetEntity(ent), damageOrigin))
+        // DS14-end
         {
             TryBleedOut(ent.AsNullable(), total / 5);
             _audio.PlayPredicted(ent.Comp.InstantBloodSound, ent, args.Origin);
@@ -600,6 +604,10 @@ public abstract class SharedBloodstreamSystem : EntitySystem
             dnaData.DNA = Loc.GetString("forensics-dna-unknown");
 
         bloodData.Add(dnaData);
+        // DS14-start
+        if (TryComp<VirusComponent>(uid, out var virus))
+            bloodData.Add((VirusData) virus.Data.Clone());
+        // DS14-end
         return bloodData;
     }
 }

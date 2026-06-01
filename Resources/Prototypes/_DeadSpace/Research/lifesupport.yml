@@ -124,16 +124,16 @@
   - CryostasisBeaker
   - SyringeCryostasis
 
-- type: technology
-  id: TaipanMechanizedTreatment
-  name: research-technology-mechanized-treatment
-  icon:
-    sprite: _DeadSpace/Mobs/Silicon/chassis.rsi
-    state: medical
-  discipline: TaipanLifeSupport
-  tier: 2
-  cost: 15000
-  diskAvailable: false
+#- type: technology
+  #id: TaipanMechanizedTreatment
+  #name: research-technology-mechanized-treatment
+  #icon:
+  #  sprite: _DeadSpace/Mobs/Silicon/chassis.rsi
+  #  state: medical
+  #discipline: TaipanLifeSupport
+  #tier: 2
+  #cost: 15000
+  #diskAvailable: false
 
 - type: technology
   id: TaipanAdvancedCleaning

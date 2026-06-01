@@ -8,13 +8,13 @@ namespace Content.Shared.Fluids.Components
     /// <summary>
     /// Puddle on a floor
     /// </summary>
-    [RegisterComponent, NetworkedComponent, Access(typeof(SharedPuddleSystem))]
+    [RegisterComponent, NetworkedComponent, AutoGenerateComponentState, Access(typeof(SharedPuddleSystem))] //DS14
     public sealed partial class PuddleComponent : Component
     {
-        [DataField]
+        [DataField, AutoNetworkedField] //DS14
         public SoundSpecifier SpillSound = new SoundPathSpecifier("/Audio/Effects/Fluids/splat.ogg");
 
-        [DataField]
+        [DataField, AutoNetworkedField] //DS14
         public FixedPoint2 OverflowVolume = FixedPoint2.New(50);
 
         [DataField("solution")] public string SolutionName = "puddle";
@@ -22,14 +22,14 @@ namespace Content.Shared.Fluids.Components
         /// <summary>
         /// Default minimum speed someone must be moving to slip for all reagents.
         /// </summary>
-        [DataField]
+        [DataField, AutoNetworkedField] //DS14
         public float DefaultSlippery = 5.5f;
 
         [ViewVariables]
         public Entity<SolutionComponent>? Solution;
 
         // Backmen-footsteps-start
-        [DataField]
+        [DataField, AutoNetworkedField]
         public bool ViscosityAffectsMovement = true;
         // Backmen-footsteps-end
     }

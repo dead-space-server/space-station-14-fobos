@@ -49,10 +49,17 @@ public sealed class BatterySystem : SharedBatterySystem
         var enumerator = AllEntityQuery<PowerNetworkBatteryComponent, BatteryComponent>();
         while (enumerator.MoveNext(out var uid, out var netBat, out var bat))
         {
-            var currentCharge = GetCharge((uid, bat));
+            var currentCharge = bat.ChargeRate == 0f
+                ? Math.Clamp(bat.LastCharge, 0f, bat.MaxCharge)
+                : GetCharge((uid, bat));
+
             DebugTools.Assert(currentCharge <= bat.MaxCharge && currentCharge >= 0);
-            netBat.NetworkBattery.Capacity = bat.MaxCharge;
-            netBat.NetworkBattery.CurrentStorage = currentCharge;
+
+            if (netBat.NetworkBattery.Capacity != bat.MaxCharge)
+                netBat.NetworkBattery.Capacity = bat.MaxCharge;
+
+            if (netBat.NetworkBattery.CurrentStorage != currentCharge)
+                netBat.NetworkBattery.CurrentStorage = currentCharge;
         }
     }
 
@@ -62,7 +69,11 @@ public sealed class BatterySystem : SharedBatterySystem
         var enumerator = AllEntityQuery<PowerNetworkBatteryComponent, BatteryComponent>();
         while (enumerator.MoveNext(out var uid, out var netBat, out var bat))
         {
-            SetCharge((uid, bat), netBat.NetworkBattery.CurrentStorage);
+            var currentStorage = netBat.NetworkBattery.CurrentStorage;
+            if (bat.ChargeRate == 0f && bat.LastCharge == currentStorage)
+                continue;
+
+            SetCharge((uid, bat), currentStorage);
         }
     }
 }

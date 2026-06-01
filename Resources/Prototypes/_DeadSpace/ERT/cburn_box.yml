@@ -390,9 +390,11 @@
     damageCoefficient: 0
 
 - type: entity
+  name: уборочный пояс
   id: ClothingBeltJanitorFilledERT
   parent: ClothingBeltJanitor
-  suffix: Filled
+  description: Пояс, используемый для переноски большинства уборочных принадлежностей.
+  suffix: Заполненный, ОБР
   components:
   - type: StorageFill
     contents:

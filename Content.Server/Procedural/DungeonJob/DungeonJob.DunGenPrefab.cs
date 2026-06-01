@@ -237,25 +237,6 @@ public sealed partial class DungeonJob
                 var exterior = new HashSet<Vector2i>(room.Size.X * 2 + room.Size.Y * 2);
                 var tileOffset = -roomCenter + _grid.TileSizeHalfVector;
                 Box2i? mapBounds = null;
-
-                for (var x = -1; x <= room.Size.X; x++)
-                {
-                    for (var y = -1; y <= room.Size.Y; y++)
-                    {
-                        if (x != -1 && y != -1 && x != room.Size.X && y != room.Size.Y)
-                        {
-                            continue;
-                        }
-
-                        var tilePos = Vector2.Transform(new Vector2i(x + room.Offset.X, y + room.Offset.Y) + tileOffset, dungeonMatty).Floored();
-
-                        if (reservedTiles.Contains(tilePos))
-                            continue;
-
-                        exterior.Add(tilePos);
-                    }
-                }
-
                 var center = Vector2.Zero;
 
                 for (var x = 0; x < room.Size.X; x++)
@@ -267,12 +248,13 @@ public sealed partial class DungeonJob
                         var tileIndex = tilePos.Floored();
                         roomTiles.Add(tileIndex);
 
-                        mapBounds = mapBounds?.Union(tileIndex) ?? new Box2i(tileIndex, tileIndex);
+                        mapBounds = mapBounds?.UnionTile(tileIndex) ?? new Box2i(tileIndex, tileIndex + Vector2i.One);
                         center += tilePos + _grid.TileSizeHalfVector;
                     }
                 }
 
                 center /= roomTiles.Count;
+                BuildRoomExterior(roomTiles, dungeon, reservedTiles, exterior);
 
                 dungeon.AddRoom(new DungeonRoom(roomTiles, center, mapBounds!.Value, exterior));
 
@@ -285,6 +267,7 @@ public sealed partial class DungeonJob
 
         // Calculate center and do entrances
         var dungeonCenter = Vector2.Zero;
+        FilterRoomExteriors(dungeon);
 
         foreach (var room in dungeon.Rooms)
         {
@@ -303,7 +286,8 @@ public sealed partial class DungeonJob
 
         // TODO: Look at markers and use that.
 
-        // Pick midpoints as fallback
+        // Pick real exterior tiles instead of deriving them from Box2i edges.
+        // This keeps entrances correct for rotated prefab rooms and Box2i's exclusive top/right bounds.
         if (room.Entrances.Count == 0)
         {
             var offset = random.Next(4);
@@ -312,25 +296,8 @@ public sealed partial class DungeonJob
             for (var i = 0; i < 4; i++)
             {
                 var dir = (Direction) ((i + offset) * 2 % 8);
-                Vector2i entrancePos;
-
-                switch (dir)
-                {
-                    case Direction.East:
-                        entrancePos = new Vector2i(room.Bounds.Right + 1, room.Bounds.Bottom + room.Bounds.Height / 2);
-                        break;
-                    case Direction.North:
-                        entrancePos = new Vector2i(room.Bounds.Left + room.Bounds.Width / 2, room.Bounds.Top + 1);
-                        break;
-                    case Direction.West:
-                        entrancePos = new Vector2i(room.Bounds.Left - 1, room.Bounds.Bottom + room.Bounds.Height / 2);
-                        break;
-                    case Direction.South:
-                        entrancePos = new Vector2i(room.Bounds.Left + room.Bounds.Width / 2, room.Bounds.Bottom - 1);
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
+                if (!TryPickRoomEntrance(room, dungeon, reservedTiles, dir, out var entrancePos))
+                    continue;
 
                 // Check if it's not blocked
                 var blockPos = entrancePos + dir.ToIntVec() * 2;
@@ -346,6 +313,79 @@ public sealed partial class DungeonJob
                 room.Entrances.Add(entrancePos);
                 break;
             }
+        }
+    }
+
+    private bool TryPickRoomEntrance(
+        DungeonRoom room,
+        Dungeon dungeon,
+        HashSet<Vector2i> reservedTiles,
+        Direction direction,
+        out Vector2i entrance)
+    {
+        entrance = default;
+
+        var directionVector = direction.ToIntVec();
+        var candidates = new List<(Vector2i Position, float Distance)>();
+
+        foreach (var tile in room.Exterior)
+        {
+            if (reservedTiles.Contains(tile))
+                continue;
+
+            if (!room.Tiles.Contains(tile - directionVector))
+                continue;
+
+            var blockPos = tile + directionVector * 2;
+            if (dungeon.RoomTiles.Contains(blockPos))
+                continue;
+
+            candidates.Add((tile, (tile + _grid.TileSizeHalfVector - room.Center).LengthSquared()));
+        }
+
+        if (candidates.Count == 0)
+            return false;
+
+        candidates.Sort((a, b) => a.Distance.CompareTo(b.Distance));
+        entrance = candidates[0].Position;
+        return true;
+    }
+
+    private static void BuildRoomExterior(
+        HashSet<Vector2i> roomTiles,
+        Dungeon dungeon,
+        HashSet<Vector2i> reservedTiles,
+        HashSet<Vector2i> exterior)
+    {
+        foreach (var tile in roomTiles)
+        {
+            for (var x = -1; x <= 1; x++)
+            {
+                for (var y = -1; y <= 1; y++)
+                {
+                    if (x == 0 && y == 0)
+                        continue;
+
+                    var neighbor = new Vector2i(tile.X + x, tile.Y + y);
+
+                    if (roomTiles.Contains(neighbor) ||
+                        dungeon.RoomTiles.Contains(neighbor) ||
+                        reservedTiles.Contains(neighbor))
+                    {
+                        continue;
+                    }
+
+                    exterior.Add(neighbor);
+                }
+            }
+        }
+    }
+
+    private static void FilterRoomExteriors(Dungeon dungeon)
+    {
+        foreach (var room in dungeon.Rooms)
+        {
+            room.Exterior.ExceptWith(dungeon.RoomTiles);
         }
     }
 }

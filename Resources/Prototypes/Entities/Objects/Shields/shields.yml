@@ -36,15 +36,15 @@
       messages: ShieldMessages
     - type: Destructible
       thresholds:
+#        - trigger:
+#            !type:DamageTrigger
+#            damage: 140
+#          behaviors:
+#            - !type:DoActsBehavior
+#              acts: [ "Destruction" ]
         - trigger:
             !type:DamageTrigger
-            damage: 140
-          behaviors:
-            - !type:DoActsBehavior
-              acts: [ "Destruction" ]
-        - trigger:
-            !type:DamageTrigger
-            damage: 100 #This is probably enough damage before it breaks
+            damage: 220 #DS14 curse 220
           behaviors:
             - !type:DoActsBehavior
               acts: [ "Destruction" ]
@@ -507,10 +507,14 @@
   components:
     - type: ItemToggle
       onActivate: false # DS14
+      predictable: false # DS14 - server-side EMP can force-toggle the shield off.
       soundActivate:
         path: /Audio/Weapons/ebladeon.ogg
       soundDeactivate:
         path: /Audio/Weapons/ebladeoff.ogg
+    # DS14-start EMP disable
+    - type: EmpDisableItemToggle
+    # DS14-end
     - type: ItemToggleActiveSound
       activeSound:
         path: /Audio/Weapons/ebladehum.ogg
@@ -578,15 +582,15 @@
       messages: EnergyShieldMessages
     - type: Destructible
       thresholds:
+#        - trigger:
+#            !type:DamageTrigger
+#            damage: 180
+#          behaviors:
+#            - !type:DoActsBehavior
+#              acts: [ "Destruction" ]
         - trigger:
             !type:DamageTrigger
-            damage: 180
-          behaviors:
-            - !type:DoActsBehavior
-              acts: [ "Destruction" ]
-        - trigger:
-            !type:DamageTrigger
-            damage: 100
+            damage: 260 #DS14 no curse 220((
           behaviors:
             - !type:DoActsBehavior
               acts: [ "Destruction" ]
@@ -660,15 +664,15 @@
     - type: Appearance
     - type: Destructible
       thresholds:
+#        - trigger:
+#            !type:DamageTrigger
+#            damage: 100
+#          behaviors:
+#            - !type:DoActsBehavior
+#              acts: [ "Destruction" ]
         - trigger:
             !type:DamageTrigger
-            damage: 100
-          behaviors:
-            - !type:DoActsBehavior
-              acts: [ "Destruction" ]
-        - trigger:
-            !type:DamageTrigger
-            damage: 70
+            damage: 180
           behaviors:
             - !type:DoActsBehavior
               acts: [ "Destruction" ]

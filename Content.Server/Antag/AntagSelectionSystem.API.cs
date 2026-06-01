@@ -336,9 +336,9 @@ public sealed partial class AntagSelectionSystem
     /// This technically is a gamerule-ent-less way to make an entity an antag.
     /// You should almost never be using this.
     /// </summary>
-    public void ForceMakeAntag<T>(ICommonSession? player, string defaultRule) where T : Component
+    public void ForceMakeAntag<T>(ICommonSession? player, string defaultRule, bool forceNewRule = false) where T : Component
     {
-        var rule = ForceGetGameRuleEnt<T>(defaultRule);
+        var rule = ForceGetGameRuleEnt<T>(defaultRule, forceNewRule);
 
         if (!TryGetNextAvailableDefinition(rule, out var def))
             def = rule.Comp.Definitions.Last();
@@ -349,13 +349,23 @@ public sealed partial class AntagSelectionSystem
     /// Tries to grab one of the weird specific antag gamerule ents or starts a new one.
     /// This is gross code but also most of this is pretty gross to begin with.
     /// </summary>
-    public Entity<AntagSelectionComponent> ForceGetGameRuleEnt<T>(string id) where T : Component
+    public Entity<AntagSelectionComponent> ForceGetGameRuleEnt<T>(string id, bool forceNewRule = false) where T : Component
     {
-        var query = EntityQueryEnumerator<T, AntagSelectionComponent>();
-        while (query.MoveNext(out var uid, out _, out var comp))
+        if (!forceNewRule)
         {
-            return (uid, comp);
+            var query = EntityQueryEnumerator<T, AntagSelectionComponent>();
+            while (query.MoveNext(out var uid, out _, out var comp))
+            {
+                if (HasComp<EndedGameRuleComponent>(uid))
+                    continue;
+
+                if (MetaData(uid).EntityPrototype?.ID != id)
+                    continue;
+
+                return (uid, comp);
+            }
         }
+
         var ruleEnt = GameTicker.AddGameRule(id);
         RemComp<LoadMapRuleComponent>(ruleEnt);
         var antag = Comp<AntagSelectionComponent>(ruleEnt);

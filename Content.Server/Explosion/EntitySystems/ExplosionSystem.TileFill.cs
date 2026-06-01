@@ -36,7 +36,8 @@ public sealed partial class ExplosionSystem
         string typeID,
         float totalIntensity,
         float slope,
-        float maxIntensity)
+        float maxIntensity,
+        bool ignoreTileBlockers = false) // DS14
     {
         if (totalIntensity <= 0 || slope <= 0)
             return null;
@@ -112,7 +113,8 @@ public sealed partial class ExplosionSystem
                 referenceGrid,
                 spaceMatrix,
                 spaceAngle,
-                this);
+                this,
+                ignoreTileBlockers); // DS14
 
             gridData[epicentreGrid.Value] = initialGridData;
 
@@ -121,7 +123,7 @@ public sealed partial class ExplosionSystem
         else
         {
             // set up the space explosion data
-            spaceData = new ExplosionSpaceTileFlood(this, epicenter, referenceGrid, localGrids, maxDistance);
+            spaceData = new ExplosionSpaceTileFlood(this, epicenter, referenceGrid, localGrids, maxDistance, ignoreTileBlockers); // DS14
             spaceData.InitTile(initialTile);
         }
 
@@ -201,7 +203,8 @@ public sealed partial class ExplosionSystem
                         referenceGrid,
                         spaceMatrix,
                         spaceAngle,
-                        this);
+                        this,
+                        ignoreTileBlockers); // DS14
 
                     gridData[grid] = data;
                 }
@@ -213,7 +216,7 @@ public sealed partial class ExplosionSystem
 
             // if space-data is null, but some grid-based explosion reached space, we need to initialize it.
             if (spaceData == null && previousSpaceJump.Count != 0)
-                spaceData = new ExplosionSpaceTileFlood(this, epicenter, referenceGrid, localGrids, maxDistance);
+                spaceData = new ExplosionSpaceTileFlood(this, epicenter, referenceGrid, localGrids, maxDistance, ignoreTileBlockers); // DS14
 
             // If the explosion has reached space, do that neighbors finding step as well.
             if (spaceData != null)

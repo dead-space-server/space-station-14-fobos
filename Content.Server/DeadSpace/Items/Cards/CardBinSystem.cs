@@ -25,7 +25,7 @@ public sealed class CardBinSystem : EntitySystem
     private void OnSetTransferVerbs(EntityUid uid, CardBinComponent component, GetVerbsEvent<Verb> args)
     {
 
-        if (!EntityManager.TryGetComponent(args.User, out ActorComponent? actor))
+        if (!TryComp(args.User, out ActorComponent? actor))
             return;
 
         var player = actor.PlayerSession;
@@ -44,7 +44,7 @@ public sealed class CardBinSystem : EntitySystem
 
     private void Mix(EntityUid uid)
     {
-        if (!EntityManager.TryGetComponent(uid, out BinComponent? bin))
+        if (!TryComp(uid, out BinComponent? bin))
             return;
 
         var items = bin.ItemContainer.ContainedEntities.ToList();

@@ -431,7 +431,7 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
             {
                 _itemSlots.TryEject(target, slot, null, out var ejected, true);
                 if (ejected.HasValue)
-                    EntityManager.DeleteEntity(ejected.Value);
+                    Del(ejected.Value);
             }
 
             if (!_proto.HasIndex<EntityPrototype>(protoId))
@@ -440,7 +440,7 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
                 continue;
             }
 
-            var newItem = EntityManager.SpawnEntity(protoId, coords);
+            var newItem = Spawn(protoId, coords);
             _itemSlots.TryInsert(target, slot, newItem, null);
         }
     }
@@ -539,7 +539,7 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
             foreach (var ent in entities)
             {
                 _container.Remove(ent, stationComp.ItemContainer, reparent: false, force: true);
-                EntityManager.DeleteEntity(ent);
+                Del(ent);
             }
         stationComp.InsertedRequired.Clear();
 
@@ -547,7 +547,7 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
             foreach (var ent in entities)
             {
                 _container.Remove(ent, stationComp.ItemContainer, reparent: false, force: true);
-                EntityManager.DeleteEntity(ent);
+                Del(ent);
             }
         stationComp.InsertedRandomRequired.Clear();
         stationComp.ChosenRandomItems.Clear();
@@ -565,12 +565,12 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
         foreach (var (_, modEnt) in stationComp.InsertedModules)
         {
             _container.Remove(modEnt, stationComp.ItemContainer, reparent: false, force: true);
-            EntityManager.DeleteEntity(modEnt);
+            Del(modEnt);
         }
         stationComp.InsertedModules.Clear();
 
         var coords  = Transform(stationUid).Coordinates;
-        var crafted = EntityManager.SpawnEntity(recipe.Item, coords);
+        var crafted = Spawn(recipe.Item, coords);
 
         foreach (var moduleId in activeModules)
         {
@@ -627,12 +627,12 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
                             else if (raw != null && raw.GetType() == typeof(EntityUid?))
                                 actionEnt = (EntityUid?) raw;
 
-                            if (actionEnt.HasValue && EntityManager.EntityExists(actionEnt.Value))
+                            if (actionEnt.HasValue && Exists(actionEnt.Value))
                             {
                                 if (actionField.FieldType == typeof(EntityUid?))
                                     actionField.SetValue(existingComp, (EntityUid?) null);
 
-                                EntityManager.DeleteEntity(actionEnt.Value);
+                                    Del(actionEnt.Value);
                             }
                         }
                     }
@@ -642,13 +642,13 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
                         foreach (var ent in tcContainer.ContainedEntities.ToArray())
                         {
                             _container.Remove(ent, tcContainer, reparent: false, force: true);
-                            EntityManager.DeleteEntity(ent);
+                                Del(ent);
                         }
                     }
 
-                    EntityManager.RemoveComponent(moduleTarget, compType);
+                        RemComp(moduleTarget, compType);
                     var newToggle = (Component) _serialization.Read(compType, mappedRaw, skipHook: true)!;
-                    EntityManager.AddComponent(moduleTarget, newToggle);
+                        AddComp(moduleTarget, newToggle);
                 }
                 else
                 {
@@ -693,13 +693,13 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
                     DeepMerge(existingMapping, rawNode);
 
                     var patched = (Component) _serialization.Read(compType, existingMapping, skipHook: true)!;
-                    EntityManager.RemoveComponent(moduleTarget, compType);
-                    EntityManager.AddComponent(moduleTarget, patched);
+                    RemComp(moduleTarget, compType);
+                    AddComp(moduleTarget, patched);
                 }
                 else
                 {
                     var newComp = (Component) _serialization.Read(compType, rawNode, skipHook: true)!;
-                    EntityManager.AddComponent(moduleTarget, newComp);
+                    AddComp(moduleTarget, newComp);
                 }
             }
 
@@ -977,7 +977,7 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
             return false;
 
         var target = comp.LinkedStation.Value;
-        if (!EntityManager.EntityExists(target))
+        if (!Exists(target))
         {
             comp.LinkedStation = null;
             return false;
@@ -1041,7 +1041,7 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
         ConsoleCraftPrototype recipe,
         EntityUid itemUid)
     {
-        if (!EntityManager.EntityExists(itemUid))
+        if (!Exists(itemUid))
             return InsertResult.WrongItem;
 
         var itemProto = MetaData(itemUid).EntityPrototype?.ID;

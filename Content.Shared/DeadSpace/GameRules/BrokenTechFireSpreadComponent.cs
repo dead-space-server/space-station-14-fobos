@@ -3,6 +3,8 @@
 using System;
 using System.Collections.Generic;
 using Content.Shared.Chemistry.Reagent;
+using Content.Shared.Damage;
+using Content.Shared.FixedPoint;
 using Robust.Shared.Maths;
 using Robust.Shared.Prototypes;
 
@@ -20,10 +22,25 @@ public sealed partial class BrokenTechFireSpreadComponent : Component
     [DataField]
     public List<ProtoId<ReagentPrototype>> WaterReagents = new() { "Water", "Holywater", "CoconutWater" };
 
+    // DS14-start blob fire damage
+    [DataField]
+    public DamageSpecifier BlobTileDamage = new()
+    {
+        DamageDict = new Dictionary<string, FixedPoint2>
+        {
+            { "Heat", 10 },
+        }
+    };
+
+    [DataField]
+    public float BlobTileDamageInterval = 1f;
+
     public EntityUid? OriginGrid;
     public Vector2i OriginTile;
     public bool HasOrigin;
     public int Distance;
     public TimeSpan NextSpread;
+    public TimeSpan NextBlobTileDamage;
+    // DS14-end
     public bool Finished;
 }

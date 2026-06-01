@@ -48,10 +48,10 @@
       coefficients:
         Blunt: 0.45
         Slash: 0.45
-        Piercing: 0.55
+        Piercing: 0.48
         Heat: 0.5
         Caustic: 0.5
-        Radiation: 0.7
+        Radiation: 0.6
   - type: ExplosionResistance
     damageCoefficient: 0.6
   - type: TemperatureProtection
@@ -142,9 +142,9 @@
         Blunt: 0.6
         Slash: 0.6
         Piercing: 0.6
-        Heat: 0.3
-        Caustic: 0.3
-        Radiation: 0.3
+        Heat: 0.35
+        Caustic: 0.35
+        Radiation: 0.35
   - type: ExplosionResistance
     damageCoefficient: 0.5
   - type: TemperatureProtection

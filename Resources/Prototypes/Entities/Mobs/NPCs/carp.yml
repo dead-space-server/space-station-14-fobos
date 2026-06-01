@@ -169,7 +169,7 @@
             radius: 0.40
           density: 10
           mask:
-            - MobMask
+            - FlyingMobMask # DS14
           layer:
             - Opaque
     - type: TypingIndicator

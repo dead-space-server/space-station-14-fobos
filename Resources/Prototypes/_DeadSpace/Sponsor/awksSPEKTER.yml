@@ -1,0 +1,466 @@
+# Backpack
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBackpackawksSPEKTER
+  name: боевая сумка
+  description: Сумка.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/backpack.rsi
+  - type: Storage
+    maxItemSize: Huge
+    grid:
+    - 0,0,13,7
+  - type: StorageFill
+    contents:
+    - id: ClothingWebbingawksSPEKTER
+    - id: ClothingHandsGlovesawksSPEKTER
+    - id: ClothingOuterHardsuitawksSPEKTER
+    - id: ClothingMaskawksSPEKTER
+    - id: ClothingHeadsetawksSPEKTER
+    - id: ClothingShoesBootsMagawksSPEKTER
+    - id: ClothingEyesHudawksSPEKTER
+    - id: JetpackVoidFilleddawksSPEKTER
+    - id: DefibrillatorawksSPEKTER
+    - id: telescopicBatonawksSPEKTER
+    - id: HyposprayawksSPEKTER
+    - id: ClothingNeckCloakawksSPEKTER
+    - id: ClothingNeckCloakawksSPEKTER
+    - id: MedkitAdvancedFilled
+    - id: DoubleEmergencyOxygenTankawksSPEKTER
+    - id: PlushieawksSPEKTER
+    - id: PaperawksSPEKTER
+    - id: JukeboxMK
+    - id: TapeRecorderr
+    - id: TapeEmpty
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Hardsuit
+- type: entity
+  parent: ClothingOuterHardsuitSecurity
+  id: ClothingOuterHardsuitawksSPEKTER
+  name: боевой скафандр
+  description: Скафандр с биокодированием, обеспечивающий защиту в критических ситуациях.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/hardsuit.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/hardsuit.rsi
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitawksSPEKTER
+  - type: Item
+    size: Huge
+  - type: HardsuitIdentification
+    nonlethal: true
+  - type: HideLayerClothing
+    clothingSlots: 
+    - belt
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.50
+        Slash: 0.50
+        Piercing: 0.60
+        Heat: 0.50
+        Radiation: 0.50
+        Caustic: 0.50
+  - type: ClothingSpeedModifier
+    walkModifier: 0.9
+    sprintModifier: 0.9
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ClothingHeadHelmetHardsuitawksSPEKTER
+  categories: [ HideSpawnMenu ]
+  name: шлем боевого скафандра
+  description: Шлем с встроенным медицинским визором, который обеспечивает защиту и освещение для работы в темных условиях.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/helmet.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/helmet.rsi
+  - type: PointLight
+    color: "#840f1a"
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: EyeProtection
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Gloves
+- type: entity
+  parent: ClothingHandsGlovesCombat
+  id: ClothingHandsGlovesawksSPEKTER
+  name: защитные перчатки
+  description: Перчатки, обеспечивающие защиту рук в опасных условиях. Изолированы.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/gloves.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/gloves.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Magboots
+- type: entity
+  parent: ClothingShoesBootsMag
+  id: ClothingShoesBootsMagawksSPEKTER
+  name: боевые магнитные ботинки
+  description: Ботинки, полученные в тяжелом сражение, обеспечивают отличное сцепление с поверхностями для выполнения задач в условиях невесомости.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/magboots.rsi
+    layers:
+    - state: icon
+      map: [ "enum.ToggleableVisuals.Layer" ]
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/magboots.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+
+# Mask
+- type: entity
+  parent: ClothingMaskGas
+  id: ClothingMaskawksSPEKTER
+  name: боевой противогаз
+  description: Противогаз, защищающий от токсичных веществ и обеспечивающий дыхание в неблагоприятных условиях. Он кажется вам подозрительно знакомым.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/gasmask.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/gasmask.rsi
+  - type: HideLayerClothing
+    slots:
+    - Hair
+    - Snout
+    - HeadTop
+    - HeadSide
+    - FacialHair
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Headset
+- type: entity
+  parent: ClothingHeadset
+  id: ClothingHeadsetawksSPEKTER
+  name: боевая гарнитура
+  description: Гарнитура, обеспечивающая связь и возможность получения критической информации на поле боя.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/headset.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/headset.rsi
+  - type: Headset
+    color: "#840f1a"
+  - type: EncryptionKeyHolder
+    keySlots: 5
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Jetpack
+- type: entity
+  parent: JetpackVoidFilled
+  id: JetpackVoidFilleddawksSPEKTER
+  name: подушка
+  description: Хр-ми-ми.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Item
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/jetpack.rsi
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/jetpack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/jetpack.rsi
+    slots:
+      - Back
+      - suitStorage
+      - Belt
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Defibrillator
+- type: entity
+  parent: DefibrillatorCompact
+  name: боевой портативный дефибриллятор
+  description: Высокотехнологичный портативный дефибриллятор, отлично поможет раненным в бою.
+  id: DefibrillatorawksSPEKTER
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/defibsmall.rsi
+  - type: Item
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/defibsmall.rsi
+
+# Hypo
+- type: entity
+  name: тактический гипоспрей
+  parent: BaseItem
+  description: Особая разработка для лечения в особых задачах.
+  categories: [ HideSpawnMenu ]
+  id: HyposprayawksSPEKTER
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/hypo.rsi
+    layers:
+      - state: hypo
+        map: ["enum.SolutionContainerLayers.Base"]
+      - state: hypo_fill1
+        map: ["enum.SolutionContainerLayers.Fill"]
+        visible: false
+  - type: Item
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/hypo.rsi
+  - type: SolutionContainerManager
+    solutions:
+      hypospray:
+        maxVol: 5
+  - type: RefillableSolution
+    solution: hypospray
+  - type: ExaminableSolution
+    solution: hypospray
+    exactVolume: true
+  - type: Injector
+    solutionName: hypospray
+    ignoreClosed: false
+    activeModeProtoId: HyposprayDynamicMode
+    allowedModes:
+    - HyposprayDynamicMode
+    - HyposprayInjectMode
+  - type: UseDelay
+    delay: 0.5
+  - type: StaticPrice
+    price: 750
+  - type: StealTarget
+    stealGroup: Hypospray
+  - type: Appearance
+  - type: SolutionContainerVisuals
+    maxFillLevels: 4
+    fillBaseName: hypo_fill
+    solutionName: hypospray
+
+# Mantle
+- type: entity
+  parent: ClothingNeckBase
+  id: ClothingNeckCloakawksSPEKTER
+  name: боевой плащ
+  description: Плащ, сильно напоминающий адский десант ОПЗ.
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Sponsor/awksSPEKTER/cloak.rsi
+    - type: Clothing
+      sprite: _DeadSpace/Sponsor/awksSPEKTER/cloak.rsi
+    - type: Tag
+      tags: [] # ignore "WhitelistChameleon" tag
+
+#Документ
+- type: entity
+  parent: PaperPrintedCentcomm
+  id: PaperawksSPEKTER
+  name: распечатанный документ
+  description: Лист бумаги с заголовком центкома. Страшно даже смотреть на него.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Paper
+    stampState: paper_stamp-centcom
+    stampedBy:
+    - stampedColor: '#006600FF'
+      stampedName: Центральное Командование
+    - stampedColor: '#00BE00FF'
+      stampedName: Одобрено
+    content: paper-law-awks
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# РПС
+- type: entity
+  parent: ClothingBeltStorageBase
+  id: ClothingWebbingawksSPEKTER
+  name: боевой РПС
+  description: Ременно-плечевая система тактических ремней, которую носят представители 51-десантной дивизии.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/belt.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/belt.rsi
+  - type: ExplosionResistance
+    damageCoefficient: 0.8
+  - type: Item
+    size: Huge
+  - type: Storage
+    grid:
+    - 0,0,7,1
+  - type: StorageFill
+    contents:
+      - id: JawsOfLifeawksSPEKTER
+      - id: WelderExperimentalawksSPEKTER
+      - id: RCDDragonawksSPEKTER
+      - id: HandHeldMassScannerawksSPEKTER
+  
+# EYES
+- type: entity
+  parent: ClothingEyesHudMultiversal
+  id: ClothingEyesHudawksSPEKTER
+  name: боевые очки
+  description: Защитные очки.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/hud.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/hud.rsi
+  - type: EyeProtection
+  - type: IdentityBlocker
+    coverage: EYES
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+#melee
+- type: entity
+  parent: ToySword
+  id: telescopicBatonawksSPEKTER
+  categories: [ HideSpawnMenu ]
+  name: белый игрушечный меч
+  description: Новый пластиковый меч от Sandy-Cat! Имеет реалистичный звук и насыщенный цвет! Почти как настоящий!
+  components:
+  - type: EnergySword
+    activatedColor: white
+    colorOptions:
+    - white
+  - type: StaminaDamageOnHit
+    damage: 30
+  - type: MeleeWeapon
+    damage:
+      types:
+        Blunt: 3
+
+# tank.rsi
+- type: entity
+  parent: DoubleEmergencyOxygenTank
+  id: DoubleEmergencyOxygenTankawksSPEKTER
+  name: двойной аварийный кислородный баллон
+  description: двойной аварийный кислородный баллон.
+  categories: [ HideSpawnMenu ] 
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/tank.rsi
+  - type: Item
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/tank.rsi
+    storedSprite:
+      state: storage
+      sprite: _DeadSpace/Sponsor/awksSPEKTER/tank.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/tank.rsi
+  - type: GasTank
+    outputPressure: 21.3
+    air:
+      # 15 minutes
+      volume: 2.5
+      moles:
+        Oxygen: 1.025689525 # oxygen
+      temperature: 293.15
+
+# tools_massscanner.rsi
+- type: entity
+  parent: HandHeldMassScanner
+  id: HandHeldMassScannerawksSPEKTER
+  name: сканер массы
+  description: So, when you tell me I'm the reason, I just can't believe the lies. And why do I still want to call you?
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Item
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/tools_massscanner.rsi
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/tools_massscanner.rsi
+    state: icon
+    layers:
+    - state: icon
+    - state: scanner
+      shader: unshaded
+      visible: false
+      map: [ "enum.PowerDeviceVisualLayers.Powered" ]
+
+#WelderExperimental
+- type: entity
+  parent: WelderExperimental
+  id: WelderExperimentalawksSPEKTER
+  name: экспериментальный сварочный аппарат
+  description: Скрепляет разрозненные части реальности в единую, более совершенную конструкцию.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/tools_welder.rsi
+  - type: Item
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/tools_welder.rsi
+
+#JawsOfLife
+- type: entity
+  parent: JawsOfLife
+  id: JawsOfLifeawksSPEKTER
+  name: челюсти жизни 
+  description: Официальный инструмент для высвобождения из тисков рутины с минимальными психологическими травмами.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/tools_jawsoflife.rsi
+    state: syn_jaws_pry
+  - type: Item
+    size: Normal
+  - type: MultipleTool
+    entries:
+      - behavior: Prying
+        sprite:
+          sprite: _DeadSpace/Sponsor/awksSPEKTER/tools_jawsoflife.rsi
+          state: syn_jaws_pry
+        useSound: /Audio/Items/jaws_pry.ogg
+        changeSound: /Audio/Items/change_jaws.ogg
+      - behavior: Cutting
+        sprite:
+          sprite: _DeadSpace/Sponsor/awksSPEKTER/tools_jawsoflife.rsi
+          state: syn_jaws_cutter
+        useSound: /Audio/Items/jaws_cut.ogg
+        changeSound: /Audio/Items/change_jaws.ogg
+
+# RCD
+- type: entity
+  id: RCDDragonawksSPEKTER
+  parent: RCD
+  name: РСУ 
+  description: Боевой рсу.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/tools_rcd.rsi
+    state: icon
+
+# toy.rsi
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  id: PlushieawksSPEKTER
+  name: плюшевый ситх
+  categories: [ HideSpawnMenu ]
+  description: Ситх.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/awksSPEKTER/toy.rsi
+    state: toy

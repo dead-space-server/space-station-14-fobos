@@ -18,9 +18,23 @@ public sealed class KudzuSystem : EntitySystem
 
     private static readonly ProtoId<EdgeSpreaderPrototype> KudzuGroup = "Kudzu";
 
+    // DS14-Start: cache component queries used by kudzu growth update.
+    private EntityQuery<AppearanceComponent> _appearanceQuery;
+    private EntityQuery<KudzuComponent> _kudzuQuery;
+    private EntityQuery<DamageableComponent> _damageableQuery;
+    // DS14-End
+
     /// <inheritdoc/>
     public override void Initialize()
     {
+        base.Initialize();
+
+        // DS14-Start: cache component queries used by kudzu growth update.
+        _appearanceQuery = GetEntityQuery<AppearanceComponent>();
+        _kudzuQuery = GetEntityQuery<KudzuComponent>();
+        _damageableQuery = GetEntityQuery<DamageableComponent>();
+        // DS14-End
+
         SubscribeLocalEvent<KudzuComponent, ComponentStartup>(SetupKudzu);
         SubscribeLocalEvent<KudzuComponent, SpreadNeighborsEvent>(OnKudzuSpread);
         SubscribeLocalEvent<KudzuComponent, DamageChangedEvent>(OnDamageChanged);
@@ -92,10 +106,7 @@ public sealed class KudzuSystem : EntitySystem
     /// <inheritdoc/>
     public override void Update(float frameTime)
     {
-        var appearanceQuery = GetEntityQuery<AppearanceComponent>();
         var query = EntityQueryEnumerator<GrowingKudzuComponent>();
-        var kudzuQuery = GetEntityQuery<KudzuComponent>();
-        var damageableQuery = GetEntityQuery<DamageableComponent>();
         var curTime = _timing.CurTime;
 
         while (query.MoveNext(out var uid, out var grow))
@@ -105,7 +116,7 @@ public sealed class KudzuSystem : EntitySystem
 
             grow.NextTick = curTime + TimeSpan.FromSeconds(0.5);
 
-            if (!kudzuQuery.TryGetComponent(uid, out var kudzu))
+            if (!_kudzuQuery.TryGetComponent(uid, out var kudzu))
             {
                 RemCompDeferred(uid, grow);
                 continue;
@@ -116,7 +127,7 @@ public sealed class KudzuSystem : EntitySystem
                 continue;
             }
 
-            if (damageableQuery.TryGetComponent(uid, out var damage))
+            if (_damageableQuery.TryGetComponent(uid, out var damage))
             {
                 if (damage.TotalDamage > 1.0)
                 {
@@ -144,7 +155,7 @@ public sealed class KudzuSystem : EntitySystem
                 RemCompDeferred(uid, grow);
             }
 
-            if (appearanceQuery.TryGetComponent(uid, out var appearance))
+            if (_appearanceQuery.TryGetComponent(uid, out var appearance))
             {
                 _appearance.SetData(uid, KudzuVisuals.GrowthLevel, kudzu.GrowthLevel, appearance);
             }

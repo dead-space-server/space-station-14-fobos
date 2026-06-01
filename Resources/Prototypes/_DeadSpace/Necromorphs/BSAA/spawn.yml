@@ -190,7 +190,7 @@
     - type: Loadout
       prototypes: [ BSAALeaderGear ]
     - type: GhostRoleNotifys 
-      groupPrototype: CBURNGroup
+      groupPrototype: BSAAGroup
 
 - type: randomHumanoidSettings
   id: BSAAFighter
@@ -214,7 +214,7 @@
     - type: Loadout
       prototypes: [ BSAAFighterGear ]
     - type: GhostRoleNotifys 
-      groupPrototype: CBURNGroup
+      groupPrototype: BSAAGroup
 
 - type: randomHumanoidSettings
   id: BSAAMedic
@@ -238,4 +238,4 @@
     - type: Loadout
       prototypes: [ BSAAMedicGear ]
     - type: GhostRoleNotifys 
-      groupPrototype: CBURNGroup
+      groupPrototype: BSAAGroup

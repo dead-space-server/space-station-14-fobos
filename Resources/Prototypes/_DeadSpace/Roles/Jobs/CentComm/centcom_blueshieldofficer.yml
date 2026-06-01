@@ -51,7 +51,7 @@
       - id: HandheldCrewMonitor
       - id: Zipties
         amount: 3
-      - id: DesoxyephedrineMedipen
+      - id: CelestinMedipen
         amount: 3
 
 - type: entity

@@ -1,10 +1,15 @@
 using System.Numerics;
+using Content.Client.Gameplay;
+using Content.Shared.CCVar;
 using Content.Shared.Light.Components;
 using Content.Shared.Weather;
+using Robust.Shared.Audio;
 using Robust.Client.Audio;
 using Robust.Client.GameObjects;
 using Robust.Client.Player;
+using Robust.Client.State;
 using Robust.Shared.Audio.Systems;
+using Robust.Shared.Configuration;
 using Robust.Shared.GameStates;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
@@ -17,29 +22,26 @@ public sealed class WeatherSystem : SharedWeatherSystem
 {
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly AudioSystem _audio = default!;
+    [Dependency] private readonly IConfigurationManager _cfg = default!; // DS14
     [Dependency] private readonly MapSystem _mapSystem = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly IStateManager _state = default!; // DS14
+
+    private float _ambienceVolume; // DS14
 
     public override void Initialize()
     {
         base.Initialize();
+        Subs.CVar(_cfg, CCVars.AmbienceVolume, SetAmbienceVolume, true); // DS14
         SubscribeLocalEvent<WeatherComponent, ComponentHandleState>(OnWeatherHandleState);
+        SubscribeLocalEvent<LocalPlayerDetachedEvent>(OnLocalPlayerDetached); // DS14
     }
 
     protected override void Run(EntityUid uid, WeatherData weather, WeatherPrototype weatherProto, float frameTime)
     {
         base.Run(uid, weather, weatherProto, frameTime);
 
-        var ent = _playerManager.LocalEntity;
-
-        if (ent == null)
-            return;
-
-        var mapUid = Transform(uid).MapUid;
-        var entXform = Transform(ent.Value);
-
-        // Maybe have the viewports manage this?
-        if (mapUid == null || entXform.MapUid != mapUid)
+        if (!TryGetWeatherAudioTarget(uid, out var entXform)) // DS14
         {
             weather.Stream = _audio.Stop(weather.Stream);
             return;
@@ -48,7 +50,7 @@ public sealed class WeatherSystem : SharedWeatherSystem
         if (!Timing.IsFirstTimePredicted || weatherProto.Sound == null)
             return;
 
-        weather.Stream ??= _audio.PlayGlobal(weatherProto.Sound, Filter.Local(), true)?.Entity;
+        weather.Stream ??= PlayWeatherAudio(weatherProto); // DS14
 
         if (!TryComp(weather.Stream, out AudioComponent? comp))
             return;
@@ -117,10 +119,62 @@ public sealed class WeatherSystem : SharedWeatherSystem
         }
 
         var alpha = GetPercent(weather, uid);
-        alpha *= SharedAudioSystem.VolumeToGain(weatherProto.Sound.Params.Volume);
+        alpha *= SharedAudioSystem.VolumeToGain(weatherProto.Sound.Params.Volume + _ambienceVolume); // DS14
         _audio.SetGain(weather.Stream, alpha, comp);
         comp.Occlusion = occlusion;
     }
+
+    // DS14-start
+    private void SetAmbienceVolume(float value)
+    {
+        _ambienceVolume = SharedAudioSystem.GainToVolume(value);
+    }
+
+    private bool TryGetWeatherAudioTarget(EntityUid uid, out TransformComponent entXform)
+    {
+        entXform = default!;
+
+        if (_state.CurrentState is not GameplayState)
+            return false;
+
+        var ent = _playerManager.LocalEntity;
+        if (ent == null)
+            return false;
+
+        var mapUid = Transform(uid).MapUid;
+        if (mapUid == null)
+            return false;
+
+        entXform = Transform(ent.Value);
+        return entXform.MapUid == mapUid;
+    }
+
+    private EntityUid? PlayWeatherAudio(WeatherPrototype weatherProto)
+    {
+        if (weatherProto.Sound == null)
+            return null;
+
+        var audioParams = weatherProto.Sound.Params.WithVolume(weatherProto.Sound.Params.Volume + _ambienceVolume);
+        return _audio.PlayGlobal(weatherProto.Sound, Filter.Local(), true, audioParams)?.Entity;
+    }
+
+    private void OnLocalPlayerDetached(LocalPlayerDetachedEvent args)
+    {
+        StopAllWeatherAudio();
+    }
+
+    private void StopAllWeatherAudio()
+    {
+        var query = EntityQueryEnumerator<WeatherComponent>();
+        while (query.MoveNext(out _, out var component))
+        {
+            foreach (var weather in component.Weather.Values)
+            {
+                weather.Stream = _audio.Stop(weather.Stream);
+            }
+        }
+    }
+    // DS14-end
 
     protected override bool SetState(EntityUid uid, WeatherState state, WeatherComponent comp, WeatherData weather, WeatherPrototype weatherProto)
     {
@@ -132,7 +186,12 @@ public sealed class WeatherSystem : SharedWeatherSystem
 
         // TODO: Fades (properly)
         weather.Stream = _audio.Stop(weather.Stream);
-        weather.Stream = _audio.PlayGlobal(weatherProto.Sound, Filter.Local(), true)?.Entity;
+
+        // DS14-start
+        if (TryGetWeatherAudioTarget(uid, out _))
+            weather.Stream = PlayWeatherAudio(weatherProto);
+        // DS14-end
+
         return true;
     }
 

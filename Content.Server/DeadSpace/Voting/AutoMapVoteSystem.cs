@@ -2,9 +2,11 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading.Tasks;
 using Content.Server.Administration;
 using Content.Server.Administration.Managers;
 using Content.Server.Chat.Managers;
+using Content.Server.Database;
 using Content.Server.DeadSpace.Maps;
 using Content.Server.GameTicking;
 using Content.Server.Maps;
@@ -24,9 +26,13 @@ namespace Content.Server.DeadSpace.Voting;
 
 public sealed class AutoMapVoteSystem : EntitySystem
 {
+    private const int MaxVoteOptions = byte.MaxValue;
+    private const string UnknownServerId = "unknown_server_id";
+
     [Dependency] private readonly IAdminManager _adminManager = default!;
     [Dependency] private readonly IChatManager _chatManager = default!;
     [Dependency] private readonly IConfigurationManager _config = default!;
+    [Dependency] private readonly IServerDbManager _db = default!;
     [Dependency] private readonly GameTicker _gameTicker = default!;
     [Dependency] private readonly IGameMapManager _gameMapManager = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
@@ -37,7 +43,9 @@ public sealed class AutoMapVoteSystem : EntitySystem
 
     private readonly Dictionary<AutoMapVoteCategory, AutoMapVoteCategoryConfig> _configs = new();
     private readonly Dictionary<AutoMapVoteCategory, HashSet<string>> _playedMaps = new();
+    private readonly Dictionary<AutoMapVoteCategory, Queue<string>> _queuedMaps = new();
     private readonly HashSet<string> _blacklistedMaps = new(StringComparer.Ordinal);
+    private readonly System.Threading.SemaphoreSlim _databaseSaveSemaphore = new(1, 1);
 
     private IVoteHandle? _activeVote;
     private AutoMapVoteCategory? _activeVoteCategory;
@@ -47,6 +55,10 @@ public sealed class AutoMapVoteSystem : EntitySystem
     private bool? _lastReportedVoteActive;
     private bool? _lastReportedVoteBlocked;
     private int _lastHandledRoundId = -1;
+    private string _serverId = UnknownServerId;
+    private bool _usingDatabaseConfig;
+    private int _databaseConfigVersion;
+    private int _explicitConfigVersion;
     private int _voteDurationSeconds = 90;
 
     public override void Initialize()
@@ -57,6 +69,7 @@ public sealed class AutoMapVoteSystem : EntitySystem
         {
             _configs[category] = new AutoMapVoteCategoryConfig();
             _playedMaps[category] = new HashSet<string>(StringComparer.Ordinal);
+            _queuedMaps[category] = new Queue<string>();
         }
 
         SubscribeLocalEvent<GameRunLevelChangedEvent>(OnGameRunLevelChanged);
@@ -71,6 +84,13 @@ public sealed class AutoMapVoteSystem : EntitySystem
         Subs.CVar(_config, CCVars.VoteAutoMapBlacklistMaps, UpdateBlacklistMaps, true);
         Subs.CVar(_config, CCVars.VoteAutoMapDuration, OnVoteDurationChanged, true);
 
+        _serverId = GetServerId();
+        if (_serverId == UnknownServerId)
+        {
+            Log.Warning($"Auto map vote uses '{UnknownServerId}' as server.id; multiple servers sharing this database will share one auto map vote config.");
+        }
+
+        _ = LoadConfigurationFromDatabaseAsync();
         _adminManager.OnPermsChanged += OnAdminPermsChanged;
     }
 
@@ -142,12 +162,29 @@ public sealed class AutoMapVoteSystem : EntitySystem
         };
     }
 
-    public void SetEnabled(bool enabled, bool save = true)
+    public async Task<(bool Success, string? Error)> SetEnabledAsync(bool enabled, bool save = true)
     {
-        _config.SetCVar(CCVars.VoteAutoMapEnabled, enabled);
-
         if (save)
-            _config.SaveToFile();
+        {
+            System.Threading.Interlocked.Increment(ref _explicitConfigVersion);
+            var saveResult = await TrySaveConfigurationAsync(
+                () => BuildConfigRecord(enabled),
+                _ =>
+                {
+                    System.Threading.Interlocked.Increment(ref _databaseConfigVersion);
+                    _usingDatabaseConfig = true;
+                    ApplyEnabled(enabled, sendAdminState: false);
+                });
+
+            if (!saveResult.Success)
+                return (false, saveResult.Error);
+
+            SendAdminState();
+            return (true, null);
+        }
+
+        ApplyEnabled(enabled);
+        return (true, null);
     }
 
     public bool TryInitiateVote([NotNullWhen(false)] out string? error)
@@ -175,7 +212,7 @@ public sealed class AutoMapVoteSystem : EntitySystem
         return true;
     }
 
-    public bool TryApplyConfiguration(
+    public async Task<(bool Success, string? Error)> TryApplyConfigurationAsync(
         int smallMaxPlayers,
         int mediumMaxPlayers,
         int largeMaxPlayers,
@@ -183,70 +220,82 @@ public sealed class AutoMapVoteSystem : EntitySystem
         string mediumMaps,
         string largeMaps,
         string blacklistMaps,
-        int? voteDurationSeconds,
-        [NotNullWhen(false)] out string? error)
+        int? voteDurationSeconds)
     {
-        error = null;
-
         if (smallMaxPlayers < 0 || mediumMaxPlayers < 0 || largeMaxPlayers < 0)
         {
-            error = Loc.GetString("auto-map-vote-config-error-negative-player-count");
-            return false;
+            return (false, Loc.GetString("auto-map-vote-config-error-negative-player-count"));
         }
 
         if (voteDurationSeconds != null && voteDurationSeconds.Value <= 0)
         {
-            error = Loc.GetString("auto-map-vote-config-error-invalid-duration");
-            return false;
+            return (false, Loc.GetString("auto-map-vote-config-error-invalid-duration"));
         }
 
         var normalizedBlacklist = NormalizeMapsCsv(blacklistMaps);
         var blacklistIds = ParseMapIds(normalizedBlacklist).ToHashSet(StringComparer.Ordinal);
+        var normalizedSmallMaps = NormalizeMapsCsv(smallMaps, blacklistIds);
+        var normalizedMediumMaps = NormalizeMapsCsv(mediumMaps, blacklistIds);
+        var normalizedLargeMaps = NormalizeMapsCsv(largeMaps, blacklistIds);
+        var normalizedVoteDurationSeconds = voteDurationSeconds ?? _voteDurationSeconds;
 
-        _config.SetCVar(CCVars.VoteAutoMapSmallMaxPlayers, smallMaxPlayers);
-        _config.SetCVar(CCVars.VoteAutoMapMediumMaxPlayers, mediumMaxPlayers);
-        _config.SetCVar(CCVars.VoteAutoMapLargeMaxPlayers, largeMaxPlayers);
-        _config.SetCVar(CCVars.VoteAutoMapBlacklistMaps, normalizedBlacklist);
-        _config.SetCVar(CCVars.VoteAutoMapSmallMaps, NormalizeMapsCsv(smallMaps, blacklistIds));
-        _config.SetCVar(CCVars.VoteAutoMapMediumMaps, NormalizeMapsCsv(mediumMaps, blacklistIds));
-        _config.SetCVar(CCVars.VoteAutoMapLargeMaps, NormalizeMapsCsv(largeMaps, blacklistIds));
+        System.Threading.Interlocked.Increment(ref _explicitConfigVersion);
+        var saveResult = await TrySaveConfigurationAsync(
+            () => BuildConfigRecord(
+                _enabled,
+                smallMaxPlayers,
+                mediumMaxPlayers,
+                largeMaxPlayers,
+                normalizedSmallMaps,
+                normalizedMediumMaps,
+                normalizedLargeMaps,
+                normalizedBlacklist,
+                normalizedVoteDurationSeconds),
+            record =>
+            {
+                System.Threading.Interlocked.Increment(ref _databaseConfigVersion);
+                _usingDatabaseConfig = true;
+                ApplyConfiguration(record);
+            });
 
-        if (voteDurationSeconds != null)
-            _config.SetCVar(CCVars.VoteAutoMapDuration, voteDurationSeconds.Value);
+        if (!saveResult.Success)
+            return (false, saveResult.Error);
 
-        _config.SaveToFile();
         SendAdminState();
-        return true;
+        return (true, null);
     }
 
     private void OnEnabledChanged(bool value)
     {
-        _enabled = value;
+        if (_usingDatabaseConfig)
+            return;
 
-        if (!value)
-        {
-            CancelActiveVote();
-            _gameMapManager.EndAutoMapVoteOverride();
-            _gameTicker.UpdateInfoText();
-        }
-
-        SendAdminState();
+        ApplyEnabled(value);
     }
 
     private void UpdateCategoryMaxPlayers(AutoMapVoteCategory category, int value)
     {
+        if (_usingDatabaseConfig)
+            return;
+
         _configs[category].MaxPlayers = value;
         SendAdminState();
     }
 
     private void UpdateCategoryMaps(AutoMapVoteCategory category, string value)
     {
+        if (_usingDatabaseConfig)
+            return;
+
         _configs[category].MapsCsv = NormalizeMapsCsv(value, _blacklistedMaps);
         SendAdminState();
     }
 
     private void UpdateBlacklistMaps(string value)
     {
+        if (_usingDatabaseConfig)
+            return;
+
         _blacklistMapsCsv = NormalizeMapsCsv(value);
         _blacklistedMaps.Clear();
 
@@ -260,8 +309,221 @@ public sealed class AutoMapVoteSystem : EntitySystem
 
     private void OnVoteDurationChanged(int value)
     {
+        if (_usingDatabaseConfig)
+            return;
+
         _voteDurationSeconds = value;
         SendAdminState();
+    }
+
+    public async Task LoadConfigurationFromDatabaseAsync()
+    {
+        var configVersion = System.Threading.Volatile.Read(ref _databaseConfigVersion);
+        var explicitConfigVersion = System.Threading.Volatile.Read(ref _explicitConfigVersion);
+
+        try
+        {
+            var record = await _db.GetAutoMapVoteConfigAsync(_serverId);
+            if (record == null)
+                return;
+
+            if (configVersion != System.Threading.Volatile.Read(ref _databaseConfigVersion) ||
+                explicitConfigVersion != System.Threading.Volatile.Read(ref _explicitConfigVersion))
+                return;
+
+            _usingDatabaseConfig = true;
+            ApplyConfiguration(record);
+            SendAdminState();
+        }
+        catch (Exception e)
+        {
+            Log.Error($"Failed to load auto map vote database config for server.id '{_serverId}': {e}");
+        }
+    }
+
+    private async Task<(bool Success, string? Error)> TrySaveConfigurationAsync(
+        Func<AutoMapVoteConfigRecord?> buildRecord,
+        Action<AutoMapVoteConfigRecord>? afterSave = null)
+    {
+        await _databaseSaveSemaphore.WaitAsync();
+        AutoMapVoteConfigRecord? record = null;
+
+        try
+        {
+            record = buildRecord();
+            if (record == null)
+                return (true, null);
+
+            await _db.UpsertAutoMapVoteConfigAsync(record);
+            afterSave?.Invoke(record);
+            return (true, null);
+        }
+        catch (Exception e)
+        {
+            Log.Error($"Failed to save auto map vote database config for server.id '{record?.ServerId ?? _serverId}': {e}");
+            return (false, Loc.GetString("auto-map-vote-config-error-db"));
+        }
+        finally
+        {
+            _databaseSaveSemaphore.Release();
+        }
+    }
+
+    private AutoMapVoteConfigRecord BuildConfigRecord(bool enabled)
+    {
+        return BuildConfigRecord(
+            enabled,
+            _configs[AutoMapVoteCategory.Small].MaxPlayers,
+            _configs[AutoMapVoteCategory.Medium].MaxPlayers,
+            _configs[AutoMapVoteCategory.Large].MaxPlayers,
+            _configs[AutoMapVoteCategory.Small].MapsCsv,
+            _configs[AutoMapVoteCategory.Medium].MapsCsv,
+            _configs[AutoMapVoteCategory.Large].MapsCsv,
+            _blacklistMapsCsv,
+            _voteDurationSeconds);
+    }
+
+    private AutoMapVoteConfigRecord BuildConfigRecord(
+        bool enabled,
+        int smallMaxPlayers,
+        int mediumMaxPlayers,
+        int largeMaxPlayers,
+        string smallMaps,
+        string mediumMaps,
+        string largeMaps,
+        string blacklistMaps,
+        int voteDurationSeconds)
+    {
+        var smallMapsCsv = NormalizeMapsCsv(smallMaps);
+        var mediumMapsCsv = NormalizeMapsCsv(mediumMaps);
+        var largeMapsCsv = NormalizeMapsCsv(largeMaps);
+
+        return new AutoMapVoteConfigRecord(
+            _serverId,
+            enabled,
+            smallMaxPlayers,
+            mediumMaxPlayers,
+            largeMaxPlayers,
+            smallMapsCsv,
+            mediumMapsCsv,
+            largeMapsCsv,
+            blacklistMaps,
+            voteDurationSeconds,
+            SerializePlayedMaps(AutoMapVoteCategory.Small, smallMapsCsv),
+            SerializePlayedMaps(AutoMapVoteCategory.Medium, mediumMapsCsv),
+            SerializePlayedMaps(AutoMapVoteCategory.Large, largeMapsCsv),
+            SerializePoolQueueMaps(AutoMapVoteCategory.Small, smallMapsCsv),
+            SerializePoolQueueMaps(AutoMapVoteCategory.Medium, mediumMapsCsv),
+            SerializePoolQueueMaps(AutoMapVoteCategory.Large, largeMapsCsv));
+    }
+
+    private void ApplyConfiguration(AutoMapVoteConfigRecord record)
+    {
+        var normalizedBlacklist = NormalizeMapsCsv(record.BlacklistMaps);
+        var blacklistIds = ParseMapIds(normalizedBlacklist).ToHashSet(StringComparer.Ordinal);
+
+        _configs[AutoMapVoteCategory.Small].MaxPlayers = record.SmallMaxPlayers;
+        _configs[AutoMapVoteCategory.Medium].MaxPlayers = record.MediumMaxPlayers;
+        _configs[AutoMapVoteCategory.Large].MaxPlayers = record.LargeMaxPlayers;
+        _configs[AutoMapVoteCategory.Small].MapsCsv = NormalizeMapsCsv(record.SmallMaps, blacklistIds);
+        _configs[AutoMapVoteCategory.Medium].MapsCsv = NormalizeMapsCsv(record.MediumMaps, blacklistIds);
+        _configs[AutoMapVoteCategory.Large].MapsCsv = NormalizeMapsCsv(record.LargeMaps, blacklistIds);
+        ApplyBlacklistMaps(normalizedBlacklist);
+        ApplyPoolState(AutoMapVoteCategory.Small, record.SmallPlayedMaps, record.SmallPoolQueueMaps);
+        ApplyPoolState(AutoMapVoteCategory.Medium, record.MediumPlayedMaps, record.MediumPoolQueueMaps);
+        ApplyPoolState(AutoMapVoteCategory.Large, record.LargePlayedMaps, record.LargePoolQueueMaps);
+        _voteDurationSeconds = record.VoteDurationSeconds;
+        ApplyEnabled(record.Enabled, sendAdminState: false);
+    }
+
+    private string SerializePlayedMaps(AutoMapVoteCategory category, string mapsCsv)
+    {
+        var played = _playedMaps[category];
+        return string.Join(", ", ParseMapIds(mapsCsv).Where(played.Contains));
+    }
+
+    private string SerializePoolQueueMaps(AutoMapVoteCategory category, string mapsCsv)
+    {
+        var allowedIds = ParseMapIds(mapsCsv).ToHashSet(StringComparer.Ordinal);
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        return string.Join(", ", _queuedMaps[category].Where(id => allowedIds.Contains(id) && seen.Add(id)));
+    }
+
+    private void ApplyPoolState(AutoMapVoteCategory category, string playedMaps, string poolQueueMaps)
+    {
+        var configuredIds = ParseMapIds(_configs[category].MapsCsv).ToHashSet(StringComparer.Ordinal);
+
+        var played = _playedMaps[category];
+        played.Clear();
+        foreach (var id in ParseMapIds(playedMaps))
+        {
+            if (configuredIds.Contains(id) && !_blacklistedMaps.Contains(id))
+                played.Add(id);
+        }
+
+        var queue = _queuedMaps[category];
+        queue.Clear();
+        var queuedIds = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var id in ParseMapIds(poolQueueMaps))
+        {
+            if (configuredIds.Contains(id) && !_blacklistedMaps.Contains(id) && queuedIds.Add(id))
+                queue.Enqueue(id);
+        }
+    }
+
+    private void ApplyEnabled(bool value, bool sendAdminState = true)
+    {
+        _enabled = value;
+
+        if (!value)
+        {
+            CancelActiveVote();
+            _gameMapManager.EndAutoMapVoteOverride();
+            _gameTicker.UpdateInfoText();
+        }
+
+        if (sendAdminState)
+            SendAdminState();
+    }
+
+    private void ApplyBlacklistMaps(string value)
+    {
+        _blacklistMapsCsv = NormalizeMapsCsv(value);
+        _blacklistedMaps.Clear();
+
+        foreach (var id in ParseMapIds(_blacklistMapsCsv))
+        {
+            _blacklistedMaps.Add(id);
+        }
+    }
+
+    private string GetServerId()
+    {
+        var serverId = _config.GetCVar(CCVars.ServerId).Trim();
+        return string.IsNullOrWhiteSpace(serverId)
+            ? UnknownServerId
+            : serverId;
+    }
+
+    private void SaveRuntimeConfiguration()
+    {
+        _ = SaveRuntimeConfigurationAsync(System.Threading.Volatile.Read(ref _explicitConfigVersion));
+    }
+
+    private async Task SaveRuntimeConfigurationAsync(int explicitConfigVersion)
+    {
+        var saveResult = await TrySaveConfigurationAsync(
+            () => explicitConfigVersion == System.Threading.Volatile.Read(ref _explicitConfigVersion)
+                ? BuildConfigRecord(_enabled)
+                : null,
+            _ =>
+            {
+                System.Threading.Interlocked.Increment(ref _databaseConfigVersion);
+                _usingDatabaseConfig = true;
+            });
+
+        if (!saveResult.Success)
+            return;
     }
 
     private void OnAdminPermsChanged(AdminPermsChangedEventArgs args)
@@ -352,7 +614,7 @@ public sealed class AutoMapVoteSystem : EntitySystem
 
         foreach (var map in candidates)
         {
-            options.Options.Add((map.MapName, map));
+            options.Options.Add((map.ID == "CorvaxSpectrum" ? "Spectrum2k" : map.MapName, map));
         }
 
         _activeVote = _voteManager.CreateVote(options);
@@ -451,6 +713,7 @@ public sealed class AutoMapVoteSystem : EntitySystem
         }
 
         _playedMaps[category].Add(map.ID);
+        SaveRuntimeConfiguration();
         _gameTicker.UpdateInfoText();
 
         if (announceImmediate)
@@ -471,10 +734,60 @@ public sealed class AutoMapVoteSystem : EntitySystem
             .ToList();
 
         if (available.Count != 0)
-            return available;
+            return TakeCandidateBatch(category, available);
 
         played.Clear();
-        return basePool;
+        return TakeCandidateBatch(category, basePool);
+    }
+
+    private List<GameMapPrototype> TakeCandidateBatch(AutoMapVoteCategory category, List<GameMapPrototype> available)
+    {
+        SynchronizeCandidateQueue(category, available);
+
+        var queue = _queuedMaps[category];
+        var byId = available.ToDictionary(map => map.ID, map => map, StringComparer.Ordinal);
+        var count = Math.Min(MaxVoteOptions, queue.Count);
+        var result = new List<GameMapPrototype>(count);
+
+        for (var i = 0; i < count; i++)
+        {
+            var id = queue.Dequeue();
+            queue.Enqueue(id);
+
+            if (byId.TryGetValue(id, out var map))
+                result.Add(map);
+        }
+
+        SaveRuntimeConfiguration();
+        return result;
+    }
+
+    private void SynchronizeCandidateQueue(AutoMapVoteCategory category, List<GameMapPrototype> available)
+    {
+        var queue = _queuedMaps[category];
+        var availableIds = available
+            .Select(map => map.ID)
+            .ToHashSet(StringComparer.Ordinal);
+        var queuedIds = new HashSet<string>(StringComparer.Ordinal);
+        var retained = new List<string>(queue.Count);
+
+        while (queue.Count > 0)
+        {
+            var id = queue.Dequeue();
+            if (availableIds.Contains(id) && queuedIds.Add(id))
+                retained.Add(id);
+        }
+
+        foreach (var map in available)
+        {
+            if (queuedIds.Add(map.ID))
+                retained.Add(map.ID);
+        }
+
+        foreach (var id in retained)
+        {
+            queue.Enqueue(id);
+        }
     }
 
     private List<GameMapPrototype> BuildConfiguredEligiblePool(AutoMapVoteCategory category)

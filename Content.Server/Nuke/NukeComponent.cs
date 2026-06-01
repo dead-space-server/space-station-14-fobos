@@ -124,6 +124,20 @@ namespace Content.Server.Nuke
         [DataField("totalIntensity")]
         public float TotalIntensity = 100000;
 
+        // DS14-start
+        [ViewVariables(VVAccess.ReadWrite)]
+        [DataField("deleteExplodedEntities")]
+        public bool DeleteExplodedEntities = true;
+
+        [ViewVariables(VVAccess.ReadWrite)]
+        [DataField("destroyExplodedTiles")]
+        public bool DestroyExplodedTiles = true;
+
+        [ViewVariables(VVAccess.ReadWrite)]
+        [DataField("ignoreExplosionBlockers")]
+        public bool IgnoreExplosionBlockers = true;
+        // DS14-end
+
         /// <summary>
         ///     Avoid somehow double-triggering this explosion.
         /// </summary>

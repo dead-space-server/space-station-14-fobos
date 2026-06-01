@@ -109,6 +109,15 @@ public readonly record struct MaterialEntityInsertedEvent(MaterialComponent Mate
 public readonly record struct MaterialAmountChangedEvent;
 
 /// <summary>
+/// Event raised when stored material is spawned back into physical stack entities.
+/// </summary>
+[ByRefEvent]
+public readonly record struct MaterialEntitiesEjectedEvent(
+    ProtoId<MaterialPrototype> Material,
+    int Amount,
+    IReadOnlyList<EntityUid> Entities);
+
+/// <summary>
 /// Event raised to get all the materials that the
 /// </summary>
 [ByRefEvent]

@@ -880,6 +880,131 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
             await db.DbContext.SaveChangesAsync();
         }
 
+        // DS14-start
+        public async Task SetRoundGameModeHistoryAsync(int id, string? presetName, int? playerCount, string? mapName)
+        {
+            await using var db = await GetDb();
+
+            var round = await db.DbContext.Round.SingleOrDefaultAsync(round => round.Id == id);
+            if (round == null)
+                return;
+
+            round.GamePresetName = string.IsNullOrWhiteSpace(presetName) ? null : presetName;
+            round.StartPlayerCount = playerCount;
+            round.MapName = string.IsNullOrWhiteSpace(mapName) ? null : mapName;
+            await db.DbContext.SaveChangesAsync();
+        }
+
+        public async Task<List<RoundGameModeRecord>> GetRoundGameModeHistoryAsync(int serverId, DateTime fromUtc)
+        {
+            await using var db = await GetDb();
+
+            var rounds = await db.DbContext.Round
+                .Where(round =>
+                    round.ServerId == serverId &&
+                    round.StartDate != null &&
+                    round.StartDate >= fromUtc &&
+                    round.GamePresetName != null &&
+                    round.GamePresetName != string.Empty)
+                .OrderByDescending(round => round.StartDate)
+                .Select(round => new
+                {
+                    round.Id,
+                    StartDate = round.StartDate!.Value,
+                    GamePresetName = round.GamePresetName!,
+                    PlayerCount = round.StartPlayerCount,
+                    round.MapName
+                })
+                .ToListAsync();
+
+            return rounds
+                .Select(round => new RoundGameModeRecord(
+                    round.Id,
+                    NormalizeDatabaseTime(round.StartDate),
+                    round.GamePresetName,
+                    round.PlayerCount,
+                    round.MapName))
+                .ToList();
+        }
+
+        public async Task<AutoMapVoteConfigRecord?> GetAutoMapVoteConfigAsync(
+            string serverId,
+            CancellationToken cancel = default)
+        {
+            await using var db = await GetDb(cancel);
+
+            var entity = await db.DbContext.AutoMapVoteConfigs
+                .SingleOrDefaultAsync(config => config.ServerId == serverId, cancel);
+
+            return entity == null
+                ? null
+                : MakeAutoMapVoteConfigRecord(entity);
+        }
+
+        public async Task UpsertAutoMapVoteConfigAsync(
+            AutoMapVoteConfigRecord config,
+            CancellationToken cancel = default)
+        {
+            await using var db = await GetDb(cancel);
+
+            var entity = await db.DbContext.AutoMapVoteConfigs
+                .SingleOrDefaultAsync(existing => existing.ServerId == config.ServerId, cancel);
+
+            if (entity == null)
+            {
+                entity = new AutoMapVoteConfig
+                {
+                    ServerId = config.ServerId,
+                };
+
+                db.DbContext.AutoMapVoteConfigs.Add(entity);
+            }
+
+            ApplyAutoMapVoteConfig(entity, config);
+            await db.DbContext.SaveChangesAsync(cancel);
+        }
+
+        private static AutoMapVoteConfigRecord MakeAutoMapVoteConfigRecord(AutoMapVoteConfig entity)
+        {
+            return new AutoMapVoteConfigRecord(
+                entity.ServerId,
+                entity.Enabled,
+                entity.SmallMaxPlayers,
+                entity.MediumMaxPlayers,
+                entity.LargeMaxPlayers,
+                entity.SmallMaps,
+                entity.MediumMaps,
+                entity.LargeMaps,
+                entity.BlacklistMaps,
+                entity.VoteDurationSeconds,
+                entity.SmallPlayedMaps,
+                entity.MediumPlayedMaps,
+                entity.LargePlayedMaps,
+                entity.SmallPoolQueueMaps,
+                entity.MediumPoolQueueMaps,
+                entity.LargePoolQueueMaps);
+        }
+
+        private static void ApplyAutoMapVoteConfig(AutoMapVoteConfig entity, AutoMapVoteConfigRecord config)
+        {
+            entity.Enabled = config.Enabled;
+            entity.SmallMaxPlayers = config.SmallMaxPlayers;
+            entity.MediumMaxPlayers = config.MediumMaxPlayers;
+            entity.LargeMaxPlayers = config.LargeMaxPlayers;
+            entity.SmallMaps = config.SmallMaps;
+            entity.MediumMaps = config.MediumMaps;
+            entity.LargeMaps = config.LargeMaps;
+            entity.BlacklistMaps = config.BlacklistMaps;
+            entity.VoteDurationSeconds = config.VoteDurationSeconds;
+            entity.SmallPlayedMaps = config.SmallPlayedMaps;
+            entity.MediumPlayedMaps = config.MediumPlayedMaps;
+            entity.LargePlayedMaps = config.LargePlayedMaps;
+            entity.SmallPoolQueueMaps = config.SmallPoolQueueMaps;
+            entity.MediumPoolQueueMaps = config.MediumPoolQueueMaps;
+            entity.LargePoolQueueMaps = config.LargePoolQueueMaps;
+        }
+        // DS14-end
+
         [return: NotNullIfNotNull(nameof(round))]
         protected RoundRecord? MakeRoundRecord(Round? round)
         {
