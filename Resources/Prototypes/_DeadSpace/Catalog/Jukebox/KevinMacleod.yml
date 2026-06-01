@@ -1,0 +1,77 @@
+- type: jukebox
+  id: SneakySnitch
+  name: Kevin MacLeod - Sneaky Snitch
+  path:
+    path: /Audio/_DeadSpace/Jukebox/SneakySnitch.ogg
+
+- type: jukebox
+  id: WinnerWinner
+  name: Kevin MacLeod - Winner Winner
+  path:
+    path: /Audio/_DeadSpace/Jukebox/WinnerWinner.ogg
+
+- type: jukebox
+  id: MeatballParade
+  name: Kevin MacLeod - Meatball Parade
+  path:
+    path: /Audio/_DeadSpace/Jukebox/MeatballParade.ogg
+
+- type: jukebox
+  id: Cipher
+  name: Kevin MacLeod - Cipher
+  path:
+    path: /Audio/_DeadSpace/Jukebox/Cipher.ogg
+
+- type: jukebox
+  id: MonkeysSpinningMonkeys
+  name: Kevin MacLeod - Monkeys Spinning Monkeys
+  path:
+    path: /Audio/_DeadSpace/Jukebox/MonkeysSpinningMonkeys.ogg
+
+- type: jukebox
+  id: WhoLikesToParty
+  name: Kevin Macleod - Who likes to party
+  path:
+    path: /Audio/_DeadSpace/Jukebox/WhoLikesToParty.ogg
+
+- type: jukebox
+  id: Arcadia
+  name: Kevin Macleod - Arcadia
+  path:
+    path: /Audio/_DeadSpace/Jukebox/Arcadia.ogg
+
+- type: jukebox
+  id: JauntyGumption
+  name: Kevin Macleod - Jaunty Gumption
+  path:
+    path: /Audio/_DeadSpace/Jukebox/JauntyGumption.ogg
+
+- type: jukebox
+  id: Electrodoodle
+  name: Kevin Macleod - Electrodoodle
+  path:
+    path: /Audio/_DeadSpace/Jukebox/Electrodoodle.ogg
+
+- type: jukebox
+  id: PixelPolka
+  name: Kevin Macleod - Pixel Polka
+  path:
+    path: /Audio/_DeadSpace/Jukebox/PixelPolkafaster.ogg
+
+- type: jukebox
+  id: Gaslamp
+  name: Kevin Macleod - Gaslamp Funworks
+  path:
+    path: /Audio/_DeadSpace/Jukebox/GaslampFunworks.ogg
+
+- type: jukebox
+  id: MerryGo
+  name: Kevin Macleod - Merry Go
+  path:
+    path: /Audio/_DeadSpace/Jukebox/MerryGo.ogg
+
+- type: jukebox
+  id: LocalElevator
+  name: Kevin Macleod - Local Elevator
+  path:
+    path: /Audio/_DeadSpace/Jukebox/LocalElevator.ogg
