@@ -728,7 +728,15 @@
             ]
         },
         {
-            "name": "pda-ninja"
+            "name": "pda-ninja",
+            "delays": [
+                [
+                    0.3,
+                    0.3,
+                    0.3,
+                    0.3
+                ]
+            ]
         },
     {
       "name": "pda-black-centcom",
