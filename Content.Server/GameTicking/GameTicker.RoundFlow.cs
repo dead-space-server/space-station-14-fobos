@@ -568,15 +568,10 @@ namespace Content.Server.GameTicking
 
                 var antag = _roles.MindIsAntagonist(mindId);
 
-                var playerIcName = "Unknown";
-
-                if (mind.CharacterName != null)
-                    playerIcName = mind.CharacterName;
-                else if (mind.CurrentEntity != null && TryName(mind.CurrentEntity.Value, out var icName))
-                    playerIcName = icName;
-
                 // DS14-start
-                var displayEntity = GetRoundEndDisplayEntity(mindId, mind);
+                var manifestIdentity = _roundEndManifestStats.GetManifestIdentity(mindId);
+                var playerIcName = GetRoundEndPlayerIcName(mind, manifestIdentity);
+                var displayEntity = GetRoundEndDisplayEntity(mindId, mind, manifestIdentity);
 
                 if (displayEntity != null && pvsOverride)
                     _pvsOverride.AddGlobalOverride(displayEntity.Value);
@@ -647,6 +642,23 @@ namespace Content.Server.GameTicking
         }
 
         // DS14-start
+        private string GetRoundEndPlayerIcName(MindComponent mind, RoundEndManifestIdentity? manifestIdentity)
+        {
+            if (manifestIdentity is { } identity &&
+                !string.IsNullOrWhiteSpace(identity.CharacterName))
+            {
+                return identity.CharacterName;
+            }
+
+            if (mind.CharacterName != null)
+                return mind.CharacterName;
+
+            if (mind.CurrentEntity != null && TryName(mind.CurrentEntity.Value, out var icName))
+                return icName;
+
+            return "Unknown";
+        }
+
         private HashSet<EntityUid> GetRoundEndManifestAntagMinds()
         {
             var minds = new HashSet<EntityUid>();
@@ -703,7 +715,10 @@ namespace Content.Server.GameTicking
             return objectives.ToArray();
         }
 
-        private EntityUid? GetRoundEndDisplayEntity(EntityUid mindId, MindComponent mind)
+        private EntityUid? GetRoundEndDisplayEntity(
+            EntityUid mindId,
+            MindComponent mind,
+            RoundEndManifestIdentity? manifestIdentity)
         {
             var ownedEntity = mind.OwnedEntity;
             EntityUid? originalEntity = null;
@@ -713,11 +728,18 @@ namespace Content.Server.GameTicking
             if (_roundEndManifestStats.GetDisplaySnapshot(mindId) is { } snapshot)
                 return snapshot;
 
+            var identityEntity = manifestIdentity?.SourceEntity;
+            if (IsRoundEndDisplayBody(identityEntity))
+                return identityEntity;
+
             if (IsRoundEndDisplayBody(ownedEntity))
                 return ownedEntity;
 
             if (IsRoundEndDisplayBody(originalEntity))
                 return originalEntity;
+
+            if (identityEntity != null && !TerminatingOrDeleted(identityEntity.Value))
+                return identityEntity;
 
             if (ownedEntity != null && !TerminatingOrDeleted(ownedEntity.Value))
                 return ownedEntity;

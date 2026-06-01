@@ -39,6 +39,7 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
     private readonly Dictionary<EntityUid, string> _lastQuoteByMind = new();
     private readonly Dictionary<EntityUid, ManifestKdaStats> _statsByMind = new();
     private readonly Dictionary<EntityUid, Dictionary<EntityUid, FixedPoint2>> _damageByTarget = new();
+    private readonly Dictionary<EntityUid, RoundEndManifestIdentity> _identityByMind = new();
     private readonly Dictionary<EntityUid, EntityUid> _displaySnapshotByMind = new();
 
     public override void Initialize()
@@ -72,6 +73,13 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
         return null;
     }
 
+    public RoundEndManifestIdentity? GetManifestIdentity(EntityUid mindId)
+    {
+        return _identityByMind.TryGetValue(mindId, out var identity)
+            ? identity
+            : null;
+    }
+
     private void OnRoundStarting(RoundStartingEvent ev)
     {
         Reset();
@@ -93,13 +101,14 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
         _lastQuoteByMind.Clear();
         _statsByMind.Clear();
         _damageByTarget.Clear();
+        _identityByMind.Clear();
         _displaySnapshotByMind.Clear();
     }
 
     private void OnEntitySpoke(EntitySpokeEvent args)
     {
         if (!TryGetPlayerMind(args.Source, out var mindId, out var mind) ||
-            !IsCharacterSpeechSource(args.Source, mind))
+            !IsCharacterSpeechSource(args.Source, mindId, mind))
         {
             return;
         }
@@ -116,6 +125,7 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
         if (!IsAntagPlayerMind(args.MindId, args.Mind))
             return;
 
+        EnsureManifestIdentity(args.MindId, args.Mind);
         EnsureDisplaySnapshot(args.MindId, args.Mind);
     }
 
@@ -150,6 +160,48 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
             IsSnapshotSourceBody(originalEntity))
         {
             return originalEntity.Value;
+        }
+
+        return null;
+    }
+
+    private void EnsureManifestIdentity(EntityUid mindId, MindComponent mind)
+    {
+        if (_identityByMind.ContainsKey(mindId))
+            return;
+
+        var source = GetIdentitySourceEntity(mind);
+        var characterName = GetIdentityCharacterName(mind, source);
+        if (string.IsNullOrWhiteSpace(characterName))
+            return;
+
+        _identityByMind[mindId] = new RoundEndManifestIdentity(characterName, source);
+    }
+
+    private EntityUid? GetIdentitySourceEntity(MindComponent mind)
+    {
+        if (mind.CurrentEntity is { } currentEntity && !TerminatingOrDeleted(currentEntity))
+            return currentEntity;
+
+        if (TryGetEntity(mind.OriginalOwnedEntity, out var originalEntity) &&
+            !TerminatingOrDeleted(originalEntity.Value))
+        {
+            return originalEntity.Value;
+        }
+
+        return null;
+    }
+
+    private string? GetIdentityCharacterName(MindComponent mind, EntityUid? source)
+    {
+        if (!string.IsNullOrWhiteSpace(mind.CharacterName))
+            return mind.CharacterName;
+
+        if (source != null)
+        {
+            var sourceName = Name(source.Value);
+            if (!string.IsNullOrWhiteSpace(sourceName))
+                return sourceName;
         }
 
         return null;
@@ -413,9 +465,24 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
         return count;
     }
 
-    private bool IsCharacterSpeechSource(EntityUid source, MindComponent mind)
+    private bool IsCharacterSpeechSource(EntityUid source, EntityUid mindId, MindComponent mind)
     {
-        return mind.OwnedEntity == source && !HasComp<GhostComponent>(source);
+        if (mind.OwnedEntity != source || HasComp<GhostComponent>(source))
+            return false;
+
+        return !_identityByMind.TryGetValue(mindId, out var identity) ||
+               IsSameManifestCharacter(source, mind, identity);
+    }
+
+    private bool IsSameManifestCharacter(EntityUid source, MindComponent mind, RoundEndManifestIdentity identity)
+    {
+        if (identity.SourceEntity == source)
+            return true;
+
+        if (!string.IsNullOrWhiteSpace(mind.CharacterName))
+            return string.Equals(mind.CharacterName, identity.CharacterName, StringComparison.Ordinal);
+
+        return string.Equals(Name(source), identity.CharacterName, StringComparison.Ordinal);
     }
 
     private bool TryGetDamageSourceMind(EntityUid? source, out EntityUid mindId, out MindComponent mind)
@@ -507,6 +574,7 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
     }
 }
 
+public readonly record struct RoundEndManifestIdentity(string CharacterName, EntityUid? SourceEntity);
 public readonly record struct RoundEndManifestStats(string Quote, int Kills, int Assists);
 
 internal struct ManifestKdaStats
