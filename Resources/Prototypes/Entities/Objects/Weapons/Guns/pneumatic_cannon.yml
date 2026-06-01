@@ -100,7 +100,7 @@
     quickEquip: false
     slots:
     - Back
-    - suitStorage
+    - suitStorage # DS14
   - type: ContainerContainer
     containers:
       storagebase: !type:Container
