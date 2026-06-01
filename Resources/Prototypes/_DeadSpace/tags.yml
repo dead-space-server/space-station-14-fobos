@@ -209,6 +209,9 @@
   id: Koibean
 
 - type: Tag
+  id: KeyUniversal
+
+- type: Tag
   id: LauncherChinaLake
 
 - type: Tag

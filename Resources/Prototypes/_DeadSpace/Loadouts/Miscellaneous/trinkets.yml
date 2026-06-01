@@ -72,3 +72,10 @@
     back:
     - ClothingNeckVitezstviPin
   groupBy: "pin"
+
+- type: loadout
+  id: VehicleWheelchair
+  storage:
+    back:
+    - VehicleWheelchair
+  groupBy: "canes"

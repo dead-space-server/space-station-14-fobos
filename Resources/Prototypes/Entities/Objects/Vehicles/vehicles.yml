@@ -5,6 +5,34 @@
   - type: Sprite
     noRot: true
   - type: InputMover
+ #DS14-start
+  - type: Damageable
+    damageModifierSet: Metallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 125
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+    - trigger:
+        !type:DamageTrigger
+        damage: 25
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+          params:
+            volume: -6
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          SheetSteel1:
+            min: 1
+            max: 1
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+#DS14-end
   - type: Clickable
   - type: InteractionOutline
   - type: Pullable
@@ -53,14 +81,21 @@
       visible: false
   - type: Appearance
   - type: Item
-    size: Ginormous
+    size: Normal #DS14
   - type: Damageable
     damageModifierSet: Metallic
 #DS14-start
   - type: MovementSpeedModifier
+    weightlessModifier: 0
     baseAcceleration: 1.7
+    acceleration: 2
     baseFriction: 0.6
+    friction: 2
+    frictionNoInput: 6
     baseWalkSpeed: 3.5
+    baseSprintSpeed: 4
+  - type: Foldable
+    folded: true
 #DS14-end
   - type: Strap
     buckleOffset: "0,-0.05"
@@ -87,10 +122,27 @@
   components:
 #DS14-start
   - type: MovementSpeedModifier
+    weightlessModifier: 0
     baseAcceleration: 1.7
+    acceleration: 2
     baseFriction: 0.6
-    baseWalkSpeed: 4.3
+    friction: 2
+    frictionNoInput: 6
+    baseWalkSpeed: 4
+    baseSprintSpeed: 4.4
   - type: GravityAffected
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.2
+        density: 360
+        restitution: 0.0
+        mask:
+        - MobMask
+        layer:
+        - TableLayer
 #DS14-end
   - type: Sprite
     sprite: Objects/Vehicles/janicart.rsi
@@ -121,7 +173,7 @@
     thresholds:
     - trigger:
         !type:DamageTrigger
-        damage: 500
+        damage: 250 #DS14
       behaviors:
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
