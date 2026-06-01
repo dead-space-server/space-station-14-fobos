@@ -5,14 +5,12 @@ using Content.Server.Tabletop.Components;
 using Content.Shared.CCVar;
 using Content.Shared.DeadSpace.Tabletop.Components;
 using Content.Shared.Interaction;
-using Content.Shared.Tabletop;
 using Content.Shared.Tabletop.Components;
 using Content.Shared.Verbs;
 using Robust.Shared.Configuration;
 using Robust.Shared.Map;
 using Robust.Shared.Player;
 using Robust.Shared.Utility;
-using System.Numerics;
 
 namespace Content.Server.DeadSpace.Tabletop;
 
@@ -31,11 +29,13 @@ public sealed partial class TabletopPlaceSystem : EntitySystem
 
         SubscribeLocalEvent<GetVerbsEvent<ActivationVerb>>(AddPlaceFigurineVerb);
         SubscribeLocalEvent<InteractUsingEvent>(OnInteractUsing);
-        SubscribeNetworkEvent<SharedTabletopSystem.TabletopRequestTakeOut>(OnTabletopRequestTakeOut);
     }
 
     private void AddPlaceFigurineVerb(GetVerbsEvent<ActivationVerb> args)
     {
+        if (!args.CanAccess || !args.CanInteract)
+            return;
+
         if (!TryComp(args.Target, out TabletopGameComponent? component))
             return;
 
@@ -95,7 +95,7 @@ public sealed partial class TabletopPlaceSystem : EntitySystem
         if (protoId == null)
             return;
 
-        if (session.Entities.Count >= MaxPiecesPerBoard)
+        if (CountPlacedFigurines(session) >= MaxPiecesPerBoard)
         {
             _popup.PopupEntity(Loc.GetString("tabletop-max-pieces", ("max", MaxPiecesPerBoard)), tableUid, user);
             return;
@@ -116,20 +116,16 @@ public sealed partial class TabletopPlaceSystem : EntitySystem
         _popup.PopupEntity(Loc.GetString("tabletop-added-piece"), tableUid, user);
     }
 
-    private void OnTabletopRequestTakeOut(SharedTabletopSystem.TabletopRequestTakeOut msg, EntitySessionEventArgs args)
+    private int CountPlacedFigurines(TabletopSession session)
     {
-        var entity = GetEntity(msg.Entity);
+        var count = 0;
 
-        if (!TryComp(entity, out TabletopPlacedFigurineComponent? placed))
-            return;
+        foreach (var entity in session.Entities)
+        {
+            if (HasComp<TabletopPlacedFigurineComponent>(entity))
+                count++;
+        }
 
-        if (placed.Prototype == null)
-            return;
-
-        var table = GetEntity(msg.TableUid);
-        var xform = Transform(table);
-        var coords = xform.Coordinates;
-
-        Spawn(placed.Prototype, coords.Offset(new Vector2(1, 0)));
+        return count;
     }
 }

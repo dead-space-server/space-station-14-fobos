@@ -11,7 +11,7 @@
         </viewport:ScalingViewport>
 <!-- DS14-Start -->
         <BoxContainer Orientation="Horizontal" Margin="10 2 5 5" VerticalAlignment="Bottom">
-            <Label Text="Убрать фигурку - ПКМ+ЛКМ" StyleClasses="WindowFooterText"/>
+            <Label Text="{ Loc 'tabletop-remove-figurine-hint' }" StyleClasses="WindowFooterText"/>
         </BoxContainer>
     </BoxContainer>
 </DefaultWindow>
