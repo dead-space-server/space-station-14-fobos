@@ -221,7 +221,7 @@
   id: ERTloadoutCBURNPrimary
   name: кейс неопределённости
   description: Прочный военный кейс для оружия. Принадлежит отряду РХБЗЗ.
-  suffix: РХБЗЗ, Съерра, Основное
+  suffix: РХБЗЗ, Основное
   parent: BaseERTloadoutPrimary
   components:
   - type: Sprite
@@ -232,6 +232,8 @@
     - EnforcerCBURNSet
     - LaserCannonSet
     - LaserRifleSet
+    - MP5Set
+    - ScarLSet
   - type: ActivatableUI
     key: enum.ThiefBackpackUIKey.Key
   - type: UserInterface
@@ -243,7 +245,7 @@
   id: ERTloadoutCBURNSecondary
   name: коробка неопределённости
   description: Коробка с табельным оружием. Принадлежит отряду РХБЗЗ.
-  suffix: РХБЗЗ, Съерра, Вторичное
+  suffix: РХБЗЗ, Вторичное
   parent: BaseERTloadoutSecondary
   components:
   - type: Sprite
@@ -252,6 +254,169 @@
     possibleSets:
     - LaserGunSet
     - SawnSet
+    - DominatorSet
+    - BerettaM92Set
+    - VerdictSet
+  - type: ActivatableUI
+    key: enum.ThiefBackpackUIKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.ThiefBackpackUIKey.Key:
+        type: ThiefBackpackBoundUserInterface
+
+## SCST
+- type: entity
+  id: ERTloadoutSCSTPrimary
+  name: кейс неопределённости
+  description: Прочный военный кейс для оружия. Принадлежит отряду ОППУ.
+  suffix: ОППУ, Основное
+  parent: BaseERTloadoutPrimary
+  components:
+  - type: Sprite
+    state: cburn
+  - type: ThiefUndeterminedBackpack
+    possibleSets:
+    - MP5IncendiarySet
+    - AresSWCIncendiarySet
+    - LaserCannonSet
+    - LaserRifleSet
+    - EnergyShotgunSet
+  - type: ActivatableUI
+    key: enum.ThiefBackpackUIKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.ThiefBackpackUIKey.Key:
+        type: ThiefBackpackBoundUserInterface
+
+- type: entity
+  id: ERTloadoutSCSTSecondary
+  name: коробка неопределённости
+  description: Коробка с табельным оружием. Принадлежит отряду ОППУ.
+  suffix: ОППУ, Вторичное
+  parent: BaseERTloadoutSecondary
+  components:
+  - type: Sprite
+    state: cburn
+  - type: ThiefUndeterminedBackpack
+    maxSelectedSets: 2
+    possibleSets:
+    - N1984Set
+    - AdvancedLaserERTSet
+    - BerettaM92Set
+    - SawnSet
+    - ExGrenadeSet
+    - GrenadeIncendiarySet
+    - KarachnocidGrenadeSet
+    - StimulatorSet
+    - SCSTMedSet
+  - type: ActivatableUI
+    key: enum.ThiefBackpackUIKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.ThiefBackpackUIKey.Key:
+        type: ThiefBackpackBoundUserInterface
+
+## SCNT
+- type: entity
+  id: ERTloadoutSCNTPrimary
+  name: кейс неопределённости
+  description: Прочный военный кейс для оружия. Принадлежит отряду ОПНУ.
+  suffix: ОПНУ, Основное
+  parent: BaseERTloadoutPrimary
+  components:
+  - type: Sprite
+    state: cburn
+  - type: ThiefUndeterminedBackpack
+    possibleSets:
+    - MP5IncendiarySet
+    - AresSWCIncendiarySet
+    - LaserCannonSet
+    - LaserRifleSet
+    - EnergyShotgunSet
+  - type: ActivatableUI
+    key: enum.ThiefBackpackUIKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.ThiefBackpackUIKey.Key:
+        type: ThiefBackpackBoundUserInterface
+
+- type: entity
+  id: ERTloadoutSCNTSecondary
+  name: коробка неопределённости
+  description: Коробка с табельным оружием. Принадлежит отряду ОПНУ.
+  suffix: ОПНУ, Вторичное
+  parent: BaseERTloadoutSecondary
+  components:
+  - type: Sprite
+    state: cburn
+  - type: ThiefUndeterminedBackpack
+    maxSelectedSets: 2
+    possibleSets:
+    - N1984Set
+    - AdvancedLaserERTSet
+    - BerettaM92Set
+    - SawnSet
+    - ExGrenadeSet
+    - GrenadeIncendiarySet
+    - StimulatorSet
+    - ZetaOneSet
+    - ZetaTwoSet
+    - SCNTMedSet
+  - type: ActivatableUI
+    key: enum.ThiefBackpackUIKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.ThiefBackpackUIKey.Key:
+        type: ThiefBackpackBoundUserInterface
+
+## Sierra
+- type: entity
+  id: ERTloadoutSierraPrimary
+  name: кейс неопределённости
+  description: Прочный военный кейс для оружия. Принадлежит отряду РХБЗЗ Сьерры.
+  suffix: Сьерра, Основное
+  parent: BaseERTloadoutPrimary
+  components:
+  - type: Sprite
+    state: cburn
+  - type: ThiefUndeterminedBackpack
+    possibleSets:
+    - EnergyShotgunSet
+    - PulseCarbineSet
+    - Ak305IncendiarySet
+    - HammerheadSetCBURN
+    - MP7IncendiarySet
+    - PulseCarbineMK2ERTSet
+  - type: ActivatableUI
+    key: enum.ThiefBackpackUIKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.ThiefBackpackUIKey.Key:
+        type: ThiefBackpackBoundUserInterface
+
+- type: entity
+  id: ERTloadoutSierraSecondary
+  name: коробка неопределённости
+  description: Коробка с табельным оружием. Принадлежит отряду РХБЗЗ Сьерры.
+  suffix: Сьерра, Вторичное
+  parent: BaseERTloadoutSecondary
+  components:
+  - type: Sprite
+    state: cburn
+  - type: ThiefUndeterminedBackpack
+    maxSelectedSets: 3
+    possibleSets:
+    - PulsePistolSet
+    - Mk79tacticalSet
+    - EnergyMagnumrERTSet
+    - ExGrenadeSet
+    - GrenadeIncendiarySet
+    - StimulatorSet
+    - ZetaOneSet
+    - ZetaTwoSet
+    - SCNTMedSet
+    - KarachnocidGrenadeSet
+    - SCSTMedSet
   - type: ActivatableUI
     key: enum.ThiefBackpackUIKey.Key
   - type: UserInterface
@@ -276,6 +441,7 @@
     - PulseShotgunSet
     - MinigunGunSet
     - HammerheadSet
+    - Ak305DeathSquadSet
   - type: ActivatableUI
     key: enum.ThiefBackpackUIKey.Key
   - type: UserInterface
@@ -336,6 +502,22 @@
   - BoxBeanbag
 
 - type: thiefBackpackSet
+  id: AresSWCIncendiarySet
+  name: ert-loadout-category-ares-swc-incendiary-name
+  description: ert-loadout-category-ares-swc-incendiary-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Shotguns/ares.rsi
+    state: icon
+  content:
+  - WeaponShotgunAresSWC
+  - MagazineShotgunIncendiary
+  - MagazineShotgunIncendiary
+  - MagazineShotgunIncendiary
+  - MagazineShotgunIncendiary
+  - ADTMagazineShotgunIncendiaryXL
+  - ADTMagazineShotgunIncendiaryXL
+
+- type: thiefBackpackSet
   id: EnforcerCBURNSet
   name: ert-loadout-category-enforcer-name
   description: ert-loadout-category-enforcer-description
@@ -363,6 +545,24 @@
   - MagazineShotgun
   - MagazineShotgun
   - MagazineShotgun
+
+- type: thiefBackpackSet
+  id: HammerheadSetCBURN
+  name: ert-loadout-category-hammerhead-name
+  description: ert-loadout-category-hammerhead-description-weak
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Shotguns/hammerhead.rsi
+    state: icon
+  content:
+  - WeaponShotgunHammerheadERT
+  - MagazineShotgun
+  - MagazineShotgun
+  - MagazineShotgunIncendiary
+  - MagazineShotgunIncendiary
+  - MagazineShotgunIncendiary
+  - MagazineShotgunIncendiary
+  - ADTMagazineShotgunIncendiaryXL
+  - ADTMagazineShotgunIncendiaryXL
 
 - type: thiefBackpackSet
   id: HammerheadSet
@@ -461,6 +661,39 @@
   - MagazineBoxLightRifle
 
 - type: thiefBackpackSet
+  id: Ak305IncendiarySet
+  name: ert-loadout-category-ak305-name
+  description: ert-loadout-category-ak305-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/ak305.rsi
+    state: icon
+  content:
+  - WeaponRifleAk305
+  - MagazineLightRifleIncendiary
+  - MagazineLightRifleIncendiary
+  - MagazineLightRifleIncendiary
+  - DrumMagazineLightRifle
+  - MagazineBoxLightRifleIncendiary
+  - MagazineBoxLightRifleIncendiary
+
+- type: thiefBackpackSet
+  id: Ak305DeathSquadSet
+  name: ert-loadout-category-ak305-name
+  description: ert-loadout-category-ak305-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/ak305.rsi
+    state: icon
+  content:
+  - WeaponRifleAk305
+  - DrumMagazineLightRifleIncendiary
+  - DrumMagazineLightRifleIncendiary
+  - DrumMagazineLightRifleIncendiary
+  - DrumMagazineLightRifleUranium
+  - DrumMagazineLightRifleUranium
+  - DrumMagazineLightRifleUranium
+  - DrumMagazineLightRifle
+
+- type: thiefBackpackSet
   id: amd76Set
   name: ert-loadout-category-amd76-name
   description: ert-loadout-category-amd76-description
@@ -504,6 +737,21 @@
   - MagazineBoxPistol
 
 - type: thiefBackpackSet
+  id: MP5IncendiarySet
+  name: ert-loadout-category-mp5-name
+  description: ert-loadout-category-mp5-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/smgs/mp5.rsi  
+    state: icon
+  content:
+  - WeaponSubMachineGunMP5
+  - MagazinePistolSubMachineGunIncendiary
+  - MagazinePistolSubMachineGunIncendiary
+  - MagazinePistolSubMachineGunIncendiary
+  - MagazineBoxPistolIncendiary
+  - MagazineBoxPistolIncendiary
+
+- type: thiefBackpackSet
   id: MP7Set
   name: ert-loadout-category-mp7-name
   description: ert-loadout-category-mp7-description
@@ -516,6 +764,22 @@
   - MagazinePistolSubMachineGun
   - MagazinePistolSubMachineGun
   - MagazineBoxPistol
+  - TelescopicShield
+  - TelescopicShield
+
+- type: thiefBackpackSet
+  id: MP7IncendiarySet
+  name: ert-loadout-category-mp7-name
+  description: ert-loadout-category-mp7-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/smgs/mp7.rsi  
+    state: icon
+  content:
+  - WeaponSubMachineGunMP7
+  - MagazinePistolSubMachineGunIncendiary
+  - MagazinePistolSubMachineGunIncendiary
+  - MagazinePistolSubMachineGunIncendiary
+  - MagazineBoxPistolIncendiary
   - TelescopicShield
   - TelescopicShield
 
@@ -844,6 +1108,45 @@
 
 # Взрывчатка
 - type: thiefBackpackSet
+  id: ExGrenadeSet
+  name: ert-loadout-category-exgrenade-name
+  description: ert-loadout-category-exgrenade-description
+  sprite:
+    sprite: Objects/Weapons/Grenades/grenade.rsi
+    state: icon
+  content:
+  - ExGrenade
+  - ExGrenade
+  - ExGrenade
+  - ExGrenade
+
+- type: thiefBackpackSet
+  id: GrenadeIncendiarySet
+  name: ert-loadout-category-grenadeincendiary-name
+  description: ert-loadout-category-grenadeincendiary-description
+  sprite:
+    sprite: Objects/Weapons/Grenades/pyrogrenade.rsi
+    state: icon
+  content:
+  - GrenadeIncendiary
+  - GrenadeIncendiary
+  - GrenadeIncendiary
+  - GrenadeIncendiary
+
+- type: thiefBackpackSet
+  id: KarachnocidGrenadeSet
+  name: ert-loadout-category-karachnocid-name
+  description: ert-loadout-category-karachnocid-description
+  sprite:
+    sprite: Objects/Weapons/Grenades/janitor.rsi
+    state: icon
+  content:
+  - KarachnocidGrenade
+  - KarachnocidGrenade
+  - KarachnocidGrenade
+  - KarachnocidGrenade
+
+- type: thiefBackpackSet
   id: ExplosionSet
   name: ert-loadout-category-explosion-name
   description: ert-loadout-category-explosion-description
@@ -871,6 +1174,56 @@
   - CelestinMedipen
   - CelestinMedipen
   - CelestinMedipen
+
+- type: thiefBackpackSet
+  id: SCSTMedSet
+  name: ert-loadout-category-scstmed-name
+  description: ert-loadout-category-scstmed-description
+  sprite:
+    sprite: Objects/Specific/Medical/medipen.rsi
+    state: microstimpen
+  content:
+  - SCSTMedipen
+  - SCSTMedipen
+  - SCSTMedipen
+  - SCSTMedipen
+
+- type: thiefBackpackSet
+  id: SCNTMedSet
+  name: ert-loadout-category-scntmed-name
+  description: ert-loadout-category-scntmed-description
+  sprite:
+    sprite: _DeadSpace/Necromorfs/medipen.rsi
+    state: OPPY-OPNY-Medipen
+  content:
+  - NECROMedipen
+  - NECROMedipen
+  - NECROMedipen
+  - NECROMedipen
+
+- type: thiefBackpackSet
+  id: ZetaTwoSet
+  name: ert-loadout-category-zetatwo-name
+  description: ert-loadout-category-zetatwo-description
+  sprite:
+    sprite: _DeadSpace/Necromorfs/medipen.rsi
+    state: Zeta-One
+  content:
+  - ZetaTwoMedipen
+  - ZetaTwoMedipen
+
+- type: thiefBackpackSet
+  id: ZetaOneSet
+  name: ert-loadout-category-zetaone-name
+  description: ert-loadout-category-zetaone-description
+  sprite:
+    sprite: _DeadSpace/Necromorfs/medipen.rsi
+    state: Zeta-One
+  content:
+  - ZetaOneMedipen
+  - ZetaOneMedipen
+  - ZetaOneMedipen
+  - ZetaOneMedipen
 
 - type: thiefBackpackSet
   id: CombatMedicineSet

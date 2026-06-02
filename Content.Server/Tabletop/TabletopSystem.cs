@@ -1,7 +1,7 @@
-using Content.Server.Hands.Systems;
 using Content.Server.Popups;
 using Content.Server.Tabletop.Components;
 using Content.Shared.CCVar;
+using Content.Shared.DeadSpace.Tabletop.Components;
 using Content.Shared.Hands.Components;
 using Content.Shared.Interaction;
 using Content.Shared.Item;
@@ -15,6 +15,7 @@ using Robust.Shared.Configuration;
 using Robust.Shared.Enums;
 using Robust.Shared.Player;
 using Robust.Shared.Utility;
+using System.Numerics;
 
 namespace Content.Server.Tabletop
 {
@@ -23,7 +24,6 @@ namespace Content.Server.Tabletop
     {
         [Dependency] private readonly SharedMapSystem _map = default!;
         [Dependency] private readonly EyeSystem _eye = default!;
-        [Dependency] private readonly HandsSystem _hands = default!;
         [Dependency] private readonly ViewSubscriberSystem _viewSubscriberSystem = default!;
         [Dependency] private readonly PopupSystem _popupSystem = default!;
         [Dependency] private readonly IConfigurationManager _cfg = default!;
@@ -46,7 +46,10 @@ namespace Content.Server.Tabletop
 
         private void OnTabletopRequestTakeOut(TabletopRequestTakeOut msg, EntitySessionEventArgs args)
         {
-            if (args.SenderSession is not { } playerSession)
+            if (args.SenderSession is not { AttachedEntity: { } playerEntity } playerSession)
+                return;
+
+            if (!msg.TableUid.IsValid() || !msg.Entity.IsValid())
                 return;
 
             var table = GetEntity(msg.TableUid);
@@ -54,25 +57,30 @@ namespace Content.Server.Tabletop
             if (!TryComp(table, out TabletopGameComponent? tabletop) || tabletop.Session is not { } session)
                 return;
 
-            if (!msg.Entity.IsValid())
+            if (!session.Players.ContainsKey(playerSession) || !CanSeeTable(playerEntity, table))
                 return;
 
             var entity = GetEntity(msg.Entity);
 
-            if (!TryComp(entity, out TabletopHologramComponent? hologram))
+            if (!TryComp(entity, out TabletopHologramComponent? _))
             {
                 _popupSystem.PopupEntity(Loc.GetString("tabletop-error-remove-non-hologram"), table, args.SenderSession);
                 return;
             }
 
-            // Check if player is actually playing at this table
-            if (!session.Players.ContainsKey(playerSession))
+            // Find the entity, remove it from the session and set its position to the tabletop.
+            if (!session.Entities.Remove(entity))
                 return;
 
-            // Find the entity, remove it from the session and set it's position to the tabletop
-            session.Entities.TryGetValue(entity, out var result);
-            session.Entities.Remove(result);
-            QueueDel(result);
+            // DS14-Start: return custom tabletop figurines as their original item prototype.
+            if (TryComp(entity, out TabletopPlacedFigurineComponent? placed) && placed.Prototype != null)
+            {
+                var coords = Transform(table).Coordinates;
+                Spawn(placed.Prototype, coords.Offset(new Vector2(1, 0)));
+            }
+            // DS14-End
+
+            QueueDel(entity);
         }
 
         private void OnInteractUsing(EntityUid uid, TabletopGameComponent component, InteractUsingEvent args)
@@ -86,13 +94,10 @@ namespace Content.Server.Tabletop
             if (component.Session is not { } session)
                 return;
 
-            if (!_hands.TryGetActiveItem(uid, out var handEnt))
+            if (!TryComp(args.Used, out ItemComponent? item)) // DS14 - was "if (!_hands.TryGetActiveItem(uid, out var handEnt))"
                 return;
 
-            if (!TryComp<ItemComponent>(handEnt, out var item))
-                return;
-
-            var meta = MetaData(handEnt.Value);
+            var meta = MetaData(args.Used);
             var protoId = meta.EntityPrototype?.ID;
 
             var hologram = Spawn(protoId, session.Position.Offset(-1, 0));

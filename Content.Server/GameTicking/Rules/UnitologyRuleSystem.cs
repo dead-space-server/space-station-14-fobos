@@ -450,15 +450,6 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
         }
         args.AddLine(Loc.GetString(Outcomes[index]));
 
-        var sessionData = _antag.GetAntagIdentifiers(uid);
-        args.AddLine(Loc.GetString("uni-initial-count", ("initialCount", sessionData.Count)));
-        foreach (var (mind, data, name) in sessionData)
-        {
-            args.AddLine(Loc.GetString("uni-initial-name-user",
-                ("name", name),
-                ("username", data.UserName)));
-        }
-
         // Статистика для дашборда
         var winner = index == 2 ? BiStatWinner.Antagonist : BiStatWinner.Crew;
         _ = System.Threading.Tasks.Task.Run(async () =>

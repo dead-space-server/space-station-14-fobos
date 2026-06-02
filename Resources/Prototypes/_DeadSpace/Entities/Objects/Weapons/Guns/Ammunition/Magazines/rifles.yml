@@ -21,3 +21,99 @@
       - state: inhand-left-mag
       right:
       - state: inhand-right-mag
+
+- type: entity
+  parent: BaseItem
+  id: MagazineLightRifleAMD
+  name: магазин на АМД-76 (7.62х39мм винтовочные)
+  components:
+  - type: Tag
+    tags:
+      - MagazineAMD
+  - type: Item
+    size: Small
+  - type: BallisticAmmoProvider
+    proto: CartridgeLightRifle
+    mayTransfer: true
+    whitelist:
+      tags:
+        - CartridgeLightRifle
+    capacity: 20
+  - type: ContainerContainer
+    containers:
+      ballistic-ammo: !type:Container
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Guns/Ammunition/Magazine/LightRifle/amd.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: MagazineVisuals
+    magState: mag
+    steps: 2
+    zeroVisible: false
+  - type: Appearance
+
+- type: entity
+  parent: MagazineLightRifleAMD
+  id: MagazineLightRifleAMDEmpty
+  name: магазин на АМД-76 (7.62х39мм винтовочные любые)
+  suffix: Пустой
+  components:
+  - type: BallisticAmmoProvider
+    proto: null
+  - type: Sprite
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
+- type: entity
+  parent: MagazineLightRifleAMD
+  id: MagazineLightRifleAMDUranium
+  name: магазин на АМД-76 (7.62х39мм винтовочные урановые)
+  suffix: Урановые
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeLightRifleUranium
+  - type: Sprite
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+    - state: uranium
+
+- type: entity
+  parent: MagazineLightRifleAMD
+  id: MagazineLightRifleAMDIncendiary
+  name: магазин на АМД-76 (7.62х39мм винтовочные зажигательные)
+  suffix: Зажигательные
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeLightRifleIncendiary
+  - type: Sprite
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+    - state: incendiary
+
+- type: entity
+  parent: MagazineLightRifleAMD
+  id: MagazineLightRifleAMDPractice
+  name: магазин на АМД-76 (7.62х39мм винтовочные учебные)
+  suffix: Учебные
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeLightRiflePractice
+  - type: Sprite
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+    - state: practice

@@ -212,13 +212,13 @@
     slots:
       gun_magazine:
         name: Magazine
-        startingItem: MagazineCarbineSKS
+        startingItem: MagazineLightRifleAMD
         insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
         ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
         priority: 2
         whitelist:
           tags:
-            - MagazineCarbineSKS
+            - MagazineAMD
         whitelistFailPopup: gun-magazine-whitelist-fail
       gun_chamber:
         name: Chamber

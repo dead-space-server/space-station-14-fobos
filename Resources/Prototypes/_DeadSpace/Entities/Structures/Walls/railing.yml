@@ -19,7 +19,7 @@
     damageModifierSet: Wood
   - type: Climbable
   - type: Construction
-    graph: Railing
+    graph: RailingWood
   - type: RCDDeconstructable
     cost: 2
     delay: 2
@@ -69,7 +69,7 @@
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
   - type: Construction
-    node: railing
+    node: railingWood
 
 - type: entity
   parent: BaseRailingWood
@@ -124,7 +124,7 @@
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
   - type: Construction
-    node: railingCorner
+    node: railingWoodCorner
 
 - type: entity
   parent: BaseRailingWood
@@ -170,7 +170,7 @@
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
   - type: Construction
-    node: railingCornerSmall
+    node: railingWoodCornerSmall
 
 - type: entity
   parent: BaseRailingWood
@@ -234,4 +234,4 @@
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
   - type: Construction
-    node: railingRound
+    node: railingWoodRound

@@ -2,8 +2,8 @@
 - type: entity
   parent: ClothingBackpack
   id: ClothingBackpackawksSPEKTER
-  name: боевая сумка
-  description: Сумка.
+  name: сумка ордена
+  description: Специализорованная сумка истинных последователей Ордена.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -41,8 +41,8 @@
 - type: entity
   parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitawksSPEKTER
-  name: боевой скафандр
-  description: Скафандр с биокодированием, обеспечивающий защиту в критических ситуациях.
+  name: скафандр отступника
+  description: Мощный скафандр, созданный по единому стандарту всех орденов, способный выдерживать экстремальные условия. Скафандр символизирует силу и стойкость членов Ордена Эраван. Придание Темной стороны.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -77,8 +77,8 @@
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
   id: ClothingHeadHelmetHardsuitawksSPEKTER
   categories: [ HideSpawnMenu ]
-  name: шлем боевого скафандра
-  description: Шлем с встроенным медицинским визором, который обеспечивает защиту и освещение для работы в темных условиях.
+  name: шлем отступника
+  description: Общепризнанный шлем членов Ордена Эраван. При детальном осмотре становится понятно, что визор шлема сделан из необычного материала и возможно, пропитан запретными знаниями, способствующим вызывать страх и авторитет к владельцу. 
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/awksSPEKTER/helmet.rsi
@@ -104,8 +104,8 @@
 - type: entity
   parent: ClothingHandsGlovesCombat
   id: ClothingHandsGlovesawksSPEKTER
-  name: защитные перчатки
-  description: Перчатки, обеспечивающие защиту рук в опасных условиях. Изолированы.
+  name: перчатки отступника
+  description: Перчатки из особой ткани, усиленные для боевых ситуаций. Особые полоски символизируют принадлежность к Ордену Эраван.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -119,8 +119,8 @@
 - type: entity
   parent: ClothingShoesBootsMag
   id: ClothingShoesBootsMagawksSPEKTER
-  name: боевые магнитные ботинки
-  description: Ботинки, полученные в тяжелом сражение, обеспечивают отличное сцепление с поверхностями для выполнения задач в условиях невесомости.
+  name: магнитные сапоги отступника
+  description: Усовершенствованные ботинки членов Ордена, способные выдерживать любые условия.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -138,10 +138,10 @@
 
 # Mask
 - type: entity
-  parent: ClothingMaskGas
+  parent: ClothingMaskGasSecurity
   id: ClothingMaskawksSPEKTER
-  name: боевой противогаз
-  description: Противогаз, защищающий от токсичных веществ и обеспечивающий дыхание в неблагоприятных условиях. Он кажется вам подозрительно знакомым.
+  name: маска отступника
+  description: Подозрительная маска, сделанная на особом станке из весьма загадочных материалов.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -162,8 +162,8 @@
 - type: entity
   parent: ClothingHeadset
   id: ClothingHeadsetawksSPEKTER
-  name: боевая гарнитура
-  description: Гарнитура, обеспечивающая связь и возможность получения критической информации на поле боя.
+  name: полноразмерная гарнитура отступника
+  description: Наличие гарнитуры с символикой редкость для Ордена, но вы все равно не понимаете как её сделали.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -181,8 +181,8 @@
 - type: entity
   parent: JetpackVoidFilled
   id: JetpackVoidFilleddawksSPEKTER
-  name: подушка
-  description: Хр-ми-ми.
+  name: подушка отступника
+  description: Между перерывами всегда хочется отдохнуть... Хр-ми-ми.
   categories: [ HideSpawnMenu ]
   components:
   - type: Item
@@ -201,8 +201,8 @@
 # Defibrillator
 - type: entity
   parent: DefibrillatorCompact
-  name: боевой портативный дефибриллятор
-  description: Высокотехнологичный портативный дефибриллятор, отлично поможет раненным в бою.
+  name: портативный дефибриллятор ордена
+  description: Высокотехнологичный портативный дефибриллятор, выделяется особыми цветами, очень редко встречается у некоторых членов Ордена, но все же имеет смысл.
   id: DefibrillatorawksSPEKTER
   categories: [ HideSpawnMenu ]
   components:
@@ -213,9 +213,9 @@
 
 # Hypo
 - type: entity
-  name: тактический гипоспрей
+  name: тактический гипоспрей ордена
   parent: BaseItem
-  description: Особая разработка для лечения в особых задачах.
+  description: Особая разработка членов Ордена Эраван, весьма неплохого качества, но в малых количествах.
   categories: [ HideSpawnMenu ]
   id: HyposprayawksSPEKTER
   components:
@@ -261,8 +261,8 @@
 - type: entity
   parent: ClothingNeckBase
   id: ClothingNeckCloakawksSPEKTER
-  name: боевой плащ
-  description: Плащ, сильно напоминающий адский десант ОПЗ.
+  name: плащ отступника
+  description: Мрачный плащ, сотканный из непонятной ткани, наделяет владельца таинственностью. В нем скрываются тени тьмы и мощь Темной стороны.
   categories: [ HideSpawnMenu ]
   components:
     - type: Sprite
@@ -295,8 +295,8 @@
 - type: entity
   parent: ClothingBeltStorageBase
   id: ClothingWebbingawksSPEKTER
-  name: боевой РПС
-  description: Ременно-плечевая система тактических ремней, которую носят представители 51-десантной дивизии.
+  name: рпс отступника
+  description: Ременно-плечевая система, созданная по новым стандартам и совсем не выделяющаяся.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -319,10 +319,10 @@
   
 # EYES
 - type: entity
-  parent: ClothingEyesHudMultiversal
+  parent: ClothingEyesHudAdvanced
   id: ClothingEyesHudawksSPEKTER
-  name: боевые очки
-  description: Защитные очки.
+  name: визор отступника
+  description: Уникальный визор, придуманный и созданный разными членами Орденов. В моментах кажется что визор как-то действует на вас.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -340,8 +340,8 @@
   parent: ToySword
   id: telescopicBatonawksSPEKTER
   categories: [ HideSpawnMenu ]
-  name: белый игрушечный меч
-  description: Новый пластиковый меч от Sandy-Cat! Имеет реалистичный звук и насыщенный цвет! Почти как настоящий!
+  name: белый меч отступника
+  description: Именной меч члена Ордена Эраван. В связи с непредвиденными последствиями меч работает слегка по другому. Белый цвет самого меча вызывает у вас неловкость.
   components:
   - type: EnergySword
     activatedColor: white
@@ -353,13 +353,29 @@
     damage:
       types:
         Blunt: 3
+  - type: ItemToggleMeleeWeapon
+    activatedSoundOnHit:
+      path: /Audio/Weapons/eblade1.ogg
+      params:
+        variation: 0.250
+    activatedSoundOnHitNoDamage:
+      path: /Audio/Weapons/eblade1.ogg
+      params:
+        variation: 0.250
+    activatedSoundOnSwing:
+      path: /Audio/Weapons/eblademiss.ogg
+      params:
+        variation: 0.125
+    activatedDamage:
+      types:
+        Blunt: 3
 
 # tank.rsi
 - type: entity
   parent: DoubleEmergencyOxygenTank
   id: DoubleEmergencyOxygenTankawksSPEKTER
-  name: двойной аварийный кислородный баллон
-  description: двойной аварийный кислородный баллон.
+  name: двойной кислородный баллон отступника
+  description: В связи с тем, что большие баллоны неудобны, члены Ордена носят карманный вариант балона, созданные по заказу.
   categories: [ HideSpawnMenu ] 
   components:
   - type: Sprite
@@ -384,8 +400,8 @@
 - type: entity
   parent: HandHeldMassScanner
   id: HandHeldMassScannerawksSPEKTER
-  name: сканер массы
-  description: So, when you tell me I'm the reason, I just can't believe the lies. And why do I still want to call you?
+  name: сканер массы отступника
+  description: Совершенно новая разработка членов Ордена Эраван, способная давать преимущество в космосе.
   categories: [ HideSpawnMenu ]
   components:
   - type: Item
@@ -404,8 +420,8 @@
 - type: entity
   parent: WelderExperimental
   id: WelderExperimentalawksSPEKTER
-  name: экспериментальный сварочный аппарат
-  description: Скрепляет разрозненные части реальности в единую, более совершенную конструкцию.
+  name: экспериментальный сварочный аппарат отступника
+  description: Скрепляет разрозненные части реальности в единую, более совершенную конструкцию. Обладает ускоренной починкой щитов.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -417,8 +433,8 @@
 - type: entity
   parent: JawsOfLife
   id: JawsOfLifeawksSPEKTER
-  name: челюсти жизни 
-  description: Официальный инструмент для высвобождения из тисков рутины с минимальными психологическими травмами.
+  name: челюсти жизни отступника 
+  description: Официальный инструмент для высвобождения из тисков рутины с минимальными психологическими травмами, минимально отсылает на Орден.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -446,7 +462,7 @@
   id: RCDDragonawksSPEKTER
   parent: RCD
   name: РСУ 
-  description: Боевой рсу.
+  description: Боевой рсу, выглядит странно и неловко как владелец?.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -459,7 +475,7 @@
   id: PlushieawksSPEKTER
   name: плюшевый ситх
   categories: [ HideSpawnMenu ]
-  description: Ситх.
+  description: Ренегат, ситх, обрыган с мечом - это именно он стоял за уничтожением станции. Неловкость?...
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/awksSPEKTER/toy.rsi

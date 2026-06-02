@@ -18,6 +18,7 @@ public sealed class StorageSystem : SharedStorageSystem
     [Dependency] private readonly EntityPickupAnimationSystem _entityPickupAnimation = default!;
 
     private Dictionary<EntityUid, ItemStorageLocation> _oldStoredItems = new();
+    private Dictionary<EntityUid, EntityUid> _oldPriorityItems = new(); // DS14
 
     private List<(StorageBoundUserInterface Bui, bool Value)> _queuedBuis = new();
 
@@ -53,6 +54,15 @@ public sealed class StorageSystem : SharedStorageSystem
             _oldStoredItems.Add(item.Key, item.Value);
         }
 
+        // DS14-start
+        _oldPriorityItems.Clear();
+
+        foreach (var item in component.PriorityItems)
+        {
+            _oldPriorityItems.Add(item.Key, item.Value);
+        }
+        // DS14-end
+
         component.StoredItems.Clear();
 
         foreach (var (nent, location) in state.StoredItems)
@@ -68,9 +78,21 @@ public sealed class StorageSystem : SharedStorageSystem
             component.SavedLocations[loc.Key] = new(loc.Value);
         }
 
+        // DS14-start
+        component.PriorityItems.Clear();
+        foreach (var (netPlayer, netItem) in state.PriorityItems)
+        {
+            var player = GetEntity(netPlayer);
+            var item = GetEntity(netItem);
+            if (player.IsValid() && item.IsValid())
+                component.PriorityItems[player] = item;
+        }
+        // DS14-end
+
         UpdateOccupied((uid, component));
 
-        var uiDirty = !component.StoredItems.SequenceEqual(_oldStoredItems);
+        var uiDirty = !component.StoredItems.SequenceEqual(_oldStoredItems) ||
+                      !component.PriorityItems.SequenceEqual(_oldPriorityItems); // DS14
 
         if (uiDirty && UI.TryGetOpenUi<StorageBoundUserInterface>(uid, StorageComponent.StorageUiKey.Key, out var storageBui))
         {
