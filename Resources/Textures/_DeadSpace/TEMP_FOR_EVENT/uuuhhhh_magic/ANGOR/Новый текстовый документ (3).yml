@@ -1,0 +1,101 @@
+- type: entity
+  id: RandomHumanoidSpawnerSoldierKrisis
+  parent: RandomHumanoidSpawnerERTLeaderAmber
+  name: Боец Отряда Кризис Частной Военной Корпорации "Ангор"
+  components:
+    - type: Sprite
+      sprite: Markers/jobs.rsi
+      state: cburn
+    - type: RandomHumanoidSpawner
+      settings: SoldierKrisisAngor
+
+- type: randomHumanoidSettings
+  id: SoldierKrisisAngor
+  parent: EventPMCAngor
+  components:
+    - type: GhostRole
+      name: Боец Частной Военной Корпорации "Ангор"
+      description: Профессиональный боец Частной Военной Корпорации "Ангор". Ваше командование уверено, что вы обладаете возможностью справиться с любой возникшей угрозой.
+      rules: Вы - заслуженный оперативник Частной Военной Корпорации "Ангор", действуйте во благо интересов командования вашей Корпорации. Вы не помните ничего из своей предыдущей жизни и не помните ничего из того, что узнали, будучи призраком. Вам разрешено помнить знания об игре в целом, например, как готовить, как использовать предметы и т.д.
+      requirements:
+        - !type:DepartmentTimeRequirement
+          department: Security
+          time: 50400 # 14 hours
+      raffle:
+        settings: short
+      job: SoldierAngorJob
+    - type: RandomMetadata
+      nameSegments:
+      - NamesFirstERT
+      - NamesLastERT
+      nameFormat: name-format-ert
+    - type: Loadout
+      prototypes: [ SoldierKrisisAngor ]
+
+- type: startingGear
+  id: SoldierKrisisAngor
+  equipment:
+    jumpsuit: ClothingUniformAngorMillitary
+    neck: ADTClothingNeckJeton
+    back: ClothingMilitaryBackpackAngor
+    mask: ClothingMaskGasAngor
+    eyes: ClothingEyesGlassesHiddenSecurity
+    ears: ClothingHeadsetAltAngor
+    gloves: ClothingHandsGlovesCombat
+    shoes: ClothingShoesBootsJackFilled
+    outerClothing: AngorArmor
+    head: ClothingHeadHelmet
+    belt: ClothingBeltSecurity
+    pocket1: DoubleEmergencyOxygenTankFilled
+  storage:
+    back:
+    - CrowbarRed
+    - CombatMedipen
+    - DesoxyephedrineMedipen 
+    - AngorLodaut
+    - MedkitCombatFilled
+    - BoxSurvival
+    - Zipties
+    - Zipties
+    - Stunbaton
+    - FlashlightSeclite
+
+- type: playTimeTracker
+  id: SoldierKrisisAngorJobTime
+
+
+- type: job
+  id: SoldierKrisisAngorJob
+  name: Боец ЧВК "Ангор"
+  description: "Боец Частной Военной Корпорации Ангор"
+  playTimeTracker: SoldierKrisisAngorJobTime
+  setPreference: false
+  icon: "soldierkrisisidjobIcon"
+  supervisors: "Командиру Частной Военной Корпорации Ангор"
+  canBeAntag: false
+  accessGroups:
+  - Access
+  access:
+  - NuclearOperative
+  - SyndicateAgent
+
+- type: entity
+  parent: SyndicateIDCard
+  id: AngorSoldierKrisisID
+  name: ID карта Ангор ФСО
+  description: Карта людей, умело выполняющих свою работу.
+  components:
+  - type: Sprite
+    sprite: /Uploaded/PMC/AngorID.rsi
+    layers:
+    - state: AngorID
+  - type: IdCard
+    jobIcon: soldierkrisisidjobIcon
+
+  
+- type: jobIcon
+  parent: JobIcon
+  id: soldierkrisisidjobIcon
+  icon:
+    sprite: /Uploaded/PMC/jobicon.rsi
+    state: krisis
