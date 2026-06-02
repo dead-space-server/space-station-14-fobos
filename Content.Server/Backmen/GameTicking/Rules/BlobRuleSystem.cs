@@ -25,6 +25,7 @@ using Robust.Shared.Prototypes;
 using System.Linq;
 using Content.Shared.Objectives.Components;
 using Robust.Server.Player;
+using Content.Server.Objectives;
 
 namespace Content.Server.Backmen.GameTicking.Rules;
 
