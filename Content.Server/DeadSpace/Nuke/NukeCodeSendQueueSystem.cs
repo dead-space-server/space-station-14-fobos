@@ -1,15 +1,18 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
 using System.Linq;
 using Content.Server.Chat.Managers;
+using Content.Server.Nuke;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Database;
 using Content.Shared.DeadSpace.ERT;
+using Content.Shared.DeadSpace.Nuke;
 using Content.Shared.DeadSpace.TimeWindow;
 using Content.Shared.GameTicking;
-using Content.Shared.Nuke;
 using Content.Shared.Station.Components;
 using Robust.Shared.Prototypes;
 
-namespace Content.Server.Nuke;
+namespace Content.Server.DeadSpace.Nuke;
 
 public sealed class PendingNukeCodeRequestData
 {
