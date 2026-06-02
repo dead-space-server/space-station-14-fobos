@@ -25,11 +25,14 @@ namespace Content.Shared.Access.Systems
             SubscribeLocalEvent<IdCardConsoleComponent, ComponentRemove>(OnComponentRemove);
         }
 
-        private void OnComponentInit(EntityUid uid, IdCardConsoleComponent component, ComponentInit args)
-        {
-            _itemSlotsSystem.AddItemSlot(uid, IdCardConsoleComponent.PrivilegedIdCardSlotId, component.PrivilegedIdSlot);
-            _itemSlotsSystem.AddItemSlot(uid, IdCardConsoleComponent.TargetIdCardSlotId, component.TargetIdSlot);
-        }
+    // DS14-Start
+    private void OnComponentInit(EntityUid uid, IdCardConsoleComponent component, ComponentInit args)
+    {
+        _itemSlotsSystem.AddItemSlot(uid, IdCardConsoleComponent.PrivilegedIdCardSlotId, component.PrivilegedIdSlot);
+        component.TargetIdSlot.Priority = 1; // DS14: promote target eject to alt-click action
+        _itemSlotsSystem.AddItemSlot(uid, IdCardConsoleComponent.TargetIdCardSlotId, component.TargetIdSlot);
+    }
+    // DS14-End
 
         private void OnComponentRemove(EntityUid uid, IdCardConsoleComponent component, ComponentRemove args)
         {

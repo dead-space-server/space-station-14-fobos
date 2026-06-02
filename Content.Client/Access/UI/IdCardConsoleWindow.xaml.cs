@@ -100,6 +100,11 @@ namespace Content.Client.Access.UI
             {
                 button.OnPressed += _ => SubmitData();
             }
+
+            // DS14-Start
+            BasicAccessButton.OnPressed += _ => SetAccessPreset(false);
+            ExtendedAccessButton.OnPressed += _ => SetAccessPreset(true);
+            // DS14-End
         }
 
         /// <param name="enabled">If true, every individual access button will be pressed. If false, each will be depressed.</param>
@@ -221,6 +226,68 @@ namespace Content.Client.Access.UI
             _lastJobTitle = state.TargetIdJobTitle;
             _lastJobProto = state.TargetIdJobPrototype;
         }
+
+        // DS14-Start
+        private static readonly List<ProtoId<AccessLevelPrototype>> BasicAccessList = new()
+        {
+            "Coroner",
+            "Medical",
+            "Research",
+            "Engineering",
+            "Salvage",
+            "Cargo",
+            "Service",
+            "Kitchen",
+            "Bar",
+            "Hydroponics",
+            "Chapel",
+            "Janitor",
+            "Theatre",
+            "External",
+            "Maintenance",
+        };
+
+        private static readonly List<ProtoId<AccessLevelPrototype>> ExtendedAccessList = new()
+        {
+            "Detective",
+            "Security",
+            "Brigmedic",
+            "Brig",
+            "Chemistry",
+            "Atmospherics",
+            "Virology",
+            "Coroner",
+            "Medical",
+            "Research",
+            "Engineering",
+            "Salvage",
+            "Cargo",
+            "Service",
+            "Kitchen",
+            "Bar",
+            "Hydroponics",
+            "Chapel",
+            "Janitor",
+            "Theatre",
+            "External",
+            "Maintenance",
+        };
+
+        private void SetAccessPreset(bool extended)
+        {
+            var targetList = extended ? ExtendedAccessList : BasicAccessList;
+
+            SetAllAccess(false);
+
+            foreach (var access in targetList)
+            {
+                if (_accessButtons.ButtonsList.TryGetValue(access, out var button) && !button.Disabled)
+                    button.Pressed = true;
+            }
+
+            SubmitData();
+        }
+        // DS14-End
 
         private void SubmitData()
         {
