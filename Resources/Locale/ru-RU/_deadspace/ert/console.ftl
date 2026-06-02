@@ -1,4 +1,4 @@
-admin-player-actions-window-ert = Окно управления ОБР
+admin-player-actions-window-ert = Окно управления КСО
 
 ert-response-balance-label =
     Баланс: { $cost }

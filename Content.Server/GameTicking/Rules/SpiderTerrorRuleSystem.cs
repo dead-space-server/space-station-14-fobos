@@ -23,6 +23,7 @@ using Content.Shared.Mobs.Components;
 using Content.Shared.Cargo.Components;
 using Content.Server.Cargo.Systems;
 using Content.Shared.Cargo.Prototypes;
+using Content.Shared.Nuke;
 using Robust.Shared.Prototypes;
 using Content.Server.DeadSpace.ERT;
 using Content.Shared.DeadSpace.ERT.Prototypes;
@@ -34,7 +35,7 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
 {
     [Dependency] private readonly SharedMindSystem _mindSystem = default!;
     [Dependency] private readonly SharedObjectivesSystem _objectives = default!;
-    [Dependency] private readonly NukeCodePaperSystem _nukeCodePaper = default!;
+    [Dependency] private readonly NukeCodeSendQueueSystem _nukeCodeQueue = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly StationSystem _station = default!;
@@ -316,9 +317,10 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
 
         component.SendNuclearCode(station);
 
-        _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("spider-terror-centcomm-announcement-station-was-nuke"), playSound: true, colorOverride: Color.OrangeRed);
-
-        _nukeCodePaper.SendNukeCodes(station);
+        _nukeCodeQueue.TryQueueAutomaticRequest(
+            station,
+            NukeCodeSendReasonIds.SpiderTerrorCritical,
+            out _);
     }
 
     private (float progress, int spiderCount) GetCaptureStationProgress(EntityUid uid, EntityUid station, SpiderTerrorRuleComponent? component = null)

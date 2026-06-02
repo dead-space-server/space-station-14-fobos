@@ -19,6 +19,7 @@ using Content.Shared.Cargo.Prototypes;
 using Content.Shared.DeadSpace.ERT.Prototypes;
 using Content.Shared.GameTicking;
 using Content.Shared.GameTicking.Components;
+using Content.Shared.Nuke;
 using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
 
@@ -28,7 +29,7 @@ public sealed class BlobRuleSystem : GameRuleSystem<BlobRuleComponent>
 {
     [Dependency] private readonly RoundEndSystem _roundEndSystem = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
-    [Dependency] private readonly NukeCodePaperSystem _nukeCode = default!;
+    [Dependency] private readonly NukeCodeSendQueueSystem _nukeCodeQueue = default!;
     [Dependency] private readonly StationSystem _stationSystem = default!;
     [Dependency] private readonly CargoSystem _cargoSystem = default!;
     [Dependency] private readonly AlertLevelSystem _alertLevel = default!;
@@ -161,13 +162,10 @@ public sealed class BlobRuleSystem : GameRuleSystem<BlobRuleComponent>
             case BlobStage.Begin when blobCore.Comp.BlobTiles.Count >= 500:
                 {
                     blobRuleComp.Stage = BlobStage.Critical;
-                    _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("blob-alert-critical"),
-                        Loc.GetString("Station"),
-                        true,
-                        blobRuleComp.AlertAudio,
-                        Color.Red);
-
-                    _nukeCode.SendNukeCodes(stationUid);
+                    _nukeCodeQueue.TryQueueAutomaticRequest(
+                        stationUid,
+                        NukeCodeSendReasonIds.BlobCriticalMass,
+                        out _);
 
                     if (_alertLevel.GetLevel(stationUid) != "enigma" && _alertLevel.GetLevel(stationUid) != "delta" && _alertLevel.GetLevel(stationUid) != "epsilon")
                         _alertLevel.SetLevel(stationUid, "sierra", true, true, true, true);
