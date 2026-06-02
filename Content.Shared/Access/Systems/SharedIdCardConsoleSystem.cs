@@ -29,7 +29,7 @@ namespace Content.Shared.Access.Systems
     private void OnComponentInit(EntityUid uid, IdCardConsoleComponent component, ComponentInit args)
     {
         _itemSlotsSystem.AddItemSlot(uid, IdCardConsoleComponent.PrivilegedIdCardSlotId, component.PrivilegedIdSlot);
-        component.TargetIdSlot.Priority = 1; // DS14: promote target eject to alt-click action
+        component.TargetIdSlot.Priority = 1;
         _itemSlotsSystem.AddItemSlot(uid, IdCardConsoleComponent.TargetIdCardSlotId, component.TargetIdSlot);
     }
     // DS14-End
