@@ -4,6 +4,7 @@
  */
 
 using System.Diagnostics.CodeAnalysis;
+using System.Numerics; //DS14
 using Content.Shared.Access.Components;
 using Content.Shared.ActionBlocker;
 using Content.Shared.Damage;
@@ -16,6 +17,7 @@ using Content.Shared.Movement.Systems;
 using Content.Shared.Vehicle.Components;
 using Content.Shared.Whitelist;
 using JetBrains.Annotations;
+using Robust.Shared.Audio.Systems; //DS14
 using Robust.Shared.Containers;
 using Robust.Shared.Timing;
 using Content.Shared.Popups;
@@ -34,7 +36,11 @@ public sealed partial class VehicleSystem : EntitySystem
     [Dependency] private EntityWhitelistSystem _entityWhitelist = default!;
     [Dependency] private SharedMoverController _mover = default!;
     [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private SharedPopupSystem _popup = default!; //DS14
+    //DS14-start
+    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
+    //DS14-end
+
     private EntityQuery<VehicleComponent> _vehicleQuery;
     private EntityQuery<VehicleOperatorComponent> _operatorQuery;
     private EntityQuery<AppearanceComponent> _appearanceQuery;
@@ -59,7 +65,10 @@ public sealed partial class VehicleSystem : EntitySystem
         SubscribeLocalEvent<VehicleComponent, GetAdditionalAccessEvent>(OnVehicleGetAdditionalAccess);
 
         SubscribeLocalEvent<VehicleOperatorComponent, ComponentShutdown>(OnOperatorShutdown);
-        SubscribeLocalEvent<VehicleOperatorComponent, UpdateCanMoveEvent>(OnOperatorUpdateCanMove); //DS14
+        //DS14-start
+        SubscribeLocalEvent<VehicleOperatorComponent, UpdateCanMoveEvent>(OnOperatorUpdateCanMove);
+        SubscribeLocalEvent<VehicleComponent, VehicleOperatorSetEvent>(OnVehicleOperatorSet);
+        //DS14-end
     }
 
     /// <remarks>
@@ -319,6 +328,45 @@ public sealed partial class VehicleSystem : EntitySystem
         _appearance.SetData(entity, VehicleVisuals.HasOperator, entity.Comp.Operator is not null, appearance);
     }
     //DS14-start
+    public override void Update(float frameTime)
+    {
+        base.Update(frameTime);
+
+        var query = EntityQueryEnumerator<VehicleComponent, TransformComponent>();
+        while (query.MoveNext(out var uid, out var vehicle, out var xform))
+        {
+            if (vehicle.MovementSound == null || vehicle.Operator == null)
+                continue;
+
+            if (!_inputMoverQuery.TryComp(uid, out var mover))
+                continue;
+
+            var currentPos = xform.Coordinates;
+            var wishDir = _mover.GetWishDir((uid, mover));
+
+            // Only accumulate distance when the operator is actively giving input.
+            if (vehicle.MovementSoundLastPosition != null
+                && wishDir != Vector2.Zero
+                && currentPos.TryDistance(EntityManager, vehicle.MovementSoundLastPosition.Value, out var distance))
+            {
+                vehicle.MovementSoundAccumulatedDistance += distance;
+
+                if (vehicle.MovementSoundAccumulatedDistance >= vehicle.MovementSoundDistance)
+                {
+                    vehicle.MovementSoundAccumulatedDistance -= vehicle.MovementSoundDistance;
+                    _audio.PlayPredicted(vehicle.MovementSound, uid, vehicle.Operator.Value);
+                }
+            }
+
+            vehicle.MovementSoundLastPosition = currentPos;
+        }
+    }
+    private void OnVehicleOperatorSet(Entity<VehicleComponent> ent, ref VehicleOperatorSetEvent args)
+    {
+        ent.Comp.MovementSoundLastPosition = null;
+        ent.Comp.MovementSoundAccumulatedDistance = 0f;
+    }
+
     private void OnOperatorUpdateCanMove(Entity<VehicleOperatorComponent> ent, ref UpdateCanMoveEvent args)
     {
         if (ent.Comp.Vehicle is not { } vehicleUid)

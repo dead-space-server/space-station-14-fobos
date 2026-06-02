@@ -51,22 +51,19 @@
   wageDepartment: Specific
   wage: 190
   #end-backmen: currency
-  # DS14-blueshield-disabilities-disallow-start
   traitsBlacklist:
     - Blindness
     - PoorVision
     - Muted
     - Narcolepsy
-  # DS14-blueshield-disabilities-disallow-end
+    - WheelchairUser
   special:
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant ]
   - !type:AddComponentSpecial
     components:
-    # DS14-Start
     - type: Skill
       group: BlueShield
-    # DS14-End
 
 - type: startingGear
   id: BlueShieldOfficerGear

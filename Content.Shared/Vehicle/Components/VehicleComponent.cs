@@ -6,7 +6,9 @@
 using Content.Shared.Damage;
 using Content.Shared.Whitelist;
 using JetBrains.Annotations;
+using Robust.Shared.Audio;      //DS14
 using Robust.Shared.GameStates;
+using Robust.Shared.Map;        //DS14
 using Robust.Shared.Serialization;
 
 namespace Content.Shared.Vehicle.Components;
@@ -63,6 +65,33 @@ public sealed partial class VehicleComponent : Component
     /// </summary>
     [DataField]
     public TimeSpan NextNoKeyPopup = TimeSpan.Zero;
+
+    /// <summary>
+    /// Sound played periodically while the vehicle is moving.
+    /// Analogous to FootstepModifierComponent but for vehicles.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public SoundSpecifier? MovementSound;
+
+    /// <summary>
+    /// Distance the vehicle must travel before the movement sound plays again.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public float MovementSoundDistance = 2f;
+
+    /// <summary>
+    /// Internal: accumulated movement distance since the last sound.
+    /// Not networked — tracked per-side for client-side prediction.
+    /// </summary>
+    [DataField]
+    public float MovementSoundAccumulatedDistance;
+
+    /// <summary>
+    /// Internal: last vehicle position used for distance calculation.
+    /// Reset when operator changes to prevent false distance jumps.
+    /// </summary>
+    [DataField]
+    public EntityCoordinates? MovementSoundLastPosition;
     //DS14-end
 }
 

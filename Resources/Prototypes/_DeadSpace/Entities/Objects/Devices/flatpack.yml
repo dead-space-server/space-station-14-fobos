@@ -54,3 +54,48 @@
       map: ["enum.FlatpackVisualLayers.Overlay"]
   - type: Flatpack
     entity: ChemMaster
+
+- type: entity
+  parent: BaseFlatpack
+  id: VehicleHoverbikeFlatpack
+  name: упаковка ховербайка
+  description: Hot wheels!
+  components:
+  - type: Sprite
+    layers:
+    - state: base
+    - state: overlay
+      color: "#EFB341"
+    - state: icon-default
+  - type: Flatpack
+    entity: VehicleHoverbike
+
+- type: entity
+  parent: BaseFlatpack
+  id: VehicleQuadBikeFlatpack
+  name: упаковка квадроцикла
+  description: Hot wheels!
+  components:
+  - type: Sprite
+    layers:
+    - state: base
+    - state: overlay
+      color: "#EFB341"
+    - state: icon-default
+  - type: Flatpack
+    entity: VehicleQuadBike
+
+- type: entity
+  parent: BaseFlatpack
+  id: VehicleJanicartFlatpack
+  name: упаковка уборочной машины
+  description: Hot wheels!
+  components:
+  - type: Sprite
+    layers:
+    - state: base
+    - state: overlay
+      color: "#9b59b6"
+    - state: icon-default
+  - type: Flatpack
+    entity: VehicleJanicart

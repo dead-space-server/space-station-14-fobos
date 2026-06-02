@@ -1,0 +1,55 @@
+- type: latheRecipe
+  id: VehicleKeyJanicart
+  result: VehicleKeyJanicart
+  completetime: 2
+  materials:
+    Steel: 500
+
+- type: latheRecipe
+  id: VehicleKeyUniversal
+  result: VehicleKeyUniversal
+  completetime: 2
+  materials:
+    Steel: 500
+    Gold: 250
+
+- type: latheRecipe
+  id: VehicleWheelchair
+  result: VehicleWheelchair
+  completetime: 2
+  materials:
+    Steel: 500
+    Plastic: 500
+
+- type: latheRecipe
+  id: VehicleJanicartFlatpack
+  result: VehicleJanicartFlatpack
+  completetime: 2
+  materials:
+    Steel: 1000
+    Glass: 500
+    Gold: 50
+    Plastic: 500
+
+- type: latheRecipe
+  id: VehicleQuadBikeFlatpack
+  result: VehicleQuadBikeFlatpack
+  completetime: 2
+  materials:
+    Steel: 1500
+    Glass: 1000
+    Gold: 550
+    Silver: 500
+    Plastic: 500
+
+- type: latheRecipe
+  id: VehicleHoverbikeFlatpack
+  result: VehicleHoverbikeFlatpack
+  completetime: 2
+  materials:
+    Steel: 2250
+    Glass: 1250
+    Gold: 850
+    Silver: 600
+    Plastic: 500
+    BluespaceCrystal: 225
