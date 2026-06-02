@@ -24,6 +24,7 @@ nuke-codes-admin-invalid-station = Неверная станция.
 nuke-codes-admin-invalid-reason = Неверная причина отправки кодов.
 nuke-codes-admin-already-pending = Для этой станции уже есть заявка на отправку кодов.
 nuke-codes-admin-queue-failed = Не удалось добавить отправку кодов в очередь.
+nuke-codes-admin-permission-denied = Недостаточно прав для управления отправкой кодов боеголовки.
 nuke-codes-admin-request-missing = Заявка на отправку кодов не найдена.
 nuke-codes-admin-cancelled = Заявка на отправку кодов отменена.
 nuke-codes-admin-sent = Коды боеголовки отправлены.

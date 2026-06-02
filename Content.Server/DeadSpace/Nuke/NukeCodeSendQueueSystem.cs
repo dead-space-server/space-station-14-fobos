@@ -1,8 +1,10 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using System.Linq;
+using Content.Server.Administration.Managers;
 using Content.Server.Chat.Managers;
 using Content.Server.Nuke;
+using Content.Shared.Administration;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Database;
 using Content.Shared.DeadSpace.ERT;
@@ -30,6 +32,7 @@ public sealed class NukeCodeSendQueueSystem : EntitySystem
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly TimedWindowSystem _timedWindowSystem = default!;
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
+    [Dependency] private readonly IAdminManager _adminManager = default!;
 
     private static readonly TimeSpan DecisionLifetime = TimeSpan.FromMinutes(1);
 
@@ -184,11 +187,17 @@ public sealed class NukeCodeSendQueueSystem : EntitySystem
 
     private void OnRequestAdminState(RequestNukeCodesAdminStateMessage msg, EntitySessionEventArgs args)
     {
+        if (!TryAuthorizeAdmin(args))
+            return;
+
         RaiseNetworkEvent(GetAdminStateSnapshot(), args.SenderSession.Channel);
     }
 
     private void OnAdminQueueRequest(AdminQueueNukeCodesMessage msg, EntitySessionEventArgs args)
     {
+        if (!TryAuthorizeAdmin(args))
+            return;
+
         if (!TryGetEntity(msg.Station, out var station))
         {
             RaiseNetworkEvent(
@@ -210,6 +219,9 @@ public sealed class NukeCodeSendQueueSystem : EntitySystem
 
     private void OnAdminApproveRequest(AdminApproveNukeCodesMessage msg, EntitySessionEventArgs args)
     {
+        if (!TryAuthorizeAdmin(args))
+            return;
+
         var success = TryApproveRequest(msg.RequestId, args.SenderSession.Name, out var result);
         RaiseNetworkEvent(
             new NukeCodesAdminActionResult(success, result ?? string.Empty),
@@ -218,6 +230,9 @@ public sealed class NukeCodeSendQueueSystem : EntitySystem
 
     private void OnAdminCancelRequest(AdminCancelNukeCodesMessage msg, EntitySessionEventArgs args)
     {
+        if (!TryAuthorizeAdmin(args))
+            return;
+
         var success = TryCancelRequest(msg.RequestId, args.SenderSession.Name, out var result);
         RaiseNetworkEvent(
             new NukeCodesAdminActionResult(success, result ?? string.Empty),
@@ -261,6 +276,18 @@ public sealed class NukeCodeSendQueueSystem : EntitySystem
             stations.OrderBy(entry => entry.Name).ToArray(),
             reasons,
             pendingEntries.OrderBy(entry => entry.SecondsRemaining).ToArray());
+    }
+
+    private bool TryAuthorizeAdmin(EntitySessionEventArgs args)
+    {
+        if (_adminManager.HasAdminFlag(args.SenderSession, AdminFlags.Fun))
+            return true;
+
+        RaiseNetworkEvent(
+            new NukeCodesAdminActionResult(false, Loc.GetString("nuke-codes-admin-permission-denied")),
+            args.SenderSession.Channel);
+
+        return false;
     }
 
     private bool CompleteRequest(int requestId, string approvedByName, out string? result)

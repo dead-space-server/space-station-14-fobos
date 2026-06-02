@@ -290,7 +290,6 @@ namespace Content.Shared.DeadSpace.ERT
         }
     }
 
-    // DS14-Start: nuke-code dispatch admin queue protocol.
     [Serializable, NetSerializable]
     public sealed class RequestNukeCodesAdminStateMessage : EntityEventArgs
     {
@@ -417,5 +416,4 @@ namespace Content.Shared.DeadSpace.ERT
             Message = message;
         }
     }
-    // DS14-End
 }

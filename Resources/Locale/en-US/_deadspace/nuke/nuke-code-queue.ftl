@@ -24,6 +24,7 @@ nuke-codes-admin-invalid-station = Invalid station.
 nuke-codes-admin-invalid-reason = Invalid nuke code dispatch reason.
 nuke-codes-admin-already-pending = This station already has a pending nuke code dispatch request.
 nuke-codes-admin-queue-failed = Failed to queue nuke code dispatch request.
+nuke-codes-admin-permission-denied = You do not have permission to manage nuke code dispatch requests.
 nuke-codes-admin-request-missing = Nuke code dispatch request was not found.
 nuke-codes-admin-cancelled = Nuke code dispatch request cancelled.
 nuke-codes-admin-sent = Nuke codes were sent.
