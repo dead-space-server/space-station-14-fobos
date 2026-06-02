@@ -4,7 +4,6 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Shared.DeadSpace.Nuke;
 
-[Prototype("nukeCodeSendReason")]
 public sealed partial class NukeCodeSendReasonPrototype : IPrototype
 {
     [IdDataField]
