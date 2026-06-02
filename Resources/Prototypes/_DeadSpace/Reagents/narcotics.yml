@@ -51,6 +51,7 @@
   meltingPoint: 170.0
   metabolisms:
     Poison:
+      metabolismRate: 1
       effects:
       - !type:HealthChange
         conditions:
@@ -62,11 +63,11 @@
             Poison: 2
             Asphyxiation: 2
     Narcotic:
+      metabolismRate: 1
       effects:
       - !type:MovementSpeedModifier
         walkSpeedModifier: 1.35
         sprintSpeedModifier: 1.35
-        time: 1
       - !type:GenericStatusEffect
         key: Stutter
         component: StutteringAccent
@@ -87,6 +88,7 @@
         time: 10
         type: Remove
     Medicine:
+      metabolismRate: 1
       effects:
       - !type:ResetNarcolepsy
         conditions:

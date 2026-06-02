@@ -119,7 +119,25 @@
   id: JobCBURNLeader
 
 - type: playTimeTracker
+  id: JobSCSTLeader
+
+- type: playTimeTracker
+  id: JobSCNTLeader
+
+- type: playTimeTracker
+  id: JobSierraLeader
+
+- type: playTimeTracker
   id: JobCBURNAgent
+
+- type: playTimeTracker
+  id: JobSCSTAgent
+
+- type: playTimeTracker
+  id: JobSCNTAgent
+
+- type: playTimeTracker
+  id: JobSierraAgent
 
 - type: playTimeTracker
   id: JobDeathSquad

@@ -1,0 +1,58 @@
+{
+    "version": 1,
+    "license": "Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT",
+    "copyright": "By kloopre (discord) for Space Station 14 server Мёртвый Космос",
+
+    "size": {
+        "x": 8,
+        "y": 8
+    },
+    "states": [
+        {
+            "name": "angor"
+        },
+        {
+            "name": "krisis"
+        },
+        {
+            "name": "medicangor"
+        },
+        {
+            "name": "angorfso"
+        },
+        {
+            "name": "krisising"
+        },
+        {
+            "name": "krisiskoma"
+        },
+        {
+            "name": "krisismedic"     
+        },
+        {
+            "name": "krisisspec"
+        },
+        {
+            "name": "commanderangor"
+        },
+        {
+            "name": "pilotangor"
+        },
+        {
+            "name": "comvirt"
+        },
+        {
+            "name": "opervirt"     
+        },
+        {
+            "name": "specvirt"
+        },
+        {
+            "name": "ingvirt"
+        },
+        {
+            "name": "medicvirt"
+        }
+        
+    ]
+}

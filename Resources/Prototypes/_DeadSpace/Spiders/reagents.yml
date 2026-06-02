@@ -61,9 +61,6 @@
       effects:
       - !type:HealthChange
         conditions:
-        - !type:ReagentCondition
-          reagent: Karachnocid
-          min: 1
         - !type:MetabolizerTypeCondition
           type: [ Bloodsucker ]
         damage:

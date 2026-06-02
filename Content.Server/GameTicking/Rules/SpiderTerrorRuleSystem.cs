@@ -5,7 +5,7 @@ using Content.Server.GameTicking.Rules.Components;
 using Content.Server.DeadSpace.Spiders.SpiderTerror.Components;
 using Content.Shared.Mind;
 using Content.Shared.Objectives.Systems;
-using Content.Server.Nuke;
+using Content.Server.DeadSpace.Nuke;
 using Content.Server.Station.Systems;
 using Robust.Shared.Timing;
 using Content.Server.Chat.Systems;
@@ -23,6 +23,7 @@ using Content.Shared.Mobs.Components;
 using Content.Shared.Cargo.Components;
 using Content.Server.Cargo.Systems;
 using Content.Shared.Cargo.Prototypes;
+using Content.Shared.DeadSpace.Nuke;
 using Robust.Shared.Prototypes;
 using Content.Server.DeadSpace.ERT;
 using Content.Shared.DeadSpace.ERT.Prototypes;
@@ -34,7 +35,7 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
 {
     [Dependency] private readonly SharedMindSystem _mindSystem = default!;
     [Dependency] private readonly SharedObjectivesSystem _objectives = default!;
-    [Dependency] private readonly NukeCodePaperSystem _nukeCodePaper = default!;
+    [Dependency] private readonly NukeCodeSendQueueSystem _nukeCodeQueue = default!; // DS14
     [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly StationSystem _station = default!;
@@ -316,9 +317,12 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
 
         component.SendNuclearCode(station);
 
-        _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("spider-terror-centcomm-announcement-station-was-nuke"), playSound: true, colorOverride: Color.OrangeRed);
-
-        _nukeCodePaper.SendNukeCodes(station);
+        // DS14-Start: queue automatic nuke-code dispatches for admin review.
+        _nukeCodeQueue.TryQueueAutomaticRequest(
+            station,
+            NukeCodeSendReasonIds.SpiderTerrorCritical,
+            out _);
+        // DS14-End
     }
 
     private (float progress, int spiderCount) GetCaptureStationProgress(EntityUid uid, EntityUid station, SpiderTerrorRuleComponent? component = null)

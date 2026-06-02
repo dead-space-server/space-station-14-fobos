@@ -289,4 +289,131 @@ namespace Content.Shared.DeadSpace.ERT
             Message = message;
         }
     }
+
+    [Serializable, NetSerializable]
+    public sealed class RequestNukeCodesAdminStateMessage : EntityEventArgs
+    {
+    }
+
+    [Serializable, NetSerializable]
+    public sealed class NukeCodesStationEntry
+    {
+        public NetEntity Station { get; }
+        public string Name { get; }
+
+        public NukeCodesStationEntry(NetEntity station, string name)
+        {
+            Station = station;
+            Name = name;
+        }
+    }
+
+    [Serializable, NetSerializable]
+    public sealed class NukeCodeSendReasonEntry
+    {
+        public string ProtoId { get; }
+        public string Name { get; }
+
+        public NukeCodeSendReasonEntry(string protoId, string name)
+        {
+            ProtoId = protoId;
+            Name = name;
+        }
+    }
+
+    [Serializable, NetSerializable]
+    public sealed class NukeCodesPendingRequestEntry
+    {
+        public int RequestId { get; }
+        public NetEntity Station { get; }
+        public string StationName { get; }
+        public string ReasonProtoId { get; }
+        public string ReasonName { get; }
+        public int SecondsRemaining { get; }
+        public string RequestedByName { get; }
+
+        public NukeCodesPendingRequestEntry(
+            int requestId,
+            NetEntity station,
+            string stationName,
+            string reasonProtoId,
+            string reasonName,
+            int secondsRemaining,
+            string requestedByName)
+        {
+            RequestId = requestId;
+            Station = station;
+            StationName = stationName;
+            ReasonProtoId = reasonProtoId;
+            ReasonName = reasonName;
+            SecondsRemaining = secondsRemaining;
+            RequestedByName = requestedByName;
+        }
+    }
+
+    [Serializable, NetSerializable]
+    public sealed class NukeCodesAdminStateResponse : EntityEventArgs
+    {
+        public NukeCodesStationEntry[] Stations { get; }
+        public NukeCodeSendReasonEntry[] Reasons { get; }
+        public NukeCodesPendingRequestEntry[] PendingRequests { get; }
+
+        public NukeCodesAdminStateResponse(
+            NukeCodesStationEntry[] stations,
+            NukeCodeSendReasonEntry[] reasons,
+            NukeCodesPendingRequestEntry[] pendingRequests)
+        {
+            Stations = stations;
+            Reasons = reasons;
+            PendingRequests = pendingRequests;
+        }
+    }
+
+    [Serializable, NetSerializable]
+    public sealed class AdminQueueNukeCodesMessage : EntityEventArgs
+    {
+        public NetEntity Station { get; }
+        public string ReasonProtoId { get; }
+
+        public AdminQueueNukeCodesMessage(NetEntity station, string reasonProtoId)
+        {
+            Station = station;
+            ReasonProtoId = reasonProtoId;
+        }
+    }
+
+    [Serializable, NetSerializable]
+    public sealed class AdminApproveNukeCodesMessage : EntityEventArgs
+    {
+        public int RequestId { get; }
+
+        public AdminApproveNukeCodesMessage(int requestId)
+        {
+            RequestId = requestId;
+        }
+    }
+
+    [Serializable, NetSerializable]
+    public sealed class AdminCancelNukeCodesMessage : EntityEventArgs
+    {
+        public int RequestId { get; }
+
+        public AdminCancelNukeCodesMessage(int requestId)
+        {
+            RequestId = requestId;
+        }
+    }
+
+    [Serializable, NetSerializable]
+    public sealed class NukeCodesAdminActionResult : EntityEventArgs
+    {
+        public bool Success { get; }
+        public string Message { get; }
+
+        public NukeCodesAdminActionResult(bool success, string message)
+        {
+            Success = success;
+            Message = message;
+        }
+    }
 }

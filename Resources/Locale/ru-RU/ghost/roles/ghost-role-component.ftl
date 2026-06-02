@@ -146,9 +146,13 @@ ghost-role-information-ert-medical-name = ОБР Медик
 ghost-role-information-ert-medical-description = Оказывайте содействие в медицинской помощи для решения проблем станции.
 ghost-role-information-cburn-leader-name = РХБЗЗ Лидер
 ghost-role-information-cburn-leader-description = Руководите командой специалистов для решения проблем станции.
+ghost-role-information-scst-leader-name = Лидер ОППУ
+ghost-role-information-scnt-leader-name = Лидер ОПНУ
 ghost-role-information-sindy-agent-sup-description = Агент синдиката, прилетевший на станцию для снабжения революции.
 ghost-role-information-cburn-agent-name = РХБЗЗ Оперативник
 ghost-role-information-cburn-agent-description = Высококвалифицированный оперативник, способный справиться с любыми угрозами.
+ghost-role-information-scst-agent-name = Оперативник ОППУ
+ghost-role-information-scnt-agent-name = Оперативник ОПНУ
 ghost-role-information-centcom-official-description = Инспектируйте станцию, пишите служебные характеристики на руководителей, орудуйте факсом.ghost-role-information-centcom-official-description = Выполняйте обязанности, связанные с Центком, такие как инспекция станции, составление служебных характеристик на руководителей и работа с факсом.
 ghost-role-information-nukeop-rules = Вы [color={ role-type-team-antagonist-color }][bold]{ role-type-team-antagonist-name }[/bold][/color], в команде с другими Ядерными оперативниками. Помощь агентов на станции не гарантируется.
 ghost-role-information-loneop-name = Одинокий оперативник

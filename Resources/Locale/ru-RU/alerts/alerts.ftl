@@ -84,3 +84,5 @@ alerts-stealthy-name = Карманничество
 alerts-stealthy-desc = Определяет режим скрытой кражи. Нажмите для переключения.
 alerts-prying-name = Открывашка
 alerts-prying-desc = Вы способны открыть любые двери!
+alerts-precrit-name = [color=red]Тяжелое состояние[/color]
+alerts-precrit-desc = У вас нарушена опорно-двигательная система и вы вот-вот потеряете сознание.

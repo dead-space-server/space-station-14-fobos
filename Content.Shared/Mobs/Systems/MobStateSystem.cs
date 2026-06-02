@@ -95,6 +95,19 @@ public partial class MobStateSystem : EntitySystem
             return false;
         return component.CurrentState is MobState.Invalid;
     }
-
+    // DS14-start
+    /// <summary>
+    ///  Check if a Mob is PreCritical
+    /// </summary>
+    /// <param name="target">Target Entity</param>
+    /// <param name="component">The MobState component owned by the target</param>
+    /// <returns>If the entity is PreCritical</returns>
+    public bool IsPreCritical(EntityUid target, MobStateComponent? component = null)
+    {
+        if (!_mobStateQuery.Resolve(target, ref component, false))
+            return false;
+        return component.CurrentState == MobState.PreCritical;
+    }
+    // DS14-end
     #endregion
 }

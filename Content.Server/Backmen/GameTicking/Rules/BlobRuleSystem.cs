@@ -7,11 +7,10 @@ using Content.Server.Cargo.Systems;
 using Content.Server.Chat.Managers;
 using Content.Server.Chat.Systems;
 using Content.Server.Database;
+using Content.Server.DeadSpace.Nuke;
 using Content.Server.DeadSpace.ERT;
 using Content.Server.GameTicking;
 using Content.Server.GameTicking.Rules;
-using Content.Server.Nuke;
-using Content.Server.Objectives;
 using Content.Server.RoundEnd;
 using Content.Server.Station.Components;
 using Content.Server.Station.Systems;
@@ -21,8 +20,7 @@ using Content.Shared.Cargo.Prototypes;
 using Content.Shared.DeadSpace.ERT.Prototypes;
 using Content.Shared.GameTicking;
 using Content.Shared.GameTicking.Components;
-using Content.Shared.Objectives.Components;
-using Robust.Server.Player;
+using Content.Shared.DeadSpace.Nuke;
 using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
 
@@ -32,7 +30,7 @@ public sealed class BlobRuleSystem : GameRuleSystem<BlobRuleComponent>
 {
     [Dependency] private readonly RoundEndSystem _roundEndSystem = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
-    [Dependency] private readonly NukeCodePaperSystem _nukeCode = default!;
+    [Dependency] private readonly NukeCodeSendQueueSystem _nukeCodeQueue = default!; // DS14
     [Dependency] private readonly StationSystem _stationSystem = default!;
     [Dependency] private readonly ObjectivesSystem _objectivesSystem = default!;
     [Dependency] private readonly CargoSystem _cargoSystem = default!;
@@ -167,13 +165,12 @@ public sealed class BlobRuleSystem : GameRuleSystem<BlobRuleComponent>
             case BlobStage.Begin when blobCore.Comp.BlobTiles.Count >= 500:
                 {
                     blobRuleComp.Stage = BlobStage.Critical;
-                    _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("blob-alert-critical"),
-                        Loc.GetString("Station"),
-                        true,
-                        blobRuleComp.AlertAudio,
-                        Color.Red);
-
-                    _nukeCode.SendNukeCodes(stationUid);
+                    // DS14-Start: queue automatic nuke-code dispatches for admin review.
+                    _nukeCodeQueue.TryQueueAutomaticRequest(
+                        stationUid,
+                        NukeCodeSendReasonIds.BlobCriticalMass,
+                        out _);
+                    // DS14-End
 
                     if (_alertLevel.GetLevel(stationUid) != "enigma" && _alertLevel.GetLevel(stationUid) != "delta" && _alertLevel.GetLevel(stationUid) != "epsilon")
                         _alertLevel.SetLevel(stationUid, "sierra", true, true, true, true);

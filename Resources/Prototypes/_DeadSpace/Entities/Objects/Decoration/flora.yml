@@ -17,6 +17,79 @@
         treeautumn03: ""
 
 - type: entity
+  parent: BaseTree
+  id: BirchTreeSmall
+  name: берёза
+  description: Ого, это дерево?
+  suffix: Маленькое
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Decoration/Flora/birch_tree_small.rsi
+    layers:
+    - state: tree01
+      map: ["random"]
+  - type: RandomSprite
+    available:
+    - random:
+        tree01: ""
+        tree02: ""
+
+- type: entity
+  parent: BaseTree
+  id: BirchTreeMedium
+  name: берёза
+  description: Ого, это дерево? Пахнет деревом
+  suffix: Среднее
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Decoration/Flora/birch_tree_medium.rsi
+    layers:
+    - state: tree01
+      map: ["random"]
+  - type: RandomSprite
+    available:
+    - random:
+        tree01: ""
+        tree02: ""
+
+- type: entity
+  parent: BaseTreeLarge
+  id: BirchTreeLarge
+  name: берёза
+  description: Ого, это дерево? Оно очень большое.
+  suffix: Большое
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Decoration/Flora/birch_tree_large.rsi
+    layers:
+    - state: tree01
+      map: ["random"]
+  - type: RandomSprite
+    available:
+    - random:
+        tree01: ""
+        tree02: ""
+  - type: Fixtures
+    fixtures:
+      portalFixture:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.1,-0.1,0.1,0.1"
+        mask:
+        - FullTileMask
+        layer:
+        - WallLayer
+        hard: false
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.4
+        density: 1000
+        layer:
+        - HalfWallLayer
+        - Opaque
+
+- type: entity
   parent: BaseTreeLarge
   id: SakuraTreeLarge
   name: сакура

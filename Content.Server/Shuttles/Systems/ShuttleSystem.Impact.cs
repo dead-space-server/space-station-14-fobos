@@ -56,9 +56,16 @@ public sealed partial class ShuttleSystem
 
     private EntityQuery<DamageableComponent> _dmgQuery;
     private EntityQuery<ProjectileComponent> _projQuery;
+    private EntityQuery<MovedByPressureComponent> _movedByPressureQuery;
 
-    private HashSet<EntityUid> _countedEnts = new();
-    private HashSet<EntityUid> _intersecting = new();
+    private readonly HashSet<EntityUid> _countedEnts = new();
+    private readonly HashSet<EntityUid> _intersecting = new();
+    private readonly List<Entity<PhysicsComponent>> _gridThrowEntities = new();
+    private readonly HashSet<EntityUid> _gridThrowProcessed = new();
+    private readonly List<ImpactTileData> _impactTiles = new();
+    private readonly List<(Vector2i, Tile)> _brokenImpactTiles = new();
+    private readonly List<Vector2i> _sparkImpactTiles = new();
+    private readonly HashSet<Entity<TransformComponent>> _entitiesOnImpactTile = new();
     // for _adminLogSpacing
     private Dictionary<EntityUid, TimeSpan> _impactedAt = new();
 
@@ -68,9 +75,9 @@ public sealed partial class ShuttleSystem
 
         _dmgQuery = GetEntityQuery<DamageableComponent>();
         _projQuery = GetEntityQuery<ProjectileComponent>();
+        _movedByPressureQuery = GetEntityQuery<MovedByPressureComponent>();
 
         Subs.CVar(_cfg, CCVars.ImpactEnabled, value => _enabled = value, true);
-        Subs.CVar(_cfg, CCVars.MinimumImpactInertia, value => _minimumImpactInertia = value, true);
         Subs.CVar(_cfg, CCVars.MinimumImpactInertia, value => _minimumImpactInertia = value, true);
         Subs.CVar(_cfg, CCVars.MinimumImpactVelocity, value => _minimumImpactVelocity = value, true);
         Subs.CVar(_cfg, CCVars.TileBreakEnergyMultiplier, value => _tileBreakEnergyMultiplier = value, true);
@@ -91,6 +98,18 @@ public sealed partial class ShuttleSystem
     /// </summary>
     private void OnShuttleCollide(EntityUid uid, ShuttleComponent component, ref StartCollideEvent args)
     {
+        // DS14-Start: prevent station anchors and active shuttle pairs from processing the same impact twice.
+        if (!component.Enabled || args.OurEntity != uid)
+            return;
+
+        if (TryComp<ShuttleComponent>(args.OtherEntity, out var otherShuttle) &&
+            otherShuttle.Enabled &&
+            uid.Id > args.OtherEntity.Id)
+        {
+            return;
+        }
+        // DS14-End
+
         if (TerminatingOrDeleted(uid) || EntityManager.IsQueuedForDeletion(uid)
             || TerminatingOrDeleted(args.OtherEntity) || EntityManager.IsQueuedForDeletion(args.OtherEntity)
         )
@@ -121,6 +140,8 @@ public sealed partial class ShuttleSystem
             var otherVelocity = _physics.GetLinearVelocity(args.OtherEntity, otherPoint.Position, otherBody, otherXform);
             var topDiff = (ourVelocity - otherVelocity);
             var jungleDiff = topDiff.Length();
+            if (jungleDiff <= 0f)
+                continue;
 
             // Get the velocity in relation to the contact normal
             // If this still causes issues see https://box2d.org/posts/2020/06/ghost-collisions/
@@ -162,7 +183,9 @@ public sealed partial class ShuttleSystem
             if (ourTiles == 0 || otherTiles == 0)
                 continue;
 
-            Log.Info($"Shuttle impact of {ToPrettyString(args.OurEntity)} with {ToPrettyString(args.OtherEntity)}; our mass: {ourMass}, other: {otherMass}, velocity {jungleDiff}, impact point {worldPoint}");
+            var shouldLog = CheckShouldLog(args.OurEntity) && CheckShouldLog(args.OtherEntity);
+            if (shouldLog)
+                Log.Info($"Shuttle impact of {ToPrettyString(args.OurEntity)} with {ToPrettyString(args.OtherEntity)}; our mass: {ourMass}, other: {otherMass}, velocity {jungleDiff}, impact point {worldPoint}");
 
             // E = MV^2/2
             var energyMult = MathF.Pow(jungleDiff, 2) / 2;
@@ -179,7 +202,7 @@ public sealed partial class ShuttleSystem
             if (toUsEnergy + toOtherEnergy > 2f * _tileBreakEnergyMultiplier * _platingMass)
                 impact = LogImpact.Extreme;
             // TODO: would be nice for it to also log who is piloting the grid(s)
-            if (CheckShouldLog(args.OurEntity) && CheckShouldLog(args.OtherEntity))
+            if (shouldLog)
                 _logger.Add(LogType.ShuttleImpact, impact, $"Shuttle impact of {ToPrettyString(args.OurEntity)} with {ToPrettyString(args.OtherEntity)} at {worldPoint}");
 
             _impactedAt[args.OurEntity] = _gameTiming.CurTime;
@@ -203,7 +226,7 @@ public sealed partial class ShuttleSystem
                               float energy)
     {
         // for readability to not have .Comp1 .Comp2 for everything
-        var (_, grid, xform, body) = ent;
+        var (_, grid, _, body) = ent;
 
         // radius in which to actually do things so we don't hurt person 4 tiles away on slow bump
         var radius = Math.Min(_impactRadius, MathF.Sqrt(energy / _tileBreakEnergyMultiplier / _platingMass));
@@ -212,22 +235,28 @@ public sealed partial class ShuttleSystem
         // without this impacts which destroy tiles just make grids slice straight through each other
         var postImpactVelocity = Vector2.Lerp(velocity, inelasticVelocity, MathF.Min(1f, _impactSlowdown * tiles * fix.Density / body.FixturesMass));
         var deltaV = -velocity + postImpactVelocity;
-        _physics.ApplyLinearImpulse(ent, deltaV * body.FixturesMass, body: body);
+        var deltaVLength = deltaV.Length();
+
+        if (body.BodyType != BodyType.Static)
+            _physics.ApplyLinearImpulse(ent, deltaV * body.FixturesMass, body: body);
 
         // process tile and entity damage
-        ProcessImpactZone(ent, grid, tile, energy, deltaV.Normalized(), radius);
+        // DS14-Start: static station grids should take local impact damage without throwing their whole contents.
+        var canThrowEntities = body.BodyType != BodyType.Static;
+        var impactDirection = deltaVLength > 0f ? deltaV / deltaVLength : Vector2.Zero;
+        ProcessImpactZone(ent, grid, tile, energy, impactDirection, radius, canThrowEntities);
 
         // throw every entity on grid if the impulse is not negligible
-        if (deltaV.Length() > _minImpulseVelocity)
-            ThrowEntitiesOnGrid(ent, xform, -deltaV);
+        if (canThrowEntities && deltaVLength > _minImpulseVelocity)
+            ThrowEntitiesOnGrid(ent, -deltaV);
+        // DS14-End
     }
 
     /// <summary>
     /// Knocks and throws all unbuckled entities on the specified grid.
     /// </summary>
-    private void ThrowEntitiesOnGrid(EntityUid gridUid, TransformComponent xform, Vector2 direction)
+    private void ThrowEntitiesOnGrid(EntityUid gridUid, Vector2 direction)
     {
-        var movedByPressureQuery = GetEntityQuery<MovedByPressureComponent>();
         var knockdownTime = TimeSpan.FromSeconds(5);
 
         var minsq = _minThrowVelocity * _minThrowVelocity;
@@ -237,20 +266,20 @@ public sealed partial class ShuttleSystem
             return;
 
         var gridBox = gridComp.LocalAABB;
-        List<Entity<PhysicsComponent>> list = new();
-        HashSet<EntityUid> processed = new();
-        var state = (list, processed, _physicsQuery);
+        _gridThrowEntities.Clear();
+        _gridThrowProcessed.Clear();
+        var state = (_gridThrowEntities, _gridThrowProcessed, _physicsQuery);
         lookup.DynamicTree.QueryAabb(ref state, GridQueryCallback, gridBox, true);
         lookup.SundriesTree.QueryAabb(ref state, GridQueryCallback, gridBox, true);
 
-        foreach (var ent in list)
+        foreach (var ent in _gridThrowEntities)
         {
             // don't throw if buckled
             if (_buckle.IsBuckled(ent, _buckleQuery.CompOrNull(ent)))
                 continue;
 
             // don't throw them if they have magboots
-            if (movedByPressureQuery.TryComp(ent, out var moved) && !moved.Enabled)
+            if (_movedByPressureQuery.TryComp(ent, out var moved) && !moved.Enabled)
                 continue;
 
             if (direction.LengthSquared() > minsq)
@@ -320,10 +349,11 @@ public sealed partial class ShuttleSystem
     /// <summary>
     /// Processes a zone of tiles around the impact point
     /// </summary>
-    private void ProcessImpactZone(EntityUid uid, MapGridComponent grid, Vector2i centerTile, float energy, Vector2 dir, float radius)
+    private void ProcessImpactZone(EntityUid uid, MapGridComponent grid, Vector2i centerTile, float energy, Vector2 dir, float radius, bool throwEntities)
     {
-        // Create a list of all tiles to process
-        var tilesToProcess = new List<ImpactTileData>();
+        _impactTiles.Clear();
+        _brokenImpactTiles.Clear();
+        _sparkImpactTiles.Clear();
 
         // Pre-calculate all tiles that need processing
         foreach (var tileRef in _mapSystem.GetLocalTilesIntersecting(uid, grid, new Circle(centerTile, radius)))
@@ -333,19 +363,15 @@ public sealed partial class ShuttleSystem
             float distanceFactor = 1.0f - distance.Length / (radius + 1);
             float tileEnergy = energy * distanceFactor;
 
-            tilesToProcess.Add(new ImpactTileData(tileRef.GridIndices, tileEnergy, distanceFactor));
+            _impactTiles.Add(new ImpactTileData(tileRef.GridIndices, tileEnergy, distanceFactor));
         }
 
-        // Process tiles sequentially for safety
-        var brokenTiles = new List<(Vector2i, Tile)>();
-        var sparkTiles = new List<Vector2i>();
-
-        ProcessTileBatch(uid, grid, tilesToProcess, dir, 0, tilesToProcess.Count, brokenTiles, sparkTiles);
+        ProcessTileBatch(uid, grid, _impactTiles, dir, 0, _impactTiles.Count, _brokenImpactTiles, _sparkImpactTiles, throwEntities);
 
         // Only proceed with visual effects if the entity still exists
         if (Exists(uid))
         {
-            ProcessBrokenTilesAndSparks(uid, grid, brokenTiles, sparkTiles);
+            ProcessBrokenTilesAndSparks(uid, grid, _brokenImpactTiles, _sparkImpactTiles);
         }
     }
 
@@ -360,7 +386,8 @@ public sealed partial class ShuttleSystem
         int startIndex,
         int endIndex,
         List<(Vector2i, Tile)> brokenTiles,
-        List<Vector2i> sparkTiles)
+        List<Vector2i> sparkTiles,
+        bool throwEntities)
     {
         // here so we don't have to `new` it every iteration
         var damageSpec = new DamageSpecifier()
@@ -368,7 +395,6 @@ public sealed partial class ShuttleSystem
             DamageDict = { ["Blunt"] = 0, ["Structural"] = 0 }
         };
 
-        var entitiesOnTile = new HashSet<Entity<TransformComponent>>();
         var tileCenter = new Vector2(grid.TileSize / 2f, grid.TileSize / 2f);
 
         for (var i = startIndex; i < endIndex; i++)
@@ -378,11 +404,11 @@ public sealed partial class ShuttleSystem
             bool canBreakTile = true;
 
             // Process entities on this tile
-            entitiesOnTile.Clear();
-            _lookup.GetLocalEntitiesIntersecting(uid, tileData.Tile, entitiesOnTile, gridComp: grid);
+            _entitiesOnImpactTile.Clear();
+            _lookup.GetLocalEntitiesIntersecting(uid, tileData.Tile, _entitiesOnImpactTile, gridComp: grid);
 
             // this loop is a hotspot so tell if you know how to optimise it
-            foreach (var localEnt in entitiesOnTile)
+            foreach (var localEnt in _entitiesOnImpactTile)
             {
                 // the query can ocassionally return entities barely touching this tile so check for that
                 var toCenter = tileData.Tile + tileCenter - localEnt.Comp.Coordinates.Position;
@@ -411,7 +437,7 @@ public sealed partial class ShuttleSystem
                 {
                     canBreakTile = false;
                 }
-                else
+                else if (throwEntities)
                 {
                     var direction = throwDirection * tileData.DistanceFactor;
                     _throwing.TryThrow(localEnt, direction, physics, localEnt.Comp, _projQuery, direction.Length(), playSound: false);
