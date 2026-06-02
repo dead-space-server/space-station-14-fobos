@@ -1,4 +1,3 @@
-using Content.Shared.Access.Systems; // DS14
 using Content.Shared.Whitelist;
 using Robust.Shared.Audio;
 using Robust.Shared.Containers;
@@ -234,7 +233,6 @@ namespace Content.Shared.Containers.ItemSlots
         ///     Priority for use with the eject & insert verbs for this slot.
         /// </summary>
         [DataField]
-        [Access(typeof(ItemSlotsSystem), typeof(SharedIdCardConsoleSystem), Other = AccessPermissions.Read)] // DS14
         public int Priority = 0;
 
         /// <summary>

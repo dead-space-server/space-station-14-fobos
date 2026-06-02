@@ -24,15 +24,14 @@ namespace Content.Shared.Access.Systems
             SubscribeLocalEvent<IdCardConsoleComponent, ComponentInit>(OnComponentInit);
             SubscribeLocalEvent<IdCardConsoleComponent, ComponentRemove>(OnComponentRemove);
         }
-
     // DS14-Start
     private void OnComponentInit(EntityUid uid, IdCardConsoleComponent component, ComponentInit args)
     {
         _itemSlotsSystem.AddItemSlot(uid, IdCardConsoleComponent.PrivilegedIdCardSlotId, component.PrivilegedIdSlot);
-        component.TargetIdSlot.Priority = 1;
         _itemSlotsSystem.AddItemSlot(uid, IdCardConsoleComponent.TargetIdCardSlotId, component.TargetIdSlot);
     }
     // DS14-End
+
 
         private void OnComponentRemove(EntityUid uid, IdCardConsoleComponent component, ComponentRemove args)
         {
