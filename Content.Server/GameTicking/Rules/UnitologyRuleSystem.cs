@@ -466,6 +466,24 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
 
     }
 
+    protected override void AppendRoundEndDiscordText(EntityUid uid,
+        UnitologyRuleComponent component,
+        GameRuleComponent gameRule,
+        ref RoundEndDiscordTextAppendEvent args)
+    {
+        var sessionData = _antag.GetAntagIdentifiers(uid);
+        args.AddLine(Loc.GetString("uni-initial-count", ("initialCount", sessionData.Count)));
+
+        foreach (var (_, data, name) in sessionData)
+        {
+            args.AddLine(Loc.GetString("uni-initial-name-user",
+                ("name", name),
+                ("username", data.UserName)));
+        }
+
+        args.AddLine("");
+    }
+
     private void SendOrder()
     {
         var faxes = EntityQueryEnumerator<FaxMachineComponent>();

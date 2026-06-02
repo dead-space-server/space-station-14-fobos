@@ -29,6 +29,7 @@ using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Random;
 using Robust.Shared.Utility;
+using System.Text;
 using System.Text.RegularExpressions;
 
 #pragma warning disable RA0026
@@ -768,11 +769,24 @@ namespace Content.Server.GameTicking
                 var duration = RoundDuration();
                 var gamemodeTitle = CurrentPreset != null ? Loc.GetString(CurrentPreset.ModeTitle) : string.Empty;
 
-                var textEv = new RoundEndTextAppendEvent();
-                RaiseLocalEvent(textEv);
+                // DS14-start
+                var discordTextEv = new RoundEndDiscordTextAppendEvent();
+                RaiseLocalEvent(discordTextEv);
 
-                var manifest = Regex.Replace(textEv.Text, @"\[/\.*?\]", "");
-                manifest = Regex.Replace(manifest, @"\[.*?\]", "");
+                var manifestBuilder = new StringBuilder();
+                if (!string.IsNullOrWhiteSpace(_replayRoundText))
+                    manifestBuilder.AppendLine(_replayRoundText.Trim());
+
+                if (!string.IsNullOrWhiteSpace(discordTextEv.Text))
+                {
+                    if (manifestBuilder.Length > 0)
+                        manifestBuilder.AppendLine();
+
+                    manifestBuilder.AppendLine(discordTextEv.Text.Trim());
+                }
+
+                var manifest = StripRoundEndDiscordMarkup(manifestBuilder.ToString().Trim());
+                // DS14-end
 
                 var content = Loc.GetString("discord-round-notifications-end",
                     ("id", RoundId),
@@ -782,7 +796,7 @@ namespace Content.Server.GameTicking
                     ("gamemode", gamemodeTitle),
                     ("manifest", manifest));
 
-                if (textEv.Text == String.Empty)
+                if (string.IsNullOrWhiteSpace(manifest)) // DS14
                 {
                     content = Loc.GetString("discord-round-notifications-end-no-manifest",
                         ("id", RoundId),
@@ -810,6 +824,13 @@ namespace Content.Server.GameTicking
                 Log.Error($"Error while sending discord round end message:\n{e}");
             }
         }
+
+        // DS14-start
+        private static string StripRoundEndDiscordMarkup(string text)
+        {
+            return Regex.Replace(text, @"\[[^\]]*\]", "");
+        }
+        // DS14-end
 
         public void RestartRound()
         {
@@ -1182,4 +1203,26 @@ namespace Content.Server.GameTicking
             _doNewLine = true;
         }
     }
+
+    // DS14-start
+    /// <summary>
+    ///     Event raised to add text only to the Discord round-end log.
+    ///     Keep player-facing round-end UI text on <see cref="RoundEndTextAppendEvent"/>.
+    /// </summary>
+    public sealed class RoundEndDiscordTextAppendEvent
+    {
+        private bool _doNewLine;
+
+        public string Text { get; private set; } = string.Empty;
+
+        public void AddLine(string text)
+        {
+            if (_doNewLine)
+                Text += "\n";
+
+            Text += text;
+            _doNewLine = true;
+        }
+    }
+    // DS14-end
 }

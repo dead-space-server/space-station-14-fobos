@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Content.Server.AlertLevel;
 using Content.Server.Backmen.Blob.Rule;
 using Content.Server.Backmen.GameTicking.Rules.Components;
@@ -10,6 +11,7 @@ using Content.Server.DeadSpace.ERT;
 using Content.Server.GameTicking;
 using Content.Server.GameTicking.Rules;
 using Content.Server.Nuke;
+using Content.Server.Objectives;
 using Content.Server.RoundEnd;
 using Content.Server.Station.Components;
 using Content.Server.Station.Systems;
@@ -19,6 +21,8 @@ using Content.Shared.Cargo.Prototypes;
 using Content.Shared.DeadSpace.ERT.Prototypes;
 using Content.Shared.GameTicking;
 using Content.Shared.GameTicking.Components;
+using Content.Shared.Objectives.Components;
+using Robust.Server.Player;
 using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
 
@@ -30,8 +34,10 @@ public sealed class BlobRuleSystem : GameRuleSystem<BlobRuleComponent>
     [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly NukeCodePaperSystem _nukeCode = default!;
     [Dependency] private readonly StationSystem _stationSystem = default!;
+    [Dependency] private readonly ObjectivesSystem _objectivesSystem = default!;
     [Dependency] private readonly CargoSystem _cargoSystem = default!;
     [Dependency] private readonly AlertLevelSystem _alertLevel = default!;
+    [Dependency] private readonly IPlayerManager _player = default!;
     [Dependency] private readonly IChatManager _chatManager = default!;
     [Dependency] private readonly ErtResponseSystem _ertResponseSystem = default!; // DS14
     [Dependency] private readonly IServerDbManager _db = default!;
@@ -223,4 +229,72 @@ public sealed class BlobRuleSystem : GameRuleSystem<BlobRuleComponent>
             }
         });
     }
+
+    // DS14-start
+    protected override void AppendRoundEndDiscordText(EntityUid uid,
+        BlobRuleComponent blob,
+        GameRuleComponent gameRule,
+        ref RoundEndDiscordTextAppendEvent ev)
+    {
+        if (blob.Blobs.Count < 1)
+            return;
+
+        foreach (var (mindId, mind) in blob.Blobs)
+        {
+            var name = mind.CharacterName;
+            _player.TryGetSessionById(mind.UserId, out var session);
+            var username = session?.Name;
+
+            var objectives = mind.Objectives.ToArray();
+            if (objectives.Length == 0)
+            {
+                if (username != null)
+                {
+                    ev.AddLine(name == null
+                        ? Loc.GetString("blob-user-was-a-blob", ("user", username))
+                        : Loc.GetString("blob-user-was-a-blob-named", ("user", username), ("name", name)));
+                }
+                else if (name != null)
+                    ev.AddLine(Loc.GetString("blob-was-a-blob-named", ("name", name)));
+
+                continue;
+            }
+
+            if (username != null)
+            {
+                ev.AddLine(name == null
+                    ? Loc.GetString("blob-user-was-a-blob-with-objectives", ("user", username))
+                    : Loc.GetString("blob-user-was-a-blob-with-objectives-named", ("user", username), ("name", name)));
+            }
+            else if (name != null)
+                ev.AddLine(Loc.GetString("blob-was-a-blob-with-objectives-named", ("name", name)));
+
+            foreach (var objectiveGroup in objectives.GroupBy(o => Comp<ObjectiveComponent>(o).LocIssuer))
+            {
+                foreach (var objective in objectiveGroup)
+                {
+                    var info = _objectivesSystem.GetInfo(objective, mindId, mind);
+                    if (info == null)
+                        continue;
+
+                    var objectiveTitle = info.Value.Title;
+                    var progress = info.Value.Progress;
+
+                    ev.AddLine(progress > 0.99f
+                        ? "- " + Loc.GetString(
+                            "objective-condition-success",
+                            ("condition", objectiveTitle),
+                            ("markupColor", "green"))
+                        : "- " + Loc.GetString(
+                            "objective-condition-fail",
+                            ("condition", objectiveTitle),
+                            ("progress", (int) (progress * 100)),
+                            ("markupColor", "red")));
+                }
+            }
+        }
+
+        ev.AddLine("");
+    }
+    // DS14-end
 }
