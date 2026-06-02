@@ -132,6 +132,9 @@
           Log:
             min: 2
             max: 8
+          FoodSakuraFlower:
+            min: 2
+            max: 3
   - type: Fixtures
     fixtures:
       portalFixture:
