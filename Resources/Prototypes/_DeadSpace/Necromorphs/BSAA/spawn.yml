@@ -187,6 +187,13 @@
       nameFormat: name-format-ert
     - type: ImmunNecroobelisk
     - type: IgnoreKudzu
+    - type: AutoImplant
+      implants:
+      - MindShieldImplant
+      - TrackingImplant
+      - RadioImplantSOC
+      - DeathRattleImplantSOD
+      - RezervImplant
     - type: Loadout
       prototypes: [ BSAALeaderGear ]
     - type: GhostRoleNotifys 
@@ -211,6 +218,13 @@
       nameFormat: name-format-ert
     - type: ImmunNecroobelisk
     - type: IgnoreKudzu
+    - type: AutoImplant
+      implants:
+      - MindShieldImplant
+      - TrackingImplant
+      - RadioImplantSOC
+      - DeathRattleImplantSOD
+      - RezervImplant
     - type: Loadout
       prototypes: [ BSAAFighterGear ]
     - type: GhostRoleNotifys 
@@ -235,6 +249,13 @@
       - NamesLastERT
       nameFormat: name-format-ert
     - type: ImmunNecroobelisk
+    - type: AutoImplant
+      implants:
+      - MindShieldImplant
+      - TrackingImplant
+      - RadioImplantSOC
+      - DeathRattleImplantSOD
+      - RezervImplant
     - type: Loadout
       prototypes: [ BSAAMedicGear ]
     - type: GhostRoleNotifys 
