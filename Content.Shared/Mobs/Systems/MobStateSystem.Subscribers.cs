@@ -11,20 +11,27 @@ using Content.Shared.Interaction.Events;
 using Content.Shared.Inventory.Events;
 using Content.Shared.Item;
 using Content.Shared.Mobs.Components;
+using Content.Shared.DeadSpace.Movement.Events;
+using Content.Shared.Gravity;
 using Content.Shared.Movement.Components; //DS14
 using Content.Shared.Movement.Events;
+using Content.Shared.Movement.Systems;
 using Content.Shared.Pointing;
 using Content.Shared.Pulling.Events;
 using Content.Shared.Speech;
 using Content.Shared.Standing;
 using Content.Shared.Strip.Components;
 using Content.Shared.Throwing;
+using Content.Shared.Weapons.Misc;
 using Robust.Shared.Physics.Components;
 
 namespace Content.Shared.Mobs.Systems;
 
 public partial class MobStateSystem
 {
+    [Dependency] private readonly SharedGravitySystem _gravity = default!;
+    [Dependency] private readonly SharedJetpackSystem _jetpack = default!;
+
     //General purpose event subscriptions. If you can avoid it register these events inside their own systems
     private void SubscribeEvents()
     {
@@ -48,6 +55,11 @@ public partial class MobStateSystem
         SubscribeLocalEvent<MobStateComponent, CombatModeShouldHandInteractEvent>(OnCombatModeShouldHandInteract);
         SubscribeLocalEvent<MobStateComponent, AttemptPacifiedAttackEvent>(OnAttemptPacifiedAttack);
         SubscribeLocalEvent<MobStateComponent, DamageModifyEvent>(OnDamageModify);
+        SubscribeLocalEvent<MobStateComponent, AttemptActivateJetpackHandledEvent>(OnJetpackAttempt);
+        SubscribeLocalEvent<MobStateComponent, MoveInputEvent>(OnMoveInput);
+        SubscribeLocalEvent<MobStateComponent, WeightlessnessChangedEvent>(OnWeightlessnessChanged);
+        SubscribeLocalEvent<MobStateComponent, CanWeightlessMoveEvent>(OnCanWeightlessMove,
+            after: [typeof(SharedJetpackSystem), typeof(MovementIgnoreGravitySystem), typeof(SharedGrapplingGunSystem)]);
 
         SubscribeLocalEvent<MobStateComponent, UnbuckleAttemptEvent>(OnUnbuckleAttempt);
     }
@@ -142,6 +154,8 @@ public partial class MobStateSystem
             }
             // DS14-start
             case MobState.PreCritical:
+                DisableJetpack(target);
+                ClearWeightlessMoveInput(target);
                 EnsureComp<WormComponent>(target);
                 _standing.Down(target);
                 _appearance.SetData(target, MobStateVisuals.State, MobState.PreCritical);
@@ -223,6 +237,74 @@ public partial class MobStateSystem
     private void OnDamageModify(Entity<MobStateComponent> ent, ref DamageModifyEvent args)
     {
         args.Damage *= _damageable.UniversalMobDamageModifier;
+    }
+
+    private void OnJetpackAttempt(Entity<MobStateComponent> ent, ref AttemptActivateJetpackHandledEvent args)
+    {
+        if (!args.Enabled || ent.Comp.CurrentState != MobState.PreCritical)
+            return;
+
+        args.Handled = true;
+    }
+
+    private void OnMoveInput(Entity<MobStateComponent> ent, ref MoveInputEvent args)
+    {
+        if (ent.Comp.CurrentState != MobState.PreCritical ||
+            !_gravity.IsWeightless(ent.Owner))
+        {
+            return;
+        }
+
+        ClearDirectionalMoveInput(args.Entity);
+    }
+
+    private void OnWeightlessnessChanged(Entity<MobStateComponent> ent, ref WeightlessnessChangedEvent args)
+    {
+        if (ent.Comp.CurrentState != MobState.PreCritical || !args.Weightless)
+            return;
+
+        DisableJetpack(ent.Owner);
+        ClearWeightlessMoveInput(ent.Owner);
+    }
+
+    private void OnCanWeightlessMove(Entity<MobStateComponent> ent, ref CanWeightlessMoveEvent args)
+    {
+        if (ent.Comp.CurrentState == MobState.PreCritical)
+            args.CanMove = false;
+    }
+
+    private void DisableJetpack(EntityUid uid)
+    {
+        if (!TryComp<JetpackUserComponent>(uid, out var user) ||
+            !TryComp<JetpackComponent>(user.Jetpack, out var jetpack))
+        {
+            return;
+        }
+
+        _jetpack.SetEnabled(user.Jetpack, jetpack, false, uid);
+    }
+
+    private void ClearWeightlessMoveInput(EntityUid uid)
+    {
+        if (!_gravity.IsWeightless(uid) ||
+            !TryComp<InputMoverComponent>(uid, out var mover))
+        {
+            return;
+        }
+
+        ClearDirectionalMoveInput((uid, mover));
+    }
+
+    private void ClearDirectionalMoveInput(Entity<InputMoverComponent> ent)
+    {
+        var movement = ent.Comp.HeldMoveButtons;
+        var newMovement = movement & ~MoveButtons.AnyDirection;
+
+        if (movement == newMovement)
+            return;
+
+        ent.Comp.HeldMoveButtons = newMovement;
+        Dirty(ent.Owner, ent.Comp);
     }
 
     #endregion
