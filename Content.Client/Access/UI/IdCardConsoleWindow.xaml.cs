@@ -29,6 +29,10 @@ namespace Content.Client.Access.UI
 
         private AccessLevelControl _accessButtons = new();
         private readonly List<string> _jobPrototypeIds = new();
+        // DS14-start
+        private readonly List<ProtoId<AccessLevelPrototype>> _basicAccessLevels;
+        private readonly List<ProtoId<AccessLevelPrototype>> _extendedAccessLevels;
+        // DS14-end
 
         private string? _lastFullName;
         private string? _lastJobTitle;
@@ -38,13 +42,20 @@ namespace Content.Client.Access.UI
         private static ProtoId<JobPrototype> _defaultJob = "Passenger";
 
         public IdCardConsoleWindow(IdCardConsoleBoundUserInterface owner, IPrototypeManager prototypeManager,
-            List<ProtoId<AccessLevelPrototype>> accessLevels, bool isTaipan) // DS14
+            List<ProtoId<AccessLevelPrototype>> accessLevels,
+            List<ProtoId<AccessLevelPrototype>> basicAccessLevels,
+            List<ProtoId<AccessLevelPrototype>> extendedAccessLevels,
+            bool isTaipan) // DS14
         {
             RobustXamlLoader.Load(this);
             IoCManager.InjectDependencies(this);
             _logMill = _logManager.GetSawmill(SharedIdCardConsoleSystem.Sawmill);
 
             _owner = owner;
+            // DS14-start
+            _basicAccessLevels = basicAccessLevels;
+            _extendedAccessLevels = extendedAccessLevels;
+            // DS14-end
 
             _maxNameLength = _cfgManager.GetCVar(CCVars.MaxNameLength);
             _maxIdJobLength = _cfgManager.GetCVar(CCVars.MaxIdJobLength);
@@ -102,8 +113,10 @@ namespace Content.Client.Access.UI
             }
 
             // DS14-Start
-            BasicAccessButton.OnPressed += _ => SetAccessPreset(false);
-            ExtendedAccessButton.OnPressed += _ => SetAccessPreset(true);
+            BasicAccessButton.Visible = _basicAccessLevels.Count > 0;
+            ExtendedAccessButton.Visible = _extendedAccessLevels.Count > 0;
+            BasicAccessButton.OnPressed += _ => SetAccessPreset(_basicAccessLevels);
+            ExtendedAccessButton.OnPressed += _ => SetAccessPreset(_extendedAccessLevels);
             // DS14-End
         }
 
@@ -196,6 +209,10 @@ namespace Content.Client.Access.UI
             JobTitleSaveButton.Disabled = !interfaceEnabled || !jobTitleDirty;
 
             JobPresetOptionButton.Disabled = !interfaceEnabled;
+            // DS14-start
+            BasicAccessButton.Disabled = !interfaceEnabled;
+            ExtendedAccessButton.Disabled = !interfaceEnabled;
+            // DS14-end
 
             _accessButtons.UpdateState(state.TargetIdAccessList?.ToList() ??
                                        new List<ProtoId<AccessLevelPrototype>>(),
@@ -228,54 +245,10 @@ namespace Content.Client.Access.UI
         }
 
         // DS14-Start
-        private static readonly List<ProtoId<AccessLevelPrototype>> BasicAccessList = new()
+        private void SetAccessPreset(List<ProtoId<AccessLevelPrototype>> targetList)
         {
-            "Coroner",
-            "Medical",
-            "Research",
-            "Engineering",
-            "Salvage",
-            "Cargo",
-            "Service",
-            "Kitchen",
-            "Bar",
-            "Hydroponics",
-            "Chapel",
-            "Janitor",
-            "Theatre",
-            "External",
-            "Maintenance",
-        };
-
-        private static readonly List<ProtoId<AccessLevelPrototype>> ExtendedAccessList = new()
-        {
-            "Detective",
-            "Security",
-            "Brigmedic",
-            "Brig",
-            "Chemistry",
-            "Atmospherics",
-            "Virology",
-            "Coroner",
-            "Medical",
-            "Research",
-            "Engineering",
-            "Salvage",
-            "Cargo",
-            "Service",
-            "Kitchen",
-            "Bar",
-            "Hydroponics",
-            "Chapel",
-            "Janitor",
-            "Theatre",
-            "External",
-            "Maintenance",
-        };
-
-        private void SetAccessPreset(bool extended)
-        {
-            var targetList = extended ? ExtendedAccessList : BasicAccessList;
+            if (targetList.Count == 0)
+                return;
 
             SetAllAccess(false);
 

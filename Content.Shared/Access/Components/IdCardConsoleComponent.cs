@@ -85,8 +85,11 @@ public sealed partial class IdCardConsoleComponent : Component
     [DataField("isTaipan")]
     public bool IsTaipan { get; private set; } = false;
 
-    [DataField("glitchChance")]
-    public float GlitchChance = 0.05f;
+    [DataField, AutoNetworkedField]
+    public List<ProtoId<AccessLevelPrototype>> BasicAccessLevels = new();
+
+    [DataField, AutoNetworkedField]
+    public List<ProtoId<AccessLevelPrototype>> ExtendedAccessLevels = new();
     // DS14-end
 
     [Serializable, NetSerializable]

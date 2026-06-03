@@ -35,20 +35,32 @@ namespace Content.Client.Access.UI
         {
             base.Open();
             List<ProtoId<AccessLevelPrototype>> accessLevels;
+            // DS14-start
+            List<ProtoId<AccessLevelPrototype>> basicAccessLevels;
+            List<ProtoId<AccessLevelPrototype>> extendedAccessLevels;
             bool isTaipan = false; // DS14
+            // DS14-end
 
             if (EntMan.TryGetComponent<IdCardConsoleComponent>(Owner, out var idCard))
             {
                 accessLevels = idCard.AccessLevels;
+                // DS14-start
+                basicAccessLevels = idCard.BasicAccessLevels;
+                extendedAccessLevels = idCard.ExtendedAccessLevels;
                 isTaipan = idCard.IsTaipan; // DS14
+                // DS14-end
             }
             else
             {
                 accessLevels = new List<ProtoId<AccessLevelPrototype>>();
+                // DS14-start
+                basicAccessLevels = new List<ProtoId<AccessLevelPrototype>>();
+                extendedAccessLevels = new List<ProtoId<AccessLevelPrototype>>();
+                // DS14-end
                 _idCardConsoleSystem.Log.Error($"No IdCardConsole component found for {EntMan.ToPrettyString(Owner)}!");
             }
 
-            _window = new IdCardConsoleWindow(this, _prototypeManager, accessLevels, isTaipan) // DS14
+            _window = new IdCardConsoleWindow(this, _prototypeManager, accessLevels, basicAccessLevels, extendedAccessLevels, isTaipan) // DS14
             {
                 Title = EntMan.GetComponent<MetaDataComponent>(Owner).EntityName
             };
