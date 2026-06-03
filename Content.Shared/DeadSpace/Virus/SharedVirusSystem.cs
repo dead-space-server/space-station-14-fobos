@@ -44,7 +44,6 @@ public struct BaseVirusSettings
     public static readonly string[] DefaultWhitelistComponents =
     {
         "MobState",
-        "HumanoidAppearance",
         "Bloodstream"
     };
 
