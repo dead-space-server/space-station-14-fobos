@@ -40,6 +40,14 @@ public sealed partial class LawDisplay : Control
         LawNumberLabel.SetMarkup(lawIdentifier);
         LawLabel.SetMessage(lawDescription);
 
+        // DS14-start
+        if (law.Order == 0)
+        {
+            LawAnnouncementButtons.Visible = false;
+            return;
+        }
+        // DS14-end
+
         // If you can't talk, you can't state your laws...
         if (!_entityManager.TryGetComponent<SpeechComponent>(uid, out var speech) || speech.SpeechSounds is null)
             return;
