@@ -8,6 +8,7 @@ using Content.Shared.Toggleable;
 using Content.Shared.Verbs;
 using Content.Shared.Wieldable;
 using Robust.Shared.Audio;
+using Robust.Shared.Audio.Components;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Network;
 
@@ -374,7 +375,7 @@ public sealed class ItemToggleSystem : EntitySystem
         var (uid, comp) = ent;
         if (!args.Activated)
         {
-            comp.PlayingStream = _audio.Stop(comp.PlayingStream);
+            comp.PlayingStream = StopActiveSound(comp.PlayingStream); // DS14
             return;
         }
 
@@ -392,7 +393,13 @@ public sealed class ItemToggleSystem : EntitySystem
     // DS14-start
     private void OnActiveSoundShutdown(Entity<ItemToggleActiveSoundComponent> ent, ref ComponentShutdown args)
     {
-        ent.Comp.PlayingStream = _audio.Stop(ent.Comp.PlayingStream);
+        ent.Comp.PlayingStream = StopActiveSound(ent.Comp.PlayingStream);
+    }
+
+    private EntityUid? StopActiveSound(EntityUid? stream)
+    {
+        _audio.SetState(stream, AudioState.Stopped);
+        return _audio.Stop(stream);
     }
     // DS14-end
 }
