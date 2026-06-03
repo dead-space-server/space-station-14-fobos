@@ -185,6 +185,29 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
             return;
         }
 
+        // DS14-start
+        if (_random.Prob(component.GlitchChance))
+        {
+            var glitchedList = new List<ProtoId<AccessLevelPrototype>>(newAccessList);
+            var available = component.AccessLevels
+                .Where(x => !glitchedList.Contains(x))
+                .ToList();
+            if (available.Count > 0 && _random.Prob(0.5f))
+            {
+                var extra = _random.Pick(available);
+                glitchedList.Add(extra);
+                _adminLogger.Add(LogType.Action, $"{player} triggered ID-Card console glitch: added access [{extra}] to {targetId}");
+            }
+            else if (glitchedList.Count > 0)
+            {
+                var removed = _random.Pick(glitchedList);
+                glitchedList.Remove(removed);
+                _adminLogger.Add(LogType.Action, $"{player} triggered ID-Card console glitch: removed access [{removed}] from {targetId}");
+            }
+            newAccessList = glitchedList;
+        }
+        // DS14-end
+
         var addedTags = newAccessList.Except(oldTags).Select(tag => "+" + tag).ToList();
         var removedTags = oldTags.Except(newAccessList).Select(tag => "-" + tag).ToList();
         _access.TrySetTags(targetId, newAccessList);

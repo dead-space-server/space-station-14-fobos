@@ -84,6 +84,9 @@ public sealed partial class IdCardConsoleComponent : Component
     // DS14-start
     [DataField("isTaipan")]
     public bool IsTaipan { get; private set; } = false;
+
+    [DataField("glitchChance")]
+    public float GlitchChance = 0.05f;
     // DS14-end
 
     [Serializable, NetSerializable]
