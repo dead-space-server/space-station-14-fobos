@@ -14,10 +14,13 @@ public sealed partial class VehicleSystem
 {
     private void InitializeKey()
     {
+        SubscribeLocalEvent<GenericKeyedVehicleComponent, ComponentShutdown>(OnGenericKeyedShutdown);
         SubscribeLocalEvent<GenericKeyedVehicleComponent, ContainerIsInsertingAttemptEvent>(OnGenericKeyedInsertAttempt);
         SubscribeLocalEvent<GenericKeyedVehicleComponent, EntInsertedIntoContainerMessage>(OnGenericKeyedEntInserted);
         SubscribeLocalEvent<GenericKeyedVehicleComponent, EntRemovedFromContainerMessage>(OnGenericKeyedEntRemoved);
         SubscribeLocalEvent<GenericKeyedVehicleComponent, VehicleCanRunEvent>(OnGenericKeyedCanRun);
+
+        SubscribeLocalEvent<VehicleKeyComponent, ComponentShutdown>(OnVehicleKeyShutdown);
     }
 
     private void OnGenericKeyedInsertAttempt(Entity<GenericKeyedVehicleComponent> ent, ref ContainerIsInsertingAttemptEvent args)
@@ -25,42 +28,30 @@ public sealed partial class VehicleSystem
         if (args.Cancelled || _timing.ApplyingState || !ent.Comp.PreventInvalidInsertion || args.Container.ID != ent.Comp.ContainerId)
             return;
 
-        // DS14-start
+        ClearDeletedBoundKey(ent);
+
         if (TryComp<VehicleKeyComponent>(args.EntityUid, out var keyComp) &&
             keyComp.BoundVehicle is { } boundVehicle &&
             boundVehicle != ent.Owner)
         {
-            var keyHolder = Transform(args.EntityUid).ParentUid;
-            if (keyHolder.IsValid() && _timing.CurTime >= ent.Comp.NextWrongKeyPopup)
+            if (Deleted(boundVehicle))
             {
-                ent.Comp.NextWrongKeyPopup = _timing.CurTime + TimeSpan.FromSeconds(3);
-                _popup.PopupEntity(
-                    Loc.GetString("vehicle-key-wrong"),
-                    args.EntityUid,
-                    keyHolder,
-                    PopupType.SmallCaution
-                );
+                keyComp.BoundVehicle = null;
+                Dirty(args.EntityUid, keyComp);
             }
-            args.Cancel();
-            return;
+            else
+            {
+                PopupWrongKey(args.EntityUid, ent.Comp);
+                args.Cancel();
+                return;
+            }
         }
-        // DS14-end
 
         if (ent.Comp.BoundKey is { } boundKey)
         {
             if (args.EntityUid != boundKey)
             {
-                var keyHolder = Transform(args.EntityUid).ParentUid;
-                if (keyHolder.IsValid() && _timing.CurTime >= ent.Comp.NextWrongKeyPopup)
-                {
-                    ent.Comp.NextWrongKeyPopup = _timing.CurTime + TimeSpan.FromSeconds(3);
-                    _popup.PopupEntity(
-                        Loc.GetString("vehicle-key-wrong"),
-                        args.EntityUid,
-                        keyHolder,
-                        PopupType.SmallCaution
-                    );
-                }
+                PopupWrongKey(args.EntityUid, ent.Comp);
                 args.Cancel();
             }
             return;
@@ -77,28 +68,12 @@ public sealed partial class VehicleSystem
         if (_timing.ApplyingState || args.Container.ID != ent.Comp.ContainerId)
             return;
 
-        if (ent.Comp.BoundKey is null &&
-            _entityWhitelist.IsWhitelistPass(ent.Comp.KeyWhitelist, args.Entity))
-        {
-            ent.Comp.BoundKey = args.Entity;
-            Dirty(ent);
+        ClearDeletedBoundKey(ent);
 
-            //DS14-start
-            var keyComp = EnsureComp<VehicleKeyComponent>(args.Entity);
-            keyComp.BoundVehicle = ent.Owner;
-            Dirty(args.Entity, keyComp);
-            //DS14-end
-        }
+        if (ent.Comp.BoundKey is null || ent.Comp.BoundKey == args.Entity)
+            TryBindKey(ent, args.Entity);
 
-        if (!_vehicleQuery.TryComp(ent, out var vehicle))
-            return;
-
-        RefreshCanRun((ent.Owner, vehicle));
-
-        //DS14-start
-        if (vehicle.Operator is { } operatorUid)
-            _actionBlocker.UpdateCanMove(operatorUid);
-        //DS14-end
+        RefreshKeyedVehicle(ent);
     }
 
     private void OnGenericKeyedEntRemoved(Entity<GenericKeyedVehicleComponent> ent, ref EntRemovedFromContainerMessage args)
@@ -106,15 +81,39 @@ public sealed partial class VehicleSystem
         if (_timing.ApplyingState || args.Container.ID != ent.Comp.ContainerId)
             return;
 
-        if (!_vehicleQuery.TryComp(ent, out var vehicle))
+        RefreshKeyedVehicle(ent);
+    }
+
+    private void OnGenericKeyedShutdown(Entity<GenericKeyedVehicleComponent> ent, ref ComponentShutdown args)
+    {
+        if (_timing.ApplyingState)
             return;
 
-        RefreshCanRun((ent.Owner, vehicle));
+        if (ent.Comp.BoundKey is not { } boundKey)
+            return;
 
-        //DS14-start
-        if (vehicle.Operator is { } operatorUid)
-            _actionBlocker.UpdateCanMove(operatorUid);
-        //DS14-end
+        if (!TryComp<VehicleKeyComponent>(boundKey, out var key) || key.BoundVehicle != ent.Owner)
+            return;
+
+        key.BoundVehicle = null;
+        Dirty(boundKey, key);
+    }
+
+    private void OnVehicleKeyShutdown(Entity<VehicleKeyComponent> ent, ref ComponentShutdown args)
+    {
+        if (_timing.ApplyingState)
+            return;
+
+        if (ent.Comp.BoundVehicle is not { } vehicleUid ||
+            !TryComp<GenericKeyedVehicleComponent>(vehicleUid, out var keyed) ||
+            keyed.BoundKey != ent.Owner)
+        {
+            return;
+        }
+
+        keyed.BoundKey = null;
+        Dirty(vehicleUid, keyed);
+        RefreshKeyedVehicle((vehicleUid, keyed));
     }
 
     private void OnGenericKeyedCanRun(Entity<GenericKeyedVehicleComponent> ent, ref VehicleCanRunEvent args)
@@ -122,16 +121,85 @@ public sealed partial class VehicleSystem
         if (!args.CanRun)
             return;
 
-        if (!_container.TryGetContainer(ent.Owner, ent.Comp.ContainerId, out var container))
-        {
+        if (IsMissingRequiredKey(ent))
             args = args with { CanRun = false };
-            return;
+    }
+
+    private bool TryBindKey(Entity<GenericKeyedVehicleComponent> ent, EntityUid keyUid)
+    {
+        if (_entityWhitelist.IsWhitelistFail(ent.Comp.KeyWhitelist, keyUid))
+            return false;
+
+        var key = EnsureComp<VehicleKeyComponent>(keyUid);
+        if (key.BoundVehicle is { } boundVehicle && boundVehicle != ent.Owner)
+        {
+            if (!Deleted(boundVehicle))
+                return false;
+
+            key.BoundVehicle = null;
         }
 
-        var hasKey = container.ContainedEntities.Any(contained =>
-            !_entityWhitelist.IsWhitelistFail(ent.Comp.KeyWhitelist, contained));
+        ent.Comp.BoundKey = keyUid;
+        key.BoundVehicle = ent.Owner;
 
-        if (!hasKey)
-            args = args with { CanRun = false };
+        Dirty(ent);
+        Dirty(keyUid, key);
+        return true;
+    }
+
+    private void ClearDeletedBoundKey(Entity<GenericKeyedVehicleComponent> ent)
+    {
+        if (ent.Comp.BoundKey is not { } boundKey || !Deleted(boundKey))
+            return;
+
+        ent.Comp.BoundKey = null;
+        Dirty(ent);
+    }
+
+    private void RefreshKeyedVehicle(Entity<GenericKeyedVehicleComponent> ent)
+    {
+        if (!_vehicleQuery.TryComp(ent.Owner, out var vehicle))
+            return;
+
+        RefreshCanRun((ent.Owner, vehicle));
+
+        if (vehicle.Operator is { } operatorUid)
+            _actionBlocker.UpdateCanMove(operatorUid);
+    }
+
+    private bool IsMissingRequiredKey(EntityUid vehicleUid)
+    {
+        return TryComp<GenericKeyedVehicleComponent>(vehicleUid, out var keyed) &&
+            IsMissingRequiredKey((vehicleUid, keyed));
+    }
+
+    private bool IsMissingRequiredKey(Entity<GenericKeyedVehicleComponent> ent)
+    {
+        if (!_container.TryGetContainer(ent.Owner, ent.Comp.ContainerId, out var container))
+            return true;
+
+        ClearDeletedBoundKey(ent);
+
+        if (ent.Comp.BoundKey is { } boundKey)
+            return !container.ContainedEntities.Contains(boundKey);
+
+        return !container.ContainedEntities.Any(contained =>
+            !_entityWhitelist.IsWhitelistFail(ent.Comp.KeyWhitelist, contained));
+    }
+
+    private void PopupWrongKey(EntityUid keyUid, GenericKeyedVehicleComponent component)
+    {
+        var keyHolder = Transform(keyUid).ParentUid;
+        if (!keyHolder.IsValid() || _timing.CurTime < component.NextWrongKeyPopup)
+            return;
+
+        component.NextWrongKeyPopup = _timing.CurTime + TimeSpan.FromSeconds(3);
+        _popup.PopupPredicted(
+            Loc.GetString("vehicle-key-wrong"),
+            null,
+            keyUid,
+            keyHolder,
+            PopupType.SmallCaution
+        );
     }
 }

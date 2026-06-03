@@ -17,6 +17,6 @@ public sealed partial class VehicleOperatorComponent : Component
     /// <summary>
     /// The vehicle we are currently operating.
     /// </summary>
-    [DataField, AutoNetworkedField]
+    [ViewVariables, AutoNetworkedField]
     public EntityUid? Vehicle;
 }

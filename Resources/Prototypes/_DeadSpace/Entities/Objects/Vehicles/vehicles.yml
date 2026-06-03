@@ -19,7 +19,9 @@
       tags:
       - KeyUniversal
   - type: Strap
+    position: Stand
     buckleOffset: "0.01,0.15"
+    lockBuckleOffset: true
   - type: AmbientSound
     sound: /Audio/Effects/shuttle_thruster.ogg
     range: 8
@@ -111,7 +113,9 @@
       tags:
       - KeyUniversal
   - type: Strap
+    position: Stand
     buckleOffset: "0.01,0.15"
+    lockBuckleOffset: true
   - type: Sprite
     sprite: Objects/Vehicles/atv.rsi
     drawdepth: Mobs

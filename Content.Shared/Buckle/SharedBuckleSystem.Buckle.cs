@@ -139,7 +139,20 @@ public abstract partial class SharedBuckleSystem
 
         var delta = (xform.LocalPosition - strapComp.BuckleOffset).LengthSquared();
         if (delta > 1e-5)
+        {
+            if (strapComp.LockBuckleOffset)
+            {
+                _transform.SetCoordinates(buckle, xform, new EntityCoordinates(strapUid, strapComp.BuckleOffset), rotation: Angle.Zero);
+                xform.ActivelyLerping = false;
+
+                if (TryComp<PhysicsComponent>(buckle, out var physics))
+                    _physics.ResetDynamics(buckle, physics);
+
+                return;
+            }
+
             Unbuckle(buckle, (strapUid, strapComp), null);
+        }
     }
 
     #endregion
@@ -177,19 +190,11 @@ public abstract partial class SharedBuckleSystem
     private void OnBuckleUpdateCanMove(EntityUid uid, BuckleComponent component, UpdateCanMoveEvent args)
     {
         // If we're an operator of a vehicle then don't cancel.
-        if (HasComp<VehicleOperatorComponent>(uid))
+        if (TryComp<VehicleOperatorComponent>(uid, out var vehicleOperator) &&
+            vehicleOperator.Vehicle is { } vehicle &&
+            component.BuckledTo == vehicle &&
+            HasComp<VehicleComponent>(vehicle))
         {
-            // DS14-start
-            if (TryComp<VehicleOperatorComponent>(uid, out var operatorComp) &&
-                operatorComp.Vehicle is { } vehicleUid &&
-                TryComp<VehicleComponent>(vehicleUid, out var vehicle))
-            {
-                var ev = new VehicleCanRunEvent((vehicleUid, vehicle));
-                RaiseLocalEvent(vehicleUid, ref ev);
-                if (!ev.CanRun)
-                    args.Cancel();
-            }
-            // DS14-end
             return;
         }
 

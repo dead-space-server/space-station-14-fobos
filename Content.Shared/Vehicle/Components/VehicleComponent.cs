@@ -25,7 +25,7 @@ public sealed partial class VehicleComponent : Component
     /// <summary>
     /// The driver of this vehicle.
     /// </summary>
-    [DataField, AutoNetworkedField]
+    [ViewVariables, AutoNetworkedField]
     public EntityUid? Operator;
 
     /// <summary>
@@ -63,7 +63,7 @@ public sealed partial class VehicleComponent : Component
     /// <summary>
     /// Cooldown for the "no key" popup to prevent spam.
     /// </summary>
-    [DataField]
+    [ViewVariables]
     public TimeSpan NextNoKeyPopup = TimeSpan.Zero;
 
     /// <summary>
@@ -81,16 +81,16 @@ public sealed partial class VehicleComponent : Component
 
     /// <summary>
     /// Internal: accumulated movement distance since the last sound.
-    /// Not networked — tracked per-side for client-side prediction.
+    /// Not networked: tracked per-side for client-side prediction.
     /// </summary>
-    [DataField]
+    [ViewVariables]
     public float MovementSoundAccumulatedDistance;
 
     /// <summary>
     /// Internal: last vehicle position used for distance calculation.
     /// Reset when operator changes to prevent false distance jumps.
     /// </summary>
-    [DataField]
+    [ViewVariables]
     public EntityCoordinates? MovementSoundLastPosition;
     //DS14-end
 }

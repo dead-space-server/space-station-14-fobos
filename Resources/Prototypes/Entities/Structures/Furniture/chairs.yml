@@ -168,6 +168,10 @@
     bodyType: KinematicController
   - type: Vehicle
   - type: StrapVehicle
+  - type: Strap
+    position: Stand
+    buckleOffset: "0,-0.05"
+    lockBuckleOffset: true
   - type: MovementSpeedModifier
     weightlessModifier: 0
     baseAcceleration: 1.7

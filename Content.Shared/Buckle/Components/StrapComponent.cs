@@ -44,6 +44,13 @@ public sealed partial class StrapComponent : Component
     public Vector2 BuckleOffset = Vector2.Zero;
 
     /// <summary>
+    /// If true, a buckled entity that drifts away from <see cref="BuckleOffset"/> will be snapped back
+    /// instead of being unbuckled.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public bool LockBuckleOffset;
+
+    /// <summary>
     /// The angle to rotate the player by when they get strapped
     /// </summary>
     [DataField]
