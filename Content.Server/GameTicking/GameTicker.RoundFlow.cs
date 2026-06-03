@@ -55,6 +55,7 @@ namespace Content.Server.GameTicking
         private const string SentientVirusAntagPrototype = "SentientVirus"; // DS14
         private const string RevolutionaryAntagPrototype = "Rev"; // DS14
         private const string HeadRevolutionaryAntagPrototype = "HeadRev"; // DS14
+        private const int DiscordMessageMaxLength = 2000; // DS14
 
 #if EXCEPTION_TOLERANCE
         [ViewVariables]
@@ -806,9 +807,14 @@ namespace Content.Server.GameTicking
                         ("gamemode", gamemodeTitle));
                 }
 
-                var payload = new WebhookPayload { Content = content };
-
-                await _discord.CreateMessage(_webhookIdentifier.Value, payload);
+                // DS14-start
+                WebhookPayload payload;
+                foreach (var message in SplitDiscordWebhookContent(content))
+                {
+                    payload = new WebhookPayload { Content = message };
+                    await _discord.CreateMessage(_webhookIdentifier.Value, payload);
+                }
+                // DS14-end
 
                 if (DiscordRoundEndRole == null)
                     return;
@@ -829,6 +835,84 @@ namespace Content.Server.GameTicking
         private static string StripRoundEndDiscordMarkup(string text)
         {
             return Regex.Replace(text, @"\[[^\]]*\]", "");
+        }
+
+        private static List<string> SplitDiscordWebhookContent(string content)
+        {
+            var messages = new List<string>();
+            if (content.Length <= DiscordMessageMaxLength)
+            {
+                messages.Add(content);
+                return messages;
+            }
+
+            var builder = new StringBuilder();
+            foreach (var line in content.Replace("\r\n", "\n").Replace('\r', '\n').Split('\n'))
+            {
+                AppendDiscordWebhookLine(messages, builder, line);
+            }
+
+            AddDiscordWebhookMessage(messages, builder);
+            return messages;
+        }
+
+        private static void AppendDiscordWebhookLine(List<string> messages, StringBuilder builder, string line)
+        {
+            var remaining = line;
+            while (true)
+            {
+                var separatorLength = builder.Length > 0 ? 1 : 0;
+                var available = DiscordMessageMaxLength - builder.Length - separatorLength;
+
+                if (remaining.Length <= available)
+                {
+                    if (builder.Length > 0)
+                        builder.Append('\n');
+
+                    builder.Append(remaining);
+                    return;
+                }
+
+                if (available <= 0)
+                {
+                    AddDiscordWebhookMessage(messages, builder);
+                    continue;
+                }
+
+                var splitAt = GetDiscordWebhookSplitIndex(remaining, available);
+                if (builder.Length > 0)
+                    builder.Append('\n');
+
+                builder.Append(remaining, 0, splitAt);
+                AddDiscordWebhookMessage(messages, builder);
+                remaining = remaining.Substring(splitAt).TrimStart();
+
+                if (remaining.Length == 0)
+                    return;
+            }
+        }
+
+        private static int GetDiscordWebhookSplitIndex(string text, int maxLength)
+        {
+            if (text.Length <= maxLength)
+                return text.Length;
+
+            for (var i = maxLength; i > 0; i--)
+            {
+                if (char.IsWhiteSpace(text[i - 1]))
+                    return i;
+            }
+
+            return maxLength;
+        }
+
+        private static void AddDiscordWebhookMessage(List<string> messages, StringBuilder builder)
+        {
+            var message = builder.ToString().TrimEnd();
+            builder.Clear();
+
+            if (message.Length > 0)
+                messages.Add(message);
         }
         // DS14-end
 

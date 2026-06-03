@@ -26,6 +26,7 @@ using System.Linq;
 using Content.Shared.Objectives.Components;
 using Robust.Server.Player;
 using Content.Server.Objectives;
+using Robust.Shared.Network;
 
 namespace Content.Server.Backmen.GameTicking.Rules;
 
@@ -242,8 +243,7 @@ public sealed class BlobRuleSystem : GameRuleSystem<BlobRuleComponent>
         foreach (var (mindId, mind) in blob.Blobs)
         {
             var name = mind.CharacterName;
-            _player.TryGetSessionById(mind.UserId, out var session);
-            var username = session?.Name;
+            var username = GetBlobUsername(mind.UserId ?? mind.OriginalOwnerUserId);
 
             var objectives = mind.Objectives.ToArray();
             if (objectives.Length == 0)
@@ -295,6 +295,19 @@ public sealed class BlobRuleSystem : GameRuleSystem<BlobRuleComponent>
         }
 
         ev.AddLine("");
+    }
+
+    private string? GetBlobUsername(NetUserId? userId)
+    {
+        if (userId == null)
+            return null;
+
+        if (_player.TryGetSessionById(userId.Value, out var session))
+            return session.Name;
+
+        return _player.TryGetPlayerData(userId.Value, out var data)
+            ? data.UserName
+            : null;
     }
     // DS14-end
 }

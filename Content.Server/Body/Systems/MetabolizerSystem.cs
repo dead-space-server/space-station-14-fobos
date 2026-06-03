@@ -78,11 +78,6 @@ public sealed class MetabolizerSystem : SharedMetabolizerSystem
         {
             _solutionContainerSystem.EnsureSolution(body, entity.Comp.SolutionName, out _);
         }
-
-        // DS14-start
-        if (entity.Comp.NextUpdate == TimeSpan.Zero)
-            ScheduleMetabolizer(entity);
-        // DS14-end
     }
 
     private void OnApplyMetabolicMultiplier(Entity<MetabolizerComponent> ent, ref ApplyMetabolicMultiplierEvent args)
