@@ -57,3 +57,25 @@
   metamorphicMaxFillLevels: 3
   metamorphicFillBaseName: fill-
   metamorphicChangeColor: false
+
+- type: reagent
+  id: Baltica9
+  name: Балтика 9
+  parent: BaseAlcohol
+  desc: reagent-desc-baltica9
+  physicalDesc: reagent-physical-desc-bubbly
+  flavor: beer
+  color: "#8B4513"
+  recognizable: true
+  metabolisms:
+    Drink:
+      effects:
+      - !type:SatiateThirst
+        factor: 2
+      - !type:AdjustReagent
+        reagent: Ethanol
+        amount: 0.06
+      - !type:HealthChange
+        damage:
+          types:
+            Poison: -0.2

@@ -46,6 +46,7 @@
     DrinkChampagneBottleFull: 2 #because the premium drink
     DrinkSakeBottleFull: 3
     DrinkBeerCan: 5
+    DrinkBaltica9Can: 3
     DrinkWineCan: 5
     DrinkWaterBottleFull: 10 # DS14
     DrinkCampariBottleFull: 5 # Corvax
