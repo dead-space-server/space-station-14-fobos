@@ -58,6 +58,11 @@ ert-loadout-category-mp5-name = MP-5
 ert-loadout-category-mp5-description =
     Лёгкий пистолет-пулемет, точный и компактный, самая лучшая замена простому Дрозду. 
     Использует патроны калибра 9х19 мм.
+ert-loadout-category-mp5sd-name = MP-5SD
+ert-loadout-category-mp5sd-description =
+    Модифицированный MP5 с интегрированным глушителем.
+    Использует патроны калибра 9х19 мм.
+    Набор содержит 3 магазина и MP-5SD.
 ert-loadout-category-mp7-name = MP-7
 ert-loadout-category-mp7-description =
     Точный пистолет пулемёт, используется бравыми сотрудниками спецназа.
@@ -67,6 +72,11 @@ ert-loadout-category-scarl-name = Scar-L
 ert-loadout-category-scarl-description =
     Стандартизированная штурмовая винтовка армии ОПЗ.
     Использует патроны 5.56х45 мм.
+ert-loadout-category-scarlbs-name = Scar-L
+ert-loadout-category-scarlbs-description =
+    Стандартизированная штурмовая винтовка армии ОПЗ.
+    Использует патроны 5.56х45 мм.
+    Набор содержит 3 магазина и Scar-L.
 ert-loadout-category-lasercarbine-name = Лазерная винтовка
 ert-loadout-category-lasercarbine-description =
     Предпочитается службой безопасности NanoTrasen
@@ -99,6 +109,12 @@ ert-loadout-category-berettam92-description =
     Точный и давно зарекомендовавший себя пистолет.
     Вы чувствуете себя крутым полицейским старой Терры. 
     Использует патроны калибра 9х19.
+ert-loadout-category-berettam92bs-name = Beretta M92
+ert-loadout-category-berettam92bs-description =
+    Точный и давно зарекомендовавший себя пистолет.
+    Вы чувствуете себя крутым полицейским старой Терры. 
+    Использует патроны калибра 9х19.
+    Набор содержит 3 расширенных магазина, телескопический щит и М92.
 ert-loadout-category-mk79tactical-name = МК-79 "tactical"
 ert-loadout-category-mk79tactical-description =
     Точность, скорострельность, надёжность! 

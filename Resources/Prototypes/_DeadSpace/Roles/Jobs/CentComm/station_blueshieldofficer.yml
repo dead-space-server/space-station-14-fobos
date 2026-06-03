@@ -141,11 +141,9 @@
   - type: StorageFill
     contents:
       - id: Zipties
-        amount: 3
-      - id: ADTtelescopicBaton # ADT
-      - id: MagazinePistolSubMachineGun
         amount: 4
-      - id: WeaponSubMachineGunDrozd
+      - id: ADTtelescopicBaton # ADT
+      - id: ERTloadoutBlueShieldPrimary
       - id: HandheldCrewMonitor
   - type: ExplosionResistance
     damageCoefficient: 0.6

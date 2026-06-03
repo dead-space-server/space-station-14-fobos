@@ -472,6 +472,28 @@
       enum.ThiefBackpackUIKey.Key:
         type: ThiefBackpackBoundUserInterface
 
+## BlueShield
+- type: entity
+  id: ERTloadoutBlueShieldPrimary
+  name: кейс неопределённости
+  description: Прочный военный кейс для оружия. Принадлежит Корпусу "Синий Щит".
+  suffix: ОСЩ, Основное
+  parent: BaseERTloadoutPrimary
+  components:
+  - type: Sprite
+    state: blueshield
+  - type: ThiefUndeterminedBackpack
+    possibleSets:
+    - BerettaM92BlueShieldSet
+    - ScarLBlueShieldSet
+    - MP5SDBlueShieldSet
+  - type: ActivatableUI
+    key: enum.ThiefBackpackUIKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.ThiefBackpackUIKey.Key:
+        type: ThiefBackpackBoundUserInterface
+
 # Sets
 
 ## Primary
@@ -752,6 +774,19 @@
   - MagazineBoxPistolIncendiary
 
 - type: thiefBackpackSet
+  id: MP5SDBlueShieldSet
+  name: ert-loadout-category-mp5sd-name
+  description: ert-loadout-category-mp5sd-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/smgs/mp5sd.rsi
+    state: icon
+  content:
+  - WeaponSubMachineGunMP5SD
+  - MagazinePistolSubMachineGun
+  - MagazinePistolSubMachineGun
+  - MagazinePistolSubMachineGun
+
+- type: thiefBackpackSet
   id: MP7Set
   name: ert-loadout-category-mp7-name
   description: ert-loadout-category-mp7-description
@@ -782,6 +817,19 @@
   - MagazineBoxPistolIncendiary
   - TelescopicShield
   - TelescopicShield
+
+- type: thiefBackpackSet
+  id: ScarLBlueShieldSet
+  name: ert-loadout-category-scarlbs-name
+  description: ert-loadout-category-scarlbs-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/scarl.rsi
+    state: icon
+  content:
+  - WeaponRifleScarL
+  - MagazineRifle
+  - MagazineRifle
+  - MagazineRifle
 
 - type: thiefBackpackSet
   id: ScarLSet
@@ -896,6 +944,20 @@
   - MagazinePistol
   - MagazinePistol
   - MagazinePistol
+
+- type: thiefBackpackSet
+  id: BerettaM92BlueShieldSet
+  name: ert-loadout-category-berettam92bs-name
+  description: ert-loadout-category-berettam92bs-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/beretta_m92.rsi
+    state: icon
+  content:
+  - WeaponPistolBerettaM92
+  - MagazinePistolHighCapacity
+  - MagazinePistolHighCapacity
+  - MagazinePistolHighCapacity
+  - TelescopicShield
 
 - type: thiefBackpackSet
   id: BerettaM92Set
