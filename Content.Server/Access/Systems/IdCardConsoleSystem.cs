@@ -196,13 +196,11 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
             {
                 var extra = _random.Pick(available);
                 glitchedList.Add(extra);
-                _adminLogger.Add(LogType.Action, $"{player} triggered ID-Card console glitch: added access [{extra}] to {targetId}");
             }
             else if (glitchedList.Count > 0)
             {
                 var removed = _random.Pick(glitchedList);
                 glitchedList.Remove(removed);
-                _adminLogger.Add(LogType.Action, $"{player} triggered ID-Card console glitch: removed access [{removed}] from {targetId}");
             }
             newAccessList = glitchedList;
         }
