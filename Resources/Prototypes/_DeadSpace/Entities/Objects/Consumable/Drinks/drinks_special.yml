@@ -27,7 +27,7 @@
     - 0,0,2,3
     whitelist:
       tags:
-      - Cola
+      - Baltica9
     hideStackVisualsWhenClosed: false
   - type: EntityTableContainerFill
     containers:
@@ -36,7 +36,7 @@
         amount: 6
   - type: ItemCounter
     count:
-      tags: [Cola]
+      tags: [Baltica9]
     composite: true
     layerStates:
     - fill-1

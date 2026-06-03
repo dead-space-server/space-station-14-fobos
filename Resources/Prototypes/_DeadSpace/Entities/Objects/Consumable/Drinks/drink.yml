@@ -86,7 +86,7 @@
   parent: DrinkCanBaseFull
   id: DrinkBaltica9Can
   name: баночка Балтики 9
-  description: Легендарное пиво.
+  description: Легендарное пиво. Идеальное сочетание святой воды и крови сатаны.
   components:
   - type: SolutionContainerManager
     solutions:
@@ -109,4 +109,4 @@
     tags:
     - Beer
     - DrinkCan
-    - Cola
+    - Baltica9

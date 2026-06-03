@@ -60,11 +60,11 @@
 
 - type: reagent
   id: Baltica9
-  name: Балтика 9
+  name: reagent-name-baltica9
   parent: BaseAlcohol
   desc: reagent-desc-baltica9
   physicalDesc: reagent-physical-desc-bubbly
-  flavor: beer
+  flavor: alcohol
   color: "#8B4513"
   recognizable: true
   metabolisms:
@@ -76,6 +76,13 @@
         reagent: Ethanol
         amount: 0.06
       - !type:HealthChange
+        conditions:
+        - !type:TotalDamageCondition
+          max: 50
         damage:
           types:
+            Blunt: -0.2
             Poison: -0.2
+            Heat: -0.2
+            Shock: -0.2
+            Cold: -0.2
