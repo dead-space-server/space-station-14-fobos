@@ -7,6 +7,7 @@ using Content.Shared.Damage;
 using Content.Shared.Whitelist;
 using JetBrains.Annotations;
 using Robust.Shared.Audio;      //DS14
+using Robust.Shared.Prototypes; //DS14
 using Robust.Shared.GameStates;
 using Robust.Shared.Map;        //DS14
 using Robust.Shared.Serialization;
@@ -92,6 +93,9 @@ public sealed partial class VehicleComponent : Component
     /// </summary>
     [ViewVariables]
     public EntityCoordinates? MovementSoundLastPosition;
+
+    [DataField]
+    public List<EntProtoId> BreakOnCollideWith = new();
     //DS14-end
 }
 

@@ -87,6 +87,9 @@
   - type: Damageable
     damageModifierSet: Metallic
 #DS14-start
+  - type: Vehicle
+    breakOnCollideWith:
+      - FloorLavaEntity
   - type: MovementSpeedModifier
     weightlessModifier: 0
     baseAcceleration: 1.7
@@ -130,6 +133,8 @@
     movementSound:
       collection: FootstepBorg
     movementSoundDistance: 1.5
+    breakOnCollideWith:
+      - FloorLavaEntity
   - type: MovementSpeedModifier
     weightlessModifier: 0
     baseAcceleration: 1.7
