@@ -12,7 +12,7 @@ public sealed partial class MobStateEntityConditionSystem : EntityConditionSyste
 {
     protected override void Condition(Entity<MobStateComponent> entity, ref EntityConditionEvent<MobStateCondition> args)
     {
-        if (entity.Comp.CurrentState == args.Condition.Mobstate)
+        if (args.Condition.Mobstate.Contains(entity.Comp.CurrentState)) //DS14
             args.Result = true;
     }
 }
@@ -21,8 +21,8 @@ public sealed partial class MobStateEntityConditionSystem : EntityConditionSyste
 public sealed partial class MobStateCondition : EntityConditionBase<MobStateCondition>
 {
     [DataField]
-    public MobState Mobstate = MobState.Alive;
+    public HashSet<MobState> Mobstate = new() { MobState.Alive }; //DS14
 
     public override string EntityConditionGuidebookText(IPrototypeManager prototype) =>
-        Loc.GetString("entity-condition-guidebook-mob-state-condition", ("state", Mobstate));
+        Loc.GetString("entity-condition-guidebook-mob-state-condition", ("state", string.Join(", ", Mobstate))); //DS14
 }
