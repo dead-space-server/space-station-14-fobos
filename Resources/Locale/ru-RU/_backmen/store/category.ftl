@@ -8,6 +8,7 @@ store-category-vending-drinks = Напитки
 store-category-vending-games = Игры
 store-category-vending-snack = Закуски
 store-category-vending-youtool = Инструменты
+store-category-vending-youtool-other = Прочее
 store-category-vending-wall-medical = Медикаменты
 store-category-HappyHonk = Обеды
 store-category-emag = Нелегальное
