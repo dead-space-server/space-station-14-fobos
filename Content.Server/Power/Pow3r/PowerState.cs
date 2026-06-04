@@ -22,7 +22,7 @@ namespace Content.Server.Power.Pow3r
         public GenIdStorage<Network> Networks = new();
         public GenIdStorage<Load> Loads = new();
         public GenIdStorage<Battery> Batteries = new();
-        public List<List<Network>>? GroupedNets;
+        public List<NetworkGroup>? GroupedNets; // DS14
 
         // DS14-start
         private readonly ConcurrentQueue<NodeId> _dirtyLoads = new();
@@ -363,6 +363,12 @@ namespace Content.Server.Power.Pow3r
         }
 
         // DS14-start
+        public sealed class NetworkGroup
+        {
+            public readonly List<Network> Networks = new();
+            public int WorkCost;
+        }
+
         public void AttachLoad(Load load)
         {
             load.Owner = this;
@@ -843,9 +849,7 @@ namespace Content.Server.Power.Pow3r
                     Owner?.MarkBatteryDirty(Id);
                 }
             }
-            // DS14-end
 
-            // DS14-start
             [ViewVariables(VVAccess.ReadWrite)]
             public float SupplyRampRate
             {

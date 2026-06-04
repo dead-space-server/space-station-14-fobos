@@ -12,6 +12,10 @@ namespace Content.Server.Power.Pow3r
     {
         private UpdateNetworkJob _networkJob;
         private bool _disableParallel;
+        // DS14-start
+        private const int ParallelMinGroupWork = 4096;
+        private const int ParallelMinAverageNetworkWork = 8;
+        // DS14-end
 
         public BatteryRampPegSolver(bool disableParallel = false)
         {
@@ -42,7 +46,7 @@ namespace Content.Server.Power.Pow3r
             // DS14-end
 
             state.GroupedNets ??= GroupByNetworkDepth(state);
-            DebugTools.Assert(state.GroupedNets.Select(x => x.Count).Sum() == state.Networks.Count);
+            DebugTools.Assert(state.GroupedNets.Select(x => x.Networks.Count).Sum() == state.Networks.Count); // DS14
             _networkJob.State = state;
             _networkJob.FrameTime = frameTime;
 #if DEBUG
@@ -64,11 +68,14 @@ namespace Content.Server.Power.Pow3r
                 // TODO make GroupByNetworkDepth evaluate the TOTAL size of each layer (i.e. loads + chargers +
                 // suppliers + discharger) Then decide based on total layer size whether its worth parallelizing that
                 // layer?
-                _networkJob.Networks = group;
-                if (_disableParallel || group.Count <= 1)
-                    parallel.ProcessSerialNow(_networkJob, group.Count);
+                // DS14-start
+                _networkJob.Networks = group.Networks;
+                var count = group.Networks.Count;
+                if (_disableParallel || ShouldProcessSerial(group))
+                    parallel.ProcessSerialNow(_networkJob, count);
                 else
-                    parallel.ProcessNow(_networkJob, group.Count);
+                    parallel.ProcessNow(_networkJob, count);
+                // DS14-end
             }
 
             ClearBatteries(state);
@@ -124,6 +131,20 @@ namespace Content.Server.Power.Pow3r
                 network.LoadDemandDirty = false;
                 // DS14-end
             }
+
+            // DS14-start
+            if (!loadDemandDirty &&
+                network.Supplies.Count == 0 &&
+                network.BatteryLoads.Count == 0 &&
+                network.BatterySupplies.Count == 0 &&
+                network.LastCombinedSupply == 0f &&
+                network.LastCombinedMaxSupply == 0f &&
+                network.LastLoadSupplyRatio == 0f)
+            {
+                network.LastCombinedLoad = demand;
+                return;
+            }
+            // DS14-end
 
             // TODO: Consider having battery charge loads be processed "after" pass-through loads.
             // This would mean that charge rate would have no impact on throughput rate like it does currently.
@@ -376,9 +397,9 @@ namespace Content.Server.Power.Pow3r
             }
         }
 
-        private List<List<Network>> GroupByNetworkDepth(PowerState state)
+        private List<NetworkGroup> GroupByNetworkDepth(PowerState state) // DS14
         {
-            List<List<Network>> groupedNetworks = new();
+            List<NetworkGroup> groupedNetworks = new(); // DS14
             foreach (var network in state.Networks.Values)
             {
                 network.Height = -1;
@@ -406,7 +427,7 @@ namespace Content.Server.Power.Pow3r
         /// group in parallel. This assumes that batteries are the only device that connects to multiple networks, and
         /// is thus the only obstacle to solving everything in parallel.
         /// </summary>
-        private void ValidateNetworkGroups(PowerState state, List<List<Network>> groupedNetworks)
+        private void ValidateNetworkGroups(PowerState state, List<NetworkGroup> groupedNetworks) // DS14
         {
             HashSet<Network> nets = new();
             HashSet<NodeId> netIds = new();
@@ -415,7 +436,7 @@ namespace Content.Server.Power.Pow3r
                 nets.Clear();
                 netIds.Clear();
 
-                foreach (var net in layer)
+                foreach (var net in layer.Networks) // DS14
                 {
                     foreach (var batteryId in net.BatteryLoads)
                     {
@@ -476,7 +497,7 @@ namespace Content.Server.Power.Pow3r
             }
         }
 
-        private static void RecursivelyEstimateNetworkDepth(PowerState state, Network network, List<List<Network>> groupedNetworks)
+        private static void RecursivelyEstimateNetworkDepth(PowerState state, Network network, List<NetworkGroup> groupedNetworks) // DS14
         {
             network.Height = -2;
             var height = -1;
@@ -503,10 +524,46 @@ namespace Content.Server.Power.Pow3r
             network.Height = 1 + height;
 
             if (network.Height >= groupedNetworks.Count)
-                groupedNetworks.Add(new() { network });
+            {
+                // DS14-start
+                var group = new NetworkGroup();
+                AddNetworkToGroup(group, network);
+                groupedNetworks.Add(group);
+                // DS14-end
+            }
             else
-                groupedNetworks[network.Height].Add(network);
+            {
+                AddNetworkToGroup(groupedNetworks[network.Height], network); // DS14
+            }
         }
+
+        // DS14-start
+        private static void AddNetworkToGroup(NetworkGroup group, Network network)
+        {
+            group.Networks.Add(network);
+            group.WorkCost += EstimateNetworkWork(network);
+        }
+
+        private static int EstimateNetworkWork(Network network)
+        {
+            return 1
+                   + network.Loads.Count
+                   + network.Supplies.Count
+                   + network.BatteryLoads.Count * 2
+                   + network.BatterySupplies.Count * 2;
+        }
+
+        private static bool ShouldProcessSerial(NetworkGroup group)
+        {
+            var count = group.Networks.Count;
+            if (count <= 1)
+                return true;
+
+            return group.WorkCost < ParallelMinGroupWork ||
+                   group.WorkCost < count * ParallelMinAverageNetworkWork;
+        }
+
+        // DS14-end
 
         #region Jobs
 
