@@ -80,6 +80,8 @@ public partial class MobStateSystem
     protected virtual void OnStateChanged(EntityUid entity, MobStateComponent component, MobState oldState,
         MobState newState)
     {
+        if (oldState == MobState.PreCritical && newState == MobState.Alive)
+            _standing.Stand(entity, force: true);
     }
 
     /// <summary>

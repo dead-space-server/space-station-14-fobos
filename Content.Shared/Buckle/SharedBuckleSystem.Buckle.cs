@@ -15,6 +15,7 @@ using Content.Shared.Standing;
 using Content.Shared.Storage.Components;
 using Content.Shared.Stunnable;
 using Content.Shared.Throwing;
+using Content.Shared.Vehicle.Components;
 using Content.Shared.Whitelist;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
@@ -138,7 +139,20 @@ public abstract partial class SharedBuckleSystem
 
         var delta = (xform.LocalPosition - strapComp.BuckleOffset).LengthSquared();
         if (delta > 1e-5)
+        {
+            if (strapComp.LockBuckleOffset)
+            {
+                _transform.SetCoordinates(buckle, xform, new EntityCoordinates(strapUid, strapComp.BuckleOffset), rotation: Angle.Zero);
+                xform.ActivelyLerping = false;
+
+                if (TryComp<PhysicsComponent>(buckle, out var physics))
+                    _physics.ResetDynamics(buckle, physics);
+
+                return;
+            }
+
             Unbuckle(buckle, (strapUid, strapComp), null);
+        }
     }
 
     #endregion
@@ -175,6 +189,15 @@ public abstract partial class SharedBuckleSystem
 
     private void OnBuckleUpdateCanMove(EntityUid uid, BuckleComponent component, UpdateCanMoveEvent args)
     {
+        // If we're an operator of a vehicle then don't cancel.
+        if (TryComp<VehicleOperatorComponent>(uid, out var vehicleOperator) &&
+            vehicleOperator.Vehicle is { } vehicle &&
+            component.BuckledTo == vehicle &&
+            HasComp<VehicleComponent>(vehicle))
+        {
+            return;
+        }
+
         if (component.Buckled)
             args.Cancel();
     }

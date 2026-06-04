@@ -1,3 +1,4 @@
+using Content.Server.Antag;
 using Content.Server.Chat.Systems;
 using Content.Server.GameTicking.Rules.Components;
 using Content.Server.RoundEnd;
@@ -13,6 +14,7 @@ namespace Content.Server.GameTicking.Rules;
 
 public sealed class XenoborgsRuleSystem : GameRuleSystem<XenoborgsRuleComponent>
 {
+    [Dependency] private readonly AntagSelectionSystem _antag = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly SharedMindSystem _mindSystem = default!;
@@ -82,6 +84,24 @@ public sealed class XenoborgsRuleSystem : GameRuleSystem<XenoborgsRuleComponent>
 
         args.AddLine("");
     }
+
+    // DS14-start
+    protected override void AppendRoundEndDiscordText(EntityUid uid,
+        XenoborgsRuleComponent component,
+        GameRuleComponent gameRule,
+        ref RoundEndDiscordTextAppendEvent args)
+    {
+        args.AddLine(Loc.GetString("xenoborgs-list-start"));
+
+        var antags = _antag.GetAntagIdentifiers(uid);
+        foreach (var (_, sessionData, name) in antags)
+        {
+            args.AddLine(Loc.GetString("xenoborgs-list", ("name", name), ("user", sessionData.UserName)));
+        }
+
+        args.AddLine("");
+    }
+    // DS14-end
 
     private void CheckRoundEnd(XenoborgsRuleComponent xenoborgsRuleComponent)
     {

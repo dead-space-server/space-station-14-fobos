@@ -29,6 +29,21 @@
     - HeatResistanceModuleEngineer
     - FireResistanceModuleEngineer
 
+# Tier 2
+
+- type: technology
+  id: QuadBikeTech
+  name: research-technology-quadbike
+  icon:
+    sprite: Objects/Vehicles/atv.rsi
+    state: vehicle
+  discipline: Industrial
+  tier: 2
+  cost: 7500
+  recipeUnlocks:
+    - VehicleQuadBikeFlatpack
+    - VehicleKeyUniversal
+
 # Tier 3
 
 - type: technology
@@ -47,3 +62,16 @@
     - ClothingHeadHelmetRIGSalvage
     - PlastineOfSalvageRIG
     - SpeedModifierModuleSalvage
+
+- type: technology
+  id: HoverbikeTech
+  name: research-technology-hoverbike
+  icon:
+    sprite: _DeadSpace/Objects/Vehicles/hoverbike.rsi
+    state: vehicle
+  discipline: Industrial
+  tier: 3
+  cost: 1500
+  recipeUnlocks:
+    - VehicleHoverbikeFlatpack
+    - VehicleKeyUniversal

@@ -29,6 +29,7 @@ using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Random;
 using Robust.Shared.Utility;
+using System.Text;
 using System.Text.RegularExpressions;
 
 #pragma warning disable RA0026
@@ -54,6 +55,7 @@ namespace Content.Server.GameTicking
         private const string SentientVirusAntagPrototype = "SentientVirus"; // DS14
         private const string RevolutionaryAntagPrototype = "Rev"; // DS14
         private const string HeadRevolutionaryAntagPrototype = "HeadRev"; // DS14
+        private const int DiscordMessageMaxLength = 2000; // DS14
 
 #if EXCEPTION_TOLERANCE
         [ViewVariables]
@@ -768,11 +770,24 @@ namespace Content.Server.GameTicking
                 var duration = RoundDuration();
                 var gamemodeTitle = CurrentPreset != null ? Loc.GetString(CurrentPreset.ModeTitle) : string.Empty;
 
-                var textEv = new RoundEndTextAppendEvent();
-                RaiseLocalEvent(textEv);
+                // DS14-start
+                var discordTextEv = new RoundEndDiscordTextAppendEvent();
+                RaiseLocalEvent(discordTextEv);
 
-                var manifest = Regex.Replace(textEv.Text, @"\[/\.*?\]", "");
-                manifest = Regex.Replace(manifest, @"\[.*?\]", "");
+                var manifestBuilder = new StringBuilder();
+                if (!string.IsNullOrWhiteSpace(_replayRoundText))
+                    manifestBuilder.AppendLine(_replayRoundText.Trim());
+
+                if (!string.IsNullOrWhiteSpace(discordTextEv.Text))
+                {
+                    if (manifestBuilder.Length > 0)
+                        manifestBuilder.AppendLine();
+
+                    manifestBuilder.AppendLine(discordTextEv.Text.Trim());
+                }
+
+                var manifest = StripRoundEndDiscordMarkup(manifestBuilder.ToString().Trim());
+                // DS14-end
 
                 var content = Loc.GetString("discord-round-notifications-end",
                     ("id", RoundId),
@@ -782,7 +797,7 @@ namespace Content.Server.GameTicking
                     ("gamemode", gamemodeTitle),
                     ("manifest", manifest));
 
-                if (textEv.Text == String.Empty)
+                if (string.IsNullOrWhiteSpace(manifest)) // DS14
                 {
                     content = Loc.GetString("discord-round-notifications-end-no-manifest",
                         ("id", RoundId),
@@ -792,9 +807,14 @@ namespace Content.Server.GameTicking
                         ("gamemode", gamemodeTitle));
                 }
 
-                var payload = new WebhookPayload { Content = content };
-
-                await _discord.CreateMessage(_webhookIdentifier.Value, payload);
+                // DS14-start
+                WebhookPayload payload;
+                foreach (var message in SplitDiscordWebhookContent(content))
+                {
+                    payload = new WebhookPayload { Content = message };
+                    await _discord.CreateMessage(_webhookIdentifier.Value, payload);
+                }
+                // DS14-end
 
                 if (DiscordRoundEndRole == null)
                     return;
@@ -810,6 +830,91 @@ namespace Content.Server.GameTicking
                 Log.Error($"Error while sending discord round end message:\n{e}");
             }
         }
+
+        // DS14-start
+        private static string StripRoundEndDiscordMarkup(string text)
+        {
+            return Regex.Replace(text, @"\[[^\]]*\]", "");
+        }
+
+        private static List<string> SplitDiscordWebhookContent(string content)
+        {
+            var messages = new List<string>();
+            if (content.Length <= DiscordMessageMaxLength)
+            {
+                messages.Add(content);
+                return messages;
+            }
+
+            var builder = new StringBuilder();
+            foreach (var line in content.Replace("\r\n", "\n").Replace('\r', '\n').Split('\n'))
+            {
+                AppendDiscordWebhookLine(messages, builder, line);
+            }
+
+            AddDiscordWebhookMessage(messages, builder);
+            return messages;
+        }
+
+        private static void AppendDiscordWebhookLine(List<string> messages, StringBuilder builder, string line)
+        {
+            var remaining = line;
+            while (true)
+            {
+                var separatorLength = builder.Length > 0 ? 1 : 0;
+                var available = DiscordMessageMaxLength - builder.Length - separatorLength;
+
+                if (remaining.Length <= available)
+                {
+                    if (builder.Length > 0)
+                        builder.Append('\n');
+
+                    builder.Append(remaining);
+                    return;
+                }
+
+                if (available <= 0)
+                {
+                    AddDiscordWebhookMessage(messages, builder);
+                    continue;
+                }
+
+                var splitAt = GetDiscordWebhookSplitIndex(remaining, available);
+                if (builder.Length > 0)
+                    builder.Append('\n');
+
+                builder.Append(remaining, 0, splitAt);
+                AddDiscordWebhookMessage(messages, builder);
+                remaining = remaining.Substring(splitAt).TrimStart();
+
+                if (remaining.Length == 0)
+                    return;
+            }
+        }
+
+        private static int GetDiscordWebhookSplitIndex(string text, int maxLength)
+        {
+            if (text.Length <= maxLength)
+                return text.Length;
+
+            for (var i = maxLength; i > 0; i--)
+            {
+                if (char.IsWhiteSpace(text[i - 1]))
+                    return i;
+            }
+
+            return maxLength;
+        }
+
+        private static void AddDiscordWebhookMessage(List<string> messages, StringBuilder builder)
+        {
+            var message = builder.ToString().TrimEnd();
+            builder.Clear();
+
+            if (message.Length > 0)
+                messages.Add(message);
+        }
+        // DS14-end
 
         public void RestartRound()
         {
@@ -1182,4 +1287,26 @@ namespace Content.Server.GameTicking
             _doNewLine = true;
         }
     }
+
+    // DS14-start
+    /// <summary>
+    ///     Event raised to add text only to the Discord round-end log.
+    ///     Keep player-facing round-end UI text on <see cref="RoundEndTextAppendEvent"/>.
+    /// </summary>
+    public sealed class RoundEndDiscordTextAppendEvent
+    {
+        private bool _doNewLine;
+
+        public string Text { get; private set; } = string.Empty;
+
+        public void AddLine(string text)
+        {
+            if (_doNewLine)
+                Text += "\n";
+
+            Text += text;
+            _doNewLine = true;
+        }
+    }
+    // DS14-end
 }

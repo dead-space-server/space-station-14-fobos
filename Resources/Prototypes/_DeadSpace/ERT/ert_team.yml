@@ -140,9 +140,9 @@
   - epsilon
   - gamma
   spawns:
-    - id: RandomHumanoidSpawnerCBURNLeader
+    - id: RandomHumanoidSpawnerSierraLeader
       amount: 1
-    - id: RandomHumanoidSpawnerCBURNAgent
+    - id: RandomHumanoidSpawnerSierraAgent
       amount: 10
 
 - type: ertTeam

@@ -1,5 +1,6 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
+using Content.Server.Antag;
 using Content.Shared.GameTicking.Components;
 using Robust.Shared.Prototypes;
 using Content.Shared.Cargo.Prototypes;
@@ -29,6 +30,7 @@ namespace Content.Server.DeadSpace.Necromorphs.Unitology;
 
 public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
 {
+    [Dependency] private readonly AntagSelectionSystem _antag = default!;
     [Dependency] private readonly NpcFactionSystem _npcFaction = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly TimedWindowSystem _timedWindow = default!;
@@ -76,6 +78,22 @@ public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
 
             }
         });
+    }
+
+    protected override void AppendRoundEndDiscordText(EntityUid uid,
+        CircleOpsRuleComponent component,
+        GameRuleComponent gameRule,
+        ref RoundEndDiscordTextAppendEvent args)
+    {
+        args.AddLine(Loc.GetString("thecircle-list-start"));
+
+        var antags = _antag.GetAntagIdentifiers(uid);
+        foreach (var (_, sessionData, name) in antags)
+        {
+            args.AddLine(Loc.GetString("thecircle-initial-name", ("name", name), ("user", sessionData.UserName)));
+        }
+
+        args.AddLine("");
     }
 
     protected override void Started(EntityUid uid, CircleOpsRuleComponent component, GameRuleComponent gameRule, GameRuleStartedEvent args)

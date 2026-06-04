@@ -217,6 +217,7 @@
     - NightVisionTech # DS14
     - LanguageImplanters # DS14
     - MedicalDynamic # DS14
+    - Vehicle # DS14
   - type: EmagLatheRecipes
     emagDynamicPacks:
     - SecurityAmmo

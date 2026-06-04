@@ -1,0 +1,181 @@
+- type: entity
+  parent: BaseVehicleStrap
+  id: VehicleHoverbike
+  name: ховербайк
+  description: Врум врум моя машинка! На нём можно летать в космосе!
+  components:
+  - type: MovementSpeedModifier
+    weightlessModifier: 0
+    baseAcceleration: 1.7
+    baseFriction: 0.8
+    friction: 2
+    frictionNoInput: 8
+    baseWalkSpeed: 5
+    baseSprintSpeed: 8
+  - type: UnpoweredFlashlight
+  - type: GenericKeyedVehicle
+    containerId: key_slot
+    keyWhitelist:
+      tags:
+      - KeyUniversal
+  - type: Strap
+    position: Stand
+    buckleOffset: "0.01,0.15"
+    lockBuckleOffset: true
+  - type: AmbientSound
+    sound: /Audio/Effects/shuttle_thruster.ogg
+    range: 8
+    volume: 5
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Vehicles/hoverbike.rsi
+    drawdepth: Mobs
+    layers:
+    - state: vehicle
+      map: ["movement"]
+    - state: hull
+      map: [ "enum.DamageStateVisualLayers.Base" ]
+    - map: [ "enum.DamageStateVisualLayers.BaseUnshaded" ]
+      state: lights
+      shader: unshaded
+  - type: RandomSprite
+    available:
+      - enum.DamageStateVisualLayers.Base:
+          hull: Sixteen
+  - type: ItemSlots
+    slots:
+      key_slot:
+        name: vehicle-slot-component-slot-name-keys
+        whitelist:
+          tags:
+          - KeyUniversal
+        insertSound:
+          path: /Audio/Effects/Vehicle/vehiclestartup.ogg
+          params:
+            volume: -3
+      bag:
+        name: сумка
+        whitelist:
+          components:
+            - Storage
+        priority: 2
+        insertSound:
+          path: /Audio/Items/belt_equip.ogg
+          params:
+            volume: -3
+  - type: ContainerContainer
+    containers:
+      key_slot: !type:ContainerSlot
+      bag: !type:ContainerSlot
+  - type: Appearance
+  - type: PointLight
+    enabled: false
+    radius: 10.5
+    softness: 2
+    mask: /Textures/Effects/LightMasks/cone.png
+    autoRot: true
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 250
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+    - trigger:
+        !type:DamageTrigger
+        damage: 250
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalGlassBreak
+      - !type:ExplodeBehavior
+
+- type: entity
+  parent: BaseVehicleStrap
+  id: VehicleQuadBike
+  name: квадроцикл
+  description: Врум врум моя машинка!
+  components:
+  - type: MovementSpeedModifier
+    weightlessModifier: 0
+    baseAcceleration: 1.4
+    baseFriction: 0.8
+    friction: 2
+    frictionNoInput: 8
+    baseWalkSpeed: 5
+    baseSprintSpeed: 8
+  - type: UnpoweredFlashlight
+  - type: GenericKeyedVehicle
+    containerId: key_slot
+    keyWhitelist:
+      tags:
+      - KeyUniversal
+  - type: Strap
+    position: Stand
+    buckleOffset: "0.01,0.15"
+    lockBuckleOffset: true
+  - type: Sprite
+    sprite: Objects/Vehicles/atv.rsi
+    drawdepth: Mobs
+    layers:
+    - state: vehicle
+      map: ["movement"]
+    - state: hull
+      map: [ "enum.DamageStateVisualLayers.Base" ]
+  - type: RandomSprite
+    available:
+      - enum.DamageStateVisualLayers.Base:
+          hull: Sixteen
+  - type: ItemSlots
+    slots:
+      key_slot:
+        name: vehicle-slot-component-slot-name-keys
+        whitelist:
+          tags:
+          - KeyUniversal
+        insertSound:
+          path: /Audio/Effects/Vehicle/vehiclestartup.ogg
+          params:
+            volume: -3
+  - type: ContainerContainer
+    containers:
+      key_slot: !type:ContainerSlot
+  - type: SpriteMovement
+    movementLayers:
+      movement:
+        state: vehicle-moving
+    noMovementLayers:
+      movement:
+        state: vehicle
+  - type: Appearance
+  - type: GravityAffected
+  - type: Vehicle
+    movementSound:
+      collection: FootstepBorg
+    movementSoundDistance: 1.5
+  - type: PointLight
+    enabled: false
+    radius: 10.5
+    softness: 2
+    mask: /Textures/Effects/LightMasks/cone.png
+    autoRot: true
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 250
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+    - trigger:
+        !type:DamageTrigger
+        damage: 250
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalGlassBreak
+      - !type:ExplodeBehavior

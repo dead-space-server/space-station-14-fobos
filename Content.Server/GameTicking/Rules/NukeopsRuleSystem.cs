@@ -142,6 +142,24 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
         });
     }
 
+    // DS14-start
+    protected override void AppendRoundEndDiscordText(EntityUid uid,
+        NukeopsRuleComponent component,
+        GameRuleComponent gameRule,
+        ref RoundEndDiscordTextAppendEvent args)
+    {
+        args.AddLine(Loc.GetString("nukeops-list-start"));
+
+        var antags = _antag.GetAntagIdentifiers(uid);
+        foreach (var (_, sessionData, name) in antags)
+        {
+            args.AddLine(Loc.GetString("nukeops-list-name-user", ("name", name), ("user", sessionData.UserName)));
+        }
+
+        args.AddLine("");
+    }
+    // DS14-end
+
     private void OnNukeExploded(NukeExplodedEvent ev)
     {
         var query = QueryActiveRules();

@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
+using Content.Server.DeadSpace.Lavaland.Components;
 using Content.Server.DeadSpace.NoShuttleFTL;
 using Content.Server.Shuttles.Components;
 using Content.Server.Shuttles.Events;
@@ -74,13 +75,17 @@ public sealed partial class ShuttleSystem
     /// How many times we try to proximity warp close to something before falling back to map-wideAABB.
     /// </summary>
     private const int FTLProximityIterations = 5;
+    private const int FTLProximityCandidateAttempts = 32;
+    private const float LavalandTendrilFTLExclusionRange = 8f;
 
     private readonly HashSet<EntityUid> _lookupEnts = new();
     private readonly HashSet<EntityUid> _immuneEnts = new();
     private readonly HashSet<Entity<NoFTLComponent>> _noFtls = new();
+    private List<Entity<MapGridComponent>> _ftlCandidateGrids = new();
 
     private EntityQuery<BodyComponent> _bodyQuery;
     private EntityQuery<FTLSmashImmuneComponent> _immuneQuery;
+    private EntityQuery<LavalandMapComponent> _lavalandMapQuery;
     private EntityQuery<StatusEffectsComponent> _statusQuery;
 
     private void InitializeFTL()
@@ -90,6 +95,7 @@ public sealed partial class ShuttleSystem
 
         _bodyQuery = GetEntityQuery<BodyComponent>();
         _immuneQuery = GetEntityQuery<FTLSmashImmuneComponent>();
+        _lavalandMapQuery = GetEntityQuery<LavalandMapComponent>();
         _statusQuery = GetEntityQuery<StatusEffectsComponent>();
 
         _cfg.OnValueChanged(CCVars.FTLStartupTime, time => DefaultStartupTime = time, true);
@@ -294,9 +300,6 @@ public sealed partial class ShuttleSystem
         float proximityMinOffset = 0f,
         float proximityMaxOffset = 64f)
     {
-        if (!TrySetupFTL(shuttleUid, component, out var hyperspace))
-            return;
-
         startupTime ??= DefaultStartupTime;
         hyperspaceTime ??= DefaultTravelTime;
 
@@ -312,6 +315,13 @@ public sealed partial class ShuttleSystem
             coordinates = proximityCoordinates;
             angle = proximityAngle;
         }
+        else if (useProximity && !IsFTLTargetCoordinatesValid(shuttleUid, coordinates, angle))
+        {
+            return;
+        }
+
+        if (!TrySetupFTL(shuttleUid, component, out var hyperspace))
+            return;
 
         hyperspace.StartupTime = startupTime.Value;
         hyperspace.TravelTime = hyperspaceTime.Value;
@@ -385,7 +395,8 @@ public sealed partial class ShuttleSystem
             hyperspace.TargetCoordinates = coords;
             hyperspace.TargetAngle = targAngle;
         }
-        else if (fallbackCoordinates != null)
+        else if (fallbackCoordinates != null &&
+                 IsFTLTargetCoordinatesValid(shuttleUid, fallbackCoordinates.Value, fallbackAngle ?? Angle.Zero))
         {
             hyperspace.TargetCoordinates = fallbackCoordinates.Value;
             hyperspace.TargetAngle = fallbackAngle ?? Angle.Zero;
@@ -845,7 +856,8 @@ public sealed partial class ShuttleSystem
         // We essentially expand the Box2 of the target area until nothing else is added then we know it's valid.
         // Can't just get an AABB of every grid as we may spawn very far away.
         var nearbyGrids = new HashSet<EntityUid>();
-        var shuttleAABB = Comp<MapGridComponent>(shuttleUid).LocalAABB;
+        var shuttleGrid = Comp<MapGridComponent>(shuttleUid);
+        var shuttleAABB = shuttleGrid.LocalAABB;
 
         // Start with small point.
         // If our target pos is offset we mot even intersect our target's AABB so we don't include it.
@@ -916,58 +928,198 @@ public sealed partial class ShuttleSystem
             break;
         }
 
-        // Now we have a targetAABB. This has already been expanded to account for our fat ass.
-        Vector2 spawnPos;
-
         if (TryComp<PhysicsComponent>(shuttleUid, out var shuttleBody))
         {
             _physics.SetLinearVelocity(shuttleUid, Vector2.Zero, body: shuttleBody);
             _physics.SetAngularVelocity(shuttleUid, 0f, body: shuttleBody);
         }
 
-        // TODO: This should prefer the position's angle instead.
-        // TODO: This is pretty crude for multiple landings.
-        if (nearbyGrids.Count > 1 || !HasComp<MapComponent>(targetXform.GridUid))
-        {
-            // Pick a random angle
-            var offsetAngle = _random.NextAngle();
+        var offset = -shuttleAABB.Center;
+        var randomizePosition = nearbyGrids.Count > 1 || !HasComp<MapComponent>(targetXform.GridUid);
+        var candidateAttempts = randomizePosition ? FTLProximityCandidateAttempts : 1;
 
-            // Our valid spawn positions are <targetAABB width / height +  offset> away.
-            var minRadius = MathF.Max(targetAABB.Width / 2f, targetAABB.Height / 2f);
-            spawnPos = targetAABB.Center + offsetAngle.RotateVec(new Vector2(_random.NextFloat(minRadius + minOffset, minRadius + maxOffset), 0f));
-        }
-        else if (shuttleBody != null)
+        for (var attempt = 0; attempt < candidateAttempts; attempt++)
         {
-            (spawnPos, angle) = _transform.GetWorldPositionRotation(targetXform);
-        }
-        else
-        {
-            spawnPos = _transform.GetWorldPosition(targetXform);
+            // TODO: This should prefer the position's angle instead.
+            // TODO: This is pretty crude for multiple landings.
+            Vector2 spawnPos;
+            if (randomizePosition)
+            {
+                var offsetAngle = _random.NextAngle();
+
+                // Our valid spawn positions are <targetAABB width / height +  offset> away.
+                var minRadius = MathF.Max(targetAABB.Width / 2f, targetAABB.Height / 2f);
+                spawnPos = targetAABB.Center + offsetAngle.RotateVec(new Vector2(_random.NextFloat(minRadius + minOffset, minRadius + maxOffset), 0f));
+            }
+            else if (shuttleBody != null)
+            {
+                (spawnPos, angle) = _transform.GetWorldPositionRotation(targetXform);
+            }
+            else
+            {
+                spawnPos = _transform.GetWorldPosition(targetXform);
+            }
+
+            if (!HasComp<MapComponent>(targetXform.GridUid))
+                angle = _random.NextAngle();
+            else
+                angle = Angle.Zero;
+
+            // Rotate our localcenter around so we spawn exactly where we "think" we should (center of grid on the dot).
+            var transform = new Transform(spawnPos, angle);
+            spawnPos = Robust.Shared.Physics.Transform.Mul(transform, offset);
+
+            var candidateCoordinates = new EntityCoordinates(targetXform.MapUid.Value, spawnPos - offset);
+            if (!IsFTLTargetCoordinatesValid(shuttleUid, candidateCoordinates, angle, shuttleGrid))
+                continue;
+
+            coordinates = candidateCoordinates;
+            return true;
         }
 
-        var offset = Vector2.Zero;
-
-        // Offset it because transform does not correspond to AABB position.
-        if (TryComp(shuttleUid, out MapGridComponent? shuttleGrid))
+        if (IsFTLTargetCoordinatesValid(shuttleUid, targetCoordinates, Angle.Zero, shuttleGrid))
         {
-            offset = -shuttleGrid.LocalAABB.Center;
-        }
-
-        if (!HasComp<MapComponent>(targetXform.GridUid))
-        {
-            angle = _random.NextAngle();
-        }
-        else
-        {
+            coordinates = targetCoordinates;
             angle = Angle.Zero;
+            return true;
         }
 
-        // Rotate our localcenter around so we spawn exactly where we "think" we should (center of grid on the dot).
-        var transform = new Transform(spawnPos, angle);
-        spawnPos = Robust.Shared.Physics.Transform.Mul(transform, offset);
+        return false;
+    }
 
-        coordinates = new EntityCoordinates(targetXform.MapUid.Value, spawnPos - offset);
+    private bool IsFTLTargetCoordinatesValid(
+        EntityUid shuttleUid,
+        EntityCoordinates coordinates,
+        Angle angle,
+        MapGridComponent? shuttleGrid = null)
+    {
+        if (!_gridQuery.Resolve(shuttleUid, ref shuttleGrid, false))
+            return false;
+
+        var mapCoordinates = _transform.ToMapCoordinates(coordinates);
+        if (mapCoordinates.MapId == MapId.Nullspace)
+            return false;
+
+        var mapUid = _mapSystem.GetMapOrInvalid(mapCoordinates.MapId);
+        if (!mapUid.IsValid())
+            return false;
+
+        var shuttleBounds = new Box2Rotated(
+            shuttleGrid.LocalAABB.Translated(mapCoordinates.Position),
+            angle,
+            mapCoordinates.Position);
+
+        if (!IsInsideLavalandPlayableArea(mapUid, shuttleBounds))
+            return false;
+
+        if (IntersectsFTLExclusion(mapCoordinates.MapId, shuttleBounds))
+            return false;
+
+        if (IntersectsLavalandFTLExclusion(mapCoordinates.MapId, shuttleBounds))
+            return false;
+
+        if (IntersectsLavalandTendril(mapCoordinates.MapId, shuttleBounds))
+            return false;
+
+        _ftlCandidateGrids.Clear();
+        _mapManager.FindGridsIntersecting(mapCoordinates.MapId, shuttleBounds, ref _ftlCandidateGrids, includeMap: false);
+
+        foreach (var grid in _ftlCandidateGrids)
+        {
+            if (grid.Owner == shuttleUid)
+                continue;
+
+            return false;
+        }
+
         return true;
+    }
+
+    private bool IsInsideLavalandPlayableArea(EntityUid mapUid, Box2Rotated shuttleBounds)
+    {
+        if (!_lavalandMapQuery.TryComp(mapUid, out var lavalandMap) ||
+            !_protoManager.TryIndex(lavalandMap.Planet, out var planet) ||
+            planet.MapHalfSize <= 0)
+        {
+            return true;
+        }
+
+        var edgePadding = 0f;
+        if (planet.BoundaryEnabled)
+            edgePadding += Math.Max(0, planet.BoundaryLavaWidth) + Math.Max(1, planet.BoundaryWallWidth);
+
+        var limit = planet.MapHalfSize - edgePadding - FTLBufferRange;
+        if (limit <= 0f)
+            return false;
+
+        var bounds = shuttleBounds.CalcBoundingBox();
+        return bounds.Left >= -limit &&
+               bounds.Right <= limit &&
+               bounds.Bottom >= -limit &&
+               bounds.Top <= limit;
+    }
+
+    private bool IntersectsFTLExclusion(MapId mapId, Box2Rotated shuttleBounds)
+    {
+        var bounds = shuttleBounds.CalcBoundingBox();
+        var center = bounds.Center;
+        var shuttleRadius = bounds.Size.Length() * 0.5f;
+        var query = EntityQueryEnumerator<FTLExclusionComponent, TransformComponent>();
+
+        while (query.MoveNext(out _, out var exclusion, out var xform))
+        {
+            if (!exclusion.Enabled || xform.MapID != mapId)
+                continue;
+
+            var range = exclusion.Range + shuttleRadius;
+            var exclusionPosition = _transform.GetWorldPosition(xform);
+            if (Vector2.DistanceSquared(center, exclusionPosition) <= range * range)
+                return true;
+        }
+
+        return false;
+    }
+
+    private bool IntersectsLavalandFTLExclusion(MapId mapId, Box2Rotated shuttleBounds)
+    {
+        var bounds = shuttleBounds.CalcBoundingBox();
+        var center = bounds.Center;
+        var shuttleRadius = bounds.Size.Length() * 0.5f;
+        var query = EntityQueryEnumerator<LavalandFtlExclusionComponent, TransformComponent>();
+
+        while (query.MoveNext(out _, out var exclusion, out var xform))
+        {
+            if (!exclusion.Enabled || xform.MapID != mapId)
+                continue;
+
+            var range = exclusion.Range + shuttleRadius;
+            var exclusionPosition = _transform.GetWorldPosition(xform);
+            if (Vector2.DistanceSquared(center, exclusionPosition) <= range * range)
+                return true;
+        }
+
+        return false;
+    }
+
+    private bool IntersectsLavalandTendril(MapId mapId, Box2Rotated shuttleBounds)
+    {
+        var bounds = shuttleBounds.CalcBoundingBox();
+        var center = bounds.Center;
+        var shuttleRadius = bounds.Size.Length() * 0.5f;
+        var query = EntityQueryEnumerator<LavalandNecropolisTendrilComponent, TransformComponent>();
+
+        while (query.MoveNext(out _, out var tendril, out var xform))
+        {
+            if (tendril.Destroyed || xform.MapID != mapId)
+                continue;
+
+            var range = LavalandTendrilFTLExclusionRange + shuttleRadius;
+            var tendrilPosition = _transform.GetWorldPosition(xform);
+            if (Vector2.DistanceSquared(center, tendrilPosition) <= range * range)
+                return true;
+        }
+
+        return false;
     }
 
     /// <summary>
