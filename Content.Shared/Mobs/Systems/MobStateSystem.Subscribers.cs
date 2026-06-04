@@ -11,6 +11,7 @@ using Content.Shared.Interaction.Events;
 using Content.Shared.Inventory.Events;
 using Content.Shared.Item;
 using Content.Shared.Mobs.Components;
+using Content.Shared.Movement.Components; //DS14
 using Content.Shared.Movement.Events;
 using Content.Shared.Pointing;
 using Content.Shared.Pulling.Events;
@@ -94,6 +95,12 @@ public partial class MobStateSystem
             case MobState.Invalid:
                 //unused
                 break;
+            // DS14-start
+            case MobState.PreCritical:
+                RemComp<WormComponent>(target);
+                _standing.Stand(target);
+                break;
+            // DS14-end
             default:
                 throw new NotImplementedException();
         }
@@ -133,6 +140,13 @@ public partial class MobStateSystem
                 //unused;
                 break;
             }
+            // DS14-start
+            case MobState.PreCritical:
+                EnsureComp<WormComponent>(target);
+                _standing.Down(target);
+                _appearance.SetData(target, MobStateVisuals.State, MobState.PreCritical);
+                break;
+            // DS14-end
             default:
             {
                 throw new NotImplementedException();

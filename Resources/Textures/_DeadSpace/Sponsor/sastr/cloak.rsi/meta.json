@@ -13,6 +13,13 @@
     {
       "name": "equipped-NECK",
       "directions": 4
+    },
+    {
+      "name": "h-icon"
+    }, 
+    {
+      "name": "h-equipped-NECK", 
+      "directions": 4
     }
   ]
 }

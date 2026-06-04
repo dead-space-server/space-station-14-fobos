@@ -54,3 +54,30 @@
   description: ert-tracking-alert-desc
   minSeverity: 0
   maxSeverity: 3
+
+- type: alert
+  id: HumanPreCrit
+  category: Health
+  icons:
+  - sprite: /Textures/_DeadSpace/Interface/Alerts/precrit.rsi
+    state: shock
+  name: alerts-precrit-name
+  description: alerts-precrit-desc
+
+- type: alert
+  id: XenomorphPreCrit
+  category: Health
+  icons:
+  - sprite: /Textures/_DeadSpace/Interface/Alerts/precrit.rsi
+    state: shock_xeno
+  name: alerts-precrit-name
+  description: alerts-precrit-desc
+
+- type: alert
+  id: BorgPreCrit
+  category: Health
+  icons:
+  - sprite: /Textures/_DeadSpace/Interface/Alerts/precrit.rsi
+    state: shock_borg
+  name: alerts-precrit-name
+  description: alerts-precrit-desc

@@ -914,19 +914,21 @@ namespace Content.Client.RoundEnd
             if (string.IsNullOrWhiteSpace(roundEnd))
                 return null;
 
-            var lines = roundEnd
+            var lines = new List<string>();
+
+            foreach (var line in roundEnd
                 .Replace("\r\n", "\n")
                 .Replace('\r', '\n')
-                .Split('\n', StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (var line in lines)
+                .Split('\n'))
             {
                 var trimmed = line.Trim();
-                if (!string.IsNullOrWhiteSpace(trimmed))
-                    return trimmed;
+                if (string.IsNullOrWhiteSpace(trimmed))
+                    continue;
+
+                lines.Add(trimmed);
             }
 
-            return null;
+            return lines.Count == 0 ? null : string.Join('\n', lines);
         }
 
         private static string GetRoleSortKey(RoundEndMessageEvent.RoundEndPlayerInfo playerInfo)

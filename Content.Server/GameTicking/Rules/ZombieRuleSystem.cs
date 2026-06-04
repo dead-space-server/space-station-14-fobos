@@ -79,14 +79,6 @@ public sealed class ZombieRuleSystem : GameRuleSystem<ZombieRuleComponent>
             args.AddLine(Loc.GetString("zombie-round-end-amount-all"));
 
         var antags = _antag.GetAntagIdentifiers(uid);
-        args.AddLine(Loc.GetString("zombie-round-end-initial-count", ("initialCount", antags.Count)));
-        foreach (var (_, data, entName) in antags)
-        {
-            args.AddLine(Loc.GetString("zombie-round-end-user-was-initial",
-                ("name", entName),
-                ("username", data.UserName)));
-        }
-
         var healthy = GetHealthyHumans();
         // Gets a bunch of the living players and displays them if they're under a threshold.
         // InitialInfected is used for the threshold because it scales with the player count well.

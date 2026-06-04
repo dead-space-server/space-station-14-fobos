@@ -20,6 +20,7 @@ research-technology-rifles = Стрельба по бутылкам
 research-technology-guns-details = Лего детали для оружия
 research-technology-shotgun-magnum = Техника отрыва гузла
 research-technology-ext-ammo = Большие магазины
+research-technology-bola = Ограничители передвижения
 
 research-discipline-mechworks = Механика
 research-discipline-weaponry = Вооружение

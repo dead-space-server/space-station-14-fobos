@@ -38,6 +38,10 @@
   - MagazineShotgun # DS14
   - MagazineShotgunSlug # DS14
   - MagazineShotgunEmpty # DS14
+  - MagazineLightRifleAMD # DS14
+  - MagazineLightRifleAMDEmpty # DS14
+  - MagazineCarbineSKS # DS14
+  - MagazineCarbineSKSEmpty # DS14
   - MagazineBoxLightRifle
   - MagazineBoxMagnum
   - MagazineBoxPistol

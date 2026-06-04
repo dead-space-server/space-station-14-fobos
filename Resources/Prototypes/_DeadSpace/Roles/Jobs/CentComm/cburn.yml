@@ -1,7 +1,7 @@
-# DS14 CBURN GEAR
+# DS14 CBURN and DBCT GEAR
 
-# Leader
-## CBURN
+### Leader
+### CBURN
 - type: job
   id: CBURNLeader
   name: job-name-cburn-leader
@@ -40,17 +40,164 @@
     ears: ClothingHeadsetCentCom
     neck: ClothingNeckMantleCBURNLeaderShoulder
     gloves: ClothingHandsGlovesCombat
+    back: ClothingMilitaryBackpackCBURNLeader
+    belt: ClothingBeltMilitaryWebbingCBURNLeader
     outerClothing: ClothingOuterHardsuitCBURNLeader
-    shoes: ClothingShoesBootsCombatFilled
+    suitstorage: JetpackSecurityFilled
+    shoes: ClothingShoesBootsMagHos
     id: CBURNLeaderPDA
     pocket1: DoubleEmergencyOxygenTankFilled
     pocket2: DoorRemoteCustom
-  inhand:
-  - ERTloadoutCBURNLeader
 
-# Agent
 
-## CBURN
+### SCST
+- type: job
+  id: SCSTLeader
+  name: job-name-cburn-leader
+  description: job-description-cburnleader
+  playTimeTracker: JobSCSTLeader
+  setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 36000 # 10 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 # 20 hours
+    - !type:DepartmentTimeRequirement
+      department: Command
+      time: 36000 # 10 hours
+  startingGear: SCSTLeaderGear
+  icon: "JobIconERTLeader"
+  supervisors: job-supervisors-centcom
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+  - ErtTeamLeader
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant, TrackingImplant ]
+
+- type: startingGear
+  id: SCSTLeaderGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitColorBrown
+    mask: ClothingMaskGasExplorer
+    eyes: ClothingEyesHudAdvanced
+    ears: ClothingHeadsetCentCom
+    neck: ClothingNeckMantleCBURNLeaderShoulder
+    gloves: ClothingHandsGlovesCombat
+    back: ClothingMilitaryBackpackCBURNSpiderLeader
+    belt: ClothingBeltMilitaryWebbingCBURNSpiderLeader
+    outerClothing: ClothingOuterHardsuitCBURNSCSTLeader
+    suitstorage: JetpackSecurityFilled
+    shoes: ADTClothingShoesBootsMagERT
+    id: CBURNLeaderPDA
+    pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: DoorRemoteCustom
+
+
+### SCNT
+- type: job
+  id: SCNTLeader
+  name: job-name-cburn-leader
+  description: job-description-cburnleader
+  playTimeTracker: JobSCNTLeader
+  setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 36000 # 10 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 # 20 hours
+    - !type:DepartmentTimeRequirement
+      department: Command
+      time: 36000 # 10 hours
+  startingGear: SCNTLeaderGear
+  icon: "JobIconERTLeader"
+  supervisors: job-supervisors-centcom
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+  - ErtTeamLeader
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant, TrackingImplant ]
+
+- type: startingGear
+  id: SCNTLeaderGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitColorBrown
+    mask: ClothingMaskGasExplorer
+    eyes: ClothingEyesHudAdvanced
+    ears: ClothingHeadsetCentCom
+    neck: ClothingNeckMantleCBURNLeaderShoulder
+    gloves: ClothingHandsGlovesCombat
+    back: ClothingMilitaryBackpackCBURNNecroLeader
+    belt: ClothingBeltMilitaryWebbingCBURNNecroLeader
+    outerClothing: ClothingOuterHardsuitCBURNNECROLeader
+    suitstorage: JetpackSecurityFilled
+    shoes: ADTClothingShoesBootsMagERT
+    id: CBURNLeaderPDA
+    pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: DoorRemoteCustom
+
+### Sierra
+- type: job
+  id: SierraLeader
+  name: job-name-cburn-leader
+  description: job-description-cburnleader
+  playTimeTracker: JobSierraLeader
+  setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 36000 # 10 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 # 20 hours
+    - !type:DepartmentTimeRequirement
+      department: Command
+      time: 36000 # 10 hours
+  startingGear: SierraLeaderGear
+  icon: "JobIconERTLeader"
+  supervisors: job-supervisors-centcom
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+  - ErtTeamLeader
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant, TrackingImplant ]
+
+- type: startingGear
+  id: SierraLeaderGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitColorBrown
+    mask: ClothingMaskGasExplorer
+    eyes: ClothingEyesGlassesThermalVisor
+    head: ClothingHeadHatBeretCentcomNaval
+    ears: ClothingHeadsetCentCom
+    neck: ClothingNeckMantleCBURNLeaderShoulder
+    gloves: ClothingHandsGlovesCombat
+    back: ClothingMilitaryBackpackCBURNSierraLeader
+    belt: ClothingBeltMilitaryWebbingCBURNSierra
+    outerClothing: ClothingOuterHardsuitCBURNLeader
+    suitstorage: JetpackVoidFilled
+    shoes: ADTClothingShoesBootsMagERT
+    id: CBURNLeaderPDA
+    pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: DoorRemoteCustom
+
+### Agent
+### CBURN
 - type: job
   id: CBURNAgent
   name: job-name-cburn-agent
@@ -84,19 +231,151 @@
     eyes: ClothingEyesHudAdvanced
     ears: ClothingHeadsetCentCom
     gloves: ClothingHandsGlovesCombat
+    back: ClothingMilitaryBackpackCBURN
+    belt: ClothingBeltMilitaryWebbingCBURN
     outerClothing: ClothingOuterHardsuitCBURN
-    shoes: ClothingShoesBootsCombatFilled
+    suitstorage: JetpackSecurityFilled
+    shoes: ClothingShoesBootsMagSecurity
     id: CBURNPDA
     pocket1: DoubleEmergencyOxygenTankFilled
-  inhand:
-  - ERTloadoutCBURN
+    pocket2: FlashlightSeclite
+
+### SCST
+- type: job
+  id: SCSTAgent
+  name: job-name-cburn-agent
+  description: job-description-cburnagent
+  playTimeTracker: JobSCSTAgent
+  setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 14400 # 4 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 50400 # 14 hours
+  startingGear: CBURNAgentGear
+  icon: "JobIconERT"
+  supervisors: job-supervisors-centcom
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant, TrackingImplant ]
+
+- type: startingGear
+  id: SCSTAgentGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitColorBrown
+    mask: ClothingMaskGasExplorer
+    eyes: ClothingEyesHudAdvanced
+    ears: ClothingHeadsetCentCom
+    gloves: ClothingHandsGlovesCombat
+    back: ClothingMilitaryBackpackCBURNSpider
+    belt: ClothingBeltMilitaryWebbingCBURNSpider
+    outerClothing: ClothingOuterHardsuitCBURNSCSTSoldier
+    suitstorage: JetpackSecurityFilled
+    shoes: ADTClothingShoesBootsMagERT
+    id: CBURNPDA
+    pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: TelescopicShield
+
+### SCNT
+- type: job
+  id: SCNTAgent
+  name: job-name-cburn-agent
+  description: job-description-cburnagent
+  playTimeTracker: JobSCNTAgent
+  setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 14400 # 4 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 50400 # 14 hours
+  startingGear: SCNTAgentGear
+  icon: "JobIconERT"
+  supervisors: job-supervisors-centcom
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant, TrackingImplant ]
+
+- type: startingGear
+  id: SCNTAgentGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitColorBrown
+    mask: ClothingMaskGasExplorer
+    eyes: ClothingEyesHudAdvanced
+    ears: ClothingHeadsetCentCom
+    gloves: ClothingHandsGlovesCombat
+    back: ClothingMilitaryBackpackCBURNNecro
+    belt: ClothingBeltMilitaryWebbingCBURNNecro
+    outerClothing: ClothingOuterHardsuitCBURNNECROSoldier
+    suitstorage: JetpackSecurityFilled
+    shoes: ADTClothingShoesBootsMagERT
+    id: CBURNPDA
+    pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: TelescopicShield
+
+### Sierra
+- type: job
+  id: SierraAgent
+  name: job-name-cburn-agent
+  description: job-description-cburnagent
+  playTimeTracker: JobSierraAgent
+  setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 14400 # 4 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 50400 # 14 hours
+  startingGear: SierraAgentGear
+  icon: "JobIconERT"
+  supervisors: job-supervisors-centcom
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant, TrackingImplant ]
+
+- type: startingGear
+  id: SierraAgentGear
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitColorBrown
+    mask: ClothingMaskGasExplorer
+    eyes: ClothingEyesHudERTGamma
+    head: ClothingHeadHatBeretMerc
+    ears: ClothingHeadsetCentCom
+    gloves: ClothingHandsGlovesCombat
+    back: ClothingMilitaryBackpackCBURNSierra
+    belt: ClothingBeltMilitaryWebbingCBURNSierra
+    outerClothing: ClothingOuterHardsuitCBURN
+    suitstorage: JetpackVoidFilled
+    shoes: ADTClothingShoesBootsMagERT
+    id: CBURNPDA
+    pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: TelescopicShield
 
 # Other
 - type: entity
   parent: ClothingNeckMantleHOSShoulder
   id: ClothingNeckMantleCBURNLeaderShoulder
-  name: наплечная мантия командира РХБЗЗ
-  description: Мантия отличающая командира РХБЗЗ от его подчинённых.
+  name: наплечная мантия командира отряда ОБХУ
+  description: Мантия отличающая командира отряда из Отделения Био-Химических Угроз.
   components:
   - type: Sprite
     sprite: Clothing/Neck/mantles/hosmantle_shoulder.rsi

@@ -55,7 +55,6 @@ public sealed class ShadowlingRuleSystem : GameRuleSystem<ShadowlingRuleComponen
             return;
 
         args.AddLine(Loc.GetString("shadowling-round-end-count", ("initialCount", sessionData.Count)));
-
         foreach (var (mind, data, name) in sessionData)
         {
             var count = 0;
@@ -67,7 +66,6 @@ public sealed class ShadowlingRuleSystem : GameRuleSystem<ShadowlingRuleComponen
                 ("username", data.UserName),
                 ("count", count)));
         }
-
         args.AddLine("");
 
         if (component.IsAscended)

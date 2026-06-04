@@ -124,13 +124,17 @@
   components:
   - type: StorageFill
     contents:
-     - id: BoxMRE
-     - id: WeaponShotgunBulldog
-     - id: MagazineShotgunIncendiary
-       amount: 4
-     - id: ADTMagazineShotgunIncendiaryXL
-       amount: 2
-     - id: CrowbarRed
+      - id: ERTloadoutSCSTPrimary
+      - id: ERTloadoutSCSTSecondary
+      - id: BoxCardboardERT
+      - id: CrowbarRed
+      - id: PinpointerNuclear
+      - id: MedkitCombatFilled
+      - id: InjectorCaseERTFilled
+      - id: SCSTMedipen
+      - id: SCSTMedipen
+      - id: SCSTMedipen
+      - id: SCSTMedipen
 
 - type: entity
   name: армейский рюкзак ОППУ
@@ -141,14 +145,18 @@
   components:
   - type: StorageFill
     contents:
-     - id: BoxMRE
-     - id: WeaponShotgunBulldog
-     - id: MagazineShotgunIncendiary
-       amount: 3
-     - id: ADTMagazineShotgunIncendiaryXL
-       amount: 3
-     - id: CrowbarRed
-     - id: PinpointerNuclear
+      - id: ERTloadoutSCSTPrimary
+      - id: ERTloadoutSCSTSecondary
+      - id: BoxCardboardERT
+      - id: PinpointerNuclear
+      - id: MedkitCombatFilled
+      - id: InjectorCaseERTFilled
+      - id: SCSTMedipen
+      - id: SCSTMedipen
+      - id: SCSTMedipen
+      - id: SCSTMedipen
+      - id: SCSTMedipen
+      - id: SCSTMedipen
 
 - type: entity
   name: армейская РПС ОППУ
@@ -158,12 +166,9 @@
   components:
   - type: StorageFill
     contents:
-      - id: MedicatedSuture
-      - id: RegenerativeMesh
-      - id: MagazineShotgunIncendiary
-        amount: 3
-      - id: SCSTMedipen
-        amount: 4
+      - id: KarachnocidGrenade
+      - id: KarachnocidGrenade
+      - id: GrenadeIncendiary
 
 - type: entity
   name: армейская РПС ОППУ
@@ -174,12 +179,10 @@
   components:
   - type: StorageFill
     contents:
-      - id: MedicatedSuture
-      - id: RegenerativeMesh
-      - id: MagazineShotgunIncendiary
-        amount: 3
-      - id: SCSTMedipen
-        amount: 6
+      - id: KarachnocidGrenade
+      - id: KarachnocidGrenade
+      - id: GrenadeIncendiary
+      - id: CrowbarRed
 
 # CBURNNecro
 
@@ -191,13 +194,19 @@
   components:
   - type: StorageFill
     contents:
-      - id: BoxMRE
-      - id: WeaponShotgunBulldog
-      - id: MagazineShotgunIncendiary
-        amount: 4
-      - id: NECROMedipen
-        amount: 2
+      - id: ERTloadoutSCNTPrimary
+      - id: ERTloadoutSCNTSecondary
+      - id: BoxCardboardERT
       - id: CrowbarRed
+      - id: PinpointerNuclear
+      - id: MedkitCombatFilled
+      - id: InjectorCaseERTFilled
+      - id: NECROMedipen
+      - id: NECROMedipen
+      - id: NECROMedipen
+      - id: NECROMedipen
+      - id: ZetaTwoMedipen
+      - id: ZetaTwoMedipen
 
 - type: entity
   name: армейский рюкзак ОПНУ
@@ -208,15 +217,21 @@
   components:
   - type: StorageFill
     contents:
-      - id: BoxMRE
-      - id: WeaponShotgunBulldog
-      - id: MagazineShotgunIncendiary
-        amount: 4
-      - id: NECROMedipen
-        amount: 4
-      - id: PinpointerNecroobelisk
+      - id: ERTloadoutSCNTPrimary
+      - id: ERTloadoutSCNTSecondary
+      - id: BoxCardboardERT
       - id: CrowbarRed
       - id: PinpointerNuclear
+      - id: MedkitCombatFilled
+      - id: InjectorCaseERTFilled
+      - id: NECROMedipen
+      - id: NECROMedipen
+      - id: NECROMedipen
+      - id: NECROMedipen
+      - id: NECROMedipen
+      - id: NECROMedipen
+      - id: ZetaTwoMedipen
+      - id: ZetaTwoMedipen
 
 - type: entity
   name: армейская РПС ОПНУ
@@ -226,13 +241,10 @@
   components:
   - type: StorageFill
     contents:
-      - id: MedicatedSuture
-      - id: RegenerativeMesh
-      - id: MagazineShotgunIncendiary
-      - id: NECROMedipen
-        amount: 6
-      - id: ZetaTwoMedipen
-        amount: 2
+      - id: GrenadeIncendiary
+      - id: GrenadeIncendiary
+      - id: ExGrenade
+      - id: ExGrenade
 
 - type: entity
   name: армейская РПС ОПНУ
@@ -243,13 +255,11 @@
   components:
   - type: StorageFill
     contents:
-      - id: MedicatedSuture
-      - id: RegenerativeMesh
-      - id: NECROMedipen
-        amount: 6
-      - id: ZetaTwoMedipen
-        amount: 2
       - id: ObeliskStoper
+      - id: GrenadeIncendiary
+      - id: GrenadeIncendiary
+      - id: ExGrenade
+      - id: ExGrenade
 
 # CBURN
 
@@ -262,14 +272,15 @@
   components:
   - type: StorageFill
     contents:
-      - id: GrenadeIncendiary
-      - id: CrowbarRed
-      - id: WeaponFlareGun
-      - id: BoxShotgunFlare
-      - id: BoxMRE
-      - id: WeaponDisabler
       - id: ERTloadoutCBURNPrimary
       - id: ERTloadoutCBURNSecondary
+      - id: BoxCardboardERT
+      - id: JawsOfLife
+      - id: PinpointerNuclear
+      - id: GrenadeIncendiary
+      - id: GrenadeIncendiary
+      - id: ClusterBangFull
+      - id: ClusterBangFull
 
 - type: entity
   name: армейский рюкзак РХБЗЗ
@@ -280,15 +291,15 @@
   components:
   - type: StorageFill
     contents:
-      - id: GrenadeIncendiary
-      - id: CrowbarRed
-      - id: WeaponFlareGun
-      - id: BoxShotgunFlare
-      - id: BoxMRE
-      - id: WeaponDisabler
       - id: ERTloadoutCBURNPrimary
       - id: ERTloadoutCBURNSecondary
+      - id: BoxCardboardERT
+      - id: JawsOfLife
       - id: PinpointerNuclear
+      - id: GrenadeIncendiary
+      - id: GrenadeIncendiary
+      - id: ClusterBangFull
+      - id: ClusterBangFull
 
 - type: entity
   name: армейская РПС РХБЗЗ
@@ -298,10 +309,11 @@
   components:
   - type: StorageFill
     contents:
-      - id: MedicatedSuture
-      - id: RegenerativeMesh
+      - id: Truncheon
+      - id: BoxShotgunFlare
+      - id: MedkitCombatFilled
       - id: PillCanisterCBURN
-      - id: EmergencyMedipen
+      - id: WeaponFlareGunSecurity
 
 - type: entity
   name: армейская РПС РХБЗЗ
@@ -312,10 +324,69 @@
   components:
   - type: StorageFill
     contents:
-      - id: MedicatedSuture
-      - id: RegenerativeMesh
+      - id: Truncheon
+      - id: BoxShotgunFlare
+      - id: MedkitCombatFilled
       - id: PillCanisterCBURN
-      - id: EmergencyMedipen
+      - id: WeaponFlareGunSecurity
+
+# CBURN Sierra
+
+- type: entity
+  name: армейский рюкзак РХБЗЗ Сьерры
+  parent: ClothingMilitaryBackpack
+  id: ClothingMilitaryBackpackCBURNSierra
+  description: У нас есть цель, цель будет выполнена.
+  suffix: Боец
+  components:
+  - type: StorageFill
+    contents:
+      - id: ERTloadoutSierraPrimary
+      - id: ERTloadoutSierraSecondary
+      - id: BoxCardboardERT
+      - id: CrowbarRed
+      - id: PinpointerNuclear
+      - id: C4
+      - id: GrenadeIncendiary
+
+- type: entity
+  name: армейский рюкзак РХБЗЗ Сьерры
+  parent: ClothingMilitaryBackpack
+  id: ClothingMilitaryBackpackCBURNSierraLeader
+  description: У нас есть цель, цель будет выполнена.
+  suffix: Лидер
+  components:
+  - type: StorageFill
+    contents:
+      - id: ERTloadoutSierraPrimary
+      - id: ERTloadoutSierraSecondary
+      - id: BoxCardboardERT
+      - id: ObeliskStoper
+      - id: CrowbarRed
+      - id: PinpointerNuclear
+      - id: C4
+      - id: C4
+      - id: GrenadeIncendiary
+      - id: GrenadeIncendiary
+
+- type: entity
+  name: армейская РПС РХБЗЗ Сьерры
+  parent: ClothingBeltMilitaryWebbing
+  id: ClothingBeltMilitaryWebbingCBURNSierra
+  description: У нас есть цель, цель будет выполнена.
+  components:
+  - type: StorageFill
+    contents:
+      - id: BSAACombatKitFilled
+      - id: InjectorCaseERTFilled
+      - id: NECROMedipen
+      - id: NECROMedipen
+      - id: NECROMedipen
+      - id: ZetaTwoMedipen
+      - id: SCSTMedipen
+      - id: SCSTMedipen
+      - id: SCSTMedipen
+      - id: ZetaTwoMedipen
 
 # ERT
 

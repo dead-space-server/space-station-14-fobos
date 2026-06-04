@@ -16,6 +16,7 @@ using Content.Shared.Mind;
 using Content.Shared.Objectives.Systems;
 using Content.Shared.Players;
 using Content.Shared.Preferences;
+using Content.Shared.Roles;
 using Content.Shared.Roles.Components;
 using JetBrains.Annotations;
 using Prometheus;
@@ -51,6 +52,8 @@ namespace Content.Server.GameTicking
             "Round length in seconds.");
 
         private const string SentientVirusAntagPrototype = "SentientVirus"; // DS14
+        private const string RevolutionaryAntagPrototype = "Rev"; // DS14
+        private const string HeadRevolutionaryAntagPrototype = "HeadRev"; // DS14
 
 #if EXCEPTION_TOLERANCE
         [ViewVariables]
@@ -565,15 +568,10 @@ namespace Content.Server.GameTicking
 
                 var antag = _roles.MindIsAntagonist(mindId);
 
-                var playerIcName = "Unknown";
-
-                if (mind.CharacterName != null)
-                    playerIcName = mind.CharacterName;
-                else if (mind.CurrentEntity != null && TryName(mind.CurrentEntity.Value, out var icName))
-                    playerIcName = icName;
-
                 // DS14-start
-                var displayEntity = GetRoundEndDisplayEntity(mindId, mind);
+                var manifestIdentity = _roundEndManifestStats.GetManifestIdentity(mindId);
+                var playerIcName = GetRoundEndPlayerIcName(mind, manifestIdentity);
+                var displayEntity = GetRoundEndDisplayEntity(mindId, mind, manifestIdentity);
 
                 if (displayEntity != null && pvsOverride)
                     _pvsOverride.AddGlobalOverride(displayEntity.Value);
@@ -588,9 +586,7 @@ namespace Content.Server.GameTicking
                     ? GetRoundEndObjectives(mindId, mind)
                     : Array.Empty<RoundEndMessageEvent.RoundEndObjectiveInfo>();
                 var showInAntagManifest = antag &&
-                    (manifestAntagMinds.Contains(mindId) ||
-                     manifestObjectives.Length > 0 ||
-                     antagRoles.Any(role => role.Prototype == SentientVirusAntagPrototype));
+                    ShouldShowInRoundEndAntagManifest(mindId, manifestAntagMinds, manifestObjectives, antagRoles);
                 // DS14-end
 
                 var playerEndRoundInfo = new RoundEndMessageEvent.RoundEndPlayerInfo()
@@ -646,6 +642,23 @@ namespace Content.Server.GameTicking
         }
 
         // DS14-start
+        private string GetRoundEndPlayerIcName(MindComponent mind, RoundEndManifestIdentity? manifestIdentity)
+        {
+            if (manifestIdentity is { } identity &&
+                !string.IsNullOrWhiteSpace(identity.CharacterName))
+            {
+                return identity.CharacterName;
+            }
+
+            if (mind.CharacterName != null)
+                return mind.CharacterName;
+
+            if (mind.CurrentEntity != null && TryName(mind.CurrentEntity.Value, out var icName))
+                return icName;
+
+            return "Unknown";
+        }
+
         private HashSet<EntityUid> GetRoundEndManifestAntagMinds()
         {
             var minds = new HashSet<EntityUid>();
@@ -659,6 +672,25 @@ namespace Content.Server.GameTicking
             }
 
             return minds;
+        }
+
+        private static bool ShouldShowInRoundEndAntagManifest(
+            EntityUid mindId,
+            HashSet<EntityUid> manifestAntagMinds,
+            RoundEndMessageEvent.RoundEndObjectiveInfo[] manifestObjectives,
+            RoleInfo[] antagRoles)
+        {
+            var isHeadRevolutionary = antagRoles.Any(role => role.Prototype == HeadRevolutionaryAntagPrototype);
+            var isOnlyRegularRevolutionary = !isHeadRevolutionary &&
+                                             antagRoles.Any(role => role.Prototype == RevolutionaryAntagPrototype) &&
+                                             antagRoles.All(role => role.Prototype == RevolutionaryAntagPrototype);
+
+            if (isOnlyRegularRevolutionary)
+                return false;
+
+            return manifestAntagMinds.Contains(mindId) ||
+                   manifestObjectives.Length > 0 ||
+                   antagRoles.Any(role => role.Prototype == SentientVirusAntagPrototype);
         }
 
         private RoundEndMessageEvent.RoundEndObjectiveInfo[] GetRoundEndObjectives(EntityUid mindId, MindComponent mind)
@@ -683,7 +715,10 @@ namespace Content.Server.GameTicking
             return objectives.ToArray();
         }
 
-        private EntityUid? GetRoundEndDisplayEntity(EntityUid mindId, MindComponent mind)
+        private EntityUid? GetRoundEndDisplayEntity(
+            EntityUid mindId,
+            MindComponent mind,
+            RoundEndManifestIdentity? manifestIdentity)
         {
             var ownedEntity = mind.OwnedEntity;
             EntityUid? originalEntity = null;
@@ -693,11 +728,18 @@ namespace Content.Server.GameTicking
             if (_roundEndManifestStats.GetDisplaySnapshot(mindId) is { } snapshot)
                 return snapshot;
 
+            var identityEntity = manifestIdentity?.SourceEntity;
+            if (IsRoundEndDisplayBody(identityEntity))
+                return identityEntity;
+
             if (IsRoundEndDisplayBody(ownedEntity))
                 return ownedEntity;
 
             if (IsRoundEndDisplayBody(originalEntity))
                 return originalEntity;
+
+            if (identityEntity != null && !TerminatingOrDeleted(identityEntity.Value))
+                return identityEntity;
 
             if (ownedEntity != null && !TerminatingOrDeleted(ownedEntity.Value))
                 return ownedEntity;

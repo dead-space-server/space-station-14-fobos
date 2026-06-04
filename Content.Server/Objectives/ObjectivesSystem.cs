@@ -12,11 +12,9 @@ using Robust.Shared.Random;
 using System.Linq;
 using System.Text;
 using Content.Server.Objectives.Commands;
-using Content.Shared.CCVar;
 using Content.Shared.Prototypes;
 using Content.Shared.Roles.Jobs;
 using Robust.Server.Player;
-using Robust.Shared.Configuration;
 using Robust.Shared.Utility;
 
 namespace Content.Server.Objectives;
@@ -29,19 +27,14 @@ public sealed class ObjectivesSystem : SharedObjectivesSystem
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly EmergencyShuttleSystem _emergencyShuttle = default!;
     [Dependency] private readonly SharedJobSystem _job = default!;
-    [Dependency] private readonly IConfigurationManager _cfg = default!;
 
     private IEnumerable<string>? _objectives;
-
-    private bool _showGreentext;
 
     public override void Initialize()
     {
         base.Initialize();
 
         SubscribeLocalEvent<RoundEndTextAppendEvent>(OnRoundEndText);
-
-        Subs.CVar(_cfg, CCVars.GameShowGreentext, value => _showGreentext = value, true);
 
         _prototypeManager.PrototypesReloaded += CreateCompletions;
     }
@@ -54,7 +47,7 @@ public sealed class ObjectivesSystem : SharedObjectivesSystem
     }
 
     /// <summary>
-    /// Adds objective text for each game rule's players on round end.
+    /// Adds aggregate objective role text on round end.
     /// </summary>
     private void OnRoundEndText(RoundEndTextAppendEvent ev)
     {
@@ -111,114 +104,14 @@ public sealed class ObjectivesSystem : SharedObjectivesSystem
             {
                 result.AppendLine(Loc.GetString("objectives-round-end-result-in-custody", ("count", total), ("custody", totalInCustody), ("agent", agent)));
             }
-            // next add all the players with its own prepended text
-            foreach (var (prepend, minds) in summary)
+
+            foreach (var (prepend, _) in summary)
             {
-                if (prepend != string.Empty)
-                    result.Append(prepend);
-
-                // add space between the start text and player list
-                result.AppendLine();
-
-                AddSummary(result, agent, minds);
+                if (!string.IsNullOrWhiteSpace(prepend))
+                    result.AppendLine(prepend.Trim());
             }
 
             ev.AddLine(result.AppendLine().ToString());
-        }
-    }
-
-    private void AddSummary(StringBuilder result, string agent, List<(EntityUid, string)> minds)
-    {
-        var agentSummaries = new List<(string summary, float successRate, int completedObjectives)>();
-
-        foreach (var (mindId, name) in minds)
-        {
-            if (!TryComp<MindComponent>(mindId, out var mind))
-                continue;
-
-            var title = GetTitle((mindId, mind), name);
-            var custody = IsInCustody(mindId, mind) ? Loc.GetString("objectives-in-custody") : string.Empty;
-
-            var objectives = mind.Objectives;
-            if (objectives.Count == 0)
-            {
-                agentSummaries.Add((Loc.GetString("objectives-no-objectives", ("custody", custody), ("title", title), ("agent", agent)), 0f, 0));
-                continue;
-            }
-
-            var completedObjectives = 0;
-            var totalObjectives = 0;
-            var agentSummary = new StringBuilder();
-            agentSummary.AppendLine(Loc.GetString("objectives-with-objectives", ("custody", custody), ("title", title), ("agent", agent)));
-
-            foreach (var objectiveGroup in objectives.GroupBy(o => Comp<ObjectiveComponent>(o).LocIssuer))
-            {
-                //TO DO:
-                //check for the right group here. Getting the target issuer is easy: objectiveGroup.Key
-                //It should be compared to the type of the group's issuer.
-                agentSummary.AppendLine(objectiveGroup.Key);
-
-                foreach (var objective in objectiveGroup)
-                {
-                    var info = GetInfo(objective, mindId, mind);
-                    if (info == null)
-                        continue;
-
-                    var objectiveTitle = info.Value.Title;
-                    var progress = info.Value.Progress;
-                    totalObjectives++;
-
-                    agentSummary.Append("- ");
-                    if (!_showGreentext)
-                    {
-                        agentSummary.AppendLine(objectiveTitle);
-                    }
-                    else if (progress > 0.99f)
-                    {
-                        agentSummary.AppendLine(Loc.GetString(
-                            "objectives-objective-success",
-                            ("objective", objectiveTitle),
-                            ("progress", progress)
-                        ));
-                        completedObjectives++;
-                    }
-                    else if (progress <= 0.99f && progress >= 0.5f)
-                    {
-                        agentSummary.AppendLine(Loc.GetString(
-                            "objectives-objective-partial-success",
-                            ("objective", objectiveTitle),
-                            ("progress", progress)
-                        ));
-                    }
-                    else if (progress < 0.5f && progress > 0f)
-                    {
-                        agentSummary.AppendLine(Loc.GetString(
-                            "objectives-objective-partial-failure",
-                            ("objective", objectiveTitle),
-                            ("progress", progress)
-                        ));
-                    }
-                    else
-                    {
-                        agentSummary.AppendLine(Loc.GetString(
-                            "objectives-objective-fail",
-                            ("objective", objectiveTitle),
-                            ("progress", progress)
-                        ));
-                    }
-                }
-            }
-
-            var successRate = totalObjectives > 0 ? (float) completedObjectives / totalObjectives : 0f;
-            agentSummaries.Add((agentSummary.ToString(), successRate, completedObjectives));
-        }
-
-        var sortedAgents = agentSummaries.OrderByDescending(x => x.successRate)
-                                       .ThenByDescending(x => x.completedObjectives);
-
-        foreach (var (summary, _, _) in sortedAgents)
-        {
-            result.AppendLine(summary);
         }
     }
 

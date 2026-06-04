@@ -592,3 +592,35 @@
     maxCharges: 1
   - type: AutoRecharge
     rechargeDuration: 30
+
+# Ninja
+
+- type: entity
+  parent: IDCardStandard
+  id: NinjaIDCard
+  name: зеленая ID-карта
+  description: Зеленая ID-карта.... 
+  suffix: Ninja
+  components:
+  - type: AgentIDCard
+  - type: PresetIdCard
+    job: Passenger
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Misc/ninja_id.rsi
+    layers:
+    - state: Ninja_ID
+  - type: Access
+  - type: Item
+    heldPrefix: green
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Misc/ninja_id.rsi
+  - type: UIRequiresLock
+  - type: ActivatableUI
+    key: enum.AgentIDCardUiKey.Key
+    verbText: agent-id-open-ui-verb
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+  - type: UserInterface
+    interfaces:
+      enum.AgentIDCardUiKey.Key:
+        type: AgentIDCardBoundUserInterface
