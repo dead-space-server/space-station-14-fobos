@@ -56,6 +56,8 @@ namespace Content.Server.GameTicking
         private const string RevolutionaryAntagPrototype = "Rev"; // DS14
         private const string HeadRevolutionaryAntagPrototype = "HeadRev"; // DS14
         private const int DiscordMessageMaxLength = 2000; // DS14
+        private const string DiscordCodeBlockFence = "```"; // DS14
+        private const int DiscordCodeBlockSplitOverhead = 8; // DS14: "\n```" + "```\n"
 
 #if EXCEPTION_TOLERANCE
         [ViewVariables]
@@ -837,7 +839,7 @@ namespace Content.Server.GameTicking
             return Regex.Replace(text, @"\[[^\]]*\]", "");
         }
 
-        private static List<string> SplitDiscordWebhookContent(string content)
+        internal static List<string> SplitDiscordWebhookContent(string content)
         {
             var messages = new List<string>();
             if (content.Length <= DiscordMessageMaxLength)
@@ -846,23 +848,34 @@ namespace Content.Server.GameTicking
                 return messages;
             }
 
+            var containsCodeBlock = HasDiscordCodeBlockFence(content);
+            var maxLength = containsCodeBlock
+                ? DiscordMessageMaxLength - DiscordCodeBlockSplitOverhead
+                : DiscordMessageMaxLength;
+
             var builder = new StringBuilder();
             foreach (var line in content.Replace("\r\n", "\n").Replace('\r', '\n').Split('\n'))
             {
-                AppendDiscordWebhookLine(messages, builder, line);
+                AppendDiscordWebhookLine(messages, builder, line, maxLength);
             }
 
             AddDiscordWebhookMessage(messages, builder);
-            return messages;
+            return containsCodeBlock
+                ? BalanceDiscordCodeBlocks(messages)
+                : messages;
         }
 
-        private static void AppendDiscordWebhookLine(List<string> messages, StringBuilder builder, string line)
+        private static void AppendDiscordWebhookLine(
+            List<string> messages,
+            StringBuilder builder,
+            string line,
+            int maxLength)
         {
             var remaining = line;
             while (true)
             {
                 var separatorLength = builder.Length > 0 ? 1 : 0;
-                var available = DiscordMessageMaxLength - builder.Length - separatorLength;
+                var available = maxLength - builder.Length - separatorLength;
 
                 if (remaining.Length <= available)
                 {
@@ -913,6 +926,52 @@ namespace Content.Server.GameTicking
 
             if (message.Length > 0)
                 messages.Add(message);
+        }
+
+        private static List<string> BalanceDiscordCodeBlocks(List<string> messages)
+        {
+            var balanced = new List<string>(messages.Count);
+            var inCodeBlock = false;
+
+            foreach (var rawMessage in messages)
+            {
+                var message = inCodeBlock
+                    ? DiscordCodeBlockFence + "\n" + rawMessage
+                    : rawMessage;
+
+                inCodeBlock = IsInDiscordCodeBlockAfter(rawMessage, inCodeBlock);
+
+                if (inCodeBlock)
+                    message += "\n" + DiscordCodeBlockFence;
+
+                balanced.Add(message);
+            }
+
+            return balanced;
+        }
+
+        private static bool HasDiscordCodeBlockFence(string text)
+        {
+            foreach (var line in text.Replace("\r\n", "\n").Replace('\r', '\n').Split('\n'))
+            {
+                if (line.TrimStart().StartsWith(DiscordCodeBlockFence, StringComparison.Ordinal))
+                    return true;
+            }
+
+            return false;
+        }
+
+        private static bool IsInDiscordCodeBlockAfter(string text, bool startsInCodeBlock)
+        {
+            var inCodeBlock = startsInCodeBlock;
+
+            foreach (var line in text.Replace("\r\n", "\n").Replace('\r', '\n').Split('\n'))
+            {
+                if (line.TrimStart().StartsWith(DiscordCodeBlockFence, StringComparison.Ordinal))
+                    inCodeBlock = !inCodeBlock;
+            }
+
+            return inCodeBlock;
         }
         // DS14-end
 
