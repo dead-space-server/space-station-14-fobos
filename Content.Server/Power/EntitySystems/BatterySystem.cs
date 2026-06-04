@@ -40,7 +40,7 @@ public sealed class BatterySystem : SharedBatterySystem
 
     private void OnNetBatteryRejuvenate(Entity<PowerNetworkBatteryComponent> ent, ref RejuvenateEvent args)
     {
-        ent.Comp.NetworkBattery.CurrentStorage = ent.Comp.NetworkBattery.Capacity;
+        ent.Comp.NetworkBattery.SetCurrentStorage(ent.Comp.NetworkBattery.Capacity); // DS14
     }
 
     private void PreSync(NetworkBatteryPreSync ev)
@@ -59,16 +59,26 @@ public sealed class BatterySystem : SharedBatterySystem
                 netBat.NetworkBattery.Capacity = bat.MaxCharge;
 
             if (netBat.NetworkBattery.CurrentStorage != currentCharge)
-                netBat.NetworkBattery.CurrentStorage = currentCharge;
+                netBat.NetworkBattery.SetCurrentStorage(currentCharge, trackChange: false); // DS14
         }
     }
 
     private void PostSync(NetworkBatteryPostSync ev)
     {
         // Ignoring entity pausing. If the entity was paused, neither component's data should have been changed.
-        var enumerator = AllEntityQuery<PowerNetworkBatteryComponent, BatteryComponent>();
-        while (enumerator.MoveNext(out var uid, out var netBat, out var bat))
+        if (ev.ChangedBatteries == null) // DS14
+            return;
+
+        foreach (var uid in ev.ChangedBatteries) // DS14
         {
+            // DS14-start
+            if (!TryComp<PowerNetworkBatteryComponent>(uid, out var netBat) ||
+                !TryComp<BatteryComponent>(uid, out var bat))
+            // DS14-end
+            {
+                continue;
+            }
+
             var currentStorage = netBat.NetworkBattery.CurrentStorage;
             if (bat.ChargeRate == 0f && bat.LastCharge == currentStorage)
                 continue;

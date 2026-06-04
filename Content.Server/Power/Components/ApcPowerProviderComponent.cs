@@ -20,6 +20,7 @@ namespace Content.Server.Power.Components
         {
             LinkedReceivers.Remove(receiver);
             receiver.NetworkLoad.LinkedNetwork = default;
+            receiver.NetworkLoad.SetReceivingPower(0f); // DS14
 
             Net?.QueueNetworkReconnect();
         }

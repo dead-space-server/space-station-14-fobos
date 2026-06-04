@@ -36,7 +36,10 @@ namespace Content.Server.Power.Pow3r
 
         public void Tick(float frameTime, PowerState state, IParallelManager parallel)
         {
-            ClearLoadsAndSupplies(state);
+            // DS14-start
+            state.FlushDirtyLoads();
+            ClearSupplies(state);
+            // DS14-end
 
             state.GroupedNets ??= GroupByNetworkDepth(state);
             DebugTools.Assert(state.GroupedNets.Select(x => x.Count).Sum() == state.Networks.Count);
@@ -73,17 +76,8 @@ namespace Content.Server.Power.Pow3r
             PowerSolverShared.UpdateRampPositions(frameTime, state);
         }
 
-        private void ClearLoadsAndSupplies(PowerState state)
+        private void ClearSupplies(PowerState state) // DS14
         {
-            foreach (var load in state.Loads.Values)
-            {
-                if (load.Paused)
-                    continue;
-
-                if (load.ReceivingPower != 0f)
-                    load.ReceivingPower = 0f;
-            }
-
             foreach (var supply in state.Supplies.Values)
             {
                 if (supply.Paused)
@@ -107,16 +101,28 @@ namespace Content.Server.Power.Pow3r
             // except for maybe the paused/enabled guff. If its mostly false, I guess they could just be 0 multipliers?
 
             // Add up demand from loads.
-            var demand = 0f;
-            foreach (var loadId in network.Loads)
+            // DS14-start
+            var loadDemandDirty = network.LoadDemandDirty;
+            var demand = network.CachedLoadDemand;
+            // DS14-end
+            if (loadDemandDirty) // DS14
             {
-                var load = state.Loads[loadId];
+                demand = 0f;
+                foreach (var loadId in network.Loads)
+                {
+                    var load = state.Loads[loadId];
 
-                if (!load.Enabled || load.Paused)
-                    continue;
+                    if (!load.Enabled || load.Paused)
+                        continue;
 
-                DebugTools.Assert(load.DesiredPower >= 0);
-                demand += load.DesiredPower;
+                    DebugTools.Assert(load.DesiredPower >= 0);
+                    demand += load.DesiredPower;
+                }
+
+                // DS14-start
+                network.CachedLoadDemand = demand;
+                network.LoadDemandDirty = false;
+                // DS14-end
             }
 
             // TODO: Consider having battery charge loads be processed "after" pass-through loads.
@@ -202,23 +208,21 @@ namespace Content.Server.Power.Pow3r
             network.LastCombinedMaxSupply = totalMaxSupply + totalMaxBatterySupply;
 
             var met = Math.Min(demand, network.LastCombinedSupply);
+            // DS14-start
+            var supplyRatio = demand == 0f ? 0f : met / demand;
+            var distributeLoads = loadDemandDirty || network.LastLoadSupplyRatio != supplyRatio;
+            if (distributeLoads)
+                DistributeLoadPower(network, state, supplyRatio);
+            network.LastLoadSupplyRatio = supplyRatio;
+            // DS14-end
+
             if (met == 0)
-                return;
-
-            var supplyRatio = met / demand;
-            // if supply ratio == 1 (or is close to) we could skip some math for each load & battery.
-
-            // Distribute supply to loads.
-            foreach (var loadId in network.Loads)
             {
-                var load = state.Loads[loadId];
-                if (!load.Enabled || load.DesiredPower == 0 || load.Paused)
-                    continue;
-
-                load.ReceivingPower = supplyRatio >= 1f
-                    ? load.DesiredPower
-                    : load.DesiredPower * supplyRatio;
+                ClearNetworkSupplies(network, state); // DS14
+                return;
             }
+
+            // if supply ratio == 1 (or is close to) we could skip some math for each load & battery.
 
             // Distribute supply to batteries
             foreach (var batteryId in network.BatteryLoads)
@@ -231,10 +235,10 @@ namespace Content.Server.Power.Pow3r
                 battery.CurrentReceiving = supplyRatio >= 1f
                     ? battery.DesiredPower
                     : battery.DesiredPower * supplyRatio;
-                battery.CurrentStorage += frameTime * battery.CurrentReceiving * battery.Efficiency;
+                battery.SetCurrentStorage(battery.CurrentStorage + frameTime * battery.CurrentReceiving * battery.Efficiency); // DS14
 
                 DebugTools.Assert(battery.CurrentStorage <= battery.Capacity || MathHelper.CloseTo(battery.CurrentStorage, battery.Capacity, 1e-5));
-                battery.CurrentStorage = MathF.Min(battery.CurrentStorage, battery.Capacity);
+                battery.SetCurrentStorage(MathF.Min(battery.CurrentStorage, battery.Capacity)); // DS14
             }
 
             // Target output capacity for supplies
@@ -260,6 +264,10 @@ namespace Content.Server.Power.Pow3r
                     supply.SupplyRampTarget = supply.MaxSupply * targetRelativeSupplyOutput;
                 }
             }
+            else
+            {
+                ClearNetworkSupplies(network, state);
+            }
 
             // Return if normal supplies met all demand or there are no supplying batteries
             if (unmet <= 0 || totalMaxBatterySupply <= 0)
@@ -284,7 +292,7 @@ namespace Content.Server.Power.Pow3r
                 // to the same relative maximum output, the larger tolerance will mean that one will have a larger
                 // available supply. IMO this is undesirable, but I can't think of an easy fix ATM.
 
-                battery.CurrentStorage -= frameTime * battery.CurrentSupply;
+                battery.SetCurrentStorage(battery.CurrentStorage - frameTime * battery.CurrentSupply); // DS14
 #if DEBUG
                 // Manual "MathHelper.CloseToPercent" using the subtracted value to define the relative error.
                 if (battery.CurrentStorage < 0)
@@ -293,7 +301,7 @@ namespace Content.Server.Power.Pow3r
                     DebugTools.Assert(battery.CurrentStorage > -epsilon);
                 }
 #endif
-                battery.CurrentStorage = MathF.Max(0, battery.CurrentStorage);
+                battery.SetCurrentStorage(MathF.Max(0, battery.CurrentStorage)); // DS14
 
                 battery.SupplyRampTarget = battery.MaxEffectiveSupply * relativeTargetBatteryOutput - battery.CurrentReceiving * battery.Efficiency;
 
@@ -301,6 +309,40 @@ namespace Content.Server.Power.Pow3r
                                   || MathHelper.CloseToPercent(battery.MaxEffectiveSupply * relativeTargetBatteryOutput, battery.LoadingNetworkDemand, 0.001));
             }
         }
+
+        // DS14-start
+        private static void DistributeLoadPower(Network network, PowerState state, float supplyRatio)
+        {
+            foreach (var loadId in network.Loads)
+            {
+                var load = state.Loads[loadId];
+                var receiving = !load.Enabled || load.DesiredPower == 0 || load.Paused
+                    ? 0f
+                    : supplyRatio >= 1f
+                        ? load.DesiredPower
+                        : load.DesiredPower * supplyRatio;
+
+                load.SetReceivingPower(receiving);
+            }
+        }
+
+        private static void ClearNetworkSupplies(Network network, PowerState state)
+        {
+            foreach (var supplyId in network.Supplies)
+            {
+                var supply = state.Supplies[supplyId];
+
+                if (supply.Paused)
+                    continue;
+
+                if (supply.CurrentSupply != 0f)
+                    supply.CurrentSupply = 0f;
+
+                if (supply.SupplyRampTarget != 0f)
+                    supply.SupplyRampTarget = 0f;
+            }
+        }
+        // DS14-end
 
         private void ClearBatteries(PowerState state)
         {
@@ -314,7 +356,7 @@ namespace Content.Server.Power.Pow3r
                 if (!battery.SupplyingMarked)
                 {
                     if (battery.CurrentSupply != 0f)
-                        battery.CurrentSupply = 0f;
+                        battery.SetCurrentSupply(0f); // DS14
 
                     if (battery.SupplyRampTarget != 0f)
                         battery.SupplyRampTarget = 0f;
