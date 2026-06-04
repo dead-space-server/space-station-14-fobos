@@ -12,7 +12,6 @@ public sealed class CrayonGhostSystem : EntitySystem
     [Dependency] private readonly IOverlayManager _overlay = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
 
-    private Angle _rotation = Angle.Zero;
     private SharedHandsSystem _hands = default!;
     private SharedTransformSystem _transform = default!;
     private SpriteSystem _sprite = default!;
@@ -30,7 +29,11 @@ public sealed class CrayonGhostSystem : EntitySystem
 
     public void SetRotation(Angle rotation)
     {
-        _rotation = rotation;
+        var player = _player.LocalEntity;
+        if (player == null) return;
+        if (!_hands.TryGetActiveItem(player.Value, out var held)) return;
+        if (!TryComp<CrayonComponent>(held, out var crayon)) return;
+        rotation = crayon.Rotation;
     }
     
     public override void Shutdown()
@@ -43,7 +46,7 @@ public sealed class CrayonGhostSystem : EntitySystem
     {
         decalId = string.Empty;
         color = Color.White;
-        rotation = _rotation;
+        rotation = Angle.Zero;
 
         var player = _player.LocalEntity;
         if (player == null)
@@ -60,7 +63,7 @@ public sealed class CrayonGhostSystem : EntitySystem
 
         decalId = crayon.SelectedState;
         color = crayon.Color;
-        rotation = _rotation;
+        rotation = crayon.Rotation;
         return true;
     }
 }
