@@ -233,6 +233,8 @@ public sealed class HTNSystem : EntitySystem
                             newPlanBetter = true;
                             break;
                         }
+                        else if (i > mtr.Count)
+                            break;
                     }
                 }
 

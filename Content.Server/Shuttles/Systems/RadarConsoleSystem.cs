@@ -127,18 +127,16 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
             return blips;
 
         var worldPos = _xformSys.GetWorldPosition(consoleXform);
-        var mapId    = consoleXform.MapID;
-        var blacklistTypes   = ResolveComponentTypes(component.BlacklistComponents);
-        var allowedTypes     = ResolveAllowedEntries(component.AllowedComponents);
+        var mapId = consoleXform.MapID;
+        var blacklistTypes = ResolveComponentTypes(component.BlacklistComponents);
+        var allowedTypes = ResolveAllowedEntries(component.AllowedComponents);
         var blacklistTagList = component.BlacklistTags;
-        var allowedTagList   = component.AllowedTags;
+        var allowedTagList = component.AllowedTags;
         var nearby = new HashSet<EntityUid>();
         _lookup.GetEntitiesInRange(mapId, worldPos, component.MaxRange, nearby, LookupFlags.Uncontained);
 
         foreach (var ent in nearby)
         {
-            if (ent == consoleUid)
-                continue;
 
             if (consoleXform.ParentUid == ent)
                 continue;
@@ -150,8 +148,9 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
             if (entXform.GridUid != null)
                 continue;
 
-            if (!TryComp<PhysicsComponent>(ent, out var phys) || !phys.CanCollide)
-                continue;
+            //if (!TryComp<PhysicsComponent>(ent, out var phys) || !phys.CanCollide)
+            //    continue;
+
             if (blacklistTypes.Any(type => HasComp(ent, type)))
                 continue;
 
@@ -159,18 +158,19 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
                 continue;
 
             var color = PickColor(ent, allowedTypes, allowedTagList);
-            if (color == null)
-                continue;
 
             var entWorldPos = _xformSys.GetWorldPosition(entXform);
-            blips.Add(new BlipState(entWorldPos, color.Value, BlipRadius));
+            blips.Add(new BlipState(entWorldPos, color, BlipRadius));
         }
 
         return blips;
     }
 
-    private Color? PickColor(EntityUid ent, List<(Type Type, Color Color)> allowedTypes, List<RadarBlipTagEntry> allowedTags)
+    private Color PickColor(EntityUid ent, List<(Type Type, Color Color)> allowedTypes, List<RadarBlipTagEntry> allowedTags)
     {
+        if (allowedTypes.Count == 0 && allowedTags.Count == 0)
+            return Color.Yellow;
+
         var compMatch = allowedTypes.FirstOrDefault(x => HasComp(ent, x.Type));
         if (compMatch != default)
             return compMatch.Color;
@@ -179,10 +179,7 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
         if (tagMatch != null)
             return tagMatch.Color;
 
-        if (allowedTypes.Count == 0 && allowedTags.Count == 0)
-            return Color.Yellow;
-
-        return null;
+        return new Color(0, 0, 0, 0);
     }
 
     private List<Type> ResolveComponentTypes(List<string> names)
@@ -241,7 +238,7 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
     private void OnRadarUnequipped(EntityUid uid, RadarConsoleComponent component, GotUnequippedEvent args)
     {
         component.FollowEntity = false;
-        
+
         _actions.RemoveAction(args.Equipee, component.ToggleActionEntity);
 
         if (_uiSystem.IsUiOpen(uid, RadarConsoleUiKey.Key, args.Equipee))

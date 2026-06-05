@@ -300,8 +300,6 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
     {
         base.Update(frameTime);
 
-        UpdateBlipsTick(frameTime); //DS14
-
         var toRemove = new ValueList<(EntityUid, PilotComponent)>();
         var query = EntityQueryEnumerator<PilotComponent>();
 
@@ -478,29 +476,26 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
             return blips;
 
         var worldPos = _transform.GetWorldPosition(consoleXform);
-        var mapId    = consoleXform.MapID;
+        var mapId = consoleXform.MapID;
         var blacklistTypes = ResolveComponentTypes(radar.BlacklistComponents);
-        var allowedTypes   = ResolveAllowedEntries(radar.AllowedComponents);
-        var blacklistTags  = radar.BlacklistTags;
-        var allowedTags    = radar.AllowedTags;
+        var allowedTypes = ResolveAllowedEntries(radar.AllowedComponents);
+        var blacklistTags = radar.BlacklistTags;
+        var allowedTags = radar.AllowedTags;
 
         var nearby = new HashSet<EntityUid>();
         _lookup.GetEntitiesInRange(mapId, worldPos, maxRange, nearby, LookupFlags.Uncontained);
 
         foreach (var ent in nearby)
         {
-            if (ent == consoleUid)
+            var entXform = Transform(ent);
+            if (entXform.GridUid != null)
                 continue;
 
             if (HasComp<MapComponent>(ent) || HasComp<MapGridComponent>(ent))
                 continue;
 
-            var entXform = Transform(ent);
-            if (entXform.GridUid != null)
-                continue;
-
-            if (!TryComp<PhysicsComponent>(ent, out var phys) || !phys.CanCollide)
-                continue;
+            //if (!TryComp<PhysicsComponent>(ent, out var phys) || !phys.CanCollide)
+            //    continue;
 
             if (blacklistTypes.Any(type => HasComp(ent, type)))
                 continue;
@@ -509,18 +504,19 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
                 continue;
 
             var color = PickShuttleBlipColor(ent, allowedTypes, allowedTags);
-            if (color == null)
-                continue;
 
             var entWorldPos = _transform.GetWorldPosition(entXform);
-            blips.Add(new BlipState(entWorldPos, color.Value, 0.5f));
+            blips.Add(new BlipState(entWorldPos, color, 0.5f));
         }
 
         return blips;
     }
 
-    private Color? PickShuttleBlipColor(EntityUid ent, List<(Type Type, Color Color)> allowedTypes, List<RadarBlipTagEntry> allowedTags)
+    private Color PickShuttleBlipColor(EntityUid ent, List<(Type Type, Color Color)> allowedTypes, List<RadarBlipTagEntry> allowedTags)
     {
+        if (allowedTypes.Count == 0 && allowedTags.Count == 0)
+            return Color.Yellow;
+
         var compMatch = allowedTypes.FirstOrDefault(x => HasComp(ent, x.Type));
         if (compMatch != default)
             return compMatch.Color;
@@ -529,10 +525,7 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
         if (tagMatch != null)
             return tagMatch.Color;
 
-        if (allowedTypes.Count == 0 && allowedTags.Count == 0)
-            return Color.Yellow;
-
-        return null;
+        return new Color(0, 0, 0, 0);
     }
 
     private List<Type> ResolveComponentTypes(List<string> names)
@@ -556,9 +549,5 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
         }
         return result;
     }
-
-    private void UpdateBlipsTick(float frameTime)
-    {
-    }
-// DS14-end
+    // DS14-end
 }
