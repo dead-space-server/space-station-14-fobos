@@ -1,14 +1,14 @@
 using Content.Server.Mind;
 using Content.Server.Objectives.Components;
 using Content.Server.Popups;
-using Content.Shared.Ninja.Components;
-using Content.Shared.Ninja.Systems;
+using Content.Shared.DeadSpace.Ninja.Components;
+using Content.Shared.DeadSpace.Ninja.Systems;
 using Content.Shared.Roles;
 using Content.Shared.Roles.Components;
 using Content.Shared.Sticky;
 using Content.Shared.Trigger;
 
-namespace Content.Server.Ninja.Systems;
+namespace Content.Server.DeadSpace.Ninja.Systems;
 
 /// <summary>
 /// Prevents planting a spider charge outside of its location and handles greentext.

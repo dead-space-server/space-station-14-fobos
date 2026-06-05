@@ -5,11 +5,11 @@ using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction;
 using Content.Shared.Item.ItemToggle;
 using Content.Shared.Item.ItemToggle.Components;
-using Content.Shared.Ninja.Components;
+using Content.Shared.DeadSpace.Ninja.Components;
 using Content.Shared.Popups;
 using Robust.Shared.Timing;
 
-namespace Content.Shared.Ninja.Systems;
+namespace Content.Shared.DeadSpace.Ninja.Systems;
 
 /// <summary>
 /// Provides the toggle action and handles examining and unequipping.

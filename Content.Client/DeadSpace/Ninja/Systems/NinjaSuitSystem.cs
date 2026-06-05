@@ -1,5 +1,5 @@
-using Content.Shared.Ninja.Systems;
+using Content.Shared.DeadSpace.Ninja.Systems;
 
-namespace Content.Client.Ninja.Systems;
+namespace Content.Client.DeadSpace.Ninja.Systems;
 
 public sealed class NinjaSuitSystem : SharedNinjaSuitSystem;

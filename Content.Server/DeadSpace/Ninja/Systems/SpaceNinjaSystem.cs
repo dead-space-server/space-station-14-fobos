@@ -7,8 +7,8 @@ using Content.Shared.Alert;
 using Content.Shared.Doors.Components;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Mind;
-using Content.Shared.Ninja.Components;
-using Content.Shared.Ninja.Systems;
+using Content.Shared.DeadSpace.Ninja.Components;
+using Content.Shared.DeadSpace.Ninja.Systems;
 using Content.Shared.Power.Components;
 using Content.Shared.Power.EntitySystems;
 using Content.Shared.PowerCell;
@@ -16,7 +16,7 @@ using Content.Shared.Popups;
 using Content.Shared.Rounding;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Content.Server.Ninja.Systems;
+namespace Content.Server.DeadSpace.Ninja.Systems;
 
 /// <summary>
 /// Main ninja system that handles ninja setup, provides helper methods for the rest of the code to use.

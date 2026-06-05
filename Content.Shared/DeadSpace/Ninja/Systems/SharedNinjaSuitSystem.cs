@@ -5,12 +5,12 @@ using Content.Shared.Emp;
 using Content.Shared.Inventory.Events;
 using Content.Shared.Item.ItemToggle;
 using Content.Shared.Item.ItemToggle.Components;
-using Content.Shared.Ninja.Components;
+using Content.Shared.DeadSpace.Ninja.Components;
 using Content.Shared.Popups;
 using Content.Shared.Timing;
 using Robust.Shared.Audio.Systems;
 
-namespace Content.Shared.Ninja.Systems;
+namespace Content.Shared.DeadSpace.Ninja.Systems;
 
 /// <summary>
 /// Handles (un)equipping and provides some API functions.

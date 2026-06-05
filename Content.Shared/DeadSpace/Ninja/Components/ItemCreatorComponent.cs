@@ -1,10 +1,10 @@
 using Content.Shared.Actions;
 using Content.Shared.Actions.Components;
-using Content.Shared.Ninja.Systems;
+using Content.Shared.DeadSpace.Ninja.Systems;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
-namespace Content.Shared.Ninja.Components;
+namespace Content.Shared.DeadSpace.Ninja.Components;
 
 /// <summary>
 /// Uses battery charge to spawn an item and place it in the user's hands.

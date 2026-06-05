@@ -1,14 +1,14 @@
-using Content.Server.Ninja.Events;
+using Content.Server.DeadSpace.Ninja.Events;
 using Content.Shared.Emp;
 using Content.Shared.Hands.EntitySystems;
-using Content.Shared.Ninja.Components;
-using Content.Shared.Ninja.Systems;
+using Content.Shared.DeadSpace.Ninja.Components;
+using Content.Shared.DeadSpace.Ninja.Systems;
 using Content.Shared.Power.Components;
 using Content.Shared.PowerCell;
 using Content.Shared.PowerCell.Components;
 using Robust.Shared.Containers;
 
-namespace Content.Server.Ninja.Systems;
+namespace Content.Server.DeadSpace.Ninja.Systems;
 
 /// <summary>
 /// Handles power cell upgrading and actions.

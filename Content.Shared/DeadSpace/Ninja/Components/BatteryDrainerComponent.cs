@@ -1,8 +1,8 @@
-using Content.Shared.Ninja.Systems;
+using Content.Shared.DeadSpace.Ninja.Systems;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 
-namespace Content.Shared.Ninja.Components;
+namespace Content.Shared.DeadSpace.Ninja.Components;
 
 /// <summary>
 /// Component for draining power from APCs/substations/SMESes, when ProviderUid is set to a battery cell.

@@ -1,10 +1,10 @@
-using Content.Shared.Ninja.Components;
+using Content.Shared.DeadSpace.Ninja.Components;
 using Content.Shared.Weapons.Melee.Events;
 using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Popups;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Content.Shared.Ninja.Systems;
+namespace Content.Shared.DeadSpace.Ninja.Systems;
 
 /// <summary>
 /// Provides shared ninja API, handles being attacked revealing ninja and stops guns from shooting.

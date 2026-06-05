@@ -4,11 +4,11 @@ using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction;
 using Content.Shared.Movement.Pulling.Components;
 using Content.Shared.Movement.Pulling.Systems;
-using Content.Shared.Ninja.Components;
+using Content.Shared.DeadSpace.Ninja.Components;
 using Content.Shared.Popups;
 using Content.Shared.Examine;
 
-namespace Content.Shared.Ninja.Systems;
+namespace Content.Shared.DeadSpace.Ninja.Systems;
 
 /// <summary>
 /// Handles dashing logic including charge consumption and checking attempt events.

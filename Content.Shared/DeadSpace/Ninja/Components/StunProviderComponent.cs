@@ -1,10 +1,10 @@
 using Content.Shared.Damage;
-using Content.Shared.Ninja.Systems;
+using Content.Shared.DeadSpace.Ninja.Systems;
 using Content.Shared.Whitelist;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 
-namespace Content.Shared.Ninja.Components;
+namespace Content.Shared.DeadSpace.Ninja.Components;
 
 /// <summary>
 /// Component for stunning mobs on click outside of harm mode.

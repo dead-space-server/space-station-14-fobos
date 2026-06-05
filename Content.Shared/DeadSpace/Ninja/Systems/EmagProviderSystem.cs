@@ -2,12 +2,12 @@ using Content.Shared.Administration.Logs;
 using Content.Shared.Database;
 using Content.Shared.Emag.Systems;
 using Content.Shared.Interaction;
-using Content.Shared.Ninja.Components;
+using Content.Shared.DeadSpace.Ninja.Components;
 using Content.Shared.Tag;
 using Content.Shared.Whitelist;
 using Robust.Shared.Audio.Systems;
 
-namespace Content.Shared.Ninja.Systems;
+namespace Content.Shared.DeadSpace.Ninja.Systems;
 
 /// <summary>
 /// Handles emagging whitelisted objects when clicked.

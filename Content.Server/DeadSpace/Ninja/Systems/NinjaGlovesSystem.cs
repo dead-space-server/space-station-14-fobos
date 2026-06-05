@@ -1,10 +1,10 @@
-using Content.Server.Ninja.Events;
+using Content.Server.DeadSpace.Ninja.Events;
 using Content.Shared.Mind;
 using Content.Shared.Objectives.Systems;
-using Content.Shared.Ninja.Components;
-using Content.Shared.Ninja.Systems;
+using Content.Shared.DeadSpace.Ninja.Components;
+using Content.Shared.DeadSpace.Ninja.Systems;
 
-namespace Content.Server.Ninja.Systems;
+namespace Content.Server.DeadSpace.Ninja.Systems;
 
 /// <summary>
 /// Handles the toggle gloves action.

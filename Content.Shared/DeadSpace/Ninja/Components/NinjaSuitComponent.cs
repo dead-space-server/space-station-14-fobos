@@ -1,10 +1,10 @@
 using Content.Shared.Actions;
-using Content.Shared.Ninja.Systems;
+using Content.Shared.DeadSpace.Ninja.Systems;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
-namespace Content.Shared.Ninja.Components;
+namespace Content.Shared.DeadSpace.Ninja.Components;
 
 /// <summary>
 /// Component for ninja suit abilities and power consumption.

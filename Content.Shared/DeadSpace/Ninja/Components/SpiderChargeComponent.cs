@@ -1,7 +1,7 @@
-using Content.Shared.Ninja.Systems;
+using Content.Shared.DeadSpace.Ninja.Systems;
 using Robust.Shared.GameStates;
 
-namespace Content.Shared.Ninja.Components;
+namespace Content.Shared.DeadSpace.Ninja.Components;
 
 /// <summary>
 /// Component for the Space Ninja's unique Spider Charge.

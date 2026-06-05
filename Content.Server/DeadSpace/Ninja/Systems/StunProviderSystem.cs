@@ -1,8 +1,8 @@
-using Content.Server.Ninja.Events;
+using Content.Server.DeadSpace.Ninja.Events;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Interaction;
-using Content.Shared.Ninja.Components;
-using Content.Shared.Ninja.Systems;
+using Content.Shared.DeadSpace.Ninja.Components;
+using Content.Shared.DeadSpace.Ninja.Systems;
 using Content.Shared.Popups;
 using Content.Shared.Power.EntitySystems;
 using Content.Shared.Stunnable;
@@ -10,7 +10,7 @@ using Content.Shared.Timing;
 using Content.Shared.Whitelist;
 using Robust.Shared.Audio.Systems;
 
-namespace Content.Server.Ninja.Systems;
+namespace Content.Server.DeadSpace.Ninja.Systems;
 
 /// <summary>
 /// Shocks clicked mobs using battery charge.

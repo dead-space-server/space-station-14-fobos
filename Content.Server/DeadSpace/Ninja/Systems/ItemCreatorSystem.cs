@@ -1,11 +1,11 @@
-using Content.Server.Ninja.Events;
+using Content.Server.DeadSpace.Ninja.Events;
 using Content.Shared.Hands.EntitySystems;
-using Content.Shared.Ninja.Components;
-using Content.Shared.Ninja.Systems;
+using Content.Shared.DeadSpace.Ninja.Components;
+using Content.Shared.DeadSpace.Ninja.Systems;
 using Content.Shared.Popups;
 using Content.Shared.Power.EntitySystems;
 
-namespace Content.Server.Ninja.Systems;
+namespace Content.Server.DeadSpace.Ninja.Systems;
 
 public sealed class ItemCreatorSystem : SharedItemCreatorSystem
 {

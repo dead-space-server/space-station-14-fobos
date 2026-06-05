@@ -1,8 +1,8 @@
 using Content.Shared.Inventory.Events;
 using Content.Shared.Hands; // DS14
-using Content.Shared.Ninja.Components;
+using Content.Shared.DeadSpace.Ninja.Components;
 
-namespace Content.Shared.Ninja.Systems;
+namespace Content.Shared.DeadSpace.Ninja.Systems;
 
 /// <summary>
 /// System for katana binding and dash events. Recalling is handled by the suit.

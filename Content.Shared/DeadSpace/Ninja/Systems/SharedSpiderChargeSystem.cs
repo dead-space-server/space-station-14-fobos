@@ -1,4 +1,4 @@
-namespace Content.Shared.Ninja.Systems;
+namespace Content.Shared.DeadSpace.Ninja.Systems;
 
 /// <summary>
 /// Sticking triggering and exploding are all in server so this is just for access.

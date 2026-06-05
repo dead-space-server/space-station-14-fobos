@@ -1,7 +1,7 @@
 using Content.Shared.Actions;
-using Content.Shared.Ninja.Components;
+using Content.Shared.DeadSpace.Ninja.Components;
 
-namespace Content.Shared.Ninja.Systems;
+namespace Content.Shared.DeadSpace.Ninja.Systems;
 
 /// <summary>
 /// Handles predicting that the action exists, creating items is done serverside.
