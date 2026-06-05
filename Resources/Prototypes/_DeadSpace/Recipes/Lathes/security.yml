@@ -9,6 +9,14 @@
 
 - type: latheRecipe
   parent: BaseWeaponRecipeLong
+  id: Truncheonsec
+  result: Truncheonsec
+  materials:
+    Plasteel: 1000
+    Plasma: 500
+
+- type: latheRecipe
+  parent: BaseWeaponRecipeLong
   id: WeaponLaserRifle
   result: WeaponLaserRifle
   materials:

@@ -2,7 +2,7 @@
   name: боевая дубинка СБ
   parent: Stunbaton
   id: Truncheonsec
-  description: Электрошоковая мачете для обездвиживания людей. Имеет 2 режима, нелетальный и летальный. Улучшением шоковой дубинки для реально трудных ситуаций.
+  description: Электрошоковая дубинка для обездвиживания людей. Имеет 2 режима, нелетальный и летальный. Улучшением шоковой дубинки для реально трудных ситуаций.
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Melee/truncheon_sec.rsi
@@ -43,3 +43,8 @@
   - type: Sharp
   - type: Execution
     doAfterDuration: 4.0
+  - type: Reflect
+    reflectProb: .15
+    spread: 90
+  - type: StaticPrice
+    price: 80

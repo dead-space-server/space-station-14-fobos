@@ -167,6 +167,7 @@
   - PhotonShotgun # DS14
   - CartridgeLaserRifle # DS14
   - EnergyCartridge # DS14
+  - Truncheonsec
 
 - type: latheRecipePack
   id: SecurityDisablers
