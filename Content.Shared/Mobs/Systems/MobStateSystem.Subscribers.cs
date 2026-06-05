@@ -14,6 +14,7 @@ using Content.Shared.Mobs.Components;
 using Content.Shared.DeadSpace.Movement.Events;
 using Content.Shared.Gravity;
 using Content.Shared.Movement.Components; //DS14
+using Content.Shared.DeadSpace.Movement.Components; // DS14
 using Content.Shared.Movement.Events;
 using Content.Shared.Movement.Systems;
 using Content.Shared.Pointing;
@@ -109,14 +110,8 @@ public partial class MobStateSystem
                 break;
             // DS14-start
             case MobState.PreCritical:
-                if (TryComp<WormComponent>(target, out var wormComp)
-                    && wormComp.AddedByPreCritical)
-                {
+                if (!HasComp<WheelchairUserComponent>(target))
                     RemComp<WormComponent>(target);
-                }
-
-                if (!HasComp<WormComponent>(target))
-                    _standing.Stand(target);
                 break;
             // DS14-end
             default:
@@ -163,12 +158,7 @@ public partial class MobStateSystem
             case MobState.PreCritical:
                 DisableJetpack(target);
                 ClearWeightlessMoveInput(target);
-                var wormAdded = EnsureComp<WormComponent>(target, out var wormComp);
-                if (wormAdded)
-                {
-                    wormComp.AddedByPreCritical = true;
-                    Dirty(target, wormComp);
-                }
+                EnsureComp<WormComponent>(target);
                 _standing.Down(target);
                 _appearance.SetData(target, MobStateVisuals.State, MobState.PreCritical);
                 break;

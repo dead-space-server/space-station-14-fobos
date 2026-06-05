@@ -28,34 +28,8 @@ public sealed class WormSystem : EntitySystem
         SubscribeLocalEvent<WormComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<WormComponent, WeightlessnessChangedEvent>(OnWeightlessnessChanged); // DS14
         SubscribeLocalEvent<WormComponent, ComponentShutdown>(OnShutdown); // DS14
-        SubscribeLocalEvent<WormComponent, StandAttemptEvent>(OnStandingAttempt); // DS14
     }
 
-    // DS14-start
-    private void OnWeightlessnessChanged(Entity<WormComponent> ent, ref WeightlessnessChangedEvent args)
-    {
-        if (args.Weightless || !HasComp<WheelchairUserComponent>(ent.Owner))
-            return;
-
-        if (_timing.ApplyingState)
-            return;
-
-        EnsureComp<KnockedDownComponent>(ent, out var knocked);
-        _stun.SetAutoStand((ent, knocked));
-        _standing.Down(ent.Owner);
-    }
-
-    private void OnShutdown(Entity<WormComponent> ent, ref ComponentShutdown args)
-    {
-        RemComp<KnockedDownComponent>(ent.Owner); // всегда, т.к. WormComponent владеет KnockedDown
-        _alerts.ClearAlert(ent.Owner, SharedStunSystem.KnockdownAlert);
-    }
-
-    private void OnStandingAttempt(Entity<WormComponent> ent, ref StandAttemptEvent args)
-    {
-        args.Cancel();
-    }
-    // DS14-end
     private void OnMapInit(Entity<WormComponent> ent, ref MapInitEvent args)
     {
         EnsureComp<KnockedDownComponent>(ent, out var knocked);
@@ -83,4 +57,30 @@ public sealed class WormSystem : EntitySystem
         args.FrictionModifier *= ent.Comp.FrictionModifier;
         args.SpeedModifier *= ent.Comp.SpeedModifier;
     }
+//DS14-start
+    private void OnWeightlessnessChanged(Entity<WormComponent> ent, ref WeightlessnessChangedEvent args)
+    {
+        if (args.Weightless)
+            return;
+
+        if (!HasComp<WheelchairUserComponent>(ent.Owner))
+            return;
+
+        if (_timing.ApplyingState)
+            return;
+
+        EnsureComp<KnockedDownComponent>(ent, out var knocked);
+        _stun.SetAutoStand((ent, knocked), false);
+        _standing.Down(ent.Owner);
+    }
+
+    private void OnShutdown(Entity<WormComponent> ent, ref ComponentShutdown args)
+    {
+        RemComp<KnockedDownComponent>(ent.Owner);
+        _alerts.ClearAlert(ent.Owner, SharedStunSystem.KnockdownAlert);
+
+        if (!HasComp<WheelchairUserComponent>(ent.Owner))
+            _standing.Stand(ent.Owner, force: true);
+    }
+//DS14-end
 }
