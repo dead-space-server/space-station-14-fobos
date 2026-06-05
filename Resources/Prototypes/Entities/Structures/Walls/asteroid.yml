@@ -1466,6 +1466,9 @@
   - type: Gatherable
     toolWhitelist:
       tags: []
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: StructuralImmune
 # DS14-end
 
 # Snow variants
