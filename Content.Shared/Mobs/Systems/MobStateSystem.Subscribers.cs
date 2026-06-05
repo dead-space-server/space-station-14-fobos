@@ -14,6 +14,7 @@ using Content.Shared.Mobs.Components;
 using Content.Shared.DeadSpace.Movement.Events;
 using Content.Shared.Gravity;
 using Content.Shared.Movement.Components; //DS14
+using Content.Shared.DeadSpace.Movement.Components; //DS14
 using Content.Shared.Movement.Events;
 using Content.Shared.Movement.Systems;
 using Content.Shared.Pointing;
@@ -109,7 +110,8 @@ public partial class MobStateSystem
                 break;
             // DS14-start
             case MobState.PreCritical:
-                RemComp<WormComponent>(target);
+                if (!HasComp<WheelchairUserComponent>(target))
+                    RemComp<WormComponent>(target);
                 _standing.Stand(target);
                 break;
             // DS14-end
@@ -156,7 +158,9 @@ public partial class MobStateSystem
             case MobState.PreCritical:
                 DisableJetpack(target);
                 ClearWeightlessMoveInput(target);
-                EnsureComp<WormComponent>(target);
+                var wormAdded = EnsureComp<WormComponent>(target, out var wormComp);
+                if (wormAdded)
+                    wormComp.AddedByPreCritical = true;
                 _standing.Down(target);
                 _appearance.SetData(target, MobStateVisuals.State, MobState.PreCritical);
                 break;
@@ -260,11 +264,23 @@ public partial class MobStateSystem
 
     private void OnWeightlessnessChanged(Entity<MobStateComponent> ent, ref WeightlessnessChangedEvent args)
     {
-        if (ent.Comp.CurrentState != MobState.PreCritical || !args.Weightless)
+        // DS14-start
+        if (ent.Comp.CurrentState != MobState.PreCritical)
             return;
 
-        DisableJetpack(ent.Owner);
-        ClearWeightlessMoveInput(ent.Owner);
+        if (_timing.ApplyingState)
+            return;
+
+        if (args.Weightless)
+        {
+            DisableJetpack(ent.Owner);
+            ClearWeightlessMoveInput(ent.Owner);
+        }
+        else if (HasComp<WormComponent>(ent.Owner))
+        {
+            _standing.Down(ent.Owner);
+        }
+        // DS14-end
     }
 
     private void OnCanWeightlessMove(Entity<MobStateComponent> ent, ref CanWeightlessMoveEvent args)

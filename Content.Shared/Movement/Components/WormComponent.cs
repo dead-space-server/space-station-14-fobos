@@ -20,4 +20,12 @@ public sealed partial class WormComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public float SpeedModifier = 1f;
+    // DS14-start
+    /// <summary>
+    /// True if this component was added as a result of entering <see cref="MobState.PreCritical"/>.
+    /// Used to decide whether to remove the component when exiting PreCritical.
+    /// </summary>
+    [DataField]
+    public bool AddedByPreCritical;
+    // DS14-end
 }
