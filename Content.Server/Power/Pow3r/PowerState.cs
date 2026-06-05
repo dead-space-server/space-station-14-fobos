@@ -221,7 +221,7 @@ namespace Content.Server.Power.Pow3r
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool Contains(NodeId id)
             {
-                if (id.Generation == 0 || id.Index < 0 || id.Index >= _storage.Length)
+                if (id.Index < 0 || id.Index >= _storage.Length)
                     return false;
 
                 ref var slot = ref _storage[id.Index];
@@ -254,6 +254,7 @@ namespace Content.Server.Power.Pow3r
                 }
 
                 _storage[^1].NextSlot = _nextFree;
+                _storage[^1].Generation = 1; // DS14
 
                 _nextFree = oldLength;
             }
