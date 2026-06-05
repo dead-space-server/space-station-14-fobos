@@ -724,9 +724,9 @@
     state: icon
   content:
   - WeaponRifleAMD76
-  - MagazineCarbineSKS
-  - MagazineCarbineSKS
-  - MagazineCarbineSKS
+  - MagazineLightRifleAMD
+  - MagazineLightRifleAMD
+  - MagazineLightRifleAMD
   - MagazineBoxLightRifle
 
 - type: thiefBackpackSet
