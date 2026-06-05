@@ -146,3 +146,8 @@
   id: Mothership
   name: device-frequency-prototype-name-mothership
   frequency: 2005
+
+- type: deviceFrequency
+  id: Messenger
+  name: device-frequency-prototype-name-Messenger
+  frequency: 2555
