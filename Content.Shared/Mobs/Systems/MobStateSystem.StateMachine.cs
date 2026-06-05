@@ -84,7 +84,7 @@ public partial class MobStateSystem
     {
         if (oldState == MobState.PreCritical && newState == MobState.Alive)
         {
-            // DS14-startt
+            // DS14-start
         if (!HasComp<WheelchairUserComponent>(entity))
             _standing.Stand(entity, force: true);
             // DS14-end

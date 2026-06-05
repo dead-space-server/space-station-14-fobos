@@ -15,6 +15,7 @@ using Content.Shared.DeadSpace.Movement.Events;
 using Content.Shared.Gravity;
 using Content.Shared.Movement.Components; //DS14
 using Content.Shared.DeadSpace.Movement.Components; //DS14
+using Content.Shared.Stunnable; //DS14
 using Content.Shared.Movement.Events;
 using Content.Shared.Movement.Systems;
 using Content.Shared.Pointing;
@@ -32,6 +33,7 @@ public partial class MobStateSystem
 {
     [Dependency] private readonly SharedGravitySystem _gravity = default!;
     [Dependency] private readonly SharedJetpackSystem _jetpack = default!;
+    [Dependency] private readonly SharedStunSystem _stun = default!; //DS14
 
     //General purpose event subscriptions. If you can avoid it register these events inside their own systems
     private void SubscribeEvents()
@@ -110,9 +112,14 @@ public partial class MobStateSystem
                 break;
             // DS14-start
             case MobState.PreCritical:
-                if (!HasComp<WheelchairUserComponent>(target))
+                if (TryComp<WormComponent>(target, out var wormComp)
+                    && wormComp.AddedByPreCritical
+                    && !HasComp<WheelchairUserComponent>(target))
+                {
                     RemComp<WormComponent>(target);
-                _standing.Stand(target);
+                }
+                if (!HasComp<WormComponent>(target))
+                    _standing.Stand(target);
                 break;
             // DS14-end
             default:
@@ -132,7 +139,8 @@ public partial class MobStateSystem
         {
             case MobState.Alive:
             {
-                _standing.Stand(target);
+                if (!HasComp<WormComponent>(target))
+                    _standing.Stand(target);
                 _appearance.SetData(target, MobStateVisuals.State, MobState.Alive);
                 break;
             }

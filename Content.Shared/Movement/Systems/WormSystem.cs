@@ -27,6 +27,8 @@ public sealed class WormSystem : EntitySystem
         SubscribeLocalEvent<WormComponent, RejuvenateEvent>(OnRejuvenate);
         SubscribeLocalEvent<WormComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<WormComponent, WeightlessnessChangedEvent>(OnWeightlessnessChanged); // DS14
+        SubscribeLocalEvent<WormComponent, ComponentShutdown>(OnShutdown); // DS14
+        SubscribeLocalEvent<WormComponent, StandAttemptEvent>(OnStandingAttempt); // DS14
     }
 
     // DS14-start
@@ -41,6 +43,17 @@ public sealed class WormSystem : EntitySystem
         EnsureComp<KnockedDownComponent>(ent, out var knocked);
         _stun.SetAutoStand((ent, knocked));
         _standing.Down(ent.Owner);
+    }
+
+    private void OnShutdown(Entity<WormComponent> ent, ref ComponentShutdown args)
+    {
+        RemComp<KnockedDownComponent>(ent.Owner); // всегда, т.к. WormComponent владеет KnockedDown
+        _alerts.ClearAlert(ent.Owner, SharedStunSystem.KnockdownAlert);
+    }
+
+    private void OnStandingAttempt(Entity<WormComponent> ent, ref StandAttemptEvent args)
+    {
+        args.Cancel();
     }
     // DS14-end
     private void OnMapInit(Entity<WormComponent> ent, ref MapInitEvent args)
