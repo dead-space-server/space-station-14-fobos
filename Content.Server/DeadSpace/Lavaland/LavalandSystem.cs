@@ -32,8 +32,6 @@ namespace Content.Server.DeadSpace.Lavaland;
 public sealed class LavalandSystem : EntitySystem
 {
     private const int StructureFootprintPadding = 96;
-    private const int FtlLandingAreaPadding = 16;
-
     [Dependency] private readonly AtmosphereSystem _atmosphere = default!;
     [Dependency] private readonly BiomeSystem _biome = default!;
     [Dependency] private readonly IConfigurationManager _configuration = default!;
@@ -200,7 +198,6 @@ public sealed class LavalandSystem : EntitySystem
         PrepareTerminalReservation(mapUid, grid, biome, planet, random);
         var terminalGrid = LoadTerminalGrid(mapId, mapUid, station, planet, planetId);
         PrepareLandingPad(mapUid, grid, biome, planet, random);
-        PrepareFtlLandingArea(mapUid, grid, biome, planet, random);
         CreateLandingWarp(mapUid);
         CreateFtlBeacon(mapUid, planet, terminalGrid);
         PreloadLandingArea(mapUid, biome, planet);
@@ -428,51 +425,6 @@ public sealed class LavalandSystem : EntitySystem
         }
 
         _map.SetTiles(mapUid, grid, tiles);
-    }
-
-    private void PrepareFtlLandingArea(
-        EntityUid mapUid,
-        MapGridComponent grid,
-        BiomeComponent biome,
-        LavalandPlanetPrototype planet,
-        Random random)
-    {
-        if (!planet.FtlEnabled)
-            return;
-
-        var radius = Math.Max(
-            Math.Max(1, planet.LandingPadRadius),
-            (int) MathF.Ceiling(Math.Max(0f, planet.FtlFallbackMaxOffset) + FtlLandingAreaPadding));
-
-        var center = planet.FtlBeaconOffset;
-        var bounds = new Box2i(
-            (int) MathF.Floor(center.X - radius),
-            (int) MathF.Floor(center.Y - radius),
-            (int) MathF.Ceiling(center.X + radius) + 1,
-            (int) MathF.Ceiling(center.Y + radius) + 1);
-
-        _biome.ReserveTiles(mapUid, ToBox2(bounds), _reservedTiles, biome, grid);
-        _reservedTiles.Clear();
-
-        ClearClearableTerrainEntities(mapUid, grid, bounds);
-
-        var tileDef = _tileDefinition[planet.LandingPadTile];
-        var radiusSquared = radius * radius;
-
-        _terrainTiles.Clear();
-        for (var x = bounds.Left; x < bounds.Right; x++)
-        {
-            for (var y = bounds.Bottom; y < bounds.Top; y++)
-            {
-                if (Vector2.DistanceSquared(new Vector2(x, y), center) > radiusSquared)
-                    continue;
-
-                _terrainTiles.Add((new Vector2i(x, y), CreateTile(tileDef, random)));
-            }
-        }
-
-        _map.SetTiles(mapUid, grid, _terrainTiles);
-        _terrainTiles.Clear();
     }
 
     private void PrepareMapBoundary(
