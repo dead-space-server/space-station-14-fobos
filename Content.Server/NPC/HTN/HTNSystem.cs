@@ -13,6 +13,7 @@ using JetBrains.Annotations;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
+using System.Diagnostics;
 
 namespace Content.Server.NPC.HTN;
 
@@ -255,12 +256,11 @@ public sealed class HTNSystem : EntitySystem
                     {
                         StartupTask(comp.Plan.Tasks[comp.Plan.Index], comp.Blackboard, comp.Plan.Effects[comp.Plan.Index]);
                     }
-
+#if DEBUG
                     // Send debug info
                     foreach (var session in _subscribers)
                     {
                         var text = new StringBuilder();
-
                         if (comp.Plan != null)
                         {
                             text.AppendLine($"BTR: {string.Join(", ", comp.Plan.BranchTraversalRecord)}");
@@ -270,13 +270,13 @@ public sealed class HTNSystem : EntitySystem
                             var level = -1;
                             AppendDebugText(root, text, comp.Plan.BranchTraversalRecord, btr, ref level);
                         }
-
                         RaiseNetworkEvent(new HTNMessage()
                         {
                             Uid = GetNetEntity(uid),
                             Text = text.ToString(),
                         }, session.Channel);
                     }
+#endif
                 }
                 // Keeping old plan
                 else
