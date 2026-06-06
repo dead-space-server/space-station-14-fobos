@@ -52,6 +52,7 @@
     - id: ClothingNeckMantlePvrsifvlAlt2
     - id: ClothingNeckGhillieAltsastr
     - id: WeaponCrusherPvrsifvlAlt2
+    - id: WeaponPistolCHIMPPvrsifvlAlt2
   - type: TypingIndicatorClothing
     proto: TypingIndicatorsastr
   - type: Tag
@@ -138,7 +139,7 @@
   - type: Clothing
     sprite: _DeadSpace/Sponsor/sastr/helmet.rsi
   - type: PointLight
-    color: "#2db259"
+    color: "#c5ff63"
     radius: 7
     energy: 3
   - type: PressureProtection
@@ -278,8 +279,30 @@
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/sastr/cloak.rsi
+    layers:
+    - state: icon
+      map: [ "unfoldedLayer" ]
+    - state: h-icon
+      map: ["foldedLayer"]
+      visible: false
   - type: Clothing
     sprite: _DeadSpace/Sponsor/sastr/cloak.rsi
+  - type: Appearance
+  - type: Foldable
+    canFoldInsideContainer: true
+  - type: GroupExamine
+  - type: FoldableClothing
+    foldedEquippedPrefix: h
+    foldedHeldPrefix: h
+  - type: GenericVisualizer
+    visuals:
+      enum.FoldedVisuals.State:
+        foldedLayer:
+          True: {visible: true}
+          False: {visible: false}
+        unfoldedLayer:
+          True: {visible: false}
+          False: {visible: true}
   - type: Tag
     tags: [ ]
 

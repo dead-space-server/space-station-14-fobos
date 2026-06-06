@@ -8,3 +8,5 @@ reagent-name-cherryblossom = расцвет сакуры
 reagent-desc-cherryblossom = Сладковатая прозрачная жидкость с лёгким розоватым оттенком.
 reagent-name-sakurajuice = сок сакуры
 reagent-desc-sakurajuice = Прозрачная розоватая жидкость, слегка сладковатая и цветочная.
+reagent-name-baltica9 = Балтика 9
+reagent-desc-baltica9 = Легендарный напиток. Идеальное сочетание святой воды и крови сатаны.

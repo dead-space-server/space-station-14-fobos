@@ -18,7 +18,15 @@ namespace Content.Server.Power.Components
         public override float Load
         {
             get => NetworkLoad.DesiredPower;
-            set => NetworkLoad.DesiredPower = value;
+            // DS14-start
+            set
+            {
+                if (NetworkLoad.DesiredPower == value)
+                    return;
+
+                NetworkLoad.DesiredPower = value;
+            }
+            // DS14-end
         }
 
         public ApcPowerProviderComponent? Provider = null;
@@ -32,7 +40,13 @@ namespace Content.Server.Power.Components
             get => _needsPower;
             set
             {
+                // DS14-start
+                if (_needsPower == value)
+                    return;
+                // DS14-end
+
                 _needsPower = value;
+                NetworkLoad.QueueUpdate(); // DS14
             }
         }
 

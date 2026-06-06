@@ -81,3 +81,32 @@
   - type: Icon
     sprite: _DeadSpace/Objects/Consumable/Drinks/cherryblossom.rsi
     state: icon
+
+- type: entity
+  parent: DrinkCanBaseFull
+  id: DrinkBaltica9Can
+  name: баночка Балтики 9
+  description: Легендарное пиво. Идеальное сочетание святой воды и крови сатаны.
+  components:
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Baltica9
+          Quantity: 30
+      grindable:
+        reagents:
+        - ReagentId: Aluminium
+          Quantity: 4
+        - ReagentId: Iron
+          Quantity: 1
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Consumable/Drinks/baltica9.rsi
+  - type: Item
+    sprite: _DeadSpace/Objects/Consumable/Drinks/baltica9.rsi
+  - type: Tag
+    tags:
+    - Beer
+    - DrinkCan
+    - Baltica9

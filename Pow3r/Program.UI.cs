@@ -146,8 +146,10 @@ namespace Pow3r
 
                 Begin($"Load {load.Id}##Load{load.Id}");
 
-                Checkbox("Enabled", ref load.Enabled);
-                SliderFloat("Desired", ref load.DesiredPower, 0, 1000, "%.0f W");
+                // DS14-start
+                CheckboxProperty("Enabled", load.Enabled, value => load.Enabled = value);
+                SliderFloatProperty("Desired", load.DesiredPower, value => load.DesiredPower = value, 0, 1000, "%.0f W");
+                // DS14-end
 
                 displayLoad.CurrentWindowPos = CalcWindowCenter();
 
@@ -189,10 +191,12 @@ namespace Pow3r
                 var displaySupply = _displaySupplies[supply.Id];
                 Begin($"Generator {supply.Id}##Gen{supply.Id}");
 
-                Checkbox("Enabled", ref supply.Enabled);
-                SliderFloat("Available", ref supply.MaxSupply, 0, 1000, "%.0f W");
-                SliderFloat("Ramp", ref supply.SupplyRampRate, 0, 100, "%.0f W/s");
-                SliderFloat("Tolerance", ref supply.SupplyRampTolerance, 0, 100, "%.0f W");
+                // DS14-start
+                CheckboxProperty("Enabled", supply.Enabled, value => supply.Enabled = value);
+                SliderFloatProperty("Available", supply.MaxSupply, value => supply.MaxSupply = value, 0, 1000, "%.0f W");
+                SliderFloatProperty("Ramp", supply.SupplyRampRate, value => supply.SupplyRampRate = value, 0, 100, "%.0f W/s");
+                SliderFloatProperty("Tolerance", supply.SupplyRampTolerance, value => supply.SupplyRampTolerance = value, 0, 100, "%.0f W");
+                // DS14-end
 
                 displaySupply.CurrentWindowPos = CalcWindowCenter();
 
@@ -236,21 +240,23 @@ namespace Pow3r
 
                 Begin($"Battery {battery.Id}##Bat{battery.Id}");
 
-                Checkbox("Enabled", ref battery.Enabled);
-                Checkbox("CanDischarge", ref battery.CanDischarge);
-                Checkbox("CanCharge", ref battery.CanCharge);
-                SliderFloat("Capacity", ref battery.Capacity, 0, 100000, "%.0f J");
-                SliderFloat("Max charge rate", ref battery.MaxChargeRate, 0, 1000, "%.0f W");
-                SliderFloat("Max supply", ref battery.MaxSupply, 0, 1000, "%.0f W");
-                SliderFloat("Ramp", ref battery.SupplyRampRate, 0, 100, "%.0f W/s");
-                SliderFloat("Tolerance", ref battery.SupplyRampTolerance, 0, 100, "%.0f W");
+                // DS14-start
+                CheckboxProperty("Enabled", battery.Enabled, value => battery.Enabled = value);
+                CheckboxProperty("CanDischarge", battery.CanDischarge, value => battery.CanDischarge = value);
+                CheckboxProperty("CanCharge", battery.CanCharge, value => battery.CanCharge = value);
+                SliderFloatProperty("Capacity", battery.Capacity, value => battery.Capacity = value, 0, 100000, "%.0f J");
+                SliderFloatProperty("Max charge rate", battery.MaxChargeRate, value => battery.MaxChargeRate = value, 0, 1000, "%.0f W");
+                SliderFloatProperty("Max supply", battery.MaxSupply, value => battery.MaxSupply = value, 0, 1000, "%.0f W");
+                SliderFloatProperty("Ramp", battery.SupplyRampRate, value => battery.SupplyRampRate = value, 0, 100, "%.0f W/s");
+                SliderFloatProperty("Tolerance", battery.SupplyRampTolerance, value => battery.SupplyRampTolerance = value, 0, 100, "%.0f W");
+                // DS14-end
                 var percent = 100 * battery.Efficiency;
                 SliderFloat("Efficiency", ref percent, 0, 100, "%.0f %%");
                 battery.Efficiency = percent / 100;
 
                 displayBattery.CurrentWindowPos = CalcWindowCenter();
 
-                SliderFloat("Ramp position", ref battery.SupplyRampPosition, 0, battery.MaxSupply, "%.0f W");
+                SliderFloatProperty("Ramp position", battery.SupplyRampPosition, value => battery.SupplyRampPosition = value, 0, battery.MaxSupply, "%.0f W"); // DS14
 
                 PlotLines("", ref displayBattery.SuppliedPowerData[0], MaxTickData, _tickDataIdx + 1,
                     $"OUT: {battery.CurrentSupply:N1} W",
@@ -435,6 +441,26 @@ namespace Pow3r
         {
             return GetWindowPos() + GetWindowSize() / 2;
         }
+
+        // DS14-start
+        private static void CheckboxProperty(string label, bool value, Action<bool> setter)
+        {
+            if (Checkbox(label, ref value))
+                setter(value);
+        }
+
+        private static void SliderFloatProperty(
+            string label,
+            float value,
+            Action<float> setter,
+            float min,
+            float max,
+            string format)
+        {
+            if (SliderFloat(label, ref value, min, max, format))
+                setter(value);
+        }
+        // DS14-end
 
         private static Vector2 CvtVec(RobustVec2 vec)
         {

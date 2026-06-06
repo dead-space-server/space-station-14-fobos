@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using Content.Server.AlertLevel;
 using Content.Server.Backmen.Blob.Rule;
 using Content.Server.Backmen.GameTicking.Rules.Components;
@@ -7,11 +6,10 @@ using Content.Server.Cargo.Systems;
 using Content.Server.Chat.Managers;
 using Content.Server.Chat.Systems;
 using Content.Server.Database;
+using Content.Server.DeadSpace.Nuke;
 using Content.Server.DeadSpace.ERT;
 using Content.Server.GameTicking;
 using Content.Server.GameTicking.Rules;
-using Content.Server.Nuke;
-using Content.Server.Objectives;
 using Content.Server.RoundEnd;
 using Content.Server.Station.Components;
 using Content.Server.Station.Systems;
@@ -21,10 +19,14 @@ using Content.Shared.Cargo.Prototypes;
 using Content.Shared.DeadSpace.ERT.Prototypes;
 using Content.Shared.GameTicking;
 using Content.Shared.GameTicking.Components;
-using Content.Shared.Objectives.Components;
-using Robust.Server.Player;
+using Content.Shared.DeadSpace.Nuke;
 using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
+using System.Linq;
+using Content.Shared.Objectives.Components;
+using Robust.Server.Player;
+using Content.Server.Objectives;
+using Robust.Shared.Network;
 
 namespace Content.Server.Backmen.GameTicking.Rules;
 
@@ -32,13 +34,13 @@ public sealed class BlobRuleSystem : GameRuleSystem<BlobRuleComponent>
 {
     [Dependency] private readonly RoundEndSystem _roundEndSystem = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
-    [Dependency] private readonly NukeCodePaperSystem _nukeCode = default!;
+    [Dependency] private readonly NukeCodeSendQueueSystem _nukeCodeQueue = default!; // DS14
     [Dependency] private readonly StationSystem _stationSystem = default!;
     [Dependency] private readonly ObjectivesSystem _objectivesSystem = default!;
     [Dependency] private readonly CargoSystem _cargoSystem = default!;
     [Dependency] private readonly AlertLevelSystem _alertLevel = default!;
-    [Dependency] private readonly IChatManager _chatManager = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
+    [Dependency] private readonly IChatManager _chatManager = default!;
     [Dependency] private readonly ErtResponseSystem _ertResponseSystem = default!; // DS14
     [Dependency] private readonly IServerDbManager _db = default!;
     private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "CburnSierra";
@@ -167,13 +169,12 @@ public sealed class BlobRuleSystem : GameRuleSystem<BlobRuleComponent>
             case BlobStage.Begin when blobCore.Comp.BlobTiles.Count >= 500:
                 {
                     blobRuleComp.Stage = BlobStage.Critical;
-                    _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("blob-alert-critical"),
-                        Loc.GetString("Station"),
-                        true,
-                        blobRuleComp.AlertAudio,
-                        Color.Red);
-
-                    _nukeCode.SendNukeCodes(stationUid);
+                    // DS14-Start: queue automatic nuke-code dispatches for admin review.
+                    _nukeCodeQueue.TryQueueAutomaticRequest(
+                        stationUid,
+                        NukeCodeSendReasonIds.BlobCriticalMass,
+                        out _);
+                    // DS14-End
 
                     if (_alertLevel.GetLevel(stationUid) != "enigma" && _alertLevel.GetLevel(stationUid) != "delta" && _alertLevel.GetLevel(stationUid) != "epsilon")
                         _alertLevel.SetLevel(stationUid, "sierra", true, true, true, true);
@@ -210,80 +211,6 @@ public sealed class BlobRuleSystem : GameRuleSystem<BlobRuleComponent>
 
         var result = Loc.GetString("blob-round-end-result", ("blobCount", blob.Blobs.Count));
 
-        // yeah this is duplicated from traitor rules lol, there needs to be a generic rewrite where it just goes through all minds with objectives
-        foreach (var (mindId, mind) in blob.Blobs)
-        {
-            var name = mind.CharacterName;
-            _player.TryGetSessionById(mind.UserId, out var session);
-            var username = session?.Name;
-
-            var objectives = mind.Objectives.ToArray();
-            if (objectives.Length == 0)
-            {
-                if (username != null)
-                {
-                    if (name == null)
-                        result += "\n" + Loc.GetString("blob-user-was-a-blob", ("user", username));
-                    else
-                    {
-                        result += "\n" + Loc.GetString("blob-user-was-a-blob-named", ("user", username),
-                            ("name", name));
-                    }
-                }
-                else if (name != null)
-                    result += "\n" + Loc.GetString("blob-was-a-blob-named", ("name", name));
-
-                continue;
-            }
-
-            if (username != null)
-            {
-                if (name == null)
-                {
-                    result += "\n" + Loc.GetString("blob-user-was-a-blob-with-objectives",
-                        ("user", username));
-                }
-                else
-                {
-                    result += "\n" + Loc.GetString("blob-user-was-a-blob-with-objectives-named",
-                        ("user", username), ("name", name));
-                }
-            }
-            else if (name != null)
-                result += "\n" + Loc.GetString("blob-was-a-blob-with-objectives-named", ("name", name));
-
-            foreach (var objectiveGroup in objectives.GroupBy(o => Comp<ObjectiveComponent>(o).LocIssuer))
-            {
-                foreach (var objective in objectiveGroup)
-                {
-                    var info = _objectivesSystem.GetInfo(objective, mindId, mind);
-                    if (info == null)
-                        continue;
-
-                    var objectiveTitle = info.Value.Title;
-                    var progress = info.Value.Progress;
-
-                    if (progress > 0.99f)
-                    {
-                        result += "\n- " + Loc.GetString(
-                            "objective-condition-success",
-                            ("condition", objectiveTitle),
-                            ("markupColor", "green")
-                        );
-                    }
-                    else
-                    {
-                        result += "\n- " + Loc.GetString(
-                            "objective-condition-fail",
-                            ("condition", objectiveTitle),
-                            ("progress", (int) (progress * 100)),
-                            ("markupColor", "red")
-                        );
-                    }
-                }
-            }
-        }
-
         ev.AddLine(result);
 
         // DS14 Статистика для дашборда
@@ -303,4 +230,84 @@ public sealed class BlobRuleSystem : GameRuleSystem<BlobRuleComponent>
             }
         });
     }
+
+    // DS14-start
+    protected override void AppendRoundEndDiscordText(EntityUid uid,
+        BlobRuleComponent blob,
+        GameRuleComponent gameRule,
+        ref RoundEndDiscordTextAppendEvent ev)
+    {
+        if (blob.Blobs.Count < 1)
+            return;
+
+        foreach (var (mindId, mind) in blob.Blobs)
+        {
+            var name = mind.CharacterName;
+            var username = GetBlobUsername(mind.UserId ?? mind.OriginalOwnerUserId);
+
+            var objectives = mind.Objectives.ToArray();
+            if (objectives.Length == 0)
+            {
+                if (username != null)
+                {
+                    ev.AddLine(name == null
+                        ? Loc.GetString("blob-user-was-a-blob", ("user", username))
+                        : Loc.GetString("blob-user-was-a-blob-named", ("user", username), ("name", name)));
+                }
+                else if (name != null)
+                    ev.AddLine(Loc.GetString("blob-was-a-blob-named", ("name", name)));
+
+                continue;
+            }
+
+            if (username != null)
+            {
+                ev.AddLine(name == null
+                    ? Loc.GetString("blob-user-was-a-blob-with-objectives", ("user", username))
+                    : Loc.GetString("blob-user-was-a-blob-with-objectives-named", ("user", username), ("name", name)));
+            }
+            else if (name != null)
+                ev.AddLine(Loc.GetString("blob-was-a-blob-with-objectives-named", ("name", name)));
+
+            foreach (var objectiveGroup in objectives.GroupBy(o => Comp<ObjectiveComponent>(o).LocIssuer))
+            {
+                foreach (var objective in objectiveGroup)
+                {
+                    var info = _objectivesSystem.GetInfo(objective, mindId, mind);
+                    if (info == null)
+                        continue;
+
+                    var objectiveTitle = info.Value.Title;
+                    var progress = info.Value.Progress;
+
+                    ev.AddLine(progress > 0.99f
+                        ? "- " + Loc.GetString(
+                            "objective-condition-success",
+                            ("condition", objectiveTitle),
+                            ("markupColor", "green"))
+                        : "- " + Loc.GetString(
+                            "objective-condition-fail",
+                            ("condition", objectiveTitle),
+                            ("progress", (int) (progress * 100)),
+                            ("markupColor", "red")));
+                }
+            }
+        }
+
+        ev.AddLine("");
+    }
+
+    private string? GetBlobUsername(NetUserId? userId)
+    {
+        if (userId == null)
+            return null;
+
+        if (_player.TryGetSessionById(userId.Value, out var session))
+            return session.Name;
+
+        return _player.TryGetPlayerData(userId.Value, out var data)
+            ? data.UserName
+            : null;
+    }
+    // DS14-end
 }

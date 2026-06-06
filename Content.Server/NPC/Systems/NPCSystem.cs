@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Content.Server.NPC.Components;
 using Content.Server.NPC.HTN;
 using Content.Shared.CCVar;
+using Content.Shared.Ghost;
 using Content.Shared.Mind;
 using Content.Shared.Mind.Components;
 using Content.Shared.Mobs;
@@ -11,7 +12,9 @@ using Content.Shared.NPC.Systems;
 using Prometheus;
 using Robust.Server.GameObjects;
 using Robust.Shared.Configuration;
+using Robust.Shared.Map;
 using Robust.Shared.Player;
+using Robust.Shared.Timing;
 
 namespace Content.Server.NPC.Systems
 {
@@ -27,6 +30,22 @@ namespace Content.Server.NPC.Systems
         [Dependency] private readonly IConfigurationManager _configurationManager = default!;
         [Dependency] private readonly HTNSystem _htn = default!;
         [Dependency] private readonly MobStateSystem _mobState = default!;
+        [Dependency] private readonly IGameTiming _timing = default!;
+        [Dependency] private readonly NPCSteeringSystem _steering = default!;
+
+        // DS14-Start: put idle NPCs to sleep when no players are nearby.
+        private const float ProximitySleepMinRange = 24f;
+        private const float ProximitySleepRangeBuffer = 8f;
+        private const float ProximitySleepMaxRange = 80f;
+        private static readonly TimeSpan ProximitySleepScanInterval = TimeSpan.FromSeconds(1);
+        private static readonly TimeSpan ProximitySleepGrace = TimeSpan.FromSeconds(15);
+
+        private EntityQuery<GhostComponent> _ghostQuery;
+        private readonly List<EntityCoordinates> _playerCoordinates = new();
+        private readonly Dictionary<EntityUid, TimeSpan> _lastPlayerNearby = new();
+        private readonly HashSet<EntityUid> _proximitySleeping = new();
+        private TimeSpan _nextProximitySleepScan;
+        // DS14-End
 
         /// <summary>
         /// Whether any NPCs are allowed to run at all.
@@ -44,6 +63,10 @@ namespace Content.Server.NPC.Systems
 
             Subs.CVar(_configurationManager, CCVars.NPCEnabled, value => Enabled = value, true);
             Subs.CVar(_configurationManager, CCVars.NPCMaxUpdates, obj => _maxUpdates = obj, true);
+
+            // DS14-Start: put idle NPCs to sleep when no players are nearby.
+            _ghostQuery = GetEntityQuery<GhostComponent>();
+            // DS14-End
         }
 
         public void OnPlayerNPCAttach(EntityUid uid, HTNComponent component, PlayerAttachedEvent args)
@@ -110,6 +133,10 @@ namespace Content.Server.NPC.Systems
                 return;
             }
 
+            // DS14-Start: manual wake overrides proximity sleep.
+            _proximitySleeping.Remove(uid);
+            // DS14-End
+
             Log.Debug($"Waking {ToPrettyString(uid)}");
             EnsureComp<ActiveNPCComponent>(uid);
         }
@@ -145,11 +172,114 @@ namespace Content.Server.NPC.Systems
             if (!Enabled)
                 return;
 
+            // DS14-Start: put idle NPCs to sleep when no players are nearby.
+            UpdateProximitySleep();
+            // DS14-End
+
             // Add your system here.
             _htn.UpdateNPC(ref _count, _maxUpdates, frameTime);
 
             ActiveGauge.Set(Count<ActiveNPCComponent>());
         }
+
+        // DS14-Start: put idle NPCs to sleep when no players are nearby.
+        private void UpdateProximitySleep()
+        {
+            var curTime = _timing.CurTime;
+            if (curTime < _nextProximitySleepScan)
+                return;
+
+            _nextProximitySleepScan = curTime + ProximitySleepScanInterval;
+
+            CachePlayerCoordinates();
+
+            var query = EntityQueryEnumerator<HTNComponent, TransformComponent>();
+            while (query.MoveNext(out var uid, out var component, out var xform))
+            {
+                if (!component.Enabled ||
+                    HasComp<ActorComponent>(uid) ||
+                    TerminatingOrDeleted(uid))
+                {
+                    continue;
+                }
+
+                if (_mobState.IsIncapacitated(uid))
+                {
+                    _lastPlayerNearby.Remove(uid);
+                    continue;
+                }
+
+                if (TryComp<MindContainerComponent>(uid, out var mindContainer) && mindContainer.HasMind)
+                    continue;
+
+                var active = HasComp<ActiveNPCComponent>(uid);
+                var nearPlayer = HasNearbyPlayer(xform, GetProximitySleepRange(component));
+
+                if (nearPlayer)
+                {
+                    _lastPlayerNearby[uid] = curTime;
+
+                    if (!active && _proximitySleeping.Contains(uid))
+                    {
+                        component.PlanAccumulator = 0f;
+                        WakeNPC(uid, component);
+                    }
+
+                    continue;
+                }
+
+                if (!_lastPlayerNearby.TryGetValue(uid, out var lastSeen))
+                {
+                    _lastPlayerNearby[uid] = curTime;
+                    continue;
+                }
+
+                if (!active || curTime - lastSeen < ProximitySleepGrace)
+                    continue;
+
+                _steering.Unregister(uid);
+                _proximitySleeping.Add(uid);
+                SleepNPC(uid, component);
+            }
+        }
+
+        private void CachePlayerCoordinates()
+        {
+            _playerCoordinates.Clear();
+
+            var players = EntityQueryEnumerator<ActorComponent, TransformComponent>();
+            while (players.MoveNext(out var uid, out _, out var xform))
+            {
+                if (_ghostQuery.HasComp(uid))
+                    continue;
+
+                _playerCoordinates.Add(xform.Coordinates);
+            }
+        }
+
+        private bool HasNearbyPlayer(TransformComponent xform, float range)
+        {
+            foreach (var coordinates in _playerCoordinates)
+            {
+                if (xform.Coordinates.TryDistance(EntityManager, coordinates, out var distance) &&
+                    distance <= range)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private float GetProximitySleepRange(HTNComponent component)
+        {
+            var radius = component.Blackboard.GetValueOrDefault<float>(
+                component.Blackboard.GetVisionRadiusKey(EntityManager),
+                EntityManager);
+
+            return Math.Clamp(radius + ProximitySleepRangeBuffer, ProximitySleepMinRange, ProximitySleepMaxRange);
+        }
+        // DS14-End
 
         public void OnMobStateChange(EntityUid uid, HTNComponent component, MobStateChangedEvent args)
         {

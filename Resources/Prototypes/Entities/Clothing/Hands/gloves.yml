@@ -267,7 +267,7 @@
   description: These black nano-enhanced gloves insulate from electricity and provide fire resistance.
   components:
   - type: Sprite
-    sprite: Clothing/Hands/Gloves/spaceninja.rsi
+    sprite: _DeadSpace/Clothing/Hands/Gloves/spaceninja.rsi # DS14 Resprite
     layers:
     - state: icon
       map: [ "enum.ToggleableVisuals.Layer" ]

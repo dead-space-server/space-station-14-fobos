@@ -1,5 +1,6 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
+using Content.Server.Antag;
 using Content.Shared.GameTicking.Components;
 using Robust.Shared.Prototypes;
 using Content.Shared.Cargo.Prototypes;
@@ -23,13 +24,13 @@ using Content.Server.RoundEnd;
 using Content.Shared.DeadSpace.Necromorphs.Necroobelisk;
 using Content.Server.DeadSpace.NoShuttleFTL;
 using Content.Server.GameTicking;
-using Content.Server.Antag;
 using Content.Server.Database;
 
 namespace Content.Server.DeadSpace.Necromorphs.Unitology;
 
 public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
 {
+    [Dependency] private readonly AntagSelectionSystem _antag = default!;
     [Dependency] private readonly NpcFactionSystem _npcFaction = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly TimedWindowSystem _timedWindow = default!;
@@ -37,7 +38,6 @@ public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
     [Dependency] private readonly ErtResponseSystem _ertResponseSystem = default!;
     [Dependency] private readonly CargoSystem _cargoSystem = default!;
     [Dependency] private readonly RoundEndSystem _roundEndSystem = default!;
-    [Dependency] private readonly AntagSelectionSystem _antag = default!;
     [Dependency] private readonly IServerDbManager _db = default!;
     private const int AdditionalSupport = 100000;
     private static readonly ProtoId<CargoAccountPrototype> Account = "Security";
@@ -63,17 +63,6 @@ public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
         var winText = Loc.GetString($"thecircle-{(component.State == CircleOpsState.Convergence ? "opsmajor" : "crewmajor")}");
         args.AddLine(winText);
 
-        foreach (var cond in Array.Empty<string>())
-
-        args.AddLine(Loc.GetString("thecircle-list-start"));
-
-        var antags = _antag.GetAntagIdentifiers(uid);
-
-        foreach (var (_, sessionData, name) in antags)
-        {
-            args.AddLine(Loc.GetString("thecircle-initial-name", ("name", name), ("user", sessionData.UserName)));
-        }
-
         var winner = component.State == CircleOpsState.Convergence
             ? BiStatWinner.Antagonist
             : BiStatWinner.Crew;
@@ -89,6 +78,22 @@ public sealed class CircleOpsRuleSystem : GameRuleSystem<CircleOpsRuleComponent>
 
             }
         });
+    }
+
+    protected override void AppendRoundEndDiscordText(EntityUid uid,
+        CircleOpsRuleComponent component,
+        GameRuleComponent gameRule,
+        ref RoundEndDiscordTextAppendEvent args)
+    {
+        args.AddLine(Loc.GetString("thecircle-list-start"));
+
+        var antags = _antag.GetAntagIdentifiers(uid);
+        foreach (var (_, sessionData, name) in antags)
+        {
+            args.AddLine(Loc.GetString("thecircle-initial-name", ("name", name), ("user", sessionData.UserName)));
+        }
+
+        args.AddLine("");
     }
 
     protected override void Started(EntityUid uid, CircleOpsRuleComponent component, GameRuleComponent gameRule, GameRuleStartedEvent args)

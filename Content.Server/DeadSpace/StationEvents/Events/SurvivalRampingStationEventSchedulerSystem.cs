@@ -27,7 +27,7 @@ public sealed class SurvivalRampingStationEventSchedulerSystem : GameRuleSystem<
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly RoundEndSystem _roundEnd = default!;
 
-    public float GetChaosModifier(EntityUid uid, SurvivalRampingStationEventSchedulerComponent component)
+    public float GetChaosModifier(SurvivalRampingStationEventSchedulerComponent component)
     {
         var roundTime = (float) _gameTicker.RoundDuration().TotalSeconds;
         if (component.EndTime <= 0f)
@@ -36,12 +36,7 @@ public sealed class SurvivalRampingStationEventSchedulerSystem : GameRuleSystem<
         if (roundTime <= component.EndTime)
             return component.StartingChaos + (component.MaxChaos - component.StartingChaos) / component.EndTime * roundTime;
 
-        if (component.FalloffEndTime <= component.EndTime || roundTime >= component.FalloffEndTime)
-            return component.StartingChaos;
-
-        var falloffDuration = component.FalloffEndTime - component.EndTime;
-        var falloffTime = roundTime - component.EndTime;
-        return component.MaxChaos - (component.MaxChaos - component.StartingChaos) / falloffDuration * falloffTime;
+        return component.MaxChaos;
     }
 
     protected override void Started(EntityUid uid,
@@ -53,12 +48,11 @@ public sealed class SurvivalRampingStationEventSchedulerSystem : GameRuleSystem<
 
         component.MaxChaos = component.AverageChaos;
         component.EndTime = component.AverageEndTime * 60f;
-        component.FalloffEndTime = component.MinimumChaosTime * 60f;
 
         if (component.StartingChaos > component.MaxChaos)
             component.StartingChaos = component.MaxChaos;
 
-        PickNextEventTime(uid, component);
+        PickNextEventTime(component);
     }
 
     public override void Update(float frameTime)
@@ -95,13 +89,13 @@ public sealed class SurvivalRampingStationEventSchedulerSystem : GameRuleSystem<
             if (!TryRunRandomEvent(scheduler, phase))
                 continue;
 
-            PickNextEventTime(uid, scheduler);
+            PickNextEventTime(scheduler);
         }
     }
 
-    private void PickNextEventTime(EntityUid uid, SurvivalRampingStationEventSchedulerComponent component)
+    private void PickNextEventTime(SurvivalRampingStationEventSchedulerComponent component)
     {
-        var mod = GetChaosModifier(uid, component);
+        var mod = GetChaosModifier(component);
 
         component.TimeUntilNextEvent = _random.NextFloat(240f / mod, 720f / mod);
     }

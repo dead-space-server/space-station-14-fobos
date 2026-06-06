@@ -233,6 +233,9 @@ public sealed class LavalandBossArenaSystem : EntitySystem
         arena.NextHudUpdate = _timing.CurTime;
         arena.NextBossLeashCheck = _timing.CurTime + BossLeashCheckInterval;
 
+        var exclusion = EnsureComp<LavalandFtlExclusionComponent>(grid.Owner);
+        exclusion.Range = GetArenaRadius(width, height) + Math.Max(0f, arenaPrototype.GridSeparation);
+
         Log.Info($"Lavaland boss arena {arenaPrototype.ID} spawned at {center}.");
         return true;
     }

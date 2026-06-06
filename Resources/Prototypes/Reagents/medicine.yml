@@ -334,7 +334,11 @@
         conditions:
           # they gotta be in crit first
         - !type:MobStateCondition
-          mobstate: Critical
+          mobstate: 
+          #DS14-start
+          - Critical
+          - PreCritical
+          #DS14-end
         - !type:ReagentCondition
           reagent: Epinephrine
           max: 20
@@ -346,7 +350,11 @@
         conditions:
           # they gotta be in crit first
         - !type:MobStateCondition
-          mobstate: Critical
+          mobstate:
+          #DS14-start
+          - Critical
+          - PreCritical
+          #DS14-end
         - !type:ReagentCondition
           reagent: Epinephrine
           max: 20
@@ -459,7 +467,11 @@
         conditions:
           # they gotta be in crit first
         - !type:MobStateCondition
-          mobstate: Critical
+          mobstate:
+          #DS14-start
+          - Critical
+          - PreCritical
+          #DS14-end
         damage:
           types:
             Asphyxiation: -2
@@ -1310,7 +1322,8 @@
           - !type:TemperatureCondition
             max: 150.0
           - !type:MobStateCondition
-            mobstate: Dead
+            mobstate:
+            - Dead
 
 - type: reagent
   id: Arcryox

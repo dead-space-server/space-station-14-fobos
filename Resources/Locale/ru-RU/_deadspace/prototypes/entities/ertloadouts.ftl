@@ -12,6 +12,12 @@ ert-loadout-category-enforcer-name = Силовик
 ert-loadout-category-enforcer-description =
     Дробовик марки Frozen Star нового поколения.
     Использует патроны калибра 12х70. В комплект включён бандольер.
+ert-loadout-category-ares-swc-incendiary-name = SWC-432-5 "Арес"
+ert-loadout-category-ares-swc-incendiary-description =
+    Автоматический дробовик. Совершенно новый аналог нашумевшей "Сайге". 
+    Обладает барабанным магазином и общей мобильностью. 
+    Создано по предварительному договору NanoTrasen с SWC.
+    Имеет зажигательные патроны.
 ert-loadout-category-energyshotgun-name = Энергетический дробовик
 ert-loadout-category-energyshotgun-description =
     Новейший прототип, с возможностью смены режима на летальный
@@ -52,6 +58,11 @@ ert-loadout-category-mp5-name = MP-5
 ert-loadout-category-mp5-description =
     Лёгкий пистолет-пулемет, точный и компактный, самая лучшая замена простому Дрозду. 
     Использует патроны калибра 9х19 мм.
+ert-loadout-category-mp5sd-name = MP-5SD
+ert-loadout-category-mp5sd-description =
+    Модифицированный MP5 с интегрированным глушителем.
+    Использует патроны калибра 9х19 мм.
+    Набор содержит 3 магазина и MP-5SD.
 ert-loadout-category-mp7-name = MP-7
 ert-loadout-category-mp7-description =
     Точный пистолет пулемёт, используется бравыми сотрудниками спецназа.
@@ -61,6 +72,11 @@ ert-loadout-category-scarl-name = Scar-L
 ert-loadout-category-scarl-description =
     Стандартизированная штурмовая винтовка армии ОПЗ.
     Использует патроны 5.56х45 мм.
+ert-loadout-category-scarlbs-name = Scar-L
+ert-loadout-category-scarlbs-description =
+    Стандартизированная штурмовая винтовка армии ОПЗ.
+    Использует патроны 5.56х45 мм.
+    Набор содержит 3 магазина и Scar-L.
 ert-loadout-category-lasercarbine-name = Лазерная винтовка
 ert-loadout-category-lasercarbine-description =
     Предпочитается службой безопасности NanoTrasen
@@ -93,6 +109,12 @@ ert-loadout-category-berettam92-description =
     Точный и давно зарекомендовавший себя пистолет.
     Вы чувствуете себя крутым полицейским старой Терры. 
     Использует патроны калибра 9х19.
+ert-loadout-category-berettam92bs-name = Beretta M92
+ert-loadout-category-berettam92bs-description =
+    Точный и давно зарекомендовавший себя пистолет.
+    Вы чувствуете себя крутым полицейским старой Терры. 
+    Использует патроны калибра 9х19.
+    Набор содержит 3 расширенных магазина, телескопический щит и М92.
 ert-loadout-category-mk79tactical-name = МК-79 "tactical"
 ert-loadout-category-mk79tactical-description =
     Точность, скорострельность, надёжность! 
@@ -176,10 +198,41 @@ ert-loadout-category-explosion-name = Дополнительная взрывч�
 ert-loadout-category-explosion-description =
     Набор из четырёх мощных взрывных устройств X4.
     Используйте с крайней осторожностью.
+ert-loadout-category-exgrenade-name = Дополнительные разрывные гранаты
+ert-loadout-category-exgrenade-description =
+    Набор из четырёх разрывных гранат, что создают разрушительный взрыв.
+    Используйте с крайней осторожностью.
+ert-loadout-category-grenadeincendiary-name = Дополнительные зажигательные гранаты
+ert-loadout-category-grenadeincendiary-description =
+    Набор из четырёх зажигательные гранаты, что смогу поджарить ваших врагов.
+    Используйте с крайней осторожностью.
+ert-loadout-category-karachnocid-name = Набор "Кара арахнида"
+ert-loadout-category-karachnocid-description =
+    Набор из четырёх гранат "Кара арахнида". 
+    Крайне эффективны против Пауков Ужаса.
+    Используйте с крайней осторожностью.
 ert-loadout-category-stimulator-name = Набор стимуляторов
 ert-loadout-category-stimulator-description =
     Шесть автоинъекторов целестина.
     Помогают обрести максимальную мобильность в пылу сражения.
+ert-loadout-category-scstmed-name = Набор медипенов ОППУ
+ert-loadout-category-scstmed-description =
+    Набор содержит четыре медипенов ОППУ. 
+    Содержит вещества для лечения колющих повреждений и ядов.
+ert-loadout-category-scntmed-name = Набор медипенов ОПНУ
+ert-loadout-category-scntmed-description =
+    Набор содержит четыре медипенов ОПНУ.
+    Содержит вещества для лечения колющих повреждений и ядов.
+ert-loadout-category-zetatwo-name = Набор медипенов ZetaTwo
+ert-loadout-category-zetatwo-description =
+    Набор содержит два медипена ZetaTwo.
+    Содержит в себе лекарство от некроинфеции,
+    а также сильно действующий наркотик импердразин.
+    Восстанавливающий рассудок после пребывание возле обелиска.
+ert-loadout-category-zetaone-name = Набор медипенов ZetaOne
+ert-loadout-category-zetaone-description =
+    Набор содержит четыре медипена ZetaOne.
+    Содержит в себе лекарство от некроинфеции.
 ert-loadout-category-combatmedicine-name = Набор автоинъекторов
 ert-loadout-category-combatmedicine-description =
     Состоит из четырёх боевых, двух пунктураза, двух пиразина и двух автоинъекторов от яда.

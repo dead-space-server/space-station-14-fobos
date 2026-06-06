@@ -72,6 +72,14 @@ public sealed class EssenceSystem : EntitySystem
                 else
                     component.EssenceAmount = _random.NextFloat(45f, 70f);
                 break;
+            // DS14-start
+            case MobState.PreCritical:
+                if (TryComp<MindContainerComponent>(uid, out var dmind) && dmind.Mind != null)
+                    component.EssenceAmount = _random.NextFloat(55f, 80f);
+                else
+                    component.EssenceAmount = _random.NextFloat(35f, 50f);
+                break;
+            // DS14-end
             case MobState.Critical:
                 component.EssenceAmount = _random.NextFloat(35f, 50f);
                 break;

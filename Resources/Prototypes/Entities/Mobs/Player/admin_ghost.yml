@@ -21,6 +21,7 @@
     context: "aghost"
   - type: Ghost
     canInteract: true
+  - type: AdminGhostVisibility # DS14
   - type: GhostHearing
   - type: Hands
     hands:
@@ -133,6 +134,20 @@
     iconOn: { sprite: Structures/Machines/parts.rsi, state: box_2 }
     keywords: [ "AI", "console", "interface" ]
     priority: -10
+
+- type: entity
+  parent: BaseAGhostAction
+  id: ActionAGhostToggleVisibility
+  name: Toggle Aghost Visibility
+  description: Completely hide or show your admin ghost.
+  components:
+  - type: Action
+    icon: Interface/Actions/eyeopen.png
+    iconOn: Interface/Actions/eyeclose.png
+    keywords: [ "admin", "ghost", "hide", "visibility" ]
+    priority: -2
+  - type: InstantAction
+    event: !type:AGhostToggleVisibilityActionEvent
 
 - type: entity
   parent: BaseAGhostAction

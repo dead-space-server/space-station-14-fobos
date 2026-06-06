@@ -20,6 +20,7 @@ using Robust.Shared.Utility;
 using Content.Shared.Inventory;
 using Content.Shared.PDA;
 using Content.Shared.Access.Components;
+using Content.Shared.Corvax.TTS;
 using System.Text.RegularExpressions;
 using Content.Shared.DeadSpace.Languages.Components;
 using Content.Server.DeadSpace.Languages;
@@ -100,6 +101,15 @@ public sealed class RadioSystem : EntitySystem
                 msg = WithCommandLinkSender(msg, args.MessageSource);
 
             _netMan.ServerSendMessage(msg, actor.PlayerSession.Channel);
+
+            // DS14-TTS-Start
+            if (uid != args.MessageSource &&
+                !args.Receivers.Contains(uid) &&
+                HasComp<TTSComponent>(args.MessageSource))
+            {
+                args.Receivers.Add(uid);
+            }
+            // DS14-TTS-End
         }
         // DS14-end
     }

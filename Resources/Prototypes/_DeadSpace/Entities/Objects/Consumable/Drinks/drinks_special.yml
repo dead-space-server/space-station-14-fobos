@@ -1,4 +1,53 @@
 - type: entity
+  parent: BaseStorageItem
+  id: DrinkBaltica9Pack
+  name: запасы девятки
+  description: Шесть баночек легендарной Балтики 9.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Consumable/Drinks/baltica9_holder.rsi
+    layers:
+    - state: fill-1
+      map: ["fill-1"]
+    - state: fill-2
+      map: ["fill-2"]
+    - state: fill-3
+      map: ["fill-3"]
+    - state: fill-4
+      map: ["fill-4"]
+    - state: fill-5
+      map: ["fill-5"]
+    - state: fill-6
+      map: ["fill-6"]
+    - state: icon
+  - type: Item
+    size: Normal
+  - type: Storage
+    grid:
+    - 0,0,2,3
+    whitelist:
+      tags:
+      - Baltica9
+    hideStackVisualsWhenClosed: false
+  - type: EntityTableContainerFill
+    containers:
+      storagebase:
+        id: DrinkBaltica9Can
+        amount: 6
+  - type: ItemCounter
+    count:
+      tags: [Baltica9]
+    composite: true
+    layerStates:
+    - fill-1
+    - fill-2
+    - fill-3
+    - fill-4
+    - fill-5
+    - fill-6
+  - type: Appearance
+
+- type: entity
   parent: DrinkShaker
   id: DrinkShakerSyndie
   name: синди-шейкер

@@ -29,6 +29,10 @@ namespace Content.Client.Access.UI
 
         private AccessLevelControl _accessButtons = new();
         private readonly List<string> _jobPrototypeIds = new();
+        // DS14-start
+        private readonly List<ProtoId<AccessLevelPrototype>> _basicAccessLevels;
+        private readonly List<ProtoId<AccessLevelPrototype>> _extendedAccessLevels;
+        // DS14-end
 
         private string? _lastFullName;
         private string? _lastJobTitle;
@@ -38,13 +42,20 @@ namespace Content.Client.Access.UI
         private static ProtoId<JobPrototype> _defaultJob = "Passenger";
 
         public IdCardConsoleWindow(IdCardConsoleBoundUserInterface owner, IPrototypeManager prototypeManager,
-            List<ProtoId<AccessLevelPrototype>> accessLevels, bool isTaipan) // DS14
+            List<ProtoId<AccessLevelPrototype>> accessLevels,
+            List<ProtoId<AccessLevelPrototype>> basicAccessLevels,
+            List<ProtoId<AccessLevelPrototype>> extendedAccessLevels,
+            bool isTaipan) // DS14
         {
             RobustXamlLoader.Load(this);
             IoCManager.InjectDependencies(this);
             _logMill = _logManager.GetSawmill(SharedIdCardConsoleSystem.Sawmill);
 
             _owner = owner;
+            // DS14-start
+            _basicAccessLevels = basicAccessLevels;
+            _extendedAccessLevels = extendedAccessLevels;
+            // DS14-end
 
             _maxNameLength = _cfgManager.GetCVar(CCVars.MaxNameLength);
             _maxIdJobLength = _cfgManager.GetCVar(CCVars.MaxIdJobLength);
@@ -100,6 +111,13 @@ namespace Content.Client.Access.UI
             {
                 button.OnPressed += _ => SubmitData();
             }
+
+            // DS14-Start
+            BasicAccessButton.Visible = _basicAccessLevels.Count > 0;
+            ExtendedAccessButton.Visible = _extendedAccessLevels.Count > 0;
+            BasicAccessButton.OnPressed += _ => SetAccessPreset(_basicAccessLevels);
+            ExtendedAccessButton.OnPressed += _ => SetAccessPreset(_extendedAccessLevels);
+            // DS14-End
         }
 
         /// <param name="enabled">If true, every individual access button will be pressed. If false, each will be depressed.</param>
@@ -191,6 +209,10 @@ namespace Content.Client.Access.UI
             JobTitleSaveButton.Disabled = !interfaceEnabled || !jobTitleDirty;
 
             JobPresetOptionButton.Disabled = !interfaceEnabled;
+            // DS14-start
+            BasicAccessButton.Disabled = !interfaceEnabled;
+            ExtendedAccessButton.Disabled = !interfaceEnabled;
+            // DS14-end
 
             _accessButtons.UpdateState(state.TargetIdAccessList?.ToList() ??
                                        new List<ProtoId<AccessLevelPrototype>>(),
@@ -221,6 +243,24 @@ namespace Content.Client.Access.UI
             _lastJobTitle = state.TargetIdJobTitle;
             _lastJobProto = state.TargetIdJobPrototype;
         }
+
+        // DS14-Start
+        private void SetAccessPreset(List<ProtoId<AccessLevelPrototype>> targetList)
+        {
+            if (targetList.Count == 0)
+                return;
+
+            SetAllAccess(false);
+
+            foreach (var access in targetList)
+            {
+                if (_accessButtons.ButtonsList.TryGetValue(access, out var button) && !button.Disabled)
+                    button.Pressed = true;
+            }
+
+            SubmitData();
+        }
+        // DS14-End
 
         private void SubmitData()
         {

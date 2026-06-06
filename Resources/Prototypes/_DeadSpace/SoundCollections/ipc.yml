@@ -3,3 +3,10 @@
   files:
     - /Audio/_DeadSpace/Voice/IPC/robot_scream1.ogg
     - /Audio/_DeadSpace/Voice/IPC/robot_scream2.ogg
+
+- type: soundCollection
+  id: IPCLaughs
+  files:
+    - /Audio/_DeadSpace/Voice/IPC/ipc_xd_1.ogg
+    - /Audio/_DeadSpace/Voice/IPC/ipc_xd_2.ogg
+    - /Audio/_DeadSpace/Voice/IPC/ipc_xd_3.ogg

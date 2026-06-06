@@ -48,6 +48,45 @@
       - AccessReserved1
       - AccessReserved2
       - AccessReserved3
+    basicAccessLevels:
+      - Coroner
+      - Medical
+      - Research
+      - Engineering
+      - Salvage
+      - Cargo
+      - Service
+      - Kitchen
+      - Bar
+      - Hydroponics
+      - Chapel
+      - Janitor
+      - Theatre
+      - External
+      - Maintenance
+    extendedAccessLevels:
+      - Detective
+      - Security
+      - Brigmedic
+      - Brig
+      - Chemistry
+      - Atmospherics
+      - Virology
+      - Coroner
+      - Medical
+      - Research
+      - Engineering
+      - Salvage
+      - Cargo
+      - Service
+      - Kitchen
+      - Bar
+      - Hydroponics
+      - Chapel
+      - Janitor
+      - Theatre
+      - External
+      - Maintenance
     privilegedIdSlot:
       name: id-card-console-privileged-id
       ejectSound: /Audio/Machines/id_swipe.ogg
@@ -59,6 +98,7 @@
         - IdCard
     targetIdSlot:
       name: id-card-console-target-id
+      priority: 1
       ejectSound: /Audio/Machines/id_swipe.ogg
       insertSound: /Audio/Weapons/Guns/MagIn/batrifle_magin.ogg
       ejectOnBreak: true

@@ -38,13 +38,6 @@ ent-ERTJanitorRedPDA = КПК уборщика ОБР
     .desc = { ent-ERTJanitorPDA.desc }
     .suffix = Красный
 
-
-
-
-
-
-
-
 # ЦК
 
 ent-CentcomOfficialPDA = { ent-CentcomPDA }

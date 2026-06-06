@@ -12,7 +12,7 @@ public sealed partial class SurvivalRampingStationEventSchedulerComponent : Comp
     ///     Ending chaos modifier for the ramping event scheduler. Higher means faster.
     /// </summary>
     [DataField]
-    public float AverageChaos = 2.4f;
+    public float AverageChaos = 4.8f;
 
     /// <summary>
     ///     Time (in minutes) for when the ramping event scheduler should stop increasing the chaos modifier.
@@ -20,17 +20,8 @@ public sealed partial class SurvivalRampingStationEventSchedulerComponent : Comp
     [DataField]
     public float AverageEndTime = 45f;
 
-    /// <summary>
-    ///     Time (in minutes) when the ramping event scheduler should finish falling back to the initial chaos modifier.
-    /// </summary>
-    [DataField]
-    public float MinimumChaosTime = 70f;
-
     [DataField]
     public float EndTime;
-
-    [DataField]
-    public float FalloffEndTime;
 
     [DataField]
     public float MaxChaos;

@@ -12,6 +12,10 @@ namespace Content.Server.Power.Pow3r
     {
         private UpdateNetworkJob _networkJob;
         private bool _disableParallel;
+        // DS14-start
+        private const int ParallelMinGroupWork = 4096;
+        private const int ParallelMinAverageNetworkWork = 8;
+        // DS14-end
 
         public BatteryRampPegSolver(bool disableParallel = false)
         {
@@ -36,10 +40,13 @@ namespace Content.Server.Power.Pow3r
 
         public void Tick(float frameTime, PowerState state, IParallelManager parallel)
         {
-            ClearLoadsAndSupplies(state);
+            // DS14-start
+            state.FlushDirtyLoads();
+            ClearSupplies(state);
+            // DS14-end
 
             state.GroupedNets ??= GroupByNetworkDepth(state);
-            DebugTools.Assert(state.GroupedNets.Select(x => x.Count).Sum() == state.Networks.Count);
+            DebugTools.Assert(state.GroupedNets.Select(x => x.Networks.Count).Sum() == state.Networks.Count); // DS14
             _networkJob.State = state;
             _networkJob.FrameTime = frameTime;
 #if DEBUG
@@ -61,11 +68,14 @@ namespace Content.Server.Power.Pow3r
                 // TODO make GroupByNetworkDepth evaluate the TOTAL size of each layer (i.e. loads + chargers +
                 // suppliers + discharger) Then decide based on total layer size whether its worth parallelizing that
                 // layer?
-                _networkJob.Networks = group;
-                if (_disableParallel || group.Count <= 1)
-                    parallel.ProcessSerialNow(_networkJob, group.Count);
+                // DS14-start
+                _networkJob.Networks = group.Networks;
+                var count = group.Networks.Count;
+                if (_disableParallel || ShouldProcessSerial(group))
+                    parallel.ProcessSerialNow(_networkJob, count);
                 else
-                    parallel.ProcessNow(_networkJob, group.Count);
+                    parallel.ProcessNow(_networkJob, count);
+                // DS14-end
             }
 
             ClearBatteries(state);
@@ -73,17 +83,8 @@ namespace Content.Server.Power.Pow3r
             PowerSolverShared.UpdateRampPositions(frameTime, state);
         }
 
-        private void ClearLoadsAndSupplies(PowerState state)
+        private void ClearSupplies(PowerState state) // DS14
         {
-            foreach (var load in state.Loads.Values)
-            {
-                if (load.Paused)
-                    continue;
-
-                if (load.ReceivingPower != 0f)
-                    load.ReceivingPower = 0f;
-            }
-
             foreach (var supply in state.Supplies.Values)
             {
                 if (supply.Paused)
@@ -107,17 +108,43 @@ namespace Content.Server.Power.Pow3r
             // except for maybe the paused/enabled guff. If its mostly false, I guess they could just be 0 multipliers?
 
             // Add up demand from loads.
-            var demand = 0f;
-            foreach (var loadId in network.Loads)
+            // DS14-start
+            var loadDemandDirty = network.LoadDemandDirty;
+            var demand = network.CachedLoadDemand;
+            // DS14-end
+            if (loadDemandDirty) // DS14
             {
-                var load = state.Loads[loadId];
+                demand = 0f;
+                foreach (var loadId in network.Loads)
+                {
+                    var load = state.Loads[loadId];
 
-                if (!load.Enabled || load.Paused)
-                    continue;
+                    if (!load.Enabled || load.Paused)
+                        continue;
 
-                DebugTools.Assert(load.DesiredPower >= 0);
-                demand += load.DesiredPower;
+                    DebugTools.Assert(load.DesiredPower >= 0);
+                    demand += load.DesiredPower;
+                }
+
+                // DS14-start
+                network.CachedLoadDemand = demand;
+                network.LoadDemandDirty = false;
+                // DS14-end
             }
+
+            // DS14-start
+            if (!loadDemandDirty &&
+                network.Supplies.Count == 0 &&
+                network.BatteryLoads.Count == 0 &&
+                network.BatterySupplies.Count == 0 &&
+                network.LastCombinedSupply == 0f &&
+                network.LastCombinedMaxSupply == 0f &&
+                network.LastLoadSupplyRatio == 0f)
+            {
+                network.LastCombinedLoad = demand;
+                return;
+            }
+            // DS14-end
 
             // TODO: Consider having battery charge loads be processed "after" pass-through loads.
             // This would mean that charge rate would have no impact on throughput rate like it does currently.
@@ -202,23 +229,21 @@ namespace Content.Server.Power.Pow3r
             network.LastCombinedMaxSupply = totalMaxSupply + totalMaxBatterySupply;
 
             var met = Math.Min(demand, network.LastCombinedSupply);
+            // DS14-start
+            var supplyRatio = demand == 0f ? 0f : met / demand;
+            var distributeLoads = loadDemandDirty || network.LastLoadSupplyRatio != supplyRatio;
+            if (distributeLoads)
+                DistributeLoadPower(network, state, supplyRatio);
+            network.LastLoadSupplyRatio = supplyRatio;
+            // DS14-end
+
             if (met == 0)
-                return;
-
-            var supplyRatio = met / demand;
-            // if supply ratio == 1 (or is close to) we could skip some math for each load & battery.
-
-            // Distribute supply to loads.
-            foreach (var loadId in network.Loads)
             {
-                var load = state.Loads[loadId];
-                if (!load.Enabled || load.DesiredPower == 0 || load.Paused)
-                    continue;
-
-                load.ReceivingPower = supplyRatio >= 1f
-                    ? load.DesiredPower
-                    : load.DesiredPower * supplyRatio;
+                ClearNetworkSupplies(network, state); // DS14
+                return;
             }
+
+            // if supply ratio == 1 (or is close to) we could skip some math for each load & battery.
 
             // Distribute supply to batteries
             foreach (var batteryId in network.BatteryLoads)
@@ -231,10 +256,10 @@ namespace Content.Server.Power.Pow3r
                 battery.CurrentReceiving = supplyRatio >= 1f
                     ? battery.DesiredPower
                     : battery.DesiredPower * supplyRatio;
-                battery.CurrentStorage += frameTime * battery.CurrentReceiving * battery.Efficiency;
+                battery.SetCurrentStorage(battery.CurrentStorage + frameTime * battery.CurrentReceiving * battery.Efficiency); // DS14
 
                 DebugTools.Assert(battery.CurrentStorage <= battery.Capacity || MathHelper.CloseTo(battery.CurrentStorage, battery.Capacity, 1e-5));
-                battery.CurrentStorage = MathF.Min(battery.CurrentStorage, battery.Capacity);
+                battery.SetCurrentStorage(MathF.Min(battery.CurrentStorage, battery.Capacity)); // DS14
             }
 
             // Target output capacity for supplies
@@ -260,6 +285,10 @@ namespace Content.Server.Power.Pow3r
                     supply.SupplyRampTarget = supply.MaxSupply * targetRelativeSupplyOutput;
                 }
             }
+            else
+            {
+                ClearNetworkSupplies(network, state);
+            }
 
             // Return if normal supplies met all demand or there are no supplying batteries
             if (unmet <= 0 || totalMaxBatterySupply <= 0)
@@ -284,7 +313,7 @@ namespace Content.Server.Power.Pow3r
                 // to the same relative maximum output, the larger tolerance will mean that one will have a larger
                 // available supply. IMO this is undesirable, but I can't think of an easy fix ATM.
 
-                battery.CurrentStorage -= frameTime * battery.CurrentSupply;
+                battery.SetCurrentStorage(battery.CurrentStorage - frameTime * battery.CurrentSupply); // DS14
 #if DEBUG
                 // Manual "MathHelper.CloseToPercent" using the subtracted value to define the relative error.
                 if (battery.CurrentStorage < 0)
@@ -293,7 +322,7 @@ namespace Content.Server.Power.Pow3r
                     DebugTools.Assert(battery.CurrentStorage > -epsilon);
                 }
 #endif
-                battery.CurrentStorage = MathF.Max(0, battery.CurrentStorage);
+                battery.SetCurrentStorage(MathF.Max(0, battery.CurrentStorage)); // DS14
 
                 battery.SupplyRampTarget = battery.MaxEffectiveSupply * relativeTargetBatteryOutput - battery.CurrentReceiving * battery.Efficiency;
 
@@ -301,6 +330,40 @@ namespace Content.Server.Power.Pow3r
                                   || MathHelper.CloseToPercent(battery.MaxEffectiveSupply * relativeTargetBatteryOutput, battery.LoadingNetworkDemand, 0.001));
             }
         }
+
+        // DS14-start
+        private static void DistributeLoadPower(Network network, PowerState state, float supplyRatio)
+        {
+            foreach (var loadId in network.Loads)
+            {
+                var load = state.Loads[loadId];
+                var receiving = !load.Enabled || load.DesiredPower == 0 || load.Paused
+                    ? 0f
+                    : supplyRatio >= 1f
+                        ? load.DesiredPower
+                        : load.DesiredPower * supplyRatio;
+
+                load.SetReceivingPower(receiving);
+            }
+        }
+
+        private static void ClearNetworkSupplies(Network network, PowerState state)
+        {
+            foreach (var supplyId in network.Supplies)
+            {
+                var supply = state.Supplies[supplyId];
+
+                if (supply.Paused)
+                    continue;
+
+                if (supply.CurrentSupply != 0f)
+                    supply.CurrentSupply = 0f;
+
+                if (supply.SupplyRampTarget != 0f)
+                    supply.SupplyRampTarget = 0f;
+            }
+        }
+        // DS14-end
 
         private void ClearBatteries(PowerState state)
         {
@@ -314,7 +377,7 @@ namespace Content.Server.Power.Pow3r
                 if (!battery.SupplyingMarked)
                 {
                     if (battery.CurrentSupply != 0f)
-                        battery.CurrentSupply = 0f;
+                        battery.SetCurrentSupply(0f); // DS14
 
                     if (battery.SupplyRampTarget != 0f)
                         battery.SupplyRampTarget = 0f;
@@ -334,9 +397,9 @@ namespace Content.Server.Power.Pow3r
             }
         }
 
-        private List<List<Network>> GroupByNetworkDepth(PowerState state)
+        private List<NetworkGroup> GroupByNetworkDepth(PowerState state) // DS14
         {
-            List<List<Network>> groupedNetworks = new();
+            List<NetworkGroup> groupedNetworks = new(); // DS14
             foreach (var network in state.Networks.Values)
             {
                 network.Height = -1;
@@ -364,7 +427,7 @@ namespace Content.Server.Power.Pow3r
         /// group in parallel. This assumes that batteries are the only device that connects to multiple networks, and
         /// is thus the only obstacle to solving everything in parallel.
         /// </summary>
-        private void ValidateNetworkGroups(PowerState state, List<List<Network>> groupedNetworks)
+        private void ValidateNetworkGroups(PowerState state, List<NetworkGroup> groupedNetworks) // DS14
         {
             HashSet<Network> nets = new();
             HashSet<NodeId> netIds = new();
@@ -373,7 +436,7 @@ namespace Content.Server.Power.Pow3r
                 nets.Clear();
                 netIds.Clear();
 
-                foreach (var net in layer)
+                foreach (var net in layer.Networks) // DS14
                 {
                     foreach (var batteryId in net.BatteryLoads)
                     {
@@ -434,7 +497,7 @@ namespace Content.Server.Power.Pow3r
             }
         }
 
-        private static void RecursivelyEstimateNetworkDepth(PowerState state, Network network, List<List<Network>> groupedNetworks)
+        private static void RecursivelyEstimateNetworkDepth(PowerState state, Network network, List<NetworkGroup> groupedNetworks) // DS14
         {
             network.Height = -2;
             var height = -1;
@@ -461,10 +524,46 @@ namespace Content.Server.Power.Pow3r
             network.Height = 1 + height;
 
             if (network.Height >= groupedNetworks.Count)
-                groupedNetworks.Add(new() { network });
+            {
+                // DS14-start
+                var group = new NetworkGroup();
+                AddNetworkToGroup(group, network);
+                groupedNetworks.Add(group);
+                // DS14-end
+            }
             else
-                groupedNetworks[network.Height].Add(network);
+            {
+                AddNetworkToGroup(groupedNetworks[network.Height], network); // DS14
+            }
         }
+
+        // DS14-start
+        private static void AddNetworkToGroup(NetworkGroup group, Network network)
+        {
+            group.Networks.Add(network);
+            group.WorkCost += EstimateNetworkWork(network);
+        }
+
+        private static int EstimateNetworkWork(Network network)
+        {
+            return 1
+                   + network.Loads.Count
+                   + network.Supplies.Count
+                   + network.BatteryLoads.Count * 2
+                   + network.BatterySupplies.Count * 2;
+        }
+
+        private static bool ShouldProcessSerial(NetworkGroup group)
+        {
+            var count = group.Networks.Count;
+            if (count <= 1)
+                return true;
+
+            return group.WorkCost < ParallelMinGroupWork ||
+                   group.WorkCost < count * ParallelMinAverageNetworkWork;
+        }
+
+        // DS14-end
 
         #region Jobs
 

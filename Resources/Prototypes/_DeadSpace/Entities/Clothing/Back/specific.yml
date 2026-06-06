@@ -67,3 +67,24 @@
       - 0.451303391 # 22% oxygen
       - 1.600075659 # 78% nitrogen
       temperature: 293.15
+
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBackpackTailbag
+  name: подсумка на хвост
+  description: Удобная подсумка на хвосты.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Back/Backpacks/tailbag.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Back/Backpacks/tailbag.rsi
+    quickEquip: false
+    slots:
+    - tailbag
+  - type: Storage
+    grid:
+    - 1,0,1,1
+    - 2,0,2,1
+    - 4,0,7,1
+    - 9,1,9,1
+    - 9,0,9,1

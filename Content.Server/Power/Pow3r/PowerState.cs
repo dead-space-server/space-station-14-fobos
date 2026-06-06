@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -21,7 +22,14 @@ namespace Content.Server.Power.Pow3r
         public GenIdStorage<Network> Networks = new();
         public GenIdStorage<Load> Loads = new();
         public GenIdStorage<Battery> Batteries = new();
-        public List<List<Network>>? GroupedNets;
+        public List<NetworkGroup>? GroupedNets; // DS14
+
+        // DS14-start
+        private readonly ConcurrentQueue<NodeId> _dirtyLoads = new();
+        private readonly ConcurrentQueue<NodeId> _changedLoads = new();
+        private readonly ConcurrentQueue<NodeId> _changedBatterySupply = new();
+        private readonly ConcurrentQueue<NodeId> _changedBatteryStorage = new();
+        // DS14-end
 
         public readonly struct NodeId : IEquatable<NodeId>
         {
@@ -210,6 +218,16 @@ namespace Content.Server.Power.Pow3r
                 _nextFree = idx;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public bool Contains(NodeId id)
+            {
+                if (id.Index < 0 || id.Index >= _storage.Length)
+                    return false;
+
+                ref var slot = ref _storage[id.Index];
+                return slot.Generation == id.Generation && slot.NextSlot < 0;
+            }
+
             [MethodImpl(MethodImplOptions.NoInlining)]
             private void ReAllocate()
             {
@@ -236,6 +254,7 @@ namespace Content.Server.Power.Pow3r
                 }
 
                 _storage[^1].NextSlot = _nextFree;
+                _storage[^1].Generation = 1; // DS14
 
                 _nextFree = oldLength;
             }
@@ -344,35 +363,250 @@ namespace Content.Server.Power.Pow3r
             }
         }
 
+        // DS14-start
+        public sealed class NetworkGroup
+        {
+            public readonly List<Network> Networks = new();
+            public int WorkCost;
+        }
+
+        public void AttachLoad(Load load)
+        {
+            load.Owner = this;
+            MarkLoadDirty(load.Id);
+        }
+
+        public void DetachLoad(Load load)
+        {
+            load.Owner = null;
+        }
+
+        public void AttachSupply(Supply supply)
+        {
+            supply.Owner = this;
+        }
+
+        public void DetachSupply(Supply supply)
+        {
+            supply.Owner = null;
+        }
+
+        public void AttachBattery(Battery battery)
+        {
+            battery.Owner = this;
+            MarkBatterySupplyChanged(battery.Id);
+            MarkBatteryStorageChanged(battery.Id);
+        }
+
+        public void DetachBattery(Battery battery)
+        {
+            battery.Owner = null;
+        }
+
+        public void MarkLoadDirty(NodeId id)
+        {
+            if (id == default)
+                return;
+
+            _dirtyLoads.Enqueue(id);
+            _changedLoads.Enqueue(id);
+
+            if (!Loads.Contains(id))
+                return;
+
+            var load = Loads[id];
+            if (Networks.Contains(load.LinkedNetwork))
+                Networks[load.LinkedNetwork].LoadDemandDirty = true;
+        }
+
+        public void FlushDirtyLoads()
+        {
+            while (_dirtyLoads.TryDequeue(out var id))
+            {
+                if (id == default || !Loads.Contains(id))
+                    continue;
+
+                var load = Loads[id];
+                if (Networks.Contains(load.LinkedNetwork))
+                    Networks[load.LinkedNetwork].LoadDemandDirty = true;
+            }
+        }
+
+        public void MarkLoadOutputChanged(NodeId id)
+        {
+            if (id != default)
+                _changedLoads.Enqueue(id);
+        }
+
+        public void MarkSupplyDirty(NodeId id)
+        {
+            if (id == default || !Supplies.Contains(id))
+                return;
+
+            var supply = Supplies[id];
+            if (Networks.Contains(supply.LinkedNetwork))
+                Networks[supply.LinkedNetwork].SupplyDirty = true;
+        }
+
+        public void MarkBatteryDirty(NodeId id)
+        {
+            if (id == default || !Batteries.Contains(id))
+                return;
+
+            var battery = Batteries[id];
+
+            if (Networks.Contains(battery.LinkedNetworkCharging))
+                Networks[battery.LinkedNetworkCharging].BatteryLoadDirty = true;
+
+            if (Networks.Contains(battery.LinkedNetworkDischarging))
+                Networks[battery.LinkedNetworkDischarging].BatterySupplyDirty = true;
+        }
+
+        public void MarkBatterySupplyChanged(NodeId id)
+        {
+            if (id != default)
+                _changedBatterySupply.Enqueue(id);
+        }
+
+        public void MarkBatteryStorageChanged(NodeId id)
+        {
+            if (id != default)
+                _changedBatteryStorage.Enqueue(id);
+        }
+
+        public bool TryDequeueChangedLoad(out NodeId id)
+        {
+            return _changedLoads.TryDequeue(out id);
+        }
+
+        public bool TryDequeueChangedBatterySupply(out NodeId id)
+        {
+            return _changedBatterySupply.TryDequeue(out id);
+        }
+
+        public bool TryDequeueChangedBatteryStorage(out NodeId id)
+        {
+            return _changedBatteryStorage.TryDequeue(out id);
+        }
+        // DS14-end
+
         public sealed class Supply
         {
             [ViewVariables] public NodeId Id;
+            // DS14-start
+            [JsonIgnore] internal PowerState? Owner;
+
+            private bool _enabled = true;
+            private bool _paused;
+            private float _maxSupply;
+            private float _supplyRampRate = 5000;
+            private float _supplyRampTolerance = 5000;
+            private float _currentSupply;
+            private float _supplyRampTarget;
+            private float _supplyRampPosition;
+            // DS14-end
 
             // == Static parameters ==
-            [ViewVariables(VVAccess.ReadWrite)] public bool Enabled = true;
-            [ViewVariables(VVAccess.ReadWrite)] public bool Paused;
-            [ViewVariables(VVAccess.ReadWrite)] public float MaxSupply;
-
-            [ViewVariables(VVAccess.ReadWrite)] public float SupplyRampRate = 5000;
-            [ViewVariables(VVAccess.ReadWrite)] public float SupplyRampTolerance = 5000;
+            // DS14-start
+            [ViewVariables(VVAccess.ReadWrite)]
+            public bool Enabled
+            {
+                get => _enabled;
+                set
+                {
+                    if (_enabled == value)
+                        return;
+                    _enabled = value;
+                    Owner?.MarkSupplyDirty(Id);
+                }
+            }
+            [ViewVariables(VVAccess.ReadWrite)]
+            public bool Paused
+            {
+                get => _paused;
+                set
+                {
+                    if (_paused == value)
+                        return;
+                    _paused = value;
+                    Owner?.MarkSupplyDirty(Id);
+                }
+            }
+            [ViewVariables(VVAccess.ReadWrite)]
+            public float MaxSupply
+            {
+                get => _maxSupply;
+                set
+                {
+                    if (_maxSupply == value)
+                        return;
+                    _maxSupply = value;
+                    Owner?.MarkSupplyDirty(Id);
+                }
+            }
+            [ViewVariables(VVAccess.ReadWrite)]
+            public float SupplyRampRate
+            {
+                get => _supplyRampRate;
+                set
+                {
+                    if (_supplyRampRate == value)
+                        return;
+                    _supplyRampRate = value;
+                    Owner?.MarkSupplyDirty(Id);
+                }
+            }
+            [ViewVariables(VVAccess.ReadWrite)]
+            public float SupplyRampTolerance
+            {
+                get => _supplyRampTolerance;
+                set
+                {
+                    if (_supplyRampTolerance == value)
+                        return;
+                    _supplyRampTolerance = value;
+                    Owner?.MarkSupplyDirty(Id);
+                }
+            }
+            // DS14-end
 
             // == Runtime parameters ==
 
             /// <summary>
             ///     Actual power supplied last network update.
             /// </summary>
-            [ViewVariables(VVAccess.ReadWrite)] public float CurrentSupply;
+            // DS14-start
+            [ViewVariables(VVAccess.ReadWrite)]
+            public float CurrentSupply
+            {
+                get => _currentSupply;
+                set => _currentSupply = value;
+            }
+            // DS14-end
 
             /// <summary>
             ///     The amount of power we WANT to be supplying to match grid load.
             /// </summary>
             [ViewVariables(VVAccess.ReadWrite)] [JsonIgnore]
-            public float SupplyRampTarget;
+            // DS14-start
+            public float SupplyRampTarget
+            {
+                get => _supplyRampTarget;
+                set => _supplyRampTarget = value;
+            }
+            // DS14-end
 
             /// <summary>
             ///     Position of the supply ramp.
             /// </summary>
-            [ViewVariables(VVAccess.ReadWrite)] public float SupplyRampPosition;
+            // DS14-start
+            [ViewVariables(VVAccess.ReadWrite)]
+            public float SupplyRampPosition
+            {
+                get => _supplyRampPosition;
+                set => _supplyRampPosition = value;
+            }
+            // DS14-end
 
             [ViewVariables] [JsonIgnore] public NodeId LinkedNetwork;
 
@@ -386,31 +620,216 @@ namespace Content.Server.Power.Pow3r
         public sealed class Load
         {
             [ViewVariables] public NodeId Id;
+            // DS14-start
+            [JsonIgnore] internal PowerState? Owner;
+
+            private bool _enabled = true;
+            private bool _paused;
+            private float _desiredPower;
+            private float _receivingPower;
+            // DS14-end
 
             // == Static parameters ==
-            [ViewVariables(VVAccess.ReadWrite)] public bool Enabled = true;
-            [ViewVariables(VVAccess.ReadWrite)] public bool Paused;
-            [ViewVariables(VVAccess.ReadWrite)] public float DesiredPower;
+            // DS14-start
+            [ViewVariables(VVAccess.ReadWrite)]
+            public bool Enabled
+            {
+                get => _enabled;
+                set
+                {
+                    if (_enabled == value)
+                        return;
+                    _enabled = value;
+                    Owner?.MarkLoadDirty(Id);
+                }
+            }
+
+            [ViewVariables(VVAccess.ReadWrite)]
+            public bool Paused
+            {
+                get => _paused;
+                set
+                {
+                    if (_paused == value)
+                        return;
+                    _paused = value;
+                    Owner?.MarkLoadDirty(Id);
+                }
+            }
+
+            [ViewVariables(VVAccess.ReadWrite)]
+            public float DesiredPower
+            {
+                get => _desiredPower;
+                set
+                {
+                    if (_desiredPower == value)
+                        return;
+                    _desiredPower = value;
+                    Owner?.MarkLoadDirty(Id);
+                }
+            }
+            // DS14-end
 
             // == Runtime parameters ==
-            [ViewVariables(VVAccess.ReadWrite)] public float ReceivingPower;
+            // DS14-start
+            [ViewVariables(VVAccess.ReadWrite)]
+            public float ReceivingPower
+            {
+                get => _receivingPower;
+                set => SetReceivingPower(value);
+            }
+            // DS14-end
 
             [ViewVariables] [JsonIgnore] public NodeId LinkedNetwork;
+
+            // DS14-start
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public void SetReceivingPower(float value)
+            {
+                if (_receivingPower == value)
+                    return;
+                _receivingPower = value;
+                Owner?.MarkLoadOutputChanged(Id);
+            }
+
+            public void QueueUpdate()
+            {
+                Owner?.MarkLoadOutputChanged(Id);
+            }
+            // DS14-end
         }
 
         public sealed class Battery
         {
             [ViewVariables] public NodeId Id;
+            // DS14-start
+            [JsonIgnore] internal PowerState? Owner;
+
+            private bool _enabled = true;
+            private bool _paused;
+            private bool _canDischarge = true;
+            private bool _canCharge = true;
+            private float _capacity;
+            private float _maxChargeRate;
+            private float _maxThroughput;
+            private float _maxSupply;
+            private float _supplyRampTolerance = 5000;
+            private float _supplyRampRate = 5000;
+            private float _efficiency = 1;
+            private float _supplyRampPosition;
+            private float _currentSupply;
+            private float _currentStorage;
+            private float _currentReceiving;
+            private float _loadingNetworkDemand;
+            // DS14-end
 
             // == Static parameters ==
-            [ViewVariables(VVAccess.ReadWrite)] public bool Enabled = true;
-            [ViewVariables(VVAccess.ReadWrite)] public bool Paused;
-            [ViewVariables(VVAccess.ReadWrite)] public bool CanDischarge = true;
-            [ViewVariables(VVAccess.ReadWrite)] public bool CanCharge = true;
-            [ViewVariables(VVAccess.ReadWrite)] public float Capacity;
-            [ViewVariables(VVAccess.ReadWrite)] public float MaxChargeRate;
-            [ViewVariables(VVAccess.ReadWrite)] public float MaxThroughput; // 0 = infinite cuz imgui
-            [ViewVariables(VVAccess.ReadWrite)] public float MaxSupply;
+            // DS14-start
+            [ViewVariables(VVAccess.ReadWrite)]
+            public bool Enabled
+            {
+                get => _enabled;
+                set
+                {
+                    if (_enabled == value)
+                        return;
+                    _enabled = value;
+                    Owner?.MarkBatteryDirty(Id);
+                }
+            }
+
+            [ViewVariables(VVAccess.ReadWrite)]
+            public bool Paused
+            {
+                get => _paused;
+                set
+                {
+                    if (_paused == value)
+                        return;
+                    _paused = value;
+                    Owner?.MarkBatteryDirty(Id);
+                }
+            }
+
+            [ViewVariables(VVAccess.ReadWrite)]
+            public bool CanDischarge
+            {
+                get => _canDischarge;
+                set
+                {
+                    if (_canDischarge == value)
+                        return;
+                    _canDischarge = value;
+                    Owner?.MarkBatteryDirty(Id);
+                }
+            }
+
+            [ViewVariables(VVAccess.ReadWrite)]
+            public bool CanCharge
+            {
+                get => _canCharge;
+                set
+                {
+                    if (_canCharge == value)
+                        return;
+                    _canCharge = value;
+                    Owner?.MarkBatteryDirty(Id);
+                }
+            }
+
+            [ViewVariables(VVAccess.ReadWrite)]
+            public float Capacity
+            {
+                get => _capacity;
+                set
+                {
+                    if (_capacity == value)
+                        return;
+                    _capacity = value;
+                    Owner?.MarkBatteryDirty(Id);
+                }
+            }
+
+            [ViewVariables(VVAccess.ReadWrite)]
+            public float MaxChargeRate
+            {
+                get => _maxChargeRate;
+                set
+                {
+                    if (_maxChargeRate == value)
+                        return;
+                    _maxChargeRate = value;
+                    Owner?.MarkBatteryDirty(Id);
+                }
+            }
+
+            [ViewVariables(VVAccess.ReadWrite)]
+            public float MaxThroughput
+            {
+                get => _maxThroughput;
+                set
+                {
+                    if (_maxThroughput == value)
+                        return;
+                    _maxThroughput = value;
+                    Owner?.MarkBatteryDirty(Id);
+                }
+            }
+
+            [ViewVariables(VVAccess.ReadWrite)]
+            public float MaxSupply
+            {
+                get => _maxSupply;
+                set
+                {
+                    if (_maxSupply == value)
+                        return;
+                    _maxSupply = value;
+                    Owner?.MarkBatteryDirty(Id);
+                }
+            }
+            // DS14-end
 
             /// <summary>
             ///     The batteries supply ramp tolerance. This is an always available supply added to the ramped supply.
@@ -418,17 +837,84 @@ namespace Content.Server.Power.Pow3r
             /// <remarks>
             ///     Note that this MUST BE GREATER THAN ZERO, otherwise the current battery ramping calculation will not work.
             /// </remarks>
-            [ViewVariables(VVAccess.ReadWrite)] public float SupplyRampTolerance = 5000;
+            // DS14-start
+            [ViewVariables(VVAccess.ReadWrite)]
+            public float SupplyRampTolerance
+            {
+                get => _supplyRampTolerance;
+                set
+                {
+                    if (_supplyRampTolerance == value)
+                        return;
+                    _supplyRampTolerance = value;
+                    Owner?.MarkBatteryDirty(Id);
+                }
+            }
 
-            [ViewVariables(VVAccess.ReadWrite)] public float SupplyRampRate = 5000;
-            [ViewVariables(VVAccess.ReadWrite)] public float Efficiency = 1;
+            [ViewVariables(VVAccess.ReadWrite)]
+            public float SupplyRampRate
+            {
+                get => _supplyRampRate;
+                set
+                {
+                    if (_supplyRampRate == value)
+                        return;
+                    _supplyRampRate = value;
+                    Owner?.MarkBatteryDirty(Id);
+                }
+            }
+
+            [ViewVariables(VVAccess.ReadWrite)]
+            public float Efficiency
+            {
+                get => _efficiency;
+                set
+                {
+                    if (_efficiency == value)
+                        return;
+                    _efficiency = value;
+                    Owner?.MarkBatteryDirty(Id);
+                }
+            }
+            // DS14-end
 
             // == Runtime parameters ==
-            [ViewVariables(VVAccess.ReadWrite)] public float SupplyRampPosition;
-            [ViewVariables(VVAccess.ReadWrite)] public float CurrentSupply;
-            [ViewVariables(VVAccess.ReadWrite)] public float CurrentStorage;
-            [ViewVariables(VVAccess.ReadWrite)] public float CurrentReceiving;
-            [ViewVariables(VVAccess.ReadWrite)] public float LoadingNetworkDemand;
+            // DS14-start
+            [ViewVariables(VVAccess.ReadWrite)]
+            public float SupplyRampPosition
+            {
+                get => _supplyRampPosition;
+                set => _supplyRampPosition = value;
+            }
+
+            [ViewVariables(VVAccess.ReadWrite)]
+            public float CurrentSupply
+            {
+                get => _currentSupply;
+                set => SetCurrentSupply(value);
+            }
+
+            [ViewVariables(VVAccess.ReadWrite)]
+            public float CurrentStorage
+            {
+                get => _currentStorage;
+                set => SetCurrentStorage(value);
+            }
+
+            [ViewVariables(VVAccess.ReadWrite)]
+            public float CurrentReceiving
+            {
+                get => _currentReceiving;
+                set => _currentReceiving = value;
+            }
+
+            [ViewVariables(VVAccess.ReadWrite)]
+            public float LoadingNetworkDemand
+            {
+                get => _loadingNetworkDemand;
+                set => _loadingNetworkDemand = value;
+            }
+            // DS14-end
 
             [ViewVariables(VVAccess.ReadWrite)] [JsonIgnore]
             public bool SupplyingMarked;
@@ -460,6 +946,27 @@ namespace Content.Server.Power.Pow3r
             /// </summary>
             [ViewVariables]
             public float MaxEffectiveSupply;
+
+            // DS14-start
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public void SetCurrentSupply(float value)
+            {
+                if (_currentSupply == value)
+                    return;
+                _currentSupply = value;
+                Owner?.MarkBatterySupplyChanged(Id);
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public void SetCurrentStorage(float value, bool trackChange = true)
+            {
+                if (_currentStorage == value)
+                    return;
+                _currentStorage = value;
+                if (trackChange)
+                    Owner?.MarkBatteryStorageChanged(Id);
+            }
+            // DS14-end
         }
 
         // Readonly breaks json serialization.
@@ -504,6 +1011,15 @@ namespace Content.Server.Power.Pow3r
             [ViewVariables] public float LastCombinedMaxSupply = 0f;
 
             [ViewVariables] [JsonIgnore] public int Height;
+
+            // DS14-start
+            [ViewVariables] [JsonIgnore] public bool LoadDemandDirty = true;
+            [ViewVariables] [JsonIgnore] public bool BatteryLoadDirty = true;
+            [ViewVariables] [JsonIgnore] public bool BatterySupplyDirty = true;
+            [ViewVariables] [JsonIgnore] public bool SupplyDirty = true;
+            [ViewVariables] [JsonIgnore] public float CachedLoadDemand;
+            [ViewVariables] [JsonIgnore] public float LastLoadSupplyRatio = float.NaN;
+            // DS14-end
         }
     }
 }

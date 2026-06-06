@@ -92,8 +92,20 @@ namespace Content.Server.Lathe
                 if (lathe.CurrentRecipe == null)
                     continue;
 
-                if (_timing.CurTime - comp.StartTime >= comp.ProductionLength)
+                // DS14-Start: prevent zero-time lathe recipes from finishing unbounded batches in one tick.
+                var completedInstantRecipes = 0;
+                while (lathe.CurrentRecipe != null && _timing.CurTime - comp.StartTime >= comp.ProductionLength)
+                {
                     FinishProducing(uid, lathe);
+
+                    if (comp.ProductionLength != TimeSpan.Zero)
+                        break;
+
+                    completedInstantRecipes++;
+                    if (completedInstantRecipes >= Math.Max(1, lathe.MaxInstantProductionsPerTick))
+                        break;
+                }
+                // DS14-End
             }
 
             var heatQuery = EntityQueryEnumerator<LatheHeatProducingComponent, LatheProducingComponent, TransformComponent>();
@@ -227,10 +239,6 @@ namespace Content.Server.Lathe
             UpdateRunningAppearance(uid, true);
             UpdateUserInterfaceState(uid, component);
 
-            if (time == TimeSpan.Zero)
-            {
-                FinishProducing(uid, component, lathe);
-            }
             return true;
         }
 

@@ -130,4 +130,7 @@
   # DS14-start
   - type: GhostRoleNotifys
     groupPrototype: RevenantPing
+  - type: NightVision
+    color: "#9435b911"
+    animation: false
   # DS14-end
