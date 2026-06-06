@@ -23,6 +23,11 @@
     Caustic: 0.5
 
 - type: damageModifierSet
+  id: StructuralImmune
+  coefficients:
+    Structural: 0
+
+- type: damageModifierSet
   id: SuperSoldier
   coefficients:
     Blunt: 0.8
