@@ -35,7 +35,7 @@
     currentTemperature: 310.15
     specificHeat: 46
   - type: Perishable
-  - type: Sanity # DS14
+  - type: Sanity
   - type: Vocal
     sounds:
       Male: MaleHuman
