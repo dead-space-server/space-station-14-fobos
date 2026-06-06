@@ -67,7 +67,7 @@
   - type: Icon
     state: pda-black-centcom
   - type: Pda
-    id: CentcomFieldOfficerIDCar
+    id: CentcomFieldOfficerIDCard
 
 # ERT PDA
 # Leader
