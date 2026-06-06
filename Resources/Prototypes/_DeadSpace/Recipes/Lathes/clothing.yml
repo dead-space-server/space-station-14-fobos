@@ -309,6 +309,13 @@
     Cloth: 800
     Durathread: 400
 
+- type: latheRecipe
+  id: ClothingBackpackTailbag
+  result: ClothingBackpackTailbag
+  completetime: 5
+  materials:
+    Cloth: 1000
+    Durathread: 500
 # Chameleon
 
 - type: latheRecipe
