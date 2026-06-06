@@ -9,6 +9,24 @@
     "states": [
         {
             "name": "base"
+        },
+        {
+            "name": "equipped-BACKPACK"
+        },
+        {
+            "name": "equipped-STORAGE"
+        },
+        {
+            "name": "inhand-left"
+        },
+        {
+            "name": "inhand-right"
+        },
+        {
+            "name": "wielded-inhand-left"
+        },
+        {
+            "name": "wielded-inhand-right"
         }
     ]
 }
