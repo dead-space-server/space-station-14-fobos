@@ -507,10 +507,14 @@
   components:
     - type: ItemToggle
       onActivate: false # DS14
+      predictable: false # DS14 - server-side EMP can force-toggle the shield off.
       soundActivate:
         path: /Audio/Weapons/ebladeon.ogg
       soundDeactivate:
         path: /Audio/Weapons/ebladeoff.ogg
+    # DS14-start EMP disable
+    - type: EmpDisableItemToggle
+    # DS14-end
     - type: ItemToggleActiveSound
       activeSound:
         path: /Audio/Weapons/ebladehum.ogg

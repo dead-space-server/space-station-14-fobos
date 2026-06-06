@@ -245,7 +245,7 @@ public sealed class EconomySystem : EntitySystem
         if (!_inventorySystem.TryGetSlotEntity(player, "id", out var idUid))
             return;
 
-        if (!EntityManager.TryGetComponent(idUid, out CartridgeLoaderComponent? cartrdigeLoaderComponent))
+        if (!TryComp(idUid, out CartridgeLoaderComponent? cartrdigeLoaderComponent))
             return;
 
         foreach (var uid in cartrdigeLoaderComponent.BackgroundPrograms)

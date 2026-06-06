@@ -1,4 +1,4 @@
-admin-player-actions-window-ert = ERT Management
+admin-player-actions-window-ert = SOC Management
 
 ert-response-balance-label =
     Balance: { $cost }

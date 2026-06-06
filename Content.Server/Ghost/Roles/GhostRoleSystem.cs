@@ -109,6 +109,7 @@ public sealed class GhostRoleSystem : EntitySystem
                     break;
                 }
             case MobState.Critical:
+            case MobState.PreCritical: // DS14
             case MobState.Dead:
                 UnregisterGhostRole((component, ghostRole));
                 break;

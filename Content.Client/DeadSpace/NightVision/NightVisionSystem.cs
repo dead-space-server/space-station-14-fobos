@@ -48,7 +48,7 @@ public sealed class NightVisionSystem : EntitySystem
 
             if (_overlay.SoundBeenPlayed()
                 && component.IsNightVision
-                && !EntityManager.EntityExists(component.SoundEntity)
+                && !Exists(component.SoundEntity)
                 && _overlay.GetTransitionProgress() >= 1f)
             {
                 component.SoundEntity = _audio.PlayLocal(component.ActivateSound, player.Value, player)?.Entity;

@@ -16,9 +16,11 @@ namespace Content.Server.NodeContainer.Nodes
             if (!xform.Anchored || grid == null)
                 yield break;
 
-            var gridIndex = grid.TileIndicesFor(xform.Coordinates);
+            var gridUid = xform.GridUid!.Value;
+            var map = entMan.System<SharedMapSystem>();
+            var gridIndex = map.TileIndicesFor(gridUid, grid, xform.Coordinates);
 
-            foreach (var node in NodeHelpers.GetNodesInTile(nodeQuery, grid, gridIndex))
+            foreach (var node in NodeHelpers.GetNodesInTile(nodeQuery, map, gridUid, grid, gridIndex))
             {
                 if (node is PortPipeNode)
                     yield return node;

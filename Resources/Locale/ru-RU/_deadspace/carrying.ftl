@@ -4,6 +4,7 @@ carry-popup-self = Вы не можете поднять себя на руки.
 carry-popup-invalid-target = Вы не можете поднять это на руки.
 carry-popup-busy = Ваши руки заняты.
 carry-popup-target-busy = Это существо уже несут на руках.
+carry-popup-target-carrying = Это существо уже несёт кого-то на руках.
 carry-popup-no-strength = Вы не можете носить существ на руках.
 carry-popup-not-carryable = Это нельзя нести на руках.
 carry-popup-too-large = Это существо слишком крупное для вас.

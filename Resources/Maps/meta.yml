@@ -72879,7 +72879,7 @@ entities:
       parent: 11542
     - type: Physics
       canCollide: False
-- proto: ErtComputerShuttle
+- proto: ErtResponseConsole
   entities:
   - uid: 11544
     components:
@@ -145214,7 +145214,7 @@ entities:
     - type: Transform
       pos: -11.5,17.5
       parent: 2
-- proto: StationAnchorOff
+- proto: StationAnchorIndestructible # DS14 Edit: force static station grid
   entities:
   - uid: 21863
     components:

@@ -39,6 +39,11 @@ public sealed class RoundEndSummaryUIController : UIController,
         if (_window?.RoundId == message.RoundId)
             return;
 
+        // DS14-start
+        _window?.Close();
+        _window?.ClearManifestDollSnapshots();
+        // DS14-end
+
         _window = new RoundEndSummaryWindow(message.GamemodeTitle, message.RoundEndText,
             message.RoundDuration, message.RoundId, message.AllPlayersEndInfo, EntityManager);
     }

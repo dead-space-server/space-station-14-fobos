@@ -128,8 +128,7 @@
   - type: InjectReagentsImplant
     popup: rezerv-implant-activated
     reagents:
-      Desoxyephedrine: 15
-      Dylovene: 15
+      Celestin: 29.9
 
 - type: entity
   id: RezervImplanter

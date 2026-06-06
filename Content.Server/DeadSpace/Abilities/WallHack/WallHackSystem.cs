@@ -16,7 +16,7 @@ public sealed partial class WallHackSystem : EntitySystem
 
     private void OnComponentInit(EntityUid uid, WallHackComponent component, ComponentInit args)
     {
-        if (EntityManager.TryGetComponent<EyeComponent>(uid, out var eyeComp))
+        if (TryComp<EyeComponent>(uid, out var eyeComp))
         {
             _eye.SetDrawLight((uid, eyeComp), false);
         }
@@ -24,7 +24,7 @@ public sealed partial class WallHackSystem : EntitySystem
 
     private void OnShutdown(EntityUid uid, WallHackComponent component, ComponentShutdown args)
     {
-        if (EntityManager.TryGetComponent<EyeComponent>(uid, out var eyeComp))
+        if (TryComp<EyeComponent>(uid, out var eyeComp))
         {
             _eye.SetDrawLight((uid, eyeComp), true);
         }

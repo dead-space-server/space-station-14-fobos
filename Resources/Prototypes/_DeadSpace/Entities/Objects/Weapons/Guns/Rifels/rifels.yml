@@ -130,7 +130,8 @@
   name: АК-305
   parent: [BaseWeaponRifle, BaseSecurityContraband]
   id: WeaponRifleAk305
-  description: Надёжный модифицированный АК, используемый силовыми структурами, на цевье вы видите гравировку на одном из диалектов общегалактического «For the Earth!». Использует патроны 7.62х39 мм винтовочные.
+  description: Надёжный модифицированный АК, используемый силовыми структурами. На цевье вы видите гравировку на одном из диалектов общегалактического «For the Earth!». Использует патроны 7.62х39 мм винтовочные.
+  suffix: Автомат
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/ak305.rsi
@@ -181,6 +182,7 @@
   parent: [BaseWeaponRifle, BaseSecurityContraband]
   id: WeaponRifleAMD76
   description: Скорострельный автомат калибра 7.62x39, произведённый одной компанией ОПЗ.
+  suffix: Автомат
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/amd76.rsi
@@ -210,13 +212,13 @@
     slots:
       gun_magazine:
         name: Magazine
-        startingItem: MagazineCarbineSKS
+        startingItem: MagazineLightRifleAMD
         insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
         ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
         priority: 2
         whitelist:
           tags:
-            - MagazineCarbineSKS
+            - MagazineAMD
         whitelistFailPopup: gun-magazine-whitelist-fail
       gun_chamber:
         name: Chamber
@@ -238,7 +240,8 @@
   name: Hk-G3A1 
   parent: [BaseWeaponRifle, BaseSecurityContraband]
   id: WeaponRiflehkg3a1
-  description: Старый добрый автомат, производившийся ещё во времена 60-х годов 20-го века Земли, текущими производителями являются Vítězství. Использует исключительно уменьшенный магазин калибра 7.62х39мм винтовочные.
+  description: Старый добрый автомат, производившийся ещё во времена 60-х годов 20-го века Земли. Текущими производителями являются Vítězství. Использует исключительно уменьшенный магазин калибра 7.62х39мм винтовочные.
+  suffix: Автомат
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/hkg3a1.rsi
@@ -289,6 +292,7 @@
   parent: [BaseWeaponRifle, BaseSecurityContraband]
   id: WeaponRifleScarL
   description: Стандартизированная штурмовая винтовка армии ОПЗ, одна из многих винтовок, используемая правительством. Использует патроны 5.56х45 мм.
+  suffix: Винтовка
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/scarl.rsi
@@ -336,6 +340,7 @@
   parent: [BaseWeaponRifle, BaseSecurityContraband]
   id: WeaponRifleSG336
   description: Точный автомат с тактическим фонариком и рукояткой, его используют крутые мужчины из кино. Погоди-ка, вы тоже крутой! Использует патроны 7.62х39 мм винтовочные.
+  suffix: Автомат
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/sg336.rsi

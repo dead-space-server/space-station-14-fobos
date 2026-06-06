@@ -1,5 +1,6 @@
 law-configurator-requires-open-panel = Requires an open maintenance panel!
 law-configurator-requires-board = The configurator requires a law board!
+law-configurator-xenoborg-blocked = Xenoborg laws cannot be overwritten with this device.
 law-configurator-update-laws = The configurator's laws have been updated.
 law-configurator-start-configuring = Starting law configuration for {$target}...
 law-board-configurator-requires-board = Insert a law board first.

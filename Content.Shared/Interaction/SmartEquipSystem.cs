@@ -4,6 +4,7 @@ using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Input;
 using Content.Shared.Inventory;
+using Content.Shared.Power.Components;
 using Content.Shared.Popups;
 using Content.Shared.Stacks;
 using Content.Shared.Storage;
@@ -163,9 +164,20 @@ public sealed class SmartEquipSystem : EntitySystem
                         _popup.PopupClient(Loc.GetString("smart-equip-quick-eject-disabled"), uid, uid);
                         return;
                     }
+
+                    EntityUid removing;
+
+                    // DS14-start Check the priority item
+                    if (_storage.TryGetPriorityItem(uid, slotItem, out var priorityItem))
+                    {
+                        removing = priorityItem;
+                    }
+                    else
+                    {
+                        removing = storage.Container.ContainedEntities[^1];
+                    }
                     // DS14-end
 
-                    var removing = storage.Container.ContainedEntities[^1];
                     _container.RemoveEntity(slotItem, removing);
                     _hands.TryPickup(uid, removing, handsComp: hands);
                     return;
@@ -194,7 +206,7 @@ public sealed class SmartEquipSystem : EntitySystem
         }
 
         // case 3 (itemslot item):
-        if (TryComp<ItemSlotsComponent>(slotItem, out var slots) && ShouldUseContainedItemSlot(slots, handItem, equipmentSlot)) // DS14
+        if (TryComp<ItemSlotsComponent>(slotItem, out var slots) && ShouldUseContainedItemSlot(slotItem, slots, handItem, equipmentSlot)) // DS14
         {
             if (handItem == null)
             {
@@ -253,13 +265,18 @@ public sealed class SmartEquipSystem : EntitySystem
     }
 
     // DS14-start
-    private static bool ShouldUseContainedItemSlot(ItemSlotsComponent slots, EntityUid? handItem, string equipmentSlot)
+    private bool ShouldUseContainedItemSlot(EntityUid slotItem, ItemSlotsComponent slots, EntityUid? handItem, string equipmentSlot)
     {
         if (handItem != null)
             return true;
 
-        if (equipmentSlot == SuitStorageSlot)
+        if (equipmentSlot == SuitStorageSlot
+            && TryComp<ChargerComponent>(slotItem, out var charger)
+            && _slots.TryGetSlot(slotItem, charger.SlotId, out var chargerSlot, slots)
+            && chargerSlot.HasItem)
+        {
             return true;
+        }
 
         foreach (var slot in slots.Slots.Values)
         {

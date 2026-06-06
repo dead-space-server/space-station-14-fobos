@@ -133,7 +133,7 @@ public sealed class NecroobeliskSplinterSystem : EntitySystem
             {
                 foreach (var (entity, sanity) in targets)
                 {
-                    if (!EntityManager.EntityExists(entity))
+                    if (!Exists(entity))
                         continue;
 
                     _sharedSanity.TryAddSanityLvl(entity, -component.SanityDamage, sanity);
@@ -141,7 +141,7 @@ public sealed class NecroobeliskSplinterSystem : EntitySystem
 
                 impulseCount++;
 
-                if (!EntityManager.EntityExists(uid))
+                if (!Exists(uid))
                     sanityDamageTokenSource.Cancel();
 
                 if (impulseCount >= component.SanityDamageImpulseCount)

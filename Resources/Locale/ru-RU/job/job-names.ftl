@@ -26,6 +26,7 @@ job-name-centcomoff = Представитель ЦК
 job-name-centcom-administrator = Администратор ЦК
 job-name-centcom-operator = Оператор ЦК
 job-name-soo = Офицер Специальных Операций
+job-name-field-officer = Полевой Офицер КСО
 job-name-centcom-officer = Офицер ЦК
 job-name-reporter = Репортёр
 job-name-musician = Музыкант

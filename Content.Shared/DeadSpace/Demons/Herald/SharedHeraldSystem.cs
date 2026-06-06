@@ -70,7 +70,7 @@ public abstract class SharedHeraldSystem : EntitySystem
         component.isEnrage = true;
         component.MovementSpeedBuff = 3f;
         _movement.RefreshMovementSpeedModifiers(uid);
-        if (!EntityManager.TryGetComponent(uid, out MeleeWeaponComponent? weapon))
+        if (!TryComp<MeleeWeaponComponent>(uid, out var weapon))
             return;
 
         weapon.Damage = weapon.Damage * component.DamageModifier;
@@ -83,7 +83,7 @@ public abstract class SharedHeraldSystem : EntitySystem
 
         component.MovementSpeedBuff = 1.5f;
         _movement.RefreshMovementSpeedModifiers(uid);
-        if (!EntityManager.TryGetComponent(uid, out MeleeWeaponComponent? weapon))
+        if (!TryComp<MeleeWeaponComponent>(uid, out var weapon))
             return;
 
         weapon.Damage = weapon.Damage / component.DamageModifier;

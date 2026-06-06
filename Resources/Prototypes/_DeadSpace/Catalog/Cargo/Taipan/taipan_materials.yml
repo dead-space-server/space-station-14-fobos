@@ -83,7 +83,7 @@
   icon:
     sprite: Objects/Materials/Sheets/other.rsi
     state: plasma # Corvax-Resprite
-  product: CrateMaterialPlasma
+  product: CrateMaterialPlasmaTaipan
   cost: 7500 # DS14
   category: cargoproduct-category-name-materials
   group: taipan_market

@@ -21,7 +21,7 @@ public sealed partial class NeededBloodForAutoInjectSystem : SharedBloodsuckerSy
         if (args.Handled)
             return;
 
-        if (!EntityManager.TryGetComponent<BloodsuckerComponent>(uid, out var bloodsuckerComponent))
+        if (!TryComp<BloodsuckerComponent>(uid, out var bloodsuckerComponent))
             return;
 
         if (bloodsuckerComponent.CountReagent < component.Cost)

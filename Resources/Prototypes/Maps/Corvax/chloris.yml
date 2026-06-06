@@ -1,0 +1,83 @@
+- type: gameMap
+  id: CorvaxChloris
+  mapName: 'Chloris'
+  mapPath: /Maps/corvax_chloris.yml
+  maxRandomOffset: 0
+  randomRotation: false
+  minPlayers: 60
+  stations:
+    Chloris:
+      stationProto: StandardNanotrasenStation
+      components:
+        - type: StationNameSetup
+          mapNameTemplate: '{0} Chloris {1}'
+          nameGenerator:
+            !type:NanotrasenNameGenerator
+            prefixCreator: 'LPK'
+        - type: StationEmergencyShuttle
+          emergencyShuttlePath: /Maps/Shuttles/emergency_corvaxchloris.yml
+        - type: StationJobs
+          availableJobs:
+            # cmd
+            Captain: [ 1, 1 ]
+            BlueShieldOfficer: [ 1, 1 ]
+            # law
+            IAA: [ 1, 1 ]
+            Lawyer: [ 3, 3 ]
+            # sec
+            HeadOfSecurity: [ 1, 1 ]
+            Warden: [ 2, 2 ] # ultra-large map
+            SeniorOfficer: [ 1, 1 ]
+            Detective: [ 1, 1 ]
+            SecurityPilot: [ 1, 1 ]
+            SecurityOfficer: [ 6, 8 ]
+            Brigmedic: [ 1, 1 ]
+            SecurityCadet: [ 3, 3 ]
+            # med
+            ChiefMedicalOfficer: [ 1, 1 ]
+            SeniorPhysician: [ 1, 1 ]
+            Chemist: [ 2, 2 ]
+            MedicalDoctor: [ 6, 6 ]
+            Paramedic: [ 1, 1 ]
+            Coroner: [ 1, 1 ]
+            Psychologist: [ 1, 1 ]
+            MedicalIntern: [ 3, 4 ]
+            Virologist: [ 1, 1 ]
+            # rnd
+            ResearchDirector: [ 1, 1 ]
+            SeniorResearcher: [ 1, 1 ]
+            Scientist: [ 6, 8 ]
+            ResearchAssistant: [ 3, 4 ]
+            # eng
+            ChiefEngineer: [ 1, 1 ]
+            SeniorEngineer: [ 1, 1 ]
+            AtmosphericTechnician: [ 3, 3 ]
+            StationEngineer: [ 6, 8 ]
+            TechnicalAssistant: [ 3, 4 ]
+            # sup
+            Quartermaster: [ 1, 1 ]
+            SeniorSalvageSpecialist: [ 1, 1 ]
+            SalvageSpecialist: [ 3, 3 ]
+            CargoTechnician: [ 3, 5 ]
+            # civ
+            HeadOfPersonnel: [ 1, 1 ]
+            SeniorAdministrator: [ 1, 1 ]
+            Chef: [ 1, 2 ]
+            Botanist: [ 3, 3 ]
+            Bartender: [ 1, 2 ]
+            ServiceWorker: [ 3, 3 ]
+            Janitor: [ 2, 3 ]
+            Librarian: [ 1, 1 ]
+            Chaplain: [ 1, 1 ]
+            Reporter: [ 2, 2 ]
+            Musician: [ 2, 2 ]
+            Passenger: [ -1, -1 ]
+            Mime: [ 1, 1 ]
+            Clown: [ 1, 1 ]
+            # sil
+            StationAi: [ 1, 1 ]
+            Borg: [ 2, 3 ]
+            BorgSecurity: [ 1, 1 ]
+            # etc
+            ClownSponsor: [ 0, 2 ]
+            Zookeeper: [ 1, 1 ]

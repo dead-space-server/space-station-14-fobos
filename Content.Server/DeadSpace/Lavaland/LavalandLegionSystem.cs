@@ -133,11 +133,12 @@ public sealed class LavalandLegionSystem : EntitySystem
         }
 
         var targetXform = Transform(target);
-        if (targetXform.MapID == MapId.Nullspace)
+        var targetCoordinates = _transform.GetMapCoordinates(target, targetXform);
+        if (targetCoordinates.MapId == MapId.Nullspace)
             return false;
 
         EnsureComp<LavalandLegionInfestedComponent>(target);
-        Spawn(head.Comp.InfestPrototype, targetXform.Coordinates);
+        Spawn(head.Comp.InfestPrototype, targetCoordinates, rotation: _transform.GetWorldRotation(targetXform));
         QueueDel(target);
         QueueDel(head.Owner);
 

@@ -810,7 +810,7 @@
         state: rope
     - type: Gun
       soundGunshot: /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/hook-sfx/shot_hook.ogg
-      fireRate: 0.15
+      fireRate: 0.5
     - type: BasicEntityAmmoProvider
       proto: HandHookProjectile
       capacity: 1

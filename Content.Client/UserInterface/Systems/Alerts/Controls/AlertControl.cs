@@ -2,7 +2,9 @@ using System.Numerics;
 using Content.Client.Actions.UI;
 using Content.Client.Cooldown;
 using Content.Shared.Alert;
+using Content.Shared.DeadSpace.ERT.Components; // DS14
 using Robust.Client.GameObjects;
+using Robust.Client.Player; // DS14
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Timing;
@@ -13,6 +15,7 @@ namespace Content.Client.UserInterface.Systems.Alerts.Controls
     public sealed class AlertControl : BaseButton
     {
         [Dependency] private readonly IEntityManager _entityManager = default!;
+        [Dependency] private readonly IPlayerManager _playerManager = default!; // DS14
 
         private readonly SpriteSystem _sprite;
 
@@ -80,6 +83,29 @@ namespace Content.Client.UserInterface.Systems.Alerts.Controls
 
         private Control SupplyTooltip(Control? sender)
         {
+            // DS14-ERT-Tracking-Start
+            if (Alert.ID == "ErtTracking")
+            {
+                var targetName = Loc.GetString("generic-unknown-title");
+                var targetJobName = Loc.GetString("generic-unknown-title");
+
+                if (_playerManager.LocalEntity is { } player &&
+                    _entityManager.TryGetComponent<ErtTrackingComponent>(player, out var tracking))
+                {
+                    targetName = tracking.TargetName ?? targetName;
+                    targetJobName = tracking.TargetJobName ?? targetJobName;
+                }
+
+                var trackingMsg = FormattedMessage.FromUnformatted(Loc.GetString("ert-tracking-alert-name"));
+                var trackingDesc = FormattedMessage.FromUnformatted(Loc.GetString(
+                    "ert-tracking-alert-desc",
+                    ("target", targetName),
+                    ("job", targetJobName)));
+
+                return new ActionAlertTooltip(trackingMsg, trackingDesc) { Cooldown = Cooldown };
+            }
+            // DS14-ERT-Tracking-End
+
             var msg = FormattedMessage.FromMarkupOrThrow(Loc.GetString(Alert.Name));
             var desc = FormattedMessage.FromMarkupOrThrow(Loc.GetString(Alert.Description));
             return new ActionAlertTooltip(msg, desc) { Cooldown = Cooldown };

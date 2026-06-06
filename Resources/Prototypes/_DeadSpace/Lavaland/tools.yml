@@ -395,13 +395,25 @@
     rechargeCooldown: 12
     rechargeSound: null
   - type: BasicEntityAmmoProvider
-    proto: ProjectileFireball
-    capacity: 4
-    count: 4
+    proto: ProjectileFireballLavalandFireStaff
+    capacity: 2
+    count: 2
   - type: PointLight
     radius: 1.5
     energy: 1.2
     color: "#ff5b26"
+
+- type: entity
+  id: ProjectileFireballLavalandFireStaff
+  parent: ProjectileFireball
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Explosive
+    explosionType: Default
+    maxIntensity: 20
+    intensitySlope: 3
+    totalIntensity: 60
+    maxTileBreak: 0
 
 - type: entity
   parent: BaseItem

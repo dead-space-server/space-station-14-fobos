@@ -5530,7 +5530,7 @@ entities:
     - type: Transform
       pos: -5.5,1.5
       parent: 1
-- proto: DesoxyephedrineMedipen
+- proto: CelestinMedipen
   entities:
   - uid: 693
     components:

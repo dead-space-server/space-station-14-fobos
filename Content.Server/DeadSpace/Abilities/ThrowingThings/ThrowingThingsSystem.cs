@@ -107,7 +107,7 @@ public sealed class ThrowingThingsSystem : EntitySystem
 
         foreach (var type in componentTypes)
         {
-            if (EntityManager.HasComponent(item, type))
+            if (HasComp(item, type))
                 return true;
         }
 

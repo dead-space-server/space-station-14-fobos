@@ -49,7 +49,7 @@ public sealed class LeviathanGhostSystem : EntitySystem
         if (component.MasterEntity == null)
             return;
 
-        if (!EntityManager.EntityExists(component.MasterEntity))
+        if (!Exists(component.MasterEntity))
             QueueDel(uid);
 
         if (_mobState.IsDead(component.MasterEntity.Value))

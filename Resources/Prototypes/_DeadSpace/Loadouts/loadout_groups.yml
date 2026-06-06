@@ -108,11 +108,11 @@
   - SeniorEngineerJumpsuit
   - SeniorEngineerJumpskirt
 
-- type: loadoutGroup
-  id: SeniorEngineerID
-  name: loadout-group-senior-engineer-id
-  loadouts:
-  - SeniorEngineerPDA
+#- type: loadoutGroup
+#  id: SeniorEngineerID
+#  name: loadout-group-senior-engineer-id
+#  loadouts:
+#  - SeniorEngineerPDA
 
 - type: loadoutGroup
   id: SeniorEngineerUnderwear
@@ -157,11 +157,11 @@
   - SeniorResearcherLabCoat
   - SeniorResearcherWinterCoat
 
-- type: loadoutGroup
-  id: SeniorResearcherPDA
-  name: loadout-group-senior-researcher-id
-  loadouts:
-  - SeniorResearcherPDA
+#- type: loadoutGroup
+#  id: SeniorResearcherPDA
+#  name: loadout-group-senior-researcher-id
+#  loadouts:
+#  - SeniorResearcherPDA
 
 - type: loadoutGroup
   id: SeniorResearcherUnderwear
@@ -212,11 +212,11 @@
   loadouts:
   - SeniorOfficerOuterCoatTrench
 
-- type: loadoutGroup
-  id: SeniorOfficerPDA
-  name: loadout-group-security-id
-  loadouts:
-  - SeniorOfficerPDA
+#- type: loadoutGroup
+#  id: SeniorOfficerPDA
+#  name: loadout-group-security-id
+#  loadouts:
+#  - SeniorOfficerPDA
 
 - type: loadoutGroup
   id: SeniorOfficerNeck
@@ -357,11 +357,11 @@
   loadouts:
   - SeniorPhysicianLabCoat
 
-- type: loadoutGroup
-  id: SeniorPhysicianPDA
-  name: loadout-group-senior-physician-id
-  loadouts:
-  - SeniorPhysicianPDA
+#- type: loadoutGroup
+#  id: SeniorPhysicianPDA
+#  name: loadout-group-senior-physician-id
+#  loadouts:
+#  - SeniorPhysicianPDA
 
 - type: loadoutGroup
   id: SeniorPhysicianUnderwear

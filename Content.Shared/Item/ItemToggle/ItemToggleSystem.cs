@@ -1,3 +1,4 @@
+using Content.Shared.Emp;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Item.ItemToggle.Components;
@@ -7,6 +8,7 @@ using Content.Shared.Toggleable;
 using Content.Shared.Verbs;
 using Content.Shared.Wieldable;
 using Robust.Shared.Audio;
+using Robust.Shared.Audio.Components;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Network;
 
@@ -44,6 +46,11 @@ public sealed class ItemToggleSystem : EntitySystem
 
         SubscribeLocalEvent<ItemToggleActiveSoundComponent, ItemToggledEvent>(UpdateActiveSound);
         SubscribeLocalEvent<ItemToggleActiveSoundComponent, ComponentShutdown>(OnActiveSoundShutdown); // DS14
+
+        // DS14-start EMP-disables-toggle
+        SubscribeLocalEvent<EmpDisableItemToggleComponent, EmpPulseEvent>(OnEmpPulse);
+        SubscribeLocalEvent<EmpDisableItemToggleComponent, ItemToggleActivateAttemptEvent>(OnEmpActivateAttempt);
+        // DS14-end
     }
 
     private void OnStartup(Entity<ItemToggleComponent> ent, ref ComponentStartup args)
@@ -112,6 +119,31 @@ public sealed class ItemToggleSystem : EntitySystem
         args.Handled = true;
         Toggle((ent.Owner, ent.Comp), args.User, predicted: ent.Comp.Predictable);
     }
+
+    // DS14-start EMP-disables-toggle
+    private void OnEmpPulse(Entity<EmpDisableItemToggleComponent> ent, ref EmpPulseEvent args)
+    {
+        args.Affected = true;
+        args.Disabled = true;
+
+        var ev = new EmpItemToggleDisabledEvent(args.User);
+        RaiseLocalEvent(ent.Owner, ref ev);
+
+        if (!_query.TryComp(ent.Owner, out var toggle) || !toggle.Activated)
+            return;
+
+        Deactivate((ent.Owner, toggle), false, args.User, showPopup: false);
+    }
+
+    private void OnEmpActivateAttempt(Entity<EmpDisableItemToggleComponent> ent, ref ItemToggleActivateAttemptEvent args)
+    {
+        if (!HasComp<EmpDisabledComponent>(ent.Owner))
+            return;
+
+        args.Cancelled = true;
+        args.Silent = true;
+    }
+    // DS14-end
 
     /// <summary>
     /// Used when an item is attempted to be toggled.
@@ -343,7 +375,7 @@ public sealed class ItemToggleSystem : EntitySystem
         var (uid, comp) = ent;
         if (!args.Activated)
         {
-            comp.PlayingStream = _audio.Stop(comp.PlayingStream);
+            comp.PlayingStream = StopActiveSound(comp.PlayingStream); // DS14
             return;
         }
 
@@ -361,7 +393,13 @@ public sealed class ItemToggleSystem : EntitySystem
     // DS14-start
     private void OnActiveSoundShutdown(Entity<ItemToggleActiveSoundComponent> ent, ref ComponentShutdown args)
     {
-        ent.Comp.PlayingStream = _audio.Stop(ent.Comp.PlayingStream);
+        ent.Comp.PlayingStream = StopActiveSound(ent.Comp.PlayingStream);
+    }
+
+    private EntityUid? StopActiveSound(EntityUid? stream)
+    {
+        _audio.SetState(stream, AudioState.Stopped);
+        return _audio.Stop(stream);
     }
     // DS14-end
 }

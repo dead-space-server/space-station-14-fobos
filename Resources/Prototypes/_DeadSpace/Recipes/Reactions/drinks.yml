@@ -51,3 +51,14 @@
       amount: 1
   products:
     CherryBlossom: 3
+
+- type: reaction
+  id: BeerToBaltica9
+  impact: Low
+  requiredMixerCategories:
+  - Holy
+  reactants:
+    Beer:
+      amount: 1
+  products:
+    Baltica9: 1

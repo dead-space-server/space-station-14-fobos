@@ -205,7 +205,10 @@ public abstract class SharedBloodstreamSystem : EntitySystem
 
         // Use both the receiver and the damage causing entity for the seed so that we have different results for multiple attacks in the same tick
         var prob = Math.Clamp(totalFloat / 25, 0, 1);
-        if (totalFloat > 0 && SharedRandomExtensions.PredictedProb(_timing, prob, GetNetEntity(ent), GetNetEntity(args.Origin)))
+        // DS14-start
+        var damageOrigin = TryGetNetEntity(args.Origin, out var netOrigin) ? netOrigin : null;
+        if (totalFloat > 0 && SharedRandomExtensions.PredictedProb(_timing, prob, GetNetEntity(ent), damageOrigin))
+        // DS14-end
         {
             TryBleedOut(ent.AsNullable(), total / 5);
             _audio.PlayPredicted(ent.Comp.InstantBloodSound, ent, args.Origin);

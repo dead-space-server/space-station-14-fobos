@@ -9,6 +9,7 @@ using Robust.Shared.Physics.Events;
 using Robust.Shared.Timing;
 // DS14-start
 using Content.Server.Chat.Systems;
+using Content.Server.DeadSpace.Taipan.Components;
 using Content.Server.Station.Systems;
 // DS14-end
 
@@ -81,6 +82,11 @@ public sealed class SingularityGeneratorSystem : SharedSingularityGeneratorSyste
         var station = _station.GetOwningStation(uid);
         if (station == null)
             return;
+
+        // DS14-start
+        if (HasComp<StationTaipanComponent>(station.Value))
+            return;
+        // DS14-end
 
         var engineName = comp.SpawnPrototype == TeslaEnergyBallPrototype
             ? Loc.GetString(TeslaEngineName)

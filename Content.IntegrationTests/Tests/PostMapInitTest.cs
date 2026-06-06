@@ -91,7 +91,7 @@ namespace Content.IntegrationTests.Tests
             .Select(glob => new Regex(GlobToRegex(glob), RegexOptions.IgnoreCase | RegexOptions.Compiled))
             .ToArray();
 
-        // DS14-start: Add our custom game maps
+        // DS14-start: Add our custom game maps 
         private static readonly string[] GameMaps =
         {
             "Dev",
@@ -111,6 +111,7 @@ namespace Content.IntegrationTests.Tests
             "Core",
             "CorvaxAstra",
             "CorvaxAvrite",
+            "CorvaxChloris",
             "CorvaxDelta",
             "CorvaxPaper",
             "CorvaxPearl",

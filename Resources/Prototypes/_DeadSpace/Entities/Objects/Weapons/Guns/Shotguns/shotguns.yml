@@ -167,3 +167,56 @@
   - type: Appearance
   - type: StaticPrice
     price: 500
+
+- type: entity
+  name: одноствольный багет
+  parent: [BaseWeaponShotgun, BaseGunWieldable, BaseSecurityContraband]
+  id: WeaponShotgunBreadBaguette
+  description: Содержит в себе - 550 грамм муки, 0.5 литра воды и 1 патрон. Использует патроны калибра 12х70.
+  suffix: Дробовик
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Guns/Shotguns/bread.rsi
+  - type: Item
+    sprite: _DeadSpace/Objects/Weapons/Guns/Shotguns/bread.rsi
+  - type: GunRequiresWield
+  - type: Gun
+    fireRate: 3
+    soundGunshot:
+      path: /Audio/_Corvax/Weapons/Guns/Gunshots/shotgun_sawed.ogg
+    soundEmpty:
+      path: /Audio/Weapons/Guns/Empty/empty.ogg
+  - type: GunSpreadModifier
+    spread: 0.6
+  - type: BallisticAmmoProvider
+    capacity: 1
+    proto: null
+  - type: Edible
+    transferAmount: 6
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        maxVol: 15
+        reagents:
+        - ReagentId: Silicon
+          Quantity: 13
+        - ReagentId: Nutriment
+          Quantity: 6
+        - ReagentId: Vitamin
+          Quantity: 1
+        - ReagentId: TableSalt
+          Quantity: 1
+        - ReagentId: Blackpepper
+          Quantity: 1
+  - type: Construction
+    graph: ImprovisedShotgunGraph
+    node: shotgunBread
+    deconstructionTarget: null
+
+- type: entity
+  parent: WeaponShotgunBreadBaguette
+  id: WeaponShotgunBreadBaguetteLoaded
+  suffix: Дробовик, Заряжен
+  components:
+  - type: BallisticAmmoProvider
+    proto: ShellShotgunImprovised

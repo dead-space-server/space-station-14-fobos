@@ -81,9 +81,11 @@ wanted-list-unknown-initiator-label = неизвестный инициатор
 wanted-list-status-label = [color=darkgray]статус:[/color] { $status ->
         [suspected] [color=yellow]подозревается[/color]
         [wanted] [color=red]разыскивается[/color]
+        [hostile] [color=red]ликвидация[/color]
         [detained] [color=#b18644]под арестом[/color]
         [paroled] [color=green]освобождён по УДО[/color]
         [discharged] [color=green]освобождён[/color]
+        [eliminated] [color=violet]устранён[/color]
        *[other] нет
     }
 wanted-list-history-table-time-col = Время

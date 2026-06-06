@@ -162,6 +162,16 @@ namespace Content.Shared.GameTicking
     [Serializable, NetSerializable, DataDefinition]
     public sealed partial class RoundEndMessageEvent : EntityEventArgs
     {
+        // DS14-start
+        [Serializable, NetSerializable, DataDefinition]
+        public partial struct RoundEndObjectiveInfo
+        {
+            public string Title;
+
+            public float Progress;
+        }
+        // DS14-end
+
         [Serializable, NetSerializable, DataDefinition]
         public partial struct RoundEndPlayerInfo
         {
@@ -181,6 +191,22 @@ namespace Content.Shared.GameTicking
 
             [DataField, NonSerialized]
             public string[] AntagPrototypes;
+
+            // DS14-start
+            public string[] JobRoleNames;
+
+            public string[] AntagRoleNames;
+
+            public string ManifestQuote;
+
+            public int ManifestKills;
+
+            public int ManifestAssists;
+
+            public RoundEndObjectiveInfo[] ManifestObjectives;
+
+            public bool ShowInAntagManifest;
+            // DS14-end
 
             public NetEntity? PlayerNetEntity;
 

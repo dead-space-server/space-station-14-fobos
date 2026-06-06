@@ -48,7 +48,7 @@ public sealed class InfectionDeadSystem : SharedInfectionDeadSystem
 
         var necromorf = GetRandomNecromorfPrototypeId(isAnimal);
 
-        if (EntityManager.TryGetComponent<NecromorfAfterInfectionComponent>(uid, out var necroComponent))
+        if (TryComp<NecromorfAfterInfectionComponent>(uid, out var necroComponent))
             necromorf = necroComponent.NecroPrototype;
 
         if (necromorf != null)

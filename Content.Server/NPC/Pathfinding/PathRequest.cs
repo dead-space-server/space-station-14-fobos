@@ -20,10 +20,11 @@ public abstract class PathRequest
     public List<PathPoly> Polys = new();
 
     public bool Started = false;
+    public readonly DateTime EnqueuedAtUtc = DateTime.UtcNow; // DS14 Edit: used to prune stale pathfinding requests.
 
     #region Pathfinding state
 
-    public readonly Stopwatch Stopwatch = new();
+    public Stopwatch Stopwatch = new();
     public PriorityQueue<ValueTuple<float, PathPoly>> Frontier = default!;
     public readonly Dictionary<PathPoly, float> CostSoFar = new();
     public readonly Dictionary<PathPoly, PathPoly> CameFrom = new();
@@ -46,6 +47,18 @@ public abstract class PathRequest
         CollisionMask = mask;
         Tcs = new TaskCompletionSource<PathResult>(cancelToken);
     }
+
+    // DS14-Start: release heavy pathfinding state for abandoned requests.
+    public void ClearState()
+    {
+        Polys.Clear();
+        CostSoFar.Clear();
+        CameFrom.Clear();
+        Frontier = default!;
+        Started = false;
+        Stopwatch = new Stopwatch();
+    }
+    // DS14-End
 }
 
 public sealed class AStarPathRequest : PathRequest

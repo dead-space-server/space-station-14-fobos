@@ -10,6 +10,7 @@ using JetBrains.Annotations;
 using Microsoft.Extensions.ObjectPool;
 using Robust.Server.Player;
 using Robust.Shared;
+using Robust.Shared.Collections;
 using Robust.Shared.Enums;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
@@ -154,10 +155,12 @@ namespace Content.Server.Atmos.EntitySystems
                 }
             }
 
-            if (!_lastSentChunks.ContainsKey(e.Session))
+            // DS14-Start: do not recreate per-session gas state for disconnected players.
+            if (e.NewStatus != SessionStatus.Disconnected && !_lastSentChunks.ContainsKey(e.Session))
             {
                 _lastSentChunks[e.Session] = new();
             }
+            // DS14-End
         }
 
         private byte GetOpacity(float moles, float molesVisible, float molesVisibleMax)
@@ -405,23 +408,14 @@ namespace Content.Server.Atmos.EntitySystems
                 var previouslySent = LastSentChunks[playerSession];
 
                 var ev = new GasOverlayUpdateEvent();
+                var toRemove = new ValueList<NetEntity>(); // DS14 Edit: defer dictionary removals until after enumeration.
 
                 foreach (var (netGrid, oldIndices) in previouslySent)
                 {
                     // Mark the whole grid as stale and flag for removal.
                     if (!chunksInRange.TryGetValue(netGrid, out var chunks))
                     {
-                        previouslySent.Remove(netGrid);
-
-                        // If grid was deleted then don't worry about sending it to the client.
-                        if (!EntManager.TryGetEntity(netGrid, out var gridId) || GridQuery.HasComp(gridId.Value))
-                            ev.RemovedChunks[netGrid] = oldIndices;
-                        else
-                        {
-                            oldIndices.Clear();
-                            ChunkIndexPool.Return(oldIndices);
-                        }
-
+                        toRemove.Add(netGrid);
                         continue;
                     }
 
@@ -438,6 +432,23 @@ namespace Content.Server.Atmos.EntitySystems
                     else
                         ev.RemovedChunks.Add(netGrid, old);
                 }
+
+                // DS14-Start: apply deferred removals from the player's previous gas chunks.
+                foreach (var netGrid in toRemove)
+                {
+                    if (!previouslySent.Remove(netGrid, out var oldIndices))
+                        continue;
+
+                    // If grid was deleted then don't worry about sending it to the client.
+                    if (!EntManager.TryGetEntity(netGrid, out var gridId) || GridQuery.HasComp(gridId.Value))
+                        ev.RemovedChunks[netGrid] = oldIndices;
+                    else
+                    {
+                        oldIndices.Clear();
+                        ChunkIndexPool.Return(oldIndices);
+                    }
+                }
+                // DS14-End
 
                 foreach (var (netGrid, gridChunks) in chunksInRange)
                 {

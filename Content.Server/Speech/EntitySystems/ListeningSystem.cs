@@ -1,5 +1,6 @@
 using Content.Server.Chat.Systems;
 using Content.Shared.Chat;
+using Content.Shared.Ghost;
 using Content.Shared.Speech;
 using Content.Shared.Speech.Components;
 
@@ -25,6 +26,11 @@ public sealed class ListeningSystem : EntitySystem
 
     public void PingListeners(EntityUid source, string message, string? obfuscatedMessage)
     {
+        // DS14-start
+        if (HasComp<SpectralComponent>(source))
+            return;
+        // DS14-end
+
         // TODO whispering / audio volume? Microphone sensitivity?
         // for now, whispering just arbitrarily reduces the listener's max range.
 

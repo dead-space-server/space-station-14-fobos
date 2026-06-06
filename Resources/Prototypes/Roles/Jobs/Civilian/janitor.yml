@@ -34,9 +34,13 @@
     ears: ClothingHeadsetService
     belt: ClothingBeltJanitorFilled
     socks: ClothingUnderwearSocksJanitor
-  #storage:
-    #back:
-    #- Stuff
+#DS14-Start
+  storage:
+    back:
+    - VehicleJanicartFlatpack
+    - Multitool
+    - VehicleKeyJanicart
+#DS14-End
 
 - type: startingGear
   id: JanitorMaidGear

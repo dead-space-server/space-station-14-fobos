@@ -2,7 +2,8 @@
   name: R17 ISASS "Мор"
   parent: [ BaseWeaponRifle, BaseSyndicateContraband ]
   id: WeaponSniperR17
-  description: Высокоточная полуавтоматическая винтовка для дальних дистанций. Использует патроны калибра .338 LM
+  description: Высокоточная полуавтоматическая винтовка для дальних дистанций. Использует патроны калибра .338 LM.
+  suffix: Винтовка
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Snipers/sr.rsi

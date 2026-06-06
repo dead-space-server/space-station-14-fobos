@@ -10,7 +10,6 @@
   id: ClothingBackpackWisdom
   name: рюкзак Мед-Техника
   description: Этот рюкзак предназначен для хранения медицинских принадлежностей и инструментов, необходимых для быстрого реагирования в экстренных ситуациях.
-  suffix: Не спавнить
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite

@@ -3,6 +3,7 @@ using System.Numerics;
 using Content.Server.Administration.Logs;
 using Content.Server.Chat.Managers;
 using Content.Server.GameTicking;
+using Content.Server.Ghost.Roles.Components;
 using Content.Server.Mind;
 using Content.Server.Roles.Jobs;
 using Content.Shared.Actions;
@@ -206,7 +207,7 @@ namespace Content.Server.Ghost
             if (!_minds.TryGetMind(uid, out var mindId, out var mind) || mind.IsVisitingEntity)
                 return;
 
-            if (component.MustBeDead && (_mobState.IsAlive(uid) || _mobState.IsCritical(uid)))
+            if (component.MustBeDead && (_mobState.IsAlive(uid) || _mobState.IsCritical(uid) || _mobState.IsPreCritical(uid))) // DS14 edited
                 return;
 
             OnGhostAttempt(mindId, component.CanReturn, mind: mind);
@@ -363,7 +364,7 @@ namespace Content.Server.Ghost
         {
             _adminLog.Add(LogType.GhostWarp, $"{ToPrettyString(uid)} ghost warped to {ToPrettyString(target)}");
 
-            if ((TryComp(target, out WarpPointComponent? warp) && warp.Follow) || HasComp<MobStateComponent>(target))
+            if ((TryComp(target, out WarpPointComponent? warp) && warp.Follow) || CanFollowWarpTarget(target)) // DS14
             {
                 _followerSystem.StartFollowingEntity(uid, target);
                 return;
@@ -400,10 +401,25 @@ namespace Content.Server.Ghost
                 var jobName = _jobs.MindTryGetJobName(mind?.Mind);
                 var playerInfo = $"{Comp<MetaDataComponent>(attached).EntityName} ({jobName})";
 
-                if (_mobState.IsAlive(attached) || _mobState.IsCritical(attached))
+                if (CanShowPlayerWarpTarget(attached)) // DS14
                     yield return new GhostWarp(GetNetEntity(attached), playerInfo, false);
             }
         }
+
+        // DS14-start
+        private bool CanShowPlayerWarpTarget(EntityUid attached)
+            => _mobState.IsAlive(attached) ||
+               _mobState.IsCritical(attached) ||
+               IsSpectralGhostRole(attached);
+
+        private bool CanFollowWarpTarget(EntityUid target)
+            => HasComp<MobStateComponent>(target) ||
+               IsSpectralGhostRole(target);
+
+        private bool IsSpectralGhostRole(EntityUid target)
+            => HasComp<SpectralComponent>(target) &&
+               HasComp<GhostRoleComponent>(target);
+        // DS14-end
 
         #endregion
 

@@ -398,7 +398,7 @@ public sealed class LavalandMiningSystem : EntitySystem
     {
         if (HasComp<FultonComponent>(uid))
             return;
-    
+
         if (!TryComp<StackComponent>(uid, out var stack) ||
             !TryComp<PhysicalCompositionComponent>(uid, out var composition) ||
             stack.Unlimited ||
@@ -417,6 +417,9 @@ public sealed class LavalandMiningSystem : EntitySystem
             ? Math.Clamp(redeemedOre.CreditedUnits, 0, processedUnits)
             : 0;
         var freshUnits = count - processedUnits;
+        var redeemedUnits = count;
+        var redeemedFreshUnits = freshUnits;
+        var redeemedCreditedUnits = creditedUnits;
         if (HasComp<LatheComponent>(receiver))
         {
             if (!_materialStorage.TryInsertMaterialEntity(user, uid, receiver, showPopup: false))
@@ -425,23 +428,127 @@ public sealed class LavalandMiningSystem : EntitySystem
             AddProcessedMaterials(component, composition, count);
             AddCreditedMaterials(component, composition, creditedUnits + (awardFreshOre ? freshUnits : 0));
         }
-        else if (HasComp<StorageComponent>(receiver))
+        else if (TryComp<StorageComponent>(receiver, out var storage))
         {
-            if (!_storageSystem.Insert(receiver, uid, out _, user: user, playSound: false))
+            var beforeCounts = GetStorageStackCounts((receiver, storage), stack.StackTypeId);
+
+            if (!_storageSystem.Insert(receiver, uid, out _, user: user, storageComp: storage, playSound: false))
                 return;
 
-            AddProcessedMaterials(component, composition, count);
-            AddCreditedMaterials(component, composition, creditedUnits + (awardFreshOre ? freshUnits : 0));
-            AddRedeemedUnits(uid, freshUnits, awardFreshOre ? freshUnits : 0, count);
+            redeemedUnits = GetInsertedStackUnits((receiver, storage), stack.StackTypeId, beforeCounts);
+            if (redeemedUnits <= 0)
+                return;
+
+            var insertedProcessedUnits = Math.Min(processedUnits, redeemedUnits);
+            redeemedCreditedUnits = Math.Min(creditedUnits, insertedProcessedUnits);
+            redeemedFreshUnits = redeemedUnits - insertedProcessedUnits;
+
+            AddProcessedMaterials(component, composition, redeemedUnits);
+            AddCreditedMaterials(component, composition, redeemedCreditedUnits + (awardFreshOre ? redeemedFreshUnits : 0));
+            AddRedeemedFreshUnitsToInsertedStacks(
+                (receiver, storage),
+                stack.StackTypeId,
+                beforeCounts,
+                insertedProcessedUnits,
+                redeemedFreshUnits,
+                awardFreshOre ? redeemedFreshUnits : 0);
         }
         else
         {
             QueueDel(uid);
         }
 
-        result.Units += count;
-        result.Points += freshUnits * pointsPerUnit;
-        result.Debt += creditedUnits * pointsPerUnit;
+        result.Units += redeemedUnits;
+        result.Points += redeemedFreshUnits * pointsPerUnit;
+        result.Debt += redeemedCreditedUnits * pointsPerUnit;
+    }
+
+    private Dictionary<EntityUid, int> GetStorageStackCounts(
+        Entity<StorageComponent> storage,
+        ProtoId<StackPrototype> stackType)
+    {
+        var counts = new Dictionary<EntityUid, int>();
+
+        foreach (var contained in storage.Comp.Container.ContainedEntities)
+        {
+            if (!TryComp<StackComponent>(contained, out var containedStack) ||
+                containedStack.StackTypeId != stackType)
+            {
+                continue;
+            }
+
+            counts[contained] = containedStack.Count;
+        }
+
+        return counts;
+    }
+
+    private int GetInsertedStackUnits(
+        Entity<StorageComponent> storage,
+        ProtoId<StackPrototype> stackType,
+        IReadOnlyDictionary<EntityUid, int> beforeCounts)
+    {
+        var inserted = 0;
+
+        foreach (var contained in storage.Comp.Container.ContainedEntities)
+        {
+            if (!TryComp<StackComponent>(contained, out var containedStack) ||
+                containedStack.StackTypeId != stackType)
+            {
+                continue;
+            }
+
+            inserted += Math.Max(0, containedStack.Count - beforeCounts.GetValueOrDefault(contained));
+        }
+
+        return inserted;
+    }
+
+    private void AddRedeemedFreshUnitsToInsertedStacks(
+        Entity<StorageComponent> storage,
+        ProtoId<StackPrototype> stackType,
+        IReadOnlyDictionary<EntityUid, int> beforeCounts,
+        int insertedProcessedUnits,
+        int freshUnits,
+        int creditedFreshUnits)
+    {
+        var processedToSkip = insertedProcessedUnits;
+        var freshRemaining = freshUnits;
+        var creditedRemaining = creditedFreshUnits;
+
+        foreach (var contained in storage.Comp.Container.ContainedEntities)
+        {
+            if (freshRemaining <= 0)
+                break;
+
+            if (!TryComp<StackComponent>(contained, out var containedStack) ||
+                containedStack.StackTypeId != stackType)
+            {
+                continue;
+            }
+
+            var inserted = containedStack.Count - beforeCounts.GetValueOrDefault(contained);
+            if (inserted <= 0)
+                continue;
+
+            if (processedToSkip > 0)
+            {
+                var skipped = Math.Min(processedToSkip, inserted);
+                processedToSkip -= skipped;
+                inserted -= skipped;
+            }
+
+            if (inserted <= 0)
+                continue;
+
+            var processed = Math.Min(freshRemaining, inserted);
+            var credited = Math.Min(creditedRemaining, processed);
+
+            AddRedeemedUnits(contained, processed, credited, containedStack.Count);
+
+            freshRemaining -= processed;
+            creditedRemaining -= credited;
+        }
     }
 
     private static void AddProcessedMaterials(

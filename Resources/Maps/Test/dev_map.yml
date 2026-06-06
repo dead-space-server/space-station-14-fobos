@@ -15781,7 +15781,7 @@ entities:
     - type: Transform
       pos: 45.5,61.5
       parent: 1
-- proto: StationAnchorOff
+- proto: StationAnchorIndestructible # DS14 Edit: force static station grid
   entities:
   - uid: 293
     components:

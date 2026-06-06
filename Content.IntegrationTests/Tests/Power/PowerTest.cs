@@ -1,10 +1,12 @@
 #nullable enable
 using Content.Server.NodeContainer.EntitySystems;
+using Content.IntegrationTests.Tests.Helpers;
 using Content.Server.Power.Components;
 using Content.Server.Power.EntitySystems;
 using Content.Server.Power.Nodes;
 using Content.Shared.Coordinates;
 using Content.Shared.NodeContainer;
+using Content.Shared.Power;
 using Content.Shared.Power.Components;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Map;
@@ -16,6 +18,17 @@ namespace Content.IntegrationTests.Tests.Power
     [TestFixture]
     public sealed class PowerTest
     {
+        // DS14-start
+        public sealed class PowerChangedListenerSystem : TestListenerSystem<PowerChangedEvent>;
+        public sealed class PowerConsumerReceivedListenerSystem : TestListenerSystem<PowerConsumerReceivedChanged>;
+        public sealed class PowerNetBatterySupplyListenerSystem : TestListenerSystem<PowerNetBatterySupplyEvent>;
+
+        private static bool Close(float actual, float expected)
+        {
+            return Math.Abs(actual - expected) < 0.1f;
+        }
+        // DS14-end
+
         [TestPrototypes]
         private const string Prototypes = @"
 - type: entity
@@ -221,6 +234,95 @@ namespace Content.IntegrationTests.Tests.Power
 
             await pair.CleanReturnAsync();
         }
+
+        // DS14-start
+        [Test]
+        [NonParallelizable]
+        public async Task TestDirectConsumerDirtyLoadUpdates()
+        {
+            await using var pair = await PoolManager.GetServerClient();
+            var server = pair.Server;
+            var mapManager = server.ResolveDependency<IMapManager>();
+            var entityManager = server.ResolveDependency<IEntityManager>();
+            var mapSys = entityManager.System<SharedMapSystem>();
+            var listener = entityManager.System<PowerConsumerReceivedListenerSystem>();
+            const float initialLoad = 200;
+            const float updatedLoad = 100;
+            PowerSupplierComponent supplier = default!;
+            PowerConsumerComponent consumer = default!;
+            EntityUid consumerEnt = default!;
+
+            await server.WaitAssertion(() =>
+            {
+                var map = mapSys.CreateMap(out var mapId);
+                var grid = mapManager.CreateGridEntity(mapId);
+
+                for (var i = 0; i < 2; i++)
+                {
+                    mapSys.SetTile(grid, new Vector2i(0, i), new Tile(1));
+                    entityManager.SpawnEntity("CableHV", grid.Owner.ToCoordinates(0, i));
+                }
+
+                var generatorEnt = entityManager.SpawnEntity("GeneratorDummy", grid.Owner.ToCoordinates());
+                consumerEnt = entityManager.SpawnEntity("ConsumerDummy", grid.Owner.ToCoordinates(0, 1));
+                entityManager.AddComponent<TestListenerComponent>(consumerEnt);
+
+                supplier = entityManager.GetComponent<PowerSupplierComponent>(generatorEnt);
+                consumer = entityManager.GetComponent<PowerConsumerComponent>(consumerEnt);
+
+                supplier.MaxSupply = initialLoad;
+                supplier.SupplyRampTolerance = initialLoad;
+                consumer.DrawRate = initialLoad;
+            });
+
+            server.RunTicks(1);
+
+            await server.WaitAssertion(() =>
+            {
+                Assert.Multiple(() =>
+                {
+                    Assert.That(consumer.ReceivedPower, Is.EqualTo(initialLoad).Within(0.1));
+                    Assert.That(listener.Count(consumerEnt, ev => Close(ev.ReceivedPower, initialLoad) && Close(ev.DrawRate, initialLoad)), Is.EqualTo(1));
+                });
+            });
+
+            await server.WaitAssertion(() =>
+            {
+                listener.Clear(consumerEnt);
+                consumer.DrawRate = updatedLoad;
+            });
+            server.RunTicks(1);
+
+            await server.WaitAssertion(() =>
+            {
+                Assert.Multiple(() =>
+                {
+                    Assert.That(consumer.ReceivedPower, Is.EqualTo(updatedLoad).Within(0.1));
+                    Assert.That(supplier.CurrentSupply, Is.EqualTo(updatedLoad).Within(0.1));
+                    Assert.That(listener.Count(consumerEnt, ev => Close(ev.ReceivedPower, updatedLoad) && Close(ev.DrawRate, updatedLoad)), Is.EqualTo(1));
+                });
+            });
+
+            await server.WaitAssertion(() => listener.Clear(consumerEnt));
+            server.RunTicks(1);
+            await server.WaitAssertion(() => Assert.That(listener.Count(consumerEnt), Is.EqualTo(0)));
+
+            await server.WaitAssertion(() => consumer.NetworkLoad.Enabled = false);
+            server.RunTicks(1);
+
+            await server.WaitAssertion(() =>
+            {
+                Assert.Multiple(() =>
+                {
+                    Assert.That(consumer.ReceivedPower, Is.EqualTo(0).Within(0.1));
+                    Assert.That(supplier.CurrentSupply, Is.EqualTo(0).Within(0.1));
+                    Assert.That(listener.Count(consumerEnt, ev => Close(ev.ReceivedPower, 0) && Close(ev.DrawRate, updatedLoad)), Is.EqualTo(1));
+                });
+            });
+
+            await pair.CleanReturnAsync();
+        }
+        // DS14-end
 
 
         /// <summary>
@@ -574,6 +676,86 @@ namespace Content.IntegrationTests.Tests.Power
 
             await pair.CleanReturnAsync();
         }
+
+        // DS14-start
+        [Test]
+        [NonParallelizable]
+        public async Task TestNetworkBatterySupplyEventsOnlyOnTransitions()
+        {
+            await using var pair = await PoolManager.GetServerClient();
+            var server = pair.Server;
+            var mapManager = server.ResolveDependency<IMapManager>();
+            var entityManager = server.ResolveDependency<IEntityManager>();
+            var batterySys = entityManager.System<BatterySystem>();
+            var mapSys = entityManager.System<SharedMapSystem>();
+            var listener = entityManager.System<PowerNetBatterySupplyListenerSystem>();
+            const float draw = 400;
+            EntityUid batteryEnt = default!;
+            PowerNetworkBatteryComponent netBattery = default!;
+            BatteryComponent battery = default!;
+            PowerConsumerComponent consumer = default!;
+
+            await server.WaitAssertion(() =>
+            {
+                var map = mapSys.CreateMap(out var mapId);
+                var grid = mapManager.CreateGridEntity(mapId);
+
+                for (var i = 0; i < 2; i++)
+                {
+                    mapSys.SetTile(grid, new Vector2i(0, i), new Tile(1));
+                    entityManager.SpawnEntity("CableHV", grid.Owner.ToCoordinates(0, i));
+                }
+
+                batteryEnt = entityManager.SpawnEntity("DischargingBatteryDummy", grid.Owner.ToCoordinates());
+                var consumerEnt = entityManager.SpawnEntity("ConsumerDummy", grid.Owner.ToCoordinates(0, 1));
+                entityManager.AddComponent<TestListenerComponent>(batteryEnt);
+
+                netBattery = entityManager.GetComponent<PowerNetworkBatteryComponent>(batteryEnt);
+                battery = entityManager.GetComponent<BatteryComponent>(batteryEnt);
+                consumer = entityManager.GetComponent<PowerConsumerComponent>(consumerEnt);
+
+                batterySys.SetMaxCharge((batteryEnt, battery), 10000);
+                batterySys.SetCharge((batteryEnt, battery), battery.MaxCharge);
+                netBattery.MaxSupply = draw;
+                netBattery.SupplyRampTolerance = draw;
+                netBattery.SupplyRampRate = draw;
+                consumer.DrawRate = draw;
+            });
+
+            server.RunTicks(1);
+
+            await server.WaitAssertion(() =>
+            {
+                Assert.Multiple(() =>
+                {
+                    Assert.That(netBattery.CurrentSupply, Is.EqualTo(draw).Within(0.1));
+                    Assert.That(listener.Count(batteryEnt, ev => ev.Supply), Is.EqualTo(1));
+                });
+            });
+
+            await server.WaitAssertion(() => listener.Clear(batteryEnt));
+            server.RunTicks(1);
+            await server.WaitAssertion(() => Assert.That(listener.Count(batteryEnt), Is.EqualTo(0)));
+
+            await server.WaitAssertion(() => consumer.NetworkLoad.Enabled = false);
+            server.RunTicks(1);
+
+            await server.WaitAssertion(() =>
+            {
+                Assert.Multiple(() =>
+                {
+                    Assert.That(netBattery.CurrentSupply, Is.EqualTo(0).Within(0.1));
+                    Assert.That(listener.Count(batteryEnt, ev => !ev.Supply), Is.EqualTo(1));
+                });
+            });
+
+            await server.WaitAssertion(() => listener.Clear(batteryEnt));
+            server.RunTicks(1);
+            await server.WaitAssertion(() => Assert.That(listener.Count(batteryEnt), Is.EqualTo(0)));
+
+            await pair.CleanReturnAsync();
+        }
+        // DS14-end
 
         [Test]
         public async Task TestSimpleBatteryChargeDeficit()
@@ -1358,6 +1540,116 @@ namespace Content.IntegrationTests.Tests.Power
 
             await pair.CleanReturnAsync();
         }
+
+        // DS14-start
+        [Test]
+        [NonParallelizable]
+        public async Task ApcDirtyLoadAndReconnectUpdates()
+        {
+            await using var pair = await PoolManager.GetServerClient();
+            var server = pair.Server;
+            var mapManager = server.ResolveDependency<IMapManager>();
+            var entityManager = server.ResolveDependency<IEntityManager>();
+            var batterySys = entityManager.System<BatterySystem>();
+            var extensionCableSystem = entityManager.System<ExtensionCableSystem>();
+            var mapSys = entityManager.System<SharedMapSystem>();
+            var listener = entityManager.System<PowerChangedListenerSystem>();
+            const int range = 5;
+            const float initialLoad = 10;
+            const float updatedLoad = 25;
+            EntityUid apcExtensionEnt = default!;
+            EntityUid receiverEnt = default!;
+            PowerNetworkBatteryComponent apcNetBattery = default!;
+            ApcPowerReceiverComponent receiver = default!;
+
+            await server.WaitAssertion(() =>
+            {
+                var map = mapSys.CreateMap(out var mapId);
+                var grid = mapManager.CreateGridEntity(mapId);
+
+                for (var i = 0; i < range; i++)
+                    mapSys.SetTile(grid, new Vector2i(0, i), new Tile(1));
+
+                var apcEnt = entityManager.SpawnEntity("ApcDummy", grid.Owner.ToCoordinates(0, 0));
+                apcExtensionEnt = entityManager.SpawnEntity("CableApcExtension", grid.Owner.ToCoordinates(0, 0));
+                receiverEnt = entityManager.SpawnEntity("ApcPowerReceiverDummy", grid.Owner.ToCoordinates(0, range - 1));
+                entityManager.AddComponent<TestListenerComponent>(receiverEnt);
+
+                var battery = entityManager.GetComponent<BatteryComponent>(apcEnt);
+                apcNetBattery = entityManager.GetComponent<PowerNetworkBatteryComponent>(apcEnt);
+                receiver = entityManager.GetComponent<ApcPowerReceiverComponent>(receiverEnt);
+
+                extensionCableSystem.SetProviderTransferRange(apcExtensionEnt, range);
+                extensionCableSystem.SetReceiverReceptionRange(receiverEnt, range);
+
+                batterySys.SetMaxCharge((apcEnt, battery), 10000);
+                batterySys.SetCharge((apcEnt, battery), battery.MaxCharge);
+                receiver.Load = initialLoad;
+            });
+
+            server.RunTicks(1);
+
+            await server.WaitAssertion(() =>
+            {
+                Assert.Multiple(() =>
+                {
+                    Assert.That(receiver.Powered, Is.True);
+                    Assert.That(receiver.PowerReceived, Is.EqualTo(initialLoad).Within(0.1));
+                    Assert.That(listener.Count(receiverEnt, ev => ev.Powered && Close(ev.ReceivingPower, initialLoad)), Is.EqualTo(1));
+                });
+            });
+
+            await server.WaitAssertion(() =>
+            {
+                listener.Clear(receiverEnt);
+                receiver.Load = updatedLoad;
+            });
+            server.RunTicks(1);
+
+            await server.WaitAssertion(() =>
+            {
+                Assert.Multiple(() =>
+                {
+                    Assert.That(receiver.Powered, Is.True);
+                    Assert.That(receiver.PowerReceived, Is.EqualTo(updatedLoad).Within(0.1));
+                    Assert.That(apcNetBattery.CurrentSupply, Is.EqualTo(updatedLoad).Within(0.1));
+                    Assert.That(listener.Count(receiverEnt), Is.EqualTo(0));
+                });
+            });
+
+            await server.WaitAssertion(() => extensionCableSystem.SetReceiverReceptionRange(receiverEnt, 0));
+            server.RunTicks(1);
+
+            await server.WaitAssertion(() =>
+            {
+                Assert.Multiple(() =>
+                {
+                    Assert.That(receiver.Powered, Is.False);
+                    Assert.That(receiver.PowerReceived, Is.EqualTo(0).Within(0.1));
+                    Assert.That(listener.Count(receiverEnt, ev => !ev.Powered && Close(ev.ReceivingPower, 0)), Is.EqualTo(1));
+                });
+            });
+
+            await server.WaitAssertion(() =>
+            {
+                listener.Clear(receiverEnt);
+                extensionCableSystem.SetReceiverReceptionRange(receiverEnt, range);
+            });
+            server.RunTicks(2);
+
+            await server.WaitAssertion(() =>
+            {
+                Assert.Multiple(() =>
+                {
+                    Assert.That(receiver.Powered, Is.True);
+                    Assert.That(receiver.PowerReceived, Is.EqualTo(updatedLoad).Within(0.1));
+                    Assert.That(listener.Count(receiverEnt, ev => ev.Powered && Close(ev.ReceivingPower, updatedLoad)), Is.EqualTo(1));
+                });
+            });
+
+            await pair.CleanReturnAsync();
+        }
+        // DS14-end
 
     }
 }

@@ -13,7 +13,7 @@
     ClothingHeadHatSecurityTrooper: 2 # DS14
     # ClothingMaskNeckGaiterRed: 2 # DS14-disabled
     ClothingHandsGlovesColorBlack: 8
-    ClothingHandsGlovesFingerless: 6
+    # ClothingHandsGlovesFingerless: 6 # DS14-disabled
     ClothingUniformJumpskirtSec: 4
     ClothingUniformJumpsuitSecGrey: 6
     ClothingUniformJumpskirtSecGrey: 6

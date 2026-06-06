@@ -263,7 +263,7 @@ public sealed class BlobCoreSystem : SharedBlobCoreSystem
             blobCore.BlobTiles.Remove(oldTileUid.Value);
         }
 
-        var tileBlob = EntityManager.SpawnEntity(newBlobTileProto, coordinates);
+        var tileBlob = Spawn(newBlobTileProto, coordinates);
 
         if (_tile.TryGetComponent(tileBlob, out var blobTileComponent))
         {

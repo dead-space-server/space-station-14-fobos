@@ -53,6 +53,7 @@
     ears: ClothingHeadsetSecurity
     pocket1: WeaponRevolverDeckard
     pocket2: WeaponDisabler
+    id: SeniorOfficerPDA
   storage:
     back:
     - Flash

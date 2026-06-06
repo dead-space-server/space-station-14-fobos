@@ -116,7 +116,7 @@ public class TableContainer : Container
             {
                 ref var column = ref _columnDataCache[c];
 
-                var slackRatio = column.Slack / totalSlack;
+                var slackRatio = totalSlack > 0f ? column.Slack / totalSlack : 1f / _columns; // DS14
                 column.AssignedWidth = column.MinWidth + slackRatio * assignableWidth;
             }
         }
@@ -177,7 +177,7 @@ public class TableContainer : Container
         {
             ref var column = ref _columnDataCache[c];
 
-            var slackRatio = column.Slack / totalSlack;
+            var slackRatio = totalSlack > 0f ? column.Slack / totalSlack : 1f / _columns; // DS14
             column.ArrangedWidth = column.MinWidth + slackRatio * assignableWidth;
             column.ArrangedX = xPos;
 

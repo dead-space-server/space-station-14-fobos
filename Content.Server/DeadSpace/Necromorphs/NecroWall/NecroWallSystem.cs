@@ -136,7 +136,7 @@ public sealed class NecroWallSystem : EntitySystem
         if (!component.WallIsCaptured)
             return;
 
-        if (!EntityManager.EntityExists(uid))
+        if (!Exists(uid))
             return;
 
         var ev = new CaptureWallEvent();
@@ -168,7 +168,7 @@ public sealed class NecroWallSystem : EntitySystem
 
         if (component.LvlStage <= 0f)
         {
-            if (component.WallEntity != null && EntityManager.EntityExists(component.WallEntity))
+            if (component.WallEntity != null && Exists(component.WallEntity))
             {
                 if (HasComp<InfestedDeadWallComponent>(component.WallEntity))
                     RemComp<InfestedDeadWallComponent>(component.WallEntity.Value);

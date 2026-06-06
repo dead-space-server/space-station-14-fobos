@@ -4,6 +4,9 @@ tabletop-verb-dump-pieces = Dump Pieces
 tabletop-default-board-name = Board Game
 tabletop-error-remove-non-hologram = You cant remove a built in piece!
 tabletop-added-piece = The board shimmers brightly!
+# DS14-Start
+tabletop-remove-figurine-hint = Remove figurine - RMB+LMB
+# DS14-End
 
 ## Chess
 tabletop-chess-board-name = Chess

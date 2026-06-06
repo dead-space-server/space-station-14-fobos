@@ -10,3 +10,5 @@ fold-zip-verb = Застегнуть
 fold-unzip-verb = Расстегнуть
 fold-verb-clothing-jacket = Снять куртку
 unfold-verb-clothing-jacket = Надеть куртку
+lower-verb = Приспустить
+raise-verb = Приподнять

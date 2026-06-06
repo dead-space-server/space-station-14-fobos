@@ -46,7 +46,6 @@
       Saline: 10
       Epinephrine: 15
       Puncturase: 10
-      TranexamicAcid: 5
       Omnizine: 10
   - type: VirusResistance
     virusResistanceCoefficient: 0.9
@@ -128,7 +127,6 @@
       Saline: 10
       Epinephrine: 15
       Puncturase: 10
-      TranexamicAcid: 5
       Omnizine: 5
   - type: VirusResistance
     virusResistanceCoefficient: 0.9
@@ -210,7 +208,6 @@
       Saline: 10
       Epinephrine: 15
       Puncturase: 10
-      TranexamicAcid: 5
       Omnizine: 20
   - type: VirusResistance
     virusResistanceCoefficient: 0.9
