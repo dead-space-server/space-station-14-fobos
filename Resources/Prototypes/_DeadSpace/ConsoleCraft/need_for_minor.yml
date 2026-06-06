@@ -111,7 +111,7 @@
 - type: entity
   parent: BaseItem
   id: StorageModuleSecurity
-  name: модуль СБ - малая подсумка (Обычный РИГ)
+  name: модуль СБ - малый подсумок (Обычный РИГ)
   description: СЕЙЧАС КАК ЗАПИХНУ СЮДА ДИСК ЯДЕРКИ И БУДУ СИДЕТЬ УГАРАТЬ С НЮКЕРОВ. 
   components:
   - type: Sprite

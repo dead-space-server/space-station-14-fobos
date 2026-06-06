@@ -1,6 +1,8 @@
 # Command
 - type: roleLoadout
   id: JobBlueShieldOfficer
+  nameDataset: NamesBlueShield
+  canCustomizeName: true
   groups:
   # - GroupTankHarness # outerClothing occupied by startingGear
   - BlueShieldOfficerBackpack

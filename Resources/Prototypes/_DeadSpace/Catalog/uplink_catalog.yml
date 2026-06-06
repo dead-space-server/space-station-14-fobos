@@ -729,7 +729,7 @@
 
 - type: listing
   id: UplinkClothingBackpackTailbag
-  name: Подсумка на хвосты плафеймов
+  name: Подсумок на хвост плафеимов
   description: Всё для своих.
   icon: { sprite: /Textures/_DeadSpace/Clothing/Back/Backpacks/tailbag.rsi, state: icon }
   productEntity: ClothingBackpackTailbag

@@ -71,8 +71,8 @@
 - type: entity
   parent: ClothingBackpack
   id: ClothingBackpackTailbag
-  name: подсумка на хвост плафейма
-  description: Удобная подсумка на хвосты.
+  name: подсумок на хвост плафеимов
+  description: Удобный подсумок на хвост.
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Back/Backpacks/tailbag.rsi
