@@ -276,6 +276,7 @@
   - type: GroupExamine
   - type: IdentityBlocker
     coverage: EYES
+  - type: EyeProtection
   - type: ThermalSight
 
 - type: entity
