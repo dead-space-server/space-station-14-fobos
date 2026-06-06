@@ -1,11 +1,11 @@
 meta:
   format: 7
   category: Map
-  engineVersion: 272.0.1
+  engineVersion: 276.0.0
   forkId: ""
   forkVersion: ""
-  time: 05/23/2026 12:24:13
-  entityCount: 28115
+  time: 06/06/2026 17:06:39
+  entityCount: 28112
 maps:
 - 1
 grids:
@@ -20874,7 +20874,7 @@ entities:
       pos: -1.5,15.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -288149.56
+      secondsUntilStateChange: -288163.16
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -20907,7 +20907,7 @@ entities:
       pos: -14.5,-1.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -284442.25
+      secondsUntilStateChange: -284455.84
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -20934,7 +20934,7 @@ entities:
       pos: -5.5,2.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -288166.38
+      secondsUntilStateChange: -288179.97
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -86958,7 +86958,7 @@ entities:
       pos: -63.5,-41.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -5531.887
+      secondsUntilStateChange: -5545.47
       state: Opening
   - uid: 12407
     components:
@@ -158479,69 +158479,6 @@ entities:
           - DoorBolt
     - type: Fixtures
       fixtures: {}
-  - uid: 22312
-    components:
-    - type: Transform
-      pos: -10.5,-14.5
-      parent: 2
-    - type: DeviceLinkSource
-      linkedPorts:
-        264:
-        - - Pressed
-          - Toggle
-        - - Pressed
-          - DoorBolt
-        548:
-        - - Pressed
-          - Toggle
-        - - Pressed
-          - DoorBolt
-    - type: Fixtures
-      fixtures: {}
-  - uid: 22313
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -12.5,-17.5
-      parent: 2
-    - type: DeviceLinkSource
-      linkedPorts:
-        265:
-        - - Pressed
-          - Toggle
-        - - Pressed
-          - DoorBolt
-        266:
-        - - Pressed
-          - Toggle
-        - - Pressed
-          - DoorBolt
-        550:
-        - - Pressed
-          - Toggle
-        - - Pressed
-          - DoorBolt
-    - type: Fixtures
-      fixtures: {}
-  - uid: 22314
-    components:
-    - type: Transform
-      pos: -18.5,-5.5
-      parent: 2
-    - type: DeviceLinkSource
-      linkedPorts:
-        549:
-        - - Pressed
-          - Toggle
-        - - Pressed
-          - DoorBolt
-        263:
-        - - Pressed
-          - Toggle
-        - - Pressed
-          - DoorBolt
-    - type: Fixtures
-      fixtures: {}
   - uid: 22315
     components:
     - type: MetaData
@@ -164407,7 +164344,7 @@ entities:
     - type: Transform
       pos: 51.5,17.5
       parent: 2
-- proto: StationAnchorIndestructible # DS14 Edit: force static station grid
+- proto: StationAnchor
   entities:
   - uid: 23198
     components:
@@ -189720,7 +189657,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -277363.94
+      secondsUntilStateChange: -277377.53
       state: Opening
     - type: Airlock
       autoClose: False
