@@ -9,7 +9,7 @@ namespace Content.Server.Radio.EntitySystems;
 
 public sealed partial class MessengerServerSystem : EntitySystem
 {
-    [Dependency] private DeviceNetworkSystem _deviceNetworkSystem = default!;
+    //DS14 [Dependency] private DeviceNetworkSystem _deviceNetworkSystem = default!;
 
     public override void Initialize()
     {
