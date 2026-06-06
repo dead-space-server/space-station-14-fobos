@@ -264,9 +264,8 @@
   result: PlastineOfSecurAdvancedityRIG
   materials:
     Steel: 3250
-    Plasteel: 1750
-    Uranium: 250
-    Magmite: 1500
+    Plasteel: 2250
+    Magmite: 2500
     Silver: 1000
 
 - type: latheRecipe
@@ -275,8 +274,7 @@
   materials:
     Steel: 2150
     Plasteel: 1250
-    Magmite: 825
-    Uranium: 125
+    Magmite: 1525
     Silver: 500
 
 - type: latheRecipe
@@ -285,8 +283,7 @@
   materials:
     Steel: 2150
     Plasteel: 1000
-    Magmite: 1250
-    Uranium: 175
+    Magmite: 1850
     Gold: 500
 
 - type: latheRecipe
