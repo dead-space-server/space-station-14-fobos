@@ -729,8 +729,8 @@
 
 - type: listing
   id: UplinkClothingBackpackTailbag
-  name: Подсумка для хвостов
-  description: Надевается ТОЛЬКО на хвост плафеймов.
+  name: Подсумка на хвосты плафеймов
+  description: Всё для своих.
   icon: { sprite: /Textures/_DeadSpace/Clothing/Back/Backpacks/tailbag.rsi, state: icon }
   productEntity: ClothingBackpackTailbag
   cost:

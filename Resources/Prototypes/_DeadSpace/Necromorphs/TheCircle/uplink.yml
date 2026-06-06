@@ -366,6 +366,17 @@
 
 ### Снаряжение
 - type: listing
+  id: UniPhoneClothingBackpackTailbag
+  name: Подсумка на хвосты плафеймов
+  description: Всё для своих.
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Back/Backpacks/tailbag.rsi, state: icon }
+  productEntity: ClothingBackpackTailbag
+  cost:
+    Telecrystal: 1
+  categories:
+  - UniPhoneUplinkGear
+
+- type: listing
   id: UniPhoneUplinkHeavyHardsuit
   name: Тяжелый бронескафандр «Артемида» / Скафандр Диакона
   icon: { sprite: _DeadSpace/Necromorfs/TheCircle/HardSuit/heavy.rsi, state: icon }

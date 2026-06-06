@@ -71,7 +71,7 @@
 - type: entity
   parent: ClothingBackpack
   id: ClothingBackpackTailbag
-  name: подсумка на хвост
+  name: подсумка на хвост плафейма
   description: Удобная подсумка на хвосты.
   components:
   - type: Sprite
@@ -83,8 +83,6 @@
     - tailbag
   - type: Storage
     grid:
-    - 1,0,1,1
-    - 2,0,2,1
-    - 4,0,7,1
-    - 9,1,9,1
-    - 9,0,9,1
+    - 0,0,4,0
+    - 0,1,4,2
+    - 6,1,7,2
