@@ -1188,6 +1188,9 @@
       state: rock_wall_north
     - map: [ "enum.EdgeLayer.West" ]
       state: rock_wall_west
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: Rock
 
 - type: entity
   id: WallRockBasaltCoal
