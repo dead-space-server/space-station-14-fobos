@@ -12,7 +12,7 @@ using Robust.Shared.IoC;
 using Robust.Shared.Maths;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
-
+using Robust.Shared.Utility; //DS14
 
 namespace Content.Client.CartridgeLoader.Cartridges;
 
@@ -79,7 +79,7 @@ public sealed partial class MessengerCartridgeUiFragment : BoxContainer
             }
 
             var displayText = user.UnreadCount > 0 ? $"{user.Name} [{user.JobTitle}] ({user.UnreadCount})" : $"{user.Name} [{user.JobTitle}]";
-            var label = new Label { Text = $"{displayText}", HorizontalExpand = true, VerticalAlignment = VAlignment.Center };
+            var label = new Label { Text = displayText, HorizontalExpand = true, VerticalAlignment = VAlignment.Center }; //DS14
             row.AddChild(label);
 
             button.AddChild(row);
@@ -88,7 +88,7 @@ public sealed partial class MessengerCartridgeUiFragment : BoxContainer
             UserListContainer.AddChild(button);
         }
 
-        if (messages != null && messages.Count > 0 && !UserListContainer.Visible)
+        if (messages != null && !UserListContainer.Visible) //DS14
         {
             UpdateMessages(messages);
         }
@@ -147,11 +147,14 @@ public sealed partial class MessengerCartridgeUiFragment : BoxContainer
         {
             var timeStr = msg.Timestamp.ToString(@"hh\:mm\:ss");
             var color = msg.IsIncoming ? "aqua" : "white";
-            var richLabel = new RichTextLabel
-            {
-                Text = $"[color={color}][{timeStr}] {msg.SenderName}: {msg.Content}[/color]",
-                HorizontalExpand = true
-            };
+            //DS14-start
+            var safeName = FormattedMessage.EscapeText(msg.SenderName);
+            var safeContent = FormattedMessage.EscapeText(msg.Content);
+            var safeTime = FormattedMessage.EscapeText(timeStr);
+            var richLabel = new RichTextLabel { HorizontalExpand = true };
+            richLabel.SetMessage(FormattedMessage.FromMarkup(
+                $"[color={color}]{safeTime} {safeName}: {safeContent}[/color]"));
+            //DS14-end
             MessageContainer.AddChild(richLabel);
         }
     }

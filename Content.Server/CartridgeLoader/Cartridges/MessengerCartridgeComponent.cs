@@ -4,4 +4,5 @@ namespace Content.Server.CartridgeLoader.Cartridges;
 public sealed partial class MessengerCartridgeComponent : Component
 {
     public int? ActiveChatPartnerId;
+    public Dictionary<int, TimeSpan> LastMessageTime = new(); //DS14
 }

@@ -198,6 +198,28 @@ public sealed partial class MessengerCartridgeSystem : EntitySystem
 
         if (args is MessengerSendMessageEvent sendMessage)
         {
+            //DS14-start
+            const int MaxMessageLength = 512;
+            const int MaxHistoryCount = 200;
+            const double CooldownSeconds = 0.5;
+
+            if (!server.Value.Component.Users.ContainsKey(sendMessage.ReceiverId))
+                return;
+
+            if (string.IsNullOrWhiteSpace(sendMessage.Content))
+                return;
+
+            var content = sendMessage.Content.Trim();
+            if (content.Length > MaxMessageLength)
+                content = content[..MaxMessageLength];
+
+            var now = _gameTicker.RoundDuration();
+            if (component.LastMessageTime.TryGetValue(userData.Value.Id, out var lastTime)
+                && (now - lastTime).TotalSeconds < CooldownSeconds)
+                return;
+
+            component.LastMessageTime[userData.Value.Id] = now;
+            //DS14-end
             var messageId = server.Value.Component.Messages.Count > 0
                 ? server.Value.Component.Messages.Max(m => m.Id) + 1
                 : 1;
@@ -206,11 +228,17 @@ public sealed partial class MessengerCartridgeSystem : EntitySystem
                 messageId,
                 userData.Value.Id,
                 sendMessage.ReceiverId,
-                sendMessage.Content,
-                _gameTicker.RoundDuration()
+                //DS14-start
+                content,
+                now
+                //DS14-end
             );
 
             server.Value.Component.Messages.Add(message);
+            //DS14-start
+            if (server.Value.Component.Messages.Count > MaxHistoryCount)
+                server.Value.Component.Messages.RemoveAt(0);
+            //DS14-end
             Dirty(server.Value.Uid, server.Value.Component);
 
             UpdateUiState(uid, loaderUid.Value);
@@ -218,7 +246,11 @@ public sealed partial class MessengerCartridgeSystem : EntitySystem
             var receiverCartridgeUid = GetCartridgeByUserId(sendMessage.ReceiverId);
             if (receiverCartridgeUid == null)
                 return;
-
+            //DS14-start
+            var receiverServer = GetServerForCartridge(receiverCartridgeUid.Value);
+            if (receiverServer == null || receiverServer.Value.Uid != server.Value.Uid)
+                return;
+            //DS14-end
             var receiverLoaderUid = GetLoaderUid(receiverCartridgeUid.Value);
             if (receiverLoaderUid == null)
                 return;
@@ -233,7 +265,7 @@ public sealed partial class MessengerCartridgeSystem : EntitySystem
                 }
             }
 
-            SendNotificationToUser(receiverCartridgeUid.Value, userData.Value.Name, sendMessage.Content);
+            SendNotificationToUser(receiverCartridgeUid.Value, userData.Value.Name, content); //DS14
             UpdateUiState(receiverCartridgeUid.Value, receiverLoaderUid.Value);
         }
 
