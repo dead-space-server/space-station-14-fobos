@@ -33,18 +33,6 @@ shadowling-ascendance-announcement = Внимание! Мы фиксируем �
 shadowling-ascendance-sender = Департамент Вооружённых Сил NanoTrasen
 shadowling-title = Тенеморфы
 shadowling-description = Тенеморфы среди нас!
-
-shadowling-round-end-count =
-    { $initialCount ->
-        [one] Тенеморф был один:
-       *[other] Тенеморфов было { $initialCount }:
-    }
-shadowling-round-end-name-user = [color=#c00000]{ $name }[/color] ([color=gray]{ $username }[/color]) поработил { $count } { $count ->
-        [one] члена
-        [few] члена
-       *[other] членов
-    } экипажа
-
 shadowling-win = Тенеморф вознёсся! Тьма поглотила станцию.
 shadowling-lose = Все тенеморфы уничтожены.
 shadowling-stalemate = Тенеморф не смог вознестись.
