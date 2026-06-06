@@ -31,7 +31,15 @@
             <PanelContainer StyleClasses="highlight" MinHeight="2" />
             <BoxContainer Orientation="Horizontal" VerticalExpand="True" SeparationOverride="0">
                 <ScrollContainer MinSize="325 0" Margin="5 5 0 0">
-                    <BoxContainer Name="Characters" Orientation="Vertical" />
+                    <BoxContainer Orientation="Vertical">
+                        <BoxContainer Name="Characters" Orientation="Vertical" />
+                        <Label Name="InaccessibleCharactersHeader"
+                               Text="{Loc 'character-setup-gui-inaccessible-characters-label'}"
+                               Margin="4 8 0 4"
+                               Visible="False"
+                               StyleClasses="LabelHeading" />
+                        <BoxContainer Name="InaccessibleCharacters" Orientation="Vertical" Visible="False" />
+                    </BoxContainer>
                 </ScrollContainer>
                 <PanelContainer MinSize="2 0" StyleClasses="highlight">
                 </PanelContainer>
