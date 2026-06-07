@@ -500,6 +500,7 @@
       - NewsReaderCartridge
       - BankCartridge
       - MedTekCartridge
+      - MessengerCartridge
 
 - type: entity
   parent: ClothingUniformBase
