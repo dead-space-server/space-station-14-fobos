@@ -21,6 +21,7 @@
     },
     {
       "name": "jetpack-on",
+      "directions": 1,
       "delays": [
         [
           0.2,
@@ -33,6 +34,57 @@
     },
     {
       "name": "spiritform"
+    },
+    {
+      "name": "adrenal"
+    },
+    {
+      "name": "energynet",
+      "directions": 1,
+      "delays": [
+        [
+          0.2,
+          0.2
+        ]
+      ]
+    },
+    {
+      "name": "kunai",
+      "directions": 1,
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      ]
+    },
+    {
+      "name": "shuriken",
+      "directions": 1,
+      "delays": [
+        [
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ]
+      ]
     }
   ]
 }

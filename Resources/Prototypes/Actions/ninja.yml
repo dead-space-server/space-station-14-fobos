@@ -18,9 +18,9 @@
   - type: Action
     useDelay: 0.5
     icon:
-      sprite: Objects/Weapons/Throwable/throwing_star.rsi
-      state: icon
-    itemIconStyle: NoItem
+      sprite: _DeadSpace/Actions/ninja_actions.rsi
+      state: shuriken
+    itemIconStyle: BigAction
     priority: -10
   - type: InstantAction
     event: !type:CreateItemEvent {}
