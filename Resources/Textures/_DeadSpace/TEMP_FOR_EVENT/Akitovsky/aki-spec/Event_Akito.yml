@@ -1,0 +1,1264 @@
+# Перчатки Дельта песочные
+- type: entity
+  parent: ClothingHandsGlovesCombat
+  id: ClothingHandsGlovesCombatAkiDeltaSand
+  name: боевые перчатки
+  description: Эти тактические перчатки огнеупорны и ударопрочны.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Gloves/combatsand.rsi
+  - type: Clothing
+    sprite: /Uploaded/aki-spec/Gloves/combatsand.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Перчатки генерала Дельты
+- type: entity
+  parent: ClothingHandsGlovesBSAA
+  id: ClothingHandsGlovesAkiDeltaGeneral
+  name: боевые перчатки
+  suffix: Akitovsky
+
+# Шлем Дельта песочный
+- type: entity
+  parent: ClothingHeadHelmetSecurityFlashlight
+  id: ClothingHeadHelmetAkiDeltaSand
+  name: шлем
+  description: Стандартная защитная экипировка. Защищает голову от ударов.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Head/Helmets/helmetsand.rsi
+    layers:
+    - state: icon
+    - state: light-icon
+      shader: unshaded
+      visible: false
+      map: [ "light" ]
+  - type: Clothing
+    sprite: /Uploaded/aki-spec/Head/Helmets/helmetsand.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Кепка Дельта песочная
+- type: entity
+  parent: ClothingHeadHeadHatBaseFlippable
+  id: ClothingHeadHatAkiDeltaSand
+  name: песочная кепка
+  description: Бейсболка, окрашенная в песчаные тона.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Head/Hats/sandsoft.rsi
+  - type: Clothing
+    sprite: /Uploaded/aki-spec/Head/Hats/sandsoft.rsi
+
+# Панама Прайса
+- type: entity
+  parent: ClothingHeadHatFedoraBrown
+  id: ClothingHeadHatPanamaAkiSand
+  name: старая панама
+  description: Была свидетельницей слишком многого. До сих пор пахнет порохом и предательством.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Head/Hats/panamahatsand.rsi
+  - type: Clothing
+    sprite: /Uploaded/aki-spec/Head/Hats/panamahatsand.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Маска Дельта
+- type: entity
+  parent: ClothingMaskNeckGaiter
+  id: ClothingMaskAkiDelta
+  name: чёрная маска
+  description: Плотная тканевая маска чёрного цвета.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Mask/blackmask.rsi
+  - type: Clothing
+    sprite: /Uploaded/aki-spec/Mask/blackmask.rsi
+  - type: Mask
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Гетр Дельта
+- type: entity
+  parent: [ClothingMaskNeckGaiter, BaseFoldable]
+  id: ClothingMasGaiterkAkiDelta
+  name: шейный гетр
+  description: Стильный гетр, способный защитить ваше лицо от песка, грязи и лишних глаз.
+  suffix: Akitovsky
+  components:
+  - type: Appearance
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Mask/gaiterfoldable.rsi
+    layers:
+    - state: icon
+      map: [ "unfoldedLayer" ]
+    - state: icon-open
+      map: ["foldedLayer"]
+      visible: false
+  - type: Clothing
+    sprite: /Uploaded/aki-spec/Mask/gaiterfoldable.rsi
+    slots: [mask]
+  - type: Foldable
+    canFoldInsideContainer: true
+    unfoldVerbText: fold-zip-verb
+    foldVerbText: fold-unzip-verb
+  - type: FoldableClothing
+    foldedEquippedPrefix: open
+    foldedHeldPrefix: open
+  - type: IdentityBlocker
+    coverage: MOUTH
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Очки Дельта песочные
+- type: entity
+  parent: ClothingEyesGlassesSecurity
+  id: ClothingEyesGlassesAkiDeltaSand
+  name: солнцезащитные очки
+  description: Солнцезащитные очки. Имеют встроенный визор службы безопасности.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Glasses/glassessand.rsi
+  - type: Clothing
+    sprite: /Uploaded/aki-spec/Glasses/glassessand.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+- type: entity
+  parent: ClothingNeckBase
+  id: ClothingNeckCloakAkiDeltaFloria
+  name: наплечная мантия офицера «Дельты»
+  description: Шёлковая мантия чёрных оттенков.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Neck/comantle.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Униформа стартовая
+- type: entity
+  parent: ClothingUniformJumpsuitERTSecurity
+  id: ClothingUniformJumpsuitAkiDeltaStartingGear
+  name: униформа спецназа
+  description: Стандартная униформа войск специального назначения.
+
+# Униформа Дельта песочная
+- type: entity
+  parent: [ClothingUniformBase, ClothingUniformFoldableBase]
+  id: ClothingUniformJumpsuitAkiDeltaSand
+  name: песчаный ВКПО
+  description: Всесезонный комплект полевого обмундирования в песчаной расцветке. Обеспечивает комфорт и защиту в разных климатических условиях.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Jumpsuits/deltasand.rsi
+  - type: Clothing
+    sprite: /Uploaded/aki-spec/Jumpsuits/deltasand.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# РПС Дельта песочная
+- type: entity
+  parent: ClothingBeltMilitaryWebbing
+  id: ClothingBeltMilitaryWebbingAkiDeltaSand
+  name: армейская РПС
+  description: Ременно-плечевая система тактических ремней, которую носят представители военных структур. Эта в песчаной расцветке.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Belts/militarywebbingsand.rsi
+  - type: Clothing
+    sprite: /Uploaded/aki-spec/Belts/militarywebbingsand.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Пояс Дельта песочный
+- type: entity
+  parent: ClothingBeltSecurity
+  id: ClothingBeltAkiDeltaSand
+  name: армейский пояс
+  description: Может вмещать снаряжение военных, например магазины и коробки патрон.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Belts/militarysand.rsi
+  - type: Clothing
+    sprite: /Uploaded/aki-spec/Belts/militarysand.rsi
+  - type: ExplosionResistance
+    damageCoefficient: 0.1
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Броня Дельта песочная
+- type: entity
+  parent: ClothingOuterArmorBase
+  id: ClothingOuterArmorDeltaAkiSand
+  name: бронежилет
+  description: Стандартный бронежилет с пластиной IV-го класса защиты.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Armor/bulletproofvestsand.rsi
+  - type: Clothing
+    sprite: /Uploaded/aki-spec/Armor/bulletproofvestsand.rsi
+    equipDelay: 2
+    unequipDelay: 2
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.4
+        Heat: 0.80
+  - type: ClothingSpeedModifier
+    walkModifier: 0.73
+    sprintModifier: 0.73
+  - type: HeldSpeedModifier
+  - type: Item
+    size: Huge
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Броня тонкая Дельта песочная
+- type: entity
+  parent: ClothingOuterArmorBase
+  id: ClothingOuterArmorDeltaSlimAkiSand
+  name: бронежилет
+  description: Бронежилет с пластиной IV-го класса защиты, но меньшей областью покрытия.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Armor/bulletproofvestslimsand.rsi
+  - type: Clothing
+    sprite: /Uploaded/aki-spec/Armor/bulletproofvestslimsand.rsi
+    equipDelay: 2
+    unequipDelay: 2
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.4
+        Heat: 0.80
+  - type: ClothingSpeedModifier
+    walkModifier: 0.73
+    sprintModifier: 0.73
+  - type: HeldSpeedModifier
+  - type: Item
+    size: Huge
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Броня толстая Дельта песочная
+- type: entity
+  parent: ClothingOuterArmorBase
+  id: ClothingOuterArmorDeltaFatAkiSand
+  name: бронежилет
+  description: Стандартный бронежилет с пластиной IV-го класса защиты.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Armor/bulletproofvestfatsand.rsi
+  - type: Clothing
+    sprite: /Uploaded/aki-spec/Armor/bulletproofvestfatsand.rsi
+    equipDelay: 2
+    unequipDelay: 2
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.4
+        Heat: 0.80
+  - type: ClothingSpeedModifier
+    walkModifier: 0.73
+    sprintModifier: 0.73
+  - type: HeldSpeedModifier
+  - type: Item
+    size: Huge
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Броня генерала Дельты
+- type: entity
+  parent: ClothingOuterCoatHoSTrench
+  id: ClothingOuterCoatHoSTrenchAkiDeltaGeneral
+  name: тренч генерала
+  description: Плащ из специального сплава, обеспечивающий дополнительную защиту и стиль для людей, обладающих властью.
+  suffix: Akitovsky
+
+# Рюкзак Дельта песочный
+- type: entity
+  parent: ClothingMilitaryBackpack
+  id: ClothingMilitaryBackpackDeltaAkiSand
+  name: армейский рюкзак
+  description: Вместительный рюкзак с множеством карманов, который носят военные структуры.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Backpacks/militarysand.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Сапоги Дельта песочные
+- type: entity
+  parent: [ClothingShoesBootsJack, ClothingShoesBootsSecFilled]
+  id: ClothingShoesBootsJackAkiDeltaSand
+  name: подкованные сапоги
+  description: Обувь военных Nanotrasen для боевых операций почти в любых условиях.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Boots/jackbootssand.rsi
+  - type: Clothing
+    sprite: /Uploaded/aki-spec/Boots/jackbootssand.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+
+
+
+# Каналы связи отрядов
+# Отряд «Дельта-6»
+- type: radioChannel
+  id: EventNTDelta6
+  name: отряд «Дельта-6» 
+  keycode: '4' 
+  frequency: 1994
+  color: "#4c5be6e6"
+  longRange: true
+
+# Отряд «Дельта-8»
+- type: radioChannel
+  id: EventNTDelta8
+  name: отряд «Дельта-8» 
+  keycode: '5' 
+  frequency: 1995
+  color: "#7f1f83e6"
+  longRange: true
+
+# КПСК Альтаир-12
+- type: radioChannel
+  id: EventKPSKAltair12
+  name: КПСК Альтаир-12
+  keycode: '6' 
+  frequency: 2100
+  color: "#9b1a25e6"
+  longRange: true
+
+# Ключи шифрования отрядов
+# Отряд «Дельта-6»
+- type: entity
+  parent: EncryptionKey
+  id: EncryptionKeyEventNTDelta6
+  name: ключ шифрования отряда «Дельта-6» 
+  description: Ключ шифрования, используемый... хм... кем же? 
+  suffix: Akitovsky, Дельта-6
+  components:
+  - type: EncryptionKey
+    channels:
+    - EventNTDelta6
+    defaultChannel: EventNTDelta6
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Ears/encryption_keys.rsi
+    layers:
+    - state: crypt_Delta-6
+
+# Отряд «Дельта8»
+- type: entity
+  parent: EncryptionKey
+  id: EncryptionKeyEventNTDelta8
+  name: ключ шифрования отряда «Дельта-8» 
+  description: Ключ шифрования, используемый... хм... кем же? 
+  suffix: Akitovsky, Дельта-8
+  components:
+  - type: EncryptionKey
+    channels:
+    - EventNTDelta8
+    defaultChannel: EventNTDelta8
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Ears/encryption_keys.rsi
+    layers:
+    - state: crypt_Delta-8
+
+# КПСК Альтаир-12
+- type: entity
+  parent: EncryptionKey
+  id: EncryptionKeyEventKPSKAltair12
+  name: ключ шифрования КПСК
+  description: Ключ шифрования, используемый... хм... кем же? 
+  suffix: Akitovsky, Дельта-8
+  components:
+  - type: EncryptionKey
+    channels:
+    - EventKPSKAltair12
+    defaultChannel: EventKPSKAltair12
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Devices/encryption_keys.rsi
+    layers:
+    - state: crypt_taipan
+
+# Гарнитуры
+# Гарнитура «Дельта-6»
+- type: entity
+  parent: [ ClothingHeadset, BaseCentcommContraband ]
+  id: ClothingHeadsetDelta6
+  name: гарнитура отряда «Дельта-6»
+  description: Модифицированный модульный интерком, надеваемый на голову. Принимает ключи шифрования.
+  suffix: Akitovsky
+  components:
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeyEventNTDelta6
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Ears/headsetaltsand.rsi
+  - type: Clothing
+    sprite: /Uploaded/aki-spec/Ears/headsetaltsand.rsi
+  - type: Headset
+    color: "#199c71"
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Гарнитура «Дельта-8»
+- type: entity
+  parent: [ ClothingHeadset, BaseCentcommContraband ]
+  id: ClothingHeadsetDelta8
+  name: гарнитура отряда «Дельта-8»
+  description: Модифицированный модульный интерком, надеваемый на голову. Принимает ключи шифрования.
+  suffix: Akitovsky
+  components:
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeyEventNTDelta8
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Ears/headsetaltsand.rsi
+  - type: Clothing
+    sprite: /Uploaded/aki-spec/Ears/headsetaltsand.rsi
+  - type: Headset
+    color: "#199c71"
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Гарнитура общая
+- type: entity
+  parent: [ ClothingHeadset, BaseCentcommContraband ]
+  id: ClothingHeadsetDelta
+  name: гарнитура подразделения «Дельта»
+  description: Модифицированный модульный интерком, надеваемый на голову. Принимает ключи шифрования.
+  suffix: Akitovsky
+  components:
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeyEventNTDelta6
+      - EncryptionKeyEventNTDelta8
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Ears/headsetaltsand.rsi
+  - type: Clothing
+    sprite: /Uploaded/aki-spec/Ears/headsetaltsand.rsi
+  - type: Headset
+    color: "#199c71"
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Гарнитура генерала
+- type: entity
+  parent: [ ClothingHeadset, BaseCentcommContraband ]
+  id: ClothingHeadsetDeltaGeneral
+  name: гарнитура подразделения «Дельта»
+  description: Модифицированный модульный интерком, надеваемый на голову. Принимает ключи шифрования.
+  suffix: Akitovsky
+  components:
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeyEventNTDelta6
+      - EncryptionKeyEventNTDelta8
+  - type: Sprite
+    sprite: Clothing/Ears/Headsets/centcom.rsi
+  - type: Clothing
+    sprite: Clothing/Ears/Headsets/centcom.rsi
+  - type: Headset
+    color: "#b71ec5"
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Гарнитура КПСК
+- type: entity
+  parent: [ ClothingHeadset, BaseCentcommContraband ]
+  id: ClothingHeadsetKPSK
+  name: гарнитура КПСК
+  description: Модифицированный модульный интерком, надеваемый на голову. Принимает ключи шифрования.
+  suffix: Akitovsky
+  components:
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeyEventKPSKAltair12
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Ears/Headsets/hs_base_taipan.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Ears/Headsets/hs_base_taipan.rsi
+  - type: Headset
+    color: "#b3161e"
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+
+# Баннер Дельта
+- type: entity
+  id: BannerAkiDelta
+  parent: BannerBase
+  name: знамя спецподразделения «Дельта»
+  description: Это знамя, означающее присутствие «Дельты».
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Decoration/banners.rsi
+    state: banner_delta
+
+# Бронещит
+- type: entity
+  name: бронещит ВАНТ-Т
+  parent: ShieldVANT
+  id: ShieldVANTAkiDelta
+  description: Передовой щит, предназначенный для проведения штурмовых операций.
+  suffix: Akitovsky
+  components:
+    - type: Sprite
+      sprite: /Uploaded/aki-spec/Weapons/vant.rsi
+      state: icon
+    - type: Item
+      sprite: /Uploaded/aki-spec/Weapons/vant.rsi
+    - type: Clothing
+      sprite: /Uploaded/aki-spec/Weapons/vant.rsi
+      quickEquip: false
+      slots:
+      - suitStorage
+    - type: Destructible
+      thresholds:
+        - trigger:
+            !type:DamageTrigger
+            damage: 1000
+          behaviors:
+            - !type:DoActsBehavior
+              acts: [ "Destruction" ]
+            - !type:PlaySoundBehavior
+              sound:
+                collection: MetalBreak
+            - !type:SpawnEntitiesBehavior
+              spawn:
+                SheetSteel:
+                  min: 2
+                  max: 2
+                SheetGlass:
+                  min: 2
+                  max: 2
+
+# Жетон-карта
+- type: entity
+  parent: [PassengerIDCard, BaseFoldable]
+  id: AkiDeltaIDCard
+  description: Армейский жетон.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/IDs/armytoken.rsi
+    layers:
+    - state: pda
+  - type: Clothing
+    sprite: /Uploaded/aki-spec/IDs/armytoken.rsi
+    quickEquip: false
+    slots:
+    - idcard
+  - type: Foldable
+    canFoldInsideContainer: true
+    unfoldVerbText: fold-flip-verb
+    foldVerbText: fold-flip-verb
+  - type: FoldableClothing
+    foldedEquippedPrefix: flipped
+    foldedHeldPrefix: flipped
+  - type: PresetIdCard
+    job: Passenger
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Фигурки
+# Базовая
+- type: entity
+  parent: BaseFigurine
+  id: BaseFigurineAkiEvent
+  suffix: Akitovsky
+  abstract: true
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Decoration/figurines.rsi
+    scale: 0.6, 0.6
+
+# Айно
+- type: entity
+  parent: BaseFigurineAkiEvent
+  id: ToyFigurineAkiDeltaAino
+  name: фигурка лейтенанта Кайсанен
+  description: Минифигурка лейтенанта «Дельта».
+  components:
+  - type: Sprite
+    state: aino_delta
+
+# Флория
+- type: entity
+  parent: BaseFigurineAkiEvent
+  id: ToyFigurineAkiDeltaFloria
+  name: фигурка лейтенанта Мирс
+  description: Минифигурка лейтенанта «Дельта».
+  components:
+  - type: Sprite
+    state: floria_delta
+
+# Боец «Дельты»
+- type: entity
+  parent: BaseFigurineAkiEvent
+  id: ToyFigurineAkiDeltaRegular
+  name: фигурка оперативника «Дельта»
+  description: Минифигурка оперативника «Дельта».
+  components:
+  - type: Sprite
+    state: regular_delta
+
+# Плюшка Кайсанен
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  id: PlushieAino
+  name: плюшевая Кайсанен
+  suffix: Akitovsky
+  description: Плюшевая игрушка лейтенанта войск специального назначения.
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Other/toy.rsi
+    state: plushie_kaisanen
+  - type: TTS
+    voice: Anivia
+
+# Шлюзы
+# Дельта синий
+- type: entity
+  parent: AirlockCommand
+  id: AirlockDelta
+  name: шлюз
+  description: Он открывается, он закрывается и он может вас раздавить.
+  suffix: Akitovsky, Дельта, Закрыт
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Airlocks/delta_airlock.rsi
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsCentralCommand ]
+
+# Дельта серый стеклянный
+- type: entity
+  parent: AirlockGlass
+  id: AirlockDeltaRegGlass
+  name: шлюз
+  description: Он открывается, он закрывается и он может вас раздавить.
+  suffix: Akitovsky, Дельта, Стеклянный
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Airlocks/delta_airlock_reg_glass.rsi
+
+# Дельта командование
+- type: entity
+  parent: AirlockCommand
+  id: AirlockDeltaCommand
+  name: шлюз
+  description: Он открывается, он закрывается и он может вас раздавить.
+  suffix: Akitovsky, Дельта, Закрыт
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Airlocks/delta_airlock_command.rsi
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsCentralCommand ]
+
+# Использованный патрон
+- type: entity
+  parent: BaseCartridgeRifle
+  id: CartridgeRifleSpentAki
+  name: патрон (6.5х39 мм учебный)
+  suffix: Akitovsky, использован
+  components:
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Ammunition/Casings/ammo_casing.rsi
+    layers:
+    - state: base-spent
+      map: [ "enum.AmmoVisualLayers.Base" ]
+  - type: SpentAmmoVisuals
+  - type: CartridgeAmmo
+    proto: BulletRiflePractice
+    spent: true
+  - type: Tag
+    tags:
+    - CartridgeRifle
+    - Trash
+
+# Челюсти жизни
+- type: entity
+  parent: SyndicateJawsOfLife
+  id: JawsOfLifeAkiDelta
+  name: челюсти жизни «Дельты»
+  description: Челюсти жизни, выполненные на заказ для элитных бойцов корпорации.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Tools/jaws_of_life.rsi
+    state: syn_jaws_pry
+  - type: Clothing
+    sprite: /Uploaded/aki-spec/Tools/jaws_of_life.rsi
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: syn_inhand-left
+      right:
+      - state: syn_inhand-right
+    size: Normal
+  - type: MultipleTool
+    entries:
+    - behavior: Prying
+      sprite:
+        sprite: /Uploaded/aki-spec/Tools/jaws_of_life.rsi
+        state: syn_jaws_pry
+      useSound: /Audio/Items/jaws_pry.ogg
+      changeSound: /Audio/Items/change_jaws.ogg
+    - behavior: Cutting
+      sprite:
+        sprite: /Uploaded/aki-spec/Tools/jaws_of_life.rsi
+        state: syn_jaws_cutter
+      useSound: /Audio/Items/jaws_cut.ogg
+      changeSound: /Audio/Items/change_jaws.ogg
+  - type: MeleeWeapon
+    damage:
+      types:
+        Blunt: 14
+
+# СпецназМат
+- type: entity
+  parent: VendingMachine
+  id: VendingMachineSpecDrobeAki
+  name: СпецназМат
+  description: Торговый автомат одежды спецназа Nanotrasen.
+  suffix: Akitovsky
+  components:
+  - type: VendingMachine
+    pack: SpecDrobeAkiInventory
+    offState: off
+    brokenState: broken
+    normalState: normal-unshaded
+  - type: SpeakOnUIClosed
+    pack: GenericVendGoodbyes
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Machines/specdrobe.rsi
+    layers:
+    - state: "off"
+      map: ["enum.VendingMachineVisualLayers.Base"]
+    - state: "off"
+      map: ["enum.VendingMachineVisualLayers.BaseUnshaded"]
+      shader: unshaded
+    - state: panel
+      map: ["enum.WiresVisualLayers.MaintenancePanel"]
+  - type: PointLight
+    radius: 1.5
+    energy: 1.6
+    color: "#294ba3"
+  - type: AccessReader
+    access: [["CentralCommand"]]
+  - type: TTS
+    voice: Overwatch
+
+- type: vendingMachineInventory
+  id: SpecDrobeAkiInventory
+  startingInventory:
+    ClothingMilitaryBackpackDeltaAkiSand: 14
+    ClothingBeltAkiDeltaSand: 8
+    ClothingBeltMilitaryWebbingAkiDeltaSand: 8
+    ClothingHeadHatAkiDeltaSand: 14
+    ClothingEyesGlassesAkiDeltaSand: 14
+    ClothingUniformJumpsuitAkiDeltaSand: 14
+    ClothingHandsGlovesCombatAkiDeltaSand: 14
+    ClothingShoesBootsJackAkiDeltaSand: 14
+    ClothingMaskAkiDelta: 10
+    ClothingMasGaiterkAkiDelta: 10
+  contrabandInventory:
+    ClothingHeadHelmetBone: 1
+
+# VSK
+- type: entity
+  parent: WeaponVSK
+  id: WeaponVSKAki
+  name: VSK-94
+  description: Точный винторез, что заточен под дальний бой и сбивание позиции врагов, нежели тупой штурм.
+  suffix: Akitovsky
+  components:
+  - type: EyeCursorOffset
+    maxOffset: 8
+    pvsIncrease: 0.2
+  - type: UseDelay
+    delay: 0
+
+# Коробка патрон 9x39
+- type: entity
+  parent: BaseMagazineBoxPistol
+  id: MagazineBoxVSKAki
+  name: коробка патронов (9х39 мм)
+  suffix: Akitovsky
+  components:
+  - type: BallisticAmmoProvider
+    mayTransfer: true
+    whitelist:
+      tags:
+        - CartridgeBulletVSK
+    proto: CartridgeBulletVSK
+    capacity: 60
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Guns/Ammunition/Boxes/pistol.rsi # DS14-texture-localization
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
+# Иконки работ
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconSFMedicalAkiDelta
+  icon:
+    sprite: /Uploaded/aki-spec/Other/job_icons.rsi
+    state: SF_Medical
+
+# Гипоспрей Медика
+- type: entity
+  parent: BaseItem
+  id: HypoAkiDelta
+  name: гипоспрей «Дельты»
+  description: Спроектированный на основе боевого стандарта NT инструмент быстрого впрыска с уменьшенным объёмом.
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Other/delta_hypo.rsi
+    state: icon
+  - type: Item
+    sprite: /Uploaded/aki-spec/Other/delta_hypo.rsi
+  - type: SolutionContainerManager
+    solutions:
+      hypospray:
+        maxVol: 10
+  - type: RefillableSolution
+    solution: hypospray
+  - type: ExaminableSolution
+    solution: hypospray
+  - type: Hypospray
+    onlyAffectsMobs: false
+  - type: UseDelay
+    delay: 0.5
+
+# Вечная невидимая стена
+- type: entity
+  parent: InvisibleWall
+  id: InvisibleDirectionalWallAki
+  name: вечная невидимая направленная стена
+  description: Have we all become invisible?
+  suffix: Akitovsky
+  placement:
+    mode: SnapgridCenter
+    snap:
+    - Window
+  components:
+  - type: WallMount
+    arc: 360
+  - type: Tag
+    tags:
+      - Window
+  - type: Physics
+    bodyType: Static
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.5,-0.5,0.5,-0.28125"
+        density: 1500
+        mask:
+        - FullTileMask
+        layer:
+        - GlassLayer
+  - type: Airtight
+    airBlockedDirection:
+    - South
+    fixVacuum: true
+
+################# RMC
+# Мешки с песком
+- type: entity
+  parent: BaseBarricade
+  id: BarricadeSandbagAki
+  name: мешки с песком
+  description: Универсальное и надежное защитное сооружение.
+  placement:
+    mode: SnapgridCenter
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Decoration/sandbags.rsi
+    noRot: false
+    state: sandbag
+  - type: Physics
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 200
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.49,-0.35,0.49,-0.2"
+        mask:
+        - TableMask
+        layer:
+        - TableLayer
+        - LowImpassable
+  - type: Appearance
+  - type: Climbable
+  - type: MeleeSound
+    soundGroups:
+      Brute:
+        path:
+          "/Audio/Effects/Footsteps/snowstep1.ogg"
+
+# Мешки с песком коричневые
+- type: entity
+  parent: BarricadeSandbagAki
+  id: BarricadeSandbagAkiBrown
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    color: "#a98c7c"
+
+# Базовый уличный фонарь
+- type: entity
+  parent: BaseStructure
+  id: BaseStreetlightAki
+  suffix: Akitovsky
+  abstract: true
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Transform
+    anchored: true
+  - type: Physics
+    bodyType: Static
+  - type: Anchorable
+    flags:
+    - Anchorable
+  - type: Sprite
+    noRot: true
+    sprite: /Uploaded/aki-spec/Decoration/Lights/streetlight.rsi
+    layers:
+      - state: street_off
+      - state: street_on
+        visible: false
+        map: [ "light" ]
+    offset: "0.0,0.5"
+    drawdepth: Mobs
+  - type: InteractionOutline
+  - type: Damageable
+    damageContainer: Inorganic
+  - type: PointLight
+    enabled: true
+    radius: 7
+    netsync: false
+    offset: "0,0.5"
+    color: "#ECFFFF"
+    mask: /Uploaded/aki-spec/Effects/LightMasks/quad_cone.png
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          SheetSteel1:
+            min: 2
+            max: 4
+      - !type:EmptyAllContainersBehaviour
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalGlassBreak
+  - type: Appearance
+  - type: ToggleableVisuals
+    spriteLayer: light
+
+# Уличный фонарь пустой
+- type: entity
+  parent: LightPostSmall
+  id: PoweredStreetlightEmptyAki
+  name: уличный фонарный слолб
+  description: Высокая металлическая опора с фонарем для освещения улиц.
+  suffix: Akitovsky, пустой
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Decoration/Lights/streetlight.rsi
+    state: empty
+  - type: PointLight
+    enabled: false
+  - type: PoweredLight
+    bulb: Tube
+  - type: ContainerContainer
+    containers:
+      light_bulb: !type:ContainerSlot
+  - type: ApcPowerReceiver
+  - type: ExtensionCableReceiver
+  - type: DeviceNetwork
+    deviceNetId: Wireless
+    receiveFrequencyId: SmartLight
+  - type: WirelessNetworkConnection
+    range: 200
+  - type: DeviceLinkSink
+    ports:
+      - On
+      - Off
+      - Toggle
+  - type: Appearance
+  - type: PoweredLightVisuals
+    blinkingSound:
+      path: "/Audio/Machines/light_tube_on.ogg"
+    spriteStateMap:
+      empty: empty
+      off: base
+      on: base
+      broken: broken
+      burned: burned
+  - type: DamageOnInteract
+    damage:
+      types:
+        Heat: 2
+    popupText: powered-light-component-burn-hand
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.15,-0.7,0.15,-0.5"
+        density: 50
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+
+# Уличный фонарь
+- type: entity
+  parent: PoweredStreetlightEmptyAki
+  id: PoweredStreetlightAki
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    state: base
+  - type: PointLight
+    enabled: true
+  - type: PoweredLight
+    hasLampOnSpawn: LightTube
+  - type: AmbientOnPowered
+  - type: AmbientSound
+    volume: -15
+    range: 3
+    sound:
+      path: /Audio/Ambience/Objects/light_hum.ogg
+  - type: DamageOnInteract
+    damage:
+      types:
+        Heat: 2
+    popupText: powered-light-component-burn-hand
+
+# Уличный фонарь сломанный
+- type: entity
+  parent: BaseStructure
+  id: PoweredStreetlightBrokenAki
+  name: уличный фонарный слолб
+  description: Кажется, он уже всё.
+  suffix: Akitovsky, сломанный
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Decoration/Lights/streetlight.rsi
+    state: broken
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.15,-0.7,0.15,-0.5"
+        density: 50
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+  - type: InteractionOutline
+  - type: Damageable
+    damageContainer: Inorganic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 300
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalGlassBreak
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          SheetSteel1:
+            min: 2
+            max: 4
+
+
+
+################# КПСК
+# Баннер революции
+- type: entity
+  id: BannerVivaAki
+  parent: BannerBase
+  name: знамя великой коммунистической революции
+  description: Это знамя, символизирующее революцию. Вива!
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Decoration/banners.rsi
+    state: banner_viva
+
+# Комбинезон
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpsuitMaugliAkiKPSK
+  name: стандартный штурмовой костюм КПСК
+  description: Удобный и прочный современный штурмовой костюм из плотной ткани, который хорошо показал себя на космической войне с капиталистами.
+  components:
+  - type: Sprite
+    sprite: _ADT/Clothing/Uniforms/Jumpsuit/stormer_maugly.rsi
+  - type: Clothing
+    sprite: _ADT/Clothing/Uniforms/Jumpsuit/stormer_maugly.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Шлем
+- type: entity
+  parent: ClothingHeadHelmetBase
+  id: ClothingHeadUSSPjuggernautHelmetArmoredAkiKPSK
+  name: бронешлем "БЗ-6"
+  description: Стандартный тяжелый штурмовой защитный шлем бойца КПСК.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: _ADT/Clothing/Head/Hats/ussphelmet.rsi
+  - type: Clothing
+    sprite: _ADT/Clothing/Head/Hats/ussphelmet.rsi
+  - type: IngestionBlocker
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: ExplosionResistance
+    damageCoefficient: 0.70
+  - type: GroupExamine
+  - type: HideLayerClothing
+    layers:
+      Hair: HEAD
+
+# Противогаз
+- type: entity
+  parent: ClothingMaskBSAA
+  id: ClothingMaskAkiKPSK
+  name: противогаз КПСК
+  description: Специальный противогаз КПСК.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: /Uploaded/aki-spec/Mask/KPSKmask.rsi
+  - type: Clothing
+    sprite: /Uploaded/aki-spec/Mask/KPSKmask.rsi
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.95
+        Slash: 0.95
+        Piercing: 0.95
+        Heat: 0.95
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Очки
+- type: entity
+  parent: [ClothingEyesBase, ShowSecurityIcons, BaseSecurityContraband]
+  id: ClothingEyesGlassesHudAkiKPSK
+  name: дешёвые солнцезащитные очки
+  description: Пара чёрных солнцезащитных очков. Не очень хорошо блокируют свет. Скорее аксессуар, чем что-то полезное.
+  components:
+  - type: Sprite
+    sprite: Clothing/Eyes/Glasses/sunglasses.rsi
+  - type: Clothing
+    sprite: Clothing/Eyes/Glasses/sunglasses.rsi
+  - type: EyeProtection
+    protectionTime: 5
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Бронежилет
+- type: entity
+  parent: [ BaseSecurityBartenderContraband, ClothingOuterArmorBase]
+  id: ClothingOuterArmorAkiKPSK
+  suuffix: Akitovsky
+  name: бронежилет
+  description: Стандартный бронежилет с пластиной III-го класса защиты.
+  components:
+  - type: Clothing
+    sprite: Clothing/OuterClothing/Armor/security.rsi
+    equipDelay: 2
+    unequipDelay: 2
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.8
+        Slash: 0.8
+        Piercing: 0.7
+        Heat: 0.80
+  - type: ClothingSpeedModifier
+    walkModifier: 0.73
+    sprintModifier: 0.73
+  - type: HeldSpeedModifier
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# РПС
+- type: entity
+  parent: ClothingBeltSalvageWebbing
+  id: ClothingBeltAkiKPSK
+  name: РПС бойца КПСК
+  description: Универсальный разгрузочный жилет для убийства капиталистов в космосе.

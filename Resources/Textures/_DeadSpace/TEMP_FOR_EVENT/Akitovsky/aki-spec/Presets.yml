@@ -1,0 +1,988 @@
+# Спавнеры
+# Лейтенант Кайсанен СпецНаз НТ
+- type: entity
+  parent: CustomizableSpawnerBase
+  id: CustomizableSpawnerLieutenantKaisanen
+  name: ИВЕНТОВЫЙ !Лейтенант Кайсанен СпецНаз НТ «Дельта-6»
+  suffix: Akitovsky, Ивент, Кастомизируемый персонаж
+  components:
+  - type: Sprite
+    layers:
+    - state: timed
+    - sprite: /Uploaded/aki-spec/Other/markers.rsi
+      state: kaisanen
+  - type: CustomizableHumanoidSpawner
+    jobPrototype: JobLieutenantSpecialForceKaisanen
+    allowedSpecies:
+    - Human
+    - Demon
+
+- type: job
+  id: JobLieutenantSpecialForceKaisanen
+  name: Лейтенант «Дельта-6»
+  description: job-description-soo
+  playTimeTracker: PlayTimeTrackerSpecialForceLieutenantKaisanen
+  setPreference: false
+  startingGear: LieutenantSpecialForceKaisanen
+  icon: "JobIconERTLeader"
+  supervisors: job-supervisors-no-one
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant ]
+  - !type:AddComponentSpecial
+    components:
+    - type: AntagImmune
+    - type: ZombieImmune
+    - type: NpcFactionMember
+      factions:
+      - CentralCommand
+
+- type: startingGear
+  id: LieutenantSpecialForceKaisanen
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitAkiDeltaSand
+    eyes: ClothingEyesGlassesAkiDeltaSand
+    ears: ClothingHeadsetDelta
+    mask: ClothingMasGaiterkAkiDelta
+    gloves: ClothingHandsGlovesCombatAkiDeltaSand
+    shoes: ClothingShoesBootsJackAkiDeltaSand
+    head: ClothingHeadHatPanamaAkiSand
+    id: AkiDeltaIDCard
+    belt: ClothingBeltAkiDeltaSand
+    pocket1: WeaponPistolDesertEagle
+    pocket2: DrinkMREFlask
+    outerClothing: ClothingOuterArmorDeltaAkiSand
+    back: ClothingMilitaryBackpackDeltaAkiSand
+  storage:
+    back:
+    - WeaponVSKAki
+    - MagazineBoxVSKAki
+    - MagazineBoxVSKAki
+    - MagazineBoxVSKAki
+    - CrowbarRed
+    - EmergencyMedipen
+    - BoxMRE
+    - Flare
+    - PowerCellMedium
+    - AutosurgeonRevive
+    - CombatMedipen
+    - CombatMedipen
+    - PinpointerUniversal
+    - MagazineEagle
+    - MagazineEagle
+    belt:
+    - Handcuffs
+    - Handcuffs
+    - MagazineVSK
+    - MagazineVSK
+    - MagazineVSK
+    - MagazineVSK
+    - MagazineVSK
+    - MagazineVSK
+
+# Лейтенант Мирс СпецНаз НТ
+- type: entity
+  parent: CustomizableSpawnerBase
+  id: CustomizableSpawnerLieutenantMirs
+  name: ИВЕНТОВЫЙ !Лейтенант Мирс СпецНаз НТ «Дельта-6»
+  suffix: Akitovsky, Ивент, Кастомизируемый персонаж
+  components:
+  - type: Sprite
+    layers:
+    - state: timed
+    - sprite: /Uploaded/aki-spec/Other/markers.rsi
+      state: mirs
+  - type: CustomizableHumanoidSpawner
+    jobPrototype: JobLieutenantSpecialForceMirs
+    allowedSpecies:
+    - Human
+    - Demon
+
+- type: job
+  id: JobLieutenantSpecialForceMirs
+  name: Лейтенант «Дельта-6»
+  description: job-description-soo
+  playTimeTracker: PlayTimeTrackerSpecialForceLieutenantMirs
+  setPreference: false
+  startingGear: LieutenantSpecialForceMirs
+  icon: "JobIconERTLeader"
+  supervisors: job-supervisors-no-one
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant ]
+  - !type:AddComponentSpecial
+    components:
+    - type: AntagImmune
+    - type: ZombieImmune
+    - type: NpcFactionMember
+      factions:
+      - CentralCommand
+
+- type: startingGear
+  id: LieutenantSpecialForceMirs
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitAkiDeltaSand
+    eyes: ClothingEyesGlassesAkiDeltaSand
+    ears: ClothingHeadsetDelta
+    mask: ClothingMasGaiterkAkiDelta
+    neck: ClothingNeckCloakAkiDeltaFloria
+    gloves: ClothingHandsGlovesCombatAkiDeltaSand
+    shoes: ClothingShoesBootsJackAkiDeltaSand
+    id: AkiDeltaIDCard
+    belt: ClothingBeltAkiDeltaSand
+    pocket1: WeaponRevolverRSh12
+    pocket2: WeaponRevolverRSh12
+    outerClothing: ClothingOuterArmorDeltaAkiSand
+    back: ClothingMilitaryBackpackDeltaAkiSand
+  storage:
+    back:
+    - WeaponShotgunBulldog
+    - BoxLethalshot
+    - BoxLethalshot
+    - BoxLethalshot
+    - CrowbarRed
+    - EmergencyMedipen
+    - BoxMRE
+    - Flare
+    - PowerCellMedium
+    - AutosurgeonRevive
+    - CombatMedipen
+    - CombatMedipen
+    - PinpointerUniversal
+    - DrinkMREFlask
+    belt:
+    - Handcuffs
+    - Handcuffs
+    - ADTMagazineShotgunXL
+    - ADTMagazineShotgunXL
+    - ADTMagazineShotgunXL
+    - MagazineShotgun
+    - MagazineShotgun
+    - MagazineShotgun
+
+# Генерал ВСН
+- type: entity
+  parent: CustomizableSpawnerBase
+  id: CustomizableSpawnerGeneral
+  name: ИВЕНТОВЫЙ !Генерал ВСН
+  suffix: Akitovsky, Ивент, Кастомизируемый персонаж
+  components:
+  - type: Sprite
+    layers:
+    - state: timed
+    - sprite: /Uploaded/aki-spec/Other/markers.rsi
+      state: general
+  - type: CustomizableHumanoidSpawner
+    jobPrototype: JobGeneralSpecialForce
+    allowedSpecies:
+    - Human
+    - Demon
+
+- type: job
+  id: JobGeneralSpecialForce
+  name: Генерал ВСН
+  description: job-description-soo
+  playTimeTracker: PlayTimeTrackerSpecialForceGeneral
+  setPreference: false
+  startingGear: GeneralSpecialForce
+  icon: "JobIconNanotrasenRed"
+  supervisors: job-supervisors-no-one
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant ]
+  - !type:AddComponentSpecial
+    components:
+    - type: AntagImmune
+    - type: ZombieImmune
+    - type: NpcFactionMember
+      factions:
+      - CentralCommand
+
+- type: startingGear
+  id: GeneralSpecialForce
+  equipment:
+    jumpsuit: ClothingUniformJumpsuit3eilado
+    eyes: ClothingEyesGlassesHiddenSecurity
+    ears: ClothingHeadsetDeltaGeneral
+    mask: ClothingMaskBreathTaipan
+    gloves: ClothingHandsGlovesAkiDeltaGeneral
+    shoes: ClothingShoesBootsLaceup
+    id: CentcomSpecialOperationsOfficerIDCard
+    pocket1: ADTtelescopicBaton 
+    outerClothing: ClothingOuterCoatHoSTrenchAkiDeltaGeneral
+    suitStorage: WeaponRifleAres
+
+# Капитан Мыло СпецНаз НТ
+- type: entity
+  parent: CustomizableSpawnerBase
+  id: CustomizableSpawnerCaptainMylo
+  name: ИВЕНТОВЫЙ !Капитан Мыло СпецНаз НТ «Дельта-6»
+  suffix: Akitovsky, Ивент, Кастомизируемый персонаж
+  components:
+  - type: Sprite
+    layers:
+    - state: timed
+    - sprite: /Uploaded/aki-spec/Other/markers.rsi
+      state: mylo
+  - type: CustomizableHumanoidSpawner
+    jobPrototype: JobCaptainSpecialForceMylo
+    allowedSpecies:
+    - Human
+    - Demon
+
+- type: job
+  id: JobCaptainSpecialForceMylo
+  name: Капитан «Дельта-6»
+  description: job-description-soo
+  playTimeTracker: PlayTimeTrackerSpecialForceCaptainMylo
+  setPreference: false
+  startingGear: CaptainSpecialForceMylo
+  icon: "JobIconBSAALeader"
+  supervisors: job-supervisors-no-one
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant ]
+  - !type:AddComponentSpecial
+    components:
+    - type: AntagImmune
+    - type: ZombieImmune
+    - type: NpcFactionMember
+      factions:
+      - CentralCommand
+
+- type: startingGear
+  id: CaptainSpecialForceMylo
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitAkiDeltaSand
+    eyes: ClothingEyesGlassesAkiDeltaSand
+    ears: ClothingHeadsetDelta
+    mask: CigarGold
+    gloves: ClothingHandsGlovesCombatAkiDeltaSand
+    shoes: ClothingShoesBootsJackAkiDeltaSand
+    id: AkiDeltaIDCard
+    belt: ClothingBeltAkiDeltaSand
+    pocket1: WeaponPistolDesertEagle
+    pocket2: DrinkMREFlask
+    outerClothing: ClothingOuterArmorDeltaAkiSand
+    back: ClothingMilitaryBackpackDeltaAkiSand
+  storage:
+    back:
+    - WeaponRifleAsVal
+    - MagazineBoxLightRifleBig
+    - MagazineBoxLightRifleBig
+    - CrowbarRed
+    - EmergencyMedipen
+    - BoxMRE
+    - Flare
+    - PowerCellMedium
+    - CombatMedipen
+    - PinpointerUniversal
+    - MagazineEagle
+    - MagazineEagle
+    - ClothingMasGaiterkAkiDelta  
+    - CigarGoldCase
+    - FlippoEngravedLighter
+    belt:
+    - Handcuffs
+    - Handcuffs
+    - MagazineLightRifleAsVal
+    - MagazineLightRifleAsVal
+    - MagazineLightRifleAsVal
+    - MagazineLightRifleAsVal
+    - MagazineLightRifleAsVal
+    - MagazineLightRifleAsVal
+
+# Боец СпецНаз НТ Дельта-6
+- type: entity
+  parent: CustomizableSpawnerBase
+  id: CustomizableSpawnerSoldierDelta6
+  name: ИВЕНТОВЫЙ Боец СпецНаз НТ «Дельта-6»
+  suffix: Akitovsky, Ивент, Кастомизируемый персонаж
+  components:
+  - type: Sprite
+    layers:
+    - state: timed
+    - sprite: /Uploaded/aki-spec/Other/markers.rsi
+      state: soldier
+  - type: CustomizableHumanoidSpawner
+    jobPrototype: JobSoldierDelta6SpecialForce
+    allowedSpecies:
+    - Human
+    - Shark
+    - Demon
+    - Vulpkanin
+
+- type: job
+  id: JobSoldierDelta6SpecialForce
+  name: Боец «Дельта-6»
+  description: job-description-soo
+  playTimeTracker: PlayTimeTrackerSpecialForceSoldierDelta6
+  setPreference: false
+  startingGear: SoldierDelta6SpecialForce
+  icon: "JobIconERT"
+  supervisors: job-supervisors-no-one
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant ]
+  - !type:AddComponentSpecial
+    components:
+    - type: AntagImmune
+    - type: ZombieImmune
+    - type: NpcFactionMember
+      factions:
+      - CentralCommand
+
+- type: startingGear
+  id: SoldierDelta6SpecialForce
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitAkiDeltaStartingGear
+    socks: ClothingUnderwearSocksNormal
+    ears: ClothingHeadsetDelta6
+    id: AkiDeltaIDCard
+
+# Медик СпецНаз НТ Дельта-6
+- type: entity
+  parent: CustomizableSpawnerBase
+  id: CustomizableSpawnerMedicalDelta6
+  name: ИВЕНТОВЫЙ Медик СпецНаз НТ «Дельта-6»
+  suffix: Akitovsky, Ивент, Кастомизируемый персонаж
+  components:
+  - type: Sprite
+    layers:
+    - state: timed
+    - sprite: /Uploaded/aki-spec/Other/markers.rsi
+      state: medical
+  - type: CustomizableHumanoidSpawner
+    jobPrototype: JobMedicalSpecialForceDelta6
+    allowedSpecies:
+    - Human
+    - Shark
+    - Demon
+    - Vulpkanin
+
+- type: job
+  id: JobMedicalSpecialForceDelta6
+  name: Медик «Дельта-6»
+  description: job-description-soo
+  playTimeTracker: PlayTimeTrackerSpecialForceMedicalDelta6
+  setPreference: false
+  startingGear: MedicalDelta6SpecialForce
+  icon: "JobIconSFMedicalAkiDelta"
+  supervisors: job-supervisors-no-one
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant ]
+  - !type:AddComponentSpecial
+    components:
+    - type: AntagImmune
+    - type: ZombieImmune
+    - type: NpcFactionMember
+      factions:
+      - CentralCommand
+
+- type: startingGear
+  id: MedicalDelta6SpecialForce
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitAkiDeltaStartingGear
+    socks: ClothingUnderwearSocksNormal
+    ears: ClothingHeadsetDelta6
+    id: AkiDeltaIDCard
+    pocket1: HypoAkiDelta
+
+# Боец СпецНаз НТ Дельта-8
+- type: entity
+  parent: CustomizableSpawnerBase
+  id: CustomizableSpawnerSoldierDelta8
+  name: ИВЕНТОВЫЙ Боец СпецНаз НТ «Дельта-8»
+  suffix: Akitovsky, Ивент, Кастомизируемый персонаж
+  components:
+  - type: Sprite
+    layers:
+    - state: timed
+    - sprite: /Uploaded/aki-spec/Other/markers.rsi
+      state: soldier
+  - type: CustomizableHumanoidSpawner
+    jobPrototype: JobSoldierDelta8SpecialForce
+    allowedSpecies:
+    - Human
+    - Shark
+    - Demon
+    - Vulpkanin
+
+- type: job
+  id: JobSoldierDelta8SpecialForce
+  name: Боец «Дельта-8»
+  description: job-description-soo
+  playTimeTracker: PlayTimeTrackerSpecialForceSoldierDelta8
+  setPreference: false
+  startingGear: SoldierDelta8SpecialForce
+  icon: "JobIconERT"
+  supervisors: job-supervisors-no-one
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant ]
+  - !type:AddComponentSpecial
+    components:
+    - type: AntagImmune
+    - type: ZombieImmune
+    - type: NpcFactionMember
+      factions:
+      - CentralCommand
+
+- type: startingGear
+  id: SoldierDelta8SpecialForce
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitAkiDeltaStartingGear
+    socks: ClothingUnderwearSocksNormal
+    ears: ClothingHeadsetDelta8
+    id: AkiDeltaIDCard
+
+# Медик СпецНаз НТ Дельта-8
+- type: entity
+  parent: CustomizableSpawnerBase
+  id: CustomizableSpawnerMedicalDelta8
+  name: ИВЕНТОВЫЙ Медик СпецНаз НТ «Дельта-8»
+  suffix: Akitovsky, Ивент, Кастомизируемый персонаж
+  components:
+  - type: Sprite
+    layers:
+    - state: timed
+    - sprite: /Uploaded/aki-spec/Other/markers.rsi
+      state: medical
+  - type: CustomizableHumanoidSpawner
+    jobPrototype: JobMedicalSpecialForceDelta8
+    allowedSpecies:
+    - Human
+    - Shark
+    - Demon
+    - Vulpkanin
+
+- type: job
+  id: JobMedicalSpecialForceDelta8
+  name: Медик «Дельта-8»
+  description: job-description-soo
+  playTimeTracker: PlayTimeTrackerSpecialForceMedicalDelta8
+  setPreference: false
+  startingGear: MedicalDelta8SpecialForce
+  icon: "JobIconSFMedicalAkiDelta"
+  supervisors: job-supervisors-no-one
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant ]
+  - !type:AddComponentSpecial
+    components:
+    - type: AntagImmune
+    - type: ZombieImmune
+    - type: NpcFactionMember
+      factions:
+      - CentralCommand
+
+- type: startingGear
+  id: MedicalDelta8SpecialForce
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitAkiDeltaStartingGear
+    socks: ClothingUnderwearSocksNormal
+    ears: ClothingHeadsetDelta8
+    id: AkiDeltaIDCard
+    pocket1: HypoAkiDelta
+
+
+
+
+############ КПСК
+# Боец КПСК
+- type: entity
+  parent: CustomizableSpawnerBase
+  id: CustomizableSpawnerSoldierKPSK
+  name: ИВЕНТОВЫЙ Солдат КПСК с АКМС
+  suffix: Akitovsky, Ивент, Кастомизируемый персонаж
+  components:
+  - type: Sprite
+    layers:
+    - state: timed
+    - sprite: /Uploaded/aki-spec/Other/markers.rsi
+      state: kpsk_soldier
+  - type: CustomizableHumanoidSpawner
+    jobPrototype: JobSoldierKPSK
+    allowedSpecies:
+    - Human
+
+- type: job
+  id: JobSoldierKPSK
+  name: Боец «Пурга»
+  description: job-description-soo
+  playTimeTracker: PlayTimeTrackerSoldierKPSK
+  setPreference: false
+  startingGear: SoldierKPSK
+  icon: "JobIconERTLeader"
+  supervisors: job-supervisors-no-one
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - NuclearOperative
+  - SyndicateAgent
+  special:
+  - !type:AddComponentSpecial
+    components:
+    - type: AntagImmune
+    - type: ZombieImmune
+    - type: NpcFactionMember
+      factions:
+      - Syndicate
+
+- type: startingGear
+  id: SoldierKPSK
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitMaugliAkiKPSK
+    ears: ClothingHeadsetKPSK
+    mask: ClothingMaskAkiKPSK
+    eyes: ClothingEyesGlassesHudAkiKPSK
+    gloves: ClothingHandsGlovesCombat
+    shoes: ClothingShoesBootsJackFilled
+    head: ClothingHeadUSSPjuggernautHelmetArmoredAkiKPSK
+    id: AkiDeltaIDCard
+    belt: ClothingBeltAkiKPSK
+    outerClothing: ClothingOuterArmorAkiKPSK
+    back: ClothingBackpackMilitarySatchel
+  inhand:
+    - WeaponRifleAKMCY
+  storage:
+    back:
+    - MagazineLightRifle
+    - MagazineLightRifle
+    - MagazineLightRifle
+    - CrowbarRed
+    - EmergencyMedipen
+    - BoxMRE
+    - Flare
+    - Gauze5
+    - BookFSCP
+    belt:
+    - MagazineLightRifle
+    - MagazineLightRifle
+
+
+
+
+
+
+
+
+
+
+############ Боты с лутом
+#region Gibb
+- type: entity
+  abstract: true
+  id: NFMobNoEquipmentOnGib
+  components:
+  - type: GibOnTrigger
+    deleteItems: true
+    deleteOrgans: true
+    gib: false
+    useArgumentEntity: true
+
+#region Stamina
+- type: entity
+  id: MobStaminaFodder
+  abstract: true
+  components:
+  - type: Stamina
+    critThreshold: 80
+
+- type: entity
+  id: MobMovementSpeedModifierRanged
+  abstract: true
+  components:
+  - type: MovementSpeedModifier
+    baseWalkSpeed : 3.5
+    baseSprintSpeed : 3.5
+
+#region Inventories
+- type: entity # All slots are fillable, most of them are "hidden"
+  id: MobHumanoidInvetory
+  abstract: true
+  components:
+  - type: Inventory
+    templateId: hostilehumanoid # Supports loadouts
+  - type: InventorySlots
+
+- type: inventoryTemplate
+  id: hostilehumanoid
+  slots:
+    - name: pocket1
+      slotTexture: pocket
+      fullTextureName: template_small
+      slotFlags: POCKET
+      slotGroup: MainHotbar
+      stripTime: 3
+      uiWindowPos: 0,3
+      strippingWindowPos: 0,0
+      dependsOn: jumpsuit
+      displayName: Pocket 1
+      stripHidden: false
+
+    - name: pocket2
+      slotTexture: pocket
+      fullTextureName: template_small
+      slotFlags: POCKET
+      slotGroup: MainHotbar
+      stripTime: 3
+      uiWindowPos: 2,3
+      strippingWindowPos: 1,0
+      dependsOn: jumpsuit
+      displayName: Pocket 2
+      stripHidden: false
+
+    - name: suitstorage
+      slotTexture: suit_storage
+      slotFlags:   SUITSTORAGE
+      slotGroup: MainHotbar
+      stripTime: 3
+      uiWindowPos: 2,0
+      strippingWindowPos: 2,0
+      dependsOn: outerClothing
+      dependsOnComponents:
+      - type: AllowSuitStorage
+      displayName: Suit Storage
+
+    - name: outerClothing
+      slotTexture: suit
+      slotFlags: OUTERCLOTHING
+      stripTime: 9
+      uiWindowPos: 1,1
+      strippingWindowPos: 0,1
+      displayName: Suit
+
+    - name: belt
+      slotTexture: belt
+      fullTextureName: template_small
+      slotFlags: BELT
+      slotGroup: SecondHotbar
+      stripTime: 6
+      uiWindowPos: 3,1
+      strippingWindowPos: 1,1
+      displayName: Belt
+
+    - name: back
+      slotTexture: back
+      fullTextureName: template_small
+      slotFlags: BACK
+      slotGroup: SecondHotbar
+      stripTime: 6
+      uiWindowPos: 3,0
+      strippingWindowPos: 2,1
+      displayName: Back
+      blacklist:
+        tags:
+        - PetOnly
+
+# Positions that shouldn't be strippable
+# "Not strippable", "hidden":
+# stripTime seems to have a hardcoded maximum value, preventing items in a slot from being completely unlootable via setting a long time
+# By placing the wallet slot above the slots we want to protect, items in those covered slots become non-interactable
+    - name: id
+      stripTime: 999999 # "Not strippable"
+      stripHidden: true
+      strippingWindowPos: 2,2
+      slotTexture: id
+      fullTextureName: template_small
+      slotFlags: IDCARD
+      slotGroup: SecondHotbar
+      uiWindowPos: 2,1
+      dependsOn: jumpsuit
+      displayName: ID
+
+    - name: gloves
+      stripTime: 999999 # "Not strippable"
+      stripHidden: true
+      strippingWindowPos: 2,2
+      slotTexture: gloves
+      slotFlags: GLOVES
+      uiWindowPos: 2,1
+      displayName: Gloves
+
+    - name: neck
+      stripTime: 999999 # "Not strippable"
+      stripHidden: true
+      strippingWindowPos: 2,2
+      slotTexture: neck
+      slotFlags: NECK
+      uiWindowPos: 0,2
+      displayName: Neck
+
+    - name: mask
+      stripTime: 999999 # "Not strippable"
+      stripHidden: true
+      strippingWindowPos: 2,2
+      slotTexture: mask
+      slotFlags: MASK
+      uiWindowPos: 1,2
+      displayName: Mask
+
+    - name: eyes
+      stripTime: 999999 # "Not strippable"
+      stripHidden: true
+      strippingWindowPos: 2,2
+      slotTexture: glasses
+      slotFlags: EYES
+      uiWindowPos: 0,3
+      displayName: Eyes
+
+    - name: ears
+      stripTime: 999999 # "Not strippable"
+      stripHidden: true
+      strippingWindowPos: 2,2
+      slotTexture: ears
+      slotFlags: EARS
+      uiWindowPos: 2,2
+      displayName: Ears
+
+    - name: head
+      stripTime: 999999 # "Not strippable"
+      stripHidden: true
+      strippingWindowPos: 2,2
+      slotTexture: head
+      slotFlags: HEAD
+      uiWindowPos: 1,3
+      displayName: Head
+
+    - name: shoes
+      stripTime: 999999 # "Not strippable"
+      stripHidden: true
+      strippingWindowPos: 2,2
+      slotTexture: shoes
+      slotFlags: FEET
+      uiWindowPos: 1,0
+      displayName: Shoes
+
+    - name: jumpsuit
+      stripTime: 999999 # "Not strippable"
+      stripHidden: true
+      strippingWindowPos: 2,2
+      slotTexture: uniform
+      slotFlags: INNERCLOTHING
+      uiWindowPos: 0,1
+      displayName: Jumpsuit
+
+- type: entity
+  id: MobHumanoidHostileAISimpleRanged
+  abstract: true
+  components:
+  - type: HTN
+    rootTask:
+       task: SimpleRangedHostileCompound
+    blackboard:
+      NavClimb: !type:Bool
+        false
+      NavInteract: !type:Bool
+        true
+      NavPry: !type:Bool
+        false #Lua true<false
+      NavSmash: !type:Bool # They use this option too much for my liking, but I'll keep it here as an option
+        true
+
+#region NPC types
+# Human NPC, uses equipment, immune to vacuum/low pressure
+- type: entity
+  save: false
+  suffix: AI, Hostile
+  abstract: true
+  parent:
+  - MobAtmosStandard
+  - MobMovementSpeedModifierMelee
+  - MobStaminaFodder
+  - MobBloodstream
+  - MobFlammable
+  - MobEnhancedMovement
+  - BaseMobSpecies
+  - BaseMobHuman
+  id: MobHumanoidHostileBase
+  components:
+  - type: NPCRetaliation
+    attackMemoryLength: 10
+  - type: MobMover
+  - type: StandingState
+  - type: RandomHumanoidAppearance
+    randomizeName: true
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      80: Critical
+      120: Dead
+  - type: SlowOnDamage
+    speedModifierThresholds:
+      40: 0.7
+      60: 0.5
+  - type: Blindable
+  - type: Butcherable
+    butcheringType: Spike
+    spawned:
+    - id: FoodMeatRotten
+      amount: 2
+  - type: NpcFactionMember
+    factions:
+    - SimpleHostile
+  - type: Vocalizer
+    minVocalizeInterval: 120
+    maxVocalizeInterval: 240
+  - type: DatasetVocalizer
+    dataset: ClownVendAds
+  - type: Respirator
+    updateInterval: 99999 # Shouldn't run often, if ever.
+    suffocationThreshold: -100 # Should never happen.
+    damage:
+      types: {}
+    damageRecovery:
+      types: {}
+  - type: TTS
+    enabled: false
+  - type: TimedDespawn
+    lifetime: 2400
+
+- type: entity # For reference 4.5 is the speed of unencumbered humans
+  id: MobMovementSpeedModifierMelee
+  abstract: true
+  components:
+  - type: MovementSpeedModifier
+    baseWalkSpeed : 4 # ~10% slowdown #Lua 4.2<4.7
+    baseSprintSpeed : 4 # ~10% slowdown #Lua 4.2<4.7
+
+#region Movement
+- type: entity
+  id: MobEnhancedMovement
+  abstract: true
+  components:
+  - type: MovementAlwaysTouching
+  - type: MovementIgnoreGravity
+  - type: NoSlip
+  - type: ProtectedFromStepTriggers
+  - type: Climbing
+  - type: Tool
+    speedModifier: 1.5
+    qualities:
+      - Prying
+    hideQualities: true
+  - type: Prying
+    pryPowered: true
+    force: true
+    speedModifier: 1.5
+    useSound:
+      path: /Audio/Items/crowbar.ogg
+  - type: Access
+    groups:
+    - AllAccess
+
+#region base
+- type: entity
+  name: syndicate naval agent
+  abstract: true
+  categories: [ HideSpawnMenu ]
+  parent:
+  - NFMobNoEquipmentOnGib
+  - MobStaminaFodder
+  - MobMovementSpeedModifierRanged
+  - MobHumanoidHostileBase
+  - MobHumanoidInvetory
+  - MobHumanoidHostileAISimpleRanged
+  id: MobSyndicateNavalBase
+  components:
+  - type: Body
+    prototype: Human
+    requiredLegs: 2
+  - type: NpcFactionMember
+    factions:
+    - Syndicate
+  - type: RandomHumanoidAppearance
+    randomizeName: false
+  - type: RandomMetadata
+    nameSegments:
+    - NamesSyndicatePrefix
+    - NamesSyndicateNormal
+    - NamesSyndicateElite
+  #- type: AutoImplant
+    #implants:
+    #- DeathRattleImplant
+    #- DeathAcidifierImplantNF
+    #- DeathAcidifierImplant
+    #- MicroBombImplant
+  - type: RechargeBasicEntityAmmo
+    rechargeCooldown: 1
+    rechargeSound:
+      path: /Uploaded/aki-spec/Audio/silence.ogg
+  - type: Vocalizer
+    minVocalizeInterval: 30
+    maxVocalizeInterval: 120
+  - type: DatasetVocalizer
+    dataset: ClownVendAds
+
+#region Humans
+# Syndicate Captain, "armed" with AP Python
+- type: entity
+  name: syndicate captain
+  parent: MobSyndicateNavalBase
+  id: MobSyndicateNavalCaptainA
+  description: The executive officer in lieu of the commander, syndicate captains ensure operations onboard go smoothly. Equipped with a magnum revolver.
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Loadout
+      prototypes:
+        - SoldierKPSK
+    - type: RechargeBasicEntityAmmo
+      rechargeCooldown: 1
+      rechargeSound:
+        path: /Uploaded/aki-spec/Audio/silence.ogg
+    - type: BasicEntityAmmoProvider
+      proto: CartridgeLightRifle
+      capacity: 1
+      count: 1
+    - type: Gun
+      useKey: false
+      showExamineText: false
+      fireRate: 1
+      selectedMode: FullAuto
+      availableModes:
+      - SemiAuto
+      - FullAuto
+      soundGunshot: /Audio/Weapons/Guns/Gunshots/revolver.ogg
