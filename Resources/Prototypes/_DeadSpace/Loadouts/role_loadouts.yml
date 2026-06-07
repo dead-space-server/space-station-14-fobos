@@ -123,6 +123,7 @@
   id: JobSeniorOfficer
   groups:
   - GroupTankHarness
+  - SeniorOfficerHead
   - SecurityMask
   - SeniorOfficerJumpsuit
   - SeniorOfficerBackpack

@@ -49,7 +49,6 @@
   id: SeniorOfficerGear
   equipment:
     eyes: ClothingEyesGlassesSecurity
-    head: ClothingHeadHatBeretSeniorOfficer
     ears: ClothingHeadsetSecurity
     pocket1: WeaponRevolverDeckard
     pocket2: WeaponDisabler

@@ -1027,6 +1027,8 @@
   content:
   - WeaponPistolMk58
   - WeaponDisabler
+  - MagazinePistol
+  - MagazinePistol
 
 - type: thiefBackpackSet
   id: VerdictDisablerSet
@@ -1038,6 +1040,8 @@
   content:
   - WeaponRevolverVerdict
   - WeaponDisabler
+  - SpeedLoaderMagnum
+  - SpeedLoaderMagnum
 
 - type: thiefBackpackSet
   id: VerdictSet

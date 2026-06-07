@@ -1488,6 +1488,15 @@
   - SecuritySatchel
   - SecurityDuffel
 
+# DS14-start
+- type: loadoutGroup
+  id: HeadOfSecurityBelt
+  name: loadout-group-head-of-security-belt
+  loadouts:
+  - HeadOfSecurityBelt
+  - HeadOfSecurityWebbing
+# DS14-end
+
 - type: loadoutGroup
   id: SecurityBelt
   name: loadout-group-security-belt
