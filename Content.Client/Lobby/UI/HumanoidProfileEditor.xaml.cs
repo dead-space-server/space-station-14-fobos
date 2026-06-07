@@ -701,6 +701,7 @@ namespace Content.Client.Lobby.UI
                 var selector = new RequirementsSelector()
                 {
                     Margin = new Thickness(3f, 3f, 3f, 0f),
+                    UseAntagPreferenceColors = true, // DS14
                 };
                 selector.OnOpenGuidebook += OnOpenGuidebook;
 
@@ -749,6 +750,7 @@ namespace Content.Client.Lobby.UI
                     Text = Loc.GetString("loadout-window"),
                     HorizontalAlignment = HAlignment.Right,
                     Margin = new Thickness(3f, 0f, 0f, 0f),
+                    StyleClasses = { "DS14MenuTopButton" }, // DS14
                 });
 
                 AntagList.AddChild(antagContainer);
@@ -1084,6 +1086,7 @@ namespace Content.Client.Lobby.UI
                     var selector = new RequirementsSelector()
                     {
                         Margin = new Thickness(3f, 3f, 3f, 0f),
+                        UseJobPriorityColors = true, // DS14
                     };
                     selector.OnOpenGuidebook += OnOpenGuidebook;
 
@@ -1143,6 +1146,7 @@ namespace Content.Client.Lobby.UI
                         HorizontalAlignment = HAlignment.Right,
                         VerticalAlignment = VAlignment.Center,
                         Margin = new Thickness(3f, 3f, 0f, 0f),
+                        StyleClasses = { "DS14MenuTopButton" }, // DS14
                     };
 
                     var collection = IoCManager.Instance!;

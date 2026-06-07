@@ -1,11 +1,5 @@
 <PanelContainer
     xmlns="https://spacestation14.io"
-    xmlns:graphics="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client">
-    <PanelContainer.PanelOverride>
-        <graphics:StyleBoxFlat BackgroundColor="#2F2F35"
-                               ContentMarginTopOverride="10"
-                               ContentMarginBottomOverride="10"
-                               ContentMarginLeftOverride="10"
-                               ContentMarginRightOverride="10"/>
-    </PanelContainer.PanelOverride>
+    StyleClasses="DS14MenuPanelDark">
+    <!-- DS14: KSO-styled highlighted container -->
 </PanelContainer>

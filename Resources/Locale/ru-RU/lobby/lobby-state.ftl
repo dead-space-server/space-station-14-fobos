@@ -2,6 +2,7 @@ lobby-state-paused = Пауза
 lobby-state-soon = Раунд скоро начнётся
 lobby-state-right-now-question = Прямо сейчас?
 lobby-state-right-now-confirmation = Прямо сейчас
+lobby-state-round-start-title = Раунд начнётся через
 lobby-state-round-start-countdown-text = Раунд начнётся через: { $timeLeft }
 lobby-state-ready-button-join-state = Присоединиться
 lobby-state-ready-button-ready-up-state = Готов

@@ -159,6 +159,7 @@ namespace Content.Client.Lobby
             else if (_gameTicker.StartTime < _gameTiming.CurTime)
             {
                 Lobby!.StartTime.Text = Loc.GetString("lobby-state-soon");
+                Lobby!.StripeBack.Visible = true; // DS14
                 return;
             }
             else
@@ -179,7 +180,7 @@ namespace Content.Client.Lobby
                 }
             }
 
-            Lobby!.StartTime.Text = Loc.GetString("lobby-state-round-start-countdown-text", ("timeLeft", text));
+            Lobby!.StartTime.Text = text; // DS14
             Lobby!.StripeBack.Visible = true;
         }
 
@@ -198,6 +199,7 @@ namespace Content.Client.Lobby
         {
             if (_gameTicker.IsGameStarted)
             {
+                Lobby!.ReadyButton.RemoveStyleClass("DS14MenuReadyButton"); // DS14
                 Lobby!.ReadyButton.Text = Loc.GetString("lobby-state-ready-button-join-state");
                 Lobby!.ReadyButton.ToggleMode = false;
                 Lobby!.ReadyButton.Pressed = false;
@@ -205,6 +207,11 @@ namespace Content.Client.Lobby
             }
             else
             {
+                // DS14-start
+                if (!Lobby!.ReadyButton.HasStyleClass("DS14MenuReadyButton"))
+                    Lobby!.ReadyButton.AddStyleClass("DS14MenuReadyButton");
+                // DS14-end
+
                 Lobby!.StartTime.Text = string.Empty;
                 Lobby!.ReadyButton.Pressed = _gameTicker.AreWeReady;
                 Lobby!.ReadyButton.Text = Loc.GetString(Lobby!.ReadyButton.Pressed ? "lobby-state-player-status-ready": "lobby-state-player-status-not-ready");
