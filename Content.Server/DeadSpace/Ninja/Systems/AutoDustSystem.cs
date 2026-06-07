@@ -1,47 +1,30 @@
-using Content.Shared.Actions;
 using Content.Shared.DeadSpace.Ninja.Components;
+using Content.Shared.DeadSpace.Ninja.Systems;
 using Content.Shared.Gibbing;
 using Content.Shared.Inventory;
 using Content.Shared.Inventory.Events;
 using Content.Shared.Mobs;
 using Content.Shared.Popups;
 
-namespace Content.Shared.DeadSpace.Ninja.Systems;
+namespace Content.Server.DeadSpace.Ninja.Systems;
 
-public sealed class AutoDustSystem : EntitySystem
+public sealed class AutoDustSystem : SharedAutoDustSystem
 {
-    [Dependency] private readonly SharedActionsSystem _actions = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly GibbingSystem _gibbing = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
     public override void Initialize()
     {
         base.Initialize();
 
-        SubscribeLocalEvent<AutoDustComponent, MapInitEvent>(OnMapInit);
-        SubscribeLocalEvent<AutoDustComponent, GetItemActionsEvent>(OnGetActions);
-        SubscribeLocalEvent<AutoDustComponent, ToggleAutoDustModeActionEvent>(OnToggleMode);
         SubscribeLocalEvent<AutoDustMarkerComponent, MobStateChangedEvent>(OnMobState);
 
         SubscribeLocalEvent<AutoDustComponent, GotEquippedEvent>(OnEquipped);
         SubscribeLocalEvent<AutoDustComponent, GotUnequippedEvent>(OnUnequipped);
-    }
 
-    private void OnMapInit(Entity<AutoDustComponent> ent, ref MapInitEvent args)
-    {
-        var (uid, comp) = ent;
-        _actions.AddAction(uid, ref comp.ActionEntity, comp.Action);
-        Dirty(uid, comp);
+        SubscribeLocalEvent<AutoDustComponent, ToggleAutoDustModeActionEvent>(OnToggleMode);
     }
-
-    private void OnGetActions(Entity<AutoDustComponent> ent, ref GetItemActionsEvent args)
-    {
-        if (args.InHands)
-            return;
-        args.AddAction(ent.Comp.ActionEntity);
-    }
-
     private void OnEquipped(Entity<AutoDustComponent> ent, ref GotEquippedEvent args)
     {
         EnsureComp<AutoDustMarkerComponent>(args.Equipee).AutoDustItem = ent.Owner;
@@ -60,15 +43,15 @@ public sealed class AutoDustSystem : EntitySystem
         {
             case DustMode.Off:
                 comp.AutoDustMode = DustMode.Crit;
-                _popup.PopupClient(Loc.GetString("auto-dust-toggle-crit"), args.Performer, args.Performer, PopupType.MediumCaution);
+                _popup.PopupEntity(Loc.GetString("auto-dust-toggle-crit"), args.Performer, PopupType.MediumCaution);
                 break;
             case DustMode.Crit:
                 comp.AutoDustMode = DustMode.Dead;
-                _popup.PopupClient(Loc.GetString("auto-dust-toggle-dead"), args.Performer, args.Performer, PopupType.MediumCaution);
+                _popup.PopupEntity(Loc.GetString("auto-dust-toggle-dead"), args.Performer, PopupType.MediumCaution);
                 break;
             case DustMode.Dead:
                 comp.AutoDustMode = DustMode.Off;
-                _popup.PopupClient(Loc.GetString("auto-dust-toggle-off"), args.Performer, args.Performer, PopupType.MediumCaution);
+                _popup.PopupEntity(Loc.GetString("auto-dust-toggle-off"), args.Performer, PopupType.MediumCaution);
                 break;
         }
         Dirty(uid, comp);
