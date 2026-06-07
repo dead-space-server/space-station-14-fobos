@@ -99,11 +99,12 @@ ert-loadout-category-pulsecarbine-name = Импульсный карабин
 ert-loadout-category-pulsecarbine-description =
     Высокотехнологичный энергетический карабин военного класса.
     Для восполнения боезапаса потребуется зарядник энергооружия.
-ert-loadout-category-mk58-name = MK 58
+ert-loadout-category-mk58-name = MK 58 и Станнер
 ert-loadout-category-mk58-description =
     Дешёвый и распространённый пистолет,
     производимый дочерней компанией Nanotrasen.
     Использует патроны калибра 9х19 мм.
+    Содержит два дополнительных магазина.
 ert-loadout-category-berettam92-name = Beretta M92
 ert-loadout-category-berettam92-description =
     Точный и давно зарекомендовавший себя пистолет.
@@ -121,11 +122,12 @@ ert-loadout-category-mk79tactical-description =
     Главный слоган этого пистолета, он спасёт вас от всего.
     От тьмы с помощью фонарика, до клоуна с мимом. 
     Использует патроны калибра 9х19.
-ert-loadout-category-verdict-name = Вердикт
+ert-loadout-category-verdict-name = Вердикт и Станнер
 ert-loadout-category-verdict-description =
     Надёжный револьвер любого сотрудника СБ.
     Имеет барабан на 6 патрон и нескользящую ручку.
     Использует патроны .45 магнум, так как это то, что предполагали основатели.
+    Содержит два дополнительных спидлоадера.
 ert-loadout-category-n1984-name = N1984
 ert-loadout-category-n1984-description =
     Запасное оружие любого уважающего себя офицера.
