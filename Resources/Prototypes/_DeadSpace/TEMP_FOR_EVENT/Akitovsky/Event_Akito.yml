@@ -7,9 +7,9 @@
   suffix: Akitovsky
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Gloves/combatsand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Gloves/combatsand.rsi
   - type: Clothing
-    sprite: /Uploaded/aki-spec/Gloves/combatsand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Gloves/combatsand.rsi
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -29,7 +29,7 @@
   suffix: Akitovsky
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Head/Helmets/helmetsand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Helmets/helmetsand.rsi
     layers:
     - state: icon
     - state: light-icon
@@ -37,7 +37,7 @@
       visible: false
       map: [ "light" ]
   - type: Clothing
-    sprite: /Uploaded/aki-spec/Head/Helmets/helmetsand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Helmets/helmetsand.rsi
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -50,9 +50,9 @@
   suffix: Akitovsky
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Head/Hats/sandsoft.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Hats/sandsoft.rsi
   - type: Clothing
-    sprite: /Uploaded/aki-spec/Head/Hats/sandsoft.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Hats/sandsoft.rsi
 
 # Панама Прайса
 - type: entity
@@ -63,57 +63,25 @@
   suffix: Akitovsky
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Head/Hats/panamahatsand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Hats/panamahatsand.rsi
   - type: Clothing
-    sprite: /Uploaded/aki-spec/Head/Hats/panamahatsand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Hats/panamahatsand.rsi
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
 # Маска Дельта
 - type: entity
-  parent: ClothingMaskNeckGaiter
+  parent: ClothingMaskPullableBase
   id: ClothingMaskAkiDelta
   name: чёрная маска
   description: Плотная тканевая маска чёрного цвета.
   suffix: Akitovsky
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Mask/blackmask.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Mask/blackmask.rsi
   - type: Clothing
-    sprite: /Uploaded/aki-spec/Mask/blackmask.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Mask/blackmask.rsi
   - type: Mask
-  - type: Tag
-    tags: [] # ignore "WhitelistChameleon" tag
-
-# Гетр Дельта
-- type: entity
-  parent: [ClothingMaskNeckGaiter, BaseFoldable]
-  id: ClothingMasGaiterkAkiDelta
-  name: шейный гетр
-  description: Стильный гетр, способный защитить ваше лицо от песка, грязи и лишних глаз.
-  suffix: Akitovsky
-  components:
-  - type: Appearance
-  - type: Sprite
-    sprite: /Uploaded/aki-spec/Mask/gaiterfoldable.rsi
-    layers:
-    - state: icon
-      map: [ "unfoldedLayer" ]
-    - state: icon-open
-      map: ["foldedLayer"]
-      visible: false
-  - type: Clothing
-    sprite: /Uploaded/aki-spec/Mask/gaiterfoldable.rsi
-    slots: [mask]
-  - type: Foldable
-    canFoldInsideContainer: true
-    unfoldVerbText: fold-zip-verb
-    foldVerbText: fold-unzip-verb
-  - type: FoldableClothing
-    foldedEquippedPrefix: open
-    foldedHeldPrefix: open
-  - type: IdentityBlocker
-    coverage: MOUTH
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -126,9 +94,9 @@
   suffix: Akitovsky
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Glasses/glassessand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Glasses/glassessand.rsi
   - type: Clothing
-    sprite: /Uploaded/aki-spec/Glasses/glassessand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Glasses/glassessand.rsi
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -140,7 +108,7 @@
   suffix: Akitovsky
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Neck/comantle.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Neck/comantle.rsi
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -160,9 +128,9 @@
   suffix: Akitovsky
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Jumpsuits/deltasand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Jumpsuits/deltasand.rsi
   - type: Clothing
-    sprite: /Uploaded/aki-spec/Jumpsuits/deltasand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Jumpsuits/deltasand.rsi
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -175,9 +143,9 @@
   suffix: Akitovsky
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Belts/militarywebbingsand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Belts/militarywebbingsand.rsi
   - type: Clothing
-    sprite: /Uploaded/aki-spec/Belts/militarywebbingsand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Belts/militarywebbingsand.rsi
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -190,9 +158,9 @@
   suffix: Akitovsky
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Belts/militarysand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Belts/militarysand.rsi
   - type: Clothing
-    sprite: /Uploaded/aki-spec/Belts/militarysand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Belts/militarysand.rsi
   - type: ExplosionResistance
     damageCoefficient: 0.1
   - type: Tag
@@ -207,9 +175,9 @@
   suffix: Akitovsky
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Armor/bulletproofvestsand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Armor/bulletproofvestsand.rsi
   - type: Clothing
-    sprite: /Uploaded/aki-spec/Armor/bulletproofvestsand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Armor/bulletproofvestsand.rsi
     equipDelay: 2
     unequipDelay: 2
   - type: Armor
@@ -237,9 +205,9 @@
   suffix: Akitovsky
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Armor/bulletproofvestslimsand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Armor/bulletproofvestslimsand.rsi
   - type: Clothing
-    sprite: /Uploaded/aki-spec/Armor/bulletproofvestslimsand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Armor/bulletproofvestslimsand.rsi
     equipDelay: 2
     unequipDelay: 2
   - type: Armor
@@ -267,9 +235,9 @@
   suffix: Akitovsky
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Armor/bulletproofvestfatsand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Armor/bulletproofvestfatsand.rsi
   - type: Clothing
-    sprite: /Uploaded/aki-spec/Armor/bulletproofvestfatsand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Armor/bulletproofvestfatsand.rsi
     equipDelay: 2
     unequipDelay: 2
   - type: Armor
@@ -305,7 +273,7 @@
   suffix: Akitovsky
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Backpacks/militarysand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Backpacks/militarysand.rsi
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -318,9 +286,9 @@
   suffix: Akitovsky
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Boots/jackbootssand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Boots/jackbootssand.rsi
   - type: Clothing
-    sprite: /Uploaded/aki-spec/Boots/jackbootssand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Boots/jackbootssand.rsi
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -369,7 +337,7 @@
     - EventNTDelta6
     defaultChannel: EventNTDelta6
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Ears/encryption_keys.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Ears/encryption_keys.rsi
     layers:
     - state: crypt_Delta-6
 
@@ -386,7 +354,7 @@
     - EventNTDelta8
     defaultChannel: EventNTDelta8
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Ears/encryption_keys.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Ears/encryption_keys.rsi
     layers:
     - state: crypt_Delta-8
 
@@ -421,9 +389,9 @@
       key_slots:
       - EncryptionKeyEventNTDelta6
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Ears/headsetaltsand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Ears/headsetaltsand.rsi
   - type: Clothing
-    sprite: /Uploaded/aki-spec/Ears/headsetaltsand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Ears/headsetaltsand.rsi
   - type: Headset
     color: "#199c71"
   - type: Tag
@@ -442,9 +410,9 @@
       key_slots:
       - EncryptionKeyEventNTDelta8
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Ears/headsetaltsand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Ears/headsetaltsand.rsi
   - type: Clothing
-    sprite: /Uploaded/aki-spec/Ears/headsetaltsand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Ears/headsetaltsand.rsi
   - type: Headset
     color: "#199c71"
   - type: Tag
@@ -464,9 +432,9 @@
       - EncryptionKeyEventNTDelta6
       - EncryptionKeyEventNTDelta8
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Ears/headsetaltsand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Ears/headsetaltsand.rsi
   - type: Clothing
-    sprite: /Uploaded/aki-spec/Ears/headsetaltsand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Ears/headsetaltsand.rsi
   - type: Headset
     color: "#199c71"
   - type: Tag
@@ -525,7 +493,7 @@
   suffix: Akitovsky
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Decoration/banners.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/banners.rsi
     state: banner_delta
 
 # Бронещит
@@ -537,12 +505,12 @@
   suffix: Akitovsky
   components:
     - type: Sprite
-      sprite: /Uploaded/aki-spec/Weapons/vant.rsi
+      sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/vant.rsi
       state: icon
     - type: Item
-      sprite: /Uploaded/aki-spec/Weapons/vant.rsi
+      sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/vant.rsi
     - type: Clothing
-      sprite: /Uploaded/aki-spec/Weapons/vant.rsi
+      sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/vant.rsi
       quickEquip: false
       slots:
       - suitStorage
@@ -574,11 +542,11 @@
   suffix: Akitovsky
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/IDs/armytoken.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/IDs/armytoken.rsi
     layers:
     - state: pda
   - type: Clothing
-    sprite: /Uploaded/aki-spec/IDs/armytoken.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/IDs/armytoken.rsi
     quickEquip: false
     slots:
     - idcard
@@ -603,7 +571,7 @@
   abstract: true
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Decoration/figurines.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/figurines.rsi
     scale: 0.6, 0.6
 
 # Айно
@@ -645,7 +613,7 @@
   description: Плюшевая игрушка лейтенанта войск специального назначения.
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Other/toy.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/toy.rsi
     state: plushie_kaisanen
   - type: TTS
     voice: Anivia
@@ -660,7 +628,7 @@
   suffix: Akitovsky, Дельта, Закрыт
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Airlocks/delta_airlock.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Airlocks/delta_airlock.rsi
   - type: ContainerFill
     containers:
       board: [ DoorElectronicsCentralCommand ]
@@ -674,7 +642,7 @@
   suffix: Akitovsky, Дельта, Стеклянный
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Airlocks/delta_airlock_reg_glass.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Airlocks/delta_airlock_reg_glass.rsi
 
 # Дельта командование
 - type: entity
@@ -685,7 +653,7 @@
   suffix: Akitovsky, Дельта, Закрыт
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Airlocks/delta_airlock_command.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Airlocks/delta_airlock_command.rsi
   - type: ContainerFill
     containers:
       board: [ DoorElectronicsCentralCommand ]
@@ -720,10 +688,10 @@
   suffix: Akitovsky
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Tools/jaws_of_life.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Tools/jaws_of_life.rsi
     state: syn_jaws_pry
   - type: Clothing
-    sprite: /Uploaded/aki-spec/Tools/jaws_of_life.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Tools/jaws_of_life.rsi
   - type: Item
     inhandVisuals:
       left:
@@ -735,13 +703,13 @@
     entries:
     - behavior: Prying
       sprite:
-        sprite: /Uploaded/aki-spec/Tools/jaws_of_life.rsi
+        sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Tools/jaws_of_life.rsi
         state: syn_jaws_pry
       useSound: /Audio/Items/jaws_pry.ogg
       changeSound: /Audio/Items/change_jaws.ogg
     - behavior: Cutting
       sprite:
-        sprite: /Uploaded/aki-spec/Tools/jaws_of_life.rsi
+        sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Tools/jaws_of_life.rsi
         state: syn_jaws_cutter
       useSound: /Audio/Items/jaws_cut.ogg
       changeSound: /Audio/Items/change_jaws.ogg
@@ -766,7 +734,7 @@
   - type: SpeakOnUIClosed
     pack: GenericVendGoodbyes
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Machines/specdrobe.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Machines/specdrobe.rsi
     layers:
     - state: "off"
       map: ["enum.VendingMachineVisualLayers.Base"]
@@ -796,7 +764,7 @@
     ClothingHandsGlovesCombatAkiDeltaSand: 14
     ClothingShoesBootsJackAkiDeltaSand: 14
     ClothingMaskAkiDelta: 10
-    ClothingMasGaiterkAkiDelta: 10
+    ClothingMaskNeckGaiter: 10
   contrabandInventory:
     ClothingHeadHelmetBone: 1
 
@@ -841,7 +809,7 @@
   parent: JobIcon
   id: JobIconSFMedicalAkiDelta
   icon:
-    sprite: /Uploaded/aki-spec/Other/job_icons.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/job_icons.rsi
     state: SF_Medical
 
 # Гипоспрей Медика
@@ -852,10 +820,10 @@
   description: Спроектированный на основе боевого стандарта NT инструмент быстрого впрыска с уменьшенным объёмом.
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Other/delta_hypo.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/delta_hypo.rsi
     state: icon
   - type: Item
-    sprite: /Uploaded/aki-spec/Other/delta_hypo.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/delta_hypo.rsi
   - type: SolutionContainerManager
     solutions:
       hypospray:
@@ -864,8 +832,14 @@
     solution: hypospray
   - type: ExaminableSolution
     solution: hypospray
-  - type: Hypospray
-    onlyAffectsMobs: false
+    exactVolume: true
+  - type: Injector
+    solutionName: hypospray
+    ignoreClosed: false
+    activeModeProtoId: HyposprayDynamicMode
+    allowedModes:
+    - HyposprayDynamicMode
+    - HyposprayInjectMode
   - type: UseDelay
     delay: 0.5
 
@@ -916,7 +890,7 @@
   suffix: Akitovsky
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Decoration/sandbags.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/sandbags.rsi
     noRot: false
     state: sandbag
   - type: Physics
@@ -974,7 +948,7 @@
     - Anchorable
   - type: Sprite
     noRot: true
-    sprite: /Uploaded/aki-spec/Decoration/Lights/streetlight.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/Lights/streetlight.rsi
     layers:
       - state: street_off
       - state: street_on
@@ -991,7 +965,7 @@
     netsync: false
     offset: "0,0.5"
     color: "#ECFFFF"
-    mask: /Uploaded/aki-spec/Effects/LightMasks/quad_cone.png
+    mask: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Effects/LightMasks/quad_cone.png
   - type: Destructible
     thresholds:
     - trigger:
@@ -1022,7 +996,7 @@
   suffix: Akitovsky, пустой
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Decoration/Lights/streetlight.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/Lights/streetlight.rsi
     state: empty
   - type: PointLight
     enabled: false
@@ -1103,7 +1077,7 @@
   suffix: Akitovsky, сломанный
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Decoration/Lights/streetlight.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/Lights/streetlight.rsi
     state: broken
   - type: Fixtures
     fixtures:
@@ -1148,7 +1122,7 @@
   suffix: Akitovsky
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Decoration/banners.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/banners.rsi
     state: banner_viva
 
 # Комбинезон
@@ -1201,9 +1175,9 @@
   suffix: Akitovsky
   components:
   - type: Sprite
-    sprite: /Uploaded/aki-spec/Mask/KPSKmask.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Mask/KPSKmask.rsi
   - type: Clothing
-    sprite: /Uploaded/aki-spec/Mask/KPSKmask.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Mask/KPSKmask.rsi
   - type: Armor
     modifiers:
       coefficients:

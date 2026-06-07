@@ -9,7 +9,7 @@
   - type: Sprite
     layers:
     - state: timed
-    - sprite: /Uploaded/aki-spec/Other/markers.rsi
+    - sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/markers.rsi
       state: kaisanen
   - type: CustomizableHumanoidSpawner
     jobPrototype: JobLieutenantSpecialForceKaisanen
@@ -48,7 +48,7 @@
     jumpsuit: ClothingUniformJumpsuitAkiDeltaSand
     eyes: ClothingEyesGlassesAkiDeltaSand
     ears: ClothingHeadsetDelta
-    mask: ClothingMasGaiterkAkiDelta
+    mask: ClothingMaskNeckGaiter
     gloves: ClothingHandsGlovesCombatAkiDeltaSand
     shoes: ClothingShoesBootsJackAkiDeltaSand
     head: ClothingHeadHatPanamaAkiSand
@@ -95,7 +95,7 @@
   - type: Sprite
     layers:
     - state: timed
-    - sprite: /Uploaded/aki-spec/Other/markers.rsi
+    - sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/markers.rsi
       state: mirs
   - type: CustomizableHumanoidSpawner
     jobPrototype: JobLieutenantSpecialForceMirs
@@ -134,7 +134,7 @@
     jumpsuit: ClothingUniformJumpsuitAkiDeltaSand
     eyes: ClothingEyesGlassesAkiDeltaSand
     ears: ClothingHeadsetDelta
-    mask: ClothingMasGaiterkAkiDelta
+    mask: ClothingMaskNeckGaiter
     neck: ClothingNeckCloakAkiDeltaFloria
     gloves: ClothingHandsGlovesCombatAkiDeltaSand
     shoes: ClothingShoesBootsJackAkiDeltaSand
@@ -180,7 +180,7 @@
   - type: Sprite
     layers:
     - state: timed
-    - sprite: /Uploaded/aki-spec/Other/markers.rsi
+    - sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/markers.rsi
       state: general
   - type: CustomizableHumanoidSpawner
     jobPrototype: JobGeneralSpecialForce
@@ -237,7 +237,7 @@
   - type: Sprite
     layers:
     - state: timed
-    - sprite: /Uploaded/aki-spec/Other/markers.rsi
+    - sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/markers.rsi
       state: mylo
   - type: CustomizableHumanoidSpawner
     jobPrototype: JobCaptainSpecialForceMylo
@@ -299,7 +299,7 @@
     - PinpointerUniversal
     - MagazineEagle
     - MagazineEagle
-    - ClothingMasGaiterkAkiDelta  
+    - ClothingMaskNeckGaiter
     - CigarGoldCase
     - FlippoEngravedLighter
     belt:
@@ -322,7 +322,7 @@
   - type: Sprite
     layers:
     - state: timed
-    - sprite: /Uploaded/aki-spec/Other/markers.rsi
+    - sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/markers.rsi
       state: soldier
   - type: CustomizableHumanoidSpawner
     jobPrototype: JobSoldierDelta6SpecialForce
@@ -375,7 +375,7 @@
   - type: Sprite
     layers:
     - state: timed
-    - sprite: /Uploaded/aki-spec/Other/markers.rsi
+    - sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/markers.rsi
       state: medical
   - type: CustomizableHumanoidSpawner
     jobPrototype: JobMedicalSpecialForceDelta6
@@ -429,7 +429,7 @@
   - type: Sprite
     layers:
     - state: timed
-    - sprite: /Uploaded/aki-spec/Other/markers.rsi
+    - sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/markers.rsi
       state: soldier
   - type: CustomizableHumanoidSpawner
     jobPrototype: JobSoldierDelta8SpecialForce
@@ -482,7 +482,7 @@
   - type: Sprite
     layers:
     - state: timed
-    - sprite: /Uploaded/aki-spec/Other/markers.rsi
+    - sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/markers.rsi
       state: medical
   - type: CustomizableHumanoidSpawner
     jobPrototype: JobMedicalSpecialForceDelta8
@@ -540,7 +540,7 @@
   - type: Sprite
     layers:
     - state: timed
-    - sprite: /Uploaded/aki-spec/Other/markers.rsi
+    - sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/markers.rsi
       state: kpsk_soldier
   - type: CustomizableHumanoidSpawner
     jobPrototype: JobSoldierKPSK
@@ -950,7 +950,7 @@
   - type: RechargeBasicEntityAmmo
     rechargeCooldown: 1
     rechargeSound:
-      path: /Uploaded/aki-spec/Audio/silence.ogg
+      path: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Audio/silence.ogg
   - type: Vocalizer
     minVocalizeInterval: 30
     maxVocalizeInterval: 120
@@ -972,7 +972,7 @@
     - type: RechargeBasicEntityAmmo
       rechargeCooldown: 1
       rechargeSound:
-        path: /Uploaded/aki-spec/Audio/silence.ogg
+        path: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Audio/silence.ogg
     - type: BasicEntityAmmoProvider
       proto: CartridgeLightRifle
       capacity: 1
