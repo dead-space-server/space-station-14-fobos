@@ -214,7 +214,7 @@
 
 - type: entity
   parent: CentcomIDCard
-  id: CentcomFieldOfficerIDCar
+  id: CentcomFieldOfficerIDCard
   components:
   - type: Sprite
     layers:

@@ -27,3 +27,5 @@ ent-TelecomServerFilledService = { ent-TelecomServer }
 ent-TelecomServerFilledCommand = { ent-TelecomServer }
     .suffix = Командование
     .desc = { ent-TelecomServer.desc }
+ent-MessengerServer = сервер NanoChat
+    .desc = Должно провести связь на лаваленде.

@@ -203,7 +203,7 @@ public sealed partial class LobbyUIController : UIController, IOnStateEntered<Lo
     {
         DebugTools.Assert(EditedProfile != null);
 
-        if (EditedProfile == null || EditedSlot == null)
+        if (EditedProfile == null || EditedSlot == null || _profileEditor?.IsReadOnly == true) // DS14
             return;
 
         var selected = _preferencesManager.Preferences?.SelectedCharacterIndex;

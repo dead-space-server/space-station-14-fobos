@@ -141,7 +141,7 @@
       types:
         Structural: 35
   - type: UseDelay
-    delay: 1.5
+    delay: 0.1
   - type: LavalandSonicJackhammer
 
 - type: entity

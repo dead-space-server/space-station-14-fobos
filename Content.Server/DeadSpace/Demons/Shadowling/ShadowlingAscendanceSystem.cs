@@ -13,6 +13,7 @@ using Content.Shared.Chemistry.Components;
 using Robust.Shared.Timing;
 using Content.Server.Audio;
 using Content.Shared.Audio;
+using Robust.Shared.Map;
 
 namespace Content.Server.DeadSpace.Demons.Shadowling;
 
@@ -46,7 +47,7 @@ public sealed class ShadowlingAscendanceSystem : EntitySystem
 
         if (xform.GridUid != null)
         {
-            var smoke = Spawn("Smoke", _transform.GetMapCoordinates(uid, xform));
+            var smoke = Spawn("Smoke", new EntityCoordinates(xform.GridUid.Value, xform.Coordinates.Position));
             if (TryComp<SmokeComponent>(smoke, out var smokeComp))
                 _smoke.StartSmoke(smoke, new Solution(), 10f, 20, smokeComp);
         }

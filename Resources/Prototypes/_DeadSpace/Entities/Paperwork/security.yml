@@ -46,3 +46,10 @@
   name: paperwork-form-title-security-7
   text: "/Paperwork/Security/7.xml"
   paperPrototype: PaperPrintedSecurity
+
+- type: paperworkForm
+  id: Security8
+  category: NTSecurity
+  name: paperwork-form-title-security-8
+  text: "/Paperwork/Security/8.xml"
+  paperPrototype: PaperPrintedSecurity

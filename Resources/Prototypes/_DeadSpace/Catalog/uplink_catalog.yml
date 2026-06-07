@@ -728,6 +728,17 @@
       - NukeOpsUplink
 
 - type: listing
+  id: UplinkClothingBackpackTailbag
+  name: Подсумок на хвост плафеимов
+  description: Всё для своих.
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Back/Backpacks/tailbag.rsi, state: icon }
+  productEntity: ClothingBackpackTailbag
+  cost:
+    Telecrystal: 1
+  categories:
+  - UplinkWearables
+
+- type: listing
   id: UplinkClothingBackpackSatchelTaipan
   name: Сумка Синдиката
   description: Самая красивая приду на перестрелочку.

@@ -334,8 +334,10 @@
     sprite: Clothing/Head/Hardsuits/security.rsi
   - type: Clothing
     sprite: Clothing/Head/Hardsuits/security.rsi
-  - type: PointLight
-    color: '#3fb594' # DS14
+  - type: PointLight #DS-14
+    color: '#3fb594' 
+    radius: 6 
+    energy: 3
   - type: PressureProtection
     highPressureMultiplier: 0.525
     lowPressureMultiplier: 1000
@@ -362,8 +364,10 @@
     sprite: Clothing/Head/Hardsuits/brigmedic.rsi
   - type: Clothing
     sprite: Clothing/Head/Hardsuits/brigmedic.rsi
-  - type: PointLight
-    color: "#00FFFF"
+  - type: PointLight #DS-14
+    color: '#3fb594'
+    radius: 6
+    energy: 3
   - type: Armor
     modifiers:
       coefficients:
@@ -388,8 +392,10 @@
     sprite: Clothing/Head/Hardsuits/security-warden.rsi
   - type: Clothing
     sprite: Clothing/Head/Hardsuits/security-warden.rsi
-  - type: PointLight
-    color: "#3fb594" # DS14
+  - type: PointLight #DS-14
+    color: "#3fb594"
+    radius: 6
+    energy: 3
   - type: PressureProtection
     highPressureMultiplier: 0.525
     lowPressureMultiplier: 1000
@@ -544,8 +550,10 @@
     sprite: Clothing/Head/Hardsuits/security-red.rsi
   - type: Clothing
     sprite: Clothing/Head/Hardsuits/security-red.rsi
-  - type: PointLight
-    color: '#3fb594' # DS14
+  - type: PointLight #DS-14
+    color: '#3fb594'
+    radius: 6
+    energy: 3
   - type: PressureProtection
     highPressureMultiplier: 0.45
     lowPressureMultiplier: 1000

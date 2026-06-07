@@ -115,6 +115,8 @@
       collection: IPCScreams
     ScreamOnDamage:
       collection: IPCScreams
+    Laugh:
+      collection: IPCLaughs
     Beep:
       path: /Audio/Machines/twobeep.ogg
     Chime:
