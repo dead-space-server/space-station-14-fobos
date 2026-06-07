@@ -4,10 +4,12 @@
     <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True">
         <!-- Connected status -->
         <BoxContainer Name="ConnectedContainer" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Visible="False">
-            <BoxContainer Name="UserListContainer" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True">
-            </BoxContainer>
-            <BoxContainer Name="MessageBoxContainer" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True">
-                <BoxContainer Name="MessageInputContainer" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Visible="False">
+            <ScrollContainer Name="UserListScrollContainer" HorizontalExpand="True" VerticalExpand="True" VScrollEnabled="True" HScrollEnabled="False">
+                <BoxContainer Name="UserListContainer" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="False">
+                </BoxContainer>
+            </ScrollContainer>
+            <BoxContainer Name="MessageBoxContainer" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Visible="False">
+                <BoxContainer Name="MessageInputContainer" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True">
                     <BoxContainer Name="ChatHeader" Orientation="Horizontal" HorizontalExpand="True">
                         <Button Name="BackButton" Text="{Loc messenger-back}" SetWidth="50"/>
                         <Label Name="ChatPartnerLabel" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalExpand="True"/>

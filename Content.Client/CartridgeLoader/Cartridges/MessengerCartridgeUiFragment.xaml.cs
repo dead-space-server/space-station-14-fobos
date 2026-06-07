@@ -88,7 +88,7 @@ public sealed partial class MessengerCartridgeUiFragment : BoxContainer
             UserListContainer.AddChild(button);
         }
 
-        if (messages != null && !UserListContainer.Visible) //DS14
+        if (messages != null && _currentChatPartnerId != 0) //DS14
         {
             UpdateMessages(messages);
         }
@@ -103,15 +103,15 @@ public sealed partial class MessengerCartridgeUiFragment : BoxContainer
             ChatPartnerLabel.Text = user.Name;
         }
 
-        UserListContainer.Visible = false;
-        MessageInputContainer.Visible = true;
+        UserListScrollContainer.Visible = false; //DS14
+        MessageBoxContainer.Visible = true; //DS14
         OnRequestMessages?.Invoke(userId);
     }
 
     private void OnBackPressed(BaseButton.ButtonEventArgs args)
     {
-        MessageInputContainer.Visible = false;
-        UserListContainer.Visible = true;
+        MessageBoxContainer.Visible = false; //DS14
+        UserListScrollContainer.Visible = true; //DS14
         _currentChatPartnerId = 0;
         OnRequestMessages?.Invoke(0);
     }
