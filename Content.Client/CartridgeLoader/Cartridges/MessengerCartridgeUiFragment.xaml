@@ -4,11 +4,13 @@
     <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True">
         <!-- Connected status -->
         <BoxContainer Name="ConnectedContainer" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Visible="False">
+        <!--DS14 start-->    
             <ScrollContainer Name="UserListScrollContainer" HorizontalExpand="True" VerticalExpand="True" VScrollEnabled="True" HScrollEnabled="False">
                 <BoxContainer Name="UserListContainer" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="False">
                 </BoxContainer>
             </ScrollContainer>
             <BoxContainer Name="MessageBoxContainer" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Visible="False">
+        <!--DS14 end-->  
                 <BoxContainer Name="MessageInputContainer" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True">
                     <BoxContainer Name="ChatHeader" Orientation="Horizontal" HorizontalExpand="True">
                         <Button Name="BackButton" Text="{Loc messenger-back}" SetWidth="50"/>
