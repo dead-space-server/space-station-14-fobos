@@ -487,6 +487,8 @@
     - BerettaM92BlueShieldSet
     - ScarLBlueShieldSet
     - MP5SDBlueShieldSet
+    - AresSWCBlueShieldSet
+    - TruncheonsecBlueShieldSet
   - type: ActivatableUI
     key: enum.ThiefBackpackUIKey.Key
   - type: UserInterface
@@ -522,6 +524,19 @@
   - BoxLethalshot
   - BoxShotgunSlug
   - BoxBeanbag
+
+- type: thiefBackpackSet
+  id: AresSWCBlueShieldSet
+  name: ert-loadout-category-ares-swcbs-name
+  description: ert-loadout-category-ares-swcbs-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Shotguns/ares.rsi
+    state: icon
+  content:
+  - WeaponShotgunAresSWC
+  - MagazineShotgun
+  - MagazineShotgun
+  - MagazineShotgun
 
 - type: thiefBackpackSet
   id: AresSWCIncendiarySet
@@ -929,6 +944,23 @@
     state: icon
   content:
   - WeaponPulseRifle
+
+### Иное
+
+- type: thiefBackpackSet
+  id: TruncheonsecBlueShieldSet
+  name: ert-loadout-category-truncheonsecbs-name
+  description: ert-loadout-category-truncheonsecbs-description
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Melee/truncheon_sec.rsi
+    state: stunbaton_off
+  content:
+  - Truncheonsec
+  - TelescopicShield
+  - TelescopicShield
+  - CelestinMedipen
+  - CelestinMedipen
+  - CombatMedipen
 
 ## Secondary
 ### Огнестрельное

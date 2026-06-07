@@ -18,6 +18,12 @@ ert-loadout-category-ares-swc-incendiary-description =
     Обладает барабанным магазином и общей мобильностью. 
     Создано по предварительному договору NanoTrasen с SWC.
     Имеет зажигательные патроны.
+ert-loadout-category-ares-swcbs-name = SWC-432-5 "Арес"
+ert-loadout-category-ares-swcbs-description =
+    Автоматический дробовик. Совершенно новый аналог нашумевшей "Сайге". 
+    Обладает барабанным магазином и общей мобильностью. 
+    Использует патроны калибра 12х70 дробь.
+    Набор содержит 3 магазина и SWC-432-5 "Арес".
 ert-loadout-category-energyshotgun-name = Энергетический дробовик
 ert-loadout-category-energyshotgun-description =
     Новейший прототип, с возможностью смены режима на летальный
@@ -99,6 +105,12 @@ ert-loadout-category-pulsecarbine-name = Импульсный карабин
 ert-loadout-category-pulsecarbine-description =
     Высокотехнологичный энергетический карабин военного класса.
     Для восполнения боезапаса потребуется зарядник энергооружия.
+ert-loadout-category-truncheonsecbs-name = Набор "Синоби"
+ert-loadout-category-truncheonsecbs-description =
+    Электрошоковое мачете для обездвиживания или убийства людей. 
+    Имеет нелетальный и летальный режимы. 
+    Является улучшением шоковой дубинки для действительно трудных ситуаций.
+    Набор содержит боевое мачете СБ, 2 телескопических щита и немного медипенов.
 ert-loadout-category-mk58-name = MK 58
 ert-loadout-category-mk58-description =
     Дешёвый и распространённый пистолет,

@@ -409,7 +409,7 @@
       - id: MedkitFilled
       - id: MedkitCombatFilled
       - id: MedkitAdvancedFilled
-      - id: ClothingEyesHudAdvanced
+      - id: ClothingEyesHudERT
       - id: RubberStampBlueShield
       - id: WeaponDisabler
       - id: ClothingHeadHelmetSwat
