@@ -1,12 +1,110 @@
 <controls:FancyWindow xmlns="https://spacestation14.io"
     xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
-    Title="{Loc 'chameleon-controller-ui-window-name'}"
-    MinSize="250 300"
-    SetSize="850 700">
-    <BoxContainer Orientation="Vertical" Margin="7 0 0 0">
-        <ScrollContainer VerticalExpand="True">
-            <GridContainer Name="Grid" Columns="3" Margin="0 5" >
-            </GridContainer>
-        </ScrollContainer>
+    xmlns:customControls="clr-namespace:Content.Client.Administration.UI.CustomControls"
+    xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
+    MinWidth="380" 
+    MinHeight="440" 
+    Title="{Loc 'spider-os-window-title'}">
+    <BoxContainer Orientation="Horizontal" HorizontalExpand="True" VerticalExpand="True">
+        <BoxContainer Margin="10 10 10 10" Orientation="Vertical" VerticalExpand="True">
+            <BoxContainer Orientation="Horizontal">
+                <PanelContainer StyleClasses="BackgroundPanelDark" HorizontalExpand="True">
+                    <BoxContainer Orientation="Vertical" Margin="4 4 4 4">
+                        <Label Text="{Loc 'spider-os-modules'}"
+                                HorizontalAlignment="Center"
+                                StyleClasses="LabelHeading"
+                                Margin="0 0 0 4"
+                                Align="Center"/>
+                    </BoxContainer>
+                </PanelContainer>
+            </BoxContainer>
+            <PanelContainer SetHeight="2" Margin="0 0 0 4">
+                <PanelContainer.PanelOverride>
+                    <gfx:StyleBoxFlat BackgroundColor="#1bcc15"/>
+                </PanelContainer.PanelOverride>
+            </PanelContainer>
+            <BoxContainer Orientation="Horizontal">
+                <PanelContainer SetWidth="120">
+                    <PanelContainer.PanelOverride>
+                        <gfx:StyleBoxFlat BackgroundColor="#000038"/>
+                    </PanelContainer.PanelOverride>
+                    <BoxContainer Orientation="Vertical" >
+                        <Label Text="{Loc 'spider-os-modules-ghost'}"
+                                HorizontalAlignment="Center"
+                                StyleClasses="LabelHeading"
+                                Margin="0 0 0 4"
+                                Align="Center"/>
+                        <PanelContainer SetHeight="2">
+                            <PanelContainer.PanelOverride>
+                                <gfx:StyleBoxFlat BackgroundColor="#156acc"/>
+                            </PanelContainer.PanelOverride>
+                        </PanelContainer>
+                        <TextureButton Name="GhostBtn1" HorizontalAlignment="Center" Margin="0 0 0 3"
+                                        TexturePath="/Textures/Interface/Misc/plus_icon.png"/>
+                        <TextureButton Name="GhostBtn2" HorizontalAlignment="Center" Margin="0 0 0 3"
+                                        TexturePath="/Textures/Interface/Misc/plus_icon.png"/>
+                        <TextureButton Name="GhostBtn3" HorizontalAlignment="Center" Margin="0 0 0 3"
+                                        TexturePath="/Textures/Interface/Misc/plus_icon.png"/>
+                        <TextureButton Name="GhostBtn4" HorizontalAlignment="Center" Margin="0 0 0 3"
+                                        TexturePath="/Textures/Interface/Misc/plus_icon.png"/>
+                        <TextureButton Name="GhostBtn5" HorizontalAlignment="Center" Margin="0 0 0 3"
+                                        TexturePath="/Textures/Interface/Misc/plus_icon.png"/>
+                    </BoxContainer>
+                </PanelContainer>
+                <PanelContainer SetWidth="120">
+                    <PanelContainer.PanelOverride>
+                        <gfx:StyleBoxFlat BackgroundColor="#003800"/>
+                    </PanelContainer.PanelOverride>
+                    <BoxContainer Orientation="Vertical">
+                            <Label Text="{Loc 'spider-os-modules-snake'}"
+                                HorizontalAlignment="Center"
+                                StyleClasses="LabelHeading"
+                                Margin="0 0 0 4"/>
+                            <PanelContainer SetHeight="2">
+                                <PanelContainer.PanelOverride>
+                                    <gfx:StyleBoxFlat BackgroundColor="#1bcc15"/>
+                                </PanelContainer.PanelOverride>
+                            </PanelContainer>
+                            <TextureButton Name="SnakeBtn1" HorizontalAlignment="Center" Margin="0 0 0 3"
+                                        TexturePath="/Textures/Interface/Misc/plus_icon.png"/>
+                            <TextureButton Name="SnakeBtn2" HorizontalAlignment="Center" Margin="0 0 0 3"
+                                        TexturePath="/Textures/Interface/Misc/plus_icon.png"/>
+                            <TextureButton Name="SnakeBtn3" HorizontalAlignment="Center" Margin="0 0 0 3"
+                                        TexturePath="/Textures/Interface/Misc/plus_icon.png"/>
+                            <TextureButton Name="SnakeBtn4" HorizontalAlignment="Center" Margin="0 0 0 3"
+                                        TexturePath="/Textures/Interface/Misc/plus_icon.png"/>
+                            <TextureButton Name="SnakeBtn5" HorizontalAlignment="Center" Margin="0 0 0 3"
+                                        TexturePath="/Textures/Interface/Misc/plus_icon.png"/>
+                    </BoxContainer>
+                </PanelContainer>
+                <PanelContainer SetWidth="120">
+                    <PanelContainer.PanelOverride>
+                        <gfx:StyleBoxFlat BackgroundColor="#380000"/>
+                    </PanelContainer.PanelOverride>
+                    <BoxContainer Orientation="Vertical">
+                            <Label Text="{Loc 'spider-os-modules-steel'}"
+                                HorizontalAlignment="Center"
+                                StyleClasses="LabelHeading"
+                                Margin="0 0 0 4"
+                                Align="Center"/>
+                            <PanelContainer SetHeight="2">
+                                <PanelContainer.PanelOverride>
+                                    <gfx:StyleBoxFlat BackgroundColor="#cc1515"/>
+                                </PanelContainer.PanelOverride>
+                            </PanelContainer>
+                            <TextureButton Name="SteelBtn1" HorizontalAlignment="Center" Margin="0 0 0 3"
+                                        TexturePath="/Textures/Interface/Misc/plus_icon.png"/>
+                            <TextureButton Name="SteelBtn2" HorizontalAlignment="Center" Margin="0 0 0 3"
+                                        TexturePath="/Textures/Interface/Misc/plus_icon.png"/>
+                            <TextureButton Name="SteelBtn3" HorizontalAlignment="Center" Margin="0 0 0 3"
+                                        TexturePath="/Textures/Interface/Misc/plus_icon.png"/>
+                            <TextureButton Name="SteelBtn4" HorizontalAlignment="Center" Margin="0 0 0 3"
+                                        TexturePath="/Textures/Interface/Misc/plus_icon.png"/>
+                            <TextureButton Name="SteelBtn5" HorizontalAlignment="Center" Margin="0 0 0 3"
+                                        TexturePath="/Textures/Interface/Misc/plus_icon.png"/>
+                    </BoxContainer>
+                </PanelContainer>
+            </BoxContainer>
+        </BoxContainer>
     </BoxContainer>
 </controls:FancyWindow>

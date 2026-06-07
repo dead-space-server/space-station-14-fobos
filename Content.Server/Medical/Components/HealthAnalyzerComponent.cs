@@ -1,5 +1,6 @@
 using Robust.Shared.Audio;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
+using Content.Server.DeadSpace.Ninja.Systems; /// DS14
 
 namespace Content.Server.Medical.Components;
 
@@ -10,7 +11,7 @@ namespace Content.Server.Medical.Components;
 /// Requires <c>ItemToggleComponent</c>.
 /// </remarks>
 [RegisterComponent, AutoGenerateComponentPause]
-[Access(typeof(HealthAnalyzerSystem), typeof(CryoPodSystem))]
+[Access(typeof(HealthAnalyzerSystem), typeof(CryoPodSystem), typeof(SelfHealthAnalyzerSystem))]
 public sealed partial class HealthAnalyzerComponent : Component
 {
     /// <summary>

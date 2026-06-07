@@ -3,6 +3,7 @@ using Content.Shared.DeadSpace.Ninja.Systems;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization;
 
 namespace Content.Shared.DeadSpace.Ninja.Components;
 
@@ -34,6 +35,12 @@ public sealed partial class NinjaSuitComponent : Component
 
     [DataField, AutoNetworkedField]
     public EntityUid? RecallKatanaActionEntity;
+
+    [DataField]
+    public EntProtoId OpenSpiderOSAction = "SpiderOSAction";
+
+    [DataField, AutoNetworkedField]
+    public EntityUid? OpenSpiderOSActionEntity;
 
     /// <summary>
     /// Battery charge used per tile the katana teleported.
@@ -86,6 +93,14 @@ public sealed partial class NinjaSuitComponent : Component
     [DataField]
     public TimeSpan EmpDuration = TimeSpan.FromSeconds(60);
 }
+//DS-14 start
+[Serializable, NetSerializable]
+public enum SpiderOSUiKey
+{
+    Key,
+}
+//DS-14 end
 
 public sealed partial class RecallKatanaEvent : InstantActionEvent;
 public sealed partial class NinjaEmpEvent : InstantActionEvent;
+public sealed partial class OpenSpiderOSEvent : InstantActionEvent;

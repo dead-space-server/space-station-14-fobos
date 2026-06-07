@@ -7,6 +7,7 @@ using Content.Shared.Power.Components;
 using Content.Shared.PowerCell;
 using Content.Shared.PowerCell.Components;
 using Robust.Shared.Containers;
+using Robust.Server.GameObjects;
 
 namespace Content.Server.DeadSpace.Ninja.Systems;
 
@@ -21,6 +22,7 @@ public sealed class NinjaSuitSystem : SharedNinjaSuitSystem
     [Dependency] private readonly SpaceNinjaSystem _ninja = default!;
     [Dependency] private readonly PowerCellSystem _powerCell = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly UserInterfaceSystem _uiSystem = default!;
 
     // How much the cell score should be increased per 1 AutoRechargeRate.
     private const int AutoRechargeValue = 100;
@@ -31,6 +33,7 @@ public sealed class NinjaSuitSystem : SharedNinjaSuitSystem
 
         SubscribeLocalEvent<NinjaSuitComponent, ContainerIsInsertingAttemptEvent>(OnSuitInsertAttempt);
         SubscribeLocalEvent<NinjaSuitComponent, RecallKatanaEvent>(OnRecallKatana);
+        SubscribeLocalEvent<NinjaSuitComponent, OpenSpiderOSEvent>(OnOpenOS);
         SubscribeLocalEvent<NinjaSuitComponent, NinjaEmpEvent>(OnEmp);
     }
 
@@ -151,7 +154,14 @@ public sealed class NinjaSuitSystem : SharedNinjaSuitSystem
 
         Popup.PopupEntity(Loc.GetString(message), user, user);
     }
+    private void OnOpenOS(Entity<NinjaSuitComponent> ent, ref OpenSpiderOSEvent args)
+    {
+        var (uid, comp) = ent;
+        if (!_uiSystem.HasUi(uid, SpiderOSUiKey.Key))
+            return;
 
+        _uiSystem.TryToggleUi(uid, SpiderOSUiKey.Key, args.Performer);
+    }
     private void OnEmp(Entity<NinjaSuitComponent> ent, ref NinjaEmpEvent args)
     {
         var (uid, comp) = ent;

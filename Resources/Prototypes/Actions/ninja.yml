@@ -91,3 +91,46 @@
     range: 0
   - type: WorldTargetAction
     event: !type:DashEvent
+
+- type: entity
+  id: SpiderOSAction
+  name: Spider OS
+  description: Операционная система вашего костюма, позволяющая менять некоторые его свойства.
+  components:
+  - type: Action
+    itemIconStyle: BigAction
+    icon:
+      sprite: _DeadSpace/Actions/ninja_actions.rsi
+      state: spider
+    priority: -10
+  - type: InstantAction
+    event: !type:OpenSpiderOSEvent
+
+- type: entity
+  id: SelfAnalyzeAction
+  name: анализатор здоровья
+  description: Позволяет быстро и точно просканировать своего владельца, для выявления проблем со здоровьем.
+  components:
+  - type: Action
+    itemIconStyle: BigAction
+    icon:
+      sprite: _DeadSpace/Actions/ninja_actions.rsi
+      state: healthstatus
+    priority: -10
+  - type: InstantAction
+    event: !type:SelfAnalyzeActionEvent
+  
+- type: entity
+  id: ToggleAutoDustModeAction
+  name: Auto-Dust
+  description: Преключает режим модуля Auto-Dust.
+  components:
+  - type: Action
+    useDelay: 1
+    itemIconStyle: BigAction
+    icon:
+      sprite: _DeadSpace/Actions/ninja_actions.rsi
+      state: dust
+    priority: -10
+  - type: InstantAction
+    event: !type:ToggleAutoDustModeActionEvent

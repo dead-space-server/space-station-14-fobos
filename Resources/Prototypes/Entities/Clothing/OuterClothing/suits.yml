@@ -190,6 +190,15 @@
     noPowerPopup: ninja-no-power
   # core ninja suit stuff
   - type: NinjaSuit
+  - type: UserInterface
+    interfaces: 
+      enum.SpiderOSUiKey.Key:
+        type: SpiderOSWindowBoundUserInterface
+      enum.HealthAnalyzerUiKey.Key:
+        type: HealthAnalyzerBoundUserInterface
+  - type: SelfHealthAnalyzer
+  - type: HealthAnalyzer
+  - type: AutoDust
   - type: EmpResistance
     strengthMultiplier: 0
   - type: UseDelay
