@@ -78,9 +78,6 @@ public sealed class WormSystem : EntitySystem
     {
         RemComp<KnockedDownComponent>(ent.Owner);
         _alerts.ClearAlert(ent.Owner, SharedStunSystem.KnockdownAlert);
-
-        if (!HasComp<WheelchairUserComponent>(ent.Owner))
-            _standing.Stand(ent.Owner, force: true);
     }
 //DS14-end
 }

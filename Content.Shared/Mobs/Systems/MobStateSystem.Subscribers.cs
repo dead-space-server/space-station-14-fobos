@@ -15,6 +15,7 @@ using Content.Shared.DeadSpace.Movement.Events;
 using Content.Shared.Gravity;
 using Content.Shared.Movement.Components; //DS14
 using Content.Shared.DeadSpace.Movement.Components; // DS14
+using Content.Shared.Stunnable;
 using Content.Shared.Movement.Events;
 using Content.Shared.Movement.Systems;
 using Content.Shared.Pointing;
@@ -111,7 +112,11 @@ public partial class MobStateSystem
             // DS14-start
             case MobState.PreCritical:
                 if (!HasComp<WheelchairUserComponent>(target))
+                {
                     RemComp<WormComponent>(target);
+                    RemComp<KnockedDownComponent>(target);
+                    _standing.Stand(target, force: true);
+                }
                 break;
             // DS14-end
             default:
