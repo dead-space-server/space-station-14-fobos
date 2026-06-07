@@ -52,6 +52,12 @@
 #   equipment:
 #     id: SeniorOfficerPDA
 
+# Mask
+- type: loadout
+  id: SeniorOfficerHead
+  equipment:
+    head: ClothingHeadHatBeretSeniorOfficer
+
 # Neck
 - type: loadout
   id: SeniorOfficerMantle
