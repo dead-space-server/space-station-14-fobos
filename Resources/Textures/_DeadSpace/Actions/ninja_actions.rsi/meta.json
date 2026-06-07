@@ -15,6 +15,18 @@
     },
     {
       "name": "spider"
+    },
+    {
+      "name": "jetpack-off"
+    },
+    {
+      "name": "jetpack-on",
+      "delays": [
+        [
+          0.2,
+          0.2
+        ]
+      ]
     }
   ]
 }

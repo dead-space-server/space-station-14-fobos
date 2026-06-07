@@ -199,6 +199,9 @@
   - type: SelfHealthAnalyzer
   - type: HealthAnalyzer
   - type: AutoDust
+  - type: Jetpack
+    requiresGas: false
+    toggleAction: NinjaActionToggleJetpack
   - type: EmpResistance
     strengthMultiplier: 0
   - type: UseDelay

@@ -15,6 +15,11 @@ public sealed class JetpackSystem : SharedJetpackSystem
 
     protected override bool CanEnable(EntityUid uid, JetpackComponent component)
     {
+        // DS14-start
+        if (!component.RequiresGas)
+            return base.CanEnable(uid, component);
+        // DS14-end
+
         return base.CanEnable(uid, component) &&
                TryComp<GasTankComponent>(uid, out var gasTank) &&
                !(gasTank.Air.TotalMoles < component.MoleUsage);
@@ -25,10 +30,18 @@ public sealed class JetpackSystem : SharedJetpackSystem
         base.Update(frameTime);
 
         var toDisable = new ValueList<(EntityUid Uid, JetpackComponent Component)>();
-        var query = EntityQueryEnumerator<ActiveJetpackComponent, JetpackComponent, GasTankComponent>();
+        var query = EntityQueryEnumerator<ActiveJetpackComponent, JetpackComponent>(); // DS14
 
-        while (query.MoveNext(out var uid, out var active, out var comp, out var gasTankComp))
+        while (query.MoveNext(out var uid, out var active, out var comp)) // DS14
         {
+            // DS14-start
+            if (!comp.RequiresGas)
+                continue;
+
+            if(!TryComp<GasTankComponent>(uid, out var gasTankComp))
+                continue;
+            // DS14-end
+
             if (_timing.CurTime < active.TargetTime)
                 continue;
 

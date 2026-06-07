@@ -134,3 +134,21 @@
     priority: -10
   - type: InstantAction
     event: !type:ToggleAutoDustModeActionEvent
+
+- type: entity
+  parent: BaseAction
+  id: NinjaActionToggleJetpack
+  name: переключить встроенный джетпак
+  description: переключить джетпак в костюме, дающий дополнительную мобильность вне станции.
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/ninja_actions.rsi
+      state: jetpack-off
+    iconOn:
+      sprite: _DeadSpace/Actions/ninja_actions.rsi
+      state: jetpack-on
+    useDelay: 1.0
+    itemIconStyle: BigAction
+  - type: InstantAction
+    event: !type:ToggleJetpackEvent
