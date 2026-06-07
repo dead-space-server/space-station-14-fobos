@@ -27,6 +27,12 @@
           0.2
         ]
       ]
+    },
+    {
+      "name": "cloak"
+    },
+    {
+      "name": "spiritform"
     }
   ]
 }
