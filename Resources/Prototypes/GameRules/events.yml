@@ -317,9 +317,6 @@
       - type: NpcFactionMember
         factions:
         - Syndicate
-      - type: AutoImplant
-        implants:
-        - DeathAcidifierImplant
       - type: RandomMetadata
         nameSegments:
         - NamesNinjaTitle

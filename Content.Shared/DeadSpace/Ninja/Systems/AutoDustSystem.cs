@@ -60,15 +60,15 @@ public sealed class AutoDustSystem : EntitySystem
         {
             case DustMode.Off:
                 comp.AutoDustMode = DustMode.Crit;
-                _popup.PopupClient(Loc.GetString("auto-dust-toggle-crit"), args.Performer, args.Performer, PopupType.LargeCaution);
+                _popup.PopupClient(Loc.GetString("auto-dust-toggle-crit"), args.Performer, args.Performer, PopupType.MediumCaution);
                 break;
             case DustMode.Crit:
                 comp.AutoDustMode = DustMode.Dead;
-                _popup.PopupClient(Loc.GetString("auto-dust-toggle-dead"), args.Performer, args.Performer, PopupType.LargeCaution);
+                _popup.PopupClient(Loc.GetString("auto-dust-toggle-dead"), args.Performer, args.Performer, PopupType.MediumCaution);
                 break;
             case DustMode.Dead:
                 comp.AutoDustMode = DustMode.Off;
-                _popup.PopupClient(Loc.GetString("auto-dust-toggle-off"), args.Performer, args.Performer, PopupType.LargeCaution);
+                _popup.PopupClient(Loc.GetString("auto-dust-toggle-off"), args.Performer, args.Performer, PopupType.MediumCaution);
                 break;
         }
         Dirty(uid, comp);
