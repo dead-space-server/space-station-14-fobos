@@ -38,7 +38,12 @@ namespace Content.Client.Lobby.UI
             _createNewCharacterButton = new Button
             {
                 Text = Loc.GetString("character-setup-gui-create-new-character-button"),
-                StyleClasses = { "DS14MenuAction" }, // DS14
+                // DS14-start
+                ClipText = true,
+                HorizontalExpand = true,
+                HorizontalAlignment = HAlignment.Stretch,
+                StyleClasses = { "DS14MenuProfileControl" },
+                // DS14-end
             };
 
             _createNewCharacterButton.OnPressed += args =>

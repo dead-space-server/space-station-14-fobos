@@ -8,7 +8,7 @@
     <PanelContainer StyleClasses="DS14MenuInset" HorizontalExpand="True" Margin="5">
         <BoxContainer Orientation="Vertical">
             <Label Text="{Loc 'loadout-restrictions'}"
-                   StyleClasses="DS14MenuSubtitle"/>
+                   StyleClasses="DS14MenuProfileLabel"/>
             <BoxContainer Name="RestrictionsContainer" Orientation="Vertical" HorizontalExpand="True" />
         </BoxContainer>
     </PanelContainer>

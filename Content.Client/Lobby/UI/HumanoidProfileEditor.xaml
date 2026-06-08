@@ -9,7 +9,7 @@
               VerticalExpand="True"
               SeparationOverride="8">
 
-    <!-- DS14-start: KSO-styled profile editor layout -->
+    <!-- DS14-start -->
     <BoxContainer Orientation="Horizontal"
                   SeparationOverride="8"
                   HorizontalExpand="True">
@@ -22,7 +22,7 @@
                               HorizontalExpand="True"
                               SeparationOverride="6">
                     <Label Text="{Loc 'humanoid-profile-editor-name-label'}"
-                           StyleClasses="DS14MenuSubtitle"
+                           StyleClasses="DS14MenuProfileLabel"
                            VerticalAlignment="Center" />
                     <LineEdit Name="NameEdit"
                               MinSize="270 0"
@@ -30,10 +30,10 @@
                               VerticalAlignment="Center" />
                     <Button Name="NameRandomize"
                             Text="{Loc 'humanoid-profile-editor-name-random-button'}"
-                            StyleClasses="DS14MenuTopButton" />
+                            StyleClasses="DS14MenuProfileControl" />
                     <Button Name="RandomizeEverythingButton"
                             Text="{Loc 'humanoid-profile-editor-randomize-everything-button'}"
-                            StyleClasses="DS14MenuTopButton" />
+                            StyleClasses="DS14MenuProfileControl" />
                 </BoxContainer>
 
                 <RichTextLabel Name="WarningLabel"
@@ -50,28 +50,28 @@
                                HorizontalAlignment="Left">
                     <Button Name="SaveButton"
                             Text="{Loc 'humanoid-profile-editor-save-button'}"
-                            StyleClasses="DS14MenuTopButton"
+                            StyleClasses="DS14MenuProfileControl"
                             MinWidth="145"/>
                     <Button Name="ResetButton"
                             Disabled="True"
                             Text="{Loc 'humanoid-profile-editor-reset-button'}"
-                            StyleClasses="DS14MenuTopButton"
+                            StyleClasses="DS14MenuProfileControl"
                             MinWidth="145"/>
                     <Button Name="ImportButton"
                             Text="{Loc 'humanoid-profile-editor-import-button'}"
-                            StyleClasses="DS14MenuTopButton"
+                            StyleClasses="DS14MenuProfileControl"
                             MinWidth="145"/>
                     <Button Name="ExportButton"
                             Text="{Loc 'humanoid-profile-editor-export-button'}"
-                            StyleClasses="DS14MenuTopButton"
+                            StyleClasses="DS14MenuProfileControl"
                             MinWidth="145"/>
                     <Button Name="ExportImageButton"
                             Text="{Loc 'humanoid-profile-editor-export-image-button'}"
-                            StyleClasses="DS14MenuTopButton"
+                            StyleClasses="DS14MenuProfileControl"
                             MinWidth="145"/>
                     <Button Name="OpenImagesButton"
                             Text="{Loc 'humanoid-profile-editor-open-image-button'}"
-                            StyleClasses="DS14MenuTopButton"
+                            StyleClasses="DS14MenuProfileControl"
                             MinWidth="145"/>
                 </GridContainer>
             </BoxContainer>
@@ -90,11 +90,11 @@
                               HorizontalAlignment="Center">
                     <Button Name="SpriteRotateLeft"
                             Text="&lt;"
-                            StyleClasses="DS14MenuTopButton" />
+                            StyleClasses="DS14MenuProfileControl" />
                     <cc:VSeparator Margin="2 0 3 0" />
                     <Button Name="SpriteRotateRight"
                             Text="&gt;"
-                            StyleClasses="DS14MenuTopButton" />
+                            StyleClasses="DS14MenuProfileControl" />
                 </BoxContainer>
             </BoxContainer>
         </PanelContainer>
@@ -118,68 +118,68 @@
                                           SeparationOverride="6">
                                 <BoxContainer HorizontalExpand="True">
                                     <Label Text="{Loc 'humanoid-profile-editor-species-label'}"
-                                           StyleClasses="DS14MenuSubtitle" />
+                                           StyleClasses="DS14MenuProfileLabel" />
                                     <Control HorizontalExpand="True"/>
                                     <TextureButton Name="SpeciesInfoButton"
                                                    Scale="0.3 0.3"
                                                    VerticalAlignment="Center"
                                                    ToolTip="{Loc 'humanoid-profile-editor-guidebook-button-tooltip'}"/>
                                     <OptionButton Name="SpeciesButton"
-                                                  StyleClasses="DS14MenuTopButton"
+                                                  StyleClasses="DS14MenuProfileControl"
                                                   HorizontalAlignment="Right" />
                                 </BoxContainer>
                                 <BoxContainer HorizontalExpand="True">
                                     <Label Text="{Loc 'humanoid-profile-editor-age-label'}"
-                                           StyleClasses="DS14MenuSubtitle" />
+                                           StyleClasses="DS14MenuProfileLabel" />
                                     <Control HorizontalExpand="True"/>
                                     <LineEdit Name="AgeEdit" MinSize="40 0" HorizontalAlignment="Right" />
                                 </BoxContainer>
                                 <BoxContainer HorizontalExpand="True">
                                     <Label Text="{Loc 'humanoid-profile-editor-sex-label'}"
-                                           StyleClasses="DS14MenuSubtitle" />
+                                           StyleClasses="DS14MenuProfileLabel" />
                                     <Control HorizontalExpand="True"/>
                                     <OptionButton Name="SexButton"
-                                                  StyleClasses="DS14MenuTopButton"
+                                                  StyleClasses="DS14MenuProfileControl"
                                                   HorizontalAlignment="Right" />
                                 </BoxContainer>
                                 <BoxContainer HorizontalExpand="True">
                                     <Label Text="{Loc 'humanoid-profile-editor-pronouns-label'}"
-                                           StyleClasses="DS14MenuSubtitle" />
+                                           StyleClasses="DS14MenuProfileLabel" />
                                     <Control HorizontalExpand="True"/>
                                     <OptionButton Name="PronounsButton"
-                                                  StyleClasses="DS14MenuTopButton"
+                                                  StyleClasses="DS14MenuProfileControl"
                                                   HorizontalAlignment="Right" />
                                 </BoxContainer>
                                 <BoxContainer HorizontalExpand="True">
                                     <Label Text="{Loc 'humanoid-profile-editor-clothing'}"
-                                           StyleClasses="DS14MenuSubtitle" />
+                                           StyleClasses="DS14MenuProfileLabel" />
                                     <Control HorizontalExpand="True"/>
                                     <Button Name="ShowClothes"
                                             Pressed="True"
                                             ToggleMode="True"
                                             Text="{Loc 'humanoid-profile-editor-clothing-show'}"
-                                            StyleClasses="DS14MenuTopButton"
+                                            StyleClasses="DS14MenuProfileControl"
                                             HorizontalAlignment="Right" />
                                 </BoxContainer>
                                 <BoxContainer HorizontalExpand="True">
                                     <Label Text="{Loc 'humanoid-profile-editor-spawn-priority-label'}"
-                                           StyleClasses="DS14MenuSubtitle" />
+                                           StyleClasses="DS14MenuProfileLabel" />
                                     <Control HorizontalExpand="True"/>
                                     <OptionButton Name="SpawnPriorityButton"
-                                                  StyleClasses="DS14MenuTopButton"
+                                                  StyleClasses="DS14MenuProfileControl"
                                                   HorizontalAlignment="Right" />
                                 </BoxContainer>
                                 <BoxContainer HorizontalExpand="True" Visible="False" Name="TTSContainer">
                                     <Label Text="{Loc 'humanoid-profile-editor-voice-label'}"
-                                           StyleClasses="DS14MenuSubtitle" />
+                                           StyleClasses="DS14MenuProfileLabel" />
                                     <Control HorizontalExpand="True"/>
                                     <ds:SearchOptionButton Name="VoiceButton"
-                                                           StyleClasses="DS14MenuTopButton"
+                                                           StyleClasses="DS14MenuProfileControl"
                                                            PlaceHolder="{Loc 'humanoid-profile-editor-voice-search-placeholder'}"
                                                            HorizontalAlignment="Right" />
                                     <Button Name="VoicePlayButton"
                                             Text="{Loc 'humanoid-profile-editor-voice-play'}"
-                                            StyleClasses="DS14MenuTopButton"
+                                            StyleClasses="DS14MenuProfileControl"
                                             MaxWidth="80" />
                                 </BoxContainer>
                             </BoxContainer>
@@ -191,7 +191,7 @@
                                           Orientation="Vertical"
                                           SeparationOverride="6">
                                 <Label Text="{Loc 'humanoid-profile-editor-skin-color-label'}"
-                                       StyleClasses="DS14MenuSubtitle" />
+                                       StyleClasses="DS14MenuProfileLabel" />
                                 <Slider HorizontalExpand="True" Name="Skin" MinValue="0" MaxValue="100" Value="20" />
                                 <BoxContainer Name="RgbSkinColorContainer" Visible="False" Orientation="Vertical" HorizontalExpand="True"></BoxContainer>
                             </BoxContainer>
@@ -212,7 +212,7 @@
                             <BoxContainer Orientation="Vertical"
                                           SeparationOverride="6">
                                 <Label Text="{Loc 'humanoid-profile-editor-eyes-label'}"
-                                       StyleClasses="DS14MenuSubtitle" />
+                                       StyleClasses="DS14MenuProfileLabel" />
                                 <humanoid:EyeColorPicker Name="EyeColorPicker" />
                             </BoxContainer>
                         </PanelContainer>
@@ -222,7 +222,7 @@
 
             <BoxContainer Orientation="Vertical">
                 <OptionButton Name="PreferenceUnavailableButton"
-                              StyleClasses="DS14MenuTopButton" />
+                              StyleClasses="DS14MenuProfileControl" />
                 <ScrollContainer VerticalExpand="True">
                     <BoxContainer Name="JobList" Orientation="Vertical" />
                 </ScrollContainer>

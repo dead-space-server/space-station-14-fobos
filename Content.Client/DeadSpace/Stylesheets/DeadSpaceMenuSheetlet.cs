@@ -25,6 +25,9 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
     public const string AccentDim = "DS14MenuAccentDim";
     public const string ActionButton = "DS14MenuAction";
     public const string TopButton = "DS14MenuTopButton";
+    public const string ProfileControl = "DS14MenuProfileControl";
+    public const string ProfileLabel = "DS14MenuProfileLabel";
+    public const string ProfileSection = "DS14MenuProfileSection";
     public const string ReadyButton = "DS14MenuReadyButton";
     public const string JobPriorityPreferred = "DS14MenuJobPriorityPreferred";
     public const string JobPriorityNever = "DS14MenuJobPriorityNever";
@@ -193,6 +196,58 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
             BorderColor = Color.FromHex("#293844"),
         };
 
+        var profileControl = new StyleBoxFlat
+        {
+            BackgroundColor = Color.FromHex("#111923F0"),
+            BorderColor = Color.FromHex("#2D4757"),
+            BorderThickness = new Thickness(1),
+            ContentMarginTopOverride = 4,
+            ContentMarginBottomOverride = 4,
+            ContentMarginLeftOverride = 9,
+            ContentMarginRightOverride = 9,
+        };
+
+        var profileControlHover = new StyleBoxFlat(profileControl)
+        {
+            BackgroundColor = Color.FromHex("#162638F4"),
+            BorderColor = Color.FromHex("#1D7E9D"),
+        };
+
+        var profileControlPressed = new StyleBoxFlat(profileControl)
+        {
+            BackgroundColor = Color.FromHex("#18344AF5"),
+            BorderColor = Color.FromHex("#2EA7D0"),
+        };
+
+        var optionDropdownBackground = new StyleBoxFlat
+        {
+            BackgroundColor = Color.FromHex("#0D1219F6"),
+            BorderColor = Color.FromHex("#2D4757"),
+            BorderThickness = new Thickness(1),
+            ContentMarginTopOverride = 2,
+            ContentMarginBottomOverride = 2,
+            ContentMarginLeftOverride = 2,
+            ContentMarginRightOverride = 2,
+        };
+
+        var profileControlDisabled = new StyleBoxFlat(profileControl)
+        {
+            BackgroundColor = Color.FromHex("#10161FC8"),
+            BorderColor = Color.FromHex("#293844"),
+        };
+
+        var profileControlNegative = new StyleBoxFlat(profileControl)
+        {
+            BackgroundColor = Color.FromHex("#2E171CF2"),
+            BorderColor = Color.FromHex("#9D3F49"),
+        };
+
+        var profileControlNegativeHover = new StyleBoxFlat(profileControlNegative)
+        {
+            BackgroundColor = Color.FromHex("#431E25F6"),
+            BorderColor = Color.FromHex("#F85149"),
+        };
+
         var topButtonNegative = new StyleBoxFlat(topButton)
         {
             BackgroundColor = Color.FromHex("#2E171CF2"),
@@ -275,6 +330,18 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
             BorderColor = Color.FromHex("#F85149"),
         };
 
+        var profilePriorityPreferred = new StyleBoxFlat(profileControl)
+        {
+            BackgroundColor = Color.FromHex("#1D5635F3"),
+            BorderColor = Color.FromHex("#2EA043"),
+        };
+
+        var profilePriorityNever = new StyleBoxFlat(profileControl)
+        {
+            BackgroundColor = Color.FromHex("#572329F3"),
+            BorderColor = Color.FromHex("#F85149"),
+        };
+
         return
         [
             E<PanelContainer>().Class(Shell).Panel(shell),
@@ -287,13 +354,15 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
             E<PanelContainer>().Class(Accent).Panel(accent),
             E<PanelContainer>().Class(AccentDim).Panel(accentDim),
             E<PanelContainer>().Class(CharacterIcon).Panel(characterIcon),
+            E<PanelContainer>().Class(OptionButton.StyleClassOptionsBackground).Panel(optionDropdownBackground),
             E<TabContainer>()
                 .Class(Tabs)
                 .Prop(TabContainer.StylePropertyPanelStyleBox, tabsPanel)
                 .Prop(TabContainer.StylePropertyTabStyleBox, tabActive)
                 .Prop(TabContainer.StylePropertyTabStyleBoxInactive, tabInactive)
                 .Prop(TabContainer.stylePropertyTabFontColor, Color.FromHex("#F1F3F6"))
-                .Prop(TabContainer.StylePropertyTabFontColorInactive, Color.FromHex("#AEB6C2")),
+                .Prop(TabContainer.StylePropertyTabFontColorInactive, Color.FromHex("#AEB6C2"))
+                .Prop("font", sheet.BaseFont.GetFont(12)),
 
             E<Label>()
                 .Class(Title)
@@ -303,6 +372,14 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
                 .Class(Subtitle)
                 .Font(sheet.BaseFont.GetFont(10))
                 .FontColor(Color.FromHex("#9BA6AD")),
+            E<Label>()
+                .Class(ProfileLabel)
+                .Font(sheet.BaseFont.GetFont(12))
+                .FontColor(Color.FromHex("#F1F3F6")),
+            E<Label>()
+                .Class(ProfileSection)
+                .Font(sheet.BaseFont.GetFont(12))
+                .FontColor(sheet.HighlightPalette.Text),
             E<Label>()
                 .Class(RoundStatusTitle)
                 .Font(sheet.BaseFont.GetFont(12, FontKind.Bold))
@@ -344,7 +421,7 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
                 .Class(ContainerButton.StyleClassButton)
                 .Class(ActionButton)
                 .ParentOf(E<Label>())
-                .Font(sheet.BaseFont.GetFont(14, FontKind.Bold)),
+                .Font(sheet.BaseFont.GetFont(12, FontKind.Bold)),
 
             E<ContainerButton>()
                 .Class(ContainerButton.StyleClassButton)
@@ -420,18 +497,105 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
                 .Class(ContainerButton.StyleClassButton)
                 .Class(TopButton)
                 .ParentOf(E<Label>())
-                .Font(sheet.BaseFont.GetFont(10, FontKind.Bold)),
+                .Font(sheet.BaseFont.GetFont(12, FontKind.Bold)),
             E<ContainerButton>()
                 .Class(ContainerButton.StyleClassButton)
                 .Class(TopButton)
                 .ParentOf(E())
                 .ParentOf(E<Label>())
-                .Font(sheet.BaseFont.GetFont(10, FontKind.Bold)),
+                .Font(sheet.BaseFont.GetFont(12, FontKind.Bold)),
             E<ContainerButton>()
                 .Class(ContainerButton.StyleClassButton)
                 .Class(TopButton)
                 .ParentOf(E<Label>().Class(OptionButton.StyleClassOptionButton))
-                .Font(sheet.BaseFont.GetFont(10, FontKind.Bold)),
+                .Font(sheet.BaseFont.GetFont(12, FontKind.Bold)),
+
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControl)
+                .PseudoNormal()
+                .Box(profileControl)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControl)
+                .PseudoHovered()
+                .Box(profileControlHover)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControl)
+                .PseudoPressed()
+                .Box(profileControlPressed)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControl)
+                .PseudoDisabled()
+                .Box(profileControlDisabled)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControl)
+                .Class(StyleClass.Negative)
+                .PseudoNormal()
+                .Box(profileControlNegative)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControl)
+                .Class(StyleClass.Negative)
+                .PseudoHovered()
+                .Box(profileControlNegativeHover)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControl)
+                .Class(JobPriorityPreferred)
+                .PseudoPressed()
+                .Box(profilePriorityPreferred)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControl)
+                .Class(JobPriorityNever)
+                .PseudoPressed()
+                .Box(profilePriorityNever)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControl)
+                .Class(AntagPreferenceOn)
+                .PseudoPressed()
+                .Box(profilePriorityPreferred)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControl)
+                .Class(AntagPreferenceOff)
+                .PseudoPressed()
+                .Box(profilePriorityNever)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControl)
+                .MinHeight(28),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControl)
+                .ParentOf(E<Label>())
+                .Font(sheet.BaseFont.GetFont(12)),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControl)
+                .ParentOf(E())
+                .ParentOf(E<Label>())
+                .Font(sheet.BaseFont.GetFont(12)),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControl)
+                .ParentOf(E<Label>().Class(OptionButton.StyleClassOptionButton))
+                .Font(sheet.BaseFont.GetFont(12)),
 
             E<ContainerButton>()
                 .Class(ContainerButton.StyleClassButton)

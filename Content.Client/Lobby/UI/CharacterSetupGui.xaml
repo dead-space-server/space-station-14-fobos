@@ -5,7 +5,7 @@
          xmlns:cc="clr-namespace:Content.Client.Administration.UI.CustomControls"
          VerticalExpand="True"
          HorizontalExpand="True">
-    <!-- DS14-start: KSO-styled character setup shell -->
+    <!-- DS14-start -->
     <PanelContainer Name="BackgroundPanel"
                     StyleClasses="DS14MenuShell"
                     VerticalExpand="True"
@@ -55,17 +55,24 @@
                 <PanelContainer StyleClasses="DS14MenuPanelDark"
                                 MinWidth="325"
                                 VerticalExpand="True">
-                    <ScrollContainer VerticalExpand="True">
+                    <ScrollContainer VerticalExpand="True"
+                                     HorizontalExpand="True">
                         <BoxContainer Orientation="Vertical"
+                                      HorizontalExpand="True"
                                       SeparationOverride="4">
                             <PanelContainer StyleClasses="DS14MenuAccent" />
-                            <BoxContainer Name="Characters" Orientation="Vertical" />
+                            <BoxContainer Name="Characters"
+                                          Orientation="Vertical"
+                                          HorizontalExpand="True" />
                             <Label Name="InaccessibleCharactersHeader"
                                    Text="{Loc 'character-setup-gui-inaccessible-characters-label'}"
                                    Margin="4 8 0 4"
                                    Visible="False"
                                    StyleClasses="DS14MenuSubtitle" />
-                            <BoxContainer Name="InaccessibleCharacters" Orientation="Vertical" Visible="False" />
+                            <BoxContainer Name="InaccessibleCharacters"
+                                          Orientation="Vertical"
+                                          Visible="False"
+                                          HorizontalExpand="True" />
                         </BoxContainer>
                     </ScrollContainer>
                 </PanelContainer>
