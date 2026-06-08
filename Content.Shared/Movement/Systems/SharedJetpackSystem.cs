@@ -20,6 +20,7 @@ public abstract class SharedJetpackSystem : EntitySystem
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly ActionContainerSystem _actionContainer = default!;
+    [Dependency] private readonly SharedActionsSystem _actions = default!;
 
     public override void Initialize()
     {
@@ -196,7 +197,7 @@ public abstract class SharedJetpackSystem : EntitySystem
             RemComp<ActiveJetpackComponent>(uid);
         }
 
-
+        _actions.SetToggled(component.ToggleActionEntity, enabled);
         Appearance.SetData(uid, JetpackVisuals.Enabled, enabled);
         Dirty(uid, component);
     }
