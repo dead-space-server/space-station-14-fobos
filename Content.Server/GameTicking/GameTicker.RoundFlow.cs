@@ -11,6 +11,7 @@ using Content.Shared.Body.Components;
 using Content.Shared.CCVar;
 using Content.Shared.Database;
 using Content.Shared.GameTicking;
+using Content.Shared.Ghost; // DS14
 using Content.Shared.Maps;
 using Content.Shared.Mind;
 using Content.Shared.Objectives.Systems;
@@ -45,6 +46,7 @@ namespace Content.Server.GameTicking
         [Dependency] private readonly RoleSystem _role = default!;
         [Dependency] private readonly RoundEndManifestStatsSystem _roundEndManifestStats = default!; // DS14
         [Dependency] private readonly SharedObjectivesSystem _objectives = default!; // DS14
+        [Dependency] private readonly ObjectivesSystem _objectivesSystem = default!; // DS14
         [Dependency] private readonly ITaskManager _taskManager = default!;
 
         private static readonly Counter RoundNumberMetric = Metrics.CreateCounter(
@@ -589,11 +591,10 @@ namespace Content.Server.GameTicking
                 var jobRoles = roles.Where(role => !role.Antagonist).ToArray();
                 var antagRoles = roles.Where(role => role.Antagonist).ToArray();
                 var manifestStats = _roundEndManifestStats.GetManifestStats(mindId);
-                var objectivesSys = (ObjectivesSystem) _objectives; // DS14
                 var manifestObjectives = antag
                     ? GetRoundEndObjectives(mindId, mind)
                     : Array.Empty<RoundEndMessageEvent.RoundEndObjectiveInfo>();
-                var inCustody = antag && objectivesSys.IsInCustody(mindId, mind); // DS14
+                var inCustody = antag && _objectivesSystem.IsInCustody(mindId, mind); // DS14
                 var isDead = antag && IsMindDead(mindId, mind); // DS14
                 var showInAntagManifest = antag &&
                     ShouldShowInRoundEndAntagManifest(mindId, manifestAntagMinds, manifestObjectives, antagRoles);
@@ -730,26 +731,13 @@ namespace Content.Server.GameTicking
         // DS14-start
         private bool IsMindDead(EntityUid mindId, MindComponent mind)
         {
-            if (mind.TimeOfDeath.HasValue)
-                return true;
+            if (mind.OwnedEntity is not {} owned)
+                return mind.TimeOfDeath.HasValue;
 
-            if (mind.OwnedEntity is {} owned &&
-                TryComp<MobStateComponent>(owned, out var mobState) &&
-                mobState.CurrentState == MobState.Dead)
-            {
-                return true;
-            }
+            if (TryComp<MobStateComponent>(owned, out var mobState))
+                return mobState.CurrentState == MobState.Dead;
 
-            if (TryGetEntity(mind.OriginalOwnedEntity, out var original) &&
-                original.HasValue &&
-                original.Value != mind.OwnedEntity &&
-                TryComp<MobStateComponent>(original.Value, out var origState) &&
-                origState.CurrentState == MobState.Dead)
-            {
-                return true;
-            }
-
-            return false;
+            return mind.TimeOfDeath.HasValue && HasComp<GhostComponent>(owned);
         }
         // DS14-end
 
