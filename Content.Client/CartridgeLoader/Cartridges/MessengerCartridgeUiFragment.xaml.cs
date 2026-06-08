@@ -12,7 +12,7 @@ using Robust.Shared.IoC;
 using Robust.Shared.Maths;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
-using Robust.Shared.Utility; //DS14
+using Robust.Shared.Utility;
 
 namespace Content.Client.CartridgeLoader.Cartridges;
 

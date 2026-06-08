@@ -4,10 +4,20 @@
                     MinSize="500 400"
                     SetSize="500 400"
                     Stylesheet="Interface">
-    <PanelContainer StyleClasses="BackgroundPanel" />
-    <BoxContainer Orientation="Vertical">
-        <TabContainer Name="Tabs" Access="Public" HorizontalExpand="True" VerticalExpand="True" />
-        <PanelContainer StyleClasses="LowDivider" />
-        <Label Name="VersionLabel" Access="Public" HorizontalAlignment="Right" StyleClasses="LabelSubText" Margin="4 0" />
+    <!-- DS14-start -->
+    <PanelContainer StyleClasses="DS14MenuShell" />
+    <BoxContainer Orientation="Vertical" Margin="10" SeparationOverride="6">
+        <TabContainer Name="Tabs"
+                      Access="Public"
+                      HorizontalExpand="True"
+                      VerticalExpand="True"
+                      StyleClasses="DS14MenuTabs" />
+        <PanelContainer StyleClasses="DS14MenuAccentDim" />
+        <Label Name="VersionLabel"
+               Access="Public"
+               HorizontalAlignment="Right"
+               StyleClasses="DS14MenuProfileLabel"
+               Margin="4 0" />
     </BoxContainer>
+    <!-- DS14-end -->
 </ui:ChangelogWindow>

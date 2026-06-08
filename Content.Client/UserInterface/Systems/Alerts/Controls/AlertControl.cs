@@ -2,9 +2,9 @@ using System.Numerics;
 using Content.Client.Actions.UI;
 using Content.Client.Cooldown;
 using Content.Shared.Alert;
-using Content.Shared.DeadSpace.ERT.Components; // DS14
+using Content.Shared.DeadSpace.ERT.Components;
 using Robust.Client.GameObjects;
-using Robust.Client.Player; // DS14
+using Robust.Client.Player;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Timing;

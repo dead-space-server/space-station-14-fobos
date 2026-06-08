@@ -24,10 +24,19 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
     public const string Accent = "DS14MenuAccent";
     public const string AccentDim = "DS14MenuAccentDim";
     public const string ActionButton = "DS14MenuAction";
+    public const string ActionButtonPositive = "DS14MenuActionPositive";
     public const string TopButton = "DS14MenuTopButton";
     public const string ProfileControl = "DS14MenuProfileControl";
+    public const string ProfileControlDanger = "DS14MenuProfileControlDanger";
+    public const string ProfileControlDangerHover = "DS14MenuProfileControlDangerHover";
     public const string ProfileLabel = "DS14MenuProfileLabel";
     public const string ProfileSection = "DS14MenuProfileSection";
+    public const string ListHeader = "DS14MenuListHeader";
+    public const string ListRow = "DS14MenuListRow";
+    public const string ListRowAlt = "DS14MenuListRowAlt";
+    public const string Input = "DS14MenuInput";
+    public const string TextArea = "DS14MenuTextArea";
+    public const string PopupPanel = "DS14MenuPopupPanel";
     public const string ReadyButton = "DS14MenuReadyButton";
     public const string JobPriorityPreferred = "DS14MenuJobPriorityPreferred";
     public const string JobPriorityNever = "DS14MenuJobPriorityNever";
@@ -248,6 +257,12 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
             BorderColor = Color.FromHex("#F85149"),
         };
 
+        var profileControlDangerHover = new StyleBoxFlat(profileControl)
+        {
+            BackgroundColor = Color.FromHex("#431E25F6"),
+            BorderColor = Color.FromHex("#F85149"),
+        };
+
         var topButtonNegative = new StyleBoxFlat(topButton)
         {
             BackgroundColor = Color.FromHex("#2E171CF2"),
@@ -286,6 +301,24 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
         {
             BackgroundColor = Color.FromHex("#101720C8"),
             BorderColor = Color.FromHex("#293844"),
+        };
+
+        var actionButtonPositive = new StyleBoxFlat(actionButton)
+        {
+            BackgroundColor = Color.FromHex("#173B26F4"),
+            BorderColor = Color.FromHex("#2EA043"),
+        };
+
+        var actionButtonPositiveHover = new StyleBoxFlat(actionButtonPositive)
+        {
+            BackgroundColor = Color.FromHex("#1D5635F8"),
+            BorderColor = Color.FromHex("#3FB950"),
+        };
+
+        var actionButtonPositivePressed = new StyleBoxFlat(actionButtonPositive)
+        {
+            BackgroundColor = Color.FromHex("#238636F8"),
+            BorderColor = Color.FromHex("#56D364"),
         };
 
         var readyNotReady = new StyleBoxFlat(actionButton)
@@ -342,6 +375,82 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
             BorderColor = Color.FromHex("#F85149"),
         };
 
+        var listHeader = new StyleBoxFlat
+        {
+            BackgroundColor = Color.FromHex("#202631F5"),
+            BorderColor = Color.FromHex("#5D6A7C"),
+            BorderThickness = new Thickness(0, 0, 0, 1),
+            ContentMarginTopOverride = 5,
+            ContentMarginBottomOverride = 5,
+            ContentMarginLeftOverride = 7,
+            ContentMarginRightOverride = 7,
+        };
+
+        var listRow = new StyleBoxFlat
+        {
+            BackgroundColor = Color.FromHex("#121821F0"),
+            BorderColor = Color.FromHex("#2D4757"),
+            BorderThickness = new Thickness(1),
+            ContentMarginTopOverride = 4,
+            ContentMarginBottomOverride = 4,
+            ContentMarginLeftOverride = 6,
+            ContentMarginRightOverride = 6,
+        };
+
+        var listRowAlt = new StyleBoxFlat(listRow)
+        {
+            BackgroundColor = Color.FromHex("#17202BF0"),
+        };
+
+        var listRowHover = new StyleBoxFlat(listRow)
+        {
+            BackgroundColor = Color.FromHex("#17283AF4"),
+            BorderColor = Color.FromHex("#1D7E9D"),
+        };
+
+        var listRowPressed = new StyleBoxFlat(listRow)
+        {
+            BackgroundColor = Color.FromHex("#1B3448F5"),
+            BorderColor = Color.FromHex("#2EA7D0"),
+        };
+
+        var listRowDisabled = new StyleBoxFlat(listRow)
+        {
+            BackgroundColor = Color.FromHex("#10161FC8"),
+            BorderColor = Color.FromHex("#293844"),
+        };
+
+        var input = new StyleBoxFlat
+        {
+            BackgroundColor = Color.FromHex("#0D1219F6"),
+            BorderColor = Color.FromHex("#2D4757"),
+            BorderThickness = new Thickness(1),
+            ContentMarginTopOverride = 4,
+            ContentMarginBottomOverride = 4,
+            ContentMarginLeftOverride = 7,
+            ContentMarginRightOverride = 7,
+        };
+
+        var inputDisabled = new StyleBoxFlat(input)
+        {
+            BackgroundColor = Color.FromHex("#10161FC8"),
+            BorderColor = Color.FromHex("#293844"),
+        };
+
+        var textArea = new StyleBoxFlat(input)
+        {
+            ContentMarginTopOverride = 6,
+            ContentMarginBottomOverride = 6,
+            ContentMarginLeftOverride = 7,
+            ContentMarginRightOverride = 7,
+        };
+
+        var popupPanel = new StyleBoxFlat(panel)
+        {
+            BackgroundColor = Color.FromHex("#10161FF8"),
+            BorderColor = Color.FromHex("#5D6A7C"),
+        };
+
         return
         [
             E<PanelContainer>().Class(Shell).Panel(shell),
@@ -354,7 +463,42 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
             E<PanelContainer>().Class(Accent).Panel(accent),
             E<PanelContainer>().Class(AccentDim).Panel(accentDim),
             E<PanelContainer>().Class(CharacterIcon).Panel(characterIcon),
+            E<PanelContainer>().Class(ListHeader).Panel(listHeader),
+            E<PanelContainer>().Class(ListRow).Panel(listRow),
+            E<PanelContainer>().Class(ListRowAlt).Panel(listRowAlt),
+            E<PanelContainer>().Class(PopupPanel).Panel(popupPanel),
             E<PanelContainer>().Class(OptionButton.StyleClassOptionsBackground).Panel(optionDropdownBackground),
+            E<ItemList>()
+                .Class(TextArea)
+                .Prop(ItemList.StylePropertyBackground, input)
+                .Prop(ItemList.StylePropertyItemBackground, listRow)
+                .Prop(ItemList.StylePropertyDisabledItemBackground, inputDisabled)
+                .Prop(ItemList.StylePropertySelectedItemBackground, listRowPressed),
+            E<OutputPanel>()
+                .Class(TextArea)
+                .Prop(OutputPanel.StylePropertyStyleBox, textArea),
+            E<LineEdit>()
+                .Class(Input)
+                .Prop(LineEdit.StylePropertyStyleBox, input)
+                .Prop("font-color", Color.FromHex("#F1F3F6")),
+            E<LineEdit>()
+                .Class(Input)
+                .Class(LineEdit.StyleClassLineEditNotEditable)
+                .Prop(LineEdit.StylePropertyStyleBox, inputDisabled)
+                .Prop("font-color", Color.FromHex("#9BA6AD")),
+            E<LineEdit>()
+                .Class(Input)
+                .Pseudo(LineEdit.StylePseudoClassPlaceholder)
+                .Prop("font-color", Color.FromHex("#7A8590")),
+            E<TextEdit>()
+                .Class(TextArea)
+                .Prop("font-color", Color.FromHex("#F1F3F6"))
+                .Prop(TextEdit.StylePropertyCursorColor, sheet.HighlightPalette.Text)
+                .Prop(TextEdit.StylePropertySelectionColor, Color.FromHex("#1D7E9D88")),
+            E<TextEdit>()
+                .Class(TextArea)
+                .Pseudo(TextEdit.StylePseudoClassPlaceholder)
+                .Prop("font-color", Color.FromHex("#7A8590")),
             E<TabContainer>()
                 .Class(Tabs)
                 .Prop(TabContainer.StylePropertyPanelStyleBox, tabsPanel)
@@ -379,6 +523,10 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
             E<Label>()
                 .Class(ProfileSection)
                 .Font(sheet.BaseFont.GetFont(12))
+                .FontColor(sheet.HighlightPalette.Text),
+            E<Label>()
+                .Class(ListHeader)
+                .Font(sheet.BaseFont.GetFont(12, FontKind.Bold))
                 .FontColor(sheet.HighlightPalette.Text),
             E<Label>()
                 .Class(RoundStatusTitle)
@@ -410,6 +558,34 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
             E<ContainerButton>()
                 .Class(ContainerButton.StyleClassButton)
                 .Class(ActionButton)
+                .PseudoDisabled()
+                .Box(actionButtonDisabled)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ActionButton)
+                .Class(ActionButtonPositive)
+                .PseudoNormal()
+                .Box(actionButtonPositive)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ActionButton)
+                .Class(ActionButtonPositive)
+                .PseudoHovered()
+                .Box(actionButtonPositiveHover)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ActionButton)
+                .Class(ActionButtonPositive)
+                .PseudoPressed()
+                .Box(actionButtonPositivePressed)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ActionButton)
+                .Class(ActionButtonPositive)
                 .PseudoDisabled()
                 .Box(actionButtonDisabled)
                 .Modulate(Color.White),
@@ -551,6 +727,44 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
             E<ContainerButton>()
                 .Class(ContainerButton.StyleClassButton)
                 .Class(ProfileControl)
+                .Class(ProfileControlDangerHover)
+                .PseudoHovered()
+                .Box(profileControlDangerHover)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControl)
+                .Class(ProfileControlDangerHover)
+                .PseudoPressed()
+                .Box(profileControlDangerHover)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControlDanger)
+                .PseudoNormal()
+                .Box(profileControl)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControlDanger)
+                .PseudoHovered()
+                .Box(profileControlDangerHover)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControlDanger)
+                .PseudoPressed()
+                .Box(profileControlDangerHover)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControlDanger)
+                .PseudoDisabled()
+                .Box(profileControlDisabled)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControl)
                 .Class(JobPriorityPreferred)
                 .PseudoPressed()
                 .Box(profilePriorityPreferred)
@@ -582,7 +796,16 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
                 .MinHeight(28),
             E<ContainerButton>()
                 .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControlDanger)
+                .MinHeight(28),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
                 .Class(ProfileControl)
+                .ParentOf(E<Label>())
+                .Font(sheet.BaseFont.GetFont(12)),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControlDanger)
                 .ParentOf(E<Label>())
                 .Font(sheet.BaseFont.GetFont(12)),
             E<ContainerButton>()
@@ -595,6 +818,73 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
                 .Class(ContainerButton.StyleClassButton)
                 .Class(ProfileControl)
                 .ParentOf(E<Label>().Class(OptionButton.StyleClassOptionButton))
+                .Font(sheet.BaseFont.GetFont(12)),
+
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ListRow)
+                .PseudoNormal()
+                .Box(listRow)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ListRow)
+                .PseudoHovered()
+                .Box(listRowHover)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ListRow)
+                .PseudoPressed()
+                .Box(listRowPressed)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ListRow)
+                .PseudoDisabled()
+                .Box(listRowDisabled)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ListRowAlt)
+                .PseudoNormal()
+                .Box(listRowAlt)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ListRowAlt)
+                .PseudoHovered()
+                .Box(listRowHover)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ListRowAlt)
+                .PseudoPressed()
+                .Box(listRowPressed)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ListRowAlt)
+                .PseudoDisabled()
+                .Box(listRowDisabled)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ListRow)
+                .MinHeight(28),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ListRowAlt)
+                .MinHeight(28),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ListRow)
+                .ParentOf(E<Label>())
+                .Font(sheet.BaseFont.GetFont(12)),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ListRowAlt)
+                .ParentOf(E<Label>())
                 .Font(sheet.BaseFont.GetFont(12)),
 
             E<ContainerButton>()
@@ -614,6 +904,27 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
                 .Class(ReadyButton)
                 .PseudoPressed()
                 .Box(readyReady)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ActionButton)
+                .Class(ActionButtonPositive)
+                .PseudoNormal()
+                .Box(actionButtonPositive)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ActionButton)
+                .Class(ActionButtonPositive)
+                .PseudoHovered()
+                .Box(actionButtonPositiveHover)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ActionButton)
+                .Class(ActionButtonPositive)
+                .PseudoPressed()
+                .Box(actionButtonPositivePressed)
                 .Modulate(Color.White),
         ];
     }

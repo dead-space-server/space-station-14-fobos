@@ -2,6 +2,7 @@
 using Content.Client.Audio;
 // DS14-end
 using Content.Client._Donate.UI;
+using Content.Client.DeadSpace.Stylesheets;
 using Content.Client.GameTicking.Managers;
 using Content.Client.LateJoin;
 using Content.Client.Lobby.UI;
@@ -192,6 +193,7 @@ namespace Content.Client.Lobby
 
         private void LobbyLateJoinStatusUpdated()
         {
+            ApplyReadyButtonStyle(); // DS14
             Lobby!.ReadyButton.Disabled = _gameTicker.DisallowedLateJoin;
         }
 
@@ -199,7 +201,8 @@ namespace Content.Client.Lobby
         {
             if (_gameTicker.IsGameStarted)
             {
-                Lobby!.ReadyButton.RemoveStyleClass("DS14MenuReadyButton"); // DS14
+                ApplyReadyButtonStyle(); // DS14
+
                 Lobby!.ReadyButton.Text = Loc.GetString("lobby-state-ready-button-join-state");
                 Lobby!.ReadyButton.ToggleMode = false;
                 Lobby!.ReadyButton.Pressed = false;
@@ -207,10 +210,7 @@ namespace Content.Client.Lobby
             }
             else
             {
-                // DS14-start
-                if (!Lobby!.ReadyButton.HasStyleClass("DS14MenuReadyButton"))
-                    Lobby!.ReadyButton.AddStyleClass("DS14MenuReadyButton");
-                // DS14-end
+                ApplyReadyButtonStyle(); // DS14
 
                 Lobby!.StartTime.Text = string.Empty;
                 Lobby!.ReadyButton.Pressed = _gameTicker.AreWeReady;
@@ -245,6 +245,28 @@ namespace Content.Client.Lobby
             else
                 Lobby!.PlaytimeComment.Visible = false;
         }
+
+        // DS14-start
+        private void ApplyReadyButtonStyle()
+        {
+            if (Lobby == null)
+                return;
+
+            if (_gameTicker.IsGameStarted)
+            {
+                Lobby.ReadyButton.StyleClasses.Clear();
+                Lobby.ReadyButton.AddStyleClass(ContainerButton.StyleClassButton);
+                Lobby.ReadyButton.AddStyleClass(DeadSpaceMenuSheetlet.ActionButton);
+                Lobby.ReadyButton.AddStyleClass(DeadSpaceMenuSheetlet.ActionButtonPositive);
+                return;
+            }
+
+            Lobby.ReadyButton.StyleClasses.Clear();
+            Lobby.ReadyButton.AddStyleClass(ContainerButton.StyleClassButton);
+            Lobby.ReadyButton.AddStyleClass(DeadSpaceMenuSheetlet.ActionButton);
+            Lobby.ReadyButton.AddStyleClass(DeadSpaceMenuSheetlet.ReadyButton);
+        }
+        // DS14-end
 
         private void UpdateLobbyBackground()
         {
