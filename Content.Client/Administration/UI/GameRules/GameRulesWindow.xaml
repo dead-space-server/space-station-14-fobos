@@ -1,0 +1,26 @@
+<DefaultWindow xmlns="https://spacestation14.io"
+               Title="{Loc admin-game-rules-window-title}"
+               MinSize="1000 600"
+               SetSize="1200 720">
+    <BoxContainer Orientation="Horizontal" SeparationOverride="12" Margin="10" VerticalExpand="True">
+        <PanelContainer StyleClasses="PanelDark" HorizontalExpand="True" VerticalExpand="True">
+            <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="6">
+                <Label Text="{Loc admin-game-rules-current-list-title}" StyleClasses="LabelSubText" />
+                <BoxContainer Orientation="Horizontal" SeparationOverride="8">
+                    <Label Name="RoundTimeLabel" StyleClasses="LabelBig" HorizontalExpand="True" />
+                </BoxContainer>
+                <ScrollContainer VerticalExpand="True">
+                    <BoxContainer Name="RulesList" Orientation="Vertical" SeparationOverride="2" />
+                </ScrollContainer>
+            </BoxContainer>
+        </PanelContainer>
+        <PanelContainer StyleClasses="PanelDark" VerticalExpand="True" MinSize="480 0">
+            <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="8">
+                <Label Text="{Loc admin-game-rules-add-title}" StyleClasses="LabelSubText" />
+                <CheckBox Name="ShowIdCheckBox" Text="{Loc admin-game-rules-show-id}" />
+                <TabContainer Name="CategoryTabs" VerticalExpand="True" />
+                <Button Name="AddRuleButton" Text="{Loc admin-game-rules-add-button}" ModulateSelfOverride="#2ea043" />
+            </BoxContainer>
+        </PanelContainer>
+    </BoxContainer>
+</DefaultWindow>
