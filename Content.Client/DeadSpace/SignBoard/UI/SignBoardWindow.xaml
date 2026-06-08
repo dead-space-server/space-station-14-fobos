@@ -1,0 +1,11 @@
+<DefaultWindow xmlns="https://spacestation14.io"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               x:Class="Content.Client.DeadSpace.SignBoard.UI.SignBoardWindow"
+               Title="{Loc signboard-window-title}"
+               MinSize="300 100"
+               SetSize="400 150">
+  <BoxContainer Orientation="Vertical" Margin="8 8 8 8">
+    <LineEdit Name="SignBoardInput" PlaceHolder="{Loc signboard-input-placeholder}" />
+    <Button Name="DrawButton" Text="{Loc signboard-draw-button}" Disabled="True" />
+  </BoxContainer>
+</DefaultWindow>
