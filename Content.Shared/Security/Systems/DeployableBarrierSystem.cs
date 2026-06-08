@@ -41,7 +41,9 @@ public sealed class DeployableBarrierSystem : EntitySystem
         var transform = Transform(uid);
         var fixture = _fixtures.GetFixtureOrNull(uid, component.FixtureId);
 
-        if (isDeployed && transform.GridUid != null)
+        var canCollide = isDeployed && transform.GridUid != null;
+
+        if (canCollide)
         {
             _transform.AnchorEntity(uid, transform);
             if (fixture != null)
@@ -53,6 +55,10 @@ public sealed class DeployableBarrierSystem : EntitySystem
             if (fixture != null)
                 _physics.SetHard(uid, fixture, false);
         }
+
+        // DS14-Start: keep undeployed barriers out of physics contacts.
+        _physics.SetCanCollide(uid, canCollide);
+        // DS14-End
 
         if (TryComp(uid, out PullableComponent? pullable))
             _pulling.TryStopPull(uid, pullable);

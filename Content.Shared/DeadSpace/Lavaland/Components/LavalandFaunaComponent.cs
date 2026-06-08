@@ -3,4 +3,4 @@ using Robust.Shared.GameStates;
 namespace Content.Shared.DeadSpace.Lavaland.Components;
 
 [RegisterComponent, NetworkedComponent]
-public sealed partial class LavalandChasmImmuneComponent : Component;
+public sealed partial class LavalandFaunaComponent : Component;
