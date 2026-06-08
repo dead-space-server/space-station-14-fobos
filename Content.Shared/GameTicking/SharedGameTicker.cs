@@ -207,6 +207,8 @@ namespace Content.Shared.GameTicking
 
             public bool InCustody;
 
+            public bool IsDead;
+
             public bool ShowInAntagManifest;
             // DS14-end
 

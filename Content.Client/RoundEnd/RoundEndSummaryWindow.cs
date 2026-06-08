@@ -556,15 +556,25 @@ namespace Content.Client.RoundEnd
                 HorizontalExpand = true,
             });
             // DS14-start
-            if (playerInfo.InCustody)
+            if (playerInfo.IsDead)
             {
-                var custodyLabel = new RichTextLabel
+                var badgeLabel = new RichTextLabel
                 {
                     VerticalAlignment = VAlignment.Center,
                     Margin = new Thickness(8, 0, 0, 0),
                 };
-                custodyLabel.SetMarkup(Loc.GetString("objectives-in-custody"));
-                nameRow.AddChild(custodyLabel);
+                badgeLabel.SetMarkup(Loc.GetString("objectives-eliminated"));
+                nameRow.AddChild(badgeLabel);
+            }
+            else if (playerInfo.InCustody)
+            {
+                var badgeLabel = new RichTextLabel
+                {
+                    VerticalAlignment = VAlignment.Center,
+                    Margin = new Thickness(8, 0, 0, 0),
+                };
+                badgeLabel.SetMarkup(Loc.GetString("objectives-in-custody"));
+                nameRow.AddChild(badgeLabel);
             }
             content.AddChild(nameRow);
             // DS14-end

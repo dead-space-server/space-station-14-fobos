@@ -15,6 +15,8 @@ using Content.Shared.Maps;
 using Content.Shared.Mind;
 using Content.Shared.Objectives.Systems;
 using Content.Server.Objectives; // DS14
+using Content.Shared.Mobs; // DS14
+using Content.Shared.Mobs.Components; // DS14
 using Content.Shared.Players;
 using Content.Shared.Preferences;
 using Content.Shared.Roles;
@@ -592,6 +594,7 @@ namespace Content.Server.GameTicking
                     ? GetRoundEndObjectives(mindId, mind)
                     : Array.Empty<RoundEndMessageEvent.RoundEndObjectiveInfo>();
                 var inCustody = antag && objectivesSys.IsInCustody(mindId, mind); // DS14
+                var isDead = antag && IsMindDead(mindId, mind); // DS14
                 var showInAntagManifest = antag &&
                     ShouldShowInRoundEndAntagManifest(mindId, manifestAntagMinds, manifestObjectives, antagRoles);
                 // DS14-end
@@ -619,6 +622,7 @@ namespace Content.Server.GameTicking
                     ManifestAssists = antag ? manifestStats.Assists : 0,
                     ManifestObjectives = manifestObjectives,
                     InCustody = inCustody, // DS14
+                    IsDead = isDead, // DS14
                     ShowInAntagManifest = showInAntagManifest,
                     // DS14-end
                     Observer = observer,
@@ -722,6 +726,32 @@ namespace Content.Server.GameTicking
 
             return objectives.ToArray();
         }
+
+        // DS14-start
+        private bool IsMindDead(EntityUid mindId, MindComponent mind)
+        {
+            if (mind.TimeOfDeath.HasValue)
+                return true;
+
+            if (mind.OwnedEntity is {} owned &&
+                TryComp<MobStateComponent>(owned, out var mobState) &&
+                mobState.CurrentState == MobState.Dead)
+            {
+                return true;
+            }
+
+            if (TryGetEntity(mind.OriginalOwnedEntity, out var original) &&
+                original.HasValue &&
+                original.Value != mind.OwnedEntity &&
+                TryComp<MobStateComponent>(original.Value, out var origState) &&
+                origState.CurrentState == MobState.Dead)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        // DS14-end
 
         private EntityUid? GetRoundEndDisplayEntity(
             EntityUid mindId,
