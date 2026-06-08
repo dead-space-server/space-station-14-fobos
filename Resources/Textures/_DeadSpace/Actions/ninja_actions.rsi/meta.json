@@ -39,6 +39,15 @@
     },
     {
       "name": "shuriken"
+    },
+    {
+      "name": "smoke"
+    },
+    {
+      "name": "smokeauto-off"
+    },
+    {
+      "name": "smokeauto-on"
     }
   ]
 }
