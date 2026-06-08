@@ -8,13 +8,13 @@ namespace Content.Shared.DeadSpace.Ninja.Components;
 public sealed partial class NinjaSmokeAbilityComponent : Component
 {
     [DataField]
-    public EntProtoId ActionSmoke;
+    public EntProtoId ActionSmoke = "NinjaSmokeAction";
 
     [DataField, AutoNetworkedField]
     public EntityUid? ActionSmokeEntity;
 
     [DataField]
-    public EntProtoId ActionAutoSmoke;
+    public EntProtoId ActionAutoSmoke = "ToggleNinjaAutoSmokeAction";
 
     [DataField, AutoNetworkedField]
     public EntityUid? ActionAutoSmokeEntity;
@@ -48,7 +48,32 @@ public sealed partial class NinjaSmokeAbilityComponent : Component
     /// Battery charge used to create smoke.
     /// </summary>
     [DataField, AutoNetworkedField]
-    public float Charge;
+    public float ChargeAutoMode;
+
+    /// <summary>
+    /// How long the smoke stays in auto mode for, after it has spread (in seconds).
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public TimeSpan DurationAutoMode = TimeSpan.FromSeconds(5);
+
+    /// <summary>
+    /// How much the smoke will spread in auto mode.
+    /// </summary>
+    [DataField(required: true), AutoNetworkedField]
+    public int SpreadAmountAutoMode;
+
+    /// <summary>
+    /// Battery charge used to create smoke by auto mode.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public float ChargeAutoMode;
+
+    /// <summary>
+    /// Solution to add to each smoke cloud in auto mode.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public Solution SolutionAutoMode = new();
+
     /// <summary>
     /// Will the ability be activated by others?
     /// </summary>
@@ -57,3 +82,5 @@ public sealed partial class NinjaSmokeAbilityComponent : Component
 }
 
 public sealed partial class NinjaSmokeAbilityActionEvent : InstantActionEvent;
+
+public sealed partial class NinjaToggleAutoSmokeActionEvent : InstantActionEvent;

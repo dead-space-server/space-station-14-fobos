@@ -64,26 +64,27 @@ public sealed class AutoDustSystem : SharedAutoDustSystem
 
         if (args.NewMobState == MobState.Dead && dust.AutoDustMode == DustMode.Dead)
         {
-            ActivateAutoDust(ent.Owner, dust);
+            ActivateAutoDust(ent.Owner);
         }
 
         if (args.NewMobState == MobState.Critical && dust.AutoDustMode == DustMode.Crit)
         {
-            ActivateAutoDust(ent.Owner, dust);
+            ActivateAutoDust(ent.Owner);
         }
     }
 
-    public void ActivateAutoDust(EntityUid uid, AutoDustComponent component)
+    public void ActivateAutoDust(Entity<AutoDustMarkerComponent> ent)
     {
-        var mapCoords = _transform.GetMapCoordinates(uid);
+        var mapCoords = _transform.GetMapCoordinates(ent.Owner);
+        TryComp<AutoDustComponent>(ent.Comp.AutoDustItem, out var dust);
         Spawn(component.SpawnOnDustProto, mapCoords);
 
         if (component.DeleteItems)
         {
-            var items = _inventory.GetHandOrInventoryEntities(uid);
+            var items = _inventory.GetHandOrInventoryEntities(ent.Owner);
             foreach (var item in items)
             {
-                QueueDel(item);
+                QueueDel(ent.Owner);
             }
         }
 

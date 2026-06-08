@@ -152,3 +152,36 @@
     itemIconStyle: BigAction
   - type: InstantAction
     event: !type:ToggleJetpackEvent
+
+- type: entity
+  parent: BaseAction
+  id: NinjaSmokeAction
+  name: дымовая завеса
+  description: Создает объемную дымовую завесу, которая может помочь сбежать. Ну или напасть..
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/ninja_actions.rsi
+      state: smoke
+    useDelay: 3.0
+    itemIconStyle: BigAction
+  - type: InstantAction
+    event: !type:NinjaSmokeAbilityActionEvent
+
+- type: entity
+  parent: BaseAction
+  id: ToggleNinjaAutoSmokeAction
+  name: автоматический режим дымовой завесы.
+  description: Позволяет автоматически создавать дымовую завесу при использовании некоторых других способностей в ослабленном виде и за уменьшенную цену.
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/ninja_actions.rsi
+      state: smokeauto-off
+    iconOn:
+      sprite: _DeadSpace/Actions/ninja_actions.rsi
+      state: smokeauto-on
+    useDelay: 1.0
+    itemIconStyle: BigAction
+  - type: InstantAction
+    event: !type:NinjaToggleAutoSmokeActionEvent
