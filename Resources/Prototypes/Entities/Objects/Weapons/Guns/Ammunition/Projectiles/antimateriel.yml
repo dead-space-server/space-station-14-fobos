@@ -14,7 +14,7 @@
     penetrationDamageTypeRequirement:
     - Structural
   - type: StaminaDamageOnCollide
-    damage: 50
+    damage: 60
 #DS14 start
 - type: entity 
   categories: [ HideSpawnMenu ]
@@ -25,7 +25,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 50
+        Piercing: 60
         Structural: 126
     penetrationThreshold: 360
     penetrationDamageTypeRequirement:

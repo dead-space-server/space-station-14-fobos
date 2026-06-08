@@ -62,6 +62,9 @@
   id: CartridgeSniperRifle
 
 - type: Tag
+  id: CartridgeHeavyPistol
+
+- type: Tag
   id: CatEmotes
 
 - type: Tag
