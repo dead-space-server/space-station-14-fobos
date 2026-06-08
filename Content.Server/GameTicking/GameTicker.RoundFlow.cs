@@ -14,6 +14,7 @@ using Content.Shared.GameTicking;
 using Content.Shared.Maps;
 using Content.Shared.Mind;
 using Content.Shared.Objectives.Systems;
+using Content.Server.Objectives; // DS14
 using Content.Shared.Players;
 using Content.Shared.Preferences;
 using Content.Shared.Roles;
@@ -586,9 +587,11 @@ namespace Content.Server.GameTicking
                 var jobRoles = roles.Where(role => !role.Antagonist).ToArray();
                 var antagRoles = roles.Where(role => role.Antagonist).ToArray();
                 var manifestStats = _roundEndManifestStats.GetManifestStats(mindId);
+                var objectivesSys = (ObjectivesSystem) _objectives; // DS14
                 var manifestObjectives = antag
                     ? GetRoundEndObjectives(mindId, mind)
                     : Array.Empty<RoundEndMessageEvent.RoundEndObjectiveInfo>();
+                var inCustody = antag && objectivesSys.IsInCustody(mindId, mind); // DS14
                 var showInAntagManifest = antag &&
                     ShouldShowInRoundEndAntagManifest(mindId, manifestAntagMinds, manifestObjectives, antagRoles);
                 // DS14-end
@@ -615,6 +618,7 @@ namespace Content.Server.GameTicking
                     ManifestKills = antag ? manifestStats.Kills : 0,
                     ManifestAssists = antag ? manifestStats.Assists : 0,
                     ManifestObjectives = manifestObjectives,
+                    InCustody = inCustody, // DS14
                     ShowInAntagManifest = showInAntagManifest,
                     // DS14-end
                     Observer = observer,
