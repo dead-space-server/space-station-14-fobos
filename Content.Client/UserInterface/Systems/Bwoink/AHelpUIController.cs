@@ -570,6 +570,7 @@ public sealed class UserAHelpUIHandler : IAHelpUIHandler
         _chatPanel = new BwoinkPanel(text => SendMessageAction?.Invoke(_ownerId, text, true, false));
         _chatPanel.InputTextChanged += text => InputTextChanged?.Invoke(_ownerId, text);
         _chatPanel.RelayedToDiscordLabel.Visible = relayActive;
+        _chatPanel.TypingIndicator.Visible = false; // DS14
         _window = new DefaultWindow()
         {
             Title=Loc.GetString("bwoink-user-title"),
