@@ -13,7 +13,7 @@
       itemAfterLerning: SmokingCarpInjectorAfter
       params:
         - staminaDamageSmokePunch: 35.0
-          hitDamageForPowerPunch: 30
+          hitDamageForPowerPunch: 20
           hitDamageForSmokePunch: 5
           ignoreResist: true
           damageTypeForPowerPunch: "Slash"
