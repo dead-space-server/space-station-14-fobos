@@ -12,6 +12,7 @@ public sealed class SignBoardBoundUserInterface : BoundUserInterface
 
     protected override void Open()
     {
+        base.Open();
         _window = this.CreateWindow<SignBoardWindow>();
         _window.OpenCentered();
         _window.OnTextSubmitted += OnTextSubmitted;
