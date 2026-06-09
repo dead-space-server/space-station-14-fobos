@@ -1,6 +1,6 @@
 - type: construction
   id: smokeableJointTritium
-  name: тритиевый косяк
+  name: construction-smokeable-joint-tritium
   graph: smokeableJointTritium
   startNode: start
   targetNode: jointTritium
