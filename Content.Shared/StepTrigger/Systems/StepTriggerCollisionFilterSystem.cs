@@ -16,7 +16,7 @@ public sealed class StepTriggerCollisionFilterSystem : EntitySystem
 
     private void OnPreventCollide(Entity<StepTriggerCollisionFilterComponent> ent, ref PreventCollideEvent args)
     {
-        // DS14-Start: avoid persistent hazard-tile sensor contacts with entities that cannot trigger them.
+        // DS14-Start: avoid persistent step-trigger sensor contacts with entities that cannot trigger them.
         if ((ent.Comp.IgnoreCanMoveInAir && HasComp<CanMoveInAirComponent>(args.OtherEntity)) ||
             (ent.Comp.IgnoreLavalandChasmImmune && HasComp<LavalandChasmImmuneComponent>(args.OtherEntity)) ||
             (ent.Comp.IgnoreLavalandFauna && HasComp<LavalandFaunaComponent>(args.OtherEntity)))
