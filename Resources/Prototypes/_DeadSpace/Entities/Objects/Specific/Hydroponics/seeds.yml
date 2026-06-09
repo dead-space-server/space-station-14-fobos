@@ -7,3 +7,14 @@
       seedId: sakura
     - type: Sprite
       sprite: _DeadSpace/Objects/Specific/Hydroponics/sakura.rsi
+
+- type: entity
+  parent: SeedBase
+  name: пакет семян (тритиевая конопля)
+  description: "Из этих семян вырастет тритиевая травка. Радиоактивная и крайне нестабильная."
+  id: TritiumCannabisSeeds
+  components:
+    - type: Seed
+      seedId: tritiumCannabis
+    - type: Sprite
+      sprite: Objects/Specific/Hydroponics/cannabis.rsi

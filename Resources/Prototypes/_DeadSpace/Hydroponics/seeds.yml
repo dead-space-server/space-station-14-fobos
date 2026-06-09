@@ -29,3 +29,34 @@
       Min: 1
       Max: 5
       PotencyDivisor: 5
+
+- type: seed
+  id: tritiumCannabis
+  name: тритиевая конопля
+  noun: seeds-noun-seeds
+  displayName: тритиевая конопля
+  plantRsi: Objects/Specific/Hydroponics/cannabis.rsi
+  packetPrototype: TritiumCannabisSeeds
+  productPrototypes:
+    - LeavesCannabisTritium
+  harvestRepeat: Repeat
+  lifespan: 75
+  maturation: 8
+  production: 12
+  yield: 2
+  potency: 20
+  growthStages: 3
+  waterConsumption: 0.40
+  idealLight: 9
+  idealHeat: 298
+  exudeGasses:
+    Tritium: 0.1
+  chemicals:
+    THC:
+      Min: 1
+      Max: 10
+      PotencyDivisor: 10
+    SpaceDrugs:
+      Min: 1
+      Max: 5
+      PotencyDivisor: 20
