@@ -7,7 +7,7 @@
   - type: Pda
     id: IAAIDCard
     penSlot:
-      startingItem: PenIAA
+      startingItem: PenIAA #DS14
   - type: Appearance
     appearanceDataInit:
      enum.PdaVisuals.PdaType:
