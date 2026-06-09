@@ -18,9 +18,9 @@
   - type: Action
     useDelay: 0.5
     icon:
-      sprite: Objects/Weapons/Throwable/throwing_star.rsi
-      state: icon
-    itemIconStyle: NoItem
+      sprite: _DeadSpace/Actions/ninja_actions.rsi
+      state: shuriken
+    itemIconStyle: BigAction
     priority: -10
   - type: InstantAction
     event: !type:CreateItemEvent {}
@@ -111,7 +111,7 @@
 - type: entity
   id: ToggleAutoDustModeAction
   name: Auto-Dust
-  description: Преключает режим модуля Auto-Dust.
+  description: Преключает режим программы Auto-Dust.
   components:
   - type: Action
     useDelay: 1
@@ -159,4 +159,34 @@
     itemIconStyle: BigAction
   - type: InstantAction
     event: !type:ToggleCloakNinjaEvent
+  id: NinjaSmokeAction
+  name: дымовая завеса
+  description: Создает объемную дымовую завесу, которая может помочь сбежать. Ну или напасть..
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/ninja_actions.rsi
+      state: smoke
+    useDelay: 3.0
+    itemIconStyle: BigAction
+  - type: InstantAction
+    event: !type:NinjaSmokeAbilityActionEvent
+
+- type: entity
+  parent: BaseAction
+  id: ToggleNinjaAutoSmokeAction
+  name: автоматический режим дымовой завесы.
+  description: Позволяет автоматически создавать дымовую завесу при использовании некоторых других способностей в ослабленном виде и за уменьшенную цену.
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/ninja_actions.rsi
+      state: smokeauto-off
+    iconOn:
+      sprite: _DeadSpace/Actions/ninja_actions.rsi
+      state: smokeauto-on
+    useDelay: 1.0
+    itemIconStyle: BigAction
+  - type: InstantAction
+    event: !type:NinjaToggleAutoSmokeActionEvent
 #DS-14 End

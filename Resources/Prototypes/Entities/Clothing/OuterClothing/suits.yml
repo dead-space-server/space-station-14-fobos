@@ -193,7 +193,10 @@
   - type: HealthAnalyzer
   - type: AutoDust
   #DS14 start
-  - type: Jetpack 
+  - type: NinjaSmokeAbility
+    spreadAmount: 10
+    spreadAmountAutoMode: 5
+  - type: Jetpack
     requiresGas: false
     toggleAction: NinjaActionToggleJetpack
   - type: NinjaSuitHeat
@@ -201,7 +204,7 @@
     heatRate: 5
     coolRate: 10
     effectsThreshold: 50 
-    #DS14 end
+  #DS14 end
   - type: EmpResistance
     strengthMultiplier: 0
   - type: UseDelay

@@ -8,7 +8,7 @@ public sealed class SpiderOSWindowBoundUserInterface : BoundUserInterface
 {
     [ViewVariables]
     private SpiderOSWindow? _menu;
-    
+
     public SpiderOSWindowBoundUserInterface(EntityUid owner, Enum uiKey) : base(owner, uiKey)
     {
     }
