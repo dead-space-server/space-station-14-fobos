@@ -24,8 +24,12 @@ public sealed class SignBoardSystem : EntitySystem
 
     private void OnSetText(Entity<SignBoardComponent> entity, ref SignBoardSetTextMessage args)
     {
-        entity.Comp.Text = args.Text;
-        _appearance.SetData(entity.Owner, TextScreenVisuals.ScreenText, args.Text);
+        var text = args.Text;
+        if (text.Length > 20)
+            text = text[..20];
+
+        entity.Comp.Text = text;
+        _appearance.SetData(entity.Owner, TextScreenVisuals.ScreenText, text);
         _audio.PlayPvs(entity.Comp.Sound, entity.Owner);
         Dirty(entity);
     }
