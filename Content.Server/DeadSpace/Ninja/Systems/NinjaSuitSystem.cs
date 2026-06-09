@@ -23,6 +23,7 @@ public sealed class NinjaSuitSystem : SharedNinjaSuitSystem
     [Dependency] private readonly PowerCellSystem _powerCell = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly UserInterfaceSystem _uiSystem = default!;
+    [Dependency] private readonly AutoDustSystem _autoDust = default!;
 
     // How much the cell score should be increased per 1 AutoRechargeRate.
     private const int AutoRechargeValue = 100;
@@ -157,6 +158,11 @@ public sealed class NinjaSuitSystem : SharedNinjaSuitSystem
     private void OnOpenOS(Entity<NinjaSuitComponent> ent, ref OpenSpiderOSEvent args)
     {
         var (uid, comp) = ent;
+        if (!_ninja.IsNinja(args.Performer))
+            if (TryComp<AutoDustMarkerComponent>(args.Performer, out var marker))
+                _autoDust.ActivateAutoDust(args.Performer, marker);
+            else
+                return;
         if (!_uiSystem.HasUi(uid, SpiderOSUiKey.Key))
             return;
 

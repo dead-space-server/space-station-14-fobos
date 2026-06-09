@@ -57,38 +57,38 @@ public sealed class AutoDustSystem : SharedAutoDustSystem
         Dirty(uid, comp);
     }
 
-    private void OnMobState(Entity<AutoDustMarkerComponent> ent, ref MobStateChangedEvent args)
+    private void OnMobState(EntityUid uid, AutoDustMarkerComponent component, ref MobStateChangedEvent args)
     {
-        if (!TryComp<AutoDustComponent>(ent.Comp.AutoDustItem, out var dust))
+        if (!TryComp<AutoDustComponent>(component.AutoDustItem, out var dust))
             return;
 
         if (args.NewMobState == MobState.Dead && dust.AutoDustMode == DustMode.Dead)
         {
-            ActivateAutoDust(ent);
+            ActivateAutoDust(uid, component);
         }
 
         if (args.NewMobState == MobState.Critical && dust.AutoDustMode == DustMode.Crit)
         {
-            ActivateAutoDust(ent);
+            ActivateAutoDust(uid, component);
         }
     }
 
-    public void ActivateAutoDust(Entity<AutoDustMarkerComponent> ent)
+    public void ActivateAutoDust(EntityUid uid, AutoDustMarkerComponent component)
     {
-        var mapCoords = _transform.GetMapCoordinates(ent.Owner);
-        if (!TryComp<AutoDustComponent>(ent.Comp.AutoDustItem, out var dust))
+        var mapCoords = _transform.GetMapCoordinates(uid);
+        if (!TryComp<AutoDustComponent>(component.AutoDustItem, out var dust))
             return;
         Spawn(dust.SpawnOnDustProto, mapCoords);
 
         if (dust.DeleteItems)
         {
-            var items = _inventory.GetHandOrInventoryEntities(ent.Owner);
+            var items = _inventory.GetHandOrInventoryEntities(uid);
             foreach (var item in items)
             {
                 QueueDel(item);
             }
         }
 
-        _gibbing.Gib(ent.Owner);
+        _gibbing.Gib(uid);
     }
 }
