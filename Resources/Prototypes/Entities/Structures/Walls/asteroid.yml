@@ -1188,6 +1188,7 @@
       state: rock_wall_north
     - map: [ "enum.EdgeLayer.West" ]
       state: rock_wall_west
+  # DS14-Start
   - type: Gatherable
     toolWhitelist: {}
   - type: Damageable
@@ -1206,6 +1207,7 @@
             volume: -6
       - !type:DoActsBehavior
         acts: ["Destruction"]
+    # DS14-End
 
 - type: entity
   id: WallRockBasaltCoal
