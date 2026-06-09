@@ -1190,7 +1190,9 @@
       state: rock_wall_west
   # DS14-Start
   - type: Gatherable
-    toolWhitelist: {}
+    toolWhitelist:
+      tags:
+      - Pickaxe
   # DS14-End
   - type: Damageable
     damageContainer: StructuralInorganic
