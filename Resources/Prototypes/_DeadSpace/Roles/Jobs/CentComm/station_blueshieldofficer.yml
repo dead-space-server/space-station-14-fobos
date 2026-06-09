@@ -49,7 +49,7 @@
   minBankBalance: 800
   maxBankBalance: 1200
   wageDepartment: Specific
-  wage: 190
+  wage: 950 # DS14-value
   #end-backmen: currency
   traitsBlacklist:
     - Blindness
