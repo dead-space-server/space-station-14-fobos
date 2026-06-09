@@ -4,6 +4,6 @@
     sprite: Structures/Machines/bomb.rsi
     state: training-bomb
   product: CrateDemolitionKit
-  cost: 2000
+  cost: 3500
   category: cargoproduct-category-name-science
   group: science # DS14
