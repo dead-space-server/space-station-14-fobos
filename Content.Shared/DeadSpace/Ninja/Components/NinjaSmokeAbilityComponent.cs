@@ -1,4 +1,5 @@
-using Content.Shared.Chemistry.Components;
+using Content.Shared.Actions;
+using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
@@ -39,16 +40,10 @@ public sealed partial class NinjaSmokeAbilityComponent : Component
     public EntProtoId SmokePrototype = "Smoke";
 
     /// <summary>
-    /// Solution to add to each smoke cloud.
-    /// </summary>
-    [DataField, AutoNetworkedField]
-    public Solution Solution = new();
-
-    /// <summary>
     /// Battery charge used to create smoke.
     /// </summary>
     [DataField, AutoNetworkedField]
-    public float ChargeAutoMode;
+    public float Charge;
 
     /// <summary>
     /// How long the smoke stays in auto mode for, after it has spread (in seconds).
@@ -69,16 +64,16 @@ public sealed partial class NinjaSmokeAbilityComponent : Component
     public float ChargeAutoMode;
 
     /// <summary>
-    /// Solution to add to each smoke cloud in auto mode.
-    /// </summary>
-    [DataField, AutoNetworkedField]
-    public Solution SolutionAutoMode = new();
-
-    /// <summary>
     /// Will the ability be activated by others?
     /// </summary>
     [DataField, AutoNetworkedField]
     public bool AutoMode = false;
+
+    /// <summary>
+    /// The <see cref="SoundSpecifier"/> to play.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public SoundSpecifier? SmokeSound = new SoundPathSpecifier("/Audio/Effects/smoke.ogg");
 }
 
 public sealed partial class NinjaSmokeAbilityActionEvent : InstantActionEvent;
