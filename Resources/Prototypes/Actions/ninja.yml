@@ -56,19 +56,6 @@
   - type: InstantAction
     event: !type:NinjaEmpEvent {}
 
-- type: entity
-  parent: BaseAction
-  id: ActionTogglePhaseCloak
-  name: Phase cloak
-  description: Toggles your suit's phase cloak. Beware that if you are hit, all abilities are disabled for 5 seconds, including your cloak!
-  components:
-  - type: Action
-    # have to plan (un)cloaking ahead of time
-    useDelay: 5
-    priority: -9
-  - type: InstantAction
-    event: !type:ToggleActionEvent
-
 # katana
 - type: entity
   parent: BaseAction
@@ -92,6 +79,7 @@
   - type: WorldTargetAction
     event: !type:DashEvent
 
+#DS-14 Start
 - type: entity
   id: SpiderOSAction
   name: Spider OS
@@ -152,3 +140,23 @@
     itemIconStyle: BigAction
   - type: InstantAction
     event: !type:ToggleJetpackEvent
+
+- type: entity
+  parent: BaseAction
+  id: NinjaActionToggleCloak
+  name: фазовый покров
+  description: переключить джетпак в костюме, дающий дополнительную мобильность вне станции.
+  components:
+  - type: Action
+    raiseOnUser: true
+    icon:
+      sprite: _DeadSpace/Actions/ninja_actions.rsi
+      state: jetpack-off
+    iconOn:
+      sprite: _DeadSpace/Actions/ninja_actions.rsi
+      state: jetpack-on
+    useDelay: 1.0
+    itemIconStyle: BigAction
+  - type: InstantAction
+    event: !type:ToggleCloakNinjaEvent
+#DS-14 End

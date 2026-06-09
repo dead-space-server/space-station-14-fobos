@@ -1,3 +1,4 @@
+using Content.Shared.DeadSpace.Ninja.Components;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Inventory;
 using Content.Shared.SubFloor;
@@ -5,6 +6,8 @@ using Robust.Client.Animations;
 using Robust.Client.GameObjects;
 using Robust.Client.Player;
 using Robust.Shared.Timing;
+using Content.Shared.Stealth.Components;
+
 
 namespace Content.Client.SubFloor;
 
@@ -90,6 +93,40 @@ public sealed class TrayScannerSystem : SharedTrayScannerSystem
                 if (comp.IsUnderCover || _trayScanReveal.IsUnderRevealingEntity(uid))
                     EnsureComp<TrayRevealedComponent>(uid);
             }
+
+            // DS-14 Start
+            var ninjas = EntityQueryEnumerator<SpaceNinjaComponent, TransformComponent>();
+
+            while (ninjas.MoveNext(out var uid, out var ninja, out var xform))
+            {
+                if (ninja.Suit is not { } suitUid)
+                    continue;
+
+                if (!TryComp<NinjaCloakComponent>(suitUid, out var cloak))
+                    continue;
+
+                if (!cloak.Enabled)
+                    continue;
+
+                var pos = _transform.GetWorldPosition(xform);
+
+                if (xform.MapID != playerMap)
+                    continue;
+
+                var dist = (pos - playerPos).Length();
+
+                if (dist > range)
+                    continue;
+
+                EnsureComp<TrayRevealedComponent>(uid);
+
+                if (TryComp<SpriteComponent>(uid, out var sprite))
+                {
+                    _sprite.SetVisible((uid, sprite), true);
+                    //_sprite.SetColor((uid, sprite), sprite.Color.WithAlpha(1f));
+                }
+            }
+            // DS-14 End
         }
 
         var revealedQuery = AllEntityQuery<TrayRevealedComponent, SpriteComponent>();

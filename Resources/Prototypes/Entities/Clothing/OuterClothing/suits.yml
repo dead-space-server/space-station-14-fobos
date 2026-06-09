@@ -116,7 +116,7 @@
     - Tail
 
 - type: entity
-  parent: [ClothingOuterBaseLarge, GeigerCounterClothing, AllowSuitStorageClothing]
+  parent: [ClothingOuterBaseLarge, GeigerCounterClothing, AllowSuitStorageClothing] #DS14
   id: ClothingOuterSuitRad
   name: radiation suit
   description: "A suit that protects against radiation. The label reads, 'Made with lead. Please do not consume insulation.'"
@@ -144,7 +144,7 @@
     - Tail
 
 - type: entity
-  parent: [ClothingOuterBaseLarge, AllowSuitStorageClothing, BaseToggleClothing, BaseHighlyIllegalContraband]
+  parent: [ClothingOuterBaseLarge, AllowSuitStorageClothing, BaseHighlyIllegalContraband]
   id: ClothingOuterSuitSpaceNinja
   name: space ninja suit
   description: This black technologically advanced, cybernetically-enhanced suit provides many abilities like invisibility or teleportation.
@@ -170,15 +170,8 @@
   - type: StaminaResistance #DS14
     damageCoefficient: 0.5
   # phase cloak
-  - type: ToggleClothing
-    action: ActionTogglePhaseCloak
-    disableOnUnequip: true
-  - type: ComponentToggler
-    parent: true
-    components:
-    - type: Stealth
-      minVisibility: 0.1
-      lastVisibility: 0.1
+  - type: NinjaCloak #DS14
+  - type: Appearance #DS14
   - type: PowerCellDraw
     drawRate: 3.6 # 100 seconds on the default cell
   - type: ToggleCellDraw
@@ -199,9 +192,16 @@
   - type: SelfHealthAnalyzer
   - type: HealthAnalyzer
   - type: AutoDust
-  - type: Jetpack
+  #DS14 start
+  - type: Jetpack 
     requiresGas: false
     toggleAction: NinjaActionToggleJetpack
+  - type: NinjaSuitHeat
+    maxHeat: 100
+    heatRate: 5
+    coolRate: 10
+    effectsThreshold: 50 
+    #DS14 end
   - type: EmpResistance
     strengthMultiplier: 0
   - type: UseDelay
