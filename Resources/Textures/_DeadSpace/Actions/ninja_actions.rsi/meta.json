@@ -47,7 +47,19 @@
       "name": "smokeauto-off"
     },
     {
-      "name": "smokeauto-on"
+      "name": "caltrop"
+    },
+    {
+      "name": "clones"
+    },
+    {
+      "name": "emergencyblink"
+    },
+    {
+      "name": "emp"
+    },
+    {
+      "name": "cheminjector"
     }
   ]
 }
