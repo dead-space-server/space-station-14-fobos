@@ -13,7 +13,7 @@ using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
-using Content.DeadSpace.Interfaces.Client; // DS14-sponsors
+using Content.DeadSpace.Interfaces.Client;
 
 namespace Content.Client.Players.PlayTimeTracking;
 

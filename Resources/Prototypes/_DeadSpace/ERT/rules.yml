@@ -7,6 +7,20 @@
 
 - type: entity
   parent: BaseGameRule
+  id: SpawnSpiderShuttle
+  components:
+  - type: ErtSpawnRule
+    shuttle: SpiderShuttle
+
+- type: entity
+  parent: BaseGameRule
+  id: SpawnNecroShuttle
+  components:
+  - type: ErtSpawnRule
+    shuttle: NecroShuttle
+
+- type: entity
+  parent: BaseGameRule
   id: SpawnRedShuttle
   components:
   - type: ErtSpawnRule

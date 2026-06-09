@@ -21,12 +21,12 @@
       storagebase: !type:AllSelector
         children:
         - id: WeaponSniperHristov
-        - id: MagazineBoxAntiMateriel
+        - id: MagazineHristovAP
+        - id: MagazineHristov
+        - id: Binoculars
+        - id: SmokeGrenade
           amount: 2
-        - id: ClothingNeckTieRed
-        - id: ClothingHandsGlovesLatex
-        - id: ClothingUniformJumpsuitLawyerBlack
-        - id: BarberScissors
+        - id: ClothingNeckCloakCommunicationsOfficer
 
 - type: entity
   id: BriefcaseSyndieLobbyingBundleFilled

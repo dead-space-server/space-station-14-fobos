@@ -156,6 +156,10 @@
       amount: 5
   effects:
     - !type:SpawnEntity
+      # DS14-start
+      predicted: false
+      useMapCoords: true
+      # DS14-end
       entity: ShardCrystalRandom
 
 - type: reaction

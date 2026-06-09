@@ -111,7 +111,7 @@ public sealed class HardsuitIdentificationSystem : EntitySystem
         Timer.Spawn(5000,
             () =>
             {
-                if (!EntityManager.EntityExists(args.Equipment))
+                if (!Exists(args.Equipment))
                     return;
 
                 _explosionSystem.QueueExplosion(args.Equipment,
@@ -130,7 +130,7 @@ public sealed class HardsuitIdentificationSystem : EntitySystem
                     }
                 }
 
-                EntityManager.DeleteEntity(args.Equipment);
+                Del(args.Equipment);
             });
     }
 
@@ -184,8 +184,8 @@ public sealed class HardsuitIdentificationSystem : EntitySystem
         {
             _popupSystem.PopupEntity(Loc.GetString("hardsuit-identification-on-emagged"), uid);
         }
-    
-        EntityManager.RemoveComponent<HardsuitIdentificationComponent>(uid);
+
+        RemComp<HardsuitIdentificationComponent>(uid);
     
         args.Handled = true;
     }

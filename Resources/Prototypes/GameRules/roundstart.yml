@@ -549,8 +549,10 @@
   id: SpaceTrafficControlTable
   table: !type:AllSelector # we need to pass a list of rules, since rules have further restrictions to consider via StationEventComp
     children:
-      - !type:NestedSelector
-        tableId: UnknownShuttlesFriendlyTable
+#DS14-start
+#      - !type:NestedSelector
+#        tableId: UnknownShuttlesFriendlyTable
+#DS14-end
 #      - !type:NestedSelector
 #        tableId: UnknownShuttlesFreelanceTable
       - !type:NestedSelector

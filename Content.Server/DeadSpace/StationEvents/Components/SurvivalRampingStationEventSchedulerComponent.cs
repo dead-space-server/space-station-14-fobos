@@ -9,17 +9,16 @@ namespace Content.Server.StationEvents.Components;
 public sealed partial class SurvivalRampingStationEventSchedulerComponent : Component
 {
     /// <summary>
-    ///     Average ending chaos modifier for the ramping event scheduler. Higher means faster.
-    ///     Max chaos chosen for a round will deviate from this.
+    ///     Ending chaos modifier for the ramping event scheduler. Higher means faster.
     /// </summary>
     [DataField]
-    public float AverageChaos = 12f;
+    public float AverageChaos = 4.8f;
 
     /// <summary>
-    ///     Average time (in minutes) for when the ramping event scheduler should stop increasing the chaos modifier.
+    ///     Time (in minutes) for when the ramping event scheduler should stop increasing the chaos modifier.
     /// </summary>
     [DataField]
-    public float AverageEndTime = 90f;
+    public float AverageEndTime = 45f;
 
     [DataField]
     public float EndTime;
@@ -27,8 +26,11 @@ public sealed partial class SurvivalRampingStationEventSchedulerComponent : Comp
     [DataField]
     public float MaxChaos;
 
+    /// <summary>
+    ///     Initial chaos modifier for the ramping event scheduler.
+    /// </summary>
     [DataField]
-    public float StartingChaos;
+    public float StartingChaos = 1f;
 
     [DataField]
     public float TimeUntilNextEvent;
@@ -38,6 +40,13 @@ public sealed partial class SurvivalRampingStationEventSchedulerComponent : Comp
     /// </summary>
     [DataField(required: true)]
     public List<SurvivalRampingStationEventSchedulerPhase> Phases = new();
+
+    /// <summary>
+    /// Survival-only per-event occurrence caps. These are combined with StationEvent maxOccurrences,
+    /// and the lower cap wins.
+    /// </summary>
+    [DataField]
+    public Dictionary<string, int> MaxEventOccurrences = new();
 
     [DataField]
     public float? AlertTime;

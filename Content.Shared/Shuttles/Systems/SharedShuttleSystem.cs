@@ -139,7 +139,7 @@ public abstract partial class SharedShuttleSystem : EntitySystem
 
     public bool CanDraw(EntityUid gridUid, PhysicsComponent? physics = null, IFFComponent? iffComp = null)
     {
-        if (!Resolve(gridUid, ref physics))
+        if (physics == null && !TryComp(gridUid, out physics)) // DS14
             return true;
 
         if (physics.BodyType != BodyType.Static && physics.Mass < 10f)

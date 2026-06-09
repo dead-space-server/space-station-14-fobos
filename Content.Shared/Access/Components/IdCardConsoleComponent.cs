@@ -84,6 +84,12 @@ public sealed partial class IdCardConsoleComponent : Component
     // DS14-start
     [DataField("isTaipan")]
     public bool IsTaipan { get; private set; } = false;
+
+    [DataField, AutoNetworkedField]
+    public List<ProtoId<AccessLevelPrototype>> BasicAccessLevels = new();
+
+    [DataField, AutoNetworkedField]
+    public List<ProtoId<AccessLevelPrototype>> ExtendedAccessLevels = new();
     // DS14-end
 
     [Serializable, NetSerializable]

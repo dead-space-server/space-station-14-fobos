@@ -1,7 +1,7 @@
 # projectiles
 - type: entity
   id: BulletDragon
-  name: пуля (6.5х39 мм TSF Dragon's breath)
+  name: пуля (5.56х45 мм Dragon's breath)
   parent: BaseBulletIncendiary
   categories: [ HideSpawnMenu ]
   components:
@@ -53,7 +53,7 @@
 
 - type: entity
   id: CartridgeDragon
-  name: патрон (6.5х39 мм TSF Dragon's breath)
+  name: патрон (5.56х45 мм Dragon's breath)
   parent: BaseCartridgeRifle
   components:
   - type: CartridgeAmmo
@@ -117,7 +117,7 @@
 - type: entity
   parent: BaseMagazineBoxRifle
   id: MagazineBoxRifleDragon
-  name: коробка патронов (6.5х39 мм TSF Dragon's breath)
+  name: коробка патронов (5.56х45 мм Dragon's breath)
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeDragon

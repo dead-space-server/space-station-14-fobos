@@ -47,10 +47,16 @@
     outerClothing: ClothingOuterCoatSeniorOfficerTrench
 
 # PDA
+# - type: loadout
+#   id: SeniorOfficerPDA
+#   equipment:
+#     id: SeniorOfficerPDA
+
+# Mask
 - type: loadout
-  id: SeniorOfficerPDA
+  id: SeniorOfficerHead
   equipment:
-    id: SeniorOfficerPDA
+    head: ClothingHeadHatBeretSeniorOfficer
 
 # Neck
 - type: loadout

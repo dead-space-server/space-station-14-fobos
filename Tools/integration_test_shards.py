@@ -23,11 +23,30 @@ DEFAULT_NAMESPACE_PREFIX = "Content.IntegrationTests.Tests"
 DEFAULT_SHARD_COUNT = 10
 MAX_SHARD_NAME_LENGTH = 96
 
+# Keep marker counts for display; these local-runtime weights keep expensive units from sharing one CI shard.
+SLOW_TEST_UNIT_BALANCE_WEIGHTS = {
+    "Actions": 80,
+    "Chemistry": 20,
+    "EntityTest": 160,
+    "Pinpointer": 25,
+}
+
+SLOW_TEST_METHOD_BALANCE_WEIGHTS = {
+    "EntityTest": {
+        "AllComponentsOneToOneDeleteTest": 30,
+        "SpawnAndDeleteAllEntitiesInTheSameSpot": 80,
+        "SpawnAndDeleteAllEntitiesOnDifferentMaps": 65,
+        "SpawnAndDeleteEntityCountTest": 75,
+        "SpawnAndDirtyAllEntities": 50,
+    },
+}
+
 
 @dataclass(frozen=True)
 class TestUnit:
     name: str
-    weight: int
+    marker_count: int
+    balance_weight: int
     filter_expression: str
 
 
@@ -35,11 +54,13 @@ class TestUnit:
 class Shard:
     index: int
     units: list[TestUnit] = field(default_factory=list)
+    marker_count: int = 0
     weight: int = 0
 
     def add(self, unit: TestUnit) -> None:
         self.units.append(unit)
-        self.weight += unit.weight
+        self.marker_count += unit.marker_count
+        self.weight += unit.balance_weight
 
     @property
     def id(self) -> str:
@@ -49,8 +70,8 @@ class Shard:
         sorted_units = sorted(self.units, key=lambda unit: unit.name)
         return {
             "id": self.id,
-            "name": build_shard_name(self.units, self.weight),
-            "tests": self.weight,
+            "name": build_shard_name(self.units, self.marker_count),
+            "tests": self.marker_count,
             "unit_count": len(sorted_units),
             "units": ", ".join(unit.name for unit in sorted_units),
             "filter": "|".join(unit.filter_expression for unit in sorted_units),
@@ -96,14 +117,14 @@ def discover_units(tests_root: Path, namespace_prefix: str) -> list[TestUnit]:
     for file_path in sorted(tests_root.glob("*.cs")):
         unit = build_file_unit(file_path, namespace_prefix)
         if unit is not None:
-            units.append(unit)
+            units.extend(split_file_unit(file_path, unit))
 
     for directory in sorted(path for path in tests_root.iterdir() if path.is_dir()):
         unit = build_directory_unit(directory, namespace_prefix)
         if unit is not None:
             units.append(unit)
 
-    return sorted(units, key=lambda unit: (-unit.weight, unit.name))
+    return sorted(units, key=lambda unit: (-unit.balance_weight, unit.name))
 
 
 def build_file_unit(file_path: Path, namespace_prefix: str) -> TestUnit | None:
@@ -111,9 +132,11 @@ def build_file_unit(file_path: Path, namespace_prefix: str) -> TestUnit | None:
     if test_file.weight == 0:
         return None
 
+    marker_count = test_file.weight
     return TestUnit(
         name=file_path.stem,
-        weight=test_file.weight,
+        marker_count=marker_count,
+        balance_weight=balance_weight_for_unit(file_path.stem, marker_count),
         filter_expression=build_filter_expression([test_file]),
     )
 
@@ -128,11 +151,43 @@ def build_directory_unit(directory: Path, namespace_prefix: str) -> TestUnit | N
     if not test_files:
         return None
 
+    marker_count = sum(test_file.weight for test_file in test_files)
     return TestUnit(
         name=directory.name,
-        weight=sum(test_file.weight for test_file in test_files),
+        marker_count=marker_count,
+        balance_weight=balance_weight_for_unit(directory.name, marker_count),
         filter_expression=build_filter_expression(test_files),
     )
+
+
+def balance_weight_for_unit(unit_name: str, marker_count: int) -> int:
+    return max(marker_count, SLOW_TEST_UNIT_BALANCE_WEIGHTS.get(unit_name, marker_count))
+
+
+def split_file_unit(file_path: Path, unit: TestUnit) -> list[TestUnit]:
+    file_stem = file_path.stem
+    method_weights = SLOW_TEST_METHOD_BALANCE_WEIGHTS.get(file_stem)
+    if method_weights is None:
+        return [unit]
+
+    class_filters = unit.filter_expression.split("|")
+    if len(class_filters) != 1 or len(method_weights) != unit.marker_count:
+        return [unit]
+
+    text = file_path.read_text(encoding="utf-8")
+    if any(re.search(rf"\b{re.escape(method_name)}\s*\(", text) is None for method_name in method_weights):
+        return [unit]
+
+    class_filter = class_filters[0]
+    return [
+        TestUnit(
+            name=f"{file_stem}.{method_name}",
+            marker_count=1,
+            balance_weight=balance_weight,
+            filter_expression=f"{class_filter}.{method_name}",
+        )
+        for method_name, balance_weight in method_weights.items()
+    ]
 
 
 @dataclass(frozen=True)
@@ -199,10 +254,11 @@ def build_shard_name(units: list[TestUnit], weight: int) -> str:
 
 
 def sort_units_for_display(units: list[TestUnit]) -> list[TestUnit]:
-    return sorted(units, key=lambda unit: (-unit.weight, unit.name))
+    return sorted(units, key=lambda unit: (-unit.balance_weight, unit.name))
 
 
 def humanize_unit_name(unit_name: str) -> str:
+    unit_name = unit_name.replace(".", " ")
     for suffix in ("Tests", "Test"):
         if unit_name.endswith(suffix):
             unit_name = unit_name[: -len(suffix)]

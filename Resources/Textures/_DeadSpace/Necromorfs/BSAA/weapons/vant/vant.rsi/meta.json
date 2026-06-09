@@ -1,22 +1,25 @@
 {
   "version": 1,
-  "size": {"x": 32, "y": 32},
-  "license": "CC-BY-SA-3.0",
-  "copyright": "VANT sprite by Azzie and code by TheZuTi",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "license": "CC-BY-SA-4.0",
+  "copyright": "Made by azzie for Space Station 14 server Мёртвый Космос",
   "states": [
     {
-      "name": "VANT-VM"
+      "name": "icon"
     },
     {
-      "name": "vant-inhand-left",
+      "name": "icon-inhand-left",
       "directions": 4
     },
     {
-        "name": "vant-on-back",
+        "name": "equipped-SUITSTORAGE",
         "directions": 4
     },
     {
-      "name": "vant-inhand-right",
+      "name": "icon-inhand-right",
       "directions": 4
     }
   ]

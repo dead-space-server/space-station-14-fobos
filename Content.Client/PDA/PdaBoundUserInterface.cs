@@ -26,6 +26,8 @@ namespace Content.Client.PDA
 
             if (_menu == null)
                 CreateMenu();
+
+            _menu!.SetSize = _menu.MinSize;
         }
 
         private void CreateMenu()

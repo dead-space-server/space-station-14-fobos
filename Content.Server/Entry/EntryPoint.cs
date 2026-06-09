@@ -36,6 +36,7 @@ using Content.Shared.Kitchen;
 using Content.Shared.Localizations;
 using Robust.Server;
 using Robust.Server.ServerStatus;
+using Robust.Shared;
 using Robust.Shared.Configuration;
 using Robust.Shared.ContentPack;
 using Robust.Shared.Prototypes;
@@ -108,6 +109,9 @@ namespace Content.Server.Entry
             Dependencies.InjectDependencies(this);
 
             LoadConfigPresets(_cfg, _res, _log.GetSawmill("configpreset"));
+            // DS14-Start: server performance defaults.
+            ApplyServerPerformanceDefaults(_cfg);
+            // DS14-End
 
             var aczProvider = new ContentMagicAczProvider(Dependencies);
             _host.SetMagicAczProvider(aczProvider);
@@ -153,6 +157,14 @@ namespace Content.Server.Entry
             // Jukebox-port-edit
             IoCManager.Resolve<ServerJukeboxSongsSyncManager>().Initialize();
             // Jukebox-port-edit
+        }
+
+        private static void ApplyServerPerformanceDefaults(IConfigurationManager cfg)
+        {
+            cfg.OverrideDefault(CVars.TargetMinimumTickrate, 50);
+            cfg.OverrideDefault(CVars.VelocityIterations, 6);
+            cfg.OverrideDefault(CVars.NetMaxUpdateRange, 24f);
+            cfg.OverrideDefault(CVars.NetPvsPriorityRange, 30f);
         }
 
         public override void PostInit()

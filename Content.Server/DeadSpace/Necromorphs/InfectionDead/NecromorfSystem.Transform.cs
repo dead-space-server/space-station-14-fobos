@@ -1,8 +1,10 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Content.Server.Atmos.Components;
+using Content.Server.Animals.Components;
 using Content.Server.Body.Components;
 using Content.Server.Chat.Managers;
+using Content.Server.DeadSpace.MonkeyKing.Components;
 using Content.Server.Ghost.Roles.Components;
 using Content.Server.Humanoid;
 using Content.Server.Inventory;
@@ -27,6 +29,7 @@ using Content.Shared.NPC.Systems;
 using Content.Shared.Nutrition.AnimalHusbandry;
 using Content.Shared.Nutrition.Components;
 using Content.Shared.Popups;
+using Content.Shared.RatKing;
 using Content.Shared.Weapons.Melee;
 using Content.Shared.Prying.Components;
 using Content.Shared.Traits.Assorted;
@@ -55,6 +58,7 @@ using Content.Shared.IdentityManagement;
 using Robust.Server.Player;
 using Content.Shared.Zombies;
 using Content.Shared.Sprite;
+using Content.Shared.Spider;
 using Robust.Shared.Prototypes;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Server.DeadSpace.Virus.Systems;
@@ -67,6 +71,7 @@ public sealed partial class NecromorfSystem
 {
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly ServerInventorySystem _inventory = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly NpcFactionSystem _faction = default!;
     [Dependency] private readonly NPCSystem _npc = default!;
     [Dependency] private readonly HumanoidAppearanceSystem _humanoidAppearance = default!;
@@ -129,6 +134,7 @@ public sealed partial class NecromorfSystem
         RemComp<SanityComponent>(target);
         RemComp<ReproductiveComponent>(target);
         RemComp<ReproductivePartnerComponent>(target);
+        RemoveOldProductionComponents(target);
         RemComp<LegsParalyzedComponent>(target);
         RemComp<ComplexInteractionComponent>(target);
 
@@ -233,14 +239,20 @@ public sealed partial class NecromorfSystem
             if (necromorf != null && !string.IsNullOrEmpty(necromorf.Claws))
             {
                 _inventory.TryUnequip(target, "neck", true, true);
-                var item = Spawn(necromorf.Claws, Transform(target).Coordinates);
+                var targetXform = Transform(target);
+                var item = Spawn(necromorf.Claws,
+                    _transform.GetMapCoordinates(target, targetXform),
+                    rotation: _transform.GetWorldRotation(targetXform));
                 _inventory.TryEquip(target, item, "neck", true, true);
             }
 
             if (necromorf != null && !string.IsNullOrEmpty(necromorf.Hardsuit))
             {
                 _inventory.TryUnequip(target, "outerClothing", true, true);
-                var item = Spawn(necromorf.Hardsuit, Transform(target).Coordinates);
+                var targetXform = Transform(target);
+                var item = Spawn(necromorf.Hardsuit,
+                    _transform.GetMapCoordinates(target, targetXform),
+                    rotation: _transform.GetWorldRotation(targetXform));
                 _inventory.TryEquip(target, item, "outerClothing", true, true);
             }
 
@@ -367,20 +379,28 @@ public sealed partial class NecromorfSystem
         ApplyVirusStrain(target, necromorfComp);
     }
 
+    private void RemoveOldProductionComponents(EntityUid target)
+    {
+        RemComp<RatKingComponent>(target);
+        RemComp<MonkeyKingComponent>(target);
+        RemComp<EggLayerComponent>(target);
+        RemComp<SpiderComponent>(target);
+    }
+
     private void SetScale(EntityUid uid, float scale)
     {
         var physics = EntityManager.System<SharedPhysicsSystem>();
         var appearance = EntityManager.System<AppearanceSystem>();
 
-        EntityManager.EnsureComponent<ScaleVisualsComponent>(uid);
+        EnsureComp<ScaleVisualsComponent>(uid);
 
-        var appearanceComponent = EntityManager.EnsureComponent<AppearanceComponent>(uid);
+        var appearanceComponent = EnsureComp<AppearanceComponent>(uid);
         if (!appearance.TryGetData<Vector2>(uid, ScaleVisuals.Scale, out var oldScale, appearanceComponent))
             oldScale = Vector2.One;
 
         appearance.SetData(uid, ScaleVisuals.Scale, oldScale * scale, appearanceComponent);
 
-        if (EntityManager.TryGetComponent(uid, out FixturesComponent? manager))
+        if (TryComp(uid, out FixturesComponent? manager))
         {
             foreach (var (id, fixture) in manager.Fixtures)
             {

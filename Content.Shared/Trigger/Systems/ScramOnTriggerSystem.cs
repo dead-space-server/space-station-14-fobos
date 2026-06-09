@@ -38,7 +38,7 @@ public sealed class ScramOnTriggerSystem : XOnTriggerSystem<ScramOnTriggerCompon
         if (_net.IsClient)
             return;
 
-        var targetCoords = SelectRandomTileInRange(target, ent.Comp.TeleportRadius);
+        var targetCoords = SelectRandomTileInFacingArea(target, ent.Comp.TeleportRadius); // DS14
 
         if (targetCoords != null)
         {
@@ -46,43 +46,55 @@ public sealed class ScramOnTriggerSystem : XOnTriggerSystem<ScramOnTriggerCompon
             args.Handled = true;
         }
     }
+    // DS14-start
     /// <summary>
-    /// Method to find a random empty tile within a certain radius. Will not select off-grid tiles. Returns
-    /// null if no tile is found within a certain number of tries.
+    /// Finds a non-empty tile inside the area in front of the entity. Will not select off-grid tiles.
     /// </summary>
-    /// <remarks> Trends towards the outer radius. Compensates for small grids. </remarks>
-    private EntityCoordinates? SelectRandomTileInRange(EntityUid uid, Vector2 radius, int tries = 40, PhysicsComponent? physicsComponent = null)
+    /// <remarks> Trends towards the outer distance, then falls back closer if no preferred tile is found. </remarks>
+    private EntityCoordinates? SelectRandomTileInFacingArea(EntityUid uid, Vector2 radius, int tries = 80, PhysicsComponent? physicsComponent = null)
     {
-        var userCoords = Transform(uid).Coordinates;
-        EntityCoordinates? targetCoords = null;
+        var userXform = Transform(uid);
+        var userCoords = userXform.Coordinates;
 
         if (!Resolve(uid, ref physicsComponent))
-            return targetCoords;
+            return null;
 
+        var forward = userXform.LocalRotation.ToWorldVec().Normalized();
+        var side = new Vector2(-forward.Y, forward.X);
+        var minDistance = MathF.Max(1f, radius.X);
+        var maxDistance = MathF.Max(minDistance, radius.Y);
+        var collisionMask = (CollisionGroup)physicsComponent.CollisionMask;
 
-        for (var i = 0; i < tries; i++)
+        return TryPickTile(minDistance, maxDistance)
+               ?? (minDistance > 1f ? TryPickTile(1f, minDistance) : null);
+
+        EntityCoordinates? TryPickTile(float min, float max)
         {
-            // distance = r * sq(x) * i
-            // r = the radius of the search area.
-            // sq(x) = the square root of [0 - 1]. Gives a number trending to the
-            // upper range of [0, 1] so that you tend to teleport further.
-            // i = A percentage based on the current try count, which results in each
-            // subsequent try landing closer and closer towards the entity.
-            // Beneficial for smaller maps, especially when the radius is large.
-            var distance = (radius.Y - radius.X) * MathF.Sqrt(_random.NextFloat()) * (1 - (float)i / tries) + radius.X;
+            for (var i = 0; i < tries; i++)
+            {
+                // distance = r * sq(x) * i
+                // r = the radius of the search area.
+                // sq(x) = the square root of [0 - 1]. Gives a number trending to the
+                // upper range of [0, 1] so that you tend to teleport further.
+                // i = A percentage based on the current try count, which results in each
+                // subsequent try landing closer and closer towards the entity.
+                // Beneficial for smaller maps, especially when the radius is large.
+                var distance = (max - min) * MathF.Sqrt(_random.NextFloat()) * (1 - (float)i / tries) + min;
 
-            // We then offset the user coords from a random angle * distance
-            var tempTargetCoords = userCoords.Offset(_random.NextAngle().ToVec() * distance);
+                // The user is the rear edge of the target area: depth is measured forward from their view direction.
+                var lateralOffset = _random.NextFloat(-distance / 2f, distance / 2f);
+                var candidateCoords = userCoords.Offset(forward * distance + side * lateralOffset);
 
-            if (!_turfSystem.TryGetTileRef(tempTargetCoords, out var tileRef)
-                || _turfSystem.IsSpace(tileRef.Value)
-                || _turfSystem.IsTileBlocked(tileRef.Value, (CollisionGroup)physicsComponent.CollisionMask))
-                continue;
+                if (!_turfSystem.TryGetTileRef(candidateCoords, out var tileRef)
+                    || tileRef.Value.Tile.IsEmpty
+                    || _turfSystem.IsTileBlocked(tileRef.Value, collisionMask))
+                    continue;
 
-            targetCoords = tempTargetCoords;
-            break;
+                return _turfSystem.GetTileCenter(tileRef.Value);
+            }
+
+            return null;
         }
-
-        return targetCoords;
     }
+    // DS14-end
 }

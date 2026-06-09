@@ -143,7 +143,17 @@ names-pirate-monkey-dataset-12 = Визгливый Сэм
 names-pirate-monkey-dataset-13 = Блохастый Нэд
 
 pirate-welcome = Вы - космический пират! Ваша цель - получить как можно больше наживы любыми способами. Грабьте шаттлы и станцию, похищайте экипаж, требуйте выкуп. Держитесь вместе, слушайтесь капитана и возвращайтесь на шаттл с добычей! Йарр!
+pirate-capitan-welcome = Вы - капитан космических пиратов! Командуйте своим экипажем и ведите их к наживе. У вас есть доступ к нелегальному космическому рынку, используйте его чтобы покупать оружие, боеприпасы и снаряжение. Грабьте шаттлы и станцию, похищайте экипаж, требуйте выкуп. Продавайте украденное на вашем шаттле, держитесь вместе и возвращайтесь с добычей! Йарр!
+pirate-briefing = Ваша цель - получить как можно больше наживы любыми способами!
+pirate-capitan-briefing = Ваша цель - привести свою команду к богатству любой ценой.
 uplink-pirate-weapon-pistol-flintlock-name = Кремнёвый пистолет
 uplink-pirate-magazine-box-anti-materiel-name = Коробка патронов (.60 антиматериальные)
 uplink-pirate-magazine-box-anti-materiel-description = Содержит 10 патронов калибра .60 антиматериальные
 uplink-pirate-clothing-belt-military-webbing-name = Армейская РПС
+pirate-capitan-role-name = Капитан космических пиратов
+pirate-role-name = Космический пират
+ghost-role-information-merc-name = Наёмник
+ghost-role-information-merc-description = Вы - профессиональный наёмник, выполняйте все приказы ваших заказчиков.
+uplink-pirate-reinforcement-radio-merc-name = Радио подкрепления наёмника (Можно купить 1)
+ghost-role-information-pirate-holoparasite-name = Летучий голландец
+ghost-role-information-pirate-holoparasite-description = Вы - древний призрак морей, вызванный из глубин. Ваша душа привязана к носителю инъектора, и ваша цель - защищать его любой ценой!

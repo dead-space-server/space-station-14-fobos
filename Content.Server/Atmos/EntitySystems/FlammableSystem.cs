@@ -21,6 +21,7 @@ using Content.Shared.Throwing;
 using Content.Shared.Timing;
 using Content.Shared.Toggleable;
 using Content.Shared.Weapons.Melee.Events;
+using Robust.Shared.Timing;
 using Content.Shared.FixedPoint;
 using Content.Shared.Hands;
 using Content.Shared.Temperature.Components;
@@ -391,7 +392,7 @@ namespace Content.Server.Atmos.EntitySystems
             _stunSystem.TryUpdateParalyzeDuration(uid, TimeSpan.FromSeconds(2f));
 
             // TODO FLAMMABLE: Make this not use TimerComponent...
-            uid.SpawnTimer(2000, () =>
+            Timer.Spawn(2000, () =>
             {
                 flammable.Resisting = false;
                 flammable.FireStacks -= 1f;

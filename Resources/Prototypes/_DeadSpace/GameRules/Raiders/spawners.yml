@@ -28,7 +28,7 @@
     - sprite: Structures/Decoration/banner.rsi
       state: banner_syndicate
   - type: GhostRoleNotifys
-    groupPrototype: OperativeGroup
+    groupPrototype: CommanderOperatives
 
 - type: entity
   categories: [ Spawner ]
@@ -57,4 +57,4 @@
     - sprite: Structures/Decoration/banner.rsi
       state: banner_syndicate
   - type: GhostRoleNotifys
-    groupPrototype: OperativeGroup
+    groupPrototype: Operativeping

@@ -46,7 +46,7 @@ namespace Content.Server.Stack
             stackComp.Unlimited = false; // Don't let people dupe unlimited stacks
             Dirty(newEntity, stackComp);
 
-            var ev = new StackSplitEvent(newEntity);
+            var ev = new StackSplitEvent(newEntity, amount);
             RaiseLocalEvent(ent, ref ev);
 
             return newEntity;

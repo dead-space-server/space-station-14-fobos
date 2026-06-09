@@ -13,6 +13,7 @@ public sealed class SpawnAntagAfterSelectedRule : GameRuleSystem<SpawnAntagAfter
     [Dependency] private readonly MindSystem _mind = default!;
     [Dependency] private readonly GhostRoleSystem _ghost = default!;
     [Dependency] private readonly ISharedPlayerManager _player = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     public override void Initialize()
     {
@@ -29,7 +30,10 @@ public sealed class SpawnAntagAfterSelectedRule : GameRuleSystem<SpawnAntagAfter
         if (!_player.TryGetSessionById(mind.UserId, out var session))
             return;
 
-        var antag = Spawn(ent.Comp.Prototype, Transform(args.EntityUid).Coordinates);
+        var xform = Transform(args.EntityUid);
+        var antag = Spawn(ent.Comp.Prototype,
+            _transform.GetMapCoordinates(args.EntityUid, xform),
+            rotation: _transform.GetWorldRotation(xform));
 
         if (TryComp<GhostRoleComponent>(antag, out var ghostRoleComponent))
             _ghost.Takeover(session, ghostRoleComponent.Identifier);

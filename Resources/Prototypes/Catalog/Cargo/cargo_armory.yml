@@ -4,7 +4,37 @@
     sprite: Objects/Weapons/Guns/SMGs/wt550.rsi
     state: icon
   product: CrateArmorySMG
-  cost: 6500 # DS14-value
+  cost: 6000 # DS14-value
+  category: cargoproduct-category-name-armory
+  group: security # DS14
+
+- type: cargoProduct
+  id: ArmoryDrozd
+  icon:
+    sprite: Objects/Weapons/Guns/SMGs/drozd.rsi
+    state: icon
+  product: CrateArmoryDrozd
+  cost: 5000 # DS14-value
+  category: cargoproduct-category-name-armory
+  group: security # DS14
+
+- type: cargoProduct
+  id: ArmoryDoubleBarreled
+  icon:
+    sprite: Objects/Weapons/Guns/Shotguns/db_shotgun.rsi
+    state: icon
+  product: CrateArmoryDoubleBarreled
+  cost: 1500 # DS14-value
+  category: cargoproduct-category-name-armory
+  group: security # DS14
+
+- type: cargoProduct
+  id: ArmoryKammerer
+  icon:
+    sprite: Objects/Weapons/Guns/Shotguns/pump.rsi
+    state: icon
+  product: CrateArmoryKammerer
+  cost: 3500 # DS14-value
   category: cargoproduct-category-name-armory
   group: security # DS14
 
@@ -15,6 +45,16 @@
     state: icon
   product: CrateArmoryShotgun
   cost: 5000 # DS14-value
+  category: cargoproduct-category-name-armory
+  group: security # DS14
+
+- type: cargoProduct
+  id: ArmoryAres
+  icon:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Shotguns/ares.rsi
+    state: icon
+  product: CrateArmoryAres
+  cost: 10000
   category: cargoproduct-category-name-armory
   group: security # DS14
 
@@ -59,6 +99,16 @@
   group: security # DS14
 
 - type: cargoProduct
+  id: ArmoryVerdict
+  icon:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/verdict.rsi
+    state: icon
+  product: CrateArmoryVerdict
+  cost: 3000
+  category: cargoproduct-category-name-armory
+  group: security # DS14
+
+- type: cargoProduct
   id: ArmoryDominator
   icon:
     sprite: _DeadSpace/Objects/Weapons/Guns/Battery/dominator.rsi
@@ -74,6 +124,6 @@
     sprite: Objects/Weapons/Guns/Rifles/lecter.rsi
     state: icon
   product: CrateArmoryRifle
-  cost: 10000 # DS14-value
+  cost: 5500 # DS14-value
   category: cargoproduct-category-name-armory
   group: security # DS14

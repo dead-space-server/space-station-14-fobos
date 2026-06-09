@@ -185,7 +185,6 @@
         - GeneralLanguage
       mindRoles:
       - MindRoleCircleFighterHeavy
-      sponsorsPriority: true
     - prefRoles: [ CircleFighterLight ]
       fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterHeavy, CircleCommander ]
       spawnerPrototype: SpawnPointCircleFighterLight
@@ -227,7 +226,6 @@
         - GeneralLanguage
       mindRoles:
       - MindRoleCircleFighterLight
-      sponsorsPriority: true
 # Конец повторение
     - prefRoles: [ CircleFighterHeavy ]
       fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterLight, CircleCommander ]
@@ -270,7 +268,6 @@
         - GeneralLanguage
       mindRoles:
       - MindRoleCircleFighterHeavy
-      sponsorsPriority: true
     - prefRoles: [ CircleFighterLight ]
       fallbackRoles: [ CircleEngineer, CircleMedic, CircleFighterHeavy, CircleCommander ]
       spawnerPrototype: SpawnPointCircleFighterLight
@@ -312,7 +309,6 @@
         - GeneralLanguage
       mindRoles:
       - MindRoleCircleFighterLight
-      sponsorsPriority: true
     - prefRoles: [ CircleEngineer ]
       fallbackRoles: [ CircleFighterLight, CircleMedic, CircleFighterHeavy, CircleCommander ]
       spawnerPrototype: SpawnPointCircleEngineer
@@ -354,6 +350,5 @@
         - GeneralLanguage
       mindRoles:
       - MindRoleCircleEngineer
-      sponsorsPriority: true
   - type: DynamicRuleCost
     cost: 200

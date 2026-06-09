@@ -1,5 +1,5 @@
-auto-map-vote-round-title = Automatic Map Vote
-auto-map-vote-round-subtitle = Starts after the round ends and takes control of the next map choice.
+auto-map-vote-round-title = Round control
+auto-map-vote-round-subtitle = Automatic map vote and game mode history.
 auto-map-vote-round-status-label = Status
 auto-map-vote-round-category-label = Active Pool
 auto-map-vote-round-state-loading = Loading...
@@ -14,6 +14,20 @@ auto-map-vote-round-start = Initiate Vote
 auto-map-vote-round-toggle-loading = Loading...
 auto-map-vote-round-toggle-enable = Enable Automatic Map Vote
 auto-map-vote-round-toggle-disable = Disable Automatic Map Vote
+
+round-game-mode-history-open-button = Game modes
+round-game-mode-history-window-title = Game modes
+round-game-mode-history-refresh = Refresh
+round-game-mode-history-tab-today = Today
+round-game-mode-history-tab-yesterday = Yesterday
+round-game-mode-history-tab-before-yesterday = Day before yesterday
+round-game-mode-history-loading = Loading game mode history...
+round-game-mode-history-empty = No game modes found for today, yesterday, and the day before yesterday.
+round-game-mode-history-empty-tab = No game modes found.
+round-game-mode-history-summary = Found modes: {$count}
+round-game-mode-history-row = #{$round} | {$started} | {$mode}
+round-game-mode-history-row-with-details = #{$round} | {$started} | {$mode} | {$map} | players: {$players}
+round-game-mode-history-secret-format = {$secret} ({$selected})
 
 auto-map-vote-category-small = Small
 auto-map-vote-category-medium = Medium
@@ -63,6 +77,7 @@ auto-map-vote-config-preview-with-unknown = Current input: {$configured} configu
 
 auto-map-vote-config-error-negative-player-count = Player thresholds cannot be negative.
 auto-map-vote-config-error-invalid-duration = Vote duration must be greater than zero.
+auto-map-vote-config-error-db = Failed to save automatic map vote configuration to the database.
 auto-map-vote-initiate-error-not-lobby = Automatic map vote can only be initiated while the server is in the lobby.
 auto-map-vote-initiate-error-already-running = Automatic map vote is already running.
 auto-map-vote-initiate-error-map-update-closed = Automatic map vote can no longer be initiated because the map-change window for this lobby has already closed.

@@ -7,6 +7,13 @@ using Content.Shared.Popups;
 using Content.Shared.Stacks;
 using Content.Shared.Verbs;
 using Content.Shared.Whitelist;
+//DS14-start
+using Content.Shared.Storage;
+using Content.Shared.Storage.Components;
+using Content.Shared.Storage.EntitySystems;
+using Content.Shared.DeadSpace.Lavaland.Components;
+using Content.Shared.DeadSpace.Lavaland;
+//DS14-end
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
@@ -46,13 +53,17 @@ public abstract partial class SharedFultonSystem : EntitySystem
         SubscribeLocalEvent<FultonedComponent, ExaminedEvent>(OnFultonedExamine);
         SubscribeLocalEvent<FultonedComponent, EntGotInsertedIntoContainerMessage>(OnFultonContainerInserted);
 
-        SubscribeLocalEvent<FultonComponent, AfterInteractEvent>(OnFultonInteract);
+        SubscribeLocalEvent<LavalandFultonableComponent, InteractUsingEvent>(OnFultonableInteractUsing, before: [typeof(SharedStorageSystem)]); //DS14
+        SubscribeLocalEvent<FultonComponent, AfterInteractEvent>(OnFultonInteract, before: [typeof(SharedStorageSystem)]); //DS14
 
         SubscribeLocalEvent<FultonComponent, StackSplitEvent>(OnFultonSplit);
     }
 
     private void OnFultonContainerInserted(EntityUid uid, FultonedComponent component, EntGotInsertedIntoContainerMessage args)
     {
+        if (HasComp<LavalandFultonableComponent>(uid)) //DS14
+            return;
+
         RemCompDeferred<FultonedComponent>(uid);
     }
 
@@ -85,6 +96,14 @@ public abstract partial class SharedFultonSystem : EntitySystem
             return;
 
         RemCompDeferred<FultonedComponent>(uid);
+    }
+
+    private void OnFultonableInteractUsing(EntityUid uid, LavalandFultonableComponent component, InteractUsingEvent args)
+    {
+        if (args.Handled || !TryComp<FultonComponent>(args.Used, out var fulton))
+            return;
+
+        args.Handled = TryStartFulton(args.Used, fulton, args.User, uid);
     }
 
     private void OnFultonDoAfter(FultonedDoAfterEvent args)
@@ -129,29 +148,32 @@ public abstract partial class SharedFultonSystem : EntitySystem
             return;
         }
 
+        args.Handled = TryStartFulton(args.Used, component, args.User, args.Target.Value);
+    }
+
+    private bool TryStartFulton(EntityUid used, FultonComponent component, EntityUid user, EntityUid target)
+    {
         if (Deleted(component.Beacon))
         {
-            _popup.PopupClient(Loc.GetString("fulton-not-found"), uid, args.User);
-            return;
+            _popup.PopupClient(Loc.GetString("fulton-not-found"), used, user);
+            return false;
         }
 
-        if (!CanApplyFulton(args.Target.Value, component))
+        if (!CanApplyFulton(target, component))
         {
-            _popup.PopupClient(Loc.GetString("fulton-invalid"), uid, uid);
-            return;
+            _popup.PopupClient(Loc.GetString("fulton-invalid"), used, user);
+            return false;
         }
 
-        if (HasComp<FultonedComponent>(args.Target))
+        if (HasComp<FultonedComponent>(target))
         {
-            _popup.PopupClient(Loc.GetString("fulton-fultoned"), uid, uid);
-            return;
+            _popup.PopupClient(Loc.GetString("fulton-fultoned"), used, user);
+            return false;
         }
-
-        args.Handled = true;
 
         var ev = new FultonedDoAfterEvent();
-        _doAfter.TryStartDoAfter(
-            new DoAfterArgs(EntityManager, args.User, component.ApplyFultonDuration, ev, args.Target, args.Target, args.Used)
+        return _doAfter.TryStartDoAfter(
+            new DoAfterArgs(EntityManager, user, component.ApplyFultonDuration, ev, target, target, used)
             {
                 MovementThreshold = 0.5f,
                 BreakOnMove = true,
@@ -191,7 +213,7 @@ public abstract partial class SharedFultonSystem : EntitySystem
             return false;
 
         // Shouldn't need recursive container checks I think.
-        if (Container.IsEntityInContainer(uid))
+        if (Container.IsEntityInContainer(uid) && !HasComp<LavalandFultonableComponent>(uid)) //DS14
             return false;
 
         return true;

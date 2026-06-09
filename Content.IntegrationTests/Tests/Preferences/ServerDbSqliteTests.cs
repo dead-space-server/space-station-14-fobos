@@ -125,6 +125,79 @@ namespace Content.IntegrationTests.Tests.Preferences
             await pair.CleanReturnAsync();
         }
 
+        [Test]
+        public async Task TestAutoMapVoteConfigIsPerServer()
+        {
+            var pair = await PoolManager.GetServerClient();
+            var db = GetDb(pair.Server);
+
+            var alpha = new AutoMapVoteConfigRecord(
+                "alpha",
+                true,
+                10,
+                40,
+                80,
+                "Packed, Bagel",
+                "Omega",
+                "Marathon",
+                "Core",
+                120,
+                "Packed",
+                "Omega",
+                string.Empty,
+                "Bagel, Packed",
+                "Omega",
+                "Marathon");
+            var bravo = new AutoMapVoteConfigRecord(
+                "bravo",
+                false,
+                5,
+                25,
+                50,
+                "Box",
+                "Meta",
+                "Gate",
+                string.Empty,
+                90,
+                string.Empty,
+                string.Empty,
+                "Gate",
+                "Box",
+                "Meta",
+                "Gate");
+
+            await db.UpsertAutoMapVoteConfigAsync(alpha);
+            await db.UpsertAutoMapVoteConfigAsync(bravo);
+
+            var alphaSaved = await db.GetAutoMapVoteConfigAsync("alpha");
+            var bravoSaved = await db.GetAutoMapVoteConfigAsync("bravo");
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(alphaSaved, Is.EqualTo(alpha));
+                Assert.That(bravoSaved, Is.EqualTo(bravo));
+            });
+
+            var alphaUpdated = alpha with
+            {
+                Enabled = false,
+                SmallMaps = "Aspid",
+                VoteDurationSeconds = 45
+            };
+
+            await db.UpsertAutoMapVoteConfigAsync(alphaUpdated);
+            var alphaAfterUpdate = await db.GetAutoMapVoteConfigAsync("alpha");
+            var bravoAfterUpdate = await db.GetAutoMapVoteConfigAsync("bravo");
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(alphaAfterUpdate, Is.EqualTo(alphaUpdated));
+                Assert.That(bravoAfterUpdate, Is.EqualTo(bravo));
+            });
+
+            await pair.CleanReturnAsync();
+        }
+
         private static NetUserId NewUserId()
         {
             return new(Guid.NewGuid());

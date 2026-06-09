@@ -1,0 +1,21 @@
+- type: entity
+  parent: BaseMindRoleAntag
+  id: MindRolePirateCapitan
+  name: Капитан космических пиратов
+  components:
+  - type: MindRole
+    roleType: TeamAntagonist
+    subtype: pirate-capitan-role-name
+  - type: RoleBriefing
+    briefing: pirate-capitan-briefing
+
+- type: entity
+  parent: BaseMindRoleAntag
+  id: MindRolePirate
+  name: Космический пират
+  components:
+  - type: MindRole
+    roleType: TeamAntagonist
+    subtype: pirate-role-name
+  - type: RoleBriefing
+    briefing: pirate-briefing

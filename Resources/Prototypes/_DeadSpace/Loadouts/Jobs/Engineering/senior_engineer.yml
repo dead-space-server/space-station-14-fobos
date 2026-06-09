@@ -16,10 +16,10 @@
     jumpsuit: ClothingUniformJumpskirtSeniorEngineer
 
 # ID
-- type: loadout
-  id: SeniorEngineerPDA
-  equipment:
-    id: SeniorEngineerPDA
+# - type: loadout
+#   id: SeniorEngineerPDA
+#   equipment:
+#     id: SeniorEngineerPDA
 
 # Underwear
 - type: loadout

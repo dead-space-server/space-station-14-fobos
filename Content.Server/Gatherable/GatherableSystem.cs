@@ -7,6 +7,7 @@ using Content.Shared.Weapons.Melee.Events;
 using Content.Shared.Whitelist;
 using Robust.Server.GameObjects;
 using Robust.Shared.Audio.Systems;
+using Robust.Shared.Map;
 using Robust.Shared.Random;
 
 namespace Content.Server.Gatherable;
@@ -35,6 +36,11 @@ public sealed partial class GatherableSystem : EntitySystem
         if (_whitelistSystem.IsWhitelistFailOrNull(gatherable.Comp.ToolWhitelist, args.Used))
             return;
 
+        var ev = new GatherableGatherAttemptEvent(args.Used, args.User, args.ClickLocation);
+        RaiseLocalEvent(gatherable.Owner, ev);
+        if (ev.Cancelled)
+            return;
+
         Gather(gatherable, args.User);
     }
 
@@ -44,6 +50,11 @@ public sealed partial class GatherableSystem : EntitySystem
             return;
 
         if (_whitelistSystem.IsWhitelistFailOrNull(gatherable.Comp.ToolWhitelist, args.User))
+            return;
+
+        var ev = new GatherableGatherAttemptEvent(args.User, args.User, Transform(gatherable.Owner).Coordinates);
+        RaiseLocalEvent(gatherable.Owner, ev);
+        if (ev.Cancelled)
             return;
 
         Gather(gatherable, args.User);
@@ -84,4 +95,14 @@ public sealed partial class GatherableSystem : EntitySystem
             }
         }
     }
+}
+
+public sealed class GatherableGatherAttemptEvent(
+    EntityUid used,
+    EntityUid user,
+    EntityCoordinates clickLocation) : CancellableEntityEventArgs
+{
+    public EntityUid Used { get; } = used;
+    public EntityUid User { get; } = user;
+    public EntityCoordinates ClickLocation { get; } = clickLocation;
 }

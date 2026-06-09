@@ -16,12 +16,4 @@ public sealed partial class JobStatusComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public ProtoId<JobIconPrototype>? JobStatusIcon = "JobIconNoId";
-
-    /// <summary>
-    /// If the mob is currently considered crew.
-    /// This is true depending on their current job icon.
-    /// Visible with <see cref="ShowCrewIconsComponent"/>
-    /// </summary>
-    [DataField, AutoNetworkedField]
-    public bool IsCrew;
 }

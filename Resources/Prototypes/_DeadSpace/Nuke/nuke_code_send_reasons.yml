@@ -1,0 +1,14 @@
+- type: nukeCodeSendReason
+  id: Manual
+  name: nuke-codes-reason-manual
+  announcement: nuke-codes-announcement-manual
+
+- type: nukeCodeSendReason
+  id: BlobCriticalMass
+  name: nuke-codes-reason-blob-critical-mass
+  announcement: blob-alert-critical
+
+- type: nukeCodeSendReason
+  id: SpiderTerrorCritical
+  name: nuke-codes-reason-spider-terror-critical
+  announcement: spider-terror-centcomm-announcement-station-was-nuke

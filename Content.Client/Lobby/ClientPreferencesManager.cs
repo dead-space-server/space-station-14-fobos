@@ -20,7 +20,7 @@ namespace Content.Client.Lobby
         [Dependency] private readonly IClientNetManager _netManager = default!;
         [Dependency] private readonly IBaseClient _baseClient = default!;
         [Dependency] private readonly IPlayerManager _playerManager = default!;
-        private IClientSponsorsManager? _sponsorsManager; // DS14-sponsors
+        private IClientSponsorsManager? _sponsorsManager; // DS14
 
         public event Action? OnServerDataLoaded;
 
@@ -36,7 +36,7 @@ namespace Content.Client.Lobby
 
             _baseClient.RunLevelChanged += BaseClientOnRunLevelChanged;
 
-            IoCManager.Instance!.TryResolveType(out _sponsorsManager); // DS14-sponsors
+            IoCManager.Instance!.TryResolveType(out _sponsorsManager); // DS14
         }
 
         private void BaseClientOnRunLevelChanged(object? sender, RunLevelChangedEventArgs e)
@@ -55,7 +55,7 @@ namespace Content.Client.Lobby
 
         public void SelectCharacter(int slot)
         {
-            Preferences = new PlayerPreferences(Preferences.Characters, slot, Preferences.AdminOOCColor, Preferences.ConstructionFavorites);
+            Preferences = new PlayerPreferences(Preferences.Characters, slot, Preferences.AdminOOCColor, Preferences.ConstructionFavorites, Preferences.InaccessibleCharacters); // DS14
             var msg = new MsgSelectCharacter
             {
                 SelectedCharacterIndex = slot
@@ -66,12 +66,12 @@ namespace Content.Client.Lobby
         public void UpdateCharacter(ICharacterProfile profile, int slot)
         {
             var collection = IoCManager.Instance!;
-            // DS14-sponsors-start
+            // DS14-start
             var allowedMarkings = _sponsorsManager != null && _sponsorsManager.TryGetInfo(out var sponsor) ? sponsor.AllowedMarkings.ToArray() : [];
             profile.EnsureValid(_playerManager.LocalSession!, collection, allowedMarkings);
-            // DS14-sponsors-end
+            // DS14-end
             var characters = new Dictionary<int, ICharacterProfile>(Preferences.Characters) {[slot] = profile};
-            Preferences = new PlayerPreferences(characters, Preferences.SelectedCharacterIndex, Preferences.AdminOOCColor, Preferences.ConstructionFavorites);
+            Preferences = new PlayerPreferences(characters, Preferences.SelectedCharacterIndex, Preferences.AdminOOCColor, Preferences.ConstructionFavorites, Preferences.InaccessibleCharacters); // DS14
             var msg = new MsgUpdateCharacter
             {
                 Profile = profile,
@@ -85,6 +85,7 @@ namespace Content.Client.Lobby
             var characters = new Dictionary<int, ICharacterProfile>(Preferences.Characters);
             var lowest = Enumerable.Range(0, Settings.MaxCharacterSlots)
                 .Except(characters.Keys)
+                .Except(Preferences.InaccessibleCharacters.Keys) // DS14
                 .FirstOrNull();
 
             if (lowest == null)
@@ -94,7 +95,7 @@ namespace Content.Client.Lobby
 
             var l = lowest.Value;
             characters.Add(l, profile);
-            Preferences = new PlayerPreferences(characters, Preferences.SelectedCharacterIndex, Preferences.AdminOOCColor, Preferences.ConstructionFavorites);
+            Preferences = new PlayerPreferences(characters, Preferences.SelectedCharacterIndex, Preferences.AdminOOCColor, Preferences.ConstructionFavorites, Preferences.InaccessibleCharacters); // DS14
 
             UpdateCharacter(profile, l);
         }
@@ -107,7 +108,10 @@ namespace Content.Client.Lobby
         public void DeleteCharacter(int slot)
         {
             var characters = Preferences.Characters.Where(p => p.Key != slot);
-            Preferences = new PlayerPreferences(characters, Preferences.SelectedCharacterIndex, Preferences.AdminOOCColor, Preferences.ConstructionFavorites);
+            // DS14-start
+            var inaccessibleCharacters = Preferences.InaccessibleCharacters.Where(p => p.Key != slot);
+            Preferences = new PlayerPreferences(characters, Preferences.SelectedCharacterIndex, Preferences.AdminOOCColor, Preferences.ConstructionFavorites, inaccessibleCharacters);
+            // DS14-end
             var msg = new MsgDeleteCharacter
             {
                 Slot = slot
@@ -117,7 +121,7 @@ namespace Content.Client.Lobby
 
         public void UpdateConstructionFavorites(List<ProtoId<ConstructionPrototype>> favorites)
         {
-            Preferences = new PlayerPreferences(Preferences.Characters, Preferences.SelectedCharacterIndex, Preferences.AdminOOCColor, favorites);
+            Preferences = new PlayerPreferences(Preferences.Characters, Preferences.SelectedCharacterIndex, Preferences.AdminOOCColor, favorites, Preferences.InaccessibleCharacters); // DS14
             var msg = new MsgUpdateConstructionFavorites
             {
                 Favorites = favorites

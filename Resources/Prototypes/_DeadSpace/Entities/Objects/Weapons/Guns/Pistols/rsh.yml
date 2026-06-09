@@ -1,0 +1,17 @@
+- type: entity
+  name: РШ-12М Полевого Офицера
+  parent: [BaseWeaponRevolver, BaseMajorContraband]
+  id: WeaponRevolverRSH12M
+  description: Продвинутый револьверный комплекс РШ-12М представляет собой револьвер с цельной металлической рамкой и с откидывающимся влево барабаном на 6 патронов, тем самым превосходя обычный РШ-12.
+  suffix: Офицер СО
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/rsh12.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/rsh12.rsi
+  - type: Item
+    storedOffset: 0,-3
+  - type: Gun
+    fireRate: 3.5
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/mateba.ogg

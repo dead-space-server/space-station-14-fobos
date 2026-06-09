@@ -70,6 +70,9 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
 
         Prev.Disabled = targetNum <= 1;
         Next.Disabled = targetNum >= totalNum;
+
+        InteractionPanel.Visible = true; // DS14
+
         LikeButton.Disabled = false;
         DislikeButton.Disabled = false;
         CommentInput.Editable = true;
@@ -144,6 +147,9 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
 
         Prev.Disabled = true;
         Next.Disabled = true;
+
+        InteractionPanel.Visible = false; // DS14
+
         LikeButton.Disabled = true;
         DislikeButton.Disabled = true;
         CommentInput.Editable = false;

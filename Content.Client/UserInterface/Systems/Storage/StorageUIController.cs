@@ -251,6 +251,17 @@ public sealed class StorageUIController : UIController, IOnSystemChanged<Storage
 
             args.Handle();
         }
+        // DS14-start
+        else if (args.Function == ContentKeyFunctions.ToggleItemPriority)
+        {
+            if (window.StorageEntity is not {} storage)
+                return;
+            EntityManager.RaisePredictiveEvent(new StorageToggleItemPriorityEvent(
+                EntityManager.GetNetEntity(control.Entity),
+                EntityManager.GetNetEntity(storage)));
+            args.Handle();
+        }
+        // DS14-end
         else if (args.Function == ContentKeyFunctions.SaveItemLocation)
         {
             if (window.StorageEntity is not {} storage)

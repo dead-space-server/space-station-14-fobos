@@ -33,6 +33,7 @@ public sealed class FollowerSystem : EntitySystem
     [Dependency] private readonly SharedPhysicsSystem _physicsSystem = default!;
     [Dependency] private readonly INetManager _netMan = default!;
     [Dependency] private readonly ISharedAdminManager _adminManager = default!;
+    [Dependency] private readonly SharedViewSubscriberSystem _viewSubscriber = default!; // DS14
 
     private static readonly ProtoId<TagPrototype> ForceableFollowTag = "ForceableFollow";
     private static readonly ProtoId<TagPrototype> PreventGhostnadoWarpTag = "NotGhostnadoWarpable";
@@ -45,6 +46,10 @@ public sealed class FollowerSystem : EntitySystem
         SubscribeLocalEvent<FollowerComponent, MoveInputEvent>(OnFollowerMove);
         SubscribeLocalEvent<FollowerComponent, PullStartedMessage>(OnPullStarted);
         SubscribeLocalEvent<FollowerComponent, EntityTerminatingEvent>(OnFollowerTerminating);
+        // DS14-start
+        SubscribeLocalEvent<FollowerComponent, PlayerAttachedEvent>(OnFollowerPlayerAttached);
+        SubscribeLocalEvent<FollowerComponent, PlayerDetachedEvent>(OnFollowerPlayerDetached);
+        // DS14-end
 
         SubscribeLocalEvent<FollowedComponent, ComponentGetStateAttemptEvent>(OnFollowedAttempt);
         SubscribeLocalEvent<FollowerComponent, GotEquippedHandEvent>(OnGotEquippedHand);
@@ -177,6 +182,29 @@ public sealed class FollowerSystem : EntitySystem
             StartFollowingEntity(follower, args.NewRemoteEntity.Value);
     }
 
+    // DS14-start
+    private void OnFollowerPlayerAttached(Entity<FollowerComponent> ent, ref PlayerAttachedEvent args)
+    {
+        AddFollowViewSubscriber(ent.Comp.Following, args.Player);
+    }
+
+    private void OnFollowerPlayerDetached(Entity<FollowerComponent> ent, ref PlayerDetachedEvent args)
+    {
+        RemoveFollowViewSubscriber(ent.Comp.Following, args.Player);
+    }
+
+    private void AddFollowViewSubscriber(EntityUid target, ICommonSession session)
+    {
+        if (!TerminatingOrDeleted(target))
+            _viewSubscriber.AddViewSubscriber(target, session);
+    }
+
+    private void RemoveFollowViewSubscriber(EntityUid target, ICommonSession session)
+    {
+        _viewSubscriber.RemoveViewSubscriber(target, session);
+    }
+    // DS14-end
+
     /// <summary>
     ///     Makes an entity follow another entity, by parenting to it.
     /// </summary>
@@ -218,6 +246,11 @@ public sealed class FollowerSystem : EntitySystem
         if (!followedComp.Following.Add(follower))
             return;
 
+        // DS14-start
+        if (TryComp(follower, out ActorComponent? actor))
+            AddFollowViewSubscriber(entity, actor.PlayerSession);
+        // DS14-end
+
         if (TryComp<JointComponent>(follower, out var joints))
             _jointSystem.ClearJoints(follower, joints);
 
@@ -254,6 +287,11 @@ public sealed class FollowerSystem : EntitySystem
 
         if (!TryComp<FollowerComponent>(uid, out var followerComp) || followerComp.Following != target)
             return;
+
+        // DS14-start
+        if (TryComp(uid, out ActorComponent? actor))
+            RemoveFollowViewSubscriber(target, actor.PlayerSession);
+        // DS14-end
 
         followed.Following.Remove(uid);
         if (followed.Following.Count == 0)

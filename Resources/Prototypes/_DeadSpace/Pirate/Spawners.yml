@@ -17,7 +17,7 @@
       department: Command
       time: 36000
     raffle:
-      settings: default
+      settings: short
   - type: Sprite
     sprite: Markers/jobs.rsi
     layers:
@@ -43,7 +43,7 @@
       department: Security
       time: 36000
     raffle:
-      settings: default
+      settings: short
   - type: Sprite
     sprite: Markers/jobs.rsi
     layers:

@@ -12,3 +12,7 @@ access-id-card-console-component-no-hands-error = У вас нет рук.
 id-card-console-privileged-id = Основная ID
 id-card-console-target-id = Целевая ID
 id-card-console-damaged = Структурная целостность нарушена, извлекаю содержимое.
+# DS14-Start
+id-card-console-window-basic-access = Базовый
+id-card-console-window-extended-access = Расширенный
+# DS14-End

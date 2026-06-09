@@ -790,7 +790,6 @@
       Epinephrine: 5
       Puncturase: 5
       Omnizine: 10
-      TranexamicAcid: 10
   - type: NeededBloodForAutoInject
     cost: 20 # Цена крови за действие
   - type: PassiveDamage

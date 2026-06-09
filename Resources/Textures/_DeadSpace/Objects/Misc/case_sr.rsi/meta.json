@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Created by sastr. (discord) for Space Station 14 server Мёртвый Космос",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "closed"
+    },
+    {
+      "name": "open"
+    },
+    {
+      "name": "c1"
+    },
+    {
+      "name": "c2"
+    },
+    {
+      "name": "c3"
+    },
+    {
+      "name": "c4"
+    }
+  ]
+}

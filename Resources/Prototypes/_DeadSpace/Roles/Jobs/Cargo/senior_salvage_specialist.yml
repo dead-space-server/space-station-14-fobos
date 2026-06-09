@@ -41,6 +41,7 @@
     socks: ClothingUnderwearSocksSeniorSalvage
   storage:
     back:
+    - LavalandMiningVoucher
     - RubberStampSeniorSalvage
 
 - type: chameleonOutfit

@@ -30,6 +30,7 @@ public sealed partial class MobThresholdsComponent : Component
         {MobState.Alive, "HumanHealth"},
         {MobState.Critical, "HumanCrit"},
         {MobState.Dead, "HumanDead"},
+        {MobState.PreCritical, "HumanPreCrit"}, // DS14
     };
 
     [DataField]

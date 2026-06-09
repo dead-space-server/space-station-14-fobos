@@ -111,6 +111,12 @@ public abstract partial class SharedStunSystem
 
     private void OnKnockInit(Entity<KnockedDownComponent> entity, ref ComponentInit args)
     {
+        if (HasComp<StunImmuneComponent>(entity.Owner))
+        {
+            RemCompDeferred<KnockedDownComponent>(entity);
+            return;
+        }
+
         // Other systems should handle dropping held items...
         _standingState.Down(entity, true, false);
         RefreshKnockedMovement(entity);

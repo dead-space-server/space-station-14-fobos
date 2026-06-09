@@ -89,51 +89,72 @@
   - type: StaticPrice
     price: 500
 
-- type: entity
+#DS14 rework start
+- type: entity 
   name: Hristov
-  parent: [BaseWeaponSniper, BaseGunWieldable, BaseSyndicateContraband]
+  parent: [BaseWeaponRifle, BaseSyndicateContraband]
   id: WeaponSniperHristov
-  description: For when you absolutely, positively need to make someone regret their life choices from a safe distance. Uses .60 anti-materiel ammo.
+  description: A high-precision, large-caliber sniper rifle manufactured by Idalias Concerns.
   components:
-  - type: Item
-    size: Huge
-    shape:
-    - 0,0,5,1
   - type: Sprite
     sprite: Objects/Weapons/Guns/Snipers/heavy_sniper.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-0
+      map: ["enum.GunVisualLayers.Mag"]
   - type: Clothing
     sprite: Objects/Weapons/Guns/Snipers/heavy_sniper.rsi
-  # DS14-start
-    slots:
-    - Back
-    quickEquip: false
-  # DS14-end
-  - type: GunRequiresWield
+  - type: Item
+    sprite: Objects/Weapons/Guns/Snipers/heavy_sniper.rsi
+    shape:
+     - 0,0,6,1
+    size: Huge
   - type: Gun
-    fireRate: 0.4
+    fireRate: 0.6
     selectedMode: SemiAuto
     availableModes:
     - SemiAuto
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/sniper.ogg
-  - type: BallisticAmmoProvider
-    whitelist:
-      tags:
-      - CartridgeAntiMateriel
-    capacity: 10 # DS14-value
-    proto: CartridgeAntiMateriel
-  - type: SpeedModifiedOnWield
-    walkModifier: 0.6 # DS14-value
-    sprintModifier: 0.6 # DS14-value
-  - type: CursorOffsetRequiresWield
-  - type: EyeCursorOffset
-    maxOffset: 7 # DS14, prev 3
-    pvsIncrease: 0.5 # DS14, prev 0.3
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: MagazineHristov
+        insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+          - MagazineHristov
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        startingItem: CartridgeAntiMateriel
+        priority: 1
+        whitelist:
+          tags:
+          - CartridgeAntiMateriel
+          - CartridgeAntiMaterielAP
+  - type: ContainerContainer
+    containers:
+      gun_magazine: !type:ContainerSlot
+      gun_chamber: !type:ContainerSlot
+  - type: MagazineVisuals
+    magState: mag
+    steps: 1
+    zeroVisible: true
+  - type: Appearance
+  - type: UseDelay
+    delay: 1
+  - type: GunRequiresWield
   - type: StaticPrice
     price: 3500
   - type: Tag # DS14
     tags:
     - SniperHristov
+#DS14 END
 
 - type: entity
   name: musket
@@ -172,7 +193,7 @@
     animation: WeaponArcThrust
     soundHit:
       path: /Audio/Weapons/bladeslice.ogg
-  - type: GunRequiresWield
+  - type: GunRequiresWield 
 
 - type: entity
   name: flintlock pistol

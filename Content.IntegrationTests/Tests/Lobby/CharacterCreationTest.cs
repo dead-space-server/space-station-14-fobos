@@ -1,8 +1,15 @@
+using System.Linq;
+using System.Threading;
 using Content.Client.Lobby;
+using Content.Server.Database;
 using Content.Server.Preferences.Managers;
+using Content.Shared.CCVar;
 using Content.Shared.Humanoid;
 using Content.Shared.Preferences;
+using Robust.Server.Player;
 using Robust.Client.State;
+using Robust.Shared.Configuration;
+using Robust.Shared.Network;
 
 namespace Content.IntegrationTests.Tests.Lobby;
 
@@ -74,6 +81,144 @@ public sealed class CharacterCreationTest
         AssertEqual(serverCharacters[1], profile);
         await pair.CleanReturnAsync();
     }
+
+    // DS14-start
+    [Test]
+    public async Task InaccessibleCharactersAreSplitAndDeletableTest()
+    {
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings { InLobby = true, Dirty = true });
+        var server = pair.Server;
+        var client = pair.Client;
+        var user = pair.Client.User!.Value;
+        var clientPrefManager = client.Resolve<IClientPreferencesManager>();
+        var serverPrefManager = server.Resolve<IServerPreferencesManager>();
+        var db = server.Resolve<IServerDbManager>();
+        var cfg = server.Resolve<IConfigurationManager>();
+        var playerManager = server.Resolve<IPlayerManager>();
+        var clientNetManager = client.Resolve<IClientNetManager>();
+        var username = string.Empty;
+
+        var accessibleProfile = ProfileWithName("Алексей Тестов");
+        var inaccessibleProfile = ProfileWithName("Борис Закрытов");
+
+        await PoolManager.WaitUntil(client, () =>
+            clientPrefManager.ServerDataLoaded &&
+            clientPrefManager.Preferences != null,
+            maxTicks: 60);
+        await PoolManager.WaitUntil(server, () => serverPrefManager.TryGetCachedPreferences(user, out _), maxTicks: 60);
+
+        await server.WaitPost(() =>
+        {
+            cfg.SetCVar(CCVars.GameMaxCharacterSlots, 2);
+            db.SaveCharacterSlotAsync(user, accessibleProfile, 0).Wait();
+            db.SaveCharacterSlotAsync(user, inaccessibleProfile, 1).Wait();
+            db.SaveSelectedCharacterIndexAsync(user, 1).Wait();
+            username = playerManager.Sessions.Single().Name;
+        });
+
+        var seededPrefs = await db.GetPlayerPreferencesAsync(user, CancellationToken.None);
+        Assert.Multiple(() =>
+        {
+            Assert.That(seededPrefs, Is.Not.Null);
+            Assert.That(seededPrefs!.SelectedCharacterIndex, Is.EqualTo(1));
+            Assert.That(seededPrefs.Characters.Keys, Is.EquivalentTo(new[] { 0, 1 }));
+            Assert.That(((HumanoidCharacterProfile) seededPrefs.Characters[0]).Name, Is.EqualTo(accessibleProfile.Name));
+            Assert.That(((HumanoidCharacterProfile) seededPrefs.Characters[1]).Name, Is.EqualTo(inaccessibleProfile.Name));
+        });
+
+        await client.WaitPost(() => clientNetManager.ClientDisconnect("For testing"));
+        await pair.RunTicksSync(20);
+
+        await server.WaitAssertion(() =>
+        {
+            Assert.That(playerManager.PlayerCount, Is.EqualTo(0));
+            cfg.SetCVar(CCVars.GameMaxCharacterSlots, 1);
+        });
+
+        client.SetConnectTarget(server);
+        await client.WaitPost(() => clientNetManager.ClientConnect(null!, 0, username));
+        await pair.RunTicksSync(20);
+
+        await PoolManager.WaitUntil(client, () =>
+            clientPrefManager.ServerDataLoaded &&
+            clientPrefManager.Settings!.MaxCharacterSlots == 1 &&
+            clientPrefManager.Preferences!.InaccessibleCharacters.Count == 1,
+            maxTicks: 60);
+
+        var clientPrefs = clientPrefManager.Preferences!;
+        Assert.Multiple(() =>
+        {
+            Assert.That(clientPrefs.SelectedCharacterIndex, Is.EqualTo(0));
+            Assert.That(clientPrefs.Characters.Keys, Is.EquivalentTo(new[] { 0 }));
+            Assert.That(clientPrefs.InaccessibleCharacters.Keys, Is.EquivalentTo(new[] { 1 }));
+            Assert.That(((HumanoidCharacterProfile) clientPrefs.Characters[0]).Name, Is.EqualTo(accessibleProfile.Name));
+            Assert.That(((HumanoidCharacterProfile) clientPrefs.InaccessibleCharacters[1]).Name, Is.EqualTo(inaccessibleProfile.Name));
+        });
+
+        await PoolManager.WaitUntil(server, () =>
+        {
+            var serverPrefs = serverPrefManager.GetPreferences(user);
+            return serverPrefs.SelectedCharacterIndex == 0 &&
+                   serverPrefs.Characters.Count == 1 &&
+                   serverPrefs.InaccessibleCharacters.Count == 1;
+        }, maxTicks: 60);
+
+        var rawPrefs = await db.GetPlayerPreferencesAsync(user, CancellationToken.None);
+        Assert.Multiple(() =>
+        {
+            Assert.That(rawPrefs, Is.Not.Null);
+            Assert.That(rawPrefs!.SelectedCharacterIndex, Is.EqualTo(0));
+            Assert.That(rawPrefs.Characters.Keys, Is.EquivalentTo(new[] { 0, 1 }));
+        });
+
+        await client.WaitPost(() => clientPrefManager.DeleteCharacter(1));
+        await pair.RunTicksSync(5);
+        await PoolManager.WaitUntil(server, () => !serverPrefManager.GetPreferences(user).InaccessibleCharacters.ContainsKey(1), maxTicks: 60);
+
+        rawPrefs = await db.GetPlayerPreferencesAsync(user, CancellationToken.None);
+        Assert.Multiple(() =>
+        {
+            Assert.That(rawPrefs, Is.Not.Null);
+            Assert.That(rawPrefs!.Characters.Keys, Is.EquivalentTo(new[] { 0 }));
+        });
+
+        await client.WaitPost(() => clientNetManager.ClientDisconnect("For testing"));
+        await pair.RunTicksSync(20);
+
+        await server.WaitAssertion(() =>
+        {
+            Assert.That(playerManager.PlayerCount, Is.EqualTo(0));
+            cfg.SetCVar(CCVars.GameMaxCharacterSlots, 2);
+        });
+
+        client.SetConnectTarget(server);
+        await client.WaitPost(() => clientNetManager.ClientConnect(null!, 0, username));
+        await pair.RunTicksSync(20);
+
+        await PoolManager.WaitUntil(client, () =>
+            clientPrefManager.ServerDataLoaded &&
+            clientPrefManager.Settings!.MaxCharacterSlots == 2 &&
+            clientPrefManager.Preferences!.Characters.Count == 1,
+            maxTicks: 60);
+
+        clientPrefs = clientPrefManager.Preferences!;
+        Assert.Multiple(() =>
+        {
+            Assert.That(clientPrefs.Characters.Keys, Is.EquivalentTo(new[] { 0 }));
+            Assert.That(clientPrefs.InaccessibleCharacters, Is.Empty);
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    private static HumanoidCharacterProfile ProfileWithName(string name)
+    {
+        return new HumanoidCharacterProfile
+        {
+            Name = name
+        };
+    }
+    // DS14-end
 
     private void AssertEqual(ICharacterProfile clientCharacter, HumanoidCharacterProfile b)
     {

@@ -1,12 +1,15 @@
 - type: entity
   save: false
   parent:
+  - MobFlammable
   - MobBloodstream
   - BaseMobSpecies
   id: BaseMobSpeciesComputer
   abstract: true
   components:
   - type: Blindable
+  - type: InjectionBlocker
+    blockedMessage: injection-blocker-component-ipc-message
   - type: Temperature
     currentTemperature: 310.15
     specificHeat: 42
@@ -26,6 +29,7 @@
   - type: Speech
     speechVerb: Robotic
     speechSounds: Pai
+    allowedEmotes: ['Laugh']
   - type: ZombieImmune
   - type: Repairable
     doAfterDelay: 3
@@ -128,4 +132,8 @@
     - FootstepSound
     - DoorBumpOpener
     - AnomalyHost
+  - type: Flammable
+    damage:
+      types:
+        Heat: 1.2
   # - type: FootPrints

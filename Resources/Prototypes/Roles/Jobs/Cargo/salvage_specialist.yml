@@ -37,9 +37,9 @@
     id: SalvagePDA
     ears: ClothingHeadsetCargo
     socks: ClothingUnderwearSocksSalvage
-  #storage:
-    #back:
-    #- Stuff
+  storage:
+    back:
+    - LavalandMiningVoucher
 
 - type: chameleonOutfit
   id: SalvageSpecialistChameleonOutfit

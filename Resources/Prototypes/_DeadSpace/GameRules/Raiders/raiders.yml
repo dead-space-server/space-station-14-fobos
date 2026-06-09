@@ -4,7 +4,7 @@
   components:
   - type: RuleGrids
   - type: LoadMapRule
-    mapPath: /Maps/Shuttles/destroyer.yml
+    mapPath: /Maps/Nonstations/Raider_outpost.yml
   - type: AntagSelection
     definitions:
     - spawnerPrototype: SyndicateSoldierTeamLeaderSpawner

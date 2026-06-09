@@ -203,6 +203,7 @@
     speechSounds: Alto
   - type: DamageForceSay
   - type: Vocal
+    wilhelm: "/Audio/_DeadSpace/Voice/Human/human_wilhelm.ogg" # DS14
     sounds:
       Male: MaleHuman
       Female: FemaleHuman

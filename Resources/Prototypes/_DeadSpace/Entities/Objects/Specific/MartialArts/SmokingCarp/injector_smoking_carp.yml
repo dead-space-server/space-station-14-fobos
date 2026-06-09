@@ -1,8 +1,8 @@
 - type: entity
   parent: BaseItem
   id: SmokingCarpInjector
-  name: инъектор "Smoking Carp"
-  description: Одноразовый инъектор, имеется гравировка "Smoking Carp".
+  name: свиток "Smoking Carp"
+  description: На нём содержатся знания о древнем боевом искусстве, которые нельзя прочитать, но можно почувствовать. Ну, вам так кажется. Улёт в общем.
   components:
     - type: Sprite
       sprite: _DeadSpace/Objects/Misc/injector_smoking_carp.rsi
@@ -13,7 +13,7 @@
       itemAfterLerning: SmokingCarpInjectorAfter
       params:
         - staminaDamageSmokePunch: 35.0
-          hitDamageForPowerPunch: 30
+          hitDamageForPowerPunch: 20
           hitDamageForSmokePunch: 5
           ignoreResist: true
           damageTypeForPowerPunch: "Slash"
@@ -43,8 +43,8 @@
 - type: entity
   parent: BaseItem
   id: SmokingCarpInjectorAfter
-  name: инъектор "Smoking Carp"
-  description: Одноразовый инъектор, имеется гравировка "Smoking Carp", он пустой.
+  name: порванный чёрный папирус
+  description: Оставшийся текст гласит "Smoking Carp". Кажется он вытягивает из вас силы, когда вы его держите.
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Misc/injector_smoking_carp.rsi

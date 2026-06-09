@@ -13,6 +13,8 @@ using static Content.Shared.Paper.PaperComponent;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 // DS14-start
+using Content.Shared.DeadSpace.SignatureOnPaper.Components;
+using Content.Shared.Hands.EntitySystems;
 using Robust.Shared.Timing;
 using Robust.Shared.Network;
 // DS14-end
@@ -42,9 +44,11 @@ public sealed class PaperSystem : EntitySystem
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly ILocalizationManager _loc = default!;
+    [Dependency] private readonly SharedHandsSystem _handsSystem = default!;
     // DS14-end
 
     private static readonly ProtoId<TagPrototype> WriteIgnoreStampsTag = "WriteIgnoreStamps";
+    private static readonly ProtoId<TagPrototype> WriteReWriteTag = "WriteReWrite";
     private static readonly ProtoId<TagPrototype> WriteTag = "Write";
 
     private EntityQuery<PaperComponent> _paperQuery;
@@ -275,6 +279,16 @@ public sealed class PaperSystem : EntitySystem
 
             if (TryComp(entity, out MetaDataComponent? meta))
                 _metaSystem.SetEntityDescription(entity, "", meta);
+            // DS14-start
+            if (_handsSystem.GetActiveItem(args.Actor) is { } item)
+            {
+                if (_tagSystem.HasTag(item, WriteReWriteTag) && TryComp<SignaturePaperComponent>(entity, out var comp))
+                {
+                    entity.Comp.Signatures.Add("[color=red][bold]Переписано[/bold][/color]");
+                    comp.NumberSignatures += 1;
+                }
+            }
+            //DS14-end
 
             _adminLogger.Add(LogType.Chat,
                 LogImpact.Low,

@@ -39,6 +39,8 @@ public partial class PdaWindow : BaseWindow
         }
     }
 
+    private const int DRAG_MARGIN_SIZE = 7; // DS14
+
     public PdaWindow()
     {
         RobustXamlLoader.Load(this);
@@ -52,6 +54,23 @@ public partial class PdaWindow : BaseWindow
 
     protected override DragMode GetDragModeFor(Vector2 relativeMousePos)
     {
-        return DragMode.Move;
+        // DS14-start
+        var mode = DragMode.Move;
+
+        if (Resizable)
+        {
+            if (relativeMousePos.Y < DRAG_MARGIN_SIZE)
+                mode = DragMode.Top;
+            else if (relativeMousePos.Y > Size.Y - DRAG_MARGIN_SIZE)
+                mode = DragMode.Bottom;
+
+            if (relativeMousePos.X < DRAG_MARGIN_SIZE)
+                mode |= DragMode.Left;
+            else if (relativeMousePos.X > Size.X - DRAG_MARGIN_SIZE)
+                mode |= DragMode.Right;
+        }
+
+        return mode;
+        // DS14-end
     }
 }

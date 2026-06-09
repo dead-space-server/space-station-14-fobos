@@ -4,7 +4,7 @@
   id: ClothingBackpackMaelstorm
   name: старая командирская сумка
   description: Старая командирская сумка красноармейца времён революций, однако получившая модернизацию блюспейс технологиями. Выглядит потрёпанной.
-  # categories: [ HideSpawnMenu ] # попросил оставить в меню спавна
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/maelstorm/backpack.rsi

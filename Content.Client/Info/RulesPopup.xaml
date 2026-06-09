@@ -1,4 +1,4 @@
-﻿<Control xmlns="https://spacestation14.io"
+<Control xmlns="https://spacestation14.io"
          xmlns:parallax="clr-namespace:Content.Client.Parallax"
          xmlns:info="clr-namespace:Content.Client.Info"
          VerticalExpand="True" HorizontalExpand="True"
@@ -7,21 +7,26 @@
     <Control VerticalExpand="True"
              MaxWidth="800"
              MaxHeight="900">
-        <PanelContainer StyleClasses="windowPanel" />
-            <BoxContainer Orientation="Vertical" SeparationOverride="10" Margin="10 10 5 10">
-                <info:RulesControl/>
-                <Label Name="WaitLabel" />
-                <BoxContainer Orientation="Horizontal">
-                    <Button Name="AcceptButton"
-                            Text="{Loc 'ui-rules-accept'}"
-                            Disabled="True" />
-                    <Button Name="QuitButton"
-                            StyleClasses="negative"
-                            Text="{Loc 'ui-escape-quit'}" />
-                    <Button Name="WikiButton"
-                            Access="Public"
-                            Text="{Loc 'ui-escape-wiki'}"/>
-                </BoxContainer>
+        <!-- DS14-start -->
+        <PanelContainer StyleClasses="DS14MenuShell" />
+        <BoxContainer Orientation="Vertical" SeparationOverride="10" Margin="10">
+            <info:RulesControl/>
+            <Label Name="WaitLabel"
+                   StyleClasses="DS14MenuProfileLabel" />
+            <BoxContainer Orientation="Horizontal" SeparationOverride="4">
+                <Button Name="AcceptButton"
+                        Text="{Loc 'ui-rules-accept'}"
+                        Disabled="True"
+                        StyleClasses="DS14MenuProfileControl" />
+                <Button Name="QuitButton"
+                        StyleClasses="DS14MenuProfileControl negative"
+                        Text="{Loc 'ui-escape-quit'}" />
+                <Button Name="WikiButton"
+                        Access="Public"
+                        Text="{Loc 'ui-escape-wiki'}"
+                        StyleClasses="DS14MenuProfileControl"/>
             </BoxContainer>
+        </BoxContainer>
+        <!-- DS14-end -->
     </Control>
 </Control>

@@ -350,6 +350,7 @@
     # DS14-start
     stampTexture: "/Textures/Interface/Stamps/refus_print.png"
     stampScale: 1.15
+    stampCanRotate: false
     # DS14-end
   - type: Sprite
     state: stamp-ok
@@ -366,6 +367,7 @@
     # DS14-start
     stampTexture: "/Textures/Interface/Stamps/reject_print.png"
     stampScale: 1.15
+    stampCanRotate: false
     # DS14-end
   - type: Sprite
     state: stamp-deny

@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from tgstation.",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    { "name": "floor1" },
+    { "name": "floor2" },
+    { "name": "floor3" },
+    { "name": "floor4" },
+    { "name": "floor5" },
+    { "name": "floor6" },
+    { "name": "floor7" },
+    { "name": "splatter1", "directions": 8 },
+    { "name": "splatter2", "directions": 8 },
+    { "name": "splatter3", "directions": 4 },
+    { "name": "splatter4", "directions": 4 },
+    { "name": "splatter5", "directions": 4 },
+    { "name": "splatter6", "directions": 8 },
+    { "name": "gib3", "directions": 4 },
+    { "name": "gib5", "directions": 4 },
+    { "name": "gib6", "directions": 4 }
+  ]
+}

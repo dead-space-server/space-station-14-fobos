@@ -8,6 +8,7 @@ namespace Content.Server.DeadSpace.Divader;
 public sealed class DivaderSystem : EntitySystem
 {
     [Dependency] private readonly MobStateSystem _mobState = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     public override void Initialize()
     {
@@ -20,9 +21,13 @@ public sealed class DivaderSystem : EntitySystem
     {
         if (_mobState.IsDead(uid))
         {
-            Spawn(component.RHMobSpawnId, Transform(uid).Coordinates);
-            Spawn(component.HMobSpawnId, Transform(uid).Coordinates);
-            Spawn(component.LHMobSpawnId, Transform(uid).Coordinates);
+            var xform = Transform(uid);
+            var coordinates = _transform.GetMapCoordinates(uid, xform);
+            var rotation = _transform.GetWorldRotation(xform);
+
+            Spawn(component.RHMobSpawnId, coordinates, rotation: rotation);
+            Spawn(component.HMobSpawnId, coordinates, rotation: rotation);
+            Spawn(component.LHMobSpawnId, coordinates, rotation: rotation);
         }
     }
 }

@@ -263,7 +263,7 @@ namespace Content.Server.Guardian
 
             TryComp<GuardianComponent>(component.HostedGuardian, out var guardianComp);
 
-            if (args.NewMobState == MobState.Critical)
+            if (args.NewMobState == MobState.Critical || args.NewMobState == MobState.PreCritical) // DS14 edited
             {
                 _popupSystem.PopupEntity(Loc.GetString("guardian-host-critical-warn"), component.HostedGuardian.Value, component.HostedGuardian.Value);
                 if (guardianComp != null)

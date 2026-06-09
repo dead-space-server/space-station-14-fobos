@@ -2,6 +2,7 @@ using Content.Shared.DoAfter;
 using Content.Shared.Inventory;
 using Robust.Shared.GameStates;
 using Robust.Shared.Serialization;
+using Robust.Shared.GameObjects;
 
 namespace Content.Shared.Strip.Components
 {

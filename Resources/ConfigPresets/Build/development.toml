@@ -56,3 +56,6 @@ rules_file = "DeadSpaceDefaultRuleset"
 
 [taipan]
 enabled = false
+
+[lavaland]
+auto_generate = false

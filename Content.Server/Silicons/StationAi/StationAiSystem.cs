@@ -359,7 +359,7 @@ public sealed class StationAiSystem : SharedStationAiSystem
         var sourceXform = Transform(ev.Source);
         var sourcePos = _xforms.GetWorldPosition(sourceXform, xformQuery);
 
-        // This function ensures that chat popups appear on camera views that have connected microphones.
+        // Let the AI hear speech around the entity it is currently viewing from.
         var query = EntityQueryEnumerator<StationAiCoreComponent, TransformComponent>();
         while (query.MoveNext(out var ent, out var entStationAiCore, out var entXform))
         {
@@ -368,7 +368,7 @@ public sealed class StationAiSystem : SharedStationAiSystem
             if (!TryGetHeld(stationAiCore, out var insertedAi) || !TryComp(insertedAi, out ActorComponent? actor))
                 continue;
 
-            if (stationAiCore.Comp?.RemoteEntity == null || stationAiCore.Comp.Remote)
+            if (stationAiCore.Comp?.RemoteEntity == null)
                 continue;
 
             var xform = Transform(stationAiCore.Comp.RemoteEntity.Value);

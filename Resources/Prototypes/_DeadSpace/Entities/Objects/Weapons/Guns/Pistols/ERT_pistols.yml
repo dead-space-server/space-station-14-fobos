@@ -1,0 +1,76 @@
+- type: entity
+  name: МК 79 "Тактика"
+  parent: [BaseWeaponPistol, BaseSecurityContraband]
+  id: WeaponPistolMk79tactical
+  description: Точность, скорострельность, надёжность! Он спасёт вас даже от темноты благодаря фонарику. Ой, батарейки сели... Использует патроны калибра 9х19.
+  suffix: Пистолет
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/mk79_tactical.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-0
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/mk79_tactical.rsi
+  - type: Item
+    storedOffset: 0,-2
+  - type: Gun
+    fireRate: 6.5 # DS14
+    availableModes:
+    - SemiAuto
+    - Burst
+    - FullAuto
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/mk58.ogg
+  - type: StealTarget
+    stealGroup: OfficerHandgun
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: MagazinePistolHighCapacity
+        insertSound: /Audio/Weapons/Guns/MagIn/pistol_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/pistol_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+            - MagazinePistol
+            - MagazinePistolHighCapacity
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        priority: 1
+        whitelist:
+          tags:
+            - CartridgePistol
+
+- type: entity
+  name: Beretta M92
+  parent: [BaseWeaponPistol, BaseSecurityContraband]
+  id: WeaponPistolBerettaM92
+  description: Точный и давно зарекомендовавший себя пистолет. Вы чувствуете себя крутым полицейским старой Терры, когда держите его в руке. Использует патроны калибра 9х19.
+  suffix: Пистолет
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/beretta_m92.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-0
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Weapons/Guns/Pistols/mk79_tactical.rsi
+  - type: Item
+    storedOffset: 0,-2
+  - type: Gun
+    fireRate: 5.8
+    availableModes:
+    - SemiAuto
+    - Burst
+    - FullAuto
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/mk58.ogg
+  - type: StealTarget
+    stealGroup: OfficerHandgun

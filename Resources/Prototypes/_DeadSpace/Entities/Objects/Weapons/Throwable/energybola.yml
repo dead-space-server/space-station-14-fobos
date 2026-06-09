@@ -1,0 +1,31 @@
+- type: entity
+  name: энергобола
+  parent: Bola
+  id: EnergyBola
+  description: Ограничивает мобильность цели, но легко снимается.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Throwable/energybola.rsi
+    state: icon
+  - type: Ensnaring
+    freeTime: 1
+    breakoutTime: 1
+    walkSpeed: 0.3
+    sprintSpeed: 0.3
+    staminaDamage: 0
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 30
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: StunOnCollide
+    stunAmount: 0
+    knockdownAmount: 0.5
+    drop: false
+    slowdownAmount: 0

@@ -82,14 +82,16 @@ public sealed class ServerListBox : BoxContainer
 
         var connectButton = new Button
         {
-            Text = "Подключиться"
+            Text = "Подключиться",
+            StyleClasses = { "DS14MenuTopButton" } // DS14
         };
 
         if (discord != null)
         {
             var discordButton = new Button
             {
-                Text = "Discord"
+                Text = "Discord",
+                StyleClasses = { "DS14MenuTopButton" } // DS14
             };
 
             discordButton.OnPressed += _ =>

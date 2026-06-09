@@ -183,11 +183,13 @@
     containers:
       gun_magazine: !type:ContainerSlot
       gun_chamber: !type:ContainerSlot
-  # - type: MagazineVisuals
-  #   magState: mag
-  #   steps: 5
-  #   zeroVisible: true
-  # - type: Appearance
+#DS14-start
+  - type: MagazineVisuals
+    magState: mag
+    steps: 1
+    zeroVisible: true
+  - type: Appearance
+#DS14-end
 
 - type: entity
   parent: WeaponRifleLecter

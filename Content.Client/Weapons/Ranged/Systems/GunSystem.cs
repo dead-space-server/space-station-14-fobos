@@ -197,8 +197,18 @@ public sealed partial class GunSystem : SharedGunSystem
             return;
         }
 
-        // Define target coordinates relative to gun entity, so that network latency on moving grids doesn't fuck up the target location.
-        var coordinates = TransformSystem.ToCoordinates(entity, mousePos);
+        // Keep aim coordinates in the map/grid frame instead of the player's frame.
+        // The player rotates in combat mode, so player-relative aim can be replayed by the
+        // server with a different rotation under latency and send shots sideways or backwards.
+        EntityCoordinates coordinates;
+        if (MapManager.TryFindGridAt(mousePos, out var gridUid, out _))
+        {
+            coordinates = TransformSystem.ToCoordinates(gridUid, mousePos);
+        }
+        else
+        {
+            coordinates = TransformSystem.ToCoordinates(_maps.GetMap(mousePos.MapId), mousePos);
+        }
 
         NetEntity? target = null;
         if (_state.CurrentState is GameplayStateBase screen)

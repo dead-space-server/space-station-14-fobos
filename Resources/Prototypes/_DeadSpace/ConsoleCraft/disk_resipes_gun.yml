@@ -2,7 +2,7 @@
   parent: BaseItem
   id: BlueprintEnforcerInfinite
   name: чертёж Силовика
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -13,8 +13,8 @@
 - type: entity
   parent: BaseItem
   id: BlueprintKammererInfinite
-  name: чертёж Каммера
-  description: Диск что зачастую содержит какую-то ебуристику.
+  name: чертёж Каммерера
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -26,7 +26,7 @@
   parent: BaseItem
   id: BlueprintAresSWCInfinite
   name: чертёж Арес SWC
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -38,7 +38,7 @@
   parent: BaseItem
   id: BlueprintLecterInfinite
   name: чертёж Лектера
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -50,7 +50,7 @@
   parent: BaseItem
   id: BlueprintDrozdInfinite
   name: чертёж Дрозда
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -62,7 +62,7 @@
   parent: BaseItem
   id: BlueprintМК58Infinite
   name: чертёж МК58
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -75,8 +75,8 @@
 - type: entity
   parent: BaseItem
   id: BlueprintEnforcerThreeUse
-  name: чертёж Силовика (трёхразовой)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  name: чертёж Силовика (трёхразовый)
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -88,8 +88,8 @@
 - type: entity
   parent: BaseItem
   id: BlueprintKammererThreeUse
-  name: чертёж Каммера (трёхразовой)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  name: чертёж Каммерера (трёхразовый)
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -101,8 +101,8 @@
 - type: entity
   parent: BaseItem
   id: BlueprintAresSWCThreeUse
-  name: чертёж Арес SWC (трёхразовой)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  name: чертёж Арес SWC (трёхразовый)
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -114,8 +114,8 @@
 - type: entity
   parent: BaseItem
   id: BlueprintLecterThreeUse
-  name: чертёж Лектера (трёхразовой)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  name: чертёж Лектера (трёхразовый)
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -127,8 +127,8 @@
 - type: entity
   parent: BaseItem
   id: BlueprintDrozdThreeUse
-  name: чертёж Дрозда (трёхразовой)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  name: чертёж Дрозда (трёхразовый)
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -140,8 +140,8 @@
 - type: entity
   parent: BaseItem
   id: BlueprintМК58ThreeUse
-  name: чертёж МК58 (трёхразовой)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  name: чертёж МК58 (трёхразовый)
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi

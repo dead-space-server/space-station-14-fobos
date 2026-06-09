@@ -13,6 +13,13 @@
     {
       "name": "equipped-BELT",
       "directions": 4
+    },
+    {
+      "name": "h-icon"
+    },
+    {
+      "name": "h-equipped-BELT",
+      "directions": 4
     }
   ]
 }

@@ -8,6 +8,8 @@ using Content.Shared.Eye;
 using Content.Shared.Ghost;
 using Content.Shared.Popups;
 using Content.Shared.Storage.Components;
+using Content.Shared.Light;
+using Content.Shared.Light.Components;
 using Robust.Server.GameObjects;
 using Robust.Shared.Containers;
 using Robust.Shared.Timing;
@@ -23,6 +25,7 @@ public sealed class ShadowCocoonSystem : EntitySystem
     [Dependency] private readonly SharedPointLightSystem _pointLightSystem = default!;
     [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
     [Dependency] private readonly SharedContainerSystem _containerSystem = default!;
+    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
 
     public override void Initialize()
     {
@@ -55,7 +58,7 @@ public sealed class ShadowCocoonSystem : EntitySystem
         var xform = Transform(uid);
 
         var entities = _lookup.GetEntitiesInRange<PointLightComponent>(_transform.GetMapCoordinates(uid, xform), component.Range);
-        List<EntityUid> lights = new List<EntityUid>();
+        var lights = new HashSet<EntityUid>();
 
         foreach (var (entity, pointLightComp) in entities)
         {
@@ -63,18 +66,24 @@ public sealed class ShadowCocoonSystem : EntitySystem
                 continue;
 
             lights.Add(entity);
+            component.PointEntities.TryAdd(entity, pointLightComp.Enabled);
+            TurnOffLightVisuals(entity, component);
             _pointLightSystem.SetEnabled(entity, false);
-            component.PointEntities.Add(entity);
         }
 
-        foreach (var entity in component.PointEntities)
+        foreach (var lightState in new Dictionary<EntityUid, bool>(component.PointEntities))
         {
+            var entity = lightState.Key;
+
             if (!lights.Contains(entity))
             {
                 if (TryComp<PointLightComponent>(entity, out var poweredLight))
                 {
-                    _pointLightSystem.SetEnabled(entity, true);
+                    _pointLightSystem.SetEnabled(entity, lightState.Value, poweredLight);
                 }
+
+                RestoreLightVisuals(entity, component);
+                component.PointEntities.Remove(entity);
             }
         }
 
@@ -151,12 +160,44 @@ public sealed class ShadowCocoonSystem : EntitySystem
 
     private void DestroyCocoon(EntityUid uid, ShadowCocoonComponent component)
     {
-        foreach (var entity in component.PointEntities)
+        foreach (var (entity, wasEnabled) in component.PointEntities)
         {
             if (TryComp<PointLightComponent>(entity, out _))
             {
-                _pointLightSystem.SetEnabled(entity, true);
+                _pointLightSystem.SetEnabled(entity, wasEnabled);
             }
         }
+
+        foreach (var entity in new List<EntityUid>(component.PoweredLightStates.Keys))
+        {
+            RestoreLightVisuals(entity, component);
+        }
+    }
+
+    private void TurnOffLightVisuals(EntityUid uid, ShadowCocoonComponent component)
+    {
+        if (!TryComp<AppearanceComponent>(uid, out var appearance) ||
+            !_appearance.TryGetData<PoweredLightState>(uid, PoweredLightVisuals.BulbState, out var state, appearance) ||
+            state != PoweredLightState.On)
+        {
+            return;
+        }
+
+        component.PoweredLightStates.TryAdd(uid, state);
+        _appearance.SetData(uid, PoweredLightVisuals.BulbState, PoweredLightState.Off, appearance);
+    }
+
+    private void RestoreLightVisuals(EntityUid uid, ShadowCocoonComponent component)
+    {
+        if (!component.PoweredLightStates.Remove(uid, out var state) ||
+            !TryComp<AppearanceComponent>(uid, out var appearance))
+        {
+            return;
+        }
+
+        if (TryComp<PoweredLightComponent>(uid, out var poweredLight) && !poweredLight.CurrentLit)
+            return;
+
+        _appearance.SetData(uid, PoweredLightVisuals.BulbState, state, appearance);
     }
 }

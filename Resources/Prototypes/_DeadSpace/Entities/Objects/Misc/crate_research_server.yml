@@ -3,6 +3,7 @@
   parent: CrateScienceSecure
   name: научный ящик с Сервером РНД
   description: Ящик что содержит плату Сервера РНД.
+  suffix: Защищённый
   components:
   - type: StorageFill
     contents:

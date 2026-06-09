@@ -100,6 +100,21 @@ namespace Content.Shared.Ghost
             entity.Comp.CanGhostInteract = value;
             Dirty(entity);
         }
+
+        /// <summary>
+        /// Sets ghost color...
+        /// </summary>
+        public void SetGhostColor(Entity<GhostComponent?> entity, Color value)
+        {
+            if (!Resolve(entity, ref entity.Comp))
+                return;
+
+            if (entity.Comp.Color == value)
+                return;
+
+            entity.Comp.Color = value;
+            Dirty(entity);
+        }
     }
 
     /// <summary>

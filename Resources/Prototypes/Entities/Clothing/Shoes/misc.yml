@@ -214,4 +214,10 @@
   - type: StaticPrice
     price: 220
   - type: Tag
-    tags: []
+#DS14-start
+    tags:
+    - ClothingShoesBootsJump
+  - type: Construction
+    graph: ClothingShoesBootsJump
+    node: shoesBootsJumpLavaland
+#DS14-end

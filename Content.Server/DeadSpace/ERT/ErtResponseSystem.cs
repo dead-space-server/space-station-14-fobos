@@ -495,7 +495,7 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
         if (!_prototypeManager.TryIndex(ent.Comp.Settings.TeamId, out var prototype))
             return;
 
-        if (!EntityManager.EntityExists(ent.Comp.Settings.SpawnPoint))
+        if (!Exists(ent.Comp.Settings.SpawnPoint))
             return;
 
         var spawns = EntitySpawnCollection.GetSpawns(prototype.Spawns, _random);
@@ -559,7 +559,7 @@ public sealed class ErtResponseSystem : SharedErtResponseSystem
             }
         }
 
-        if (ent.Comp.PinpointerTarget != null && EntityManager.EntityExists(ent.Comp.PinpointerTarget.Value))
+        if (ent.Comp.PinpointerTarget != null && Exists(ent.Comp.PinpointerTarget.Value))
         {
             var pinQuery = EntityQueryEnumerator<PinpointerComponent, TransformComponent>();
             while (pinQuery.MoveNext(out var pinUid, out var pin, out var pinXform))

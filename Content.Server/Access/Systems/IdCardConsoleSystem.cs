@@ -166,7 +166,10 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
 
         if (!newAccessList.TrueForAll(x => component.AccessLevels.Contains(x)))
         {
-            _sawmill.Warning($"User {ToPrettyString(uid)} tried to write unknown access tag.");
+            var unknownTags = newAccessList.Where(x => !component.AccessLevels.Contains(x)).ToList();
+            _sawmill.Warning($"User {ToPrettyString(player)} tried to write unknown access tags to {ToPrettyString(targetId)}.");
+            _adminLogger.Add(LogType.Action, LogImpact.High,
+                $"{ToPrettyString(player):player} tried to write unknown access tags to {ToPrettyString(targetId):entity} via {ToPrettyString(uid):entity}: [{string.Join(", ", unknownTags)}]");
             return;
         }
 
@@ -181,7 +184,10 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
         var privilegedPerms = _accessReader.FindAccessTags(privilegedId.Value);
         if (!difference.IsSubsetOf(privilegedPerms))
         {
-            _sawmill.Warning($"User {ToPrettyString(uid)} tried to modify permissions they could not give/take!");
+            var forbiddenTags = difference.Except(privilegedPerms).ToList();
+            _sawmill.Warning($"User {ToPrettyString(player)} tried to modify permissions they could not give/take on {ToPrettyString(targetId)}!");
+            _adminLogger.Add(LogType.Action, LogImpact.High,
+                $"{ToPrettyString(player):player} tried to modify access tags they could not give/take on {ToPrettyString(targetId):entity} via {ToPrettyString(uid):entity}: [{string.Join(", ", forbiddenTags)}]");
             return;
         }
 
@@ -191,8 +197,8 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
 
         /*TODO: ECS SharedIdCardConsoleComponent and then log on card ejection, together with the save.
         This current implementation is pretty shit as it logs 27 entries (27 lines) if someone decides to give themselves AA*/
-        _adminLogger.Add(LogType.Action,
-            $"{player} has modified {targetId} with the following accesses: [{string.Join(", ", addedTags.Union(removedTags))}] [{string.Join(", ", newAccessList)}]");
+        _adminLogger.Add(LogType.Action, LogImpact.Medium,
+            $"{ToPrettyString(player):player} modified accesses on {ToPrettyString(targetId):entity} via {ToPrettyString(uid):entity}: [{string.Join(", ", addedTags.Union(removedTags))}] resulting accesses: [{string.Join(", ", newAccessList)}]");
     }
 
     /// <summary>

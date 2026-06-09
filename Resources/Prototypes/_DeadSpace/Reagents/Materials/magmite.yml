@@ -13,4 +13,4 @@
   name: магмитовая сталь
   icon: { sprite: /Textures/_DeadSpace/Objects/Materials/Sheets/magmite-sheet.rsi, state: magmite }
   color: "#c73914"
-  price: 30
+  price: 8

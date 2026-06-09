@@ -1,5 +1,7 @@
+using Content.Shared.Emp;
 using Content.Shared.Examine;
 using Content.Shared.Weapons.Ranged.Components;
+using Content.Shared.Weapons.Ranged.Events;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Network;
 using Robust.Shared.Timing;
@@ -14,12 +16,20 @@ public sealed class RechargeBasicEntityAmmoSystem : EntitySystem
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedGunSystem _gun = default!;
 
+    private EntityQuery<EmpDisabledComponent> _empDisabledQuery;
+
     public override void Initialize()
     {
         base.Initialize();
 
+        _empDisabledQuery = GetEntityQuery<EmpDisabledComponent>();
+
         SubscribeLocalEvent<RechargeBasicEntityAmmoComponent, MapInitEvent>(OnInit);
         SubscribeLocalEvent<RechargeBasicEntityAmmoComponent, ExaminedEvent>(OnExamined);
+        // DS14-start EMP-disables-basic-entity-ammo
+        SubscribeLocalEvent<EmpDisableBasicEntityAmmoComponent, EmpPulseEvent>(OnEmpPulse);
+        SubscribeLocalEvent<EmpDisableBasicEntityAmmoComponent, ShotAttemptedEvent>(OnShotAttempted);
+        // DS14-end
     }
 
     public override void Update(float frameTime)
@@ -29,6 +39,11 @@ public sealed class RechargeBasicEntityAmmoSystem : EntitySystem
 
         while (query.MoveNext(out var uid, out var recharge, out var ammo))
         {
+            // DS14-start EMP-disables-basic-entity-ammo
+            if (_empDisabledQuery.HasComp(uid))
+                continue;
+            // DS14-end
+
             if (ammo.Count is null || ammo.Count == ammo.Capacity || recharge.NextCharge == null)
                 continue;
 
@@ -89,4 +104,27 @@ public sealed class RechargeBasicEntityAmmoSystem : EntitySystem
             Dirty(ent);
         }
     }
+
+    // DS14-start EMP-disables-basic-entity-ammo
+    private void OnEmpPulse(Entity<EmpDisableBasicEntityAmmoComponent> ent, ref EmpPulseEvent args)
+    {
+        args.Affected = true;
+        args.Disabled = true;
+
+        if (TryComp<BasicEntityAmmoProviderComponent>(ent.Owner, out var ammo))
+            _gun.UpdateBasicEntityAmmoCount((ent.Owner, ammo), 0);
+
+        if (!TryComp<RechargeBasicEntityAmmoComponent>(ent.Owner, out var recharge))
+            return;
+
+        recharge.NextCharge = _timing.CurTime + args.Duration;
+        Dirty(ent.Owner, recharge);
+    }
+
+    private void OnShotAttempted(Entity<EmpDisableBasicEntityAmmoComponent> ent, ref ShotAttemptedEvent args)
+    {
+        if (_empDisabledQuery.HasComp(ent.Owner))
+            args.Cancel();
+    }
+    // DS14-end
 }

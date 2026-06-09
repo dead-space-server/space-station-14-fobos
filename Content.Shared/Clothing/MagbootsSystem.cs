@@ -17,6 +17,7 @@ public sealed class SharedMagbootsSystem : EntitySystem
     [Dependency] private readonly ItemToggleSystem _toggle = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly SharedGravitySystem _gravity = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!; // DS14
 
     public override void Initialize()
     {
@@ -31,8 +32,15 @@ public sealed class SharedMagbootsSystem : EntitySystem
 
     private void OnToggled(Entity<MagbootsComponent> ent, ref ItemToggledEvent args)
     {
-        if (_container.TryGetContainingContainer((ent.Owner, null, null), out var container))
-            UpdateMagbootEffects(container.Owner, ent, args.Activated);
+        // DS14-Start
+        if (!_container.TryGetContainingContainer((ent.Owner, null, null), out var container))
+            return;
+
+        if (args.Activated && !_inventory.InSlotWithFlags(ent.Owner, SlotFlags.FEET))
+            return;
+
+        UpdateMagbootEffects(container.Owner, ent, args.Activated);
+        // DS14-End
     }
 
     private void OnGotUnequipped(Entity<MagbootsComponent> ent, ref ClothingGotUnequippedEvent args)

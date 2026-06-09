@@ -96,10 +96,20 @@
       methods: [ Touch ]
       effects:
       - !type:HealthChange
+        # DS14-start
+        conditions:
+        - !type:WearingFullHardsuitCondition
+          inverted: true
+        # DS14-end
         damage:
           types:
             Heat: 1 # DS14-value
       - !type:PopupMessage
+        # DS14-start
+        conditions:
+        - !type:WearingFullHardsuitCondition
+          inverted: true
+        # DS14-end
         type: Local
         visualType: Large
         messages: [ "slime-hurt-by-water-popup" ]

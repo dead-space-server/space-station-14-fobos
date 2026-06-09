@@ -378,7 +378,7 @@ public sealed class PhotocopierSystem : EntitySystem
 
         var printout = component.PrintingQueue.Dequeue();
 
-        var printed = EntityManager.SpawnEntity(printout.PrototypeId, Transform(uid).Coordinates);
+        var printed = Spawn(printout.PrototypeId, Transform(uid).Coordinates);
 
         if (TryComp<PaperComponent>(printed, out var paper))
         {

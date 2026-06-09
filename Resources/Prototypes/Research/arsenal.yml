@@ -102,6 +102,7 @@
   - TelescopicShield
   - HoloprojectorSecurity
   - WeaponDisablerSMG
+  - Truncheonsec # DS-14
 
 - type: technology
   id: ExplosiveTechnology

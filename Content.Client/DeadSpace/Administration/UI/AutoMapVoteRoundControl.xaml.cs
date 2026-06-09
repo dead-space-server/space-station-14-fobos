@@ -15,7 +15,9 @@ public sealed partial class AutoMapVoteRoundControl : Control
 {
     [Dependency] private readonly IClientAdminManager _admin = default!;
     [Dependency] private readonly IClientConsoleHost _console = default!;
+    [Dependency] private readonly IUserInterfaceManager _ui = default!;
     private AutoMapVoteAdminState? _state;
+    private RoundGameModeHistoryWindow? _gameModeHistoryWindow;
 
     public AutoMapVoteRoundControl()
     {
@@ -25,6 +27,7 @@ public sealed partial class AutoMapVoteRoundControl : Control
         _admin.AdminStatusUpdated += RefreshVisibility;
         StartVoteButton.OnPressed += _ => _console.ExecuteCommand("initautomapvote");
         ToggleButton.OnPressed += _ => _console.ExecuteCommand("toggleautomapvote");
+        GameModeHistoryButton.OnPressed += _ => OpenGameModeHistoryWindow();
 
         RefreshVisibility();
         UpdateState(null);
@@ -96,7 +99,12 @@ public sealed partial class AutoMapVoteRoundControl : Control
         base.Dispose(disposing);
 
         if (disposing)
+        {
             _admin.AdminStatusUpdated -= RefreshVisibility;
+
+            if (_gameModeHistoryWindow is { Disposed: false })
+                _gameModeHistoryWindow.Dispose();
+        }
     }
 
     private void RefreshVisibility()
@@ -105,6 +113,17 @@ public sealed partial class AutoMapVoteRoundControl : Control
 
         if (Visible)
             UpdateState(_state);
+        else if (_gameModeHistoryWindow is { IsOpen: true })
+            _gameModeHistoryWindow.Close();
+    }
+
+    private void OpenGameModeHistoryWindow()
+    {
+        if (_gameModeHistoryWindow is not { Disposed: false })
+            _gameModeHistoryWindow = _ui.CreateWindow<RoundGameModeHistoryWindow>();
+
+        _gameModeHistoryWindow.OpenCentered();
+        _gameModeHistoryWindow.MoveToFront();
     }
 
     private static string GetCategoryName(AutoMapVoteCategory category)

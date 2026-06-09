@@ -49,7 +49,7 @@
     gloves: ClothingHandsGlovesCombat
     outerClothing: ClothingOuterArmorBulletproof
     suitstorage: WeaponDisablerSMG
-    shoes: ClothingShoesBootsJackFilled
+    shoes: ClothingShoesBootsMagHos
     head: ClothingHeadHelmetERTLeader
     id: ERTLeaderPDA
     belt: ClothingBeltMilitaryWebbingERT
@@ -65,6 +65,7 @@
     - PortableCameraMonitor
     - CriminalRecordsMonitor
     - HandheldCrewMonitor
+    - MedkitCombatFilled
 
 ## Red
 - type: job
@@ -126,6 +127,8 @@
     - BoxCardboardERT
     - PinpointerNuclear
     - CrowbarRed
+    - MedkitCombatFilled
+    - InjectorCaseERTFilled
     - WeaponDisabler
 
 ## Gamma
@@ -188,6 +191,8 @@
     - BoxCardboardERT
     - PinpointerNuclear
     - CrowbarRed
+    - BSAACombatKitFilled
+    - InjectorCaseERTFilled
     - WeaponDisabler
 
 # Security
@@ -235,7 +240,7 @@
     gloves: ClothingHandsGlovesCombat
     outerClothing: ClothingOuterArmorBulletproof
     suitstorage: WeaponDisablerSMG
-    shoes: ClothingShoesBootsJackSecFilled
+    shoes: ClothingShoesBootsMagSecurity
     head: ClothingHeadHelmetERTSecurity
     id: ERTSecurityPDA
     belt: ClothingBeltMilitaryWebbingERT
@@ -253,6 +258,7 @@
     - HandheldCrewMonitor
     - TelescopicShield
     - TelescopicShield
+    - MedkitCombatFilled
 
 ## Red
 - type: job
@@ -308,6 +314,8 @@
     - BoxCardboardERT
     - CrowbarRed
     - PinpointerNuclear
+    - MedkitCombatFilled
+    - InjectorCaseERTFilled
     - WeaponDisabler
 
 ## Gamma
@@ -364,6 +372,8 @@
     - BoxCardboardERT
     - CrowbarRed
     - PinpointerNuclear
+    - BSAACombatKitFilled
+    - InjectorCaseERTFilled
     - WeaponDisabler
 
 # Medical
@@ -411,7 +421,7 @@
     gloves: ClothingHandsGlovesCombat
     outerClothing: ClothingOuterArmorBulletproof
     suitstorage: WeaponDisablerSMG
-    shoes: ClothingShoesColorWhite
+    shoes: ClothingShoesBootsMagSecurity
     head: ClothingHeadHelmetERTMedic
     id: ERTMedicPDA
     belt: ClothingBeltMedicalFilled
@@ -428,6 +438,7 @@
     - CriminalRecordsMonitor
     - HandheldCrewMonitor
     - DefibrillatorCompact
+    - MedkitCombatFilled
     - ADTCombatHypo
     - ChemistryBottleOmnizine
     - ChemistryBottleEpinephrine
@@ -488,6 +499,8 @@
     - PinpointerNuclear
     - JugDexPlusSaline
     - CrowbarRed
+    - MedkitCombatFilled
+    - InjectorCaseERTFilled
     - ChemistryBottleOmnizine
     - ChemistryBottleOmnizine
     - ChemistryBottleBruizine
@@ -550,6 +563,8 @@
     - JugTheCircleOmnizine
     - JugDexPlusSaline
     - CrowbarRed
+    - BSAACombatKitFilled
+    - InjectorCaseERTFilled
 
 # Engineer
 ## Amber
@@ -596,7 +611,7 @@
     gloves: ClothingHandsGlovesCombat
     outerClothing: ClothingOuterArmorBulletproof
     suitstorage: JetpackMiniFilled
-    shoes: ClothingShoesBootsMag
+    shoes: ClothingShoesBootsMagSecurity
     head: ClothingHeadHelmetERTEngineer
     id: ERTEngineerPDA
     belt: ClothingBeltMilitaryWebbingERT
@@ -616,6 +631,7 @@
     - RCD
     - RCDAmmo
     - RCDAmmo
+    - MedkitCombatFilled
 
 ## Red
 - type: job
@@ -673,6 +689,8 @@
     - RCDAmmo
     - RCDAmmo
     - RCDAmmo
+    - MedkitCombatFilled
+    - InjectorCaseERTFilled
 
 ## Gamma
 - type: job
@@ -731,6 +749,8 @@
     - RCDAmmo
     - RCDAmmo
     - RCDAmmo
+    - BSAACombatKitFilled
+    - InjectorCaseERTFilled
     - PinpointerNuclear
 
 # Janitor
@@ -786,10 +806,12 @@
     - ERTloadoutAmberSecondary
     - BoxCardboardERT
     - BoxLightMixed
-    - MopItem
-    - BoxCleanerGrenades
     - JawsOfLife
+    - BoxCleanerGrenades
     - PinpointerNuclear
+    - MedkitCombatFilled
+  inhand:
+   - MopItem
 
 ## Red
 - type: job
@@ -845,6 +867,8 @@
     - BoxCleanerGrenades
     - CrowbarRed
     - PinpointerNuclear
+    - MedkitCombatFilled
+    - InjectorCaseERTFilled
 
 ## Gamma
 - type: job
@@ -895,9 +919,12 @@
     - ERTloadoutGammaPrimary
     - ERTloadoutGammaSecondary
     - BoxCardboardERT
-    - WeaponLauncherHydra
     - BoxLightMixed
-    - AdvMopItem
     - BoxGrenadeCleanade
+    - AdvMopItem
     - CrowbarRed
     - PinpointerNuclear
+    - BSAACombatKitFilled
+    - InjectorCaseERTFilled
+  inhand:
+   - WeaponLauncherHydra

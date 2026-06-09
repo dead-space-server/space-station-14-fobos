@@ -59,7 +59,7 @@
       department: Security
       time: 36000 # 10 hours
     raffle:
-      settings: default
+      settings: short
   - type: GhostRoleMobSpawner
     prototype: MobMonkeyPirate
   - type: GhostRoleNotifys 
@@ -86,7 +86,6 @@
     factions:
     - Syndicate
   - type: GhostRole
-    prob: 0.05
     makeSentient: true
     name: ghost-role-information-pirate-monkey-reinforcement-name
     description: ghost-role-information-syndicate-monkey-reinforcement-description
@@ -94,9 +93,46 @@
     mindRoles:
     - MindRoleGhostRoleTeamAntagonist
     raffle:
-      settings: default
+      settings: short
   - type: GhostTakeoverAvailable
   - type: Loadout
     prototypes: [ PirateMonkeyGear ]
   - type: GhostRoleNotifys 
     groupPrototype: ReinforcementRadioMonkeyPirateping
+
+- type: entity
+  parent: ReinforcementRadio
+  id: ReinforcementRadioMerc
+  name: радио подкрепления наёмника
+  description: Срочно вызывает одного профессионального наёмника.
+  components:
+  - type: GhostRole
+    name: ghost-role-information-merc-name
+    description: ghost-role-information-merc-description
+    rules: ghost-role-information-rules-team-antagonist
+    mindRoles:
+    - MindRoleGhostRoleTeamAntagonist
+    requirements:
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 36000 # 10 hours
+    raffle:
+      settings: default
+  - type: GhostRoleMobSpawner
+    prototype: MobHumanMercBase
+  - type: GhostRoleNotifys 
+    groupPrototype: ReinforcementRadioMercping
+
+- type: entity
+  parent: MobHuman
+  id: MobHumanMercBase
+  name: наёмник
+  components:
+  - type: RandomHumanoidAppearance
+    randomizeName: true
+  - type: Loadout
+    prototypes: [ MercStartinggear ]
+    roleLoadout: [ RoleSurvivalEVA ]
+  - type: NpcFactionMember
+    factions:
+    - Syndicate

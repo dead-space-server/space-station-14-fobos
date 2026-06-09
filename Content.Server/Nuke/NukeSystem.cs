@@ -603,7 +603,12 @@ public sealed class NukeSystem : EntitySystem
             component.ExplosionType,
             component.TotalIntensity,
             component.IntensitySlope,
-            component.MaxIntensity);
+            component.MaxIntensity,
+            // DS14-start
+            deleteEntities: component.DeleteExplodedEntities,
+            destroyTiles: component.DestroyExplodedTiles,
+            ignoreTileBlockers: component.IgnoreExplosionBlockers);
+        // DS14-end
 
         RaiseLocalEvent(new NukeExplodedEvent()
         {

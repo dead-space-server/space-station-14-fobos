@@ -1,7 +1,9 @@
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using Content.Client.Administration.Managers;
 using Content.Client.Administration.UI.CustomControls;
+using Content.Client.DeadSpace.Stylesheets;
 using Content.Client.UserInterface.Systems.Bwoink;
 using Content.Shared.Administration;
 using Content.Shared.CCVar;
@@ -30,10 +32,30 @@ namespace Content.Client.Administration.UI.Bwoink
 
         private PlayerInfo? _currentPlayer;
 
+        // DS14-start
+        private const int CompactWindowWidth = 920;
+        private const int WindowHeight = 520;
+        private const int CompactMinWidth = 860;
+        private const int CompactMinHeight = 460;
+        private const int CompactActionButtonCount = 4;
+        private const int WidthPerExtraActionButton = 70;
+        private const int MinWidthPerExtraActionButton = 65;
+        // DS14-end
+
         public BwoinkControl()
         {
             RobustXamlLoader.Load(this);
             IoCManager.InjectDependencies(this);
+            // DS14-start
+            AdminOnly.Label.AddStyleClass(DeadSpaceMenuSheetlet.ProfileLabel);
+            PlaySound.Label.AddStyleClass(DeadSpaceMenuSheetlet.ProfileLabel);
+            Kick.StyleClasses.Clear();
+            Kick.AddStyleClass(ContainerButton.StyleClassButton);
+            Kick.AddStyleClass(DeadSpaceMenuSheetlet.ProfileControlDanger);
+            Ban.StyleClasses.Clear();
+            Ban.AddStyleClass(ContainerButton.StyleClassButton);
+            Ban.AddStyleClass(DeadSpaceMenuSheetlet.ProfileControlDanger);
+            // DS14-end
 
             var newPlayerThreshold = 0;
             _cfg.OnValueChanged(CCVars.NewPlayerThreshold, (val) => { newPlayerThreshold = val; }, true);
@@ -208,6 +230,34 @@ namespace Content.Client.Administration.UI.Bwoink
             };
         }
 
+        // DS14-start
+        public Vector2 GetPreferredWindowSize()
+        {
+            var extraButtons = Math.Max(0, GetVisibleActionButtonCount() - CompactActionButtonCount);
+            return new Vector2(CompactWindowWidth + extraButtons * WidthPerExtraActionButton, WindowHeight);
+        }
+
+        public Vector2 GetPreferredMinWindowSize()
+        {
+            var extraButtons = Math.Max(0, GetVisibleActionButtonCount() - CompactActionButtonCount);
+            return new Vector2(CompactMinWidth + extraButtons * MinWidthPerExtraActionButton, CompactMinHeight);
+        }
+
+        private int GetVisibleActionButtonCount()
+        {
+            return new BaseButton[]
+            {
+                Bans,
+                Notes,
+                Kick,
+                Ban,
+                Respawn,
+                Camera,
+                Follow
+            }.Count(button => button.Visible);
+        }
+        // DS14-end
+
         public void OnBwoink(NetUserId channel)
         {
             ChannelSelector.PopulateList();
@@ -251,7 +301,7 @@ namespace Content.Client.Administration.UI.Bwoink
             Respawn.Visible = _adminManager.CanCommand("respawn");
             Respawn.Disabled = !Respawn.Visible || disabled;
 
-            // DS14-start 
+            // DS14-start
             Camera.Visible = _adminManager.CanCommand("camera");
             Camera.Disabled = !Camera.Visible || disabled;
             // DS14-end

@@ -4,6 +4,7 @@ using Content.Shared.Alert;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Inventory.Events;
 using Content.Shared.Item;
+using Content.Shared.Damage.Events;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Database;
 using Content.Shared.DoAfter;
@@ -12,6 +13,7 @@ using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Movement.Events;
 using Content.Shared.Movement.Systems;
+using Content.Shared.Prototypes;
 using Content.Shared.Standing;
 using Content.Shared.StatusEffectNew;
 using Content.Shared.Throwing;
@@ -38,9 +40,16 @@ public abstract partial class SharedStunSystem : EntitySystem
     [Dependency] protected readonly SharedDoAfterSystem DoAfter = default!;
     [Dependency] protected readonly SharedStaminaSystem Stamina = default!;
     [Dependency] private readonly StatusEffectsSystem _status = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
 
     public override void Initialize()
     {
+        SubscribeLocalEvent<StunImmuneComponent, BeforeStaminaDamageEvent>(OnStunImmuneBeforeStaminaDamage);
+        SubscribeLocalEvent<StunImmuneComponent, BeforeStatusEffectAddedEvent>(OnStunImmuneBeforeStatusEffect);
+        SubscribeLocalEvent<StunImmuneComponent, StatusEffect.BeforeOldStatusEffectAddedEvent>(OnStunImmuneBeforeOldStatusEffect);
+        SubscribeLocalEvent<StunImmuneComponent, KnockDownAttemptEvent>(OnStunImmuneKnockDownAttempt);
+
+        SubscribeLocalEvent<StunnedComponent, ComponentInit>(OnStunnedInit);
         SubscribeLocalEvent<StunnedComponent, ComponentStartup>(UpdateCanMove);
         SubscribeLocalEvent<StunnedComponent, ComponentShutdown>(OnStunShutdown);
 
@@ -77,6 +86,34 @@ public abstract partial class SharedStunSystem : EntitySystem
         args.Cancelled = true;
     }
 
+    private void OnStunImmuneBeforeStaminaDamage(Entity<StunImmuneComponent> ent, ref BeforeStaminaDamageEvent args)
+    {
+        args.Cancelled = true;
+    }
+
+    private void OnStunImmuneBeforeStatusEffect(Entity<StunImmuneComponent> ent, ref BeforeStatusEffectAddedEvent args)
+    {
+        if (IsStunStatusEffect(args.Effect))
+            args.Cancelled = true;
+    }
+
+    private void OnStunImmuneBeforeOldStatusEffect(Entity<StunImmuneComponent> ent, ref Content.Shared.StatusEffect.BeforeOldStatusEffectAddedEvent args)
+    {
+        if (args.EffectKey == "Stun")
+            args.Cancelled = true;
+    }
+
+    private void OnStunImmuneKnockDownAttempt(Entity<StunImmuneComponent> ent, ref KnockDownAttemptEvent args)
+    {
+        args.Cancelled = true;
+    }
+
+    private void OnStunnedInit(Entity<StunnedComponent> ent, ref ComponentInit args)
+    {
+        if (HasComp<StunImmuneComponent>(ent.Owner))
+            RemCompDeferred<StunnedComponent>(ent);
+    }
+
     private void OnMobStateChanged(EntityUid uid, MobStateComponent component, MobStateChangedEvent args)
     {
         switch (args.NewMobState)
@@ -111,6 +148,12 @@ public abstract partial class SharedStunSystem : EntitySystem
 
     private void UpdateCanMove(EntityUid uid, StunnedComponent component, EntityEventArgs args)
     {
+        if (HasComp<StunImmuneComponent>(uid))
+        {
+            RemCompDeferred<StunnedComponent>(uid);
+            return;
+        }
+
         Blocker.UpdateCanMove(uid);
     }
 
@@ -129,6 +172,9 @@ public abstract partial class SharedStunSystem : EntitySystem
     // TODO STUN: Make events for different things. (Getting modifiers, attempt events, informative events...)
     public bool TryAddStunDuration(EntityUid uid, TimeSpan duration)
     {
+        if (HasComp<StunImmuneComponent>(uid))
+            return false;
+
         if (!_status.TryAddStatusEffectDuration(uid, StunId, duration))
             return false;
 
@@ -138,6 +184,9 @@ public abstract partial class SharedStunSystem : EntitySystem
 
     public bool TryUpdateStunDuration(EntityUid uid, TimeSpan? duration)
     {
+        if (HasComp<StunImmuneComponent>(uid))
+            return false;
+
         if (!_status.TryUpdateStatusEffectDuration(uid, StunId, duration))
             return false;
 
@@ -215,6 +264,9 @@ public abstract partial class SharedStunSystem : EntitySystem
         if (!Resolve(entity, ref entity.Comp, false))
             return false;
 
+        if (HasComp<StunImmuneComponent>(entity.Owner))
+            return false;
+
         var evAttempt = new KnockDownAttemptEvent(autoStand, drop, time);
         RaiseLocalEvent(entity, ref evAttempt);
 
@@ -257,6 +309,9 @@ public abstract partial class SharedStunSystem : EntitySystem
 
     private void Knockdown(EntityUid uid, TimeSpan? time, bool refresh, bool autoStand, bool drop)
     {
+        if (HasComp<StunImmuneComponent>(uid))
+            return;
+
         // Initialize our component with the relevant data we need if we don't have it
         if (EnsureComp<KnockedDownComponent>(uid, out var component))
         {
@@ -293,6 +348,9 @@ public abstract partial class SharedStunSystem : EntitySystem
 
     public bool TryAddParalyzeDuration(EntityUid uid, TimeSpan? duration)
     {
+        if (HasComp<StunImmuneComponent>(uid))
+            return false;
+
         if (duration == null)
             return TryUpdateParalyzeDuration(uid, duration);
 
@@ -308,6 +366,9 @@ public abstract partial class SharedStunSystem : EntitySystem
 
     public bool TryUpdateParalyzeDuration(EntityUid uid, TimeSpan? duration)
     {
+        if (HasComp<StunImmuneComponent>(uid))
+            return false;
+
         if (!_status.TryUpdateStatusEffectDuration(uid, StunId, duration))
             return false;
 
@@ -334,6 +395,9 @@ public abstract partial class SharedStunSystem : EntitySystem
         if (GameTiming.ApplyingState)
             return;
 
+        if (HasComp<StunImmuneComponent>(args.Target))
+            return;
+
         EnsureComp<StunnedComponent>(args.Target);
     }
 
@@ -357,11 +421,24 @@ public abstract partial class SharedStunSystem : EntitySystem
         if (GameTiming.ApplyingState)
             return;
 
+        if (HasComp<StunImmuneComponent>(args.Target))
+            return;
+
         // If you make something that shouldn't crawl, crawl, that's your own fault.
         if (entity.Comp.Crawl)
             Crawl(args.Target, null, true, true, drop: entity.Comp.Drop);
         else
             Knockdown(args.Target, null, true, true, drop: entity.Comp.Drop);
+    }
+
+    private bool IsStunStatusEffect(EntProtoId effect)
+    {
+        if (effect == StunId)
+            return true;
+
+        return _prototype.TryIndex<EntityPrototype>(effect, out var prototype) &&
+               (prototype.HasComponent<StunnedStatusEffectComponent>(Factory) ||
+                prototype.HasComponent<KnockdownStatusEffectComponent>(Factory));
     }
 
     private void OnStandUpAttempt(Entity<KnockdownStatusEffectComponent> entity, ref StatusEffectRelayedEvent<StandUpAttemptEvent> args)

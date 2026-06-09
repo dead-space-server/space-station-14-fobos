@@ -14,6 +14,7 @@
                 <ui:OptionSlider Name="SliderVolumeLobby" Title="{Loc 'ui-options-lobby-volume'}" />
                 <ui:OptionSlider Name="SliderVolumeInterface" Title="{Loc 'ui-options-interface-volume'}" />
                 <ui:OptionSlider Name="SliderVolumeAlertLevel" Title="{Loc 'ui-options-alert-level-volume'}" /> <!-- DS14 -->
+                <ui:OptionSlider Name="SliderVolumeBossMusic" Title="{Loc 'ui-options-boss-music-volume'}" />
                 <ui:OptionSlider Name="SliderMaxAmbienceSounds" Title="{Loc 'ui-options-ambience-max-sounds'}"
                                  Margin="0 0 0 8" />
                 <ui:OptionSlider Name="SliderVolumeTts" Title="{Loc 'ui-options-tts-volume'}"/>
@@ -24,6 +25,7 @@
                 <CheckBox Name="LobbyMusicCheckBox" Text="{Loc 'ui-options-lobby-music'}" />
                 <CheckBox Name="RestartSoundsCheckBox" Text="{Loc 'ui-options-restart-sounds'}" />
                 <CheckBox Name="EventMusicCheckBox" Text="{Loc 'ui-options-event-music'}" />
+                <CheckBox Name="BossMusicCheckBox" Text="{Loc 'ui-options-boss-music'}" />
                 <CheckBox Name="AdminSoundsCheckBox" Text="{Loc 'ui-options-admin-sounds'}" />
                 <CheckBox Name="BwoinkSoundCheckBox" Text="{Loc 'ui-options-bwoink-sound'}" />
                 <CheckBox Name="RadioTTSSoundsCheckBox" Text="{Loc 'ui-options-radio-tts-sounds'}" />

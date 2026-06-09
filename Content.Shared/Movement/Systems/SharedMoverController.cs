@@ -75,9 +75,9 @@ public abstract partial class SharedMoverController : VirtualController
     /// <summary>
     /// Cache the mob movement calculation to re-use elsewhere.
     /// </summary>
-    public Dictionary<EntityUid, bool> UsedMobMovement = new();
+    public HashSet<EntityUid> UsedMobMovement = new();
 
-    private readonly HashSet<EntityUid> _aroundColliderSet = [];
+    private readonly HashSet<Entity<PhysicsComponent>> _aroundColliderSet = [];
 
     public override void Initialize()
     {
@@ -206,7 +206,7 @@ public abstract partial class SharedMoverController : VirtualController
             || !PhysicsQuery.TryComp(uid, out var physicsComponent)
             || PullableQuery.TryGetComponent(uid, out var pullable) && pullable.BeingPulled)
         {
-            UsedMobMovement[uid] = false;
+            UsedMobMovement.Remove(uid);
             return;
         }
 
@@ -235,13 +235,24 @@ public abstract partial class SharedMoverController : VirtualController
         {
             if (!weightless)
             {
-                UsedMobMovement[uid] = false;
+                UsedMobMovement.Remove(uid);
                 return;
             }
             inAirHelpless = true;
         }
 
-        UsedMobMovement[uid] = true;
+        UsedMobMovement.Add(uid);
+
+        // DS14-Start: skip the expensive movement path for fully idle movers.
+        if (!mover.HasDirectionalMovement &&
+            Timing.CurTick > mover.LastInputTick &&
+            physicsComponent.LinearVelocity.Equals(Vector2.Zero) &&
+            physicsComponent.AngularVelocity.Equals(0f))
+        {
+            SetWishDir((uid, mover), Vector2.Zero);
+            return;
+        }
+        // DS14-End
 
         var moveSpeedComponent = ModifierQuery.CompOrNull(uid);
 
@@ -396,8 +407,9 @@ public abstract partial class SharedMoverController : VirtualController
         if (mover.Comp.WishDir.Equals(wishDir))
             return;
 
+        // DS14-Start: WishDir is transient movement cache and is not sent in InputMoverComponentState.
         mover.Comp.WishDir = wishDir;
-        Dirty(mover);
+        // DS14-End
     }
 
     public void LerpRotation(EntityUid uid, InputMoverComponent mover, float frameTime)
@@ -433,9 +445,7 @@ public abstract partial class SharedMoverController : VirtualController
 
     public void Friction(float minimumFrictionSpeed, float frameTime, float friction, ref Vector2 velocity)
     {
-        var speed = velocity.Length();
-
-        if (speed < minimumFrictionSpeed)
+        if (minimumFrictionSpeed > 0f && velocity.LengthSquared() < minimumFrictionSpeed * minimumFrictionSpeed)
             return;
 
         // This equation is lifted from the Physics Island solver.
@@ -460,8 +470,11 @@ public abstract partial class SharedMoverController : VirtualController
     /// </summary>
     public static void Accelerate(ref Vector2 currentVelocity, in Vector2 velocity, float accel, float frameTime)
     {
-        var wishDir = velocity != Vector2.Zero ? velocity.Normalized() : Vector2.Zero;
         var wishSpeed = velocity.Length();
+        if (wishSpeed == 0f)
+            return;
+
+        var wishDir = velocity / wishSpeed;
 
         var currentSpeed = Vector2.Dot(currentVelocity, wishDir);
         var addSpeed = wishSpeed - currentSpeed;
@@ -477,7 +490,7 @@ public abstract partial class SharedMoverController : VirtualController
 
     public bool UseMobMovement(EntityUid uid)
     {
-        return UsedMobMovement.TryGetValue(uid, out var used) && used;
+        return UsedMobMovement.Contains(uid);
     }
 
     /// <summary>
@@ -489,14 +502,12 @@ public abstract partial class SharedMoverController : VirtualController
         var enlargedAABB = _lookup.GetWorldAABB(entity.Owner, transform).Enlarged(mover.GrabRange);
 
         _aroundColliderSet.Clear();
-        lookupSystem.GetEntitiesIntersecting(transform.MapID, enlargedAABB, _aroundColliderSet);
-        foreach (var otherEntity in _aroundColliderSet)
+        // DS14-Start: only static physics bodies can be valid push-off targets.
+        lookupSystem.GetEntitiesIntersecting(transform.MapID, enlargedAABB, _aroundColliderSet, LookupFlags.Static);
+        foreach (var (otherEntity, otherCollider) in _aroundColliderSet)
         {
             if (otherEntity == uid)
                 continue; // Don't try to push off of yourself!
-
-            if (!PhysicsQuery.TryComp(otherEntity, out var otherCollider))
-                continue;
 
             // Only allow pushing off of anchored things that have collision.
             if (otherCollider.BodyType != BodyType.Static ||
@@ -510,6 +521,7 @@ public abstract partial class SharedMoverController : VirtualController
 
             return true;
         }
+        // DS14-End
 
         return false;
     }
@@ -660,8 +672,10 @@ public abstract partial class SharedMoverController : VirtualController
 
         var total = walkDir * walkSpeed + sprintDir * sprintSpeed;
 
-        var parentRotation = GetParentGridAngle(mover);
-        var wishDir = _relativeMovement ? parentRotation.RotateVec(total) : total;
+        if (!_relativeMovement)
+            return total;
+
+        var wishDir = GetParentGridAngle(mover).RotateVec(total);
 
         DebugTools.Assert(MathHelper.CloseToPercent(total.Length(), wishDir.Length()));
 

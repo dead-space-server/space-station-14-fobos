@@ -79,6 +79,11 @@
     maxIntensity: 100
     intensitySlope: 5
     totalIntensity: 5000000
+    # DS14-start
+    deleteExplodedEntities: true
+    destroyExplodedTiles: true
+    ignoreExplosionBlockers: true
+    # DS14-end
     diskSlot:
       name: nuke-slot-component-slot-name-disk
       insertSound:

@@ -1,0 +1,6 @@
+- type: stack
+  parent: BaseMediumStack
+  id: LavalandWatcherSinew
+  name: stack-lavaland-watcher-sinew
+  icon: { sprite: /Textures/_DeadSpace/Lavaland/Objects/Materials/fauna_rewards.rsi, state: sinew }
+  spawn: LavalandWatcherSinew1

@@ -54,6 +54,7 @@
   equipment:
     id: CMOPDA
     ears: ClothingHeadsetCMO
+    eyes: ClothingEyesHudCMO
     belt: ClothingBeltMedicalFilled
     gloves: ClothingHandsGlovesNitrileCMO # DS14
   storage:

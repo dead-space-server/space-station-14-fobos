@@ -8,6 +8,7 @@
   components:
   - type: Clickable
   - type: InteractionOutline
+  - type: GravityAffected #DS14
   - type: Physics
     bodyType: Static
   - type: Fixtures
@@ -91,7 +92,7 @@
   - type: LockedAnchorable
   - type: LockedWiresPanel
   - type: AccessReader
-    access: [[ "Engineering" ]]
+    access: [[ "Engineering" ], ["TaipanEngineering"]] # DS14
   - type: Machine
     board: EmitterCircuitboard
   - type: GuideHelp

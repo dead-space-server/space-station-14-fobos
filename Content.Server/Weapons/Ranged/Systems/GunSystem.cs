@@ -1,4 +1,6 @@
 using System.Numerics;
+using System.Linq;
+using Content.Server.Construction;
 using Content.Server.Cargo.Systems;
 using Content.Server.Weapons.Ranged.Components;
 using Content.Shared.Cargo;
@@ -25,13 +27,59 @@ public sealed partial class GunSystem : SharedGunSystem
     [Dependency] private readonly PricingSystem _pricing = default!;
     [Dependency] private readonly SharedMapSystem _map = default!;
 
+    // DS14-start
+    private readonly Dictionary<EntityUid, BallisticConstructionTransferData> _ballisticConstructionTransfers = new();
+    // DS14-end
+
     private const float DamagePitchVariation = 0.05f;
 
     public override void Initialize()
     {
         base.Initialize();
         SubscribeLocalEvent<BallisticAmmoProviderComponent, PriceCalculationEvent>(OnBallisticPrice);
+        SubscribeLocalEvent<BallisticAmmoProviderComponent, ConstructionChangeEntityEvent>(OnBallisticConstructionChange); // DS14
+        SubscribeLocalEvent<BallisticAmmoProviderComponent, AfterConstructionChangeEntityEvent>(OnBallisticAfterConstructionChange); // DS14
     }
+
+    // DS14-start
+    private void OnBallisticConstructionChange(Entity<BallisticAmmoProviderComponent> ent, ref ConstructionChangeEntityEvent args)
+    {
+        if (ent.Owner != args.Old)
+            return;
+
+        _ballisticConstructionTransfers[args.New] = new BallisticConstructionTransferData(
+            ent.Comp.Proto,
+            ent.Comp.UnspawnedCount,
+            ent.Comp.Entities.ToArray());
+    }
+
+    private void OnBallisticAfterConstructionChange(Entity<BallisticAmmoProviderComponent> ent, ref AfterConstructionChangeEntityEvent args)
+    {
+        if (_ballisticConstructionTransfers.Remove(ent.Owner, out var transfer))
+        {
+            ent.Comp.Proto = transfer.Proto;
+            ent.Comp.UnspawnedCount = transfer.UnspawnedCount;
+            ent.Comp.Entities.Clear();
+            ent.Comp.Entities.AddRange(transfer.Entities.Where(Exists));
+        }
+
+        foreach (var contained in ent.Comp.Container.ContainedEntities)
+        {
+            if (!ent.Comp.Entities.Contains(contained))
+                ent.Comp.Entities.Add(contained);
+        }
+
+        UpdateBallisticAppearance(ent);
+        UpdateAmmoCount(ent);
+        DirtyField(ent.AsNullable(), nameof(BallisticAmmoProviderComponent.Entities));
+        DirtyField(ent.AsNullable(), nameof(BallisticAmmoProviderComponent.UnspawnedCount));
+    }
+
+    private readonly record struct BallisticConstructionTransferData(
+        EntProtoId? Proto,
+        int UnspawnedCount,
+        EntityUid[] Entities);
+    // DS14-end
 
     private void OnBallisticPrice(Entity<BallisticAmmoProviderComponent> ent, ref PriceCalculationEvent args)
     {
@@ -65,11 +113,14 @@ public sealed partial class GunSystem : SharedGunSystem
             }
         }
 
-        var fromMap = TransformSystem.ToMapCoordinates(fromCoordinates);
-        var toMap = TransformSystem.ToMapCoordinates(toCoordinates).Position;
-        var mapDirection = toMap - fromMap.Position;
+        if (!TryGetShootMapDirection(fromCoordinates, toCoordinates, out var fromMap, out var mapDirection))
+        {
+            userImpulse = false;
+            return;
+        }
+
         var mapAngle = mapDirection.ToAngle();
-        var angle = GetRecoilAngle(Timing.CurTime, gun, mapDirection.ToAngle());
+        var angle = GetRecoilAngle(Timing.CurTime, gun, mapAngle);
 
         // If applicable, this ensures the projectile is parented to grid on spawn, instead of the map.
         var fromEnt = MapManager.TryFindGridAt(fromMap, out var gridUid, out _)
@@ -77,7 +128,7 @@ public sealed partial class GunSystem : SharedGunSystem
             : new EntityCoordinates(_map.GetMapOrInvalid(fromMap.MapId), fromMap.Position);
 
         // Update shot based on the recoil
-        toMap = fromMap.Position + angle.ToVec() * mapDirection.Length();
+        var toMap = fromMap.Position + angle.ToVec() * mapDirection.Length();
         mapDirection = toMap - fromMap.Position;
         var gunVelocity = Physics.GetMapLinearVelocity(fromEnt);
 

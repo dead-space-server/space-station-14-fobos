@@ -11,6 +11,7 @@ using Content.Shared.Item;
 using Content.Shared.Storage;
 using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
+using Robust.Client.Player;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.CustomControls;
@@ -25,6 +26,7 @@ public sealed class StorageWindow : BaseWindow
 {
     [Dependency] private readonly IEntityManager _entity = default!;
     private readonly StorageUIController _storageController;
+    [Dependency] private readonly IPlayerManager _playerManager = default!; // DS14
 
     public EntityUid? StorageEntity;
 
@@ -484,6 +486,7 @@ public sealed class StorageWindow : BaseWindow
                 var gridPiece = new ItemGridPiece((ent, itemEntComponent), loc, _entity)
                 {
                     MinSize = size,
+                    StorageEntity = StorageEntity, //DS14
                     Marked = IsMarked(ent),
                 };
                 gridPiece.OnPiecePressed += OnPiecePressed;
@@ -498,6 +501,17 @@ public sealed class StorageWindow : BaseWindow
 
     private ItemGridPieceMarks? IsMarked(EntityUid uid)
     {
+        // DS14-start
+        if (StorageEntity != null &&
+        _playerManager.LocalEntity is { } localPlayer &&
+        _entity.TryGetComponent<StorageComponent>(StorageEntity.Value, out var storageComp) &&
+        storageComp.PriorityItems.TryGetValue(localPlayer, out var priorityItem) &&
+        priorityItem == uid)
+        {
+            return ItemGridPieceMarks.Priority;
+        }
+        // DS14-end
+
         return _contained.IndexOf(uid) switch
         {
             0 => ItemGridPieceMarks.First,

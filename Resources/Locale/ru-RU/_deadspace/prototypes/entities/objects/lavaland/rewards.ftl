@@ -1,0 +1,14 @@
+ent-LavalandWatcherSinew = сухожилия наблюдателя
+    .desc = Прочные сухожилия, срезанные с наблюдателя.
+    .suffix = Полный
+ent-LavalandWatcherSinew1 = { ent-LavalandWatcherSinew }
+    .desc = { ent-LavalandWatcherSinew.desc }
+    .suffix = 1
+ent-LavalandWatcherWing = крыло наблюдателя
+    .desc = Жилистое крыло, вырванное у наблюдателя. Редкий трофей Лаваленда.
+ent-LavalandLegionSkull = череп легиона
+    .desc = Череп, оставшийся от носителя легиона.
+ent-LavalandLegionSoul = душа легиона
+    .desc = Мерцающий остаток, вырванный из легиона. Внутри еще есть нестабильные регенеративные соединения.
+ent-LavalandLegionSoulInert = инертная душа легиона
+    .desc = Выгоревшая душа легиона. Силы в ней больше нет.

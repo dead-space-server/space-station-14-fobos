@@ -81,7 +81,7 @@
   parent: ClothingEyesHudAdvanced
   id: ClothingEyesHudERTGamma
   name: тактические очки ОБР
-  description: Очки с индикатором на стекле, который сканирует гуманоидов в поле зрения и предоставляет точные данные об их состоянии здоровья, идентификационном статусе и записях в системе безопасности. Также, имеют в себе встроенные ПНВ.
+  description: Очки с индикатором на стекле, который сканирует сущности в поле зрения и предоставляет точные данные об их состоянии здоровья, идентификационном статусе и записях в системе безопасности. Также имеют в себе встроенный ПНВ.
   suffix: ОБР, ПНВ
   components:
   - type: Sprite
@@ -93,3 +93,25 @@
     activateSound: 
       path: /Audio/_DeadSpace/NightVision/pnv.ogg
 
+- type: entity
+  parent: ClothingEyesHudAdvanced
+  id: ClothingEyesHudDeathsquad
+  name: тактические очки
+  description: Очки с индикатором на стекле, который сканирует сущности в поле зрения и предоставляет точные данные об их состоянии здоровья, идентификационном статусе и записях в системе безопасности. Также имеют в себе встроенный ПНВ и термалы.
+  suffix: ЭС, ПНВ+Термалы
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Eyes/tactical_glasses.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Eyes/tactical_glasses.rsi
+  - type: PNV
+    color: "#AFC4D111"
+    activateSound: 
+      path: /Audio/_DeadSpace/NightVision/pnv.ogg
+  - type: IdentityBlocker
+    coverage: EYES
+  - type: ThermalVisor
+    activateSound:
+      path: /Audio/_DeadSpace/NightVision/pnv.ogg
+    activateSoundOff:
+      path: /Audio/_DeadSpace/NightVision/pnv_off.ogg

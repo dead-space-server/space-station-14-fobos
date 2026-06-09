@@ -15,7 +15,7 @@
   id: ClothingBackpackdrippenwagenAlt
   name: грузовой сервочереп
   description: Изготовлено на заказ организацией LaFleur Wear.
-  # categories: [ HideSpawnMenu ]
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/drippenwagenAlt/backpack.rsi

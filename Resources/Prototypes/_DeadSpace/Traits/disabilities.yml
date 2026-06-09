@@ -6,3 +6,13 @@
   category: Disabilities
   components:
   - type: NicotineAddiction
+
+- type: trait
+  id: WheelchairUser
+  name: trait-wheelchair-user-name
+  description: trait-wheelchair-user-desc
+  traitGear: VehicleWheelchair
+  category: Disabilities
+  components:
+  - type: WheelchairUser
+  - type: Worm

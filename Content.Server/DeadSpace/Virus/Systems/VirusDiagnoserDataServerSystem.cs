@@ -1,7 +1,9 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Content.Server.DeadSpace.Virus.Components;
+using Content.Server.DeviceLinking.Systems;
 using Content.Shared.DeadSpace.Virus.Components;
+using Content.Shared.DeviceLinking;
 using Content.Shared.DeviceLinking.Events;
 using Content.Server.Power.EntitySystems;
 using System.Linq;
@@ -22,6 +24,9 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly VirusEvolutionConsoleSystem _evolutionConsoleSystem = default!;
     [Dependency] private readonly TimedWindowSystem _timedWindowSystem = default!;
+    [Dependency] private readonly VirusSystem _virus = default!;
+    [Dependency] private readonly DeviceLinkSystem _deviceLink = default!;
+
     public override void Initialize()
     {
         base.Initialize();
@@ -73,15 +78,17 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
         if (!Resolve(uid, ref component))
             return;
 
-        if (component.ConnectedConsole == null || !TryComp<VirusDiagnoserConsoleComponent>(component.ConnectedConsole, out var console))
-            return;
+        if (component.ConnectedConsole != null &&
+            TryComp<VirusDiagnoserConsoleComponent>(component.ConnectedConsole, out var console))
+        {
+            _console.UpdateUserInterface((component.ConnectedConsole.Value, console));
+        }
 
-        _console.UpdateUserInterface((component.ConnectedConsole.Value, console));
-
-        if (component.ConnectedEvolutionConsole == null || !TryComp<VirusEvolutionConsoleComponent>(component.ConnectedEvolutionConsole, out var evolutionConsole))
-            return;
-
-        _evolutionConsoleSystem.UpdateUserInterface((component.ConnectedEvolutionConsole.Value, evolutionConsole));
+        if (component.ConnectedEvolutionConsole != null &&
+            TryComp<VirusEvolutionConsoleComponent>(component.ConnectedEvolutionConsole, out var evolutionConsole))
+        {
+            _evolutionConsoleSystem.UpdateUserInterface((component.ConnectedEvolutionConsole.Value, evolutionConsole));
+        }
     }
 
     private void DoSetObeliskVerbs(Entity<VirusDiagnoserDataServerComponent> server, ref GetVerbsEvent<Verb> args)
@@ -145,7 +152,46 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
     private void OnPortDisconnected(Entity<VirusDiagnoserDataServerComponent> server, ref PortDisconnectedEvent args)
     {
         if (args.Port == server.Comp.VirusDiagnoserDataServerPort)
-            server.Comp.ConnectedConsole = null;
+        {
+            var uid = server.Owner;
+            Timer.Spawn(0, () => RebuildLinkedConsoles(uid));
+        }
+    }
+
+    private void RebuildLinkedConsoles(EntityUid uid)
+    {
+        if (!TryComp<VirusDiagnoserDataServerComponent>(uid, out var comp))
+            return;
+
+        comp.ConnectedConsole = null;
+        comp.ConnectedEvolutionConsole = null;
+
+        if (!TryComp<DeviceLinkSinkComponent>(uid, out var sink))
+        {
+            UpdateConnectedInterfaces(uid, comp);
+            return;
+        }
+
+        foreach (var sourceUid in sink.LinkedSources)
+        {
+            var links = _deviceLink.GetLinks(sourceUid, uid);
+            if (links.Count == 0)
+                continue;
+
+            if (TryComp<VirusDiagnoserConsoleComponent>(sourceUid, out var console) &&
+                links.Contains((console.VirusDiagnoserDataServerPort, comp.VirusDiagnoserDataServerPort)))
+            {
+                comp.ConnectedConsole = sourceUid;
+            }
+
+            if (TryComp<VirusEvolutionConsoleComponent>(sourceUid, out var evolutionConsole) &&
+                links.Contains((evolutionConsole.VirusDiagnoserDataServerPort, comp.VirusDiagnoserDataServerPort)))
+            {
+                comp.ConnectedEvolutionConsole = sourceUid;
+            }
+        }
+
+        UpdateConnectedInterfaces(uid, comp);
     }
 
     private void OnAnchor(Entity<VirusDiagnoserDataServerComponent> server, ref AnchorStateChangedEvent args)
@@ -182,35 +228,69 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
 
         server.Comp.Points += points;
 
-        if (server.Comp.ConnectedConsole == null || !TryComp<VirusDiagnoserConsoleComponent>(server.Comp.ConnectedConsole, out var console))
-            return;
-
         UpdateConnectedInterfaces(server, server.Comp);
     }
 
-    public void SaveData(Entity<VirusDiagnoserDataServerComponent?> server, VirusData data)
+    public string? SaveData(Entity<VirusDiagnoserDataServerComponent?> server, VirusData data, bool saveModifiedAsCopy = false)
     {
         if (!Resolve(server, ref server.Comp, false))
-            return;
+            return null;
 
         if (!_powerReceiverSystem.IsPowered(server))
-            return;
+            return null;
+
+        var dataToSave = (VirusData)data.Clone();
+
+        if (string.IsNullOrWhiteSpace(dataToSave.StrainId))
+            dataToSave.StrainId = GenerateUniqueStrainId(server.Comp);
+
+        if (saveModifiedAsCopy)
+            dataToSave.StrainId = GetStrainIdForModifiedCopy(server.Comp, dataToSave);
 
         var timeFormatted = _timing.CurTime.ToString(@"hh\:mm\:ss");
 
         // ищем существующую запись с таким StrainId
         var existingKey = server.Comp.StrainData.Keys
-            .FirstOrDefault(x => x.Strain == data.StrainId);
+            .FirstOrDefault(x => x.Strain == dataToSave.StrainId);
 
         if (existingKey.Strain != null)
             server.Comp.StrainData.Remove(existingKey);
 
         var record = new VirusStrainRecord(
-            data.StrainId,
+            dataToSave.StrainId,
             timeFormatted
         );
 
-        server.Comp.StrainData[record] = (VirusData)data.Clone();
+        server.Comp.StrainData[record] = dataToSave;
+        UpdateConnectedInterfaces(server, server.Comp);
+
+        return dataToSave.StrainId;
+    }
+
+    private string GetStrainIdForModifiedCopy(VirusDiagnoserDataServerComponent server, VirusData data)
+    {
+        var existingEntry = server.StrainData
+            .FirstOrDefault(kvp => kvp.Key.Strain == data.StrainId);
+
+        if (EqualityComparer<KeyValuePair<VirusStrainRecord, VirusData>>.Default.Equals(existingEntry, default))
+            return data.StrainId;
+
+        if (data.Equals(existingEntry.Value))
+            return data.StrainId;
+
+        return GenerateUniqueStrainId(server);
+    }
+
+    private string GenerateUniqueStrainId(VirusDiagnoserDataServerComponent server)
+    {
+        string strainId;
+
+        do
+        {
+            strainId = _virus.GenerateStrainId();
+        } while (server.StrainData.Keys.Any(key => key.Strain == strainId));
+
+        return strainId;
     }
 
     public void DeleteData(Entity<VirusDiagnoserDataServerComponent?> server, string strainId)
@@ -225,7 +305,10 @@ public sealed class VirusDiagnoserDataServerSystem : EntitySystem
             .FirstOrDefault(k => k.Strain == strainId);
 
         if (!key.Equals(default(VirusStrainRecord)))
+        {
             server.Comp.StrainData.Remove(key);
+            UpdateConnectedInterfaces(server, server.Comp);
+        }
     }
 
     public VirusData? GetData(Entity<VirusDiagnoserDataServerComponent?> server, string strainId)

@@ -54,6 +54,16 @@
   - !type:ListingLimitedStockCondition
     stock: 4
 
+- type: listing
+  id: ClothingBackpackTailbagInventory6
+  productEntity: ClothingBackpackTailbag
+  cost:
+    SpaceCash: 225
+  categories:
+  - ClothingBackpackMachineInventory
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 10
 # Head
 - type: listing
   id: ClothingHeadMachineInventory1

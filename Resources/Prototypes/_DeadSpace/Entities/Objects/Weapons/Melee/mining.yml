@@ -2,7 +2,7 @@
   parent: WeaponCrusher
   id: WeaponMagmiteCrusher
   name: магмитовый крушитель
-  description: Поздний прототип протокинетического ускорителя, модифицированный с применением магмитовой стали.
+  description: Поздний прототип протокинетического ускорителя, модифицированный с применением магмитовой стали. Лечит равномерно 25 механического и физического повреждения.
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Melee/magmite/magmite-crusher.rsi
@@ -51,7 +51,7 @@
   parent: WeaponMagmiteCrusher
   id: WeaponMagmiteCrusherGlaive
   name: магмитовая глефа-крушитель
-  description: Поздний прототип протокинетического ускорителя в виде глефы, модифицированный с применением магмитовой стали.
+  description: Поздний прототип протокинетического ускорителя в виде глефы, модифицированный с применением магмитовой стали. Лечит равномерно 45 механического и 5 физического повреждения.
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Melee/magmite/magmite-glaive.rsi

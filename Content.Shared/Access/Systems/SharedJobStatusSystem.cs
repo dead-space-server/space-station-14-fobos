@@ -11,7 +11,6 @@ namespace Content.Shared.Access.Systems;
 public abstract class SharedJobStatusSystem : EntitySystem
 {
     [Dependency] private readonly AccessReaderSystem _accessReader = default!;
-    [Dependency] private readonly IPrototypeManager _prototype = default!;
 
     private static readonly ProtoId<JobIconPrototype> JobIconForNoId = "JobIconNoId";
 
@@ -59,7 +58,6 @@ public abstract class SharedJobStatusSystem : EntitySystem
         }
 
         ent.Comp.JobStatusIcon = iconId;
-        ent.Comp.IsCrew = _prototype.Index(iconId).IsCrewJob;
         Dirty(ent);
     }
 }

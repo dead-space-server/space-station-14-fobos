@@ -76,11 +76,13 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      100: Critical
+      100: PreCritical
+      120: Critical
       200: Dead
     stateAlertDict:
       Alive: XenomorphHealth
       Critical: XenomorphCrit
+      PreCritical: XenomorphPreCrit
       Dead: XenomorphDead
   - type: InteractionPopup
     successChance: 1.0

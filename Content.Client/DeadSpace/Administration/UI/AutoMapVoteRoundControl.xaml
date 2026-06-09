@@ -37,6 +37,11 @@
                 <Button Name="StartVoteButton" HorizontalExpand="True" />
                 <Button Name="ToggleButton" HorizontalExpand="True" />
             </BoxContainer>
+
+            <Button
+                Name="GameModeHistoryButton"
+                Text="{Loc round-game-mode-history-open-button}"
+                HorizontalExpand="True" />
         </BoxContainer>
     </PanelContainer>
 </controls:AutoMapVoteRoundControl>

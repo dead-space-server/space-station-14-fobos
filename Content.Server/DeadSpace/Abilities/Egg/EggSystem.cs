@@ -64,7 +64,7 @@ public sealed partial class EggSystem : SharedEggSystem
                 return;
             }
 
-            if (!EntityManager.TryGetComponent<GhostRoleComponent>(popupEnt, out var ghostRoleComponent))
+            if (!TryComp<GhostRoleComponent>(popupEnt, out var ghostRoleComponent))
             {
                 _mindSystem.TransferTo(mindId, popupEnt);
                 RemComp<EggComponent>(uid);

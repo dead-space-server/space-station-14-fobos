@@ -16,6 +16,7 @@ public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInte
     public bool SolutionAnalyzerConnected { get; }
     public bool DataServerInRange { get; }
     public bool SolutionAnalyzerInRange { get; }
+    public VirusSolutionAnalyzerStatus SolutionAnalyzerStatus { get; }
     public bool HasVirus { get; }
     public List<ProtoId<VirusSymptomPrototype>> ActiveSymptoms = new();
     public List<ProtoId<BodyPrototype>> BodyWhitelist = new();
@@ -41,7 +42,8 @@ public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInte
         float infectivity = 0f,
         int infectedCount = 0,
         int pointsPerSecond = 0,
-        bool isSentientVirus = false)
+        bool isSentientVirus = false,
+        VirusSolutionAnalyzerStatus solutionAnalyzerStatus = VirusSolutionAnalyzerStatus.Off)
     {
         MutationPoints = mutationPoints;
         MultiPriceDeleteSymptom = multyPriceDeleteSymptom;
@@ -49,6 +51,7 @@ public sealed class VirusEvolutionConsoleBoundUserInterfaceState : BoundUserInte
         SolutionAnalyzerConnected = solutionAnalyzerConnected;
         DataServerInRange = dataServerInRange;
         SolutionAnalyzerInRange = solutionAnalyzerInRange;
+        SolutionAnalyzerStatus = solutionAnalyzerStatus;
         ActiveSymptoms = activeSymptoms ?? new List<ProtoId<VirusSymptomPrototype>>();
         BodyWhitelist = bodyWhitelist ?? new List<ProtoId<BodyPrototype>>();
         IsSentientVirus = isSentientVirus;

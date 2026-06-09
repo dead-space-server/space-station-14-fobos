@@ -38,6 +38,7 @@ public sealed class ExplosionGridTileFlood : ExplosionTileFlood
     public HashSet<Vector2i> SpaceJump = new();
 
     private Dictionary<Vector2i, NeighborFlag> _edgeTiles;
+    private readonly bool _ignoreTileBlockers; // DS14
 
     public ExplosionGridTileFlood(
         Entity<MapGridComponent> grid,
@@ -49,7 +50,8 @@ public sealed class ExplosionGridTileFlood : ExplosionTileFlood
         EntityUid? referenceGrid,
         Matrix3x2 spaceMatrix,
         Angle spaceAngle,
-        ExplosionSystem explosionSystem)
+        ExplosionSystem explosionSystem,
+        bool ignoreTileBlockers = false) // DS14
     {
         Grid = grid;
         _airtightMap = airtightMap;
@@ -58,6 +60,7 @@ public sealed class ExplosionGridTileFlood : ExplosionTileFlood
         _typeIndex = typeIndex;
         _edgeTiles = edgeTiles;
         _explosionSystem = explosionSystem;
+        _ignoreTileBlockers = ignoreTileBlockers; // DS14
 
         // initialise SpaceTiles
         foreach (var (tile, spaceNeighbors) in _edgeTiles)
@@ -93,7 +96,7 @@ public sealed class ExplosionGridTileFlood : ExplosionTileFlood
     {
         TileLists[0] = new() { initialTile };
 
-        if (_airtightMap.ContainsKey(initialTile))
+        if (!_ignoreTileBlockers && _airtightMap.ContainsKey(initialTile)) // DS14
             EnteredBlockedTiles.Add(initialTile);
         else
             ProcessedTiles.Add(initialTile);
@@ -160,7 +163,7 @@ public sealed class ExplosionGridTileFlood : ExplosionTileFlood
     protected override void ProcessNewTile(int iteration, Vector2i tile, AtmosDirection entryDirections)
     {
         // Is there an airtight blocker on this tile?
-        if (!_airtightMap.TryGetValue(tile, out var tileData))
+        if (_ignoreTileBlockers || !_airtightMap.TryGetValue(tile, out var tileData)) // DS14
         {
             // No blocker. Ezy. Though maybe this a space tile?
 
@@ -269,7 +272,7 @@ public sealed class ExplosionGridTileFlood : ExplosionTileFlood
             FixedPoint2 sealIntegrity = 0;
 
             // Note that if (grid, tile) is not a valid key, then airtight.BlockedDirections will default to 0 (no blocked directions)
-            if (_airtightMap.TryGetValue(tile, out var tileData))
+            if (!_ignoreTileBlockers && _airtightMap.TryGetValue(tile, out var tileData)) // DS14
             {
                 blockedDirections = tileData.BlockedDirections;
                 sealIntegrity = _explosionSystem.GetToleranceValues(tileData.ToleranceCacheIndex).Values[_typeIndex];
@@ -318,6 +321,11 @@ public sealed class ExplosionGridTileFlood : ExplosionTileFlood
 
     protected override AtmosDirection GetUnblockedDirectionOrAll(Vector2i tile)
     {
+        // DS14-start
+        if (_ignoreTileBlockers)
+            return AtmosDirection.All;
+        // DS14-end
+
         return ~_airtightMap.GetValueOrDefault(tile).BlockedDirections;
     }
 }

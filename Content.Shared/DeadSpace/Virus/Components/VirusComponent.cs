@@ -226,13 +226,32 @@ public sealed partial class VirusData : ReagentData
         if (!ActiveSymptom.SequenceEqual(o.ActiveSymptom))
             return false;
 
-        if (EntityWhitelist is null && o.EntityWhitelist is null)
+        return EntityWhitelistsEqual(EntityWhitelist, o.EntityWhitelist);
+    }
+
+    private static bool EntityWhitelistsEqual(EntityWhitelist? first, EntityWhitelist? second)
+    {
+        if (first is null && second is null)
             return true;
 
-        if (EntityWhitelist is null || o.EntityWhitelist is null)
+        if (first is null || second is null)
             return false;
 
-        return EntityWhitelist.Equals(o.EntityWhitelist);
+        return first.RequireAll == second.RequireAll &&
+            NullableSequenceEqual(first.Components, second.Components) &&
+            NullableSequenceEqual(first.Sizes, second.Sizes) &&
+            NullableSequenceEqual(first.Tags, second.Tags);
+    }
+
+    private static bool NullableSequenceEqual<T>(IEnumerable<T>? first, IEnumerable<T>? second)
+    {
+        if (first is null && second is null)
+            return true;
+
+        if (first is null || second is null)
+            return false;
+
+        return first.SequenceEqual(second);
     }
 
     public override ReagentData Clone()
@@ -245,6 +264,8 @@ public sealed partial class VirusData : ReagentData
             DamageWhenDead = DamageWhenDead,
             RegenThreshold = RegenThreshold,
             Threshold = Threshold,
+            MaxThreshold = MaxThreshold,
+            RegenMutationPoints = RegenMutationPoints,
             DefaultMedicineResistance = DefaultMedicineResistance,
             Infectivity = Infectivity,
 

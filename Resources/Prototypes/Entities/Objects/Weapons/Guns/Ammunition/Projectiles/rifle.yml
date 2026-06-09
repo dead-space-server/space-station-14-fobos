@@ -7,7 +7,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 20
+        Piercing: 19 #DS-14
 
 - type: entity
   parent: BaseBulletPractice
@@ -41,6 +41,6 @@
   - type: Projectile
     damage:
       types:
-        Radiation: 7
+        Radiation: 9 #DS-14
         Piercing: 8
 

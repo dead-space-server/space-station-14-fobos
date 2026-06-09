@@ -7,30 +7,45 @@
         </PanelContainer.PanelOverride>
 
         <Control HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="600">
-            <PanelContainer StyleClasses="BackgroundPanel" />
+            <!-- DS14-start -->
+            <PanelContainer StyleClasses="DS14MenuPopupPanel">
+                <BoxContainer Orientation="Vertical"
+                              SeparationOverride="8">
+                    <RichTextLabel Name="Description" />
 
-            <BoxContainer Orientation="Vertical" Margin="4">
-                <RichTextLabel Name="Description" />
+                    <!-- Contains actual messages -->
+                    <PanelContainer StyleClasses="DS14MenuInset"
+                                    VerticalExpand="True"
+                                    HorizontalExpand="True">
+                        <ScrollContainer HScrollEnabled="False"
+                                         VerticalExpand="True"
+                                         ReturnMeasure="True"
+                                         MaxHeight="400">
+                            <BoxContainer Orientation="Vertical"
+                                          Name="MessageContainer"
+                                          SeparationOverride="4" />
+                        </ScrollContainer>
+                    </PanelContainer>
 
-                <!-- Contains actual messages -->
-                <ScrollContainer HScrollEnabled="False" Margin="4" VerticalExpand="True" ReturnMeasure="True" MaxHeight="400">
-                    <BoxContainer Orientation="Vertical" Name="MessageContainer" Margin="0 2 0 0" />
-                </ScrollContainer>
-
-                <Label Name="WaitLabel" />
-                <BoxContainer Orientation="Horizontal">
-                    <Button Name="DismissButton"
-                            Text="{Loc 'admin-notes-message-dismiss'}"
-                            Disabled="True"
-                            HorizontalExpand="True"
-                            StyleClasses="OpenRight" />
-                    <Button Name="AcceptButton"
-                            Text="{Loc 'admin-notes-message-accept'}"
-                            Disabled="True"
-                            HorizontalExpand="True"
-                            StyleClasses="OpenLeft" />
+                    <Label Name="WaitLabel"
+                           StyleClasses="DS14MenuProfileLabel"
+                           HorizontalAlignment="Center" />
+                    <BoxContainer Orientation="Horizontal"
+                                  SeparationOverride="6">
+                        <Button Name="DismissButton"
+                                Text="{Loc 'admin-notes-message-dismiss'}"
+                                Disabled="True"
+                                HorizontalExpand="True"
+                                StyleClasses="DS14MenuProfileControl negative" />
+                        <Button Name="AcceptButton"
+                                Text="{Loc 'admin-notes-message-accept'}"
+                                Disabled="True"
+                                HorizontalExpand="True"
+                                StyleClasses="DS14MenuProfileControl" />
+                    </BoxContainer>
                 </BoxContainer>
-            </BoxContainer>
+            </PanelContainer>
+            <!-- DS14-end -->
         </Control>
     </PanelContainer>
 </Control>

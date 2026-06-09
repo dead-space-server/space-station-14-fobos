@@ -12,24 +12,26 @@
       max: 1
       pickPlayer: false
       briefing:
-        text: pirate-welcome
+        text: pirate-capitan-welcome
         color: Red
         sound: /Audio/Ambience/Antag/pirate_start.ogg
       roleLoadout:
       - RoleSurvivalEVA
       components:
       - type: Loadout
-        prototypes: [ PirateCaptainScooner ]
+        prototypes: [ PirateCaptainStartinggear ]
       - type: RandomMetadata
         nameSegments:
         - NamesPirateCapitanTitle
         - NamesPirateCapitan
         nameFormat: name-format-pirate
+      - type: Skill
+        group: ALL
       - type: NpcFactionMember
         factions:
         - Syndicate
       mindRoles:
-      - MindRoleGhostRoleTeamAntagonist
+      - MindRolePirateCapitan
     - spawnerPrototype: PirateSpawner
       min: 4
       max: 4
@@ -48,11 +50,13 @@
         - NamesPirateTitle
         - NamesPirate
         nameFormat: name-format-pirate
+      - type: Skill
+        group: ALL
       - type: NpcFactionMember
         factions:
         - Syndicate
       mindRoles:
-      - MindRoleGhostRoleTeamAntagonist
+      - MindRolePirate
   - type: AntagLoadProfileRule
   - type: StationEvent
     weight: 1

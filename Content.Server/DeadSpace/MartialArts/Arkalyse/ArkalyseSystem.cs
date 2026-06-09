@@ -125,7 +125,7 @@ public sealed class ArkalyseSystem : EntitySystem
 
             case ArkalyseList.StunAttack:
                 _audio.PlayPvs(ent.Comp.Params.HitSoundForStunAtack, hitEntity, AudioParams.Default.WithVolume(0.5f));
-                _stun.TryUpdateParalyzeDuration(hitEntity, TimeSpan.FromSeconds(ent.Comp.Params.ParalyzeTimeStunAtack));
+                _stun.TryCrawling(hitEntity, TimeSpan.FromSeconds(ent.Comp.Params.ParalyzeTimeStunAtack), drop: false);
                 SpawnAttachedTo(ent.Comp.Params.EffectPunchForStunAtack, Transform(hitEntity).Coordinates);
                 break;
 
