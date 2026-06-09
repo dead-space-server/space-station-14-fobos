@@ -1191,8 +1191,10 @@
   # DS14-Start
   - type: Gatherable
     toolWhitelist: {}
+  # DS14-End
   - type: Damageable
     damageContainer: StructuralInorganic
+  # DS14-Start
     damageModifierSet: Basalt
   - type: Destructible
     thresholds:
