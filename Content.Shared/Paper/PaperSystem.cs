@@ -284,7 +284,7 @@ public sealed class PaperSystem : EntitySystem
             {
                 if (_tagSystem.HasTag(item, WriteReWriteTag) && TryComp<SignaturePaperComponent>(entity, out var comp))
                 {
-                    entity.Comp.Signatures.Add("[color=red][bold]Переписанно[/bold][/color]");
+                    entity.Comp.Signatures.Add("[color=red][bold]Переписано[/bold][/color]");
                     comp.NumberSignatures += 1;
                 }
             }
