@@ -341,6 +341,7 @@
     Heat: 1.15
     Cold: 0.85
 
+# DS14-Start
 - type: damageModifierSet
   id: Basalt
   coefficients:
@@ -348,3 +349,4 @@
     Slash: 0
     Piercing: 0
     Structural: 0.5
+# DS14-End
