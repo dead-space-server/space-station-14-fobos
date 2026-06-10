@@ -99,6 +99,13 @@
     state: pda-ert
   - type: HealthAnalyzer
     scanDelay: 1
+  - type: ErtTrackerPda
+    allowedDepartments:
+    - Command
+    allowedJobs:
+    - BlueShieldOfficer
+    - CentralCommandBlueShieldOfficer
+    - CentralCommandSpecialOperationsOfficer
 
 - type: entity
   parent: IDCardStandard
@@ -140,9 +147,6 @@
         ents: []
   - type: StorageFill
     contents:
-      - id: Zipties
-        amount: 4
-      - id: ADTtelescopicBaton # ADT
       - id: ERTloadoutBlueShieldPrimary
       - id: HandheldCrewMonitor
   - type: ExplosionResistance

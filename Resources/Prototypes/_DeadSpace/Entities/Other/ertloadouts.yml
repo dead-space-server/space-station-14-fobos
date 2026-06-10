@@ -489,6 +489,7 @@
     - MP5SDBlueShieldSet
     - AresSWCBlueShieldSet
     - TruncheonsecBlueShieldSet
+    - PistolBlueShieldUpgradeKitSet
   - type: ActivatableUI
     key: enum.ThiefBackpackUIKey.Key
   - type: UserInterface
@@ -955,12 +956,22 @@
     sprite: _DeadSpace/Objects/Weapons/Melee/truncheon_sec.rsi
     state: stunbaton_off
   content:
-  - Truncheonsec
+  - TruncheonBlueShield
   - TelescopicShield
   - TelescopicShield
   - CelestinMedipen
   - CelestinMedipen
   - CombatMedipen
+
+- type: thiefBackpackSet
+  id: PistolBlueShieldUpgradeKitSet
+  name: ert-loadout-category-pistolbsupgradekit-name
+  description: ert-loadout-category-pistolbsupgradekit-description
+  sprite:
+    sprite: Objects/Misc/module.rsi
+    state: ssd
+  content:
+  - WeaponPistolBlueShieldUpgradeKit
 
 ## Secondary
 ### Огнестрельное
