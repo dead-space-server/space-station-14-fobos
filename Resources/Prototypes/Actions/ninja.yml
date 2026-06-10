@@ -151,14 +151,13 @@
     raiseOnUser: true
     icon:
       sprite: _DeadSpace/Actions/ninja_actions.rsi
-      state: jetpack-off
-    iconOn:
-      sprite: _DeadSpace/Actions/ninja_actions.rsi
-      state: jetpack-on
-    useDelay: 1.0
+      state: spiritform
+    useDelay: 10
     itemIconStyle: BigAction
   - type: InstantAction
     event: !type:ToggleCloakNinjaEvent
+
+- type: entity  
   id: NinjaSmokeAction
   name: дымовая завеса
   description: Создает объемную дымовую завесу, которая может помочь сбежать. Ну или напасть..
