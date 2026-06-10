@@ -282,6 +282,7 @@ stack-brutepack = набор от ушибов
 stack-bloodpack = пакет крови
 stack-medicated-suture = медицинская нить
 stack-regenerative-mesh = регенеративная сеть
+stack-tourniquet = жгут
 stack-micro-manipulator = модульная машинная часть
 stack-pancake = блинчик
 stack-blueberry-pancake = блинчик с черникой
