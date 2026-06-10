@@ -10,6 +10,7 @@ using Content.Shared.TextScreen;
 using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
 using Robust.Client.Player;
+using Robust.Shared.GameObjects;
 
 namespace Content.Client.DeadSpace.SignBoard;
 
@@ -19,13 +20,40 @@ public sealed class SignBoardVisualsSystem : EntitySystem
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly IEyeManager _eye = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
 
-    private double _lastCombinedTheta;
+    private Angle _lastEyeAngle;
 
     public override void Initialize()
     {
         SubscribeLocalEvent<SignBoardComponent, GetInhandVisualsEvent>(OnGetInhandVisuals);
         SubscribeLocalEvent<SignBoardComponent, AppearanceChangeEvent>(OnAppearanceChanged);
+        _transform.OnGlobalMoveEvent += OnGlobalMove;
+    }
+
+    public override void Shutdown()
+    {
+        base.Shutdown();
+        _transform.OnGlobalMoveEvent -= OnGlobalMove;
+    }
+
+    private void OnGlobalMove(ref MoveEvent args)
+    {
+        var rotDiff = (args.NewRotation - args.OldRotation).Reduced();
+        if (Math.Abs(rotDiff.Theta) < 0.001)
+            return;
+
+        if (!TryComp<HandsComponent>(args.Sender, out var hands))
+            return;
+
+        foreach (var held in _hands.EnumerateHeld((args.Sender, hands)))
+        {
+            if (HasComp<SignBoardComponent>(held))
+            {
+                _itemSystem.VisualsChanged(held);
+                return;
+            }
+        }
     }
 
     public override void FrameUpdate(float frameTime)
@@ -34,19 +62,16 @@ public sealed class SignBoardVisualsSystem : EntitySystem
         if (player == null)
             return;
 
-        if (!TryComp<HandsComponent>(player, out var hands))
+        var eyeAngle = _eye.CurrentEye.Rotation;
+        if (Math.Abs(eyeAngle.Theta - _lastEyeAngle.Theta) < 0.001)
             return;
 
-        var combined = Transform(player.Value).WorldRotation + _eye.CurrentEye.Rotation;
-        if (Math.Abs(combined.Theta - _lastCombinedTheta) < 0.001)
-            return;
+        _lastEyeAngle = eyeAngle;
 
-        _lastCombinedTheta = combined.Theta;
-
-        foreach (var held in _hands.EnumerateHeld((player.Value, hands)))
+        var query = EntityQueryEnumerator<SignBoardComponent>();
+        while (query.MoveNext(out var uid, out _))
         {
-            if (HasComp<SignBoardComponent>(held))
-                _itemSystem.VisualsChanged(held);
+            _itemSystem.VisualsChanged(uid);
         }
     }
 
