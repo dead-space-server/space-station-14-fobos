@@ -301,8 +301,6 @@
         - Biological
       damage:
         types:
-          Blunt: 5 # Tourniquets HURT
-          Asphyxiation: 5 # Essentially Stopping all blood reaching a part of your body
       bloodlossModifier: -10 # Tourniquets stop bleeding
       delay: 0.5
       healingBeginSound:
