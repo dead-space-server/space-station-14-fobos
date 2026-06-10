@@ -4,7 +4,7 @@
   parent: CustomizableSpawnerBase
   id: CustomizableSpawnerLieutenantKaisanen
   name: ИВЕНТОВЫЙ !Лейтенант Кайсанен СпецНаз НТ «Дельта-6»
-  suffix: Akitovsky, Ивент, Кастомизируемый персонаж
+  suffix: Akitovsky, Ивент, Кастомизируемый персонаж, Песок
   components:
   - type: Sprite
     layers:
@@ -53,7 +53,7 @@
     shoes: ClothingShoesBootsJackAkiDeltaSand
     head: ClothingHeadHatPanamaAkiSand
     id: AkiDeltaIDCard
-    belt: ClothingBeltAkiDeltaSand
+    belt: ClothingBeltMilitaryWebbingAkiDeltaSand
     pocket1: WeaponPistolDesertEagle
     pocket2: DrinkMREFlask
     outerClothing: ClothingOuterArmorDeltaAkiSand
@@ -78,19 +78,19 @@
     belt:
     - Handcuffs
     - Handcuffs
-    - MagazineVSK
-    - MagazineVSK
-    - MagazineVSK
-    - MagazineVSK
-    - MagazineVSK
-    - MagazineVSK
+    - MagazineVSK9x39SP6
+    - MagazineVSK9x39SP6
+    - MagazineVSK9x39SP6
+    - MagazineVSK9x39SP6
+    - MagazineVSK9x39SP6
+    - MagazineVSK9x39SP6
 
 # Лейтенант Мирс СпецНаз НТ
 - type: entity
   parent: CustomizableSpawnerBase
   id: CustomizableSpawnerLieutenantMirs
   name: ИВЕНТОВЫЙ !Лейтенант Мирс СпецНаз НТ «Дельта-6»
-  suffix: Akitovsky, Ивент, Кастомизируемый персонаж
+  suffix: Akitovsky, Ивент, Кастомизируемый персонаж, Песок
   components:
   - type: Sprite
     layers:
@@ -232,7 +232,7 @@
   parent: CustomizableSpawnerBase
   id: CustomizableSpawnerCaptainMylo
   name: ИВЕНТОВЫЙ !Капитан Мыло СпецНаз НТ «Дельта-6»
-  suffix: Akitovsky, Ивент, Кастомизируемый персонаж
+  suffix: Akitovsky, Ивент, Кастомизируемый персонаж, Песок
   components:
   - type: Sprite
     layers:

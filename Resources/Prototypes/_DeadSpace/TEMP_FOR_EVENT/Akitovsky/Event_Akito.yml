@@ -4,7 +4,7 @@
   id: ClothingHandsGlovesCombatAkiDeltaSand
   name: боевые перчатки
   description: Эти тактические перчатки огнеупорны и ударопрочны.
-  suffix: Akitovsky
+  suffix: Akitovsky, Песок
   components:
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Gloves/combatsand.rsi
@@ -26,7 +26,7 @@
   id: ClothingHeadHelmetAkiDeltaSand
   name: шлем
   description: Стандартная защитная экипировка. Защищает голову от ударов.
-  suffix: Akitovsky
+  suffix: Akitovsky, Песок
   components:
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Helmets/helmetsand.rsi
@@ -47,7 +47,7 @@
   id: ClothingHeadHatAkiDeltaSand
   name: песочная кепка
   description: Бейсболка, окрашенная в песчаные тона.
-  suffix: Akitovsky
+  suffix: Akitovsky, Песок
   components:
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Hats/sandsoft.rsi
@@ -60,7 +60,7 @@
   id: ClothingHeadHatPanamaAkiSand
   name: старая панама
   description: Была свидетельницей слишком многого. До сих пор пахнет порохом и предательством.
-  suffix: Akitovsky
+  suffix: Akitovsky, Песок
   components:
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Hats/panamahatsand.rsi
@@ -85,18 +85,22 @@
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
-# Очки Дельта песочные
+# Тактические очки Дельта песочные
 - type: entity
   parent: ClothingEyesGlassesSecurity
   id: ClothingEyesGlassesAkiDeltaSand
-  name: солнцезащитные очки
-  description: Солнцезащитные очки. Имеют встроенный визор службы безопасности.
-  suffix: Akitovsky
+  name: тактические очки спецназа
+  description: Очки с индикатором на стекле, который сканирует сущности в поле зрения и предоставляет данные об их идентификационном статусе и записях в системе безопасности. Также имеют в себе встроенный ПНВ.
+  suffix: Akitovsky, Песок
   components:
   - type: Sprite
-    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Glasses/glassessand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Glasses/tactical_glasses_sand.rsi
   - type: Clothing
-    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Glasses/glassessand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Glasses/tactical_glasses_sand.rsi
+  - type: PNV
+    color: "#AFC4D111"
+    activateSound: 
+      path: /Audio/_DeadSpace/NightVision/pnv.ogg
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -125,7 +129,7 @@
   id: ClothingUniformJumpsuitAkiDeltaSand
   name: песчаный ВКПО
   description: Всесезонный комплект полевого обмундирования в песчаной расцветке. Обеспечивает комфорт и защиту в разных климатических условиях.
-  suffix: Akitovsky
+  suffix: Akitovsky, Песок
   components:
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Jumpsuits/deltasand.rsi
@@ -140,12 +144,19 @@
   id: ClothingBeltMilitaryWebbingAkiDeltaSand
   name: армейская РПС
   description: Ременно-плечевая система тактических ремней, которую носят представители военных структур. Эта в песчаной расцветке.
-  suffix: Akitovsky
+  suffix: Akitovsky, Песок
   components:
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Belts/militarywebbingsand.rsi
   - type: Clothing
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Belts/militarywebbingsand.rsi
+  - type: Storage
+    grid:
+    - 0,0,0,1
+    - 2,0,2,1
+    - 4,0,4,1
+    - 6,0,6,1
+    - 0,2,6,3
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -155,7 +166,7 @@
   id: ClothingBeltAkiDeltaSand
   name: армейский пояс
   description: Может вмещать снаряжение военных, например магазины и коробки патрон.
-  suffix: Akitovsky
+  suffix: Akitovsky, Песок
   components:
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Belts/militarysand.rsi
@@ -172,7 +183,7 @@
   id: ClothingOuterArmorDeltaAkiSand
   name: бронежилет
   description: Стандартный бронежилет с пластиной IV-го класса защиты.
-  suffix: Akitovsky
+  suffix: Akitovsky, Песок
   components:
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Armor/bulletproofvestsand.rsi
@@ -202,7 +213,7 @@
   id: ClothingOuterArmorDeltaSlimAkiSand
   name: бронежилет
   description: Бронежилет с пластиной IV-го класса защиты, но меньшей областью покрытия.
-  suffix: Akitovsky
+  suffix: Akitovsky, Песок
   components:
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Armor/bulletproofvestslimsand.rsi
@@ -232,7 +243,7 @@
   id: ClothingOuterArmorDeltaFatAkiSand
   name: бронежилет
   description: Стандартный бронежилет с пластиной IV-го класса защиты.
-  suffix: Akitovsky
+  suffix: Akitovsky, Песок
   components:
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Armor/bulletproofvestfatsand.rsi
@@ -266,24 +277,41 @@
 
 # Рюкзак Дельта песочный
 - type: entity
-  parent: ClothingMilitaryBackpack
+  parent: ClothingBackpack
   id: ClothingMilitaryBackpackDeltaAkiSand
   name: армейский рюкзак
-  description: Вместительный рюкзак с множеством карманов, который носят военные структуры.
-  suffix: Akitovsky
+  description: Прочный рюкзак, который носят военные структуры.
+  suffix: Akitovsky, Песок
   components:
   - type: Sprite
-    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Backpacks/militarysand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Backpacks/sandbackpack.rsi
+  - type: ExplosionResistance
+    damageCoefficient: 0.1
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Сумка Дельта песочная
+- type: entity
+  parent: ClothingBackpackSatchel
+  id: ClothingBackpackSatchelDeltaAkiSand
+  name: армейская сумка
+  description: Прочная сумка для нужд военных структур.
+  suffix: Akitovsky, Песок
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Backpacks/sandsatchel.rsi
+  - type: ExplosionResistance
+    damageCoefficient: 0.1
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
 # Сапоги Дельта песочные
 - type: entity
-  parent: [ClothingShoesBootsJack, ClothingShoesBootsSecFilled]
+  parent: ClothingShoesBootsWinterSecFilled
   id: ClothingShoesBootsJackAkiDeltaSand
   name: подкованные сапоги
   description: Обувь военных Nanotrasen для боевых операций почти в любых условиях.
-  suffix: Akitovsky
+  suffix: Akitovsky, Песок
   components:
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Boots/jackbootssand.rsi
@@ -382,7 +410,7 @@
   id: ClothingHeadsetDelta6
   name: гарнитура отряда «Дельта-6»
   description: Модифицированный модульный интерком, надеваемый на голову. Принимает ключи шифрования.
-  suffix: Akitovsky
+  suffix: Akitovsky, Песок
   components:
   - type: ContainerFill
     containers:
@@ -403,7 +431,7 @@
   id: ClothingHeadsetDelta8
   name: гарнитура отряда «Дельта-8»
   description: Модифицированный модульный интерком, надеваемый на голову. Принимает ключи шифрования.
-  suffix: Akitovsky
+  suffix: Akitovsky, Песок
   components:
   - type: ContainerFill
     containers:
@@ -418,13 +446,13 @@
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
-# Гарнитура общая
+# Гарнитура оба канала
 - type: entity
   parent: [ ClothingHeadset, BaseCentcommContraband ]
   id: ClothingHeadsetDelta
   name: гарнитура подразделения «Дельта»
   description: Модифицированный модульный интерком, надеваемый на голову. Принимает ключи шифрования.
-  suffix: Akitovsky
+  suffix: Akitovsky, Песок
   components:
   - type: ContainerFill
     containers:
@@ -567,7 +595,6 @@
 - type: entity
   parent: BaseFigurine
   id: BaseFigurineAkiEvent
-  suffix: Akitovsky
   abstract: true
   components:
   - type: Sprite
@@ -580,6 +607,7 @@
   id: ToyFigurineAkiDeltaAino
   name: фигурка лейтенанта Кайсанен
   description: Минифигурка лейтенанта «Дельта».
+  suffix: Akitovsky, Песок
   components:
   - type: Sprite
     state: aino_delta
@@ -590,6 +618,7 @@
   id: ToyFigurineAkiDeltaFloria
   name: фигурка лейтенанта Мирс
   description: Минифигурка лейтенанта «Дельта».
+  suffix: Akitovsky, Песок
   components:
   - type: Sprite
     state: floria_delta
@@ -600,23 +629,10 @@
   id: ToyFigurineAkiDeltaRegular
   name: фигурка оперативника «Дельта»
   description: Минифигурка оперативника «Дельта».
+  suffix: Akitovsky, Песок
   components:
   - type: Sprite
     state: regular_delta
-
-# Плюшка Кайсанен
-- type: entity
-  parent: BasePlushieDeadSpaceMisc
-  id: PlushieAino
-  name: плюшевая Кайсанен
-  suffix: Akitovsky
-  description: Плюшевая игрушка лейтенанта войск специального назначения.
-  components:
-  - type: Sprite
-    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/toy.rsi
-    state: plushie_kaisanen
-  - type: TTS
-    voice: Anivia
 
 # Шлюзы
 # Дельта синий
@@ -770,46 +786,77 @@
 
 # VSK
 - type: entity
-  parent: WeaponVSK
-  id: WeaponVSKAki
   name: VSK-94
+  id: WeaponVSKAki
+  parent: WeaponVSK
   description: Точный винторез, что заточен под дальний бой и сбивание позиции врагов, нежели тупой штурм.
   suffix: Akitovsky
   components:
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: MagazineVSK9x39SP6
+        insertSound: /Audio/Weapons/Guns/MagIn/batrifle_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/batrifle_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+            - MagazineVSK
+      gun_chamber:
+        name: Chamber
+        startingItem: CartridgeBullet9x39SP6
+        priority: 1
+        whitelist:
+          tags:
+          - CartridgePistol
   - type: EyeCursorOffset
     maxOffset: 8
     pvsIncrease: 0.2
   - type: UseDelay
     delay: 0
 
-# Коробка патрон 9x39
+# Магазин VSK
 - type: entity
-  parent: BaseMagazineBoxPistol
-  id: MagazineBoxVSKAki
-  name: коробка патронов (9х39 мм)
-  suffix: Akitovsky
+  id: MagazineVSK9x39SP6
+  name: магазин VSK-94 (9х39 мм СП-6)
+  parent: MagazineVSK
   components:
+  - type: Tag
+    tags:
+    - MagazineVSK
   - type: BallisticAmmoProvider
-    mayTransfer: true
+    capacity: 22
+    proto: CartridgeBullet9x39SP6
     whitelist:
       tags:
+        - CartridgeBullet9x39SP6
         - CartridgeBulletVSK
-    proto: CartridgeBulletVSK
-    capacity: 60
+
+# SCAR-L
+- type: entity
+  name: Scar-L
+  parent: WeaponRifleScarL
+  id: WeaponRifleScarLSandAkiDelta
+  description: Стандартизированная штурмовая винтовка армии ОПЗ, одна из многих винтовок, используемая правительством. Использует патроны 5.56х45 мм.
+  suffix: Akitovsky, Песок
+  components:
   - type: Sprite
-    sprite: _DeadSpace/Objects/Weapons/Guns/Ammunition/Boxes/pistol.rsi # DS14-texture-localization
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/scarl.rsi
     layers:
-    - state: base
-      map: ["enum.GunVisualLayers.Base"]
-    - state: mag-1
-      map: ["enum.GunVisualLayers.Mag"]
+      - state: base
+        map: ["enum.GunVisualLayers.Base"]
+      - state: mag-0
+        map: ["enum.GunVisualLayers.Mag"]
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/scarl.rsi
 
 # Иконки работ
 - type: jobIcon
   parent: JobIcon
   id: JobIconSFMedicalAkiDelta
   icon:
-    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/job_icons.rsi
+    sprite: /Textures/_DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/job_icons.rsi
     state: SF_Medical
 
 # Гипоспрей Медика
@@ -1131,6 +1178,7 @@
   id: ClothingUniformJumpsuitMaugliAkiKPSK
   name: стандартный штурмовой костюм КПСК
   description: Удобный и прочный современный штурмовой костюм из плотной ткани, который хорошо показал себя на космической войне с капиталистами.
+  suffix: Akitovsky
   components:
   - type: Sprite
     sprite: _ADT/Clothing/Uniforms/Jumpsuit/stormer_maugly.rsi
@@ -1194,6 +1242,7 @@
   id: ClothingEyesGlassesHudAkiKPSK
   name: дешёвые солнцезащитные очки
   description: Пара чёрных солнцезащитных очков. Не очень хорошо блокируют свет. Скорее аксессуар, чем что-то полезное.
+  suffix: Akitovsky
   components:
   - type: Sprite
     sprite: Clothing/Eyes/Glasses/sunglasses.rsi
@@ -1208,7 +1257,7 @@
 - type: entity
   parent: [ BaseSecurityBartenderContraband, ClothingOuterArmorBase]
   id: ClothingOuterArmorAkiKPSK
-  suuffix: Akitovsky
+  suffix: Akitovsky
   name: бронежилет
   description: Стандартный бронежилет с пластиной III-го класса защиты.
   components:
@@ -1236,3 +1285,4 @@
   id: ClothingBeltAkiKPSK
   name: РПС бойца КПСК
   description: Универсальный разгрузочный жилет для убийства капиталистов в космосе.
+  suffix: Akitovsky
