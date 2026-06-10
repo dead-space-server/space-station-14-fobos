@@ -1,0 +1,105 @@
+- type: entity
+  parent: [BriefcaseBase, BaseBagOpenClose]
+  id: BriefcaseSecure
+  name: secure briefcase
+  suffix: default
+  components:
+  - type: Appearance
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Storage/briefcase_secure.rsi
+    layers:
+    - state: closed
+      map: ["closeLayer"]
+    - state: open
+      map: ["openLayer"]
+      visible: false
+    - state: locked
+      map: ["enum.LockVisualLayers.Lock"]
+      shader: unshaded
+    state: icon
+  - type: Item
+    sprite: _DeadSpace/Objects/Storage/briefcase_secure.rsi
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: StructuralMetallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+  - type: MeleeWeapon
+    damage:
+      types:
+        Blunt: 20
+    soundNoDamage:
+      collection: MetalThud
+  - type: Storage
+    storageOpenSound: /Audio/_DeadSpace/Items/Misc/briefcase-open.ogg
+    storageCloseSound: /Audio/_DeadSpace/Items/Misc/briefcase-close.ogg
+  - type: ExplosionResistance
+    damageCoefficient: 0
+  - type: Lock
+  - type: LockVisuals
+  - type: LockedStorage
+  - type: AccessReader
+
+- type: entity
+  parent: [BriefcaseBase, BaseBagOpenClose]
+  id: BriefcaseCodeLock
+  name: code locked briefcase
+  suffix: codelock
+  components:
+  - type: Appearance
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Storage/briefcase_secure.rsi
+    layers:
+    - state: closed
+      map: ["closeLayer"]
+    - state: open
+      map: ["openLayer"]
+      visible: false
+    - state: locked
+      map: ["enum.LockVisualLayers.Lock"]
+      shader: unshaded
+    state: icon
+  - type: Item
+    sprite: _DeadSpace/Objects/Storage/briefcase_secure.rsi
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: StructuralMetallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+  - type: MeleeWeapon
+    damage:
+      types:
+        Blunt: 20
+    soundNoDamage:
+      collection: MetalThud
+  - type: Storage
+    storageOpenSound: /Audio/_DeadSpace/Items/Misc/briefcase-open.ogg
+    storageCloseSound: /Audio/_DeadSpace/Items/Misc/briefcase-close.ogg
+  - type: ExplosionResistance
+    damageCoefficient: 0
+  - type: Lock
+    unlockOnClick: false
+    showLockVerbs: false
+  - type: LockVisuals
+  - type: LockedStorage
+  - type: CodeLock
+  - type: ActivatableUI
+    key: enum.CodeLockUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.CodeLockUiKey.Key:
+        type: CodeLockBoundUserInterface
+      enum.StorageUiKey.Key:
+        type: StorageBoundUserInterface
