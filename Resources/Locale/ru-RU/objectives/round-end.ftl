@@ -14,4 +14,4 @@ objectives-objective-partial-success = { $objective } | [color=yellow]Части
 objectives-objective-partial-failure = { $objective } | [color=orange]Частичный провал![/color] ({ TOSTRING($progress, "P0") })
 objectives-objective-fail = { $objective } | [color=red]Провал![/color] ({ TOSTRING($progress, "P0") })
 objectives-in-custody = [bold][color=red]| АРЕСТОВАН | [/color][/bold]
-objectives-eliminated = [bold][color=red]| ЛИКВИДИРОВАН | [/color][/bold] # DS14
+objectives-eliminated = [bold][color=red]| ЛИКВИДИРОВАН | [/color][/bold]

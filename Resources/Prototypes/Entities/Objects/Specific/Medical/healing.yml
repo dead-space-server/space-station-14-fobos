@@ -280,6 +280,7 @@
   parent: BaseHealingItem
   id: Tourniquet
   name: tourniquet
+  suffix: Один # DS14
   description: Stops bleeding! Hopefully.
   components:
     - type: Tag
@@ -290,6 +291,11 @@
       state: tourniquet
     - type: Item
       heldPrefix: tourniquet
+    # DS14-Start
+    - type: Stack
+      stackType: Tourniquet
+      count: 1
+    # DS14-End
     - type: Healing
       damageContainers:
         - Biological
@@ -309,6 +315,17 @@
         params:
           volume: 1.0
           variation: 0.125
+
+# DS14-Start
+- type: entity
+  id: Tourniquet3
+  parent: Tourniquet
+  suffix: Полный
+  components:
+  - type: Stack
+    stackType: Tourniquet
+    count: 3
+# DS14-End
 
 - type: entity
   name: roll of gauze
