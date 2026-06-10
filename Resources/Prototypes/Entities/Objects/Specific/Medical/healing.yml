@@ -299,7 +299,6 @@
     - type: Healing
       damageContainers:
         - Biological
-        types:
       bloodlossModifier: -10 # Tourniquets stop bleeding
       delay: 0.5
       healingBeginSound:
