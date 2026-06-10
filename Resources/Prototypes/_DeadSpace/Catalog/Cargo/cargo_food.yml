@@ -27,3 +27,13 @@
   cost: 1400
   category: cargoproduct-category-name-food
   group: service # DS14
+
+- type: cargoProduct
+  id: FoodCrateCactusFood
+  icon:
+    sprite: _DeadSpace/Objects/Specific/Hydroponics/cactus.rsi
+    state: foodcactus
+  product: CrateFoodCactus
+  cost: 500
+  category: cargoproduct-category-name-food
+  group: service # DS14

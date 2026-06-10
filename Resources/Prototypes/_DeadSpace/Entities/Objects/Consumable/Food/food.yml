@@ -520,3 +520,28 @@
           Quantity: 15
   - type: Item
     sprite: /Textures/_DeadSpace/Objects/Consumable/Food/besh.rsi
+
+- type: entity
+  id: FoodCactus
+  parent: FoodBase
+  name: плод кактуса
+  description: Ммм... Колючий... Но внутри может быть что-то вкусное!
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Specific/Hydroponics/cactus.rsi
+    state: foodcactus
+  - type: FlavorProfile
+    flavors:
+      - bitter
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        reagents:
+        - ReagentId: Water
+          Quantity: 10
+        - ReagentId: Nutriment
+          Quantity: 5
+        - ReagentId: SpaceDrugs
+          Quantity: 15
+        - ReagentId: BuzzochloricBees
+          Quantity: 2

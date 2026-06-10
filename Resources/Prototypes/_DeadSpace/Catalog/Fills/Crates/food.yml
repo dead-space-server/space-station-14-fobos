@@ -22,3 +22,14 @@
       amount: 2
     - id: FoodBakedGingerbreadSanta
       amount: 2
+
+- type: entity
+  id: CrateFoodCactus
+  parent: CratePlastic
+  name: ящик плодов кактуса
+  description: Содержит сочнейшие и колючие плоды кактуса.
+  components:
+  - type: StorageFill
+    contents:
+    - id: FoodCactus
+      amount: 5

@@ -154,3 +154,49 @@
         layer:
         - HalfWallLayer
         - Opaque
+
+- type: entity
+  parent: BaseTree
+  id: Cactus
+  name: кактус
+  description: Э, а чё это с кактусом?
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Decoration/Flora/cactus.rsi
+    layers:
+    - state: cactus01
+      map: ["random"]
+  - type: RandomSprite
+    available:
+    - random:
+        cactus01: ""
+        cactus02: ""
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.4
+        density: 1000
+        layer:
+        - HalfWallLayer
+        - Opaque
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 400
+      behaviors:
+        - !type:DoActsBehavior
+          acts: [ "Destruction" ]
+    - trigger:
+        !type:DamageTrigger
+        damage: 50
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          FoodCactus:
+            min: 0
+            max: 1
