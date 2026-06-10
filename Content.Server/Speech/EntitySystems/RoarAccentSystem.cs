@@ -3,6 +3,8 @@ using Content.Server.Speech.Components;
 using Content.Shared.Speech;
 using Robust.Shared.Random;
 
+#pragma warning disable RA0026
+
 namespace Content.Server.Speech.EntitySystems;
 
 public sealed class RoarAccentSystem : EntitySystem

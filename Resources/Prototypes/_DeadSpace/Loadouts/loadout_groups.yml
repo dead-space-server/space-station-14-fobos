@@ -26,6 +26,7 @@
 - type: loadoutGroup
   id: BlueShieldOfficerNeck
   name: loadout-group-blue-shield-officer-neck
+  minLimit: 0
   loadouts:
   - BlueShieldOfficerCloak
   - BlueShieldOfficerMantle
@@ -107,11 +108,11 @@
   - SeniorEngineerJumpsuit
   - SeniorEngineerJumpskirt
 
-- type: loadoutGroup
-  id: SeniorEngineerID
-  name: loadout-group-senior-engineer-id
-  loadouts:
-  - SeniorEngineerPDA
+#- type: loadoutGroup
+#  id: SeniorEngineerID
+#  name: loadout-group-senior-engineer-id
+#  loadouts:
+#  - SeniorEngineerPDA
 
 - type: loadoutGroup
   id: SeniorEngineerUnderwear
@@ -156,11 +157,11 @@
   - SeniorResearcherLabCoat
   - SeniorResearcherWinterCoat
 
-- type: loadoutGroup
-  id: SeniorResearcherPDA
-  name: loadout-group-senior-researcher-id
-  loadouts:
-  - SeniorResearcherPDA
+#- type: loadoutGroup
+#  id: SeniorResearcherPDA
+#  name: loadout-group-senior-researcher-id
+#  loadouts:
+#  - SeniorResearcherPDA
 
 - type: loadoutGroup
   id: SeniorResearcherUnderwear
@@ -211,11 +212,11 @@
   loadouts:
   - SeniorOfficerOuterCoatTrench
 
-- type: loadoutGroup
-  id: SeniorOfficerPDA
-  name: loadout-group-security-id
-  loadouts:
-  - SeniorOfficerPDA
+#- type: loadoutGroup
+#  id: SeniorOfficerPDA
+#  name: loadout-group-security-id
+#  loadouts:
+#  - SeniorOfficerPDA
 
 - type: loadoutGroup
   id: SeniorOfficerNeck
@@ -223,6 +224,13 @@
   minLimit: 0
   loadouts:
   - SeniorOfficerMantle
+
+- type: loadoutGroup
+  id: SeniorOfficerHead
+  name: loadout-group-senior-officer-head
+  minLimit: 0
+  loadouts:
+  - SeniorOfficerHead
 
 - type: loadoutGroup
   id: SeniorOfficerSocks
@@ -273,42 +281,49 @@
 - type: loadoutGroup
   id: SecurityOfficerMedal
   name: loadout-group-security-officer-medal
+  minLimit: 0
   loadouts:
   - SecurityOfficerMedal
 
 - type: loadoutGroup
   id: DetectiveMedal
   name: loadout-group-detective-medal
+  minLimit: 0
   loadouts:
   - DetectiveMedal
 
 - type: loadoutGroup
   id: WardenMedal
   name: loadout-group-warden-medal
+  minLimit: 0
   loadouts:
   - WardenMedal
 
 - type: loadoutGroup
   id: SeniorOfficerMedal
   name: loadout-group-senior-officer-medal
+  minLimit: 0
   loadouts:
   - SeniorOfficerMedal
 
 - type: loadoutGroup
   id: HeadOfSecurityMedal
   name: loadout-group-head-of-security-medal
+  minLimit: 0
   loadouts:
   - HeadOfSecurityMedal
 
 - type: loadoutGroup
   id: BrigMedicMedal
   name: loadout-group-brigmedic-medal
+  minLimit: 0
   loadouts:
   - BrigMedicMedal
 
 - type: loadoutGroup
   id: SecurityPilotMedal
   name: loadout-group-security-pilot-medal
+  minLimit: 0
   loadouts:
   - SecurityPilotMedal
 
@@ -349,11 +364,11 @@
   loadouts:
   - SeniorPhysicianLabCoat
 
-- type: loadoutGroup
-  id: SeniorPhysicianPDA
-  name: loadout-group-senior-physician-id
-  loadouts:
-  - SeniorPhysicianPDA
+#- type: loadoutGroup
+#  id: SeniorPhysicianPDA
+#  name: loadout-group-senior-physician-id
+#  loadouts:
+#  - SeniorPhysicianPDA
 
 - type: loadoutGroup
   id: SeniorPhysicianUnderwear

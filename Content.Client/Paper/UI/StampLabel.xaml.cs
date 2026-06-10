@@ -34,6 +34,11 @@ public sealed partial class StampLabel : Label
     protected override Vector2 MeasureOverride(Vector2 availableSize)
     {
         var desiredTextSize = base.MeasureOverride(availableSize);
+        // DS14-start
+        if (desiredTextSize.X <= 0 || desiredTextSize.Y <= 0)
+            return desiredTextSize;
+        // DS14-end
+
         var clampedScale = Vector2.Min(availableSize / desiredTextSize, Vector2.One);
         var keepAspectRatio = MathF.Min(clampedScale.X, clampedScale.Y);
         const float shimmerReduction = 0.1f;

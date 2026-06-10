@@ -1,0 +1,4 @@
+- type: flavor
+  id: horses
+  flavorType: Complex
+  description: flavor-complex-horses

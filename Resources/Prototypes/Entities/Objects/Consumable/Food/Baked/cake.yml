@@ -48,7 +48,7 @@
   - type: FlavorProfile
     flavors:
       - sweet
-  - type: Food
+  - type: Edible
   - type: SolutionContainerManager
     solutions:
       food:
@@ -1122,8 +1122,8 @@
       path: /Audio/Animals/cat_hiss.ogg
     hidden: true
     damage:
-      groups:
-        Brute: 1
+      types:
+        Blunt: 1
 
 # Suppermatter
 # I can't figure out where to put this. It kind of acts like a cake I guess?
@@ -1151,7 +1151,7 @@
   - type: Tag # DS14
     tags:
     - Suppermatter
-  - type: Food
+  - type: Edible
     transferAmount: 12
   - type: Item
     size: Normal
@@ -1159,7 +1159,7 @@
   - type: PointLight
     color: "#FFFF00"
     radius: 2
-    energy: 1.4
+    energy: 2.5
 
 - type: entity
   name: suppermatter shard
@@ -1178,12 +1178,12 @@
           Quantity: 10
         - ReagentId: Sugar
           Quantity: 5
-  - type: Food
+  - type: Edible
     transferAmount: 3
   - type: PointLight
     color: "#FFFF00"
     radius: 1.4
-    energy: 1.4
+    energy: 2.5
   - type: Tag
     tags:
     - Slice

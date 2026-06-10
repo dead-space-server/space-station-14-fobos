@@ -207,3 +207,13 @@
     sprite: Clothing/Belt/militarywebbingmed.rsi
   - type: Clothing
     sprite: Clothing/Belt/militarywebbingmed.rsi
+
+- type: entity
+  parent: ClothingBeltMilitaryWebbing
+  id: ClothingBeltMilitaryWebbingSSS #DS-14
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: Clothing/Belt/militarywebbingert.rsi
+  - type: Clothing
+    sprite: Clothing/Belt/militarywebbingert.rsi

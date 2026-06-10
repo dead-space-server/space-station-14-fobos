@@ -19,7 +19,7 @@
     sprite: _DeadSpace/Objects/Weapons/Guns/Ammunition/Boxes/rifle.rsi # DS14-texture-localization
   - type: MagazineVisuals
     magState: mag
-    steps: 4
+    steps: 11
     zeroVisible: false
   - type: Appearance
 
@@ -64,7 +64,7 @@
   parent: BaseMagazineBoxRifle
   id: MagazineBoxRiflePractice
   name: ammunition box (.20 rifle practice)
-  description: A cardboard box of .20 rifle rounds. Intended to hold non-harmful chalk ammunition.
+  description: A cardboard box of .20 rifle rounds. Intended to hold harmless practice ammunition.
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeRiflePractice

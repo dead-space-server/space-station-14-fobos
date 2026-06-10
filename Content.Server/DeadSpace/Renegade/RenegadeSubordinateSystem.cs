@@ -154,7 +154,7 @@ public sealed class RenegadeSubordinateSystem : EntitySystem
         if (!TryComp<MindContainerComponent>(component.Master, out var mindContainer) || !mindContainer.HasMind)
             return false;
 
-        mind = Comp<MindComponent>(mindContainer.Mind.Value);
+        mind = Comp<MindComponent>(mindContainer.Mind!.Value);
         return true;
     }
 }

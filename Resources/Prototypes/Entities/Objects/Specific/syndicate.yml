@@ -114,6 +114,7 @@
   - type: Tag
     tags:
     - NukeOpsUplink
+    - LoneOpsUplink #DS-14
 
 - type: entity
   parent: BaseUplinkRadio
@@ -123,3 +124,4 @@
   - type: Store
     balance:
       Telecrystal: 99999
+    expectedFaction: #nulls out the expected faction

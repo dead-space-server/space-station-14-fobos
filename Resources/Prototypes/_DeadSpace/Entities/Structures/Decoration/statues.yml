@@ -22,3 +22,16 @@
         layer:
         - MidImpassable
         - LowImpassable
+
+- type: entity
+  id: StatueThemis
+  parent: BaseStructure
+  name: статуя Фемиды
+  description: Статуя древнегреческой богини правосудия.
+  components:
+  - type: Sprite
+    noRot: true
+    sprite: _DeadSpace/Structures/Decoration/statues3264.rsi
+    state: themis
+    drawdepth: Mobs
+    offset: "0.0,0.5"

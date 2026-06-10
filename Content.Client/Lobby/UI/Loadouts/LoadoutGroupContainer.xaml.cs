@@ -50,6 +50,7 @@ public sealed partial class LoadoutGroupContainer : BoxContainer
             {
                 Text = Loc.GetString("loadouts-min-limit", ("count", _groupProto.MinLimit)),
                 Margin = new Thickness(5, 0, 5, 5),
+                StyleClasses = { "DS14MenuProfileLabel" }, // DS14
             });
         }
 
@@ -59,6 +60,7 @@ public sealed partial class LoadoutGroupContainer : BoxContainer
             {
                 Text = Loc.GetString("loadouts-max-limit", ("count", _groupProto.MaxLimit)),
                 Margin = new Thickness(5, 0, 5, 5),
+                StyleClasses = { "DS14MenuProfileLabel" }, // DS14
             });
         }
 
@@ -68,6 +70,7 @@ public sealed partial class LoadoutGroupContainer : BoxContainer
             {
                 Text = Loc.GetString("loadouts-points-limit", ("count", loadout.Points.Value), ("max", roleProto.Points.Value)),
                 Margin = new Thickness(5, 0, 5, 5),
+                StyleClasses = { "DS14MenuProfileLabel" }, // DS14
             });
         }
 

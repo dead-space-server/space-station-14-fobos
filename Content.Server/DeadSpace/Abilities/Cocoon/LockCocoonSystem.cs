@@ -1,7 +1,6 @@
 using Content.Shared.Actions;
 using Content.Shared.Popups;
 using Content.Shared.DoAfter;
-using Robust.Shared.Containers;
 using Content.Server.DeadSpace.Abilities.Cocoon.Components;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Humanoid;
@@ -19,7 +18,7 @@ public sealed class LockCocoonSystem : EntitySystem
     [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
-    [Dependency] private readonly SharedContainerSystem _container = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly NpcFactionSystem _npcFaction = default!;
     [Dependency] private readonly SharedCuffableSystem _cuffs = default!;
     [Dependency] private readonly CocoonSystem _cocoon = default!;
@@ -93,7 +92,10 @@ public sealed class LockCocoonSystem : EntitySystem
             }
         }
 
-        var cocoon = Spawn(component.Cocoon, Transform(target).Coordinates);
+        var targetXform = Transform(target);
+        var cocoon = Spawn(component.Cocoon,
+            _transform.GetMapCoordinates(target, targetXform),
+            rotation: _transform.GetWorldRotation(targetXform));
 
         if (!TryComp<CocoonComponent>(cocoon, out var cocoonComponent))
             return;
@@ -116,7 +118,8 @@ public sealed class LockCocoonSystem : EntitySystem
             { MobState.Invalid, "недействительное" },
             { MobState.Alive, "живое" },
             { MobState.Critical, "критическое" },
-            { MobState.Dead, "мёртвое" }
+            { MobState.Dead, "мёртвое" },
+            { MobState.PreCritical, "шокированное"} // DS14
         };
 
         foreach (var allowedState in component.AllowedStates)

@@ -21,3 +21,42 @@
     Glass: 500
     Silver: 500
     Gold: 100
+
+- type: latheRecipe
+  id: HandTeleporterResearch
+  result: HandTeleporterResearch
+  completetime: 2
+  materials:
+    Steel: 5000
+    Silver: 2000
+    Plastic: 1500
+    Plasma: 4500
+    Uranium: 750
+
+- type: latheRecipe
+  id: ClothingHandsGlovesPowergloveActive
+  result: ClothingHandsGlovesPowergloveActive
+  completetime: 5
+  materials:
+    Steel: 5000
+    Plastic: 5500
+    Uranium: 500
+    Plasma: 500
+    Silver: 2500
+
+- type: latheRecipe
+  id: PinpointerUniversal
+  result: PinpointerUniversal
+  completetime: 1
+  materials:
+    Plastic: 500
+    Steel: 2500
+    Gold: 1000
+
+- type: latheRecipe
+  id: HolopadHandheld
+  result: HolopadHandheld
+  completetime: 1
+  materials:
+    Plastic: 1000
+    Steel: 1000

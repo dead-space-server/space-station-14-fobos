@@ -52,6 +52,12 @@
                                  Modulate="#32cd32"
                                  Margin="20 0 5 0"/>
                     <Label Text="{Loc 'power-monitoring-window-label-apc'}"/>
+                    <TextureRect Stretch="KeepAspectCentered"
+                                 TexturePath="/Textures/Interface/NavMap/beveled_square.png"
+                                 SetSize="16 16"
+                                 Modulate="#ff0000"
+                                 Margin="20 0 5 0"/>
+                    <Label Text="{Loc 'power-monitoring-window-label-broken-cables'}"/>
                 </BoxContainer>
             </BoxContainer>
 
@@ -67,11 +73,11 @@
 
                 <!-- Power overview -->
                 <GridContainer Columns="2">
-                    <Label StyleClasses="StatusFieldTitle" Text="{Loc 'power-monitoring-window-total-sources'}"/>
+                    <Label StyleClasses="highlight" Text="{Loc 'power-monitoring-window-total-sources'}"/>
                     <Label Name="TotalSources" Text="?" Margin="10 0 0 0"/>
-                    <Label StyleClasses="StatusFieldTitle" Text="{Loc 'power-monitoring-window-total-battery-usage'}"/>
+                    <Label StyleClasses="highlight" Text="{Loc 'power-monitoring-window-total-battery-usage'}"/>
                     <Label Name="TotalBatteryUsage" Text="?" Margin="10 0 0 0"/>
-                    <Label StyleClasses="StatusFieldTitle" Text="{Loc 'power-monitoring-window-total-loads'}"/>
+                    <Label StyleClasses="highlight" Text="{Loc 'power-monitoring-window-total-loads'}"/>
                     <Label Name="TotalLoads" Text="?" Margin="10 0 0 0"/>
                 </GridContainer>
 
@@ -88,6 +94,9 @@
                     </ScrollContainer>
                     <ScrollContainer HorizontalExpand="True" Margin="8, 8, 8, 8">
                         <BoxContainer Name="ApcList" Orientation="Vertical" VerticalExpand="True" HorizontalExpand="True" Margin="0 0 10 0"/>
+                    </ScrollContainer>
+                    <ScrollContainer HorizontalExpand="True" Margin="8, 8, 8, 8">
+                        <BoxContainer Name="DamageList" Orientation="Vertical" VerticalExpand="True" HorizontalExpand="True" Margin="0 0 10 0"/>
                     </ScrollContainer>
                 </TabContainer>
 

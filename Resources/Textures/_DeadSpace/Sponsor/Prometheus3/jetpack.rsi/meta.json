@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-4.0",
+  "copyright": "Exclusive rights held by [ckey: Prometheus, discord: maximus_pax]. Author and artist: [Cofe_man, Alexey Belyaev].",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "icon"
+    },
+    {
+      "name": "icon-on",
+      "delays": [
+        [
+          0.2,
+          0.1,
+          0.2,
+          0.1
+        ]
+      ]
+    },
+    {
+      "name": "equipped-BACKPACK",
+      "directions": 4
+    },
+    {
+      "name": "equipped-SUITSTORAGE",
+      "directions": 4
+    },
+    {
+      "name": "equipped-BELT",
+      "directions": 4
+    },
+    {
+      "name": "on-equipped-BACKPACK",
+      "directions": 4
+    },
+    {
+      "name": "on-equipped-SUITSTORAGE",
+      "directions": 4
+    },
+    {
+      "name": "on-equipped-BELT",
+      "directions": 4
+    },
+    {
+      "name": "inhand-left",
+      "directions": 4
+    },
+    {
+      "name": "inhand-right",
+      "directions": 4
+    }
+  ]
+}

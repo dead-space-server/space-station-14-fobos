@@ -1,5 +1,6 @@
 using Content.Client.Movement.Systems;
 using Content.Shared.Actions;
+using Content.Shared.DeadSpace.Administration;
 using Content.Shared.Ghost;
 using Robust.Client.Console;
 using Robust.Client.GameObjects;
@@ -36,7 +37,7 @@ namespace Content.Client.Ghost
                 var query = AllEntityQuery<GhostComponent, SpriteComponent>();
                 while (query.MoveNext(out var uid, out _, out var sprite))
                 {
-                    _sprite.SetVisible((uid, sprite), value); // DS14 Ignored player exception
+                    _sprite.SetVisible((uid, sprite), IsGhostSpriteVisible(uid)); // DS14
                 }
             }
         }
@@ -68,12 +69,16 @@ namespace Content.Client.Ghost
             SubscribeLocalEvent<EyeComponent, ToggleLightingActionEvent>(OnToggleLighting);
             SubscribeLocalEvent<EyeComponent, ToggleFoVActionEvent>(OnToggleFoV);
             SubscribeLocalEvent<GhostComponent, ToggleGhostsActionEvent>(OnToggleGhosts);
+            // DS14-start
+            SubscribeLocalEvent<AdminGhostVisibilityComponent, ComponentStartup>(OnAdminGhostVisibilityStartup);
+            SubscribeLocalEvent<AdminGhostVisibilityComponent, ComponentRemove>(OnAdminGhostVisibilityRemove);
+            SubscribeLocalEvent<AdminGhostVisibilityComponent, AfterAutoHandleStateEvent>(OnAdminGhostVisibilityState);
+            // DS14-end
         }
 
         private void OnStartup(EntityUid uid, GhostComponent component, ComponentStartup args)
         {
-            if (TryComp(uid, out SpriteComponent? sprite))
-                _sprite.SetVisible((uid, sprite), GhostVisibility || uid == _playerManager.LocalEntity);
+            RefreshGhostSpriteVisibility(uid); // DS14
         }
 
         private void OnToggleLighting(EntityUid uid, EyeComponent component, ToggleLightingActionEvent args)
@@ -138,20 +143,23 @@ namespace Content.Client.Ghost
             if (uid != _playerManager.LocalEntity)
                 return;
 
-            GhostVisibility = false;
+            ResetGhostVisibility(); //DS14
             PlayerRemoved?.Invoke(component);
         }
 
         private void OnGhostPlayerAttach(EntityUid uid, GhostComponent component, LocalPlayerAttachedEvent localPlayerAttachedEvent)
         {
-            GhostVisibility = true;
+            ResetGhostVisibility(); //DS14
             PlayerAttached?.Invoke(component);
         }
 
         private void OnGhostState(EntityUid uid, GhostComponent component, ref AfterAutoHandleStateEvent args)
         {
             if (TryComp<SpriteComponent>(uid, out var sprite))
+            {
                 _sprite.LayerSetColor((uid, sprite), 0, component.Color);
+                _sprite.SetVisible((uid, sprite), IsGhostSpriteVisible(uid)); // DS14
+            }
 
             if (uid != _playerManager.LocalEntity)
                 return;
@@ -161,9 +169,46 @@ namespace Content.Client.Ghost
 
         private void OnGhostPlayerDetach(EntityUid uid, GhostComponent component, LocalPlayerDetachedEvent args)
         {
-            GhostVisibility = false;
+            ResetGhostVisibility(); //DS14
             PlayerDetached?.Invoke();
         }
+
+        // DS14-start
+        private void ResetGhostVisibility()
+        {
+            GhostVisibility = true;
+        }
+
+        private void OnAdminGhostVisibilityStartup(EntityUid uid, AdminGhostVisibilityComponent component, ComponentStartup args)
+        {
+            RefreshGhostSpriteVisibility(uid);
+        }
+
+        private void OnAdminGhostVisibilityRemove(EntityUid uid, AdminGhostVisibilityComponent component, ComponentRemove args)
+        {
+            if (TryComp<SpriteComponent>(uid, out var sprite))
+                _sprite.SetVisible((uid, sprite), GhostVisibility);
+        }
+
+        private void OnAdminGhostVisibilityState(EntityUid uid, AdminGhostVisibilityComponent component, ref AfterAutoHandleStateEvent args)
+        {
+            RefreshGhostSpriteVisibility(uid);
+        }
+
+        private void RefreshGhostSpriteVisibility(EntityUid uid)
+        {
+            if (TryComp<SpriteComponent>(uid, out var sprite))
+                _sprite.SetVisible((uid, sprite), IsGhostSpriteVisible(uid));
+        }
+
+        private bool IsGhostSpriteVisible(EntityUid uid)
+        {
+            if (TryComp<AdminGhostVisibilityComponent>(uid, out var adminGhostVisibility) && adminGhostVisibility.Hidden)
+                return false;
+
+            return GhostVisibility;
+        }
+        // DS14-end
 
         private void OnGhostWarpsResponse(GhostWarpsResponseEvent msg)
         {

@@ -23,7 +23,7 @@
     lowPressureMultiplier: 1000
 
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitKloopRee
   name: ударопрочный скафандр
   description: Легкий, но прочный экзокостюм. Создано NanoTrasen.

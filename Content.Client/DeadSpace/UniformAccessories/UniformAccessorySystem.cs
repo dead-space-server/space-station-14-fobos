@@ -17,7 +17,6 @@ public sealed class UniformAccessorySystem : SharedUniformAccessorySystem
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly SharedItemSystem _item = default!;
     private readonly Dictionary<EntityUid, string> _layerKeyCache = new();
-    [Dependency] private readonly IPlayerManager _player = default!;
 
     public event Action? PlayerAccessoryVisualsUpdated;
 

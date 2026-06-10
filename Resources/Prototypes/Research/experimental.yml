@@ -28,6 +28,7 @@
   - AnomalyLocatorWide
   - APECircuitboard
   - AnomalyVesselCircuitboard
+  - HoloprojectorRND # DS14
 
 - type: technology
   id: BasicXenoArcheology

@@ -80,6 +80,7 @@
       map: ["airAlarmState"] # TODO: fire alarm enum
     - state: alarmx
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: Construction
     graph: AirAlarm
     node: air_alarm
@@ -161,10 +162,13 @@
   - type: Sprite
     sprite: Structures/Wallmounts/air_monitors_xeno.rsi
     layers:
+    - state: alarmp
+      map: ["airAlarmBase"]  # TODO: fire alarm enum
     - state: alarm0
-      map: ["airAlarmBase"] # TODO: fire alarm enum
+      map: ["airAlarmState"]
     - state: alarmx
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
 
 - type: entity
   id: AirAlarmAssemblyXeno

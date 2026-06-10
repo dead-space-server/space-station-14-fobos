@@ -8,11 +8,6 @@
   path: /Maps/Shuttles/ShuttleEvent/traveling_china_cuisine.yml
   copies: 2
 
-- type: preloadedGrid
-  id: DisasterEvacPod
-  path: /Maps/Shuttles/ShuttleEvent/disaster_evacpod.yml
-  copies: 3
-
 # The power of 3 clowns has proved too strong for the players and may need to be 1984ed.
 - type: preloadedGrid
   id: Honki
@@ -35,11 +30,6 @@
   copies: 1
 
 - type: preloadedGrid
-  id: Cruiser
-  path: /Maps/Shuttles/ShuttleEvent/cruiser.yml
-  copies: 1
-
-- type: preloadedGrid
   id: Cryptid
   path: /Maps/Shuttles/ShuttleEvent/cryptid.yml
   copies: 1
@@ -50,18 +40,8 @@
   copies: 1
 
 - type: preloadedGrid
-  id: Flatline
-  path: /Maps/Shuttles/ShuttleEvent/flatline.yml
-  copies: 1
-
-- type: preloadedGrid
   id: Gym
   path: /Maps/Shuttles/ShuttleEvent/gym.yml
-  copies: 1
-
-- type: preloadedGrid
-  id: NTIncorporation
-  path: /Maps/Shuttles/ShuttleEvent/incorporation.yml
   copies: 1
 
 - type: preloadedGrid

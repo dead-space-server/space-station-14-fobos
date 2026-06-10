@@ -11,7 +11,8 @@
       effects:
         - !type:CureInfectionDead
           conditions:
-            - !type:ReagentThreshold
+            - !type:ReagentCondition
+              reagent: ZetaOne
               min: 15
 
 - type: reagent
@@ -28,7 +29,8 @@
       effects:
         - !type:CauseInfectionDead
           conditions:
-            - !type:ReagentThreshold
+            - !type:ReagentCondition
+              reagent: ExtractInfectorDead
               min: 3
 
 - type: reagent
@@ -47,7 +49,8 @@
           mutationStrength: 0.2
           isStableMutation: true
           conditions:
-            - !type:ReagentThreshold
+            - !type:ReagentCondition
+              reagent: StableMutagenInfectorDead
               min: 3
 
 - type: reagent
@@ -66,7 +69,8 @@
           mutationStrength: 0.6
           isStableMutation: false
           conditions:
-            - !type:ReagentThreshold
+            - !type:ReagentCondition
+              reagent: NotStableMutagenInfectorDead
               min: 3
 
 - type: reagent
@@ -85,7 +89,8 @@
           isAnimal: true
           necroPrototype: NecroBrute
           conditions:
-            - !type:ReagentThreshold
+            - !type:ReagentCondition
+              reagent: NecromorphMutagenBrute
               min: 5
 
 - type: reagent
@@ -101,7 +106,8 @@
       effects:
         - !type:CauseEnslavedUnitology
           conditions:
-            - !type:ReagentThreshold
+            - !type:ReagentCondition
+              reagent: SerumEnslaved
               min: 12
 
 - type: entity

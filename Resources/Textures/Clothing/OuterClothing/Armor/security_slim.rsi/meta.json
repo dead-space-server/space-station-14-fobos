@@ -1,34 +1,30 @@
 {
     "version": 1,
     "license": "CC-BY-SA-3.0",
-    "copyright": "Taken from tgstation at commit https://github.com/tgstation/tgstation/commit/6665eec76c98a4f3f89bebcd10b34b47dcc0b8ae. Vox state by Flareguy for Space Station 14, resprite by pyfya (discord) for Space Station 14 server Мёртвый Космос. dog state by Sparlight (GitHub).",
+    "copyright": "Taken from tgstation at commit https://github.com/tgstation/tgstation/commit/6665eec76c98a4f3f89bebcd10b34b47dcc0b8ae. Vox state by Flareguy for Space Station 14, resprite by pyfya (discord) for Space Station 14 server \u0420\u045a\u0421\u2018\u0421\u0402\u0421\u201a\u0420\u0406\u0421\u2039\u0420\u2116 \u0420\u0459\u0420\u0455\u0421\u0403\u0420\u0458\u0420\u0455\u0421\u0403. dog state by Sparlight (GitHub). Taken from tgstation at commit https://github.com/tgstation/tgstation/commit/6665eec76c98a4f3f89bebcd10b34b47dcc0b8ae. Vox state by Flareguy for Space Station 14.",
     "size": {
         "x": 32,
         "y": 32
     },
     "states": [
         {
-        "name": "icon"
+            "name": "icon"
         },
         {
-        "name": "equipped-OUTERCLOTHING",
-        "directions": 4
-        },
-        {
-        "name": "equipped-OUTERCLOTHING-vox",
-        "directions": 4
-        },
-        {
-            "name": "equipped-OUTERCLOTHING-dog",
+            "name": "equipped-OUTERCLOTHING",
             "directions": 4
         },
         {
-        "name": "inhand-left",
-        "directions": 4
+            "name": "equipped-OUTERCLOTHING-vox",
+            "directions": 4
         },
         {
-        "name": "inhand-right",
-        "directions": 4
+            "name": "inhand-left",
+            "directions": 4
+        },
+        {
+            "name": "inhand-right",
+            "directions": 4
         }
     ]
 }

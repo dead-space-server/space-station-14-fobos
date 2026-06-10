@@ -19,7 +19,7 @@
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,19,9
+    - 0,0,15,10
   - type: StorageFill
     contents:
     - id: ClothingBeltqu0565
@@ -48,7 +48,7 @@
     size: Huge
   - type: Storage
     grid:
-    - 0,0,9,1
+    - 0,0,7,1
   - type: StorageFill
     contents:
     - id: JawsOfLifequ0565
@@ -58,7 +58,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitqu0565
   name: скафандр освободителя
   description: Угловатый серый скафандр, обеспечивающий максимальную защиту и свободу движений в вакууме.
@@ -182,7 +182,7 @@
 
 # JawsOfLife
 - type: entity
-  parent: SyndicateJawsOfLife
+  parent: JawsOfLife
   id: JawsOfLifequ0565
   name: челюсти жизни освободителя
   description: Синий инструмент с энергетическим полем на режущей кромке, способный разрезать любые преграды.

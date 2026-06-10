@@ -50,6 +50,11 @@
   equipment:
     mask: ClothingMaskBandSecurity
 
+- type: loadout
+  id: SecurityGaiter
+  equipment:
+    mask: ClothingMaskNeckGaiter
+
 # Jumpsuit
 - type: loadout
   id: SecurityJumpsuit
@@ -130,6 +135,18 @@
   id: SecurityWebbing
   equipment:
     belt: ClothingBeltSecurityWebbingFilled
+
+# DS14-start
+- type: loadout
+  id: HeadOfSecurityBelt
+  equipment:
+    belt: ClothingBeltHeadOfSecurityFilled
+
+- type: loadout
+  id: HeadOfSecurityWebbing
+  equipment:
+    belt: ClothingBeltHeadOfSecurityWebbingFilled
+# DS14-end
 
 # Outerclothing
 - type: loadout

@@ -1,0 +1,44 @@
+- type: trait
+  id: ScaleGiant
+  name: trait-scale-gigant-name
+  description: trait-scale-gigant-desc
+  category: Scale
+  cost: 1
+  blacklist:
+    components:
+      - BorgChassis
+    tags:
+      - CantChangeScale
+  components:
+    - type: ScaleVisuals
+      scale: 1.15,1.15
+
+- type: trait
+  id: ScaleHigh
+  name: trait-scale-big-name
+  description: trait-scale-big-desc
+  category: Scale
+  cost: 1
+  blacklist:
+    components:
+      - BorgChassis
+    tags:
+      - CantChangeScale
+  components:
+    - type: ScaleVisuals
+      scale: 1.075,1.075
+
+- type: trait
+  id: ScaleLow
+  name: trait-scale-short-name
+  description: trait-scale-short-desc
+  category: Scale
+  cost: 1
+  blacklist:
+    components:
+      - BorgChassis
+    tags:
+      - CantChangeScale
+  components:
+    - type: ScaleVisuals
+      scale: 0.9,0.9

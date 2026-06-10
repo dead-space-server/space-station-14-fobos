@@ -1,4 +1,8 @@
+// DS14-start
+using Content.Client.Audio;
+// DS14-end
 using Content.Client._Donate.UI;
+using Content.Client.DeadSpace.Stylesheets;
 using Content.Client.GameTicking.Managers;
 using Content.Client.LateJoin;
 using Content.Client.Lobby.UI;
@@ -13,6 +17,7 @@ using Robust.Client.ResourceManagement;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Configuration;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 
 namespace Content.Client.Lobby
@@ -27,8 +32,12 @@ namespace Content.Client.Lobby
         [Dependency] private readonly IVoteManager _voteManager = default!;
         [Dependency] private readonly ClientsidePlaytimeTrackingManager _playtimeTracking = default!;
         [Dependency] private readonly IConfigurationManager _cfg = default!;
+        [Dependency] private readonly IPrototypeManager _protoMan = default!;
 
         private ClientGameTicker _gameTicker = default!;
+        // DS14-start
+        private ContentAudioSystem _contentAudioSystem = default!;
+        // DS14-end
 
         protected override Type? LinkedScreenType { get; } = typeof(LobbyGui);
         public LobbyGui? Lobby;
@@ -44,6 +53,10 @@ namespace Content.Client.Lobby
 
             var chatController = _userInterfaceManager.GetUIController<ChatUIController>();
             _gameTicker = _entityManager.System<ClientGameTicker>();
+            // DS14-start
+            _contentAudioSystem = _entityManager.System<ContentAudioSystem>();
+            _contentAudioSystem.LobbySoundtrackChanged += UpdateLobbySoundtrackInfo;
+            // DS14-end
 
             chatController.SetMainChat(true);
 
@@ -84,6 +97,9 @@ namespace Content.Client.Lobby
             _gameTicker.InfoBlobUpdated -= UpdateLobbyUi;
             _gameTicker.LobbyStatusUpdated -= LobbyStatusUpdated;
             _gameTicker.LobbyLateJoinStatusUpdated -= LobbyLateJoinStatusUpdated;
+            // DS14-start
+            _contentAudioSystem.LobbySoundtrackChanged -= UpdateLobbySoundtrackInfo;
+            // DS14-end
 
             _voteManager.ClearPopupContainer();
 
@@ -144,6 +160,7 @@ namespace Content.Client.Lobby
             else if (_gameTicker.StartTime < _gameTiming.CurTime)
             {
                 Lobby!.StartTime.Text = Loc.GetString("lobby-state-soon");
+                Lobby!.StripeBack.Visible = true; // DS14
                 return;
             }
             else
@@ -164,7 +181,7 @@ namespace Content.Client.Lobby
                 }
             }
 
-            Lobby!.StartTime.Text = Loc.GetString("lobby-state-round-start-countdown-text", ("timeLeft", text));
+            Lobby!.StartTime.Text = text; // DS14
             Lobby!.StripeBack.Visible = true;
         }
 
@@ -176,6 +193,7 @@ namespace Content.Client.Lobby
 
         private void LobbyLateJoinStatusUpdated()
         {
+            ApplyReadyButtonStyle(); // DS14
             Lobby!.ReadyButton.Disabled = _gameTicker.DisallowedLateJoin;
         }
 
@@ -183,6 +201,8 @@ namespace Content.Client.Lobby
         {
             if (_gameTicker.IsGameStarted)
             {
+                ApplyReadyButtonStyle(); // DS14
+
                 Lobby!.ReadyButton.Text = Loc.GetString("lobby-state-ready-button-join-state");
                 Lobby!.ReadyButton.ToggleMode = false;
                 Lobby!.ReadyButton.Pressed = false;
@@ -190,6 +210,8 @@ namespace Content.Client.Lobby
             }
             else
             {
+                ApplyReadyButtonStyle(); // DS14
+
                 Lobby!.StartTime.Text = string.Empty;
                 Lobby!.ReadyButton.Pressed = _gameTicker.AreWeReady;
                 Lobby!.ReadyButton.Text = Loc.GetString(Lobby!.ReadyButton.Pressed ? "lobby-state-player-status-ready": "lobby-state-player-status-not-ready");
@@ -224,17 +246,38 @@ namespace Content.Client.Lobby
                 Lobby!.PlaytimeComment.Visible = false;
         }
 
+        // DS14-start
+        private void ApplyReadyButtonStyle()
+        {
+            if (Lobby == null)
+                return;
+
+            if (_gameTicker.IsGameStarted)
+            {
+                Lobby.ReadyButton.StyleClasses.Clear();
+                Lobby.ReadyButton.AddStyleClass(ContainerButton.StyleClassButton);
+                Lobby.ReadyButton.AddStyleClass(DeadSpaceMenuSheetlet.ActionButton);
+                Lobby.ReadyButton.AddStyleClass(DeadSpaceMenuSheetlet.ActionButtonPositive);
+                return;
+            }
+
+            Lobby.ReadyButton.StyleClasses.Clear();
+            Lobby.ReadyButton.AddStyleClass(ContainerButton.StyleClassButton);
+            Lobby.ReadyButton.AddStyleClass(DeadSpaceMenuSheetlet.ActionButton);
+            Lobby.ReadyButton.AddStyleClass(DeadSpaceMenuSheetlet.ReadyButton);
+        }
+        // DS14-end
+
         private void UpdateLobbyBackground()
         {
-            if (_gameTicker.LobbyBackground != null)
+            if (_protoMan.TryIndex(_gameTicker.LobbyBackground, out var proto))
             {
-                Lobby!.Background.Texture = _resourceCache.GetResource<TextureResource>(_gameTicker.LobbyBackground );
+                Lobby!.Background.Texture = _resourceCache.GetResource<TextureResource>(proto.Background);
             }
             else
             {
                 Lobby!.Background.Texture = null;
             }
-
         }
 
         private void SetReady(bool newReady)
@@ -267,5 +310,36 @@ namespace Content.Client.Lobby
                     break;
             }
         }
+
+        // DS14-start
+        private void UpdateLobbySoundtrackInfo(LobbySoundtrackChangedEvent ev)
+        {
+            if (ev.SoundtrackFilename == null)
+            {
+                Lobby!.LobbySong.SetMarkup(Loc.GetString("lobby-state-song-no-song-text"));
+            }
+            else if (
+                ev.SoundtrackFilename != null
+                && _resourceCache.TryGetResource<AudioResource>(ev.SoundtrackFilename, out var lobbySongResource)
+                )
+            {
+                var lobbyStream = lobbySongResource.AudioStream;
+
+                var title = string.IsNullOrEmpty(lobbyStream.Title)
+                    ? Loc.GetString("lobby-state-song-unknown-title")
+                    : lobbyStream.Title;
+
+                var artist = string.IsNullOrEmpty(lobbyStream.Artist)
+                    ? Loc.GetString("lobby-state-song-unknown-artist")
+                    : lobbyStream.Artist;
+
+                var markup = Loc.GetString("lobby-state-song-text",
+                    ("songTitle", title),
+                    ("songArtist", artist));
+
+                Lobby!.LobbySong.SetMarkup(markup);
+            }
+        }
+        // DS14-end
     }
 }

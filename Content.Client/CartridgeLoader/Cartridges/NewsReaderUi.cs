@@ -30,6 +30,21 @@ public sealed partial class NewsReaderUi : UIFragment
         {
             SendNewsReaderMessage(NewsReaderUiAction.NotificationSwitch, userInterface);
         };
+        _fragment.OnLikeButtonPressed += () =>
+        {
+            SendNewsReaderMessage(NewsReaderUiAction.Like, userInterface);
+        };
+        _fragment.OnDislikeButtonPressed += () =>
+        {
+            SendNewsReaderMessage(NewsReaderUiAction.Dislike, userInterface);
+        };
+        _fragment.OnSendCommentPressed += (comment) =>
+        {
+            if (!string.IsNullOrWhiteSpace(comment))
+            {
+                SendNewsReaderMessage(NewsReaderUiAction.AddComment, userInterface, comment);
+            }
+        };
     }
 
     public override void UpdateState(BoundUserInterfaceState state)
@@ -45,9 +60,9 @@ public sealed partial class NewsReaderUi : UIFragment
         }
     }
 
-    private void SendNewsReaderMessage(NewsReaderUiAction action, BoundUserInterface userInterface)
+    private void SendNewsReaderMessage(NewsReaderUiAction action, BoundUserInterface userInterface, string? commentContent = null)
     {
-        var newsMessage = new NewsReaderUiMessageEvent(action);
+        var newsMessage = new NewsReaderUiMessageEvent(action, commentContent);
         var message = new CartridgeUiMessage(newsMessage);
         userInterface.SendMessage(message);
     }

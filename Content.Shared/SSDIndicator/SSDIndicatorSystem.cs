@@ -4,6 +4,7 @@ using Robust.Shared.Configuration;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
+using Content.Shared.NPC;
 
 namespace Content.Shared.SSDIndicator;
 
@@ -85,7 +86,8 @@ public sealed class SSDIndicatorSystem : EntitySystem
             if (!ssd.IsSSD
                 || ssd.NextUpdate > curTime
                 || ssd.FallAsleepTime > curTime
-                || TerminatingOrDeleted(uid))
+                || TerminatingOrDeleted(uid)
+                || !HasComp<ActiveNPCComponent>(uid))
                 continue;
 
             _statusEffects.TryUpdateStatusEffectDuration(uid, StatusEffectSSDSleeping);

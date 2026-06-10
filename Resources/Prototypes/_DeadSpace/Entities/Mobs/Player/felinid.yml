@@ -3,3 +3,13 @@
   name: Urist McFelinid
   parent: MobFelinidBase
   id: MobFelinid
+  components:
+  - type: Tag
+    tags:
+    - CatEmotes
+    - FelinidEmotes
+    - CanPilot
+    - FootstepSound
+    - DoorBumpOpener
+    - AnomalyHost
+    - CantChangeScale

@@ -78,3 +78,17 @@ ent-IonStorm = { ent-BaseGameRule }
     .desc = { ent-BaseGameRule.desc }
 ent-MimicVendorRule = { ent-BaseGameRule }
     .desc = { ent-BaseGameRule.desc }
+ent-SurvivalBlobSpawn = { ent-BaseGameRule }
+    .desc = { ent-BaseGameRule.desc }
+ent-SurvivalNecromorphBreach = { ent-BaseGameRule }
+    .desc = { ent-BaseGameRule.desc }
+ent-SurvivalNecromorphBreachTelegraph = { "" }
+    .desc = { "" }
+ent-SurvivalNecromorphBreachSmoke = { "" }
+    .desc = { "" }
+ent-SurvivalNecromorphBreachSpawnEffect = { "" }
+    .desc = { "" }
+
+survival-alert-sender = Автоматические Системы Станции
+survival-twelve-minute-alert-announcement = Внимание экипажу станции! Сканерами дальнего действия был зафиксирован скачок редспейс-активности в предсекторальной зоне вашей станции! Буря может настигнуть станцию в течение следующих пяти минут. Точные последствия бури предугадать невозможно. Всему экипажу приказывается сохранять режим повышенной готовности, возможно возникновение внештатных ситуаций и иных угроз. Внимание! Это не учебная тревога! Режим повышенной готовности! Зафиксирован рост редспейс-активности!
+survival-necromorph-breach-start-announcement = Внимание экипажу станции! Датчики фиксируют локальный разрыв неизвестной природы. Сохраняйте спокойствие и избегайте мест с аномальной активностью. Спасибо, что выбираете NanoTrasen!

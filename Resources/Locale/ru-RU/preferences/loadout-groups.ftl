@@ -3,6 +3,7 @@ loadout-group-species-restriction = Этот предмет недоступен
 loadout-group-sex-restriction = Этот предмет недоступен для вашего пола.
 # Miscellaneous
 loadout-group-trinkets = Безделушки
+loadout-group-jobtrinkets = Рабочие безделушки
 loadout-group-glasses = Очки
 loadout-group-backpack = Рюкзак
 loadout-group-instruments = Инструменты
@@ -168,6 +169,7 @@ loadout-group-head-of-security-shoes = Глава службы безопасн�
 loadout-group-medical-glasses = Медицинский отдел, очки
 loadout-group-head-of-security-socks = Глава службы безопасности, ноги
 loadout-group-head-of-security-underwear = Глава службы безопасности, нижнее бельё
+loadout-group-head-of-security-belt = Глава службы безопасности, пояс
 loadout-group-warden-head = Смотритель, голова
 loadout-group-warden-jumpsuit = Смотритель, комбинезон
 loadout-group-warden-outerclothing = Смотритель, верхняя одежда

@@ -65,14 +65,25 @@ public sealed partial class PingTab : Control
     public PingTab()
     {
         IoCManager.InjectDependencies(this);
-        var helper = _entityManager.System<ReceiveNotifySystem>();
-        helper.EnsureInitialized();
         RobustXamlLoader.Load(this);
-        AddSaveButton(SaveButton, cfg, helper);
-        foreach (var proto in prototypeManager.EnumeratePrototypes<GhostRoleGroupNotify>())
+
+        try
         {
-            AddCheckBox(helper, proto.Name, proto.ID, helper.GetValueAccess(proto.ID));
+            if (_entityManager.TrySystem<ReceiveNotifySystem>(out var helper))
+            {
+                helper.EnsureInitialized();
+                AddSaveButton(SaveButton, cfg, helper);
+                foreach (var proto in prototypeManager.EnumeratePrototypes<GhostRoleGroupNotify>())
+                {
+                    AddCheckBox(helper, proto.Name, proto.ID, helper.GetValueAccess(proto.ID));
+                }
+            }
         }
+        catch (NullReferenceException)
+        {
+            // Entity systems are not initialized on the main menu
+        }
+
         var sounds = prototypeManager.EnumeratePrototypes<SoundForPing>();
         var soundPingEntries = new List<OptionDropDownCVar<string>.ValueOption>();
         foreach (var sound in sounds)

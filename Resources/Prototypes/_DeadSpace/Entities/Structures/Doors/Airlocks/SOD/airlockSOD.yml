@@ -1,0 +1,62 @@
+- type: entity
+  parent: HighSecDoor
+  id: HighSecSODLocked
+  name: бронированная дверь
+  description: Удерживает плохих снаружи, а хороших внутри.
+  suffix: ОСО, Закрыт
+  components:
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsSOD ]
+
+- type: entity
+  parent: AirlockHatchMaintenance
+  id: AirlockHatchTexSODLocked
+  name: герметичный люк техобслуживания
+  description: Он открывается, он закрывается и он может вас раздавить.
+  suffix: ОСО, Закрыт
+  components:
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsSOD ]
+
+- type: entity
+  parent: AirlockHatch
+  id: AirlockHatchSODLocked
+  name: герметичный люк
+  description: Он открывается, он закрывается и он может вас раздавить.
+  suffix: ОСО, Закрыт
+  components:
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsSOD ]
+
+- type: entity
+  parent: AirlockCentralCommandGlass
+  id: AirlockGlassSODLocked
+  name: стеклянный шлюз
+  description: Он открывается, он закрывается и он может вас раздавить.
+  suffix: ОСО, Закрыт
+  components:
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsSOD ]
+
+- type: entity
+  parent: LockableButton
+  id: LockableButtonSOD
+  name: кнопка с замком
+  description: Эта кнопка что-то активирует.
+  suffix: ОСО
+  components:
+  - type: AccessReader
+    access: [["SOD"]]
+
+- type: entity
+  parent: BlastDoor
+  id: BlastDoorSOD
+  suffix: ОСО, Закрыто
+  components:
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsSOD ]

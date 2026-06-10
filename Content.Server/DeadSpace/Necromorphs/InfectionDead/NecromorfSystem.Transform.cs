@@ -1,14 +1,17 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Content.Server.Atmos.Components;
+using Content.Server.Animals.Components;
 using Content.Server.Body.Components;
 using Content.Server.Chat.Managers;
+using Content.Server.DeadSpace.MonkeyKing.Components;
 using Content.Server.Ghost.Roles.Components;
 using Content.Server.Humanoid;
 using Content.Server.Inventory;
 using Content.Server.Mind;
 using Content.Server.NPC;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
+using Content.Shared.NPC.Prototypes;
 using Content.Server.NPC.HTN;
 using Content.Server.NPC.Systems;
 using Content.Server.Temperature.Components;
@@ -26,11 +29,15 @@ using Content.Shared.NPC.Systems;
 using Content.Shared.Nutrition.AnimalHusbandry;
 using Content.Shared.Nutrition.Components;
 using Content.Shared.Popups;
+using Content.Shared.RatKing;
 using Content.Shared.Weapons.Melee;
 using Content.Shared.Prying.Components;
 using Content.Shared.Traits.Assorted;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Prototypes;
+using Content.Shared.NPC.Components;
+using Content.Shared.Speech.Components;
 using System.Numerics;
+using System.Linq;
 using Robust.Server.GameObjects;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Collision.Shapes;
@@ -51,10 +58,12 @@ using Content.Shared.IdentityManagement;
 using Robust.Server.Player;
 using Content.Shared.Zombies;
 using Content.Shared.Sprite;
+using Content.Shared.Spider;
 using Robust.Shared.Prototypes;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Server.DeadSpace.Virus.Systems;
 using Content.Server.DeadSpace.Languages;
+using Content.Shared.Temperature.Components;
 
 namespace Content.Server.DeadSpace.Necromorphs.InfectionDead;
 
@@ -62,6 +71,7 @@ public sealed partial class NecromorfSystem
 {
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly ServerInventorySystem _inventory = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly NpcFactionSystem _faction = default!;
     [Dependency] private readonly NPCSystem _npc = default!;
     [Dependency] private readonly HumanoidAppearanceSystem _humanoidAppearance = default!;
@@ -77,6 +87,7 @@ public sealed partial class NecromorfSystem
     [Dependency] private readonly VirusSystem _virus = default!;
     [Dependency] private readonly LanguageSystem _language = default!;
     private static readonly ProtoId<LanguagePrototype> NecroLanguage = "NecromorfLanguage";
+    private static readonly ProtoId<NpcFactionPrototype> NecromorfsFaction = "Necromorfs";
 
     public void Necrofication(EntityUid target, string prototypeId, InfectionDeadStrainData strainData, MobStateComponent? mobState = null)
     {
@@ -123,6 +134,7 @@ public sealed partial class NecromorfSystem
         RemComp<SanityComponent>(target);
         RemComp<ReproductiveComponent>(target);
         RemComp<ReproductivePartnerComponent>(target);
+        RemoveOldProductionComponents(target);
         RemComp<LegsParalyzedComponent>(target);
         RemComp<ComplexInteractionComponent>(target);
 
@@ -188,8 +200,8 @@ public sealed partial class NecromorfSystem
             necromorfComp.BeforeNecroficationSkinColor = huApComp.SkinColor;
             necromorfComp.BeforeNecroficationEyeColor = huApComp.EyeColor;
             necromorfComp.BeforeNecroficationCustomBaseLayers = new(huApComp.CustomBaseLayers);
-            if (TryComp<BloodstreamComponent>(target, out var stream))
-                necromorfComp.BeforeNecroficationBloodReagent = stream.BloodReagent;
+            if (TryComp<BloodstreamComponent>(target, out var stream) && stream.BloodReferenceSolution is { } bloodReagents)
+                necromorfComp.BeforeNecroficationBloodReagents = bloodReagents.Clone();
 
             _humanoidAppearance.SetSkinColor(target, necromorfComp.StrainData.SkinColor, verify: false, humanoid: huApComp);
 
@@ -211,7 +223,7 @@ public sealed partial class NecromorfSystem
             {
                 if (cuffable.Container.ContainedEntities.Count != 0)
                 {
-                    var cuffsToRemove = cuffable.LastAddedCuffs;
+                    var cuffsToRemove = cuffable.Container.ContainedEntities[^1];
                     _cuffs.Uncuff(target, target, cuffsToRemove);
                 }
             }
@@ -227,14 +239,20 @@ public sealed partial class NecromorfSystem
             if (necromorf != null && !string.IsNullOrEmpty(necromorf.Claws))
             {
                 _inventory.TryUnequip(target, "neck", true, true);
-                var item = Spawn(necromorf.Claws, Transform(target).Coordinates);
+                var targetXform = Transform(target);
+                var item = Spawn(necromorf.Claws,
+                    _transform.GetMapCoordinates(target, targetXform),
+                    rotation: _transform.GetWorldRotation(targetXform));
                 _inventory.TryEquip(target, item, "neck", true, true);
             }
 
             if (necromorf != null && !string.IsNullOrEmpty(necromorf.Hardsuit))
             {
                 _inventory.TryUnequip(target, "outerClothing", true, true);
-                var item = Spawn(necromorf.Hardsuit, Transform(target).Coordinates);
+                var targetXform = Transform(target);
+                var item = Spawn(necromorf.Hardsuit,
+                    _transform.GetMapCoordinates(target, targetXform),
+                    rotation: _transform.GetWorldRotation(targetXform));
                 _inventory.TryEquip(target, item, "outerClothing", true, true);
             }
 
@@ -261,7 +279,7 @@ public sealed partial class NecromorfSystem
 
         _bloodstream.SetBloodLossThreshold(target, 0f);
 
-        _bloodstream.ChangeBloodReagent(target, necromorfComp.NewBloodReagent);
+        _bloodstream.ChangeBloodReagents(target, necromorfComp.NewBloodReagents);
 
         _popup.PopupEntity(Loc.GetString("necro-transform", ("target", target)), target, PopupType.LargeCaution);
 
@@ -273,15 +291,32 @@ public sealed partial class NecromorfSystem
             _movement.RefreshMovementSpeedModifiers(target);
         }
 
-        if (TryComp<TemperatureComponent>(target, out var tempComp))
-            tempComp.ColdDamage.ClampMax(0);
+        if (TryComp<TemperatureDamageComponent>(target, out var tempDamageComp))
+            tempDamageComp.ColdDamage.ClampMax(0);
 
         if (TryComp<DamageableComponent>(target, out var damageablecomp))
-            _damageable.SetAllDamage(target, damageablecomp, 0);
+            _damageable.SetAllDamage(target, 0);
         _mobState.ChangeMobState(target, MobState.Alive);
 
+        if (TryComp<NpcFactionMemberComponent>(target, out var factionComp))
+        {
+            necromorfComp.BeforeNecroficationFactions =
+                factionComp.Factions.ToHashSet();
+        }
+
+        if (TryComp<VocalComponent>(target, out var vocalComp))
+        {
+            necromorfComp.BeforeNecroficationHadVocal = true;
+            necromorfComp.BeforeNecroficationVocalSounds = vocalComp.Sounds is null
+                ? null
+                : new(vocalComp.Sounds);
+            necromorfComp.BeforeNecroficationScreamId = vocalComp.ScreamId;
+            necromorfComp.BeforeNecroficationWilhelm = vocalComp.Wilhelm;
+            necromorfComp.BeforeNecroficationWilhelmProbability = vocalComp.WilhelmProbability;
+        }
+
         _faction.ClearFactions(target, dirty: false);
-        _faction.AddFaction(target, "Necromorfs");
+        _faction.AddFaction(target, NecromorfsFaction);
 
         _identity.QueueIdentityUpdate(target);
 
@@ -316,6 +351,11 @@ public sealed partial class NecromorfSystem
             RemComp(target, handsComp);
         }
 
+        if (TryComp<CuffableComponent>(target, out var cuffs))
+        {
+            RemComp(target, cuffs);
+        }
+
         RemComp<PullerComponent>(target);
 
         var pryComp = EnsureComp<PryingComponent>(target);
@@ -339,20 +379,28 @@ public sealed partial class NecromorfSystem
         ApplyVirusStrain(target, necromorfComp);
     }
 
+    private void RemoveOldProductionComponents(EntityUid target)
+    {
+        RemComp<RatKingComponent>(target);
+        RemComp<MonkeyKingComponent>(target);
+        RemComp<EggLayerComponent>(target);
+        RemComp<SpiderComponent>(target);
+    }
+
     private void SetScale(EntityUid uid, float scale)
     {
         var physics = EntityManager.System<SharedPhysicsSystem>();
         var appearance = EntityManager.System<AppearanceSystem>();
 
-        EntityManager.EnsureComponent<ScaleVisualsComponent>(uid);
+        EnsureComp<ScaleVisualsComponent>(uid);
 
-        var appearanceComponent = EntityManager.EnsureComponent<AppearanceComponent>(uid);
+        var appearanceComponent = EnsureComp<AppearanceComponent>(uid);
         if (!appearance.TryGetData<Vector2>(uid, ScaleVisuals.Scale, out var oldScale, appearanceComponent))
             oldScale = Vector2.One;
 
         appearance.SetData(uid, ScaleVisuals.Scale, oldScale * scale, appearanceComponent);
 
-        if (EntityManager.TryGetComponent(uid, out FixturesComponent? manager))
+        if (TryComp(uid, out FixturesComponent? manager))
         {
             foreach (var (id, fixture) in manager.Fixtures)
             {

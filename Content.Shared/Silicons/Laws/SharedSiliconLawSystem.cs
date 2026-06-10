@@ -69,12 +69,10 @@ public abstract partial class SharedSiliconLawSystem : EntitySystem
 
     protected virtual void EnsureSubvertedSiliconRole(EntityUid mindId)
     {
-
     }
 
     protected virtual void RemoveSubvertedSiliconRole(EntityUid mindId)
     {
-
     }
 }
 

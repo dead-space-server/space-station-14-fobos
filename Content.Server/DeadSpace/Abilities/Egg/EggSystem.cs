@@ -10,6 +10,7 @@ using Content.Server.Ghost.Roles;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mind;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Robust.Shared.Player;
 
 namespace Content.Server.DeadSpace.Abilities.Egg;
@@ -48,7 +49,7 @@ public sealed partial class EggSystem : SharedEggSystem
 
         foreach (var proto in spawns)
         {
-            popupEnt = Spawn(proto, coords.Offset(_robustRandom.NextVector2(0.25f)));
+            popupEnt = SpawnNextToOrDrop(proto, uid);
         }
 
         if (HasComp<MobStateComponent>(uid))
@@ -63,7 +64,7 @@ public sealed partial class EggSystem : SharedEggSystem
                 return;
             }
 
-            if (!EntityManager.TryGetComponent<GhostRoleComponent>(popupEnt, out var ghostRoleComponent))
+            if (!TryComp<GhostRoleComponent>(popupEnt, out var ghostRoleComponent))
             {
                 _mindSystem.TransferTo(mindId, popupEnt);
                 RemComp<EggComponent>(uid);

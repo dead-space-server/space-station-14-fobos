@@ -62,6 +62,10 @@
   description: "Штурмовая единица альянса повышенной эффективности КСО"
   playTimeTracker: JobBSAA
   setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 50400 # 14 hours
   icon: "JobIconBSAAFighter"
   supervisors: job-supervisors-centcom
   canBeAntag: false
@@ -76,6 +80,16 @@
   description: "Командир альянса повышенной эффективности КСО"
   playTimeTracker: JobBSAALeader
   setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 36000 # 10 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 # 20 hours
+    - !type:DepartmentTimeRequirement
+      department: Command
+      time: 36000 # 10 hours
   icon: "JobIconBSAALeader"
   supervisors: job-supervisors-centcom
   canBeAntag: false
@@ -90,6 +104,13 @@
   description: "Полевой спаситель альянса повышенной эффективности КСО"
   playTimeTracker: JobBSAAMedic
   setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 50400 # 14 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 50400 # 14 hours
   icon: "JobIconBSAAMedic"
   supervisors: job-supervisors-centcom
   canBeAntag: false

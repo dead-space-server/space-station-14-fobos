@@ -12,6 +12,7 @@ paper-component-illiterate-mime = Your vow forbids you from writing.
 
 paper-component-action-stamp-paper-other = {CAPITALIZE(THE($user))} stamps {THE($target)} with {THE($stamp)}.
 paper-component-action-stamp-paper-self = You stamp {THE($target)} with {THE($stamp)}.
+paper-component-action-stamp-paper-full = There is no space left for stamps on the paper.
 
 # Indicator to show how full a paper is
 paper-ui-fill-level = {$currentLength}/{$maxLength}

@@ -16,7 +16,7 @@
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,17,7
+    - 0,0,15,10
   - type: StorageFill
     contents:
     - id: ClothingOuterHardsuitPrometheusAlt
@@ -335,7 +335,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitPrometheusAlt
   name: красный скафандр ветерана
   description: Элегантный скафандр времен цивилизованной эпохи.
@@ -359,7 +359,7 @@
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.4
+        Piercing: 0.6
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
@@ -456,7 +456,7 @@
 
 # JawsOfLife
 - type: entity
-  parent: SyndicateJawsOfLife
+  parent: JawsOfLife
   id: JawsOfLifePrometheusAlt
   name: кроваво-красные челюсти жизни
   description: Набор челюстей жизни, скомпонованных при помощи магии науки.

@@ -5,6 +5,7 @@ using Content.Server.Radio.EntitySystems;
 using Content.Shared.Backmen.Blob.Components;
 using Content.Shared.Chat;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Popups;
 using Content.Shared.Radio.Components;

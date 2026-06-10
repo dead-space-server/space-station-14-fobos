@@ -1,0 +1,24 @@
+- type: entity
+  name: спавнер деталей РИГов синдиката
+  id: NukeOpsRIGDetailSpawner
+  parent: MarkerBase
+  components:
+    - type: Sprite
+      layers:
+        - state: red
+        - sprite: _DeadSpace/RIGs/Syndicat/Standart/helmet.rsi
+          state: icon
+    - type: RandomSpawner
+      rarePrototypes:
+        - BlueprintRIGRIGNukeOpsElite
+        - BlueprintRIGRIGNukeOps
+      rareChance: 0.3
+      prototypes:
+        - ClothingHeadHelmetRIGNukeOps
+        - ClothingHeadHelmetRIGNukeOpsElite
+        - BlueprintRIGRIGNukeOpsEliteOneUse
+        - BlueprintRIGRIGNukeOpsOneUse
+        - HyperCoreForModifiedBackpack
+        - PlastineOfOtherHardsuit
+      chance: 0.95
+      offset: 0

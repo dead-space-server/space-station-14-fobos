@@ -1,6 +1,8 @@
 using System.Linq;
+using System.Numerics;
 using Content.Server.Chat.Systems;
 using Content.Server.GameTicking;
+using Content.Server.Shuttles.Components;
 using Content.Server.Station.Components;
 using Content.Server.Station.Events;
 using Content.Shared.Station;
@@ -12,6 +14,9 @@ using Robust.Shared.Collections;
 using Robust.Shared.Enums;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
+using Robust.Shared.Physics;
+using Robust.Shared.Physics.Components;
+using Robust.Shared.Physics.Systems;
 using Robust.Shared.Player;
 using Robust.Shared.Utility;
 
@@ -31,11 +36,14 @@ public sealed partial class StationSystem : SharedStationSystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly MetaDataSystem _metaData = default!;
     [Dependency] private readonly PvsOverrideSystem _pvsOverride = default!;
+    [Dependency] private readonly SharedPhysicsSystem _physics = default!;
 
     private ISawmill _sawmill = default!;
 
     private EntityQuery<MapGridComponent> _gridQuery;
     private EntityQuery<TransformComponent> _xformQuery;
+    private EntityQuery<PhysicsComponent> _physicsQuery;
+    private EntityQuery<ShuttleComponent> _shuttleQuery;
 
     private ValueList<MapId> _mapIds;
     private ValueList<(Box2Rotated Bounds, MapId MapId)> _gridBounds;
@@ -49,6 +57,8 @@ public sealed partial class StationSystem : SharedStationSystem
 
         _gridQuery = GetEntityQuery<MapGridComponent>();
         _xformQuery = GetEntityQuery<TransformComponent>();
+        _physicsQuery = GetEntityQuery<PhysicsComponent>();
+        _shuttleQuery = GetEntityQuery<ShuttleComponent>();
 
         SubscribeLocalEvent<GameRunLevelChangedEvent>(OnRoundEnd);
         SubscribeLocalEvent<PostGameMapLoad>(OnPostGameMapLoad);
@@ -311,6 +321,9 @@ public sealed partial class StationSystem : SharedStationSystem
 
         foreach (var grid in gridIds ?? Array.Empty<EntityUid>())
         {
+            // DS14-Start: keep station map grids static regardless of serialized shuttle state.
+            ForceStationGridStatic(grid);
+            // DS14-End
             AddGridToStation(station, grid, null, data, name);
         }
 
@@ -319,6 +332,23 @@ public sealed partial class StationSystem : SharedStationSystem
 
         return station;
     }
+
+    // DS14-Start: keep station map grids static regardless of serialized shuttle state.
+    private void ForceStationGridStatic(EntityUid grid)
+    {
+        if (_shuttleQuery.TryComp(grid, out var shuttle))
+            shuttle.Enabled = false;
+
+        if (!_physicsQuery.TryComp(grid, out var body))
+            return;
+
+        _physics.SetLinearVelocity(grid, Vector2.Zero, body: body, wakeBody: false);
+        _physics.SetAngularVelocity(grid, 0f, body: body);
+        _physics.SetBodyType(grid, BodyType.Static, body: body);
+        _physics.SetBodyStatus(grid, body, BodyStatus.OnGround);
+        _physics.SetFixedRotation(grid, true, body: body);
+    }
+    // DS14-End
 
     /// <summary>
     /// Adds the given grid to a station.

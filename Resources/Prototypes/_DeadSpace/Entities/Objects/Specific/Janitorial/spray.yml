@@ -14,21 +14,3 @@
         reagents:
         - ReagentId: Water
           Quantity: 250
-
-- type: entity
-  name: космический мега-очиститель
-  description: Непенящийся очиститель бренда BLAM! Теперь в ещё большем количестве.
-  id: MegaSprayBottleSpaceCleaner
-  parent: MegaSprayBottle
-  suffix: ""
-  components:
-  - type: SolutionContainerManager
-    solutions:
-      spray:
-        maxVol: 250
-        reagents:
-        - ReagentId: SpaceCleaner
-          Quantity: 250
-  - type: Tag
-    tags:
-    - Spray

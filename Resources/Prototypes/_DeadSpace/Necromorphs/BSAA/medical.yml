@@ -13,9 +13,12 @@
     maxFillLevels: 1
     changeColor: false
     emptySpriteName: OPPY-OPNY-Medipen-Empty
-  - type: Hypospray
+  - type: Injector
     solutionName: pen
-    transferAmount: 30
+    currentTransferAmount: null
+    activeModeProtoId: HyposprayInjectMode
+    allowedModes:
+    - HyposprayInjectMode
   - type: SolutionContainerManager
     solutions:
       pen:
@@ -29,8 +32,6 @@
             Quantity: 10
   - type: StaticPrice
     price: 300
-  - type: Tag
-    tags: []
 
 - type: entity
   parent: MedkitCombat
@@ -48,7 +49,7 @@
 
 - type: entity
   id: InjectorCase
-  parent: BaseItem
+  parent: Medkit
   name: боевой медицинский комплект
   description: Кейс для специализированных медицинских автоинъекторов.
   components:
@@ -57,7 +58,6 @@
     layers:
     - state: closed
       map: [ "empty-icon" ]
-      shader: unshaded
     - state: open
       map: ["openLayer"]
       visible: false
@@ -141,6 +141,7 @@
 - type: entity
   id: InjectorCaseFilled
   parent: InjectorCase
+  suffix: Заполненная
   components:
   - type: StorageFill
     contents:
@@ -157,10 +158,27 @@
 - type: entity
   id: InjectorCaseStimFilled
   parent: InjectorCaseStim
+  suffix: Заполненная
   components:
   - type: StorageFill
     contents:
-      - id: DesoxyephedrineMedipen
-      - id: DesoxyephedrineMedipen
-      - id: DesoxyephedrineMedipen
-      - id: DesoxyephedrineMedipen
+      - id: CelestinMedipen
+      - id: CelestinMedipen
+      - id: CelestinMedipen
+      - id: CelestinMedipen
+
+## Боевая медицина ОБР
+- type: entity
+  id: InjectorCaseERTFilled
+  parent: InjectorCase
+  suffix: Заполненная, ОБР
+  components:
+  - type: StorageFill
+    contents:
+      - id: AdvancedJetInjector
+      - id: ChemistryBottlePuncturase
+      - id: ChemistryBottlePuncturase
+      - id: ChemistryBottleDermaline
+      - id: ChemistryBottleDermaline
+      - id: CombatMedipen
+      - id: CombatMedipen

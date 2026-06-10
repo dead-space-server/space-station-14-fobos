@@ -1,0 +1,92 @@
+<!-- Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT -->
+
+<controls:FancyWindow
+    xmlns="https://spacestation14.io"
+    xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
+    xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+    MinSize="720 500"
+    SetSize="840 560"
+    Title="{Loc 'station-ai-centcomm-fax-window-title'}">
+    <BoxContainer Orientation="Vertical" Margin="8" HorizontalExpand="True" VerticalExpand="True">
+        <PanelContainer HorizontalExpand="True" Margin="0 0 0 8">
+            <PanelContainer.PanelOverride>
+                <gfx:StyleBoxFlat BackgroundColor="#141619" BorderColor="#3b4d58" BorderThickness="1" />
+            </PanelContainer.PanelOverride>
+            <BoxContainer Orientation="Vertical" Margin="10 7 10 7" HorizontalExpand="True">
+                <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
+                    <Label Text="{Loc 'station-ai-centcomm-fax-channel'}"
+                           StyleClasses="LabelHeading"
+                           VerticalAlignment="Center" />
+                </BoxContainer>
+                <PanelContainer StyleClasses="LowDivider" Margin="0 6 0 5" />
+                <Label Text="{Loc 'station-ai-centcomm-fax-route'}" StyleClasses="LabelSubText" />
+                <RichTextLabel Name="StatusLabel"
+                               Text="{Loc 'station-ai-centcomm-fax-status-initializing'}"
+                               StyleClasses="LabelSubText"
+                               HorizontalExpand="True"
+                               Margin="0 3 0 0" />
+            </BoxContainer>
+        </PanelContainer>
+
+        <PanelContainer HorizontalExpand="True" VerticalExpand="True">
+            <PanelContainer.PanelOverride>
+                <gfx:StyleBoxFlat BackgroundColor="#06090d" BorderColor="#263842" BorderThickness="1" />
+            </PanelContainer.PanelOverride>
+            <BoxContainer Orientation="Vertical" Margin="8" HorizontalExpand="True" VerticalExpand="True">
+                <BoxContainer Orientation="Horizontal" HorizontalExpand="True" Margin="0 0 0 4">
+                    <Label Text="{Loc 'station-ai-centcomm-fax-buffer-label'}"
+                           StyleClasses="LabelKeyText"
+                           VerticalAlignment="Center" />
+                    <Control HorizontalExpand="True" />
+                    <Label Name="LimitLabel"
+                           StyleClasses="LabelSubText"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+                    <Button Name="TransmitButton"
+                            Text="{Loc 'station-ai-centcomm-fax-send'}"
+                            MinWidth="140"
+                            SetHeight="30"
+                            Margin="8 0 0 0" />
+                </BoxContainer>
+                <PanelContainer StyleClasses="LowDivider" Margin="0 0 0 6" />
+                <TextEdit Name="MessageEdit"
+                          HorizontalExpand="True"
+                          VerticalExpand="True"
+                          MinHeight="250" />
+            </BoxContainer>
+        </PanelContainer>
+
+        <PanelContainer HorizontalExpand="True" Margin="0 6 0 0">
+            <PanelContainer.PanelOverride>
+                <gfx:StyleBoxFlat BackgroundColor="#17150f" BorderColor="#4b3d20" BorderThickness="1" />
+            </PanelContainer.PanelOverride>
+            <BoxContainer Orientation="Vertical" Margin="7 4 7 4" HorizontalExpand="True">
+                <RichTextLabel Text="{Loc 'station-ai-centcomm-fax-notice-deactivation'}"
+                               StyleClasses="LabelSubText"
+                               HorizontalExpand="True"
+                               LineHeightScale="0.9" />
+                <RichTextLabel Text="{Loc 'station-ai-centcomm-fax-notice-no-response'}"
+                               StyleClasses="LabelSubText"
+                               HorizontalExpand="True"
+                               LineHeightScale="0.9" />
+            </BoxContainer>
+        </PanelContainer>
+
+        <PanelContainer StyleClasses="LowDivider" Margin="0 8 0 0" />
+        <BoxContainer Orientation="Horizontal" Margin="10 2 5 0" VerticalAlignment="Bottom">
+            <Label Text="{Loc 'station-ai-centcomm-fax-footer-route'}"
+                   StyleClasses="WindowFooterText"
+                   HorizontalExpand="True"
+                   ClipText="True" />
+            <Label Text="{Loc 'station-ai-centcomm-fax-footer-code'}"
+                   StyleClasses="WindowFooterText"
+                   HorizontalAlignment="Right"
+                   Margin="0 0 5 0" />
+            <TextureRect StyleClasses="NTLogoDark"
+                         Stretch="KeepAspectCentered"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Right"
+                         SetSize="19 19" />
+        </BoxContainer>
+    </BoxContainer>
+</controls:FancyWindow>

@@ -18,3 +18,45 @@
   result: SpeedLoader357
   materials:
     Steel: 1500
+
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: BoxLethalshotMagnum
+  result: BoxLethalshotMagnum
+  materials:
+    Plasteel: 3000
+
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: MagazinePistolHighCapacity
+  result: MagazinePistolHighCapacity
+  materials:
+    Steel: 1500
+
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: ADTMagazineShotgunXL
+  result: ADTMagazineShotgunXL
+  materials:
+    Steel: 1500
+
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: MagazineLightRifleAMD
+  result: MagazineLightRifleAMD
+  materials:
+    Steel: 475
+
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: MagazineLightRifleAMDEmpty
+  result: MagazineLightRifleAMDEmpty
+  materials:
+    Steel: 25
+
+- type: latheRecipe
+  parent: BaseAmmoRecipe
+  id: MagazineCarbineSKSEmpty
+  result: MagazineCarbineSKSEmpty
+  materials:
+    Steel: 25

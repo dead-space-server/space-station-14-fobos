@@ -4,6 +4,7 @@
   name: Repulse
   description: Pushes entities away from the user.
   components:
+  - type: Magic # DS14
   - type: RepulseAttract
     speed: 10
     range: 5

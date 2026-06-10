@@ -24,6 +24,8 @@
       - TegGenerator
       - TegCirculator
       - XenoArtifact
+      tags: # DeadSpace
+      - AnimateSpellBlacklist
     event: !type:ChangeComponentsSpellEvent
       toAdd:
       - type: Animate
@@ -47,7 +49,7 @@
             Blunt: 10
       - type: NpcFactionMember
         factions:
-        - Wizard
+        - AllHostile
       - type: NoSlip
       - type: MovementAlwaysTouching
       - type: CanMoveInAir

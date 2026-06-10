@@ -1,5 +1,6 @@
 using System.Linq;
 using Content.Server.Administration;
+using Content.Server.DeadSpace.Administration.GameRules; //DS14
 using Content.Server.GameTicking.Rules.Components;
 using Content.Shared.Administration;
 using Content.Shared.Database;
@@ -356,7 +357,10 @@ public sealed partial class GameTicker
             // Start rule if we're already in the middle of a round
             if(RunLevel == GameRunLevel.InRound)
                 StartGameRule(ent);
-
+            //DS14-Start
+            var gameRulesSystem = EntityManager.System<GameRulesServerSystem>();
+            gameRulesSystem.ReportRuleAddedByAdmin(rule, shell.Player?.Name);
+            //DS14-End
         }
     }
 

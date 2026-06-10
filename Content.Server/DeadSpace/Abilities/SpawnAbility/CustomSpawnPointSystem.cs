@@ -21,7 +21,6 @@ public sealed class CustomSpawnPointSystem : EntitySystem
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly TurfSystem _turf = default!;
-    [Dependency] private readonly IMapManager _mapMan = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
 
@@ -55,7 +54,7 @@ public sealed class CustomSpawnPointSystem : EntitySystem
         if (args.Handled)
             return;
 
-        if (EntityManager.TryGetComponent<ActorComponent?>(uid, out var actorComponent))
+        if (TryComp<ActorComponent>(uid, out var actorComponent))
         {
             var ev = new RequestEntityMenuEvent(uid.Id, false, true);
 
@@ -75,7 +74,7 @@ public sealed class CustomSpawnPointSystem : EntitySystem
     {
         if (msg.IsUseSpawnPointSystem)
         {
-            if (EntityManager.TryGetComponent<CustomSpawnPointComponent>(new EntityUid(msg.Target), out var CustomSpawnPointComponent))
+            if (TryComp<CustomSpawnPointComponent>(new EntityUid(msg.Target), out var CustomSpawnPointComponent))
             {
                 CustomSpawnPointComponent.SelectEntity = msg.PrototypeId;
             }

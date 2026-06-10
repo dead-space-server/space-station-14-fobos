@@ -48,6 +48,8 @@ internal sealed partial class ChatManager : IChatManager
     [Dependency] private readonly ISharedPlayerManager _player = default!;
     [Dependency] private readonly DiscordChatLink _discordLink = default!;
     [Dependency] private readonly ILogManager _logManager = default!;
+
+    private ISawmill _sawmill = default!;
     private IServerSponsorsManager? _sponsorsManager; // DS14-sponsors
     private IServerChatFilter? _chatFilter; // DS14-chat-filter
 
@@ -59,7 +61,6 @@ internal sealed partial class ChatManager : IChatManager
     private bool _oocEnabled = true;
     private bool _adminOocEnabled = true;
 
-    private ISawmill _sawmill = default!;
     private readonly Dictionary<NetUserId, ChatUser> _players = new();
 
     public void Initialize()
@@ -171,13 +172,19 @@ internal sealed partial class ChatManager : IChatManager
 
     public void SendAdminAlert(string message)
     {
-        var clients = _adminManager.ActiveAdmins.Select(p => p.Channel);
-
         var wrappedMessage = Loc.GetString("chat-manager-send-admin-announcement-wrap-message",
             ("adminChannelName", Loc.GetString("chat-manager-admin-channel-name")), ("message", FormattedMessage.EscapeText(message)));
 
-        ChatMessageToMany(ChatChannel.AdminAlert, message, wrappedMessage, default, false, true, clients);
+        SendAdminAlertNoFormatOrEscape(wrappedMessage);
     }
+
+    public void SendAdminAlertNoFormatOrEscape(string message)
+    {
+        var clients = _adminManager.ActiveAdmins.Select(p => p.Channel);
+
+        ChatMessageToMany(ChatChannel.AdminAlert, message, message, default, false, true, clients);
+    }
+
 
     public void SendAdminAlert(EntityUid player, string message)
     {
@@ -205,7 +212,7 @@ internal sealed partial class ChatManager : IChatManager
         {
             return;
         }
-        var wrappedMessage = Loc.GetString("chat-manager-send-hook-ooc-wrap-message", ("senderName", sender), ("message", FormattedMessage.EscapeText(message)));
+        var wrappedMessage = Loc.GetString("chat-manager-send-hook-ooc-wrap-message", ("senderName", FormattedMessage.EscapeText(sender)), ("message", FormattedMessage.EscapeText(message))); // DS14
         ChatMessageToAll(ChatChannel.OOC, message, wrappedMessage, source: EntityUid.Invalid, hideChat: false, recordReplay: true);
         _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Hook OOC from {sender}: {message}");
     }
@@ -214,7 +221,7 @@ internal sealed partial class ChatManager : IChatManager
     {
         var clients = _adminManager.ActiveAdmins.Select(p => p.Channel);
 
-        var wrappedMessage = Loc.GetString("chat-manager-send-hook-admin-wrap-message", ("senderName", sender), ("message", FormattedMessage.EscapeText(message)));
+        var wrappedMessage = Loc.GetString("chat-manager-send-hook-admin-wrap-message", ("senderName", FormattedMessage.EscapeText(sender)), ("message", FormattedMessage.EscapeText(message))); // DS14
         foreach (var client in clients)
         {
             ChatMessageToOne(
@@ -289,7 +296,12 @@ internal sealed partial class ChatManager : IChatManager
         }
 
         Color? colorOverride = null;
-        var wrappedMessage = Loc.GetString("chat-manager-send-ooc-wrap-message", ("playerName",player.Name), ("message", FormattedMessage.EscapeText(message)));
+        // DS14-start
+        var escapedPlayerName = FormattedMessage.EscapeText(player.Name);
+        var wrappedMessage = Loc.GetString("chat-manager-send-ooc-wrap-message",
+            ("playerName", escapedPlayerName),
+            ("message", FormattedMessage.EscapeText(message)));
+        // DS14-end
         if (_adminManager.HasAdminFlag(player, AdminFlags.NameColor))
         {
             var prefs = _preferencesManager.GetPreferences(player.UserId);
@@ -297,13 +309,16 @@ internal sealed partial class ChatManager : IChatManager
         }
         if (_netConfigManager.GetClientCVar(player.Channel, CCVars.ShowOocPatronColor) && player.Channel.UserData.PatronTier is { } patron && PatronOocColors.TryGetValue(patron, out var patronColor))
         {
-            wrappedMessage = Loc.GetString("chat-manager-send-ooc-patron-wrap-message", ("patronColor", patronColor),("playerName", player.Name), ("message", FormattedMessage.EscapeText(message)));
+            wrappedMessage = Loc.GetString("chat-manager-send-ooc-patron-wrap-message", ("patronColor", patronColor), ("playerName", escapedPlayerName), ("message", FormattedMessage.EscapeText(message))); // DS14
         }
 
         // DS14-sponsors-start
         if (_sponsorsManager?.TryGetInfo(player.UserId, out var sponsorData) == true && sponsorData.OOCColor != null)
         {
-            wrappedMessage = Loc.GetString("chat-manager-send-ooc-patron-wrap-message", ("patronColor", sponsorData.OOCColor), ("playerName", player.Name), ("message", FormattedMessage.EscapeText(message)));
+            wrappedMessage = Loc.GetString("chat-manager-send-ooc-patron-wrap-message",
+                ("patronColor", sponsorData.OOCColor),
+                ("playerName", escapedPlayerName),
+                ("message", FormattedMessage.EscapeText(message)));
         }
         // DS14-sponsors-end
 
@@ -331,9 +346,12 @@ internal sealed partial class ChatManager : IChatManager
         }
 
         var clients = _adminManager.ActiveAdmins.Select(p => p.Channel);
+        // DS14-start
         var wrappedMessage = Loc.GetString("chat-manager-send-admin-chat-wrap-message",
-                                        ("adminChannelName", Loc.GetString("chat-manager-admin-channel-name")),
-                                        ("playerName", player.Name), ("message", FormattedMessage.EscapeText(message)));
+            ("adminChannelName", Loc.GetString("chat-manager-admin-channel-name")),
+            ("playerName", FormattedMessage.EscapeText(player.Name)),
+            ("message", FormattedMessage.EscapeText(message)));
+        // DS14-end
 
         foreach (var client in clients)
         {

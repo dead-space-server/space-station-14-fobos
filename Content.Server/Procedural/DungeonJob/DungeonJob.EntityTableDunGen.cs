@@ -36,6 +36,7 @@ public sealed partial class DungeonJob
                 if (!ValidateResume())
                     return;
 
+                // DS14: do not spawn random table entities on tiles reserved by other dungeon layers.
                 if (reservedTiles.Contains(tile))
                     continue;
 

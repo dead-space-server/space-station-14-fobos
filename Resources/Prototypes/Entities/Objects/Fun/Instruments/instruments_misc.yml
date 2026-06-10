@@ -50,6 +50,29 @@
   - type: Sprite
     sprite: Objects/Fun/Instruments/otherinstruments.rsi
     state: red_phone
+  # DS14-start
+  - type: Telephone
+    ringTone: /Audio/Items/ring.ogg
+    ringInterval: 3
+    ringingTimeout: 20
+    transmissionRange: Unlimited
+    compatibleRanges:
+    - Grid
+    - Map
+    - Unlimited
+    speakerVolume: Speak
+  - type: ActivatableUI
+    key: enum.RedPhoneUiKey.Report
+  - type: Speech
+  - type: TTS
+  - type: RedPhone
+    kind: Ordinary
+    reportCooldown: 120
+  - type: UserInterface
+    interfaces:
+      enum.RedPhoneUiKey.Report:
+        type: RedPhoneReportBoundUserInterface
+  # DS14-end
   - type: EmitSoundOnLand
     sound:
        path: /Audio/Items/ring.ogg
@@ -64,8 +87,29 @@
   # - type: UseDelay # DS14
   #   delay: 300
 
+# DS14-start
 - type: entity
   parent: PhoneInstrument
+  id: PhoneInstrumentCentComm
+  name: CentComm red phone
+  description: A direct callback line to Central Command.
+  components:
+  - type: RedPhone
+    kind: CentComm
+  - type: ActivatableUI
+    key: enum.RedPhoneUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.RedPhoneUiKey.Key:
+        type: RedPhoneBoundUserInterface
+  - type: ActivatableUIRequiresAccess
+    popupMessage: red-phone-access-denied
+  - type: AccessReader
+    access: [["CentralCommand"]]
+# DS14-end
+
+- type: entity
+  parent: BaseItem # DS14
   id: PhoneInstrumentSyndicate
   name: blood-red phone
   description: For evil people to call their friends.
@@ -73,9 +117,18 @@
   - type: Sprite
     sprite: Objects/Fun/Instruments/blood_red_phone.rsi
     state: icon
+  # DS14-start
+  - type: EmitSoundOnLand
+    sound:
+       path: /Audio/Items/ring.ogg
+  - type: Item
+    size: Small
+  # DS14-end
   - type: Prayable
     sentMessage: prayer-popup-notify-syndicate-sent
     notificationPrefix: prayer-chat-notify-syndicate
+    verb: prayer-verbs-call # DS14
+    verbImage: null # DS14
 
 - type: entity
   parent: BaseHandheldInstrument
@@ -132,7 +185,7 @@
   components:
   - type: Instrument
     program: 1
-    bank: 1
+    bank: 100 # Defined in space-station-14.sf2
   - type: Sprite
     sprite: Objects/Fun/Instruments/bike_horn.rsi
   - type: Tag
@@ -146,12 +199,13 @@
     quickEquip: false
 
 - type: entity
-  parent: PhoneInstrument
+  parent: BaseItem # DS14
   id: BananaPhoneInstrument
   name: banana phone
   description: A direct line to the Honkmother. Seems to always go to voicemail.
   components:
   - type: Sprite
+    sprite: Objects/Fun/Instruments/otherinstruments.rsi # DS14
     state: banana_phone
   - type: EmitSoundOnLand
     sound:

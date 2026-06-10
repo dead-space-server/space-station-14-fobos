@@ -16,11 +16,11 @@ ert-team-name-cburn = РХБЗЗ
 ert-call-announcement-cburn = Центральное Командование получило запрос на отправку отряда РХБЗЗ.
 
 # ERT Console UI
-ert-responce-window-title = Консоль вызова ОБР
-ert-responce-available-teams = Доступные отряды:
-ert-responce-team-description = Описание отряда:
-ert-responce-call-cancel = Вызов отменён.
-responce-ert-team-button = Вызвать отряд
+ert-response-window-title = Консоль вызова ОБР
+ert-response-available-teams = Доступные отряды:
+ert-response-team-description = Описание отряда:
+ert-response-call-cancel = Вызов отменён.
+response-ert-team-button = Вызвать отряд
 
 # Call Reason
 ert-call-reason-label = Цель вызова:

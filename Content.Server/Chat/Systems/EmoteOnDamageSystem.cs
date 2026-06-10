@@ -1,11 +1,13 @@
+using Content.Shared.Chat;
 using Content.Shared.Chat.Prototypes;
-using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Content.Shared.Speech.Muting;
 using Content.Shared.Traits.Assorted;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
+using Content.Shared.StatusEffectNew; // DS14
 
 namespace Content.Server.Chat.Systems;
 
@@ -15,6 +17,7 @@ public sealed class EmoteOnDamageSystem : EntitySystem
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
+    [Dependency] private readonly StatusEffectsSystem _statusEffects = default!; // DS14
 
     public override void Initialize()
     {
@@ -32,7 +35,7 @@ public sealed class EmoteOnDamageSystem : EntitySystem
             return;
 
         // DS14-start
-        if (HasComp<MutedComponent>(uid) || HasComp<PainNumbnessComponent>(uid))
+        if (HasComp<MutedComponent>(uid) || _statusEffects.HasEffectComp<PainNumbnessStatusEffectComponent>(uid))
             return;
         // DS14-end
 

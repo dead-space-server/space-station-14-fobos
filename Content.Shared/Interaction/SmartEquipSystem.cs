@@ -4,6 +4,7 @@ using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Input;
 using Content.Shared.Inventory;
+using Content.Shared.Power.Components;
 using Content.Shared.Popups;
 using Content.Shared.Stacks;
 using Content.Shared.Storage;
@@ -20,6 +21,10 @@ namespace Content.Shared.Interaction;
 /// </summary>
 public sealed class SmartEquipSystem : EntitySystem
 {
+    private const string SheathInsertVerb = "sheath-insert-verb"; // DS14
+    private const string SheathEjectVerb = "sheath-eject-verb"; // DS14
+    private const string SuitStorageSlot = "suitstorage"; // DS14
+
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly SharedStorageSystem _storage = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
@@ -70,7 +75,7 @@ public sealed class SmartEquipSystem : EntitySystem
 
     private void HandleSmartEquipSuitStorage(ICommonSession? session)
     {
-        HandleSmartEquip(session, "suitstorage");
+        HandleSmartEquip(session, SuitStorageSlot); // DS14
     }
 
     private void HandleSmartEquip(ICommonSession? session, string equipmentSlot)
@@ -159,9 +164,20 @@ public sealed class SmartEquipSystem : EntitySystem
                         _popup.PopupClient(Loc.GetString("smart-equip-quick-eject-disabled"), uid, uid);
                         return;
                     }
+
+                    EntityUid removing;
+
+                    // DS14-start Check the priority item
+                    if (_storage.TryGetPriorityItem(uid, slotItem, out var priorityItem))
+                    {
+                        removing = priorityItem;
+                    }
+                    else
+                    {
+                        removing = storage.Container.ContainedEntities[^1];
+                    }
                     // DS14-end
 
-                    var removing = storage.Container.ContainedEntities[^1];
                     _container.RemoveEntity(slotItem, removing);
                     _hands.TryPickup(uid, removing, handsComp: hands);
                     return;
@@ -190,7 +206,7 @@ public sealed class SmartEquipSystem : EntitySystem
         }
 
         // case 3 (itemslot item):
-        if (TryComp<ItemSlotsComponent>(slotItem, out var slots))
+        if (TryComp<ItemSlotsComponent>(slotItem, out var slots) && ShouldUseContainedItemSlot(slotItem, slots, handItem, equipmentSlot)) // DS14
         {
             if (handItem == null)
             {
@@ -247,4 +263,28 @@ public sealed class SmartEquipSystem : EntitySystem
         _inventory.TryUnequip(uid, equipmentSlot, inventory: inventory, predicted: true, checkDoafter: true);
         _hands.TryPickup(uid, slotItem, handsComp: hands);
     }
+
+    // DS14-start
+    private bool ShouldUseContainedItemSlot(EntityUid slotItem, ItemSlotsComponent slots, EntityUid? handItem, string equipmentSlot)
+    {
+        if (handItem != null)
+            return true;
+
+        if (equipmentSlot == SuitStorageSlot
+            && TryComp<ChargerComponent>(slotItem, out var charger)
+            && _slots.TryGetSlot(slotItem, charger.SlotId, out var chargerSlot, slots)
+            && chargerSlot.HasItem)
+        {
+            return true;
+        }
+
+        foreach (var slot in slots.Slots.Values)
+        {
+            if (slot.InsertVerbText == SheathInsertVerb && slot.EjectVerbText == SheathEjectVerb)
+                return true;
+        }
+
+        return false;
+    }
+    // DS14-end
 }

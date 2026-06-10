@@ -8,22 +8,22 @@
   category: cargoproduct-category-name-fun
   group: service # DS14
 
-- type: cargoProduct
-  id: FunFireworkBox
-  icon:
-    sprite: _DeadSpace/Objects/Misc/firework.rsi
-    state: firework_box
-  product: FireworkBox
-  cost: 3000
-  category: cargoproduct-category-name-fun
-  group: service # DS14
-
-- type: cargoProduct
-  id: FunSmallXmasTree
-  icon:
-    sprite: _DeadSpace/Structures/Furniture/small_christmas_tree.rsi
-    state: small_christmas_tree
-  product: SmallXmasTree
-  cost: 900
-  category: cargoproduct-category-name-fun
-  group: service # DS14
+# - type: cargoProduct
+#   id: FunFireworkBox
+#   icon:
+#     sprite: _DeadSpace/Objects/Misc/firework.rsi
+#     state: firework_box
+#   product: FireworkBox
+#   cost: 3000
+#   category: cargoproduct-category-name-fun
+#   group: service # DS14
+# 
+# - type: cargoProduct
+#   id: FunSmallXmasTree
+#   icon:
+#     sprite: _DeadSpace/Structures/Furniture/small_christmas_tree.rsi
+#     state: small_christmas_tree
+#   product: SmallXmasTree
+#   cost: 900
+#   category: cargoproduct-category-name-fun
+#   group: service # DS14

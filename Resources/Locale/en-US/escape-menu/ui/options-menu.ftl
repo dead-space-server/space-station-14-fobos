@@ -33,10 +33,13 @@ ui-options-ambient-music-volume = Ambient music volume:
 ui-options-ambience-volume = Ambience volume:
 ui-options-lobby-volume = Lobby & Round-end volume:
 ui-options-interface-volume = Interface volume:
+ui-options-alert-level-volume = Alert level notification volume:
+ui-options-boss-music-volume = Boss music volume:
 ui-options-ambience-max-sounds = Ambience simultaneous sounds:
 ui-options-lobby-music = Lobby & Round-end Music
 ui-options-restart-sounds = Round Restart Sounds
 ui-options-event-music = Event Music
+ui-options-boss-music = Boss Music
 ui-options-admin-sounds = Play Admin Sounds
 ui-options-bwoink-sound = Play AHelp Notification Sound
 ui-options-volume-label = Volume
@@ -49,7 +52,7 @@ ui-options-misc-label = Misc
 ui-options-interface-label = Interface
 
 
-ui-options-auto-fill-highlights = Auto-fill the highlights with the character's information
+ui-options-auto-fill-highlights = Automatically set the highlights list based on your character's name and job
 ui-options-highlights-color = Highlights color:
 ui-options-highlights-color-example = This is highlighted text.
 ui-options-show-held-item = Show held item next to cursor
@@ -111,6 +114,9 @@ ui-options-background-hud-layout = Lobby HUD layout:
 
 ## Controls menu
 
+ui-options-hold-to-attack-melee = Hold to attack (melee)
+ui-options-hold-to-attack-ranged = Hold to attack (ranged)
+
 ui-options-binds-reset-all = Reset ALL keybinds
 ui-options-binds-explanation = Click to change binding, right-click to clear
 ui-options-unbound = Unbound
@@ -166,6 +172,9 @@ ui-options-function-swap-hands-reverse = Swap hands (other direction)
 ui-options-function-move-stored-item = Move stored item
 ui-options-function-rotate-stored-item = Rotate stored item
 ui-options-function-save-item-location = Save item location
+#DS14-start
+ui-options-function-toggle-item-priority = Toggle item priority
+#DS14-end
 ui-options-static-storage-ui = Lock storage window to hotbar
 
 ui-options-function-smart-equip-backpack = Smart-equip to backpack
@@ -230,6 +239,11 @@ ui-options-function-editor-copy-object = Copy
 ui-options-function-show-debug-console = Open Console
 ui-options-function-show-debug-monitors = Show Debug Monitors
 ui-options-function-inspect-entity = Inspect Entity
+ui-options-function-inspect-entity-tooltip = Open a ViewVariables window for the entity your mouse is currently hovering over.
+ui-options-function-inspect-server-component = Inspect Server Component
+ui-options-function-inspect-server-component-tooltip = Open a ViewVariables window with the server component set by the "quickinspect" command for the entity your mouse is currently hovering over.
+ui-options-function-inspect-client-component = Inspect Client Component
+ui-options-function-inspect-client-component-tooltip = Open a ViewVariables window with the client component set by the "quickinspect" command for the entity your mouse is currently hovering over.
 ui-options-function-hide-ui = Hide UI
 
 ui-options-function-hotbar1 = Hotbar slot 1

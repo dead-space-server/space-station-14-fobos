@@ -63,3 +63,49 @@ stack-snow =
        *[other] блоков
     } снега
 
+stack-magmite-sheet =
+    { $amount ->
+        [1] лист
+        [few] листа
+       *[other] листов
+    } магмита
+stack-magmite =
+    { $amount ->
+        [1] кусок
+        [few] кусочка
+       *[other] кусочков
+    } магмита
+
+stack-bluespace =
+    { $amount ->
+        [1] кусок
+        [few] кусочка
+       *[other] кусочков
+    } блюспейс кристала
+stack-bluespace-sheet =
+    { $amount ->
+        [1] кусок
+        [few] кусочка
+       *[other] кусочков
+    } чистого блюспейс кристала
+
+stack-glass-scrap =
+    { $amount ->
+        [1] кусок
+        [few] кусочка
+       *[other] кусочков
+    } чистого блюспейс кристала
+
+stack-hard-disk =
+    { $amount ->
+        [1] кусок
+        [few] кусочка
+       *[other] кусочков
+    } чистого блюспейс кристала
+
+stack-datadisk-encrypted =
+    { $amount ->
+        [1] кусок
+        [few] кусочка
+       *[other] кусочков
+    } чистого блюспейс кристала

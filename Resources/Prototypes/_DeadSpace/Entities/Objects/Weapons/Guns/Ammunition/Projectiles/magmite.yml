@@ -1,0 +1,55 @@
+- type: entity
+  id: BulletMagnaCharge
+  name: магмитовый заряд
+  parent: BaseBullet
+  categories: [ HideSpawnMenu ]
+  description: Помечает цель для нанесения дополнительного урона.
+  components:
+  - type: Reflective
+    reflective:
+    - NonEnergy
+  - type: Sprite
+    noRot: false
+    sprite: _DeadSpace/Objects/Weapons/Guns/Ammunition/Projectiles/magmite.rsi
+    layers:
+      - state: magmabolt
+        shader: unshaded
+  - type: GatheringProjectile
+  - type: DamageMarkerOnCollide
+    whitelist:
+      components:
+        - MobState
+    damage:
+      types:
+        Blunt: 25
+        Slash: 25
+  - type: Projectile
+    impactEffect: BulletImpactEffectKinetic
+    damage:
+      types:
+        Blunt: 0
+  - type: TimedDespawn
+    lifetime: 0.4
+
+- type: entity
+  name: кинетическая пуля
+  id: BulletKineticMagmite
+  parent: BulletKinetic
+  description: Простая кинетическая пуля, выпущенная из Магмитного прото-ускорителя.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Guns/Ammunition/Projectiles/magmite.rsi
+    layers:
+      - state: magmabolt
+        shader: unshaded
+  - type: Projectile
+    damage:
+      types:
+        Blunt: 30
+        Structural: 45
+        Slash: 30
+  - type: StaminaDamageOnCollide
+    damage: 40
+  - type: TimedDespawn
+    lifetime: 0.3

@@ -4,6 +4,7 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: Metabolizer
+    solution: chemicals
     metabolizerTypes: [ EggSpider ]
 
 - type: entity
@@ -12,6 +13,7 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: Metabolizer
+    solution: chemicals
     metabolizerTypes: [ EggSpider ]
 
 - type: entity
@@ -20,4 +22,5 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: Metabolizer
+    solution: chemicals
     metabolizerTypes: [ EggSpider ]

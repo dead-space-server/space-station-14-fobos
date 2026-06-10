@@ -24,3 +24,12 @@ store-caregory-spellbook-utility = Utility Spells
 store-caregory-spellbook-equipment = Wizard Equipment
 store-caregory-spellbook-events = Event Spells
 
+# Nukie Delivery
+store-category-nukie-delivery = Offers
+
+# Lavaland
+store-category-lavaland-mining-equipment = Equipment
+store-category-lavaland-mining-tools = Tools
+store-category-lavaland-mining-utility = Utility
+store-category-lavaland-mining-medical = Medical
+store-category-lavaland-mining-contraband = Contraband

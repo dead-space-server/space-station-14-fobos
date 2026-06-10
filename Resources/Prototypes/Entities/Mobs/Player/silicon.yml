@@ -31,6 +31,7 @@
     - Law
   - type: IgnoreUIRange
   - type: StationAiHeld
+  - type: StationAiCentCommFax # DS14
   - type: StationAiOverlay
   - type: ShowElectrocutionHUD
   - type: ActionGrant
@@ -39,6 +40,7 @@
     - ActionSurvCameraLights
     - ActionAIViewLaws
     - AIEyeCamAction
+    - ActionAILeaveRound # DS14
   - type: UserInterface
     interfaces:
       enum.RadarConsoleUiKey.Key:
@@ -53,8 +55,12 @@
         type: CommunicationsConsoleBoundUserInterface
       enum.AICameraListUiKey.Key:
         type: AICameraListBoundUserInterface
+      enum.StationAiCentCommFaxUiKey.Key: # DS14
+        type: StationAiCentCommFaxBoundUserInterface # DS14
   - type: IntrinsicUI
     uis:
+      enum.StationAiCentCommFaxUiKey.Key: # DS14
+        toggleAction: AIActionSendCentCommFax # DS14
       enum.RadarConsoleUiKey.Key:
         toggleAction: AIActionAGhostShowRadar
       enum.CrewMonitoringUIKey.Key:
@@ -69,6 +75,7 @@
     deviceNetId: Wireless
     receiveFrequencyId: CrewMonitor
     transmitFrequencyId: ShuttleTimer
+  - type: StationLimitedNetwork # DS14
   - type: RadarConsole
     followEntity: false
   - type: CommunicationsConsole
@@ -228,8 +235,10 @@
     fixtures:
       fix1:
         shape:
-          !type:PhysShapeAabb
-          bounds: "-0.5,-0.5,0.5,0.5"
+        # DS14-start
+          !type:PhysShapeCircle
+          radius: 0.49
+        # DS14-end
         mask:
         - MachineMask
         layer:
@@ -281,6 +290,11 @@
     powerLoad: 500
   - type: ExtensionCableReceiver
   - type: Battery
+    # Very important:
+    # Disable networking to prevent the battery getting continuously dirtied every tick as it interacts with the power network.
+    # This can not be done by changing the charge rate as the power supply ramps up over time.
+    # This disables prediction for this battery.
+    netsync: false
     maxCharge: 300000
     startingCharge: 300000
   - type: ApcPowerReceiverBattery
@@ -456,7 +470,7 @@
     # Once it's in a core it's pretty much an abstract entity at that point.
     visible: false
   - type: SiliconLawProvider
-    laws: Crewsimov
+    laws: CrewsimovAi # DS14
   - type: SiliconLawBound
   - type: ActionGrant
     actions:
@@ -501,6 +515,13 @@
       state: ai_female
   - type: NameIdentifier
     group: StationAi
+  - type: ToggleableGhostRole
+    roleName: station-ai-ghost-role-name
+    roleDescription: station-ai-ghost-role-description
+    roleRules: ghost-role-information-silicon-rules
+    mindRoles:
+    - MindRoleGhostRoleSilicon
+    job: StationAi
 
 # Hologram projection that the AI's eye tracks.
 - type: entity
@@ -612,7 +633,7 @@
       job: Borg
     - type: GhostTakeoverAvailable
     #DS14-start
-    - type: GhostRoleNotifys 
+    - type: GhostRoleNotifys
       groupPrototype: SyndicateBorgGroup
     #DS14-end
 
@@ -650,25 +671,26 @@
       job: Borg
     - type: GhostTakeoverAvailable
     #DS14-start
-    - type: GhostRoleNotifys 
+    - type: GhostRoleNotifys
       groupPrototype: SyndicateBorgGroup
     #DS14-end
 
 - type: entity
-  name: syndicate invasion borg spawner
-  id: PlayerBorgSyndicateInvasionGhostRoleSpawner
   parent: MarkerBase
+  id: PlayerBorgSyndicateInvasionGhostRoleSpawner
+  name: syndicate invasion borg spawner
   components:
   - type: Sprite
     layers:
       - state: red
       - sprite: Structures/Decoration/banner.rsi
         state: banner_syndicate
-  - type: RandomSpawner
-    prototypes:
-    - PlayerBorgSyndicateAssaultGhostRole
-    - PlayerBorgSyndicateAssaultGhostRole # Saboteurs are kinda like cyborg medics, we want less.
-    - PlayerBorgSyndicateSaboteurGhostRole
+  - type: EntityTableSpawner
+    table: !type:GroupSelector
+      children:
+      - id: PlayerBorgSyndicateAssaultGhostRole
+      - id: PlayerBorgSyndicateSaboteurGhostRole
+        weight: 0.5 # Saboteurs are kinda like cyborg medics, we want less.
 
 - type: entity
   parent: EngineeringBorgChassisDerelict
@@ -680,6 +702,7 @@
       borg_brain:
       - PositronicBrain
       borg_module:
+      - BorgModulePrying
       - BorgModuleTool
       - BorgModuleFireExtinguisher
       - BorgModuleConstruction
@@ -708,7 +731,7 @@
     job: Borg
   - type: GhostTakeoverAvailable
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: DerelictCyborg
   #DS14-end
 
@@ -722,6 +745,7 @@
       borg_brain:
         - PositronicBrain
       borg_module:
+        - BorgModulePrying
         - BorgModuleTool
         - BorgModuleFireExtinguisher
   - type: ItemSlots
@@ -747,7 +771,7 @@
       job: Borg
     - type: GhostTakeoverAvailable
     #DS14-start
-    - type: GhostRoleNotifys 
+    - type: GhostRoleNotifys
       groupPrototype: DerelictCyborg
     #DS14-end
 
@@ -761,6 +785,7 @@
       borg_brain:
       - PositronicBrain
       borg_module:
+      - BorgModulePrying
       - BorgModuleTool
       - BorgModuleFireExtinguisher
       - BorgModuleCleaning
@@ -788,7 +813,7 @@
     job: Borg
   - type: GhostTakeoverAvailable
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: DerelictCyborg
   #DS14-end
 
@@ -802,6 +827,7 @@
       borg_brain:
       - PositronicBrain
       borg_module:
+      - BorgModulePrying
       - BorgModuleTool
       - BorgModuleFireExtinguisher
       - BorgModuleChemical
@@ -830,7 +856,7 @@
     job: Borg
   - type: GhostTakeoverAvailable
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: DerelictCyborg
   #DS14-end
 
@@ -844,6 +870,7 @@
       borg_brain:
       - PositronicBrain
       borg_module:
+      - BorgModulePrying
       - BorgModuleTool #No fire extinguisher, traversal is better
       - BorgModuleMining
       - BorgModuleTraversal
@@ -871,7 +898,7 @@
     job: Borg
   - type: GhostTakeoverAvailable
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: DerelictCyborg
   #DS14-end
 
@@ -911,6 +938,6 @@
     job: Borg
   - type: GhostTakeoverAvailable
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: DerelictCyborg
   #DS14-end

@@ -4,14 +4,14 @@
   id: ClothingBackpackMaelstorm
   name: старая командирская сумка
   description: Старая командирская сумка красноармейца времён революций, однако получившая модернизацию блюспейс технологиями. Выглядит потрёпанной.
-  # categories: [ HideSpawnMenu ] # попросил оставить в меню спавна
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/maelstorm/backpack.rsi
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,13,5
+    - 0,0,15,5
   - type: StorageFill
     contents:
       - id: ClothingHeadsetMaelstorm
@@ -26,7 +26,7 @@
       - id: ClothingOuterCoat1Maelstorm
       - id: ClothingUniformJumpsuit1MaelstormAlt
       - id: ClothingShoesMaelstorm
-      - id: SyndicateJawsOfLife
+      - id: JawsOfLife
       - id: ClothingMaskGasMaelstorm
       - id: JetpackVoidFilled
       - id: ADTDrinkArmyFlask
@@ -484,10 +484,12 @@
   description: Папка, заполненная документами.
   categories: [ HideSpawnMenu ]
   components:
-    - type: StorageFill
-      contents:
-      - id: PaperGearMaelstorm
-      - id: PaperLawMaelstorm
+    - type: EntityTableContainerFill
+      containers:
+        storagebase: !type:AllSelector
+          children:
+          - id: PaperGearMaelstorm
+          - id: PaperLawMaelstorm
 
 - type: entity
   parent: PaperPrintedUSSPCentcomm

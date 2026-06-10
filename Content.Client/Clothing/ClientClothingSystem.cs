@@ -5,6 +5,7 @@ using Content.Client.Inventory;
 using Content.Shared.Clothing;
 using Content.Shared.Clothing.Components;
 using Content.Shared.Clothing.EntitySystems;
+using Content.Shared.DeadSpace.Clothing;
 using Content.Shared.Humanoid;
 using Content.Shared.Inventory;
 using Content.Shared.Inventory.Events;
@@ -47,6 +48,7 @@ public sealed class ClientClothingSystem : ClothingSystem
         {"socks", "SOCKS"}, // DS14-Underwear
         {"underweart", "UNDERWEART"}, // DS14-Underwear
         {"underwearb", "UNDERWEARB"}, // DS14-Underwear
+        {"tailbag", "TAILBAG"}, // DS14
     };
 
     [Dependency] private readonly IResourceCache _cache = default!;
@@ -269,7 +271,14 @@ public sealed class ClientClothingSystem : ClothingSystem
 
         // temporary, until layer draw depths get added. Basically: a layer with the key "slot" is being used as a
         // bookmark to determine where in the list of layers we should insert the clothing layers.
-        var slotLayerExists = _sprite.LayerMapTryGet((equipee, sprite), slot, out var index, false);
+        // DS14-start
+        var layerAnchor = CompOrNull<ClothingVisualLayerAnchorComponent>(equipment)?.Slot;
+        var insertionSlot = string.IsNullOrWhiteSpace(layerAnchor) ? slot : layerAnchor;
+        var slotLayerExists = TryGetClothingInsertionIndex(equipee, sprite, inventorySlots, insertionSlot, out var index);
+
+        if (!slotLayerExists && insertionSlot != slot)
+            slotLayerExists = TryGetClothingInsertionIndex(equipee, sprite, inventorySlots, slot, out index);
+        // DS14-end
 
         // Select displacement maps
         var displacementData = inventory.Displacements.GetValueOrDefault(slot); //Default unsexed map
@@ -345,4 +354,28 @@ public sealed class ClientClothingSystem : ClothingSystem
 
         RaiseLocalEvent(equipment, new EquipmentVisualsUpdatedEvent(equipee, slot, revealedLayers), true);
     }
+
+    // DS14-start
+    private bool TryGetClothingInsertionIndex(
+        EntityUid equipee,
+        SpriteComponent sprite,
+        InventorySlotsComponent inventorySlots,
+        string slot,
+        out int index)
+    {
+        if (!_sprite.LayerMapTryGet((equipee, sprite), slot, out index, false))
+            return false;
+
+        if (!inventorySlots.VisualLayerKeys.TryGetValue(slot, out var slotVisualLayers))
+            return true;
+
+        foreach (var layerKey in slotVisualLayers)
+        {
+            if (_sprite.LayerMapTryGet((equipee, sprite), layerKey, out var layerIndex, false) && layerIndex > index)
+                index = layerIndex;
+        }
+
+        return true;
+    }
+    // DS14-end
 }

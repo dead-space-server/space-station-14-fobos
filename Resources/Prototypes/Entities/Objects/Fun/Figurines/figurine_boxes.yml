@@ -1,0 +1,162 @@
+- type: entity
+  id: MysteryFigureBoxTrash
+  parent: BaseItem
+  name: unfolded cardboard box
+  description: A small, unfolded cardboard toy box.
+  components:
+  - type: PhysicalComposition
+    materialComposition:
+      Cardboard: 50
+  - type: Sprite
+    sprite: Objects/Fun/figurines.rsi
+    state: fig_box_unfolded
+  - type: Tag
+    tags:
+    - Trash
+  - type: SpaceGarbage
+
+- type: entity
+  parent: BaseItem
+  id: MysteryFigureBox
+  name: mystery spacemen minifigure box
+  description: A box containing a mystery minifigure. The side of the box depicts a few blacked-out 'rare' figures, including one with a large, non-humanoid shilouette.
+  components:
+  - type: Sprite
+    sprite: Objects/Fun/figurines.rsi
+    layers:
+      - state: fig_box
+  - type: TriggerOnActivate
+  - type: DeleteOnTrigger
+  - type: EmitSoundOnTrigger
+    positional: true
+    predicted: true
+    sound:
+      path: /Audio/Effects/unwrap.ogg
+  - type: SpawnEntityTableOnTrigger
+    useMapCoords: true
+    table: !type:AllSelector
+      children:
+      - id: MysteryFigureBoxTrash
+      - !type:GroupSelector
+        children:
+        - id: ToyFigurinePassenger
+        - id: ToyFigurineClown
+        - id: ToyFigurineMime
+        - id: ToyFigurineMusician
+        - id: ToyFigurineBoxer
+        - id: ToyFigurineCaptain
+        - id: ToyFigurineHeadOfSecurity
+        - id: ToyFigurineWarden
+        - id: ToyFigurineDetective
+        - id: ToyFigurineSecurity
+        - id: ToyFigurineLawyer
+        - id: ToyFigurineCargoTech
+        - id: ToyFigurineSalvage
+        - id: ToyFigurineQuartermaster
+        - id: ToyFigurineChiefEngineer
+        - id: ToyFigurineAtmosTech
+        - id: ToyFigurineEngineer
+        - id: ToyFigurineResearchDirector
+        - id: ToyFigurineScientist
+        - id: ToyFigurineChiefMedicalOfficer
+        - id: ToyFigurineChemist
+        - id: ToyFigurineParamedic
+        - id: ToyFigurineMedicalDoctor
+        - id: ToyFigurineHeadOfPersonnel
+        - id: ToyFigurineLibrarian
+        - id: ToyFigurineChaplain
+        - id: ToyFigurineChef
+        - id: ToyFigurineBartender
+        - id: ToyFigurineBotanist
+        - id: ToyFigurineJanitor
+        - id: ToyFigurineNukie
+        - id: ToyFigurineNukieElite
+        - id: ToyFigurineFootsoldier
+        - id: ToyFigurineWizardFake
+        - id: ToyFigurineSlime
+        - id: ToyFigurineGreytider
+        - id: ToyFigurineWizard
+          weight: 0.50
+        - id: ToyFigurineNukieCommander
+          weight: 0.50
+        - id: ToyFigurineGriffin
+          weight: 0.50
+        - id: ToyFigurineOwlman
+          weight: 0.50
+        - id: ToyFigurineSkeleton
+          weight: 0.50
+        - id: ToyFigurineThief
+          weight: 0.30
+        - id: ToyFigurineRatKing
+          weight: 0.30
+        - id: ToyFigurineRatServant
+          weight: 0.40
+        - id: ToyFigurineMouse
+          weight: 0.50
+        - id: ToyFigurineQueen
+          weight: 0.25
+        - id: ToyFigurineSpaceDragon
+          weight: 0.10
+        - id: ToyFigurineHamlet
+          weight: 0.20
+        - id: ToyFigurineHqdishka
+        - id: ToyFigurineHacksLua
+
+- type: entity
+  parent: BaseItem
+  id: MysteryLighterBox
+  name: Novelty lighter mystery box
+  suffix: Filled
+  description: A box of discontinued promotional lighters, many of which have since been declared "contraband".
+  components:
+  - type: Sprite
+    sprite: Objects/Fun/figurines.rsi
+    layers:
+    - state: fig_box
+  - type: SpawnItemsOnUse
+    items:
+      - id: MysteryFigureBoxTrash
+      - id: CybersunFlippo
+        orGroup: Lighterbox
+        weight: 0.15
+      - id: InterdyneFlippo
+        orGroup: Lighterbox
+        weight: 0.15
+      - id: NanotrasenFlippo
+        orGroup: Lighterbox
+        weight: 0.25
+      - id: WaffleCoFlippo
+        orGroup: Lighterbox
+        weight: 0.35
+      - id: HonkCoFlippo
+        orGroup: Lighterbox
+      - id: GorlexMatchbox
+        orGroup: Lighterbox
+        weight: 0.15
+      - id: DonkcoLighter
+        orGroup: Lighterbox
+        weight: 0.25
+      - id: SyndicateFlippo
+        orGroup: Lighterbox
+        weight: 0.15
+
+- type: entity
+  parent: MysteryLighterBox
+  id: UplinkLighterBox
+  suffix: Uplink
+  components:
+  - type: SpawnItemsOnUse
+    items:
+      - id: MysteryFigureBoxTrash
+      - id: CybersunFlippo
+        orGroup: Lighterbox
+      - id: InterdyneFlippo
+        orGroup: Lighterbox
+      - id: WaffleCoFlippo
+        orGroup: Lighterbox
+      - id: GorlexMatchbox
+        orGroup: Lighterbox
+      - id: DonkcoLighter
+        orGroup: Lighterbox
+      - id: SyndicateFlippo
+        orGroup: Lighterbox

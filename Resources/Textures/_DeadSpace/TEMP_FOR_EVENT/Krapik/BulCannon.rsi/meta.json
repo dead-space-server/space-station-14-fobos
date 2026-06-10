@@ -1,0 +1,32 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-4.0",
+    "copyright": "sssssssssssssssssssss",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "base"
+        },
+        {
+            "name": "equipped-BACKPACK"
+        },
+        {
+            "name": "equipped-STORAGE"
+        },
+        {
+            "name": "inhand-left"
+        },
+        {
+            "name": "inhand-right"
+        },
+        {
+            "name": "wielded-inhand-left"
+        },
+        {
+            "name": "wielded-inhand-right"
+        }
+    ]
+}

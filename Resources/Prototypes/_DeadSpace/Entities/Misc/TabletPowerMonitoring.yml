@@ -1,0 +1,26 @@
+- type: entity
+  parent: [BaseItem]
+  id: TabletPowerMonitoring
+  name: портативная консоль контроля питания
+  description: Портативная консоль контроля питания, позволяющая смотреть показатели энергии по всей станции!
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Misc/tabletPowerMonitoring.rsi
+    layers:
+    - state: tabletPowerMonitoring
+  - type: Item
+    sprite: _DeadSpace/Objects/Misc/tabletPowerMonitoring.rsi
+    size: Normal
+  - type: Clothing
+    slots: [belt]
+    quickEquip: false
+    sprite: _DeadSpace/Objects/Misc/tabletPowerMonitoring.rsi
+  - type: PowerMonitoringConsole
+  - type: PowerMonitoringCableNetworks
+  - type: ActivatableUI
+    singleUser: true
+    key: enum.PowerMonitoringConsoleUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.PowerMonitoringConsoleUiKey.Key:
+        type: PowerMonitoringConsoleBoundUserInterface

@@ -1,7 +1,7 @@
 - type: entity
   id: ActionObeliskActivate
   name: Начать активацию обелиска
-  description: Провести ритуал по активации обелиска.
+  description: Провести ритуал активации обелиска.
   categories: [ HideSpawnMenu ]
   components:
   - type: Action

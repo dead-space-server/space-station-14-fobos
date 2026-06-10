@@ -1,3 +1,34 @@
+# Tier 1
+
+- type: technology
+  id: RIGEVA
+  name: research-technology-rig-eva
+  icon:
+    sprite: _DeadSpace/RIGs/EVA/backpack.rsi
+    state: icon
+  discipline: CivilianServices
+  tier: 1
+  cost: 5000
+  recipeUnlocks:
+  - BlueprintRIGEVAInfinite
+  - BlueprintRIGEVAThreeUse
+  - BlueprintRIGEVAOneUse
+  - ClothingHeadHelmetRIGEVA
+  - PlastineOfEVARIG
+
+- type: technology
+  id: VehicleJanicartTech
+  name: research-technology-vehicle-janicart
+  icon:
+    sprite: Objects/Vehicles/janicart.rsi
+    state: vehicle
+  discipline: CivilianServices
+  tier: 1
+  cost: 5000
+  recipeUnlocks:
+  - VehicleKeyJanicart
+  - VehicleJanicartFlatpack
+
 # Tier 3
 
 - type: technology
@@ -11,3 +42,15 @@
   cost: 10000
   recipeUnlocks:
   - CompactDefibrillator
+
+- type: technology
+  id: PinpointerUniversalTech
+  name: research-technology-pinpointeruniversal
+  icon:
+    sprite: Objects/Devices/pinpointer.rsi
+    state: pinpointer-way
+  discipline: CivilianServices
+  tier: 3
+  cost: 10000
+  recipeUnlocks:
+    - PinpointerUniversal

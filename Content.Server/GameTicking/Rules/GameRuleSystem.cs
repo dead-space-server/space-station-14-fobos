@@ -34,6 +34,7 @@ public abstract partial class GameRuleSystem<T> : EntitySystem where T : ICompon
         SubscribeLocalEvent<T, GameRuleStartedEvent>(OnGameRuleStarted);
         SubscribeLocalEvent<T, GameRuleEndedEvent>(OnGameRuleEnded);
         SubscribeLocalEvent<RoundEndTextAppendEvent>(OnRoundEndTextAppend);
+        SubscribeLocalEvent<RoundEndDiscordTextAppendEvent>(OnRoundEndDiscordTextAppend); // DS14
     }
 
     private void OnStartAttempt(RoundStartAttemptEvent args)
@@ -47,6 +48,7 @@ public abstract partial class GameRuleSystem<T> : EntitySystem where T : ICompon
         while (query.MoveNext(out var uid, out _, out var gameRule))
         {
             var minPlayers = gameRule.MinPlayers;
+            var name = ToPrettyString(uid);
 
             int playerCount = useTotalPlayers ? _playerManager.PlayerCount : args.Players.Length; // DS14
 
@@ -61,17 +63,19 @@ public abstract partial class GameRuleSystem<T> : EntitySystem where T : ICompon
                     ChatManager.SendAdminAnnouncement(Loc.GetString("preset-not-enough-current-players",
                         ("currentPlayers", playerCount),
                         ("minimumPlayers", minPlayers),
-                        ("presetName", ToPrettyString(uid))));
+                        ("presetName", name)));
                 }
                 else
                 {
                     ChatManager.SendAdminAnnouncement(Loc.GetString("preset-not-enough-ready-players",
                         ("readyPlayersCount", playerCount),
                         ("minimumPlayers", minPlayers),
-                        ("presetName", ToPrettyString(uid))));
+                        ("presetName", name)));
                 }
                 // DS14-edit-end
                 args.Cancel();
+                //TODO remove this once announcements are logged
+                Log.Info($"Rule '{name}' requires {minPlayers} players, but only {args.Players.Length} are ready.");
             }
             else
             {
@@ -113,6 +117,20 @@ public abstract partial class GameRuleSystem<T> : EntitySystem where T : ICompon
         }
     }
 
+    // DS14-start
+    private void OnRoundEndDiscordTextAppend(RoundEndDiscordTextAppendEvent ev)
+    {
+        var query = AllEntityQuery<T>();
+        while (query.MoveNext(out var uid, out var comp))
+        {
+            if (!TryComp<GameRuleComponent>(uid, out var ruleData))
+                continue;
+
+            AppendRoundEndDiscordText(uid, comp, ruleData, ref ev);
+        }
+    }
+    // DS14-end
+
     /// <summary>
     /// Called when the gamerule is added
     /// </summary>
@@ -144,6 +162,16 @@ public abstract partial class GameRuleSystem<T> : EntitySystem where T : ICompon
     {
 
     }
+
+    // DS14-start
+    /// <summary>
+    /// Called at the end of a round when Discord-only log text needs to be added for a game rule.
+    /// </summary>
+    protected virtual void AppendRoundEndDiscordText(EntityUid uid, T component, GameRuleComponent gameRule, ref RoundEndDiscordTextAppendEvent args)
+    {
+
+    }
+    // DS14-end
 
     /// <summary>
     /// Called on an active gamerule entity in the Update function

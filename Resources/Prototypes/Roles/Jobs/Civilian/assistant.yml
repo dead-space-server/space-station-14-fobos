@@ -7,10 +7,10 @@
   icon: "JobIconPassenger"
   supervisors: job-supervisors-everyone
   #start-backmen: currency
-  minBankBalance: 150
-  maxBankBalance: 250
+  minBankBalance: 50 # DS14-value
+  maxBankBalance: 150 # DS14-value
   wageDepartment: Civilian
-  wage: 35
+  wage: 50 # DS14-value
   #end-backmen: currency
   special:
   - !type:AddComponentSpecial

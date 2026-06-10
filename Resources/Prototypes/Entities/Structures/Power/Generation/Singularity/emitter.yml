@@ -8,6 +8,7 @@
   components:
   - type: Clickable
   - type: InteractionOutline
+  - type: GravityAffected #DS14
   - type: Physics
     bodyType: Static
   - type: Fixtures
@@ -36,6 +37,7 @@
       # visible: false # Corvax-Resprite
       map: ["enum.LockVisualLayers.Lock"]
   - type: Emitter
+    alertRadio: true
   - type: Gun
     showExamineText: false
     fireRate: 10 #just has to be fast enough to keep up with upgrades
@@ -55,6 +57,9 @@
   - type: Damageable
     damageContainer: StructuralInorganic
     damageModifierSet: StructuralMetallicStrong
+  - type: ActiveRadio
+    channels:
+    - Engineering
   - type: Destructible
     thresholds:
       - trigger:
@@ -87,7 +92,7 @@
   - type: LockedAnchorable
   - type: LockedWiresPanel
   - type: AccessReader
-    access: [[ "Engineering" ]]
+    access: [[ "Engineering" ], ["TaipanEngineering"]] # DS14
   - type: Machine
     board: EmitterCircuitboard
   - type: GuideHelp

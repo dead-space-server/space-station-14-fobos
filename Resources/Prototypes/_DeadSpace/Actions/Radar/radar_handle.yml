@@ -1,0 +1,13 @@
+- type: entity
+  parent: BaseAction
+  id: ActionHandheldRadarToggle
+  name: Включить сканнер масс
+  description: Вы включаете сканнер масс на сумке.
+  components:
+  - type: Action
+    icon: _Corvax/Interface/AdminActions/radar.png
+    keywords: [ "radar", "scanner", "interface" ]
+    priority: -6
+    useDelay: 2
+  - type: InstantAction
+    event: !type:ToggleHandheldRadarUIEvent

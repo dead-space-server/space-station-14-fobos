@@ -1,3 +1,10 @@
 biomass-reclaimer-suicide-others = { CAPITALIZE($victim) } запрыгивает в переработчик биомассы!
+biomass-reclaimer-component-fail-active = Переработчик биомассы уже занят.
+biomass-reclaimer-component-fail-unreclaimable = { CAPITALIZE($target) } не подходит для переработки.
+biomass-reclaimer-component-fail-unanchored = Сначала закрепите переработчик биомассы.
+biomass-reclaimer-component-fail-unpowered = Переработчик биомассы не получает питание.
+biomass-reclaimer-component-fail-alive = { CAPITALIZE($target) } ещё не мёртв.
+biomass-reclaimer-component-fail-souled = { CAPITALIZE($target) } всё ещё имеет активный разум.
+biomass-reclaimer-component-fail-no-physics = { CAPITALIZE($target) } не помещается в переработчик биомассы.
 biomass-reclaimer-component-upgrade-speed = скорость переработки
 biomass-reclaimer-component-upgrade-biomass-yield = выработка биомассы

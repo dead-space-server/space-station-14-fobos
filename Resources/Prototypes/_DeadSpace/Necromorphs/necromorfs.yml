@@ -74,10 +74,16 @@
       Male: Necro
       Female: NecroWoman
       Unsexed: NecroOther
+  - type: IntrinsicRadioTransmitter
+    channels:
+    - Unitolog
+  - type: ActiveRadio
+    channels:
+    - Unitolog
+  - type: IntrinsicRadioReceiver
 
 - type: necromorf
   id: NecroStalker
-  isCanSpawnInfectionDead: false
   movementSpeedMultiply: 1
   layersToHide:
   - Hair
@@ -104,6 +110,13 @@
       Male: Necro
       Female: NecroWoman
       Unsexed: NecroOther
+  - type: IntrinsicRadioTransmitter
+    channels:
+    - Unitolog
+  - type: ActiveRadio
+    channels:
+    - Unitolog
+  - type: IntrinsicRadioReceiver
 
 - type: necromorf
   id: NecroBoomer
@@ -132,6 +145,13 @@
       Male: Necro
       Female: NecroWoman
       Unsexed: NecroOther
+  - type: IntrinsicRadioTransmitter
+    channels:
+    - Unitolog
+  - type: ActiveRadio
+    channels:
+    - Unitolog
+  - type: IntrinsicRadioReceiver
 
 - type: necromorf
   id: NecroDeva
@@ -159,6 +179,13 @@
       Male: Necro
       Female: NecroWoman
       Unsexed: NecroOther
+  - type: IntrinsicRadioTransmitter
+    channels:
+    - Unitolog
+  - type: ActiveRadio
+    channels:
+    - Unitolog
+  - type: IntrinsicRadioReceiver
 
 - type: necromorf
   id: NecroHive
@@ -196,6 +223,13 @@
       Male: Necro
       Female: NecroWoman
       Unsexed: NecroOther
+  - type: IntrinsicRadioTransmitter
+    channels:
+    - Unitolog
+  - type: ActiveRadio
+    channels:
+    - Unitolog
+  - type: IntrinsicRadioReceiver
 
 - type: necromorf
   id: NecroSmall
@@ -221,6 +255,13 @@
       Male: NecroOther
       Female: NecroOther
       Unsexed: NecroOther
+  - type: IntrinsicRadioTransmitter
+    channels:
+    - Unitolog
+  - type: ActiveRadio
+    channels:
+    - Unitolog
+  - type: IntrinsicRadioReceiver
 
 - type: necromorf
   id: NecroTwitcher
@@ -243,6 +284,13 @@
       Male: Necro
       Female: NecroWoman
       Unsexed: NecroOther
+  - type: IntrinsicRadioTransmitter
+    channels:
+    - Unitolog
+  - type: ActiveRadio
+    channels:
+    - Unitolog
+  - type: IntrinsicRadioReceiver
 
 - type: necromorf
   id: NecroPregnant
@@ -269,6 +317,13 @@
       Male: Necro
       Female: NecroWoman
       Unsexed: NecroOther
+  - type: IntrinsicRadioTransmitter
+    channels:
+    - Unitolog
+  - type: ActiveRadio
+    channels:
+    - Unitolog
+  - type: IntrinsicRadioReceiver
 
 - type: necromorf
   id: NecroBrute
@@ -298,6 +353,13 @@
       Male: NecroOther
       Female: NecroOther
       Unsexed: NecroOther
+  - type: IntrinsicRadioTransmitter
+    channels:
+    - Unitolog
+  - type: ActiveRadio
+    channels:
+    - Unitolog
+  - type: IntrinsicRadioReceiver
 
 - type: necromorf
   id: NecroInfector
@@ -326,6 +388,13 @@
       Male: NecroOther
       Female: NecroOther
       Unsexed: NecroOther
+  - type: IntrinsicRadioTransmitter
+    channels:
+    - Unitolog
+  - type: ActiveRadio
+    channels:
+    - Unitolog
+  - type: IntrinsicRadioReceiver
 
 - type: necromorf # Прототип некроморфа
   id: NecroTwitcherLvl2 # Идентификатор
@@ -351,6 +420,13 @@
       Male: Necro
       Female: NecroWoman
       Unsexed: NecroOther
+  - type: IntrinsicRadioTransmitter
+    channels:
+    - Unitolog
+  - type: ActiveRadio
+    channels:
+    - Unitolog
+  - type: IntrinsicRadioReceiver
 
 - type: necromorf # Прототип некроморфа
   id: NecroCorpseCollector # Идентификатор
@@ -407,6 +483,13 @@
       Male: Necro
       Female: NecroWoman
       Unsexed: NecroOther
+  - type: IntrinsicRadioTransmitter
+    channels:
+    - Unitolog
+  - type: ActiveRadio
+    channels:
+    - Unitolog
+  - type: IntrinsicRadioReceiver
 
 - type: weightedRandomEntity
   id: CorpseCollectorMobToSpawn

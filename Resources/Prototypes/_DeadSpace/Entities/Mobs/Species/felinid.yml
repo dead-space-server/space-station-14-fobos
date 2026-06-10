@@ -7,6 +7,10 @@
     noRot: true
     drawdepth: Mobs
     scale: 0.8, 0.8
+  - type: CarrySize
+    size: Small
+  - type: CarryStrength
+    strength: SmallOnly
   - type: HumanoidAppearance
     species: Felinid
     hideLayersOnEquip:
@@ -51,7 +55,6 @@
     soundHit:
       path: /Audio/Effects/hit_kick.ogg
   - type: Stamina
-    critThreshold: 85
   - type: Perishable
   - type: Vocal
     wilhelm: "/Audio/_DeadSpace/Voice/Felinid/cat_wilhelm.ogg"
@@ -74,6 +77,12 @@
     - CatLanguage
     - GeneralLanguage
   # - type: FootPrints
+  - type: NightVision
+    animation: false
+    duration: 30
+    color: "#6E000011"
+    transitionSpeed: 100
+    actionToggleNightVision: ActionToggleNightVisionFelenid
 
 - type: entity
   parent: MobHumanDummy

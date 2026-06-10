@@ -44,6 +44,9 @@ research-technology-night-vision-technology = Night vision technology
 research-technology-security-turrets-technology = Autonomous security systems
 
 research-technology-basic-robotics = Basic Robotics
+#DeadSpace-start
+research-technology-law-board-configuration = Law Board Configuration
+#DeadSpace-end
 research-technology-basic-anomalous-research = Basic Anomalous Research
 research-technology-basic-xenoarcheology = Basic XenoArcheology
 research-technology-alternative-research = Alternative Research

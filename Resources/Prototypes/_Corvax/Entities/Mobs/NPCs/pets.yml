@@ -35,7 +35,6 @@
         - id: ClothingHeadHatCargosoft
           amount: 1
     - type: Bloodstream
-      bloodMaxVolume: 300
     - type: Puller
       needsHands: false
     - type: InteractionPopup

@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Content.Server.Chat.Systems;
+using Content.Shared.Chat;
 using Content.Shared.CCVar;
 using Content.Shared.Corvax.CCCVars;
 using Content.Shared.Corvax.TTS;
@@ -11,7 +12,6 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Content.Server.DeadSpace.Languages;
-using Robust.Server.Player;
 using Content.Shared.DeadSpace.Languages.Prototypes;
 
 namespace Content.Server.Corvax.TTS;
@@ -22,18 +22,22 @@ public sealed partial class TTSSystem : EntitySystem
     [Dependency] private readonly IConfigurationManager _cfg = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly TTSManager _ttsManager = default!;
-    [Dependency] private readonly SharedTransformSystem _xforms = default!;
     [Dependency] private readonly IRobustRandom _rng = default!;
     [Dependency] private readonly LanguageSystem _language = default!;
-    [Dependency] private readonly IPlayerManager _playerManager = default!;
 
     private readonly List<string> _sampleText =
         new()
         {
-            "С новым годом!",
-            "Желаю вам крепкого здоровья и хорошего настроения!",
-            "Весёлого Нового года и приятной игры!",
-            "С Новым годом! Пусть раунд будет долгим, а конец счастливым"
+            "Съешь же ещё этих мягких французских булок, да выпей чаю.",
+            "Клоун, прекрати разбрасывать банановые кожурки офицерам под ноги!",
+            "Капитан, вы уверены что хотите назначить клоуна на должность главы персонала?",
+            "Эс Бэ! Тут человек в сером костюме, с тулбоксом и в маске! Помогите!!",
+            "Я надеюсь что инженеры внимательно следят за сингулярностью...",
+            "Вы слышали эти странные крики в техах? Мне кажется туда ходить небезопасно.",
+            "Вы не видели Гамлета? Мне кажется он забегал к вам на кухню.",
+            "Здесь есть доктор? Человек умирает от отравленного пончика! Нужна помощь!",
+            "Возле эвакуационного шаттла разгерметизация! Инженеры, нам срочно нужна ваша помощь!",
+            "Бармен, налей мне самого крепкого вина, которое есть в твоих запасах!"
         };
 
     private const int MaxMessageChars = 100 * 3; // same as SingleBubbleCharLimit * 3
@@ -165,18 +169,18 @@ public sealed partial class TTSSystem : EntitySystem
 
     private async void HandleSay(EntityUid uid, string message, string lexiconMessage, ProtoId<LanguagePrototype> languageId, string speaker)
     {
+        var recipients = GetExpandedVoiceRecipients(uid, SharedChatSystem.VoiceRange);
         var soundData = await GenerateTTS(message, speaker);
 
         byte[]? soundLexiconData = null;
+        var understanding = new HashSet<ICommonSession>(_language.GetUnderstanding(languageId));
 
-        if (_language.NeedGenerateTTS(uid, languageId, false))
+        if (NeedsLexiconTTS(languageId, recipients, understanding))
             soundLexiconData = await GenerateTTS(lexiconMessage, speaker);
-
-        var understanding = _language.GetUnderstanding(languageId);
 
         if (soundData is null) return;
 
-        foreach (var session in Filter.Pvs(uid).Recipients)
+        foreach (var session in recipients)
         {
             if (!understanding.Contains(session))
             {
@@ -267,11 +271,13 @@ public sealed partial class TTSSystem : EntitySystem
 
     private async void HandleWhisper(EntityUid uid, string message, string lexiconMessage, ProtoId<LanguagePrototype> languageId, string obfMessage, string speaker)
     {
+        var recipients = GetExpandedVoiceRecipients(uid, SharedChatSystem.WhisperMuffledRange);
         var fullSoundData = await GenerateTTS(message, speaker, true);
 
         byte[]? lexiconSoundData = null;
+        var understanding = new HashSet<ICommonSession>(_language.GetUnderstanding(languageId));
 
-        if (_language.NeedGenerateTTS(uid, languageId, true))
+        if (NeedsLexiconTTS(languageId, recipients, understanding))
             lexiconSoundData = await GenerateTTS(lexiconMessage, speaker);
 
         // var obfSoundData = await GenerateTTS(obfMessage, speaker, true);
@@ -282,20 +288,8 @@ public sealed partial class TTSSystem : EntitySystem
 
         var fullTtsEvent = new PlayTTSEvent(fullSoundData, GetNetEntity(uid), isWhisper: true);
 
-        var understanding = _language.GetUnderstanding(languageId);
-
-        // TODO: Check obstacles
-        var xformQuery = GetEntityQuery<TransformComponent>();
-        var sourcePos = _xforms.GetWorldPosition(xformQuery.GetComponent(uid), xformQuery);
-        var receptions = Filter.Pvs(uid).Recipients;
-        foreach (var session in receptions)
+        foreach (var session in recipients)
         {
-            if (!session.AttachedEntity.HasValue) continue;
-            var xform = xformQuery.GetComponent(session.AttachedEntity.Value);
-            var distance = (sourcePos - _xforms.GetWorldPosition(xform, xformQuery)).Length();
-            if (distance > ChatSystem.VoiceRange * ChatSystem.VoiceRange)
-                continue;
-
             if (!understanding.Contains(session))
             {
                 if (lexiconSoundData is null)
@@ -307,6 +301,40 @@ public sealed partial class TTSSystem : EntitySystem
                 RaiseNetworkEvent(fullTtsEvent, session);
 
         }
+    }
+
+    private IReadOnlyCollection<ICommonSession> GetExpandedVoiceRecipients(EntityUid source, float voiceRange)
+    {
+        var recipients = new Dictionary<ICommonSession, ChatSystem.ICChatRecipientData>();
+
+        foreach (var session in Filter.Pvs(source).Recipients)
+        {
+            recipients.TryAdd(session, new ChatSystem.ICChatRecipientData(0f, false));
+        }
+
+        RaiseLocalEvent(new ExpandICChatRecipientsEvent(source, voiceRange, recipients));
+
+        return recipients.Keys;
+    }
+
+    private bool NeedsLexiconTTS(
+        ProtoId<LanguagePrototype> languageId,
+        IEnumerable<ICommonSession> recipients,
+        HashSet<ICommonSession> understanding)
+    {
+        if (string.IsNullOrEmpty(languageId))
+            return false;
+
+        if (!_prototypeManager.TryIndex(languageId, out var languageProto) || !languageProto.GenerateTTSForLexicon)
+            return false;
+
+        foreach (var session in recipients)
+        {
+            if (!understanding.Contains(session))
+                return true;
+        }
+
+        return false;
     }
 
     // ReSharper disable once InconsistentNaming

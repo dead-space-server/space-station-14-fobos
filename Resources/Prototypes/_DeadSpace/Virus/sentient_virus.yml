@@ -10,6 +10,7 @@
   - type: WallHack
   - type: Input
     context: "ghost"
+  - type: Spectral
   - type: NoFTL
   - type: Clickable
   - type: InteractionOutline
@@ -48,6 +49,7 @@
     sprite: _DeadSpace/Virus/virus.rsi
     layers:
     - state: icon
+    - state: animation
       shader: unshaded
       map: ["base"]
   - type: UserInterface
@@ -72,6 +74,8 @@
     requirements:
     - !type:OverallPlaytimeRequirement
       time: 36000 # 10h overall
+  - type: GhostRoleNotifys 
+    groupPrototype: SentientVirusGroup
 
 - type: entity
   categories: [ HideSpawnMenu, Spawner ]

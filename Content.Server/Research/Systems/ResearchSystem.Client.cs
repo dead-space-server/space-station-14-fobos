@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Content.Server.Power.EntitySystems;
 using Content.Shared.Research.Components;
+using Robust.Shared.Utility;
 
 namespace Content.Server.Research.Systems;
 
@@ -62,22 +63,22 @@ public sealed partial class ResearchSystem
     private void OnClientMapInit(EntityUid uid, ResearchClientComponent component, MapInitEvent args)
     {
         // DS14-start
-        var taipanServers = new List<Entity<ResearchServerComponent>>();
-        var normalServers = new List<Entity<ResearchServerComponent>>();
         var allServers = GetServers(uid).ToList();
 
-        foreach (var (serverUid, serverComp) in allServers)
+        foreach (var server in allServers)
         {
-            if (component.isTaipan && serverComp.isTaipan)
-                taipanServers.Add((serverUid, serverComp));
-            else if (!component.isTaipan && !serverComp.isTaipan)
-                normalServers.Add((serverUid, serverComp));
-        }
+            var serverUid = server.Owner;
+            var serverComp = server.Comp;
 
-        if (normalServers.Count > 0)
-            RegisterClient(uid, normalServers[0], component, normalServers[0]);
-        if (taipanServers.Count > 0)
-            RegisterClient(uid, taipanServers[0], component, taipanServers[0]);
+            if (!Resolve(serverUid, ref serverComp, false))
+                continue;
+
+            if (component.isTaipan != serverComp.isTaipan)
+                continue;
+
+            RegisterClient(uid, serverUid, component, serverComp);
+            break;
+        }
         // DS14-end
     }
 
@@ -98,10 +99,8 @@ public sealed partial class ResearchSystem
             if (ent.Comp.Server is not null)
                 return;
 
-            var allServers = GetServers(ent).ToList();
-
-            if (allServers.Count > 0)
-                RegisterClient(ent, allServers[0], ent, allServers[0]);
+            if (GetServers(ent).FirstOrNull() is { } server)
+                RegisterClient(ent, server, ent, server);
         }
         else
         {

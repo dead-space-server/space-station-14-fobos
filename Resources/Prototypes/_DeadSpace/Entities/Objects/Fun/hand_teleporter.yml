@@ -1,0 +1,18 @@
+- type: entity
+  name: телепортер малого диапазона
+  parent: BaseItem
+  id: HandTeleporterResearch
+  description: Устройство что позволяет телепортироваться на небольшие растояния.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Fun/hand_teleporter.rsi
+    layers:
+    - state: icon
+  - type: Item
+    sprite: _DeadSpace/Objects/Fun/hand_teleporter.rsi
+    size: Normal
+  - type: DashAbility
+  - type: LimitedCharges
+    maxCharges: 2
+  - type: AutoRecharge
+    rechargeDuration: 40

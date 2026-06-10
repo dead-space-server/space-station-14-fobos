@@ -5,9 +5,7 @@ using Content.Server.GameTicking.Rules.Components;
 using Content.Server.DeadSpace.Spiders.SpiderTerror.Components;
 using Content.Shared.Mind;
 using Content.Shared.Objectives.Systems;
-using Content.Server.Nuke;
-using Robust.Shared.Audio;
-using Content.Shared.Audio;
+using Content.Server.DeadSpace.Nuke;
 using Content.Server.Station.Systems;
 using Robust.Shared.Timing;
 using Content.Server.Chat.Systems;
@@ -22,15 +20,13 @@ using Content.Shared.Voting;
 using Content.Shared.Humanoid;
 using Robust.Shared.Player;
 using Content.Shared.Mobs.Components;
-using Content.Shared.Station.Components;
 using Content.Shared.Cargo.Components;
 using Content.Server.Cargo.Systems;
 using Content.Shared.Cargo.Prototypes;
+using Content.Shared.DeadSpace.Nuke;
 using Robust.Shared.Prototypes;
-using Content.Server.RoundEnd;
 using Content.Server.DeadSpace.ERT;
 using Content.Shared.DeadSpace.ERT.Prototypes;
-using JetBrains.Annotations;
 using Content.Server.Database;
 
 namespace Content.Server.GameTicking.Rules;
@@ -39,7 +35,7 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
 {
     [Dependency] private readonly SharedMindSystem _mindSystem = default!;
     [Dependency] private readonly SharedObjectivesSystem _objectives = default!;
-    [Dependency] private readonly NukeCodePaperSystem _nukeCodePaper = default!;
+    [Dependency] private readonly NukeCodeSendQueueSystem _nukeCodeQueue = default!; // DS14
     [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly StationSystem _station = default!;
@@ -48,17 +44,14 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
     [Dependency] private readonly IChatManager _chatManager = default!;
     [Dependency] private readonly IVoteManager _voteManager = default!;
     [Dependency] private readonly CargoSystem _cargoSystem = default!;
-    [Dependency] private readonly RoundEndSystem _roundEndSystem = default!;
-    [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
+    [Dependency] private readonly ErtResponseSystem _ertResponseSystem = default!;
     [Dependency] private readonly IServerDbManager _db = default!;
     private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "CburnSierra";
     private static readonly ProtoId<CargoAccountPrototype> Account = "Security";
+    // Сумма пополнения баланса станции на стадии размножения
     private const int AdditionalSupport = 70000;
     private const float ProgressBreeding = 0.45f;
     private const float ProgressNukeCode = 0.7f;
-    private const float ProgressCaptureStation = 0.98f;
-    // Сумма пополнения баланса станции на стадии размножения
-    private static readonly TimeSpan RoundEndTime = TimeSpan.FromSeconds(10);
     private bool _voteSend = false;
 
     public override void Initialize()
@@ -102,7 +95,7 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
             {
                 var stationUid = kvp.Key;
 
-                if (component.IsStationCaptureActive(stationUid))
+                if (IsSpiderTerrorVictory(uid, stationUid, component))
                 {
                     args.AddLine(Loc.GetString("spider-terror-win")); // Тут можно добавить: захватили станцию (название станции), чтобы не было дублирования одного предложения.
 
@@ -139,6 +132,12 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
                 }
             }
         }
+    }
+
+    private bool IsSpiderTerrorVictory(EntityUid uid, EntityUid stationUid, SpiderTerrorRuleComponent component)
+    {
+        var (progress, _) = GetCaptureStationProgress(uid, stationUid, component);
+        return progress >= 1f;
     }
 
     private void OnShuttleCallAttempt(ref CommunicationConsoleCallShuttleAttemptEvent ev)
@@ -203,8 +202,8 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
             var stationUid = kvp.Key;
 
             var (progress, spiders) = GetCaptureStationProgress(uid, stationUid);
-            var msgProgress = "Прогресс захвата станции: " + EntityManager.ToPrettyString(stationUid).Name + ", " + (progress * 100).ToString() + "%";
-            var msgSpiders = "На станции: " + EntityManager.ToPrettyString(stationUid).Name + ", " + spiders.ToString() + " пауков.";
+            var msgProgress = "Прогресс захвата станции: " + ToPrettyString(stationUid).Name + ", " + (progress * 100).ToString() + "%";
+            var msgSpiders = "На станции: " + ToPrettyString(stationUid).Name + ", " + spiders.ToString() + " пауков.";
             var msgSpidersKing = "На станции: " + (GetSpiderKings()).ToString() + " живых королевских пауков.";
             _chatManager.SendAdminAnnouncement(msgProgress);
             _chatManager.SendAdminAnnouncement(msgSpiders);
@@ -222,11 +221,6 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
             if (progress >= ProgressNukeCode || (peopleCount != null && spidersCount != null && peopleCount / spidersCount < component.PeopleOnSpidersNukeCode))
             {
                 NuclearCode(uid, stationUid); // Стадия кодов
-            }
-
-            if (progress >= ProgressCaptureStation)
-            {
-                Capture(uid, stationUid); // Стадия захвата станции
             }
         }
 
@@ -289,7 +283,7 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
         if (!TryComp<StationBankAccountComponent>(station, out var stationAccount))
             return;
 
-        var addMoneyAfterWarDeclared = _ertResponceSystem.GetErtPrice(ErtTeam) + AdditionalSupport;
+        var addMoneyAfterWarDeclared = _ertResponseSystem.GetErtPrice(ErtTeam) + AdditionalSupport;
 
         _cargoSystem.UpdateBankAccount(
                             (station, stationAccount),
@@ -323,32 +317,12 @@ public sealed class SpiderTerrorRuleSystem : GameRuleSystem<SpiderTerrorRuleComp
 
         component.SendNuclearCode(station);
 
-        _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("spider-terror-centcomm-announcement-station-was-nuke"), playSound: true, colorOverride: Color.OrangeRed);
-
-        _nukeCodePaper.SendNukeCodes(station);
-    }
-
-    private void Capture(EntityUid uid, EntityUid station, SpiderTerrorRuleComponent? component = null)
-    {
-        if (!Resolve(uid, ref component))
-            return;
-
-        if (component.IsStationCaptureActive(station))
-            return;
-
-        _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("spider-terror-centcomm-announcement-station-was-capture"), playSound: true, colorOverride: Color.Green);
-
-        if (TryComp<StationDataComponent>(station, out var data))
-        {
-            var msg = new GameGlobalSoundEvent(component.Sound, AudioParams.Default);
-            var stationFilter = _station.GetInStation(data);
-            stationFilter.AddPlayersByPvs(station, entityManager: EntityManager);
-            RaiseNetworkEvent(msg, stationFilter);
-        }
-
-        component.CaptureStation(station);
-        _roundEndSystem.EndRound(RoundEndTime);
-
+        // DS14-Start: queue automatic nuke-code dispatches for admin review.
+        _nukeCodeQueue.TryQueueAutomaticRequest(
+            station,
+            NukeCodeSendReasonIds.SpiderTerrorCritical,
+            out _);
+        // DS14-End
     }
 
     private (float progress, int spiderCount) GetCaptureStationProgress(EntityUid uid, EntityUid station, SpiderTerrorRuleComponent? component = null)

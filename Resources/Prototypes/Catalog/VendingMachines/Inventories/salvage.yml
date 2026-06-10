@@ -4,15 +4,15 @@
     Crowbar: 2
     Pickaxe: 4
     OreBag: 4
-    Flare: 4
+    BoxFlare: 3 # DS14
     FlashlightLantern: 2
     HandheldGPSBasic: 2
     RadioHandheld: 2
-    # WeaponGrapplingGun: 4 # DS14
-    WeaponProtoKineticAccelerator: 4
-    WeaponProtoKineticAcceleratorReapeter: 1 # DS14
-    WeaponProtoKineticAcceleratorShotgun: 1 # DS14
     #DS14-start
+    # WeaponGrapplingGun: 4
+    # WeaponProtoKineticAccelerator: 4
+    # WeaponProtoKineticAcceleratorReapeter: 1 # DS14
+    # WeaponProtoKineticAcceleratorShotgun: 1 # DS14
     Fulton: 4
     FultonBeacon: 1
     #DS14-end

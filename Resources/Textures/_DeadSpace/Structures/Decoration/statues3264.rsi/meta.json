@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from https://github.com/ss220club/Paradise-SS220/blob/master/modular_ss220/unique_objects/icons/statuelarge.dmi",
+  "size": {
+    "x": 32,
+    "y": 64
+  },
+  "states": [
+    {
+      "name": "themis"
+    }
+  ]
+}

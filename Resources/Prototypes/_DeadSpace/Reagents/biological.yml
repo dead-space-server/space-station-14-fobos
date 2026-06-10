@@ -12,22 +12,21 @@
       methods: [ Touch ]
       effects:
       - !type:HealthChange
-        scaleByQuantity: true
         ignoreResistances: false
         damage:
           types:
             Caustic: 0.6
         conditions:
-        - !type:OrganType
-          type: Xenomorph
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Xenomorph ]
+          inverted: true
       - !type:Emote
         emote: Scream
         probability: 0.2
         conditions:
-        - !type:OrganType
-          type: Xenomorph
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Xenomorph ]
+          inverted: true
   metabolisms:
     Poison:
       metabolismRate: 3.00
@@ -37,25 +36,25 @@
           types:
             Caustic: 12
         conditions:
-        - !type:OrganType
-          type: Xenomorph
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Xenomorph ]
+          inverted: true
       - !type:PopupMessage
         type: Local
         visualType: Large
         messages: [ "generic-reagent-effect-burning-insides" ]
         probability: 0.33
         conditions:
-        - !type:OrganType
-          type: Xenomorph
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Xenomorph ]
+          inverted: true
       - !type:Emote
         emote: Scream
         probability: 0.25
         conditions:
-        - !type:OrganType
-          type: Xenomorph
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Xenomorph ]
+          inverted: true
   footstepSound:
     collection: FootstepBlood
     params:
@@ -72,7 +71,7 @@
   metabolisms:
     Medicine:
       effects:
-      - !type:ModifyBleedAmount
+      - !type:ModifyBleed
         amount: -1.5
       - !type:EvenHealthChange
         damage:

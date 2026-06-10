@@ -78,7 +78,7 @@
       hadOutline: true
       maxVisibility: 0.5
     - type: StealthOnMove
-      passiveVisibilityRate: -0.50
+      passiveVisibilityRate: -1 # very useful for going around the station concealed, if you start jitterstrafing you get seen
       movementVisibilityRate: 0.20
     - type: StepTrigger
       intersectRatio: 0.2

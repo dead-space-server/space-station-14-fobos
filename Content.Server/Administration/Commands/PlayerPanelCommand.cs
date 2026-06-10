@@ -3,6 +3,7 @@ using Content.Server.EUI;
 using Content.Shared.Administration;
 using Robust.Server.Player;
 using Robust.Shared.Console;
+using Robust.Shared.Player;
 
 namespace Content.Server.Administration.Commands;
 
@@ -12,6 +13,7 @@ public sealed class PlayerPanelCommand : LocalizedCommands
     [Dependency] private readonly IPlayerLocator _locator = default!;
     [Dependency] private readonly EuiManager _euis = default!;
     [Dependency] private readonly IPlayerManager _players = default!;
+    [Dependency] private readonly IEntityManager _entities = default!; // DS14
 
     public override string Command => "playerpanel";
 
@@ -29,7 +31,19 @@ public sealed class PlayerPanelCommand : LocalizedCommands
             return;
         }
 
-        var queriedPlayer = await _locator.LookupIdByNameOrIdAsync(args[0]);
+        // DS14-start
+        LocatedPlayerData? queriedPlayer;
+        if (NetEntity.TryParse(args[0], out var netEntity) &&
+            _entities.TryGetEntity(netEntity, out var entity) &&
+            _entities.TryGetComponent(entity.Value, out ActorComponent? actor))
+        {
+            queriedPlayer = await _locator.LookupIdAsync(actor.PlayerSession.UserId);
+        }
+        else
+        {
+            queriedPlayer = await _locator.LookupIdByNameOrIdAsync(args[0]);
+        }
+        // DS14-end
 
         if (queriedPlayer == null)
         {

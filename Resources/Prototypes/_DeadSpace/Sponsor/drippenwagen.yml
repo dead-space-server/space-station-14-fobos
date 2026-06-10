@@ -22,7 +22,7 @@
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,13,5
+    - 0,0,15,5
   - type: StorageFill
     contents:
       - id: ClothingBeltdrippenwagenFilled
@@ -88,7 +88,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitdrippenwagen
   name: скафандр Банши
   description: Принадлежат члену экипажа, находящемуся под покровительством спонсорской организации.

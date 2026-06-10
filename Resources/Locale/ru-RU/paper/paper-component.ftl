@@ -9,6 +9,7 @@ paper-component-illiterate = Вы не можете писать.
 paper-component-illiterate-mime = Ваш обет запрещает вам писать.
 paper-component-action-stamp-paper-other = { CAPITALIZE($user) } ставит печать на { $target } с помощью { $stamp }.
 paper-component-action-stamp-paper-self = Вы ставите печать на { $target } с помощью { $stamp }.
+paper-component-action-stamp-paper-full = На бумаге закончилось место для печатей.
 # Indicator to show how full a paper is
 paper-ui-fill-level = { $currentLength }/{ $maxLength }
 paper-ui-save-button = Сохранить ({ $keybind })

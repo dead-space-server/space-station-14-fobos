@@ -32,6 +32,9 @@ public abstract class SharedInvisibilitySystem : EntitySystem
 
         var visibility = component.IsInvisible ? component.MinVisibility + component.Visibility : component.MaxVisibility;
 
+        // Дополнительная проверка  
+        visibility = Math.Clamp(visibility, stealth.MinVisibility, stealth.MaxVisibility);
+
         _stealth.SetVisibility(uid, visibility, stealth);
 
         if (component.InvisibilitySound == null)

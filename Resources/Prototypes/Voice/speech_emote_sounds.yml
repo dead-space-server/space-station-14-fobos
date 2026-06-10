@@ -120,8 +120,6 @@
   sounds:
     Scream:
       path: /Audio/Voice/Reptilian/reptilian_scream.ogg
-    Laugh:
-      path: /Audio/Animals/lizard_happy.ogg
     Honk:
       collection: BikeHorn
     Whistle:
@@ -248,6 +246,10 @@
       path: /Audio/Voice/Vox/vox_cough.ogg
     Sigh:
       path: /Audio/Voice/Vox/vox_sigh.ogg
+    Click:
+      path: /Audio/Voice/Vox/vox_click.ogg
+    Chitter:
+      path: /Audio/Voice/Vox/vox_chitter.ogg
     Honk:
       collection: BikeHorn
     Crying:
@@ -526,6 +528,12 @@
       collection: VulpkaninWhines
     Howl:
       collection: VulpkaninMaleHowl # DS14
+    Weh:
+      collection: Weh
+    Hew:
+      collection: Hew
+    Honk:
+      collection: BikeHorn
     Gasp:
       collection: MaleGasp
     DefaultDeathgasp:
@@ -560,6 +568,12 @@
       collection: VulpkaninWhines
     Howl:
       collection: VulpkaninFemaleHowl # DS14
+    Weh:
+      collection: Weh
+    Hew:
+      collection: Hew
+    Honk:
+      collection: BikeHorn
     Gasp:
       collection: FemaleGasp
     DefaultDeathgasp:

@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Numerics;
+using Content.Server.Explosion.Components;
 using Content.Shared.Administration;
 using Content.Shared.Explosion.Components;
 using Robust.Shared.Map;
@@ -35,16 +36,13 @@ public sealed partial class ExplosionSystem
         string typeID,
         float totalIntensity,
         float slope,
-        float maxIntensity)
+        float maxIntensity,
+        bool ignoreTileBlockers = false) // DS14
     {
         if (totalIntensity <= 0 || slope <= 0)
             return null;
 
-        if (!_explosionTypes.TryGetValue(typeID, out var typeIndex))
-        {
-            Log.Error("Attempted to spawn explosion using a prototype that was not defined during initialization. Explosion prototype hot-reload is not currently supported.");
-            return null;
-        }
+        var typeIndex = _explosionTypes[typeID];
 
         Vector2i initialTile;
         EntityUid? epicentreGrid = null;
@@ -103,8 +101,7 @@ public sealed partial class ExplosionSystem
             // set up the initial `gridData` instance
             encounteredGrids.Add(epicentreGrid.Value);
 
-            if (!_airtightMap.TryGetValue(epicentreGrid.Value, out var airtightMap))
-                airtightMap = new();
+            var airtightMap = CompOrNull<ExplosionAirtightGridComponent>(epicentreGrid)?.Tiles ?? new();
 
             var initialGridData = new ExplosionGridTileFlood(
                 (epicentreGrid.Value, Comp<MapGridComponent>(epicentreGrid.Value)),
@@ -115,7 +112,9 @@ public sealed partial class ExplosionSystem
                 _gridEdges[epicentreGrid.Value],
                 referenceGrid,
                 spaceMatrix,
-                spaceAngle);
+                spaceAngle,
+                this,
+                ignoreTileBlockers); // DS14
 
             gridData[epicentreGrid.Value] = initialGridData;
 
@@ -124,7 +123,7 @@ public sealed partial class ExplosionSystem
         else
         {
             // set up the space explosion data
-            spaceData = new ExplosionSpaceTileFlood(this, epicenter, referenceGrid, localGrids, maxDistance);
+            spaceData = new ExplosionSpaceTileFlood(this, epicenter, referenceGrid, localGrids, maxDistance, ignoreTileBlockers); // DS14
             spaceData.InitTile(initialTile);
         }
 
@@ -192,8 +191,7 @@ public sealed partial class ExplosionSystem
                 // is this a new grid, for which we must create a new explosion data set
                 if (!gridData.TryGetValue(grid, out var data))
                 {
-                    if (!_airtightMap.TryGetValue(grid, out var airtightMap))
-                        airtightMap = new();
+                    var airtightMap = CompOrNull<ExplosionAirtightGridComponent>(grid)?.Tiles ?? new();
 
                     data = new ExplosionGridTileFlood(
                         (grid, Comp<MapGridComponent>(grid)),
@@ -204,7 +202,9 @@ public sealed partial class ExplosionSystem
                         _gridEdges[grid],
                         referenceGrid,
                         spaceMatrix,
-                        spaceAngle);
+                        spaceAngle,
+                        this,
+                        ignoreTileBlockers); // DS14
 
                     gridData[grid] = data;
                 }
@@ -216,7 +216,7 @@ public sealed partial class ExplosionSystem
 
             // if space-data is null, but some grid-based explosion reached space, we need to initialize it.
             if (spaceData == null && previousSpaceJump.Count != 0)
-                spaceData = new ExplosionSpaceTileFlood(this, epicenter, referenceGrid, localGrids, maxDistance);
+                spaceData = new ExplosionSpaceTileFlood(this, epicenter, referenceGrid, localGrids, maxDistance, ignoreTileBlockers); // DS14
 
             // If the explosion has reached space, do that neighbors finding step as well.
             if (spaceData != null)

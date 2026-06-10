@@ -1,5 +1,7 @@
-﻿<BoxContainer xmlns="https://spacestation14.io"
+<BoxContainer xmlns="https://spacestation14.io"
               Orientation="Vertical">
-    <Label Name="TitleLabel" StyleClasses="LabelHeading"/>
+    <!-- DS14-start -->
+    <Label Name="TitleLabel" StyleClasses="DS14MenuProfileSection"/>
     <RichTextLabel Name="Content"/>
+    <!-- DS14-end -->
 </BoxContainer>

@@ -1,0 +1,460 @@
+# Backpack
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBackpackQu0565Alt
+  name: боевая сумка креста
+  description: Чёрно-красная сумка, для лучших бойцов.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/qu0565alt/backpack.rsi
+  - type: Storage
+    maxItemSize: Huge
+    grid:
+    - 0,0,15,10
+  - type: StorageFill
+    contents:
+    - id: ClothingWebbingQu0565Alt
+    - id: ClothingHandsGlovesQu0565Alt
+    - id: ClothingOuterHardsuitQu0565Alt
+    - id: ClothingUniformQu0565Alt
+    - id: ClothingMaskQu0565Alt
+    - id: ClothingHeadsetQu0565Alt
+    - id: PDAQu0565Alt
+    - id: ClothingShoesBootsMagQu0565Alt
+    - id: RCDQu0565Alt
+    - id: ClothingEyesHudQu0565Alt
+    - id: JetpackVoidFilled
+    - id: ClothingNeckCloakQu0565Alt
+    - id: MedkitAdvancedFilled
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Hardsuit
+- type: entity
+  parent: ClothingOuterHardsuitSecurity
+  id: ClothingOuterHardsuitQu0565Alt
+  name: боевой скафандр креста
+  description: Скафандр с биокодированием, обеспечивающий защиту в критических ситуациях.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/qu0565alt/hardsuit/hard.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/qu0565alt/hardsuit/hard.rsi
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitQu0565Alt
+  - type: HardsuitIdentification
+    nonlethal: true
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.50
+        Slash: 0.50
+        Piercing: 0.60
+        Heat: 0.50
+        Radiation: 0.50
+        Caustic: 0.50
+  - type: Item
+    size: Huge
+  - type: ClothingSpeedModifier
+    walkModifier: 0.9
+    sprintModifier: 0.9
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase, ShowMedicalIcons ]
+  id: ClothingHeadHelmetHardsuitQu0565Alt
+  categories: [ HideSpawnMenu ]
+  name: шлем боевого скафандра креста
+  description: Шлем с встроенным медицинским визором, который обеспечивает защиту и освещение для работы в темных условиях.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/qu0565alt/hardsuit/helmet.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/qu0565alt/hardsuit/helmet.rsi
+  - type: PointLight
+    color: "#FF0000"
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Gloves
+- type: entity
+  parent: ClothingHandsGlovesCombat
+  id: ClothingHandsGlovesQu0565Alt
+  name: защитные перчатки креста
+  description: Перчатки, обеспечивающие защиту рук в опасных условиях. Изолированы.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/qu0565alt/gloves.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/qu0565alt/gloves.rsi
+  - type: Fiber
+    fiberMaterial: fibers-insulative
+    fiberColor: fibers-red
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Magboots
+- type: entity
+  parent: ClothingShoesBootsMag
+  id: ClothingShoesBootsMagQu0565Alt
+  name: боевые магнитные ботинки креста
+  description: Ботинки, полученные в тяжелом сражение, обеспечивают отличное сцепление с поверхностями для выполнения задач в условиях невесомости.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/qu0565alt/magboots.rsi
+    layers:
+    - state: icon
+      map: [ "enum.ToggleableVisuals.Layer" ]
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/qu0565alt/magboots.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+
+# Mask
+- type: entity
+  parent: ClothingMaskGas
+  id: ClothingMaskQu0565Alt
+  name: боевая маска креста
+  description: Маска, защищающая от токсичных веществ и обеспечивающий дыхание в неблагоприятных условиях. Он кажется вам подозрительно знакомым.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/qu0565alt/gasmask.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/qu0565alt/gasmask.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Headset
+- type: entity
+  parent: ClothingHeadset
+  id: ClothingHeadsetQu0565Alt
+  name: боевая гарнитура креста
+  description: Гарнитура, обеспечивающая связь и возможность получения критической информации на поле боя.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/qu0565alt/headset.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/qu0565alt/headset.rsi
+  - type: Headset
+    color: "#FF0000"
+  - type: EncryptionKeyHolder
+    keySlots: 5
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# PDA
+- type: entity
+  parent: BaseMedicalPDA
+  id: PDAQu0565Alt
+  name: боевой КПК креста
+  description: КПК, дающий самую полезную информацию на поле боя.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Icon
+    sprite: _DeadSpace/Sponsor/qu0565alt/pda.rsi
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/qu0565alt/pda.rsi
+  - type: CartridgeLoader
+    uiKey: enum.PdaUiKey.Key
+    preinstalled:
+    - CrewManifestCartridge
+    - NotekeeperCartridge
+    - NewsReaderCartridge
+    - AstroNavCartridge
+    - MedTekCartridge
+  - type: PdaBorderColor
+    borderColor: "#336899"
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Mantle
+- type: entity
+  parent: ClothingNeckBase
+  id: ClothingNeckCloakQu0565Alt
+  name: боевой плащ креста
+  description: Плащ, сильно напоминающий адский десант ОПЗ.
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Sponsor/qu0565alt/cloack.rsi
+    - type: Clothing
+      sprite: _DeadSpace/Sponsor/qu0565alt/cloack.rsi
+    - type: Tag
+      tags: [] # ignore "WhitelistChameleon" tag
+
+# РПС
+- type: entity
+  parent: ClothingBeltStorageBase
+  id: ClothingWebbingQu0565Alt
+  name: боевой РПС креста
+  description: Ременно-плечевая система тактических ремней, которую носят представители отряда "крест".
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/qu0565alt/belt.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/qu0565alt/belt.rsi
+  - type: Item
+    size: Huge
+  - type: StorageFill
+    contents:
+      - id: MultitoolQu0565Alt
+      - id: WelderExperimentalQu0565Alt
+      - id: JawsOfLifeQu0565Alt
+      - id: PowerDrillQu0565Alt
+      - id: HolofanProjectorQu0565Alt
+      - id: GasAnalyzerQu0565Alt
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# EYES
+- type: entity
+  parent: ClothingEyesHudMultiversal
+  id: ClothingEyesHudQu0565Alt
+  name: боевые очки креста
+  description: Защитные очки с красным визором.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/qu0565alt/clotchingeyes.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/qu0565alt/clotchingeyes.rsi
+  - type: EyeProtection
+  - type: IdentityBlocker
+    coverage: EYES
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+#Uniform
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformQu0565Alt
+  name: боевая форма креста
+  categories: [ HideSpawnMenu ]
+  description: Подходит для встреч галактического масштаба.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/qu0565alt/uniform.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/qu0565alt/uniform.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+#multitool
+- type: entity
+  parent: Multitool
+  id: MultitoolQu0565Alt
+  name: мультитул креста
+  description: Анализирует напряжение ситуации и точно измеряет силу вашего обаяния.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/qu0565alt/tools/multitool.rsi
+
+#WelderExperimental
+- type: entity
+  parent: WelderExperimental
+  id: WelderExperimentalQu0565Alt
+  name: экспериментальный сварочный аппарат креста
+  description: Скрепляет разрозненные части реальности в единую, более совершенную конструкцию.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/qu0565alt/tools/welder.rsi
+  - type: Item
+    sprite: _DeadSpace/Sponsor/qu0565alt/tools/welder.rsi
+
+#JawsOfLife
+- type: entity
+  parent: JawsOfLife
+  id: JawsOfLifeQu0565Alt
+  name: челюсти жизни креста
+  description: Официальный инструмент для высвобождения из тисков рутины с минимальными психологическими травмами.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/qu0565alt/tools/jaws.rsi
+    state: jaws_pry
+  - type: Item
+    size: Normal
+  - type: MultipleTool
+    entries:
+      - behavior: Prying
+        sprite:
+          sprite: _DeadSpace/Sponsor/qu0565alt/tools/jaws.rsi
+          state: jaws_pry
+        useSound: /Audio/Items/jaws_pry.ogg
+        changeSound: /Audio/Items/change_jaws.ogg
+      - behavior: Cutting
+        sprite:
+          sprite: _DeadSpace/Sponsor/qu0565alt/tools/jaws.rsi
+          state: jaws_cutter
+        useSound: /Audio/Items/jaws_cut.ogg
+        changeSound: /Audio/Items/change_jaws.ogg
+  - type: MeleeWeapon
+    damage:
+      types:
+        Blunt: 14
+
+#drill
+- type: entity
+  parent: BaseItem
+  id: PowerDrillQu0565Alt
+  name: электродрель креста
+  description: Протокол проникновения сквозь препятствия, исключающий повреждение декора.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/qu0565alt/tools/drill.rsi
+    state: drill_screw
+  - type: Item
+    sprite: _DeadSpace/Sponsor/qu0565alt/tools/drill.rsi
+    size: Small
+  - type: Tool
+    qualities:
+      - Screwing
+    speedModifier: 1.5
+    useSound: /Audio/Items/drill_use.ogg
+  - type: MultipleTool
+    statusShowBehavior: true
+    entries:
+      - behavior: Screwing
+        sprite:
+          sprite: _DeadSpace/Sponsor/qu0565alt/tools/drill.rsi
+          state: drill_screw
+        useSound:
+          path: /Audio/Items/drill_use.ogg
+        changeSound:
+          path: /Audio/Items/change_drill.ogg
+      - behavior: Anchoring
+        sprite:
+          sprite: _DeadSpace/Sponsor/qu0565alt/tools/drill.rsi
+          state: drill_bolt
+        useSound:
+          path: /Audio/Items/drill_use.ogg
+        changeSound:
+          path: /Audio/Items/change_drill.ogg
+  - type: PhysicalComposition
+    materialComposition:
+      Steel: 300
+      Plastic: 100
+  - type: StaticPrice
+    price: 100
+  - type: MeleeWeapon
+    wideAnimationRotation: -90
+    attackRate: 1.5
+    damage:
+      types:
+        Piercing: 10
+    soundHit:
+      path: "/Audio/Items/drill_hit.ogg"
+
+# RCD
+- type: entity
+  id: RCDQu0565Alt
+  parent: RCD
+  name: РСУ креста
+  description: Боевой рсу.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/qu0565alt/tools/rcd.rsi
+    state: icon
+
+# HolofanProjector
+- type: entity
+  parent: HolofanProjector
+  id: HolofanProjectorQu0565Alt
+  name: голографический проектор креста
+  description: Боевой голопроектор.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/qu0565alt/tools/holofanprojectors.rsi
+    state: icon
+  - type: ItemSlots
+    slots:
+      cell_slot:
+        name: power-cell-slot-component-slot-name-default
+        startingItem: PowerCellAntiqueProto
+
+#gasanalyzer
+- type: entity
+  name: газоанализатор креста
+  parent: BaseItem
+  id: GasAnalyzerQu0565Alt
+  description: Боевой газоанализатор.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/qu0565alt/tools/gasanalyzer.rsi
+    layers:
+      - state: icon
+        map: ["analyzer"]
+  - type: GasAnalyzer
+  - type: ActivatableUI
+    inHandsOnly: true
+    singleUser: true
+    requireActiveHand: false
+    key: enum.GasAnalyzerUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.GasAnalyzerUiKey.Key:
+        type: GasAnalyzerBoundUserInterface
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+        enum.GasAnalyzerVisuals.Enabled:
+          enabled:
+            True: { state: working }
+            False: { state: icon }
+  - type: StaticPrice
+    price: 80
+  - type: PhysicalComposition
+    materialComposition:
+      Steel: 400
+      Glass: 100
+  - type: GuideHelp
+    guides:
+    - AtmosTools
+    - PipeNetworks
+    - Pipes
+
+#Документ
+- type: entity
+  parent: PaperPrintedCentcomm
+  id: PaperQu0565Alt
+  name: распечатанный документ
+  description: Лист бумаги с заголовком центкома. Страшно даже смотреть на него.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Paper
+    stampState: paper_stamp-centcom
+    stampedBy:
+    - stampedColor: '#006600FF'
+      stampedName: Центральное Командование
+    - stampedColor: '#00BE00FF'
+      stampedName: Одобрено
+    content: paper-law-qu0565alt
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag

@@ -66,21 +66,6 @@ public sealed partial class SpiderTerrorRuleComponent : Component
             StationStages[stationUid] = SpiderTerrorStages.NuclearCode;
         }
     }
-
-
-    // Установить стадию захвата станции пауками ужаса
-    public void CaptureStation(EntityUid stationUid)
-    {
-        if (StationStages.ContainsKey(stationUid))
-        {
-            StationStages[stationUid] |= SpiderTerrorStages.StationCapture;
-        }
-        else
-        {
-            StationStages[stationUid] = SpiderTerrorStages.StationCapture;
-        }
-    }
-
     // Проверить, активна ли стадия размножения пауков ужаса
     public bool IsBreedingActive(EntityUid stationUid)
     {
@@ -91,12 +76,6 @@ public sealed partial class SpiderTerrorRuleComponent : Component
     public bool IsNuclearCodeActive(EntityUid stationUid)
     {
         return StationStages.TryGetValue(stationUid, out var stage) && stage.HasFlag(SpiderTerrorStages.NuclearCode);
-    }
-
-    // Проверить, активна ли стадия захвата станции пауками ужаса
-    public bool IsStationCaptureActive(EntityUid stationUid)
-    {
-        return StationStages.TryGetValue(stationUid, out var stage) && stage.HasFlag(SpiderTerrorStages.StationCapture);
     }
 
     // Очистить стадию размножения пауков ужаса
@@ -129,22 +108,6 @@ public sealed partial class SpiderTerrorRuleComponent : Component
         }
     }
 
-
-    // Очистить стадию захвата станции пауками ужаса
-    public void ClearStationCaptureStage(EntityUid stationUid)
-    {
-        if (StationStages.ContainsKey(stationUid))
-        {
-            StationStages[stationUid] &= ~SpiderTerrorStages.StationCapture;
-
-            // Удаляем запись, если нет активных стадий
-            if (StationStages[stationUid] == SpiderTerrorStages.None)
-            {
-                StationStages.Remove(stationUid);
-            }
-        }
-    }
-
 }
 
 [Flags]
@@ -153,7 +116,6 @@ public enum SpiderTerrorStages
     None = 0,
     Breeding = 1 << 0,       // 0001 - стадия размножения пауков ужаса
     NuclearCode = 1 << 1,    // 0010 - стадия высылается кодов от ядерной боеголовки
-    StationCapture = 1 << 2  // 0100 - стадия захвата станции пауками ужаса
 }
 
 [ByRefEvent]

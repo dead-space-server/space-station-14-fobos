@@ -18,3 +18,5 @@ ent-BoxShotgunPractice = коробка ружейных патронов (12х7
     .desc = { ent-AmmoProviderShotgunShell.desc }
 ent-BoxShellTranquilizer = коробка ружейных патронов (12х70 транквилизаторы)
     .desc = { ent-AmmoProviderShotgunShell.desc }
+ent-BoxLethalshotMagnum = коробка ружейных патронов (12х70 магнум)
+    .desc = { ent-AmmoProviderShotgunShell.desc }

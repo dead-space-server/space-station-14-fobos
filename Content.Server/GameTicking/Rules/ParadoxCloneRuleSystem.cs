@@ -7,6 +7,10 @@ using Content.Shared.GameTicking.Components;
 using Content.Shared.Gibbing.Components;
 using Content.Shared.Medical.SuitSensor;
 using Content.Shared.Mind;
+using Content.Shared.Roles;
+using Content.Shared.Roles.Components;
+using Content.Shared.Roles.Jobs;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 
 namespace Content.Server.GameTicking.Rules;
@@ -18,6 +22,13 @@ public sealed class ParadoxCloneRuleSystem : GameRuleSystem<ParadoxCloneRuleComp
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly CloningSystem _cloning = default!;
     [Dependency] private readonly SuitSensorSystem _sensor = default!;
+    // DS14-start
+    [Dependency] private readonly SharedJobSystem _jobs = default!;
+    [Dependency] private readonly SharedRoleSystem _roles = default!;
+
+    private static readonly ProtoId<DepartmentPrototype> CentralCommandDepartment = "CentralCommand";
+    private static readonly ProtoId<DepartmentPrototype> SpecialOperationsDepartment = "SpecialOperationsCorps";
+    // DS14-end
 
     public override void Initialize()
     {
@@ -32,11 +43,11 @@ public sealed class ParadoxCloneRuleSystem : GameRuleSystem<ParadoxCloneRuleComp
         base.Started(uid, component, gameRule, args);
 
         // check if we got enough potential cloning targets, otherwise cancel the gamerule so that the ghost role does not show up
-        var allHumans = _mind.GetAliveHumans();
+        var allHumans = GetValidCloneTargets(); // DS14
 
         if (allHumans.Count == 0)
         {
-            Log.Info("Could not find any alive players to create a paradox clone from! Ending gamerule.");
+            Log.Info("Could not find any valid alive players to create a paradox clone from! Ending gamerule."); // DS14
             ForceEndSelf(uid, gameRule);
         }
     }
@@ -59,12 +70,12 @@ public sealed class ParadoxCloneRuleSystem : GameRuleSystem<ParadoxCloneRuleComp
         else
         {
             // get possible targets
-            var allAliveHumanoids = _mind.GetAliveHumans();
+            var allAliveHumanoids = GetValidCloneTargets(); // DS14
 
             // we already checked when starting the gamerule, but someone might have died since then.
             if (allAliveHumanoids.Count == 0)
             {
-                Log.Warning("Could not find any alive players to create a paradox clone from!");
+                Log.Warning("Could not find any valid alive players to create a paradox clone from!"); // DS14
                 return;
             }
 
@@ -104,4 +115,35 @@ public sealed class ParadoxCloneRuleSystem : GameRuleSystem<ParadoxCloneRuleComp
 
         _mind.CopyObjectives(ent.Comp.OriginalMind.Value, (cloneMindId, cloneMindComp), ent.Comp.ObjectiveWhitelist, ent.Comp.ObjectiveBlacklist);
     }
+
+    // DS14-start
+    private HashSet<Entity<MindComponent>> GetValidCloneTargets()
+    {
+        var allHumans = _mind.GetAliveHumans();
+        allHumans.RemoveWhere(IsInvalidCloneTarget);
+        return allHumans;
+    }
+
+    private bool IsInvalidCloneTarget(Entity<MindComponent> mind)
+    {
+        if (_roles.MindHasRole<GhostRoleMarkerRoleComponent>(mind.Owner))
+            return true;
+
+        return _jobs.MindTryGetJob(mind.Owner, out var job) && IsExcludedCloneTargetJob(job.ID);
+    }
+
+    private bool IsExcludedCloneTargetJob(string jobId)
+    {
+        if (!_jobs.TryGetAllDepartments(jobId, out var departments))
+            return false;
+
+        foreach (var department in departments)
+        {
+            if (department.ID == CentralCommandDepartment || department.ID == SpecialOperationsDepartment)
+                return true;
+        }
+
+        return false;
+    }
+    // DS14-end
 }

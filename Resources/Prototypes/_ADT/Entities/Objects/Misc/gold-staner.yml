@@ -24,7 +24,7 @@
       fireRate: 2
       soundGunshot:
         path: /Audio/Animals/cat_meow.ogg
-    - type: ProjectileBatteryAmmoProvider
+    - type: BatteryAmmoProvider
       proto: BulletDisabler
       fireCost: 100
     - type: MagazineVisuals

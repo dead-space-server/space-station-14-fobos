@@ -26,6 +26,7 @@
   parent: CrateMedicalSecure
   name: набор со скафандром медицинского отдела
   description: Набор, состоящий из одного скафандра медицинского отдела.
+  suffix: Защищённый
   components:
   - type: StorageFill
     contents:
@@ -36,6 +37,7 @@
   parent: CrateMedicalSecure
   name: набор со скафандром химика
   description: Набор, состоящий из одного скафандра химика.
+  suffix: Защищённый
   components:
   - type: StorageFill
     contents:

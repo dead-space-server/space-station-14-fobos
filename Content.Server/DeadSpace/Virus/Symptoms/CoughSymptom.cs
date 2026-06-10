@@ -4,6 +4,7 @@ using Content.Server.Chat.Systems;
 using Content.Shared.DeadSpace.Virus.Symptoms;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Server.DeadSpace.Virus.Systems;
+using Content.Shared.Chat;
 using Content.Shared.Chat.Prototypes;
 using Content.Shared.DeadSpace.TimeWindow;
 using Robust.Shared.Prototypes;

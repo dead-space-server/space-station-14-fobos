@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Sprite by zekal_l (discord) for Space Station 14 server Мёртвый Космос",
+    "states": [
+        {
+            "name": "icon",
+            "delays": [
+                [
+                    0.2,
+                    0.2,
+                    0.2,
+                    0.2,
+                    0.2,
+                    0.2,
+                    0.2,
+                    0.2,
+                    0.2,
+                    0.2,
+                    0.2,
+                    0.2,
+                    0.2,
+                    0.2
+                ]
+            ]
+        }
+    ]
+}

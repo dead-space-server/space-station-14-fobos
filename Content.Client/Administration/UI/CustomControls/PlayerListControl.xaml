@@ -1,18 +1,23 @@
-﻿<BoxContainer xmlns="https://spacestation14.io"
+<BoxContainer xmlns="https://spacestation14.io"
               xmlns:controls="using:Content.Client.UserInterface.Controls"
-              Orientation="Vertical">
-    <Control MinSize="0 5" />
+              Orientation="Vertical"
+              SeparationOverride="6">
+    <!-- DS14-start -->
     <LineEdit Name="FilterLineEdit"
               MinSize="100 0"
               HorizontalExpand="True"
-              PlaceHolder="{Loc player-list-filter}"/>
+              PlaceHolder="{Loc player-list-filter}"
+              StyleClasses="DS14MenuInput" />
     <PanelContainer Name="BackgroundPanel"
+                    StyleClasses="DS14MenuInset"
                     VerticalExpand="True"
                     HorizontalExpand="True">
         <controls:ListContainer Name="PlayerListContainer"
-                  Access="Public"
-                  Toggle="True"
-                  Group="True"
-                  MinSize="100 0"/>
+                                Access="Public"
+                                Toggle="True"
+                                Group="True"
+                                MinSize="100 0"
+                                SeparationOverride="4" />
     </PanelContainer>
+    <!-- DS14-end -->
 </BoxContainer>

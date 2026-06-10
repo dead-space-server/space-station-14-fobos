@@ -12,20 +12,23 @@
   - DetailExaminable
   - Dna
   - Fingerprint
+  - Grammar # Pronouns
   - NpcFactionMember
   # traits
   - BlackAndWhiteOverlay
   - Clumsy
-  - Hemophilia
   - ImpairedMobility
   # - LegsParalyzed (you get healed)
   - LightweightDrunk
   - Muted
   - Narcolepsy
+  - NicotineAddiction
   - Pacified
-  - PainNumbness
   - Paracusia
   - PermanentBlindness
+  # DS14-start: copy height traits to clones.
+  - ScaleVisuals
+  # DS14-end
   - Snoring
   - Unrevivable
   # accents
@@ -56,6 +59,8 @@
   - SouthernAccent
   - SpanishAccent
   - StutteringAccent
+  eventComponents:
+  - Vocal # voice sounds
 
 # for job-specific traits etc.
 - type: cloningSettings
@@ -100,6 +105,8 @@
 - type: cloningSettings
   id: ParadoxCloningSettings
   parent: [BaseClone, Antag]
+  components:
+  - Forensics # This is so hugging data is copied to the clone, so you can't hug metagame them
 
 # changeling identity copying
 - type: cloningSettings
@@ -120,7 +127,6 @@
   # these need special treatment in the event subscription
   - Inventory # arachnid pockets and diona feet
   - Wagging # lizard tails
-  - Vocal # voice sounds
   - Storage # slime storage
   - Rootable # diona
   - Sericulture # arachnids

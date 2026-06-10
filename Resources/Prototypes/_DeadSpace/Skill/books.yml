@@ -46,6 +46,9 @@
       types:
         Slash: 1
     triggers: [ Learn ]
+  - type: Tag
+    tags:
+    - Book
 
 - type: entity
   parent: BaseSkillBook

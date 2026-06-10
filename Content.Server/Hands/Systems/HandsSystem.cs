@@ -11,6 +11,7 @@ using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Input;
 using Content.Shared.Movement.Pulling.Components;
 using Content.Shared.Movement.Pulling.Systems;
+using Content.Shared.Silicons.Borgs.Components;
 using Content.Shared.Stacks;
 using Content.Shared.Standing;
 using Content.Shared.Throwing;
@@ -112,6 +113,11 @@ namespace Content.Server.Hands.Systems
             if (args.Part.Comp.PartType != BodyPartType.Hand)
                 return;
 
+            // DS14-start
+            if (HasComp<BorgChassisComponent>(ent.Owner))
+                return;
+            // DS14-end
+
             // If this annoys you, which it should.
             // Ping Smugleaf.
             var location = args.Part.Comp.Symmetry switch
@@ -160,11 +166,12 @@ namespace Content.Server.Hands.Systems
 
             if (TryComp(throwEnt, out StackComponent? stack) && stack.Count > 1 && stack.ThrowIndividually)
             {
-                var splitStack = _stackSystem.Split(throwEnt.Value, 1, Comp<TransformComponent>(player).Coordinates, stack);
+                var splitStack = _stackSystem.Split((throwEnt.Value, stack), 1, Comp<TransformComponent>(player).Coordinates);
 
                 if (splitStack is not {Valid: true})
                     return false;
 
+                _transformSystem.SetMapCoordinates(splitStack.Value, _transformSystem.GetMapCoordinates(player));
                 throwEnt = splitStack.Value;
             }
 

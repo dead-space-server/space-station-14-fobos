@@ -36,7 +36,7 @@
     # eyes: ClothingEyesGlassesSunglasses
     gloves: ClothingHandsGlovesColorBlack
     id: CentcomOperatorPDA
-    ears: ClothingHeadsetCentCom
+    ears: ClothingHeadsetAltCentCom
     neck: ClothingNeckTieDet
     belt: BoxFolderCentComClipboard
     pocket1: RubberStampCentcom

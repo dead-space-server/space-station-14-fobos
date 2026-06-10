@@ -20,6 +20,10 @@
       "directions": 4
     },
     {
+      "name": "malstrem2",
+      "directions": 4
+    },
+    {
       "name": "terminator",
       "directions": 4
     }

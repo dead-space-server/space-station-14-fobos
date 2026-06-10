@@ -4,6 +4,10 @@ power-monitoring-window-label-smes = СМЭС
 power-monitoring-window-label-substation = Подстанции
 power-monitoring-window-label-apc = ЛКП
 power-monitoring-window-label-misc = Разное
+power-monitoring-window-label-broken-cables = Повреждённые кабели
+power-monitoring-window-label-damage = Повреждения
+power-monitoring-window-damage-empty = Повреждённые точки кабелей не найдены.
+power-monitoring-window-damage-entry = #{ $index } { $cable } кабель ({ $x }, { $y })
 power-monitoring-window-object-array = { $name } массив [{ $count }]
 power-monitoring-window-station-name = [color=white][font size=14]{ $stationName }[/font][/color]
 power-monitoring-window-unknown-location = Неизвестное местоположение
@@ -13,7 +17,7 @@ power-monitoring-window-total-loads = Общая нагрузка сети
 power-monitoring-window-show-cable-networks = Отображения электросетей различного вольтажа
 power-monitoring-window-show-hv-cable = Высокого
 power-monitoring-window-show-mv-cable = Среднего
-power-monitoring-window-show-lv-cable = Низкового
+power-monitoring-window-show-lv-cable = Низкого
 power-monitoring-window-flavor-left = [user@nanotrasen] $run power_net_query
 power-monitoring-window-flavor-right = v1.3
 power-monitoring-window-rogue-power-consumer = [color=white][font size=14][bold]! ВНИМАНИЕ - ОБНАРУЖЕН НЕСАНКЦИОНИРОВАННЫЙ ЭНЕРГОПОТРЕБИТЕЛЬ ![/bold][/font][/color]

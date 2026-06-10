@@ -1,0 +1,10 @@
+- type: entity
+  parent: BaseBullet
+  id: BulletSniperRifle
+  categories: [ HideSpawnMenu ]
+  name: пуля (.338 LM)
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 28

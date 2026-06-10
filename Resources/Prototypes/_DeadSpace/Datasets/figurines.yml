@@ -1,0 +1,29 @@
+- type: localizedDataset
+  id: FigurinesERTLeader
+  values:
+    prefix: figurines-ertleader-
+    count: 5
+
+- type: localizedDataset
+  id: FigurinesERTOfficer
+  values:
+    prefix: figurines-ertofficer-
+    count: 5
+
+- type: localizedDataset
+  id: FigurinesERTEngineer
+  values:
+    prefix: figurines-ertengineer-
+    count: 5
+
+- type: localizedDataset
+  id: FigurinesERTMedic
+  values:
+    prefix: figurines-ertmedic-
+    count: 4
+
+- type: localizedDataset
+  id: FigurinesERTJanitor
+  values:
+    prefix: figurines-ertjanitor-
+    count: 5

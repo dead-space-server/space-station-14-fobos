@@ -65,7 +65,7 @@ public sealed partial class AlcoTesterSystem : EntitySystem
         }
 
         Entity<SolutionComponent>? solEnt = null;
-        if (!_solutions.ResolveSolution(target, bloodstream.ChemicalSolutionName,
+        if (!_solutions.ResolveSolution(target, bloodstream.BloodSolutionName,
             ref solEnt, out var solution))
         {
             _popup.PopupEntity(Loc.GetString("alco-tester-chemical-solution-not-found"), uid, ev.User);

@@ -4,6 +4,14 @@
   description: job-description-deathsquad
   playTimeTracker: JobDeathSquad
   setPreference: false
+  # DS14-start
+  requirements:
+    - !type:OverallPlaytimeRequirement
+      time: 1890000 # 525 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 108000 # 30 hours
+  # DS14-end
   startingGear: DeathSquadGear
   icon: "JobIconUnknown" # DS14
   supervisors: job-supervisors-centcom
@@ -14,7 +22,7 @@
   - CentralCommand
   special:
   - !type:AddImplantSpecial
-    implants: [ MindShieldImplant, RadioImplantDeathSquad, DeathRattleImplantDeathSquad ]
+    implants: [ MindShieldImplant, RadioImplantDeathSquad, DeathRattleImplantDeathSquad, RezervImplant ]
   - !type:AddComponentSpecial
     components:
       # DS14-Start

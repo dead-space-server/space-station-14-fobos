@@ -24,6 +24,7 @@
     - SemiAuto
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/kinetic_accel.ogg
+    projectileSpeed: 25
   - type: AmmoCounter
   - type: Appearance
   - type: GenericVisualizer
@@ -47,5 +48,12 @@
     slots:
     - suitStorage
     - Belt
+  - type: UpgradeableGun
+    whitelist:
+      tags:
+      - PKAUpgrade
+  - type: ContainerContainer
+    containers:
+      upgrades: !type:Container
   - type: UseDelay
     delay: 1

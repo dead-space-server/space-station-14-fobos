@@ -1,0 +1,54 @@
+- type: entity
+  id: ActionPowerPunchCarp
+  name: "[color=red]Удар крушащей волны[/color]"
+  description: Мощнейнший удар в грудь, который отправляет цель в полет, нанося 30 урона.
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/smoking_carp_actions.rsi
+      state: power_punch
+    useDelay: 4
+    priority: -7
+  - type: InstantAction
+    event: !type:SmokingCarpPowerPunchEvent {}
+
+- type: entity
+  id: ActionSmokePunchCarp
+  name: "[color=red]Скрежет зубов курящего карпа[/color]"
+  description: Быстрые удары в корпус, которые наносят 35 урона по выносливости и 5 обычного урона.
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/smoking_carp_actions.rsi
+      state: smoke_punch
+    priority: -8
+  - type: InstantAction
+    event: !type:SmokingCarpSmokePunchEvent {}
+
+- type: entity
+  id: ActionTripPunchCarp
+  name: "[color=red]Подъем киля[/color]"
+  description: Мощный удар ногой, который сбивает всех с ног на секунду вокруг вас.
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/smoking_carp_actions.rsi
+      state: trip_punch
+    useDelay: 5
+    priority: -6
+  - type: InstantAction
+    event: !type:SmokingCarpTripPunchEvent {}
+
+- type: entity
+  id: ActionReflectCarp
+  name: "[color=red]Полная концентрация[/color]"
+  description: Ваше дыхание учащилось, а мышцы находятся в постоянном напряжении, вы способны отражать любые снаряды голыми руками.
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/smoking_carp_actions.rsi
+      state: reflect
+      noRot: true
+    priority: -5
+  - type: InstantAction
+    event: !type:ReflectCarpEvent {}

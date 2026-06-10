@@ -4,12 +4,14 @@ using Content.Shared.Decals;
 using Robust.Client.GameObjects;
 using Robust.Client.UserInterface;
 using Robust.Shared.Prototypes;
+using Content.Client.DeadSpace.Crayon; //DS-14
 
 namespace Content.Client.Crayon.UI
 {
     public sealed class CrayonBoundUserInterface : BoundUserInterface
     {
         [Dependency] private readonly IPrototypeManager _protoManager = default!;
+        [Dependency] private readonly CrayonGhostSystem _crayonGhostSystem = default!; //DS-14
 
         [ViewVariables]
         private CrayonWindow? _menu;
@@ -24,6 +26,13 @@ namespace Content.Client.Crayon.UI
             _menu = this.CreateWindowCenteredLeft<CrayonWindow>();
             _menu.OnColorSelected += SelectColor;
             _menu.OnSelected += Select;
+            //DS-14 Start
+            _menu.OnRotationChanged += rotation =>
+            {
+                _crayonGhostSystem.SetRotation(rotation);
+                SendMessage(new CrayonRotationMessage(rotation));
+            };
+            //DS-14 End
             PopulateCrayons();
         }
 

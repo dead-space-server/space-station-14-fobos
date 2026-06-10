@@ -1,0 +1,5 @@
+- type: localizedDataset
+  id: NamesBlueShield
+  values:
+    prefix: names-blue-shield-dataset-
+    count: 25

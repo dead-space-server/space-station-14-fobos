@@ -7,17 +7,33 @@ using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Events;
 using Robust.Shared.Timing;
+// DS14-start
+using Content.Server.Chat.Systems;
+using Content.Server.DeadSpace.Taipan.Components;
+using Content.Server.Station.Systems;
+// DS14-end
 
 namespace Content.Server.Singularity.EntitySystems;
 
 public sealed class SingularityGeneratorSystem : SharedSingularityGeneratorSystem
 {
+    // DS14-start
+    private const string TeslaEnergyBallPrototype = "TeslaEnergyBall";
+    private const string EngineStartupAnnouncement = "comp-generator-engine-startup-announcement";
+    private const string SingularityEngineName = "comp-generator-engine-singularity";
+    private const string TeslaEngineName = "comp-generator-engine-tesla";
+    // DS14-end
+
     #region Dependencies
+    // DS14-start
+    [Dependency] private readonly ChatSystem _chat = default!;
+    [Dependency] private readonly StationSystem _station = default!;
+    // DS14-end
+
     [Dependency] private readonly IViewVariablesManager _vvm = default!;
     [Dependency] private readonly SharedTransformSystem _transformSystem = default!;
     [Dependency] private readonly PhysicsSystem _physics = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly MetaDataSystem _metadata = default!;
     #endregion Dependencies
 
     public override void Initialize()
@@ -53,8 +69,34 @@ public sealed class SingularityGeneratorSystem : SharedSingularityGeneratorSyste
             return;
 
         SetPower(uid, 0, comp);
+
+        // Other particle entities from the same wave could trigger additional teslas to spawn, so we must block the generator
+        comp.Inert = true;
         Spawn(comp.SpawnPrototype, Transform(uid).Coordinates);
+        // DS14-start
+        AnnounceEngineStartup(uid, comp);
     }
+
+    private void AnnounceEngineStartup(EntityUid uid, SingularityGeneratorComponent comp)
+    {
+        var station = _station.GetOwningStation(uid);
+        if (station == null)
+            return;
+
+        // DS14-start
+        if (HasComp<StationTaipanComponent>(station.Value))
+            return;
+        // DS14-end
+
+        var engineName = comp.SpawnPrototype == TeslaEnergyBallPrototype
+            ? Loc.GetString(TeslaEngineName)
+            : Loc.GetString(SingularityEngineName);
+
+        _chat.DispatchStationAnnouncement(
+            station.Value,
+            Loc.GetString(EngineStartupAnnouncement, ("engine", engineName)));
+    }
+    // DS14-end
 
     #region Getters/Setters
     /// <summary>
@@ -112,7 +154,8 @@ public sealed class SingularityGeneratorSystem : SharedSingularityGeneratorSyste
         if (!TryComp<SingularityGeneratorComponent>(args.OtherEntity, out var generatorComp))
             return;
 
-        if (_timing.CurTime < _metadata.GetPauseTime(uid) + generatorComp.NextFailsafe && !generatorComp.FailsafeDisabled)
+        if (generatorComp.Inert ||
+            _timing.CurTime < generatorComp.NextFailsafe && !generatorComp.FailsafeDisabled)
         {
             QueueDel(uid);
             return;

@@ -1,8 +1,8 @@
-ent-ADTBaseMagazineShotgunXL = магазин (12х70, дробь)
+ent-ADTBaseMagazineShotgunXL = барабан (Расширенный, 12х70, дробь)
     .desc = { ent-BaseItem.desc }
-ent-ADTMagazineShotgunSlugXL = магазин (12х70, пули)
+ent-ADTMagazineShotgunSlugXL = барабан (Расширенный, 12х70, пули)
     .desc = Расширенный магазин дробовика, для тех кто любит пошуметь чуть дольше.
-ent-ADTMagazineShotgunXL = магазин (12х70, дробь)
+ent-ADTMagazineShotgunXL = барабан (Расширенный, 12х70, дробь)
     .desc = Расширенный магазин дробовика, для тех кто любит пошуметь чуть дольше.
-ent-ADTMagazineShotgunIncendiaryXL = магазин (12х70, зажигательные)
+ent-ADTMagazineShotgunIncendiaryXL = барабан (Расширенный, 12х70, зажигательные)
     .desc = Расширенный магазин дробовика, для тех кто любит пошуметь чуть дольше.

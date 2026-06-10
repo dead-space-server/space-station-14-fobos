@@ -53,6 +53,7 @@ public sealed partial class PowerMonitoringWindow : FancyWindow
         MasterTabContainer.SetTabTitle(1, Loc.GetString("power-monitoring-window-label-smes"));
         MasterTabContainer.SetTabTitle(2, Loc.GetString("power-monitoring-window-label-substation"));
         MasterTabContainer.SetTabTitle(3, Loc.GetString("power-monitoring-window-label-apc"));
+        MasterTabContainer.SetTabTitle(4, Loc.GetString("power-monitoring-window-label-damage")); // DS14
 
         // Track when the MasterTabContainer changes its tab
         MasterTabContainer.OnTabChanged += OnTabChanged;
@@ -131,6 +132,11 @@ public sealed partial class PowerMonitoringWindow : FancyWindow
 
         // Update system warnings
         UpdateWarningLabel(console.Flags);
+
+        // DS14-start
+        NavMap.ForceNavMapUpdate();
+        UpdateDamageList();
+        // DS14-end
 
         // Reset nav map values
         NavMap.TrackedCoordinates.Clear();

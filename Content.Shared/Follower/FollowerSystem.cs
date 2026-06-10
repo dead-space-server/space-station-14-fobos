@@ -33,8 +33,10 @@ public sealed class FollowerSystem : EntitySystem
     [Dependency] private readonly SharedPhysicsSystem _physicsSystem = default!;
     [Dependency] private readonly INetManager _netMan = default!;
     [Dependency] private readonly ISharedAdminManager _adminManager = default!;
+    [Dependency] private readonly SharedViewSubscriberSystem _viewSubscriber = default!; // DS14
 
     private static readonly ProtoId<TagPrototype> ForceableFollowTag = "ForceableFollow";
+    private static readonly ProtoId<TagPrototype> PreventGhostnadoWarpTag = "NotGhostnadoWarpable";
 
     public override void Initialize()
     {
@@ -44,6 +46,10 @@ public sealed class FollowerSystem : EntitySystem
         SubscribeLocalEvent<FollowerComponent, MoveInputEvent>(OnFollowerMove);
         SubscribeLocalEvent<FollowerComponent, PullStartedMessage>(OnPullStarted);
         SubscribeLocalEvent<FollowerComponent, EntityTerminatingEvent>(OnFollowerTerminating);
+        // DS14-start
+        SubscribeLocalEvent<FollowerComponent, PlayerAttachedEvent>(OnFollowerPlayerAttached);
+        SubscribeLocalEvent<FollowerComponent, PlayerDetachedEvent>(OnFollowerPlayerDetached);
+        // DS14-end
 
         SubscribeLocalEvent<FollowedComponent, ComponentGetStateAttemptEvent>(OnFollowedAttempt);
         SubscribeLocalEvent<FollowerComponent, GotEquippedHandEvent>(OnGotEquippedHand);
@@ -176,6 +182,29 @@ public sealed class FollowerSystem : EntitySystem
             StartFollowingEntity(follower, args.NewRemoteEntity.Value);
     }
 
+    // DS14-start
+    private void OnFollowerPlayerAttached(Entity<FollowerComponent> ent, ref PlayerAttachedEvent args)
+    {
+        AddFollowViewSubscriber(ent.Comp.Following, args.Player);
+    }
+
+    private void OnFollowerPlayerDetached(Entity<FollowerComponent> ent, ref PlayerDetachedEvent args)
+    {
+        RemoveFollowViewSubscriber(ent.Comp.Following, args.Player);
+    }
+
+    private void AddFollowViewSubscriber(EntityUid target, ICommonSession session)
+    {
+        if (!TerminatingOrDeleted(target))
+            _viewSubscriber.AddViewSubscriber(target, session);
+    }
+
+    private void RemoveFollowViewSubscriber(EntityUid target, ICommonSession session)
+    {
+        _viewSubscriber.RemoveViewSubscriber(target, session);
+    }
+    // DS14-end
+
     /// <summary>
     ///     Makes an entity follow another entity, by parenting to it.
     /// </summary>
@@ -217,6 +246,11 @@ public sealed class FollowerSystem : EntitySystem
         if (!followedComp.Following.Add(follower))
             return;
 
+        // DS14-start
+        if (TryComp(follower, out ActorComponent? actor))
+            AddFollowViewSubscriber(entity, actor.PlayerSession);
+        // DS14-end
+
         if (TryComp<JointComponent>(follower, out var joints))
             _jointSystem.ClearJoints(follower, joints);
 
@@ -253,6 +287,11 @@ public sealed class FollowerSystem : EntitySystem
 
         if (!TryComp<FollowerComponent>(uid, out var followerComp) || followerComp.Following != target)
             return;
+
+        // DS14-start
+        if (TryComp(uid, out ActorComponent? actor))
+            RemoveFollowViewSubscriber(target, actor.PlayerSession);
+        // DS14-end
 
         followed.Following.Remove(uid);
         if (followed.Following.Count == 0)
@@ -320,11 +359,17 @@ public sealed class FollowerSystem : EntitySystem
         var query = EntityQueryEnumerator<FollowerComponent, GhostComponent, ActorComponent>();
         while (query.MoveNext(out _, out var follower, out _, out var actor))
         {
-            // Exclude admins
+            // Don't count admin followers so that players cannot notice if admins are in stealth mode and following someone.
             if (_adminManager.IsAdmin(actor.PlayerSession))
                 continue;
 
             var followed = follower.Following;
+
+            // If the followed entity cannot be ghostnado'd to, we don't count it.
+            // Used for making admins not warpable to, but IsAdmin isn't used for cases where the admin wants to be followed, for example during events.
+            if (_tagSystem.HasTag(followed, PreventGhostnadoWarpTag))
+                continue;
+
             // Add new entry or increment existing
             followedEnts.TryGetValue(followed, out var currentValue);
             followedEnts[followed] = currentValue + 1;

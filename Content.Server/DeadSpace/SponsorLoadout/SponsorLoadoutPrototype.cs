@@ -8,20 +8,20 @@ namespace Content.Server.DeadSpace.SponsorLoadout;
 public sealed partial class SponsorLoadoutPrototype : IPrototype
 {
     [IdDataField]
-    public string ID { get; } = default!;
+    public string ID { get; private set; } = default!;
 
     [DataField("entity", required: true)]
-    public EntProtoId EntityId { get; } = default!;
+    public EntProtoId EntityId { get; private set; } = default!;
 
     [DataField]
     public bool SponsorOnly = false;
 
     [DataField]
-    public List<ProtoId<JobPrototype>>? WhitelistJobs { get; }
+    public List<ProtoId<JobPrototype>>? WhitelistJobs { get; private set; }
 
     [DataField]
-    public List<ProtoId<JobPrototype>>? BlacklistJobs { get; }
+    public List<ProtoId<JobPrototype>>? BlacklistJobs { get; private set; }
 
     [DataField]
-    public List<ProtoId<SpeciesPrototype>>? SpeciesRestrictions { get; }
+    public List<ProtoId<SpeciesPrototype>>? SpeciesRestrictions { get; private set; }
 }

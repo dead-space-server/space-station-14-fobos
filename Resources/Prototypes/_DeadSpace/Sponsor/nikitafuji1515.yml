@@ -27,7 +27,7 @@
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,13,5
+    - 0,0,15,5
   - type: StorageFill
     contents:
       - id: ClothingHandsGlovesnikitafuji1515
@@ -109,8 +109,13 @@
     solution: hypospray
   - type: ExaminableSolution
     solution: hypospray
-  - type: Hypospray
-    onlyAffectsMobs: false
+  - type: Injector
+    solutionName: hypospray
+    ignoreClosed: false
+    activeModeProtoId: HyposprayDynamicMode
+    allowedModes:
+    - HyposprayDynamicMode
+    - HyposprayInjectMode
   - type: UseDelay
     delay: 0.5
   - type: StaticPrice
@@ -177,8 +182,8 @@
 
 # JawsOfLife
 - type: entity
-  parent: SyndicateJawsOfLife
-  id: SyndicateJawsOfLifenikitafuji1515
+  parent: JawsOfLife
+  id: JawsOfLifenikitafuji1515
   name: именные челюсти жизни
   description: Обычные челюсти жизни покрашеные особой космокраской, переливается перламутром.
   categories: [ HideSpawnMenu ]
@@ -258,7 +263,7 @@
   components:
   - type: Storage
     grid:
-    - 0,0,9,1
+    - 0,0,7,1
   - type: Sprite
     sprite: _DeadSpace/Sponsor/nikitafuji1515/rps.rsi
   - type: Clothing
@@ -268,7 +273,7 @@
   - type: StorageFill
     contents:
       - id: WelderExperimentalnikitafuji1515
-      - id: SyndicateJawsOfLifenikitafuji1515
+      - id: JawsOfLifenikitafuji1515
       - id: PowerDrillnikitafuji1515
       - id: Multitool
 
@@ -345,7 +350,7 @@
         map: [ "light" ]
     - type: HandheldLight
       addPrefix: false
-    - type: ToggleableLightVisuals
+    - type: ToggleableVisuals
       spriteLayer: light
       clothingVisuals:
         head:

@@ -184,7 +184,9 @@ public sealed partial class DungeonSystem : SharedDungeonSystem
         if (!_loader.TryLoadGeneric(proto.AtlasPath, out var res, opts) || !res.Maps.TryFirstOrNull(out var map))
             throw new Exception($"Failed to load dungeon template.");
 
-        comp = AddComp<DungeonAtlasTemplateComponent>(map.Value.Owner);
+        if (!TryComp(map.Value.Owner, out comp))
+            comp = AddComp<DungeonAtlasTemplateComponent>(map.Value.Owner);
+
         comp.Path = proto.AtlasPath;
         return map.Value.Comp.MapId;
     }
@@ -231,9 +233,14 @@ public sealed partial class DungeonSystem : SharedDungeonSystem
         EntityUid gridUid,
         MapGridComponent grid,
         Vector2i position,
-        int seed)
+        int seed,
+        CancellationToken cancellation = default) // DS14
     {
-        var cancelToken = new CancellationTokenSource();
+        // DS14-start
+        var cancelToken = cancellation.CanBeCanceled
+            ? CancellationTokenSource.CreateLinkedTokenSource(cancellation)
+            : new CancellationTokenSource();
+        // DS14-end
         var job = new DungeonJob.DungeonJob(
             Log,
             DungeonJobTime,
@@ -257,14 +264,24 @@ public sealed partial class DungeonSystem : SharedDungeonSystem
 
         _dungeonJobs.Add(job, cancelToken);
         _dungeonJobQueue.EnqueueJob(job);
-        await job.AsTask;
-
-        if (job.Exception != null)
+        // DS14-start
+        try
         {
-            throw job.Exception;
-        }
+            await job.AsTask;
 
-        return job.Result!;
+            if (job.Exception != null)
+            {
+                throw job.Exception;
+            }
+
+            return job.Result!;
+        }
+        finally
+        {
+            _dungeonJobs.Remove(job);
+            cancelToken.Dispose();
+        }
+        // DS14-end
     }
 
     public Angle GetDungeonRotation(int seed)

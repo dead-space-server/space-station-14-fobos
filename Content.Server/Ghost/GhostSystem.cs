@@ -3,19 +3,22 @@ using System.Numerics;
 using Content.Server.Administration.Logs;
 using Content.Server.Chat.Managers;
 using Content.Server.GameTicking;
-using Content.Server.Ghost.Components;
+using Content.Server.Ghost.Roles.Components;
 using Content.Server.Mind;
 using Content.Server.Roles.Jobs;
 using Content.Shared.Actions;
 using Content.Shared.CCVar;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Prototypes;
+using Content.Shared.Damage.Systems;
 using Content.Shared.Database;
 using Content.Shared.Examine;
 using Content.Shared.Eye;
 using Content.Shared.FixedPoint;
 using Content.Shared.Follower;
 using Content.Shared.Ghost;
+using Content.Shared.GhostTypes;
 using Content.Shared.Mind;
 using Content.Shared.Mind.Components;
 using Content.Shared.Mobs;
@@ -38,6 +41,7 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Content.Server.Administration.Managers;
+using Content.Server.DeadSpace.CustomGhosts;
 using Content.Server.Preferences.Managers;
 
 namespace Content.Server.Ghost
@@ -69,9 +73,11 @@ namespace Content.Server.Ghost
         [Dependency] private readonly IRobustRandom _random = default!;
         [Dependency] private readonly TagSystem _tag = default!;
         [Dependency] private readonly NameModifierSystem _nameMod = default!;
+        [Dependency] private readonly GhostSpriteStateSystem _ghostState = default!;
         // DS14-start
         [Dependency] private readonly IAdminManager _adminManager = default!;
         [Dependency] private readonly IServerPreferencesManager _preferencesManager = default!;
+        [Dependency] private readonly CustomGhostSystem _customGhostSystem = default!;
         // DS14-end
 
         private EntityQuery<GhostComponent> _ghostQuery;
@@ -122,6 +128,7 @@ namespace Content.Server.Ghost
             if (ent.Comp.LifeStage <= ComponentLifeStage.Running)
             {
                 args.VisibilityMask |= (int)VisibilityFlags.Ghost;
+                args.VisibilityMask |= (int)VisibilityFlags.Astral; //DS14 Пусть призраки видят астральные сущности, ибо иначе не получится следить за геймплеем того же ревенанта.
             }
         }
 
@@ -200,7 +207,7 @@ namespace Content.Server.Ghost
             if (!_minds.TryGetMind(uid, out var mindId, out var mind) || mind.IsVisitingEntity)
                 return;
 
-            if (component.MustBeDead && (_mobState.IsAlive(uid) || _mobState.IsCritical(uid)))
+            if (component.MustBeDead && (_mobState.IsAlive(uid) || _mobState.IsCritical(uid) || _mobState.IsPreCritical(uid))) // DS14 edited
                 return;
 
             OnGhostAttempt(mindId, component.CanReturn, mind: mind);
@@ -349,14 +356,15 @@ namespace Content.Server.Ghost
             if (_followerSystem.GetMostGhostFollowed() is not {} target)
                 return;
 
-            WarpTo(uid, target);
+            // If there is a ghostnado happening you almost definitely wanna join it, so we automatically follow instead of just warping.
+            _followerSystem.StartFollowingEntity(uid, target);
         }
 
         private void WarpTo(EntityUid uid, EntityUid target)
         {
             _adminLog.Add(LogType.GhostWarp, $"{ToPrettyString(uid)} ghost warped to {ToPrettyString(target)}");
 
-            if ((TryComp(target, out WarpPointComponent? warp) && warp.Follow) || HasComp<MobStateComponent>(target))
+            if ((TryComp(target, out WarpPointComponent? warp) && warp.Follow) || CanFollowWarpTarget(target)) // DS14
             {
                 _followerSystem.StartFollowingEntity(uid, target);
                 return;
@@ -393,10 +401,25 @@ namespace Content.Server.Ghost
                 var jobName = _jobs.MindTryGetJobName(mind?.Mind);
                 var playerInfo = $"{Comp<MetaDataComponent>(attached).EntityName} ({jobName})";
 
-                if (_mobState.IsAlive(attached) || _mobState.IsCritical(attached))
+                if (CanShowPlayerWarpTarget(attached)) // DS14
                     yield return new GhostWarp(GetNetEntity(attached), playerInfo, false);
             }
         }
+
+        // DS14-start
+        private bool CanShowPlayerWarpTarget(EntityUid attached)
+            => _mobState.IsAlive(attached) ||
+               _mobState.IsCritical(attached) ||
+               IsSpectralGhostRole(attached);
+
+        private bool CanFollowWarpTarget(EntityUid target)
+            => HasComp<MobStateComponent>(target) ||
+               IsSpectralGhostRole(target);
+
+        private bool IsSpectralGhostRole(EntityUid target)
+            => HasComp<SpectralComponent>(target) &&
+               HasComp<GhostRoleComponent>(target);
+        // DS14-end
 
         #endregion
 
@@ -495,6 +518,11 @@ namespace Content.Server.Ghost
 
             var ghost = SpawnAtPosition(GameTicker.ObserverPrototypeName, spawnPosition.Value);
             var ghostComponent = Comp<GhostComponent>(ghost);
+
+            if (TryComp<GhostSpriteStateComponent>(ghost, out var state))  // If more TryComps are added this should be turned into an event
+            {
+                _ghostState.SetGhostSprite((ghost, state), mind);
+            }
 
             // Try setting the ghost entity name to either the character name or the player name.
             // If all else fails, it'll default to the default entity prototype name, "observer".
@@ -603,7 +631,7 @@ namespace Content.Server.Ghost
 
                     DamageSpecifier damage = new(_prototypeManager.Index(AsphyxiationDamageType), dealtDamage);
 
-                    _damageable.TryChangeDamage(playerEntity, damage, true);
+                    _damageable.ChangeDamage(playerEntity.Value, damage, true);
                 }
             }
 
@@ -620,7 +648,13 @@ namespace Content.Server.Ghost
         // DS14-start GhostColoring
         public void OnPlayerAttached(EntityUid uid, GhostComponent component, PlayerAttachedEvent args)
         {
-            var session = args.Player;
+            TryColorGhost(uid, component, args.Player);
+            _customGhostSystem.TryMakeCustomGhost(uid);
+        }
+
+        private void TryColorGhost(EntityUid uid, GhostComponent component, ICommonSession player)
+        {
+            var session = player;
 
             if (!_adminManager.IsAdmin(session))
                 return;

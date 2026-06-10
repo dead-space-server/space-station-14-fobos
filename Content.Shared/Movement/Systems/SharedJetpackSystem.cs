@@ -20,6 +20,7 @@ public abstract class SharedJetpackSystem : EntitySystem
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly ActionContainerSystem _actionContainer = default!;
+    [Dependency] private readonly SharedActionsSystem _actions = default!; //DS14
 
     public override void Initialize()
     {
@@ -179,6 +180,14 @@ public abstract class SharedJetpackSystem : EntitySystem
         // DS14-end
         if (enabled)
         {
+            // If the user is already using another jetpack, disable it first
+            if (TryComp<JetpackUserComponent>(user, out var userComp) &&
+                userComp.Jetpack != uid &&
+                TryComp<JetpackComponent>(userComp.Jetpack, out var oldJetpack))
+            {
+                SetEnabled(userComp.Jetpack, oldJetpack, false, user);
+            }
+
             SetupUser(user.Value, uid, component);
             EnsureComp<ActiveJetpackComponent>(uid);
         }
@@ -188,7 +197,7 @@ public abstract class SharedJetpackSystem : EntitySystem
             RemComp<ActiveJetpackComponent>(uid);
         }
 
-
+        _actions.SetToggled(component.ToggleActionEntity, enabled); //DS14
         Appearance.SetData(uid, JetpackVisuals.Enabled, enabled);
         Dirty(uid, component);
     }

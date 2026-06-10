@@ -74,6 +74,9 @@
   - type: GuideHelp
     guides:
     - ExpandingRepairingStation
+  # DS14-Start: clean up map-spawned rods that overlap hazard tile entities.
+  - type: HazardTileOverlapCleanup
+  # DS14-End
 
 - type: entity
   parent: PartRodMetal
@@ -81,10 +84,6 @@
   name: metal rod
   suffix: 10
   components:
-  - type: Tag
-    tags:
-    - RodMetal1
-    - ConstructionMaterial
   - type: Sprite
     state: rods
   - type: Stack
@@ -96,10 +95,6 @@
   name: metal rod
   suffix: Single
   components:
-  - type: Tag
-    tags:
-    - RodMetal1
-    - ConstructionMaterial
   - type: Sprite
     state: rods
   - type: Stack

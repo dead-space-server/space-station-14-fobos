@@ -187,7 +187,7 @@ namespace Content.Server.Construction
 
                             // TODO allow taking from several stacks.
                             // Also update crafting steps to check if it works.
-                            var splitStack = _stackSystem.Split(entity, materialStep.Amount, user.ToCoordinates(0, 0), stack);
+                            var splitStack = _stackSystem.Split((entity, stack), materialStep.Amount, user.ToCoordinates(0, 0));
 
                             if (splitStack == null)
                                 continue;
@@ -311,6 +311,13 @@ namespace Content.Server.Construction
             {
                 completed.PerformAction(newEntity, user, EntityManager);
             }
+
+            // DS14-start
+            // Completion actions can normalize an intermediate frame back to south.
+            // Keep the requested angle for multi-step recipes like diagonal walls.
+            if (edge.Target != targetNode.Name && angle != Angle.Zero && Exists(newEntity))
+                _transformSystem.SetLocalRotation(newEntity, angle);
+            // DS14-end
 
             return newEntity;
         }

@@ -178,6 +178,10 @@ binds:
 - function: SaveItemLocation
   type: State
   key: MouseMiddle
+- function: ToggleItemPriority # DS14
+  type: State
+  key: MouseMiddle
+  mod1: Control
 - function: Drop
   type: State
   key: Q
@@ -280,6 +284,14 @@ binds:
 - function: InspectEntity
   type: State
   key: v
+  mod1: Alt
+- function: InspectServerComponent
+  type: State
+  key: b
+  mod1: Alt
+- function: InspectClientComponent
+  type: State
+  key: c
   mod1: Alt
 - function: MouseMiddle
   type: State

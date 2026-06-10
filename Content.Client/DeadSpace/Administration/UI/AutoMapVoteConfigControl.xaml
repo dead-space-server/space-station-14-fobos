@@ -1,0 +1,137 @@
+<controls:AutoMapVoteConfigControl
+    xmlns="https://spacestation14.io"
+    xmlns:controls="clr-namespace:Content.Client.DeadSpace.Administration.UI"
+    xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
+    Margin="0"
+    HorizontalExpand="True"
+    VerticalExpand="True">
+    <PanelContainer StyleClasses="BackgroundPanelDark" HorizontalExpand="True" VerticalExpand="True">
+        <BoxContainer Orientation="Vertical" Margin="10" SeparationOverride="10" HorizontalExpand="True" VerticalExpand="True">
+            <BoxContainer Orientation="Horizontal">
+                <PanelContainer SetWidth="8">
+                    <PanelContainer.PanelOverride>
+                        <gfx:StyleBoxFlat BackgroundColor="#1f6feb" />
+                    </PanelContainer.PanelOverride>
+                </PanelContainer>
+                <BoxContainer Orientation="Vertical" HorizontalExpand="True" Margin="8 0 0 0">
+                    <Label Text="{Loc auto-map-vote-config-title}" StyleClasses="LabelHeading" />
+                    <Label Text="{Loc auto-map-vote-config-subtitle}" StyleClasses="LabelSubText" />
+                </BoxContainer>
+            </BoxContainer>
+
+            <Label Name="SummaryLabel" StyleClasses="LabelSubText" />
+            <BoxContainer Orientation="Horizontal" SeparationOverride="8">
+                <Label Text="{Loc auto-map-vote-config-duration}" MinWidth="160" VerticalAlignment="Center" />
+                <LineEdit Name="VoteDurationSeconds" MinWidth="80" />
+                <Label Text="{Loc auto-map-vote-config-duration-suffix}" StyleClasses="LabelSubText" VerticalAlignment="Center" />
+            </BoxContainer>
+            <LineEdit Name="MapSearch" PlaceHolder="{Loc auto-map-vote-config-map-search-placeholder}" />
+
+            <ScrollContainer HorizontalExpand="True" VerticalExpand="True" MinSize="0 360">
+                <BoxContainer Orientation="Vertical" SeparationOverride="10">
+                    <Collapsible Name="BlacklistSection">
+                        <CollapsibleHeading Title="{Loc auto-map-vote-config-blacklist-title}" />
+                        <CollapsibleBody>
+                            <PanelContainer StyleClasses="PanelDark">
+                                <BoxContainer Orientation="Vertical" Margin="10" SeparationOverride="6">
+                                    <Label Text="{Loc auto-map-vote-config-blacklist-subtitle}" StyleClasses="LabelSubText" />
+                                    <Label Name="BlacklistValidation" StyleClasses="LabelSubText" />
+                                    <BoxContainer Orientation="Vertical" SeparationOverride="4">
+                                        <Label Text="{Loc auto-map-vote-config-blacklist-map-ids}" />
+                                        <LineEdit Name="BlacklistMaps" HorizontalExpand="True" />
+                                        <Label Text="{Loc auto-map-vote-config-blacklist-map-ids-help}" StyleClasses="LabelSubText" />
+                                        <Label Name="BlacklistPreview" StyleClasses="LabelSubText" />
+                                    </BoxContainer>
+                                    <Label Text="{Loc auto-map-vote-config-map-picker}" StyleClasses="LabelSubText" />
+                                    <ScrollContainer HorizontalExpand="True" SetHeight="220">
+                                        <BoxContainer Name="BlacklistMapButtons" Orientation="Vertical" SeparationOverride="4" />
+                                    </ScrollContainer>
+                                </BoxContainer>
+                            </PanelContainer>
+                        </CollapsibleBody>
+                    </Collapsible>
+
+                    <Collapsible Name="SmallSection" BodyVisible="False">
+                        <CollapsibleHeading Title="{Loc auto-map-vote-category-small}" />
+                        <CollapsibleBody>
+                            <PanelContainer StyleClasses="PanelDark">
+                                <BoxContainer Orientation="Vertical" Margin="10" SeparationOverride="6">
+                                    <Label Name="SmallValidation" StyleClasses="LabelSubText" />
+                                    <BoxContainer Orientation="Horizontal" SeparationOverride="8">
+                                        <Label Text="{Loc auto-map-vote-config-max-players}" MinWidth="120" />
+                                        <LineEdit Name="SmallMaxPlayers" MinWidth="60" />
+                                    </BoxContainer>
+                                    <BoxContainer Orientation="Vertical" SeparationOverride="4">
+                                        <Label Text="{Loc auto-map-vote-config-map-ids}" />
+                                        <LineEdit Name="SmallMaps" HorizontalExpand="True" />
+                                        <Label Text="{Loc auto-map-vote-config-map-ids-help}" StyleClasses="LabelSubText" />
+                                        <Label Name="SmallPreview" StyleClasses="LabelSubText" />
+                                    </BoxContainer>
+                                    <Label Text="{Loc auto-map-vote-config-map-picker}" StyleClasses="LabelSubText" />
+                                    <ScrollContainer HorizontalExpand="True" SetHeight="220">
+                                        <BoxContainer Name="SmallMapButtons" Orientation="Vertical" SeparationOverride="4" />
+                                    </ScrollContainer>
+                                </BoxContainer>
+                            </PanelContainer>
+                        </CollapsibleBody>
+                    </Collapsible>
+
+                    <Collapsible Name="MediumSection">
+                        <CollapsibleHeading Title="{Loc auto-map-vote-category-medium}" />
+                        <CollapsibleBody>
+                            <PanelContainer StyleClasses="PanelDark">
+                                <BoxContainer Orientation="Vertical" Margin="10" SeparationOverride="6">
+                                    <Label Name="MediumValidation" StyleClasses="LabelSubText" />
+                                    <BoxContainer Orientation="Horizontal" SeparationOverride="8">
+                                        <Label Text="{Loc auto-map-vote-config-max-players}" MinWidth="120" />
+                                        <LineEdit Name="MediumMaxPlayers" MinWidth="60" />
+                                    </BoxContainer>
+                                    <BoxContainer Orientation="Vertical" SeparationOverride="4">
+                                        <Label Text="{Loc auto-map-vote-config-map-ids}" />
+                                        <LineEdit Name="MediumMaps" HorizontalExpand="True" />
+                                        <Label Text="{Loc auto-map-vote-config-map-ids-help}" StyleClasses="LabelSubText" />
+                                        <Label Name="MediumPreview" StyleClasses="LabelSubText" />
+                                    </BoxContainer>
+                                    <Label Text="{Loc auto-map-vote-config-map-picker}" StyleClasses="LabelSubText" />
+                                    <ScrollContainer HorizontalExpand="True" SetHeight="220">
+                                        <BoxContainer Name="MediumMapButtons" Orientation="Vertical" SeparationOverride="4" />
+                                    </ScrollContainer>
+                                </BoxContainer>
+                            </PanelContainer>
+                        </CollapsibleBody>
+                    </Collapsible>
+
+                    <Collapsible Name="LargeSection">
+                        <CollapsibleHeading Title="{Loc auto-map-vote-category-large}" />
+                        <CollapsibleBody>
+                            <PanelContainer StyleClasses="PanelDark">
+                                <BoxContainer Orientation="Vertical" Margin="10" SeparationOverride="6">
+                                    <Label Name="LargeValidation" StyleClasses="LabelSubText" />
+                                    <BoxContainer Orientation="Horizontal" SeparationOverride="8">
+                                        <Label Text="{Loc auto-map-vote-config-max-players}" MinWidth="120" />
+                                        <LineEdit Name="LargeMaxPlayers" MinWidth="60" />
+                                    </BoxContainer>
+                                    <BoxContainer Orientation="Vertical" SeparationOverride="4">
+                                        <Label Text="{Loc auto-map-vote-config-map-ids}" />
+                                        <LineEdit Name="LargeMaps" HorizontalExpand="True" />
+                                        <Label Text="{Loc auto-map-vote-config-map-ids-help}" StyleClasses="LabelSubText" />
+                                        <Label Name="LargePreview" StyleClasses="LabelSubText" />
+                                    </BoxContainer>
+                                    <Label Text="{Loc auto-map-vote-config-map-picker}" StyleClasses="LabelSubText" />
+                                    <ScrollContainer HorizontalExpand="True" SetHeight="220">
+                                        <BoxContainer Name="LargeMapButtons" Orientation="Vertical" SeparationOverride="4" />
+                                    </ScrollContainer>
+                                </BoxContainer>
+                            </PanelContainer>
+                        </CollapsibleBody>
+                    </Collapsible>
+                </BoxContainer>
+            </ScrollContainer>
+
+            <BoxContainer Orientation="Horizontal" SeparationOverride="8" Margin="0 4 0 0">
+                <Button Name="ApplyButton" Text="{Loc auto-map-vote-config-apply}" />
+                <Label Name="ApplyStatusLabel" StyleClasses="LabelSubText" VerticalAlignment="Center" />
+            </BoxContainer>
+        </BoxContainer>
+    </PanelContainer>
+</controls:AutoMapVoteConfigControl>

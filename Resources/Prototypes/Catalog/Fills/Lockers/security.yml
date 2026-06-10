@@ -51,6 +51,8 @@
       amount: 4
     - id: BoxTapeRecorder # DS14
     - id: CriminalRecordsMonitor
+    - id: PlushieLizardJobWarden
+      prob: 0.02
 
 - type: entityTable
   id: FillLockerWardenHarduit
@@ -59,6 +61,7 @@
     - id: ClothingOuterHardsuitWarden
     - id: OxygenTankFilled
     - id: ClothingMaskBreath
+    - id: ClothingShoesBootsMagSecurity #DS14
 
 - type: entity
   id: LockerSecurityFilled
@@ -93,10 +96,14 @@
     #   prob: 0.1
     - id: HoloprojectorSecurity
       prob: 0.6
-    # - id: BookSpaceLaw # DS14-disabled
-    #   prob: 0.5
+    - id: BookSpaceLaw
+      prob: 0.5
     - id: ClothingNeckBodyCamera # DS14
     - id: ClothingMaskGasSecurity # DS14
+    - id: PlushieLizardJobSecuritycadet
+      prob: 0.02
+    - id: PlushieLizardJobSecurityofficer
+      prob: 0.02
 
 - type: entity
   id: LockerBrigmedicFilled
@@ -116,6 +123,7 @@
     - id: TrackingImplanter
     - id: RubberStampBrigmedic
     - id: ClothingOuterHardsuitBrigmedic
+    - id: ClothingShoesBootsMagSecurity #DS14
     - id: ClothingHandsGlovesLatex
     - id: ClothingOuterCoatAMG
     - id: ClothingUniformJumpsuitBrigmedic
@@ -180,6 +188,8 @@
     - id: BoxFolderRed # DS14
     - id: BoxFolderYellow # DS14
     - id: BoxTapeRecorder # DS14
+    - id: PlushieLizardJobDetective
+      prob: 0.02
 
 - type: entity
   id: ClosetBombFilled
@@ -365,6 +375,18 @@
 
 - type: entity
   parent: [GunSafeBaseSecure, BaseSecurityContraband]
+  id: GunSafeVerdict
+  name: verdicts safe
+  components:
+  - type: StorageFill
+    contents:
+    - id: WeaponRevolverVerdict
+      amount: 3
+    - id: SpeedLoaderMagnum
+      amount: 6
+
+- type: entity
+  parent: [GunSafeBaseSecure, BaseSecurityContraband]
   id: GunSafeArmorHeavy
   name: armor heavy safe
   components:
@@ -387,7 +409,7 @@
       - id: MedkitFilled
       - id: MedkitCombatFilled
       - id: MedkitAdvancedFilled
-      - id: ClothingEyesHudAdvanced
+      - id: ClothingEyesHudERT
       - id: RubberStampBlueShield
       - id: WeaponDisabler
       - id: ClothingHeadHelmetSwat

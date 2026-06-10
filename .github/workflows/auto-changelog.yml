@@ -2,6 +2,10 @@ name: "Changelog: Update changelog"
 permissions:
   contents: write
 
+concurrency:
+  group: changelog-update
+  cancel-in-progress: false
+
 on:
   pull_request_target:
     types: [closed]
@@ -12,17 +16,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout changelog branch
+      - name: Checkout master branch
         uses: actions/checkout@v4
         with:
-          ref: changelog
+          ref: master
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract PR description (base64 safe)
         id: extract
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
         run: |
-          BODY=$(printf '%s' "${{ github.event.pull_request.body }}" | base64 -w0)
+          BODY=$(printf '%s' "$PR_BODY" | base64 -w0)
           echo "DESCRIPTION_B64=$BODY" >> $GITHUB_OUTPUT
 
       - name: Parse PR description and update changelog
@@ -43,7 +49,7 @@ jobs:
           desc = base64.b64decode(desc_b64).decode("utf-8", errors="replace")
 
           author = os.environ.get("AUTHOR", "")
-          pr = os.environ.get("PR_NUMBER", "")
+          pr = int(os.environ.get("PR_NUMBER", "0"))
 
           # Убираем HTML-комментарии
           desc = re.sub(r'<!--.*?-->', '', desc, flags=re.DOTALL)
@@ -88,13 +94,17 @@ jobs:
 
           entries = data.get("Entries", [])
 
+          if any(e.get("pr") == pr for e in entries):
+              print(f"PR #{pr} уже есть в changelog — пропуск")
+              exit(0)
+
           last_id = max((e.get("id", 0) for e in entries), default=0)
 
           entries.append({
               "id": last_id + 1,
               "author": author,
               "time": datetime.now(timezone.utc).isoformat(),
-              "pr": int(pr),
+              "pr": pr,
               "changes": changes
           })
 
@@ -125,5 +135,5 @@ jobs:
           fi
 
           git commit -m "Changelog: PR #${{ github.event.pull_request.number }}"
-          git pull --rebase origin changelog
-          git push origin changelog
+          git pull --rebase origin master
+          git push origin master

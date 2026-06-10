@@ -61,9 +61,8 @@
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/laser3.ogg
   - type: BatterySelfRecharger
-    autoRecharge: true
     autoRechargeRate: 50
-  - type: HitscanBatteryAmmoProvider
+  - type: BatteryAmmoProvider
     proto: Pulse
     fireCost: 100
   - type: Battery
@@ -191,8 +190,6 @@
         Base: dead
   - type: CombatMode
   - type: Bloodstream
-    bloodReagent: NecromorfBlood
-    bloodMaxVolume: 200
     bloodlossThreshold: 0
   - type: MobPrice
     price: 200

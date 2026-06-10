@@ -88,7 +88,6 @@
   - type: ContainerFill
     containers:
       key_slots:
-      - EncryptionKeyCentCom
       - EncryptionKeyStationMaster
   - type: Sprite
     sprite: Clothing/Ears/Headsets/centcom.rsi
@@ -96,6 +95,7 @@
     sprite: Clothing/Ears/Headsets/centcom.rsi
   - type: Headset
     color: "#2681a5"
+    #deleted the Central Committee encryption key by DS14
 
 - type: entity
   parent: [ClothingHeadset, BaseCommandContraband]
@@ -325,3 +325,16 @@
       sprite: Clothing/Ears/Headsets/wizard.rsi
     - type: Clothing
       sprite: Clothing/Ears/Headsets/wizard.rsi
+
+- type: entity
+  parent: [ClothingHeadset, BaseMajorContraband]
+  id: ClothingHeadsetNinja
+  name: green headset
+  description: Who could refuse to wear this stylish black and green headset?
+  components:
+  - type: Sprite
+    sprite: Clothing/Ears/Headsets/ninja.rsi
+  - type: Clothing
+    sprite: Clothing/Ears/Headsets/ninja.rsi
+  - type: EmpResistance
+    strengthMultiplier: 0

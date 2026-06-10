@@ -65,6 +65,27 @@
 
 - type: jobIcon
   parent: JobIcon
+  id: JobIconERTMedical
+  icon:
+    sprite: /Textures/Interface/Misc/job_icons.rsi
+    state: ERTMedical
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconERTEngineer
+  icon:
+    sprite: /Textures/Interface/Misc/job_icons.rsi
+    state: ERTEngineer
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconERTJanitor
+  icon:
+    sprite: /Textures/Interface/Misc/job_icons.rsi
+    state: ERTJanitor
+
+- type: jobIcon
+  parent: JobIcon
   id: JobIconERTChaplain
   icon:
     sprite: /Textures/_DeadSpace/Interface/Misc/job_icons.rsi

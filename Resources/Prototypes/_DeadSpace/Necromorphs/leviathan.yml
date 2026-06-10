@@ -219,7 +219,6 @@
   description: Больно бьёт!
   parent:
   - WeaponTentacleNecro
-  - BaseMob
   id: MobLeviathanNecro
   suffix: Некроморф
   components:
@@ -252,9 +251,9 @@
           bounds: "-0.45,-0.45,0.45,0.45"
         density: 60
         mask:
-          - MachineMask
+          - MobMask
         layer:
-          - MachineLayer
+          - MobLayer
   - type: CombatMode
   - type: MeleeWeapon
     range: 2
@@ -295,23 +294,6 @@
   #   name: Левиафан
   #   description: Некроморф
   # - type: GhostTakeoverAvailable
-  - type: Reactive
-    groups:
-      Flammable: [ Touch ]
-      Extinguish: [ Touch ]
-      Acidic: [Touch, Ingestion]
-  - type: Bloodstream
-    bloodReagent: NecromorfBlood
-    bloodMaxVolume: 500
-    bloodlossThreshold: 0.2
-    bloodlossDamage:
-      types:
-        Bloodloss:
-          2
-    bloodlossHealDamage:
-      types:
-        Bloodloss:
-          -1
   - type: PassiveDamage
     allowedStates:
     - Alive
@@ -394,3 +376,10 @@
     selectedLanguage: NecromorfLanguage
     knownLanguages:
     - NecromorfLanguage
+  - type: IntrinsicRadioTransmitter
+    channels:
+    - Unitolog
+  - type: ActiveRadio
+    channels:
+    - Unitolog
+  - type: IntrinsicRadioReceiver

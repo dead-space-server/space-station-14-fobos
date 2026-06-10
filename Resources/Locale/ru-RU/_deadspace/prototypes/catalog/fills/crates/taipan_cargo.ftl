@@ -1,5 +1,6 @@
 ent-CrateNPCGiantSpiderSpace = ящик с космическим пауком
     .desc = Ящик для содержания гигантского космического паука.
+    .suffix = Защищённый
 ent-CrateRCDSyndicate = ящик РСУ
     .desc = Ящик содержащий РСУ.
 ent-CrateFoodDonk = доставка донкпокетов

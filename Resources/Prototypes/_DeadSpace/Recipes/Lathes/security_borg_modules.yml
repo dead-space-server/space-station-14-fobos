@@ -1,0 +1,51 @@
+- type: latheRecipePack
+  id: SecurityBorgModulesTierTwo
+  recipes:
+  - BorgModuleSecurityJump
+
+- type: latheRecipePack
+  id: SecurityBorgModulesTierThree
+  recipes:
+  - BorgModuleSecurityFirearms
+  - BorgModuleSecurityEmergency
+
+- type: latheRecipe
+  id: BorgModuleSecurityFirearms
+  parent: BaseBorgModuleRecipe
+  result: BorgModuleSecurityFirearms
+  categories:
+  - Modules
+  completetime: 3
+  materials:
+    Steel: 700
+    Glass: 400
+    Gold: 100
+    Silver: 150
+    Plastic: 200
+
+- type: latheRecipe
+  id: BorgModuleSecurityJump
+  parent: BaseBorgModuleRecipe
+  result: BorgModuleSecurityJump
+  categories:
+  - Modules
+  completetime: 3
+  materials:
+    Steel: 500
+    Glass: 300
+    Gold: 75
+    Silver: 100
+    Plastic: 150
+
+- type: latheRecipe
+  id: BorgModuleSecurityEmergency
+  parent: BaseBorgModuleRecipe
+  result: BorgModuleSecurityEmergency
+  categories:
+  - Modules
+  completetime: 3
+  materials:
+    Steel: 300
+    Glass: 300
+    Silver: 75
+    Plastic: 250

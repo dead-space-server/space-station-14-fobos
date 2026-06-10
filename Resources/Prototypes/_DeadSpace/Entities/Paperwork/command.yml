@@ -68,12 +68,12 @@
   text: "/Paperwork/Command/9.xml"
   paperPrototype: PaperPrintedCommand
 
-- type: paperworkForm
-  id: Command10
-  category: NTCommand
-  name: paperwork-form-title-command-10
-  text: "/Paperwork/Command/10.xml"
-  paperPrototype: PaperPrintedCommand
+# - type: paperworkForm
+#  id: Command10
+#  category: NTCommand
+#  name: paperwork-form-title-command-10
+#  text: "/Paperwork/Command/10.xml"
+#  paperPrototype: PaperPrintedCommand
 
 - type: paperworkForm
   id: Command11
@@ -110,9 +110,16 @@
   text: "/Paperwork/Command/17.xml"
   paperPrototype: PaperPrintedCommand
 
+# - type: paperworkForm
+#  id: Command18
+#  category: NTCommand
+#  name: paperwork-form-title-command-18
+#  text: "/Paperwork/Command/18.xml"
+#  paperPrototype: PaperPrintedCommand
+
 - type: paperworkForm
-  id: Command18
+  id: Command19
   category: NTCommand
-  name: paperwork-form-title-command-18
-  text: "/Paperwork/Command/18.xml"
+  name: paperwork-form-title-command-19
+  text: "/Paperwork/Command/19.xml"
   paperPrototype: PaperPrintedCommand

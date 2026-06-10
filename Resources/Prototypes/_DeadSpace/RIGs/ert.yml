@@ -1,0 +1,74 @@
+- type: entity
+  parent: ClothingBackpackRIGSecurity
+  id: ClothingBackpackRIGERTLeader
+  name: модифицированный боевой рюкзак Лидера ОБР
+  description: Повышенной вместительности рюкзак с функцией РИГ промышленного производства для Отрядов Быстрого Реагирования
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Back_rig/ert_leader.rsi
+    scale: 0.8, 0.8
+  - type: ToggleableClothing
+    toggleDelay: 1.5
+    clothingPrototype: ClothingOuterHardsuitERTAmberLeader
+    requiredSlot: BACK
+    slot: outerClothing
+
+- type: entity
+  parent: ClothingBackpackRIGSecurity
+  id: ClothingBackpackRIGERTSecurity
+  name: модифицированный боевой рюкзак Офицера ОБР
+  description: Повышенной вместительности рюкзак с функцией РИГ промышленного производства для Отрядов Быстрого Реагирования
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Back_rig/ert_security.rsi
+    scale: 0.8, 0.8
+  - type: ToggleableClothing
+    toggleDelay: 1.5
+    clothingPrototype: ClothingOuterHardsuitERTAmberSecurity
+    requiredSlot: BACK
+    slot: outerClothing
+
+- type: entity
+  parent: ClothingBackpackRIGSecurity
+  id: ClothingBackpackRIGERTMedic
+  name: модифицированный боевой рюкзак Медика ОБР
+  description: Повышенной вместительности рюкзак с функцией РИГ промышленного производства для Отрядов Быстрого Реагирования
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Back_rig/ert_medic.rsi
+    scale: 0.8, 0.8
+  - type: ToggleableClothing
+    toggleDelay: 1.5
+    clothingPrototype: ClothingOuterHardsuitERTAmberMedic
+    requiredSlot: BACK
+    slot: outerClothing
+
+- type: entity
+  parent: ClothingBackpackRIGSecurity
+  id: ClothingBackpackRIGERTEngineer
+  name: модифицированный боевой рюкзак Инженера ОБР
+  description: Повышенной вместительности рюкзак с функцией РИГ промышленного производства для Отрядов Быстрого Реагирования
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Back_rig/ert_engineer.rsi
+    scale: 0.8, 0.8
+  - type: ToggleableClothing
+    toggleDelay: 1.5
+    clothingPrototype: ClothingOuterHardsuitERTAmberEngineer
+    requiredSlot: BACK
+    slot: outerClothing
+
+- type: entity
+  parent: ClothingBackpackRIGSecurity
+  id: ClothingBackpackRIGERTJanitor
+  name: модифицированный боевой рюкзак Уборщика ОБР
+  description: Повышенной вместительности рюкзак с функцией РИГ промышленного производства для Отрядов Быстрого Реагирования
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Back_rig/ert_janitor.rsi
+    scale: 0.8, 0.8
+  - type: ToggleableClothing
+    toggleDelay: 1.5
+    clothingPrototype: ClothingOuterHardsuitERTAmberJanitor
+    requiredSlot: BACK
+    slot: outerClothing

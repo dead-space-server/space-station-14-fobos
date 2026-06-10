@@ -24,6 +24,324 @@
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitMedChemEVA
 
+# ERT
+# Leader
+
+- type: entity
+  parent: ClothingOuterHardsuitSecurityRed
+  id: ClothingOuterHardsuitERTAmberLeader
+  name: скафандр лидера Эмбер
+  description: Защитный скафандр, используемый лидерами отряда быстрого реагирования. 
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Suit/ert_leader.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Suit/ert_leader.rsi
+    equipSound: /Audio/_DeadSpace/Misc/rig_equip.ogg
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetERTAmberLeader
+
+- type: entity
+  parent: ClothingHeadHelmetHardsuitSecurityRed
+  id: ClothingHeadHelmetERTAmberLeader
+  name: шлем скафандра лидера Эмбер
+  description: Надеюсь оно спасёт от стержня мага.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Head/ert_leader.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Head/ert_leader.rsi
+
+- type: entity
+  parent: ClothingOuterHardsuitSecurityRed
+  id: ClothingOuterHardsuitERTRedLeader
+  name: скафандр лидера ОБР «Красного Кода»
+  description: Защитный скафандр Отряда Быстрого Реагирования Красного кода. Легче чем скафандры Гаммы, однако предоставляют меньшую защиту.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERTSuits/ertleader.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERTSuits/ertleader.rsi
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetERTRedLeader
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: HardsuitIdentification
+
+- type: entity
+  parent: ClothingHeadHelmetHardsuitSecurityRed
+  id: ClothingHeadHelmetERTRedLeader
+  name: шлем скафандра лидера ОБР «Красного Кода»
+  description: Надеюсь оно спасёт от стержня мага.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERThelmets/ertleader.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERThelmets/ertleader.rsi
+
+# Security
+
+- type: entity
+  parent: ClothingOuterRIGSecurityAdvanced
+  id: ClothingOuterHardsuitERTAmberSecurity
+  name: скафандр офицера Эмбер
+  description: Защитный скафандр, используемый лидерами отряда быстрого реагирования. 
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Suit/ert_security.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Suit/ert_security.rsi
+    equipSound: /Audio/_DeadSpace/Misc/rig_equip.ogg
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetERTAmberSecurity
+
+- type: entity
+  parent: ClothingHeadHelmetRIGSecurityAdvanced
+  id: ClothingHeadHelmetERTAmberSecurity
+  name: шлем скафандра офицера Эмбер
+  description: Надеюсь оно спасёт от стержня мага.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Head/ert_security.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Head/ert_security.rsi
+
+- type: entity
+  parent: ClothingOuterRIGSecurityAdvanced
+  id: ClothingOuterHardsuitERTRedSecurity
+  name: скафандр офицера ОБР «Красного Кода»
+  description: Защитный скафандр Отряда Быстрого Реагирования Красного кода. Легче чем скафандры Гаммы, однако предоставляют меньшую защиту.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERTSuits/ertsecurity.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERTSuits/ertsecurity.rsi
+    equipSound: /Audio/Effects/rustle1.ogg
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetERTRedSecurity
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: HardsuitIdentification
+
+- type: entity
+  parent: ClothingHeadHelmetHardsuitSecurityRed
+  id: ClothingHeadHelmetERTRedSecurity
+  name: шлем скафандра офицера ОБР «Красного Кода»
+  description: Надеюсь оно спасёт от стержня мага.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERThelmets/ertsecurity.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERThelmets/ertsecurity.rsi
+
+# Medic
+- type: entity
+  parent: ClothingOuterRIGSecurity
+  id: ClothingOuterHardsuitERTAmberMedic
+  name: скафандр медика Эмбер
+  description: Защитный скафандр, используемый медиками отряда быстрого реагирования. 
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Suit/ert_medic.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Suit/ert_medic.rsi
+    equipSound: /Audio/_DeadSpace/Misc/rig_equip.ogg
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetERTAmberMedic
+
+- type: entity
+  parent: ClothingHeadHelmetHardsuitMedChemEVA
+  id: ClothingHeadHelmetERTAmberMedic
+  name: шлем скафандра медика Эмбер
+  description: Надеюсь оно спасёт от стержня мага.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Head/ert_medic.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Head/ert_medic.rsi
+
+- type: entity
+  parent: ClothingOuterRIGSecurity
+  id: ClothingOuterHardsuitERTRedMedic
+  name: скафандр медика ОБР «Красного Кода»
+  description: Защитный скафандр Отряда Быстрого Реагирования Красного кода. Легче чем скафандры Гаммы, однако предоставляют меньшую защиту.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERTSuits/ertmedical.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERTSuits/ertmedical.rsi
+    equipSound: /Audio/Effects/rustle1.ogg
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetERTRedMedic
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: HardsuitIdentification
+
+- type: entity
+  parent: ClothingHeadHelmetHardsuitMedChemEVA
+  id: ClothingHeadHelmetERTRedMedic
+  name: шлем скафандра медика ОБР «Красного Кода»
+  description: Надеюсь оно спасёт от стержня мага.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERThelmets/ertmedical.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERThelmets/ertmedical.rsi
+
+#Engineer
+
+- type: entity
+  parent: ClothingOuterRIGSecurity
+  id: ClothingOuterHardsuitERTAmberEngineer
+  name: скафандр инженера Эмбер
+  description: Защитный скафандр, используемый инженерами отряда быстрого реагирования. 
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Suit/ert_engineer.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Suit/ert_engineer.rsi
+    equipSound: /Audio/_DeadSpace/Misc/rig_equip.ogg
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetERTAmberEngineer
+  - type: ExplosionResistance
+    damageCoefficient: 0.5
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.6
+        Heat: 0.65
+        Shock: 0.8
+        Caustic: 0.5
+        Radiation: 0.2
+
+- type: entity
+  parent: ClothingHeadHelmetRIGEngineer
+  id: ClothingHeadHelmetERTAmberEngineer
+  name: шлем скафандра инженера Эмбер
+  description: Надеюсь оно спасёт от кирпича.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Head/ert_engineer.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Head/ert_engineer.rsi
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+
+- type: entity
+  parent: ClothingOuterRIGSecurity
+  id: ClothingOuterHardsuitERTRedEngineer
+  name: скафандр инженера ОБР «Красного Кода»
+  description: Защитный скафандр Отряда Быстрого Реагирования Красного кода. Легче чем скафандры Гаммы, однако предоставляют меньшую защиту.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERTSuits/ertengineer.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERTSuits/ertengineer.rsi
+    equipSound: /Audio/Effects/rustle1.ogg
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetERTRedEngineer
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: ExplosionResistance
+    damageCoefficient: 0.4
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.6
+        Heat: 0.65
+        Shock: 0.8
+        Caustic: 0.5
+        Radiation: 0.2
+  - type: HardsuitIdentification
+
+- type: entity
+  parent: ClothingHeadHelmetRIGEngineer
+  id: ClothingHeadHelmetERTRedEngineer
+  name: шлем скафандра инженера ОБР «Красного Кода»
+  description: Надеюсь оно спасёт от стержня мага.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERThelmets/ertengineer.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERThelmets/ertengineer.rsi
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+
+# Janitor
+- type: entity
+  parent: ClothingOuterRIGSecurityAdvanced
+  id: ClothingOuterHardsuitERTAmberJanitor
+  name: скафандр уборщика Эмбер
+  description: Защитный скафандр, используемый элитными уборщиками отряда быстрого реагирования. 
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Suit/ert_janitor.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Suit/ert_janitor.rsi
+    equipSound: /Audio/_DeadSpace/Misc/rig_equip.ogg
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetERTAmberJanitor
+
+- type: entity
+  parent: ClothingHeadHelmetRIGSecurityAdvanced
+  id: ClothingHeadHelmetERTAmberJanitor
+  name: шлем скафандра офицера Эмбер
+  description: Надеюсь оно спасёт от стержня мага.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Head/ert_janitor.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/ERT/ERT_Amber/ERT_rig/Head/ert_janitor.rsi
+
+- type: entity
+  parent: ClothingOuterRIGSecurityAdvanced
+  id: ClothingOuterHardsuitERTRedJanitor
+  name: скафандр уборщика ОБР «Красного Кода»
+  description: Защитный скафандр Отряда Быстрого Реагирования Красного кода. Легче чем скафандры Гаммы, однако предоставляют меньшую защиту.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERTSuits/ertjanitor.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERTSuits/ertjanitor.rsi
+    equipSound: /Audio/Effects/rustle1.ogg
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetERTRedJanitor
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: HardsuitIdentification
+
+- type: entity
+  parent: ClothingHeadHelmetRIGSecurityAdvanced
+  id: ClothingHeadHelmetERTRedJanitor
+  name: шлем скафандра уборщика ОБР «Красного Кода»
+  description: Надеюсь оно спасёт от стержня мага.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERThelmets/ertjanitor.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/ERT/ERT_Red/ERThelmets/ertjanitor.rsi
 
 # Taipan
 

@@ -17,6 +17,7 @@
     - map: [ "enum.PowerDeviceVisualLayers.Powered" ]
       state: unpowered
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: panel_open
   - type: Machine
     board: TaipanHolopadMachineCircuitboard

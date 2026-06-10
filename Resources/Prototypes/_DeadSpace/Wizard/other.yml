@@ -1,0 +1,37 @@
+- type: entity
+  id: WizardDeathImplanter
+  name: запретный имплант призыва
+  description: Вы чувствуете то, как этот имплантер напитан силой самого дьявола...
+  parent: BaseImplantOnlyImplanterSyndi
+  components:
+  - type: Implanter
+    implant: WizardDeathImplant
+
+- type: entity
+  parent: BaseSubdermalImplant
+  id: WizardDeathImplant
+  name: имплант посмертного призыва
+  description: Тут начинается веселье.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: SubdermalImplant
+    permanent: true
+  - type: TriggerOnMobstateChange
+    mobState:
+    - Dead
+  - type: TriggerOnActivateImplant
+  - type: ExplodeOnTrigger
+  - type: SpawnOnTrigger
+    proto: SpawnMobHellspawnWizard
+    predicted: true
+  - type: Tag
+    tags:
+    - SubdermalImplant
+    - HideContextMenu
+    - MicroBomb
+  - type: Explosive
+    explosionType: MicroBomb
+    totalIntensity: 60
+    intensitySlope: 5
+    maxIntensity: 5
+    canCreateVacuum: false

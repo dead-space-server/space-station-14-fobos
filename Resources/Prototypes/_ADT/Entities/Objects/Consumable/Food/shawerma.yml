@@ -8,7 +8,7 @@
       - vegetables
       - meaty
       - magical
-  - type: Food
+  - type: Edible
     transferAmount: 5
   - type: Sprite
     sprite: _ADT/Objects/Consumable/Food/shawerma.rsi
@@ -41,7 +41,7 @@
       - vegetables
       - meaty
       - magical
-  - type: Food
+  - type: Edible
     transferAmount: 5
   - type: Sprite
     sprite: _ADT/Objects/Consumable/Food/shawerma.rsi
@@ -70,7 +70,7 @@
       - meaty
       - cheesy
       - magical
-  - type: Food
+  - type: Edible
     transferAmount: 5
   - type: Sprite
     sprite: _ADT/Objects/Consumable/Food/shawerma.rsi
@@ -99,7 +99,7 @@
       - egg
       - meaty
       - magical
-  - type: Food
+  - type: Edible
     transferAmount: 5
   - type: Sprite
     sprite: _ADT/Objects/Consumable/Food/shawerma.rsi

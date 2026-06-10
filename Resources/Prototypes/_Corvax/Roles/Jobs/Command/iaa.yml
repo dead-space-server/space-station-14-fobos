@@ -29,14 +29,20 @@
     - Brig
     - Maintenance
   #start-backmen: currency
-  minBankBalance: 800
-  maxBankBalance: 1200
+  minBankBalance: 500 # DS14-value
+  maxBankBalance: 900 # DS14-value
   wageDepartment: Specific
-  wage: 145
+  wage: 420 # DS14-value
   #end-backmen: currency
   special:
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant ]
+  - !type:AddComponentSpecial
+    components:
+      # DS14-Start
+      - type: Skill
+        group: BaseSkills
+      # DS14-End
 
 - type: startingGear
   id: IAAGear
@@ -49,9 +55,6 @@
     pocket2: RubberStampIAA
   inhand:
     - BriefcaseBrownFilled
-  storage:
-    back:
-    - TelephoneIaa
 
 - type: chameleonOutfit
   id: IAAChameleonOutfit

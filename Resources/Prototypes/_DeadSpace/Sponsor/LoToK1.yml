@@ -16,7 +16,7 @@
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,16,6
+    - 0,0,15,7
   - type: StorageFill
     contents:
       - id: ClothingBeltLoToK1Filled
@@ -110,7 +110,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitLoToK1
   name: модифицированный ведьмин скафандр
   description: Принадлежат члену экипажа, находящемуся под покровительством спонсорской организации.

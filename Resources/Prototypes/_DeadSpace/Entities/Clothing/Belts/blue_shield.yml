@@ -12,9 +12,9 @@
       - id: ChemistryBottleEphedrine
       - id: ChemistryBottleOmnizine
         amount: 2
-      - id: ADTObjectsSpecificBicaridineChemistryBottle
-      - id: ADTObjectsSpecificDexalinPlusChemistryBottle
-      - id: ADTObjectsSpecificDermalineChemistryBottle
+      - id: ChemistryBottleBicaridine
+      - id: ChemistryBottleDexalinPlus
+      - id: ChemistryBottleDermaline
   - type: Sprite
     sprite: _DeadSpace/Clothing/Belt/webbing_blueshield.rsi
   - type: Clothing

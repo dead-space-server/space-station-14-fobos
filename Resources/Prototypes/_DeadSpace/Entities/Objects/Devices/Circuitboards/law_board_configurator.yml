@@ -1,0 +1,22 @@
+- type: entity
+  parent: BaseComputerCircuitboard
+  id: LawBoardConfiguratorComputerCircuitboard
+  name: консоль конфигурации плат законов (консольная плата)
+  description: Печатная плата для консоли конфигурации плат законов.
+  components:
+  - type: Sprite
+    state: cpu_science
+  - type: ComputerBoard
+    prototype: LawBoardConfiguratorComputer
+
+- type: entity
+  parent: BaseElectronics
+  id: EmptyLawCircuitBoard
+  name: пустая плата законов
+  description: Я тут закон!
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: std_mod
+  - type: SiliconLawProvider
+    laws: EmptyLawset

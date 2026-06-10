@@ -27,8 +27,6 @@
   - DeadSpaceDefaultRule44
   - DeadSpaceDefaultRule5
   - DeadSpaceDefaultRule51
-  - DeadSpaceDefaultRule52
-  - DeadSpaceDefaultRule53
   - DeadSpaceDefaultRule6
   - DeadSpaceDefaultRule7
   - DeadSpaceDefaultRule8
@@ -190,20 +188,6 @@
   priority: 23
   ruleEntry: true
   text: "/ServerInfo/DeadSpace/Guidebook/ServerRules/DeadSpaceDefaultRule51.xml"
-
-- type: guideEntry
-  id: DeadSpaceDefaultRule52
-  name: Правило 5.2
-  priority: 24
-  ruleEntry: true
-  text: "/ServerInfo/DeadSpace/Guidebook/ServerRules/DeadSpaceDefaultRule52.xml"
-
-- type: guideEntry
-  id: DeadSpaceDefaultRule53
-  name: Правило 5.3
-  priority: 25
-  ruleEntry: true
-  text: "/ServerInfo/DeadSpace/Guidebook/ServerRules/DeadSpaceDefaultRule53.xml"
 
 - type: guideEntry
   id: DeadSpaceDefaultRule6

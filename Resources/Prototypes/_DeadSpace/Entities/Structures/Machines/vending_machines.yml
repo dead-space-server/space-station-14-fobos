@@ -24,6 +24,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -62,6 +63,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -94,6 +96,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
   - type: PointLight
     radius: 1.8
     energy: 1.6
@@ -116,6 +119,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
   - type: AccessReader
     access: [["TaipanMedical"]]
   - type: PointLight
@@ -146,6 +150,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -168,6 +173,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
   - type: AccessReader
     access: [["TaipanEngineering"]]
   - type: PointLight
@@ -191,10 +197,20 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
   - type: PointLight
     radius: 1.5
     energy: 1.6
     color: "#8B0000"
+  - type: VendingMachine
+    pack: SalvageEquipmentInventoryTaipan
+    dispenseOnHitChance: 0.25
+    dispenseOnHitThreshold: 2
+    offState: off
+    brokenState: broken
+    normalState: normal-unshaded
+    ejectState: eject-unshaded
+    denyState: deny-unshaded
   - type: AccessReader
     access: [["TaipanCargo"]]
 
@@ -223,6 +239,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -253,6 +270,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -282,6 +300,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
   - type: PointLight
     radius: 1.5
     energy: 1.6

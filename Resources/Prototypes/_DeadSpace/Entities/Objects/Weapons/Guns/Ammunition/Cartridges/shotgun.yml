@@ -1,0 +1,11 @@
+- type: entity
+  id: ShellShotgunMagnum
+  name: ружейный патрон (12х70 магнум)
+  parent: [ BaseShellShotgun, BaseSecurityContraband ]
+  components:
+  - type: Sprite
+    layers:
+      - state: base
+        map: [ "enum.AmmoVisualLayers.Base" ]
+  - type: CartridgeAmmo
+    proto: PelletShotgunMagnumSpread

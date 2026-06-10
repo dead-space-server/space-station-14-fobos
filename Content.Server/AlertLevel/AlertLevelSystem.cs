@@ -1,9 +1,8 @@
 using System.Linq;
+using Content.Server.Audio; // DS14
 using Content.Server.Chat.Systems;
 using Content.Server.Station.Systems;
 using Content.Shared.CCVar;
-using Robust.Shared.Audio;
-using Robust.Shared.Audio.Systems;
 using Robust.Shared.Configuration;
 using Robust.Shared.Prototypes;
 
@@ -14,7 +13,7 @@ public sealed class AlertLevelSystem : EntitySystem
     [Dependency] private readonly IConfigurationManager _cfg = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly ServerGlobalSoundSystem _sound = default!; // DS14
     [Dependency] private readonly StationSystem _stationSystem = default!;
 
     // Until stations are a prototype, this is how it's going to have to be.
@@ -192,7 +191,7 @@ public sealed class AlertLevelSystem : EntitySystem
             if (detail.Sound != null)
             {
                 var filter = _stationSystem.GetInOwningStation(station);
-                _audio.PlayGlobal(detail.Sound, filter, true, detail.Sound.Params);
+                _sound.PlayAlertLevelGlobal(filter, detail.Sound, detail.Sound.Params); // DS14
             }
             else
             {

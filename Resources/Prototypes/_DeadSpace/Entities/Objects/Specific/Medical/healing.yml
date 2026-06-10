@@ -14,6 +14,7 @@
   - type: Item
     heldPrefix: nanopaste
   - type: Healing
+    healEyeDamage: true
     damageContainers:
     - Silicon
     damage:

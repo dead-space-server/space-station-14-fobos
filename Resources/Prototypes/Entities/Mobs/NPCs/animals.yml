@@ -50,7 +50,10 @@
   - type: SentienceTarget
     flavorKind: station-event-random-sentience-flavor-organic
   - type: Bloodstream
-    bloodMaxVolume: 50
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: Blood
+        Quantity: 50
   - type: ReplacementAccent
     accent: mouse
   - type: MeleeWeapon
@@ -118,7 +121,7 @@
       0: Alive
       10: Dead
   - type: Stamina
-    critThreshold: 10
+    baseCritThreshold: 10
     animationThreshold: 1
   - type: DamageStateVisuals
     states:
@@ -146,8 +149,10 @@
     - Bee
     - Trash
   - type: Bloodstream
-    bloodReagent: InsectBlood
-    bloodMaxVolume: 0.1
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: InsectBlood
+        Quantity: 0.1
   - type: MobPrice
     price: 50
   - type: NPCRetaliation
@@ -193,7 +198,10 @@
     factions:
     - SimpleHostile
   - type: Bloodstream
-    bloodMaxVolume: 0.1
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: Blood
+        Quantity: 0.1
   - type: ZombieImmune
 
 
@@ -203,6 +211,10 @@
   id: MobChicken
   description: Comes before an egg, and IS a dinosaur!
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     layers:
@@ -267,7 +279,10 @@
     interactSuccessSound:
       path: /Audio/Animals/chicken_cluck_happy.ogg
   - type: Bloodstream
-    bloodMaxVolume: 100
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: Blood
+        Quantity: 100
   - type: EggLayer
     eggSpawn:
     - id: FoodEgg
@@ -353,6 +368,10 @@
   id: MobCockroach
   description: This station is just crawling with bugs.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: SmallMobs
     sprite: Mobs/Animals/cockroach.rsi
@@ -394,9 +413,11 @@
       Dead:
         Base: cockroach_dead
   - type: Bloodstream
-    bloodReagent: InsectBlood
-    bloodMaxVolume: 20
-  - type: Food
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: InsectBlood
+        Quantity: 20
+  - type: Edible
   - type: FlavorProfile
     flavors:
     - horrible
@@ -564,7 +585,10 @@
     damageContainer: Biological
     damageModifierSet: Moth
   - type: Bloodstream
-    bloodReagent: InsectBlood
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: InsectBlood
+        Quantity: 20
   - type: Respirator
     damage:
       types:
@@ -658,7 +682,7 @@
             sprite: Mobs/Animals/mothroach/displacement.rsi
             state: neck
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: PetsGroup
   #DS14-end
 
@@ -672,6 +696,10 @@
   id: MobDuckMallard
   description: An adorable mallard duck, it's fluffy and soft!
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     layers:
@@ -726,7 +754,10 @@
     interactSuccessSound:
       path: /Audio/Animals/duck_quack_happy.ogg
   - type: Bloodstream
-    bloodMaxVolume: 100
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: Blood
+        Quantity: 100
   - type: EggLayer
     eggSpawn:
     - id: FoodEgg
@@ -854,8 +885,10 @@
     tags:
     - Trash
   - type: Bloodstream
-    bloodReagent: InsectBlood
-    bloodMaxVolume: 0.1
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: InsectBlood
+        Quantity: 0.1
   - type: MobPrice
     price: 50
   - type: Destructible
@@ -964,6 +997,10 @@
   id: MobCrab
   description: A folk legend goes around that his claw snaps spacemen out of existence over distasteful remarks. Be polite and tolerant for your own safety.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     layers:
@@ -1015,8 +1052,10 @@
   - type: ReplacementAccent
     accent: crab
   - type: Bloodstream
-    bloodMaxVolume: 50
-    bloodReagent: CopperBlood
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: CopperBlood
+        Quantity: 50
   - type: Tag
     tags:
     - VimPilot
@@ -1032,6 +1071,10 @@
   id: MobGoat
   description: Her spine consists of long sharp segments, no wonder she is so grumpy.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Large
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     layers:
@@ -1136,6 +1179,10 @@
   id: MobGoose
   description: Its stomach and mind are an enigma beyond human comprehension.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     layers:
@@ -1173,7 +1220,10 @@
     interactSuccessSound:
       path: /Audio/Animals/goose_honk.ogg
   - type: Bloodstream
-    bloodMaxVolume: 100
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: Blood
+        Quantity: 100
   - type: NpcFactionMember
     factions:
     - Passive
@@ -1215,7 +1265,10 @@
     - id: FoodMeat
       amount: 4
   - type: Bloodstream
-    bloodMaxVolume: 300
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: Blood
+        Quantity: 300
     # if you fuck with the gorilla he will harambe you
   - type: MeleeWeapon
     soundHit:
@@ -1368,7 +1421,12 @@
   description: The genetic bipedal ancestor of... Uh... Something. Yeah, there's definitely something on the station that descended from whatever this is.
   abstract: true
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: CombatMode
+    canDisarm: true
   - type: Inventory
     templateId: monkey
     speciesId: monkey
@@ -1475,10 +1533,11 @@
     - reagents: [ Water, SpaceCleaner ]
       methods: [ Touch ]
       effects:
-      - !type:WashCreamPieReaction
+      - !type:WashCreamPie
   - type: Crawler
-
-
+  - type: StatusIcon
+    bounds: -0.5,-0.5,0.5,0.5
+  - type: JobStatus # marks them as crew
 
 - type: entity
   name: monkey
@@ -1486,6 +1545,10 @@
   parent: MobBaseAncestor
   description: New church of neo-darwinists actually believe that EVERY animal evolved from a monkey. Tastes like pork, and killing them is both fun and relaxing.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: NameIdentifier
     group: Monkey
   - type: Speech
@@ -1507,8 +1570,7 @@
       types:
         Blunt: 5
         Piercing: 4
-      groups:
-        Burn: 3
+        Heat: 3
     catchingFailDamage:
       types:
         Blunt: 1
@@ -1517,15 +1579,15 @@
   # DS14-start
   - type: Language
     selectedLanguage: MonkeyLanguage
-    knownLanguages: 
+    knownLanguages:
     - MonkeyLanguage
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: PetsGroup
   - type: Tag
     tags:
     - MonkeyKingTarget # DS14
   # DS14-end
-  
+
 - type: entity
   name: monkey
   id: MobBaseSyndicateMonkey
@@ -1559,7 +1621,7 @@
   - type: Loadout
     prototypes: [SyndicateOperativeGearMonkey]
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: SyndicateGroup
   #DS14-end
 
@@ -1586,6 +1648,10 @@
   description: Cousins to the sentient race of lizard people, kobolds blend in with their natural habitat and are as nasty as monkeys; ready to pull out your hair and stab you to death.
   abstract: true
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: NameIdentifier
     group: Kobold
   - type: LizardAccent
@@ -1614,8 +1680,6 @@
     interactSuccessString: petting-success-monkey
     interactFailureString: petting-failure-monkey
     interactSuccessSpawn: EffectHearts
-    interactSuccessSound:
-      path: /Audio/Animals/lizard_happy.ogg
     interactFailureSound:
       path: /Audio/Items/wirecutter.ogg
   - type: MobThresholds
@@ -1636,10 +1700,11 @@
         Slash: 5
         Piercing: 4
   - type: Temperature
-    heatDamageThreshold: 360
-    coldDamageThreshold: 285
     currentTemperature: 310.15
     specificHeat: 42
+  - type: TemperatureDamage
+    heatDamageThreshold: 360
+    coldDamageThreshold: 285
   - type: Sprite
     drawdepth: Mobs
     layers:
@@ -1697,7 +1762,7 @@
     description: ghost-role-information-kobold-description
     rules: ghost-role-information-nonantagonist-rules
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: PetsGroup
   #DS14-end
 
@@ -1712,8 +1777,7 @@
       types:
         Blunt: 2
         Piercing: 7
-      groups:
-        Burn: 3
+        Heat: 3
     catchingFailDamage:
       types:
         Blunt: 1
@@ -1745,7 +1809,7 @@
   - type: AutoTraitor
     profile: TraitorReinforcement
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: SyndicateGroup
   #DS14-end
 
@@ -1771,6 +1835,10 @@
   id: MobMouse
   description: Squeak!
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Body
     prototype: Mouse
   - type: GhostRole
@@ -1854,7 +1922,7 @@
         Base: dead-0
       Dead:
         Base: splat-0
-  - type: Food
+  - type: Edible
   - type: FlavorProfile
     flavors:
     - meaty
@@ -1925,7 +1993,10 @@
       types:
         Piercing: 0
   - type: Bloodstream
-    bloodMaxVolume: 50
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: Blood
+        Quantity: 50
   - type: CanEscapeInventory
   - type: MobPrice
     price: 50
@@ -1951,7 +2022,7 @@
   - type: NecromorfAfterInfection
     necroPrototype: NecroSmall
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: PetsGroup
   #DS14-end
 
@@ -2065,9 +2136,13 @@
     energy: 5
     netsync: false
   - type: RadiationSource
-    intensity: 0.3
+    intensity: 0.5
+    slope: 0.3
   - type: Bloodstream
-    bloodReagent: UnstableMutagen
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: UnstableMutagen
+        Quantity: 50
   - type: SolutionContainerManager
     solutions:
       food:
@@ -2092,6 +2167,10 @@
   id: MobLizard
   description: A harmless dragon.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: MovementSpeedModifier
     baseWalkSpeed: 2
     baseSprintSpeed: 3
@@ -2130,10 +2209,11 @@
     interactSuccessString: petting-success-reptile
     interactFailureString: petting-failure-generic
     interactSuccessSpawn: EffectHearts
-    interactSuccessSound:
-      path: /Audio/Animals/lizard_happy.ogg
   - type: Bloodstream
-    bloodMaxVolume: 150
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: Blood
+        Quantity: 150
   - type: Damageable
     damageContainer: Biological
     damageModifierSet: Scale
@@ -2148,6 +2228,10 @@
   id: MobSlug
   description: And they called this a lizard?
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: MovementSpeedModifier
     baseWalkSpeed : 2
     baseSprintSpeed : 3
@@ -2187,7 +2271,10 @@
     interactFailureString: petting-failure-generic
     interactSuccessSpawn: EffectHearts
   - type: Bloodstream
-    bloodMaxVolume: 50
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: Blood
+        Quantity: 50
 
 - type: entity
   name: frog
@@ -2195,6 +2282,10 @@
   id: MobFrog
   description: Hop hop hop. Lookin' moist.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: MovementSpeedModifier
     baseWalkSpeed: 3
     baseSprintSpeed: 6
@@ -2243,7 +2334,10 @@
     interactSuccessSound:
       path: /Audio/Animals/frog_ribbit.ogg
   - type: Bloodstream
-    bloodMaxVolume: 50
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: Blood
+        Quantity: 50
   - type: Tag
     tags:
     - VimPilot
@@ -2336,7 +2430,10 @@
     interactSuccessSound:
       path: /Audio/Animals/parrot_raught.ogg
   - type: Bloodstream
-    bloodMaxVolume: 50
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: Blood
+        Quantity: 50
 
 - type: entity
   parent: MobParrotBase
@@ -2350,6 +2447,10 @@
   id: MobPenguin
   description: Their lives are constant pain due to their inner-body knees.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     layers:
@@ -2394,10 +2495,11 @@
     factions:
     - Passive
   - type: Temperature
-    heatDamageThreshold: 335
-    coldDamageThreshold: 230
     currentTemperature: 310.15
     specificHeat: 46
+  - type: TemperatureDamage
+    heatDamageThreshold: 335
+    coldDamageThreshold: 230
     coldDamage:
       types:
         Cold : 0.05 #per second, scales with temperature & other constants
@@ -2419,7 +2521,7 @@
   - type: MobMover
   - type: HTN
     rootTask:
-      task: SimpleHostileCompound
+      task: GrenadePenguinCompound
   - type: NpcFactionMember
     factions:
     - Syndicate
@@ -2467,9 +2569,9 @@
     beepInterval: 1
   - type: Explosive
     explosionType: Default
-    maxIntensity: 20
-    intensitySlope: 20
-    totalIntensity: 225
+    maxIntensity: 10
+    intensitySlope: 3
+    totalIntensity: 150
   - type: ExplodeOnTrigger
     keysIn:
     - timer
@@ -2488,6 +2590,10 @@
   id: MobSnake
   description: Hissss! Bites aren't poisonous.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     layers:
@@ -2524,7 +2630,10 @@
     interactFailureString: petting-failure-generic
     interactSuccessSpawn: EffectHearts
   - type: Bloodstream
-    bloodMaxVolume: 50
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: Blood
+        Quantity: 50
   - type: Damageable
     damageContainer: Biological
     damageModifierSet: Scale
@@ -2587,8 +2696,10 @@
   - type: Spider
   - type: IgnoreSpiderWeb
   - type: Bloodstream
-    bloodMaxVolume: 150
-    bloodReagent: CopperBlood
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: CopperBlood
+        Quantity: 150
   - type: Speech
     speechVerb: Arachnid
     # speechSounds: Arachnid # DS14
@@ -2624,7 +2735,7 @@
   - type: ReplacementAccent
     accent: xeno
   - type: Language
-    knownLanguages: 
+    knownLanguages:
     - ArachnidLanguage
     selectedLanguage: ArachnidLanguage
   # DS14-end
@@ -2653,7 +2764,7 @@
       settings: short
   - type: GhostTakeoverAvailable
   #DS14-start
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: SpidersGroup
   #DS14-end
 
@@ -2745,9 +2856,10 @@
     - type: Speech
       speechVerb: Cluwne
     - type: Bloodstream
-      bloodMaxVolume: 150
-      bloodReagent: Laughter
-
+      bloodReferenceSolution:
+        reagents:
+        - ReagentId: Laughter
+          Quantity: 150
 - type: entity
   name: wizard spider
   parent: MobGiantSpider
@@ -2766,6 +2878,10 @@
   id: MobPossum
   description: '"O Possum! My Possum!" -- Walt Whitman, 1865'
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     sprite: Mobs/Animals/possum.rsi
@@ -2839,6 +2955,10 @@
   id: MobRaccoon
   description: Trash panda!
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     sprite: Mobs/Animals/raccoon.rsi
@@ -2892,6 +3012,10 @@
   id: MobFox
   description: They're a fox.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     sprite: Mobs/Animals/fox.rsi
@@ -2943,7 +3067,10 @@
     attributes:
       gender: epicene
   - type: Bloodstream
-    bloodMaxVolume: 100
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: Blood
+        Quantity: 100
   - type: MeleeWeapon
     angle: 0
     animation: WeaponArcBite
@@ -2972,6 +3099,10 @@
   name: corgi
   description: Finally, a space corgi!
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     sprite: Mobs/Pets/corgi.rsi
@@ -3089,18 +3220,22 @@
     attributes:
       gender: epicene
   - type: Bloodstream
-    bloodReagent: DemonsBlood
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: DemonsBlood
+        Quantity: 150
   - type: Damageable
     damageContainer: BiologicalMetaphysical
     damageModifierSet: Infernal
   - type: Temperature
+    currentTemperature: 310.15
+    specificHeat: 42
+  - type: TemperatureDamage
     heatDamageThreshold: 4000 #They come from hell, so..
     coldDamageThreshold: 260
-    currentTemperature: 310.15
     coldDamage:
       types:
         Cold : 1 #per second, scales with temperature & other constants
-    specificHeat: 42
     heatDamage:
       types:
         Heat : 1 #per second, scales with temperature & other constants
@@ -3138,6 +3273,10 @@
   id: MobCat
   description: Feline pet, very funny.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     sprite: Mobs/Pets/cat.rsi
@@ -3286,7 +3425,7 @@
     - GeneralLanguage
     unlockLanguagesAfterMakeSentient:
     - GeneralLanguage
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: ExplosiveCat
   # DS14-end
 
@@ -3309,6 +3448,7 @@
       Dead:
         Base: spacecat_dead
   - type: Temperature
+  - type: TemperatureDamage
     heatDamageThreshold: 423
     coldDamageThreshold: 0
   - type: Tag
@@ -3387,6 +3527,10 @@
   id: MobSloth
   description: Very slow animal. For people with low energy.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: MovementSpeedModifier
     baseWalkSpeed : 0.5
     baseSprintSpeed : 1
@@ -3444,6 +3588,10 @@
   id: MobFerret
   description: Just a silly little guy!
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     sprite: Mobs/Pets/ferret.rsi
@@ -3498,6 +3646,10 @@
   id: MobHamster
   description: A cute, fluffy, robust hamster.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: GhostRole
     makeSentient: true
     allowSpeech: true
@@ -3566,7 +3718,7 @@
         Base: dead-0
       Dead:
         Base: splat-0
-  - type: Food
+  - type: Edible
   - type: FlavorProfile
     flavors:
     - meaty
@@ -3625,7 +3777,10 @@
     interactSuccessSound:
       path: /Audio/Animals/fox_squeak.ogg
   - type: Bloodstream
-    bloodMaxVolume: 60
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: Blood
+        Quantity: 60
   - type: CanEscapeInventory
     baseResistTime: 3
   - type: MobPrice
@@ -3644,9 +3799,9 @@
       - !type:GibBehavior
         recursive: false
   #DS14-start
-  - type: NecromorfAfterInfection 
+  - type: NecromorfAfterInfection
     necroPrototype: NecroSmall
-  - type: GhostRoleNotifys 
+  - type: GhostRoleNotifys
     groupPrototype: PetsGroup
   #DS14-end
 
@@ -3656,6 +3811,10 @@
   id: MobPig
   description: Oink.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Large
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     layers:
@@ -3727,6 +3886,10 @@
   id: MobDionaNymph
   description: It's like a cat, only.... branch-ier.
   components:
+  # DS14-start
+  - type: CarrySize
+    size: Small
+  # DS14-end
   - type: Sprite
     drawdepth: Mobs
     layers:
@@ -3749,8 +3912,10 @@
     speciesId: cat
     templateId: pet
   - type: Bloodstream
-    bloodReagent: Sap
-    bloodMaxVolume: 60
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: Sap
+        Quantity: 60
   - type: DamageStateVisuals
     states:
       Alive:
@@ -3860,7 +4025,10 @@
     - id: FoodMeat
       amount: 4
   - type: Bloodstream
-    bloodMaxVolume: 300
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: Blood
+        Quantity: 300
     # Horns though
   - type: MeleeWeapon
     damage:
@@ -3973,8 +4141,9 @@
     - VimPilot
     - CanPilot
     - DoorBumpOpener
-  - type: StatusIcon # marks them as crew
+  - type: StatusIcon
     bounds: -0.5,-0.5,0.5,0.5
+  - type: JobStatus # marks them as crew
   - type: NpcFactionMember
     factions:
     - NanoTrasen

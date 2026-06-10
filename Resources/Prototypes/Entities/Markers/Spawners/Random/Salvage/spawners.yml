@@ -91,7 +91,7 @@
         tableId: MaintToolsTable
       - !type:NestedSelector
         tableId: SalvageTreasureUncommon
-        weight: 0.25
+        weight: 25 #DS14
 
 - type: entity
   parent: MarkerBase

@@ -1,0 +1,418 @@
+# Закреплённые чертежи при крафте
+
+- type: consoleCraft
+  id: ResearchModifiedBackpack
+  name: Модифицированный рюкзак научного специалиста
+  item: ClothingBackpackRIGResearch
+  time: 10
+  requestItems:
+  - itemProto: MediumCoreForModifiedBackpack
+    amount: 1
+    label: Среднее ядро модифицированного рюкзака
+  - itemProto: PlastineOfResearchRIG
+    amount: 2
+    label: Пластина для модифицированного рюкзака НИО
+  - itemProto: HardsuitFrameLeg
+    amount: 1
+    label: Каркас ног скафандра
+  - itemProto: HardsuitFrameTorso
+    amount: 1
+    label: Каркас торса скафандра
+  - itemProto: ClothingHeadHelmetRIGResearch
+    amount: 1
+  minorItems:
+  - StorageModule
+  - SpeedModifierModuleResearch
+  - DelayModifierModule
+  - RadiationResistanceModuleResearch
+  - ExplosionResistanceModuleResearch
+  - HandHeldMassScannerModule
+  - BluespaceHandHeldMassScannerModule
+
+- type: consoleCraft
+  id: SecurityModifiedBackpack
+  name: Модифицированный боевой рюкзак брига
+  item: ClothingBackpackRIGSecurity
+  time: 10
+  requestItems:
+  - itemProto: MediumCoreForModifiedBackpack
+    amount: 1
+    label: Среднее ядро модифицированного рюкзака
+  - itemProto: PlastineOfSecurityRIG
+    amount: 2
+    label: Пластина для модифицированного рюкзака СБ
+  - itemProto: HardsuitFrameLeg
+    amount: 1
+    label: Каркас ног скафандра
+  - itemProto: HardsuitFrameTorso
+    amount: 1
+    label: Каркас торса скафандра
+  - itemProto: ClothingHeadHelmetRIGSecurity
+    amount: 1
+    label: Шлем боевого офицерского скафандра
+  minorItems:
+  - StorageModule
+  - SpeedModifierModuleSecurity
+  - DelayModifierModule
+  - StorageModuleSecurity
+  - HandHeldMassScannerModule
+  - BluespaceHandHeldMassScannerModule
+
+- type: consoleCraft
+  id: SecurityAdvancedModifiedBackpack
+  name: Продвинутый модифицированный боевой рюкзак брига
+  item: ClothingBackpackRIGSecurityAdvanced
+  time: 10
+  requestItems:
+  - itemProto: AdvancedCoreForModifiedBackpack
+    amount: 1
+    label: Продвинутое ядро модифицированного рюкзака
+  - itemProto: PlastineOfSecurAdvancedityRIG
+    amount: 2
+    label: Пластина для продвинутого модифицированного рюкзака СБ
+  - itemProto: HardsuitFrameLeg
+    amount: 1
+    label: Каркас ног скафандра
+  - itemProto: HardsuitFrameTorso
+    amount: 1
+    label: Каркас торса скафандра
+  - itemProto: ClothingHeadHelmetRIGSecurityAdvanced
+    amount: 1
+    label: Продвиунтый шлем боевого офицерского скафандра
+  minorItems:
+  - StorageModule
+  - SpeedModifierModuleSecurityAdvanced
+  - DelayModifierModule
+  - PiercingResistanceModuleSecurityAdvanced
+  - ReflectModuleSecurityAdvanced
+  - HandHeldMassScannerModule
+  - BluespaceHandHeldMassScannerModule
+
+- type: consoleCraft
+  id: SalvageModifiedBackpack
+  name: Модифицированный рюкзак утилизационного специалиста
+  item: ClothingBackpackRIGSalvage
+  time: 10
+  requestItems:
+  - itemProto: AdvancedCoreForModifiedBackpack
+    amount: 1
+    label: Продвинутое ядро модифицированного рюкзака
+  - itemProto: PlastineOfSalvageRIG
+    amount: 2
+    label: Пластина для модифицированного рюкзака Карго
+  - itemProto: HardsuitFrameLeg
+    amount: 1
+    label: Каркас ног скафандра
+  - itemProto: HardsuitFrameTorso
+    amount: 1
+    label: Каркас торса скафандра
+  - itemProto: ClothingHeadHelmetRIGSalvage
+    amount: 1
+    label: Шлем скафандра утилизационного специалиста
+  minorItems:
+  - StorageModule
+  - SpeedModifierModuleSalvage
+  - DelayModifierModule
+  - MineralScannerModuleSalvage
+  - HandHeldMassScannerModule
+  - BluespaceHandHeldMassScannerModule
+
+- type: consoleCraft
+  id: SalvageAdvancedModifiedBackpack
+  name: Продвинутый модифицированный рюкзак утилизационного специалиста
+  item: ClothingBackpackRIGSalvageAdvanced
+  time: 10
+  requestItems:
+  - itemProto: AdvancedCoreForModifiedBackpack
+    amount: 1
+    label: Продвинутое ядро модифицированного рюкзака
+  - itemProto: PlastineOfSalvageAdvancedRIG
+    amount: 2
+    label: Пластина для продвинутого модифицированного рюкзака Карго
+  - itemProto: HardsuitFrameLeg
+    amount: 1
+    label: Каркас ног скафандра
+  - itemProto: HardsuitFrameTorso
+    amount: 1
+    label: Каркас торса скафандра
+  - itemProto: ClothingHeadHelmetRIGSalvageAdvanced
+    amount: 1
+    label: Продвинутый шлем скафандра утилизационного специалиста
+  minorItems:
+  - StorageModule
+  - SpeedModifierModuleSalvageAdvanced
+  - DelayModifierModule
+  - MineralScannerModuleSalvageAdvanced
+  - HandHeldMassScannerModule
+  - BluespaceHandHeldMassScannerModule
+
+- type: consoleCraft
+  id: EVAModifiedBackpack
+  name: модифицированный рюкзак ВКД
+  item: ClothingBackpackRIGEVA
+  time: 10
+  requestItems:
+  - itemProto: DefaultCoreForModifiedBackpack
+    amount: 1
+    label: Обычное ядро модифицированного рюкзака
+  - itemProto: PlastineOfEVARIG
+    amount: 1
+    label: Пластина для модифицированного рюкзака ВКД
+  - itemProto: HardsuitFrameLeg
+    amount: 1
+    label: Каркас ног скафандра
+  - itemProto: HardsuitFrameTorso
+    amount: 1
+    label: Каркас торса скафандра
+  - itemProto: ClothingHeadHelmetRIGEVA
+    amount: 1
+    label: Шлем гражданского скафандра ВКД
+  minorItems:
+  - StorageModule
+  - DelayModifierModule
+  - HandHeldMassScannerModule
+  - BluespaceHandHeldMassScannerModule
+
+- type: consoleCraft
+  id: EngineerModifiedBackpack
+  name: Модифицированный рюкзак инженера
+  item: ClothingBackpackRIGEngineer
+  time: 10
+  requestItems:
+  - itemProto: DefaultCoreForModifiedBackpack
+    amount: 1
+    label: Обычное ядро модифицированного рюкзака
+  - itemProto: PlastineOfEngineerRIG
+    amount: 2
+    label: Пластина для модифицированного рюкзака инженера
+  - itemProto: HardsuitFrameLeg
+    amount: 1
+    label: Каркас ног скафандра
+  - itemProto: HardsuitFrameTorso
+    amount: 1
+    label: Каркас торса скафандра
+  - itemProto: ClothingHeadHelmetRIGEngineer
+    amount: 1
+    label: Шлем модифицированного рюкзака инженера
+  minorItems:
+  - StorageModule
+  - OuterSuitMiniJet
+  - DelayModifierModule
+  - FireResistanceModuleEngineer
+  - HeatResistanceModuleEngineer
+  - HandHeldMassScannerModule
+  - BluespaceHandHeldMassScannerModule
+
+- type: consoleCraft
+  id: HardsuitMaxim
+  name: Максимальный скафандр утилизатора
+  item: ClothingOuterHardsuitMaxim
+  time: 10
+  requestItems:
+  - itemProto: PlastineOfOtherHardsuit
+    amount: 2
+    label: Пластина для различных скафандров
+  - itemProto: HardsuitFrameLeg
+    amount: 1
+    label: Каркас ног скафандра
+  - itemProto: HardsuitFrameTorso
+    amount: 1
+    label: Каркас торса скафандра
+  - itemProto: ClothingHeadHelmetHardsuitMaxim
+    amount: 1
+    label: Максимальный шлем утилизатора
+  minorItems:
+  - PlusSpeedModuleMaxim
+  - PoisonResistanceModuleMaxim
+  - PNVModuleMaxim
+
+# Рамдомные чертежи при крафте
+# Если вы хотите чтобы был рамдомный предмет во время крафта у чертежа, ставьте не requestItems, а randomRequestItems, а после чего составляйте список.
+
+- type: consoleCraft
+  id: RIGNukeOps
+  name: '@!$$&$&$@'
+  item: ClothingBackpackRIGNukeOps
+  time: 10
+  randomRequestItems:
+  - items:
+      - HyperCoreForModifiedBackpack
+      - AdvancedCoreForModifiedBackpack
+    amount: 1
+    label: $#@!## ядро модифицированного рюкзака
+  requestItems:
+  - itemProto: PlastineOfOtherHardsuit
+    amount: 2
+    label: Пластина для различных скафандров
+  - itemProto: HardsuitFrameLeg
+    amount: 1
+    label: Каркас ног скафандра
+  - itemProto: HardsuitFrameTorso
+    amount: 1
+    label: Каркас торса скафандра
+  - itemProto: ClothingHeadHelmetRIGNukeOps
+    amount: 1
+    label: "!!$#@"
+  minorItems:
+  - OuterSuitMiniJet
+  - DelayModifierModule
+  - HandHeldMassScannerModule
+  - BluespaceHandHeldMassScannerModule
+
+- type: consoleCraft
+  id: RIGNukeOpsElite
+  name: '*#_(!!!)'
+  item: ClothingBackpackRIGNukeOpsElite
+  time: 10
+  randomRequestItems:
+  - items:
+      - HyperCoreForModifiedBackpack
+      - AdvancedCoreForModifiedBackpack
+    amount: 1
+    label: $#@!## ядро модифицированного рюкзака
+  requestItems:
+  - itemProto: PlastineOfOtherHardsuit
+    amount: 2
+    label: Пластина для различных скафандров
+  - itemProto: HardsuitFrameLeg
+    amount: 1
+    label: Каркас ног скафандра
+  - itemProto: HardsuitFrameTorso
+    amount: 1
+    label: Каркас торса скафандра
+  - itemProto: ClothingHeadHelmetRIGNukeOpsElite
+    amount: 1
+    label: "_)@@!@#"
+  minorItems:
+  - OuterSuitMiniJet
+  - DelayModifierModule
+  - HandHeldMassScannerModule
+  - BluespaceHandHeldMassScannerModule
+
+# - type: consoleCraft
+#   id: WeaponRifleAEKCraft
+#   name: AEK
+#   item: WeaponRifleAEK
+#   time: 10
+#   randomRequestItems:
+#   - items:
+#       - ScrapFirelock3
+#       - MediumCoreForModifiedBackpack
+#     amount: 1
+#     label: "Металл (случайный)"
+#   minorItems:
+#   - EnhancedCoolingModule
+#   - OverchargeModule
+#   - MassSkope
+
+# Оружие
+
+- type: consoleCraft
+  id: Enforcer
+  name: Силовик
+  item: WeaponShotgunEnforcer
+  time: 10
+  requestItems:
+  - itemProto: FirstPartEnforcer
+    amount: 1
+  - itemProto: SecondPartEnforcer
+    amount: 1
+  - itemProto: ThirdPartEnforcer
+    amount: 1
+  minorItems:
+  - GunSpreadModifierShotgunLow
+  - GunSpreadModifierShotgunHigh
+  - RateOfFireEnforcerAdvanced
+  - MassSkope
+  - SpeedBullet
+  - BallisticAmmoShotgunsModule
+
+- type: consoleCraft
+  id: Kammerer
+  name: Каммер
+  item: WeaponShotgunKammerer
+  time: 10
+  requestItems:
+  - itemProto: FirstPartKammerer
+    amount: 1
+  - itemProto: SecondPartKammerer
+    amount: 1
+  - itemProto: ThirdPartKammerer
+    amount: 1
+  minorItems:
+  - RateOfFireKammerAdvanced
+  - MassSkope
+  - SpeedBullet
+  - BallisticAmmoShotgunsModule
+
+- type: consoleCraft
+  id: AresSWC
+  name: Арес SWC
+  item: WeaponShotgunAresSWC
+  time: 10
+  requestItems:
+  - itemProto: FirstPartAres
+    amount: 1
+  - itemProto: SecondPartAres
+    amount: 1
+  - itemProto: ThirdPartAres
+    amount: 1
+  minorItems:
+  - GunSpreadModifierShotgunLow
+  - GunSpreadModifierShotgunHigh
+  - RateOfFireAresSWCAdvanced
+  - MassSkope
+  - SpeedBullet
+
+- type: consoleCraft
+  id: Lecter
+  name: Лектер
+  item: WeaponRifleLecter
+  time: 10
+  requestItems:
+  - itemProto: FirstPartLecter
+    amount: 1
+  - itemProto: SecondPartLecter
+    amount: 1
+  - itemProto: ThirdPartLecter
+    amount: 1
+  minorItems:
+  - LecterExtendedAmmoMag
+  - RateOfFireLecterStandart
+  - RateOfFireLecterAdvanced
+  - MassSkope
+  - SpeedBullet
+
+- type: consoleCraft
+  id: Drozd
+  name: Дрозд
+  item: WeaponSubMachineGunDrozd
+  time: 10
+  requestItems:
+  - itemProto: FirstPartDrozd
+    amount: 1
+  - itemProto: SecondPartDrozd
+    amount: 1
+  - itemProto: ThirdPartDrozd
+    amount: 1
+  minorItems:
+  - RateOfFireDrozdAdvanced
+  - MassSkope
+  - SpeedBullet
+
+- type: consoleCraft
+  id: PistolMk58
+  name: МК58
+  item: WeaponPistolMk58
+  time: 10
+  requestItems:
+  - itemProto: FirstPartMK
+    amount: 1
+  - itemProto: SecondPartMK
+    amount: 1
+  - itemProto: ThirdPartMK
+    amount: 1
+  minorItems:
+  - RateOfFireMKdAdvanced
+  - AvailableModesMK
+  - SpeedBullet

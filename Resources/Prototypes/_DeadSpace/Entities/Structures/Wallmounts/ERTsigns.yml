@@ -85,6 +85,57 @@
 
 - type: entity
   parent: BaseSign
+  id: SignERTbsaa
+  name: Альянс Противодействия БиоТерроризму
+  description: Стальной знак с эмблемой отряда АПБТ
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Wallmounts/ert.rsi
+    state: bsaa
+    scale: 0.85, 0.85
+
+- type: entity
+  parent: SignERTbsaa
+  id: SignERTbsaaDocking
+  suffix: Стыковка
+  description: Зона стыковки шаттла отряда АПБТ
+
+- type: entity
+  parent: BaseSign
+  id: SignERTber
+  name: Отделение Быстрого Реагирования
+  description: Стальной знак с эмблемой Отделения Отрядов Быстрого Реагирования
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Wallmounts/ert.rsi
+    state: ber
+    scale: 0.85, 0.85
+
+- type: entity
+  parent: SignERTber
+  id: SignERTberDocking
+  suffix: Стыковка
+  description: Зона стыковки шаттлов Отделения Быстрого Реагирования
+
+- type: entity
+  parent: BaseSign
+  id: SignERTdbct
+  name: Отделение Био-Химических Угроз
+  description: Стальной знак с эмблемой Отделения Био-Химических Угроз
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Wallmounts/ert.rsi
+    state: dbct
+    scale: 0.85, 0.85
+
+- type: entity
+  parent: SignERTdbct
+  id: SignERTdbctDocking
+  suffix: Стыковка
+  description: Зона стыковки шаттлов Отделения Био-Химических Угроз
+
+- type: entity
+  parent: BaseSign
   id: SignERTcburn
   name: отряд РХБЗЗ
   description: Стальной знак с эмблемой отряда РХБЗЗ

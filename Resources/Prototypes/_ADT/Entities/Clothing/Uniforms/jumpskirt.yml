@@ -161,17 +161,6 @@
 
 - type: entity
   parent: ClothingUniformBase
-  id: ADTClothingUniformRedgiJumpskirt
-  name: юбка-костюм заведующей отелем
-  description: Потёртый, но от того не менее стильный, костюм для женской половины персонала.
-  components:
-  - type: Sprite
-    sprite: _ADT/Clothing/Uniforms/Jumpskirt/skirt_redji.rsi
-  - type: Clothing
-    sprite: _ADT/Clothing/Uniforms/Jumpskirt/skirt_redji.rsi
-
-- type: entity
-  parent: ClothingUniformBase
   id: ADTClothingUniformNewBarmanSkirt
   name: обновлённый костюм-юбка бармена
   description: Обновлённый комплект одежды для более изысканого разлития напитков.

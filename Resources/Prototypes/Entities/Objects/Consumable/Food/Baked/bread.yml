@@ -682,6 +682,13 @@
     damage:
       types:
         Blunt: 1 # bonk
+  # DS14-start
+  - type: Tag
+    tags:
+    - Bread
+    - FoodBreadBaguette
+  # DS14-end
+
 # Tastes like France.
 
 - type: entity
@@ -999,8 +1006,8 @@
       path: /Audio/Animals/dog_bark1.ogg
     hidden: true
     damage:
-      groups:
-        Brute: 1
+      types:
+        Blunt: 1
 
 - type: entity
   parent: FoodBreadBase

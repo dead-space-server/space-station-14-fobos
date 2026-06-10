@@ -13,6 +13,7 @@ using Content.Server.Corvax.TTS;
 using Content.Server.Database;
 using Content.Server.Discord.DiscordLink;
 using Content.Server.EUI;
+using Content.Server.FeedbackSystem;
 using Content.Server.GameTicking;
 using Content.Server.GhostKick;
 using Content.Server.GuideGenerator;
@@ -30,13 +31,16 @@ using Content.Server.ServerInfo;
 using Content.Server.ServerUpdates;
 using Content.Server.Voting.Managers;
 using Content.Shared.CCVar;
+using Content.Shared.FeedbackSystem;
 using Content.Shared.Kitchen;
 using Content.Shared.Localizations;
 using Robust.Server;
 using Robust.Server.ServerStatus;
+using Robust.Shared;
 using Robust.Shared.Configuration;
 using Robust.Shared.ContentPack;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 
@@ -83,6 +87,7 @@ namespace Content.Server.Entry
         [Dependency] private readonly ServerApi _serverApi = default!;
         [Dependency] private readonly ServerInfoManager _serverInfo = default!;
         [Dependency] private readonly ServerUpdateManager _updateManager = default!;
+        [Dependency] private readonly ServerFeedbackManager _feedbackManager = null!;
 
         public override void PreInit()
         {
@@ -92,6 +97,8 @@ namespace Content.Server.Entry
                 var cast = (ServerModuleTestingCallbacks)callback;
                 cast.ServerBeforeIoC?.Invoke();
             }
+
+            // FloatFlags removed in upstream RT update
         }
 
         /// <inheritdoc />
@@ -102,6 +109,9 @@ namespace Content.Server.Entry
             Dependencies.InjectDependencies(this);
 
             LoadConfigPresets(_cfg, _res, _log.GetSawmill("configpreset"));
+            // DS14-Start: server performance defaults.
+            ApplyServerPerformanceDefaults(_cfg);
+            // DS14-End
 
             var aczProvider = new ContentMagicAczProvider(Dependencies);
             _host.SetMagicAczProvider(aczProvider);
@@ -149,6 +159,14 @@ namespace Content.Server.Entry
             // Jukebox-port-edit
         }
 
+        private static void ApplyServerPerformanceDefaults(IConfigurationManager cfg)
+        {
+            cfg.OverrideDefault(CVars.TargetMinimumTickrate, 50);
+            cfg.OverrideDefault(CVars.VelocityIterations, 6);
+            cfg.OverrideDefault(CVars.NetMaxUpdateRange, 24f);
+            cfg.OverrideDefault(CVars.NetPvsPriorityRange, 30f);
+        }
+
         public override void PostInit()
         {
             base.PostInit();
@@ -193,6 +211,7 @@ namespace Content.Server.Entry
             _connection.PostInit();
             _multiServerKick.Initialize();
             _cvarCtrl.Initialize();
+            _feedbackManager.Initialize();
         }
 
         public override void Update(ModUpdateLevel level, FrameEventArgs frameEventArgs)
@@ -229,7 +248,9 @@ namespace Content.Server.Entry
             _serverApi.Shutdown();
 
             // TODO Should this be awaited?
+#pragma warning disable CS4014
             _discordLink.Shutdown();
+#pragma warning restore CS4014
             _discordChatLink.Shutdown();
         }
 

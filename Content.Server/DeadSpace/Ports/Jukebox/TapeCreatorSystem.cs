@@ -6,6 +6,7 @@ using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction;
 using Content.Shared.Tag;
 using Content.Shared.Verbs;
+using Robust.Shared.Prototypes;
 using Content.Shared.Popups;
 using Robust.Server.Containers;
 using Robust.Shared.Containers;
@@ -22,6 +23,7 @@ public sealed class TapeCreatorSystem : EntitySystem
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly TagSystem _tag = default!;
 
+    private static readonly ProtoId<TagPrototype> TapeRecorderCoinTag = "TapeRecorderCoin";
     private const string TapeCreatorContainerName = "tape_creator_container";
 
     public override void Initialize()
@@ -118,7 +120,7 @@ public sealed class TapeCreatorSystem : EntitySystem
             return;
         }
 
-        if (_tag.HasTag(args.Used, "TapeRecorderrCoin"))
+        if (_tag.HasTag(args.Used, TapeRecorderCoinTag))
         {
             Del(args.Used);
             component.CoinBalance += 1;

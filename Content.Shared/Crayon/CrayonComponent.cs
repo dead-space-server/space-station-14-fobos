@@ -23,6 +23,11 @@ public sealed partial class CrayonComponent : Component
     [DataField, AutoNetworkedField]
     public Color Color;
 
+    //DS-14 Start
+    [DataField, AutoNetworkedField]
+    public Angle Rotation = Angle.Zero;
+    // DS-14 End
+
     /// <summary>
     /// Play a sound when drawing if specified.
     /// </summary>
@@ -76,6 +81,18 @@ public sealed class CrayonColorMessage : BoundUserInterfaceMessage
         Color = color;
     }
 }
+
+//DS-14 Start
+[Serializable, NetSerializable]
+public sealed class CrayonRotationMessage : BoundUserInterfaceMessage
+{
+    public readonly Angle Rotation;
+    public CrayonRotationMessage(Angle rotation)
+    {
+        Rotation = rotation;
+    }
+}
+//DS-14 End
 
 /// <summary>
 /// Server to CLIENT. Notifies the BUI that a decal with given ID has been drawn.

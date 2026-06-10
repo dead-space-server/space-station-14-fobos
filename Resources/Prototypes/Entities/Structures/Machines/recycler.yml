@@ -116,3 +116,6 @@
   - type: Speech
     speechVerb: Robotic
     speechSounds: SyndieBorg
+  - type: Tag # DeadSpace
+    tags:
+      - AnimateSpellBlacklist

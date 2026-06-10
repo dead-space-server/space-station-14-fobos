@@ -26,7 +26,7 @@
       path: /Audio/Weapons/Guns/Gunshots/laser3.ogg
       params:
         volume: -3
-  - type: ProjectileBatteryAmmoProvider
+  - type: BatteryAmmoProvider
     proto: BulletPulseSpread
     fireCost: 150
   - type: BatteryWeaponFireModes
@@ -48,7 +48,5 @@
     maxCharge: 40000
     startingCharge: 40000
   - type: BatterySelfRecharger
-    autoRecharge: true
     autoRechargeRate: 50
-    autoRechargePause: true
     autoRechargePauseTime: 5

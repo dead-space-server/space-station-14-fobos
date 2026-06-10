@@ -14,10 +14,19 @@ namespace Content.Shared.Preferences
     public sealed class PlayerPreferences
     {
         private Dictionary<int, ICharacterProfile> _characters;
+        private Dictionary<int, ICharacterProfile> _inaccessibleCharacters; // DS14
 
-        public PlayerPreferences(IEnumerable<KeyValuePair<int, ICharacterProfile>> characters, int selectedCharacterIndex, Color adminOOCColor, List<ProtoId<ConstructionPrototype>> constructionFavorites)
+        public PlayerPreferences(
+            IEnumerable<KeyValuePair<int, ICharacterProfile>> characters,
+            int selectedCharacterIndex,
+            Color adminOOCColor,
+            List<ProtoId<ConstructionPrototype>> constructionFavorites,
+            IEnumerable<KeyValuePair<int, ICharacterProfile>>? inaccessibleCharacters = null) // DS14
         {
             _characters = new Dictionary<int, ICharacterProfile>(characters);
+            _inaccessibleCharacters = inaccessibleCharacters != null // DS14
+                ? new Dictionary<int, ICharacterProfile>(inaccessibleCharacters)
+                : new Dictionary<int, ICharacterProfile>();
             SelectedCharacterIndex = selectedCharacterIndex;
             AdminOOCColor = adminOOCColor;
             ConstructionFavorites = constructionFavorites;
@@ -27,6 +36,10 @@ namespace Content.Shared.Preferences
         ///     All player characters.
         /// </summary>
         public IReadOnlyDictionary<int, ICharacterProfile> Characters => _characters;
+
+        // DS14-start
+        public IReadOnlyDictionary<int, ICharacterProfile> InaccessibleCharacters => _inaccessibleCharacters;
+        // DS14-end
 
         public ICharacterProfile GetProfile(int index)
         {

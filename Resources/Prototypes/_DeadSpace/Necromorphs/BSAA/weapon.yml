@@ -2,7 +2,7 @@
 
 - type: entity
   name: ВАНТ-ВМ
-  parent: [ BaseShield, BaseSecurityContraband ]
+  parent: BaseShield
   id: VantShield
   description: Передовой бронещит боевого стандарта КСО предназначенный для проведения штурмовых операций.
   components:
@@ -38,7 +38,7 @@
 
 - type: entity
   name: Синабир-410
-  parent: [BaseItem, BaseGunWieldable, BaseSyndicateContraband]
+  parent: [BaseItem, BaseGunWieldable]
   id: WeaponSinabir
   description: Военизированная версия некогда гражданского оружия для охоты и самообороны. Использование тактических приспособлений, а также перевод в автоматический режим стрельбы, позволили сделать из простого ружья - машину смерти на близкой дистанции.
   components:
@@ -60,7 +60,7 @@
   - type: AmmoCounter
   - type: GunRequiresWield
   - type: Gun
-    fireRate: 2
+    fireRate: 2.4
     selectedMode: FullAuto
     availableModes:
     - FullAuto
@@ -101,7 +101,7 @@
 - type: entity
   id: BaseMagazineForSinabir
   name: магазин для Синабир-410 (12х70 дробь)
-  parent: [ BaseItem, BaseSecurityContraband ]
+  parent: BaseItem
   abstract: true
   categories: [ HideSpawnMenu ]
   components:
@@ -122,6 +122,7 @@
     containers:
       ballistic-ammo: !type:Container
   - type: Sprite
+    scale: 1.1, 1.1
     sprite: Objects/Weapons/Guns/Ammunition/Magazine/Shotgun/m12.rsi
     layers:
     - state: base
@@ -148,8 +149,8 @@
   - type: Item
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/mag.rsi
   - type: Sprite
+    scale: 1.1, 1.1
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/mag.rsi
-    scale: 0.7, 0.7
     layers:
     - state: pellets
       map: ["enum.GunVisualLayers.Base"]
@@ -168,8 +169,8 @@
     tags:
     - MagazineForSinabirBurn
   - type: Sprite
+    scale: 1.1, 1.1
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/mag.rsi
-    scale: 0.7, 0.7
     layers:
     - state: slug
       map: ["enum.GunVisualLayers.Base"]
@@ -190,6 +191,7 @@
   - type: Item
     size: Normal
   - type: Sprite
+    scale: 1.1, 1.1
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/drum.rsi
     layers:
     - state: slug
@@ -211,6 +213,7 @@
   - type: Item
     size: Normal
   - type: Sprite
+    scale: 1.1, 1.1
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/Sinabir/drum.rsi
     layers:
     - state: base
@@ -222,9 +225,10 @@
 
 - type: entity
   name: СР-92 Точмаш
-  parent: [BaseWeaponSubMachineGun, BaseMajorContraband]
+  parent: BaseWeaponSubMachineGun
   id: WeaponTochmash
-  description: Убойный пистолет-пулемёт специальной разработки, стоящий на вооружении у АПБТ. Отточен под CQB.
+  description: Убойный пистолет-пулемёт специальной разработки, стоящий на вооружении у АПБТ. Заточен под CQB.
+  suffix: Пистолет-пулемёт
   components:
   - type: Item
     size: Small
@@ -255,7 +259,6 @@
         whitelist:
           tags:
           - MagazineCaselessRifle
-          - MagazineCaselessRifleBurn
       gun_chamber:
         name: Chamber
         startingItem: CartridgeCaselessRifle
@@ -272,27 +275,43 @@
 - type: entity
   id: MagazineCaselessRifleBurn
   name: магазин (4.7х33 мм безгильзовые, Dragon's breath)
-  parent: BaseMagazineCaselessRifle
+  parent: MagazineCaselessRifle
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeCaselessDragon
   - type: Sprite
+    scale: 1.1, 1.1
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/Tochmash/caseless_rifle_mag_burn.rsi
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
-    - state: stripe
-      color: "#cc4502"
+    - state: practice
+  - type: MagazineVisuals
+    magState: mag
+    steps: 5
+    zeroVisible: false
+  - type: Appearance
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#76270d"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#76270d"
 
 # Арес
 
 - type: entity
   name: М8 "Арес"
-  parent: [BaseWeaponRifle, BaseSecurityContraband]
+  parent: BaseWeaponRifle
   id: WeaponRifleAres
   description: Автомат имеет подвижный ствол, двухкамерный ДТК замкнутого типа и смещенный вправо относительно оси канала ствола магазин.
+  suffix: Автомат
   components:
   - type: Sprite
     sprite: _DeadSpace/Necromorfs/BSAA/weapons/Ares/icon.rsi
@@ -350,8 +369,8 @@
 
 - type: entity
   id: ExtMagazineRifleBurn
-  name: расширенный магазин (6.5х39 мм TSF Dragon's breath)
-  description: Увеличенный магазин под патрон 6.5 мм, с вместимостью в 45 единиц
+  name: расширенный магазин (5.56х45 мм Dragon's breath)
+  description: Увеличенный магазин под патрон 5.56 мм, с вместимостью в 45 единиц
   parent: ADTExtMagazineRifle
   components:
   - type: BallisticAmmoProvider

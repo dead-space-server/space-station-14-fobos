@@ -7,6 +7,7 @@ using Robust.Shared.Serialization.Markdown.Mapping;
 using Robust.Shared.Serialization.Markdown.Value;
 using Robust.Shared.Timing;
 using Robust.Shared.Audio;
+using Content.Shared.GameTicking.Prototypes;
 
 namespace Content.Shared.GameTicking
 {
@@ -95,14 +96,14 @@ namespace Content.Shared.GameTicking
     public sealed class TickerLobbyStatusEvent : EntityEventArgs
     {
         public bool IsRoundStarted { get; }
-        public string? LobbyBackground { get; }
+        public ProtoId<LobbyBackgroundPrototype>? LobbyBackground { get; }
         public bool YouAreReady { get; }
         // UTC.
         public TimeSpan StartTime { get; }
         public TimeSpan RoundStartTimeSpan { get; }
         public bool Paused { get; }
 
-        public TickerLobbyStatusEvent(bool isRoundStarted, string? lobbyBackground, bool youAreReady, TimeSpan startTime, TimeSpan preloadTime, TimeSpan roundStartTimeSpan, bool paused)
+        public TickerLobbyStatusEvent(bool isRoundStarted, ProtoId<LobbyBackgroundPrototype>? lobbyBackground, bool youAreReady, TimeSpan startTime, TimeSpan preloadTime, TimeSpan roundStartTimeSpan, bool paused)
         {
             IsRoundStarted = isRoundStarted;
             LobbyBackground = lobbyBackground;
@@ -161,6 +162,16 @@ namespace Content.Shared.GameTicking
     [Serializable, NetSerializable, DataDefinition]
     public sealed partial class RoundEndMessageEvent : EntityEventArgs
     {
+        // DS14-start
+        [Serializable, NetSerializable, DataDefinition]
+        public partial struct RoundEndObjectiveInfo
+        {
+            public string Title;
+
+            public float Progress;
+        }
+        // DS14-end
+
         [Serializable, NetSerializable, DataDefinition]
         public partial struct RoundEndPlayerInfo
         {
@@ -180,6 +191,26 @@ namespace Content.Shared.GameTicking
 
             [DataField, NonSerialized]
             public string[] AntagPrototypes;
+
+            // DS14-start
+            public string[] JobRoleNames;
+
+            public string[] AntagRoleNames;
+
+            public string ManifestQuote;
+
+            public int ManifestKills;
+
+            public int ManifestAssists;
+
+            public RoundEndObjectiveInfo[] ManifestObjectives;
+
+            public bool InCustody;
+
+            public bool IsDead;
+
+            public bool ShowInAntagManifest;
+            // DS14-end
 
             public NetEntity? PlayerNetEntity;
 

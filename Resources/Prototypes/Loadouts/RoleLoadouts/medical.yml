@@ -1,0 +1,89 @@
+## Role Loadouts
+
+- type: roleLoadout
+  id: JobChiefMedicalOfficer
+  groups:
+  - GroupTankHarness
+  - ChiefMedicalOfficerHead
+  - MedicalMask
+  - ChiefMedicalOfficerJumpsuit
+  - ChiefMedicalOfficerBackpack
+  - ChiefMedicalOfficerOuterClothing
+  - ChiefMedicalOfficerNeck
+  - ChiefMedicalOfficerShoes
+  - CMOSocks # DS14
+  # - MedicalEyewear
+  - SurvivalMedical
+  - Trinkets
+  - ChiefMedicalOfficerJobTrinkets
+  - GroupSpeciesBreathToolMedical
+  - ChiefMedicalOfficerUnderwear # DS14-Underwear
+
+- type: roleLoadout
+  id: JobMedicalDoctor
+  groups:
+  - GroupTankHarness
+  - MedicalDoctorHead
+  - MedicalMask
+  - MedicalDoctorJumpsuit
+  - MedicalGloves
+  - MedicalBackpack
+  - MedicalDoctorOuterClothing
+  - MedicalShoes
+  - DoctorSocks # DS14
+#  - MedicalDoctorPDA # DS14-disabled
+  - MedicalEyewear
+  - SurvivalMedical
+  - Trinkets
+  - MedicalDoctorJobTrinkets
+  - GroupSpeciesBreathToolMedical
+  - MedicalDoctorUnderwear # DS14-Underwear
+
+- type: roleLoadout
+  id: JobMedicalIntern
+  groups:
+  - GroupTankHarness
+  - MedicalInternJumpsuit
+  - MedicalBackpack
+  - Glasses
+  - SurvivalMedical
+  - Trinkets
+  - MedicalInternJobTrinkets
+  - GroupSpeciesBreathToolMedical
+  - MedicalInternUnderwear # DS14-Underwear
+
+- type: roleLoadout
+  id: JobChemist
+  groups:
+  - GroupTankHarness
+  - MedicalMask
+  - ChemistJumpsuit
+  - MedicalGloves
+  - ChemistBackpack
+  - ChemistOuterClothing
+  - MedicalShoesChemist # DS14
+  - ChemistSocks # DS14
+  - SurvivalMedical
+  - Trinkets
+  - ChemistJobTrinkets
+  - GroupSpeciesBreathToolMedical
+  - ChemistUnderwear # DS14-Underwear
+
+- type: roleLoadout
+  id: JobParamedic
+  groups:
+  - GroupTankHarness
+  - ParamedicHead
+  - MedicalMask
+  - ParamedicJumpsuit
+  - MedicalGloves
+  - MedicalBackpack
+  - ParamedicOuterClothing
+  - ParamedicShoes
+  - ParamedicSocks # DS14
+  - MedicalEyewear
+  - SurvivalMedical
+  - Trinkets
+  - ParamedicJobTrinkets
+  - GroupSpeciesBreathToolMedical
+  - ParamedicUnderwear # DS14-Underwear

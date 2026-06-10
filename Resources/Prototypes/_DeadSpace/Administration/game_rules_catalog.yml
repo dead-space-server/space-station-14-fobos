@@ -1,0 +1,431 @@
+#=================================================================================================================
+# Для добавления нового геймрула необходимо:
+# 1. Добавить его ID в список rules в нужной категории (gameRuleCategory)
+# 2. Создать запись gameRuleDisplayName с этим ID и его названием по форме:
+# - type: gameRuleDisplayName
+#   id: (ID геймрула, например BlobSpawn)
+#   name: (Его отображаемое имя, например Носитель блоба)
+#=================================================================================================================
+# По необходимости можно создавать новые категории, локализация находится по пути: 
+# Resources\Locale\ru-RU\_deadspace\administration\manage-gamerules.ftl
+# Если геймрул не существует или не найден, он будет отображаться красным цветом в панели, и не будет добавляться.
+#=================================================================================================================
+
+# Категории
+
+- type: gameRuleCategory
+  id: Common
+  name: admin-game-rules-category-common
+  order: 1
+  rules:
+    - BluespaceLocker
+    - ClosetSkeleton
+    - BreakerFlip
+    - CockroachMigration
+    - MouseMigration
+    - MassHallucinations
+    - RandomSentience
+    - GreytideVirus
+    - LowVirusPandemic
+
+- type: gameRuleCategory
+  id: Rare
+  name: admin-game-rules-category-rare
+  order: 2
+  rules:
+    - PowerGridCheck
+    - AnomalySpawn
+    - BureaucraticError
+    - ClericalError
+    - KudzuGrowth
+    - GasLeak
+    - SolarFlare
+    - SpiderSpawn
+    - SpiderClownSpawn
+    - SlimesSpawn
+    - SnakeSpawn
+    - KingRatMigration
+    - DerelictEngineerCyborgSpawn
+    - DerelictGenericCyborgSpawn
+    - DerelictJanitorCyborgSpawn
+    - DerelictMedicalCyborgSpawn
+    - DerelictMiningCyborgSpawn
+    - DerelictSyndicateAssaultCyborgSpawn
+    - BluespaceArtifact
+    - VentClog
+    - IonStorm
+    - SleeperAgents
+    - ParadoxCloneSpawn
+    - MonkeyKingSpawn
+    - ZaratanaSpawn
+    - MediumVirusPandemic
+    - SentientVirusEvent
+
+- type: gameRuleCategory
+  id: Extreme
+  name: admin-game-rules-category-extreme
+  order: 3
+  rules:
+    - LoneOpsSpawn
+    - SyndicateRaid
+    - ZombieOutbreak
+    - DragonSpawn
+    - DemonsInvasion
+    - ShadowDemonInvasion
+    - NinjaSpawn
+    - RevenantSpawn
+    - ImmovableRodSpawn
+    - BlobSpawn
+    - SpiderTerrorSpawn
+    - WizardSpawn
+    - RenegadeSpawn
+    - HardVirusPandemic
+    - PirateRaid
+    - ShadowlingMidround
+
+- type: gameRuleCategory
+  id: Gifts
+  name: admin-game-rules-category-gifts
+  order: 4
+  rules:
+    - GiftsEngineering
+    - GiftsFireProtection
+    - GiftsJanitor
+    - GiftsMedical
+    - GiftsPizzaPartyLarge
+    - GiftsPizzaPartySmall
+    - GiftsSecurityGuns
+    - GiftsSecurityRiot
+    - GiftsSpacingSupplies
+    - GiftsVendingRestock
+    - GiftsNecroobeliskArtefact
+
+- type: gameRuleCategory
+  id: Shuttles
+  name: admin-game-rules-category-shuttles
+  order: 5
+  rules:
+    - UnknownShuttleMicroshuttle
+    - UnknownShuttleJoe
+    - UnknownShuttleCryptid
+    - UnknownShuttleManOWar
+    - UnknownShuttleSyndieEvacPod
+    - UnknownShuttleEternal
+    - UnknownShuttleTravelingCuisine
+    - UnknownShuttleCargoLost
+    - UnknownShuttleGym
+    - UnknownShuttleSpacebus
+    - UnknownShuttleLambordeere
+    - UnknownShuttleNTQuark
+    - UnknownShuttleHonki
+    - UnknownShuttleMeatZone
+
+# Отображаемые имена
+
+- type: gameRuleDisplayName
+  id: GiftsEngineering
+  name: Снаряжение для инженерного отдела
+
+- type: gameRuleDisplayName
+  id: GiftsFireProtection
+  name: Средства защиты от огня
+
+- type: gameRuleDisplayName
+  id: GiftsJanitor
+  name: Снаряжение для уборки
+
+- type: gameRuleDisplayName
+  id: GiftsMedical
+  name: Медицинские припасы
+
+- type: gameRuleDisplayName
+  id: GiftsPizzaPartyLarge
+  name: Большой набор пицц
+
+- type: gameRuleDisplayName
+  id: GiftsPizzaPartySmall
+  name: Маленький набор пицц
+
+- type: gameRuleDisplayName
+  id: GiftsSecurityGuns
+  name: Летальное оружие
+
+- type: gameRuleDisplayName
+  id: GiftsSecurityRiot
+  name: Нелетальное снаряжение
+
+- type: gameRuleDisplayName
+  id: GiftsSpacingSupplies
+  name: Средства защиты от космоса
+
+- type: gameRuleDisplayName
+  id: GiftsVendingRestock
+  name: Наборы пополнения торгоматов
+
+- type: gameRuleDisplayName
+  id: GiftsNecroobeliskArtefact
+  name: Некро обелиск для изучения
+
+- type: gameRuleDisplayName
+  id: BluespaceLocker
+  name: Блюспейс-шкаф
+
+- type: gameRuleDisplayName
+  id: ClosetSkeleton
+  name: Скелет в шкафу
+
+- type: gameRuleDisplayName
+  id: BreakerFlip
+  name: Отключение ЛКП
+
+- type: gameRuleDisplayName
+  id: CockroachMigration
+  name: Миграция тараканов
+
+- type: gameRuleDisplayName
+  id: MouseMigration
+  name: Миграция мышей
+
+- type: gameRuleDisplayName
+  id: MassHallucinations
+  name: Массовые галлюцинации
+
+- type: gameRuleDisplayName
+  id: RandomSentience
+  name: Случайная разумность
+
+- type: gameRuleDisplayName
+  id: GreytideVirus
+  name: Грейтайд вирус
+
+- type: gameRuleDisplayName
+  id: LowVirusPandemic
+  name: Слабая пандемия вируса
+
+- type: gameRuleDisplayName
+  id: PowerGridCheck
+  name: Отключение света
+
+- type: gameRuleDisplayName
+  id: AnomalySpawn
+  name: Случайная аномалия
+
+- type: gameRuleDisplayName
+  id: BureaucraticError
+  name: Бюрократическая ошибка
+
+- type: gameRuleDisplayName
+  id: ClericalError
+  name: Канцелярская ошибка
+
+- type: gameRuleDisplayName
+  id: KudzuGrowth
+  name: Кудзу
+
+- type: gameRuleDisplayName
+  id: GasLeak
+  name: Утечка газа
+
+- type: gameRuleDisplayName
+  id: SolarFlare
+  name: Солнечная вспышка
+
+- type: gameRuleDisplayName
+  id: SpiderSpawn
+  name: Тарантулы
+
+- type: gameRuleDisplayName
+  id: SpiderClownSpawn
+  name: Пауки-клоуны
+
+- type: gameRuleDisplayName
+  id: SlimesSpawn
+  name: Агрессивные слаймы
+
+- type: gameRuleDisplayName
+  id: SnakeSpawn
+  name: Змеи
+
+- type: gameRuleDisplayName
+  id: KingRatMigration
+  name: Крысиный король
+
+- type: gameRuleDisplayName
+  id: DerelictEngineerCyborgSpawn
+  name: Инженерный борг (заброшенный)
+
+- type: gameRuleDisplayName
+  id: DerelictGenericCyborgSpawn
+  name: Обычный борг (заброшенный)
+
+- type: gameRuleDisplayName
+  id: DerelictJanitorCyborgSpawn
+  name: Уборочный борг (заброшенный)
+
+- type: gameRuleDisplayName
+  id: DerelictMedicalCyborgSpawn
+  name: Медицинский борг (заброшенный)
+
+- type: gameRuleDisplayName
+  id: DerelictMiningCyborgSpawn
+  name: Шахтёрский борг (заброшенный)
+
+- type: gameRuleDisplayName
+  id: DerelictSyndicateAssaultCyborgSpawn
+  name: Штурмовой борг синдиката (заброшенный)
+
+- type: gameRuleDisplayName
+  id: BluespaceArtifact
+  name: Артефакт
+
+- type: gameRuleDisplayName
+  id: VentClog
+  name: Жидкости из скрубберов
+
+- type: gameRuleDisplayName
+  id: IonStorm
+  name: Ионный шторм
+
+- type: gameRuleDisplayName
+  id: SleeperAgents
+  name: Спящие агенты Синдиката
+
+- type: gameRuleDisplayName
+  id: ParadoxCloneSpawn
+  name: Парадоксальный клон
+
+- type: gameRuleDisplayName
+  id: MonkeyKingSpawn
+  name: Король обезьян
+
+- type: gameRuleDisplayName
+  id: ZaratanaSpawn
+  name: Заратана
+
+- type: gameRuleDisplayName
+  id: MediumVirusPandemic
+  name: Средняя пандемия вируса
+
+- type: gameRuleDisplayName
+  id: SentientVirusEvent
+  name: Разумный вирус
+
+- type: gameRuleDisplayName
+  id: UnknownShuttleMicroshuttle
+  name: Маленький шаттл с посетителем
+
+- type: gameRuleDisplayName
+  id: UnknownShuttleJoe
+  name: Шаттл с поваром
+
+- type: gameRuleDisplayName
+  id: UnknownShuttleCryptid
+  name: Шаттл с библиотекарем
+
+- type: gameRuleDisplayName
+  id: UnknownShuttleManOWar
+  name: Шаттл с казаками
+
+- type: gameRuleDisplayName
+  id: UnknownShuttleSyndieEvacPod
+  name: Эвак под синдиката
+
+- type: gameRuleDisplayName
+  id: UnknownShuttleEternal
+  name: Шаттл священника
+
+- type: gameRuleDisplayName
+  id: UnknownShuttleTravelingCuisine
+  name: Шаттл с двумя поварами
+
+- type: gameRuleDisplayName
+  id: UnknownShuttleCargoLost
+  name: Шаттл карго с грузчиками
+
+- type: gameRuleDisplayName
+  id: UnknownShuttleGym
+  name: Шаттл с баскетбольным полем
+
+- type: gameRuleDisplayName
+  id: UnknownShuttleSpacebus
+  name: Космический автобус
+
+- type: gameRuleDisplayName
+  id: UnknownShuttleLambordeere
+  name: Сельскохозяйственный шаттл
+
+- type: gameRuleDisplayName
+  id: UnknownShuttleNTQuark
+  name: Побитый шаттл
+
+- type: gameRuleDisplayName
+  id: UnknownShuttleHonki
+  name: Шаттл-театр
+
+- type: gameRuleDisplayName
+  id: UnknownShuttleMeatZone
+  name: Шаттл-ресторан
+
+- type: gameRuleDisplayName
+  id: LoneOpsSpawn
+  name: Одиночный ядерный оперативник (от ~ 90 минут)
+
+- type: gameRuleDisplayName
+  id: SyndicateRaid
+  name: Рейдеры синдиката (от ~ 90 минут)
+
+- type: gameRuleDisplayName
+  id: ZombieOutbreak
+  name: Зомби-вспышка (от ~ 90 минут)
+
+- type: gameRuleDisplayName
+  id: DragonSpawn
+  name: Космический дракон (от ~ 60 минут)
+
+- type: gameRuleDisplayName
+  id: DemonsInvasion
+  name: Демон вестник (от ~ 60 минут)
+
+- type: gameRuleDisplayName
+  id: ShadowDemonInvasion
+  name: Теневой демон (от ~ 45 минут)
+
+- type: gameRuleDisplayName
+  id: NinjaSpawn
+  name: Космический ниндзя (от ~ 45 минут)
+
+- type: gameRuleDisplayName
+  id: RevenantSpawn
+  name: Ревенант (от ~ 45 минут)
+
+- type: gameRuleDisplayName
+  id: ImmovableRodSpawn
+  name: Жезл (от ~ 60 минут)
+
+- type: gameRuleDisplayName
+  id: BlobSpawn
+  name: Носитель блоба (от ~ 60 минут)
+
+- type: gameRuleDisplayName
+  id: SpiderTerrorSpawn
+  name: Пауки ужаса (от ~ 60 минут)
+
+- type: gameRuleDisplayName
+  id: WizardSpawn
+  name: Маг (от ~ 60 минут)
+
+- type: gameRuleDisplayName
+  id: RenegadeSpawn
+  name: Ренегат (от ~ 90 минут)
+
+- type: gameRuleDisplayName
+  id: HardVirusPandemic
+  name: Сильная пандемия вируса (от ~ 60 минут)
+
+- type: gameRuleDisplayName
+  id: PirateRaid
+  name: Аванпост пиратов (от ~ 45 минут)
+
+- type: gameRuleDisplayName
+  id: ShadowlingMidround
+  name: Тенеморф (от ~ 45 минут)

@@ -1,5 +1,5 @@
 #- type: entity
-#  parent: ClothingOuterHardsuitAtmos
+#  parent: ClothingOuterHardsuitSecurity
 #  id: ClothingOuterHardsuitWisdomPilot
 #  name: скафандр TTI пилота
 #  description: Скафандр с биокодированием, обеспечивающий защиту в критических ситуациях.
@@ -63,7 +63,7 @@
 #    tags: [] # ignore "WhitelistChameleon" tag
 
 #- type: entity
-#  parent: ClothingOuterHardsuitAtmos
+#  parent: ClothingOuterHardsuitSecurity
 #  id: ClothingOuterHardsuitWisdomSec
 #  name: скафандр TTI безопасника
 #  description: Скафандр с биокодированием, обеспечивающий защиту в критических ситуациях.

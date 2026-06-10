@@ -1,5 +1,5 @@
-<ContainerButton xmlns="https://spacestation14.io"
-                 xmlns:customControls1="clr-namespace:Content.Client.Administration.UI.CustomControls">
+<ContainerButton xmlns="https://spacestation14.io">
+    <!-- DS14-start -->
     <PanelContainer Name="BackgroundColorPanel"/>
     <BoxContainer Orientation="Horizontal"
                   HorizontalExpand="True"
@@ -8,12 +8,14 @@
                SizeFlagsStretchRatio="3"
                HorizontalExpand="True"
                ClipText="True"
-               Margin="5,5,5,5"/>
-        <customControls1:VSeparator/>
+               Margin="5"
+               StyleClasses="DS14MenuProfileLabel"/>
         <Label Name="PlaytimeLabel"
                SizeFlagsStretchRatio="3"
                HorizontalExpand="True"
                ClipText="True"
-               Margin="5,5,5,5"/>
+               Margin="5"
+               StyleClasses="DS14MenuProfileLabel"/>
     </BoxContainer>
+    <!-- DS14-end -->
 </ContainerButton>

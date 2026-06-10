@@ -11,7 +11,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitLiverB
   name: скафандр "Aurelion"
   description: Исследовательский защитный скафандр, созданный для работы в агрессивных средах и лабораториях повышенной опасности. Гладкая композитная оболочка с отражающими сегментами поглощает свет и создаёт ощущение невесомой защиты.
@@ -35,7 +35,7 @@
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.4
+        Piercing: 0.6
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
@@ -177,7 +177,7 @@
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,19,9
+    - 0,0,15,10
   - type: StorageFill
     contents:
     - id: ClothingBeltLiverBFilled

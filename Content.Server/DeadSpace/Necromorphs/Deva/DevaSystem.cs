@@ -12,7 +12,9 @@ using System.Linq;
 using Content.Shared.Mobs.Components;
 using Content.Shared.NPC.Systems;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Content.Server.Chat.Systems;
+using Content.Shared.Damage.Components;
 using Content.Shared.Speech.Components;
 using Robust.Shared.Audio.Systems;
 using Content.Shared.DeadSpace.Necromorphs.Deva;
@@ -184,7 +186,7 @@ public sealed class DevaSystem : EntitySystem
         if (!TryComp<DamageableComponent>(prisonerTarget, out var damageable))
             return;
 
-        _damageable.TryChangeDamage(prisonerTarget, component.Damage, false, false, damageable);
+        _damageable.TryChangeDamage(prisonerTarget.Value, component.Damage, false, false);
 
         if (TryComp<VocalComponent>(prisonerTarget, out var vocal))
         {

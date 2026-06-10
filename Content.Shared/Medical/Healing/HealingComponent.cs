@@ -39,6 +39,11 @@ public sealed partial class HealingComponent : Component
     [DataField, AutoNetworkedField]
     public List<ProtoId<DamageContainerPrototype>>? DamageContainers;
 
+    // DS14-start
+    [DataField, AutoNetworkedField]
+    public bool HealEyeDamage;
+    // DS14-end
+
     /// <summary>
     /// How long it takes to apply the damage.
     /// </summary>

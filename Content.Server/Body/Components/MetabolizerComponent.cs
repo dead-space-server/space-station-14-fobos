@@ -10,14 +10,22 @@ namespace Content.Server.Body.Components
     /// <summary>
     ///     Handles metabolizing various reagents with given effects.
     /// </summary>
-    [RegisterComponent, Access(typeof(MetabolizerSystem))]
+    [RegisterComponent, Access(typeof(MetabolizerSystem))] // DS14
     public sealed partial class MetabolizerComponent : Component
     {
         /// <summary>
         ///     The next time that reagents will be metabolized.
         /// </summary>
-        [DataField(customTypeSerializer: typeof(TimeOffsetSerializer))]
+        [DataField] // DS14
         public TimeSpan NextUpdate;
+
+        // DS14-start
+        /// <summary>
+        ///     Runtime queue token used to invalidate stale scheduled updates.
+        /// </summary>
+        [ViewVariables]
+        public uint ScheduleToken;
+        // DS14-end
 
         /// <summary>
         ///     How often to metabolize reagents.
@@ -42,7 +50,7 @@ namespace Content.Server.Body.Components
         ///     From which solution will this metabolizer attempt to metabolize chemicals
         /// </summary>
         [DataField("solution")]
-        public string SolutionName = BloodstreamComponent.DefaultChemicalsSolutionName;
+        public string SolutionName = BloodstreamComponent.DefaultBloodSolutionName;
 
         /// <summary>
         ///     Does this component use a solution on it's parent entity (the body) or itself

@@ -112,7 +112,7 @@ public sealed partial class MindTests
             Assert.That(entMan.EntityExists(attachedEntity), Is.True);
             Assert.That(attachedEntity, Is.Not.EqualTo(playerEnt));
             Assert.That(entMan.HasComponent<GhostComponent>(attachedEntity));
-            var transform = entMan.GetComponent<TransformComponent>(attachedEntity.Value);
+            var transform = entMan.GetComponent<TransformComponent>(attachedEntity!.Value);
             Assert.That(transform.MapID, Is.Not.EqualTo(MapId.Nullspace));
             Assert.That(transform.MapID, Is.Not.EqualTo(testMap.MapId));
 #pragma warning restore NUnit2045
@@ -175,7 +175,7 @@ public sealed partial class MindTests
         Assert.That(player.AttachedEntity, Is.Not.Null);
         Assert.That(entMan.EntityExists(player.AttachedEntity));
 #pragma warning restore NUnit2045
-        var originalEntity = player.AttachedEntity.Value;
+        var originalEntity = player.AttachedEntity!.Value;
 
         EntityUid ghost = default!;
         await server.WaitAssertion(() =>
@@ -222,6 +222,8 @@ public sealed partial class MindTests
     {
         await using var pair = await SetupPair();
         var server = pair.Server;
+        await pair.CreateTestMap();
+
         var entMan = server.ResolveDependency<IServerEntityManager>();
         var playerMan = server.ResolveDependency<IPlayerManager>();
         var serverConsole = server.ResolveDependency<IServerConsoleHost>();
@@ -243,12 +245,13 @@ public sealed partial class MindTests
             Assert.That(player.AttachedEntity, Is.Not.EqualTo(ghost), "Player is still attached to the old ghost");
             Assert.That(entMan.HasComponent<GhostComponent>(player.AttachedEntity), "Player did not become a new ghost");
             Assert.That(entMan.GetComponent<MetaDataComponent>(player.AttachedEntity!.Value).EntityPrototype?.ID, Is.EqualTo(GameTicker.AdminObserverPrototypeName));
+            Assert.That(entMan.GetComponent<TransformComponent>(player.AttachedEntity.Value).MapID, Is.Not.EqualTo(MapId.Nullspace));
         });
 
         var mindId = player.ContentData()?.Mind;
         Assert.That(mindId, Is.Not.Null);
 
-        var mind = entMan.GetComponent<MindComponent>(mindId.Value);
+        var mind = entMan.GetComponent<MindComponent>(mindId!.Value);
         Assert.That(mind.VisitingEntity, Is.Null);
 
         await pair.CleanReturnAsync();

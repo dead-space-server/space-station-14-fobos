@@ -1,0 +1,25 @@
+uniform highp vec4 Color;
+
+highp float pseudo_rand(highp vec2 co) {
+    return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
+void fragment() {
+    highp vec2 uv = FRAGCOORD.xy * SCREEN_PIXEL_SIZE;
+    highp vec2 central_uv = uv * 2.0 - 1.0;
+    highp vec2 dist = abs(central_uv);
+    
+    highp float center_empty = 0.0;
+    highp float grad_length = 1.0;
+    
+    highp vec2 vignette_axes = smoothstep(center_empty, grad_length, dist);
+    highp float vignette = max(vignette_axes.x, vignette_axes.y);
+    
+    highp float min_alpha = 0.01;
+    highp float target_alpha = Color.a * (min_alpha + vignette * 0.04);
+    
+    highp float dither = (pseudo_rand(FRAGCOORD.xy) - 0.5) / 255.0;
+    target_alpha = clamp(target_alpha + dither, 0.0, 1.0);
+    
+    COLOR = vec4(Color.rgb, target_alpha);
+}

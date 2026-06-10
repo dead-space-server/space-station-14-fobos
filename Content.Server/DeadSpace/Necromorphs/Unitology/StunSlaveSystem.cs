@@ -54,7 +54,7 @@ public sealed class StunSlaveSystem : EntitySystem
         {
             if (curTime > component.TimeUtil)
             {
-                RemComp<StunnedComponent>(uid);
+                RemComp<StunSlaveComponent>(uid);
             }
         }
     }

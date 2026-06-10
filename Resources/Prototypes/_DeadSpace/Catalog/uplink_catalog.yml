@@ -1,5 +1,27 @@
 - type: listing
-  id: UplinkEswordDouble
+  id: UplinkEswordDoubleLone
+  name: uplink-esword-double-name
+  description: Воскрес и разнёс паблик. Только один к покупке.
+  icon: { sprite: /Textures/Objects/Weapons/Melee/e_sword_double.rsi, state: icon }
+  productEntity: EnergySwordDouble
+  cost:
+    Telecrystal: 36
+  categories:
+  - UplinkWeaponry
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - LoneOpsUplink
+  - !type:ListingLimitedStockCondition
+    stock: 1
+  - !type:BuyerWhitelistCondition
+    blacklist:
+      components:
+      - SurplusBundle
+
+- type: listing
+  id: UplinkEswordDoubleAgents
   name: uplink-esword-double-name
   description: uplink-esword-double-desc
   icon: { sprite: /Textures/Objects/Weapons/Melee/e_sword_double.rsi, state: icon }
@@ -13,10 +35,12 @@
     blacklist:
       tags:
       - NukeOpsUplink
+      - LoneOpsUplink
   - !type:BuyerWhitelistCondition
     blacklist:
       components:
       - SurplusBundle
+
 
 - type: listing
   id: UplinkEnergyCrossbow
@@ -43,7 +67,7 @@
   description: uplink-energy-crossbow-large-desc
   productEntity: WeaponEnergyCrossbowLarge
   cost:
-    Telecrystal: 20
+    Telecrystal: 18
   categories:
   - UplinkWeaponry
   conditions:
@@ -86,7 +110,7 @@
     Telecrystal: 6
   productEntity: ClothingBeltSheathSyndieFilled
   cost:
-    Telecrystal: 10
+    Telecrystal: 8
   categories:
   - UplinkWeaponry
 
@@ -223,28 +247,6 @@
       - NukeOpsUplink
 
 - type: listing
-  id: UplinkMagazineShothgun
-  name: uplink-shotgun-magazine-name
-  description: uplink-shotgun-magazine-desc
-  icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Magazine/Shotgun/m12.rsi, state: base }
-  productEntity: MagazineShotgun
-  cost:
-    Telecrystal: 2
-  categories:
-  - UplinkAmmo
-
-- type: listing
-  id: UplinkMagazineMachineGun
-  name: uplink-machine-gun-magazine-name
-  description: uplink-machine-gun-magazine-desc
-  icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Magazine/Pistol/smg_mag.rsi, state: red }
-  productEntity: MagazinePistolSubMachineGun
-  cost:
-    Telecrystal: 3
-  categories:
-  - UplinkAmmo
-
-- type: listing
   id: UplinkMagazineLightRifle
   name: uplink-light-rifle-magazine-name
   description: uplink-light-rifle-magazine-desc
@@ -259,7 +261,7 @@
   id: UplinkSyndieCloak
   name: uplink-syndiecloak-name
   description: uplink-syndiecloak-desc
-  productEntity: ADTClothingNeckSyndicateCloak
+  productEntity: ClothingNeckSyndicateCloak
   cost:
     Telecrystal: 5
   categories:
@@ -274,7 +276,7 @@
   id: UplinkNukeOpsCloak
   name: uplink-nukeopscloak-name
   description: uplink-nukeopscloak-desc
-  productEntity: ADTClothingNeckNukeOpsCloak
+  productEntity: ClothingNeckNukeOpsCloak
   cost:
     Telecrystal: 5
   categories:
@@ -285,19 +287,60 @@
       tags:
       - NukeOpsUplink
 
-# - type: listing
-#   id: UplinkArkalyseBundle
-#   name: uplink-arkalyse-bundle-name
-#   description: uplink-arkalyse-bundle-desc
-#   icon: { sprite: _DeadSpace/Objects/Specific/Arkalyse/arkalyse_book.rsi, state: icon }
-#   productEntity: BoxArkalyse
-#   discountCategory: usualDiscounts
-#   discountDownTo:
-#     Telecrystal: 5
-#   cost:
-#     Telecrystal: 10
-#   categories:
-#   - UplinkWeaponry
+
+- type: listing
+  id: UplinkArkalyseBundle
+  name: uplink-arkalyse-bundle-name
+  description: uplink-arkalyse-bundle-desc
+  icon: { sprite: _DeadSpace/Objects/Specific/Arkalyse/arkalyse_book.rsi, state: icon }
+  productEntity: BoxArkalyse
+  discountCategory: usualDiscounts
+  discountDownTo:
+    Telecrystal: 4
+  cost:
+    Telecrystal: 8
+  categories:
+  - UplinkWeaponry
+  conditions:
+  - !type:StoreWhitelistCondition
+    blacklist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkSmokingCarpInjector
+  name: uplink-smoking-carp-name
+  description: uplink-smoking-carp-desc
+  icon: { sprite: _DeadSpace/Objects/Misc/injector_smoking_carp.rsi, state: icon }
+  productEntity: SmokingCarpInjector
+  discountCategory: usualDiscounts
+  discountDownTo:
+    Telecrystal: 8
+  cost:
+    Telecrystal: 14
+  categories:
+  - UplinkWeaponry
+  conditions:
+  - !type:StoreWhitelistCondition
+    blacklist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkArkalyseBundleNukeOps
+  name: uplink-arkalyse-bundle-name
+  description: uplink-arkalyse-bundle-desc
+  icon: { sprite: _DeadSpace/Objects/Specific/Arkalyse/arkalyse_book.rsi, state: icon }
+  productEntity: BoxArkalyse
+  cost:
+    Telecrystal: 15
+  categories:
+  - UplinkWeaponry
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
 
 - type: listing
   id: UplinkAdrenalineImplanter
@@ -421,6 +464,22 @@
       - NukeOpsUplink
 
 - type: listing
+  id: UplinkBoxLethalshotMagnum
+  name: коробка ружейных патронов (12х70 магнум)
+  description: Коробка с 16 магнум картечью.
+  icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Boxes/shotgun.rsi, state: base }
+  productEntity: BoxLethalshotMagnum
+  cost:
+    Telecrystal: 3
+  categories:
+  - UplinkAmmo
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
   id: UplinkCarbineSKSBundleAgent
   name: Набор "СКС"
   description: Содержит в себе модифицированный самозарядный карабин с пластиковым ложе, а так же 1 дополнительный магазин на 20 патрон
@@ -449,7 +508,7 @@
   discountDownTo:
     Telecrystal: 8
   cost:
-    Telecrystal: 11
+    Telecrystal: 10
   categories:
   - UplinkWeaponry
   conditions:
@@ -460,8 +519,8 @@
 
 - type: listing
   id: UplinkMagazineCarbineSKSAmmo
-  name: Магазин для СКС
-  description: Магазин для СКС на 20 патрон (7.62х39 мм винтовочные)
+  name: уменьшенный магазин (7.62х39 мм винтовочные)
+  description: Малый магазин на 20 патрон (7.62х39 мм винтовочные)
   icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Ammunition/Magazine/Carbines/sks_scope.rsi, state: red }
   productEntity: MagazineCarbineSKS
   cost:
@@ -651,3 +710,192 @@
     whitelist:
       tags:
       - NukeOpsUplink
+
+- type: listing
+  id: UplinkFireAxeFlaming
+  name: uplink-fire-axe
+  description: uplink-fire-axe-desc
+  icon: { sprite: /Textures/Objects/Weapons/Melee/fireaxeflaming.rsi, state: icon }
+  productEntity: FireAxeFlaming
+  cost:
+    Telecrystal: 7
+  categories:
+  - UplinkWeaponry
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkClothingBackpackTailbag
+  name: Подсумок на хвост плафеимов
+  description: Всё для своих.
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Back/Backpacks/tailbag.rsi, state: icon }
+  productEntity: ClothingBackpackTailbag
+  cost:
+    Telecrystal: 1
+  categories:
+  - UplinkWearables
+
+- type: listing
+  id: UplinkClothingBackpackSatchelTaipan
+  name: Сумка Синдиката
+  description: Самая красивая приду на перестрелочку.
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Back/bag.rsi, state: icon }
+  productEntity: ClothingBackpackSatchelTaipan
+  cost:
+    Telecrystal: 3
+  categories:
+  - UplinkWearables
+
+- type: listing
+  id: UplinkClothingHeadHelmetSwatSyndicate
+  name: Шлем спецназа
+  description: Самый прочный шлем в мире. Клянусь.
+  icon: { sprite: /Textures/Clothing/Head/Helmets/swat_syndicate.rsi, state: icon }
+  productEntity: ClothingHeadHelmetSwatSyndicate
+  cost:
+    Telecrystal: 3
+  categories:
+  - UplinkWearables
+
+- type: listing
+  id: UplinkWeaponPistolGurza
+  name: R8 "Гюрза"
+  description: Крайне скорострельный автоматический пистолет в калибре 9х19 мм. Не имеет ничего общего с аномалиями.
+  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Pistols/gurza.rsi, state: icon }
+  productEntity: CaseGurza
+  cost:
+    Telecrystal: 10
+  categories:
+  - UplinkWeaponry
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkMagazineGurza
+  name: Чёрный автопистолетный магазин (9х19 мм)
+  description: Увеличинный магазин на 38 патронов. Подходит для пистолета Гюрза.
+  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Ammunition/Magazine/Pistol/gurza_mag.rsi, state: base-icon }
+  productEntity: MagazineGurza
+  cost:
+    Telecrystal: 2
+  categories:
+  - UplinkAmmo
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkWeaponSniperR17
+  name: R17 ISASS "Мор"
+  description: Высокоточная полуавтоматическая винтовка для дальних дистанций. Использует патроны калибра .338 LM
+  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Snipers/sr.rsi, state: icon }
+  productEntity: CaseR17
+  cost:
+    Telecrystal: 18
+  categories:
+  - UplinkWeaponry
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkMagazineR17
+  name: Магазин (.338 LM)
+  description: Магазин на 20 патронов. Подходит для R17 ISASS "Мор".
+  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Ammunition/Magazine/sr.rsi, state: base }
+  productEntity: MagazineR17
+  cost:
+    Telecrystal: 2
+  categories:
+  - UplinkAmmo
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkSyndicateChemBundle
+  name: продвинутый набор химического синтеза
+  description: Источник огромного количества реагентов для варки вашего ширева. Рецепт крокодила в комплекте не идёт.
+  icon: { sprite: _DeadSpace/Structures/Machines/VendingMachines/chemvend.rsi, state: deny }
+  productEntity: ClothingBackpackSatchelChemistrySyndicateChemBundle
+  cost:
+    Telecrystal: 25
+  categories:
+  - UplinkChemicals
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - LoneOpsUplink
+  - !type:BuyerWhitelistCondition
+    blacklist:
+      components:
+      - SurplusBundle
+
+- type: listing
+  id: UplinkThermalVisorNuke
+  name: uplink-thermal-visor-name
+  description: uplink-thermal-visor-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Eyes/Hud/thermal.rsi, state: icon }
+  productEntity: ClothingEyesGlassesThermalVisor
+  cost:
+    Telecrystal: 10
+  categories:
+  - UplinkWearables
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkThermalVisor
+  name: uplink-thermal-visor-name
+  description: uplink-thermal-visor-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Eyes/Hud/thermal.rsi, state: icon }
+  productEntity: ClothingEyesGlassesThermalVisor
+  discountCategory: rareDiscounts
+  discountDownTo:
+    Telecrystal: 3
+  cost:
+    Telecrystal: 4
+  categories:
+  - UplinkWearables
+  conditions:
+  - !type:StoreWhitelistCondition
+    blacklist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkHristovMag
+  name: Магазин Христова
+  description: Рецепт каши из костей и мяса.
+  productEntity: MagazineHristov
+  cost:
+    Telecrystal: 2
+  categories:
+  - UplinkAmmo
+
+- type: listing
+  id: UplinkHristovMagAP
+  name: Магазин бронебойных патронов для Христова
+  description: Заряд сваги каждому на прицельной линии.
+  productEntity: MagazineHristovAP
+  icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Magazine/magazine_heavy_sniper.rsi, state: iconap }
+  cost:
+    Telecrystal: 4
+  categories:
+  - UplinkAmmo

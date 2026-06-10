@@ -17,8 +17,9 @@
     allowed:
     - Electrocution
   - type: Repairable
-    doAfterDelay: 8
-    fuelCost: 15
+    damageValue: -15 # 8 seconds to repair from dead
+    doAfterDelay: 1
+    fuelCost: 0.5
   - type: Pullable
   - type: Tag
     tags:
@@ -82,7 +83,7 @@
     baseWalkSpeed : 3
     baseSprintSpeed : 4
   - type: Stamina
-    critThreshold: 120
+    baseCritThreshold: 120
   - type: Destructible
     thresholds:
     - trigger:

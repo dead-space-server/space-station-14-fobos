@@ -1,0 +1,13 @@
+- type: stack
+  parent: BaseMediumStack
+  id: MagmiteOre
+  name: stack-magmite
+  icon: { sprite: /Textures/_DeadSpace/Objects/Materials/magmite-ore.rsi, state: magmite }
+  spawn: MagmiteOre1
+
+- type: stack
+  parent: BaseMediumStack
+  id: BluespaceCrystalOre
+  name: stack-bluespace
+  icon: { sprite: /Textures/_DeadSpace/Objects/Materials/bluespace-crystal-ore.rsi, state: bluespace_crystal_ore }
+  spawn: BluespaceCrystalOre1

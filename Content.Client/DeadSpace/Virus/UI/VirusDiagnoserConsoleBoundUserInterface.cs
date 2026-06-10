@@ -3,7 +3,6 @@
 using JetBrains.Annotations;
 using Robust.Client.UserInterface;
 using Content.Shared.DeadSpace.Virus;
-using System.Linq;
 
 namespace Content.Client.DeadSpace.Virus.UI
 {
@@ -24,6 +23,9 @@ namespace Content.Client.DeadSpace.Virus.UI
 
             _window.ScanVirusButton.OnPressed += _ =>
                 SendMessage(new UiButtonPressedMessage(UiButton.ScanVirus, null));
+
+            _window.CheckBloodVirusButton.OnPressed += _ =>
+                SendMessage(new UiButtonPressedMessage(UiButton.CheckBloodVirus, null));
 
             _window.StartAnalysButton.OnPressed += _ =>
                 SendMessage(new UiButtonPressedMessage(UiButton.StartAnalys, null));
@@ -59,12 +61,10 @@ namespace Content.Client.DeadSpace.Virus.UI
             if (_window == null)
                 return null;
 
-            var strainName = _window.StrainList.GetSelected().FirstOrDefault()?.Text;
+            if (_window.SelectedStrainRecord is { } record)
+                return record.Strain;
 
-            if (strainName == null)
-                return null;
-
-            return strainName.Split('-')[0];
+            return null;
         }
     }
 }

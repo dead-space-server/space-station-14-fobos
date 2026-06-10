@@ -199,3 +199,61 @@
         node: girder
       - !type:DoActsBehavior
         acts: ["Destruction"]
+
+- type: entity
+  parent: WallReinforced
+  id: WallReinforcedSolidDark
+  name: потрёпанная стена
+  description: Изувеченная крупными царапинами и временем стена. Стоп... Это пятна крови?
+  suffix: Титан
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Walls/solid_dark.rsi
+  - type: Icon
+    sprite: _DeadSpace/Structures/Walls/solid_dark.rsi
+    state: rgeneric
+
+- type: entity
+  parent: WallReinforced
+  id: WallReinforcedSolidDarkRust
+  name: потрёпанная стена
+  description: Изувеченная крупными царапинами и временем стена. Стоп... Это пятна крови?
+  suffix: Титан
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Walls/solid_dark_rust.rsi
+  - type: Icon
+    sprite: _DeadSpace/Structures/Walls/solid_dark_rust.rsi
+    state: rgeneric
+  - type: Construction
+    graph: Girder
+    node: reinforcedWallVine
+  - type: IconSmooth
+    key: walls
+    base: reinf_over
+
+- type: entity
+  parent: WallSolidDiagonal
+  id: WallSolidDarkDiagonal
+  name: потрёпанная стена
+  description: Изувеченная крупными царапинами и временем стена. Стоп... Это пятна крови?
+  suffix: Титан
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Walls/solid_dark_diagonal.rsi
+  - type: Icon
+    sprite: _DeadSpace/Structures/Walls/solid_dark_diagonal.rsi
+    state: state0
+
+- type: entity
+  parent: WallReinforcedDiagonal
+  id: WallReinforcedSolidDarkDiagonal
+  name: потрёпанная стена
+  description: Изувеченная крупными царапинами и временем стена. Стоп... Это пятна крови?
+  suffix: Титан
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Walls/reinforced_dark_diagonal.rsi
+  - type: Icon
+    sprite: _DeadSpace/Structures/Walls/reinforced_dark_diagonal.rsi
+    state: state0

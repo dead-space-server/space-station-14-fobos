@@ -11,6 +11,7 @@ using Content.Shared.Alert;
 using Content.Shared.Backmen.Blob;
 using Content.Shared.Backmen.Blob.Components;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Content.Shared.Destructible;
 using Content.Shared.Explosion.Components;
 using Content.Shared.FixedPoint;
@@ -216,7 +217,7 @@ public sealed class BlobCoreSystem : SharedBlobCoreSystem
             {
                 if (blobRuleComp.Stage == BlobStage.Critical ||
                     blobRuleComp.Stage == BlobStage.Begin)
-                    _roundEndSystem.CancelRoundEndCountdown(null, false);
+                    _roundEndSystem.CancelRoundEndCountdown(forceRecall: true);
             }
         }
 
@@ -262,7 +263,7 @@ public sealed class BlobCoreSystem : SharedBlobCoreSystem
             blobCore.BlobTiles.Remove(oldTileUid.Value);
         }
 
-        var tileBlob = EntityManager.SpawnEntity(newBlobTileProto, coordinates);
+        var tileBlob = Spawn(newBlobTileProto, coordinates);
 
         if (_tile.TryGetComponent(tileBlob, out var blobTileComponent))
         {

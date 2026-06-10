@@ -28,7 +28,7 @@ public sealed class SleepOnSSDSystem : EntitySystem
             && !HasComp<ActiveNPCComponent>(ent)
             && HasComp<SSDIndicatorComponent>(ent)
             && TryComp<MindContainerComponent>(ent, out var mindContainer)
-            && mindContainer.ShowExamineInfo)
+            && mindContainer.HasMind)
         {
             _sleepingSystem.TrySleeping(ent);
         }

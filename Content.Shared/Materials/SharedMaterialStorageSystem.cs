@@ -1,6 +1,7 @@
 using System.Linq;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Components;
+using Content.Shared.Storage.Components; // DS14
 using Content.Shared.Stacks;
 using Content.Shared.Whitelist;
 using JetBrains.Annotations;
@@ -34,6 +35,10 @@ public abstract class SharedMaterialStorageSystem : EntitySystem
 
         SubscribeLocalEvent<MaterialStorageComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<MaterialStorageComponent, InteractUsingEvent>(OnInteractUsing);
+        // DS14-start
+        SubscribeLocalEvent<MaterialStorageComponent, GetDumpableVerbEvent>(OnGetDumpableVerb);
+        SubscribeLocalEvent<MaterialStorageComponent, DumpEvent>(OnDump);
+        // DS14-end
         SubscribeLocalEvent<MaterialStorageComponent, TechnologyDatabaseModifiedEvent>(OnDatabaseModified);
     }
 
@@ -404,6 +409,37 @@ public abstract class SharedMaterialStorageSystem : EntitySystem
             return;
         args.Handled = TryInsertMaterialEntity(args.User, args.Used, uid, component);
     }
+
+    // DS14-start
+    private void OnGetDumpableVerb(EntityUid uid, MaterialStorageComponent component, ref GetDumpableVerbEvent args)
+    {
+        if (!component.InsertOnInteract)
+            return;
+
+        args.Verb = Loc.GetString("dump-smartfridge-verb-name", ("unit", uid));
+    }
+
+    private void OnDump(EntityUid uid, MaterialStorageComponent component, ref DumpEvent args)
+    {
+        if (args.Handled)
+            return;
+
+        if (!component.InsertOnInteract)
+            return;
+
+        var inserted = false;
+        foreach (var entity in args.DumpQueue)
+        {
+            if (!TryInsertMaterialEntity(args.User, entity, uid, component))
+                continue;
+
+            inserted = true;
+        }
+
+        args.Handled = true;
+        args.PlaySound = inserted;
+    }
+    // DS14-end
 
     private void OnDatabaseModified(Entity<MaterialStorageComponent> ent, ref TechnologyDatabaseModifiedEvent args)
     {

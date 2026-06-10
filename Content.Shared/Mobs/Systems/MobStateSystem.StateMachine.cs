@@ -1,6 +1,8 @@
 ﻿using Content.Shared.Database;
 using Content.Shared.Humanoid;
 using Content.Shared.Mobs.Components;
+using Content.Shared.Movement.Components; //DS14
+using Content.Shared.DeadSpace.Movement.Components; // DS14
 using Robust.Shared.Player;
 
 namespace Content.Shared.Mobs.Systems;
@@ -80,6 +82,11 @@ public partial class MobStateSystem
     protected virtual void OnStateChanged(EntityUid entity, MobStateComponent component, MobState oldState,
         MobState newState)
     {
+        // DS14-start
+        if (oldState == MobState.PreCritical && newState == MobState.Alive)
+            if (!HasComp<WheelchairUserComponent>(entity))
+                _standing.Stand(entity, force: true);
+        // DS14-end
     }
 
     /// <summary>

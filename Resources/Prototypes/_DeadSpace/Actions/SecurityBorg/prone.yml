@@ -1,0 +1,16 @@
+- type: entity
+  id: ActionSecurityBorgProne
+  name: Переключить высоту корпуса.
+  description: Юнит переключает высоту корпуса, в зависимости от неё юнит получает разные бонусы и штрафы.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/SecurityBorg/securityborg.rsi
+      state: sec_down
+    iconOn:
+      sprite: _DeadSpace/SecurityBorg/securityborg.rsi
+      state: sec
+    itemIconStyle: NoItem
+  - type: InstantAction
+    event: !type:SecurityBorgProneActionEvent

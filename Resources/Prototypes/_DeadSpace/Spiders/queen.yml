@@ -42,8 +42,6 @@
     baseWalkSpeed: 5
     baseSprintSpeed: 5
   - type: Bloodstream
-    bloodReagent: CopperBlood
-    bloodMaxVolume: 250
     bloodlossThreshold: 0.4
   - type: Evolution
     duration: 60 # Время до получения возможности эволюционировать
@@ -95,8 +93,6 @@
     baseWalkSpeed: 4
     baseSprintSpeed: 4
   - type: Bloodstream
-    bloodReagent: CopperBlood
-    bloodMaxVolume: 250
     bloodlossThreshold: 0.4
   - type: Evolution
     duration: 300 # Время до получения возможности эволюционировать
@@ -169,8 +165,6 @@
     baseWalkSpeed: 4
     baseSprintSpeed: 4
   - type: Bloodstream
-    bloodReagent: CopperBlood
-    bloodMaxVolume: 250
     bloodlossThreshold: 0.4
   - type: SpawnAgainst
     duration: 5

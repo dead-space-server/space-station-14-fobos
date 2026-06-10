@@ -7,6 +7,7 @@ using Robust.Shared.Utility;
 using Content.Server.Chat.Systems;
 using Content.Shared.DeadSpace.Languages.Components;
 using Content.Server.DeadSpace.Languages;
+using Content.Shared.Chat;
 
 namespace Content.Server.Revenant;
 
@@ -28,7 +29,7 @@ public sealed partial class TelepathySystem : EntitySystem
 
     private void AddRevenantVerbs(GetVerbsEvent<Verb> args)
     {
-        if (!EntityManager.TryGetComponent(args.User, out ActorComponent? actor) || args.User == args.Target)
+        if (!TryComp(args.User, out ActorComponent? actor) || args.User == args.Target)
             return;
 
         var player = actor.PlayerSession;

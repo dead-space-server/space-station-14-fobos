@@ -15,9 +15,14 @@
     blacklist:
       tags:
         - Catwalk
+  # DS14-Start: lavaland fauna and flying entities do not need persistent lava contacts.
+  - type: StepTriggerCollisionFilter
+    ignoreCanMoveInAir: true
+    ignoreLavalandFauna: true
+  # DS14-End
   - type: TileEntityEffect
     effects:
-    - !type:FlammableReaction
+    - !type:Flammable
       multiplier: 3.75
       multiplierOnExisting: 0.75
     - !type:Ignite

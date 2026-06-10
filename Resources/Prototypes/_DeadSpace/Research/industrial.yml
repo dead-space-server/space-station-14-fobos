@@ -1,0 +1,77 @@
+# Tier 1
+- type: technology
+  id: HolopadHandheldTech
+  name: research-technology-holopadhandheld
+  icon:
+    sprite: _DeadSpace/Structures/Machines/holopad_h.rsi
+    state: base
+  discipline: Industrial
+  tier: 1
+  cost: 5000
+  recipeUnlocks:
+    - HolopadHandheld
+
+- type: technology
+  id: RIGEngineer
+  name: research-technology-rig-eng
+  icon:
+    sprite: _DeadSpace/RIGs/Engineer/backpack.rsi
+    state: icon
+  discipline: Industrial
+  tier: 1
+  cost: 5000
+  recipeUnlocks:
+    - BlueprintRIGEngineerInfinite
+    - BlueprintRIGEngineerThreeUse
+    - BlueprintRIGEngineerOneUse
+    - ClothingHeadHelmetRIGEngineer
+    - PlastineOfEngineerRIG
+    - HeatResistanceModuleEngineer
+    - FireResistanceModuleEngineer
+
+# Tier 2
+
+- type: technology
+  id: QuadBikeTech
+  name: research-technology-quadbike
+  icon:
+    sprite: Objects/Vehicles/atv.rsi
+    state: vehicle
+  discipline: Industrial
+  tier: 2
+  cost: 7500
+  recipeUnlocks:
+    - VehicleQuadBikeFlatpack
+    - VehicleKeyUniversal
+
+# Tier 3
+
+- type: technology
+  id: RIGSalvage
+  name: research-technology-rig-salvage
+  icon:
+    sprite: _DeadSpace/RIGs/Salvage/Standart/backpack.rsi
+    state: icon
+  discipline: Industrial
+  tier: 3
+  cost: 15000
+  recipeUnlocks:
+    - BlueprintRIGSalvageInfinite
+    - BlueprintRIGSalvageThreeUse
+    - BlueprintRIGSalvageOneUse
+    - ClothingHeadHelmetRIGSalvage
+    - PlastineOfSalvageRIG
+    - SpeedModifierModuleSalvage
+
+- type: technology
+  id: HoverbikeTech
+  name: research-technology-hoverbike
+  icon:
+    sprite: _DeadSpace/Objects/Vehicles/hoverbike.rsi
+    state: vehicle
+  discipline: Industrial
+  tier: 3
+  cost: 1500
+  recipeUnlocks:
+    - VehicleHoverbikeFlatpack
+    - VehicleKeyUniversal

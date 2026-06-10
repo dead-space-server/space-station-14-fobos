@@ -76,6 +76,7 @@
       map: ["fireAlarmState"]
     - state: fire_b2
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: Transform
     anchored: true
   - type: Construction

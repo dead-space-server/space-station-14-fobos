@@ -1,0 +1,42 @@
+consolecraft-console-title = Сборочная консоль
+consolecraft-select-blueprint = Выберите чертёж
+consolecraft-select-button = Выбрать
+consolecraft-back-button = ← Назад
+consolecraft-craft-button = Собрать
+consolecraft-required-label = Необходимые компоненты
+consolecraft-modules-label = Дополнительные модули
+consolecraft-no-modules = Для этого чертежа нет дополнительных модулей.
+consolecraft-craft-in-progress = Идёт сборка — пожалуйста, подождите.
+consolecraft-no-recipe = Чертёж не выбран. Сначала используйте консоль.
+consolecraft-item-inserted = Компонент вставлен.
+consolecraft-module-inserted = Модуль установлен.
+consolecraft-module-already-inserted = Этот модуль уже установлен.
+consolecraft-wrong-item = Этот компонент не нужен для текущего чертежа.
+consolecraft-missing-items = Не хватает необходимых компонентов.
+consolecraft-no-station = К этой консоли не привязана сборочный станок.
+consolecraft-craft-success = Сборка завершена!
+consolecraft-no-station-warning = ⚠ Станок не привязана!
+consolecraft-crafting = Идёт сборка… пожалуйста, подождите.
+consolecraft-ready = Готово к сборке.
+consolecraft-missing-materials = Не хватает необходимых компонентов.
+consolecraft-module-slots-full = Вы более не можете вставить это, все слоты забиты.
+consolecraft-station-not-anchored = Станок не закреплён!
+consolecraft-craft-cancelled-unanchored = Крафт отменён - станок был откручен.
+consolecraft-conflicting-modules = Ошибка! Замечены два похожих модуля, они не могут быть вместе при создании!
+consolecraft-examine-modules-header = [color=cyan]Установленые модули:[/color]
+consolecraft-examine-module-entry = [color=lightblue] - {$description}[/color]
+consolecraft-craft-cancelled-no-power = Крафт прерван: станок обесточен. Материалы выброшены.
+consolecraft-no-power = Станок не получает питание.
+consolecraft-eject-button = Вытащить детали
+consolecraft-items-ejected = Все детали выброшены из станка.
+# Blueprint-related
+consolecraft-blueprint-inserted = Чертёж загружен: { $recipe }.
+consolecraft-blueprint-already-loaded = Этот чертёж уже загружен.
+consolecraft-blueprint-slots-full = Нет свободных слотов для чертежей.
+consolecraft-blueprint-exhausted = Чертёж исчерпан: { $recipe }.
+consolecraft-blueprint-not-loaded = Чертёж больше недоступен.
+consolecraft-no-blueprints-loaded = Чертежи не загружены. Вставьте чертёж в консоль.
+consolecraft-uses-remaining = Осталось применений: { $count }
+consolecraft-uses-infinite = ∞ применений
+consolecraft-linking-mode-started = Режим привязки активирован. Используйте мультитул на станок.
+consolecraft-linked-success = Станция успешно привязана к консоли.

@@ -17,6 +17,9 @@
           Quantity: 5
   - type: Injector
     currentTransferAmount: 5
+    activeModeProtoId: HyposprayInjectMode
+    allowedModes:
+    - HyposprayInjectMode
   - type: EmbeddableProjectile
   - type: SolutionInjectOnEmbed
     transferAmount: 5

@@ -5,6 +5,11 @@ tabletop-verb-dump-pieces = Скинуть фигурки
 tabletop-default-board-name = Настольная игра
 tabletop-error-remove-non-hologram = Вы не можете убрать встроенную фигурку!
 tabletop-added-piece = Доска ярко сияет!
+# DS14-Start
+tabletop-max-pieces = Достигнут лимит фигурок ({ $max } шт.)!
+tabletop-place-figurine = Разместить фигурку
+tabletop-remove-figurine-hint = Убрать фигурку - ПКМ+ЛКМ
+# DS14-End
 
 ## Chess
 

@@ -7,6 +7,10 @@
   components:
   - type: SubdermalImplant
     implantAction: ActionActivateAdrenalImplant
+  - type: InjectReagentsImplant
+    popup: adrenal-implant-activated
+    reagents:
+      Stimulants: 30
 
 - type: entity
   id: AdrenalImplanter
@@ -113,3 +117,23 @@
   components:
   - type: Implanter
     implant: DeathRattleImplantTaipan
+
+- type: entity
+  parent: BaseSubdermalImplant
+  id: RezervImplant
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: SubdermalImplant
+    implantAction: ActionActivateRezervImplant
+  - type: InjectReagentsImplant
+    popup: rezerv-implant-activated
+    reagents:
+      Celestin: 29.9
+
+- type: entity
+  id: RezervImplanter
+  suffix: Резерв
+  parent: BaseImplantOnlyImplanter
+  components:
+  - type: Implanter
+    implant: RezervImplant

@@ -66,7 +66,12 @@ public abstract class SharedExplosionSystem : EntitySystem
                                         int maxTileBreak = int.MaxValue,
                                         bool canCreateVacuum = true,
                                         EntityUid? user = null,
-                                        bool addLog = true)
+                                        bool addLog = true,
+                                        // DS14-start
+                                        bool deleteEntities = false,
+                                        bool destroyTiles = false,
+                                        bool ignoreTileBlockers = false)
+                                        // DS14-end
     {
     }
 

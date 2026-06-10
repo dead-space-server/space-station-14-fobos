@@ -4,6 +4,7 @@
   name: Blink
   description: Teleport to the clicked location.
   components:
+  - type: Magic # DS14
   - type: Action
     useDelay: 10
     itemIconStyle: BigAction
@@ -27,6 +28,7 @@
   name: Void Applause
   description: Clap your hands and swap places with the target.
   components:
+  - type: Magic # DS14
   - type: Action
     useDelay: 15
     sound: !type:SoundPathSpecifier

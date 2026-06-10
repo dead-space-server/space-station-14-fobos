@@ -10,6 +10,8 @@ using Content.Shared.Actions;
 using Content.Server.Popups;
 using Content.Shared.Popups;
 using Content.Shared.DeadSpace.TimeWindow;
+using Content.Shared.Mind.Components;
+using Robust.Shared.Player;
 
 namespace Content.Server.DeadSpace.Virus.Systems;
 
@@ -22,14 +24,16 @@ public sealed class SentientVirusSystem : EntitySystem
     [Dependency] private readonly PopupSystem _popupSystem = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly TimedWindowSystem _timedWindowSystem = default!;
-    private const int PrimaryPacientPrice = 1000;
-    private const int ModifyPointsRegenPerInfected = 2;
+    private const int PrimaryPacientPrice = 250;
+    private const int ModifyPointsRegenPerInfected = 5;
     public override void Initialize()
     {
         base.Initialize();
 
         SubscribeLocalEvent<SentientVirusComponent, ComponentInit>(OnInit);
         SubscribeLocalEvent<SentientVirusComponent, ComponentShutdown>(OnShutdown);
+        SubscribeLocalEvent<SentientVirusComponent, MindAddedMessage>(OnMindAdded);
+        SubscribeLocalEvent<SentientVirusComponent, PlayerAttachedEvent>(OnPlayerAttached);
         SubscribeLocalEvent<SentientVirusComponent, ShopMutationActionEvent>(OnShopMutation);
         SubscribeLocalEvent<SentientVirusComponent, SelectPrimaryPatientEvent>(OnSelectPrimaryPatient);
         SubscribeLocalEvent<SentientVirusComponent, TeleportToPrimaryPatientEvent>(OnTeleportToPrimaryPatient);
@@ -326,6 +330,21 @@ public sealed class SentientVirusSystem : EntitySystem
 
         _timedWindowSystem.Reset(entity.Comp.UpdateWindow);
 
+        EnsureVirusActions(entity);
+    }
+
+    private void OnMindAdded(EntityUid uid, SentientVirusComponent component, MindAddedMessage args)
+    {
+        EnsureVirusActions((uid, component));
+    }
+
+    private void OnPlayerAttached(EntityUid uid, SentientVirusComponent component, PlayerAttachedEvent args)
+    {
+        EnsureVirusActions((uid, component));
+    }
+
+    private void EnsureVirusActions(Entity<SentientVirusComponent> entity)
+    {
         _actionsSystem.AddAction(entity, ref entity.Comp.ShopMutationActionEntity, entity.Comp.ShopMutationAbility, entity);
         _actionsSystem.AddAction(entity, ref entity.Comp.SelectPrimaryPatientActionEntity, entity.Comp.SelectPrimaryPatientAbility, entity);
         _actionsSystem.AddAction(entity, ref entity.Comp.TeleportToPrimaryPatientActionEntity, entity.Comp.TeleportToPrimaryPatientAbility, entity);
@@ -362,15 +381,6 @@ public sealed class SentientVirusSystem : EntitySystem
         var infectivity = 0f;
         var infectedCount = data != null ? _virusSystem.GetQuantityInfected(data.StrainId) : 0;
         var pointsPerSecond = data != null ? data.RegenMutationPoints + infectedCount * ModifyPointsRegenPerInfected : 0;
-
-        if (data != null)
-        {
-            foreach (var sympId in data.ActiveSymptom)
-            {
-                if (_prototypeManager.TryIndex(sympId, out var prototype))
-                    infectivity += prototype.AddInfectivity;
-            }
-        }
 
         if (data != null)
         {

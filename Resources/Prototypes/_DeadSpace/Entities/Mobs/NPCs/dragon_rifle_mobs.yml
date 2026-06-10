@@ -67,7 +67,6 @@
   abstract: true
   components:
   - type: Bloodstream
-    bloodMaxVolume: 100
   - type: GhostRole
     allowMovement: true
     allowSpeech: true
@@ -154,7 +153,6 @@
     - RadiationProtection
     - Adrenaline
   - type: Temperature
-    heatDamageThreshold: 800
   - type: Metabolizer
     solutionOnBody: false
     updateInterval: 0.25

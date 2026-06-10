@@ -55,13 +55,13 @@
   sprite:
     sprite: Objects/Consumable/Food/meat.rsi
     state: corgi
-    #
+
 - type: stealTargetGroup
   id: CaptainIDCard
   name: steal-target-groups-captain-id-card
   sprite:
     sprite: Objects/Misc/id_cards.rsi
-    state: ert_commander #no one will know the difference.
+    state: icon-captain
 
 - type: stealTargetGroup
   id: JetpackCaptainFilled
@@ -82,13 +82,6 @@
   name: steal-target-groups-nuke-disk
   sprite:
     sprite: Objects/Misc/nukedisk.rsi
-    state: icon
-
-- type: stealTargetGroup
-  id: WeaponPistolX01
-  name: steal-target-groups-weapon-X01-pistol
-  sprite:
-    sprite: _DeadSpace/Objects/Weapons/Guns/Battery/x01.rsi
     state: icon
 
 # Thief Collection
@@ -162,6 +155,13 @@
   sprite:
     sprite: Objects/Tools/lantern.rsi
     state: lantern
+
+- type: stealTargetGroup
+  id: ClothingEyesHuds
+  name: steal-target-groups-huds
+  sprite:
+    sprite: Clothing/Eyes/Hud/sec.rsi
+    state: icon
 
 # Thief single item
 
@@ -255,13 +255,6 @@
   sprite:
     sprite: Objects/Misc/module.rsi
     state: cpuboard
-
-- type: stealTargetGroup
-  id: ClothingEyesHudBeer
-  name: steal-target-groups-clothing-eyes-hud-beer
-  sprite:
-    sprite: Clothing/Eyes/Hud/beergoggles.rsi
-    state: icon
 
 - type: stealTargetGroup
   id: Bible

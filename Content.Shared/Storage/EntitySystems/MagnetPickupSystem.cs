@@ -1,4 +1,8 @@
 using Content.Shared.Inventory;
+// DS14-start
+using Content.Shared.Hands.EntitySystems;
+using Content.Shared.Silicons.Borgs.Components;
+// DS14-end
 using Content.Shared.Storage.Components;
 using Content.Shared.Whitelist;
 using Robust.Shared.Physics.Components;
@@ -13,6 +17,7 @@ public sealed class MagnetPickupSystem : EntitySystem
 {
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly SharedHandsSystem _hands = default!; // DS14
     [Dependency] private readonly InventorySystem _inventory = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedStorageSystem _storage = default!;
@@ -49,11 +54,14 @@ public sealed class MagnetPickupSystem : EntitySystem
             comp.NextScan += ScanDelay;
             Dirty(uid, comp);
 
-            if (!_inventory.TryGetContainingSlot((uid, xform, meta), out var slotDef))
+            // DS14-start
+            if (!_inventory.TryGetContainingSlot((uid, xform, meta), out var slotDef) &&
+                (!HasComp<BorgChassisComponent>(xform.ParentUid) || !_hands.TryGetActiveItem((xform.ParentUid, null), out var activeItem) || activeItem != uid))
                 continue;
 
-            if ((slotDef.SlotFlags & comp.SlotFlags) == 0x0)
+            if (slotDef != null && (slotDef.SlotFlags & comp.SlotFlags) == 0x0)
                 continue;
+            // DS14-end
 
             // No space
             if (!_storage.HasSpace((uid, storage)))

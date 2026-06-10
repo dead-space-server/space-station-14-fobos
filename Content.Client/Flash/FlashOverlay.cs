@@ -6,6 +6,7 @@ using Robust.Client.Graphics;
 using Robust.Client.Player;
 using Robust.Shared.Configuration;
 using Robust.Shared.Enums;
+using Robust.Shared.Graphics;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 
@@ -20,6 +21,7 @@ namespace Content.Client.Flash
         [Dependency] private readonly IPlayerManager _playerManager = default!;
         [Dependency] private readonly IGameTiming _timing = default!;
         [Dependency] private readonly IConfigurationManager _configManager = default!;
+        [Dependency] private readonly IClyde _clyde = default!;
 
         private readonly SharedFlashSystem _flash;
         private readonly StatusEffectsSystem _statusSys;
@@ -28,7 +30,18 @@ namespace Content.Client.Flash
         private readonly ShaderInstance _shader;
         private bool _reducedMotion;
         public float PercentComplete;
-        public Texture? ScreenshotTexture;
+        // DS14-start
+        private IRenderTexture? _screenshotTarget;
+        public Texture? ScreenshotTexture
+        {
+            get => _screenshotTarget?.Texture;
+            set
+            {
+                if (value == null)
+                    ClearScreenshot();
+            }
+        }
+        // DS14-end
 
         public FlashOverlay()
         {
@@ -75,7 +88,9 @@ namespace Content.Client.Flash
         {
             if (RequestScreenTexture && ScreenTexture != null)
             {
-                ScreenshotTexture = ScreenTexture;
+                // DS14-start
+                CaptureScreenshot(args);
+                // DS14-end
                 RequestScreenTexture = false; // we only need the first frame, so we can stop the request now for performance reasons
             }
             if (ScreenshotTexture == null)
@@ -103,7 +118,44 @@ namespace Content.Client.Flash
         protected override void DisposeBehavior()
         {
             base.DisposeBehavior();
-            ScreenshotTexture = null;
+            ClearScreenshot(); // DS14
         }
+
+        // DS14-start
+        private void CaptureScreenshot(in OverlayDrawArgs args)
+        {
+            if (ScreenTexture == null)
+                return;
+
+            var size = args.Viewport.Size;
+            if (_screenshotTarget == null || _screenshotTarget.Size != size)
+            {
+                ClearScreenshot();
+                _screenshotTarget = _clyde.CreateRenderTarget(
+                    size,
+                    new RenderTargetFormatParameters(RenderTargetColorFormat.Rgba8Srgb, true),
+                    new TextureSampleParameters
+                    {
+                        Filter = false,
+                        WrapMode = TextureWrapMode.MirroredRepeat,
+                    },
+                    nameof(FlashOverlay));
+            }
+
+            var screenHandle = args.RenderHandle.DrawingHandleScreen;
+            screenHandle.RenderInRenderTarget(_screenshotTarget, () =>
+            {
+                screenHandle.DrawTextureRectRegion(
+                    ScreenTexture,
+                    UIBox2.FromDimensions(default, size));
+            }, Color.Transparent);
+        }
+
+        private void ClearScreenshot()
+        {
+            _screenshotTarget?.Dispose();
+            _screenshotTarget = null;
+        }
+        // DS14-end
     }
 }

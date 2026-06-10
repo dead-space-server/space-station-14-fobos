@@ -17,7 +17,7 @@
   - BaseStationTaipanCargo
   # - BaseTaipanStationJobsSpawning
   # - BaseStationRecords
-  - BaseTaipanStationShuttles
+  # - BaseTaipanStationShuttles
   - BaseTaipanStationAlertLevels
   - BaseStationMagnet
   - BaseStationExpeditions

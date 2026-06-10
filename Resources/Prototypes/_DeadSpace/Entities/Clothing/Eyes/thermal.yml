@@ -1,0 +1,67 @@
+- type: entity
+  parent: ClothingEyesBase
+  id: ClothingEyesGlassesThermalVisor
+  name: оптический тепловизор
+  description: Тепловизор, который оснащён инфракрасными сенсорами для обнаружения живых существ по тепловым сигнатурам сквозь твёрдые преграды.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Eyes/Hud/thermal.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Eyes/Hud/thermal.rsi
+  - type: Armor
+    modifiers:
+      coefficients:
+        Heat: 0.95
+  - type: GroupExamine
+  - type: IdentityBlocker
+    coverage: EYES
+  - type: ThermalVisor
+    activateSound:
+      path: /Audio/_DeadSpace/NightVision/pnv.ogg
+    activateSoundOff:
+      path: /Audio/_DeadSpace/NightVision/pnv_off.ogg
+  - type: Tag
+    tags:
+    - WhitelistChameleon
+  - type: FlashImmunity
+  - type: EyeProtection
+  - type: ShowJobIcons
+  - type: ShowMindShieldIcons
+  - type: ShowCriminalRecordIcons
+  - type: ShowSyndicateIcons
+
+- type: entity
+  parent: ClothingEyesBase
+  id: ClothingEyesGlassesThermalVisorExperimental
+  name: экспериментальный оптический тепловизор
+  description: Прототип тепловизора с ограниченным временем работы.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Eyes/Hud/thermal_experimental.rsi
+    layers:
+    - state: icon
+      map: ["base"]
+    - state: indicator-green
+      map: ["indicator_icon"]
+      shader: unshaded
+      visible: true
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Eyes/Hud/thermal_experimental.rsi
+  - type: Appearance
+  - type: GroupExamine
+  - type: IdentityBlocker
+    coverage: EYES
+  - type: ThermalVisorExperimental
+    activateSound:
+      path: /Audio/_DeadSpace/NightVision/pnv.ogg
+    activateSoundOff:
+      path: /Audio/_DeadSpace/NightVision/pnv_off.ogg
+    pulseDuration: 2
+  - type: Battery
+    maxCharge: 1000
+    startingCharge: 1000
+  - type: BatteryVisuals
+  - type: FlashImmunity
+  - type: ShowJobIcons
+  - type: ShowMindShieldIcons
+  - type: ShowCriminalRecordIcons

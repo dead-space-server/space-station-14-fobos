@@ -9,14 +9,14 @@
   id: ClothingBackpackVjladosBio
   name: блюспейс органический рюкзак
   description: Рюкзак использующий технологию блюспейса для увелечения своего максимального объёма. Состоит из органических компонентов. Принадлежит члену экипажа, находящемуся под покровительством спонсорской организации.
-  # categories: [ HideSpawnMenu ]
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/vjlados/bio/backpack.rsi
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,16,6
+    - 0,0,15,10
   - type: StorageFill
     contents:
       - id: ClothingBeltVjladosBioFilled
@@ -86,7 +86,7 @@
 
 # Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitVjladosBio
   name: модифицированный биологический скафандр
   description: Скафандр, разработанный специально для представителей расы ксеноидов. Принадлежат члену экипажа, находящемуся под покровительством спонсорской организации. Характеристики идентичны скафандру атмос-техника.
@@ -152,7 +152,7 @@
 
 # ClothingOuter
 - type: entity
-  parent: ClothingOuterCoatSyndieCapArmored
+  parent: ClothingOuterVestArmorSec
   id: ClothingOuterHoodieVjladosBio
   name: органический бронированный тренч
   description: Принадлежит члену экипажа, находящемуся под покровительством спонсорской организации.

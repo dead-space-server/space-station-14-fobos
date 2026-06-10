@@ -16,3 +16,6 @@ ent-OrganVoxBrain = мозг
 ent-OrganVoxKidneys = почки
     .desc = Выводят токсины из кровеносной системы вокса.
     .suffix = вокс
+ent-OrganVoxEyes = глаза
+    .desc = Я тебя вижу!
+    .suffix = вокс

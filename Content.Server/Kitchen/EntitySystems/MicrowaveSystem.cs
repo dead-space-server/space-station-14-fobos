@@ -7,7 +7,6 @@ using Content.Server.Hands.Systems;
 using Content.Server.Kitchen.Components;
 using Content.Server.Power.Components;
 using Content.Server.Power.EntitySystems;
-using Content.Server.Temperature.Components;
 using Content.Server.Temperature.Systems;
 using Content.Shared.Body.Components;
 using Content.Shared.Body.Part;
@@ -40,8 +39,9 @@ using Robust.Shared.Timing;
 using Content.Shared.Stacks;
 using Content.Server.Construction.Components;
 using Content.Shared.Chat;
-using Content.Shared.Damage;
-using Robust.Shared.Utility;
+using Content.Shared.Damage.Components;
+using Content.Shared.Power.EntitySystems;
+using Content.Shared.Temperature.Components;
 
 namespace Content.Server.Kitchen.EntitySystems
 {
@@ -69,6 +69,7 @@ namespace Content.Server.Kitchen.EntitySystems
         [Dependency] private readonly IPrototypeManager _prototype = default!;
         [Dependency] private readonly IAdminLogManager _adminLogger = default!;
         [Dependency] private readonly SharedSuicideSystem _suicide = default!;
+        [Dependency] private readonly SharedPowerStateSystem _powerState = default!;
 
         private static readonly EntProtoId MalfunctionSpark = "Spark";
 
@@ -117,6 +118,7 @@ namespace Content.Server.Kitchen.EntitySystems
 
             microwaveComponent.PlayingStream =
                 _audio.PlayPvs(microwaveComponent.LoopingSound, ent, AudioParams.Default.WithLoop(true).WithMaxDistance(5))?.Entity;
+            _powerState.SetWorkingState(ent.Owner, true);
         }
 
         private void OnCookStop(Entity<ActiveMicrowaveComponent> ent, ref ComponentShutdown args)
@@ -126,6 +128,7 @@ namespace Content.Server.Kitchen.EntitySystems
 
             SetAppearance(ent.Owner, MicrowaveVisualState.Idle, microwaveComponent);
             microwaveComponent.PlayingStream = _audio.Stop(microwaveComponent.PlayingStream);
+            _powerState.SetWorkingState(ent.Owner, false);
         }
 
         private void OnActiveMicrowaveInsert(Entity<ActiveMicrowaveComponent> ent, ref EntInsertedIntoContainerMessage args)
@@ -241,7 +244,7 @@ namespace Content.Server.Kitchen.EntitySystems
                         // If an entity has a stack component, use the stacktype instead of prototype id
                         if (TryComp<StackComponent>(item, out var stackComp))
                         {
-                            itemID = _prototype.Index<StackPrototype>(stackComp.StackTypeId).Spawn;
+                            itemID = _prototype.Index(stackComp.StackTypeId).Spawn;
                         }
                         else
                         {
@@ -264,7 +267,7 @@ namespace Content.Server.Kitchen.EntitySystems
                             {
                                 _container.Remove(item, component.Storage);
                             }
-                            _stack.Use(item, 1, stackComp);
+                            _stack.ReduceCount((item, stackComp), 1);
                             break;
                         }
                         else

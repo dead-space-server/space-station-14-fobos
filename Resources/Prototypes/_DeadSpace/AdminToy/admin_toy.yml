@@ -1,0 +1,69 @@
+- type: entity
+  parent: BaseMob
+  id: MobAdminToy
+  name: admin toy
+  description: A private toy controlled by an administrator.
+  save: false
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: AdminToy
+  - type: Physics
+    bodyType: KinematicController
+    bodyStatus: InAir
+  - type: CanMoveInAir
+  - type: MovementIgnoreGravity
+  - type: Speech
+    speechVerb: Ghost
+  - type: Sprite
+    noRot: true
+    drawdepth: Mobs
+    layers:
+    - sprite: Objects/Fun/Plushies/bee.rsi
+      state: icon
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 2.5
+    baseSprintSpeed: 4
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.25
+        density: 30
+        layer:
+        - GhostImpassable
+
+- type: entity
+  parent: BaseMentalAction
+  id: ActionAdminToyBoo
+  name: Бу!
+  description: Напугать ближайшие лампы, как призрак.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    useDelay: 3
+    icon: Interface/Actions/scream.png
+    itemIconStyle: NoItem
+    checkCanInteract: false
+  - type: InstantAction
+    event: !type:AdminToyBooActionEvent
+
+- type: entity
+  parent: BaseMentalAction
+  id: ActionAdminToyLightning
+  name: Ударить молнией
+  description: Ударить выбранного игрока молнией ревенанта.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    useDelay: 10
+    icon:
+      sprite: Effects/lightning.rsi
+      state: lightning_3
+    itemIconStyle: NoItem
+    checkCanInteract: false
+  - type: TargetAction
+    range: 10
+  - type: EntityTargetAction
+    canTargetSelf: false
+    event: !type:AdminToyLightningActionEvent

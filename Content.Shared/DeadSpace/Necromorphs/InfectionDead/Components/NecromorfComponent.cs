@@ -1,9 +1,11 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Content.Shared.Chat.Prototypes;
+using Content.Shared.Chemistry.Components;
 using Content.Shared.Chemistry.Reagent;
 using Content.Shared.Damage;
 using Content.Shared.Humanoid;
+using Content.Shared.NPC.Prototypes;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
@@ -103,16 +105,37 @@ public sealed partial class NecromorfComponent : Component
     public SoundSpecifier BiteSound = new SoundPathSpecifier("/Audio/Weapons/bladeslice.ogg");
 
     /// <summary>
-    /// The blood reagent of the humanoid to restore in case of cloning
+    /// The blood reagents of the humanoid to restore in case of cloning
     /// </summary>
     [DataField]
-    public string BeforeNecroficationBloodReagent = string.Empty;
+    public Solution BeforeNecroficationBloodReagents = new();
 
     /// <summary>
-    /// The blood reagent to give the Necromorf. In case you want Necromorfs that bleed milk, or something.
+    /// Factions to restore in case of cloning.
     /// </summary>
     [DataField]
-    public ProtoId<ReagentPrototype> NewBloodReagent = "NecromorfBlood";
+    public HashSet<ProtoId<NpcFactionPrototype>> BeforeNecroficationFactions = new();
+
+    [DataField]
+    public bool BeforeNecroficationHadVocal;
+
+    [DataField]
+    public Dictionary<Sex, ProtoId<EmoteSoundsPrototype>>? BeforeNecroficationVocalSounds;
+
+    [DataField]
+    public string BeforeNecroficationScreamId = "Scream";
+
+    [DataField]
+    public SoundSpecifier BeforeNecroficationWilhelm = new SoundPathSpecifier("/Audio/Voice/Human/wilhelm_scream.ogg");
+
+    [DataField]
+    public float BeforeNecroficationWilhelmProbability = 0.0002f;
+
+    /// <summary>
+    /// The blood reagents to give the Necromorf. In case you want Necromorfs that bleed milk, or something.
+    /// </summary>
+    [DataField]
+    public Solution NewBloodReagents = new([new("NecromorfBlood", 1)]);
 
     [DataField("useInventory")]
     public bool IsCanUseInventory = true;

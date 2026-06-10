@@ -61,6 +61,10 @@ public sealed class SpeedModifierContactsSystem : EntitySystem
         if (!Resolve(uid, ref component))
             return;
 
+        if (MathHelper.CloseTo(component.WalkSpeedModifier, walkSpeed) &&
+            MathHelper.CloseTo(component.SprintSpeedModifier, sprintSpeed))
+            return;
+
         component.WalkSpeedModifier = walkSpeed;
         component.SprintSpeedModifier = sprintSpeed;
         Dirty(uid, component);

@@ -35,6 +35,7 @@
       shader: unshaded
     - state: panel_open
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
     - state: electrified_ai
       sprite: Interface/Misc/ai_hud.rsi
       shader: unshaded
@@ -45,6 +46,10 @@
       shader: unshaded
       visible: false
       map: ["enum.ElectrifiedLayers.Sparks"]
+    - state: sparks
+      map: ["enum.DoorVisualLayers.BaseEmagging"]
+      shader: unshaded
+      visible: false
   - type: AnimationPlayer
   - type: Physics
   - type: Fixtures

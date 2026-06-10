@@ -10,6 +10,19 @@ news-read-ui-notification-off =  ̶♫̶
 news-read-ui-notification-on = ♫
 news-read-ui-no-author = Anonymous
 news-read-ui-author-prefix = Author:
+# DS14-start
+news-read-ui-like-tooltip = Like
+news-read-ui-dislike-tooltip = Dislike
+news-read-ui-comments-title = Comments:
+news-read-ui-no-comments = No comments
+news-read-ui-comment-placeholder = Enter a comment...
+news-read-ui-comment-send = Send
+news-read-ui-comment-send-tooltip = Send comment
+news-read-ui-comment-author = [color=Gray]{ $author }[/color] - { $time }
+news-read-ui-comment-limit = Comment limit reached (50)
+news-read-ui-comment-cooldown = Wait another { $seconds } sec.
+news-read-ui-anonymous = Anonymous
+# DS14-end
 news-write-ui-default-title = News Management
 news-write-ui-articles-label = Articles:
 news-write-ui-delete-text = Delete

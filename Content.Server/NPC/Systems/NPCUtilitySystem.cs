@@ -5,9 +5,7 @@ using Content.Server.NPC.Queries.Considerations;
 using Content.Server.NPC.Queries.Curves;
 using Content.Server.NPC.Queries.Queries;
 using Content.Server.Nutrition.Components;
-using Content.Server.Temperature.Components;
 using Content.Shared.Chemistry.EntitySystems;
-using Content.Shared.Damage;
 using Content.Shared.Examine;
 using Content.Shared.Fluids.Components;
 using Content.Shared.Inventory;
@@ -30,6 +28,10 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 using Content.Shared.Atmos.Components;
 using System.Linq;
+using Content.Shared.Damage.Components;
+using Content.Shared.Temperature.Components;
+using Content.Shared.Stealth;
+using Content.Shared.Stealth.Components;
 
 namespace Content.Server.NPC.Systems;
 
@@ -54,6 +56,7 @@ public sealed class NPCUtilitySystem : EntitySystem
     [Dependency] private readonly EntityWhitelistSystem _whitelistSystem = default!;
     [Dependency] private readonly MobThresholdSystem _thresholdSystem = default!;
     [Dependency] private readonly TurretTargetSettingsSystem _turretTargetSettings = default!;
+    [Dependency] private readonly SharedStealthSystem _stealth = default!;
 
     private EntityQuery<PuddleComponent> _puddleQuery;
     private EntityQuery<TransformComponent> _xformQuery;
@@ -185,7 +188,7 @@ public sealed class NPCUtilitySystem : EntitySystem
                     return 0f;
 
                 var nutrition = _ingestion.TotalNutrition(targetUid, owner);
-                if (nutrition <= 1.0f)
+                if (nutrition == 0.0f)
                     return 0f;
 
                 return 1f;
@@ -299,6 +302,15 @@ public sealed class NPCUtilitySystem : EntitySystem
                     return 1f;
 
                 return (float) ev.Count / ev.Capacity;
+            }
+            case TargetIsVisibleCon:
+            {
+                if (!TryComp(targetUid, out StealthComponent? stealth))
+                    return 1f; // If there is no StealthComponent, we see it.
+
+                    // Checking the visibility level
+                var visibility = _stealth.GetVisibility(targetUid, stealth);
+                return visibility >= 0.5f ? 1f : 0f; // Visibility threshold 0.5
             }
             case TargetHealthCon con:
             {
@@ -601,5 +613,13 @@ public readonly record struct UtilityResult(Dictionary<EntityUid, float> Entitie
             return EntityUid.Invalid;
 
         return Entities.MinBy(x => x.Value).Key;
+    }
+
+    /// <summary>
+    /// Returns a GetEnumerable sorted in descending score.
+    /// </summary>
+    public IEnumerable<KeyValuePair<EntityUid, float>> GetEnumerable()
+    {
+        return Entities.OrderByDescending(x => x.Value);
     }
 }

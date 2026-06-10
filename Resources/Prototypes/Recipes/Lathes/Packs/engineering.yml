@@ -3,6 +3,7 @@
 - type: latheRecipePack
   id: ToolsStatic
   recipes:
+  - VoiceSensor
   - Wirecutter
   - Screwdriver
   - Welder
@@ -65,6 +66,7 @@
   - JawsOfLife
   - Fulton
   - FultonBeacon
+  - BluespaceHandHeldMassScannerEmpty #DS14
 
 - type: latheRecipePack
   id: AtmosTools

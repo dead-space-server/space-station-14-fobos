@@ -11,3 +11,17 @@
       state: icon
   - type: InstantAction
     event: !type:ToggleNightVisionActionEvent
+
+- type: entity
+  id: ActionToggleNightVisionFelenid
+  name: Переключить ночное зрение
+  description: Ой!
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    useDelay: 120
+    icon:
+      sprite: _DeadSpace/Clothing/Eyes/Hud/pnv.rsi
+      state: icon
+  - type: InstantAction
+    event: !type:ToggleNightVisionActionEvent

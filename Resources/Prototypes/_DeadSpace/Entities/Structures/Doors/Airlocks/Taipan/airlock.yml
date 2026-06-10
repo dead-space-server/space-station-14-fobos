@@ -62,6 +62,7 @@
       shader: unshaded
     - state: panel_open
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
     - state: electrified_ai
       sprite: Interface/Misc/ai_hud.rsi
       shader: unshaded
@@ -142,6 +143,7 @@
       shader: unshaded
     - state: panel_open
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
     - state: electrified_ai
       sprite: Interface/Misc/ai_hud.rsi
       shader: unshaded

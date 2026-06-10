@@ -46,7 +46,7 @@
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,13,5
+    - 0,0,15,5
   - type: StorageFill
     contents:
     - id: ClothingNeckCloakpvrsifvlAlt
@@ -62,6 +62,7 @@
     - id: ClothingHeadsetpvrsifvlAlt
     - id: WeaponHeritagePKApvrsifvlAlt
     - id: PaperLawpvrsifvlAlt
+    - id: trayScannerpvrsifvlAlt
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -76,7 +77,7 @@
   components:
   - type: Storage
     grid:
-    - 0,0,9,1
+    - 0,0,7,1
   - type: Sprite
     sprite: _DeadSpace/Sponsor/pvrsifvlAlt/belt.rsi
   - type: Clothing
@@ -88,11 +89,10 @@
       - id: PowerDrillpvrsifvlAlt
       - id: WelderExperimentalpvrsifvlAlt
       - id: MultitoolpvrsifvlAlt
-      - id: SyndicateJawsOfLifepvrsifvlAlt
+      - id: JawsOfLifepvrsifvlAlt
       - id: GasAnalyzerpvrsifvlAlt
       - id: MineralScannerpvrsifvlAlt
       - id: HandHeldMassScannerpvrsifvlAlt
-      - id: trayScannerpvrsifvlAlt
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -160,6 +160,7 @@
 
 - type: entity
   parent: [WeaponCrusherGlaive, BaseSecurityCargoContraband]
+  categories: [ HideSpawnMenu ]
   id: WeaponCrusherpvrsifvlAlt
   name: синтоцепсы ETL//07
   description: Модифицированный образец протокинетического ускорителя. Осторожно — у этих организмов может развиться сознание. Если это произошло, рекомендуем немедленно их уничтожить
@@ -246,7 +247,7 @@
 
 #Hardsuit
 - type: entity
-  parent: ClothingOuterHardsuitAtmos
+  parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitpvrsifvlAlt
   name: разведывательный скафандр ETL//07
   description: Легковесный скафандр разведывательного назначения в боевой комплектации. Передовые бронепластины скрыты за стильной накидкой. Разработан и спроектирован компанией Nakamura Engineering по индивидуальному заказу.
@@ -265,7 +266,7 @@
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.4
+        Piercing: 0.6
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
@@ -355,8 +356,13 @@
     solution: hypospray
   - type: ExaminableSolution
     solution: hypospray
-  - type: Hypospray
-    onlyAffectsMobs: false
+  - type: Injector
+    solutionName: hypospray
+    ignoreClosed: false
+    activeModeProtoId: HyposprayDynamicMode
+    allowedModes:
+    - HyposprayDynamicMode
+    - HyposprayInjectMode
   - type: UseDelay
     delay: 0.5
   - type: StaticPrice
@@ -392,6 +398,7 @@
   id: ClothingUniformJumpsuitpvrsifvlAlt
   name: комбинезон разведывательного специалиста
   description: Текстилевый комбинезон, обшитый в некоторых местах толстой кожей. Отличается красной опознавательной повязкой на правой руке. Сшит со всей душой любимым человеком с целью одарить теплом, под воротником виднеется фамилия «дю Терас».
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/pvrsifvlAlt/jumpsuit.rsi
@@ -499,8 +506,8 @@
 
 #JawsOfLife
 - type: entity
-  parent: SyndicateJawsOfLife
-  id: SyndicateJawsOfLifepvrsifvlAlt
+  parent: JawsOfLife
+  id: JawsOfLifepvrsifvlAlt
   name: челюсти жизни ETL//07
   description: Но ты перестал верить в чудеса, кем мечтал — тем и стал. Модифицированы компанией Nakamura Engineering по индивидуальному заказу.
   categories: [ HideSpawnMenu ]
@@ -662,7 +669,6 @@
   - type: ToggleCellDraw
   - type: PowerCellDraw
     drawRate: 2.4 # ~5 minutes on a medium power cell.
-    useRate: 0
   - type: Sprite
     sprite: _DeadSpace/Sponsor/pvrsifvlAlt/tools_mineralscanner.rsi
     layers:

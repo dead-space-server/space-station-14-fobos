@@ -28,4 +28,10 @@ public sealed partial class OreVeinComponent : Component
     /// </summary>
     [DataField]
     public ProtoId<OrePrototype>? CurrentOre;
+
+    /// <summary>
+    /// Runtime multiplier applied when this vein is destroyed by special mining tools.
+    /// </summary>
+    [ViewVariables]
+    public int YieldMultiplier = 1;
 }

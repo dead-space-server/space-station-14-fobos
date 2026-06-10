@@ -1,0 +1,27 @@
+- type: entity
+  parent: Holoprojector
+  id: HoloprojectorRND
+  name: проектор РНД голобарьера
+  description: Создаёт барьер, который не пропускает через себя аномальных сущностей.
+  components:
+    - type: HolosignProjector
+      signProto: HolosignRND
+      chargeUse: 90
+    - type: Sprite
+      sprite: _DeadSpace/Objects/Devices/Holoprojectors/rnd.rsi
+      state: icon
+    - type: Tag
+      tags:
+        - HolofanProjector
+    - type: StaticPrice
+      price: 50
+
+- type: entity
+  parent: HoloprojectorRND
+  id: HoloprojectorRNDEmpty
+  suffix: Пустой
+  components:
+  - type: ItemSlots
+    slots:
+      cell_slot:
+        name: power-cell-slot-component-slot-name-default

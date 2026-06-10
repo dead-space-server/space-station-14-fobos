@@ -11,7 +11,7 @@
   - type: Sprite
     sprite: _DeadSpace/Sponsor/Mobs/Species/Xenomorph/organs.rsi
   - type: Organ
-  - type: Food
+  - type: Edible
   - type: Extractable
     grindableSolutionName: organ
   - type: SolutionContainerManager
@@ -34,8 +34,6 @@
   id: BaseXenoOrgan
   parent: BaseXenoOrganUnGibbable
   abstract: true
-  components:
-  - type: Gibbable
 
 - type: entity
   id: OrganXenoBrain

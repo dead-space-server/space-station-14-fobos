@@ -1,44 +1,23 @@
-using System;
-using System.Collections.Generic;
-using Content.Shared.Chemistry.Reagent;
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
 using Content.Shared.Medical;
 using Content.Shared.DeadSpace.AntiAlcohol;
 using Content.Shared.EntityEffects;
-using Content.Shared.FixedPoint;
-using Content.Shared.Damage;
 using Content.Shared.Damage.Systems;
 
 namespace Content.Server.DeadSpace.AntiAlcohol;
 
-public sealed class AntiAlcoholSystem : EntitySystem
+public sealed partial class AntiAlcoholSystem : EntityEffectSystem<AntiAlcoholWatcherComponent, AntiAlcoholImplantEffect>
 {
     [Dependency] private readonly VomitSystem _vomit = default!;
     [Dependency] private readonly DamageableSystem _damageableSystem = default!;
-    public override void Initialize()
+
+    protected override void Effect(Entity<AntiAlcoholWatcherComponent> entity, ref EntityEffectEvent<AntiAlcoholImplantEffect> args)
     {
-        base.Initialize();
-        SubscribeLocalEvent<ExecuteEntityEffectEvent<AntiAlcoholImplantEffect>>(OnExecuteAntiAlcoholEffect);
-    }
-
-    private void OnExecuteAntiAlcoholEffect(ref ExecuteEntityEffectEvent<AntiAlcoholImplantEffect> args)
-    {
-        if (args.Args is not EntityEffectReagentArgs reagentArgs)
-            return;
-
-        if (!TryComp(reagentArgs.TargetEntity, out AntiAlcoholWatcherComponent? watcher))
-            return;
-
-        if (reagentArgs.Reagent is not { } reagent || reagentArgs.Source is not { } solution)
-            return;
-
-        var quantity = reagentArgs.Quantity.Float();
-        var scale = reagentArgs.Scale.Float();
-        var effectMultiplier = quantity * scale;
-
-        var target = reagentArgs.TargetEntity;
+        var target = entity.Owner;
         _vomit.Vomit(target);
 
-        var finalDamage = watcher.Damage * effectMultiplier;
+        var finalDamage = entity.Comp.Damage * args.Scale;
         _damageableSystem.TryChangeDamage(target, finalDamage);
     }
 }

@@ -20,7 +20,7 @@ using Content.Shared.Roles;
 using Content.Server.GameTicking.Rules.Components;
 using Content.Server.Chat.Systems;
 using Content.Server.Decals;
-using Robust.Shared.Map;
+using Content.Shared.Chat;
 using Content.Shared.Maps;
 using Content.Shared.Decals;
 using Content.Shared.Mobs.Systems;
@@ -42,7 +42,6 @@ public sealed class UnitologyHeadSystem : EntitySystem
     [Dependency] private readonly AntagSelectionSystem _antag = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
     [Dependency] private readonly DecalSystem _decals = default!;
-    [Dependency] private readonly IMapManager _mapMan = default!;
     [Dependency] private readonly TurfSystem _turf = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;

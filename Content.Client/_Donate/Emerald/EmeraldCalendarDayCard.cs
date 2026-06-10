@@ -56,7 +56,6 @@ public sealed class EmeraldCalendarDayCard : Control
     private TextureRect? _textureRect;
     private EmeraldPanel? _spriteContainer;
     private Texture? _fallbackTexture;
-    private Texture? _lockTexture;
     private Texture? _lootboxTexture;
 
     public event Action<int, bool>? OnClaimRequest;

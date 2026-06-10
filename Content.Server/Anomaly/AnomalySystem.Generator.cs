@@ -107,7 +107,7 @@ public sealed partial class AnomalySystem
 
             // no air-blocked areas.
             if (_atmosphere.IsTileSpace(grid, xform.MapUid, tile) ||
-                _atmosphere.IsTileAirBlocked(grid, tile, mapGridComp: gridComp))
+                _atmosphere.IsTileAirBlockedCached(grid, tile))
             {
                 continue;
             }
@@ -177,7 +177,7 @@ public sealed partial class AnomalySystem
             grid = xform.GridUid.Value;
         }
 
-        var author = EntityManager.GetComponent<GeneratingAnomalyGeneratorComponent>(uid).Author; // DS14
+        var author = Comp<GeneratingAnomalyGeneratorComponent>(uid).Author; // DS14
 
         SpawnOnRandomGridLocation(grid, component.SpawnerPrototype);
         RemComp<GeneratingAnomalyGeneratorComponent>(uid);

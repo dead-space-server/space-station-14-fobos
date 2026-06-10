@@ -94,7 +94,7 @@
   components:
   - type: Storage
     grid:
-    - 0,0,11,1
+    - 0,0,7,1
   - type: Sprite
     sprite: _DeadSpace/Sponsor/3eilado/belt.rsi
   - type: Clothing
@@ -104,7 +104,7 @@
   - type: StorageFill
     contents:
       - id: PowerDrill3eilado
-      - id: SyndicateJawsOfLife3eilado
+      - id: JawsOfLife3eilado
       - id: WelderExperimental3eilado
       - id: Multitool3eilado
       - id: HandHeldMassScanner3eilado
@@ -159,7 +159,7 @@
       coefficients:
         Blunt: 0.5
         Slash: 0.5
-        Piercing: 0.4
+        Piercing: 0.6
         Heat: 0.5
         Radiation: 0.5
         Caustic: 0.5
@@ -206,16 +206,8 @@
   - type: Clothing
     sprite: _DeadSpace/Sponsor/3eilado/magboots.rsi
   - type: ClothingSpeedModifier
-    walkModifier: 1.3
-    sprintModifier: 1.3
-  - type: PowerCellDraw
-    drawRate: 4
-  - type: ToggleCellDraw
-  - type: ItemSlots
-    slots:
-      cell_slot:
-        name: power-cell-slot-component-slot-name-default
-        startingItem: PowerCellAntiqueProto
+    walkModifier: 1.0
+    sprintModifier: 1.0
 
 # Law
 - type: entity
@@ -254,8 +246,8 @@
 - type: entity
   name: костяные челюсти Ловела
   description: Судя по этому "костяному ключу" Ловел сломал кому-то зубы мудрости.
-  parent: SyndicateJawsOfLife
-  id: SyndicateJawsOfLife3eilado
+  parent: JawsOfLife
+  id: JawsOfLife3eilado
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -396,7 +388,7 @@
     color: red
     netsync: false
   - type: Appearance
-  - type: ToggleableLightVisuals
+  - type: ToggleableVisuals
     spriteLayer: blade
     inhandVisuals:
       left:
@@ -460,7 +452,7 @@
     color: red
     netsync: false
   - type: Appearance
-  - type: ToggleableLightVisuals
+  - type: ToggleableVisuals
     spriteLayer: blade
     inhandVisuals:
       left:
@@ -830,8 +822,13 @@
     solution: hypospray
   - type: ExaminableSolution
     solution: hypospray
-  - type: Hypospray
-    onlyAffectsMobs: false
+  - type: Injector
+    solutionName: hypospray
+    ignoreClosed: false
+    activeModeProtoId: HyposprayDynamicMode
+    allowedModes:
+    - HyposprayDynamicMode
+    - HyposprayInjectMode
   - type: UseDelay
     delay: 1.0
 
@@ -993,7 +990,7 @@
     slots:
       cell_slot:
         name: power-cell-slot-component-slot-name-default
-        startingItem: PowerCellAntiqueProto
+        startingItem: PowerCellMedium 
 
 - type: entity
   id: HoloFan3eilado
@@ -1042,6 +1039,7 @@
       types:
         Blunt: 20
         Structural: 15
+    wideAnimationRotation: -135
 
 - type: entity
   parent: [ClothingBeltBase, ClothingSlotBase]

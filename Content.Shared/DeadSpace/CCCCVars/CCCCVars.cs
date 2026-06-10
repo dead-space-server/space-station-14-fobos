@@ -66,6 +66,23 @@ public sealed class CCCCVars
         CVarDef.Create("jukebox.volume", 1f, CVar.CLIENTONLY | CVar.ARCHIVE);
 
     /*
+     * Alert Level
+     */
+
+    public static readonly CVarDef<float> AlertLevelVolume =
+        CVarDef.Create("audio.alert_level_volume", 1f, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    /*
+     * Boss music
+     */
+
+    public static readonly CVarDef<bool> BossMusicEnabled =
+        CVarDef.Create("audio.boss_music_enabled", true, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    public static readonly CVarDef<float> BossMusicVolume =
+        CVarDef.Create("audio.boss_music_volume", 1f, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    /*
     * Taipan
     */
 
@@ -74,6 +91,22 @@ public sealed class CCCCVars
     /// </summary>
     public static readonly CVarDef<bool> TaipanEnabled =
         CVarDef.Create("taipan.enabled", false, CVar.SERVERONLY);
+
+    /*
+    * Lavaland
+    */
+
+    /// <summary>
+    /// Should stations auto-generate Lavaland on round start.
+    /// </summary>
+    public static readonly CVarDef<bool> LavalandAutoGenerate =
+        CVarDef.Create("lavaland.auto_generate", true, CVar.SERVERONLY);
+
+    /// <summary>
+    /// Moves long-stuck dynamic physics bodies out of static hard overlaps.
+    /// </summary>
+    public static readonly CVarDef<bool> PhysicsSanityEnabled =
+        CVarDef.Create("physics.sanity_enabled", true, CVar.SERVERONLY);
 
     /*
     * Lobby ui

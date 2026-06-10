@@ -1,6 +1,7 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead.Components;
 using Content.Shared.DeadSpace.Necromorphs.InfectionDead;
@@ -47,7 +48,7 @@ public sealed class InfectionDeadSystem : SharedInfectionDeadSystem
 
         var necromorf = GetRandomNecromorfPrototypeId(isAnimal);
 
-        if (EntityManager.TryGetComponent<NecromorfAfterInfectionComponent>(uid, out var necroComponent))
+        if (TryComp<NecromorfAfterInfectionComponent>(uid, out var necroComponent))
             necromorf = necroComponent.NecroPrototype;
 
         if (necromorf != null)

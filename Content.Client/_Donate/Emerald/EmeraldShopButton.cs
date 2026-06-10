@@ -12,7 +12,6 @@ namespace Content.Client._Donate.Emerald;
 public sealed class EmeraldShopButton : Control
 {
     [Dependency] private readonly IResourceCache _resourceCache = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
 
     private const int BaseFontSize = 12;
 

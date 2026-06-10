@@ -37,6 +37,7 @@ ui-options-ambient-music-volume = Громкость музыки окружен
 ui-options-ambience-volume = Громкость окружения:
 ui-options-lobby-volume = Громкость лобби и окончания раунда:
 ui-options-interface-volume = Громкость интерфейса:
+ui-options-alert-level-volume = Громкость уведомлений кодов угрозы:
 ui-options-ambience-max-sounds = Кол-во одновременных звуков окружения:
 ui-options-lobby-music = Музыка в лобби
 ui-options-restart-sounds = Звуки перезапуска раунда
@@ -166,6 +167,9 @@ ui-options-function-swap-hands = Поменять руки
 ui-options-function-move-stored-item = Переместить хранящийся объект
 ui-options-function-rotate-stored-item = Повернуть хранящийся объект
 ui-options-function-save-item-location = Сохранить расположение объекта
+#DS14-start
+ui-options-function-toggle-item-priority = Переключить приоритет объекта
+#DS14-end
 ui-options-static-storage-ui = Закрепить интерфейс хранилища на хотбаре
 ui-options-function-smart-equip-backpack = Умная экипировка в рюкзак
 ui-options-function-smart-equip-suit-storage = Умная экипировка в хранилище скафандра
@@ -400,4 +404,4 @@ ui-options-overlay-ghost-hide-distance = Диапазон скрытия нал�
 
 ui-options-save-button = Сохранить
 ui-options-function-open-language-menu = Открыть меню выбора языка
-##DS14-end 
+##DS14-end

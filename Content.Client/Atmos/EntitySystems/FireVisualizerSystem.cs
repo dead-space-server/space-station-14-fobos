@@ -18,6 +18,7 @@ public sealed class FireVisualizerSystem : VisualizerSystem<FireVisualsComponent
         base.Initialize();
 
         SubscribeLocalEvent<FireVisualsComponent, ComponentInit>(OnComponentInit);
+        SubscribeLocalEvent<FireVisualsComponent, ComponentStartup>(OnComponentStartup); // DS14
         SubscribeLocalEvent<FireVisualsComponent, ComponentShutdown>(OnShutdown);
     }
 
@@ -49,12 +50,22 @@ public sealed class FireVisualizerSystem : VisualizerSystem<FireVisualsComponent
         if (component.Sprite != null)
             SpriteSystem.LayerSetRsi((uid, sprite), FireVisualLayers.Fire, new ResPath(component.Sprite));
 
+        // DS14-start
+        if (MetaData(uid).EntityLifeStage >= EntityLifeStage.Initialized)
+            UpdateAppearance(uid, component, sprite, appearance);
+    }
+
+    private void OnComponentStartup(EntityUid uid, FireVisualsComponent component, ComponentStartup args)
+    {
+        if (!TryComp<SpriteComponent>(uid, out var sprite) || !TryComp(uid, out AppearanceComponent? appearance))
+            return;
+        // DS14-end
         UpdateAppearance(uid, component, sprite, appearance);
     }
 
     protected override void OnAppearanceChange(EntityUid uid, FireVisualsComponent component, ref AppearanceChangeEvent args)
     {
-        if (args.Sprite != null)
+        if (args.Sprite != null && MetaData(uid).EntityLifeStage >= EntityLifeStage.Initialized) // DS14
             UpdateAppearance(uid, component, args.Sprite, args.Component);
     }
 

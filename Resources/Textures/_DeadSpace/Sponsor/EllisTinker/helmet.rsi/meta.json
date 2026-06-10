@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-4.0",
+  "copyright": "Created by 3eilado (discord) for Space Station 14 server Мёртвый Космос Эрида Фронтир",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "icon",
+      "directions": 1
+    },
+    {
+      "name": "icon-flash",
+      "directions": 1
+    },        
+    {
+      "name": "off-equipped-HELMET",
+      "directions": 4
+    },
+    {
+      "name": "on-equipped-HELMET",
+      "directions": 4
+    }
+  ]
+}

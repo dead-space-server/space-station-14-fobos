@@ -62,11 +62,13 @@ ent-ObeliskStoper = бета001
     .desc = Прототип, созданный на основе ксеноартефактов. Останавливает пси-влияние некрообелиска на некоторое время. Одноразовый.
 ent-CrateObeliskStoper = ящик с бета001
     .desc = Останавливает некрообелиск на некоторое время.
+    .suffix = Защищённый
 
 # ZetaOne
 
 ent-CrateZetaOneMedipen = ящик с ZetaOne
     .desc = Ящик с медипенами ZetaOne лечащими некроинфецию.
+    .suffix = Защищённый
 ent-ZetaOneMedipen = медипен ZetaOne
     .desc = Содержит в себе лекарство от некроинфеции.
 reagent-name-zetaone = ZetaOne

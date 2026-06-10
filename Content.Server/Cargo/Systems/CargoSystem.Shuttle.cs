@@ -6,6 +6,7 @@ using Content.Shared.Cargo.Components;
 using Content.Shared.Cargo.Events;
 using Content.Shared.Cargo.Prototypes;
 using Content.Shared.CCVar;
+using Content.Shared.Stacks; //DS14
 using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
 
@@ -18,6 +19,7 @@ public sealed partial class CargoSystem
      */
 
     private static readonly SoundPathSpecifier ApproveSound = new("/Audio/Effects/Cargo/ping.ogg");
+    private static readonly ProtoId<StackPrototype> CashStackType = "Credit"; //DS14
     private bool _lockboxCutEnabled;
 
     private void InitializeShuttle()
@@ -215,12 +217,16 @@ public sealed partial class CargoSystem
     private void OnPalletSale(EntityUid uid, CargoPalletConsoleComponent component, CargoPalletSellMessage args)
     {
         var xform = Transform(uid);
+        //DS14-Start
+        var station = _station.GetOwningStation(uid);
 
-        if (_station.GetOwningStation(uid) is not { } station ||
-            !TryComp<StationBankAccountComponent>(station, out var bankAccount))
-        {
+        StationBankAccountComponent? bankAccount = null;
+        if (station != null)
+            TryComp(station.Value, out bankAccount);
+
+        if (!component.GiveOutMoney && bankAccount == null)
+            //DS14-End
             return;
-        }
 
         if (xform.GridUid is not { } gridUid)
         {
@@ -230,43 +236,54 @@ public sealed partial class CargoSystem
             return;
         }
 
-        if (!SellPallets(gridUid, station, out var goods))
+        if (!SellPallets(gridUid, station ?? uid, out var goods)) //DS14
             return;
-
-        var baseDistribution = CreateAccountDistribution((station, bankAccount));
-        foreach (var (_, sellComponent, value) in goods)
+        //DS14-Start
+        if (component.GiveOutMoney)
         {
-            Dictionary<ProtoId<CargoAccountPrototype>, double> distribution;
-            if (sellComponent != null)
+            var totalValue = (int) Math.Round(goods.Sum(good => good.Item3));
+            if (totalValue > 0)
+                _stack.SpawnAtPosition(totalValue, CashStackType, xform.Coordinates);
+        }
+        else
+        {
+            var bankAccountEnt = bankAccount!;
+            var stationEnt = station!.Value;
+            var baseDistribution = CreateAccountDistribution((stationEnt, bankAccountEnt));
+            foreach (var (_, sellComponent, value) in goods)
             {
-                var cut = _lockboxCutEnabled ? bankAccount.LockboxCut : bankAccount.PrimaryCut;
-                distribution = new Dictionary<ProtoId<CargoAccountPrototype>, double>
+                Dictionary<ProtoId<CargoAccountPrototype>, double> distribution;
+                if (sellComponent != null)
                 {
-                    { sellComponent.OverrideAccount, cut },
-                    { bankAccount.PrimaryAccount, 1.0 - cut },
-                // DS14-start
-            };
-            }
-            else
-            {
-                if (component.IsTaipan)
-                {
+                    var cut = _lockboxCutEnabled ? bankAccountEnt.LockboxCut : bankAccountEnt.PrimaryCut;
                     distribution = new Dictionary<ProtoId<CargoAccountPrototype>, double>
                     {
-                        { "Taipan", 1.0 },
+                        { sellComponent.OverrideAccount, cut },
+                        { bankAccountEnt.PrimaryAccount, 1.0 - cut },
                     };
                 }
                 else
                 {
-                    distribution = baseDistribution;
+                    if (component.IsTaipan)
+                    {
+                        distribution = new Dictionary<ProtoId<CargoAccountPrototype>, double>
+                        {
+                            { "Taipan", 1.0 },
+                        };
+                    }
+                    else
+                    {
+                        distribution = baseDistribution;
+                    }
                 }
-                // DS14-end
+
+                UpdateBankAccount((stationEnt, bankAccountEnt), (int) Math.Round(value), distribution, false);
             }
 
-            UpdateBankAccount((station, bankAccount), (int) Math.Round(value), distribution, false);
+            Dirty(stationEnt, bankAccountEnt);
         }
+        //DS14-End
 
-        Dirty(station, bankAccount);
         _audio.PlayPvs(ApproveSound, uid);
         UpdatePalletConsoleInterface(uid);
     }

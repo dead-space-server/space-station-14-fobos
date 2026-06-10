@@ -155,11 +155,13 @@
   - ClothingUniformJumpsuitChef
   - ClothingUniformJumpskirtChef
   - ClothingUniformJumpsuitClown
+  - ClothingUniformJumpskirtClown
   - ClothingUniformJumpsuitHydroponics
   - ClothingUniformJumpskirtHydroponics
   - ClothingUniformJumpsuitJanitor
   - ClothingUniformJumpskirtJanitor
   - ClothingUniformJumpsuitLawyerBlack
+  - ClothingUniformJumpskirtLawyerBlack
   - ClothingUniformJumpsuitLibrarian
   - ClothingUniformJumpskirtColorLightBrown
   - ClothingUniformJumpsuitMime
@@ -167,6 +169,7 @@
   - ClothingUniformJumpsuitMusician
   - ClothingUniformJumpsuitMimeSexyWhite # DS14
   - ClothingUniformJumpsuitMimeSexyBlack # DS14
+  - ClothingBackpackTailbag # DS14
 
 - type: latheRecipePack
   id: WinterCoats
@@ -234,6 +237,7 @@
   - CarpetPurple
   - CarpetCyan
   - CarpetWhite
+  - CarpetSkyBlue
 
 - type: latheRecipePack
   id: ClothingCentComm

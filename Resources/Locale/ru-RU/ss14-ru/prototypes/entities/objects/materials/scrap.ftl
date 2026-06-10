@@ -85,3 +85,5 @@ ent-ScrapGeneratorFrame = каркас генератора
 ent-ScrapGeneratorFuelTank = топливный бак
     .desc = Топливный бак из генератора С.У.П.Е.Р.П.А.К.М.А.Н.. Индикатор показывает, что топлива осталось немного.
     .suffix = { ent-BaseScrap.suffix }
+ent-PinpointerMothershipPiece = сломанная часть пинпоинтера ядра
+    .desc = часть пинпоинтера ядра. Вам нужно 4 части чтобы починить его.

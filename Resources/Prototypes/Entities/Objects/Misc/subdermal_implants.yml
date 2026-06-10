@@ -77,13 +77,14 @@
 #Security implants
 
 - type: entity
-  parent: BaseSubdermalImplant
+  parent: DeathRattleImplant #DS14
   id: TrackingImplant
   name: tracking implant
   description: This implant has a tracking device attached to the suit sensor network.
   categories: [ HideSpawnMenu ]
   components:
     - type: SubdermalImplant
+      permanent: true #DS14
       whitelist:
         components:
         - MobState # admeme implanting a chair with tracking implant needs to give the chair mobstate so it can die first
@@ -98,6 +99,14 @@
     - type: StationLimitedNetwork
     - type: WirelessNetworkConnection
       range: 500
+#DS14-start
+    - type: RattleOnTrigger
+      radioChannel: Security
+    - type: TriggerOnMobstateChange
+      mobState:
+      - Critical
+      - Dead
+#DS14-end
 
 #Traitor implants
 
@@ -239,6 +248,26 @@
       enum.ChameleonControllerKey.Key:
         type: ChameleonControllerBoundUserInterface
 
+- type: entity
+  parent: BaseSubdermalImplant
+  id: VoiceMaskImplant
+  name: identity mask implant
+  description: This implant allows you to change your identity at will.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: SubdermalImplant
+    implantAction: ActionChangeVoiceMaskImplant
+  - type: VoiceMask
+    overrideIdentity: true
+    changeIDName: true
+  - type: UserInterface
+    interfaces:
+      enum.VoiceMaskUIKey.Key:
+        type: VoiceMaskBoundUserInterface
+  - type: Tag
+    tags:
+    - SubdermalImplant
+
 #Nuclear Operative/Special Exclusive implants
 
 - type: entity
@@ -313,7 +342,6 @@
       tags:
       - SubdermalImplant
       - HideContextMenu
-      - MacroBomb
 
 - type: entity
   parent: BaseSubdermalImplant
@@ -339,7 +367,6 @@
     tags:
     - SubdermalImplant
     - HideContextMenu
-    - DeathAcidifier
 
 - type: entity
   parent: BaseSubdermalImplant

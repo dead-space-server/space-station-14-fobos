@@ -28,4 +28,9 @@ public sealed partial class GoliathSummonTentacleAction : WorldTargetActionEvent
     /// </summary>
     [DataField]
     public int ExtraSpawns = 3;
+
+//DS14-start
+    [DataField, AutoNetworkedField]
+    public LocId PopupMessage = "tentacle-ability-use-popup";
+//DS14-end
 };

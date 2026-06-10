@@ -8,28 +8,36 @@ using Robust.Shared.Serialization;
 namespace Content.Shared.DeadSpace.ERT;
 
 [Serializable, NetSerializable]
-public sealed class ErtResponceConsoleBoundUserInterfaceState : BoundUserInterfaceState
+public sealed class ErtResponseConsoleBoundUserInterfaceState : BoundUserInterfaceState
 {
     public List<ProtoId<ErtTeamPrototype>> Teams = new();
     public int Money = new();
+    public bool IsAuthorized = true;
+    public string? AuthorizationMessage;
 
-    public ErtResponceConsoleBoundUserInterfaceState(List<ProtoId<ErtTeamPrototype>> teams, int money)
+    public ErtResponseConsoleBoundUserInterfaceState(
+        List<ProtoId<ErtTeamPrototype>> teams,
+        int money,
+        bool isAuthorized = true,
+        string? authorizationMessage = null)
     {
         Teams = teams;
         Money = money;
+        IsAuthorized = isAuthorized;
+        AuthorizationMessage = authorizationMessage;
     }
 }
 
 
 [Serializable, NetSerializable]
-public sealed class ErtResponceConsoleUiButtonPressedMessage : BoundUserInterfaceMessage
+public sealed class ErtResponseConsoleUiButtonPressedMessage : BoundUserInterfaceMessage
 {
-    public readonly ErtResponceConsoleUiButton Button;
+    public readonly ErtResponseConsoleUiButton Button;
     public string? Team;
     public string? CallReason;
 
-    public ErtResponceConsoleUiButtonPressedMessage(
-        ErtResponceConsoleUiButton button,
+    public ErtResponseConsoleUiButtonPressedMessage(
+        ErtResponseConsoleUiButton button,
         string? team = null,
         string? callReason = null
         )
@@ -42,13 +50,13 @@ public sealed class ErtResponceConsoleUiButtonPressedMessage : BoundUserInterfac
 
 
 [Serializable, NetSerializable]
-public enum ErtResponceConsoleUiButton : byte
+public enum ErtResponseConsoleUiButton : byte
 {
-    ResponceErt
+    ResponseErt
 }
 
 [Serializable, NetSerializable]
-public enum ErtResponceConsoleUiKey : byte
+public enum ErtResponseConsoleUiKey : byte
 {
     Key
 }

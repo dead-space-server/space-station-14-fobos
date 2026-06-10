@@ -34,4 +34,4 @@ paper-law-thezuti = [head=3]Приказ на разрешение на испо
     ═════════════════════════════════════
     Место для печатей
 
-marking-HumanHairTheZuti = Бывалый шахтёр (TheZuTi, Доминатор)
+marking-HumanHairTheZuTi = Бывалый шахтёр (TheZuTi, Доминатор)

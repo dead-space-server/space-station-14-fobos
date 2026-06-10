@@ -80,7 +80,9 @@ public sealed class PlayTimeTrackingSystem : EntitySystem
         {
             trackers.Add(PlayTimeTrackingShared.TrackerAdmin);
             trackers.Add(PlayTimeTrackingShared.TrackerOverall);
-            return;
+
+            if (!_cfg.GetCVar(CCVars.GameAdminJobTracking))
+                return;
         }
 
         if (!IsPlayerAlive(player))
@@ -281,6 +283,11 @@ public sealed class PlayTimeTrackingSystem : EntitySystem
     /// <returns>Returns true if all requirements were met or there were no requirements.</returns>
     public bool IsAllowed(ICommonSession player, ProtoId<AntagPrototype> antag)
     {
+        // DS14-sponsors-start
+        if (_sponsorsManager?.TryGetInfo(player.UserId, out var sponsorInfo) == true && sponsorInfo.HavePriorityAntag)
+            return true;
+        // DS14-sponsors-end
+
         if (!_cfg.GetCVar(CCVars.GameRoleTimers))
             return true;
 

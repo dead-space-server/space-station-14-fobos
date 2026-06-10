@@ -1,9 +1,8 @@
 using Content.Shared.ActionBlocker;
 using Content.Shared.Administration.Logs;
-using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Standing;
-using Robust.Shared.Physics.Systems;
 using Robust.Shared.Timing;
 
 namespace Content.Shared.Mobs.Systems;
@@ -96,6 +95,19 @@ public partial class MobStateSystem : EntitySystem
             return false;
         return component.CurrentState is MobState.Invalid;
     }
-
+    // DS14-start
+    /// <summary>
+    ///  Check if a Mob is PreCritical
+    /// </summary>
+    /// <param name="target">Target Entity</param>
+    /// <param name="component">The MobState component owned by the target</param>
+    /// <returns>If the entity is PreCritical</returns>
+    public bool IsPreCritical(EntityUid target, MobStateComponent? component = null)
+    {
+        if (!_mobStateQuery.Resolve(target, ref component, false))
+            return false;
+        return component.CurrentState == MobState.PreCritical;
+    }
+    // DS14-end
     #endregion
 }

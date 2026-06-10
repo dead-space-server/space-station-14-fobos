@@ -34,12 +34,6 @@ public sealed partial class SpeciesPrototype : IPrototype
     [DataField(required: true)]
     public bool RoundStart { get; private set; } = false;
 
-    /// <summary>
-    /// Whether the species is available to non sponsors (In the character editor)
-    /// </summary>
-    [DataField]
-    public bool SponsorOnly { get; private set; } = false;
-
     // The below two are to avoid fetching information about the species from the entity
     // prototype.
 
@@ -51,6 +45,12 @@ public sealed partial class SpeciesPrototype : IPrototype
 
     [DataField("sprites")]
     public ProtoId<HumanoidSpeciesBaseSpritesPrototype> SpriteSet { get; private set; } = default!;
+
+    /// <summary>
+    /// Whether the species is available to non sponsors (In the character editor)
+    /// </summary>
+    [DataField]
+    public bool SponsorOnly { get; private set; } = false;
 
     /// <summary>
     ///     Default skin tone for this species. This applies for non-human skin tones.

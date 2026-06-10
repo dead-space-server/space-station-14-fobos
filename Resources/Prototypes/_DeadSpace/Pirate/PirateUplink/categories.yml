@@ -1,0 +1,39 @@
+- type: storeCategory
+  id: PirateUplinkWeaponry
+  name: store-category-weapons
+  priority: 1
+
+- type: storeCategory
+  id: PirateUplinkAmmo
+  name: store-category-ammo
+  priority: 2
+
+- type: storeCategory
+  id: PirateUplinkExplosives
+  name: store-category-explosives
+  priority: 3
+
+- type: storeCategory
+  id: PirateUplinkChemicals
+  name: store-category-chemicals
+  priority: 4
+
+- type: storeCategory
+  id: PirateUplinkImplants
+  name: store-category-implants
+  priority: 5
+
+- type: storeCategory
+  id: PirateUplinkAllies
+  name: store-category-allies
+  priority: 6
+
+- type: storeCategory
+  id: PirateUplinkWearables
+  name: store-category-wearables
+  priority: 7
+
+- type: storeCategory
+  id: PirateUplinkPointless
+  name: store-category-pointless
+  priority: 8

@@ -38,6 +38,8 @@ namespace Content.Client.Input
             common.AddFunction(ContentKeyFunctions.ZoomIn);
             common.AddFunction(ContentKeyFunctions.ResetZoom);
             common.AddFunction(ContentKeyFunctions.InspectEntity);
+            common.AddFunction(ContentKeyFunctions.InspectServerComponent);
+            common.AddFunction(ContentKeyFunctions.InspectClientComponent);
             common.AddFunction(ContentKeyFunctions.ToggleRoundEndSummaryWindow);
 
             // Not in engine, because engine cannot check for sanbox/admin status before starting placement.
@@ -48,6 +50,8 @@ namespace Content.Client.Input
 
             // Not in engine so that the RCD can rotate objects
             common.AddFunction(EngineKeyFunctions.EditorRotateObject);
+
+            common.AddFunction(ContentKeyFunctions.ToggleItemPriority); // DS14
 
             var human = contexts.GetContext("human");
             human.AddFunction(EngineKeyFunctions.MoveUp);
@@ -90,6 +94,7 @@ namespace Content.Client.Input
             human.AddFunction(ContentKeyFunctions.Arcade2);
             human.AddFunction(ContentKeyFunctions.Arcade3);
             human.AddFunction(ContentKeyFunctions.OpenLanguageMenu); // DS14
+
 
             // actions should be common (for ghosts, mobs, etc)
             common.AddFunction(ContentKeyFunctions.OpenActionsMenu);

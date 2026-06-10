@@ -85,6 +85,9 @@
         behaviors:
           - !type:DoActsBehavior
             acts: [ "Destruction" ]
+  - type: Tag #DS14
+    tags:
+    - Fulton
 
 - type: entity
   id: Fulton1

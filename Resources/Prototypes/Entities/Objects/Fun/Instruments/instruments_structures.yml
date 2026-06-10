@@ -160,6 +160,7 @@
       shader: unshaded
     - state: daw-panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: Appearance
   - type: WiresVisuals
   - type: WiresPanel

@@ -12,7 +12,7 @@
 - type: listing
   id: UnitologyInfectionDeadList
   name: Экстракт заразителя
-  description: Шприц с экстрактом заразителя, 15 едениц.
+  description: Шприц с экстрактом заразителя, 15 единиц.
   icon: { sprite: Objects/Specific/Chemistry/syringe.rsi, state: syringe1 }
   productEntity: SyringeExtractInfectorDead
   cost:
@@ -56,7 +56,7 @@
 # - type: listing
 #   id: UnitologySerumList
 #   name: Сыворотка порабощения
-#   description: Шприц с сывороткой порабощения, 15 едениц.
+#   description: Шприц с сывороткой порабощения, 15 единиц.
 #   icon: { sprite: Objects/Specific/Chemistry/syringe.rsi, state: syringe1 }
 #   productEntity: SyringeSerumEnslaved
 #   cost:

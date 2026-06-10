@@ -1,11 +1,11 @@
 {
-  "version": 1,
-  "license": "CC-BY-SA-3.0",
-  "copyright": "Taken from tgstation at commit https://github.com/tgstation/tgstation/commit/bd6873fd4dd6a61d7e46f1d75cd4d90f64c40894. comm_syndie made by Veritius, based on comm. generic_panel_open made by Errant, commit https://github.com/space-wizards/space-station-14/pull/32273, comms_wizard and wizard_key by ScarKy0, request- variants transfer made by EmoGarbage404 (github), xenorobot by Samuka-C (github), request-sec respraited by cerberus7008 for Space Station 14 server Мёртвый Космос",
-  "size": {
-    "x": 32,
-    "y": 32
-  },
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Taken from tgstation at commit https://github.com/tgstation/tgstation/commit/bd6873fd4dd6a61d7e46f1d75cd4d90f64c40894. comm_syndie made by Veritius, based on comm. generic_panel_open made by Errant, commit https://github.com/space-wizards/space-station-14/pull/32273, comms_wizard and wizard_key by ScarKy0, request- variants transfer made by EmoGarbage404 (github), xenorobot by Samuka-C (github), request-sec respraited by cerberus7008 for Space Station 14 server РњС‘СЂС‚РІС‹Р№ РљРѕСЃРјРѕСЃ Taken from tgstation at commit https://github.com/tgstation/tgstation/commit/bd6873fd4dd6a61d7e46f1d75cd4d90f64c40894. comm_syndie made by Veritius, based on comm. generic_panel_open made by Errant, commit https://github.com/space-wizards/space-station-14/pull/32273, comms_wizard and wizard_key by ScarKy0, request- variants transfer made by EmoGarbage404 (github), xenorobot by Samuka-C (github), ai-fixer-progress and -purge sprites made by chromiumboy, generic_syndie_keys and request-syndie modified from generic_keys and request by SlamBamActionman",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
     "states": [
         {
             "name": "ai-fixer",
@@ -2273,6 +2273,48 @@
         },
         {
             "name": "wizard_key",
+            "directions": 4
+        },
+        {
+            "name": "request-syndie",
+            "directions": 4,
+            "delays": [
+                [
+                    0.3,
+                    0.3,
+                    0.3,
+                    0.3,
+                    0.3,
+                    0.3
+                ],
+                [
+                    0.3,
+                    0.3,
+                    0.3,
+                    0.3,
+                    0.3,
+                    0.3
+                ],
+                [
+                    0.3,
+                    0.3,
+                    0.3,
+                    0.3,
+                    0.3,
+                    0.3
+                ],
+                [
+                    0.3,
+                    0.3,
+                    0.3,
+                    0.3,
+                    0.3,
+                    0.3
+                ]
+            ]
+        },
+        {
+            "name": "syndie_generic_keys",
             "directions": 4
         }
     ]

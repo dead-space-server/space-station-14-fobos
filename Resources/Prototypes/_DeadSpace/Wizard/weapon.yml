@@ -1,0 +1,75 @@
+- type: entity
+  name: волшебная удочка
+  parent: BaseItem
+  id: WizardFishingRod
+  description: Пора рыбачить экипажем!
+  components:
+    - type: Item
+      sprite: _DeadSpace/Wizard/fishing_rod.rsi
+      size: Large
+      shape:
+      - 0,0,0,3
+    - type: AmmoCounter
+    - type: GrapplingGun
+      cycleSound: /Audio/Misc/woosh.ogg
+      pullTargetToShooter: true 
+      reelRate: 135
+      ropeSprite:
+        sprite: _DeadSpace/Wizard/fishing_rod.rsi
+        state: rope
+    - type: Gun
+      soundGunshot: /Audio/Weapons/Guns/Gunshots/harpoon.ogg
+      fireRate: 0.5
+    - type: BasicEntityAmmoProvider
+      proto: WizardFishingRodProjectile
+      capacity: 1
+    - type: Sprite
+      sprite: _DeadSpace/Wizard/fishing_rod.rsi
+      layers:
+        - state: base
+        - state: base-unshaded
+          map: [ "unshaded" ]
+          visible: true
+    - type: Appearance
+    - type: GenericVisualizer
+      visuals:
+        enum.TetherVisualsStatus.Key:
+          unshaded:
+            True: { state: base-unshaded }
+            False: { state: base-unshaded-off }
+    - type: UseDelay
+      delay: 2
+    - type: Tag
+      tags:
+        - WizardWand
+
+- type: entity
+  id: WizardFishingRodProjectile
+  name: крючок
+  parent: BaseBullet
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: EmbeddableProjectile
+      deleteOnRemove: true
+    - type: Clickable
+    - type: InteractionOutline
+    - type: Sprite
+      noRot: false
+      sprite: _DeadSpace/Wizard/fishing_rod.rsi
+      layers:
+        - state: hook
+    - type: Physics
+      bodyType: Dynamic
+      linearDamping: 0
+      angularDamping: 0
+    - type: Projectile
+      deleteOnCollide: false
+      damage:
+        types:
+          Slash: 10
+    - type: GrapplingProjectile
+    - type: StunOnCollide
+      stunAmount: 0.5
+      drop: true
+      knockdownAmount: 0.5
+      slowdownAmount: 0.5

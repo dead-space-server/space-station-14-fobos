@@ -5,7 +5,7 @@
         "y": 32
     },
     "license": "CC-BY-SA-4.0",
-    "copyright": "made by inspector_jeleshka, cburn by gribgear (discord) for Space Station 14 server Мёртвый Космос",
+    "copyright": "made by inspector_jeleshka, cburn by gribgear (discord) for Space Station 14 server Мёртвый Космос. dbct, ber and bsaa made by Sakento, sakent0 (discord) for Space Station 14 server Мёртвый Космос",
     "states": [
         {
             "name": "ert_ember"
@@ -24,6 +24,15 @@
         },
         {
             "name": "cburn"
+        },
+        {
+            "name": "dbct"
+        },
+        {
+            "name": "ber"
+        },
+        {
+            "name": "bsaa"
         }
     ]
 }

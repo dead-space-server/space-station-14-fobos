@@ -3,8 +3,8 @@ using Content.Client.Guidebook;
 using Content.Client.Humanoid;
 using Content.Client.Inventory;
 using Content.Client.Lobby.UI;
-using Content.Client.Players.PlayTimeTracking;
 using Content.Client.Station;
+using Content.Client.Players.PlayTimeTracking;
 using Content.Shared.CCVar;
 using Content.Shared.Clothing;
 using Content.Shared.GameTicking;
@@ -165,7 +165,7 @@ public sealed partial class LobbyUIController : UIController, IOnStateEntered<Lo
         var (characterGui, profileEditor) = EnsureGui();
         characterGui.ReloadCharacterPickers();
         profileEditor.SetProfile(
-            (HumanoidCharacterProfile?) _preferencesManager.Preferences?.SelectedCharacter,
+            (HumanoidCharacterProfile?)_preferencesManager.Preferences?.SelectedCharacter,
             _preferencesManager.Preferences?.SelectedCharacterIndex);
     }
 
@@ -203,7 +203,7 @@ public sealed partial class LobbyUIController : UIController, IOnStateEntered<Lo
     {
         DebugTools.Assert(EditedProfile != null);
 
-        if (EditedProfile == null || EditedSlot == null)
+        if (EditedProfile == null || EditedSlot == null || _profileEditor?.IsReadOnly == true) // DS14
             return;
 
         var selected = _preferencesManager.Preferences?.SelectedCharacterIndex;

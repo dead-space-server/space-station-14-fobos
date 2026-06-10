@@ -19,6 +19,7 @@ public sealed class EvolutionSystem : EntitySystem
     [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly SharedMindSystem _mindSystem = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly GhostRoleSystem _ghost = default!;
     [Dependency] private readonly ISharedPlayerManager _player = default!;
@@ -96,7 +97,7 @@ public sealed class EvolutionSystem : EntitySystem
         if (args.Handled)
             return;
 
-        if (EntityManager.TryGetComponent<ActorComponent?>(uid, out var actorComponent))
+        if (TryComp<ActorComponent>(uid, out var actorComponent))
         {
             var ev = new RequestEntityMenuEvent(uid.Id, true, false);
 
@@ -115,7 +116,7 @@ public sealed class EvolutionSystem : EntitySystem
     {
         if (msg.IsUseEvolutionSystem)
         {
-            if (EntityManager.TryGetComponent<EvolutionComponent>(new EntityUid(msg.Target), out var evolutionComponent))
+            if (TryComp<EvolutionComponent>(new EntityUid(msg.Target), out var evolutionComponent))
             {
                 evolutionComponent.SelectEntity = msg.PrototypeId;
                 OnEvolutionAction(new EntityUid(msg.Target), evolutionComponent);
@@ -152,9 +153,11 @@ public sealed class EvolutionSystem : EntitySystem
             return;
         }
 
-        var ent = Spawn(component.SelectEntity, Transform(uid).Coordinates);
+        var ent = Spawn(component.SelectEntity,
+            _transform.GetMapCoordinates(uid, xform),
+            rotation: _transform.GetWorldRotation(xform));
 
-        if (!EntityManager.TryGetComponent<GhostRoleComponent>(ent, out var ghostRoleComponent))
+        if (!TryComp<GhostRoleComponent>(ent, out var ghostRoleComponent))
         {
             _mindSystem.TransferTo(mindId, ent);
             QueueDel(uid);

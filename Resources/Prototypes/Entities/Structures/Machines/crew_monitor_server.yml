@@ -15,6 +15,7 @@
         - state: variant-crew
         - state: server_o
           map: ["enum.WiresVisualLayers.MaintenancePanel"]
+          visible: false # DS14
     - type: Construction
       graph: Machine
       node: machine

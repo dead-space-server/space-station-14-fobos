@@ -1,8 +1,8 @@
 - type: entity
+  abstract: true
+  parent: [ BaseItem, BaseSecurityContraband ]
   id: BaseMagazineRifle
   name: "magazine (.20 rifle)"
-  parent: [ BaseItem, BaseSecurityContraband ]
-  abstract: true
   components:
   - type: Tag
     tags:
@@ -19,6 +19,7 @@
     containers:
       ballistic-ammo: !type:Container
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     sprite: Objects/Weapons/Guns/Ammunition/Magazine/Rifle/rifle_mag.rsi
     layers:
     - state: base
@@ -32,14 +33,15 @@
   - type: Appearance
 
 - type: entity
+  parent: BaseMagazineRifle
   id: MagazineRifle
   name: "magazine (.20 rifle)"
-  parent: BaseMagazineRifle
   description: 25-round double stack magazine for combat rifles. Intended to hold general-purpose kinetic ammunition.
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeRifle
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
@@ -53,10 +55,10 @@
       - state: inhand-right-mag
 
 - type: entity
+  parent: MagazineRifle
   id: MagazineRifleEmpty
   name: "magazine (.20 rifle any)"
   suffix: empty
-  parent: MagazineRifle
   description: 25-round double stack magazine for combat rifles.
   components:
   - type: BallisticAmmoProvider
@@ -75,9 +77,9 @@
       - state: inhand-right-mag
 
 - type: entity
+  parent: MagazineRifle
   id: MagazineRifleIncendiary
   name: "magazine (.20 rifle incendiary)"
-  parent: MagazineRifle
   description: 25-round double stack magazine for combat rifles. Intended to hold self-igniting incendiary ammunition.
   components:
   - type: BallisticAmmoProvider
@@ -88,69 +90,68 @@
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
-    - state: stripe
-      color: "#ff6e52"
+    - state: incendiary
   - type: Item
     inhandVisuals:
       left:
       - state: inhand-left-mag
       - state: inhand-left-stripe
-        color: "#ff6e52"
+        color: "#3f1329"
       right:
       - state: inhand-right-mag
       - state: inhand-right-stripe
-        color: "#ff6e52"
+        color: "#3f1329"
 
 - type: entity
+  parent: BaseMagazineRifle
   id: MagazineRiflePractice
   name: "magazine (.20 rifle practice)"
-  parent: BaseMagazineRifle
-  description: 25-round double stack magazine for combat rifles. Intended to hold non-harmful chalk ammunition.
+  description: 25-round double stack magazine for combat rifles. Intended to hold harmless practice ammunition.
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeRiflePractice
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
-    - state: stripe
-      color: "#dbdbdb"
+    - state: practice
   - type: Item
     inhandVisuals:
       left:
       - state: inhand-left-mag
       - state: inhand-left-stripe
-        color: "#dbdbdb"
+        color: "#76270d"
       right:
       - state: inhand-right-mag
       - state: inhand-right-stripe
-        color: "#dbdbdb"
+        color: "#76270d"
 
 - type: entity
+  parent: BaseMagazineRifle
   id: MagazineRifleUranium
   name: "magazine (.20 rifle uranium)"
-  parent: BaseMagazineRifle
   description: 25-round double stack magazine for combat rifles. Intended to hold exotic uranium-core ammunition.
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeRifleUranium
   - type: Sprite
+    scale: 1.1, 1.1 # DS-14
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
-    - state: stripe
-      color: "#00cd42"
+    - state: uranium
   - type: Item
     inhandVisuals:
       left:
       - state: inhand-left-mag
       - state: inhand-left-stripe
-        color: "#00cd42"
+        color: "#01501c"
       right:
       - state: inhand-right-mag
       - state: inhand-right-stripe
-        color: "#00cd42"
+        color: "#01501c"

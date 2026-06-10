@@ -1,4 +1,4 @@
-﻿# Fobos
+﻿# Fobos и его друзья
 
 - type: lobbyBackground
   id: Oblomok
@@ -219,6 +219,14 @@
 - type: lobbyBackground
   id: HappyHolydays
   background: /Textures/LobbyScreens/Fobos/happy_holidays.webp
+
+- type: lobbyBackground
+  id: LivTheFallOfBSAA
+  background: /Textures/LobbyScreens/Fobos/liv-bsaa-fall.webp
+
+- type: lobbyBackground
+  id: MarmSec
+  background: /Textures/LobbyScreens/Fobos/marm.webp
 
 # Soyuz
 

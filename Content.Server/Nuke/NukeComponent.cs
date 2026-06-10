@@ -5,6 +5,7 @@ using Content.Shared.Explosion;
 using Content.Shared.Nuke;
 using Robust.Shared.Audio;
 using Robust.Shared.Map;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 
 namespace Content.Server.Nuke
@@ -123,6 +124,20 @@ namespace Content.Server.Nuke
         [DataField("totalIntensity")]
         public float TotalIntensity = 100000;
 
+        // DS14-start
+        [ViewVariables(VVAccess.ReadWrite)]
+        [DataField("deleteExplodedEntities")]
+        public bool DeleteExplodedEntities = true;
+
+        [ViewVariables(VVAccess.ReadWrite)]
+        [DataField("destroyExplodedTiles")]
+        public bool DestroyExplodedTiles = true;
+
+        [ViewVariables(VVAccess.ReadWrite)]
+        [DataField("ignoreExplosionBlockers")]
+        public bool IgnoreExplosionBlockers = true;
+        // DS14-end
+
         /// <summary>
         ///     Avoid somehow double-triggering this explosion.
         /// </summary>
@@ -163,6 +178,14 @@ namespace Content.Server.Nuke
         /// </summary>
         [DataField]
         public string EnteredCode = "";
+
+        /// <summary>
+        ///     Time at which the last nuke code was entered.
+        ///     Used to apply a cooldown to prevent clients from attempting to brute force the nuke code by sending keypad messages every tick.
+        ///     <seealso cref="SharedNukeComponent.EnterCodeCooldown"/>
+        /// </summary>
+        [DataField(customTypeSerializer: typeof(TimeOffsetSerializer))]
+        public TimeSpan LastCodeEnteredAt = TimeSpan.Zero;
 
         /// <summary>
         ///     Current status of a nuclear bomb.

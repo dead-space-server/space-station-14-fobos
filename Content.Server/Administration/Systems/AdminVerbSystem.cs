@@ -1,6 +1,7 @@
 using Content.Server.Administration.Logs;
 using Content.Server.Administration.Managers;
 using Content.Server.Administration.UI;
+using Content.Server.DeadSpace.StationAI.Systems;
 using Content.Server.Disposal.Tube;
 using Content.Server.EUI;
 using Content.Server.Ghost.Roles;
@@ -9,6 +10,7 @@ using Content.Server.Prayer;
 using Content.Server.Silicons.Laws;
 using Content.Server.Station.Systems;
 using Content.Shared.Administration;
+using Content.Shared.Administration.Systems;
 using Content.Shared.Chemistry.Components.SolutionManager;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Configurable;
@@ -66,6 +68,7 @@ namespace Content.Server.Administration.Systems
         [Dependency] private readonly AdminFrozenSystem _freeze = default!;
         [Dependency] private readonly IPlayerManager _playerManager = default!;
         [Dependency] private readonly SiliconLawSystem _siliconLawSystem = default!;
+        [Dependency] private readonly StationAiLeaveRoundSystem _stationAiLeaveRound = default!; // DS14
         [Dependency] private readonly TransformSystem _transform = default!;
 
         private readonly Dictionary<ICommonSession, List<EditSolutionsEui>> _openSolutionUis = new();
@@ -243,6 +246,26 @@ namespace Content.Server.Administration.Systems
                         Act = () => _console.RemoteExecuteCommand(player, $"vv {GetNetEntity(mindId)}"),
                     });
                 }
+
+                // DS14-start
+                if (_stationAiLeaveRound.TryResolveAi(args.Target, out var stationAi))
+                {
+                    args.Verbs.Add(new Verb
+                    {
+                        Text = Loc.GetString("station-ai-admin-erase-core"),
+                        Message = Loc.GetString("station-ai-admin-erase-core-description"),
+                        Category = VerbCategory.Admin,
+                        Icon = new SpriteSpecifier.Texture(new("/Textures/Interface/VerbIcons/delete.svg.192dpi.png")),
+                        Act = () =>
+                        {
+                            if (!_stationAiLeaveRound.TryLeaveRound(stationAi, force: true))
+                                _popup.PopupEntity(Loc.GetString("station-ai-leave-round-failed"), args.User, args.User, PopupType.MediumCaution);
+                        },
+                        ConfirmationPopup = true,
+                        Impact = LogImpact.Extreme,
+                    });
+                }
+                // DS14-end
 
                 // Freeze
                 var frozen = TryComp<AdminFrozenComponent>(args.Target, out var frozenComp);
@@ -469,7 +492,7 @@ namespace Content.Server.Administration.Systems
             }
 
             // Control mob verb
-            if (_toolshed.ActivePermissionController?.CheckInvokable(new CommandSpec(_toolshed.DefaultEnvironment.GetCommand("mind"), "control"), player, out _) ?? false &&
+            if ((_toolshed.ActivePermissionController?.CheckInvokable(new CommandSpec(_toolshed.DefaultEnvironment.GetCommand("mind"), "control"), player, out _) ?? false) &&
                 args.User != args.Target)
             {
                 Verb verb = new()

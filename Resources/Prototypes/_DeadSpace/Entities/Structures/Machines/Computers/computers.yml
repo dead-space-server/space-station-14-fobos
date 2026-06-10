@@ -17,9 +17,8 @@
     - map: ["computerLayerKeys"]
       state: aiupload_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
-  - type: ApcPowerReceiver
-    powerLoad: 1000
   - type: Computer
     board: StationAiUploadCircuitboardTaipan
   - type: AccessReader
@@ -67,6 +66,7 @@
     - map: ["computerLayerKeys"]
       state: tech_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: ResearchClient
     isTaipan: true
@@ -96,6 +96,7 @@
     - map: ["computerLayerKeys"]
       state: tech_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: CargoBountyConsole
   - type: ActivatableUI
@@ -134,6 +135,7 @@
     - map: ["computerLayerKeys"]
       state: tech_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: CargoOrderConsole
     isTaipan: true
@@ -175,6 +177,7 @@
     - map: ["computerLayerKeys"]
       state: tech_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: Computer
     board: SurveillanceCameraMonitorCircuitboardTaipan
@@ -216,6 +219,7 @@
     - map: ["computerLayerKeys"]
       state: syndie_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: AccessReader
     access: [["TaipanCommand"]]
@@ -270,6 +274,7 @@
     - map: ["computerLayerKeys"]
       state: med_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: PointLight
     radius: 1.5
@@ -328,6 +333,7 @@
         - IdCard
     targetIdSlot:
       name: id-card-console-target-id
+      priority: 1
       ejectSound: /Audio/Machines/id_swipe.ogg
       insertSound: /Audio/Weapons/Guns/MagIn/batrifle_magin.ogg
       ejectOnBreak: true
@@ -360,6 +366,7 @@
     - map: ["computerLayerKeys"]
       state: id_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: Computer
     board: IDComputerCircuitboardTaipan
@@ -396,6 +403,7 @@
     - map: ["computerLayerKeys"]
       state: generic_keys
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: ActivatableUI
     key: enum.IFFConsoleUiKey.Key
@@ -431,6 +439,7 @@
     - map: ["computerLayerKeys"]
       state: generic_keys
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: CargoPalletConsole
     isTaipan: true
@@ -470,6 +479,7 @@
     - map: ["computerLayerKeys"]
       state: rd_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: ResearchClient
     isTaipan: true
@@ -489,8 +499,6 @@
         type: ResearchClientBoundUserInterface
       enum.WiresUiKey.Key:
         type: WiresBoundUserInterface
-  - type: ApcPowerReceiver
-    powerLoad: 1000
   - type: Computer
     board: ResearchComputerCircuitboardTaipan
   - type: AccessReader
@@ -519,6 +527,7 @@
     - map: ["computerLayerKeys"]
       state: rd_key
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: RoboticsConsole
     radioChannel: Taipan
@@ -534,8 +543,6 @@
         type: RoboticsConsoleBoundUserInterface
       enum.WiresUiKey.Key:
         type: WiresBoundUserInterface
-  - type: ApcPowerReceiver
-    powerLoad: 1000
   - type: DeviceNetwork
     deviceNetId: Wireless
     receiveFrequencyId: RoboticsConsole
@@ -570,6 +577,7 @@
     - map: ["computerLayerKeys"]
       state: generic_keys
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
       state: generic_panel_open
   - type: Tag
     tags:

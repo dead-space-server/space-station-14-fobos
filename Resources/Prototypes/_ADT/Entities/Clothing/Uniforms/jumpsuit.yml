@@ -84,17 +84,6 @@
 
 - type: entity
   parent: ClothingUniformBase
-  id: ADTClothingUniformRedgiSuit
-  name: костюм заведующего отелем
-  description: Потёртый, но от того не менее стильный, костюм.
-  components:
-  - type: Sprite
-    sprite: _ADT/Clothing/Uniforms/Jumpsuit/redji_suit.rsi
-  - type: Clothing
-    sprite: _ADT/Clothing/Uniforms/Jumpsuit/redji_suit.rsi
-
-- type: entity
-  parent: ClothingUniformBase
   id: ADTClothingUniformNewBarmanSuit
   name: обновлённый костюм бармена
   description: Обновлённый комплект одежды для более изысканого разлития напитков.

@@ -1,0 +1,8 @@
+- type: loadoutGroup
+  id: MimeNeck
+  name: loadout-group-mime-neck
+  minLimit: 0
+  loadouts:
+  - MimeNeckSexy
+  - MimeNeckScarfStripedZebra
+  - MimeNeckScarfStripedBlack

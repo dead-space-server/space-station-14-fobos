@@ -70,10 +70,12 @@
     speedModifierThresholds:
       25: 0.5
   - type: Stamina
-    critThreshold: 200
+    baseCritThreshold: 200
   - type: Bloodstream
-    bloodReagent: AcidicBlood # DS14
-    bloodMaxVolume: 650
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: AcidicBlood # DS14
+        Quantity: 650
   - type: MeleeWeapon
     altDisarm: false
     angle: 0
@@ -110,9 +112,10 @@
   - type: TypingIndicator
     proto: alien
   - type: Temperature
+    currentTemperature: 310.15
+  - type: TemperatureDamage
     heatDamageThreshold: 360
     coldDamageThreshold: -150
-    currentTemperature: 310.15
   - type: Tag
     tags:
       - CannotSuicide
@@ -152,7 +155,7 @@
       Dead: XenomorphDead
 # DS14-end
   - type: Stamina
-    critThreshold: 300
+    baseCritThreshold: 300
   - type: SlowOnDamage
     speedModifierThresholds:
       50: 0.7
@@ -462,6 +465,20 @@
     tags:
     - DoorBumpOpener
     - FootstepSound
+  #DS14-start
+  - type: GhostRole
+    makeSentient: true
+    name: ghost-role-information-space-snake-name
+    description: ghost-role-information-space-snake-description
+    rules: ghost-role-information-space-snake-rules
+    mindRoles:
+    - MindRoleGhostRoleTeamAntagonist
+    raffle:
+      settings: short
+  - type: GhostTakeoverAvailable
+  - type: GhostRoleNotifys 
+    groupPrototype: SnakeGroup
+  #DS14-end
 
 - type: entity
   name: space adder
@@ -526,10 +543,12 @@
   - type: ComplexInteraction
   - type: MobState
   - type: Stamina
-    critThreshold: 200
+    baseCritThreshold: 200
   - type: Bloodstream
-    bloodReagent: AcidicBlood # DS14
-    bloodMaxVolume: 300
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: AcidicBlood # DS14
+        Quantity: 300
   - type: MeleeWeapon
     altDisarm: false
     angle: 0
@@ -556,9 +575,10 @@
   - type: TypingIndicator
     proto: alien
   - type: Temperature
+    currentTemperature: 310.15
+  - type: TemperatureDamage
     heatDamageThreshold: 360
     coldDamageThreshold: -150
-    currentTemperature: 310.15
   - type: NoSlip
   - type: Perishable #Ummmm the acid kills a lot of the bacteria or something
     molsPerSecondPerUnitMass: 0.0005

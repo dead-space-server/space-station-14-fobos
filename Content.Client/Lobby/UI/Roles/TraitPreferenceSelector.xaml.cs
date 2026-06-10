@@ -28,6 +28,7 @@ public sealed partial class TraitPreferenceSelector : Control
 
         Cost = trait.Cost;
         Checkbox.Text = text;
+        Checkbox.Label.AddStyleClass("DS14MenuProfileLabel"); // DS14
         Checkbox.OnToggled += OnCheckBoxToggled;
 
         if (trait.Description is { } desc)

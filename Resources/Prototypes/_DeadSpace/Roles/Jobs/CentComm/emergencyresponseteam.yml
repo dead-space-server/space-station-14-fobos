@@ -8,6 +8,16 @@
   description: job-description-ertleader
   playTimeTracker: JobERTLeaderAmber
   setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 36000 # 10 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 # 20 hours
+    - !type:DepartmentTimeRequirement
+      department: Command
+      time: 36000 # 10 hours
   startingGear: ERTLeaderGearAmber
   icon: "JobIconERTLeader"
   supervisors: job-supervisors-centcom
@@ -31,32 +41,31 @@
   id: ERTLeaderGearAmber
   equipment:
     jumpsuit: ClothingUniformJumpsuitERTLeader
-    back: ClothingBackpackERTLeader
+    back: ClothingBackpackRIGERTLeader
     mask: ClothingMaskGasERT
-    eyes: ClothingEyesHudAdvanced
+    eyes: ClothingEyesHudERT
     ears: ClothingHeadsetCentCom
     neck: ClothingNeckMantleERTLeader
     gloves: ClothingHandsGlovesCombat
     outerClothing: ClothingOuterArmorBulletproof
-    shoes: ClothingShoesBootsJackFilled
+    suitstorage: WeaponDisablerSMG
+    shoes: ClothingShoesBootsMagHos
     head: ClothingHeadHelmetERTLeader
     id: ERTLeaderPDA
-    belt: ClothingBeltERTSecurityFilled
+    belt: ClothingBeltMilitaryWebbingERT
     pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: FlashlightSeclite
   storage:
     back:
-    - ERTloadoutAmberSecondary
     - ERTloadoutAmberPrimary
-    - BoxMRE
-    - WeaponDisabler
-    - CrowbarRed
-    - FlashlightSeclite
-    - ADTtelescopicBaton
+    - ERTloadoutAmberSecondary
     - PinpointerNuclear
-    - Flash
-    - Flare
-    - EmergencyMedipen
-    - Truncheon
+    - BoxCardboardERT
+    - JawsOfLife
+    - PortableCameraMonitor
+    - CriminalRecordsMonitor
+    - HandheldCrewMonitor
+    - MedkitCombatFilled
 
 ## Red
 - type: job
@@ -65,6 +74,16 @@
   description: job-description-ertleader
   playTimeTracker: JobERTLeaderRed
   setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 36000 # 10 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 # 20 hours
+    - !type:DepartmentTimeRequirement
+      department: Command
+      time: 36000 # 10 hours
   startingGear: ERTLeaderGearRed
   icon: "JobIconERTLeader"
   supervisors: job-supervisors-centcom
@@ -89,30 +108,28 @@
   equipment:
     jumpsuit: ClothingUniformJumpsuitERTLeader
     back: ClothingBackpackERTLeader
-    mask: ClothingMaskGasERT
-    eyes: ClothingEyesHudAdvanced
+    eyes: ClothingEyesHudERTGamma
     ears: ClothingHeadsetCentCom
+    head: ClothingHeadHatERTLeaderBeret
     neck: ClothingNeckMantleERTLeader
     gloves: ClothingHandsGlovesCombat
-    outerClothing: ClothingOuterHardsuitERTLeader
+    outerClothing: ClothingOuterHardsuitERTRedLeader
+    suitstorage: JetpackSecurityFilled
     shoes: ADTClothingShoesBootsMagERT
     id: ERTLeaderRedPDA
-    belt: ClothingBeltSecurityWebbingFilled
+    belt: ClothingBeltMilitaryWebbingERT
     pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: DoorRemoteCustom
   storage:
     back:
     - ERTloadoutRedPrimary
     - ERTloadoutRedSecondary
-    - BoxMRE
+    - BoxCardboardERT
     - PinpointerNuclear
     - CrowbarRed
-    - DoorRemoteAll
-    - Flare
-    - EmergencyMedipen
-    - ADTtelescopicBaton
-    - Flash
+    - MedkitCombatFilled
+    - InjectorCaseERTFilled
     - WeaponDisabler
-    - Truncheon
 
 ## Gamma
 - type: job
@@ -121,6 +138,16 @@
   description: job-description-ertleader
   playTimeTracker: JobERTLeaderGamma
   setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 36000 # 10 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 # 20 hours
+    - !type:DepartmentTimeRequirement
+      department: Command
+      time: 36000 # 10 hours
   startingGear: ERTLeaderGearGamma
   icon: "JobIconERTLeader"
   supervisors: job-supervisors-centcom
@@ -145,29 +172,28 @@
   equipment:
     jumpsuit: ClothingUniformJumpsuitERTLeader
     back: ClothingBackpackERTLeader
-    mask: ClothingMaskGasERT
-    eyes: ClothingEyesHudAdvanced
+    eyes: ClothingEyesHudERTGamma
     ears: ClothingHeadsetCentCom
+    head: ClothingHeadHatERTLeaderBeret
     neck: ClothingNeckMantleERTLeader
     gloves: ClothingHandsGlovesCombat
     outerClothing: ClothingOuterHardsuitERTLeader
-    suitstorage: JetpackMiniFilled
+    suitstorage: JetpackVoidFilled
     shoes: ADTClothingShoesBootsMagERT
     id: ERTLeaderGammaPDA
-    belt: ClothingBeltSecurityWebbingFilled
+    belt: ClothingBeltMilitaryWebbingERTGamma
     pocket1: DoubleEmergencyOxygenTankFilled
-    pocket2: DoorRemoteAll
+    pocket2: DoorRemoteCustom
   storage:
     back:
     - ERTloadoutGammaPrimary
     - ERTloadoutGammaSecondary
+    - BoxCardboardERT
     - PinpointerNuclear
     - CrowbarRed
-    - EmergencyMedipen
-    - BoxMRE
-    - Flare
+    - BSAACombatKitFilled
+    - InjectorCaseERTFilled
     - WeaponDisabler
-    - ClothingEyesPNVAdv
 
 # Security
 ## Amber
@@ -177,6 +203,13 @@
   description: job-description-ertsecurity
   playTimeTracker: JobERTSecurityAmber
   setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 14400 # 4 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 # 20 hours
   startingGear: ERTSecurityGearAmber
   icon: "JobIconERT"
   supervisors: job-supervisors-centcom
@@ -199,29 +232,33 @@
   id: ERTSecurityGearAmber
   equipment:
     jumpsuit: ClothingUniformJumpsuitERTSecurity
-    back: ClothingBackpackERTSecurity
+    back: ClothingBackpackRIGERTSecurity
     mask: ClothingMaskGasERT
-    eyes: ClothingEyesHudAdvanced
+    eyes: ClothingEyesHudERT
     ears: ClothingHeadsetCentCom
+    neck: ClothingNeckBodyCamera
     gloves: ClothingHandsGlovesCombat
     outerClothing: ClothingOuterArmorBulletproof
-    shoes: ClothingShoesBootsJackSecFilled
+    suitstorage: WeaponDisablerSMG
+    shoes: ClothingShoesBootsMagSecurity
     head: ClothingHeadHelmetERTSecurity
-    id: ERTSecurityIDCard
-    belt: ClothingBeltERTSecurityFilled
+    id: ERTSecurityPDA
+    belt: ClothingBeltMilitaryWebbingERT
     pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: FlashlightSeclite
   storage:
     back:
-    - TelescopicShield
-    - FlashlightSeclite
-    - WeaponDisabler
-    - CrowbarRed
-    - EmergencyMedipen
-    - BoxMRE
-    - ERTloadoutAmberSecondary
     - ERTloadoutAmberPrimary
-    - Flare
-    - Truncheon
+    - ERTloadoutAmberSecondary
+    - PinpointerNuclear
+    - BoxCardboardERT
+    - JawsOfLife
+    - PortableCameraMonitor
+    - CriminalRecordsMonitor
+    - HandheldCrewMonitor
+    - TelescopicShield
+    - TelescopicShield
+    - MedkitCombatFilled
 
 ## Red
 - type: job
@@ -230,6 +267,13 @@
   description: job-description-ertsecurity
   playTimeTracker: JobERTSecurityRed
   setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 14400 # 4 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 # 20 hours
   startingGear: ERTSecurityGearRed
   icon: "JobIconERT"
   supervisors: job-supervisors-centcom
@@ -253,27 +297,26 @@
   equipment:
     jumpsuit: ClothingUniformJumpsuitERTSecurity
     back: ClothingBackpackERTSecurity
-    mask: ClothingMaskGasERT
-    eyes: ClothingEyesHudAdvanced
+    eyes: ClothingEyesHudERT
     ears: ClothingHeadsetCentCom
     gloves: ClothingHandsGlovesCombat
-    outerClothing: ClothingOuterHardsuitERTSecurity
+    outerClothing: ClothingOuterHardsuitERTRedSecurity
+    suitstorage: JetpackSecurityFilled
     shoes: ADTClothingShoesBootsMagERT
-    id: ERTSecurityRedIDCard
-    belt: ClothingBeltSecurityWebbingFilled
+    id: ERTSecurityRedPDA
+    belt: ClothingBeltMilitaryWebbingERT
     pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: TelescopicShield
   storage:
     back:
-    - TelescopicShield
-    - WeaponDisabler
     - ERTloadoutRedPrimary
-    - EmergencyMedipen
-    - BoxMRE
     - ERTloadoutRedSecondary
+    - BoxCardboardERT
     - CrowbarRed
-    - Flare
-    - Truncheon
     - PinpointerNuclear
+    - MedkitCombatFilled
+    - InjectorCaseERTFilled
+    - WeaponDisabler
 
 ## Gamma
 - type: job
@@ -282,6 +325,13 @@
   description: job-description-ertsecurity
   playTimeTracker: JobERTSecurityGamma
   setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 14400 # 4 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 # 20 hours
   startingGear: ERTSecurityGearGamma
   icon: "JobIconERT"
   supervisors: job-supervisors-centcom
@@ -305,29 +355,26 @@
   equipment:
     jumpsuit: ClothingUniformJumpsuitERTSecurity
     back: ClothingBackpackERTSecurity
-    mask: ClothingMaskGasERT
-    eyes: ClothingEyesHudAdvanced
+    eyes: ClothingEyesHudERTGamma
     ears: ClothingHeadsetCentCom
     gloves: ClothingHandsGlovesCombat
     outerClothing: ClothingOuterHardsuitERTSecurity
-    suitstorage: JetpackMiniFilled
+    suitstorage: JetpackVoidFilled
     shoes: ADTClothingShoesBootsMagERT
-    id: ERTSecurityGammaIDCard
-    belt: ClothingBeltSecurityWebbingFilled
+    id: ERTSecurityGammaPDA
+    belt: ClothingBeltMilitaryWebbingERTGamma
     pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: TelescopicShield
   storage:
     back:
-    - TelescopicShield
-    - WeaponDisabler
-    - CrowbarRed
     - ERTloadoutGammaPrimary
     - ERTloadoutGammaSecondary
-    - EmergencyMedipen
-    - BoxMRE
-    - Flare
-    - Truncheon
+    - BoxCardboardERT
+    - CrowbarRed
     - PinpointerNuclear
-    - ClothingEyesPNVAdv
+    - BSAACombatKitFilled
+    - InjectorCaseERTFilled
+    - WeaponDisabler
 
 # Medical
 ## Amber
@@ -337,8 +384,15 @@
   description: job-description-ertmedic
   playTimeTracker: JobERTMedicalAmber
   setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 36000 # 10 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 36000 # 10 hours
   startingGear: ERTMedicalGearAmber
-  icon: "JobIconERT"
+  icon: "JobIconERTMedical"
   supervisors: job-supervisors-centcom
   canBeAntag: false
   accessGroups:
@@ -359,33 +413,35 @@
   id: ERTMedicalGearAmber
   equipment:
     jumpsuit: ClothingUniformJumpsuitERTMedic
-    back: ClothingBackpackERTMedical
+    back: ClothingBackpackRIGERTMedic
     mask: ClothingMaskGasERT
-    eyes: ClothingEyesHudAdvanced
+    eyes: ClothingEyesHudERT
     ears: ClothingHeadsetCentCom
+    neck: ClothingNeckBodyCamera
     gloves: ClothingHandsGlovesCombat
     outerClothing: ClothingOuterArmorBulletproof
-    shoes: ClothingShoesColorWhite
+    suitstorage: WeaponDisablerSMG
+    shoes: ClothingShoesBootsMagSecurity
     head: ClothingHeadHelmetERTMedic
-    id: ERTMedicIDCard
+    id: ERTMedicPDA
     belt: ClothingBeltMedicalFilled
     pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: FlashlightSeclite
   storage:
     back:
-    - Defibrillator
-    - BoxMRE
     - ERTloadoutAmberPrimary
     - ERTloadoutAmberSecondary
-    - Flare
-    - WeaponDisabler
-    - HandheldHealthAnalyzer
+    - PinpointerNuclear
+    - BoxCardboardERT
+    - JawsOfLife
+    - PortableCameraMonitor
+    - CriminalRecordsMonitor
+    - HandheldCrewMonitor
+    - DefibrillatorCompact
+    - MedkitCombatFilled
+    - ADTCombatHypo
     - ChemistryBottleOmnizine
     - ChemistryBottleEpinephrine
-    - Cautery
-    - FlashlightLantern
-    - CrowbarRed
-    - ADTCombatHypo
-    - EmergencyMedipen
 
 ## Red
 - type: job
@@ -394,8 +450,15 @@
   description: job-description-ertmedic
   playTimeTracker: JobERTMedicalRed
   setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 36000 # 10 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 36000 # 10 hours
   startingGear: ERTMedicalGearRed
-  icon: "JobIconERT"
+  icon: "JobIconERTMedical"
   supervisors: job-supervisors-centcom
   canBeAntag: false
   accessGroups:
@@ -417,32 +480,31 @@
   equipment:
     jumpsuit: ClothingUniformJumpsuitERTMedic
     back: ClothingBackpackERTMedical
-    mask: ClothingMaskGasERT
-    eyes: ClothingEyesHudAdvanced
+    eyes: ClothingEyesHudERTGamma
     ears: ClothingHeadsetCentCom
     gloves: ClothingHandsGlovesCombat
-    outerClothing: ClothingOuterHardsuitERTMedical
+    outerClothing: ClothingOuterHardsuitERTRedMedic
+    suitstorage: JetpackSecurityFilled
     shoes: ADTClothingShoesBootsMagERT
-    id: ERTMedicRedIDCard
-    belt: ClothingBeltERTMedicalFilled
+    id: ERTMedicRedPDA
+    belt: ClothingBeltMilitaryWebbingERTMed
     pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: ADTCombatHypo
   storage:
     back:
-    - ChemistryBottleOmnizine
-    - ChemistryBottleOmnizine
-    - ChemistryBottleEpinephrine
-    - ChemistryBottleEpinephrine
-    - Cautery
-    - CrowbarRed
-    - Flare
-    - ADTCombatHypo
-    - ERTloadoutRedSecondary
-    - EmergencyMedipen
-    - BoxMRE
     - ERTloadoutRedPrimary
+    - ERTloadoutRedSecondary
+    - BoxCardboardERT
     - DefibrillatorCompact
-    - WeaponDisabler
-    - HandheldHealthAnalyzer
+    - PinpointerNuclear
+    - JugDexPlusSaline
+    - CrowbarRed
+    - MedkitCombatFilled
+    - InjectorCaseERTFilled
+    - ChemistryBottleOmnizine
+    - ChemistryBottleOmnizine
+    - ChemistryBottleBruizine
+    - ChemistryBottlePyrazine
 
 ## Gamma
 - type: job
@@ -451,8 +513,15 @@
   description: job-description-ertmedic
   playTimeTracker: JobERTMedicalGamma
   setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 36000 # 10 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 36000 # 10 hours
   startingGear: ERTMedicalGearGamma
-  icon: "JobIconERT"
+  icon: "JobIconERTMedical"
   supervisors: job-supervisors-centcom
   canBeAntag: false
   accessGroups:
@@ -474,36 +543,28 @@
   equipment:
     jumpsuit: ClothingUniformJumpsuitERTMedic
     back: ClothingBackpackERTMedical
-    mask: ClothingMaskGasERT
-    eyes: ClothingEyesHudAdvanced
+    eyes: ClothingEyesHudERTGamma
     ears: ClothingHeadsetCentCom
     gloves: ClothingHandsGlovesCombat
     outerClothing: ClothingOuterHardsuitERTMedical
-    suitstorage: JetpackMiniFilled
+    suitstorage: JetpackVoidFilled
     shoes: ADTClothingShoesBootsMagERT
-    id: ERTMedicGammaIDCard
-    belt: ClothingBeltERTMedicalFilled
+    id: ERTMedicGammaPDA
+    belt: ClothingBeltMilitaryWebbingERTMed
     pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: ADTCombatHypo
   storage:
     back:
-    - ChemistryBottleOmnizine
-    - ChemistryBottleOmnizine
-    - ChemistryBottleOmnizine
-    - ChemistryBottleEpinephrine
-    - ChemistryBottleEpinephrine
-    - ChemistryBottleEpinephrine
-    - Cautery
-    - CrowbarRed
-    - ADTCombatHypo
     - ERTloadoutGammaPrimary
-    - EmergencyMedipen
-    - BoxMRE
-    - DefibrillatorCompact
     - ERTloadoutGammaSecondary
-    - WeaponDisabler
-    - HandheldHealthAnalyzer
+    - BoxCardboardERT
+    - DefibrillatorCompact
     - PinpointerNuclear
-    - ClothingEyesPNVAdv
+    - JugTheCircleOmnizine
+    - JugDexPlusSaline
+    - CrowbarRed
+    - BSAACombatKitFilled
+    - InjectorCaseERTFilled
 
 # Engineer
 ## Amber
@@ -513,8 +574,15 @@
   description: job-description-ertengineer
   playTimeTracker: JobERTEngineerAmber
   setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Engineering
+      time: 36000 # 10 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 36000 # 10 hours
   startingGear: ERTEngineerGearAmber
-  icon: "JobIconERT"
+  icon: "JobIconERTEngineer"
   supervisors: job-supervisors-centcom
   canBeAntag: false
   accessGroups:
@@ -535,28 +603,35 @@
   id: ERTEngineerGearAmber
   equipment:
     jumpsuit: ClothingUniformJumpsuitERTEngineer
-    back: ClothingBackpackERTEngineer
+    back: ClothingBackpackRIGERTEngineer
     mask: ClothingMaskGasERT
     eyes: ClothingEyesHudAdvanced
     ears: ClothingHeadsetCentCom
+    neck: ClothingNeckBodyCamera
     gloves: ClothingHandsGlovesCombat
     outerClothing: ClothingOuterArmorBulletproof
-    shoes: ClothingShoesBootsWork
+    suitstorage: JetpackMiniFilled
+    shoes: ClothingShoesBootsMagSecurity
     head: ClothingHeadHelmetERTEngineer
-    id: ERTEngineerIDCard
-    belt: ClothingUtilityWebbingEngineering
+    id: ERTEngineerPDA
+    belt: ClothingBeltMilitaryWebbingERT
     pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: FlashlightSeclite
   storage:
     back:
-    - FlashlightLantern
-    - WeaponDisabler
-    - EmergencyMedipen
-    - BoxMRE
-    - ERTloadoutAmberSecondary
     - ERTloadoutAmberPrimary
-    - Flare
+    - ERTloadoutAmberSecondary
+    - PinpointerNuclear
+    - BoxCardboardERT
+    - PortableCameraMonitor
+    - CriminalRecordsMonitor
+    - HandheldCrewMonitor
+    - Omnitool
+    - WelderIndustrialAdvanced
     - RCD
     - RCDAmmo
+    - RCDAmmo
+    - MedkitCombatFilled
 
 ## Red
 - type: job
@@ -565,8 +640,15 @@
   description: job-description-ertengineer
   playTimeTracker: JobERTEngineerRed
   setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Engineering
+      time: 36000 # 10 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 36000 # 10 hours
   startingGear: ERTEngineerGearRed
-  icon: "JobIconERT"
+  icon: "JobIconERTEngineer"
   supervisors: job-supervisors-centcom
   canBeAntag: false
   accessGroups:
@@ -588,27 +670,27 @@
   equipment:
     jumpsuit: ClothingUniformJumpsuitERTEngineer
     back: ClothingBackpackERTEngineer
-    mask: ClothingMaskGasERT
-    eyes: ClothingEyesHudAdvanced
+    eyes: ClothingEyesHudERT
     ears: ClothingHeadsetCentCom
     gloves: ClothingHandsGlovesCombat
-    outerClothing: ClothingOuterHardsuitERTEngineer
+    outerClothing: ClothingOuterHardsuitERTRedEngineer
+    suitstorage: JetpackSecurityFilled
     shoes: ADTClothingShoesBootsMagERT
-    id: ERTEngineerRedIDCard
+    id: ERTEngineerRedPDA
     belt: ClothingBeltChiefEngineerFilled
     pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: WeaponDisabler
   storage:
     back:
-    - RCD
-    - RCDAmmo
-    - RCDAmmo
-    - ERTloadoutRedSecondary
-    - EmergencyMedipen
-    - BoxMRE
     - ERTloadoutRedPrimary
-    - RemoteSignaller
-    - Flare
-    - WeaponDisabler
+    - ERTloadoutRedSecondary
+    - BoxCardboardERT
+    - BoxC4ERT
+    - RCDAmmo
+    - RCDAmmo
+    - RCDAmmo
+    - MedkitCombatFilled
+    - InjectorCaseERTFilled
 
 ## Gamma
 - type: job
@@ -617,8 +699,15 @@
   description: job-description-ertengineer
   playTimeTracker: JobERTEngineerGamma
   setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Engineering
+      time: 36000 # 10 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 36000 # 10 hours
   startingGear: ERTEngineerGearGamma
-  icon: "JobIconERT"
+  icon: "JobIconERTEngineer"
   supervisors: job-supervisors-centcom
   canBeAntag: false
   accessGroups:
@@ -640,34 +729,29 @@
   equipment:
     jumpsuit: ClothingUniformJumpsuitERTEngineer
     back: ClothingBackpackERTEngineer
-    mask: ClothingMaskGasERT
-    eyes: ClothingEyesHudAdvanced
+    eyes: ClothingEyesHudERTGamma
     ears: ClothingHeadsetCentCom
     gloves: ClothingHandsGlovesCombat
     outerClothing: ClothingOuterHardsuitERTEngineer
-    suitstorage: JetpackMiniFilled
+    suitstorage: JetpackVoidFilled
     shoes: ADTClothingShoesBootsMagERT
-    id: ERTEngineerGammaIDCard
+    id: ERTEngineerGammaPDA
     belt: ClothingBeltChiefEngineerFilled
     pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: WeaponDisabler
   storage:
     back:
-    - WeaponDisabler
+    - ERTloadoutGammaPrimary
+    - ERTloadoutGammaSecondary
+    - BoxCardboardERT
+    - BoxC4ERT
     - RCDRecharging
     - RCDAmmo
     - RCDAmmo
-    - C4
-    - C4
-    - C4
-    - C4
-    - RemoteSignallerAdvanced
-    - ERTloadoutGammaPrimary
-    - EmergencyMedipen
-    - BoxMRE
-    - ERTloadoutGammaSecondary
-    - Flare
+    - RCDAmmo
+    - BSAACombatKitFilled
+    - InjectorCaseERTFilled
     - PinpointerNuclear
-    - ClothingEyesPNVAdv
 
 # Janitor
 ## Amber
@@ -677,8 +761,12 @@
   description: job-description-ertjanitor
   playTimeTracker: JobERTJanitorAmber
   setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 36000 # 10 hours
   startingGear: ERTJanitorGearAmber
-  icon: "JobIconERT"
+  icon: "JobIconERTJanitor"
   supervisors: job-supervisors-centcom
   canBeAntag: false
   accessGroups:
@@ -699,30 +787,31 @@
   id: ERTJanitorGearAmber
   equipment:
     jumpsuit: ClothingUniformJumpsuitERTJanitor
-    back: ClothingBackpackERTJanitor
+    back: ClothingBackpackRIGERTJanitor
     mask: ClothingMaskGasERT
-    eyes: ClothingEyesHudAdvanced
+    eyes: ClothingEyesHudERT
     ears: ClothingHeadsetCentCom
+    neck: ClothingNeckBodyCamera
     gloves: ClothingHandsGlovesCombat
     outerClothing: ClothingOuterArmorBulletproof
     shoes: ClothingShoesGaloshes
     head: ClothingHeadHelmetERTJanitor
-    id: ERTJanitorIDCard
-    belt: ClothingBeltJanitorFilled
+    id: ERTJanitorPDA
+    belt: ClothingBeltJanitorFilledERT
     pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: FlashlightSeclite
   storage:
     back:
     - ERTloadoutAmberPrimary
-    - SoapNT
-    - MopItem
-    - LightReplacer
-    - Holoprojector
-    - CrowbarRed
-    - EmergencyMedipen
-    - BoxMRE
     - ERTloadoutAmberSecondary
-    - Flare
-    - WeaponDisabler
+    - BoxCardboardERT
+    - BoxLightMixed
+    - JawsOfLife
+    - BoxCleanerGrenades
+    - PinpointerNuclear
+    - MedkitCombatFilled
+  inhand:
+   - MopItem
 
 ## Red
 - type: job
@@ -731,8 +820,12 @@
   description: job-description-ertjanitor
   playTimeTracker: JobERTJanitorRed
   setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 36000 # 10 hours
   startingGear: ERTJanitorGearRed
-  icon: "JobIconERT"
+  icon: "JobIconERTJanitor"
   supervisors: job-supervisors-centcom
   canBeAntag: false
   accessGroups:
@@ -754,29 +847,28 @@
   equipment:
     jumpsuit: ClothingUniformJumpsuitERTJanitor
     back: ClothingBackpackERTJanitor
-    mask: ClothingMaskGasERT
-    eyes: ClothingEyesHudAdvanced
+    eyes: ClothingEyesHudERTGamma
     ears: ClothingHeadsetCentCom
     gloves: ClothingHandsGlovesCombat
-    outerClothing: ClothingOuterHardsuitERTJanitor
+    outerClothing: ClothingOuterHardsuitERTRedJanitor
+    suitstorage: JetpackSecurityFilled
     shoes: ADTClothingShoesBootsMagERT
-    id: ERTJanitorRedIDCard
-    belt: ClothingBeltJanitorFilled
+    id: ERTJanitorRedPDA
+    belt: ClothingBeltJanitorFilledERT
     pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: WeaponDisabler
   storage:
     back:
-    - SoapNT
-    - AdvMopItem
-    - LightReplacer
-    - Holoprojector
-    - CrowbarRed
-    - ERTloadoutRedSecondary
-    - EmergencyMedipen
-    - BoxMRE
     - ERTloadoutRedPrimary
-    - TrashBagBlue
-    - Flare
-    - WeaponDisabler
+    - ERTloadoutRedSecondary
+    - BoxCardboardERT
+    - BoxLightMixed
+    - AdvMopItem
+    - BoxCleanerGrenades
+    - CrowbarRed
+    - PinpointerNuclear
+    - MedkitCombatFilled
+    - InjectorCaseERTFilled
 
 ## Gamma
 - type: job
@@ -785,8 +877,12 @@
   description: job-description-ertjanitor
   playTimeTracker: JobERTJanitorGamma
   setPreference: false
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 36000 # 10 hours
   startingGear: ERTJanitorGearGamma
-  icon: "JobIconERT"
+  icon: "JobIconERTJanitor"
   supervisors: job-supervisors-centcom
   canBeAntag: false
   accessGroups:
@@ -808,29 +904,27 @@
   equipment:
     jumpsuit: ClothingUniformJumpsuitERTJanitor
     back: ClothingBackpackERTJanitor
-    mask: ClothingMaskGasERT
-    eyes: ClothingEyesHudAdvanced
+    eyes: ClothingEyesHudERTGamma
     ears: ClothingHeadsetCentCom
     gloves: ClothingHandsGlovesCombat
     outerClothing: ClothingOuterHardsuitERTJanitor
-    suitstorage: JetpackMiniFilled
+    suitstorage: JetpackVoidFilled
     shoes: ADTClothingShoesBootsMagERT
-    id: ERTJanitorGammaIDCard
-    belt: ClothingBeltJanitorFilled
+    id: ERTJanitorGammaPDA
+    belt: ClothingBeltJanitorFilledERT
     pocket1: DoubleEmergencyOxygenTankFilled
+    pocket2: WeaponDisabler
   storage:
     back:
-    - SoapOmega
-    - AdvMopItem
-    - LightReplacer
-    - Holoprojector
-    - Zipties
     - ERTloadoutGammaPrimary
-    - EmergencyMedipen
-    - BoxMRE
     - ERTloadoutGammaSecondary
+    - BoxCardboardERT
+    - BoxLightMixed
+    - BoxGrenadeCleanade
+    - AdvMopItem
     - CrowbarRed
-    - WeaponDisabler
-    - TrashBagBlue
     - PinpointerNuclear
-    - ClothingEyesPNVAdv
+    - BSAACombatKitFilled
+    - InjectorCaseERTFilled
+  inhand:
+   - WeaponLauncherHydra

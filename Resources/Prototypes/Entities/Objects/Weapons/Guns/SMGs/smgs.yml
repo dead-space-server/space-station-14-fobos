@@ -48,7 +48,6 @@
         whitelistFailPopup: gun-magazine-whitelist-fail
       gun_chamber:
         name: Chamber
-        startingItem: CartridgePistol
         priority: 1
         whitelist:
           tags:
@@ -151,15 +150,16 @@
   - type: ContainerContainer
     containers:
       ballistic-ammo: !type:Container
-  - type: ProjectileBatteryAmmoProvider
+  - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CartridgePistol
+    capacity: 30
     proto: CartridgePistol
-    fireCost: 100
-  - type: Battery
-    maxCharge: 3000
-    startingCharge: 3000
-  - type: BatterySelfRecharger
-    autoRecharge: true
-    autoRechargeRate: 25
+    cycleable: false # No synthesizing ammo for your syndicate masters.
+  - type: BallisticAmmoSelfRefiller
+    autoRefillRate: 4s
+    affectedByEmp: true
   - type: AmmoCounter
 
 - type: entity
@@ -189,7 +189,7 @@
       burstFireRate: 20 # DS14-value
       soundGunshot:
         path: /Audio/Weapons/Guns/Gunshots/atreides.ogg
-      selectedMode: Burst
+      selectedMode: FullAuto #DS-14
       availableModes:
       - Burst
       - FullAuto
@@ -210,7 +210,6 @@
           whitelistFailPopup: gun-magazine-whitelist-fail
         gun_chamber:
           name: Chamber
-          startingItem: CartridgePistol
           priority: 1
           whitelist:
             tags:
@@ -319,7 +318,6 @@
         whitelistFailPopup: gun-magazine-whitelist-fail
       gun_chamber:
         name: Chamber
-        startingItem: CartridgePistol
         priority: 1
         whitelist:
           tags:
@@ -329,3 +327,63 @@
     steps: 6
     zeroVisible: true
   - type: Appearance
+
+- type: entity
+  name: brown briefcase
+  parent: [BaseWeaponSubMachineGun, BaseStorageItem] #DS-14
+  id: WeaponSubMachineGunBriefcase
+  description: Useful for carrying items in your hands.
+  suffix: Gun
+  components:
+  - type: Item
+    size: Large #DS-14 start
+    shape:
+    - 0,0,3,2 #DS-14 end
+    inhandVisuals:
+      left:
+        - sprite: Objects/Storage/Briefcases/briefcase_brown.rsi
+          state: inhand-left
+      right:
+        - sprite: Objects/Storage/Briefcases/briefcase_brown.rsi
+          state: inhand-right
+  - type: Sprite
+    sprite: Objects/Storage/Briefcases/briefcase_brown.rsi #DS-14
+    layers:
+    - sprite: Objects/Storage/Briefcases/briefcase_brown.rsi
+      state: icon
+  - type: Storage #DS-14 start
+    grid:
+    - 0,0,1,1
+  - type: StorageFill
+    contents:
+    - id: MagazinePistolSubMachineGun
+      amount: 2 #DS-14 end
+  - type: ContainerContainer
+    containers:
+      gun_magazine: !type:ContainerSlot
+      gun_chamber: !type:ContainerSlot
+      storagebase: !type:Container
+        ents: []
+  - type: Gun
+    fireRate: 9
+    minAngle: 25
+    maxAngle: 32
+    availableModes:
+    - FullAuto
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/atreides.ogg
+  - type: ChamberMagazineAmmoProvider
+    autoEject: false
+  - type: Appearance
+  - type: StaticPrice
+    price: 5000
+  - type: MeleeWeapon
+    damage:
+      types:
+        Blunt: 14 #DS-14 start
+    angle: 150
+    animation: WeaponArcThrust
+    soundHit:
+      collection: WeakHit
+  - type: AltFireMelee
+    attackType: Heavy #DS-14 end

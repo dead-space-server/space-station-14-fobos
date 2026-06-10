@@ -4,7 +4,7 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Shared.Sirena.Animations;
 
-public class SharedEmoteAnimationSystem : EntitySystem
+public abstract class SharedEmoteAnimationSystem : EntitySystem
 {
     public const string EmoteFlipActionPrototype = "EmoteFlip";
     public const string EmoteJumpActionPrototype = "EmoteJump";

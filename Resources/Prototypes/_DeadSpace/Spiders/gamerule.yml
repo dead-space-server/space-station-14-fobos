@@ -21,10 +21,10 @@
 
 - type: antag
   id: SpiderTerror
-  name: Паук ужаса
+  name: roles-antag-spider-terror-name
   antagonist: true
   setPreference: false
-  objective: Ваша цель захватить станцию.
+  objective: roles-antag-spider-terror-objective
 
 - type: antag
   id: SpiderTerrorQueen
@@ -85,6 +85,7 @@
           amount: 1
       mindRoles:
       - MindRoleSpiderTettorQueen
+      sponsorsPriority: true
     - prefRoles: [ SpiderTerrorKing ]
       fallbackRoles: [ SpiderTerrorQueen, SpiderTerrorKingBlood ]
       max: 2
@@ -105,6 +106,7 @@
           amount: 1 # Колличество
       mindRoles:
       - MindRoleSpiderTettorKing
+      sponsorsPriority: true
     - prefRoles: [ SpiderTerrorKingBlood ]
       fallbackRoles: [ SpiderTerrorQueen, SpiderTerrorKing ]
       max: 6
@@ -125,6 +127,7 @@
           amount: 1 # Колличество
       mindRoles:
       - MindRoleSpiderTettorKingBlood
+      sponsorsPriority: true
 
 - type: entity
   id: SpiderTerrorSpawn

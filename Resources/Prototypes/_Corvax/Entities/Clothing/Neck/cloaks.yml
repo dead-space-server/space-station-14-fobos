@@ -5,7 +5,7 @@
   description: The NanoTrasen logo embroidered in gold speaks for itself.
   components:
     - type: Sprite
-      sprite: _Corvax/Clothing/Neck/Cloaks/centcom_officer_black.rsi
+      sprite: _DeadSpace/Clothing/Neck/centcom_officer_black.rsi #DS14
 
 - type: entity
   parent: ClothingNeckBase

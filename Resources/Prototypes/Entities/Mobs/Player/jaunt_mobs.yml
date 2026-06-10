@@ -37,7 +37,7 @@
     drawdepth: Ghosts
   - type: MovementSpeedModifier
     baseSprintSpeed: 6
-    baseWalkSpeed: 4
+    baseWalkSpeed: 5 #DS14
 
 - type: entity
   parent: [Incorporeal, BaseMob]

@@ -1,0 +1,50 @@
+- type: entity
+  name: блюспейс ручной сканер масс
+  parent: HandHeldMassScanner
+  id: BluespaceHandHeldMassScanner
+  description: Здесь даже видно твои мечты, что были скинуты в помойку, ты же на НТ работаешь...
+  components:
+  - type: Item
+    sprite: _DeadSpace/Objects/Tools/handheld_mass_scanner.rsi
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Tools/handheld_mass_scanner.rsi
+    state: icon
+    layers:
+      - state: icon
+      - state: scanner
+        shader: unshaded
+        visible: false
+        map: [ "enum.PowerDeviceVisualLayers.Powered" ]
+  - type: RadarConsole
+    maxRange: 342
+    advanced: true
+    allowedComponents:
+      - component: Projectile
+        color: "#FF0000"
+      - component: MobState
+        color: "#FFFFFF"
+      - component: Item
+        color: "#FFD700"
+    # allowedTags:
+    #   - tag: Structure
+    #     color: "#00FF00"
+    blacklistComponents:
+      - CartridgeAmmo
+    blacklistTags:
+      - Ore
+      - Trash
+  - type: PowerCellDraw
+    drawRate: 2.5
+  - type: Tag
+    tags:
+    - BluespaceHandHeldMassScanner
+
+- type: entity
+  id: BluespaceHandHeldMassScannerEmpty
+  parent: BluespaceHandHeldMassScanner
+  suffix: Пустой
+  components:
+  - type: ItemSlots
+    slots:
+      cell_slot:
+        name: power-cell-slot-component-slot-name-default

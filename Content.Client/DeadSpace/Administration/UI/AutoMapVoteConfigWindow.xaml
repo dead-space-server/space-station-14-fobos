@@ -1,0 +1,15 @@
+<DefaultWindow
+    xmlns="https://spacestation14.io"
+    xmlns:ds="clr-namespace:Content.Client.DeadSpace.Administration.UI"
+    Title="{Loc auto-map-vote-config-window-title}"
+    MinSize="950 700"
+    SetSize="1120 820">
+    <BoxContainer Orientation="Vertical" Margin="8" HorizontalExpand="True" VerticalExpand="True">
+        <ds:AutoMapVoteConfigControl
+            Name="ConfigControl"
+            Access="Public"
+            HorizontalExpand="True"
+            VerticalExpand="True"
+            Margin="0" />
+    </BoxContainer>
+</DefaultWindow>

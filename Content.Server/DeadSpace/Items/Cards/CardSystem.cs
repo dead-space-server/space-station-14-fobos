@@ -21,7 +21,7 @@ public sealed class CardSystem : SharedCardSystem
     private void OnSetTransferVerbs(EntityUid uid, CardComponent component, GetVerbsEvent<Verb> args)
     {
 
-        if (!EntityManager.TryGetComponent(args.User, out ActorComponent? actor))
+        if (!TryComp(args.User, out ActorComponent? actor))
             return;
 
         var player = actor.PlayerSession;

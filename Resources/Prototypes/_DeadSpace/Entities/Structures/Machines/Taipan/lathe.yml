@@ -18,6 +18,7 @@
       map: ["enum.MaterialStorageVisualLayers.Inserting"]
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
   - type: Machine
     board: AutolatheMachineCircuitboardTaipan
   - type: MaterialStorage
@@ -92,6 +93,7 @@
       map: ["enum.MaterialStorageVisualLayers.Inserting"]
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
   - type: Machine
     board: ProtolatheMachineCircuitboardTaipan
   - type: MaterialStorage
@@ -156,6 +158,7 @@
       map: ["enum.PowerDeviceVisualLayers.Powered"]
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
   - type: Machine
     board: CircuitImprinterMachineCircuitboardTaipan
   - type: ResearchClient
@@ -220,6 +223,7 @@
       map: ["enum.MaterialStorageVisualLayers.Inserting"]
     - state: fab-o
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
   - type: Machine
     board: ExosuitFabricatorMachineCircuitboardTaipan
   - type: ResearchClient
@@ -312,6 +316,7 @@
       color: "#ffaaaa"
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
   - type: Machine
     board: BiofabricatorMachineCircuitboardTaipan
   - type: MaterialStorage
@@ -350,6 +355,7 @@
       map: ["enum.MaterialStorageVisualLayers.Inserting"]
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
   - type: ResearchClient
     isTaipan: true
   - type: Lathe
@@ -391,6 +397,7 @@
       map: ["enum.MaterialStorageVisualLayers.Inserting"]
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
   - type: Machine
     board: WeaponryTechFabCircuitboardTaipan
   - type: ResearchClient
@@ -443,6 +450,7 @@
       map: ["enum.MaterialStorageVisualLayers.Inserting"]
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
   - type: Machine
     board: OreProcessorMachineCircuitboardTaipan
   - type: MaterialStorage

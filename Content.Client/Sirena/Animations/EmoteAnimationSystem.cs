@@ -11,12 +11,12 @@ using System.ComponentModel;
 
 namespace Content.Client.Sirena.Animations;
 
-public class EmoteAnimationSystem : SharedEmoteAnimationSystem
+public sealed class EmoteAnimationSystem : SharedEmoteAnimationSystem
 {
     [Dependency] private readonly AnimationPlayerSystem AnimationSystem = default!;
-    [Dependency] private readonly EntityManager _entityManager = default!;
     public override void Initialize()
     {
+        base.Initialize();
         SubscribeLocalEvent<EmoteAnimationComponent, ComponentHandleState>(OnHandleState);
     }
 
@@ -57,7 +57,7 @@ public class EmoteAnimationSystem : SharedEmoteAnimationSystem
             return;
 
         var baseAngle = Angle.Zero;
-        if (EntityManager.TryGetComponent(uid, out SpriteComponent? sprite))
+        if (TryComp(uid, out SpriteComponent? sprite))
         {
             if (sprite != null)
                 baseAngle = sprite.Rotation;

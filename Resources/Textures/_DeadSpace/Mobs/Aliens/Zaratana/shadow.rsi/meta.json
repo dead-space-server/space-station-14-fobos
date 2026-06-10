@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "create by abrams_gms (Little_Gabry) (discord) for Space Station 14 server Мёртвый Космос",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "shadow",
+      "delays": [
+        [
+          1.15,
+          1.15,
+          1.15
+        ]
+        ]
+    }
+  ]
+}

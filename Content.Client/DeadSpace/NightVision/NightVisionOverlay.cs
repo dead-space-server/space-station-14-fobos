@@ -17,15 +17,13 @@ public sealed class NightVisionOverlay : Overlay
     public override OverlaySpace Space => OverlaySpace.WorldSpace;
     private readonly ShaderInstance _greyscaleShader;
     private readonly ShaderInstance _circleMaskShader;
-    private NightVisionComponent _nightVisionComponent = default!;
+    private NightVisionComponent? _nightVisionComponent;
+
     private static readonly ProtoId<ShaderPrototype> GreyscaleFullscreenId = "GreyscaleFullscreen";
     private static readonly ProtoId<ShaderPrototype> ColorCircleMaskId = "PNVMask";
-    private float _transitionProgress = 0;
-    public Color PnvOffOverlay = new Color(0f, 0f, 0f, 0.4f);
 
-    /// <description>
-    ///     Готов ли звук к воспроизведению
-    /// </description>
+    private float _transitionProgress = 0f;
+
     private bool _readyForPlayback = true;
     public NightVisionOverlay()
     {
@@ -34,32 +32,20 @@ public sealed class NightVisionOverlay : Overlay
         _circleMaskShader = _prototypeManager.Index(ColorCircleMaskId).InstanceUnique();
     }
 
-    public float GetTransitionProgress()
-    {
-        return _transitionProgress;
-    }
+    public float GetTransitionProgress() => _transitionProgress;
 
     public void Reset()
     {
-        _transitionProgress = 0;
+        _transitionProgress = 0f;
         _readyForPlayback = true;
+        _nightVisionComponent = null;
     }
 
-    public void SetTransitionProgress(float value)
-    {
-        _transitionProgress = value;
-    }
+    public void SetTransitionProgress(float value) => _transitionProgress = value;
 
-    public void SetSoundBeenPlayed(bool state)
-    {
-        _readyForPlayback = state;
-    }
+    public void SetSoundBeenPlayed(bool state) => _readyForPlayback = state;
 
-    public bool SoundBeenPlayed()
-    {
-        return _readyForPlayback;
-    }
-
+    public bool SoundBeenPlayed() => _readyForPlayback;
     public bool IsRunning()
     {
         return _nightVisionComponent != null
@@ -67,17 +53,17 @@ public sealed class NightVisionOverlay : Overlay
             && _transitionProgress >= 1f;
     }
 
-
     protected override bool BeforeDraw(in OverlayDrawArgs args)
     {
-        if (!_entityManager.TryGetComponent(_playerManager.LocalSession?.AttachedEntity, out EyeComponent? eyeComp))
+        if (!_entityManager.TryGetComponent(
+                _playerManager.LocalSession?.AttachedEntity,
+                out EyeComponent? eyeComp))
             return false;
 
         if (args.Viewport.Eye != eyeComp.Eye)
             return false;
 
         var playerEntity = _playerManager.LocalSession?.AttachedEntity;
-
         if (playerEntity == null)
             return false;
 
@@ -86,19 +72,19 @@ public sealed class NightVisionOverlay : Overlay
 
         _nightVisionComponent = nvComp;
 
-        return _nightVisionComponent.IsNightVision || _transitionProgress > 0f;
+        return _nightVisionComponent.IsNightVision;
     }
 
     protected override void Draw(in OverlayDrawArgs args)
     {
-        if (ScreenTexture == null)
+        if (ScreenTexture == null || _nightVisionComponent == null)
             return;
 
         var playerEntity = _playerManager.LocalSession?.AttachedEntity;
         if (playerEntity == null)
             return;
 
-        float delta = (float)_timing.FrameTime.TotalSeconds;
+        var delta = (float) _timing.FrameTime.TotalSeconds;
 
         if (_nightVisionComponent.Animation)
         {
@@ -108,31 +94,27 @@ public sealed class NightVisionOverlay : Overlay
                 _transitionProgress = MathF.Max(0f, _transitionProgress - _nightVisionComponent.TransitionSpeed * delta);
         }
 
-        // Прекращаем рисовать только если эффект выключен и анимация закончена
-        if (!_nightVisionComponent.IsNightVision && _transitionProgress <= 0f)
+        if (!_nightVisionComponent.IsNightVision)
             return;
-
-        if (_entityManager.TryGetComponent<EyeComponent>(playerEntity, out var eye))
-            _circleMaskShader?.SetParameter("Zoom", eye.Zoom.X / 14);
 
         var worldHandle = args.WorldHandle;
         var viewport = args.WorldBounds;
 
+        if (_entityManager.TryGetComponent<EyeComponent>(playerEntity, out var eye))
+            _circleMaskShader.SetParameter("Zoom", eye.Zoom.X / 14);
+
         if (IsRunning())
         {
-            _greyscaleShader?.SetParameter("SCREEN_TEXTURE", ScreenTexture);
+            _greyscaleShader.SetParameter("SCREEN_TEXTURE", ScreenTexture);
             worldHandle.UseShader(_greyscaleShader);
             worldHandle.DrawRect(viewport, Color.White);
         }
 
-        _circleMaskShader?.SetParameter("SCREEN_TEXTURE", ScreenTexture);
-
-        if (IsRunning())
-            _circleMaskShader?.SetParameter("Color", _nightVisionComponent.Color);
-        else
-            _circleMaskShader?.SetParameter("Color", PnvOffOverlay);
-
-        _circleMaskShader?.SetParameter("TransitionProgress", 1f - _transitionProgress);
+        _circleMaskShader.SetParameter("SCREEN_TEXTURE", ScreenTexture);
+        _circleMaskShader.SetParameter("Color", IsRunning()
+            ? _nightVisionComponent.Color
+            : Color.Transparent);
+        _circleMaskShader.SetParameter("TransitionProgress", 1f - _transitionProgress);
 
         worldHandle.UseShader(_circleMaskShader);
         worldHandle.DrawRect(viewport, Color.White);

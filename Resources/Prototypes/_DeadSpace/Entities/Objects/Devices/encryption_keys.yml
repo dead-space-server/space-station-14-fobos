@@ -15,6 +15,21 @@
 
 - type: entity
   parent: EncryptionKey
+  id: EncryptionKeySOD
+  name: ключ шифрования КСО
+  description: Ключ шифрования отряда, что спасает тысячи жизней.
+  components:
+  - type: EncryptionKey
+    channels:
+    - SOCChannel
+    defaultChannel: SOCChannel
+  - type: Sprite
+    layers:
+    - state: crypt_blue
+    - state: nano_label
+
+- type: entity
+  parent: EncryptionKey
   id: EncryptionKeyLaw
   name: ключ шифрования юридического отдела
   description: Ключ шифрования, используемый самыми ненавидимыми (после клоуна) персонами.

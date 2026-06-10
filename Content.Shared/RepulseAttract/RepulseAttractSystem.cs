@@ -1,4 +1,4 @@
-﻿using Content.Shared.Physics;
+using Content.Shared.Physics;
 using Content.Shared.Throwing;
 using Content.Shared.Timing;
 using Content.Shared.Weapons.Melee.Events;
@@ -82,7 +82,13 @@ public sealed class RepulseAttractSystem : EntitySystem
             // repulse: throw them up to the maximum range
             var throwDirection = speed < 0 ? -direction : direction.Normalized() * (range - direction.Length());
 
-            _throw.TryThrow(target, throwDirection, Math.Abs(speed), user, recoil: false, compensateFriction: true);
+            // DS14-start
+            var throwSpeed = Math.Abs(speed);
+            var beforeThrown = new BeforeRepulseAttractThrownEvent(user, throwDirection, throwSpeed);
+            RaiseLocalEvent(target, ref beforeThrown);
+            // DS14-end
+
+            _throw.TryThrow(target, throwDirection, throwSpeed, user, recoil: false, compensateFriction: true);
         }
 
         return true;

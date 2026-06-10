@@ -9,6 +9,7 @@ using Content.Shared.Eye.Blinding.Components;
 using Content.Shared.Speech.Muting;
 using Content.Shared.CombatMode.Pacification;
 using Content.Shared.Body.Events;
+using Content.Shared.Gibbing;
 
 namespace Content.Server.DeadSpace.Abilities.Cocoon;
 

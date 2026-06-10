@@ -1,0 +1,8 @@
+- type: latheRecipe
+  id: ClothingHandsGlovesArkalyse
+  result: ClothingHandsGlovesArkalyse
+  completetime: 5
+  materials:
+    Cloth: 1000
+    Durathread: 1000
+    BluespaceCrystal: 2500

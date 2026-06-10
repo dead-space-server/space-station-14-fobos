@@ -124,6 +124,18 @@
         /// </summary>
         NameColor = 1 << 21,
 
+        // DS14-start
+        /// <summary>
+        ///     Lets you enable and disable OOC and LOOC chat.
+        /// </summary>
+        ChatToggle = 1 << 22,
+
+        /// <summary>
+        ///     Lets you add playtime for players.
+        /// </summary>
+        PlayTime = 1 << 23,
+        // DS14-end
+
         /// <summary>
         ///     Dangerous host permissions like scsi.
         /// </summary>

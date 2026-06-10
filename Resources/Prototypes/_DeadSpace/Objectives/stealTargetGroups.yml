@@ -46,3 +46,44 @@
   sprite:
     sprite: _Corvax/Mobs/Pets/largo.rsi
     state: crawling
+
+# Traitor single items    
+
+- type: stealTargetGroup
+  id: WeaponPistolX01
+  name: steal-target-groups-weapon-X01-pistol
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Battery/x01.rsi
+    state: icon
+
+- type: stealTargetGroup
+  id: PinpointerNuclear
+  name: steal-target-groups-pinpointer
+  sprite:
+    sprite: Objects/Devices/pinpointer.rsi
+    state: pinpointer
+
+- type: stealTargetGroup
+  id: PistolBlueShield
+  name: steal-target-groups-pistol-blue-shield
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Battery/blueshield_gun.rsi
+    state: icon
+
+- type: stealTargetGroup
+  id: WeaponRevolverDeckard
+  name: steal-target-groups-weapon-revolver-deckard
+  sprite:
+    sprite: Objects/Weapons/Guns/Revolvers/deckard.rsi
+    state: base
+
+- type: entity
+  parent: BaseThiefStealObjective
+  id: WeaponRevolverDeckardStealObjective
+  components:
+  - type: NotJobRequirement
+    jobs: [ SeniorOfficer ]
+  - type: StealCondition
+    stealGroup: WeaponRevolverDeckard
+  - type: Objective
+    difficulty: 1

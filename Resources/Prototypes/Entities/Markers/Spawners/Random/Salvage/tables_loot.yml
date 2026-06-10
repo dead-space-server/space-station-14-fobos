@@ -43,7 +43,7 @@
     - id: ScrapSteel
       weight: 2
     - id: ScrapGlass
-      weight: 2
+      weight: 15 #DS14
     # - id: ScrapPlastic TODO: high-value plastic scrap.
     #  weight: 2
     - id: SheetSteel10
@@ -117,10 +117,13 @@
       amount: !type:RangeNumberSelector
         range: 3, 5
     - id: TreasureDatadiskEncrypted
+      weight: 30 #DS14
+    - id: TreasureHardDiskDrive
+      weight: 30 #DS14
     - !type:GroupSelector
       children:
       - id: TreasureCDDrive
-      - id: TreasureHardDiskDrive
+      # - id: TreasureHardDiskDrive #DS14
       - id: TreasureFlopDiskDrive
     - !type:NestedSelector
       tableId: TreasureCoinPile

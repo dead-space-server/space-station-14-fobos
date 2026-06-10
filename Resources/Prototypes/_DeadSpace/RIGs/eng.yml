@@ -1,0 +1,91 @@
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBackpackRIGEngineer
+  name: модифицированный рюкзак инженера
+  description: Крайне удобный РИГ для инженеров вашей станции.
+  components:
+  - type: Clothing
+    equipDelay: 1.5
+    unequipDelay: 1.5
+  - type: Storage
+    grid:
+    - 0,0,7,5
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Engineer/backpack.rsi
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: ToggleableClothing
+    toggleDelay: 2
+    clothingPrototype: ClothingOuterRIGEngineer
+    requiredSlot: BACK
+    slot: outerClothing
+  - type: ContainerContainer
+    containers:
+      toggleable-clothing: !type:ContainerSlot {}
+      storagebase: !type:Container
+        ents: []
+
+- type: entity
+  parent: ClothingOuterHardsuitBase
+  id: ClothingOuterRIGEngineer
+  name: упрощённый скафандр инженера
+  description: Тут должно было быть красивое описание от ex1stence, должно.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Engineer/outer.rsi
+  - type: Clothing
+    sprite: _DeadSpace/RIGs/Engineer/outer.rsi
+    equipSound: /Audio/_DeadSpace/Misc/rig_equip.ogg
+  - type: PressureProtection
+    highPressureMultiplier: 0.04
+    lowPressureMultiplier: 1000
+  - type: ExplosionResistance
+    damageCoefficient: 0.5
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.65
+        Shock: 0.8
+        Caustic: 0.5
+        Radiation: 0.2
+  - type: ClothingSpeedModifier
+    walkModifier: 0.8
+    sprintModifier: 0.8
+  - type: TemperatureProtection
+    heatingCoefficient: 0.001
+    coolingCoefficient: 0.001
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetRIGEngineer
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ClothingHeadHelmetRIGEngineer
+  name: шлем модифицированного рюкзака инженера
+  description: Надеюсь оно спасёт от кирпича.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/RIGs/Engineer/helmet.rsi
+    scale: 0.7, 0.7
+  - type: Clothing
+    sprite: _DeadSpace/RIGs/Engineer/helmet.rsi
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.95
+        Slash: 0.95
+        Piercing: 0.95
+        Heat: 0.95
+  - type: PointLight
+    color: "#7CFC00"
+    radius: 5
+    energy: 3
+  - type: Item
+    heldPrefix: off 
+    size: Normal

@@ -1,5 +1,10 @@
+using Robust.Shared.Audio.Systems;
+using Robust.Shared.Serialization;
+using System.Diagnostics.CodeAnalysis;
 using Content.Shared.Chemistry.EntitySystems;
-using Content.Shared.Damage;
+using Content.Shared.Chemistry.Events;
+using Content.Shared.Damage.Components;
+using Content.Shared.DeadSpace.Chemistry.Components;
 using Content.Shared.DoAfter;
 using Content.Shared.Emag.Components;
 using Content.Shared.Emag.Systems;
@@ -8,9 +13,6 @@ using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.NPC.Components;
 using Content.Shared.Popups;
-using Robust.Shared.Audio.Systems;
-using Robust.Shared.Serialization;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Content.Shared.Silicons.Bots;
 
@@ -91,6 +93,11 @@ public sealed class MedibotSystem : EntitySystem
     {
         if (!Resolve(medibot, ref medibot.Comp, false)) return false;
 
+        // DS14-start
+        if (HasComp<InjectionBlockerComponent>(target))
+            return false;
+        // DS14-end
+
         if (HasComp<NPCRecentlyInjectedComponent>(target))
         {
             _popup.PopupClient(Loc.GetString("medibot-recently-injected"), medibot, medibot);
@@ -100,6 +107,16 @@ public sealed class MedibotSystem : EntitySystem
         if (!TryComp<MobStateComponent>(target, out var mobState)) return false;
         if (!TryComp<DamageableComponent>(target, out var damageable)) return false;
         if (!_solutionContainer.TryGetInjectableSolution(target, out _, out _)) return false;
+
+        // DS14-start
+        var injectAttempt = new TargetBeforeInjectEvent(medibot.Owner, medibot.Owner, target);
+        RaiseLocalEvent(target, ref injectAttempt);
+        if (injectAttempt.Cancelled)
+        {
+            _popup.PopupClient(Loc.GetString("injector-component-blocked-user"), medibot, medibot);
+            return false;
+        }
+        // DS14-end
 
         if (mobState.CurrentState != MobState.Alive && mobState.CurrentState != MobState.Critical)
         {
@@ -126,16 +143,27 @@ public sealed class MedibotSystem : EntitySystem
     {
         if (!Resolve(medibot, ref medibot.Comp, false)) return false;
 
+        // DS14-start
+        if (HasComp<InjectionBlockerComponent>(target))
+            return false;
+        // DS14-end
+
         if (!_interaction.InRangeUnobstructed(medibot.Owner, target)) return false;
 
         if (!TryComp<MobStateComponent>(target, out var mobState)) return false;
         if (!TryGetTreatment(medibot.Comp, mobState.CurrentState, out var treatment)) return false;
         if (!_solutionContainer.TryGetInjectableSolution(target, out var injectable, out _)) return false;
 
-        EnsureComp<NPCRecentlyInjectedComponent>(target);
+        // DS14-start
+        var injectAttempt = new TargetBeforeInjectEvent(medibot.Owner, medibot.Owner, target);
+        RaiseLocalEvent(target, ref injectAttempt);
+        if (injectAttempt.Cancelled)
+            return false;
+        // DS14-end
+
         _solutionContainer.TryAddReagent(injectable.Value, treatment.Reagent, treatment.Quantity, out _);
 
-        _popup.PopupEntity(Loc.GetString("hypospray-component-feel-prick-message"), target, target);
+        _popup.PopupEntity(Loc.GetString("injector-component-feel-prick-message"), target, target);
         _popup.PopupClient(Loc.GetString("medibot-target-injected"), medibot, medibot);
 
         _audio.PlayPredicted(medibot.Comp.InjectSound, medibot, medibot);

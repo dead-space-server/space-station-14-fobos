@@ -5,6 +5,9 @@
   parent: MarkerBase
   categories: [ DoNotMap ]
   components:
+  - type: Transform
+    anchored: false
+  - type: MindContainer
   - type: BlobSpawner
   - type: GhostRole
     name: ghost-role-information-blob-name
@@ -280,16 +283,11 @@
   description: An ordinary part of yours required for the construction of more advanced tiles.
   components:
   - type: Temperature
-    heatDamage:
-      types:
-        Heat: 5
-    coldDamage: {}
-    coldDamageThreshold: 0
   - type: Flammable
     fireSpread: true
     damage:
       types:
-        Heat: 1
+        Heat: 3 # DS14-value
   - type: BlobTile
     tileType: Normal
   - type: Destructible
@@ -316,16 +314,11 @@
   save: false
   components:
   - type: Temperature
-    heatDamage:
-      types:
-        Heat: 5
-    coldDamage: {}
-    coldDamageThreshold: 0
   - type: Flammable
     fireSpread: true
     damage:
       types:
-        Heat: 1
+        Heat: 3 # DS14-value
   - type: Destructible
     thresholds:
     - trigger:
@@ -388,16 +381,11 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: Temperature
-    heatDamage:
-      types:
-        Heat: 5
-    coldDamage: {}
-    coldDamageThreshold: 0
   - type: Flammable
     fireSpread: true
     damage:
       types:
-        Heat: 1
+        Heat: 3 # DS14-value
   - type: BlobTile
     tileType: Factory
   - type: Destructible
@@ -425,16 +413,11 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: Temperature
-    heatDamage:
-      types:
-        Heat: 5
-    coldDamage: {}
-    coldDamageThreshold: 0
   - type: Flammable
     fireSpread: true
     damage:
       types:
-        Heat: 1
+        Heat: 3 # DS14-value
   - type: BlobTile
     tileType: Resource
   - type: Destructible
@@ -463,16 +446,11 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: Temperature
-    heatDamage:
-      types:
-        Heat: 5
-    coldDamage: {}
-    coldDamageThreshold: 0
   - type: Flammable
     fireSpread: true
     damage:
       types:
-        Heat: 1
+        Heat: 3 # DS14-value
   - type: BlobTile
     tileType: Node
   - type: Destructible
@@ -501,6 +479,14 @@
   description: The basis of defensive positions has not only a strength of 6 times, this tile is also capable of withstanding various gases in order to become an atmospheric technician to protect the core, for example, from plasma that the enemy can set on fire.
   categories: [ HideSpawnMenu ]
   components:
+  # DS14-start
+  - type: Temperature
+  - type: Flammable
+    fireSpread: true
+    damage:
+      types:
+        Heat: 3
+  # DS14-end
   - type: BlobTile
     tileType: Strong
   - type: Airtight
@@ -528,6 +514,14 @@
   description: Upgrading a fortified cell in which they pay less strength for the ability to reflect only energy projectiles and lasers with a 90% chance.
   categories: [ HideSpawnMenu ]
   components:
+    # DS14-start
+    - type: Temperature
+    - type: Flammable
+      fireSpread: true
+      damage:
+        types:
+          Heat: 3
+    # DS14-end
     - type: Damageable
       damageContainer: Blob
       damageModifierSet: BlobReflective

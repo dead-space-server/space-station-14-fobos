@@ -18,10 +18,10 @@
   - Maintenance
   - External
   #start-backmen: currency
-  minBankBalance: 150
-  maxBankBalance: 250
+  minBankBalance: 250 # DS14-value
+  maxBankBalance: 350 # DS14-value
   wageDepartment: Cargo
-  wage: 60
+  wage: 120 # DS14-value
   #end-backmen: currency
   special:
   - !type:AddComponentSpecial
@@ -37,9 +37,9 @@
     id: SalvagePDA
     ears: ClothingHeadsetCargo
     socks: ClothingUnderwearSocksSalvage
-  #storage:
-    #back:
-    #- Stuff
+  storage:
+    back:
+    - LavalandMiningVoucher
 
 - type: chameleonOutfit
   id: SalvageSpecialistChameleonOutfit

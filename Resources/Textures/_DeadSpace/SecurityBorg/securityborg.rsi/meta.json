@@ -5,7 +5,7 @@
     "y": 32
   },
   "license": "CC-BY-SA-3.0",
-  "copyright": "Taken from tgstation at https://github.com/tgstation and re-sprite by mally0352",
+  "copyright": "Taken from tgstation at https://github.com/tgstation and re-sprite by mally0352, re-sprite (sec, sec_e, sec_l, sec_e_r) for down edited by golubok_epta",
   "states": [
     {
       "name": "sec",
@@ -21,6 +21,22 @@
     },
     {
       "name": "sec_e_r",
+      "directions": 4
+    },
+    {
+      "name": "sec_down",
+      "directions": 4
+    },
+    {
+      "name": "sec_down_e",
+      "directions": 4
+    },
+    {
+      "name": "sec_down_l",
+      "directions": 4
+    },
+    {
+      "name": "sec_down_e_r",
       "directions": 4
     }
   ]

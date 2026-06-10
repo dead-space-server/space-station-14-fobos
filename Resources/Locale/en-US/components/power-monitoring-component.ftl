@@ -5,6 +5,10 @@ power-monitoring-window-label-smes = SMES
 power-monitoring-window-label-substation = Substation
 power-monitoring-window-label-apc = APC
 power-monitoring-window-label-misc = Misc
+power-monitoring-window-label-broken-cables = Broken cables
+power-monitoring-window-label-damage = Damage
+power-monitoring-window-damage-empty = No damaged cable points detected.
+power-monitoring-window-damage-entry = #{ $index } { $cable } cable ({ $x }, { $y })
 
 power-monitoring-window-object-array = {$name} array [{$count}]
 

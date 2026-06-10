@@ -1,6 +1,5 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
-using Robust.Shared.Random;
 using Content.Shared.DeadSpace.Languages.Prototypes;
 using Content.Shared.DeadSpace.Languages.Components;
 using Robust.Shared.Prototypes;
@@ -18,7 +17,6 @@ namespace Content.Server.DeadSpace.Languages;
 
 public sealed class LanguageSystem : EntitySystem
 {
-    [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;

@@ -668,8 +668,8 @@
         Cable: 5
     - type: PhysicalComposition
       materialComposition:
-        Steel: 30
-        Plastic: 30
+        Steel: 25
+        Plastic: 25
     - type: StaticPrice
       price: 15
 
@@ -711,8 +711,8 @@
         Cable: 5
     - type: PhysicalComposition
       materialComposition:
-        Steel: 30
-        Plastic: 30
+        Steel: 25
+        Plastic: 25
     - type: StaticPrice
       price: 15
 
@@ -732,8 +732,8 @@
         CableMV: 5
     - type: PhysicalComposition
       materialComposition:
-        Steel: 30
-        Plastic: 30
+        Steel: 25
+        Plastic: 25
     - type: StaticPrice
       price: 15
 
@@ -1055,7 +1055,7 @@
 
 - type: entity
   id: SyndicateMicrowaveMachineCircuitboard
-  parent: BaseMachineCircuitboard
+  parent: [ BaseMachineCircuitboard, BaseSyndicateContraband ]
   name: donk co. microwave machine board
   components:
     - type: Sprite
@@ -1375,3 +1375,16 @@
         GlassBeaker:
           amount: 2
           defaultPrototype: Beaker
+
+- type: entity
+  id: MessengerServerCircuitboard
+  parent: BaseMachineCircuitboard
+  name: Messenger server machine board
+  description: A machine printed circuit board for a Messenger server.
+  components:
+    - type: MachineBoard
+      prototype: MessengerServer
+      stackRequirements:
+        Steel: 1
+        Cable: 2
+        Glass: 5

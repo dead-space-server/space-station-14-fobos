@@ -10,6 +10,7 @@
   name: Critical Force
   description: 
     Спасательный отряд для спонсоров актива.
+  announceOnApproval: false
   rule: SpawnCriticalForceShuttle
   spawnWindow:
     min: 1m

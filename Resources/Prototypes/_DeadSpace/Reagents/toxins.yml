@@ -18,10 +18,10 @@
       - !type:Polymorph
         prototype: EggSpiderTerror
         conditions:
-        - !type:OrganType
-          type: EggSpider
-          shouldHave: true
-        - !type:ReagentThreshold
+        - !type:MetabolizerTypeCondition
+          type: [ EggSpider ]
+        - !type:ReagentCondition
+          reagent: Chitoectesin
           min: 10
 
 - type: reagent
@@ -37,9 +37,10 @@
       effects:
       - !type:Jitter
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: Terratosomochromolin
           min: 1
-      - !type:MovespeedModifier
+      - !type:MovementSpeedModifier
         walkSpeedModifier: 0.5
         sprintSpeedModifier: 0.5
       - !type:HealthChange

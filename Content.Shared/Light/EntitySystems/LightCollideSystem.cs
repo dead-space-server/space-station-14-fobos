@@ -1,4 +1,5 @@
 using Content.Shared.Light.Components;
+using Robust.Shared.Physics;
 using Robust.Shared.Physics.Events;
 using Robust.Shared.Physics.Systems;
 
@@ -10,13 +11,18 @@ public sealed class LightCollideSystem : EntitySystem
     [Dependency] private readonly SlimPoweredLightSystem _lights = default!;
 
     private EntityQuery<LightOnCollideComponent> _lightQuery;
+    private EntityQuery<LightOnCollideColliderComponent> _colliderQuery;
+    private EntityQuery<FixturesComponent> _fixturesQuery;
 
     public override void Initialize()
     {
         base.Initialize();
 
         _lightQuery = GetEntityQuery<LightOnCollideComponent>();
+        _colliderQuery = GetEntityQuery<LightOnCollideColliderComponent>();
+        _fixturesQuery = GetEntityQuery<FixturesComponent>();
 
+        SubscribeLocalEvent<LightOnCollideComponent, PreventCollideEvent>(OnLightPreventCollide);
         SubscribeLocalEvent<LightOnCollideColliderComponent, PreventCollideEvent>(OnPreventCollide);
         SubscribeLocalEvent<LightOnCollideColliderComponent, StartCollideEvent>(OnStart);
         SubscribeLocalEvent<LightOnCollideColliderComponent, EndCollideEvent>(OnEnd);
@@ -45,6 +51,19 @@ public sealed class LightCollideSystem : EntitySystem
                 _physics.RegenerateContacts(other);
             }
         }
+    }
+
+    private void OnLightPreventCollide(Entity<LightOnCollideComponent> ent, ref PreventCollideEvent args)
+    {
+        if (!_fixturesQuery.TryGetComponent(ent, out var fixtures) ||
+            !fixtures.Fixtures.TryGetValue(ent.Comp.FixtureId, out var lightFixture) ||
+            args.OurFixture != lightFixture)
+        {
+            return;
+        }
+
+        if (!_colliderQuery.HasComp(args.OtherEntity))
+            args.Cancelled = true;
     }
 
     // You may be wondering what de fok this is doing here.

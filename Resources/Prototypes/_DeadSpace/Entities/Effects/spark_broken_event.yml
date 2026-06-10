@@ -1,0 +1,7 @@
+- type: entity
+  parent: EffectSparks
+  id: EffectSparksBrokenEvent
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: SpawnOnDespawn
+    prototype: Ash

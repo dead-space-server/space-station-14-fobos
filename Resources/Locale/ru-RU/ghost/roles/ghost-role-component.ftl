@@ -52,6 +52,9 @@ ghost-role-information-snoth-description = Маленькая молитка, к
 ghost-role-information-giant-spider-name = Гигантский паук
 ghost-role-information-giant-spider-description = Обитатели этой станции выглядят очень аппетитно, а ваша липкая паутина идеально подходит для их ловли!
 ghost-role-information-giant-spider-rules = Вы [color={ role-type-team-antagonist-color }][bold]{ role-type-team-antagonist-name }[/bold][/color], в команде с другими гигантскими пауками.
+ghost-role-information-space-snake-name = Космическая змея
+ghost-role-information-space-snake-description = Обитатели этой станции выглядят очень аппетитно, а ваши ядовитые клыки идеально подходят для их ловли!
+ghost-role-information-space-snake-rules = Вы [color={ role-type-team-antagonist-color }][bold]{ role-type-team-antagonist-name }[/bold][/color], в команде с другими космическими змеями.
 ghost-role-information-cognizine-description = Приобрело сознание с помощью магии когнизина.
 ghost-role-information-hamster-name = Хомяк
 ghost-role-information-hamster-description = Маленький ворчливый пушистик.
@@ -143,10 +146,13 @@ ghost-role-information-ert-medical-name = ОБР Медик
 ghost-role-information-ert-medical-description = Оказывайте содействие в медицинской помощи для решения проблем станции.
 ghost-role-information-cburn-leader-name = РХБЗЗ Лидер
 ghost-role-information-cburn-leader-description = Руководите командой специалистов для решения проблем станции.
+ghost-role-information-scst-leader-name = Лидер ОППУ
+ghost-role-information-scnt-leader-name = Лидер ОПНУ
 ghost-role-information-sindy-agent-sup-description = Агент синдиката, прилетевший на станцию для снабжения революции.
 ghost-role-information-cburn-agent-name = РХБЗЗ Оперативник
 ghost-role-information-cburn-agent-description = Высококвалифицированный оперативник, способный справиться с любыми угрозами.
-ghost-role-information-centcom-official-name = Представитель ЦК
+ghost-role-information-scst-agent-name = Оперативник ОППУ
+ghost-role-information-scnt-agent-name = Оперативник ОПНУ
 ghost-role-information-centcom-official-description = Инспектируйте станцию, пишите служебные характеристики на руководителей, орудуйте факсом.ghost-role-information-centcom-official-description = Выполняйте обязанности, связанные с Центком, такие как инспекция станции, составление служебных характеристик на руководителей и работа с факсом.
 ghost-role-information-nukeop-rules = Вы [color={ role-type-team-antagonist-color }][bold]{ role-type-team-antagonist-name }[/bold][/color], в команде с другими Ядерными оперативниками. Помощь агентов на станции не гарантируется.
 ghost-role-information-loneop-name = Одинокий оперативник
@@ -270,9 +276,13 @@ ghost-role-information-blueshieldofficer-description = Вы - Офицер ко�
 ghost-role-information-centcomofficer-name = Офицер Центрального Командования
 ghost-role-information-centcomofficer-description = Вы - Офицер Центрального Командования. Вы должны защищать довереное вам место на котором вы появились и выполнять приказы вышестоящих сотрудников Центрального Командования.
 ghost-role-information-centcom-personal-rules = Вы обязаны подчиняться приказам членов Центрального Командования.
-
+ghost-role-information-centcom-official-name = Представитель Центрального Командования
 ghost-role-information-ert-centcom-official-description =
-    Вы — Офицер Центрального Командования, направленный для инспекции станции по чрезвычайной ситуации.
+    Вы — Представитель Центрального Командования, направленный для инспекции станции по чрезвычайной ситуации.
     Роль требует хорошего знания СРП и Корпоративного Закона.
     Если вы не уверены в своих знаниях, пожалуйста, не берите эту роль.
     Роль предполагает высокий уровень ответственности и может быть предметом административного контроля со стороны модерации/администрации.
+ghost-role-information-mothership-core-name = Материнское ядро Ксеноборгов
+ghost-role-information-mothership-core-desc = Используйте Ксеноборгов, да бы сделать ещё больше ксеноборгов!
+ghost-role-information-xenoborg-name = Ксеноборг
+ghost-role-information-xenoborg-desc = Помогите материнскому ядру Ксеноборгов сделать больше ксеноборгов.

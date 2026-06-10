@@ -322,7 +322,7 @@
 # EMAG
 - type: listing
   id: ClothesMateCapeInventoryEmag1
-  productEntity: ADTClothingNeckSyndicateCloak
+  productEntity: ClothingNeckSyndicateCloak
   cost:
     SpaceCash: 100
   categories:
@@ -333,7 +333,7 @@
 
 - type: listing
   id: ClothesMateCapeInventoryEmag2
-  productEntity: ADTClothingNeckNukeOpsCloak
+  productEntity: ClothingNeckNukeOpsCloak
   cost:
     SpaceCash: 100
   categories:

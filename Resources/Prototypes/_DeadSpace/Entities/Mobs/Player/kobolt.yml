@@ -3,3 +3,11 @@
   name: Urist McKobolt
   parent: BaseMobKobolt
   id: MobKobolt
+  components:
+  - type: Tag
+    tags:
+    - CanPilot
+    - FootstepSound
+    - DoorBumpOpener
+    - AnomalyHost
+    - CantChangeScale

@@ -105,7 +105,7 @@
     wideAnimationRotation: -135
     damage:
       types:
-        Blunt: 20
+        Blunt: 30 #DS14
     soundHit:
       collection: MetalThud
     bluntStaminaDamageFactor: 1.5

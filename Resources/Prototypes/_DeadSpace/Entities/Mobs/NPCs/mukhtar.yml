@@ -5,6 +5,8 @@
   description: Верный пёс отдела службы безопасности.
   suffix: Призрачная роль
   components:
+  - type: CarrySize
+    size: Large
   - type: Sprite
     drawdepth: Mobs
     sprite: /Textures/_DeadSpace/Mobs/Pets/mukhtar.rsi

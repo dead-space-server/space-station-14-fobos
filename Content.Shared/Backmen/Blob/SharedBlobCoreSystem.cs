@@ -1,6 +1,7 @@
 using Content.Shared.Alert;
 using Content.Shared.Backmen.Blob.Components;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Robust.Shared.Prototypes;
 
 namespace Content.Shared.Backmen.Blob;

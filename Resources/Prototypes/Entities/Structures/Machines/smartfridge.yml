@@ -23,9 +23,10 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
-    radius: 1.5
-    energy: 1.6
+    radius: 1.2
+    energy: 3.0
     color: "#9dc5c9"
   - type: Machine
     board: SmartFridgeCircuitboard
@@ -48,6 +49,7 @@
   - type: SmartFridge
     whitelist:
       components:
+      - Edible
       - FitsInDispenser
       - Pill
       - Produce
@@ -114,6 +116,7 @@
       collection: MetalThud
   - type: ExplosionResistance
     damageCoefficient: 0.1
+  - type: Airtight
 
 - type: entity
   parent: SmartFridge

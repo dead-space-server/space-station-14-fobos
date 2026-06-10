@@ -44,21 +44,3 @@
   components:
   - type: Sprite
     sprite: _ADT/Clothing/Neck/Cloaks/gothic_cloak.rsi
-
-- type: entity
-  parent: ClothingNeckBase
-  id: ADTClothingNeckSyndicateCloak
-  name: плащ Синдиката
-  description: Антагонизируй со стилем!
-  components:
-  - type: Sprite
-    sprite: _ADT/Clothing/Neck/Cloaks/syndicate_cloak.rsi
-
-- type: entity
-  parent: ClothingNeckBase
-  id: ADTClothingNeckNukeOpsCloak
-  name: плащ ядерных оперативников
-  description: Согреет вас холодными вечерами на аванпосте ядерных оперативников.
-  components:
-  - type: Sprite
-    sprite: _ADT/Clothing/Neck/Cloaks/nukeops_cloak.rsi

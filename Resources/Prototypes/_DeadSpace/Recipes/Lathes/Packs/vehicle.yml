@@ -1,0 +1,8 @@
+- type: latheRecipePack
+  id: Vehicle
+  recipes:
+    - VehicleKeyJanicart
+    - VehicleKeyUniversal
+    - VehicleJanicartFlatpack
+    - VehicleQuadBikeFlatpack
+    - VehicleHoverbikeFlatpack

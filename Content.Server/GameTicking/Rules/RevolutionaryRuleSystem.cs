@@ -72,7 +72,7 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
     [Dependency] private readonly ActionsSystem _actions = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly IServerDbManager _db = default!;
-    [Dependency] private readonly ErtResponceSystem _ertResponceSystem = default!;
+    [Dependency] private readonly ErtResponseSystem _ertResponseSystem = default!; // DS14
     public readonly ProtoId<ErtTeamPrototype> RevolutionarySupplyTeam = "RevSup";
     public readonly EntProtoId Objective = "KillCommandStaffObjective";
 
@@ -152,7 +152,7 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
                 colorOverride: Color.Red,
                 usePresetTTS: true);
 
-            _ertResponceSystem.TryCallErt(RevolutionarySupplyTeam,
+            _ertResponseSystem.TryCallErt(RevolutionarySupplyTeam,
                 null,
                 out _,
                 false,
@@ -160,7 +160,7 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
                 false,
                 "Доставить вооружение революционерам",
                 null
-            );
+            ); // DS14
         }
 
         // Если средний прогресс по цели >= 1, запускаем голосование за завершение раунда
@@ -212,18 +212,20 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
 
         args.AddLine(Loc.GetString("rev-objectives-progress", ("progress", totalProgress.ToString("P0"))));
 
-        // Выводим подробности по каждому главреву
         var sessionData = _antag.GetAntagIdentifiers(uid);
         args.AddLine(Loc.GetString("rev-headrev-count", ("initialCount", sessionData.Count)));
         foreach (var (mind, data, name) in sessionData)
         {
-            _role.MindHasRole<RevolutionaryRoleComponent>(mind, out var role);
-            var count = CompOrNull<RevolutionaryRoleComponent>(role)?.ConvertedCount ?? 0;
+            var count = 0u;
+            if (_role.MindHasRole<RevolutionaryRoleComponent>(mind, out var role))
+                count = role.Value.Comp2.ConvertedCount;
+
             args.AddLine(Loc.GetString("rev-headrev-name-user",
                 ("name", name),
                 ("username", data.UserName),
                 ("count", count)));
         }
+        args.AddLine("");
 
         // DS14 Статистика для дашборда
         var commandLost = CheckCommandLose();

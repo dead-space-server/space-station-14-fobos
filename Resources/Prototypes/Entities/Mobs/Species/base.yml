@@ -82,6 +82,7 @@
           False: {visible: false}
   - type: StatusIcon
     bounds: -0.5,-0.5,0.5,0.5
+  - type: JobStatus
   - type: RotationVisuals
     defaultRotation: 90
     horizontalRotation: 90
@@ -123,7 +124,7 @@
     - reagents: [Water, SpaceCleaner]
       methods: [Touch]
       effects:
-      - !type:WashCreamPieReaction
+      - !type:WashCreamPie
   - type: StatusEffects
     allowed:
     - Electrocution
@@ -132,7 +133,6 @@
     - Muted
     - TemporaryBlindness
     - Pacified
-    - StaminaModifier
     - Flashed
     - RadiationProtection
     - Adrenaline
@@ -142,6 +142,12 @@
   - type: Identity
   - type: IdExaminable
   - type: Hands
+  # DS14-start
+  - type: CarrySize
+    size: Large
+  - type: CarryStrength
+    strength: Any
+  # DS14-end
   - type: ComplexInteraction
   - type: Internals
   - type: FloatingVisuals
@@ -170,7 +176,7 @@
   - type: Crawler
   - type: Dna
   - type: MindContainer
-    showExamineInfo: true
+  - type: MindExaminable
   - type: CanEnterCryostorage
   - type: InteractionPopup
     successChance: 1
@@ -182,6 +188,9 @@
     factions:
     - NanoTrasen
   - type: CreamPied
+  - type: ParcelWrapOverride
+    parcelPrototype: WrappedParcelHumanoid
+    wrapDelay: 5
   - type: Stripping
   - type: UserInterface
     interfaces:
@@ -194,6 +203,7 @@
     speechSounds: Alto
   - type: DamageForceSay
   - type: Vocal
+    wilhelm: "/Audio/_DeadSpace/Voice/Human/human_wilhelm.ogg" # DS14
     sounds:
       Male: MaleHuman
       Female: FemaleHuman
@@ -214,12 +224,14 @@
     - DoorBumpOpener
     - AnomalyHost
   - type: EmoteAnimation # ADT-Emotes
+  - type: SpeedSliding # DS14
   # DS14-Languages-start
   - type: Language
     selectedLanguage: GeneralLanguage
     knownLanguages:
     - GeneralLanguage
   # DS14-Languages-end
+  - type: Blink #DS14
 
 - type: entity
   save: false
@@ -250,10 +262,11 @@
   - type: Blindable
   # Other
   - type: Temperature
-    heatDamageThreshold: 325
-    coldDamageThreshold: 260
     currentTemperature: 310.15
     specificHeat: 42
+  - type: TemperatureDamage
+    heatDamageThreshold: 325
+    coldDamageThreshold: 260
     coldDamage:
       types:
         Cold: 0.1 #per second, scales with temperature & other constants

@@ -13,7 +13,7 @@ using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
-using Content.DeadSpace.Interfaces.Client; // DS14-sponsors
+using Content.DeadSpace.Interfaces.Client;
 
 namespace Content.Client.Players.PlayTimeTracking;
 
@@ -28,8 +28,8 @@ public sealed class JobRequirementsManager : ISharedPlaytimeManager
     private IClientSponsorsManager? _sponsorsManager; // DS14-sponsors
 
     private readonly Dictionary<string, TimeSpan> _roles = new();
-    private readonly List<string> _jobBans = new();
-    private readonly List<string> _antagBans = new();
+    private readonly List<ProtoId<JobPrototype>> _jobBans = new();
+    private readonly List<ProtoId<AntagPrototype>> _antagBans = new();
     private readonly List<string> _jobWhitelists = new();
 
     private ISawmill _sawmill = default!;

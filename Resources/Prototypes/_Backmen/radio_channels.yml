@@ -1,7 +1,8 @@
 ﻿- type: radioChannel
   id: Hivemind
   name: chat-radio-hivemind
-  keycode: 'у'
+  keycode: 'ъ'
   frequency: 8888
   color: "#800080"
   longRange: true
+# keycode 'ъ' edit by DS14

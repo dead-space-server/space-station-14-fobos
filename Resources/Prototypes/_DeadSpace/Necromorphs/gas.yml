@@ -12,7 +12,8 @@
       effects:
       - !type:CauseInfectionDead
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: InfectionDeadSpace
           min: 0.5
       - !type:PopupMessage
         type: Local
@@ -21,7 +22,7 @@
         probability: 0.1
 
 - type: gas
-  id: 9
+  id: InfectionDeadSpace
   name: gases-infectionDeadSpace
   specificHeat: 20
   heatCapacityRatio: 1.4
@@ -35,9 +36,10 @@
   pricePerMole: 0.2
 
 - type: entity
-  name: InfectionDeadSpace gas miner
   parent: GasMinerBase
   id: GasMinerInfectionDeadSpace
+  name: газодобытчик некроинфекции
+  description: Газы, добытые из газового гиганта под (над?) вами, проходят через эту массивную вентиляционную трубу.
   placement:
     mode: SnapgridCenter
   components:

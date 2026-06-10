@@ -8,25 +8,32 @@
   },
   "states": [
     {
-      "name": "empty"
+      "name": "empty",
+      "directions": 4
     },
 	{
-      "name": "icon"
+      "name": "icon",
+      "directions": 4
     },
 	{
-      "name": "fill"
+      "name": "fill",
+      "directions": 4
     },
 	{
-      "name": "denial_unlit"
+      "name": "denial_unlit",
+      "directions": 4
     },
 	{
-      "name": "off_unlit"
+      "name": "off_unlit",
+      "directions": 4
     },
 	{
-      "name": "on_unlit"
+      "name": "on_unlit",
+      "directions": 4
     },
 	{
-      "name": "successfully_unlit"
+      "name": "successfully_unlit",
+      "directions": 4
     }
   ]
 }

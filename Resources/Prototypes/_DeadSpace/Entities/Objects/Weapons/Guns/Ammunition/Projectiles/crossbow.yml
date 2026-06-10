@@ -26,12 +26,13 @@
   - type: Projectile
     damage:
       types:
-        Poison: 20
+        Poison: 5
+        Caustic: 5
   - type: StaminaDamageOnCollide
-    damage: 30
+    damage: 15
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Projectiles/crossbowbullet.rsi
     layers:
     - state: bulletcrossbow
   - type: StunOnCollide
-    knockdownAmount: 1
+    knockdownAmount: 0.5

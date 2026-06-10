@@ -74,7 +74,10 @@
       Burn:
         sprite: Mobs/Effects/burn_damage.rsi
   - type: Bloodstream
-    bloodReagent: Slime # TODO Color slime blood based on their slime color or smth
+    bloodReferenceSolution: # TODO Color slime blood based on their slime color or smth
+      reagents:
+      - ReagentId: Slime
+        Quantity: 300
   - type: Barotrauma
     damage:
       types:
@@ -88,16 +91,25 @@
     - reagents: [ Water, SpaceCleaner ]
       methods: [ Touch ]
       effects:
-      - !type:WashCreamPieReaction
+      - !type:WashCreamPie
     - reagents: [ Water ]
       methods: [ Touch ]
       effects:
       - !type:HealthChange
-        scaleByQuantity: true
+        # DS14-start
+        conditions:
+        - !type:WearingFullHardsuitCondition
+          inverted: true
+        # DS14-end
         damage:
           types:
             Heat: 1 # DS14-value
       - !type:PopupMessage
+        # DS14-start
+        conditions:
+        - !type:WearingFullHardsuitCondition
+          inverted: true
+        # DS14-end
         type: Local
         visualType: Large
         messages: [ "slime-hurt-by-water-popup" ]
@@ -123,6 +135,9 @@
             sprite: Mobs/Species/Human/displacement.rsi
             state: jumpsuit-female
   # DS14-start
+  - type: SpeedSliding
+    slideDistance: 6.5
+    slideSpeed: 2.5
   - type: Sanity
   - type: Tag
     tags:

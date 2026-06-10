@@ -20,6 +20,7 @@ ent-CrateServiceFaxMachine = ящик с факсом
     .desc = Факсовый аппарат и отвёртка для настройки его имени.
 ent-CrateServicePersonnel = ящик для найма персонала
     .desc = Содержит коробку с КПК и чистыми ID-картами.
+    .suffix = Защищённый
 ent-CrateServiceBooks = ящик книг
     .desc = Содержит 10 пустых книг случайного вида.
 ent-CrateServiceGuidebooks = ящик руководств

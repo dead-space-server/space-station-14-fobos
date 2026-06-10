@@ -15212,7 +15212,7 @@ entities:
       pos: 2.5179026,-28.781864
       parent: 2
     missingComponents:
-    - HitscanBatteryAmmoProvider
+    - BatteryAmmoProvider
     - AmmoCounter
     - Gun
     - Battery

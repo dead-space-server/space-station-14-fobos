@@ -1,12 +1,10 @@
 using Content.Server.Actions;
 using Content.Server.Chat.Systems;
-using Content.Server.Speech.Components;
+using Content.Shared.Chat;
 using Content.Shared.Chat.Prototypes;
-using Content.Shared.Cloning.Events;
 using Content.Shared.Humanoid;
 using Content.Shared.Speech;
 using Content.Shared.Speech.Components;
-using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
@@ -76,6 +74,11 @@ public sealed class VocalSystem : EntitySystem
     {
         if (args.Handled || !args.Emote.Category.HasFlag(EmoteCategory.Vocal))
             return;
+
+        // DS14-Start
+        if (Transform(uid).MapUid == null)
+            return;
+        // DS14-End
 
         // snowflake case for wilhelm scream easter egg
         if (args.Emote.ID == component.ScreamId)

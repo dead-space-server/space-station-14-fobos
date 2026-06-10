@@ -15,7 +15,10 @@
         mask:
         - Impassable
   - type: ApcPowerReceiver
-    powerLoad: 300
+    powerLoad: 5
+  - type: PowerState
+    idlePowerDraw: 5
+    workingPowerDraw: 300
   - type: StationAiVision
     range: 1
     needsAnchoring: true
@@ -31,6 +34,7 @@
     - map: [ "enum.PowerDeviceVisualLayers.Powered" ]
       state: unpowered
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false # DS14
       state: panel_open
   - type: Appearance
   - type: GenericVisualizer
@@ -48,8 +52,8 @@
           True: { visible: false }
       enum.WiresVisuals.MaintenancePanelState:
         enum.WiresVisualLayers.MaintenancePanel:
-          True: { visible: false }
-          False: { visible: true }
+          True: { visible: true } # DS14
+          False: { visible: false } # DS14
   - type: Machine
     board: HolopadMachineCircuitboard
   - type: StationAiWhitelist

@@ -7,11 +7,8 @@ using Content.Shared.Popups;
 using Robust.Shared.Random;
 using Content.Shared.Throwing;
 using Robust.Shared.Audio.Systems;
-using Robust.Shared.Network;
 using Robust.Shared.Timing;
-using Content.Shared.Random;
 using Content.Shared.Movement.Pulling.Components;
-using Content.Shared.Effects;
 using Content.Shared.Stunnable;
 
 namespace Content.Shared.Damage.Systems;
@@ -65,7 +62,7 @@ public sealed class DamageOnInteractSystem : EntitySystem
             // or checking the entity for  the comp itself if the inventory didn't work
             if (protectiveEntity.Comp == null && TryComp<DamageOnInteractProtectionComponent>(args.User, out var protectiveComp))
                 protectiveEntity = (args.User, protectiveComp);
-            
+
 
             // if protectiveComp isn't null after all that, it means the user has protection,
             // so let's calculate how much they resist
@@ -75,9 +72,9 @@ public sealed class DamageOnInteractSystem : EntitySystem
             }
         }
 
-        totalDamage = _damageableSystem.TryChangeDamage(args.User, totalDamage, origin: args.Target);
+        totalDamage = _damageableSystem.ChangeDamage(args.User, totalDamage, origin: args.Target);
 
-        if (totalDamage != null && totalDamage.AnyPositive())
+        if (totalDamage.AnyPositive())
         {
             // Record this interaction and determine when a user is allowed to interact with this entity again
             entity.Comp.LastInteraction = _gameTiming.CurTime;

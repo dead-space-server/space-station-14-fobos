@@ -4,8 +4,8 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Shared.EntityEffects.Effects;
 
-public sealed partial class CureInfectionDead : EventEntityEffect<CureInfectionDead>
+public sealed partial class CureInfectionDead : EntityEffectBase<CureInfectionDead>
 {
-    protected override string? ReagentEffectGuidebookText(IPrototypeManager prototype, IEntitySystemManager entSys)
+    public override string? EntityEffectGuidebookText(IPrototypeManager prototype, IEntitySystemManager entSys)
         => Loc.GetString("reagent-effect-guidebook-cure-infection-dead", ("chance", Probability));
 }

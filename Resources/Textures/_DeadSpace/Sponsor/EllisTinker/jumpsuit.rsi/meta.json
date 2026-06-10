@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-4.0",
+  "copyright": "Created by kukoldun. (discord) for Space Station 14 server Мёртвый Космос Эрида Фронтир",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "icon",
+      "directions": 1
+    },
+    {
+      "name": "equipped-INNERCLOTHING",
+      "directions": 4
+    }
+  ]
+}

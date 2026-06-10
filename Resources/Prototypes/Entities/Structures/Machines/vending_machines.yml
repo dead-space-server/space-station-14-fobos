@@ -233,6 +233,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
 
 - type: entity
   parent: VendingMachine
@@ -261,6 +262,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Bar"]]
   - type: GuideHelp
@@ -295,6 +297,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["SyndicateAgent"], ["TaipanService"]] # DS14
   - type: GuideHelp
@@ -325,6 +328,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1
     energy: 1.3
@@ -358,6 +362,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Service"]]
   - type: PointLight
@@ -394,6 +399,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: TTS
     voice: Tereshkova
 
@@ -423,6 +429,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.8
     energy: 1.6
@@ -454,6 +461,7 @@
       shader: unshaded
     - state: panel
       map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false # DS14
   - type: PointLight
     radius: 1.8
     energy: 1.6
@@ -495,6 +503,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.3
@@ -531,6 +540,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -551,6 +561,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -572,6 +583,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -595,6 +607,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -617,6 +630,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -640,6 +654,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -674,6 +689,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -710,6 +726,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -746,6 +763,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -767,6 +785,7 @@
       shader: unshaded
     - state: panel
       map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false # DS14
   - type: VendingMachine
     pack: SmiteInventory
     dispenseOnHitChance: 0.25
@@ -813,6 +832,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Kitchen"]]
   - type: PointLight
@@ -845,6 +865,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -878,6 +899,7 @@
       shader: unshaded
     - texture: Structures/Machines/VendingMachines/maintenance_panel.png
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -906,6 +928,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Engineering"]]
   - type: PointLight
@@ -941,6 +964,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -966,6 +990,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Medical"]]
 
@@ -996,6 +1021,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Hydroponics"]]
   - type: PointLight
@@ -1030,6 +1056,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Security"]]
   - type: PointLight
@@ -1071,6 +1098,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -1114,6 +1142,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -1144,6 +1173,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -1164,6 +1194,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -1184,6 +1215,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -1204,6 +1236,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -1224,6 +1257,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -1232,8 +1266,9 @@
 - type: entity
   parent: VendingMachine
   id: VendingMachineSovietSoda
-  name: BODA
+  name: ВОДА
   description: An old vending machine containing sweet water.
+  suffix: VODA
   components:
   - type: VendingMachine
     pack: BodaInventory
@@ -1259,6 +1294,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -1293,6 +1329,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
     - state: "screen"
       map: ["enum.VendingMachineVisualLayers.Screen"]
       shader: unshaded
@@ -1328,6 +1365,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -1360,6 +1398,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Research"]]
   - type: PointLight
@@ -1393,6 +1432,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -1425,6 +1465,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -1458,6 +1499,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -1485,6 +1527,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -1523,6 +1566,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -1555,6 +1599,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -1587,6 +1632,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Lawyer"]]
 
@@ -1615,6 +1661,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -1649,6 +1696,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Bar"]]
 
@@ -1673,6 +1721,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Chapel"]]
   - type: PointLight
@@ -1705,6 +1754,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -1737,6 +1787,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Medical"]]
 
@@ -1765,6 +1816,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Chemistry"]]
 
@@ -1793,6 +1845,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Service"]]
 
@@ -1821,6 +1874,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -1853,6 +1907,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -1885,6 +1940,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Kitchen"]]
 
@@ -1913,6 +1969,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Detective"]]
 
@@ -1941,6 +1998,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -1973,6 +2031,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Research"]]
 
@@ -2001,6 +2060,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -2033,6 +2093,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Research"]]
 
@@ -2061,6 +2122,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Medical"]]
 
@@ -2089,6 +2151,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Medical"]]
 
@@ -2113,6 +2176,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -2147,6 +2211,7 @@
       shader: unshaded
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -2243,6 +2308,7 @@
       map: ["enum.VendingMachineVisualLayers.BaseUnshaded"]
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Chemistry"]]
   - type: GuideHelp
@@ -2291,6 +2357,7 @@
       shader: unshaded
     - texture: Structures/Machines/VendingMachines/maintenance_panel.png
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: PointLight
     radius: 1.3
     energy: 1.6
@@ -2316,5 +2383,6 @@
       shader: unshaded
     - texture: Structures/Machines/VendingMachines/maintenance_panel.png
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
   - type: AccessReader
     access: [["Medical"]]

@@ -127,7 +127,7 @@ public sealed partial class AtmosAlertsComputerWindow : FancyWindow
 
         foreach (var device in console.AtmosDevices)
         {
-            var alarmState = GetAlarmState(device.NetEntity);
+            var alarmState = GetAlarmState(device); // DS14
 
             if (toggledAlarmState != alarmState)
                 continue;
@@ -199,7 +199,7 @@ public sealed partial class AtmosAlertsComputerWindow : FancyWindow
             if (!NavMap.Visible)
                 continue;
 
-            var alarmState = GetAlarmState(device.NetEntity);
+            var alarmState = GetAlarmState(device); // DS14
 
             if (_trackedEntity != device.NetEntity)
             {
@@ -565,6 +565,20 @@ public sealed partial class AtmosAlertsComputerWindow : FancyWindow
 
         return alarmState.Value;
     }
+
+    // DS14-start
+    private AtmosAlarmType GetAlarmState(AtmosAlertsDeviceNavMapData device)
+    {
+        var alarmState = _allAlarms?.FirstOrNull(x => x.NetEntity == device.NetEntity)?.AlarmState;
+
+        if (alarmState != null)
+            return alarmState.Value;
+
+        return device.Group == AtmosAlertsComputerGroup.FireAlarm
+            ? AtmosAlarmType.Danger
+            : AtmosAlarmType.Invalid;
+    }
+    // DS14-end
 
     private (SpriteSpecifier.Texture, Color)? GetBlipTexture(AtmosAlarmType alarmState)
     {

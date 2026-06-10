@@ -51,6 +51,7 @@
       - type: RandomHumanoidAppearance
         randomizeName: false
       - type: Renegade
+      - type: GunUsageBlocker
       - type: NpcFactionMember
         factions:
         - Syndicate

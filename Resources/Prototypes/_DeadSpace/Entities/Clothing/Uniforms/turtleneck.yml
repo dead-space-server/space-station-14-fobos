@@ -1,0 +1,545 @@
+#Tactic
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckTactic
+  name: тактическая водолазка
+  description: Тактическая и удобная водолазка с усиленной синтетической тканью.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_tactic.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_tactic.rsi
+
+#Mercenary
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckMerc
+  name: водолазка Наёмника
+  description: Практичная и удобная водолазка оливкового цвета.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_merc.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_merc.rsi
+
+#Black
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckBlack
+  name: чёрная водолазка
+  description: Практичная и удобная водолазка чёрного цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_black.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_black.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckBlackWomen
+  name: чёрная водолазка с юбкой
+  description: Практичная и удобная водолазка чёрного цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_black_women.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_black_women.rsi
+
+#Blue
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckBlue
+  name: синяя водолазка
+  description: Практичная и удобная водолазка синего цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_blue.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_blue.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckBlueBlack
+  name: синяя водолазка
+  description: Практичная и удобная водолазка синего цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_blueblack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_blueblack.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckBlueWomen
+  name: синяя водолазка с юбкой
+  description: Практичная и удобная водолазка синего цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_blue_women.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_blue_women.rsi
+
+#Brown
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckBrown
+  name: коричневая водолазка
+  description: Практичная и удобная водолазка коричневого цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_brown.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_brown.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckBrownBlack
+  name: коричневая водолазка
+  description: Практичная и удобная водолазка коричневого цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_brownblack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_brownblack.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckBrownWomen
+  name: коричневая водолазка с юбкой
+  description: Практичная и удобная водолазка коричневого цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_brown_women.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_brown_women.rsi
+
+#Cyan
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckCyan
+  name: голубая водолазка
+  description: Практичная и удобная водолазка голубого цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_cyan.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_cyan.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckCyanBlack
+  name: голубая водолазка
+  description: Практичная и удобная водолазка голубого цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_cyanblack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_cyanblack.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckCyanWomen
+  name: голубая водолазка с юбкой
+  description: Практичная и удобная водолазка голубого цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_cyan_women.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_cyan_women.rsi
+
+#Green
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckGreen
+  name: зелёная водолазка
+  description: Практичная и удобная водолазка зелёного цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_green.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_green.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckGreenBlack
+  name: зелёная водолазка
+  description: Практичная и удобная водолазка зелёного цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_greenblack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_greenblack.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckGreenWomen
+  name: зелёная водолазка с юбкой
+  description: Практичная и удобная водолазка зелёного цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_green_women.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_green_women.rsi
+
+#Grey
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckGrey
+  name: серая водолазка
+  description: Практичная и удобная водолазка серого цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_grey.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_grey.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckGreyBlack
+  name: серая водолазка
+  description: Практичная и удобная водолазка серого цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_greyblack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_greyblack.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckGreyWomen
+  name: серая водолазка с юбкой
+  description: Практичная и удобная водолазка серого цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_grey_women.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_grey_women.rsi
+
+#Lime
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckLime
+  name: салатовая водолазка
+  description: Практичная и удобная водолазка салатового цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_lime.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_lime.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckLimeBlack
+  name: салатовая водолазка
+  description: Практичная и удобная водолазка салатового цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_limeblack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_limeblack.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckLimeWomen
+  name: салатовая водолазка с юбкой
+  description: Практичная и удобная водолазка салатового цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_lime_women.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_lime_women.rsi
+
+#Orange
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckOrange
+  name: оранжевая водолазка
+  description: Практичная и удобная водолазка оранжевого цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_orange.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_orange.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckOrangeBlack
+  name: оранжевая водолазка
+  description: Практичная и удобная водолазка оранжевого цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_orangeblack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_orangeblack.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckOrangeWomen
+  name: оранжевая водолазка с юбкой
+  description: Практичная и удобная водолазка оранжевого цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_orange_women.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_orange_women.rsi
+
+#Pink
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckPink
+  name: розовая водолазка
+  description: Практичная и удобная водолазка розового цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_pink.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_pink.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckPinkBlack
+  name: розовая водолазка
+  description: Практичная и удобная водолазка розового цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_pinkblack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_pinkblack.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckPinkWomen
+  name: розовая водолазка с юбкой
+  description: Практичная и удобная водолазка розового цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_pink_women.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_pink_women.rsi
+
+#Purple
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckPurple
+  name: фиолетовая водолазка
+  description: Практичная и удобная водолазка фиолетового цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_purple.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_purple.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckPurpleBlack
+  name: фиолетовая водолазка
+  description: Практичная и удобная водолазка фиолетового цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_purpleblack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_purpleblack.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckPurpleWomen
+  name: фиолетовая водолазка с юбкой
+  description: Практичная и удобная водолазка фиолетового цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_purple_women.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_purple_women.rsi
+
+#Red
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckRed
+  name: красная водолазка
+  description: Практичная и удобная водолазка красного цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_red.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_red.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckRedBlack
+  name: красная водолазка
+  description: Практичная и удобная водолазка красного цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_redblack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_redblack.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckRedWomen
+  name: красная водолазка с юбкой
+  description: Практичная и удобная водолазка красного цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_red_women.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_red_women.rsi
+
+#Turquoise
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckTurquoise
+  name: бирюзовая водолазка
+  description: Практичная и удобная водолазка бирюзового цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_turquoise.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_turquoise.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckTurquoiseBlack
+  name: бирюзовая водолазка
+  description: Практичная и удобная водолазка бирюзового цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_turquoiseblack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_turquoiseblack.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckTurquoiseWomen
+  name: бирюзовая водолазка с юбкой
+  description: Практичная и удобная водолазка бирюзового цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_turquoise_women.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_turquoise_women.rsi
+
+#White
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckWhite
+  name: белая водолазка
+  description: Практичная и удобная водолазка белого цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_white.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_white.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckWhiteBlack
+  name: белая водолазка
+  description: Практичная и удобная водолазка белого цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_whiteblack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_whiteblack.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckWhiteWomen
+  name: белая водолазка с юбкой
+  description: Практичная и удобная водолазка белого цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_white_women.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_white_women.rsi
+
+#Yellow
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckYellow
+  name: жёлтая водолазка
+  description: Практичная и удобная водолазка жёлтого цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_yellow.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_yellow.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckYellowBlack
+  name: жёлтая водолазка
+  description: Практичная и удобная водолазка жёлтого цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_yellowblack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_yellowblack.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckYellowWomen
+  name: жёлтая водолазка с юбкой
+  description: Практичная и удобная водолазка жёлтая цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_yellow_women.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_yellow_women.rsi
+
+#sleeveless
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckBlackSleeveless
+  name: чёрная водолазка
+  description: Практичная и удобная водолазка чёрного цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_blacksleeveless.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_blacksleeveless.rsi
+
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckBlackWomenSleeveless
+  name: чёрная водолазка с юбкой
+  description: Практичная и удобная водолазка чёрного цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_black_womensleeveless.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_black_womensleeveless.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckWhiteSleeveless
+  name: белая водолазка
+  description: Практичная и удобная водолазка белого цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_whitesleeveless.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_whitesleeveless.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckWhiteBlackSleeveless
+  name: белая водолазка
+  description: Практичная и удобная водолазка белого цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_whiteblacksleeveless.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_whiteblacksleeveless.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformTurtleneckWhiteWomenSleeveless
+  name: белая водолазка с юбкой
+  description: Практичная и удобная водолазка белого цвета. На лейбле можно заметить "Modeling Agency Dar-Vaxed".
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_white_womensleeveless.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_white_womensleeveless.rsi

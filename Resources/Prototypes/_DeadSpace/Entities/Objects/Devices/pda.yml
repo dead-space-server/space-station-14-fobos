@@ -23,6 +23,7 @@
 - type: entity
   parent: CentcomPDA
   id: CentcomOfficialPDA
+  suffix: Представитель ЦК
   components:
   - type: Pda
     id: CentcomOfficialIDCard
@@ -30,6 +31,7 @@
 - type: entity
   parent: CentcomPDA
   id: CentcomAdministratorPDA
+  suffix: Администратор ЦК
   components:
   - type: Pda
     id: CentcomAdministratorIDCard
@@ -37,6 +39,7 @@
 - type: entity
   parent: CentcomPDA
   id: CentcomOperatorPDA
+  suffix: Оператор ЦК
   components:
   - type: Pda
     id: CentcomOperatorIDCard
@@ -44,10 +47,30 @@
 - type: entity
   parent: CentcomPDA
   id: CentcomSpecialOperationsOfficerPDA
+  suffix: Офицер СО
   components:
   - type: Pda
     id: CentcomSpecialOperationsOfficerIDCard
 
+- type: entity
+  parent: CentcomPDA
+  id: CentcomFieldOfficerPDA
+  suffix: ПО
+  components:
+  - type: Appearance
+    appearanceDataInit:
+     enum.PdaVisuals.PdaType:
+       !type:String
+       pda-black-centcom
+  - type: PdaBorderColor
+    borderColor: "#34343d"
+  - type: Icon
+    state: pda-black-centcom
+  - type: Pda
+    id: CentcomFieldOfficerIDCard
+
+# ERT PDA
+# Leader
 - type: entity
   parent: ERTLeaderPDA
   id: ERTLeaderRedPDA
@@ -62,12 +85,76 @@
   - type: Pda
     id: ERTLeaderGammaIDCard
 
+# Security
+- type: entity
+  parent: ERTSecurityPDA
+  id: ERTSecurityRedPDA
+  components:
+  - type: Pda
+    id: ERTSecurityRedIDCard
+
+- type: entity
+  parent: ERTSecurityPDA
+  id: ERTSecurityGammaPDA
+  components:
+  - type: Pda
+    id: ERTSecurityGammaIDCard
+
+# Medic
+- type: entity
+  parent: ERTMedicPDA
+  id: ERTMedicRedPDA
+  components:
+  - type: Pda
+    id: ERTMedicRedIDCard
+
+- type: entity
+  parent: ERTMedicPDA
+  id: ERTMedicGammaPDA
+  components:
+  - type: Pda
+    id: ERTMedicGammaIDCard
+
+# Engineer
+- type: entity
+  parent: ERTEngineerPDA
+  id: ERTEngineerRedPDA
+  components:
+  - type: Pda
+    id: ERTEngineerRedIDCard
+
+- type: entity
+  parent: ERTEngineerPDA
+  id: ERTEngineerGammaPDA
+  components:
+  - type: Pda
+    id: ERTEngineerGammaIDCard
+
+# Janitor
+- type: entity
+  parent: ERTJanitorPDA
+  id: ERTJanitorRedPDA
+  components:
+  - type: Pda
+    id: ERTJanitorRedIDCard
+
+- type: entity
+  parent: ERTJanitorPDA
+  id: ERTJanitorGammaPDA
+  components:
+  - type: Pda
+    id: ERTJanitorGammaIDCard
+
+#CBURN
+
 - type: entity
   parent: CBURNPDA
   id: CBURNLeaderPDA
   components:
   - type: Pda
     id: CBURNLeaderIDcard
+
+
 
 - type: entity
   parent: BasePDA
@@ -88,6 +175,16 @@
     accentVColor: "#EAEAEA"
   - type: Icon
     state: pda-coroner
+  - type: CartridgeLoader
+    uiKey: enum.PdaUiKey.Key
+    preinstalled:
+      - CrewManifestCartridge
+      - NotekeeperCartridge
+      - NanoTaskCartridge
+      - NewsReaderCartridge
+      - MedTekCartridge
+      - BankCartridge
+      - MessengerCartridge
 
 - type: entity
   parent: BasePDA
@@ -107,6 +204,16 @@
     accentVColor: "#12445b"
   - type: Icon
     state: pda-virology
+  - type: CartridgeLoader
+    uiKey: enum.PdaUiKey.Key
+    preinstalled:
+      - CrewManifestCartridge
+      - NotekeeperCartridge
+      - NanoTaskCartridge
+      - NewsReaderCartridge
+      - MedTekCartridge
+      - BankCartridge
+      - MessengerCartridge
 
 - type: entity
   parent: BasePDA
@@ -132,8 +239,11 @@
     preinstalled:
       - CrewManifestCartridge
       - NotekeeperCartridge
+      - NanoTaskCartridge
       - NewsReaderCartridge
       - AstroNavCartridge
+      - BankCartridge
+      - MessengerCartridge
 
 - type: entity
   parent: BasePDA
@@ -155,10 +265,14 @@
   - type: CartridgeLoader
     uiKey: enum.PdaUiKey.Key
     preinstalled:
-      - CrewManifestCartridge
-      - NotekeeperCartridge
-      - NewsReaderCartridge
-      - AstroNavCartridge
+    - CrewManifestCartridge
+    - NotekeeperCartridge
+    - NanoTaskCartridge
+    - NewsReaderCartridge
+    - WantedListCartridge
+    - AstroNavCartridge
+    - BankCartridge
+    - MessengerCartridge
 
 - type: entity
   parent: BasePDA

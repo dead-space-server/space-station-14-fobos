@@ -1,0 +1,18 @@
+- type: trait
+  id: NicotineAddiction
+  name: trait-nicotine-addiction-name
+  description: trait-nicotine-addiction-desc
+  traitGear: CigPackBlack
+  category: Disabilities
+  components:
+  - type: NicotineAddiction
+
+- type: trait
+  id: WheelchairUser
+  name: trait-wheelchair-user-name
+  description: trait-wheelchair-user-desc
+  traitGear: VehicleWheelchair
+  category: Disabilities
+  components:
+  - type: WheelchairUser
+  - type: Worm

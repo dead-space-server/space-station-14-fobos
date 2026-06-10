@@ -55,6 +55,18 @@ public sealed partial class AudioTab : Control
             SliderVolumeInterface,
             scale: ContentAudioSystem.InterfaceMultiplier);
 
+        // DS14-start
+        Control.AddOptionPercentSlider(
+            CCCCVars.AlertLevelVolume,
+            SliderVolumeAlertLevel,
+            scale: 1f);
+
+        Control.AddOptionPercentSlider(
+            CCCCVars.BossMusicVolume,
+            SliderVolumeBossMusic,
+            scale: 1f);
+        // DS14-end
+
         Control.AddOptionSlider(
             CCVars.MaxAmbientSources,
             SliderMaxAmbienceSounds,
@@ -85,6 +97,7 @@ public sealed partial class AudioTab : Control
         Control.AddOptionCheckBox(CCVars.LobbyMusicEnabled, LobbyMusicCheckBox);
         Control.AddOptionCheckBox(CCVars.RestartSoundsEnabled, RestartSoundsCheckBox);
         Control.AddOptionCheckBox(CCVars.EventMusicEnabled, EventMusicCheckBox);
+        Control.AddOptionCheckBox(CCCCVars.BossMusicEnabled, BossMusicCheckBox);
         Control.AddOptionCheckBox(CCVars.AdminSoundsEnabled, AdminSoundsCheckBox);
         Control.AddOptionCheckBox(CCVars.BwoinkSoundEnabled, BwoinkSoundCheckBox);
         Control.AddOptionCheckBox(CCCCVars.RadioTTSSoundsEnabled, RadioTTSSoundsCheckBox); // DS14-TTS

@@ -72,5 +72,20 @@ ent-DerelictMedicalCyborgSpawn = { ent-BaseGameRule }
     .desc = { ent-BaseGameRule.desc }
 ent-DerelictMiningCyborgSpawn = { ent-BaseGameRule }
     .desc = { ent-BaseGameRule.desc }
+ent-SurvivalBlobSpawn = { ent-BaseGameRule }
+    .desc = { ent-BaseGameRule.desc }
+ent-SurvivalNecromorphBreach = { ent-BaseGameRule }
+    .desc = { ent-BaseGameRule.desc }
+ent-SurvivalNecromorphBreachTelegraph = { "" }
+    .desc = { "" }
+ent-SurvivalNecromorphBreachSmoke = { "" }
+    .desc = { "" }
+ent-SurvivalNecromorphBreachSpawnEffect = { "" }
+    .desc = { "" }
+
+survival-alert-sender = Station Automated Systems
+survival-twelve-minute-alert-announcement = Attention, station crew! Long-range scanners have detected a surge of redspace activity in the pre-sector area of your station! The storm may reach the station within the next five minutes. The exact consequences of the storm cannot be predicted. All crew are ordered to remain on high alert, as abnormal situations and other threats may occur. Attention! This is not a drill! High alert status! Increased redspace activity detected!
+survival-necromorph-breach-start-announcement = Attention, station crew! Sensors are detecting a localized rupture of unknown origin. Remain calm and avoid areas with anomalous activity. Thank you for choosing NanoTrasen!
+
 ent-DerelictSyndicateAssaultCyborgSpawn = { ent-BaseGameRule }
     .desc = { ent-BaseGameRule.desc }
