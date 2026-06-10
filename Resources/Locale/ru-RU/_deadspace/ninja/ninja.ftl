@@ -17,3 +17,13 @@ spider-os-personalization-hood-or-scarf = капюшон/шарф:
 
 spider-os-personalization-activate = активировать костюм
 spider-os-personalization-deactivate = деактивировать костюм
+
+# Ninja Auto-Dust module
+
+auto-dust-toggle-off = Auto-Dust выключен
+auto-dust-toggle-crit = Auto-Dust в режиме распыления по критическому состоянию
+auto-dust-toggle-dead = Auto-Dust в режиме распыления по смерти
+
+# Ninja cloak
+
+ninja-suit-overheated = Костюм перегрелся. Фазовый покров отключен.
