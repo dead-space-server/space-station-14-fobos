@@ -1,10 +1,10 @@
 using System.Threading;
-using Content.Shared.CodeLock;
+using Content.Shared.DeadSpace.CodeLock;
 using Robust.Shared.Audio;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 
-namespace Content.Server.CodeLock
+namespace Content.Server.DeadSpace.CodeLock
 {
     [RegisterComponent]
     [Access(typeof(CodeLockSystem))]

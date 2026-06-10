@@ -1,6 +1,6 @@
 using Content.Server.Audio;
 using Content.Shared.Audio;
-using Content.Shared.CodeLock;
+using Content.Shared.DeadSpace.CodeLock;
 using Content.Shared.Lock;
 using Robust.Server.GameObjects;
 using Robust.Shared.Audio;
@@ -9,7 +9,7 @@ using Robust.Shared.Random;
 using Robust.Shared.Utility;
 using Robust.Shared.Timing;
 
-namespace Content.Server.CodeLock;
+namespace Content.Server.DeadSpace.CodeLock;
 
 public sealed class CodeLockSystem : EntitySystem
 {

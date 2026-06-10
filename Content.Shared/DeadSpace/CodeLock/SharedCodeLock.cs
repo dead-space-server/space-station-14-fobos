@@ -1,6 +1,6 @@
 using Robust.Shared.Serialization;
 
-namespace Content.Shared.CodeLock
+namespace Content.Shared.DeadSpace.CodeLock
 {
     [Serializable, NetSerializable]
     public enum CodeLockUiKey : byte

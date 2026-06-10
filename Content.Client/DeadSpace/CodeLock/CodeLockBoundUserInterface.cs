@@ -1,9 +1,9 @@
-using Content.Shared.CodeLock;
+using Content.Shared.DeadSpace.CodeLock;
 using JetBrains.Annotations;
 using Robust.Client.GameObjects;
 using Robust.Client.UserInterface;
 
-namespace Content.Client.CodeLock
+namespace Content.Client.DeadSpace.CodeLock
 {
     [UsedImplicitly]
     public sealed class CodeLockBoundUserInterface : BoundUserInterface
