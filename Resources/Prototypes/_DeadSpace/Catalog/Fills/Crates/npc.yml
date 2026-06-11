@@ -1,0 +1,11 @@
+- type: entity
+  parent: CrateLivestock
+  id: CrateNPCFenek
+  name: Ящик с Фенеком
+  description: Ящик, в котором находится милый фенек.
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage:
+        id: MobFenek
+        amount: 1

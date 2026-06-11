@@ -1,0 +1,9 @@
+- type: cargoProduct
+  id: LivestockFenek
+  icon:
+    sprite: /Textures/_DeadSpace/Mobs/Animals/Fenek.rsi
+    state: fenek
+  product: CrateNPCFenek
+  cost: 3000
+  category: cargoproduct-category-name-livestock
+  group: service # DS14
