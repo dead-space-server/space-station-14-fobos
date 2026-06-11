@@ -40,15 +40,24 @@ public sealed partial class NotekeeperUiFragment : BoxContainer
 
     private void AddNote(string note)
     {
+        // DS14-start
+        var panel = new PanelContainer
+        {
+            HorizontalExpand = true,
+            Margin = new Thickness(4),
+            StyleClasses = { "DS14MenuListRow" },
+        };
+        // DS14-end
+
         var row = new BoxContainer();
         row.HorizontalExpand = true;
         row.Orientation = LayoutOrientation.Horizontal;
-        row.Margin = new Thickness(4);
 
         var label = new Label();
         label.Text = note;
         label.HorizontalExpand = true;
         label.ClipText = true;
+        label.AddStyleClass("DS14MenuProfileLabel"); // DS14
 
         var removeButton = new TextureButton();
         removeButton.AddStyleClass("windowCloseButton");
@@ -57,6 +66,9 @@ public sealed partial class NotekeeperUiFragment : BoxContainer
         row.AddChild(label);
         row.AddChild(removeButton);
 
-        MessageContainer.AddChild(row);
+        // DS14-start
+        panel.AddChild(row);
+        MessageContainer.AddChild(panel);
+        // DS14-end
     }
 }

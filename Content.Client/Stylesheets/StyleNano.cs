@@ -1538,21 +1538,42 @@ namespace Content.Client.Stylesheets
                     .Pseudo(TextureButton.StylePseudoClassHover)
                     .Prop(TextureButton.StylePropertyTexture, resCache.GetTexture("/Textures/Interface/Radial/back_hover.png")),
 
+                // DS14-start
                 //PDA - Backgrounds
                 Element<PanelContainer>().Class("PdaContentBackground")
-                    .Prop(PanelContainer.StylePropertyPanel, BaseButtonOpenBoth)
-                    .Prop(Control.StylePropertyModulateSelf, Color.FromHex("#25252a")),
+                    .Prop(PanelContainer.StylePropertyPanel, new StyleBoxFlat
+                    {
+                        BackgroundColor = Color.FromHex("#10141BE8"),
+                        BorderColor = Color.FromHex("#3F4958"),
+                        BorderThickness = new Thickness(1),
+                    })
+                    .Prop(Control.StylePropertyModulateSelf, Color.White),
 
                 Element<PanelContainer>().Class("PdaBackground")
-                    .Prop(PanelContainer.StylePropertyPanel, BaseButtonOpenBoth)
-                    .Prop(Control.StylePropertyModulateSelf, Color.FromHex("#000000")),
+                    .Prop(PanelContainer.StylePropertyPanel, new StyleBoxFlat
+                    {
+                        BackgroundColor = Color.FromHex("#050A10F2"),
+                        BorderColor = Color.FromHex("#1D5B73"),
+                        BorderThickness = new Thickness(1),
+                    })
+                    .Prop(Control.StylePropertyModulateSelf, Color.White),
 
                 Element<PanelContainer>().Class("PdaBackgroundRect")
-                    .Prop(PanelContainer.StylePropertyPanel, BaseAngleRect)
-                    .Prop(Control.StylePropertyModulateSelf, Color.FromHex("#717059")),
+                    .Prop(PanelContainer.StylePropertyPanel, new StyleBoxFlat
+                    {
+                        BackgroundColor = Color.FromHex("#121821F3"),
+                        BorderColor = Color.FromHex("#1D5B73"),
+                        BorderThickness = new Thickness(2),
+                    })
+                    .Prop(Control.StylePropertyModulateSelf, Color.White),
 
                 Element<PanelContainer>().Class("PdaBorderRect")
-                    .Prop(PanelContainer.StylePropertyPanel, AngleBorderRect),
+                    .Prop(PanelContainer.StylePropertyPanel, new StyleBoxFlat
+                    {
+                        BackgroundColor = Color.Transparent,
+                        BorderColor = Color.FromHex("#2EA7D0"),
+                        BorderThickness = new Thickness(1),
+                    }),
 
                 Element<PanelContainer>().Class("BackgroundDark")
                     .Prop(PanelContainer.StylePropertyPanel, new StyleBoxFlat(Color.FromHex("#25252A"))),
@@ -1581,16 +1602,17 @@ namespace Content.Client.Stylesheets
                     .Prop(PdaProgramItem.StylePropertyBgColor, Color.FromHex(PdaProgramItem.HoverColor)),
 
                 Element<PdaProgramItem>().Pseudo(ContainerButton.StylePseudoClassPressed)
-                    .Prop(PdaProgramItem.StylePropertyBgColor, Color.FromHex(PdaProgramItem.HoverColor)),
+                    .Prop(PdaProgramItem.StylePropertyBgColor, Color.FromHex(PdaProgramItem.PressedColor)),
 
                 //PDA - Text
                 Element<Label>().Class("PdaContentFooterText")
                     .Prop(Label.StylePropertyFont, notoSans10)
-                    .Prop(Label.StylePropertyFontColor, Color.FromHex("#757575")),
+                    .Prop(Label.StylePropertyFontColor, Color.FromHex("#9BA6AD")),
 
                 Element<Label>().Class("PdaWindowFooterText")
                     .Prop(Label.StylePropertyFont, notoSans10)
-                    .Prop(Label.StylePropertyFontColor, Color.FromHex("#333d3b")),
+                    .Prop(Label.StylePropertyFontColor, Color.FromHex("#9BA6AD")),
+                // DS14-end
 
                 // Fancy Tree
                 Element<ContainerButton>().Identifier(TreeItem.StyleIdentifierTreeButton)

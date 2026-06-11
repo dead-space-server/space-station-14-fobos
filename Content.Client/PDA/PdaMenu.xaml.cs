@@ -251,7 +251,7 @@ namespace Content.Client.PDA
                 }
 
                 item.ProgramName.Text = Loc.GetString(component.ProgramName);
-                item.SetHeight = 20;
+                item.MinHeight = 64; // DS14
                 row.AddChild(item);
 
                 itemCount++;
@@ -283,6 +283,7 @@ namespace Content.Client.PDA
             ProgramTitle.IsCurrent = false;
             ProgramTitle.Visible = false;
             ProgramCloseButton.Visible = false;
+            NavigationSpacer.Visible = true; // DS14
             ProgramListButton.Visible = true;
             SettingsButton.Visible = true;
         }
@@ -299,6 +300,7 @@ namespace Content.Client.PDA
             ProgramTitle.IsCurrent = true;
             ProgramTitle.Visible = true;
             ProgramCloseButton.Visible = true;
+            NavigationSpacer.Visible = false; // DS14
             ProgramListButton.Visible = false;
             SettingsButton.Visible = false;
 
@@ -325,7 +327,10 @@ namespace Content.Client.PDA
             return new BoxContainer()
             {
                 Orientation = BoxContainer.LayoutOrientation.Horizontal,
-                HorizontalExpand = true
+                // DS14-start
+                HorizontalExpand = true,
+                SeparationOverride = 4,
+                // DS14-end
             };
         }
 
