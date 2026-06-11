@@ -229,7 +229,6 @@
     action: WhistleAction
     parent: true
   - type: UseDelayOnTrigger
-    delay: 3
   - type: EmitSoundOnTrigger
     sound:
       collection: BaseWhistle
