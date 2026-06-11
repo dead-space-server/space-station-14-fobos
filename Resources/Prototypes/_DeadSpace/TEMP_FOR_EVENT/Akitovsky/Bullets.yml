@@ -6,7 +6,7 @@
   components:
   - type: Tag
     tags:
-    - CartridgeBullet9x39SP6
+    - CartridgeBulletVSK
   - type: CartridgeAmmo
     proto: Bullet9x39SP6
   - type: Sprite
@@ -42,11 +42,95 @@
     mayTransfer: true
     whitelist:
       tags:
-        - CartridgeBullet9x39SP6
+        - CartridgeBulletVSK
     proto: CartridgeBullet9x39SP6
     capacity: 60
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Ammunition/Boxes/pistol.rsi # DS14-texture-localization
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
+# Картридж .357 Magnum FMJ
+- type: entity
+  parent: BaseCartridgeMagnum
+  id: Cartridge357MagnumFMJ
+  name: патрон (.357 Magnum FMJ)
+  suffix: Akitovsky
+  components:
+  - type: CartridgeAmmo
+    proto: Bullet357MagnumFMJ
+  - type: Tag
+    tags:
+      - Cartridge357
+
+# Проджектайл .357 Magnum FMJ
+- type: entity
+  parent: BaseBullet
+  id: Bullet357MagnumFMJ
+  categories: [ HideSpawnMenu ]
+  name: патрон (.357 Magnum FMJ)
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 70
+
+# Коробка патронов .357 Magnum FMJ
+- type: entity
+  parent: BaseMagazineBoxMagnum
+  id: MagazineBox357MagnumFMJ
+  name: коробка патронов (.45 магнум)
+  suffix: Akitovsky
+  components:
+  - type: BallisticAmmoProvider
+    proto: Cartridge357MagnumFMJ
+  - type: Sprite
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+
+# Картридж 5.56х45 мм SSA AP
+- type: entity
+  parent: BaseCartridgeRifle
+  id: Cartridge556x45AP
+  name: патрон (5.56х45 мм SSA AP)
+  suffix: Akitovsky
+  components:
+  - type: CartridgeAmmo
+    proto: Bullet556x45AP
+
+# Проджектайл 5.56х45 мм SSA AP
+- type: entity
+  parent: BaseBullet
+  id: Bullet556x45AP
+  categories: [ HideSpawnMenu ]
+  name: патрон (5.56х45 мм SSA AP)
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 40
+
+# Коробка патронов 5.56х45 мм SSA AP
+- type: entity
+  parent: BaseMagazineBoxRifle
+  id: MagazineBox556x45AP
+  name: коробка патронов (5.56х45 мм SSA AP)
+  suffix: Akitovsky
+  components:
+  - type: BallisticAmmoProvider
+    mayTransfer: true
+    whitelist:
+      tags:
+        - CartridgeRifle
+    proto: Cartridge556x45AP
+    capacity: 60
+  - type: Sprite
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]

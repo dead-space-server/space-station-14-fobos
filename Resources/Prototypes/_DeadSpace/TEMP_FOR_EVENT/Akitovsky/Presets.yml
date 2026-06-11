@@ -54,13 +54,13 @@
     head: ClothingHeadHatPanamaAkiSand
     id: AkiDeltaIDCard
     belt: ClothingBeltMilitaryWebbingAkiDeltaSand
-    pocket1: WeaponPistolDesertEagle
+    pocket1: WeaponPistolDesertEagleAki
     pocket2: DrinkMREFlask
     outerClothing: ClothingOuterArmorDeltaAkiSand
     back: ClothingMilitaryBackpackDeltaAkiSand
+    suitstorage: WeaponVSKAki
   storage:
     back:
-    - WeaponVSKAki
     - MagazineBoxVSKAki
     - MagazineBoxVSKAki
     - MagazineBoxVSKAki
@@ -73,8 +73,6 @@
     - CombatMedipen
     - CombatMedipen
     - PinpointerUniversal
-    - MagazineEagle
-    - MagazineEagle
     belt:
     - Handcuffs
     - Handcuffs
@@ -84,6 +82,8 @@
     - MagazineVSK9x39SP6
     - MagazineVSK9x39SP6
     - MagazineVSK9x39SP6
+    - MagazineEagle357MagnumFMJ
+    - MagazineEagle357MagnumFMJ
 
 # Лейтенант Мирс СпецНаз НТ
 - type: entity
@@ -220,7 +220,7 @@
     eyes: ClothingEyesGlassesHiddenSecurity
     ears: ClothingHeadsetDeltaGeneral
     mask: ClothingMaskBreathTaipan
-    gloves: ClothingHandsGlovesAkiDeltaGeneral
+    gloves: ClothingHandsGlovesAkiDeltaBlack
     shoes: ClothingShoesBootsLaceup
     id: CentcomSpecialOperationsOfficerIDCard
     pocket1: ADTtelescopicBaton 

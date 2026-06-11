@@ -16,7 +16,7 @@
 # Перчатки генерала Дельты
 - type: entity
   parent: ClothingHandsGlovesBSAA
-  id: ClothingHandsGlovesAkiDeltaGeneral
+  id: ClothingHandsGlovesAkiDeltaBlack
   name: боевые перчатки
   suffix: Akitovsky
 
@@ -53,6 +53,19 @@
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Hats/sandsoft.rsi
   - type: Clothing
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Hats/sandsoft.rsi
+
+# Кепка Дельта чёрная
+- type: entity
+  parent: ClothingHeadHeadHatBaseFlippable
+  id: ClothingHeadHatAkiDeltaBlack
+  name: чёрная кепка
+  description: Бейсболка, окрашенная в тёмные тона.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Hats/blacksoft.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Hats/blacksoft.rsi
 
 # Панама Прайса
 - type: entity
@@ -104,6 +117,25 @@
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
+# Тактические очки Дельта чёрные
+- type: entity
+  parent: ClothingEyesGlassesSecurity
+  id: ClothingEyesGlassesAkiDeltaBlack
+  name: тактические очки спецназа
+  description: Очки с индикатором на стекле, который сканирует сущности в поле зрения и предоставляет данные об их идентификационном статусе и записях в системе безопасности. Также имеют в себе встроенный ПНВ.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Eyes/tactical_glasses.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Eyes/tactical_glasses.rsi
+  - type: PNV
+    color: "#AFC4D111"
+    activateSound: 
+      path: /Audio/_DeadSpace/NightVision/pnv.ogg
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
 - type: entity
   parent: ClothingNeckBase
   id: ClothingNeckCloakAkiDeltaFloria
@@ -123,7 +155,7 @@
   name: униформа спецназа
   description: Стандартная униформа войск специального назначения.
 
-# Униформа Дельта песочная
+# Униформа Дельта песчаная
 - type: entity
   parent: [ClothingUniformBase, ClothingUniformFoldableBase]
   id: ClothingUniformJumpsuitAkiDeltaSand
@@ -138,12 +170,53 @@
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
+# Униформа Дельта песчаная альт
+- type: entity
+  parent: [ClothingUniformBase, ClothingUniformFoldableBase]
+  id: ClothingUniformJumpsuitAkiDeltaSandAlt
+  name: песчаная униформа
+  description: Всесезонный комплект полевого обмундирования в песчаной расцветке. Обеспечивает комфорт и защиту в разных климатических условиях.
+  suffix: Akitovsky, Песок
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Jumpsuits/deltasandalt.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Jumpsuits/deltasandalt.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Униформа Дельта чёрная
+- type: entity
+  parent: ClothingUniformJumpsuitBSAA
+  id: ClothingUniformJumpsuitAkiDeltaBlack
+  name: тактическая униформа
+  description: Тактическая куртка и чёрные штаны.
+  suffix: Akitovsky
+  components:
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Униформа Дельта чёрная с джинсами
+- type: entity
+  parent: [ClothingUniformBase, ClothingUniformFoldableBase]
+  id: ClothingUniformJumpsuitAkiDeltaBlackJeans
+  name: чёрная куртка с джинсами
+  description: Тактическая куртка и гражданские джинсы.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Jumpsuits/deltablack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Jumpsuits/deltablack.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
 # РПС Дельта песочная
 - type: entity
   parent: ClothingBeltMilitaryWebbing
   id: ClothingBeltMilitaryWebbingAkiDeltaSand
   name: армейская РПС
-  description: Ременно-плечевая система тактических ремней, которую носят представители военных структур. Эта в песчаной расцветке.
+  description: Ременно-плечевая система тактических ремней, которую носят представители военных структур.
   suffix: Akitovsky, Песок
   components:
   - type: Sprite
@@ -172,6 +245,45 @@
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Belts/militarysand.rsi
   - type: Clothing
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Belts/militarysand.rsi
+  - type: ExplosionResistance
+    damageCoefficient: 0.1
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# РПС Дельта чёрная
+- type: entity
+  parent: ClothingBeltMilitaryWebbing
+  id: ClothingBeltMilitaryWebbingAkiDeltaBlack
+  name: армейская РПС
+  description: Ременно-плечевая система тактических ремней, которую носят представители военных структур.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Belts/militarywebbingblack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Belts/militarywebbingblack.rsi
+  - type: Storage
+    grid:
+    - 0,0,0,1
+    - 2,0,2,1
+    - 4,0,4,1
+    - 6,0,6,1
+    - 0,2,6,3
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Пояс Дельта чёрный
+- type: entity
+  parent: ClothingBeltSecurity
+  id: ClothingBeltAkiDeltaBlack
+  name: армейский пояс
+  description: Может вмещать снаряжение военных, например магазины и коробки патрон.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Belts/militaryblack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Belts/militaryblack.rsi
   - type: ExplosionResistance
     damageCoefficient: 0.1
   - type: Tag
@@ -305,6 +417,36 @@
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
+# Рюкзак Дельта чёрный
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingMilitaryBackpackDeltaAkiBlack
+  name: армейский рюкзак
+  description: Прочный рюкзак, который носят военные структуры.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Backpacks/blackbackpack.rsi
+  - type: ExplosionResistance
+    damageCoefficient: 0.1
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Сумка Дельта чёрная
+- type: entity
+  parent: ClothingBackpackSatchel
+  id: ClothingBackpackSatchelDeltaAkiBlack
+  name: армейская сумка
+  description: Прочная сумка для нужд военных структур.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Backpacks/blacksatchel.rsi
+  - type: ExplosionResistance
+    damageCoefficient: 0.1
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
 # Сапоги Дельта песочные
 - type: entity
   parent: ClothingShoesBootsWinterSecFilled
@@ -317,6 +459,21 @@
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Boots/jackbootssand.rsi
   - type: Clothing
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Boots/jackbootssand.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Сапоги Дельта чёрные
+- type: entity
+  parent: ClothingShoesBootsWinterSecFilled
+  id: ClothingShoesBootsJackAkiDeltaBlack
+  name: подкованные сапоги
+  description: Обувь военных Nanotrasen для боевых операций почти в любых условиях.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: Clothing/Shoes/Boots/jackboots.rsi
+  - type: Clothing
+    sprite: Clothing/Shoes/Boots/jackboots.rsi
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -771,16 +928,29 @@
 - type: vendingMachineInventory
   id: SpecDrobeAkiInventory
   startingInventory:
-    ClothingMilitaryBackpackDeltaAkiSand: 14
-    ClothingBeltAkiDeltaSand: 8
-    ClothingBeltMilitaryWebbingAkiDeltaSand: 8
-    ClothingHeadHatAkiDeltaSand: 14
-    ClothingEyesGlassesAkiDeltaSand: 14
-    ClothingUniformJumpsuitAkiDeltaSand: 14
-    ClothingHandsGlovesCombatAkiDeltaSand: 14
-    ClothingShoesBootsJackAkiDeltaSand: 14
-    ClothingMaskAkiDelta: 10
-    ClothingMaskNeckGaiter: 10
+    ClothingBackpackSatchelDeltaAkiSand: 7
+    ClothingMilitaryBackpackDeltaAkiSand: 7
+    ClothingBeltAkiDeltaSand: 4
+    ClothingBeltMilitaryWebbingAkiDeltaSand: 4
+    ClothingHeadHatAkiDeltaSand: 7
+    ClothingEyesGlassesAkiDeltaSand: 7
+    ClothingUniformJumpsuitAkiDeltaSand: 4
+    ClothingUniformJumpsuitAkiDeltaSandAlt: 4
+    ClothingHandsGlovesCombatAkiDeltaSand: 7
+    ClothingShoesBootsJackAkiDeltaSand: 7
+    ClothingMaskAkiDelta: 5
+    ClothingMaskNeckGaiter: 5
+    ClothingBackpackSatchelDeltaAkiBlack: 7
+    ClothingMilitaryBackpackDeltaAkiBlack: 7
+    ClothingBeltAkiDeltaBlack: 4
+    ClothingBeltMilitaryWebbingAkiDeltaBlack: 4
+    ClothingHeadHatAkiDeltaBlack: 7
+    ClothingEyesGlassesAkiDeltaBlack: 7
+    ClothingUniformJumpsuitAkiDeltaBlack: 4
+    ClothingUniformJumpsuitAkiDeltaBlackJeans: 4
+    ClothingHandsGlovesAkiDeltaBlack: 7
+    ClothingShoesBootsJackAkiDeltaBlack: 7
+    ClothingShoesColorBlack: 7
   contrabandInventory:
     ClothingHeadHelmetBone: 1
 
@@ -809,7 +979,7 @@
         priority: 1
         whitelist:
           tags:
-          - CartridgePistol
+          - CartridgeBulletVSK
   - type: EyeCursorOffset
     maxOffset: 8
     pvsIncrease: 0.2
@@ -830,14 +1000,56 @@
     proto: CartridgeBullet9x39SP6
     whitelist:
       tags:
-        - CartridgeBullet9x39SP6
         - CartridgeBulletVSK
 
-# SCAR-L
+# Пустынный орёл
+- type: entity
+  parent: WeaponPistolDesertEagle
+  id: WeaponPistolDesertEagleAki
+  name: пустынный орёл
+  description: Вот он, воплощение силы и свободы — Пустынный орёл! Одно только упоминание этого оружия вызывает волну бесшабашности и адреналина. Использует калибр .357 Magnum.
+  suffix: Akitovsky
+  components:
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: MagazineEagle357MagnumFMJ
+        insertSound: /Audio/Weapons/Guns/MagIn/batrifle_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/batrifle_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+            - MagazineEagle
+            - MagazineEagleAP
+      gun_chamber:
+        name: Chamber
+        startingItem: Cartridge357MagnumFMJ
+        priority: 1
+        whitelist:
+          tags:
+            - Cartridge357
+
+# Магазин .357 Magnum FMJ
+- type: entity
+  parent: BaseMagazineEagle
+  id: MagazineEagle357MagnumFMJ
+  name: пистолетный магазин пустынного орла (.357 Magnum FMJ)
+  suffix: Akitovsky
+  components:
+  - type: BallisticAmmoProvider
+    proto: Cartridge357MagnumFMJ
+    mayTransfer: true
+    whitelist:
+      tags:
+        - Cartridge357
+    capacity: 10
+
+# SCAR-L Песчаный
 - type: entity
   name: Scar-L
   parent: WeaponRifleScarL
-  id: WeaponRifleScarLSandAkiDelta
+  id: WeaponRifleScarLSandAki
   description: Стандартизированная штурмовая винтовка армии ОПЗ, одна из многих винтовок, используемая правительством. Использует патроны 5.56х45 мм.
   suffix: Akitovsky, Песок
   components:
@@ -850,6 +1062,65 @@
         map: ["enum.GunVisualLayers.Mag"]
   - type: Clothing
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/scarl.rsi
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: Magazine556x45AP
+        insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+            - MagazineRifle
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        priority: 1
+        whitelist:
+          tags:
+            - CartridgeRifle
+
+# SCAR-L
+- type: entity
+  name: Scar-L
+  parent: WeaponRifleScarL
+  id: WeaponRifleScarLAki
+  description: Стандартизированная штурмовая винтовка армии ОПЗ, одна из многих винтовок, используемая правительством. Использует патроны 5.56х45 мм.
+  suffix: Akitovsky
+  components:
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: Magazine556x45AP
+        insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+            - MagazineRifle
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        priority: 1
+        whitelist:
+          tags:
+            - CartridgeRifle
+
+# Магазин 5.56х45 мм SSA AP
+- type: entity
+  parent: BaseMagazineRifle
+  id: Magazine556x45AP
+  name: магазин (5.56х45 мм SSA AP)
+  components:
+  - type: BallisticAmmoProvider
+    proto: Cartridge556x45AP
+    mayTransfer: true
+    whitelist:
+      tags:
+        - CartridgeRifle
+    capacity: 30
 
 # Иконки работ
 - type: jobIcon
