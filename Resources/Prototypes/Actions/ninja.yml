@@ -49,8 +49,8 @@
   components:
   - type: Action
     icon:
-      sprite: Objects/Weapons/Grenades/empgrenade.rsi
-      state: icon
+      sprite: _DeadSpace/Actions/ninja_actions.rsi #DS14
+      state: emp #DS14
     itemIconStyle: BigAction
     priority: -13
   - type: InstantAction
@@ -151,7 +151,7 @@
     raiseOnUser: true
     icon:
       sprite: _DeadSpace/Actions/ninja_actions.rsi
-      state: spiritform
+      state: cloak
     useDelay: 10
     itemIconStyle: BigAction
   - type: InstantAction

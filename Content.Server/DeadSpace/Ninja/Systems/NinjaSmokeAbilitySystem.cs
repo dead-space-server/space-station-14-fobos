@@ -50,8 +50,7 @@ public sealed class NinjaSmokeAbilitySystem : EntitySystem
 
     private void OnSmokeAction(Entity<NinjaSmokeAbilityComponent> ent, ref NinjaSmokeAbilityActionEvent args)
     {
-        args.Handled = true;
-        SpawnNinjaSmoke(ent, false);
+        args.Handled = TrySpawnNinjaSmoke(ent, false);
     }
 
     private void OnSmokeAutoModeToggleAction(Entity<NinjaSmokeAbilityComponent> ent, ref NinjaToggleAutoSmokeActionEvent args)
@@ -63,27 +62,26 @@ public sealed class NinjaSmokeAbilitySystem : EntitySystem
         _actions.SetToggled(comp.ActionAutoSmokeEntity, comp.AutoMode);
     }
 
-    public void SpawnNinjaSmoke(Entity<NinjaSmokeAbilityComponent> ent, bool AutoMode)
+    public bool TrySpawnNinjaSmoke(Entity<NinjaSmokeAbilityComponent> ent, bool autoMode)
     {
         var xform = Transform(ent);
         var mapCoords = _xform.GetMapCoordinates(ent);
         if (!_mapManager.TryFindGridAt(mapCoords, out var gridUid, out var grid) ||
             !_map.TryGetTileRef(gridUid, grid, xform.Coordinates, out var tileRef))
-            return;
+            return false;
 
         if (_spreader.RequiresFloorToSpread(ent.Comp.SmokePrototype.ToString()) && _turf.IsSpace(tileRef))
-            return;
+            return false;
 
         var coords = _map.MapToGrid(gridUid, mapCoords);
         var smoke = Spawn(ent.Comp.SmokePrototype, coords.SnapToGrid());
         if (!TryComp<SmokeComponent>(smoke, out var smokeComp))
         {
-            Logger.ErrorS("ninja-smoke", $"Smoke prototype {ent.Comp.SmokePrototype} was missing SmokeComponent");
-            return;
+            return false;
         }
 
         _audio.PlayPvs(ent.Comp.SmokeSound, ent);
-        if (!AutoMode)
+        if (!autoMode)
         {
             _smoke.StartSmoke(smoke, new Solution(), (float)ent.Comp.Duration.TotalSeconds, ent.Comp.SpreadAmount, smokeComp);
         }
@@ -91,5 +89,6 @@ public sealed class NinjaSmokeAbilitySystem : EntitySystem
         {
             _smoke.StartSmoke(smoke, new Solution(), (float)ent.Comp.DurationAutoMode.TotalSeconds, ent.Comp.SpreadAmountAutoMode, smokeComp);
         }
+        return true;
     }
 }
