@@ -26,9 +26,7 @@ public sealed class SignBoardSystem : EntitySystem
     private void OnSetText(Entity<SignBoardComponent> entity, ref SignBoardSetTextMessage args)
     {
         var text = args.Text;
-        var maxLength = TryComp<TextScreenVisualsComponent>(entity, out var screen)
-            ? screen.Rows * screen.RowLength
-            : 12;
+        var maxLength = entity.Comp.MaxLength;
         if (text.Length > maxLength)
             text = text[..maxLength];
 

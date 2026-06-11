@@ -12,4 +12,7 @@ public sealed partial class SignBoardComponent : Component
 
     [DataField]
     public SoundSpecifier Sound = new SoundCollectionSpecifier("PaperScribbles");
+
+    [DataField]
+    public int MaxLength = 12;
 }
