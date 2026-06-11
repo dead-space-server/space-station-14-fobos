@@ -12,13 +12,13 @@ public sealed class TriggerOnActionSystem : TriggerOnXSystem
     {
         base.Initialize();
 
-        SubscribeLocalEvent<TriggerOnActionComponent, ComponentStartup>(OnComponentStartup);
+        SubscribeLocalEvent<TriggerOnActionComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<TriggerOnActionComponent, ComponentShutdown>(OnComponentShutdown);
         SubscribeLocalEvent<TriggerOnActionComponent, TriggerActionEvent>(OnTriggerAction);
         SubscribeLocalEvent<TriggerOnActionComponent, GetItemActionsEvent>(OnGetActions);
     }
 
-    private void OnComponentStartup(Entity<TriggerOnActionComponent> ent, ref ComponentStartup args)
+    private void OnMapInit(Entity<TriggerOnActionComponent> ent, ref MapInitEvent args)
     {
         var (uid, comp) = ent;
 
