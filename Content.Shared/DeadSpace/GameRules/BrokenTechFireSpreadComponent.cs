@@ -22,7 +22,6 @@ public sealed partial class BrokenTechFireSpreadComponent : Component
     [DataField]
     public List<ProtoId<ReagentPrototype>> WaterReagents = new() { "Water", "Holywater", "CoconutWater" };
 
-    // DS14-start blob fire damage
     [DataField]
     public DamageSpecifier BlobTileDamage = new()
     {
@@ -41,6 +40,6 @@ public sealed partial class BrokenTechFireSpreadComponent : Component
     public int Distance;
     public TimeSpan NextSpread;
     public TimeSpan NextBlobTileDamage;
-    // DS14-end
+    public TimeSpan NextWaterCheck;
     public bool Finished;
 }
