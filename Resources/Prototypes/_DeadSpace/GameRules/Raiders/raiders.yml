@@ -35,8 +35,8 @@
       mindRoles:
       - MindRoleNukeops
     - spawnerPrototype: SyndicateSoldierSpawner
-      min: 5
-      max: 5
+      min: 4
+      max: 4
       pickPlayer: false
       briefing:
         text: nukeops-raiders-welcome
