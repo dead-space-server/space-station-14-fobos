@@ -40,7 +40,6 @@
     tags:
     - CannotSuicide
     - VimPilot
-# DS14-start
   - type: Language
     knownLanguages:
     - GeneralLanguage
@@ -48,7 +47,6 @@
     - GeneralLanguage
     unlockLanguagesAfterMakeSentient:
     - GeneralLanguage
-# DS14-end
 
 - type: entity
   name: спавнер фенека
