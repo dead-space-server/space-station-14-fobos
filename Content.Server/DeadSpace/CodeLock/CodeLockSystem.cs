@@ -1,3 +1,4 @@
+using System.Linq;
 using Content.Server.Audio;
 using Content.Shared.Audio;
 using Content.Shared.DeadSpace.CodeLock;
@@ -24,6 +25,7 @@ public sealed class CodeLockSystem : EntitySystem
         base.Initialize();
 
         SubscribeLocalEvent<CodeLockComponent, MapInitEvent>(OnMapInit);
+        SubscribeLocalEvent<CodeLockComponent, BoundUIClosedEvent>(OnBoundUiClosed);
 
         SubscribeLocalEvent<CodeLockComponent, CodeLockKeypadMessage>(OnKeypadButtonPressed);
         SubscribeLocalEvent<CodeLockComponent, CodeLockKeypadClearMessage>(OnClearButtonPressed);
@@ -37,11 +39,10 @@ public sealed class CodeLockSystem : EntitySystem
         var query = EntityQueryEnumerator<CodeLockComponent>();
         while (query.MoveNext(out var uid, out var codelock))
         {
-            if (codelock.Status == CodeLockStatus.COOLDOWN)
-            {
-                TickCooldown(uid, frameTime, codelock);
-                break;
-            }
+            if (codelock.Status != CodeLockStatus.COOLDOWN)
+                continue;
+
+            TickCooldown(uid, frameTime, codelock);
         }
     }
 
@@ -92,6 +93,9 @@ public sealed class CodeLockSystem : EntitySystem
 
     private void OnKeypadButtonPressed(EntityUid uid, CodeLockComponent component, CodeLockKeypadMessage args)
     {
+        if (args.Value is < 0 or > 9)
+            return;
+
         PlayCodeLockKeypadSound(uid, args.Value, component);
 
         if (component.Status == CodeLockStatus.COOLDOWN || component.Status == CodeLockStatus.UNLOCKED)
@@ -120,6 +124,22 @@ public sealed class CodeLockSystem : EntitySystem
         }
 
         component.EnteredCode = "";
+
+        UpdateUserInterface(uid, component);
+    }
+
+    private void OnBoundUiClosed(EntityUid uid, CodeLockComponent component, BoundUIClosedEvent args)
+    {
+        if (args.UiKey is not CodeLockUiKey.Key)
+            return;
+
+        if (_ui.GetActors(uid, CodeLockUiKey.Key).Any())
+            return;
+
+        component.EnteredCode = "";
+
+        if (component.Status == CodeLockStatus.CHANGE)
+            component.Status = CodeLockStatus.UNLOCKED;
 
         UpdateUserInterface(uid, component);
     }
@@ -161,16 +181,14 @@ public sealed class CodeLockSystem : EntitySystem
                 }
                 else
                 {
-                    if (component.Attempts == component.MaxAttempts)
+                    component.Attempts += 1;
+                    if (component.Attempts >= component.MaxAttempts)
                     {
                         component.Status = CodeLockStatus.COOLDOWN;
                         component.CooldownTime = component.Cooldown;
                         component.Attempts = 0;
                     }
-                    else
-                    {
-                        component.Attempts += 1;
-                    }
+
                     component.EnteredCode = "";
                     _audio.PlayPvs(component.AccessDeniedSound, uid);
                 }

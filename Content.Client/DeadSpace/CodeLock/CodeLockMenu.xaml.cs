@@ -101,14 +101,20 @@ namespace Content.Client.DeadSpace.CodeLock
 
         private string VisualizeCode(int codeLength, int maxLength, string? enteredCode)
         {
-            var blanksCount = maxLength - codeLength;
-            var blanks = new string('_', blanksCount);
-            return enteredCode + blanks;
+            var safeMaxLength = Math.Max(0, maxLength);
+            var code = enteredCode ?? string.Empty;
+            if (code.Length > safeMaxLength)
+                code = code[..safeMaxLength];
+
+            return code.PadRight(safeMaxLength, '_');
         }
+
         private string VisualizeCodeHidden(int codeLength, int maxLength)
         {
-            var code = new string('*', codeLength);
-            var blanksCount = maxLength - codeLength;
+            var safeMaxLength = Math.Max(0, maxLength);
+            var safeCodeLength = Math.Clamp(codeLength, 0, safeMaxLength);
+            var code = new string('*', safeCodeLength);
+            var blanksCount = safeMaxLength - safeCodeLength;
             var blanks = new string('_', blanksCount);
             return code + blanks;
         }
