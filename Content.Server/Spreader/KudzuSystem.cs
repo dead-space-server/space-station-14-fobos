@@ -99,9 +99,9 @@ public sealed class KudzuSystem : EntitySystem
             DebugTools.Assert(Comp<EdgeSpreaderComponent>(neighborUid).Id == KudzuGroup);
 
             // DS14-start
-            DebugTools.Assert(TryComp<KudzuComponent>(neighborUid, out var neighborKudzu));
-
-            if (neighborKudzu != null)
+            if (!TryComp<KudzuComponent>(neighborUid, out var neighborKudzu))
+                DebugTools.Assert(false);
+            else
                 DebugTools.Assert(HasComp<ActiveEdgeSpreaderComponent>(neighborUid) == (neighborKudzu.GrowthLevel >= 3));
             // DS14-end
 
