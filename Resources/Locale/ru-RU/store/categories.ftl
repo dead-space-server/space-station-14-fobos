@@ -35,3 +35,4 @@ store-category-lavaland-mining-medical = Медицина
 store-category-lavaland-mining-details = Детали
 store-category-lavaland-mining-cash = Деньги
 store-category-lavaland-mining-contraband = Контрабанда
+store-category-cargotechmag-taipan = Тайпан

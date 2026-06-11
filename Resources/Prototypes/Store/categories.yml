@@ -151,3 +151,10 @@
   id: LavalandMiningContraband
   name: store-category-lavaland-mining-contraband
   priority: 10
+
+# DS14-Start
+- type: storeCategory
+  id: CargoTechMagTaipan
+  name: store-category-cargotechmag-taipan
+  priority: 3
+# DS14-End
