@@ -6,6 +6,3 @@
   category: construction-category-misc
   objectType: Item
   description: signboard-recipe-desc
-  icon:
-    sprite: _DeadSpace/Objects/Misc/signboard.rsi
-    state: signboard
