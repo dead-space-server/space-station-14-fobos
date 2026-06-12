@@ -99,6 +99,15 @@ public sealed class BrokenTechFireSpreadSystem : EntitySystem
 
     private void OnFireStartup(Entity<BrokenTechFireSpreadComponent> ent, ref ComponentStartup args)
     {
+        if (_xformQuery.TryGetComponent(ent.Owner, out var xform) &&
+            xform.GridUid is { } gridUid &&
+            TryComp<MapGridComponent>(gridUid, out var grid))
+        {
+            var tile = _map.TileIndicesFor(gridUid, grid, xform.Coordinates);
+            UpdateTileIndex(ent.Owner, gridUid, tile);
+            InitializeOrigin(ent.Comp, gridUid, tile);
+        }
+
         ScheduleFire(ent.Owner, _timing.CurTime);
     }
 
@@ -113,7 +122,15 @@ public sealed class BrokenTechFireSpreadSystem : EntitySystem
         var curTime = _timing.CurTime;
         if (fire.Finished)
         {
-            ScheduleFire(uid, curTime + DormantCheckInterval);
+            var nextFinished = fire.NextWaterCheck;
+
+            if (!fire.BlobTileDamage.Empty && fire.NextBlobTileDamage < nextFinished)
+                nextFinished = fire.NextBlobTileDamage;
+
+            if (nextFinished < curTime)
+                nextFinished = curTime + DormantCheckInterval;
+
+            ScheduleFire(uid, nextFinished);
             return;
         }
 
@@ -183,14 +200,19 @@ public sealed class BrokenTechFireSpreadSystem : EntitySystem
 
         if (fire.Finished)
         {
-            if (curTime >= fire.NextWaterCheck && IsWaterTile(gridUid, grid, tile, fire))
+            if (curTime >= fire.NextWaterCheck)
             {
-                QueueDel(uid);
-                return;
+                if (IsWaterTile(gridUid, grid, tile, fire))
+                {
+                    QueueDel(uid);
+                    return;
+                }
+
+                fire.NextWaterCheck = curTime + DormantCheckInterval;
             }
 
-            fire.NextWaterCheck = curTime + DormantCheckInterval;
-            ScheduleFire(uid, fire.NextWaterCheck);
+            DamageBlobTiles(fire, gridUid, grid, tile);
+            ScheduleNext(uid, fire);
             return;
         }
 

@@ -148,6 +148,12 @@ public sealed class KudzuSystem : EntitySystem
                 continue;
             }
 
+            if (grow.NextTick > curTime)
+            {
+                ScheduleGrowth(entry.Uid, grow, grow.NextTick);
+                continue;
+            }
+
             processed++;
             ProcessGrowing(entry.Uid, grow, curTime);
         }
