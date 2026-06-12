@@ -23,7 +23,7 @@
 
 - type: entity
   parent: ClothingBackpackSyndicateBundle
-  id: ClothingkBackpackSyndicateFilledStarterKit
+  id: ClothingBackpackDuffelSyndicateFilledStarterKit
   description: Cодержит самое необходимое для оперативника.
   components:
   - type: EntityTableContainerFill

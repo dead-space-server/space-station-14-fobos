@@ -1448,7 +1448,7 @@
   id: UplinkStarterKit
   name: uplink-starter-kit-name
   description: uplink-starter-kit-desc
-  productEntity: ClothingkBackpackSyndicateFilledStarterKit
+  productEntity: ClothingBackpackDuffelSyndicateFilledStarterKit
   cost:
     Telecrystal: 52 #DS-14 value
   categories:
