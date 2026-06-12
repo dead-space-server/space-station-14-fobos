@@ -8,7 +8,8 @@
   },
   "states": [
     {
-      "name": "icon"
+      "name": "inhand-right",
+      "directions": 4
     },
     {
       "name": "equipped-OUTERCLOTHING",
@@ -19,11 +20,14 @@
       "directions": 4
     },
     {
-      "name": "inhand-left",
+      "name": "equipped-OUTERCLOTHING-reptilian",
       "directions": 4
     },
     {
-      "name": "inhand-right",
+      "name": "icon"
+    },
+    {
+      "name": "inhand-left",
       "directions": 4
     }
   ]
