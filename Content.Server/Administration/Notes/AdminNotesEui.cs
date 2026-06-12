@@ -16,6 +16,7 @@ public sealed class AdminNotesEui : BaseEui
     [Dependency] private readonly IAdminManager _admins = default!;
     [Dependency] private readonly IAdminNotesManager _notesMan = default!;
     [Dependency] private readonly IPlayerLocator _locator = default!;
+    [Dependency] private readonly IServerDbManager _db = default!; // DS14
 
     public AdminNotesEui()
     {
@@ -24,7 +25,7 @@ public sealed class AdminNotesEui : BaseEui
 
     private NetUserId NotedPlayer { get; set; }
     private string NotedPlayerName { get; set; } = string.Empty;
-    private bool HasConnectedBefore { get; set; }
+    private bool HasPlayerRecord { get; set; } // DS14
     private Dictionary<(int, NoteType), SharedAdminNote> Notes { get; set; } = new();
 
     public override async void Opened()
@@ -49,10 +50,12 @@ public sealed class AdminNotesEui : BaseEui
 
     public override EuiStateBase GetNewState()
     {
+        var canCreate = _notesMan.CanCreate(Player) && HasPlayerRecord; // DS14
+
         return new AdminNotesEuiState(
             NotedPlayerName,
             Notes,
-            _notesMan.CanCreate(Player) && HasConnectedBefore,
+            canCreate, // DS14
             _notesMan.CanDelete(Player),
             _notesMan.CanEdit(Player)
         );
@@ -139,8 +142,11 @@ public sealed class AdminNotesEui : BaseEui
     private async Task LoadFromDb()
     {
         var locatedPlayer = await _locator.LookupIdAsync((NetUserId) NotedPlayer);
-        NotedPlayerName = locatedPlayer?.Username ?? string.Empty;
-        HasConnectedBefore = locatedPlayer?.LastAddress is not null;
+        // DS14-start
+        var playerRecord = await _db.GetPlayerRecordByUserId(NotedPlayer);
+        NotedPlayerName = locatedPlayer?.Username ?? playerRecord?.LastSeenUserName ?? string.Empty;
+        HasPlayerRecord = playerRecord is not null;
+        // DS14-end
         Notes = (from note in await _notesMan.GetAllAdminRemarks(NotedPlayer)
                  select note.ToShared())
             .ToDictionary(sharedNote => (sharedNote.Id, sharedNote.NoteType));
