@@ -2,6 +2,7 @@ using Content.Shared.Clothing.Components;
 using Content.Shared.Inventory.Events;
 using Content.Shared.Movement.Components;
 using Content.Shared.Movement.Systems;
+using Content.Shared.Silicons.Borgs.Components;
 using Content.Shared.Storage;
 using Content.Shared.Whitelist;
 using Robust.Shared.Containers;
@@ -93,6 +94,11 @@ public sealed partial class PilotedClothingSystem : EntitySystem
 
         var pilotEnt = entity.Comp.Pilot.Value;
         var wearerEnt = entity.Comp.Wearer.Value;
+
+        // DS14-start
+        if (HasComp<BorgChassisComponent>(wearerEnt))
+            return false;
+        // DS14-end
 
         // Add component to block prediction of wearer
         EnsureComp<PilotedByClothingComponent>(wearerEnt);
