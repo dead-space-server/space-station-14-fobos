@@ -50,8 +50,7 @@ public abstract class SharedRadioToggleActionSystem : EntitySystem
             return;
         EnsureComp<RadioToggleActionMarkerComponent>(args.Container.Owner).Radio = uid;
 
-        if (!TryComp<TransformComponent>(args.Container.Owner, out var xform))
-            return;
+        var xform = Transform(ent.Owner);
 
         var wearer = xform.ParentUid;
         if (!wearer.IsValid())
