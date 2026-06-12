@@ -39,7 +39,6 @@ public abstract class SharedRadioToggleActionSystem : EntitySystem
         if (args.InHands)
             return;
 
-        Log.Debug($"[RadioToggle] try add action {comp.ActionEntity}, entity = {args.User}");
         args.AddAction(comp.ActionEntity);
     }
 
@@ -50,7 +49,7 @@ public abstract class SharedRadioToggleActionSystem : EntitySystem
             return;
         EnsureComp<RadioToggleActionMarkerComponent>(args.Container.Owner).Radio = uid;
 
-        var xform = Transform(ent.Owner);
+        var xform = Transform(args.Container.Owner);
 
         var wearer = xform.ParentUid;
         if (!wearer.IsValid())

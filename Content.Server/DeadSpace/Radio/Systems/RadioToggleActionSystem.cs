@@ -1,6 +1,7 @@
 using Content.Shared.DeadSpace.Radio.Systems;
 using Content.Shared.DeadSpace.Radio.Components;
 using Content.Shared.Radio.EntitySystems;
+using Content.Shared.Radio.Components;
 
 namespace Content.Server.DeadSpace.Radio.Systems;
 
@@ -19,10 +20,16 @@ public sealed class RadioToggleActionSystem : SharedRadioToggleActionSystem
         if (args.Handled)
             return;
 
-        ent.Comp.Enabled = !ent.Comp.Enabled;
-        args.Handled = true;
+        if (!TryComp<RadioMicrophoneComponent>(ent.Owner, out var microphone))
+            return;
 
-        _radioDevice.SetMicrophoneEnabled(ent, args.Performer, ent.Comp.Enabled);
+        if (!TryComp<RadioSpeakerComponent>(ent.Owner, out var speaker))
+            return;
+
+        args.Handled = true;
+        ent.Comp.Enabled = !(microphone.Enabled && speaker.Enabled);
+
+        _radioDevice.SetMicrophoneEnabled(ent, args.Performer, ent.Comp.Enabled, quiet: true);
         _radioDevice.SetSpeakerEnabled(ent, args.Performer, ent.Comp.Enabled);
         Dirty(ent);
     }
