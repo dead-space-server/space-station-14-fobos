@@ -17,3 +17,18 @@
   id: cherryblossom
   flavorType: Base
   description: flavor-complex-cherryblossom
+
+- type: flavor
+  id: cactus
+  flavorType: Base
+  description: flavor-complex-cactus
+
+- type: flavor
+  id: oasiscactus
+  flavorType: Base
+  description: flavor-complex-oasiscactus
+
+- type: flavor
+  id: spike
+  flavorType: Base
+  description: flavor-complex-spike

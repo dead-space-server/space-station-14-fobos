@@ -523,25 +523,89 @@
 
 - type: entity
   id: FoodCactus
-  parent: FoodBase
+  parent: FoodProduceBase
   name: плод кактуса
   description: Ммм... Колючий... Но внутри может быть что-то вкусное!
   components:
+  - type: Item
+    heldPrefix: produce
+  - type: Produce
+    seedId: CactusPlant
+  - type: Extractable
+    juiceSolution:
+      reagents:
+      - ReagentId: CactusJuice
+        Quantity: 10
   - type: Sprite
     sprite: _DeadSpace/Objects/Specific/Hydroponics/cactus.rsi
-    state: foodcactus
+    state: produce
   - type: FlavorProfile
     flavors:
-      - bitter
+      - cactus
   - type: SolutionContainerManager
     solutions:
       food:
         reagents:
-        - ReagentId: Water
-          Quantity: 10
         - ReagentId: Nutriment
           Quantity: 5
-        - ReagentId: SpaceDrugs
-          Quantity: 15
-        - ReagentId: BuzzochloricBees
-          Quantity: 2
+        - ReagentId: CactusJuice
+          Quantity: 5
+        - ReagentId: SpikeAcid
+          Quantity: 1
+
+- type: entity
+  id: FoodCactusCoral
+  parent: FoodProduceBase
+  name: комок колючек коралла
+  description: Комок колючек, который вырос из семян кораллового кактуса. Крайне колючий, внутри явно нет ничего вкусного.
+  components:
+  - type: Item
+    heldPrefix: produce
+  - type: Produce
+    seedId: CactusCoralPlant
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Specific/Hydroponics/cactus_coral.rsi
+    state: produce
+  - type: FlavorProfile
+    flavors:
+      - spike
+  - type: SolutionContainerManager
+    solutions:
+      melee:
+        reagents:
+        - ReagentId: SpikeAcid
+          Quantity: 2.5
+      food:
+        reagents:
+        - ReagentId: Nutriment
+          Quantity: 3
+        - ReagentId: CactusJuice
+          Quantity: 1
+        - ReagentId: SpikeAcid
+          Quantity: 1
+  - type: SolutionInjectOnEmbed
+    transferAmount: 3
+    blockSlots: NONE
+    solution: melee
+  - type: SolutionTransfer
+    maxTransferAmount: 3
+  - type: MeleeWeapon
+    wideAnimationRotation: -45
+    damage:
+      types:
+        Piercing: 2
+    angle: 0
+    animation: WeaponArcThrust
+    soundHit:
+      path: /Audio/Weapons/pierce.ogg
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Piercing: 4
+  - type: EmbeddableProjectile
+    minimumSpeed: 3
+    removalTime: 1
+    offset: 0.0,0.0
+  - type: ThrowingAngle
+    angle: 315
+  - type: LandAtCursor

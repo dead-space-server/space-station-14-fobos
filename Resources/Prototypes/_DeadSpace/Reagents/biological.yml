@@ -80,3 +80,28 @@
           Brute: -0.8
       - !type:SatiateThirst
         factor: 4
+
+- type: reagent
+  id: SpikeAcid
+  name: reagent-name-spike-acid
+  group: Biological
+  desc: reagent-desc-spike-acid
+  physicalDesc: reagent-physical-desc-spike
+  flavor: spike
+  color: "#093d00"
+  metabolisms:
+    Poison:
+      metabolismRate: 0.75
+      effects:
+      - !type:HealthChange
+        damage:
+          types:
+            Piercing: 4
+      - !type:PopupMessage
+        type: Local
+        visualType: Large
+        messages: [ "generic-reagent-effect-burning-insides" ]
+        probability: 0.25
+      - !type:Emote
+        emote: Scream
+        probability: 0.2

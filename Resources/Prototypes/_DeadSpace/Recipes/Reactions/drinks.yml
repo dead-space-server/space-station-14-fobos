@@ -62,3 +62,15 @@
       amount: 1
   products:
     Baltica9: 1
+
+- type: reaction
+  id: OasisCactus
+  requiredMixerCategories:
+  - Shake
+  reactants:
+    VodkaMartini:
+      amount: 1
+    CactusJuice:
+      amount: 1
+  products:
+    OasisCactus: 1
