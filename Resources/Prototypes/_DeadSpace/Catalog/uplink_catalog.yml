@@ -903,7 +903,7 @@
 - type: listing
   id: UplinkNukeMain
   name: Основа оперативника
-  description: Самые базовыве вещи, на которых строится почти любой закуп оперативника. !КРОМЕ КЛИНКОВ!
+  description: Самые базовые вещи, на которых строится почти любой закуп оперативника. !КРОМЕ КЛИНКОВ!
   productEntity: ClothingBackpackSatchelTaipanBundleMain
   icon: { sprite: /Textures/Objects/Weapons/Melee/e_sword.rsi, state: icon }
   cost:
