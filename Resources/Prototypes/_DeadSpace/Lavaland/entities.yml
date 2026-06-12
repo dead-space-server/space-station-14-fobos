@@ -147,56 +147,17 @@
     price: 500
 
 - type: entity
-  parent: BaseMachinePowered
+  parent: LavalandMiningShop
   id: AdvancedCargoTechMag
   name: продвинутый карготехмаг
   description: Нагло украденный и перекрашенный утильмаг из базы утилизаторов... Зато, на левом боку красуется рисунок боевого слона синдиката.
-  placement:
-    mode: SnapgridCenter
   components:
-  - type: Transform
-    anchored: true
   - type: Sprite
     sprite: _DeadSpace/Structures/Machines/VendingMachines/mining.rsi
-    snapCardinals: true
-    layers:
-    - state: off
-    - state: normal-unshaded
-      shader: unshaded
-    - state: panel
-      visible: false
   - type: LavalandMiningShop
     miningAccess:
     - TaipanCargo
-    - Salvage
-    - SeniorSalvage
-    cardSlot:
-      name: lavaland-mining-shop-card-slot
-      ejectSound: /Audio/Machines/id_swipe.ogg
-      insertSound: /Audio/Machines/id_swipe.ogg
-      insertOnInteract: false
-      ejectOnBreak: true
-      swap: false
-      whitelist:
-        components:
-        - LavalandMiningPoints
-    voucherSlot:
-      name: lavaland-mining-shop-voucher-slot
-      ejectSound: /Audio/Machines/id_swipe.ogg
-      insertSound: /Audio/Machines/id_swipe.ogg
-      insertOnInteract: false
-      ejectOnBreak: true
-      swap: false
-      whitelist:
-        components:
-        - LavalandMiningVoucher
-  - type: ItemSlots
-  - type: ContainerContainer
-    containers:
-      LavalandMiningShop-card: !type:ContainerSlot
-      LavalandMiningShop-voucher: !type:ContainerSlot
   - type: Store
-    name: lavaland-mining-shop-ui-title
     categories:
     - LavalandMiningEquipment
     - LavalandMiningTools
@@ -205,32 +166,3 @@
     - LavalandMiningMedical
     - LavalandMiningDetails
     - LavalandMiningCash
-    currencyWhitelist:
-    - LavalandMiningPoint
-    balance:
-      LavalandMiningPoint: 0
-  - type: ActivatableUI
-    key: enum.StoreUiKey.Key
-    singleUser: true
-  - type: ActivatableUIRequiresPower
-  - type: UserInterface
-    interfaces:
-      enum.StoreUiKey.Key:
-        type: StoreBoundUserInterface
-      enum.LavalandMiningVoucherUiKey.Key:
-        type: LavalandMiningVoucherBoundUserInterface
-  - type: AmbientOnPowered
-  - type: AmbientSound
-    volume: -9
-    range: 3
-    enabled: false
-    sound:
-      path: /Audio/Ambience/Objects/vending_machine_hum.ogg
-  - type: PointLight
-    enabled: false
-    castShadows: false
-    radius: 1.5
-    color: "#8B0000"
-  - type: LitOnPowered
-  - type: StaticPrice
-    price: 500
