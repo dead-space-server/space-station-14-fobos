@@ -27,7 +27,7 @@
     - id: PottedPlant23
     - id: PottedPlant24
     - id: PottedPlant26
-    - id: PottedPlant31 # DS14
+    - id: PottedPlantDS1 # DS14
 
 - type: entity
   parent: CrateGenericSteel
