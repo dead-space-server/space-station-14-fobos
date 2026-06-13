@@ -3,6 +3,6 @@ ent-ClothingBackpackSyndicateBundle = { ent-ClothingBackpackSyndicate }
 ent-ClothingBackpackSyndicateRaidBundle = набор рейдерского костюма Синдиката
     .desc = Содержит прочный, рейдерский набор брони Синдиката.
 
-ent-ClothingkBackpackSyndicateFilledStarterKit = { ent-ClothingBackpackSyndicate }
+ent-ClothingBackpackDuffelSyndicateFilledStarterKit = { ent-ClothingBackpackSyndicate }
     .desc = Cодержит самое необходимое для оперативника.
     .suffix = Базовый набор оперативника
