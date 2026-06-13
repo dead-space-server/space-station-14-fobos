@@ -1,0 +1,7 @@
+- type: listing
+  id: TaipanTechMagSmokingCarp
+  productEntity: SmokingCarpInjector
+  categories:
+  - CargoTechMagTaipan
+  cost:
+    LavalandMiningPoint: 100000

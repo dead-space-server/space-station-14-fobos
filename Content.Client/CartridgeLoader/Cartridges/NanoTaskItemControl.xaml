@@ -5,18 +5,17 @@
         <Button Name="MainButton"
                 HorizontalExpand="True"
                 VerticalExpand="True"
-                StyleClasses="ButtonSquare"
-                Margin="-1 0 0 0">
-            <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
+                StyleClasses="DS14MenuListRow"
+                Margin="0 0 4 0">
+            <BoxContainer Orientation="Horizontal" HorizontalExpand="True" Margin="6 3 6 3">
                 <BoxContainer Orientation="Vertical"
                               VerticalExpand="True"
-                              HorizontalExpand="True"
-                              Margin="-5 0 0 0">
+                              HorizontalExpand="True">
                     <Label Name="TaskLabel"
-                           StyleClasses="LabelSubText" />
+                           StyleClasses="DS14MenuProfileLabel" />
                     <Label Name="TaskForLabel"
-                           StyleClasses="LabelSubText"
-                           Margin="0 -5 0 0" />
+                           StyleClasses="DS14MenuSubtitle"
+                           Margin="0 1 0 0" />
                 </BoxContainer>
             </BoxContainer>
         </Button>
@@ -24,8 +23,7 @@
                 VerticalExpand="True"
                 Text="{Loc 'nano-task-ui-done'}">
             <Button.StyleClasses>
-                <system:String>ButtonSmall</system:String>
-                <system:String>OpenLeft</system:String>
+                <system:String>DS14MenuProfileControl</system:String>
             </Button.StyleClasses>
         </Button>
     </BoxContainer>

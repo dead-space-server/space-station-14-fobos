@@ -892,10 +892,122 @@
 - type: listing
   id: UplinkHristovMagAP
   name: Магазин бронебойных патронов для Христова
-  description: Заряд сваги каждому на прицельной линии.
+  description: Заряд сваги каждому на прицельной линии.//ББ
   productEntity: MagazineHristovAP
   icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Magazine/magazine_heavy_sniper.rsi, state: iconap }
   cost:
     Telecrystal: 4
   categories:
   - UplinkAmmo
+
+- type: listing
+  id: UplinkNukeMain
+  name: Основа оперативника
+  description: Самые базовые вещи, на которых строится почти любой закуп оперативника. !КРОМЕ КЛИНКОВ!
+  productEntity: ClothingBackpackSatchelTaipanBundleMain
+  icon: { sprite: /Textures/Objects/Weapons/Melee/e_sword.rsi, state: icon }
+  cost:
+    Telecrystal: 29
+  categories:
+  - UplinkPresets
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkNukeMantis1
+  name: Пресет "Богомолы"
+  description: Используемый опытным оперативником набор вещей, основа которого - клинки богомола.
+  productEntity: ClothingBackpackSatchelTaipanBundleMantis
+  icon: { sprite: /Textures/_DeadSpace/Actions/mantisblades_actions.rsi, state: mantis-toggle }
+  cost:
+    Telecrystal: 65
+  categories:
+  - UplinkPresets
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkNukeJuggernaut
+  name: Пресет "Джаггернаут"
+  description: Используемый опытным оперативником набор вещей, основа которого - джаггернаут.
+  productEntity: CrateBundleNukeJuggernaut
+  icon: { sprite: /Textures/Clothing/Head/Hardsuits/cybersun.rsi, state: icon }
+  cost:
+    Telecrystal: 99
+  categories:
+  - UplinkPresets
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkNukeHristov
+  name: Пресет "Христов"
+  description: Используемый опытным оперативником набор вещей, основа которого - Христов.
+  productEntity: CrateBundleNukeHristov
+  icon: { sprite: /Textures/Objects/Weapons/Guns/Snipers/heavy_sniper.rsi, state: icon }
+  cost:
+    Telecrystal: 89
+  categories:
+  - UplinkPresets
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkNukeХС
+  name: Пресет "хС-67"
+  description: Используемый опытным оперативником набор вещей, основа которого - хС-67. Придумал ебанутый слайм.
+  productEntity: CrateBundleNukeхС67
+  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Rifels/xc67.rsi, state: icon }
+  cost:
+    Telecrystal: 79
+  categories:
+  - UplinkPresets
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkNukeAP
+  name: Пресет "Дигл"
+  description: Используемый опытным оперативником набор вещей, основа которого - Пустынный Орёл на бронебойных боеприпасах.
+  productEntity: ClothingBackpackSatchelTaipanBundleAP
+  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Pistols/deserteagle.rsi, state: icon }
+  cost:
+    Telecrystal: 79
+  categories:
+  - UplinkPresets
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkNukeBulldogFreak
+  name: Пресет "СБЭУ ФРИК"
+  description: Используемый фриковатым оперативником набор вещей, основа которого - дробовик блять и рапира.
+  productEntity: CrateBundleNukeBulldog
+  icon: { sprite: /Textures/Clothing/Mask/clown_security.rsi, state: icon }
+  cost:
+    Telecrystal: 72
+  categories:
+  - UplinkPresets
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink

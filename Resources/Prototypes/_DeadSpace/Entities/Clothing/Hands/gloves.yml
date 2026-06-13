@@ -65,3 +65,14 @@
     sprite: _DeadSpace/Clothing/Hands/Gloves/cmo.rsi
   - type: Clothing
     sprite: _DeadSpace/Clothing/Hands/Gloves/cmo.rsi
+
+- type: entity
+  parent: ClothingHandsGlovesCombat
+  id: ClothingHandsGlovesBlueShield
+  name: боевые перчатки офицера "Синий Щит"
+  description: Эти тактические перчатки огнеупорны и ударопрочны.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Hands/Gloves/blueshield_gloves.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Hands/Gloves/blueshield_gloves.rsi
