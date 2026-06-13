@@ -159,6 +159,8 @@
     itemIconStyle: BigAction
   - type: InstantAction
     event: !type:ToggleCloakNinjaEvent
+
+- type: entity
   id: NinjaSmokeAction
   name: дымовая завеса
   description: Создает объемную дымовую завесу, которая может помочь сбежать. Ну или напасть..

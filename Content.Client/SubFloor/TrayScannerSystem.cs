@@ -99,32 +99,14 @@ public sealed class TrayScannerSystem : SharedTrayScannerSystem
 
             while (ninjas.MoveNext(out var uid, out var ninja, out var xform))
             {
-                if (ninja.Suit is not { } suitUid)
-                    continue;
-
-                if (!TryComp<NinjaCloakComponent>(suitUid, out var cloak))
-                    continue;
-
-                if (!cloak.Enabled)
-                    continue;
-
-                var pos = _transform.GetWorldPosition(xform);
-
-                if (xform.MapID != playerMap)
-                    continue;
-
-                var dist = (pos - playerPos).Length();
-
-                if (dist > range)
-                    continue;
-
-                EnsureComp<TrayRevealedComponent>(uid);
-
-                if (TryComp<SpriteComponent>(uid, out var sprite))
+                if (ninja.Suit is not { } suitUid || !TryComp<NinjaCloakComponent>(suitUid, out var cloak) || !cloak.Enabled || xform.MapID != playerMap)
                 {
-                    _sprite.SetVisible((uid, sprite), true);
-                    //_sprite.SetColor((uid, sprite), sprite.Color.WithAlpha(1f));
+                    if (TryComp<SpriteComponent>(uid, out var sprite))
+                    {
+                        _sprite.SetVisible((uid, sprite), false);
+                    }
                 }
+
             }
             // DS-14 End
         }

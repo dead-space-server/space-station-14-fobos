@@ -1,5 +1,6 @@
 using Content.Shared.Actions;
 using Content.Shared.DeadSpace.Ninja.Components;
+using Content.Shared.Inventory.Events;
 
 namespace Content.Shared.DeadSpace.Ninja.Systems;
 
@@ -12,6 +13,7 @@ public abstract class SharedNinjaCloakSystem : EntitySystem
         base.Initialize();
         SubscribeLocalEvent<NinjaCloakComponent, GetItemActionsEvent>(OnGetActions);
         SubscribeLocalEvent<SpaceNinjaComponent, ToggleCloakNinjaEvent>(OnNinjaToggleCloak);
+        SubscribeLocalEvent<NinjaCloakComponent, GotUnequippedEvent>(OnUnequipped);
     }
 
 
@@ -30,5 +32,14 @@ public abstract class SharedNinjaCloakSystem : EntitySystem
     private void OnGetActions(Entity<NinjaCloakComponent> ent, ref GetItemActionsEvent args)
     {
         _actions.AddAction(args.User, ref ent.Comp.ActionEntity, ent.Comp.Action, ent.Owner);
+    }
+
+    private void OnUnequipped(Entity<NinjaCloakComponent> ent, ref GotUnequippedEvent args)
+    {
+        if (!ent.Comp.Enabled)
+            return;
+
+        ent.Comp.Enabled = false;
+        Dirty(ent);
     }
 }

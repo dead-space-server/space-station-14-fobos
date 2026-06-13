@@ -2,6 +2,7 @@ using Content.Shared.DeadSpace.Ninja.Components;
 using Content.Shared.DeadSpace.Ninja.Systems;
 using Robust.Client.GameObjects;
 using Robust.Shared.GameObjects;
+using Content.Shared.Inventory.Events;
 
 namespace Content.Client.DeadSpace.Ninja.Systems;
 
