@@ -65,7 +65,7 @@
       - id: JawsOfLife
       - id: PowerDrill
       - id: WelderExperimental
-      - id: ADTCombatHypo
+      - id: CombatHypoBlueShield
       - id: ChemistryBottleEphedrine
       - id: ChemistryBottleOmnizine
       - id: ChemistryBottleOmnizine
@@ -79,12 +79,12 @@
     head: ClothingHeadHatBeretBlueShield
     jumpsuit: ClothingUniformJumpsuitBlueShield
     # back: ClothingBackpackBlueShieldCentComFilled
-    mask: ClothingMaskGasSecurity
-    eyes: ClothingEyesGlassesSecurity
+    mask: ClothingMaskGasBlueShield
+    eyes: ClothingEyesHudBlueShield
     ears: ClothingHeadsetAltCentCom
-    gloves: ClothingHandsGlovesCombat
+    gloves: ClothingHandsGlovesBlueShield
     outerClothing: ClothingOuterArmorBasicBlueShield
-    shoes: ClothingShoesBootsJackFilled
+    shoes: ClothingShoesBootsBlueShield
     id: BlueShieldOfficerPDA
     pocket1: PistolBlueShield
     pocket2: WeaponDisabler

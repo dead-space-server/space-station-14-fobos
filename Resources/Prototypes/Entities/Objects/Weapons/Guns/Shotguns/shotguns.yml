@@ -104,6 +104,8 @@
   - type: Tag # DS14
     tags:
     - ShotgunBulldog
+  - type: GunSpreadModifier
+    spread: 0.80
 
 - type: entity
   name: double-barreled shotgun

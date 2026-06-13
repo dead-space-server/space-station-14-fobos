@@ -4,3 +4,5 @@ reagent-name-acidic-blood = кислотная кровь
 reagent-desc-acidic-blood = Зелёная субстанция, разъедающая плоть при контакте.
 reagent-name-mini-dragon-acid = ихоросил
 reagent-desc-mini-dragon-acid = Слабая версия ихора, что хранится в хвосте малышей драконов и исцеляет их.
+reagent-name-spike-acid = колючая кислота
+reagent-desc-spike-acid = Кислота тысячи игл. Мало кто захочет испытать внутри желудка миллион пронзаний. 

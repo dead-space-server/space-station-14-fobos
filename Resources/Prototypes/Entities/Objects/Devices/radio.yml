@@ -1,4 +1,14 @@
 - type: entity
+  id: RadioToggleAction
+  parent: BaseAction
+  name: переключить рацию
+  components:
+  - type: Action
+    useDelay: 1
+  - type: InstantAction
+    event: !type:RadioToggleEvent
+
+- type: entity
   name: handheld radio
   description: A handy handheld radio.
   parent: BaseItem
@@ -26,6 +36,17 @@
     - Radio
   # DS14-start
   - type: Language
+  - type: RadioToggleAction
+  - type: Clothing
+    slots:
+    - neck
+    quickEquip: false
+    equippedPrefix: walkietalkie
+  - type: UniformAccessory
+    category: Radio
+    limit: 1
+    color: "#EFB401" 
+  - type: Appearance
   # DS14-end
 
 - type: entity
@@ -47,4 +68,8 @@
     heldPrefix: walkietalkie
   # DS14-start
   - type: Language
+  - type: UniformAccessory
+    category: Radio
+    limit: 1
+    color: "#326496" 
   # DS14-end

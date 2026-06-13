@@ -213,6 +213,9 @@
         whitelist:
           tags:
           - Handcuffs
+  - type: ComponentBorgModule
+    components:
+    - type: SecurityBorgArrestModule
 
 - type: entity
   id: BaseBorgModuleSecurity

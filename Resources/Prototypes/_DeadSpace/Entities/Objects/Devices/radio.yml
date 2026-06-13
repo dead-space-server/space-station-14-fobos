@@ -16,3 +16,8 @@
     sprite: _DeadSpace/Objects/Devices/taipan_radio.rsi
     heldPrefix: walkietalkie
   - type: Language
+  - type: UniformAccessory
+    category: Radio
+    limit: 1
+    color: "#731B37" 
+  - type: Appearance

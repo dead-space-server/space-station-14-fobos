@@ -488,8 +488,25 @@ public sealed class NukeSystem : EntitySystem
         // The nuke may not be on a station, so it's more important to just
         // let people know that a nuclear bomb was armed in their vicinity instead.
         // Otherwise, you could set every station to whatever AlertLevelOnActivate is.
+        // DS14-start
         if (stationUid != null)
+        {
+            component.PreviousAlertLevelStation = stationUid.Value;
+
+            if (TryComp<AlertLevelComponent>(stationUid.Value, out var alert))
+            {
+                component.PreviousAlertLevel = alert.CurrentLevel;
+                component.PreviousAlertLevelLocked = alert.IsLevelLocked;
+            }
+            else
+            {
+                component.PreviousAlertLevel = null;
+                component.PreviousAlertLevelLocked = false;
+            }
+
             _alertLevel.SetLevel(stationUid.Value, component.AlertLevelOnActivate, true, true, true, true);
+        }
+        // DS14-end
 
         var pos = _transform.GetMapCoordinates(uid, xform: nukeXform);
         var x = (int) pos.X;
@@ -537,9 +554,21 @@ public sealed class NukeSystem : EntitySystem
         if (component.Status != NukeStatus.ARMED)
             return;
 
-        var stationUid = _station.GetOwningStation(uid);
+        // DS14-start
+        var stationUid = component.PreviousAlertLevelStation ?? _station.GetOwningStation(uid);
+        var previousAlertLevel = string.IsNullOrEmpty(component.PreviousAlertLevel)
+            ? component.AlertLevelOnDeactivate
+            : component.PreviousAlertLevel;
+
         if (stationUid != null)
-            _alertLevel.SetLevel(stationUid.Value, component.AlertLevelOnDeactivate, true, true, true);
+        {
+            _alertLevel.SetLevel(stationUid.Value, previousAlertLevel, false, true, true, component.PreviousAlertLevelLocked);
+        }
+
+        component.PreviousAlertLevelStation = null;
+        component.PreviousAlertLevel = null;
+        component.PreviousAlertLevelLocked = false;
+        // DS14-end
 
         // warn a crew
         var announcement = Loc.GetString("nuke-component-announcement-unarmed");

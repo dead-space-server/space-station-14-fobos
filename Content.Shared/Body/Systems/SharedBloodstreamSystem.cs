@@ -23,7 +23,6 @@ using Content.Shared.StatusEffectNew;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Random;
 using Robust.Shared.Timing;
 
 namespace Content.Shared.Body.Systems;
@@ -405,6 +404,7 @@ public abstract class SharedBloodstreamSystem : EntitySystem
     {
         if (!Resolve(ent, ref ent.Comp, logMissing: false)
             || !SolutionContainer.ResolveSolution(ent.Owner, ent.Comp.BloodSolutionName, ref ent.Comp.BloodSolution, out var bloodSolution)
+            || !ent.Comp.AllowBloodLevelModification // DS14
             || amount == 0)
             return false;
 

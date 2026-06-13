@@ -10,3 +10,7 @@ reagent-name-sakurajuice = сок сакуры
 reagent-desc-sakurajuice = Прозрачная розоватая жидкость, слегка сладковатая и цветочная.
 reagent-name-baltica9 = Балтика 9
 reagent-desc-baltica9 = Легендарный напиток. Идеальное сочетание святой воды и крови сатаны.
+reagent-name-cactusjuice = сок кактуса
+reagent-desc-cactusjuice = Попробуйте сок кактуса - он охладит вас! Он охладительный! САМЫЙ ОХЛАДИТЕЛЬНЫЙ!
+reagent-name-oasiscactus = долгожданный оазис
+reagent-desc-oasiscactus = После него, все ваши проблемы кажутся лишь одной иголкой на кактусе.

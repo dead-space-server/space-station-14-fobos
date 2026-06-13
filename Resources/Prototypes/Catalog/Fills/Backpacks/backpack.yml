@@ -20,3 +20,24 @@
         - id: ClothingHeadHelmetRaid
         - id: ClothingMaskGasSyndicate
         - id: ClothingHandsGlovesCombat
+
+- type: entity
+  parent: ClothingBackpackSyndicateBundle
+  id: ClothingBackpackDuffelSyndicateFilledStarterKit
+  description: Cодержит самое необходимое для оперативника.
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: DrinkShakerSyndie
+          amount: 2
+        - id: EnergySword
+        - id: ADTCyberHypospray
+        - id: EmpImplanter
+        - id: ScramImplanter
+        - id: ClothingShoesChameleonNoSlips
+        - id: EnergyShield
+        - id: ClothingEyesHudSyndicateAgent
+        - id: CombatMedipen
+          amount: 3
