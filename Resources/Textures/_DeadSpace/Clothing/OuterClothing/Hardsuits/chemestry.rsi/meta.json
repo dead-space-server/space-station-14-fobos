@@ -1,11 +1,7 @@
 {
   "version": 1,
   "license": "CC-BY-SA-3.0",
-<<<<<<< HEAD
   "copyright": "Made by pyfya (discord) for Space Station 14 server Мёртвый Космос, plaf and reptilian version made by yri_nouri (discord)",
-=======
-  "copyright": "Made by pyfya (discord) for Space Station 14 server Мёртвый Космос, plaf version made by yri_nouri (discord), equipped-OUTERCLOTHING-reptilian made by yri_nouri",
->>>>>>> b0f1015481b36c0e4d9ec90fe25aff78f79dc02b
   "size": {
     "x": 32,
     "y": 32
