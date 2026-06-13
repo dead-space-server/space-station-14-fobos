@@ -183,6 +183,7 @@
     noPowerPopup: ninja-no-power
   # core ninja suit stuff
   - type: NinjaSuit
+  #DS14 start
   - type: UserInterface
     interfaces: 
       enum.SpiderOSUiKey.Key:
@@ -192,10 +193,10 @@
   - type: SelfHealthAnalyzer
   - type: HealthAnalyzer
   - type: AutoDust
-  #DS14 start
   - type: NinjaSmokeAbility
     spreadAmount: 10
     spreadAmountAutoMode: 5
+  - type: NinjaEmpAbility
   - type: Jetpack
     requiresGas: false
     toggleAction: NinjaActionToggleJetpack

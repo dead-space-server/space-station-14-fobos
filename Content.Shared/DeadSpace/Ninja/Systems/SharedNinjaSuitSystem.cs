@@ -1,7 +1,6 @@
 using Content.Shared.Actions;
 using Content.Shared.Clothing;
 using Content.Shared.Clothing.Components;
-using Content.Shared.Emp;
 using Content.Shared.Inventory.Events;
 using Content.Shared.Item.ItemToggle;
 using Content.Shared.Item.ItemToggle.Components;
@@ -56,7 +55,6 @@ public abstract class SharedNinjaSuitSystem : EntitySystem
         var (uid, comp) = ent;
         _actionContainer.EnsureAction(uid, ref comp.RecallKatanaActionEntity, comp.RecallKatanaAction);
         _actionContainer.EnsureAction(uid, ref comp.OpenSpiderOSActionEntity, comp.OpenSpiderOSAction);
-        _actionContainer.EnsureAction(uid, ref comp.EmpActionEntity, comp.EmpAction);
         Dirty(uid, comp);
     }
 
@@ -71,7 +69,6 @@ public abstract class SharedNinjaSuitSystem : EntitySystem
             return;
 
         args.AddAction(ref comp.RecallKatanaActionEntity, comp.RecallKatanaAction);
-        args.AddAction(ref comp.EmpActionEntity, comp.EmpAction);
     }
 
     /// <summary>

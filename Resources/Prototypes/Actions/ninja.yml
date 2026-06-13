@@ -49,8 +49,8 @@
   components:
   - type: Action
     icon:
-      sprite: Objects/Weapons/Grenades/empgrenade.rsi
-      state: icon
+      sprite: _DeadSpace/Actions/ninja_actions.rsi #DS14
+      state: emp #DS14
     itemIconStyle: BigAction
     priority: -13
   - type: InstantAction
@@ -151,16 +151,13 @@
     raiseOnUser: true
     icon:
       sprite: _DeadSpace/Actions/ninja_actions.rsi
-      state: jetpack-off
-    iconOn:
-      sprite: _DeadSpace/Actions/ninja_actions.rsi
-      state: jetpack-on
-    useDelay: 1.0
+      state: cloak
+    useDelay: 10
     itemIconStyle: BigAction
   - type: InstantAction
     event: !type:ToggleCloakNinjaEvent
 
-- type: entity
+- type: entity  
   id: NinjaSmokeAction
   name: дымовая завеса
   description: Создает объемную дымовую завесу, которая может помочь сбежать. Ну или напасть..
