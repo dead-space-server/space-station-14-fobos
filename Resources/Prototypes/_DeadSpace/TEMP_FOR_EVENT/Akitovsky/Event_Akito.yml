@@ -187,12 +187,16 @@
 
 # Униформа Дельта чёрная
 - type: entity
-  parent: ClothingUniformJumpsuitBSAA
+  parent: [ClothingUniformBase, ClothingUniformFoldableBase]
   id: ClothingUniformJumpsuitAkiDeltaBlack
   name: тактическая униформа
   description: Тактическая куртка и чёрные штаны.
   suffix: Akitovsky
   components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Jumpsuits/deltablackalt.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Jumpsuits/deltablackalt.rsi
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -293,8 +297,8 @@
 - type: entity
   parent: ClothingOuterArmorBase
   id: ClothingOuterArmorDeltaAkiSand
-  name: бронежилет
-  description: Стандартный бронежилет с пластиной IV-го класса защиты.
+  name: бронежилет V-й класс
+  description: Стандартный бронежилет с пластиной V-го класса защиты.
   suffix: Akitovsky, Песок
   components:
   - type: Sprite
@@ -323,8 +327,8 @@
 - type: entity
   parent: ClothingOuterArmorBase
   id: ClothingOuterArmorDeltaSlimAkiSand
-  name: бронежилет
-  description: Бронежилет с пластиной IV-го класса защиты, но меньшей областью покрытия.
+  name: бронежилет V-й класс
+  description: Бронежилет с пластиной V-го класса защиты, но меньшей областью покрытия.
   suffix: Akitovsky, Песок
   components:
   - type: Sprite
@@ -353,14 +357,104 @@
 - type: entity
   parent: ClothingOuterArmorBase
   id: ClothingOuterArmorDeltaFatAkiSand
-  name: бронежилет
-  description: Стандартный бронежилет с пластиной IV-го класса защиты.
+  name: бронежилет V-й класс
+  description: Стандартный бронежилет с пластиной V-го класса защиты.
   suffix: Akitovsky, Песок
   components:
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Armor/bulletproofvestfatsand.rsi
   - type: Clothing
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Armor/bulletproofvestfatsand.rsi
+    equipDelay: 2
+    unequipDelay: 2
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.4
+        Heat: 0.80
+  - type: ClothingSpeedModifier
+    walkModifier: 0.73
+    sprintModifier: 0.73
+  - type: HeldSpeedModifier
+  - type: Item
+    size: Huge
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Броня Дельта чёрная
+- type: entity
+  parent: ClothingOuterArmorBase
+  id: ClothingOuterArmorDeltaAkiBlack
+  name: бронежилет V-й класс
+  description: Стандартный бронежилет с пластиной V-го класса защиты.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: Clothing/OuterClothing/Armor/bulletproof.rsi
+  - type: Clothing
+    sprite: Clothing/OuterClothing/Armor/bulletproof.rsi
+    equipDelay: 2
+    unequipDelay: 2
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.4
+        Heat: 0.80
+  - type: ClothingSpeedModifier
+    walkModifier: 0.73
+    sprintModifier: 0.73
+  - type: HeldSpeedModifier
+  - type: Item
+    size: Huge
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Броня тонкая Дельта чёрная
+- type: entity
+  parent: ClothingOuterArmorBase
+  id: ClothingOuterArmorDeltaSlimAkiBlack
+  name: бронежилет V-й класс
+  description: Бронежилет с пластиной V-го класса защиты, но меньшей областью покрытия.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: Clothing/OuterClothing/Armor/security_slim.rsi
+  - type: Clothing
+    sprite: Clothing/OuterClothing/Armor/security_slim.rsi
+    equipDelay: 2
+    unequipDelay: 2
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.6
+        Piercing: 0.4
+        Heat: 0.80
+  - type: ClothingSpeedModifier
+    walkModifier: 0.73
+    sprintModifier: 0.73
+  - type: HeldSpeedModifier
+  - type: Item
+    size: Huge
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+# Броня толстая Дельта чёрная
+- type: entity
+  parent: ClothingOuterArmorBase
+  id: ClothingOuterArmorDeltaFatAkiBlack
+  name: бронежилет V-й класс
+  description: Стандартный бронежилет с пластиной V-го класса защиты.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: Clothing/OuterClothing/Armor/security.rsi
+  - type: Clothing
+    sprite: Clothing/OuterClothing/Armor/security.rsi
     equipDelay: 2
     unequipDelay: 2
   - type: Armor
@@ -1437,7 +1531,7 @@
   parent: BannerBase
   name: знамя великой коммунистической революции
   description: Это знамя, символизирующее революцию. Вива!
-  suffix: Akitovsky
+  suffix: Akitovsky, КПСК
   components:
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/banners.rsi
@@ -1449,7 +1543,7 @@
   id: ClothingUniformJumpsuitMaugliAkiKPSK
   name: стандартный штурмовой костюм КПСК
   description: Удобный и прочный современный штурмовой костюм из плотной ткани, который хорошо показал себя на космической войне с капиталистами.
-  suffix: Akitovsky
+  suffix: Akitovsky, КПСК
   components:
   - type: Sprite
     sprite: _ADT/Clothing/Uniforms/Jumpsuit/stormer_maugly.rsi
@@ -1464,7 +1558,7 @@
   id: ClothingHeadUSSPjuggernautHelmetArmoredAkiKPSK
   name: бронешлем "БЗ-6"
   description: Стандартный тяжелый штурмовой защитный шлем бойца КПСК.
-  suffix: Akitovsky
+  suffix: Akitovsky, КПСК
   components:
   - type: Sprite
     sprite: _ADT/Clothing/Head/Hats/ussphelmet.rsi
@@ -1491,7 +1585,7 @@
   id: ClothingMaskAkiKPSK
   name: противогаз КПСК
   description: Специальный противогаз КПСК.
-  suffix: Akitovsky
+  suffix: Akitovsky, КПСК
   components:
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Mask/KPSKmask.rsi
@@ -1513,7 +1607,7 @@
   id: ClothingEyesGlassesHudAkiKPSK
   name: дешёвые солнцезащитные очки
   description: Пара чёрных солнцезащитных очков. Не очень хорошо блокируют свет. Скорее аксессуар, чем что-то полезное.
-  suffix: Akitovsky
+  suffix: Akitovsky, КПСК
   components:
   - type: Sprite
     sprite: Clothing/Eyes/Glasses/sunglasses.rsi
@@ -1528,8 +1622,8 @@
 - type: entity
   parent: [ BaseSecurityBartenderContraband, ClothingOuterArmorBase]
   id: ClothingOuterArmorAkiKPSK
-  suffix: Akitovsky
-  name: бронежилет
+  suffix: Akitovsky, КПСК
+  name: бронежилет IV-й класс
   description: Стандартный бронежилет с пластиной III-го класса защиты.
   components:
   - type: Clothing
@@ -1556,4 +1650,4 @@
   id: ClothingBeltAkiKPSK
   name: РПС бойца КПСК
   description: Универсальный разгрузочный жилет для убийства капиталистов в космосе.
-  suffix: Akitovsky
+  suffix: Akitovsky, КПСК
