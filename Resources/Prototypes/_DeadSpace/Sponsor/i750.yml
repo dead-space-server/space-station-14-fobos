@@ -1,0 +1,552 @@
+# backpack.rsi
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingBackpacki750
+  categories: [ HideSpawnMenu ]
+  name: полевая сумка «Триаж»
+  description: Прочная медицинская сумка для сортировки и хранения снаряжения первой помощи. Внутренние отделения подписаны под разные категории экстренных расходников.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/backpack.rsi
+  - type: ExplosionResistance
+    damageCoefficient: 0.1
+  - type: Storage
+    maxItemSize: Huge
+    grid:
+    - 0,0,15,10
+  - type: StorageFill
+    contents:
+    - id: ClothingOuterHardsuiti750
+    - id: ClothingBeltMilitaryWebbingi750
+    - id: JetpackVoidFilledi750
+    - id: Hyposprayi750
+    - id: DefibrillatorCompacti750
+    - id: ClothingShoesBootsMagi750
+    - id: ClothingEyesHudMedicali750
+    - id: PaperLawi750
+    - id: ClothingHandsGlovesi750
+    - id: ClothingNeckMantlei750
+    - id: ClothingHeadseti750
+    - id: ClothingUniformJumpsuiti750
+    - id: PDAi750
+    - id: MedkitAdvancedFilled
+    - id: ClothingMaski750
+    - id: ClothingUnderwearSocksi750
+    - id: ClothingUnderwearBottomBoxersi750
+    - id: Plushiei750
+    - id: ADTtelescopicBaton
+    - id: ClothingHeadHatBereti750
+  - type: Tag
+    tags: [ ]
+
+# belt.rsi
+- type: entity
+  parent: ClothingBeltStorageBase
+  id: ClothingBeltMilitaryWebbingi750
+  name: тактический подсумок «Асептика»
+  description: Компактный подсумок для стерильных инструментов, ампул и мелкого полевого снаряжения. Его конструкция рассчитана на быстрый доступ без лишней суеты.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Storage
+    grid:
+    - 0,0,7,1
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/belt.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/i750/belt.rsi
+  - type: Item
+    size: Huge
+  - type: StorageFill
+    contents:
+      - id: JawsOfLifei750
+      - id: PowerDrilli750
+      - id: WelderExperimentali750
+      - id: Multitooli750
+      - id: RCDi750 
+  - type: Tag
+    tags: [ ]
+
+# hardsuit.rsi
+- type: entity
+  parent: ClothingOuterHardsuitSecurity
+  id: ClothingOuterHardsuiti750
+  name: защитный скафандр «Карантин»
+  description: Герметичный защитный скафандр, созданный для работы в заражённой, токсичной или нестабильной среде.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/hardsuit.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/i750/hardsuit.rsi
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuiti750
+  - type: Item
+    size: Huge
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.5
+        Slash: 0.5
+        Piercing: 0.6
+        Heat: 0.5
+        Radiation: 0.5
+        Caustic: 0.5
+        Stun: 0.65
+  - type: ExplosionResistance
+    damageCoefficient: 0.5
+  - type: ClothingSpeedModifier
+    walkModifier: 0.9
+    sprintModifier: 0.9
+  - type: HideLayerClothing
+    clothingSlots: 
+    - belt
+    - back
+  - type: HardsuitIdentification
+    nonlethal: true
+  - type: Tag
+    tags: [ ]
+
+# helmet.rsi
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  categories: [ HideSpawnMenu ]
+  id: ClothingHeadHelmetHardsuiti750
+  name: шлем защитного скафандра «Карантин»
+  description: Шлем защитного скафандра медико-фармакологической организации, созданный для работы в опасной среде и экстренных вылазок.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/helmet.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/i750/helmet.rsi
+  - type: PointLight
+    color: "#c9ffff"
+    radius: 5
+    energy: 3
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: HideLayerClothing
+    slots:
+    - Hair
+    - Snout
+    - HeadTop
+    - HeadSide
+    - FacialHair
+    clothingSlots:
+    - ears
+    bodyLayers:
+    - Head
+  - type: Tag
+    tags: [ ]
+
+# jumpsuit.rsi
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpsuiti750
+  name: служебный комбинезон «Анамнез»
+  description: Практичный комбинезон с датчиками состояния владельца и креплениями под служебное снаряжение. Выглядит как униформа специалиста, привыкшего работать с пациентами и протоколами.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/jumpsuit.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/i750/jumpsuit.rsi
+  - type: Tag
+    tags: [ ]
+
+# headset.rsi
+- type: entity
+  parent: ClothingHeadset
+  id: ClothingHeadseti750
+  name: полноразмерная гарнитура «Кардиолиния»
+  description: Гарнитура с закрытыми наушниками и выносным микрофоном для стабильной связи. 
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/headset.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/i750/headset.rsi
+  - type: Headset
+    color: "#214676"
+  - type: EncryptionKeyHolder
+    keySlots: 5
+  - type: Tag
+    tags: []
+
+# gloves.rsi
+- type: entity
+  parent: ClothingHandsGlovesCombat
+  id: ClothingHandsGlovesi750
+  name: рабочие перчатки «Стерильный захват»
+  description: Усиленные перчатки для работы с инструментами, оборудованием и аварийными системами. Их поверхность рассчитана на надёжный хват даже в сложных условиях.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/gloves.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/i750/gloves.rsi
+  - type: Tag
+    tags: [ ]
+
+# cloak.rsi
+- type: entity
+  parent: ClothingNeckBase
+  id: ClothingNeckMantlei750
+  name: служебный плащ «Покров реаниматора»
+  description: Плотный плащ с тяжёлой посадкой на плечах и строгим силуэтом. Выглядит как вещь человека, который появляется там, где ситуация уже близка к критической.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/cloak.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/i750/cloak.rsi
+  - type: Tag
+    tags: [ ]
+
+# hud.rsi
+- type: entity
+  parent: ClothingEyesHudAdvanced
+  id: ClothingEyesHudMedicali750
+  name: продвинутый визор «Диагност»
+  description: Технический визор с расширенной индикацией, помогающий быстро оценивать обстановку. Его интерфейс напоминает диагностический экран полевого медика.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/hud.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/i750/hud.rsi
+  - type: IdentityBlocker
+    coverage: EYES
+  - type: EyeProtection
+  - type: Tag
+    tags: [ ]
+
+# gasmask.rsi
+- type: entity
+  parent: ClothingMaskGasSecurity
+  id: ClothingMaski750
+  name: защитный противогаз «Респиратор»
+  description: Герметичный противогаз с фильтрующим блоком для защиты дыхательных путей. Предназначен для работы в атмосфере, где обычный вдох может стать последним.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/gasmask.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/i750/gasmask.rsi
+  - type: Tag
+    tags: [ ]
+
+# magboots.rsi
+- type: entity
+  parent: ClothingShoesBootsMag
+  id: ClothingShoesBootsMagi750
+  name: магнитные ботинки «Ортез»
+  description: Тяжёлые магнитные ботинки для устойчивого передвижения в невесомости. Название отсылает к медицинскому ортезу - они фиксируют владельца там, где один неверный шаг может отправить его в пустоту.
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Sponsor/i750/magboots.rsi
+      layers:
+      - state: icon
+        map: [ "enum.ToggleableVisuals.Layer" ]
+    - type: Clothing
+      sprite: _DeadSpace/Sponsor/i750/magboots.rsi
+    - type: ClothingSpeedModifier
+      walkModifier: 1
+      sprintModifier: 1
+    - type: Tag
+      tags: [ ]
+
+# beret.rsi
+- type: entity
+  parent: ClothingHeadBase
+  id: ClothingHeadHatBereti750
+  name: форменный берет «Консилиум»
+  description: Аккуратный форменный берет, подчёркивающий принадлежность к медицинско-полевой программе. Скорее символ статуса, чем элемент реальной защиты.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/beret.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/i750/beret.rsi
+  - type: Tag
+    tags: [ ]
+
+# jetpack.rsi
+- type: entity
+  parent: JetpackVoidFilled
+  id: JetpackVoidFilledi750
+  name: пустотный джетпак «Орбитальный санитар»
+  description: Маневровый ранец для передвижения в открытом космосе и зонах невесомости. Создан для тех, кому приходится добираться до пострадавших даже за пределами станции.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Item
+    sprite: _DeadSpace/Sponsor/i750/jetpack.rsi
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/jetpack.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/i750/jetpack.rsi
+    slots:
+      - Back
+      - suitStorage
+      - Belt
+  - type: Tag
+    tags: [ ]
+
+# pda.rsi
+- type: entity
+  parent: BaseMedicalPDA
+  id: PDAi750
+  name: служебный КПК «Медкарта»
+  description: Карманный компьютер с модулями для медицинского учёта, навигации и оперативных заметок. Подходит для ведения записей о пациентах и полевых задачах.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Icon
+    sprite: _DeadSpace/Sponsor/i750/pda.rsi
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/pda.rsi
+  - type: CartridgeLoader
+    uiKey: enum.PdaUiKey.Key
+    preinstalled:
+      - CrewManifestCartridge
+      - NotekeeperCartridge
+      - NanoTaskCartridge
+      - NewsReaderCartridge
+      - MedTekCartridge
+      - AstroNavCartridge
+      - MessengerCartridge
+  - type: PdaBorderColor
+    borderColor: "#2a3424"
+    accentHColor: "#242424"
+    accentVColor: "#3a4533"
+  - type: Tag
+    tags: [ ]
+
+# defibsmall.rsi
+- type: entity
+  parent: DefibrillatorCompact
+  id: DefibrillatorCompacti750
+  name: компактный дефибрилятор «Второй ритм»
+  description: Небольшой реанимационный прибор для восстановления сердечной активности. Его корпус рассчитан на быстрое применение в полевых условиях и переноску вместе с остальным снаряжением.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/defibsmall.rsi
+  - type: Item
+    sprite: _DeadSpace/Sponsor/i750/defibsmall.rsi
+
+# hypo.rsi
+- type: entity
+  parent: BaseItem
+  id: Hyposprayi750
+  name: гипоспрей «Быстрая доза»
+  description: Медицинский инъектор для мгновенного введения препаратов без стандартной иглы. Рассчитан на ситуации, где промедление может стоить жизни.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/hypo.rsi
+    layers:
+      - state: hypo
+        map: ["enum.SolutionContainerLayers.Base"]
+      - state: hypo_fill1
+        map: ["enum.SolutionContainerLayers.Fill"]
+        visible: false
+  - type: Item
+    sprite: _DeadSpace/Sponsor/i750/hypo.rsi
+  - type: SolutionContainerManager
+    solutions:
+      hypospray:
+        maxVol: 5
+  - type: RefillableSolution
+    solution: hypospray
+  - type: ExaminableSolution
+    solution: hypospray
+    exactVolume: true
+  - type: Injector
+    solutionName: hypospray
+    ignoreClosed: false
+    activeModeProtoId: HyposprayDynamicMode
+    allowedModes:
+    - HyposprayDynamicMode
+    - HyposprayInjectMode
+  - type: UseDelay
+    delay: 0.5
+  - type: Appearance
+  - type: SolutionContainerVisuals
+    maxFillLevels: 6
+    fillBaseName: hypo_fill
+    solutionName: hypospray
+
+- type: entity
+  parent: ClothingUnderwearSocksBase
+  id: ClothingUnderwearSocksi750
+  name: носки «Термостаз»
+  categories: [ HideSpawnMenu ]
+  description: Удобные носки для ношения под служебным снаряжением. 
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/under/socks.rsi
+
+- type: entity
+  parent: ClothingUnderwearBottomBase
+  id: ClothingUnderwearBottomBoxersi750
+  name: трусы «Термостаз»
+  categories: [ HideSpawnMenu ]
+  description: Базовые боксеры для ношения под служебным снаряжением. 
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/under/boxers.rsi
+
+# toy.rsi
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  categories: [ HideSpawnMenu ]
+  id: Plushiei750
+  name: игрушка «Бригмедик Ариэль Нильсон»
+  description: Небольшая памятная игрушка в образе бригмедика Ариэля Нильсона. Выглядит как корпоративный сувенир, который неожиданно хочется сохранить.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/toy.rsi
+    state: toy
+  - type: TTS
+    voice: Angel
+  - type: SpeakOnTrigger
+    pack: Plushiei750
+
+# tools_jawsoflife.rsi
+- type: entity
+  parent: JawsOfLife
+  id: JawsOfLifei750
+  name: челюсти жизни «Экстренная интубация»
+  description: Мощный аварийный инструмент для вскрытия дверей, шлюзов и деформированных конструкций. Его задача проста - открыть путь туда, где кому-то срочно нужна помощь.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/tools_jawsoflife.rsi
+    state: syn_jaws_pry
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: syn_inhand-left
+      right:
+      - state: syn_inhand-right
+    size: Normal
+  - type: MultipleTool
+    entries:
+      - behavior: Prying
+        sprite:
+          sprite: _DeadSpace/Sponsor/i750/tools_jawsoflife.rsi
+          state: syn_jaws_pry
+        useSound: /Audio/Items/jaws_pry.ogg
+        changeSound: /Audio/Items/change_jaws.ogg
+      - behavior: Cutting
+        sprite:
+          sprite: _DeadSpace/Sponsor/i750/tools_jawsoflife.rsi
+          state: syn_jaws_cutter
+        useSound: /Audio/Items/jaws_cut.ogg
+        changeSound: /Audio/Items/change_jaws.ogg
+  - type: MeleeWeapon
+    damage:
+      types:
+        Blunt: 10
+
+# tools_powerdrill.rsi
+- type: entity
+  parent: PowerDrill
+  id: PowerDrilli750
+  name: электродрель «Трепанация»
+  description: Надёжная электродрель с усиленным корпусом и удобной рукоятью. Название звучит тревожно, но инструмент предназначен для инженерных, а не хирургических работ.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/tools_powerdrill.rsi
+    state: drill_screw
+  - type: Item
+    sprite: _DeadSpace/Sponsor/i750/tools_powerdrill.rsi
+    size: Small
+  - type: MultipleTool
+    statusShowBehavior: true
+    entries:
+      - behavior: Screwing
+        sprite:
+          sprite: _DeadSpace/Sponsor/i750/tools_powerdrill.rsi
+          state: drill_screw
+        useSound:
+          path: /Audio/Items/drill_use.ogg
+        changeSound:
+          path: /Audio/Items/change_drill.ogg
+      - behavior: Anchoring
+        sprite:
+          sprite: _DeadSpace/Sponsor/i750/tools_powerdrill.rsi
+          state: drill_bolt
+        useSound:
+          path: /Audio/Items/drill_use.ogg
+        changeSound:
+          path: /Audio/Items/change_drill.ogg
+
+# tools_welder.rsi
+- type: entity
+  parent: WelderExperimental
+  id: WelderExperimentali750
+  name: сварочный аппарат «Коагулятор»
+  description: Переносной сварочный аппарат для ремонта корпусов, переборок и технических узлов. Название отсылает к медицинскому прижиганию и точному закрытию повреждений.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/tools_welder.rsi
+  - type: Item
+    sprite: _DeadSpace/Sponsor/i750/tools_welder.rsi
+
+# tools_multitool.rsi
+- type: entity
+  parent: Multitool
+  id: Multitooli750
+  name: мультитул «Санитарный набор»
+  description: Компактный универсальный инструмент для мелкого ремонта, настройки оборудования и экстренных технических задач. Удобен там, где под рукой должен быть минимум всего необходимого.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/tools_multitool.rsi
+  - type: Item
+    sprite: _DeadSpace/Sponsor/i750/tools_multitool.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/i750/tools_multitool.rsi
+
+# tools_rcd.rci
+- type: entity
+  parent: RCD
+  id: RCDi750
+  name: рсу «Скелетон»
+  description: Портативное устройство для быстрого возведения, демонтажа и ремонта конструкций. Название намекает на восстановление «костяка» повреждённых помещений.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/i750/tools_rcd.rsi
+    layers:
+    - state: icon
+
+# документ
+- type: entity
+  parent: PaperPrintedCentcomm
+  id: PaperLawi750
+  name: распечатанная лицензия
+  description: Роскошный лист бумаги с заголовком ЦентКома. Выглядит лучше, чем другие.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Paper
+    stampState: paper_stamp-centcom
+    stampedBy:
+    - stampedColor: '#006600FF'
+      stampedName: Центральное Командование
+    - stampedColor: '#00BE00FF'
+      stampedName: Одобрено
+    content: paper-law-i750
+  - type: Tag
+    tags: [ ]

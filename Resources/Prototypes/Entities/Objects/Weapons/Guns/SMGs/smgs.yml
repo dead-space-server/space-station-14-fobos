@@ -99,7 +99,7 @@
     sprite: Objects/Weapons/Guns/SMGs/c20r.rsi
   - type: Gun
     minAngle: 2
-    maxAngle: 16
+    maxAngle: 8
     shotsPerBurst: 5
     availableModes:
     - Burst

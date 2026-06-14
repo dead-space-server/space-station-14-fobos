@@ -534,7 +534,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 120
+    LavalandMiningPoint: 320
 
 - type: listing
   id: LavalandMiningCombatMedipen
@@ -542,7 +542,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 180
+    LavalandMiningPoint: 880
 
 - type: listing
   id: LavalandMiningStimpackMini
@@ -550,7 +550,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 220
+    LavalandMiningPoint: 520
 
 - type: listing
   id: LavalandMiningStimpack
@@ -558,7 +558,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 500
+    LavalandMiningPoint: 1000
 
 - type: listing
   id: LavalandMiningSyndicateJawsOfLife
@@ -566,7 +566,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 900
+    LavalandMiningPoint: 1000
 
 - type: listing
   id: LavalandMiningSmokeGrenade
@@ -592,7 +592,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 600
+    LavalandMiningPoint: 800
 
 - type: listing
   id: LavalandMiningADTClothingShoesBootsMagAdvSynd
@@ -600,7 +600,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 1450
+    LavalandMiningPoint: 1350
 
 - type: listing
   id: LavalandMiningPlastineOfOtherHardsuit

@@ -30,3 +30,63 @@
   components:
     - type: SurplusBundle
       totalPrice: 125
+
+#DS start
+
+- type: entity
+  parent: CrateSyndicate
+  id: CrateBundleNukeхС67
+  name: Набор xC-67
+  suffix: Готовый закуп, хС67
+  description: Дорогого стоит.
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:AllSelector
+        children:
+        - id: ClothingBackpackSatchelTaipanBundleХС67
+        - id: WeaponRifleXC67
+
+- type: entity
+  parent: CrateSyndicate
+  id: CrateBundleNukeJuggernaut
+  name: Набор Джаггернаута
+  suffix: Готовый закуп, джаггернаут
+  description: Очень дорогого стоит.
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:AllSelector
+        children:
+        - id: ClothingOuterHardsuitJuggernaut
+        - id: ClothingBackpackSatchelTaipanBundleJuggernaut
+
+- type: entity
+  parent: CrateSyndicate
+  id: CrateBundleNukeHristov
+  name: Набор Христов
+  suffix: Готовый закуп, Христов
+  description: Дорогого стоит.
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:AllSelector
+        children:
+        - id: BriefcaseSyndieSniperBundleFilled
+        - id: ClothingBackpackSatchelTaipanBundleHristov
+
+- type: entity
+  parent: CrateSyndicate
+  id: CrateBundleNukeBulldog
+  name: Набор Бульдога
+  suffix: Готовый закуп, Бульдог
+  description: К сожалению чего-то стоит.
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:AllSelector
+        children:
+        - id: ClothingBackpackSatchelTaipanBundleBulldog
+        - id: ClothingBackpackDuffelSyndicateFilledShotgun
+        - id: BoxLethalshotMagnum
+          amount: 5

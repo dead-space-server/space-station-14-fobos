@@ -75,9 +75,9 @@
   description: Удобный подсумок на хвост.
   components:
   - type: Sprite
-    sprite: _DeadSpace/Clothing/Back/Backpacks/tailbag.rsi
+    sprite: _DeadSpace/Clothing/Back/Tailbag/tailbag.rsi
   - type: Clothing
-    sprite: _DeadSpace/Clothing/Back/Backpacks/tailbag.rsi
+    sprite: _DeadSpace/Clothing/Back/Tailbag/tailbag.rsi
     quickEquip: false
     slots:
     - tailbag
@@ -85,4 +85,122 @@
     grid:
     - 0,0,3,0
     - 0,1,3,2
+    - 5,1,6,2
+
+- type: entity
+  parent: ClothingBackpackTailbag
+  id: ClothingBackpackTailbagAtmospherics
+  name: атмосферный подсумок на хвост плафеимов
+  description: Удобный подсумок на хвост. Пахнет плазмой
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Back/Tailbag/atmospherics.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Back/Tailbag/atmospherics.rsi
+
+- type: entity
+  parent: ClothingBackpackTailbag
+  id: ClothingBackpackTailbagCaptain
+  name: подсумок на хвост плафеимов капитана
+  description: Удобный подсумок на хвост. Выглядит дорого
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Back/Tailbag/captain.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Back/Tailbag/captain.rsi
+
+- type: entity
+  parent: ClothingBackpackTailbag
+  id: ClothingBackpackTailbagChemistry
+  name: подсумок на хвост плафеимов химика
+  description: Удобный подсумок на хвост. Пропитан химией
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Back/Tailbag/chemistry.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Back/Tailbag/chemistry.rsi
+
+- type: entity
+  parent: ClothingBackpackTailbag
+  id: ClothingBackpackTailbagEngineering
+  name: инженерный подсумок на хвост плафеимов
+  description: Удобный подсумок на хвост. Грязный на вид
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Back/Tailbag/engineering.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Back/Tailbag/engineering.rsi
+
+- type: entity
+  parent: ClothingBackpackTailbag
+  id: ClothingBackpackTailbagMedical
+  name: медицинский подсумок на хвост плафеимов
+  description: Удобный подсумок на хвост. Стерилен
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Back/Tailbag/medical.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Back/Tailbag/medical.rsi
+
+- type: entity
+  parent: ClothingBackpackTailbag
+  id: ClothingBackpackTailbagMerc
+  name: зеленый подсумок на хвост плафеимов
+  description: Удобный подсумок на хвост.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Back/Tailbag/merc.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Back/Tailbag/merc.rsi
+
+- type: entity
+  parent: ClothingBackpackTailbag
+  id: ClothingBackpackTailbagSalvage
+  name: подсумок утилизатора на хвост плафеимов
+  description: Удобный подсумок на хвост. Рок и камень!
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Back/Tailbag/salvage.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Back/Tailbag/salvage.rsi
+
+- type: entity
+  parent: ClothingBackpackTailbag
+  id: ClothingBackpackTailbagScience
+  name: подсумок ученых на хвост плафеимов
+  description: Удобный подсумок на хвост. Фиолетовый?
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Back/Tailbag/science.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Back/Tailbag/science.rsi
+
+- type: entity
+  parent: ClothingBackpackTailbag
+  id: ClothingBackpackTailbagSecurity
+  name: подсумок сб на хвост плафеимов
+  description: Удобный подсумок на хвост. Сб любят свободные карманы
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Back/Tailbag/security.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Back/Tailbag/security.rsi
+
+- type: entity
+  parent: [ClothingBackpack, BaseSyndicateContraband]
+  id: ClothingBackpackTailbagSyndicate
+  name: черно-красный подсумок на хвост плафеимов
+  description: Удобный, черно-красный подсумок на хвост. Пахнет приключениями
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Back/Tailbag/syndicate.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Back/Tailbag/syndicate.rsi
+    quickEquip: false
+    slots:
+    - tailbag
+  - type: Storage
+    grid:
+    - 0,0,3,0
+    - 0,2,3,2
     - 5,1,6,2

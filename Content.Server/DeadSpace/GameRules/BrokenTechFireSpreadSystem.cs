@@ -28,8 +28,21 @@ public sealed class BrokenTechFireSpreadSystem : EntitySystem
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
     [Dependency] private readonly DamageableSystem _damageable = default!;
 
-    private readonly List<SpreadRequest> _spreadQueue = new();
-    private readonly HashSet<EntityUid> _tileEntities = new();
+    private const int FireProcessBudget = 64;
+    private static readonly TimeSpan WaterCheckInterval = TimeSpan.FromSeconds(1);
+    private static readonly TimeSpan DormantCheckInterval = TimeSpan.FromSeconds(5);
+
+    private readonly PriorityQueue<FireScheduleEntry, TimeSpan> _fireQueue = new();
+    private readonly Dictionary<EntityUid, int> _scheduleGenerations = new();
+    private readonly Dictionary<EntityUid, FireTileKey> _fireTilesByUid = new();
+    private readonly Dictionary<FireTileKey, int> _fireTileCounts = new();
+    private readonly HashSet<Entity<SolutionContainerManagerComponent>> _solutionTileEntities = new();
+
+    private EntityQuery<AirtightComponent> _airtightQuery;
+    private EntityQuery<PuddleComponent> _puddleQuery;
+    private EntityQuery<ItemComponent> _itemQuery;
+    private EntityQuery<TransformComponent> _xformQuery;
+    private EntityQuery<BlobTileComponent> _blobTileQuery;
 
     private static readonly AtmosDirection[] Directions =
     {
@@ -43,68 +56,195 @@ public sealed class BrokenTechFireSpreadSystem : EntitySystem
     {
         base.Update(frameTime);
 
-        _spreadQueue.Clear();
+        var curTime = _timing.CurTime;
+        var processed = 0;
+        var dequeued = 0;
+        var maxDequeues = FireProcessBudget * 4;
 
-        var query = EntityQueryEnumerator<BrokenTechFireSpreadComponent, TransformComponent>();
-        while (query.MoveNext(out var uid, out var fire, out var xform))
+        while (processed < FireProcessBudget &&
+               dequeued < maxDequeues &&
+               _fireQueue.TryPeek(out var entry, out var dueTime) &&
+               dueTime <= curTime)
         {
-            if (TerminatingOrDeleted(uid))
-                continue;
+            _fireQueue.Dequeue();
+            dequeued++;
 
-            if (xform.GridUid is not { } gridUid ||
-                !TryComp<MapGridComponent>(gridUid, out var grid))
+            if (!_scheduleGenerations.TryGetValue(entry.Uid, out var generation) ||
+                generation != entry.Generation ||
+                TerminatingOrDeleted(entry.Uid) ||
+                !TryComp<BrokenTechFireSpreadComponent>(entry.Uid, out var fire))
             {
-                fire.Finished = true;
                 continue;
             }
 
-            var tile = _map.TileIndicesFor(gridUid, grid, xform.Coordinates);
-            InitializeOrigin(fire, gridUid, tile);
-
-            if (IsWaterTile(gridUid, grid, tile, fire))
-            {
-                QueueDel(uid);
-                continue;
-            }
-
-            // DS14-start blob fire damage
-            DamageBlobTiles(fire, gridUid, grid, tile);
-            // DS14-end
-
-            if (fire.Finished)
-                continue;
-
-            if (fire.Distance >= fire.MaxRadius)
-            {
-                fire.Finished = true;
-                continue;
-            }
-
-            if (_timing.CurTime < fire.NextSpread)
-                continue;
-
-            fire.NextSpread = _timing.CurTime + TimeSpan.FromSeconds(fire.SpreadDelay);
-
-            _spreadQueue.Add(new SpreadRequest(uid, fire, gridUid, grid, tile));
+            processed++;
+            ProcessFire(entry.Uid, fire);
         }
-
-        foreach (var request in _spreadQueue)
-        {
-            if (TerminatingOrDeleted(request.Uid) || request.Fire.Finished)
-                continue;
-
-            if (!TrySpread(request.Uid, request.Fire, request.GridUid, request.Grid, request.Tile))
-                request.Fire.Finished = true;
-        }
-
-        _spreadQueue.Clear();
     }
 
     public override void Initialize()
     {
         base.Initialize();
 
+        _airtightQuery = GetEntityQuery<AirtightComponent>();
+        _puddleQuery = GetEntityQuery<PuddleComponent>();
+        _itemQuery = GetEntityQuery<ItemComponent>();
+        _xformQuery = GetEntityQuery<TransformComponent>();
+        _blobTileQuery = GetEntityQuery<BlobTileComponent>();
+
+        SubscribeLocalEvent<BrokenTechFireSpreadComponent, ComponentStartup>(OnFireStartup);
+        SubscribeLocalEvent<BrokenTechFireSpreadComponent, ComponentShutdown>(OnFireShutdown);
         SubscribeLocalEvent<BrokenTechFireSpreadComponent, ReactionEntityEvent>(OnReaction);
+    }
+
+    private void OnFireStartup(Entity<BrokenTechFireSpreadComponent> ent, ref ComponentStartup args)
+    {
+        if (_xformQuery.TryGetComponent(ent.Owner, out var xform) &&
+            xform.GridUid is { } gridUid &&
+            TryComp<MapGridComponent>(gridUid, out var grid))
+        {
+            var tile = _map.TileIndicesFor(gridUid, grid, xform.Coordinates);
+            UpdateTileIndex(ent.Owner, gridUid, tile);
+            InitializeOrigin(ent.Comp, gridUid, tile);
+        }
+
+        ScheduleFire(ent.Owner, _timing.CurTime);
+    }
+
+    private void OnFireShutdown(Entity<BrokenTechFireSpreadComponent> ent, ref ComponentShutdown args)
+    {
+        _scheduleGenerations.Remove(ent.Owner);
+        RemoveTileIndex(ent.Owner);
+    }
+
+    private void ScheduleNext(EntityUid uid, BrokenTechFireSpreadComponent fire)
+    {
+        var curTime = _timing.CurTime;
+        if (fire.Finished)
+        {
+            var nextFinished = fire.NextWaterCheck;
+
+            if (!fire.BlobTileDamage.Empty && fire.NextBlobTileDamage < nextFinished)
+                nextFinished = fire.NextBlobTileDamage;
+
+            if (nextFinished < curTime)
+                nextFinished = curTime + DormantCheckInterval;
+
+            ScheduleFire(uid, nextFinished);
+            return;
+        }
+
+        var next = fire.NextWaterCheck;
+
+        if (!fire.BlobTileDamage.Empty && fire.NextBlobTileDamage < next)
+            next = fire.NextBlobTileDamage;
+
+        if (fire.Distance < fire.MaxRadius && fire.NextSpread < next)
+            next = fire.NextSpread;
+
+        if (next < curTime)
+            next = curTime;
+
+        ScheduleFire(uid, next);
+    }
+
+    private void ScheduleFire(EntityUid uid, TimeSpan when)
+    {
+        if (TerminatingOrDeleted(uid))
+            return;
+
+        var generation = _scheduleGenerations.GetValueOrDefault(uid) + 1;
+        _scheduleGenerations[uid] = generation;
+        _fireQueue.Enqueue(new FireScheduleEntry(uid, generation), when);
+    }
+
+    private void UpdateTileIndex(EntityUid uid, EntityUid gridUid, Vector2i tile)
+    {
+        var key = new FireTileKey(gridUid, tile);
+        if (_fireTilesByUid.TryGetValue(uid, out var oldKey) && oldKey == key)
+            return;
+
+        RemoveTileIndex(uid);
+        _fireTilesByUid[uid] = key;
+        _fireTileCounts[key] = _fireTileCounts.GetValueOrDefault(key) + 1;
+    }
+
+    private void RemoveTileIndex(EntityUid uid)
+    {
+        if (!_fireTilesByUid.Remove(uid, out var key))
+            return;
+
+        var count = _fireTileCounts[key] - 1;
+        if (count <= 0)
+            _fireTileCounts.Remove(key);
+        else
+            _fireTileCounts[key] = count;
+    }
+
+    private void ProcessFire(EntityUid uid, BrokenTechFireSpreadComponent fire)
+    {
+        if (!_xformQuery.TryGetComponent(uid, out var xform) ||
+            xform.GridUid is not { } gridUid ||
+            !TryComp<MapGridComponent>(gridUid, out var grid))
+        {
+            RemoveTileIndex(uid);
+            fire.Finished = true;
+            ScheduleFire(uid, _timing.CurTime + DormantCheckInterval);
+            return;
+        }
+
+        var curTime = _timing.CurTime;
+        var tile = _map.TileIndicesFor(gridUid, grid, xform.Coordinates);
+        UpdateTileIndex(uid, gridUid, tile);
+        InitializeOrigin(fire, gridUid, tile);
+
+        if (fire.Finished)
+        {
+            if (curTime >= fire.NextWaterCheck)
+            {
+                if (IsWaterTile(gridUid, grid, tile, fire))
+                {
+                    QueueDel(uid);
+                    return;
+                }
+
+                fire.NextWaterCheck = curTime + DormantCheckInterval;
+            }
+
+            DamageBlobTiles(fire, gridUid, grid, tile);
+            ScheduleNext(uid, fire);
+            return;
+        }
+
+        if (curTime >= fire.NextWaterCheck)
+        {
+            if (IsWaterTile(gridUid, grid, tile, fire))
+            {
+                QueueDel(uid);
+                return;
+            }
+
+            fire.NextWaterCheck = curTime + WaterCheckInterval;
+        }
+
+        DamageBlobTiles(fire, gridUid, grid, tile);
+
+        if (fire.Distance >= fire.MaxRadius)
+        {
+            fire.Finished = true;
+            ScheduleFire(uid, curTime + DormantCheckInterval);
+            return;
+        }
+
+        if (curTime >= fire.NextSpread)
+        {
+            fire.NextSpread = curTime + TimeSpan.FromSeconds(fire.SpreadDelay);
+
+            if (!TrySpread(uid, fire, gridUid, grid, tile))
+                fire.Finished = true;
+        }
+
+        ScheduleNext(uid, fire);
     }
 
     private void OnReaction(Entity<BrokenTechFireSpreadComponent> ent, ref ReactionEntityEvent args)
@@ -169,11 +309,11 @@ public sealed class BrokenTechFireSpreadSystem : EntitySystem
             childFire.MaxRadius = fire.MaxRadius;
             childFire.SpreadDelay = fire.SpreadDelay;
             childFire.WaterReagents = new(fire.WaterReagents);
-            // DS14-start blob fire damage
             childFire.BlobTileDamage = new(fire.BlobTileDamage);
             childFire.BlobTileDamageInterval = fire.BlobTileDamageInterval;
-            // DS14-end
             childFire.NextSpread = _timing.CurTime + TimeSpan.FromSeconds(childFire.SpreadDelay);
+            UpdateTileIndex(child, gridUid, neighborTile);
+            ScheduleNext(child, childFire);
             spawned = true;
         }
 
@@ -183,11 +323,10 @@ public sealed class BrokenTechFireSpreadSystem : EntitySystem
     private bool IsBlockedByAirtight(EntityUid gridUid, MapGridComponent grid, Vector2i tile, AtmosDirection direction)
     {
         var anchored = _map.GetAnchoredEntitiesEnumerator(gridUid, grid, tile);
-        var airtightQuery = GetEntityQuery<AirtightComponent>();
 
         while (anchored.MoveNext(out var ent))
         {
-            if (!airtightQuery.TryGetComponent(ent, out var airtight) || !airtight.AirBlocked)
+            if (!_airtightQuery.TryGetComponent(ent, out var airtight) || !airtight.AirBlocked)
                 continue;
 
             if ((airtight.AirBlockedDirection & direction) != 0x0)
@@ -204,14 +343,10 @@ public sealed class BrokenTechFireSpreadSystem : EntitySystem
         BrokenTechFireSpreadComponent fire)
     {
         var anchored = _map.GetAnchoredEntitiesEnumerator(gridUid, grid, tile);
-        var puddleQuery = GetEntityQuery<PuddleComponent>();
-        var solutionQuery = GetEntityQuery<SolutionContainerManagerComponent>();
-        var itemQuery = GetEntityQuery<ItemComponent>();
-        var xformQuery = GetEntityQuery<TransformComponent>();
 
         while (anchored.MoveNext(out var ent))
         {
-            if (!puddleQuery.TryGetComponent(ent, out var puddle) ||
+            if (!_puddleQuery.TryGetComponent(ent, out var puddle) ||
                 !_solutionContainer.ResolveSolution(ent.Value, puddle.SolutionName, ref puddle.Solution, out var solution))
             {
                 continue;
@@ -221,40 +356,34 @@ public sealed class BrokenTechFireSpreadSystem : EntitySystem
                 return true;
         }
 
-        _tileEntities.Clear();
-        _lookup.GetLocalEntitiesIntersecting(gridUid, tile, _tileEntities, flags: LookupFlags.Uncontained, gridComp: grid);
+        _solutionTileEntities.Clear();
+        _lookup.GetLocalEntitiesIntersecting(gridUid, tile, _solutionTileEntities, flags: LookupFlags.Uncontained, gridComp: grid);
 
-        foreach (var ent in _tileEntities)
+        foreach (var ent in _solutionTileEntities)
         {
-            if (!IsWaterBlockingEntity(ent, itemQuery, xformQuery) ||
-                !solutionQuery.TryGetComponent(ent, out var manager))
-            {
+            if (!IsWaterBlockingEntity(ent.Owner))
                 continue;
-            }
 
-            foreach (var (_, solutionEntity) in _solutionContainer.EnumerateSolutions((ent, manager)))
+            foreach (var (_, solutionEntity) in _solutionContainer.EnumerateSolutions((ent.Owner, ent.Comp)))
             {
                 if (HasWaterReagent(solutionEntity.Comp.Solution, fire))
                 {
-                    _tileEntities.Clear();
+                    _solutionTileEntities.Clear();
                     return true;
                 }
             }
         }
 
-        _tileEntities.Clear();
+        _solutionTileEntities.Clear();
         return false;
     }
 
-    private bool IsWaterBlockingEntity(
-        EntityUid uid,
-        EntityQuery<ItemComponent> itemQuery,
-        EntityQuery<TransformComponent> xformQuery)
+    private bool IsWaterBlockingEntity(EntityUid uid)
     {
-        if (itemQuery.HasComponent(uid))
+        if (_itemQuery.HasComponent(uid))
             return false;
 
-        return xformQuery.TryGetComponent(uid, out var xform) && xform.Anchored;
+        return _xformQuery.TryGetComponent(uid, out var xform) && xform.Anchored;
     }
 
     private bool HasWaterReagent(Solution solution, BrokenTechFireSpreadComponent fire)
@@ -281,19 +410,9 @@ public sealed class BrokenTechFireSpreadSystem : EntitySystem
 
     private bool HasBrokenTechFireAt(EntityUid gridUid, MapGridComponent grid, Vector2i tile)
     {
-        var anchored = _map.GetAnchoredEntitiesEnumerator(gridUid, grid, tile);
-        var fireQuery = GetEntityQuery<BrokenTechFireSpreadComponent>();
-
-        while (anchored.MoveNext(out var ent))
-        {
-            if (fireQuery.HasComponent(ent))
-                return true;
-        }
-
-        return false;
+        return _fireTileCounts.ContainsKey(new FireTileKey(gridUid, tile));
     }
 
-    // DS14-start blob fire damage
     private void DamageBlobTiles(
         BrokenTechFireSpreadComponent fire,
         EntityUid gridUid,
@@ -306,22 +425,20 @@ public sealed class BrokenTechFireSpreadSystem : EntitySystem
         fire.NextBlobTileDamage = _timing.CurTime + TimeSpan.FromSeconds(Math.Max(fire.BlobTileDamageInterval, 0.1f));
 
         var anchored = _map.GetAnchoredEntitiesEnumerator(gridUid, grid, tile);
-        var blobTileQuery = GetEntityQuery<BlobTileComponent>();
 
         while (anchored.MoveNext(out var ent))
         {
-            if (!blobTileQuery.HasComponent(ent))
+            if (!_blobTileQuery.HasComponent(ent))
                 continue;
 
             _damageable.TryChangeDamage(ent.Value, fire.BlobTileDamage, interruptsDoAfters: false);
         }
     }
-    // DS14-end
-
-    private readonly record struct SpreadRequest(
+    private readonly record struct FireScheduleEntry(
         EntityUid Uid,
-        BrokenTechFireSpreadComponent Fire,
+        int Generation);
+
+    private readonly record struct FireTileKey(
         EntityUid GridUid,
-        MapGridComponent Grid,
         Vector2i Tile);
 }

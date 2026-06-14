@@ -70,13 +70,14 @@
   equipment:
     head: ClothingHeadHatBeretBlueShield
     # back: ClothingBackpackBlueShield
-    eyes: ClothingEyesGlassesSecurity
+    mask: ClothingMaskGasBlueShield
+    eyes: ClothingEyesHudBlueShield
     ears: ClothingHeadsetAltCommand
-    shoes: ClothingShoesBootsJackFilled
+    shoes: ClothingShoesBootsBlueShield
     socks: ClothingUnderwearSocksBlueShieldOfficer
     outerClothing: ClothingOuterArmorBasicBlueShield
     belt: ClothingBeltMilitaryWebbingBlueShieldFilled
-    gloves: ClothingHandsGlovesCombat
+    gloves: ClothingHandsGlovesBlueShield
     id: BlueShieldOfficerPDA
     pocket1: PistolBlueShield
 
