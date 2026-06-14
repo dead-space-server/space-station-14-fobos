@@ -24,7 +24,7 @@
     sprite: /Textures/_DeadSpace/Mobs/Animals/raki.rsi
     state: rak
   product: CrateNPCRak
-  cost: 1200
+  cost: 4000
   category: cargoproduct-category-name-livestock
   group: service 
 
@@ -34,6 +34,6 @@
     sprite: /Textures/_DeadSpace/Mobs/Animals/raki.rsi
     state: rak_small
   product: CrateNPCRakSmall
-  cost: 800
+  cost: 1500
   category: cargoproduct-category-name-livestock
   group: service 
