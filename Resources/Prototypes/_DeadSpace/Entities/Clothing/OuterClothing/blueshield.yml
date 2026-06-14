@@ -30,7 +30,6 @@
     sprintModifier: 0.95
   - type: HideLayerClothing
     clothingSlots: 
-    - belt
     - jumpsuit
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitBlueShield
