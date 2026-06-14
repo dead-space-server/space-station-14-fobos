@@ -7,7 +7,11 @@
   - type: Pda
     id: IAAIDCard
     penSlot:
-      startingItem: PenIAA #DS14
+      startingItem: PenIAA #DS14-start
+      priority: -1
+      whitelist:
+        tags:
+        - Write #DS14-end
   - type: Appearance
     appearanceDataInit:
      enum.PdaVisuals.PdaType:
