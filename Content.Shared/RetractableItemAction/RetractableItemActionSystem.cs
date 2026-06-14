@@ -54,11 +54,11 @@ public sealed class RetractableItemActionSystem : EntitySystem
             return;
 
         // Don't allow to summon an item if holding an unremoveable item unless that item is summoned by the action.
-        // DS14-start: check the performer hand, not the action entity, before force-pickup.
+        // DS14-start
         var activeItem = _hands.GetActiveItem(args.Performer);
-        // DS14-end
 
         if (activeItem != null
+        // DS14-end
             && !_hands.IsHolding(args.Performer, ent.Comp.ActionItemUid)
             && !_hands.CanDropHeld(args.Performer, activeHand, false))
         {
@@ -138,7 +138,7 @@ public sealed class RetractableItemActionSystem : EntitySystem
         if (!Resolve(action, ref action.Comp, false))
             return;
 
-        // DS14-start: self-heal failed pickup state and avoid corrupting the stored item again.
+        // DS14-start
         var container = _containers.GetContainer(action, RetractableItemActionComponent.ContainerId);
         if (container.Contains(item))
             RemComp<UnremoveableComponent>(item);
