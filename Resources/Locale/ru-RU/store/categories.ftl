@@ -12,6 +12,7 @@ store-category-wearables = Экипировка
 store-category-implants = Импланты
 store-category-job = Должность
 store-category-pointless = Безделушки
+store-category-presets = Пресеты
 store-discounted-items = Скидки
 
 # Revenant
