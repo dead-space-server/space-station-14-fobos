@@ -187,7 +187,7 @@
     sprite: _DeadSpace/Clothing/Back/Tailbag/security.rsi
 
 - type: entity
-  parent: [ClothingBackpack, BaseSyndicateContraband]
+  parent: [ClothingBackpackTailbag, BaseSyndicateContraband]
   id: ClothingBackpackTailbagSyndicate
   name: черно-красный подсумок на хвост плафеимов
   description: Удобный, черно-красный подсумок на хвост. Пахнет приключениями
@@ -196,11 +196,8 @@
     sprite: _DeadSpace/Clothing/Back/Tailbag/syndicate.rsi
   - type: Clothing
     sprite: _DeadSpace/Clothing/Back/Tailbag/syndicate.rsi
-    quickEquip: false
-    slots:
-    - tailbag
   - type: Storage
     grid:
     - 0,0,3,0
-    - 0,2,3,2
-    - 5,1,6,2
+    - 0,1,3,2
+    - 5,0,6,2
