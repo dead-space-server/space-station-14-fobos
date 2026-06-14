@@ -41,7 +41,10 @@ public sealed class SpiderTerrorMagneticSystem : EntitySystem
 
     private void OnMove(Entity<SpiderTerrorComponent> ent, ref MoveEvent args)
     {
-        _gravity.RefreshWeightless((ent.Owner, null));
+        if (!TryComp<GravityAffectedComponent>(ent.Owner, out var gravity))
+            return;
+
+        _gravity.RefreshWeightless((ent.Owner, gravity));
     }
 
     private void OnIsWeightless(Entity<SpiderTerrorComponent> ent, ref IsWeightlessEvent args)
