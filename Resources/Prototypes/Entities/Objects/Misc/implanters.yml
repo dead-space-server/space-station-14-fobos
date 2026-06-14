@@ -51,7 +51,7 @@
     - AdrenalImplant # DS14
     deimplantFailureDamage:
       types:
-        Cellular: 50
+        Cellular: 30 # DS14-Value
         Heat: 10
   - type: Sprite
     sprite: Objects/Specific/Medical/implanter.rsi
