@@ -1,9 +1,11 @@
 - type: entity
-  name: Фенек
-  parent: MobFox
+  name: фенек
+  parent: SimpleMobBase
   id: MobFenek
   description: Миленький фенек, который любит, когда его гладят. Самый маленький представитель семейства псовых.
   components:
+  - type: CarrySize
+    size: Small
   - type: Sprite
     drawdepth: Mobs
     sprite: /Textures/_DeadSpace/Mobs/Animals/Fenek.rsi
@@ -47,6 +49,35 @@
     - GeneralLanguage
     unlockLanguagesAfterMakeSentient:
     - GeneralLanguage
+  - type: Physics
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.35
+        density: 50 #They actually are pretty light, I looked it up
+        mask:
+        - MobMask
+        layer:
+        - MobLayer
+  - type: Grammar
+    attributes:
+      gender: epicene
+  - type: Bloodstream
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: Blood
+        Quantity: 100
+  - type: MeleeWeapon
+    angle: 0
+    animation: WeaponArcBite
+    soundHit:
+      path: /Audio/Effects/bite.ogg
+    damage:
+      types:
+        Piercing: 8
+  - type: MessyDrinker
 
 - type: entity
   name: спавнер фенека
