@@ -1216,6 +1216,54 @@
         - CartridgeRifle
     capacity: 30
 
+# Бульдог
+- type: entity
+  name: Бульдог
+  parent: WeaponShotgunBulldog
+  id: WeaponShotgunBulldogAki
+  description: Стандартный дробовик, использующий модификации под новые патроны, полностью автоматический.
+  suffix: Akitovsky
+  components:
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: Magazine12x70Piranha
+        priority: 2
+        whitelist:
+          tags:
+          - MagazineShotgun
+        whitelistFailPopup: gun-magazine-whitelist-fail
+        insertSound: /Audio/Weapons/Guns/MagIn/smg_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/smg_magout.ogg
+      gun_chamber:
+        name: Chamber
+        startingItem: Cartridge12x70Piranha
+        priority: 1
+        whitelist:
+          tags:
+            - ShellShotgun
+
+# Магазин 12х70 дробь Пиранья 
+- type: entity
+  parent: BaseMagazineShotgun
+  id: Magazine12x70Piranha
+  name: магазин (12х70 дробь Пиранья)
+  components:
+  - type: BallisticAmmoProvider
+    proto: Cartridge12x70Piranha
+    mayTransfer: true
+    whitelist:
+      tags:
+        - ShellShotgun
+    capacity: 8
+
+
+
+
+
+
+
 # Иконки работ
 - type: jobIcon
   parent: JobIcon

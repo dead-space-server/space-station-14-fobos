@@ -136,3 +136,57 @@
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
+
+# Картридж 12х70 дробь Пиранья
+- type: entity
+  parent: BaseShellShotgun
+  id: Cartridge12x70Piranha
+  name: ружейный патрон (12х70 дробь Пиранья)
+  suffix: Akitovsky
+  components:
+  - type: CartridgeAmmo
+    proto: Pellet12x70Piranha
+  - type: Tag
+    tags:
+      - ShellShotgun
+
+# Дробина 12х70 Пиранья
+- type: entity
+  parent: BaseBullet
+  id: Pellet12x70PiranhaBase
+  categories: [ HideSpawnMenu ]
+  name: ружейный патрон (12х70 дробь Пиранья)
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 30
+        Structural: 40
+
+# Проджектайл 12х70 дробь Пиранья
+- type: entity
+  parent: BaseBullet
+  id: Pellet12x70Piranha
+  categories: [ HideSpawnMenu ]
+  name: ружейный патрон (12х70 дробь Пиранья)
+  components:
+  - type: ProjectileSpread
+    proto: Pellet12x70PiranhaBase
+    count: 6
+    spread: 15        
+
+# Коробка патронов 12х70 дробь Пиранья
+- type: entity
+  parent: BoxLethalshot
+  id: MagazineBox12x70Piranha
+  name: коробка ружейных патронов (12х70 дробь Пиранья)
+  suffix: Akitovsky
+  components:
+  - type: BallisticAmmoProvider
+    mayTransfer: true
+    whitelist:
+      tags:
+        - ShellShotgun
+    proto: Cartridge12x70Piranha
+    capacity: 20 
+
