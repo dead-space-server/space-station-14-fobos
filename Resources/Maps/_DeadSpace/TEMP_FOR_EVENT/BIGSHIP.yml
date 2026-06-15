@@ -36,7 +36,6 @@ entities:
       name: grid
     - type: Transform
       pos: -0.5234375,-0.4296875
-      parent: invalid
     - type: MapGrid
       chunks:
         0,0:
@@ -2820,16 +2819,6 @@ entities:
     - type: GasTileOverlay
     - type: RadiationGridResistance
     - type: ExplosionAirtightGrid
-    - type: Joint
-      joints:
-        docking180215: !type:WeldJoint
-          bodyB: invalid
-          bodyA: 1
-          id: docking180215
-          localAnchorB: 1,1.5
-          localAnchorA: -26,-25.5
-          damping: 129.52303
-          stiffness: 1162.5961
 - proto: AtmosDeviceFanTiny
   entities:
   - uid: 6
@@ -7105,19 +7094,6 @@ entities:
     - type: Transform
       pos: 0.69181883,74.37969
       parent: 1
-    - type: Physics
-      canCollide: False
-- proto: NukeDisk
-  entities:
-  - uid: 639
-    components:
-    - type: Transform
-      pos: 0.36159277,74.59984
-      parent: 1
-    - type: SpecialRespawn
-      stationMap:
-      - invalid
-      - 1
     - type: Physics
       canCollide: False
 - proto: OreBox
