@@ -185,6 +185,9 @@ public sealed class BankCartridgeSystem : EntitySystem
 
         if (TryComp<RingerComponent>(parent, out var ringerComponent))
         {
+            if (TryComp<PdaComponent>(parent, out var pda) && pda.SilentMode) // DS14
+                return;
+
             _ringerSystem.RingerPlayRingtone((parent, ringerComponent));
             _cartridgeLoaderSystem?.UpdateCartridgeUiState(parent, new BankUiState(component.Balance));
 

@@ -16,6 +16,7 @@ namespace Content.Shared.PDA
         public bool HasUplink;
         public bool CanPlayMusic;
         public string? Address;
+        public bool SilentMode; // DS14
 
         public PdaUpdateState(
             List<NetEntity> programs,
@@ -27,7 +28,8 @@ namespace Content.Shared.PDA
             string? stationName,
             bool hasUplink = false,
             bool canPlayMusic = false,
-            string? address = null)
+            string? address = null,
+            bool silentMode = false) // DS14
             : base(programs, activeUI)
         {
             FlashlightEnabled = flashlightEnabled;
@@ -38,6 +40,7 @@ namespace Content.Shared.PDA
             CanPlayMusic = canPlayMusic;
             StationName = stationName;
             Address = address;
+            SilentMode = silentMode; // DS14
         }
     }
 
