@@ -176,7 +176,7 @@
   categories:
   - LavalandMiningTools
   cost:
-    LavalandMiningPoint: 2750
+    LavalandMiningPoint: 25000
 
 - type: listing
   id: LavalandMiningWeaponMagmiteCrusher
@@ -184,7 +184,7 @@
   categories:
   - LavalandMiningTools
   cost:
-    LavalandMiningPoint: 2750
+    LavalandMiningPoint: 25000
 
 - type: listing
   id: LavalandMiningWeaponMagmiteCrusherGlaive
@@ -192,7 +192,7 @@
   categories:
   - LavalandMiningTools
   cost:
-    LavalandMiningPoint: 2750
+    LavalandMiningPoint: 25000
 
 - type: listing
   id: LavalandMiningPKAUpgradeDamage
