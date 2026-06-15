@@ -30,6 +30,50 @@
       path: /Audio/Weapons/Guns/Hits/bullet_hit.ogg
 
 - type: entity
+  id: BulletUraniumTrace
+  parent: BulletTrace
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: HitscanBasicVisuals
+    bullet:
+      sprite:
+        sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
+        state: uranium
+
+- type: entity
+  id: BulletAPTrace
+  parent: BulletTrace
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: HitscanBasicVisuals
+    bullet:
+      sprite:
+        sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
+        state: piercing
+
+- type: entity
+  id: BulletIncendiaryTrace
+  parent: BulletTrace
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: PointLight
+    enabled: true
+    color: "#ff4300"
+    radius: 2.0
+    energy: 7.0
+
+- type: entity
+  id: BulletPracticeTrace
+  parent: BulletTrace
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: HitscanBasicVisuals
+    bullet:
+      sprite:
+        sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
+        state: practice
+
+- type: entity
   id: BulletPistolTrace
   parent: BulletTrace
   categories: [ HideSpawnMenu ]
@@ -41,7 +85,7 @@
 
 - type: entity
   id: BulletPistolPracticeTrace
-  parent: BulletTrace
+  parent: BulletPracticeTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicDamage
@@ -51,7 +95,7 @@
 
 - type: entity
   id: BulletPistolIncendiaryTrace
-  parent: BulletTrace
+  parent: BulletIncendiaryTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicDamage
@@ -64,7 +108,7 @@
 
 - type: entity
   id: BulletPistolUraniumTrace
-  parent: BulletTrace
+  parent: BulletUraniumTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicDamage
@@ -85,7 +129,7 @@
 
 - type: entity
   id: BulletRiflePracticeTrace
-  parent: BulletTrace
+  parent: BulletPracticeTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicDamage
@@ -95,7 +139,7 @@
 
 - type: entity
   id: BulletRifleIncendiaryTrace
-  parent: BulletTrace
+  parent: BulletIncendiaryTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicDamage
@@ -108,7 +152,7 @@
 
 - type: entity
   id: BulletRifleUraniumTrace
-  parent: BulletTrace
+  parent: BulletUraniumTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicDamage
@@ -129,7 +173,7 @@
 
 - type: entity
   id: BulletLightRiflePracticeTrace
-  parent: BulletTrace
+  parent: BulletPracticeTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicDamage
@@ -139,7 +183,7 @@
 
 - type: entity
   id: BulletLightRifleIncendiaryTrace
-  parent: BulletTrace
+  parent: BulletIncendiaryTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicDamage
@@ -152,7 +196,7 @@
 
 - type: entity
   id: BulletLightRifleUraniumTrace
-  parent: BulletTrace
+  parent: BulletUraniumTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicDamage
@@ -173,7 +217,7 @@
 
 - type: entity
   id: BulletMagnumPracticeTrace
-  parent: BulletTrace
+  parent: BulletPracticeTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicDamage
@@ -183,7 +227,7 @@
 
 - type: entity
   id: BulletMagnumIncendiaryTrace
-  parent: BulletTrace
+  parent: BulletIncendiaryTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicDamage
@@ -196,7 +240,7 @@
 
 - type: entity
   id: BulletMagnumAPTrace
-  parent: BulletTrace
+  parent: BulletAPTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicDamage
@@ -207,7 +251,7 @@
 
 - type: entity
   id: BulletMagnumUraniumTrace
-  parent: BulletTrace
+  parent: BulletUraniumTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicDamage
@@ -251,7 +295,7 @@
 
 - type: entity
   id: BulletCaselessRiflePracticeTrace
-  parent: BulletTrace
+  parent: BulletPracticeTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicDamage
@@ -305,7 +349,7 @@
 
 - type: entity
   id: PelletShotgunIncendiaryTrace
-  parent: BulletTrace
+  parent: BulletIncendiaryTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicDamage
@@ -328,7 +372,7 @@
 
 - type: entity
   id: PelletShotgunPracticeTrace
-  parent: BulletTrace
+  parent: BulletPracticeTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicDamage
@@ -369,7 +413,7 @@
 
 - type: entity
   id: PelletShotgunUraniumTrace
-  parent: BulletTrace
+  parent: BulletUraniumTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicDamage
@@ -421,7 +465,7 @@
 
 - type: entity
   id: BulletHeavyPistolAPTrace
-  parent: BulletTrace
+  parent: BulletAPTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicDamage
@@ -467,7 +511,7 @@
 
 - type: entity
   id: BulletAntiMaterielAPTrace
-  parent: BulletTrace
+  parent: BulletAPTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicRaycast
@@ -488,7 +532,7 @@
 
 - type: entity
   id: PelletShotgunMagnumTrace
-  parent: BulletTrace
+  parent: BulletAPTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicDamage

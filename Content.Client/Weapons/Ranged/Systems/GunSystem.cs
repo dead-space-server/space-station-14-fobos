@@ -206,6 +206,15 @@ public sealed partial class GunSystem : SharedGunSystem
             return;
 
         var ent = Spawn(HitscanProto, coords);
+
+        // DS14-start: light is opt-in via prototype
+        var hasLight = TryComp<PointLightComponent>(ent, out var light);
+        if (hasLight)
+        {
+            Lights.SetEnabled(ent, true, light!);
+        }
+        // DS14-end
+
         var spriteComp = Comp<SpriteComponent>(ent);
         var spriteEnt = (ent, spriteComp);
 
@@ -261,6 +270,23 @@ public sealed partial class GunSystem : SharedGunSystem
                 }
             }
         };
+
+        // DS14-start: only animate light offset if the effect has a light
+        if (hasLight)
+        {
+            anim.AnimationTracks.Add(new AnimationTrackComponentProperty
+            {
+                ComponentType = typeof(PointLightComponent),
+                Property = nameof(PointLightComponent.Offset),
+                InterpolationMode = AnimationInterpolationMode.Linear,
+                KeyFrames =
+                {
+                    new AnimationTrackProperty.KeyFrame(new Vector2(1f, 0f), delay / 1000f),
+                    new AnimationTrackProperty.KeyFrame(new Vector2(distance + 1f, 0f), time / 1000f),
+                }
+            });
+        }
+        // DS14-end
 
         _animPlayer.Play(ent, anim, "hitscan-effect");
     }
