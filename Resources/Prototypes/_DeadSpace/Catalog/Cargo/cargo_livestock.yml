@@ -1,0 +1,39 @@
+- type: cargoProduct
+  id: LivestockFenek
+  icon:
+    sprite: /Textures/_DeadSpace/Mobs/Animals/Fenek.rsi
+    state: fenek
+  product: CrateNPCFenek
+  cost: 3000
+  category: cargoproduct-category-name-livestock
+  group: service 
+
+- type: cargoProduct
+  id: LivestockCroc
+  icon:
+    sprite: /Textures/_DeadSpace/Mobs/Animals/crocodile.rsi
+    state: croc
+  product: CrateNPCCrocodile
+  cost: 5000
+  category: cargoproduct-category-name-livestock
+  group: service 
+
+- type: cargoProduct
+  id: LivestockRak
+  icon:
+    sprite: /Textures/_DeadSpace/Mobs/Animals/raki.rsi
+    state: rak
+  product: CrateNPCRak
+  cost: 4000
+  category: cargoproduct-category-name-livestock
+  group: service 
+
+- type: cargoProduct
+  id: LivestockRakSmall
+  icon:
+    sprite: /Textures/_DeadSpace/Mobs/Animals/raki.rsi
+    state: rak_small
+  product: CrateNPCRakSmall
+  cost: 2325
+  category: cargoproduct-category-name-livestock
+  group: service 

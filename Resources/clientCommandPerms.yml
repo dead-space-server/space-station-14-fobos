@@ -99,3 +99,8 @@
 - Flags: ADMINCHAT
   Commands:
     - achatwindow
+# DS14-start
+- Flags: ADMIN
+  Commands:
+    - gamerulesui
+# DS14-end

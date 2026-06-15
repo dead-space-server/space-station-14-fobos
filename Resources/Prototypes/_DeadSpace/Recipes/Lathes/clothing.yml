@@ -319,6 +319,88 @@
 # Chameleon
 
 - type: latheRecipe
+  id: ClothingBackpackTailbagAtmospherics
+  result: ClothingBackpackTailbagAtmospherics
+  completetime: 5
+  materials:
+    Cloth: 1000
+    Durathread: 500
+# Chameleon
+
+- type: latheRecipe
+  id: ClothingBackpackTailbagCaptain
+  result: ClothingBackpackTailbagCaptain
+  completetime: 5
+  materials:
+    Cloth: 1000
+    Durathread: 500
+# Chameleon
+
+- type: latheRecipe
+  id: ClothingBackpackTailbagChemistry
+  result: ClothingBackpackTailbagChemistry
+  completetime: 5
+  materials:
+    Cloth: 1000
+    Durathread: 500
+# Chameleon
+
+- type: latheRecipe
+  id: ClothingBackpackTailbagEngineering
+  result: ClothingBackpackTailbagEngineering
+  completetime: 5
+  materials:
+    Cloth: 1000
+    Durathread: 500
+# Chameleon
+
+- type: latheRecipe
+  id: ClothingBackpackTailbagMerc
+  result: ClothingBackpackTailbagMerc
+  completetime: 5
+  materials:
+    Cloth: 1000
+    Durathread: 500
+# Chameleon
+
+- type: latheRecipe
+  id: ClothingBackpackTailbagMedical
+  result: ClothingBackpackTailbagMedical
+  completetime: 5
+  materials:
+    Cloth: 1000
+    Durathread: 500
+# Chameleon
+
+- type: latheRecipe
+  id: ClothingBackpackTailbagSalvage
+  result: ClothingBackpackTailbagSalvage
+  completetime: 5
+  materials:
+    Cloth: 1000
+    Durathread: 500
+# Chameleon
+
+- type: latheRecipe
+  id: ClothingBackpackTailbagScience
+  result: ClothingBackpackTailbagScience
+  completetime: 5
+  materials:
+    Cloth: 1000
+    Durathread: 500
+# Chameleon
+
+- type: latheRecipe
+  id: ClothingBackpackTailbagSecurity
+  result: ClothingBackpackTailbagSecurity
+  completetime: 5
+  materials:
+    Cloth: 1000
+    Durathread: 500
+# Chameleon
+
+
+- type: latheRecipe
   abstract: true
   id: BaseChameleonClothingRecipe
   categories:

@@ -110,14 +110,23 @@
         Slash: 0.5
         Piercing: 0.6
         Heat: 0.5
+        Cold: 0.5
         Radiation: 0.5
         Caustic: 0.5
         Stun: 0.65
+  - type: PressureProtection
+    highPressureMultiplier: 0.02
+    lowPressureMultiplier: 1000
+  - type: TemperatureProtection
+    heatingCoefficient: 0.01
+    coolingCoefficient: 0.01
   - type: ExplosionResistance
     damageCoefficient: 0.5
   - type: ClothingSpeedModifier
     walkModifier: 1.0
     sprintModifier: 1.0
+  - type: FireProtection
+    reduction: 0.4
   - type: HideLayerClothing
     clothingSlots: 
     - belt
@@ -178,6 +187,13 @@
     sprite: _DeadSpace/Sponsor/sastr/outer.rsi
   - type: Clothing
     sprite: _DeadSpace/Sponsor/sastr/outer.rsi
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        maxVol: 30
+        reagents:
+        - ReagentId: Fiber
+          Quantity: 30
   - type: Tag
     tags: [ ]
 
@@ -217,6 +233,13 @@
         unfoldedLayer:
           True: {visible: false}
           False: {visible: true}
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        maxVol: 15
+        reagents:
+        - ReagentId: Fiber
+          Quantity: 15
   - type: Tag
     tags: [ ]
 
@@ -303,6 +326,13 @@
         unfoldedLayer:
           True: {visible: false}
           False: {visible: true}
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        maxVol: 10
+        reagents:
+        - ReagentId: Fiber
+          Quantity: 10
   - type: Tag
     tags: [ ]
 
@@ -327,6 +357,13 @@
     - FacialHair
   - type: ClothingVisualLayerAnchor
     slot: head
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        maxVol: 10
+        reagents:
+        - ReagentId: Fiber
+          Quantity: 10
   - type: Tag
     tags: [ ]
 

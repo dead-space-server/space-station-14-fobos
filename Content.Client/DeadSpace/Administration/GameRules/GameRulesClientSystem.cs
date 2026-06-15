@@ -28,7 +28,8 @@ public sealed class GameRulesClientSystem : EntitySystem
                 "gamerulesui",
                 "Открыть окно управления геймрулами",
                 "gamerulesui",
-                ExecuteOpenGameRulesWindow);
+                ExecuteOpenGameRulesWindow,
+                false);
             _commandRegistered = true;
         }
     }

@@ -110,3 +110,39 @@
     - Beer
     - DrinkCan
     - Baltica9
+
+- type: entity
+  parent: DrinkGlass
+  id: CactusJuiceGlass
+  suffix: сок кактуса
+  name: стакан-метаморф
+  description: Попробуйте сок кактуса - он охладит вас! Он охладительный! САМЫЙ ОХЛАДИТЕЛЬНЫЙ!
+  components:
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: CactusJuice
+          Quantity: 30
+  - type: Icon
+    sprite: _DeadSpace/Objects/Consumable/Drinks/cactusjuice.rsi
+    state: icon
+
+- type: entity
+  parent: DrinkGlass
+  id: OasisCactusGlass
+  suffix: Долгожданный оазис
+  name: стакан-метаморф
+  description: После него, все ваши проблемы кажутся лишь одной иголкой на кактусе.
+  components:
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: OasisCactus
+          Quantity: 30
+  - type: Icon
+    sprite: _DeadSpace/Objects/Consumable/Drinks/oasiscactus.rsi
+    state: icon

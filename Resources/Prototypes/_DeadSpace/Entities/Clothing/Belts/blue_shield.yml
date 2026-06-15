@@ -7,7 +7,7 @@
   components:
   - type: StorageFill
     contents:
-      - id: ADTCombatHypo
+      - id: CombatHypoBlueShield
       - id: ADTtelescopicBaton
       - id: ChemistryBottleEphedrine
       - id: ChemistryBottleOmnizine

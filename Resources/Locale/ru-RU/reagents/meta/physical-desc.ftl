@@ -100,3 +100,6 @@ reagent-physical-desc-unidentifiable = неидентифицируемое
 reagent-physical-desc-non-newtonian = неньютоновское
 reagent-physical-desc-thin = разжижающее
 reagent-physical-desc-arcryox = льдисто-голубое
+reagent-physical-desc-hallucinogenic-and-refreshing = галлюциногенное и освежающе
+reagent-physical-desc-psycho = психотропное
+reagent-physical-desc-spike = колючие

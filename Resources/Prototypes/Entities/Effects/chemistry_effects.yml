@@ -32,7 +32,7 @@
         canReact: false
 
 - type: entity
-  parent: BaseFoam
+  parent: [BaseFoam, BaseShadow]
   id: Smoke
   name: smoke
   categories: [ HideSpawnMenu ]

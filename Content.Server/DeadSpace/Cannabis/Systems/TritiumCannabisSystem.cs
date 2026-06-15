@@ -1,9 +1,7 @@
 using Content.Server.Atmos.EntitySystems;
 using Content.Server.Explosion.EntitySystems;
-using Content.Server.Nutrition.EntitySystems;
 using Content.Shared.Atmos;
 using Content.Shared.DeadSpace.Cannabis;
-using Content.Shared.Smoking;
 
 namespace Content.Server.DeadSpace.Cannabis.Systems;
 
@@ -14,11 +12,11 @@ public sealed class TritiumCannabisSystem : EntitySystem
 
     public override void Initialize()
     {
-        SubscribeLocalEvent<JointTritiumComponent, SmokableSolutionEmptyEvent>(OnJointEmpty);
+        SubscribeLocalEvent<JointTritiumComponent, ExtinguishedEvent>(OnJointExtinguished);
         SubscribeLocalEvent<TritiumLeafComponent, MapInitEvent>(OnLeafSpawned);
     }
 
-    private void OnJointEmpty(Entity<JointTritiumComponent> entity, ref SmokableSolutionEmptyEvent args)
+    private void OnJointExtinguished(Entity<JointTritiumComponent> entity, ref ExtinguishedEvent args)
     {
         var coords = Transform(entity).MapPosition;
         _explosion.QueueExplosion(coords, "Default", 4f, 3f, 5f, entity);

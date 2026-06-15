@@ -145,3 +145,24 @@
   - type: LitOnPowered
   - type: StaticPrice
     price: 500
+
+- type: entity
+  parent: LavalandMiningShop
+  id: AdvancedCargoTechMag
+  name: продвинутый карготехмаг
+  description: Нагло украденный и перекрашенный утильмаг из базы утилизаторов... Зато, на левом боку красуется рисунок боевого слона синдиката.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Machines/VendingMachines/mining.rsi
+  - type: LavalandMiningShop
+    miningAccess:
+    - TaipanCargo
+  - type: Store
+    categories:
+    - LavalandMiningEquipment
+    - LavalandMiningTools
+    - LavalandMiningUtility
+    - CargoTechMagTaipan
+    - LavalandMiningMedical
+    - LavalandMiningDetails
+    - LavalandMiningCash

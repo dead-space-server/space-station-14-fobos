@@ -69,6 +69,8 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
 
         SubscribeLocalEvent<CraftedItemModulesComponent, ExaminedEvent>(OnExamineCraftedModules);
         SubscribeLocalEvent<ConsoleCraftConsoleComponent, ConsoleCraftEjectMessage>(OnEjectItems);
+
+        SubscribeLocalEvent<ConsoleCraftConsoleComponent, ConsoleCraftDismantleMessage>(OnDismantleMessage);
     }
 
     private void OnExamineCraftedModules(EntityUid uid, CraftedItemModulesComponent comp, ExaminedEvent args)
@@ -128,6 +130,19 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
         EjectAllItems(stationUid, comp);
         _popup.PopupEntity(Loc.GetString("consolecraft-craft-cancelled-no-power"), stationUid);
 
+        if (comp.ActiveRecipeId == "dismantle")
+        {
+            if (comp.LinkedConsole.HasValue &&
+                TryComp<ConsoleCraftConsoleComponent>(comp.LinkedConsole.Value, out var consoleCompRef))
+            {
+                comp.ActiveRecipeId = consoleCompRef.SelectedBlueprintId;
+            }
+            else
+            {
+                comp.ActiveRecipeId = null;
+            }
+        }
+
         if (comp.LinkedConsole.HasValue &&
             TryComp<ConsoleCraftConsoleComponent>(comp.LinkedConsole.Value, out var consoleComp))
         {
@@ -165,6 +180,19 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
                 StopCraftingSound(stationUid, stationComp);
                 _appearance.SetData(stationUid, ConsoleCraftStationVisuals.Working, ConsoleCraftStationVisualState.Idle);
 
+                if (stationComp.ActiveRecipeId == "dismantle")
+                {
+                    if (stationComp.LinkedConsole.HasValue &&
+                        TryComp<ConsoleCraftConsoleComponent>(stationComp.LinkedConsole.Value, out var consoleCompRef))
+                    {
+                        stationComp.ActiveRecipeId = consoleCompRef.SelectedBlueprintId;
+                    }
+                    else
+                    {
+                        stationComp.ActiveRecipeId = null;
+                    }
+                }
+
                 if (stationComp.LinkedConsole.HasValue &&
                     TryComp<ConsoleCraftConsoleComponent>(stationComp.LinkedConsole.Value, out var consoleComp))
                 {
@@ -177,7 +205,14 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
             if (_timing.CurTime < stationComp.PackEndTime)
                 continue;
 
-            FinishCraft(stationUid, stationComp);
+            if (stationComp.ActiveRecipeId == "dismantle")
+            {
+                FinishDismantle(stationUid, stationComp);
+            }
+            else
+            {
+                FinishCraft(stationUid, stationComp);
+            }
         }
     }
 
@@ -202,6 +237,53 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
     {
         if (args.Handled)
             return;
+
+        if (comp.ItemContainer.ContainedEntities.Count > 0)
+        {
+            var firstItem = comp.ItemContainer.ContainedEntities[0];
+            var firstItemProto = MetaData(firstItem).EntityPrototype?.ID;
+            if (firstItemProto != null && HasCraftRecipe(firstItemProto))
+            {
+                _popup.PopupEntity(Loc.GetString("consolecraft-dismantle-full"), uid, args.User);
+                args.Handled = true;
+                return;
+            }
+        }
+
+        var baseProtoId = MetaData(args.Used).EntityPrototype?.ID;
+        if (baseProtoId != null && HasCraftRecipe(baseProtoId))
+        {
+            if (comp.CraftInProgress)
+            {
+                _popup.PopupEntity(Loc.GetString("consolecraft-craft-in-progress"), uid, args.User);
+                args.Handled = true;
+                return;
+            }
+
+            if (comp.ActiveRecipeId == null ||
+                !_proto.TryIndex<ConsoleCraftPrototype>(comp.ActiveRecipeId, out var activeRecipe) ||
+                activeRecipe.Item.Id != baseProtoId)
+            {
+                _popup.PopupEntity(Loc.GetString("consolecraft-dismantle-wrong-blueprint"), uid, args.User);
+                args.Handled = true;
+                return;
+            }
+
+            if (comp.ItemContainer.ContainedEntities.Count > 0)
+            {
+                _popup.PopupEntity(Loc.GetString("consolecraft-dismantle-full"), uid, args.User);
+                args.Handled = true;
+                return;
+            }
+
+            if (_container.Insert(args.Used, comp.ItemContainer))
+            {
+                _popup.PopupEntity(Loc.GetString("consolecraft-dismantle-item-inserted"), uid, args.User);
+                args.Handled = true;
+                NotifyLinkedConsole(uid, comp);
+            }
+            return;
+        }
 
         if (_tool.HasQuality(args.Used, new ProtoId<ToolQualityPrototype>("Prying"))   ||
             _tool.HasQuality(args.Used, new ProtoId<ToolQualityPrototype>("Screwing"))  ||
@@ -297,6 +379,7 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
     private void OnSelectBlueprint(EntityUid uid, ConsoleCraftConsoleComponent comp,
         ConsoleCraftSelectBlueprintMessage msg)
     {
+        comp.DismantleClicks = 0;
         if (!TryComp<ConsoleCraftBlueprintReceiverComponent>(uid, out var receiver))
             return;
 
@@ -328,6 +411,14 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
     private void OnBack(EntityUid uid, ConsoleCraftConsoleComponent comp, ConsoleCraftBackMessage msg)
     {
         comp.ShowingList = true;
+        comp.DismantleClicks = 0;
+
+        if (TryGetLinkedStation(uid, comp, out var stationUid, out var stationComp))
+        {
+            EjectAllItems(stationUid, stationComp!);
+            stationComp!.ActiveRecipeId = null;
+        }
+
         RefreshConsoleState(uid, comp, showList: true);
     }
 
@@ -535,6 +626,20 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
             !_proto.TryIndex<ConsoleCraftPrototype>(stationComp.ActiveRecipeId, out var recipe))
             return;
 
+        var resourcesIDs = new List<string>();
+        var modulesIDs = new List<string>();
+
+        foreach (var (_, entities) in stationComp.InsertedRequired)
+            foreach (var ent in entities)
+                if (TryGetProtoId(ent, out var proto)) resourcesIDs.Add(proto);
+
+        foreach (var (_, entities) in stationComp.InsertedRandomRequired)
+            foreach (var ent in entities)
+                if (TryGetProtoId(ent, out var proto)) resourcesIDs.Add(proto);
+
+        foreach (var (_, ent) in stationComp.InsertedModules)
+            if (TryGetProtoId(ent, out var proto)) modulesIDs.Add(proto);
+
         foreach (var (_, entities) in stationComp.InsertedRequired)
             foreach (var ent in entities)
             {
@@ -597,83 +702,83 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
             {
                 var compType = EntityManager.ComponentFactory.GetRegistration(compName).Type;
 
-            if (compName == "ToggleableClothing")
-            {
-                var mappedRaw = (MappingDataNode) rawNode;
-
-                if (mappedRaw.Has("clothingPrototype"))
+                if (compName == "ToggleableClothing")
                 {
-                    const BindingFlags bf = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+                    var mappedRaw = (MappingDataNode) rawNode;
 
-                    if (EntityManager.TryGetComponent(moduleTarget, compType, out var existingComp))
+                    if (mappedRaw.Has("clothingPrototype"))
                     {
-                        FieldInfo? actionField = null;
-                        foreach (var name in new[] { "ActionEntity", "_actionEntity", "action", "Action" })
+                        const BindingFlags bf = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+
+                        if (EntityManager.TryGetComponent(moduleTarget, compType, out var existingComp))
                         {
-                            var f = compType.GetField(name, bf);
-                            if (f != null && (f.FieldType == typeof(EntityUid?) || f.FieldType == typeof(EntityUid)))
+                            FieldInfo? actionField = null;
+                            foreach (var name in new[] { "ActionEntity", "_actionEntity", "action", "Action" })
                             {
-                                actionField = f;
-                                break;
+                                var f = compType.GetField(name, bf);
+                                if (f != null && (f.FieldType == typeof(EntityUid?) || f.FieldType == typeof(EntityUid)))
+                                {
+                                    actionField = f;
+                                    break;
+                                }
                             }
-                        }
 
-                        if (actionField != null)
-                        {
-                            var raw = actionField.GetValue(existingComp);
-                            EntityUid? actionEnt = null;
-                            if (raw is EntityUid eu)
-                                actionEnt = eu;
-                            else if (raw != null && raw.GetType() == typeof(EntityUid?))
-                                actionEnt = (EntityUid?) raw;
-
-                            if (actionEnt.HasValue && Exists(actionEnt.Value))
+                            if (actionField != null)
                             {
-                                if (actionField.FieldType == typeof(EntityUid?))
-                                    actionField.SetValue(existingComp, (EntityUid?) null);
+                                var raw = actionField.GetValue(existingComp);
+                                EntityUid? actionEnt = null;
+                                if (raw is EntityUid eu)
+                                    actionEnt = eu;
+                                else if (raw != null && raw.GetType() == typeof(EntityUid?))
+                                    actionEnt = (EntityUid?) raw;
+
+                                if (actionEnt.HasValue && Exists(actionEnt.Value))
+                                {
+                                    if (actionField.FieldType == typeof(EntityUid?))
+                                        actionField.SetValue(existingComp, (EntityUid?) null);
 
                                     Del(actionEnt.Value);
+                                }
                             }
                         }
-                    }
 
-                    if (_container.TryGetContainer(moduleTarget, "toggleable-clothing", out var tcContainer))
-                    {
-                        foreach (var ent in tcContainer.ContainedEntities.ToArray())
+                        if (_container.TryGetContainer(moduleTarget, "toggleable-clothing", out var tcContainer))
                         {
-                            _container.Remove(ent, tcContainer, reparent: false, force: true);
+                            foreach (var ent in tcContainer.ContainedEntities.ToArray())
+                            {
+                                _container.Remove(ent, tcContainer, reparent: false, force: true);
                                 Del(ent);
+                            }
                         }
-                    }
 
                         RemComp(moduleTarget, compType);
-                    var newToggle = (Component) _serialization.Read(compType, mappedRaw, skipHook: true)!;
+                        var newToggle = (Component) _serialization.Read(compType, mappedRaw, skipHook: true)!;
                         AddComp(moduleTarget, newToggle);
-                }
-                else
-                {
-                    if (EntityManager.TryGetComponent(moduleTarget, compType, out var existingToggle))
-                        PatchComponentFields((Component) existingToggle, compType, mappedRaw);
-                }
-
-                continue;
-            }
-
-            if (compName == "ContainerContainer")
-            {
-                if (rawNode is MappingDataNode containerRaw &&
-                    containerRaw.TryGet("containers", out MappingDataNode? containersNode))
-                {
-                    foreach (var (containerKey, containerNode) in containersNode)
-                    {
-                        if (containerNode.Tag == "!type:ContainerSlot")
-                            _container.EnsureContainer<ContainerSlot>(moduleTarget, containerKey);
-                        else
-                            _container.EnsureContainer<Container>(moduleTarget, containerKey);
                     }
+                    else
+                    {
+                        if (EntityManager.TryGetComponent(moduleTarget, compType, out var existingToggle))
+                            PatchComponentFields((Component) existingToggle, compType, mappedRaw);
+                    }
+
+                    continue;
                 }
-                continue;
-            }
+
+                if (compName == "ContainerContainer")
+                {
+                    if (rawNode is MappingDataNode containerRaw &&
+                        containerRaw.TryGet("containers", out MappingDataNode? containersNode))
+                    {
+                        foreach (var (containerKey, containerNode) in containersNode)
+                        {
+                            if (containerNode.Tag == "!type:ContainerSlot")
+                                _container.EnsureContainer<ContainerSlot>(moduleTarget, containerKey);
+                            else
+                                _container.EnsureContainer<Container>(moduleTarget, containerKey);
+                        }
+                    }
+                    continue;
+                }
 
                 if (EntityManager.TryGetComponent(moduleTarget, compType, out var existing))
                 {
@@ -739,6 +844,8 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
             {
                 var modulesComp = EnsureComp<CraftedItemModulesComponent>(crafted);
                 modulesComp.AppliedModules = modulesForCrafted;
+                modulesComp.ResourcesIDs = resourcesIDs;
+                modulesComp.ModulesIDs = modulesIDs;
             }
 
             foreach (var (suitEnt, suitModuleIds) in modulesForSuit)
@@ -769,7 +876,7 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
         foreach (var key in keys)
         {
             var patchValue = patch[key];
-    
+
             if (patchValue is MappingDataNode patchMap && target.Has(key))
             {
                 var existingValue = target[key];
@@ -779,10 +886,10 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
                     continue;
                 }
             }
-    
+
             if (target.Has(key))
                 target.Remove(key);
-    
+
             target.Add(key, patchValue);
         }
     }
@@ -790,7 +897,7 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
     {
         const BindingFlags flags =
             BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
-    
+
         var type = compType;
         while (type != null && type != typeof(object))
         {
@@ -798,27 +905,27 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
             {
                 var attr = field.GetCustomAttribute<DataFieldAttribute>();
                 if (attr == null) continue;
-    
+
                 var key = string.IsNullOrEmpty(attr.Tag)
                     ? char.ToLowerInvariant(field.Name[0]) + field.Name[1..]
                     : attr.Tag;
-    
+
                 TryPatchMember(field.FieldType, key, patch, v => field.SetValue(target, v));
             }
-    
+
             foreach (var prop in type.GetProperties(flags))
             {
                 if (!prop.CanWrite) continue;
                 var attr = prop.GetCustomAttribute<DataFieldAttribute>();
                 if (attr == null) continue;
-    
+
                 var key = string.IsNullOrEmpty(attr.Tag)
                     ? char.ToLowerInvariant(prop.Name[0]) + prop.Name[1..]
                     : attr.Tag;
-    
+
                 TryPatchMember(prop.PropertyType, key, patch, v => prop.SetValue(target, v));
             }
-    
+
             type = type.BaseType;
         }
     }
@@ -826,7 +933,7 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
     {
         if (!patch.TryGet(key, out var node))
             return;
-    
+
         try
         {
             setter(_serialization.Read(memberType, node, skipHook: true));
@@ -836,8 +943,10 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
             Log.Warning($"ConsoleCraft: failed to patch field '{key}': {ex.Message}");
         }
     }
-    public void RefreshConsoleState(EntityUid uid, ConsoleCraftConsoleComponent comp, bool showList = false)
+
+    public void RefreshConsoleState(EntityUid uid, ConsoleCraftConsoleComponent comp, bool? showList = null)
     {
+        var shouldShowList = showList ?? comp.ShowingList;
         TryGetLinkedStation(uid, comp, out var station, out var stationComp);
 
         var entries = new List<ConsoleCraftBlueprintEntry>();
@@ -859,24 +968,36 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
         }
 
         var noStation  = station == default;
-        var selectedId = showList ? null : comp.SelectedBlueprintId;
+        var selectedId = shouldShowList ? null : comp.SelectedBlueprintId;
         if (selectedId != null && entries.All(e => e.RecipeId != selectedId))
             selectedId = null;
 
         var requiredStatus  = new List<ConsoleCraftRequirementStatus>();
         var moduleStatus    = new List<ConsoleCraftModuleStatus>();
         var canCraft        = false;
+        var canDismantle    = false;
         var craftInProgress = false;
         string? craftItemProtoId  = null;
         int?    remainingCrafts   = null;
 
-        if (!showList && selectedId != null &&
+        if (!shouldShowList && selectedId != null &&
             _proto.TryIndex<ConsoleCraftPrototype>(selectedId, out var recipe) &&
             stationComp != null)
         {
             craftItemProtoId = recipe.Item.Id;
             craftInProgress  = stationComp.CraftInProgress;
             remainingCrafts  = entries.FirstOrDefault(e => e.RecipeId == selectedId)?.RemainingCrafts;
+
+            if (stationComp.ItemContainer.ContainedEntities.Count > 0)
+            {
+                var insertedItem = stationComp.ItemContainer.ContainedEntities[0];
+                var insertedProto = MetaData(insertedItem).EntityPrototype?.ID;
+
+                if (insertedProto == recipe.Item.Id)
+                {
+                    canDismantle = true;
+                }
+            }
 
             foreach (var req in recipe.RequestItems)
             {
@@ -933,11 +1054,12 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
         _ui.SetUiState(uid, ConsoleCraftUiKey.Key, new ConsoleCraftConsoleState
         {
             AvailableRecipes   = entries,
-            SelectedRecipeId   = selectedId,
+            SelectedRecipeId   = shouldShowList ? null : selectedId,
             CraftItemProtoId   = craftItemProtoId,
             RequiredStatus     = requiredStatus,
             ModuleStatus       = moduleStatus,
             CanCraft           = canCraft,
+            CanDismantle       = canDismantle,
             CraftInProgress    = craftInProgress,
             NoStation          = noStation,
             SelectedBlueprintRemainingCrafts = remainingCrafts,
@@ -1054,11 +1176,11 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
                 continue;
 
             var matchesItem = moduleDef.ModuleItem.HasValue &&
-                              moduleDef.ModuleItem.Value.Id == itemProto;
+                            moduleDef.ModuleItem.Value.Id == itemProto;
 
             var matchesTag = !matchesItem &&
-                             moduleDef.Tag != null &&
-                             moduleDef.Tag.Any(t => _tag.HasTag(itemUid, t));
+                            moduleDef.Tag != null &&
+                            moduleDef.Tag.Any(t => _tag.HasTag(itemUid, t));
 
             if (!matchesItem && !matchesTag)
                 continue;
@@ -1114,6 +1236,220 @@ public sealed partial class ConsoleCraftSystem : EntitySystem
         }
 
         return InsertResult.WrongItem;
+    }
+
+    private bool HasCraftRecipe(string protoId)
+    {
+        foreach (var r in _proto.EnumeratePrototypes<ConsoleCraftPrototype>())
+        {
+            if (r.Item.Id == protoId)
+                return true;
+        }
+        return false;
+    }
+
+    private bool IsStorageEmpty(EntityUid item)
+    {
+        if (_container.TryGetContainer(item, "storagebase", out var storageContainer))
+        {
+            return storageContainer.ContainedEntities.Count == 0;
+        }
+        return true;
+    }
+
+    private bool TryGetProtoId(EntityUid ent, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out string? protoId)
+    {
+        protoId = MetaData(ent).EntityPrototype?.ID;
+        return protoId != null;
+    }
+
+    private void OnDismantleMessage(EntityUid uid, ConsoleCraftConsoleComponent comp, ConsoleCraftDismantleMessage msg)
+    {
+        if (!TryGetLinkedStation(uid, comp, out var stationUid, out var stationComp))
+        {
+            _popup.PopupEntity(Loc.GetString("consolecraft-no-station"), uid, msg.Actor);
+            return;
+        }
+
+        if (!this.IsPowered(stationUid, EntityManager))
+        {
+            _popup.PopupEntity(Loc.GetString("consolecraft-no-power"), uid, msg.Actor);
+            return;
+        }
+
+        if (stationComp!.CraftInProgress)
+        {
+            _popup.PopupEntity(Loc.GetString("consolecraft-craft-in-progress"), uid, msg.Actor);
+            return;
+        }
+
+        if (stationComp.ItemContainer.ContainedEntities.Count == 0)
+        {
+            _popup.PopupEntity(Loc.GetString("consolecraft-dismantle-empty"), uid, msg.Actor);
+            return;
+        }
+        var item = stationComp.ItemContainer.ContainedEntities[0];
+
+        if (!IsStorageEmpty(item))
+        {
+            comp.DismantleClicks++;
+
+            if (comp.DismantleClicks < 5)
+            {
+                var remaining = 5 - comp.DismantleClicks;
+                _popup.PopupEntity(Loc.GetString("consolecraft-dismantle-storage-warning", ("clicks", remaining)), uid, msg.Actor);
+                return;
+            }
+        }
+        comp.DismantleClicks = 0;
+
+        var baseProtoId = MetaData(item).EntityPrototype?.ID;
+        if (baseProtoId == null || !HasCraftRecipe(baseProtoId))
+        {
+            _popup.PopupEntity(Loc.GetString("consolecraft-dismantle-not-craftable-error"), uid, msg.Actor);
+            return;
+        }
+
+        if (comp.SelectedBlueprintId == null ||
+            !_proto.TryIndex<ConsoleCraftPrototype>(comp.SelectedBlueprintId, out var activeRecipe) ||
+            activeRecipe.Item.Id != baseProtoId)
+        {
+            _popup.PopupEntity(Loc.GetString("consolecraft-dismantle-blueprint-mismatch"), uid, msg.Actor);
+            return;
+        }
+
+        stationComp.CraftInProgress = true;
+        stationComp.PackEndTime = _timing.CurTime + TimeSpan.FromSeconds(8.0);
+        stationComp.ActiveRecipeId = "dismantle";
+
+        StartCraftingSound(stationUid, stationComp);
+        _appearance.SetData(stationUid, ConsoleCraftStationVisuals.Working, ConsoleCraftStationVisualState.Crafting);
+        RefreshConsoleState(uid, comp);
+    }
+
+    private void FinishDismantle(EntityUid stationUid, ConsoleCraftStationComponent stationComp)
+    {
+        stationComp.CraftInProgress = false;
+        StopCraftingSound(stationUid, stationComp);
+
+        _appearance.SetData(stationUid, ConsoleCraftStationVisuals.Working, ConsoleCraftStationVisualState.Idle);
+
+        if (stationComp.ItemContainer.ContainedEntities.Count == 0)
+            return;
+
+        var item = stationComp.ItemContainer.ContainedEntities[0];
+        var baseProtoId = MetaData(item).EntityPrototype?.ID;
+        if (baseProtoId == null)
+            return;
+
+        var coords = Transform(stationUid).Coordinates;
+        var random = new Random();
+        var lostAnything = false;
+
+        if (TryComp<CraftedItemModulesComponent>(item, out var modulesComp) && modulesComp.ResourcesIDs.Count > 0)
+        {
+            foreach (var protoId in modulesComp.ResourcesIDs)
+            {
+                if (random.Next(100) < 20)
+                {
+                    lostAnything = true;
+                    continue;
+                }
+                Spawn(protoId, coords);
+            }
+
+            foreach (var protoId in modulesComp.ModulesIDs)
+            {
+                if (random.Next(100) < 20)
+                {
+                    lostAnything = true;
+                    continue;
+                }
+                Spawn(protoId, coords);
+            }
+        }
+        else // if it's not a crafted item
+        {
+            ConsoleCraftPrototype? recipe = null;
+            foreach (var r in _proto.EnumeratePrototypes<ConsoleCraftPrototype>())
+            {
+                if (r.Item.Id == baseProtoId)
+                {
+                    recipe = r;
+                    break;
+                }
+            }
+
+            if (recipe != null)
+            {
+                foreach (var req in recipe.RequestItems)
+                {
+                    for (var i = 0; i < req.Amount; i++)
+                    {
+                        if (random.Next(100) < 20)
+                        {
+                            lostAnything = true;
+                            continue;
+                        }
+                        Spawn(req.ItemProto.Id, coords);
+                    }
+                }
+
+                foreach (var group in recipe.RandomRequestItems)
+                {
+                    if (group.Items.Count == 0)
+                        continue;
+
+                    var defaultItem = group.Items[0].Id;
+                    for (var i = 0; i < group.Amount; i++)
+                    {
+                        if (random.Next(100) < 20)
+                        {
+                            lostAnything = true;
+                            continue;
+                        }
+                        Spawn(defaultItem, coords);
+                    }
+                }
+
+                if (modulesComp != null)
+                {
+                    foreach (var moduleId in modulesComp.AppliedModules)
+                    {
+                        if (random.Next(100) < 20)
+                        {
+                            lostAnything = true;
+                            continue;
+                        }
+
+                        if (_proto.TryIndex<MinorItemModulePrototype>(moduleId, out var moduleDef) && moduleDef.ModuleItem.HasValue)
+                        {
+                            Spawn(moduleDef.ModuleItem.Value, coords);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (lostAnything)
+        {
+            _popup.PopupEntity(Loc.GetString("consolecraft-dismantle-warning"), stationUid);
+            _audio.PlayPvs(new SoundPathSpecifier("/Audio/Effects/sparks2.ogg"), stationUid);
+        }
+
+        _container.Remove(item, stationComp.ItemContainer);
+        Del(item);
+
+        if (stationComp.LinkedConsole.HasValue &&
+            TryComp<ConsoleCraftConsoleComponent>(stationComp.LinkedConsole.Value, out var consoleComp))
+        {
+            stationComp.ActiveRecipeId = consoleComp.SelectedBlueprintId;
+            RefreshConsoleState(stationComp.LinkedConsole.Value, consoleComp);
+        }
+        else
+        {
+            stationComp.ActiveRecipeId = null;
+        }
     }
 }
 

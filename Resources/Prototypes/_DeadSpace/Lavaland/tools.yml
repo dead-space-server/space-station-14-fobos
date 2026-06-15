@@ -387,17 +387,17 @@
       - state: staffofstorms-inhand-right
         shader: unshaded
   - type: Gun
-    fireRate: 0.35
+    fireRate: 0.2
     soundGunshot:
       path: /Audio/Magic/fireball.ogg
     projectileSpeed: 25
   - type: RechargeBasicEntityAmmo
-    rechargeCooldown: 12
+    rechargeCooldown: 20
     rechargeSound: null
   - type: BasicEntityAmmoProvider
     proto: ProjectileFireballLavalandFireStaff
-    capacity: 2
-    count: 2
+    capacity: 1
+    count: 1
   - type: PointLight
     radius: 1.5
     energy: 1.2

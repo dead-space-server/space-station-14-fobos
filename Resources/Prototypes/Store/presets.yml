@@ -17,6 +17,7 @@
     - UplinkJob
     - UplinkUltra # DS14
     - UplinkPointless
+    - UplinkPresets
     currencyWhitelist:
     - Telecrystal
     balance:

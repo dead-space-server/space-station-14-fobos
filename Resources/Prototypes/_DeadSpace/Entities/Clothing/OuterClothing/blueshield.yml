@@ -28,6 +28,9 @@
   - type: ClothingSpeedModifier
     walkModifier: 1
     sprintModifier: 0.95
+  - type: HideLayerClothing
+    clothingSlots: 
+    - jumpsuit
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitBlueShield
   - type: Item

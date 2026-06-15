@@ -8,10 +8,10 @@
         <pda:PdaNavigationButton Name="ProgramListButton" Access="Public" MinWidth="100" LabelText="{Loc 'comp-pda-io-program-list-button'}"/>
         <pda:PdaNavigationButton Name="SettingsButton" MinWidth="100" LabelText="{Loc 'comp-pda-io-settings-button'}"/>
 
-        <pda:PdaNavigationButton Name="ProgramTitle" Access="Public" BorderThickness="0 0 0 2" CurrentTabBorderThickness="2 0 0 2"
-                                 ActiveBgColor="#202023" Visible="False"/>
+        <pda:PdaNavigationButton Name="ProgramTitle" Access="Public" HorizontalExpand="True" BorderThickness="0 0 0 2" CurrentTabBorderThickness="2 0 0 2"
+                                 Visible="False"/>
 
-        <pda:PdaNavigationButton HorizontalExpand="True"/>
+        <pda:PdaNavigationButton Name="NavigationSpacer" Access="Public" HorizontalExpand="True"/>
 
         <pda:PdaNavigationButton Name="ProgramCloseButton" Access="Public" IconScale="0.5 0.5" BorderThickness="0 0 2 2"
                                  Visible="False" IsActive="False" SetWidth="32"/>
@@ -27,22 +27,22 @@
                       HorizontalExpand="True"
                       MinSize="50 50"
                       Margin="8">
-            <ContainerButton Name="PdaOwnerButton">
+            <ContainerButton Name="PdaOwnerButton" StyleClasses="DS14MenuListRow">
                 <RichTextLabel Name="PdaOwnerLabel" Access="Public"/>
             </ContainerButton>
-            <ContainerButton Name="IdInfoButton">
+            <ContainerButton Name="IdInfoButton" StyleClasses="DS14MenuListRowAlt">
                 <RichTextLabel Name="IdInfoLabel" Access="Public"/>
             </ContainerButton>
-            <ContainerButton Name="StationNameButton">
+            <ContainerButton Name="StationNameButton" StyleClasses="DS14MenuListRow">
                 <RichTextLabel Name="StationNameLabel" Access="Public"/>
             </ContainerButton>
-            <ContainerButton Name="StationAlertLevelButton">
+            <ContainerButton Name="StationAlertLevelButton" StyleClasses="DS14MenuListRowAlt">
                 <RichTextLabel Name="StationAlertLevelLabel" Access="Public"/>
             </ContainerButton>
-            <ContainerButton Name="StationTimeButton">
+            <ContainerButton Name="StationTimeButton" StyleClasses="DS14MenuListRow">
                 <RichTextLabel Name="StationTimeLabel" Access="Public"/>
             </ContainerButton>
-            <ContainerButton Name="StationAlertLevelInstructionsButton">
+            <ContainerButton Name="StationAlertLevelInstructionsButton" StyleClasses="DS14MenuListRowAlt">
                 <RichTextLabel Name="StationAlertLevelInstructions" Access="Public"/>
             </ContainerButton>
         </BoxContainer>

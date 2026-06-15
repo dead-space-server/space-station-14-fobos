@@ -4,31 +4,53 @@
     <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True">
         <!-- Connected status -->
         <BoxContainer Name="ConnectedContainer" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Visible="False">
-        <!--DS14 start-->    
+            <LineEdit Name="SearchBar"
+                      PlaceHolder="{Loc 'messenger-search-placeholder'}"
+                      HorizontalExpand="True"
+                      SetHeight="32"
+                      Margin="4 4 4 2"
+                      StyleClasses="DS14MenuInput"/>
+            <Label Name="NoUsers"
+                   Text="{Loc 'messenger-no-users'}"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   HorizontalExpand="True"
+                   VerticalExpand="True"
+                   FontColorOverride="DarkGray"
+                   Visible="False"/>
             <ScrollContainer Name="UserListScrollContainer" HorizontalExpand="True" VerticalExpand="True" VScrollEnabled="True" HScrollEnabled="False">
                 <BoxContainer Name="UserListContainer" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="False">
                 </BoxContainer>
             </ScrollContainer>
             <BoxContainer Name="MessageBoxContainer" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Visible="False">
-        <!--DS14 end-->  
                 <BoxContainer Name="MessageInputContainer" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True">
-                    <BoxContainer Name="ChatHeader" Orientation="Horizontal" HorizontalExpand="True">
-                        <Button Name="BackButton" Text="{Loc messenger-back}" SetWidth="50"/>
-                        <Label Name="ChatPartnerLabel" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalExpand="True"/>
+                    <BoxContainer Name="ChatHeader" Orientation="Horizontal" HorizontalExpand="True" Margin="4 4 4 2">
+                        <Label Name="ChatPartnerLabel"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               HorizontalExpand="True"
+                               StyleClasses="DS14MenuTitle"/>
+                        <TextureButton Name="BackButton"
+                                       StyleClasses="windowCloseButton"
+                                       SetWidth="20"
+                                       SetHeight="20"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center"
+                                       Margin="6 0 2 0"/>
                     </BoxContainer>
                     <ScrollContainer Name="MessageScrollContainer" HorizontalExpand="True" VerticalExpand="True" VScrollEnabled="True" HScrollEnabled="False">
                         <BoxContainer Orientation="Vertical" Name="MessageContainer" HorizontalExpand="True" VerticalExpand="True"/>
                     </ScrollContainer>
                     <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
-                        <LineEdit Name="MessageInput" HorizontalExpand="True" SetHeight="32"/>
-                        <Button Name="SendButton" Text="{Loc messenger-send}" SetWidth="50"/>
+                        <LineEdit Name="MessageInput" HorizontalExpand="True" SetHeight="32" StyleClasses="DS14MenuInput"/>
+                        <Button Name="SendButton" Text="{Loc messenger-send}" SetWidth="70" StyleClasses="DS14MenuProfileControl"/>
                     </BoxContainer>
                 </BoxContainer>
             </BoxContainer>
         </BoxContainer>
         <!-- Connection lost status -->
         <BoxContainer Name="ConnectionLostContainer" Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Visible="False">
-            <Label Text="{Loc messenger-status-connection-lost}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Label Text="{Loc messenger-status-connection-lost}" HorizontalAlignment="Center" VerticalAlignment="Center" StyleClasses="DS14MenuSubtitle"/>
         </BoxContainer>
     </BoxContainer>
 </cartridges:MessengerCartridgeUiFragment>

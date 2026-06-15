@@ -241,7 +241,10 @@
   description: "A gift from the botanical staff, presented after the RD's reassignment. There's a tag on it that says \"Y'all come back now, y'hear?\" It doesn't look very healthy..." # Corvax-Localization: Remove newline
   components:
   - type: Sprite
-    state: plant-25
+  # DS14-start
+    sprite: _DeadSpace/Structures/Furniture/rd_potted_plant.rsi
+    state: plantDS-1
+  # DS14-end
   - type: StealTarget
     stealGroup: PlantRD
 
