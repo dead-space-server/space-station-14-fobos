@@ -30,6 +30,16 @@
                                VerticalAlignment="Center"
                                HorizontalExpand="True"
                                StyleClasses="DS14MenuTitle"/>
+                        <!-- DS14 -->
+                        <Button Name="BlockButton"
+                                       Text="{Loc messenger-block}"
+                                       SetWidth="60"
+                                       SetHeight="20"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center"
+                                       Margin="6 0 2 0"
+                                       StyleClasses="DS14MenuProfileControl"
+                                       Visible="False"/>
                         <TextureButton Name="BackButton"
                                        StyleClasses="windowCloseButton"
                                        SetWidth="20"
@@ -41,7 +51,16 @@
                     <ScrollContainer Name="MessageScrollContainer" HorizontalExpand="True" VerticalExpand="True" VScrollEnabled="True" HScrollEnabled="False">
                         <BoxContainer Orientation="Vertical" Name="MessageContainer" HorizontalExpand="True" VerticalExpand="True"/>
                     </ScrollContainer>
-                    <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
+                    <!-- DS14-Start -->
+                    <Label Name="BlockedLabel"
+                           Text="{Loc messenger-blocked}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           HorizontalExpand="True"
+                           SetHeight="32"
+                           Visible="False"/>
+                    <!-- DS14-End -->
+                    <BoxContainer Name="InputContainer" Orientation="Horizontal" HorizontalExpand="True">  <!-- DS14 -->
                         <LineEdit Name="MessageInput" HorizontalExpand="True" SetHeight="32" StyleClasses="DS14MenuInput"/>
                         <Button Name="SendButton" Text="{Loc messenger-send}" SetWidth="70" StyleClasses="DS14MenuProfileControl"/>
                     </BoxContainer>

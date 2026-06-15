@@ -104,3 +104,6 @@ messenger-select-user = Выберите пользователя
 messenger-back = Назад
 messenger-notification-message = {$sender} отправил сообщение!
 messenger-typing-popup = Печатает...
+messenger-blocked = ЗАБЛОКИРОВАН
+messenger-block = Блок
+messenger-unblock = Разблок

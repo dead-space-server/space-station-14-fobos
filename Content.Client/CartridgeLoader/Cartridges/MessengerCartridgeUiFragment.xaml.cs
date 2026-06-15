@@ -26,6 +26,7 @@ public sealed partial class MessengerCartridgeUiFragment : BoxContainer
     private IPrototypeManager _prototypeManager = default!;
     private TimeSpan _lastTypingTime;
     private string _searchText = string.Empty; // DS14
+    private bool _isBlocking; // DS14
 
     public MessengerCartridgeUiFragment()
     {
@@ -40,6 +41,7 @@ public sealed partial class MessengerCartridgeUiFragment : BoxContainer
 
         SendButton.OnPressed += OnSendPressed;
         BackButton.OnPressed += OnBackPressed;
+        BlockButton.OnPressed += OnBlockPressed; // DS14
         MessageInput.OnTextEntered += OnMessageInputSubmit;
         MessageInput.OnTextChanged += OnMessageInputTextChanged;
         SearchBar.OnTextChanged += OnSearchTextChanged; // DS14
@@ -63,7 +65,7 @@ public sealed partial class MessengerCartridgeUiFragment : BoxContainer
         }
     }
 
-    public void UpdateState(MessengerStatus status, Dictionary<int, MessengerUserEntry> users, List<MessengerMessageEntry>? messages = null)
+    public void UpdateState(MessengerStatus status, Dictionary<int, MessengerUserEntry> users, List<MessengerMessageEntry>? messages = null, bool isBlocked = false, bool isBlocking = false) //DS14
     {
         _users = users ?? new Dictionary<int, MessengerUserEntry>();
 
@@ -77,8 +79,39 @@ public sealed partial class MessengerCartridgeUiFragment : BoxContainer
         {
             UpdateMessages(messages);
         }
+        UpdateBlockState(isBlocked, isBlocking);
         // DS14-end
     }
+
+    // DS14-Start
+    public void UpdateBlockState(bool isBlocked, bool isBlocking)
+    {
+        var inputHidden = isBlocked || isBlocking;
+        BlockedLabel.Visible = inputHidden;
+        InputContainer.Visible = !inputHidden;
+        BlockedLabel.Text = Loc.GetString("messenger-blocked");
+
+        _isBlocking = isBlocking;
+
+        if (_currentChatPartnerId != 0)
+        {
+            BlockButton.Visible = true;
+            BlockButton.Text = isBlocking ? Loc.GetString("messenger-unblock") : Loc.GetString("messenger-block");
+        }
+        else
+        {
+            BlockButton.Visible = false;
+        }
+    }
+
+    private void OnBlockPressed(BaseButton.ButtonEventArgs args)
+    {
+        if (_currentChatPartnerId == 0)
+            return;
+
+        OnBlockUser?.Invoke(_currentChatPartnerId, !_isBlocking);
+    }
+    // DS14-End
 
     // DS14-start
     private void RebuildUserList()
@@ -240,6 +273,8 @@ public sealed partial class MessengerCartridgeUiFragment : BoxContainer
         NoUsers.Visible = false;
         UserListScrollContainer.Visible = false;
         MessageBoxContainer.Visible = true;
+        BlockButton.Visible = true;
+        BlockButton.Text = Loc.GetString("messenger-block");
         // DS14-end
         OnRequestMessages?.Invoke(userId);
     }
@@ -249,6 +284,7 @@ public sealed partial class MessengerCartridgeUiFragment : BoxContainer
         // DS14-start
         MessageBoxContainer.Visible = false;
         SearchBar.Visible = true;
+        BlockButton.Visible = false;
         RebuildUserList();
         // DS14-end
         _currentChatPartnerId = 0;
@@ -301,4 +337,5 @@ public sealed partial class MessengerCartridgeUiFragment : BoxContainer
     public event Action<int, string>? OnSendMessage;
     public event Action<int>? OnRequestMessages;
     public event Action? OnTyping;
+    public event Action<int, bool>? OnBlockUser; // DS14
 }
