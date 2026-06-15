@@ -797,7 +797,7 @@
       thresholds:
         - trigger:
             !type:DamageTrigger
-            damage: 1000
+            damage: 2500
           behaviors:
             - !type:DoActsBehavior
               acts: [ "Destruction" ]
@@ -817,6 +817,7 @@
 - type: entity
   parent: [PassengerIDCard, BaseFoldable]
   id: AkiDeltaIDCard
+  name: армейский жетон
   description: Армейский жетон.
   suffix: Akitovsky
   components:
@@ -1048,6 +1049,58 @@
   contrabandInventory:
     ClothingHeadHelmetBone: 1
 
+- type: entity
+  id: WeaponryTechFabAkiDelta
+  parent: BaseLatheLube
+  name: оружейный ТехФаб спецназа
+  description: Историю пишет победитель. В истории много лжи. Если он победит, его правда станет истинной... а нашу забудут.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Necromorfs/BSAA/techfab.rsi
+    layers:
+    - state: icon
+      map: ["enum.LatheVisualLayers.IsRunning"]
+    - state: sec
+    - state: unlit
+      shader: unshaded
+      map: ["enum.PowerDeviceVisualLayers.Powered"]
+    - state: inserting
+      map: ["enum.MaterialStorageVisualLayers.Inserting"]
+    - state: panel
+      map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
+  - type: Machine
+    board: WeaponryTechFabCircuitboardAkiDelta
+  - type: Lathe
+    idleState: icon
+    runningState: icon
+    staticPacks:
+    - DeltaStatic
+  - type: MaterialStorage
+    whitelist:
+      tags:
+        - Sheet
+        - RawMaterial
+        - Ingot
+  - type: OreSiloClient
+
+- type: entity
+  id: WeaponryTechFabCircuitboardAkiDelta
+  parent: BaseMachineCircuitboard
+  name: оружейный ТехФаб спецназа (машинная плата)
+  description: Печатная плата оружейного ТехФаба.
+  suffix: Akitovsky
+  components:
+  - type: MachineBoard
+    prototype: WeaponryTechFabBSAA
+    stackRequirements:
+      Manipulator: 4
+    tagRequirements:
+      GlassBeaker:
+        amount: 2
+        defaultPrototype: Beaker
+
 # VSK
 - type: entity
   name: VSK-94
@@ -1084,6 +1137,7 @@
 - type: entity
   id: MagazineVSK9x39SP6
   name: магазин VSK-94 (9х39 мм СП-6)
+  suffix: Akitovsky
   parent: MagazineVSK
   components:
   - type: Tag
@@ -1207,6 +1261,7 @@
   parent: BaseMagazineRifle
   id: Magazine556x45AP
   name: магазин (5.56х45 мм SSA AP)
+  suffix: Akitovsky
   components:
   - type: BallisticAmmoProvider
     proto: Cartridge556x45AP
@@ -1249,6 +1304,7 @@
   parent: BaseMagazineShotgun
   id: Magazine12x70Piranha
   name: магазин (12х70 дробь Пиранья)
+  suffix: Akitovsky
   components:
   - type: BallisticAmmoProvider
     proto: Cartridge12x70Piranha

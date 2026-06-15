@@ -1,0 +1,35 @@
+- type: latheRecipePack
+  id: DeltaStatic
+  recipes:
+  - MagazineBoxVSKAki
+  - MagazineBox556x45AP
+  - MagazineBox357MagnumFMJ
+  - MagazineBox12x70Piranha
+
+- type: latheRecipe
+  id: MagazineBoxVSKAki
+  result: MagazineBoxVSKAki
+  materials:
+    Steel: 1000
+    Plasteel: 300
+
+- type: latheRecipe
+  id: MagazineBox556x45AP
+  result: MagazineBox556x45AP
+  materials:
+    Steel: 1000
+    Plasteel: 300
+
+- type: latheRecipe
+  id: MagazineBox357MagnumFMJ
+  result: MagazineBox357MagnumFMJ
+  materials:
+    Steel: 1000
+    Plasteel: 300
+
+- type: latheRecipe
+  id: MagazineBox12x70Piranha
+  result: MagazineBox12x70Piranha
+  materials:
+    Steel: 1000
+    Plasteel: 300
