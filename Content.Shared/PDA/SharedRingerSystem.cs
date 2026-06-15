@@ -1,3 +1,4 @@
+using Content.Shared.DeadSpace.Events;
 using Content.Shared.Mind;
 using Content.Shared.PDA.Ringer;
 using Content.Shared.Popups;
@@ -38,6 +39,9 @@ public abstract class SharedRingerSystem : EntitySystem
         // RingerBoundUserInterface Subscriptions
         SubscribeLocalEvent<RingerComponent, RingerSetRingtoneMessage>(OnSetRingtone);
         SubscribeLocalEvent<RingerComponent, RingerPlayRingtoneMessage>(OnPlayRingtone);
+        // DS14-Start
+        SubscribeLocalEvent<RingerComponent, RingerSetMidiRingtoneMessage>(OnSetMidiRingtone);
+        // DS14-End
     }
 
     /// <inheritdoc/>
@@ -50,6 +54,28 @@ public abstract class SharedRingerSystem : EntitySystem
                 continue;
 
             var curTime = _timing.CurTime;
+
+            // DS14-Start
+            if (ringer.MidiActive)
+            {
+                if (curTime < ringer.NextNoteTime.Value)
+                    continue;
+
+                ringer.MidiActive = false;
+                ringer.Active = false;
+                ringer.NextNoteTime = null;
+
+                DirtyFields(uid,
+                    ringer,
+                    null,
+                    nameof(RingerComponent.Active),
+                    nameof(RingerComponent.NextNoteTime),
+                    nameof(RingerComponent.MidiActive));
+
+                UpdateRingerUi((uid, ringer));
+                continue;
+            }
+            // DS14-End
 
             // Check if it's time to play the next note
             if (curTime < ringer.NextNoteTime.Value)
@@ -194,6 +220,27 @@ public abstract class SharedRingerSystem : EntitySystem
         StartRingtone(ent);
     }
 
+    // DS14-Start
+    private void OnSetMidiRingtone(Entity<RingerComponent> ent, ref RingerSetMidiRingtoneMessage args)
+    {
+        var curTime = _timing.CurTime;
+        if (ent.Comp.NextRingtoneSetTime > curTime)
+            return;
+
+        ent.Comp.NextRingtoneSetTime = curTime + ent.Comp.Cooldown;
+        DirtyField(ent.AsNullable(), nameof(RingerComponent.NextRingtoneSetTime));
+
+        if (args.MidiData.Length == 0)
+            return;
+
+        ent.Comp.Ringtone = new Note[RingtoneLength];
+        ent.Comp.MidiRingtoneData = args.MidiData;
+        DirtyField(ent.AsNullable(), nameof(RingerComponent.MidiRingtoneData));
+        DirtyField(ent.AsNullable(), nameof(RingerComponent.Ringtone));
+        UpdateRingerUi(ent);
+    }
+    // DS14-End
+
     // Helper methods
 
     /// <summary>
@@ -202,8 +249,39 @@ public abstract class SharedRingerSystem : EntitySystem
     private void StartRingtone(Entity<RingerComponent> ent)
     {
         // Already active? Don't start it again
-        if (ent.Comp.Active)
+        if (ent.Comp.Active || ent.Comp.MidiActive)
             return;
+
+        // DS14-Start
+        if (ent.Comp.MidiRingtoneData != null && ent.Comp.MidiRingtoneData.Length > 0)
+        {
+            ent.Comp.MidiActive = true;
+            ent.Comp.Active = true;
+            ent.Comp.NextNoteTime = _timing.CurTime + TimeSpan.FromSeconds(4);
+
+            UpdateRingerUi(ent);
+
+            _popup.PopupPredicted(Loc.GetString("comp-ringer-vibration-popup"),
+                ent,
+                ent.Owner,
+                Filter.Pvs(ent, 0.05f),
+                false,
+                PopupType.Medium);
+
+            if (_net.IsServer)
+            {
+                var ev = new RingerPlayMidiRingtoneEvent(GetNetEntity(ent), ent.Comp.MidiRingtoneData);
+                RaiseNetworkEvent(ev, Filter.Pvs(ent, 0.5f));
+            }
+
+            DirtyFields(ent.AsNullable(),
+                null,
+                nameof(RingerComponent.Active),
+                nameof(RingerComponent.MidiActive),
+                nameof(RingerComponent.NextNoteTime));
+            return;
+        }
+        // DS14-End
 
         ent.Comp.Active = true;
         ent.Comp.NoteCount = 0;

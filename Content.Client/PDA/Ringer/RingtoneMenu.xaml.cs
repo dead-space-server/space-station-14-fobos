@@ -16,6 +16,9 @@ namespace Content.Client.PDA.Ringer
 
         public event Action? SetRingtoneButtonPressed;
         public event Action? TestRingtoneButtonPressed;
+        // DS14-Start
+        public event Action? LoadMidiRingtoneButtonPressed;
+        // DS14-End
 
         public RingtoneMenu()
         {
@@ -23,6 +26,9 @@ namespace Content.Client.PDA.Ringer
 
             SetRingerButton.OnPressed += _ => SetRingtoneButtonPressed?.Invoke();
             TestRingerButton.OnPressed += _ => TestRingtoneButtonPressed?.Invoke();
+            // DS14-Start
+            LoadMidiRingtoneButton.OnPressed += _ => LoadMidiRingtoneButtonPressed?.Invoke();
+            // DS14-End
 
             RingerNoteInputs = new[] { RingerNoteOneInput, RingerNoteTwoInput, RingerNoteThreeInput, RingerNoteFourInput, RingerNoteFiveInput, RingerNoteSixInput };
 

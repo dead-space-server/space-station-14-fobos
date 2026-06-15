@@ -54,4 +54,12 @@ public sealed partial class RingerComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public bool Active;
+
+	// DS14-Start
+    [DataField, AutoNetworkedField]
+    public byte[]? MidiRingtoneData;
+
+    [DataField, AutoNetworkedField]
+    public bool MidiActive;
+    // DS14-End
 }
