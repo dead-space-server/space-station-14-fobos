@@ -240,6 +240,8 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
     {
         base.Started(uid, component, gameRule, args);
 
+        EnsureAssignmentDelayStarted(component); // DS14
+
         // If the round has not yet started, we defer antag selection until roundstart
         if (GameTicker.RunLevel != GameRunLevel.InRound)
             return;
@@ -255,6 +257,22 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
         ChooseAntags((uid, component), players, midround: true);
         AssignPreSelectedSessions((uid, component));
     }
+
+    // DS14-start
+    protected override void ActiveTick(EntityUid uid, AntagSelectionComponent component, GameRuleComponent gameRule, float frameTime)
+    {
+        base.ActiveTick(uid, component, gameRule, frameTime);
+
+        if (component.AssignmentDelay == null ||
+            component.AssignmentComplete ||
+            !component.PreSelectionsComplete)
+        {
+            return;
+        }
+
+        AssignPreSelectedSessions((uid, component));
+    }
+    // DS14-end
 
     /// <summary>
     /// Chooses antagonists from the given selection of players
@@ -337,7 +355,7 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
     public void AssignPreSelectedSessions(Entity<AntagSelectionComponent> ent)
     {
         // Only assign if there's been a pre-selection, and the selection hasn't already been made
-        if (!ent.Comp.PreSelectionsComplete || ent.Comp.AssignmentComplete)
+        if (!ent.Comp.PreSelectionsComplete || ent.Comp.AssignmentComplete || !CanAssignPreSelected(ent.Comp)) // DS14
             return;
 
         foreach (var def in ent.Comp.Definitions)
@@ -353,6 +371,25 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
 
         ent.Comp.AssignmentComplete = true;
     }
+
+    // DS14-start
+    private bool CanAssignPreSelected(AntagSelectionComponent component)
+    {
+        if (component.AssignmentDelay == null)
+            return true;
+
+        EnsureAssignmentDelayStarted(component);
+        return component.AssignAt != null && Timing.CurTime >= component.AssignAt.Value;
+    }
+
+    private void EnsureAssignmentDelayStarted(AntagSelectionComponent component)
+    {
+        if (component.AssignmentDelay == null || component.AssignAt != null)
+            return;
+
+        component.AssignAt = Timing.CurTime + TimeSpan.FromSeconds(component.AssignmentDelay.Value.Next(RobustRandom));
+    }
+    // DS14-end
 
     /// <summary>
     /// Tries to makes a given player into the specified antagonist.

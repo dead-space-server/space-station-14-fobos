@@ -15,6 +15,7 @@
     - UplinkAllies
     - UplinkWearables
     - UplinkJob
+    - UplinkUltra # DS14
     - UplinkPointless
     currencyWhitelist:
     - Telecrystal

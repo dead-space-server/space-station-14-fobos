@@ -253,6 +253,39 @@
       - MindRoleTraitor
       sponsorsPriority: true
 
+# DS14-start
+- type: entity
+  parent: BaseGameRule
+  id: TraitorUltra
+  components:
+  - type: TraitorRule
+  - type: TraitorUltraRule
+  - type: AntagSelection
+    agentName: traitor-ultra-round-end-agent-name
+    selectionTime: IntraPlayerSpawn
+    assignmentDelay:
+      min: 240
+      max: 420
+    definitions:
+    - prefRoles: [ Traitor ]
+      max: 12
+      playerRatio: 7
+      components:
+      - type: Skill
+        group: ALL
+      blacklist:
+        components:
+        - AntagImmune
+      lateJoinAdditional: false
+      mindRoles:
+      - MindRoleTraitor
+      sponsorsPriority: true
+  - type: GameRule
+    minPlayers: 20
+  - type: DynamicRuleCost
+    cost: 150
+# DS14-end
+
 - type: entity
   id: TraitorReinforcement
   parent: BaseTraitorRule

@@ -6,9 +6,12 @@ using Content.Shared.Ghost;
 using Content.Shared.Mind;
 using Content.Shared.Mind.Components;
 using Content.Shared.Players;
+using Content.Shared.Roles;
+using Content.Shared.Roles.Components;
 using Robust.Server.GameStates;
 using Robust.Server.Player;
 using Robust.Shared.Network;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Player;
 using Robust.Shared.Utility;
 using System.Diagnostics.CodeAnalysis;
@@ -30,6 +33,11 @@ public sealed class MindSystem : SharedMindSystem
     [Dependency] private readonly GhostSystem _ghosts = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly PvsOverrideSystem _pvsOverride = default!;
+    [Dependency] private readonly SharedRoleSystem _roles = default!; // DS14
+
+    // DS14-start
+    private readonly Dictionary<EntityUid, SuspendedTraitorState> _suspendedTraitorStates = new();
+    // DS14-end
 
     public override void Initialize()
     {
@@ -368,8 +376,19 @@ public sealed class MindSystem : SharedMindSystem
         }
 
         RemoveMindMagicActions(mindId); // DS14
+        // DS14-start
+        var restoreTraitorState = ShouldRestoreSuspendedTraitorState(mindId, target);
+        if (!restoreTraitorState)
+            SuspendTransferredTraitorState(mindId, mind, target);
+        // DS14-end
+
         MakeSentient(target);
         TransferTo(mindId, target, ghostCheckOverride: true, mind: mind);
+
+        // DS14-start
+        if (restoreTraitorState)
+            RestoreSuspendedTraitorState(mindId, mind);
+        // DS14-end
     }
 
     // DS14-start
@@ -386,5 +405,128 @@ public sealed class MindSystem : SharedMindSystem
             _actionContainer.RemoveAction(action, logMissing: false);
         }
     }
+
+    private bool ShouldRestoreSuspendedTraitorState(EntityUid mindId, EntityUid target)
+    {
+        return _suspendedTraitorStates.TryGetValue(mindId, out var state) && state.Body == target;
+    }
+
+    private void SuspendTransferredTraitorState(EntityUid mindId, MindComponent mind, EntityUid target)
+    {
+        if (_suspendedTraitorStates.ContainsKey(mindId))
+            return;
+
+        if (mind.OwnedEntity == null || mind.OwnedEntity == target)
+            return;
+
+        var state = new SuspendedTraitorState(mind.OwnedEntity.Value);
+
+        foreach (var role in mind.MindRoleContainer.ContainedEntities)
+        {
+            if (!TryComp(role, out MindRoleComponent? roleComp))
+                continue;
+
+            var hasTraitor = HasComp<TraitorRoleComponent>(role);
+            var hasUltra = HasComp<TraitorUltraRoleComponent>(role);
+            if (!hasTraitor && !hasUltra)
+                continue;
+
+            state.Roles.Add(new SuspendedTraitorRoleState(
+                role,
+                hasTraitor,
+                hasUltra,
+                roleComp.Antag,
+                roleComp.ExclusiveAntag,
+                roleComp.AntagPrototype,
+                roleComp.RoleType,
+                roleComp.Subtype,
+                roleComp.SortWeight,
+                TryComp(role, out RoleBriefingComponent? briefing) ? briefing.Briefing : (LocId?) null));
+
+            if (hasTraitor)
+                RemComp<TraitorRoleComponent>(role);
+
+            if (hasUltra)
+                RemComp<TraitorUltraRoleComponent>(role);
+
+            if (HasComp<RoleBriefingComponent>(role))
+                RemComp<RoleBriefingComponent>(role);
+
+            roleComp.Antag = false;
+            roleComp.ExclusiveAntag = false;
+            roleComp.AntagPrototype = null;
+            roleComp.RoleType = null;
+            roleComp.Subtype = null;
+            roleComp.SortWeight = 0;
+            Dirty(role, roleComp);
+        }
+
+        if (state.Roles.Count == 0)
+            return;
+
+        state.Objectives.AddRange(mind.Objectives);
+        mind.Objectives.Clear();
+        Dirty(mindId, mind);
+        _roles.RefreshMindRoleType((mindId, mind));
+
+        _suspendedTraitorStates[mindId] = state;
+    }
+
+    private void RestoreSuspendedTraitorState(EntityUid mindId, MindComponent mind)
+    {
+        if (!_suspendedTraitorStates.Remove(mindId, out var state))
+            return;
+
+        foreach (var role in state.Roles)
+        {
+            if (TerminatingOrDeleted(role.Role) || !TryComp(role.Role, out MindRoleComponent? roleComp))
+                continue;
+
+            if (role.HadTraitorRole)
+                EnsureComp<TraitorRoleComponent>(role.Role);
+
+            if (role.HadUltraRole)
+                EnsureComp<TraitorUltraRoleComponent>(role.Role);
+
+            if (role.Briefing is { } briefingText)
+            {
+                EnsureComp<RoleBriefingComponent>(role.Role, out var briefing);
+                briefing.Briefing = briefingText;
+                Dirty(role.Role, briefing);
+            }
+
+            roleComp.Antag = role.Antag;
+            roleComp.ExclusiveAntag = role.ExclusiveAntag;
+            roleComp.AntagPrototype = role.AntagPrototype;
+            roleComp.RoleType = role.RoleType;
+            roleComp.Subtype = role.Subtype;
+            roleComp.SortWeight = role.SortWeight;
+            Dirty(role.Role, roleComp);
+        }
+
+        mind.Objectives.Clear();
+        mind.Objectives.AddRange(state.Objectives.Where(objective => !TerminatingOrDeleted(objective)));
+        Dirty(mindId, mind);
+        _roles.RefreshMindRoleType((mindId, mind));
+    }
+
+    private sealed class SuspendedTraitorState(EntityUid body)
+    {
+        public readonly EntityUid Body = body;
+        public readonly List<EntityUid> Objectives = new();
+        public readonly List<SuspendedTraitorRoleState> Roles = new();
+    }
+
+    private sealed record SuspendedTraitorRoleState(
+        EntityUid Role,
+        bool HadTraitorRole,
+        bool HadUltraRole,
+        bool Antag,
+        bool ExclusiveAntag,
+        ProtoId<AntagPrototype>? AntagPrototype,
+        ProtoId<RoleTypePrototype>? RoleType,
+        LocId? Subtype,
+        int SortWeight,
+        LocId? Briefing);
     // DS14-end
 }

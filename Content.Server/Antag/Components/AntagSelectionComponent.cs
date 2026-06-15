@@ -7,6 +7,7 @@ using Content.Shared.Whitelist;
 using Robust.Shared.Audio;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 
 namespace Content.Server.Antag.Components;
 
@@ -42,6 +43,17 @@ public sealed partial class AntagSelectionComponent : Component
     /// </summary>
     [DataField]
     public AntagSelectionTime SelectionTime = AntagSelectionTime.PostPlayerSpawn;
+
+    // DS14-start
+    /// <summary>
+    /// Delays assigning preselected antagonists without delaying the game rule itself.
+    /// </summary>
+    [DataField]
+    public MinMax? AssignmentDelay;
+
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer))]
+    public TimeSpan? AssignAt;
+    // DS14-end
 
     /// <summary>
     /// Cached sessions of antag definitions and selected players. Players in this dict are not guaranteed to have been assigned the role yet.

@@ -1,4 +1,6 @@
 using System.Threading;
+using Content.Server.DeadSpace.Traitor.Objectives;
+using Content.Server.GameTicking.Rules.Components;
 using Content.Server.Screens.Components;
 using Content.Server.Shuttles.Components;
 using Content.Server.Shuttles.Events;
@@ -7,13 +9,17 @@ using Content.Shared.CCVar;
 using Content.Shared.Database;
 using Content.Shared.DeviceNetwork;
 using Content.Shared.DeviceNetwork.Components;
+using Content.Shared.Mind;
+using Content.Shared.Mind.Components;
 using Content.Shared.Popups;
+using Content.Shared.Roles.Components;
 using Content.Shared.Shuttles.BUIStates;
 using Content.Shared.Shuttles.Components;
 using Content.Shared.Shuttles.Events;
 using Content.Shared.Shuttles.Systems;
 using Content.Shared.UserInterface;
 using Robust.Shared.Map;
+using Robust.Shared.Map.Components;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Timer = Robust.Shared.Timing.Timer;
@@ -68,6 +74,17 @@ public sealed partial class EmergencyShuttleSystem
 
     private CancellationTokenSource? _roundEndCancelToken;
 
+    // DS14-start
+    private const string TraitorUltraRaiderOutpostRule = "SyndicateRaid";
+    private static readonly TimeSpan TraitorUltraHijackDelay = TimeSpan.FromMinutes(1);
+    private TimeSpan? _traitorUltraHijackCompletionTime;
+    private EntityUid? _traitorUltraHijackerMind;
+    private string _traitorUltraHijackerName = string.Empty;
+    private EntityUid? _traitorUltraHijackShuttle;
+    private bool _traitorUltraHijackCompleted;
+    private bool _traitorUltraHijackArriving;
+    // DS14-end
+
     private static readonly ProtoId<AccessLevelPrototype> EmergencyRepealAllAccess = "EmergencyShuttleRepealAll";
     private static readonly Color DangerColor = Color.Red;
 
@@ -95,6 +112,11 @@ public sealed partial class EmergencyShuttleSystem
         SubscribeLocalEvent<EmergencyShuttleConsoleComponent, EmergencyShuttleAuthorizeMessage>(OnEmergencyAuthorize);
         SubscribeLocalEvent<EmergencyShuttleConsoleComponent, EmergencyShuttleRepealMessage>(OnEmergencyRepeal);
         SubscribeLocalEvent<EmergencyShuttleConsoleComponent, EmergencyShuttleRepealAllMessage>(OnEmergencyRepealAll);
+        // DS14-start
+        SubscribeLocalEvent<EmergencyShuttleConsoleComponent, BoundUIOpenedEvent>(OnEmergencyConsoleOpened);
+        SubscribeLocalEvent<EmergencyShuttleConsoleComponent, EmergencyShuttleHijackStartMessage>(OnEmergencyHijackStart);
+        SubscribeLocalEvent<EmergencyShuttleConsoleComponent, EmergencyShuttleHijackCancelMessage>(OnEmergencyHijackCancel);
+        // DS14-end
 
         SubscribeLocalEvent<EmergencyShuttleConsoleComponent, GotEmaggedEvent>(OnEmagged);
     }
@@ -129,6 +151,8 @@ public sealed partial class EmergencyShuttleSystem
 
     private void UpdateEmergencyConsole(float frameTime)
     {
+        UpdateTraitorUltraHijack(); // DS14
+
         // Add some buffer time so eshuttle always first.
         var minTime = -(TransitTime - (_shuttle.DefaultStartupTime + _shuttle.DefaultTravelTime + 1f));
 
@@ -145,6 +169,11 @@ public sealed partial class EmergencyShuttleSystem
         {
             return;
         }
+
+        // DS14-start
+        if (_traitorUltraHijackCompletionTime != null)
+            return;
+        // DS14-end
 
         _consoleAccumulator -= frameTime;
 
@@ -246,6 +275,14 @@ public sealed partial class EmergencyShuttleSystem
     {
         var player = args.Actor;
 
+        // DS14-start
+        if (!EmergencyEarlyLaunchAllowed)
+        {
+            Popup.PopupCursor(Loc.GetString("emergency-shuttle-console-no-early-launches"), player, PopupType.Medium);
+            return;
+        }
+        // DS14-end
+
         if (!_reader.FindAccessTags(player).Contains(EmergencyRepealAllAccess))
         {
             Popup.PopupCursor(Loc.GetString("emergency-shuttle-console-denied"), player, PopupType.Medium);
@@ -264,6 +301,14 @@ public sealed partial class EmergencyShuttleSystem
     private void OnEmergencyRepeal(EntityUid uid, EmergencyShuttleConsoleComponent component, EmergencyShuttleRepealMessage args)
     {
         var player = args.Actor;
+
+        // DS14-start
+        if (!EmergencyEarlyLaunchAllowed)
+        {
+            Popup.PopupCursor(Loc.GetString("emergency-shuttle-console-no-early-launches"), player, PopupType.Medium);
+            return;
+        }
+        // DS14-end
 
         if (!_idSystem.TryFindIdCard(player, out var idCard) || !_reader.IsAllowed(idCard, uid))
         {
@@ -284,6 +329,14 @@ public sealed partial class EmergencyShuttleSystem
     private void OnEmergencyAuthorize(EntityUid uid, EmergencyShuttleConsoleComponent component, EmergencyShuttleAuthorizeMessage args)
     {
         var player = args.Actor;
+
+        // DS14-start
+        if (!EmergencyEarlyLaunchAllowed)
+        {
+            Popup.PopupCursor(Loc.GetString("emergency-shuttle-console-no-early-launches"), player, PopupType.Medium);
+            return;
+        }
+        // DS14-end
 
         if (!_idSystem.TryFindIdCard(player, out var idCard) || !_reader.IsAllowed(idCard, uid))
         {
@@ -312,6 +365,204 @@ public sealed partial class EmergencyShuttleSystem
         UpdateAllEmergencyConsoles();
     }
 
+    // DS14-start
+    private void OnEmergencyConsoleOpened(EntityUid uid, EmergencyShuttleConsoleComponent component, BoundUIOpenedEvent args)
+    {
+        if (!args.UiKey.Equals(EmergencyConsoleUiKey.Key))
+            return;
+
+        SendHijackAvailability(uid, args.Actor);
+    }
+
+    private void OnEmergencyHijackStart(EntityUid uid, EmergencyShuttleConsoleComponent component, EmergencyShuttleHijackStartMessage args)
+    {
+        var player = args.Actor;
+
+        if (_traitorUltraHijackCompleted)
+        {
+            Popup.PopupEntity(Loc.GetString("emergency-shuttle-console-hijack-already-complete"), uid, player, PopupType.MediumCaution);
+            SendHijackAvailability(uid, player);
+            return;
+        }
+
+        if (_traitorUltraHijackCompletionTime != null)
+        {
+            Popup.PopupEntity(Loc.GetString("emergency-shuttle-console-hijack-already-started"), uid, player, PopupType.MediumCaution);
+            SendHijackAvailability(uid, player);
+            return;
+        }
+
+        if (!TryGetTraitorUltraHijackMind(player, out var mindId))
+        {
+            Popup.PopupEntity(Loc.GetString("emergency-shuttle-console-hijack-denied"), uid, player, PopupType.MediumCaution);
+            SendHijackAvailability(uid, player);
+            return;
+        }
+
+        _traitorUltraHijackerMind = mindId;
+        _traitorUltraHijackerName = MetaData(player).EntityName;
+        _traitorUltraHijackCompletionTime = _timing.CurTime + TraitorUltraHijackDelay;
+
+        _logger.Add(LogType.EmergencyShuttle, LogImpact.Extreme, $"Traitor Ultra shuttle hijack started by {player:user}");
+        DispatchTraitorUltraHijackAnnouncement("emergency-shuttle-console-hijack-started", DangerColor);
+
+        UpdateAllEmergencyConsoles();
+    }
+
+    private void OnEmergencyHijackCancel(EntityUid uid, EmergencyShuttleConsoleComponent component, EmergencyShuttleHijackCancelMessage args)
+    {
+        if (_traitorUltraHijackCompletionTime == null || _traitorUltraHijackCompleted)
+            return;
+
+        _logger.Add(LogType.EmergencyShuttle, LogImpact.High, $"Traitor Ultra shuttle hijack cancelled by {args.Actor:user}");
+        _traitorUltraHijackCompletionTime = null;
+        _traitorUltraHijackerMind = null;
+        _traitorUltraHijackerName = string.Empty;
+
+        DispatchTraitorUltraHijackAnnouncement("emergency-shuttle-console-hijack-cancelled", Color.LightSkyBlue);
+
+        UpdateAllEmergencyConsoles();
+    }
+
+    private void UpdateTraitorUltraHijack()
+    {
+        if (_traitorUltraHijackCompleted ||
+            _traitorUltraHijackCompletionTime == null ||
+            _timing.CurTime < _traitorUltraHijackCompletionTime.Value)
+        {
+            return;
+        }
+
+        _traitorUltraHijackCompleted = true;
+        _traitorUltraHijackCompletionTime = null;
+
+        _logger.Add(LogType.EmergencyShuttle, LogImpact.Extreme, $"Traitor Ultra shuttle hijack completed");
+        DispatchTraitorUltraHijackAnnouncement("emergency-shuttle-console-hijack-completed", DangerColor);
+        StartTraitorUltraHijackJump();
+
+        UpdateAllEmergencyConsoles();
+    }
+
+    private void DispatchTraitorUltraHijackAnnouncement(string messageId, Color color)
+    {
+        _chatSystem.DispatchGlobalAnnouncement(
+            Loc.GetString(messageId),
+            Loc.GetString("emergency-shuttle-console-hijack-announcer"),
+            playSound: false,
+            colorOverride: color);
+    }
+
+    private void StartTraitorUltraHijackJump()
+    {
+        var shuttleUid = GetShuttle();
+        if (shuttleUid == null || !TryComp<ShuttleComponent>(shuttleUid.Value, out var shuttle))
+        {
+            _logger.Add(LogType.EmergencyShuttle, LogImpact.Extreme, $"Traitor Ultra hijack completed but no emergency shuttle was available; ending round without outpost jump");
+            _roundEnd.EndRound();
+            return;
+        }
+
+        var outpost = GetOrCreateTraitorUltraRaiderOutpost();
+        if (outpost == null || !TryComp(outpost.Value, out TransformComponent? outpostXform) || outpostXform.MapUid == null)
+        {
+            _logger.Add(LogType.EmergencyShuttle, LogImpact.Extreme, $"Traitor Ultra hijack completed but the raider outpost could not be loaded; ending round without outpost jump");
+            _roundEnd.EndRound();
+            return;
+        }
+
+        DelayEmergencyRoundEnd();
+        _traitorUltraHijackShuttle = shuttleUid;
+        _traitorUltraHijackArriving = true;
+        _launchedShuttles = true;
+        ShuttlesLeft = true;
+        _consoleAccumulator = float.MinValue;
+
+        var target = new EntityCoordinates(outpostXform.MapUid.Value, _transformSystem.GetWorldPosition(outpostXform));
+        _shuttle.FTLToCoordinates(
+            shuttleUid.Value,
+            shuttle,
+            target,
+            Angle.Zero,
+            startupTime: _shuttle.DefaultStartupTime,
+            hyperspaceTime: TransitTime,
+            useProximity: true,
+            proximityMinOffset: 32f,
+            proximityMaxOffset: 96f);
+
+        if (HasComp<FTLComponent>(shuttleUid.Value))
+            return;
+
+        _logger.Add(LogType.EmergencyShuttle, LogImpact.Extreme, $"Traitor Ultra hijack completed but emergency shuttle FTL failed; ending round without outpost arrival");
+        _traitorUltraHijackArriving = false;
+        _traitorUltraHijackShuttle = null;
+        _roundEnd.EndRound();
+    }
+
+    private EntityUid? GetOrCreateTraitorUltraRaiderOutpost()
+    {
+        if (TryFindTraitorUltraRaiderOutpost(out var outpost))
+            return outpost;
+
+        if (!_ticker.StartGameRule(TraitorUltraRaiderOutpostRule, out var ruleEntity))
+            return null;
+
+        if (!TryComp<RuleGridsComponent>(ruleEntity, out var grids))
+            return null;
+
+        return PickTraitorUltraRaiderOutpostGrid(grids);
+    }
+
+    private bool TryFindTraitorUltraRaiderOutpost(out EntityUid outpost)
+    {
+        var query = AllEntityQuery<RuleGridsComponent>();
+        while (query.MoveNext(out var uid, out var grids))
+        {
+            if (MetaData(uid).EntityPrototype?.ID != TraitorUltraRaiderOutpostRule)
+                continue;
+
+            if (PickTraitorUltraRaiderOutpostGrid(grids) is not { } found)
+                continue;
+
+            outpost = found;
+            return true;
+        }
+
+        outpost = default;
+        return false;
+    }
+
+    private EntityUid? PickTraitorUltraRaiderOutpostGrid(RuleGridsComponent grids)
+    {
+        return PickLargestGrid(grids.MapGrids, skipNukeOpsShuttles: true) ??
+               PickLargestGrid(grids.MapGrids, skipNukeOpsShuttles: false);
+    }
+
+    private EntityUid? PickLargestGrid(IEnumerable<EntityUid> grids, bool skipNukeOpsShuttles)
+    {
+        EntityUid? best = null;
+        var bestArea = 0f;
+
+        foreach (var gridUid in grids)
+        {
+            if (Deleted(gridUid) ||
+                skipNukeOpsShuttles && HasComp<NukeOpsShuttleComponent>(gridUid) ||
+                !TryComp<MapGridComponent>(gridUid, out var grid))
+            {
+                continue;
+            }
+
+            var area = grid.LocalAABB.Width * grid.LocalAABB.Height;
+            if (best != null && area <= bestArea)
+                continue;
+
+            best = gridUid;
+            bestArea = area;
+        }
+
+        return best;
+    }
+    // DS14-end
+
     private void CleanupEmergencyConsole()
     {
         // Realistically most of this shit needs moving to a station component so each station has their own emergency shuttle
@@ -320,6 +571,14 @@ public sealed partial class EmergencyShuttleSystem
         ShuttlesLeft = false;
         _launchedShuttles = false;
         _consoleAccumulator = float.MinValue;
+        // DS14-start
+        _traitorUltraHijackCompletionTime = null;
+        _traitorUltraHijackerMind = null;
+        _traitorUltraHijackerName = string.Empty;
+        _traitorUltraHijackShuttle = null;
+        _traitorUltraHijackCompleted = false;
+        _traitorUltraHijackArriving = false;
+        // DS14-end
         EarlyLaunchAuthorized = false;
         EmergencyShuttleArrived = false;
         TransitTime = MinimumTransitTime + (MaximumTransitTime - MinimumTransitTime) * _random.NextFloat();
@@ -333,6 +592,7 @@ public sealed partial class EmergencyShuttleSystem
         while (query.MoveNext(out var uid, out var comp))
         {
             UpdateConsoleState(uid, comp);
+            SendHijackAvailabilityToOpenActors(uid); // DS14
         }
     }
 
@@ -352,11 +612,76 @@ public sealed partial class EmergencyShuttleSystem
                 new EmergencyConsoleBoundUserInterfaceState()
                 {
                     EarlyLaunchTime = EarlyLaunchAuthorized ? _timing.CurTime + TimeSpan.FromSeconds(_consoleAccumulator) : null,
+                    TimeToLaunch = _consoleAccumulator >= 0f ? TimeSpan.FromSeconds(_consoleAccumulator) : null, // DS14
                     Authorizations = auths,
                     AuthorizationsRequired = component.AuthorizationsRequired,
+                    // DS14-start
+                    EarlyLaunchAllowed = EmergencyEarlyLaunchAllowed,
+                    HijackCompletionTime = _traitorUltraHijackCompleted ? null : _traitorUltraHijackCompletionTime,
+                    HijackCompleted = _traitorUltraHijackCompleted,
+                    HijackerName = _traitorUltraHijackerName,
+                    // DS14-end
                 }
             );
     }
+
+    // DS14-start
+    public bool IsTraitorUltraHijackCompleted(EntityUid mindId)
+    {
+        return _traitorUltraHijackCompleted && _traitorUltraHijackerMind == mindId;
+    }
+
+    private void SendHijackAvailabilityToOpenActors(EntityUid uid)
+    {
+        foreach (var actor in _uiSystem.GetActors(uid, EmergencyConsoleUiKey.Key))
+        {
+            SendHijackAvailability(uid, actor);
+        }
+    }
+
+    private void SendHijackAvailability(EntityUid uid, EntityUid actor)
+    {
+        _uiSystem.ServerSendUiMessage(
+            uid,
+            EmergencyConsoleUiKey.Key,
+            new EmergencyShuttleHijackAvailabilityMessage(CanStartTraitorUltraHijack(actor)),
+            actor);
+    }
+
+    private bool CanStartTraitorUltraHijack(EntityUid actor)
+    {
+        return !_traitorUltraHijackCompleted &&
+               _traitorUltraHijackCompletionTime == null &&
+               TryGetTraitorUltraHijackMind(actor, out _);
+    }
+
+    private bool TryGetTraitorUltraHijackMind(EntityUid actor, out EntityUid mindId)
+    {
+        mindId = default;
+
+        if (!TryComp<MindContainerComponent>(actor, out var mindContainer) ||
+            mindContainer.Mind is not { } foundMind ||
+            !TryComp<MindComponent>(foundMind, out var mind))
+        {
+            return false;
+        }
+
+        mindId = foundMind;
+        if (!_roleSystem.MindHasRole<TraitorRoleComponent>(mindId))
+            return false;
+
+        foreach (var objective in mind.Objectives)
+        {
+            if (!TerminatingOrDeleted(objective) &&
+                HasComp<TraitorUltraHijackShuttleConditionComponent>(objective))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    // DS14-end
 
     private bool CheckForLaunch(EmergencyShuttleConsoleComponent component)
     {

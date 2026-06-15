@@ -27,6 +27,7 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
     public const string ActionButtonPositive = "DS14MenuActionPositive";
     public const string TopButton = "DS14MenuTopButton";
     public const string ProfileControl = "DS14MenuProfileControl";
+    public const string ProfileControlPositive = "DS14MenuProfileControlPositive";
     public const string ProfileControlDanger = "DS14MenuProfileControlDanger";
     public const string ProfileControlDangerHover = "DS14MenuProfileControlDangerHover";
     public const string ProfileLabel = "DS14MenuProfileLabel";
@@ -243,6 +244,24 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
         {
             BackgroundColor = Color.FromHex("#10161FC8"),
             BorderColor = Color.FromHex("#293844"),
+        };
+
+        var profileControlPositive = new StyleBoxFlat(profileControl)
+        {
+            BackgroundColor = Color.FromHex("#173B26F4"),
+            BorderColor = Color.FromHex("#2EA043"),
+        };
+
+        var profileControlPositiveHover = new StyleBoxFlat(profileControlPositive)
+        {
+            BackgroundColor = Color.FromHex("#1D5635F8"),
+            BorderColor = Color.FromHex("#3FB950"),
+        };
+
+        var profileControlPositivePressed = new StyleBoxFlat(profileControlPositive)
+        {
+            BackgroundColor = Color.FromHex("#238636F8"),
+            BorderColor = Color.FromHex("#56D364"),
         };
 
         var profileControlNegative = new StyleBoxFlat(profileControl)
@@ -707,6 +726,34 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
             E<ContainerButton>()
                 .Class(ContainerButton.StyleClassButton)
                 .Class(ProfileControl)
+                .PseudoDisabled()
+                .Box(profileControlDisabled)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControl)
+                .Class(ProfileControlPositive)
+                .PseudoNormal()
+                .Box(profileControlPositive)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControl)
+                .Class(ProfileControlPositive)
+                .PseudoHovered()
+                .Box(profileControlPositiveHover)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControl)
+                .Class(ProfileControlPositive)
+                .PseudoPressed()
+                .Box(profileControlPositivePressed)
+                .Modulate(Color.White),
+            E<ContainerButton>()
+                .Class(ContainerButton.StyleClassButton)
+                .Class(ProfileControl)
+                .Class(ProfileControlPositive)
                 .PseudoDisabled()
                 .Box(profileControlDisabled)
                 .Modulate(Color.White),

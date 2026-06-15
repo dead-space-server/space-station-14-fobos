@@ -10,10 +10,14 @@ using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 
 namespace Content.Server.GameTicking.Rules.Components;
 
-[RegisterComponent, Access(typeof(TraitorRuleSystem))]
+[RegisterComponent, Access(typeof(TraitorRuleSystem), typeof(TraitorUltraRuleSystem))] // DS14
 public sealed partial class TraitorRuleComponent : Component
 {
     public readonly List<EntityUid> TraitorMinds = new();
+
+    // DS14-start
+    public readonly Dictionary<EntityUid, string> ObjectiveIssuersByMind = new();
+    // DS14-end
 
     [DataField]
     public ProtoId<AntagPrototype> TraitorPrototypeId = "Traitor";
