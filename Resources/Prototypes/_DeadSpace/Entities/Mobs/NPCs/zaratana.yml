@@ -137,7 +137,7 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      1750: Dead
+      850: Dead
   - type: MindContainer
   - type: InputMover
   - type: MobMover
