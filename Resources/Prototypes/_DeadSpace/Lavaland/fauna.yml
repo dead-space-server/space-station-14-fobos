@@ -2,6 +2,7 @@
   id: BaseMobLavalandFauna
   abstract: true
   components:
+  - type: LavalandFauna
   - type: LavalandWeatherImmune
   - type: LavalandChasmImmune
   - type: PressureImmunity

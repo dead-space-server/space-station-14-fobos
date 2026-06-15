@@ -48,3 +48,66 @@
     spread: 90
   - type: StaticPrice
     price: 80
+
+- type: entity
+  name: боевое мачете ОСЩ
+  parent: BaseItem
+  id: TruncheonBlueShield
+  description: Электрошоковое мачете для обездвиживания или убийства людей. Имеет нелетальный и летальный режимы. Является улучшением шоковой дубинки для действительно трудных ситуаций.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Weapons/Melee/truncheon_sec.rsi
+    layers:
+    - state: stunbaton_off
+      map: [ "enum.ToggleableVisuals.Layer" ]
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Weapons/Melee/truncheon_sec.rsi
+    quickEquip: false
+    slots:
+    - Belt
+    - Back
+  - type: SwitchableWeapon
+    damageOpen:
+      types:
+        Blunt: 0
+    damageFolded:
+      types:
+          Slash: 10
+          Heat: 15
+    staminaDamageFolded: 0
+    staminaDamageOpen: 40
+  - type: StaminaDamageOnHit
+    damage: 0
+  - type: ItemToggle
+    predictable: false
+    soundActivate:
+      collection: sparks
+      params:
+        variation: 0.250
+    soundDeactivate:
+      collection: sparks
+      params:
+        variation: 0.250
+  - type: MeleeWeapon
+    damage:
+      types:
+        Blunt: 3
+    wideAnimationRotation: -135
+    soundHit:
+      path: /Audio/Weapons/bladeslice.ogg
+  - type: Item
+    size: Normal
+    sprite: _DeadSpace/Objects/Weapons/Melee/truncheon_sec.rsi
+  - type: DisarmMalus
+    malus: 0
+  - type: Appearance
+  - type: Sharp
+  - type: Reflect
+    reflectProb: .15
+    spread: 90
+  - type: GenericVisualizer
+    visuals:
+     enum.ToggleableVisuals.Enabled:
+        enum.ToggleableVisuals.Layer:
+          True: {state: stunbaton_on}
+          False: {state: stunbaton_off}

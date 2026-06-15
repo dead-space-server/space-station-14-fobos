@@ -1,0 +1,60 @@
+- type: entity
+  categories: [ Spawner ]
+  parent: BaseAntagSpawner
+  id: SyndicateSoldierTeamLeaderSpawner
+  components:
+  - type: GhostRole
+    name: ghost-role-information-syndie-soldier-teamlead-name
+    description: ghost-role-information-syndie-soldier-teamlead-description
+    rules: ghost-role-information-rules-team-antagonist
+    mindRoles:
+    - MindRoleGhostRoleTeamAntagonist
+    requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 108000 # 30 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 # 20 hours
+    - !type:DepartmentTimeRequirement
+      department: Command
+      time: 72000 # 20 hours
+    raffle:
+      settings: default
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    layers:
+    - state: green
+    - sprite: Structures/Decoration/banner.rsi
+      state: banner_syndicate
+  - type: GhostRoleNotifys
+    groupPrototype: CommanderOperatives
+
+- type: entity
+  categories: [ Spawner ]
+  parent: BaseAntagSpawner
+  id: SyndicateSoldierSpawner
+  components:
+  - type: GhostRole
+    name: ghost-role-information-syndie-soldier-name
+    description: ghost-role-information-syndie-soldier-description
+    rules: ghost-role-information-rules-team-antagonist
+    mindRoles:
+    - MindRoleGhostRoleTeamAntagonist
+    requirements:
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 36000 # 10 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 72000 # 20 hours
+    raffle:
+      settings: default
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    layers:
+    - state: green
+    - sprite: Structures/Decoration/banner.rsi
+      state: banner_syndicate
+  - type: GhostRoleNotifys
+    groupPrototype: Operativeping

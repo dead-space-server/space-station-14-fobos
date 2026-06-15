@@ -62,6 +62,9 @@
   id: CartridgeSniperRifle
 
 - type: Tag
+  id: CartridgeHeavyPistol
+
+- type: Tag
   id: CatEmotes
 
 - type: Tag
@@ -444,6 +447,9 @@
 
 - type: Tag
   id: WhiteFlower
+
+- type: Tag
+  id: WriteReWrite
 
 - type: Tag
   id: YellowFlower

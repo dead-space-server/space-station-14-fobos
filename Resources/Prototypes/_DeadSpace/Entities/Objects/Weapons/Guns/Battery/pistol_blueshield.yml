@@ -37,7 +37,17 @@
     maxCharge: 750
     startingCharge: 750
   - type: StealTarget #DS14
-    stealGroup: PistolBlueShield #DS14    
+    stealGroup: PistolBlueShield #DS14   
+  - type: Construction
+    graph: UpgradePistolBlueShield
+    node: start 
+
+- type: entity
+  parent: PistolBlueShield
+  id: PistolBlueShieldUpgraded
+  components:
+  - type: BatterySelfRecharger
+    autoRechargeRate: 30
 
 - type: entity
   parent: BasicHitscan

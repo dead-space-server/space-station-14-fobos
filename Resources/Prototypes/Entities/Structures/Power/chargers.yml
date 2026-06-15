@@ -172,6 +172,7 @@
           - BatteryAmmoProvider
           - Stunbaton
           - PowerCell
+          - ThermalVisorExperimental #DS14
         blacklist:
           tags:
           - PotatoBattery
@@ -197,6 +198,7 @@
           - BatteryAmmoProvider
           - Stunbaton
           - PowerCell
+          - ThermalVisorExperimental #DS14
         blacklist:
           tags:
           - PotatoBattery
@@ -225,6 +227,7 @@
           components:
           - BatteryAmmoProvider
           - Stunbaton
+          - ThermalVisorExperimental #DS14
         blacklist:
           tags:
           - PotatoBattery

@@ -37,3 +37,11 @@ public sealed class PdaRequestUpdateInterfaceMessage : BoundUserInterfaceMessage
 {
     public PdaRequestUpdateInterfaceMessage() { }
 }
+
+// DS14-Start
+[Serializable, NetSerializable]
+public sealed class PdaToggleSilentModeMessage : BoundUserInterfaceMessage
+{
+    public PdaToggleSilentModeMessage() { }
+}
+// DS14-End

@@ -23,10 +23,10 @@
   - Coroner
   - Virology
   #start-backmen: currency
-  minBankBalance: 150
-  maxBankBalance: 250
+  minBankBalance: 250 # DS14-value
+  maxBankBalance: 350 # DS14-value
   wageDepartment: Medical
-  wage: 70
+  wage: 200 # DS14-value
   #end-backmen: currency
   special:
   - !type:AddComponentSpecial

@@ -541,13 +541,43 @@ namespace Content.Client.RoundEnd
                 VerticalExpand = true,
             };
 
-            content.AddChild(new Label
+            // DS14-start
+            var nameRow = new BoxContainer
+            {
+                Orientation = LayoutOrientation.Horizontal,
+                HorizontalExpand = true,
+            };
+            nameRow.AddChild(new Label
+            // DS14-end
             {
                 Text = playerInfo.PlayerICName ?? Loc.GetString("generic-unknown-title"),
                 StyleClasses = { "LabelBig" },
                 ClipText = true,
                 HorizontalExpand = true,
             });
+            // DS14-start
+            if (playerInfo.IsDead)
+            {
+                var badgeLabel = new RichTextLabel
+                {
+                    VerticalAlignment = VAlignment.Center,
+                    Margin = new Thickness(8, 0, 0, 0),
+                };
+                badgeLabel.SetMarkup(Loc.GetString("objectives-eliminated"));
+                nameRow.AddChild(badgeLabel);
+            }
+            else if (playerInfo.InCustody)
+            {
+                var badgeLabel = new RichTextLabel
+                {
+                    VerticalAlignment = VAlignment.Center,
+                    Margin = new Thickness(8, 0, 0, 0),
+                };
+                badgeLabel.SetMarkup(Loc.GetString("objectives-in-custody"));
+                nameRow.AddChild(badgeLabel);
+            }
+            content.AddChild(nameRow);
+            // DS14-end
 
             content.AddChild(MakeDetailRow(
                 Loc.GetString("round-end-summary-window-antag-manifest-ooc",

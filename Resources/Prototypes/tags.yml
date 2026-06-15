@@ -1515,6 +1515,9 @@
   id: WeaponPistolCHIMPUpgradeKit # ConstructionGraph: UpgradeWeaponPistolCHIMP
 
 - type: Tag
+  id: PistolBlueShieldUpgradeKit # ConstructionGraph: UpgradePistolBlueShield
+
+- type: Tag
   id: WeaponShotgunKammerer # Storage whitelist: ShotGunCabinet
 
 - type: Tag

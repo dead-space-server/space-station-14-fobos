@@ -3,5 +3,10 @@
             xmlns:ui="clr-namespace:Content.Client.UserInterface.Controls"
             SetSize="600 400"
             Title="Loading...">
-    <notes:AdminNotesControl Name="Notes" Access="Public" Margin="4"/>
+    <!-- DS14-start -->
+    <PanelContainer StyleClasses="DS14MenuShell">
+        <notes:AdminNotesControl Name="Notes"
+                                 Access="Public" />
+    </PanelContainer>
+    <!-- DS14-end -->
 </ui:FancyWindow>

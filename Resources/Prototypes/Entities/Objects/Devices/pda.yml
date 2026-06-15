@@ -1206,7 +1206,7 @@
     id: ERTLeaderIDCard
   - type: ErtTrackerPda # DS14
     allowedDepartments:
-    - SpecialOperationsCorps
+    - Command
     allowedJobs:
     - BlueShieldOfficer
     - CentralCommandBlueShieldOfficer
@@ -1407,6 +1407,7 @@
     - NewsReaderCartridge
     - WantedListCartridge
     - LogProbeCartridge
+    - MessengerCartridge
 
 - type: entity
   parent: BaseMedicalPDA

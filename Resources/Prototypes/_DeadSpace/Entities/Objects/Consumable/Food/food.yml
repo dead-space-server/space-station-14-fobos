@@ -520,3 +520,179 @@
           Quantity: 15
   - type: Item
     sprite: /Textures/_DeadSpace/Objects/Consumable/Food/besh.rsi
+
+- type: entity
+  id: FoodCactus
+  parent: FoodProduceBase
+  name: плод кактуса
+  description: Ммм... Колючий... Но внутри может быть что-то вкусное!
+  components:
+  - type: Item
+    heldPrefix: produce
+  - type: Produce
+    seedId: CactusPlant
+  - type: Extractable
+    juiceSolution:
+      reagents:
+      - ReagentId: CactusJuice
+        Quantity: 10
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Specific/Hydroponics/cactus.rsi
+    state: produce
+  - type: FlavorProfile
+    flavors:
+      - cactus
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        reagents:
+        - ReagentId: Nutriment
+          Quantity: 5
+        - ReagentId: CactusJuice
+          Quantity: 5
+        - ReagentId: SpikeAcid
+          Quantity: 1
+  - type: MeleeWeapon
+    wideAnimationRotation: -45
+    damage:
+      types:
+        Piercing: 2
+    animation: WeaponArcThrust
+    soundHit:
+      path: /Audio/Weapons/pierce.ogg
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Piercing: 3
+
+- type: entity
+  id: FoodCactusCoral
+  parent: FoodProduceBase
+  name: комок колючек коралла
+  description: Комок колючек, который вырос из семян кораллового кактуса. Крайне колючий, внутри явно нет ничего вкусного.
+  components:
+  - type: Item
+    heldPrefix: produce
+  - type: Produce
+    seedId: CactusCoralPlant
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Specific/Hydroponics/cactus_coral.rsi
+    state: produce
+  - type: FlavorProfile
+    flavors:
+      - spike
+  - type: SolutionContainerManager
+    solutions:
+      melee:
+        reagents:
+        - ReagentId: SpikeAcid
+          Quantity: 2.5
+      food:
+        reagents:
+        - ReagentId: Nutriment
+          Quantity: 3
+        - ReagentId: CactusJuice
+          Quantity: 1
+        - ReagentId: SpikeAcid
+          Quantity: 1
+  - type: SolutionInjectOnEmbed
+    transferAmount: 3
+    blockSlots: NONE
+    solution: melee
+  - type: SolutionTransfer
+    maxTransferAmount: 3
+  - type: MeleeWeapon
+    wideAnimationRotation: -45
+    damage:
+      types:
+        Piercing: 2
+    angle: 0
+    animation: WeaponArcThrust
+    soundHit:
+      path: /Audio/Weapons/pierce.ogg
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Piercing: 4
+  - type: EmbeddableProjectile
+    minimumSpeed: 3
+    removalTime: 1
+    offset: 0.0,0.0
+  - type: ThrowingAngle
+    angle: 315
+  - type: LandAtCursor
+
+- type: entity
+  parent: [FragileGrenadeBase, ProjectileGrenadeBase, BaseSyndicateContraband]
+  id: FoodCactusBomb
+  name: взрывной плод
+  description: колючки пульсируют, мне явно не следует ронять его.
+  components:
+  - type: Item
+    heldPrefix: produce
+  - type: Produce
+    seedId: CactusBombPlant
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Specific/Hydroponics/cactus_bomb.rsi
+    state: produce
+  - type: ProjectileGrenade
+    fillPrototype: PelletClusterRubberLethal
+    capacity: 10
+  - type: TriggerOnEmbed
+  - type: TimerTrigger
+    delay: 4
+  - type: EmitSoundOnTrigger
+    keysIn:
+    - timer
+    sound:
+      path: "/Audio/Weapons/Guns/Gunshots/c-20r.ogg"
+    positional: true
+  - type: StaticPrice
+    price: 1500
+  - type: EmbeddableProjectile
+    minimumSpeed: 3
+    removalTime: 1
+    offset: 0.0,0.0
+  - type: ThrowingAngle
+    angle: 315
+  - type: LandAtCursor
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Piercing: 4
+
+- type: entity
+  id: FoodCactusBubble
+  parent: FoodProduceBase
+  name: цветок кактоплюха
+  description: Цветок пахнет больницей, его пыльца черного цвета.
+  components:
+  - type: Item
+    heldPrefix: produce
+  - type: Produce
+    seedId: CactusBubblePlant
+  - type: Extractable
+    juiceSolution:
+      reagents:
+      - ReagentId: CactusJuice
+        Quantity: 1
+      - ReagentId: Panacemycin
+        Quantity: 1
+      - ReagentId: Septomycin
+        Quantity: 2
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Specific/Hydroponics/cactus_bubble.rsi
+    state: produce
+  - type: FlavorProfile
+    flavors:
+      - cactus_bubble
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        reagents:
+        - ReagentId: Nutriment
+          Quantity: 2
+        - ReagentId: Panacemycin
+          Quantity: 2
+        - ReagentId: Septomycin
+          Quantity: 1

@@ -1,12 +1,12 @@
 using Content.Shared.Shuttles.Systems;
-using Content.Shared.DeadSpace.Shuttles.Components; //DS14
-using Robust.Shared.Prototypes; //DS14
+using Content.Shared.DeadSpace.Shuttles.Components;
+using Robust.Shared.Prototypes;
 using Robust.Shared.GameStates;
 
 namespace Content.Shared.Shuttles.Components;
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
-[Access(typeof(SharedRadarConsoleSystem))]
+[Access(typeof(SharedRadarConsoleSystem), Other = AccessPermissions.ReadExecute)] // DS14
 public sealed partial class RadarConsoleComponent : Component
 {
     [ViewVariables(VVAccess.ReadWrite)]
@@ -28,7 +28,7 @@ public sealed partial class RadarConsoleComponent : Component
     [DataField]
     public bool FollowEntity = false;
 
-    //DS14-start
+    // DS14-start
     [DataField]
     public bool Advanced = false;
 
@@ -49,5 +49,5 @@ public sealed partial class RadarConsoleComponent : Component
 
     [DataField, AutoNetworkedField]
     public EntityUid? ToggleActionEntity;
-    //DS14-end
+    // DS14-end
 }

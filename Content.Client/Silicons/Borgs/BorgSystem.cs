@@ -1,5 +1,5 @@
 ﻿using Content.Shared.Alert;
-using Content.Shared.DeadSpace.SecurityBorg; // DS14
+using Content.Shared.DeadSpace.SecurityBorg;
 using Content.Shared.Mobs;
 using Content.Shared.Power.EntitySystems;
 using Content.Shared.PowerCell;

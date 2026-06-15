@@ -3,6 +3,7 @@ using Content.Shared.Construction.EntitySystems;
 using Content.Shared.DeadSpace.CCCCVars;
 using Content.Shared.Maps;
 using Content.Shared.Mind.Components;
+using Content.Shared.Placeable;
 using Robust.Shared.Configuration;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
@@ -51,6 +52,7 @@ public sealed class PhysicsSanitySystem : EntitySystem
     private EntityQuery<ActorComponent> _actorQuery;
     private EntityQuery<MapGridComponent> _gridQuery;
     private EntityQuery<MindContainerComponent> _mindQuery;
+    private EntityQuery<PlaceableSurfaceComponent> _placeableSurfaceQuery;
     private EntityQuery<PhysicsComponent> _physicsQuery;
     private EntityQuery<TransformComponent> _xformQuery;
 
@@ -77,6 +79,7 @@ public sealed class PhysicsSanitySystem : EntitySystem
         _actorQuery = GetEntityQuery<ActorComponent>();
         _gridQuery = GetEntityQuery<MapGridComponent>();
         _mindQuery = GetEntityQuery<MindContainerComponent>();
+        _placeableSurfaceQuery = GetEntityQuery<PlaceableSurfaceComponent>();
         _physicsQuery = GetEntityQuery<PhysicsComponent>();
         _xformQuery = GetEntityQuery<TransformComponent>();
 
@@ -191,6 +194,7 @@ public sealed class PhysicsSanitySystem : EntitySystem
         }
 
         if (xform.MapID == MapId.Nullspace ||
+            _map.IsPaused(xform.MapID) ||
             xform.GridUid == null ||
             xform.ParentUid != xform.GridUid.Value ||
             xform.Anchored)
@@ -205,6 +209,7 @@ public sealed class PhysicsSanitySystem : EntitySystem
             return false;
         }
 
+        var hasBlockingStaticOverlap = false;
         var contacts = _physics.GetContacts(uid);
         while (contacts.MoveNext(out var contact))
         {
@@ -219,14 +224,19 @@ public sealed class PhysicsSanitySystem : EntitySystem
                 continue;
             }
 
-            if (otherBody.BodyType == BodyType.Static ||
-                _xformQuery.TryComp(other, out var otherXform) && otherXform.Anchored)
-            {
-                return true;
-            }
+            if (IsPlaceableSurfaceContact(other))
+                continue;
+
+            hasBlockingStaticOverlap |= otherBody.BodyType == BodyType.Static ||
+                _xformQuery.TryComp(other, out var otherXform) && otherXform.Anchored;
         }
 
-        return false;
+        return hasBlockingStaticOverlap;
+    }
+
+    private bool IsPlaceableSurfaceContact(EntityUid uid)
+    {
+        return _placeableSurfaceQuery.TryComp(uid, out var surface) && surface.IsPlaceable;
     }
 
     private bool ResolveStuckBody(EntityUid uid)

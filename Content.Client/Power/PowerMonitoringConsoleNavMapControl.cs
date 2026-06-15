@@ -5,7 +5,7 @@ using Robust.Shared.Collections;
 using Robust.Shared.Map.Components;
 using System.Numerics;
 using static Content.Shared.Power.SharedPowerMonitoringConsoleSystem;
-using Robust.Shared.Timing; // DS14
+using Robust.Shared.Timing;
 
 namespace Content.Client.Power;
 
@@ -28,8 +28,10 @@ public sealed partial class PowerMonitoringConsoleNavMapControl : NavMapControl
     public List<PowerMonitoringConsoleLineGroup> HiddenLineGroups = new();
     public List<PowerMonitoringConsoleLine> PowerCableNetwork = new();
     public List<PowerMonitoringConsoleLine> FocusCableNetwork = new();
-    public List<PowerMonitoringConsoleLine> BrokenCableNetwork = new(); // DS14
-    public List<PowerMonitoringConsoleMarker> BrokenCableMarkers = new(); // DS14
+    // DS14-start
+    public List<PowerMonitoringConsoleLine> BrokenCableNetwork = new();
+    public List<PowerMonitoringConsoleMarker> BrokenCableMarkers = new();
+    // DS14-end
 
     private Dictionary<Vector2i, Vector2i>[] _horizLines = [new(), new(), new()];
     private Dictionary<Vector2i, Vector2i>[] _horizLinesReversed = [new(), new(), new()];

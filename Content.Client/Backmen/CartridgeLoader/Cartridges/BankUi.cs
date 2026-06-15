@@ -2,6 +2,7 @@
 
 using Content.Client.UserInterface.Fragments;
 using Content.Shared.Backmen.CartridgeLoader.Cartridges;
+using Content.Shared.CartridgeLoader;
 using Robust.Client.UserInterface;
 
 namespace Content.Client.Backmen.CartridgeLoader.Cartridges;
@@ -18,6 +19,10 @@ public sealed partial class BankUi : UIFragment
     public override void Setup(BoundUserInterface userInterface, EntityUid? fragmentOwner)
     {
         Fragment = new BankUiFragment();
+        Fragment.OnTransferRequested += (targetAccount, amount, sourcePin) =>
+        {
+            userInterface.SendMessage(new CartridgeUiMessage(new BankTransferMessage(targetAccount, amount, sourcePin)));
+        };
         Fragment.UpdateEntity(fragmentOwner);
     }
 

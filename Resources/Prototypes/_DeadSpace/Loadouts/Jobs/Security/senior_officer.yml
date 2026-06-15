@@ -24,6 +24,11 @@
   equipment:
     jumpsuit: ClothingUniformJumpskirtPencilSeniorOfficer
 
+- type: loadout
+  id: SeniorOfficerJumpsuitBlue
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitSecBlue
+
 # Back
 - type: loadout
   id: SeniorOfficerBackpack
@@ -66,6 +71,11 @@
   effects:
   - !type:GroupLoadoutEffect
     proto: MasterSeniorOfficer
+
+- type: loadout
+  id: SeniorOfficerTieDet
+  equipment:
+    neck: ClothingNeckTieDet
 
 # Socks
 - type: loadout

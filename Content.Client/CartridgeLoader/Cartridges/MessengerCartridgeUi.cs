@@ -38,6 +38,14 @@ public sealed partial class MessengerCartridgeUi : UIFragment
             var msg = new MessengerTypingEvent();
             _userInterface?.SendMessage(new CartridgeUiMessage(msg));
         };
+
+        // DS14-Start
+        _fragment.OnBlockUser += (targetUserId, block) =>
+        {
+            var msg = new MessengerBlockUserEvent(targetUserId, block);
+            _userInterface?.SendMessage(new CartridgeUiMessage(msg));
+        };
+        // DS14-End
     }
 
     public override void UpdateState(BoundUserInterfaceState state)
@@ -45,6 +53,6 @@ public sealed partial class MessengerCartridgeUi : UIFragment
         if (state is not MessengerCartridgeUiState messengerState)
             return;
 
-        _fragment?.UpdateState(messengerState.Status, messengerState.Users, messengerState.Messages);
+        _fragment?.UpdateState(messengerState.Status, messengerState.Users, messengerState.Messages, messengerState.IsBlocked, messengerState.IsBlocking); //DS14
     }
 }

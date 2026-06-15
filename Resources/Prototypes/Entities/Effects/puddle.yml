@@ -200,6 +200,11 @@
   - type: ActiveEdgeSpreader
   - type: EdgeSpreader
     id: Puddle
+  # DS14-Start: avoid persistent puddle sensor contacts with entities that cannot meaningfully use puddle effects.
+  - type: StepTriggerCollisionFilter
+    ignoreCanMoveInAir: true
+    ignoreLavalandFauna: true
+  # DS14-End
   - type: StepTrigger
   - type: Edible
     edible: Drink

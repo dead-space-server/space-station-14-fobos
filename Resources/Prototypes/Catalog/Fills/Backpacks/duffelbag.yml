@@ -395,26 +395,26 @@
     - id: ClothingShoesCult
     - id: BedsheetCult
 
-- type: entity
-  parent: ClothingBackpackDuffelSyndicateBundle
-  id: ClothingBackpackDuffelSyndicateFilledStarterKit
-  name: basic operative bundle
-  description: "Contains a weapon, medical supplies, breaching tools, spare ammo, and some simple utilities."
-  components:
-  - type: EntityTableContainerFill
-    containers:
-      storagebase: !type:AllSelector
-        children:
-        - id: WeaponSubMachineGunC20r
-        - id: MagazinePistolSubMachineGun
-          amount: 3
-        - id: EnergySword
-        - id: SyndicateJawsOfLife
-        - id: C4
-          amount: 2
-        - id: MedkitCombatFilled
-        - id: EmpImplanter
-        - id: ClothingShoesBootsMagSyndie
+# - type: entity
+#   parent: ClothingBackpackDuffelSyndicateBundle
+#   id: ClothingBackpackDuffelSyndicateFilledStarterKit
+#   name: basic operative bundle
+#   description: "Contains a weapon, medical supplies, breaching tools, spare ammo, and some simple utilities."
+#   components:
+#   - type: EntityTableContainerFill
+#     containers:
+#       storagebase: !type:AllSelector
+#         children:
+#         - id: WeaponSubMachineGunC20r
+#         - id: MagazinePistolSubMachineGun
+#           amount: 3
+#         - id: EnergySword
+#         - id: SyndicateJawsOfLife
+#         - id: C4
+#           amount: 2
+#         - id: MedkitCombatFilled
+#         - id: EmpImplanter
+#         - id: ClothingShoesBootsMagSyndie
 
 - type: entity
   parent: ClothingBackpackDuffelSyndicateBundle

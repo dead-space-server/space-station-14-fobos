@@ -4,7 +4,7 @@
     jumpsuit: ClothingUniformJumpsuitDeathSquad
     back: ClothingDeathSquadronBackpack
     mask: ClothingMaskGasDeathSquad
-    eyes: ClothingEyesHudAdvanced
+    eyes: ClothingEyesHudDeathsquad
     ears: ClothingHeadsetDeathSquad
     gloves: ClothingHandsGlovesCombat
     outerClothing: ClothingOuterHardsuitDeathsquad
@@ -30,7 +30,6 @@
     - JawsOfLife
     - PinpointerNuclear
     - WeaponRevolverMatebaAP
-    - ClothingEyesPNVAdv
     - CombatMedipen
     - CombatMedipen
     - CelestinMedipen

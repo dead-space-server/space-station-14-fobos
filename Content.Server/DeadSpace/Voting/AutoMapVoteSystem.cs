@@ -712,7 +712,7 @@ public sealed class AutoMapVoteSystem : EntitySystem
             return;
         }
 
-        _playedMaps[category].Add(map.ID);
+        MarkMapPlayed(category, map.ID);
         SaveRuntimeConfiguration();
         _gameTicker.UpdateInfoText();
 
@@ -720,6 +720,22 @@ public sealed class AutoMapVoteSystem : EntitySystem
         {
             _chatManager.DispatchServerAnnouncement(Loc.GetString("auto-map-vote-selected-immediately", ("winner", map.MapName)));
         }
+    }
+
+    private void MarkMapPlayed(AutoMapVoteCategory category, string mapId)
+    {
+        var played = _playedMaps[category];
+        played.Add(mapId);
+
+        var eligibleIds = BuildConfiguredEligiblePool(category)
+            .Select(map => map.ID)
+            .ToHashSet(StringComparer.Ordinal);
+
+        if (eligibleIds.Count <= 1 || !eligibleIds.IsSubsetOf(played))
+            return;
+
+        played.Clear();
+        played.Add(mapId);
     }
 
     private List<GameMapPrototype> BuildCandidatePool(AutoMapVoteCategory category)

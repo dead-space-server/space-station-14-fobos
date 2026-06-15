@@ -18,10 +18,10 @@
   - Kitchen
   - Hydroponics
   #start-backmen: currency
-  minBankBalance: 150
-  maxBankBalance: 250
+  minBankBalance: 200 # DS14-value
+  maxBankBalance: 300 # DS14-value
   wageDepartment: Civilian
-  wage: 60
+  wage: 120 # DS14-value
   #end-backmen: currency
   special:
   - !type:AddComponentSpecial

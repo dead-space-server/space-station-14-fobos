@@ -1,0 +1,9 @@
+- type: cargoProduct
+  id: DemolitionKit
+  icon:
+    sprite: Structures/Machines/bomb.rsi
+    state: training-bomb
+  product: CrateDemolitionKit
+  cost: 3500
+  category: cargoproduct-category-name-science
+  group: science # DS14

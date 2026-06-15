@@ -9,7 +9,7 @@ using Content.Client.Lobby;
 using Content.Client.UserInterface.Controls;
 using Content.Client.Verbs.UI;
 using Content.Shared.Administration.Events;
-using Content.Shared.DeadSpace.Administration.Events; // DS14
+using Content.Shared.DeadSpace.Administration.Events;
 using Content.Shared.Input;
 using JetBrains.Annotations;
 using Robust.Client.Console;

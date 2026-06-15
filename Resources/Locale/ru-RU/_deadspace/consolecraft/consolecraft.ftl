@@ -40,3 +40,13 @@ consolecraft-uses-remaining = Осталось применений: { $count }
 consolecraft-uses-infinite = ∞ применений
 consolecraft-linking-mode-started = Режим привязки активирован. Используйте мультитул на станок.
 consolecraft-linked-success = Станция успешно привязана к консоли.
+# Dismantle
+consolecraft-dismantle-warning = Из-за перегрузки часть деталей была безвозвратно уничтожена!
+consolecraft-dismantle-empty = Станок пуст.
+consolecraft-dismantle-item-inserted = Предмет успешно помещен.
+consolecraft-dismantle-full = В станке уже находится предмет!
+consolecraft-dismantle-not-craftable-error = Предмет не может быть разобран.
+consolecraft-dismantle-wrong-blueprint = Неподходящий чертёж.
+consolecraft-dismantle-storage-warning = Внутри РИГа обнаружены вещи! Нажмите еще { $clicks } раз(а) для уничтожения.
+consolecraft-dismantle-blueprint-mismatch = Чертеж не соответствует предмету в станке!
+consolecraft-dismantle-button = Разобрать

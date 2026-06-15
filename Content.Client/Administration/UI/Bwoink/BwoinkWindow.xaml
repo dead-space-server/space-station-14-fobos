@@ -1,8 +1,12 @@
-﻿<DefaultWindow xmlns="https://spacestation14.io"
-            xmlns:cc="clr-namespace:Content.Client.Administration.UI.Bwoink"
-            SetSize="900 500"
-            HeaderClass="windowHeaderAlert"
-            TitleClass="windowTitleAlert"
-            Title="{Loc 'bwoink-user-title'}" >
-    <cc:BwoinkControl Name="Bwoink" Access="Public"/>
+<DefaultWindow xmlns="https://spacestation14.io"
+               xmlns:cc="clr-namespace:Content.Client.Administration.UI.Bwoink"
+               SetSize="920 520"
+               MinSize="860 460"
+               HeaderClass="DS14MenuHeader"
+               TitleClass="DS14MenuTitle"
+               Title="{Loc 'bwoink-user-title'}">
+    <!-- DS14-start -->
+    <cc:BwoinkControl Name="Bwoink"
+                      Access="Public" />
+    <!-- DS14-end -->
 </DefaultWindow>

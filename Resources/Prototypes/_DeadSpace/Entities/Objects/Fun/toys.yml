@@ -81,6 +81,51 @@
     state: ips
 
 - type: entity
+  parent: BasePlushie
+  id: PlushieZaratana
+  name: плюшевая камне-кошка
+  description: Плюшевая версия крайне опасного монстра с далёких звёзд.
+  suffix: Заратана
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Items/Toys/misc.rsi
+    state: plushie_zaratana
+  - type: EmitSoundOnUse
+    sound:
+      path: /Audio/_DeadSpace/Mobs/Zaratana/zaratana_scream.ogg
+      params:
+        volume: -5
+  - type: EmitSoundOnTrigger
+    sound:
+      path: /Audio/_DeadSpace/Mobs/Zaratana/zaratana_scream.ogg
+      params:
+        volume: -5
+  - type: Edible
+    requiresSpecialDigestion: true
+    useSound:
+      path: /Audio/_DeadSpace/Mobs/Zaratana/zaratana_scream.ogg
+      params:
+        volume: -5
+  - type: EmitSoundOnActivate
+    sound:
+      path: /Audio/_DeadSpace/Mobs/Zaratana/zaratana_scream.ogg
+      params:
+        volume: -5
+  - type: EmitSoundOnCollide
+    sound:
+      path: /Audio/_DeadSpace/Mobs/Zaratana/zaratana_scream.ogg
+      params:
+        volume: -5
+  - type: MeleeWeapon
+    wideAnimationRotation: 180
+    attackRate: 1
+    soundHit:
+      path: /Audio/_DeadSpace/Mobs/Zaratana/zaratana_scream.ogg
+    damage:
+      types:
+        Blunt: 0
+
+- type: entity
   name: двухклинковый игрушечный меч
   parent: ToySword
   id: ToyEnergySwordDouble

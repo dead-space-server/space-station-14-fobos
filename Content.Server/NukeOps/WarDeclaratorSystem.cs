@@ -1,4 +1,5 @@
 using Content.Server.Administration.Logs;
+using Content.Server.Audio;
 using Content.Server.Chat.Systems;
 using Content.Server.Popups;
 using Content.Shared.Access.Systems;
@@ -9,6 +10,7 @@ using Content.Shared.NukeOps;
 using Content.Shared.UserInterface;
 using Robust.Server.GameObjects;
 using Robust.Shared.Configuration;
+using Robust.Shared.Player;
 using Robust.Shared.Timing;
 
 namespace Content.Server.NukeOps;
@@ -23,6 +25,7 @@ public sealed class WarDeclaratorSystem : EntitySystem
     [Dependency] private readonly IGameTiming _gameTiming = default!;
     [Dependency] private readonly UserInterfaceSystem _userInterfaceSystem = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
+    [Dependency] private readonly ServerGlobalSoundSystem _sound = default!; // DS14
     [Dependency] private readonly PopupSystem _popupSystem = default!;
     [Dependency] private readonly AccessReaderSystem _accessReaderSystem = default!;
 
@@ -74,7 +77,10 @@ public sealed class WarDeclaratorSystem : EntitySystem
         if (ev.Status == WarConditionStatus.WarReady)
         {
             var title = Loc.GetString(ent.Comp.SenderTitle);
-            _chat.DispatchGlobalAnnouncement(ent.Comp.Message, title, true, ent.Comp.Sound, ent.Comp.Color);
+            // DS14-start
+            _chat.DispatchGlobalAnnouncement(ent.Comp.Message, title, false, colorOverride: ent.Comp.Color);
+            _sound.PlayAlertLevelGlobal(Filter.Broadcast(), ent.Comp.Sound, ent.Comp.Sound.Params);
+            // DS14-end
             _adminLogger.Add(LogType.Chat, LogImpact.Low, $"{ToPrettyString(args.Actor):player} has declared war with this text: {ent.Comp.Message}");
         }
 

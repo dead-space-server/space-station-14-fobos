@@ -349,6 +349,7 @@
     speedModifierThresholds:
       50: 0.4
   - type: Bloodstream
+    allowBloodLevelModification: false # DS14
     bloodReferenceSolution:
       reagents:
       - ReagentId: Water
