@@ -2,7 +2,7 @@
 - type: entity
   id: BaseCartridgeRifleZastaba
   name: патрон (5,7х39 мм)
-  parent: BaseCartridge
+  parent: [ BaseCartridge, BaseSyndicateContraband ]
   abstract: true
   components:
   - type: Tag
@@ -83,7 +83,7 @@
 - type: entity
   id: BaseCartridgeRPL20
   name: патрон (5.45х39 мм)
-  parent: BaseCartridge
+  parent: [ BaseCartridge, BaseSyndicateContraband ]
   abstract: true
   components:
   - type: Tag
@@ -124,7 +124,7 @@
 - type: entity
   id: CartridgeASh12
   name: патрон (12,7х55 мм)
-  parent: BaseCartridgeRifle
+  parent: BaseCartridgeCaselessRifle
   components:
   - type: Tag
     tags:
@@ -156,7 +156,7 @@
 - type: entity
   id: CartridgeRifleSCARAB
   name: патрон (6,8х51 мм)
-  parent: BaseCartridgeRifle
+  parent: BaseCartridgeCaselessRifle
   components:
   - type: Tag
     tags:
@@ -189,7 +189,7 @@
 - type: entity
   id: CartridgeBulletVSK
   name: патрон (9.39 мм)
-  parent: BaseCartridgeRifle
+  parent: BaseCartridgeCaselessRifle
   components:
   - type: Tag
     tags:

@@ -36,7 +36,7 @@ public sealed class BatteryWeaponFireModesSystem : EntitySystem
         if (!_prototypeManager.TryIndex<EntityPrototype>(fireMode.Prototype, out var proto))
             return;
 
-        args.PushMarkup(Loc.GetString("gun-set-fire-mode-examine", ("mode", proto.Name)));
+        args.PushMarkup(Loc.GetString("gun-set-fire-mode-examine", ("mode", GetFireModeName(proto))));
     }
 
     private BatteryWeaponFireMode GetMode(BatteryWeaponFireModesComponent component)
@@ -59,13 +59,14 @@ public sealed class BatteryWeaponFireModesSystem : EntitySystem
         {
             var fireMode = component.FireModes[i];
             var entProto = _prototypeManager.Index<EntityPrototype>(fireMode.Prototype);
+            var modeName = GetFireModeName(entProto);
             var index = i;
 
             var v = new Verb
             {
-                Priority = 1,
+                Priority = component.FireModes.Count - i,
                 Category = VerbCategory.SelectType,
-                Text = entProto.Name,
+                Text = modeName,
                 Disabled = i == component.CurrentFireMode,
                 Impact = LogImpact.Medium,
                 DoContactInteraction = true,
@@ -122,7 +123,7 @@ public sealed class BatteryWeaponFireModesSystem : EntitySystem
                 _appearanceSystem.SetData(ent, BatteryWeaponFireModeVisuals.State, prototype.ID, appearance);
 
             if (user != null)
-                _popupSystem.PopupClient(Loc.GetString("gun-set-fire-mode-popup", ("mode", prototype.Name)), ent, user.Value);
+                _popupSystem.PopupClient(Loc.GetString("gun-set-fire-mode-popup", ("mode", GetFireModeName(prototype))), ent, user.Value);
         }
 
         if (TryComp(ent, out BatteryAmmoProviderComponent? batteryAmmoProviderComponent))
@@ -134,5 +135,12 @@ public sealed class BatteryWeaponFireModesSystem : EntitySystem
 
             _gun.UpdateShots((ent, batteryAmmoProviderComponent));
         }
+    }
+
+    private static string GetFireModeName(EntityPrototype prototype)
+    {
+        return string.IsNullOrWhiteSpace(prototype.Name)
+            ? prototype.ID
+            : prototype.Name;
     }
 }

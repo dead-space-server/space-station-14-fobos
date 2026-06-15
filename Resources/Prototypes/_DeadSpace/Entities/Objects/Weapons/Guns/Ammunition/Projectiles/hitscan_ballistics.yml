@@ -272,7 +272,7 @@
 
 - type: entity
   id: BulletMinigunTrace
-  parent: BulletTrace
+  parent: BulletIncendiaryTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicDamage

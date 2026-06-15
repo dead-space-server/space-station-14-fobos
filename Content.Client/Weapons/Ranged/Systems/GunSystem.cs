@@ -131,7 +131,7 @@ public sealed partial class GunSystem : SharedGunSystem
                 RenderHitscanFlash(muzzleCoordinates, trace.Angle, muzzle, 1f, false, false, length, delay);
 
             if (visuals.Bullet is { } bullet)
-                RenderHitscanBullet(muzzleCoordinates, trace.Angle, bullet, MathF.Max(trace.Distance - 1.5f, 0f), length, delay);
+                RenderHitscanBullet(muzzleCoordinates, trace.Angle, bullet, visuals.BulletLight, MathF.Max(trace.Distance - 1.5f, 0f), length, delay);
         }
 
         if (visuals.TravelFlash is { } travel &&
@@ -195,7 +195,7 @@ public sealed partial class GunSystem : SharedGunSystem
         }
     }
 
-    private void RenderHitscanBullet(NetCoordinates coordinates, Angle angle, ExtendedSpriteSpecifier sprite, float distance, float length, float delay)
+    private void RenderHitscanBullet(NetCoordinates coordinates, Angle angle, ExtendedSpriteSpecifier sprite, HitscanLightVisual? lightVisual, float distance, float length, float delay)
     {
         if (sprite.Sprite is not SpriteSpecifier.Rsi rsi)
             return;
@@ -206,14 +206,8 @@ public sealed partial class GunSystem : SharedGunSystem
             return;
 
         var ent = Spawn(HitscanProto, coords);
-
-        // DS14-start: light is opt-in via prototype
-        var hasLight = TryComp<PointLightComponent>(ent, out var light);
-        if (hasLight)
-        {
-            Lights.SetEnabled(ent, true, light!);
-        }
-        // DS14-end
+        if (lightVisual != null)
+            SetupHitscanBulletLight(ent, lightVisual, new Vector2(1f, 0f), delay == 0f);
 
         var spriteComp = Comp<SpriteComponent>(ent);
         var spriteEnt = (ent, spriteComp);
@@ -243,6 +237,9 @@ public sealed partial class GunSystem : SharedGunSystem
             {
                 if (TryComp(ent, out SpriteComponent? currentSprite))
                     _sprite.SetVisible((ent, currentSprite), true);
+
+                if (TryComp(ent, out PointLightComponent? currentLight))
+                    Lights.SetEnabled(ent, true, currentLight);
             });
         }
 
@@ -250,6 +247,9 @@ public sealed partial class GunSystem : SharedGunSystem
         {
             if (TryComp(ent, out SpriteComponent? currentSprite))
                 _sprite.SetVisible((ent, currentSprite), false);
+
+            if (TryComp(ent, out PointLightComponent? currentLight))
+                Lights.SetEnabled(ent, false, currentLight);
         });
 
         var anim = new Animation
@@ -271,8 +271,8 @@ public sealed partial class GunSystem : SharedGunSystem
             }
         };
 
-        // DS14-start: only animate light offset if the effect has a light
-        if (hasLight)
+        // DS14-start: keep optional projectile light on the moving bullet visual.
+        if (lightVisual != null)
         {
             anim.AnimationTracks.Add(new AnimationTrackComponentProperty
             {
@@ -281,14 +281,29 @@ public sealed partial class GunSystem : SharedGunSystem
                 InterpolationMode = AnimationInterpolationMode.Linear,
                 KeyFrames =
                 {
-                    new AnimationTrackProperty.KeyFrame(new Vector2(1f, 0f), delay / 1000f),
-                    new AnimationTrackProperty.KeyFrame(new Vector2(distance + 1f, 0f), time / 1000f),
+                    new AnimationTrackProperty.KeyFrame(lightVisual.Offset + new Vector2(1f, 0f), delay / 1000f),
+                    new AnimationTrackProperty.KeyFrame(lightVisual.Offset + new Vector2(distance + 1f, 0f), time / 1000f),
                 }
             });
         }
         // DS14-end
 
         _animPlayer.Play(ent, anim, "hitscan-effect");
+    }
+
+    private SharedPointLightComponent SetupHitscanBulletLight(EntityUid uid, HitscanLightVisual lightVisual, Vector2 offset, bool enabled)
+    {
+        var light = Lights.EnsureLight(uid);
+        light.Offset = lightVisual.Offset + offset;
+        Lights.SetEnabled(uid, enabled, light);
+        Lights.SetColor(uid, lightVisual.Color, light);
+        Lights.SetRadius(uid, lightVisual.Radius, light);
+        Lights.SetEnergy(uid, lightVisual.Energy, light);
+        Lights.SetSoftness(uid, lightVisual.Softness, light);
+        Lights.SetFalloff(uid, lightVisual.Falloff, light);
+        Lights.SetCurveFactor(uid, lightVisual.CurveFactor, light);
+        Lights.SetCastShadows(uid, lightVisual.CastShadows, light);
+        return light;
     }
 
     private void RenderHitscanFlash(NetCoordinates coordinates, Angle angle, SpriteSpecifier sprite, float distance, bool travel, bool end, float length, float delay)

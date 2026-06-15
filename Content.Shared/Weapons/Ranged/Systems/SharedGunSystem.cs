@@ -701,6 +701,7 @@ public abstract partial class SharedGunSystem : EntitySystem
         public SpriteSpecifier? TravelFlash;
         public SpriteSpecifier? ImpactFlash;
         public ExtendedSpriteSpecifier? Bullet;
+        public HitscanLightVisual? BulletLight;
         public float Speed;
         // DS14-end
     }

@@ -19,6 +19,7 @@ public sealed class HitscanBasicRaycastSystem : EntitySystem
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly ISharedAdminLogManager _log = default!;
+    [Dependency] private readonly SharedPointLightSystem _lights = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     private EntityQuery<HitscanBasicVisualsComponent> _visualsQuery;
@@ -201,8 +202,27 @@ public sealed class HitscanBasicRaycastSystem : EntitySystem
             TravelFlash = vizComp.TravelFlash,
             ImpactFlash = vizComp.ImpactFlash,
             Bullet = vizComp.Bullet,
+            BulletLight = GetLightVisual(hitscanUid),
             Speed = vizComp.Speed,
         }, filter);
+    }
+
+    private HitscanLightVisual? GetLightVisual(EntityUid hitscanUid)
+    {
+        if (!_lights.TryGetLight(hitscanUid, out var light) || !light.Enabled)
+            return null;
+
+        return new HitscanLightVisual
+        {
+            Color = light.Color,
+            Radius = light.Radius,
+            Energy = light.Energy,
+            Softness = light.Softness,
+            Falloff = light.Falloff,
+            CurveFactor = light.CurveFactor,
+            CastShadows = light.CastShadows,
+            Offset = light.Offset,
+        };
     }
     // DS14-end
 }
