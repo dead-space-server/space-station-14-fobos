@@ -181,3 +181,48 @@
   components:
   - type: Battery
     startingCharge: 0
+
+# DS14-start
+- type: entity
+  parent: BaseSMES
+  id: SMESNinja
+  name: СМЭС Клана паука
+  description: Сверхпроводящая Магнитная Энергонакопительная Станция (СМЭС), модифицированная Кланом паука для автономной самозарядки. Поставляется в модной чёрной расцветке.
+  suffix: Самозарядный, 32МВт
+  components:
+  - type: Sprite
+    sprite: Structures/Power/smes.rsi
+    snapCardinals: true
+    layers:
+    - state: ninjasmes
+    - state: ninjasmes-unshaded
+      shader: unshaded
+    - map: [ "enum.SmesVisualLayers.Charge" ]
+      state: "smes-og1"
+      shader: unshaded
+      visible: false
+    - map: [ "enum.SmesVisualLayers.Input" ]
+      state: "smes-oc0"
+      shader: unshaded
+    - map: [ "enum.SmesVisualLayers.Output" ]
+      state: "smes-op1"
+      shader: unshaded
+    - map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false
+      state: ninjasmes-open
+    - map: ["MaintenancePanel-Unshaded"]
+      visible: false
+      state: ninjasmes-unshaded-open
+      shader: unshaded
+  - type: Battery
+    maxCharge: 32000000
+    startingCharge: 32000000
+  - type: BatterySelfRecharger
+    autoRechargeRate: 25000
+  - type: GenericVisualizer
+    visuals:
+      enum.WiresVisuals.MaintenancePanelState:
+        MaintenancePanel-Unshaded:
+          True: { visible: true }
+          False: { visible: false }
+# DS14-end
