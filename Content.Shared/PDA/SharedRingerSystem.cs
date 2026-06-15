@@ -41,6 +41,7 @@ public abstract class SharedRingerSystem : EntitySystem
         SubscribeLocalEvent<RingerComponent, RingerPlayRingtoneMessage>(OnPlayRingtone);
         // DS14-Start
         SubscribeLocalEvent<RingerComponent, RingerSetMidiRingtoneMessage>(OnSetMidiRingtone);
+        SubscribeLocalEvent<RingerComponent, RingerResetMidiRingtoneMessage>(OnResetMidiRingtone);
         // DS14-End
     }
 
@@ -237,6 +238,13 @@ public abstract class SharedRingerSystem : EntitySystem
         ent.Comp.MidiRingtoneData = args.MidiData;
         DirtyField(ent.AsNullable(), nameof(RingerComponent.MidiRingtoneData));
         DirtyField(ent.AsNullable(), nameof(RingerComponent.Ringtone));
+        UpdateRingerUi(ent);
+    }
+
+    private void OnResetMidiRingtone(Entity<RingerComponent> ent, ref RingerResetMidiRingtoneMessage args)
+    {
+        ent.Comp.MidiRingtoneData = null;
+        DirtyField(ent.AsNullable(), nameof(RingerComponent.MidiRingtoneData));
         UpdateRingerUi(ent);
     }
     // DS14-End

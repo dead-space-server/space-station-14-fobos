@@ -109,6 +109,12 @@
                             VerticalAlignment="Center"
                             MinSize="30 30"
                             Text="" />
+                    <Button Name = "ResetMidiRingtoneButton"
+                            Access="Public"
+                            Text="{Loc 'comp-ringer-ui-reset-midi-ringtone-button'}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            MinSize="100 30" />
                 </BoxContainer>
             </PanelContainer>
             <!-- DS14-End -->

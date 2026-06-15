@@ -27,4 +27,7 @@ public sealed class RingerSetMidiRingtoneMessage : BoundUserInterfaceMessage
         MidiData = midiData;
     }
 }
+
+[Serializable, NetSerializable]
+public sealed class RingerResetMidiRingtoneMessage : BoundUserInterfaceMessage;
 // DS14-End

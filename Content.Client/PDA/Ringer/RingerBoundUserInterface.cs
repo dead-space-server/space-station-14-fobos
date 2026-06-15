@@ -3,6 +3,7 @@ using Content.Shared.PDA;
 using Content.Shared.PDA.Ringer;
 using JetBrains.Annotations;
 using Robust.Client.UserInterface;
+using Robust.Shared.IoC; // DS14
 using Robust.Shared.Timing;
 using Robust.Shared.Utility; // DS14
 
@@ -12,7 +13,7 @@ namespace Content.Client.PDA.Ringer
     public sealed class RingerBoundUserInterface(EntityUid owner, Enum uiKey) : BoundUserInterface(owner, uiKey)
     {
         // DS14-Start
-        [Dependency] private readonly IFileDialogManager _dialogManager = default!;
+        private readonly IFileDialogManager _dialogManager = IoCManager.Resolve<IFileDialogManager>();
         private bool _isMidiFileDialogOpen;
         // DS14-End
 
@@ -22,7 +23,6 @@ namespace Content.Client.PDA.Ringer
         protected override void Open()
         {
             base.Open();
-            IoCManager.InjectDependencies(this); // DS14
             _menu = this.CreateWindow<RingtoneMenu>();
             _menu.OpenToLeft();
 
@@ -30,6 +30,7 @@ namespace Content.Client.PDA.Ringer
             _menu.SetRingtoneButtonPressed += OnSetRingtoneButtonPressed;
             // DS14-Start
             _menu.LoadMidiRingtoneButtonPressed += OnLoadMidiRingtoneButtonPressed;
+            _menu.ResetMidiRingtoneButtonPressed += OnResetMidiRingtoneButtonPressed;
             // DS14-End
 
             Update();
@@ -136,6 +137,14 @@ namespace Content.Client.PDA.Ringer
                 return;
 
             SendMessage(new RingerSetMidiRingtoneMessage(midiData));
+        }
+
+        private void OnResetMidiRingtoneButtonPressed()
+        {
+            if (_menu is null)
+                return;
+
+            SendMessage(new RingerResetMidiRingtoneMessage());
         }
         // DS14-End
     }
