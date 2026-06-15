@@ -309,12 +309,12 @@
         volume: -2
   - type: AmmoCounter
   - type: RechargeBasicEntityAmmo
-    rechargeCooldown: 4
+    rechargeCooldown: 6
     rechargeSound: null
   - type: BasicEntityAmmoProvider
     proto: LavalandSpellBladeProjectile
-    capacity: 4
-    count: 4
+    capacity: 3
+    count: 3
   - type: DisarmMalus
 
 - type: entity
@@ -353,7 +353,7 @@
     tileBreakScale: 0.01
     canCreateVacuum: false
   - type: StunOnCollide
-    slowdownAmount: 1.25
+    slowdownAmount: 1.2
     walkSpeedModifier: 0.75
     sprintSpeedModifier: 0.75
     drop: false
