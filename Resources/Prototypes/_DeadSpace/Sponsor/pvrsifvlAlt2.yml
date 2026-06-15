@@ -906,7 +906,6 @@
 # toy.rsi
 - type: entity
   parent: BasePlushieDeadSpaceMisc
-  categories: [ HideSpawnMenu ]
   id: PlushieScarlettPvrsifvlAlt2
   name: плюшевая Скарлетт Хелль'Веттиа
   description: Плюшевая игрушка одной важной и постоянно занятой личности, во взгляде которой отражена сильная усталость. От неё исходит аромат крепкого кофе и сигаретного дыма.

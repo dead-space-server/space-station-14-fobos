@@ -79,3 +79,537 @@
     back:
     - VehicleWheelchair
   groupBy: "canes"
+
+  # Plushie
+
+- type: loadout
+  id: DiscordToy
+  storage:
+    back:
+    - DiscordToy
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieJokerge
+  storage:
+    back:
+    - PlushieJokerge
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieFloran
+  storage:
+    back:
+    - PlushieFloran
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieJuggernaut
+  storage:
+    back:
+    - PlushieJuggernaut
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieIps
+  storage:
+    back:
+    - PlushieIps
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieBoich
+  storage:
+    back:
+    - PlushieBoich
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieCyberFox
+  storage:
+    back:
+    - PlushieCyberFox
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieAhahaahahaha
+  storage:
+    back:
+    - PlushieAhahaahahaha
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieKriss
+  storage:
+    back:
+    - PlushieKriss
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieOstwind
+  storage:
+    back:
+    - PlushieOstwind
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieJeleshka
+  storage:
+    back:
+    - PlushieJeleshka
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieDobryash
+  storage:
+    back:
+    - PlushieDobryash
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieHqdishka
+  storage:
+    back:
+    - PlushieHqdishka
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieWillie
+  storage:
+    back:
+    - PlushieWillie
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieAinnete
+  storage:
+    back:
+    - PlushieAinnete
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieAlex
+  storage:
+    back:
+    - PlushieAlex
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieElizabeth
+  storage:
+    back:
+    - PlushieElizabeth
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieEllis
+  storage:
+    back:
+    - PlushieEllis
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieKermuth
+  storage:
+    back:
+    - PlushieKermuth
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieLucius
+  storage:
+    back:
+    - PlushieLucius
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieEvelina
+  storage:
+    back:
+    - PlushieEvelina
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieLieutenant
+  storage:
+    back:
+    - PlushieLieutenant
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieScarlettPvrsifvlAlt2 # Милая Скарлетт
+  storage:
+    back:
+    - PlushieScarlettPvrsifvlAlt2
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSmetanaJonita
+  storage:
+    back:
+    - PlushieSmetanaJonita
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieColleen
+  storage:
+    back:
+    - PlushieColleen
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieHermione
+  storage:
+    back:
+    - PlushieHermione
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieRIP
+  storage:
+    back:
+    - PlushieRIP
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieFloria
+  storage:
+    back:
+    - PlushieFloria
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieAino
+  storage:
+    back:
+    - PlushieAino
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilAily
+  storage:
+    back:
+    - PlushieSilAily
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilAizek
+  storage:
+    back:
+    - PlushieSilAizek
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilAzrail
+  storage:
+    back:
+    - PlushieSilAzrail
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilEmilia
+  storage:
+    back:
+    - PlushieSilEmilia
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilEva
+  storage:
+    back:
+    - PlushieSilEva
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilKrivazora
+  storage:
+    back:
+    - PlushieSilKrivazora
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilAzrailHardsuit
+  storage:
+    back:
+    - PlushieSilAzrailHardsuit
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilSharp
+  storage:
+    back:
+    - PlushieSilSharp
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilRenaTakala
+  storage:
+    back:
+    - PlushieSilRenaTakala
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilEso
+  storage:
+    back:
+    - PlushieSilEso
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilKel
+  storage:
+    back:
+    - PlushieSilKel
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilWeaver
+  storage:
+    back:
+    - PlushieSilWeaver
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilEyrinLiht
+  storage:
+    back:
+    - PlushieSilEyrinLiht
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilKelicKato1
+  storage:
+    back:
+    - PlushieSilKelicKato1
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilKelicKato2
+  storage:
+    back:
+    - PlushieSilKelicKato2
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilYuliWinter
+  storage:
+    back:
+    - PlushieSilYuliWinter
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilEkaterinaAkkerman
+  storage:
+    back:
+    - PlushieSilEkaterinaAkkerman
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilYohanaWinter
+  storage:
+    back:
+    - PlushieSilYohanaWinter
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilGermanKvaSki
+  storage:
+    back:
+    - PlushieSilGermanKvaSki
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilTimAkkerman
+  storage:
+    back:
+    - PlushieSilTimAkkerman
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilKiana
+  storage:
+    back:
+    - PlushieSilKiana
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilSai
+  storage:
+    back:
+    - PlushieSilSai
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilZhdan
+  storage:
+    back:
+    - PlushieSilZhdan
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilElena
+  storage:
+    back:
+    - PlushieSilElena
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilMei
+  storage:
+    back:
+    - PlushieSilMei
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilRygoslav
+  storage:
+    back:
+    - PlushieSilRygoslav
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilFlem
+  storage:
+    back:
+    - PlushieSilFlem
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilMarry
+  storage:
+    back:
+    - PlushieSilMarry
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilAleksey
+  storage:
+    back:
+    - PlushieSilAleksey
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilArevin
+  storage:
+    back:
+    - PlushieSilArevin
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilMila
+  storage:
+    back:
+    - PlushieSilMila
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilRiza
+  storage:
+    back:
+    - PlushieSilRiza
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilMuren
+  storage:
+    back:
+    - PlushieSilMuren
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieDragonFoxMedTech
+  storage:
+    back:
+    - PlushieDragonFoxMedTech
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieDragonFoxMadParadox
+  storage:
+    back:
+    - PlushieDragonFoxMadParadox
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilRalseya
+  storage:
+    back:
+    - PlushieSilRalseya
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilAmaliya
+  storage:
+    back:
+    - PlushieSilAmaliya
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilSAstro
+  storage:
+    back:
+    - PlushieSilSAstro
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilDestin
+  storage:
+    back:
+    - PlushieSilDestin
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilEgor
+  storage:
+    back:
+    - PlushieSilEgor
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilKim
+  storage:
+    back:
+    - PlushieSilKim
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSilEmma
+  storage:
+    back:
+    - PlushieSilEmma
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieYosifAnita
+  storage:
+    back:
+    - PlushieYosifAnita
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieYosifEvelina
+  storage:
+    back:
+    - PlushieYosifEvelina
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieYosifLucius
+  storage:
+    back:
+    - PlushieYosifLucius
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieMoth3eilado
+  storage:
+    back:
+    - PlushieMoth3eilado
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieMoth3eiladoBlue
+  storage:
+    back:
+    - PlushieMoth3eiladoBlue
+  groupBy: "plushie"
