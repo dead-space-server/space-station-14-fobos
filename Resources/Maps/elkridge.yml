@@ -93907,7 +93907,7 @@ entities:
       parent: 6337
     - type: Blocking
       blockingToggleActionEntity: 11374
-      user: invalid
+      user: null
     - type: Physics
       canCollide: False
     - type: ActionsContainer
