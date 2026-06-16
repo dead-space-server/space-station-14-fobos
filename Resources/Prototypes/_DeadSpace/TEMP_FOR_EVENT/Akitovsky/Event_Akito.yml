@@ -1314,11 +1314,54 @@
         - ShellShotgun
     capacity: 8
 
+# Беретта
+- type: entity
+  name: Beretta M92
+  parent: WeaponPistolBerettaM92
+  id: WeaponPistolBerettaM92Aki
+  suffix: Akitovsky
+  components:
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: Magazine9x19AP63
+        insertSound: /Audio/Weapons/Guns/MagIn/pistol_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/pistol_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+            - MagazinePistol
+            - MagazinePistolHighCapacity
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        priority: 1
+        whitelist:
+          tags:
+            - CartridgePistol
 
-
-
-
-
+# Магазин Беретта (9х19 мм AP 6.3)
+- type: entity
+  parent: BaseMagazinePistol
+  id: Magazine9x19AP63
+  name: пистолетный магазин (9х19 мм AP 6.3)
+  components:
+  - type: BallisticAmmoProvider
+    proto: Cartridge9x19AP63
+  - type: Sprite
+    scale: 1.2, 1.2 # DS-14
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      right:
+      - state: inhand-right-mag
 
 # Иконки работ
 - type: jobIcon
