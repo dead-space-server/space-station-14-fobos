@@ -1,4 +1,3 @@
-// DS14
 using Content.Shared.DeadSpace.Borgs;
 using Content.Shared.DeadSpace.SecurityBorg;
 using Content.Shared.Silicons.Borgs.Components;

@@ -17,16 +17,12 @@
       shader: unshaded
       map: ["light", "enum.BorgVisualLayers.LightStatus"]
       visible: false
-    # DS14-Start
-    # Оверлейный слой красных глаз для боевого режима
     - state: sec_e_fight
       map: ["combat_eyes"]
       shader: unshaded
       visible: false
-    # DS14-End
   - type: GenericVisualizer
     visuals:
-      # DS14-Start
       enum.SecurityBorgProneVisuals.Prone:
         enum.BorgVisualLayers.Body:
           True: {state: sec_down}
@@ -34,8 +30,6 @@
         combat_eyes:
           True: {state: sec_down_e_fight}
           False: {state: sec_e_fight}
-      # DS14-End
-      # DS14-Start
       enum.BorgCombatModeVisuals.Combat:
         combat_eyes:
           True: {visible: true}
@@ -43,11 +37,8 @@
         enum.BorgVisualLayers.Light:
           True: {color: "#ff2222"}
           False: {color: "#ffffff"}
-      # DS14-End
   - type: SecurityBorgProne
-  # DS14-Start
   - type: BorgCombatModeOverlay
-  # DS14-End
   - type: BorgChassis
     maxModules: 6
     moduleWhitelist:

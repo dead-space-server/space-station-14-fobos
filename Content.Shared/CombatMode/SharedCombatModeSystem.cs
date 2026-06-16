@@ -9,7 +9,6 @@ using Robust.Shared.Timing;
 namespace Content.Shared.CombatMode;
 
 // DS14-Start
-// Событие, которое вызывается при изменении боевого режима у entity
 [ByRefEvent]
 public record struct CombatModeChangedEvent(EntityUid Entity, bool IsInCombatMode);
 // DS14-End
@@ -83,7 +82,6 @@ public abstract class SharedCombatModeSystem : EntitySystem
             _actionsSystem.SetToggled(component.CombatToggleActionEntity, component.IsInCombatMode);
 
         // DS14-Start
-        // Оповещение систем (например, оверлея борга) о смене режима
         var ev = new CombatModeChangedEvent(entity, value);
         RaiseLocalEvent(entity, ref ev);
         // DS14-End
