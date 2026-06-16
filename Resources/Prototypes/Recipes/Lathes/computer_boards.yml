@@ -87,6 +87,11 @@
   id: MassMediaCircuitboard
   result: ComputerMassMediaCircuitboard
 
+- type: latheRecipe
+  parent: [ BaseGoldCircuitboardRecipe, BaseServiceComputerRecipeCategory ]
+  id: AppHubConsoleCircuitboard
+  result: AppHubConsoleCircuitboard
+
 # Shuttle
 - type: latheRecipe
   parent: [ BaseGoldCircuitboardRecipe, BaseSupplyComputerRecipeCategory ]

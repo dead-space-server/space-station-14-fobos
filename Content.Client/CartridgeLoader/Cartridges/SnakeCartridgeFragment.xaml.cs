@@ -5,7 +5,10 @@ using Robust.Client.Graphics;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.XAML;
+using Robust.Shared.Audio;
+using Robust.Shared.Audio.Systems;
 using Robust.Shared.Input;
+using Robust.Shared.Player;
 using Robust.Shared.Timing;
 using Robust.Shared.Maths;
 
@@ -63,6 +66,7 @@ public sealed partial class SnakeCartridgeFragment : BoxContainer
         private bool _gameOver;
         private TimeSpan _lastTick;
         private readonly IGameTiming _timing;
+        private readonly SharedAudioSystem _audio;
         private readonly Random _random = new();
 
         public event Action<int>? OnScoreChanged;
@@ -71,6 +75,7 @@ public sealed partial class SnakeCartridgeFragment : BoxContainer
         {
             CanKeyboardFocus = true;
             _timing = IoCManager.Resolve<IGameTiming>();
+            _audio = IoCManager.Resolve<IEntityManager>().System<SharedAudioSystem>();
 
             OnKeyBindDown += OnKeyPressed;
 
@@ -111,6 +116,7 @@ public sealed partial class SnakeCartridgeFragment : BoxContainer
             _gameOver = false;
             _lastTick = _timing.RealTime;
             SpawnFood();
+            _audio.PlayGlobal(new SoundPathSpecifier("/Audio/Effects/Arcade/newgame.ogg"), Filter.Local(), false);
         }
 
         public void ChangeDirection(Direction dir)
@@ -145,12 +151,14 @@ public sealed partial class SnakeCartridgeFragment : BoxContainer
             if (newHead.X < 0 || newHead.X >= GridSize || newHead.Y < 0 || newHead.Y >= GridSize)
             {
                 _gameOver = true;
+                _audio.PlayGlobal(new SoundPathSpecifier("/Audio/Effects/Arcade/gameover.ogg"), Filter.Local(), false, AudioParams.Default.WithVolume(-4f));
                 return;
             }
 
             if (_snake.Contains(newHead))
             {
                 _gameOver = true;
+                _audio.PlayGlobal(new SoundPathSpecifier("/Audio/Effects/Arcade/gameover.ogg"), Filter.Local(), false, AudioParams.Default.WithVolume(-4f));
                 return;
             }
 
@@ -160,6 +168,7 @@ public sealed partial class SnakeCartridgeFragment : BoxContainer
             {
                 _score++;
                 OnScoreChanged?.Invoke(_score);
+                _audio.PlayGlobal(new SoundPathSpecifier("/Audio/Effects/Arcade/player_charge.ogg"), Filter.Local(), false, AudioParams.Default.WithVolume(-4f));
                 SpawnFood();
             }
             else
