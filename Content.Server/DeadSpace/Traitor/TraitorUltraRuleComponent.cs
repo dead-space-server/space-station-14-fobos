@@ -9,7 +9,7 @@ using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 
-namespace Content.Server.GameTicking.Rules.Components;
+namespace Content.Server.DeadSpace.Traitor;
 
 [RegisterComponent, Access(typeof(TraitorUltraRuleSystem))]
 public sealed partial class TraitorUltraRuleComponent : Component

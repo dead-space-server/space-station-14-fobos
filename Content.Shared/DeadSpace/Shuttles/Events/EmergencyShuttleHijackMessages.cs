@@ -2,7 +2,7 @@
 
 using Robust.Shared.Serialization;
 
-namespace Content.Shared.Shuttles.Events;
+namespace Content.Shared.DeadSpace.Shuttles.Events;
 
 [Serializable, NetSerializable]
 public sealed class EmergencyShuttleHijackStartMessage : BoundUserInterfaceMessage

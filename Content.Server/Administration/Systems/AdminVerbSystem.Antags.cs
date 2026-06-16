@@ -1,5 +1,6 @@
 using Content.Server.Antag;
 using Content.Server.Antag.Components;
+using Content.Server.DeadSpace.Traitor;
 using Content.Server.GameTicking;
 using Content.Server.GameTicking.Rules.Components;
 using Content.Server.Zombies;

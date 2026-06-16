@@ -1,4 +1,5 @@
 using Content.Server.Codewords;
+using Content.Server.DeadSpace.Traitor;
 using Content.Shared.Dataset;
 using Content.Shared.FixedPoint;
 using Content.Shared.NPC.Prototypes;

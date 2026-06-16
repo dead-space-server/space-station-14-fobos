@@ -2,6 +2,7 @@ using Content.Server.Antag;
 using Content.Server.GameTicking.Rules.Components;
 using Content.Server.Mind;
 using Content.Server.Objectives;
+using Content.Server.Objectives.Components;
 using Content.Server.PDA.Ringer;
 using Content.Server.Traitor.Uplink;
 using Content.Shared.Dataset;
@@ -228,6 +229,31 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
     {
         var values = _prototypeManager.Index(dataset).Values.ToList();
         return _random.Pick(values);
+    }
+
+    public HashSet<string> GetAssignedStealObjectivePrototypes(EntityUid? excludedMindId = null)
+    {
+        var assigned = new HashSet<string>();
+        var query = EntityQueryEnumerator<MindComponent>();
+        while (query.MoveNext(out var mindId, out var mind))
+        {
+            if (excludedMindId == mindId || !_roleSystem.MindHasRole<TraitorRoleComponent>(mindId, out _))
+                continue;
+
+            foreach (var objective in mind.Objectives)
+            {
+                if (TerminatingOrDeleted(objective) ||
+                    !HasComp<StealConditionComponent>(objective) ||
+                    MetaData(objective).EntityPrototype?.ID is not { } prototype)
+                {
+                    continue;
+                }
+
+                assigned.Add(prototype);
+            }
+        }
+
+        return assigned;
     }
     // DS14-end
 

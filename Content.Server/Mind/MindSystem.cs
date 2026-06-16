@@ -1,4 +1,5 @@
 using Content.Server.Administration.Logs;
+using Content.Shared.DeadSpace.Traitor;
 using Content.Server.GameTicking;
 using Content.Server.Ghost;
 using Content.Shared.Database;

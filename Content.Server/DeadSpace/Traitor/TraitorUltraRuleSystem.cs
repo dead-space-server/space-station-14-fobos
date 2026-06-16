@@ -3,8 +3,8 @@
 using System.Linq;
 using Content.Server.Antag;
 using Content.Server.Chat.Systems;
-using Content.Server.DeadSpace.Traitor;
 using Content.Server.EUI;
+using Content.Server.GameTicking.Rules;
 using Content.Server.GameTicking.Rules.Components;
 using Content.Server.Mind;
 using Content.Server.Objectives;
@@ -40,7 +40,7 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Utility;
 
-namespace Content.Server.GameTicking.Rules;
+namespace Content.Server.DeadSpace.Traitor;
 
 public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComponent>
 {
@@ -59,6 +59,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
     [Dependency] private readonly SharedObjectivesSystem _sharedObjectives = default!;
     [Dependency] private readonly SharedRoleSystem _roles = default!;
     [Dependency] private readonly StoreSystem _store = default!;
+    [Dependency] private readonly TraitorRuleSystem _traitorRule = default!;
     [Dependency] private readonly UplinkSystem _uplink = default!;
 
     private readonly List<TraitorUltraDelayedAction> _delayedActions = new();
@@ -255,13 +256,14 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         string? issuer,
         List<EntityUid> assignedObjectives)
     {
+        var excludedStealObjectives = _traitorRule.GetAssignedStealObjectivePrototypes(mind.Owner);
         var difficulty = 0f;
         for (var pick = 0;
              pick < component.RecruitObjectiveMaxPicks && component.RecruitObjectiveMaxDifficulty > difficulty;
              pick++)
         {
             var remainingDifficulty = component.RecruitObjectiveMaxDifficulty - difficulty;
-            if (_objectives.GetRandomObjective(mind.Owner, mind.Comp, component.RecruitObjectiveGroups, remainingDifficulty) is not { } objective)
+            if (_objectives.GetRandomObjective(mind.Owner, mind.Comp, component.RecruitObjectiveGroups, remainingDifficulty, excludedStealObjectives) is not { } objective)
                 continue;
 
             if (!string.IsNullOrWhiteSpace(issuer))
@@ -273,6 +275,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
                 _sharedObjectives.SetIssuer(objective, issuer);
 
             assignedObjectives.Add(objective);
+            TrackAssignedStealObjective(excludedStealObjectives, objective);
             difficulty += Comp<ObjectiveComponent>(objective).Difficulty;
         }
 
@@ -284,6 +287,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         TraitorUltraRuleComponent component,
         string? issuer)
     {
+        var excludedStealObjectives = _traitorRule.GetAssignedStealObjectivePrototypes(mind.Owner);
         var assigned = false;
         var difficulty = 0f;
         for (var pick = 0;
@@ -291,7 +295,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
              pick++)
         {
             var remainingDifficulty = component.BaseObjectiveMaxDifficulty - difficulty;
-            if (_objectives.GetRandomObjective(mind.Owner, mind.Comp, component.BaseObjectiveGroups, remainingDifficulty) is not { } objective)
+            if (_objectives.GetRandomObjective(mind.Owner, mind.Comp, component.BaseObjectiveGroups, remainingDifficulty, excludedStealObjectives) is not { } objective)
                 continue;
 
             if (!string.IsNullOrWhiteSpace(issuer))
@@ -302,6 +306,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
             if (!string.IsNullOrWhiteSpace(issuer))
                 _sharedObjectives.SetIssuer(objective, issuer);
 
+            TrackAssignedStealObjective(excludedStealObjectives, objective);
             difficulty += Comp<ObjectiveComponent>(objective).Difficulty;
             assigned = true;
         }
@@ -346,7 +351,10 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 
     private bool TryAssignHighRiskStealPackage(Entity<MindComponent> mind, TraitorUltraRuleComponent component, TraitorUltraMindState state)
     {
-        var available = component.HighRiskStealObjectives.ToList();
+        var excludedStealObjectives = _traitorRule.GetAssignedStealObjectivePrototypes(mind.Owner);
+        var available = component.HighRiskStealObjectives
+            .Where(proto => !excludedStealObjectives.Contains(proto))
+            .ToList();
         var assigned = new List<EntityUid>();
 
         while (available.Count > 0 && assigned.Count < 2)
@@ -356,6 +364,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
                 continue;
 
             assigned.Add(objective);
+            excludedStealObjectives.Add(proto);
         }
 
         if (assigned.Count == 2)
@@ -368,6 +377,15 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
             RemoveObjective(mind, objective);
 
         return false;
+    }
+
+    private void TrackAssignedStealObjective(HashSet<string> excludedStealObjectives, EntityUid objective)
+    {
+        if (HasComp<Content.Server.Objectives.Components.StealConditionComponent>(objective) &&
+            MetaData(objective).EntityPrototype?.ID is { } prototype)
+        {
+            excludedStealObjectives.Add(prototype);
+        }
     }
 
     private bool TryAssignCommandKill(Entity<MindComponent> mind, TraitorUltraRuleComponent component, TraitorUltraMindState state)
