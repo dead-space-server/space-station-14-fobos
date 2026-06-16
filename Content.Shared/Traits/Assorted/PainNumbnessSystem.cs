@@ -1,4 +1,4 @@
-using Content.Shared.Damage.Components; // DS14
+using Content.Shared.DeadSpace.Damage.Components; // DS14
 using Content.Shared.Damage.Events;
 using Content.Shared.FixedPoint; // DS14
 using Content.Shared.Mobs; // DS14
@@ -38,7 +38,7 @@ public sealed class PainNumbnessSystem : EntitySystem
             return;
 
         // DS14-Start
-        EnsureComp<IgnoreSlowOnDamageComponent>(args.Target);
+        EnsureComp<PainNumbnessSlowImmunityComponent>(args.Target);
         _movementSpeedModifier.RefreshMovementSpeedModifiers(args.Target);
 
         SaveAndOverrideMobThresholds(args.Target);
@@ -52,7 +52,7 @@ public sealed class PainNumbnessSystem : EntitySystem
             return;
 
         // DS14-Start
-        RemComp<IgnoreSlowOnDamageComponent>(args.Target);
+        RemComp<PainNumbnessSlowImmunityComponent>(args.Target);
         _movementSpeedModifier.RefreshMovementSpeedModifiers(args.Target);
 
         RestoreMobThresholds(args.Target);
