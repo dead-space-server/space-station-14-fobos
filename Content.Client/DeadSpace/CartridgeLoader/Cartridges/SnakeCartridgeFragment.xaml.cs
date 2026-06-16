@@ -12,7 +12,7 @@ using Robust.Shared.Player;
 using Robust.Shared.Timing;
 using Robust.Shared.Maths;
 
-namespace Content.Client.CartridgeLoader.Cartridges;
+namespace Content.Client.DeadSpace.CartridgeLoader.Cartridges;
 
 [GenerateTypedNameReferences]
 public sealed partial class SnakeCartridgeFragment : BoxContainer
