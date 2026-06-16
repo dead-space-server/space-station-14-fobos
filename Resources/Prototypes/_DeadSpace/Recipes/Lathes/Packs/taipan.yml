@@ -256,6 +256,7 @@
   - JukeboxCircuitBoard
   - DawInstrumentMachineCircuitboard
   - BiofabricatorMachineCircuitboardTaipan
+  - AppHubConsoleCircuitboard
 
 ## Clothing
 - type: latheRecipePack

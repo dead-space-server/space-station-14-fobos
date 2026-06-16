@@ -29,7 +29,6 @@ astro-nav-program-name = AstroNav
 
 med-tek-program-name = MedTek
 
-snake-cartridge-program-name = Snake Game
 
 # NanoTask cartridge
 
