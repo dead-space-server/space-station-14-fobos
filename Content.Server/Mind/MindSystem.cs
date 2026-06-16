@@ -15,12 +15,10 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Player;
 using Robust.Shared.Utility;
 using System.Diagnostics.CodeAnalysis;
-// DS14-start
 using Content.Shared.Actions;
 using Content.Shared.Actions.Components;
 using Content.Shared.Magic.Components;
 using System.Linq;
-// DS14-end
 
 namespace Content.Server.Mind;
 
@@ -34,10 +32,7 @@ public sealed class MindSystem : SharedMindSystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly PvsOverrideSystem _pvsOverride = default!;
     [Dependency] private readonly SharedRoleSystem _roles = default!; // DS14
-
-    // DS14-start
-    private readonly Dictionary<EntityUid, SuspendedTraitorState> _suspendedTraitorStates = new();
-    // DS14-end
+    private readonly Dictionary<EntityUid, SuspendedTraitorState> _suspendedTraitorStates = new(); // DS14
 
     public override void Initialize()
     {

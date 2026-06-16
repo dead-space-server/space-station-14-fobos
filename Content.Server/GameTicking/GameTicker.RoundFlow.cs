@@ -711,10 +711,11 @@ namespace Content.Server.GameTicking
 
             return manifestAntagMinds.Contains(mindId) ||
                    manifestObjectives.Length > 0 ||
-                   IsTraitorManifestRole(antagRoles) ||
+                   IsTraitorManifestRole(antagRoles) || // DS14
                    antagRoles.Any(role => role.Prototype == SentientVirusAntagPrototype);
         }
 
+        // DS14-start
         private static bool IsTraitorManifestRole(RoleInfo[] antagRoles)
         {
             return antagRoles.Any(role =>
@@ -722,6 +723,7 @@ namespace Content.Server.GameTicking
                 role.Prototype == TraitorSleeperAntagPrototype ||
                 role.Prototype == TraitorUltraAntagPrototype);
         }
+        // DS14-end
 
         private RoundEndMessageEvent.RoundEndObjectiveInfo[] GetRoundEndObjectives(EntityUid mindId, MindComponent mind)
         {

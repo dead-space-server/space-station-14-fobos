@@ -76,8 +76,8 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
             briefing = Loc.GetString("traitor-role-codewords-short", ("codewords", string.Join(", ", factionCodewords)));
         }
 
-        var issuer = PickObjectiveIssuer(component.ObjectiveIssuers);
         // DS14-start
+        var issuer = PickObjectiveIssuer(component.ObjectiveIssuers);
         component.ObjectiveIssuersByMind[mindId] = issuer;
         SetExistingObjectiveIssuer(mind, issuer);
         // DS14-end
