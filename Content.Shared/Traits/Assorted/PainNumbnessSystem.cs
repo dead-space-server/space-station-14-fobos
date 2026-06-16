@@ -96,7 +96,7 @@ public sealed class PainNumbnessSystem : EntitySystem
                 }
 
                 if (preCritThreshold > FixedPoint2.Zero)
-                    newThresholds[preCritThreshold] = MobState.Critical;
+                    newThresholds[90] = MobState.Critical;
                 else
                     newThresholds[damage - 20] = MobState.Critical;
                 continue;
