@@ -164,7 +164,7 @@ namespace Content.Server.Entry
             cfg.OverrideDefault(CVars.NetMaxUpdateRange, 24f);
             cfg.OverrideDefault(CVars.NetPvsPriorityRange, 30f);
 
-            cfg.SetCVar(CVars.TargetMinimumTickrate, 45);
+            cfg.SetCVar(CVars.TargetMinimumTickrate, 48);
             cfg.SetCVar(CVars.VelocityIterations, 6);
             cfg.SetCVar(CVars.NetTickrate, 20);
             cfg.SetCVar(CVars.NetMaxUpdateRange, 24f);
