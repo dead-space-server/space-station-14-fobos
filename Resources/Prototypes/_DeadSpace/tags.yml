@@ -317,6 +317,9 @@
   id: Radiance
 
 - type: Tag
+  id: Ram
+  
+- type: Tag
   id: RealCapfruit
 
 - type: Tag
