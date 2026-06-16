@@ -11,6 +11,7 @@
   - StationAiIconDorf
   - StationAiIconHeartline
   - StationAiIconSmiley
+  - TaipanAiIconKnight #DS14
 
 - type: stationAiCustomizationGroup
   id: StationAiHolograms
@@ -22,6 +23,7 @@
   - StationAiHologramFace
   - StationAiHologramCat
   - StationAiHologramDog
+  - TaipanAiHologramKnight # DS14
 
 # Iconography
 - type: stationAiCustomization
