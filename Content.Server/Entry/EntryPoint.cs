@@ -158,13 +158,13 @@ namespace Content.Server.Entry
 
         private static void ApplyServerPerformanceDefaults(IConfigurationManager cfg)
         {
-            cfg.OverrideDefault(CVars.TargetMinimumTickrate, 45);
+            cfg.OverrideDefault(CVars.TargetMinimumTickrate, 49);
             cfg.OverrideDefault(CVars.VelocityIterations, 6);
             cfg.OverrideDefault(CVars.NetTickrate, 20);
             cfg.OverrideDefault(CVars.NetMaxUpdateRange, 24f);
             cfg.OverrideDefault(CVars.NetPvsPriorityRange, 30f);
 
-            cfg.SetCVar(CVars.TargetMinimumTickrate, 48);
+            cfg.SetCVar(CVars.TargetMinimumTickrate, 49);
             cfg.SetCVar(CVars.VelocityIterations, 6);
             cfg.SetCVar(CVars.NetTickrate, 20);
             cfg.SetCVar(CVars.NetMaxUpdateRange, 24f);
