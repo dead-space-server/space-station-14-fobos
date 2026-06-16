@@ -57,7 +57,6 @@
   - type: SolutionInjectOnEmbed
     transferAmount: 2
     solution: melee
-    blockSlots: OUTERCLOTHING
   - type: SolutionTransfer
     maxTransferAmount: 2
   - type: Damageable
