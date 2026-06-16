@@ -282,7 +282,7 @@ public sealed class PaperSystem : EntitySystem
             // DS14-start
             if (_handsSystem.GetActiveItem(args.Actor) is { } item)
             {
-                if (_tagSystem.HasTag(item, WriteReWriteTag) && TryComp<SignaturePaperComponent>(entity, out var comp))
+                if ((entity.Comp.Signatures.Count > 0 || entity.Comp.StampState != null) && _tagSystem.HasTag(item, WriteReWriteTag) && TryComp<SignaturePaperComponent>(entity, out var comp) && !entity.Comp.Signatures.Contains("[color=red][bold]Переписано[/bold][/color]"))
                 {
                     entity.Comp.Signatures.Add("[color=red][bold]Переписано[/bold][/color]");
                     comp.NumberSignatures += 1;
