@@ -1,0 +1,271 @@
+- type: entity
+  name: рак-отшельник
+  parent: SimpleMobBase
+  id: MobRak
+  description: Ракообразный рак. 
+  components:
+  - type: CarrySize
+    size: Small
+  - type: Sprite
+    drawdepth: Mobs
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base"]
+      state: rak
+      sprite: _DeadSpace/Mobs/Animals/raki.rsi
+  - type: Physics
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.35
+        density: 5
+        mask:
+        - MobMask
+        layer:
+        - MobLayer
+  - type: Speech
+    speechVerb: Arachnid
+    speechSounds: Arachnid
+    allowedEmotes: ['Click', 'Chitter']
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: rak
+      Critical:
+        Base: rak_dead
+      Dead:
+        Base: rak_dead
+  - type: Butcherable
+    spawned:
+    - id: FoodMeatCrab
+      amount: 2
+  - type: InteractionPopup
+    successChance: 0.5
+    interactSuccessString: petting-success-crab
+    interactFailureString: petting-failure-crab
+    interactSuccessSpawn: EffectHearts
+    interactSuccessSound:
+      path: /Audio/Voice/Arachnid/arachnid_chitter.ogg
+  - type: ReplacementAccent
+    accent: crab
+  - type: Bloodstream
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: CopperBlood
+        Quantity: 50
+  - type: Tag
+    tags:
+    - VimPilot
+  - type: HTN
+    rootTask:
+      task: RuminantCompound
+  - type: Body
+    prototype: AnimalHemocyanin
+
+- type: entity
+  parent: MobRak
+  id: MobRakBlue
+  suffix: Синий
+  description: Ракообразный рак с синей ракушкой.
+  components:
+  - type: Sprite
+    drawdepth: Mobs
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base"]
+      state: rak_blue
+      sprite: _DeadSpace/Mobs/Animals/raki.rsi
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: rak_blue
+      Critical:
+        Base: rak_blue_dead
+      Dead:
+        Base: rak_blue_dead
+
+- type: entity
+  parent: MobRak
+  id: MobRakBucket
+  suffix: Ведро
+  description: Ракообразный рак. На нём... Ведро?
+  components:
+  - type: Sprite
+    drawdepth: Mobs
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base"]
+      state: rak_bucket
+      sprite: _DeadSpace/Mobs/Animals/raki.rsi
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: rak_bucket
+      Critical:
+        Base: rak_bucket_dead
+      Dead:
+        Base: rak_bucket_dead
+
+- type: entity
+  name: маленький рак
+  parent: SimpleMobBase
+  id: MobRakSmall
+  description: Ракообразный рак. Теперь маленький.
+  components:
+  - type: MovementSpeedModifier
+    baseWalkSpeed : 3
+    baseSprintSpeed : 7
+  - type: Sprite
+    drawdepth: Mobs
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base"]
+      state: rak_small
+      sprite: _DeadSpace/Mobs/Animals/raki.rsi
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.1
+        density: 30
+        mask:
+        - MobMask
+        layer:
+        - MobLayer
+  - type: MobState
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      10: Dead
+  - type: Stamina
+    baseCritThreshold: 10
+    animationThreshold: 1
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: rak_small
+      Critical:
+        Base: rak_small_dead
+      Dead:
+        Base: rak_small_dead
+  - type: Butcherable
+    spawned:
+    - id: null # Should give nothing when you butcher it so we set the item id it needs to spawn to null
+  - type: Item
+    size: Tiny
+  - type: Tag
+    tags:
+    - Trash
+  - type: Bloodstream
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: CopperBlood
+        Quantity: 0.1
+  - type: ZombieImmune
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTypeTrigger
+        damageType: Blunt
+        damage: 20
+      behaviors:
+      - !type:GibBehavior
+        recursive: false
+
+- type: entity
+  parent: MobRakSmall
+  id: MobRakSmallBlue
+  suffix: Синий
+  description: Ракообразный рак. Теперь маленький и синий.
+  components:
+  - type: Sprite
+    drawdepth: Mobs
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base"]
+      state: rak_small_blue
+      sprite: _DeadSpace/Mobs/Animals/raki.rsi
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: rak_small_blue
+      Critical:
+        Base: rak_small_blue_dead
+      Dead:
+        Base: rak_small_blue_dead
+
+- type: entity
+  name: спавнер рака
+  description: Спавнер крутого рака.
+  id: SpawnMobRak
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: green
+    - state: rak
+      sprite: _DeadSpace/Mobs/Animals/raki.rsi
+  - type: ConditionalSpawner
+    prototypes:
+    - MobRak
+
+- type: entity
+  name: спавнер рака
+  description: Спавнер крутого рака.
+  suffix: Синий
+  id: SpawnMobRakBlue
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: green
+    - state: rak_blue
+      sprite: _DeadSpace/Mobs/Animals/raki.rsi
+  - type: ConditionalSpawner
+    prototypes:
+    - MobRakBlue
+
+- type: entity
+  name: спавнер рака
+  suffix: Ведро
+  description: Спавнер крутого рака.
+  id: SpawnMobRakBucket
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: green
+    - state: rak_bucket
+      sprite: _DeadSpace/Mobs/Animals/raki.rsi
+  - type: ConditionalSpawner
+    prototypes:
+    - MobRakBucket
+
+- type: entity
+  name: спавнер маленького рака
+  description: Спавнер крутого рака
+  id: SpawnMobRakSmall
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: green
+    - state: rak_small
+      sprite: _DeadSpace/Mobs/Animals/raki.rsi
+  - type: ConditionalSpawner
+    prototypes:
+    - MobRakSmall
+
+- type: entity
+  name: спавнер маленького рака
+  description: Спавнер крутого рака
+  suffix: Синий
+  id: SpawnMobRakSmallBlue
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: green
+    - state: rak_small_blue
+      sprite: _DeadSpace/Mobs/Animals/raki.rsi
+  - type: ConditionalSpawner
+    prototypes:
+    - MobRakSmallBlue

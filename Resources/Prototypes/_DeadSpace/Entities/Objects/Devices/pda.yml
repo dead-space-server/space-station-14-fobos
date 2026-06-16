@@ -57,8 +57,17 @@
   id: CentcomFieldOfficerPDA
   suffix: ПО
   components:
+  - type: Appearance
+    appearanceDataInit:
+     enum.PdaVisuals.PdaType:
+       !type:String
+       pda-black-centcom
+  - type: PdaBorderColor
+    borderColor: "#34343d"
+  - type: Icon
+    state: pda-black-centcom
   - type: Pda
-    id: CentcomFieldOfficerIDCar
+    id: CentcomFieldOfficerIDCard
 
 # ERT PDA
 # Leader
@@ -145,6 +154,8 @@
   - type: Pda
     id: CBURNLeaderIDcard
 
+
+
 - type: entity
   parent: BasePDA
   id: CoronerPDA
@@ -172,7 +183,8 @@
       - NanoTaskCartridge
       - NewsReaderCartridge
       - MedTekCartridge
-      - BankCartridge # DS14
+      - BankCartridge
+      - MessengerCartridge
 
 - type: entity
   parent: BasePDA
@@ -200,7 +212,8 @@
       - NanoTaskCartridge
       - NewsReaderCartridge
       - MedTekCartridge
-      - BankCartridge # DS14
+      - BankCartridge
+      - MessengerCartridge
 
 - type: entity
   parent: BasePDA
@@ -229,7 +242,8 @@
       - NanoTaskCartridge
       - NewsReaderCartridge
       - AstroNavCartridge
-      - BankCartridge # DS14
+      - BankCartridge
+      - MessengerCartridge
 
 - type: entity
   parent: BasePDA
@@ -257,7 +271,8 @@
     - NewsReaderCartridge
     - WantedListCartridge
     - AstroNavCartridge
-    - BankCartridge # DS14
+    - BankCartridge
+    - MessengerCartridge
 
 - type: entity
   parent: BasePDA

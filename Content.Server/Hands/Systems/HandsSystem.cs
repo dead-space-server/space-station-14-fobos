@@ -171,6 +171,7 @@ namespace Content.Server.Hands.Systems
                 if (splitStack is not {Valid: true})
                     return false;
 
+                _transformSystem.SetMapCoordinates(splitStack.Value, _transformSystem.GetMapCoordinates(player));
                 throwEnt = splitStack.Value;
             }
 

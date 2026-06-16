@@ -8,6 +8,7 @@
   components:
   - type: Clickable
   - type: InteractionOutline
+  - type: GravityAffected #DS14
   - type: Physics
     bodyType: Static
   - type: Fixtures

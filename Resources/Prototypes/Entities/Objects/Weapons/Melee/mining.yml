@@ -69,16 +69,23 @@
 
 - type: entity
   name: diamond tipped mining drill
-  parent: MiningDrill
+  parent: BaseItem #DS14
   id: MiningDrillDiamond
   description: A significantly more efficient mining drill tipped with diamond.
   components:
+#DS14-start
+  - type: Tag
+    tags:
+    - Pickaxe
+  - type: Item
+    storedRotation: -90
+#DS14-end
   - type: Sprite
     sprite: Objects/Tools/handdrilldiamond.rsi
     state: handdrill
   - type: MeleeWeapon
     autoAttack: true
-    angle: 0
+#    angle: 0 #DS14
     wideAnimationRotation: -90
     soundHit:
       path: "/Audio/Items/drill_hit.ogg"

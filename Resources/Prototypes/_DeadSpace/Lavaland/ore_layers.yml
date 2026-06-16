@@ -119,6 +119,15 @@
   maxGroupSize: 3
   radius: 4
 
+- type: biomeMarkerLayer
+  id: LavalandOreGibtonite
+  entityMask:
+    WallRockBasalt: WallRockBasaltGibtonite
+  maxCount: 28
+  minGroupSize: 2
+  maxGroupSize: 3
+  radius: 4
+
 # Chasms are split into several sparse layers so Lavaland gets readable hazards
 # instead of only tiny single holes or too many constant obstacles.
 - type: biomeMarkerLayer

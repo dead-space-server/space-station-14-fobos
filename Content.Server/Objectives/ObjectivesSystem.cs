@@ -1,5 +1,6 @@
 using Content.Server.GameTicking;
 using Content.Server.Shuttles.Systems;
+using Content.Shared.CCVar;
 using Content.Shared.Cuffs.Components;
 using Content.Shared.GameTicking.Components;
 using Content.Shared.Mind;
@@ -12,7 +13,6 @@ using Robust.Shared.Random;
 using System.Linq;
 using System.Text;
 using Content.Server.Objectives.Commands;
-using Content.Shared.CCVar;
 using Content.Shared.Prototypes;
 using Content.Shared.Roles.Jobs;
 using Robust.Server.Player;
@@ -32,7 +32,6 @@ public sealed class ObjectivesSystem : SharedObjectivesSystem
     [Dependency] private readonly IConfigurationManager _cfg = default!;
 
     private IEnumerable<string>? _objectives;
-
     private bool _showGreentext;
 
     public override void Initialize()
@@ -40,6 +39,7 @@ public sealed class ObjectivesSystem : SharedObjectivesSystem
         base.Initialize();
 
         SubscribeLocalEvent<RoundEndTextAppendEvent>(OnRoundEndText);
+        SubscribeLocalEvent<RoundEndDiscordTextAppendEvent>(OnRoundEndDiscordText); // DS14
 
         Subs.CVar(_cfg, CCVars.GameShowGreentext, value => _showGreentext = value, true);
 
@@ -54,7 +54,7 @@ public sealed class ObjectivesSystem : SharedObjectivesSystem
     }
 
     /// <summary>
-    /// Adds objective text for each game rule's players on round end.
+    /// Adds aggregate objective role text on round end.
     /// </summary>
     private void OnRoundEndText(RoundEndTextAppendEvent ev)
     {
@@ -111,25 +111,76 @@ public sealed class ObjectivesSystem : SharedObjectivesSystem
             {
                 result.AppendLine(Loc.GetString("objectives-round-end-result-in-custody", ("count", total), ("custody", totalInCustody), ("agent", agent)));
             }
-            // next add all the players with its own prepended text
-            foreach (var (prepend, minds) in summary)
+
+            foreach (var (prepend, _) in summary)
             {
-                if (prepend != string.Empty)
-                    result.Append(prepend);
-
-                // add space between the start text and player list
-                result.AppendLine();
-
-                AddSummary(result, agent, minds);
+                if (!string.IsNullOrWhiteSpace(prepend))
+                    result.AppendLine(prepend.Trim());
             }
 
             ev.AddLine(result.AppendLine().ToString());
         }
     }
 
+    // DS14-start
+    private void OnRoundEndDiscordText(RoundEndDiscordTextAppendEvent ev)
+    {
+        var summaries = GetDiscordObjectiveSummaries();
+
+        foreach (var (agent, summary) in summaries)
+        {
+            var result = new StringBuilder();
+            foreach (var (prepend, minds) in summary)
+            {
+                if (!string.IsNullOrWhiteSpace(prepend))
+                    result.AppendLine(prepend.Trim());
+
+                AddSummary(result, agent, minds);
+            }
+
+            if (result.Length > 0)
+                ev.AddLine(result.AppendLine().ToString());
+        }
+    }
+
+    private Dictionary<string, Dictionary<string, List<(EntityUid, string)>>> GetDiscordObjectiveSummaries()
+    {
+        var summaries = new Dictionary<string, Dictionary<string, List<(EntityUid, string)>>>();
+        var query = EntityQueryEnumerator<GameRuleComponent>();
+        while (query.MoveNext(out var uid, out var gameRule))
+        {
+            if (!_gameTicker.IsGameRuleAdded(uid, gameRule))
+                continue;
+
+            var info = new ObjectivesTextGetInfoEvent(new List<(EntityUid, string)>(), string.Empty);
+            RaiseLocalEvent(uid, ref info);
+            if (info.Minds.Count == 0)
+                continue;
+
+            var agent = info.AgentName;
+            if (!summaries.ContainsKey(agent))
+                summaries[agent] = new Dictionary<string, List<(EntityUid, string)>>();
+
+            var prepend = new ObjectivesTextPrependEvent("");
+            RaiseLocalEvent(uid, ref prepend);
+
+            var summary = summaries[agent];
+            if (summary.ContainsKey(prepend.Text))
+            {
+                summary[prepend.Text].AddRange(info.Minds);
+            }
+            else
+            {
+                summary[prepend.Text] = info.Minds;
+            }
+        }
+
+        return summaries;
+    }
+
     private void AddSummary(StringBuilder result, string agent, List<(EntityUid, string)> minds)
     {
-        var agentSummaries = new List<(string summary, float successRate, int completedObjectives)>();
+        var agentSummaries = new List<(string Summary, float SuccessRate, int CompletedObjectives)>();
 
         foreach (var (mindId, name) in minds)
         {
@@ -153,9 +204,6 @@ public sealed class ObjectivesSystem : SharedObjectivesSystem
 
             foreach (var objectiveGroup in objectives.GroupBy(o => Comp<ObjectiveComponent>(o).LocIssuer))
             {
-                //TO DO:
-                //check for the right group here. Getting the target issuer is easy: objectiveGroup.Key
-                //It should be compared to the type of the group's issuer.
                 agentSummary.AppendLine(objectiveGroup.Key);
 
                 foreach (var objective in objectiveGroup)
@@ -213,14 +261,16 @@ public sealed class ObjectivesSystem : SharedObjectivesSystem
             agentSummaries.Add((agentSummary.ToString(), successRate, completedObjectives));
         }
 
-        var sortedAgents = agentSummaries.OrderByDescending(x => x.successRate)
-                                       .ThenByDescending(x => x.completedObjectives);
+        var sortedAgents = agentSummaries
+            .OrderByDescending(x => x.SuccessRate)
+            .ThenByDescending(x => x.CompletedObjectives);
 
         foreach (var (summary, _, _) in sortedAgents)
         {
             result.AppendLine(summary);
         }
     }
+    // DS14-end
 
     public EntityUid? GetRandomObjective(EntityUid mindId, MindComponent mind, ProtoId<WeightedRandomPrototype> objectiveGroupProto, float maxDifficulty)
     {
@@ -258,7 +308,7 @@ public sealed class ObjectivesSystem : SharedObjectivesSystem
     /// <summary>
     /// Returns whether a target is considered 'in custody' (cuffed on the shuttle).
     /// </summary>
-    private bool IsInCustody(EntityUid mindId, MindComponent? mind = null)
+    public bool IsInCustody(EntityUid mindId, MindComponent? mind = null) // DS14. did public
     {
         if (!Resolve(mindId, ref mind))
             return false;

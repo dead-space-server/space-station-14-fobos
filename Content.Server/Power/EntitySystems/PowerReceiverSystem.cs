@@ -15,6 +15,7 @@ namespace Content.Server.Power.EntitySystems
     public sealed class PowerReceiverSystem : SharedPowerReceiverSystem
     {
         [Dependency] private readonly IAdminManager _adminManager = default!;
+        [Dependency] private readonly PowerNetSystem _powerNet = default!; // DS14
         private EntityQuery<ApcPowerReceiverComponent> _recQuery;
         private EntityQuery<ApcPowerProviderComponent> _provQuery;
 
@@ -67,6 +68,10 @@ namespace Content.Server.Power.EntitySystems
             foreach (var receiver in component.LinkedReceivers)
             {
                 receiver.NetworkLoad.LinkedNetwork = default;
+                // DS14-start
+                receiver.NetworkLoad.SetReceivingPower(0f);
+                _powerNet.QueueApcReceiverUpdate(receiver.Owner);
+                // DS14-end
                 component.Net?.QueueNetworkReconnect();
             }
 
@@ -148,6 +153,10 @@ namespace Content.Server.Power.EntitySystems
         {
             var comp = receiver.Comp;
             comp.NetworkLoad.LinkedNetwork = default;
+            // DS14-start
+            comp.NetworkLoad.SetReceivingPower(0f);
+            _powerNet.QueueApcReceiverUpdate(receiver.Owner);
+            // DS14-end
         }
 
         /// <summary>

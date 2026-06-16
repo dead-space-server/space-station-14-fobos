@@ -13,6 +13,10 @@ namespace Content.Client.Administration.UI.Bwoink
         public BwoinkWindow()
         {
             RobustXamlLoader.Load(this);
+            // DS14-start
+            MinSize = Bwoink.GetPreferredMinWindowSize();
+            SetSize = Bwoink.GetPreferredWindowSize();
+            // DS14-end
 
             Bwoink.ChannelSelector.OnSelectionChanged += sel =>
             {

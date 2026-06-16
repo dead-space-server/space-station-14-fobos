@@ -60,3 +60,13 @@
       amount: 1
   products:
     Phenylacetone: 2
+
+- type: reaction
+  id: Celestin
+  reactants:
+    Desoxyephedrine:
+      amount: 1
+    Dylovene:
+      amount: 1
+  products:
+    Celestin: 2

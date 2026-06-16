@@ -25,6 +25,7 @@ using Robust.Server.Player;
 using Robust.Shared.Configuration;
 using Robust.Shared.Console;
 using Robust.Shared.Enums;
+using Robust.Shared.Map;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
@@ -109,6 +110,7 @@ public sealed class GhostRoleSystem : EntitySystem
                     break;
                 }
             case MobState.Critical:
+            case MobState.PreCritical: // DS14
             case MobState.Dead:
                 UnregisterGhostRole((component, ghostRole));
                 break;
@@ -590,6 +592,11 @@ public sealed class GhostRoleSystem : EntitySystem
         if (!_ghostRoles.TryGetValue(identifier, out var role))
             return;
 
+        // DS14-start: avoid parenting observers to nullspace targets.
+        if (!IsRoleOnValidMap(role.Owner))
+            return;
+        // DS14-end
+
         if (player.AttachedEntity == null)
             return;
 
@@ -623,7 +630,23 @@ public sealed class GhostRoleSystem : EntitySystem
     public int GetGhostRoleCount()
     {
         var metaQuery = GetEntityQuery<MetaDataComponent>();
-        return _ghostRoles.Count(pair => metaQuery.GetComponent(pair.Value.Owner).EntityPaused == false);
+
+        // DS14-start
+        var count = 0;
+
+        foreach (var (_, (uid, _)) in _ghostRoles)
+        {
+            if (metaQuery.GetComponent(uid).EntityPaused)
+                continue;
+
+            if (!IsRoleOnValidMap(uid))
+                continue;
+
+            count++;
+        }
+
+        return count;
+        // DS14-end
     }
 
     /// <summary>
@@ -642,6 +665,10 @@ public sealed class GhostRoleSystem : EntitySystem
             if (metaQuery.GetComponent(uid).EntityPaused)
                 continue;
 
+            // DS14-start: hidden roles on invalid maps are not safely available.
+            if (!IsRoleOnValidMap(uid))
+                continue;
+            // DS14-end
 
             var kind = GhostRoleKind.FirstComeFirstServe;
             GhostRoleRaffleComponent? raffle = null;
@@ -813,10 +840,24 @@ public sealed class GhostRoleSystem : EntitySystem
 
     private bool CanTakeGhost(EntityUid uid, GhostRoleComponent? component = null)
     {
-        return Resolve(uid, ref component, false) &&
-               !component.Taken &&
-               !MetaData(uid).EntityPaused;
+        // DS14-start
+        var canTake = Resolve(uid, ref component, false) &&
+                      !component.Taken &&
+                      !MetaData(uid).EntityPaused;
+
+        canTake &= IsRoleOnValidMap(uid);
+        return canTake;
+
     }
+
+    private bool IsRoleOnValidMap(EntityUid uid)
+    {
+        if (!TryComp(uid, out TransformComponent? xform))
+            return false;
+
+        return xform.MapUid != null && xform.MapID != MapId.Nullspace;
+    }
+    // DS14-end
 
     private void OnTakeoverTakeRole(EntityUid uid, GhostTakeoverAvailableComponent component, ref TakeGhostRoleEvent args)
     {

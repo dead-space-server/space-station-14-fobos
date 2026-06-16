@@ -272,6 +272,7 @@
     - id: CargoRequestComputerCircuitboardTaipan
     - id: CargoSaleComputerCircuitboardTaipan
     - id: SalvageMagnetMachineCircuitboard
+    - id: TaipanCommunicationsOfficerIDcard
     - id: DoorRemoteTaipan
     - id: OmnitoolSyndicate
     - id: AccessConfiguratorTaipan

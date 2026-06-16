@@ -80,7 +80,7 @@
     zeroVisible: true
   - type: Appearance
   - type: UseDelay
-    delay: 1.5
+    delay: 1
 
 ### Магазин Застабы
 - type: entity
@@ -247,7 +247,7 @@
           - CartridgeRPL20
   - type: Appearance
   - type: UseDelay
-    delay: 2.5
+    delay: 1
 
 ### Магазин
 - type: entity
@@ -334,7 +334,7 @@
           - CartridgeASh12
   - type: Appearance
   - type: UseDelay
-    delay: 2.5
+    delay: 1
 
 ### Магазин
 - type: entity
@@ -418,7 +418,7 @@
   - type: Appearance
   - type: Wieldable
   - type: UseDelay
-    delay: 1.5
+    delay: 1
 
 ### Магазины
 - type: entity
@@ -516,7 +516,7 @@
     maxOffset: 4
     pvsIncrease: 0.3
   - type: UseDelay
-    delay: 1.5
+    delay: 1
 
 ## Магазин VSK
 
@@ -609,7 +609,7 @@
     zeroVisible: true
   - type: Appearance
   - type: UseDelay
-    delay: 1.5
+    delay: 1
 
 ## Клинок-обелиск
 - type: entity
@@ -727,7 +727,7 @@
   - type: Wieldable
     useDelayOnWield: true
   - type: UseDelay
-    delay: 2.0
+    delay: 1
   - type: Execution
     doAfterDuration: 4.0
 
@@ -810,7 +810,7 @@
         state: rope
     - type: Gun
       soundGunshot: /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/hook-sfx/shot_hook.ogg
-      fireRate: 0.15
+      fireRate: 0.5
     - type: BasicEntityAmmoProvider
       proto: HandHookProjectile
       capacity: 1

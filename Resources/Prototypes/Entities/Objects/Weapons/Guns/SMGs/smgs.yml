@@ -99,7 +99,7 @@
     sprite: Objects/Weapons/Guns/SMGs/c20r.rsi
   - type: Gun
     minAngle: 2
-    maxAngle: 16
+    maxAngle: 8
     shotsPerBurst: 5
     availableModes:
     - Burst
@@ -107,6 +107,18 @@
     - SemiAuto
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/c-20r.ogg
+#DS-14 start
+  - type: MeleeWeapon 
+    damage:
+      types:
+        Blunt: 15
+    angle: 90
+    animation: WeaponArcThrust
+    soundHit:
+      collection: WeakHit
+  - type: AltFireMelee
+    attackType: Heavy
+#DS-14 end
   - type: ChamberMagazineAmmoProvider
     autoEject: true
   - type: MagazineVisuals

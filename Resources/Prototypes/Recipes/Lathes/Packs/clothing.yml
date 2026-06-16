@@ -169,6 +169,7 @@
   - ClothingUniformJumpsuitMusician
   - ClothingUniformJumpsuitMimeSexyWhite # DS14
   - ClothingUniformJumpsuitMimeSexyBlack # DS14
+  - ClothingBackpackTailbag # DS14
 
 - type: latheRecipePack
   id: WinterCoats

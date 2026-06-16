@@ -948,6 +948,8 @@
     - LeavesCannabis
   mutationPrototypes:
     - rainbowCannabis
+    - tritiumCannabis
+    - tritiumCannabis
   harvestRepeat: Repeat
   lifespan: 75
   maturation: 8

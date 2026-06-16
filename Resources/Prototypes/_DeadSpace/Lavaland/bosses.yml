@@ -656,7 +656,7 @@
     table: !type:AllSelector
       children:
       - id: FireballSpellbook
-        prob: 0.35
+        prob: 0.01
 
 - type: lavalandBossArena
   id: LavalandBubblegumArena

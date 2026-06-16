@@ -82,16 +82,26 @@ public sealed class XenoborgsRuleSystem : GameRuleSystem<XenoborgsRuleComponent>
 
         args.AddLine(Loc.GetString("xenoborg-max-number", ("count", component.MaxNumberXenoborgs)));
 
+        args.AddLine("");
+    }
+
+    // DS14-start
+    protected override void AppendRoundEndDiscordText(EntityUid uid,
+        XenoborgsRuleComponent component,
+        GameRuleComponent gameRule,
+        ref RoundEndDiscordTextAppendEvent args)
+    {
         args.AddLine(Loc.GetString("xenoborgs-list-start"));
 
         var antags = _antag.GetAntagIdentifiers(uid);
-
         foreach (var (_, sessionData, name) in antags)
         {
             args.AddLine(Loc.GetString("xenoborgs-list", ("name", name), ("user", sessionData.UserName)));
         }
+
         args.AddLine("");
     }
+    // DS14-end
 
     private void CheckRoundEnd(XenoborgsRuleComponent xenoborgsRuleComponent)
     {

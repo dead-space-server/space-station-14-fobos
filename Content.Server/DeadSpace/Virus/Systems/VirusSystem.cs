@@ -159,7 +159,6 @@ public sealed partial class VirusSystem : SharedVirusSystem
         var compList = whitelist.Components.ToHashSet();
 
         compList.Add("MobState");
-        compList.Add("HumanoidAppearance");
         compList.Add("Bloodstream");
 
         _timedWindowSystem.Reset(component.VirusUpdateWindow);

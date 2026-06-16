@@ -14,6 +14,9 @@
   id: BatteryWeaponFireModesSprites
 
 - type: Tag
+  id: Baltica9
+
+- type: Tag
   id: BerryDelight
 
 - type: Tag
@@ -57,6 +60,9 @@
 
 - type: Tag
   id: CartridgeSniperRifle
+
+- type: Tag
+  id: CartridgeHeavyPistol
 
 - type: Tag
   id: CatEmotes
@@ -140,6 +146,9 @@
   id: ExplorerSuitLavaland
 
 - type: Tag
+  id: FoodBreadBaguette
+
+- type: Tag
   id: FlamethrowerBackTank
 
 - type: Tag
@@ -206,6 +215,9 @@
   id: Koibean
 
 - type: Tag
+  id: KeyUniversal
+
+- type: Tag
   id: LauncherChinaLake
 
 - type: Tag
@@ -237,6 +249,9 @@
 
 - type: Tag
   id: MagazineGurza
+
+- type: Tag
+  id: MagazineAMD
 
 - type: Tag
   id: MagazineHristov
@@ -291,6 +306,9 @@
 
 - type: Tag
   id: Plastitanium
+
+- type: Tag
+  id: PoSabre
 
 - type: Tag
   id: Plasteel
@@ -429,6 +447,9 @@
 
 - type: Tag
   id: WhiteFlower
+
+- type: Tag
+  id: WriteReWrite
 
 - type: Tag
   id: YellowFlower

@@ -68,6 +68,11 @@ jobs:
         --results-directory TestResults
         -- NUnit.ConsoleOut=0
 
+    - name: Print Content.Tests failures
+      if: always()
+      shell: pwsh
+      run: ./.github/scripts/print-test-failures.ps1 -ResultsDirectory TestResults
+
     - name: Upload Content.Tests results
       if: always()
       uses: actions/upload-artifact@v4
@@ -138,6 +143,11 @@ jobs:
           --logger "trx;LogFileName=$env:TEST_RESULTS_NAME" `
           --results-directory TestResults `
           -- NUnit.ConsoleOut=1 NUnit.MapWarningTo=Failed
+
+    - name: Print integration test failures
+      if: always()
+      shell: pwsh
+      run: ./.github/scripts/print-test-failures.ps1 -ResultsDirectory TestResults
 
     - name: Upload integration test results
       if: always()

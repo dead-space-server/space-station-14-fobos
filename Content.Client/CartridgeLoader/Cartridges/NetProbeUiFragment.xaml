@@ -1,14 +1,14 @@
 ﻿<cartridges:NetProbeUiFragment xmlns:cartridges="clr-namespace:Content.Client.CartridgeLoader.Cartridges"
                                  xmlns="https://spacestation14.io" Margin="1 0 2 0">
-    <PanelContainer StyleClasses="BackgroundDark"></PanelContainer>
+    <PanelContainer StyleClasses="DS14MenuPanelDark"></PanelContainer>
     <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True">
         <BoxContainer Orientation="Vertical" MinHeight="32" MaxHeight="32" VerticalAlignment="Top" Margin="3 0">
             <PanelContainer Name="HeaderPanel">
                 <BoxContainer Orientation="Horizontal" HorizontalExpand="True" Margin="4">
-                    <Label HorizontalExpand="True" Text="{Loc 'net-probe-label-name'}"/>
-                    <Label HorizontalExpand="True" Text="{Loc 'net-probe-label-address'}"/>
-                    <Label HorizontalExpand="True" Text="{Loc 'net-probe-label-frequency'}"/>
-                    <Label HorizontalExpand="True" Text="{Loc 'net-probe-label-network'}"/>
+                    <Label HorizontalExpand="True" Text="{Loc 'net-probe-label-name'}" StyleClasses="DS14MenuListHeader"/>
+                    <Label HorizontalExpand="True" Text="{Loc 'net-probe-label-address'}" StyleClasses="DS14MenuListHeader"/>
+                    <Label HorizontalExpand="True" Text="{Loc 'net-probe-label-frequency'}" StyleClasses="DS14MenuListHeader"/>
+                    <Label HorizontalExpand="True" Text="{Loc 'net-probe-label-network'}" StyleClasses="DS14MenuListHeader"/>
                 </BoxContainer>
             </PanelContainer>
         </BoxContainer>

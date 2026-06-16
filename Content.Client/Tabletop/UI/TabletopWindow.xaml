@@ -1,11 +1,18 @@
 ﻿<DefaultWindow xmlns="https://spacestation14.io"
             xmlns:viewport="clr-namespace:Content.Client.Viewport">
-    <viewport:ScalingViewport Name="ScalingVp" MouseFilter="Stop" RenderScaleMode="CeilInt">
-        <Button Name="FlipButton"
-                Text="{ Loc 'tabletop-chess-flip' }"
-                MinSize="60 30"
-                MaxSize="60 30"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top" />
-    </viewport:ScalingViewport>
+    <BoxContainer Orientation="Vertical">
+        <viewport:ScalingViewport Name="ScalingVp" MouseFilter="Stop" RenderScaleMode="CeilInt" VerticalExpand="True">
+            <Button Name="FlipButton"
+                    Text="{ Loc 'tabletop-chess-flip' }"
+                    MinSize="60 30"
+                    MaxSize="60 30"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top" />
+        </viewport:ScalingViewport>
+<!-- DS14-Start -->
+        <BoxContainer Orientation="Horizontal" Margin="10 2 5 5" VerticalAlignment="Bottom">
+            <Label Text="{ Loc 'tabletop-remove-figurine-hint' }" StyleClasses="WindowFooterText"/>
+        </BoxContainer>
+    </BoxContainer>
 </DefaultWindow>
+<!-- DS14-End -->

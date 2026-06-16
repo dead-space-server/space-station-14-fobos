@@ -4,7 +4,7 @@
   cost:
     SpaceCash: 30
   categories:
-    - VendingYouToolInventory
+    - VendingYouToolInventoryOther # DS-14
   conditions:
     - !type:ListingLimitedStockCondition
       stock: 5
@@ -13,56 +13,56 @@
   id: YooToolCrowbar
   productEntity: Crowbar
   cost:
-    SpaceCash: 15
+    SpaceCash: 5 # DS-14
   categories:
     - VendingYouToolInventory
   conditions:
     - !type:ListingLimitedStockCondition
-      stock: 5
+      stock: 15 # DS-14
 
 - type: listing
   id: YooToolWelder
   productEntity: Welder
   cost:
-    SpaceCash: 20
+    SpaceCash: 20 # DS-14
   categories:
     - VendingYouToolInventory
   conditions:
     - !type:ListingLimitedStockCondition
-      stock: 2
+      stock: 5 # DS-14
 
 - type: listing
   id: YooToolWirecutter
   productEntity: Wirecutter
   cost:
-    SpaceCash: 15
+    SpaceCash: 15 # DS-14
   categories:
     - VendingYouToolInventory
   conditions:
     - !type:ListingLimitedStockCondition
-      stock: 3
+      stock: 10 # DS-14
 
 - type: listing
   id: YooToolWrench
   productEntity: Wrench
   cost:
-    SpaceCash: 15
+    SpaceCash: 10 # DS-14
   categories:
     - VendingYouToolInventory
   conditions:
     - !type:ListingLimitedStockCondition
-      stock: 6
+      stock: 15 # DS-14
 
 - type: listing
   id: YooToolScrewdriver
   productEntity: Screwdriver
   cost:
-    SpaceCash: 15
+    SpaceCash: 15 # DS-14
   categories:
     - VendingYouToolInventory
   conditions:
     - !type:ListingLimitedStockCondition
-      stock: 2
+      stock: 10 # DS-14
 
 - type: listing
   id: YooTooltrayScanner
@@ -70,7 +70,7 @@
   cost:
     SpaceCash: 15
   categories:
-    - VendingYouToolInventory
+    - VendingYouToolInventoryOther # DS-14
   conditions:
     - !type:ListingLimitedStockCondition
       stock: 3
@@ -81,7 +81,7 @@
   cost:
     SpaceCash: 20
   categories:
-    - VendingYouToolInventory
+    - VendingYouToolInventoryOther # DS-14
   conditions:
     - !type:ListingLimitedStockCondition
       stock: 3
@@ -92,7 +92,7 @@
   cost:
     SpaceCash: 20
   categories:
-    - VendingYouToolInventory
+    - VendingYouToolInventoryOther # DS-14
   conditions:
     - !type:ListingLimitedStockCondition
       stock: 3
@@ -103,7 +103,7 @@
   cost:
     SpaceCash: 10
   categories:
-    - VendingYouToolInventory
+    - VendingYouToolInventoryOther # DS-14
   conditions:
     - !type:ListingLimitedStockCondition
       stock: 5
@@ -114,7 +114,7 @@
   cost:
     SpaceCash: 10
   categories:
-    - VendingYouToolInventory
+    - VendingYouToolInventoryOther # DS-14
   conditions:
     - !type:ListingLimitedStockCondition
       stock: 3
@@ -125,7 +125,7 @@
   cost:
     SpaceCash: 25
   categories:
-    - VendingYouToolInventory
+    - VendingYouToolInventoryOther # DS-14
   conditions:
     - !type:ListingLimitedStockCondition
       stock: 5
@@ -136,7 +136,7 @@
   cost:
     SpaceCash: 25
   categories:
-    - VendingYouToolInventory
+    - VendingYouToolInventoryOther # DS-14
   conditions:
     - !type:ListingLimitedStockCondition
       stock: 2

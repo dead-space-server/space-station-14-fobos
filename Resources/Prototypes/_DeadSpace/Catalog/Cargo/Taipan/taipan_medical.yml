@@ -147,3 +147,33 @@
   cost: 2000
   category: cargoproduct-category-name-medical
   group: taipan_market
+
+- type: cargoProduct
+  id: WeakViralSolutionTaipan
+  icon:
+    sprite: Objects/Specific/Chemistry/vial.rsi
+    state: vial
+  product: CrateWeakViralSolutionTaipan
+  cost: 7500
+  category: cargoproduct-category-name-medical
+  group: taipan_market
+
+- type: cargoProduct
+  id: MediumViralSolutionTaipan
+  icon:
+    sprite: Objects/Specific/Chemistry/vial.rsi
+    state: vial
+  product: CrateMediumViralSolutionTaipan
+  cost: 35000
+  category: cargoproduct-category-name-medical
+  group: taipan_market
+
+- type: cargoProduct
+  id: StrongViralSolutionTaipan
+  icon:
+    sprite: Objects/Specific/Chemistry/vial.rsi
+    state: vial
+  product: CrateStrongViralSolutionTaipan
+  cost: 85000
+  category: cargoproduct-category-name-medical
+  group: taipan_market

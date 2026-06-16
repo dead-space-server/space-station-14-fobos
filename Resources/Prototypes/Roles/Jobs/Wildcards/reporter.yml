@@ -14,10 +14,10 @@
   - Service
   - Maintenance
   #start-backmen: currency
-  minBankBalance: 150
-  maxBankBalance: 250
+  minBankBalance: 250 # DS14-value
+  maxBankBalance: 350 # DS14-value
   wageDepartment: Civilian
-  wage: 50
+  wage: 120 # DS14-value
   #end-backmen: currency
   special:
   - !type:AddComponentSpecial

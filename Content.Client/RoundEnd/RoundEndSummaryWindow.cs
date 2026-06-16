@@ -541,13 +541,43 @@ namespace Content.Client.RoundEnd
                 VerticalExpand = true,
             };
 
-            content.AddChild(new Label
+            // DS14-start
+            var nameRow = new BoxContainer
+            {
+                Orientation = LayoutOrientation.Horizontal,
+                HorizontalExpand = true,
+            };
+            nameRow.AddChild(new Label
+            // DS14-end
             {
                 Text = playerInfo.PlayerICName ?? Loc.GetString("generic-unknown-title"),
                 StyleClasses = { "LabelBig" },
                 ClipText = true,
                 HorizontalExpand = true,
             });
+            // DS14-start
+            if (playerInfo.IsDead)
+            {
+                var badgeLabel = new RichTextLabel
+                {
+                    VerticalAlignment = VAlignment.Center,
+                    Margin = new Thickness(8, 0, 0, 0),
+                };
+                badgeLabel.SetMarkup(Loc.GetString("objectives-eliminated"));
+                nameRow.AddChild(badgeLabel);
+            }
+            else if (playerInfo.InCustody)
+            {
+                var badgeLabel = new RichTextLabel
+                {
+                    VerticalAlignment = VAlignment.Center,
+                    Margin = new Thickness(8, 0, 0, 0),
+                };
+                badgeLabel.SetMarkup(Loc.GetString("objectives-in-custody"));
+                nameRow.AddChild(badgeLabel);
+            }
+            content.AddChild(nameRow);
+            // DS14-end
 
             content.AddChild(MakeDetailRow(
                 Loc.GetString("round-end-summary-window-antag-manifest-ooc",
@@ -914,19 +944,21 @@ namespace Content.Client.RoundEnd
             if (string.IsNullOrWhiteSpace(roundEnd))
                 return null;
 
-            var lines = roundEnd
+            var lines = new List<string>();
+
+            foreach (var line in roundEnd
                 .Replace("\r\n", "\n")
                 .Replace('\r', '\n')
-                .Split('\n', StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (var line in lines)
+                .Split('\n'))
             {
                 var trimmed = line.Trim();
-                if (!string.IsNullOrWhiteSpace(trimmed))
-                    return trimmed;
+                if (string.IsNullOrWhiteSpace(trimmed))
+                    continue;
+
+                lines.Add(trimmed);
             }
 
-            return null;
+            return lines.Count == 0 ? null : string.Join('\n', lines);
         }
 
         private static string GetRoleSortKey(RoundEndMessageEvent.RoundEndPlayerInfo playerInfo)
@@ -1050,6 +1082,7 @@ namespace Content.Client.RoundEnd
                 var snapshotSprite = EntMan.GetComponent<SpriteComponent>(snapshotUid);
                 SpriteSystem.CopySprite((source, sourceSprite), (snapshotUid, snapshotSprite));
                 HideTypingIndicator(snapshotUid, snapshotSprite);
+                SpriteSystem.SetRotation((snapshotUid, snapshotSprite), Angle.Zero);
 
                 if (!HasDrawableSprite(snapshotSprite))
                 {

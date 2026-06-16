@@ -37,7 +37,7 @@
   table: !type:AllSelector
     children:
     - id: UnknownShuttleManOWar
-    - id: UnknownShuttleInstigator
+#    - id: UnknownShuttleInstigator
 #    - id: UnknownShuttlePirate
     - id: UnknownShuttleSyndieEvacPod
 
@@ -92,6 +92,7 @@
     - id: LoneOpsSpawn
     - id: RenegadeSpawn
     - id: WizardSpawn
+    - id: SyndicateRaid
 
 - type: entityTable
   id: SurvivalLateThreatsTable
@@ -232,6 +233,7 @@
         volume: -2
     maxEventOccurrences:
       PirateRaid: 2
+      SyndicateRaid: 2
       RevenantSpawn: 2
       DemonsInvasion: 2
       ShadowDemonInvasion: 2

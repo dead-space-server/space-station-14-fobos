@@ -83,14 +83,15 @@
   - type: StorageFill
     contents:
         - id: ERTloadoutGammaPrimary
-        - id: ERTloadoutGammaSecondary
         - id: BoxCardboardERT
-        - id: JawsOfLife
+        - id: JawsOfLifeSpecialOperationsOfficer
         - id: BSAACombatKitFilled
         - id: InjectorCaseERTFilled
         - id: InjectorCaseStimFilled
         - id: ADTCombatHypo
         - id: PinpointerNuclear
+        - id: SpeedLoaderMagnum
+        - id: SpeedLoaderMagnum
         - id: SpeedLoaderMagnum
         - id: SpeedLoaderMagnum
         - id: MagazineBoxMagnum

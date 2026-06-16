@@ -1,10 +1,14 @@
 using System.Diagnostics;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using Content.Server.NPC.HTN;
 using Content.Server.Shuttles.Components;
 using Content.Server.Shuttles.Systems;
+using Content.Shared.Backmen.Blob.Components;
+using Content.Shared.Conveyor;
 using Content.Shared.Movement.Components;
 using Content.Shared.Movement.Systems;
+using Content.Shared.NPC;
 using Content.Shared.Shuttles.Components;
 using Content.Shared.Shuttles.Systems;
 using Prometheus;
@@ -25,8 +29,13 @@ public sealed class MoverController : SharedMoverController
     private Dictionary<EntityUid, (ShuttleComponent, List<(EntityUid, PilotComponent, InputMoverComponent, TransformComponent)>)> _shuttlePilots = new();
 
     private EntityQuery<ActiveInputMoverComponent> _activeQuery;
+    private EntityQuery<ActiveNPCComponent> _activeNpcQuery;
+    private EntityQuery<ActorComponent> _actorQuery;
+    private EntityQuery<ConveyedComponent> _conveyedQuery;
     private EntityQuery<DroneConsoleComponent> _droneQuery;
+    private EntityQuery<HTNComponent> _htnQuery;
     private EntityQuery<ShuttleComponent> _shuttleQuery;
+    private EntityQuery<ZombieBlobComponent> _zombieBlobQuery;
 
     // Not needed for persistence; just used to save an alloc
     private readonly HashSet<EntityUid> _seenMovers = [];
@@ -39,6 +48,8 @@ public sealed class MoverController : SharedMoverController
 
         SubscribeLocalEvent<ActiveInputMoverComponent, EntityPausedEvent>(OnEntityPaused);
         SubscribeLocalEvent<InputMoverComponent, EntityUnpausedEvent>(OnEntityUnpaused);
+        SubscribeLocalEvent<ActiveNPCComponent, ComponentStartup>(OnActiveNpcStartup);
+        SubscribeLocalEvent<ActiveNPCComponent, ComponentShutdown>(OnActiveNpcShutdown);
 
         SubscribeLocalEvent<RelayInputMoverComponent, PlayerAttachedEvent>(OnRelayPlayerAttached);
         SubscribeLocalEvent<RelayInputMoverComponent, PlayerDetachedEvent>(OnRelayPlayerDetached);
@@ -46,8 +57,13 @@ public sealed class MoverController : SharedMoverController
         SubscribeLocalEvent<InputMoverComponent, PlayerDetachedEvent>(OnPlayerDetached);
 
         _activeQuery = GetEntityQuery<ActiveInputMoverComponent>();
+        _activeNpcQuery = GetEntityQuery<ActiveNPCComponent>();
+        _actorQuery = GetEntityQuery<ActorComponent>();
+        _conveyedQuery = GetEntityQuery<ConveyedComponent>();
         _droneQuery = GetEntityQuery<DroneConsoleComponent>();
+        _htnQuery = GetEntityQuery<HTNComponent>();
         _shuttleQuery = GetEntityQuery<ShuttleComponent>();
+        _zombieBlobQuery = GetEntityQuery<ZombieBlobComponent>();
     }
 
     private void OnEntityPaused(Entity<ActiveInputMoverComponent> ent, ref EntityPausedEvent args)
@@ -61,6 +77,18 @@ public sealed class MoverController : SharedMoverController
     private void OnEntityUnpaused(Entity<InputMoverComponent> ent, ref EntityUnpausedEvent args)
     {
         UpdateMoverStatus((ent, ent.Comp));
+    }
+
+    private void OnActiveNpcStartup(Entity<ActiveNPCComponent> ent, ref ComponentStartup args)
+    {
+        if (MoverQuery.TryComp(ent, out var mover))
+            UpdateMoverStatus((ent.Owner, mover, null));
+    }
+
+    private void OnActiveNpcShutdown(Entity<ActiveNPCComponent> ent, ref ComponentShutdown args)
+    {
+        if (MoverQuery.TryComp(ent, out var mover))
+            UpdateMoverStatus((ent.Owner, mover, null));
     }
 
     protected override void OnMoverStartup(Entity<InputMoverComponent> ent, ref ComponentStartup args)
@@ -90,6 +118,13 @@ public sealed class MoverController : SharedMoverController
             var meta = MetaData(ent);
             if (Terminating(ent, meta))
                 break;
+
+            if (CanDeactivateDormantNpcMover((ent.Owner, ent.Comp1), ent.Comp2))
+            {
+                SetWishDir((ent.Owner, ent.Comp1), Vector2.Zero);
+                RemCompDeferred<ActiveInputMoverComponent>(ent);
+                break;
+            }
 
             ActiveInputMoverComponent? activeMover = null;
             if (!meta.EntityPaused
@@ -140,11 +175,13 @@ public sealed class MoverController : SharedMoverController
     private void OnPlayerAttached(Entity<InputMoverComponent> entity, ref PlayerAttachedEvent args)
     {
         SetMoveInput(entity, MoveButtons.None);
+        UpdateMoverStatus((entity, entity.Comp));
     }
 
     private void OnPlayerDetached(Entity<InputMoverComponent> entity, ref PlayerDetachedEvent args)
     {
         SetMoveInput(entity, MoveButtons.None);
+        UpdateMoverStatus((entity, entity.Comp));
     }
 
     protected override bool CanSound()
@@ -166,6 +203,16 @@ public sealed class MoverController : SharedMoverController
         var inputQueryEnumerator = AllEntityQuery<ActiveInputMoverComponent, InputMoverComponent>();
         while (inputQueryEnumerator.MoveNext(out var uid, out var activeComp, out var moverComp))
         {
+            if (CanDeactivateDormantNpcMover((uid, moverComp), null, activeComp))
+            {
+                SetWishDir((uid, moverComp), Vector2.Zero);
+                RemCompDeferred<ActiveInputMoverComponent>(uid);
+                continue;
+            }
+
+            if (CanSkipIdleMover((uid, moverComp), activeComp))
+                continue;
+
             if (activeComp.RelayedFrom != null)
             {
                 _seenRelayMovers.Clear(); // O(1) if already empty
@@ -225,6 +272,109 @@ public sealed class MoverController : SharedMoverController
             _moversToUpdate.Add(entity);
         }
     }
+
+    // DS14-Start: keep dormant NPCs out of the mover hot path once they have fully stopped.
+    private bool CanDeactivateDormantNpcMover(
+        Entity<InputMoverComponent> entity,
+        MovementRelayTargetComponent? relayTarget,
+        ActiveInputMoverComponent? activeMover = null)
+    {
+        return IsDormantHtnNpcMover(entity.Owner, relayTarget, activeMover) &&
+               IsFullyIdleMover(entity, activeMover);
+    }
+
+    private bool CanSkipIdleMover(Entity<InputMoverComponent> entity, ActiveInputMoverComponent activeMover)
+    {
+        if (!IsFullyIdleMover(entity, activeMover))
+            return false;
+
+        // Players and relay chains need to stay in the full path for prediction and relay state propagation.
+        if (_actorQuery.HasComp(entity) ||
+            RelayQuery.HasComp(entity) ||
+            HasRunningRelayTarget(entity.Owner, null) ||
+            activeMover.RelayedFrom != null)
+        {
+            return false;
+        }
+
+        SetWishDir(entity, Vector2.Zero);
+        return true;
+    }
+
+    private bool IsDormantHtnNpcMover(
+        EntityUid uid,
+        MovementRelayTargetComponent? relayTarget,
+        ActiveInputMoverComponent? activeMover)
+    {
+        if (!_htnQuery.HasComp(uid) ||
+            HasRunningActiveNpc(uid) ||
+            _actorQuery.HasComp(uid) ||
+            _conveyedQuery.HasComp(uid) ||
+            RelayQuery.HasComp(uid) ||
+            HasRunningRelayTarget(uid, relayTarget) ||
+            _zombieBlobQuery.HasComp(uid) ||
+            activeMover?.RelayedFrom != null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private bool IsFullyIdleMover(Entity<InputMoverComponent> entity, ActiveInputMoverComponent? activeMover)
+    {
+        var mover = entity.Comp;
+
+        if (mover.HasDirectionalMovement ||
+            Timing.CurTick <= mover.LastInputTick ||
+            _conveyedQuery.HasComp(entity) ||
+            activeMover?.RelayedFrom != null ||
+            HasPendingRelativeMovement(entity.Owner, mover) ||
+            HasPendingRotation(mover))
+        {
+            return false;
+        }
+
+        if (!PhysicsQuery.TryComp(entity, out var physics))
+            return true;
+
+        return physics.LinearVelocity.Equals(Vector2.Zero) &&
+               physics.AngularVelocity.Equals(0f);
+    }
+
+    private bool HasRunningActiveNpc(EntityUid uid)
+    {
+        return _activeNpcQuery.TryComp(uid, out var activeNpc) &&
+               activeNpc.LifeStage <= ComponentLifeStage.Running;
+    }
+
+    private bool HasRunningRelayTarget(EntityUid uid, MovementRelayTargetComponent? relayTarget)
+    {
+        return RelayTargetQuery.Resolve(uid, ref relayTarget, logMissing: false) &&
+               relayTarget.LifeStage <= ComponentLifeStage.Running;
+    }
+
+    private bool HasPendingRelativeMovement(EntityUid uid, InputMoverComponent mover)
+    {
+        if (mover.LerpTarget == TimeSpan.Zero)
+            return false;
+
+        if (mover.LerpTarget >= Timing.CurTime)
+            return true;
+
+        if (!XformQuery.TryComp(uid, out var xform))
+            return false;
+
+        var relative = xform.GridUid ?? xform.MapUid;
+        return mover.RelativeEntity != relative;
+    }
+
+    private static bool HasPendingRotation(InputMoverComponent mover)
+    {
+        return !Angle.ShortestDistance(mover.RelativeRotation, mover.TargetRelativeRotation)
+            .EqualsApprox(Angle.Zero, 0.001);
+    }
+    // DS14-End
 
     public (Vector2 Strafe, float Rotation, float Brakes) GetPilotVelocityInput(PilotComponent component)
     {

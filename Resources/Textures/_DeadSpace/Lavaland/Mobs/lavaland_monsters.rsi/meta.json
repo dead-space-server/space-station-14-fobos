@@ -72,6 +72,9 @@
       "directions": 4
     },
     {
+      "name": "legion_dead"
+    },
+    {
       "name": "legion_head",
       "directions": 4,
       "delays": [

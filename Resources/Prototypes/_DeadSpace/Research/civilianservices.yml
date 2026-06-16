@@ -16,6 +16,19 @@
   - ClothingHeadHelmetRIGEVA
   - PlastineOfEVARIG
 
+- type: technology
+  id: VehicleJanicartTech
+  name: research-technology-vehicle-janicart
+  icon:
+    sprite: Objects/Vehicles/janicart.rsi
+    state: vehicle
+  discipline: CivilianServices
+  tier: 1
+  cost: 5000
+  recipeUnlocks:
+  - VehicleKeyJanicart
+  - VehicleJanicartFlatpack
+
 # Tier 3
 
 - type: technology

@@ -339,6 +339,7 @@
 #Jumpsuit
 - type: entity
   parent: ClothingUniformBase
+  categories: [ HideSpawnMenu ]
   id: ClothingUniformJumpsuitpvrsifvl
   name: китель железного лорда
   description: По внешнему состоянию заметно, что почти не носилась владельцем. Сшит по заказу спонсорской организации Warmind.

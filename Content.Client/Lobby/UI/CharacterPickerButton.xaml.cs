@@ -32,15 +32,16 @@ public sealed partial class CharacterPickerButton : ContainerButton
     public CharacterPickerButton(
         IEntityManager entityManager,
         IPrototypeManager prototypeManager,
-        ButtonGroup group,
+        ButtonGroup? group, // DS14
         ICharacterProfile profile,
-        bool isSelected)
+        bool isSelected,
+        bool isInaccessible = false) // DS14
     {
         RobustXamlLoader.Load(this);
         _entManager = entityManager;
         AddStyleClass(StyleClassButton);
-        ToggleMode = true;
-        Group = group;
+        ToggleMode = !isInaccessible; // DS14
+        Group = isInaccessible ? null : group; // DS14
         var description = profile.Name;
 
         if (profile is not HumanoidCharacterProfile humanoid)
@@ -60,8 +61,8 @@ public sealed partial class CharacterPickerButton : ContainerButton
             }
         }
 
-        Pressed = isSelected;
-        DeleteButton.Visible = !isSelected;
+        Pressed = !isInaccessible && isSelected; // DS14
+        DeleteButton.Visible = isInaccessible || !isSelected; // DS14
 
         View.SetEntity(_previewDummy);
         DescriptionLabel.Text = description;

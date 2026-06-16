@@ -1,8 +1,10 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using System.Linq;
+using System.Numerics;
 using Content.Server.Beam;
 using Content.Server.GameTicking;
+using Content.Server.Light.Components;
 using Content.Server.StationEvents.Events;
 using Content.Server.DeadSpace.Abilities.Cocoon;
 using Content.Server.DeadSpace.Demons.DemonShadow.Components;
@@ -15,6 +17,7 @@ using Content.Shared.Examine;
 using Content.Shared.Eye;
 using Content.Shared.Ghost;
 using Content.Shared.Interaction;
+using Content.Shared.Light.Components;
 using Content.Shared.Maps;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
@@ -26,6 +29,7 @@ using Content.Shared.Physics;
 using Content.Shared.Popups;
 using Content.Shared.Storage.Components;
 using Content.Shared.Stunnable;
+using Content.Shared.Tag;
 using Content.Shared.Weapons.Melee.Events;
 using Robust.Server.GameObjects;
 using Robust.Shared.Audio;
@@ -65,6 +69,10 @@ public sealed class DemonShadowSystem : SharedDemonShadowSystem
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly TurfSystem _turf = default!;
     [Dependency] private readonly SharedContainerSystem _containerSystem = default!;
+    [Dependency] private readonly TagSystem _tag = default!;
+
+    private const float ConeHalfAngle = 60f * MathF.PI / 180f;
+    private static readonly ProtoId<TagPrototype> FlareTag = "Flare";
 
     public override void Initialize()
     {
@@ -135,22 +143,21 @@ public sealed class DemonShadowSystem : SharedDemonShadowSystem
 
     public void ShadowCheck(EntityUid uid, DemonShadowComponent component)
     {
-        if (!IsShadowPosition(uid, component))
-        {
-            component.IsShadowPosition = false;
+        var shadowState = GetShadowPositionState(uid, component);
+
+        if (!shadowState.IsShadowPosition || shadowState.RevealedByLight)
             _appearance.SetData(uid, DemonShadowVisuals.Hide, false);
-            component.TimeToCheck = _gameTiming.CurTime + component.CheckDuration;
-            component.MovementSpeedMultiply = 1f;
-            _movement.RefreshMovementSpeedModifiers(uid);
-        }
-        else
+        else if (!component.IsShadowCrawl)
+            _appearance.SetData(uid, DemonShadowVisuals.Hide, true);
+
+        component.IsShadowPosition = shadowState.IsShadowPosition;
+        component.TimeToCheck = _gameTiming.CurTime + component.CheckDuration;
+
+        var movementSpeedMultiply = shadowState.IsShadowPosition ? 3f : 1f;
+        if (component.MovementSpeedMultiply != movementSpeedMultiply)
         {
-            component.IsShadowPosition = true;
-            if (!component.IsShadowCrawl)
-                _appearance.SetData(uid, DemonShadowVisuals.Hide, true);
-            component.MovementSpeedMultiply = 3f;
+            component.MovementSpeedMultiply = movementSpeedMultiply;
             _movement.RefreshMovementSpeedModifiers(uid);
-            component.TimeToCheck = _gameTiming.CurTime + component.CheckDuration;
         }
 
         return;
@@ -386,17 +393,20 @@ public sealed class DemonShadowSystem : SharedDemonShadowSystem
 
     public bool IsShadowPosition(EntityUid uid, DemonShadowComponent? component = null)
     {
+        return GetShadowPositionState(uid, component).IsShadowPosition;
+    }
+
+    private (bool IsShadowPosition, bool RevealedByLight) GetShadowPositionState(EntityUid uid, DemonShadowComponent? component = null)
+    {
         if (!Resolve(uid, ref component))
-            return false;
+            return (false, false);
 
         MapCoordinates lightPosition;
         MapCoordinates entityPosition = _transform.GetMapCoordinates(uid);
         float cocoonRange = 10f;
 
         var entities = _lookup.GetEntitiesInRange<ShadowCocoonComponent>(_transform.GetMapCoordinates(uid, Transform(uid)), cocoonRange);
-
-        if (entities.Count > 0)
-            return true;
+        var hasShadowCocoon = entities.Count > 0;
 
         var pointLightQuery = EntityQueryEnumerator<PointLightComponent, TransformComponent>();
 
@@ -416,11 +426,58 @@ public sealed class DemonShadowSystem : SharedDemonShadowSystem
 
             lightPosition = _transform.GetMapCoordinates(ent);
 
-            if (_examine.InRangeUnOccluded(entityPosition, lightPosition, lightComp.Radius, null) && lightComp.Enabled)
-                return false;
+            if (!_examine.InRangeUnOccluded(entityPosition, lightPosition, lightComp.Radius, null) || !lightComp.Enabled)
+                continue;
+
+            if (!IsInsideLightCone(uid, ent, lightComp))
+                continue;
+
+            if (IsPortableRevealingLight(ent, lightComp))
+            {
+                if (hasShadowCocoon)
+                    return (true, true);
+
+                return (false, false);
+            }
+
+            if (!hasShadowCocoon)
+                return (false, false);
         }
 
-        return true;
+        return (true, false);
+    }
+
+    private bool IsInsideLightCone(EntityUid uid, EntityUid lightUid, PointLightComponent light)
+    {
+        if (light.MaskPath == null)
+            return true;
+
+        var demonPosition = _transform.GetWorldPosition(uid);
+        var lightPosition = _transform.GetWorldPosition(lightUid);
+        var directionToDemon = demonPosition - lightPosition;
+
+        if (directionToDemon.LengthSquared() < 0.01f)
+            return true;
+
+        var lightRotation = _transform.GetWorldRotation(lightUid);
+        var forward = lightRotation.ToWorldVec();
+        var dot = Math.Clamp(Vector2.Dot(forward, directionToDemon.Normalized()), -1f, 1f);
+        var angle = MathF.Acos(dot);
+
+        return angle <= ConeHalfAngle;
+    }
+
+    private bool IsPortableRevealingLight(EntityUid uid, PointLightComponent light)
+    {
+        if (!light.Enabled)
+            return false;
+
+        if (TryComp<HandheldLightComponent>(uid, out var handheldLight))
+            return handheldLight.Activated;
+
+        return TryComp<ExpendableLightComponent>(uid, out var expendableLight) &&
+               expendableLight.Activated &&
+               _tag.HasTag(uid, FlareTag);
     }
 
     public void MakeVisible(bool visible)

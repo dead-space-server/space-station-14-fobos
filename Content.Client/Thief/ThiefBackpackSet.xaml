@@ -15,7 +15,7 @@
 			<!-- Icon and Description -->
 			<GridContainer Margin="0 5" Columns="2">
 				<TextureRect Name="Icon" Margin="10" Stretch="KeepAspectCentered"
-							VerticalAlignment="Center" HorizontalAlignment="Right" SetSize="64 64"/>
+							VerticalAlignment="Center" HorizontalAlignment="Right" MinSize="64 64"/>
 				<Label Name="SetDescription" Text="Description"></Label>
 			</GridContainer>
 		</BoxContainer>

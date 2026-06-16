@@ -17,10 +17,10 @@
   - Research
   - Maintenance
   #start-backmen: currency
-  minBankBalance: 150
-  maxBankBalance: 250
+  minBankBalance: 250
+  maxBankBalance: 350
   wageDepartment: Science
-  wage: 45
+  wage: 100
   #end-backmen: currency
   special:
   - !type:AddComponentSpecial

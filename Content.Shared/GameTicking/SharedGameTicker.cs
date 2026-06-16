@@ -205,6 +205,10 @@ namespace Content.Shared.GameTicking
 
             public RoundEndObjectiveInfo[] ManifestObjectives;
 
+            public bool InCustody;
+
+            public bool IsDead;
+
             public bool ShowInAntagManifest;
             // DS14-end
 

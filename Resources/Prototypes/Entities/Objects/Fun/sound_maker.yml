@@ -195,6 +195,19 @@
 
 ## Whistles
 
+#DS14-start
+- type: entity
+  parent: BaseAction
+  id: WhistleAction
+  name: посвистеть
+  description: Посвистеть в вашу свистелку.
+  components:
+  - type: Action
+    useDelay: 3
+  - type: InstantAction
+    event: !type:TriggerActionEvent
+#DS14-end
+
 - type: entity
   abstract: true
   parent: BaseItem
@@ -211,6 +224,17 @@
     sprite: Objects/Fun/whistles.rsi
     quickEquip: false
     slots: neck
+  #DS14-start
+  - type: TriggerOnAction
+    action: WhistleAction
+    parent: true
+  - type: UseDelayOnTrigger
+  - type: EmitSoundOnTrigger
+    sound:
+      collection: BaseWhistle
+  - type: WhistleOnTrigger
+    targetUser: true
+  #DS14-end
   - type: UseDelay
     delay: 3
   - type: EmitSoundOnUse
@@ -251,6 +275,11 @@
   - type: EmitSoundOnUse
     sound:
       collection: TrenchWhistle
+  #DS4-start
+  - type: EmitSoundOnTrigger
+    sound:
+      collection: TrenchWhistle
+  #DS4-end
   - type: Whistle
     distance: 15 # Let your enemies hear the sound of death approaching
 

@@ -14,6 +14,7 @@
   id: ClothingUniformJumpsuitDragonFox
   name: чёрный нано-костюм
   description: Чёрный нано-костюм, выполненый из очень дорогих тканей.
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/DragonFox/jumpsuit.rsi
@@ -26,6 +27,7 @@
   id: ClothingOuterHardsuitDragonFox
   name: королевский украшенный скафандр
   description: Принадлежат члену экипажа, находящемуся под покровительством спонсорской организации.
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/DragonFox/suit.rsi
@@ -271,6 +273,7 @@
   id: ClothingBackpackSingleStrapКhaki
   name: однолямочный  рюкзак
   description: Однолямочный рюкзак для хранения вещей. Окрашен в зелёный хаки.
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/DragonFox/backpack.rsi
@@ -280,6 +283,7 @@
   parent: ClothingOuterHardsuitBase
   id: ClothingOuterHardsuitDragonFoxAlt
   name: скафандр Адепта Сороритас
+  categories: [ HideSpawnMenu ]
   description: Скафандр Адепта Сороритас является не только средством защиты, но и символом веры и преданности Сестёр своему делу преданность и готовность защищать Империум от любых угроз.
   components:
   - type: Armor
@@ -310,6 +314,7 @@
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
   id: ClothingHeadHelmetHardsuitDragonFoxAlt
   name: шлем Адепта Сороритас
+  categories: [ HideSpawnMenu ]
   description: Шлем оснащён системами фильтрации которые обеспечивают сёстрам чистый воздух. Дизайн шлема отражает его функциональность и эстетику, сочетая в себе элементы футуризма и религиозного символизма.
   components:
   - type: Sprite
@@ -328,6 +333,7 @@
   id: ClothingBackpackDragonFoxMedTech
   name: боевой медицинский рюкзак МедТех-Элит
   description: Предназначен для удобного размещения и переноски медицинского оборудования в условиях боевых действий.
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/DragonFox/MedTech/other/backpack.rsi
@@ -494,6 +500,7 @@
       - NewsReaderCartridge
       - BankCartridge
       - MedTekCartridge
+      - MessengerCartridge
 
 - type: entity
   parent: ClothingUniformBase

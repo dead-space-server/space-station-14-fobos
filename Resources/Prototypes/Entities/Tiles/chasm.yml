@@ -23,6 +23,11 @@
     blacklist:
       tags:
       - Catwalk
+  # DS14-Start: ignore entities that are guaranteed not to fall into chasms.
+  - type: StepTriggerCollisionFilter
+    ignoreCanMoveInAir: true
+    ignoreLavalandChasmImmune: true
+  # DS14-End
   - type: Transform
     anchored: true
   - type: Clickable

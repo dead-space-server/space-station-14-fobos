@@ -28,10 +28,10 @@
         group: BasicAndBotany
       # DS14-End
   #start-backmen: currency
-  minBankBalance: 150
-  maxBankBalance: 250
+  minBankBalance: 250 # DS14-value
+  maxBankBalance: 350 # DS14-value
   wageDepartment: Civilian
-  wage: 60
+  wage: 100 # DS14-value
   #end-backmen: currency
 
 - type: startingGear

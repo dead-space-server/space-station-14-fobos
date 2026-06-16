@@ -19,7 +19,8 @@ public sealed partial class DungeonJob
             if (reservedTiles.Contains(tile))
                 continue;
 
-            var blocked = _anchorable.TileFree((_gridUid, _grid), tile, DungeonSystem.CollisionLayer, DungeonSystem.CollisionMask);
+            // DS14: TileFree returns true for free tiles. Do not spawn clutter inside blockers.
+            var blocked = !_anchorable.TileFree((_gridUid, _grid), tile, DungeonSystem.CollisionLayer, DungeonSystem.CollisionMask);
 
             if (blocked)
                 continue;

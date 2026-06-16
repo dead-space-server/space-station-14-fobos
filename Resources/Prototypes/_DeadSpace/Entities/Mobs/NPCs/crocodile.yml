@@ -1,0 +1,120 @@
+- type: entity
+  name: крокодил
+  parent: SimpleMobBase
+  id: MobCrocodile
+  description: "Ух какой... Интересно, а они кусаются? Ну, пощекотать их точно можно! Правда, он как то странно на тебя смотрит..."
+  components:
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 2
+    baseSprintSpeed: 3
+  - type: Sprite
+    drawdepth: Mobs
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base", "movement"]
+      state: croc
+      sprite: _DeadSpace/Mobs/Animals/crocodile.rsi
+  - type: SpriteMovement
+    movementLayers:
+      movement: 
+        state: croc_walk
+    noMovementLayers:
+      movement:
+        state: croc
+  - type: Physics
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.2
+        density: 50
+        mask:
+        - MobMask
+        layer:
+        - MobLayer
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: croc
+      Critical:
+        Base: croc_dead
+      Dead:
+        Base: croc_dead
+  - type: Butcherable
+    spawned:
+    - id: FoodMeatLizard
+      amount: 1
+  - type: InteractionPopup
+    successChance: 0.3
+    interactSuccessString: petting-success-reptile
+    interactFailureString: petting-failure-generic
+    interactSuccessSpawn: EffectHearts
+    interactSuccessSound:
+      path: /Audio/_DeadSpace/Animals/croc_cute.ogg
+    interactFailureSound:
+      path: /Audio/_DeadSpace/Animals/croc_angry.ogg
+  - type: Bloodstream
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: Blood
+        Quantity: 150
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      150: Critical
+      200: Dead
+  - type: Damageable
+    damageContainer: Biological
+    damageModifierSet: Scale
+  - type: MeleeWeapon
+    angle: 0
+    attackRate: 0.75
+    damage:
+      types:
+        Slash: 15
+        Pierce: 15
+        Structural: 50
+  - type: NPCRetaliation
+    attackMemoryLength: 10
+  - type: FactionException
+  - type: NpcFactionMember
+    factions:
+      - Passive
+  - type: HTN
+    rootTask:
+      task: SimpleHostileCompound
+  - type: Vocal
+    sounds:
+      Male: CrocRoar
+      Female: CrocRoar
+      Unsexed: CrocRoar
+
+- type: soundCollection
+  id: CrocScream
+  files:
+  - /Audio/_DeadSpace/Animals/croc_roar.ogg
+
+- type: emoteSounds
+  id: CrocRoar
+  params:
+    variation: 0.125
+    volume: 2
+  sounds:
+    Scream:
+      collection: CrocScream
+
+- type: entity
+  name: спавнер крокодила
+  description: Спавнер крутого крокодила.
+  id: SpawnMobCroc
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: green
+    - state: croc
+      sprite: _DeadSpace/Mobs/Animals/crocodile.rsi
+  - type: ConditionalSpawner
+    prototypes:
+    - MobCrocodile
+  

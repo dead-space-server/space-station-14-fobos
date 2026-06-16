@@ -161,6 +161,18 @@
   category: cargoproduct-category-name-security
   group: security # DS14
 
+# DS14-start
+- type: cargoProduct
+  id: AtmosphericsLiquidNitrogenSec
+  icon:
+    sprite: Structures/Storage/canister.rsi
+    state: red
+  product: LiquidNitrogenCanister
+  cost: 1000
+  category: cargoproduct-category-name-security
+  group: security
+# DS14-end
+
 - type: cargoProduct
   id: CrateSecurityBootsMagSecurity
   icon:

@@ -52,7 +52,7 @@
     belt: ClothingBeltSheathMilitaryWebbingCentcomBlackFilled
     id: CentcomFieldOfficerPDA
     ears: ClothingHeadsetFieldOfficer
-    pocket1: WeaponRevolverMateba
+    pocket1: WeaponRevolverRSH12M
     pocket2: DoorRemoteAll
   #   underwearb: ClothingUnderwearBottomBoxersWhite # DS14-Underwear
   # underweart: ClothingUnderwearTopBraWhite # DS14-Underwear

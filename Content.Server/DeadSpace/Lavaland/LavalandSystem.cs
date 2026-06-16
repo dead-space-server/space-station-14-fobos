@@ -32,7 +32,6 @@ namespace Content.Server.DeadSpace.Lavaland;
 public sealed class LavalandSystem : EntitySystem
 {
     private const int StructureFootprintPadding = 96;
-
     [Dependency] private readonly AtmosphereSystem _atmosphere = default!;
     [Dependency] private readonly BiomeSystem _biome = default!;
     [Dependency] private readonly IConfigurationManager _configuration = default!;
@@ -245,6 +244,47 @@ public sealed class LavalandSystem : EntitySystem
         dockingBeacon.DockWhitelist = planet.FtlDockWhitelist;
         dockingBeacon.FallbackMinOffset = planet.FtlFallbackMinOffset;
         dockingBeacon.FallbackMaxOffset = planet.FtlFallbackMaxOffset;
+    }
+
+    private void CreateFtlExclusion(EntityUid mapUid, Vector2 position, float range)
+    {
+        if (range <= 0f)
+            return;
+
+        var exclusionUid = Spawn(null, new EntityCoordinates(mapUid, position));
+        _metadata.SetEntityName(exclusionUid, "Lavaland FTL exclusion");
+
+        var exclusion = EnsureComp<LavalandFtlExclusionComponent>(exclusionUid);
+        exclusion.Range = range;
+    }
+
+    private void CreateDungeonFtlExclusions(EntityUid mapUid, List<Dungeon> dungeons)
+    {
+        const float extraPadding = 16f;
+
+        foreach (var dungeon in dungeons)
+        {
+            if (dungeon.AllTiles.Count == 0)
+                continue;
+
+            var minX = int.MaxValue;
+            var minY = int.MaxValue;
+            var maxX = int.MinValue;
+            var maxY = int.MinValue;
+
+            foreach (var tile in dungeon.AllTiles)
+            {
+                minX = Math.Min(minX, tile.X);
+                minY = Math.Min(minY, tile.Y);
+                maxX = Math.Max(maxX, tile.X);
+                maxY = Math.Max(maxY, tile.Y);
+            }
+
+            var size = new Vector2(maxX - minX + 1, maxY - minY + 1);
+            var center = new Vector2(minX + size.X / 2f, minY + size.Y / 2f);
+            var range = size.Length() * 0.5f + extraPadding;
+            CreateFtlExclusion(mapUid, center, range);
+        }
     }
 
     private void SetupMetadata(EntityUid mapUid, LavalandPlanetPrototype planet)
@@ -622,6 +662,9 @@ public sealed class LavalandSystem : EntitySystem
                 _metadata.SetEntityName(customGrid.Value, entry.Name);
 
             _transform.SetMapCoordinates(customGrid.Value.Owner, new MapCoordinates(new Vector2(position.X, position.Y), mapId));
+            var exclusion = EnsureComp<LavalandFtlExclusionComponent>(customGrid.Value.Owner);
+            var gridRadius = customGrid.Value.Comp.LocalAABB.Size.Length() * 0.5f;
+            exclusion.Range = Math.Max(Math.Max(1, entry.FootprintRadius), gridRadius) + 16f;
             placed.Add(position);
             loaded++;
         }
@@ -978,6 +1021,8 @@ public sealed class LavalandSystem : EntitySystem
             Log.Warning($"Lavaland dungeon {dungeon.ID} generated no rooms at {position}.");
             return;
         }
+
+        CreateDungeonFtlExclusions(mapUid, result);
 
         Log.Info($"Lavaland dungeon {dungeon.ID} generated {result[0].Rooms.Count} rooms at {position}.");
     }

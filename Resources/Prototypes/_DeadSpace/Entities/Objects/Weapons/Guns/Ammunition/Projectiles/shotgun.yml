@@ -10,7 +10,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 20
+        Piercing: 16
         Structural: 15
 
 - type: entity

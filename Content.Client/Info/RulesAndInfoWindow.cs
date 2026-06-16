@@ -1,4 +1,5 @@
 using System.Numerics;
+using Content.Client.DeadSpace.Stylesheets;
 using Content.Client.UserInterface.Systems.EscapeMenu;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
@@ -17,16 +18,43 @@ namespace Content.Client.Info
 
             Title = Loc.GetString("ui-info-title");
 
-            var rootContainer = new TabContainer();
+            // DS14-start
+            var rootShell = new Control
+            {
+                HorizontalExpand = true,
+                VerticalExpand = true,
+            };
+            rootShell.AddChild(new PanelContainer
+            {
+                StyleClasses = { DeadSpaceMenuSheetlet.Shell },
+            });
 
+            var content = new BoxContainer
+            {
+                Orientation = BoxContainer.LayoutOrientation.Vertical,
+                Margin = new Thickness(10),
+                HorizontalExpand = true,
+                VerticalExpand = true,
+            };
+
+            var rootContainer = new TabContainer
+            {
+                HorizontalExpand = true,
+                VerticalExpand = true,
+                StyleClasses = { DeadSpaceMenuSheetlet.Tabs },
+            };
+            // DS14-end
+
+            // DS14-start
             var rulesList = new RulesControl
             {
-                Margin = new Thickness(10)
+                Margin = new Thickness(8)
             };
             var tutorialList = new Info
             {
-                Margin = new Thickness(10)
+                Margin = new Thickness(8)
             };
+            // DS14-end
 
             rootContainer.AddChild(rulesList);
             rootContainer.AddChild(tutorialList);
@@ -36,7 +64,11 @@ namespace Content.Client.Info
 
             PopulateTutorial(tutorialList);
 
-            ContentsContainer.AddChild(rootContainer);
+            // DS14-start
+            content.AddChild(rootContainer);
+            rootShell.AddChild(content);
+            ContentsContainer.AddChild(rootShell);
+            // DS14-end
 
             SetSize = new Vector2(650, 650);
         }

@@ -1,6 +1,8 @@
-<Control xmlns="https://spacestation14.io"
-                 xmlns:customControls="clr-namespace:Content.Client.Administration.UI.CustomControls">
-    <PanelContainer Name="BackgroundColorPlaytimePanel" Access="Public"/>
+<Control xmlns="https://spacestation14.io">
+    <!-- DS14-start -->
+    <PanelContainer Name="BackgroundColorPlaytimePanel"
+                    Access="Public"
+                    StyleClasses="DS14MenuListHeader"/>
     <BoxContainer Orientation="Vertical"
                   HorizontalExpand="True">
         <BoxContainer Orientation="Horizontal"
@@ -12,17 +14,17 @@
                    ClipText="True"
                    Text="{Loc ui-playtime-header-role-type}"
                    MouseFilter="Pass"
-                   Margin="5,5,5,5"/>
-            <customControls:VSeparator/>
+                   Margin="5"
+                   StyleClasses="DS14MenuListHeader"/>
             <Label Name="PlaytimeLabel"
                    SizeFlagsStretchRatio="3"
                    HorizontalExpand="True"
                    ClipText="True"
                    Text="{Loc ui-playtime-header-role-time}"
                    MouseFilter="Pass"
-                   Margin="5,5,5,5"/>
+                   Margin="5"
+                   StyleClasses="DS14MenuListHeader"/>
         </BoxContainer>
-        <!-- Horizontal Separator -->
-        <customControls:HSeparator/>
     </BoxContainer>
+    <!-- DS14-end -->
 </Control>

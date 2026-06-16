@@ -13,7 +13,7 @@ namespace Content.Shared.Movement.Components;
 /// </remarks>
 /// <seealso cref="InputMoverComponent"/>
 /// <seealso cref="SharedMoverController.UpdateMoverStatus"/>
-[RegisterComponent, Access(typeof(SharedMoverController))]
+[RegisterComponent, UnsavedComponent, Access(typeof(SharedMoverController))] //DS14
 public sealed partial class ActiveInputMoverComponent : Component
 {
     /// <summary>

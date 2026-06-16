@@ -2,21 +2,35 @@
     xmlns="https://spacestation14.io"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls">
-    <BoxContainer Name="VBox" Orientation="Vertical">
-        <controls:NanoHeading Name="Header" Text="{Loc 'lobby-character-preview-panel-header'}" Visible="False">
+    <!-- DS14-start: KSO-styled lobby character preview -->
+    <PanelContainer StyleClasses="DS14MenuInset"
+                    HorizontalExpand="True">
+        <BoxContainer Name="VBox"
+                      Orientation="Vertical"
+                      HorizontalExpand="True"
+                      SeparationOverride="4">
+            <controls:NanoHeading Name="Header" Text="{Loc 'lobby-character-preview-panel-header'}" Visible="False">
 
-        </controls:NanoHeading>
-        <BoxContainer Name="Loaded" Orientation="Vertical"
-                      Visible="False">
-            <Label Name="Summary" HorizontalAlignment="Center" Margin="3 3"/>
-            <BoxContainer Name="ViewBox" Orientation="Horizontal" HorizontalAlignment="Center">
+            </controls:NanoHeading>
+            <BoxContainer Name="Loaded"
+                          Orientation="Vertical"
+                          Visible="False"
+                          HorizontalExpand="True">
+                <Label Name="Summary" HorizontalAlignment="Center" Margin="3 3"/>
+                <BoxContainer Name="ViewBox" Orientation="Horizontal" HorizontalAlignment="Center">
 
+                </BoxContainer>
+                <controls:VSpacer/>
+                <Button Name="CharacterSetup" Text="{Loc 'lobby-character-preview-panel-character-setup-button'}"
+                        HorizontalAlignment="Center"
+                        StyleClasses="DS14MenuTopButton"
+                        Margin="0 5 0 0" Visible="False"/>
             </BoxContainer>
-            <controls:VSpacer/>
-            <Button Name="CharacterSetup" Text="{Loc 'lobby-character-preview-panel-character-setup-button'}"
-                    HorizontalAlignment="Center"
-                    Margin="0 5 0 0" Visible="False"/>
+            <Label Name="Unloaded"
+                   Text="{Loc 'lobby-character-preview-panel-unloaded-preferences-label'}"
+                   StyleClasses="DS14MenuSubtitle"
+                   HorizontalAlignment="Center"/>
         </BoxContainer>
-        <Label Name="Unloaded" Text="{Loc 'lobby-character-preview-panel-unloaded-preferences-label'}"/>
-    </BoxContainer>
+    </PanelContainer>
+    <!-- DS14-end -->
 </Control>

@@ -11,6 +11,13 @@
                     Margin="0,0,4,0"
                     MinSize="48 48"
                     Stretch="KeepAspectCentered" />
+                <EntityPrototypeView
+                    Name="StoreItemPrototype"
+                    Margin="0,0,4,0"
+                    MinSize="48 48"
+                    Stretch="Fill"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" />
                 <Button
                     Name="StoreItemBuyButton"
                     MinWidth="48"

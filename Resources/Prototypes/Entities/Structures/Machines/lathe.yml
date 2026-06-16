@@ -217,6 +217,7 @@
     - NightVisionTech # DS14
     - LanguageImplanters # DS14
     - MedicalDynamic # DS14
+    - Vehicle # DS14
   - type: EmagLatheRecipes
     emagDynamicPacks:
     - SecurityAmmo
@@ -421,8 +422,10 @@
     - SecurityDisablers
     - WeaponMagmite # DS14
     - GlovesArkalyse # DS14
+    - GlassesThermal # DS14
     - SecurityBorgModulesTierTwo # DS14
     - SecurityBorgModulesTierThree # DS14
+    - StunBola # DS14
   - type: EmagLatheRecipes
     emagStaticPacks:
     - SyndicateAmmoStatic
@@ -639,6 +642,10 @@
       - RGlassSmelting
 #DS14-start
     - type: LavalandOreRedeemer
+      miningAccess:
+      - TaipanCargo
+      - Salvage
+      - SeniorSalvage
       oreValues:
         SteelOre: 1
         Coal: 1

@@ -25,3 +25,5 @@
     sprite: _DeadSpace/Clothing/Head/Hardsuits/pilotsuithelmsec.rsi
   - type: PointLight
     color: '#3fb594'
+    radius: 6
+    energy: 3
