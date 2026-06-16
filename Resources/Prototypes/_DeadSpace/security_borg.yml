@@ -26,21 +26,23 @@
     # DS14-End
   - type: GenericVisualizer
     visuals:
+      # DS14-Start
       enum.SecurityBorgProneVisuals.Prone:
         enum.BorgVisualLayers.Body:
           True: {state: sec_down}
           False: {state: sec}
-        enum.BorgVisualLayers.LightStatus:
-          True: {state: sec_down_l}
-          False: {state: sec_l}
         combat_eyes:
           True: {state: sec_down_e_fight}
           False: {state: sec_e_fight}
+      # DS14-End
       # DS14-Start
       enum.BorgCombatModeVisuals.Combat:
         combat_eyes:
           True: {visible: true}
           False: {visible: false}
+        enum.BorgVisualLayers.Light:
+          True: {color: "#ff2222"}
+          False: {color: "#ffffff"}
       # DS14-End
   - type: SecurityBorgProne
   # DS14-Start
