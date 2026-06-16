@@ -224,7 +224,7 @@
   categories:
   - LavalandMiningTools
   cost:
-    LavalandMiningPoint: 1350
+    LavalandMiningPoint: 1500
 
 - type: listing
   id: LavalandMiningPKAUpgradeRangeUp
@@ -232,7 +232,7 @@
   categories:
   - LavalandMiningTools
   cost:
-    LavalandMiningPoint: 1350
+    LavalandMiningPoint: 1500
 
 - type: listing
   id: LavalandMiningPKAUpgradeFireRateUp
@@ -240,7 +240,7 @@
   categories:
   - LavalandMiningTools
   cost:
-    LavalandMiningPoint: 1350
+    LavalandMiningPoint: 1500
 
 - type: listing
   id: LavalandMiningKineticCrusher

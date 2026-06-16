@@ -70,13 +70,12 @@
     capacity: 1
     count: 1
   - type: Gun
-    fireRate: 3
+    fireRate: 1
     selectedMode: SemiAuto
     angleDecay: 45
     minAngle: 44
     maxAngle: 45
     availableModes:
-    - FullAuto
     - SemiAuto
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/kinetic_accel.ogg
@@ -94,7 +93,7 @@
     - 0,0,3,1
     heldPrefix: energy
   - type: RechargeBasicEntityAmmo
-    rechargeCooldown: 3
+    rechargeCooldown: 2
     rechargeSound:
       path: /Audio/Weapons/Guns/MagIn/kinetic_reload.ogg
   - type: Clothing
