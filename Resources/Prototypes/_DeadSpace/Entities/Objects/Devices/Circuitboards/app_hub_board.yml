@@ -1,0 +1,10 @@
+- type: entity
+  parent: BaseComputerCircuitboard
+  id: AppHubConsoleCircuitboard
+  name: плата NT Software Hub
+  description: Плата консоли для загрузки приложений на КПК.
+  components:
+    - type: Sprite
+      state: cpu_science
+    - type: ComputerBoard
+      prototype: AppHubConsole

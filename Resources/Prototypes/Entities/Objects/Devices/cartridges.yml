@@ -176,6 +176,22 @@
 
 - type: entity
   parent: BasePDACartridge
+  id: SnakeCartridge
+  name: snake cartridge
+  description: A classic Snake game for PDA.
+  components:
+  - type: Sprite
+    state: cart-y
+  - type: UIFragment
+    ui: !type:SnakeCartridgeUi
+  - type: Cartridge
+    programName: snake-cartridge-program-name
+    icon:
+      sprite: Objects/Consumable/Food/ingredients.rsi
+      state: apple
+
+- type: entity
+  parent: BasePDACartridge
   id: MessengerCartridge
   name: Messenger cartridge
   description: A Messenger cartridge.

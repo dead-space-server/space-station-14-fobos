@@ -1,0 +1,22 @@
+# Категории: Tools, Equipment, Games
+
+- type: appCatalogEntry
+  id: app-messenger
+  name: Messenger
+  description: Система обмена сообщениями между членами экипажа. Поддерживает текстовые каналы и статусы.
+  category: Tools
+  programId: MessengerCartridge
+
+- type: appCatalogEntry
+  id: app-wanted-list
+  name: Wanted List
+  description: Получение актуального списка разыскиваемых лиц от Службы Безопасности станции.
+  category: Equipment
+  programId: WantedListCartridge
+
+- type: appCatalogEntry
+  id: app-snake
+  name: Snake Game
+  description: Классическая игра "Змейка" для КПК. Собирайте яблоки и не врежьтесь в стену!
+  category: Games
+  programId: SnakeCartridge

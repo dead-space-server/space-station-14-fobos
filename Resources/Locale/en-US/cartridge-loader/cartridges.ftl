@@ -29,6 +29,8 @@ astro-nav-program-name = AstroNav
 
 med-tek-program-name = MedTek
 
+snake-cartridge-program-name = Snake Game
+
 # NanoTask cartridge
 
 nano-task-ui-heading-high-priority-tasks =
