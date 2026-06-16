@@ -57,6 +57,15 @@ public sealed partial class TraitorUltraRuleComponent : Component
     public EntProtoId CommandKillObjective = "KillRandomHeadObjective";
 
     [DataField]
+    public ProtoId<WeightedRandomPrototype> BaseObjectiveGroups = "TraitorUltraObjectiveGroups";
+
+    [DataField]
+    public float BaseObjectiveMaxDifficulty = 5f;
+
+    [DataField]
+    public int BaseObjectiveMaxPicks = 20;
+
+    [DataField]
     public ProtoId<WeightedRandomPrototype> RecruitObjectiveGroups = "TraitorObjectiveGroups";
 
     [DataField]

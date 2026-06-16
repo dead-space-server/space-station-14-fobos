@@ -94,6 +94,9 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
             OriginalCorporation = GetOriginalCorporation(ent.Owner, mindId),
         };
 
+        if (!TryAssignBaseObjectives((mindId, mind), ent.Comp, state.OriginalCorporation))
+            Log.Error($"Failed to assign a base TraitorUltra objective package to {ToPrettyString(mindId)}.");
+
         AssignInitialObjectives((mindId, mind), ent.Comp, state);
         ent.Comp.Minds[mindId] = state;
     }
@@ -276,15 +279,69 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         return assignedObjectives.Count > 0;
     }
 
+    private bool TryAssignBaseObjectives(
+        Entity<MindComponent> mind,
+        TraitorUltraRuleComponent component,
+        string? issuer)
+    {
+        var assigned = false;
+        var difficulty = 0f;
+        for (var pick = 0;
+             pick < component.BaseObjectiveMaxPicks && component.BaseObjectiveMaxDifficulty > difficulty;
+             pick++)
+        {
+            var remainingDifficulty = component.BaseObjectiveMaxDifficulty - difficulty;
+            if (_objectives.GetRandomObjective(mind.Owner, mind.Comp, component.BaseObjectiveGroups, remainingDifficulty) is not { } objective)
+                continue;
+
+            if (!string.IsNullOrWhiteSpace(issuer))
+                _sharedObjectives.SetIssuer(objective, issuer);
+
+            _mind.AddObjective(mind.Owner, mind.Comp, objective);
+
+            if (!string.IsNullOrWhiteSpace(issuer))
+                _sharedObjectives.SetIssuer(objective, issuer);
+
+            difficulty += Comp<ObjectiveComponent>(objective).Difficulty;
+            assigned = true;
+        }
+
+        return assigned;
+    }
+
     private void AssignInitialObjectives(Entity<MindComponent> mind, TraitorUltraRuleComponent component, TraitorUltraMindState state)
     {
-        var preferStealPackage = _random.Prob(0.5f);
-        var mediumAssigned = preferStealPackage
-            ? TryAssignHighRiskStealPackage(mind, component, state) || TryAssignCommandKill(mind, component, state)
-            : TryAssignCommandKill(mind, component, state) || TryAssignHighRiskStealPackage(mind, component, state);
+        bool mediumAssigned;
+        if (HasHighRiskStealObjective(mind, component))
+        {
+            mediumAssigned = TryAssignCommandKill(mind, component, state) ||
+                             TryAssignHighRiskStealPackage(mind, component, state);
+        }
+        else
+        {
+            var preferStealPackage = _random.Prob(0.5f);
+            mediumAssigned = preferStealPackage
+                ? TryAssignHighRiskStealPackage(mind, component, state) || TryAssignCommandKill(mind, component, state)
+                : TryAssignCommandKill(mind, component, state) || TryAssignHighRiskStealPackage(mind, component, state);
+        }
 
         if (!mediumAssigned)
             Log.Error($"Failed to assign a medium TraitorUltra objective package to {ToPrettyString(mind.Owner)}.");
+    }
+
+    private bool HasHighRiskStealObjective(Entity<MindComponent> mind, TraitorUltraRuleComponent component)
+    {
+        foreach (var objective in mind.Comp.Objectives)
+        {
+            if (TerminatingOrDeleted(objective))
+                continue;
+
+            var prototype = MetaData(objective).EntityPrototype?.ID;
+            if (prototype != null && component.HighRiskStealObjectives.Contains(prototype))
+                return true;
+        }
+
+        return false;
     }
 
     private bool TryAssignHighRiskStealPackage(Entity<MindComponent> mind, TraitorUltraRuleComponent component, TraitorUltraMindState state)

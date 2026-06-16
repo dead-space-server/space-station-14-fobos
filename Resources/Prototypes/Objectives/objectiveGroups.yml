@@ -8,6 +8,13 @@
     TraitorObjectiveGroupSocial: 1 #Involves helping/harming others without killing them or stealing their stuff
 
 - type: weightedRandom
+  id: TraitorUltraObjectiveGroups
+  weights:
+    TraitorObjectiveGroupSteal: 1
+    TraitorUltraObjectiveGroupKill: 1
+    TraitorObjectiveGroupSocial: 1
+
+- type: weightedRandom
   id: TraitorObjectiveGroupSteal
   weights:
     CaptainIDStealObjective: 1
@@ -31,6 +38,13 @@
   weights:
     KillRandomPersonObjective: 1
     KillRandomHeadObjective: 0.25
+
+- type: weightedRandom
+  id: TraitorUltraObjectiveGroupKill
+  weights:
+    KillRandomPersonObjective: 1
+    KillRandomHeadObjective: 0.25
+    KillRandomTraitorObjective: 0.25
 
 - type: weightedRandom
   id: TraitorObjectiveGroupState
