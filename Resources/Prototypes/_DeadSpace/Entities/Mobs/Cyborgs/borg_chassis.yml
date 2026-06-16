@@ -289,6 +289,13 @@
       shader: unshaded
       map: ["light","enum.BorgVisualLayers.LightStatus"]
       visible: false
+    # DS14-Start
+    # Слой красных глаз для боевого режима
+    - state: sec_e_r
+      map: ["combat_eyes"]
+      shader: unshaded
+      visible: false
+    # DS14-End
   - type: BorgSwitchableType
     selectedBorgType: taipan-security
   - type: SpriteMovement
@@ -298,6 +305,15 @@
     noMovementLayers:
       movement:
         state: sec
+  # DS14-Start
+  - type: GenericVisualizer
+    visuals:
+      enum.BorgCombatModeVisuals.Combat:
+        combat_eyes:
+          True: {visible: true}
+          False: {visible: false}
+  - type: BorgCombatModeOverlay
+  # DS14-End
   - type: BorgTransponder
     sprite:
       sprite: _DeadSpace/Mobs/Silicon/chassis.rsi
