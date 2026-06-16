@@ -250,7 +250,7 @@
       visible: false
       map: [ "empty-icon" ]
   - type: Item
-    sprite: Objects/Weapons/Guns/Basic/kinetic_accelerator.rsi
+    sprite: _DeadSpace/Objects/Weapons/Guns/Basic/magmite.rsi
     size: Normal
     shape:
     - 0,0,2,1
