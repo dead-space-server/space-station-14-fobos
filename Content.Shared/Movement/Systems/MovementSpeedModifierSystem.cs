@@ -90,18 +90,22 @@ namespace Content.Shared.Movement.Systems
 
             RaiseLocalEvent(uid, ref ev);
 
-            if (MathHelper.CloseTo(ev.WeightlessAcceleration, move.WeightlessAcceleration) &&
+            var acceleration = ev.WeightlessAcceleration * ev.WeightlessAccelerationMod;
+            var friction = _airDamping * ev.WeightlessFriction * ev.WeightlessFrictionMod;
+            var frictionNoInput = _airDamping * ev.WeightlessFrictionNoInput * ev.WeightlessFrictionNoInputMod;
+
+            if (MathHelper.CloseTo(acceleration, move.WeightlessAcceleration) &&
                 MathHelper.CloseTo(ev.WeightlessModifier, move.WeightlessModifier) &&
-                MathHelper.CloseTo(ev.WeightlessFriction, move.WeightlessFriction) &&
-                MathHelper.CloseTo(ev.WeightlessFrictionNoInput, move.WeightlessFrictionNoInput))
+                MathHelper.CloseTo(friction, move.WeightlessFriction) &&
+                MathHelper.CloseTo(frictionNoInput, move.WeightlessFrictionNoInput))
             {
                 return;
             }
 
-            move.WeightlessAcceleration = ev.WeightlessAcceleration * ev.WeightlessAccelerationMod;
+            move.WeightlessAcceleration = acceleration;
             move.WeightlessModifier = ev.WeightlessModifier;
-            move.WeightlessFriction = _airDamping * ev.WeightlessFriction * ev.WeightlessFrictionMod;
-            move.WeightlessFrictionNoInput = _airDamping * ev.WeightlessFrictionNoInput * ev.WeightlessFrictionNoInputMod;
+            move.WeightlessFriction = friction;
+            move.WeightlessFrictionNoInput = frictionNoInput;
             Dirty(uid, move);
         }
 
@@ -132,6 +136,7 @@ namespace Content.Shared.Movement.Systems
 
             move.BaseWalkSpeed = baseWalkSpeed;
             move.BaseSprintSpeed = baseSprintSpeed;
+            move.BaseAcceleration = acceleration;
             move.Acceleration = acceleration;
             Dirty(uid, move);
         }
@@ -217,7 +222,7 @@ namespace Content.Shared.Movement.Systems
         public void ModifyFriction(float friction, float noInput)
         {
             WeightlessFrictionMod *= friction;
-            WeightlessFrictionNoInput *= noInput;
+            WeightlessFrictionNoInputMod *= noInput;
         }
 
         public void ModifyFriction(float friction)
