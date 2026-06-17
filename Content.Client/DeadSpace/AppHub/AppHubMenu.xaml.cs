@@ -34,12 +34,12 @@ public sealed partial class AppHubMenu : DefaultWindow
     {
         _currentCategory = state.SelectedCategory;
 
-        StatusNetwork.Text = "Сеть: Подключено";
-        StatusPda.Text = state.HasPda ? "КПК подключён" : "Нет КПК";
+        StatusNetwork.Text = "Network: Connected";
+        StatusPda.Text = state.HasPda ? "PDA Connected" : "No PDA";
         StatusPda.FontColorOverride = state.HasPda ? Color.FromHex("#88FF88") : Color.FromHex("#FF8888");
-        StatusTime.Text = $"Память: {state.UsedDiskSpace}/{state.MaxDiskSpace}";
+        StatusTime.Text = $"Memory: {state.UsedDiskSpace}/{state.MaxDiskSpace}";
 
-        MemoryLabel.Text = $"Память: {state.UsedDiskSpace}/{state.MaxDiskSpace}";
+        MemoryLabel.Text = $"Memory: {state.UsedDiskSpace}/{state.MaxDiskSpace}";
         MemoryBar.MaxValue = Math.Max(state.MaxDiskSpace, 1);
         MemoryBar.Value = state.UsedDiskSpace;
 

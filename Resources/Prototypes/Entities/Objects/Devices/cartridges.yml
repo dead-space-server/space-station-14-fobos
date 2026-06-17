@@ -188,8 +188,8 @@
   - type: Cartridge
     programName: snake-cartridge-program-name
     icon:
-      sprite: Objects/Specific/Hydroponics/apple.rsi/produce.png
-      state: produce
+      sprite: Objects/Consumable/Food/ingredients.rsi
+      state: apple
 # DS14-End
 
 - type: entity
