@@ -236,6 +236,12 @@
   - type: Pullable
   - type: Puller
     needsHands: false
+  # DS14-Start
+  - type: Strap
+    buckleOnInteractHand: false
+    position: None
+  - type: BorgRide
+  # DS14-End
   - type: StandingState
   - type: Tag
     tags:
