@@ -76,9 +76,9 @@
       task: GoliathCompound
     blackboard:
       VisionRadius: !type:Single
-        9 #DS14
-      AggroVisionRadius: !type:Single
         15 #DS14
+      AggroVisionRadius: !type:Single
+        16 #DS14
       NavSmash: !type:Bool
         true
   - type: NPCUseActionOnTarget
@@ -117,7 +117,7 @@
       path: "/Audio/Weapons/slash.ogg"
     useDelay: 12
   - type: TargetAction
-    range: 10 #DS14
+    range: 15 #DS14
   - type: WorldTargetAction
     event: !type:GoliathSummonTentacleAction
 
@@ -244,9 +244,9 @@
       task: SimpleRangedHostileCompound
     blackboard:
       VisionRadius: !type:Single
-        8 #DS14
+        14 #DS14
       AggroVisionRadius: !type:Single
-        12 #DS14
+        15 #DS14
       NavSmash: !type:Bool
         true
   - type: Butcherable
@@ -266,12 +266,12 @@
     layers:
     - state: hivelordbrood
   - type: MovementSpeedModifier
-    baseWalkSpeed : 3.5
+    baseWalkSpeed : 4 #DS14
     baseSprintSpeed : 4.0
   - type: MobThresholds
     thresholds:
       0: Alive
-      5: Dead
+      15: Dead #DS14
   - type: MeleeWeapon
     soundHit:
       path: /Audio/Weapons/bladeslice.ogg
@@ -387,7 +387,7 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      45: Dead
+      85: Dead #DS14
   - type: MeleeWeapon
     angle: 0
     animation: WeaponArcBite
@@ -399,7 +399,7 @@
         Piercing: 5
   - type: Gun
     fireRate: 0.75
-    projectileSpeed: 10.0 # When we get predicted guns and projectiles this should be raised to like 15, 15 mis-predicts too much right now unfortunately.
+    projectileSpeed: 18.0 # When we get predicted guns and projectiles this should be raised to like 15, 15 mis-predicts too much right now unfortunately. #DS14
     selectedMode: SemiAuto
     showExamineText: false
     availableModes: [ SemiAuto ]
@@ -427,9 +427,9 @@
       task: BasiliskCompound
     blackboard:
       VisionRadius: !type:Single
-        9 #DS14
-      AggroVisionRadius: !type:Single
         15 #DS14
+      AggroVisionRadius: !type:Single
+        16 #DS14
       NavSmash: !type:Bool
         true
   - type: Reflect

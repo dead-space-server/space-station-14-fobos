@@ -73,7 +73,7 @@
   description: Если вы можете видеть это, вы вероятно мертвы!
   categories: [ HideSpawnMenu ]
   components:
-  - type: Projectile
+  - type: HitscanBasicDamage
     damage:
       types:
         Piercing: 28
