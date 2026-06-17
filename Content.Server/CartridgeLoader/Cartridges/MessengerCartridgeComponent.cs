@@ -5,4 +5,5 @@ public sealed partial class MessengerCartridgeComponent : Component
 {
     public int? ActiveChatPartnerId;
     public Dictionary<int, TimeSpan> LastMessageTime = new(); //DS14
+    public HashSet<int> BlockedUsers = new(); //DS14
 }

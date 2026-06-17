@@ -166,6 +166,7 @@
     - JawsOfLife # DS14
     - WelderExperimental # DS14
     - SprayPainterRecharging # DS14
+    - DoorRemoteAll # DS14
 
 #Gladiator with spear
 - type: startingGear

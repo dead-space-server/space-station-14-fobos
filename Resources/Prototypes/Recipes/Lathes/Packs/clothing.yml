@@ -170,6 +170,15 @@
   - ClothingUniformJumpsuitMimeSexyWhite # DS14
   - ClothingUniformJumpsuitMimeSexyBlack # DS14
   - ClothingBackpackTailbag # DS14
+  - ClothingBackpackTailbagAtmospherics # DS14
+  - ClothingBackpackTailbagCaptain # DS14
+  - ClothingBackpackTailbagChemistry # DS14
+  - ClothingBackpackTailbagEngineering # DS14
+  - ClothingBackpackTailbagMerc # DS14
+  - ClothingBackpackTailbagMedical # DS14
+  - ClothingBackpackTailbagSalvage # DS14
+  - ClothingBackpackTailbagScience # DS14
+  - ClothingBackpackTailbagSecurity # DS14
 
 - type: latheRecipePack
   id: WinterCoats

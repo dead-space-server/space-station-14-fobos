@@ -1,0 +1,1 @@
+snake-cartridge-program-name = Змейка

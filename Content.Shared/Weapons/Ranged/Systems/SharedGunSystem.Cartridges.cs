@@ -3,6 +3,7 @@ using Content.Shared.Damage.Events;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Examine;
 using Content.Shared.Projectiles;
+using Content.Shared.Weapons.Hitscan.Components;
 using Content.Shared.Weapons.Ranged.Components;
 using Robust.Shared.Prototypes;
 
@@ -41,11 +42,15 @@ public abstract partial class SharedGunSystem
         if (!ProtoManager.TryIndex(proto, out var entityProto))
             return null;
 
-        if (!entityProto.TryGetComponent<ProjectileComponent>(out var projectile, Factory))
-            return null;
-
-        if (!projectile.Damage.Empty)
+        if (entityProto.TryGetComponent<ProjectileComponent>(out var projectile, Factory) &&
+            !projectile.Damage.Empty)
             return projectile.Damage * Damageable.UniversalProjectileDamageModifier;
+
+        // DS14-start: cartridges can now point at hitscan ballistic traces.
+        if (entityProto.TryGetComponent<HitscanBasicDamageComponent>(out var hitscan, Factory) &&
+            !hitscan.Damage.Empty)
+            return hitscan.Damage * Damageable.UniversalHitscanDamageModifier;
+        // DS14-end
 
         return null;
     }

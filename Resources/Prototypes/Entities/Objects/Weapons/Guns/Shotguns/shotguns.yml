@@ -126,6 +126,8 @@
     sound:
       path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/shotgun/shotgun_drop.ogg
   #DS14-End
+  - type: GunSpreadModifier
+    spread: 0.80
 
 - type: entity
   name: double-barreled shotgun

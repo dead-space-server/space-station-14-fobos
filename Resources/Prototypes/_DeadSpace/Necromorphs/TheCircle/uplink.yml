@@ -369,7 +369,7 @@
   id: UniPhoneClothingBackpackTailbag
   name: Подсумок на хвост плафеимов
   description: Всё для своих.
-  icon: { sprite: /Textures/_DeadSpace/Clothing/Back/Backpacks/tailbag.rsi, state: icon }
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Back/Tailbag/tailbag.rsi, state: icon }
   productEntity: ClothingBackpackTailbag
   cost:
     Telecrystal: 1

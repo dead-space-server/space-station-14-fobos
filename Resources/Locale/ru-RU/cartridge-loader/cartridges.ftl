@@ -22,6 +22,7 @@ log-probe-printout-header = Последние логи:
 log-probe-printout-entry = #{ $number } / { $time } / { $accessor }
 astro-nav-program-name = АстроНав
 med-tek-program-name = МедТек
+snake-cartridge-program-name = Змейка
 
 # NanoTask cartridge
 
@@ -69,6 +70,7 @@ nano-task-printed-low-priority = [bold]Приоритет[/bold]: Низкий
 # Wanted list cartridge
 wanted-list-program-name = Список разыскиваемых
 wanted-list-label-no-records = Всё спокойно, ковбой.
+wanted-list-records-title = Записи
 wanted-list-search-placeholder = Поиск по имени и статусу
 wanted-list-age-label = [color=darkgray]Возраст:[/color] [color=white]{ $age }[/color]
 wanted-list-job-label = [color=darkgray]Должность:[/color] [color=white]{ $job }[/color]
@@ -95,8 +97,14 @@ wanted-list-history-table-initiator-col = Инициатор
 messenger-cartridge-program-name = NanoChat
 messenger-status-connecting = Подключение...
 messenger-status-connection-lost = Ошибка!
+messenger-search-placeholder = Поиск по имени или должности
+messenger-no-users = Контакты не найдены
+messenger-search-empty = Поиск не дал результатов
 messenger-send = ->
 messenger-select-user = Выберите пользователя
 messenger-back = Назад
 messenger-notification-message = {$sender} отправил сообщение!
 messenger-typing-popup = Печатает...
+messenger-blocked = ЗАБЛОКИРОВАН
+messenger-block = Блок
+messenger-unblock = Разблок

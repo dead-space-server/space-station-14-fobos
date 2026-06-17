@@ -17,8 +17,8 @@
     maxFields: 4
     shortBurstDelay: 1.8
     longBurstDelay: 3
-    bonusYieldChance: 0.35
-    bonusYieldMultiplier: 2
+    bonusYieldChance: 0.45
+    bonusYieldMultiplier: 3
   - type: EmitSoundOnPickup
     sound:
       path: /Audio/_DeadSpace/Items/Handing/gas_tank/gas_tank_pickup.ogg
@@ -48,8 +48,8 @@
     maxFields: 6
     shortBurstDelay: 0.75
     longBurstDelay: 1.5
-    bonusYieldChance: 0
-    bonusYieldMultiplier: 1
+    bonusYieldChance: 0.45
+    bonusYieldMultiplier: 2
     burstProjectilePrototype: LavalandResonanceBolt
     burstProjectileCount: 4
     burstProjectileSpeed: 9
@@ -345,12 +345,12 @@
         volume: -2
   - type: AmmoCounter
   - type: RechargeBasicEntityAmmo
-    rechargeCooldown: 4
+    rechargeCooldown: 6
     rechargeSound: null
   - type: BasicEntityAmmoProvider
     proto: LavalandSpellBladeProjectile
-    capacity: 4
-    count: 4
+    capacity: 3
+    count: 3
   - type: DisarmMalus
 
 - type: entity
@@ -389,7 +389,7 @@
     tileBreakScale: 0.01
     canCreateVacuum: false
   - type: StunOnCollide
-    slowdownAmount: 1.25
+    slowdownAmount: 1.2
     walkSpeedModifier: 0.75
     sprintSpeedModifier: 0.75
     drop: false
@@ -423,17 +423,17 @@
       - state: staffofstorms-inhand-right
         shader: unshaded
   - type: Gun
-    fireRate: 0.35
+    fireRate: 0.2
     soundGunshot:
       path: /Audio/Magic/fireball.ogg
     projectileSpeed: 25
   - type: RechargeBasicEntityAmmo
-    rechargeCooldown: 12
+    rechargeCooldown: 20
     rechargeSound: null
   - type: BasicEntityAmmoProvider
     proto: ProjectileFireballLavalandFireStaff
-    capacity: 2
-    count: 2
+    capacity: 1
+    count: 1
   - type: PointLight
     radius: 1.5
     energy: 1.2
@@ -566,7 +566,7 @@
   description: Прыгните!
   components:
   - type: Action
-    useDelay: 1
+    useDelay: 3
     icon:
       sprite: Interface/Actions/jump.rsi
       state: icon

@@ -72,6 +72,9 @@
   - type: EmitSoundOnDrop
     sound:
       path: /Audio/_DeadSpace/Items/Handing/tray/tray_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/tray/tray_drop.ogg
   #DS14-End
 
 - type: entity

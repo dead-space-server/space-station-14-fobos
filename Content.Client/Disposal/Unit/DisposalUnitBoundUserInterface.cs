@@ -1,7 +1,9 @@
 using Content.Client.Disposal.Mailing;
 using Content.Client.Power.EntitySystems;
+using Content.Shared.DeadSpace.Demons.DemonShadow.Components;
 using Content.Shared.Disposal.Components;
 using JetBrains.Annotations;
+using Robust.Client.Player;
 using Robust.Client.UserInterface;
 
 namespace Content.Client.Disposal.Unit
@@ -12,6 +14,8 @@ namespace Content.Client.Disposal.Unit
     [UsedImplicitly]
     public sealed class DisposalUnitBoundUserInterface : BoundUserInterface
     {
+        [Dependency] private readonly IPlayerManager _playerManager = default!; // DS14
+
         [ViewVariables] private DisposalUnitWindow? _disposalUnitWindow;
 
         public DisposalUnitBoundUserInterface(EntityUid owner, Enum uiKey) : base(owner, uiKey)
@@ -58,6 +62,24 @@ namespace Content.Client.Disposal.Unit
             _disposalUnitWindow.Power.Pressed = EntMan.System<PowerReceiverSystem>().IsPowered(Owner);
             _disposalUnitWindow.Engage.Pressed = entity.Comp.Engaged;
             _disposalUnitWindow.FullPressure = disposalSystem.EstimatedFullPressure(entity.Owner, entity.Comp);
+
+            // DS14-start
+            var hideControls = IsLocalDemonShadow();
+            _disposalUnitWindow.Eject.Visible = !hideControls;
+            _disposalUnitWindow.Eject.Disabled = hideControls;
+            _disposalUnitWindow.Engage.Visible = !hideControls;
+            _disposalUnitWindow.Engage.Disabled = hideControls;
+            _disposalUnitWindow.Power.Visible = !hideControls;
+            _disposalUnitWindow.Power.Disabled = hideControls;
+            // DS14-end
         }
+
+        // DS14-start
+        private bool IsLocalDemonShadow()
+        {
+            return _playerManager.LocalEntity is { } player &&
+                   EntMan.HasComponent<DemonShadowComponent>(player);
+        }
+        // DS14-end
     }
 }

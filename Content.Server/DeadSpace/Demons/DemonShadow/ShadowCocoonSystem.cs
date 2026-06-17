@@ -1,5 +1,6 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
+using Content.Server.Light.Components;
 using Content.Server.DeadSpace.Abilities.Cocoon.Components;
 using Content.Server.DeadSpace.Demons.DemonShadow.Components;
 using Content.Shared.Body.Events;
@@ -10,8 +11,10 @@ using Content.Shared.Popups;
 using Content.Shared.Storage.Components;
 using Content.Shared.Light;
 using Content.Shared.Light.Components;
+using Content.Shared.Tag;
 using Robust.Server.GameObjects;
 using Robust.Shared.Containers;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 using Content.Shared.Gibbing;
 
@@ -26,6 +29,9 @@ public sealed class ShadowCocoonSystem : EntitySystem
     [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
     [Dependency] private readonly SharedContainerSystem _containerSystem = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
+    [Dependency] private readonly TagSystem _tag = default!;
+
+    private static readonly ProtoId<TagPrototype> FlareTag = "Flare";
 
     public override void Initialize()
     {
@@ -65,6 +71,13 @@ public sealed class ShadowCocoonSystem : EntitySystem
             if (CheckParentVisibilityLayer(entity))
                 continue;
 
+            if (IsPortableRevealingLight(entity, pointLightComp))
+            {
+                component.PointEntities.Remove(entity);
+                RestoreLightVisuals(entity, component);
+                continue;
+            }
+
             lights.Add(entity);
             component.PointEntities.TryAdd(entity, pointLightComp.Enabled);
             TurnOffLightVisuals(entity, component);
@@ -88,6 +101,19 @@ public sealed class ShadowCocoonSystem : EntitySystem
         }
 
         component.NextTick = _gameTiming.CurTime + TimeSpan.FromSeconds(1);
+    }
+
+    private bool IsPortableRevealingLight(EntityUid uid, PointLightComponent light)
+    {
+        if (!light.Enabled)
+            return false;
+
+        if (TryComp<HandheldLightComponent>(uid, out var handheldLight))
+            return handheldLight.Activated;
+
+        return TryComp<ExpendableLightComponent>(uid, out var expendableLight) &&
+               expendableLight.Activated &&
+               _tag.HasTag(uid, FlareTag);
     }
 
     /// <summary>

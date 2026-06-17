@@ -14,6 +14,11 @@ public partial class VoiceMaskSystem
 
     private void OnSpeakerVoiceTransform(Entity<VoiceMaskComponent> entity, ref InventoryRelayedEvent<TransformSpeakerVoiceEvent> args)
     {
+        // DS14-start
+        if (!entity.Comp.Active)
+            return;
+        // DS14-end
+
         args.Args.VoiceId = entity.Comp.VoiceId;
     }
 

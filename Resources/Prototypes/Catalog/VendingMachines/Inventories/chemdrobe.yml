@@ -15,5 +15,6 @@
     ClothingOuterWinterChem: 1
     ClothingHandsGlovesLatex: 1
     ClothingShoesColorWhite: 1
+    ClothingBackpackTailbagChemistry: 2 # DS14
   contrabandInventory:
     ToyFigurineChemist: 1

@@ -15,7 +15,7 @@
     sprite: Clothing/OuterClothing/Armor/scrap_armor.rsi
   - type: Construction
     graph: scraparmor
-    node: wiredapron|
+    node: wiredapron
   #DS14-Start
   - type: EmitSoundOnPickup
     sound:

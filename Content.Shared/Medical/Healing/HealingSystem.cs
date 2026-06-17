@@ -162,6 +162,7 @@ public sealed class HealingSystem : EntitySystem
         {
             // Is ent missing blood that we can restore?
             if (healing.Comp.ModifyBloodLevel > 0
+                && bloodstream.AllowBloodLevelModification // DS14
                 && _solutionContainerSystem.ResolveSolution(target.Owner, bloodstream.BloodSolutionName, ref bloodstream.BloodSolution, out var bloodSolution)
                 && _bloodstreamSystem.GetBloodLevel((target, bloodstream)) < 1)
             {
@@ -213,6 +214,16 @@ public sealed class HealingSystem : EntitySystem
 
         if (TryComp<StackComponent>(healing, out var stack) && stack.Count < 1)
             return false;
+
+        // DS14-start
+        if (healing.Comp.ModifyBloodLevel > 0 &&
+            TryComp<BloodstreamComponent>(target, out var bloodstream) &&
+            !bloodstream.AllowBloodLevelModification)
+        {
+            _popupSystem.PopupClient(Loc.GetString("medical-item-cant-use", ("item", healing.Owner)), healing, user);
+            return false;
+        }
+        // DS14-end
 
         if (!HasDamage(healing, target!))
         {

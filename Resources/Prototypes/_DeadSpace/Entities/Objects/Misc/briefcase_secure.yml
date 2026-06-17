@@ -103,3 +103,15 @@
         type: CodeLockBoundUserInterface
       enum.StorageUiKey.Key:
         type: StorageBoundUserInterface
+
+- type: entity
+  parent: BriefcaseCodeLock
+  id: BriefcaseCodeLockFilledIAA
+  name: code locked briefcase
+  suffix: Filled IAA, codelock
+  components:
+  - type: StorageFill
+    contents:
+      - id: BoxFolderGreenThreePapers
+      - id: BoxFolderRedThreePapers
+      - id: DoorRemoteIAA

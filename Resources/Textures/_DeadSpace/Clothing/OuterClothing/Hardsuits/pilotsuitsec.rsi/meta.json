@@ -1,7 +1,7 @@
 {
     "version": 1,
     "license": "CC-BY-SA-3.0",
-    "copyright": "Created by discord:JayJacobs#1187, resprite by pyfya (discord) for Space Station 14 server Мёртвый Космос, plaf version made by yri_nouri (discord)",
+    "copyright": "Created by discord:JayJacobs#1187, resprite by pyfya (discord) for Space Station 14 server Мёртвый Космос, plaf-reptilian version made by yri_nouri (discord)",
     "size": {
         "x": 32,
         "y": 32
@@ -16,6 +16,10 @@
         },
         {
             "name": "equipped-OUTERCLOTHING-plaf",
+            "directions": 4
+        },
+        {
+            "name": "equipped-OUTERCLOTHING-reptilian",
             "directions": 4
         },
         {

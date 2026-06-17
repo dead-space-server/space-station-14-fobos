@@ -76,8 +76,8 @@
       Dead:
         Base: goldgrub_dead
   - type: MovementSpeedModifier
-    baseWalkSpeed: 2.4
-    baseSprintSpeed: 3.4
+    baseWalkSpeed: 3.6
+    baseSprintSpeed: 4
   - type: LavalandGoldgrub
   - type: MobThresholds
     thresholds:
@@ -128,7 +128,7 @@
       Alive:
         Base: legion
       Dead:
-        Base: legion
+        Base: legion_dead
   - type: MovementSpeedModifier
     baseWalkSpeed: 2.2
     baseSprintSpeed: 2.6
@@ -177,9 +177,9 @@
       task: SimpleRangedHostileCompound
     blackboard:
       VisionRadius: !type:Single
-        5
+        8
       AggroVisionRadius: !type:Single
-        9
+        15
       NavSmash: !type:Bool
         true
   - type: Tag
@@ -244,7 +244,7 @@
       VisionRadius: !type:Single
         10
       AggroVisionRadius: !type:Single
-        12
+        15
       NavSmash: !type:Bool
         true
   - type: TimedDespawn

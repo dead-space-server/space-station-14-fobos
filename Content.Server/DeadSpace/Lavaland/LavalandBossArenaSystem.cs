@@ -9,6 +9,8 @@ using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Systems;
 using Content.Shared.DeadSpace.Lavaland;
 using Content.Shared.DeadSpace.Lavaland.Bosses;
+using Content.Shared.Shuttles.Components;
+using Content.Server.Shuttles.Systems;
 using Content.Shared.FixedPoint;
 using Content.Shared.Ghost;
 using Content.Shared.Maps;
@@ -72,6 +74,7 @@ public sealed class LavalandBossArenaSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly TileSystem _tile = default!;
     [Dependency] private readonly MobThresholdSystem _mobThreshold = default!;
+    [Dependency] private readonly ShuttleSystem _shuttle = default!;
 
     private List<Entity<MapGridComponent>> _nearbyGrids = new();
     private readonly List<EntityUid> _anchoredToDelete = new();
@@ -235,6 +238,7 @@ public sealed class LavalandBossArenaSystem : EntitySystem
 
         var exclusion = EnsureComp<LavalandFtlExclusionComponent>(grid.Owner);
         exclusion.Range = GetArenaRadius(width, height) + Math.Max(0f, arenaPrototype.GridSeparation);
+        _shuttle.AddIFFFlag(grid.Owner, IFFFlags.Hide);
 
         Log.Info($"Lavaland boss arena {arenaPrototype.ID} spawned at {center}.");
         return true;

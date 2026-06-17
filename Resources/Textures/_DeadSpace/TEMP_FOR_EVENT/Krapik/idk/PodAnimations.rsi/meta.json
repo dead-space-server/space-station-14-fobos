@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from https://github.com/tgstation/tgstation/commit/42e0275d860551197687c571c689c270ff423288",
+  "size": {
+    "x": 32,
+    "y": 352
+  },
+  "states": [
+    {
+      "name": "Pod_landing",
+      "delays": [
+        [
+          6.50,
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05
+        ]
+      ]
+    },
+    {
+      "name": "Pod_opening",
+      "delays": [
+        [
+          0.27,
+          0.27,
+          0.27,
+          0.27,
+          0.27,
+          0.27,
+          0.27,
+          0.27,
+          0.27,
+          0.27,
+          0.27
+        ]
+      ]
+    }
+  ]
+}

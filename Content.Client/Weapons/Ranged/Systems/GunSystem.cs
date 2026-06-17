@@ -8,6 +8,7 @@ using Content.Shared.CCVar;
 using Content.Shared.CombatMode;
 using Content.Shared.Damage;
 using Content.Shared.Weapons.Hitscan.Components;
+using Content.Shared.Weapons.Hitscan.Events;
 using Content.Shared.Weapons.Ranged;
 using Content.Shared.Weapons.Ranged.Components;
 using Content.Shared.Weapons.Ranged.Events;
@@ -25,6 +26,7 @@ using Robust.Shared.Input;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using SharedGunSystem = Content.Shared.Weapons.Ranged.Systems.SharedGunSystem;
 using TimedDespawnComponent = Robust.Shared.Spawners.TimedDespawnComponent;
@@ -102,20 +104,59 @@ public sealed partial class GunSystem : SharedGunSystem
 
     private void OnHitscan(HitscanEvent ev)
     {
-        // ALL I WANT IS AN ANIMATED EFFECT
-
-        // TODO EFFECTS
-        // This is very jank
-        // because the effect consists of three unrelatd entities, the hitscan beam can be split appart.
-        // E.g., if a grid rotates while part of the beam is parented to the grid, and part of it is parented to the map.
-        // Ideally, there should only be one entity, with one sprite that has multiple layers
-        // Or at the very least, have the other entities parented to the same entity to make sure they stick together.
-        foreach (var a in ev.Sprites)
+        // DS14-start: animated hitscan traces.
+        if (ev.Sprites.Count != 0)
         {
-            if (a.Sprite is not SpriteSpecifier.Rsi rsi)
+            RenderLegacyHitscanSprites(ev.Sprites);
+            return;
+        }
+
+        var delay = 0f;
+        foreach (var trace in ev.Traces)
+        {
+            delay = FireHitscanEffect(ev, delay, trace);
+        }
+        // DS14-end
+    }
+
+    // DS14-start: animated hitscan traces.
+    private float FireHitscanEffect(HitscanEvent visuals, float delay, HitscanTrace trace)
+    {
+        var speed = MathF.Max(visuals.Speed, 1f);
+        var length = trace.Distance / (speed / 5000f);
+
+        if (trace.MuzzleCoordinates is { } muzzleCoordinates)
+        {
+            if (visuals.MuzzleFlash is { } muzzle)
+                RenderHitscanFlash(muzzleCoordinates, trace.Angle, muzzle, 1f, false, false, length, delay);
+
+            if (visuals.Bullet is { } bullet)
+                RenderHitscanBullet(muzzleCoordinates, trace.Angle, bullet, visuals.BulletLight, MathF.Max(trace.Distance - 1.5f, 0f), length, delay);
+        }
+
+        if (visuals.TravelFlash is { } travel &&
+            trace.TravelCoordinates is { } travelCoordinates &&
+            trace.Distance > 1.5f)
+        {
+            RenderHitscanFlash(travelCoordinates, trace.Angle, travel, MathF.Max(trace.Distance - 1.5f, 0f), true, false, length, delay);
+        }
+
+        delay += length;
+
+        if (visuals.ImpactFlash is { } impact)
+            RenderHitscanFlash(trace.ImpactCoordinates, trace.Angle, impact, 1f, false, true, length, delay);
+
+        return delay;
+    }
+
+    private void RenderLegacyHitscanSprites(List<(NetCoordinates coordinates, Angle angle, SpriteSpecifier Sprite, float Distance)> sprites)
+    {
+        foreach (var spriteData in sprites)
+        {
+            if (spriteData.Sprite is not SpriteSpecifier.Rsi rsi)
                 continue;
 
-            var coords = GetCoordinates(a.coordinates);
+            var coords = GetCoordinates(spriteData.coordinates);
 
             if (!TryComp(coords.EntityId, out TransformComponent? relativeXform))
                 continue;
@@ -124,14 +165,14 @@ public sealed partial class GunSystem : SharedGunSystem
             var sprite = Comp<SpriteComponent>(ent);
 
             var xform = Transform(ent);
-            var targetWorldRot = a.angle + _xform.GetWorldRotation(relativeXform);
+            var targetWorldRot = spriteData.angle + _xform.GetWorldRotation(relativeXform);
             var delta = targetWorldRot - _xform.GetWorldRotation(xform);
             _xform.SetLocalRotationNoLerp(ent, xform.LocalRotation + delta, xform);
 
             sprite[EffectLayers.Unshaded].AutoAnimated = false;
             _sprite.LayerSetSprite((ent, sprite), EffectLayers.Unshaded, rsi);
             _sprite.LayerSetRsiState((ent, sprite), EffectLayers.Unshaded, rsi.RsiState);
-            _sprite.SetScale((ent, sprite), new Vector2(a.Distance, 1f));
+            _sprite.SetScale((ent, sprite), new Vector2(spriteData.Distance, 1f));
             sprite[EffectLayers.Unshaded].Visible = true;
 
             var anim = new Animation()
@@ -153,6 +194,224 @@ public sealed partial class GunSystem : SharedGunSystem
             _animPlayer.Play(ent, anim, "hitscan-effect");
         }
     }
+
+    private void RenderHitscanBullet(NetCoordinates coordinates, Angle angle, ExtendedSpriteSpecifier sprite, HitscanLightVisual? lightVisual, float distance, float length, float delay)
+    {
+        if (sprite.Sprite is not SpriteSpecifier.Rsi rsi)
+            return;
+
+        var coords = GetCoordinates(coordinates);
+
+        if (!TryComp(coords.EntityId, out TransformComponent? relativeXform))
+            return;
+
+        var ent = Spawn(HitscanProto, coords);
+        if (lightVisual != null)
+            SetupHitscanBulletLight(ent, lightVisual, new Vector2(1f, 0f), delay == 0f);
+
+        var spriteComp = Comp<SpriteComponent>(ent);
+        var spriteEnt = (ent, spriteComp);
+
+        var xform = Transform(ent);
+        var targetWorldRot = angle + _xform.GetWorldRotation(relativeXform);
+        var delta = targetWorldRot - _xform.GetWorldRotation(xform);
+        _xform.SetLocalRotationNoLerp(ent, xform.LocalRotation + delta, xform);
+
+        spriteComp[EffectLayers.Unshaded].AutoAnimated = false;
+        spriteComp[EffectLayers.Unshaded].Visible = true;
+        _sprite.LayerSetSprite(spriteEnt, EffectLayers.Unshaded, rsi);
+        _sprite.LayerSetRsiState(spriteEnt, EffectLayers.Unshaded, rsi.RsiState);
+        _sprite.SetOffset(spriteEnt, new Vector2(1f, 0f));
+        _sprite.SetScale(spriteEnt, sprite.SpriteScale);
+        _sprite.SetRotation(spriteEnt, sprite.SpriteRotation ? 1.5708f : 0f);
+        _sprite.SetColor(spriteEnt, sprite.SpriteColor);
+        _sprite.SetVisible(spriteEnt, delay == 0f);
+
+        var time = delay + length;
+        var despawn = EnsureComp<TimedDespawnComponent>(ent);
+        despawn.Lifetime = (time / 1000f) + 0.25f;
+
+        if (delay != 0f)
+        {
+            Timer.Spawn((int) delay, () =>
+            {
+                if (TryComp(ent, out SpriteComponent? currentSprite))
+                    _sprite.SetVisible((ent, currentSprite), true);
+
+                if (TryComp(ent, out PointLightComponent? currentLight))
+                    Lights.SetEnabled(ent, true, currentLight);
+            });
+        }
+
+        Timer.Spawn((int) time, () =>
+        {
+            if (TryComp(ent, out SpriteComponent? currentSprite))
+                _sprite.SetVisible((ent, currentSprite), false);
+
+            if (TryComp(ent, out PointLightComponent? currentLight))
+                Lights.SetEnabled(ent, false, currentLight);
+        });
+
+        var anim = new Animation
+        {
+            Length = TimeSpan.FromMilliseconds(time),
+            AnimationTracks =
+            {
+                new AnimationTrackComponentProperty
+                {
+                    ComponentType = typeof(SpriteComponent),
+                    Property = nameof(SpriteComponent.Offset),
+                    InterpolationMode = AnimationInterpolationMode.Linear,
+                    KeyFrames =
+                    {
+                        new AnimationTrackProperty.KeyFrame(new Vector2(1f, 0f), delay / 1000f),
+                        new AnimationTrackProperty.KeyFrame(new Vector2(distance + 1f, 0f), time / 1000f),
+                    }
+                }
+            }
+        };
+
+        // DS14-start: keep optional projectile light on the moving bullet visual.
+        if (lightVisual != null)
+        {
+            anim.AnimationTracks.Add(new AnimationTrackComponentProperty
+            {
+                ComponentType = typeof(PointLightComponent),
+                Property = nameof(PointLightComponent.Offset),
+                InterpolationMode = AnimationInterpolationMode.Linear,
+                KeyFrames =
+                {
+                    new AnimationTrackProperty.KeyFrame(lightVisual.Offset + new Vector2(1f, 0f), delay / 1000f),
+                    new AnimationTrackProperty.KeyFrame(lightVisual.Offset + new Vector2(distance + 1f, 0f), time / 1000f),
+                }
+            });
+        }
+        // DS14-end
+
+        _animPlayer.Play(ent, anim, "hitscan-effect");
+    }
+
+    private SharedPointLightComponent SetupHitscanBulletLight(EntityUid uid, HitscanLightVisual lightVisual, Vector2 offset, bool enabled)
+    {
+        var light = Lights.EnsureLight(uid);
+        light.Offset = lightVisual.Offset + offset;
+        Lights.SetEnabled(uid, enabled, light);
+        Lights.SetColor(uid, lightVisual.Color, light);
+        Lights.SetRadius(uid, lightVisual.Radius, light);
+        Lights.SetEnergy(uid, lightVisual.Energy, light);
+        Lights.SetSoftness(uid, lightVisual.Softness, light);
+        Lights.SetFalloff(uid, lightVisual.Falloff, light);
+        Lights.SetCurveFactor(uid, lightVisual.CurveFactor, light);
+        Lights.SetCastShadows(uid, lightVisual.CastShadows, light);
+        return light;
+    }
+
+    private void RenderHitscanFlash(NetCoordinates coordinates, Angle angle, SpriteSpecifier sprite, float distance, bool travel, bool end, float length, float delay)
+    {
+        if (end)
+            length = 0f;
+
+        var time = delay + length + 100f;
+
+        if (sprite is not SpriteSpecifier.Rsi rsi)
+            return;
+
+        var coords = GetCoordinates(coordinates);
+
+        if (!TryComp(coords.EntityId, out TransformComponent? relativeXform))
+            return;
+
+        var ent = Spawn(HitscanProto, coords);
+        var spriteComp = Comp<SpriteComponent>(ent);
+        var spriteEnt = (ent, spriteComp);
+
+        var xform = Transform(ent);
+        var targetWorldRot = angle + _xform.GetWorldRotation(relativeXform);
+        var delta = targetWorldRot - _xform.GetWorldRotation(xform);
+        _xform.SetLocalRotationNoLerp(ent, xform.LocalRotation + delta, xform);
+
+        spriteComp[EffectLayers.Unshaded].AutoAnimated = false;
+        _sprite.LayerSetSprite(spriteEnt, EffectLayers.Unshaded, rsi);
+        _sprite.LayerSetRsiState(spriteEnt, EffectLayers.Unshaded, rsi.RsiState);
+
+        if (travel)
+        {
+            _sprite.SetScale(spriteEnt, new Vector2(0.05f, 0.5f));
+            _sprite.SetOffset(spriteEnt, new Vector2(distance * -0.5f, 0f));
+        }
+        else
+        {
+            _sprite.SetScale(spriteEnt, new Vector2(1f, 0.5f));
+        }
+
+        spriteComp[EffectLayers.Unshaded].Visible = true;
+
+        var despawn = EnsureComp<TimedDespawnComponent>(ent);
+        despawn.Lifetime = (time / 1000f) + 0.25f;
+
+        if (delay != 0f)
+        {
+            _sprite.SetVisible(spriteEnt, false);
+            Timer.Spawn((int) delay, () =>
+            {
+                if (TryComp(ent, out SpriteComponent? currentSprite))
+                    _sprite.SetVisible((ent, currentSprite), true);
+            });
+        }
+
+        Timer.Spawn((int) time, () =>
+        {
+            if (TryComp(ent, out SpriteComponent? currentSprite))
+                _sprite.SetVisible((ent, currentSprite), false);
+        });
+
+        var anim = new Animation
+        {
+            Length = TimeSpan.FromMilliseconds(time),
+            AnimationTracks =
+            {
+                new AnimationTrackSpriteFlick
+                {
+                    LayerKey = EffectLayers.Unshaded,
+                    KeyFrames =
+                    {
+                        new AnimationTrackSpriteFlick.KeyFrame(rsi.RsiState, (time - 100f) / 1000f),
+                    }
+                }
+            }
+        };
+
+        if (travel)
+        {
+            anim.AnimationTracks.Add(new AnimationTrackComponentProperty
+            {
+                ComponentType = typeof(SpriteComponent),
+                Property = nameof(SpriteComponent.Scale),
+                InterpolationMode = AnimationInterpolationMode.Cubic,
+                KeyFrames =
+                {
+                    new AnimationTrackProperty.KeyFrame(new Vector2(0.05f, 0.5f), delay / 1000f),
+                    new AnimationTrackProperty.KeyFrame(new Vector2(distance, 0.5f), (time - 100f) / 1000f),
+                    new AnimationTrackProperty.KeyFrame(new Vector2(distance, 0.5f), time / 1000f),
+                }
+            });
+            anim.AnimationTracks.Add(new AnimationTrackComponentProperty
+            {
+                ComponentType = typeof(SpriteComponent),
+                Property = nameof(SpriteComponent.Offset),
+                InterpolationMode = AnimationInterpolationMode.Cubic,
+                KeyFrames =
+                {
+                    new AnimationTrackProperty.KeyFrame(new Vector2(distance * -0.5f, 0f), delay / 1000f),
+                    new AnimationTrackProperty.KeyFrame(new Vector2(0f, 0f), (time - 100f) / 1000f),
+                    new AnimationTrackProperty.KeyFrame(new Vector2(0f, 0f), time / 1000f),
+                }
+            });
+        }
+
+        _animPlayer.Play(ent, anim, "hitscan-effect");
+    }
+    // DS14-end
 
     public override void Update(float frameTime)
     {

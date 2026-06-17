@@ -46,6 +46,7 @@ public sealed class ConsoleCraftConsoleState : BoundUserInterfaceState
     public bool CraftInProgress { get; init; }
     public bool NoStation { get; init; }
     public int? SelectedBlueprintRemainingCrafts { get; init; }
+    public bool CanDismantle { get; set; } = false;
 }
 
 [Serializable, NetSerializable]
@@ -62,3 +63,6 @@ public sealed class ConsoleCraftStartMessage : BoundUserInterfaceMessage { }
 
 [Serializable, NetSerializable]
 public sealed class ConsoleCraftEjectMessage : BoundUserInterfaceMessage { }
+
+[Serializable, NetSerializable]
+public sealed class ConsoleCraftDismantleMessage : BoundUserInterfaceMessage { }

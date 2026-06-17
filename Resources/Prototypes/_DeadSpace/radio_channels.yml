@@ -69,3 +69,11 @@
   frequency: 1984
   color: "#00FA9A"
   longRange: true
+
+- type: radioChannel
+  id: CarpDragonChannel
+  name: chat-radio-carpdragon
+  keycode: 'в' # DS14
+  frequency: 7777
+  color: "#ff6600"
+  longRange: true

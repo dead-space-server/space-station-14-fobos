@@ -13,6 +13,7 @@
     allowedCategories:
     - Medal
     - Camera
+    - Radio
 
 - type: entity
   abstract: true

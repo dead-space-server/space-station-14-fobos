@@ -12,7 +12,6 @@
     - type: Physics
     - type: Kudzu
     - type: GrowingKudzu
-    - type: ActiveEdgeSpreader
     - type: EdgeSpreader
       id: Kudzu
     - type: SpeedModifierContacts

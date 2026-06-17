@@ -63,6 +63,21 @@
     knownLanguages:
     - DemonLanguage
   - type: Demon
+  - type: HandheldLight
+    toggleOnInteract: false
+    wattage: 0
+  - type: ItemTogglePointLight
+  - type: ToggleableVisuals
+    spriteLayer: light
+  - type: PointLight
+    enabled: false
+    color: "#ff0000"
+    radius: 5.0
+    energy: 5.0
+    netsync: false
+  - type: Battery
+    maxCharge: 1000
+    startingCharge: 1000
   - type: Damageable
     damageModifierSet: Demon
     damageContainer: BiologicalMetaphysical
