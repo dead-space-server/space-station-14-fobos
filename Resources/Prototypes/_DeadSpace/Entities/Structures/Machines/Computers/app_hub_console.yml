@@ -32,10 +32,6 @@
     radius: 1.5
     energy: 3.0
     color: "#3ca1b5"
-  - type: ItemSlots
-    slots:
-      AppHub-PdaSlot:
-        name: AppHub-PdaSlot
   - type: ContainerContainer
     containers:
       board: !type:Container {}
