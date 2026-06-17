@@ -2,8 +2,8 @@
 
 - type: appCatalogEntry
   id: app-messenger
-  name: NanoTask
-  description: Система обмена сообщениями между членами экипажа. Поддерживает текстовые каналы и статусы.
+  name: NanoChat
+  description: Система обмена сообщениями между членами экипажа.
   category: Tools
   programId: MessengerCartridge
 
