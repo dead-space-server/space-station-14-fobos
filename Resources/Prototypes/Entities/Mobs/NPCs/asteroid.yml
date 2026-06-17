@@ -98,6 +98,16 @@
       maxAmount: 4 #DS14
     - id: PKAUpgradeDamageUp #DS14
       prob: 0.01
+#DS14-start
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTypeTrigger
+        damageType: Blunt
+        damage: 1000000
+      behaviors:
+      - !type:GibBehavior { }
+#DS14-end
 
 - type: entity
   parent: BaseAction
