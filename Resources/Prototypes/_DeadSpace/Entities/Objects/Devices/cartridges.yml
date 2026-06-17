@@ -1,8 +1,8 @@
 - type: entity
   parent: BasePDACartridge
   id: SnakeCartridge
-  name: snake cartridge
-  description: A classic Snake game for PDA.
+  name: картридж Змейка
+  description: Классическая игра «Змейка» для КПК.
   components:
   - type: Sprite
     state: cart-y
