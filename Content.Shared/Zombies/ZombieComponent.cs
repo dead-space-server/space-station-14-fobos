@@ -38,8 +38,8 @@ public sealed partial class ZombieComponent : Component
         DamageDict = new ()
         {
             {"Slash", 0.5},
-            {"Piercing", 0.3},
-            {"Blunt", 0.1},
+            {"Piercing", 0.1}, // DS14-value
+            {"Blunt", 0.3},
         }
     };
 
@@ -113,7 +113,7 @@ public sealed partial class ZombieComponent : Component
         {
             { "Blunt", -0.4 },
             { "Slash", -0.2 },
-            { "Piercing", -0.2 },
+            { "Piercing", -0.4 }, // DS14-value
             { "Heat", -0.25 },
             { "Shock", -0.25 }
         }
@@ -135,7 +135,7 @@ public sealed partial class ZombieComponent : Component
         {
             { "Blunt", -8 },
             { "Slash", -8 },
-            { "Piercing", -8 },
+            { "Piercing", -12 }, // DS14-value
             { "Cold", -8 },
             { "Heat", -8 }
         }
@@ -150,7 +150,8 @@ public sealed partial class ZombieComponent : Component
         DamageDict = new()
         {
             { "Slash", 13 },
-            { "Piercing", 7 },
+            { "Piercing", 11 }, // DS14-value
+            { "Stamina", 25}, // DS14-value
             { "Structural", 10 }
         }
     };

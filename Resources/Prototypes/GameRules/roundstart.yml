@@ -425,14 +425,14 @@
   - type: GameRule
     minPlayers: 25 # DS14
     delay:
-      min: 600
-      max: 900
+      min: 60 # DS14
+      max: 90 # DS14
   - type: ZombieRule
   - type: AntagSelection
     selectionTime: IntraPlayerSpawn
     definitions:
     - prefRoles: [ InitialInfected ]
-      max: 6
+      max: 8 # DS14
       playerRatio: 10
       blacklist:
         components:
@@ -442,8 +442,7 @@
         text: zombie-patientzero-role-greeting
         color: Plum
         sound: "/Audio/Ambience/Antag/zombie_start.ogg"
-      components:
-      - type: PendingZombie
+      components: # DS14
       - type: ZombifyOnDeath
       - type: IncurableZombie
       - type: InitialInfected
