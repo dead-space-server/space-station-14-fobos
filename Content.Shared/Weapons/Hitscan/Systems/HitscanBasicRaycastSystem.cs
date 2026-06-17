@@ -19,6 +19,7 @@ public sealed class HitscanBasicRaycastSystem : EntitySystem
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly ISharedAdminLogManager _log = default!;
+    [Dependency] private readonly SharedPointLightSystem _lights = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     private EntityQuery<HitscanBasicVisualsComponent> _visualsQuery;
@@ -44,16 +45,30 @@ public sealed class HitscanBasicRaycastSystem : EntitySystem
         // Otherwise:
         //  1.) Hit the first entity that you targeted.
         //  2.) Hit the first entity that doesn't require you to aim at it specifically to be hit.
+        var ignored = args.IgnoredEntities;
         var result = _container.IsEntityOrParentInContainer(shooter)
-            ? rayCastResults.FirstOrNull()
-            : rayCastResults.FirstOrNull(hit => hit.HitEntity == target
-                                                || CompOrNull<RequireProjectileTargetComponent>(hit.HitEntity)?.Active != true);
+            ? rayCastResults.FirstOrNull(hit => ignored?.Contains(hit.HitEntity) != true)
+            : rayCastResults.FirstOrNull(hit =>
+                ignored?.Contains(hit.HitEntity) != true &&
+                (hit.HitEntity == target || CompOrNull<RequireProjectileTargetComponent>(hit.HitEntity)?.Active != true));
 
         var distanceTried = result?.Distance ?? ent.Comp.MaxDistance;
 
+        // DS14-start: aggregate the visual trace and render it after reflection handling.
+        var isRoot = false;
+        if (args.OutputTrace == null)
+        {
+            args.OutputTrace = [];
+            isRoot = true;
+        }
+
+        if (GenerateTraceStep(args.FromCoordinates, distanceTried, args.ShotDirection.ToAngle(), result?.HitEntity) is { } trace)
+            args.OutputTrace.Add(trace);
+        // DS14-end
+
         // Do visuals without an event. They should always happen and putting it on the attempt event is weird!
         // If more stuff gets added here, it should probably be turned into an event.
-        FireEffects(args.FromCoordinates, distanceTried, args.ShotDirection.ToAngle(), ent.Owner);
+        // DS14: visuals are fired after the hit attempt so reflected traces can be rendered together.
 
         // Admin logging
         if (result?.HitEntity != null)
@@ -68,32 +83,34 @@ public sealed class HitscanBasicRaycastSystem : EntitySystem
             ShotDirection = args.ShotDirection,
             Gun = args.Gun,
             Shooter = args.Shooter,
+            Target = target,
             HitEntity = result?.HitEntity,
+            OutputTrace = args.OutputTrace,
+            IgnoredEntities = ignored,
+            HitPosition = result is { } hit ? new MapCoordinates(hit.HitPos, mapCords.MapId) : null,
         };
 
         var attemptEvent = new AttemptHitscanRaycastFiredEvent { Data = data };
         RaiseLocalEvent(ent, ref attemptEvent);
 
         if (attemptEvent.Cancelled)
+        {
+            if (isRoot)
+                FireEffects(ent.Owner, args.OutputTrace);
+
             return;
+        }
 
         var hitEvent = new HitscanRaycastFiredEvent { Data = data };
         RaiseLocalEvent(ent, ref hitEvent);
+
+        if (isRoot)
+            FireEffects(ent.Owner, args.OutputTrace);
     }
 
-    /// <summary>
-    /// Create visual effects for the fired hitscan weapon.
-    /// </summary>
-    /// <param name="fromCoordinates">Location to start the effect.</param>
-    /// <param name="distance">Distance of the hitscan shot.</param>
-    /// <param name="shotAngle">Angle of the shot.</param>
-    /// <param name="hitscanUid">The hitscan entity itself.</param>
-    private void FireEffects(EntityCoordinates fromCoordinates, float distance, Angle shotAngle, EntityUid hitscanUid)
+    // DS14-start: hitscan trace visuals.
+    private HitscanTrace? GenerateTraceStep(EntityCoordinates fromCoordinates, float distance, Angle shotAngle, EntityUid? entity = null)
     {
-        if (distance == 0 || !_visualsQuery.TryComp(hitscanUid, out var vizComp))
-            return;
-
-        var sprites = new List<(NetCoordinates coordinates, Angle angle, SpriteSpecifier sprite, float scale)>();
         var fromXform = Transform(fromCoordinates.EntityId);
 
         // We'll get the effects relative to the grid / map of the firer
@@ -109,48 +126,103 @@ public sealed class HitscanBasicRaycastSystem : EntitySystem
         }
         else
         {
-            //DS14-start
             var mapCoords = _transform.ToMapCoordinates(fromCoordinates);
             var mapEnt = Transform(fromCoordinates.EntityId).MapUid;
             if (mapEnt == null)
-                return;
+                return null;
+
             fromCoordinates = new EntityCoordinates(mapEnt.Value, mapCoords.Position);
-            //DS14-end
         }
 
-        if (distance >= 1f)
-        {
-            if (vizComp.MuzzleFlash != null)
-            {
-                var coords = fromCoordinates.Offset(shotAngle.ToVec().Normalized() / 2);
-                var netCoords = GetNetCoordinates(coords);
+        var shotVec = shotAngle.ToVec().Normalized();
 
-                sprites.Add((netCoords, shotAngle, vizComp.MuzzleFlash, 1f));
+        return new HitscanTrace
+        {
+            Angle = shotAngle,
+            Distance = distance,
+            MuzzleCoordinates = distance > 1f ? GetNetCoordinates(fromCoordinates.Offset(shotVec / 2f)) : null,
+            TravelCoordinates = distance > 1f ? GetNetCoordinates(fromCoordinates.Offset(shotVec * (distance + 0.5f) / 2f)) : null,
+            ImpactCoordinates = GetNetCoordinates(fromCoordinates.Offset(shotVec * distance)),
+            ImpactedEnt = GetNetEntity(entity),
+        };
+    }
+
+    private void FireEffects(EntityUid hitscanUid, List<HitscanTrace> traces)
+    {
+        if (traces.Count == 0 || !_visualsQuery.TryComp(hitscanUid, out var vizComp))
+            return;
+
+        var filter = Filter.Empty();
+        foreach (var trace in traces)
+        {
+            var coords = GetCoordinates(trace.MuzzleCoordinates ?? trace.ImpactCoordinates);
+            if (!coords.IsValid(EntityManager))
+                continue;
+
+            filter.Merge(Filter.Pvs(coords, entityMan: EntityManager));
+        }
+
+        if (filter.Count == 0)
+            return;
+
+        if (vizComp.Bullet == null)
+        {
+            var sprites = new List<(NetCoordinates coordinates, Angle angle, SpriteSpecifier Sprite, float Distance)>();
+
+            foreach (var trace in traces)
+            {
+                if (trace.Distance >= 1f)
+                {
+                    if (vizComp.MuzzleFlash != null && trace.MuzzleCoordinates is { } muzzleCoordinates)
+                        sprites.Add((muzzleCoordinates, trace.Angle, vizComp.MuzzleFlash, 1f));
+
+                    if (vizComp.TravelFlash != null && trace.TravelCoordinates is { } travelCoordinates)
+                        sprites.Add((travelCoordinates, trace.Angle, vizComp.TravelFlash, trace.Distance - 1.5f));
+                }
+
+                if (vizComp.ImpactFlash != null)
+                    sprites.Add((trace.ImpactCoordinates, trace.Angle.FlipPositive(), vizComp.ImpactFlash, 1f));
             }
 
-            if (vizComp.TravelFlash != null)
-            {
-                var coords = fromCoordinates.Offset(shotAngle.ToVec() * (distance + 0.5f) / 2);
-                var netCoords = GetNetCoordinates(coords);
+            if (sprites.Count == 0)
+                return;
 
-                sprites.Add((netCoords, shotAngle, vizComp.TravelFlash, distance - 1.5f));
-            }
-        }
-
-        if (vizComp.ImpactFlash != null)
-        {
-            var coords = fromCoordinates.Offset(shotAngle.ToVec() * distance);
-            var netCoords = GetNetCoordinates(coords);
-
-            sprites.Add((netCoords, shotAngle.FlipPositive(), vizComp.ImpactFlash, 1f));
-        }
-
-        if (sprites.Count > 0)
-        {
             RaiseNetworkEvent(new SharedGunSystem.HitscanEvent
             {
                 Sprites = sprites,
-            }, Filter.Pvs(fromCoordinates, entityMan: EntityManager));
+            }, filter);
+
+            return;
         }
+
+        RaiseNetworkEvent(new SharedGunSystem.HitscanEvent
+        {
+            Traces = traces,
+            MuzzleFlash = vizComp.MuzzleFlash,
+            TravelFlash = vizComp.TravelFlash,
+            ImpactFlash = vizComp.ImpactFlash,
+            Bullet = vizComp.Bullet,
+            BulletLight = GetLightVisual(hitscanUid),
+            Speed = vizComp.Speed,
+        }, filter);
     }
+
+    private HitscanLightVisual? GetLightVisual(EntityUid hitscanUid)
+    {
+        if (!_lights.TryGetLight(hitscanUid, out var light) || !light.Enabled)
+            return null;
+
+        return new HitscanLightVisual
+        {
+            Color = light.Color,
+            Radius = light.Radius,
+            Energy = light.Energy,
+            Softness = light.Softness,
+            Falloff = light.Falloff,
+            CurveFactor = light.CurveFactor,
+            CastShadows = light.CastShadows,
+            Offset = light.Offset,
+        };
+    }
+    // DS14-end
 }

@@ -289,6 +289,10 @@
       shader: unshaded
       map: ["light","enum.BorgVisualLayers.LightStatus"]
       visible: false
+    - state: sec_e_r
+      map: ["combat_eyes"]
+      shader: unshaded
+      visible: false
   - type: BorgSwitchableType
     selectedBorgType: taipan-security
   - type: SpriteMovement
@@ -298,6 +302,13 @@
     noMovementLayers:
       movement:
         state: sec
+  - type: GenericVisualizer
+    visuals:
+      enum.BorgCombatModeVisuals.Combat:
+        combat_eyes:
+          True: {visible: true}
+          False: {visible: false}
+  - type: BorgCombatModeOverlay
   - type: BorgTransponder
     sprite:
       sprite: _DeadSpace/Mobs/Silicon/chassis.rsi

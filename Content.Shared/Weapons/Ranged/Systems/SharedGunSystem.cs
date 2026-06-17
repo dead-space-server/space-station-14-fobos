@@ -18,6 +18,7 @@ using Content.Shared.Throwing;
 using Content.Shared.Timing;
 using Content.Shared.Verbs;
 using Content.Shared.Weapons.Hitscan.Components;
+using Content.Shared.Weapons.Hitscan.Events;
 using Content.Shared.Weapons.Melee;
 using Content.Shared.Weapons.Melee.Events;
 using Content.Shared.Weapons.Ranged.Components;
@@ -33,6 +34,7 @@ using Robust.Shared.Physics.Systems;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Serialization;
+using Robust.Shared.Spawners;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 
@@ -87,6 +89,8 @@ public abstract partial class SharedGunSystem : EntitySystem
     private const float InteractNextFire = 0.3f;
     private const double SafetyNextFire = 0.5;
     private const float EjectOffset = 0.4f;
+    private const float SpentCasingFadeDelay = 4f;
+    private const float SpentCasingFadeDuration = 1.5f;
     protected const string AmmoExamineColor = "yellow";
     protected const string FireRateExamineColor = "yellow";
     public const string ModeExamineColor = "cyan";
@@ -504,6 +508,7 @@ public abstract partial class SharedGunSystem : EntitySystem
         // TODO: Sound limit version.
         var offsetPos = Random.NextVector2(EjectOffset);
         var xform = Transform(entity);
+        var cartridge = CompOrNull<CartridgeAmmoComponent>(entity);
 
         var coordinates = TransformSystem.GetMapCoordinates(entity, xform).Offset(offsetPos);
 
@@ -517,10 +522,24 @@ public abstract partial class SharedGunSystem : EntitySystem
             ejectAngle += 3.7f; // 212 degrees; casings should eject slightly to the right and behind of a gun
             ThrowingSystem.TryThrow(entity, ejectAngle.ToVec().Normalized() / 100, 5f);
         }
-        if (playSound && TryComp<CartridgeAmmoComponent>(entity, out var cartridge))
+        if (playSound && cartridge != null)
         {
             Audio.PlayPvs(cartridge.EjectSound, entity, AudioParams.Default.WithVariation(SharedContentAudioSystem.DefaultVariation).WithVolume(-1f));
         }
+
+        if (_netManager.IsServer && cartridge is { Spent: true, DeleteOnSpawn: false })
+            AddSpentCasingFade(entity);
+    }
+
+    private void AddSpentCasingFade(EntityUid entity)
+    {
+        var fade = EnsureComp<CasingFadeComponent>(entity);
+        fade.FadeDelay = SpentCasingFadeDelay;
+        fade.FadeDuration = SpentCasingFadeDuration;
+        Dirty(entity, fade);
+
+        var despawn = EnsureComp<TimedDespawnComponent>(entity);
+        despawn.Lifetime = SpentCasingFadeDelay + SpentCasingFadeDuration + 0.1f;
     }
 
     protected IShootable EnsureShootable(EntityUid uid)
@@ -675,7 +694,16 @@ public abstract partial class SharedGunSystem : EntitySystem
     [Serializable, NetSerializable]
     public sealed class HitscanEvent : EntityEventArgs
     {
+        // DS14-start: animated hitscan visuals.
         public List<(NetCoordinates coordinates, Angle angle, SpriteSpecifier Sprite, float Distance)> Sprites = [];
+        public List<HitscanTrace> Traces = [];
+        public SpriteSpecifier? MuzzleFlash;
+        public SpriteSpecifier? TravelFlash;
+        public SpriteSpecifier? ImpactFlash;
+        public ExtendedSpriteSpecifier? Bullet;
+        public HitscanLightVisual? BulletLight;
+        public float Speed;
+        // DS14-end
     }
 
     /// <summary>

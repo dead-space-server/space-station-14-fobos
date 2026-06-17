@@ -20,6 +20,13 @@ namespace Content.Shared.Camera;
 public record struct GetEyeOffsetEvent(Vector2 Offset);
 
 /// <summary>
+///     Raised directed by-ref when <see cref="SharedContentEyeSystem.UpdateEyeRotation"/> is called.
+///     Subscribers should increment <see cref="Rotation"/> instead of replacing it.
+/// </summary>
+[ByRefEvent]
+public record struct GetEyeRotationEvent(Angle Rotation);
+
+/// <summary>
 ///     Raised before the <see cref="GetEyeOffsetEvent"/> and <see cref="GetEyeOffsetRelayedEvent"/>, to check if any of the subscribed
 ///     systems want to cancel offset changes.
 /// </summary>

@@ -1,12 +1,10 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
-using Content.Server.Actions;
 using Content.Shared.DeadSpace.HardsuitSpeedBuff;
 using Content.Shared.PowerCell;
 using Content.Shared.PowerCell.Components;
 using Content.Shared.Clothing;
 using Content.Shared.Movement.Systems;
-using Content.Shared.Inventory;
 using Content.Shared.Actions;
 
 namespace Content.Server.DeadSpace.HardsuitSpeedBuff;
@@ -20,7 +18,6 @@ public sealed class HardsuitSpeedBuffSystem : EntitySystem
     {
         SubscribeLocalEvent<HardsuitSpeedBuffComponent, GetItemActionsEvent>(OnGetActions);
         SubscribeLocalEvent<HardsuitSpeedBuffComponent, ActivateSpeedBuffActionEvent>(OnSpeedBuffActivate);
-        SubscribeLocalEvent<HardsuitSpeedBuffComponent, InventoryRelayedEvent<RefreshMovementSpeedModifiersEvent>>(OnRefreshMovementSpeedModifiers);
     }
 
     public override void Update(float frameTime)
@@ -30,9 +27,13 @@ public sealed class HardsuitSpeedBuffSystem : EntitySystem
 
         while (query.MoveNext(out var uid, out var comp, out _, out var xform))
         {
+            if (!comp.Activated)
+                continue;
+
             if (!_cell.HasCharge(uid, 10))
             {
                 comp.Activated = false;
+                Dirty(uid, comp);
                 _movement.RefreshMovementSpeedModifiers(xform.ParentUid);
             }
         }
@@ -55,19 +56,15 @@ public sealed class HardsuitSpeedBuffSystem : EntitySystem
         {
             _cell.SetDrawEnabled((ent.Owner, powerCell), false);
             ent.Comp.Activated = false;
+            Dirty(ent);
             _movement.RefreshMovementSpeedModifiers(args.Performer);
         }
         else
         {
             _cell.SetDrawEnabled((ent.Owner, powerCell), true);
             ent.Comp.Activated = true;
+            Dirty(ent);
             _movement.RefreshMovementSpeedModifiers(args.Performer);
         }
-    }
-
-    private void OnRefreshMovementSpeedModifiers(EntityUid uid, HardsuitSpeedBuffComponent comp, InventoryRelayedEvent<RefreshMovementSpeedModifiersEvent> args)
-    {
-        if (comp.Activated)
-            args.Args.ModifySpeed(comp.WalkModifier, comp.SprintModifier);
     }
 }

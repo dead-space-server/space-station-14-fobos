@@ -1,4 +1,7 @@
 using Content.Server.Stunnable.Components;
+using Content.Shared.Damage;
+using Content.Shared.Weapons.Hitscan.Components;
+using Content.Shared.Weapons.Hitscan.Events;
 using Content.Shared.Movement.Systems;
 using JetBrains.Annotations;
 using Content.Shared.Throwing;
@@ -18,6 +21,7 @@ internal sealed class StunOnCollideSystem : EntitySystem
 
         SubscribeLocalEvent<StunOnCollideComponent, StartCollideEvent>(HandleCollide);
         SubscribeLocalEvent<StunOnCollideComponent, ThrowDoHitEvent>(HandleThrow);
+        SubscribeLocalEvent<StunOnCollideComponent, HitscanRaycastFiredEvent>(HandleHitscan); // DS14
     }
 
     private void TryDoCollideStun(Entity<StunOnCollideComponent> ent, EntityUid target)
@@ -61,4 +65,29 @@ internal sealed class StunOnCollideSystem : EntitySystem
     {
         TryDoCollideStun(ent, args.Target);
     }
+
+    // DS14-start: allow converted hitscan tasers/crossbows to reuse projectile stun data.
+    private void HandleHitscan(Entity<StunOnCollideComponent> ent, ref HitscanRaycastFiredEvent args)
+    {
+        if (args.Data.HitEntity == null)
+            return;
+
+        TryDoCollideStun(ent, args.Data.HitEntity.Value);
+
+        if (HasComp<HitscanBasicDamageComponent>(ent) ||
+            HasComp<HitscanStaminaDamageComponent>(ent))
+        {
+            return;
+        }
+
+        var damageEvent = new HitscanDamageDealtEvent
+        {
+            Target = args.Data.HitEntity.Value,
+            DamageDealt = new DamageSpecifier(),
+            Data = args.Data,
+        };
+
+        RaiseLocalEvent(ent, ref damageEvent);
+    }
+    // DS14-end
 }

@@ -109,9 +109,6 @@ namespace Content.Server.Entry
             Dependencies.InjectDependencies(this);
 
             LoadConfigPresets(_cfg, _res, _log.GetSawmill("configpreset"));
-            // DS14-Start: server performance defaults.
-            ApplyServerPerformanceDefaults(_cfg);
-            // DS14-End
 
             var aczProvider = new ContentMagicAczProvider(Dependencies);
             _host.SetMagicAczProvider(aczProvider);
@@ -161,10 +158,13 @@ namespace Content.Server.Entry
 
         private static void ApplyServerPerformanceDefaults(IConfigurationManager cfg)
         {
-            cfg.OverrideDefault(CVars.TargetMinimumTickrate, 50);
-            cfg.OverrideDefault(CVars.VelocityIterations, 6);
-            cfg.OverrideDefault(CVars.NetMaxUpdateRange, 24f);
-            cfg.OverrideDefault(CVars.NetPvsPriorityRange, 30f);
+#if RELEASE
+            cfg.SetCVar(CVars.TargetMinimumTickrate, 45);
+            cfg.SetCVar(CVars.VelocityIterations, 6);
+            cfg.SetCVar(CVars.NetTickrate, 20);
+            cfg.SetCVar(CVars.NetMaxUpdateRange, 24f);
+            cfg.SetCVar(CVars.NetPvsPriorityRange, 30f);
+#endif
         }
 
         public override void PostInit()
@@ -212,6 +212,9 @@ namespace Content.Server.Entry
             _multiServerKick.Initialize();
             _cvarCtrl.Initialize();
             _feedbackManager.Initialize();
+            // DS14-Start: server performance defaults.
+            ApplyServerPerformanceDefaults(_cfg);
+            // DS14-End
         }
 
         public override void Update(ModUpdateLevel level, FrameEventArgs frameEventArgs)

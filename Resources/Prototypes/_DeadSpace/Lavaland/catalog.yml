@@ -219,6 +219,30 @@
     LavalandMiningPoint: 350
 
 - type: listing
+  id: LavalandMiningPKAUpgradeDamageUp
+  productEntity: PKAUpgradeDamageUp
+  categories:
+  - LavalandMiningTools
+  cost:
+    LavalandMiningPoint: 1500
+
+- type: listing
+  id: LavalandMiningPKAUpgradeRangeUp
+  productEntity: PKAUpgradeRangeUp
+  categories:
+  - LavalandMiningTools
+  cost:
+    LavalandMiningPoint: 1500
+
+- type: listing
+  id: LavalandMiningPKAUpgradeFireRateUp
+  productEntity: PKAUpgradeFireRateUp
+  categories:
+  - LavalandMiningTools
+  cost:
+    LavalandMiningPoint: 1500
+
+- type: listing
   id: LavalandMiningKineticCrusher
   productEntity: WeaponCrusher
   categories:

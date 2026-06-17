@@ -36,6 +36,7 @@ public sealed class EyeLerpingSystem : EntitySystem
         UpdatesAfter.Add(typeof(TransformSystem));
         UpdatesAfter.Add(typeof(Robust.Client.Physics.PhysicsSystem));
         UpdatesBefore.Add(typeof(SharedEyeSystem));
+        UpdatesBefore.Add(typeof(EyeSystem));
         UpdatesOutsidePrediction = true;
     }
 
@@ -66,7 +67,11 @@ public sealed class EyeLerpingSystem : EntitySystem
 
         if (component.Eye != null)
         {
-            _eye.SetRotation(uid, lerpInfo.TargetRotation, component);
+            if (TryComp<ContentEyeComponent>(uid, out var contentEye))
+                contentEye.BaseRotation = lerpInfo.TargetRotation;
+            else
+                _eye.SetRotation(uid, lerpInfo.TargetRotation, component);
+
             _eye.SetZoom(uid, lerpInfo.TargetZoom, component);
         }
     }
@@ -193,13 +198,14 @@ public sealed class EyeLerpingSystem : EntitySystem
 
             // Handle Rotation
             TryComp<InputMoverComponent>(entity, out var mover);
+            TryComp<ContentEyeComponent>(entity, out var contentEye);
 
             // This needs to be recomputed every frame, as if this is simply the grid rotation, then we need to account for grid angle lerping.
             lerpInfo.TargetRotation = GetRotation(entity, xform, mover);
 
             if (!NeedsLerp(mover))
             {
-                _eye.SetRotation(entity, lerpInfo.TargetRotation, eye);
+                SetBaseRotation(entity, lerpInfo.TargetRotation, eye, contentEye);
                 continue;
             }
 
@@ -207,11 +213,22 @@ public sealed class EyeLerpingSystem : EntitySystem
 
             if (Math.Abs(shortest.Theta) < lerpMinimum)
             {
-                _eye.SetRotation(entity, lerpInfo.TargetRotation, eye);
+                SetBaseRotation(entity, lerpInfo.TargetRotation, eye, contentEye);
                 continue;
             }
 
-            _eye.SetRotation(entity, shortest * tickFraction + lerpInfo.LastRotation, eye);
+            SetBaseRotation(entity, shortest * tickFraction + lerpInfo.LastRotation, eye, contentEye);
         }
+    }
+
+    private void SetBaseRotation(EntityUid uid, Angle rotation, EyeComponent eye, ContentEyeComponent? contentEye)
+    {
+        if (contentEye != null)
+        {
+            contentEye.BaseRotation = rotation;
+            return;
+        }
+
+        _eye.SetRotation(uid, rotation, eye);
     }
 }

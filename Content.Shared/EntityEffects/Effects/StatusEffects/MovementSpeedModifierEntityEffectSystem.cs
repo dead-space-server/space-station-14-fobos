@@ -28,8 +28,8 @@ public sealed partial class MovementSpeedModifierEntityEffectSystem : EntityEffe
                     entity,
                     proto,
                     args.Effect.Time * args.Scale,
-                    sprintMod,
-                    walkMod);
+                    walkMod,
+                    sprintMod);
                 break;
             case StatusEffectMetabolismType.Add:
                 if (args.Effect.Time != null)
@@ -38,8 +38,8 @@ public sealed partial class MovementSpeedModifierEntityEffectSystem : EntityEffe
                         entity,
                         proto,
                         args.Effect.Time.Value * args.Scale,
-                        sprintMod,
-                        walkMod);
+                        walkMod,
+                        sprintMod);
                 }
                 else
                 {
@@ -47,8 +47,8 @@ public sealed partial class MovementSpeedModifierEntityEffectSystem : EntityEffe
                         entity,
                         proto,
                         args.Effect.Time * args.Scale,
-                        sprintMod,
-                        walkMod);
+                        walkMod,
+                        sprintMod);
                 }
                 break;
             case StatusEffectMetabolismType.Remove:

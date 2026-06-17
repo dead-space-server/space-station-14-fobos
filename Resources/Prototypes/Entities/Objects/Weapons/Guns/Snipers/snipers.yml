@@ -96,6 +96,10 @@
   id: WeaponSniperHristov
   description: A high-precision, large-caliber sniper rifle manufactured by Idalias Concerns.
   components:
+  - type: CursorOffsetRequiresWield
+  - type: EyeCursorOffset
+    maxOffset: 7
+    pvsIncrease: 0.3
   - type: Sprite
     sprite: Objects/Weapons/Guns/Snipers/heavy_sniper.rsi
     layers:

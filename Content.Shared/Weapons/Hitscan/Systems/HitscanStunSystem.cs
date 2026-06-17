@@ -1,3 +1,4 @@
+using Content.Shared.Damage;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Weapons.Hitscan.Components;
 using Content.Shared.Weapons.Hitscan.Events;
@@ -21,5 +22,19 @@ public sealed class HitscanStunSystem : EntitySystem
             return;
 
         _stamina.TakeStaminaDamage(args.Data.HitEntity.Value, hitscan.Comp.StaminaDamage, source: args.Data.Shooter ?? args.Data.Gun);
+
+        // DS14-start: allow stamina-only hitscans to reuse normal impact effects without duplicating damage hitscans.
+        if (HasComp<HitscanBasicDamageComponent>(hitscan))
+            return;
+
+        var damageEvent = new HitscanDamageDealtEvent
+        {
+            Target = args.Data.HitEntity.Value,
+            DamageDealt = new DamageSpecifier(),
+            Data = args.Data,
+        };
+
+        RaiseLocalEvent(hitscan, ref damageEvent);
+        // DS14-end
     }
 }

@@ -96,8 +96,8 @@
     - id: MaterialGoliathHide1
       amount: 2 #DS14
       maxAmount: 4 #DS14
-    - id: PKAUpgradeDamage #DS14
-      prob: 0.05
+    - id: PKAUpgradeDamageUp #DS14
+      prob: 0.01
 
 - type: entity
   parent: BaseAction
@@ -252,8 +252,8 @@
   - type: Butcherable
     spawned:
     - id: FoodHivelordRemains
-    - id: PKAUpgradeFireRate
-      prob: 0.05
+    - id: PKAUpgradeRangeUp #DS14
+      prob: 0.01
 
 - type: entity
   id: MobHivelordBrood
@@ -441,3 +441,5 @@
     - id: DiamondOre1
       amount: 1
       maxAmount: 3
+    - id: PKAUpgradeFireRateUp #DS14
+      prob: 0.01

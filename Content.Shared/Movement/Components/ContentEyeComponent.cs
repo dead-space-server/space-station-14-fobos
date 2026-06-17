@@ -21,4 +21,10 @@ public sealed partial class ContentEyeComponent : Component
     /// </summary>
     [ViewVariables(VVAccess.ReadWrite), DataField("maxZoom"), AutoNetworkedField]
     public Vector2 MaxZoom = Vector2.One;
+
+    /// <summary>
+    ///     The eye rotation before temporary visual effects like screenshake are applied.
+    /// </summary>
+    [ViewVariables(VVAccess.ReadWrite), DataField, Access(Other = AccessPermissions.ReadWrite)]
+    public Angle BaseRotation = Angle.Zero;
 }

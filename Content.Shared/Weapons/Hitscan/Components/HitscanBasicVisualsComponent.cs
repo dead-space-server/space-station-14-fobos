@@ -26,4 +26,12 @@ public sealed partial class HitscanBasicVisualsComponent : Component
     /// </summary>
     [DataField]
     public SpriteSpecifier? ImpactFlash;
+
+    // DS14-start: moving projectile visual for hitscan traces.
+    [DataField]
+    public ExtendedSpriteSpecifier? Bullet;
+
+    [DataField]
+    public float Speed = 315f;
+    // DS14-end
 }
