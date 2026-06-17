@@ -12,6 +12,7 @@ using Content.Server.Popups;
 using Content.Server.Store.Systems;
 using Content.Server.Traitor.Uplink;
 using Content.Shared.Chat;
+using Content.Shared.Corvax.TTS;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Database;
@@ -579,16 +580,21 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         var name = state.AgentName ?? (mind == null ? null : GetMindCharacterName(mind));
         state.AgentName = name;
 
+        var announcement = Loc.GetString(
+            GetBountyAnnouncementLocId(state.OriginalCorporation),
+            ("oldCorp", LocalizeCorporation(state.OriginalCorporation)),
+            ("newCorp", LocalizeCorporation(state.NewCorporation)),
+            ("agent", name ?? Loc.GetString("generic-unknown-title")),
+            ("reward", state.BountyReward));
+
         _chat.DispatchGlobalAnnouncement(
-            Loc.GetString(
-                GetBountyAnnouncementLocId(state.OriginalCorporation),
-                ("oldCorp", LocalizeCorporation(state.OriginalCorporation)),
-                ("newCorp", LocalizeCorporation(state.NewCorporation)),
-                ("agent", name ?? Loc.GetString("generic-unknown-title")),
-                ("reward", state.BountyReward)),
+            announcement,
             sender: LocalizeCorporation(state.OriginalCorporation),
             playSound: true,
-            colorOverride: Color.OrangeRed);
+            announcementSound: component.BountyAnnouncementSound,
+            colorOverride: Color.OrangeRed,
+            originalMessage: announcement,
+            voice: PickRandomAnnouncementVoice());
 
         if (mind != null)
             EnsureBountyBody(rule, mindId, mind, state, replaceExisting: true);
@@ -966,6 +972,12 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
             "traitor-corporations-dataset-7" => "traitor-ultra-bounty-announcement-donk",
             _ => "traitor-ultra-bounty-announcement",
         };
+    }
+
+    private string? PickRandomAnnouncementVoice()
+    {
+        var voices = _proto.EnumeratePrototypes<TTSVoicePrototype>().ToArray();
+        return voices.Length == 0 ? null : _random.Pick(voices).ID;
     }
 
     private string? GetMindCharacterName(MindComponent mind)

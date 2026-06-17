@@ -115,7 +115,10 @@ public sealed partial class TraitorUltraRuleComponent : Component
     };
 
     [DataField]
-    public SoundSpecifier UpgradeSound = new SoundPathSpecifier("/Audio/Ambience/Antag/nukeops_start.ogg");
+    public SoundSpecifier UpgradeSound = new SoundPathSpecifier("/Audio/_DeadSpace/TraitorUltra/ultra_role_assigned.ogg");
+
+    [DataField]
+    public SoundSpecifier BountyAnnouncementSound = new SoundPathSpecifier("/Audio/_DeadSpace/TraitorUltra/contract_transfer_announcement.ogg");
 
     [DataField]
     public ProtoId<CurrencyPrototype> TelecrystalCurrency = "Telecrystal";
