@@ -3,7 +3,7 @@ using Robust.Shared.Serialization.Manager.Attributes;
 
 namespace Content.Shared.DeadSpace.AppHub;
 
-[Prototype("appCatalogEntry")]
+[Prototype]
 public sealed partial class AppCatalogEntryPrototype : IPrototype
 {
     [IdDataField]

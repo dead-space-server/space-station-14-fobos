@@ -2,21 +2,21 @@
 
 - type: appCatalogEntry
   id: app-messenger
-  name: NanoChat
-  description: Система обмена сообщениями между членами экипажа.
+  name: app-catalog-entry-messenger-name
+  description: app-catalog-entry-messenger-desc
   category: Tools
   programId: MessengerCartridge
 
 - type: appCatalogEntry
   id: app-wanted-list
-  name: Список разыскиваемых
-  description: Актуальный список разыскиваемых лиц.
+  name: app-catalog-entry-wanted-list-name
+  description: app-catalog-entry-wanted-list-desc
   category: Equipment
   programId: WantedListCartridge
 
 - type: appCatalogEntry
   id: app-snake
-  name: Змейка
-  description: Классическая игра "Змейка" для КПК.
+  name: app-catalog-entry-snake-name
+  description: app-catalog-entry-snake-desc
   category: Games
   programId: SnakeCartridge
