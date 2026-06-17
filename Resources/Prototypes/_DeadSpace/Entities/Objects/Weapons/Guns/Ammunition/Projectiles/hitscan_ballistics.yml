@@ -39,6 +39,15 @@
       sprite:
         sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
         state: uranium
+    muzzleFlash:
+      sprite: _DeadSpace/Objects/Weapons/Guns/Projectiles/traces.rsi
+      state: muzzle_uran
+    impactFlash:
+      sprite: _DeadSpace/Objects/Weapons/Guns/Projectiles/traces.rsi
+      state: impact_uran
+    travelFlash:
+      sprite: _DeadSpace/Objects/Weapons/Guns/Projectiles/traces.rsi
+      state: trace_uran
 
 - type: entity
   id: BulletAPTrace
@@ -61,6 +70,16 @@
     color: "#ff4300"
     radius: 2.0
     energy: 7.0
+  - type: HitscanBasicVisuals
+    muzzleFlash:
+      sprite: _DeadSpace/Objects/Weapons/Guns/Projectiles/traces.rsi
+      state: muzzle_in
+    travelFlash:
+      sprite: _DeadSpace/Objects/Weapons/Guns/Projectiles/traces.rsi
+      state: trace_in
+    impactFlash:
+      sprite: _DeadSpace/Objects/Weapons/Guns/Projectiles/traces.rsi
+      state: impact_in
 
 - type: entity
   id: BulletPracticeTrace
