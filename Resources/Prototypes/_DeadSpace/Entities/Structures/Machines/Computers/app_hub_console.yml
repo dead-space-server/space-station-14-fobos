@@ -18,6 +18,10 @@
       visible: false
       state: generic_panel_open
   - type: AppHub
+    pdaSlot:
+      whitelist:
+        components:
+        - CartridgeLoader
   - type: ActivatableUI
     key: enum.AppHubUiKey.Key
   - type: UserInterface

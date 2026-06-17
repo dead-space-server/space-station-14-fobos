@@ -77,6 +77,12 @@ public sealed class AppHubSystem : EntitySystem
         if (!TryComp(pda, out CartridgeLoaderComponent? loader))
             return;
 
+        foreach (var prog in _cartridgeLoader.GetInstalled(pda))
+        {
+            if (Prototype(prog)?.ID == entry.ProgramId)
+                return;
+        }
+
         _cartridgeLoader.InstallProgram(pda, entry.ProgramId, loader: loader);
         UpdateUiState(uid, comp);
     }
