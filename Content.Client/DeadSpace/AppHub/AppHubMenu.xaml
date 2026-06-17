@@ -11,14 +11,13 @@
                 <gfx:StyleBoxFlat BackgroundColor="#003366" />
             </PanelContainer.PanelOverride>
             <BoxContainer Orientation="Horizontal" Margin="8 4" SeparationOverride="12">
-                <Label Name="StatusNetwork" Text="Network: Connected" FontColorOverride="#88FF88" />
+                <Label Name="StatusNetwork" Text="Сеть: Подключено" FontColorOverride="#88FF88" />
                 <PanelContainer MinWidth="1" MinHeight="16" VerticalAlignment="Center">
                     <PanelContainer.PanelOverride>
                         <gfx:StyleBoxFlat BackgroundColor="#88FF88" />
                     </PanelContainer.PanelOverride>
                 </PanelContainer>
-                <Label Name="StatusPda" Text="No PDA" FontColorOverride="#FF8888" />
-                <Label Name="StatusTime" Text="Time: 12:00" FontColorOverride="#88FF88" HorizontalExpand="True" HorizontalAlignment="Right" />
+                <Label Name="StatusPda" Text="Нет КПК" FontColorOverride="#FF8888" HorizontalExpand="True" HorizontalAlignment="Right" />
             </BoxContainer>
         </PanelContainer>
         <BoxContainer Orientation="Horizontal" VerticalExpand="True" SeparationOverride="10">

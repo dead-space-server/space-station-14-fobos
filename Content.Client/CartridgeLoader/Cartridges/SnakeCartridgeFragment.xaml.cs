@@ -37,16 +37,16 @@ public sealed partial class SnakeCartridgeFragment : BoxContainer
         NewGameBtn.OnPressed += _ =>
         {
             _boardView.ResetGame();
-            ScoreLabel.Text = "Score: 0";
+            ScoreLabel.Text = "Счёт: 0";
         };
 
         _boardView.OnScoreChanged += score =>
         {
-            ScoreLabel.Text = $"Score: {score}";
+            ScoreLabel.Text = $"Счёт: {score}";
             if (score > _highScore)
             {
                 _highScore = score;
-                HighScoreLabel.Text = $"Best: {_highScore}";
+                HighScoreLabel.Text = $"Рекорд: {_highScore}";
             }
         };
     }

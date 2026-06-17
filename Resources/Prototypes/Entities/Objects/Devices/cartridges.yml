@@ -187,8 +187,8 @@
   - type: Cartridge
     programName: snake-cartridge-program-name
     icon:
-      sprite: Objects/Consumable/Food/ingredients.rsi
-      state: apple
+      sprite: Objects/Specific/Hydroponics/apple.rsi
+      state: produce
 
 - type: entity
   parent: BasePDACartridge
