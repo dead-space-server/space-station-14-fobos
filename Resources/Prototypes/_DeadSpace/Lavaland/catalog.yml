@@ -176,7 +176,7 @@
   categories:
   - LavalandMiningTools
   cost:
-    LavalandMiningPoint: 25000
+    LavalandMiningPoint: 15000
 
 - type: listing
   id: LavalandMiningWeaponMagmiteCrusher

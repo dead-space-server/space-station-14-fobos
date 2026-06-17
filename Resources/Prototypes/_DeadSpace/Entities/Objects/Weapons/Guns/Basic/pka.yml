@@ -56,6 +56,8 @@
   name: протокинетический дробовик
   description: Новейший модифицированный прототип протокинетического ускорителя, что работает как дробовик
   components:
+  - type: GunSpreadModifier
+    spread: 0.85
   - type: AmmoCounter
   - type: Appearance
   - type: GenericVisualizer
