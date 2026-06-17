@@ -1,0 +1,22 @@
+- type: entity
+  id: JointTritium
+  parent: Joint
+  name: косяк
+  suffix: Тритиевая конопля
+  description: "Самокрутка из высушенного растения, завёрнутого в тонкую бумагу."
+  components:
+  - type: Construction
+    graph: smokeableJointTritium
+    node: jointTritium
+  - type: SolutionContainerManager
+    solutions:
+      smokable:
+        maxVol: 30
+        reagents:
+        - ReagentId: THC
+          Quantity: 15
+        - ReagentId: SpaceDrugs
+          Quantity: 15
+        - ReagentId: Happiness
+          Quantity: 10
+  - type: JointTritium

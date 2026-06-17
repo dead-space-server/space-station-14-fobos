@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Numerics;
 using Content.Client.CrewManifest;
+using Content.Client.DeadSpace.Stylesheets;
 using Content.Client.GameTicking.Managers;
 using Content.Client.Lobby;
 using Content.Client.UserInterface.Controls;
@@ -11,6 +12,7 @@ using Content.Shared.Roles;
 using Content.Shared.StatusIcon;
 using Robust.Client.Console;
 using Robust.Client.GameObjects;
+using Robust.Client.Graphics;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.CustomControls;
@@ -40,13 +42,14 @@ namespace Content.Client.LateJoin
 
         private readonly Dictionary<NetEntity, Dictionary<string, List<JobButton>>> _jobButtons = new();
         private readonly Dictionary<NetEntity, Dictionary<string, BoxContainer>> _jobCategories = new();
-        private readonly List<ScrollContainer> _jobLists = new();
+        private readonly List<Control> _jobLists = new();
+        private readonly List<ContainerButton> _stationButtons = new(); // DS14
 
         private readonly Control _base;
 
         public LateJoinGui()
         {
-            MinSize = SetSize = new Vector2(450, 560); // DS14-resize
+            MinSize = SetSize = new Vector2(500, 620); // DS14-resize
             IoCManager.InjectDependencies(this);
             _sprites = _entitySystem.GetEntitySystem<SpriteSystem>();
             _crewManifest = _entitySystem.GetEntitySystem<CrewManifestSystem>();
@@ -55,13 +58,28 @@ namespace Content.Client.LateJoin
 
             Title = Loc.GetString("late-join-gui-title");
 
+            // DS14-start
+            TitleClass = DeadSpaceMenuSheetlet.Title;
+            HeaderClass = DeadSpaceMenuSheetlet.Header;
+            // DS14-end
+
             _base = new BoxContainer()
             {
                 Orientation = LayoutOrientation.Vertical,
                 VerticalExpand = true,
+                Margin = new Thickness(10),
+                SeparationOverride = 8,
             };
 
-            ContentsContainer.AddChild(_base);
+            // DS14-start
+            ContentsContainer.AddChild(new PanelContainer
+            {
+                StyleClasses = { DeadSpaceMenuSheetlet.Shell },
+                HorizontalExpand = true,
+                VerticalExpand = true,
+                Children = { _base },
+            });
+            // DS14-end
 
             _jobRequirements.Updated += RebuildUI;
             RebuildUI();
@@ -81,6 +99,7 @@ namespace Content.Client.LateJoin
         {
             _base.RemoveAllChildren();
             _jobLists.Clear();
+            _stationButtons.Clear(); // DS14
             _jobButtons.Clear();
             _jobCategories.Clear();
 
@@ -99,6 +118,13 @@ namespace Content.Client.LateJoin
                 {
                     HorizontalAlignment = HAlignment.Right,
                     ToggleMode = true,
+                    MinSize = new Vector2(36, 28),
+                    // DS14-start
+                    StyleBoxOverride = new StyleBoxFlat
+                    {
+                        BackgroundColor = Color.Transparent,
+                    },
+                    // DS14-end
                     Children =
                     {
                         new TextureRect
@@ -111,31 +137,40 @@ namespace Content.Client.LateJoin
                     }
                 };
 
-                _base.AddChild(new StripeBack()
+                // DS14-start
+                _base.AddChild(new PanelContainer
                 {
+                    StyleClasses = { DeadSpaceMenuSheetlet.ListHeader },
                     Children =
                     {
-                        new PanelContainer()
+                        new BoxContainer
                         {
+                            Orientation = LayoutOrientation.Horizontal,
+                            SeparationOverride = 8,
+                            HorizontalExpand = true,
                             Children =
                             {
                                 new Label()
                                 {
-                                    StyleClasses = { "LabelBig" },
+                                    StyleClasses = { DeadSpaceMenuSheetlet.ListHeader },
                                     Text = name,
+                                    HorizontalExpand = true,
                                     Align = Label.AlignMode.Center,
+                                    VerticalAlignment = VAlignment.Center,
                                 },
                                 collapseButton
                             }
                         }
                     }
                 });
+                // DS14-end
 
                 if (_configManager.GetCVar(CCVars.CrewManifestWithoutEntity))
                 {
                     var crewManifestButton = new Button()
                     {
-                        Text = Loc.GetString("crew-manifest-button-label")
+                        Text = Loc.GetString("crew-manifest-button-label"),
+                        StyleClasses = { DeadSpaceMenuSheetlet.ProfileControl }
                     };
                     crewManifestButton.OnPressed += _ => _crewManifest.RequestCrewManifest(id);
 
@@ -146,23 +181,47 @@ namespace Content.Client.LateJoin
                 {
                     VerticalExpand = true,
                     Children = { jobList },
-                    Visible = false,
                 };
 
-                if (_jobLists.Count == 0)
-                    jobListScroll.Visible = true;
-
-                _jobLists.Add(jobListScroll);
-
-                _base.AddChild(jobListScroll);
-
-                collapseButton.OnToggled += _ =>
+                // DS14-start
+                var jobListPanel = new PanelContainer
                 {
-                    foreach (var section in _jobLists)
+                    StyleClasses = { DeadSpaceMenuSheetlet.Inset },
+                    VerticalExpand = true,
+                    Visible = false,
+                    Children = { jobListScroll },
+                };
+                // DS14-end
+
+                if (_jobLists.Count == 0)
+                {
+                    jobListPanel.Visible = true;
+                    collapseButton.Pressed = true; // DS14
+                }
+
+                _jobLists.Add(jobListPanel);
+                _stationButtons.Add(collapseButton); // DS14
+
+                _base.AddChild(jobListPanel);
+
+                collapseButton.OnToggled += args =>
+                {
+                    if (!args.Pressed)
                     {
-                        section.Visible = false;
+                        jobListPanel.Visible = false;
+                        return;
                     }
-                    jobListScroll.Visible = true;
+
+                    foreach (var section in _jobLists)
+                        section.Visible = false;
+
+                    foreach (var button in _stationButtons)
+                    {
+                        if (button != collapseButton)
+                            button.Pressed = false;
+                    }
+
+                    jobListPanel.Visible = true;
                 };
 
                 var firstCategory = true;
@@ -208,18 +267,22 @@ namespace Content.Client.LateJoin
                     {
                         category.AddChild(new Control
                         {
-                            MinSize = new Vector2(0, 23),
+                            MinSize = new Vector2(0, 12),
                         });
                     }
 
                     category.AddChild(new PanelContainer
                     {
+                        StyleClasses = { DeadSpaceMenuSheetlet.ListHeader },
+                        Margin = new Thickness(0, 0, 0, 4),
                         Children =
                         {
                             new Label
                             {
-                                StyleClasses = { "LabelBig" },
-                                Text = Loc.GetString("late-join-gui-department-jobs-label", ("departmentName", departmentName))
+                                StyleClasses = { DeadSpaceMenuSheetlet.ListHeader },
+                                Text = Loc.GetString("late-join-gui-department-jobs-label", ("departmentName", departmentName)),
+                                Align = Label.AlignMode.Center,
+                                HorizontalExpand = true,
                             }
                         }
                     });
@@ -227,27 +290,35 @@ namespace Content.Client.LateJoin
                     _jobCategories[id][department.ID] = category;
                     jobList.AddChild(category);
 
+                    var rowIndex = 0; // DS14
                     foreach (var prototype in jobsAvailable)
                     {
                         var value = stationAvailable[prototype.ID];
 
                         var jobLabel = new Label
                         {
-                            Margin = new Thickness(5f, 0, 0, 0)
+                            Margin = new Thickness(5f, 0, 0, 0),
+                            VerticalAlignment = VAlignment.Center,
+                            StyleClasses = { DeadSpaceMenuSheetlet.ProfileLabel },
                         };
 
                         var jobButton = new JobButton(jobLabel, prototype.ID, prototype.LocalizedName, value);
+                        jobButton.AddStyleClass(rowIndex++ % 2 == 0
+                            ? DeadSpaceMenuSheetlet.ListRow
+                            : DeadSpaceMenuSheetlet.ListRowAlt);
 
                         var jobSelector = new BoxContainer
                         {
                             Orientation = LayoutOrientation.Horizontal,
-                            HorizontalExpand = true
+                            HorizontalExpand = true,
+                            SeparationOverride = 6,
                         };
 
                         var icon = new TextureRect
                         {
                             TextureScale = new Vector2(2, 2),
-                            VerticalAlignment = VAlignment.Center
+                            VerticalAlignment = VAlignment.Center,
+                            Margin = new Thickness(4, 0, 0, 0),
                         };
 
                         var jobIcon = _prototypeManager.Index(prototype.Icon);

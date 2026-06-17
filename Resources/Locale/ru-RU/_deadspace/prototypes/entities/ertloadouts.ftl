@@ -18,6 +18,12 @@ ert-loadout-category-ares-swc-incendiary-description =
     Обладает барабанным магазином и общей мобильностью. 
     Создано по предварительному договору NanoTrasen с SWC.
     Имеет зажигательные патроны.
+ert-loadout-category-ares-swcbs-name = SWC-432-5 "Арес"
+ert-loadout-category-ares-swcbs-description =
+    Автоматический дробовик. Совершенно новый аналог нашумевшей "Сайге". 
+    Обладает барабанным магазином и общей мобильностью. 
+    Использует патроны калибра 12х70 дробь.
+    Набор содержит 3 барабана и SWC-432-5 "Арес".
 ert-loadout-category-energyshotgun-name = Энергетический дробовик
 ert-loadout-category-energyshotgun-description =
     Новейший прототип, с возможностью смены режима на летальный
@@ -99,11 +105,23 @@ ert-loadout-category-pulsecarbine-name = Импульсный карабин
 ert-loadout-category-pulsecarbine-description =
     Высокотехнологичный энергетический карабин военного класса.
     Для восполнения боезапаса потребуется зарядник энергооружия.
-ert-loadout-category-mk58-name = MK 58
+ert-loadout-category-truncheonsecbs-name = Набор "Синоби"
+ert-loadout-category-truncheonsecbs-description =
+    Электрошоковое мачете для обездвиживания или убийства людей. 
+    Имеет нелетальный и летальный режимы. 
+    Является улучшением шоковой дубинки для действительно трудных ситуаций.
+    Набор содержит боевое мачете СБ, 2 телескопических щита и немного медипенов.
+ert-loadout-category-pistolbsupgradekit-name = Набор "Новое завтра"
+ert-loadout-category-pistolbsupgradekit-description =
+    Комплект с системой микрозарядки. Является улучшением для пистолета ОСЩ.
+    Просто вставьте его в свой пистолет и вы станите не победимы!
+    Набор содержит только модуль для лазерного пистолета ОСЩ.
+ert-loadout-category-mk58-name = MK 58 и Станнер
 ert-loadout-category-mk58-description =
     Дешёвый и распространённый пистолет,
     производимый дочерней компанией Nanotrasen.
     Использует патроны калибра 9х19 мм.
+    Содержит два дополнительных магазина.
 ert-loadout-category-berettam92-name = Beretta M92
 ert-loadout-category-berettam92-description =
     Точный и давно зарекомендовавший себя пистолет.
@@ -121,11 +139,12 @@ ert-loadout-category-mk79tactical-description =
     Главный слоган этого пистолета, он спасёт вас от всего.
     От тьмы с помощью фонарика, до клоуна с мимом. 
     Использует патроны калибра 9х19.
-ert-loadout-category-verdict-name = Вердикт
+ert-loadout-category-verdict-name = Вердикт и Станнер
 ert-loadout-category-verdict-description =
     Надёжный револьвер любого сотрудника СБ.
     Имеет барабан на 6 патрон и нескользящую ручку.
     Использует патроны .45 магнум, так как это то, что предполагали основатели.
+    Содержит два дополнительных спидлоадера.
 ert-loadout-category-n1984-name = N1984
 ert-loadout-category-n1984-description =
     Запасное оружие любого уважающего себя офицера.

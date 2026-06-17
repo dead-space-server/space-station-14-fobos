@@ -1188,6 +1188,30 @@
       state: rock_wall_north
     - map: [ "enum.EdgeLayer.West" ]
       state: rock_wall_west
+  # DS14-Start
+  - type: Gatherable
+    toolWhitelist:
+      tags:
+      - Pickaxe
+  # DS14-End
+  - type: Damageable
+    damageContainer: StructuralInorganic
+  # DS14-Start
+    damageModifierSet: Basalt
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 15
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          path: /Audio/Effects/break_stone.ogg
+          params:
+            volume: -6
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+    # DS14-End
 
 - type: entity
   id: WallRockBasaltCoal
@@ -1466,6 +1490,9 @@
   - type: Gatherable
     toolWhitelist:
       tags: []
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: StructuralImmune
 # DS14-end
 
 # Snow variants

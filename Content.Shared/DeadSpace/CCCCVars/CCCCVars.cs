@@ -102,6 +102,12 @@ public sealed class CCCCVars
     public static readonly CVarDef<bool> LavalandAutoGenerate =
         CVarDef.Create("lavaland.auto_generate", true, CVar.SERVERONLY);
 
+    /// <summary>
+    /// Moves long-stuck dynamic physics bodies out of static hard overlaps.
+    /// </summary>
+    public static readonly CVarDef<bool> PhysicsSanityEnabled =
+        CVarDef.Create("physics.sanity_enabled", true, CVar.SERVERONLY);
+
     /*
     * Lobby ui
     */

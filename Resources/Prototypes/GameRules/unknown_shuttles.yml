@@ -30,7 +30,7 @@
     children:
     - id: LoneOpsSpawn
     - id: UnknownShuttleManOWar
-    - id: UnknownShuttleInstigator
+#    - id: UnknownShuttleInstigator #DS14
     - id: UnknownShuttleSyndieEvacPod # DS14
 
 # Shuttle Game Rules

@@ -20,9 +20,9 @@
       task: SimpleRangedHostileCompound
     blackboard:
       VisionRadius: !type:Single
-        5
+        8 #DS14
       AggroVisionRadius: !type:Single
-        9
+        15 #DS14
   - type: Sprite
     drawdepth: Mobs
     sprite: Mobs/Aliens/Lavaland/watcher.rsi

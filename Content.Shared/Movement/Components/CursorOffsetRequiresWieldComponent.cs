@@ -9,5 +9,4 @@ namespace Content.Shared.Movement.Components;
 [RegisterComponent, NetworkedComponent, Access(typeof(SharedWieldableSystem))]
 public sealed partial class CursorOffsetRequiresWieldComponent : Component
 {
-
 }

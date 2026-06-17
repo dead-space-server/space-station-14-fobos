@@ -17,17 +17,19 @@ public sealed partial class PdaNavigationButton : ContainerButton
     private Thickness _borderThickness = new(0, 0, 0, 2);
     private Thickness _currentTabBorderThickness = new(2, 0, 2, 0);
 
+    // DS14-start
     private readonly StyleBoxFlat _styleBox = new()
     {
-        BackgroundColor = Color.FromHex("#202023"),
-        BorderColor = Color.FromHex("#5a5a5a"),
+        BackgroundColor = Color.FromHex("#111923F0"),
+        BorderColor = Color.FromHex("#1D5B73"),
         BorderThickness = new Thickness(0, 0, 0, 2)
     };
 
-    public string InactiveBgColor { get; set; } = "#202023";
-    public string ActiveBgColor { get; set; } = "#25252a";
-    public string InactiveFgColor { get; set; } = "#5a5a5a";
-    public string ActiveFgColor { get; set; } = "#FFFFFF";
+    public string InactiveBgColor { get; set; } = "#111923F0";
+    public string ActiveBgColor { get; set; } = "#183751F5";
+    public string InactiveFgColor { get; set; } = "#AEB6C2";
+    public string ActiveFgColor { get; set; } = "#F1F3F6";
+    // DS14-end
 
     public SpriteSpecifier? IconTexture
     {

@@ -36,6 +36,7 @@ using Content.Shared.Kitchen;
 using Content.Shared.Localizations;
 using Robust.Server;
 using Robust.Server.ServerStatus;
+using Robust.Shared;
 using Robust.Shared.Configuration;
 using Robust.Shared.ContentPack;
 using Robust.Shared.Prototypes;
@@ -155,6 +156,17 @@ namespace Content.Server.Entry
             // Jukebox-port-edit
         }
 
+        private static void ApplyServerPerformanceDefaults(IConfigurationManager cfg)
+        {
+#if RELEASE
+            cfg.SetCVar(CVars.TargetMinimumTickrate, 45);
+            cfg.SetCVar(CVars.VelocityIterations, 6);
+            cfg.SetCVar(CVars.NetTickrate, 20);
+            cfg.SetCVar(CVars.NetMaxUpdateRange, 24f);
+            cfg.SetCVar(CVars.NetPvsPriorityRange, 30f);
+#endif
+        }
+
         public override void PostInit()
         {
             base.PostInit();
@@ -200,6 +212,9 @@ namespace Content.Server.Entry
             _multiServerKick.Initialize();
             _cvarCtrl.Initialize();
             _feedbackManager.Initialize();
+            // DS14-Start: server performance defaults.
+            ApplyServerPerformanceDefaults(_cfg);
+            // DS14-End
         }
 
         public override void Update(ModUpdateLevel level, FrameEventArgs frameEventArgs)

@@ -1,0 +1,8 @@
+﻿- type: entity
+  id: PottedPlantDS1
+  parent: PottedPlantBase
+  name: "комнатное растение"
+  description: "Э, а чё это с кактусом?"
+  components:
+  - type: Sprite
+    state: plant-31

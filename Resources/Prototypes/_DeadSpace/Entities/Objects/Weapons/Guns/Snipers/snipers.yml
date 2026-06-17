@@ -19,7 +19,7 @@
     shape:
     - 0,0,5,1
   - type: Gun
-    fireRate: 2.8
+    fireRate: 2.25
     soundGunshot:
       path: /Audio/_DeadSpace/Weapons/Guns/Gunshots/sr.ogg
   - type: ChamberMagazineAmmoProvider

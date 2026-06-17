@@ -1,29 +1,32 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
+using Content.Shared.Actions;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
+using Robust.Shared.Prototypes;
 
 namespace Content.Shared.DeadSpace.ThermalVision;
 
-[RegisterComponent, NetworkedComponent]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class ThermalVisionComponent : Component
 {
     [DataField]
-    public Color? Color = null;
+    public EntProtoId ActionToggleThermalVision = "ActionToggleThermalVision";
 
-    [DataField]
-    [ViewVariables(VVAccess.ReadOnly)]
-    public bool HasThermalVision = false;
+    [DataField, AutoNetworkedField]
+    public EntityUid? ActionToggleThermalVisionEntity;
 
-    [DataField]
-    [ViewVariables(VVAccess.ReadOnly)]
+    [DataField, AutoNetworkedField]
+    public bool IsActive;
+
+    [DataField, AutoNetworkedField]
     public bool Animation = true;
 
-    [DataField]
-    [ViewVariables(VVAccess.ReadOnly)]
+    [DataField, AutoNetworkedField]
     public SoundSpecifier? ActivateSound = null;
 
-    [DataField]
-    [ViewVariables(VVAccess.ReadOnly)]
+    [DataField, AutoNetworkedField]
     public SoundSpecifier? ActivateSoundOff = null;
 }
+
+public sealed partial class ToggleThermalVisionActionEvent : InstantActionEvent;

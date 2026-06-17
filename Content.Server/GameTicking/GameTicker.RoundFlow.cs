@@ -11,9 +11,13 @@ using Content.Shared.Body.Components;
 using Content.Shared.CCVar;
 using Content.Shared.Database;
 using Content.Shared.GameTicking;
+using Content.Shared.Ghost; // DS14
 using Content.Shared.Maps;
 using Content.Shared.Mind;
 using Content.Shared.Objectives.Systems;
+using Content.Server.Objectives; // DS14
+using Content.Shared.Mobs; // DS14
+using Content.Shared.Mobs.Components; // DS14
 using Content.Shared.Players;
 using Content.Shared.Preferences;
 using Content.Shared.Roles;
@@ -42,6 +46,7 @@ namespace Content.Server.GameTicking
         [Dependency] private readonly RoleSystem _role = default!;
         [Dependency] private readonly RoundEndManifestStatsSystem _roundEndManifestStats = default!; // DS14
         [Dependency] private readonly SharedObjectivesSystem _objectives = default!; // DS14
+        [Dependency] private readonly ObjectivesSystem _objectivesSystem = default!; // DS14
         [Dependency] private readonly ITaskManager _taskManager = default!;
 
         private static readonly Counter RoundNumberMetric = Metrics.CreateCounter(
@@ -589,6 +594,8 @@ namespace Content.Server.GameTicking
                 var manifestObjectives = antag
                     ? GetRoundEndObjectives(mindId, mind)
                     : Array.Empty<RoundEndMessageEvent.RoundEndObjectiveInfo>();
+                var inCustody = antag && _objectivesSystem.IsInCustody(mindId, mind); // DS14
+                var isDead = antag && IsMindDead(mindId, mind); // DS14
                 var showInAntagManifest = antag &&
                     ShouldShowInRoundEndAntagManifest(mindId, manifestAntagMinds, manifestObjectives, antagRoles);
                 // DS14-end
@@ -615,6 +622,8 @@ namespace Content.Server.GameTicking
                     ManifestKills = antag ? manifestStats.Kills : 0,
                     ManifestAssists = antag ? manifestStats.Assists : 0,
                     ManifestObjectives = manifestObjectives,
+                    InCustody = inCustody, // DS14
+                    IsDead = isDead, // DS14
                     ShowInAntagManifest = showInAntagManifest,
                     // DS14-end
                     Observer = observer,
@@ -718,6 +727,19 @@ namespace Content.Server.GameTicking
 
             return objectives.ToArray();
         }
+
+        // DS14-start
+        private bool IsMindDead(EntityUid mindId, MindComponent mind)
+        {
+            if (mind.OwnedEntity is not {} owned)
+                return mind.TimeOfDeath.HasValue;
+
+            if (TryComp<MobStateComponent>(owned, out var mobState))
+                return mobState.CurrentState == MobState.Dead;
+
+            return mind.TimeOfDeath.HasValue && HasComp<GhostComponent>(owned);
+        }
+        // DS14-end
 
         private EntityUid? GetRoundEndDisplayEntity(
             EntityUid mindId,

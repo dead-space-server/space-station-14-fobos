@@ -17,6 +17,17 @@ namespace Content.Shared.Fluids.Components
         [DataField, AutoNetworkedField] //DS14
         public FixedPoint2 OverflowVolume = FixedPoint2.New(50);
 
+        // DS14-start: reduce physics load from decorative puddles.
+        [DataField, AutoNetworkedField]
+        public FixedPoint2 VisualOverflowVolume = FixedPoint2.New(50);
+
+        [DataField, AutoNetworkedField]
+        public FixedPoint2 DecorativePuddleOverflowVolume = FixedPoint2.New(120);
+
+        [DataField, AutoNetworkedField]
+        public FixedPoint2 DecorativePuddleMaxVolume = FixedPoint2.New(120);
+        // DS14-end
+
         [DataField("solution")] public string SolutionName = "puddle";
 
         /// <summary>

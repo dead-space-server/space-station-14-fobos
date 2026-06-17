@@ -1,0 +1,27 @@
+- type: constructionGraph
+  id: smokeableJointTritium
+  start: start
+  graph:
+    - node: start
+      edges:
+        - to: jointTritium
+          steps:
+            - material: PaperRolling
+            - material: GroundCannabisTritium
+              doAfter: 2
+    - node: jointTritium
+      entity: JointTritium
+
+- type: constructionGraph
+  id: smokeableGroundCannabisTritium
+  start: start
+  graph:
+    - node: start
+      edges:
+        - to: groundTritium
+          steps:
+            - material: LeavesCannabisTritiumDried
+              amount: 2
+              doAfter: 5
+    - node: groundTritium
+      entity: GroundCannabisTritium

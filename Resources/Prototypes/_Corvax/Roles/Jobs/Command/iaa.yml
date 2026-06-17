@@ -29,10 +29,10 @@
     - Brig
     - Maintenance
   #start-backmen: currency
-  minBankBalance: 800
-  maxBankBalance: 1200
+  minBankBalance: 500 # DS14-value
+  maxBankBalance: 900 # DS14-value
   wageDepartment: Specific
-  wage: 145
+  wage: 420 # DS14-value
   #end-backmen: currency
   special:
   - !type:AddImplantSpecial

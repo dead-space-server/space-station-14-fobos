@@ -110,6 +110,9 @@ public abstract class SharedRingerSystem : EntitySystem
         if (!Resolve(ent, ref ent.Comp))
             return;
 
+        if (TryComp<PdaComponent>(ent, out var pda) && pda.SilentMode) // DS14
+            return;
+
         StartRingtone((ent, ent.Comp));
     }
 

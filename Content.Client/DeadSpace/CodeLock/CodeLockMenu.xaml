@@ -1,0 +1,30 @@
+<DefaultWindow xmlns="https://spacestation14.io"
+            xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
+            Title="{Loc 'codelock-user-interface-title'}"
+            MinSize="256 256"
+            SetSize="256 256"
+            Resizable="False">
+    <BoxContainer Orientation="Vertical"
+                  HorizontalExpand="True"
+                  VerticalExpand="True">
+        <PanelContainer Margin="0 0 0 5">
+            <PanelContainer.PanelOverride>
+                <gfx:StyleBoxFlat BackgroundColor="#001c00" />
+            </PanelContainer.PanelOverride>
+            <Label Name="FirstStatusLabel"/>
+        </PanelContainer>
+        <PanelContainer Margin="0 0 0 5">
+            <PanelContainer.PanelOverride>
+                <gfx:StyleBoxFlat BackgroundColor="#001c00" />
+            </PanelContainer.PanelOverride>
+            <Label Name="SecondStatusLabel"/>
+        </PanelContainer>
+        <BoxContainer Orientation="Horizontal"
+                      HorizontalAlignment="Center">
+            <GridContainer Columns="3"
+                           Name="KeypadGrid"
+                           Margin="0 15 0 0">
+            </GridContainer>
+        </BoxContainer>
+    </BoxContainer>
+</DefaultWindow>

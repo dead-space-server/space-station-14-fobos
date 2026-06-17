@@ -74,6 +74,13 @@ namespace Content.Client.PDA
                 SendMessage(new PdaLockUplinkMessage());
             };
 
+            // DS14-Start
+            _menu.ToggleSilentModeButton.OnPressed += _ =>
+            {
+                SendMessage(new PdaToggleSilentModeMessage());
+            };
+            // DS14-End
+
             _menu.OnProgramItemPressed += ActivateCartridge;
             _menu.OnInstallButtonPressed += InstallCartridge;
             _menu.OnUninstallButtonPressed += UninstallCartridge;

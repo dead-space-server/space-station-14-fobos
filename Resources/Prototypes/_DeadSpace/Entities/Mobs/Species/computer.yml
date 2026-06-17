@@ -29,6 +29,7 @@
   - type: Speech
     speechVerb: Robotic
     speechSounds: Pai
+    allowedEmotes: ['Laugh']
   - type: ZombieImmune
   - type: Repairable
     doAfterDelay: 3

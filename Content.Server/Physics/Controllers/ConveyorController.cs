@@ -9,6 +9,7 @@ using Content.Shared.Physics.Controllers;
 using Content.Shared.Power;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Collision.Shapes;
+using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Systems;
 
 namespace Content.Server.Physics.Controllers;
@@ -44,10 +45,11 @@ public sealed class ConveyorController : SharedConveyorController
             shape.SetAsBox(0.55f, 0.55f);
 
             _fixtures.TryCreateFixture(uid, shape, ConveyorFixture,
-                collisionLayer: (int) (CollisionGroup.LowImpassable | CollisionGroup.MidImpassable |
-                                       CollisionGroup.Impassable), hard: false, body: physics);
+                collisionLayer: component.ActiveCollisionLayer, hard: false, body: physics);
 
         }
+
+        SetConveyorFixtureEnabled(uid, component, CanRun(component));
     }
 
     private void OnConveyorShutdown(EntityUid uid, ConveyorComponent component, ComponentShutdown args)
@@ -58,6 +60,7 @@ public sealed class ConveyorController : SharedConveyorController
         if (!PhysicsQuery.TryComp(uid, out var physics))
             return;
 
+        StopConveyed(uid);
         _fixtures.DestroyFixture(uid, ConveyorFixture, body: physics);
     }
 
@@ -69,6 +72,7 @@ public sealed class ConveyorController : SharedConveyorController
     private void OnPowerChanged(EntityUid uid, ConveyorComponent component, ref PowerChangedEvent args)
     {
         component.Powered = args.Powered;
+        UpdateConveyorPhysics(uid, component);
         UpdateAppearance(uid, component);
         Dirty(uid, component);
     }
@@ -104,13 +108,38 @@ public sealed class ConveyorController : SharedConveyorController
 
         component.State = state;
 
-        if (state != ConveyorState.Off)
-        {
-            WakeConveyed(uid);
-        }
+        UpdateConveyorPhysics(uid, component);
 
         UpdateAppearance(uid, component);
         Dirty(uid, component);
+    }
+
+    private void UpdateConveyorPhysics(EntityUid uid, ConveyorComponent component)
+    {
+        var canRun = CanRun(component);
+
+        if (!canRun)
+            StopConveyed(uid);
+
+        SetConveyorFixtureEnabled(uid, component, canRun);
+
+        if (canRun)
+            WakeConveyed(uid);
+    }
+
+    private void SetConveyorFixtureEnabled(EntityUid uid, ConveyorComponent component, bool enabled)
+    {
+        if (!PhysicsQuery.TryComp(uid, out var physics))
+            return;
+
+        if (!TryComp<FixturesComponent>(uid, out var fixtures))
+            return;
+
+        if (!fixtures.Fixtures.TryGetValue(ConveyorFixture, out var fixture))
+            return;
+
+        var layer = enabled ? component.ActiveCollisionLayer : 0;
+        PhysicsSystem.SetCollisionLayer(uid, ConveyorFixture, fixture, layer, fixtures, physics);
     }
 
     /// <summary>

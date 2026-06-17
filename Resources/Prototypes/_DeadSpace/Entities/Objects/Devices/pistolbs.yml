@@ -1,0 +1,14 @@
+- type: entity
+  name: комплект улучшения пистолета ОСЩ
+  parent: [BaseItem]
+  id: WeaponPistolBlueShieldUpgradeKit
+  description: Комплект с системой микрозарядки. Является улучшением для пистолета ОСЩ.
+  components:
+  - type: Sprite
+    sprite: Objects/Misc/module.rsi
+    state: ssd
+  - type: Item
+    size: Small
+  - type: Tag
+    tags:
+    - PistolBlueShieldUpgradeKit

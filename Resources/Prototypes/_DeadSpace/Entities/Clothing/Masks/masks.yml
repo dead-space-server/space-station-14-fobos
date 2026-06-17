@@ -39,3 +39,17 @@
         Heat: 0.95
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
+
+- type: entity
+  parent: ClothingMaskGasSwat
+  id: ClothingMaskGasBlueShield
+  name: чёрный боевой противогаз офицера "Синий Щит"
+  description: Высокопрочная дыхательная маска с возможностью подключения к дыхательному баллону.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Mask/blueshield_mask.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Mask/blueshield_mask.rsi
+  - type: HideLayerClothing
+    clothingSlots: 
+    - ears

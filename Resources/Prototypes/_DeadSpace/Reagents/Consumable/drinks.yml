@@ -86,3 +86,75 @@
             Heat: -0.2
             Shock: -0.2
             Cold: -0.2
+
+- type: reagent
+  id: CactusJuice
+  name: reagent-name-cactusjuice
+  parent: BaseAlcohol
+  desc: reagent-desc-cactusjuice
+  physicalDesc: reagent-physical-desc-hallucinogenic-and-refreshing
+  flavor: cactus
+  color: "#067500c0"
+  metabolisms:
+    Narcotic:
+      effects:
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectSeeingRainbow
+        type: Add
+        time: 10
+    Drink:
+      effects:
+      - !type:SatiateThirst
+        factor: 3
+      - !type:PopupMessage
+        visualType: Small
+        messages: ["Вы видите огромные грибы. Может они добрые?"]
+        type: Local
+        probability: 0.05
+      - !type:PopupMessage
+        visualType: Small
+        messages: ["Добрый гриб! Давай дружить!"]
+        type: Local
+        probability: 0.05
+  metamorphicSprite:
+    sprite: /Textures/_DeadSpace/Objects/Consumable/Drinks/cactusjuice.rsi
+    state: icon_empty
+  metamorphicMaxFillLevels: 5
+  metamorphicFillBaseName: fill-
+  metamorphicChangeColor: false
+
+- type: reagent
+  id:  OasisCactus
+  name: reagent-name-oasiscactus
+  parent: BaseAlcohol
+  desc: reagent-desc-oasiscactus
+  physicalDesc: reagent-physical-desc-psycho 
+  flavor: oasiscactus
+  color: "#c1cb84"
+  metamorphicSprite:
+    sprite: /Textures/_DeadSpace/Objects/Consumable/Drinks/oasiscactus.rsi
+    state: icon
+  metabolisms:
+    Narcotic:
+      effects:
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectSeeingRainbow
+        type: Add
+        time: 20
+    Drink:
+      effects:
+      - !type:SatiateThirst
+        factor: 4
+      - !type:AdjustReagent
+        reagent: Ethanol
+        amount: 0.15
+      - !type:Emote
+        emote: Laugh
+        showInChat: true
+        probability: 0.1
+      - !type:PopupMessage
+        type: Local
+        visualType: Medium
+        messages:
+        - "psicodine-effect-at-peace"
+        probability: 0.2

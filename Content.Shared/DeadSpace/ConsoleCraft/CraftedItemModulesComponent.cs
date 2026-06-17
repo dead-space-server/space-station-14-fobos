@@ -11,4 +11,10 @@ public sealed partial class CraftedItemModulesComponent : Component
 {
     [DataField]
     public List<string> AppliedModules { get; set; } = new();
+
+    [DataField]
+    public List<string> ResourcesIDs { get; set; } = new();
+
+    [DataField]
+    public List<string> ModulesIDs { get; set; } = new();
 }

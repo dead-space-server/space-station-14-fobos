@@ -1,7 +1,7 @@
 # КСО
 
 ent-CentcomFieldOfficerPDA = { ent-CentcomPDA }
-    .desc = { ent-CentcomPDA.desc }
+    .desc = Смотри мне в глаза, а не на пояс.
 
 ent-ERTLeaderGammaPDA = { ent-ERTLeaderPDA }
     .desc = { ent-ERTLeaderPDA.desc }

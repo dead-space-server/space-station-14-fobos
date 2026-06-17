@@ -205,3 +205,15 @@
   cost: 15000
   recipeUnlocks:
   - BoxLethalshotMagnum
+
+- type: technology
+  id: ClothingEyesGlassesThermalVisorExperimentalTech
+  name: research-technology-thermal-visor-experimental
+  icon:
+    sprite: _DeadSpace/Clothing/Eyes/Hud/thermal_experimental.rsi
+    state: icon
+  discipline: Arsenal
+  tier: 2
+  cost: 10000
+  recipeUnlocks:
+  - ClothingEyesGlassesThermalVisorExperimental

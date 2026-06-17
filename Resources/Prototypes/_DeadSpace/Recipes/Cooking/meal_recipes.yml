@@ -13,6 +13,15 @@
     Egg: 10
 
 - type: microwaveMealRecipe
+  id: RecipeDriedCannabisTritium
+  name: сушёные листья тритиевой конопли
+  result: LeavesCannabisTritiumDried
+  time: 10
+  group: Medicinal
+  solids:
+    LeavesCannabisTritium: 1
+
+- type: microwaveMealRecipe
   id: RecipeNotsandwich
   name: notsandwich recipe
   result: NotSandwich

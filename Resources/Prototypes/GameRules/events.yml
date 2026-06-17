@@ -54,6 +54,7 @@
     - id: LoneOpsSpawn
     - id: WizardSpawn
     # DS14-start
+    - id: SyndicateRaid
     - id: PirateRaid
     - id: ZaratanaSpawn
     - id: RenegadeSpawn

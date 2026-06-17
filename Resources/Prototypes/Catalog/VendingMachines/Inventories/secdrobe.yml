@@ -36,6 +36,7 @@
     HyperLinkBookCorporateLaw: 2
     HyperLinkBookSOPSecurity: 2
     ClothingHeadHelmetJustice: 2
+    ClothingBackpackTailbagSecurity: 3 # DS14
   contrabandInventory:
     ClothingMaskClownSecurity: 1
     ClothingMaskMimeSecurity: 1

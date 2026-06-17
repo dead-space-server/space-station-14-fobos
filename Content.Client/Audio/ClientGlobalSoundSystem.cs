@@ -1,6 +1,6 @@
 ﻿using Content.Shared.Audio;
 using Content.Shared.CCVar;
-using Content.Shared.DeadSpace.CCCCVars; // DS14
+using Content.Shared.DeadSpace.CCCCVars;
 using Content.Shared.GameTicking;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;

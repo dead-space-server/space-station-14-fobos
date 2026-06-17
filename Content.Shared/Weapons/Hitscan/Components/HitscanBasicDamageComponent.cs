@@ -14,4 +14,9 @@ public sealed partial class HitscanBasicDamageComponent : Component
     /// </summary>
     [DataField(required: true)]
     public DamageSpecifier Damage;
+
+    // DS14-start: preserve armor-piercing ballistic ammo behavior on hitscan bullets.
+    [DataField]
+    public bool IgnoreResistances;
+    // DS14-end
 }

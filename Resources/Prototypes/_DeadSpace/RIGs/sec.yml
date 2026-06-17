@@ -31,7 +31,7 @@
   parent: ClothingOuterHardsuitBase
   id: ClothingOuterRIGSecurity
   name: боевой офицерский скафандр
-  description: Тут должно было быть красивое описание от ex1stence, но он утерян.
+  description: Хочу, чтобы имя моё стерегло страхом наши границы крепче цепей и укреплений.
   components:
   - type: Sprite
     sprite: _DeadSpace/RIGs/Security/Standart/outer.rsi
@@ -124,7 +124,7 @@
   parent: ClothingOuterHardsuitBase
   id: ClothingOuterRIGSecurityAdvanced
   name: продвинутый боевой офицерский скафандр
-  description: Тут должно было быть красивое описание от ex1stence, тоже.
+  description: Хочу, чтобы имя моё стерегло страхом наши границы крепче цепей и укреплений.
   components:
   - type: Sprite
     sprite: _DeadSpace/RIGs/Security/Advanced/outer.rsi

@@ -1,6 +1,8 @@
 # Command
 - type: roleLoadout
   id: JobBlueShieldOfficer
+  nameDataset: NamesBlueShield
+  canCustomizeName: true
   groups:
   # - GroupTankHarness # outerClothing occupied by startingGear
   - BlueShieldOfficerBackpack
@@ -121,6 +123,7 @@
   id: JobSeniorOfficer
   groups:
   - GroupTankHarness
+  - SeniorOfficerHead
   - SecurityMask
   - SeniorOfficerJumpsuit
   - SeniorOfficerBackpack
@@ -143,6 +146,7 @@
   - SecurityHead
   - SecurityPilotJumpsuit # DS14
   - SecurityBackpack
+  - SecurityOuterClothing
   - SecurityShoes
   - SecurityBelt
   - SurvivalSecurity

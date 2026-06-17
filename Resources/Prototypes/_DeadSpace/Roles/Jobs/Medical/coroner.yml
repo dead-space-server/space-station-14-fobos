@@ -17,10 +17,10 @@
   - Maintenance
   - Coroner
   #start-backmen: currency
-  minBankBalance: 150
-  maxBankBalance: 250
+  minBankBalance: 250 # DS14-value
+  maxBankBalance: 350 # DS14-value
   wageDepartment: Medical
-  wage: 55
+  wage: 200
   #end-backmen: currency
   special:
   - !type:AddComponentSpecial

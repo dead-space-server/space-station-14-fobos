@@ -228,6 +228,17 @@ stack-dried-rainbow-cannabis-leaves =
         [few] сушённых листа
        *[other] сушённых листьев
     } радужной конопли
+stack-ground-tritium-cannabis =
+    { $amount ->
+        [1] измельчённую тритиевую коноплю
+       *[other] измельчённой тритиевой конопли
+    }
+stack-dried-tritium-cannabis-leaves =
+    { $amount ->
+        [1] сушённый лист
+        [few] сушённых листа
+       *[other] сушённых листьев
+    } тритиевой конопли
 stack-cigarette-filter =
     { $amount ->
         [1] сигаретный фильтр
@@ -282,6 +293,7 @@ stack-brutepack = набор от ушибов
 stack-bloodpack = пакет крови
 stack-medicated-suture = медицинская нить
 stack-regenerative-mesh = регенеративная сеть
+stack-tourniquet = жгут
 stack-micro-manipulator = модульная машинная часть
 stack-pancake = блинчик
 stack-blueberry-pancake = блинчик с черникой

@@ -54,7 +54,11 @@ public sealed class RetractableItemActionSystem : EntitySystem
             return;
 
         // Don't allow to summon an item if holding an unremoveable item unless that item is summoned by the action.
-        if (_hands.GetActiveItem(ent.Owner) != null
+        // DS14-start
+        var activeItem = _hands.GetActiveItem(args.Performer);
+
+        if (activeItem != null
+        // DS14-end
             && !_hands.IsHolding(args.Performer, ent.Comp.ActionItemUid)
             && !_hands.CanDropHeld(args.Performer, activeHand, false))
         {
@@ -134,7 +138,15 @@ public sealed class RetractableItemActionSystem : EntitySystem
         if (!Resolve(action, ref action.Comp, false))
             return;
 
-        _hands.TryForcePickup(holder, item, hand, checkActionBlocker: false);
+        // DS14-start
+        var container = _containers.GetContainer(action, RetractableItemActionComponent.ContainerId);
+        if (container.Contains(item))
+            RemComp<UnremoveableComponent>(item);
+
+        if (!_hands.TryForcePickup(holder, item, hand, checkActionBlocker: false))
+            return;
+        // DS14-end
+
         _audio.PlayPredicted(action.Comp.SummonSounds, holder, holder);
         EnsureComp<UnremoveableComponent>(item);
     }

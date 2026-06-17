@@ -24,10 +24,10 @@
   - External
   - Atmospherics
   #start-backmen: currency
-  minBankBalance: 150
-  maxBankBalance: 250
+  minBankBalance: 250
+  maxBankBalance: 350
   wageDepartment: Engineering
-  wage: 70
+  wage: 200 # DS14-value
   #end-backmen: currency
   special:
   - !type:AddComponentSpecial

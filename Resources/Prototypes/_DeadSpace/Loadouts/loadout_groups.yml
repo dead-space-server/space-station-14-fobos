@@ -226,6 +226,13 @@
   - SeniorOfficerMantle
 
 - type: loadoutGroup
+  id: SeniorOfficerHead
+  name: loadout-group-senior-officer-head
+  minLimit: 0
+  loadouts:
+  - SeniorOfficerHead
+
+- type: loadoutGroup
   id: SeniorOfficerSocks
   name: loadout-group-senior-officer-socks
   loadouts:

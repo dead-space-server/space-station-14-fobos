@@ -8,4 +8,6 @@ namespace Content.Shared.Light.Components;
 [RegisterComponent, NetworkedComponent]
 public sealed partial class LightOnCollideComponent : Component
 {
+    [DataField]
+    public string FixtureId = "light";
 }

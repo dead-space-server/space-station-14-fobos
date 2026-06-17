@@ -351,3 +351,9 @@
   values:
     prefix: plushies-walkflis-
     count: 3
+
+- type: localizedDataset
+  id: Plushiei750
+  values:
+    prefix: plushies-i750-
+    count: 4

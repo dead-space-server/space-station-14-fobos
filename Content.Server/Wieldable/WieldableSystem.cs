@@ -4,7 +4,6 @@ using Content.Shared.Camera;
 using Content.Shared.Hands;
 using Content.Shared.Movement.Components;
 using Content.Shared.Wieldable;
-using Content.Shared.Wieldable.Components;
 
 namespace Content.Server.Wieldable;
 
@@ -16,17 +15,17 @@ public sealed class WieldableSystem : SharedWieldableSystem
     {
         base.Initialize();
 
-        SubscribeLocalEvent<CursorOffsetRequiresWieldComponent, ItemUnwieldedEvent>(OnEyeOffsetUnwielded);
-        SubscribeLocalEvent<CursorOffsetRequiresWieldComponent, ItemWieldedEvent>(OnEyeOffsetWielded);
+        SubscribeLocalEvent<CursorOffsetRequiresWieldComponent, GotEquippedHandEvent>(OnEyeOffsetHandEquipped);
+        SubscribeLocalEvent<CursorOffsetRequiresWieldComponent, GotUnequippedHandEvent>(OnEyeOffsetHandUnequipped);
         SubscribeLocalEvent<CursorOffsetRequiresWieldComponent, HeldRelayedEvent<GetEyePvsScaleRelayedEvent>>(OnGetEyePvsScale);
     }
 
-    private void OnEyeOffsetUnwielded(Entity<CursorOffsetRequiresWieldComponent> entity, ref ItemUnwieldedEvent args)
+    private void OnEyeOffsetHandEquipped(Entity<CursorOffsetRequiresWieldComponent> entity, ref GotEquippedHandEvent args)
     {
         _eye.UpdatePvsScale(args.User);
     }
 
-    private void OnEyeOffsetWielded(Entity<CursorOffsetRequiresWieldComponent> entity, ref ItemWieldedEvent args)
+    private void OnEyeOffsetHandUnequipped(Entity<CursorOffsetRequiresWieldComponent> entity, ref GotUnequippedHandEvent args)
     {
         _eye.UpdatePvsScale(args.User);
     }
@@ -34,10 +33,7 @@ public sealed class WieldableSystem : SharedWieldableSystem
     private void OnGetEyePvsScale(Entity<CursorOffsetRequiresWieldComponent> entity,
         ref HeldRelayedEvent<GetEyePvsScaleRelayedEvent> args)
     {
-        if (!TryComp(entity, out EyeCursorOffsetComponent? eyeCursorOffset) || !TryComp(entity.Owner, out WieldableComponent? wieldableComp))
-            return;
-
-        if (!wieldableComp.Wielded)
+        if (!TryComp(entity, out EyeCursorOffsetComponent? eyeCursorOffset))
             return;
 
         args.Args.Scale += eyeCursorOffset.PvsIncrease;

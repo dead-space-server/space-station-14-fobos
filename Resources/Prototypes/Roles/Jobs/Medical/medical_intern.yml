@@ -17,10 +17,10 @@
   - Medical
   - Maintenance
   #start-backmen: currency
-  minBankBalance: 150
-  maxBankBalance: 250
+  minBankBalance: 250 # DS14-value
+  maxBankBalance: 350 # DS14-value
   wageDepartment: Medical
-  wage: 40
+  wage: 100 # DS14-value
   #end-backmen: currency
   special:
   - !type:AddComponentSpecial

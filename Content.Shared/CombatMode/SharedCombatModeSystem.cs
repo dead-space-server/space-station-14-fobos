@@ -8,6 +8,11 @@ using Robust.Shared.Timing;
 
 namespace Content.Shared.CombatMode;
 
+// DS14-Start
+[ByRefEvent]
+public record struct CombatModeChangedEvent(EntityUid Entity, bool IsInCombatMode);
+// DS14-End
+
 public abstract class SharedCombatModeSystem : EntitySystem
 {
     [Dependency] protected readonly IGameTiming Timing = default!;
@@ -75,6 +80,11 @@ public abstract class SharedCombatModeSystem : EntitySystem
 
         if (component.CombatToggleActionEntity != null)
             _actionsSystem.SetToggled(component.CombatToggleActionEntity, component.IsInCombatMode);
+
+        // DS14-Start
+        var ev = new CombatModeChangedEvent(entity, value);
+        RaiseLocalEvent(entity, ref ev);
+        // DS14-End
 
         // Change mouse rotator comps if flag is set
         if (!component.ToggleMouseRotator || IsNpc(entity) && !_mind.TryGetMind(entity, out _, out _))

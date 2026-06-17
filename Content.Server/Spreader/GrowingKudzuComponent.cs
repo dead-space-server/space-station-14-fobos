@@ -11,4 +11,6 @@ public sealed partial class GrowingKudzuComponent : Component
     [DataField("nextTick", customTypeSerializer:typeof(TimeOffsetSerializer))]
     [AutoPausedField]
     public TimeSpan NextTick = TimeSpan.Zero;
+
+    public int ScheduleGeneration; // DS14
 }

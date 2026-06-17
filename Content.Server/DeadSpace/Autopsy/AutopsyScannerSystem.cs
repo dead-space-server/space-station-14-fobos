@@ -1,5 +1,6 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
+using Content.Shared.FixedPoint;
 using Content.Shared.PowerCell;
 using Content.Shared.Damage;
 using Content.Shared.DoAfter;
@@ -7,6 +8,7 @@ using Content.Shared.Interaction;
 using Content.Shared.Mobs.Components;
 using Robust.Server.GameObjects;
 using Robust.Shared.Audio.Systems;
+using Robust.Shared.GameObjects;
 using Content.Shared.DeadSpace.Autopsy;
 using Content.Server.Buckle.Systems;
 using Content.Server.Popups;
@@ -54,6 +56,8 @@ public sealed class AutopsyScannerSystem : EntitySystem
             return;
 
         _audio.PlayPvs(component.ScanningSound, uid);
+
+        OpenUserInterface(args.User, uid);
 
         _doAfterSystem.TryStartDoAfter(new DoAfterArgs(EntityManager, args.User, component.ScanDelay, new AutopsyScannerDoAfterEvent(), uid, target: args.Target, used: uid)
         {
@@ -112,13 +116,50 @@ public sealed class AutopsyScannerSystem : EntitySystem
         if (target == null || !_uiSystem.HasUi(uid, AutopsyScannerUiKey.Key))
             return;
 
+        TryComp<DamageableComponent>(target, out var damageable);
         TryComp<HumanoidDamageSequenceComponent>(target, out var damageSequence);
+        TryComp<MetaDataComponent>(target, out var metadata);
+
+        var message = new AutopsyScannerScannedUserMessage(
+            GetNetEntity(target),
+            damageSequence?.TimeOfDeath
+        );
+
+        if (damageable != null)
+        {
+            message.TotalDamage = damageable.TotalDamage;
+
+            foreach (var (groupId, amount) in damageable.DamagePerGroup)
+            {
+                message.DamagePerGroup.Add(new DamageGroupEntry
+                {
+                    DamageGroupId = groupId,
+                    Amount = amount
+                });
+            }
+        }
+
+        if (damageSequence != null)
+        {
+            foreach (var entry in damageSequence.DamageSequence)
+            {
+                message.DamageSequence.Add(new DamageEventEntry
+                {
+                    TimeOfDamageTake = entry.TimeOfDamageTake,
+                    DamageGroup = entry.DamageGroup,
+                    DamageType = entry.DamageType,
+                    DamageTaken = entry.DamageTaken
+                });
+            }
+        }
+
+        if (metadata != null)
+        {
+            message.EntityName = metadata.EntityName;
+        }
 
         OpenUserInterface(user, uid);
 
-        _uiSystem.ServerSendUiMessage(uid, AutopsyScannerUiKey.Key, new AutopsyScannerScannedUserMessage(
-            GetNetEntity(target),
-            damageSequence != null ? damageSequence.TimeOfDeath : null
-            ));
+        _uiSystem.ServerSendUiMessage(uid, AutopsyScannerUiKey.Key, message);
     }
 }
