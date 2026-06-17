@@ -25,6 +25,17 @@
     startingCharge: 1200  # DS14-value
   - type: StaticPrice
     price: 500
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/stun_baton_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/stun_baton_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/stun_baton_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: [BaseWeaponBattery, BaseGunWieldable]
@@ -96,6 +107,17 @@
   - type: ContainerContainer
     containers:
       cell_slot: !type:ContainerSlot
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/stun_baton_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/stun_baton_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/stun_baton_drop.ogg
+  #DS14-End
 
 - type: entity
   id: BaseWeaponBatterySmall

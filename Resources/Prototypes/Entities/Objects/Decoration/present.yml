@@ -225,6 +225,8 @@
         orGroup: GiftPool
       - id: PlushieHermione
         orGroup: GiftPool
+      - id: PlushieSilEgor
+        orGroup: GiftPool
 
 
 - type: entity

@@ -39,6 +39,15 @@
             - voice-message-carp-10
             - voice-message-carp-11
             - voice-message-carp-12
+    - type: EmitSoundOnPickup
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/paper_pickup.ogg
+    - type: EmitSoundOnDrop
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
+    - type: EmitSoundOnLand
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
 
 - type: entity
   parent: BaseItem
@@ -50,3 +59,12 @@
     sprite: _DeadSpace/Objects/Misc/injector_smoking_carp.rsi
     layers:
     - state: icon_after
+    - type: EmitSoundOnPickup
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/paper_pickup.ogg
+    - type: EmitSoundOnDrop
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
+    - type: EmitSoundOnLand
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg

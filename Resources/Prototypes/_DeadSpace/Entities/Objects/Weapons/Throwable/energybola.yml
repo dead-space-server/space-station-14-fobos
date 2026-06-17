@@ -29,3 +29,9 @@
     knockdownAmount: 0.5
     drop: false
     slowdownAmount: 0
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/stun_baton_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/stun_baton_drop.ogg

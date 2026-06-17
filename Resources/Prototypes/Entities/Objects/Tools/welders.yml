@@ -106,6 +106,14 @@
     price: 40
   - type: IgnitionSource
     temperature: 700
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/tools/weldingtool_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/Items/welder_drop.ogg
+  #DS14-End
 
 - type: entity
   name: industrial welding tool

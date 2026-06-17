@@ -1,0 +1,11 @@
+- files:
+    - "headset_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/handling/headset/headset_drop1.ogg"
+
+- files:
+    - "headset_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/handling/headset/headset_pickup1.ogg"

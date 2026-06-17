@@ -22,6 +22,15 @@
     - HighRiskItem
   - type: FlashImmunity
   - type: SolutionScanner
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/glasses/goggles_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/glasses/goggles_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/glasses/goggles_drop.ogg
 
 - type: entity
   parent: [ClothingEyesBase, ShowMedicalIcons]
@@ -64,6 +73,15 @@
   - type: Construction
     graph: HudMedCom
     node: medcomHud
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/glasses/goggles_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/glasses/goggles_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/glasses/goggles_drop.ogg
 
 - type: entity
   parent: ClothingEyesHudAdvanced

@@ -47,6 +47,17 @@
   - type: Tag
     tags:
     - BaseballBat
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/rolling_pin_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/rolling_pin_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/rolling_pin_drop.ogg
+  #DS14-End
 
 - type: entity
   name: incomplete baseball bat
@@ -68,6 +79,17 @@
   - type: Construction
     graph: WoodenBat
     node: incompleteBat
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/wood_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/wood_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/wood_drop.ogg
+  #DS14-End
 
 - type: entity
   name: knockback stick

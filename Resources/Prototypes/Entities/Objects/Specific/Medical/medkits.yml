@@ -21,6 +21,17 @@
   - type: Tag
     tags:
     - Medkit
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/medkit/medkit_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/medkit/medkit_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/medkit/medkit_drop.ogg
+  #DS14-End
 
 - type: entity
   name: burn treatment kit

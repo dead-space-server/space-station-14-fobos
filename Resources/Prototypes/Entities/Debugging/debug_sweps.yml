@@ -125,6 +125,17 @@
   - type: Item
     size: Tiny
     sprite: Objects/Weapons/Melee/debug.rsi
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/telescopic_baton_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/telescopic_baton_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/batton/telescopic_baton_drop.ogg
+  #DS14-End
 
 - type: entity
   name: bang stick 100dmg

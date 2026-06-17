@@ -40,3 +40,11 @@
         volume: -1
   - type: StaticPrice
     price: 1
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/bullet/bullet_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/bullet/bullet_drop.ogg
+  #DS14-End

@@ -1,0 +1,11 @@
+- files:
+    - "plate_armor_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/handling/armor_rustle/plate_armor/plate_armor_rustle5.ogg"
+
+- files:
+    - "plate_armor_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/handling/armor_rustle/plate_armor/plate_armor_rustle1.ogg"
