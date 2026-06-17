@@ -174,7 +174,6 @@
         state: icon
     - type: AstroNavCartridge
 
-# DS14-Start
 - type: entity
   parent: BasePDACartridge
   id: SnakeCartridge
@@ -190,7 +189,6 @@
     icon:
       sprite: Objects/Consumable/Food/ingredients.rsi
       state: apple
-# DS14-End
 
 - type: entity
   parent: BasePDACartridge
