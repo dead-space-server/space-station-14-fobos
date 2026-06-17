@@ -415,6 +415,13 @@ public sealed partial class EmergencyShuttleSystem
         if (_traitorUltraHijackCompletionTime == null || _traitorUltraHijackCompleted)
             return;
 
+        if (!CanCancelTraitorUltraHijack(args.Actor))
+        {
+            Popup.PopupEntity(Loc.GetString("emergency-shuttle-console-hijack-denied"), uid, args.Actor, PopupType.MediumCaution);
+            SendHijackAvailability(uid, args.Actor);
+            return;
+        }
+
         _logger.Add(LogType.EmergencyShuttle, LogImpact.High, $"Traitor Ultra shuttle hijack cancelled by {args.Actor:user}");
         _traitorUltraHijackCompletionTime = null;
         _traitorUltraHijackerMind = null;
@@ -645,7 +652,9 @@ public sealed partial class EmergencyShuttleSystem
         _uiSystem.ServerSendUiMessage(
             uid,
             EmergencyConsoleUiKey.Key,
-            new EmergencyShuttleHijackAvailabilityMessage(CanStartTraitorUltraHijack(actor)),
+            new EmergencyShuttleHijackAvailabilityMessage(
+                CanStartTraitorUltraHijack(actor),
+                CanCancelTraitorUltraHijack(actor)),
             actor);
     }
 
@@ -654,6 +663,14 @@ public sealed partial class EmergencyShuttleSystem
         return !_traitorUltraHijackCompleted &&
                _traitorUltraHijackCompletionTime == null &&
                TryGetTraitorUltraHijackMind(actor, out _);
+    }
+
+    private bool CanCancelTraitorUltraHijack(EntityUid actor)
+    {
+        return !_traitorUltraHijackCompleted &&
+               _traitorUltraHijackCompletionTime != null &&
+               TryGetTraitorUltraHijackMind(actor, out var mindId) &&
+               _traitorUltraHijackerMind == mindId;
     }
 
     private bool TryGetTraitorUltraHijackMind(EntityUid actor, out EntityUid mindId)

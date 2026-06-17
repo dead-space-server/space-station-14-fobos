@@ -3,8 +3,10 @@
 using System.Linq;
 using Content.Server.Ame.Components;
 using Content.Server.Medical.CrewMonitoring;
+using Content.Server.Station.Systems;
 using Content.Server.SurveillanceCamera;
 using Content.Shared.Atmos.Components;
+using Content.Shared.Mind;
 using Content.Shared.Objectives.Components;
 using Content.Shared.Objectives.Systems;
 using Content.Shared.Radio.Components;
@@ -15,6 +17,7 @@ namespace Content.Server.DeadSpace.Traitor.Objectives;
 public sealed class TraitorUltraSabotageConditionSystem : EntitySystem
 {
     [Dependency] private readonly MetaDataSystem _metaData = default!;
+    [Dependency] private readonly StationSystem _station = default!;
 
     public override void Initialize()
     {
@@ -28,11 +31,18 @@ public sealed class TraitorUltraSabotageConditionSystem : EntitySystem
     private void OnAssigned(Entity<TraitorUltraSabotageConditionComponent> ent, ref ObjectiveAssignedEvent args)
     {
         ent.Comp.GroupStates.Clear();
+        ent.Comp.TargetStation = GetObjectiveStation(args.Mind);
+
+        if (ent.Comp.TargetStation == null)
+        {
+            args.Cancelled = true;
+            return;
+        }
 
         foreach (var group in ent.Comp.Groups)
         {
             var state = new TraitorUltraSabotageGroupState();
-            CollectTargets(group, state);
+            CollectTargets(group, state, ent.Comp.TargetStation.Value);
 
             state.Required = group.Required <= 0 ? Math.Max(1, state.Targets.Count) : group.Required;
             ent.Comp.GroupStates.Add(state);
@@ -87,13 +97,16 @@ public sealed class TraitorUltraSabotageConditionSystem : EntitySystem
 
     private void RefreshTargets(TraitorUltraSabotageConditionComponent comp)
     {
+        if (comp.TargetStation is not { } station)
+            return;
+
         for (var i = 0; i < comp.GroupStates.Count && i < comp.Groups.Count; i++)
         {
-            CollectTargets(comp.Groups[i], comp.GroupStates[i]);
+            CollectTargets(comp.Groups[i], comp.GroupStates[i], station);
         }
     }
 
-    private void CollectTargets(TraitorUltraSabotageGroup group, TraitorUltraSabotageGroupState state)
+    private void CollectTargets(TraitorUltraSabotageGroup group, TraitorUltraSabotageGroupState state, EntityUid station)
     {
         var query = AllEntityQuery<MetaDataComponent>();
         while (query.MoveNext(out var uid, out var metadata))
@@ -106,8 +119,21 @@ public sealed class TraitorUltraSabotageConditionSystem : EntitySystem
                 continue;
             }
 
+            if (!TryComp(uid, out TransformComponent? xform) ||
+                _station.GetOwningStation(uid, xform) != station)
+            {
+                continue;
+            }
+
             state.Targets.Add(uid);
         }
+    }
+
+    private EntityUid? GetObjectiveStation(MindComponent mind)
+    {
+        return mind.OwnedEntity is { } owned && !TerminatingOrDeleted(owned)
+            ? _station.GetOwningStation(owned)
+            : null;
     }
 
     private bool IsSabotaged(EntityUid target, TraitorUltraSabotageGroup group)

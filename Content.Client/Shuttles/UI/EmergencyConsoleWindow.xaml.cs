@@ -22,6 +22,7 @@ public sealed partial class EmergencyConsoleWindow : FancyWindow,
     private TimeSpan? _hijackCompletionTime;
     private bool _hijackCompleted;
     private bool _canStartHijack;
+    private bool _canCancelHijack;
     private string _hijackerName = string.Empty;
     // DS14-end
 
@@ -125,6 +126,7 @@ public sealed partial class EmergencyConsoleWindow : FancyWindow,
             return;
 
         _canStartHijack = availability.CanStart;
+        _canCancelHijack = availability.CanCancel;
         UpdateHijackControls();
     }
 
@@ -143,7 +145,7 @@ public sealed partial class EmergencyConsoleWindow : FancyWindow,
         {
             HijackContainer.Visible = true;
             HijackStartButton.Visible = false;
-            HijackCancelButton.Visible = true;
+            HijackCancelButton.Visible = _canCancelHijack;
             UpdateHijackCountdown();
             return;
         }

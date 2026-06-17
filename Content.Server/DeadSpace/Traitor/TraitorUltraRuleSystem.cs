@@ -147,7 +147,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
                     break;
 
                 case TraitorUltraStage.BountyAnnounced:
-                    EnsureBountyBody(uid, mindId, mind, state, replaceExisting: false);
+                    EnsureBountyBody(uid, mindId, mind, state, replaceExisting: true);
                     break;
             }
         }

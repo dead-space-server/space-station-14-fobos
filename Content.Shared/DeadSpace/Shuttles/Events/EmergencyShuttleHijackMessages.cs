@@ -18,9 +18,11 @@ public sealed class EmergencyShuttleHijackCancelMessage : BoundUserInterfaceMess
 public sealed class EmergencyShuttleHijackAvailabilityMessage : BoundUserInterfaceMessage
 {
     public readonly bool CanStart;
+    public readonly bool CanCancel;
 
-    public EmergencyShuttleHijackAvailabilityMessage(bool canStart)
+    public EmergencyShuttleHijackAvailabilityMessage(bool canStart, bool canCancel)
     {
         CanStart = canStart;
+        CanCancel = canCancel;
     }
 }

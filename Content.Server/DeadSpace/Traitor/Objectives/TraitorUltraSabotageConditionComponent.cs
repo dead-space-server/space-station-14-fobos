@@ -16,6 +16,8 @@ public sealed partial class TraitorUltraSabotageConditionComponent : Component
     [DataField(required: true)]
     public LocId Description;
 
+    public EntityUid? TargetStation;
+
     public readonly List<TraitorUltraSabotageGroupState> GroupStates = new();
 }
 
