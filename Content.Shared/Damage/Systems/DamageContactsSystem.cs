@@ -4,6 +4,7 @@ using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Events;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Timing;
+using Content.Shared.Inventory; //DS14
 
 namespace Content.Shared.Damage.Systems;
 
@@ -13,6 +14,7 @@ public sealed class DamageContactsSystem : EntitySystem
     [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly EntityWhitelistSystem _whitelistSystem = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!; //DS14
 
     public override void Initialize()
     {
@@ -61,6 +63,14 @@ public sealed class DamageContactsSystem : EntitySystem
     private void OnEntityEnter(EntityUid uid, DamageContactsComponent component, ref StartCollideEvent args)
     {
         var otherUid = args.OtherEntity;
+
+        //DS14 Start
+        if (_inventory.TryGetSlotEntity(otherUid, "outerClothing", out var suit))
+        {
+            if (HasComp<IgnoreContactDamageComponent>(suit))
+                return;
+        }
+        //DS14 End
 
         if (HasComp<DamagedByContactComponent>(otherUid))
             return;
