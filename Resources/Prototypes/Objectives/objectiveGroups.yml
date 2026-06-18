@@ -13,7 +13,6 @@
   weights:
     TraitorObjectiveGroupSteal: 1
     TraitorUltraObjectiveGroupKill: 1
-    TraitorObjectiveGroupSocial: 1
 # DS14-end
 
 - type: weightedRandom
@@ -45,9 +44,9 @@
 - type: weightedRandom
   id: TraitorUltraObjectiveGroupKill
   weights:
-    KillRandomPersonObjective: 1
-    KillRandomHeadObjective: 0.25
-    KillRandomTraitorObjective: 0.25
+    TraitorUltraKillRandomPersonObjective: 1
+    TraitorUltraKillRandomHeadObjective: 0.25
+    TraitorUltraKillRandomTraitorObjective: 0.25
 # DS14-end
 
 - type: weightedRandom

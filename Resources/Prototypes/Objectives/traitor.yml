@@ -117,6 +117,42 @@
   - type: KillPersonCondition
     requireMaroon: true
 
+# DS14-start
+- type: entity
+  parent: [BaseTraitorObjective, BaseKillObjective]
+  id: TraitorUltraKillRandomPersonObjective
+  description: Do it however you like, just make sure they are dead.
+  components:
+  - type: Objective
+    difficulty: 1.75
+    unique: false
+  - type: TargetObjective
+    title: objective-condition-kill-head-title
+  - type: PickRandomPerson
+    filters:
+    - !type:TargetObjectiveMindFilter
+      blacklist:
+        components:
+        - KillPersonCondition
+    - !type:BlacklistedJobsMindFilter
+      blacklist:
+      - Passenger
+      - TaipanAtmosphericsEngineer
+      - TaipanBotanist
+      - TaipanCargotech
+      - TaipanChef
+      - TaipanCommunicationsOfficer
+      - TaipanMedic
+      - TaipanParamedic
+      - TaipanRecruit
+      - TaipanResearchDirector
+      - TaipanResearcher
+      - TaipanTechnician
+      - TaipanTechnicalOperationsSupervisor
+  - type: KillPersonCondition
+    requireDead: true
+# DS14-end
+
 - type: entity
   parent: [BaseTraitorObjective, BaseKillObjective]
   id: KillRandomHeadObjective
@@ -146,6 +182,31 @@
     requireDead: true
     requireMaroon: true
 
+# DS14-start
+- type: entity
+  parent: [BaseTraitorObjective, BaseKillObjective]
+  id: TraitorUltraKillRandomHeadObjective
+  description: We need this head gone and you probably know why. Good luck, agent.
+  components:
+  - type: Objective
+    difficulty: 3.0
+    unique: true
+  - type: TargetObjective
+    title: objective-condition-kill-head-title
+  - type: PickRandomPerson
+    filters:
+    - !type:BodyMindFilter
+      whitelist:
+        components:
+        - CommandStaff
+    - !type:TargetObjectiveMindFilter
+      blacklist:
+        components:
+        - KillPersonCondition
+  - type: KillPersonCondition
+    requireDead: true
+# DS14-end
+
 - type: entity
   parent: [BaseTraitorObjective, BaseKillObjective]
   id: KillRandomTraitorObjective
@@ -173,6 +234,33 @@
     # don't count missing evac as killing as agents are higher profile, so you really need to do the dirty work
     requireDead: true
     requireMaroon: true
+
+# DS14-start
+- type: entity
+  parent: [BaseTraitorObjective, BaseKillObjective]
+  id: TraitorUltraKillRandomTraitorObjective
+  description: We need this agent gone and you probably know why. Good luck, agent.
+  components:
+  - type: Objective
+    difficulty: 3.0
+    unique: false
+  - type: TargetObjective
+    title: objective-condition-kill-traitor-title
+  - type: PickRandomPerson
+    filters:
+    - !type:HasRoleMindFilter
+      whitelist:
+        components:
+        - TraitorRole
+    - !type:TargetObjectiveMindFilter
+      blacklist:
+        components:
+        - KillPersonCondition
+        - HelpProgressCondition
+        - KeepAliveCondition
+  - type: KillPersonCondition
+    requireDead: true
+# DS14-end
 
 # social
 

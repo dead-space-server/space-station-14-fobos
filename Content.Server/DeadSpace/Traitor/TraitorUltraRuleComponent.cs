@@ -64,7 +64,7 @@ public sealed partial class TraitorUltraRuleComponent : Component
     public EntProtoId RecruitMindRole = "MindRoleTraitor";
 
     [DataField]
-    public EntProtoId CommandKillObjective = "KillRandomHeadObjective";
+    public EntProtoId CommandKillObjective = "TraitorUltraKillRandomHeadObjective";
 
     [DataField]
     public ProtoId<WeightedRandomPrototype> BaseObjectiveGroups = "TraitorUltraObjectiveGroups";
@@ -148,6 +148,8 @@ public sealed class TraitorUltraMindState
     public TimeSpan NextEventTime;
     public bool BountyAnnounced;
     public bool BountyResolved;
+    public bool BaseObjectivesAssigned;
+    public bool InitialObjectivePackageAssigned;
     public EntityUid? BountyBody;
 }
 
