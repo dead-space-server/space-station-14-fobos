@@ -1101,8 +1101,8 @@
 
 - type: listing
   id: UplinkNukeBulldogFreak
-  name: Пресет "СБЭУ ФРИК"
-  description: Используемый фриковатым оперативником набор вещей, основа которого - дробовик блять и рапира.
+  name: Пресет "Бульдог"
+  description: Используемый опытным оперативником набор вещей, основа которого Дробовик и Рапира.
   productEntity: CrateBundleNukeBulldog
   icon: { sprite: /Textures/Clothing/Mask/clown_security.rsi, state: icon }
   cost:

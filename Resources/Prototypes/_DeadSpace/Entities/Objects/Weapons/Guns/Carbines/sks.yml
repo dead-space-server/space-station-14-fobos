@@ -63,9 +63,6 @@
   - type: EyeCursorOffset
     maxOffset: 3
     pvsIncrease: 0.3
-  - type: SpeedModifiedOnWield
-    walkModifier: 0.75
-    sprintModifier: 0.75
 
 - type: entity
   parent: BaseItem
