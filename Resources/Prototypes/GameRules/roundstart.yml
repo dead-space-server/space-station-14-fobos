@@ -280,6 +280,7 @@
       mindRoles:
       - MindRoleTraitor
       sponsorsPriority: true
+      sponsorsPriorityRatio: 0.3
   - type: GameRule
     minPlayers: 20
   - type: DynamicRuleCost

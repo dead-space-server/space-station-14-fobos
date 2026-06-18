@@ -2,6 +2,7 @@
 
 using System.Linq;
 using Content.Server.Antag;
+using Content.Server.Backmen.Economy;
 using Content.Server.Chat.Systems;
 using Content.Server.EUI;
 using Content.Server.GameTicking.Rules;
@@ -9,8 +10,14 @@ using Content.Server.GameTicking.Rules.Components;
 using Content.Server.Mind;
 using Content.Server.Objectives;
 using Content.Server.Popups;
+using Content.Server.Station.Systems;
 using Content.Server.Store.Systems;
 using Content.Server.Traitor.Uplink;
+using Content.Shared.Access.Components;
+using Content.Shared.Access.Systems;
+using Content.Shared.Backmen.Economy;
+using Content.Shared.Cargo;
+using Content.Shared.Cargo.Components;
 using Content.Shared.Chat;
 using Content.Shared.Corvax.TTS;
 using Content.Shared.Damage;
@@ -23,6 +30,7 @@ using Content.Shared.GameTicking;
 using Content.Shared.GameTicking.Components;
 using Content.Shared.Mind;
 using Content.Shared.Mind.Components;
+using Content.Shared.Mindshield.Components;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
@@ -48,8 +56,11 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
     private const int SourceParentSearchDepth = 8;
 
     [Dependency] private readonly AntagSelectionSystem _antag = default!;
+    [Dependency] private readonly BankManagerSystem _bankManager = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
+    [Dependency] private readonly SharedCargoSystem _cargo = default!;
     [Dependency] private readonly EuiManager _eui = default!;
+    [Dependency] private readonly SharedIdCardSystem _idCard = default!;
     [Dependency] private readonly MindSystem _mind = default!;
     [Dependency] private readonly ObjectivesSystem _objectives = default!;
     [Dependency] private readonly IPlayerManager _players = default!;
@@ -59,6 +70,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
     [Dependency] private readonly SharedJobSystem _jobs = default!;
     [Dependency] private readonly SharedObjectivesSystem _sharedObjectives = default!;
     [Dependency] private readonly SharedRoleSystem _roles = default!;
+    [Dependency] private readonly StationSystem _station = default!;
     [Dependency] private readonly StoreSystem _store = default!;
     [Dependency] private readonly TraitorRuleSystem _traitorRule = default!;
     [Dependency] private readonly UplinkSystem _uplink = default!;
@@ -695,8 +707,20 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
             return;
         }
 
-        if (IsSecurityMind(killerMindId))
+        if (IsCaptainMind(killerMindId))
         {
+            if (!TryCreditCaptainKillReward(killerMind, killerEntity, ruleComp))
+                Log.Warning($"Failed to credit TraitorUltra captain kill reward to {ToPrettyString(killerMindId)}.");
+
+            SendMindMessage(killerMind, "traitor-ultra-bounty-captain-kill-message", Color.LightSkyBlue);
+            return;
+        }
+
+        if (HasRealMindShield(killerMind, killerEntity))
+        {
+            if (!TryCreditSecurityKillReward(ent.Owner, killerMind, killerEntity, ruleComp))
+                Log.Warning($"Failed to credit TraitorUltra security kill reward for {ToPrettyString(killerMindId)}.");
+
             SendMindMessage(killerMind, "traitor-ultra-bounty-security-kill-message", Color.LightSkyBlue);
             return;
         }
@@ -823,22 +847,83 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         return true;
     }
 
-    private bool IsSecurityMind(EntityUid mindId)
+    private bool IsCaptainMind(EntityUid mindId)
     {
-        if (!_jobs.MindTryGetJobId(mindId, out var jobId) ||
-            jobId == null ||
-            !_jobs.TryGetAllDepartments(jobId.Value, out var departments))
-        {
+        return _jobs.MindTryGetJobId(mindId, out var jobId) &&
+               jobId != null &&
+               jobId.Value == "Captain";
+    }
+
+    private bool HasRealMindShield(MindComponent killerMind, EntityUid? entity)
+    {
+        var killerEntity = GetKillerRewardEntity(killerMind, entity);
+        return killerEntity != null && HasComp<MindShieldComponent>(killerEntity.Value);
+    }
+
+    private bool TryCreditCaptainKillReward(
+        MindComponent killerMind,
+        EntityUid? sourceEntity,
+        TraitorUltraRuleComponent component)
+    {
+        if (component.CaptainKillRewardCredits <= 0)
+            return true;
+
+        var killerEntity = GetKillerRewardEntity(killerMind, sourceEntity);
+        if (killerEntity == null || !_idCard.TryFindIdCard(killerEntity.Value, out var idCard))
             return false;
-        }
 
-        foreach (var department in departments)
+        if (!_bankManager.TryGetBankAccount(idCard.Owner, out var account))
         {
-            if (department.ID == "Security")
-                return true;
+            account = _bankManager.CreateNewBankAccount(idCard.Owner);
+            if (account == null)
+                return false;
+
+            account.Value.Comp.AccountName = GetRewardAccountName(killerEntity.Value, idCard);
+            idCard.Comp.StoredBankAccountNumber = account.Value.Comp.AccountNumber;
+            Dirty(idCard);
+            Dirty(account.Value);
+        }
+        else if (string.IsNullOrWhiteSpace(idCard.Comp.StoredBankAccountNumber))
+        {
+            idCard.Comp.StoredBankAccountNumber = account.Value.Comp.AccountNumber;
+            Dirty(idCard);
         }
 
-        return false;
+        return _bankManager.TryChangeBalanceBy(account.Value, FixedPoint2.New(component.CaptainKillRewardCredits));
+    }
+
+    private bool TryCreditSecurityKillReward(
+        EntityUid bountyBody,
+        MindComponent killerMind,
+        EntityUid? sourceEntity,
+        TraitorUltraRuleComponent component)
+    {
+        if (component.SecurityKillRewardCredits <= 0)
+            return true;
+
+        var station = _station.GetOwningStation(bountyBody) ??
+                      _station.GetOwningStation(sourceEntity) ??
+                      _station.GetOwningStation(killerMind.OwnedEntity);
+
+        if (station == null || !TryComp<StationBankAccountComponent>(station.Value, out var bank))
+            return false;
+
+        _cargo.UpdateBankAccount((station.Value, bank), component.SecurityKillRewardCredits, component.SecurityRewardAccount);
+        return true;
+    }
+
+    private EntityUid? GetKillerRewardEntity(MindComponent killerMind, EntityUid? sourceEntity)
+    {
+        return sourceEntity != null && !TerminatingOrDeleted(sourceEntity.Value)
+            ? sourceEntity.Value
+            : killerMind.OwnedEntity;
+    }
+
+    private string GetRewardAccountName(EntityUid killerEntity, Entity<IdCardComponent> idCard)
+    {
+        return string.IsNullOrWhiteSpace(idCard.Comp.FullName)
+            ? Name(killerEntity)
+            : idCard.Comp.FullName;
     }
 
     private void AddTelecrystals(MindComponent mind, FixedPoint2 amount, TraitorUltraRuleComponent component)

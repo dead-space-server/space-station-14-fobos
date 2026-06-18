@@ -219,6 +219,14 @@ public partial struct AntagSelectionDefinition()
     /// </summary>
     [DataField]
     public bool SponsorsPriority = false;
+
+    // DS14-start
+    /// <summary>
+    /// Optional sponsor quota for the selected count. When null, <see cref="SponsorsPriority"/> keeps the legacy full-priority behavior.
+    /// </summary>
+    [DataField("sponsorsPriorityRatio")]
+    public float? SponsorsPriorityRatio;
+    // DS14-end
 }
 
 /// <summary>

@@ -302,9 +302,9 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
         AntagSelectionDefinition def,
         bool midround = false)
     {
-        var playerPool = GetPlayerPool(ent, pool, def);
         var existingAntagCount = ent.Comp.PreSelectedSessions.TryGetValue(def, out var existingAntags) ? existingAntags.Count : 0;
         var count = GetTargetAntagCount(ent, GetTotalPlayerCount(pool), def) - existingAntagCount;
+        var playerPool = GetPlayerPool(ent, pool, def, count); // DS14
 
         // if there is both a spawner and players getting picked, let it fall back to a spawner.
         var noSpawner = def.SpawnerPrototype == null;
@@ -540,11 +540,18 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
     /// <summary>
     /// Gets an ordered player pool based on player preferences and the antagonist definition.
     /// </summary>
-    public AntagSelectionPlayerPool GetPlayerPool(Entity<AntagSelectionComponent> ent, IList<ICommonSession> sessions, AntagSelectionDefinition def)
+    // DS14-start
+    public AntagSelectionPlayerPool GetPlayerPool(
+        Entity<AntagSelectionComponent> ent,
+        IList<ICommonSession> sessions,
+        AntagSelectionDefinition def,
+        int selectionCount = 0)
+    // DS14-end
     {
         var priorityList = new List<ICommonSession>();
         var preferredList = new List<ICommonSession>();
         var fallbackList = new List<ICommonSession>();
+        var useSponsorsPriority = def.SponsorsPriority || def.SponsorsPriorityRatio != null; // DS14
         foreach (var session in sessions)
         {
             if (!IsSessionValid(ent, session, def) || !IsEntityValid(session.AttachedEntity, def))
@@ -553,8 +560,7 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
             if (ent.Comp.PreSelectedSessions.TryGetValue(def, out var preSelected) && preSelected.Contains(session))
                 continue;
 
-            // DS14-sponsors
-            if (HasPrimaryAntagPreference(session, def) && def.SponsorsPriority && _sponsorsManager != null && _sponsorsManager.TryCalcAntagPriority(session.UserId))
+            if (HasPrimaryAntagPreference(session, def) && useSponsorsPriority && _sponsorsManager != null && _sponsorsManager.TryCalcAntagPriority(session.UserId)) // DS14
             {
                 priorityList.Add(session);
             }
@@ -567,6 +573,15 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
                 fallbackList.Add(session);
             }
         }
+
+        // DS14-start
+        if (def.SponsorsPriorityRatio is { } sponsorsPriorityRatio && selectionCount > 0)
+        {
+            var ratio = Math.Clamp(sponsorsPriorityRatio, 0f, 1f);
+            var sponsorSlots = (int) Math.Ceiling(selectionCount * ratio);
+            return new AntagSelectionPlayerPool(priorityList, preferredList, fallbackList, sponsorSlots, selectionCount);
+        }
+        // DS14-end
 
         return new AntagSelectionPlayerPool(new() { priorityList, preferredList, fallbackList });
     }

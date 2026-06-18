@@ -2,6 +2,7 @@
 
 using Content.Shared.Dataset;
 using Content.Shared.FixedPoint;
+using Content.Shared.Cargo.Prototypes;
 using Content.Shared.Random;
 using Content.Shared.Roles.Components;
 using Content.Shared.Store;
@@ -37,6 +38,15 @@ public sealed partial class TraitorUltraRuleComponent : Component
 
     [DataField]
     public FixedPoint2 TraitorKillRewardTelecrystals = 8;
+
+    [DataField]
+    public int SecurityKillRewardCredits = 10000;
+
+    [DataField]
+    public int CaptainKillRewardCredits = 10000;
+
+    [DataField]
+    public ProtoId<CargoAccountPrototype> SecurityRewardAccount = "Security";
 
     [DataField]
     public FixedPoint2 RecruitTelecrystals = 10;

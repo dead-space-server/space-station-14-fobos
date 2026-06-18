@@ -41,7 +41,8 @@ traitor-ultra-bounty-announcement-waffle =
     WaffleCorp enforcement dispatch. {$agent} abandoned {$oldCorp} for {$newCorp}; the account is hostile, overdue, and collectible by force. Confirmed liquidation will be rewarded: shadow-market agents will receive individually calculated payouts, and {$oldCorp} will contact independent contractors directly.
 traitor-ultra-bounty-traitor-kill-message = Contract closure confirmed. Your individual payout is being calculated and queued.
 traitor-ultra-bounty-crew-kill-message = Your initiative has been noticed. The previous handler is preparing a private offer.
-traitor-ultra-bounty-security-kill-message = Contract breach neutralized. Professional respect recorded; no further services are requested.
+traitor-ultra-bounty-security-kill-message = Contract violator neutralized. Executor loyalty to their Corporation confirmed; 10,000 credits have been transferred to the NanoTrasen Security account.
+traitor-ultra-bounty-captain-kill-message = Contract violator neutralized. Enemy asset Captain rank confirmed; 10,000 credits have been transferred to your personal account. Excellent work, Captain...
 traitor-ultra-recruit-title = Private Contract Offer
 traitor-ultra-recruit-body = {$corp} confirms your liquidation claim and offers a limited field contract. Accepting opens a funded uplink and a standard order package.
 traitor-ultra-recruit-accept = Accept
