@@ -197,6 +197,7 @@
     spreadAmount: 10
     spreadAmountAutoMode: 5
   - type: NinjaEmpAbility
+  - type: NinjaShurikenAbility
   - type: Jetpack
     requiresGas: false
     toggleAction: NinjaActionToggleJetpack

@@ -244,6 +244,9 @@
     - SemiAuto
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/mk58.ogg
+  - type: Tag
+    tags: 
+    - NinjaGun
   - type: ItemSlots
     slots:
       gun_magazine:

@@ -296,6 +296,9 @@
   id: Necro
 
 - type: Tag
+  id: NinjaGun
+
+- type: Tag
   id: NoodlesCopy
 
 - type: Tag

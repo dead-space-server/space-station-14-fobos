@@ -3,6 +3,8 @@ using Content.Shared.Weapons.Melee.Events;
 using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Popups;
 using System.Diagnostics.CodeAnalysis;
+using Content.Shared.Tag;
+using Robust.Shared.Prototypes;
 
 namespace Content.Shared.DeadSpace.Ninja.Systems;
 
@@ -13,8 +15,10 @@ public abstract class SharedSpaceNinjaSystem : EntitySystem
 {
     [Dependency] protected readonly SharedNinjaSuitSystem Suit = default!;
     [Dependency] protected readonly SharedPopupSystem Popup = default!;
+    [Dependency] private readonly TagSystem _tagSystem = default!;
 
     public EntityQuery<SpaceNinjaComponent> NinjaQuery;
+    private static readonly ProtoId<TagPrototype> NinjaGunTag = "NinjaGun";
 
     public override void Initialize()
     {
@@ -106,7 +110,10 @@ public abstract class SharedSpaceNinjaSystem : EntitySystem
     /// </summary>
     private void OnShotAttempted(Entity<SpaceNinjaComponent> ent, ref ShotAttemptedEvent args)
     {
-        Popup.PopupClient(Loc.GetString("gun-disabled"), ent, ent);
-        args.Cancel();
+        if (!_tagSystem.HasTag(args.Used, NinjaGunTag))
+        {
+            Popup.PopupClient(Loc.GetString("gun-disabled"), ent, ent);
+            args.Cancel();
+        }
     }
 }

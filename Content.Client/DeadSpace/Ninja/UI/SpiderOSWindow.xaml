@@ -44,19 +44,19 @@
                             </PanelContainer.PanelOverride>
                         </PanelContainer>
                         <TextureButton Name="GhostBtn1" HorizontalAlignment="Center" Margin="0 10 0 10"
-                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/smoke"
+                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/smoke.png"
                                         Scale="1.5 1.5"/>
                         <TextureButton Name="GhostBtn2" HorizontalAlignment="Center" Margin="0 0 0 10"
-                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/cloak"
+                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/cloak.png"
                                         Scale="1.5 1.5"/>
                         <TextureButton Name="GhostBtn3" HorizontalAlignment="Center" Margin="0 0 0 10"
-                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/clones"
+                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/clones.png"
                                         Scale="1.5 1.5"/>
                         <TextureButton Name="GhostBtn4" HorizontalAlignment="Center" Margin="0 0 0 10"
-                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/null"
+                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/null.png"
                                         Scale="1.5 1.5"/>
                         <TextureButton Name="GhostBtn5" HorizontalAlignment="Center" Margin="0 0 0 10"
-                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/spiritform"
+                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/spiritform.png"
                                         Scale="1.5 1.5"/>
                     </BoxContainer>
                 </PanelContainer>
@@ -76,19 +76,19 @@
                                 </PanelContainer.PanelOverride>
                             </PanelContainer>
                             <TextureButton Name="SnakeBtn1" HorizontalAlignment="Center" Margin="0 10 0 10"
-                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/kunai"
+                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/kunai.png"
                                         Scale="1.5 1.5"/>
                             <TextureButton Name="SnakeBtn2" HorizontalAlignment="Center" Margin="0 0 0 10"
-                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/cheminjector"
+                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/cheminjector.png"
                                         Scale="1.5 1.5"/>
                             <TextureButton Name="SnakeBtn3" HorizontalAlignment="Center" Margin="0 0 0 10"
-                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/emergencyblink"
+                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/emergencyblink.png"
                                         Scale="1.5 1.5"/>
                             <TextureButton Name="SnakeBtn4" HorizontalAlignment="Center" Margin="0 0 0 10"
-                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/caltrop"
+                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/caltrop.png"
                                         Scale="1.5 1.5"/>
                             <TextureButton Name="SnakeBtn5" HorizontalAlignment="Center" Margin="0 0 0 10"
-                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/null"
+                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/null.png"
                                         Scale="1.5 1.5"/>
                     </BoxContainer>
                 </PanelContainer>
@@ -109,19 +109,19 @@
                                 </PanelContainer.PanelOverride>
                             </PanelContainer>
                             <TextureButton Name="SteelBtn1" HorizontalAlignment="Center" Margin="0 10 0 10"
-                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/shuriken"
+                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/shuriken.png"
                                         Scale="1.5 1.5"/>
                             <TextureButton Name="SteelBtn2" HorizontalAlignment="Center" Margin="0 0 0 10"
-                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/adrenal"
+                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/adrenal.png"
                                         Scale="1.5 1.5"/>
                             <TextureButton Name="SteelBtn3" HorizontalAlignment="Center" Margin="0 0 0 10"
-                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/emp"
+                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/emp.png"
                                         Scale="1.5 1.5"/>
                             <TextureButton Name="SteelBtn4" HorizontalAlignment="Center" Margin="0 0 0 10"
-                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/energynet"
+                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/energynet.png"
                                         Scale="1.5 1.5"/>
                             <TextureButton Name="SteelBtn5" HorizontalAlignment="Center" Margin="0 0 0 10"
-                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/null"
+                                        TexturePath="/Textures/_DeadSpace/Actions/ninja_actions.rsi/null.png"
                                         Scale="1.5 1.5"/>
                     </BoxContainer>
                 </PanelContainer>

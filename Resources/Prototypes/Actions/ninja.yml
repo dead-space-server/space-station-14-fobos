@@ -188,4 +188,19 @@
     itemIconStyle: BigAction
   - type: InstantAction
     event: !type:NinjaToggleAutoSmokeActionEvent
+
+- type: entity
+  parent: BaseAction
+  id: ToggleNinjaShurikenAbility
+  name: сюрикены.
+  description: Позволяет автоматически создавать дымовую завесу при использовании некоторых других способностей в ослабленном виде и за уменьшенную цену.
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Actions/ninja_actions.rsi
+      state: shuriken
+    useDelay: 1.0
+    itemIconStyle: BigAction
+  - type: InstantAction
+    event: !type:ShurikenHandRetractEvent
 #DS-14 End
