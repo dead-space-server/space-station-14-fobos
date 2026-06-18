@@ -40,7 +40,13 @@ public sealed partial class TraitorUltraRuleComponent : Component
     public TimeSpan RewardDelay = TimeSpan.FromSeconds(10);
 
     [DataField]
-    public FixedPoint2 UpgradeTelecrystals = 15;
+    public FixedPoint2 UpgradeTelecrystals = 10;
+
+    [DataField]
+    public EntProtoId UltraUplinkImplant = "TraitorUltraUplinkImplant";
+
+    [DataField]
+    public EntProtoId DeathAcidifierImplant = "DeathAcidifierImplant";
 
     [DataField]
     public FixedPoint2 TraitorKillRewardTelecrystals = 8;
@@ -71,6 +77,9 @@ public sealed partial class TraitorUltraRuleComponent : Component
 
     [DataField]
     public EntProtoId CommandKillObjective = "TraitorUltraKillRandomHeadObjective";
+
+    [DataField]
+    public EntProtoId BountyKillObjective = "TraitorUltraKillBountyObjective";
 
     [DataField]
     public ProtoId<WeightedRandomPrototype> BaseObjectiveGroups = "TraitorUltraObjectiveGroups";
@@ -134,6 +143,12 @@ public sealed partial class TraitorUltraRuleComponent : Component
     };
 
     [DataField]
+    public HashSet<EntProtoId> UpgradeCompletionOptionalObjectives = new()
+    {
+        "TraitorUltraKillBountyObjective",
+    };
+
+    [DataField]
     public SoundSpecifier UpgradeSound = new SoundPathSpecifier("/Audio/_DeadSpace/TraitorUltra/ultra_role_assigned.ogg");
 
     [DataField]
@@ -156,7 +171,9 @@ public sealed class TraitorUltraMindState
     public bool BountyResolved;
     public bool BaseObjectivesAssigned;
     public bool InitialObjectivePackageAssigned;
+    public bool UltraUplinkInitialized;
     public EntityUid? BountyBody;
+    public EntityUid? UltraUplinkEntity;
     public EntityUid? UpgradeOfferActionEntity;
 }
 

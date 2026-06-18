@@ -1,4 +1,5 @@
 using System.Threading;
+using Content.Server.DeadSpace.Traitor;
 using Content.Server.DeadSpace.Traitor.Objectives;
 using Content.Server.GameTicking.Rules.Components;
 using Content.Server.Screens.Components;
@@ -10,6 +11,7 @@ using Content.Shared.Database;
 using Content.Shared.DeadSpace.Shuttles.Events;
 using Content.Shared.DeviceNetwork;
 using Content.Shared.DeviceNetwork.Components;
+using Content.Shared.GameTicking.Components;
 using Content.Shared.Mind;
 using Content.Shared.Mind.Components;
 using Content.Shared.Popups;
@@ -78,12 +80,35 @@ public sealed partial class EmergencyShuttleSystem
     // DS14-start
     private const string TraitorUltraRaiderOutpostRule = "SyndicateRaid";
     private static readonly TimeSpan TraitorUltraHijackDelay = TimeSpan.FromMinutes(1);
+    private const float TraitorUltraEmergencyDockTime = 5 * 60;
+    private const float TraitorUltraEmergencyOffTargetDockTime = 7 * 60;
     private TimeSpan? _traitorUltraHijackCompletionTime;
     private EntityUid? _traitorUltraHijackerMind;
     private string _traitorUltraHijackerName = string.Empty;
     private EntityUid? _traitorUltraHijackShuttle;
     private bool _traitorUltraHijackCompleted;
     private bool _traitorUltraHijackArriving;
+    // DS14-end
+
+    // DS14-start
+    private bool IsTraitorUltraRuleAdded()
+    {
+        var query = EntityQueryEnumerator<TraitorUltraRuleComponent, GameRuleComponent>();
+        while (query.MoveNext(out var uid, out _, out var gameRule))
+        {
+            if (_ticker.IsGameRuleAdded(uid, gameRule))
+                return true;
+        }
+
+        return false;
+    }
+
+    private float GetTraitorUltraEmergencyDockTime(ShuttleDockResultType resultType)
+    {
+        return resultType is ShuttleDockResultType.OtherDock or ShuttleDockResultType.NoDock
+            ? TraitorUltraEmergencyOffTargetDockTime
+            : TraitorUltraEmergencyDockTime;
+    }
     // DS14-end
 
     private static readonly ProtoId<AccessLevelPrototype> EmergencyRepealAllAccess = "EmergencyShuttleRepealAll";

@@ -27,7 +27,7 @@
   icon: { sprite: /Textures/Objects/Weapons/Melee/e_sword_double.rsi, state: icon }
   productEntity: EnergySwordDouble
   cost:
-    Telecrystal: 16
+    Telecrystal: 20
   categories:
   - UplinkUltra
   conditions:
@@ -302,25 +302,6 @@
     Telecrystal: 4
   cost:
     Telecrystal: 8
-  categories:
-  - UplinkWeaponry
-  conditions:
-  - !type:StoreWhitelistCondition
-    blacklist:
-      tags:
-      - NukeOpsUplink
-
-- type: listing
-  id: UplinkSmokingCarpInjector
-  name: uplink-smoking-carp-name
-  description: uplink-smoking-carp-desc
-  icon: { sprite: _DeadSpace/Objects/Misc/injector_smoking_carp.rsi, state: icon }
-  productEntity: SmokingCarpInjector
-  discountCategory: usualDiscounts
-  discountDownTo:
-    Telecrystal: 8
-  cost:
-    Telecrystal: 14
   categories:
   - UplinkWeaponry
   conditions:
@@ -1013,7 +994,7 @@
   icon: { sprite: /Textures/Clothing/OuterClothing/Hardsuits/cybersun.rsi, state: icon }
   productEntity: ClothingOuterHardsuitJuggernaut
   cost:
-    Telecrystal: 20
+    Telecrystal: 50
   categories:
   - UplinkUltra
   conditions:

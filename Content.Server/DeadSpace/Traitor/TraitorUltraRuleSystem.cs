@@ -11,6 +11,8 @@ using Content.Server.GameTicking.Rules;
 using Content.Server.GameTicking.Rules.Components;
 using Content.Server.Mind;
 using Content.Server.Objectives;
+using Content.Server.Objectives.Components;
+using Content.Server.Objectives.Systems;
 using Content.Server.Popups;
 using Content.Server.Station.Systems;
 using Content.Server.Store.Systems;
@@ -31,6 +33,9 @@ using Content.Shared.Dataset;
 using Content.Shared.FixedPoint;
 using Content.Shared.GameTicking;
 using Content.Shared.GameTicking.Components;
+using Content.Shared.Gibbing;
+using Content.Shared.Implants;
+using Content.Shared.Implants.Components;
 using Content.Shared.Mind;
 using Content.Shared.Mind.Components;
 using Content.Shared.Mindshield.Components;
@@ -67,6 +72,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
     [Dependency] private readonly SharedCargoSystem _cargo = default!;
     [Dependency] private readonly EuiManager _eui = default!;
     [Dependency] private readonly SharedIdCardSystem _idCard = default!;
+    [Dependency] private readonly MetaDataSystem _metaData = default!;
     [Dependency] private readonly MindSystem _mind = default!;
     [Dependency] private readonly ObjectivesSystem _objectives = default!;
     [Dependency] private readonly IPlayerManager _players = default!;
@@ -76,8 +82,10 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
     [Dependency] private readonly SharedJobSystem _jobs = default!;
     [Dependency] private readonly SharedObjectivesSystem _sharedObjectives = default!;
     [Dependency] private readonly SharedRoleSystem _roles = default!;
+    [Dependency] private readonly SharedSubdermalImplantSystem _subdermalImplant = default!;
     [Dependency] private readonly StationSystem _station = default!;
     [Dependency] private readonly StoreSystem _store = default!;
+    [Dependency] private readonly TargetObjectiveSystem _targetObjectives = default!;
     [Dependency] private readonly TraitorRuleSystem _traitorRule = default!;
     [Dependency] private readonly UplinkSystem _uplink = default!;
 
@@ -92,6 +100,8 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         SubscribeLocalEvent<TraitorUltraOpenContractActionEvent>(OnOpenContractAction);
         SubscribeLocalEvent<TraitorUltraBountyTargetComponent, DamageChangedEvent>(OnBountyDamageChanged, before: [typeof(MobThresholdSystem)]);
         SubscribeLocalEvent<TraitorUltraBountyTargetComponent, MobStateChangedEvent>(OnBountyMobStateChanged);
+        SubscribeLocalEvent<TraitorUltraBountyTargetComponent, GibbedBeforeDeletionEvent>(OnBountyGibbedBeforeDeletion);
+        SubscribeLocalEvent<TraitorUltraBountyTargetComponent, EntityTerminatingEvent>(OnBountyTerminating);
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestart);
     }
 
@@ -147,6 +157,17 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
             state.OriginalCorporation ??= GetOriginalCorporation(ent.Owner, mindId);
         }
 
+        if (!EnsureDeathAcidifierImplant((mindId, mind), ent.Comp))
+            Log.Error($"Failed to assign the TraitorUltra death-acidifier implant to {ToPrettyString(mindId)}.");
+
+        if (state.Stage == TraitorUltraStage.Initial && !state.UltraUplinkInitialized)
+        {
+            if (EnsureInitialUltraUplink(ent.Owner, ent.Comp, (mindId, mind), state))
+                state.UltraUplinkInitialized = true;
+            else
+                Log.Error($"Failed to assign the TraitorUltra uplink implant to {ToPrettyString(mindId)}.");
+        }
+
         if (state.Stage != TraitorUltraStage.Initial)
             return true;
 
@@ -166,7 +187,129 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
                 Log.Error($"Failed to assign a medium TraitorUltra objective package to {ToPrettyString(mindId)}.");
         }
 
-        return state.BaseObjectivesAssigned && state.InitialObjectivePackageAssigned;
+        return state.UltraUplinkInitialized && state.BaseObjectivesAssigned && state.InitialObjectivePackageAssigned;
+    }
+
+    private bool EnsureDeathAcidifierImplant(Entity<MindComponent> mind, TraitorUltraRuleComponent component)
+    {
+        if (mind.Comp.OwnedEntity is not { } body || TerminatingOrDeleted(body))
+            return false;
+
+        if (TryFindImplant(body, component.DeathAcidifierImplant, out _))
+            return true;
+
+        return _subdermalImplant.AddImplant(body, component.DeathAcidifierImplant) != null;
+    }
+
+    private bool TryFindImplant(EntityUid body, EntProtoId implantPrototype, out EntityUid implant)
+    {
+        implant = default;
+        if (!TryComp<ImplantedComponent>(body, out var implanted))
+            return false;
+
+        foreach (var contained in implanted.ImplantContainer.ContainedEntities)
+        {
+            if (!TerminatingOrDeleted(contained) &&
+                MetaData(contained).EntityPrototype?.ID == implantPrototype.Id)
+            {
+                implant = contained;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private bool EnsureInitialUltraUplink(
+        EntityUid rule,
+        TraitorUltraRuleComponent component,
+        Entity<MindComponent> mind,
+        TraitorUltraMindState state)
+    {
+        var startingBalance = GetAdjustedStartingBalance(rule, mind.Owner);
+        return EnsureUltraUplink(mind, component, state, startingBalance) != null;
+    }
+
+    private FixedPoint2 GetAdjustedStartingBalance(EntityUid rule, EntityUid mindId)
+    {
+        var startingBalance = FixedPoint2.Zero;
+        if (TryComp<TraitorRuleComponent>(rule, out var traitorRule))
+            startingBalance = traitorRule.StartingBalance;
+
+        if (!_jobs.MindTryGetJob(mindId, out var prototype))
+            return startingBalance;
+
+        if (startingBalance < prototype.AntagAdvantage)
+            return FixedPoint2.Zero;
+
+        return startingBalance - prototype.AntagAdvantage;
+    }
+
+    private EntityUid? EnsureUltraUplink(
+        Entity<MindComponent> mind,
+        TraitorUltraRuleComponent component,
+        TraitorUltraMindState state,
+        FixedPoint2? balance = null)
+    {
+        if (mind.Comp.OwnedEntity is not { } body || TerminatingOrDeleted(body))
+            return null;
+
+        if (TryFindUltraUplink(body, component, state, out var uplink))
+        {
+            if (balance != null)
+                _uplink.SetupUplink(body, uplink, balance.Value, giveDiscounts: true);
+
+            return uplink;
+        }
+
+        var created = _uplink.AddImplantUplink(
+            body,
+            balance ?? FixedPoint2.Zero,
+            component.UltraUplinkImplant,
+            giveDiscounts: true);
+
+        if (created == null)
+            return null;
+
+        state.UltraUplinkEntity = created.Value;
+        return created.Value;
+    }
+
+    private bool TryFindUltraUplink(
+        EntityUid body,
+        TraitorUltraRuleComponent component,
+        TraitorUltraMindState state,
+        out EntityUid uplink)
+    {
+        uplink = default;
+        if (!TryComp<ImplantedComponent>(body, out var implanted))
+            return false;
+
+        if (state.UltraUplinkEntity is { } tracked &&
+            implanted.ImplantContainer.ContainedEntities.Contains(tracked) &&
+            IsUltraUplinkPrototype(tracked, component))
+        {
+            uplink = tracked;
+            return true;
+        }
+
+        foreach (var implant in implanted.ImplantContainer.ContainedEntities)
+        {
+            if (!IsUltraUplinkPrototype(implant, component))
+                continue;
+
+            state.UltraUplinkEntity = implant;
+            uplink = implant;
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool IsUltraUplinkPrototype(EntityUid entity, TraitorUltraRuleComponent component)
+    {
+        return !TerminatingOrDeleted(entity) &&
+               MetaData(entity).EntityPrototype?.ID == component.UltraUplinkImplant.Id;
     }
 
     protected override void ActiveTick(EntityUid uid, TraitorUltraRuleComponent component, GameRuleComponent gameRule, float frameTime)
@@ -638,6 +781,9 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
                 continue;
             }
 
+            if (ObjectiveOptionalForUpgradeCompletion(objective, component))
+                continue;
+
             hasRequiredObjective = true;
             if (!_objectives.IsCompleted(objective, (mindId, mind)))
                 return false;
@@ -661,6 +807,21 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         return false;
     }
 
+    private bool ObjectiveOptionalForUpgradeCompletion(EntityUid objective, TraitorUltraRuleComponent component)
+    {
+        var prototype = MetaData(objective).EntityPrototype?.ID;
+        if (prototype == null)
+            return false;
+
+        foreach (var optional in component.UpgradeCompletionOptionalObjectives)
+        {
+            if (optional == prototype)
+                return true;
+        }
+
+        return false;
+    }
+
     private void UpgradeTraitor(EntityUid rule, TraitorUltraRuleComponent component, EntityUid mindId, MindComponent mind, TraitorUltraMindState state)
     {
         state.OriginalCorporation ??= GetOriginalCorporation(rule, mindId);
@@ -671,6 +832,9 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         state.NextEventTime = Timing.CurTime + component.BountyPreparationTime;
 
         UpgradeTraitorRole(mindId, mind);
+        if (!EnsureDeathAcidifierImplant((mindId, mind), component))
+            Log.Error($"Failed to assign the TraitorUltra death-acidifier implant to {ToPrettyString(mindId)}.");
+
         if (TryComp<TraitorRuleComponent>(rule, out var traitorRule))
             traitorRule.TraitorMinds.Remove(mindId);
 
@@ -680,7 +844,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         if (!TryAssignPostUpgradeSurviveObjective((mindId, mind), component, state.NewCorporation))
             Log.Error($"Failed to assign a post-upgrade TraitorUltra survive objective to {ToPrettyString(mindId)}.");
 
-        AddTelecrystals(mind, component.UpgradeTelecrystals, component);
+        AddTelecrystals(mindId, mind, component.UpgradeTelecrystals, component);
         SendUpgradeBriefing(mind, component, state);
         AppendUpgradeBriefing(mindId, state);
         LogTraitorUltraUpgrade(mindId, mind, state);
@@ -794,8 +958,114 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
             originalMessage: announcement,
             voice: PickRandomAnnouncementVoice());
 
+        AssignBountyKillObjectives(component, mindId, state);
+
         if (mind != null)
             EnsureBountyBody(rule, mindId, mind, state, replaceExisting: true);
+    }
+
+    private void AssignBountyKillObjectives(
+        TraitorUltraRuleComponent component,
+        EntityUid targetMindId,
+        TraitorUltraMindState state)
+    {
+        if (!TryComp<MindComponent>(targetMindId, out var targetMind))
+            return;
+
+        var query = EntityQueryEnumerator<MindComponent>();
+        while (query.MoveNext(out var mindId, out var mind))
+        {
+            if (mindId == targetMindId ||
+                !IsTraitorOrUltraMind(mindId) ||
+                HasBountyKillObjectiveForTarget((mindId, mind), component.BountyKillObjective, targetMindId))
+            {
+                continue;
+            }
+
+            if (!TryCreateBountyKillObjective((mindId, mind), targetMindId, targetMind, component, state.OriginalCorporation))
+                Log.Warning($"Failed to assign TraitorUltra bounty kill objective for {ToPrettyString(targetMindId)} to {ToPrettyString(mindId)}.");
+        }
+    }
+
+    private bool IsTraitorOrUltraMind(EntityUid mindId)
+    {
+        return _roles.MindHasRole<TraitorRoleComponent>(mindId) ||
+               _roles.MindHasRole<TraitorUltraRoleComponent>(mindId);
+    }
+
+    private bool HasBountyKillObjectiveForTarget(Entity<MindComponent> mind, EntProtoId prototype, EntityUid targetMindId)
+    {
+        foreach (var objective in mind.Comp.Objectives)
+        {
+            if (TerminatingOrDeleted(objective) ||
+                MetaData(objective).EntityPrototype?.ID != prototype.Id ||
+                !TryComp<TargetObjectiveComponent>(objective, out var targetObjective))
+            {
+                continue;
+            }
+
+            if (targetObjective.Target == targetMindId)
+                return true;
+        }
+
+        return false;
+    }
+
+    private bool TryCreateBountyKillObjective(
+        Entity<MindComponent> mind,
+        EntityUid targetMindId,
+        MindComponent targetMind,
+        TraitorUltraRuleComponent component,
+        string? issuer)
+    {
+        if (!_proto.HasIndex<EntityPrototype>(component.BountyKillObjective))
+        {
+            Log.Warning($"TraitorUltra bounty objective prototype {component.BountyKillObjective} does not exist.");
+            return false;
+        }
+
+        var created = _sharedObjectives.TryCreateObjective(mind.Owner, mind.Comp, component.BountyKillObjective, force: true);
+        if (created == null)
+            return false;
+
+        var objective = created.Value;
+        if (!TryComp<TargetObjectiveComponent>(objective, out var targetObjective))
+        {
+            Del(objective);
+            return false;
+        }
+
+        _targetObjectives.SetTarget(objective, targetMindId, targetObjective);
+        SetTargetObjectiveTitle(objective, targetMindId, targetMind, targetObjective);
+
+        if (!string.IsNullOrWhiteSpace(issuer))
+            _sharedObjectives.SetIssuer(objective, issuer);
+
+        _mind.AddObjective(mind.Owner, mind.Comp, objective);
+
+        if (!string.IsNullOrWhiteSpace(issuer))
+            _sharedObjectives.SetIssuer(objective, issuer);
+
+        return true;
+    }
+
+    private void SetTargetObjectiveTitle(
+        EntityUid objective,
+        EntityUid targetMindId,
+        MindComponent targetMind,
+        TargetObjectiveComponent targetObjective)
+    {
+        var targetName = targetMind.CharacterName;
+        if (string.IsNullOrWhiteSpace(targetName) && targetMind.OwnedEntity is { } owned)
+            targetName = Name(owned);
+
+        _metaData.SetEntityName(
+            objective,
+            Loc.GetString(
+                targetObjective.Title,
+                ("targetName", string.IsNullOrWhiteSpace(targetName) ? "Unknown" : targetName),
+                ("job", _jobs.MindTryGetJobName(targetMindId))),
+            MetaData(objective));
     }
 
     private void EnsureBountyBody(EntityUid rule, EntityUid mindId, MindComponent mind, TraitorUltraMindState state, bool replaceExisting)
@@ -869,6 +1139,29 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         if (args.NewMobState != MobState.Dead || args.OldMobState >= args.NewMobState)
             return;
 
+        ResolveBountyDeath(ent, args.Origin);
+    }
+
+    private void OnBountyGibbedBeforeDeletion(Entity<TraitorUltraBountyTargetComponent> ent, ref GibbedBeforeDeletionEvent args)
+    {
+        ResolveBountyDeletionAfterDeath(ent);
+    }
+
+    private void OnBountyTerminating(Entity<TraitorUltraBountyTargetComponent> ent, ref EntityTerminatingEvent args)
+    {
+        ResolveBountyDeletionAfterDeath(ent);
+    }
+
+    private void ResolveBountyDeletionAfterDeath(Entity<TraitorUltraBountyTargetComponent> ent)
+    {
+        if (!TryComp<MobStateComponent>(ent, out var mobState) || mobState.CurrentState != MobState.Dead)
+            return;
+
+        ResolveBountyDeath(ent, null);
+    }
+
+    private void ResolveBountyDeath(Entity<TraitorUltraBountyTargetComponent> ent, EntityUid? origin)
+    {
         if (!TryComp<TraitorUltraRuleComponent>(ent.Comp.Rule, out var ruleComp) ||
             !ruleComp.Minds.TryGetValue(ent.Comp.MindId, out var state) ||
             state.BountyResolved)
@@ -878,9 +1171,10 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 
         state.BountyResolved = true;
         state.Stage = TraitorUltraStage.Resolved;
-        RemCompDeferred<TraitorUltraBountyTargetComponent>(ent);
+        if (!TerminatingOrDeleted(ent.Owner))
+            RemCompDeferred<TraitorUltraBountyTargetComponent>(ent);
 
-        if (!TryResolveKillerMind(ent.Comp, args.Origin, out var killerMindId, out var killerMind, out var killerEntity) ||
+        if (!TryResolveKillerMind(ent.Comp, origin, out var killerMindId, out var killerMind, out var killerEntity) ||
             killerMindId == ent.Comp.MindId && (killerEntity == null || killerEntity == ent.Owner))
         {
             return;
@@ -1112,11 +1406,45 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
             : idCard.Comp.FullName;
     }
 
-    private void AddTelecrystals(MindComponent mind, FixedPoint2 amount, TraitorUltraRuleComponent component)
+    private void AddTelecrystals(EntityUid mindId, MindComponent mind, FixedPoint2 amount, TraitorUltraRuleComponent component)
     {
         if (amount <= FixedPoint2.Zero || mind.OwnedEntity is not { } owned)
             return;
 
+        if (component.Minds.TryGetValue(mindId, out var state) ||
+            _roles.MindHasRole<TraitorUltraRoleComponent>(mindId))
+        {
+            state ??= new TraitorUltraMindState();
+            AddUltraTelecrystals((mindId, mind), amount, component, state);
+            return;
+        }
+
+        AddStandardTelecrystals(amount, component, owned);
+    }
+
+    private void AddUltraTelecrystals(
+        Entity<MindComponent> mind,
+        FixedPoint2 amount,
+        TraitorUltraRuleComponent component,
+        TraitorUltraMindState state)
+    {
+        var uplink = EnsureUltraUplink(mind, component, state);
+        if (uplink == null ||
+            mind.Comp.OwnedEntity is not { } owned ||
+            !TryComp<StoreComponent>(uplink.Value, out var store))
+        {
+            return;
+        }
+
+        _store.TryAddCurrency(new Dictionary<string, FixedPoint2> { { component.TelecrystalCurrency, amount } }, uplink.Value, store);
+        _store.UpdateUserInterface(owned, uplink.Value, store);
+    }
+
+    private void AddStandardTelecrystals(
+        FixedPoint2 amount,
+        TraitorUltraRuleComponent component,
+        EntityUid owned)
+    {
         var uplink = _uplink.FindUplinkTarget(owned);
         if (uplink == null || !TryComp<StoreComponent>(uplink.Value, out var store))
         {
@@ -1160,7 +1488,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 
                 case TraitorUltraDelayedActionType.GiveTraitorKillReward:
                     if (TryComp<MindComponent>(action.MindId, out var rewardMind))
-                        AddTelecrystals(rewardMind, component.TraitorKillRewardTelecrystals, component);
+                        AddTelecrystals(action.MindId, rewardMind, component.TraitorKillRewardTelecrystals, component);
                     break;
 
                 case TraitorUltraDelayedActionType.OpenRecruitOffer:
