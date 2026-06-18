@@ -28,6 +28,12 @@ public sealed partial class TraitorUltraRuleComponent : Component
     public TimeSpan UpgradeOfferDelay = TimeSpan.FromSeconds(12);
 
     [DataField]
+    public TimeSpan UpgradeOfferTimeout = TimeSpan.FromMinutes(2);
+
+    [DataField]
+    public EntProtoId UpgradeOfferAction = "ActionTraitorUltraOpenContract";
+
+    [DataField]
     public TimeSpan BountyPreparationTime = TimeSpan.FromMinutes(3);
 
     [DataField]
@@ -151,6 +157,7 @@ public sealed class TraitorUltraMindState
     public bool BaseObjectivesAssigned;
     public bool InitialObjectivePackageAssigned;
     public EntityUid? BountyBody;
+    public EntityUid? UpgradeOfferActionEntity;
 }
 
 public enum TraitorUltraStage : byte

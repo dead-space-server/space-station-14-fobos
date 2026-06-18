@@ -1,6 +1,7 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
 using System.Linq;
+using Content.Server.Actions;
 using Content.Server.Antag;
 using Content.Server.Antag.Components;
 using Content.Server.Backmen.Economy;
@@ -59,6 +60,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
     [Dependency] private readonly AntagSelectionSystem _antag = default!;
+    [Dependency] private readonly ActionsSystem _actions = default!;
     [Dependency] private readonly BankManagerSystem _bankManager = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
     [Dependency] private readonly ISharedChatManager _chatManager = default!;
@@ -80,12 +82,14 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
     [Dependency] private readonly UplinkSystem _uplink = default!;
 
     private readonly List<TraitorUltraDelayedAction> _delayedActions = new();
+    private readonly Dictionary<EntityUid, TraitorUltraOfferEui> _openUpgradeOfferEuis = new();
 
     public override void Initialize()
     {
         base.Initialize();
 
         SubscribeLocalEvent<TraitorUltraRuleComponent, AfterAntagEntitySelectedEvent>(OnAfterAntagSelected, after: [typeof(TraitorRuleSystem)]);
+        SubscribeLocalEvent<TraitorUltraOpenContractActionEvent>(OnOpenContractAction);
         SubscribeLocalEvent<TraitorUltraBountyTargetComponent, DamageChangedEvent>(OnBountyDamageChanged, before: [typeof(MobThresholdSystem)]);
         SubscribeLocalEvent<TraitorUltraBountyTargetComponent, MobStateChangedEvent>(OnBountyMobStateChanged);
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestart);
@@ -94,6 +98,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
     private void OnRoundRestart(RoundRestartCleanupEvent ev)
     {
         _delayedActions.Clear();
+        CloseAllUpgradeOfferEuis();
     }
 
     private void OnAfterAntagSelected(Entity<TraitorUltraRuleComponent> ent, ref AfterAntagEntitySelectedEvent args)
@@ -195,11 +200,21 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
                     if (Timing.CurTime < state.NextEventTime)
                         break;
 
-                    if (TryGetSession(mind, out var session))
+                    state.Stage = TraitorUltraStage.OfferOpen;
+                    state.NextEventTime = Timing.CurTime + component.UpgradeOfferTimeout;
+                    EnsureUpgradeOfferAction(component, mindId, mind, state);
+                    ShowPopup(mind, "traitor-ultra-offer-ready-popup", PopupType.Large);
+                    OpenUpgradeOfferEui(uid, mindId, mind);
+                    break;
+
+                case TraitorUltraStage.OfferOpen:
+                    if (Timing.CurTime >= state.NextEventTime)
                     {
-                        state.Stage = TraitorUltraStage.OfferOpen;
-                        _eui.OpenEui(new TraitorUltraOfferEui(uid, mindId, this), session);
+                        DeclineUpgradeOffer(mindId, mind, state, "traitor-ultra-offer-expired-popup");
+                        break;
                     }
+
+                    EnsureUpgradeOfferAction(component, mindId, mind, state);
                     break;
 
                 case TraitorUltraStage.Upgraded:
@@ -214,6 +229,106 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         }
     }
 
+    private void OnOpenContractAction(TraitorUltraOpenContractActionEvent args)
+    {
+        if (args.Handled ||
+            !_mind.TryGetMind(args.Performer, out var mindId, out var mind))
+        {
+            return;
+        }
+
+        var query = EntityQueryEnumerator<TraitorUltraRuleComponent>();
+        while (query.MoveNext(out var rule, out var component))
+        {
+            if (!component.Minds.TryGetValue(mindId, out var state) ||
+                state.Stage != TraitorUltraStage.OfferOpen ||
+                state.UpgradeOfferActionEntity != args.Action.Owner)
+            {
+                continue;
+            }
+
+            args.Handled = true;
+
+            if (Timing.CurTime >= state.NextEventTime)
+            {
+                DeclineUpgradeOffer(mindId, mind, state, "traitor-ultra-offer-expired-popup");
+                return;
+            }
+
+            OpenUpgradeOfferEui(rule, mindId, mind);
+            return;
+        }
+    }
+
+    private bool EnsureUpgradeOfferAction(
+        TraitorUltraRuleComponent component,
+        EntityUid mindId,
+        MindComponent mind,
+        TraitorUltraMindState state)
+    {
+        if (mind.OwnedEntity is not { } body || !Exists(body))
+            return false;
+
+        return _actions.AddAction(body, ref state.UpgradeOfferActionEntity, component.UpgradeOfferAction, mindId);
+    }
+
+    private void RemoveUpgradeOfferAction(TraitorUltraMindState state)
+    {
+        if (state.UpgradeOfferActionEntity is not { } action)
+            return;
+
+        _actions.RemoveAction(action);
+        QueueDel(action);
+        state.UpgradeOfferActionEntity = null;
+    }
+
+    private bool OpenUpgradeOfferEui(EntityUid rule, EntityUid mindId, MindComponent mind)
+    {
+        if (!TryGetSession(mind, out var session))
+            return false;
+
+        CloseUpgradeOfferEui(mindId);
+
+        var eui = new TraitorUltraOfferEui(rule, mindId, this);
+        _openUpgradeOfferEuis[mindId] = eui;
+        _eui.OpenEui(eui, session);
+        return true;
+    }
+
+    private void CloseUpgradeOfferEui(EntityUid mindId)
+    {
+        if (!_openUpgradeOfferEuis.Remove(mindId, out var eui))
+            return;
+
+        if (!eui.IsShutDown)
+            eui.Close();
+    }
+
+    private void CloseAllUpgradeOfferEuis()
+    {
+        foreach (var mindId in _openUpgradeOfferEuis.Keys.ToArray())
+        {
+            CloseUpgradeOfferEui(mindId);
+        }
+    }
+
+    public void OnUpgradeOfferEuiClosed(EntityUid mindId, TraitorUltraOfferEui eui)
+    {
+        if (_openUpgradeOfferEuis.TryGetValue(mindId, out var openEui) &&
+            ReferenceEquals(openEui, eui))
+        {
+            _openUpgradeOfferEuis.Remove(mindId);
+        }
+    }
+
+    private void DeclineUpgradeOffer(EntityUid mindId, MindComponent mind, TraitorUltraMindState state, string popup)
+    {
+        state.Stage = TraitorUltraStage.Declined;
+        CloseUpgradeOfferEui(mindId);
+        RemoveUpgradeOfferAction(state);
+        ShowPopup(mind, popup, PopupType.Large);
+    }
+
     public void HandleUpgradeOffer(EntityUid rule, EntityUid mindId, bool accepted)
     {
         if (!TryComp<TraitorUltraRuleComponent>(rule, out var component) ||
@@ -224,13 +339,20 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
             return;
         }
 
-        if (!accepted)
+        if (Timing.CurTime >= state.NextEventTime)
         {
-            state.Stage = TraitorUltraStage.Declined;
-            ShowPopup(mind, "traitor-ultra-offer-declined-popup", PopupType.Large);
+            DeclineUpgradeOffer(mindId, mind, state, "traitor-ultra-offer-expired-popup");
             return;
         }
 
+        if (!accepted)
+        {
+            DeclineUpgradeOffer(mindId, mind, state, "traitor-ultra-offer-declined-popup");
+            return;
+        }
+
+        CloseUpgradeOfferEui(mindId);
+        RemoveUpgradeOfferAction(state);
         UpgradeTraitor(rule, component, mindId, mind, state);
     }
 

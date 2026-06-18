@@ -1,0 +1,16 @@
+- type: entity
+  parent: BaseMentalAction
+  id: ActionTraitorUltraOpenContract
+  name: traitor-ultra-contract-action-name
+  description: traitor-ultra-contract-action-description
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    useDelay: 1
+    itemIconStyle: BigAction
+    priority: 10
+    icon:
+      sprite: Objects/Misc/bureaucracy.rsi
+      state: paper_stamp-syndicate
+  - type: InstantAction
+    event: !type:TraitorUltraOpenContractActionEvent
