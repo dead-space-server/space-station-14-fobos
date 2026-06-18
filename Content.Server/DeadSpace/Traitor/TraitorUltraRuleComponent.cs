@@ -34,7 +34,7 @@ public sealed partial class TraitorUltraRuleComponent : Component
     public TimeSpan RewardDelay = TimeSpan.FromSeconds(10);
 
     [DataField]
-    public FixedPoint2 UpgradeTelecrystals = 10;
+    public FixedPoint2 UpgradeTelecrystals = 15;
 
     [DataField]
     public FixedPoint2 TraitorKillRewardTelecrystals = 8;

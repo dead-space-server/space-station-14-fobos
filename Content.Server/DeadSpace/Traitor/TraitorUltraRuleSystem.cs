@@ -16,6 +16,7 @@ using Content.Server.Store.Systems;
 using Content.Server.Traitor.Uplink;
 using Content.Shared.Access.Components;
 using Content.Shared.Access.Systems;
+using Content.Shared.Administration.Logs;
 using Content.Shared.Backmen.Economy;
 using Content.Shared.Cargo;
 using Content.Shared.Cargo.Components;
@@ -56,9 +57,11 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 {
     private const int SourceParentSearchDepth = 8;
 
+    [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
     [Dependency] private readonly AntagSelectionSystem _antag = default!;
     [Dependency] private readonly BankManagerSystem _bankManager = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
+    [Dependency] private readonly ISharedChatManager _chatManager = default!;
     [Dependency] private readonly SharedCargoSystem _cargo = default!;
     [Dependency] private readonly EuiManager _eui = default!;
     [Dependency] private readonly SharedIdCardSystem _idCard = default!;
@@ -558,7 +561,20 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         AddTelecrystals(mind, component.UpgradeTelecrystals, component);
         SendUpgradeBriefing(mind, component, state);
         AppendUpgradeBriefing(mindId, state);
+        LogTraitorUltraUpgrade(mindId, mind, state);
         QueueDelayedAction(component.BountyPreparationTime, rule, mindId, TraitorUltraDelayedActionType.AnnounceBounty);
+    }
+
+    private void LogTraitorUltraUpgrade(EntityUid mindId, MindComponent mind, TraitorUltraMindState state)
+    {
+        var characterName = state.AgentName ?? GetMindCharacterName(mind) ?? Loc.GetString("generic-unknown-title");
+        var playerName = TryGetSession(mind, out var session) ? session.Name : Loc.GetString("generic-unknown-title");
+        var oldCorporation = LocalizeCorporation(state.OriginalCorporation);
+        var newCorporation = LocalizeCorporation(state.NewCorporation);
+        var message = $"Агент {characterName} ({playerName}) стал ультра-предателем: {oldCorporation} -> {newCorporation}.";
+
+        _chatManager.SendAdminAlert(message);
+        _adminLogger.Add(LogType.AntagSelection, LogImpact.High, $"{ToPrettyString(mindId)} became TraitorUltra. Player: {playerName}, character: {characterName}, corporation: {oldCorporation} -> {newCorporation}.");
     }
 
     private bool TryAssignPostUpgradeObjective(Entity<MindComponent> mind, TraitorUltraRuleComponent component, TraitorUltraMindState state)

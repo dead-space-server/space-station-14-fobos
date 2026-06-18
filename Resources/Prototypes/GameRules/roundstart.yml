@@ -259,7 +259,7 @@
   id: TraitorUltra
   components:
   - type: TraitorRule
-    startingBalance: 30
+    startingBalance: 50
   - type: TraitorUltraRule
   - type: AntagSelection
     agentName: traitor-ultra-round-end-agent-name
