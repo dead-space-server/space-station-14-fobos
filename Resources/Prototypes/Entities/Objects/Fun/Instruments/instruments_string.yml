@@ -80,7 +80,8 @@
         Slash: 2
 # DS14-start
   - type: Tag
-    id: RockGuitarInstrument
+    tags:
+    - RockGuitarInstrument
 # DS14-end
 
 - type: entity
