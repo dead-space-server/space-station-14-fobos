@@ -1,9 +1,9 @@
-traitor-ultra-title = Traitors Plus
+traitor-ultra-title = Traitors ULTRA
 traitor-ultra-description = More agents, harder contracts, and a chance to escalate into open corporate warfare.
-traitor-ultra-round-end-agent-name = traitor plus
+traitor-ultra-round-end-agent-name = traitor ULTRA
 
-role-subtype-traitor-ultra = Traitor Plus
-roles-antag-syndicate-agent-ultra-name = Traitor Plus
+role-subtype-traitor-ultra = Traitor ULTRA
+roles-antag-syndicate-agent-ultra-name = Traitor ULTRA
 roles-antag-syndicate-agent-ultra-objective = You accepted an escalation contract. Survive the hunt and complete your new orders.
 store-category-ultra = Ultra
 
@@ -61,3 +61,6 @@ traitor-ultra-objective-destroy-servers-description = Destroy or dismantle crew 
 
 ent-TraitorUltraHijackShuttleObjective = Hijack the evacuation shuttle
     .desc = Leave the sector on the evacuation shuttle with no loyal NanoTrasen crew aboard. Any method is authorized.
+
+ent-TraitorUltraSurviveObjective = Survive
+    .desc = Stay alive until the end of the shift.

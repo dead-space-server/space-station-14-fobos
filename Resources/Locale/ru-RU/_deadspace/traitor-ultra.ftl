@@ -1,9 +1,9 @@
-traitor-ultra-title = Предатели плюс
+traitor-ultra-title = Предатели УЛЬТРА
 traitor-ultra-description = Больше агентов, жестче контракты и шанс перейти к открытой корпоративной войне.
-traitor-ultra-round-end-agent-name = предатель плюс
+traitor-ultra-round-end-agent-name = предатель УЛЬТРА
 
-role-subtype-traitor-ultra = Предатель плюс
-roles-antag-syndicate-agent-ultra-name = Предатель плюс
+role-subtype-traitor-ultra = Предатель УЛЬТРА
+roles-antag-syndicate-agent-ultra-name = Предатель УЛЬТРА
 roles-antag-syndicate-agent-ultra-objective = Вы приняли контракт на эскалацию. Переживите охоту и выполните новые приказы.
 store-category-ultra = Ультра
 
@@ -73,3 +73,6 @@ traitor-ultra-objective-destroy-servers-description = Уничтожьте ил�
 
 ent-TraitorUltraHijackShuttleObjective = Угон эвакуационного шаттла
     .desc = Покиньте сектор на эвакуационном шаттле без лояльного экипажа NanoTrasen на борту. Разрешены любые методы, так возьмите кисть и окрасьте эту станцию в красный.
+
+ent-TraitorUltraSurviveObjective = Выжить
+    .desc = Останьтесь в живых до конца смены.

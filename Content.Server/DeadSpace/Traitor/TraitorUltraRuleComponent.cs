@@ -115,6 +115,9 @@ public sealed partial class TraitorUltraRuleComponent : Component
     };
 
     [DataField]
+    public EntProtoId PostUpgradeSurviveObjective = "TraitorUltraSurviveObjective";
+
+    [DataField]
     public float RarePostUpgradeObjectiveProbability = 0.15f;
 
     [DataField]

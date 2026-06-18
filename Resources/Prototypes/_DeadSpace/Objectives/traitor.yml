@@ -120,6 +120,16 @@
   - type: TraitorUltraHijackShuttleCondition
 
 - type: entity
+  parent: [BaseTraitorObjective, BaseSurviveObjective]
+  id: TraitorUltraSurviveObjective
+  components:
+  - type: Objective
+    difficulty: 1
+    icon:
+      sprite: Objects/Weapons/Melee/e_sword.rsi
+      state: icon
+
+- type: entity
   parent: BaseTraitorObjective
   id: TraitorUltraDestroyServersObjective
   components:

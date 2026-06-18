@@ -512,6 +512,9 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         if (!TryAssignPostUpgradeObjective((mindId, mind), component, state))
             Log.Error($"Failed to assign a post-upgrade TraitorUltra objective to {ToPrettyString(mindId)}.");
 
+        if (!TryAssignPostUpgradeSurviveObjective((mindId, mind), component, state.NewCorporation))
+            Log.Error($"Failed to assign a post-upgrade TraitorUltra survive objective to {ToPrettyString(mindId)}.");
+
         AddTelecrystals(mind, component.UpgradeTelecrystals, component);
         SendUpgradeBriefing(mind, component, state);
         AppendUpgradeBriefing(mindId, state);
@@ -530,6 +533,11 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
             return true;
 
         return TryPickObjective(mind, component.RarePostUpgradeObjectives, state.NewCorporation, out _);
+    }
+
+    private bool TryAssignPostUpgradeSurviveObjective(Entity<MindComponent> mind, TraitorUltraRuleComponent component, string? issuer)
+    {
+        return TryCreateAndAddObjective(mind, component.PostUpgradeSurviveObjective, issuer, out _);
     }
 
     private void UpgradeTraitorRole(EntityUid mindId, MindComponent mind)
