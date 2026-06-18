@@ -185,6 +185,9 @@
   id: GrenadeCleanade
 
 - type: Tag
+  id: RockGuitarInstrument
+
+- type: Tag
   id: HardHat
 
 - type: Tag

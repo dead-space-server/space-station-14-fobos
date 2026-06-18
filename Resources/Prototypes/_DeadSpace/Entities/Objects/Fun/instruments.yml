@@ -1,0 +1,43 @@
+- type: entity
+  parent: BaseHandheldInstrument
+  id: DoubleRockGuitarInstrument
+  name: рок-гитара с двойным грифом
+  description: Держа её в руках, вы почувствуете себя МЕГА-КРУТЫМ. Rock N Roll Baby!
+  components:
+  - type: Instrument
+    program: 29
+  - type: SwappableInstrument
+    instrumentList:
+      "Overdrive": {29: 0}
+      "Distortion": {30: 0}
+      "Harmonics": {31: 0}
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Fun/doublerockguitar.rsi
+  - type: MeleeWeapon
+    wideAnimationRotation: 45
+    damage:
+      types:
+        Blunt: 6
+        Slash: 2
+    soundHit:
+      path: /Audio/Weapons/guitarsmash.ogg
+      params:
+        volume: -7
+        maxDistance: 10
+  - type: Wieldable
+  - type: IncreaseDamageOnWield #they don't call it an axe for nothing
+    damage:
+      types:
+        Blunt: 4
+        Slash: 2
+  - type: Clothing
+    quickEquip: false
+    slots:
+    - back
+    - suitStorage
+  - type: Tag
+    tags:
+    - StringInstrument
+  - type: Construction
+    graph: DoubleRockGraph
+    node: doublerockguitar
