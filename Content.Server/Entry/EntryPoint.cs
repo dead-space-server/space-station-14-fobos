@@ -159,7 +159,7 @@ namespace Content.Server.Entry
         private static void ApplyServerPerformanceDefaults(IConfigurationManager cfg)
         {
 #if RELEASE
-            cfg.SetCVar(CVars.TargetMinimumTickrate, 45);
+            cfg.SetCVar(CVars.TargetMinimumTickrate, 20);
             cfg.SetCVar(CVars.VelocityIterations, 6);
             cfg.SetCVar(CVars.NetTickrate, 20);
             cfg.SetCVar(CVars.NetMaxUpdateRange, 24f);
