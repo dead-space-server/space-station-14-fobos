@@ -486,6 +486,7 @@
       Plasteel: 200
       Plastic: 100
       Plasma: 1500
+  - type: IgnoreContactDamage
   # DS14-end
 
 #Chief Medical Officer's Hardsuit
