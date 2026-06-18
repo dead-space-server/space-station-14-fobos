@@ -56,7 +56,7 @@
 - type: entity
   name: лазерный заряд
   id: DominatorBullet
-  parent: EmitterBolt
+  parent: BaseEmitterProjectile
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite

@@ -240,8 +240,10 @@ namespace Content.Server.Singularity.EntitySystems
 
             var xform = Transform(uid);
             var ent = Spawn(component.BoltType, xform.Coordinates);
-            var proj = EnsureComp<ProjectileComponent>(ent);
-            _projectile.SetShooter(ent, proj, uid);
+            // DS14-start: emitter bolt can be hitscan; keep projectile setup for alternate bolt types.
+            if (TryComp<ProjectileComponent>(ent, out var proj))
+                _projectile.SetShooter(ent, proj, uid);
+            // DS14-end
 
             var targetPos = new EntityCoordinates(uid, new Vector2(0, -1));
 

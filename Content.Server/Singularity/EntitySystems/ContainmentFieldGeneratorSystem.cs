@@ -8,6 +8,8 @@ using Content.Shared.Interaction;
 using Content.Shared.Popups;
 using Content.Shared.Singularity.Components;
 using Content.Shared.Tag;
+using Content.Shared.Weapons.Hitscan.Components;
+using Content.Shared.Weapons.Hitscan.Events;
 using Robust.Server.GameObjects;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
@@ -31,6 +33,7 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
         base.Initialize();
 
         SubscribeLocalEvent<ContainmentFieldGeneratorComponent, StartCollideEvent>(HandleGeneratorCollide);
+        SubscribeLocalEvent<HitscanBasicRaycastComponent, HitscanRaycastFiredEvent>(HandleGeneratorHitscan);
         SubscribeLocalEvent<ContainmentFieldGeneratorComponent, ExaminedEvent>(OnExamine);
         SubscribeLocalEvent<ContainmentFieldGeneratorComponent, ActivateInWorldEvent>(OnActivate);
         SubscribeLocalEvent<ContainmentFieldGeneratorComponent, AnchorStateChangedEvent>(OnAnchorChanged);
@@ -81,6 +84,21 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
             generator.Comp.Accumulator = 0f;
         }
     }
+
+    // DS14-start: emitter bolts use hitscan and no longer raise physics collision events.
+    private void HandleGeneratorHitscan(Entity<HitscanBasicRaycastComponent> ent, ref HitscanRaycastFiredEvent args)
+    {
+        if (args.Data.HitEntity is not { } hit ||
+            !TryComp<ContainmentFieldGeneratorComponent>(hit, out var generator) ||
+            !_tags.HasTag(ent.Owner, generator.IDTag))
+        {
+            return;
+        }
+
+        ReceivePower(generator.PowerReceived, (hit, generator));
+        generator.Accumulator = 0f;
+    }
+    // DS14-end
 
     private void OnExamine(EntityUid uid, ContainmentFieldGeneratorComponent component, ExaminedEvent args)
     {

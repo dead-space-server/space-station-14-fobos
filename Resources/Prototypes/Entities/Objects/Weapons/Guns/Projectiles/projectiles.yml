@@ -390,10 +390,12 @@
       collection: WeakHit
     forceSound: true
 
+# DS14-start: keep a physical emitter-like base for legacy projectile prototypes.
 - type: entity
   name: emitter bolt
-  id: EmitterBolt
+  id: BaseEmitterProjectile
   parent: BaseBullet
+  abstract: true
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -426,6 +428,31 @@
     - EmitterBolt
   - type: TimedDespawn
     lifetime: 3
+
+- type: entity
+  name: emitter bolt
+  id: EmitterBolt
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: HitscanAmmo
+  - type: HitscanBasicRaycast
+    collisionMask: Opaque
+    maxDistance: 64
+  - type: HitscanBasicVisuals
+    speed: 260
+    bullet:
+      sprite:
+        sprite: Structures/Power/Generation/Singularity/emitter.rsi
+        state: projectile
+  - type: HitscanBasicDamage
+    damage:
+      types:
+        Heat: 14
+  - type: GatheringProjectile
+  - type: Tag
+    tags:
+    - EmitterBolt
+# DS14-end
 
 - type: entity
   name: watcher bolt
