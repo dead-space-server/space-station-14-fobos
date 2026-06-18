@@ -102,6 +102,16 @@ public sealed class DominatorSystem : EntitySystem
 
     private void OnInteractHandEvent(EntityUid uid, DominatorComponent component, ActivateInWorldEvent args)
     {
+        if (HasComp<EmaggedComponent>(uid))
+            return;
+
+        if (component.OwnerIdCard == null || component.OwnerIdCard != component.LastHoldingIdCard)
+        {
+            args.Handled = true;
+            _popupSystem.PopupClient(Loc.GetString("dominator-permission-denied"), uid, args.User);
+            return;
+        }
+
         if (component.FireModes.Count < 2)
             return;
 
