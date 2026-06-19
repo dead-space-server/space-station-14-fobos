@@ -93,11 +93,6 @@ public sealed class TrayScannerSystem : SharedTrayScannerSystem
                 if (comp.IsUnderCover || _trayScanReveal.IsUnderRevealingEntity(uid))
                     EnsureComp<TrayRevealedComponent>(uid);
             }
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
 
             // DS-14 Start
             var ninjas = EntityQueryEnumerator<SpaceNinjaComponent, TransformComponent>();
@@ -108,20 +103,12 @@ public sealed class TrayScannerSystem : SharedTrayScannerSystem
                 {
                     if (TryComp<SpriteComponent>(uid, out var sprite))
                     {
-<<<<<<< Updated upstream
-                        _sprite.SetVisible((uid, sprite), false);
-=======
                         _sprite.SetVisible((uid, sprite), true);
->>>>>>> Stashed changes
                     }
                 }
 
             }
             // DS-14 End
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
->>>>>>> Stashed changes
         }
 
         var revealedQuery = AllEntityQuery<TrayRevealedComponent, SpriteComponent>();
