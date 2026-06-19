@@ -4,7 +4,6 @@ using Content.Shared.DeadSpace.CCCCVars;
 using Content.Shared.Maps;
 using Content.Shared.Mind.Components;
 using Content.Shared.Placeable;
-using Content.Server.Mapping;
 using Robust.Shared.Configuration;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
@@ -52,7 +51,6 @@ public sealed class PhysicsSanitySystem : EntitySystem
 
     private EntityQuery<ActorComponent> _actorQuery;
     private EntityQuery<MapGridComponent> _gridQuery;
-    private EntityQuery<MappingModeComponent> _mappingModeQuery;
     private EntityQuery<MindContainerComponent> _mindQuery;
     private EntityQuery<PlaceableSurfaceComponent> _placeableSurfaceQuery;
     private EntityQuery<PhysicsComponent> _physicsQuery;
@@ -80,7 +78,6 @@ public sealed class PhysicsSanitySystem : EntitySystem
 
         _actorQuery = GetEntityQuery<ActorComponent>();
         _gridQuery = GetEntityQuery<MapGridComponent>();
-        _mappingModeQuery = GetEntityQuery<MappingModeComponent>();
         _mindQuery = GetEntityQuery<MindContainerComponent>();
         _placeableSurfaceQuery = GetEntityQuery<PlaceableSurfaceComponent>();
         _physicsQuery = GetEntityQuery<PhysicsComponent>();
@@ -197,7 +194,7 @@ public sealed class PhysicsSanitySystem : EntitySystem
         }
 
         if (xform.MapID == MapId.Nullspace ||
-            IsMappingMap(xform.MapID) ||
+            IsPausedMap(xform.MapID) ||
             xform.GridUid == null ||
             xform.ParentUid != xform.GridUid.Value ||
             xform.Anchored)
@@ -237,14 +234,14 @@ public sealed class PhysicsSanitySystem : EntitySystem
         return hasBlockingStaticOverlap;
     }
 
-    private bool IsMappingMap(MapId mapId)
-    {
-        return _map.TryGetMap(mapId, out var mapUid) && _mappingModeQuery.HasComp(mapUid.Value);
-    }
-
     private bool IsPlaceableSurfaceContact(EntityUid uid)
     {
         return _placeableSurfaceQuery.TryComp(uid, out var surface) && surface.IsPlaceable;
+    }
+
+    private bool IsPausedMap(MapId mapId)
+    {
+        return _map.TryGetMap(mapId, out var mapUid) && _map.IsPaused((mapUid.Value, null));
     }
 
     private bool ResolveStuckBody(EntityUid uid)
