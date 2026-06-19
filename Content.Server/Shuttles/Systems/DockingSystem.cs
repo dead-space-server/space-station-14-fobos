@@ -240,8 +240,6 @@ namespace Content.Server.Shuttles.Systems
                     out var stiffness,
                     out var damping);
 
-                // These need playing around with
-                // Could also potentially have collideconnected false and stiffness 0 but it was a bit more suss???
                 WeldJoint joint;
 
                 // Pre-existing joint so use that.
@@ -264,7 +262,7 @@ namespace Content.Server.Shuttles.Systems
                 joint.LocalAnchorA = anchorA;
                 joint.LocalAnchorB = anchorB;
                 joint.ReferenceAngle = (float)(_transform.GetWorldRotation(gridBXform) - _transform.GetWorldRotation(gridAXform));
-                joint.CollideConnected = true;
+                joint.CollideConnected = false;
                 joint.Stiffness = stiffness;
                 joint.Damping = damping;
 

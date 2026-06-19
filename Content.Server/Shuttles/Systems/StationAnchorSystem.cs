@@ -74,10 +74,12 @@ public sealed class StationAnchorSystem : EntitySystem
         if (enabled)
         {
             _shuttleSystem.Disable(grid.Value);
+            _shuttleSystem.SetDockedShuttleParking(grid.Value, true);
         }
         else
         {
             _shuttleSystem.Enable(grid.Value);
+            _shuttleSystem.SetDockedShuttleParking(grid.Value, false);
         }
 
         shuttleComponent.Enabled = !enabled;
