@@ -281,7 +281,7 @@
 - type: entity
   id: DominatorBulletTrace
   name: eliminator
-  parent: EnergyBoltTrace
+  parent: BulletLaserTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: HitscanBasicVisuals
