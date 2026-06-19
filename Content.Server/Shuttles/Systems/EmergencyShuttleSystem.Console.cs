@@ -26,7 +26,6 @@ using Robust.Shared.Map.Components;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Timer = Robust.Shared.Timing.Timer;
-using Content.Shared.Emag.Systems; // DS14: Emag support
 
 namespace Content.Server.Shuttles.Systems;
 
@@ -144,14 +143,6 @@ public sealed partial class EmergencyShuttleSystem
         SubscribeLocalEvent<EmergencyShuttleConsoleComponent, EmergencyShuttleHijackCancelMessage>(OnEmergencyHijackCancel);
         // DS14-end
 
-        SubscribeLocalEvent<EmergencyShuttleConsoleComponent, GotEmaggedEvent>(OnEmagged);
-    }
-
-    // DS14: Emag support for early launch
-    private void OnEmagged(EntityUid uid, EmergencyShuttleConsoleComponent component, ref GotEmaggedEvent args)
-    {
-        _logger.Add(LogType.EmergencyShuttle, LogImpact.Extreme, $"{ToPrettyString(args.UserUid):player} emagged shuttle console for early launch");
-        EarlyLaunch();
     }
 
     private void SetAuthorizeTime(float obj)
