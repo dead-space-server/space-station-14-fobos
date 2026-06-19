@@ -20,24 +20,33 @@
   name: боевые перчатки
   suffix: Akitovsky
 
-# Шлем Дельта песочный
 - type: entity
-  parent: ClothingHeadHelmetSecurityFlashlight
-  id: ClothingHeadHelmetAkiDeltaSand
-  name: шлем
+  abstract: true
+  id: ClothingHeadHelmetNVD
+  components:
+  - type: Foldable
+    canFoldInsideContainer: true
+    unfoldVerbText: unlower-nvd
+    foldVerbText: lower-nvd
+  - type: FoldableClothing
+    foldedEquippedPrefix: lowered
+  - type: PNV
+    color: "#AFC4D111"
+    activateSound: 
+      path: /Audio/_DeadSpace/NightVision/pnv.ogg
+
+# Шлем Дельта песочный с ПНВ
+- type: entity
+  parent: [ ClothingHeadHelmetBasic, ClothingHeadHelmetNVD ]
+  id: ClothingHeadHelmetAkiDeltaSandNVD
+  name: шлем с ПНВ
   description: Стандартная защитная экипировка. Защищает голову от ударов.
   suffix: Akitovsky, Песок
   components:
   - type: Sprite
-    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Helmets/helmetsand.rsi
-    layers:
-    - state: icon
-    - state: light-icon
-      shader: unshaded
-      visible: false
-      map: [ "light" ]
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Helmets/desert_m10NVD.rsi
   - type: Clothing
-    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Helmets/helmetsand.rsi
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Helmets/desert_m10NVD.rsi
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -103,17 +112,13 @@
   parent: ClothingEyesGlassesSecurity
   id: ClothingEyesGlassesAkiDeltaSand
   name: тактические очки спецназа
-  description: Очки с индикатором на стекле, который сканирует сущности в поле зрения и предоставляет данные об их идентификационном статусе и записях в системе безопасности. Также имеют в себе встроенный ПНВ.
+  description: Очки с индикатором на стекле, который сканирует сущности в поле зрения и предоставляет данные об их идентификационном статусе и записях в системе безопасности.
   suffix: Akitovsky, Песок
   components:
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Glasses/tactical_glasses_sand.rsi
   - type: Clothing
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Glasses/tactical_glasses_sand.rsi
-  - type: PNV
-    color: "#AFC4D111"
-    activateSound: 
-      path: /Audio/_DeadSpace/NightVision/pnv.ogg
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -122,17 +127,13 @@
   parent: ClothingEyesGlassesSecurity
   id: ClothingEyesGlassesAkiDeltaBlack
   name: тактические очки спецназа
-  description: Очки с индикатором на стекле, который сканирует сущности в поле зрения и предоставляет данные об их идентификационном статусе и записях в системе безопасности. Также имеют в себе встроенный ПНВ.
+  description: Очки с индикатором на стекле, который сканирует сущности в поле зрения и предоставляет данные об их идентификационном статусе и записях в системе безопасности.
   suffix: Akitovsky
   components:
   - type: Sprite
     sprite: _DeadSpace/Clothing/Eyes/tactical_glasses.rsi
   - type: Clothing
     sprite: _DeadSpace/Clothing/Eyes/tactical_glasses.rsi
-  - type: PNV
-    color: "#AFC4D111"
-    activateSound: 
-      path: /Audio/_DeadSpace/NightVision/pnv.ogg
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
