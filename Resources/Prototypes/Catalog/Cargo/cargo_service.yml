@@ -248,7 +248,7 @@
   product: CrateServicePhotocopierToners
   cost: 1000
   category: cargoproduct-category-name-service
-  group: service # DS14
+  group: service
 
 - type: cargoProduct
   id: SpaceCleanerTankFull
@@ -256,6 +256,8 @@
     sprite: _ADT/Structures/Storage/tanks.rsi
     state: watertank-2
   product: SpaceCleanerTankFull
-  cost: 1500
+  cost: 5500
   category: cargoproduct-category-name-service
-  group: service # DS14
+  group: service
+
+# DS14-end
