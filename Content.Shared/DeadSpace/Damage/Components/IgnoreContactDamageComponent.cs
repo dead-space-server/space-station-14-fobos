@@ -1,6 +1,6 @@
 namespace Content.Shared.DeadSpace.Damage.Components;
 
-[RegisterComponent]
+[RegisterComponent, NetworkedComponent]
 public sealed partial class IgnoreContactDamageComponent : Component
 {
     
