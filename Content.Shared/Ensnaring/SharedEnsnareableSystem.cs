@@ -105,6 +105,7 @@ public abstract class SharedEnsnareableSystem : EntitySystem
     {
         component.WalkSpeed *= args.WalkSpeed;
         component.SprintSpeed *= args.SprintSpeed;
+        Dirty(uid, component);
 
         _speedModifier.RefreshMovementSpeedModifiers(uid);
 
@@ -116,6 +117,7 @@ public abstract class SharedEnsnareableSystem : EntitySystem
     {
         component.WalkSpeed /= args.WalkSpeed;
         component.SprintSpeed /= args.SprintSpeed;
+        Dirty(uid, component);
 
         _speedModifier.RefreshMovementSpeedModifiers(uid);
 
@@ -296,7 +298,7 @@ public abstract class SharedEnsnareableSystem : EntitySystem
 
         UpdateAlert(target, ensnareable);
         var ev = new EnsnareRemoveEvent(component.WalkSpeed, component.SprintSpeed);
-        RaiseLocalEvent(ensnare, ev);
+        RaiseLocalEvent(target, ev);
     }
 
     /// <summary>

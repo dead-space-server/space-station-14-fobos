@@ -77,3 +77,12 @@
   targetNode: shotgunBread
   category: construction-category-weapons
   objectType: Item
+
+- type: construction
+  id: DoubleRockCraft
+  graph: DoubleRockGraph
+  startNode: start
+  targetNode: doublerockguitar
+  category: construction-category-weapons
+  objectType: Item
+

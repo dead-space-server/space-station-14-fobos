@@ -13,6 +13,7 @@
   metamorphicChangeColor: false
   recognizable: true
   standsout: true
+  decorativePuddle: true # DS14
   physicalDesc: reagent-physical-desc-ferrous
   metabolisms:
     Drink:
@@ -166,6 +167,7 @@
   physicalDesc: reagent-physical-desc-necrotic
   flavor: bitter
   color: "#2b0700"
+  decorativePuddle: true # DS14
   metabolisms:
     Drink:
       # Disgusting!

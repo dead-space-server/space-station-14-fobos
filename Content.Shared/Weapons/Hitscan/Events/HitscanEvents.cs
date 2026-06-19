@@ -35,6 +35,12 @@ public record struct HitscanTraceEvent
     /// Target that was being aimed at (Not necessarily hit).
     /// </summary>
     public EntityUid? Target;
+
+    // DS14-start: collected visual trace segments for reflected hitscans.
+    public List<HitscanTrace>? OutputTrace;
+
+    public List<EntityUid>? IgnoredEntities;
+    // DS14-end
 }
 
 /// <summary>
@@ -61,6 +67,19 @@ public record struct HitscanRaycastFiredData
     /// Player who shot the gun, if null the gun was fired by itself.
     /// </summary>
     public EntityUid? Shooter;
+
+    /// <summary>
+    /// Target that was being aimed at (Not necessarily hit).
+    /// </summary>
+    public EntityUid? Target;
+
+    // DS14-start: collected visual trace segments for reflected hitscans.
+    public List<HitscanTrace>? OutputTrace;
+
+    public List<EntityUid>? IgnoredEntities;
+
+    public MapCoordinates? HitPosition;
+    // DS14-end
 }
 
 /// <summary>
@@ -107,4 +126,8 @@ public record struct HitscanDamageDealtEvent
     /// The amount of damage that the target was dealt.
     /// </summary>
     public DamageSpecifier DamageDealt;
+
+    // DS14-start: expose raycast context for follow-up hitscan effects like penetration.
+    public HitscanRaycastFiredData Data;
+    // DS14-end
 }

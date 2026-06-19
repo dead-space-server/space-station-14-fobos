@@ -29,6 +29,7 @@ chat-radio-hivemind = Улей
 chat-radio-source-unknown = Неизвестно
 chat-radio-shadowling = Тенеморф
 chat-radio-soc = КСО
+chat-radio-carpdragon = Общий разум
 
 # DS14
 chat-radio-message-wrap-lang = [bold][color={ $channel-color }]{ $channel } [/color][color={ $headset-color }]{ $job }{ $name }[/bold][/color][color={ $channel-color }] { $verb } ({ $language }): [font={ $fontType } size={ $fontSize }]"{ $message }"[/font][/color]

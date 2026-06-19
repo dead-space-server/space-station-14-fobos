@@ -23,7 +23,7 @@ public sealed partial class ObjectiveComponent : Component
     /// Organisation that issued this objective, used for grouping and as a header above common objectives.
     /// </summary>
     [DataField("issuer", required: true)]
-    private LocId Issuer { get; set; }
+    public LocId Issuer { get; set; } // DS14: dynamic corporation issuers.
 
     [ViewVariables(VVAccess.ReadOnly)]
     public string LocIssuer => Loc.GetString(Issuer);

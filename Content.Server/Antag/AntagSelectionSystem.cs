@@ -240,6 +240,8 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
     {
         base.Started(uid, component, gameRule, args);
 
+        EnsureAssignmentDelayStarted(component); // DS14
+
         // If the round has not yet started, we defer antag selection until roundstart
         if (GameTicker.RunLevel != GameRunLevel.InRound)
             return;
@@ -255,6 +257,22 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
         ChooseAntags((uid, component), players, midround: true);
         AssignPreSelectedSessions((uid, component));
     }
+
+    // DS14-start
+    protected override void ActiveTick(EntityUid uid, AntagSelectionComponent component, GameRuleComponent gameRule, float frameTime)
+    {
+        base.ActiveTick(uid, component, gameRule, frameTime);
+
+        if (component.AssignmentDelay == null ||
+            component.AssignmentComplete ||
+            !component.PreSelectionsComplete)
+        {
+            return;
+        }
+
+        AssignPreSelectedSessions((uid, component));
+    }
+    // DS14-end
 
     /// <summary>
     /// Chooses antagonists from the given selection of players
@@ -284,9 +302,9 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
         AntagSelectionDefinition def,
         bool midround = false)
     {
-        var playerPool = GetPlayerPool(ent, pool, def);
         var existingAntagCount = ent.Comp.PreSelectedSessions.TryGetValue(def, out var existingAntags) ? existingAntags.Count : 0;
         var count = GetTargetAntagCount(ent, GetTotalPlayerCount(pool), def) - existingAntagCount;
+        var playerPool = GetPlayerPool(ent, pool, def, count); // DS14
 
         // if there is both a spawner and players getting picked, let it fall back to a spawner.
         var noSpawner = def.SpawnerPrototype == null;
@@ -337,7 +355,7 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
     public void AssignPreSelectedSessions(Entity<AntagSelectionComponent> ent)
     {
         // Only assign if there's been a pre-selection, and the selection hasn't already been made
-        if (!ent.Comp.PreSelectionsComplete || ent.Comp.AssignmentComplete)
+        if (!ent.Comp.PreSelectionsComplete || ent.Comp.AssignmentComplete || !CanAssignPreSelected(ent.Comp)) // DS14
             return;
 
         foreach (var def in ent.Comp.Definitions)
@@ -353,6 +371,25 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
 
         ent.Comp.AssignmentComplete = true;
     }
+
+    // DS14-start
+    private bool CanAssignPreSelected(AntagSelectionComponent component)
+    {
+        if (component.AssignmentDelay == null)
+            return true;
+
+        EnsureAssignmentDelayStarted(component);
+        return component.AssignAt != null && Timing.CurTime >= component.AssignAt.Value;
+    }
+
+    private void EnsureAssignmentDelayStarted(AntagSelectionComponent component)
+    {
+        if (component.AssignmentDelay == null || component.AssignAt != null)
+            return;
+
+        component.AssignAt = Timing.CurTime + TimeSpan.FromSeconds(component.AssignmentDelay.Value.Next(RobustRandom));
+    }
+    // DS14-end
 
     /// <summary>
     /// Tries to makes a given player into the specified antagonist.
@@ -503,11 +540,18 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
     /// <summary>
     /// Gets an ordered player pool based on player preferences and the antagonist definition.
     /// </summary>
-    public AntagSelectionPlayerPool GetPlayerPool(Entity<AntagSelectionComponent> ent, IList<ICommonSession> sessions, AntagSelectionDefinition def)
+    // DS14-start
+    public AntagSelectionPlayerPool GetPlayerPool(
+        Entity<AntagSelectionComponent> ent,
+        IList<ICommonSession> sessions,
+        AntagSelectionDefinition def,
+        int selectionCount = 0)
+    // DS14-end
     {
         var priorityList = new List<ICommonSession>();
         var preferredList = new List<ICommonSession>();
         var fallbackList = new List<ICommonSession>();
+        var useSponsorsPriority = def.SponsorsPriority || def.SponsorsPriorityRatio != null; // DS14
         foreach (var session in sessions)
         {
             if (!IsSessionValid(ent, session, def) || !IsEntityValid(session.AttachedEntity, def))
@@ -516,8 +560,7 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
             if (ent.Comp.PreSelectedSessions.TryGetValue(def, out var preSelected) && preSelected.Contains(session))
                 continue;
 
-            // DS14-sponsors
-            if (HasPrimaryAntagPreference(session, def) && def.SponsorsPriority && _sponsorsManager != null && _sponsorsManager.TryCalcAntagPriority(session.UserId))
+            if (HasPrimaryAntagPreference(session, def) && useSponsorsPriority && _sponsorsManager != null && _sponsorsManager.TryCalcAntagPriority(session.UserId)) // DS14
             {
                 priorityList.Add(session);
             }
@@ -530,6 +573,15 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
                 fallbackList.Add(session);
             }
         }
+
+        // DS14-start
+        if (def.SponsorsPriorityRatio is { } sponsorsPriorityRatio && selectionCount > 0)
+        {
+            var ratio = Math.Clamp(sponsorsPriorityRatio, 0f, 1f);
+            var sponsorSlots = (int) Math.Ceiling(selectionCount * ratio);
+            return new AntagSelectionPlayerPool(priorityList, preferredList, fallbackList, sponsorSlots, selectionCount);
+        }
+        // DS14-end
 
         return new AntagSelectionPlayerPool(new() { priorityList, preferredList, fallbackList });
     }

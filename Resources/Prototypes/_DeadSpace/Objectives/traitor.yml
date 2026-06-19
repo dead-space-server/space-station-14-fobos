@@ -47,3 +47,128 @@
   - type: StealCondition
     stealGroup: PistolBlueShield
     owner: job-name-blue-shield-officer
+
+# Traitor Ultra
+
+- type: entity
+  parent: BaseTraitorObjective
+  id: TraitorUltraKillHalfSecurityObjective
+  components:
+  - type: Objective
+    difficulty: 5
+    unique: true
+    icon:
+      sprite: Objects/Weapons/Guns/Pistols/mk58.rsi
+      state: icon
+  - type: TraitorUltraKillDepartmentCondition
+    department: Security
+    targetFraction: 0.5
+    minTargets: 2
+    title: traitor-ultra-objective-kill-security-title
+    description: traitor-ultra-objective-kill-security-description
+
+- type: entity
+  parent: BaseTraitorObjective
+  id: TraitorUltraDestroyAtmosGasMinersObjective
+  components:
+  - type: Objective
+    difficulty: 4.5
+    unique: true
+    icon:
+      sprite: Structures/Piping/Atmospherics/miners.rsi
+      state: miner
+  - type: TraitorUltraSabotageCondition
+    title: traitor-ultra-objective-destroy-atmos-title
+    description: traitor-ultra-objective-destroy-atmos-description
+    groups:
+    - prototypes:
+      - GasMinerOxygen
+      - GasMinerOxygenStation
+      - GasMinerOxygenStationLarge
+    - prototypes:
+      - GasMinerNitrogen
+      - GasMinerNitrogenStation
+      - GasMinerNitrogenStationLarge
+
+- type: entity
+  parent: BaseTraitorObjective
+  id: TraitorUltraDestroyAmeControllerObjective
+  components:
+  - type: Objective
+    difficulty: 4
+    unique: true
+    icon:
+      sprite: Structures/Power/Generation/ame.rsi
+      state: control
+  - type: TraitorUltraSabotageCondition
+    title: traitor-ultra-objective-destroy-ame-title
+    description: traitor-ultra-objective-destroy-ame-description
+    groups:
+    - prototypes:
+      - AmeController
+
+- type: entity
+  parent: [BaseTraitorObjective, BaseLivingObjective]
+  id: TraitorUltraHijackShuttleObjective
+  components:
+  - type: Objective
+    difficulty: 5
+    unique: true
+    icon:
+      sprite: Objects/Tools/emag.rsi
+      state: icon
+  - type: TraitorUltraHijackShuttleCondition
+
+- type: entity
+  parent: [BaseTraitorObjective, BaseSurviveObjective]
+  id: TraitorUltraSurviveObjective
+  components:
+  - type: Objective
+    difficulty: 1
+    icon:
+      sprite: Objects/Weapons/Melee/e_sword.rsi
+      state: icon
+
+- type: entity
+  parent: BaseTraitorObjective
+  id: TraitorUltraDestroyServersObjective
+  components:
+  - type: Objective
+    difficulty: 4.5
+    unique: true
+    icon:
+      sprite: Structures/Machines/server.rsi
+      state: server-off
+  - type: TraitorUltraSabotageCondition
+    title: traitor-ultra-objective-destroy-servers-title
+    description: traitor-ultra-objective-destroy-servers-description
+    groups:
+    - required: 1
+      prototypes:
+      - CrewMonitoringServer
+    - required: 1
+      prototypes:
+      - SurveillanceCameraRouterConstructed
+      - SurveillanceCameraRouterEngineering
+      - SurveillanceCameraRouterSecurity
+      - SurveillanceCameraRouterScience
+      - SurveillanceCameraRouterSupply
+      - SurveillanceCameraRouterCommand
+      - SurveillanceCameraRouterService
+      - SurveillanceCameraRouterMedical
+      - SurveillanceCameraRouterGeneral
+      - SurveillanceCameraWirelessRouterConstructed
+      - SurveillanceCameraWirelessRouterEntertainment
+      - SurveillanceCameraWirelessRouterSecurity
+    - required: 3
+      prototypes:
+      - TelecomServer
+      - TelecomServerFilled
+      - TelecomServerFilledCommon
+      - TelecomServerFilledCargo
+      - TelecomServerFilledEngineering
+      - TelecomServerFilledMedical
+      - TelecomServerFilledScience
+      - TelecomServerFilledSecurity
+      - TelecomServerFilledService
+      - TelecomServerFilledCommand

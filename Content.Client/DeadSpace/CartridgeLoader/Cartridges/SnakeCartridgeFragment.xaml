@@ -1,0 +1,20 @@
+<cartridges:SnakeCartridgeFragment xmlns:cartridges="clr-namespace:Content.Client.DeadSpace.CartridgeLoader.Cartridges"
+                                     xmlns="https://spacestation14.io" Margin="1 0 2 0">
+    <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True">
+        <BoxContainer Orientation="Horizontal" Margin="4 2">
+            <Label Name="ScoreLabel" Text="Счёт: 0" StyleClasses="LabelBig" />
+            <Label Name="HighScoreLabel" Text="Рекорд: 0" StyleClasses="LabelBig" HorizontalExpand="True" HorizontalAlignment="Right" />
+        </BoxContainer>
+        <PanelContainer Name="BoardContainer" HorizontalExpand="True" VerticalExpand="True" Margin="4" />
+        <BoxContainer Orientation="Vertical" HorizontalAlignment="Center" Margin="4">
+            <Button Name="UpBtn" Text="▲" MinSize="40 32" />
+            <BoxContainer Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Name="LeftBtn" Text="◄" MinSize="40 32" />
+                <Control MinSize="8 0" />
+                <Button Name="RightBtn" Text="►" MinSize="40 32" />
+            </BoxContainer>
+            <Button Name="DownBtn" Text="▼" MinSize="40 32" />
+        </BoxContainer>
+        <Button Name="NewGameBtn" Text="Новая игра" HorizontalAlignment="Center" MinSize="120 32" Margin="4" />
+    </BoxContainer>
+</cartridges:SnakeCartridgeFragment>

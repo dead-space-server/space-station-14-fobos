@@ -157,6 +157,7 @@ public sealed class DemonShadowSystem : SharedDemonShadowSystem
         if (component.MovementSpeedMultiply != movementSpeedMultiply)
         {
             component.MovementSpeedMultiply = movementSpeedMultiply;
+            Dirty(uid, component);
             _movement.RefreshMovementSpeedModifiers(uid);
         }
 
@@ -195,6 +196,7 @@ public sealed class DemonShadowSystem : SharedDemonShadowSystem
         Astral(uid, false);
 
         component.MovementSpeedMultiply = 1;
+        Dirty(uid, component);
         _movement.RefreshMovementSpeedModifiers(uid);
     }
 

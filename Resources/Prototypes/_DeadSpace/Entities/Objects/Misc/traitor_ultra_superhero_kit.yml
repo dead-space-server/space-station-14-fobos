@@ -1,0 +1,14 @@
+- type: entity
+  parent: CrateSyndicate
+  id: CrateTraitorUltraSuperheroKit
+  name: superhero kit crate
+  description: Contains the essentials for a dramatic undercover entrance.
+  suffix: Filled
+  components:
+  - type: StorageFill
+    contents:
+    - id: ToyRubberDuck
+      amount: 2
+    - id: ValentineCard
+      amount: 2
+    - id: ClothingNeckChameleon

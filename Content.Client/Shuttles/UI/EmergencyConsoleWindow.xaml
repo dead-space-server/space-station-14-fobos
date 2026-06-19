@@ -1,40 +1,133 @@
 <controls:FancyWindow xmlns="https://spacestation14.io"
-                           xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
-                           Title="{Loc 'emergency-shuttle-console-window-title'}"
-                           MinSize="400 400">
-<BoxContainer Orientation="Vertical"
-              Margin="5">
-    <Label Name="Countdown"
-           HorizontalAlignment="Center"
-           Text="00:00"/>
-    <BoxContainer Name="EngineStatusContainer"
-                  HorizontalAlignment="Center">
-        <Label HorizontalAlignment="Center"
-               Text="{Loc 'emergency-shuttle-ui-engines'}"/>
-        <Label Name="EngineStatus"
-               HorizontalAlignment="Center"
-               FontColorOverride="#FFA500"
-               Text="{Loc 'emergency-shuttle-ui-idle'}"/>
-    </BoxContainer>
-    <BoxContainer Name="LaunchContainer">
-        <Label Text="{Loc 'emergency-shuttle-ui-early-authorize'}"/>
-        <Button Name="RepealAllButton" Text="{Loc 'emergency-shuttle-ui-repeal-all'}"/>
-    </BoxContainer>
-    <!-- Spacer -->
-    <BoxContainer Name="AuthorizeContainer">
-        <Button Name="AuthorizeButton"
-                Text="{Loc 'emergency-shuttle-ui-authorize'}"/>
-        <Button Name="RepealButton" Text="{Loc 'emergency-shuttle-ui-repeal'}"/>
-    </BoxContainer>
-    <BoxContainer Name="AuthorizationsTextContainer">
-        <Label Text="{Loc 'emergency-shuttle-ui-authorizations'}"/>
-        <Label Name="AuthorizationCount"
-               Text=""
-               HorizontalAlignment="Right"
-               Align="Right"
-               HorizontalExpand="True"/>
-    </BoxContainer>
-    <!-- Spacer -->
-    <BoxContainer Name="AuthorizationsContainer" Orientation="Vertical"/>
-</BoxContainer>
+                      xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+                      Title="{Loc 'emergency-shuttle-console-window-title'}"
+                      HeaderClass="DS14MenuHeader"
+                      TitleClass="DS14MenuTitle"
+                      MinSize="460 360"
+                      SetSize="520 420">
+    <!-- DS14-start -->
+    <PanelContainer StyleClasses="DS14MenuShell">
+        <PanelContainer StyleClasses="DS14MenuPanelDark">
+            <BoxContainer Orientation="Vertical"
+                          SeparationOverride="8">
+                <PanelContainer StyleClasses="DS14MenuInset"
+                                HorizontalExpand="True">
+                    <BoxContainer Orientation="Vertical"
+                                  SeparationOverride="4"
+                                  HorizontalExpand="True">
+                        <Label Text="{Loc 'emergency-shuttle-ui-status-title'}"
+                               StyleClasses="DS14MenuListHeader" />
+                        <Label Name="Countdown"
+                               HorizontalAlignment="Center"
+                               Align="Center"
+                               Text="{Loc 'emergency-shuttle-ui-status-waiting'}"
+                               StyleClasses="DS14MenuRoundStatusTime" />
+                        <BoxContainer Name="EngineStatusContainer"
+                                      HorizontalAlignment="Center"
+                                      SeparationOverride="4">
+                            <Label Text="{Loc 'emergency-shuttle-ui-route'}"
+                                   StyleClasses="DS14MenuProfileLabel" />
+                            <Label Name="EngineStatus"
+                                   Text="{Loc 'map-name-centcomm'}"
+                                   FontColorOverride="#FFA500"
+                                   StyleClasses="DS14MenuProfileLabel" />
+                        </BoxContainer>
+                    </BoxContainer>
+                </PanelContainer>
+
+                <PanelContainer Name="HijackContainer"
+                                StyleClasses="DS14MenuListRowAlt"
+                                HorizontalExpand="True">
+                    <BoxContainer Orientation="Vertical"
+                                  SeparationOverride="6"
+                                  HorizontalExpand="True">
+                        <Label Text="{Loc 'emergency-shuttle-ui-hijack'}"
+                               StyleClasses="DS14MenuListHeader" />
+                        <Label Name="HijackStatus"
+                               Text="{Loc 'emergency-shuttle-ui-hijack-inactive'}"
+                               StyleClasses="DS14MenuProfileLabel" />
+                        <BoxContainer Orientation="Horizontal"
+                                      SeparationOverride="6"
+                                      HorizontalExpand="True">
+                            <Button Name="HijackStartButton"
+                                    Text="{Loc 'emergency-shuttle-ui-hijack-start'}"
+                                    TextAlign="Center"
+                                    MinHeight="30"
+                                    HorizontalExpand="True"
+                                    StyleClasses="DS14MenuProfileControl DS14MenuProfileControlPositive" />
+                            <Button Name="HijackCancelButton"
+                                    Text="{Loc 'emergency-shuttle-ui-hijack-cancel'}"
+                                    TextAlign="Center"
+                                    MinHeight="30"
+                                    HorizontalExpand="True"
+                                    StyleClasses="DS14MenuProfileControl negative" />
+                        </BoxContainer>
+                    </BoxContainer>
+                </PanelContainer>
+
+                <PanelContainer Name="LaunchContainer"
+                                StyleClasses="DS14MenuInset"
+                                HorizontalExpand="True">
+                    <BoxContainer Orientation="Vertical"
+                                  SeparationOverride="6"
+                                  HorizontalExpand="True">
+                        <Label Text="{Loc 'emergency-shuttle-ui-early-authorize'}"
+                               StyleClasses="DS14MenuListHeader" />
+                        <Button Name="RepealAllButton"
+                                Text="{Loc 'emergency-shuttle-ui-repeal-all'}"
+                                TextAlign="Center"
+                                HorizontalExpand="True"
+                                StyleClasses="DS14MenuProfileControl negative" />
+                    </BoxContainer>
+                </PanelContainer>
+
+                <BoxContainer Name="AuthorizeContainer"
+                              Orientation="Horizontal"
+                              SeparationOverride="6"
+                              HorizontalExpand="True">
+                    <Button Name="AuthorizeButton"
+                            Text="{Loc 'emergency-shuttle-ui-authorize'}"
+                            TextAlign="Center"
+                            HorizontalExpand="True"
+                            StyleClasses="DS14MenuProfileControl DS14MenuProfileControlPositive" />
+                    <Button Name="RepealButton"
+                            Text="{Loc 'emergency-shuttle-ui-repeal'}"
+                            TextAlign="Center"
+                            HorizontalExpand="True"
+                            StyleClasses="DS14MenuProfileControl negative" />
+                </BoxContainer>
+
+                <PanelContainer Name="AuthorizationsTextContainer"
+                                StyleClasses="DS14MenuListRow"
+                                HorizontalExpand="True">
+                    <BoxContainer Orientation="Horizontal"
+                                  HorizontalExpand="True">
+                        <Label Text="{Loc 'emergency-shuttle-ui-authorizations'}"
+                               StyleClasses="DS14MenuProfileLabel" />
+                        <Label Name="AuthorizationCount"
+                               Text=""
+                               HorizontalAlignment="Right"
+                               Align="Right"
+                               HorizontalExpand="True"
+                               StyleClasses="DS14MenuProfileLabel" />
+                    </BoxContainer>
+                </PanelContainer>
+
+                <PanelContainer Name="AuthorizationsPanel"
+                                StyleClasses="DS14MenuInset"
+                                VerticalExpand="True"
+                                HorizontalExpand="True">
+                    <ScrollContainer HScrollEnabled="False"
+                                     VScrollEnabled="True"
+                                     VerticalExpand="True">
+                        <BoxContainer Name="AuthorizationsContainer"
+                                      Orientation="Vertical"
+                                      SeparationOverride="4"
+                                      HorizontalExpand="True" />
+                    </ScrollContainer>
+                </PanelContainer>
+            </BoxContainer>
+        </PanelContainer>
+    </PanelContainer>
+    <!-- DS14-end -->
 </controls:FancyWindow>

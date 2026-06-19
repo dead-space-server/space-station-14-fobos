@@ -162,13 +162,13 @@
   cost:
     LavalandMiningPoint: 250
 
-- type: listing
-  id: LavalandMiningSeniorKineticAccelerator
-  productEntity: WeaponSeniorKinetik
-  categories:
-  - LavalandMiningTools
-  cost:
-    LavalandMiningPoint: 400
+# - type: listing
+#   id: LavalandMiningSeniorKineticAccelerator
+#   productEntity: WeaponSeniorKinetik
+#   categories:
+#   - LavalandMiningTools
+#   cost:
+#     LavalandMiningPoint: 400
 
 - type: listing
   id: LavalandMiningMagmiteAccelerator
@@ -176,7 +176,7 @@
   categories:
   - LavalandMiningTools
   cost:
-    LavalandMiningPoint: 2750
+    LavalandMiningPoint: 15000
 
 - type: listing
   id: LavalandMiningWeaponMagmiteCrusher
@@ -184,7 +184,7 @@
   categories:
   - LavalandMiningTools
   cost:
-    LavalandMiningPoint: 2750
+    LavalandMiningPoint: 25000
 
 - type: listing
   id: LavalandMiningWeaponMagmiteCrusherGlaive
@@ -192,7 +192,7 @@
   categories:
   - LavalandMiningTools
   cost:
-    LavalandMiningPoint: 2750
+    LavalandMiningPoint: 25000
 
 - type: listing
   id: LavalandMiningPKAUpgradeDamage
@@ -217,6 +217,30 @@
   - LavalandMiningTools
   cost:
     LavalandMiningPoint: 350
+
+- type: listing
+  id: LavalandMiningPKAUpgradeDamageUp
+  productEntity: PKAUpgradeDamageUp
+  categories:
+  - LavalandMiningTools
+  cost:
+    LavalandMiningPoint: 1500
+
+- type: listing
+  id: LavalandMiningPKAUpgradeRangeUp
+  productEntity: PKAUpgradeRangeUp
+  categories:
+  - LavalandMiningTools
+  cost:
+    LavalandMiningPoint: 1500
+
+- type: listing
+  id: LavalandMiningPKAUpgradeFireRateUp
+  productEntity: PKAUpgradeFireRateUp
+  categories:
+  - LavalandMiningTools
+  cost:
+    LavalandMiningPoint: 1500
 
 - type: listing
   id: LavalandMiningKineticCrusher

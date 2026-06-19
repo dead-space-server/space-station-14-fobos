@@ -100,8 +100,16 @@
     blacklistTags:
       - Ore
       - Trash
-    # DS14-end
   - type: CargoOrderConsole
+    allowedGroups:
+    - market
+    - service
+    - medical
+    - engineering
+    - science
+    - security
+    - general
+  # DS14-end
   - type: CrewMonitoringConsole
   - type: GeneralStationRecordConsole
     canDeleteEntries: true

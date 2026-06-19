@@ -68,6 +68,16 @@
   id: LavalandNecropolisTendrilGoliath
   suffix: Lavaland, Goliath
   components:
+  - type: Sprite
+    noRot: true
+    drawdepth: Mobs
+    sprite: _DeadSpace/Lavaland/Structures/NecropolisTendrilGolit.rsi
+    layers:
+    - state: tendril
+    scale: 1.2, 1.2
+  - type: Icon
+    sprite: _DeadSpace/Lavaland/Structures/NecropolisTendrilGolit.rsi
+    state: tendril
   - type: LavalandNecropolisTendril
     spawnPrototypes:
     - MobLavalandGoliath
@@ -77,6 +87,15 @@
   id: LavalandNecropolisTendrilLegion
   suffix: Lavaland, Legion
   components:
+  - type: Sprite
+    noRot: true
+    drawdepth: Mobs
+    sprite: _DeadSpace/Lavaland/Structures/NecropolisTendrilLegion.rsi
+    layers:
+    - state: tendril
+    scale: 1.6, 1.6
+  - type: Icon
+    sprite: _DeadSpace/Lavaland/Structures/NecropolisTendrilLegion.rsi
   - type: LavalandNecropolisTendril
     spawnPrototypes:
     - MobLavalandLegion
@@ -281,11 +300,11 @@
       - id: Fulton
         amount: 4
     - !type:AllSelector
-      weight: 0.8
+      weight: 1
       children:
-      - id: PKAUpgradeDamage
-      - id: PKAUpgradeRange
-      - id: PKAUpgradeFireRate
+      - id: PKAUpgradeDamageUp
+      - id: PKAUpgradeRangeUp
+      - id: PKAUpgradeFireRateUp
     - id: LavalandSuperResonator
       weight: 1.1
     - id: LavalandSonicJackhammer
@@ -464,14 +483,6 @@
       - id: WeaponRifleM90GrenadeLauncher
       - id: MagazineRifle
         amount: 2
-      - id: GrenadeFrag
-        amount: 2
-    - !type:AllSelector
-      weight: 0.25
-      children:
-      - id: WeaponLauncherChinaLake
-      - id: GrenadeBlast
-        amount: 3
       - id: GrenadeFrag
         amount: 2
     - !type:AllSelector

@@ -17,8 +17,8 @@
     maxFields: 4
     shortBurstDelay: 1.8
     longBurstDelay: 3
-    bonusYieldChance: 0.35
-    bonusYieldMultiplier: 2
+    bonusYieldChance: 0.45
+    bonusYieldMultiplier: 3
 
 - type: entity
   parent: LavalandResonator
@@ -39,8 +39,8 @@
     maxFields: 6
     shortBurstDelay: 0.75
     longBurstDelay: 1.5
-    bonusYieldChance: 0
-    bonusYieldMultiplier: 1
+    bonusYieldChance: 0.45
+    bonusYieldMultiplier: 2
     burstProjectilePrototype: LavalandResonanceBolt
     burstProjectileCount: 4
     burstProjectileSpeed: 9
@@ -309,12 +309,12 @@
         volume: -2
   - type: AmmoCounter
   - type: RechargeBasicEntityAmmo
-    rechargeCooldown: 4
+    rechargeCooldown: 6
     rechargeSound: null
   - type: BasicEntityAmmoProvider
     proto: LavalandSpellBladeProjectile
-    capacity: 4
-    count: 4
+    capacity: 3
+    count: 3
   - type: DisarmMalus
 
 - type: entity
@@ -353,7 +353,7 @@
     tileBreakScale: 0.01
     canCreateVacuum: false
   - type: StunOnCollide
-    slowdownAmount: 1.25
+    slowdownAmount: 1.2
     walkSpeedModifier: 0.75
     sprintSpeedModifier: 0.75
     drop: false
@@ -521,7 +521,7 @@
   description: Прыгните!
   components:
   - type: Action
-    useDelay: 1
+    useDelay: 3
     icon:
       sprite: Interface/Actions/jump.rsi
       state: icon

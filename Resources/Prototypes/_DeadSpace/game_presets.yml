@@ -137,6 +137,47 @@
   - BasicRoundstartVariation
 
 - type: gamePreset
+  id: TraitorUltra
+  alias:
+  - traitorultra
+  - traitorplus
+  - tatorplus
+  name: traitor-ultra-title
+  description: traitor-ultra-description
+  showInVote: false
+  showInAdminVote: true
+  voteType: rdm
+  rules:
+  - WageScheduler
+  - DummyNonAntagChance
+  - TraitorUltra
+  - SubGamemodesRuleNoWizardNoXenoborg
+  - MeteorSwarmScheduler
+  - SpaceTrafficControlEventScheduler
+  - BasicRoundstartVariation
+
+- type: gamePreset
+  id: SecretTraitorUltra
+  alias:
+    - secretTraitorUltra
+    - secretTraitorPlus
+  name: secret-title
+  description: secret-description
+  showInVote: false #Admin Use
+  # DS14-start
+  showInAdminVote: false
+  voteType: admin
+  # DS14-end
+  rules:
+  - WageScheduler # backmen: currency
+  - DummyNonAntagChance
+  - TraitorUltra
+  - SubGamemodesRule
+  - MeteorSwarmScheduler
+  - SpaceTrafficControlEventScheduler
+  - BasicRoundstartVariation
+
+- type: gamePreset
   id: SecretNukeops
   alias:
     - secretNukeops

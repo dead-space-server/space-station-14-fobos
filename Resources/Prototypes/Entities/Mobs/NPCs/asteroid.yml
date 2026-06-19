@@ -46,8 +46,8 @@
       Dead:
         Base: goliath_dead
   - type: MovementSpeedModifier
-    baseWalkSpeed : 2.00
-    baseSprintSpeed : 2.00
+    baseWalkSpeed : 2.3 #DS14
+    baseSprintSpeed : 2.6 #DS14
   - type: Bloodstream
     bloodReferenceSolution:
       reagents:
@@ -56,12 +56,12 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      300: Dead
+      400: Dead #DS14
   - type: MeleeWeapon
     soundHit:
       path: "/Audio/Weapons/smash.ogg"
     angle: 0
-    attackRate: 0.75
+    attackRate: 1.25 #DS14
     animation: WeaponArcPunch
     damage:
       types:
@@ -76,9 +76,9 @@
       task: GoliathCompound
     blackboard:
       VisionRadius: !type:Single
-        5
+        15 #DS14
       AggroVisionRadius: !type:Single
-        9
+        16 #DS14
       NavSmash: !type:Bool
         true
   - type: NPCUseActionOnTarget
@@ -96,8 +96,18 @@
     - id: MaterialGoliathHide1
       amount: 2 #DS14
       maxAmount: 4 #DS14
-    - id: PKAUpgradeDamage #DS14
-      prob: 0.05
+    - id: PKAUpgradeDamageUp #DS14
+      prob: 0.01
+#DS14-start
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTypeTrigger
+        damageType: Blunt
+        damage: 1000000
+      behaviors:
+      - !type:GibBehavior { }
+#DS14-end
 
 - type: entity
   parent: BaseAction
@@ -117,7 +127,7 @@
       path: "/Audio/Weapons/slash.ogg"
     useDelay: 12
   - type: TargetAction
-    range: 7
+    range: 15 #DS14
   - type: WorldTargetAction
     event: !type:GoliathSummonTentacleAction
 
@@ -244,16 +254,16 @@
       task: SimpleRangedHostileCompound
     blackboard:
       VisionRadius: !type:Single
-        4
+        14 #DS14
       AggroVisionRadius: !type:Single
-        9
+        15 #DS14
       NavSmash: !type:Bool
         true
   - type: Butcherable
     spawned:
     - id: FoodHivelordRemains
-    - id: PKAUpgradeFireRate
-      prob: 0.05
+    - id: PKAUpgradeRangeUp #DS14
+      prob: 0.01
 
 - type: entity
   id: MobHivelordBrood
@@ -266,12 +276,12 @@
     layers:
     - state: hivelordbrood
   - type: MovementSpeedModifier
-    baseWalkSpeed : 3.5
+    baseWalkSpeed : 4 #DS14
     baseSprintSpeed : 4.0
   - type: MobThresholds
     thresholds:
       0: Alive
-      5: Dead
+      15: Dead #DS14
   - type: MeleeWeapon
     soundHit:
       path: /Audio/Weapons/bladeslice.ogg
@@ -387,7 +397,7 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      45: Dead
+      85: Dead #DS14
   - type: MeleeWeapon
     angle: 0
     animation: WeaponArcBite
@@ -399,7 +409,7 @@
         Piercing: 5
   - type: Gun
     fireRate: 0.75
-    projectileSpeed: 10.0 # When we get predicted guns and projectiles this should be raised to like 15, 15 mis-predicts too much right now unfortunately.
+    projectileSpeed: 18.0 # When we get predicted guns and projectiles this should be raised to like 15, 15 mis-predicts too much right now unfortunately. #DS14
     selectedMode: SemiAuto
     showExamineText: false
     availableModes: [ SemiAuto ]
@@ -412,11 +422,13 @@
     proto: BasiliskRay
     capacity: 1
     count: 1
-  - type: Bloodstream
-    bloodReferenceSolution:
-      reagents:
-      - ReagentId: Blood
-        Quantity: 200
+#DS14-start
+#  - type: Bloodstream
+#    bloodReferenceSolution:
+#      reagents:
+#      - ReagentId: Blood
+#        Quantity: 200
+#DS14-end
   - type: NpcFactionMember
     factions:
     - SimpleHostile
@@ -425,9 +437,9 @@
       task: BasiliskCompound
     blackboard:
       VisionRadius: !type:Single
-        7
+        15 #DS14
       AggroVisionRadius: !type:Single
-        12
+        16 #DS14
       NavSmash: !type:Bool
         true
   - type: Reflect
@@ -439,3 +451,5 @@
     - id: DiamondOre1
       amount: 1
       maxAmount: 3
+    - id: PKAUpgradeFireRateUp #DS14
+      prob: 0.01

@@ -29,6 +29,7 @@ SLOW_TEST_UNIT_BALANCE_WEIGHTS = {
     "Chemistry": 20,
     "EntityTest": 160,
     "Pinpointer": 25,
+    "PostMapInitTest": 260,
 }
 
 SLOW_TEST_METHOD_BALANCE_WEIGHTS = {
@@ -37,7 +38,7 @@ SLOW_TEST_METHOD_BALANCE_WEIGHTS = {
         "SpawnAndDeleteAllEntitiesInTheSameSpot": 80,
         "SpawnAndDeleteAllEntitiesOnDifferentMaps": 65,
         "SpawnAndDeleteEntityCountTest": 75,
-        "SpawnAndDirtyAllEntities": 50,
+        "SpawnAndDirtyAllEntities": 260,
     },
 }
 

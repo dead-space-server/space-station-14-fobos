@@ -95,3 +95,33 @@
     containers:
       entity_storage:
         id: StrongViralSolutionVial
+
+- type: entity
+  parent: CrateWeakViralSolution
+  id: CrateWeakViralSolutionTaipan
+  name: медицинский ящик со слабым вирусом
+  description: Защищённый медицинский ящик с пробиркой слабого случайного вирусного штамма.
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["Medical"]]
+
+- type: entity
+  parent: CrateMediumViralSolution
+  id: CrateMediumViralSolutionTaipan
+  name: медицинский ящик со средним вирусом
+  description: Защищённый медицинский ящик с пробиркой среднего случайного вирусного штамма.
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["Medical"]]
+
+- type: entity
+  parent: CrateStrongViralSolution
+  id: CrateStrongViralSolutionTaipan
+  name: медицинский ящик с сильным вирусом
+  description: Защищённый медицинский ящик с пробиркой сильного случайного вирусного штамма.
+  suffix: Тайпан
+  components:
+  - type: AccessReader
+    access: [["Medical"]]

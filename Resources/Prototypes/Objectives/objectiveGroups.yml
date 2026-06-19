@@ -7,6 +7,14 @@
     TraitorObjectiveGroupState: 1 #As in, something about your character. Alive, dead, arrested, gained an ability...
     TraitorObjectiveGroupSocial: 1 #Involves helping/harming others without killing them or stealing their stuff
 
+# DS14-start
+- type: weightedRandom
+  id: TraitorUltraObjectiveGroups
+  weights:
+    TraitorObjectiveGroupSteal: 1
+    TraitorUltraObjectiveGroupKill: 1
+# DS14-end
+
 - type: weightedRandom
   id: TraitorObjectiveGroupSteal
   weights:
@@ -31,6 +39,15 @@
   weights:
     KillRandomPersonObjective: 1
     KillRandomHeadObjective: 0.25
+
+# DS14-start
+- type: weightedRandom
+  id: TraitorUltraObjectiveGroupKill
+  weights:
+    TraitorUltraKillRandomPersonObjective: 1
+    TraitorUltraKillRandomHeadObjective: 0.25
+    TraitorUltraKillRandomTraitorObjective: 0.25
+# DS14-end
 
 - type: weightedRandom
   id: TraitorObjectiveGroupState

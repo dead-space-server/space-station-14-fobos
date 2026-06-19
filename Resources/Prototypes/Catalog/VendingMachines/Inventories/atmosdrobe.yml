@@ -15,5 +15,6 @@
     ClothingOuterWinterAtmos: 4 # DS14-value
     ClothingNeckScarfStripedLightBlue: 4 # DS14-value
     ClothingOuterCoatAtmosWorking: 4 # DS14
+    ClothingBackpackTailbagAtmospherics: 2 # DS14
   contrabandInventory:
     ToyFigurineAtmosTech: 1

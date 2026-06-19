@@ -54,7 +54,7 @@
     pocket1: ADTtelescopicBaton
     pocket2: RubberStampIAA
   inhand:
-    - BriefcaseBrownFilled
+    - BriefcaseCodeLockFilledIAA
 
 - type: chameleonOutfit
   id: IAAChameleonOutfit

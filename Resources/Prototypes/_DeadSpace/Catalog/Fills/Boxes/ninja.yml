@@ -1,0 +1,17 @@
+- type: entity
+  name: коробка кандалов
+  parent: BoxCardboard
+  id: BoxManacles
+  description: Коробка полная кандалов.
+  components:
+  - type: Storage
+    grid:
+    - 0,0,3,2
+  - type: EntityTableContainerFill
+    containers:
+      storagebase:
+        id: Manacles
+        amount: 6
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Storage/boxes.rsi
+    state: manacles

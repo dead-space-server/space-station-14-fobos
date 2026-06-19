@@ -29,7 +29,19 @@
   - VehicleKeyJanicart
   - VehicleJanicartFlatpack
 
-# Tier 3
+# Tier 2
+
+- type: technology
+  id: AppHubSoftwareTech
+  name: research-technology-app-hub-software
+  icon:
+    sprite: Structures/Machines/computers.rsi
+    state: computer
+  discipline: CivilianServices
+  tier: 2
+  cost: 7500
+  recipeUnlocks:
+  - AppHubConsoleCircuitboard
 
 - type: technology
   id: CompactDefibrillatorTechnology
@@ -42,6 +54,8 @@
   cost: 10000
   recipeUnlocks:
   - CompactDefibrillator
+
+# Tier 3
 
 - type: technology
   id: PinpointerUniversalTech
