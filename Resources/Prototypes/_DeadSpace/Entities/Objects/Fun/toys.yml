@@ -1248,3 +1248,36 @@
   - type: Sprite
     sprite: _DeadSpace/Items/Toys/misc.rsi
     state: plushie_moth_blue
+
+- type: entity
+  parent: BasePlushie
+  id: PlushieAgnes
+  name: плюшевая девушка-пони
+  description: Плюшевая игрушка довольно знаменитой девушки-пони. Ларп-ларп-ларп.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Items/Toys/misc.rsi
+    scale: 0.9,0.9
+    state: agnes
+
+- type: entity
+  parent: BasePlushie
+  id: PlushieGoldShip
+  name: плюшевая девушка-пони
+  description: Плюшевая игрушка довольно знаменитой девушки-пони.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Items/Toys/misc.rsi
+    scale: 0.9,0.9
+    state: gold_ship
+
+- type: entity
+  parent: BasePlushie
+  id: PlushieBourbon
+  name: плюшевая девушка-пони
+  description: Плюшевая игрушка менее знаменитой девушки-пони. Кланк-кланк-кланк.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Items/Toys/misc.rsi
+    scale: 0.9,0.9
+    state: bourbon
