@@ -5,6 +5,7 @@ using Robust.Shared.Physics.Events;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Timing;
 using Content.Shared.Inventory; //DS14
+using Content.Shared.DeadSpace.Damage.Components; //DS14
 
 namespace Content.Shared.Damage.Systems;
 
@@ -31,6 +32,17 @@ public sealed class DamageContactsSystem : EntitySystem
 
         while (query.MoveNext(out var ent, out var damaged))
         {
+            //DS14 Start
+            if (_inventory.TryGetSlotEntity(ent, "outerClothing", out var suit))
+            {
+                if (HasComp<IgnoreContactDamageComponent>(suit))
+                {
+                    RemComp<DamagedByContactComponent>(ent);
+                    continue;
+                }
+            }
+            //DS14 End
+
             if (_timing.CurTime < damaged.NextSecond)
                 continue;
             damaged.NextSecond = _timing.CurTime + TimeSpan.FromSeconds(1);
@@ -38,6 +50,33 @@ public sealed class DamageContactsSystem : EntitySystem
             if (damaged.Damage != null)
                 _damageable.TryChangeDamage(ent, damaged.Damage, interruptsDoAfters: false);
         }
+        //DS14 Start
+        var contactQuery = EntityQueryEnumerator<DamageContactsComponent>();
+
+        while (contactQuery.MoveNext(out var source, out var contact))
+        {
+            if (!TryComp<PhysicsComponent>(source, out var body))
+                continue;
+
+            foreach (var ent in _physics.GetContactingEntities(source, body))
+            {
+                if (HasComp<DamagedByContactComponent>(ent))
+                    continue;
+
+                if (_whitelistSystem.IsWhitelistPass(contact.IgnoreWhitelist, ent))
+                    continue;
+
+                if (_inventory.TryGetSlotEntity(ent, "outerClothing", out var suit))
+                {
+                    if (HasComp<IgnoreContactDamageComponent>(suit))
+                        continue;
+                }
+
+                var damagedByContact = EnsureComp<DamagedByContactComponent>(ent);
+                damagedByContact.Damage = contact.Damage;
+            }
+        }
+        //DS14 End
     }
 
     private void OnEntityExit(EntityUid uid, DamageContactsComponent component, ref EndCollideEvent args)
