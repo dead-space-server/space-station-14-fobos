@@ -1,5 +1,6 @@
 // Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
 
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using Content.Shared.DeadSpace.Shuttles.Components;
 using Content.Shared.Shuttles.BUIStates;
@@ -9,7 +10,7 @@ using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Physics.Components;
 
-namespace Content.Server.Shuttles.Systems;
+namespace Content.Server.DeadSpace.Shuttles.Systems;
 
 public sealed class RadarBlipSystem : EntitySystem
 {
@@ -19,6 +20,7 @@ public sealed class RadarBlipSystem : EntitySystem
     [Dependency] private readonly TagSystem _tags = default!;
 
     private const float BlipRadius = 0.5f;
+    private const LookupFlags BlipLookupFlags = LookupFlags.Dynamic | LookupFlags.Static | LookupFlags.Sensors;
 
     private readonly Dictionary<RadarConsoleComponent, CachedBlipConfig> _configCache = new();
     private readonly HashSet<EntityUid> _candidates = new();
@@ -26,77 +28,120 @@ public sealed class RadarBlipSystem : EntitySystem
 
     public List<BlipState> CollectSpaceBlips(EntityUid consoleUid, RadarConsoleComponent component, float range)
     {
-        var blips = new List<BlipState>();
-
         if (!component.Advanced)
-            return blips;
+            return new List<BlipState>();
 
         if (!TryComp(consoleUid, out TransformComponent? consoleXform) ||
             consoleXform.MapUid == null)
         {
-            return blips;
+            return new List<BlipState>();
         }
 
         var config = GetConfig(component);
         var worldPos = _xform.GetWorldPosition(consoleXform);
         var mapId = consoleXform.MapID;
+        var consoleParent = consoleXform.ParentUid;
+
+        if (config.AllowedTags.Length == 0 && config.AllowedComponents.Length > 0)
+        {
+            var typedBlips = new List<BlipState>();
+            CollectTypedBlips(mapId, worldPos, range, config, consoleUid, consoleParent, typedBlips);
+            return typedBlips;
+        }
 
         _candidates.Clear();
-        CollectCandidates(mapId, worldPos, range, config);
+        CollectCandidates(mapId, worldPos, range);
 
+        var blips = new List<BlipState>(_candidates.Count);
         foreach (var ent in _candidates)
         {
-            if (ent == consoleUid ||
-                ent == consoleXform.ParentUid ||
-                HasComp<MapComponent>(ent) ||
-                HasComp<MapGridComponent>(ent))
-            {
-                continue;
-            }
-
-            if (!TryComp(ent, out TransformComponent? entXform) ||
-                entXform.GridUid != null)
-            {
-                continue;
-            }
-
-            if (!TryComp<PhysicsComponent>(ent, out var phys) || !phys.CanCollide)
-                continue;
-
-            if (HasBlacklistedComponent(ent, config) || HasBlacklistedTag(ent, config))
+            if (!TryGetBlipTransform(ent, consoleUid, consoleParent, config, out var entXform))
                 continue;
 
             if (!TryPickColor(ent, config, out var color))
                 continue;
 
-            var entWorldPos = _xform.GetWorldPosition(entXform);
-            blips.Add(new BlipState(entWorldPos, color, BlipRadius));
+            AddBlip(entXform, color, blips);
         }
 
         _candidates.Clear();
         return blips;
     }
 
-    private void CollectCandidates(MapId mapId, Vector2 worldPos, float range, CachedBlipConfig config)
+    private void CollectTypedBlips(
+        MapId mapId,
+        Vector2 worldPos,
+        float range,
+        CachedBlipConfig config,
+        EntityUid consoleUid,
+        EntityUid consoleParent,
+        List<BlipState> blips)
     {
-        if (config.AllowedTags.Length == 0 && config.AllowedComponents.Length > 0)
+        _candidates.Clear();
+
+        foreach (var (type, color) in config.AllowedComponents)
         {
             _typedCandidates.Clear();
-            foreach (var (type, _) in config.AllowedComponents)
-            {
-                _lookup.GetEntitiesInRange(type, new MapCoordinates(worldPos, mapId), range, _typedCandidates, LookupFlags.Uncontained);
-            }
+            _lookup.GetEntitiesInRange(type, mapId, worldPos, range, _typedCandidates, BlipLookupFlags);
+            blips.EnsureCapacity(blips.Count + _typedCandidates.Count);
 
             foreach (var ent in _typedCandidates)
             {
-                _candidates.Add(ent.Owner);
-            }
+                if (!_candidates.Add(ent.Owner))
+                    continue;
 
-            _typedCandidates.Clear();
-            return;
+                if (!TryGetBlipTransform(ent.Owner, consoleUid, consoleParent, config, out var entXform))
+                    continue;
+
+                AddBlip(entXform, color, blips);
+            }
         }
 
-        _lookup.GetEntitiesInRange(mapId, worldPos, range, _candidates, LookupFlags.Uncontained);
+        _candidates.Clear();
+        _typedCandidates.Clear();
+    }
+
+    private void CollectCandidates(MapId mapId, Vector2 worldPos, float range)
+    {
+        _lookup.GetEntitiesInRange(mapId, worldPos, range, _candidates, BlipLookupFlags);
+    }
+
+    private bool TryGetBlipTransform(
+        EntityUid ent,
+        EntityUid consoleUid,
+        EntityUid consoleParent,
+        CachedBlipConfig config,
+        [NotNullWhen(true)] out TransformComponent? entXform)
+    {
+        entXform = null;
+
+        if (ent == consoleUid ||
+            ent == consoleParent ||
+            HasComp<MapComponent>(ent) ||
+            HasComp<MapGridComponent>(ent))
+        {
+            return false;
+        }
+
+        if (!TryComp(ent, out entXform) ||
+            entXform.GridUid != null)
+        {
+            return false;
+        }
+
+        if (!TryComp<PhysicsComponent>(ent, out var phys) || !phys.CanCollide)
+            return false;
+
+        if (HasBlacklistedComponent(ent, config) || HasBlacklistedTag(ent, config))
+            return false;
+
+        return true;
+    }
+
+    private void AddBlip(TransformComponent entXform, Color color, List<BlipState> blips)
+    {
+        var entWorldPos = _xform.GetWorldPosition(entXform);
+        blips.Add(new BlipState(entWorldPos, color, BlipRadius));
     }
 
     private CachedBlipConfig GetConfig(RadarConsoleComponent component)
