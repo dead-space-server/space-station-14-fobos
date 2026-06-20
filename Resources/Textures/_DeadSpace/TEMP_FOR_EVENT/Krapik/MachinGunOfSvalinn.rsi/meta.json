@@ -12,6 +12,7 @@
         },
         {
             "name": "base",
+            "directions": 4
             "delays": [
                 [
                     0.3,
