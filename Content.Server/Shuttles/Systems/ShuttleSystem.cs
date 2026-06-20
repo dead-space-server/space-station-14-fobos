@@ -72,7 +72,7 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
 
     private static readonly TimeSpan DockImpactGraceTime = TimeSpan.FromSeconds(4);
 
-    private readonly HashSet<(EntityUid, EntityUid)> _dockedGridPairs = new();
+    private readonly Dictionary<(EntityUid, EntityUid), int> _dockedGridPairs = new();
     private readonly Dictionary<(EntityUid, EntityUid), TimeSpan> _dockImpactGrace = new();
     private readonly Dictionary<(EntityUid, EntityUid), TimeSpan> _dockSettleTimes = new();
     private readonly List<(EntityUid, EntityUid)> _finishedDockSettles = new();
@@ -183,7 +183,9 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
     private void OnDock(DockEvent ev)
     {
         var key = GetGridPairKey(ev.GridAUid, ev.GridBUid);
-        _dockedGridPairs.Add(key);
+        if (!AddDockedGridPair(key))
+            return;
+
         _dockImpactGrace[key] = _gameTiming.CurTime + DockImpactGraceTime;
         _dockSettleTimes[key] = _gameTiming.CurTime + DockImpactGraceTime;
 
@@ -194,7 +196,9 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
     private void OnUndock(UndockEvent ev)
     {
         var key = GetGridPairKey(ev.GridAUid, ev.GridBUid);
-        _dockedGridPairs.Remove(key);
+        if (!RemoveDockedGridPair(key))
+            return;
+
         _dockSettleTimes.Remove(key);
         _dockImpactGrace[key] = _gameTiming.CurTime + DockImpactGraceTime;
 
@@ -215,7 +219,7 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
             if (curTime < settleTime)
                 continue;
 
-            if (_dockedGridPairs.Contains(key))
+            if (_dockedGridPairs.ContainsKey(key))
             {
                 StabilizeShuttleGrid(key.Item1);
                 StabilizeShuttleGrid(key.Item2);
@@ -270,7 +274,7 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
     {
         var key = GetGridPairKey(gridA, gridB);
 
-        if (_dockedGridPairs.Contains(key))
+        if (_dockedGridPairs.ContainsKey(key))
             return true;
 
         if (!_dockImpactGrace.TryGetValue(key, out var graceEnd))
@@ -286,6 +290,33 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
     private static (EntityUid, EntityUid) GetGridPairKey(EntityUid gridA, EntityUid gridB)
     {
         return gridA.Id < gridB.Id ? (gridA, gridB) : (gridB, gridA);
+    }
+
+    private bool AddDockedGridPair((EntityUid, EntityUid) key)
+    {
+        if (_dockedGridPairs.TryGetValue(key, out var count))
+        {
+            _dockedGridPairs[key] = count + 1;
+            return false;
+        }
+
+        _dockedGridPairs[key] = 1;
+        return true;
+    }
+
+    private bool RemoveDockedGridPair((EntityUid, EntityUid) key)
+    {
+        if (!_dockedGridPairs.TryGetValue(key, out var count))
+            return true;
+
+        if (count <= 1)
+        {
+            _dockedGridPairs.Remove(key);
+            return true;
+        }
+
+        _dockedGridPairs[key] = count - 1;
+        return false;
     }
 
     private void OnShuttleShutdown(EntityUid uid, ShuttleComponent component, ComponentShutdown args)
