@@ -98,11 +98,11 @@ public sealed partial class AtmosphereSystem
                 : GetTilePressure(tiles.GetValueOrDefault(currentPos.Offset(AtmosDirection.West)));
 
             var maxPressure = MathF.Max(
-                MathF.Max(northPressure, eastPressure),
-                MathF.Max(southPressure, westPressure));
+                MathF.Max(northPressure, southPressure),
+                MathF.Max(eastPressure, westPressure));
             var maxDelta = MathF.Max(
-                MathF.Abs(northPressure - eastPressure),
-                MathF.Abs(southPressure - westPressure));
+                MathF.Abs(northPressure - southPressure),
+                MathF.Abs(eastPressure - westPressure));
 
             EnqueueDeltaPressureDamage(ent, gridAtmosComp, maxPressure, maxDelta);
         }
