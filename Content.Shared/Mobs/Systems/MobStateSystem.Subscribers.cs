@@ -81,6 +81,20 @@ public partial class MobStateSystem
         RaiseLocalEvent(target, ref ev);
     }
 
+    // DS14-start
+    private bool IsBuckledToDownStrap(EntityUid target)
+    {
+        if (!TryComp<BuckleComponent>(target, out var buckle) ||
+            buckle.BuckledTo is not { } strapUid ||
+            !TryComp<StrapComponent>(strapUid, out var strap))
+        {
+            return false;
+        }
+
+        return strap.Position == StrapPosition.Down;
+    }
+    // DS14-end
+
     private void CheckConcious(Entity<MobStateComponent> ent, ref ConsciousAttemptEvent args)
     {
         switch (ent.Comp.CurrentState)
@@ -115,7 +129,10 @@ public partial class MobStateSystem
                 {
                     RemComp<WormComponent>(target);
                     RemComp<KnockedDownComponent>(target);
-                    _standing.Stand(target, force: true);
+                    if (IsBuckledToDownStrap(target))
+                        _standing.Down(target, playSound: false, dropHeldItems: false, force: true);
+                    else
+                        _standing.Stand(target, force: true);
                 }
                 break;
             // DS14-end
