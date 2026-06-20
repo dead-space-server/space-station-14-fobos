@@ -11,13 +11,13 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Audio.Systems;
 using Content.Shared.Timing;
 using Robust.Shared.Audio;
+using Content.Shared.Access.Components;
 using Content.Shared.Access.Systems;
 using Content.Shared.Emag.Systems;
 using Content.Shared.Emag.Components;
 using Robust.Shared.Utility;
 using Content.Shared.Hands;
 using Content.Shared.Hands.EntitySystems;
-using Content.Shared.Inventory;
 using Content.Shared.Inventory.Events;
 using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Ghost;
@@ -51,8 +51,8 @@ public sealed class DominatorSystem : EntitySystem
         SubscribeLocalEvent<DominatorComponent, ShotAttemptedEvent>(OnShotAttempted);
         SubscribeLocalEvent<DominatorComponent, GotEquippedHandEvent>(OnHandEquip);
         SubscribeLocalEvent<DominatorComponent, GotEmaggedEvent>(OnEmagged);
-        SubscribeLocalEvent<InventoryComponent, DidEquipEvent>(OnInventoryEquip);
-        SubscribeLocalEvent<InventoryComponent, DidUnequipEvent>(OnInventoryUnequip);
+        SubscribeLocalEvent<IdCardComponent, GotEquippedEvent>(OnIdCardEquipped);
+        SubscribeLocalEvent<IdCardComponent, GotUnequippedEvent>(OnIdCardUnequipped);
     }
 
     private void OnExamined(EntityUid uid, DominatorComponent component, ExaminedEvent args)
@@ -287,20 +287,20 @@ public sealed class DominatorSystem : EntitySystem
         RefreshLastHoldingIdCard(uid, component, args.User);
     }
 
-    private void OnInventoryEquip(Entity<InventoryComponent> ent, ref DidEquipEvent args)
+    private void OnIdCardEquipped(Entity<IdCardComponent> ent, ref GotEquippedEvent args)
     {
         if (args.Slot != IdSlot)
             return;
 
-        RefreshHeldDominators(ent.Owner);
+        RefreshHeldDominators(args.Equipee);
     }
 
-    private void OnInventoryUnequip(Entity<InventoryComponent> ent, ref DidUnequipEvent args)
+    private void OnIdCardUnequipped(Entity<IdCardComponent> ent, ref GotUnequippedEvent args)
     {
         if (args.Slot != IdSlot)
             return;
 
-        RefreshHeldDominators(ent.Owner);
+        RefreshHeldDominators(args.Equipee);
     }
 
     private void RefreshHeldDominators(EntityUid user)
