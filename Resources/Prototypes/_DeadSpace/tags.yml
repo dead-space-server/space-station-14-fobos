@@ -92,6 +92,9 @@
   id: DeathNettle
 
 - type: Tag
+  id: DebugUplink
+
+- type: Tag
   id: DockCentcommERT
 
 - type: Tag
