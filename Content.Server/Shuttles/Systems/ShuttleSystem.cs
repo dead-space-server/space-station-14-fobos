@@ -1,3 +1,4 @@
+using System.Numerics;
 using Content.Server.Administration.Logs;
 using Content.Server.Buckle.Systems;
 using Content.Server.Parallax;
@@ -181,13 +182,35 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
         var key = GetGridPairKey(ev.GridAUid, ev.GridBUid);
         _dockedGridPairs.Add(key);
         _dockImpactGrace[key] = _gameTiming.CurTime + DockImpactGraceTime;
+
+        StabilizeShuttleGrid(ev.GridAUid);
+        StabilizeShuttleGrid(ev.GridBUid);
     }
 
     private void OnUndock(UndockEvent ev)
     {
         var key = GetGridPairKey(ev.GridAUid, ev.GridBUid);
         _dockedGridPairs.Remove(key);
-        _dockImpactGrace.Remove(key);
+        _dockImpactGrace[key] = _gameTiming.CurTime + DockImpactGraceTime;
+
+        StabilizeShuttleGrid(ev.GridAUid);
+        StabilizeShuttleGrid(ev.GridBUid);
+    }
+
+    private void StabilizeShuttleGrid(EntityUid gridUid)
+    {
+        if (!TryComp<ShuttleComponent>(gridUid, out var shuttle) ||
+            !_physicsQuery.TryGetComponent(gridUid, out var body) ||
+            body.BodyType == BodyType.Static)
+            return;
+
+        _thruster.DisableLinearThrusters(shuttle);
+        _thruster.SetAngularThrust(shuttle, false);
+
+        _physics.SetLinearVelocity(gridUid, Vector2.Zero, body: body);
+        _physics.SetAngularVelocity(gridUid, 0f, body: body);
+        _physics.SetSleepingAllowed(gridUid, body, true);
+        _physics.SetAwake((gridUid, body), false);
     }
 
     private bool IsDockImpactSuppressed(EntityUid gridA, EntityUid gridB)

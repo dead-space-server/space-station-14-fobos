@@ -232,14 +232,6 @@ namespace Content.Server.Shuttles.Systems
             if (HasComp<PhysicsComponent>(gridA) &&
                 HasComp<PhysicsComponent>(gridB))
             {
-                SharedJointSystem.LinearStiffness(
-                    2f,
-                    0.7f,
-                    Comp<PhysicsComponent>(gridA).Mass,
-                    Comp<PhysicsComponent>(gridB).Mass,
-                    out var stiffness,
-                    out var damping);
-
                 WeldJoint joint;
 
                 // Pre-existing joint so use that.
@@ -263,8 +255,8 @@ namespace Content.Server.Shuttles.Systems
                 joint.LocalAnchorB = anchorB;
                 joint.ReferenceAngle = (float)(_transform.GetWorldRotation(gridBXform) - _transform.GetWorldRotation(gridAXform));
                 joint.CollideConnected = false;
-                joint.Stiffness = stiffness;
-                joint.Damping = damping;
+                joint.Stiffness = 0f;
+                joint.Damping = 0f;
 
                 dockA.Comp.DockJoint = joint;
                 dockA.Comp.DockJointId = joint.ID;
