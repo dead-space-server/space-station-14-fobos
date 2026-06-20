@@ -32,6 +32,16 @@
     forceSound: true
 
 - type: entity
+  id: DominatorDisablerTrace
+  name: paralyzer
+  parent: BulletDisablerTrace
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: HitscanBasicRaycast
+    collisionMask: Opaque
+    maxDistance: 40
+
+- type: entity
   id: BulletDisablerPracticeTrace
   name: disabler bolt practice
   parent: BulletDisablerTrace
@@ -294,6 +304,16 @@
     damage:
       types:
         Heat: 16
+
+- type: entity
+  id: DominatorEliminatorTrace
+  name: eliminator
+  parent: DominatorBulletTrace
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: HitscanBasicRaycast
+    collisionMask: Opaque
+    maxDistance: 40
 
 - type: entity
   id: LaserRifleBulletTrace
