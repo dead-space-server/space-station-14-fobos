@@ -70,10 +70,12 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
     private EntityQuery<PhysicsComponent> _physicsQuery;
     private EntityQuery<TransformComponent> _xformQuery;
 
-    private static readonly TimeSpan DockImpactGraceTime = TimeSpan.FromSeconds(2);
+    private static readonly TimeSpan DockImpactGraceTime = TimeSpan.FromSeconds(4);
 
     private readonly HashSet<(EntityUid, EntityUid)> _dockedGridPairs = new();
     private readonly Dictionary<(EntityUid, EntityUid), TimeSpan> _dockImpactGrace = new();
+    private readonly Dictionary<(EntityUid, EntityUid), TimeSpan> _dockSettleTimes = new();
+    private readonly List<(EntityUid, EntityUid)> _finishedDockSettles = new();
 
     public override void Initialize()
     {
@@ -104,6 +106,7 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
     {
         base.Update(frameTime);
         UpdateHyperspace();
+        UpdateDockedShuttleSettling();
     }
 
     private void OnGridInit(GridInitializeEvent ev)
@@ -182,19 +185,67 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
         var key = GetGridPairKey(ev.GridAUid, ev.GridBUid);
         _dockedGridPairs.Add(key);
         _dockImpactGrace[key] = _gameTiming.CurTime + DockImpactGraceTime;
+        _dockSettleTimes[key] = _gameTiming.CurTime + DockImpactGraceTime;
 
-        StabilizeShuttleGrid(ev.GridAUid);
-        StabilizeShuttleGrid(ev.GridBUid);
+        PrepareDockedShuttleGrid(ev.GridAUid);
+        PrepareDockedShuttleGrid(ev.GridBUid);
     }
 
     private void OnUndock(UndockEvent ev)
     {
         var key = GetGridPairKey(ev.GridAUid, ev.GridBUid);
         _dockedGridPairs.Remove(key);
+        _dockSettleTimes.Remove(key);
         _dockImpactGrace[key] = _gameTiming.CurTime + DockImpactGraceTime;
 
         StabilizeShuttleGrid(ev.GridAUid);
         StabilizeShuttleGrid(ev.GridBUid);
+    }
+
+    private void UpdateDockedShuttleSettling()
+    {
+        if (_dockSettleTimes.Count == 0)
+            return;
+
+        _finishedDockSettles.Clear();
+        var curTime = _gameTiming.CurTime;
+
+        foreach (var (key, settleTime) in _dockSettleTimes)
+        {
+            if (curTime < settleTime)
+                continue;
+
+            if (_dockedGridPairs.Contains(key))
+            {
+                StabilizeShuttleGrid(key.Item1);
+                StabilizeShuttleGrid(key.Item2);
+            }
+
+            _finishedDockSettles.Add(key);
+        }
+
+        foreach (var key in _finishedDockSettles)
+        {
+            _dockSettleTimes.Remove(key);
+        }
+    }
+
+    private void PrepareDockedShuttleGrid(EntityUid gridUid)
+    {
+        if (!TryComp<ShuttleComponent>(gridUid, out var shuttle) ||
+            !_physicsQuery.TryGetComponent(gridUid, out var body) ||
+            body.BodyType == BodyType.Static)
+        {
+            return;
+        }
+
+        _thruster.DisableLinearThrusters(shuttle);
+        _thruster.SetAngularThrust(shuttle, false);
+
+        _physics.SetLinearVelocity(gridUid, Vector2.Zero, body: body);
+        _physics.SetAngularVelocity(gridUid, 0f, body: body);
+        _physics.SetSleepingAllowed(gridUid, body, true);
+        _physics.SetAwake((gridUid, body), true);
     }
 
     private void StabilizeShuttleGrid(EntityUid gridUid)
@@ -202,7 +253,9 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
         if (!TryComp<ShuttleComponent>(gridUid, out var shuttle) ||
             !_physicsQuery.TryGetComponent(gridUid, out var body) ||
             body.BodyType == BodyType.Static)
+        {
             return;
+        }
 
         _thruster.DisableLinearThrusters(shuttle);
         _thruster.SetAngularThrust(shuttle, false);
