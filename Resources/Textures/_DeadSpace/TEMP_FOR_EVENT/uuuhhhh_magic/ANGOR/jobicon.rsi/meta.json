@@ -52,6 +52,18 @@
         },
         {
             "name": "medicvirt"
+        },
+        {
+            "name": "pred"
+        },
+        {
+            "name": "SSOcom"
+        },
+        {
+            "name": "SSOfight"
+        },
+        {
+            "name": "SSOmed"
         }
         
     ]
