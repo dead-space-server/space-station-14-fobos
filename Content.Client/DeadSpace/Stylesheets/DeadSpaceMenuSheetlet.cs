@@ -17,6 +17,7 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
     public const string TopShell = "DS14MenuTopShell";
     public const string Panel = "DS14MenuPanel";
     public const string PanelDark = "DS14MenuPanelDark";
+    public const string FlatBody = "DS14MenuFlatBody";
     public const string Header = "DS14MenuHeader";
     public const string Inset = "DS14MenuInset";
     public const string RoundStatus = "DS14MenuRoundStatus";
@@ -37,6 +38,7 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
     public const string ListRowAlt = "DS14MenuListRowAlt";
     public const string Input = "DS14MenuInput";
     public const string TextArea = "DS14MenuTextArea";
+    public const string TextField = "DS14MenuTextField";
     public const string PopupPanel = "DS14MenuPopupPanel";
     public const string ReadyButton = "DS14MenuReadyButton";
     public const string JobPriorityPreferred = "DS14MenuJobPriorityPreferred";
@@ -87,6 +89,15 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
             BorderThickness = new Thickness(1),
             ContentMarginTopOverride = 8,
             ContentMarginBottomOverride = 8,
+            ContentMarginLeftOverride = 8,
+            ContentMarginRightOverride = 8,
+        };
+
+        var flatBody = new StyleBoxFlat
+        {
+            BackgroundColor = Color.FromHex("#171A20F7"),
+            ContentMarginTopOverride = 8,
+            ContentMarginBottomOverride = 6,
             ContentMarginLeftOverride = 8,
             ContentMarginRightOverride = 8,
         };
@@ -464,6 +475,13 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
             ContentMarginRightOverride = 7,
         };
 
+        var textField = new StyleBoxFlat(textArea)
+        {
+            BackgroundColor = Color.FromHex("#0D1219F6"),
+            BorderColor = Color.FromHex("#2D4757"),
+            BorderThickness = new Thickness(1),
+        };
+
         var popupPanel = new StyleBoxFlat(panel)
         {
             BackgroundColor = Color.FromHex("#10161FF8"),
@@ -476,6 +494,7 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
             E<PanelContainer>().Class(TopShell).Panel(topShell),
             E<PanelContainer>().Class(Panel).Panel(panel),
             E<PanelContainer>().Class(PanelDark).Panel(panelDark),
+            E<PanelContainer>().Class(FlatBody).Panel(flatBody),
             E<PanelContainer>().Class(Header).Panel(header),
             E<PanelContainer>().Class(Inset).Panel(inset),
             E<PanelContainer>().Class(RoundStatus).Panel(roundStatus),
@@ -485,6 +504,7 @@ public sealed class DeadSpaceMenuSheetlet : Sheetlet<PalettedStylesheet>
             E<PanelContainer>().Class(ListHeader).Panel(listHeader),
             E<PanelContainer>().Class(ListRow).Panel(listRow),
             E<PanelContainer>().Class(ListRowAlt).Panel(listRowAlt),
+            E<PanelContainer>().Class(TextField).Panel(textField),
             E<PanelContainer>().Class(PopupPanel).Panel(popupPanel),
             E<PanelContainer>().Class(OptionButton.StyleClassOptionsBackground).Panel(optionDropdownBackground),
             E<ItemList>()

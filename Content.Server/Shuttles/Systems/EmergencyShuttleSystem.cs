@@ -482,6 +482,11 @@ public sealed partial class EmergencyShuttleSystem : SharedEmergencyShuttleSyste
 
         _consoleAccumulator *= multiplier;
 
+        // DS14-start
+        if (IsTraitorUltraRuleAdded())
+            _consoleAccumulator = GetTraitorUltraEmergencyDockTime(worstResult);
+        // DS14-end
+
         foreach (var shuttleDockResult in dockResults)
         {
             AnnounceShuttleDock(shuttleDockResult, multiplier > 1);

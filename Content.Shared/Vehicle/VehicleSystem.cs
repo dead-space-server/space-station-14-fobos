@@ -14,6 +14,7 @@ using Content.Shared.Damage.Systems;
 using Content.Shared.Hands.Components;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Components;
+using Content.Shared.Mobs;
 using Content.Shared.Movement.Components;
 using Content.Shared.Movement.Events;
 using Content.Shared.Movement.Systems;
@@ -77,6 +78,7 @@ public sealed partial class VehicleSystem : EntitySystem
 
         SubscribeLocalEvent<VehicleOperatorComponent, ComponentShutdown>(OnOperatorShutdown);
         //DS14-start
+        SubscribeLocalEvent<VehicleOperatorComponent, MobStateChangedEvent>(OnOperatorMobStateChanged);
         SubscribeLocalEvent<VehicleOperatorComponent, UpdateCanMoveEvent>(OnOperatorUpdateCanMove);
         SubscribeLocalEvent<VehicleComponent, VehicleOperatorSetEvent>(OnVehicleOperatorSet);
         SubscribeLocalEvent<VehicleComponent, StartCollideEvent>(OnStartCollide);
@@ -571,6 +573,13 @@ public sealed partial class VehicleSystem : EntitySystem
         if (!CanVehicleRun((vehicleUid, vehicle)))
             args.Cancel();
     }
+
+    private void OnOperatorMobStateChanged(Entity<VehicleOperatorComponent> ent, ref MobStateChangedEvent args)
+    {
+        if (args.NewMobState == MobState.Dead)
+            TryRemoveOperator(ent.AsNullable());
+    }
+
     private void OnStartCollide(Entity<VehicleComponent> ent, ref StartCollideEvent args)
     {
         if (!_net.IsServer)

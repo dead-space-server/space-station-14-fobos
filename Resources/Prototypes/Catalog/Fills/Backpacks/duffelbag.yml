@@ -146,18 +146,19 @@
   description: "Reloading! Contains 4 magazines for the C-20r, 5 drums for the Bulldog, 3 magazines for the Estoc DMR, and 2 ammo boxes for the L6 SAW."
   components:
   - type: StorageFill
-    contents:
+    contents: #DS14
       - id: MagazinePistolSubMachineGun
         amount: 4
       - id: MagazineShotgun
-        amount: 4
-      - id: MagazineRifle
         amount: 3
-      - id: MagazineShotgunSlug
-        amount: 1
+      - id: MagazineGurza
+        amount: 3
+      - id: MagazineR17
+        amount: 3
+      - id: ADTExtMagazineRifle
+        amount: 2
       - id: MagazineLightRifleBox
         amount: 2
-
 - type: entity
   parent: ClothingBackpackDuffelClown
   id: ClothingBackpackDuffelSyndicateCostumeClown

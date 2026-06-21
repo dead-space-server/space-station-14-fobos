@@ -1,0 +1,16 @@
+- type: entity
+  parent: BaseMentalAction
+  id: ActionTraitorUltraOpenContract
+  name: Open contract
+  description: Open the intercepted escalation contract.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    useDelay: 1
+    itemIconStyle: BigAction
+    priority: 10
+    icon:
+      sprite: Objects/Misc/bureaucracy.rsi
+      state: paper
+  - type: InstantAction
+    event: !type:TraitorUltraOpenContractActionEvent

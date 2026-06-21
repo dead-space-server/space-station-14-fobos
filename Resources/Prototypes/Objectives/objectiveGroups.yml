@@ -11,9 +11,8 @@
 - type: weightedRandom
   id: TraitorUltraObjectiveGroups
   weights:
-    TraitorObjectiveGroupSteal: 1
+    TraitorUltraObjectiveGroupSteal: 1
     TraitorUltraObjectiveGroupKill: 1
-    TraitorObjectiveGroupSocial: 1
 # DS14-end
 
 - type: weightedRandom
@@ -35,6 +34,26 @@
     PistolBlueShieldStealObjective: 0.5 # DS14
     PinpointerNuclearStealObjective: 1 # DS14
 
+# DS14-start
+- type: weightedRandom
+  id: TraitorUltraObjectiveGroupSteal
+  weights:
+    CaptainIDStealObjective: 1
+    CMOHyposprayStealObjective: 1
+    CMOCrewMonitorStealObjective: 1
+    RDHardsuitStealObjective: 1
+    MagbootsStealObjective: 1
+    CorgiMeatStealObjective: 1
+    ClipboardStealObjective: 1
+    KnuckleDustersStealObjective: 1
+    CaptainGunStealObjective: 0.5
+    CaptainJetpackStealObjective: 0.5
+    HandTeleporterStealObjective: 0.5
+    WeaponX01StealObjective: 0.25
+    PistolBlueShieldStealObjective: 0.5
+    PinpointerNuclearStealObjective: 1
+# DS14-end
+
 - type: weightedRandom
   id: TraitorObjectiveGroupKill
   weights:
@@ -45,9 +64,9 @@
 - type: weightedRandom
   id: TraitorUltraObjectiveGroupKill
   weights:
-    KillRandomPersonObjective: 1
-    KillRandomHeadObjective: 0.25
-    KillRandomTraitorObjective: 0.25
+    TraitorUltraKillRandomPersonObjective: 1
+    TraitorUltraKillRandomHeadObjective: 0.25
+    TraitorUltraKillRandomTraitorObjective: 0.25
 # DS14-end
 
 - type: weightedRandom

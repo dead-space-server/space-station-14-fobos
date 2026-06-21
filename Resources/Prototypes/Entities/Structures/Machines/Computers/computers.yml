@@ -98,6 +98,13 @@
   name: emergency shuttle console
   description: Handles authorization to early launch the shuttle.
   components:
+  # DS14-start
+  - type: Tag
+    tags:
+    - Structure
+    - EmagImmune
+    - AccessBreakerImmune
+  # DS14-end
   - type: AccessReader
     access:
     - [ Command ]

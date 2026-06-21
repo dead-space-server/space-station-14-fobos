@@ -31,10 +31,91 @@ public sealed partial class AtmosphereSystem
     /// </summary>
     private const int DeltaPressurePairCount = Atmospherics.Directions / 2;
 
+    private const int DeltaPressureScalarBatchThreshold = 32; // DS14
+
     /// <summary>
     /// The length to pre-allocate list/dicts of delta pressure entities on a <see cref="GridAtmosphereComponent"/>.
     /// </summary>
     public const int DeltaPressurePreAllocateLength = 1000;
+
+    // DS14-start: default batches are tiny, so avoid ArrayPool/SIMD setup unless the batch is large enough.
+    private void ProcessDeltaPressureEntityScalar(GridAtmosphereComponent gridAtmosComp, int start, int end)
+    {
+        var entList = gridAtmosComp.DeltaPressureEntities;
+        var tiles = gridAtmosComp.Tiles;
+
+        for (var i = start; i < end; i++)
+        {
+            var ent = entList[i];
+            if (_airtightQuery.HasComp(ent))
+                continue;
+
+            _deltaPressureInvalidEntityQueue.Enqueue(ent);
+            Log.Error($"DeltaPressure entity without an AirtightComponent found in processing list! Ent: {ent}");
+            return;
+        }
+
+        for (var i = start; i < end; i++)
+        {
+            var ent = entList[i];
+
+            if (!_airtightQuery.TryComp(ent, out var airtightComp))
+            {
+                _deltaPressureInvalidEntityQueue.Enqueue(ent);
+                Log.Error($"DeltaPressure entity without an AirtightComponent found in processing list! Ent: {ent}");
+                return;
+            }
+
+            if (!_random.Prob(ent.Comp.RandomDamageChance))
+            {
+                SetIsTakingDamageState(ent, false);
+                continue;
+            }
+
+            var currentPos = airtightComp.LastPosition.Tile;
+            var blockedDirections = airtightComp.AirBlockedDirection;
+            var useLocalPressure = !airtightComp.NoAirWhenFullyAirBlocked;
+            var localPressure = 0f;
+            if (useLocalPressure && blockedDirections != AtmosDirection.All &&
+                tiles.TryGetValue(currentPos, out var localTile) && localTile.Air is { } localMixture)
+            {
+                localPressure = localMixture.TotalMoles * Atmospherics.R * localMixture.Temperature / localMixture.Volume;
+            }
+
+            // Keep the same directional order as the original pressure span:
+            // North, South, East, West. Only blocked directions need neighbor lookups.
+            var northPressure = useLocalPressure && !blockedDirections.IsFlagSet(AtmosDirection.North)
+                ? localPressure
+                : GetTilePressure(tiles.GetValueOrDefault(currentPos.Offset(AtmosDirection.North)));
+            var southPressure = useLocalPressure && !blockedDirections.IsFlagSet(AtmosDirection.South)
+                ? localPressure
+                : GetTilePressure(tiles.GetValueOrDefault(currentPos.Offset(AtmosDirection.South)));
+            var eastPressure = useLocalPressure && !blockedDirections.IsFlagSet(AtmosDirection.East)
+                ? localPressure
+                : GetTilePressure(tiles.GetValueOrDefault(currentPos.Offset(AtmosDirection.East)));
+            var westPressure = useLocalPressure && !blockedDirections.IsFlagSet(AtmosDirection.West)
+                ? localPressure
+                : GetTilePressure(tiles.GetValueOrDefault(currentPos.Offset(AtmosDirection.West)));
+
+            var maxPressure = MathF.Max(
+                MathF.Max(northPressure, southPressure),
+                MathF.Max(eastPressure, westPressure));
+            var maxDelta = MathF.Max(
+                MathF.Abs(northPressure - southPressure),
+                MathF.Abs(eastPressure - westPressure));
+
+            EnqueueDeltaPressureDamage(ent, gridAtmosComp, maxPressure, maxDelta);
+        }
+    }
+
+    private static float GetTilePressure(TileAtmosphere? tile)
+    {
+        if (tile?.Air is not { } mixture)
+            return float.Epsilon * Atmospherics.R;
+
+        return mixture.TotalMoles * Atmospherics.R * mixture.Temperature / mixture.Volume;
+    }
+    // DS14-end
 
     /// <summary>
     /// Bulk processes a range of <see cref="DeltaPressureComponent"/> entities on a <see cref="GridAtmosphereComponent"/>
@@ -56,6 +137,14 @@ public sealed partial class AtmosphereSystem
 
         var entList = gridAtmosComp.DeltaPressureEntities;
         var len = end - start;
+
+        // DS14-start
+        if (len <= DeltaPressureScalarBatchThreshold)
+        {
+            ProcessDeltaPressureEntityScalar(gridAtmosComp, start, end);
+            return;
+        }
+        // DS14-end
 
         const int dirs = Atmospherics.Directions;
         // Total number of tiles to gather = number of entities * number of directions.

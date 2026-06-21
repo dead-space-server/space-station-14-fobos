@@ -33,20 +33,27 @@ public sealed class TraitorUltraOfferEui : BaseEui
     {
         base.HandleMessage(msg);
 
-        if (msg is not TraitorUltraOfferChoiceMessage choice ||
-            choice.Button == TraitorUltraOfferButton.Decline)
+        if (IsShutDown)
+            return;
+
+        if (msg is not TraitorUltraOfferChoiceMessage choice)
+            return;
+
+        if (choice.Button == TraitorUltraOfferButton.Decline)
         {
             _system.HandleUpgradeOffer(_rule, _mindId, false);
-            Close();
+            if (!IsShutDown)
+                Close();
             return;
         }
 
         _system.HandleUpgradeOffer(_rule, _mindId, true);
-        Close();
+        if (!IsShutDown)
+            Close();
     }
 
     public override void Closed()
     {
-        _system.HandleUpgradeOffer(_rule, _mindId, false);
+        _system.OnUpgradeOfferEuiClosed(_mindId, this);
     }
 }

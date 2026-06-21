@@ -8,8 +8,13 @@ roles-antag-syndicate-agent-ultra-objective = You accepted an escalation contrac
 store-category-ultra = Ultra
 
 traitor-ultra-objectives-complete-popup = Final objective completion registered, calculating...
+traitor-ultra-contract-action-name = Open contract
+traitor-ultra-contract-action-description = Open the intercepted escalation contract. If no decision is made within two minutes, the contract will be automatically withdrawn.
+ent-ActionTraitorUltraOpenContract = { traitor-ultra-contract-action-name }
+    .desc = { traitor-ultra-contract-action-description }
+traitor-ultra-offer-ready-popup = The intercepted contract is ready. Use the action to open the offer.
 traitor-ultra-offer-title = Contract Intercepted
-traitor-ultra-offer-body = {$newCorp} has reviewed your completed contract with {$oldCorp}. They are offering a hostile buyout: louder methods, larger assets, and protection only while you remain useful.
+traitor-ultra-offer-body = {$newCorp} has reviewed your completed contract with {$oldCorp}. They are offering a hostile buyout: louder methods, larger assets, and protection only while you remain useful. A response is required within two minutes; silence will be treated as refusal.
 traitor-ultra-offer-gains =
     You receive:
     - permission for loud action
@@ -25,6 +30,7 @@ traitor-ultra-offer-losses =
 traitor-ultra-offer-accept = Accept
 traitor-ultra-offer-decline = Refuse
 traitor-ultra-offer-declined-popup = You remain faithful to your principles and return to a peaceful shift end.
+traitor-ultra-offer-expired-popup = Contract withdrawn: no decision was made in time.
 traitor-ultra-upgrade-briefing = Contract transfer confirmed. {$oldCorp} no longer recognizes you as protected property. {$newCorp} has opened the escalation budget and attached a new directive package. Your old objectives remain recorded; your new orders are available in your character menu.
 traitor-ultra-role-briefing-memory = Escalation contract: former handler {$oldCorp}; active handler {$newCorp}. The original uplink channel remains valid.
 traitor-ultra-bounty-announcement =

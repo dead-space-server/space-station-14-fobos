@@ -260,6 +260,7 @@
   components:
   - type: TraitorRule
     startingBalance: 30
+    giveUplink: false
   - type: TraitorUltraRule
   - type: AntagSelection
     agentName: traitor-ultra-round-end-agent-name

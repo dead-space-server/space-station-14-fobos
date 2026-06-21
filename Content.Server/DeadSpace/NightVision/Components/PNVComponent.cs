@@ -1,5 +1,7 @@
-﻿
+﻿using System;
+
 using Robust.Shared.Audio;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Components.NightVision;
 
@@ -19,5 +21,24 @@ public sealed partial class PNVComponent : Component
 
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
+    public EntProtoId ActionToggleNightVision = "ActionToggleNightVision";
+
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
     public SoundSpecifier? ActivateSound = null;
+
+    [ViewVariables(VVAccess.ReadOnly)]
+    public PreviousNightVisionState? PreviousNightVision;
+}
+
+public sealed class PreviousNightVisionState
+{
+    public Color Color;
+    public SoundSpecifier? ActivateSound;
+    public float? Duration;
+    public bool Animation;
+    public EntProtoId ActionToggleNightVision;
+    public EntityUid? ActionToggleNightVisionEntity;
+    public TimeSpan? ActionCooldownRemaining;
+    public bool? ActionWasTemporary;
 }

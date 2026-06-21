@@ -35,9 +35,6 @@ namespace Content.Shared.Nutrition.EntitySystems
 
         public void SetCreamPied(EntityUid uid, CreamPiedComponent creamPied, bool value)
         {
-            if (value == creamPied.CreamPied)
-                return;
-
             creamPied.CreamPied = value;
 
             if (TryComp(uid, out AppearanceComponent? appearance))

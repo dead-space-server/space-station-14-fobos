@@ -8,8 +8,13 @@ roles-antag-syndicate-agent-ultra-objective = Вы приняли контрак
 store-category-ultra = Ультра
 
 traitor-ultra-objectives-complete-popup = Зафиксировано выполнение последней цели, проводится расчёт...
+traitor-ultra-contract-action-name = Открыть контракт
+traitor-ultra-contract-action-description = Открыть перехваченный контракт на эскалацию. Если решение не будет принято за две минуты, контракт будет автоматически отозван.
+ent-ActionTraitorUltraOpenContract = { traitor-ultra-contract-action-name }
+    .desc = { traitor-ultra-contract-action-description }
+traitor-ultra-offer-ready-popup = Перехваченный контракт готов. Используйте действие, чтобы открыть предложение.
 traitor-ultra-offer-title = Перехват контракта
-traitor-ultra-offer-body = {$newCorp} изучили ваш закрытый контракт с {$oldCorp}. Вам предлагается куш "Всё или ничего": Долой прятки, мелкие диверсии и прочие ограничения от прошлого нанимателя. Разумеется с соответствующей оплатой - ровно до тех пор, пока вы полезны.
+traitor-ultra-offer-body = {$newCorp} изучили ваш закрытый контракт с {$oldCorp}. Вам предлагается куш "Всё или ничего": Долой прятки, мелкие диверсии и прочие ограничения от прошлого нанимателя. Разумеется с соответствующей оплатой - ровно до тех пор, пока вы полезны. Ответ должен поступить в течение двух минут; молчание будет считаться отказом.
 traitor-ultra-offer-gains =
     Вы получаете:
     - право на громкую игру
@@ -25,6 +30,7 @@ traitor-ultra-offer-losses =
 traitor-ultra-offer-accept = Согласиться
 traitor-ultra-offer-decline = Отказаться
 traitor-ultra-offer-declined-popup = Вы остаётесь верны своему текущему контракту и возвращаетесь к мирному завершению смены.
+traitor-ultra-offer-expired-popup = Контракт отозван: решение не было принято вовремя.
 
 traitor-ultra-upgrade-briefing = Смена контрактов подтверждена. Вы более не являетесь частью активов {$oldCorp}. {$newCorp} открывает дополнительный инструментарий и прикладывает новый пакет целей. Старые цели остаются в деле; новые же доступны в меню персонажа.
 traitor-ultra-role-briefing-memory = Контракт эскалации: предыдущий наниматель {$oldCorp}; текущий наниматель {$newCorp}. Исходный канал аплинка остаётся действительным.

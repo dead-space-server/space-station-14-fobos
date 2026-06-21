@@ -125,3 +125,8 @@
     balance:
       Telecrystal: 99999
     expectedFaction: #nulls out the expected faction
+  # DS14-start
+  - type: Tag
+    tags:
+    - DebugUplink
+  # DS14-end

@@ -28,6 +28,7 @@ public sealed partial class AdminVerbSystem
     [Dependency] private readonly ZombieSystem _zombie = default!;
     [Dependency] private readonly GameTicker _gameTicker = default!;
     [Dependency] private readonly OutfitSystem _outfit = default!;
+    [Dependency] private readonly TraitorUltraRuleSystem _traitorUltra = default!; // DS14
 
     private static readonly EntProtoId DefaultTraitorRule = "Traitor";
     private static readonly EntProtoId DefaultInitialInfectedRule = "Zombie";
@@ -72,7 +73,7 @@ public sealed partial class AdminVerbSystem
                 // DS14-start
                 if (TryGetTraitorUltraRule(out var traitorUltraRule))
                 {
-                    _antag.MakeAntag(traitorUltraRule, targetPlayer, traitorUltraRule.Comp.Definitions[^1]);
+                    _traitorUltra.MakeAdminTraitorUltra(traitorUltraRule, targetPlayer, traitorUltraRule.Comp2.Definitions[^1]);
                     return;
                 }
                 // DS14-end
@@ -377,15 +378,15 @@ public sealed partial class AdminVerbSystem
     }
 
     // DS14-start
-    private bool TryGetTraitorUltraRule(out Entity<AntagSelectionComponent> rule)
+    private bool TryGetTraitorUltraRule(out Entity<TraitorUltraRuleComponent, AntagSelectionComponent> rule)
     {
         var query = EntityQueryEnumerator<TraitorUltraRuleComponent, AntagSelectionComponent, GameRuleComponent>();
-        while (query.MoveNext(out var uid, out _, out var antagSelection, out var gameRule))
+        while (query.MoveNext(out var uid, out var traitorUltra, out var antagSelection, out var gameRule))
         {
             if (!_gameTicker.IsGameRuleAdded(uid, gameRule))
                 continue;
 
-            rule = (uid, antagSelection);
+            rule = (uid, traitorUltra, antagSelection);
             return true;
         }
 

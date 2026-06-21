@@ -57,6 +57,37 @@ public sealed class UplinkSystem : EntitySystem
         return true;
     }
 
+    // DS14-start
+    /// <summary>
+    /// Adds a specific uplink implant without charging the fallback uplink implanter listing cost.
+    /// </summary>
+    public EntityUid? AddImplantUplink(
+        EntityUid user,
+        FixedPoint2 balance,
+        EntProtoId implantPrototype,
+        bool giveDiscounts = false)
+    {
+        var implant = _subdermalImplant.AddImplant(user, implantPrototype);
+        if (implant == null)
+            return null;
+
+        if (!HasComp<StoreComponent>(implant.Value))
+        {
+            Log.Error($"Implant does not have the store component {implant}");
+            return null;
+        }
+
+        SetUplink(user, implant.Value, balance, giveDiscounts);
+        return implant.Value;
+    }
+
+    public void SetupUplink(EntityUid user, EntityUid uplink, FixedPoint2 balance, bool giveDiscounts)
+    {
+        EnsureComp<UplinkComponent>(uplink);
+        SetUplink(user, uplink, balance, giveDiscounts);
+    }
+    // DS14-end
+
     /// <summary>
     /// Configure TC for the uplink
     /// </summary>

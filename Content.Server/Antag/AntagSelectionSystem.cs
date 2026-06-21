@@ -2,6 +2,7 @@ using System.Linq;
 using Content.Server.Administration.Managers;
 using Content.Server.Antag.Components;
 using Content.Server.Chat.Managers;
+using Content.Server.DeadSpace.Traitor;
 using Content.Server.GameTicking;
 using Content.Server.GameTicking.Events;
 using Content.Server.GameTicking.Rules;
@@ -60,6 +61,7 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
 
     // arbitrary random number to give late joining some mild interest.
     public const float LateJoinRandomChance = 0.5f;
+    private const string SleeperAgentsRule = "SleeperAgents"; // DS14
 
     /// <inheritdoc/>
     public override void Initialize()
@@ -425,6 +427,11 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
     /// </summary>
     public void MakeAntag(Entity<AntagSelectionComponent> ent, ICommonSession? session, AntagSelectionDefinition def, bool ignoreSpawner = false)
     {
+        // DS14-start
+        if (session != null && TryRedirectSleeperAgentToTraitorUltra(ent, session))
+            return;
+        // DS14-end
+
         EntityUid? antagEnt = null;
         var isSpawner = false;
 
@@ -536,6 +543,39 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
         var afterEv = new AfterAntagEntitySelectedEvent(session, player, ent, def);
         RaiseLocalEvent(ent, ref afterEv, true);
     }
+
+    // DS14-start
+    private bool TryRedirectSleeperAgentToTraitorUltra(Entity<AntagSelectionComponent> ent, ICommonSession session)
+    {
+        if (MetaData(ent.Owner).EntityPrototype?.ID != SleeperAgentsRule)
+            return false;
+
+        if (!TryGetTraitorUltraRule(out var traitorUltraRule) ||
+            traitorUltraRule.Comp.Definitions.Count == 0)
+        {
+            return false;
+        }
+
+        MakeAntag(traitorUltraRule, session, traitorUltraRule.Comp.Definitions[^1]);
+        return true;
+    }
+
+    private bool TryGetTraitorUltraRule(out Entity<AntagSelectionComponent> rule)
+    {
+        var query = EntityQueryEnumerator<TraitorUltraRuleComponent, AntagSelectionComponent, GameRuleComponent>();
+        while (query.MoveNext(out var uid, out _, out var antagSelection, out var gameRule))
+        {
+            if (!GameTicker.IsGameRuleAdded(uid, gameRule))
+                continue;
+
+            rule = (uid, antagSelection);
+            return true;
+        }
+
+        rule = default;
+        return false;
+    }
+    // DS14-end
 
     /// <summary>
     /// Gets an ordered player pool based on player preferences and the antagonist definition.

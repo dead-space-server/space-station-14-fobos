@@ -24,4 +24,6 @@
         Slash: 10
   - type: Tag
     tags:
+    - Knife
+    - KitchenKnife
     - ChefGoldenKnife

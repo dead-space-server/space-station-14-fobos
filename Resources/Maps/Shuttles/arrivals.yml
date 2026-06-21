@@ -2590,6 +2590,92 @@ entities:
     - Anchorable
     - Construction
     - Destructible
+- proto: SpawnPointLatejoin
+  entities:
+  - uid: 10000
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 2.5,-0.5
+      parent: 292
+    - type: Godmode
+  - uid: 10001
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 2.5,0.5
+      parent: 292
+    - type: Godmode
+  - uid: 10002
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 2.5,1.5
+      parent: 292
+    - type: Godmode
+  - uid: 10003
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 2.5,2.5
+      parent: 292
+    - type: Godmode
+  - uid: 10004
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -1.5,-0.5
+      parent: 292
+    - type: Godmode
+  - uid: 10005
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -1.5,0.5
+      parent: 292
+    - type: Godmode
+  - uid: 10006
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -1.5,1.5
+      parent: 292
+    - type: Godmode
+  - uid: 10007
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -1.5,2.5
+      parent: 292
+    - type: Godmode
+  - uid: 10008
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 0.5,-0.5
+      parent: 292
+    - type: Godmode
+  - uid: 10009
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 0.5,0.5
+      parent: 292
+    - type: Godmode
+  - uid: 10010
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 0.5,1.5
+      parent: 292
+    - type: Godmode
+  - uid: 10011
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 0.5,2.5
+      parent: 292
+    - type: Godmode
 - proto: SubstationWallBasic
   entities:
   - uid: 77

@@ -15820,9 +15820,9 @@ entities:
           id: docking332635
           localAnchorB: 0.49999997,-8
           localAnchorA: 55,-44.5
-          referenceAngle: 4.712389
-          damping: 1013.44696
-          stiffness: 9096.68
+          referenceAngle: -1.5707964
+          damping: 0
+          stiffness: 0
     - type: SurveillanceCameraMap
   - uid: 4
     mapInit: true
@@ -15943,7 +15943,7 @@ entities:
     - type: MetaData
       name: NT-Raven-GE 08
     - type: Transform
-      rot: 4.71238898038469 rad
+      rot: -1.5707963267948966 rad
       pos: 62.324135,-44.601894
       parent: 1
     - type: MapGrid

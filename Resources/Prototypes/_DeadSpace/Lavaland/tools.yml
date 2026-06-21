@@ -386,6 +386,9 @@
       right:
       - state: staffofstorms-inhand-right
         shader: unshaded
+  - type: Tag
+    tags:
+    - WizardWand
   - type: Gun
     fireRate: 0.2
     soundGunshot:

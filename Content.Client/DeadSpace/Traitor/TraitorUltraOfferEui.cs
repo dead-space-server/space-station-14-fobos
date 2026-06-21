@@ -12,7 +12,6 @@ namespace Content.Client.DeadSpace.Traitor;
 public sealed class TraitorUltraOfferEui : BaseEui
 {
     private readonly TraitorUltraOfferWindow _window;
-    private bool _sentResponse;
 
     public TraitorUltraOfferEui()
     {
@@ -20,22 +19,14 @@ public sealed class TraitorUltraOfferEui : BaseEui
 
         _window.AcceptButton.OnPressed += _ =>
         {
-            _sentResponse = true;
             SendMessage(new TraitorUltraOfferChoiceMessage(TraitorUltraOfferButton.Accept));
             _window.Close();
         };
 
         _window.DeclineButton.OnPressed += _ =>
         {
-            _sentResponse = true;
             SendMessage(new TraitorUltraOfferChoiceMessage(TraitorUltraOfferButton.Decline));
             _window.Close();
-        };
-
-        _window.OnClose += () =>
-        {
-            if (!_sentResponse)
-                SendMessage(new TraitorUltraOfferChoiceMessage(TraitorUltraOfferButton.Decline));
         };
     }
 

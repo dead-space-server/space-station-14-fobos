@@ -201,3 +201,70 @@
     - 0,0,3,0
     - 0,1,3,2
     - 5,0,6,2
+
+- type: entity
+  parent: ClothingBackpackTailbag
+  id: ClothingBackpackTailbagBrigmedic
+  name: подсумок бригмедика на хвост плафеимов
+  description: Удобный подсумок на хвост. Бригмедики любят свободные карманы.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Back/Tailbag/brigmedic.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Back/Tailbag/brigmedic.rsi
+
+- type: entity
+  parent: ClothingBackpackTailbag
+  id: ClothingBackpackTailbagCE
+  name: подсумок старшего инженера на хвост плафеимов
+  description: Удобный подсумок старшего инженера на хвост.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Back/Tailbag/ce.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Back/Tailbag/ce.rsi
+
+- type: entity
+  parent: ClothingBackpackTailbag
+  id: ClothingBackpackTailbagCoroner
+  name: подсумок коронера на хвост плафеимов
+  description: Удобный подсумок на хвост. Не для трупов
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Back/Tailbag/coroner.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Back/Tailbag/coroner.rsi
+
+- type: entity
+  parent: ClothingBackpackTailbag
+  id: ClothingBackpackTailbagRobotics
+  name: подсумок робототехника на хвост плафеимов
+  description: Удобный подсумок на хвост.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Back/Tailbag/robotics.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Back/Tailbag/robotics.rsi
+
+- type: entity
+  parent: ClothingBackpackTailbag
+  id: ClothingBackpackTailbagBlueshield
+  name: подсумок синего щита на хвост плафеимов
+  description: Удобный подсумок на хвост. Точно не риг.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Back/Tailbag/blueshield.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Back/Tailbag/blueshield.rsi
+
+- type: entity
+  parent: ClothingBackpackTailbag
+  id: ClothingBackpackTailbagVirology
+  name: подсумок вирусолога на хвост плафеимов
+  description: Удобный подсумок на хвост. Пробирки с вирусом тут в безопасности.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Back/Tailbag/virology.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Back/Tailbag/virology.rsi
+

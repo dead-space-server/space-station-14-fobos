@@ -1,0 +1,20 @@
+- type: entity
+  parent: [ BaseSubdermalImplant, StorePresetTraitorUltraUplink ]
+  id: TraitorUltraUplinkImplant
+  name: uplink implant
+  description: This implant lets the user access a hidden Syndicate uplink at will.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: SubdermalImplant
+    implantAction: ActionOpenUplinkImplant
+    drawableProtoIdOverride: UplinkImplant
+    whitelist:
+      components:
+      - Hands
+  - type: Store
+    balance:
+      Telecrystal: 0
+  - type: UserInterface
+    interfaces:
+      enum.StoreUiKey.Key:
+        type: StoreBoundUserInterface
