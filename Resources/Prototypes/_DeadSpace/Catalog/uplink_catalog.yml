@@ -1136,3 +1136,22 @@
     whitelist:
       tags:
       - NukeOpsUplink
+
+- type: listing
+  id: UplinkRPG70
+  name: РПГ70
+  description: Невероятно мощный одноразовый гранатомёт для уничтожения структур. Почти не наносит вреда людям.
+  productEntity: WeaponLauncherRPG70
+  icon: { sprite: /Textures/_DeadSpace/Objects/Weapons/Guns/Launchers/rpg70.rsi, state: icon }
+  cost:
+    Telecrystal: 6
+  categories:
+  - UplinkExplosives
+  conditions:
+  - !type:StoreWhitelistCondition
+    whitelist:
+      tags:
+      - NukeOpsUplink
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
