@@ -1551,6 +1551,7 @@
   - SecurityJumpskirt
   - SecurityJumpsuitGrey
   - SecurityJumpskirtGrey
+  - SecurityJumpsuitSecBlue # DS14
   - SecurityJumpsuitBlack # DS14
   - SecurityJumpskirtPencil # DS14
   # - SeniorOfficerJumpsuit
