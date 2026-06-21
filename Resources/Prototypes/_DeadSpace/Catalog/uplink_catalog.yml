@@ -311,6 +311,28 @@
       - NukeOpsUplink
 
 - type: listing
+  id: UplinkSmokingCarpInjector
+  name: uplink-smoking-carp-name
+  description: uplink-smoking-carp-desc
+  icon: { sprite: _DeadSpace/Objects/Misc/injector_smoking_carp.rsi, state: icon }
+  productEntity: SmokingCarpInjector
+  discountCategory: usualDiscounts
+  discountDownTo:
+    Telecrystal: 8
+  cost:
+    Telecrystal: 14
+  categories:
+  - UplinkWeaponry
+  conditions:
+  - !type:BuyerAntagCondition
+    blacklist:
+    - TraitorUltra
+  - !type:StoreWhitelistCondition
+    blacklist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
   id: UplinkArkalyseBundleNukeOps
   name: uplink-arkalyse-bundle-name
   description: uplink-arkalyse-bundle-desc
