@@ -696,6 +696,16 @@
     accentHColor: "#12445b" # DS14
   - type: Icon
     state: pda-hop
+  - type: CartridgeLoader
+    uiKey: enum.PdaUiKey.Key
+    preinstalled:
+      - CrewManifestCartridge
+      - NotekeeperCartridge
+      - NanoTaskCartridge
+      - NewsReaderCartridge
+      - MessengerCartridge
+      - BankCartridge
+      - ScannerProgramCartridge
 
 - type: entity
   parent: BasePDA
