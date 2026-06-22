@@ -9,6 +9,15 @@
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: micro_laser
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
@@ -19,6 +28,15 @@
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: micro_laser
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
@@ -29,6 +47,15 @@
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: matter_bin
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # Дрозд
 
@@ -41,6 +68,15 @@
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: micro_laser
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # МК
 
@@ -53,6 +89,15 @@
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: micro_laser
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
@@ -63,6 +108,15 @@
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: high_micro_laser
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # Силовик и Каммер
 
@@ -75,6 +129,15 @@
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: matter_bin
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # Арес/Силовик
 
@@ -87,6 +150,15 @@
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: wavelength_analyzer
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
@@ -97,6 +169,15 @@
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: wavelength_analyzer
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # Силовик
 
@@ -109,6 +190,15 @@
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: micro_laser
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # Каммер
 
@@ -121,6 +211,15 @@
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: micro_laser
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # Арес
 
@@ -133,6 +232,15 @@
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: micro_laser
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # Общее
 
@@ -145,6 +253,15 @@
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: high_micro_laser
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
@@ -155,6 +272,15 @@
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: electrolite
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # Детали
 
@@ -169,6 +295,15 @@
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/lecter.rsi
     state: part_1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
@@ -179,6 +314,15 @@
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/lecter.rsi
     state: part_2
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
@@ -189,6 +333,15 @@
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/lecter.rsi
     state: part_3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # Дрозд
 
@@ -201,6 +354,15 @@
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/drozd.rsi
     state: part_1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
@@ -211,6 +373,15 @@
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/drozd.rsi
     state: part_2
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
@@ -221,6 +392,15 @@
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/drozd.rsi
     state: part_3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # МК
 
@@ -233,6 +413,15 @@
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/mk.rsi
     state: part_1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
@@ -243,6 +432,15 @@
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/mk.rsi
     state: part_2
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
@@ -253,6 +451,15 @@
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/mk.rsi
     state: part_3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # Арес
 
@@ -265,6 +472,15 @@
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/ares.rsi
     state: part_1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
@@ -275,6 +491,15 @@
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/ares.rsi
     state: part_2
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
@@ -285,6 +510,15 @@
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/ares.rsi
     state: part_3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # Силовик
 
@@ -297,6 +531,15 @@
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/enforcer.rsi
     state: part_1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
@@ -307,6 +550,15 @@
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/enforcer.rsi
     state: part_2
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
@@ -317,6 +569,15 @@
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/enforcer.rsi
     state: part_3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # Каммерер
 
@@ -329,6 +590,15 @@
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/kammer.rsi
     state: part_1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
@@ -339,6 +609,15 @@
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/kammer.rsi
     state: part_2
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
@@ -349,3 +628,12 @@
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/kammer.rsi
     state: part_3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg

@@ -1,5 +1,6 @@
 using Content.Shared.Movement.Components;
 using Content.Shared.Movement.Events;
+using Content.Shared.DeadSpace.Movement.Components;
 using Content.Shared.Gravity;
 using Content.Shared.Slippery;
 using Content.Shared.Whitelist;
@@ -84,6 +85,14 @@ public sealed class SpeedModifierContactsSystem : EntitySystem
     {
         if (!TryComp<PhysicsComponent>(uid, out var physicsComponent))
             return;
+
+        // DS14-start
+        if (HasComp<HoverIgnoresContactSlowdownComponent>(uid))
+        {
+            _toRemove.Add(uid);
+            return;
+        }
+        // DS14-end
 
         var walkSpeed = 0.0f;
         var sprintSpeed = 0.0f;

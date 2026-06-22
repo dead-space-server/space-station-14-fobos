@@ -140,3 +140,11 @@
     notificationPrefix: prayer-chat-notify-lamp
     verb: prayer-verbs-rub
     verbImage: null
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/tray/tray_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/tray/tray_drop.ogg
+  #DS14-End

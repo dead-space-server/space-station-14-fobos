@@ -1,0 +1,11 @@
+- files:
+    - "pistol_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/handling/gun/ballistics/pistol/pistol_drop1.ogg"
+
+- files:
+    - "pistol_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/handling/gun/ballistics/pistol/pistol_pickup1.ogg"

@@ -212,6 +212,13 @@ public abstract class SharedRoleSystem : EntitySystem
         return true;
     }
 
+    // DS14-start
+    public bool RefreshMindRoleType(Entity<MindComponent?> ent)
+    {
+        return MindRolesUpdate(ent);
+    }
+    // DS14-end
+
     /// <summary>
     ///     Return the most recently specified role type and subtype, or Neutral
     /// </summary>

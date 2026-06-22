@@ -1,4 +1,5 @@
 using System.Numerics;
+using Content.Server.DeadSpace.Shuttles.Systems;
 using Content.Server.UserInterface;
 using Content.Shared.Shuttles.BUIStates;
 using Content.Shared.Shuttles.Components;
@@ -62,19 +63,29 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
 
         _updateAccumulator = 0f;
 
+        Dictionary<NetEntity, List<DockingPortState>>? docks = null;
         var query = EntityQueryEnumerator<RadarConsoleComponent>();
         while (query.MoveNext(out var uid, out var comp))
         {
             if (!_uiSystem.IsUiOpen(uid, RadarConsoleUiKey.Key))
                 continue;
 
-            UpdateState(uid, comp);
+            docks ??= _console.GetAllDocks();
+            UpdateStateWithDocks(uid, comp, docks);
         }
     }
-    // DS14-end
 
     protected override void UpdateState(EntityUid uid, RadarConsoleComponent component)
     {
+        UpdateStateWithDocks(uid, component, null);
+    }
+
+    private void UpdateStateWithDocks(
+        EntityUid uid,
+        RadarConsoleComponent component,
+        Dictionary<NetEntity, List<DockingPortState>>? docks)
+    {
+        // DS14-end
         var xform = Transform(uid);
         var onGrid = xform.ParentUid == xform.GridUid;
         EntityCoordinates? coordinates = onGrid ? xform.Coordinates : null;
@@ -91,7 +102,7 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
             return;
 
         NavInterfaceState state;
-        var docks = _console.GetAllDocks();
+        docks ??= _console.GetAllDocks();
 
         if (coordinates != null && angle != null)
             state = _console.GetNavState(uid, docks, coordinates.Value, angle.Value);

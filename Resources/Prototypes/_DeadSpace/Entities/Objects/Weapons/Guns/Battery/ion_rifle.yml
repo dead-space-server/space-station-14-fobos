@@ -50,7 +50,7 @@
 - type: entity
   name: ионный заряд
   id: IonRifleBullet
-  parent: [BaseBulletTrigger, EmitterBolt]
+  parent: [BaseBulletTrigger, BaseEmitterProjectile]
   categories: [ HideSpawnMenu ]
   components:
     - type: Sprite

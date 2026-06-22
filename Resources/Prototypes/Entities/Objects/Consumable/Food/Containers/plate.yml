@@ -82,6 +82,17 @@
     materialComposition:
       Glass: 50
   - type: SpaceGarbage
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/food_plate_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/food_plate_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/food_plate_drop.ogg
+  #DS14-End
 
 - type: entity
   name: broken plate
@@ -100,6 +111,17 @@
     tags:
     - Trash
   - type: SpaceGarbage
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/food_plate_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/food_plate_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/food_plate_drop.ogg
+  #DS14-End
 
 # Small Plate
 
@@ -208,6 +230,17 @@
   - type: Tag
     tags:
     - Trash
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/plastic_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/plastic_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/plastic_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: BaseItem
@@ -252,6 +285,17 @@
   - type: Tag
     tags:
     - Trash
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/plastic_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/plastic_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/plastic_drop.ogg
+  #DS14-End
 
 # Pie Tin
 
@@ -296,6 +340,17 @@
     materialComposition:
       Steel: 50
   - type: SpaceGarbage
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/tray/tray_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/tray/tray_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/tray/tray_drop.ogg
+  #DS14-End
 
 # Muffin Tin
 
@@ -340,3 +395,14 @@
     materialComposition:
       Steel: 25
   - type: SpaceGarbage
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/tray/tray_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/tray/tray_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/tray/tray_drop.ogg
+  #DS14-End

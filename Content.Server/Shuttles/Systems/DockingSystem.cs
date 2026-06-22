@@ -113,9 +113,6 @@ namespace Content.Server.Shuttles.Systems
         {
             _pathfinding.RemovePortal(dockA.PathfindHandle);
 
-            if (dockA.DockJoint != null)
-                _jointSystem.RemoveJoint(dockA.DockJoint);
-
             var dockBUid = dockA.DockedWith;
 
             if (dockBUid == null ||
@@ -126,6 +123,12 @@ namespace Content.Server.Shuttles.Systems
 
                 dockA.DockedWith = null;
                 return;
+            }
+
+            if (dockA.DockJoint != null &&
+                !IsDockJointUsedByOtherDock(dockAUid, dockBUid.Value, dockA.DockJoint))
+            {
+                _jointSystem.RemoveJoint(dockA.DockJoint);
             }
 
             dockB.DockedWith = null;
@@ -229,44 +232,63 @@ namespace Content.Server.Shuttles.Systems
             var gridB = dockBXform.GridUid!.Value;
 
             // May not be possible if map or the likes.
-            if (HasComp<PhysicsComponent>(gridA) &&
-                HasComp<PhysicsComponent>(gridB))
+            if (_physicsQuery.TryGetComponent(gridA, out var bodyA) &&
+                _physicsQuery.TryGetComponent(gridB, out var bodyB))
             {
                 SharedJointSystem.LinearStiffness(
                     2f,
                     0.7f,
-                    Comp<PhysicsComponent>(gridA).Mass,
-                    Comp<PhysicsComponent>(gridB).Mass,
+                    bodyA.Mass,
+                    bodyB.Mass,
                     out var stiffness,
                     out var damping);
 
-                // These need playing around with
-                // Could also potentially have collideconnected false and stiffness 0 but it was a bit more suss???
                 WeldJoint joint;
+                var configureJoint = true;
+                var hasExistingJoint = TryGetExistingDockJoint(gridA, gridB, dockAUid, dockBUid, out var existingJoint);
 
                 // Pre-existing joint so use that.
                 if (dockA.Comp.DockJointId != null)
                 {
-                    DebugTools.Assert(dockB.Comp.DockJointId == dockA.Comp.DockJointId);
-                    joint = _jointSystem.GetOrCreateWeldJoint(gridA, gridB, dockA.Comp.DockJointId);
+                    if (hasExistingJoint)
+                    {
+                        joint = existingJoint;
+                        configureJoint = false;
+                    }
+                    else
+                    {
+                        DebugTools.Assert(dockB.Comp.DockJointId == dockA.Comp.DockJointId);
+                        joint = _jointSystem.GetOrCreateWeldJoint(gridA, gridB, dockA.Comp.DockJointId);
+                    }
                 }
                 else
                 {
-                    joint = _jointSystem.GetOrCreateWeldJoint(gridA, gridB, DockingJoint + dockAUid);
+                    if (hasExistingJoint)
+                    {
+                        joint = existingJoint;
+                        configureJoint = false;
+                    }
+                    else
+                    {
+                        joint = _jointSystem.GetOrCreateWeldJoint(gridA, gridB, DockingJoint + dockAUid);
+                    }
                 }
 
-                var gridAXform = Comp<TransformComponent>(gridA);
-                var gridBXform = Comp<TransformComponent>(gridB);
+                if (configureJoint)
+                {
+                    var gridAXform = Comp<TransformComponent>(gridA);
+                    var gridBXform = Comp<TransformComponent>(gridB);
 
-                var anchorA = dockAXform.LocalPosition + dockAXform.LocalRotation.ToWorldVec() / 2f;
-                var anchorB = dockBXform.LocalPosition + dockBXform.LocalRotation.ToWorldVec() / 2f;
+                    var anchorA = dockAXform.LocalPosition + dockAXform.LocalRotation.ToWorldVec() / 2f;
+                    var anchorB = dockBXform.LocalPosition + dockBXform.LocalRotation.ToWorldVec() / 2f;
 
-                joint.LocalAnchorA = anchorA;
-                joint.LocalAnchorB = anchorB;
-                joint.ReferenceAngle = (float)(_transform.GetWorldRotation(gridBXform) - _transform.GetWorldRotation(gridAXform));
-                joint.CollideConnected = true;
-                joint.Stiffness = stiffness;
-                joint.Damping = damping;
+                    joint.LocalAnchorA = anchorA;
+                    joint.LocalAnchorB = anchorB;
+                    joint.ReferenceAngle = (float)(_transform.GetWorldRotation(gridBXform) - _transform.GetWorldRotation(gridAXform));
+                    joint.CollideConnected = false;
+                    joint.Stiffness = stiffness;
+                    joint.Damping = damping;
+                }
 
                 dockA.Comp.DockJoint = joint;
                 dockA.Comp.DockJointId = joint.ID;
@@ -455,6 +477,65 @@ namespace Content.Server.Shuttles.Systems
 
             return CanDock(new MapCoordinates(worldPosA, xformA.MapID), worldRotA,
                 new MapCoordinates(worldPosB, xformB.MapID), worldRotB);
+        }
+
+        private bool TryGetExistingDockJoint(
+            EntityUid gridA,
+            EntityUid gridB,
+            EntityUid dockAUid,
+            EntityUid dockBUid,
+            out WeldJoint joint)
+        {
+            var query = AllEntityQuery<DockingComponent, TransformComponent>();
+            while (query.MoveNext(out var uid, out var dock, out var xform))
+            {
+                if (uid == dockAUid ||
+                    uid == dockBUid ||
+                    dock.DockedWith is not { } otherDockUid ||
+                    dock.DockJoint is not WeldJoint dockJoint ||
+                    !_xformQuery.TryGetComponent(otherDockUid, out var otherXform) ||
+                    xform.GridUid is not { } dockGrid ||
+                    otherXform.GridUid is not { } otherGrid ||
+                    !SameGridPair(gridA, gridB, dockGrid, otherGrid))
+                {
+                    continue;
+                }
+
+                joint = dockJoint;
+                return true;
+            }
+
+            joint = default!;
+            return false;
+        }
+
+        private bool IsDockJointUsedByOtherDock(EntityUid dockAUid, EntityUid dockBUid, Joint joint)
+        {
+            var jointId = joint.ID;
+            var query = AllEntityQuery<DockingComponent>();
+            while (query.MoveNext(out var uid, out var dock))
+            {
+                if (uid == dockAUid ||
+                    uid == dockBUid ||
+                    dock.DockedWith == null)
+                {
+                    continue;
+                }
+
+                if (ReferenceEquals(dock.DockJoint, joint) ||
+                    !string.IsNullOrEmpty(jointId) && dock.DockJointId == jointId)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool SameGridPair(EntityUid aGridA, EntityUid aGridB, EntityUid bGridA, EntityUid bGridB)
+        {
+            return aGridA == bGridA && aGridB == bGridB ||
+                   aGridA == bGridB && aGridB == bGridA;
         }
     }
 }

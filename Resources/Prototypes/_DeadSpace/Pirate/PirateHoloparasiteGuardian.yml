@@ -12,6 +12,15 @@
     sprite: _DeadSpace/Pirates/PirateHoloparasiteInjector.rsi
   - type: GuardianCreator
     guardianProto: MobPirateHoloparasiteGuardian
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_analyzer/gas_analyzer_drop.ogg
 
 - type: entity
   name: Летучий голландец
@@ -131,3 +140,12 @@
     rechargeCooldown: 5
     rechargeSound: /Audio/_DeadSpace/Necromorfs/TheCircle/Weapon/sfx/rsh12-sfx/rsh-reload.ogg
   - type: AmmoCounter
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/pistol/pistol_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/pistol/pistol_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/pistol/pistol_drop.ogg

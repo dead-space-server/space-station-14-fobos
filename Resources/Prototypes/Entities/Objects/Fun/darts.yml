@@ -204,3 +204,14 @@
     - id: HypoDart
     sound:
       path: /Audio/Effects/unwrap.ogg
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/pill_bottle_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/pill_bottle_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/pill_bottle_drop.ogg
+  #DS14-End

@@ -19,9 +19,17 @@
     - rep
     - to
 
-- Flags: DEBUG
+- Flags: VAREDIT
   Commands:
     - comp
+
+- Flags: SPAWN
+  Commands:
+    - spawn
+    - replace
+
+- Flags: DEBUG
+  Commands:
     - delete
     - with
     - prototyped
@@ -35,8 +43,6 @@
     - count
     - types
     - actor
-    - spawn
-    - replace
     - mappos
     - pos
     - tp

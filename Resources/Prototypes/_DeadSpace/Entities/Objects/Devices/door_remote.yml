@@ -14,3 +14,20 @@
   - type: Access
     groups:
     - TaipanAccess
+
+- type: entity
+  parent: [DoorRemoteDefault, BaseCommandContraband]
+  id: DoorRemoteIAA
+  name: пульт от шлюзов юридического отдела
+  description: Гаджет, который может открывать и закрывать шлюзы дистанционно.
+  components:
+  - type: Sprite
+    layers:
+    - state: door_remotebase
+    - state: door_remotelightscolour
+      color: "#D2B48C"
+    - state: door_remotescreencolour
+      color: "#998366"
+  - type: Access
+  - type: DoorRemote
+    includeUserAccess: true

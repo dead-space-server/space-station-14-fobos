@@ -58,6 +58,17 @@
       gun_chamber: !type:ContainerSlot
   - type: StaticPrice
     price: 500
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/smg/smg_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/smg/smg_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/smg/smg_drop.ogg
+  #DS14-End
 
 - type: entity
   name: Atreides
@@ -173,6 +184,17 @@
     autoRefillRate: 4s
     affectedByEmp: true
   - type: AmmoCounter
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/smg/smg_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/smg/smg_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/smg/smg_drop.ogg
+  #DS14-End
 
 - type: entity
   name: Drozd

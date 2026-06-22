@@ -35,6 +35,15 @@
     tags:
     - Sheet
     - Titanium
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/metal_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/metal_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/metal_drop.ogg
 
 - type: entity
   parent: SheetTitanium
@@ -102,6 +111,15 @@
     tags:
     - Sheet
     - Plastitanium
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/metal_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/metal_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/metal_drop.ogg
 
 - type: entity
   parent: SheetPlastitanium
@@ -157,6 +175,15 @@
   - type: Tag
     tags:
     - Sheet
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/metal_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/metal_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/metal_drop.ogg
 
 - type: entity
   parent: SheetMagmite
@@ -212,6 +239,15 @@
   - type: Tag
     tags:
     - Sheet
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/glass_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/glass_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/glass_drop.ogg
 
 - type: entity
   parent: SheetBluespaceCrystal

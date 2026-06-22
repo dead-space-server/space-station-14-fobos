@@ -1,0 +1,17 @@
+- files:
+    - "cig_pack_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/cigs/cig_pack_drop1.ogg"
+
+- files:
+    - "cig_pack_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/cigs/cig_pack_pickup1.ogg"
+
+- files:
+    - "cig_pack_throw_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/cigs/cig_pack_throw_drop1.ogg"

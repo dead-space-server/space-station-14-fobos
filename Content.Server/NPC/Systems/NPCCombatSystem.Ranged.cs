@@ -1,11 +1,15 @@
+using System.Numerics;
 using Content.Server.NPC.Components;
+using Content.Shared.Prototypes;
 using Content.Shared.CombatMode;
 using Content.Shared.Interaction;
 using Content.Shared.Physics;
+using Content.Shared.Weapons.Hitscan.Components;
 using Content.Shared.Weapons.Ranged.Components;
 using Content.Shared.Weapons.Ranged.Events;
 using Robust.Shared.Map;
 using Robust.Shared.Physics.Components;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.NPC.Systems;
 
@@ -20,8 +24,7 @@ public sealed partial class NPCCombatSystem
     private EntityQuery<PhysicsComponent> _physicsQuery;
     private EntityQuery<TransformComponent> _xformQuery;
 
-    // TODO: Don't predict for hitscan
-    private const float ShootSpeed = 20f;
+    private const float FallbackProjectileLeadSpeed = 20f;
 
     /// <summary>
     /// Cooldown on raycasting to check LOS.
@@ -164,8 +167,7 @@ public sealed partial class NPCCombatSystem
                 continue;
             }
 
-            var mapVelocity = targetBody.LinearVelocity;
-            var targetSpot = targetPos + mapVelocity * distance / ShootSpeed;
+            var targetSpot = GetRangedTargetSpot(gun, targetPos, targetBody.LinearVelocity, distance);
 
             // If we have a max rotation speed then do that.
             var goalRotation = (targetSpot - worldPos).ToWorldAngle();
@@ -189,7 +191,7 @@ public sealed partial class NPCCombatSystem
 
             EntityCoordinates targetCordinates;
 
-            if (_mapManager.TryFindGridAt(xform.MapID, targetPos, out var gridUid, out var mapGrid))
+            if (_mapManager.TryFindGridAt(xform.MapID, targetSpot, out var gridUid, out var mapGrid))
             {
                 targetCordinates = new EntityCoordinates(gridUid, _map.WorldToLocal(gridUid, mapGrid, targetSpot));
             }
@@ -207,5 +209,64 @@ public sealed partial class NPCCombatSystem
 
             _gun.AttemptShoot(uid, gun, targetCordinates, comp.Target);
         }
+    }
+
+    private Vector2 GetRangedTargetSpot(Entity<GunComponent> gun, Vector2 targetPos, Vector2 targetVelocity, float distance)
+    {
+        if (UsesHitscanAmmo(gun))
+            return targetPos;
+
+        var projectileSpeed = gun.Comp.ProjectileSpeedModified > 0f
+            ? gun.Comp.ProjectileSpeedModified
+            : FallbackProjectileLeadSpeed;
+
+        return targetPos + targetVelocity * distance / projectileSpeed;
+    }
+
+    private bool UsesHitscanAmmo(Entity<GunComponent> gun)
+    {
+        if (TryComp<BatteryAmmoProviderComponent>(gun.Owner, out var battery))
+            return IsHitscanAmmoPrototype(battery.Prototype);
+
+        if (TryComp<BasicEntityAmmoProviderComponent>(gun.Owner, out var basic))
+            return IsHitscanAmmoPrototype(basic.Proto);
+
+        if (TryComp<BallisticAmmoProviderComponent>(gun.Owner, out var ballistic))
+            return BallisticProviderUsesHitscanAmmo(ballistic);
+
+        return false;
+    }
+
+    private bool BallisticProviderUsesHitscanAmmo(BallisticAmmoProviderComponent ballistic)
+    {
+        if (ballistic.Entities.Count > 0)
+            return IsHitscanAmmoEntity(ballistic.Entities[^1]);
+
+        return ballistic.UnspawnedCount > 0 && IsHitscanAmmoPrototype(ballistic.Proto);
+    }
+
+    private bool IsHitscanAmmoEntity(EntityUid ammo)
+    {
+        if (HasComp<HitscanAmmoComponent>(ammo))
+            return true;
+
+        return TryComp<CartridgeAmmoComponent>(ammo, out var cartridge) &&
+               IsHitscanAmmoPrototype(cartridge.Prototype);
+    }
+
+    private bool IsHitscanAmmoPrototype(string? protoId, int depth = 0)
+    {
+        if (depth > 8 ||
+            string.IsNullOrEmpty(protoId) ||
+            !_prototype.TryIndex<EntityPrototype>(protoId, out var prototype))
+        {
+            return false;
+        }
+
+        if (prototype.HasComponent<HitscanAmmoComponent>(_componentFactory))
+            return true;
+
+        return prototype.TryGetComponent<CartridgeAmmoComponent>(out var cartridge, _componentFactory) &&
+               IsHitscanAmmoPrototype(cartridge.Prototype, depth + 1);
     }
 }

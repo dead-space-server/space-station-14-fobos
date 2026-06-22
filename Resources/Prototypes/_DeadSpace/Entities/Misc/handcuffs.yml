@@ -1,0 +1,28 @@
+- type: entity
+  name: кандалы
+  description: Деревянный аналог наручников. Используются для сдерживания заключенных
+  id: Manacles
+  parent: Handcuffs
+  components:
+  - type: Item
+    size: Small
+    storedRotation: 90
+  - type: Handcuff
+    breakoutTime: 20
+    cuffedRSI: _DeadSpace/Objects/Misc/manacles.rsi
+    bodyIconState: body-overlay
+    breakOnRemove: true
+    brokenPrototype: ManaclesBroken
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Misc/manacles.rsi
+    state: cuff
+
+- type: entity
+  name: вскрытые кандалы
+  description: Похоже, что они уже не смогут закрыться вновь.
+  id: ManaclesBroken
+  parent: BaseHandcuffsBroken
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Misc/manacles.rsi
+    state: cuff-broken

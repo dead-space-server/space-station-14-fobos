@@ -130,7 +130,16 @@
     materialComposition:
       Glass: 500
       Plastic: 500
-  # DS14-end
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/taperecorder_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/taperecorder_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/taperecorder_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: BasePDA

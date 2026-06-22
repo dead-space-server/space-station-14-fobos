@@ -87,6 +87,13 @@
   id: MassMediaCircuitboard
   result: ComputerMassMediaCircuitboard
 
+# DS14-Start
+- type: latheRecipe
+  parent: [ BaseGoldCircuitboardRecipe, BaseServiceComputerRecipeCategory ]
+  id: AppHubConsoleCircuitboard
+  result: AppHubConsoleCircuitboard
+# DS14-End
+
 # Shuttle
 - type: latheRecipe
   parent: [ BaseGoldCircuitboardRecipe, BaseSupplyComputerRecipeCategory ]

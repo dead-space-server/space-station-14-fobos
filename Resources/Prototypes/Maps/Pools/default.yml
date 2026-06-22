@@ -12,11 +12,11 @@
   - Convex
   - Core
   - CorvaxAstra
-  - CorvaxAvrite
+  # - CorvaxAvrite # temporarily disabled
   - CorvaxChloris
   - CorvaxDelta
   - CorvaxGlacier
-  - CorvaxPaper
+  # - CorvaxPaper # Removed by Liv
   - CorvaxSilly
   - CorvaxSpectrum
   - Elkridge

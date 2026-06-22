@@ -399,6 +399,60 @@
     Durathread: 500
 # Chameleon
 
+- type: latheRecipe
+  id: ClothingBackpackTailbagBrigmedic
+  result: ClothingBackpackTailbagBrigmedic
+  completetime: 5
+  materials:
+    Cloth: 1000
+    Durathread: 500
+# Chameleon
+
+- type: latheRecipe
+  id: ClothingBackpackTailbagCE
+  result: ClothingBackpackTailbagCE
+  completetime: 5
+  materials:
+    Cloth: 1000
+    Durathread: 500
+# Chameleon
+
+- type: latheRecipe
+  id: ClothingBackpackTailbagCoroner
+  result: ClothingBackpackTailbagCoroner
+  completetime: 5
+  materials:
+    Cloth: 1000
+    Durathread: 500
+# Chameleon
+
+- type: latheRecipe
+  id: ClothingBackpackTailbagRobotics
+  result: ClothingBackpackTailbagRobotics
+  completetime: 5
+  materials:
+    Cloth: 1000
+    Durathread: 500
+# Chameleon
+
+- type: latheRecipe
+  id: ClothingBackpackTailbagBlueshield
+  result: ClothingBackpackTailbagBlueshield
+  completetime: 5
+  materials:
+    Cloth: 1000
+    Durathread: 500
+# Chameleon
+
+- type: latheRecipe
+  id: ClothingBackpackTailbagVirology
+  result: ClothingBackpackTailbagVirology
+  completetime: 5
+  materials:
+    Cloth: 1000
+    Durathread: 500
+# Chameleon
+
 
 - type: latheRecipe
   abstract: true

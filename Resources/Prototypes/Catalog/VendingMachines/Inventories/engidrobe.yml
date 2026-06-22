@@ -8,6 +8,7 @@
     ClothingUniformJumpskirtEngineering: 4
     ClothingUniformJumpsuitEngineeringHazard: 4
     ClothingShoesColorBlack: 4
+    ClothingBackpackTailbagEngineering: 2 # DS14 
     ClothingOuterVestHazard: 6
     # ClothingOuterCoatAtmosWorking: 4 # DS14
     ClothingUtilityWebbing: 4 # DS14
@@ -19,7 +20,6 @@
     ClothingOuterWinterEngi: 4
     ClothingNeckScarfStripedOrange: 4
     ClothingShoesBootsWinterEngi: 2
-    ClothingBackpackTailbagEngineering: 2 # DS14 
   contrabandInventory:
     ToyFigurineEngineer: 1
     ToyFigurineChiefEngineer: 1

@@ -23,6 +23,17 @@
         Structural: 10
   - type: Item
     size: Large
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_tank/gas_tank_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_tank/gas_tank_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_tank/gas_tank_drop.ogg
+  #DS14-End
 
 - type: entity
   id: Mjollnir
@@ -66,6 +77,17 @@
         Structural: 15
   - type: Item
     size: Ginormous
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_tank/gas_tank_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_tank/gas_tank_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_tank/gas_tank_drop.ogg
+  #DS14-End
 
 - type: entity
   id: SingularityHammer
@@ -107,3 +129,14 @@
         Structural: 15
   - type: Item
     size: Ginormous
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_tank/gas_tank_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_tank/gas_tank_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_tank/gas_tank_drop.ogg
+  #DS14-End

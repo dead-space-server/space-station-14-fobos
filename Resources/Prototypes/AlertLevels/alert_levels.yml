@@ -39,7 +39,8 @@
     gamma:
       announcement: alert-level-gamma-announcement
       selectable: false
-      sound: /Audio/_DeadSpace/AlertLevels/gamma.ogg # DS14 alert sound
+      sound:
+        collection: AlertLevelGamma # DS14 alert sound
       disableSelection: true
       color: PaleVioletRed
       emergencyLightColor: PaleVioletRed

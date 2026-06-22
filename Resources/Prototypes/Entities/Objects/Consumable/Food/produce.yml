@@ -206,6 +206,17 @@
   - type: Produce
     seedId: towercap
   - type: Log
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/wood_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/wood_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/wood_drop.ogg
+  #DS14-End
 
 - type: entity
   name: steel-cap log
@@ -227,6 +238,17 @@
   - type: Log
     spawnedPrototype: SheetSteel1
     spawnCount: 1
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/wood_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/wood_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/wood_drop.ogg
+  #DS14-End
 
 - type: entity
   name: nettle

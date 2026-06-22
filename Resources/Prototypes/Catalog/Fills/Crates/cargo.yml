@@ -200,6 +200,9 @@
     - id: PlushieZaratana
     - id: PlushieLieutenant
     - id: PlushieIps
+    - id: PlushieAgnes
+    - id: PlushieGoldShip
+    - id: PlushieBourbon
 # DS14-end
     - id: PlushieLizardJobMultiweh # the exceedingly rare multiweh!
     - id: PlushieThrongler #hehe

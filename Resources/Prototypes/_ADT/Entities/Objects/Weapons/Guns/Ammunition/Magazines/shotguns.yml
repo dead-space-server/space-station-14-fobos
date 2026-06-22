@@ -32,6 +32,17 @@
     steps: 2
     zeroVisible: false
   - type: Appearance
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/magazine/magazine_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/magazine/magazine_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/magazine/magazine_drop.ogg
+  #DS14-End
 
 - type: entity
   id: ADTMagazineShotgunSlugXL

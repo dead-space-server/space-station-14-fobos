@@ -168,6 +168,15 @@
   - type: ContainerContainer
     containers:
       upgrades: !type:Container
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/gun_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/gun_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/gun_drop.ogg
 
 - type: entity
   id: WeaponSeniorKinetik
@@ -237,6 +246,15 @@
   - type: Battery
     maxCharge: 100
     startingCharge: 100
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/gun_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/gun_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/gun_drop.ogg
 
 - type: entity
   id: WeaponMagmiteAccelerator

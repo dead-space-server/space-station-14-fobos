@@ -101,3 +101,12 @@
     sprite: _DeadSpace/Objects/Decoration/holy-quiver.rsi
     layers:
       - state: base
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/ammobox/ammobox_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/ammobox/ammobox_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/ammobox/ammobox_drop.ogg

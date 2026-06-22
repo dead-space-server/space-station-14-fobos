@@ -1,3 +1,4 @@
+using Content.Shared.Access.Systems;
 using Content.Shared.CCVar;
 using Content.Shared.Popups;
 using Content.Shared.Shuttles.Components;
@@ -8,10 +9,11 @@ namespace Content.Shared.Shuttles.Systems;
 
 public abstract class SharedEmergencyShuttleSystem : EntitySystem
 {
+    [Dependency] protected readonly AccessReaderSystem AccessReader = default!; // DS14
     [Dependency] protected readonly IConfigurationManager ConfigManager = default!;
     [Dependency] protected readonly SharedPopupSystem Popup = default!;
 
-    private bool _emergencyEarlyLaunchAllowed;
+    protected bool EmergencyEarlyLaunchAllowed; // DS14
 
     public override void Initialize()
     {
@@ -19,18 +21,21 @@ public abstract class SharedEmergencyShuttleSystem : EntitySystem
 
         SubscribeLocalEvent<EmergencyShuttleConsoleComponent, ActivatableUIOpenAttemptEvent>(OnEmergencyOpenAttempt);
 
-        Subs.CVar(ConfigManager, CCVars.EmergencyEarlyLaunchAllowed, value => _emergencyEarlyLaunchAllowed = value, true);
+        Subs.CVar(ConfigManager, CCVars.EmergencyEarlyLaunchAllowed, value => EmergencyEarlyLaunchAllowed = value, true); // DS14
     }
 
     private void OnEmergencyOpenAttempt(Entity<EmergencyShuttleConsoleComponent> ent, ref ActivatableUIOpenAttemptEvent args)
     {
-        // I'm hoping ActivatableUI checks it's open before allowing these messages.
-        if (_emergencyEarlyLaunchAllowed)
+        // DS14-start
+        // DS14: Traitor Ultra hijack uses the same console even when early launch is disabled.
+        // Server-side handlers still reject early launch authorization messages when the CVar is off.
+        if (AccessReader.IsAllowed(args.User, ent))
             return;
 
-        args.Cancel();
-
         if (!args.Silent)
-            Popup.PopupClient(Loc.GetString("emergency-shuttle-console-no-early-launches"), ent, args.User);
+            Popup.PopupEntity(Loc.GetString("emergency-shuttle-console-denied"), ent, args.User);
+
+        args.Cancel();
+        // DS14-end
     }
 }

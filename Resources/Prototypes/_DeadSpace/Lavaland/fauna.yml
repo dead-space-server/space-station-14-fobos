@@ -130,14 +130,14 @@
       Dead:
         Base: legion_dead
   - type: MovementSpeedModifier
-    baseWalkSpeed: 2.2
-    baseSprintSpeed: 2.6
+    baseWalkSpeed: 2
+    baseSprintSpeed: 2.4
   - type: LavalandLegion
     maxActiveHeads: 2
   - type: MobThresholds
     thresholds:
       0: Alive
-      90: Dead
+      250: Dead
   - type: MeleeWeapon
     soundHit:
       path: /Audio/Weapons/bladeslice.ogg
@@ -157,7 +157,7 @@
     soundGunshot: null
   - type: RechargeBasicEntityAmmo
     showExamineText: false
-    rechargeCooldown: 4
+    rechargeCooldown: 2
     rechargeSound: null
   - type: BasicEntityAmmoProvider
     proto: MobLavalandLegionHead
@@ -177,9 +177,9 @@
       task: SimpleRangedHostileCompound
     blackboard:
       VisionRadius: !type:Single
-        8
-      AggroVisionRadius: !type:Single
         15
+      AggroVisionRadius: !type:Single
+        16
       NavSmash: !type:Bool
         true
   - type: Tag
@@ -221,7 +221,7 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      10: Dead
+      50: Dead
   - type: MeleeWeapon
     soundHit:
       path: /Audio/Weapons/bladeslice.ogg
@@ -242,9 +242,9 @@
       task: SimpleHostileCompound
     blackboard:
       VisionRadius: !type:Single
-        10
-      AggroVisionRadius: !type:Single
         15
+      AggroVisionRadius: !type:Single
+        16
       NavSmash: !type:Bool
         true
   - type: TimedDespawn

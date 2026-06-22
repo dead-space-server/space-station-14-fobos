@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Content.Server.Shuttles.Components;
 using Content.Server.Shuttles.Systems;
 using Content.Tests;
 using Robust.Server.GameObjects;
@@ -9,6 +10,7 @@ using Robust.Shared.GameObjects;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Maths;
+using Robust.Shared.Physics;
 using Robust.Shared.Utility;
 
 namespace Content.IntegrationTests.Tests.Shuttle;
@@ -125,6 +127,68 @@ public sealed class DockTest : ContentUnitTest
 
             var dockingConfig = dockingSystem.GetDockingConfig(shuttle, map.MapUid);
             Assert.That(dockingConfig, Is.Not.EqualTo(null));
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task MultipleDocksBetweenSameGridsShareJoint()
+    {
+        await using var pair = await PoolManager.GetServerClient();
+        var server = pair.Server;
+
+        var map = await pair.CreateTestMap();
+
+        var entManager = server.ResolveDependency<IEntityManager>();
+        var mapManager = server.ResolveDependency<IMapManager>();
+        var dockingSystem = entManager.System<DockingSystem>();
+        var mapSystem = entManager.System<SharedMapSystem>();
+
+        await server.WaitAssertion(() =>
+        {
+            entManager.DeleteEntity(map.Grid);
+            var grid1 = mapManager.CreateGridEntity(map.MapId);
+            var grid2 = mapManager.CreateGridEntity(map.MapId);
+            var grid1Ent = grid1.Owner;
+            var grid2Ent = grid2.Owner;
+
+            var tiles = new List<(Vector2i Index, Tile Tile)>()
+            {
+                new(new Vector2i(0, 0), new Tile(1)),
+                new(new Vector2i(0, 1), new Tile(1)),
+            };
+
+            mapSystem.SetTiles(grid1Ent, grid1.Comp, tiles);
+            mapSystem.SetTiles(grid2Ent, grid2.Comp, tiles);
+
+            var dockA1 = entManager.SpawnEntity("AirlockShuttle", new EntityCoordinates(grid1Ent, new Vector2(0.5f, 0.5f)));
+            var dockA2 = entManager.SpawnEntity("AirlockShuttle", new EntityCoordinates(grid1Ent, new Vector2(0.5f, 1.5f)));
+            var dockB1 = entManager.SpawnEntity("AirlockShuttle", new EntityCoordinates(grid2Ent, new Vector2(0.5f, 0.5f)));
+            var dockB2 = entManager.SpawnEntity("AirlockShuttle", new EntityCoordinates(grid2Ent, new Vector2(0.5f, 1.5f)));
+
+            var dockA1Comp = entManager.GetComponent<DockingComponent>(dockA1);
+            var dockA2Comp = entManager.GetComponent<DockingComponent>(dockA2);
+            var dockB1Comp = entManager.GetComponent<DockingComponent>(dockB1);
+            var dockB2Comp = entManager.GetComponent<DockingComponent>(dockB2);
+
+            dockingSystem.Dock((dockA1, dockA1Comp), (dockB1, dockB1Comp));
+            dockingSystem.Dock((dockA2, dockA2Comp), (dockB2, dockB2Comp));
+
+            Assert.That(dockA1Comp.DockJoint, Is.Not.Null);
+            Assert.That(dockA2Comp.DockJoint, Is.SameAs(dockA1Comp.DockJoint));
+            Assert.That(entManager.GetComponent<JointComponent>(grid1Ent).JointCount, Is.EqualTo(1));
+
+            dockingSystem.Undock((dockA1, dockA1Comp));
+
+            Assert.That(dockA2Comp.Docked, Is.True);
+            Assert.That(dockA2Comp.DockJoint, Is.Not.Null);
+            Assert.That(entManager.GetComponent<JointComponent>(grid1Ent).JointCount, Is.EqualTo(1));
+
+            dockingSystem.Undock((dockA2, dockA2Comp));
+
+            if (entManager.TryGetComponent<JointComponent>(grid1Ent, out var joints))
+                Assert.That(joints.JointCount, Is.EqualTo(0));
         });
 
         await pair.CleanReturnAsync();

@@ -225,7 +225,15 @@
         orGroup: GiftPool
       - id: PlushieHermione
         orGroup: GiftPool
+      - id: PlushieSilEgor
+        orGroup: GiftPool
       - id: PlushieZaratana
+        orGroup: GiftPool
+      - id: PlushieAgnes
+        orGroup: GiftPool
+      - id: PlushieGoldShip
+        orGroup: GiftPool
+      - id: PlushieBourbon
         orGroup: GiftPool
 
 

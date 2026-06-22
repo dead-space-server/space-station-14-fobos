@@ -1,3 +1,4 @@
+using System.Numerics;
 using Content.Server.Administration.Logs;
 using Content.Server.Buckle.Systems;
 using Content.Server.Parallax;
@@ -69,6 +70,13 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
     private EntityQuery<PhysicsComponent> _physicsQuery;
     private EntityQuery<TransformComponent> _xformQuery;
 
+    private static readonly TimeSpan DockImpactGraceTime = TimeSpan.FromSeconds(4);
+
+    private readonly Dictionary<(EntityUid, EntityUid), int> _dockedGridPairs = new();
+    private readonly Dictionary<(EntityUid, EntityUid), TimeSpan> _dockImpactGrace = new();
+    private readonly Dictionary<(EntityUid, EntityUid), TimeSpan> _dockSettleTimes = new();
+    private readonly List<(EntityUid, EntityUid)> _finishedDockSettles = new();
+
     public override void Initialize()
     {
         base.Initialize();
@@ -88,6 +96,8 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
         SubscribeLocalEvent<ShuttleComponent, TileFrictionEvent>(OnTileFriction);
         SubscribeLocalEvent<ShuttleComponent, FTLStartedEvent>(OnFTLStarted);
         SubscribeLocalEvent<ShuttleComponent, FTLCompletedEvent>(OnFTLCompleted);
+        SubscribeLocalEvent<DockEvent>(OnDock);
+        SubscribeLocalEvent<UndockEvent>(OnUndock);
 
         SubscribeLocalEvent<GridInitializeEvent>(OnGridInit);
     }
@@ -96,6 +106,7 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
     {
         base.Update(frameTime);
         UpdateHyperspace();
+        UpdateDockedShuttleSettling();
     }
 
     private void OnGridInit(GridInitializeEvent ev)
@@ -167,6 +178,145 @@ public sealed partial class ShuttleSystem : SharedShuttleSystem
         _physics.SetBodyType(uid, BodyType.Static, manager: manager, body: component);
         _physics.SetBodyStatus(uid, component, BodyStatus.OnGround);
         _physics.SetFixedRotation(uid, true, manager: manager, body: component);
+    }
+
+    private void OnDock(DockEvent ev)
+    {
+        var key = GetGridPairKey(ev.GridAUid, ev.GridBUid);
+        if (!AddDockedGridPair(key))
+            return;
+
+        _dockImpactGrace[key] = _gameTiming.CurTime + DockImpactGraceTime;
+        _dockSettleTimes[key] = _gameTiming.CurTime + DockImpactGraceTime;
+
+        PrepareDockedShuttleGrid(ev.GridAUid);
+        PrepareDockedShuttleGrid(ev.GridBUid);
+    }
+
+    private void OnUndock(UndockEvent ev)
+    {
+        var key = GetGridPairKey(ev.GridAUid, ev.GridBUid);
+        if (!RemoveDockedGridPair(key))
+            return;
+
+        _dockSettleTimes.Remove(key);
+        _dockImpactGrace[key] = _gameTiming.CurTime + DockImpactGraceTime;
+
+        StabilizeShuttleGrid(ev.GridAUid);
+        StabilizeShuttleGrid(ev.GridBUid);
+    }
+
+    private void UpdateDockedShuttleSettling()
+    {
+        if (_dockSettleTimes.Count == 0)
+            return;
+
+        _finishedDockSettles.Clear();
+        var curTime = _gameTiming.CurTime;
+
+        foreach (var (key, settleTime) in _dockSettleTimes)
+        {
+            if (curTime < settleTime)
+                continue;
+
+            if (_dockedGridPairs.ContainsKey(key))
+            {
+                StabilizeShuttleGrid(key.Item1);
+                StabilizeShuttleGrid(key.Item2);
+            }
+
+            _finishedDockSettles.Add(key);
+        }
+
+        foreach (var key in _finishedDockSettles)
+        {
+            _dockSettleTimes.Remove(key);
+        }
+    }
+
+    private void PrepareDockedShuttleGrid(EntityUid gridUid)
+    {
+        if (!TryComp<ShuttleComponent>(gridUid, out var shuttle) ||
+            !_physicsQuery.TryGetComponent(gridUid, out var body) ||
+            body.BodyType == BodyType.Static)
+        {
+            return;
+        }
+
+        _thruster.DisableLinearThrusters(shuttle);
+        _thruster.SetAngularThrust(shuttle, false);
+
+        _physics.SetLinearVelocity(gridUid, Vector2.Zero, body: body);
+        _physics.SetAngularVelocity(gridUid, 0f, body: body);
+        _physics.SetSleepingAllowed(gridUid, body, true);
+        _physics.SetAwake((gridUid, body), true);
+    }
+
+    private void StabilizeShuttleGrid(EntityUid gridUid)
+    {
+        if (!TryComp<ShuttleComponent>(gridUid, out var shuttle) ||
+            !_physicsQuery.TryGetComponent(gridUid, out var body) ||
+            body.BodyType == BodyType.Static)
+        {
+            return;
+        }
+
+        _thruster.DisableLinearThrusters(shuttle);
+        _thruster.SetAngularThrust(shuttle, false);
+
+        _physics.SetLinearVelocity(gridUid, Vector2.Zero, body: body);
+        _physics.SetAngularVelocity(gridUid, 0f, body: body);
+        _physics.SetSleepingAllowed(gridUid, body, true);
+        _physics.SetAwake((gridUid, body), false);
+    }
+
+    private bool IsDockImpactSuppressed(EntityUid gridA, EntityUid gridB)
+    {
+        var key = GetGridPairKey(gridA, gridB);
+
+        if (_dockedGridPairs.ContainsKey(key))
+            return true;
+
+        if (!_dockImpactGrace.TryGetValue(key, out var graceEnd))
+            return false;
+
+        if (_gameTiming.CurTime <= graceEnd)
+            return true;
+
+        _dockImpactGrace.Remove(key);
+        return false;
+    }
+
+    private static (EntityUid, EntityUid) GetGridPairKey(EntityUid gridA, EntityUid gridB)
+    {
+        return gridA.Id < gridB.Id ? (gridA, gridB) : (gridB, gridA);
+    }
+
+    private bool AddDockedGridPair((EntityUid, EntityUid) key)
+    {
+        if (_dockedGridPairs.TryGetValue(key, out var count))
+        {
+            _dockedGridPairs[key] = count + 1;
+            return false;
+        }
+
+        _dockedGridPairs[key] = 1;
+        return true;
+    }
+
+    private bool RemoveDockedGridPair((EntityUid, EntityUid) key)
+    {
+        if (!_dockedGridPairs.TryGetValue(key, out var count))
+            return true;
+
+        if (count <= 1)
+        {
+            _dockedGridPairs.Remove(key);
+            return true;
+        }
+
+        _dockedGridPairs[key] = count - 1;
+        return false;
     }
 
     private void OnShuttleShutdown(EntityUid uid, ShuttleComponent component, ComponentShutdown args)

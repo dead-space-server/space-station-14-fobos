@@ -391,6 +391,73 @@ public sealed partial class ChatSystem : SharedChatSystem
         _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Global station announcement from {sender}: {message}");
     }
 
+    // DS14-announce-start
+    public void DispatchAdminFilteredAnnouncement(
+        Filter filter,
+        string message,
+        string? sender = null,
+        bool playSound = true,
+        SoundSpecifier? announcementSound = null,
+        Color? colorOverride = null,
+        string originalMessage = "",
+        string? voice = null,
+        bool usePresetTTS = false,
+        string? languageId = null)
+    {
+        languageId = string.IsNullOrEmpty(languageId) ? LanguageSystem.DefaultLanguageId : languageId;
+
+        sender ??= Loc.GetString("chat-manager-sender-announcement");
+
+        var lexiconMessage = _language.TransformWord(message, languageId);
+        var langName = _language.GetLangName(languageId);
+        var wrappedMessage = Loc.GetString("chat-manager-sender-announcement-wrap-message-lang",
+            ("sender", sender),
+            ("language", langName),
+            ("message", FormattedMessage.EscapeText(message)));
+
+        if (_chatFilter != null && _chatFilter.NotAllowedMessage(wrappedMessage))
+            return;
+
+        var understanding = _language.GetUnderstanding(languageId);
+        var lexiconWrappedMessage = Loc.GetString("chat-manager-sender-announcement-wrap-message",
+            ("sender", sender),
+            ("message", FormattedMessage.EscapeText(lexiconMessage)));
+
+        foreach (var session in filter.Recipients)
+        {
+            if (!understanding.Contains(session))
+                _chatManager.ChatMessageToOne(ChatChannel.Radio, lexiconMessage, lexiconWrappedMessage, default, false, session.Channel, colorOverride, true);
+            else
+                _chatManager.ChatMessageToOne(ChatChannel.Radio, message, wrappedMessage, default, false, session.Channel, colorOverride, true);
+        }
+
+        if (playSound)
+        {
+            if (announcementSound == null)
+            {
+                if (sender == Loc.GetString("chat-manager-sender-announcement"))
+                    announcementSound = CentComAnnouncementSound;
+            }
+
+            _audio.PlayGlobal(announcementSound ?? DefaultAnnouncementSound, filter, true, announcementSound?.Params ?? AudioParams.Default.WithVolume(-2f));
+
+            if (usePresetTTS && sender == Loc.GetString("chat-manager-sender-announcement"))
+            {
+                voice = _centcommTTS;
+                var ev = new AnnounceSpokeEvent(voice, originalMessage, lexiconMessage, languageId, filter, null);
+                RaiseLocalEvent(ev);
+            }
+            else if (voice != null)
+            {
+                var ev = new AnnounceSpokeEvent(voice, originalMessage, lexiconMessage, languageId, filter, null);
+                RaiseLocalEvent(ev);
+            }
+        }
+
+        _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Filtered station announcement from {sender}: {message}");
+    }
+    // DS14-announce-end
+
     /// <inheritdoc />
     public override void DispatchFilteredAnnouncement(
         Filter filter,

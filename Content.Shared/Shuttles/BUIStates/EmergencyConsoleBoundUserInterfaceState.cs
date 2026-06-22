@@ -11,6 +11,13 @@ public sealed class EmergencyConsoleBoundUserInterfaceState : BoundUserInterface
     public TimeSpan? EarlyLaunchTime;
     public List<string> Authorizations = new();
     public int AuthorizationsRequired;
+    public bool EarlyLaunchAllowed; // DS14
 
     public TimeSpan? TimeToLaunch;
+
+    // DS14-start
+    public TimeSpan? HijackCompletionTime;
+    public bool HijackCompleted;
+    public string HijackerName = string.Empty;
+    // DS14-end
 }

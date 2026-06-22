@@ -9,6 +9,9 @@ public sealed partial class ArrivalsShuttleComponent : Component
     [DataField("station")]
     public EntityUid Station;
 
+    [DataField("holdingMap")]
+    public EntityUid HoldingMap;
+
     [DataField("nextTransfer", customTypeSerializer: typeof(TimeOffsetSerializer))]
     [AutoPausedField]
     public TimeSpan NextTransfer;

@@ -44,8 +44,33 @@
   placement:
     mode: SnapgridCenter
   components:
+    - type: Fixtures
+      fixtures:
+        fix1:
+          shape:
+            !type:PhysShapeCircle
+            radius: .4
+          density: 190
+          mask:
+            - MachineMask
+          layer:
+            - MachineLayer
     - type: GasMiner
       spawnGas: Oxygen
+    - type: Damageable
+      damageContainer: StructuralInorganic
+      damageModifierSet: Metallic
+    - type: Destructible
+      thresholds:
+        - trigger:
+            !type:DamageTrigger
+            damage: 1200
+          behaviors:
+            - !type:PlaySoundBehavior
+              sound:
+                collection: MetalBreak
+            - !type:DoActsBehavior
+              acts: [ "Destruction" ]
 
 - type: entity
   name: O2 gas miner
@@ -71,8 +96,33 @@
   id: GasMinerNitrogen
   suffix: Shuttle, 300kPa
   components:
+    - type: Fixtures
+      fixtures:
+        fix1:
+          shape:
+            !type:PhysShapeCircle
+            radius: .4
+          density: 190
+          mask:
+            - MachineMask
+          layer:
+            - MachineLayer
     - type: GasMiner
       spawnGas: Nitrogen
+    - type: Damageable
+      damageContainer: StructuralInorganic
+      damageModifierSet: Metallic
+    - type: Destructible
+      thresholds:
+        - trigger:
+            !type:DamageTrigger
+            damage: 1200
+          behaviors:
+            - !type:PlaySoundBehavior
+              sound:
+                collection: MetalBreak
+            - !type:DoActsBehavior
+              acts: [ "Destruction" ]
 
 - type: entity
   name: N2 gas miner

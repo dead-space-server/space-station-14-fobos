@@ -27,6 +27,17 @@
       - Slicing
     useSound:
       path: /Audio/Items/Culinary/chop.ogg
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/knife/knife_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/knife/knife_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/knife/knife_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: BaseKnife
@@ -54,10 +65,10 @@
       fix1:
         shape: !type:PolygonShape
           vertices:
-          - -0.475,-0.225
-          - -0.225,-0.475
-          - 0.525,0.275
-          - 0.275,0.525
+          - -0.4,-0.2
+          - -0.2,-0.4
+          - 0.4,0.2
+          - 0.2,0.4
         density: 20 # derived from base_item
         mask:
         - ItemMask
@@ -442,3 +453,14 @@
       - state: inhand-right-blade
   - type: UseDelay
     delay: 0.2
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/knife/knife_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/knife/knife_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/knife/knife_drop.ogg
+  #DS14-End

@@ -60,6 +60,11 @@ namespace Content.Server.GameTicking
         private const string SentientVirusAntagPrototype = "SentientVirus"; // DS14
         private const string RevolutionaryAntagPrototype = "Rev"; // DS14
         private const string HeadRevolutionaryAntagPrototype = "HeadRev"; // DS14
+        // DS14-start
+        private const string TraitorAntagPrototype = "Traitor";
+        private const string TraitorSleeperAntagPrototype = "TraitorSleeper";
+        private const string TraitorUltraAntagPrototype = "TraitorUltra";
+        // DS14-end
         private const int DiscordMessageMaxLength = 2000; // DS14
         private const string DiscordCodeBlockFence = "```"; // DS14
         private const int DiscordCodeBlockSplitOverhead = 8; // DS14: "\n```" + "```\n"
@@ -578,6 +583,9 @@ namespace Content.Server.GameTicking
                 var antag = _roles.MindIsAntagonist(mindId);
 
                 // DS14-start
+                if (antag)
+                    _roundEndManifestStats.EnsureManifestEntry(mindId, mind);
+
                 var manifestIdentity = _roundEndManifestStats.GetManifestIdentity(mindId);
                 var playerIcName = GetRoundEndPlayerIcName(mind, manifestIdentity);
                 var displayEntity = GetRoundEndDisplayEntity(mindId, mind, manifestIdentity);
@@ -703,8 +711,19 @@ namespace Content.Server.GameTicking
 
             return manifestAntagMinds.Contains(mindId) ||
                    manifestObjectives.Length > 0 ||
+                   IsTraitorManifestRole(antagRoles) || // DS14
                    antagRoles.Any(role => role.Prototype == SentientVirusAntagPrototype);
         }
+
+        // DS14-start
+        private static bool IsTraitorManifestRole(RoleInfo[] antagRoles)
+        {
+            return antagRoles.Any(role =>
+                role.Prototype == TraitorAntagPrototype ||
+                role.Prototype == TraitorSleeperAntagPrototype ||
+                role.Prototype == TraitorUltraAntagPrototype);
+        }
+        // DS14-end
 
         private RoundEndMessageEvent.RoundEndObjectiveInfo[] GetRoundEndObjectives(EntityUid mindId, MindComponent mind)
         {

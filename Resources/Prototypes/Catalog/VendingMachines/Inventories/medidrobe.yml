@@ -16,6 +16,7 @@
     ClothingBackpackMedical: 2
     ClothingBackpackDuffelMedical: 2
     ClothingBackpackSatchelMedical: 2
+    ClothingBackpackTailbagMedical: 2 # DS14
     ClothingUniformJumpsuitMedicalDoctor: 2
     ClothingUniformJumpskirtMedicalDoctor: 2
     UniformScrubsColorGreen: 2
@@ -32,7 +33,6 @@
     ClothingShoesColorBlue: 2
     ClothingShoesColorWhite: 2
     ClothingShoesBootsWinterMed: 2
-    ClothingBackpackTailbagMedical: 2 # DS14
   contrabandInventory:
     ClothingUniformJumpskirtOfLife: 1
     ToyFigurineMedicalDoctor: 1

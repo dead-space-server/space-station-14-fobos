@@ -80,6 +80,12 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
             : null;
     }
 
+    public void EnsureManifestEntry(EntityUid mindId, MindComponent mind)
+    {
+        EnsureManifestIdentity(mindId, mind);
+        EnsureDisplaySnapshot(mindId, mind);
+    }
+
     private void OnRoundStarting(RoundStartingEvent ev)
     {
         Reset();
@@ -125,8 +131,7 @@ public sealed class RoundEndManifestStatsSystem : EntitySystem
         if (!IsAntagPlayerMind(args.MindId, args.Mind))
             return;
 
-        EnsureManifestIdentity(args.MindId, args.Mind);
-        EnsureDisplaySnapshot(args.MindId, args.Mind);
+        EnsureManifestEntry(args.MindId, args.Mind);
     }
 
     private void OnMindBeingGibbed(EntityUid uid, MindContainerComponent component, BeingGibbedEvent args)

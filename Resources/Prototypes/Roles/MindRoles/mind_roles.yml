@@ -280,6 +280,19 @@
     subtype: role-subtype-traitor-reinforcement
     antagPrototype: GenericTeamAntagonist
 
+# DS14-start
+- type: entity
+  parent: MindRoleTraitor
+  id: MindRoleTraitorUltra
+  name: Traitor Ultra Role
+  components:
+  - type: MindRole
+    antagPrototype: TraitorUltra
+    exclusiveAntag: true
+    subtype: role-subtype-traitor-ultra
+  - type: TraitorUltraRole
+# DS14-end
+
 # Wizards
 - type: entity
   parent: BaseMindRoleAntag

@@ -63,6 +63,17 @@
     prototype: CarpetCard
     doAfter: 0.5
     removeOnInteract: true
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/cardboard_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/cardboard_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/cardboard_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: MaterialCardboard
@@ -153,6 +164,17 @@
     node: cloth
   - type: Item
     heldPrefix: cloth
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: MaterialCloth
@@ -216,6 +238,17 @@
       - ConstructionMaterial
   - type: Item
     heldPrefix: durathread
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: MaterialDurathread
@@ -265,6 +298,17 @@
         reagents:
         - ReagentId: Cellulose
           Quantity: 10
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/wood_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/wood_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/wood_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: MaterialWoodPlank
@@ -306,6 +350,17 @@
   - type: GuideHelp
     guides:
     - Cloning
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cigs/cig_pack_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cigs/cig_pack_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cigs/cig_pack_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: MaterialBiomass
@@ -342,6 +397,17 @@
     energy: 2.7
     color: "#4faffb"
     slots:
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: MaterialBase
@@ -362,6 +428,17 @@
   - type: Tag
     tags:
     - HideCorgi
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: MaterialBase
@@ -400,6 +477,17 @@
     tags:
     - RawMaterial
     - Diamond
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/glass_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/glass_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/glass_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: MaterialDiamond
@@ -456,6 +544,17 @@
       Cotton: 100
   - type: Item
     heldPrefix: cotton
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_drop.ogg
+  #DS14-End
 
 
 - type: entity
@@ -511,6 +610,17 @@
       - RawMaterial
   - type: Item
     heldPrefix: pyrotton
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: MaterialPyrotton
@@ -575,6 +685,17 @@
   - type: Appearance
   - type: Item
     heldPrefix: bananium
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/plastic_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/plastic_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/plastic_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: MaterialBananium
@@ -628,6 +749,17 @@
   - type: Item
     sprite: Objects/Materials/silk.rsi
     heldPrefix: silk
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cloth/cloth_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: MaterialWebSilk
@@ -674,6 +806,17 @@
   - type: Tag
     tags:
     - ToothSpaceCarp
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/plastic_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/plastic_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/plastic_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: MaterialToothSpaceCarp
@@ -756,6 +899,17 @@
           Quantity: 3
   - type: Item
     heldPrefix: bones
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/plastic_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/plastic_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/plastic_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: MaterialBones
@@ -817,6 +971,17 @@
   - type: Tag
     tags:
     - GoliathPlate
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/plastic_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/plastic_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/plastic_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: MaterialGoliathHide

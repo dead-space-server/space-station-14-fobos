@@ -194,7 +194,7 @@ public sealed class PhysicsSanitySystem : EntitySystem
         }
 
         if (xform.MapID == MapId.Nullspace ||
-            _map.IsPaused(xform.MapID) ||
+            IsPausedMap(xform.MapID) ||
             xform.GridUid == null ||
             xform.ParentUid != xform.GridUid.Value ||
             xform.Anchored)
@@ -237,6 +237,11 @@ public sealed class PhysicsSanitySystem : EntitySystem
     private bool IsPlaceableSurfaceContact(EntityUid uid)
     {
         return _placeableSurfaceQuery.TryComp(uid, out var surface) && surface.IsPlaceable;
+    }
+
+    private bool IsPausedMap(MapId mapId)
+    {
+        return _map.TryGetMap(mapId, out var mapUid) && _map.IsPaused((mapUid.Value, null));
     }
 
     private bool ResolveStuckBody(EntityUid uid)

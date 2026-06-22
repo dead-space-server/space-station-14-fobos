@@ -187,6 +187,17 @@
       Plastic: 100
   - type: StaticPrice
     price: 25
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/plastic_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/plastic_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/materials/plastic_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: ClothingHeadBase

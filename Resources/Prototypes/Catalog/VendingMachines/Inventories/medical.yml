@@ -23,6 +23,7 @@
     AloeCream: 3 # Currently just a reskin of Ointment but it's something
     Bloodpack: 3
     ChemistryBottleInaprovaline: 3
+    ChemistryBottleEpinephrine: 3 # DS14
     Syringe: 3
     PillTricordrazine: 10
     ChemistryBottleInfectizine: 1 # DS14
@@ -47,6 +48,7 @@
     Brutepack: 4
     Ointment: 4
     Bloodpack: 4
+    ChemistryBottleEpinephrine: 3 # DS14
     # Optional / Situational Gear
     BoxBottle: 3
     Defibrillator: 2 # Easily shared between several people
@@ -70,6 +72,7 @@
     AloeCream: 5
     Bloodpack: 5
     ChemistryBottleInaprovaline: 5
+    ChemistryBottleEpinephrine: 3 # DS14
     Syringe: 5
     PillTricordrazine: 10
     PillIron: 5

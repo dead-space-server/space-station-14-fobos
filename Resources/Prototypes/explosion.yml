@@ -134,3 +134,21 @@
   fireStates: 3
   fireStacks: 2
   temperature: 1500
+
+#DS-14 Start
+- type: explosion
+  id: AntiMaterial
+  damagePerIntensity:
+    types:
+      Structural: 40
+      Blunt: 0.1
+      Piercing: 0.1
+      Heat: 0.1
+  tileBreakChance: [0]
+  tileBreakIntensity: [0]
+  intensityPerState: 30
+  lightColor: Orange
+  texturePath: /Textures/Effects/fire.rsi
+  fireStates: 3
+  temperature: 1500
+#DS-14 END

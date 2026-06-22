@@ -61,8 +61,17 @@
   - type: Appearance
   - type: StaticPrice
     price: 500
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/shotgun/shotgun_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/shotgun/shotgun_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/shotgun/shotgun_drop.ogg
 
-    
+
 - type: entity
   name: Сайга-12М
   parent: [BaseItem, BaseGunWieldable, BaseSecurityContraband]
@@ -124,3 +133,12 @@
   - type: Appearance
   - type: StaticPrice
     price: 500
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/shotgun/shotgun_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/shotgun/shotgun_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/shotgun/shotgun_drop.ogg

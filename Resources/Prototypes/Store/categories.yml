@@ -84,10 +84,17 @@
   name: store-category-job
   priority: 9
 
+# DS14-start
+- type: storeCategory
+  id: UplinkUltra
+  name: store-category-ultra
+  priority: 10
+# DS14-end
+
 - type: storeCategory
   id: UplinkPointless
   name: store-category-pointless
-  priority: 10
+  priority: 11 # DS14
 
 - type: storeCategory
   id: UplinkPresets
