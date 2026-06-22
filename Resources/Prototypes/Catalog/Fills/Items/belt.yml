@@ -207,6 +207,7 @@
         - id: ChemistryBottleEthylredoxrazine
         - id: ChemistryBottleIpecac
         - id: ChemistryBottleCharcoal
+        - id: ChemistryBottleEpinephrine # DS14
 
 - type: entity
   id: ClothingBeltPlantFilled
