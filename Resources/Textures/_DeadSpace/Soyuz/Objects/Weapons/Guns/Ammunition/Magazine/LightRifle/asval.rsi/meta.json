@@ -10,6 +10,9 @@
         {
             "name": "base"
         },
+		{
+            "name": "incendiary"
+        },
         {
             "name": "practice"
         },
