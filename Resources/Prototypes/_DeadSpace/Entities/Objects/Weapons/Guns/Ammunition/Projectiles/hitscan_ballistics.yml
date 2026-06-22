@@ -494,6 +494,38 @@
         Piercing: 35
 
 - type: entity
+  id: BulletSniperRifleIncendiaryTrace
+  parent: BulletIncendiaryTrace
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: HitscanBasicRaycast
+    collisionMask: BulletImpassable
+    maxDistance: 80
+  - type: HitscanBasicDamage
+    damage:
+      types:
+        Piercing: 25
+        Heat: 15
+        Structural: 30
+  - type: HitscanBasicEffects
+    fireStacks: 0.25
+
+- type: entity
+  id: BulletSniperRifleUraniumTrace
+  parent: BulletUraniumTrace
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: HitscanBasicRaycast
+    collisionMask: BulletImpassable
+    maxDistance: 80
+  - type: HitscanBasicDamage
+    damage:
+      types:
+        Piercing: 25
+        Radiation: 15
+        Structural: 30
+
+- type: entity
   id: BulletSniperRifleTrace
   parent: BulletTrace
   categories: [ HideSpawnMenu ]
