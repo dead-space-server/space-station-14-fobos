@@ -26,4 +26,7 @@ namespace Content.Shared.DeadSpace.CodeLock
         public int CodeLength;
         public int MaxCodeLength;
     }
+
+    [ByRefEvent]
+    public record struct CodeLockStatusChangedEvent(CodeLockStatus Status);
 }
