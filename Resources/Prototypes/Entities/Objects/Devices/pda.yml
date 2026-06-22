@@ -1215,7 +1215,7 @@
     id: ERTLeaderIDCard
   - type: ErtTrackerPda # DS14
     allowedDepartments:
-    - Command
+    - SpecialOperationsCorps # DS14
     allowedJobs:
     - BlueShieldOfficer
     - CentralCommandBlueShieldOfficer
