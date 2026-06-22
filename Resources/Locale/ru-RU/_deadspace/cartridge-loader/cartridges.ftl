@@ -1,0 +1,11 @@
+scanner-program-name = Сканер документов
+scanner-program-title = Сканер
+scanner-program-view = Просмотр
+scanner-program-rename = Переименовать
+scanner-program-clear = Очистить
+scanner-program-back = Назад
+scanner-program-ok = ОК
+scanner-program-document-title = Документ
+scanner-program-document-number = Документ #{ $number }
+scanner-program-unknown = Неизвестно
+scanner-program-stamps = Печати:
