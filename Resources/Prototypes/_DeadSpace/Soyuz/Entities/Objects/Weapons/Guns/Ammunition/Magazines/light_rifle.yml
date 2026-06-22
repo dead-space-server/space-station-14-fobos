@@ -179,7 +179,7 @@
     proto: CartridgeLightRifleIncendiary
   - type: Sprite
     layers:
-    - state:  incendiary
+    - state: incendiary
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
