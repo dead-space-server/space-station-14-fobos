@@ -47,7 +47,7 @@
     useDelayOnWield: false
   - type: GunRequiresWield
   - type: StaticPrice
-    price: 500
+    price: 600
 
 - type: entity
   id: CartridgeRPG70AM
