@@ -13,6 +13,7 @@
   access:
   - CentralCommand
   - SOD
+  - ErtTeamLeader
   special:
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant, TrackingImplant, DeathRattleImplantCentcomm, MacroBombImplant ]
