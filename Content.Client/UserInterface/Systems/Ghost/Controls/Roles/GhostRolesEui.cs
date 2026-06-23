@@ -104,7 +104,7 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
             foreach (var group in groupedRoles)
             {
                 var reason = group.Key.reason;
-                var name = group.Key.Name; // DS14
+                var name = group.Key.Name;
                 var description = group.Key.Description;
                 var category = group.Key.Category; // DS14
                 var prototypesAllowed = group.Key.Item4; // DS14
