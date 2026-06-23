@@ -2999,7 +2999,7 @@ entities:
     - type: Transform
       pos: 49.5,37.5
       parent: 1
-- proto: Biofabricator
+- proto: Biogenerator
   entities:
   - uid: 1052
     components:

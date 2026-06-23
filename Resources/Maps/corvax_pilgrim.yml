@@ -42345,7 +42345,7 @@ entities:
       rot: 0.22689280275926285 rad
       pos: 56.5,47.5
       parent: 31919
-- proto: Biofabricator
+- proto: Biogenerator
   entities:
   - uid: 955
     components:

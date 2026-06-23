@@ -80,7 +80,6 @@
   cost: 7500
   recipeUnlocks:
   - FatExtractorMachineCircuitboard
-  - BiofabricatorMachineCircuitboard
   - BiomassReclaimerMachineCircuitboard
 
 # Tier 2
