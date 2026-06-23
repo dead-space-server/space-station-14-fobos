@@ -5,12 +5,12 @@
   description: Передовой щит СССП предназначенный для проведения штурмовых операций. 
   components:
     - type: Sprite
-      sprite: _DeadSpace/Soyuz/Objects/Weapons/Melee/vant.rsi
+      sprite: _DeadSpace/_Soyuz/Objects/Weapons/Melee/vant.rsi
       state: icon
     - type: Item
-      sprite: _DeadSpace/Soyuz/Objects/Weapons/Melee/vant.rsi
+      sprite: _DeadSpace/_Soyuz/Objects/Weapons/Melee/vant.rsi
     - type: Clothing
-      sprite: _DeadSpace/Soyuz/Objects/Weapons/Melee/vant.rsi
+      sprite: _DeadSpace/_Soyuz/Objects/Weapons/Melee/vant.rsi
       quickEquip: false
       slots:
       - suitStorage

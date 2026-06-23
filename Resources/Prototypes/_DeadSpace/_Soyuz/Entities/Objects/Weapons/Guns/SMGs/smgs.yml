@@ -15,7 +15,7 @@
     - suitStorage
     - Belt
   - type: Sprite
-    sprite: _DeadSpace/Soyuz/Objects/Weapons/Guns/SMGs/veresk.rsi
+    sprite: _DeadSpace/_Soyuz/Objects/Weapons/Guns/SMGs/veresk.rsi
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
@@ -24,7 +24,7 @@
   - type: Gun
     fireRate: 8
     soundGunshot:
-      path: /Audio/_DeadSpace/Souyz/Weapons/Guns/Gunshots/veresk.ogg
+      path: /Audio/_DeadSpace/_Soyuz/Weapons/Guns/Gunshots/veresk.ogg
   - type: ItemSlots
     slots:
       gun_magazine:
@@ -55,14 +55,14 @@
   suffix: Пистолет-пулемёт
   components:
     - type: Sprite
-      sprite: _DeadSpace/Soyuz/Objects/Weapons/Guns/SMGs/pp91.rsi
+      sprite: _DeadSpace/_Soyuz/Objects/Weapons/Guns/SMGs/pp91.rsi
       layers:
         - state: base
           map: ["enum.GunVisualLayers.Base"]
         - state: mag-0
           map: ["enum.GunVisualLayers.Mag"]
     - type: Clothing
-      sprite: _DeadSpace/Soyuz/Objects/Weapons/Guns/SMGs/pp91.rsi
+      sprite: _DeadSpace/_Soyuz/Objects/Weapons/Guns/SMGs/pp91.rsi
     - type: Gun
       minAngle: 21
       maxAngle: 32

@@ -6,14 +6,14 @@
   suffix: Автомат
   components:
   - type: Sprite
-    sprite: _DeadSpace/Soyuz/Objects/Weapons/Guns/Rifles/aky.rsi
+    sprite: _DeadSpace/_Soyuz/Objects/Weapons/Guns/Rifles/aky.rsi
     layers:
       - state: base
         map: ["enum.GunVisualLayers.Base"]
       - state: mag-0
         map: ["enum.GunVisualLayers.Mag"]
   - type: Clothing
-    sprite: _DeadSpace/Soyuz/Objects/Weapons/Guns/Rifles/aky.rsi
+    sprite: _DeadSpace/_Soyuz/Objects/Weapons/Guns/Rifles/aky.rsi
     quickEquip: false
     slots:
     - Back
@@ -81,16 +81,16 @@
   suffix: Автомат
   components:
   - type: Sprite
-    sprite: _DeadSpace/Soyuz/Objects/Weapons/Guns/Rifles/abakan.rsi
+    sprite: _DeadSpace/_Soyuz/Objects/Weapons/Guns/Rifles/abakan.rsi
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-0
       map: ["enum.GunVisualLayers.Mag"]
   - type: Clothing
-    sprite: _DeadSpace/Soyuz/Objects/Weapons/Guns/Rifles/abakan.rsi
+    sprite: _DeadSpace/_Soyuz/Objects/Weapons/Guns/Rifles/abakan.rsi
   - type: Item
-    sprite: _DeadSpace/Soyuz/Objects/Weapons/Guns/Rifles/abakan.rsi
+    sprite: _DeadSpace/_Soyuz/Objects/Weapons/Guns/Rifles/abakan.rsi
     size: Large
   - type: Gun
     fireRate: 6.5
@@ -102,7 +102,7 @@
     shotsPerBurst: 2
     burstCooldown: 0.25
     soundGunshot:
-      path: /Audio/_DeadSpace/Souyz/Weapons/Guns/Gunshots/abakan.ogg
+      path: /Audio/_DeadSpace/_Soyuz/Weapons/Guns/Gunshots/abakan.ogg
   - type: ItemSlots
     slots:
       gun_magazine:

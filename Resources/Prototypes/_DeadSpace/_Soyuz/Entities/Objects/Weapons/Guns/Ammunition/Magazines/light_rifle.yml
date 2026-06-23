@@ -11,7 +11,7 @@
     proto: CartridgeLightRifle
     capacity: 75
   - type: Sprite
-    sprite: _DeadSpace/Soyuz/Objects/Weapons/Guns/Ammunition/Magazine/LightRifle/drum.rsi
+    sprite: _DeadSpace/_Soyuz/Objects/Weapons/Guns/Ammunition/Magazine/LightRifle/drum.rsi
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
@@ -91,7 +91,7 @@
     containers:
       ballistic-ammo: !type:Container
   - type: Sprite
-    sprite: _DeadSpace/Soyuz/Objects/Weapons/Guns/Ammunition/Magazine/LightRifle/asval.rsi
+    sprite: _DeadSpace/_Soyuz/Objects/Weapons/Guns/Ammunition/Magazine/LightRifle/asval.rsi
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
@@ -207,7 +207,7 @@
     containers:
       ballistic-ammo: !type:Container
   - type: Sprite
-    sprite: _DeadSpace/Soyuz/Objects/Weapons/Guns/Ammunition/Magazine/LightRifle/vss.rsi
+    sprite: _DeadSpace/_Soyuz/Objects/Weapons/Guns/Ammunition/Magazine/LightRifle/vss.rsi
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]

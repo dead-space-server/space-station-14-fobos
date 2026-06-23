@@ -93,7 +93,7 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
             // Grouping roles
             var groupedRoles = ghostState.GhostRoles.GroupBy(
                 role => (
-                    role.Name,
+                    Name: role.Name.Split("(")[0], // DS14
                     role.Description,
                     role.Category, // DS14
                     //  Check the prototypes for role requirements and bans
@@ -104,7 +104,7 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
             foreach (var group in groupedRoles)
             {
                 var reason = group.Key.reason;
-                var name = group.Key.Name;
+                var name = group.Key.Name; // DS14
                 var description = group.Key.Description;
                 var category = group.Key.Category; // DS14
                 var prototypesAllowed = group.Key.Item4; // DS14

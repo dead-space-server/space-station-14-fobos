@@ -6,7 +6,7 @@
   suffix: Дробовик
   components:
   - type: Sprite
-    sprite: _DeadSpace/Soyuz/Objects/Weapons/Guns/Shotguns/saiga.rsi
+    sprite: _DeadSpace/_Soyuz/Objects/Weapons/Guns/Shotguns/saiga.rsi
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
@@ -17,7 +17,7 @@
     shape:
       - 0,0,4,1
   - type: Clothing
-    sprite: _DeadSpace/Soyuz/Objects/Weapons/Guns/Shotguns/saiga.rsi
+    sprite: _DeadSpace/_Soyuz/Objects/Weapons/Guns/Shotguns/saiga.rsi
     quickEquip: false
     slots:
     - Back
@@ -30,7 +30,7 @@
     availableModes:
       - SemiAuto
     soundGunshot:
-      path: /Audio/_DeadSpace/Souyz/Weapons/Guns/Gunshots/saiga.ogg
+      path: /Audio/_DeadSpace/_Soyuz/Weapons/Guns/Gunshots/saiga.ogg
     soundEmpty:
       path: /Audio/Weapons/Guns/Empty/empty.ogg
   - type: ItemSlots
@@ -80,7 +80,7 @@
   suffix: Дробовик
   components:
   - type: Sprite
-    sprite: _DeadSpace/Soyuz/Objects/Weapons/Guns/Shotguns/saigam.rsi
+    sprite: _DeadSpace/_Soyuz/Objects/Weapons/Guns/Shotguns/saigam.rsi
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
@@ -89,7 +89,7 @@
   - type: Item
     size: Large
   - type: Clothing
-    sprite: _DeadSpace/Soyuz/Objects/Weapons/Guns/Shotguns/saiga.rsi
+    sprite: _DeadSpace/_Soyuz/Objects/Weapons/Guns/Shotguns/saiga.rsi
     quickEquip: false
     slots:
     - Back
@@ -102,7 +102,7 @@
     availableModes:
       - FullAuto
     soundGunshot:
-      path: /Audio/_DeadSpace/Souyz/Weapons/Guns/Gunshots/saiga.ogg
+      path: /Audio/_DeadSpace/_Soyuz/Weapons/Guns/Gunshots/saiga.ogg
     soundEmpty:
       path: /Audio/Weapons/Guns/Empty/empty.ogg
   - type: ItemSlots
