@@ -2,8 +2,8 @@
 - type: entity
   parent: ClothingBackpack
   id: ClothingBackpackNSS
-  name: единица тактической поддержки C-70
-  description: Несмотря на новейшую модель, этот дрон так и не смог достигнуть эффективности своей более ранней версии и потерял все боевые функции. Его динамик вырван, а на боковой стороне изображена фигура, напоминающая русалку.
+  name: единица тактической поддержки C-90
+  description: Несмотря на новейшую модель, этот дрон так и не смог достигнуть эффективности своей более ранней версии и потерял все боевые функции. Его динамик вырван, а на боковой стороне изображена фигура, напоминающая тигра.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -55,8 +55,8 @@
 - type: entity
   parent: ClothingBeltStorageBase
   id: ClothingBeltMilitaryWebbingnon_stop_smetana
-  name: разгрузочная нагрудная система mil.RAPID // gen.1
-  description: Фиксированная разгрузочная система, содержащая все необходимые базовые подсумки.
+  name: тактический набедренный подсумок
+  description: Фиксируется на бедре с помощью ремня на фастекс-застежках. Позволяет очень быстро достать все необходимые предметы.
   categories: [ HideSpawnMenu ]
   components:
   - type: Storage
@@ -83,8 +83,8 @@
 - type: entity
   parent: ClothingOuterHardsuitSecurity
   id: ClothingOuterHardsuitnon_stop_smetana
-  name: диверсионно-разведывательный скафандр mil.HAZE // gen.1
-  description: Все самые лучшие при виде меня говорят «Вау». Ты пытаешься всем угодить — это провал.
+  name: диверсионно-разведывательный скафандр
+  description: Тактический скафандр подразделения ОПЗ. Жесткие керамические бронепластины гарантируют защиту, а гибридная система привода обеспечивает рекордную мобильность, позволяя эффективно работать в ближнем бою и на пересеченной местности.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -123,8 +123,8 @@
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
   categories: [ HideSpawnMenu ]
   id: ClothingHeadHelmetHardsuitnon_stop_smetana
-  name: шлем диверсионно-разведывательного скафандра mil.HAZE // gen.1
-  description: Мне не нужен целый оркестр. Дайте мне медийку два квадратных метра — и я создам планету.
+  name: шлем диверсионно-разведывательного скафандра
+  description: Прочная кевларово-керамическая конструкция надёжно защищает жизненно важные зоны, но при этом не ограничивает периферийное зрение и позволяет свободно поворачивать голову благодаря эргономичному подвесу.
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/non_stop_smetana/helmet.rsi
@@ -162,8 +162,8 @@
 - type: entity
   parent: ClothingHeadBase
   id: ClothingHeadHatHeadnon_stop_smetana
-  name: фирменный берет
-  description: Берет колониальной морской пехоты. Выглядит достойно, отражает гордый статус специалиста по матерям.
+  name: фирменная шляпа
+  description: Только тот, кто готов умереть за других, имеет право носить эту шляпу. Жёсткая, поношенная, но гордая как и её владелец. Внутри шляпы вышита фраза - «For a brave fighter»
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -177,8 +177,8 @@
 - type: entity
   parent: ClothingUniformBase
   id: ClothingUniformJumpsuitnon_stop_smetana
-  name: униформа mil.FEAR // gen.1
-  description: Я бы с тобой погулял, но у меня слишком много дел. Если бы я пошёл, что бы я надел тогда?
+  name: тактическая униформа
+  description: Тактическая и удобная водолазка с усиленной синтетической тканью. На бирке написанно - «For a Sanabi»
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -192,8 +192,8 @@
 - type: entity
   parent: ClothingHeadset
   id: ClothingHeadsetnon_stop_smetana
-  name: модифицированная гарнитура mil.CLEAR // gen.1
-  description: Пропустил звонки, пропустил сообщения. Не перезвоню, отдыхаю, нету времени.
+  name: модифицированная гарнитура
+  description: Модифицированная гарнитура, надеваемый на голову. Принимает ключи шифрования.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -211,8 +211,8 @@
 - type: entity
   parent: ClothingHandsGlovesCombat
   id: ClothingHandsGlovesnon_stop_smetana
-  name: тактические перчатки mil.BURN // gen.1
-  description: Тебе становится чуть-чуть лучше, прикосновения вспоминая. Пока в наушниках играет МИЛАЯ СКАРЛЕТТ. МИЛАЯ СКАРЛЕТТ.
+  name: тактические перчатки 
+  description: Огнеупорные и ударопрочные перчатки. Их не так легко порвать, из-за крайне специфичного плетения нитей. На внутренней стороне вышито - «От Милой Скарлетт»
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -227,7 +227,7 @@
   parent: ClothingHeadBase
   id: ClothingHeadHatBeretnon_stop_smetana
   name: фирменный берет
-  description: Берет колониальной морской пехоты. Выглядит достойно, отражает гордый статус специалиста по матерям.
+  description: Корона для тех, кто избрал путь самопожертвования. Внешне она бросает вызов врагу, внутренне - напоминает владельцу о главном. Сокрытая от посторонних глаз, вышивка «Во славу КСО!» становится личным талисманом. Пока нити целы, воин сражается.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -241,8 +241,8 @@
 - type: entity
   parent: ClothingNeckBase
   id: ClothingNeckMantlenon_stop_smetana
-  name: широкая мантия mil.DISCIPLINE // gen.1
-  description: Крепкие руки тебя обнимали, не объяснишь своей маме.
+  name: широкий плащ
+  description: Широкий плащ, что защищает от суровых битв и... облака сладкой ваты? Позволяет укрыться от пыли и осколков, а его мягкая подкладка обнимает так же тепло как руки матери.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -256,7 +256,7 @@
   parent: ClothingNeckBase
   id: ClothingNeckCloakMaskhalatBlack1non_stop_smetana
   categories: [ HideSpawnMenu ]
-  name: Черный масхалат
+  name: черный масхалат
   description: Элегантное и стильное маскировочное покрытие, выполненное из прочного, лёгкого и водоотталкивающего материала. Его глубокий чёрный цвет позволяет идеально сливаться с тёмной обстановкой, обеспечивая отличную маскировку в ночное время и в условиях низкой освещённости.
   components:
   - type: Sprite
@@ -276,7 +276,7 @@
   parent: ClothingHeadBase
   categories: [ HideSpawnMenu ]
   id: ClothingHeadHatHoodMaskhalatBlack1non_stop_smetana
-  name: Часть чёрного масхалата
+  name: часть чёрного масхалата
   description: Это плотное, эластичное покрытие, полностью скрывающее голову и волосы владельца. Он обеспечивает хорошую маскировку и комфорт в любых условиях благодаря лёгкому и водоотталкивающему материалу.
   components:
   - type: Sprite
@@ -293,7 +293,7 @@
   parent: ClothingNeckBase
   categories: [ HideSpawnMenu ]
   id: ClothingNeckCloakMaskhalatWhite1non_stop_smetana
-  name: Белый масхалат
+  name: белый масхалат
   description: Элегантное и стильное маскировочное покрытие, выполненное из прочного, лёгкого и водоотталкивающего материала. Его глубокий чёрный цвет позволяет идеально сливаться с тёмной обстановкой, обеспечивая отличную маскировку в ночное время и в условиях низкой освещённости.
   components:
   - type: Sprite
@@ -313,7 +313,7 @@
   parent: ClothingHeadBase
   categories: [ HideSpawnMenu ]
   id: ClothingHeadHatHoodMaskhalatWhite1non_stop_smetana
-  name: Часть белого масхалата
+  name: часть белого масхалата
   description: Это плотное, эластичное покрытие, полностью скрывающее голову и волосы владельца. Он обеспечивает хорошую маскировку и комфорт в любых условиях благодаря лёгкому и водоотталкивающему материалу.
   components:
   - type: Sprite
@@ -330,8 +330,8 @@
 - type: entity
   parent: ClothingEyesHudAdvanced
   id: ClothingEyesHudMedicalnon_stop_smetana
-  name: тактические очки mil.THRU // gen.1
-  description: Пойдём со мной, пойдём ко мне домой. Там будет лето, а мы будем под луной. Пойдём со мной, и всё что есть с собой — ты хочешь показать, а я хочу увидеееть. Я хочу увидеееть.
+  name: тактические очки
+  description: Тактические очки, что позволяют защитить тебя от любых проблем. Снег, пыль, осколки и песок? С этими очками ничего не помеха!
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -377,8 +377,8 @@
 - type: entity
   parent: ClothingHeadBase
   id: ClothingEyesHudMedicalnon_stop_smetana1
-  name: тактические очки mil.THRU // gen.1
-  description: Пойдём со мной, пойдём ко мне домой. Там будет лето, а мы будем под луной. Пойдём со мной, и всё что есть с собой — ты хочешь показать, а я хочу увидеееть. Я хочу увидеееть.
+  name: тактические очки
+  description: Тактические очки, что позволяют защитить тебя от любых проблем. Снег, пыль, осколки и песок? С этими очками ничего не помеха!
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -393,8 +393,8 @@
 - type: entity
   parent: ClothingMaskGasSecurity
   id: ClothingMasknon_stop_smetana
-  name: тактическая маска mil.HAZE // gen.1
-  description: Давай оставлю свой автограф, только на тебе. Скрепляю степлером оставленный тобой порез. Не замечаю, что вокруг один тупой протест.
+  name: тактическая маска
+  description: Надёжная фильтрация любых загрязнителей, ударопрочный корпус и широкий угол обзора. Она не мешает речи и круто выглядит. Возможно, даже спасёт от некрогаза.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -408,8 +408,8 @@
 - type: entity
   parent: ClothingShoesBootsMag
   id: ClothingShoesBootsMagnon_stop_smetana
-  name: армейские ботинки mil.GRAVES // gen.1
-  description: Я как Пеннивайз — твой ночной кошмар. Тебя не буду ждать, мне нечего терять. Видим мир в твоих словах, тебе не стоит лгать
+  name: армейские ботинки
+  description: Часто используемые во время выхода в открытый космос для обеспечения надежного крепления пользователя к обшивке. Крайне эффективны для щиткурства клоуна!
   categories: [ HideSpawnMenu ]
   components:
     - type: Sprite
@@ -429,8 +429,8 @@
 - type: entity
   parent: JetpackVoidFilled
   id: JetpackVoidFillednon_stop_smetana
-  name: пустотный джетпак mil.FLY-BY // gen.1
-  description: Достаю билет на небеса, станцуем на луне. Мы не такие, как все. Давай утонем в темноте.
+  name: пустотный джетпак
+  description: Компактный пустотный джетпак, закреплённый сзади на пояснице. Чёрный матовый корпус с термостойкими красными вставками. Благодаря необычному расположению сопл джетпак крайне эффективен и тратит меньше газа.
   categories: [ HideSpawnMenu ]
   components:
   - type: Item
@@ -450,8 +450,8 @@
 - type: entity
   parent: BaseMedicalPDA
   id: PDAnon_stop_smetana
-  name: тактический планшет mil.FORWARD // gen.1
-  description: Gucci, Louis, Александра Прада. Всё, что на тебе, скажи — «Спасибо, папа». Нет, man, это не твоя награда. Ты ничего не сделал — тебе идёт расплата.
+  name: тактический голографический планшет
+  description: Защищённый КПК с высокой производительностью и надёжной конструкцией. Оснащён всеми функциями для эффективного боя.
   categories: [ HideSpawnMenu ]
   components:
   - type: Icon
@@ -479,8 +479,8 @@
 - type: entity
   parent: DefibrillatorCompact
   id: DefibrillatorCompactnon_stop_smetana
-  name: компактный дефибриллятор mil.BOREALIS // gen.1
-  description: Я не знаю, как ты, но я знаю, станет лучше. Так что помолчи, послушай или уходи. Прячься дома днём и выходи лишь тёмной ночью и тогда, наверное, сможешь ты быть со мной.
+  name: тактический компактный дефибриллятор
+  description: Уменьшенная версия всеми известного дефибриллятора, который помогает вернуть к жизни кале... Кхм, своего товарища! Не бросай своих!
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -492,8 +492,8 @@
 - type: entity
   parent: BaseItem
   id: Hypospraynon_stop_smetana
-  name: лимитированный гипоспрей mil.AURORA // gen.1
-  description: Я не хочу быть здесь, мне надоели тёмные переулки. Я давно бросил свои потуги. Я ещё жив, но умру от скуки.
+  name: инъектор многократного применения
+  description: Инъектор, что сравним по скорости с гипоспреем и готов моментально ввести нужны реагенты. Целестин, пунктураз, дермалин или иные реагенты что может хранить данный инъектор. Используется элитными бойцами, что не боятся умереть в бою.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -525,8 +525,8 @@
 - type: entity
   parent: JawsOfLife
   id: JawsOfLifenon_stop_smetana
-  name: челюсти жизни mil.BREAK-IN // gen.1
-  description: So, what do you wanna do? What's your point of view?
+  name: тактические челюсти жизни
+  description: Трофейные челюсти жизни, что ранее были вырваны с МЭК. Когда-то они могли порвать стены как лист бумаги, но сейчас едва вскрывают шлюзы.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -562,8 +562,8 @@
 - type: entity
   parent: PowerDrill
   id: PowerDrillnon_stop_smetana
-  name: электродрель mil.PRIMARY // gen.1
-  description: There's a party, screw it, do you wanna go?
+  name: тактическая электродрель
+  description: От тактического тут только ахуенный черный цвет. Более отличий нет.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -596,8 +596,8 @@
 - type: entity
   parent: WelderExperimental
   id: WelderExperimentalnon_stop_smetana
-  name: экспериментальный сварочный пистолет mil.HEAT // gen.1
-  description: A handshake with you, what's your point of view?
+  name: экспериментальный сварочный пистолет
+  description: Сварочный аппарат, хват которого был взят с пистолета. Идеально подходит для человека, что держит оружие в руках с самого рождения. Работает на смеси сжиженной плазмы и хиллиума.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -609,8 +609,8 @@
 - type: entity
   parent: Multitool
   id: Multitoolnon_stop_smetana
-  name: мультитул mil.PULSE // gen.1
-  description: I'm on top of you, I don't wanna go.
+  name: тактический мультитул
+  description: Анализирует напряжение в проводах и позволяет подключать устройства друг к другу. Красный цвет подчёркивает его титановый черный корпус.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -624,8 +624,8 @@
 - type: entity
   parent: RCD
   id: RCDnon_stop_smetana
-  name: РСУ mil.PROTECTOR // gen.1
-  description: But you know how much you broke me apart. I'm done with you, I'm ignoring you. I don't wanna know.
+  name: боевой РСУ
+  description: Продвинутая версия обычного РСУ, что позволяет быстро сделать брешь для дальнейшей ликвидации врага. Если вставить картридж сможет разбирать и укреплённые стены!
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -637,8 +637,8 @@
 - type: entity
   parent: HandHeldMassScanner
   id: HandHeldMassScannernon_stop_smetana
-  name: сканер массы mil.RECONNAISSANCE // gen.1
-  description: So, when you tell me I'm the reason, I just can't believe the lies. And why do I still want to call you?
+  name: тактический сканер массы
+  description: Позволяет вести продолжительные бои в космосе и не давать врагам возможность отступления. Здесь даже видно твои мечты, что были скинуты в помойку.
   categories: [ HideSpawnMenu ]
   components:
   - type: Item
@@ -655,10 +655,10 @@
 
 #t-ray scanner
 - type: entity
-  name: т-лучевой сканер Ми-ми-милитари
+  name: т-лучевой сканер
   parent: BaseItem
   id: trayScannernon_stop_smetana
-  description: Обнаруживает скрытые связи и помогает избежать коротких замыканий в отношениях.
+  description: Обнаруживает скрытые заначки воров и кабеля. Также, крайне эффективен для устранения порезанных проводов.
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -688,8 +688,8 @@
   parent: [ BaseWeaponCrusher, BaseSecurityCargoContraband ]
   categories: [ HideSpawnMenu ]
   id: WeaponCrushernon_stop_smetana
-  name: протокинетическое копьё mil.FRIDAY // gen.1 
-  description: При лунном свете я ощущал капли дождя и теплый ветер обнял меня, и я так рад что тебя встретил — вокруг лишь злые голоса. Но ты мне веришь — отважно веришь до конца, веришь в меня, эй.
+  name: плазменная энергокатана
+  description: Рукоять классической формы, лезвие перерезает любую броню и оставляет лишь расплавленную броню и ужасные порезы. Каждый взмах оставляет в воздухе светящийся след — твой почерк на поле боя. Бей с плеча, коли, отсекай конечности — одно касание плазмы смертельно, два — летально, три — и противник превращается в память.
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/non_stop_smetana/crusher.rsi
@@ -697,6 +697,11 @@
   - type: Item
     sprite: _DeadSpace/Sponsor/non_stop_smetana/crusher.rsi
     size: Huge
+  - type: Clothing
+    quickEquip: false
+    slots:
+    - Back
+    - suitStorage
   - type: AmmoCounter
   - type: UseDelayOnShoot
   - type: UseDelay
@@ -706,10 +711,13 @@
       groups:
         Brute: -11
   - type: Gun
+    soundGunshot: /Audio/_DeadSpace/Sponsor/pvrsifvlAlt2/crusher_shot.ogg
     fireRate: 1
     useKey: false
   - type: RechargeBasicEntityAmmo
     rechargeCooldown: 0.5
+    rechargeSound:
+      path: /Audio/_DeadSpace/Sponsor/pvrsifvlAlt2/crusher_reload.ogg
   - type: BasicEntityAmmoProvider
     proto: BulletCharge
     capacity: 1
@@ -722,7 +730,7 @@
         Blunt: 6
         Slash: 4
     soundHit:
-      collection: MetalThud
+      collection: KatanaHitnon_stop_smetana
   - type: Wieldable
   - type: IncreaseDamageOnWield
     damage:
@@ -743,8 +751,8 @@
   parent: WeaponProtoKineticAccelerator
   id: WeaponProtoKineticAcceleratornon_stop_smetana
   categories: [ HideSpawnMenu ]
-  name: протокинетическое ружьё mil.PEACEKEEPER // gen.1
-  description: Модифицированное протокинетическое ружьё с рычажным механизмом. Распространяет демократию среди дикой фауны космоса.
+  name: протокинетическое ружьё «New Horizon»
+  description: Модифицированное протокинетическое ружьё с рычажным механизмом. Распространяет демократию среди дикой фауны космоса. На ручке имеется гравировка - «Gift from PMC Angor»
   components:
   - type: Gun
     fireRate: 0.5
@@ -754,8 +762,12 @@
     maxAngle: 45
     availableModes:
     - SemiAuto
+    soundGunshot:
+      path: /Audio/_DeadSpace/Sponsor/pvrsifvlAlt2/peacekeeper_shot.ogg
   - type: RechargeBasicEntityAmmo
     rechargeCooldown: 0.75
+    rechargeSound:
+      path: /Audio/_DeadSpace/Sponsor/pvrsifvlAlt2/peacekeeper_reload.ogg
   - type: Sprite
     sprite: _DeadSpace/Sponsor/non_stop_smetana/kinetic_accelerator.rsi
     layers:
@@ -805,3 +817,11 @@
     content: paper-law-non_stop_smetana
   - type: Tag
     tags: [ ]
+
+# sound-collection
+- type: soundCollection
+  id: KatanaHitnon_stop_smetana
+  files:
+  - /Audio/_DeadSpace/Sponsor/non_stop_smetana/katana-hit3.ogg
+  - /Audio/_DeadSpace/Sponsor/non_stop_smetana/katana-hit2.ogg
+  - /Audio/_DeadSpace/Sponsor/non_stop_smetana/katana-hit1.ogg
