@@ -357,3 +357,40 @@
   values:
     prefix: plushies-i750-
     count: 4
+
+# IV класс
+- type: localizedDataset
+  id: PlushieColonelSpeech
+  values:
+    prefix: plushies-colone-
+    count: 10
+
+- type: localizedDataset
+  id: PlushieDmitrySpeisovSpeech
+  values:
+    prefix: plushies-speisov-
+    count: 9
+
+- type: localizedDataset
+  id: PlushieAhmetSpeech
+  values:
+    prefix: plushies-ahmet-
+    count: 3
+
+- type: localizedDataset
+  id: PlushieValeniyaSatoSpeech
+  values:
+    prefix: plushies-sato-
+    count: 7
+
+- type: localizedDataset
+  id: PlushieViytSpeech
+  values:
+    prefix: plushies-viyt-
+    count: 10
+
+- type: localizedDataset
+  id: PlushieRiikkaSpeech
+  values:
+    prefix: plushies-riikka-
+    count: 10
