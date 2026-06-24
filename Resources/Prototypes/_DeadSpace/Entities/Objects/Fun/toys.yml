@@ -1434,19 +1434,6 @@
 
 - type: entity
   parent: BasePlushieDeadSpaceMisc
-  id: PlushieZekalAhmet
-  name: плюшевый Ахмет
-  description: Дворф.
-  components:
-  - type: Sprite
-    state: plushie_ahmet
-  - type: TTS
-    voice: Thrud
-  - type: SpeakOnTrigger
-    pack: PlushieAhmetSpeech
-
-- type: entity
-  parent: BasePlushieDeadSpaceMisc
   id: PlushieSargonValeniyaSato
   name: плюшевая Валения Сато
   description: Неприметная вульпа... с пулемётом?
