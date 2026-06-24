@@ -43,7 +43,8 @@ public sealed class ScannerProgramSystem : EntitySystem
                 {
                     var doc = component.Documents[message.DocumentIndex];
                     var newList = new List<StampDisplayInfo>(doc.StampedBy);
-                    component.Documents[message.DocumentIndex] = new ScannedDocument(message.NewName, doc.Content, newList);
+                    var newName = NormalizeDocumentName(message.NewName, component.MaxDocumentNameLength);
+                    component.Documents[message.DocumentIndex] = new ScannedDocument(newName, doc.Content, newList, new List<string>(doc.Signatures));
                 }
                 break;
         }
@@ -69,8 +70,15 @@ public sealed class ScannerProgramSystem : EntitySystem
         var doc = new ScannedDocument(
             metadata.EntityName,
             paper.Content,
-            new List<StampDisplayInfo>(paper.StampedBy)
+            new List<StampDisplayInfo>(paper.StampedBy),
+            new List<string>(paper.Signatures)
         );
+
+        if (component.MaxDocuments <= 0)
+            return;
+
+        if (component.Documents.Count >= component.MaxDocuments)
+            component.Documents.RemoveAt(0);
 
         component.Documents.Add(doc);
 
@@ -84,5 +92,15 @@ public sealed class ScannerProgramSystem : EntitySystem
 
         var state = new ScannerProgramUiState(component.Documents, -1);
         _cartridgeLoaderSystem?.UpdateCartridgeUiState(loaderUid, state);
+    }
+
+    private static string NormalizeDocumentName(string name, int maxLength)
+    {
+        name = name.Trim();
+
+        if (maxLength > 0 && name.Length > maxLength)
+            name = name[..maxLength];
+
+        return name;
     }
 }
