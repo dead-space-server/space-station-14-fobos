@@ -1,3 +1,5 @@
+## Static
+
 - type: latheRecipePack
   id: BioGenIngredientsStatic
   recipes:
@@ -9,6 +11,10 @@
   - BioGenEnzyme
   - BioGenFlour
   - BioGenSugar
+# DS14-start
+#  - BioGenMonkeyCube
+#  - BioGenKoboldCube
+# DS14-end
   - BioGenCandle
   - BioGenPlantBGone
   - BioGenWeedKiller

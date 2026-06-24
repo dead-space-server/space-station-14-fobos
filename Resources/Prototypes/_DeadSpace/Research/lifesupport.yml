@@ -42,6 +42,7 @@
   diskAvailable: false
   recipeUnlocks:
   - FatExtractorMachineCircuitboard
+  - BiofabricatorMachineCircuitboardTaipan
   - BiomassReclaimerMachineCircuitboard
 
 - type: technology
@@ -89,6 +90,23 @@
   diskAvailable: false
   recipeUnlocks:
   - ADTCyberHypospray
+
+- type: technology
+  id: TaipanBiofabrication
+  name: research-technology-biofabrication
+  icon:
+    sprite: Structures/Machines/biofabricator.rsi
+    state: icon
+  discipline: TaipanLifeSupport
+  tier: 2
+  cost: 15000
+  diskAvailable: false
+  recipeUnlocks:
+  - AbominationCube
+  - SpaceCarpCube
+  - SpaceTickCube
+  technologyPrerequisites:
+  - TaipanMeatManipulation
 
 - type: technology
   id: TaipanBiochemicalStasis
