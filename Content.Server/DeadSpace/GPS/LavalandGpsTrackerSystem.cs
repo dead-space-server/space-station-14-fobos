@@ -1,3 +1,5 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
 using Content.Server.DeadSpace.GPS.Components;
 using Content.Server.DeadSpace.Lavaland.Components;
 using Robust.Shared.Audio.Systems;
@@ -19,8 +21,10 @@ public sealed class LavalandGpsTrackerSystem : EntitySystem
 
         while (query.MoveNext(out var uid, out var tracker))
         {
-            if (now < tracker.NextBeepTime)
+            if (now < tracker.NextUpdateTime)
                 continue;
+
+            tracker.NextUpdateTime = now + TimeSpan.FromSeconds(MathF.Max(0.1f, tracker.ScanInterval));
 
             var gpsPos = _transform.GetMapCoordinates(uid);
             if (gpsPos.MapId == MapId.Nullspace)
@@ -56,7 +60,7 @@ public sealed class LavalandGpsTrackerSystem : EntitySystem
 
             var t = distance / tracker.DetectionRange;
             var intervalSeconds = tracker.MinBeepInterval + (tracker.MaxBeepInterval - tracker.MinBeepInterval) * t;
-            tracker.NextBeepTime = now + TimeSpan.FromSeconds(intervalSeconds);
+            tracker.NextUpdateTime = now + TimeSpan.FromSeconds(intervalSeconds);
 
             _audio.PlayPvs(tracker.BeepSound, uid);
         }
