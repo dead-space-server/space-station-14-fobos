@@ -595,13 +595,18 @@
       machine_board: !type:Container
       machine_parts: !type:Container
       beaker_slot: !type:ContainerSlot
+  # DS14-start
   - type: Lathe
     reagentOutputSlotId: beaker_slot
     idleState: icon
     runningState: building
     staticPacks:
+    - FriendlyCubesStatic
     - BioGenIngredientsStatic
     - BioGenMaterialsStatic
+    - BioGenSeedsStatic
+    - BioGenSaucesStatic
+  # DS14-end
   - type: EmagLatheRecipes
     emagStaticPacks:
     - BioGenEmagStatic
