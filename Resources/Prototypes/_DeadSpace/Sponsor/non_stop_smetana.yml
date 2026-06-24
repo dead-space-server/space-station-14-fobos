@@ -261,6 +261,7 @@
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/non_stop_smetana/kust/Cloak/MaskhalatBlack.rsi
+  - type: Appearance
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHatHoodMaskhalatBlack1non_stop_smetana
     requiredSlot:
@@ -283,6 +284,7 @@
     sprite: _DeadSpace/Sponsor/non_stop_smetana/kust/Head/MaskhalatBlack.rsi
   - type: Clothing
     sprite: _DeadSpace/Sponsor/non_stop_smetana/kust/Head/MaskhalatBlack.rsi
+  - type: Appearance
   - type: HideLayerClothing
     slots:
     - Hair
@@ -298,6 +300,7 @@
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/non_stop_smetana/kust/Cloak/MaskhalatWhite.rsi
+  - type: Appearance
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHatHoodMaskhalatWhite1non_stop_smetana
     requiredSlot:
