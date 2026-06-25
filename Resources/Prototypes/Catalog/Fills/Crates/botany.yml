@@ -22,6 +22,8 @@
         amount: 2
       - id: SakuraSeeds # DS14
         amount: 2
+      - id: CactusSeeds # DS14
+        amount: 1
 
 - type: entity
   parent: CrateHydroSecure

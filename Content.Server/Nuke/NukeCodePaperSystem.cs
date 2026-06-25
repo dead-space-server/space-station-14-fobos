@@ -46,7 +46,7 @@ namespace Content.Server.Nuke
         ///     Send a nuclear code to all faxes on that station which are authorized to receive nuke codes.
         /// </summary>
         /// <returns>True if at least one fax received codes</returns>
-        public bool SendNukeCodes(EntityUid station)
+        public bool SendNukeCodes(EntityUid station, LocId? announcement = null) // DS14
         {
             if (!HasComp<StationDataComponent>(station))
             {
@@ -80,7 +80,11 @@ namespace Content.Server.Nuke
 
             if (wasSent)
             {
-                var msg = Loc.GetString("nuke-component-announcement-send-codes");
+                // DS14-Start: nuke-code queue announcements include the selected station name.
+                var msg = Loc.GetString(
+                    announcement ?? "nuke-component-announcement-send-codes",
+                    ("station", Name(station)));
+                // DS14-End
                 _chatSystem.DispatchStationAnnouncement(station, msg, colorOverride: Color.Red);
             }
 

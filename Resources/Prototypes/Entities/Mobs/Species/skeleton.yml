@@ -30,7 +30,8 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      100: Critical
+      100: PreCritical # DS14
+      120: Critical # DS14 edited value
       150: Dead
   - type: TransferMindOnGib
   - type: Destructible

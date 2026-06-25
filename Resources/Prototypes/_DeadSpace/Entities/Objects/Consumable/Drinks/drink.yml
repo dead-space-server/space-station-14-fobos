@@ -81,3 +81,68 @@
   - type: Icon
     sprite: _DeadSpace/Objects/Consumable/Drinks/cherryblossom.rsi
     state: icon
+
+- type: entity
+  parent: DrinkCanBaseFull
+  id: DrinkBaltica9Can
+  name: баночка Балтики 9
+  description: Легендарное пиво. Идеальное сочетание святой воды и крови сатаны.
+  components:
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Baltica9
+          Quantity: 30
+      grindable:
+        reagents:
+        - ReagentId: Aluminium
+          Quantity: 4
+        - ReagentId: Iron
+          Quantity: 1
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Consumable/Drinks/baltica9.rsi
+  - type: Item
+    sprite: _DeadSpace/Objects/Consumable/Drinks/baltica9.rsi
+  - type: Tag
+    tags:
+    - Beer
+    - DrinkCan
+    - Baltica9
+
+- type: entity
+  parent: DrinkGlass
+  id: CactusJuiceGlass
+  suffix: сок кактуса
+  name: стакан-метаморф
+  description: Попробуйте сок кактуса - он охладит вас! Он охладительный! САМЫЙ ОХЛАДИТЕЛЬНЫЙ!
+  components:
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: CactusJuice
+          Quantity: 30
+  - type: Icon
+    sprite: _DeadSpace/Objects/Consumable/Drinks/cactusjuice.rsi
+    state: icon
+
+- type: entity
+  parent: DrinkGlass
+  id: OasisCactusGlass
+  suffix: Долгожданный оазис
+  name: стакан-метаморф
+  description: После него, все ваши проблемы кажутся лишь одной иголкой на кактусе.
+  components:
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: OasisCactus
+          Quantity: 30
+  - type: Icon
+    sprite: _DeadSpace/Objects/Consumable/Drinks/oasiscactus.rsi
+    state: icon

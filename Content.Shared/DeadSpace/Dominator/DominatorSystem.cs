@@ -11,11 +11,14 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Audio.Systems;
 using Content.Shared.Timing;
 using Robust.Shared.Audio;
+using Content.Shared.Access.Components;
 using Content.Shared.Access.Systems;
 using Content.Shared.Emag.Systems;
 using Content.Shared.Emag.Components;
 using Robust.Shared.Utility;
 using Content.Shared.Hands;
+using Content.Shared.Hands.EntitySystems;
+using Content.Shared.Inventory.Events;
 using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Ghost;
 using Content.Shared.Item;
@@ -24,6 +27,8 @@ namespace Content.Shared.DeadSpace.Dominator;
 
 public sealed class DominatorSystem : EntitySystem
 {
+    private const string IdSlot = "id";
+
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
@@ -33,6 +38,7 @@ public sealed class DominatorSystem : EntitySystem
     [Dependency] private readonly SharedIdCardSystem _idCard = default!;
     [Dependency] private readonly SharedItemSystem _item = default!;
     [Dependency] private readonly SharedGunSystem _gun = default!;
+    [Dependency] private readonly SharedHandsSystem _hands = default!;
 
     public override void Initialize()
     {
@@ -45,6 +51,8 @@ public sealed class DominatorSystem : EntitySystem
         SubscribeLocalEvent<DominatorComponent, ShotAttemptedEvent>(OnShotAttempted);
         SubscribeLocalEvent<DominatorComponent, GotEquippedHandEvent>(OnHandEquip);
         SubscribeLocalEvent<DominatorComponent, GotEmaggedEvent>(OnEmagged);
+        SubscribeLocalEvent<IdCardComponent, GotEquippedEvent>(OnIdCardEquipped);
+        SubscribeLocalEvent<IdCardComponent, GotUnequippedEvent>(OnIdCardUnequipped);
     }
 
     private void OnExamined(EntityUid uid, DominatorComponent component, ExaminedEvent args)
@@ -131,7 +139,7 @@ public sealed class DominatorSystem : EntitySystem
         {
             if (user != null)
             {
-                if (component.OwnerIdCard == null || component.OwnerIdCard != component.LastHoldingIdCard)
+                if (!HasDominatorAccess(component))
                 {
                     _popupSystem.PopupClient(Loc.GetString("dominator-permission-denied"), uid, user.Value);
                     return;
@@ -202,6 +210,7 @@ public sealed class DominatorSystem : EntitySystem
                         if (TryComp<UseDelayComponent>(uid, out var useDelay) && !_useDelay.IsDelayed((uid, useDelay)))
                         {
                             component.OwnerIdCard = idCard.Owner;
+                            Dirty(uid, component);
                             _audio.PlayPredicted(component.SetOwnerSound, uid, args.User, AudioParams.Default.WithVolume(-4f));
                             if (useDelay != null)
                                 _useDelay.TryResetDelay((uid, useDelay));
@@ -235,6 +244,7 @@ public sealed class DominatorSystem : EntitySystem
                         if (TryComp<UseDelayComponent>(uid, out var useDelay) && !_useDelay.IsDelayed((uid, useDelay)))
                         {
                             component.OwnerIdCard = null;
+                            Dirty(uid, component);
                             _audio.PlayPredicted(component.ClearOwnerSound, uid, args.User, AudioParams.Default.WithVolume(-4f));
                             if (useDelay != null)
                                 _useDelay.TryResetDelay((uid, useDelay));
@@ -251,7 +261,7 @@ public sealed class DominatorSystem : EntitySystem
         if (HasComp<EmaggedComponent>(uid))
             return;
 
-        if (component.OwnerIdCard == null || component.OwnerIdCard != component.LastHoldingIdCard)
+        if (!HasDominatorAccess(component))
         {
             args.Cancel();
             _popupSystem.PopupClient(Loc.GetString("dominator-permission-denied"), uid, args.User);
@@ -274,19 +284,57 @@ public sealed class DominatorSystem : EntitySystem
     /// </summary>
     private void OnHandEquip(EntityUid uid, DominatorComponent component, GotEquippedHandEvent args)
     {
-        if (_idCard.TryFindIdCard(args.User, out var idCard))
+        RefreshLastHoldingIdCard(uid, component, args.User);
+    }
+
+    private void OnIdCardEquipped(Entity<IdCardComponent> ent, ref GotEquippedEvent args)
+    {
+        if (args.Slot != IdSlot)
+            return;
+
+        RefreshHeldDominators(args.Equipee);
+    }
+
+    private void OnIdCardUnequipped(Entity<IdCardComponent> ent, ref GotUnequippedEvent args)
+    {
+        if (args.Slot != IdSlot)
+            return;
+
+        RefreshHeldDominators(args.Equipee);
+    }
+
+    private void RefreshHeldDominators(EntityUid user)
+    {
+        foreach (var held in _hands.EnumerateHeld(user))
         {
-            component.LastHoldingIdCard = idCard;
+            if (TryComp(held, out DominatorComponent? dominator))
+                RefreshLastHoldingIdCard(held, dominator, user);
         }
-        else
-        {
-            component.LastHoldingIdCard = null;
-        }
+    }
+
+    private void RefreshLastHoldingIdCard(EntityUid uid, DominatorComponent component, EntityUid user)
+    {
+        EntityUid? idCardUid = null;
+
+        if (_idCard.TryFindIdCard(user, out var idCard))
+            idCardUid = idCard.Owner;
+
+        if (component.LastHoldingIdCard == idCardUid)
+            return;
+
+        component.LastHoldingIdCard = idCardUid;
+        Dirty(uid, component);
     }
 
     private void OnEmagged(EntityUid uid, DominatorComponent component, ref GotEmaggedEvent args)
     {
         _audio.PlayPredicted(component.EmagSound, uid, args.UserUid);
         args.Handled = true;
+    }
+
+    private bool HasDominatorAccess(DominatorComponent component)
+    {
+        return component.OwnerIdCard != null
+            && component.OwnerIdCard == component.LastHoldingIdCard;
     }
 }

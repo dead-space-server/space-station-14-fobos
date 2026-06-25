@@ -11,6 +11,83 @@
   - HatDeer # DS14
   - PlushieLizard
   - PlushieSpaceLizard
+  # DS14-plushie-start
+  - DiscordToy
+  - PlushieJokerge
+  - PlushieFloran
+  - PlushieJuggernaut
+  - PlushieIps
+  - PlushieBoich
+  - PlushieCyberFox
+  - PlushieAhahaahahaha
+  - PlushieKriss
+  - PlushieOstwind
+  - PlushieJeleshka
+  - PlushieDobryash
+  - PlushieHqdishka
+  - PlushieWillie
+  - PlushieAinnete
+  - PlushieAlex
+  - PlushieElizabeth
+  - PlushieEllis
+  - PlushieKermuth
+  - PlushieLucius
+  - PlushieEvelina
+  - PlushieLieutenant
+  - PlushieSmetanaJonita
+  - PlushieScarlettPvrsifvlAlt2
+  - PlushieColleen
+  - PlushieHermione
+  - PlushieRIP
+  - PlushieFloria
+  - PlushieAino
+  - PlushieSilAily
+  - PlushieSilAizek
+  - PlushieSilAzrail
+  - PlushieSilEmilia
+  - PlushieSilEva
+  - PlushieSilKrivazora
+  - PlushieSilAzrailHardsuit
+  - PlushieSilSharp
+  - PlushieSilRenaTakala
+  - PlushieSilEso
+  - PlushieSilKel
+  - PlushieSilWeaver
+  - PlushieSilEyrinLiht
+  - PlushieSilKelicKato1
+  - PlushieSilKelicKato2
+  - PlushieSilYuliWinter
+  - PlushieSilEkaterinaAkkerman
+  - PlushieSilYohanaWinter
+  - PlushieSilGermanKvaSki
+  - PlushieSilTimAkkerman
+  - PlushieSilKiana
+  - PlushieSilSai
+  - PlushieSilZhdan
+  - PlushieSilElena
+  - PlushieSilMei
+  - PlushieSilRygoslav
+  - PlushieSilFlem
+  - PlushieSilMarry
+  - PlushieSilAleksey
+  - PlushieSilArevin
+  - PlushieSilMila
+  - PlushieSilRiza
+  - PlushieSilMuren
+  - PlushieDragonFoxMedTech
+  - PlushieDragonFoxMadParadox
+  - PlushieSilRalseya
+  - PlushieSilAmaliya
+  - PlushieSilSAstro
+  - PlushieSilDestin
+  - PlushieSilEgor
+  - PlushieSilKim
+  - PlushieSilEmma
+  - PlushieYosifAnita
+  - PlushieYosifEvelina
+  - PlushieYosifLucius
+  - PlushieMoth3eilado
+  - PlushieMoth3eiladoBlue
   - ThreeCandles
   - Lighter
   - FlippoLighter
@@ -1474,6 +1551,7 @@
   - SecurityJumpskirt
   - SecurityJumpsuitGrey
   - SecurityJumpskirtGrey
+  - SecurityJumpsuitSecBlue # DS14
   - SecurityJumpsuitBlack # DS14
   - SecurityJumpskirtPencil # DS14
   # - SeniorOfficerJumpsuit
@@ -1487,6 +1565,15 @@
   - SecurityBackpack
   - SecuritySatchel
   - SecurityDuffel
+
+# DS14-start
+- type: loadoutGroup
+  id: HeadOfSecurityBelt
+  name: loadout-group-head-of-security-belt
+  loadouts:
+  - HeadOfSecurityBelt
+  - HeadOfSecurityWebbing
+# DS14-end
 
 - type: loadoutGroup
   id: SecurityBelt
@@ -1585,6 +1672,7 @@
   - DetectiveCoat
   - DetectiveCoatGrey
   - DetectiveCoatAlt
+  - DetectiveDarkCoat
 
 - type: loadoutGroup
   id: DetectiveShoes

@@ -17,7 +17,7 @@ namespace Content.Server.Objectives.Commands
         public override string Command => "rmobjective";
         public override void Execute(IConsoleShell shell, string argStr, string[] args)
         {
-            if (args.Length != 2)
+            if (args.Length is < 1 or > 2)
             {
                 shell.WriteError(Loc.GetString("cmd-rmobjective-invalid-args"));
                 return;
@@ -35,6 +35,12 @@ namespace Content.Server.Objectives.Commands
                 return;
             }
 
+            if (args.Length == 1)
+            {
+                ListObjectives(shell, mindId, mind);
+                return;
+            }
+
             if (int.TryParse(args[1], out var i))
             {
                 shell.WriteLine(Loc.GetString(_mind.TryRemoveObjective(mindId, mind, i)
@@ -44,6 +50,28 @@ namespace Content.Server.Objectives.Commands
             else
             {
                 shell.WriteError(Loc.GetString("cmd-rmobjective-invalid-index", ("index", args[1])));
+            }
+        }
+
+        private void ListObjectives(IConsoleShell shell, EntityUid mindId, MindComponent mind)
+        {
+            if (mind.Objectives.Count == 0)
+            {
+                shell.WriteLine("No objectives.");
+                return;
+            }
+
+            for (var i = 0; i < mind.Objectives.Count; i++)
+            {
+                var info = _objectives.GetInfo(mind.Objectives[i], mindId, mind);
+                if (info == null)
+                {
+                    shell.WriteLine($"[{i}] {mind.Objectives[i]} - INVALID");
+                    continue;
+                }
+
+                var progress = (int) (info.Value.Progress * 100f);
+                shell.WriteLine($"[{i}] {mind.Objectives[i]} - {info.Value.Title} ({progress}%)");
             }
         }
 

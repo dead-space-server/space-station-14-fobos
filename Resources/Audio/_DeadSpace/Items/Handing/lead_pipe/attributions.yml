@@ -1,0 +1,11 @@
+- files:
+    - "lead_pipe_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/handling/lead_pipe/lead_pipe_drop.ogg"
+
+- files:
+    - "lead_pipe_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/handling/lead_pipe/lead_pipe_pickup.ogg"

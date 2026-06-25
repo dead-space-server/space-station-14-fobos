@@ -1,0 +1,157 @@
+- type: entity
+  parent: ClothingBackpackSatchelTaipan
+  id: ClothingBackpackSatchelTaipanBundle
+  abstract: true
+  components:
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+- type: entity
+  parent: ClothingBackpackSatchelTaipanBundle
+  id: ClothingBackpackSatchelTaipanBundleMain
+  description: Cодержит самое необходимое для оперативника.
+  suffix: Основна, база, фундамент нюки
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: EnergySword
+        - id: ADTCyberHypospray
+        - id: EmpImplanter
+        - id: ScramImplanter
+        - id: ClothingShoesChameleonNoSlips
+
+- type: entity
+  parent: ClothingBackpackSatchelTaipanBundle
+  id: ClothingBackpackSatchelTaipanBundleMantis
+  description: Cодержит самое необходимое для оперативника.
+  suffix: Готовый закуп, клинки
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: ClothingEyesGlassesThermalVisor
+        - id: ADTCyberHypospray
+        - id: EmpImplanter
+        - id: ScramImplanter
+        - id: ClothingShoesChameleonNoSlips
+        - id: MantisBladesImplanter
+        - id: DrinkShakerSyndie
+          amount: 2
+        - id: CombatMedipen
+          amount: 3
+
+- type: entity
+  parent: ClothingBackpackSatchelTaipanBundle
+  id: ClothingBackpackSatchelTaipanBundleJuggernaut
+  description: Cодержит самое необходимое для оперативника.
+  suffix: всё для джаги без джаги
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: EnergySword
+        - id: ADTCyberHypospray
+        - id: EmpImplanter
+        - id: ScramImplanter
+        - id: ClothingShoesChameleonNoSlips
+        - id: ClothingEyesHudSyndicateAgent
+        - id: DrinkShakerSyndie
+          amount: 3
+        - id: CombatMedipen
+          amount: 3
+        - id: ClothingNeckChameleon
+
+- type: entity
+  parent: ClothingBackpackSatchelTaipanBundle
+  id: ClothingBackpackSatchelTaipanBundleHristov
+  description: Cодержит самое необходимое для оперативника.
+  suffix: Готовый закуп, Христов
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: EnergySword
+        - id: EnergyShield
+        - id: ADTCyberHypospray
+        - id: EmpImplanter
+        - id: ScramImplanter
+        - id: AdrenalImplanter
+        - id: ClothingShoesChameleonNoSlips
+        - id: ClothingEyesHudSyndicateAgent
+        - id: MagazineHristovAP
+          amount: 4
+        - id: CombatMedipen
+          amount: 3
+
+- type: entity
+  parent: ClothingBackpackSatchelTaipanBundle
+  id: ClothingBackpackSatchelTaipanBundleХС67
+  description: Cодержит самое необходимое для оперативника.
+  suffix: всё для 67 без 67
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: EnergySword
+        - id: EnergyShield
+        - id: ADTCyberHypospray
+        - id: EmpImplanter
+        - id: ScramImplanter
+        - id: ClothingShoesChameleonNoSlips
+        - id: DrinkShakerSyndie
+          amount: 2
+        - id: ClothingEyesHudSyndicateAgent
+        - id: ADTExtMagazineRifle
+          amount: 5
+        - id: CombatMedipen
+          amount: 2
+
+- type: entity
+  parent: ClothingBackpackSatchelTaipanBundle
+  id: ClothingBackpackSatchelTaipanBundleAP
+  description: Cодержит самое необходимое для оперативника.
+  suffix: Готовый закуп, Дигл
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: EnergySword
+        - id: EnergyShield
+        - id: ADTCyberHypospray
+        - id: EmpImplanter
+        - id: ScramImplanter
+        - id: ClothingShoesChameleonNoSlips
+        - id: DrinkShakerSyndie
+          amount: 2
+        - id: ClothingEyesHudSyndicateAgent
+        - id: MagazineEagleAP
+          amount: 6
+        - id: WeaponPistolDesertEagle
+        - id: CombatMedipen
+          amount: 2
+
+- type: entity
+  parent: ClothingBackpackSatchelTaipanBundle
+  id: ClothingBackpackSatchelTaipanBundleBulldog
+  description: Cодержит самое ненужное для оперативника.
+  suffix: Готовый закуп, всё для бульдога без бульдога, но с рапирой
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: SyndieSabre
+        - id: ADTCyberHypospray
+        - id: EmpImplanter
+        - id: ScramImplanter
+        - id: ClothingShoesChameleonNoSlips
+        - id: DrinkShakerSyndie
+          amount: 3
+        - id: ClothingEyesPNVAdvSyndicate

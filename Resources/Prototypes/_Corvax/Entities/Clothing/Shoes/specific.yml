@@ -27,10 +27,34 @@
   description: Leather, black, high-quality shoes, you can hardly find similar ones on the black market...
   components:
     - type: Sprite
-      sprite: _Corvax/Clothing/Shoes/Specific/centcom_officer_black.rsi
+      sprite: _DeadSpace/Clothing/Shoes/Boots/centcom_officer_black.rsi
     - type: Clothing
-      sprite: _Corvax/Clothing/Shoes/Specific/centcom_officer_black.rsi
-
+      sprite: _DeadSpace/Clothing/Shoes/Boots/centcom_officer_black.rsi
+    - type: NoSlip
+    - type: Magboots
+    - type: ClothingSpeedModifier
+      walkModifier: 1
+      sprintModifier: 1
+    - type: Appearance
+    - type: StaticPrice
+      price: 400
+    - type: ClothingGrantComponent
+      component: 
+        - type: RenegadeCANTRenegadeForce
+    - type: ClothingSlowOnDamageModifier
+      modifier: 0.2
+    - type: ContainerContainer
+      containers:
+        item: !type:ContainerSlot
+    - type: ItemSlots
+      slots:
+        item:
+          startingItem: CombatKnife
+          name: clothing-military-boots-sidearm
+          whitelist:
+            tags:
+            - Knife
+            - Sidearm
 - type: entity
   parent: ClothingShoesBaseButcherable
   id: ClothingShoesSchoolBlack

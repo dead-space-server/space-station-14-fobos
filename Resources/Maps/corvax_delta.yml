@@ -23612,9 +23612,9 @@ entities:
           id: docking534854
           localAnchorB: 0.49999997,-8
           localAnchorA: 95,21.5
-          referenceAngle: 4.71239
-          damping: 1016.5739
-          stiffness: 9124.746
+          referenceAngle: -1.5707964
+          damping: 0
+          stiffness: 0
     - type: NavMap
     - type: ImplicitRoof
     - type: TileHistory
@@ -23743,7 +23743,7 @@ entities:
     - type: MetaData
       name: NT-Raven-GE 12
     - type: Transform
-      rot: 4.71238898038469 rad
+      rot: -1.5707963267948966 rad
       pos: 103.16053,22.902418
       parent: 1
     - type: MapGrid
@@ -24005,9 +24005,9 @@ entities:
           id: docking534854
           localAnchorB: 0.49999997,-8
           localAnchorA: 95,21.5
-          referenceAngle: 4.71239
-          damping: 1016.59766
-          stiffness: 9124.959
+          referenceAngle: -1.5707964
+          damping: 0
+          stiffness: 0
     - type: ImplicitRoof
     - type: TileHistory
       chunkHistory: {}
@@ -132649,7 +132649,7 @@ entities:
     - type: Transform
       pos: 11.4723425,-63.475094
       parent: 2
-- proto: ErtComputerShuttle
+- proto: ErtResponseConsole
   entities:
   - uid: 19093
     components:
@@ -248518,7 +248518,7 @@ entities:
       rot: 3.141592653589793 rad
       pos: -114.5,21.5
       parent: 2
-- proto: StationAnchorOff
+- proto: StationAnchorIndestructible # DS14 Edit: force static station grid
   entities:
   - uid: 34980
     components:

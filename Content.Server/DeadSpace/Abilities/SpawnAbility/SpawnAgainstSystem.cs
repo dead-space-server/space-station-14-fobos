@@ -55,7 +55,7 @@ public sealed class SpawnAgainstSystem : EntitySystem
         if (args.Handled)
             return;
 
-        if (EntityManager.TryGetComponent<ActorComponent?>(uid, out var actorComponent))
+        if (TryComp<ActorComponent>(uid, out var actorComponent))
         {
             var ev = new RequestEntityMenuEvent(uid.Id, false, false);
 
@@ -76,7 +76,7 @@ public sealed class SpawnAgainstSystem : EntitySystem
     {
         if (!msg.IsUseEvolutionSystem && !msg.IsUseSpawnPointSystem)
         {
-            if (EntityManager.TryGetComponent<SpawnAgainstComponent>(new EntityUid(msg.Target), out var spawnAgainstComponent))
+            if (TryComp<SpawnAgainstComponent>(new EntityUid(msg.Target), out var spawnAgainstComponent))
             {
                 spawnAgainstComponent.SelectEntity = msg.PrototypeId;
                 SpawnAgainst(new EntityUid(msg.Target), spawnAgainstComponent);

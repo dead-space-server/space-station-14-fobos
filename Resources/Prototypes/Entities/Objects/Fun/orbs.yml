@@ -27,6 +27,17 @@
       right:
       - state: singu-inhand-right
         shader: unshaded
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/glove_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/glove_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/glove_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: BaseItem
@@ -61,6 +72,17 @@
       params:
         variation: 0.65
         volume: -10
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/glove_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/glove_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/glove_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: [ BaseItem, BaseMagicalContraband ]
@@ -81,6 +103,17 @@
     sprite: Objects/Fun/pondering_orb.rsi
   - type: TileFrictionModifier
     modifier: 0.001
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/beaker_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/beaker_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/beaker_drop.ogg
+  #DS14-End
 
 # The true orb
 - type: entity
@@ -174,3 +207,11 @@
   - type: PhysicalComposition
     materialComposition:
       Plastic: 50
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/beaker_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/beaker_drop.ogg
+  #DS14-End

@@ -3,6 +3,7 @@ using Content.Server.Administration;
 using Content.Shared.Administration;
 using Content.Shared.Mind;
 using Content.Shared.Objectives.Components;
+using Content.Shared.Objectives.Systems;
 using Content.Shared.Prototypes;
 using Robust.Server.Player;
 using Robust.Shared.Console;
@@ -16,13 +17,21 @@ public sealed class AddObjectiveCommand : LocalizedEntityCommands
     [Dependency] private readonly IPlayerManager _players = default!;
     [Dependency] private readonly IPrototypeManager _prototypes = default!;
     [Dependency] private readonly SharedMindSystem _mind = default!;
+    [Dependency] private readonly SharedObjectivesSystem _sharedObjectives = default!;
     [Dependency] private readonly ObjectivesSystem _objectives = default!;
 
     public override string Command => "addobjective";
 
     public override void Execute(IConsoleShell shell, string argStr, string[] args)
     {
-        if (args.Length != 2)
+        if (args.Length is < 2 or > 3)
+        {
+            shell.WriteError(Loc.GetString("cmd-addobjective-invalid-args"));
+            return;
+        }
+
+        var force = args.Length == 3 && args[2].Equals("force", StringComparison.OrdinalIgnoreCase);
+        if (args.Length == 3 && !force)
         {
             shell.WriteError(Loc.GetString("cmd-addobjective-invalid-args"));
             return;
@@ -47,6 +56,19 @@ public sealed class AddObjectiveCommand : LocalizedEntityCommands
             return;
         }
 
+        if (force)
+        {
+            var objective = _sharedObjectives.TryCreateObjective(mindId, mind, args[1], force: true);
+            if (objective == null)
+            {
+                shell.WriteError(Loc.GetString("cmd-addobjective-adding-failed"));
+                return;
+            }
+
+            _mind.AddObjective(mindId, mind, objective.Value);
+            return;
+        }
+
         if (!_mind.TryAddObjective(mindId, mind, args[1]))
         {
             // can fail for other reasons so dont pretend to be right
@@ -62,6 +84,9 @@ public sealed class AddObjectiveCommand : LocalizedEntityCommands
 
             return CompletionResult.FromHintOptions(options, Loc.GetString("cmd-addobjective-player-completion"));
         }
+
+        if (args.Length == 3)
+            return CompletionResult.FromHintOptions(new[] { "force" }, Loc.GetString("cmd-add-objective-force-completion"));
 
         if (args.Length != 2)
             return CompletionResult.Empty;

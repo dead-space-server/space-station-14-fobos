@@ -105,7 +105,7 @@
   id: LavalandOreDiamond
   entityMask:
     WallRockBasalt: WallRockBasaltDiamond
-  maxCount: 21
+  maxCount: 26
   minGroupSize: 2
   maxGroupSize: 3
   radius: 6
@@ -115,6 +115,15 @@
   entityMask:
     WallRockBasalt: WallRockBasaltBluespaceCrystal
   maxCount: 21
+  minGroupSize: 2
+  maxGroupSize: 3
+  radius: 4
+
+- type: biomeMarkerLayer
+  id: LavalandOreGibtonite
+  entityMask:
+    WallRockBasalt: WallRockBasaltGibtonite
+  maxCount: 28
   minGroupSize: 2
   maxGroupSize: 3
   radius: 4

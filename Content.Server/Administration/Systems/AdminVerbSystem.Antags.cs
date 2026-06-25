@@ -1,4 +1,6 @@
 using Content.Server.Antag;
+using Content.Server.Antag.Components;
+using Content.Server.DeadSpace.Traitor;
 using Content.Server.GameTicking;
 using Content.Server.GameTicking.Rules.Components;
 using Content.Server.Zombies;
@@ -16,6 +18,7 @@ using Content.Shared.DeadSpace.Events.Roles.Components;
 using Content.Shared.DeadSpace.Renegade.Roles;
 using Content.Shared.Roles.Components;
 using Content.Shared.DeadSpace.Demons.Shadowling; //DS14
+using Content.Shared.GameTicking.Components;
 
 namespace Content.Server.Administration.Systems;
 
@@ -25,10 +28,12 @@ public sealed partial class AdminVerbSystem
     [Dependency] private readonly ZombieSystem _zombie = default!;
     [Dependency] private readonly GameTicker _gameTicker = default!;
     [Dependency] private readonly OutfitSystem _outfit = default!;
+    [Dependency] private readonly TraitorUltraRuleSystem _traitorUltra = default!; // DS14
 
     private static readonly EntProtoId DefaultTraitorRule = "Traitor";
     private static readonly EntProtoId DefaultInitialInfectedRule = "Zombie";
     private static readonly EntProtoId DefaultNukeOpRule = "LoneOpsSpawn";
+    private static readonly EntProtoId NukeopsRule = "Nukeops"; // DS14
     private static readonly EntProtoId DefaultRevsRule = "Revolutionary";
     private static readonly EntProtoId DefaultThiefRule = "Thief";
     private static readonly EntProtoId DefaultChangelingRule = "Changeling";
@@ -65,6 +70,14 @@ public sealed partial class AdminVerbSystem
             Icon = new SpriteSpecifier.Rsi(new ResPath("/Textures/Interface/Misc/job_icons.rsi"), "Syndicate"),
             Act = () =>
             {
+                // DS14-start
+                if (TryGetTraitorUltraRule(out var traitorUltraRule))
+                {
+                    _traitorUltra.MakeAdminTraitorUltra(traitorUltraRule, targetPlayer, traitorUltraRule.Comp2.Definitions[^1]);
+                    return;
+                }
+                // DS14-end
+
                 _antag.ForceMakeAntag<TraitorRuleComponent>(targetPlayer, DefaultTraitorRule);
             },
             Impact = LogImpact.High,
@@ -127,7 +140,16 @@ public sealed partial class AdminVerbSystem
             Icon = new SpriteSpecifier.Rsi(new("/Textures/Clothing/Head/Hardsuits/syndicate.rsi"), "icon"),
             Act = () =>
             {
-                _antag.ForceMakeAntag<NukeopsRuleComponent>(targetPlayer, DefaultNukeOpRule);
+                // DS14-start
+                if (_gameTicker.IsGameRuleActive(NukeopsRule))
+                {
+                    var rule = _antag.ForceGetGameRuleEnt<NukeopsRuleComponent>(NukeopsRule);
+                    _antag.MakeAntag(rule, targetPlayer, rule.Comp.Definitions[^1]);
+                    return;
+                }
+                // DS14-end
+
+                _antag.ForceMakeAntag<NukeopsRuleComponent>(targetPlayer, DefaultNukeOpRule, forceNewRule: true);
             },
             Impact = LogImpact.High,
             Message = string.Join(": ", nukeOpName, Loc.GetString("admin-verb-make-nuclear-operative")),
@@ -161,7 +183,7 @@ public sealed partial class AdminVerbSystem
             {
                 if (targetPlayer.AttachedEntity is not { } target) return;
                 _antag.ForceMakeAntag<ShadowlingRuleComponent>(targetPlayer, "ShadowlingRule");
-                EntityManager.EnsureComponent<ShadowlingRevealComponent>(target);
+                EnsureComp<ShadowlingRevealComponent>(target);
             },
             Impact = LogImpact.High,
             Message = string.Join(": ", shadowlingName, "Сделать скрытым тенеморфом"),
@@ -354,4 +376,22 @@ public sealed partial class AdminVerbSystem
         args.Verbs.Add(eventRole);
         // DS14-end
     }
+
+    // DS14-start
+    private bool TryGetTraitorUltraRule(out Entity<TraitorUltraRuleComponent, AntagSelectionComponent> rule)
+    {
+        var query = EntityQueryEnumerator<TraitorUltraRuleComponent, AntagSelectionComponent, GameRuleComponent>();
+        while (query.MoveNext(out var uid, out var traitorUltra, out var antagSelection, out var gameRule))
+        {
+            if (!_gameTicker.IsGameRuleAdded(uid, gameRule))
+                continue;
+
+            rule = (uid, traitorUltra, antagSelection);
+            return true;
+        }
+
+        rule = default;
+        return false;
+    }
+    // DS14-end
 }

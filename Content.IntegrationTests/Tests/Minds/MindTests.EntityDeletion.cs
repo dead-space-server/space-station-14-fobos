@@ -222,6 +222,8 @@ public sealed partial class MindTests
     {
         await using var pair = await SetupPair();
         var server = pair.Server;
+        await pair.CreateTestMap();
+
         var entMan = server.ResolveDependency<IServerEntityManager>();
         var playerMan = server.ResolveDependency<IPlayerManager>();
         var serverConsole = server.ResolveDependency<IServerConsoleHost>();
@@ -243,6 +245,7 @@ public sealed partial class MindTests
             Assert.That(player.AttachedEntity, Is.Not.EqualTo(ghost), "Player is still attached to the old ghost");
             Assert.That(entMan.HasComponent<GhostComponent>(player.AttachedEntity), "Player did not become a new ghost");
             Assert.That(entMan.GetComponent<MetaDataComponent>(player.AttachedEntity!.Value).EntityPrototype?.ID, Is.EqualTo(GameTicker.AdminObserverPrototypeName));
+            Assert.That(entMan.GetComponent<TransformComponent>(player.AttachedEntity.Value).MapID, Is.Not.EqualTo(MapId.Nullspace));
         });
 
         var mindId = player.ContentData()?.Mind;

@@ -1,0 +1,6 @@
+- type: soundCollection
+  id: AlertLevelGamma
+  files:
+  - /Audio/_DeadSpace/AlertLevels/Gamma/gamma_1.ogg
+  - /Audio/_DeadSpace/AlertLevels/Gamma/gamma_2.ogg
+  - /Audio/_DeadSpace/AlertLevels/Gamma/gamma_3.ogg

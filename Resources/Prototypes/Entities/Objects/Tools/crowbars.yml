@@ -40,6 +40,14 @@
   - type: Item
     sprite: Objects/Tools/crowbar.rsi
     size: Small
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/tools/crowbar_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/Items/crowbar_drop.ogg
+  #DS14-End
 
 # Standard (grey) Crowbar
 - type: entity

@@ -1,6 +1,7 @@
 using Content.Shared.Body.Components;
 using Content.Shared.Body.Systems;
 using Content.Shared.Chemistry.Reagent;
+using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.Forensics;
 
 namespace Content.Server.Body.Systems;
@@ -50,7 +51,9 @@ public sealed class BloodstreamSystem : SharedBloodstreamSystem
             foreach (var reagent in bloodSolution.Contents)
             {
                 List<ReagentData> reagentData = reagent.Reagent.EnsureReagentData();
-                reagentData.RemoveAll(x => x is DnaData);
+                // DS14-start
+                reagentData.RemoveAll(x => x is DnaData or VirusData);
+                // DS14-end
                 reagentData.AddRange(data);
             }
         }

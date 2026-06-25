@@ -175,11 +175,13 @@
         Cold: 0.80
 
 - type: entity
-  parent: [ClothingOuterHardsuitBase, BaseCargoContraband]
+  parent: ClothingOuterHardsuitBase
   id: ClothingOuterOldExplorerLavaland
   name: старомодный скафандр исследователя Лаваленда
   description: Кажется, это что-то такое старое, но такое родное. Защищает от бури.
   components:
+  - type: FireProtection
+    reduction: 0.4
   - type: LavalandWeatherImmune
   - type: Sprite
     sprite: _DeadSpace/Lavaland/Clothing/OuterClothing/Outer/explorer.rsi
@@ -243,7 +245,7 @@
   parent: ClothingOuterHardsuitBase
   id: ClothingOuterSpaceMarinne
   name: скафандр чемпиона
-  description: Скафандр принадлежащий лучшими из лучших воинов древности. Не очерните его имя.
+  description: Скафандр принадлежащий лучшими из лучших воинов древности. Не очерните его имя. Помогает пережить пожар, в любом случае, от огня спасает не плохо, но вот от Дрейка не очень.
   components:
   - type: Sprite
     sprite: _DeadSpace/Lavaland/Clothing/OuterClothing/Outer/marinne.rsi
@@ -252,6 +254,9 @@
   - type: PressureProtection
     highPressureMultiplier: 0.05
     lowPressureMultiplier: 1000
+  - type: TemperatureProtection
+    heatingCoefficient: 0.001
+    coolingCoefficient: 0.001
   - type: ExplosionResistance
     damageCoefficient: 0.5
   - type: Armor
@@ -273,6 +278,8 @@
     clothingPrototype: ClothingHeadHelmetSpaceMarinne
   - type: Item
     size: Huge
+  - type: FireProtection
+    reduction: 0.5
 
 - type: entity
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]

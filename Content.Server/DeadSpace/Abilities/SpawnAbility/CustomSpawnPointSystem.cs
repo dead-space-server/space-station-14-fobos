@@ -54,7 +54,7 @@ public sealed class CustomSpawnPointSystem : EntitySystem
         if (args.Handled)
             return;
 
-        if (EntityManager.TryGetComponent<ActorComponent?>(uid, out var actorComponent))
+        if (TryComp<ActorComponent>(uid, out var actorComponent))
         {
             var ev = new RequestEntityMenuEvent(uid.Id, false, true);
 
@@ -74,7 +74,7 @@ public sealed class CustomSpawnPointSystem : EntitySystem
     {
         if (msg.IsUseSpawnPointSystem)
         {
-            if (EntityManager.TryGetComponent<CustomSpawnPointComponent>(new EntityUid(msg.Target), out var CustomSpawnPointComponent))
+            if (TryComp<CustomSpawnPointComponent>(new EntityUid(msg.Target), out var CustomSpawnPointComponent))
             {
                 CustomSpawnPointComponent.SelectEntity = msg.PrototypeId;
             }

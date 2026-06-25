@@ -69,3 +69,20 @@
   targetNode: redCraftFlower
   category: construction-category-misc
   objectType: Item
+
+- type: construction
+  id: ImprovisedShotgunBread
+  graph: ImprovisedShotgunGraph
+  startNode: start
+  targetNode: shotgunBread
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: DoubleRockCraft
+  graph: DoubleRockGraph
+  startNode: start
+  targetNode: doublerockguitar
+  category: construction-category-weapons
+  objectType: Item
+

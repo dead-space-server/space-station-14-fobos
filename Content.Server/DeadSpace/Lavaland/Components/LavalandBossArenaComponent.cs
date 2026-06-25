@@ -89,4 +89,10 @@ public sealed partial class LavalandBossArenaComponent : Component
 
     [ViewVariables]
     public bool Ended;
+
+    [ViewVariables]
+    public int PeakParticipantCount;
+    
+    [ViewVariables]
+    public float ScaledMaxHealth;
 }

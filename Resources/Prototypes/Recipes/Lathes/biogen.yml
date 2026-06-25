@@ -1,22 +1,4 @@
 - type: latheRecipe
-  id: BioGenMonkeyCube
-  result: MonkeyCube
-  categories:
-  - Food
-  completetime: 3
-  materials:
-    Biomass: 70
-
-- type: latheRecipe
-  id: BioGenKoboldCube
-  result: KoboldCube
-  categories:
-  - Food
-  completetime: 3
-  materials:
-    Biomass: 70
-
-- type: latheRecipe
   id: BioGenMaterialCloth1
   result: MaterialCloth1
   categories:

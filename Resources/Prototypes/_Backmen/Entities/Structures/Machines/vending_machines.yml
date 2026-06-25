@@ -693,6 +693,7 @@
   - type: Store
     categories:
     - VendingYouToolInventory
+    - VendingYouToolInventoryOther # DS-14
     currencyWhitelist:
     - SpaceCash
     balance:

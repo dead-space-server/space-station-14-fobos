@@ -105,7 +105,7 @@ public sealed class RenegadeSubmissionAbilitySystem : EntitySystem
         if (!HasComp<CommandStaffComponent>(target))
             component.Submissions += 1;
 
-        EntityManager.AddComponent(target, subComponent);
+        AddComp(target, subComponent);
     }
 
     private bool IsCanSubmission(EntityUid uid, EntityUid target, RenegadeSubmissionAbilityComponent component)

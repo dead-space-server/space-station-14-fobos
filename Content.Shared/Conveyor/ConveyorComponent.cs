@@ -1,4 +1,5 @@
 using Content.Shared.DeviceLinking;
+using Content.Shared.Physics;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
@@ -30,6 +31,11 @@ public sealed partial class ConveyorComponent : Component
 
     [ViewVariables, AutoNetworkedField]
     public bool Powered;
+
+    // DS14-Start: allow idle conveyors to drop their sensor layer without losing the intended active layer.
+    [DataField, ViewVariables(VVAccess.ReadWrite)]
+    public int ActiveCollisionLayer = (int) CollisionGroup.ConveyorMask;
+    // DS14-End
 
     [DataField]
     public ProtoId<SinkPortPrototype> ForwardPort = "Forward";

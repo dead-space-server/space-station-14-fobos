@@ -12,12 +12,10 @@ using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Utility;
 using System.Diagnostics.CodeAnalysis;
-// DS14-start
 using Content.Shared.Actions;
 using Content.Shared.Actions.Components;
 using Content.Shared.Magic.Components;
 using System.Linq;
-// DS14-end
 
 namespace Content.Server.Mind;
 
@@ -226,12 +224,6 @@ public sealed class MindSystem : SharedMindSystem
         var oldEntity = mind.OwnedEntity;
         if (TryComp(oldEntity, out MindContainerComponent? oldContainer))
         {
-            // DS14 Remove PVS override for old entity so player no longer always sees it
-            if (mind.UserId != null && _players.TryGetSessionById(mind.UserId.Value, out var oldSession))
-            {
-                _pvsOverride.RemoveSessionOverride(oldEntity.Value, oldSession);
-            }
-
             Entity<MindComponent> mindEnt = (mindId, mind);
             Entity<MindContainerComponent> containerEnt = (oldEntity.Value, oldContainer);
 
@@ -288,12 +280,6 @@ public sealed class MindSystem : SharedMindSystem
             RaiseLocalEvent(entity.Value, new MindAddedMessage(mindEnt, containerEnt, oldEntity));
             RaiseLocalEvent(mindId, new MindGotAddedEvent(mindEnt, containerEnt, oldEntity));
             Dirty(entity.Value, component);
-
-            // DS14 Add PVS override for new entity so player always sees their controlled entity
-            if (mind.UserId != null && _players.TryGetSessionById(mind.UserId.Value, out var newSession))
-            {
-                _pvsOverride.AddSessionOverride(entity.Value, newSession);
-            }
         }
     }
 
@@ -323,10 +309,6 @@ public sealed class MindSystem : SharedMindSystem
         {
             _players.SetAttachedEntity(oldSession, null);
             _pvsOverride.RemoveSessionOverride(mindId, oldSession);
-
-            // DS14 Also remove PVS override for owned entity
-            if (mind.OwnedEntity != null)
-                _pvsOverride.RemoveSessionOverride(mind.OwnedEntity.Value, oldSession);
         }
 
         if (mind.UserId != null)
@@ -361,10 +343,6 @@ public sealed class MindSystem : SharedMindSystem
         {
             _pvsOverride.AddSessionOverride(mindId, session);
             _players.SetAttachedEntity(session, mind.CurrentEntity);
-
-            // Also DS14 add PVS override for owned entity so player always sees their controlled entity
-            if (mind.OwnedEntity != null)
-                _pvsOverride.AddSessionOverride(mind.OwnedEntity.Value, session);
         }
     }
 
@@ -388,6 +366,7 @@ public sealed class MindSystem : SharedMindSystem
         }
 
         RemoveMindMagicActions(mindId); // DS14
+
         MakeSentient(target);
         TransferTo(mindId, target, ghostCheckOverride: true, mind: mind);
     }

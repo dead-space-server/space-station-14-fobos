@@ -16,4 +16,15 @@
     state: icon
   - type: Item
     size: Normal
-    sprite: Objects/Specific/Chapel/chaplainurn.rsi
+    sprite: Objects/Specific/Chapel/chaplainurn.rsi/
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/beaker_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/beaker_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/beaker_drop.ogg
+  #DS14-End

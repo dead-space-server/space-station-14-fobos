@@ -62,6 +62,17 @@ namespace Content.Server.Nuke
         [DataField("alertLevelOnActivate")] public string AlertLevelOnActivate = default!;
         [DataField("alertLevelOnDeactivate")] public string AlertLevelOnDeactivate = default!;
 
+        // DS14-start
+        [ViewVariables]
+        public EntityUid? PreviousAlertLevelStation;
+
+        [ViewVariables]
+        public string? PreviousAlertLevel;
+
+        [ViewVariables]
+        public bool PreviousAlertLevelLocked;
+        // DS14-end
+
         /// <summary>
         ///     This is stored so we can do a funny by making 0 shift the last played note up by 12 semitones (octave)
         /// </summary>
@@ -123,6 +134,20 @@ namespace Content.Server.Nuke
         [ViewVariables(VVAccess.ReadWrite)]
         [DataField("totalIntensity")]
         public float TotalIntensity = 100000;
+
+        // DS14-start
+        [ViewVariables(VVAccess.ReadWrite)]
+        [DataField("deleteExplodedEntities")]
+        public bool DeleteExplodedEntities = true;
+
+        [ViewVariables(VVAccess.ReadWrite)]
+        [DataField("destroyExplodedTiles")]
+        public bool DestroyExplodedTiles = true;
+
+        [ViewVariables(VVAccess.ReadWrite)]
+        [DataField("ignoreExplosionBlockers")]
+        public bool IgnoreExplosionBlockers = true;
+        // DS14-end
 
         /// <summary>
         ///     Avoid somehow double-triggering this explosion.

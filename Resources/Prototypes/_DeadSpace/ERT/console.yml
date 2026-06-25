@@ -38,6 +38,8 @@
   - type: ErtResponseConsole
     teams:
     - Cburn
+    - SCST
+    - SCNT
     - CburnSierra
     - Gamma
     - Red

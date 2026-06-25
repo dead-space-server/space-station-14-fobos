@@ -96,3 +96,16 @@
         shader: unshaded
       - state: equipped-OUTERCLOTHING-unshaded-vox
         shader: shaded
+  # DS14-Start
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.8
+        Slash: 0.8
+        Piercing: 0.8
+        Heat: 0.8
+  - type: StaminaResistance
+    damageCoefficient: 0.80
+  - type: ExplosionResistance
+    damageCoefficient: 0.90
+    # DS14-end

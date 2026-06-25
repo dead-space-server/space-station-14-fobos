@@ -26,6 +26,9 @@
   - Pacified
   - Paracusia
   - PermanentBlindness
+  # DS14-start: copy height traits to clones.
+  - ScaleVisuals
+  # DS14-end
   - Snoring
   - Unrevivable
   # accents

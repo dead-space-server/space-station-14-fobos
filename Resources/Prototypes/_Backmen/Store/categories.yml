@@ -31,6 +31,12 @@
   id: VendingYouToolInventory
   name: store-category-vending-youtool
 
+# DS14-start
+- type: storeCategory
+  id: VendingYouToolInventoryOther
+  name: store-category-vending-youtool-other
+# DS14-end
+
 - type: storeCategory
   id: VendingWallMedicalInventory
   name: store-category-vending-wall-medical

@@ -117,3 +117,14 @@
   components:
   - type: StationAnchor
     switchedOn: false
+
+# DS14-Start: invisible always-on map anchor for station grids without a placed anchor machine.
+- type: entity
+  id: DSStationGridAnchor
+  name: station grid anchor
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: StationAnchor
+  - type: Transform
+    anchored: true
+# DS14-End

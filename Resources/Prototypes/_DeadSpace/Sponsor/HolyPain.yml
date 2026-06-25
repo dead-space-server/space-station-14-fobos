@@ -1,8 +1,9 @@
-#region Сумка
+#Сумка
 - type: entity
   parent: ClothingBackpack
   id: ClothingBackpackHolyPain
   name: блюспейс кристал HolyPain
+  categories: [ HideSpawnMenu ]
   description: Уникальный артефакт на золотой цепи — творение мастера HolyPain, стабилизированный в условиях мёртвого космоса и вручаемый как знак заслуг за вклад в одноимённый проект.
   components:
   - type: Sprite
@@ -10,7 +11,7 @@
   - type: Storage
     maxItemSize: Huge
     grid:
-    - 0,0,19,9
+    - 0,0,15,10
     storageOpenSound:
       collection: CrystalBagOpening
       params:
@@ -65,19 +66,18 @@
         variation: 0.125
   - type: StorageFill
     contents:
-      - id: PlushieHolyPainEri
       - id: PillCanisterBicaridine
       - id: PillCanisterDylovene
       - id: PillCanisterDermaline
       - id: PillCanisterDexalin
       - id: PillCanisterHyronalin
-      - id: ClothingHandsGlovesHolyPainFirst
       - id: ClothingHandsGlovesHolyPainSecond
       - id: SyringeHolyPain
       - id: SyringeHolyPain
       - id: SyringeHolyPain
       - id: SyringeHolyPain
       - id: SyringeHolyPain
+      - id: ClothingEyesGlassesHolyPain
       - id: BluespaceBeakerHolyPain
   - type: Tag
     tags: []
@@ -181,6 +181,23 @@
       beaker:
         maxVol: 1000
 
+- type: entity
+  parent: ClothingEyesHudMultiversal
+  id: ClothingEyesGlassesHolyPain
+  name: визор с бронзовой оправой
+  description: Высококлассный визор на половину лица, украшенный гравировкой с изображением рыцарских поединков на бронзовой оправе.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Sponsor/HolyPain/hud.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Sponsor/HolyPain/hud.rsi
+  - type: EyeProtection
+  - type: IdentityBlocker
+    coverage: EYES
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
 #коллекции звуков
 - type: soundCollection
   id: CrystalBagOpening
@@ -232,7 +249,6 @@
 - type: entity
   parent: BasePlushieDeadSpaceMisc
   id: PlushieHolyPainEri
-  categories: [ HideSpawnMenu ]
   name: плюшевая Эри
   description: "Скажите ей спасибо, что оказались в такой ситуации! На бирке виднеется надпись: HolyPain"
   components:

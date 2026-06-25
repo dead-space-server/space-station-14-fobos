@@ -65,6 +65,15 @@
   - type: Tag
     tags:
       - SMGTommyGun
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/smg/smg_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/smg/smg_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/smg/smg_drop.ogg
 
 - type: entity
   id: MagazineDrumTommyGun
@@ -99,6 +108,15 @@
     steps: 2
     zeroVisible: false
   - type: Appearance
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/magazine/magazine_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/magazine/magazine_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/magazine/magazine_drop.ogg
 
 - type: entity
   id: MagazineTommyGun
@@ -132,12 +150,22 @@
     steps: 2
     zeroVisible: false
   - type: Appearance
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/magazine/magazine_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/magazine/magazine_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/magazine/magazine_drop.ogg
 
 - type: entity
   name: MP-5
   parent: [BaseWeaponSubMachineGun, BaseSecurityContraband]
   id: WeaponSubMachineGunMP5
   description: Лёгкий пистолет-пулемет, точный и компактный, самая лучшая замена простому Дрозду. Использует патроны калибра 9х19 мм.
+  suffix: Пистолет-пулемёт
   components:
     - type: Sprite
       sprite: _DeadSpace/Objects/Weapons/Guns/smgs/mp5.rsi  
@@ -221,6 +249,7 @@
   parent: BaseWeaponSubMachineGun
   id: WeaponSubMachineGunMP7
   description: Точный пистолет пулемёт, используется бравыми сотрудниками спецназа, хороший аргумент при стычке с бунтовщиками и террористами. Использует патроны калибра 9х19 мм.
+  suffix: Пистолет-пулемёт
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/smgs/mp7.rsi  

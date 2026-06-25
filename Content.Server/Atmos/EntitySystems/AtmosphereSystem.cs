@@ -2,6 +2,8 @@ using Content.Server.Administration.Logs;
 using Content.Server.Atmos.Components;
 using Content.Server.Fluids.EntitySystems;
 using Content.Server.NodeContainer.EntitySystems;
+using Content.Shared.Atmos;
+using Content.Shared.Atmos.Components;
 using Content.Shared.Atmos.EntitySystems;
 using Content.Shared.Decals;
 using Content.Shared.Doors.Components;
@@ -11,6 +13,7 @@ using Robust.Server.GameObjects;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
+using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Prototypes;
 using System.Linq;
@@ -48,6 +51,12 @@ public sealed partial class AtmosphereSystem : SharedAtmosphereSystem
     private EntityQuery<MapAtmosphereComponent> _mapAtmosQuery;
     private EntityQuery<AirtightComponent> _airtightQuery;
     private EntityQuery<FirelockComponent> _firelockQuery;
+    // DS14-Start: cache hot atmos queries used by high-pressure movement.
+    private EntityQuery<PhysicsComponent> _physicsQuery;
+    private EntityQuery<TransformComponent> _xformQuery;
+    private EntityQuery<MetaDataComponent> _metaQuery;
+    private EntityQuery<MovedByPressureComponent> _movedByPressureQuery;
+    // DS14-End
     private HashSet<EntityUid> _entSet = new();
 
     private string[] _burntDecals = [];
@@ -68,9 +77,16 @@ public sealed partial class AtmosphereSystem : SharedAtmosphereSystem
         _mapAtmosQuery = GetEntityQuery<MapAtmosphereComponent>();
         _airtightQuery = GetEntityQuery<AirtightComponent>();
         _firelockQuery = GetEntityQuery<FirelockComponent>();
+        // DS14-Start: cache hot atmos queries used by high-pressure movement.
+        _physicsQuery = GetEntityQuery<PhysicsComponent>();
+        _xformQuery = GetEntityQuery<TransformComponent>();
+        _metaQuery = GetEntityQuery<MetaDataComponent>();
+        _movedByPressureQuery = GetEntityQuery<MovedByPressureComponent>();
+        // DS14-End
 
         SubscribeLocalEvent<TileChangedEvent>(OnTileChanged);
         SubscribeLocalEvent<PrototypesReloadedEventArgs>(OnPrototypesReloaded);
+        SubscribeLocalEvent<GridAtmosphereComponent, ComponentShutdown>(OnGridAtmosphereShutdown); // DS14 Edit: release atmos references on grid shutdown.
 
         CacheDecals();
     }
@@ -127,4 +143,49 @@ public sealed partial class AtmosphereSystem : SharedAtmosphereSystem
     {
         _burntDecals = _protoMan.EnumeratePrototypes<DecalPrototype>().Where(x => x.Tags.Contains("burnt")).Select(x => x.ID).ToArray();
     }
+
+    // DS14-Start: release atmos graph references when a grid atmosphere is removed.
+    private void OnGridAtmosphereShutdown(EntityUid uid, GridAtmosphereComponent component, ComponentShutdown args)
+    {
+        foreach (var group in component.ExcitedGroups)
+        {
+            group.Tiles.Clear();
+            group.Disposed = true;
+        }
+
+        foreach (var tile in component.Tiles.Values)
+        {
+            tile.ExcitedGroup = null;
+            tile.Excited = false;
+            tile.PressureSpecificTarget = null;
+            tile.Air = null;
+            tile.AirArchived = null;
+
+            for (var i = 0; i < tile.AdjacentTiles.Length; i++)
+            {
+                tile.AdjacentTiles[i] = null;
+            }
+
+            tile.AdjacentBits = AtmosDirection.Invalid;
+        }
+
+        component.CurrentRunTiles.Clear();
+        component.CurrentRunExcitedGroups.Clear();
+        component.CurrentRunPipeNet.Clear();
+        component.CurrentRunAtmosDevices.Clear();
+        component.CurrentRunInvalidatedTiles.Clear();
+
+        component.InvalidatedCoords.Clear();
+        component.PossiblyDisconnectedTiles.Clear();
+        component.ActiveTiles.Clear();
+        component.ExcitedGroups.Clear();
+        component.HotspotTiles.Clear();
+        component.SuperconductivityTiles.Clear();
+        component.HighPressureDelta.Clear();
+        component.PipeNets.Clear();
+        component.AtmosDevices.Clear();
+        component.MapTiles.Clear();
+        component.Tiles.Clear();
+    }
+    // DS14-End
 }

@@ -34,7 +34,16 @@ public sealed class NodeScannerSystem : EntitySystem
             connected.NextUpdate = _timing.CurTime + connected.LinkUpdateInterval;
 
             var attachedArtifact = connected.AttachedTo;
-            var artifactCoordinates = Transform(attachedArtifact).Coordinates;
+            // DS14-start
+            if (!TryComp(attachedArtifact, out TransformComponent? artifactTransform) ||
+                !HasComp<XenoArtifactComponent>(attachedArtifact))
+            {
+                RemCompDeferred(uid, connected);
+                continue;
+            }
+
+            var artifactCoordinates = artifactTransform.Coordinates;
+            // DS14-end
             if (!_transform.InRange(artifactCoordinates, transform.Coordinates, scanner.MaxLinkedRange))
             {
                 //scanner is too far, disconnect

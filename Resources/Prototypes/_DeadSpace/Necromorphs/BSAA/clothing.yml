@@ -50,6 +50,10 @@
   - type: Clothing
     sprite: _DeadSpace/Necromorfs/BSAA/clothing/glass.rsi
   - type: ShowHealthBars
+  - type: PNV
+    color: "#AFC4D111"
+    activateSound:
+      path: /Audio/_DeadSpace/NightVision/pnv.ogg
 
 # Перчатки
 - type: entity

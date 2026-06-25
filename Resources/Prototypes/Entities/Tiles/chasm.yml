@@ -8,12 +8,26 @@
     - Wall
   components:
   - type: Chasm
+#DS14-start
+  - type: Drain
+  - type: SolutionContainerManager
+    solutions:
+      drainBuffer:
+        maxVol: 1000
+  - type: DumpableSolution
+    solution: drainBuffer
+#DS14-end
   - type: StepTrigger
     requiredTriggeredSpeed: 0
     intersectRatio: 0.25
     blacklist:
       tags:
       - Catwalk
+  # DS14-Start: ignore entities that are guaranteed not to fall into chasms.
+  - type: StepTriggerCollisionFilter
+    ignoreCanMoveInAir: true
+    ignoreLavalandChasmImmune: true
+  # DS14-End
   - type: Transform
     anchored: true
   - type: Clickable

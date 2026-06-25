@@ -195,7 +195,10 @@ public sealed partial class CloningSystem : SharedCloningSystem
         {
             // remove all items that spawned with the entity inside its storage
             // this ignores other containers, but this should be good enough for our purposes
-            _container.CleanContainer(spawnedStorage.Container);
+            foreach (var ent in _container.EmptyContainer(spawnedStorage.Container, force: true, reparent: false))
+            {
+                Del(ent);
+            }
 
             // recursively replace them
             // surely no one will ever create two items that contain each other causing an infinite loop, right?

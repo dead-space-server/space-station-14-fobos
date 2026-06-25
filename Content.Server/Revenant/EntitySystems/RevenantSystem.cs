@@ -1,15 +1,20 @@
+using System.Linq;
 using System.Numerics;
 using Content.Server.Actions;
 using Content.Server.GameTicking;
 using Content.Server.Store.Systems;
+using Content.Shared.Actions;
+using Content.Shared.Actions.Components;
 using Content.Shared.Alert;
 using Content.Shared.Damage.Systems;
+using Content.Shared.DeadSpace.Revenant.Components;
 using Content.Shared.DoAfter;
 using Content.Shared.Examine;
 using Content.Shared.Eye;
 using Content.Shared.FixedPoint;
 using Content.Shared.Interaction;
 using Content.Shared.Maps;
+using Content.Shared.Mind.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Physics;
 using Content.Shared.Popups;
@@ -43,6 +48,7 @@ public sealed partial class RevenantSystem : EntitySystem
     [Dependency] private readonly TagSystem _tag = default!;
     [Dependency] private readonly VisibilitySystem _visibility = default!;
     [Dependency] private readonly TurfSystem _turf = default!;
+    [Dependency] private readonly ActionContainerSystem _actionContainer = default!; // DS14
 
     public override void Initialize()
     {
@@ -57,9 +63,31 @@ public sealed partial class RevenantSystem : EntitySystem
         SubscribeLocalEvent<RoundEndTextAppendEvent>(_ => MakeVisible(true));
 
         SubscribeLocalEvent<RevenantComponent, GetVisMaskEvent>(OnRevenantGetVis);
+        SubscribeLocalEvent<RevenantComponent, MindRemovedMessage>(OnMindRemoved); // DS14
 
         InitializeAbilities();
     }
+
+    // DS14-start
+    private void OnMindRemoved(Entity<RevenantComponent> ent, ref MindRemovedMessage args)
+    {
+        RemoveRevenantActions(args.Mind.Owner);
+    }
+
+    private void RemoveRevenantActions(EntityUid mindId)
+    {
+        if (!TryComp<ActionsContainerComponent>(mindId, out var container))
+            return;
+
+        foreach (var action in container.Container.ContainedEntities.ToArray())
+        {
+            if (!HasComp<RevenantActionComponent>(action))
+                continue;
+
+            _actionContainer.RemoveAction(action, logMissing: false);
+        }
+    }
+    // DS14-end
 
     private void OnRevenantGetVis(Entity<RevenantComponent> ent, ref GetVisMaskEvent args)
     {

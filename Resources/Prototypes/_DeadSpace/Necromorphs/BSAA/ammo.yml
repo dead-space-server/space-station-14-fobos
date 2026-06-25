@@ -1,8 +1,8 @@
 # projectiles
 - type: entity
   id: BulletDragon
-  name: пуля (6.5х39 мм TSF Dragon's breath)
-  parent: BaseBulletIncendiary
+  name: пуля (5.56х45 мм Dragon's breath)
+  parent: BulletIncendiaryTrace
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
@@ -11,33 +11,37 @@
     layers:
     - state: bulletb
       shader: unshaded
-  - type: Projectile
+  - type: HitscanBasicDamage
     damage:
       types:
         Piercing: 11
         Heat: 6
-  - type: IgniteOnCollide
+  - type: HitscanBasicEffects
     fireStacks: 0.30
+  - type: HitscanBasicVisuals
+    bullet:
+      sprite:
+        sprite: _DeadSpace/Necromorfs/BSAA/weapons/projectiles.rsi
+        state: bulletb
 
 - type: entity
   id: PelletShotgunDragon
   name: дробина (12х70 Dragon's breath)
-  parent: PelletShotgunIncendiary
+  parent: PelletShotgunIncendiaryTrace
   categories: [ HideSpawnMenu ]
   components:
-  - type: Sprite
-    noRot: false
-    sprite: _DeadSpace/Necromorfs/BSAA/weapons/projectiles.rsi
-    layers:
-    - state: bullets
-      shader: unshaded
-  - type: Projectile
+  - type: HitscanBasicVisuals
+    bullet:
+      sprite:
+        sprite: _DeadSpace/Necromorfs/BSAA/weapons/projectiles.rsi
+        state: bulletb
+  - type: HitscanBasicDamage
     damage:
       types:
         Piercing: 5
         Heat: 5
-  - type: IgnitionSource
-    ignited: true
+  - type: HitscanBasicEffects
+    fireStacks: 0.30
 
 - type: entity
   id: PelletShotgunDragonSpread
@@ -53,7 +57,7 @@
 
 - type: entity
   id: CartridgeDragon
-  name: патрон (6.5х39 мм TSF Dragon's breath)
+  name: патрон (5.56х45 мм Dragon's breath)
   parent: BaseCartridgeRifle
   components:
   - type: CartridgeAmmo
@@ -117,7 +121,7 @@
 - type: entity
   parent: BaseMagazineBoxRifle
   id: MagazineBoxRifleDragon
-  name: коробка патронов (6.5х39 мм TSF Dragon's breath)
+  name: коробка патронов (5.56х45 мм Dragon's breath)
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeDragon

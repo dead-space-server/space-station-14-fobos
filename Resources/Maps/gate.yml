@@ -15176,9 +15176,9 @@ entities:
           id: docking15994
           localAnchorB: 5,0.49999997
           localAnchorA: 42.5,68
-          referenceAngle: 4.712389
-          damping: 880.3713
-          stiffness: 7902.1943
+          referenceAngle: -1.5707964
+          damping: 0
+          stiffness: 0
     - type: BecomesStation
       id: Gate
     - type: FTLDestination
@@ -15217,7 +15217,7 @@ entities:
     - type: MetaData
       name: SEC "Patrule-2"
     - type: Transform
-      rot: 4.71238898038469 rad
+      rot: -1.5707963267948966 rad
       pos: 80.81577,-15.422404
       parent: 1
     - type: MapGrid
@@ -15433,9 +15433,9 @@ entities:
           id: docking15994
           localAnchorB: 5,0.49999997
           localAnchorA: 42.5,68
-          referenceAngle: 4.712389
-          damping: 922.8537
-          stiffness: 8283.516
+          referenceAngle: -1.5707964
+          damping: 0
+          stiffness: 0
     - type: ImplicitRoof
   - uid: 37706
     components:
@@ -101662,7 +101662,7 @@ entities:
     - type: Transform
       pos: -132.41412,91.54821
       parent: 2
-- proto: ErtComputerShuttle
+- proto: ErtResponseConsole
   entities:
   - uid: 30013
     components:
@@ -202390,7 +202390,7 @@ entities:
       rot: 3.141592653589793 rad
       pos: -64.5,129.5
       parent: 2
-- proto: StationAnchorOff
+- proto: StationAnchorIndestructible # DS14 Edit: force static station grid
   entities:
   - uid: 29029
     components:

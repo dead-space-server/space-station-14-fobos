@@ -486,6 +486,7 @@
       Plasteel: 200
       Plastic: 100
       Plasma: 1500
+  - type: IgnoreContactDamage
   # DS14-end
 
 #Chief Medical Officer's Hardsuit
@@ -924,12 +925,12 @@
       coefficients:
         Blunt: 0.6
         Slash: 0.6
-        Piercing: 0.6 #DS14
+        Piercing: 0.5 #DS14
         Heat: 0.5 #DS14
         Radiation: 0.4 #DS14
         Caustic: 0.4 #DS14
   - type: StaminaResistance # DS14
-    damageCoefficient: 0.45
+    damageCoefficient: 0.4
   - type: ClothingSpeedModifier
     walkModifier: 0.9 #DS14
     sprintModifier: 0.9 #DS14
@@ -1263,10 +1264,10 @@
   - type: Armor
     modifiers:
       coefficients:
-        Blunt: 0.3 #best armor in the game
-        Slash: 0.3
+        Blunt: 0.3 #best armor in the game # DS-14
+        Slash: 0.3 # DS-14
         Poison: 0.1 # DS14-value: what is poison?
-        Piercing: 0.3
+        Piercing: 0.3 # DS-14
         Heat: 0.1
         Cold: 0.1
         Shock: 0.1
@@ -1286,7 +1287,6 @@
     reagents:
       DexalinPlus: 10
       Puncturase: 10
-      TranexamicAcid: 10
       Omnizine: 10
   - type: Reflect
     reflectProb: 0.10

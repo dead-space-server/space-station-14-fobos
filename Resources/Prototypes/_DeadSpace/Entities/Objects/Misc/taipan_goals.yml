@@ -31,6 +31,15 @@
       sound:
         path: /Audio/Effects/packetrip.ogg
     - type: Appearance
+    - type: EmitSoundOnPickup
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/book_pickup.ogg
+    - type: EmitSoundOnDrop
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/book_drop.ogg
+    - type: EmitSoundOnLand
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/book_drop.ogg
 
 - type: entity
   parent: PaperPrintedSyndicate

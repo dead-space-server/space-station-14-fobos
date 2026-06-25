@@ -71,7 +71,6 @@
   - type: SolutionInjectOnEmbed
     transferAmount: 2
     solution: melee
-    blockSlots: OUTERCLOTHING
   - type: SolutionTransfer
     maxTransferAmount: 2
   - type: Wieldable
@@ -118,6 +117,17 @@
     inHandsMaxFillLevels: 1
     equippedFillBaseName: -fill-
     equippedMaxFillLevels: 1
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/knife/knife_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/knife/knife_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/knife/knife_drop.ogg
+  #DS14-End
 
 
 - type: entity

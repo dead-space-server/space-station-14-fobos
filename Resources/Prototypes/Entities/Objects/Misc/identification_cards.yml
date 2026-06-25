@@ -29,7 +29,16 @@
   - type: PhysicalComposition
     materialComposition:
       Steel: 50
-  # DS14-end
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/id_card/id_card_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/id_card/id_card_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/id_card/id_card_drop.ogg
+  #DS14-End
 
 #IDs with layers
 

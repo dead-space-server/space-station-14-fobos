@@ -40,6 +40,12 @@
                 <Button Name="DeselectAllButton" Text="{Loc 'id-card-console-window-deselect-all-button'}" />
             </BoxContainer>
         </BoxContainer>
+        <!-- DS14-Start -->
+        <BoxContainer Margin="0 4 0 4">
+            <Button Name="BasicAccessButton" Access="Public" Text="{Loc 'id-card-console-window-basic-access'}" />
+            <Button Name="ExtendedAccessButton" Access="Public" Text="{Loc 'id-card-console-window-extended-access'}" />
+        </BoxContainer>
+        <!-- DS14-End -->
         <!-- Individual access buttons -->
         <Control Name="AccessLevelControlContainer" />
     </BoxContainer>

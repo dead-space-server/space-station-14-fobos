@@ -231,11 +231,19 @@
     enabled: false
     mask: /Textures/Effects/LightMasks/cone.png
     autoRot: true
-    radius: 4
+    radius: 8 # DS14
     netsync: false
   - type: Pullable
   - type: Puller
     needsHands: false
+  # DS14-Start
+  - type: Strap
+    buckleOnInteractHand: false
+    position: None
+    buckleOffset: 0, 0.25
+    lockBuckleOffset: true
+  - type: BorgRide
+  # DS14-End
   - type: StandingState
   - type: Tag
     tags:
@@ -362,7 +370,6 @@
   - type: AccessReader
     access: [["Command"], ["Research"]]
   - type: ShowJobIcons
-  - type: ShowCrewIcons
   - type: InteractionPopup
     interactSuccessSound:
       path: /Audio/Ambience/Objects/periodic_beep.ogg
@@ -427,7 +434,6 @@
   - type: IonStormTarget
     chance: 1
   - type: ShowJobIcons
-  - type: ShowCrewIcons
 
 - type: entity
   id: BaseBorgChassisSyndicateDerelict #For assault borg and maybe others in time
@@ -441,7 +447,6 @@
   - type: IonStormTarget
     chance: 1
   - type: ShowJobIcons
-  - type: ShowCrewIcons
   - type: NpcFactionMember # They're still syndicate even if they can't listen to the radio or see icons
     factions:
     - Syndicate
@@ -586,7 +591,6 @@
   - type: AccessReader
     access: [["Xenoborg"]]
   - type: ShowJobIcons # not sure if it is needed
-  - type: ShowCrewIcons
   - type: InteractionPopup
     interactSuccessSound:
       path: /Audio/Ambience/Objects/periodic_beep.ogg

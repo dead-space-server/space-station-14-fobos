@@ -160,6 +160,7 @@
 
 - type: entity
   parent: [WeaponCrusherGlaive, BaseSecurityCargoContraband]
+  categories: [ HideSpawnMenu ]
   id: WeaponCrusherpvrsifvlAlt
   name: синтоцепсы ETL//07
   description: Модифицированный образец протокинетического ускорителя. Осторожно — у этих организмов может развиться сознание. Если это произошло, рекомендуем немедленно их уничтожить
@@ -397,6 +398,7 @@
   id: ClothingUniformJumpsuitpvrsifvlAlt
   name: комбинезон разведывательного специалиста
   description: Текстилевый комбинезон, обшитый в некоторых местах толстой кожей. Отличается красной опознавательной повязкой на правой руке. Сшит со всей душой любимым человеком с целью одарить теплом, под воротником виднеется фамилия «дю Терас».
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/pvrsifvlAlt/jumpsuit.rsi

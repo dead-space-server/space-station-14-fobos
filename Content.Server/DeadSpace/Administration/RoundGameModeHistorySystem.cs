@@ -33,9 +33,11 @@ public sealed class RoundGameModeHistorySystem : EntitySystem
         {
             var presetName = GetPresetNameForHistory();
 
-            await _db.SetRoundGamePresetAsync(
+            await _db.SetRoundGameModeHistoryAsync(
                 ev.RoundId,
-                presetName);
+                presetName,
+                ev.PlayerCountAtStart,
+                ev.MapName);
         }
         catch (Exception e)
         {
@@ -63,7 +65,9 @@ public sealed class RoundGameModeHistorySystem : EntitySystem
                         RoundId = round.RoundId,
                         DayOffset = (today - localStart.Date).Days,
                         StartedAt = localStart.ToString("dd.MM.yyyy HH:mm"),
-                        GameMode = round.GamePresetName
+                        GameMode = round.GamePresetName,
+                        PlayerCount = round.PlayerCount ?? -1,
+                        MapName = round.MapName ?? string.Empty
                     };
                 })
                 .Where(entry => entry.DayOffset is >= 0 and <= 2)

@@ -78,6 +78,11 @@
       types:
         Blunt: 4
         Slash: 2
+# DS14-start
+  - type: Tag
+    tags:
+    - RockGuitarInstrument
+# DS14-end
 
 - type: entity
   parent: BaseStringInstrumentClothing

@@ -23,6 +23,7 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly VirusSolutionAnalyzerSystem _virusSolutionAnalyzer = default!;
     [Dependency] private readonly VirusSystem _virusSystem = default!;
+    [Dependency] private readonly VirusDiagnoserDataServerSystem _dataServer = default!;
 
     public override void Initialize()
     {
@@ -42,10 +43,18 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
         if (!_powerReceiverSystem.IsPowered(uid))
             return;
 
+        RecheckConnections((uid, component));
+
+        if (!component.DataServerInRange || !component.SolutionAnalyzerInRange)
+            return;
+
         if (component.VirusSolutionAnalyzer == null)
             return;
 
         if (!TryComp<VirusSolutionAnalyzerComponent>(component.VirusSolutionAnalyzer, out var analyzer))
+            return;
+
+        if (analyzer.Status != VirusSolutionAnalyzerStatus.On)
             return;
 
         if (component.VirusDiagnoserDataServer == null
@@ -66,6 +75,8 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
                 : null;
         }
 
+        var mutated = false;
+
         switch (args.Button)
         {
             case EvolutionConsoleUiButton.EvolutionSymptom:
@@ -75,13 +86,18 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
                         || virusData == null)
                         return;
 
+                    if (virusData.ActiveSymptom.Contains(args.Symptom))
+                        return;
+
                     var price = _virusSystem.GetSymptomPrice(virusData, args.Symptom);
                     if (server.Points < price)
                         return;
 
-                    server.Points -= price;
+                    if (!_virusSolutionAnalyzer.AddSymptom((component.VirusSolutionAnalyzer.Value, analyzer), args.Symptom))
+                        return;
 
-                    _virusSolutionAnalyzer.AddSymptom((component.VirusSolutionAnalyzer.Value, analyzer), args.Symptom);
+                    server.Points -= price;
+                    mutated = true;
                     break;
                 }
             case EvolutionConsoleUiButton.EvolutionBody:
@@ -91,13 +107,18 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
                         || virusData == null)
                         return;
 
+                    if (virusData.BodyWhitelist.Contains(args.Body))
+                        return;
+
                     var price = _virusSystem.GetBodyPrice(virusData);
                     if (server.Points < price)
                         return;
 
-                    server.Points -= price;
+                    if (!_virusSolutionAnalyzer.AddBody((component.VirusSolutionAnalyzer.Value, analyzer), args.Body))
+                        return;
 
-                    _virusSolutionAnalyzer.AddBody((component.VirusSolutionAnalyzer.Value, analyzer), args.Body);
+                    server.Points -= price;
+                    mutated = true;
                     break;
                 }
             case EvolutionConsoleUiButton.DeleteSymptom:
@@ -107,13 +128,18 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
                         || virusData == null)
                         return;
 
+                    if (!virusData.ActiveSymptom.Contains(args.Symptom))
+                        return;
+
                     var price = _virusSystem.GetSymptomDeletePrice(virusData.MultiPriceDeleteSymptom);
                     if (server.Points < price)
                         return;
 
-                    server.Points -= price;
+                    if (!_virusSolutionAnalyzer.RemSymptom((component.VirusSolutionAnalyzer.Value, analyzer), args.Symptom))
+                        return;
 
-                    _virusSolutionAnalyzer.RemSymptom((component.VirusSolutionAnalyzer.Value, analyzer), args.Symptom);
+                    server.Points -= price;
+                    mutated = true;
                     break;
                 }
             case EvolutionConsoleUiButton.DeleteBody:
@@ -123,20 +149,26 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
                         || virusData == null)
                         return;
 
+                    if (!virusData.BodyWhitelist.Contains(args.Body))
+                        return;
+
                     var price = _virusSystem.GetBodyDeletePrice();
                     if (server.Points < price)
                         return;
 
-                    server.Points -= price;
+                    if (!_virusSolutionAnalyzer.RemBody((component.VirusSolutionAnalyzer.Value, analyzer), args.Body))
+                        return;
 
-                    _virusSolutionAnalyzer.RemBody((component.VirusSolutionAnalyzer.Value, analyzer), args.Body);
+                    server.Points -= price;
+                    mutated = true;
                     break;
                 }
             default:
                 break;
         }
 
-        UpdateUserInterface((uid, component));
+        if (mutated)
+            _dataServer.UpdateConnectedInterfaces(component.VirusDiagnoserDataServer.Value, server);
     }
 
     private void OnPowerChanged(EntityUid uid, VirusEvolutionConsoleComponent component, ref PowerChangedEvent args)
@@ -154,13 +186,13 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
             if (TryComp<VirusSolutionAnalyzerComponent>(port, out var solutionAnalyzer))
             {
                 component.VirusSolutionAnalyzer = port;
-                solutionAnalyzer.ConnectedConsole = uid;
+                solutionAnalyzer.ConnectedEvolutionConsole = uid;
             }
 
             if (TryComp<VirusDiagnoserDataServerComponent>(port, out var server))
             {
                 component.VirusDiagnoserDataServer = port;
-                server.ConnectedConsole = uid;
+                server.ConnectedEvolutionConsole = uid;
             }
         }
     }
@@ -170,13 +202,13 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
         if (TryComp<VirusDiagnoserDataServerComponent>(args.Sink, out var server) && args.SourcePort == component.VirusDiagnoserDataServerPort)
         {
             component.VirusDiagnoserDataServer = args.Sink;
-            server.ConnectedConsole = uid;
+            server.ConnectedEvolutionConsole = uid;
         }
 
         if (TryComp<VirusSolutionAnalyzerComponent>(args.Sink, out var solutionAnalyzer) && args.SourcePort == component.VirusSolutionAnalyzerPort)
         {
             component.VirusSolutionAnalyzer = args.Sink;
-            solutionAnalyzer.ConnectedConsole = uid;
+            solutionAnalyzer.ConnectedEvolutionConsole = uid;
         }
 
         RecheckConnections((uid, component));
@@ -235,16 +267,21 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
         if (!Resolve(console, ref console.Comp, false))
             return;
 
+        console.Comp.DataServerInRange = false;
+        console.Comp.SolutionAnalyzerInRange = false;
+
         var distance = 0f;
         if (console.Comp.VirusDiagnoserDataServer != null)
         {
-            Transform(console.Comp.VirusDiagnoserDataServer.Value).Coordinates.TryDistance(EntityManager, Transform(console).Coordinates, out distance);
-            console.Comp.DataServerInRange = distance <= console.Comp.MaxDistanceForDataServer;
+            console.Comp.DataServerInRange =
+                Transform(console.Comp.VirusDiagnoserDataServer.Value).Coordinates.TryDistance(EntityManager, Transform(console).Coordinates, out distance) &&
+                distance <= console.Comp.MaxDistanceForDataServer;
         }
         if (console.Comp.VirusSolutionAnalyzer != null)
         {
-            Transform(console.Comp.VirusSolutionAnalyzer.Value).Coordinates.TryDistance(EntityManager, Transform(console).Coordinates, out distance);
-            console.Comp.SolutionAnalyzerInRange = distance <= console.Comp.MaxDistanceForOther;
+            console.Comp.SolutionAnalyzerInRange =
+                Transform(console.Comp.VirusSolutionAnalyzer.Value).Coordinates.TryDistance(EntityManager, Transform(console).Coordinates, out distance) &&
+                distance <= console.Comp.MaxDistanceForOther;
         }
 
         UpdateUserInterface((console, console.Comp));
@@ -261,6 +298,13 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
 
         var dataServerConnected = console.Comp.VirusDiagnoserDataServer != null;
         var solutionAnalyzerConnected = console.Comp.VirusSolutionAnalyzer != null;
+        var solutionAnalyzerStatus = VirusSolutionAnalyzerStatus.Off;
+
+        if (console.Comp.VirusSolutionAnalyzer != null &&
+            TryComp<VirusSolutionAnalyzerComponent>(console.Comp.VirusSolutionAnalyzer.Value, out var analyzer))
+        {
+            solutionAnalyzerStatus = analyzer.Status;
+        }
 
         if (console.Comp.VirusSolutionAnalyzer != null &&
             _virusSolutionAnalyzer.TryGetVirusDataFromContainer(console.Comp.VirusSolutionAnalyzer.Value, out var virusDataList))
@@ -288,7 +332,8 @@ public sealed class VirusEvolutionConsoleSystem : EntitySystem
             virusData != null,
             virusData?.ActiveSymptom,
             virusData?.BodyWhitelist,
-            isSentientVirus: false
+            isSentientVirus: false,
+            solutionAnalyzerStatus: solutionAnalyzerStatus
         );
     }
 

@@ -235,6 +235,7 @@
     contents:
     - id: CigarGoldCase
       prob: 0.50
+    - id: TaipanCommunicationsOfficerIDcard
     - id: ClothingBeltSheathSyndieFilled
     - id: ClothingBeltSyndieHolster
     - id: ClothingEyesHudTaipanAdvanced

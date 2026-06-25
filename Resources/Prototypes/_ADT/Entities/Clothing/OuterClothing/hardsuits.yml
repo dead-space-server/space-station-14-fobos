@@ -1,8 +1,8 @@
 - type: entity
   parent: ClothingOuterHardsuitBase
   id: ADTClothingOuterHardsuitCybersunBodyGuard
-  name: скафандр телохранителя Cybersun
-  description: Тяжелобронированный скафандр элитного подразделения телохранителей Cybersun.
+  name: скафандр телохранителя
+  description: Тяжелобронированный скафандр элитного подразделения телохранителей в чёрно красном цвете. Вводит лекарства если вы упадёте в крит. Имеет привязку к ДНК, также не имеет летальный исход при надевании на другую особь данный скафанр.
   components:
   - type: Sprite
     sprite: _ADT/Clothing/OuterClothing/Hardsuits/cybersunbodyguard.rsi
@@ -33,14 +33,15 @@
       TranexamicAcid: 5
       Omnizine: 10
   - type: ClothingSpeedModifier
-    walkModifier: 0.8
-    sprintModifier: 0.8
+    walkModifier: 0.9
+    sprintModifier: 0.9
   - type: HeldSpeedModifier
   - type: ToggleableClothing
     clothingPrototype: ADTClothingHeadHelmetHardsuitCybersunBodyGuard
   - type: StaminaResistance #DS14
     damageCoefficient: 0.5
   - type: HardsuitIdentification
+    nonlethal: true
   - type: Speech
   - type: TTS
     voice: Adjutant
@@ -117,6 +118,8 @@
     coolingCoefficient: 0.001
   - type: ExplosionResistance
     damageCoefficient: 0.2
+  - type: FireProtection
+    reduction: 0.7
   - type: ToggleableClothing
     clothingPrototype: ADTClothingHeadHelmetHardsuitCerber
 

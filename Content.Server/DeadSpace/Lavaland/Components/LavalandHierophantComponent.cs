@@ -47,46 +47,52 @@ public sealed partial class LavalandHierophantComponent : Component
     public TimeSpan ChaserLifetime = TimeSpan.FromSeconds(7);
 
     [DataField]
-    public int BaseBurstRange = 3;
+    public int BaseBurstRange = 4;
 
     [DataField]
-    public int BaseBeamRange = 5;
+    public int BaseBeamRange = 6;
 
     [DataField]
-    public int BlinkBlastRadius = 1;
+    public int BlinkBlastRadius = 2;
 
     [DataField]
-    public int ChaserRepathSteps = 4;
+    public int ChaserRepathSteps = 5;
 
     [DataField]
-    public int ChaserSwarmCount = 3;
+    public int ChaserSwarmCount = 4;
 
     [DataField]
-    public int MaxActiveChasers = 3;
+    public int MaxActiveChasers = 4;
 
     [DataField]
-    public int MaxCrossSpamCount = 3;
+    public int MaxCrossSpamCount = 4;
 
     [DataField]
-    public int MaxBlinkSpamCount = 3;
+    public int MaxBlinkSpamCount = 4;
 
     [DataField]
-    public int MaxBurstRange = 5;
+    public int MaxBurstRange = 8;
 
     [DataField]
-    public int MaxBeamRange = 8;
+    public int MaxBeamRange = 12;
 
     [DataField]
     public float BaseMajorAttackChance = 0.12f;
 
     [DataField]
-    public float MajorAttackChancePerRage = 0.006f;
+    public float MajorAttackChancePerRage = 0.06f;
 
     [DataField]
     public int ForceMajorAfterBasicAttacks = 3;
 
     [DataField]
     public int MaxPendingBlasts = 140;
+
+    [DataField]
+    public TimeSpan CriticalPhaseCooldown = TimeSpan.FromSeconds(0.6);
+
+    [DataField]
+    public double CriticalPhaseBusyCapSeconds = 0.9;
 
     [DataField]
     public TimeSpan PendingBlastDuplicateWindow = TimeSpan.FromSeconds(0.25);
@@ -171,6 +177,9 @@ public sealed partial class LavalandHierophantComponent : Component
     [ViewVariables]
     public TimeSpan LastPressureAt;
 
+    [ViewVariables]
+    public TimeSpan NextCriticalBurst;
+    
     [ViewVariables]
     public int BasicAttacksSinceMajor;
 

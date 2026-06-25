@@ -1,0 +1,62 @@
+- type: entity
+  parent: CustomizableSpawnerBase
+  id: CustomizableSpawnerCentralCommandFieldOfficer
+  name: Полевой Офицер КСО
+  suffix: ПО, Кастомизируемый персонаж
+  components:
+  - type: Sprite
+    layers:
+    - state: timed
+    - sprite: Markers/jobs.rsi
+      state: field_officer
+  - type: CustomizableHumanoidSpawner
+    jobPrototype: CentralCommandFieldOfficer
+    allowedSpecies:
+    - Human
+    randomNameFirstDataset: CustomizableSpawnerCentralCommandFieldOfficerFirstName
+    randomNameSecondLocalized: CustomizableSpawnerCentralCommandFieldOfficerSecondName
+
+- type: dataset
+  id: CustomizableSpawnerCentralCommandFieldOfficerFirstName
+  values:
+  - Майор
+
+- type: dataset
+  id: CustomizableSpawnerCentralCommandFieldOfficerSecondName
+  values:
+  - Альфа
+  - Бета
+  - Дзета
+  - Гамма
+  - Омега
+  - Индиго
+  - Эпсилон
+  - Энигма
+  - Сьерра
+  - Сонг
+  - Голд-Игл
+
+- type: localizedDataset
+  id: CustomizableSpawnerCentralCommandFieldOfficerSecondName
+  values:
+    prefix: names-field-officer-last-dataset-
+    count: 11
+
+- type: roleLoadout
+  id: JobCentralCommandFieldOfficer
+  groups:
+  # - GroupTankHarness # outerClothing slot occupied by startingGear
+  - CentralCommandFieldOfficerLoadout
+  - CentcommOfficerUnderwear
+
+- type: loadoutGroup
+  id: CentralCommandFieldOfficerLoadout
+  name: spawner-loadout-centcomm-soo
+  hidden: true
+  loadouts:
+  - CentralCommandFieldOfficerLoadout
+
+- type: loadout
+  id: CentralCommandFieldOfficerLoadout
+  equipment:
+    back: ClothingBackpackCentcomBlack

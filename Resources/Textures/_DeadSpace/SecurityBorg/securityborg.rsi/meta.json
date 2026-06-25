@@ -38,6 +38,22 @@
     {
       "name": "sec_down_e_r",
       "directions": 4
+    },
+    {
+      "name": "sec_e_fight",
+      "directions": 4
+    },
+    {
+      "name": "sec_down_e_fight",
+      "directions": 4
+    },
+    {
+      "name": "sec_l_fight",
+      "directions": 4
+    },
+    {
+      "name": "sec_down_l_fight",
+      "directions": 4
     }
   ]
 }

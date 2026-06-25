@@ -5,9 +5,9 @@
   description: The NanoTrasen gold-engraved special cap of the higher ranks, which has long gone through more than one blitzkrieg...
   components:
     - type: Sprite
-      sprite: _Corvax/Clothing/Head/Hats/centcom_officer_black.rsi
+      sprite: _DeadSpace/Clothing/Head/Hats/centcom_officer_black.rsi #DS14
     - type: Clothing
-      sprite: _Corvax/Clothing/Head/Hats/centcom_officer_black.rsi
+      sprite: _DeadSpace/Clothing/Head/Hats/centcom_officer_black.rsi #DS14
 
 - type: entity
   parent: ClothingHeadBase

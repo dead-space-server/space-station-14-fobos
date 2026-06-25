@@ -84,3 +84,14 @@
       sprite: _DeadSpace/Clothing/Shoes/Boots/cool_boots_yellow.rsi
     - type: Clothing
       sprite: _DeadSpace/Clothing/Shoes/Boots/cool_boots_yellow.rsi   
+
+- type: entity
+  parent: ClothingShoesBootsJackFilled
+  id: ClothingShoesBootsBlueShield
+  name: подкованные сапоги офицера "Синий Щит"
+  description: Обувь Офицера "Синий Щит", для боевых операций или боевых действий. Борьба — всё, борьба — всегда.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Clothing/Shoes/Boots/blueshield_boots.rsi
+    - type: Clothing
+      sprite: _DeadSpace/Clothing/Shoes/Boots/blueshield_boots.rsi  

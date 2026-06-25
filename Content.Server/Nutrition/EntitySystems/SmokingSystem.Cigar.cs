@@ -3,6 +3,7 @@ using Content.Shared.Interaction;
 using Content.Shared.Nutrition.Components;
 using Content.Shared.Smoking;
 using Content.Shared.Temperature;
+using Content.Shared.Verbs; // DS14
 
 namespace Content.Server.Nutrition.EntitySystems
 {
@@ -14,6 +15,7 @@ namespace Content.Server.Nutrition.EntitySystems
             SubscribeLocalEvent<CigarComponent, InteractUsingEvent>(OnCigarInteractUsingEvent);
             SubscribeLocalEvent<CigarComponent, SmokableSolutionEmptyEvent>(OnCigarSolutionEmptyEvent);
             SubscribeLocalEvent<CigarComponent, AfterInteractEvent>(OnCigarAfterInteract);
+            SubscribeLocalEvent<CigarComponent, GetVerbsEvent<AlternativeVerb>>(OnCigarAltVerb); // DS14
         }
 
         private void OnCigarActivatedEvent(Entity<CigarComponent> entity, ref ActivateInWorldEvent args)
@@ -75,5 +77,26 @@ namespace Content.Server.Nutrition.EntitySystems
         {
             SetSmokableState(entity, SmokableState.Burnt);
         }
+
+        // DS14-Start
+        private void OnCigarAltVerb(Entity<CigarComponent> entity, ref GetVerbsEvent<AlternativeVerb> args)
+        {
+            if (!args.CanAccess || !args.CanInteract)
+                return;
+
+            if (!TryComp(entity, out SmokableComponent? smokable))
+                return;
+
+            if (smokable.State != SmokableState.Lit)
+                return;
+
+            AlternativeVerb verb = new()
+            {
+                Act = () => SetSmokableState(entity, SmokableState.Burnt, smokable),
+                Text = Loc.GetString("extinguish-cigar-verb"),
+            };
+            args.Verbs.Add(verb);
+        }
+        // DS14-End
     }
 }

@@ -34,6 +34,10 @@
   - type: Climbable
   #DS14-start
   - type: LavalandOreRedeemer
+    miningAccess:
+    - TaipanCargo
+    - Salvage
+    - SeniorSalvage
     oreValues:
       SteelOre: 1
       Coal: 1
@@ -41,6 +45,7 @@
       PlasmaOre: 2
       SpaceQuartz: 3
       SilverOre: 4
+      ArtifactFragment: 4
       GoldOre: 4
       MagmiteOre: 8
       UraniumOre: 8
@@ -67,13 +72,14 @@
           False: { visible: true }
   - type: Storage
     grid:
-    - 0,0,18,10 #DS14
+    - 0,0,21,11 #DS14
     maxItemSize: Normal
     storageOpenSound: /Audio/Effects/closetopen.ogg
     storageCloseSound: /Audio/Effects/closetclose.ogg
     whitelist:
       tags:
       - Ore
+      - ArtifactFragment #DS14
   - type: UserInterface
     interfaces:
       enum.StorageUiKey.Key:

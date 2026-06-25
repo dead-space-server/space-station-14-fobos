@@ -21,6 +21,7 @@
     context: "aghost"
   - type: Ghost
     canInteract: true
+  - type: AdminGhostVisibility # DS14
   - type: GhostHearing
   - type: Hands
     hands:
@@ -84,7 +85,31 @@
     global: true
   - type: RadarConsole
     followEntity: true
+    # DS14-start
+    maxRange: 342
+    advanced: true
+    allowedComponents:
+      - component: Projectile
+        color: "#FF0000"
+      - component: MobState
+        color: "#FFFFFF"
+      - component: Item
+        color: "#FFD700"
+    blacklistComponents:
+      - CartridgeAmmo
+    blacklistTags:
+      - Ore
+      - Trash
   - type: CargoOrderConsole
+    allowedGroups:
+    - market
+    - service
+    - medical
+    - engineering
+    - science
+    - security
+    - general
+  # DS14-end
   - type: CrewMonitoringConsole
   - type: GeneralStationRecordConsole
     canDeleteEntries: true
@@ -105,6 +130,10 @@
   - type: ShowContrabandDetails
   - type: ShowJobIcons # DS14
   - type: ShowMindShieldIcons # DS14
+  - type: ShowHealthBars # DS14
+    damageContainers:
+    - Biological
+    - Silicon
   - type: Inventory
     templateId: aghost
   - type: Loadout
@@ -129,6 +158,20 @@
     iconOn: { sprite: Structures/Machines/parts.rsi, state: box_2 }
     keywords: [ "AI", "console", "interface" ]
     priority: -10
+
+- type: entity
+  parent: BaseAGhostAction
+  id: ActionAGhostToggleVisibility
+  name: Toggle Aghost Visibility
+  description: Completely hide or show your admin ghost.
+  components:
+  - type: Action
+    icon: Interface/Actions/eyeopen.png
+    iconOn: Interface/Actions/eyeclose.png
+    keywords: [ "admin", "ghost", "hide", "visibility" ]
+    priority: -2
+  - type: InstantAction
+    event: !type:AGhostToggleVisibilityActionEvent
 
 - type: entity
   parent: BaseAGhostAction

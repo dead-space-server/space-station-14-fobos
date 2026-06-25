@@ -1,0 +1,357 @@
+- type: latheRecipe
+  abstract: true
+  id: BioGenSeedsRecipe
+  completetime: 3
+  materials:
+    Biomass: 25
+
+- type: latheRecipe
+  id: BioGenAppleSeeds
+  parent: BioGenSeedsRecipe
+  result: AppleSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/apple.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenBananaSeeds
+  parent: BioGenSeedsRecipe
+  result: BananaSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/banana.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenBerrySeeds
+  parent: BioGenSeedsRecipe
+  result: BerrySeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/berries.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenCarrotSeeds
+  parent: BioGenSeedsRecipe
+  result: CarrotSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/carrot.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenCabbageSeeds
+  parent: BioGenSeedsRecipe
+  result: CabbageSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/cabbage.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenChanterelleSeeds
+  parent: BioGenSeedsRecipe
+  result: ChanterelleSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/chanterelle.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenCherrySeeds
+  parent: BioGenSeedsRecipe
+  result: CherrySeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/cherry.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenChiliSeeds
+  parent: BioGenSeedsRecipe
+  result: ChiliSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/chili.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenCocoaSeeds
+  parent: BioGenSeedsRecipe
+  result: CocoaSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/cocoa.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenCornSeeds
+  parent: BioGenSeedsRecipe
+  result: CornSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/corn.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenCottonSeeds
+  parent: BioGenSeedsRecipe
+  result: CottonSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/cotton.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenEggplantSeeds
+  parent: BioGenSeedsRecipe
+  result: EggplantSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/eggplant.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenEggySeeds
+  parent: BioGenSeedsRecipe
+  result: EggySeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/eggy.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenGarlicSeeds
+  parent: BioGenSeedsRecipe
+  result: GarlicSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/garlic.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenGrapeSeeds
+  parent: BioGenSeedsRecipe
+  result: GrapeSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/grape.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenLemonSeeds
+  parent: BioGenSeedsRecipe
+  result: LemonSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/lemon.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenLimeSeeds
+  parent: BioGenSeedsRecipe
+  result: LimeSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/lime.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenPineappleSeeds
+  parent: BioGenSeedsRecipe
+  result: PineappleSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/pineapple.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenOatSeeds
+  parent: BioGenSeedsRecipe
+  result: OatSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/oat.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenOnionSeeds
+  parent: BioGenSeedsRecipe
+  result: OnionSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/onion.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenOnionRedSeeds
+  parent: BioGenSeedsRecipe
+  result: OnionRedSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/onion_red.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenOrangeSeeds
+  parent: BioGenSeedsRecipe
+  result: OrangeSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/orange.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenPeaSeeds
+  parent: BioGenSeedsRecipe
+  result: PeaSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/pea.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenPotatoSeeds
+  parent: BioGenSeedsRecipe
+  result: PotatoSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/potato.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenPumpkinSeeds
+  parent: BioGenSeedsRecipe
+  result: PumpkinSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/pumpkin.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenRiceSeeds
+  parent: BioGenSeedsRecipe
+  result: RiceSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/rice.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenSoybeanSeeds
+  parent: BioGenSeedsRecipe
+  result: SoybeanSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/soybeans.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenSugarcaneSeeds
+  parent: BioGenSeedsRecipe
+  result: SugarcaneSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/sugarcane.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenTeaPlantSeeds
+  parent: BioGenSeedsRecipe
+  result: TeaPlantSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/tea_plant.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenTomatoSeeds
+  parent: BioGenSeedsRecipe
+  result: TomatoSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/tomato.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenTowercapSeeds
+  parent: BioGenSeedsRecipe
+  result: TowercapSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/towercap.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenWheatSeeds
+  parent: BioGenSeedsRecipe
+  result: WheatSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/wheat.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenWatermelonSeeds
+  parent: BioGenSeedsRecipe
+  result: WatermelonSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/watermelon.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenAloeSeeds
+  parent: BioGenSeedsRecipe
+  result: AloeSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/aloe.rsi
+    state: seed
+  materials:
+    Biomass: 40
+
+- type: latheRecipe
+  id: BioGenAmbrosiaVulgarisSeeds
+  parent: BioGenSeedsRecipe
+  result: AmbrosiaVulgarisSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/ambrosia_vulgaris.rsi
+    state: seed
+  materials:
+    Biomass: 40
+
+- type: latheRecipe
+  id: BioGenGalaxythistleSeeds
+  parent: BioGenSeedsRecipe
+  result: GalaxythistleSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/galaxythistle.rsi
+    state: seed
+  materials:
+    Biomass: 40
+
+- type: latheRecipe
+  id: BioGenLingzhiSeeds
+  parent: BioGenSeedsRecipe
+  result: LingzhiSeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/lingzhi.rsi
+    state: seed
+  materials:
+    Biomass: 40
+
+- type: latheRecipe
+  id: BioGenPoppySeeds
+  parent: BioGenSeedsRecipe
+  result: PoppySeeds
+  icon:
+    sprite: Objects/Specific/Hydroponics/poppy.rsi
+    state: seed
+
+- type: latheRecipe
+  id: BioGenColdSauce
+  resultReagents:
+    Coldsauce: 10
+  categories:
+  - Food
+  icon:
+    sprite: Objects/Consumable/Food/condiments.rsi
+    state: bottle-empty
+  completetime: 1
+  materials:
+    Biomass: 18
+
+- type: latheRecipe
+  id: BioGenBBQ
+  resultReagents:
+    BbqSauce: 10
+  categories:
+  - Food
+  icon:
+    sprite: Objects/Consumable/Food/condiments.rsi
+    state: bottle-empty
+  completetime: 1
+  materials:
+    Biomass: 18
+
+- type: latheRecipe
+  id: BioGenHotSauce
+  resultReagents:
+    Hotsauce: 10
+  categories:
+  - Food
+  icon:
+    sprite: Objects/Consumable/Food/condiments.rsi
+    state: bottle-empty
+  completetime: 1
+  materials:
+    Biomass: 18

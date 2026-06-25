@@ -12,6 +12,7 @@ using Content.Shared.Emoting;
 using Content.Shared.Stunnable;
 using Content.Server.Fluids.EntitySystems;
 using Content.Shared.Chemistry.Components;
+using Robust.Shared.Map;
 
 namespace Content.Server.DeadSpace.Demons.Shadowling;
 
@@ -25,6 +26,7 @@ public sealed class ShadowlingRevealSystem : EntitySystem
     [Dependency] private readonly InventorySystem _inventory = default!;
     [Dependency] private readonly SharedStunSystem _stun = default!;
     [Dependency] private readonly ShadowlingRecruitSystem _recruit = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SmokeSystem _smoke = default!;
 
     public override void Initialize()
@@ -70,7 +72,9 @@ public sealed class ShadowlingRevealSystem : EntitySystem
         var xform = Transform(uid);
         DropItems(uid);
 
-        var newMob = Spawn("MobShadowling", xform.Coordinates);
+        var newMob = Spawn("MobShadowling",
+            _transform.GetMapCoordinates(uid, xform),
+            rotation: _transform.GetWorldRotation(xform));
         EnsureComp<EmotingComponent>(newMob);
 
         var query = EntityQueryEnumerator<ShadowlingSlaveComponent>();
@@ -95,7 +99,7 @@ public sealed class ShadowlingRevealSystem : EntitySystem
         if (xform.GridUid == null)
             return;
 
-        var smoke = Spawn("Smoke", xform.Coordinates);
+        var smoke = Spawn("Smoke", new EntityCoordinates(xform.GridUid.Value, xform.Coordinates.Position));
         if (TryComp<SmokeComponent>(smoke, out var smokeComp))
             _smoke.StartSmoke(smoke, new Solution(), duration, spread, smokeComp);
     }

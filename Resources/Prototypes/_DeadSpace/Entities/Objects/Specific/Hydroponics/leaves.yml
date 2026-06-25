@@ -1,0 +1,79 @@
+- type: entity
+  name: листья тритиевой конопли
+  parent: LeavesCannabis
+  id: LeavesCannabisTritium
+  description: "Листья, мерцающие слабым радиоактивным сиянием."
+  components:
+  - type: Sprite
+    layers:
+    - sprite: Objects/Specific/Hydroponics/cannabis.rsi
+      state: produce
+      color: "#88FF88"
+  - type: Produce
+    seedId: tritiumCannabis
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        reagents:
+        - ReagentId: THC
+          Quantity: 15
+        - ReagentId: SpaceDrugs
+          Quantity: 3
+  - type: TritiumLeaf
+    moles: 2
+
+- type: entity
+  name: сушёные листья тритиевой конопли
+  parent: LeavesCannabisDried
+  id: LeavesCannabisTritiumDried
+  description: "Высушенные листья тритиевой конопли, слегка тёплые на ощупь."
+  components:
+  - type: Stack
+    stackType: LeavesCannabisTritiumDried
+    count: 1
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        reagents:
+        - ReagentId: THC
+          Quantity: 12
+        - ReagentId: SpaceDrugs
+          Quantity: 2.4
+  - type: Sprite
+    sprite: Objects/Specific/Hydroponics/cannabis.rsi
+    state: dried
+    color: "#AAFFAA"
+  - type: TritiumLeaf
+    moles: 1
+
+- type: entity
+  name: измельчённая тритиевая конопля
+  parent: GroundCannabis
+  id: GroundCannabisTritium
+  description: "Измельчённая тритиевая конопля, потрескивающая едва сдерживаемой энергией."
+  components:
+  - type: Stack
+    stackType: GroundCannabisTritium
+    count: 1
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        reagents:
+        - ReagentId: THC
+          Quantity: 20
+        - ReagentId: SpaceDrugs
+          Quantity: 4
+  - type: Sprite
+    sprite: Objects/Misc/reagent_fillings.rsi
+    state: powderpile
+    color: "#AAFFAA"
+  - type: Construction
+    graph: smokeableGroundCannabisTritium
+    node: groundTritium
+  - type: Tag
+    tags:
+      - Smokable
+  - type: Item
+    size: Tiny
+  - type: TritiumLeaf
+    moles: 2

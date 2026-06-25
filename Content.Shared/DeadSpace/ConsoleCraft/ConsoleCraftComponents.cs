@@ -56,6 +56,9 @@ public sealed partial class ConsoleCraftConsoleComponent : Component
     public bool ShowingList = true;
 
     public Dictionary<string, Dictionary<int, string>> SavedRandomChoices { get; set; } = new();
+
+    [ViewVariables]
+    public int DismantleClicks { get; set; } = 0;
 }
 
 [RegisterComponent]

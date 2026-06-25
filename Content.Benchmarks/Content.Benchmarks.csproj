@@ -28,6 +28,5 @@
   <Import Project="..\RobustToolbox\Imports\Client.props" />
   <Import Project="..\RobustToolbox\Imports\Server.props" />
   <Import Project="..\RobustToolbox\Imports\Shared.props" />
-  <Import Project="..\RobustToolbox\Imports\Benchmarks.props" />
   <Import Project="..\RobustToolbox\Imports\Testing.props" />
 </Project>

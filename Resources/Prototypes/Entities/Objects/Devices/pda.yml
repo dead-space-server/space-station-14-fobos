@@ -84,6 +84,7 @@
       - NotekeeperCartridge
       - NanoTaskCartridge
       - NewsReaderCartridge
+      - MessengerCartridge
       - BankCartridge
     cartridgeSlot:
       priority: -1
@@ -129,7 +130,16 @@
     materialComposition:
       Glass: 500
       Plastic: 500
-  # DS14-end
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/taperecorder_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/taperecorder_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/taperecorder_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: BasePDA
@@ -163,6 +173,7 @@
     - NewsReaderCartridge
     - WantedListCartridge
     - BankCartridge # DS14
+    - MessengerCartridge
 
 - type: entity
   parent: BasePDA
@@ -177,6 +188,7 @@
       - NanoTaskCartridge
       - NewsReaderCartridge
       - MedTekCartridge
+      - MessengerCartridge
       - BankCartridge # DS14
 
 - type: entity
@@ -491,6 +503,7 @@
     - NanoTaskCartridge
     - NewsReaderCartridge
     - AstroNavCartridge
+    - MessengerCartridge
 
 - type: entity
   parent: BasePDA
@@ -536,6 +549,7 @@
       - NanoTaskCartridge
       - NewsReaderCartridge
       - AstroNavCartridge
+      - MessengerCartridge
 
 - type: entity
   parent: BasePDA
@@ -691,6 +705,16 @@
     accentHColor: "#12445b" # DS14
   - type: Icon
     state: pda-hop
+  - type: CartridgeLoader
+    uiKey: enum.PdaUiKey.Key
+    preinstalled:
+      - CrewManifestCartridge
+      - NotekeeperCartridge
+      - NanoTaskCartridge
+      - NewsReaderCartridge
+      - MessengerCartridge
+      - BankCartridge
+      - ScannerProgramCartridge
 
 - type: entity
   parent: BasePDA
@@ -886,6 +910,7 @@
     - NewsReaderCartridge
     - WantedListCartridge
     - LogProbeCartridge
+    - MessengerCartridge
 
 - type: entity
   parent: BaseSecurityPDA
@@ -958,6 +983,7 @@
       - WantedListCartridge
       - LogProbeCartridge
       - AstroNavCartridge
+      - MessengerCartridge
 
 - type: entity
   parent: CentcomPDA
@@ -985,6 +1011,7 @@
       - MedTekCartridge
       - AstroNavCartridge
       - BankCartridge
+      - MessengerCartridge
   - type: Tag #  Ignore Chameleon tags
     tags:
     - DoorBumpOpener
@@ -1131,6 +1158,7 @@
       - NotekeeperCartridge
       - NanoTaskCartridge
       - BankCartridge
+      - MedTekCartridge #DS-14
 
 - type: entity
   parent: [ SyndiPDA, BaseSyndicateContraband ]
@@ -1195,6 +1223,13 @@
   components:
   - type: Pda
     id: ERTLeaderIDCard
+  - type: ErtTrackerPda # DS14
+    allowedDepartments:
+    - SpecialOperationsCorps # DS14
+    allowedJobs:
+    - BlueShieldOfficer
+    - CentralCommandBlueShieldOfficer
+    - CentralCommandSpecialOperationsOfficer
   - type: Appearance
     appearanceDataInit:
      enum.PdaVisuals.PdaType:
@@ -1391,6 +1426,7 @@
     - NewsReaderCartridge
     - WantedListCartridge
     - LogProbeCartridge
+    - MessengerCartridge
 
 - type: entity
   parent: BaseMedicalPDA
@@ -1419,6 +1455,7 @@
     - NewsReaderCartridge
     - WantedListCartridge
     - MedTekCartridge
+    - MessengerCartridge
 
 - type: entity
   parent: ClownPDA
@@ -1552,7 +1589,7 @@
   description: You stealthy bastard, you!
   components:
   - type: Pda
-    id: AgentIDCard
+    id: NinjaIDCard # DS14
   - type: Appearance
     appearanceDataInit:
       enum.PdaVisuals.PdaType:

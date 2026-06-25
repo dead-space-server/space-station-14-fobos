@@ -4,31 +4,58 @@
   parent: BaseItem
   id: RateOfFireLecterModuleItemStandart
   name: модуль Лектера - улучшенная скорострельность
-  description: Я вот так хватаюсь за пушку а потом РА-ТА-ТА-ТА-ТА...
+  description: Я вот так хватаюсь за пушку, а потом РА-ТА-ТА-ТА-ТА...
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: micro_laser
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: RateOfFireLecterModuleItemAdv
   name: модуль Лектера - продвинутая скорострельность
-  description: Я вот так хватаюсь за пушку а потом РА-ТА-ТА-ТА-ТА...
+  description: Я вот так хватаюсь за пушку, а потом РА-ТА-ТА-ТА-ТА...
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: micro_laser
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: LecterExtendedAmmoMagModuleItem
   name: модуль Лектера - расширенный магазин
-  description: Расширенный магазин для оружия Лектера, взятый на основе Х-67.
+  description: Поддержка расширенных магазинов для вашего Лектера.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: matter_bin
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # Дрозд
 
@@ -41,6 +68,15 @@
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: micro_laser
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # МК
 
@@ -53,6 +89,15 @@
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: micro_laser
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
@@ -63,40 +108,76 @@
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: high_micro_laser
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # Силовик и Каммер
 
 - type: entity
   parent: BaseItem
   id: BallisticAmmoShotgunsModuleItem
-  name: модуль Дробовиков - дополнительная вместимость патронов
-  description: Палец уже горит от однотипной стрельбы?
+  name: модуль дробовиков - дополнительная вместимость патронов
+  description: И тут я начинаю шмалять.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: matter_bin
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
-# Силовик и Арес
+# Арес/Силовик
 
 - type: entity
   parent: BaseItem
   id: GunSpreadModifierShotgunLowModuleItem
-  name: модуль Дробовика - понижение разброса
+  name: модуль Арес/Силовик - понижение разброса
   description: Валентин Шевченко никого не убивал. Можно использовать только для Ареса и Силовика.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: wavelength_analyzer
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: GunSpreadModifierShotgunHighModuleItem
-  name: модуль Дробовика - повышение разброса
+  name: модуль Арес/Силовик - повышение разброса
   description: Скажи, ты стихи любишь? Можно использовать только для Ареса и Силовика.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: wavelength_analyzer
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # Силовик
 
@@ -104,23 +185,41 @@
   parent: BaseItem
   id: RateOfFireEnforcerModuleItem
   name: модуль Силовика - повышенная скорострельность
-  description: Превратите своих врагов в кукл на руку в виде Степашки и Хрюшки.
+  description: Превратите своих врагов в кукл на руку в виде Степашки и Хрюши.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: micro_laser
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # Каммер
 
 - type: entity
   parent: BaseItem
   id: RateOfFireKammererModuleItem
-  name: модуль Каммера - повышенная скорострельность
-  description: Превратите своих врагов в кукл на руку в виде Степашки и Хрюшки.
+  name: модуль Каммерера - повышенная скорострельность
+  description: Превратите своих врагов в кукл на руку в виде Степашки и Хрюши.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: micro_laser
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # Арес
 
@@ -128,11 +227,20 @@
   parent: BaseItem
   id: RateOfFireAresSWCModuleItem
   name: модуль Ареса - повышенная скорострельность
-  description: Превратите своих врагов в кукл на руку в виде Степашки и Хрюшки.
+  description: Превратите своих врагов в кукл на руку в виде Степашки и Хрюши.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: micro_laser
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # Общее
 
@@ -140,21 +248,39 @@
   parent: BaseItem
   id: MassSkopeModuleItem
   name: модуль оружия - прицел
-  description: Если совсем нечего делать то можно использовать прицел, благо без замедления
+  description: Если совсем нечего делать, то можно использовать прицел. Благо, он без замедления.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: high_micro_laser
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: SpeedBulletModuleItem
   name: модуль оружия - уcкорение пуль
-  description: Пули летят прямо в гузло твоего врага.
+  description: Пули летят прямо в гузно твоего врага.
   components:
   - type: Sprite
     sprite: Objects/Misc/stock_parts.rsi
     state: electrolite
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # Детали
 
@@ -163,96 +289,236 @@
 - type: entity
   parent: BaseItem
   id: FirstPartLecter
-  name: рукоять Лектера
-  description: Держитесь крепче.
+  name: пистолетная рукоятка Лектера
+  description: Эргономичный элемент управления оружием, обеспечивающий удобный хват и доступ к спусковому крючку.
   components:
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/lecter.rsi
     state: part_1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: SecondPartLecter
   name: цевьё Лектера
-  description: Тут уже всё установлено. Да ведь?
+  description: Узел, предназначенный для удержания оружия при стрельбе и защиты руки стрелка от нагретого ствола.
   components:
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/lecter.rsi
     state: part_2
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: ThirdPartLecter
   name: приклад Лектера
-  description: Жаль НТ не позволяет бить оружием прикладом.
+  description: Плечевой упор. Демпфирует отдачу и обеспечивает стабилизацию оружия.
   components:
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/lecter.rsi
     state: part_3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # Дрозд
 
 - type: entity
   parent: BaseItem
   id: FirstPartDrozd
-  name: рукоять Дрозда
-  description: Держитесь крепче.
+  name: пистолетная рукоятка Дрозда
+  description: Эргономичный элемент управления оружием, обеспечивающий удобный хват и доступ к спусковому крючку.
   components:
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/drozd.rsi
     state: part_1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: SecondPartDrozd
   name: цевьё Дрозда
-  description: Тут уже всё установлено. Да ведь?
+  description: Узел, предназначенный для удержания оружия при стрельбе и защиты руки стрелка от нагретого ствола.
   components:
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/drozd.rsi
     state: part_2
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: ThirdPartDrozd
   name: приклад Дрозда
-  description: Жаль НТ не позволяет бить оружием прикладом.
+  description: Плечевой упор. Демпфирует отдачу и обеспечивает стабилизацию оружия.
   components:
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/drozd.rsi
     state: part_3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # МК
 
 - type: entity
   parent: BaseItem
   id: FirstPartMK
-  name: патронник МК
-  description: Держитесь крепче.
+  name: затвор МК
+  description: Массивный затвор для писолета, обеспечивающий досыл патрона в патронник.
   components:
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/mk.rsi
     state: part_1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: SecondPartMK
-  name: спусковой скоба МК
-  description: Тут уже всё установлено. Да ведь?
+  name: затворный механизм МК
+  description: Совокупность подвижных и неподвижных деталей, обеспечивающих автоматическую перезарядку оружия за счёт энергии отдачи.
   components:
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/mk.rsi
     state: part_2
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: ThirdPartMK
-  name: рукоять МК
-  description: Жаль НТ не позволяет бить оружием прикладом.
+  name: пистолетная рукоятка МК
+  description: Эргономичный элемент управления оружием, обеспечивающий удобный хват и доступ к спусковому крючку.
   components:
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/mk.rsi
     state: part_3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+
+# Арес
+
+- type: entity
+  parent: BaseItem
+  id: FirstPartAres
+  name: пистолетная рукоятка Ареса
+  description: Эргономичный элемент управления оружием, обеспечивающий удобный хват и доступ к спусковому крючку.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/ConsoleCraft/Gun/ares.rsi
+    state: part_1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+
+- type: entity
+  parent: BaseItem
+  id: SecondPartAres
+  name: прицельная планка Ареса
+  description: Унифицированная платформа для размещения съёмных прицельных приспособлений и дополнительного оборудования.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/ConsoleCraft/Gun/ares.rsi
+    state: part_2
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+
+- type: entity
+  parent: BaseItem
+  id: ThirdPartAres
+  name: цевьё Ареса
+  description: Узел, предназначенный для удержания оружия при стрельбе и защиты руки стрелка от нагретого ствола.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/ConsoleCraft/Gun/ares.rsi
+    state: part_3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 # Силовик
 
@@ -260,92 +526,114 @@
   parent: BaseItem
   id: FirstPartEnforcer
   name: цевьё Силовика
-  description: Держитесь крепче.
+  description: Узел, предназначенный для удержания оружия при стрельбе и защиты руки стрелка от нагретого ствола.
   components:
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/enforcer.rsi
     state: part_1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: SecondPartEnforcer
-  name: прицельная планка Силовика
-  description: Тут уже всё установлено. Да ведь?
+  name: ствол Силовика
+  description: Гладкоствольный канал, предназначенный для стрельбы дробью или пулями.
   components:
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/enforcer.rsi
     state: part_2
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: ThirdPartEnforcer
   name: приклад Силовика
-  description: Жаль НТ не позволяет бить оружием прикладом.
+  description: Плечевой упор. Демпфирует отдачу и обеспечивает стабилизацию оружия.
   components:
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/enforcer.rsi
     state: part_3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
-# Арес
-
-- type: entity
-  parent: BaseItem
-  id: FirstPartAres
-  name: рукоять Ареса
-  description: Держитесь крепче.
-  components:
-  - type: Sprite
-    sprite: _DeadSpace/ConsoleCraft/Gun/ares.rsi
-    state: part_1
-
-- type: entity
-  parent: BaseItem
-  id: SecondPartAres
-  name: прицельная планка Ареса
-  description: Тут уже всё установлено. Да ведь?
-  components:
-  - type: Sprite
-    sprite: _DeadSpace/ConsoleCraft/Gun/ares.rsi
-    state: part_2
-
-- type: entity
-  parent: BaseItem
-  id: ThirdPartAres
-  name: цевьё Ареса
-  description: Жаль НТ не позволяет бить оружием прикладом.
-  components:
-  - type: Sprite
-    sprite: _DeadSpace/ConsoleCraft/Gun/ares.rsi
-    state: part_3
-
-# Каммер
+# Каммерер
 
 - type: entity
   parent: BaseItem
   id: FirstPartKammerer
-  name: цевьё Каммера
-  description: Держитесь крепче.
+  name: ствол Каммерера
+  description: Гладкоствольный канал, предназначенный для стрельбы дробью или пулями.
   components:
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/kammer.rsi
     state: part_1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: SecondPartKammerer
-  name: дульный срез Каммера
-  description: Тут уже всё установлено. Да ведь?
+  name: помповый механизм Каммерера
+  description: Система ручной перезарядки дробовика, управляемая движением цевья.
   components:
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/kammer.rsi
     state: part_2
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: ThirdPartKammerer
-  name: приклад Каммера
-  description: Жаль НТ не позволяет бить оружием прикладом.
+  name: приклад Каммерера
+  description: Плечевой упор. Демпфирует отдачу и обеспечивает стабилизацию оружия.
   components:
   - type: Sprite
     sprite: _DeadSpace/ConsoleCraft/Gun/kammer.rsi
     state: part_3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/component_drop.ogg

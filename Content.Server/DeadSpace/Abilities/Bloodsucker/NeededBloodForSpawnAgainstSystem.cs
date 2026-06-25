@@ -22,10 +22,10 @@ public sealed partial class NeededBloodForSpawnAgainstSystem : SharedBloodsucker
         if (args.Cancelled || args.Handled)
             return;
 
-        if (!EntityManager.TryGetComponent<BloodsuckerComponent>(uid, out var bloodsuckerComponent))
+        if (!TryComp<BloodsuckerComponent>(uid, out var bloodsuckerComponent))
             return;
 
-        if (!EntityManager.TryGetComponent<SpawnAgainstComponent>(uid, out var spawnAgainstComponent))
+        if (!TryComp<SpawnAgainstComponent>(uid, out var spawnAgainstComponent))
             return;
         
         float price = CalculateBloodCost(spawnAgainstComponent.SelectEntity, component.BloodCosts, component.DefaultCost);

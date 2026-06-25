@@ -1,0 +1,11 @@
+- files:
+    - "bullet_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/handling/suture/needle_drop1.ogg"
+
+- files:
+    - "bullet_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/handling/suture/needle_pickup1.ogg"

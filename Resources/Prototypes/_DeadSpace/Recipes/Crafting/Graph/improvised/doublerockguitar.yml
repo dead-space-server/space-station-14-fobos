@@ -1,0 +1,25 @@
+- type: constructionGraph
+  id: DoubleRockGraph
+  start: start
+  graph: 
+  - node: start
+    edges:
+    - to: doublerockguitar
+      steps:
+      - tag: RockGuitarInstrument
+        name: construction-graph-tag-rock-guitar
+        icon:
+          sprite: Objects/Fun/Instruments/rockguitar.rsi
+          state: icon
+        doAfter: 3
+      - tag: RockGuitarInstrument
+        name: construction-graph-tag-rock-guitar
+        icon:
+          sprite: Objects/Fun/Instruments/rockguitar.rsi
+          state: icon
+        doAfter: 3
+      - material: Cable
+        amount: 5
+        doAfter: 4
+  - node: doublerockguitar
+    entity: DoubleRockGuitarInstrument

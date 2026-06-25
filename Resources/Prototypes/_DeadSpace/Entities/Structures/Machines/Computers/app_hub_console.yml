@@ -1,0 +1,43 @@
+- type: entity
+  parent: BaseComputer
+  id: AppHubConsole
+  name: NT Software Hub
+  description: Консоль для загрузки приложений на КПК. Вставьте КПК и выберите программы для установки.
+  components:
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: rdcomp
+    - map: ["computerLayerKeys"]
+      state: rd_key
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      visible: false
+      state: generic_panel_open
+  - type: AppHub
+    pdaSlot:
+      whitelist:
+        components:
+        - CartridgeLoader
+  - type: ActivatableUI
+    key: enum.AppHubUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.AppHubUiKey.Key:
+        type: AppHubBoundUserInterface
+  - type: ApcPowerReceiver
+    powerLoad: 50
+  - type: Computer
+    board: AppHubConsoleCircuitboard
+  - type: PointLight
+    radius: 1.5
+    energy: 3.0
+    color: "#3ca1b5"
+  - type: ItemSlots
+  - type: ContainerContainer
+    containers:
+      board: !type:Container {}
+      AppHub-PdaSlot: !type:ContainerSlot {}

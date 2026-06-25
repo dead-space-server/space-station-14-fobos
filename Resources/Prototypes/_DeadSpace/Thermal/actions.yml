@@ -9,3 +9,15 @@
     useDelay: 1
   - type: InstantAction
     event: !type:ToggleThermalVisionActionEvent
+
+- type: entity
+  id: ActionToggleThermalVisionExperimental
+  name: Активировать тепловизор
+  description: Включает тепловое зрение на короткое время.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon: _DeadSpace/Actions/thermal/thermal_toogle_experimental.png
+    useDelay: 8
+  - type: InstantAction
+    event: !type:ToggleThermalVisionExperimentalActionEvent

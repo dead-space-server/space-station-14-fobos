@@ -198,6 +198,11 @@ public sealed partial class InjectorSystem : EntitySystem
             || !GetMobsDoAfterTime(injector, user, target, out var doAfterTime, out var amount)) // Get the DoAfter time.
             return false;
 
+        // DS14-start
+        if (IsInjectBlockedBeforeDoAfter(injector, user, target))
+            return false;
+        // DS14-end
+
         if (!_doAfter.TryStartDoAfter(new DoAfterArgs(EntityManager, user, doAfterTime, new InjectorDoAfterEvent(), injector.Owner, target: target, used: injector.Owner)
         {
             BreakOnMove = !injector.Comp.InjectOnMove, //DS14
@@ -254,6 +259,38 @@ public sealed partial class InjectorSystem : EntitySystem
 
         return true;
     }
+
+    // DS14-start
+    private bool IsInjectBlockedBeforeDoAfter(Entity<InjectorComponent> injector, EntityUid user, EntityUid target)
+    {
+        if (!_prototypeManager.Resolve(injector.Comp.ActiveModeProtoId, out var activeMode))
+            return false;
+
+        switch (activeMode.Behavior)
+        {
+            case InjectorBehavior.Inject:
+                break;
+            case InjectorBehavior.Dynamic:
+                if (!HasComp<BloodstreamComponent>(target)
+                    || !_solutionContainer.TryGetInjectableSolution(target, out _, out _))
+                    return false;
+                break;
+            default:
+                return false;
+        }
+
+        var ev = new TargetBeforeInjectEvent(user, injector.Owner, target);
+        RaiseLocalEvent(target, ref ev);
+
+        if (!ev.Cancelled)
+            return false;
+
+        var userMessage = ev.OverrideMessage ?? Loc.GetString("injector-component-blocked-user");
+        var otherMessage = Loc.GetString("injector-component-blocked-other", ("target", target), ("user", user));
+        _popup.PopupPredicted(userMessage, otherMessage, target, user, PopupType.SmallCaution);
+        return true;
+    }
+    // DS14-end
 
     /// <summary>
     /// Get the DoAfter Time for Mobs.
@@ -482,7 +519,7 @@ public sealed partial class InjectorSystem : EntitySystem
         // Jugsuit blocking Hyposprays when
         if (ev.Cancelled)
         {
-            var userMessage = Loc.GetString("injector-component-blocked-user");
+            var userMessage = ev.OverrideMessage ?? Loc.GetString("injector-component-blocked-user"); // DS14
             var otherMessage = Loc.GetString("injector-component-blocked-other", ("target", target), ("user", user));
             _popup.PopupPredicted(userMessage, otherMessage, target, user, PopupType.SmallCaution);
             return true;

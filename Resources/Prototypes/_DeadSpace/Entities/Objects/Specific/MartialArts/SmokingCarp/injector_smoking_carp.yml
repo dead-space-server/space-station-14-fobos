@@ -1,8 +1,8 @@
 - type: entity
   parent: BaseItem
   id: SmokingCarpInjector
-  name: инъектор "Smoking Carp"
-  description: Одноразовый инъектор, имеется гравировка "Smoking Carp".
+  name: свиток "Smoking Carp"
+  description: На нём содержатся знания о древнем боевом искусстве, которые нельзя прочитать, но можно почувствовать. Ну, вам так кажется. Улёт в общем.
   components:
     - type: Sprite
       sprite: _DeadSpace/Objects/Misc/injector_smoking_carp.rsi
@@ -13,7 +13,7 @@
       itemAfterLerning: SmokingCarpInjectorAfter
       params:
         - staminaDamageSmokePunch: 35.0
-          hitDamageForPowerPunch: 30
+          hitDamageForPowerPunch: 20
           hitDamageForSmokePunch: 5
           ignoreResist: true
           damageTypeForPowerPunch: "Slash"
@@ -39,14 +39,32 @@
             - voice-message-carp-10
             - voice-message-carp-11
             - voice-message-carp-12
+    - type: EmitSoundOnPickup
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/paper_pickup.ogg
+    - type: EmitSoundOnDrop
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
+    - type: EmitSoundOnLand
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: SmokingCarpInjectorAfter
-  name: инъектор "Smoking Carp"
-  description: Одноразовый инъектор, имеется гравировка "Smoking Carp", он пустой.
+  name: порванный чёрный папирус
+  description: Оставшийся текст гласит "Smoking Carp". Кажется он вытягивает из вас силы, когда вы его держите.
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Misc/injector_smoking_carp.rsi
     layers:
     - state: icon_after
+    - type: EmitSoundOnPickup
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/paper_pickup.ogg
+    - type: EmitSoundOnDrop
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
+    - type: EmitSoundOnLand
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg

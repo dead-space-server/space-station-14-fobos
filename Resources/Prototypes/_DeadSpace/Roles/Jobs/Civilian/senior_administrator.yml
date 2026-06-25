@@ -54,10 +54,10 @@
   - Chapel
   - Hydroponics
   #start-backmen: currency
-  minBankBalance: 150
-  maxBankBalance: 250
+  minBankBalance: 400 # DS14-value
+  maxBankBalance: 500 # DS14-value
   wageDepartment: Civilian
-  wage: 85
+  wage: 300 # DS14-value
   #end-backmen: currency
   special:
   - !type:AddComponentSpecial

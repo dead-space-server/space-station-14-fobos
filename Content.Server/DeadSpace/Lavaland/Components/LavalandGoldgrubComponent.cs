@@ -13,6 +13,12 @@ public sealed partial class LavalandGoldgrubComponent : Component
     public TimeSpan UpdateInterval = TimeSpan.FromSeconds(0.5);
 
     [DataField]
+    public TimeSpan InactiveUpdateInterval = TimeSpan.FromSeconds(5);
+
+    [DataField]
+    public float ActivationRange = 24f;
+
+    [DataField]
     public TimeSpan BurrowDelay = TimeSpan.FromSeconds(10);
 
     [DataField]
@@ -60,7 +66,10 @@ public sealed partial class LavalandGoldgrubComponent : Component
         "SilverOre",
         "GoldOre",
         "UraniumOre",
-        "DiamondOre"
+        "DiamondOre",
+        "BluespaceCrystalOre",
+        "MagmiteOre",
+        "ArtifactFragment"
     ];
 
     [DataField]
@@ -69,7 +78,10 @@ public sealed partial class LavalandGoldgrubComponent : Component
         "SilverOre",
         "GoldOre",
         "UraniumOre",
-        "DiamondOre"
+        "DiamondOre",
+        "BluespaceCrystalOre",
+        "MagmiteOre",
+        "ArtifactFragment"
     ];
 
     [DataField]

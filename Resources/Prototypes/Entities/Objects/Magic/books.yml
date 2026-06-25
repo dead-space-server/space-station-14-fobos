@@ -18,6 +18,17 @@
     - type: Tag
       tags:
       - Spellbook
+    #DS14-Start
+    - type: EmitSoundOnPickup
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/book_pickup.ogg
+    - type: EmitSoundOnDrop
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/book_drop.ogg
+    - type: EmitSoundOnLand
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/book_drop.ogg
+    #DS14-End
 
 # For the Wizard antagonist
 # Do not add discounts or price inflation
@@ -49,6 +60,17 @@
       ownerOnly: true # Lesser minds cannot comprehend the arcane secrets within
       balance:
         WizCoin: 10 # prices are balanced around this 10 point maximum and how strong the spells are
+    #DS14-Start
+    - type: EmitSoundOnPickup
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/book_pickup.ogg
+    - type: EmitSoundOnDrop
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/book_drop.ogg
+    - type: EmitSoundOnLand
+      sound:
+        path: /Audio/_DeadSpace/Items/Handing/book_drop.ogg
+    #DS14-End
 
 # No-refund version meant for manual spawning, so people can't abuse refund if they were given a tome. Not meant for wizard antag proper!
 - type: entity

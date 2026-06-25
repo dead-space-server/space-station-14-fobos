@@ -1,0 +1,203 @@
+- files:
+    - "beaker_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/handling/beaker_place.ogg"
+
+- files:
+    - "beaker_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/handling/beaker_pickup.ogg"
+
+- files:
+    - "book_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/book_drop.ogg"
+
+- files:
+    - "book_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/book_pickup.ogg"
+
+- files:
+    - "cardboardbox_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/cardboardbox_drop.ogg"
+
+- files:
+    - "cardboardbox_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/cardboardbox_pickup.ogg"
+
+- files:
+    - "component_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/component_drop.ogg"
+
+- files:
+    - "component_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/component_pickup.ogg"
+
+- files:
+    - "cutlery_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/cutlery/cutlery_drop1.ogg"
+
+- files:
+    - "cutlery_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/cutlery/cutlery_pickup1.ogg"
+
+- files:
+    - "disk_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/disk_drop.ogg"
+
+- files:
+    - "disk_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/disk_pickup.ogg"
+
+- files:
+    - "drinkglass_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/drinkglass_drop.ogg"
+
+- files:
+    - "drinkglass_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/drinkglass_pickup.ogg"
+
+- files:
+    - "evidence_bag_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/evidence_bag/evidence_bag_drop.ogg"
+
+- files:
+    - "evidence_bag_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/evidence_bag/evidence_bag_pickup.ogg"
+
+- files:
+    - "food_plate_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/food_plate/food_plate_drop1.ogg"
+
+- files:
+    - "food_plate_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/food_plate/food_plate_pickup1.ogg"
+
+- files:
+    - "glove_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/handling/glove_drop.ogg"
+
+- files:
+    - "glove_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/handling/glove_pick_up.ogg"
+
+- files:
+    - "matchbox_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/matchbox_drop.ogg"
+
+- files:
+    - "matchbox_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/matchbox_pickup.ogg"
+
+- files:
+    - "paper_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/paper_drop.ogg"
+
+- files:
+    - "paper_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/paper_pickup.ogg"
+
+- files:
+    - "pill_bottle_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/handling/pill_bottle_place.ogg"
+
+- files:
+    - "pill_bottle_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/handling/pill_bottle_pickup.ogg"
+
+- files:
+    - "rolling_pin_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/rolling_pin/rolling_pin_drop1.ogg"
+
+- files:
+    - "rolling_pin_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from tgstation sound assets."
+  source: "https://github.com/tgstation/tgstation/blob/master/sound/items/rolling_pin/rolling_pin_pickup1.ogg"
+
+- files:
+    - "tape_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/tape_drop.ogg"
+
+- files:
+    - "tape_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/tape_pickup.ogg"
+
+- files:
+    - "taperecorder_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/taperecorder_drop.ogg"
+
+- files:
+    - "taperecorder_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/taperecorder_pickup.ogg"
+
+- files:
+    - "toolbelt_drop.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/toolbelt_drop.ogg"
+
+- files:
+    - "toolbelt_pickup.ogg"
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from BeeStation-Hornet sound assets."
+  source: "https://github.com/BeeStation/BeeStation-Hornet/blob/master/sound/items/handling/toolbelt_pickup.ogg"

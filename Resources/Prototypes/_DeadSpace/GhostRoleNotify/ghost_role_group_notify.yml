@@ -97,8 +97,16 @@
   name: Собиратель трупов
 
 - type: ghostNotifyGroup
+  id: SentientVirusGroup
+  name: Разумный вирус
+
+- type: ghostNotifyGroup
   id: CBURNGroup
   name: РХБЗЗ
+
+- type: ghostNotifyGroup
+  id: BSAAGroup
+  name: АПБТ
 
 - type: ghostNotifyGroup
   id: Dragonping
@@ -163,6 +171,14 @@
 - type: ghostNotifyGroup
   id: SpidersGroup
   name: Паук
+
+- type: ghostNotifyGroup
+  id: CobraGroup
+  name: Космические кобры
+
+- type: ghostNotifyGroup
+  id: SnakeGroup
+  name: Космические змеи
 
 - type: ghostNotifyGroup
   id: Slimeping

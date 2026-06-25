@@ -42,6 +42,7 @@ public sealed class StationPowerTests
         // "Exo", // map removed
         "Fland",
         "Gate",
+        "Ishimura",
         "Gemini",
         "Loop",
         "Loop",

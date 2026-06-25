@@ -1,4 +1,6 @@
 using System.Numerics;
+using System.Linq;
+using Content.Server.Construction;
 using Content.Server.Cargo.Systems;
 using Content.Server.Weapons.Ranged.Components;
 using Content.Shared.Cargo;
@@ -25,13 +27,59 @@ public sealed partial class GunSystem : SharedGunSystem
     [Dependency] private readonly PricingSystem _pricing = default!;
     [Dependency] private readonly SharedMapSystem _map = default!;
 
+    // DS14-start
+    private readonly Dictionary<EntityUid, BallisticConstructionTransferData> _ballisticConstructionTransfers = new();
+    // DS14-end
+
     private const float DamagePitchVariation = 0.05f;
 
     public override void Initialize()
     {
         base.Initialize();
         SubscribeLocalEvent<BallisticAmmoProviderComponent, PriceCalculationEvent>(OnBallisticPrice);
+        SubscribeLocalEvent<BallisticAmmoProviderComponent, ConstructionChangeEntityEvent>(OnBallisticConstructionChange); // DS14
+        SubscribeLocalEvent<BallisticAmmoProviderComponent, AfterConstructionChangeEntityEvent>(OnBallisticAfterConstructionChange); // DS14
     }
+
+    // DS14-start
+    private void OnBallisticConstructionChange(Entity<BallisticAmmoProviderComponent> ent, ref ConstructionChangeEntityEvent args)
+    {
+        if (ent.Owner != args.Old)
+            return;
+
+        _ballisticConstructionTransfers[args.New] = new BallisticConstructionTransferData(
+            ent.Comp.Proto,
+            ent.Comp.UnspawnedCount,
+            ent.Comp.Entities.ToArray());
+    }
+
+    private void OnBallisticAfterConstructionChange(Entity<BallisticAmmoProviderComponent> ent, ref AfterConstructionChangeEntityEvent args)
+    {
+        if (_ballisticConstructionTransfers.Remove(ent.Owner, out var transfer))
+        {
+            ent.Comp.Proto = transfer.Proto;
+            ent.Comp.UnspawnedCount = transfer.UnspawnedCount;
+            ent.Comp.Entities.Clear();
+            ent.Comp.Entities.AddRange(transfer.Entities.Where(Exists));
+        }
+
+        foreach (var contained in ent.Comp.Container.ContainedEntities)
+        {
+            if (!ent.Comp.Entities.Contains(contained))
+                ent.Comp.Entities.Add(contained);
+        }
+
+        UpdateBallisticAppearance(ent);
+        UpdateAmmoCount(ent);
+        DirtyField(ent.AsNullable(), nameof(BallisticAmmoProviderComponent.Entities));
+        DirtyField(ent.AsNullable(), nameof(BallisticAmmoProviderComponent.UnspawnedCount));
+    }
+
+    private readonly record struct BallisticConstructionTransferData(
+        EntProtoId? Proto,
+        int UnspawnedCount,
+        EntityUid[] Entities);
+    // DS14-end
 
     private void OnBallisticPrice(Entity<BallisticAmmoProviderComponent> ent, ref PriceCalculationEvent args)
     {
@@ -65,11 +113,14 @@ public sealed partial class GunSystem : SharedGunSystem
             }
         }
 
-        var fromMap = TransformSystem.ToMapCoordinates(fromCoordinates);
-        var toMap = TransformSystem.ToMapCoordinates(toCoordinates).Position;
-        var mapDirection = toMap - fromMap.Position;
+        if (!TryGetShootMapDirection(fromCoordinates, toCoordinates, out var fromMap, out var mapDirection))
+        {
+            userImpulse = false;
+            return;
+        }
+
         var mapAngle = mapDirection.ToAngle();
-        var angle = GetRecoilAngle(Timing.CurTime, gun, mapDirection.ToAngle());
+        var angle = GetRecoilAngle(Timing.CurTime, gun, mapAngle);
 
         // If applicable, this ensures the projectile is parented to grid on spawn, instead of the map.
         var fromEnt = MapManager.TryFindGridAt(fromMap, out var gridUid, out _)
@@ -77,7 +128,7 @@ public sealed partial class GunSystem : SharedGunSystem
             : new EntityCoordinates(_map.GetMapOrInvalid(fromMap.MapId), fromMap.Position);
 
         // Update shot based on the recoil
-        toMap = fromMap.Position + angle.ToVec() * mapDirection.Length();
+        var toMap = fromMap.Position + angle.ToVec() * mapDirection.Length();
         mapDirection = toMap - fromMap.Position;
         var gunVelocity = Physics.GetMapLinearVelocity(fromEnt);
 
@@ -137,19 +188,7 @@ public sealed partial class GunSystem : SharedGunSystem
                     if (ent == null)
                         break;
 
-                    var hitscanEv = new HitscanTraceEvent
-                    {
-                        FromCoordinates = fromCoordinates,
-                        ShotDirection = mapDirection.Normalized(),
-                        Gun = gun,
-                        Shooter = user,
-                        Target = gun.Comp.Target,
-                    };
-                    RaiseLocalEvent(ent.Value, ref hitscanEv);
-
-                    Del(ent);
-
-                    Audio.PlayPredicted(gun.Comp.SoundGunshotModified, gun, user);
+                    CreateAndFireProjectiles(ent.Value, null);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -161,8 +200,10 @@ public sealed partial class GunSystem : SharedGunSystem
             FiredProjectiles = shotProjectiles,
         });
 
-        void CreateAndFireProjectiles(EntityUid ammoEnt, AmmoComponent ammoComp)
+        void CreateAndFireProjectiles(EntityUid ammoEnt, AmmoComponent? ammoComp)
         {
+            var firedHitscan = HasComp<HitscanAmmoComponent>(ammoEnt);
+
             if (TryComp<ProjectileSpreadComponent>(ammoEnt, out var ammoSpreadComp))
             {
                 var spreadEvent = new GunGetAmmoSpreadEvent(ammoSpreadComp.Spread);
@@ -171,29 +212,49 @@ public sealed partial class GunSystem : SharedGunSystem
                 var angles = LinearSpread(mapAngle - spreadEvent.Spread / 2,
                     mapAngle + spreadEvent.Spread / 2, ammoSpreadComp.Count);
 
-                ShootOrThrow(ammoEnt, angles[0].ToVec(), gunVelocity, gun, user);
-                shotProjectiles.Add(ammoEnt);
+                if (ShootOrThrow(ammoEnt, angles[0].ToVec(), gunVelocity, gun, user))
+                    shotProjectiles.Add(ammoEnt);
 
                 for (var i = 1; i < ammoSpreadComp.Count; i++)
                 {
                     var newuid = Spawn(ammoSpreadComp.Proto, fromEnt);
-                    ShootOrThrow(newuid, angles[i].ToVec(), gunVelocity, gun, user);
-                    shotProjectiles.Add(newuid);
+                    if (ShootOrThrow(newuid, angles[i].ToVec(), gunVelocity, gun, user))
+                        shotProjectiles.Add(newuid);
                 }
             }
             else
             {
-                ShootOrThrow(ammoEnt, mapDirection, gunVelocity, gun, user);
-                shotProjectiles.Add(ammoEnt);
+                if (ShootOrThrow(ammoEnt, mapDirection, gunVelocity, gun, user))
+                    shotProjectiles.Add(ammoEnt);
             }
 
-            MuzzleFlash(gun, ammoComp, mapDirection.ToAngle(), user);
+            if (ammoComp != null && !firedHitscan)
+                MuzzleFlash(gun, ammoComp, mapDirection.ToAngle(), user);
+
             Audio.PlayPredicted(gun.Comp.SoundGunshotModified, gun, user);
         }
     }
 
-    private void ShootOrThrow(EntityUid uid, Vector2 mapDirection, Vector2 gunVelocity, Entity<GunComponent> gun, EntityUid? user)
+    private bool ShootOrThrow(EntityUid uid, Vector2 mapDirection, Vector2 gunVelocity, Entity<GunComponent> gun, EntityUid? user)
     {
+        // DS14-start: cartridge-spawned hitscans bypass projectile physics entirely.
+        if (HasComp<HitscanAmmoComponent>(uid))
+        {
+            var hitscanEv = new HitscanTraceEvent
+            {
+                FromCoordinates = Transform(uid).Coordinates,
+                ShotDirection = mapDirection.Normalized(),
+                Gun = gun,
+                Shooter = user,
+                Target = gun.Comp.Target,
+            };
+
+            RaiseLocalEvent(uid, ref hitscanEv);
+            Del(uid);
+            return false;
+        }
+        // DS14-end
+
         if (gun.Comp.Target is { } target && !TerminatingOrDeleted(target))
         {
             var targeted = EnsureComp<TargetedProjectileComponent>(uid);
@@ -207,10 +268,11 @@ public sealed partial class GunSystem : SharedGunSystem
             RemoveShootable(uid);
             // TODO: Someone can probably yeet this a billion miles so need to pre-validate input somewhere up the call stack.
             ThrowingSystem.TryThrow(uid, mapDirection, gun.Comp.ProjectileSpeedModified, user);
-            return;
+            return false;
         }
 
         ShootProjectile(uid, mapDirection, gunVelocity, gun, user, gun.Comp.ProjectileSpeedModified);
+        return true;
     }
 
     /// <summary>

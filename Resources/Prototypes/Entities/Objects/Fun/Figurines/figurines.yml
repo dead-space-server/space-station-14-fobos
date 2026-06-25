@@ -8,6 +8,7 @@
   description: A small miniature.
   components:
   - type: AdminToySpawnable # DS14
+  - type: TabletopPlaceable # DS14
   - type: Sprite
     sprite: Objects/Fun/figurines.rsi
   - type: PhysicalComposition
@@ -34,6 +35,17 @@
   - type: DeviceLinkSink
     ports:
     - Trigger
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/pill_bottle_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/pill_bottle_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/pill_bottle_drop.ogg
+  #DS14-End
 
 #HUMANOID FIGURINES
 

@@ -64,6 +64,10 @@ namespace Content.Server.NPC.Pathfinding
         /// How many paths we can process in a single tick.
         /// </summary>
         private const int PathTickLimit = 256;
+        // DS14-Start: bound pathfinding queue growth.
+        private const int MaxPendingRequests = 8192;
+        private static readonly TimeSpan MaxRequestAge = TimeSpan.FromMinutes(5);
+        // DS14-End
 
         private int _portalIndex;
         private readonly Dictionary<int, PathPortal> _portals = new();
@@ -104,6 +108,8 @@ namespace Content.Server.NPC.Pathfinding
         public override void Update(float frameTime)
         {
             base.Update(frameTime);
+            PruneStaleRequests(); // DS14 Edit: keep abandoned pathfinding requests from accumulating.
+
             var options = new ParallelOptions()
             {
                 MaxDegreeOfParallelism = _parallel.ParallelProcessCount,
@@ -182,6 +188,43 @@ namespace Content.Server.NPC.Pathfinding
 
             ArrayPool<PathResult>.Shared.Return(results);
         }
+
+        // DS14-Start: remove stale or overflowed pathfinding requests.
+        private void PruneStaleRequests()
+        {
+            if (_pathRequests.Count == 0)
+                return;
+
+            var now = DateTime.UtcNow;
+
+            for (var i = _pathRequests.Count - 1; i >= 0; i--)
+            {
+                var request = _pathRequests[i];
+
+                if (request.Task.IsCanceled || request.Task.IsCompleted)
+                {
+                    _pathRequests.RemoveAt(i);
+                    request.ClearState();
+                    continue;
+                }
+
+                if (_pathRequests.Count > MaxPendingRequests && i >= MaxPendingRequests)
+                {
+                    _pathRequests.RemoveAt(i);
+                    request.Tcs.TrySetResult(PathResult.NoPath);
+                    request.ClearState();
+                    continue;
+                }
+
+                if (now - request.EnqueuedAtUtc <= MaxRequestAge)
+                    continue;
+
+                _pathRequests.RemoveAt(i);
+                request.Tcs.TrySetResult(PathResult.NoPath);
+                request.ClearState();
+            }
+        }
+        // DS14-End
 
         /// <summary>
         /// Creates neighbouring edges at both locations, each leading to the other.
@@ -485,11 +528,27 @@ namespace Content.Server.NPC.Pathfinding
             {
                 lock (_pathRequests)
                 {
+                    // DS14-Start: reject new pathfinding requests when the queue is already saturated.
+                    if (_pathRequests.Count >= MaxPendingRequests)
+                    {
+                        request.Tcs.TrySetResult(PathResult.NoPath);
+                        return new PathResultEvent(PathResult.NoPath, new List<PathPoly>());
+                    }
+                    // DS14-End
+
                     _pathRequests.Add(request);
                 }
             }
             else
             {
+                // DS14-Start: reject new pathfinding requests when the queue is already saturated.
+                if (_pathRequests.Count >= MaxPendingRequests)
+                {
+                    request.Tcs.TrySetResult(PathResult.NoPath);
+                    return new PathResultEvent(PathResult.NoPath, new List<PathPoly>());
+                }
+                // DS14-End
+
                 _pathRequests.Add(request);
             }
 

@@ -7,3 +7,58 @@
       seedId: sakura
     - type: Sprite
       sprite: _DeadSpace/Objects/Specific/Hydroponics/sakura.rsi
+
+- type: entity
+  parent: SeedBase
+  name: пакет семян (тритиевая конопля)
+  description: "Из этих семян вырастет тритиевая травка. Радиоактивная и крайне нестабильная."
+  id: TritiumCannabisSeeds
+  components:
+    - type: Seed
+      seedId: tritiumCannabis
+    - type: Sprite
+      sprite: Objects/Specific/Hydroponics/cannabis.rsi
+
+- type: entity
+  parent: SeedBase
+  name: пакет семян (кактус)
+  description: "Из этих семян вырастет кактус. Устойчив к жаре и засухе."
+  id: CactusSeeds
+  components:
+    - type: Seed
+      seedId: CactusPlant
+    - type: Sprite
+      sprite: _DeadSpace/Objects/Specific/Hydroponics/cactus.rsi
+
+- type: entity
+  parent: SeedBase
+  name: пакет семян (коралловый кактус)
+  description: "Из этих семян вырастет коралловый кактус. Крайне колючий."
+  id: CactusCoralSeeds
+  components:
+    - type: Seed
+      seedId: CactusCoralPlant
+    - type: Sprite
+      sprite: _DeadSpace/Objects/Specific/Hydroponics/cactus_coral.rsi
+
+- type: entity
+  parent: SeedBase
+  name: пакет семян (взрывной кактус)
+  description: "Из этих семян вырастет взрывной кактус. Внимание взрывоопасно."
+  id: CactusBombSeeds
+  components:
+    - type: Seed
+      seedId: CactusBombPlant
+    - type: Sprite
+      sprite: _DeadSpace/Objects/Specific/Hydroponics/cactus_bomb.rsi
+
+- type: entity
+  parent: SeedBase
+  name: пакет семян (пузырчатый кактоплюх)
+  description: Из этих семян вырастет пузырчатый Кактоплюх. Он совсем не колится!
+  id: CactusBubbleSeeds
+  components:
+    - type: Seed
+      seedId: CactusBubblePlant
+    - type: Sprite
+      sprite: _DeadSpace/Objects/Specific/Hydroponics/cactus_bubble.rsi

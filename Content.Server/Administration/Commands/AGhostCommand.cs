@@ -6,6 +6,7 @@ using Content.Shared.Administration;
 using Content.Shared.Ghost;
 using Robust.Server.GameObjects;
 using Robust.Shared.Console;
+using Robust.Shared.Map;
 using Robust.Shared.Player;
 
 namespace Content.Server.Administration.Commands;
@@ -75,7 +76,9 @@ public sealed class AGhostCommand : LocalizedCommands
         var transformSystem = _entities.System<TransformSystem>();
         var gameTicker = _entities.System<GameTicker>();
 
-        if (!mindSystem.TryGetMind(player!, out var mindId, out var mind)) // DS14
+        var targetPlayer = player!;
+
+        if (!mindSystem.TryGetMind(targetPlayer, out var mindId, out var mind)) // DS14
         {
             shell.WriteError(self ? LocalizationManager.GetString("aghost-no-mind-self") : LocalizationManager.GetString("aghost-no-mind-other")); // DS14
             return;
@@ -97,9 +100,7 @@ public sealed class AGhostCommand : LocalizedCommands
         // DS14-end
 
         var canReturn = mind.CurrentEntity != null && !_entities.HasComponent<GhostComponent>(mind.CurrentEntity.Value); // DS14
-        var coordinates = player!.AttachedEntity != null
-            ? _entities.GetComponent<TransformComponent>(player.AttachedEntity.Value).Coordinates
-            : gameTicker.GetObserverSpawnPoint();
+        var coordinates = GetAdminObserverCoordinates(targetPlayer, gameTicker); // DS14
 
         var ghost = _entities.SpawnEntity(GameTicker.AdminObserverPrototypeName, coordinates);
         transformSystem.AttachToGridOrMap(ghost, _entities.GetComponent<TransformComponent>(ghost));
@@ -109,18 +110,35 @@ public sealed class AGhostCommand : LocalizedCommands
             // TODO: Remove duplication between all this and "GamePreset.OnGhostAttempt()"...
             if (!string.IsNullOrWhiteSpace(mind.CharacterName))
                 metaDataSystem.SetEntityName(ghost, mind.CharacterName);
-            else if (!string.IsNullOrWhiteSpace(player.Name))
-                metaDataSystem.SetEntityName(ghost, player.Name);
+            else if (!string.IsNullOrWhiteSpace(targetPlayer.Name))
+                metaDataSystem.SetEntityName(ghost, targetPlayer.Name);
 
             mindSystem.Visit(mindId, ghost, mind);
         }
         else
         {
-            metaDataSystem.SetEntityName(ghost, player.Name);
+            metaDataSystem.SetEntityName(ghost, targetPlayer.Name);
             mindSystem.TransferTo(mindId, ghost, mind: mind);
         }
 
         var comp = _entities.GetComponent<GhostComponent>(ghost);
         ghostSystem.SetCanReturnToBody((ghost, comp), canReturn);
     }
+
+    // DS14-start
+    private EntityCoordinates GetAdminObserverCoordinates(ICommonSession player, GameTicker gameTicker)
+    {
+        if (player.AttachedEntity is not { } attached ||
+            !_entities.TryGetComponent(attached, out TransformComponent? xform) ||
+            xform.MapID == MapId.Nullspace ||
+            xform.MapUid is not { } mapUid ||
+            _entities.Deleted(mapUid) ||
+            !xform.Coordinates.IsValid(_entities))
+        {
+            return gameTicker.GetObserverSpawnPoint();
+        }
+
+        return xform.Coordinates;
+    }
+    // DS14-end
 }

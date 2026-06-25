@@ -21,6 +21,17 @@
     size: Tiny
   - type: StealTarget
     stealGroup: Stamp
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  #DS14-End
 
 - type: entity
   name: alternate rubber stamp
@@ -350,6 +361,7 @@
     # DS14-start
     stampTexture: "/Textures/Interface/Stamps/refus_print.png"
     stampScale: 1.15
+    stampCanRotate: false
     # DS14-end
   - type: Sprite
     state: stamp-ok
@@ -366,6 +378,7 @@
     # DS14-start
     stampTexture: "/Textures/Interface/Stamps/reject_print.png"
     stampScale: 1.15
+    stampCanRotate: false
     # DS14-end
   - type: Sprite
     state: stamp-deny

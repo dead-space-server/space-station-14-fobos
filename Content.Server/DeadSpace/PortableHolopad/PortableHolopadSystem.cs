@@ -9,6 +9,7 @@ using Content.Server.Telephone;
 using Content.Server.Holopad; 
 using Robust.Server.GameObjects;
 using Robust.Shared.Containers;
+using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 
 namespace Content.Server.DeadSpace.PortableHolopad;
@@ -42,7 +43,7 @@ public sealed class PortableHolopadSystem : EntitySystem
         if (entity.Comp.Deployed)
             return;
 
-        entity.Owner.SpawnTimer(10, () => EnsureNoHologram(entity));
+        Timer.Spawn(10, () => EnsureNoHologram(entity));
     }
 
     private void EnsureNoHologram(Entity<PortableHolopadComponent> entity)

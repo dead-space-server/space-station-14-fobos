@@ -77,13 +77,14 @@
 #Security implants
 
 - type: entity
-  parent: BaseSubdermalImplant
+  parent: DeathRattleImplant #DS14
   id: TrackingImplant
   name: tracking implant
   description: This implant has a tracking device attached to the suit sensor network.
   categories: [ HideSpawnMenu ]
   components:
     - type: SubdermalImplant
+      permanent: true #DS14
       whitelist:
         components:
         - MobState # admeme implanting a chair with tracking implant needs to give the chair mobstate so it can die first
@@ -98,6 +99,14 @@
     - type: StationLimitedNetwork
     - type: WirelessNetworkConnection
       range: 500
+#DS14-start
+    - type: RattleOnTrigger
+      radioChannel: Security
+    - type: TriggerOnMobstateChange
+      mobState:
+      - Critical
+      - Dead
+#DS14-end
 
 #Traitor implants
 

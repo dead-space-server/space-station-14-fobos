@@ -26,7 +26,8 @@ namespace Content.Shared.Mobs.Components
             {
                 MobState.Alive,
                 MobState.Critical,
-                MobState.Dead
+                MobState.Dead,
+                MobState.PreCritical, // DS14
             };
     }
 }

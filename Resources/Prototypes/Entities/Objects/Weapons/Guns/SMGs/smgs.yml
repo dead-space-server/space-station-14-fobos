@@ -58,6 +58,17 @@
       gun_chamber: !type:ContainerSlot
   - type: StaticPrice
     price: 500
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/smg/smg_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/smg/smg_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/smg/smg_drop.ogg
+  #DS14-End
 
 - type: entity
   name: Atreides
@@ -99,7 +110,7 @@
     sprite: Objects/Weapons/Guns/SMGs/c20r.rsi
   - type: Gun
     minAngle: 2
-    maxAngle: 16
+    maxAngle: 8
     shotsPerBurst: 5
     availableModes:
     - Burst
@@ -107,6 +118,18 @@
     - SemiAuto
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/c-20r.ogg
+#DS-14 start
+  - type: MeleeWeapon 
+    damage:
+      types:
+        Blunt: 15
+    angle: 90
+    animation: WeaponArcThrust
+    soundHit:
+      collection: WeakHit
+  - type: AltFireMelee
+    attackType: Heavy
+#DS-14 end
   - type: ChamberMagazineAmmoProvider
     autoEject: true
   - type: MagazineVisuals
@@ -161,6 +184,17 @@
     autoRefillRate: 4s
     affectedByEmp: true
   - type: AmmoCounter
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/smg/smg_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/smg/smg_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/smg/smg_drop.ogg
+  #DS14-End
 
 - type: entity
   name: Drozd

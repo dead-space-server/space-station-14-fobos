@@ -64,6 +64,7 @@ public sealed partial class DemonShadowComponent : Component
     [ViewVariables(VVAccess.ReadOnly)]
     public TimeSpan NextTickForRegen = TimeSpan.FromSeconds(0);
 
+    [AutoNetworkedField]
     [ViewVariables(VVAccess.ReadOnly)]
     public float MovementSpeedMultiply = 1f;
 

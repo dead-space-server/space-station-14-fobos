@@ -14,6 +14,7 @@ public sealed class ExplosionSpaceTileFlood : ExplosionTileFlood
     ///     to propagate from this tile.
     /// </summary>
     private Dictionary<Vector2i, BlockedSpaceTile> _gridBlockMap;
+    private readonly bool _ignoreTileBlockers; // DS14
 
     /// <summary>
     ///     After every iteration, this data set will store all the grid-tiles that were reached as a result of the
@@ -23,10 +24,16 @@ public sealed class ExplosionSpaceTileFlood : ExplosionTileFlood
 
     public ushort TileSize = ExplosionSystem.DefaultTileSize;
 
-    public ExplosionSpaceTileFlood(ExplosionSystem system, MapCoordinates epicentre, EntityUid? referenceGrid, List<EntityUid> localGrids, float maxDistance)
+    public ExplosionSpaceTileFlood(ExplosionSystem system, MapCoordinates epicentre, EntityUid? referenceGrid, List<EntityUid> localGrids, float maxDistance,
+        bool ignoreTileBlockers = false) // DS14
     {
         (_gridBlockMap, TileSize) = system.TransformGridEdges(epicentre, referenceGrid, localGrids, maxDistance);
-        system.GetUnblockedDirections(_gridBlockMap, TileSize);
+
+        // DS14-start
+        _ignoreTileBlockers = ignoreTileBlockers;
+        if (!_ignoreTileBlockers)
+            system.GetUnblockedDirections(_gridBlockMap, TileSize);
+        // DS14-end
     }
 
     public int AddNewTiles(int iteration, HashSet<Vector2i> inputSpaceTiles)
@@ -125,7 +132,7 @@ public sealed class ExplosionSpaceTileFlood : ExplosionTileFlood
         }
 
         // Is the entry to this tile blocked?
-        if ((blocker.UnblockedDirections & entryDirection) == 0)
+        if (!_ignoreTileBlockers && (blocker.UnblockedDirections & entryDirection) == 0) // DS14
         {
             // was this tile already entered from some other direction?
             if (EnteredBlockedTiles.Contains(tile))
@@ -158,6 +165,11 @@ public sealed class ExplosionSpaceTileFlood : ExplosionTileFlood
 
     protected override AtmosDirection GetUnblockedDirectionOrAll(Vector2i tile)
     {
+        // DS14-start
+        if (_ignoreTileBlockers)
+            return AtmosDirection.All;
+        // DS14-end
+
         return _gridBlockMap.TryGetValue(tile, out var blocker) ? blocker.UnblockedDirections : AtmosDirection.All;
     }
 }

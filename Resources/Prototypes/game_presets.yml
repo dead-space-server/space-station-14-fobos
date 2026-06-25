@@ -11,7 +11,7 @@
     - WageScheduler # backmen: currency
     - MeteorSwarmScheduler
     - SurvivalRampingStationEventScheduler # DS14
-    - SpaceTrafficControlEventScheduler
+#    - SpaceTrafficControlEventScheduler # DS14
     - BasicRoundstartVariation
 
 - type: gamePreset

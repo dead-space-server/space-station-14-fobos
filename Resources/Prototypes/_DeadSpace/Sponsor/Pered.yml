@@ -206,6 +206,7 @@
     - NewsReaderCartridge
     - AstroNavCartridge
     - MedTekCartridge
+    - MessengerCartridge
   - type: PdaBorderColor
     borderColor: "#336899"
   - type: Tag
@@ -465,7 +466,7 @@
   - type: ExplosionResistance
     damageCoefficient: 0.8
   - type: Item
-    size: Normal
+    size: Huge
   - type: Storage
     grid:
     - 0,0,7,1
@@ -584,8 +585,6 @@
     sprite: _DeadSpace/Sponsor/PERed/melee.rsi
   - type: UseDelay
     delay: 1
-  - type: DisarmMalus
-    malus: 0
   - type: Appearance
   - type: GenericVisualizer
     visuals:

@@ -188,6 +188,7 @@
     - NewsReaderCartridge
     - AstroNavCartridge
     - MedTekCartridge
+    - MessengerCartridge
   - type: PdaBorderColor
     borderColor: "#336899"
   - type: Tag
@@ -563,6 +564,7 @@
   id: PlushieWalkflis
   name: плюшевая Рейм
   description: Это.
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/walkflis/toy.rsi

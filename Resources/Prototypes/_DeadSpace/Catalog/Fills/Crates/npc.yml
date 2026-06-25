@@ -1,0 +1,52 @@
+- type: entity
+  parent: CrateLivestock
+  id: CrateNPCFenek
+  name: ящик с фенеком
+  description: Ящик, в котором находится милый фенек.
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage:
+        id: MobFenek
+        amount: 1
+
+- type: entity
+  parent: CrateLivestock
+  id: CrateNPCCrocodile
+  name: ящик с крокодилом
+  description: Ящик, в котором находится опасный крокодил.
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage:
+        id: MobCrocodile
+        amount: 1
+
+- type: entity
+  parent: CrateLivestock
+  id: CrateNPCRak
+  name: ящик с раками
+  description: Ящик, в котором находятся раки. Две штуки.
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:AllSelector
+        children:
+        - id: MobRak
+        - id: MobRakBlue
+          amount: 1
+
+- type: entity
+  parent: CrateLivestock
+  id: CrateNPCRakSmall
+  name: ящик с маленькими раками
+  description: Ящик, в котором находятся маленькие раки. Четыре штуки.
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:AllSelector
+        children:
+        - id: MobRakSmall
+          amount: 2
+        - id: MobRakSmallBlue
+          amount: 2

@@ -64,7 +64,10 @@ public abstract partial class SharedBorgSystem
         if (active)
             InstallAllModules(chassis.AsNullable());
         else
+        {
             DisableAllModules(chassis.AsNullable());
+            _hands.RemoveHands(chassis.Owner); // DS14
+        }
 
         _powerCell.SetDrawEnabled(chassis.Owner, active);
         _movementSpeedModifier.RefreshMovementSpeedModifiers(chassis);

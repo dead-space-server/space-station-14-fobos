@@ -7,14 +7,21 @@
   components:
   - type: StorageFill
     contents:
-      - id: ADTCombatHypo
-      - id: ChemistryBottleEpinephrine
+      - id: CombatHypoBlueShield
+      - id: ADTtelescopicBaton
       - id: ChemistryBottleEphedrine
       - id: ChemistryBottleOmnizine
+        amount: 2
+      - id: PillCanisterHyronalin
+      - id: Zipties
         amount: 2
       - id: ChemistryBottleBicaridine
       - id: ChemistryBottleDexalinPlus
       - id: ChemistryBottleDermaline
+      - id: PillCanisterDylovene
+      - id: Zipties
+        amount: 2
+      
   - type: Sprite
     sprite: _DeadSpace/Clothing/Belt/webbing_blueshield.rsi
   - type: Clothing

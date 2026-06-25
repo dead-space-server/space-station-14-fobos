@@ -208,7 +208,7 @@
 - type: minorItemModule
   id: StorageModuleSecurity
   moduleItem: StorageModuleSecurity
-  description: Малая подсумка
+  description: Малый подсумок
   ifModSuit: ClothingOuterRIGSecurity
   components:
     Storage:

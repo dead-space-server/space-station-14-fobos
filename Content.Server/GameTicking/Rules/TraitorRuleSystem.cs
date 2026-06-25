@@ -2,11 +2,14 @@ using Content.Server.Antag;
 using Content.Server.GameTicking.Rules.Components;
 using Content.Server.Mind;
 using Content.Server.Objectives;
+using Content.Server.Objectives.Components;
 using Content.Server.PDA.Ringer;
 using Content.Server.Traitor.Uplink;
+using Content.Shared.Dataset;
 using Content.Shared.FixedPoint;
 using Content.Shared.Mind;
 using Content.Shared.NPC.Systems;
+using Content.Shared.Objectives.Systems;
 using Content.Shared.PDA;
 using Content.Shared.Random.Helpers;
 using Content.Shared.Roles;
@@ -33,6 +36,7 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly SharedRoleCodewordSystem _roleCodewordSystem = default!;
     [Dependency] private readonly SharedRoleSystem _roleSystem = default!;
+    [Dependency] private readonly SharedObjectivesSystem _sharedObjectives = default!; // DS14
     [Dependency] private readonly UplinkSystem _uplink = default!;
     [Dependency] private readonly CodewordSystem _codewordSystem = default!;
 
@@ -44,6 +48,7 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
 
         SubscribeLocalEvent<TraitorRuleComponent, AfterAntagEntitySelectedEvent>(AfterEntitySelected);
         SubscribeLocalEvent<TraitorRuleComponent, ObjectivesTextPrependEvent>(OnObjectivesTextPrepend);
+        SubscribeLocalEvent<MindObjectiveAddedEvent>(OnMindObjectiveAdded); // DS14
     }
 
     private void AfterEntitySelected(Entity<TraitorRuleComponent> ent, ref AfterAntagEntitySelectedEvent args)
@@ -72,7 +77,11 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
             briefing = Loc.GetString("traitor-role-codewords-short", ("codewords", string.Join(", ", factionCodewords)));
         }
 
-        var issuer = _random.Pick(_prototypeManager.Index(component.ObjectiveIssuers));
+        // DS14-start
+        var issuer = PickObjectiveIssuer(component.ObjectiveIssuers);
+        component.ObjectiveIssuersByMind[mindId] = issuer;
+        SetExistingObjectiveIssuer(mind, issuer);
+        // DS14-end
 
         // Uplink code will go here if applicable, but we still need the variable if there aren't any
         Note[]? code = null;
@@ -193,11 +202,71 @@ public sealed class TraitorRuleSystem : GameRuleSystem<TraitorRuleComponent>
             args.Text += "\n" + Loc.GetString("traitor-round-end-codewords", ("codewords", string.Join(", ", _codewordSystem.GetCodewords(comp.CodewordFactionPrototypeId))));
     }
 
+    // DS14-start
+    private void OnMindObjectiveAdded(MindObjectiveAddedEvent args)
+    {
+        var query = EntityQueryEnumerator<TraitorRuleComponent>();
+        while (query.MoveNext(out _, out var traitorRule))
+        {
+            if (!traitorRule.ObjectiveIssuersByMind.TryGetValue(args.MindId, out var issuer))
+                continue;
+
+            _sharedObjectives.SetIssuer(args.Objective, issuer);
+            return;
+        }
+    }
+
+    private void SetExistingObjectiveIssuer(MindComponent mind, string issuer)
+    {
+        foreach (var objective in mind.Objectives)
+        {
+            if (!TerminatingOrDeleted(objective))
+                _sharedObjectives.SetIssuer(objective, issuer);
+        }
+    }
+
+    private string PickObjectiveIssuer(ProtoId<LocalizedDatasetPrototype> dataset)
+    {
+        var values = _prototypeManager.Index(dataset).Values.ToList();
+        return _random.Pick(values);
+    }
+
+    public HashSet<string> GetAssignedStealObjectivePrototypes(EntityUid? excludedMindId = null)
+    {
+        var assigned = new HashSet<string>();
+        var query = EntityQueryEnumerator<MindComponent>();
+        while (query.MoveNext(out var mindId, out var mind))
+        {
+            if (excludedMindId == mindId || !_roleSystem.MindHasRole<TraitorRoleComponent>(mindId, out _))
+                continue;
+
+            foreach (var objective in mind.Objectives)
+            {
+                if (TerminatingOrDeleted(objective) ||
+                    !HasComp<StealConditionComponent>(objective) ||
+                    MetaData(objective).EntityPrototype?.ID is not { } prototype)
+                {
+                    continue;
+                }
+
+                assigned.Add(prototype);
+            }
+        }
+
+        return assigned;
+    }
+    // DS14-end
+
     // TODO: figure out how to handle this? add priority to briefing event?
     private string GenerateBriefing(string[]? codewords, Note[]? uplinkCode, string? objectiveIssuer = null)
     {
         var sb = new StringBuilder();
-        sb.AppendLine(Loc.GetString("traitor-role-greeting", ("corporation", objectiveIssuer ?? Loc.GetString("objective-issuer-unknown"))));
+        // DS14-start
+        var issuer = objectiveIssuer == null
+            ? Loc.GetString("objective-issuer-unknown")
+            : Loc.GetString(objectiveIssuer);
+        sb.AppendLine(Loc.GetString("traitor-role-greeting", ("corporation", issuer)));
+        // DS14-end
         if (codewords != null)
             sb.AppendLine(Loc.GetString("traitor-role-codewords", ("codewords", string.Join(", ", codewords))));
         if (uplinkCode != null)

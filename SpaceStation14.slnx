@@ -23,7 +23,9 @@
     <File Path="Directory.Packages.props" />
     <File Path="README.md" />
   </Folder>
-  <Project Path="Content.Benchmarks/Content.Benchmarks.csproj" />
+  <Project Path="Content.Benchmarks/Content.Benchmarks.csproj">
+    <Build Solution="Release|*" Project="false" />
+  </Project>
   <Project Path="Content.Client/Content.Client.csproj" />
   <Project Path="Content.IntegrationTests/Content.IntegrationTests.csproj" />
   <Project Path="Content.MapRenderer/Content.MapRenderer.csproj" />
@@ -56,7 +58,6 @@
     <File Path="RobustToolbox/.github/workflows/test-content.yml" />
   </Folder>
   <Folder Name="/RobustToolbox/Imports/">
-    <File Path="RobustToolbox/Imports/Benchmarks.props" />
     <File Path="RobustToolbox/Imports/Client.props" />
     <File Path="RobustToolbox/Imports/Lidgren.props" />
     <File Path="RobustToolbox/Imports/Packaging.props" />
@@ -142,7 +143,6 @@
       <BuildType Solution="Tools|*" Project="Release" />
     </Project>
     <Project Path="RobustToolbox/Lidgren.Network/Lidgren.Network.csproj" />
-    <Project Path="RobustToolbox/Robust.Benchmarks/Robust.Benchmarks.csproj" />
     <Project Path="RobustToolbox/Robust.Client.Injectors/Robust.Client.Injectors.csproj">
       <BuildType Solution="DebugOpt|*" Project="Debug" />
       <BuildType Solution="Tools|*" Project="Release" />

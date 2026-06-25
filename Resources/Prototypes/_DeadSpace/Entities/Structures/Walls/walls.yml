@@ -257,3 +257,26 @@
   - type: Icon
     sprite: _DeadSpace/Structures/Walls/reinforced_dark_diagonal.rsi
     state: state0
+
+- type: entity
+  parent: WallPlastitanium
+  id: WallTitanaluminum
+  name: титан алюминиевая стена
+  description: Благодаря уникальному сочетанию титана и алюминия, такие стены обладают высокой стойкостью к коррозии, отличной прочностью и низким весом. Отличное решение для применения в космических условиях и не только!
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Walls/titanaluminum.rsi
+  - type: Icon
+    sprite: _DeadSpace/Structures/Walls/titanaluminum.rsi
+
+- type: entity
+  parent: WallPlastitaniumDiagonal
+  id: WallTitanaluminumDiagonal
+  name: титан алюминиевая стена
+  description: Благодаря уникальному сочетанию титана и алюминия, такие стены обладают высокой стойкостью к коррозии, отличной прочностью и низким весом. Отличное решение для применения в космических условиях и не только!
+  suffix: Диагональ
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Walls/titanaluminum_diagonal.rsi
+  - type: Icon
+    sprite: _DeadSpace/Structures/Walls/titanaluminum_diagonal.rsi

@@ -82,7 +82,7 @@ public sealed class HijackShuttleConditionSystem : EntitySystem
             if (!isHumanoid) // Only humanoids count as enemies
                 continue;
 
-            var isAntagonist = _role.MindIsAntagonist(mindId);
+            var isAntagonist = _role.MindIsAntagonist(crewMindId); // DS14: check the passenger, not the hijacker.
             if (isAntagonist) // Allow antagonist
                 continue;
 

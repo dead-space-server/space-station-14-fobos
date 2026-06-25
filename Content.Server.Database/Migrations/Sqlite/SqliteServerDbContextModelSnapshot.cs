@@ -489,6 +489,89 @@ namespace Content.Server.Database.Migrations.Sqlite
                     b.ToTable("assigned_user_id", (string)null);
                 });
 
+            modelBuilder.Entity("Content.Server.Database.AutoMapVoteConfig", b =>
+                {
+                    b.Property<string>("ServerId")
+                        .HasMaxLength(128)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("server_id");
+
+                    b.Property<string>("BlacklistMaps")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("blacklist_maps");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("enabled");
+
+                    b.Property<int>("LargeMaxPlayers")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("large_max_players");
+
+                    b.Property<string>("LargeMaps")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("large_maps");
+
+                    b.Property<string>("LargePlayedMaps")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("large_played_maps");
+
+                    b.Property<string>("LargePoolQueueMaps")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("large_pool_queue_maps");
+
+                    b.Property<int>("MediumMaxPlayers")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("medium_max_players");
+
+                    b.Property<string>("MediumMaps")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("medium_maps");
+
+                    b.Property<string>("MediumPlayedMaps")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("medium_played_maps");
+
+                    b.Property<string>("MediumPoolQueueMaps")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("medium_pool_queue_maps");
+
+                    b.Property<int>("SmallMaxPlayers")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("small_max_players");
+
+                    b.Property<string>("SmallMaps")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("small_maps");
+
+                    b.Property<string>("SmallPlayedMaps")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("small_played_maps");
+
+                    b.Property<string>("SmallPoolQueueMaps")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("small_pool_queue_maps");
+
+                    b.Property<int>("VoteDurationSeconds")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("vote_duration_seconds");
+
+                    b.HasKey("ServerId")
+                        .HasName("PK_auto_map_vote_config");
+
+                    b.ToTable("auto_map_vote_config", (string)null);
+                });
+
             modelBuilder.Entity("Content.Server.Database.Ban", b =>
                 {
                     b.Property<int>("Id")
@@ -1214,9 +1297,17 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .HasColumnType("TEXT")
                         .HasColumnName("game_preset_name");
 
+                    b.Property<string>("MapName")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("map_name");
+
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("TEXT")
                         .HasColumnName("start_date");
+
+                    b.Property<int?>("StartPlayerCount")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("start_player_count");
 
                     b.HasKey("Id")
                         .HasName("PK_round");

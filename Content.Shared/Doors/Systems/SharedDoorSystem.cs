@@ -53,6 +53,7 @@ public abstract partial class SharedDoorSystem : EntitySystem
     ///     A set of doors that are currently opening, closing, or just queued to open/close after some delay.
     /// </summary>
     private readonly HashSet<Entity<DoorComponent>> _activeDoors = new();
+    private readonly List<Entity<DoorComponent>> _activeDoorsBuffer = new(); // DS14 Edit: avoid ToList allocation every door tick.
 
     private readonly HashSet<Entity<PhysicsComponent>> _doorIntersecting = new();
 
@@ -734,7 +735,16 @@ public abstract partial class SharedDoorSystem : EntitySystem
     {
         var time = GameTiming.CurTime;
 
-        foreach (var ent in _activeDoors.ToList())
+        // DS14-Start: snapshot active doors into a reusable buffer before mutating the set.
+        _activeDoorsBuffer.Clear();
+        _activeDoorsBuffer.EnsureCapacity(_activeDoors.Count);
+        foreach (var ent in _activeDoors)
+        {
+            _activeDoorsBuffer.Add(ent);
+        }
+
+        foreach (var ent in _activeDoorsBuffer)
+        // DS14-End
         {
             var door = ent.Comp;
             if (door.Deleted || door.NextStateChange == null)

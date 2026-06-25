@@ -96806,7 +96806,7 @@ entities:
       rot: 3.141592653589793 rad
       pos: 69.5,13.5
       parent: 1
-- proto: StationAnchor
+- proto: StationAnchorIndestructible # DS14 Edit: force static station grid
   entities:
   - uid: 7001
     components:

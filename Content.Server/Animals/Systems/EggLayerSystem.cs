@@ -32,6 +32,7 @@ public sealed class EggLayerSystem : EntitySystem
         base.Initialize();
 
         SubscribeLocalEvent<EggLayerComponent, MapInitEvent>(OnMapInit);
+        SubscribeLocalEvent<EggLayerComponent, ComponentShutdown>(OnComponentShutdown); // DS14
         SubscribeLocalEvent<EggLayerComponent, EggLayInstantActionEvent>(OnEggLayAction);
     }
 
@@ -66,6 +67,13 @@ public sealed class EggLayerSystem : EntitySystem
         _actions.AddAction(uid, ref component.Action, component.EggLayAction);
         component.NextGrowth = _timing.CurTime + TimeSpan.FromSeconds(_random.NextFloat(component.EggLayCooldownMin, component.EggLayCooldownMax));
     }
+
+    // DS14-start
+    private void OnComponentShutdown(EntityUid uid, EggLayerComponent component, ComponentShutdown args)
+    {
+        _actions.RemoveAction(uid, component.Action);
+    }
+    // DS14-end
 
     private void OnEggLayAction(EntityUid uid, EggLayerComponent egglayer, EggLayInstantActionEvent args)
     {

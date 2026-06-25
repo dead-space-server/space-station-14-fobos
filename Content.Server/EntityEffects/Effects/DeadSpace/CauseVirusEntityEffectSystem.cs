@@ -22,13 +22,14 @@ public sealed partial class CauseVirusEntityEffectSystem : EntityEffectSystem<Mo
     {
         VirusData? data = null;
 
-        // Try to find VirusData from the entity's bloodstream solution.
-        // The virus data is carried as ReagentData on reagent instances in the solution.
         if (TryComp<BloodstreamComponent>(entity, out var bloodstream)
             && bloodstream.BloodSolution is { } bloodSolutionEntity)
         {
             foreach (var reagent in bloodSolutionEntity.Comp.Solution.Contents)
             {
+                if (reagent.Reagent.Prototype != args.Effect.Reagent)
+                    continue;
+
                 var dataList = reagent.Reagent.Data;
                 if (dataList == null)
                     continue;
@@ -42,6 +43,9 @@ public sealed partial class CauseVirusEntityEffectSystem : EntityEffectSystem<Mo
         if (data == null)
             return;
 
-        _virus.ProbInfect(data, entity);
+        if (!_virus.CanInfect(entity, data))
+            return;
+
+        _virus.InfectEntity(data, entity);
     }
 }

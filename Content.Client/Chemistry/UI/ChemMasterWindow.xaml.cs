@@ -51,6 +51,8 @@ namespace Content.Client.Chemistry.UI
             // DS14-start
             SearchBar.OnTextChanged += OnPanelInfoSearchChanged;
             ClearSearchButton.OnPressed += OnClearSearchPressed;
+
+            BufferDiscardButton.OnToggled += args => BufferDiscardButton.ModulateSelfOverride = args.Pressed ? Color.FromHex("#C62828") : null;
             // DS14-end
 
             _sprite = _entityManager.System<SpriteSystem>();
@@ -292,6 +294,7 @@ namespace Content.Client.Chemistry.UI
         {
             BufferTransferButton.Pressed = state.Mode == ChemMasterMode.Transfer;
             BufferDiscardButton.Pressed = state.Mode == ChemMasterMode.Discard;
+            BufferDiscardButton.ModulateSelfOverride = BufferDiscardButton.Pressed ? Color.FromHex("#C62828") : null;
 
             BuildContainerUI(InputContainerInfo, state.InputContainerInfo, true);
             BuildContainerUI(OutputContainerInfo, state.OutputContainerInfo, false);

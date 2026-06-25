@@ -1,4 +1,6 @@
 using Content.Shared.Damage.Components;
+using Content.Shared.DeadSpace.Damage.Components; // DS14
+using Content.Shared.Inventory; // DS14
 using Content.Shared.Whitelist;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Events;
@@ -9,10 +11,13 @@ namespace Content.Shared.Damage.Systems;
 
 public sealed class DamageContactsSystem : EntitySystem
 {
+    private const string OuterClothingSlot = "outerClothing"; // DS14
+
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly EntityWhitelistSystem _whitelistSystem = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!; // DS14
 
     public override void Initialize()
     {
@@ -31,12 +36,26 @@ public sealed class DamageContactsSystem : EntitySystem
         {
             if (_timing.CurTime < damaged.NextSecond)
                 continue;
+
             damaged.NextSecond = _timing.CurTime + TimeSpan.FromSeconds(1);
+
+            // DS14-start
+            if (IsProtectedFromContactDamage(ent))
+                continue;
+            // DS14-end
 
             if (damaged.Damage != null)
                 _damageable.TryChangeDamage(ent, damaged.Damage, interruptsDoAfters: false);
         }
     }
+
+    // DS14-start
+    private bool IsProtectedFromContactDamage(EntityUid uid)
+    {
+        return _inventory.TryGetSlotEntity(uid, OuterClothingSlot, out var outerClothing)
+               && HasComp<IgnoreContactDamageComponent>(outerClothing.Value);
+    }
+    // DS14-end
 
     private void OnEntityExit(EntityUid uid, DamageContactsComponent component, ref EndCollideEvent args)
     {

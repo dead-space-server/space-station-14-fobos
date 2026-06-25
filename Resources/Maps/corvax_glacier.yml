@@ -166764,7 +166764,7 @@ entities:
     - type: Transform
       pos: -97.5703,35.733135
       parent: 2
-- proto: ErtComputerShuttle
+- proto: ErtResponseConsole
   entities:
   - uid: 27762
     components:
@@ -254616,7 +254616,7 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 49.5,82.5
       parent: 41773
-- proto: StationAnchorOff
+- proto: StationAnchorIndestructible # DS14 Edit: force static station grid
   entities:
   - uid: 27927
     components:

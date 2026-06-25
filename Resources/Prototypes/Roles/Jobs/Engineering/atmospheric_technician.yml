@@ -26,10 +26,10 @@
         group: EngineerAtmos
       # DS14-End
   #start-backmen: currency
-  minBankBalance: 150
-  maxBankBalance: 250
+  minBankBalance: 250 # DS14-value
+  maxBankBalance: 350 # DS14-value
   wageDepartment: Engineering
-  wage: 60
+  wage: 200 # DS14-value
   #end-backmen: currency
   
 

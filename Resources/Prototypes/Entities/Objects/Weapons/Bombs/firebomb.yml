@@ -55,6 +55,17 @@
   - type: Construction
     graph: FireBomb
     node: firebomb
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/grenade/grenade_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/grenade/grenade_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/grenade/grenade_drop.ogg
+  #DS14-End
 
 # has igniter but no fuel or wires
 - type: entity
@@ -84,6 +95,17 @@
     tags:
     - Trash
     # no DrinkCan, prevent using it to make another ied
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/grenade/grenade_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/grenade/grenade_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/grenade/grenade_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: FireBombEmpty

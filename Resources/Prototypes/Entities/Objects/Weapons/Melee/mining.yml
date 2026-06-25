@@ -39,6 +39,17 @@
     materialComposition:
       Steel: 100
       Wood: 100
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/tray/tray_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/tray/tray_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/tray/tray_drop.ogg
+  #DS14-End
 
 - type: entity
   name: mining drill
@@ -66,19 +77,37 @@
         Brute: 3
       types:
         Structural: 15
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/gun_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/gun_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/gun_drop.ogg
+  #DS14-End
 
 - type: entity
   name: diamond tipped mining drill
-  parent: MiningDrill
+  parent: BaseItem #DS14
   id: MiningDrillDiamond
   description: A significantly more efficient mining drill tipped with diamond.
   components:
+#DS14-start
+  - type: Tag
+    tags:
+    - Pickaxe
+  - type: Item
+    storedRotation: -90
+#DS14-end
   - type: Sprite
     sprite: Objects/Tools/handdrilldiamond.rsi
     state: handdrill
   - type: MeleeWeapon
     autoAttack: true
-    angle: 0
+#    angle: 0 #DS14
     wideAnimationRotation: -90
     soundHit:
       path: "/Audio/Items/drill_hit.ogg"
@@ -105,6 +134,17 @@
     color: "#ffeead"
     enabled: false
     radius: 4
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/gun_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/gun_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/gun_drop.ogg
+  #DS14-End
 
 # Very high burst damage if you land a mark, while also providing a small amount of healing.
 - type: entity

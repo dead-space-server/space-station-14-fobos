@@ -74,10 +74,7 @@ public sealed partial class SubdermalImplantComponent : Component
 public sealed partial class OpenStorageImplantEvent : InstantActionEvent;
 
 // DS14-implants-start
-public sealed partial class UseAdrenalImplantEvent : InstantActionEvent
-{
-
-}
+public sealed partial class UseInjectReagentsImplantEvent : InstantActionEvent;
 // DS14-implants-end
 
 /// <summary>
@@ -92,3 +89,4 @@ public sealed partial class ActivateImplantEvent : InstantActionEvent;
 /// TODO: Delete this and just add a ToggleUIOnTriggerComponent
 /// </remarks>
 public sealed partial class OpenUplinkImplantEvent : InstantActionEvent;
+

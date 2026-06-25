@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Content.Client.Administration.Managers;
+using Content.Client.DeadSpace.Stylesheets;
 using Content.Client.Eui;
 using Content.Client.Stylesheets;
 using Content.Shared.Administration;
@@ -10,9 +10,6 @@ using JetBrains.Annotations;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.CustomControls;
-using Robust.Shared.IoC;
-using Robust.Shared.Localization;
-using Robust.Shared.Maths;
 using Robust.Shared.Utility;
 using static Content.Shared.Administration.PermissionsEuiMsg;
 using static Robust.Client.UserInterface.Controls.BoxContainer;
@@ -28,6 +25,28 @@ namespace Content.Client.Administration.UI
 
         private readonly Menu _menu;
         private readonly List<BaseWindow> _subWindows = new();
+
+        // DS14-start
+        private PermissionsEuiState? _lastState;
+        private const float TableActionColumnWidth = 160f;
+        private const float AdminNameColumnWidth = 200f;
+        private const float AdminRankColumnWidth = 145f;
+        private const float AdminTitleColumnWidth = 145f;
+        private const float AdminFlagsColumnMinWidth = 160f;
+        private const float RankNameColumnWidth = 220f;
+        private const float RankFlagsColumnMinWidth = 220f;
+        private const int TableGapWidth = 8;
+        private const float TableTextApproxGlyphWidth = 8f;
+        private const float TableTextPaddingWidth = 24f;
+        private const float AdminTableMinWidth =
+            TableActionColumnWidth + AdminNameColumnWidth + AdminRankColumnWidth + AdminTitleColumnWidth + AdminFlagsColumnMinWidth + TableGapWidth * 4;
+        private const float RankTableMinWidth =
+            TableActionColumnWidth + RankNameColumnWidth + RankFlagsColumnMinWidth + TableGapWidth * 2;
+        private const float FlagChoiceColumnWidth = 72f;
+        private const float AdminFlagSpacerColumnWidth = 12f;
+        private const float AdminFlagNameColumnWidth = 260f;
+        private const float AdminFlagTableMinWidth = FlagChoiceColumnWidth * 3 + AdminFlagSpacerColumnWidth + AdminFlagNameColumnWidth;
+        // DS14-end
 
         private Dictionary<int, PermissionsEuiState.AdminRankData> _ranks =
             new();
@@ -204,32 +223,50 @@ namespace Content.Client.Administration.UI
             }
 
             _ranks = s.AdminRanks;
+            _lastState = s;
 
-            _menu.AdminsList.RemoveAllChildren();
-            foreach (var admin in s.Admins.OrderBy(d => d.UserName))
+            RebuildLists();
+        }
+
+        // DS14-start
+        private void RebuildLists()
+        {
+            if (_lastState == null)
             {
-                var al = _menu.AdminsList;
+                return;
+            }
+
+            RebuildAdminsList(_lastState);
+            RebuildRanksList(_lastState);
+        }
+
+        private void RebuildAdminsList(PermissionsEuiState state)
+        {
+            var query = _menu.AdminSearch.Text.Trim();
+            _menu.AdminsList.RemoveAllChildren();
+
+            var rows = new List<(PermissionsEuiState.AdminData Admin, string Name, string Title, bool TitleInherited, string Rank, bool RankInherited, string FlagsText, AdminFlags CombinedFlags)>();
+            foreach (var admin in state.Admins.OrderBy(d => d.UserName ?? d.UserId.ToString()))
+            {
                 var name = admin.UserName ?? admin.UserId.ToString();
-
-                al.AddChild(new Label { Text = name });
-
-                var titleControl = new Label { Text = admin.Title ?? Loc.GetString("permissions-eui-edit-admin-title-control-text").ToLowerInvariant() };
-                if (admin.Title == null) // none
-                {
-                    titleControl.StyleClasses.Add(StyleClass.Italic);
-                }
-
-                al.AddChild(titleControl);
-
+                var title = admin.Title ?? Loc.GetString("permissions-eui-edit-admin-title-control-text").ToLowerInvariant();
+                var titleInherited = admin.Title == null;
                 bool italic;
                 string rank;
                 var combinedFlags = admin.PosFlags;
                 if (admin.RankId is { } rankId)
                 {
-                    italic = false;
-                    var rankData = s.AdminRanks[rankId];
-                    rank = rankData.Name;
-                    combinedFlags |= rankData.Flags;
+                    if (state.AdminRanks.TryGetValue(rankId, out var rankData))
+                    {
+                        italic = false;
+                        rank = rankData.Name;
+                        combinedFlags |= rankData.Flags;
+                    }
+                    else
+                    {
+                        italic = true;
+                        rank = Loc.GetString("permissions-eui-edit-no-rank-text").ToLowerInvariant();
+                    }
                 }
                 else
                 {
@@ -237,57 +274,303 @@ namespace Content.Client.Administration.UI
                     rank = Loc.GetString("permissions-eui-edit-no-rank-text").ToLowerInvariant();
                 }
 
-                var rankControl = new Label { Text = rank };
-                if (italic)
-                {
-                    rankControl.StyleClasses.Add(StyleClass.Italic);
-                }
-
-                al.AddChild(rankControl);
-
                 var flagsText = AdminFlagsHelper.PosNegFlagsText(admin.PosFlags, admin.NegFlags);
 
-                al.AddChild(new Label
-                {
-                    Text = flagsText,
-                    HorizontalExpand = true,
-                    HorizontalAlignment = Control.HAlignment.Center,
-                });
+                if (!MatchesFilter(query, name, admin.UserId.ToString(), title, rank, flagsText))
+                    continue;
 
-                var editButton = new Button { Text = Loc.GetString("permissions-eui-edit-title-button") };
-                editButton.OnPressed += _ => OnEditPressed(admin);
-                al.AddChild(editButton);
-
-                if (!_adminManager.HasFlag(combinedFlags))
-                {
-                    editButton.Disabled = true;
-                    editButton.ToolTip = Loc.GetString("permissions-eui-do-not-have-required-flags-to-edit-admin-tooltip");
-                }
+                rows.Add((admin, name, title, titleInherited, rank, italic, flagsText, combinedFlags));
             }
 
+            var flagsWidth = rows.Count == 0
+                ? AdminFlagsColumnMinWidth
+                : rows.Max(row => GetTextColumnWidth(row.FlagsText, AdminFlagsColumnMinWidth));
+
+            _menu.AdminsList.AddChild(MakeAdminHeader(flagsWidth));
+
+            var rowIndex = 0;
+            foreach (var row in rows)
+            {
+                _menu.AdminsList.AddChild(MakeAdminRow(
+                    row.Admin,
+                    row.Name,
+                    row.Title,
+                    row.TitleInherited,
+                    row.Rank,
+                    row.RankInherited,
+                    row.FlagsText,
+                    row.CombinedFlags,
+                    flagsWidth,
+                    rowIndex++));
+            }
+
+            if (rows.Count == 0)
+            {
+                _menu.AdminsList.AddChild(MakeEmptySearchRow(GetAdminTableWidth(flagsWidth)));
+            }
+        }
+
+        private void RebuildRanksList(PermissionsEuiState state)
+        {
+            var query = _menu.RankSearch.Text.Trim();
             _menu.AdminRanksList.RemoveAllChildren();
-            foreach (var kv in s.AdminRanks)
+
+            var rows = new List<(KeyValuePair<int, PermissionsEuiState.AdminRankData> Rank, string Name, string FlagsText)>();
+            foreach (var kv in state.AdminRanks.OrderBy(kv => kv.Value.Name))
             {
                 var rank = kv.Value;
                 var flagsText = string.Join(' ', AdminFlagsHelper.FlagsToNames(rank.Flags).Select(f => $"+{f}"));
-                _menu.AdminRanksList.AddChild(new Label { Text = rank.Name });
-                _menu.AdminRanksList.AddChild(new Label
-                {
-                    Text = flagsText,
-                    HorizontalExpand = true,
-                    HorizontalAlignment = Control.HAlignment.Center,
-                });
-                var editButton = new Button { Text = Loc.GetString("permissions-eui-edit-admin-rank-button") };
-                editButton.OnPressed += _ => OnEditRankPressed(kv);
-                _menu.AdminRanksList.AddChild(editButton);
 
-                if (!_adminManager.HasFlag(rank.Flags))
-                {
-                    editButton.Disabled = true;
-                    editButton.ToolTip = Loc.GetString("permissions-eui-do-not-have-required-flags-to-edit-rank-tooltip");
-                }
+                if (!MatchesFilter(query, rank.Name, flagsText))
+                    continue;
+
+                rows.Add((kv, rank.Name, flagsText));
+            }
+
+            var flagsWidth = rows.Count == 0
+                ? RankFlagsColumnMinWidth
+                : rows.Max(row => GetTextColumnWidth(row.FlagsText, RankFlagsColumnMinWidth));
+
+            _menu.AdminRanksList.AddChild(MakeRankHeader(flagsWidth));
+
+            var rowIndex = 0;
+            foreach (var row in rows)
+            {
+                _menu.AdminRanksList.AddChild(MakeRankRow(row.Rank, row.Name, row.FlagsText, flagsWidth, rowIndex++));
+            }
+
+            if (rows.Count == 0)
+            {
+                _menu.AdminRanksList.AddChild(MakeEmptySearchRow(GetRankTableWidth(flagsWidth)));
             }
         }
+
+        private Control MakeAdminRow(
+            PermissionsEuiState.AdminData admin,
+            string name,
+            string title,
+            bool titleInherited,
+            string rank,
+            bool rankInherited,
+            string flagsText,
+            AdminFlags combinedFlags,
+            float flagsWidth,
+            int row)
+        {
+            var editButton = new Button
+            {
+                Text = Loc.GetString("permissions-eui-edit-title-button"),
+                SetWidth = TableActionColumnWidth,
+                TextAlign = Label.AlignMode.Center,
+                VerticalAlignment = Control.VAlignment.Center,
+                StyleClasses = { DeadSpaceMenuSheetlet.ProfileControl },
+            };
+            editButton.OnPressed += _ => OnEditPressed(admin);
+
+            if (!_adminManager.HasFlag(combinedFlags))
+            {
+                editButton.Disabled = true;
+                editButton.ToolTip = Loc.GetString("permissions-eui-do-not-have-required-flags-to-edit-admin-tooltip");
+            }
+
+            return MakeListPanel(row, MakeTableRow(
+                GetAdminTableWidth(flagsWidth),
+                editButton,
+                MakeTableLabel(name, DeadSpaceMenuSheetlet.ProfileSection, AdminNameColumnWidth),
+                MakeTableLabel(rank, DeadSpaceMenuSheetlet.ProfileLabel, AdminRankColumnWidth, rankInherited),
+                MakeTableLabel(title, DeadSpaceMenuSheetlet.ProfileLabel, AdminTitleColumnWidth, titleInherited),
+                MakeTableLabel(flagsText, DeadSpaceMenuSheetlet.Subtitle, flagsWidth)));
+        }
+
+        private Control MakeRankRow(KeyValuePair<int, PermissionsEuiState.AdminRankData> rank, string name, string flagsText, float flagsWidth, int row)
+        {
+            var editButton = new Button
+            {
+                Text = Loc.GetString("permissions-eui-edit-admin-rank-button"),
+                SetWidth = TableActionColumnWidth,
+                TextAlign = Label.AlignMode.Center,
+                VerticalAlignment = Control.VAlignment.Center,
+                StyleClasses = { DeadSpaceMenuSheetlet.ProfileControl },
+            };
+            editButton.OnPressed += _ => OnEditRankPressed(rank);
+
+            if (!_adminManager.HasFlag(rank.Value.Flags))
+            {
+                editButton.Disabled = true;
+                editButton.ToolTip = Loc.GetString("permissions-eui-do-not-have-required-flags-to-edit-rank-tooltip");
+            }
+
+            return MakeListPanel(row, MakeTableRow(
+                GetRankTableWidth(flagsWidth),
+                editButton,
+                MakeTableLabel(name, DeadSpaceMenuSheetlet.ProfileSection, RankNameColumnWidth),
+                MakeTableLabel(flagsText, DeadSpaceMenuSheetlet.Subtitle, flagsWidth)));
+        }
+
+        private static PanelContainer MakeListPanel(int row, Control child)
+        {
+            return new PanelContainer
+            {
+                HorizontalExpand = true,
+                MinSize = child.MinSize,
+                StyleClasses = { row % 2 == 0 ? DeadSpaceMenuSheetlet.ListRow : DeadSpaceMenuSheetlet.ListRowAlt },
+                Children = { child },
+            };
+        }
+
+        private static Control MakeEmptySearchRow(float minWidth)
+        {
+            return new PanelContainer
+            {
+                HorizontalExpand = true,
+                MinSize = new Vector2(minWidth, 0),
+                StyleClasses = { DeadSpaceMenuSheetlet.ListRow },
+                Children =
+                {
+                    new Label
+                    {
+                        Text = Loc.GetString("permissions-eui-no-search-results"),
+                        StyleClasses = { DeadSpaceMenuSheetlet.Subtitle },
+                        HorizontalExpand = true,
+                        Align = Label.AlignMode.Center,
+                    }
+                }
+            };
+        }
+
+        private static Control MakeAdminHeader(float flagsWidth)
+        {
+            return MakeHeaderPanel(MakeTableRow(
+                GetAdminTableWidth(flagsWidth),
+                MakeHeaderLabel("permissions-eui-list-column-action", TableActionColumnWidth),
+                MakeHeaderLabel("permissions-eui-list-column-admin", AdminNameColumnWidth),
+                MakeHeaderLabel("permissions-eui-list-column-rank", AdminRankColumnWidth),
+                MakeHeaderLabel("permissions-eui-list-column-title", AdminTitleColumnWidth),
+                MakeHeaderLabel("permissions-eui-list-column-extra-flags", flagsWidth)));
+        }
+
+        private static Control MakeRankHeader(float flagsWidth)
+        {
+            return MakeHeaderPanel(MakeTableRow(
+                GetRankTableWidth(flagsWidth),
+                MakeHeaderLabel("permissions-eui-list-column-action", TableActionColumnWidth),
+                MakeHeaderLabel("permissions-eui-list-column-rank", RankNameColumnWidth),
+                MakeHeaderLabel("permissions-eui-list-column-flags", flagsWidth)));
+        }
+
+        private static PanelContainer MakeHeaderPanel(Control child)
+        {
+            return new PanelContainer
+            {
+                HorizontalExpand = true,
+                MinSize = child.MinSize,
+                StyleClasses = { DeadSpaceMenuSheetlet.ListHeader },
+                Children = { child },
+            };
+        }
+
+        private static float GetAdminTableWidth(float flagsWidth)
+        {
+            return TableActionColumnWidth + AdminNameColumnWidth + AdminRankColumnWidth + AdminTitleColumnWidth + flagsWidth + TableGapWidth * 4;
+        }
+
+        private static float GetRankTableWidth(float flagsWidth)
+        {
+            return TableActionColumnWidth + RankNameColumnWidth + flagsWidth + TableGapWidth * 2;
+        }
+
+        private static float GetTextColumnWidth(string text, float minWidth)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return minWidth;
+            }
+
+            return Math.Max(minWidth, text.Length * TableTextApproxGlyphWidth + TableTextPaddingWidth);
+        }
+
+        private static BoxContainer MakeTableRow(float minWidth, params Control[] children)
+        {
+            var box = new BoxContainer
+            {
+                Orientation = LayoutOrientation.Horizontal,
+                HorizontalExpand = true,
+                MinSize = new Vector2(minWidth, 0),
+                SeparationOverride = TableGapWidth,
+            };
+
+            foreach (var child in children)
+            {
+                box.AddChild(child);
+            }
+
+            return box;
+        }
+
+        private static Label MakeHeaderLabel(string locKey, float width)
+        {
+            return new Label
+            {
+                Text = Loc.GetString(locKey),
+                ClipText = true,
+                SetWidth = width,
+                ToolTip = Loc.GetString(locKey),
+                VerticalAlignment = Control.VAlignment.Center,
+                StyleClasses = { DeadSpaceMenuSheetlet.ListHeader },
+            };
+        }
+
+        private static Label MakeFlagHeaderLabel(string locKey, float width)
+        {
+            return new Label
+            {
+                Text = Loc.GetString(locKey),
+                ClipText = true,
+                SetWidth = width,
+                ToolTip = Loc.GetString(locKey),
+                Align = Label.AlignMode.Center,
+                VerticalAlignment = Control.VAlignment.Center,
+                StyleClasses = { DeadSpaceMenuSheetlet.ListHeader },
+            };
+        }
+
+        private static Label MakeTableLabel(string text, string styleClass, float width, bool italic = false)
+        {
+            var label = new Label
+            {
+                Text = text,
+                ClipText = true,
+                SetWidth = width,
+                ToolTip = text,
+                VerticalAlignment = Control.VAlignment.Center,
+                StyleClasses = { styleClass },
+            };
+
+            if (italic)
+            {
+                label.StyleClasses.Add(StyleClass.Italic);
+            }
+
+            return label;
+        }
+
+        private static bool MatchesFilter(string filter, params string?[] values)
+        {
+            if (string.IsNullOrWhiteSpace(filter))
+                return true;
+
+            foreach (var value in values)
+            {
+                if (!string.IsNullOrWhiteSpace(value) &&
+                    value.Contains(filter, StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        // DS14-end
 
         private void OnEditRankPressed(KeyValuePair<int, PermissionsEuiState.AdminRankData> rank)
         {
@@ -297,43 +580,97 @@ namespace Content.Client.Administration.UI
         private sealed class Menu : DefaultWindow
         {
             private readonly PermissionsEui _ui;
-            public readonly GridContainer AdminsList;
-            public readonly GridContainer AdminRanksList;
+            // DS14-start
+            public readonly BoxContainer AdminsList;
+            public readonly BoxContainer AdminRanksList;
+            public readonly LineEdit AdminSearch;
+            public readonly LineEdit RankSearch;
+            // DS14-end
             public readonly Button AddAdminButton;
             public readonly Button AddAdminRankButton;
 
             public Menu(PermissionsEui ui)
             {
                 _ui = ui;
+                // DS14-start
+                HeaderClass = DeadSpaceMenuSheetlet.Header;
+                TitleClass = DeadSpaceMenuSheetlet.Title;
+                MinSize = new Vector2(760, 460);
+                SetSize = new Vector2(920, 560);
+                // DS14-end
                 Title = Loc.GetString("permissions-eui-menu-title");
 
-                var tab = new TabContainer();
+                // DS14-start
+                var tab = new TabContainer
+                {
+                    HorizontalExpand = true,
+                    VerticalExpand = true,
+                    StyleClasses = { DeadSpaceMenuSheetlet.Tabs },
+                };
+                // DS14-end
 
                 AddAdminButton = new Button
                 {
                     Text = Loc.GetString("permissions-eui-menu-add-admin-button"),
-                    HorizontalAlignment = HAlignment.Right
+                    HorizontalAlignment = HAlignment.Right,
+                    StyleClasses = { DeadSpaceMenuSheetlet.ProfileControl, DeadSpaceMenuSheetlet.ProfileControlPositive }, // DS14
                 };
 
                 AddAdminRankButton = new Button
                 {
                     Text = Loc.GetString("permissions-eui-menu-add-admin-rank-button"),
-                    HorizontalAlignment = HAlignment.Right
+                    HorizontalAlignment = HAlignment.Right,
+                    StyleClasses = { DeadSpaceMenuSheetlet.ProfileControl, DeadSpaceMenuSheetlet.ProfileControlPositive }, // DS14
                 };
 
-                AdminsList = new GridContainer { Columns = 5, VerticalExpand = true };
+                // DS14-start
+                AdminSearch = MakeSearch(Loc.GetString("permissions-eui-admin-search-placeholder"));
+                AdminSearch.OnTextChanged += _ => _ui.RebuildLists();
+                AdminsList = new BoxContainer
+                {
+                    Orientation = LayoutOrientation.Vertical,
+                    VerticalExpand = true,
+                    HorizontalExpand = true,
+                    MinSize = new Vector2(AdminTableMinWidth, 0),
+                    SeparationOverride = 4,
+                };
                 var adminVBox = new BoxContainer
                 {
                     Orientation = LayoutOrientation.Vertical,
-                    Children = { new ScrollContainer() { VerticalExpand = true, Children = { AdminsList } }, AddAdminButton },
+                    HorizontalExpand = true,
+                    VerticalExpand = true,
+                    SeparationOverride = 8,
+                    Children =
+                    {
+                        AdminSearch,
+                        MakeListScroll(AdminsList),
+                        AddAdminButton,
+                    },
                 };
                 TabContainer.SetTabTitle(adminVBox, Loc.GetString("permissions-eui-menu-admins-tab-title"));
 
-                AdminRanksList = new GridContainer { Columns = 3, VerticalExpand = true };
+                RankSearch = MakeSearch(Loc.GetString("permissions-eui-rank-search-placeholder"));
+                RankSearch.OnTextChanged += _ => _ui.RebuildLists();
+                AdminRanksList = new BoxContainer
+                {
+                    Orientation = LayoutOrientation.Vertical,
+                    VerticalExpand = true,
+                    HorizontalExpand = true,
+                    MinSize = new Vector2(RankTableMinWidth, 0),
+                    SeparationOverride = 4,
+                };
                 var rankVBox = new BoxContainer
                 {
                     Orientation = LayoutOrientation.Vertical,
-                    Children = { new ScrollContainer() { VerticalExpand = true, Children = { AdminRanksList } }, AddAdminRankButton }
+                    HorizontalExpand = true,
+                    VerticalExpand = true,
+                    SeparationOverride = 8,
+                    Children =
+                    {
+                        RankSearch,
+                        MakeListScroll(AdminRanksList),
+                        AddAdminRankButton,
+                    }
                 };
                 TabContainer.SetTabTitle(rankVBox, Loc.GetString("permissions-eui-menu-admin-ranks-tab-title"));
 
@@ -341,8 +678,31 @@ namespace Content.Client.Administration.UI
                 tab.AddChild(rankVBox);
 
                 ContentsContainer.AddChild(tab);
-                ContentsContainer.MinSize = new(600, 400);
             }
+
+            private static LineEdit MakeSearch(string placeholder)
+            {
+                return new LineEdit
+                {
+                    PlaceHolder = placeholder,
+                    SelectAllOnFocus = true,
+                    HorizontalExpand = true,
+                    StyleClasses = { DeadSpaceMenuSheetlet.Input },
+                };
+            }
+
+            private static ScrollContainer MakeListScroll(BoxContainer list)
+            {
+                return new ScrollContainer
+                {
+                    HorizontalExpand = true,
+                    VerticalExpand = true,
+                    HScrollEnabled = true,
+                    VScrollEnabled = true,
+                    Children = { list },
+                };
+            }
+            // DS14-end
         }
 
         private sealed class EditAdminWindow : DefaultWindow
@@ -360,7 +720,12 @@ namespace Content.Client.Administration.UI
 
             public EditAdminWindow(PermissionsEui ui, PermissionsEuiState.AdminData? data)
             {
-                MinSize = new Vector2(600, 400);
+                // DS14-start
+                HeaderClass = DeadSpaceMenuSheetlet.Header;
+                TitleClass = DeadSpaceMenuSheetlet.Title;
+                MinSize = new Vector2(700, 460);
+                SetSize = new Vector2(760, 520);
+                // DS14-end
                 SourceData = data;
 
                 Control nameControl;
@@ -371,24 +736,60 @@ namespace Content.Client.Administration.UI
                     Title = Loc.GetString("permissions-eui-edit-admin-window-edit-admin-label",
                                           ("admin", name));
 
-                    nameControl = new Label { Text = name };
+                    // DS14-start
+                    nameControl = new Label
+                    {
+                        Text = name,
+                        ClipText = true,
+                        ToolTip = name,
+                        StyleClasses = { DeadSpaceMenuSheetlet.ProfileSection },
+                    };
+                    // DS14-end
                 }
                 else
                 {
                     Title = Loc.GetString("permissions-eui-menu-add-admin-button");
 
-                    nameControl = NameEdit = new LineEdit { PlaceHolder = Loc.GetString("permissions-eui-edit-admin-window-name-edit-placeholder") };
+                    nameControl = NameEdit = new LineEdit
+                    {
+                        PlaceHolder = Loc.GetString("permissions-eui-edit-admin-window-name-edit-placeholder"),
+                        SelectAllOnFocus = true,
+                        StyleClasses = { DeadSpaceMenuSheetlet.Input }, // DS14
+                    };
                 }
 
-                TitleEdit = new LineEdit { PlaceHolder = Loc.GetString("permissions-eui-edit-admin-window-title-edit-placeholder") };
-                RankButton = new OptionButton();
-                SaveButton = new Button { Text = Loc.GetString("permissions-eui-edit-admin-window-save-button"), HorizontalAlignment = HAlignment.Right };
+                TitleEdit = new LineEdit
+                {
+                    PlaceHolder = Loc.GetString("permissions-eui-edit-admin-window-title-edit-placeholder"),
+                    SelectAllOnFocus = true,
+                    StyleClasses = { DeadSpaceMenuSheetlet.Input }, // DS14
+                };
+                // DS14-start
+                if (data?.Title is { } adminTitle)
+                {
+                    TitleEdit.Text = adminTitle;
+                }
+                // DS14-end
+
+                RankButton = new OptionButton
+                {
+                    HorizontalExpand = true,
+                    StyleClasses = { DeadSpaceMenuSheetlet.ProfileControl }, // DS14
+                };
+                RankButton.OptionStyleClasses.Add(DeadSpaceMenuSheetlet.ProfileControl); // DS14
+                SaveButton = new Button
+                {
+                    Text = Loc.GetString("permissions-eui-edit-admin-window-save-button"),
+                    HorizontalAlignment = HAlignment.Right,
+                    StyleClasses = { DeadSpaceMenuSheetlet.ProfileControl, DeadSpaceMenuSheetlet.ProfileControlPositive }, // DS14
+                };
 
                 SuspendedCheckbox = new CheckBox
                 {
                     Text = Loc.GetString("permissions-eui-edit-admin-window-suspended"),
                     Pressed = data?.Suspended ?? false,
                 };
+                SuspendedCheckbox.Label.AddStyleClass(DeadSpaceMenuSheetlet.ProfileLabel); // DS14
 
                 RankButton.AddItem(Loc.GetString("permissions-eui-edit-admin-window-no-rank-button"), NoRank);
                 foreach (var (rId, rank) in ui._ranks)
@@ -401,10 +802,19 @@ namespace Content.Client.Administration.UI
 
                 var permGrid = new GridContainer
                 {
-                    Columns = 4,
+                    Columns = 5, // DS14
                     HSeparationOverride = 0,
-                    VSeparationOverride = 0
+                    VSeparationOverride = 0,
+                    MinSize = new Vector2(AdminFlagTableMinWidth, 0) // DS14
                 };
+
+                // DS14-start
+                permGrid.AddChild(MakeFlagHeaderLabel("permissions-eui-flag-column-inherit", FlagChoiceColumnWidth));
+                permGrid.AddChild(MakeFlagHeaderLabel("permissions-eui-flag-column-deny", FlagChoiceColumnWidth));
+                permGrid.AddChild(MakeFlagHeaderLabel("permissions-eui-flag-column-grant", FlagChoiceColumnWidth));
+                permGrid.AddChild(new Control { MinSize = new Vector2(AdminFlagSpacerColumnWidth, 0) });
+                permGrid.AddChild(MakeFlagHeaderLabel("permissions-eui-flag-column-right", AdminFlagNameColumnWidth));
+                // DS14-end
 
                 foreach (var flag in AdminFlagsHelper.AllFlags)
                 {
@@ -415,27 +825,38 @@ namespace Content.Client.Administration.UI
 
                     var group = new ButtonGroup();
 
+                    // DS14-start
                     var inherit = new Button
                     {
                         Text = "I",
-                        StyleClasses = { StyleClass.ButtonOpenRight },
+                        SetWidth = FlagChoiceColumnWidth,
+                        TextAlign = Label.AlignMode.Center,
+                        StyleClasses = { DeadSpaceMenuSheetlet.ProfileControl, StyleClass.ButtonOpenRight },
                         Disabled = disable,
                         Group = group,
                     };
                     var sub = new Button
                     {
                         Text = "-",
-                        StyleClasses = { StyleClass.ButtonOpenBoth },
+                        SetWidth = FlagChoiceColumnWidth,
+                        TextAlign = Label.AlignMode.Center,
+                        StyleClasses = { DeadSpaceMenuSheetlet.ProfileControl, StyleClass.ButtonOpenBoth },
                         Disabled = disable,
                         Group = group
                     };
                     var plus = new Button
                     {
                         Text = "+",
-                        StyleClasses = { StyleClass.ButtonOpenLeft },
+                        SetWidth = FlagChoiceColumnWidth,
+                        TextAlign = Label.AlignMode.Center,
+                        StyleClasses = { DeadSpaceMenuSheetlet.ProfileControl, StyleClass.ButtonOpenLeft },
                         Disabled = disable,
                         Group = group
                     };
+                    inherit.OnPressed += _ => SetSelectedFlagButton(inherit, sub, plus, inherit);
+                    sub.OnPressed += _ => SetSelectedFlagButton(inherit, sub, plus, sub);
+                    plus.OnPressed += _ => SetSelectedFlagButton(inherit, sub, plus, plus);
+                    // DS14-end
 
                     if (data is { } d)
                     {
@@ -457,58 +878,143 @@ namespace Content.Client.Administration.UI
                         inherit.Pressed = true;
                     }
 
-                    permGrid.AddChild(new Label { Text = flagName });
+                    RefreshSelectedFlagButton(inherit, sub, plus); // DS14
                     permGrid.AddChild(inherit);
                     permGrid.AddChild(sub);
                     permGrid.AddChild(plus);
+                    permGrid.AddChild(new Control { MinSize = new Vector2(AdminFlagSpacerColumnWidth, 0) }); // DS14
+                    // DS14-start
+                    permGrid.AddChild(new Label
+                    {
+                        Text = flagName,
+                        ClipText = true,
+                        SetWidth = AdminFlagNameColumnWidth,
+                        ToolTip = flagName,
+                        VerticalAlignment = Control.VAlignment.Center,
+                        StyleClasses = { DeadSpaceMenuSheetlet.ProfileLabel },
+                    });
+                    // DS14-end
 
                     FlagButtons.Add(flag, (inherit, sub, plus));
                 }
 
                 var bottomButtons = new BoxContainer
                 {
-                    Orientation = LayoutOrientation.Horizontal
+                    Orientation = LayoutOrientation.Horizontal,
+                    // DS14-start
+                    HorizontalExpand = true,
+                    SeparationOverride = 8,
+                    // DS14-end
                 };
                 if (data != null)
                 {
-                    // show remove button.
-                    RemoveButton = new Button { Text = Loc.GetString("permissions-eui-edit-admin-window-remove-flag-button") };
+                    RemoveButton = new Button
+                    {
+                        Text = Loc.GetString("permissions-eui-edit-admin-window-remove-flag-button"),
+                        StyleClasses = { DeadSpaceMenuSheetlet.ProfileControl, StyleClass.Negative }, // DS14
+                    };
                     bottomButtons.AddChild(RemoveButton);
                 }
 
+                bottomButtons.AddChild(new Control { HorizontalExpand = true }); // DS14
                 bottomButtons.AddChild(SaveButton);
 
+                // DS14-start
                 ContentsContainer.AddChild(new BoxContainer
                 {
                     Orientation = LayoutOrientation.Vertical,
+                    HorizontalExpand = true,
+                    VerticalExpand = true,
+                    SeparationOverride = 8,
                     Children =
                     {
                         new BoxContainer
                         {
                             Orientation = LayoutOrientation.Horizontal,
-                            SeparationOverride = 2,
+                            SeparationOverride = 8,
+                            HorizontalExpand = true,
+                            VerticalExpand = true,
                             Children =
                             {
-                                new BoxContainer
+                                new PanelContainer
                                 {
-                                    Orientation = LayoutOrientation.Vertical,
-                                    HorizontalExpand = true,
+                                    SetWidth = 260,
+                                    StyleClasses = { DeadSpaceMenuSheetlet.Inset },
                                     Children =
                                     {
-                                        nameControl,
-                                        TitleEdit,
-                                        RankButton,
-                                        SuspendedCheckbox,
+                                        new BoxContainer
+                                        {
+                                            Orientation = LayoutOrientation.Vertical,
+                                            SeparationOverride = 6,
+                                            Children =
+                                            {
+                                                nameControl,
+                                                TitleEdit,
+                                                RankButton,
+                                                SuspendedCheckbox,
+                                            }
+                                        }
                                     }
                                 },
-                                permGrid
-                            },
-                            VerticalExpand = true
+                                new PanelContainer
+                                {
+                                    HorizontalExpand = true,
+                                    VerticalExpand = true,
+                                    StyleClasses = { DeadSpaceMenuSheetlet.Inset },
+                                    Children =
+                                    {
+                                        new ScrollContainer
+                                        {
+                                            HorizontalExpand = true,
+                                            VerticalExpand = true,
+                                            HScrollEnabled = true,
+                                            VScrollEnabled = true,
+                                            Children = { permGrid },
+                                        }
+                                    }
+                                }
+                            }
                         },
                         bottomButtons
                     }
                 });
+                // DS14-end
             }
+
+            // DS14-start
+            private static void RefreshSelectedFlagButton(Button inherit, Button sub, Button plus)
+            {
+                if (inherit.Pressed)
+                {
+                    SetSelectedFlagButton(inherit, sub, plus, inherit);
+                }
+                else if (sub.Pressed)
+                {
+                    SetSelectedFlagButton(inherit, sub, plus, sub);
+                }
+                else if (plus.Pressed)
+                {
+                    SetSelectedFlagButton(inherit, sub, plus, plus);
+                }
+                else
+                {
+                    ClearSelectedFlagButton(inherit, sub, plus);
+                }
+            }
+
+            private static void SetSelectedFlagButton(Button inherit, Button sub, Button plus, Button selected)
+            {
+                ClearSelectedFlagButton(inherit, sub, plus);
+                selected.AddStyleClass(DeadSpaceMenuSheetlet.ProfileControlPositive);
+            }
+
+            private static void ClearSelectedFlagButton(Button inherit, Button sub, Button plus)
+            {
+                inherit.RemoveStyleClass(DeadSpaceMenuSheetlet.ProfileControlPositive);
+                sub.RemoveStyleClass(DeadSpaceMenuSheetlet.ProfileControlPositive);
+                plus.RemoveStyleClass(DeadSpaceMenuSheetlet.ProfileControlPositive);
+            }
+            // DS14-end
 
             private void RankSelected(OptionButton.ItemSelectedEventArgs obj)
             {
@@ -540,17 +1046,28 @@ namespace Content.Client.Administration.UI
             public readonly LineEdit NameEdit;
             public readonly Button SaveButton;
             public readonly Button? RemoveButton;
+            // DS14-start
+            public readonly Button ClearAllButton;
+            public readonly Button GrantAllButton;
+            // DS14-end
             public readonly Dictionary<AdminFlags, CheckBox> FlagCheckBoxes = new();
 
             public EditAdminRankWindow(PermissionsEui ui, KeyValuePair<int, PermissionsEuiState.AdminRankData>? data)
             {
+                // DS14-start
+                HeaderClass = DeadSpaceMenuSheetlet.Header;
+                TitleClass = DeadSpaceMenuSheetlet.Title;
+                MinSize = new Vector2(500, 460);
+                SetSize = new Vector2(560, 520);
+                // DS14-end
                 Title = Loc.GetString("permissions-eui-edit-admin-rank-window-title");
-                MinSize = new Vector2(600, 400);
                 SourceId = data?.Key;
 
                 NameEdit = new LineEdit
                 {
                     PlaceHolder = Loc.GetString("permissions-eui-edit-admin-rank-window-name-edit-placeholder"),
+                    SelectAllOnFocus = true,
+                    StyleClasses = { DeadSpaceMenuSheetlet.Input }, // DS14
                 };
 
                 if (data != null)
@@ -562,11 +1079,31 @@ namespace Content.Client.Administration.UI
                 {
                     Text = Loc.GetString("permissions-eui-menu-save-admin-rank-button"),
                     HorizontalAlignment = HAlignment.Right,
-                    HorizontalExpand = true,
+                    StyleClasses = { DeadSpaceMenuSheetlet.ProfileControl, DeadSpaceMenuSheetlet.ProfileControlPositive }, // DS14
                 };
+                // DS14-start
+                ClearAllButton = new Button
+                {
+                    Text = Loc.GetString("permissions-eui-edit-admin-rank-clear-all-button"),
+                    StyleClasses = { DeadSpaceMenuSheetlet.ProfileControl },
+                };
+                ClearAllButton.OnPressed += _ => SetAvailableFlags(false);
+
+                GrantAllButton = new Button
+                {
+                    Text = Loc.GetString("permissions-eui-edit-admin-rank-grant-all-button"),
+                    StyleClasses = { DeadSpaceMenuSheetlet.ProfileControl, DeadSpaceMenuSheetlet.ProfileControlPositive },
+                };
+                GrantAllButton.OnPressed += _ => SetAvailableFlags(true);
+                // DS14-end
+
                 var flagsBox = new BoxContainer
                 {
-                    Orientation = LayoutOrientation.Vertical
+                    Orientation = LayoutOrientation.Vertical,
+                    // DS14-start
+                    MinSize = new Vector2(AdminFlagTableMinWidth, 0),
+                    SeparationOverride = 4,
+                    // DS14-end
                 };
 
                 foreach (var flag in AdminFlagsHelper.AllFlags)
@@ -581,6 +1118,7 @@ namespace Content.Client.Administration.UI
                         Disabled = disable,
                         Text = flagName
                     };
+                    checkBox.Label.AddStyleClass(DeadSpaceMenuSheetlet.ProfileLabel); // DS14
 
                     if (data != null && (data.Value.Value.Flags & flag) != 0)
                     {
@@ -593,27 +1131,60 @@ namespace Content.Client.Administration.UI
 
                 var bottomButtons = new BoxContainer
                 {
-                    Orientation = LayoutOrientation.Horizontal
+                    Orientation = LayoutOrientation.Horizontal,
+                    // DS14-start
+                    HorizontalExpand = true,
+                    SeparationOverride = 8,
+                    // DS14-end
                 };
                 if (data != null)
                 {
-                    // show remove button.
-                    RemoveButton = new Button { Text = Loc.GetString("permissions-eui-menu-remove-admin-rank-button") };
+                    RemoveButton = new Button
+                    {
+                        Text = Loc.GetString("permissions-eui-menu-remove-admin-rank-button"),
+                        StyleClasses = { DeadSpaceMenuSheetlet.ProfileControl, StyleClass.Negative }, // DS14
+                    };
                     bottomButtons.AddChild(RemoveButton);
                 }
 
+                bottomButtons.AddChild(new Control { HorizontalExpand = true }); // DS14
+                // DS14-start
+                bottomButtons.AddChild(ClearAllButton);
+                bottomButtons.AddChild(GrantAllButton);
+                // DS14-end
                 bottomButtons.AddChild(SaveButton);
 
+                // DS14-start
                 ContentsContainer.AddChild(new BoxContainer
                 {
                     Orientation = LayoutOrientation.Vertical,
+                    HorizontalExpand = true,
+                    VerticalExpand = true,
+                    SeparationOverride = 8,
                     Children =
                     {
                         NameEdit,
-                        flagsBox,
+                        new PanelContainer
+                        {
+                            HorizontalExpand = true,
+                            VerticalExpand = true,
+                            StyleClasses = { DeadSpaceMenuSheetlet.Inset },
+                            Children =
+                            {
+                                new ScrollContainer
+                                {
+                                    HorizontalExpand = true,
+                                    VerticalExpand = true,
+                                    HScrollEnabled = true,
+                                    VScrollEnabled = true,
+                                    Children = { flagsBox },
+                                }
+                            }
+                        },
                         bottomButtons
                     }
                 });
+                // DS14-end
             }
 
             public AdminFlags CollectSetFlags()
@@ -629,6 +1200,19 @@ namespace Content.Client.Administration.UI
 
                 return flags;
             }
+
+            // DS14-start
+            private void SetAvailableFlags(bool pressed)
+            {
+                foreach (var checkBox in FlagCheckBoxes.Values)
+                {
+                    if (!checkBox.Disabled)
+                    {
+                        checkBox.Pressed = pressed;
+                    }
+                }
+            }
+            // DS14-end
         }
     }
 }

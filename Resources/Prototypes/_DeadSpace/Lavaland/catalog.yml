@@ -162,13 +162,13 @@
   cost:
     LavalandMiningPoint: 250
 
-- type: listing
-  id: LavalandMiningSeniorKineticAccelerator
-  productEntity: WeaponSeniorKinetik
-  categories:
-  - LavalandMiningTools
-  cost:
-    LavalandMiningPoint: 400
+# - type: listing
+#   id: LavalandMiningSeniorKineticAccelerator
+#   productEntity: WeaponSeniorKinetik
+#   categories:
+#   - LavalandMiningTools
+#   cost:
+#     LavalandMiningPoint: 400
 
 - type: listing
   id: LavalandMiningMagmiteAccelerator
@@ -176,7 +176,7 @@
   categories:
   - LavalandMiningTools
   cost:
-    LavalandMiningPoint: 1750
+    LavalandMiningPoint: 15000
 
 - type: listing
   id: LavalandMiningWeaponMagmiteCrusher
@@ -184,7 +184,7 @@
   categories:
   - LavalandMiningTools
   cost:
-    LavalandMiningPoint: 1750
+    LavalandMiningPoint: 25000
 
 - type: listing
   id: LavalandMiningWeaponMagmiteCrusherGlaive
@@ -192,7 +192,7 @@
   categories:
   - LavalandMiningTools
   cost:
-    LavalandMiningPoint: 1750
+    LavalandMiningPoint: 25000
 
 - type: listing
   id: LavalandMiningPKAUpgradeDamage
@@ -217,6 +217,30 @@
   - LavalandMiningTools
   cost:
     LavalandMiningPoint: 350
+
+- type: listing
+  id: LavalandMiningPKAUpgradeDamageUp
+  productEntity: PKAUpgradeDamageUp
+  categories:
+  - LavalandMiningTools
+  cost:
+    LavalandMiningPoint: 1500
+
+- type: listing
+  id: LavalandMiningPKAUpgradeRangeUp
+  productEntity: PKAUpgradeRangeUp
+  categories:
+  - LavalandMiningTools
+  cost:
+    LavalandMiningPoint: 1500
+
+- type: listing
+  id: LavalandMiningPKAUpgradeFireRateUp
+  productEntity: PKAUpgradeFireRateUp
+  categories:
+  - LavalandMiningTools
+  cost:
+    LavalandMiningPoint: 1500
 
 - type: listing
   id: LavalandMiningKineticCrusher
@@ -484,7 +508,7 @@
   categories:
   - LavalandMiningDetails
   cost:
-    LavalandMiningPoint: 1125
+    LavalandMiningPoint: 1000
 
 - type: listing
   id: LavalandDetailsClothingHeadHelmetRIGSalvageAdvanced
@@ -524,7 +548,7 @@
   categories:
   - LavalandMiningDetails
   cost:
-    LavalandMiningPoint: 1600
+    LavalandMiningPoint: 1500
 
 # Контра
 
@@ -534,7 +558,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 120
+    LavalandMiningPoint: 320
 
 - type: listing
   id: LavalandMiningCombatMedipen
@@ -542,7 +566,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 180
+    LavalandMiningPoint: 880
 
 - type: listing
   id: LavalandMiningStimpackMini
@@ -550,7 +574,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 220
+    LavalandMiningPoint: 520
 
 - type: listing
   id: LavalandMiningStimpack
@@ -558,7 +582,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 500
+    LavalandMiningPoint: 1000
 
 - type: listing
   id: LavalandMiningSyndicateJawsOfLife
@@ -566,7 +590,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 900
+    LavalandMiningPoint: 1000
 
 - type: listing
   id: LavalandMiningSmokeGrenade
@@ -584,7 +608,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 550
+    LavalandMiningPoint: 1550
 
 - type: listing
   id: LavalandMiningCigPackSyndicate
@@ -592,7 +616,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 600
+    LavalandMiningPoint: 800
 
 - type: listing
   id: LavalandMiningADTClothingShoesBootsMagAdvSynd
@@ -600,7 +624,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 950
+    LavalandMiningPoint: 1350
 
 - type: listing
   id: LavalandMiningPlastineOfOtherHardsuit
@@ -616,7 +640,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 1150
+    LavalandMiningPoint: 750
 
 - type: listing
   id: LavalandMiningClothingHeadHelmetRIGNukeOpsElite
@@ -624,7 +648,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 1350
+    LavalandMiningPoint: 950
 
 - type: listing
   id: LavalandMiningBlueprintRIGRIGNukeOpsEliteOneUse
@@ -632,7 +656,7 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 1760
+    LavalandMiningPoint: 1560
 
 - type: listing
   id: LavalandMiningBlueprintRIGRIGNukeOpsOneUse
@@ -666,4 +690,4 @@
   categories:
   - LavalandMiningContraband
   cost:
-    LavalandMiningPoint: 1250
+    LavalandMiningPoint: 1650

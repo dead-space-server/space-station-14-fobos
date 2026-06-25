@@ -43,6 +43,17 @@
       board: [ DoorElectronicsSOD ]
 
 - type: entity
+  parent: AirlockCentralCommand
+  id: AirlockSODLocked
+  name: шлюз
+  description: Он открывается, он закрывается и он может вас раздавить.
+  suffix:  ОСО, Закрыт
+  components:
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsSOD ]
+
+- type: entity
   parent: LockableButton
   id: LockableButtonSOD
   name: кнопка с замком
@@ -60,3 +71,16 @@
   - type: ContainerFill
     containers:
       board: [ DoorElectronicsSOD ]
+
+
+# CentComm
+- type: entity
+  parent: AirlockHatch
+  id: AirlockHatchCentralCommandLocked
+  name: герметичный люк
+  description: Он открывается, он закрывается и он может вас раздавить.
+  suffix: Центральное Командование, Закрыт
+  components:
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsCentralCommand ]

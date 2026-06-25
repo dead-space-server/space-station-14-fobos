@@ -1,0 +1,10 @@
+- type: latheRecipe
+  id: ClothingEyesGlassesThermalVisorExperimental
+  result: ClothingEyesGlassesThermalVisorExperimental
+  completetime: 5
+  materials:
+    Steel: 300
+    Plastic: 300
+    Glass: 100
+    Silver: 100
+    Plasma: 500

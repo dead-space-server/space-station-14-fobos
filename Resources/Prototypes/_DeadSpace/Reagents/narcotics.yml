@@ -37,3 +37,61 @@
         messages: ["ammonia-smell"]
         type: Local
         probability: 0.05
+
+- type: reagent
+  id: Celestin
+  name: reagent-name-celestin
+  group: Narcotics
+  desc: reagent-desc-celestin
+  physicalDesc: reagent-physical-desc-aromatic
+  contrabandSeverity: Minor
+  flavor: bitter
+  color: "#45efd0"
+  boilingPoint: 212.0 
+  meltingPoint: 170.0
+  metabolisms:
+    Poison:
+      metabolismRate: 1
+      effects:
+      - !type:HealthChange
+        conditions:
+        - !type:ReagentCondition
+          reagent: Celestin
+          min: 30 
+        damage:
+          types:
+            Poison: 2
+            Asphyxiation: 2
+    Narcotic:
+      metabolismRate: 1
+      effects:
+      - !type:MovementSpeedModifier
+        walkSpeedModifier: 1.35
+        sprintSpeedModifier: 1.35
+      - !type:GenericStatusEffect
+        key: Stutter
+        component: StutteringAccent
+      - !type:Jitter
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectStunned
+        time: 3
+        type: Remove
+      - !type:ModifyKnockdown
+        time: 3
+        type: Remove
+      - !type:ModifyStatusEffect
+        conditions:
+        - !type:ReagentCondition
+          reagent: Haloperidol
+          max: 0.01
+        effectProto: StatusEffectDrowsiness
+        time: 10
+        type: Remove
+    Medicine:
+      metabolismRate: 1
+      effects:
+      - !type:ResetNarcolepsy
+        conditions:
+        - !type:ReagentCondition
+          reagent: Celestin
+          min: 5

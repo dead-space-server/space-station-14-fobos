@@ -19,6 +19,7 @@
     layers:
     - state: base
     - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
 
 - type: entity
   parent: MagazineHristov

@@ -458,6 +458,7 @@
     - NewsReaderCartridge
     - MedTekCartridge
     - AstroNavCartridge
+    - MessengerCartridge
   - type: PdaBorderColor
     borderColor: "#2e2e2e"
     accentHColor: "#7b4fdb"

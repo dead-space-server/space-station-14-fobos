@@ -10,6 +10,7 @@ using Robust.Shared.GameObjects;
 
 namespace Content.Benchmarks;
 
+#if DEVELOPMENT
 [Virtual]
 public class RaiseEventBenchmark
 {
@@ -146,3 +147,4 @@ public class RaiseEventBenchmark
         }
     }
 }
+#endif

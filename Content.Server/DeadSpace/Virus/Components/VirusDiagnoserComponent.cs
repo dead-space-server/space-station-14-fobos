@@ -6,6 +6,7 @@ using Robust.Shared.Audio;
 using Content.Shared.DeadSpace.Virus.Components;
 using Content.Shared.DeadSpace.TimeWindow;
 using Content.Shared.DeadSpace.Virus;
+using Content.Shared.FixedPoint;
 
 namespace Content.Server.DeadSpace.Virus.Components;
 
@@ -27,6 +28,9 @@ public sealed partial class VirusDiagnoserComponent : Component
     /// </summary>
     [ViewVariables(VVAccess.ReadOnly)]
     public VirusData? VirusDataCPU = default!;
+
+    [ViewVariables(VVAccess.ReadOnly)]
+    public BloodVirusAnalysisResult? BloodAnalysisResult = default!;
 
     [DataField]
     [ViewVariables(VVAccess.ReadOnly)]
@@ -62,4 +66,24 @@ public sealed partial class VirusDiagnoserComponent : Component
 
     [ViewVariables(VVAccess.ReadOnly)]
     public EntityUid? CurrentSoundEntity = default!;
+
+    [ViewVariables(VVAccess.ReadOnly)]
+    public TimeSpan NextConsoleStatusUpdate = TimeSpan.Zero;
+
+    [ViewVariables(VVAccess.ReadOnly)]
+    public TimeSpan ScanStartedAt = TimeSpan.Zero;
+
+    [ViewVariables(VVAccess.ReadOnly)]
+    public TimeSpan ScanDuration = TimeSpan.Zero;
+}
+
+public sealed class BloodVirusAnalysisResult
+{
+    public string PatientName = string.Empty;
+    public string PatientDna = string.Empty;
+    public string BloodTypes = string.Empty;
+    public FixedPoint2 BloodVolume = FixedPoint2.Zero;
+    public VirusData? VirusData;
+    public string? KnownStrainName;
+    public string DiseaseStatus = string.Empty;
 }

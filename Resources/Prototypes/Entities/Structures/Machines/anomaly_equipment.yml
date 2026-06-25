@@ -18,7 +18,6 @@
       map: ["enum.AnomalyVesselVisualLayers.Base"]
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
-      visible: false # DS14
   - type: Transform
     noRot: false
   - type: AnomalyVessel
@@ -65,8 +64,8 @@
           Growing: { state: anomaly-3 }
       enum.WiresVisuals.MaintenancePanelState:
         enum.WiresVisualLayers.MaintenancePanel:
-          True: { visible: true } # DS14
-          False: { visible: false } # DS14
+          True: { visible: false }
+          False: { visible: true }
   - type: Explosive
     explosionType: Default
     maxIntensity: 20

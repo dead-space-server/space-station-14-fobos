@@ -2,81 +2,135 @@
   parent: BaseItem
   id: BlueprintEnforcerInfinite
   name: чертёж Силовика
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: Enforcer
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintKammererInfinite
-  name: чертёж Каммера
-  description: Диск что зачастую содержит какую-то ебуристику.
+  name: чертёж Каммерера
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: Kammerer
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintAresSWCInfinite
   name: чертёж Арес SWC
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: AresSWC
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintLecterInfinite
   name: чертёж Лектера
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: Lecter
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintDrozdInfinite
   name: чертёж Дрозда
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: Drozd
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintМК58Infinite
   name: чертёж МК58
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: PistolMk58
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 # 3 использование
 
 - type: entity
   parent: BaseItem
   id: BlueprintEnforcerThreeUse
-  name: чертёж Силовика (трёхразовой)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  name: чертёж Силовика (трёхразовый)
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -84,12 +138,21 @@
   - type: ConsoleCraftBlueprint
     recipe: Enforcer
     maxCrafts: 3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintKammererThreeUse
-  name: чертёж Каммера (трёхразовой)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  name: чертёж Каммерера (трёхразовый)
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -97,12 +160,21 @@
   - type: ConsoleCraftBlueprint
     recipe: Kammerer
     maxCrafts: 3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintAresSWCThreeUse
-  name: чертёж Арес SWC (трёхразовой)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  name: чертёж Арес SWC (трёхразовый)
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -110,12 +182,21 @@
   - type: ConsoleCraftBlueprint
     recipe: AresSWC
     maxCrafts: 3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintLecterThreeUse
-  name: чертёж Лектера (трёхразовой)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  name: чертёж Лектера (трёхразовый)
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -123,12 +204,21 @@
   - type: ConsoleCraftBlueprint
     recipe: Lecter
     maxCrafts: 3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintDrozdThreeUse
-  name: чертёж Дрозда (трёхразовой)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  name: чертёж Дрозда (трёхразовый)
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -136,12 +226,21 @@
   - type: ConsoleCraftBlueprint
     recipe: Drozd
     maxCrafts: 3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintМК58ThreeUse
-  name: чертёж МК58 (трёхразовой)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  name: чертёж МК58 (трёхразовый)
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -149,3 +248,12 @@
   - type: ConsoleCraftBlueprint
     recipe: PistolMk58
     maxCrafts: 3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg

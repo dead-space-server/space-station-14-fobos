@@ -53,6 +53,7 @@ namespace Content.Server.PDA
             SubscribeLocalEvent<PdaComponent, PdaShowMusicMessage>(OnUiMessage);
             SubscribeLocalEvent<PdaComponent, PdaShowUplinkMessage>(OnUiMessage);
             SubscribeLocalEvent<PdaComponent, PdaLockUplinkMessage>(OnUiMessage);
+            SubscribeLocalEvent<PdaComponent, PdaToggleSilentModeMessage>(OnUiMessage); // DS14
 
             SubscribeLocalEvent<PdaComponent, CartridgeLoaderNotificationSentEvent>(OnNotification);
 
@@ -156,6 +157,9 @@ namespace Content.Server.PDA
 
         private void OnNotification(Entity<PdaComponent> ent, ref CartridgeLoaderNotificationSentEvent args)
         {
+            if (ent.Comp.SilentMode) // DS14
+                return;
+
             _ringer.RingerPlayRingtone(ent.Owner);
 
             if (!_containerSystem.TryGetContainingContainer((ent, null, null), out var container)
@@ -218,7 +222,8 @@ namespace Content.Server.PDA
                 pda.StationName,
                 showUplink,
                 hasInstrument,
-                address);
+                address,
+                pda.SilentMode); // DS14
 
             _ui.SetUiState(uid, PdaUiKey.Key, state);
         }
@@ -288,6 +293,17 @@ namespace Content.Server.PDA
                 UpdatePdaUi(uid, pda);
             }
         }
+
+        // DS14-Start
+        private void OnUiMessage(EntityUid uid, PdaComponent pda, PdaToggleSilentModeMessage msg)
+        {
+            if (!PdaUiKey.Key.Equals(msg.UiKey))
+                return;
+
+            pda.SilentMode = !pda.SilentMode;
+            UpdatePdaUi(uid, pda);
+        }
+        // DS14-End
 
         private bool IsUnlocked(EntityUid uid)
         {

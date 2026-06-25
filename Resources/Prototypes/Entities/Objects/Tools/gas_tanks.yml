@@ -46,6 +46,17 @@
       Steel: 185
   - type: StaticPrice
     price: 30
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_tank/gas_tank_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_tank/gas_tank_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gas_tank/gas_tank_drop.ogg
+  #DS14-End
 
 - type: entity
   abstract: true

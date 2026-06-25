@@ -762,7 +762,7 @@
   description: uplink-ammo-bundle-desc
   productEntity: ClothingBackpackDuffelSyndicateAmmoFilled
   cost:
-    Telecrystal: 15
+    Telecrystal: 16
   categories:
   - UplinkAmmo
   conditions:
@@ -959,7 +959,7 @@
     - !type:StoreWhitelistCondition
       whitelist:
         tags:
-          - NukeOpsUplink
+          - LoneOpsUplink
   # DS14-end
 
 - type: listing
@@ -1450,9 +1450,9 @@
   description: uplink-starter-kit-desc
   productEntity: ClothingBackpackDuffelSyndicateFilledStarterKit
   cost:
-    Telecrystal: 40
+    Telecrystal: 52 #DS-14 value
   categories:
-  - UplinkDisruption
+  - UplinkPresets #DS14
   conditions:
     - !type:StoreWhitelistCondition
       whitelist:

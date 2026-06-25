@@ -1,5 +1,6 @@
 using Content.Shared.Clothing;
 using Content.Shared.Damage.Components;
+using Content.Shared.DeadSpace.Damage.Components; // DS14
 using Content.Shared.Examine;
 using Content.Shared.FixedPoint;
 using Content.Shared.Inventory;
@@ -26,7 +27,13 @@ public sealed class SlowOnDamageSystem : EntitySystem
         SubscribeLocalEvent<IgnoreSlowOnDamageComponent, ComponentStartup>(OnIgnoreStartup);
         SubscribeLocalEvent<IgnoreSlowOnDamageComponent, ComponentShutdown>(OnIgnoreShutdown);
         SubscribeLocalEvent<IgnoreSlowOnDamageComponent, ModifySlowOnDamageSpeedEvent>(OnIgnoreModifySpeed);
-    }
+
+// DS14-Start
+        SubscribeLocalEvent<PainNumbnessSlowImmunityComponent, ComponentStartup>(OnPainNumbnessStartup);
+        SubscribeLocalEvent<PainNumbnessSlowImmunityComponent, ComponentShutdown>(OnPainNumbnessShutdown);
+        SubscribeLocalEvent<PainNumbnessSlowImmunityComponent, ModifySlowOnDamageSpeedEvent>(OnPainNumbnessModifySpeed);
+// DS14-End
+	}
 
     private void OnRefreshMovespeed(EntityUid uid, SlowOnDamageComponent component, RefreshMovementSpeedModifiersEvent args)
     {
@@ -103,6 +110,22 @@ public sealed class SlowOnDamageSystem : EntitySystem
     {
         args.Speed = 1f;
     }
+// DS14-Start
+    private void OnPainNumbnessStartup(Entity<PainNumbnessSlowImmunityComponent> ent, ref ComponentStartup args)
+    {
+        _movementSpeedModifierSystem.RefreshMovementSpeedModifiers(ent);
+    }
+
+    private void OnPainNumbnessShutdown(Entity<PainNumbnessSlowImmunityComponent> ent, ref ComponentShutdown args)
+    {
+        _movementSpeedModifierSystem.RefreshMovementSpeedModifiers(ent);
+    }
+
+    private void OnPainNumbnessModifySpeed(Entity<PainNumbnessSlowImmunityComponent> ent, ref ModifySlowOnDamageSpeedEvent args)
+    {
+        args.Speed = 1f;
+    }
+// DS14-End
 }
 
 [ByRefEvent]

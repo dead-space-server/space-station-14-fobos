@@ -3,11 +3,13 @@ construction-graph-tag-hard-hat = каска
 construction-graph-tag-toy-sword = игрушечный меч
 construction-graph-tag-gas-tank = баллон
 construction-graph-tag-nanopaste = нанопаста
+construction-graph-tag-rock-guitar = рок-гитара
 
 construction-graph-tag-beer-bottle = бутылка пива
 construction-graph-tag-fried-sausage = жареная сосиска
 construction-graph-tag-cheese-slice = кусок сыра
 construction-graph-tag-chili-pepper = перец чили
+construction-graph-tag-bagguet = багет
 construction-graph-tag-red-flower = красный цветок
 construction-graph-tag-white-flower = белый цветок
 construction-graph-tag-pink-flower = розовый цветок

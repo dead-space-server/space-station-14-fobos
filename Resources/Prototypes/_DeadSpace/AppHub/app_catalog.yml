@@ -1,0 +1,29 @@
+# Категории: Tools, Equipment, Games
+
+- type: appCatalogEntry
+  id: app-messenger
+  name: app-catalog-entry-messenger-name
+  description: app-catalog-entry-messenger-desc
+  category: Tools
+  programId: MessengerCartridge
+
+- type: appCatalogEntry
+  id: app-wanted-list
+  name: app-catalog-entry-wanted-list-name
+  description: app-catalog-entry-wanted-list-desc
+  category: Equipment
+  programId: WantedListCartridge
+
+- type: appCatalogEntry
+  id: app-snake
+  name: app-catalog-entry-snake-name
+  description: app-catalog-entry-snake-desc
+  category: Games
+  programId: SnakeCartridge
+
+- type: appCatalogEntry
+  id: app-scanner
+  name: app-catalog-entry-scanner-name
+  description: app-catalog-entry-scanner-desc
+  category: Tools
+  programId: ScannerProgramCartridge

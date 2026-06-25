@@ -20,6 +20,7 @@ public sealed class SpiderTerrorTombSystem : EntitySystem
     [Dependency] private readonly TileSystem _tile = default!;
     [Dependency] private readonly IGameTiming _gameTiming = default!;
     [Dependency] private readonly StationSystem _station = default!;
+    [Dependency] private readonly SharedMapSystem _map = default!;
 
     public override void Initialize()
     {
@@ -119,7 +120,7 @@ public sealed class SpiderTerrorTombSystem : EntitySystem
 
         var radius = component.Range;
         var localpos = xform.Coordinates.Position;
-        tilerefs = grid.GetLocalTilesIntersecting(new Box2(localpos + new Vector2(-radius, -radius), localpos + new Vector2(radius, radius)));
+        tilerefs = _map.GetLocalTilesIntersecting(xform.GridUid.Value, grid, new Box2(localpos + new Vector2(-radius, -radius), localpos + new Vector2(radius, radius)));
 
         return tilerefs;
     }

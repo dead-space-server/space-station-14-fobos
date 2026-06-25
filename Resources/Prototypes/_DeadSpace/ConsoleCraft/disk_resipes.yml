@@ -1,100 +1,173 @@
  # Да, можно указать количество использование чертежа через maxCrafts, если использование сводится до нуля, рецепт слетает с консоли, потому нужно вставлять новый.
+ # BaseBlueprint не варик было сделать? А, зути?
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGSecurityInfinite
   name: чертёж РИГа СБ
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: SecurityModifiedBackpack
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGSecurityAdvancedInfinite
   name: чертёж продвинутого РИГа СБ
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: SecurityAdvancedModifiedBackpack
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGSalvageInfinite
   name: чертёж РИГа карго
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: SalvageModifiedBackpack
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGEVAInfinite
   name: чертёж РИГа ЕВА
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: EVAModifiedBackpack
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGResearchInfinite
   name: чертёж РИГа научного отдела
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: ResearchModifiedBackpack
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGEngineerInfinite
   name: чертёж РИГа инженерного отдела
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: EngineerModifiedBackpack
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintOuterHardsuitMaximInfinite
   name: чертёж максимального скафандра
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: HardsuitMaxim
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGSalvageAdvancedInfinite
   name: чертёж продвинутого РИГа карго
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: SalvageAdvancedModifiedBackpack
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 # Ограничение по крафтам
 
@@ -104,7 +177,7 @@
   parent: BaseItem
   id: BlueprintRIGSecurityThreeUse
   name: чертёж РИГа СБ (трёхразовый)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -112,12 +185,21 @@
   - type: ConsoleCraftBlueprint
     recipe: SecurityModifiedBackpack
     maxCrafts: 3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGSecurityAdvancedThreeUse
   name: чертёж продвинутого РИГа СБ (трёхразовый)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -125,12 +207,21 @@
   - type: ConsoleCraftBlueprint
     recipe: SecurityAdvancedModifiedBackpack
     maxCrafts: 3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGSalvageThreeUse
   name: чертёж РИГа карго (трёхразовый)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -138,12 +229,21 @@
   - type: ConsoleCraftBlueprint
     recipe: SalvageModifiedBackpack
     maxCrafts: 3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGEVAThreeUse
   name: чертёж РИГа ЕВА (трёхразовый)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -151,12 +251,21 @@
   - type: ConsoleCraftBlueprint
     recipe: EVAModifiedBackpack
     maxCrafts: 3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGResearchThreeUse
   name: чертёж РИГа научного отдела (трёхразовый)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -164,12 +273,21 @@
   - type: ConsoleCraftBlueprint
     recipe: ResearchModifiedBackpack
     maxCrafts: 3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGEngineerThreeUse
   name: чертёж РИГа инженерного отдела (трёхразовый)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -177,6 +295,15 @@
   - type: ConsoleCraftBlueprint
     recipe: EngineerModifiedBackpack
     maxCrafts: 3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 # 1 использование
 
@@ -184,7 +311,7 @@
   parent: BaseItem
   id: BlueprintRIGSecurityOneUse
   name: чертёж РИГа СБ (одноразовый)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -192,12 +319,21 @@
   - type: ConsoleCraftBlueprint
     recipe: SecurityModifiedBackpack
     maxCrafts: 1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGSecurityAdvancedOneUse
   name: чертёж продвинутого РИГа СБ (одноразовый)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -205,12 +341,21 @@
   - type: ConsoleCraftBlueprint
     recipe: SecurityAdvancedModifiedBackpack
     maxCrafts: 1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGSalvageOneUse
   name: чертёж РИГа карго (одноразовый)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -218,12 +363,21 @@
   - type: ConsoleCraftBlueprint
     recipe: SalvageModifiedBackpack
     maxCrafts: 1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGEVAOneUse
   name: чертёж РИГа ЕВА (одноразовый)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -231,12 +385,21 @@
   - type: ConsoleCraftBlueprint
     recipe: EVAModifiedBackpack
     maxCrafts: 1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGResearchOneUse
   name: чертёж РИГа научного отдела (одноразовый)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -244,12 +407,21 @@
   - type: ConsoleCraftBlueprint
     recipe: ResearchModifiedBackpack
     maxCrafts: 1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGEngineerOneUse
   name: чертёж РИГа инженерного отдела (одноразовый)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -257,6 +429,15 @@
   - type: ConsoleCraftBlueprint
     recipe: EngineerModifiedBackpack
     maxCrafts: 1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 # Экспедиции
 
@@ -264,7 +445,7 @@
   parent: BaseItem
   id: BlueprintOuterHardsuitMaximOneUse
   name: чертёж максимального скафандра (одноразовый)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -272,12 +453,21 @@
   - type: ConsoleCraftBlueprint
     recipe: HardsuitMaxim
     maxCrafts: 1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintOuterHardsuitMaximThreeUse
   name: чертёж максимального скафандра (трёхразовый)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -285,12 +475,21 @@
   - type: ConsoleCraftBlueprint
     recipe: HardsuitMaxim
     maxCrafts: 3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGSalvageAdvancedOneUse
   name: чертёж продвинутого РИГа карго (одноразовый)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -298,12 +497,21 @@
   - type: ConsoleCraftBlueprint
     recipe: SalvageAdvancedModifiedBackpack
     maxCrafts: 1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGSalvageAdvancedThreeUse
   name: чертёж продвинутого РИГа карго (трёхразовый)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -311,12 +519,21 @@
   - type: ConsoleCraftBlueprint
     recipe: SalvageAdvancedModifiedBackpack
     maxCrafts: 3
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGRIGNukeOpsOneUse
   name: чертёж (#!$$!$!!1@#!@@!#@#)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -324,12 +541,21 @@
   - type: ConsoleCraftBlueprint
     recipe: RIGNukeOps
     maxCrafts: 1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGRIGNukeOpsEliteOneUse
   name: чертёж ($#!!!##1#)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
@@ -337,30 +563,57 @@
   - type: ConsoleCraftBlueprint
     recipe: RIGNukeOpsElite
     maxCrafts: 1
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGRIGNukeOps
   name: чертёж (#!$$!$!!@#!@@!#@#)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: RIGNukeOps
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 - type: entity
   parent: BaseItem
   id: BlueprintRIGRIGNukeOpsElite
   name: чертёж ($#!!!###)
-  description: Диск что зачастую содержит какую-то ебуристику.
+  description: Диск, что, зачастую, содержит какую-то ебуристику.
   components:
   - type: Sprite
     sprite: Objects/Misc/module.rsi
     state: holodisk
   - type: ConsoleCraftBlueprint
     recipe: RIGNukeOpsElite
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 
 # - type: entity
 #   parent: BaseItem
@@ -385,6 +638,15 @@
 #     state: holodisk
 #   - type: ConsoleCraftBlueprint
 #     recipe: LecterCraft
+#   - type: EmitSoundOnPickup
+#     sound:
+#       path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+#   - type: EmitSoundOnDrop
+#     sound:
+#       path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+#   - type: EmitSoundOnLand
+#     sound:
+#       path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 # 
 # - type: entity
 #   parent: BaseItem
@@ -398,6 +660,15 @@
 #   - type: ConsoleCraftBlueprint
 #     recipe: WeaponRifleAEKCraft
 #     maxCrafts: 3
+#   - type: EmitSoundOnPickup
+#     sound:
+#       path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+#   - type: EmitSoundOnDrop
+#     sound:
+#       path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+#   - type: EmitSoundOnLand
+#     sound:
+#       path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
 # 
 # - type: entity
 #   parent: BaseItem
@@ -411,3 +682,12 @@
 #   - type: ConsoleCraftBlueprint
 #     recipe: WeaponRifleAEKCraft
 #     maxCrafts: 3
+#   - type: EmitSoundOnPickup
+#     sound:
+#       path: /Audio/_DeadSpace/Items/Handing/disk_pickup.ogg
+#   - type: EmitSoundOnDrop
+#     sound:
+#       path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg
+#   - type: EmitSoundOnLand
+#     sound:
+#       path: /Audio/_DeadSpace/Items/Handing/disk_drop.ogg

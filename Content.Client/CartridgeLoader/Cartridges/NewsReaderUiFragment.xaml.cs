@@ -70,6 +70,9 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
 
         Prev.Disabled = targetNum <= 1;
         Next.Disabled = targetNum >= totalNum;
+
+        InteractionPanel.Visible = true; // DS14
+
         LikeButton.Disabled = false;
         DislikeButton.Disabled = false;
         CommentInput.Editable = true;
@@ -79,7 +82,6 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
         DislikeCount.Text = article.Dislikes.ToString();
 
         UpdateComments(article.Comments);
-        // DS14-end
     }
 
     // DS14-start
@@ -92,7 +94,8 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
             var noCommentsLabel = new RichTextLabel
             {
                 Margin = new Thickness(4, 4, 4, 4),
-                HorizontalAlignment = HAlignment.Center
+                HorizontalAlignment = HAlignment.Center,
+                StyleClasses = { "DS14MenuSubtitle" },
             };
             noCommentsLabel.SetMarkup(Loc.GetString("news-read-ui-no-comments"));
             CommentsContainer.AddChild(noCommentsLabel);
@@ -101,10 +104,16 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
 
         foreach (var comment in comments)
         {
+            var commentPanel = new PanelContainer
+            {
+                HorizontalExpand = true,
+                Margin = new Thickness(0, 0, 0, 4),
+                StyleClasses = { "DS14MenuListRow" },
+            };
+
             var commentBox = new BoxContainer
             {
                 Orientation = BoxContainer.LayoutOrientation.Vertical,
-                Margin = new Thickness(0, 0, 0, 4)
             };
 
             var metaLabel = new RichTextLabel
@@ -126,7 +135,8 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
 
             commentBox.AddChild(metaLabel);
             commentBox.AddChild(contentLabel);
-            CommentsContainer.AddChild(commentBox);
+            commentPanel.AddChild(commentBox);
+            CommentsContainer.AddChild(commentPanel);
         }
     }
     // DS14-end
@@ -144,6 +154,9 @@ public sealed partial class NewsReaderUiFragment : BoxContainer
 
         Prev.Disabled = true;
         Next.Disabled = true;
+
+        InteractionPanel.Visible = false; // DS14
+
         LikeButton.Disabled = true;
         DislikeButton.Disabled = true;
         CommentInput.Editable = false;

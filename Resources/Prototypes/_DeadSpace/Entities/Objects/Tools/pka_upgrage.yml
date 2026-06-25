@@ -1,0 +1,62 @@
+- type: entity
+  id: PKAUpgradeDamageUp
+  parent: BasePKAUpgrade
+  name: модкит ПКУ (урон, улучшенный)
+  components:
+  - type: Sprite
+    layers:
+    - state: base
+    - state: overlay-1
+      color: "#ffad3a"
+    - state: overlay-2
+      color: "#ff0000"
+    - state: overlay-3
+      color: "#912903"
+  - type: GunUpgrade
+    tags: [ GunUpgradeDamage ]
+    examineText: gun-upgrade-examine-text-damage
+  - type: GunUpgradeDamage
+    damage:
+      types:
+        Blunt: 20
+        Structural: 45
+
+- type: entity
+  id: PKAUpgradeRangeUp
+  parent: BasePKAUpgrade
+  name: модкит ПКУ (дальность, улучшенный)
+  components:
+  - type: Sprite
+    layers:
+    - state: base
+    - state: overlay-1
+      color: "#00ffff"
+    - state: overlay-2
+      color: "#000141"
+    - state: overlay-3
+      color: "#02479a"
+  - type: GunUpgrade
+    tags: [ GunUpgradeRange ]
+    examineText: gun-upgrade-examine-text-range
+  - type: GunUpgradeSpeed
+    coefficient: 2.2
+
+- type: entity
+  id: PKAUpgradeFireRateUp
+  parent: BasePKAUpgrade
+  name: модкит ПКУ (скорострельность, улучшенный)
+  components:
+  - type: Sprite
+    layers:
+    - state: base
+    - state: overlay-1
+      color: "#b7ff00"
+    - state: overlay-2
+      color: "#00510c"
+    - state: overlay-3
+      color: "#8fff07"
+  - type: GunUpgrade
+    tags: [ GunUpgradeReloadSpeed ]
+    examineText: gun-upgrade-examine-text-reload
+  - type: GunUpgradeFireRate
+    coefficient: 2.2

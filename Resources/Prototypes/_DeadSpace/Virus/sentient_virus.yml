@@ -10,6 +10,7 @@
   - type: WallHack
   - type: Input
     context: "ghost"
+  - type: Spectral
   - type: NoFTL
   - type: Clickable
   - type: InteractionOutline
@@ -73,6 +74,8 @@
     requirements:
     - !type:OverallPlaytimeRequirement
       time: 36000 # 10h overall
+  - type: GhostRoleNotifys 
+    groupPrototype: SentientVirusGroup
 
 - type: entity
   categories: [ HideSpawnMenu, Spawner ]

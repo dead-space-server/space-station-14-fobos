@@ -5,6 +5,7 @@
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Fun/figurines.rsi
+  - type: TabletopPlaceable
 
 - type: entity
   parent: BaseFigurine

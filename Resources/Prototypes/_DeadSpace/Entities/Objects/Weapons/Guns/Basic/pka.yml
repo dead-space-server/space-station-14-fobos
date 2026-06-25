@@ -56,6 +56,8 @@
   name: протокинетический дробовик
   description: Новейший модифицированный прототип протокинетического ускорителя, что работает как дробовик
   components:
+  - type: GunSpreadModifier
+    spread: 0.85
   - type: AmmoCounter
   - type: Appearance
   - type: GenericVisualizer
@@ -70,13 +72,12 @@
     capacity: 1
     count: 1
   - type: Gun
-    fireRate: 3
+    fireRate: 1
     selectedMode: SemiAuto
     angleDecay: 45
     minAngle: 44
     maxAngle: 45
     availableModes:
-    - FullAuto
     - SemiAuto
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/kinetic_accel.ogg
@@ -94,7 +95,7 @@
     - 0,0,3,1
     heldPrefix: energy
   - type: RechargeBasicEntityAmmo
-    rechargeCooldown: 3
+    rechargeCooldown: 2
     rechargeSound:
       path: /Audio/Weapons/Guns/MagIn/kinetic_reload.ogg
   - type: Clothing
@@ -167,6 +168,15 @@
   - type: ContainerContainer
     containers:
       upgrades: !type:Container
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/gun_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/gun_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/gun_drop.ogg
 
 - type: entity
   id: WeaponSeniorKinetik
@@ -236,12 +246,21 @@
   - type: Battery
     maxCharge: 100
     startingCharge: 100
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/gun_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/gun_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/gun_drop.ogg
 
 - type: entity
-  name: магмитовый протокинетический ускоритель
   id: WeaponMagmiteAccelerator
-  parent: WeaponProtoKineticAcceleratorBase
   description: Очень горячий. Имеет низкую скорость стрельбы, но высокую убойность.
+  name: магмитовый протокинетический ускоритель
+  parent: BaseItem
   components:
   - type: Sprite
     sprite: _DeadSpace/Objects/Weapons/Guns/Basic/magmite.rsi
@@ -253,12 +272,47 @@
   - type: Item
     sprite: _DeadSpace/Objects/Weapons/Guns/Basic/magmite.rsi
     size: Normal
-  - type: Clothing
-    sprite: _DeadSpace/Objects/Weapons/Guns/Basic/magmite.rsi
+    shape:
+    - 0,0,2,1
+  - type: GunWieldBonus
+    minAngle: -43
+    maxAngle: -43
+  - type: Wieldable
   - type: Gun
     fireRate: 0.3
     projectileSpeed: 40
-  - type: Wieldable
+    selectedMode: SemiAuto
+    angleDecay: 45
+    minAngle: 44
+    maxAngle: 45
+    availableModes:
+    - SemiAuto
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/kinetic_accel.ogg
+  - type: AmmoCounter
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.AmmoVisuals.HasAmmo:
+        empty-icon:
+          True: { visible: False }
+          False: { visible: True }
+  - type: RechargeBasicEntityAmmo
+    rechargeCooldown: 0.75
+    rechargeSound:
+      path: /Audio/Weapons/Guns/MagIn/kinetic_reload.ogg
   - type: BasicEntityAmmoProvider
     proto: BulletKineticMagmite
-  - type: HeldSpeedModifier
+    capacity: 1
+    count: 1
+  - type: Clothing
+    sprite: _DeadSpace/Objects/Weapons/Guns/Basic/magmite.rsi
+    quickEquip: false
+    slots:
+    - suitStorage
+    - Belt
+  - type: ContainerContainer
+    containers:
+      upgrades: !type:Container
+  - type: UseDelay
+    delay: 1

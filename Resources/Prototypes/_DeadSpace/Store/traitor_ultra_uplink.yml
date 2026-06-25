@@ -1,0 +1,91 @@
+- type: entity
+  id: StorePresetTraitorUltraUplink
+  abstract: true
+  components:
+  - type: Store
+    name: store-preset-name-uplink
+    categories:
+    - TraitorUltraUplinkWeaponry
+    - TraitorUltraUplinkAmmo
+    - TraitorUltraUplinkExplosives
+    - TraitorUltraUplinkWearables
+    - TraitorUltraUplinkChemicals
+    - TraitorUltraUplinkDeception
+    - TraitorUltraUplinkDisruption
+    - TraitorUltraUplinkImplants
+    - TraitorUltraUplinkAllies
+    - TraitorUltraUplinkJob
+    - TraitorUltraUplinkExclusive
+    - TraitorUltraUplinkPointless
+    - TraitorUltraUplinkPresets
+    currencyWhitelist:
+    - Telecrystal
+    balance:
+      Telecrystal: 0
+    expectedFaction:
+    - Syndicate
+
+- type: storeCategory
+  id: TraitorUltraUplinkWeaponry
+  name: store-category-weapons
+  priority: 0
+
+- type: storeCategory
+  id: TraitorUltraUplinkAmmo
+  name: store-category-ammo
+  priority: 1
+
+- type: storeCategory
+  id: TraitorUltraUplinkExplosives
+  name: store-category-explosives
+  priority: 2
+
+- type: storeCategory
+  id: TraitorUltraUplinkWearables
+  name: store-category-wearables
+  priority: 3
+
+- type: storeCategory
+  id: TraitorUltraUplinkChemicals
+  name: store-category-chemicals
+  priority: 4
+
+- type: storeCategory
+  id: TraitorUltraUplinkDeception
+  name: store-category-deception
+  priority: 5
+
+- type: storeCategory
+  id: TraitorUltraUplinkDisruption
+  name: store-category-disruption
+  priority: 6
+
+- type: storeCategory
+  id: TraitorUltraUplinkImplants
+  name: store-category-implants
+  priority: 7
+
+- type: storeCategory
+  id: TraitorUltraUplinkAllies
+  name: store-category-allies
+  priority: 8
+
+- type: storeCategory
+  id: TraitorUltraUplinkJob
+  name: store-category-job
+  priority: 9
+
+- type: storeCategory
+  id: TraitorUltraUplinkExclusive
+  name: store-category-ultra
+  priority: 10
+
+- type: storeCategory
+  id: TraitorUltraUplinkPointless
+  name: store-category-pointless
+  priority: 11
+
+- type: storeCategory
+  id: TraitorUltraUplinkPresets
+  name: store-category-presets
+  priority: 11

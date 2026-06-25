@@ -1,0 +1,21 @@
+- type: entity
+  id: BulletRailgun
+  name: Railgun
+  parent: BaseBulletTrigger
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
+    layers:
+      - state: frag
+  - type: ExplodeOnTrigger
+  - type: Explosive
+    explosionType: Radioactive
+    maxIntensity: 200
+    intensitySlope: 6
+    totalIntensity: 3500
+    maxTileBreak: 20
+  - type: PointLight
+    radius: 3.5
+    color: orange
+    energy: 0.5

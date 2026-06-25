@@ -363,6 +363,9 @@ public abstract partial class SharedMindSystem : EntitySystem
         var title = Name(objective);
         _adminLogger.Add(LogType.Mind, LogImpact.Low, $"Objective {objective} ({title}) added to mind of {MindOwnerLoggingString(mind)}");
         mind.Objectives.Add(objective);
+        // DS14-start
+        RaiseLocalEvent(mindId, new MindObjectiveAddedEvent(mindId, mind, objective), true);
+        // DS14-end
     }
 
     /// <summary>
@@ -709,6 +712,10 @@ public record struct GetCharactedDeadIcEvent(bool? Dead);
 /// <param name="Unrevivable"></param>
 [ByRefEvent]
 public record struct GetCharacterUnrevivableIcEvent(bool? Unrevivable);
+
+// DS14-start
+public sealed record MindObjectiveAddedEvent(EntityUid MindId, MindComponent Mind, EntityUid Objective);
+// DS14-end
 
 public sealed record MindStringRepresentation(EntityStringRepresentation? OwnedEntity, bool PlayerPresent, NetUserId? Player) : IAdminLogsPlayerValue
 {

@@ -27,12 +27,14 @@ public sealed class LavalandWeatherSystem : EntitySystem
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly SharedMapSystem _map = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly SharedWeatherSystem _weather = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
 
     private EntityQuery<LavalandWeatherImmuneComponent> _immuneQuery;
     private EntityQuery<MapGridComponent> _gridQuery;
     private EntityQuery<TransformComponent> _xformQuery;
+    private readonly HashSet<EntityUid> _weatherEntities = new();
 
     public override void Initialize()
     {
@@ -184,10 +186,24 @@ public sealed class LavalandWeatherSystem : EntitySystem
         if (planet.AshStormDamage.Empty)
             return;
 
-        var query = EntityQueryEnumerator<DamageableComponent, MobStateComponent, TransformComponent>();
-        while (query.MoveNext(out var uid, out var damageable, out var mobState, out var xform))
+        var damage = new DamageSpecifier(planet.AshStormDamage);
+        var mapId = Transform(mapUid).MapID;
+        var halfSize = GetWeatherLookupHalfSize(planet);
+        var bounds = new Box2(-halfSize, -halfSize, halfSize, halfSize);
+
+        _weatherEntities.Clear();
+        _lookup.GetEntitiesIntersecting(
+            mapId,
+            bounds,
+            _weatherEntities,
+            LookupFlags.Dynamic | LookupFlags.Sundries);
+
+        foreach (var uid in _weatherEntities)
         {
-            if (xform.MapUid != mapUid ||
+            if (!TryComp(uid, out DamageableComponent? damageable) ||
+                !TryComp(uid, out MobStateComponent? mobState) ||
+                !TryComp(uid, out TransformComponent? xform) ||
+                xform.MapUid != mapUid ||
                 xform.GridUid is not { } gridUid ||
                 !_gridQuery.TryGetComponent(gridUid, out var grid) ||
                 !_map.TryGetTileRef(gridUid, grid, xform.Coordinates, out var tile) ||
@@ -203,9 +219,10 @@ public sealed class LavalandWeatherSystem : EntitySystem
                 continue;
             }
 
-            var damage = new DamageSpecifier(planet.AshStormDamage);
             _damageable.TryChangeDamage((uid, damageable), damage, interruptsDoAfters: false, origin: mapUid);
         }
+
+        _weatherEntities.Clear();
     }
 
     private bool IsWeatherImmune(EntityUid uid, TransformComponent xform)
@@ -259,6 +276,15 @@ public sealed class LavalandWeatherSystem : EntitySystem
     {
         var interval = ClampDuration(planet.AshStormDamageInterval);
         return interval == TimeSpan.Zero ? TimeSpan.FromSeconds(1) : interval;
+    }
+
+    private static float GetWeatherLookupHalfSize(LavalandPlanetPrototype planet)
+    {
+        const float MinExtraMargin = 64f;
+        var halfSize = Math.Max(1, planet.MapHalfSize);
+        var extraMargin = Math.Max(MinExtraMargin, planet.FtlFallbackMaxOffset + MinExtraMargin);
+
+        return halfSize + extraMargin;
     }
 
     private static TimeSpan ClampDuration(TimeSpan duration)

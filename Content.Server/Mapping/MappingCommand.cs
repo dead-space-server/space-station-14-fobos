@@ -145,6 +145,9 @@ namespace Content.Server.Mapping
                 _mapSystem.CreateMap(out mapId, runMapInit: false);
 
             // map successfully created. run misc helpful mapping commands
+            if (_mapSystem.TryGetMap(mapId, out var mapUid))
+                EntityManager.EnsureComponent<MappingModeComponent>(mapUid.Value);
+
             if (player.AttachedEntity is { Valid: true } playerEntity &&
                 (EntityManager.GetComponent<MetaDataComponent>(playerEntity).EntityPrototype is not { } proto || proto != GameTicker.AdminObserverPrototypeName))
             {
