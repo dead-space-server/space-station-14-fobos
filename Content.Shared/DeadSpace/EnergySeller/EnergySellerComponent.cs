@@ -1,0 +1,19 @@
+using Robust.Shared.GameStates;
+using Content.Shared.Cargo.Prototypes;
+
+namespace Content.Shared.DeadSpace.EnergySeller;
+
+[RegisterComponent, NetworkedComponent]
+public sealed partial class EnergySellerComponent : Component
+{
+    /// <summary>
+    /// Коэффицент надбавки за продаваемое количество электроэнергии.
+    /// По умолчанию стоит надбавка за каждый мегавват, то есть за 1 продаваемый мегават множитель будет 2
+    /// </summary>
+    [DataField]
+    public int AdditionalCoefficient = 1000000;
+
+    public string Account = "Engineering";
+
+
+}
