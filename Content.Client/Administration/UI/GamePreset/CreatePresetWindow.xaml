@@ -1,0 +1,14 @@
+<DefaultWindow xmlns="https://spacestation14.io"
+               Title="{Loc game-preset-create-window-title}"
+               MinSize="400 300"
+               SetSize="500 400">
+    <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="8">
+        <LineEdit Name="PresetNameEdit" PlaceHolder="{Loc game-preset-name-placeholder}" />
+        <CheckBox Name="RdmCheckBox" Text="{Loc game-preset-type-rdm}" ToolTip="{Loc game-preset-type-rdm-tooltip}" />
+        <CheckBox Name="SecretCheckBox" Text="{Loc game-preset-type-secret}" ToolTip="{Loc game-preset-type-secret-tooltip}" />
+        <ScrollContainer VerticalExpand="True">
+            <GridContainer Name="ModesGrid" Columns="2" />
+        </ScrollContainer>
+        <Button Name="SaveButton" Text="{Loc game-preset-save-button}" />
+    </BoxContainer>
+</DefaultWindow>

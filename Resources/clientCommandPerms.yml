@@ -103,4 +103,8 @@
 - Flags: ADMIN
   Commands:
     - gamerulesui
+
+- Flags: SERVER
+  Commands:
+    - gamepresetui
 # DS14-end

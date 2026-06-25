@@ -11,6 +11,7 @@ using Content.Server.Administration.Logs;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Construction.Prototypes;
 using Content.Shared.Database;
+using Content.Shared.DeadSpace.Administration.GamePreset; //DS14
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Markings;
 using Content.Shared.Preferences;
@@ -1003,6 +1004,8 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
             entity.MediumPoolQueueMaps = config.MediumPoolQueueMaps;
             entity.LargePoolQueueMaps = config.LargePoolQueueMaps;
         }
+        public abstract Task<GamePresetConfigRecord?> GetGamePresetConfigAsync(string serverId, CancellationToken cancel = default);
+        public abstract Task UpsertGamePresetConfigAsync(GamePresetConfigRecord config, CancellationToken cancel = default);
         // DS14-end
 
         [return: NotNullIfNotNull(nameof(round))]

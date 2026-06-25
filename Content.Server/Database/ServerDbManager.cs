@@ -9,6 +9,7 @@ using Content.Shared.Administration.Logs;
 using Content.Shared.CCVar;
 using Content.Shared.Construction.Prototypes;
 using Content.Shared.Database;
+using Content.Shared.DeadSpace.Administration.GamePreset; //DS14
 using Content.Shared.Preferences;
 using Content.Shared.Roles;
 using Microsoft.Data.Sqlite;
@@ -215,6 +216,13 @@ namespace Content.Server.Database
         Task UpsertAutoMapVoteConfigAsync(AutoMapVoteConfigRecord config, CancellationToken cancel = default);
 
         #endregion
+
+        #region Game Preset Config
+
+        Task<GamePresetConfigRecord?> GetGamePresetConfigAsync(CancellationToken cancel = default);
+        Task UpsertGamePresetConfigAsync(GamePresetConfigRecord config, CancellationToken cancel = default);
+
+        #endregion
         // DS14-end
 
         Task AddBiStatAsync(string gameMode, BiStatWinner winner, DateTime date); // DS14
@@ -394,6 +402,8 @@ namespace Content.Server.Database
 
         private readonly List<Action<DatabaseNotification>> _notificationHandlers = [];
 
+        private string _serverId = string.Empty; //DS14
+
         public void Init()
         {
             _msLogProvider = new LoggingProvider(_logMgr);
@@ -404,6 +414,7 @@ namespace Content.Server.Database
             _sawmill = _logMgr.GetSawmill("db.manager");
 
             _synchronous = _cfg.GetCVar(CCVars.DatabaseSynchronous);
+            _serverId = _cfg.GetCVar(CCVars.ServerId); //DS14
 
             var engine = _cfg.GetCVar(CCVars.DatabaseEngine).ToLower();
             var opsLog = _logMgr.GetSawmill("db.op");
@@ -705,9 +716,19 @@ namespace Content.Server.Database
             DbWriteOpsMetric.Inc();
             return RunDbCommand(() => _db.UpsertAutoMapVoteConfigAsync(config, cancel));
         }
-        // DS14-end
 
-        // DS14-Start
+        public Task<GamePresetConfigRecord?> GetGamePresetConfigAsync(CancellationToken cancel = default)
+        {
+            DbReadOpsMetric.Inc();
+            return RunDbCommand(() => _db.GetGamePresetConfigAsync(_serverId, cancel));
+        }
+
+        public Task UpsertGamePresetConfigAsync(GamePresetConfigRecord config, CancellationToken cancel = default)
+        {
+            DbWriteOpsMetric.Inc();
+            return RunDbCommand(() => _db.UpsertGamePresetConfigAsync(config, cancel));
+        }
+
         public Task AddBiStatAsync(string gameMode, BiStatWinner winner, DateTime date)
         {
             DbWriteOpsMetric.Inc();
