@@ -5,6 +5,7 @@ using Content.Server.Antag;
 using Content.Server.Chat.Managers;
 using Content.Shared.CCVar;
 using Content.Shared.GameTicking;
+using Content.Shared.Players;
 using Robust.Shared.Configuration;
 using Robust.Shared.Player;
 
@@ -12,6 +13,7 @@ namespace Content.Server.DeadSpace.CustomNameOnSpawn;
 
 public sealed class CustomNameOnSpawnSystem : EntitySystem
 {
+    [Dependency] private readonly AntagSelectionSystem _antagSelection = default!;
     [Dependency] private readonly MetaDataSystem _metaSystem = default!;
     [Dependency] private readonly QuickDialogSystem _quickDialog = default!;
     [Dependency] private readonly IChatManager _chatManager = default!;
@@ -24,7 +26,7 @@ public sealed class CustomNameOnSpawnSystem : EntitySystem
         // Для обычных игроков (раундстарт, лейтджоин)
         SubscribeLocalEvent<CustomNameOnSpawnComponent, PlayerSpawnCompleteEvent>(OnPlayerSpawned);
 
-        // Для антагов 
+        // Для антагов
         SubscribeLocalEvent<AfterAntagEntitySelectedEvent>(OnAntagSelected);
     }
 
@@ -47,12 +49,12 @@ public sealed class CustomNameOnSpawnSystem : EntitySystem
         if (!TryComp<CustomNameOnSpawnComponent>(ent, out var comp))
             return;
 
-        ShowNameChangeMenu(ent, comp, args.Session);
+        ShowNameChangeMenu(ent, comp, args.Session, args.GameRule.Owner);
     }
 
     // Общая логика диалога
 
-    private void ShowNameChangeMenu(EntityUid ent, CustomNameOnSpawnComponent component, ICommonSession player)
+    private void ShowNameChangeMenu(EntityUid ent, CustomNameOnSpawnComponent component, ICommonSession player, EntityUid? antagRule = null)
     {
         var maxNameLength = _cfgManager.GetCVar(CCVars.MaxNameLength);
 
@@ -73,17 +75,7 @@ public sealed class CustomNameOnSpawnSystem : EntitySystem
                         player,
                         Loc.GetString("custom-name-on-start-too-short"),
                         true);
-                    ShowNameChangeMenu(ent, component, player);
-                    return;
-                }
-
-                if (newName.Length >= maxNameLength)
-                {
-                    _chatManager.DispatchServerMessage(
-                        player,
-                        Loc.GetString("custom-name-on-start-too-long"),
-                        true);
-                    ShowNameChangeMenu(ent, component, player);
+                    ShowNameChangeMenu(ent, component, player, antagRule);
                     return;
                 }
 
@@ -91,7 +83,20 @@ public sealed class CustomNameOnSpawnSystem : EntitySystem
                     ? $"{component.NamePrefix} {newName}"
                     : newName;
 
+                if (finalName.Length > maxNameLength)
+                {
+                    _chatManager.DispatchServerMessage(
+                        player,
+                        Loc.GetString("custom-name-on-start-too-long"),
+                        true);
+                    ShowNameChangeMenu(ent, component, player, antagRule);
+                    return;
+                }
+
                 _metaSystem.SetEntityName(ent, finalName);
+
+                if (antagRule != null && player.GetMind() is { } mind)
+                    _antagSelection.UpdateAntagIdentifierName(antagRule.Value, mind, finalName);
             });
     }
 }
