@@ -20,3 +20,10 @@
   description: app-catalog-entry-snake-desc
   category: Games
   programId: SnakeCartridge
+
+- type: appCatalogEntry
+  id: app-scanner
+  name: app-catalog-entry-scanner-name
+  description: app-catalog-entry-scanner-desc
+  category: Tools
+  programId: ScannerProgramCartridge

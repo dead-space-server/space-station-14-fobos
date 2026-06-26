@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Text.Json; //DS14
 using System.Threading;
 using System.Threading.Tasks;
 using Content.Server.Administration.Logs;
@@ -10,6 +11,7 @@ using Content.Server.IP;
 using Content.Server.Preferences.Managers;
 using Content.Shared.CCVar;
 using Content.Shared.Database;
+using Content.Shared.DeadSpace.Administration.GamePreset; //DS14
 using Microsoft.EntityFrameworkCore;
 using Robust.Shared.Configuration;
 using Robust.Shared.Network;
@@ -398,6 +400,52 @@ namespace Content.Server.Database
             DebugTools.Assert(time.Kind == DateTimeKind.Unspecified);
             return DateTime.SpecifyKind(time, DateTimeKind.Utc);
         }
+
+        //DS14-Start
+        public override async Task<GamePresetConfigRecord?> GetGamePresetConfigAsync(string serverId, CancellationToken cancel = default)
+        {
+            await using var db = await GetDb(cancel);
+            var entity = await db.DbContext.Set<GamePresetConfigEntity>()
+                .SingleOrDefaultAsync(r => r.ServerId == serverId, cancel);
+            if (entity == null)
+                return null;
+
+            return new GamePresetConfigRecord
+            {
+                ServerId = entity.ServerId,
+                Enabled = entity.Enabled,
+                MaxRdmRow = entity.MaxRdmRow,
+                MaxRdmDay = entity.MaxRdmDay,
+                VoteDurationSeconds = entity.VoteDurationSeconds,
+                CurrentPresetIndex = entity.CurrentPresetIndex,
+                ActivePresetIds = JsonSerializer.Deserialize<List<string>>(entity.ActivePresetIdsJson) ?? new List<string>(),
+                CustomPresetsJson = entity.CustomPresetsJson,
+                DisableOocDuringVote = entity.DisableOocDuringVote
+            };
+        }
+
+        public override async Task UpsertGamePresetConfigAsync(GamePresetConfigRecord config, CancellationToken cancel = default)
+        {
+            await using var db = await GetDb(cancel);
+            var set = db.DbContext.Set<GamePresetConfigEntity>();
+            var entity = await set.SingleOrDefaultAsync(r => r.ServerId == config.ServerId, cancel);
+            if (entity == null)
+            {
+                entity = new GamePresetConfigEntity { ServerId = config.ServerId };
+                set.Add(entity);
+            }
+
+            entity.Enabled = config.Enabled;
+            entity.MaxRdmRow = config.MaxRdmRow;
+            entity.MaxRdmDay = config.MaxRdmDay;
+            entity.VoteDurationSeconds = config.VoteDurationSeconds;
+            entity.CurrentPresetIndex = config.CurrentPresetIndex;
+            entity.ActivePresetIdsJson = JsonSerializer.Serialize(config.ActivePresetIds);
+            entity.CustomPresetsJson = config.CustomPresetsJson;
+            entity.DisableOocDuringVote = config.DisableOocDuringVote;
+            await db.DbContext.SaveChangesAsync(cancel);
+        }
+        //DS14-End
 
         private async Task<DbGuardImpl> GetDbImpl(
             CancellationToken cancel = default,

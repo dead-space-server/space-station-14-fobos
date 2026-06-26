@@ -19,3 +19,11 @@
         Blunt: 20
     soundHit:
       path: "/Audio/Weapons/smash.ogg"
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/tools/toolbox_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/Items/toolbox_drop.ogg
+  #DS14-End

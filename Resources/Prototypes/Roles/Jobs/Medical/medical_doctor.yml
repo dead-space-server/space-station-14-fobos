@@ -38,6 +38,7 @@
   equipment:
     id: MedicalPDA # DS14
     ears: ClothingHeadsetMedical
+    belt: ClothingBeltMedicalFilled # DS14
 
 - type: chameleonOutfit
   id: MedicalDoctorChameleonOutfit

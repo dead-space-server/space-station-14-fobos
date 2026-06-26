@@ -27,6 +27,7 @@
     - RandomSentience
     - GreytideVirus
     - LowVirusPandemic
+    - GameRuleMeteorSwarmSmall
 
 - type: gameRuleCategory
   id: Rare
@@ -60,6 +61,8 @@
     - ZaratanaSpawn
     - MediumVirusPandemic
     - SentientVirusEvent
+    - GameRuleMeteorSwarmMedium
+    - GameRuleMeteorSwarmLarge
 
 - type: gameRuleCategory
   id: Extreme
@@ -173,6 +176,18 @@
 - type: gameRuleDisplayName
   id: ClosetSkeleton
   name: Скелет в шкафу
+
+- type: gameRuleDisplayName
+  id: GameRuleMeteorSwarmSmall
+  name: Небольшой метеоритный рой
+
+- type: gameRuleDisplayName
+  id: GameRuleMeteorSwarmMedium
+  name: Средний метеоритный рой
+
+- type: gameRuleDisplayName
+  id: GameRuleMeteorSwarmLarge
+  name: Крупный метеоритный рой
 
 - type: gameRuleDisplayName
   id: BreakerFlip

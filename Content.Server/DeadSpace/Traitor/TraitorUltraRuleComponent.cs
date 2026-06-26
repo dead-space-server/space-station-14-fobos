@@ -102,7 +102,6 @@ public sealed partial class TraitorUltraRuleComponent : Component
     [DataField]
     public List<EntProtoId> HighRiskStealObjectives = new()
     {
-        "NukeDiskStealObjective",
         "CaptainIDStealObjective",
         "CaptainGunStealObjective",
         "CaptainJetpackStealObjective",
@@ -121,6 +120,7 @@ public sealed partial class TraitorUltraRuleComponent : Component
         "TraitorUltraDestroyAmeControllerObjective",
         "TraitorUltraHijackShuttleObjective",
         "TraitorUltraDestroyServersObjective",
+        "NukeDiskStealObjective",
     };
 
     [DataField]

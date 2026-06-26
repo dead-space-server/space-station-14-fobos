@@ -41,6 +41,12 @@
   - PlushieRIP
   - PlushieFloria
   - PlushieAino
+  - PlushieMagicColonel
+  - PlushieUraniDmitrySpeisov
+  - PlushieZekalAhmet
+  - PlushieSargonValeniyaSato
+  - PlushieKoteViyt
+  - PlushieCyberBobeksRiikka
   - PlushieSilAily
   - PlushieSilAizek
   - PlushieSilAzrail
@@ -83,9 +89,6 @@
   - PlushieSilEgor
   - PlushieSilKim
   - PlushieSilEmma
-  - PlushieYosifAnita
-  - PlushieYosifEvelina
-  - PlushieYosifLucius
   - PlushieMoth3eilado
   - PlushieMoth3eiladoBlue
   - ThreeCandles
@@ -1551,6 +1554,7 @@
   - SecurityJumpskirt
   - SecurityJumpsuitGrey
   - SecurityJumpskirtGrey
+  - SecurityJumpsuitSecBlue # DS14
   - SecurityJumpsuitBlack # DS14
   - SecurityJumpskirtPencil # DS14
   # - SeniorOfficerJumpsuit

@@ -4,6 +4,8 @@
     ClothingBackpackSecurity: 4
     ClothingBackpackSatchelSecurity: 4
     ClothingBackpackDuffelSecurity: 4
+    ClothingBackpackTailbagSecurity: 3 # DS14
+    ClothingBackpackTailbagBrigmedic: 1 # DS14
     ClothingUniformJumpsuitSec: 4
     ClothingShoesBootsJack: 4
     ClothingHeadHatBeretSecurity: 4
@@ -36,7 +38,6 @@
     HyperLinkBookCorporateLaw: 2
     HyperLinkBookSOPSecurity: 2
     ClothingHeadHelmetJustice: 2
-    ClothingBackpackTailbagSecurity: 3 # DS14
   contrabandInventory:
     ClothingMaskClownSecurity: 1
     ClothingMaskMimeSecurity: 1

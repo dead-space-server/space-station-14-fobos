@@ -572,6 +572,53 @@ namespace Content.Server.Database.Migrations.Sqlite
                     b.ToTable("auto_map_vote_config", (string)null);
                 });
 
+            modelBuilder.Entity("Content.Server.Database.GamePresetConfigEntity", b =>
+                {
+                    b.Property<string>("ServerId")
+                        .HasMaxLength(128)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("server_id");
+
+                    b.Property<string>("ActivePresetIdsJson")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("active_preset_ids_json");
+
+                    b.Property<string>("CustomPresetsJson")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("custom_presets_json");
+
+                    b.Property<int>("CurrentPresetIndex")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("current_preset_index");
+
+                    b.Property<bool>("DisableOocDuringVote")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("disable_ooc_during_vote");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("enabled");
+
+                    b.Property<int>("MaxRdmDay")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("max_rdm_day");
+
+                    b.Property<int>("MaxRdmRow")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("max_rdm_row");
+
+                    b.Property<int>("VoteDurationSeconds")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("vote_duration_seconds");
+
+                    b.HasKey("ServerId")
+                        .HasName("PK_game_preset_config");
+
+                    b.ToTable("game_preset_config", (string)null);
+                });
+
             modelBuilder.Entity("Content.Server.Database.Ban", b =>
                 {
                     b.Property<int>("Id")

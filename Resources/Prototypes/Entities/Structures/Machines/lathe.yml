@@ -338,46 +338,6 @@
     - Robotics
 
 - type: entity
-  id: Biofabricator
-  parent: BaseLathe
-  name: biocube fabricator
-  description: Produces animal cubes using biomass.
-  components:
-  - type: Sprite
-    sprite: Structures/Machines/biofabricator.rsi
-    snapCardinals: true
-    layers:
-    - state: icon
-      map: ["enum.LatheVisualLayers.IsRunning"]
-      color: "#ffaa99"
-    - state: unlit
-      shader: unshaded
-      map: ["enum.PowerDeviceVisualLayers.Powered"]
-      color: "#ffaaaa"
-    - state: inserting
-      map: ["enum.MaterialStorageVisualLayers.Inserting"]
-      color: "#ffaaaa"
-    - state: panel
-      map: ["enum.WiresVisualLayers.MaintenancePanel"]
-      visible: false # DS14
-  - type: Machine
-    board: BiofabricatorMachineCircuitboard
-  - type: MaterialStorage
-    ignoreColor: true
-    whitelist:
-      tags:
-        - Sheet
-        - RawMaterial
-  - type: Lathe
-    idleState: icon
-    runningState: building
-    staticPacks:
-    - FriendlyCubesStatic
-  - type: EmagLatheRecipes
-    emagStaticPacks:
-    - HostileCubesStatic
-
-- type: entity
   id: SecurityTechFab
   parent: BaseLatheLube
   name: security techfab
@@ -595,13 +555,18 @@
       machine_board: !type:Container
       machine_parts: !type:Container
       beaker_slot: !type:ContainerSlot
+  # DS14-start
   - type: Lathe
     reagentOutputSlotId: beaker_slot
     idleState: icon
     runningState: building
     staticPacks:
+    - FriendlyCubesStatic
     - BioGenIngredientsStatic
     - BioGenMaterialsStatic
+    - BioGenSeedsStatic
+    - BioGenSaucesStatic
+  # DS14-end
   - type: EmagLatheRecipes
     emagStaticPacks:
     - BioGenEmagStatic

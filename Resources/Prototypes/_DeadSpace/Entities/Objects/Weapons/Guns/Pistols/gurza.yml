@@ -74,7 +74,7 @@
     containers:
       ballistic-ammo: !type:Container
   - type: Sprite
-    scale: 1.2, 1.2 # DS-14
+    scale: 1.2, 1.2
     sprite: _DeadSpace/Objects/Weapons/Guns/Ammunition/Magazine/Pistol/gurza_mag.rsi
     layers:
     - state: base
@@ -86,11 +86,18 @@
     steps: 8
     zeroVisible: false
   - type: Appearance
-  # DS14-start
   - type: PhysicalComposition
     materialComposition:
       Steel: 25
-  # DS14-end
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/magazine/magazine_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/magazine/magazine_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/gun/ballistics/magazine/magazine_drop.ogg
 
 - type: entity
   id: MagazineGurza
@@ -100,7 +107,7 @@
   - type: BallisticAmmoProvider
     proto: CartridgePistol
   - type: Sprite
-    scale: 1.2, 1.2 # DS-14
+    scale: 1.2, 1.2
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
@@ -122,7 +129,7 @@
   - type: BallisticAmmoProvider
     proto: null
   - type: Sprite
-    scale: 1.2, 1.2 # DS-14
+    scale: 1.2, 1.2
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]

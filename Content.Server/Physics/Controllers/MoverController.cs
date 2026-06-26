@@ -25,6 +25,7 @@ public sealed class MoverController : SharedMoverController
         "Amount of ActiveInputMovers being processed by MoverController");
 
     [Dependency] private readonly ThrusterSystem _thruster = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
 
     private Dictionary<EntityUid, (ShuttleComponent, List<(EntityUid, PilotComponent, InputMoverComponent, TransformComponent)>)> _shuttlePilots = new();
 
@@ -40,6 +41,7 @@ public sealed class MoverController : SharedMoverController
     // Not needed for persistence; just used to save an alloc
     private readonly HashSet<EntityUid> _seenMovers = [];
     private readonly HashSet<EntityUid> _seenRelayMovers = [];
+    private readonly HashSet<Entity<DockingComponent>> _shuttleDockSet = [];
     private readonly List<Entity<InputMoverComponent>> _moversToUpdate = [];
 
     public override void Initialize()
@@ -839,7 +841,22 @@ public sealed class MoverController : SharedMoverController
     {
         return FTLQuery.TryComp(shuttleUid, out var ftl)
         && (ftl.State & (FTLState.Starting | FTLState.Travelling | FTLState.Arriving)) != 0x0
-            || PreventPilotQuery.HasComp(shuttleUid);
+            || PreventPilotQuery.HasComp(shuttleUid)
+            || HasDockedPort(shuttleUid);
+    }
+
+    private bool HasDockedPort(EntityUid shuttleUid)
+    {
+        _shuttleDockSet.Clear();
+        _lookup.GetChildEntities(shuttleUid, _shuttleDockSet);
+
+        foreach (var dock in _shuttleDockSet)
+        {
+            if (dock.Comp.DockedWith != null)
+                return true;
+        }
+
+        return false;
     }
 
 }

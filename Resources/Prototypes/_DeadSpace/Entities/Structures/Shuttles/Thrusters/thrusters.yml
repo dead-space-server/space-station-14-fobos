@@ -46,6 +46,8 @@
         density: 75
   - type: TileFrictionModifier
     modifier: 0.7
+  - type: Thruster
+    thrust: 500
     
 - type: entity
   id: DebugThrusterMedium
@@ -67,6 +69,39 @@
       anchored: false
     - type: Physics
       bodyType: Dynamic
+
+- type: entity
+  id: ThrusterMediumAlt
+  parent: ThrusterMedium
+  suffix: Альтернативный
+  components:
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.45,-1.45,1.45,0.45"
+        density: 1750
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Shuttles/Thrusters/medium.rsi
+    offset: 0.5,-0.5
+    layers:
+    - state: base
+      map: ["enum.ThrusterVisualLayers.Base"]
+    - state: thrust
+      map: ["enum.ThrusterVisualLayers.ThrustOn"]
+      shader: unshaded
+      visible: false
+    - state: thrust_burn_unshaded
+      map: ["enum.ThrusterVisualLayers.ThrustingUnshaded"]
+      shader: unshaded
+      visible: false
+      offset: 0, 1.87
+
 
 - type: entity
   parent: [ BaseThruster, ConstructibleMachine ]
@@ -114,6 +149,8 @@
         layer:
         - MachineLayer
         density: 90
+  - type: Thruster
+    thrust: 1000
 
 - type: entity
   id: DebugThrusterLarge

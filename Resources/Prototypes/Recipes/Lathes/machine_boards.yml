@@ -409,11 +409,6 @@
   result: BiogeneratorMachineCircuitboard
 
 - type: latheRecipe
-  parent: [ BaseGoldCircuitboardRecipe, BaseServiceMachineRecipeCategory ]
-  id: BiofabricatorMachineCircuitboard
-  result: BiofabricatorMachineCircuitboard
-
-- type: latheRecipe
   parent: [ BaseCircuitboardRecipe, BaseSupplyMachineRecipeCategory ]
   id: OreProcessorMachineCircuitboard
   result: OreProcessorMachineCircuitboard

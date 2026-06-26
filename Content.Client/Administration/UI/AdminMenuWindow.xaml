@@ -6,8 +6,17 @@
     xmlns:tabs="clr-namespace:Content.Client.Administration.UI.Tabs"
     xmlns:playerTab="clr-namespace:Content.Client.Administration.UI.Tabs.PlayerTab"
     xmlns:objectsTab="clr-namespace:Content.Client.Administration.UI.Tabs.ObjectsTab"
-    xmlns:panic="clr-namespace:Content.Client.Administration.UI.Tabs.PanicBunkerTab">
-    <TabContainer Name="MasterTabContainer">
+    xmlns:panic="clr-namespace:Content.Client.Administration.UI.Tabs.PanicBunkerTab"
+    MinWidth="720"
+    MinHeight="360"
+    SetSize="780 430"
+    HeaderClass="DS14MenuHeader"
+    TitleClass="DS14MenuTitle">
+    <!-- DS14-start -->
+    <TabContainer Name="MasterTabContainer"
+                  HorizontalExpand="True"
+                  VerticalExpand="True"
+                  StyleClasses="DS14MenuTabs">
         <adminTab:AdminTab />
         <adminbusTab:AdminbusTab />
         <atmosTab:AtmosTab />
@@ -17,4 +26,5 @@
         <playerTab:PlayerTab Name="PlayerTabControl" Access="Public" />
         <objectsTab:ObjectsTab Name="ObjectsTabControl" Access="Public" />
     </TabContainer>
+    <!-- DS14-end -->
 </DefaultWindow>

@@ -179,6 +179,12 @@
   - ClothingBackpackTailbagSalvage # DS14
   - ClothingBackpackTailbagScience # DS14
   - ClothingBackpackTailbagSecurity # DS14
+  - ClothingBackpackTailbagVirology # DS14
+  - ClothingBackpackTailbagBlueshield # DS14
+  - ClothingBackpackTailbagRobotics # DS14
+  - ClothingBackpackTailbagCoroner # DS14
+  - ClothingBackpackTailbagCE # DS14
+  - ClothingBackpackTailbagBrigmedic # DS14
 
 - type: latheRecipePack
   id: WinterCoats

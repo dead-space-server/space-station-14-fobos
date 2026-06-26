@@ -25,4 +25,16 @@ public sealed partial class ZombieRuleComponent : Component
     /// </summary>
     [DataField]
     public float ZombieShuttleCallPercentage = 0.7f;
+
+    // DS14-start
+    /// <summary>
+    /// Whether the automatic zombie shuttle call threshold has already been handled.
+    /// </summary>
+    public bool ZombieShuttleAutoCallHandled;
+
+    /// <summary>
+    /// Whether automatic zombie shuttle calling was disabled because round admins were online.
+    /// </summary>
+    public bool ZombieShuttleAutoCallDisabled;
+    // DS14-end
 }

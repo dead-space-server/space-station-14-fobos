@@ -161,6 +161,15 @@ public sealed class CodeLockSystem : EntitySystem
         UpdateUserInterface(uid, codelock);
     }
 
+    public void CodeLockStatusChanged(EntityUid uid, CodeLockComponent? component = null)
+    {
+        if (!Resolve(uid, ref component))
+            return;
+
+        var ev = new CodeLockStatusChangedEvent(component.Status);
+        RaiseLocalEvent(uid, ref ev);
+    }
+
     private void UpdateStatus(EntityUid uid, CodeLockComponent? component = null)
     {
         if (!Resolve(uid, ref component))
@@ -192,8 +201,10 @@ public sealed class CodeLockSystem : EntitySystem
                     component.EnteredCode = "";
                     _audio.PlayPvs(component.AccessDeniedSound, uid);
                 }
+                CodeLockStatusChanged(uid, component);
                 break;
             case CodeLockStatus.UNLOCKED:
+                CodeLockStatusChanged(uid, component);
                 break;
             case CodeLockStatus.CHANGE:
                 if (component.EnteredCode != "")
@@ -208,6 +219,7 @@ public sealed class CodeLockSystem : EntitySystem
                         _lock.Lock(uid, null, lockComp);
                     }
                 }
+                CodeLockStatusChanged(uid, component);
                 break;
         }
     }

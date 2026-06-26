@@ -4,6 +4,7 @@
   name: ховербайк
   description: Врум врум моя машинка! На нём можно летать в космосе!
   components:
+  - type: HoverIgnoresContactSlowdown
   - type: MovementSpeedModifier
     weightlessModifier: 0
     baseAcceleration: 1.7

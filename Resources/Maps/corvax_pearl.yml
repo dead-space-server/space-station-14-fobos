@@ -41579,15 +41579,15 @@ entities:
           id: docking54419
           localAnchorB: 0.49999997,-8
           localAnchorA: -33,-24.5
-          referenceAngle: 7.8539815
-          damping: 1013.3019
-          stiffness: 9095.377
+          referenceAngle: 1.5707964
+          damping: 0
+          stiffness: 0
   - uid: 20095
     components:
     - type: MetaData
       name: NT-Raven-GE 12
     - type: Transform
-      rot: 7.853981633974483 rad
+      rot: 1.5707963267948966 rad
       pos: -41.44734,-25.519606
       parent: 1
     - type: MapGrid
@@ -41850,9 +41850,9 @@ entities:
           id: docking54419
           localAnchorB: -33,-24.5
           localAnchorA: 0.49999997,-8
-          referenceAngle: -7.8539815
-          damping: 1013.3019
-          stiffness: 9095.377
+          referenceAngle: -1.5707964
+          damping: 0
+          stiffness: 0
 - proto: AccordionInstrument
   entities:
   - uid: 3

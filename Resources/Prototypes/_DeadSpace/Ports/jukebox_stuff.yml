@@ -16,6 +16,15 @@
     sprite: _DeadSpace/Ports/jukeboxStuff/tape.rsi
     heldPrefix: tape
     size: Tiny
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/tape_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/tape_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/tape_drop.ogg
 
 - type: entity
   parent: BaseTape
@@ -50,6 +59,15 @@
     containers:
       jukebox_tapes: !type:Container
       jukebox_default_tapes: !type:Container
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/taperecorder_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/taperecorder_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/taperecorder_drop.ogg
 
 - type: entity
   parent: BaseItem
@@ -81,3 +99,12 @@
   - type: ContainerContainer
     containers:
       tape_creator_container: !type:Container
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/taperecorder_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/taperecorder_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/taperecorder_drop.ogg

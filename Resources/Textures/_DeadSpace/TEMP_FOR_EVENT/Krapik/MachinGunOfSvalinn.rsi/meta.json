@@ -11,16 +11,7 @@
             "name": "icon"
         },
         {
-            "name": "base",
-            "delays": [
-                [
-                    0.3,
-                    0.3,
-                    0.3,
-                    0.3,
-                    0.3
-                ]
-            ]
+            "name": "base"
         },
         {
             "name": "inhand-left",

@@ -300,14 +300,30 @@ namespace Content.Server.Zombies
             if (!Resolve(source, ref zombiecomp))
                 return false;
 
-            foreach (var (layer, info) in zombiecomp.BeforeZombifiedCustomBaseLayers)
-            {
-                _humanoidAppearance.SetBaseLayerColor(target, layer, info.Color);
-                _humanoidAppearance.SetBaseLayerId(target, layer, info.Id);
-            }
             if (TryComp<HumanoidAppearanceComponent>(target, out var appcomp))
             {
+                // DS14-start
+                var zombieExternalLayers = new[]
+                {
+                    HumanoidVisualLayers.Tail,
+                    HumanoidVisualLayers.HeadSide,
+                    HumanoidVisualLayers.HeadTop,
+                    HumanoidVisualLayers.Snout,
+                };
+
+                foreach (var layer in zombieExternalLayers)
+                {
+                    appcomp.CustomBaseLayers.Remove(layer);
+                }
+
+                foreach (var (layer, info) in zombiecomp.BeforeZombifiedCustomBaseLayers)
+                {
+                    appcomp.CustomBaseLayers[layer] = info;
+                }
+                // DS14-end
+
                 appcomp.EyeColor = zombiecomp.BeforeZombifiedEyeColor;
+                Dirty(target, appcomp); // DS14
             }
             _humanoidAppearance.SetSkinColor(target, zombiecomp.BeforeZombifiedSkinColor, false);
             _bloodstream.ChangeBloodReagents(target, zombiecomp.BeforeZombifiedBloodReagents);

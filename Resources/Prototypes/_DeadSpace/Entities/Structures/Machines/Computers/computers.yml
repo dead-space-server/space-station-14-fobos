@@ -1,4 +1,22 @@
 - type: entity
+  parent: CentcommComputerComms
+  id: SOCComputerComms
+  name: консоль связи Корпуса Специальных Операций
+  suffix: КСО
+  description: Консоль, используемая для рассылки объявлений по всему миру с помощью клавиатуры. Старший кузен обычной консоли связи.
+  components:
+  - type: CommunicationsConsole
+    title: comms-console-announcement-title-soc
+    color: "#ABABABFF"
+    canShuttle: false
+    global: true
+    sound:
+      path: /Audio/_DeadSpace/Announcements/centcomm.ogg # DS14-Announcements
+      params:
+        volume: -2
+
+
+- type: entity
   parent: BaseComputerAiAccess
   id: ComputerTaipanAiUpload
   name: консоль загрузки ИИ

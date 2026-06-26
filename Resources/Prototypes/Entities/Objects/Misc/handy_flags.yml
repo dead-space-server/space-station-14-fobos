@@ -9,6 +9,17 @@
     state: icon
   - type: Item
     sprite: Objects/Misc/Handy_Flags/blank_handy_flag.rsi
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cigs/cig_pack_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cigs/cig_pack_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cigs/cig_pack_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: BaseItem
@@ -21,6 +32,17 @@
     state: icon
   - type: Item
     sprite: Objects/Misc/Handy_Flags/NT_handy_flag.rsi
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cigs/cig_pack_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cigs/cig_pack_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cigs/cig_pack_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: [BaseItem, BaseSyndicateContraband]
@@ -33,6 +55,17 @@
     state: icon
   - type: Item
     sprite: Objects/Misc/Handy_Flags/syndie_handy_flag.rsi
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cigs/cig_pack_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cigs/cig_pack_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cigs/cig_pack_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: BaseItem
@@ -45,6 +78,17 @@
     state: icon
   - type: Item
     sprite: Objects/Misc/Handy_Flags/lgbtq_handy_flag.rsi
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cigs/cig_pack_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cigs/cig_pack_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cigs/cig_pack_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: BaseItem
@@ -57,3 +101,14 @@
     state: icon
   - type: Item
     sprite: Objects/Misc/Handy_Flags/pirate_handy_flag.rsi
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cigs/cig_pack_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cigs/cig_pack_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cigs/cig_pack_drop.ogg
+  #DS14-End

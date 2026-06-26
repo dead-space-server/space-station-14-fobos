@@ -64,7 +64,7 @@ namespace Content.IntegrationTests.Tests
             {"/Maps/corvax_pilgrim.yml", ["ClothingHeadHatCatEars", "BoxFolderCentCom"]},
             {"/Maps/ds_silly.yml", ["RubberStampClown", "RubberStampMime"]},
             {"/Maps/ds_silly_snow.yml", ["RubberStampClown", "RubberStampMime"]},
-            {"/Maps/gemini.yml", ["RubberStampClown", "RubberStampSyndicate"]},
+            {"/Maps/gemini.yml", ["RubberStampClown"]},
             // DS14-end
         };
 

@@ -28,6 +28,17 @@
       - FakeNukeDisk # So you can't tell if the nuke disk is real or fake depending on if it can be wrapped or not.
   - type: LimitedCharges
     maxCharges: 30
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/paper_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: ParcelWrap
@@ -95,6 +106,17 @@
   - type: Tag
     tags:
     - Recyclable # Parcel entity is recyclable, and when it's destroyed, it'll drop its contents.
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/paper_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: [ BaseItem, BaseWrappedParcel ]

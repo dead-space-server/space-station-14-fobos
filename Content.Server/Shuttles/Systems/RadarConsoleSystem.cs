@@ -1,4 +1,5 @@
 using System.Numerics;
+using Content.Server.DeadSpace.Shuttles.Systems;
 using Content.Server.UserInterface;
 using Content.Shared.Shuttles.BUIStates;
 using Content.Shared.Shuttles.Components;
@@ -30,6 +31,8 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
 
     private float _updateAccumulator;
     private const float UpdateInterval = 0.5f;
+    private readonly HashSet<EntityUid> _openRadars = new();
+    private readonly List<EntityUid> _openRadarsBuffer = new();
     // DS14-end
 
     public override void Initialize()
@@ -43,6 +46,11 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
         SubscribeLocalEvent<RadarConsoleComponent, GotUnequippedEvent>(OnRadarUnequipped);
         SubscribeLocalEvent<RadarConsoleComponent, ComponentShutdown>(OnRadarConsoleShutdown);
         SubscribeLocalEvent<ToggleHandheldRadarUIEvent>(OnToggleHandheldRadarUI);
+        Subs.BuiEvents<RadarConsoleComponent>(RadarConsoleUiKey.Key, subs =>
+        {
+            subs.Event<BoundUIOpenedEvent>(OnRadarUiOpened);
+            subs.Event<BoundUIClosedEvent>(OnRadarUiClosed);
+        });
         // DS14-end
     }
 
@@ -62,19 +70,40 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
 
         _updateAccumulator = 0f;
 
-        var query = EntityQueryEnumerator<RadarConsoleComponent>();
-        while (query.MoveNext(out var uid, out var comp))
-        {
-            if (!_uiSystem.IsUiOpen(uid, RadarConsoleUiKey.Key))
-                continue;
+        if (_openRadars.Count == 0)
+            return;
 
-            UpdateState(uid, comp);
+        _openRadarsBuffer.Clear();
+        _openRadarsBuffer.AddRange(_openRadars);
+
+        Dictionary<NetEntity, List<DockingPortState>>? docks = null;
+        foreach (var uid in _openRadarsBuffer)
+        {
+            if (!TryComp<RadarConsoleComponent>(uid, out var comp) ||
+                !_uiSystem.IsUiOpen(uid, RadarConsoleUiKey.Key))
+            {
+                _openRadars.Remove(uid);
+                continue;
+            }
+
+            docks ??= _console.GetAllDocks();
+            UpdateStateWithDocks(uid, comp, docks);
         }
+
+        _openRadarsBuffer.Clear();
     }
-    // DS14-end
 
     protected override void UpdateState(EntityUid uid, RadarConsoleComponent component)
     {
+        UpdateStateWithDocks(uid, component, null);
+    }
+
+    private void UpdateStateWithDocks(
+        EntityUid uid,
+        RadarConsoleComponent component,
+        Dictionary<NetEntity, List<DockingPortState>>? docks)
+    {
+        // DS14-end
         var xform = Transform(uid);
         var onGrid = xform.ParentUid == xform.GridUid;
         EntityCoordinates? coordinates = onGrid ? xform.Coordinates : null;
@@ -91,7 +120,7 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
             return;
 
         NavInterfaceState state;
-        var docks = _console.GetAllDocks();
+        docks ??= _console.GetAllDocks();
 
         if (coordinates != null && angle != null)
             state = _console.GetNavState(uid, docks, coordinates.Value, angle.Value);
@@ -145,6 +174,7 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
 
     private void OnRadarConsoleShutdown(EntityUid uid, RadarConsoleComponent component, ComponentShutdown args)
     {
+        _openRadars.Remove(uid);
         _radarBlips.ClearCache(component); // DS14
 
         if (component.ToggleActionEntity == null)
@@ -183,6 +213,18 @@ public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
             args.Handled = true;
             return;
         }
+    }
+
+    private void OnRadarUiOpened(Entity<RadarConsoleComponent> ent, ref BoundUIOpenedEvent args)
+    {
+        _openRadars.Add(ent.Owner);
+        UpdateState(ent.Owner, ent.Comp);
+    }
+
+    private void OnRadarUiClosed(Entity<RadarConsoleComponent> ent, ref BoundUIClosedEvent args)
+    {
+        if (!_uiSystem.IsUiOpen(ent.Owner, RadarConsoleUiKey.Key))
+            _openRadars.Remove(ent.Owner);
     }
     // DS14-end
 }

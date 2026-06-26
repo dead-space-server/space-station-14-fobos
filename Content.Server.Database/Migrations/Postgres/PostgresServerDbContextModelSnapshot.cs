@@ -672,6 +672,53 @@ namespace Content.Server.Database.Migrations.Postgres
                         });
                 });
 
+            modelBuilder.Entity("Content.Server.Database.GamePresetConfigEntity", b =>
+                {
+                    b.Property<string>("ServerId")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnName("server_id");
+
+                    b.Property<string>("ActivePresetIdsJson")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("active_preset_ids_json");
+
+                    b.Property<string>("CustomPresetsJson")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("custom_presets_json");
+
+                    b.Property<int>("CurrentPresetIndex")
+                        .HasColumnType("integer")
+                        .HasColumnName("current_preset_index");
+
+                    b.Property<bool>("DisableOocDuringVote")
+                        .HasColumnType("boolean")
+                        .HasColumnName("disable_ooc_during_vote");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("boolean")
+                        .HasColumnName("enabled");
+
+                    b.Property<int>("MaxRdmDay")
+                        .HasColumnType("integer")
+                        .HasColumnName("max_rdm_day");
+
+                    b.Property<int>("MaxRdmRow")
+                        .HasColumnType("integer")
+                        .HasColumnName("max_rdm_row");
+
+                    b.Property<int>("VoteDurationSeconds")
+                        .HasColumnType("integer")
+                        .HasColumnName("vote_duration_seconds");
+
+                    b.HasKey("ServerId")
+                        .HasName("PK_game_preset_config");
+
+                    b.ToTable("game_preset_config", (string)null);
+                });
+
             modelBuilder.Entity("Content.Server.Database.BanAddress", b =>
                 {
                     b.Property<int>("Id")

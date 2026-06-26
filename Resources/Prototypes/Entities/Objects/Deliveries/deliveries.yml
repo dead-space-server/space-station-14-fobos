@@ -105,6 +105,17 @@
   - type: Tag
     tags:
       - PackageDelivery
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cardboardbox_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cardboardbox_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/cardboardbox_drop.ogg
+  #DS14-End
 
 - type: entity
   parent: BaseDelivery
@@ -152,6 +163,17 @@
     containers:
       delivery: !type:NestedSelector
         tableId: LetterDeliveryRewards
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/paper_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/paper_drop.ogg
+  #DS14-End
 
 
 # Modifier Tables

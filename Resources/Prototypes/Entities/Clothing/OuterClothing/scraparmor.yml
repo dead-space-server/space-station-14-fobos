@@ -16,6 +16,17 @@
   - type: Construction
     graph: scraparmor
     node: wiredapron
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_drop.ogg
+  #DS14-Start
 
 - type: entity
   name: steel-covered apron
@@ -32,6 +43,17 @@
   - type: Construction
     graph: scraparmor
     node: steelapron
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_drop.ogg
+  #DS14-Start
 
 - type: entity
   name: welded steel apron
@@ -48,6 +70,17 @@
   - type: Construction
     graph: scraparmor
     node: weldedsteelapron
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_drop.ogg
+  #DS14-Start
 
 # The armor itself
 - type: entity
@@ -83,3 +116,14 @@
   - type: Construction
     graph: scraparmor
     node: scraparmorfinished
+  #DS14-Start
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_pickup.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_drop.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_DeadSpace/Items/Handing/armor_rustle/plate_armor_drop.ogg
+  #DS14-Start

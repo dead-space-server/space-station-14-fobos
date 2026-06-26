@@ -92,6 +92,9 @@
   id: DeathNettle
 
 - type: Tag
+  id: DebugUplink
+
+- type: Tag
   id: DockCentcommERT
 
 - type: Tag
@@ -186,6 +189,9 @@
 
 - type: Tag
   id: RockGuitarInstrument
+
+- type: Tag
+  id: RPG70
 
 - type: Tag
   id: HardHat

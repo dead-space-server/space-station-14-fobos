@@ -64,20 +64,6 @@
         defaultPrototype: Igniter
 
 - type: entity
-  id: BiofabricatorMachineCircuitboard
-  parent: BaseMachineCircuitboard
-  name: biocube fabricator machine board
-  description: A machine printed circuit board for a biocube fabricator.
-  components:
-  - type: Sprite
-    state: service
-  - type: MachineBoard
-    prototype: Biofabricator
-    stackRequirements:
-      Manipulator: 4
-      Glass: 1
-
-- type: entity
   id: SecurityTechFabCircuitboard
   parent: BaseMachineCircuitboard
   name: security techfab machine board
