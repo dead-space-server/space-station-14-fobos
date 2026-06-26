@@ -204,7 +204,7 @@
       components:
         # DS14-start
       - type: CustomNameOnSpawn
-        namePrefix: "Оперативник"
+        namePrefix: "Оператор"
       # DS14-end
       - type: NukeOperative
       - type: Skill
