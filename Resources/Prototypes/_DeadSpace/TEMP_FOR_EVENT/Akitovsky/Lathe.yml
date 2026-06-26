@@ -5,31 +5,116 @@
   - MagazineBox556x45AP
   - MagazineBox357MagnumFMJ
   - MagazineBox12x70Piranha
+  - Zipties
+  - Flash
+  - PowerCellHyperPrinted
+  - FlashlightSeclite
+  - CombatKnife
+  - MagazineEagle357MagnumFMJ
+  - Magazine556x45AP
+  - Magazine12x70Piranha
+  - Magazine556x45APExtended
+  - Magazine9x19AP63
 
 - type: latheRecipe
   id: MagazineBoxVSKAki
   result: MagazineBoxVSKAki
   materials:
-    Steel: 1000
-    Plasteel: 300
+    Steel: 1500
+    Plasteel: 250
 
 - type: latheRecipe
   id: MagazineBox556x45AP
   result: MagazineBox556x45AP
   materials:
-    Steel: 1000
-    Plasteel: 300
+    Steel: 1500
+    Plasteel: 250
 
 - type: latheRecipe
   id: MagazineBox357MagnumFMJ
   result: MagazineBox357MagnumFMJ
   materials:
-    Steel: 1000
-    Plasteel: 300
+    Steel: 1500
+    Plasteel: 250
 
 - type: latheRecipe
   id: MagazineBox12x70Piranha
   result: MagazineBox12x70Piranha
   materials:
-    Steel: 1000
-    Plasteel: 300
+    Steel: 1500
+    Plasteel: 250
+
+- type: latheRecipe
+  id: MagazineVSK9x39SP6
+  result: MagazineVSK9x39SP6
+  materials:
+   Steel: 450
+   plasteel: 50
+
+- type: latheRecipe
+  id: Magazine9x19AP63
+  result: Magazine9x19AP63
+  materials:
+   Steel: 350
+   plasteel: 50
+
+- type: latheRecipe
+  result: Zipties
+  id: Zipties
+  materials:
+   plastic: 100
+
+- type: latheRecipe
+  result: Flash
+  id: Flash
+  materials:
+   Steel: 250
+
+- type: latheRecipe
+  result: PowerCellHyperPrinted
+  id: PowerCellHyperPrinted
+  materials:
+   Steel: 1000
+   gold: 250
+   plastic: 250
+
+- type: latheRecipe
+  result: FlashlightSeclite
+  id: FlashlightSeclite
+  materials:
+   Steel: 1000
+   plastic: 250
+
+- type: latheRecipe
+  result: CombatKnife
+  id: CombatKnife
+  materials:
+   Steel: 1000
+
+- type: latheRecipe
+  id: MagazineEagle357MagnumFMJ
+  result: MagazineEagle357MagnumFMJ
+  materials:
+   Steel: 750
+   plasteel: 75
+
+- type: latheRecipe
+  id: Magazine556x45AP
+  result: Magazine556x45AP
+  materials:
+   Steel: 450
+   plasteel: 50
+
+- type: latheRecipe
+  id: Magazine12x70Piranha
+  result: Magazine12x70Piranha
+  materials:
+   Steel: 450
+   plasteel: 100
+
+- type: latheRecipe
+  id: Magazine556x45APExtended
+  result: Magazine556x45APExtended
+  materials:
+   Steel: 600
+   plasteel: 65

@@ -8,7 +8,10 @@
   },
   "states": [
     {
-      "name": "kaisanen"
+      "name": "kaisanen_sand"
+    },
+    {
+      "name": "kaisanen_black"
     },
     {
       "name": "mirs"

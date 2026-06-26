@@ -2,7 +2,7 @@
 # Лейтенант Кайсанен СпецНаз НТ
 - type: entity
   parent: CustomizableSpawnerBase
-  id: CustomizableSpawnerLieutenantKaisanen
+  id: CustomizableSpawnerLieutenantKaisanenSand
   name: ИВЕНТОВЫЙ !Лейтенант Кайсанен СпецНаз НТ «Дельта-6»
   suffix: Akitovsky, Ивент, Кастомизируемый персонаж, Песок
   components:
@@ -10,20 +10,20 @@
     layers:
     - state: timed
     - sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/markers.rsi
-      state: kaisanen
+      state: kaisanen_sand
   - type: CustomizableHumanoidSpawner
-    jobPrototype: JobLieutenantSpecialForceKaisanen
+    jobPrototype: JobLieutenantSpecialForceKaisanenSand
     allowedSpecies:
     - Human
     - Demon
 
 - type: job
-  id: JobLieutenantSpecialForceKaisanen
+  id: JobLieutenantSpecialForceKaisanenSand
   name: Лейтенант «Дельта-6»
   description: job-description-soo
-  playTimeTracker: PlayTimeTrackerSpecialForceLieutenantKaisanen
+  playTimeTracker: PlayTimeTrackerSpecialForceLieutenantKaisanenSand
   setPreference: false
-  startingGear: LieutenantSpecialForceKaisanen
+  startingGear: LieutenantSpecialForceKaisanenSand
   icon: "JobIconERTLeader"
   supervisors: job-supervisors-no-one
   canBeAntag: false
@@ -43,7 +43,7 @@
       - CentralCommand
 
 - type: startingGear
-  id: LieutenantSpecialForceKaisanen
+  id: LieutenantSpecialForceKaisanenSand
   equipment:
     jumpsuit: ClothingUniformJumpsuitAkiDeltaSand
     eyes: ClothingEyesGlassesAkiDeltaSand
@@ -84,6 +84,97 @@
     - MagazineVSK9x39SP6
     - MagazineEagle357MagnumFMJ
     - MagazineEagle357MagnumFMJ
+
+
+# Спавнеры
+# Лейтенант Кайсанен СпецНаз НТ
+- type: entity
+  parent: CustomizableSpawnerBase
+  id: CustomizableSpawnerLieutenantKaisanenBlack
+  name: ИВЕНТОВЫЙ !Лейтенант Кайсанен СпецНаз НТ «Дельта-6»
+  suffix: Akitovsky, Ивент, Кастомизируемый персонаж
+  components:
+  - type: Sprite
+    layers:
+    - state: timed
+    - sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Other/markers.rsi
+      state: kaisanen_black
+  - type: CustomizableHumanoidSpawner
+    jobPrototype: JobLieutenantSpecialForceKaisanenBlack
+    allowedSpecies:
+    - Human
+    - Demon
+
+- type: job
+  id: JobLieutenantSpecialForceKaisanenBlack
+  name: Лейтенант «Дельта-6»
+  description: job-description-soo
+  playTimeTracker: PlayTimeTrackerSpecialForceLieutenantKaisanenBlack
+  setPreference: false
+  startingGear: LieutenantSpecialForceKaisanenBlack
+  icon: "JobIconERTLeader"
+  supervisors: job-supervisors-no-one
+  canBeAntag: false
+  accessGroups:
+  - AllAccess
+  access:
+  - CentralCommand
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant ]
+  - !type:AddComponentSpecial
+    components:
+    - type: AntagImmune
+    - type: ZombieImmune
+    - type: NpcFactionMember
+      factions:
+      - CentralCommand
+
+- type: startingGear
+  id: LieutenantSpecialForceKaisanenBlack
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitAkiDeltaBlack
+    eyes: ClothingEyesGlassesAkiDeltaBlack
+    ears: ClothingHeadsetDelta
+    mask: ClothingMaskNeckGaiter
+    gloves: ClothingHandsGlovesAkiDeltaBlack
+    shoes: ClothingShoesBootsJackAkiDeltaBlack
+    id: AkiDeltaIDCard
+    belt: ClothingBeltMilitaryWebbingAkiDeltaBlack
+    pocket1: WeaponPistolDesertEagleAki
+    pocket2: DrinkMREFlask
+    outerClothing: ClothingOuterArmorDeltaAkiBlack
+    back: ClothingMilitaryBackpackDeltaAkiBlack
+    suitstorage: WeaponVSKAki
+  storage:
+    back:
+    - MagazineBoxVSKAki
+    - MagazineBoxVSKAki
+    - MagazineBoxVSKAki
+    - CrowbarRed
+    - EmergencyMedipen
+    - BoxMRE
+    - Flare
+    - PowerCellMedium
+    - AutosurgeonRevive
+    - CombatMedipen
+    - CombatMedipen
+    - PinpointerUniversal
+    belt:
+    - Handcuffs
+    - Handcuffs
+    - MagazineVSK9x39SP6
+    - MagazineVSK9x39SP6
+    - MagazineVSK9x39SP6
+    - MagazineVSK9x39SP6
+    - MagazineVSK9x39SP6
+    - MagazineVSK9x39SP6
+    - MagazineEagle357MagnumFMJ
+    - MagazineEagle357MagnumFMJ
+
+
+
+
 
 # Лейтенант Мирс СпецНаз НТ
 - type: entity

@@ -89,6 +89,38 @@
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
+# Шлем M10 чёрный с ПНВ
+- type: entity
+  parent: [ ClothingHeadHelmetAkiBasic, ClothingHeadHelmetNVD ]
+  id: ClothingHeadHelmetAkiDeltaBlackNVD
+  name: шлем M10 с ПНВ
+  description: Стандартная защитная экипировка. Защищает голову от ударов. Внутри спрятана распечатка аниме-девочки в джаггернауте и энергомечом в руках.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Helmets/black_m10NVD.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Helmets/black_m10NVD.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+
+# Шлем M10 чёрный
+- type: entity
+  parent: ClothingHeadHelmetAkiBasic
+  id: ClothingHeadHelmetAkiDeltaBlack
+  name: шлем M10
+  description: Стандартная защитная экипировка. Защищает голову от ударов. Внутри спрятана распечатка слаймолюдки в элитном скафандре синдиката и энергомечом в руках.
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Helmets/black_m10.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Helmets/black_m10.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+
 # Кепка Дельта песочная
 - type: entity
   parent: ClothingHeadHeadHatBaseFlippable
@@ -1147,7 +1179,7 @@
   id: WeaponVSKAki
   parent: WeaponVSK
   description: Точный винторез, что заточен под дальний бой и сбивание позиции врагов, нежели тупой штурм.
-  suffix: Akitovsky
+  suffix: Akitovsky, Оружие
   components:
   - type: ItemSlots
     slots:
@@ -1194,9 +1226,9 @@
 - type: entity
   parent: WeaponPistolDesertEagle
   id: WeaponPistolDesertEagleAki
-  name: пустынный орёл
+  name: Desert Eagle
   description: Вот он, воплощение силы и свободы — Пустынный орёл! Одно только упоминание этого оружия вызывает волну бесшабашности и адреналина. Использует калибр .357 Magnum.
-  suffix: Akitovsky
+  suffix: Akitovsky, Оружие
   components:
   - type: ItemSlots
     slots:
@@ -1233,13 +1265,44 @@
         - Cartridge357
     capacity: 10
 
-# SCAR-L Песчаный
+# SCAR-L
 - type: entity
   name: Scar-L
   parent: WeaponRifleScarL
+  id: WeaponRifleScarLAki
+  description: Стандартизированная штурмовая винтовка армии ОПЗ, одна из многих винтовок, используемая правительством. Использует патроны 5.56х45 мм.
+  suffix: Akitovsky, Оружие
+  components:
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: Magazine556x45AP
+        insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+            - MagazineRifle
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        priority: 1
+        whitelist:
+          tags:
+            - CartridgeRifle
+  - type: Gun
+    soundGunshot:
+      path: /Audio/_DeadSpace/Necromorfs/BSAA/weapons/Ares/shot/Ares.ogg
+    fireRate: 5.5
+
+# SCAR-L Песчаный
+- type: entity
+  name: Scar-L
+  parent: WeaponRifleScarLAki
   id: WeaponRifleScarLSandAki
   description: Стандартизированная штурмовая винтовка армии ОПЗ, одна из многих винтовок, используемая правительством. Использует патроны 5.56х45 мм.
-  suffix: Akitovsky, Песок
+  suffix: Akitovsky, Оружие, Песок
   components:
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/scarl.rsi
@@ -1250,51 +1313,6 @@
         map: ["enum.GunVisualLayers.Mag"]
   - type: Clothing
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/scarl.rsi
-  - type: ItemSlots
-    slots:
-      gun_magazine:
-        name: Magazine
-        startingItem: Magazine556x45AP
-        insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
-        ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
-        priority: 2
-        whitelist:
-          tags:
-            - MagazineRifle
-        whitelistFailPopup: gun-magazine-whitelist-fail
-      gun_chamber:
-        name: Chamber
-        priority: 1
-        whitelist:
-          tags:
-            - CartridgeRifle
-
-# SCAR-L
-- type: entity
-  name: Scar-L
-  parent: WeaponRifleScarL
-  id: WeaponRifleScarLAki
-  description: Стандартизированная штурмовая винтовка армии ОПЗ, одна из многих винтовок, используемая правительством. Использует патроны 5.56х45 мм.
-  suffix: Akitovsky
-  components:
-  - type: ItemSlots
-    slots:
-      gun_magazine:
-        name: Magazine
-        startingItem: Magazine556x45AP
-        insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
-        ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
-        priority: 2
-        whitelist:
-          tags:
-            - MagazineRifle
-        whitelistFailPopup: gun-magazine-whitelist-fail
-      gun_chamber:
-        name: Chamber
-        priority: 1
-        whitelist:
-          tags:
-            - CartridgeRifle
 
 # Магазин 5.56х45 мм SSA AP
 - type: entity
@@ -1311,13 +1329,38 @@
         - CartridgeRifle
     capacity: 30
 
+# Магазин 5.56х45 мм SSA AP Extended
+- type: entity
+  parent: BaseMagazineRifle
+  id: Magazine556x45APExtended
+  name: магазин (Расширенный 5.56х45 мм SSA AP)
+  suffix: Akitovsky
+  components:
+  - type: Sprite
+    sprite: _ADT/Objects/Weapons/Guns/Ammunition/Magazine/ext_rifle_mag.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: BallisticAmmoProvider
+    proto: Cartridge556x45AP
+    mayTransfer: true
+    whitelist:
+      tags:
+        - CartridgeRifle
+    capacity: 45
+  - type: Item
+    shape:
+    - 0,0,0,2
+
 # Бульдог
 - type: entity
   name: Бульдог
   parent: WeaponShotgunBulldog
   id: WeaponShotgunBulldogAki
   description: Стандартный дробовик, использующий модификации под новые патроны, полностью автоматический.
-  suffix: Akitovsky
+  suffix: Akitovsky, Оружие
   components:
   - type: ItemSlots
     slots:
@@ -1359,7 +1402,7 @@
   name: Beretta M92
   parent: WeaponPistolBerettaM92
   id: WeaponPistolBerettaM92Aki
-  suffix: Akitovsky
+  suffix: Akitovsky, Оружие
   components:
   - type: ItemSlots
     slots:
@@ -1409,7 +1452,7 @@
   parent: WeaponTochmash
   id: WeaponTochmashAki
   description: Убойный пистолет-пулемёт специальной разработки, стоящий на вооружении спецназа. Переработан под 9х19 мм.
-  suffix: Akitovsky
+  suffix: Akitovsky, Оружие
   components:
   - type: ItemSlots
     slots:
