@@ -20,16 +20,14 @@
 # Проджектайл 9x39SP6
 - type: entity
   id: Bullet9x39SP6
-  parent: BaseBullet
+  parent: BulletTrace
   name: патрон (9х39 мм СП-6)
   categories: [ HideSpawnMenu ]
   components:
-  - type: Projectile
+  - type: HitscanBasicDamage
     damage:
       types:
        Piercing: 60
-  - type: TimedDespawn
-    lifetime: 4
 
 # Коробка патрон 9x39SP6
 - type: entity
@@ -68,12 +66,12 @@
 
 # Проджектайл .357 Magnum FMJ
 - type: entity
-  parent: BaseBullet
+  parent: BulletTrace
   id: Bullet357MagnumFMJ
   categories: [ HideSpawnMenu ]
   name: патрон (.357 Magnum FMJ)
   components:
-  - type: Projectile
+  - type: HitscanBasicDamage
     damage:
       types:
         Piercing: 70
@@ -106,12 +104,12 @@
 
 # Проджектайл 5.56х45 мм SSA AP
 - type: entity
-  parent: BaseBullet
+  parent: BulletTrace
   id: Bullet556x45AP
   categories: [ HideSpawnMenu ]
   name: патрон (5.56х45 мм SSA AP)
   components:
-  - type: Projectile
+  - type: HitscanBasicDamage
     damage:
       types:
         Piercing: 40
@@ -152,20 +150,20 @@
 
 # Дробина 12х70 Пиранья
 - type: entity
-  parent: BaseBullet
+  parent: PelletShotgunTrace
   id: Pellet12x70PiranhaBase
   categories: [ HideSpawnMenu ]
   name: ружейный патрон (12х70 дробь Пиранья)
   components:
-  - type: Projectile
+  - type: HitscanBasicDamage
     damage:
       types:
-        Piercing: 30
-        Structural: 40
+        Piercing: 21
+        Structural: 50
 
 # Проджектайл 12х70 дробь Пиранья
 - type: entity
-  parent: BaseBullet
+  parent: Pellet12x70PiranhaBase
   id: Pellet12x70Piranha
   categories: [ HideSpawnMenu ]
   name: ружейный патрон (12х70 дробь Пиранья)
@@ -209,12 +207,12 @@
 
 # Проджектайл 9х19 мм AP 6.3
 - type: entity
-  parent: BaseBullet
+  parent: BulletTrace
   id: Bullet9x19AP63
   categories: [ HideSpawnMenu ]
   name: патрон (9х19 мм AP 6.3)
   components:
-  - type: Projectile
+  - type: HitscanBasicDamage
     damage:
       types:
         Piercing: 30

@@ -35,18 +35,57 @@
     activateSound: 
       path: /Audio/_DeadSpace/NightVision/pnv.ogg
 
-# Шлем Дельта песочный с ПНВ
+# Шлем базовый
 - type: entity
-  parent: [ ClothingHeadHelmetBasic, ClothingHeadHelmetNVD ]
+  parent: ClothingHeadHelmetBasic
+  id: ClothingHeadHelmetAkiBasic
+  abstract: true
+  components:
+  - type: Storage
+    grid:
+    - 0,0,1,1
+    maxItemSize: Small
+    whitelist:
+      tags:
+      - Gauze
+      - Tourniquet
+  - type: ContainerContainer
+    containers:
+      storagebase: !type:Container
+        ents: []
+  - type: UserInterface
+    interfaces:
+      enum.StorageUiKey.Key:
+        type: StorageBoundUserInterface
+
+# Шлем M10 песочный с ПНВ
+- type: entity
+  parent: [ ClothingHeadHelmetAkiBasic, ClothingHeadHelmetNVD ]
   id: ClothingHeadHelmetAkiDeltaSandNVD
-  name: шлем с ПНВ
-  description: Стандартная защитная экипировка. Защищает голову от ударов.
+  name: шлем M10 с ПНВ
+  description: Стандартная защитная экипировка. Защищает голову от ударов. Внутри спрятана распечатка аниме-девочки в джаггернауте и энергомечом в руках.
   suffix: Akitovsky, Песок
   components:
   - type: Sprite
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Helmets/desert_m10NVD.rsi
   - type: Clothing
     sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Helmets/desert_m10NVD.rsi
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+
+
+# Шлем M10 песочный
+- type: entity
+  parent: ClothingHeadHelmetAkiBasic
+  id: ClothingHeadHelmetAkiDeltaSand
+  name: шлем M10
+  description: Стандартная защитная экипировка. Защищает голову от ударов. Внутри спрятана распечатка слаймолюдки в элитном скафандре синдиката и энергомечом в руках.
+  suffix: Akitovsky, Песок
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Helmets/desert_m10.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Head/Helmets/desert_m10.rsi
   - type: Tag
     tags: [] # ignore "WhitelistChameleon" tag
 
@@ -1363,6 +1402,58 @@
       - state: inhand-left-mag
       right:
       - state: inhand-right-mag
+
+# Точмаш
+- type: entity
+  name: СР-92 Точмаш
+  parent: WeaponTochmash
+  id: WeaponTochmashAki
+  description: Убойный пистолет-пулемёт специальной разработки, стоящий на вооружении спецназа. Переработан под 9х19 мм.
+  suffix: Akitovsky
+  components:
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: MagazinePistolTochmash9x19AP63
+        priority: 2
+        whitelist:
+          tags:
+          - MagazinePistolTochmash
+      gun_chamber:
+        name: Chamber
+        startingItem: Cartridge9x19AP63
+        priority: 1
+        whitelist:
+          tags:
+          - CartridgePistol
+
+# Магазин Точмаш (9х19 мм AP 6.3)
+- type: entity
+  parent: MagazineCaselessRifle
+  id: MagazinePistolTochmash9x19AP63
+  name: магазин (9х19 мм AP 6.3)
+  suffix: Akitovsky
+  components:
+  - type: BallisticAmmoProvider
+    proto: Cartridge9x19AP63
+  - type: Sprite
+    scale: 1.2, 1.2 # DS-14
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      right:
+      - state: inhand-right-mag
+  - type: Tag
+    tags: 
+    - MagazinePistolTochmash
+  
 
 # Иконки работ
 - type: jobIcon
