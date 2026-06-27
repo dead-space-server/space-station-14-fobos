@@ -1,11 +1,16 @@
 using System.Linq;
+using System.Net;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Web;
 using Content.Server.Administration.Managers;
 using Content.Server.Database;
+using Content.Server.Players.PlayTimeTracking;
+using Content.Shared.Players.PlayTimeTracking;
+using Content.Shared.Roles;
 using Robust.Server.ServerStatus;
+using Robust.Shared.Network;
 
 namespace Content.Server.Administration;
 
@@ -16,6 +21,7 @@ public sealed partial class ServerApi
 
     [Dependency] private readonly IServerDbManager _db = default!;
     [Dependency] private readonly ServerDbEntryManager _serverDbEntry = default!;
+    [Dependency] private readonly PlayTimeTrackingManager _playTimeTracking = default!;
 
     /// <summary>
     /// Get players and active admins list
@@ -50,6 +56,119 @@ public sealed partial class ServerApi
         };
 
         await context.RespondJsonAsync(jObject);
+    }
+
+    private async Task GetPlaytime(IStatusHandlerContext context)
+    {
+        var query = HttpUtility.ParseQueryString(context.Url.Query);
+        if (!TryParseApiUserId(query["userId"], out var userId, out var error))
+        {
+            await RespondBadRequest(context, error);
+            return;
+        }
+
+        var playerRecord = await GetPlayerRecordOrRespond(context, userId, "Player");
+        if (playerRecord == null)
+            return;
+
+        var playtimes = await GetPlaytimeSnapshot(userId);
+        var jobs = await RunOnMainThread(BuildPlaytimeJobLookup);
+
+        await context.RespondJsonAsync(BuildPlaytimeResponse(playerRecord, playtimes, jobs));
+    }
+
+    private async Task GetPlaytimeJobs(IStatusHandlerContext context)
+    {
+        var jobs = await RunOnMainThread(BuildPlaytimeJobInfos);
+
+        await context.RespondJsonAsync(new PlaytimeJobsResponse
+        {
+            OverallTracker = PlayTimeTrackingShared.TrackerOverall,
+            Jobs = jobs
+        });
+    }
+
+    private async Task ActionPlaytimeAdd(IStatusHandlerContext context, Actor actor)
+    {
+        var request = await ReadJson<PlaytimeAddActionBody>(context);
+        if (request == null)
+            return;
+
+        if (request.UserId == Guid.Empty)
+        {
+            await RespondBadRequest(context, "'userId' must be specified");
+            return;
+        }
+
+        var userId = new NetUserId(request.UserId);
+        var playerRecord = await GetPlayerRecordOrRespond(context, userId, "Player");
+        if (playerRecord == null)
+            return;
+
+        if (!TryBuildPlaytimeAddEntries(request, out var requestedEntries, out var error))
+        {
+            await RespondBadRequest(context, error);
+            return;
+        }
+
+        var additions = new Dictionary<string, TimeSpan>();
+        foreach (var entry in requestedEntries)
+        {
+            if (entry == null)
+            {
+                await RespondBadRequest(context, "'entries' cannot contain null values");
+                return;
+            }
+
+            var tracker = entry.Tracker?.Trim();
+            if (string.IsNullOrWhiteSpace(tracker))
+                tracker = PlayTimeTrackingShared.TrackerOverall;
+
+            var trackerExists = await RunOnMainThread(() => _prototypeManager.HasIndex<PlayTimeTrackerPrototype>(tracker));
+            if (!trackerExists)
+            {
+                await RespondBadRequest(context, $"Unknown playtime tracker '{tracker}'");
+                return;
+            }
+
+            if (entry.Minutes <= 0)
+            {
+                await RespondBadRequest(context, "'minutes' must be greater than zero");
+                return;
+            }
+
+            additions[tracker] = additions.GetValueOrDefault(tracker) + TimeSpan.FromMinutes(entry.Minutes);
+        }
+
+        var playtimes = await GetPlaytimeSnapshot(userId);
+        var updates = new Dictionary<string, TimeSpan>();
+        var responseEntries = new List<PlaytimeAddResponse.Entry>();
+
+        foreach (var (tracker, added) in additions.OrderBy(pair => pair.Key))
+        {
+            var before = playtimes.GetValueOrDefault(tracker);
+            var after = before + added;
+            updates[tracker] = after;
+            responseEntries.Add(new PlaytimeAddResponse.Entry
+            {
+                Tracker = tracker,
+                AddedSeconds = ToSeconds(added),
+                PreviousSeconds = ToSeconds(before),
+                NewSeconds = ToSeconds(after)
+            });
+        }
+
+        await ApplyPlaytimeUpdates(userId, updates);
+
+        _sawmill.Info(
+            $"Added playtime to {playerRecord.LastSeenUserName} ({userId.UserId}) by {FormatLogActor(actor)}. Reason: {request.Reason ?? "not provided"}");
+
+        await context.RespondJsonAsync(new PlaytimeAddResponse
+        {
+            Player = BuildPlaytimePlayer(playerRecord),
+            Reason = request.Reason,
+            Entries = responseEntries.ToArray()
+        });
     }
 
     private async Task GetRoundStats(IStatusHandlerContext context)
@@ -89,6 +208,192 @@ public sealed partial class ServerApi
         };
 
         await context.RespondJsonAsync(response);
+    }
+
+    private static bool TryParseApiUserId(string? value, out NetUserId userId, out string error)
+    {
+        userId = default;
+        error = string.Empty;
+
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            error = "Missing 'userId' value";
+            return false;
+        }
+
+        if (!Guid.TryParse(value, out var guid))
+        {
+            error = "Invalid 'userId' value";
+            return false;
+        }
+
+        userId = new NetUserId(guid);
+        return true;
+    }
+
+    private async Task<PlayerRecord?> GetPlayerRecordOrRespond(IStatusHandlerContext context, NetUserId userId, string label)
+    {
+        var record = await _db.GetPlayerRecordByUserId(userId);
+        if (record != null)
+            return record;
+
+        await RespondError(
+            context,
+            ErrorCode.PlayerNotFound,
+            HttpStatusCode.UnprocessableContent,
+            $"{label} player not found");
+
+        return null;
+    }
+
+    private async Task<Dictionary<string, TimeSpan>> GetPlaytimeSnapshot(NetUserId userId)
+    {
+        var onlinePlaytimes = await RunOnMainThread<Dictionary<string, TimeSpan>?>(() =>
+        {
+            if (!_playerManager.TryGetSessionById(userId, out var session))
+                return null;
+
+            _playTimeTracking.FlushTracker(session);
+            return _playTimeTracking.GetTrackerTimes(session).ToDictionary();
+        });
+
+        if (onlinePlaytimes != null)
+            return onlinePlaytimes;
+
+        var playtimes = await _db.GetPlayTimes(userId.UserId);
+        return playtimes.ToDictionary(playtime => playtime.Tracker, playtime => playtime.TimeSpent);
+    }
+
+    private async Task ApplyPlaytimeUpdates(NetUserId userId, IReadOnlyDictionary<string, TimeSpan> updates)
+    {
+        if (updates.Count == 0)
+            return;
+
+        await RunOnMainThread(() =>
+        {
+            if (_playerManager.TryGetSessionById(userId, out var session))
+                _playTimeTracking.SetTrackerTimes(session, updates);
+        });
+
+        await _db.UpdatePlayTimes(updates
+            .Select(update => new PlayTimeUpdate(userId, update.Key, update.Value))
+            .ToArray());
+    }
+
+    private static bool TryBuildPlaytimeAddEntries(
+        PlaytimeAddActionBody request,
+        out PlaytimeAddEntryBody[] entries,
+        out string error)
+    {
+        error = string.Empty;
+
+        if (request.Entries is { Length: > 0 })
+        {
+            entries = request.Entries;
+            return true;
+        }
+
+        if (request.Minutes == null)
+        {
+            entries = [];
+            error = "Either 'entries' or 'minutes' must be specified";
+            return false;
+        }
+
+        entries =
+        [
+            new PlaytimeAddEntryBody
+            {
+                Tracker = request.Tracker,
+                Minutes = request.Minutes.Value
+            }
+        ];
+
+        return true;
+    }
+
+    private PlaytimeResponse BuildPlaytimeResponse(
+        PlayerRecord player,
+        IReadOnlyDictionary<string, TimeSpan> playtimes,
+        IReadOnlyDictionary<string, PlaytimeJobInfo> jobs)
+    {
+        return new PlaytimeResponse
+        {
+            Player = BuildPlaytimePlayer(player),
+            OverallSeconds = ToSeconds(playtimes.GetValueOrDefault(PlayTimeTrackingShared.TrackerOverall)),
+            Trackers = playtimes
+                .OrderBy(pair => pair.Key)
+                .Select(pair => new PlaytimeResponse.TrackerTime
+                {
+                    Tracker = pair.Key,
+                    Seconds = ToSeconds(pair.Value),
+                    Job = jobs.GetValueOrDefault(pair.Key)
+                })
+                .ToArray()
+        };
+    }
+
+    private static PlaytimePlayerInfo BuildPlaytimePlayer(PlayerRecord player)
+    {
+        return new PlaytimePlayerInfo
+        {
+            UserId = player.UserId.UserId,
+            UserName = player.LastSeenUserName
+        };
+    }
+
+    private Dictionary<string, PlaytimeJobInfo> BuildPlaytimeJobLookup()
+    {
+        var jobs = BuildPlaytimeJobInfos();
+        var lookup = new Dictionary<string, PlaytimeJobInfo>();
+
+        foreach (var job in jobs)
+        {
+            lookup[job.PlayTimeTracker] = job;
+        }
+
+        return lookup;
+    }
+
+    private PlaytimeJobInfo[] BuildPlaytimeJobInfos()
+    {
+        var departments = _prototypeManager.EnumeratePrototypes<DepartmentPrototype>().ToArray();
+
+        return _prototypeManager.EnumeratePrototypes<JobPrototype>()
+            .OrderByDescending(job => job.RealDisplayWeight)
+            .ThenBy(job => job.ID)
+            .Select(job => new PlaytimeJobInfo
+            {
+                Id = job.ID,
+                Name = _loc.GetString(job.Name),
+                PlayTimeTracker = job.PlayTimeTracker,
+                Department = BuildPlaytimeDepartmentInfo(job, departments),
+                SetPreference = job.SetPreference
+            })
+            .ToArray();
+    }
+
+    private PlaytimeDepartmentInfo? BuildPlaytimeDepartmentInfo(JobPrototype job, DepartmentPrototype[] departments)
+    {
+        foreach (var department in departments)
+        {
+            if (!department.Roles.Contains(job.ID))
+                continue;
+
+            return new PlaytimeDepartmentInfo
+            {
+                Id = department.ID,
+                Name = _loc.GetString(department.Name),
+                Primary = department.Primary
+            };
+        }
+
+        return null;
+    }
+
+    private static long ToSeconds(TimeSpan time)
+    {
+        return (long)Math.Floor(time.TotalSeconds);
     }
 
     private static bool TryResolveRoundStatsPeriod(
@@ -248,5 +553,77 @@ public sealed partial class ServerApi
             public required string Map { get; init; }
             public required int? PlayerCount { get; init; }
         }
+    }
+
+    private sealed record PlaytimeAddActionBody
+    {
+        public required Guid UserId { get; init; }
+        public string? Tracker { get; init; }
+        public int? Minutes { get; init; }
+        public PlaytimeAddEntryBody[]? Entries { get; init; }
+        public string? Reason { get; init; }
+    }
+
+    private sealed class PlaytimeAddEntryBody
+    {
+        public string? Tracker { get; init; }
+        public required int Minutes { get; init; }
+    }
+
+    private sealed class PlaytimeJobsResponse
+    {
+        public required string OverallTracker { get; init; }
+        public required PlaytimeJobInfo[] Jobs { get; init; }
+    }
+
+    private sealed class PlaytimeResponse
+    {
+        public required PlaytimePlayerInfo Player { get; init; }
+        public required long OverallSeconds { get; init; }
+        public required TrackerTime[] Trackers { get; init; }
+
+        public sealed class TrackerTime
+        {
+            public required string Tracker { get; init; }
+            public required long Seconds { get; init; }
+            public required PlaytimeJobInfo? Job { get; init; }
+        }
+    }
+
+    private sealed class PlaytimeAddResponse
+    {
+        public required PlaytimePlayerInfo Player { get; init; }
+        public required string? Reason { get; init; }
+        public required Entry[] Entries { get; init; }
+
+        public sealed class Entry
+        {
+            public required string Tracker { get; init; }
+            public required long AddedSeconds { get; init; }
+            public required long PreviousSeconds { get; init; }
+            public required long NewSeconds { get; init; }
+        }
+    }
+
+    private sealed class PlaytimePlayerInfo
+    {
+        public required Guid UserId { get; init; }
+        public required string UserName { get; init; }
+    }
+
+    private sealed class PlaytimeJobInfo
+    {
+        public required string Id { get; init; }
+        public required string Name { get; init; }
+        public required string PlayTimeTracker { get; init; }
+        public required PlaytimeDepartmentInfo? Department { get; init; }
+        public required bool SetPreference { get; init; }
+    }
+
+    private sealed class PlaytimeDepartmentInfo
+    {
+        public required string Id { get; init; }
+        public required string Name { get; init; }
+        public required bool Primary { get; init; }
     }
 }
