@@ -1,0 +1,54 @@
+<controls:FancyWindow xmlns="https://spacestation14.io"
+                      xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
+                      SetSize="650 330"
+                      Resizable="False">
+    <BoxContainer Orientation="Vertical" VerticalExpand="True" HorizontalAlignment="Stretch" Margin="10">
+        <!-- Блок: Скорость зарядки -->
+        <PanelContainer StyleClasses="BackgroundPanelDark" HorizontalAlignment="Stretch" Margin="2">
+            <BoxContainer Orientation="Vertical" HorizontalAlignment="Stretch" Margin="4">
+                <Label Text="Скорость зарядки" StyleClasses="LabelKeyText" HorizontalAlignment="Center"/>
+                <Slider Name="ChargeSpeedSlider" HorizontalAlignment="Stretch"/>
+                <Label Name="ChargeSpeedValue" Text="50" HorizontalAlignment="Center"/>
+
+                <!-- Горизонтальный контейнер с LineEdit и Button -->
+                <BoxContainer Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="4">
+                    <!-- LineEdit занимает максимум места -->
+                      <LineEdit
+                        Name="ChargeSpeedLineEdit"
+                        Text="50"
+                        HorizontalExpand="True"
+                        Margin="0,0,8,0"/>
+
+                    <!-- Кнопка справа -->
+                    <Button Text="Подтвердить"
+                            HorizontalAlignment="Right"
+                            Margin="0,0,0,0"/>
+                </BoxContainer>
+            </BoxContainer>
+        </PanelContainer>
+
+        <!-- Блок: Максимальный заряд -->
+        <PanelContainer StyleClasses="BackgroundPanelDark" HorizontalAlignment="Stretch" Margin="2">
+            <BoxContainer Orientation="Vertical" HorizontalAlignment="Stretch" Margin="4">
+                <Label Text="Максимальный заряд" StyleClasses="LabelKeyText" HorizontalAlignment="Center"/>
+                <Slider Name="MaxChargeSlider" HorizontalAlignment="Stretch"/>
+                <Label Name="MaxChargeValue" Text="80" HorizontalAlignment="Center"/>
+
+                <!-- Аналогично для второго блока -->
+                <BoxContainer Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="4">
+                     <LineEdit
+                        Name="MaxChargeLineEdit"
+                        Text="80"
+                        HorizontalExpand="True"
+                        Margin="0,4"/>
+
+                    <Button Text="Подтвердить"
+                            HorizontalAlignment="Right"
+                            Margin="0,0,0,0"/>
+                </BoxContainer>
+            </BoxContainer>
+        </PanelContainer>
+    </BoxContainer>
+</controls:FancyWindow>
