@@ -1,0 +1,1349 @@
+
+
+#Кейсы ФОГ-а
+
+- type: entity
+  id: AngorLodautKrisis
+  name: кейс неопределённости ЧВК
+  description: Прочный военный кейс для оружия. Принадлежит наиболее элитному сотруднику ЧВК "Ангор". 
+  suffix: Кризис, Основное
+  parent: BaseAngorloadoutPrimary
+  components:
+  - type: Sprite
+    state: angor
+  - type: ThiefUndeterminedBackpack
+    possibleSets:
+    - AngorWeaponRifleSG336KrisisSet
+    - LaserSet
+    - AngorVectorSet
+    - WeaponRifleLecterXL8Set
+    - SaigaSet
+    - VALSet
+    - WeaponRifleXC67Set
+  - type: ActivatableUI
+    key: enum.ThiefBackpackUIKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.ThiefBackpackUIKey.Key:
+        type: ThiefBackpackBoundUserInterface
+
+- type: thiefBackpackSet
+  id: AngorWeaponRifleSG336KrisisSet
+  name: Набор "SG-336"
+  description: Содержит в себе автомат SG-336 калибра 7.62х39. доп. урановый запас. Также пистолет "Гюрза" и пара обойм к нему.
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/sg336.rsi
+    state: icon
+  content:
+  - WeaponRifleSG336
+  - MagazineLightRifle
+  - MagazineLightRifle
+  - MagazineLightRifle
+  - MagazineLightRifle
+  - MagazineLightRifleUranium
+  - MagazineLightRifleUranium
+  - MagazineLightRifleUranium
+  - MagazineBoxLightRifle
+  - MagazineBoxLightRifle
+  - WeaponPistolGurza
+  - MagazineGurza
+  - MagazineGurza
+
+- type: thiefBackpackSet
+  id: LaserSet
+  name: Набор "Лазер"
+  description: Содержит в себе Лазерную Пушку, Декард, переносной зарядник и Продвинутый лазерный пистолет. Работаем.
+  sprite:
+    sprite: Objects/Weapons/Guns/Battery/laser_cannon.rsi
+    state: icon
+  content:
+  - WeaponLaserCannon
+  - WeaponAdvancedLaser
+  - WeaponRevolverDeckard
+  - PortableRecharger
+  - SpeedLoaderMagnumIncendiary
+  - SpeedLoaderMagnumIncendiary
+
+- type: thiefBackpackSet
+  id: AngorVectorSet
+  name: Набор "Вектор"
+  description: Содержит в себе тяж. ПП "Вектор", N-1984 и обоймы к нему. Поставлен приоритет на обычный боеприпас 9х19мм.
+  sprite:
+    sprite: Objects/Weapons/Guns/SMGs/vector.rsi
+    state: icon
+  content:
+  - WeaponSubMachineGunVector
+  - WeaponPistolN1984
+  - MagazineBoxPistol
+  - MagazineBoxPistol
+  - MagazinePistolSubMachineGun
+  - MagazinePistolSubMachineGun
+  - MagazinePistolSubMachineGun
+  - MagazinePistolSubMachineGun
+  - MagazinePistolSubMachineGun
+  - MagazinePistolSubMachineGun
+  - MagazinePistolSubMachineGun
+
+- type: thiefBackpackSet
+  id: WeaponRifleLecterXL8Set
+  name: Набор "XL8"
+  description: Содержит в себе автомат XL8 и лазерный пистолет. Приоритет боеприпасов 5.56х45 мм - зажигательный. Зажгите эту станцию во имя Полковника.
+  sprite:
+    sprite: Objects/Weapons/Guns/Rifles/XL8.rsi
+    state: icon
+  content:
+  - WeaponRifleLecterXL8
+  - MagazineRifle
+  - MagazineRifle
+  - MagazineRifle
+  - MagazineRifle
+  - MagazineRifle
+  - MagazineRifleIncendiary
+  - MagazineRifleIncendiary
+  - MagazineRifleIncendiary
+  - MagazineBoxRifle
+  - MagazineBoxRifle
+  - WeaponAdvancedLaser
+
+- type: thiefBackpackSet
+  id: SaigaSet
+  name: Набор "Сайга"
+  description: Содержит в себе автоматический дробовик "Сайга" и пистолет "Гадюка". Комбинированный приоритет на зажигательный, и обычный боеприпас 12х70.
+  sprite:
+    sprite: _DeadSpace/_Soyuz/Objects/Weapons/Guns/Shotguns/saigam.rsi
+    state: icon
+  content:
+  - WeaponShotgunSaigaM
+  - MagazineForSinabirBurn
+  - MagazineForSinabirBurn
+  - MagazineForSinabirBurn
+  - MagazineForSinabirBurn
+  - MagazineForSinabir
+  - MagazineForSinabir
+  - MagazineForSinabir
+  - MagazineForSinabir
+  - MagazineForSinabir
+  - WeaponPistolViper
+  - MagazinePistolHighCapacity
+
+- type: thiefBackpackSet
+  id: VALSet
+  name: Набор АС "ВАЛ"
+  description: Содержит в себе АС "ВАЛ". Обладает комбинированным приоритетом на урановые, зажиг. и обычные боеприпасы 7.62х39мм. Доп. пистолет "Гадюка".
+  sprite:
+    sprite: _DeadSpace/Necromorfs/TheCircle/Weapon/weapons/asval/asval.rsi 
+    state: icon
+  content:
+  - WeaponRifleAsVal
+  - MagazineLightRifleAsVal
+  - MagazineLightRifleAsValUranium
+  - MagazineLightRifleAsValUranium
+  - MagazineLightRifleAsValIncendiary
+  - MagazineLightRifleAsValIncendiary 
+  - MagazineLightRifleAsVal
+  - MagazineLightRifleAsVal
+  - MagazineLightRifleAsVal
+  - WeaponPistolViper
+  - MagazinePistolHighCapacity
+
+
+
+
+
+
+# Кейс неопределённости
+
+
+
+- type: entity
+  id: AngorLodaut
+  name: кейс неопределённости
+  description: Прочный военный кейс для оружия. Принадлежит сотруднику ЧВК "Ангор". 
+  suffix: Ангор, Основное
+  parent: BaseAngorloadoutPrimary
+  components:
+  - type: Sprite
+    state: angor
+  - type: ThiefUndeterminedBackpack
+    possibleSets:
+    - WeaponRifleAMD76Set
+    - AKMsSet
+    - BulldogSet
+    - SubMachineGunMP5Set
+  - type: ActivatableUI
+    key: enum.ThiefBackpackUIKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.ThiefBackpackUIKey.Key:
+        type: ThiefBackpackBoundUserInterface
+
+- type: thiefBackpackSet
+  id: BulldogSet
+  name: Набор Сайга-12М
+  description: Содержит в себе дробовик Сайга-12М, куплено у СССП, мозги противника разлетятся по всему коридору.
+  sprite:
+    sprite: _DeadSpace/_Soyuz/Objects/Weapons/Guns/Shotguns/saigam.rsi
+    state: icon
+  content:
+  - WeaponShotgunSaigaM
+  - MagazineForSinabirBurn
+  - MagazineForSinabirBurn
+  - MagazineForSinabirBurn
+  - MagazineForSinabir
+  - MagazineForSinabir
+  - MagazineForSinabir
+
+- type: thiefBackpackSet
+  id: SubMachineGunMP5Set
+  name: Набор МП-5
+  description: Содержит в себе Пистолет-Пулемёт МП-5 под 9х19 мм, отличное вооружение для быстрого штурма и пафоса, имеет драконьи боеприпасы.
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/smgs/mp5.rsi
+    state: icon
+  content:
+  - WeaponSubMachineGunMP5
+  - MagazinePistolSubMachineGun
+  - MagazinePistolSubMachineGun
+  - MagazinePistolSubMachineGun
+  - MagazinePistolSubMachineGunIncendiary
+  - MagazinePistolSubMachineGunIncendiary
+  - MagazinePistolSubMachineGunIncendiary
+  - MagazineBoxPistol
+
+- type: thiefBackpackSet
+  id: AKMsSet
+  name: Набор АКМС
+  description: Содержит в себе автомат "АКМС", калибр 7.62х39 мм. преимущественно больше зажигательных патрон.
+  sprite:
+    sprite: Objects/Weapons/Guns/Rifles/ak.rsi
+    state: icon
+  content:
+  - MagazineLightRifle
+  - MagazineLightRifleIncendiary
+  - MagazineLightRifleIncendiary
+  - MagazineLightRifleIncendiary
+  - MagazineLightRifleIncendiary
+  - MagazineBoxLightRifle
+  - WeaponRifleAk
+
+- type: thiefBackpackSet
+  id: WeaponRifleAMD76Set
+  name: Набор АМД-76
+  description: Содержит в себе автомат "АМД-76", калибр 7.62х39 мм. Также содержит доп. обоймы Урановых боеприпасов.
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/amd76.rsi
+    state: icon
+  content:
+  - WeaponRifleAMD76
+  - MagazineLightRifleAMD
+  - MagazineLightRifleAMD
+  - MagazineLightRifleAMD
+  - MagazineLightRifleAMD
+  - MagazineLightRifleAMDUranium
+  - MagazineLightRifleAMDUranium
+  - MagazineBoxLightRifle
+
+- type: entity
+  parent: BaseItem
+  id: BaseAngorloadoutPrimary
+  abstract: true
+  name: кейс неопределённости
+  description: Прочный военный кейс для оружия.
+  components:
+  - type: Item
+    size: Large
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/caselodaut.rsi
+    state: angor
+  - type: ThiefUndeterminedBackpack
+    maxSelectedSets: 1
+    possibleSets:
+    - KammererSet
+    - DrozdSet
+    - LaserCarbineSet
+  - type: ActivatableUI
+    key: enum.ThiefBackpackUIKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.ThiefBackpackUIKey.Key:
+        type: ThiefBackpackBoundUserInterface
+
+# Кейс Флагман
+
+- type: entity
+  id: AngorLodautFlagman
+  name: кейс неопределённости ЧВК
+  description: Прочный военный кейс для оружия. Принадлежит элитному бойцу ЧВК "Ангор". 
+  suffix: Флагман, Основное, Ангор
+  parent: BaseAngorloadoutPrimary
+  components:
+  - type: Sprite
+    state: angor
+  - type: ThiefUndeterminedBackpack
+    possibleSets:
+    - MP5SDSet
+    - WeaponTochmashSet
+    - WeaponRifleXC67Set
+    - AngorWeaponRifleSG336FlagmanSet
+    - WeaponRifleAk305Set
+  - type: ActivatableUI
+    key: enum.ThiefBackpackUIKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.ThiefBackpackUIKey.Key:
+        type: ThiefBackpackBoundUserInterface
+
+- type: thiefBackpackSet
+  id: MP5SDSet
+  name: Набор MP-5SD
+  description: Содержит в себе пистолет-пулемёт "MP-5SD" и пистолет "Гюрза", калибра 9х19 мм. с интегрированным глушителем для тихих операций. Обладает доп. урановым и зажиг. боеприпасом.
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/smgs/mp5sd.rsi
+    state: icon
+  content:
+  - WeaponSubMachineGunMP5SD
+  - MagazinePistolSubMachineGun
+  - MagazinePistolSubMachineGun
+  - MagazinePistolSubMachineGun
+  - MagazinePistolSubMachineGun
+  - MagazinePistolSubMachineGunIncendiary
+  - MagazinePistolSubMachineGunIncendiary
+  - MagazinePistolSubMachineGunUranium
+  - MagazinePistolSubMachineGunUranium
+  - MagazineBoxPistol
+  - WeaponPistolGurza
+  - MagazineGurza
+
+- type: thiefBackpackSet
+  id: WeaponTochmashSet
+  name: Набор СР-92 "Точмаш"
+  description: Содержит в себе пистолет-пулемёт "СР-92 Точмаш", калибра 4.7х33 мм. Обладает дополнительными зажигательными боеприпасами.
+  sprite:
+    sprite: _DeadSpace/Necromorfs/BSAA/weapons/Tochmash/Tochmash.rsi
+    state: icon
+  content:
+  - WeaponTochmash
+  - MagazineCaselessRifle
+  - MagazineCaselessRifle
+  - MagazineCaselessRifle
+  - MagazineCaselessRifle
+  - MagazineCaselessRifleIncendiary
+  - MagazineCaselessRifleIncendiary
+  - MagazineCaselessRifleIncendiary
+  - MagazineCaselessRifleIncendiary
+  - MagazineBoxCaselessRifle
+
+- type: thiefBackpackSet
+  id: WeaponRifleXC67Set
+  name: Набор xC-67
+  description: Содержит в себе штурмовую винтовку "xC-67" и пистолет "Гюрза", калибра 5.56х45 мм. Отлично для всех видов боевых ситуаций, или же незаменимая классика.
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/xc67.rsi
+    state: icon
+  content:
+  - WeaponRifleXC67
+  - ADTExtMagazineRifle
+  - ADTExtMagazineRifle
+  - ADTExtMagazineRifle
+  - ADTExtMagazineRifle
+  - ADTExtMagazineRifle
+  - ADTExtMagazineRifle
+  - ADTExtMagazineRifle
+  - ADTExtMagazineRifle
+  - MagazineBoxRifle
+  - WeaponPistolGurza
+  - MagazineGurza
+
+- type: thiefBackpackSet
+  id: AngorWeaponRifleSG336FlagmanSet
+  name: Набор SG336
+  description: Содержит в себе автомат "SG336", калибра 7.62х39 мм. Внушительный урановый боезапас перемешанный с зажигательными. Проходит для убийства любого врага.
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/sg336.rsi
+    state: icon
+  content:
+  - WeaponRifleSG336
+  - MagazineLightRifle
+  - MagazineLightRifle
+  - MagazineLightRifle
+  - MagazineLightRifle
+  - MagazineLightRifleIncendiary
+  - MagazineLightRifleIncendiary
+  - MagazineLightRifleUranium
+  - MagazineLightRifleUranium
+  - MagazineBoxLightRifle
+  - MagazineBoxLightRifleUranium
+
+- type: thiefBackpackSet
+  id: WeaponRifleAk305Set
+  name: Набор АК-305
+  description: Содержит в себе автомат "АК-305" и пистолет "Гюрза", калибра 7.62х39 мм. Расширенные магазины и больше коробок с патронами. Ключевая база любого ЧВК.
+  sprite:
+    sprite: _DeadSpace/Objects/Weapons/Guns/Rifels/ak305.rsi
+    state: icon
+  content:
+  - WeaponRifleAk305
+  - MagazineLightRifle
+  - MagazineLightRifle
+  - MagazineLightRifle
+  - MagazineLightRifle
+  - MagazineLightRifleExtended
+  - MagazineLightRifleExtended
+  - MagazineLightRifleExtended
+  - MagazineLightRifleExtended
+  - WeaponPistolGurza
+  - MagazineGurza
+  - MagazineBoxLightRifle
+  - MagazineBoxLightRifle
+
+
+# Броня
+
+- type: entity
+  parent: ClothingOuterArmorBase
+  id: AngorArmor
+  name: Боевая броня ТБ-4 
+  description: Специализированная броня Формирований Специальных Операций, компактна и удобна, для любых боевых операций.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/newarmor.rsi
+    - type: Clothing
+      sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/newarmor.rsi
+    - type: Armor
+      modifiers:
+        coefficients:
+          Blunt: 0.6
+          Slash: 0.6
+          Piercing: 0.4
+          Heat: 0.6
+          Caustic: 0.75
+
+- type: entity
+  parent: ClothingOuterStorageBase
+  id: AngorTacticArmor
+  name: Тактический бронежилет М-1
+  description: Пуленепробиваемый жилет Частной Военной Корпорации. Если верить в Полковника, защита повышается.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/bulletproof-vest.rsi
+    - type: Clothing
+      sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/bulletproof-vest.rsi
+    - type: Armor
+      modifiers:
+        coefficients:
+          Blunt: 0.6
+          Slash: 0.6
+          Piercing: 0.4
+          Heat: 0.6
+          Caustic: 0.75
+
+
+# Шлемы
+
+- type: entity
+  parent: [ ClothingHeadHelmetArmoredBase, BaseMajorContraband ]
+  id: ClothingHeadHelmet
+  name: Боевой шлем
+  description: Специально для наёмников ЧВК "Ангор". Чувствуется аура завоевания.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/helmetangor.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/helmetangor.rsi
+  - type: Armor
+    modifiers:
+      coefficients:
+       Blunt: 0.80
+       Slash: 0.80
+       Piercing: 0.80
+       Heat: 0.80
+       Radiation: 0.80
+       Caustic: 0.95
+  - type: ExplosionResistance
+    damageCoefficient: 0.75
+  - type: HideLayerClothing
+    layers:
+      Hair: HEAD
+
+- type: entity
+  parent: ClothingHeadBase
+  id: ClothingHeadHatBeretAngor
+  name: Медицинский берет
+  description: Специалисты ЧВК "Ангор", всегда готовые оказаться в нужном месте, в нужное время.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/med_beretANGOR.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/med_beretANGOR.rsi
+  - type: Tag
+    tags:
+    - PetWearable
+    - CorgiWearable
+    - ClothMade
+    - Recyclable
+    - HamsterWearable
+    - WhitelistChameleon
+
+- type: entity
+  parent: [ ClothingMaskGas, BaseSecurityCargoContraband ]
+  id: ClothingMaskGasAngor
+  name: Противогаз АП-1
+  description: Противогаз Частной Военной Корпорации. Выглядит внушающе, хоть и модель старовата.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/angormask.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/angormask.rsi
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.95
+        Slash: 0.95
+        Piercing: 0.95
+        Heat: 0.95
+
+
+- type: entity
+  parent: [ ClothingHeadHelmetArmoredBase, BaseMajorContraband ]
+  id: ClothingHeadHelmetAngorCommand
+  name: Тактический шлем Д-5
+  description: Усовершествованный шлем Частной Военной Корпорации "Ангор", о чём гласит небольшая гравировка сбоку шлема. Обладает достойной защитой.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/bulletproofhelmet.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/bulletproofhelmet.rsi
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.80
+        Slash: 0.80
+        Piercing: 0.80
+        Heat: 0.80
+        Radiation: 0.80
+        Caustic: 0.95
+  - type: ExplosionResistance
+    damageCoefficient: 0.75
+  - type: HideLayerClothing
+    layers:
+      Hair: HEAD
+
+- type: entity
+  parent: [ ClothingHeadHelmetArmoredBase, BaseMajorContraband ]
+  id: ClothingHeadHelmetAngorSSO
+  name: Тактический шлем Д-6
+  description: Новая модель шлема Д-5. Обладает встроенным ПНВ и подходит лишь для крутых парней. Нейтрализуйте врагов ЧВК даже во тьме.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/bulletprooSSOhelmet.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/bulletprooSSOhelmet.rsi
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.80
+        Slash: 0.80
+        Piercing: 0.80
+        Heat: 0.80
+        Radiation: 0.80
+        Caustic: 0.95
+  - type: ExplosionResistance
+    damageCoefficient: 0.75
+  - type: HideLayerClothing
+    layers:
+      Hair: HEAD
+  - type: PNV
+    color: "#AFC4D111"
+    activateSound: 
+      path: /Audio/_DeadSpace/NightVision/pnv.ogg
+
+- type: entity
+  parent: ClothingMaskGas 
+  id: ClothingMaskBalaclava
+  name: Чёрная балаклава
+  description: Для явно не самых добрых намерений. С встроенным противогазом внутри.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/balaclava.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/balaclava.rsi
+  - type: IngestionBlocker
+  - type: IdentityBlocker
+  - type: HideLayerClothing
+    slots:
+    - Snout
+    - Hair
+    hideOnToggle: true
+
+
+# Гарнитура
+
+- type: entity
+  parent: ClothingHeadsetAlt
+  id: ClothingHeadsetAltAngor
+  name: Гарнитура ЧВК "Ангор"
+  description: Камуфляжная гарнитура, с виду выглядит достаточно статно. Присутствует гравировка - *Частная Военная Корпорация "Ангор"*
+  components:
+    - type: Headset
+      color: "#616143FF"
+    - type: EncryptionKeyHolder
+      keySlots: 5
+    - type: ContainerFill
+      containers:
+        key_slots:
+          - PMC_EncryptionKeyAngor
+    - type: Sprite
+      sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/garnitur.rsi
+    - type: Clothing
+      sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/garnitur.rsi
+
+
+- type: radioChannel
+  id: RadioAngor
+  name: chat-radio-angor
+  keycode: 'ё'
+  frequency: 2966
+  color: "#616143FF"
+  longRange: true
+
+- type: entity
+  parent: EncryptionKey
+  id: PMC_EncryptionKeyAngor
+  name: Ключ шифрования ЧВК "Ангор"
+  description: Уверены что хотите знать дела Частной Военной Корпорации?.
+  components:
+  - type: EncryptionKey
+    channels:
+    - RadioAngor
+    defaultChannel: RadioAngor
+  - type: Sprite
+    sprite: "_DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/Angor_key.rsi"
+    layers:
+    - state: key_Angor
+
+# Баннер
+
+- type: entity
+  id: banner_angor
+  parent: BannerBase
+  name: Знамя "Ангор"
+  description: Знамя. В середине показывается красная буква "А", пробитая окровавленной стрелой. Если вы испытываете доверие к этому знамени, возможно, вы на верном пути?
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/bannerAngor.rsi
+    state: banner_angor
+  - type: Construction # DS14
+    graph: Banner
+    node: security
+
+
+# Сумка
+
+- type: entity
+  parent: ClothingBackpack
+  id: ClothingMilitaryBackpackAngor
+  name: Боевой рюкзак
+  description: Стильный, вместительный, надёжный. То что нужно для выполнения поставленных задач.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/backpack.rsi
+  - type: Storage
+    grid:
+    - 0,0,9,5
+  - type: ExplosionResistance # DS14
+    damageCoefficient: 0.1
+
+# Снаряжение
+
+
+- type: entity
+  parent: BaseItem
+  id: Angorcombathypo
+  name: Гипоспрей Эп-1
+  description: Модель гипоспрея произведённая Частной Военной Корпорацией "Ангор". Данная технология была "вежливо" позаимствована во время одного из налётов.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/AngorHypo.rsi
+    state: icon
+  - type: Item
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/AngorHypo.rsi
+  - type: SolutionContainerManager
+    solutions:
+      hypospray:
+        maxVol: 45
+  - type: RefillableSolution
+    solution: hypospray
+  - type: ExaminableSolution
+    solution: hypospray
+  - type: Injector
+    solutionName: hypospray
+    ignoreClosed: false
+    activeModeProtoId: HyposprayDynamicMode
+    allowedModes:
+    - HyposprayDynamicMode
+    - HyposprayInjectMode
+  - type: UseDelay
+    delay: 1.0
+
+- type: entity
+  parent: [ClothingBeltStorageBase, ContentsExplosionResistanceBase, BaseSyndicateContraband,]
+  id: ClothingBeltMilitaryWebbingAngor
+  name: Тактическая РПС ЧВК
+  description: Относительно примитивная РПС, подходит для любого рода операций.
+  suffix: Ангор
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/RPS_Angor.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/RPS_Angor.rsi
+  - type: ExplosionResistance
+    damageCoefficient: 0.1
+
+- type: entity
+  parent: [ClothingEyesBase, ShowSecurityIcons, ShowMedicalIcons, BaseSecurityCommandContraband]
+  id: ClothingEyesHudMedAngor
+  name: Медицинский визор Альфа-1Б4
+  description: Собственность Частной Военной Корпорации "Ангор", о чём гласит мелкая гравировка сбоку.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/medvisorAngor.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/medvisorAngor.rsi
+  - type: Construction
+    graph: HudMedSec
+    node: medsecHud
+
+- type: entity
+  parent: ClothingEyesHudAdvanced
+  id: ClothingEyesHudPMCAngor
+  name: Тактический визор ЧВК
+  description: Инновационное устройство Частной Военной Корпорации. Визор с встроенным ПНВ и индикатором здоровья. Вперёд, лишь с победой.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/Angoradvhud.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/Angoradvhud.rsi
+  - type: PNV
+    color: "#AFC4D111"
+    activateSound: 
+      path: /Audio/_DeadSpace/NightVision/pnv.ogg
+
+- type: entity
+  parent: ClothingShoesBase
+  id: MagbotsAngor
+  name: Зелёные магнитные сапоги
+  suffix: Ангор
+  description: Магнитные ботинки, специально разработанные для непрерывной работы без снижения эффективности для бойцов ЧВК.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/magbootsAngor.rsi
+    layers:
+    - state: icon
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/magbootsAngor.rsi
+  - type: NoSlip
+  - type: Magboots
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: Appearance
+  - type: StaticPrice
+    price: 400
+
+# Скафандр
+
+- type: entity
+  parent: ClothingOuterHardsuitBase
+  id: ADTClothingOuterHardsuitAngor
+  name: Скафандр общего назначения СФ-6
+  description: Первый скафандр созданный Частной Военной Корпорацией "Ангор". Ввиду малой финансовой обеспеченности используется в структуре для любой работы, впрочем, для этого он подходит.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/hardsuitAngor.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/hardsuitAngor.rsi
+  - type: PressureProtection
+    highPressureMultiplier: 0.45
+    lowPressureMultiplier: 1000
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 0.9
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.5
+        Piercing: 0.5
+        Heat: 0.6
+        Caustic: 0.7
+        Stun: 0.85 # DS14-value: 4 stunbaton hits for stun
+  - type: TemperatureProtection
+    heatingCoefficient: 0.001
+    coolingCoefficient: 0.001
+  - type: ExplosionResistance
+    damageCoefficient: 0.8
+  - type: ToggleableClothing
+    clothingPrototype: ADTClothingHeadHelmetHardsuitAngor
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ADTClothingHeadHelmetHardsuitAngor
+  categories: [ HideSpawnMenu ]
+  name: Шлем скафандра "СФ-6"
+  description: Модифицированная версия созданная путём добавления и укрепления общевойскового противогаза к тактическому шлему Д-5.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/hardhelmetAngor.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/hardhelmetAngor.rsi
+  - type: PointLight
+    color: "#fff5c2"
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: HideLayerClothing
+    layers:
+      Hair: HEAD
+
+- type: entity
+  parent: ClothingOuterHardsuitBase
+  id: PilotHardsuitAngor
+  name: Скафандр Пилота ЧВК "Ангор" ИО-2
+  description: Продвинутый скафандр пилота ЧВК. Носить его - считается достоинством внутри структуры.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/Pilothardsuit/hardsuit.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/Pilothardsuit/hardsuit.rsi
+  - type: PressureProtection
+    highPressureMultiplier: 0.45
+    lowPressureMultiplier: 1000
+  - type: ClothingSpeedModifier
+    walkModifier: 1
+    sprintModifier: 1
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.6
+        Slash: 0.7
+        Piercing: 0.5
+        Heat: 0.6
+        Caustic: 0.8
+        Stun: 0.85 # DS14-value: 4 stunbaton hits for stun
+  - type: TemperatureProtection
+    heatingCoefficient: 0.001
+    coolingCoefficient: 0.001
+  - type: ExplosionResistance
+    damageCoefficient: 0.8
+  - type: ToggleableClothing
+    clothingPrototype: PilotHardsuitHelmetAngor
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: PilotHardsuitHelmetAngor
+  categories: [ HideSpawnMenu ]
+  name: Шлем скафандра ИО-2
+  description: Шлем от скафандра Пилота ЧВК ИО-2.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/Pilothardsuit/helmet.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/Pilothardsuit/helmet.rsi
+  - type: PointLight
+    color: "#fff5c2"
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: HideLayerClothing
+    layers:
+      Hair: HEAD
+
+#- type: entity
+#  parent: ClothingOuterHardsuitBase
+#  id: ADTClothingOuterHardsuitDeadLoopAngor
+#  name: Скафандр ФСО ЧВК "Ангор" Эхо-5
+#  description: На данный момент - пик инженеринга Частной Военной Корпорации. Предоставляется лишь лучшим отрядам Формирования Специальных Операций.
+#  components:
+#  - type: Sprite
+#    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/deadloopHardSuit.rsi
+#  - type: Clothing
+#    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/deadloopHardSuit.rsi
+#  - type: PressureProtection
+#    highPressureMultiplier: 0.45
+#    lowPressureMultiplier: 1000
+#  - type: ClothingSpeedModifier
+#    walkModifier: 0.9
+#    sprintModifier: 0.9
+#  - type: Armor
+#    modifiers:
+#      coefficients:
+#        Blunt: 0.4
+#        Slash: 0.4
+#        Piercing: 0.3
+#        Poison: 0.75 # DS14-value: what is poison?
+#        Heat: 0.45
+#        Radiation: 0.25
+#        Caustic: 0.5
+#        Stun: 0.45 # DS14-value: what is stun?
+#  - type: TemperatureProtection
+#    heatingCoefficient: 0.001
+#    coolingCoefficient: 0.001
+#  - type: HardsuitIdentification
+#  - type: ExplosionResistance
+#    damageCoefficient: 0.6
+#  - type: ZombificationResistance
+#    zombificationResistanceCoefficient: 0.7
+#  - type: ToggleableClothing
+#    clothingPrototype: ADTClothingHeadHelmetHardsuitDeadLoopAngor
+
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ADTClothingHeadHelmetHardsuitDeadLoopAngor
+  categories: [ HideSpawnMenu ]
+  name: Шлем скафандра "Эхо-5"
+  description: Новоиспечённый шлем, созданный для ведения любого рода операций. Достижение Частной Военной Корпорации.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/deadloopHardSuitHelmet.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/deadloopHardSuitHelmet.rsi
+  - type: PointLight
+    color: "#fff5c2"
+  - type: PressureProtection
+    highPressureMultiplier: 0.08
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: HideLayerClothing
+    layers:
+      Hair: HEAD
+
+# униформа
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformAngorMillitary
+  name: Тактическая униформа ЧВК "Ангор"
+  description: Удобная и прочная униформа бойцов Частной Военной Корпорации. Создано "ANGOR CORP."
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/UniformAngor.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/UniformAngor.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformAngorMillitarySSO
+  name: Униформа бойца ФСО ЧВК "Ангор"
+  description: Более прочная нежели стандартный тактический вариант. Уничтожьте каждого, на кого укажет рука руководства. Создано "ANGOR CORP."
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/SSO_uniform.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/SSO_uniform.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformAngorPilot
+  name: Экипажная униформа ЧВК "Ангор"
+  description: Удобная и прочная униформа пилотов Частной Военной Корпорации. Создано "ANGOR CORP."
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/pilotangor.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/pilotangor.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformAngorMillitaryMed
+  name: Тактическая мед униформа ЧВК "Ангор"
+  description: Удобная и прочная униформа медиков Частной Военной Корпорации, те - кто не убивают. Создано "ANGOR CORP."
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/medsuit1.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/medsuit1.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformAngoOfficial
+  name: Официальная униформа ЧВК "Ангор"
+  description: Достаточно стильная официальная униформа Частной Военной Корпорации. Используется как офицерами, так и в повседневности обычными бойцами.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/GeneralAngor.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/GeneralAngor.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformAngoOfficialBody
+  name: Униформа охраны ЧВК "Ангор"
+  description: Униформа подразделения Фокс-6 ФСО ЧВК "Ангор". Об этом гласит вышивка на плече униформы.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/bodyguard.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/bodyguard.rsi
+
+
+# Ящик блять
+- type: entity
+  name: оружейный кейс
+  parent: ToolboxBase
+  id: WeaponCaseHeavyAngor
+  description: Усиленный футляр для хранения тяжелого вооружения.
+  suffix: Uuuhhh_Magic
+  components:
+  - type: ExplosionResistance
+    damageCoefficient: 0.3
+  - type: MultiHandedItem
+  - type: HeldSpeedModifier
+    walkModifier: 0.85
+    sprintModifier: 0.85
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/heavy-case.rsi
+  - type: Item
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/heavy-case.rsi
+    size: Ginormous
+    shape:
+    - 0,0,8,3
+  - type: Storage
+    maxItemSize: Ginormous
+    grid:
+    - 0,0,5,3
+    whitelist:
+      components:
+      - Gun
+      - BallisticAmmoProvider
+      - Projectile
+      - CartridgeAmmo
+      - PowerCell
+      - MeleeWeapon
+      - Blocking
+      - Armor
+      tags:
+      - Cartridge
+
+
+- type: entity
+  name: оружейный кейс
+  parent: ToolboxBase
+  id: WeaponCaseHeavyAngorFilledWeapon1
+  description: Усиленный футляр для хранения тяжелого вооружения.
+  suffix: Uuuhhh_Magic вооружение
+  components:
+  - type: ExplosionResistance
+    damageCoefficient: 0.3
+  - type: MultiHandedItem
+  - type: HeldSpeedModifier
+    walkModifier: 0.85
+    sprintModifier: 0.85
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/heavy-case.rsi
+  - type: Item
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/heavy-case.rsi
+    size: Ginormous
+    shape:
+    - 0,0,8,3
+  - type: Storage
+    maxItemSize: Ginormous
+    grid:
+    - 0,0,5,3
+    whitelist:
+      components:
+      - Gun
+      - BallisticAmmoProvider
+      - Projectile
+      - CartridgeAmmo
+      - PowerCell
+      - MeleeWeapon
+      - Blocking
+      - Armor
+      tags:
+      - Cartridge
+  - type: StorageFill
+    contents:
+      - id: MagazineBoxRifle
+      - id: MagazineBoxRifle
+      - id: MagazineBoxRifle
+      - id: MagazineBoxRifle
+      - id: MagazineBoxRifle
+      - id: MagazineBoxRifle
+      - id: BoxShotgunIncendiary
+      - id: BoxShotgunIncendiary
+      - id: MagazineBoxLightRifleIncendiary
+      - id: MagazineBoxLightRifle
+      - id: MagazineBoxLightRifle
+      - id: MagazineBoxPistolIncendiary
+      - id: MagazineBoxPistolIncendiary
+
+
+
+
+  # Шлюз.
+
+
+- type: entity
+  parent: AirlockHatchSyndicate # see standard
+  id: AirlockAngorGlass
+  suffix: Ангор
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/centcomm.rsi
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsSyndicateAgent ]
+
+# Оповещение
+
+
+- type: entity
+  parent: ComputerComms
+  id: AngorComputerComms
+  name: Консоль объявления ЧВК "Ангор"
+  description: Если дело дошло до применения данной консоли, храни Бог врагов Ангора, ведь иные средства им не помогут.
+  components:
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: comm_syndie
+    - map: ["computerLayerKeys"]
+      state: syndie_key
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: AccessReader
+    access: [[ "NuclearOperative" ]]
+  - type: CommunicationsConsole
+    title: comms-console-announcement-title-angor
+    color: "#ff0000"
+    canShuttle: false
+    global: true #announce to everyone they're about to fuck shit up
+    announceSentBy: false # The title already says who they are.
+    sound: /Audio/_DeadSpace/TEMP_FOR_EVENT/Uuuhhh_Magic_angor/AngorConsole/Obyava.ogg 
+  - type: Computer
+    board: SyndicateCommsComputerCircuitboard
+  - type: PointLight
+    radius: 1.5
+    energy: 1.6
+    color: "#616143FF"
+#Полковник
+
+- type: entity
+  parent: [ClothingNeckBase, BaseCommandContraband]
+  id: ADTClothingOuterCoatPolcovnik
+  name: Зелёное пальто
+  description: Тёмно-зелёное пальто. Полковник, взгляните на радар.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/polkivnik/palto.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/polkivnik/palto.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformAngorPolcan
+  name: Парадная униформа Полковника ЧВК "Ангор"
+  description: Удобная и прочная униформа Полковника, заслужено. Создано "ANGOR CORP."
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/polkivnik/forma.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/polkivnik/forma.rsi
+
+- type: entity
+  parent: ClothingHeadBase
+  id: ADTClothingHeadHatQAngorPolc
+  name: парадная фуражка Полковника ЧВК "Ангор"
+  description: Тёмно-зелёная парадная фуражка Полковника ЧВК. Выглядит статно.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/polkivnik/helmetpol.rsi
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/polkivnik/helmetpol.rsi
+
+# СПЕЦ ОТРЯД РЕГУЛЯРКИ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###########################################################################################################
+
+
+- type: entity
+  parent: ClothingNeckPinBase
+  id: ClothingNeckAngorPin
+  name: Значок Ангор
+  description: Значок, идентифицирующий Частную Военную Корпорацию ANGOR CORP.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/pin.rsi
+    state: ang
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/pin.rsi
+    equippedPrefix: ang
+
+- type: entity
+  parent: PosterBase2
+  id: KrisisPoster1
+  name: "Кризис"
+  description: "Действующий Командир одного из отрядов Кризис. Вступай в ряды, вселяй страх и уничтожай монополизацию."
+  components:
+  - type: Sprite
+    state: Komandir
+
+- type: entity
+  parent: PosterBase2
+  id: KrisisPoster2
+  name: "Не путай!"
+  description: "Отряды классификации Кризис имеют в себе различные варианты специалистов. Они не идентичны!"
+  components:
+  - type: Sprite
+    state: Krisisi
+
+- type: entity
+  parent: PosterBase2
+  id: Angorposter1
+  name: "Регулярный строй"
+  description: "Истинный герой делает то - что нужно сделать. Регулярное Формирование Дельта-I. Там, где должны быть."
+  components:
+  - type: Sprite
+    state: Regular
+
+- type: entity
+  parent: PosterBase2
+  id: Angorposter2
+  name: "Враг не один"
+  description: "Противники корпорационного строя и идеи находятся повсюду. Мы одни, но едины. Слава ANGOR CORP."
+  components:
+  - type: Sprite
+    state: Stena
+
+- type: entity
+  parent: PosterBase2
+  id: Angorposter3
+  name: "Вступай в ряды!"
+  description: "Отличное денежное довольствие! Здравый коллектив! Незабываемые приключения! Отдай свою веру в истину, вступай в Ангор!"
+  components:
+  - type: Sprite
+    state: Patrior
+
+- type: entity
+  parent: BaseSign
+  id: PosterBase2
+  abstract: true
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/uuuhhhh_magic/ANGOR/poster.rsi
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: Card
+  - type: Destructible
+    thresholds:
+    - trigger: # Excess damage, don't spawn entities
+        !type:DamageTrigger
+        damage: 50
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          path: /Audio/Effects/poster_broken.ogg
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+    - trigger:
+        !type:DamageTrigger
+        damage: 15
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          path: /Audio/Effects/poster_broken.ogg
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          PosterBroken:
+            min: 1
+            max: 1
+        offset: 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
