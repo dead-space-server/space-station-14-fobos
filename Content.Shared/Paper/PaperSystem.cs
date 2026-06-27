@@ -52,6 +52,7 @@ public sealed class PaperSystem : EntitySystem
     private static readonly ProtoId<TagPrototype> WriteTag = "Write";
 
     private EntityQuery<PaperComponent> _paperQuery;
+    private readonly Dictionary<EntityUid, HashSet<EntityUid>> _writers = new(); // DS14
 
     public override void Initialize()
     {
@@ -59,7 +60,10 @@ public sealed class PaperSystem : EntitySystem
 
         SubscribeLocalEvent<PaperComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<PaperComponent, ComponentInit>(OnInit);
+        SubscribeLocalEvent<PaperComponent, ComponentShutdown>(OnShutdown); // DS14
         SubscribeLocalEvent<PaperComponent, BeforeActivatableUIOpenEvent>(BeforeUIOpen);
+        SubscribeLocalEvent<PaperComponent, BoundUIOpenedEvent>(OnUIOpened); // DS14
+        SubscribeLocalEvent<PaperComponent, BoundUIClosedEvent>(OnUIClosed); // DS14
         SubscribeLocalEvent<PaperComponent, ExaminedEvent>(OnExamined);
         SubscribeLocalEvent<PaperComponent, InteractUsingEvent>(OnInteractUsing);
         SubscribeLocalEvent<PaperComponent, PaperInputTextMessage>(OnInputTextMessage);
@@ -81,7 +85,6 @@ public sealed class PaperSystem : EntitySystem
 
     private void OnInit(Entity<PaperComponent> entity, ref ComponentInit args)
     {
-        entity.Comp.Mode = PaperAction.Read;
         UpdateUserInterface(entity);
 
         if (TryComp<AppearanceComponent>(entity, out var appearance))
@@ -94,11 +97,47 @@ public sealed class PaperSystem : EntitySystem
         }
     }
 
+    // DS14-start
+    private void OnShutdown(Entity<PaperComponent> entity, ref ComponentShutdown args)
+    {
+        if (!_net.IsServer)
+            return;
+
+        _writers.Remove(entity.Owner);
+    }
+    // DS14-end
+
     private void BeforeUIOpen(Entity<PaperComponent> entity, ref BeforeActivatableUIOpenEvent args)
     {
-        entity.Comp.Mode = PaperAction.Read;
-        UpdateUserInterface(entity);
+        UpdateReadUserInterface(entity); // DS14
     }
+
+    // DS14-start
+    private void OnUIOpened(Entity<PaperComponent> entity, ref BoundUIOpenedEvent args)
+    {
+        if (!_net.IsServer)
+            return;
+
+        if (!Equals(args.UiKey, PaperUiKey.Write) || IsWriter(entity.Owner, args.Actor))
+            return;
+
+        _uiSystem.CloseUi(entity.Owner, PaperUiKey.Write, args.Actor);
+    }
+
+    private void OnUIClosed(Entity<PaperComponent> entity, ref BoundUIClosedEvent args)
+    {
+        if (!_net.IsServer)
+            return;
+
+        if (!Equals(args.UiKey, PaperUiKey.Write))
+            return;
+
+        RemoveWriter(entity.Owner, args.Actor);
+
+        if (!HasWriters(entity.Owner))
+            UpdateWriteUserInterface(entity, PaperAction.Read);
+    }
+    // DS14-end
 
     private void OnExamined(Entity<PaperComponent> entity, ref ExaminedEvent args)
     {
@@ -165,9 +204,12 @@ public sealed class PaperSystem : EntitySystem
                 var writeEvent = new PaperWriteEvent(args.User, entity);
                 RaiseLocalEvent(args.Used, ref writeEvent);
 
-                entity.Comp.Mode = PaperAction.Write;
-                _uiSystem.OpenUi(entity.Owner, PaperUiKey.Key, args.User);
-                UpdateUserInterface(entity);
+                // DS14-start
+                AddWriter(entity.Owner, args.User);
+                _uiSystem.CloseUi(entity.Owner, PaperUiKey.Key, args.User);
+                UpdateWriteUserInterface(entity, PaperAction.Write);
+                _uiSystem.OpenUi(entity.Owner, PaperUiKey.Write, args.User);
+                // DS14-end
             }
             args.Handled = true;
             return;
@@ -260,6 +302,14 @@ public sealed class PaperSystem : EntitySystem
 
     private void OnInputTextMessage(Entity<PaperComponent> entity, ref PaperInputTextMessage args)
     {
+        // DS14-start
+        if (!_net.IsServer)
+            return;
+
+        if (!Equals(args.UiKey, PaperUiKey.Write) || !IsWriter(entity.Owner, args.Actor))
+            return;
+        // DS14-end
+
         var ev = new PaperWriteAttemptEvent(entity.Owner);
         RaiseLocalEvent(args.Actor, ref ev);
         if (ev.Cancelled)
@@ -297,8 +347,11 @@ public sealed class PaperSystem : EntitySystem
             _audio.PlayPvs(entity.Comp.Sound, entity);
         }
 
-        entity.Comp.Mode = PaperAction.Read;
+        // DS14-start
+        RemoveWriter(entity.Owner, args.Actor);
+        _uiSystem.CloseUi(entity.Owner, PaperUiKey.Write, args.Actor);
         UpdateUserInterface(entity);
+        // DS14-end
     }
 
     private void OnRandomPaperContentMapInit(Entity<RandomPaperContentComponent> ent, ref MapInitEvent args)
@@ -401,8 +454,63 @@ public sealed class PaperSystem : EntitySystem
 
     private void UpdateUserInterface(Entity<PaperComponent> entity)
     {
-        _uiSystem.SetUiState(entity.Owner, PaperUiKey.Key, new PaperBoundUserInterfaceState(entity.Comp.Content, entity.Comp.StampedBy, entity.Comp.Signatures, entity.Comp.Mode)); // DS14
+        // DS14-start
+        UpdateReadUserInterface(entity);
+        UpdateWriteUserInterface(entity, HasWriters(entity.Owner) ? PaperAction.Write : PaperAction.Read);
     }
+
+    private void UpdateReadUserInterface(Entity<PaperComponent> entity)
+    {
+        _uiSystem.SetUiState(entity.Owner, PaperUiKey.Key, CreateUserInterfaceState(entity, PaperAction.Read));
+    }
+
+    private void UpdateWriteUserInterface(Entity<PaperComponent> entity, PaperAction mode)
+    {
+        _uiSystem.SetUiState(entity.Owner, PaperUiKey.Write, CreateUserInterfaceState(entity, mode));
+    }
+
+    private PaperBoundUserInterfaceState CreateUserInterfaceState(Entity<PaperComponent> entity, PaperAction mode)
+    {
+        return new PaperBoundUserInterfaceState(entity.Comp.Content, entity.Comp.StampedBy, entity.Comp.Signatures, mode);
+    }
+
+    private void AddWriter(EntityUid paper, EntityUid writer)
+    {
+        if (!_net.IsServer)
+            return;
+
+        if (!_writers.TryGetValue(paper, out var writers))
+        {
+            writers = new HashSet<EntityUid>();
+            _writers.Add(paper, writers);
+        }
+
+        writers.Add(writer);
+    }
+
+    private void RemoveWriter(EntityUid paper, EntityUid writer)
+    {
+        if (!_net.IsServer)
+            return;
+
+        if (!_writers.TryGetValue(paper, out var writers))
+            return;
+
+        writers.Remove(writer);
+        if (writers.Count == 0)
+            _writers.Remove(paper);
+    }
+
+    private bool IsWriter(EntityUid paper, EntityUid writer)
+    {
+        return _writers.TryGetValue(paper, out var writers) && writers.Contains(writer);
+    }
+
+    private bool HasWriters(EntityUid paper)
+    {
+        return _writers.TryGetValue(paper, out var writers) && writers.Count > 0;
+    }
+    // DS14-end
 }
 
 /// <summary>
