@@ -31498,11 +31498,6 @@ entities:
       parent: 2
     - type: Physics
       canCollide: False
-  - uid: 8048
-    components:
-    - type: Transform
-      pos: 4.34375,-9.209546
-      parent: 2
   - uid: 12196
     components:
     - type: Transform
