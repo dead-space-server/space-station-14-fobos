@@ -1,31 +1,21 @@
-using Content.Shared.Clothing.Components;
 using Content.Shared.Examine;
 using Content.Shared.Verbs;
 
-namespace Content.Shared.Electrocution;
+namespace Content.Shared.DeadSpace.FakeDescription;
 
-public sealed class InsulatedSystem : EntitySystem
+public sealed class FakeInsulatedSystem : EntitySystem
 {
     [Dependency] private readonly ExamineSystemShared _examine = default!;
 
-    /// <inheritdoc />
     public override void Initialize()
     {
         base.Initialize();
 
-        SubscribeLocalEvent<InsulatedComponent, GetVerbsEvent<ExamineVerb>>(OnDetailedExamine);
+        SubscribeLocalEvent<FakeInsulatedComponent, GetVerbsEvent<ExamineVerb>>(OnDetailedExamine);
     }
 
-    private void OnDetailedExamine(EntityUid ent, InsulatedComponent component, ref GetVerbsEvent<ExamineVerb> args)
+    private void OnDetailedExamine(EntityUid ent, FakeInsulatedComponent component, ref GetVerbsEvent<ExamineVerb> args)
     {
-        if (!HasComp<ClothingComponent>(ent))
-            return;
-
-        // DS14-start
-        if (!component.ShowInExamine)
-            return;
-        // DS14-end
-
         var iconTexture = "/Textures/Interface/VerbIcons/zap.svg.192dpi.png";
 
         _examine.AddHoverExamineVerb(args,

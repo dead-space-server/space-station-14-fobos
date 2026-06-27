@@ -21,7 +21,7 @@ public sealed partial class HeadsetComponent : Component
 
     // DS14-start
     [DataField]
-    public Color Color { get; private set; } = Color.Lime;
+    public Color Color = Color.Lime;
 
     [DataField]
     public SoundSpecifier RadioReceiveSoundPath = new SoundPathSpecifier("/Audio/_DeadSpace/Items/Misc/radio_headset_receive.ogg");
