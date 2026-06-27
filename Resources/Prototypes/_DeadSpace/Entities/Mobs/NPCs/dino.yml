@@ -1,8 +1,8 @@
 - type: entity
-  name: крокодил
+  name: динозавр
   parent: SimpleMobBase
-  id: MobCrocodile
-  description: "Ух какой... Интересно, а они кусаются? Ну, пощекотать их точно можно! Правда, он как то странно на тебя смотрит..."
+  id: MobDino
+  description: "У нас тут юрский период? Выглядит... Почти дружелюбно."
   components:
   - type: MovementSpeedModifier
     baseWalkSpeed: 2
@@ -11,15 +11,15 @@
     drawdepth: Mobs
     layers:
     - map: ["enum.DamageStateVisualLayers.Base", "movement"]
-      state: croc
-      sprite: _DeadSpace/Mobs/Animals/crocodile.rsi
+      state: icon
+      sprite: _DeadSpace/Mobs/Animals/Dino.rsi
   - type: SpriteMovement
     movementLayers:
       movement: 
-        state: croc_walk
+        state: move
     noMovementLayers:
       movement:
-        state: croc
+        state: icon
   - type: Physics
   - type: Fixtures
     fixtures:
@@ -35,11 +35,11 @@
   - type: DamageStateVisuals
     states:
       Alive:
-        Base: croc
+        Base: icon
       Critical:
-        Base: croc_dead
+        Base: dead
       Dead:
-        Base: croc_dead
+        Base: dead
   - type: Butcherable
     spawned:
     - id: FoodMeatLizard
@@ -50,9 +50,9 @@
     interactFailureString: petting-failure-generic
     interactSuccessSpawn: EffectHearts
     interactSuccessSound:
-      path: /Audio/_DeadSpace/Animals/croc_cute.ogg
+      path: /Audio/_DeadSpace/Animals/dino_cute.ogg
     interactFailureSound:
-      path: /Audio/_DeadSpace/Animals/croc_angry.ogg
+      path: /Audio/_DeadSpace/Animals/dino_angry.ogg
   - type: Bloodstream
     bloodReferenceSolution:
       reagents:
@@ -85,36 +85,36 @@
       task: SimpleHostileCompound
   - type: Vocal
     sounds:
-      Male: CrocRoar
-      Female: CrocRoar
-      Unsexed: CrocRoar
+      Male: DinoRoar
+      Female: DinoRoar
+      Unsexed: DinoRoar
+
 
 - type: soundCollection
-  id: CrocScream
+  id: DinoScream
   files:
-  - /Audio/_DeadSpace/Animals/croc_roar.ogg
+  - /Audio/_DeadSpace/Animals/dino_roar.ogg
 
 - type: emoteSounds
-  id: CrocRoar
+  id: DinoRoar
   params:
     variation: 0.125
     volume: 2
   sounds:
     Scream:
-      collection: CrocScream
+      collection: DinoScream
 
 - type: entity
-  name: спавнер крокодила
-  description: Спавнер крутого крокодила.
-  id: SpawnMobCroc
+  name: спавнер динозавра
+  description: Спавнер крутого динозавра.
+  id: SpawnMobDino
   parent: MarkerBase
   components:
   - type: Sprite
     layers:
     - state: green
-    - state: croc
-      sprite: _DeadSpace/Mobs/Animals/crocodile.rsi
+    - state: icon
+      sprite: _DeadSpace/Mobs/Animals/Dino.rsi
   - type: ConditionalSpawner
     prototypes:
-    - MobCrocodile
-  
+    - MobDino

@@ -205,6 +205,17 @@
     Plasma: 300
     Gold: 50
 
+# DS14-start
+- type: latheRecipe
+  parent: BaseToolRecipe
+  id: InsulatedGloves
+  result: ClothingHandsGlovesColorYellow
+  completetime: 10
+  materials:
+    Cloth: 800
+    Durathread: 400
+# DS14-end
+
 - type: latheRecipe
   parent: BaseToolRecipe
   id: EmergencyOxygenTank
