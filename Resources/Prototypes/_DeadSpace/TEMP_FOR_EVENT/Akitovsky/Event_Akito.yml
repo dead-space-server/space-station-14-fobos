@@ -32,6 +32,7 @@
     foldedEquippedPrefix: lowered
   - type: PNV
     color: "#AFC4D111"
+    desaturation: 0.8
     activateSound: 
       path: /Audio/_DeadSpace/NightVision/pnv.ogg
 
@@ -1265,14 +1266,23 @@
         - Cartridge357
     capacity: 10
 
-# SCAR-L
+# HK416
 - type: entity
-  name: Scar-L
+  name: HK416
   parent: WeaponRifleScarL
-  id: WeaponRifleScarLAki
-  description: Стандартизированная штурмовая винтовка армии ОПЗ, одна из многих винтовок, используемая правительством. Использует патроны 5.56х45 мм.
-  suffix: Akitovsky, Оружие
+  id: WeaponRifleHK416Aki
+  description: Надёжный автомат, адаптированный под модульную систему AR-15, созданный фирмой Heckler & Koch.
+  suffix: Akitovsky, Оружие, Песок
   components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/HK416.rsi
+    layers:
+      - state: base
+        map: ["enum.GunVisualLayers.Base"]
+      - state: mag-0
+        map: ["enum.GunVisualLayers.Mag"]
+  - type: Clothing
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/HK416.rsi
   - type: ItemSlots
     slots:
       gun_magazine:
@@ -1293,26 +1303,8 @@
             - CartridgeRifle
   - type: Gun
     soundGunshot:
-      path: /Audio/_DeadSpace/Necromorfs/BSAA/weapons/Ares/shot/Ares.ogg
+      path: /Audio/_DeadSpace/TEMP_FOR_EVENT/Akitovsky/sfx/hk.ogg
     fireRate: 5.5
-
-# SCAR-L Песчаный
-- type: entity
-  name: Scar-L
-  parent: WeaponRifleScarLAki
-  id: WeaponRifleScarLSandAki
-  description: Стандартизированная штурмовая винтовка армии ОПЗ, одна из многих винтовок, используемая правительством. Использует патроны 5.56х45 мм.
-  suffix: Akitovsky, Оружие, Песок
-  components:
-  - type: Sprite
-    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/scarl.rsi
-    layers:
-      - state: base
-        map: ["enum.GunVisualLayers.Base"]
-      - state: mag-0
-        map: ["enum.GunVisualLayers.Mag"]
-  - type: Clothing
-    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Weapons/scarl.rsi
 
 # Магазин 5.56х45 мм SSA AP
 - type: entity
