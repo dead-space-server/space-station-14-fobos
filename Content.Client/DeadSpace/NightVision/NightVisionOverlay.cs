@@ -108,17 +108,17 @@ public sealed class NightVisionOverlay : Overlay
 
         if (IsRunning())
         {
-            if (_nightVisionComponent.Desaturation.HasValue)  // DS14-Start
+            if (_nightVisionComponent.Desaturation.HasValue)
             {
                 _desaturateShader.SetParameter("SCREEN_TEXTURE", ScreenTexture);
                 _desaturateShader.SetParameter("Desaturation", _nightVisionComponent.Desaturation.Value);
                 worldHandle.UseShader(_desaturateShader);
             }
-            else  // DS14
+            else
             {
                 _greyscaleShader.SetParameter("SCREEN_TEXTURE", ScreenTexture);
                 worldHandle.UseShader(_greyscaleShader);
-            }  // DS14-End
+            }
             worldHandle.DrawRect(viewport, Color.White);
         }
 

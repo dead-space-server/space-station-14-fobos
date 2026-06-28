@@ -47,7 +47,7 @@ public sealed class NightVisionSystem : EntitySystem
             component.ActivateSound,
             component.Animation,
             component.Duration,
-            component.Desaturation);  // DS14
+            component.Desaturation);
     }
 
     private void OnComponentStartup(EntityUid uid, NightVisionComponent component, ComponentStartup args)
