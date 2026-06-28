@@ -280,6 +280,8 @@
   - type: SubdermalImplant
     permanent: true
     implantAction: ActionActivateMicroBomb
+    implantComponents:
+    - type: IgnoreCritCooldown
   - type: TriggerOnMobstateChange
     mobState:
     - Dead
@@ -310,6 +312,8 @@
   components:
     - type: SubdermalImplant
       permanent: true
+      implantComponents:
+      - type: IgnoreCritCooldown
     - type: ReplacementImplant
       whitelist:
         tags:
@@ -353,6 +357,8 @@
   - type: SubdermalImplant
     permanent: true
     implantAction: ActionActivateDeathAcidifier
+    implantComponents:
+    - type: IgnoreCritCooldown
   - type: TriggerOnMobstateChange
     mobState:
     - Dead
