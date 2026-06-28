@@ -23,6 +23,9 @@ public abstract partial class SharedNightVisionComponent : Component
 
     [DataField]
     public bool Animation = false;
+
+    [DataField]  // DS14-Start
+    public float? Desaturation = null;  // null = full greyscale, 0.0-1.0 = partial desaturation  // DS14-End
 }
 
 public sealed partial class ToggleNightVisionActionEvent : InstantActionEvent { }
@@ -36,6 +39,7 @@ public sealed class NightVisionComponentState : ComponentState
     public SoundSpecifier? ActivateSound;
     public bool Animation;
     public float? Duration;
+    public float? Desaturation;  // DS14
 
     public NightVisionComponentState(
         Color color,
@@ -43,7 +47,8 @@ public sealed class NightVisionComponentState : ComponentState
         uint lastToggleTick,
         SoundSpecifier? activateSound,
         bool animation,
-        float? duration)
+        float? duration,
+        float? desaturation = null)  // DS14
     {
         Color = color;
         IsNightVision = isNightVision;
@@ -51,5 +56,6 @@ public sealed class NightVisionComponentState : ComponentState
         ActivateSound = activateSound;
         Animation = animation;
         Duration = duration;
+        Desaturation = desaturation;  // DS14
     }
 }

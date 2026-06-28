@@ -90,6 +90,7 @@ public sealed class NightVisionSystem : EntitySystem
         component.ActivateSound = state.ActivateSound;
         component.ServerLastToggleTick = state.LastToggleTick;
         component.Duration = state.Duration;
+        component.Desaturation = state.Desaturation;  // DS14
         if (component.ClientLastToggleTick > component.ServerLastToggleTick)
             return;
 
