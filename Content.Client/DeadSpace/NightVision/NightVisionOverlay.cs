@@ -16,10 +16,12 @@ public sealed class NightVisionOverlay : Overlay
     public override bool RequestScreenTexture => true;
     public override OverlaySpace Space => OverlaySpace.WorldSpace;
     private readonly ShaderInstance _greyscaleShader;
+    private readonly ShaderInstance _desaturateShader;
     private readonly ShaderInstance _circleMaskShader;
     private NightVisionComponent? _nightVisionComponent;
 
     private static readonly ProtoId<ShaderPrototype> GreyscaleFullscreenId = "GreyscaleFullscreen";
+    private static readonly ProtoId<ShaderPrototype> DesaturateFullscreenId = "DesaturateFullscreen";
     private static readonly ProtoId<ShaderPrototype> ColorCircleMaskId = "PNVMask";
 
     private float _transitionProgress = 0f;
@@ -29,6 +31,7 @@ public sealed class NightVisionOverlay : Overlay
     {
         IoCManager.InjectDependencies(this);
         _greyscaleShader = _prototypeManager.Index(GreyscaleFullscreenId).InstanceUnique();
+        _desaturateShader = _prototypeManager.Index(DesaturateFullscreenId).InstanceUnique();
         _circleMaskShader = _prototypeManager.Index(ColorCircleMaskId).InstanceUnique();
     }
 
@@ -105,8 +108,17 @@ public sealed class NightVisionOverlay : Overlay
 
         if (IsRunning())
         {
-            _greyscaleShader.SetParameter("SCREEN_TEXTURE", ScreenTexture);
-            worldHandle.UseShader(_greyscaleShader);
+            if (_nightVisionComponent.Desaturation.HasValue)
+            {
+                _desaturateShader.SetParameter("SCREEN_TEXTURE", ScreenTexture);
+                _desaturateShader.SetParameter("Desaturation", _nightVisionComponent.Desaturation.Value);
+                worldHandle.UseShader(_desaturateShader);
+            }
+            else
+            {
+                _greyscaleShader.SetParameter("SCREEN_TEXTURE", ScreenTexture);
+                worldHandle.UseShader(_greyscaleShader);
+            }
             worldHandle.DrawRect(viewport, Color.White);
         }
 

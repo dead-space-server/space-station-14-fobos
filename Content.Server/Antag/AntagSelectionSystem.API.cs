@@ -131,6 +131,23 @@ public sealed partial class AntagSelectionSystem
         return output;
     }
 
+    // DS14-start
+    public void UpdateAntagIdentifierName(EntityUid rule, EntityUid mind, string name)
+    {
+        if (!TryComp<AntagSelectionComponent>(rule, out var component))
+            return;
+
+        for (var i = 0; i < component.AssignedMinds.Count; i++)
+        {
+            if (component.AssignedMinds[i].Item1 != mind)
+                continue;
+
+            component.AssignedMinds[i] = (mind, name);
+            return;
+        }
+    }
+    // DS14-end
+
     /// <summary>
     /// Returns all the minds of antagonists.
     /// </summary>

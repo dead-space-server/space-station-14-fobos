@@ -7,7 +7,6 @@ namespace Content.Shared.Paper;
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class PaperComponent : Component
 {
-    public PaperAction Mode;
     [DataField("content"), AutoNetworkedField]
     public string Content { get; set; } = "";
 
@@ -66,7 +65,8 @@ public sealed partial class PaperComponent : Component
     [Serializable, NetSerializable]
     public enum PaperUiKey
     {
-        Key
+        Key,
+        Write // DS14
     }
 
     [Serializable, NetSerializable]

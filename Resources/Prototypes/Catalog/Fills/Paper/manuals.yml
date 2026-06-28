@@ -21,6 +21,10 @@
     interfaces:
       enum.PaperUiKey.Key:
         type: PaperBoundUserInterface
+      # DS14-start
+      enum.PaperUiKey.Write:
+        type: PaperBoundUserInterface
+      # DS14-end
   - type: Paper
     content: book-text-holoparasite-info
 

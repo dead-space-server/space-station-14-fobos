@@ -108,6 +108,7 @@
     sprite: _DeadSpace/Clothing/Eyes/tactical_glasses.rsi
   - type: PNV
     color: "#AFC4D111"
+    desaturation: 0.8
     activateSound: 
       path: /Audio/_DeadSpace/NightVision/pnv.ogg
 

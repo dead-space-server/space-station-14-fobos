@@ -1,0 +1,109 @@
+- type: entity
+  name: черепаха
+  parent: SimpleMobBase
+  id: MobTurtle
+  description: "Интересно, а он может стать ниндзей?"
+  components:
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 1
+    baseSprintSpeed: 2
+  - type: Sprite
+    drawdepth: Mobs
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base", "movement"]
+      state: icon
+      sprite: _DeadSpace/Mobs/Animals/Turtle/turtle.rsi
+    - map: ["enum.RollingStoneVisualLayers.Rolling"]
+      sprite: _DeadSpace/Mobs/Animals/Turtle/action.rsi
+      state: action
+      visible: false
+  - type: SpriteMovement
+    movementLayers:
+      movement: 
+        state: move
+    noMovementLayers:
+      movement:
+        state: icon
+  - type: Physics
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.2
+        density: 50
+        mask:
+        - MobMask
+        layer:
+        - MobLayer
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: icon
+      Critical:
+        Base: dead
+      Dead:
+        Base: dead
+  - type: Butcherable
+    spawned:
+    - id: FoodMeatLizard
+      amount: 2
+  - type: InteractionPopup
+    successChance: 0.3
+    interactSuccessString: petting-success-reptile
+    interactFailureString: petting-failure-generic
+    interactSuccessSpawn: EffectHearts
+    #interactSuccessSound:
+    #interactFailureSound:
+  - type: Bloodstream
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: Blood
+        Quantity: 150
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      80: Critical
+      120: Dead
+  - type: Language
+    knownLanguages:
+    - GeneralLanguage
+    cantSpeakLanguages:
+    - GeneralLanguage
+    unlockLanguagesAfterMakeSentient:
+    - GeneralLanguage
+  - type: Damageable
+    damageContainer: Biological
+    damageModifierSet: Scale
+  - type: MeleeWeapon
+    angle: 0
+    attackRate: 0.75
+    damage:
+      types:
+        Blunt: 5
+        Slash: 5
+  - type: MobStateActions
+    actions:
+      Alive: 
+      - ActionTurtleRolling
+  #- type: Vocal
+  #  sounds:
+  #    Male: CrocRoar
+  #    Female: CrocRoar
+  #    Unsexed: CrocRoar
+
+
+- type: entity
+  name: спавнер черепахи
+  description: Спавнер крутой черепахи.
+  id: SpawnMobTurtle
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: green
+    - state: icon
+      sprite: _DeadSpace/Mobs/Animals/Turtle/turtle.rsi
+  - type: ConditionalSpawner
+    prototypes:
+    - MobTurtle

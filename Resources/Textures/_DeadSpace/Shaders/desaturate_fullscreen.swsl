@@ -1,0 +1,9 @@
+uniform highp float Desaturation;
+uniform sampler2D SCREEN_TEXTURE;
+
+void fragment()
+{
+    highp vec4 color = zTextureSpec(SCREEN_TEXTURE, UV);
+    highp float gray = zGrayscale(color.rgb);
+    COLOR = vec4(mix(color.rgb, vec3(gray), Desaturation), color.a);
+}

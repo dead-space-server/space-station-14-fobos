@@ -50,3 +50,27 @@
           amount: 2
         - id: MobRakSmallBlue
           amount: 2
+
+- type: entity
+  parent: CrateLivestock
+  id: CrateNPCDino
+  name: ящик с динозавром
+  description: Ящик, в котором находится восстановленный из окаменелости динозавр.
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage:
+        id: MobDino
+        amount: 1
+
+- type: entity
+  parent: CrateLivestock
+  id: CrateNPCTurtle
+  name: ящик с черепахой
+  description: Ящик, в котором находится черепашка. Не ниндзя.
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage:
+        id: MobTurtle
+        amount: 1

@@ -152,6 +152,10 @@
       roleLoadout:
       - RoleSurvivalNukie
       components:
+        # DS14-start
+      - type: CustomNameOnSpawn
+        namePrefix: "Командир"
+      # DS14-end
       - type: Skill
         group: ALL
       - type: NukeOperative
@@ -172,6 +176,10 @@
       roleLoadout:
       - RoleSurvivalNukie
       components:
+        # DS14-start
+      - type: CustomNameOnSpawn
+        namePrefix: "Агент"
+      # DS14-end
       - type: NukeOperative
       - type: Skill
         group: ALL
@@ -194,6 +202,10 @@
       roleLoadout:
       - RoleSurvivalNukie
       components:
+        # DS14-start
+      - type: CustomNameOnSpawn
+        namePrefix: "Оператор"
+      # DS14-end
       - type: NukeOperative
       - type: Skill
         group: ALL

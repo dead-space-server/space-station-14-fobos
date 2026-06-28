@@ -672,6 +672,10 @@
       roleLoadout:
       - RoleSurvivalNukie
       components:
+      # DS14-start
+      - type: CustomNameOnSpawn
+        namePrefix: "Оперативник"
+      # DS14-end
       - type: NukeOperative
       - type: RandomMetadata
         nameSegments:
