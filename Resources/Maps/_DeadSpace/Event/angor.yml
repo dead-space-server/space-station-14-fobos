@@ -7557,7 +7557,7 @@ entities:
       parent: 2
     - type: Physics
       canCollide: False
-- proto: BoxFolderWhite
+- proto: BoxFolderCentCom
   entities:
   - uid: 426
     components:
@@ -34278,7 +34278,7 @@ entities:
     - type: Transform
       pos: -5.5,51.5
       parent: 2
-- proto: ResearchDisk10000
+- proto: ResearchDiskDebug
   entities:
   - uid: 4789
     components:
