@@ -9,7 +9,24 @@
         <PanelContainer StyleClasses="BackgroundPanelDark" HorizontalAlignment="Stretch" Margin="2">
             <BoxContainer Orientation="Vertical" HorizontalAlignment="Stretch" Margin="4">
                 <Label Text="Скорость зарядки" StyleClasses="LabelKeyText" HorizontalAlignment="Center"/>
-                <Slider Name="ChargeSpeedSlider" HorizontalAlignment="Stretch"/>
+
+                <BoxContainer Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="4">
+                    <!-- Слайдер занимает основную часть -->
+                    <Slider
+                        Name="ChargeSpeedSlider"
+                        HorizontalExpand="True"
+                        Rounded ="true"/>
+
+                    <!-- Метка справа (максимум) -->
+                    <Label
+                        Name="ChargeSpeedMaxLabel"
+                        Text="100"
+                        HorizontalAlignment="Right"
+                        Margin="8,0,0,0"
+                        StyleClasses="SliderValueLabel"/>
+
+                </BoxContainer>
+
                 <Label Name="ChargeSpeedValue" Text="50" HorizontalAlignment="Center"/>
 
                 <!-- Горизонтальный контейнер с LineEdit и Button -->
@@ -17,12 +34,13 @@
                     <!-- LineEdit занимает максимум места -->
                       <LineEdit
                         Name="ChargeSpeedLineEdit"
-                        Text="50"
+                        Text="5000"
                         HorizontalExpand="True"
                         Margin="0,0,8,0"/>
 
                     <!-- Кнопка справа -->
-                    <Button Text="Подтвердить"
+                    <Button Name="SpeedChargeConfirm"
+                            Text="Подтвердить"
                             HorizontalAlignment="Right"
                             Margin="0,0,0,0"/>
                 </BoxContainer>
@@ -33,18 +51,33 @@
         <PanelContainer StyleClasses="BackgroundPanelDark" HorizontalAlignment="Stretch" Margin="2">
             <BoxContainer Orientation="Vertical" HorizontalAlignment="Stretch" Margin="4">
                 <Label Text="Максимальный заряд" StyleClasses="LabelKeyText" HorizontalAlignment="Center"/>
-                <Slider Name="MaxChargeSlider" HorizontalAlignment="Stretch"/>
-                <Label Name="MaxChargeValue" Text="80" HorizontalAlignment="Center"/>
+                <BoxContainer Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="4">
+                    <!-- Слайдер -->
+                    <Slider
+                        Name="MaxChargeSlider"
+                        HorizontalExpand="True"
+                        Rounded ="true"/>
+
+                    <!-- Метка справа (максимум) -->
+                    <Label
+                        Name="MaxChargeMaxLabel"
+                        Text="200"
+                        HorizontalAlignment="Right"
+                        Margin="8,0,0,0"
+                        StyleClasses="SliderValueLabel"/>
+                </BoxContainer>
+                <Label Name="LimitSellValue" Text="50" HorizontalAlignment="Center"/>
 
                 <!-- Аналогично для второго блока -->
                 <BoxContainer Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="4">
                      <LineEdit
                         Name="MaxChargeLineEdit"
-                        Text="80"
+                        Text="5000"
                         HorizontalExpand="True"
                         Margin="0,4"/>
 
-                    <Button Text="Подтвердить"
+                    <Button Name="SellLimitConfirm"
+                            Text="Подтвердить"
                             HorizontalAlignment="Right"
                             Margin="0,0,0,0"/>
                 </BoxContainer>

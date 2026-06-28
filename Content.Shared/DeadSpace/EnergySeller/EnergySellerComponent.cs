@@ -15,5 +15,6 @@ public sealed partial class EnergySellerComponent : Component
 
     public string Account = "Engineering";
 
-
+    public int MaxChargeRate = 1000000;
+    public int MaxLimit = 150000;
 }
