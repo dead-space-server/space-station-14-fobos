@@ -1,10 +1,10 @@
 using Content.Shared.Actions;
 using Content.Shared.Actions.Components;
+using Content.Shared.DeadSpace.Implants;
 using Content.Shared.Mobs;
-using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 
-namespace Content.Server.Mobs;
+namespace Content.Server.DeadSpace.Implants;
 
 public sealed class CritActionCooldownSystem : EntitySystem
 {

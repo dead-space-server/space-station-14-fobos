@@ -281,7 +281,7 @@
     permanent: true
     implantAction: ActionActivateMicroBomb
     implantComponents:
-    - type: IgnoreCritCooldown
+    - type: IgnoreCritCooldown # DS14
   - type: TriggerOnMobstateChange
     mobState:
     - Dead
@@ -313,7 +313,7 @@
     - type: SubdermalImplant
       permanent: true
       implantComponents:
-      - type: IgnoreCritCooldown
+      - type: IgnoreCritCooldown # DS14
     - type: ReplacementImplant
       whitelist:
         tags:
@@ -358,7 +358,7 @@
     permanent: true
     implantAction: ActionActivateDeathAcidifier
     implantComponents:
-    - type: IgnoreCritCooldown
+    - type: IgnoreCritCooldown # DS14
   - type: TriggerOnMobstateChange
     mobState:
     - Dead
