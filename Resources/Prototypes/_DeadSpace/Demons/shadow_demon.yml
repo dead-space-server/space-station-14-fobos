@@ -27,6 +27,7 @@
     baseWalkSpeed: 4
     baseSprintSpeed: 4
   - type: Clickable
+  - type: CantGetMagicOnSwap
   - type: Sprite
     noRot: true
     overrideContainerOcclusion: true
