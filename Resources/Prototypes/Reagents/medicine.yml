@@ -17,6 +17,12 @@
       - !type:ModifyStatusEffect
         effectProto: StatusEffectWoozy
         time: 20.0
+      # DS14-start
+      - !type:PopupMessage
+        type: Local
+        visualType: Small
+        messages: ["--Вы ощущаете легкое головокружение."]
+      # DS14-end
 
 - type: reagent
   id: Dylovene
@@ -1428,6 +1434,12 @@
         visualType: Medium
         messages: [ "mannitol-effect-enlightened" ]
         probability: 0.2
+      # DS14-start
+      - !type:PopupMessage
+        type: Local
+        visualType: Small
+        messages: ["--Вы чувствуете снятие напряжения"]
+      # DS14-end
 
 - type: reagent
   id: Psicodine
@@ -1472,6 +1484,12 @@
         - "psicodine-effect-anxieties-wash-away"
         - "psicodine-effect-at-peace"
         probability: 0.2
+      # DS14-start
+      - !type:PopupMessage
+        type: Local
+        visualType: Small
+        messages: ["--Вы чувствуете, как с ваших плеч сходит гора тяжести."]
+      # DS14-end
 
 - type: reagent
   id: PotassiumIodide

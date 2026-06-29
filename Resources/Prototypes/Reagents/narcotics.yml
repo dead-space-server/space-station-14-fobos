@@ -276,6 +276,12 @@
         - !type:ReagentCondition
           reagent: Impedrezene
           min: 8
+      # DS14-start
+      - !type:PopupMessage
+        type: Local
+        visualType: Small
+        messages: ["--Вам трудно держать контроль. Пелена затмевает ваш взор."]
+      # DS14-end
 
 - type: reagent
   id: SpaceDrugs
@@ -292,6 +298,12 @@
         effectProto: StatusEffectSeeingRainbow
         type: Add
         time: 5
+      # DS14-start
+      - !type:PopupMessage
+        type: Local
+        visualType: Small
+        messages: ["--Вы чувствуете жжение в глазах.."]
+      # DS14-end
 
 - type: reagent
   id: Bananadine
