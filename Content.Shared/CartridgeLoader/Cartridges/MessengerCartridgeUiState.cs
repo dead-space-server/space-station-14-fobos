@@ -12,15 +12,17 @@ public sealed class MessengerCartridgeUiState : BoundUserInterfaceState
     // DS14-Start
     public bool IsBlocked;
     public bool IsBlocking;
+    public bool IncomingMessagesDisabled;
     // DS14-End
 
-    public MessengerCartridgeUiState(MessengerStatus status, Dictionary<int, MessengerUserEntry> users, List<MessengerMessageEntry>? messages = null, bool isBlocked = false, bool isBlocking = false) //DS14
+    public MessengerCartridgeUiState(MessengerStatus status, Dictionary<int, MessengerUserEntry> users, List<MessengerMessageEntry>? messages = null, bool isBlocked = false, bool isBlocking = false, bool incomingMessagesDisabled = false) //DS14
     {
         Status = status;
         Users = users;
         Messages = messages ?? new List<MessengerMessageEntry>();
         IsBlocked = isBlocked; //DS14
         IsBlocking = isBlocking; //DS14
+        IncomingMessagesDisabled = incomingMessagesDisabled; //DS14
     }
 }
 
@@ -113,7 +115,7 @@ public sealed class MessengerTypingEvent : CartridgeMessageEvent
 
 // DS14-Start
 /// <summary>
-/// блок разблок юзер ивент
+/// Toggles per-user blocking.
 /// </summary>
 [Serializable, NetSerializable]
 public sealed class MessengerBlockUserEvent : CartridgeMessageEvent
@@ -125,6 +127,17 @@ public sealed class MessengerBlockUserEvent : CartridgeMessageEvent
     {
         TargetUserId = targetUserId;
         Block = block;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class MessengerSetIncomingDisabledEvent : CartridgeMessageEvent
+{
+    public bool Disabled;
+
+    public MessengerSetIncomingDisabledEvent(bool disabled)
+    {
+        Disabled = disabled;
     }
 }
 // DS14-End

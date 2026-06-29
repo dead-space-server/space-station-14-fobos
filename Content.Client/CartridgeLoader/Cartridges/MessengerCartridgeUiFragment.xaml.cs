@@ -27,6 +27,7 @@ public sealed partial class MessengerCartridgeUiFragment : BoxContainer
     private TimeSpan _lastTypingTime;
     private string _searchText = string.Empty; // DS14
     private bool _isBlocking; // DS14
+    private bool _incomingMessagesDisabled; // DS14
 
     public MessengerCartridgeUiFragment()
     {
@@ -42,6 +43,7 @@ public sealed partial class MessengerCartridgeUiFragment : BoxContainer
         SendButton.OnPressed += OnSendPressed;
         BackButton.OnPressed += OnBackPressed;
         BlockButton.OnPressed += OnBlockPressed; // DS14
+        ChatToggleButton.OnPressed += OnChatTogglePressed; // DS14
         MessageInput.OnTextEntered += OnMessageInputSubmit;
         MessageInput.OnTextChanged += OnMessageInputTextChanged;
         SearchBar.OnTextChanged += OnSearchTextChanged; // DS14
@@ -65,12 +67,16 @@ public sealed partial class MessengerCartridgeUiFragment : BoxContainer
         }
     }
 
-    public void UpdateState(MessengerStatus status, Dictionary<int, MessengerUserEntry> users, List<MessengerMessageEntry>? messages = null, bool isBlocked = false, bool isBlocking = false) //DS14
+    public void UpdateState(MessengerStatus status, Dictionary<int, MessengerUserEntry> users, List<MessengerMessageEntry>? messages = null, bool isBlocked = false, bool isBlocking = false, bool incomingMessagesDisabled = false) //DS14
     {
         _users = users ?? new Dictionary<int, MessengerUserEntry>();
+        _incomingMessagesDisabled = incomingMessagesDisabled; // DS14
 
         ConnectedContainer.Visible = status == MessengerStatus.Connected;
         ConnectionLostContainer.Visible = status == MessengerStatus.ConnectionLost;
+        ChatToggleButton.Text = _incomingMessagesDisabled
+            ? Loc.GetString("messenger-enable-chat")
+            : Loc.GetString("messenger-disable-chat"); // DS14
 
         RebuildUserList(); // DS14
 
@@ -110,6 +116,11 @@ public sealed partial class MessengerCartridgeUiFragment : BoxContainer
             return;
 
         OnBlockUser?.Invoke(_currentChatPartnerId, !_isBlocking);
+    }
+
+    private void OnChatTogglePressed(BaseButton.ButtonEventArgs args)
+    {
+        OnSetIncomingDisabled?.Invoke(!_incomingMessagesDisabled);
     }
     // DS14-End
 
@@ -269,7 +280,7 @@ public sealed partial class MessengerCartridgeUiFragment : BoxContainer
         }
 
         // DS14-start
-        SearchBar.Visible = false;
+        SearchHeader.Visible = false;
         NoUsers.Visible = false;
         UserListScrollContainer.Visible = false;
         MessageBoxContainer.Visible = true;
@@ -283,7 +294,7 @@ public sealed partial class MessengerCartridgeUiFragment : BoxContainer
     {
         // DS14-start
         MessageBoxContainer.Visible = false;
-        SearchBar.Visible = true;
+        SearchHeader.Visible = true;
         BlockButton.Visible = false;
         RebuildUserList();
         // DS14-end
@@ -338,4 +349,5 @@ public sealed partial class MessengerCartridgeUiFragment : BoxContainer
     public event Action<int>? OnRequestMessages;
     public event Action? OnTyping;
     public event Action<int, bool>? OnBlockUser; // DS14
+    public event Action<bool>? OnSetIncomingDisabled; // DS14
 }

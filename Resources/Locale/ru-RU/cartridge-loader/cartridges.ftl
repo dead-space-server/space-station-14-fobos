@@ -108,3 +108,5 @@ messenger-typing-popup = Печатает...
 messenger-blocked = ЗАБЛОКИРОВАН
 messenger-block = Блок
 messenger-unblock = Разблок
+messenger-disable-chat = Отключить чат
+messenger-enable-chat = Включить чат
