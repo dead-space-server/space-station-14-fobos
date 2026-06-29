@@ -93,6 +93,7 @@
     sprite: _DeadSpace/Clothing/Eyes/Hud/taipan_sechud.rsi
   - type: ShowSyndicateIcons
   - type: ShowJobIcons
+  - type: ShowPatrolIcons
   - type: FlashImmunity
   - type: EyeProtection
     protectionTime: 5

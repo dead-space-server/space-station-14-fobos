@@ -364,6 +364,7 @@
     - id: PortableCameraMonitor # DS14
     - id: WeaponRifleSG336 # DS14
     - id: BoxMagazineLightRifle # DS14
+    - id: PatrolTablet # DS14
     - id: PlushieLizardJobHeadofsecurity
       prob: 0.02
 
