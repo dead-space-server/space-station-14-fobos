@@ -239,7 +239,7 @@
   loadouts:
   - CaptainOuterClothing
   - CaptainWintercoat
-  - CaptainCoat
+  - CaptainCoat # DS-14
 
 - type: loadoutGroup
   id: CaptainUnderwear

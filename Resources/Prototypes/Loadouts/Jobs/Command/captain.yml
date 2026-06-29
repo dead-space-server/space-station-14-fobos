@@ -91,10 +91,12 @@
   equipment:
     outerClothing: ClothingOuterWinterCap
 
+# DS14-start
 - type: loadout
   id: CaptainCoat
   equipment:
     outerClothing: ClothingOuterCoatCaptain
+# DS14-end
 
 # Underwear
 - type: loadout
