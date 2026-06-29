@@ -172,6 +172,7 @@ public sealed class TraitorUltraMindState
     public bool BaseObjectivesAssigned;
     public bool InitialObjectivePackageAssigned;
     public bool UltraUplinkInitialized;
+    public bool BountyAnnouncementSuppressed;
     public EntityUid? BountyBody;
     public EntityUid? UltraUplinkEntity;
     public EntityUid? UpgradeOfferActionEntity;

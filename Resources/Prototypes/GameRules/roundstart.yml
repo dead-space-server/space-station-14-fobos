@@ -282,8 +282,8 @@
       max: 420
     definitions:
     - prefRoles: [ Traitor ]
-      max: 12
-      playerRatio: 7
+      max: 15
+      playerRatio: 5
       components:
       - type: Skill
         group: ALL
