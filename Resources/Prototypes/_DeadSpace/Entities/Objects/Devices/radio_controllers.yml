@@ -1,0 +1,56 @@
+- type: entity
+  parent: BaseItem
+  id: BaseDroneRemoteController
+  name: пульт управления
+  description: Позволит вам управлять вашими штуками.
+  abstract: true
+  components:
+  - type: Sprite
+    sprite: Objects/Devices/signaller.rsi
+    state: signaller
+  - type: DroneRemoteController
+  - type: UseDelay
+  - type: StaticPrice
+    price: 40
+
+- type: entity
+  parent: BaseDroneRemoteController
+  id: ToyCarRemoteController
+  name: пульт управления с колесом
+  description: Позволит вам управлять вашей машинкой! Врум!
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Devices/toycar_controller.rsi
+    state: icon
+  - type: DroneRemoteController
+    isFPV: false
+    range: 10
+    warningRange: 7
+    connectWhitelist: 
+      tags:
+      - ToyCar
+      - ToyCarCamera
+  - type: UseDelay
+  - type: StaticPrice
+    price: 40
+
+- type: entity
+  parent: BaseDroneRemoteController
+  id: AdvancedRemoteController
+  name: улучшенный пульт управления
+  description: Оснащён экраном, позволяющим управлять практически как от первого лица.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Devices/advanced_controller.rsi
+    state: icon
+  - type: DroneRemoteController
+    isFPV: true
+    range: 20
+    warningRange: 17
+    connectWhitelist: 
+      tags:
+      - ToyCar
+      - ToyCarCamera
+  - type: UseDelay
+  - type: StaticPrice
+    price: 120

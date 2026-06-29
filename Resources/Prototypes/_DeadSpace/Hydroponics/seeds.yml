@@ -192,3 +192,27 @@
       Min: 1
       Max: 2
       PotencyDivisor: 1
+      
+- type: seed
+  id: MangoPlant
+  name: Манго
+  noun: seeds-noun-seeds
+  displayName: Манго
+  plantRsi: _DeadSpace/Objects/Specific/Hydroponics/mango.rsi
+  packetPrototype: MangoSeeds
+  productPrototypes:
+    - FoodMango
+  harvestRepeat: Repeat
+  lifespan: 55
+  maturation: 12
+  production: 3
+  yield: 3
+  potency: 10
+  idealLight: 8
+  growthStages: 5
+  waterConsumption: 1.5
+  chemicals:
+    Nutriment:
+      Min: 1
+      Max: 5
+      PotencyDivisor: 20

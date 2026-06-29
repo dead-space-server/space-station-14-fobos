@@ -25,6 +25,7 @@
   - type: Tag
     tags:
     - WhitelistChameleon
+    - BodyCamera
   - type: Clothing
     quickEquip: true
     slots:
@@ -33,3 +34,6 @@
     materialComposition:
       Steel: 100
       Plastic: 100
+
+- type: Tag
+  id: BodyCamera

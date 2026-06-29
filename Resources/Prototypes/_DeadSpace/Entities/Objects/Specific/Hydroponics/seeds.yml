@@ -62,3 +62,14 @@
       seedId: CactusBubblePlant
     - type: Sprite
       sprite: _DeadSpace/Objects/Specific/Hydroponics/cactus_bubble.rsi
+
+- type: entity
+  parent: SeedBase
+  name: пакет семян (манго)
+  description: "Из этих семян вырастет дерево манго. Те кто знают."
+  id: MangoSeeds
+  components:
+    - type: Seed
+      seedId: MangoPlant
+    - type: Sprite
+      sprite: _DeadSpace/Objects/Specific/Hydroponics/mango.rsi

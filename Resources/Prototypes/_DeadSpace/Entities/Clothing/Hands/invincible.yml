@@ -1,0 +1,14 @@
+- type: entity
+  parent: ClothingHandsBase
+  id: ClothingHandsGlovesInvincible
+  name: латексные перчатки косплеера
+  description: Дополнят ваш образ.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Hands/Gloves/invincible_gloves.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Hands/Gloves/invincible_gloves.rsi
+  - type: Fiber
+    fiberMaterial: fibers-rubber
+    fiberColor: fibers-yellow
+  - type: FingerprintMask

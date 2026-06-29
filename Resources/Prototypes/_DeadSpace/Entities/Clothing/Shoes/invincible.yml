@@ -1,0 +1,10 @@
+- type: entity
+  parent: ClothingShoesBaseButcherable
+  id: ClothingShoesBootsInvincible
+  name: сапоги косплеера
+  description: Дополнят ваш образ.
+  components:
+    - type: Sprite
+      sprite: _DeadSpace/Clothing/Shoes/Boots/invincible_boots.rsi
+    - type: Clothing
+      sprite: _DeadSpace/Clothing/Shoes/Boots/invincible_boots.rsi
