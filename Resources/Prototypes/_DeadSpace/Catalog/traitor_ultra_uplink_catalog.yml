@@ -3173,11 +3173,11 @@
 - type: listing
   id: UplinkTraitorUltraSmokingCarpInjector
   name: uplink-smoking-carp-name
-  description: uplink-smoking-carp-desc
+  description: uplink-smoking-carp-expensive-desc
   icon: { sprite: _DeadSpace/Objects/Misc/injector_smoking_carp.rsi, state: icon }
   productEntity: SmokingCarpInjector
   cost:
-    Telecrystal: 14
+    Telecrystal: 17
   categories:
   - TraitorUltraUplinkWeaponry
   conditions:
@@ -3196,7 +3196,7 @@
   icon: { sprite: _DeadSpace/Objects/Misc/injector_smoking_carp.rsi, state: icon }
   productEntity: SmokingCarpInjector
   cost:
-    Telecrystal: 10
+    Telecrystal: 12
   categories:
   - TraitorUltraUplinkExclusive
   conditions:
