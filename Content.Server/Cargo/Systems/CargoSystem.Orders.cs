@@ -72,6 +72,15 @@ namespace Content.Server.Cargo.Systems
             if (!TryGetOrderDatabase(stationUid, out var orderDatabase))
                 return;
 
+            // DS14-start
+            if (IsTradeHijacked(stationUid.Value, orderDatabase, ent.Comp, slip.Account))
+            {
+                ConsolePopup(args.User, Loc.GetString("cargo-console-trade-hijacked"));
+                PlayDenySound(ent, ent.Comp);
+                return;
+            }
+            // DS14-end
+
             if (!_protoMan.TryIndex(slip.Product, out var product))
             {
                 Log.Error($"Tried to add invalid cargo product {slip.Product} as order!");
@@ -174,6 +183,13 @@ namespace Content.Server.Cargo.Systems
             // DS14-start
             if (component.IsTaipan && !HasComp<StationTaipanComponent>(station))
                 return;
+
+            if (IsTradeHijacked(station.Value, orderDatabase, component, component.Account))
+            {
+                ConsolePopup(args.Actor, Loc.GetString("cargo-console-trade-hijacked"));
+                PlayDenySound(uid, component);
+                return;
+            }
 
             // Find our order again. It might have been dispatched or approved already
             CargoOrderData? order = null;
@@ -292,6 +308,11 @@ namespace Content.Server.Cargo.Systems
 
         private EntityUid? TryFulfillOrder(Entity<StationDataComponent> stationData, ProtoId<CargoAccountPrototype> account, CargoOrderData order, StationCargoOrderDatabaseComponent orderDatabase)
         {
+            // DS14-start
+            if (IsTradeHijacked(stationData.Owner, orderDatabase, account: account))
+                return null;
+            // DS14-end
+
             // No slots at the trade station
             _listEnts.Clear();
             GetTradeStations(stationData, ref _listEnts);
@@ -400,6 +421,15 @@ namespace Content.Server.Cargo.Systems
             if (!TryComp<StationBankAccountComponent>(stationUid, out var bank))
                 return;
 
+            // DS14-start
+            if (IsTradeHijacked(stationUid.Value, orderDatabase, component, component.Account))
+            {
+                ConsolePopup(args.Actor, Loc.GetString("cargo-console-trade-hijacked"));
+                PlayDenySound(uid, component);
+                return;
+            }
+            // DS14-end
+
             if (!_protoMan.TryIndex<CargoProductPrototype>(args.CargoProductId, out var product))
             {
                 Log.Error($"Tried to add invalid cargo product {args.CargoProductId} as order!");
@@ -468,7 +498,8 @@ namespace Content.Server.Cargo.Systems
                     orderDatabase.Capacity,
                     GetNetEntity(station.Value),
                     RelevantOrders((station!.Value, orderDatabase), (consoleUid, console)),
-                    GetAvailableProducts((consoleUid, console))
+                    GetAvailableProducts((consoleUid, console)),
+                    IsTradeHijacked(station.Value, orderDatabase, console, console.Account) // DS14
                 ));
             }
         }
@@ -504,6 +535,26 @@ namespace Content.Server.Cargo.Systems
         {
             _popup.PopupCursor(text, actor);
         }
+
+        // DS14-start
+        private bool IsTradeHijacked(
+            EntityUid station,
+            StationCargoOrderDatabaseComponent orderDatabase,
+            CargoOrderConsoleComponent? console = null,
+            ProtoId<CargoAccountPrototype>? account = null)
+        {
+            if (!orderDatabase.TradeHijacked || HasComp<StationTaipanComponent>(station))
+                return false;
+
+            if (console?.IsTaipan == true)
+                return false;
+
+            if (account != null && account.Value.ToString() == "Taipan")
+                return false;
+
+            return true;
+        }
+        // DS14-end
 
         private void PlayDenySound(EntityUid uid, CargoOrderConsoleComponent component)
         {
@@ -583,6 +634,20 @@ namespace Content.Server.Cargo.Systems
             }
         }
 
+        // DS14-start
+        public void RefreshOrderConsoles(EntityUid station)
+        {
+            UpdateOrders(station);
+
+            var query = EntityQueryEnumerator<CargoPalletConsoleComponent, TransformComponent>();
+            while (query.MoveNext(out var uid, out var console, out var xform))
+            {
+                if (_station.GetOwningStation(uid, xform) == station)
+                    UpdatePalletConsoleInterface(uid, console);
+            }
+        }
+        // DS14-end
+
         public bool AddAndApproveOrder(
             EntityUid dbUid,
             string spawnId,
@@ -598,6 +663,12 @@ namespace Content.Server.Cargo.Systems
         )
         {
             DebugTools.Assert(_protoMan.HasIndex<EntityPrototype>(spawnId));
+
+            // DS14-start
+            if (IsTradeHijacked(dbUid, component, account: account))
+                return false;
+            // DS14-end
+
             // Make an order
             var id = GenerateOrderId(component);
             var order = new CargoOrderData(id, spawnId, name, cost, qty, sender, description, account);
@@ -618,6 +689,9 @@ namespace Content.Server.Cargo.Systems
         private bool TryAddOrder(EntityUid dbUid, ProtoId<CargoAccountPrototype> account, CargoOrderData data, StationCargoOrderDatabaseComponent component)
         {
             // DS14-start
+            if (IsTradeHijacked(dbUid, component, account: account))
+                return false;
+
             if (account == "Taipan")
             {
                 component.TaipanOrders.Add(data);
@@ -772,6 +846,11 @@ namespace Content.Server.Cargo.Systems
             {
                 return new List<ProtoId<CargoProductPrototype>>();
             }
+
+            // DS14-start
+            if (IsTradeHijacked(station, db, ent.Comp, ent.Comp.Account))
+                return new List<ProtoId<CargoProductPrototype>>();
+            // DS14-end
 
             var products = new List<ProtoId<CargoProductPrototype>>();
 

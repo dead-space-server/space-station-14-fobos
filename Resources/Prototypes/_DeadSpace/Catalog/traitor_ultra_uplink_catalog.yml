@@ -1378,6 +1378,31 @@
        - NukeOpsUplink
 
 - type: listing
+  id: UplinkTraitorUltraTradeInterdictionBeacon
+  name: uplink-traitor-ultra-trade-interdiction-beacon-name
+  description: uplink-traitor-ultra-trade-interdiction-beacon-desc
+  icon: { sprite: _DeadSpace/Objects/Tools/trade_interdiction_beacon.rsi, state: extraction_point }
+  productEntity: TradeInterdictionBeacon
+  cost:
+    Telecrystal: 0
+  categories:
+  - TraitorUltraUplinkExclusive
+  conditions:
+  - !type:BuyerAntagCondition
+    whitelist:
+    - TraitorUltra
+  - !type:BuyerObjectiveWhitelistCondition
+    whitelist:
+      components:
+      - TraitorUltraHijackTradeCondition
+  - !type:ListingLimitedStockCondition
+    stock: 1
+  - !type:StoreWhitelistCondition
+    blacklist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
   id: UplinkTraitorUltraNukieAntimovCircuitBoard
   name: uplink-antimov-law-name
   description: uplink-antimov-law-desc

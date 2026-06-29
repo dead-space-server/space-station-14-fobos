@@ -34,8 +34,22 @@ public sealed partial class CargoSystem
     }
 
     #region Console
-    private void UpdatePalletConsoleInterface(EntityUid uid)
+    private void UpdatePalletConsoleInterface(EntityUid uid, CargoPalletConsoleComponent? component = null)
     {
+        // DS14-start
+        if (!Resolve(uid, ref component, false))
+            return;
+
+        var station = _station.GetOwningStation(uid);
+        if (IsTradeSaleHijacked(station, component))
+        {
+            _uiSystem.SetUiState(uid,
+                CargoPalletConsoleUiKey.Sale,
+                new CargoPalletConsoleInterfaceState(0, 0, false, true));
+            return;
+        }
+        // DS14-end
+
         if (Transform(uid).GridUid is not { } gridUid)
         {
             _uiSystem.SetUiState(uid,
@@ -52,7 +66,7 @@ public sealed partial class CargoSystem
 
     private void OnPalletUIOpen(EntityUid uid, CargoPalletConsoleComponent component, BoundUIOpenedEvent args)
     {
-        UpdatePalletConsoleInterface(uid);
+        UpdatePalletConsoleInterface(uid, component); // DS14
     }
 
     /// <summary>
@@ -65,7 +79,7 @@ public sealed partial class CargoSystem
 
     private void OnPalletAppraise(EntityUid uid, CargoPalletConsoleComponent component, CargoPalletAppraiseMessage args)
     {
-        UpdatePalletConsoleInterface(uid);
+        UpdatePalletConsoleInterface(uid, component); // DS14
     }
 
     #endregion
@@ -214,11 +228,28 @@ public sealed partial class CargoSystem
         return true;
     }
 
+    // DS14-start
+    private bool IsTradeSaleHijacked(EntityUid? station, CargoPalletConsoleComponent component)
+    {
+        return station != null &&
+            !component.IsTaipan &&
+            TryComp<StationCargoOrderDatabaseComponent>(station.Value, out var orderDatabase) &&
+            IsTradeHijacked(station.Value, orderDatabase);
+    }
+    // DS14-end
+
     private void OnPalletSale(EntityUid uid, CargoPalletConsoleComponent component, CargoPalletSellMessage args)
     {
         var xform = Transform(uid);
         //DS14-Start
         var station = _station.GetOwningStation(uid);
+
+        if (IsTradeSaleHijacked(station, component))
+        {
+            ConsolePopup(args.Actor, Loc.GetString("cargo-console-trade-hijacked"));
+            UpdatePalletConsoleInterface(uid, component);
+            return;
+        }
 
         StationBankAccountComponent? bankAccount = null;
         if (station != null)
@@ -285,7 +316,7 @@ public sealed partial class CargoSystem
         //DS14-End
 
         _audio.PlayPvs(ApproveSound, uid);
-        UpdatePalletConsoleInterface(uid);
+        UpdatePalletConsoleInterface(uid, component); // DS14
     }
 
     #endregion

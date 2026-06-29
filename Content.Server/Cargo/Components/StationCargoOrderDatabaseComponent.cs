@@ -28,6 +28,10 @@ public sealed partial class StationCargoOrderDatabaseComponent : Component
     // DS14-start
     [DataField]
     public List<CargoOrderData> TaipanOrders = new();
+
+    public EntityUid? TradeHijackActiveBeacon;
+
+    public bool TradeHijacked;
     // DS14-end
 
     /// <summary>

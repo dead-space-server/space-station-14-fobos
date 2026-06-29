@@ -119,6 +119,7 @@ public sealed partial class TraitorUltraRuleComponent : Component
         "TraitorUltraDestroyAtmosGasMinersObjective",
         "TraitorUltraDestroyAmeControllerObjective",
         "TraitorUltraHijackShuttleObjective",
+        "TraitorUltraHijackTradeObjective",
         "TraitorUltraDestroyServersObjective",
         "NukeDiskStealObjective",
     };
@@ -127,6 +128,7 @@ public sealed partial class TraitorUltraRuleComponent : Component
     public List<EntProtoId> RarePostUpgradeObjectives = new()
     {
         "TraitorUltraKillHalfSecurityObjective",
+        "TraitorUltraDestroyStationAiCoreObjective",
     };
 
     [DataField]
