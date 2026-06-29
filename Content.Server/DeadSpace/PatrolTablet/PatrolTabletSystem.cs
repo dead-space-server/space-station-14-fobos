@@ -1,0 +1,316 @@
+using Content.Server.Popups;
+using Content.Server.UserInterface;
+using Content.Shared.Access.Systems;
+using Content.Shared.DeadSpace.PatrolTablet;
+using Content.Shared.Interaction;
+using Content.Shared.Mobs.Components;
+using Content.Shared.Medical.SuitSensors;
+using Content.Shared.UserInterface;
+using Robust.Server.GameObjects;
+
+namespace Content.Server.DeadSpace.PatrolTablet;
+
+public sealed class PatrolTabletSystem : EntitySystem
+{
+    [Dependency] private readonly UserInterfaceSystem _ui = default!;
+    [Dependency] private readonly PopupSystem _popup = default!;
+    [Dependency] private readonly SharedIdCardSystem _idCard = default!;
+
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        SubscribeLocalEvent<PatrolTabletComponent, AfterActivatableUIOpenEvent>(OnUiOpen);
+        SubscribeLocalEvent<PatrolTabletComponent, AfterInteractEvent>(OnAfterInteract);
+        SubscribeLocalEvent<InteractUsingEvent>(OnInteractUsing);
+        SubscribeLocalEvent<PatrolTabletComponent, PatrolTabletRequestUpdateMessage>(OnRequestUpdate);
+        SubscribeLocalEvent<PatrolTabletComponent, PatrolTabletRenameSquadMessage>(OnRenameSquad);
+        SubscribeLocalEvent<PatrolTabletComponent, PatrolTabletBulkAssignSquadMessage>(OnBulkAssignSquad);
+        SubscribeLocalEvent<PatrolTabletComponent, PatrolTabletClearAllMessage>(OnClearAll);
+        SubscribeLocalEvent<PatrolTabletComponent, PatrolTabletClearSquadMessage>(OnClearSquad);
+        SubscribeLocalEvent<PatrolTabletComponent, PatrolTabletCreateSquadMessage>(OnCreateSquad);
+    }
+
+    private bool AddTrackedPersonnel(EntityUid uid, PatrolTabletComponent comp, EntityUid target, EntityUid user)
+    {
+        if (!_idCard.TryFindIdCard(target, out _))
+        {
+            _popup.PopupEntity(Loc.GetString("patrol-tablet-no-id-card"), uid, user);
+            return false;
+        }
+
+        var netTarget = GetNetEntity(target);
+
+        if (comp.TrackedPersonnel.Contains(netTarget))
+            return false;
+
+        if (!HasComp<PatrolMemberComponent>(target))
+            AddComp<PatrolMemberComponent>(target);
+
+        comp.TrackedPersonnel.Add(netTarget);
+        Dirty(uid, comp);
+
+        _popup.PopupEntity(Loc.GetString("patrol-tablet-added-personnel", ("name", MetaData(target).EntityName)), uid, user);
+        return true;
+    }
+
+    private void OnAfterInteract(EntityUid uid, PatrolTabletComponent comp, AfterInteractEvent args)
+    {
+        if (args.Handled || !args.CanReach || args.Target == null)
+            return;
+
+        if (!HasComp<MobStateComponent>(args.Target.Value))
+            return;
+
+        if (comp.TrackedPersonnel.Contains(GetNetEntity(args.Target.Value)))
+        {
+            _popup.PopupEntity(Loc.GetString("patrol-tablet-already-tracked"), uid, args.User);
+            return;
+        }
+
+        if (AddTrackedPersonnel(uid, comp, args.Target.Value, args.User))
+            UpdateUiState(uid, comp);
+        args.Handled = true;
+    }
+
+    private void OnInteractUsing(InteractUsingEvent args)
+    {
+        if (args.Handled)
+            return;
+
+        if (!TryComp<PatrolTabletComponent>(args.Used, out var comp))
+            return;
+
+        if (!HasComp<MobStateComponent>(args.Target))
+            return;
+
+        if (comp.TrackedPersonnel.Contains(GetNetEntity(args.Target)))
+        {
+            _popup.PopupEntity(Loc.GetString("patrol-tablet-already-tracked"), args.Used, args.User);
+            args.Handled = true;
+            return;
+        }
+
+        if (AddTrackedPersonnel(args.Used, comp, args.Target, args.User))
+            UpdateUiState(args.Used, comp);
+        args.Handled = true;
+    }
+
+    private void OnUiOpen(EntityUid uid, PatrolTabletComponent comp, AfterActivatableUIOpenEvent args)
+    {
+        UpdateUiState(uid, comp);
+    }
+
+    private void OnRenameSquad(EntityUid uid, PatrolTabletComponent comp, PatrolTabletRenameSquadMessage msg)
+    {
+        if (string.IsNullOrWhiteSpace(msg.NewName))
+            return;
+
+        var squad = comp.Squads.Find(s => s.Id == msg.SquadId);
+        if (squad == null)
+            return;
+
+        squad.Name = msg.NewName.Trim();
+        Dirty(uid, comp);
+        UpdateUiState(uid, comp);
+    }
+
+    private void OnRequestUpdate(EntityUid uid, PatrolTabletComponent comp, PatrolTabletRequestUpdateMessage msg)
+    {
+        UpdateUiState(uid, comp);
+    }
+
+    private void OnBulkAssignSquad(EntityUid uid, PatrolTabletComponent comp, PatrolTabletBulkAssignSquadMessage msg)
+    {
+        var squad = comp.Squads.Find(s => s.Id == msg.SquadId);
+        if (squad == null)
+            return;
+
+        foreach (var netEntity in comp.TrackedPersonnel)
+        {
+            var target = GetEntity(netEntity);
+            if (!Exists(target))
+                continue;
+
+            SetSquadOnIdCard(target, squad.Id, squad.IconId);
+        }
+
+        comp.TrackedPersonnel.Clear();
+        Dirty(uid, comp);
+        UpdateUiState(uid, comp);
+    }
+
+    private void OnClearAll(EntityUid uid, PatrolTabletComponent comp, PatrolTabletClearAllMessage msg)
+    {
+        comp.TrackedPersonnel.Clear();
+        Dirty(uid, comp);
+        UpdateUiState(uid, comp);
+    }
+
+    private void OnClearSquad(EntityUid uid, PatrolTabletComponent comp, PatrolTabletClearSquadMessage msg)
+    {
+        var query = EntityQueryEnumerator<PatrolSquadCardComponent>();
+        while (query.MoveNext(out var cardUid, out var squadCard))
+        {
+            if (squadCard.SquadId != msg.SquadId)
+                continue;
+
+            squadCard.SquadId = string.Empty;
+            squadCard.SquadIcon = string.Empty;
+            squadCard.MemberName = string.Empty;
+            Dirty(cardUid, squadCard);
+        }
+
+        UpdateUiState(uid, comp);
+    }
+
+    private void OnCreateSquad(EntityUid uid, PatrolTabletComponent comp, PatrolTabletCreateSquadMessage msg)
+    {
+        if (string.IsNullOrWhiteSpace(msg.Name) || string.IsNullOrWhiteSpace(msg.IconId))
+            return;
+
+        var name = msg.Name.Trim();
+        if (name.Length > 30)
+            name = name[..30];
+
+        var id = $"squad_{Guid.NewGuid():N}"[..16];
+        comp.Squads.Add(new SquadData(id, name, msg.IconId));
+        Dirty(uid, comp);
+        UpdateUiState(uid, comp);
+    }
+
+    private void SetSquadOnIdCard(EntityUid target, string squadId, string squadIcon)
+    {
+        if (!_idCard.TryFindIdCard(target, out var idCard))
+            return;
+
+        var name = idCard.Comp.FullName ?? MetaData(target).EntityName;
+
+        var squadCard = EnsureComp<PatrolSquadCardComponent>(idCard.Owner);
+        squadCard.SquadId = squadId;
+        squadCard.SquadIcon = squadIcon;
+        squadCard.MemberName = name;
+        Dirty(idCard.Owner, squadCard);
+    }
+
+    private Entity<PatrolSquadCardComponent>? GetSquadCardFromIdCard(EntityUid target)
+    {
+        if (!_idCard.TryFindIdCard(target, out var idCard))
+            return null;
+
+        if (!TryComp<PatrolSquadCardComponent>(idCard.Owner, out var squadCard))
+            return null;
+
+        return (idCard.Owner, squadCard);
+    }
+
+    private void ClearSquadFromIdCard(EntityUid target)
+    {
+        var squadCard = GetSquadCardFromIdCard(target);
+        if (squadCard == null)
+            return;
+
+        squadCard.Value.Comp.SquadId = string.Empty;
+        squadCard.Value.Comp.SquadIcon = string.Empty;
+        squadCard.Value.Comp.MemberName = string.Empty;
+        Dirty(squadCard.Value.Owner, squadCard.Value.Comp);
+    }
+
+    private void UpdateUiState(EntityUid uid, PatrolTabletComponent comp)
+    {
+        if (!_ui.HasUi(uid, PatrolTabletUiKey.Key))
+            return;
+
+        var officers = new List<PatrolOfficerInfo>();
+        var squads = GetSquads(comp);
+
+        foreach (var netEntity in comp.TrackedPersonnel)
+        {
+            var target = GetEntity(netEntity);
+            if (!Exists(target))
+                continue;
+
+            var name = "Unknown";
+            var jobTitle = "Security";
+            var jobIcon = string.Empty;
+
+            if (TryComp<MetaDataComponent>(target, out var meta))
+            {
+                name = meta.EntityName;
+            }
+
+            var squadId = string.Empty;
+            var squadIcon = string.Empty;
+
+            if (_idCard.TryFindIdCard(target, out var idCard))
+            {
+                if (idCard.Comp.FullName != null)
+                    name = idCard.Comp.FullName;
+                jobTitle = idCard.Comp.LocalizedJobTitle ?? "Security";
+                jobIcon = idCard.Comp.JobIcon;
+
+                if (TryComp<PatrolSquadCardComponent>(idCard.Owner, out var squadCard))
+                {
+                    squadId = squadCard.SquadId;
+                    squadIcon = squadCard.SquadIcon;
+                }
+            }
+
+            var info = new PatrolOfficerInfo(
+                GetNetEntity(target).ToString(),
+                GetNetEntity(target),
+                name,
+                jobTitle,
+                jobIcon)
+            {
+                Status = OfficerStatus.Active,
+                SquadId = squadId,
+                SquadIcon = squadIcon,
+                ShiftTime = TimeSpan.Zero,
+                HasSuitSensor = HasComp<SuitSensorComponent>(target)
+            };
+
+            officers.Add(info);
+        }
+
+        // Count squad members from ID cards (handles assigned members even after tracked personnel is cleared)
+        var squadMemberNames = new Dictionary<string, HashSet<string>>();
+
+        var cardQuery = EntityQueryEnumerator<PatrolSquadCardComponent>();
+        while (cardQuery.MoveNext(out var cardUid, out var squadCard))
+        {
+            if (string.IsNullOrEmpty(squadCard.SquadId) || string.IsNullOrEmpty(squadCard.MemberName))
+                continue;
+
+            if (!squadMemberNames.TryGetValue(squadCard.SquadId, out var memberSet))
+            {
+                memberSet = new HashSet<string>();
+                squadMemberNames[squadCard.SquadId] = memberSet;
+            }
+
+            memberSet.Add(squadCard.MemberName);
+        }
+
+        foreach (var squad in squads)
+        {
+            if (squadMemberNames.TryGetValue(squad.SquadId, out var members))
+            {
+                squad.AssignedCount = members.Count;
+                squad.Members.AddRange(members);
+            }
+        }
+
+        _ui.SetUiState(uid, PatrolTabletUiKey.Key,
+            new PatrolTabletUpdateState(officers, squads));
+    }
+
+    private List<PatrolSquadDef> GetSquads(PatrolTabletComponent comp)
+    {
+        var result = new List<PatrolSquadDef>();
+        foreach (var squad in comp.Squads)
+        {
+            result.Add(new PatrolSquadDef(squad.Id, squad.Name, squad.IconId));
+        }
+        return result;
+    }
+}
