@@ -12,9 +12,10 @@ public sealed partial class EnergySellerComponent : Component
     /// </summary>
     [DataField]
     public int AdditionalCoefficient = 1000000;
-
+    [DataField]
     public string Account = "Engineering";
-
+    [DataField]
     public int MaxChargeRate = 1000000;
+    [DataField]
     public int MaxLimit = 150000;
 }

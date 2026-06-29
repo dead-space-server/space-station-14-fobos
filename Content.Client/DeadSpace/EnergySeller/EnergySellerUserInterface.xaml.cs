@@ -22,11 +22,11 @@ public sealed partial class EnergySellerUserInterface : FancyWindow
                 }
                 else if (int.TryParse(args.Text, out int chargeint) && chargeint >= 5000)
                 {
-                    SellLimitConfirm.Disabled = true;
+                    SellLimitConfirm.Disabled = false;
                 }
                 else
                 {
-                    SellLimitConfirm.Disabled = false;
+                    SellLimitConfirm.Disabled = true;
                 }
             };
         ChargeSpeedLineEdit.OnTextChanged += (args) =>
@@ -37,11 +37,11 @@ public sealed partial class EnergySellerUserInterface : FancyWindow
                 }
                 else if (int.TryParse(args.Text, out int chargeint) && chargeint >= 5000)
                 {
-                    SpeedChargeConfirm.Disabled = true;
+                    SpeedChargeConfirm.Disabled = false;
                 }
                 else
                 {
-                    SellLimitConfirm.Disabled = false;
+                    SpeedChargeConfirm.Disabled = true;
                 }
             };
         ChargeSpeedSlider.OnValueChanged += (args) => ChargeSpeedValue.Text = args.Value.ToString();
@@ -49,7 +49,7 @@ public sealed partial class EnergySellerUserInterface : FancyWindow
         ChargeSpeedMaxLabel.Text = ChargeSpeedSlider.Value.ToString();
         MaxChargeMaxLabel.Text = MaxChargeSlider.Value.ToString();
         SellLimitConfirm.OnPressed += _ => OnConfirmSellLimit?.Invoke(new Dictionary<int, string>() { { 1, MaxChargeLineEdit.Text }, { 2, MaxChargeSlider.Value.ToString() } });
-        SpeedChargeConfirm.OnPressed += _ => OnConfirmSpeedCharge?.Invoke(new Dictionary<int, string>() { { 1, ChargeSpeedLineEdit.Text }, { 2, ChargeSpeedSlider.Value.ToString() } });
+        SpeedChargeConfirm.OnPressed += _ => OnConfirmSpeedCharge?.Invoke(new Dictionary<int, string>() { { 1, ChargeSpeedLineEdit.Text }, { 2, ChargeSpeedSlider.Value.ToString() }});
     }
     public void SetMaxSlider(int charge, int limit)
     {
