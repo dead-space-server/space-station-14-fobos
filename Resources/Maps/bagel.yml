@@ -96798,7 +96798,7 @@ entities:
       parent: 2
 - proto: DisposalPipeBroken
   entities:
-  - uid: 27050
+  - uid: 2702c3c85a-5498-42fa-8c6d-92221141caad
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
@@ -160939,7 +160939,7 @@ entities:
       parent: 2
 - proto: PositronicBrain
   entities:
-  - uid: 9819
+  - uid: 19f7b758-a138-4421-9c0c-23915427bb07
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
