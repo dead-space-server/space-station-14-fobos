@@ -4,16 +4,23 @@ using Content.Shared.Access.Systems;
 using Content.Shared.DeadSpace.PatrolTablet;
 using Content.Shared.Interaction;
 using Content.Shared.Mobs.Components;
+using Content.Shared.StatusIcon;
 using Content.Shared.UserInterface;
 using Robust.Server.GameObjects;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.PatrolTablet;
 
 public sealed class PatrolTabletSystem : EntitySystem
 {
+    private const int MaxSquads = 16;
+    private const int MaxSquadNameLength = 30;
+    private const string SquadIconPrototypePrefix = "DeadSpaceSquadIcon";
+
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
     [Dependency] private readonly PopupSystem _popup = default!;
     [Dependency] private readonly SharedIdCardSystem _idCard = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
 
     public override void Initialize()
     {
@@ -99,16 +106,35 @@ public sealed class PatrolTabletSystem : EntitySystem
         UpdateUiState(uid, comp);
     }
 
+    private static string? SanitizeSquadName(string name)
+    {
+        name = name.Trim();
+        if (string.IsNullOrWhiteSpace(name))
+            return null;
+
+        return name.Length > MaxSquadNameLength
+            ? name[..MaxSquadNameLength]
+            : name;
+    }
+
+    private bool IsValidSquadIcon(string iconId)
+    {
+        return iconId.StartsWith(SquadIconPrototypePrefix, StringComparison.Ordinal)
+               && _prototype.TryIndex<SecurityIconPrototype>(iconId, out var icon)
+               && !icon.Abstract;
+    }
+
     private void OnRenameSquad(EntityUid uid, PatrolTabletComponent comp, PatrolTabletRenameSquadMessage msg)
     {
-        if (string.IsNullOrWhiteSpace(msg.NewName))
+        var name = SanitizeSquadName(msg.NewName);
+        if (name == null)
             return;
 
         var squad = comp.Squads.Find(s => s.Id == msg.SquadId);
         if (squad == null)
             return;
 
-        squad.Name = msg.NewName.Trim();
+        squad.Name = name;
         Dirty(uid, comp);
         UpdateUiState(uid, comp);
     }
@@ -159,12 +185,9 @@ public sealed class PatrolTabletSystem : EntitySystem
 
     private void OnCreateSquad(EntityUid uid, PatrolTabletComponent comp, PatrolTabletCreateSquadMessage msg)
     {
-        if (string.IsNullOrWhiteSpace(msg.Name) || string.IsNullOrWhiteSpace(msg.IconId))
+        var name = SanitizeSquadName(msg.Name);
+        if (name == null || !IsValidSquadIcon(msg.IconId) || comp.Squads.Count >= MaxSquads)
             return;
-
-        var name = msg.Name.Trim();
-        if (name.Length > 30)
-            name = name[..30];
 
         var id = $"squad_{Guid.NewGuid():N}"[..16];
         comp.Squads.Add(new SquadData(id, name, msg.IconId));

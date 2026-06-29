@@ -20,4 +20,3 @@ patrol-tablet-create-button = Создать
 patrol-tablet-cancel-button = Отмена
 ent-PatrolTablet = Планшет Отрядов
     .desc = Прочный планшет в кожаном чехле. Через него ГСБ сможет назначать отряды.
-
