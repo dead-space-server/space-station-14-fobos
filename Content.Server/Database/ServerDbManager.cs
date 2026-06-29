@@ -156,6 +156,16 @@ namespace Content.Server.Database
             ImmutableTypedHwid? hwId);
         Task<PlayerRecord?> GetPlayerRecordByUserName(string userName, CancellationToken cancel = default);
         Task<PlayerRecord?> GetPlayerRecordByUserId(NetUserId userId, CancellationToken cancel = default);
+
+        Task<UserIdMigrationReport> DryRunUserIdMigrationAsync(
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel = default);
+
+        Task<UserIdMigrationReport> ApplyUserIdMigrationAsync(
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel = default);
         #endregion
 
         #region Connection Logs
@@ -596,6 +606,24 @@ namespace Content.Server.Database
         {
             DbReadOpsMetric.Inc();
             return RunDbCommand(() => _db.GetPlayerRecordByUserId(userId, cancel));
+        }
+
+        public Task<UserIdMigrationReport> DryRunUserIdMigrationAsync(
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel = default)
+        {
+            DbReadOpsMetric.Inc();
+            return RunDbCommand(() => _db.DryRunUserIdMigrationAsync(oldUserId, newUserId, cancel));
+        }
+
+        public Task<UserIdMigrationReport> ApplyUserIdMigrationAsync(
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel = default)
+        {
+            DbWriteOpsMetric.Inc();
+            return RunDbCommand(() => _db.ApplyUserIdMigrationAsync(oldUserId, newUserId, cancel));
         }
 
         public Task<int> AddConnectionLogAsync(

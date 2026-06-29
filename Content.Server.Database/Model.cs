@@ -780,7 +780,9 @@ namespace Content.Server.Database
         /// Results from rejected connections with external API checking tools
         IPChecks = 5,
         /// Results from rejected connections who are authenticated but have no modern hwid associated with them.
-        NoHwid = 6
+        NoHwid = 6,
+        /// Results from failed automatic user ID migration checks.
+        UserIdMigration = 7
     }
 
     public class ServerBanHit

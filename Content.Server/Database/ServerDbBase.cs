@@ -46,6 +46,813 @@ namespace Content.Server.Database
             // DS14-play-time-server-support-end
         }
 
+        #region User ID Migration
+
+        public async Task<UserIdMigrationReport> DryRunUserIdMigrationAsync(
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel = default)
+        {
+            await using var db = await GetDb(cancel);
+            return await BuildUserIdMigrationReportAsync(db.DbContext, oldUserId, newUserId, cancel);
+        }
+
+        public async Task<UserIdMigrationReport> ApplyUserIdMigrationAsync(
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel = default)
+        {
+            await using var guard = await GetDb(cancel);
+            await using var transaction = await guard.DbContext.Database.BeginTransactionAsync(cancel);
+
+            var report = await BuildUserIdMigrationReportAsync(guard.DbContext, oldUserId, newUserId, cancel);
+            if (!report.CanApply)
+                return report;
+
+            if (!report.HasOldData)
+                return report;
+
+            await ApplyUserIdMigrationCoreAsync(guard.DbContext, report, cancel);
+            await guard.DbContext.SaveChangesAsync(cancel);
+            await transaction.CommitAsync(cancel);
+
+            report.Applied = true;
+            return report;
+        }
+
+        private async Task<UserIdMigrationReport> BuildUserIdMigrationReportAsync(
+            ServerDbContext db,
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel)
+        {
+            var report = new UserIdMigrationReport(oldUserId, newUserId);
+
+            if (oldUserId == Guid.Empty)
+                report.Errors.Add("Old user id is empty.");
+
+            if (newUserId == Guid.Empty)
+                report.Errors.Add("New user id is empty.");
+
+            if (oldUserId == newUserId)
+                report.Errors.Add("Old and new user ids are the same.");
+
+            if (_playTimeServer?.UsePlayTimeServer() == true)
+            {
+                report.Warnings.Add("External playtime service is active; this migration updates local game database rows only. External playtime data must be migrated separately.");
+            }
+            else if (_playTimeServer != null)
+            {
+                report.Warnings.Add("External playtime service is registered but inactive; this command migrates the local game database only.");
+            }
+
+            await AddTableCountAsync(
+                report,
+                "player",
+                () => db.Player.CountAsync(p => p.UserId == oldUserId, cancel),
+                () => db.Player.CountAsync(p => p.UserId == newUserId, cancel),
+                "merge old player record into MK player and remove the old record");
+
+            await AddTableCountAsync(
+                report,
+                "preference",
+                () => db.Preference.CountAsync(p => p.UserId == oldUserId, cancel),
+                () => db.Preference.CountAsync(p => p.UserId == newUserId, cancel),
+                "move preferences; if both sides exist, merge profiles into free slots");
+
+            await AddTableCountAsync(
+                report,
+                "profile",
+                () => db.Profile.CountAsync(p => p.Preference.UserId == oldUserId, cancel),
+                () => db.Profile.CountAsync(p => p.Preference.UserId == newUserId, cancel),
+                "move character profiles with their jobs, traits, antags and loadouts");
+
+            await AddTableCountAsync(
+                report,
+                "assigned_user_id",
+                () => db.AssignedUserId.CountAsync(p => p.UserId == oldUserId, cancel),
+                () => db.AssignedUserId.CountAsync(p => p.UserId == newUserId, cancel),
+                "move guest username assignment or keep MK assignment if it already exists");
+
+            await AddTableCountAsync(
+                report,
+                "admin",
+                () => db.Admin.CountAsync(p => p.UserId == oldUserId, cancel),
+                () => db.Admin.CountAsync(p => p.UserId == newUserId, cancel),
+                "merge admin rank, flags and state");
+
+            await AddTableCountAsync(
+                report,
+                "admin_flag",
+                () => db.Set<AdminFlag>().CountAsync(p => p.AdminId == oldUserId, cancel),
+                () => db.Set<AdminFlag>().CountAsync(p => p.AdminId == newUserId, cancel),
+                "move admin flags and drop duplicates");
+
+            await AddTableCountAsync(
+                report,
+                "admin_log_player",
+                () => db.AdminLogPlayer.CountAsync(p => p.PlayerUserId == oldUserId, cancel),
+                () => db.AdminLogPlayer.CountAsync(p => p.PlayerUserId == newUserId, cancel),
+                "move admin log player links and drop duplicate links");
+
+            await AddTableCountAsync(
+                report,
+                "whitelist",
+                () => db.Whitelist.CountAsync(p => p.UserId == oldUserId, cancel),
+                () => db.Whitelist.CountAsync(p => p.UserId == newUserId, cancel),
+                "move whitelist status");
+
+            await AddTableCountAsync(
+                report,
+                "blacklist",
+                () => db.Blacklist.CountAsync(p => p.UserId == oldUserId, cancel),
+                () => db.Blacklist.CountAsync(p => p.UserId == newUserId, cancel),
+                "move blacklist status");
+
+            await AddTableCountAsync(
+                report,
+                "server_ban_exemption",
+                () => db.BanExemption.CountAsync(p => p.UserId == oldUserId, cancel),
+                () => db.BanExemption.CountAsync(p => p.UserId == newUserId, cancel),
+                "merge ban exemption flags");
+
+            await AddTableCountAsync(
+                report,
+                "connection_log",
+                () => db.ConnectionLog.CountAsync(p => p.UserId == oldUserId, cancel),
+                () => db.ConnectionLog.CountAsync(p => p.UserId == newUserId, cancel),
+                "rewrite historical connection logs");
+
+            await AddTableCountAsync(
+                report,
+                "play_time",
+                () => db.PlayTime.CountAsync(p => p.PlayerId == oldUserId, cancel),
+                () => db.PlayTime.CountAsync(p => p.PlayerId == newUserId, cancel),
+                "move playtime and sum duplicate trackers");
+
+            await AddTableCountAsync(
+                report,
+                "uploaded_resource_log",
+                () => db.UploadedResourceLog.CountAsync(p => p.UserId == oldUserId, cancel),
+                () => db.UploadedResourceLog.CountAsync(p => p.UserId == newUserId, cancel),
+                "rewrite uploaded resource logs");
+
+            await AddTableCountAsync(
+                report,
+                "admin_notes",
+                () => db.AdminNotes.CountAsync(p =>
+                    p.PlayerUserId == oldUserId ||
+                    p.CreatedById == oldUserId ||
+                    p.LastEditedById == oldUserId ||
+                    p.DeletedById == oldUserId, cancel),
+                () => db.AdminNotes.CountAsync(p =>
+                    p.PlayerUserId == newUserId ||
+                    p.CreatedById == newUserId ||
+                    p.LastEditedById == newUserId ||
+                    p.DeletedById == newUserId, cancel),
+                "rewrite note subject and audit user ids");
+
+            await AddTableCountAsync(
+                report,
+                "admin_watchlists",
+                () => db.AdminWatchlists.CountAsync(p =>
+                    p.PlayerUserId == oldUserId ||
+                    p.CreatedById == oldUserId ||
+                    p.LastEditedById == oldUserId ||
+                    p.DeletedById == oldUserId, cancel),
+                () => db.AdminWatchlists.CountAsync(p =>
+                    p.PlayerUserId == newUserId ||
+                    p.CreatedById == newUserId ||
+                    p.LastEditedById == newUserId ||
+                    p.DeletedById == newUserId, cancel),
+                "rewrite watchlist subject and audit user ids");
+
+            await AddTableCountAsync(
+                report,
+                "admin_messages",
+                () => db.AdminMessages.CountAsync(p =>
+                    p.PlayerUserId == oldUserId ||
+                    p.CreatedById == oldUserId ||
+                    p.LastEditedById == oldUserId ||
+                    p.DeletedById == oldUserId, cancel),
+                () => db.AdminMessages.CountAsync(p =>
+                    p.PlayerUserId == newUserId ||
+                    p.CreatedById == newUserId ||
+                    p.LastEditedById == newUserId ||
+                    p.DeletedById == newUserId, cancel),
+                "rewrite message subject and audit user ids");
+
+            await AddTableCountAsync(
+                report,
+                "role_whitelists",
+                () => db.RoleWhitelists.CountAsync(p => p.PlayerUserId == oldUserId, cancel),
+                () => db.RoleWhitelists.CountAsync(p => p.PlayerUserId == newUserId, cancel),
+                "move role/job whitelists and drop duplicate roles");
+
+            await AddTableCountAsync(
+                report,
+                "ban_admin_refs",
+                () => db.Ban.CountAsync(p => p.BanningAdmin == oldUserId || p.LastEditedById == oldUserId, cancel),
+                () => db.Ban.CountAsync(p => p.BanningAdmin == newUserId || p.LastEditedById == newUserId, cancel),
+                "rewrite ban author and editor refs");
+
+            await AddTableCountAsync(
+                report,
+                "ban_player",
+                () => db.BanPlayer.CountAsync(p => p.UserId == oldUserId, cancel),
+                () => db.BanPlayer.CountAsync(p => p.UserId == newUserId, cancel),
+                "move player ban selectors and drop duplicate selectors");
+
+            await AddTableCountAsync(
+                report,
+                "unban",
+                () => db.Unban.CountAsync(p => p.UnbanningAdmin == oldUserId, cancel),
+                () => db.Unban.CountAsync(p => p.UnbanningAdmin == newUserId, cancel),
+                "rewrite unban admin refs");
+
+            await AddTableCountAsync(
+                report,
+                "player_round",
+                () => db.Round.CountAsync(r => r.Players.Any(p => p.UserId == oldUserId), cancel),
+                () => db.Round.CountAsync(r => r.Players.Any(p => p.UserId == newUserId), cancel),
+                "move round participation and drop duplicate round links");
+
+            if (await db.Preference.AnyAsync(p => p.UserId == oldUserId, cancel) &&
+                await db.Preference.AnyAsync(p => p.UserId == newUserId, cancel))
+            {
+                report.Warnings.Add("Both users have preferences; old profiles will be appended to MK preferences and slot conflicts will be remapped.");
+            }
+
+            if (await db.Whitelist.AnyAsync(p => p.UserId == oldUserId, cancel) &&
+                await db.Blacklist.AnyAsync(p => p.UserId == newUserId, cancel))
+            {
+                report.Warnings.Add("Old user is whitelisted but MK user is blacklisted; blacklist remains present after migration.");
+            }
+
+            if (await db.Blacklist.AnyAsync(p => p.UserId == oldUserId, cancel) &&
+                await db.Whitelist.AnyAsync(p => p.UserId == newUserId, cancel))
+            {
+                report.Warnings.Add("Old user is blacklisted but MK user is whitelisted; blacklist is migrated too and should be reviewed.");
+            }
+
+            if (!report.HasOldData && report.Errors.Count == 0)
+                report.Warnings.Add("No local game database rows were found for the old user id; apply will be a no-op.");
+
+            return report;
+        }
+
+        private static async Task AddTableCountAsync(
+            UserIdMigrationReport report,
+            string table,
+            Func<Task<int>> oldCountTask,
+            Func<Task<int>> newCountTask,
+            string action)
+        {
+            var oldCount = await oldCountTask();
+            var newCount = await newCountTask();
+            report.Tables.Add(new UserIdMigrationTableReport(table, oldCount, newCount, action));
+        }
+
+        private static async Task ApplyUserIdMigrationCoreAsync(
+            ServerDbContext db,
+            UserIdMigrationReport report,
+            CancellationToken cancel)
+        {
+            var oldUserId = report.OldUserId;
+            var newUserId = report.NewUserId;
+
+            await MergePreferencesAsync(db, report, oldUserId, newUserId, cancel);
+
+            var (oldPlayer, newPlayer) = await EnsureTargetPlayerAsync(db, oldUserId, newUserId, cancel);
+            await MergeAdminsAsync(db, report, oldUserId, newUserId, cancel);
+            await MergeSimpleUserTablesAsync(db, report, oldUserId, newUserId, cancel);
+            await MergePlayTimeAsync(db, oldUserId, newUserId, cancel);
+            await MoveAdminLogPlayersAsync(db, oldUserId, newUserId, cancel);
+            await MoveRoleWhitelistsAsync(db, oldUserId, newUserId, cancel);
+            await MoveBanPlayersAsync(db, oldUserId, newUserId, cancel);
+            await MovePlayerForeignKeysAsync(db, oldUserId, newUserId, cancel);
+            await MergePlayerRoundsAsync(oldPlayer, newPlayer);
+
+            if (oldPlayer != null)
+                db.Player.Remove(oldPlayer);
+        }
+
+        private static async Task MergePreferencesAsync(
+            ServerDbContext db,
+            UserIdMigrationReport report,
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel)
+        {
+            var oldPrefs = await db.Preference
+                .Include(p => p.Profiles)
+                .SingleOrDefaultAsync(p => p.UserId == oldUserId, cancel);
+
+            if (oldPrefs == null)
+                return;
+
+            var newPrefs = await db.Preference
+                .Include(p => p.Profiles)
+                .SingleOrDefaultAsync(p => p.UserId == newUserId, cancel);
+
+            if (newPrefs == null)
+            {
+                oldPrefs.UserId = newUserId;
+                return;
+            }
+
+            var oldSelectedSlot = oldPrefs.SelectedCharacterSlot;
+            var selectedSlotMap = new Dictionary<int, int>();
+            var usedSlots = new HashSet<int>(newPrefs.Profiles.Select(p => p.Slot));
+
+            foreach (var profile in oldPrefs.Profiles.OrderBy(p => p.Slot).ToArray())
+            {
+                var originalSlot = profile.Slot;
+                var targetSlot = originalSlot;
+                while (usedSlots.Contains(targetSlot))
+                    targetSlot++;
+
+                usedSlots.Add(targetSlot);
+                selectedSlotMap[originalSlot] = targetSlot;
+
+                if (targetSlot != originalSlot)
+                    report.Warnings.Add($"Profile slot {originalSlot} was already used on MK preferences; old profile was moved to slot {targetSlot}.");
+
+                profile.Slot = targetSlot;
+                profile.Preference = newPrefs;
+                profile.PreferenceId = newPrefs.Id;
+            }
+
+            var favorites = newPrefs.ConstructionFavorites
+                .Concat(oldPrefs.ConstructionFavorites)
+                .Distinct()
+                .ToList();
+            newPrefs.ConstructionFavorites = favorites;
+
+            if (IsDefaultAdminOocColor(newPrefs.AdminOOCColor) && !IsDefaultAdminOocColor(oldPrefs.AdminOOCColor))
+            {
+                newPrefs.AdminOOCColor = oldPrefs.AdminOOCColor;
+            }
+            else if (!string.Equals(newPrefs.AdminOOCColor, oldPrefs.AdminOOCColor, StringComparison.OrdinalIgnoreCase) &&
+                     !IsDefaultAdminOocColor(oldPrefs.AdminOOCColor))
+            {
+                report.Warnings.Add("Both users have a non-default admin OOC color; MK color was kept.");
+            }
+
+            if (!newPrefs.Profiles.Any(p => p.Slot == newPrefs.SelectedCharacterSlot) &&
+                selectedSlotMap.TryGetValue(oldSelectedSlot, out var mappedSelectedSlot))
+            {
+                newPrefs.SelectedCharacterSlot = mappedSelectedSlot;
+            }
+
+            db.Preference.Remove(oldPrefs);
+        }
+
+        private static bool IsDefaultAdminOocColor(string color)
+        {
+            return string.Equals(color, Color.Red.ToHex(), StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static async Task<(Player? OldPlayer, Player? NewPlayer)> EnsureTargetPlayerAsync(
+            ServerDbContext db,
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel)
+        {
+            var oldPlayer = await db.Player
+                .Include(p => p.Rounds)
+                .SingleOrDefaultAsync(p => p.UserId == oldUserId, cancel);
+
+            if (oldPlayer == null)
+                return (null, await db.Player.Include(p => p.Rounds).SingleOrDefaultAsync(p => p.UserId == newUserId, cancel));
+
+            var newPlayer = await db.Player
+                .Include(p => p.Rounds)
+                .SingleOrDefaultAsync(p => p.UserId == newUserId, cancel);
+
+            if (newPlayer == null)
+            {
+                newPlayer = new Player
+                {
+                    UserId = newUserId,
+                    FirstSeenTime = oldPlayer.FirstSeenTime,
+                    LastSeenUserName = oldPlayer.LastSeenUserName,
+                    LastSeenTime = oldPlayer.LastSeenTime,
+                    LastSeenAddress = oldPlayer.LastSeenAddress,
+                    LastSeenHWId = CopyHwid(oldPlayer.LastSeenHWId),
+                    LastReadRules = oldPlayer.LastReadRules,
+                    Rounds = [],
+                };
+
+                db.Player.Add(newPlayer);
+                await db.SaveChangesAsync(cancel);
+                return (oldPlayer, newPlayer);
+            }
+
+            if (oldPlayer.FirstSeenTime < newPlayer.FirstSeenTime)
+                newPlayer.FirstSeenTime = oldPlayer.FirstSeenTime;
+
+            if (oldPlayer.LastSeenTime > newPlayer.LastSeenTime)
+            {
+                newPlayer.LastSeenUserName = oldPlayer.LastSeenUserName;
+                newPlayer.LastSeenTime = oldPlayer.LastSeenTime;
+                newPlayer.LastSeenAddress = oldPlayer.LastSeenAddress;
+                newPlayer.LastSeenHWId = CopyHwid(oldPlayer.LastSeenHWId);
+            }
+
+            if (newPlayer.LastReadRules == null ||
+                oldPlayer.LastReadRules > newPlayer.LastReadRules)
+            {
+                newPlayer.LastReadRules = oldPlayer.LastReadRules;
+            }
+
+            return (oldPlayer, newPlayer);
+        }
+
+        private static TypedHwid? CopyHwid(TypedHwid? hwid)
+        {
+            if (hwid == null)
+                return null;
+
+            return new TypedHwid
+            {
+                Hwid = hwid.Hwid.ToArray(),
+                Type = hwid.Type,
+            };
+        }
+
+        private static async Task MergeAdminsAsync(
+            ServerDbContext db,
+            UserIdMigrationReport report,
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel)
+        {
+            var oldAdmin = await db.Admin
+                .Include(a => a.Flags)
+                .SingleOrDefaultAsync(a => a.UserId == oldUserId, cancel);
+
+            if (oldAdmin == null)
+                return;
+
+            var newAdmin = await db.Admin
+                .Include(a => a.Flags)
+                .SingleOrDefaultAsync(a => a.UserId == newUserId, cancel);
+
+            if (newAdmin == null)
+            {
+                newAdmin = new Admin
+                {
+                    UserId = newUserId,
+                    Title = oldAdmin.Title,
+                    Deadminned = oldAdmin.Deadminned,
+                    Suspended = oldAdmin.Suspended,
+                    AdminRankId = oldAdmin.AdminRankId,
+                    Flags = oldAdmin.Flags
+                        .Select(flag => new AdminFlag
+                        {
+                            Flag = flag.Flag,
+                            Negative = flag.Negative,
+                        })
+                        .ToList(),
+                };
+
+                db.Admin.Add(newAdmin);
+                db.Admin.Remove(oldAdmin);
+                return;
+            }
+
+            if (newAdmin.AdminRankId == null)
+            {
+                newAdmin.AdminRankId = oldAdmin.AdminRankId;
+            }
+            else if (oldAdmin.AdminRankId != null && newAdmin.AdminRankId != oldAdmin.AdminRankId)
+            {
+                report.Warnings.Add("Both users have different admin ranks; MK admin rank was kept.");
+            }
+
+            if (newAdmin.Title == null)
+            {
+                newAdmin.Title = oldAdmin.Title;
+            }
+            else if (oldAdmin.Title != null && !string.Equals(newAdmin.Title, oldAdmin.Title, StringComparison.Ordinal))
+            {
+                report.Warnings.Add("Both users have different admin titles; MK admin title was kept.");
+            }
+
+            newAdmin.Suspended |= oldAdmin.Suspended;
+            if (newAdmin.Deadminned != oldAdmin.Deadminned)
+                report.Warnings.Add("Both users have different deadmin state; MK deadmin state was kept.");
+
+            var newFlags = newAdmin.Flags.ToDictionary(flag => flag.Flag, StringComparer.Ordinal);
+            foreach (var oldFlag in oldAdmin.Flags)
+            {
+                if (!newFlags.TryGetValue(oldFlag.Flag, out var existingFlag))
+                {
+                    newAdmin.Flags.Add(new AdminFlag
+                    {
+                        AdminId = newUserId,
+                        Flag = oldFlag.Flag,
+                        Negative = oldFlag.Negative,
+                    });
+                    continue;
+                }
+
+                if (existingFlag.Negative != oldFlag.Negative)
+                    report.Warnings.Add($"Admin flag {oldFlag.Flag} exists on both users with different negative state; MK flag was kept.");
+            }
+
+            db.Admin.Remove(oldAdmin);
+        }
+
+        private static async Task MergeSimpleUserTablesAsync(
+            ServerDbContext db,
+            UserIdMigrationReport report,
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel)
+        {
+            var oldWhitelist = await db.Whitelist.SingleOrDefaultAsync(p => p.UserId == oldUserId, cancel);
+            if (oldWhitelist != null)
+            {
+                if (!await db.Whitelist.AnyAsync(p => p.UserId == newUserId, cancel))
+                    db.Whitelist.Add(new Whitelist { UserId = newUserId });
+
+                db.Whitelist.Remove(oldWhitelist);
+            }
+
+            var oldBlacklist = await db.Blacklist.SingleOrDefaultAsync(p => p.UserId == oldUserId, cancel);
+            if (oldBlacklist != null)
+            {
+                if (!await db.Blacklist.AnyAsync(p => p.UserId == newUserId, cancel))
+                    db.Blacklist.Add(new Blacklist { UserId = newUserId });
+
+                db.Blacklist.Remove(oldBlacklist);
+            }
+
+            var oldBanExemption = await db.BanExemption.SingleOrDefaultAsync(p => p.UserId == oldUserId, cancel);
+            if (oldBanExemption != null)
+            {
+                var newBanExemption = await db.BanExemption.SingleOrDefaultAsync(p => p.UserId == newUserId, cancel);
+                if (newBanExemption == null)
+                {
+                    db.BanExemption.Add(new ServerBanExemption
+                    {
+                        UserId = newUserId,
+                        Flags = oldBanExemption.Flags,
+                    });
+                }
+                else
+                {
+                    newBanExemption.Flags |= oldBanExemption.Flags;
+                }
+
+                db.BanExemption.Remove(oldBanExemption);
+            }
+
+            var oldAssignedUser = await db.AssignedUserId.SingleOrDefaultAsync(p => p.UserId == oldUserId, cancel);
+            if (oldAssignedUser != null)
+            {
+                var newAssignedUser = await db.AssignedUserId.SingleOrDefaultAsync(p => p.UserId == newUserId, cancel);
+                if (newAssignedUser == null)
+                {
+                    oldAssignedUser.UserId = newUserId;
+                }
+                else
+                {
+                    if (!string.Equals(oldAssignedUser.UserName, newAssignedUser.UserName, StringComparison.OrdinalIgnoreCase))
+                        report.Warnings.Add($"Both users have assigned usernames; kept MK assignment '{newAssignedUser.UserName}' and removed old assignment '{oldAssignedUser.UserName}'.");
+
+                    db.AssignedUserId.Remove(oldAssignedUser);
+                }
+            }
+        }
+
+        private static async Task MergePlayTimeAsync(
+            ServerDbContext db,
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel)
+        {
+            var oldTimes = await db.PlayTime
+                .Where(p => p.PlayerId == oldUserId)
+                .ToListAsync(cancel);
+
+            if (oldTimes.Count == 0)
+                return;
+
+            var newTimes = await db.PlayTime
+                .Where(p => p.PlayerId == newUserId)
+                .ToDictionaryAsync(p => p.Tracker, cancel);
+
+            foreach (var oldTime in oldTimes)
+            {
+                if (newTimes.TryGetValue(oldTime.Tracker, out var newTime))
+                {
+                    newTime.TimeSpent += oldTime.TimeSpent;
+                    db.PlayTime.Remove(oldTime);
+                    continue;
+                }
+
+                oldTime.PlayerId = newUserId;
+            }
+        }
+
+        private static async Task MoveAdminLogPlayersAsync(
+            ServerDbContext db,
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel)
+        {
+            var oldLinks = await db.AdminLogPlayer
+                .Where(p => p.PlayerUserId == oldUserId)
+                .ToListAsync(cancel);
+
+            if (oldLinks.Count == 0)
+                return;
+
+            var newKeys = (await db.AdminLogPlayer
+                    .Where(p => p.PlayerUserId == newUserId)
+                    .Select(p => new { p.RoundId, p.LogId })
+                    .ToListAsync(cancel))
+                .Select(p => (p.RoundId, p.LogId))
+                .ToHashSet();
+
+            foreach (var oldLink in oldLinks)
+            {
+                if (!newKeys.Contains((oldLink.RoundId, oldLink.LogId)))
+                {
+                    db.AdminLogPlayer.Add(new AdminLogPlayer
+                    {
+                        RoundId = oldLink.RoundId,
+                        LogId = oldLink.LogId,
+                        PlayerUserId = newUserId,
+                    });
+                }
+
+                db.AdminLogPlayer.Remove(oldLink);
+            }
+        }
+
+        private static async Task MoveRoleWhitelistsAsync(
+            ServerDbContext db,
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel)
+        {
+            var oldWhitelists = await db.RoleWhitelists
+                .Where(p => p.PlayerUserId == oldUserId)
+                .ToListAsync(cancel);
+
+            if (oldWhitelists.Count == 0)
+                return;
+
+            var newRoles = (await db.RoleWhitelists
+                .Where(p => p.PlayerUserId == newUserId)
+                .Select(p => p.RoleId)
+                .ToListAsync(cancel))
+                .ToHashSet(StringComparer.Ordinal);
+
+            foreach (var oldWhitelist in oldWhitelists)
+            {
+                if (!newRoles.Contains(oldWhitelist.RoleId))
+                {
+                    db.RoleWhitelists.Add(new RoleWhitelist
+                    {
+                        PlayerUserId = newUserId,
+                        RoleId = oldWhitelist.RoleId,
+                    });
+                }
+
+                db.RoleWhitelists.Remove(oldWhitelist);
+            }
+        }
+
+        private static async Task MoveBanPlayersAsync(
+            ServerDbContext db,
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel)
+        {
+            var oldBanPlayers = await db.BanPlayer
+                .Where(p => p.UserId == oldUserId)
+                .ToListAsync(cancel);
+
+            if (oldBanPlayers.Count == 0)
+                return;
+
+            var newBanIds = await db.BanPlayer
+                .Where(p => p.UserId == newUserId)
+                .Select(p => p.BanId)
+                .ToHashSetAsync(cancel);
+
+            foreach (var oldBanPlayer in oldBanPlayers)
+            {
+                if (newBanIds.Contains(oldBanPlayer.BanId))
+                {
+                    db.BanPlayer.Remove(oldBanPlayer);
+                    continue;
+                }
+
+                oldBanPlayer.UserId = newUserId;
+            }
+        }
+
+        private static async Task MovePlayerForeignKeysAsync(
+            ServerDbContext db,
+            Guid oldUserId,
+            Guid newUserId,
+            CancellationToken cancel)
+        {
+            await db.ConnectionLog
+                .Where(p => p.UserId == oldUserId)
+                .ExecuteUpdateAsync(set => set.SetProperty(p => p.UserId, newUserId), cancel);
+
+            await db.UploadedResourceLog
+                .Where(p => p.UserId == oldUserId)
+                .ExecuteUpdateAsync(set => set.SetProperty(p => p.UserId, newUserId), cancel);
+
+            await db.AdminNotes
+                .Where(p => p.PlayerUserId == oldUserId)
+                .ExecuteUpdateAsync(set => set.SetProperty(p => p.PlayerUserId, (Guid?)newUserId), cancel);
+
+            await db.AdminNotes
+                .Where(p => p.CreatedById == oldUserId)
+                .ExecuteUpdateAsync(set => set.SetProperty(p => p.CreatedById, (Guid?)newUserId), cancel);
+
+            await db.AdminNotes
+                .Where(p => p.LastEditedById == oldUserId)
+                .ExecuteUpdateAsync(set => set.SetProperty(p => p.LastEditedById, (Guid?)newUserId), cancel);
+
+            await db.AdminNotes
+                .Where(p => p.DeletedById == oldUserId)
+                .ExecuteUpdateAsync(set => set.SetProperty(p => p.DeletedById, (Guid?)newUserId), cancel);
+
+            await db.AdminWatchlists
+                .Where(p => p.PlayerUserId == oldUserId)
+                .ExecuteUpdateAsync(set => set.SetProperty(p => p.PlayerUserId, (Guid?)newUserId), cancel);
+
+            await db.AdminWatchlists
+                .Where(p => p.CreatedById == oldUserId)
+                .ExecuteUpdateAsync(set => set.SetProperty(p => p.CreatedById, (Guid?)newUserId), cancel);
+
+            await db.AdminWatchlists
+                .Where(p => p.LastEditedById == oldUserId)
+                .ExecuteUpdateAsync(set => set.SetProperty(p => p.LastEditedById, (Guid?)newUserId), cancel);
+
+            await db.AdminWatchlists
+                .Where(p => p.DeletedById == oldUserId)
+                .ExecuteUpdateAsync(set => set.SetProperty(p => p.DeletedById, (Guid?)newUserId), cancel);
+
+            await db.AdminMessages
+                .Where(p => p.PlayerUserId == oldUserId)
+                .ExecuteUpdateAsync(set => set.SetProperty(p => p.PlayerUserId, (Guid?)newUserId), cancel);
+
+            await db.AdminMessages
+                .Where(p => p.CreatedById == oldUserId)
+                .ExecuteUpdateAsync(set => set.SetProperty(p => p.CreatedById, (Guid?)newUserId), cancel);
+
+            await db.AdminMessages
+                .Where(p => p.LastEditedById == oldUserId)
+                .ExecuteUpdateAsync(set => set.SetProperty(p => p.LastEditedById, (Guid?)newUserId), cancel);
+
+            await db.AdminMessages
+                .Where(p => p.DeletedById == oldUserId)
+                .ExecuteUpdateAsync(set => set.SetProperty(p => p.DeletedById, (Guid?)newUserId), cancel);
+
+            await db.Ban
+                .Where(p => p.BanningAdmin == oldUserId)
+                .ExecuteUpdateAsync(set => set.SetProperty(p => p.BanningAdmin, (Guid?)newUserId), cancel);
+
+            await db.Ban
+                .Where(p => p.LastEditedById == oldUserId)
+                .ExecuteUpdateAsync(set => set.SetProperty(p => p.LastEditedById, (Guid?)newUserId), cancel);
+
+            await db.Unban
+                .Where(p => p.UnbanningAdmin == oldUserId)
+                .ExecuteUpdateAsync(set => set.SetProperty(p => p.UnbanningAdmin, (Guid?)newUserId), cancel);
+        }
+
+        private static Task MergePlayerRoundsAsync(Player? oldPlayer, Player? newPlayer)
+        {
+            if (oldPlayer == null || newPlayer == null)
+                return Task.CompletedTask;
+
+            var newRoundIds = newPlayer.Rounds.Select(round => round.Id).ToHashSet();
+            foreach (var round in oldPlayer.Rounds.ToArray())
+            {
+                oldPlayer.Rounds.Remove(round);
+                if (!newRoundIds.Add(round.Id))
+                    continue;
+
+                newPlayer.Rounds.Add(round);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        #endregion
+
         #region Preferences
         public async Task<PlayerPreferences?> GetPlayerPreferencesAsync(
             NetUserId userId,
