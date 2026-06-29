@@ -3,23 +3,37 @@ using Robust.Shared.Serialization;
 namespace Content.Shared.DeadSpace.EnergySeller;
 
 [Serializable, NetSerializable]
-public sealed partial class ChangesSpeedChargingForSellingEnergy : BoundUserInterfaceMessage
+public sealed partial class ChangesForSellingEnergy : BoundUserInterfaceMessage
 {
     public int? Now { get; set; }
     public int? Max { get; set; }
-    public ChangesSpeedChargingForSellingEnergy(int? now = null, int? max = null)
+    public bool SpeedOrLimit { get; set; }
+    public ChangesForSellingEnergy(bool speedOrLimit, int? now = null, int? max = null)
     {
         Now = now;
         Max = max;
+        SpeedOrLimit = speedOrLimit;
     }
 }
-public sealed partial class ChangesSellingForSellingEnergy : BoundUserInterfaceMessage
+
+[Serializable, NetSerializable]
+public sealed class EnergySellerBoundUserInterfaceState : BoundUserInterfaceState
 {
-    public int? Now { get; set; }
-    public int? Max { get; set; }
-    public ChangesSellingForSellingEnergy(int? now = null, int? max = null)
+    public int MaxChargeRate;
+    public int MaxLimit;
+    public int NowChargeRate;
+    public int NowLimit;
+
+    public EnergySellerBoundUserInterfaceState(int maxChargeRate, int maxLimit, int nowChargeRate, int nowLimit)
     {
-        Now = now;
-        Max = max;
+        MaxChargeRate = maxChargeRate;
+        MaxLimit = maxLimit;
+        NowChargeRate = nowChargeRate;
+        NowLimit = nowLimit;
     }
+}
+[Serializable, NetSerializable]
+public enum ESBControllerUiKey
+{
+    Key
 }

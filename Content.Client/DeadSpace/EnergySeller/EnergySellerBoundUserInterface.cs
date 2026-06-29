@@ -1,33 +1,28 @@
 using Robust.Client.UserInterface;
-using Robust.Client.UserInterface.Controls;
 using Content.Shared.DeadSpace.EnergySeller;
-using Robust.Shared.GameObjects;
-using Content.Shared.Power.Components;
+using System.Diagnostics;
 
 namespace Content.Client.DeadSpace.EnergySeller;
 
 public sealed class EnergySellerBoundUserInterface : BoundUserInterface
 {
     private EnergySellerUserInterface? _menu;
-    [Dependency] private readonly IEntityManager _EntMan = default!;
     public EnergySellerBoundUserInterface(EntityUid owner, Enum uiKey) : base(owner, uiKey)
     {
         IoCManager.InjectDependencies(this);
+
     }
     protected override void Open()
     {
         base.Open();
-        var getCompSeller = _EntMan.GetComponent<EnergySellerComponent>(Owner);
-        var getCompBattery = _EntMan.GetComponent<BatteryComponent>(Owner);
         _menu = this.CreateWindow<EnergySellerUserInterface>();
-        _menu.SetMaxSlider(getCompSeller.MaxChargeRate, getCompSeller.MaxLimit);
-        _menu.SetBattarycomp((int)getCompBattery.ChargeRate, (int)getCompBattery.MaxCharge);
         _menu.OnConfirmSpeedCharge += SendSpeedChage;
         _menu.OnConfirmSellLimit += SendMaxCharge;
     }
     private void SendSpeedChage(Dictionary<int, string> message)
     {
-        ChangesSpeedChargingForSellingEnergy cooking = new ChangesSpeedChargingForSellingEnergy();
+        ChangesForSellingEnergy cooking = new ChangesForSellingEnergy(true);
+
         if (int.TryParse(message[1], out int intNow))
         {
             cooking.Now = intNow;
@@ -40,7 +35,7 @@ public sealed class EnergySellerBoundUserInterface : BoundUserInterface
     }
     private void SendMaxCharge(Dictionary<int, string> message)
     {
-        ChangesSellingForSellingEnergy cooking = new ChangesSellingForSellingEnergy();
+        ChangesForSellingEnergy cooking = new ChangesForSellingEnergy(false);
         if (int.TryParse(message[1], out int intNow))
         {
             cooking.Now = intNow;
@@ -50,5 +45,11 @@ public sealed class EnergySellerBoundUserInterface : BoundUserInterface
             cooking.Max = intNowSecond;
         }
         SendMessage(cooking);
+    }
+    protected override void UpdateState(BoundUserInterfaceState state)
+    {
+        base.UpdateState(state);
+        var castState = (EnergySellerBoundUserInterfaceState)state;
+        _menu?.UpdateState(castState); //Update window state
     }
 }

@@ -1,4 +1,5 @@
 using Robust.Shared.GameStates;
+using Robust.Shared.Prototypes;
 using Content.Shared.Cargo.Prototypes;
 
 namespace Content.Shared.DeadSpace.EnergySeller;
@@ -18,4 +19,6 @@ public sealed partial class EnergySellerComponent : Component
     public int MaxChargeRate = 1000000;
     [DataField]
     public int MaxLimit = 150000;
+
+    public Dictionary<ProtoId<CargoAccountPrototype>, double> Distribution;
 }

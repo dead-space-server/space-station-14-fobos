@@ -34,7 +34,7 @@
                     <!-- LineEdit занимает максимум места -->
                       <LineEdit
                         Name="ChargeSpeedLineEdit"
-                        Text="5000"
+                        PlaceHolder="писать в ваттах"
                         HorizontalExpand="True"
                         Margin="0,0,8,0"/>
 
@@ -72,7 +72,7 @@
                 <BoxContainer Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="4">
                      <LineEdit
                         Name="MaxChargeLineEdit"
-                        Text="5000"
+                        PlaceHolder="писать в ваттах"
                         HorizontalExpand="True"
                         Margin="0,4"/>
 
