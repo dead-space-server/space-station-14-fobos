@@ -61,10 +61,10 @@ public sealed class NecroobeliskSplinterSystem : EntitySystem
 
     private void OnAfterInteract(EntityUid uid, NecroobeliskSplinterComponent component, AfterInteractEvent args)
     {
-        if (args.Target.HasValue && HasComp<BorgChassisComponent>(args.Target.Value))
+        if (!args.CanReach || args.Target == null || args.Handled)
             return;
 
-        if (!args.CanReach || args.Target == null || args.Handled)
+        if (HasComp<BorgChassisComponent>(args.Target.Value))
             return;
 
         if (TryComp<LimitedChargesComponent>(uid, out var charges))
