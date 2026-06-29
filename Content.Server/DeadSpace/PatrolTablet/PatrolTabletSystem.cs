@@ -4,7 +4,6 @@ using Content.Shared.Access.Systems;
 using Content.Shared.DeadSpace.PatrolTablet;
 using Content.Shared.Interaction;
 using Content.Shared.Mobs.Components;
-using Content.Shared.Medical.SuitSensors;
 using Content.Shared.UserInterface;
 using Robust.Server.GameObjects;
 
@@ -23,7 +22,6 @@ public sealed class PatrolTabletSystem : EntitySystem
         SubscribeLocalEvent<PatrolTabletComponent, AfterActivatableUIOpenEvent>(OnUiOpen);
         SubscribeLocalEvent<PatrolTabletComponent, AfterInteractEvent>(OnAfterInteract);
         SubscribeLocalEvent<InteractUsingEvent>(OnInteractUsing);
-        SubscribeLocalEvent<PatrolTabletComponent, PatrolTabletRequestUpdateMessage>(OnRequestUpdate);
         SubscribeLocalEvent<PatrolTabletComponent, PatrolTabletRenameSquadMessage>(OnRenameSquad);
         SubscribeLocalEvent<PatrolTabletComponent, PatrolTabletBulkAssignSquadMessage>(OnBulkAssignSquad);
         SubscribeLocalEvent<PatrolTabletComponent, PatrolTabletClearAllMessage>(OnClearAll);
@@ -115,11 +113,6 @@ public sealed class PatrolTabletSystem : EntitySystem
         UpdateUiState(uid, comp);
     }
 
-    private void OnRequestUpdate(EntityUid uid, PatrolTabletComponent comp, PatrolTabletRequestUpdateMessage msg)
-    {
-        UpdateUiState(uid, comp);
-    }
-
     private void OnBulkAssignSquad(EntityUid uid, PatrolTabletComponent comp, PatrolTabletBulkAssignSquadMessage msg)
     {
         var squad = comp.Squads.Find(s => s.Id == msg.SquadId);
@@ -193,29 +186,6 @@ public sealed class PatrolTabletSystem : EntitySystem
         Dirty(idCard.Owner, squadCard);
     }
 
-    private Entity<PatrolSquadCardComponent>? GetSquadCardFromIdCard(EntityUid target)
-    {
-        if (!_idCard.TryFindIdCard(target, out var idCard))
-            return null;
-
-        if (!TryComp<PatrolSquadCardComponent>(idCard.Owner, out var squadCard))
-            return null;
-
-        return (idCard.Owner, squadCard);
-    }
-
-    private void ClearSquadFromIdCard(EntityUid target)
-    {
-        var squadCard = GetSquadCardFromIdCard(target);
-        if (squadCard == null)
-            return;
-
-        squadCard.Value.Comp.SquadId = string.Empty;
-        squadCard.Value.Comp.SquadIcon = string.Empty;
-        squadCard.Value.Comp.MemberName = string.Empty;
-        Dirty(squadCard.Value.Owner, squadCard.Value.Comp);
-    }
-
     private void UpdateUiState(EntityUid uid, PatrolTabletComponent comp)
     {
         if (!_ui.HasUi(uid, PatrolTabletUiKey.Key))
@@ -232,7 +202,6 @@ public sealed class PatrolTabletSystem : EntitySystem
 
             var name = "Unknown";
             var jobTitle = "Security";
-            var jobIcon = string.Empty;
 
             if (TryComp<MetaDataComponent>(target, out var meta))
             {
@@ -247,7 +216,6 @@ public sealed class PatrolTabletSystem : EntitySystem
                 if (idCard.Comp.FullName != null)
                     name = idCard.Comp.FullName;
                 jobTitle = idCard.Comp.LocalizedJobTitle ?? "Security";
-                jobIcon = idCard.Comp.JobIcon;
 
                 if (TryComp<PatrolSquadCardComponent>(idCard.Owner, out var squadCard))
                 {
@@ -258,22 +226,16 @@ public sealed class PatrolTabletSystem : EntitySystem
 
             var info = new PatrolOfficerInfo(
                 GetNetEntity(target).ToString(),
-                GetNetEntity(target),
                 name,
-                jobTitle,
-                jobIcon)
+                jobTitle)
             {
-                Status = OfficerStatus.Active,
                 SquadId = squadId,
                 SquadIcon = squadIcon,
-                ShiftTime = TimeSpan.Zero,
-                HasSuitSensor = HasComp<SuitSensorComponent>(target)
             };
 
             officers.Add(info);
         }
 
-        // Count squad members from ID cards (handles assigned members even after tracked personnel is cleared)
         var squadMemberNames = new Dictionary<string, HashSet<string>>();
 
         var cardQuery = EntityQueryEnumerator<PatrolSquadCardComponent>();

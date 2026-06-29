@@ -3,7 +3,6 @@
                Title="Patrol Tablet"
                SetSize="1000 650">
     <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Margin="8" SeparationOverride="8">
-        <!-- Header -->
         <PanelContainer MinHeight="42">
             <PanelContainer.PanelOverride>
                 <gfx:StyleBoxFlat BackgroundColor="#1a1a2e" BorderColor="#00A2E8" BorderThickness="1" />
@@ -15,7 +14,6 @@
         </PanelContainer>
 
         <BoxContainer Orientation="Horizontal" VerticalExpand="True" SeparationOverride="10">
-            <!-- Officers List -->
             <PanelContainer HorizontalExpand="True" VerticalExpand="True" MinWidth="400">
                 <PanelContainer.PanelOverride>
                     <gfx:StyleBoxFlat BackgroundColor="#16213e" BorderColor="#3F48CC" BorderThickness="1" />
@@ -28,7 +26,6 @@
                 </BoxContainer>
             </PanelContainer>
 
-            <!-- Zone Overview -->
             <PanelContainer MinWidth="280" HorizontalExpand="True" VerticalExpand="True">
                 <PanelContainer.PanelOverride>
                     <gfx:StyleBoxFlat BackgroundColor="#16213e" BorderColor="#3F48CC" BorderThickness="1" />
@@ -43,7 +40,6 @@
             </PanelContainer>
         </BoxContainer>
 
-        <!-- Footer -->
         <PanelContainer MinHeight="28">
             <PanelContainer.PanelOverride>
                 <gfx:StyleBoxFlat BackgroundColor="#1a1a2e" BorderColor="#3F48CC" BorderThickness="1" />

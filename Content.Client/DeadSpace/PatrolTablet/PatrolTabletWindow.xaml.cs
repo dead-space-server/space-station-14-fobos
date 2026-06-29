@@ -14,10 +14,8 @@ using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.CustomControls;
 using Robust.Client.UserInterface.XAML;
-using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
-using Robust.Shared.Utility;
 
 namespace Content.Client.DeadSpace.PatrolTablet;
 
@@ -30,9 +28,6 @@ public sealed partial class PatrolTabletWindow : DefaultWindow
     [Dependency] private readonly IEntitySystemManager _entitySystem = default!;
     private readonly SpriteSystem _sprite;
     private readonly ClientGameTicker _gameTicker;
-
-    private readonly Dictionary<string, OfficerEntryControl> _entryControls = new();
-    private readonly Dictionary<string, SquadEntryControl> _squadControls = new();
 
     public Action<string, string>? OnRenameSquad;
     public Action<string>? OnBulkAssignSquad;
@@ -89,30 +84,12 @@ public sealed partial class PatrolTabletWindow : DefaultWindow
 
     private void UpdateOfficers(List<PatrolOfficerInfo> officers)
     {
-        var currentIds = new HashSet<string>();
         OfficersContainer.RemoveAllChildren();
 
         foreach (var officer in officers)
         {
-            currentIds.Add(officer.OfficerId);
-
-            if (!_entryControls.TryGetValue(officer.OfficerId, out var entry))
-            {
-                entry = new OfficerEntryControl(officer, _sprite, _prototype);
-                _entryControls[officer.OfficerId] = entry;
-            }
-            else
-            {
-                entry.UpdateOfficer(officer);
-            }
-
+            var entry = new OfficerEntryControl(officer, _sprite, _prototype);
             OfficersContainer.AddChild(entry);
-        }
-
-        var toRemove = _entryControls.Keys.Where(id => !currentIds.Contains(id)).ToList();
-        foreach (var id in toRemove)
-        {
-            _entryControls.Remove(id);
         }
     }
 
@@ -122,18 +99,9 @@ public sealed partial class PatrolTabletWindow : DefaultWindow
 
         foreach (var squad in squads)
         {
-            if (!_squadControls.TryGetValue(squad.SquadId, out var entry))
-            {
-                entry = new SquadEntryControl(squad, _sprite, _prototype, OnRenameSquad);
-                entry.OnBulkAssignSquad += squadId => OnBulkAssignSquad?.Invoke(squadId);
-                entry.OnClearSquad += squadId => OnClearSquad?.Invoke(squadId);
-                _squadControls[squad.SquadId] = entry;
-            }
-            else
-            {
-                entry.UpdateSquad(squad);
-            }
-
+            var entry = new SquadEntryControl(squad, _sprite, _prototype, OnRenameSquad);
+            entry.OnBulkAssignSquad += squadId => OnBulkAssignSquad?.Invoke(squadId);
+            entry.OnClearSquad += squadId => OnClearSquad?.Invoke(squadId);
             ZonesContainer.AddChild(entry);
         }
     }
@@ -355,13 +323,6 @@ public sealed partial class OfficerEntryControl : PanelContainer
 
         AddChild(mainBox);
     }
-
-    public void UpdateOfficer(PatrolOfficerInfo officer)
-    {
-        _officer = officer;
-        RemoveAllChildren();
-        BuildUI();
-    }
 }
 
 public sealed partial class SquadEntryControl : PanelContainer
@@ -571,12 +532,5 @@ public sealed partial class SquadEntryControl : PanelContainer
         }
 
         AddChild(outerBox);
-    }
-
-    public void UpdateSquad(PatrolSquadDef squad)
-    {
-        _squad = squad;
-        RemoveAllChildren();
-        BuildUI();
     }
 }
