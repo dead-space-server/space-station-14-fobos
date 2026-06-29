@@ -50,7 +50,6 @@ using Content.Shared.Random.Helpers;
 using Content.Shared.Roles;
 using Content.Shared.Roles.Components;
 using Content.Shared.Roles.Jobs;
-using Content.Shared.Store;
 using Content.Shared.Store.Components;
 using Robust.Server.Player;
 using Robust.Shared.Player;
@@ -64,7 +63,6 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 {
     private const int SourceParentSearchDepth = 8;
     private const string DefaultTraitorUltraRule = "TraitorUltra";
-    private const string DefaultTraitorUltraStorePreset = "StorePresetTraitorUltraUplink";
     private const string StandardUplinkImplant = "UplinkImplant";
 
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
@@ -372,7 +370,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 
         if (TryFindUltraUplink(body, component, state, out var uplink))
         {
-            EnsureUltraStoreCategories(uplink);
+            EnsureUltraStoreCategories(uplink, component);
 
             if (balance != null)
                 _uplink.SetupUplink(body, uplink, balance.Value, giveDiscounts: true);
@@ -392,7 +390,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
             return null;
 
         state.UltraUplinkEntity = created.Value;
-        EnsureUltraStoreCategories(created.Value);
+        EnsureUltraStoreCategories(created.Value, component);
         return created.Value;
     }
 
@@ -436,21 +434,22 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         return false;
     }
 
-    private void EnsureUltraStoreCategories(EntityUid uplink)
+    private void EnsureUltraStoreCategories(EntityUid uplink, TraitorUltraRuleComponent component)
     {
         if (!TryComp<StoreComponent>(uplink, out var store))
             return;
 
-        if (!_proto.TryIndex<StorePresetPrototype>(DefaultTraitorUltraStorePreset, out var preset))
+        if (!_proto.TryIndex<EntityPrototype>(component.UltraUplinkImplant, out var uplinkPrototype) ||
+            !uplinkPrototype.TryGetComponent<StoreComponent>(out var presetStore, EntityManager.ComponentFactory))
         {
-            Log.Error($"Failed to find TraitorUltra store preset {DefaultTraitorUltraStorePreset}.");
+            Log.Error($"Failed to find TraitorUltra store categories from {component.UltraUplinkImplant}.");
             return;
         }
 
         var changed = false;
-        foreach (var category in preset.Categories)
+        foreach (var category in presetStore.Categories)
         {
-            changed |= store.Categories.Add(new ProtoId<StoreCategoryPrototype>(category));
+            changed |= store.Categories.Add(category);
         }
 
         if (changed)
