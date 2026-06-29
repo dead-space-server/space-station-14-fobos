@@ -203,7 +203,7 @@ public sealed class PatrolTabletSystem : EntitySystem
             var name = "Unknown";
             var jobTitle = "Security";
 
-            if (TryComp<MetaDataComponent>(target, out var meta))
+            if (TryComp(target, out MetaDataComponent? meta))
             {
                 name = meta.EntityName;
             }
