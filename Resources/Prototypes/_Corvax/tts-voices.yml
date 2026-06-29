@@ -234,7 +234,7 @@
 - type: ttsVoice
   id: Alyx
   name: tts-voice-name-alyx
-  sex: Female
+  sex: Unsexed
   speaker: alyx
   sponsorOnly: true
 
