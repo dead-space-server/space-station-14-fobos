@@ -237,7 +237,7 @@
   id: CaptainOuterClothing
   name: loadout-group-captain-outerclothing
   loadouts:
-  - CaptainCarapace
+  - CaptainOuterClothing
   - CaptainWintercoat
   - CaptainCoat
 
