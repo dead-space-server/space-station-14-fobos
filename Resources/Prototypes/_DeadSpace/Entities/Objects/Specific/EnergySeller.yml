@@ -1,21 +1,17 @@
 - type: entity
   id: EnergySellerBeacon
-  parent: [BaseMachine, ConstructibleMachine, BaseMachinePowered]
+  parent: [BaseMachine, ConstructibleMachine]
   components:
   # Core power behavior
   - type: Battery
     maxCharge: 2500000
-    startingCharge: 2500000
+    startingCharge: 0
     netsync: false
   - type: Sprite # TODO: add sprite for maintenance panel open
-    sprite: Structures/Power/substation.rsi
+    sprite: _DeadSpace/Objects/Devices/EnergySellerBeacon.rsi
     snapCardinals: true
     layers:
-    - state: substation
-    - state: screen
-      shader: unshaded
-    - state: full
-      shader: unshaded
+    - state: EnergyBeaconWithEnergy
   - type: ExaminableBattery
   - type: NodeContainer
     examinable: true

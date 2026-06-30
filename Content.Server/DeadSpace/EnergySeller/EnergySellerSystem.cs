@@ -26,6 +26,7 @@ public sealed partial class EnergySellerSystem : EntitySystem
         SubscribeLocalEvent<EnergySellerComponent, ComponentInit>(OnInit);
         SubscribeLocalEvent<EnergySellerComponent, ChangesForSellingEnergy>(ChoseVoid);
         SubscribeLocalEvent<EnergySellerComponent, ComponentStartup>(WorkWithDictionaryDistibution);
+        SubscribeLocalEvent<EnergySellerComponent, PowerChangedEvent>(OnPowerChanged);
     }
     private void WorkWithDictionaryDistibution(EntityUid uid, EnergySellerComponent comp, ComponentStartup args)
     {
@@ -122,5 +123,9 @@ public sealed partial class EnergySellerSystem : EntitySystem
         if (!TryComp<PowerNetworkBatteryComponent>(uid, out var compSell))
             return;
         _userInterfaceSystem.SetUiState(uid, ESBControllerUiKey.Key, new EnergySellerBoundUserInterfaceState(comp.MaxChargeRate, comp.MaxLimit, (int)compSell.MaxChargeRate, (int)compBat.MaxCharge));
+    }
+    private void OnPowerChanged(EntityUid uid, EnergySellerComponent comp, ref PowerChangedEvent args)
+    {
+        UpdateUI(uid, comp);
     }
 }
