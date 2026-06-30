@@ -90,7 +90,7 @@
     totalIntensity: 200
   - type: WiresPanel
   - type: Machine
-    board: SubstationMachineCircuitboard
+    board: EnergySellerMachineCircuitboard
   - type: Electrified
     onHandInteract: false
     onInteractUsing: false
@@ -100,3 +100,25 @@
   - type: EnergySeller
   - type: Transform
 
+- type: entity
+  id: EnergySellerMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  name: машинная плата маяка продажи энергии
+  description: Машинная плата постройки маяка продажи энрергии
+  components:
+    - type: MachineBoard
+      prototype: EnergySellerBeacon
+      stackRequirements:
+        Manipulator: 1
+        CableHV: 30
+      componentRequirements:
+        PowerCell:
+          amount: 5
+          defaultPrototype: PowerCellSmall
+    - type: PhysicalComposition
+      materialComposition:
+        Glass: 200
+      chemicalComposition:
+        Silicon: 20
+    - type: StaticPrice
+      price: 58

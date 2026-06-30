@@ -178,6 +178,7 @@
 #    - id: MetalFoamGrenade #DS14
     - id: ADTtelescopicBaton # ADT
     - id: TabletPowerMonitoring #DS14
+    - id: EnergySellerMachineCircuitboard #DS14
     - id: PlushieLizardJobChiefengineer
       prob: 0.02
 
