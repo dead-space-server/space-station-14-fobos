@@ -47,6 +47,8 @@ public sealed class DroneRemoteControllerSystem : EntitySystem
         SubscribeLocalEvent<DroneHostComponent, DamageChangedEvent>(OnDamageChanged);
 
         SubscribeLocalEvent<DroneRemoteControllerComponent, ExaminedEvent>(OnExamine);
+
+        SubscribeLocalEvent<DroneRemoteControllerComponent, ComponentShutdown>(OnShutdown);
     }
 
     private void AfterInteract(EntityUid uid, DroneRemoteControllerComponent comp, AfterInteractEvent args)
@@ -55,6 +57,28 @@ public sealed class DroneRemoteControllerSystem : EntitySystem
             return;
 
         if (!TryComp<DroneComponent>(args.Target, out var drone))
+            return;
+
+        _doAfterSystem.TryStartDoAfter(new DoAfterArgs(EntityManager, args.User, comp.ConnectTime, new TryDroneConnectDoAfterEvent(), uid, target: args.Target, used: uid)
+        {
+            BreakOnMove = true,
+            NeedHand = true,
+            BreakOnDamage = false,
+            DuplicateCondition = DuplicateConditions.SameEvent,
+            BlockDuplicate = true,
+            CancelDuplicate = false
+        });
+    }
+
+    private void OnDoAfter(EntityUid uid, DroneRemoteControllerComponent comp, TryDroneConnectDoAfterEvent args)
+    {
+        if (args.Handled || args.Cancelled || args.Args.Target == null)
+            return;
+
+        var target = args.Args.Target.Value;
+        var user = args.Args.User;
+
+        if (!TryComp<DroneComponent>(target, out var drone))
             return;
 
         if (comp.IsDroneConnected)
@@ -74,28 +98,6 @@ public sealed class DroneRemoteControllerSystem : EntitySystem
             _popupSystem.PopupEntity(Loc.GetString("drone-failed-to-connect"), args.User, args.User, PopupType.SmallCaution);
             return;
         }
-
-        _doAfterSystem.TryStartDoAfter(new DoAfterArgs(EntityManager, args.User, comp.ConnectTime, new TryDroneConnectDoAfterEvent(), uid, target: args.Target, used: uid)
-        {
-            BreakOnMove = true,
-            NeedHand = true,
-            BreakOnDamage = false,
-            DuplicateCondition = DuplicateConditions.SameEvent,
-            BlockDuplicate = true,
-            CancelDuplicate = false
-        });
-    }
-
-    private void OnDoAfter(EntityUid uid, DroneRemoteControllerComponent comp, TryDroneConnectDoAfterEvent args)
-    {
-        if (args.Handled || args.Cancelled || args.Args.Target == null || comp.IsDroneConnected)
-            return;
-
-        var target = args.Args.Target.Value;
-        var user = args.Args.User;
-
-        if (!TryComp<DroneComponent>(target, out var drone))
-            return;
 
         drone.DroneController = uid;
         comp.ConnectedDrone = target;
@@ -158,7 +160,7 @@ public sealed class DroneRemoteControllerSystem : EntitySystem
 
     private void GetVerb(EntityUid uid, DroneRemoteControllerComponent comp, GetVerbsEvent<Verb> args)
     {
-        if (!comp.IsDroneConnected && args.CanComplexInteract && args.CanAccess && !HasComp<GhostComponent>(args.User))
+        if (!comp.IsDroneConnected || !args.CanComplexInteract || !args.CanAccess || HasComp<GhostComponent>(args.User))
             return;
 
         args.Verbs.Add(new Verb
@@ -271,5 +273,10 @@ public sealed class DroneRemoteControllerSystem : EntitySystem
     private void OnExamine(EntityUid uid, DroneRemoteControllerComponent component, ExaminedEvent args)
     {
         args.PushMarkup(Loc.GetString(component.IsDroneConnected ? "drone-status-connect" : "drone-status-not-connect"));
+    }
+
+    private void OnShutdown(Entity<DroneRemoteControllerComponent> ent, ref ComponentShutdown args)
+    {
+        DisconectDrone(ent.Comp);
     }
 }

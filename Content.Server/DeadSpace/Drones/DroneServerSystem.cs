@@ -42,12 +42,16 @@ public sealed class DroneSystem : EntitySystem
         if (!TryComp<DroneRemoteControllerComponent>(controller, out var controllerComp))
             return;
 
+        if (HasComp<DroneHostComponent>(host))
+            return;
+
         if (!TryComp<PhysicsComponent>(host, out var hostPhysics) ||
             hostPhysics.BodyType != BodyType.KinematicController)
         {
             _popupSystem.PopupEntity(Loc.GetString("drone-failed-to-connect"), host, host, PopupType.MediumCaution);
             return;
         }
+
         if (!_powerCell.TryGetBatteryFromSlotOrEntity(drone, out var battery) ||
             _battery.GetCharge(battery.Value.AsNullable()) <= droneComp.Wattage)
         {
