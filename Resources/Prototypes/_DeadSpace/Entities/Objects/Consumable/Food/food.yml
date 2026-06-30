@@ -721,7 +721,7 @@
   - type: Item
     heldPrefix: produce
   - type: Produce
-    seedId: MangoSeeds
+    seedId: MangoPlant
   - type: Extractable
     juiceSolution:
       reagents:
