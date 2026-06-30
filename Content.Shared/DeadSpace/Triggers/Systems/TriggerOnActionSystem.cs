@@ -1,4 +1,5 @@
 using Content.Shared.Actions.Components;
+using Content.Shared.Actions;
 using Content.Shared.DeadSpace.Triggers.Components;
 using Content.Shared.Trigger;
 
@@ -6,6 +7,7 @@ namespace Content.Shared.DeadSpace.Triggers.Systems;
 
 public sealed class TriggerOnActionSystem : TriggerOnXSystem
 {
+    [Dependency] private readonly SharedActionsSystem _action = default!;
     public override void Initialize()
     {
         base.Initialize();
@@ -28,5 +30,11 @@ public sealed class TriggerOnActionSystem : TriggerOnXSystem
 
         Trigger.Trigger(target, args.Performer, comp.KeyOut);
         args.Handled = true;
+
+        if (comp.RemoveAfterActive)
+        {
+            _action.RemoveAction((args.Action, action));
+            PredictedQueueDel(args.Action);
+        }
     }
 }

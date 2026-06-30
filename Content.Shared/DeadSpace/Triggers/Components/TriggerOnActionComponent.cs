@@ -11,5 +11,9 @@ namespace Content.Shared.DeadSpace.Triggers.Components;
 /// The user is the entity that was used action.
 /// </summary>
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
-public sealed partial class TriggerOnActionComponent : BaseTriggerOnXComponent { }
+public sealed partial class TriggerOnActionComponent : BaseTriggerOnXComponent
+{
+    [DataField]
+    public bool RemoveAfterActive = false;
+}
 public sealed partial class TriggerActionEvent : InstantActionEvent;
