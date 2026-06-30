@@ -261,7 +261,6 @@
   description: rev-description
   showInVote: true
   showInAdminVote: true # DS14
-  voteType: rdm # DS14
   rules:
   - WageScheduler # backmen: currency
   - DummyNonAntagChance
