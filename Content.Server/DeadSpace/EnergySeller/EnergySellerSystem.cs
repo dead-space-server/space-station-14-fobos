@@ -1,3 +1,5 @@
+// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
+
 using Content.Shared.DeadSpace.EnergySeller;
 using Robust.Shared.Prototypes;
 using Content.Shared.Power;
@@ -14,10 +16,13 @@ namespace Content.Server.DeadSpace.EnergySeller;
 
 public sealed partial class EnergySellerSystem : EntitySystem
 {
+    private const int MinPowerSetting = 5000;
+
     [Dependency] private readonly StationSystem _station = default!;
     [Dependency] private readonly CargoSystem _cargo = default!;
     [Dependency] private readonly SharedBatterySystem _battery = default!;
     [Dependency] private readonly UserInterfaceSystem _userInterfaceSystem = default!;
+
     public override void Initialize()
     {
         base.Initialize();
@@ -31,9 +36,9 @@ public sealed partial class EnergySellerSystem : EntitySystem
     private void WorkWithDictionaryDistibution(EntityUid uid, EnergySellerComponent comp, ComponentStartup args)
     {
         comp.Distribution = new Dictionary<ProtoId<CargoAccountPrototype>, double>
-                                {
-                                    { comp.Account, 1.0 },
-                                };
+        {
+            { comp.Account, 1.0 },
+        };
     }
     private void OnInit(EntityUid uid, EnergySellerComponent component, ComponentInit args)
     {
@@ -41,28 +46,17 @@ public sealed partial class EnergySellerSystem : EntitySystem
     }
     private void CheckBatteryCharges(EntityUid uid, BatteryComponent comp, BatteryStateChangedEvent args)
     {
-        if (comp.State != BatteryState.Full)
+        if (args.NewState != BatteryState.Full)
             return;
         if (!TryComp<EnergySellerComponent>(uid, out var compSell))
             return;
 
-        var station = _station.GetOwningStation(uid);
+        if (!TryGetStationBank(uid, out var stationBank))
+            return;
 
-        StationBankAccountComponent? bankAccount = null;
-        if (station != null)
-            TryComp(station.Value, out bankAccount);
-
-        var bankAccountEnt = bankAccount!;
-        var stationEnt = station!.Value;
-
-        Dictionary<ProtoId<CargoAccountPrototype>, double> distribution = new Dictionary<ProtoId<CargoAccountPrototype>, double>
-                        {
-                            { compSell.Account, 1.0 },
-                        };
-
-        _cargo.UpdateBankAccount((stationEnt, bankAccountEnt), (int)Math.Round(comp.PricePerJoule * comp.MaxCharge + (comp.MaxCharge / compSell.AdditionalCoefficient + 1)), distribution, false);
-        _battery.SetCharge(uid, 0);
-        Dirty(stationEnt, bankAccountEnt);
+        _cargo.UpdateBankAccount(stationBank, GetEnergyPrice(comp, compSell), compSell.Distribution, false);
+        _battery.SetCharge((uid, comp), 0);
+        Dirty(stationBank);
     }
     private void ChoseVoid(EntityUid uid, EnergySellerComponent comp, ChangesForSellingEnergy message)
     {
@@ -77,41 +71,20 @@ public sealed partial class EnergySellerSystem : EntitySystem
     }
     private void SetSpeed(EntityUid uid, EnergySellerComponent comp, ChangesForSellingEnergy message)
     {
-        if (!(message.Now is null) && message.Now >= 5000 && TryComp<PowerNetworkBatteryComponent>(GetEntity(message.Entity), out var compSell))
+        if (message.Now is >= MinPowerSetting && TryComp<PowerNetworkBatteryComponent>(uid, out var compSell))
         {
-            compSell.MaxSupply = Convert.ToSingle(message.Now);
+            compSell.MaxChargeRate = Math.Clamp(message.Now.Value, MinPowerSetting, comp.MaxChargeRate);
         }
-        if (message.Max != null && message.Max >= 5000)
-        {
-            comp.MaxChargeRate = (int)message.Max;
-        }
+
         UpdateUI(uid, comp);
     }
     private void SetMaxLimit(EntityUid uid, EnergySellerComponent comp, ChangesForSellingEnergy message)
     {
-        if (message.Now is not null && message.Now >= 5000 && TryComp<BatteryComponent>(GetEntity(message.Entity), out var compSell))
+        if (message.Now is >= MinPowerSetting && TryComp<BatteryComponent>(uid, out var compSell))
         {
-            if (message.Now > compSell.LastCharge)
-            {
-                var station = _station.GetOwningStation(uid);
-
-                StationBankAccountComponent? bankAccount = null;
-                if (station != null)
-                    TryComp(station.Value, out bankAccount);
-
-                var bankAccountEnt = bankAccount!;
-                var stationEnt = station!.Value;
-
-                _cargo.UpdateBankAccount((stationEnt, bankAccountEnt), (int)Math.Round(compSell.PricePerJoule * compSell.MaxCharge + (compSell.MaxCharge / comp.AdditionalCoefficient + 1)), comp.Distribution, false);
-                _battery.SetCharge(uid, 0);
-                Dirty(stationEnt, bankAccountEnt);
-            }
-            _battery.SetMaxCharge(GetEntity(message.Entity), Convert.ToSingle(message.Now));
+            _battery.SetMaxCharge((uid, compSell), Math.Clamp(message.Now.Value, MinPowerSetting, comp.MaxLimit));
         }
-        if (message.Max != null && message.Max >= 5000)
-        {
-            comp.MaxLimit = (int)message.Max;
-        }
+
         UpdateUI(uid, comp);
     }
     private void UpdateUI(EntityUid uid, EnergySellerComponent comp)
@@ -127,5 +100,23 @@ public sealed partial class EnergySellerSystem : EntitySystem
     private void OnPowerChanged(EntityUid uid, EnergySellerComponent comp, ref PowerChangedEvent args)
     {
         UpdateUI(uid, comp);
+    }
+
+    private bool TryGetStationBank(EntityUid uid, out Entity<StationBankAccountComponent?> stationBank)
+    {
+        stationBank = default;
+
+        var station = _station.GetOwningStation(uid);
+        if (station == null || !TryComp<StationBankAccountComponent>(station.Value, out var bankAccount))
+            return false;
+
+        stationBank = (station.Value, bankAccount);
+        return true;
+    }
+
+    private static int GetEnergyPrice(BatteryComponent battery, EnergySellerComponent seller)
+    {
+        var coefficient = Math.Max(seller.AdditionalCoefficient, 1);
+        return (int)Math.Round(battery.PricePerJoule * battery.MaxCharge + battery.MaxCharge / coefficient + 1);
     }
 }

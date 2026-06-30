@@ -1,87 +1,115 @@
 <controls:FancyWindow xmlns="https://spacestation14.io"
                       xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
-                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                      xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
-                      SetSize="650 330"
+                      Title="{Loc 'energy-seller-ui-window-title'}"
+                      HeaderClass="DS14MenuHeader"
+                      TitleClass="DS14MenuTitle"
+                      MinSize="520 320"
+                      SetSize="560 340"
                       Resizable="False">
-    <BoxContainer Orientation="Vertical" VerticalExpand="True" HorizontalAlignment="Stretch" Margin="10">
-        <!-- Блок: Скорость зарядки -->
-        <PanelContainer StyleClasses="BackgroundPanelDark" HorizontalAlignment="Stretch" Margin="2">
-            <BoxContainer Orientation="Vertical" HorizontalAlignment="Stretch" Margin="4">
-                <Label Text="Скорость зарядки" StyleClasses="LabelKeyText" HorizontalAlignment="Center"/>
+    <PanelContainer StyleClasses="DS14MenuShell">
+        <PanelContainer StyleClasses="DS14MenuPanelDark">
+            <BoxContainer Orientation="Vertical"
+                          HorizontalExpand="True"
+                          VerticalExpand="True"
+                          SeparationOverride="8">
+                <PanelContainer StyleClasses="DS14MenuInset"
+                                HorizontalExpand="True">
+                    <BoxContainer Orientation="Vertical"
+                                  HorizontalExpand="True"
+                                  SeparationOverride="6">
+                        <Label Text="{Loc 'energy-seller-ui-charge-rate'}"
+                               StyleClasses="DS14MenuListHeader" />
+                        <BoxContainer Orientation="Horizontal"
+                                      HorizontalExpand="True"
+                                      SeparationOverride="8">
+                            <Slider Name="ChargeSpeedSlider"
+                                    HorizontalExpand="True"
+                                    Rounded="true" />
+                            <Label Name="ChargeSpeedMaxLabel"
+                                   Text="100"
+                                   MinWidth="82"
+                                   Align="Right"
+                                   StyleClasses="DS14MenuProfileLabel" />
+                        </BoxContainer>
+                        <PanelContainer StyleClasses="DS14MenuListRow"
+                                        HorizontalExpand="True">
+                            <BoxContainer Orientation="Horizontal"
+                                          HorizontalExpand="True">
+                                <Label Text="{Loc 'energy-seller-ui-current-rate'}"
+                                       StyleClasses="DS14MenuProfileLabel" />
+                                <Label Name="ChargeSpeedValue"
+                                       Text="50"
+                                       HorizontalExpand="True"
+                                       HorizontalAlignment="Right"
+                                       Align="Right"
+                                       StyleClasses="DS14MenuProfileLabel" />
+                            </BoxContainer>
+                        </PanelContainer>
+                        <BoxContainer Orientation="Horizontal"
+                                      HorizontalExpand="True"
+                                      SeparationOverride="6">
+                            <LineEdit Name="ChargeSpeedLineEdit"
+                                      PlaceHolder="{Loc 'energy-seller-ui-value-placeholder'}"
+                                      HorizontalExpand="True"
+                                      StyleClasses="DS14MenuInput" />
+                            <Button Name="SpeedChargeConfirm"
+                                    Text="{Loc 'energy-seller-ui-apply'}"
+                                    MinWidth="120"
+                                    TextAlign="Center"
+                                    StyleClasses="DS14MenuAction" />
+                        </BoxContainer>
+                    </BoxContainer>
+                </PanelContainer>
 
-                <BoxContainer Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="4">
-                    <!-- Слайдер занимает основную часть -->
-                    <Slider
-                        Name="ChargeSpeedSlider"
-                        HorizontalExpand="True"
-                        Rounded ="true"/>
-
-                    <!-- Метка справа (максимум) -->
-                    <Label
-                        Name="ChargeSpeedMaxLabel"
-                        Text="100"
-                        HorizontalAlignment="Right"
-                        Margin="8,0,0,0"
-                        StyleClasses="SliderValueLabel"/>
-
-                </BoxContainer>
-
-                <Label Name="ChargeSpeedValue" Text="50" HorizontalAlignment="Center"/>
-
-                <!-- Горизонтальный контейнер с LineEdit и Button -->
-                <BoxContainer Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="4">
-                    <!-- LineEdit занимает максимум места -->
-                      <LineEdit
-                        Name="ChargeSpeedLineEdit"
-                        PlaceHolder="писать в ваттах"
-                        HorizontalExpand="True"
-                        Margin="0,0,8,0"/>
-
-                    <!-- Кнопка справа -->
-                    <Button Name="SpeedChargeConfirm"
-                            Text="Подтвердить"
-                            HorizontalAlignment="Right"
-                            Margin="0,0,0,0"/>
-                </BoxContainer>
+                <PanelContainer StyleClasses="DS14MenuInset"
+                                HorizontalExpand="True">
+                    <BoxContainer Orientation="Vertical"
+                                  HorizontalExpand="True"
+                                  SeparationOverride="6">
+                        <Label Text="{Loc 'energy-seller-ui-sell-volume'}"
+                               StyleClasses="DS14MenuListHeader" />
+                        <BoxContainer Orientation="Horizontal"
+                                      HorizontalExpand="True"
+                                      SeparationOverride="8">
+                            <Slider Name="MaxChargeSlider"
+                                    HorizontalExpand="True"
+                                    Rounded="true" />
+                            <Label Name="MaxChargeMaxLabel"
+                                   Text="200"
+                                   MinWidth="82"
+                                   Align="Right"
+                                   StyleClasses="DS14MenuProfileLabel" />
+                        </BoxContainer>
+                        <PanelContainer StyleClasses="DS14MenuListRowAlt"
+                                        HorizontalExpand="True">
+                            <BoxContainer Orientation="Horizontal"
+                                          HorizontalExpand="True">
+                                <Label Text="{Loc 'energy-seller-ui-current-volume'}"
+                                       StyleClasses="DS14MenuProfileLabel" />
+                                <Label Name="LimitSellValue"
+                                       Text="50"
+                                       HorizontalExpand="True"
+                                       HorizontalAlignment="Right"
+                                       Align="Right"
+                                       StyleClasses="DS14MenuProfileLabel" />
+                            </BoxContainer>
+                        </PanelContainer>
+                        <BoxContainer Orientation="Horizontal"
+                                      HorizontalExpand="True"
+                                      SeparationOverride="6">
+                            <LineEdit Name="MaxChargeLineEdit"
+                                      PlaceHolder="{Loc 'energy-seller-ui-value-placeholder'}"
+                                      HorizontalExpand="True"
+                                      StyleClasses="DS14MenuInput" />
+                            <Button Name="SellLimitConfirm"
+                                    Text="{Loc 'energy-seller-ui-apply'}"
+                                    MinWidth="120"
+                                    TextAlign="Center"
+                                    StyleClasses="DS14MenuAction" />
+                        </BoxContainer>
+                    </BoxContainer>
+                </PanelContainer>
             </BoxContainer>
         </PanelContainer>
-
-        <!-- Блок: Максимальный заряд -->
-        <PanelContainer StyleClasses="BackgroundPanelDark" HorizontalAlignment="Stretch" Margin="2">
-            <BoxContainer Orientation="Vertical" HorizontalAlignment="Stretch" Margin="4">
-                <Label Text="Максимальный заряд" StyleClasses="LabelKeyText" HorizontalAlignment="Center"/>
-                <BoxContainer Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="4">
-                    <!-- Слайдер -->
-                    <Slider
-                        Name="MaxChargeSlider"
-                        HorizontalExpand="True"
-                        Rounded ="true"/>
-
-                    <!-- Метка справа (максимум) -->
-                    <Label
-                        Name="MaxChargeMaxLabel"
-                        Text="200"
-                        HorizontalAlignment="Right"
-                        Margin="8,0,0,0"
-                        StyleClasses="SliderValueLabel"/>
-                </BoxContainer>
-                <Label Name="LimitSellValue" Text="50" HorizontalAlignment="Center"/>
-
-                <!-- Аналогично для второго блока -->
-                <BoxContainer Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="4">
-                     <LineEdit
-                        Name="MaxChargeLineEdit"
-                        PlaceHolder="писать в ваттах"
-                        HorizontalExpand="True"
-                        Margin="0,4"/>
-
-                    <Button Name="SellLimitConfirm"
-                            Text="Подтвердить"
-                            HorizontalAlignment="Right"
-                            Margin="0,0,0,0"/>
-                </BoxContainer>
-            </BoxContainer>
-        </PanelContainer>
-    </BoxContainer>
+    </PanelContainer>
 </controls:FancyWindow>

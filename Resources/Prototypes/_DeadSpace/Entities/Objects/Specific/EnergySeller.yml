@@ -22,6 +22,7 @@
   - type: BatteryCharger
     voltage: High
   - type: PowerNetworkBattery
+    canDischarge: false
     maxSupply: 150000
     maxChargeRate: 5000
     supplyRampTolerance: 5000
