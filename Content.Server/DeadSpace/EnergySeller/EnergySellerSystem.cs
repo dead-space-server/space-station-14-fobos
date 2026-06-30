@@ -28,22 +28,24 @@ public sealed partial class EnergySellerSystem : EntitySystem
         base.Initialize();
 
         SubscribeLocalEvent<BatteryComponent, BatteryStateChangedEvent>(CheckBatteryCharges);
-        SubscribeLocalEvent<EnergySellerComponent, ComponentInit>(OnInit);
         SubscribeLocalEvent<EnergySellerComponent, ChangesForSellingEnergy>(ChoseVoid);
-        SubscribeLocalEvent<EnergySellerComponent, ComponentStartup>(WorkWithDictionaryDistibution);
+        SubscribeLocalEvent<EnergySellerComponent, ComponentStartup>(OnStartup);
         SubscribeLocalEvent<EnergySellerComponent, PowerChangedEvent>(OnPowerChanged);
     }
-    private void WorkWithDictionaryDistibution(EntityUid uid, EnergySellerComponent comp, ComponentStartup args)
+
+    private void OnStartup(EntityUid uid, EnergySellerComponent comp, ComponentStartup args)
     {
         comp.Distribution = new Dictionary<ProtoId<CargoAccountPrototype>, double>
         {
             { comp.Account, 1.0 },
         };
+
+        if (TryComp<BatteryComponent>(uid, out var battery))
+            _battery.SetMaxCharge((uid, battery), ClampPowerSetting((int) battery.MaxCharge, comp.MaxLimit));
+
+        UpdateUI(uid, comp);
     }
-    private void OnInit(EntityUid uid, EnergySellerComponent component, ComponentInit args)
-    {
-        UpdateUI(uid, component);
-    }
+
     private void CheckBatteryCharges(EntityUid uid, BatteryComponent comp, BatteryStateChangedEvent args)
     {
         if (args.NewState != BatteryState.Full)
@@ -58,6 +60,7 @@ public sealed partial class EnergySellerSystem : EntitySystem
         _battery.SetCharge((uid, comp), 0);
         Dirty(stationBank);
     }
+
     private void ChoseVoid(EntityUid uid, EnergySellerComponent comp, ChangesForSellingEnergy message)
     {
         if (message.SpeedOrLimit)
@@ -69,24 +72,27 @@ public sealed partial class EnergySellerSystem : EntitySystem
             SetMaxLimit(uid, comp, message);
         }
     }
+
     private void SetSpeed(EntityUid uid, EnergySellerComponent comp, ChangesForSellingEnergy message)
     {
         if (message.Now is >= MinPowerSetting && TryComp<PowerNetworkBatteryComponent>(uid, out var compSell))
         {
-            compSell.MaxChargeRate = Math.Clamp(message.Now.Value, MinPowerSetting, comp.MaxChargeRate);
+            compSell.MaxChargeRate = ClampPowerSetting(message.Now.Value, comp.MaxChargeRate);
         }
 
         UpdateUI(uid, comp);
     }
+
     private void SetMaxLimit(EntityUid uid, EnergySellerComponent comp, ChangesForSellingEnergy message)
     {
         if (message.Now is >= MinPowerSetting && TryComp<BatteryComponent>(uid, out var compSell))
         {
-            _battery.SetMaxCharge((uid, compSell), Math.Clamp(message.Now.Value, MinPowerSetting, comp.MaxLimit));
+            _battery.SetMaxCharge((uid, compSell), ClampPowerSetting(message.Now.Value, comp.MaxLimit));
         }
 
         UpdateUI(uid, comp);
     }
+
     private void UpdateUI(EntityUid uid, EnergySellerComponent comp)
     {
         if (!_userInterfaceSystem.HasUi(uid, ESBControllerUiKey.Key))
@@ -97,6 +103,7 @@ public sealed partial class EnergySellerSystem : EntitySystem
             return;
         _userInterfaceSystem.SetUiState(uid, ESBControllerUiKey.Key, new EnergySellerBoundUserInterfaceState(comp.MaxChargeRate, comp.MaxLimit, (int)compSell.MaxChargeRate, (int)compBat.MaxCharge));
     }
+
     private void OnPowerChanged(EntityUid uid, EnergySellerComponent comp, ref PowerChangedEvent args)
     {
         UpdateUI(uid, comp);
@@ -118,5 +125,10 @@ public sealed partial class EnergySellerSystem : EntitySystem
     {
         var coefficient = Math.Max(seller.AdditionalCoefficient, 1);
         return (int)Math.Round(battery.PricePerJoule * battery.MaxCharge + battery.MaxCharge / coefficient + 1);
+    }
+
+    private static int ClampPowerSetting(int value, int max)
+    {
+        return Math.Clamp(value, MinPowerSetting, Math.Max(max, MinPowerSetting));
     }
 }

@@ -17,40 +17,24 @@ public sealed class EnergySellerBoundUserInterface : BoundUserInterface
     {
         base.Open();
         _menu = this.CreateWindow<EnergySellerUserInterface>();
-        _menu.OnConfirmSpeedCharge += SendSpeedChage;
+        _menu.OnConfirmSpeedCharge += SendSpeedCharge;
         _menu.OnConfirmSellLimit += SendMaxCharge;
     }
-    private void SendSpeedChage(Dictionary<int, string> message)
-    {
-        ChangesForSellingEnergy cooking = new ChangesForSellingEnergy(true);
 
-        if (int.TryParse(message[1], out int intNow))
-        {
-            cooking.Now = intNow;
-        }
-        if (int.TryParse(message[2], out int intNowSecond))
-        {
-            cooking.Max = intNowSecond;
-        }
-        SendMessage(cooking);
-    }
-    private void SendMaxCharge(Dictionary<int, string> message)
+    private void SendSpeedCharge(int value)
     {
-        ChangesForSellingEnergy cooking = new ChangesForSellingEnergy(false);
-        if (int.TryParse(message[1], out int intNow))
-        {
-            cooking.Now = intNow;
-        }
-        if (int.TryParse(message[2], out int intNowSecond))
-        {
-            cooking.Max = intNowSecond;
-        }
-        SendMessage(cooking);
+        SendMessage(new ChangesForSellingEnergy(true, value));
     }
+
+    private void SendMaxCharge(int value)
+    {
+        SendMessage(new ChangesForSellingEnergy(false, value));
+    }
+
     protected override void UpdateState(BoundUserInterfaceState state)
     {
         base.UpdateState(state);
         var castState = (EnergySellerBoundUserInterfaceState)state;
-        _menu?.UpdateState(castState); //Update window state
+        _menu?.UpdateState(castState);
     }
 }
