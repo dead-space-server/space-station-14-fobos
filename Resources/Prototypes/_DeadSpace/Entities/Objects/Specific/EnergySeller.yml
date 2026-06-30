@@ -4,7 +4,7 @@
   components:
   # Core power behavior
   - type: Battery
-    maxCharge: 2500000
+    maxCharge: 150000
     startingCharge: 0
     netsync: false
   - type: Sprite # TODO: add sprite for maintenance panel open

@@ -40,9 +40,6 @@ public sealed partial class EnergySellerSystem : EntitySystem
             { comp.Account, 1.0 },
         };
 
-        if (TryComp<BatteryComponent>(uid, out var battery))
-            _battery.SetMaxCharge((uid, battery), ClampPowerSetting((int) battery.MaxCharge, comp.MaxLimit));
-
         UpdateUI(uid, comp);
     }
 
