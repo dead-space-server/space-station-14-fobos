@@ -73,11 +73,6 @@
   result: CargoTelepadMachineCircuitboardTaipan
 
 - type: latheRecipe
-  parent: BaseCircuitboardRecipe
-  id: BiofabricatorMachineCircuitboardTaipan
-  result: BiofabricatorMachineCircuitboardTaipan
-
-- type: latheRecipe
   parent: BaseGoldCircuitboardRecipe
   id: AnalysisComputerCircuitboardTaipan
   result: AnalysisComputerCircuitboardTaipan

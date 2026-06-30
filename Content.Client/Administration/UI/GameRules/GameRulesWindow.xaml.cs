@@ -49,9 +49,7 @@ public sealed partial class GameRulesWindow : DefaultWindow
 
         ShowIdCheckBox.OnToggled += _ =>
         {
-            _selectedRuleId = null;
-            _selectedButton = null;
-            BuildCategoryTabs();
+            UpdateButtonTexts(ShowIdCheckBox.Pressed);
         };
 
         LoadCategories();
@@ -238,6 +236,15 @@ public sealed partial class GameRulesWindow : DefaultWindow
                 };
                 tabContainer.AddChild(button);
             }
+        }
+    }
+    private void UpdateButtonTexts(bool showId)
+    {
+        foreach (var (button, ruleId) in _ruleButtons)
+        {
+            button.Text = showId
+                ? ruleId
+                : _prototypeManager.Index<GameRuleDisplayNamePrototype>(ruleId).Name;
         }
     }
 }

@@ -62,6 +62,8 @@ namespace Content.Server.DeadSpace.Traitor;
 public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComponent>
 {
     private const int SourceParentSearchDepth = 8;
+    private const string DefaultTraitorUltraRule = "TraitorUltra";
+    private const string StandardUplinkImplant = "UplinkImplant";
 
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
     [Dependency] private readonly AntagSelectionSystem _antag = default!;
@@ -129,6 +131,118 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 
         if (target.AttachedEntity is { } attached)
             EnsureInitialTraitorUltraSetup((rule.Owner, rule.Comp1), attached, logMissingMind: true);
+
+        if (!_mind.TryGetMind(target, out mindId, out var mind))
+            return;
+
+        TrackAdminTraitorUltraMind(rule, target, mindId, mind);
+    }
+
+    public bool MakeAdminTraitorUltra(ICommonSession target, bool announceBounty)
+    {
+        var rule = GetOrCreateAdminTraitorUltraRule();
+
+        if (!_mind.TryGetMind(target, out var mindId, out var mind))
+        {
+            Log.Error($"Failed to make admin TraitorUltra for {target.Name}: no mind was attached.");
+            return false;
+        }
+
+        if (_roles.MindHasRole<TraitorUltraRoleComponent>(mindId))
+            return false;
+
+        var alreadyTraitor = _roles.MindHasRole<TraitorRoleComponent>(mindId);
+
+        var state = EnsureTraitorUltraState(rule.Owner, rule.Comp1, mindId);
+
+        if (!alreadyTraitor &&
+            !PrepareAdminDirectUltraTraitor(rule, target, mindId, mind, state))
+        {
+            return false;
+        }
+
+        TrackAdminTraitorUltraMind(rule, target, mindId, mind);
+        UpgradeTraitor(rule.Owner, rule.Comp1, mindId, mind, state, announceBounty);
+        return true;
+    }
+
+    private bool PrepareAdminDirectUltraTraitor(
+        Entity<TraitorUltraRuleComponent, AntagSelectionComponent> rule,
+        ICommonSession target,
+        EntityUid mindId,
+        MindComponent mind,
+        TraitorUltraMindState state)
+    {
+        if (mind.OwnedEntity is not { } body || TerminatingOrDeleted(body))
+        {
+            Log.Error($"Failed to prepare admin TraitorUltra for {target.Name}: mind has no owned entity.");
+            return false;
+        }
+
+        if (rule.Comp2.Definitions.Count > 0)
+            EntityManager.AddComponents(body, rule.Comp2.Definitions[^1].Components);
+
+        _roles.MindAddRole(mindId, rule.Comp1.TraitorMindRole, mind, silent: true);
+
+        if (!_roles.MindHasRole<TraitorRoleComponent>(mindId))
+        {
+            Log.Error($"Failed to prepare admin TraitorUltra for {target.Name}: traitor role was not assigned.");
+            return false;
+        }
+
+        if (!TryComp<TraitorRuleComponent>(rule.Owner, out var traitorRule) ||
+            !_traitorRule.MakeTraitor(body, traitorRule))
+        {
+            Log.Error($"Failed to prepare admin TraitorUltra for {target.Name}: base traitor setup failed.");
+            return false;
+        }
+
+        state.OriginalCorporation ??= GetOriginalCorporation(rule.Owner, mindId);
+
+        if (!EnsureDeathAcidifierImplant((mindId, mind), rule.Comp1))
+            Log.Error($"Failed to assign the TraitorUltra death-acidifier implant to {ToPrettyString(mindId)}.");
+
+        if (state.UltraUplinkInitialized)
+            return true;
+
+        if (EnsureInitialUltraUplink(rule.Owner, rule.Comp1, (mindId, mind), state))
+        {
+            state.UltraUplinkInitialized = true;
+            return true;
+        }
+
+        Log.Error($"Failed to assign the TraitorUltra uplink implant to {ToPrettyString(mindId)}.");
+        return false;
+    }
+
+    private Entity<TraitorUltraRuleComponent, AntagSelectionComponent> GetOrCreateAdminTraitorUltraRule()
+    {
+        var rule = _antag.ForceGetGameRuleEnt<TraitorUltraRuleComponent>(DefaultTraitorUltraRule);
+        return (rule.Owner, Comp<TraitorUltraRuleComponent>(rule.Owner), rule.Comp);
+    }
+
+    private TraitorUltraMindState EnsureTraitorUltraState(
+        EntityUid rule,
+        TraitorUltraRuleComponent component,
+        EntityUid mindId)
+    {
+        if (!component.Minds.TryGetValue(mindId, out var state))
+        {
+            state = new TraitorUltraMindState();
+            component.Minds[mindId] = state;
+        }
+
+        state.OriginalCorporation ??= GetOriginalCorporation(rule, mindId);
+        return state;
+    }
+
+    private void TrackAdminTraitorUltraMind(
+        Entity<TraitorUltraRuleComponent, AntagSelectionComponent> rule,
+        ICommonSession target,
+        EntityUid mindId,
+        MindComponent mind)
+    {
+        _antag.AddAntagIdentifier(rule.Owner, mindId, GetMindCharacterName(mind) ?? target.Name, target);
     }
 
     private bool EnsureInitialTraitorUltraSetup(
@@ -256,8 +370,12 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 
         if (TryFindUltraUplink(body, component, state, out var uplink))
         {
+            EnsureUltraStoreCategories(uplink, component);
+
             if (balance != null)
                 _uplink.SetupUplink(body, uplink, balance.Value, giveDiscounts: true);
+            else if (TryComp<StoreComponent>(uplink, out var store))
+                _store.UpdateUserInterface(body, uplink, store);
 
             return uplink;
         }
@@ -272,6 +390,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
             return null;
 
         state.UltraUplinkEntity = created.Value;
+        EnsureUltraStoreCategories(created.Value, component);
         return created.Value;
     }
 
@@ -282,20 +401,29 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         out EntityUid uplink)
     {
         uplink = default;
-        if (!TryComp<ImplantedComponent>(body, out var implanted))
-            return false;
+
+        if (_uplink.FindUplinkTarget(body) is { } pdaUplink &&
+            HasComp<UplinkComponent>(pdaUplink) &&
+            TryComp<StoreComponent>(pdaUplink, out _))
+        {
+            state.UltraUplinkEntity = pdaUplink;
+            uplink = pdaUplink;
+            return true;
+        }
 
         if (state.UltraUplinkEntity is { } tracked &&
-            implanted.ImplantContainer.ContainedEntities.Contains(tracked) &&
-            IsUltraUplinkPrototype(tracked, component))
+            IsReusableUplinkStore(tracked, component))
         {
             uplink = tracked;
             return true;
         }
 
+        if (!TryComp<ImplantedComponent>(body, out var implanted))
+            return false;
+
         foreach (var implant in implanted.ImplantContainer.ContainedEntities)
         {
-            if (!IsUltraUplinkPrototype(implant, component))
+            if (!IsReusableUplinkStore(implant, component))
                 continue;
 
             state.UltraUplinkEntity = implant;
@@ -306,10 +434,41 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         return false;
     }
 
-    private bool IsUltraUplinkPrototype(EntityUid entity, TraitorUltraRuleComponent component)
+    private void EnsureUltraStoreCategories(EntityUid uplink, TraitorUltraRuleComponent component)
     {
-        return !TerminatingOrDeleted(entity) &&
-               MetaData(entity).EntityPrototype?.ID == component.UltraUplinkImplant.Id;
+        if (!TryComp<StoreComponent>(uplink, out var store))
+            return;
+
+        if (!_proto.TryIndex<EntityPrototype>(component.UltraUplinkImplant, out var uplinkPrototype) ||
+            !uplinkPrototype.TryGetComponent<StoreComponent>(out var presetStore, EntityManager.ComponentFactory))
+        {
+            Log.Error($"Failed to find TraitorUltra store categories from {component.UltraUplinkImplant}.");
+            return;
+        }
+
+        var changed = false;
+        foreach (var category in presetStore.Categories)
+        {
+            changed |= store.Categories.Add(category);
+        }
+
+        if (changed)
+            _store.RefreshAllListings(store);
+    }
+
+    private bool IsReusableUplinkStore(EntityUid entity, TraitorUltraRuleComponent component)
+    {
+        if (TerminatingOrDeleted(entity) ||
+            !TryComp<StoreComponent>(entity, out _))
+        {
+            return false;
+        }
+
+        if (HasComp<UplinkComponent>(entity))
+            return true;
+
+        return MetaData(entity).EntityPrototype?.ID is { } prototype &&
+               (prototype == StandardUplinkImplant || prototype == component.UltraUplinkImplant.Id);
     }
 
     protected override void ActiveTick(EntityUid uid, TraitorUltraRuleComponent component, GameRuleComponent gameRule, float frameTime)
@@ -361,6 +520,9 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
                     break;
 
                 case TraitorUltraStage.Upgraded:
+                    if (state.BountyAnnouncementSuppressed)
+                        break;
+
                     if (Timing.CurTime >= state.NextEventTime)
                         AnnounceBounty(uid, component, mindId, mind, state);
                     break;
@@ -822,21 +984,29 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         return false;
     }
 
-    private void UpgradeTraitor(EntityUid rule, TraitorUltraRuleComponent component, EntityUid mindId, MindComponent mind, TraitorUltraMindState state)
+    private void UpgradeTraitor(
+        EntityUid rule,
+        TraitorUltraRuleComponent component,
+        EntityUid mindId,
+        MindComponent mind,
+        TraitorUltraMindState state,
+        bool announceBounty = true)
     {
         state.OriginalCorporation ??= GetOriginalCorporation(rule, mindId);
         state.NewCorporation = PickNewCorporation(component, state.OriginalCorporation, state.NewCorporation);
         state.AgentName = GetMindCharacterName(mind);
         state.BountyReward = component.TraitorKillRewardTelecrystals;
         state.Stage = TraitorUltraStage.Upgraded;
-        state.NextEventTime = Timing.CurTime + component.BountyPreparationTime;
+        state.BountyAnnouncementSuppressed = !announceBounty;
+        state.NextEventTime = announceBounty
+            ? Timing.CurTime + component.BountyPreparationTime
+            : TimeSpan.Zero;
 
         UpgradeTraitorRole(mindId, mind);
         if (!EnsureDeathAcidifierImplant((mindId, mind), component))
             Log.Error($"Failed to assign the TraitorUltra death-acidifier implant to {ToPrettyString(mindId)}.");
 
-        if (TryComp<TraitorRuleComponent>(rule, out var traitorRule))
-            traitorRule.TraitorMinds.Remove(mindId);
+        RemoveTraitorMindFromAllRules(mindId);
 
         if (!TryAssignPostUpgradeObjective((mindId, mind), component, state))
             Log.Error($"Failed to assign a post-upgrade TraitorUltra objective to {ToPrettyString(mindId)}.");
@@ -848,7 +1018,18 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         SendUpgradeBriefing(mind, component, state);
         AppendUpgradeBriefing(mindId, state);
         LogTraitorUltraUpgrade(mindId, mind, state);
-        QueueDelayedAction(component.BountyPreparationTime, rule, mindId, TraitorUltraDelayedActionType.AnnounceBounty);
+
+        if (announceBounty)
+            QueueDelayedAction(component.BountyPreparationTime, rule, mindId, TraitorUltraDelayedActionType.AnnounceBounty);
+    }
+
+    private void RemoveTraitorMindFromAllRules(EntityUid mindId)
+    {
+        var query = EntityQueryEnumerator<TraitorRuleComponent>();
+        while (query.MoveNext(out _, out var traitorRule))
+        {
+            traitorRule.TraitorMinds.Remove(mindId);
+        }
     }
 
     private void LogTraitorUltraUpgrade(EntityUid mindId, MindComponent mind, TraitorUltraMindState state)
@@ -1506,10 +1687,20 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 
     private string? GetOriginalCorporation(EntityUid rule, EntityUid mindId)
     {
-        if (!TryComp<TraitorRuleComponent>(rule, out var traitorRule))
-            return null;
+        if (TryComp<TraitorRuleComponent>(rule, out var traitorRule) &&
+            traitorRule.ObjectiveIssuersByMind.TryGetValue(mindId, out var issuer))
+        {
+            return issuer;
+        }
 
-        return traitorRule.ObjectiveIssuersByMind.GetValueOrDefault(mindId);
+        var query = EntityQueryEnumerator<TraitorRuleComponent>();
+        while (query.MoveNext(out _, out traitorRule))
+        {
+            if (traitorRule.ObjectiveIssuersByMind.TryGetValue(mindId, out issuer))
+                return issuer;
+        }
+
+        return null;
     }
 
     private string? PickNewCorporation(TraitorUltraRuleComponent component, string? original, string? current = null)

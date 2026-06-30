@@ -206,13 +206,19 @@ public sealed partial class MessengerCartridgeSystem : EntitySystem
             if (!server.Value.Component.Users.ContainsKey(sendMessage.ReceiverId))
                 return;
 
-                    // DS14-Start
             if (IsBlocked(userData.Value.Id, sendMessage.ReceiverId))
                 return;
-            // DS14-End
 
             if (string.IsNullOrWhiteSpace(sendMessage.Content))
                 return;
+
+            var receiverCartridgeUid = GetCartridgeByUserId(sendMessage.ReceiverId);
+            if (receiverCartridgeUid != null &&
+                TryComp<MessengerCartridgeComponent>(receiverCartridgeUid.Value, out var receiverCartridge) &&
+                receiverCartridge.IncomingMessagesDisabled)
+            {
+                return;
+            }
 
             var content = sendMessage.Content.Trim();
             if (content.Length > MaxMessageLength)
@@ -248,7 +254,6 @@ public sealed partial class MessengerCartridgeSystem : EntitySystem
 
             UpdateUiState(uid, loaderUid.Value);
 
-            var receiverCartridgeUid = GetCartridgeByUserId(sendMessage.ReceiverId);
             if (receiverCartridgeUid == null)
                 return;
             //DS14-start
@@ -318,6 +323,12 @@ public sealed partial class MessengerCartridgeSystem : EntitySystem
                     UpdateUiState(targetCartridgeUid.Value, targetLoaderUid.Value);
                 }
             }
+        }
+
+        if (args is MessengerSetIncomingDisabledEvent incomingEvent)
+        {
+            component.IncomingMessagesDisabled = incomingEvent.Disabled;
+            UpdateUiState(uid, loaderUid.Value);
         }
         // DS14-End
     }
@@ -418,7 +429,9 @@ public sealed partial class MessengerCartridgeSystem : EntitySystem
         var userData = GetUserData(cartridgeUid);
         var isBlocked = false;
         var isBlocking = false;
-        if (userData.HasValue && TryComp<MessengerCartridgeComponent>(cartridgeUid, out var cartridgeComp) // DS14
+        TryComp<MessengerCartridgeComponent>(cartridgeUid, out var cartridgeComp); // DS14
+        var incomingMessagesDisabled = cartridgeComp?.IncomingMessagesDisabled ?? false;
+        if (userData.HasValue && cartridgeComp != null
             && cartridgeComp.ActiveChatPartnerId != null)
         {
             isBlocked = IsBlocked(cartridgeComp.ActiveChatPartnerId.Value, userData.Value.Id);
@@ -426,7 +439,7 @@ public sealed partial class MessengerCartridgeSystem : EntitySystem
         }
         // DS14-End
 
-        var state = new MessengerCartridgeUiState(status, users, messages, isBlocked, isBlocking); //DS14
+        var state = new MessengerCartridgeUiState(status, users, messages, isBlocked, isBlocking, incomingMessagesDisabled); //DS14
         _cartridgeLoaderSystem.UpdateCartridgeUiState(loaderUid, state);
     }
 }

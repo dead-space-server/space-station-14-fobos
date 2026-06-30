@@ -70,3 +70,26 @@ ent-TraitorUltraHijackShuttleObjective = Hijack the evacuation shuttle
 
 ent-TraitorUltraSurviveObjective = Survive
     .desc = Stay alive until the end of the shift.
+
+traitor-ultra-objective-destroy-station-ai-core-title = Destroy the station AI core
+traitor-ultra-objective-destroy-station-ai-core-description = Destroy the station's assigned AI core. Purchased or foreign AI cores do not count.
+traitor-ultra-objective-hijack-trade-title = Hijack the trade uplink
+traitor-ultra-objective-hijack-trade-description = Deploy a trade interdictor on the station trade hub and keep it online until the trade channel is severed.
+
+ent-TraitorUltraDestroyStationAiCoreObjective = Destroy the station AI core
+    .desc = Destroy the station's assigned AI core.
+
+ent-TraitorUltraHijackTradeObjective = Hijack the trade uplink
+    .desc = Deploy a trade interdictor on the station trade hub and keep it online until the trade channel is severed.
+
+trade-interdiction-announcer = Station Automated Systems
+trade-interdiction-announcement-started = Attention Security personnel, unauthorized interference has been detected at the facility trade outpost. Immediate liquidation of hostile interference is required. Estimated time until access to trade systems is obtained: 3 minutes.
+trade-interdiction-announcement-cancelled = Attention! Interference in the trade hub has been neutralized. External order channels are operating normally. Thank you for serving NanoTrasen!
+trade-interdiction-announcement-completed = Attention! Quarantine initiated. Isolation protocol "SIERRA-1". Trade hub quarantine is now in effect. External order channels for the Corporate Facility are no longer available. Thank you for working for NanoTrasen!
+trade-interdiction-beacon-examine-idle = The interdictor is folded and inactive.
+trade-interdiction-beacon-examine-active = Trade hijack progress: {$percentage}%.
+trade-interdiction-beacon-examine-complete = The trade channel has been severed.
+trade-interdiction-beacon-popup-invalid-location = The interdictor must be deployed on the station trade hub.
+trade-interdiction-beacon-popup-no-objective = You do not have an active trade hijack contract for this station.
+trade-interdiction-beacon-popup-already-active = A trade hijack is already in progress on this station.
+trade-interdiction-beacon-popup-already-complete = This station's trade channel is already severed.

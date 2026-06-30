@@ -41,6 +41,12 @@
   - PlushieRIP
   - PlushieFloria
   - PlushieAino
+  - PlushieMagicColonel
+  - PlushieUraniDmitrySpeisov
+  - PlushieZekalAhmet
+  - PlushieSargonValeniyaSato
+  - PlushieKoteViyt
+  - PlushieCyberBobeksRiikka
   - PlushieSilAily
   - PlushieSilAizek
   - PlushieSilAzrail
@@ -83,9 +89,6 @@
   - PlushieSilEgor
   - PlushieSilKim
   - PlushieSilEmma
-  - PlushieYosifAnita
-  - PlushieYosifEvelina
-  - PlushieYosifLucius
   - PlushieMoth3eilado
   - PlushieMoth3eiladoBlue
   - ThreeCandles
@@ -236,6 +239,7 @@
   loadouts:
   - CaptainOuterClothing
   - CaptainWintercoat
+  - CaptainCoat # DS-14
 
 - type: loadoutGroup
   id: CaptainUnderwear

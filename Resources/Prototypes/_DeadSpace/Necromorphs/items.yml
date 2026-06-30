@@ -207,6 +207,7 @@
   suffix: обелиск
   id: PinpointerNecroobelisk
   parent: [ PinpointerBase, BaseCommandContraband ]
+  description: Портативное устройство слежения. Хотя обычно оно обладает гораздо более широкими возможностями, это устройство настроено на обнаружение определённых сигналов. Держите вертикально для сохранения точности.
   components:
   - type: Sprite
     layers:

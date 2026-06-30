@@ -1,4 +1,17 @@
 - type: entity
+  parent: ClothingOuterHardsuitSyndieCommander
+  id: ClothingOuterHardsuitAgentForestGhost
+  name: скафандр «Лесной призрак»
+  description: Тяжелый скафандр для операций, где лучше оставить после себя только слухи и следы в пепле.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/OuterClothing/Hardsuits/agent_forest_ghost.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/OuterClothing/Hardsuits/agent_forest_ghost.rsi
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitAgentForestGhost
+
+- type: entity
   parent: ClothingOuterHardsuitClown
   id: ClothingOuterHardsuitMedEVA
   name: скафандр медицинского отдела

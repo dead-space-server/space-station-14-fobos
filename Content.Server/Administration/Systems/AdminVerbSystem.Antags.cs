@@ -374,6 +374,38 @@ public sealed partial class AdminVerbSystem
             Message = string.Join(": ", eventRoleName, Loc.GetString("admin-verb-make-event-role")),
         };
         args.Verbs.Add(eventRole);
+
+        var traitorUltraAnnouncedName = Loc.GetString("admin-verb-text-make-traitor-ultra-announced");
+        Verb traitorUltraAnnounced = new()
+        {
+            Priority = -2,
+            Text = traitorUltraAnnouncedName,
+            Category = VerbCategory.Antag,
+            Icon = new SpriteSpecifier.Rsi(new ResPath("/Textures/Interface/Misc/job_icons.rsi"), "SyndicateUltra"),
+            Act = () =>
+            {
+                _traitorUltra.MakeAdminTraitorUltra(targetPlayer, announceBounty: true);
+            },
+            Impact = LogImpact.High,
+            Message = string.Join(": ", traitorUltraAnnouncedName, Loc.GetString("admin-verb-make-traitor-ultra-announced")),
+        };
+        args.Verbs.Add(traitorUltraAnnounced);
+
+        var traitorUltraSilentName = Loc.GetString("admin-verb-text-make-traitor-ultra-silent");
+        Verb traitorUltraSilent = new()
+        {
+            Priority = -3,
+            Text = traitorUltraSilentName,
+            Category = VerbCategory.Antag,
+            Icon = new SpriteSpecifier.Rsi(new ResPath("/Textures/Interface/Misc/job_icons.rsi"), "SyndicateUltra"),
+            Act = () =>
+            {
+                _traitorUltra.MakeAdminTraitorUltra(targetPlayer, announceBounty: false);
+            },
+            Impact = LogImpact.High,
+            Message = string.Join(": ", traitorUltraSilentName, Loc.GetString("admin-verb-make-traitor-ultra-silent")),
+        };
+        args.Verbs.Add(traitorUltraSilent);
         // DS14-end
     }
 

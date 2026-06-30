@@ -1,0 +1,21 @@
+- type: entity
+  id: ActionTurtleRolling
+  name: Превратиться в шар
+  description: Вы превращаетесь в каменный шар, который отскакивает от препятствий. Также вы отбиваете пули в которые влетели.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Action
+    icon:
+      sprite: _DeadSpace/Mobs/Animals/Turtle/action.rsi
+      state: action-icon
+    useDelay: 12
+  - type: InstantAction
+    event: !type:RollingStoneActionEvent
+      duration: 4
+      speed: 12
+      damage:
+        types:
+          Blunt: 3
+      hitSound:
+        !type:SoundCollectionSpecifier
+        collection: FootstepThud

@@ -1,3 +1,4 @@
+using System.IO;
 using Content.Server.Administration.Logs;
 using Content.Server.Administration.Managers;
 using Content.Server.Chat;
@@ -15,16 +16,21 @@ using Robust.Shared.ContentPack;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Player;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.Administration.UI
 {
     public sealed class AdminAnnounceEui : BaseEui
     {
-        [Dependency] private readonly IEntityManager _entityManager = default!; // DS14
         [Dependency] private readonly IAdminManager _adminManager = default!;
         [Dependency] private readonly IChatManager _chatManager = default!;
         [Dependency] private readonly IResourceManager _resourceManager = default!;
-        [Dependency] private readonly IAdminLogManager _adminLogger = default!; // DS14
+        // DS14-announce-start
+        [Dependency] private readonly IEntityManager _entityManager = default!;
+        [Dependency] private readonly IAdminLogManager _adminLogger = default!;
+        [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+        // DS14-announce-end
+
         private readonly ChatSystem _chatSystem;
         // DS14-announce-start
         private readonly StationSystem _stationSystem;
@@ -257,18 +263,35 @@ namespace Content.Server.Administration.UI
 
             var path = soundPath.Trim();
             if (!path.StartsWith("/Audio/", StringComparison.OrdinalIgnoreCase) ||
-                !_resourceManager.TryContentFileRead(path, out var stream))
+                !HasAnnouncementAudio(path))
             {
                 return null;
             }
-
-            stream.Dispose();
 
             var audioParams = AudioParams.Default.WithVolume(soundVolume).AddVolume(-8);
             return new SoundPathSpecifier(path)
             {
                 Params = audioParams
             };
+        }
+
+        private bool HasAnnouncementAudio(string path)
+        {
+            if (_prototypeManager.HasIndex<AudioMetadataPrototype>(path))
+                return true;
+
+            try
+            {
+                if (!_resourceManager.TryContentFileRead(path, out var stream))
+                    return false;
+
+                stream.Dispose();
+                return true;
+            }
+            catch (Exception e) when (e is ArgumentException or FileNotFoundException)
+            {
+                return false;
+            }
         }
 
         private static string GetAnnouncementWithSignature(string announcement, string? signature)

@@ -1364,18 +1364,43 @@
   name: uplink-antimov-law-name
   description: uplink-antimov-law-desc
   productEntity: AntimovCircuitBoard
-  discountCategory: rareDiscounts # DS14
-  discountDownTo:
-    Telecrystal: 15 # DS14-value
   cost:
-    Telecrystal: 20 # DS14-value
+    Telecrystal: 5
   categories:
-  - TraitorUltraUplinkDisruption
+  - TraitorUltraUplinkExclusive
   conditions:
+  - !type:BuyerAntagCondition
+    whitelist:
+    - TraitorUltra
   - !type:StoreWhitelistCondition
      blacklist:
        tags:
        - NukeOpsUplink
+
+- type: listing
+  id: UplinkTraitorUltraTradeInterdictionBeacon
+  name: uplink-traitor-ultra-trade-interdiction-beacon-name
+  description: uplink-traitor-ultra-trade-interdiction-beacon-desc
+  icon: { sprite: _DeadSpace/Objects/Tools/trade_interdiction_beacon.rsi, state: extraction_point }
+  productEntity: TradeInterdictionBeacon
+  cost:
+    Telecrystal: 0
+  categories:
+  - TraitorUltraUplinkExclusive
+  conditions:
+  - !type:BuyerAntagCondition
+    whitelist:
+    - TraitorUltra
+  - !type:BuyerObjectiveWhitelistCondition
+    whitelist:
+      components:
+      - TraitorUltraHijackTradeCondition
+  - !type:ListingLimitedStockCondition
+    stock: 1
+  - !type:StoreWhitelistCondition
+    blacklist:
+      tags:
+      - NukeOpsUplink
 
 - type: listing
   id: UplinkTraitorUltraNukieAntimovCircuitBoard
@@ -3173,11 +3198,30 @@
 - type: listing
   id: UplinkTraitorUltraSmokingCarpInjector
   name: uplink-smoking-carp-name
+  description: uplink-smoking-carp-expensive-desc
+  icon: { sprite: _DeadSpace/Objects/Misc/injector_smoking_carp.rsi, state: icon }
+  productEntity: SmokingCarpInjector
+  cost:
+    Telecrystal: 17
+  categories:
+  - TraitorUltraUplinkWeaponry
+  conditions:
+  - !type:BuyerAntagCondition
+    whitelist:
+    - TraitorUltra
+  - !type:StoreWhitelistCondition
+    blacklist:
+      tags:
+      - NukeOpsUplink
+
+- type: listing
+  id: UplinkTraitorUltraSmokingCarpInjectorDiscounted
+  name: uplink-smoking-carp-name
   description: uplink-smoking-carp-desc
   icon: { sprite: _DeadSpace/Objects/Misc/injector_smoking_carp.rsi, state: icon }
   productEntity: SmokingCarpInjector
   cost:
-    Telecrystal: 20
+    Telecrystal: 12
   categories:
   - TraitorUltraUplinkExclusive
   conditions:
@@ -3848,10 +3892,10 @@
     - TraitorUltra
 - type: listing
   id: UplinkTraitorUltraCommanderHardsuit
-  name: uplink-hardsuit-syndie-commander-name
-  description: uplink-hardsuit-syndie-commander-desc
-  icon: { sprite: /Textures/Clothing/OuterClothing/Hardsuits/syndiecommander.rsi, state: icon }
-  productEntity: ClothingOuterHardsuitSyndieCommander
+  name: uplink-hardsuit-agent-forest-ghost-name
+  description: uplink-hardsuit-agent-forest-ghost-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/OuterClothing/Hardsuits/agent_forest_ghost.rsi, state: icon }
+  productEntity: ClothingOuterHardsuitAgentForestGhost
   cost:
     Telecrystal: 12
   categories:

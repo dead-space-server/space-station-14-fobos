@@ -27,6 +27,10 @@ public sealed partial class PNVComponent : Component
     [ViewVariables(VVAccess.ReadOnly)]
     public SoundSpecifier? ActivateSound = null;
 
+    [DataField]
+    [ViewVariables(VVAccess.ReadOnly)]
+    public float? Desaturation = null;
+
     [ViewVariables(VVAccess.ReadOnly)]
     public PreviousNightVisionState? PreviousNightVision;
 }
@@ -37,6 +41,7 @@ public sealed class PreviousNightVisionState
     public SoundSpecifier? ActivateSound;
     public float? Duration;
     public bool Animation;
+    public float? Desaturation;
     public EntProtoId ActionToggleNightVision;
     public EntityUid? ActionToggleNightVisionEntity;
     public TimeSpan? ActionCooldownRemaining;

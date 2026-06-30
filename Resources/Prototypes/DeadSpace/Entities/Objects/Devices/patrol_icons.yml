@@ -1,0 +1,83 @@
+- type: securityIcon
+  id: DeadSpaceSquadIcon
+  abstract: true
+  priority: 4
+  locationPreference: Left
+  isShaded: true
+
+- type: securityIcon
+  parent: DeadSpaceSquadIcon
+  id: DeadSpaceSquadIconAlpha
+  icon:
+    sprite: /Textures/_DeadSpace/Interface/Misc/patrol_icons.rsi
+    state: alpha
+
+- type: securityIcon
+  parent: DeadSpaceSquadIcon
+  id: DeadSpaceSquadIconBeta
+  icon:
+    sprite: /Textures/_DeadSpace/Interface/Misc/patrol_icons.rsi
+    state: beta
+
+- type: securityIcon
+  parent: DeadSpaceSquadIcon
+  id: DeadSpaceSquadIconGamma
+  icon:
+    sprite: /Textures/_DeadSpace/Interface/Misc/patrol_icons.rsi
+    state: gamma
+
+- type: securityIcon
+  parent: DeadSpaceSquadIcon
+  id: DeadSpaceSquadIconDelta
+  icon:
+    sprite: /Textures/_DeadSpace/Interface/Misc/patrol_icons.rsi
+    state: delta
+
+- type: securityIcon
+  parent: DeadSpaceSquadIcon
+  id: DeadSpaceSquadIconEpsilon
+  icon:
+    sprite: /Textures/_DeadSpace/Interface/Misc/patrol_icons.rsi
+    state: epsilon
+
+- type: securityIcon
+  parent: DeadSpaceSquadIcon
+  id: DeadSpaceSquadIconHeta
+  icon:
+    sprite: /Textures/_DeadSpace/Interface/Misc/patrol_icons.rsi
+    state: heta
+
+- type: securityIcon
+  parent: DeadSpaceSquadIcon
+  id: DeadSpaceSquadIconIota
+  icon:
+    sprite: /Textures/_DeadSpace/Interface/Misc/patrol_icons.rsi
+    state: iota
+
+- type: securityIcon
+  parent: DeadSpaceSquadIcon
+  id: DeadSpaceSquadIconKappa
+  icon:
+    sprite: /Textures/_DeadSpace/Interface/Misc/patrol_icons.rsi
+    state: kappa
+
+- type: securityIcon
+  parent: DeadSpaceSquadIcon
+  id: DeadSpaceSquadIconLambda
+  icon:
+    sprite: /Textures/_DeadSpace/Interface/Misc/patrol_icons.rsi
+    state: lambda
+
+- type: securityIcon
+  parent: DeadSpaceSquadIcon
+  id: DeadSpaceSquadIconFi
+  icon:
+    sprite: /Textures/_DeadSpace/Interface/Misc/patrol_icons.rsi
+    state: fi
+
+- type: securityIcon
+  parent: DeadSpaceSquadIcon
+  id: DeadSpaceSquadIconHi
+  icon:
+    sprite: /Textures/_DeadSpace/Interface/Misc/patrol_icons.rsi
+    state: hi

@@ -104,6 +104,10 @@
     - Structure
     - EmagImmune
     - AccessBreakerImmune
+  - type: Destructible
+    thresholds: []
+  - type: Anchorable
+    flags: Anchorable
   # DS14-end
   - type: AccessReader
     access:

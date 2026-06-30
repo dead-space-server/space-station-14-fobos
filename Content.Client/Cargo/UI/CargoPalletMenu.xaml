@@ -16,6 +16,11 @@
             <Label Name="CountLabel"
                    Text="{Loc 'cargo-pallet-menu-no-goods-text'}" />
         </BoxContainer>
+        <!-- DS14-start -->
+        <RichTextLabel Name="TradeHijackStatus"
+                       Text="{Loc 'cargo-pallet-menu-trade-hijacked'}"
+                       StyleClasses="LabelKeyText" />
+        <!-- DS14-end -->
         <Button Name="AppraiseButton"
                 Text="{Loc 'cargo-pallet-appraise-button'}"/>
         <Button Name="SellButton"

@@ -102,7 +102,7 @@
     scanDelay: 1
   - type: ErtTrackerPda
     allowedDepartments:
-    - Command
+    - SpecialOperationsCorps
     allowedJobs:
     - BlueShieldOfficer
     - CentralCommandBlueShieldOfficer

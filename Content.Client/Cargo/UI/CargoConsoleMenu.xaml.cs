@@ -43,6 +43,8 @@ namespace Content.Client.Cargo.UI
 
         public List<ProtoId<CargoProductPrototype>> ProductCatalogue = new();
 
+        public bool TradeHijacked; // DS14
+
         public CargoConsoleMenu(EntityUid owner, IEntityManager entMan, IPrototypeManager protoManager, SpriteSystem spriteSystem)
         {
             RobustXamlLoader.Load(this);
@@ -57,6 +59,7 @@ namespace Content.Client.Cargo.UI
             _bankQuery = _entityManager.GetEntityQuery<StationBankAccountComponent>();
 
             Title = entMan.GetComponent<MetaDataComponent>(owner).EntityName;
+            TradeHijackStatus.Visible = false; // DS14
 
             SearchBar.OnTextChanged += OnSearchBarTextChanged;
             Categories.OnItemSelected += OnCategoryItemSelected;
@@ -173,8 +176,14 @@ namespace Content.Client.Cargo.UI
                         PointCost = { Text = Loc.GetString("cargo-console-menu-points-amount", ("amount", prototype.Cost.ToString())) },
                         Icon = { Texture = _spriteSystem.Frame0(prototype.Icon) },
                     };
+                    button.MainButton.Disabled = TradeHijacked; // DS14
                     button.MainButton.OnPressed += args =>
                     {
+                        // DS14-start
+                        if (TradeHijacked)
+                            return;
+                        // DS14-end
+
                         OnItemSelected?.Invoke(button);
                     };
                     Products.AddChild(button);
@@ -280,7 +289,16 @@ namespace Content.Client.Cargo.UI
 
                 // TODO: Disable based on access.
                 row.SetApproveVisible(orderConsole.Mode != CargoOrderConsoleMode.SendToPrimary);
-                row.Approve.OnPressed += (args) => { OnOrderApproved?.Invoke(order); };
+                row.Approve.Disabled = TradeHijacked; // DS14
+                row.Approve.OnPressed += (args) =>
+                {
+                    // DS14-start
+                    if (TradeHijacked)
+                        return;
+                    // DS14-end
+
+                    OnOrderApproved?.Invoke(order);
+                };
                 Requests.AddChild(row);
             }
         }
@@ -324,6 +342,8 @@ namespace Content.Client.Cargo.UI
         protected override void FrameUpdate(FrameEventArgs args)
         {
             base.FrameUpdate(args);
+
+            TradeHijackStatus.Visible = TradeHijacked; // DS14
 
             if (!_bankQuery.TryComp(_station, out var bankAccount) ||
                 !_orderConsoleQuery.TryComp(_owner, out var orderConsole))

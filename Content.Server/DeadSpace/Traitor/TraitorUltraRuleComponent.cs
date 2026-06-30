@@ -119,6 +119,7 @@ public sealed partial class TraitorUltraRuleComponent : Component
         "TraitorUltraDestroyAtmosGasMinersObjective",
         "TraitorUltraDestroyAmeControllerObjective",
         "TraitorUltraHijackShuttleObjective",
+        "TraitorUltraHijackTradeObjective",
         "TraitorUltraDestroyServersObjective",
         "NukeDiskStealObjective",
     };
@@ -127,6 +128,7 @@ public sealed partial class TraitorUltraRuleComponent : Component
     public List<EntProtoId> RarePostUpgradeObjectives = new()
     {
         "TraitorUltraKillHalfSecurityObjective",
+        "TraitorUltraDestroyStationAiCoreObjective",
     };
 
     [DataField]
@@ -172,6 +174,7 @@ public sealed class TraitorUltraMindState
     public bool BaseObjectivesAssigned;
     public bool InitialObjectivePackageAssigned;
     public bool UltraUplinkInitialized;
+    public bool BountyAnnouncementSuppressed;
     public EntityUid? BountyBody;
     public EntityUid? UltraUplinkEntity;
     public EntityUid? UpgradeOfferActionEntity;

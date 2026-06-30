@@ -24,18 +24,18 @@
   - !type:ListingLimitedStockCondition
     stock: 1
 
-- type: listing
-  id: SpellbookThrowingProjectiles
-  name: Телепатия пуль
-  description: Отражайте пули что летят около вас.
-  productAction: ActionWizardThrowingProjectiles
-  cost:
-    WizCoin: 3
-  categories:
-  - SpellbookDefensive
-  conditions:
-  - !type:ListingLimitedStockCondition
-    stock: 1
+# - type: listing
+#   id: SpellbookThrowingProjectiles
+#   name: Телепатия пуль
+#   description: Отражайте пули что летят около вас.
+#   productAction: ActionWizardThrowingProjectiles
+#   cost:
+#     WizCoin: 3
+#   categories:
+#   - SpellbookDefensive
+#   conditions:
+#   - !type:ListingLimitedStockCondition
+#     stock: 1
 
 - type: listing
   id: SpellbookSpawnCarp
@@ -76,7 +76,7 @@
 
 - type: listing
   id: SpellbookDeathImplanter
-  name: Запретyй имплант призыва
+  name: Имплант призыва
   description: Как только вы умрёте, или же сами наложите на себя руки, на вашем месте появится очень сильное адское отродье.
   productEntity: WizardDeathImplanter
   cost:

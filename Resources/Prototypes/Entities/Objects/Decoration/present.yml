@@ -235,6 +235,18 @@
         orGroup: GiftPool
       - id: PlushieBourbon
         orGroup: GiftPool
+      - id: PlushieMagicColonel
+        orGroup: GiftPool
+      - id: PlushieUraniDmitrySpeisov
+        orGroup: GiftPool
+      - id: PlushieZekalAhmet
+        orGroup: GiftPool
+      - id: PlushieSargonValeniyaSato
+        orGroup: GiftPool
+      - id: PlushieKoteViyt
+        orGroup: GiftPool
+      - id: PlushieCyberBobeksRiikka
+        orGroup: GiftPool
 
 
 - type: entity

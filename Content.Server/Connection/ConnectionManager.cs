@@ -67,6 +67,7 @@ namespace Content.Server.Connection
         [Dependency] private readonly IHttpClientHolder _http = default!;
         [Dependency] private readonly IAdminManager _adminManager = default!;
         [Dependency] private readonly IEntityManager _entityManager = default!;
+        [Dependency] private readonly UserIdAutoMigrationManager _userIdMigration = default!;
         private IServerSponsorsManager? _sponsorsManager; // DS14-sponsors
 
         private GameTicker? _ticker;
@@ -139,7 +140,12 @@ namespace Content.Server.Connection
 
         private async Task NetMgrOnConnecting(NetConnectingArgs e)
         {
-            var deny = await ShouldDeny(e);
+            (ConnectionDenyReason, string, List<BanDef>? bansHit)? deny;
+            var migrationDeny = await _userIdMigration.TryMigrateOnConnecting(e);
+            if (migrationDeny != null)
+                deny = (ConnectionDenyReason.UserIdMigration, migrationDeny, null);
+            else
+                deny = await ShouldDeny(e);
 
             var addr = e.IP.Address;
             var userId = e.UserId;

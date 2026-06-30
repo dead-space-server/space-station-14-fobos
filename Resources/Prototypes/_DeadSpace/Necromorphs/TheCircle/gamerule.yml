@@ -15,6 +15,23 @@
   - SpaceTrafficControlEventScheduler
   - BasicRoundstartVariation
 
+- type: gamePreset
+  id: SecretSiegeOfTheCircle
+  alias:
+    - secretUniOps
+  name: secret-title
+  description: secret-description
+  showInVote: false
+  showInAdminVote: false
+  voteType: rdm 
+  rules:
+  - WageScheduler 
+  - SiegeOfTheCircle
+  - BasicStationEventScheduler
+  - MeteorSwarmScheduler
+  - SpaceTrafficControlEventScheduler
+  - BasicRoundstartVariation
+
 - type: entity
   abstract: true
   parent: BaseGameRule

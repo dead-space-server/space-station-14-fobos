@@ -190,6 +190,7 @@
     - BorgModuleAdvancedTool
     - Fulton
     - FultonBeacon
+    - InsulatedGloves #DS14
 
 - type: technology
   id: MassExcavation

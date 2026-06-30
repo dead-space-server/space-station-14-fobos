@@ -55,6 +55,7 @@ namespace Content.Server.Entry
         [Dependency] private readonly ContentLocalizationManager _loc = default!;
         [Dependency] private readonly ContentNetworkResourceManager _netResMan = default!;
         [Dependency] private readonly DiscordChatLink _discordChatLink = default!;
+        [Dependency] private readonly DiscordChatWebhook _discordChatWebhook = default!;
         [Dependency] private readonly DiscordLink _discordLink = default!;
         [Dependency] private readonly EuiManager _euiManager = default!;
         [Dependency] private readonly GhostKickManager _ghostKick = default!;
@@ -88,6 +89,7 @@ namespace Content.Server.Entry
         [Dependency] private readonly ServerInfoManager _serverInfo = default!;
         [Dependency] private readonly ServerUpdateManager _updateManager = default!;
         [Dependency] private readonly ServerFeedbackManager _feedbackManager = null!;
+        [Dependency] private readonly UserIdAutoMigrationManager _userIdMigration = default!;
 
         public override void PreInit()
         {
@@ -132,6 +134,7 @@ namespace Content.Server.Entry
             _adminLog.Initialize();
             _connection.Initialize();
             _dbManager.Init();
+            _userIdMigration.Initialize();
             _preferences.Init();
             _nodeFactory.Initialize();
             _netResMan.Initialize();
@@ -204,6 +207,7 @@ namespace Content.Server.Entry
             _rules.Initialize();
             _discordLink.Initialize();
             _discordChatLink.Initialize();
+            _discordChatWebhook.Initialize();
             _euiManager.Initialize();
             _gameMap.Initialize();
             _entSys.GetEntitySystem<GameTicker>().PostInitialize();
@@ -255,6 +259,7 @@ namespace Content.Server.Entry
             _discordLink.Shutdown();
 #pragma warning restore CS4014
             _discordChatLink.Shutdown();
+            _discordChatWebhook.Shutdown();
         }
 
         private static void LoadConfigPresets(IConfigurationManager cfg, IResourceManager res, ISawmill sawmill)

@@ -277,6 +277,7 @@
   description: This implant detonates the user upon activation or upon death.
   categories: [ HideSpawnMenu ]
   components:
+  - type: IgnoreCritCooldown # DS14
   - type: SubdermalImplant
     permanent: true
     implantAction: ActionActivateMicroBomb
@@ -308,6 +309,7 @@
   description: This implant creates a large explosion on death after a preprogrammed countdown.
   categories: [ HideSpawnMenu ]
   components:
+    - type: IgnoreCritCooldown # DS14
     - type: SubdermalImplant
       permanent: true
     - type: ReplacementImplant
@@ -350,6 +352,7 @@
   description: This implant melts the user and their equipment upon death.
   categories: [ HideSpawnMenu ]
   components:
+  - type: IgnoreCritCooldown # DS14
   - type: SubdermalImplant
     permanent: true
     implantAction: ActionActivateDeathAcidifier

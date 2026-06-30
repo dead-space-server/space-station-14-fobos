@@ -22910,7 +22910,7 @@ entities:
     - type: Transform
       pos: 10.547042,32.797733
       parent: 2
-- proto: Biofabricator
+- proto: Biogenerator
   entities:
   - uid: 1046
     components:

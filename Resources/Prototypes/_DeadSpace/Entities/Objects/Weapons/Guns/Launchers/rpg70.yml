@@ -28,13 +28,11 @@
       path: /Audio/Weapons/Guns/Gunshots/rpgfire.ogg
   - type: BallisticAmmoProvider
     capacity: 1
-    count: 1
     proto: CartridgeRPG70AM
   - type: MagazineVisuals
     magState: empty
     steps: 1
     zeroVisible: true
-    emptyOffset: 0.15
   - type: Appearance
   - type: GenericVisualizer
     visuals:
@@ -49,7 +47,7 @@
     useDelayOnWield: false
   - type: GunRequiresWield
   - type: StaticPrice
-    price: 500
+    price: 600
 
 - type: entity
   id: CartridgeRPG70AM

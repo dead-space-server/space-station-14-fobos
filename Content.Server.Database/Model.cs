@@ -51,6 +51,7 @@ namespace Content.Server.Database
         public DbSet<IPIntelCache> IPIntelCache { get; set; } = null!;
         public DbSet<BiStat> BiStats { get; set; } = null!; // DS14
         public DbSet<AutoMapVoteConfig> AutoMapVoteConfigs { get; set; } = null!; // DS14
+        public DbSet<GamePresetConfigEntity> GamePresetConfig { get; set; } = null!; // DS14
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -307,6 +308,9 @@ namespace Content.Server.Database
                 .HasIndex(b => b.GameMode);
 
             modelBuilder.Entity<AutoMapVoteConfig>()
+                .HasKey(config => config.ServerId);
+
+            modelBuilder.Entity<GamePresetConfigEntity>()
                 .HasKey(config => config.ServerId);
             // DS14-End
         }
@@ -776,7 +780,9 @@ namespace Content.Server.Database
         /// Results from rejected connections with external API checking tools
         IPChecks = 5,
         /// Results from rejected connections who are authenticated but have no modern hwid associated with them.
-        NoHwid = 6
+        NoHwid = 6,
+        /// Results from failed automatic user ID migration checks.
+        UserIdMigration = 7
     }
 
     public class ServerBanHit
@@ -1128,6 +1134,29 @@ namespace Content.Server.Database
         public string MediumPoolQueueMaps { get; set; } = string.Empty;
 
         public string LargePoolQueueMaps { get; set; } = string.Empty;
+    }
+
+    [Table("game_preset_config")]
+    public sealed class GamePresetConfigEntity
+    {
+        [Key, MaxLength(128)]
+        public string ServerId { get; set; } = null!;
+
+        public bool Enabled { get; set; }
+
+        public int MaxRdmRow { get; set; }
+
+        public int MaxRdmDay { get; set; }
+
+        public int VoteDurationSeconds { get; set; }
+
+        public int CurrentPresetIndex { get; set; }
+
+        public string ActivePresetIdsJson { get; set; } = string.Empty;
+
+        public string CustomPresetsJson { get; set; } = string.Empty;
+
+        public bool DisableOocDuringVote { get; set; }
     }
     // DS14-End
 }

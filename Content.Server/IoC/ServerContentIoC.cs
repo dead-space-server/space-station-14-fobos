@@ -69,6 +69,7 @@ internal static class ServerContentIoC
         deps.Register<IAdminLogManager, AdminLogManager>();
         deps.Register<PlayTimeTrackingManager>();
         deps.Register<UserDbDataManager>();
+        deps.Register<UserIdAutoMigrationManager>();
         deps.Register<JoinQueueManager>(); // Corvax-Queue
         deps.Register<TTSManager>(); // Corvax-TTS
         deps.Register<DiscordAuthManager>(); // Corvax-DiscordAuth
@@ -89,6 +90,7 @@ internal static class ServerContentIoC
         deps.Register<CVarControlManager>();
         deps.Register<DiscordLink>();
         deps.Register<DiscordChatLink>();
+        deps.Register<DiscordChatWebhook>();
         deps.Register<ServerFeedbackManager>();
         deps.Register<ISharedFeedbackManager, ServerFeedbackManager>();
 

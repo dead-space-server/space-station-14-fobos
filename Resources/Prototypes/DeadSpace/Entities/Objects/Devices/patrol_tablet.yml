@@ -1,0 +1,25 @@
+- type: entity
+  parent: BaseItem
+  id: PatrolTablet
+  name: Patrol Tablet
+  description: "A tablet."
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Objects/Devices/patroltablet.rsi
+    layers:
+    - state: base
+  - type: Item
+    size: Normal
+  - type: ActivatableUI
+    key: enum.PatrolTabletUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.PatrolTabletUiKey.Key:
+        type: PatrolTabletBoundUserInterface
+  - type: PatrolTablet
+  - type: CrewMonitoringConsole
+  - type: DeviceNetwork
+    deviceNetId: Wireless
+    receiveFrequencyId: CrewMonitor
+  - type: WirelessNetworkConnection
+    range: 500

@@ -613,3 +613,46 @@
     back:
     - PlushieMoth3eiladoBlue
   groupBy: "plushie"
+
+# IV класс
+- type: loadout
+  id: PlushieMagicColonel
+  storage:
+    back:
+    - PlushieMagicColonel
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieUraniDmitrySpeisov
+  storage:
+    back:
+    - PlushieUraniDmitrySpeisov
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieZekalAhmet
+  storage:
+    back:
+    - PlushieZekalAhmet
+  groupBy: "plushie"
+
+- type: loadout
+  id: PlushieSargonValeniyaSato
+  storage:
+    back:
+    - PlushieSargonValeniyaSato
+  groupBy: "plushie"
+
+- type: loadout
+  id:  PlushieKoteViyt
+  storage:
+    back:
+    -  PlushieKoteViyt
+  groupBy: "plushie"
+
+- type: loadout
+  id:  PlushieCyberBobeksRiikka
+  storage:
+    back:
+    -  PlushieCyberBobeksRiikka
+  groupBy: "plushie"

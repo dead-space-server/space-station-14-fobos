@@ -1,4 +1,17 @@
 - type: entity
+  parent: ClothingHeadHelmetHardsuitSyndieCommander
+  id: ClothingHeadHelmetHardsuitAgentForestGhost
+  name: шлем скафандра «Лесной призрак»
+  description: Бронированный шлем скафандра «Лесной призрак». Визор гасит лишний свет, а встроенная лампа помогает найти цель в темноте.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Head/Hardsuits/agent_forest_ghost.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Head/Hardsuits/agent_forest_ghost.rsi
+  - type: PointLight
+    color: red
+
+- type: entity
   parent: ClothingHeadHelmetHardsuitMime
   id: ClothingHeadHelmetHardsuitMedEVA
   name: шлем скафандра медицинского отдела

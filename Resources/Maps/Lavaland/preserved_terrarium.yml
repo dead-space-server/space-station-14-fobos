@@ -214,7 +214,7 @@ entities:
     - type: Transform
       pos: 4.5,5.5
       parent: 1
-- proto: Biofabricator
+- proto: Biogenerator
   entities:
   - uid: 122
     components:

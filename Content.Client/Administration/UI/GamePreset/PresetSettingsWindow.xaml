@@ -1,0 +1,17 @@
+<DefaultWindow xmlns="https://spacestation14.io"
+               Title="{Loc game-preset-settings-window-title}"
+               MinSize="320 250"
+               SetSize="420 300">
+    <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="8">
+        <CheckBox Name="EnableMaxRdmRowCheckBox" Text="{Loc game-preset-settings-enable-max-rdm-row}" ToolTip="{Loc game-preset-rdm-counter-tooltip}" />
+        <SpinBox Name="MaxRdmRowSpinBox" Value="2" MinWidth="60" HorizontalExpand="True" />
+        <CheckBox Name="EnableMaxRdmDayCheckBox" Text="{Loc game-preset-settings-enable-max-rdm-day}" />
+        <SpinBox Name="MaxRdmDaySpinBox" Value="5" MinWidth="60" HorizontalExpand="True" />
+        <BoxContainer Orientation="Horizontal" SeparationOverride="4">
+            <Label Text="{Loc game-preset-settings-vote-duration}" HorizontalExpand="True" />
+            <SpinBox Name="VoteDurationSpinBox" Value="30" MinWidth="60" />
+        </BoxContainer>
+        <CheckBox Name="DisableOocCheckBox" Text="{Loc game-preset-settings-disable-ooc}" />
+        <Button Name="SaveSettingsButton" Text="{Loc game-preset-save-button}" HorizontalExpand="True" />
+    </BoxContainer>
+</DefaultWindow>

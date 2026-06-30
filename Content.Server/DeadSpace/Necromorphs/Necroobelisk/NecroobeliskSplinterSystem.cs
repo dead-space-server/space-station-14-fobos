@@ -14,6 +14,7 @@ using Robust.Shared.Audio.Systems;
 using Robust.Shared.Player;
 using Robust.Shared.Timing;
 using Timer = Robust.Shared.Timing.Timer;
+using Content.Shared.Silicons.Borgs.Components;
 
 namespace Content.Server.DeadSpace.Necromorphs.Necroobelisk;
 
@@ -61,6 +62,9 @@ public sealed class NecroobeliskSplinterSystem : EntitySystem
     private void OnAfterInteract(EntityUid uid, NecroobeliskSplinterComponent component, AfterInteractEvent args)
     {
         if (!args.CanReach || args.Target == null || args.Handled)
+            return;
+
+        if (HasComp<BorgChassisComponent>(args.Target.Value))
             return;
 
         if (TryComp<LimitedChargesComponent>(uid, out var charges))

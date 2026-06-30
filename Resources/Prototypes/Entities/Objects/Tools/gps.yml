@@ -4,6 +4,7 @@
   id: HandheldGPSBasic
   description: Helping lost spacemen find their way through the planets since 2016.
   components:
+  - type: LavalandGpsTracker # DS14
   - type: Sprite
     sprite: Objects/Devices/gps.rsi
     layers:

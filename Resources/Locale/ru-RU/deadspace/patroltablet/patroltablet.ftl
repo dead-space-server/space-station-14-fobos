@@ -1,0 +1,22 @@
+patrol-tablet-title = Планшет Отрядов
+patrol-tablet-shift-time = Продолжительность смены: [color=white]{ $time }[/color]
+patrol-tablet-personnel = ВЫДЕЛЕННЫЕ
+patrol-tablet-zones = ОТРЯДЫ
+patrol-tablet-footer = NT-SQUADTablet v1.12.2
+patrol-tablet-assign-all = Добавить
+patrol-tablet-assign-all-tooltip = Назначить всех выделенных в этот отряд
+patrol-tablet-added-personnel = {$name} выделен
+patrol-tablet-already-tracked = Уже отслеживается
+patrol-tablet-no-id-card = ID карта не найдена
+patrol-tablet-clear-squad = Убрать всех из отряда
+patrol-tablet-squad-count = {$count} чел.
+patrol-tablet-squad-empty = пусто
+patrol-tablet-rename-squad = Переименовать Отряд
+patrol-tablet-create-squad = Создать Отряд
+patrol-tablet-squad-name-label = Название отряда
+patrol-tablet-squad-name-placeholder = Введите название...
+patrol-tablet-icon-label = Иконка
+patrol-tablet-create-button = Создать
+patrol-tablet-cancel-button = Отмена
+ent-PatrolTablet = Планшет Отрядов
+    .desc = Прочный планшет в кожаном чехле. Через него ГСБ сможет назначать отряды.

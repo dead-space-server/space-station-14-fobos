@@ -93,7 +93,7 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
             // Grouping roles
             var groupedRoles = ghostState.GhostRoles.GroupBy(
                 role => (
-                    role.Name,
+                    Name: role.Name.Split("(")[0], // DS14
                     role.Description,
                     role.Category, // DS14
                     //  Check the prototypes for role requirements and bans

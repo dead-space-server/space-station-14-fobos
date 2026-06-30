@@ -37,3 +37,23 @@
   cost: 2325
   category: cargoproduct-category-name-livestock
   group: service 
+
+- type: cargoProduct
+  id: LivestockDino
+  icon:
+    sprite: /Textures/_DeadSpace/Mobs/Animals/Dino.rsi
+    state: icon
+  product: CrateNPCDino
+  cost: 20000
+  category: cargoproduct-category-name-livestock
+  group: service 
+
+- type: cargoProduct
+  id: LivestockTurtle
+  icon:
+    sprite: /Textures/_DeadSpace/Mobs/Animals/Turtle/turtle.rsi
+    state: icon
+  product: CrateNPCTurtle
+  cost: 3000
+  category: cargoproduct-category-name-livestock
+  group: service 

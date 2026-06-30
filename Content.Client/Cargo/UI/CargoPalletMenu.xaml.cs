@@ -17,6 +17,7 @@ public sealed partial class CargoPalletMenu : FancyWindow
         RobustXamlLoader.Load(this);
         SellButton.OnPressed += OnSellPressed;
         AppraiseButton.OnPressed += OnAppraisePressed;
+        TradeHijackStatus.Visible = false; // DS14
     }
 
     public void SetAppraisal(int amount)
@@ -33,6 +34,13 @@ public sealed partial class CargoPalletMenu : FancyWindow
         AppraiseButton.Disabled = !enabled;
         SellButton.Disabled = !enabled;
     }
+
+    // DS14-start
+    public void SetTradeHijacked(bool tradeHijacked)
+    {
+        TradeHijackStatus.Visible = tradeHijacked;
+    }
+    // DS14-end
 
     private void OnSellPressed(BaseButton.ButtonEventArgs obj)
     {

@@ -319,7 +319,7 @@
     - Payload
     - ClothMade
   - type: UseDelay
-    delay: 160
+    delay: 60
   - type: TriggerOnActivate
   - type: TriggerOnSignal
   - type: DeviceNetwork
@@ -1389,3 +1389,85 @@
     damage:
       types:
         Blunt: 0
+
+
+# Плюшевые игрушки очень крутых админов или же плюшки IV класса.
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  id: PlushieMagicColonel
+  name: плюшевый Полковник
+  description: Половник.. Полковник.. Неважно. Одет в знакомую, но не повсеместно используемую форму с шевроном буквы А. Лицо фигурировало в нескольких новостных статьях, вот только не лучшего содержания. Обычно ему никто не пишет. Возможно содержит внутри гранату. Бирка на груди гласит - "Валентин Шевченко".
+  components:
+  - type: Sprite
+    state: plushie_colonel
+    scale: 1.1,1.1
+  - type: TTS
+    voice: Barman
+  - type: SpeakOnTrigger
+    pack: PlushieColonelSpeech
+
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  id: PlushieUraniDmitrySpeisov
+  name: плюшевый Дмитрий Спейсов
+  description: Плюшевая игрушка с одеждой инструктора службы безопасности. На открытых частях тела виднеются шрамы, особенно выделяется алый шрам на правом глазе, в котором виднеются маленькие красные кристаллы, а также вы чуете от неё запах напалма. На бирке написано - Дмитрий Спейсов.
+  components:
+  - type: Sprite
+    state: plushie_speisov
+  - type: TTS
+    voice: Titus
+  - type: SpeakOnTrigger
+    pack: PlushieDmitrySpeisovSpeech
+
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  id: PlushieZekalAhmet
+  name: плюшевый Ахмет
+  description: Дворф.
+  components:
+  - type: Sprite
+    state: plushie_ahmet
+  - type: TTS
+    voice: Thrud
+  - type: SpeakOnTrigger
+    pack: PlushieAhmetSpeech
+
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  id: PlushieSargonValeniyaSato
+  name: плюшевая Валения Сато
+  description: Неприметная вульпа... с пулемётом?
+  components:
+  - type: Sprite
+    state: plushie_valeniya
+  - type: TTS
+    voice: ValeeraHs
+  - type: SpeakOnTrigger
+    pack: PlushieValeniyaSatoSpeech
+
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  id: PlushieKoteViyt
+  name: плюшевый Вийт
+  description: Акула на ножках с баллоном и газоанализатором. Пахнет рыбой и вульпканином. Совершенно точно не взорвётся через 10 секунд. К каске прикреплена бирка с надписью "Щтиц'Юин'Тейльсс Иехан'Вийт'Ойанекс"
+  components:
+  - type: Sprite
+    state: plushie_viyt
+  - type: TTS
+    voice: Vesemir
+  - type: SpeakOnTrigger
+    pack: PlushieViytSpeech
+
+- type: entity
+  parent: BasePlushieDeadSpaceMisc
+  id: PlushieCyberBobeksRiikka
+  name: плюшевая Рийкка
+  description: Плюшевая аркана, референс которой, по всей видимости, брали с крайне уставшей личности. Одета в одежду, чем то напоминающую форму командира отряда "Синдиката"... Или это очередная мода ЦентКома?... На хвосте виднеется бирка с надписью "Рийкка Меервинг Иреноиаль".
+  components:
+  - type: Sprite
+    state: plushie_riikka
+    scale: 1.1,1.1
+  - type: TTS
+    voice: Anastasia
+  - type: SpeakOnTrigger
+    pack: PlushieRiikkaSpeech

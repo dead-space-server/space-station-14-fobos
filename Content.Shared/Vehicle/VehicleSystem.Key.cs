@@ -4,6 +4,7 @@
  */
 
 using System.Linq;
+using Content.Shared.Containers.ItemSlots;
 using Content.Shared.Vehicle.Components;
 using Content.Shared.Popups;
 using Robust.Shared.Containers;
@@ -18,6 +19,7 @@ public sealed partial class VehicleSystem
         SubscribeLocalEvent<GenericKeyedVehicleComponent, ContainerIsInsertingAttemptEvent>(OnGenericKeyedInsertAttempt);
         SubscribeLocalEvent<GenericKeyedVehicleComponent, EntInsertedIntoContainerMessage>(OnGenericKeyedEntInserted);
         SubscribeLocalEvent<GenericKeyedVehicleComponent, EntRemovedFromContainerMessage>(OnGenericKeyedEntRemoved);
+        SubscribeLocalEvent<GenericKeyedVehicleComponent, ItemSlotEjectAttemptEvent>(OnGenericKeyedEjectAttempt); // DS14
         SubscribeLocalEvent<GenericKeyedVehicleComponent, VehicleCanRunEvent>(OnGenericKeyedCanRun);
 
         SubscribeLocalEvent<VehicleKeyComponent, ComponentShutdown>(OnVehicleKeyShutdown);
@@ -75,6 +77,28 @@ public sealed partial class VehicleSystem
 
         RefreshKeyedVehicle(ent);
     }
+
+    // DS14-start
+    private void OnGenericKeyedEjectAttempt(Entity<GenericKeyedVehicleComponent> ent, ref ItemSlotEjectAttemptEvent args)
+    {
+        if (args.Cancelled || args.Slot.ContainerSlot?.ID != ent.Comp.ContainerId)
+            return;
+
+        if (!_vehicleQuery.TryComp(ent, out var vehicle) || !vehicle.KeyEjectRequiresOperator)
+            return;
+
+        if (args.User == null || args.User == vehicle.Operator)
+            return;
+
+        args.Cancelled = true;
+        _popup.PopupPredicted(
+            Loc.GetString("vehicle-key-eject-requires-operator"),
+            ent.Owner,
+            args.User,
+            PopupType.SmallCaution
+        );
+    }
+    // DS14-end
 
     private void OnGenericKeyedEntRemoved(Entity<GenericKeyedVehicleComponent> ent, ref EntRemovedFromContainerMessage args)
     {

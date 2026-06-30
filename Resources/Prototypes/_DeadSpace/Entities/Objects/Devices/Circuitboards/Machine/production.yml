@@ -203,18 +203,6 @@
       Steel: 5
 
 - type: entity
-  id: BiofabricatorMachineCircuitboardTaipan
-  parent: BaseMachineCircuitboardTaipan
-  name: фабрикатор биокубов (машинная плата)
-  description: Печатная плата фабрикатора биокубов.
-  components:
-  - type: MachineBoard
-    prototype: BiofabricatorTaipan
-    stackRequirements:
-      Manipulator: 4
-      Glass: 1
-
-- type: entity
   id: WeaponryTechFabCircuitboardTaipan
   parent: BaseMachineCircuitboardTaipan
   name: оружейный ТехФаб (машинная плата)

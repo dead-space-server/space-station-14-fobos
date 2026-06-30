@@ -20,6 +20,7 @@ public sealed class UserDbDataManager : IPostInjectInit
     [Dependency] private readonly ILogManager _logManager = default!;
 
     private readonly Dictionary<NetUserId, UserData> _users = new();
+    private readonly List<OnLoadPlayer> _onBeforeLoadPlayer = [];
     private readonly List<OnLoadPlayer> _onLoadPlayer = [];
     private readonly List<OnFinishLoad> _onFinishLoad = [];
     private readonly List<OnPlayerDisconnect> _onPlayerDisconnect = [];
@@ -63,6 +64,13 @@ public sealed class UserDbDataManager : IPostInjectInit
         // As such, this task must NOT throw a non-cancellation error!
         try
         {
+            foreach (var action in _onBeforeLoadPlayer)
+            {
+                await action(session, cancel);
+            }
+
+            cancel.ThrowIfCancellationRequested();
+
             var tasks = new List<Task>();
             foreach (var action in _onLoadPlayer)
             {
@@ -125,6 +133,11 @@ public sealed class UserDbDataManager : IPostInjectInit
     public Task GetLoadTask(ICommonSession session)
     {
         return _users[session.UserId].Task;
+    }
+
+    public void AddOnBeforeLoadPlayer(OnLoadPlayer action)
+    {
+        _onBeforeLoadPlayer.Add(action);
     }
 
     public void AddOnLoadPlayer(OnLoadPlayer action)

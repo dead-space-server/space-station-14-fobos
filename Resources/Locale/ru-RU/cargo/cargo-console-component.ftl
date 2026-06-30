@@ -37,6 +37,7 @@ cargo-console-menu-account-action-button = Перевести
 cargo-console-menu-toggle-account-lock-button = Переключить лимит перевода
 cargo-console-menu-account-action-option-withdraw = Обналичить
 cargo-console-menu-account-action-option-transfer = Перевести деньги на { $code }
+cargo-console-menu-trade-hijacked = [color=red]торговый канал недоступен[/color]
 # Orders
 cargo-console-order-not-allowed = Доступ запрещён
 cargo-console-station-not-found = Нет доступной станции
@@ -46,6 +47,7 @@ cargo-console-snip-snip = Заказ урезан до вместимости
 cargo-console-insufficient-funds = Недостаточно средств (требуется { $cost })
 cargo-console-unfulfilled = Нет места для выполнения заказа
 cargo-console-trade-station = Отправлено на { $destination }
+cargo-console-trade-hijacked = Торговый канал недоступен
 cargo-console-unlock-approved-order-broadcast = [bold]Заказ на { $productName } x{ $orderAmount }[/bold], стоимостью [bold]{ $cost }[/bold], был одобрен [bold]{ $approver }[/bold]
 cargo-console-fund-withdraw-broadcast = [bold]{ $name } снял { $amount } кредитов с { $name1 } \[{ $code1 }\]
 cargo-console-fund-transfer-broadcast = [bold]{ $name } перевёл { $amount } кредитов { $name1 } \[{ $code1 }\] на { $name2 } \[{ $code2 }\][/bold]

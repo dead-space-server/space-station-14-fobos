@@ -19,6 +19,9 @@
     keyWhitelist:
       tags:
       - KeyUniversal
+  - type: Vehicle
+    keyEjectRequiresOperator: true
+    protectOperatorUnstrap: true
   - type: Strap
     position: Stand
     buckleOffset: "0.01,0.15"
@@ -153,6 +156,8 @@
   - type: Appearance
   - type: GravityAffected
   - type: Vehicle
+    keyEjectRequiresOperator: true
+    protectOperatorUnstrap: true
     movementSound:
       collection: FootstepBorg
     movementSoundDistance: 1.5
