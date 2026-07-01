@@ -34,6 +34,9 @@ public sealed partial class TraitorUltraRuleComponent : Component
     public EntProtoId UpgradeOfferAction = "ActionTraitorUltraOpenContract";
 
     [DataField]
+    public EntProtoId ExtraObjectiveOfferAction = "ActionTraitorUltraOpenExtraObjectiveOffer";
+
+    [DataField]
     public TimeSpan BountyPreparationTime = TimeSpan.FromMinutes(3);
 
     [DataField]
@@ -41,6 +44,9 @@ public sealed partial class TraitorUltraRuleComponent : Component
 
     [DataField]
     public FixedPoint2 UpgradeTelecrystals = 10;
+
+    [DataField]
+    public FixedPoint2 ExtraObjectiveTelecrystals = 5;
 
     [DataField]
     public EntProtoId UltraUplinkImplant = "TraitorUltraUplinkImplant";
@@ -132,6 +138,13 @@ public sealed partial class TraitorUltraRuleComponent : Component
     };
 
     [DataField]
+    public HashSet<EntProtoId> ExtraObjectiveEligibleFirstObjectives = new()
+    {
+        "TraitorUltraHijackShuttleObjective",
+        "TraitorUltraKillHalfSecurityObjective",
+    };
+
+    [DataField]
     public EntProtoId PostUpgradeSurviveObjective = "TraitorUltraSurviveObjective";
 
     [DataField]
@@ -178,6 +191,12 @@ public sealed class TraitorUltraMindState
     public EntityUid? BountyBody;
     public EntityUid? UltraUplinkEntity;
     public EntityUid? UpgradeOfferActionEntity;
+    public EntityUid? FirstPostUpgradeObjective;
+    public string? FirstPostUpgradeObjectivePrototype;
+    public EntityUid? PendingExtraObjective;
+    public string? PendingExtraObjectivePrototype;
+    public EntityUid? ExtraObjectiveOfferActionEntity;
+    public TraitorUltraExtraObjectiveOfferStatus ExtraObjectiveOfferStatus = TraitorUltraExtraObjectiveOfferStatus.None;
 }
 
 public enum TraitorUltraStage : byte
@@ -189,4 +208,13 @@ public enum TraitorUltraStage : byte
     Upgraded,
     BountyAnnounced,
     Resolved,
+}
+
+public enum TraitorUltraExtraObjectiveOfferStatus : byte
+{
+    None,
+    WaitingForPrimaryCompletion,
+    Open,
+    Accepted,
+    Declined,
 }

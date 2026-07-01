@@ -93,6 +93,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 
     private readonly List<TraitorUltraDelayedAction> _delayedActions = new();
     private readonly Dictionary<EntityUid, TraitorUltraOfferEui> _openUpgradeOfferEuis = new();
+    private readonly Dictionary<EntityUid, TraitorUltraExtraObjectiveOfferEui> _openExtraObjectiveOfferEuis = new();
 
     public override void Initialize()
     {
@@ -100,6 +101,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 
         SubscribeLocalEvent<TraitorUltraRuleComponent, AfterAntagEntitySelectedEvent>(OnAfterAntagSelected, after: [typeof(TraitorRuleSystem)]);
         SubscribeLocalEvent<TraitorUltraOpenContractActionEvent>(OnOpenContractAction);
+        SubscribeLocalEvent<TraitorUltraOpenExtraObjectiveOfferActionEvent>(OnOpenExtraObjectiveOfferAction);
         SubscribeLocalEvent<TraitorUltraBountyTargetComponent, DamageChangedEvent>(OnBountyDamageChanged, before: [typeof(MobThresholdSystem)]);
         SubscribeLocalEvent<TraitorUltraBountyTargetComponent, MobStateChangedEvent>(OnBountyMobStateChanged);
         SubscribeLocalEvent<TraitorUltraBountyTargetComponent, GibbedBeforeDeletionEvent>(OnBountyGibbedBeforeDeletion);
@@ -111,6 +113,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
     {
         _delayedActions.Clear();
         CloseAllUpgradeOfferEuis();
+        CloseAllExtraObjectiveOfferEuis();
     }
 
     private void OnAfterAntagSelected(Entity<TraitorUltraRuleComponent> ent, ref AfterAntagEntitySelectedEvent args)
@@ -531,6 +534,8 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
                     EnsureBountyBody(uid, mindId, mind, state, replaceExisting: true);
                     break;
             }
+
+            UpdateExtraObjectiveOffer(uid, component, mindId, mind, state);
         }
     }
 
@@ -561,6 +566,30 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
             }
 
             OpenUpgradeOfferEui(rule, mindId, mind);
+            return;
+        }
+    }
+
+    private void OnOpenExtraObjectiveOfferAction(TraitorUltraOpenExtraObjectiveOfferActionEvent args)
+    {
+        if (args.Handled ||
+            !_mind.TryGetMind(args.Performer, out var mindId, out var mind))
+        {
+            return;
+        }
+
+        var query = EntityQueryEnumerator<TraitorUltraRuleComponent>();
+        while (query.MoveNext(out var rule, out var component))
+        {
+            if (!component.Minds.TryGetValue(mindId, out var state) ||
+                state.ExtraObjectiveOfferStatus != TraitorUltraExtraObjectiveOfferStatus.Open ||
+                state.ExtraObjectiveOfferActionEntity != args.Action.Owner)
+            {
+                continue;
+            }
+
+            args.Handled = true;
+            OpenExtraObjectiveOfferEui(rule, mindId, mind);
             return;
         }
     }
@@ -685,6 +714,165 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
             Loc.GetString("traitor-ultra-offer-losses"),
             Loc.GetString("traitor-ultra-offer-accept"),
             Loc.GetString("traitor-ultra-offer-decline"));
+    }
+
+    private bool EnsureExtraObjectiveOfferAction(
+        TraitorUltraRuleComponent component,
+        EntityUid mindId,
+        MindComponent mind,
+        TraitorUltraMindState state)
+    {
+        if (mind.OwnedEntity is not { } body || !Exists(body))
+            return false;
+
+        return _actions.AddAction(body, ref state.ExtraObjectiveOfferActionEntity, component.ExtraObjectiveOfferAction, mindId);
+    }
+
+    private void RemoveExtraObjectiveOfferAction(TraitorUltraMindState state)
+    {
+        if (state.ExtraObjectiveOfferActionEntity is not { } action)
+            return;
+
+        _actions.RemoveAction(action);
+        QueueDel(action);
+        state.ExtraObjectiveOfferActionEntity = null;
+    }
+
+    private bool OpenExtraObjectiveOfferEui(EntityUid rule, EntityUid mindId, MindComponent mind)
+    {
+        if (!TryGetSession(mind, out var session))
+            return false;
+
+        CloseExtraObjectiveOfferEui(mindId);
+
+        var eui = new TraitorUltraExtraObjectiveOfferEui(rule, mindId, this);
+        _openExtraObjectiveOfferEuis[mindId] = eui;
+        _eui.OpenEui(eui, session);
+        return true;
+    }
+
+    private void CloseExtraObjectiveOfferEui(EntityUid mindId)
+    {
+        if (!_openExtraObjectiveOfferEuis.Remove(mindId, out var eui))
+            return;
+
+        if (!eui.IsShutDown)
+            eui.Close();
+    }
+
+    private void CloseAllExtraObjectiveOfferEuis()
+    {
+        foreach (var mindId in _openExtraObjectiveOfferEuis.Keys.ToArray())
+        {
+            CloseExtraObjectiveOfferEui(mindId);
+        }
+    }
+
+    public void OnExtraObjectiveOfferEuiClosed(EntityUid mindId, TraitorUltraExtraObjectiveOfferEui eui)
+    {
+        if (_openExtraObjectiveOfferEuis.TryGetValue(mindId, out var openEui) &&
+            ReferenceEquals(openEui, eui))
+        {
+            _openExtraObjectiveOfferEuis.Remove(mindId);
+        }
+    }
+
+    public TraitorUltraExtraObjectiveOfferEuiState GetExtraObjectiveOfferState(EntityUid rule, EntityUid mindId)
+    {
+        var objectiveName = Loc.GetString("traitor-ultra-extra-objective-offer-objective-pending");
+        var reward = FixedPoint2.Zero;
+        string? newCorp = null;
+        var body = "traitor-ultra-extra-objective-offer-body";
+
+        if (TryComp<TraitorUltraRuleComponent>(rule, out var component) &&
+            component.Minds.TryGetValue(mindId, out var state))
+        {
+            reward = component.ExtraObjectiveTelecrystals;
+            newCorp = state.NewCorporation;
+            body = OpensExtraObjectiveOfferImmediately(state.FirstPostUpgradeObjectivePrototype, component)
+                ? "traitor-ultra-extra-objective-offer-body-immediate"
+                : "traitor-ultra-extra-objective-offer-body";
+
+            if (state.ExtraObjectiveOfferStatus == TraitorUltraExtraObjectiveOfferStatus.Open &&
+                TryComp<MindComponent>(mindId, out var mind))
+            {
+                TryEnsurePendingExtraObjective((mindId, mind), component, state);
+            }
+
+            if (state.PendingExtraObjective is { } objective &&
+                !TerminatingOrDeleted(objective))
+            {
+                objectiveName = Name(objective);
+            }
+        }
+
+        return new TraitorUltraExtraObjectiveOfferEuiState(
+            Loc.GetString("traitor-ultra-extra-objective-offer-title"),
+            Loc.GetString(
+                body,
+                ("corp", LocalizeCorporation(newCorp))),
+            Loc.GetString("traitor-ultra-extra-objective-offer-objective", ("objective", objectiveName)),
+            Loc.GetString("traitor-ultra-extra-objective-offer-reward", ("amount", reward)),
+            Loc.GetString("traitor-ultra-extra-objective-offer-accept"),
+            Loc.GetString("traitor-ultra-extra-objective-offer-decline"));
+    }
+
+    public void HandleExtraObjectiveOffer(EntityUid rule, EntityUid mindId, bool accepted)
+    {
+        if (!TryComp<TraitorUltraRuleComponent>(rule, out var component) ||
+            !component.Minds.TryGetValue(mindId, out var state) ||
+            !TryComp<MindComponent>(mindId, out var mind) ||
+            state.ExtraObjectiveOfferStatus != TraitorUltraExtraObjectiveOfferStatus.Open)
+        {
+            return;
+        }
+
+        if (!accepted)
+        {
+            DeclineExtraObjectiveOffer(mindId, mind, state);
+            return;
+        }
+
+        if (!TryEnsurePendingExtraObjective((mindId, mind), component, state))
+        {
+            ShowPopup(mind, "traitor-ultra-extra-objective-offer-failed-popup", PopupType.Large);
+            return;
+        }
+
+        var objective = state.PendingExtraObjective!.Value;
+        if (!string.IsNullOrWhiteSpace(state.NewCorporation))
+            _sharedObjectives.SetIssuer(objective, state.NewCorporation);
+
+        CloseExtraObjectiveOfferEui(mindId);
+        RemoveExtraObjectiveOfferAction(state);
+
+        var added = false;
+        if (!mind.Objectives.Contains(objective))
+        {
+            _mind.AddObjective(mindId, mind, objective);
+            if (!string.IsNullOrWhiteSpace(state.NewCorporation))
+                _sharedObjectives.SetIssuer(objective, state.NewCorporation);
+
+            added = true;
+        }
+
+        state.PendingExtraObjective = null;
+        state.PendingExtraObjectivePrototype = null;
+        state.ExtraObjectiveOfferStatus = TraitorUltraExtraObjectiveOfferStatus.Accepted;
+
+        if (added)
+            AddTelecrystals(mindId, mind, component.ExtraObjectiveTelecrystals, component);
+
+        ShowPopup(mind, "traitor-ultra-extra-objective-offer-accepted-popup", PopupType.Large);
+    }
+
+    private void DeclineExtraObjectiveOffer(EntityUid mindId, MindComponent mind, TraitorUltraMindState state)
+    {
+        state.ExtraObjectiveOfferStatus = TraitorUltraExtraObjectiveOfferStatus.Declined;
+        CloseExtraObjectiveOfferEui(mindId);
+        RemoveExtraObjectiveOfferAction(state);
+        DeletePendingExtraObjective(state);
+        ShowPopup(mind, "traitor-ultra-extra-objective-offer-declined-popup", PopupType.Large);
     }
 
     public void HandleRecruitOffer(EntityUid rule, EntityUid mindId, bool accepted)
@@ -1008,7 +1196,9 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
 
         RemoveTraitorMindFromAllRules(mindId);
 
-        if (!TryAssignPostUpgradeObjective((mindId, mind), component, state))
+        if (TryAssignPostUpgradeObjective((mindId, mind), component, state, out var firstPostUpgradeObjective))
+            InitializeExtraObjectiveOfferState(rule, component, mindId, mind, state, firstPostUpgradeObjective);
+        else
             Log.Error($"Failed to assign a post-upgrade TraitorUltra objective to {ToPrettyString(mindId)}.");
 
         if (!TryAssignPostUpgradeSurviveObjective((mindId, mind), component, state.NewCorporation))
@@ -1029,6 +1219,7 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         while (query.MoveNext(out _, out var traitorRule))
         {
             traitorRule.TraitorMinds.Remove(mindId);
+            traitorRule.ObjectiveIssuersByMind.Remove(mindId);
         }
     }
 
@@ -1044,18 +1235,228 @@ public sealed class TraitorUltraRuleSystem : GameRuleSystem<TraitorUltraRuleComp
         _adminLogger.Add(LogType.AntagSelection, LogImpact.High, $"{ToPrettyString(mindId)} became TraitorUltra. Player: {playerName}, character: {characterName}, corporation: {oldCorporation} -> {newCorporation}.");
     }
 
-    private bool TryAssignPostUpgradeObjective(Entity<MindComponent> mind, TraitorUltraRuleComponent component, TraitorUltraMindState state)
+    private void InitializeExtraObjectiveOfferState(
+        EntityUid rule,
+        TraitorUltraRuleComponent component,
+        EntityUid mindId,
+        MindComponent mind,
+        TraitorUltraMindState state,
+        EntityUid firstPostUpgradeObjective)
     {
-        if (_random.Prob(component.RarePostUpgradeObjectiveProbability))
+        state.FirstPostUpgradeObjective = firstPostUpgradeObjective;
+        state.FirstPostUpgradeObjectivePrototype = MetaData(firstPostUpgradeObjective).EntityPrototype?.ID;
+
+        if (OpensExtraObjectiveOfferImmediately(state.FirstPostUpgradeObjectivePrototype, component))
+            TryOpenExtraObjectiveOffer(rule, component, mindId, mind, state);
+        else
+            state.ExtraObjectiveOfferStatus = TraitorUltraExtraObjectiveOfferStatus.WaitingForPrimaryCompletion;
+    }
+
+    private void UpdateExtraObjectiveOffer(
+        EntityUid rule,
+        TraitorUltraRuleComponent component,
+        EntityUid mindId,
+        MindComponent mind,
+        TraitorUltraMindState state)
+    {
+        switch (state.ExtraObjectiveOfferStatus)
         {
-            if (TryPickObjective(mind, component.RarePostUpgradeObjectives, state.NewCorporation, out _))
+            case TraitorUltraExtraObjectiveOfferStatus.WaitingForPrimaryCompletion:
+                if (IsFirstPostUpgradeObjectiveCompleted((mindId, mind), state))
+                    TryOpenExtraObjectiveOffer(rule, component, mindId, mind, state);
+                return;
+
+            case TraitorUltraExtraObjectiveOfferStatus.Open:
+                EnsureExtraObjectiveOfferAction(component, mindId, mind, state);
+                TryEnsurePendingExtraObjective((mindId, mind), component, state);
+                return;
+
+            default:
+                return;
+        }
+    }
+
+    private bool TryOpenExtraObjectiveOffer(
+        EntityUid rule,
+        TraitorUltraRuleComponent component,
+        EntityUid mindId,
+        MindComponent mind,
+        TraitorUltraMindState state)
+    {
+        if (state.ExtraObjectiveOfferStatus is
+            TraitorUltraExtraObjectiveOfferStatus.Accepted or
+            TraitorUltraExtraObjectiveOfferStatus.Declined ||
+            state.FirstPostUpgradeObjective == null)
+        {
+            return false;
+        }
+
+        if (state.ExtraObjectiveOfferStatus == TraitorUltraExtraObjectiveOfferStatus.Open)
+            return true;
+
+        TryEnsurePendingExtraObjective((mindId, mind), component, state);
+
+        state.ExtraObjectiveOfferStatus = TraitorUltraExtraObjectiveOfferStatus.Open;
+        EnsureExtraObjectiveOfferAction(component, mindId, mind, state);
+        ShowPopup(mind, "traitor-ultra-extra-objective-offer-ready-popup", PopupType.Large);
+        OpenExtraObjectiveOfferEui(rule, mindId, mind);
+        return true;
+    }
+
+    private bool OpensExtraObjectiveOfferImmediately(string? prototype, TraitorUltraRuleComponent component)
+    {
+        if (prototype == null)
+            return false;
+
+        foreach (var eligible in component.ExtraObjectiveEligibleFirstObjectives)
+        {
+            if (eligible == prototype)
                 return true;
         }
 
-        if (TryPickObjective(mind, component.PostUpgradeObjectives, state.NewCorporation, out _))
+        return false;
+    }
+
+    private bool IsFirstPostUpgradeObjectiveCompleted(Entity<MindComponent> mind, TraitorUltraMindState state)
+    {
+        return state.FirstPostUpgradeObjective is { } objective &&
+               !TerminatingOrDeleted(objective) &&
+               _objectives.IsCompleted(objective, mind);
+    }
+
+    private bool TryEnsurePendingExtraObjective(
+        Entity<MindComponent> mind,
+        TraitorUltraRuleComponent component,
+        TraitorUltraMindState state)
+    {
+        if (state.PendingExtraObjective is { } existing &&
+            !TerminatingOrDeleted(existing))
+        {
+            return true;
+        }
+
+        state.PendingExtraObjective = null;
+        state.PendingExtraObjectivePrototype = null;
+
+        if (!TryPickExtraObjective(mind, component, state, out var objective))
+            return false;
+
+        state.PendingExtraObjective = objective;
+        state.PendingExtraObjectivePrototype = MetaData(objective).EntityPrototype?.ID;
+        return true;
+    }
+
+    private bool TryPickExtraObjective(
+        Entity<MindComponent> mind,
+        TraitorUltraRuleComponent component,
+        TraitorUltraMindState state,
+        out EntityUid objective)
+    {
+        var excluded = GetAssignedObjectivePrototypes(mind.Comp);
+
+        if (!string.IsNullOrWhiteSpace(state.FirstPostUpgradeObjectivePrototype))
+            excluded.Add(state.FirstPostUpgradeObjectivePrototype);
+
+        if (_random.Prob(component.RarePostUpgradeObjectiveProbability) &&
+            TryPickObjectiveForOffer(mind, component.RarePostUpgradeObjectives, state.NewCorporation, excluded, out objective))
+        {
+            return true;
+        }
+
+        if (TryPickObjectiveForOffer(mind, component.PostUpgradeObjectives, state.NewCorporation, excluded, out objective))
             return true;
 
-        return TryPickObjective(mind, component.RarePostUpgradeObjectives, state.NewCorporation, out _);
+        return TryPickObjectiveForOffer(mind, component.RarePostUpgradeObjectives, state.NewCorporation, excluded, out objective);
+    }
+
+    private HashSet<string> GetAssignedObjectivePrototypes(MindComponent mind)
+    {
+        var prototypes = new HashSet<string>();
+        foreach (var objective in mind.Objectives)
+        {
+            if (!TerminatingOrDeleted(objective) &&
+                MetaData(objective).EntityPrototype?.ID is { } prototype)
+            {
+                prototypes.Add(prototype);
+            }
+        }
+
+        return prototypes;
+    }
+
+    private bool TryPickObjectiveForOffer(
+        Entity<MindComponent> mind,
+        IReadOnlyList<EntProtoId> prototypes,
+        string? issuer,
+        HashSet<string> excluded,
+        out EntityUid objective)
+    {
+        var available = prototypes.ToList();
+        while (available.Count > 0)
+        {
+            var proto = _random.PickAndTake(available);
+            if (excluded.Contains(proto.Id))
+                continue;
+
+            if (!TryCreateObjectiveForOffer(mind, proto, issuer, out objective))
+                continue;
+
+            excluded.Add(proto.Id);
+            return true;
+        }
+
+        objective = default;
+        return false;
+    }
+
+    private bool TryCreateObjectiveForOffer(Entity<MindComponent> mind, EntProtoId prototype, string? issuer, out EntityUid objective)
+    {
+        objective = default;
+        if (!_proto.HasIndex<EntityPrototype>(prototype))
+        {
+            Log.Warning($"TraitorUltra objective prototype {prototype} does not exist.");
+            return false;
+        }
+
+        var created = _sharedObjectives.TryCreateObjective(mind.Owner, mind.Comp, prototype);
+        if (created == null)
+            return false;
+
+        objective = created.Value;
+        if (!string.IsNullOrWhiteSpace(issuer))
+            _sharedObjectives.SetIssuer(objective, issuer);
+
+        return true;
+    }
+
+    private void DeletePendingExtraObjective(TraitorUltraMindState state)
+    {
+        if (state.PendingExtraObjective is { } objective &&
+            !TerminatingOrDeleted(objective))
+        {
+            Del(objective);
+        }
+
+        state.PendingExtraObjective = null;
+        state.PendingExtraObjectivePrototype = null;
+    }
+
+    private bool TryAssignPostUpgradeObjective(
+        Entity<MindComponent> mind,
+        TraitorUltraRuleComponent component,
+        TraitorUltraMindState state,
+        out EntityUid objective)
+    {
+        if (_random.Prob(component.RarePostUpgradeObjectiveProbability))
+        {
+            if (TryPickObjective(mind, component.RarePostUpgradeObjectives, state.NewCorporation, out objective))
+                return true;
+        }
+
+        if (TryPickObjective(mind, component.PostUpgradeObjectives, state.NewCorporation, out objective))
+            return true;
+
+        return TryPickObjective(mind, component.RarePostUpgradeObjectives, state.NewCorporation, out objective);
     }
 
     private bool TryAssignPostUpgradeSurviveObjective(Entity<MindComponent> mind, TraitorUltraRuleComponent component, string? issuer)

@@ -12,6 +12,10 @@ traitor-ultra-contract-action-name = Открыть контракт
 traitor-ultra-contract-action-description = Открыть перехваченный контракт на эскалацию. Если решение не будет принято за две минуты, контракт будет автоматически отозван.
 ent-ActionTraitorUltraOpenContract = { traitor-ultra-contract-action-name }
     .desc = { traitor-ultra-contract-action-description }
+traitor-ultra-extra-objective-contract-action-name = Открыть допконтракт
+traitor-ultra-extra-objective-contract-action-description = Открыть бессрочное предложение на дополнительную ультра-цель.
+ent-ActionTraitorUltraOpenExtraObjectiveOffer = { traitor-ultra-extra-objective-contract-action-name }
+    .desc = { traitor-ultra-extra-objective-contract-action-description }
 traitor-ultra-offer-ready-popup = Перехваченный контракт готов. Используйте действие, чтобы открыть предложение.
 traitor-ultra-offer-title = Перехват контракта
 traitor-ultra-offer-body = {$newCorp} изучили ваш закрытый контракт с {$oldCorp}. Вам предлагается куш "Всё или ничего": Долой прятки, мелкие диверсии и прочие ограничения от прошлого нанимателя. Разумеется с соответствующей оплатой - ровно до тех пор, пока вы полезны. Ответ должен поступить в течение двух минут; молчание будет считаться отказом.
@@ -31,6 +35,18 @@ traitor-ultra-offer-accept = Согласиться
 traitor-ultra-offer-decline = Отказаться
 traitor-ultra-offer-declined-popup = Вы остаётесь верны своему текущему контракту и возвращаетесь к мирному завершению смены.
 traitor-ultra-offer-expired-popup = Контракт отозван: решение не было принято вовремя.
+traitor-ultra-extra-objective-offer-ready-popup = Доступно дополнительное задание.
+traitor-ultra-extra-objective-offer-title = Дополнительное задание
+traitor-ultra-extra-objective-offer-body = {$corp} подтверждает выполнение крупной директивы и предлагает взять ещё один открытый приказ. Предложение бессрочно и будет доступно до явного решения.
+traitor-ultra-extra-objective-offer-body-immediate = {$corp} выдало вам слишком весёлую цель, но считает, что этого мало. Желаете ли вы принести NanoTrasen и её персоналу ещё больше страданий?
+traitor-ultra-extra-objective-offer-objective = Дополнительная цель: {$objective}
+traitor-ultra-extra-objective-offer-objective-pending = подбирается
+traitor-ultra-extra-objective-offer-reward = Награда при принятии: {$amount} ТК.
+traitor-ultra-extra-objective-offer-accept = Принять
+traitor-ultra-extra-objective-offer-decline = Отказаться
+traitor-ultra-extra-objective-offer-accepted-popup = Дополнительное задание принято. Награда переведена в аплинк.
+traitor-ultra-extra-objective-offer-declined-popup = Дополнительное задание отклонено.
+traitor-ultra-extra-objective-offer-failed-popup = Задание временно недоступно: куратор не смог подобрать выполнимую цель.
 
 traitor-ultra-upgrade-briefing = Смена контрактов подтверждена. Вы более не являетесь частью активов {$oldCorp}. {$newCorp} открывает дополнительный инструментарий и прикладывает новый пакет целей. Старые цели остаются в деле; новые же доступны в меню персонажа.
 traitor-ultra-role-briefing-memory = Контракт эскалации: предыдущий наниматель {$oldCorp}; текущий наниматель {$newCorp}. Исходный канал аплинка остаётся действительным.
@@ -68,13 +84,13 @@ traitor-ultra-recruit-failed-no-objective = Контракт отозван: к�
 traitor-ultra-objective-kill-security-title = Аннигиляция службы безопасности
 traitor-ultra-objective-kill-security-description = Убейте {$count} из {$total} сотрудников службы безопасности, назначенных на эту станцию. Пусть они познают страх и ужас, когда никто не сможет спасти их.
 
-traitor-ultra-objective-destroy-atmos-title = Уничтожите в хлам атмосферный отсек станции.
+traitor-ultra-objective-destroy-atmos-title = Уничтожьте в хлам атмосферный отсек станции.
 traitor-ultra-objective-destroy-atmos-description = Уничтожьте или разберите добытчики кислорода и азота. Раздавите их трахею в лепёшку, пусть задохнуться в мучительной агонии.
 
-traitor-ultra-objective-destroy-ame-title = Уничтожите контроллер ДАМ
+traitor-ultra-objective-destroy-ame-title = Уничтожьте контроллер ДАМ
 traitor-ultra-objective-destroy-ame-description = Уничтожьте или разберите контроллер двигателя антиматерии. Сломите их "Failsafe", заставьте их выть в беспощадную тьму.
 
-traitor-ultra-objective-destroy-servers-title = Уничтожите коммуникационное оборудование.
+traitor-ultra-objective-destroy-servers-title = Уничтожьте коммуникационное оборудование.
 traitor-ultra-objective-destroy-servers-description = Уничтожьте или разберите сервер мониторинга экипажа, хотя бы один роутер камер и минимум три сервера связи. Парализуйте их нервную систему, чтобы было легче провести эвтаназию.
 
 ent-TraitorUltraHijackShuttleObjective = Угон эвакуационного шаттла
