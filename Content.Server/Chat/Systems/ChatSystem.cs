@@ -21,7 +21,6 @@ using Content.Shared.Players;
 using Content.Shared.Players.RateLimiting;
 using Content.Shared.Radio;
 using Content.Shared.Station.Components;
-using Content.Shared.Whitelist;
 using Robust.Server.Player;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
@@ -38,9 +37,6 @@ using Content.Shared.Dataset;
 using Content.DeadSpace.Interfaces.Server;
 using Content.Shared.DeadSpace.Languages.Components;
 using Content.Server.DeadSpace.Languages;
-using Robust.Server.Console;
-using Content.Shared.DeadSpace.Languages.Prototypes;
-using Lidgren.Network;
 
 namespace Content.Server.Chat.Systems;
 
@@ -488,7 +484,8 @@ public sealed partial class ChatSystem : SharedChatSystem
         SoundSpecifier? announcementSound = null,
         Color? colorOverride = null,
         string? voice = null,
-        string? languageId = null) // DS14
+        string? languageId = null, // DS14
+        Filter? recipientFilter = null) // DS14
     {
         languageId = string.IsNullOrEmpty(languageId) ? LanguageSystem.DefaultLanguageId : languageId;
 
@@ -511,7 +508,7 @@ public sealed partial class ChatSystem : SharedChatSystem
 
         if (!TryComp<StationDataComponent>(station, out var stationDataComp)) return;
 
-        var filterStation = _stationSystem.GetInStation(stationDataComp);
+        var filterStation = recipientFilter ?? _stationSystem.GetInStation(stationDataComp); // DS14
         var filterUnderstanding = Filter.Empty();
         var filterNotUnderstanding = Filter.Empty();
 
