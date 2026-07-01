@@ -7,6 +7,7 @@ using Content.Server.RoundEnd;
 using Content.Shared.DeadSpace.Necromorphs.Necroobelisk;
 using Content.Server.Audio;
 using Content.Shared.Audio;
+using Content.Shared.Clothing;
 using Robust.Shared.Map;
 using Content.Shared.GameTicking.Components;
 using Robust.Shared.Prototypes;
@@ -41,6 +42,8 @@ using Content.Server.AlertLevel;
 using Content.Shared.DeadSpace.ERT.Prototypes;
 using Content.Server.Database;
 using Content.Shared.Damage.Components;
+using Robust.Server.Player;
+using Robust.Shared.Player;
 
 namespace Content.Server.GameTicking.Rules;
 
@@ -69,8 +72,12 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
     [Dependency] private readonly CargoSystem _cargoSystem = default!;
     [Dependency] private readonly AlertLevelSystem _alertLevel = default!;
     [Dependency] private readonly ErtResponseSystem _ertResponseSystem = default!;
+    [Dependency] private readonly IPlayerManager _player = default!;
+    [Dependency] private readonly LoadoutSystem _loadout = default!;
     private static readonly EntProtoId UnitologyRule = "Unitology";
     public static readonly ProtoId<AntagPrototype> UnitologyAntagRole = "UniHead";
+    public static readonly ProtoId<AntagPrototype> RegularUnitologyAntagRole = "Uni";
+    public static readonly ProtoId<AntagPrototype> EnslavedUnitologyAntagRole = "UniEnslaved";
     private static readonly ProtoId<ErtTeamPrototype> ErtTeam = "CburnSierra";
     private static readonly ProtoId<CargoAccountPrototype> Account = "Security";
     private const int AdditionalSupport = 70000;
@@ -83,6 +90,74 @@ public sealed class UnitologyRuleSystem : GameRuleSystem<UnitologyRuleComponent>
         SubscribeLocalEvent<UnitologyRuleComponent, StageObeliskEvent>(OnStageObelisk);
         SubscribeLocalEvent<UnitologyRuleComponent, SpawnNecroMoonEvent>(EndStageConvergence);
         SubscribeLocalEvent<UnitologyRuleComponent, StageConvergenceEvent>(OnStageConvergence);
+    }
+
+    public bool TryGrantUnitologyRole(EntityUid target, ProtoId<AntagPrototype> role, ICommonSession? session = null)
+    {
+        if (!_mindSystem.TryGetMind(target, out var mindId, out var mind))
+            return false;
+
+        session ??= _player.TryGetSessionById(mind.UserId, out var foundSession)
+            ? foundSession
+            : null;
+
+        var ruleQuery = EntityQueryEnumerator<UnitologyRuleComponent, AntagSelectionComponent>();
+        while (ruleQuery.MoveNext(out var ruleUid, out _, out var antagSelection))
+        {
+            if (HasComp<EndedGameRuleComponent>(ruleUid))
+                continue;
+
+            if (MetaData(ruleUid).EntityPrototype?.ID != UnitologyRule.Id)
+                continue;
+
+            if (!TryFindUnitologyDefinition(antagSelection, role, out var activeDefinition))
+                return false;
+
+            if (session != null)
+            {
+                _antag.MakeAntag((ruleUid, antagSelection), session, activeDefinition);
+                return true;
+            }
+
+            break;
+        }
+
+        if (!_proto.TryIndex<EntityPrototype>(UnitologyRule, out var prototype)
+            || !prototype.TryGetComponent<AntagSelectionComponent>(out var prototypeSelection, Factory)
+            || !TryFindUnitologyDefinition(prototypeSelection, role, out var definition))
+        {
+            return false;
+        }
+
+        EntityManager.AddComponents(target, definition.Components);
+        EntityManager.AddComponents(mindId, definition.MindComponents);
+
+        var gear = new List<ProtoId<StartingGearPrototype>>();
+        if (definition.StartingGear is not null)
+            gear.Add(definition.StartingGear.Value);
+
+        _loadout.Equip(target, gear, definition.RoleLoadout);
+        _role.MindAddRoles(mindId, definition.MindRoles, mind, true);
+        _antag.SendBriefing(session, definition.Briefing);
+        return true;
+    }
+
+    private bool TryFindUnitologyDefinition(
+        AntagSelectionComponent antagSelection,
+        ProtoId<AntagPrototype> role,
+        out AntagSelectionDefinition definition)
+    {
+        foreach (var antagDefinition in antagSelection.Definitions)
+        {
+            if (!antagDefinition.PrefRoles.Contains(role))
+                continue;
+
+            definition = antagDefinition;
+            return true;
+        }
+
+        definition = default;
+        return false;
     }
 
     protected override void Started(EntityUid uid, UnitologyRuleComponent component, GameRuleComponent gameRule, GameRuleStartedEvent args)

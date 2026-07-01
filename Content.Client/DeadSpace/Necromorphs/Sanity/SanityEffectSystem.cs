@@ -4,6 +4,7 @@ using Content.Shared.DeadSpace.Necromorphs.Sanity;
 using Robust.Client.Graphics;
 using Robust.Client.Player;
 using Robust.Shared.Random;
+using Robust.Shared.Player;
 using Robust.Shared.Timing;
 
 namespace Content.Client.DeadSpace.Sanity;
@@ -16,7 +17,8 @@ public sealed class SanityEffectsSystem : EntitySystem
     [Dependency] private readonly IOverlayManager _overlayManager = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
 
-    private SanityOverlay? _damageOverlay = default!;
+    private SanityOverlay? _sanityOverlay;
+    private EntityUid? _overlayEntity;
     private const float EyeNudge = 0.04f;
     private Vector2 _eyeNudge;
 
@@ -26,6 +28,8 @@ public sealed class SanityEffectsSystem : EntitySystem
         SubscribeLocalEvent<SanityComponent, GetEyeOffsetEvent>(OnEyeOffset);
         SubscribeLocalEvent<SanityOverlayComponent, ComponentStartup>(OnStartup);
         SubscribeLocalEvent<SanityOverlayComponent, ComponentShutdown>(OnShutdown);
+        SubscribeLocalEvent<LocalPlayerAttachedEvent>(OnPlayerAttached);
+        SubscribeLocalEvent<LocalPlayerDetachedEvent>(OnPlayerDetached);
     }
 
     public override void FrameUpdate(float frameTime)
@@ -37,12 +41,15 @@ public sealed class SanityEffectsSystem : EntitySystem
         var local = _player.LocalEntity;
         if (local == null || !TryComp<SanityComponent>(local, out var c) || !HasComp<SanityOverlayComponent>(local))
         {
-            _eyeNudge = Vector2.Zero;
+            RemoveOverlay();
             return;
         }
+
+        EnsureOverlay(local.Value);
+
         _cameraRecoil.KickCamera(local.Value,
             new Vector2(_random.NextFloat(-1f, 1f), _random.NextFloat(-1f, 1f)) * ((c.MaxSanityLevel - c.SanityLevel) / 100));
-        _damageOverlay?.Value = Math.Clamp((c.MaxSanityLevel - c.SanityLevel) / 10f, 0f, 10f);
+        _sanityOverlay!.Value = Math.Clamp((c.MaxSanityLevel - c.SanityLevel) / 10f, 0f, 10f);
         var t = new Vector2(_random.NextFloat(-1f, 1f), _random.NextFloat(-1f, 1f)) * EyeNudge;
         _eyeNudge = Vector2.Lerp(_eyeNudge, t, 0.35f);
     }
@@ -55,14 +62,55 @@ public sealed class SanityEffectsSystem : EntitySystem
     }
     private void OnStartup(EntityUid uid, SanityOverlayComponent comp, ComponentStartup args)
     {
-        if (_player.LocalEntity != uid || !TryComp<SanityComponent>(_player.LocalEntity, out var _)) return;
-        _damageOverlay = new();
-        _overlayManager.AddOverlay(_damageOverlay);
+        if (_player.LocalEntity != uid || !HasComp<SanityComponent>(uid))
+            return;
+
+        EnsureOverlay(uid);
     }
     private void OnShutdown(EntityUid uid, SanityOverlayComponent comp, ComponentShutdown args)
     {
-        if (_player.LocalEntity != uid || !TryComp<SanityComponent>(_player.LocalEntity, out var _)) return;
-        _overlayManager.RemoveOverlay(_damageOverlay!);
-        _damageOverlay = null;
+        if (_overlayEntity == uid)
+            RemoveOverlay();
+    }
+
+    private void OnPlayerAttached(LocalPlayerAttachedEvent args)
+    {
+        RemoveOverlay();
+
+        if (HasComp<SanityComponent>(args.Entity) && HasComp<SanityOverlayComponent>(args.Entity))
+            EnsureOverlay(args.Entity);
+    }
+
+    private void OnPlayerDetached(LocalPlayerDetachedEvent args)
+    {
+        if (_overlayEntity == args.Entity)
+            RemoveOverlay();
+    }
+
+    private void EnsureOverlay(EntityUid uid)
+    {
+        if (_sanityOverlay != null && _overlayEntity == uid)
+            return;
+
+        RemoveOverlay();
+
+        _sanityOverlay = new SanityOverlay();
+        _overlayEntity = uid;
+        _overlayManager.AddOverlay(_sanityOverlay);
+    }
+
+    private void RemoveOverlay()
+    {
+        _eyeNudge = Vector2.Zero;
+
+        if (_sanityOverlay == null)
+        {
+            _overlayEntity = null;
+            return;
+        }
+
+        _overlayManager.RemoveOverlay(_sanityOverlay);
+        _sanityOverlay = null;
+        _overlayEntity = null;
     }
 }

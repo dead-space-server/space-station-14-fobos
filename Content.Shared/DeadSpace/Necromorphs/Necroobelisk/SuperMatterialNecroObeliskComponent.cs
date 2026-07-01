@@ -111,6 +111,15 @@ public sealed partial class SuperMatterialNecroObeliskComponent : Component
     public TimeSpan NextCheckNecroSpawn = TimeSpan.Zero;
     [DataField]
     public string NecroPrototype = "MobSmallNecro";
+    public TimeSpan NextCheckKudzuSpawn = TimeSpan.Zero;
+    [DataField]
+    public TimeSpan KudzuRespawnTime = TimeSpan.FromSeconds(60);
+    [DataField]
+    public float KudzuRespawnRange = 8f;
+    [DataField]
+    public string KudzuPrototype = "NecroKudzu";
+    [DataField]
+    public string AnomalyPrototype = "AnomalyNecro";
     #endregion
 }
 public enum SuperMatterialNecroObeliskState : byte

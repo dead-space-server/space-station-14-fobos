@@ -26,7 +26,7 @@ public sealed class NecroobeliskStoperSystem : EntitySystem
 
     private void OnScannerAfterInteract(EntityUid uid, NecroobeliskStoperComponent component, AfterInteractEvent args)
     {
-        if (args.Target is not { } target)
+        if (args.Handled || args.Target is not { } target)
             return;
 
         if (TryComp<NecroobeliskComponent>(args.Target, out var necroobeliskComponent))
@@ -34,32 +34,39 @@ public sealed class NecroobeliskStoperSystem : EntitySystem
             if (!necroobeliskComponent.IsStoper)
                 return;
 
-            _doAfter.TryStartDoAfter(new DoAfterArgs(EntityManager, args.User, component.ScanDoAfterDuration, new NecroobeliskStoperDoAfterEvent(), uid, target: target, used: uid)
+            if (_doAfter.TryStartDoAfter(new DoAfterArgs(EntityManager, args.User, component.ScanDoAfterDuration, new NecroobeliskStoperDoAfterEvent(), uid, target: target, used: uid)
             {
                 BreakOnDamage = true,
                 BreakOnMove = true,
                 DistanceThreshold = 2f
-            });
+            }))
+                args.Handled = true;
+
+            return;
         }
         if (TryComp<SuperMatterialNecroObeliskComponent>(args.Target, out var superMatterialNecroObeliskComponent))
         {
             if (!superMatterialNecroObeliskComponent.IsStoper)
                 return;
 
-            _doAfter.TryStartDoAfter(new DoAfterArgs(EntityManager, args.User, component.ScanDoAfterDuration, new NecroobeliskStoperDoAfterEvent(), uid, target: target, used: uid)
+            if (_doAfter.TryStartDoAfter(new DoAfterArgs(EntityManager, args.User, component.ScanDoAfterDuration, new NecroobeliskStoperDoAfterEvent(), uid, target: target, used: uid)
             {
                 BreakOnDamage = true,
                 BreakOnMove = true,
                 DistanceThreshold = 2f
-            });
+            }))
+                args.Handled = true;
+
+            return;
         }
         if (HasComp<NecroobeliskSplinterComponent>(args.Target))
         {
-            _doAfter.TryStartDoAfter(new DoAfterArgs(EntityManager, args.User, component.ScanDoAfterDuration, new NecroobeliskStoperDoAfterEvent(), uid, target: target, used: uid)
+            if (_doAfter.TryStartDoAfter(new DoAfterArgs(EntityManager, args.User, component.ScanDoAfterDuration, new NecroobeliskStoperDoAfterEvent(), uid, target: target, used: uid)
             {
                 BreakOnDamage = true,
                 DistanceThreshold = 2f
-            });
+            }))
+                args.Handled = true;
         }
 
     }

@@ -23,12 +23,16 @@ using Content.Server.DeadSpace.Necromorphs.Unitology;
 using Content.Shared.Damage.Components;
 using Robust.Shared.Audio.Systems;
 using Content.Server.Power.Components;
+using Content.Server.Anomaly;
 using Robust.Shared.Random;
 using System.Numerics;
 using Content.Server.GameTicking;
 using System.Linq;
 using Content.Server.Explosion.EntitySystems;
 using Content.Shared.Examine;
+using Content.Server.DeadSpace.Necromorphs.NecroWall.Components;
+using Content.Shared.DeadSpace.Necromorphs.Unitology.Components;
+using Content.Shared.Zombies;
 
 namespace Content.Server.DeadSpace.Necromorphs.Necroobelisk;
 
@@ -46,6 +50,8 @@ public sealed class SuperNecroobeliskSystem : SharedSuperNecroobeliskSystem
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly ExplosionSystem _explosion = default!;
     [Dependency] private readonly GameTicker _gameTicker = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly AnomalySystem _anomaly = default!;
 
 
     public override void Initialize()
@@ -82,60 +88,75 @@ public sealed class SuperNecroobeliskSystem : SharedSuperNecroobeliskSystem
             //     supplyRate: 10000 # 10 kWt
             component.Percents += 1;
             component.NextCheckPercents = _gameTiming.CurTime + component.CheckTime;
-            switch (component.Percents)
+
+            if (component.Percents > 0 && component.StateEnum == SuperMatterialNecroObeliskState.Stop)
             {
-                case int n when n is >= 0 and <= 25:
-                    if (component.StateEnum != SuperMatterialNecroObeliskState.Stop) continue;
-                    EnsureComp<PowerSupplierComponent>(uid).MaxSupply = 10000;
-                    component.StateEnum = SuperMatterialNecroObeliskState.Zero;
-                    continue;
-                case int n when n > 25 && n <= 50:
-                    if (component.StateEnum != SuperMatterialNecroObeliskState.Zero) continue;
-                    EnsureComp<PowerSupplierComponent>(uid).MaxSupply = 60000;
-                    SetRangeSanity(component, 8f);
-                    component.StateEnum = SuperMatterialNecroObeliskState.TwentyFive;
-                    continue;
-                case int n when n > 50 && n <= 70:
-                    if (component.StateEnum != SuperMatterialNecroObeliskState.TwentyFive) continue;
-                    EnsureComp<PowerSupplierComponent>(uid).MaxSupply = 120000;
-                    SetRangeSanity(component, 12f);
-                    component.StateEnum = SuperMatterialNecroObeliskState.Fifty;
-                    continue;
-                case int n when n > 70 && n < 99:
-                    if (component.NextCheckNecroSpawn == TimeSpan.Zero)
-                    {
-                        component.NextCheckNecroSpawn = _gameTiming.CurTime + TimeSpan.FromSeconds(60);
-                        component.StateEnum = SuperMatterialNecroObeliskState.Seventy;
-                        continue;
-                    }
-                    if (_gameTiming.CurTime > component.NextCheckNecroSpawn)
-                    {
-                        for (var i = 0; i < 4; i++)
-                            Spawn(component.NecroPrototype, Transform(uid).Coordinates.Offset(Vector2.Create(_random.NextFloat(-3, 3), _random.NextFloat(-3, 3))));
-                        component.NextCheckNecroSpawn = _gameTiming.CurTime + TimeSpan.FromSeconds(60);
-                    }
-                    continue;
-                case 100:
-                    if (!_gameTicker.AllPreviousGameRules.Any(x => x.Item2 == "SiegeOfTheCircle" || x.Item2 == "Unitology"))
-                    {
-                        component.Percents = 99;
-                        continue;
-                    }
-                    var coord = Transform(uid).Coordinates;
-                    component.SequenceStarted = false;
-                    component.StateEnum = SuperMatterialNecroObeliskState.Hundred;
-                    component.NextCheckPercents = TimeSpan.Zero;
-                    component.NextCheckNecroSpawn = TimeSpan.Zero;
-                    _explosion.QueueExplosion(uid,
-                        "Default",
-                        1000000,
-                        5,
-                        100);
-                    Spawn("ObeliskSplinter", coord);
-                    continue;
-                default:
-                    continue;
+                EnsureComp<PowerSupplierComponent>(uid).MaxSupply = 10000;
+                component.StateEnum = SuperMatterialNecroObeliskState.Zero;
             }
+
+            if (component.Percents >= 25 && component.StateEnum < SuperMatterialNecroObeliskState.TwentyFive)
+            {
+                EnsureComp<PowerSupplierComponent>(uid).MaxSupply = 60000;
+                component.IsActive = true;
+                SetRangeSanity(component, 8f);
+                UpdateState(uid, component);
+                component.StateEnum = SuperMatterialNecroObeliskState.TwentyFive;
+            }
+
+            if (component.Percents >= 50 && component.StateEnum < SuperMatterialNecroObeliskState.Fifty)
+            {
+                EnsureComp<PowerSupplierComponent>(uid).MaxSupply = 120000;
+                SetRangeSanity(component, 12f);
+                SpawnKudzu(uid, component);
+                component.StateEnum = SuperMatterialNecroObeliskState.Fifty;
+            }
+
+            if (component.Percents > 50 && component.Percents < 100)
+                EnsureKudzuAlive(uid, component);
+
+            if (component.Percents >= 70 && component.StateEnum < SuperMatterialNecroObeliskState.Seventy)
+            {
+                SpawnAnomaly(uid, component);
+                component.NextCheckNecroSpawn = _gameTiming.CurTime + TimeSpan.FromSeconds(60);
+                component.StateEnum = SuperMatterialNecroObeliskState.Seventy;
+            }
+
+            if (component.Percents > 70 && component.Percents < 100)
+            {
+                if (component.NextCheckNecroSpawn == TimeSpan.Zero)
+                {
+                    component.NextCheckNecroSpawn = _gameTiming.CurTime + TimeSpan.FromSeconds(60);
+                    continue;
+                }
+                if (_gameTiming.CurTime > component.NextCheckNecroSpawn)
+                {
+                    for (var i = 0; i < 4; i++)
+                        Spawn(component.NecroPrototype, Transform(uid).Coordinates.Offset(Vector2.Create(_random.NextFloat(-3, 3), _random.NextFloat(-3, 3))));
+                    component.NextCheckNecroSpawn = _gameTiming.CurTime + TimeSpan.FromSeconds(60);
+                }
+            }
+
+            if (component.Percents < 100)
+                continue;
+
+            if (!_gameTicker.AllPreviousGameRules.Any(x => x.Item2 == "SiegeOfTheCircle" || x.Item2 == "Unitology"))
+            {
+                component.Percents = 99;
+                continue;
+            }
+            var coord = Transform(uid).Coordinates;
+            component.SequenceStarted = false;
+            component.StateEnum = SuperMatterialNecroObeliskState.Hundred;
+            component.NextCheckPercents = TimeSpan.Zero;
+            component.NextCheckNecroSpawn = TimeSpan.Zero;
+            component.NextCheckKudzuSpawn = TimeSpan.Zero;
+            _explosion.QueueExplosion(uid,
+                "Default",
+                1000000,
+                5,
+                100);
+            Spawn("ObeliskSplinter", coord);
         }
     }
 
@@ -196,9 +217,9 @@ public sealed class SuperNecroobeliskSystem : SharedSuperNecroobeliskSystem
     private void OnMapInit(EntityUid uid, SuperMatterialNecroObeliskComponent component, MapInitEvent args)
     {
         component.NextPulseTime = _gameTiming.CurTime + component.TimeUtilPulse;
+        component.IsActive = false;
+        UpdateState(uid, component);
         GlobalWarn(uid, component, "uni-centcomm-announcement-obelisk-was-spawned", Color.Red);
-        if (component.SpawnCudzu)
-            Spawn("NecroKudzu", Transform(uid).Coordinates);
     }
 
     private void GlobalWarn(EntityUid uid, SuperMatterialNecroObeliskComponent component, string str, Color color)
@@ -227,8 +248,15 @@ public sealed class SuperNecroobeliskSystem : SharedSuperNecroobeliskSystem
 
     private void OnSanityLost(EntityUid uid, SuperMatterialNecroObeliskComponent component, ref SanityLostEvent args)
     {
-        if (HasComp<NecromorfComponent>(args.VictinUID))
+        if (HasComp<NecromorfComponent>(args.VictinUID) || HasComp<ZombieComponent>(args.VictinUID))
             return;
+
+        if (!HasComp<UnitologyComponent>(args.VictinUID)
+            && !HasComp<UnitologyHeadComponent>(args.VictinUID)
+            && !HasComp<UnitologyEnslavedComponent>(args.VictinUID))
+        {
+            AddComp<UnitologyEnslavedComponent>(args.VictinUID);
+        }
 
         if (!HasComp<InfectionDeadComponent>(args.VictinUID))
             AddComp<InfectionDeadComponent>(args.VictinUID);
@@ -236,6 +264,42 @@ public sealed class SuperNecroobeliskSystem : SharedSuperNecroobeliskSystem
         DamageSpecifier dspec = new();
         dspec.DamageDict.Add("Cellular", 2f);
         _damage.TryChangeDamage(args.VictinUID, dspec, true, false);
+    }
+
+    private void SpawnKudzu(EntityUid uid, SuperMatterialNecroObeliskComponent component)
+    {
+        if (!component.SpawnCudzu)
+            return;
+
+        Spawn(component.KudzuPrototype, Transform(uid).Coordinates);
+        component.NextCheckKudzuSpawn = _gameTiming.CurTime + component.KudzuRespawnTime;
+    }
+
+    private void SpawnAnomaly(EntityUid uid, SuperMatterialNecroObeliskComponent component)
+    {
+        var xform = Transform(uid);
+        if (_stationSystem.GetOwningStation(uid, xform) is not { } station)
+            return;
+
+        if (_stationSystem.GetLargestGrid(station) is not { } grid)
+            return;
+
+        _anomaly.SpawnOnRandomGridLocation(grid, component.AnomalyPrototype);
+    }
+
+    private void EnsureKudzuAlive(EntityUid uid, SuperMatterialNecroObeliskComponent component)
+    {
+        if (!component.SpawnCudzu || _gameTiming.CurTime < component.NextCheckKudzuSpawn)
+            return;
+
+        var kudzu = _lookup.GetEntitiesInRange<NecroKudzuComponent>(Transform(uid).Coordinates, component.KudzuRespawnRange);
+        if (kudzu.Count == 0)
+        {
+            SpawnKudzu(uid, component);
+            return;
+        }
+
+        component.NextCheckKudzuSpawn = _gameTiming.CurTime + component.KudzuRespawnTime;
     }
 
     private void DoSetObeliskVerbs(EntityUid uid, SuperMatterialNecroObeliskComponent component, GetVerbsEvent<Verb> args)

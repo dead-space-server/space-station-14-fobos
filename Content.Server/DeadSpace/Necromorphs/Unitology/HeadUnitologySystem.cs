@@ -13,11 +13,6 @@ using Content.Shared.DoAfter;
 using Content.Shared.Tag;
 using System.Linq;
 using Content.Server.Mind;
-using Content.Server.Antag;
-using Robust.Shared.Prototypes;
-using Content.Server.Antag.Components;
-using Content.Shared.Roles;
-using Content.Server.GameTicking.Rules.Components;
 using Content.Server.Chat.Systems;
 using Content.Server.Decals;
 using Content.Shared.Chat;
@@ -25,7 +20,8 @@ using Content.Shared.Maps;
 using Content.Shared.Decals;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Mindshield.Components;
-using Robust.Server.Player;
+using Content.Server.GameTicking.Rules;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.DeadSpace.Necromorphs.Unitology;
 
@@ -39,17 +35,13 @@ public sealed class UnitologyHeadSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly TagSystem _tags = default!;
     [Dependency] private readonly MindSystem _mindSystem = default!;
-    [Dependency] private readonly AntagSelectionSystem _antag = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
     [Dependency] private readonly DecalSystem _decals = default!;
     [Dependency] private readonly TurfSystem _turf = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
-    [Dependency] private readonly IPlayerManager _player = default!;
+    [Dependency] private readonly UnitologyRuleSystem _unitologyRule = default!;
 
-
-    private static readonly EntProtoId UnitologyRule = "Unitology";
-    public static readonly ProtoId<AntagPrototype> UnitologyAntagRole = "Uni";
 
     public const float DistanceRecruitmentDetermination = 2f;
     public const string CandleTag = "Candle";
@@ -168,21 +160,10 @@ public sealed class UnitologyHeadSystem : EntitySystem
 
         var target = args.Args.Target;
 
-        if (!_mindSystem.TryGetMind(target.Value, out var mindId, out var mind))
+        if (!_mindSystem.TryGetMind(target.Value, out _, out _))
             return;
 
-        var rule = _antag.ForceGetGameRuleEnt<UnitologyRuleComponent>(UnitologyRule);
-
-        AntagSelectionDefinition? definition = rule.Comp.Definitions.FirstOrDefault(def =>
-        def.PrefRoles.Contains(new ProtoId<AntagPrototype>(UnitologyAntagRole))
-        );
-
-        definition ??= rule.Comp.Definitions.Last();
-
-        if (!_player.TryGetSessionById(mind.UserId, out var session))
-            return;
-
-        _antag.MakeAntag(rule, session, definition.Value);
+        _unitologyRule.TryGrantUnitologyRole(target.Value, UnitologyRuleSystem.RegularUnitologyAntagRole);
     }
 
     private void OnOrder(EntityUid uid, UnitologyHeadComponent component, OrderToSlaveActionEvent args)

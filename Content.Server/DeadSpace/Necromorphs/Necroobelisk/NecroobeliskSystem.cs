@@ -22,6 +22,8 @@ using Content.Server.RoundEnd;
 using Content.Server.DeadSpace.Necromorphs.Unitology;
 using Content.Shared.Damage.Components;
 using Robust.Shared.Audio.Systems;
+using Content.Shared.DeadSpace.Necromorphs.Unitology.Components;
+using Content.Shared.Zombies;
 
 namespace Content.Server.DeadSpace.Necromorphs.Necroobelisk;
 
@@ -139,8 +141,15 @@ public sealed class NecroobeliskSystem : SharedNecroobeliskSystem
 
     private void OnSanityLost(EntityUid uid, NecroobeliskComponent component, ref SanityLostEvent args)
     {
-        if (HasComp<NecromorfComponent>(args.VictinUID))
+        if (HasComp<NecromorfComponent>(args.VictinUID) || HasComp<ZombieComponent>(args.VictinUID))
             return;
+
+        if (!HasComp<UnitologyComponent>(args.VictinUID)
+            && !HasComp<UnitologyHeadComponent>(args.VictinUID)
+            && !HasComp<UnitologyEnslavedComponent>(args.VictinUID))
+        {
+            AddComp<UnitologyEnslavedComponent>(args.VictinUID);
+        }
 
         if (!HasComp<InfectionDeadComponent>(args.VictinUID))
             AddComp<InfectionDeadComponent>(args.VictinUID);

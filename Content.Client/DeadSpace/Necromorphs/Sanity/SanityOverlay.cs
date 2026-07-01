@@ -1,3 +1,4 @@
+using System.Numerics;
 using Robust.Client.Graphics;
 using Robust.Shared.Enums;
 using Robust.Shared.Prototypes;
@@ -24,7 +25,7 @@ public sealed class SanityOverlay : Overlay
     }
     protected override void Draw(in OverlayDrawArgs args)
     {
-        _circleMaskShader.SetParameter("color", Color.Black);
+        _circleMaskShader.SetParameter("color", Vector3.Zero);
         _circleMaskShader.SetParameter("outerCircleRadius", _outerCircleValue);
         _circleMaskShader.SetParameter("innerCircleRadius", _innerCircleValue);
         _circleMaskShader.SetParameter("outerCircleMaxRadius", _outerCircleMaxRadius);

@@ -53,6 +53,13 @@ public abstract class SharedSuperNecroobeliskSystem : EntitySystem
             }
         }
         if (entities.Count > 8 && component.Percents > 20) component.Percents -= 10;
+        if (component.Percents < 25)
+        {
+            ClearTrackedOverlays(uid, component.MobsInRange);
+            component.NextCheckTimeSanity = _gameTiming.CurTime + component.CheckDurationSanity;
+            return;
+        }
+
         foreach (var (entity, comp) in entities)
         {
             if (component.IsStageConvergence)
