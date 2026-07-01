@@ -1,3 +1,23 @@
+#Customization
+- type: marking
+  id: sastrHair
+  bodyPart: Hair
+  markingCategory: Hair
+  sponsorOnly: true
+  sprites:
+  - sprite: _DeadSpace/Sponsor/sastr/Customization/hair.rsi
+    state: hair
+
+- type: marking
+  id: Scarsastr
+  bodyPart: Head
+  markingCategory: Head
+  followSkinColor: true
+  sponsorOnly: true
+  sprites:
+  - sprite: _DeadSpace/Sponsor/sastr/Customization/top.rsi
+    state: head
+
 # backpack.rsi
 - type: entity
   parent: ClothingBackpack
@@ -360,10 +380,10 @@
   - type: SolutionContainerManager
     solutions:
       food:
-        maxVol: 10
+        maxVol: 15
         reagents:
         - ReagentId: Fiber
-          Quantity: 10
+          Quantity: 15
   - type: Tag
     tags: [ ]
 
@@ -377,11 +397,33 @@
   components:
   - type: Sprite
     sprite: _DeadSpace/Sponsor/sastr/hud.rsi
+    layers:
+    - state: icon
+      map: [ "unfoldedLayer" ]
+    - state: h-icon
+      map: ["foldedLayer"]
+      visible: false
   - type: Clothing
     sprite: _DeadSpace/Sponsor/sastr/hud.rsi
   - type: IdentityBlocker
     coverage: EYES
   - type: EyeProtection
+  - type: Appearance
+  - type: Foldable
+    canFoldInsideContainer: true
+  - type: GroupExamine
+  - type: FoldableClothing
+    foldedEquippedPrefix: on
+    foldedHeldPrefix: on
+  - type: GenericVisualizer
+    visuals:
+      enum.FoldedVisuals.State:
+        foldedLayer:
+          True: {visible: true}
+          False: {visible: false}
+        unfoldedLayer:
+          True: {visible: false}
+          False: {visible: true}
   - type: Tag
     tags: [ ]
 
@@ -425,6 +467,13 @@
     - type: ClothingSpeedModifier
       walkModifier: 1
       sprintModifier: 1
+    - type: SolutionContainerManager
+      solutions:
+        food:
+          maxVol: 15
+          reagents:
+          - ReagentId: Fiber
+            Quantity: 15
     - type: Tag
       tags: [ ]
 

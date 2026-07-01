@@ -975,11 +975,9 @@
     state: stunbaton_off
   content:
   - TruncheonBlueShield
+  - BulletShieldBlueShield
   - TelescopicShield
-  - TelescopicShield
-  - CelestinMedipen
-  - CelestinMedipen
-  - CombatMedipen
+  - RezervImplanter
 
 - type: thiefBackpackSet
   id: PistolBlueShieldUpgradeKitSet

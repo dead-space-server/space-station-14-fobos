@@ -76,7 +76,14 @@ public sealed partial class EnergySellerSystem : EntitySystem
         {
             compSell.MaxChargeRate = ClampPowerSetting(message.Now.Value, comp.MaxChargeRate);
         }
-
+        if (message.Max is >= MinPowerSetting)
+        {
+            comp.MaxChargeRate = (int)message.Max;
+        }
+        if (TryComp<PowerNetworkBatteryComponent>(uid, out var compBatt) && compBatt.MaxChargeRate > comp.MaxChargeRate)
+        {
+            compBatt.MaxChargeRate = comp.MaxChargeRate;
+        }
         UpdateUI(uid, comp);
     }
 
@@ -86,7 +93,14 @@ public sealed partial class EnergySellerSystem : EntitySystem
         {
             _battery.SetMaxCharge((uid, compSell), ClampPowerSetting(message.Now.Value, comp.MaxLimit));
         }
-
+        if (message.Max is >= MinPowerSetting)
+        {
+            comp.MaxLimit = (int)message.Max;
+        }
+        if (TryComp<BatteryComponent>(uid, out var compBatt) && compBatt.MaxCharge > comp.MaxLimit)
+        {
+            _battery.SetMaxCharge((uid, compBatt), (float)comp.MaxLimit);
+        }
         UpdateUI(uid, comp);
     }
 
@@ -120,8 +134,7 @@ public sealed partial class EnergySellerSystem : EntitySystem
 
     private static int GetEnergyPrice(BatteryComponent battery, EnergySellerComponent seller)
     {
-        var coefficient = Math.Max(seller.AdditionalCoefficient, 1);
-        return (int)Math.Round(battery.PricePerJoule * battery.MaxCharge + battery.MaxCharge / coefficient + 1);
+        return (int)Math.Round(battery.PricePerJoule * battery.MaxCharge * (battery.MaxCharge / seller.AdditionalCoefficient + 1));
     }
 
     private static int ClampPowerSetting(int value, int max)

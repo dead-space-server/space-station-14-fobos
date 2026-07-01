@@ -21,14 +21,14 @@ public sealed class EnergySellerBoundUserInterface : BoundUserInterface
         _menu.OnConfirmSellLimit += SendMaxCharge;
     }
 
-    private void SendSpeedCharge(int value)
+    private void SendSpeedCharge(int value, int value2)
     {
-        SendMessage(new ChangesForSellingEnergy(true, value));
+        SendMessage(new ChangesForSellingEnergy(true, value, value2));
     }
 
-    private void SendMaxCharge(int value)
+    private void SendMaxCharge(int value, int value2)
     {
-        SendMessage(new ChangesForSellingEnergy(false, value));
+        SendMessage(new ChangesForSellingEnergy(false, value, value2));
     }
 
     protected override void UpdateState(BoundUserInterfaceState state)

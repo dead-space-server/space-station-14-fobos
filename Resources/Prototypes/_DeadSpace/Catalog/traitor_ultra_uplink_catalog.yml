@@ -3202,13 +3202,10 @@
   icon: { sprite: _DeadSpace/Objects/Misc/injector_smoking_carp.rsi, state: icon }
   productEntity: SmokingCarpInjector
   cost:
-    Telecrystal: 17
+    Telecrystal: 16
   categories:
   - TraitorUltraUplinkWeaponry
   conditions:
-  - !type:BuyerAntagCondition
-    whitelist:
-    - TraitorUltra
   - !type:StoreWhitelistCondition
     blacklist:
       tags:

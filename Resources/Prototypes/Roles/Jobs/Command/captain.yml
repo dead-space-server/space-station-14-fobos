@@ -1,4 +1,4 @@
-﻿- type: job
+- type: job
   id: Captain
   name: job-name-captain
   description: job-description-captain
@@ -23,6 +23,24 @@
       time: 140h
     - !type:AgeRequirement
       requiredAge: 26
+    # DS14-start
+    - !type:SpeciesRequirement
+      species:
+        - Human
+        - SlimePerson
+        - Reptilian
+        - Kobolt
+        - Demon
+        - Dwarf
+        - Moth
+        - Tajaran
+        - Felinid
+        - Arachnid
+        - IPC
+        - Vulpkanin
+        - Shark
+        - Diona
+      # DS14-end
   weight: 20
   startingGear: CaptainGear
   icon: "JobIconCaptain"
@@ -47,17 +65,17 @@
       - type: Skill
         group: Captain
       # DS14-End
-    
+
 
 - type: startingGear
   id: CaptainGear
   equipment:
-    shoes: ClothingShoesBootsLaceup
+    #shoes: ClothingShoesBootsLaceup # DS14: moved to loadout
     eyes: ClothingEyesGlassesCommand
-    gloves: ClothingHandsGlovesCaptain
+    #gloves: ClothingHandsGlovesCaptain # DS14: moved to loadout
     id: CaptainPDA
     ears: ClothingHeadsetAltCommand
-    socks: ClothingUnderwearSocksCaptain
+    #socks: ClothingUnderwearSocksCaptain # DS14: moved to loadout
   storage:
     back:
     - Flash

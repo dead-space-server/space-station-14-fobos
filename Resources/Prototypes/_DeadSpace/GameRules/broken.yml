@@ -38,6 +38,8 @@
           - GravityGeneratorMini
           - StationAnchor
           - StationAnchorOff
+          - TegCirculator
+          - TegCenter
         # blacklistTags:
         #   - HighRiskItem
         minuteMin: 25

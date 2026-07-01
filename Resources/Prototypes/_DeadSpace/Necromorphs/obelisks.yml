@@ -365,20 +365,36 @@
 - type: entity
   parent: BaseStructure
   id: StructureObeliskNonReal
-  name: черный обелиск
+  name: красный обелиск
   suffix: муляж
   components:
   - type: Sprite
     noRot: true
-    sprite: _DeadSpace/Necromorfs/blackobelisk.rsi
+    sprite: _DeadSpace/Necromorfs/obelisk.rsi
     layers:
     - state: active
       map: [ "enum.DamageStateVisualLayers.Base" ]
+  - type: RangedDamageSound
+    soundGroups:
+      Brute:
+        collection:
+          MetalBulletImpact
+    soundTypes:
+      Heat:
+        collection:
+          MetalLaserImpact
   - type: Tag
     tags:
     - Wall
   - type: Physics
     bodyType: Static
+  - type: Damageable
+    damageContainer: Inorganic
+    damageModifierSet: Metallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
 
 - type: entity
   parent: BaseStructure
@@ -418,13 +434,6 @@
         - FullTileMask
         layer:
         - WallLayer
-  - type: Damageable
-    damageContainer: Inorganic
-    damageModifierSet: Metallic
-  - type: Destructible
-    thresholds:
-    - trigger:
-        !type:DamageTrigger
         damage: 1500
       behaviors:
       - !type:DoActsBehavior
