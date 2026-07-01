@@ -19,7 +19,8 @@
                               SeparationOverride="8">
                     <Slider Name="ChargeSpeedSlider"
                             HorizontalExpand="True"
-                            Rounded="true" />
+                            Rounded="true"
+                            MinValue="5000"/>
                     <Label Name="ChargeSpeedMaxLabel"
                            Text="100"
                            MinWidth="118"
@@ -63,7 +64,8 @@
                               SeparationOverride="8">
                     <Slider Name="MaxChargeSlider"
                             HorizontalExpand="True"
-                            Rounded="true" />
+                            Rounded="true"
+                            MinValue="5000"/>
                     <Label Name="MaxChargeMaxLabel"
                            Text="200"
                            MinWidth="118"

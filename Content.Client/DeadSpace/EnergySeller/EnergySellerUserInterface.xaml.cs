@@ -1,5 +1,4 @@
-// Мёртвый Космос, Licensed under custom terms with restrictions on public hosting and commercial use, full text: https://raw.githubusercontent.com/dead-space-server/space-station-14-fobos/master/LICENSE.TXT
-
+using System;
 using System.Globalization;
 using System.Text;
 using Robust.Client.UserInterface.XAML;
@@ -14,8 +13,8 @@ namespace Content.Client.DeadSpace.EnergySeller;
 [GenerateTypedNameReferences]
 public sealed partial class EnergySellerUserInterface : FancyWindow
 {
-    public event Action<int>? OnConfirmSellLimit;
-    public event Action<int>? OnConfirmSpeedCharge;
+    public event Action<int, int>? OnConfirmSellLimit;
+    public event Action<int, int>? OnConfirmSpeedCharge;
 
     private bool _updatingControls;
 
@@ -23,11 +22,9 @@ public sealed partial class EnergySellerUserInterface : FancyWindow
     {
         RobustXamlLoader.Load(this);
 
-        ChargeSpeedSlider.OnValueChanged += _ => OnSliderChanged(ChargeSpeedSlider, ChargeSpeedValue, ChargeSpeedLineEdit);
-        MaxChargeSlider.OnValueChanged += _ => OnSliderChanged(MaxChargeSlider, LimitSellValue, MaxChargeLineEdit);
-
-        ChargeSpeedLineEdit.OnTextChanged += args => OnInputChanged(args.Text, ChargeSpeedSlider, ChargeSpeedValue);
-        MaxChargeLineEdit.OnTextChanged += args => OnInputChanged(args.Text, MaxChargeSlider, LimitSellValue);
+        // Подписка на изменения слайдеров для синхронизации с лейблами
+        ChargeSpeedSlider.OnValueChanged += args => UpdateSpeedChargeLabel();
+        MaxChargeSlider.OnValueChanged += args => UpdateSellLimitLabel();
 
         ChargeSpeedLineEdit.OnTextEntered += _ => ConfirmSpeedCharge();
         MaxChargeLineEdit.OnTextEntered += _ => ConfirmSellLimit();
@@ -47,69 +44,57 @@ public sealed partial class EnergySellerUserInterface : FancyWindow
         SetValueLabel(ChargeSpeedValue, castState.NowChargeRate);
         SetValueLabel(ChargeSpeedMaxLabel, castState.MaxChargeRate);
 
-        if (!ChargeSpeedLineEdit.HasKeyboardFocus())
-            ChargeSpeedLineEdit.Text = FormatInputValue(castState.NowChargeRate);
-
         MaxChargeSlider.MaxValue = castState.MaxLimit;
         MaxChargeSlider.SetValueWithoutEvent(castState.NowLimit);
         SetValueLabel(MaxChargeMaxLabel, castState.MaxLimit);
         SetValueLabel(LimitSellValue, castState.NowLimit);
-
-        if (!MaxChargeLineEdit.HasKeyboardFocus())
-            MaxChargeLineEdit.Text = FormatInputValue(castState.NowLimit);
 
         _updatingControls = false;
     }
 
     private void ConfirmSpeedCharge()
     {
-        OnConfirmSpeedCharge?.Invoke(GetRequestedValue(ChargeSpeedLineEdit, ChargeSpeedSlider));
+        var sliderValue = GetSliderValue(ChargeSpeedSlider);
+        if (TryParsePower(ChargeSpeedLineEdit.Text, out var parsedValue))
+        {
+            OnConfirmSpeedCharge?.Invoke(sliderValue, parsedValue);
+        }
+        else
+        {
+            OnConfirmSpeedCharge?.Invoke(sliderValue, sliderValue);
+        }
+        ChargeSpeedLineEdit.Text = "";
     }
 
     private void ConfirmSellLimit()
     {
-        OnConfirmSellLimit?.Invoke(GetRequestedValue(MaxChargeLineEdit, MaxChargeSlider));
+        var sliderValue = GetSliderValue(MaxChargeSlider);
+        if (TryParsePower(MaxChargeLineEdit.Text, out var parsedValue))
+        {
+            OnConfirmSellLimit?.Invoke(sliderValue, parsedValue);
+        }
+        else
+        {
+            OnConfirmSellLimit?.Invoke(sliderValue, sliderValue);
+        }
+        MaxChargeLineEdit.Text = "";
     }
 
-    private void OnSliderChanged(Slider slider, Label valueLabel, LineEdit lineEdit)
+    private void UpdateSpeedChargeLabel()
     {
-        if (_updatingControls)
-            return;
-
-        var value = GetSliderValue(slider);
-        SetValueLabel(valueLabel, value);
-
-        _updatingControls = true;
-        lineEdit.Text = FormatInputValue(value);
-        _updatingControls = false;
+        if (_updatingControls) return;
+        SetValueLabel(ChargeSpeedValue, GetSliderValue(ChargeSpeedSlider));
     }
 
-    private void OnInputChanged(string text, Slider slider, Label valueLabel)
+    private void UpdateSellLimitLabel()
     {
-        if (_updatingControls || !TryParsePower(text, out var value))
-            return;
-
-        value = ClampToSlider(value, slider);
-        slider.SetValueWithoutEvent(value);
-        SetValueLabel(valueLabel, value);
-    }
-
-    private static int GetRequestedValue(LineEdit lineEdit, Slider slider)
-    {
-        if (TryParsePower(lineEdit.Text, out var value))
-            return ClampToSlider(value, slider);
-
-        return GetSliderValue(slider);
-    }
-
-    private static int ClampToSlider(int value, Slider slider)
-    {
-        return Math.Clamp(value, (int) slider.MinValue, (int) slider.MaxValue);
+        if (_updatingControls) return;
+        SetValueLabel(LimitSellValue, GetSliderValue(MaxChargeSlider));
     }
 
     private static int GetSliderValue(Slider slider)
     {
-        return (int) Math.Round(slider.Value, MidpointRounding.AwayFromZero);
+        return (int)Math.Round(slider.Value, MidpointRounding.AwayFromZero);
     }
 
     private static void SetValueLabel(Label label, int value)
@@ -130,7 +115,6 @@ public sealed partial class EnergySellerUserInterface : FancyWindow
             return false;
 
         var digits = new StringBuilder(text.Length);
-
         foreach (var character in text)
         {
             if (char.IsDigit(character))
