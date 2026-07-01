@@ -404,7 +404,7 @@
     damageProtection:
       flatReductions:
         Heat: 0 # no protection
-  # DS14-start 
+  # DS14-start
   - type: PhysicalComposition
     materialComposition:
       Cloth: 200
@@ -505,7 +505,7 @@
   - type: GuideHelp
     guides:
     - Forensics
-  # DS14-start 
+  # DS14-start
   - type: PhysicalComposition
     materialComposition:
       Cloth: 10

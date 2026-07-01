@@ -1,0 +1,773 @@
+# Береты
+## Синий
+- type: listing
+  id: CaptainBeret
+  name: captaindrobe-beret
+  description: captaindrobe-beret-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Head/Hats/captain.rsi, state: icon }
+  productEntity: ClothingHeadHatBeretCaptain
+  priority: 0
+  categories:
+  - CaptainDrobeBerets
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Белый
+- type: listing
+  id: CaptainBeretWhite
+  name: captaindrobe-beret-white
+  description: captaindrobe-beret-white-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Head/Hats/captain_white.rsi, state: icon }
+  productEntity: ClothingHeadHatBeretCaptainWhite
+  priority: 1
+  categories:
+  - CaptainDrobeBerets
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Чёрный
+- type: listing
+  id: CaptainBeretBlack
+  name: captaindrobe-beret-black
+  description: captaindrobe-beret-black-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Head/Hats/captain_black.rsi, state: icon }
+  productEntity: ClothingHeadHatBeretCaptainBlack
+  priority: 2
+  categories:
+  - CaptainDrobeBerets
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+
+# Фуражки
+## Синий
+- type: listing
+  id: CaptainCap
+  name: captaindrobe-cap
+  description: captaindrobe-cap-desc
+  icon: { sprite: /Textures/Clothing/Head/Hats/capcap.rsi, state: icon }
+  productEntity: ClothingHeadHatCapcap
+  priority: 0
+  categories:
+  - CaptainDrobeHats
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Белый
+- type: listing
+  id: CaptainCapWhite
+  name: captaindrobe-cap-white
+  description: captaindrobe-cap-white-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Head/Hats/capcap_white.rsi, state: icon }
+  productEntity: ClothingHeadHatCapcapWhite
+  priority: 1
+  categories:
+  - CaptainDrobeHats
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Чёрный
+- type: listing
+  id: CaptainCapBlack
+  name: captaindrobe-cap-black
+  description: captaindrobe-cap-black-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Head/Hats/capcap_black.rsi, state: icon }
+  productEntity: ClothingHeadHatCapcapBlack
+  priority: 2
+  categories:
+  - CaptainDrobeHats
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+
+# Плащи
+## Синий
+- type: listing
+  id: CaptainCloak
+  name: captaindrobe-cloak
+  description: captaindrobe-cloak-desc
+  icon: { sprite: /Textures/Clothing/Neck/Cloaks/cap.rsi, state: icon }
+  productEntity: ClothingNeckCloakCap
+  priority: 0
+  categories:
+  - CaptainDrobeCloaks
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+- type: listing
+  id: CaptainCloakFormal
+  name: captaindrobe-cloak-formal
+  description: captaindrobe-cloak-formal-desc
+  icon: { sprite: /Textures/Clothing/Neck/Cloaks/capcloakformal.rsi, state: icon }
+  productEntity: ClothingNeckCloakCapFormal
+  priority: 1
+  categories:
+  - CaptainDrobeCloaks
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+
+# Мантии
+## Синий
+- type: listing
+  id: CaptainMantleShoulder
+  name: captaindrobe-mantle-shoulder
+  description: captaindrobe-mantle-shoulder-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Neck/captain_mantle.rsi, state: icon }
+  productEntity: ClothingNeckMantleCaptainShoulder
+  priority: 0
+  categories:
+  - CaptainDrobeMantles
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+- type: listing
+  id: CaptainMantleShoulderFormal
+  name: captaindrobe-mantle-shoulder-formal
+  description: captaindrobe-mantle-shoulder-formal-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Neck/captain_formal_mantle.rsi, state: icon }
+  productEntity: ClothingNeckMantleCaptainShoulderFormal
+  priority: 1
+  categories:
+  - CaptainDrobeMantles
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Белый
+- type: listing
+  id: CaptainMantleShoulderWhite
+  name: captaindrobe-mantle-shoulder-white
+  description: captaindrobe-mantle-shoulder-white-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Neck/captain_mantle_white.rsi, state: icon }
+  productEntity: ClothingNeckMantleCaptainShoulderWhite
+  priority: 2
+  categories:
+  - CaptainDrobeMantles
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Чёрный
+- type: listing
+  id: CaptainMantleShoulderBlack
+  name: captaindrobe-mantle-shoulder-black
+  description: captaindrobe-mantle-shoulder-black-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Neck/captain_mantle_black.rsi, state: icon }
+  productEntity: ClothingNeckMantleCaptainShoulderBlack
+  priority: 3
+  categories:
+  - CaptainDrobeMantles
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+
+# Верхняя одежда
+## Синий
+- type: listing
+  id: CaptainCarapace
+  name: captaindrobe-outer-carapace
+  description: captaindrobe-outer-carapace-desc
+  icon: { sprite: /Textures/Clothing/OuterClothing/Armor/captain_carapace.rsi, state: icon }
+  productEntity: ClothingOuterArmorCaptainCarapace
+  priority: 0
+  categories:
+  - CaptainDrobeOuter
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+- type: listing
+  id: CaptainWinterCoat
+  name: captaindrobe-outer-wintercoat
+  description: captaindrobe-outer-wintercoat-desc
+  icon: { sprite: /Textures/Clothing/OuterClothing/WinterCoats/coat.rsi, state: CAP-icon}
+  productEntity: ClothingOuterWinterCap
+  priority: 1
+  categories:
+  - CaptainDrobeOuter
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+- type: listing
+  id: CaptainCoat
+  name: captainbrobe-outer-coat
+  description: captainbrobe-outer-coat-desc
+  icon: { sprite: /Textures/_Corvax/Clothing/OuterClothing/Coats/captain.rsi, state: icon }
+  productEntity: ClothingOuterCoatCaptain
+  priority: 2
+  categories:
+  - CaptainDrobeOuter
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Белый
+- type: listing
+  id: CaptainCarapaceWhite
+  name: captaindrobe-outer-carapace-white
+  description: captaindrobe-outer-carapace-white-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/OuterClothing/Armor/captain_carapace_white.rsi, state: icon }
+  productEntity: ClothingOuterArmorCaptainCarapaceWhite
+  priority: 3
+  categories:
+  - CaptainDrobeOuter
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+- type: listing
+  id: CaptainWinterCoatWhite
+  name: captaindrobe-outer-wintercoat-white
+  description: captaindrobe-outer-wintercoat-white-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/OuterClothing/WinterCoats/captain_white.rsi, state: icon }
+  productEntity: ClothingOuterWinterCoatCaptainWhite
+  priority: 4
+  categories:
+  - CaptainDrobeOuter
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Чёрный
+- type: listing
+  id: CaptainCarapaceBlack
+  name: captaindrobe-outer-carapace-black
+  description: captaindrobe-outer-carapace-black-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/OuterClothing/Armor/captain_carapace_black.rsi, state: icon }
+  productEntity: ClothingOuterArmorCaptainCarapaceBlack
+  priority: 5
+  categories:
+  - CaptainDrobeOuter
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+- type: listing
+  id: CaptainWinterCoatBlack
+  name: captaindrobe-outer-wintercoat-black
+  description: captaindrobe-outer-wintercoat-black-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/OuterClothing/WinterCoats/captain_black.rsi, state: icon }
+  productEntity: ClothingOuterWinterCoatCaptainBlack
+  priority: 6
+  categories:
+  - CaptainDrobeOuter
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+
+# Комбинезоны
+## Синий
+- type: listing
+  id: CaptainJumpsuit
+  name: captaindrobe-jumpsuit
+  description: captaindrobe-jumpsuit-desc
+  icon: { sprite: /Textures/Clothing/Uniforms/Jumpsuit/captain.rsi, state: icon }
+  productEntity: ClothingUniformJumpsuitCaptain
+  priority: 0
+  categories:
+  - CaptainDrobeJumpsuits
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+- type: listing
+  id: CaptainJumpsuitFormal
+  name: captaindrobe-jumpsuit-formal
+  description: captaindrobe-jumpsuit-formal-desc
+  icon: { sprite: /Textures/Clothing/Uniforms/Jumpsuit/capformal.rsi, state: icon }
+  productEntity: ClothingUniformJumpsuitCapFormal
+  priority: 1
+  categories:
+  - CaptainDrobeJumpsuits
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Белый
+- type: listing
+  id: CaptainJumpsuitWhite
+  name: captaindrobe-jumpsuit-white
+  description: captaindrobe-jumpsuit-white-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Uniforms/Jumpsuit/captain_white.rsi, state: icon }
+  productEntity: ClothingUniformJumpsuitCaptainWhite
+  priority: 2
+  categories:
+  - CaptainDrobeJumpsuits
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+- type: listing
+  id: CaptainJumpsuitWhiteFormal
+  name: captaindrobe-jumpsuit-white-formal
+  description: captaindrobe-jumpsuit-white-formal-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Uniforms/Jumpsuit/captain_formal_white.rsi, state: icon }
+  productEntity: ClothingUniformJumpsuitCapFormalWhite
+  priority: 3
+  categories:
+  - CaptainDrobeJumpsuits
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Чёрный
+- type: listing
+  id: CaptainJumpsuitBlack
+  name: captaindrobe-jumpsuit-black
+  description: captaindrobe-jumpsuit-black-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Uniforms/Jumpsuit/captain_black.rsi, state: icon }
+  productEntity: ClothingUniformJumpsuitCaptainBlack
+  priority: 4
+  categories:
+  - CaptainDrobeJumpsuits
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+- type: listing
+  id: CaptainJumpsuitBlackFormal
+  name: captaindrobe-jumpsuit-black-formal
+  description: captaindrobe-jumpsuit-black-formal-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Uniforms/Jumpsuit/captain_formal_black.rsi, state: icon }
+  productEntity: ClothingUniformJumpsuitCapFormalBlack
+  priority: 5
+  categories:
+  - CaptainDrobeJumpsuits
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+
+# Юбки-комбинезоны
+## Синий
+- type: listing
+  id: CaptainJumpskirt
+  name: captaindrobe-jumpskirt
+  description: captaindrobe-jumpskirt-desc
+  icon: { sprite: /Textures/Clothing/Uniforms/Jumpskirt/captain.rsi, state: icon }
+  productEntity: ClothingUniformJumpskirtCaptain
+  priority: 0
+  categories:
+  - CaptainDrobeJumpskirts
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Белый
+- type: listing
+  id: CaptainJumpskirtWhite
+  name: captaindrobe-jumpskirt-white
+  description: captaindrobe-jumpskirt-white-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Uniforms/Jumpskirt/captain_white.rsi, state: icon }
+  productEntity: ClothingUniformJumpskirtCaptainWhite
+  priority: 1
+  categories:
+  - CaptainDrobeJumpskirts
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Чёрный
+- type: listing
+  id: CaptainJumpskirtBlack
+  name: captaindrobe-jumpskirt-black
+  description: captaindrobe-jumpskirt-black-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Uniforms/Jumpskirt/captain_black.rsi, state: icon }
+  productEntity: ClothingUniformJumpskirtCaptainBlack
+  priority: 2
+  categories:
+  - CaptainDrobeJumpskirts
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+
+# Водолазки
+## Синий
+- type: listing
+  id: CaptainTurtleneck
+  name: captaindrobe-turtleneck
+  description: captaindrobe-turtleneck-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_captain.rsi, state: icon }
+  productEntity: ClothingUniformTurtleneckCaptain
+  priority: 0
+  categories:
+  - CaptainDrobeTurtlenecks
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Белый
+- type: listing
+  id: CaptainTurtleneckWhite
+  name: captaindrobe-turtleneck-white
+  description: captaindrobe-turtleneck-white-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_captain_white.rsi, state: icon }
+  productEntity: ClothingUniformTurtleneckCaptainWhite
+  priority: 1
+  categories:
+  - CaptainDrobeTurtlenecks
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Чёрный
+- type: listing
+  id: CaptainturtleneckBlack
+  name: captaindrobe-turtleneck-black
+  description: captaindrobe-turtleneck-black-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Uniforms/Turtleneck/Jumpsuit/turtleneck_captain_black.rsi, state: icon }
+  productEntity: ClothingUniformTurtleneckCaptainBlack
+  priority: 2
+  categories:
+  - CaptainDrobeTurtlenecks
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+
+# Юбки-водолазки
+## Синий
+- type: listing
+  id: CaptainTurtleneckSkirt
+  name: captaindrobe-turtleneck-skirt
+  description: captaindrobe-turtleneck-skirt-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_captain.rsi, state: icon }
+  productEntity: ClothingUniformJumpskirtTurtleneckCaptain
+  priority: 0
+  categories:
+  - CaptainDrobeTurtlenecksSkirts
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Белый
+- type: listing
+  id: CaptainTurtleneckSkirtWhite
+  name: captaindrobe-turtleneck-skirt-white
+  description: captaindrobe-turtleneck-white-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_captain_white.rsi, state: icon }
+  productEntity: ClothingUniformJumpskirtTurtleneckCaptainWhite
+  priority: 1
+  categories:
+  - CaptainDrobeTurtlenecksSkirts
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Чёрный
+- type: listing
+  id: CaptainturtleneckSkirtBlack
+  name: captaindrobe-turtleneck-skirt-black
+  description: captaindrobe-turtleneck-skirt-black-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Uniforms/Turtleneck/Jumpskirt/turtleneck_captain_black.rsi, state: icon }
+  productEntity: ClothingUniformJumpskirtTurtleneckCaptainBlack
+  priority: 2
+  categories:
+  - CaptainDrobeTurtlenecksSkirts
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+
+# Рюкзаки
+## Синий
+- type: listing
+  id: CaptainBackpack
+  name: captaindrobe-backpack
+  description: captaindrobe-backpack-desc
+  icon: { sprite: /Textures/Clothing/Back/Backpacks/captain.rsi, state: icon }
+  productEntity: ClothingBackpackCaptain
+  priority: 0
+  categories:
+  - CaptainDrobeBackpacks
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Белый
+- type: listing
+  id: CaptainBackpackWhite
+  name: captaindrobe-backpack-white
+  description: captaindrobe-backpack-white-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Back/Backpacks/captain_white.rsi, state: icon }
+  productEntity: ClothingBackpackCaptainWhite
+  priority: 1
+  categories:
+  - CaptainDrobeBackpacks
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Чёрный
+- type: listing
+  id: CaptainBackpackBlack
+  name: captaindrobe-backpack-black
+  description: captaindrobe-backpack-black-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Back/Backpacks/captain_black.rsi, state: icon }
+  productEntity: ClothingBackpackCaptainBlack
+  priority: 2
+  categories:
+  - CaptainDrobeBackpacks
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+
+# Сумки
+## Синий
+- type: listing
+  id: CaptainSatchel
+  name: captaindrobe-satchel
+  description: captaindrobe-satchel-desc
+  icon: { sprite: /Textures/Clothing/Back/Satchels/captain.rsi, state: icon }
+  productEntity: ClothingBackpackSatchelCaptain
+  priority: 0
+  categories:
+  - CaptainDrobeSatchels
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Белый
+- type: listing
+  id: CaptainSatchelWhite
+  name: captaindrobe-satchel-white
+  description: captaindrobe-satchel-white-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Back/Satchels/captain_white.rsi, state: icon }
+  productEntity: ClothingBackpackSatchelCaptainWhite
+  priority: 1
+  categories:
+  - CaptainDrobeSatchels
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Чёрный
+- type: listing
+  id: CaptainSatchelBlack
+  name: captaindrobe-satchel-black
+  description: captaindrobe-satchel-black-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Back/Satchels/captain_black.rsi, state: icon }
+  productEntity: ClothingBackpackSatchelCaptainBlack
+  priority: 2
+  categories:
+  - CaptainDrobeSatchels
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+
+# Вещмешки
+## Синий
+- type: listing
+  id: CaptainDuffel
+  name: captaindrobe-duffel
+  description: captaindrobe-duffel-desc
+  icon: { sprite: /Textures/Clothing/Back/Duffels/captain.rsi, state: icon }
+  productEntity: ClothingBackpackDuffelCaptain
+  priority: 0
+  categories:
+  - CaptainDrobeDuffels
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Белый
+- type: listing
+  id: CaptainDuffelWhite
+  name: captaindrobe-duffel-white
+  description: captaindrobe-duffel-white-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Back/Duffels/captain_white.rsi, state: icon }
+  productEntity: ClothingBackpackDuffelCaptainWhite
+  priority: 1
+  categories:
+  - CaptainDrobeDuffels
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Чёрный
+- type: listing
+  id: CaptainDuffelBlack
+  name: captaindrobe-duffel-black
+  description: captaindrobe-duffel-black-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Back/Duffels/captain_black.rsi, state: icon }
+  productEntity: ClothingBackpackDuffelCaptainBlack
+  priority: 2
+  categories:
+  - CaptainDrobeDuffels
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+
+# Хвост
+## Синий
+- type: listing
+  id: CaptainTailbag
+  name: captaindrobe-tailbag
+  description: captaindrobe-tailbag-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Back/Tailbag/captain.rsi, state: icon }
+  productEntity: ClothingBackpackTailbagCaptain
+  priority: 0
+  categories:
+  - CaptainDrobeTailbags
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Белый
+- type: listing
+  id: CaptainTailbagWhite
+  name: captaindrobe-tailbag-white
+  description: captaindrobe-tailbag-white-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Back/Tailbag/captain_white.rsi, state: icon }
+  productEntity: ClothingBackpackTailbagCaptainWhite
+  priority: 1
+  categories:
+  - CaptainDrobeTailbags
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Чёрный
+- type: listing
+  id: CaptainTailbagBlack
+  name: captaindrobe-tailbag-black
+  description: captaindrobe-tailbag-black-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Back/Tailbag/captain_black.rsi, state: icon }
+  productEntity: ClothingBackpackTailbagCaptainBlack
+  priority: 2
+  categories:
+  - CaptainDrobeTailbags
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+
+# Перчатки
+## Синий
+- type: listing
+  id: CaptainGloves
+  name: captaindrobe-gloves
+  description: captaindrobe-gloves-desc
+  icon: { sprite: /Textures/Clothing/Hands/Gloves/captain.rsi, state: icon }
+  productEntity: ClothingHandsGlovesCaptain
+  priority: 0
+  categories:
+  - CaptainDrobeGloves
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Белый
+- type: listing
+  id: CaptainGlovesWhite
+  name: captaindrobe-gloves-white
+  description: captaindrobe-gloves-white-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Hands/Gloves/captain_white.rsi, state: icon }
+  productEntity: ClothingHandsGlovesCaptainWhite
+  priority: 1
+  categories:
+  - CaptainDrobeGloves
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Чёрный
+- type: listing
+  id: CaptainGlovesBlack
+  name: captaindrobe-gloves-black
+  description: captaindrobe-gloves-black-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Hands/Gloves/captain_black.rsi, state: icon }
+  productEntity: ClothingHandsGlovesCaptainBlack
+  priority: 2
+  categories:
+  - CaptainDrobeGloves
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+# Обувь
+- type: listing
+  id: CaptainLaceup
+  name: captaindrobe-shoes-laceup
+  description: captaindrobe-shoes-laceup-desc
+  icon: { sprite: /Textures/Clothing/Shoes/Boots/laceups.rsi, state: icon }
+  productEntity: ClothingShoesBootsLaceup
+  priority: 0
+  categories:
+  - CaptainDrobeShoes
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+- type: listing
+  id: CaptainKirzachi
+  name: captaindrobe-shoes-kirzachi
+  description: captaindrobe-shoes-kirzachi-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Shoes/Boots/centcom_officer_black.rsi, state: icon }
+  productEntity: ClothingShoesBootsKirzachi
+  priority: 1
+  categories:
+  - CaptainDrobeShoes
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+# Носки
+## Синий
+- type: listing
+  id: CaptainSocks
+  name: captaindrobe-socks
+  description: captaindrobe-socks-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Underwear/Command/captain/socks.rsi, state: icon }
+  productEntity: ClothingUnderwearSocksCaptain
+  priority: 0
+  categories:
+  - CaptainDrobeSocks
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Белый
+- type: listing
+  id: CaptainSocksWhite
+  name: captaindrobe-socks-white
+  description: captaindrobe-socks-white-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Underwear/Command/captain/socks_white.rsi, state: icon }
+  productEntity: ClothingUnderwearSocksCaptainWhite
+  priority: 1
+  categories:
+  - CaptainDrobeSocks
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Чёрный
+- type: listing
+  id: CaptainSocksBlack
+  name: captaindrobe-socks-black
+  description: captaindrobe-socks-black-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Underwear/Command/captain/socks_black.rsi, state: icon }
+  productEntity: ClothingUnderwearSocksCaptainBlack
+  priority: 2
+  categories:
+  - CaptainDrobeSocks
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1

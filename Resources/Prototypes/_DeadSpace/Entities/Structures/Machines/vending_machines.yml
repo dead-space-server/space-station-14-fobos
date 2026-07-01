@@ -305,3 +305,60 @@
     radius: 1.5
     energy: 1.6
     color: "#8B0000"
+
+- type: entity
+  parent: VendingMachine
+  id: VendingMachineCaptainDrobe
+  name: КапитанШкаф
+  description: С приходом полной переработки экипировки Капитана, NT решило, что сделать вендомат выгоднее и удобнее, чем Блюспейс комод. Непополняемый.
+  components:
+  - type: VendingMachine
+    pack: CaptainDrobeInventory # This is empty and not useable pack. Yes, it's shitcode
+    offState: off
+    normalState: normal-unshaded
+  - type: Sprite
+    sprite: _DeadSpace/Structures/Machines/VendingMachines/captaindrobe.rsi
+    layers:
+    - state: "off"
+      map: ["enum.VendingMachineVisualLayers.Base"]
+    - state: "off"
+      map: ["enum.VendingMachineVisualLayers.BaseUnshaded"]
+      shader: unshaded
+    - state: panel
+      map: ["enum.WiresVisualLayers.MaintenancePanel"]
+      visible: false # DS14
+  - type: SpeakOnUIClosed
+    pack: CaptainDrobeGoodbyes
+  - type: DatasetVocalizer
+    dataset: CaptainDrobeAds
+  - type: Store
+    categories:
+    - CaptainDrobeBerets
+    - CaptainDrobeHats
+    - CaptainDrobeCloaks
+    - CaptainDrobeMantles
+    - CaptainDrobeOuter
+    - CaptainDrobeJumpsuits
+    - CaptainDrobeJumpskirts
+    - CaptainDrobeTurtlenecks
+    - CaptainDrobeTurtlenecksSkirts
+    - CaptainDrobeBackpacks
+    - CaptainDrobeSatchels
+    - CaptainDrobeDuffels
+    - CaptainDrobeTailbags
+    - CaptainDrobeGloves
+    - CaptainDrobeShoes
+    - CaptainDrobeSocks
+  - type: ActivatableUI
+    key: enum.StoreUiKey.Key
+    singleUser: true
+  - type: ActivatableUIRequiresAccess
+  - type: ActivatableUIRequiresPower
+  - type: UserInterface
+    interfaces:
+      enum.StoreUiKey.Key:
+        type: StoreBoundUserInterface
+      enum.WiresUiKey.Key:
+        type: WiresBoundUserInterface
+  - type: AccessReader
+    access: [["Captain"]]

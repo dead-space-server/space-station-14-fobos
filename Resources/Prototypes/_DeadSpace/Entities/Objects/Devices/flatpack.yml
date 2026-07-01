@@ -99,3 +99,18 @@
     - state: icon-default
   - type: Flatpack
     entity: VehicleJanicart
+
+- type: entity
+  parent: BaseFlatpack
+  id: SMObeliskFlatpack
+  name: упакованный обелиск - Супер Материя
+  description: Fuck.
+  components:
+  - type: Sprite
+    layers:
+    - state: base
+    - state: overlay
+      color: "#EFB341"
+    - state: icon-default
+  - type: Flatpack
+    entity: SMObelisk

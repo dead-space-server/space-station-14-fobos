@@ -183,3 +183,51 @@
     sprite: _DeadSpace/Clothing/Uniforms/Jumpsuit/cargotech_jumpsuit.rsi
   - type: Clothing
     sprite: _DeadSpace/Clothing/Uniforms/Jumpsuit/cargotech_jumpsuit.rsi
+
+# Captain
+## White
+- type: entity
+  parent: ClothingUniformJumpsuitCaptain
+  id: ClothingUniformJumpsuitCaptainWhite
+  name: белый комбинезон капитана
+  description: Белый комбинезон с золотыми вставками, идеально подходящий для человека с чистой душой и благими намерениями, наверное.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpsuit/captain_white.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpsuit/captain_white.rsi
+
+- type: entity
+  parent: ClothingUniformJumpsuitCapFormal
+  id: ClothingUniformJumpsuitCapFormalWhite
+  name: белый торжественный костюм капитана
+  description: Белый костюм для особых случаев. КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО ПАЧКАТЬ!!!
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpsuit/captain_formal_white.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpsuit/captain_formal_white.rsi
+
+## Black
+
+- type: entity
+  parent: ClothingUniformJumpsuitCaptain
+  id: ClothingUniformJumpsuitCaptainBlack
+  name: чёрный комбинезон капитана
+  description: Чёрный комбинезон с золотыми вставками, идеально подходящий для человека, вершащего жёсткий порядок.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpsuit/captain_black.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpsuit/captain_black.rsi
+
+- type: entity
+  parent: ClothingUniformJumpsuitCapFormal
+  id: ClothingUniformJumpsuitCapFormalBlack
+  name: чёрный торжественный костюм капитана
+  description: Чёрный костюм для особых случаев. Прибывший ПЦК упадёт в обморок от такой красоты, особенно при полном комплекте.
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpsuit/captain_formal_black.rsi
+  - type: Clothing
+    sprite: _DeadSpace/Clothing/Uniforms/Jumpsuit/captain_formal_black.rsi
