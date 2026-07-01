@@ -327,8 +327,10 @@
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
       visible: false # DS14
-  #- type: SpeakOnUIClosed
-  #  pack: CaptainDrobeGoodbyes
+  - type: SpeakOnUIClosed
+    pack: CaptainDrobeGoodbyes
+  - type: DatasetVocalizer
+    dataset: CaptainDrobeAds
   - type: Store
     categories:
     - CaptainDrobeBerets

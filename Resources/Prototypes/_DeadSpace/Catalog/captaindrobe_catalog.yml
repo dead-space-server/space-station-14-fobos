@@ -730,3 +730,44 @@
     stock: 1
 
 # Носки
+## Синий
+- type: listing
+  id: CaptainSocks
+  name: captaindrobe-socks
+  description: captaindrobe-socks-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Underwear/Command/captain/socks.rsi, state: icon }
+  productEntity: ClothingUnderwearSocksCaptain
+  priority: 0
+  categories:
+  - CaptainDrobeSocks
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Белый
+- type: listing
+  id: CaptainSocksWhite
+  name: captaindrobe-socks-white
+  description: captaindrobe-socks-white-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Underwear/Command/captain/socks_white.rsi, state: icon }
+  productEntity: ClothingUnderwearSocksCaptainWhite
+  priority: 1
+  categories:
+  - CaptainDrobeSocks
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1
+
+## Чёрный
+- type: listing
+  id: CaptainSocksBlack
+  name: captaindrobe-socks-black
+  description: captaindrobe-socks-black-desc
+  icon: { sprite: /Textures/_DeadSpace/Clothing/Underwear/Command/captain/socks_black.rsi, state: icon }
+  productEntity: ClothingUnderwearSocksCaptainBlack
+  priority: 2
+  categories:
+  - CaptainDrobeSocks
+  conditions:
+  - !type:ListingLimitedStockCondition
+    stock: 1

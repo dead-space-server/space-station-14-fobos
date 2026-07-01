@@ -3,3 +3,9 @@
   values:
     prefix: advertisement-clownvend-
     count: 10
+
+- type: localizedDataset
+  id: CaptainDrobeAds
+  values:
+    prefix: advertisement-captaindrobe-
+    count: 7
