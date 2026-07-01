@@ -99,10 +99,16 @@
       - GasMinerOxygen
       - GasMinerOxygenStation
       - GasMinerOxygenStationLarge
-    - prototypes:
       - GasMinerNitrogen
       - GasMinerNitrogenStation
       - GasMinerNitrogenStationLarge
+      - GasMinerCarbonDioxide
+      - GasMinerPlasma
+      - GasMinerTritium
+      - GasMinerFrezon
+      - GasMinerWaterVapor
+      - GasMinerAmmonia
+      - GasMinerNitrousOxide
 
 - type: entity
   parent: BaseTraitorObjective

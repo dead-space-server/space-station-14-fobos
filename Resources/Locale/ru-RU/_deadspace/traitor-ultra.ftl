@@ -85,7 +85,7 @@ traitor-ultra-objective-kill-security-title = Аннигиляция служб�
 traitor-ultra-objective-kill-security-description = Убейте {$count} из {$total} сотрудников службы безопасности, назначенных на эту станцию. Пусть они познают страх и ужас, когда никто не сможет спасти их.
 
 traitor-ultra-objective-destroy-atmos-title = Уничтожьте в хлам атмосферный отсек станции.
-traitor-ultra-objective-destroy-atmos-description = Уничтожьте или разберите добытчики кислорода и азота. Раздавите их трахею в лепёшку, пусть задохнуться в мучительной агонии.
+traitor-ultra-objective-destroy-atmos-description = Уничтожьте или разберите все газодобытчики атмосферного отсека станции. Раздавите их трахею в лепёшку, пусть задохнутся в мучительной агонии.
 
 traitor-ultra-objective-destroy-ame-title = Уничтожьте контроллер ДАМ
 traitor-ultra-objective-destroy-ame-description = Уничтожьте или разберите контроллер двигателя антиматерии. Сломите их "Failsafe", заставьте их выть в беспощадную тьму.
