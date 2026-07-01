@@ -438,7 +438,7 @@
     sprite: _DeadSpace/Necromorfs/obelisk.rsi
     layers:
     - state: unactive
-      map: [ "enum.DamageStateVisualLayers.Base" ]]
+      map: [ "enum.DamageStateVisualLayers.Base" ]
   - type: Fixtures
     fixtures:
       fix1:

@@ -181,6 +181,11 @@
     - id: EnergySellerMachineCircuitboard #DS14
     - id: PlushieLizardJobChiefengineer
       prob: 0.02
+#DS14-start
+    - id: ObeliskStoper
+    - id: ObeliskStoper
+    - id: SMObeliskFlatpack
+#DS14-end
 
 # Hardsuit table, used for suit storage as well
 - type: entityTable
