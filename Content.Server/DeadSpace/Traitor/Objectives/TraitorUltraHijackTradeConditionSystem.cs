@@ -89,9 +89,20 @@ public sealed class TraitorUltraHijackTradeConditionSystem : EntitySystem
 
     private EntityUid? GetObjectiveStation(MindComponent mind)
     {
-        return mind.OwnedEntity is { } owned && !TerminatingOrDeleted(owned)
-            ? _station.GetOwningStation(owned)
-            : null;
+        if (mind.OwnedEntity is { } owned && !TerminatingOrDeleted(owned))
+        {
+            if (_station.GetOwningStation(owned) is { } owningStation)
+                return owningStation;
+
+            if (TryComp(owned, out TransformComponent? xform) &&
+                _station.GetStationInMap(xform.MapID) is { } mapStation)
+            {
+                return mapStation;
+            }
+        }
+
+        var stations = _station.GetStations();
+        return stations.Count == 1 ? stations[0] : null;
     }
 
     private bool CanHijackTrade(EntityUid station)
