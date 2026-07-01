@@ -395,6 +395,21 @@
     thresholds:
     - trigger:
         !type:DamageTrigger
+        damage: 300
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          SheetSteel1:
+            min: 5
+            max: 10
+  - type: Construction
+    graph: ObeliskNonReal
+    node: obeliskNonReal
 
 - type: entity
   parent: BaseStructure
