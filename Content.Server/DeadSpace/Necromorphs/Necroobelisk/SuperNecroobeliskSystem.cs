@@ -77,7 +77,7 @@ public sealed class SuperNecroobeliskSystem : SharedSuperNecroobeliskSystem
 
             if (component.NextCheckPercents == TimeSpan.Zero) component.NextCheckPercents = _gameTiming.CurTime + component.CheckTime;
 
-            if (_gameTiming.CurTime < component.NextCheckPercents) continue;
+            if (_gameTiming.CurTime > component.NextCheckPercents) continue;
             //   - type: PowerSupplier
             //     supplyRate: 10000 # 10 kWt
             component.Percents += 1;
@@ -86,18 +86,18 @@ public sealed class SuperNecroobeliskSystem : SharedSuperNecroobeliskSystem
             {
                 case int n when n is >= 0 and <= 25:
                     if (component.StateEnum != SuperMatterialNecroObeliskState.Stop) continue;
-                    EnsureComp<PowerSupplierComponent>(uid).MaxSupply = 10000;
+                    EnsureComp<PowerSupplierComponent>(uid).MaxSupply = 30000;
                     component.StateEnum = SuperMatterialNecroObeliskState.Zero;
                     continue;
                 case int n when n > 25 && n <= 50:
                     if (component.StateEnum != SuperMatterialNecroObeliskState.Zero) continue;
-                    EnsureComp<PowerSupplierComponent>(uid).MaxSupply = 60000;
+                    EnsureComp<PowerSupplierComponent>(uid).MaxSupply = 100000;
                     SetRangeSanity(component, 8f);
                     component.StateEnum = SuperMatterialNecroObeliskState.TwentyFive;
                     continue;
                 case int n when n > 50 && n <= 70:
                     if (component.StateEnum != SuperMatterialNecroObeliskState.TwentyFive) continue;
-                    EnsureComp<PowerSupplierComponent>(uid).MaxSupply = 120000;
+                    EnsureComp<PowerSupplierComponent>(uid).MaxSupply = 250000;
                     SetRangeSanity(component, 12f);
                     component.StateEnum = SuperMatterialNecroObeliskState.Fifty;
                     continue;
