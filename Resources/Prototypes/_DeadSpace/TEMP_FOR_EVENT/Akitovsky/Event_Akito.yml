@@ -1798,6 +1798,436 @@
 
 
 
+################# Nuclear 14
+# Base дорожный знак
+- type: entity
+  id: SignStreetBaseAki
+  name: дорожный знак
+  description: Это знак!
+  suffix: Akitovsky, Маппинг
+  abstract: true
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Sprite
+    snapCardinals: false
+    noRot: true
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/streetsigns.rsi
+  - type: Transform
+    noRot: false
+  - type: Clickable
+  - type: Physics
+    bodyType: Static
+  - type: Tag
+    tags:
+      - Structure
+  - type: SpriteFade
+  - type: Damageable
+    damageContainer: Inorganic
+    damageModifierSet: Metallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          SheetSteel1:
+            min: 1
+            max: 2
+      - !type:EmptyAllContainersBehaviour
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+
+# Дорожные знаки
+
+- type: entity
+  parent: SignStreetBaseAki
+  id: SignStreetInterstateAki
+  name: знак межштатного шоссе
+  suffix: Akitovsky, 6 направлений, Маппинг
+  description: Старый дорожный знак межштатного шоссе.
+  components:
+  - type: Sprite
+    state: interstate
+
+- type: entity
+  parent: SignStreetBaseAki
+  id: SignStreetInterstateShotAki
+  name: знак межштатного шоссе
+  description: Старый дорожный знак межштатного шоссе, в который стреляли.
+  components:
+  - type: Sprite
+    state: interstate80_shot
+
+- type: entity
+  parent: SignStreetBaseAki
+  id: SignStreetStopAki
+  name: знак «Стоп»
+  suffix: Akitovsky, 4 направления, Маппинг
+  description: Старый дорожный знак «Стоп».
+  components:
+  - type: Sprite
+    state: stop
+
+- type: entity
+  parent: SignStreetBaseAki
+  id: SignStreetNoturningAki
+  name: знак «Поворот запрещён»
+  suffix: Akitovsky, 4 направления, Маппинг
+  description: Старый знак «Поворот запрещён».
+  components:
+  - type: Sprite
+    state: noturn
+
+- type: entity
+  parent: SignStreetBaseAki
+  id: SignStreetNoparkingAki
+  name: знак «Стоянка запрещена»
+  description: Старый знак «Стоянка запрещена».
+  components:
+  - type: Sprite
+    state: noparking
+
+- type: entity
+  parent: SignStreetBaseAki
+  id: SignStreetSignAki
+  name: уличный указатель
+  description: Старый уличный указатель.
+  components:
+  - type: Sprite
+    state: street
+
+- type: entity
+  parent: SignStreetBaseAki
+  id: SignStreetOnewayAki
+  name: знак «Одностороннее движение»
+  suffix: Akitovsky, 2 направления, Маппинг
+  description: Старый знак «Одностороннее движение».
+  components:
+  - type: Sprite
+    state: direction
+
+- type: entity
+  parent: SignStreetBaseAki
+  id: SignStreetBusstopAki
+  name: знак «Автобусная остановка»
+  description: Старый знак автобусной остановки.
+  components:
+  - type: Sprite
+    state: busstop
+
+- type: entity
+  parent: SignStreetBaseAki
+  id: SignStreetRailcrossingAki
+  name: знак «Железнодорожный переезд»
+  description: Старый знак железнодорожного переезда.
+  components:
+  - type: Sprite
+    state: railcrossing
+
+- type: entity
+  parent: SignStreetBaseAki
+  id: SignStreetOnedirectionAki
+  name: знак «Движение только прямо»
+  suffix: Akitovsky, 4 направления, Маппинг
+  description: Старый знак «Движение только прямо».
+  components:
+  - type: Sprite
+    state: onlydir
+
+- type: entity
+  parent: SignStreetBaseAki
+  id: ignStreetSpeedlimitAki
+  name: знак «Ограничение скорости»
+  suffix: Akitovsky, 4 направления, Маппинг
+  description: Старый знак ограничения скорости.
+  components:
+  - type: Sprite
+    state: speed
+
+- type: entity
+  parent: SignStreetBaseAki
+  id: SignStreetWarningAki
+  name: предупреждающий знак
+  suffix: Akitovsky, 4 направления, Маппинг
+  description: Старый предупреждающий дорожный знак.
+  components:
+  - type: Sprite
+    state: warnings
+
+- type: entity
+  parent: SignStreetBaseAki
+  id: SignStreetTurnAki
+  name: знак «Поворот»
+  suffix: Akitovsky, 6 направлений, Маппинг
+  description: Старый дорожный знак поворота.
+  components:
+  - type: Sprite
+    state: turn
+
+- type: entity
+  parent: SignStreetBaseAki
+  id: SignStreetExitAki
+  name: знак «Съезд»
+  suffix: Akitovsky, 2 направления, Маппинг
+  description: Старый дорожный знак съезда.
+  components:
+  - type: Sprite
+    snapCardinals: false
+    state: exit
+
+- type: entity
+  parent: SignStreetBaseAki
+  id: SignStreetNopedestriansAki
+  name: знак «Движение пешеходов запрещено»
+  description: Старый знак «Движение пешеходов запрещено».
+  components:
+  - type: Sprite
+    state: nopedestrian
+
+- type: entity
+  parent: SignStreetBaseAki
+  id: SignStreetMergeAki
+  name: знак «Сужение дороги»
+  description: Старый знак «Сужение дороги».
+  components:
+  - type: Sprite
+    state: merge
+
+- type: entity
+  parent: SignStreetBaseAki
+  id: SignStreetSnakeAki
+  name: знак «Извилистая дорога»
+  description: Старый знак «Извилистая дорога».
+  components:
+  - type: Sprite
+    state: snake
+
+# Base декор напольный
+- type: entity
+  id: DecorFloorWorldBaseAki
+  abstract: true
+  placement:
+    mode: SnapgridCenter
+  suffix: Akitovsky, Маппинг
+  components:
+  - type: Sprite
+    sprite: _DeadSpace/TEMP_FOR_EVENT/Akitovsky/aki-spec/Textures/Decoration/world.rsi
+    netsync: false
+    noRot: true
+    snapCardinals: false
+    drawdepth: FloorObjects
+  - type: Damageable
+    damageModifierSet: Wood
+    damageContainer: Inorganic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 50
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: WoodDestroy
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: Transform
+    anchored: true
+  - type: Physics
+    bodyType: Static
+    canCollide: true
+  - type: Clickable
+
+- type: entity
+  parent: DecorFloorWorldBaseAki
+  id: DecorFloorPaperAki
+  name: разбросанные бумаги
+  description: Беспорядок из бумаг.
+  suffix: Akitovsky, 8 states, Маппинг
+  components:
+  - type: Sprite
+    state: scattered_papers
+
+- type: entity
+  parent: DecorFloorWorldBaseAki
+  id: DecorFloorPaper1Aki
+  suffix: Akitovsky, 4 states, Маппинг
+  name: разбросанные бумаги
+  description: Беспорядок из бумаг.
+  components:
+  - type: Sprite
+    state: papers_1
+
+- type: entity
+  parent: DecorFloorPaper1Aki
+  id: DecorFloorPaper2Aki
+  components:
+  - type: Sprite
+    state: papers_2
+
+- type: entity
+  parent: DecorFloorPaper1Aki
+  id: DecorFloorPaper3Aki
+  components:
+  - type: Sprite
+    state: papers_3
+
+- type: entity
+  parent: DecorFloorWorldBaseAki
+  id: DecorFloorScrapwoodAki
+  name: деревянные обрезки
+  description: Деревянные обрезки.
+  suffix: Akitovsky, 6 states, Маппинг
+  components:
+  - type: Sprite
+    snapCardinals: false
+    state: woodscrap
+
+- type: entity
+  parent: DecorFloorWorldBaseAki
+  id: DecorFloorBrickrubbleAki
+  name: кирпичные обломки
+  description: Кирпичные обломки.
+  suffix: Akitovsky, 6 states, Маппинг
+  components:
+  - type: Sprite
+    state: brickrubble
+
+- type: entity
+  parent: DecorFloorWorldBaseAki
+  id: DecorFloorCardboardAki
+  name: картонные коробки
+  description: Коробки из картонных обрезков.
+  suffix: Akitovsky, 6 states, Маппинг
+  components:
+  - type: Sprite
+    state: cardboard
+
+- type: entity
+  parent: DecorFloorWorldBaseAki
+  id: DecorConcreteBarrierAki
+  name: бетонный барьер
+  description: Старый бетонный барьер для остановки движения.
+  components:
+  - type: Sprite
+    state: concrete_barrier
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+            bounds: "0.3,0,-0.3,-0.1"
+        density: 1000
+        layer:
+        - WallLayer
+    
+- type: entity
+  parent: DecorConcreteBarrierAki
+  id: DecorConcreteBarrierDamagedAki
+  components:
+  - type: Sprite
+    layers:
+    - state: concrete_barrier_1
+      map: [ "body" ]
+  - type: RandomSprite
+    available:
+      - body:
+          concrete_barrier_1: ""
+          concrete_barrier_2: ""
+          concrete_barrier_3: ""
+          concrete_barrier_4: ""
+          concrete_barrier_5: ""
+          
+- type: entity
+  parent: DecorConcreteBarrierAki
+  id: DecorConcreteBarrierStripedAki
+  name: бетонный барьер
+  description: Старый бетонный барьер для остановки движения.
+  components:
+  - type: Sprite
+    layers:
+    - state: concrete_barrier_alt
+      map: [ "body" ]
+  - type: RandomSprite
+    available:
+      - body:
+          concrete_barrier_alt: ""
+          concrete_barrier_alt_2: ""
+
+- type: entity
+  parent: DecorFloorWorldBaseAki
+  id: DecorBarrelsAki
+  name: бочки
+  description: Куча старых ржавых бочек.
+  components:
+  - type: Sprite
+    layers:
+    - state: barrels1
+      map: [ "body" ]
+  - type: RandomSprite
+    available:
+      - body:
+          barrels1: ""
+          barrels2: ""
+          barrels3: ""
+          barrels4: ""
+          barrels5: ""
+          barrels6: ""
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+            radius: 0.3
+        density: 1000
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+
+- type: entity
+  parent: DecorFloorWorldBaseAki
+  id: DecorFloorPalletStackAki
+  name: стопка поддонов
+  description: Стопка деревянных поддонов.
+  suffix: Akitovsky, 2 states, Маппинг
+  components:
+  - type: Sprite
+    state: pallet_stack
+        # add destruction drop for materials
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+            radius: 0.20
+        density: 1000
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+
+- type: entity
+  parent: DecorFloorPalletStackAki
+  id: DecorFloorBrickStackAki
+  name: стопка кирпичей
+  description: Аккуратная стопка кирпичей.
+  components:
+  - type: Sprite
+    state: brickpile
+
+
+
+
+
+
+
+
 ################# КПСК
 # Баннер революции
 - type: entity
