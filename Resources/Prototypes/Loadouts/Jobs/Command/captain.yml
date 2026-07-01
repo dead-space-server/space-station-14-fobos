@@ -104,13 +104,6 @@
     outerClothing: ClothingOuterWinterCap
   groupBy: "CaptainBlue"
 
-# DS14-start
-- type: loadout
-  id: CaptainCoat
-  equipment:
-    outerClothing: ClothingOuterCoatCaptain
-# DS14-end
-
 # Underwear
 - type: loadout
   id: UnderwearBottomBoxersCaptain
